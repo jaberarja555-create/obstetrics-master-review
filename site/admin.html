@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Codes · Obstetrics Master Review</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@600;700&family=Noto+Sans+Arabic:wght@400;600&display=swap">
+<style>
+:root{--bg:#f4efe7;--card:#fff;--line:#eadfce;--ink:#1c1917;--muted:#6b6259;--gold:#c5892a;--gold-d:#9a6a1d;--ok:#047857;--okbg:#c9f7e3;--off:#b91c1c;--offbg:#fde2e2;--un:#6b6259;--unbg:#efe8dc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:22px 16px 60px;display:flex;flex-direction:column;gap:16px}
+h1{margin:0;font:800 20px Inter;letter-spacing:-.2px}h1 small{display:block;font:600 13px Inter;color:var(--muted);margin-top:2px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.who{font:600 13px Inter;color:var(--muted)}.who button{margin-left:8px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.stat b{display:block;font:800 28px Inter}.stat span{font:700 12px Inter;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px}
+.h{font:800 13px Inter;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 8px}
+.card p.sub{margin:0 0 12px;color:var(--muted)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+input{font:inherit;font-size:16px;border:1px solid var(--line);background:#f6f1e9;border-radius:12px;padding:11px 14px;color:var(--ink);min-width:0}
+input:focus{outline:2px solid var(--gold);outline-offset:1px}
+#note{flex:1 1 260px}#count{width:90px}#find{flex:0 1 380px;width:100%}
+button{font:700 14px Inter;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:12px;padding:9px 13px;cursor:pointer}
+button:hover{border-color:#d6c6ad}button:disabled{opacity:.5;cursor:default}
+button.pri{background:var(--gold);border-color:var(--gold);color:#1c1917;padding:11px 18px}
+button.red{color:var(--off)}
+.lh{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.it{padding:16px 0;border-top:1px solid var(--line)}.it:first-child{border-top:0}
+.il{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.code{font:700 17px 'JetBrains Mono',ui-monospace,monospace;letter-spacing:1px}
+.bdg{font:800 11.5px Inter;letter-spacing:1.2px;padding:4px 10px;border-radius:20px;text-transform:uppercase}
+.bdg.a{background:var(--okbg);color:var(--ok)}.bdg.u{background:var(--unbg);color:var(--un)}.bdg.o{background:var(--offbg);color:var(--off)}
+.dt{margin-left:auto;color:var(--muted);font-size:14px}
+.meta{color:var(--muted);font-size:14px;margin:4px 0 2px}.meta .ar{font-family:'Noto Sans Arabic',Inter,sans-serif}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.empty{color:var(--muted);text-align:center;padding:24px}
+.msg{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1c1917;color:#fff;border-radius:12px;padding:10px 16px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
+.msg.on{opacity:1}
+.gate{max-width:440px;margin:12vh auto 0;text-align:center}.gate .card{display:flex;flex-direction:column;gap:12px;align-items:center}
+.gg{display:flex;align-items:center;gap:10px;padding:12px 18px;font-size:15px}
+.new{background:#fff8ea;border:1px dashed var(--gold);border-radius:12px;padding:10px 12px;margin-top:12px;font:700 14px 'JetBrains Mono',monospace;display:flex;flex-wrap:wrap;gap:8px 16px}
+#main{display:flex;flex-direction:column;gap:16px}
+.meta bdi{unicode-bidi:isolate}
+button.wa{background:#0f9d58;border-color:#0f9d58;color:#fff}
+@media (max-width:600px){.stats{grid-template-columns:repeat(3,1fr);gap:8px}.stat{padding:10px 12px}.stat b{font-size:22px}.stat span{font-size:10.5px;letter-spacing:.8px}.dt{margin-left:0;width:100%}}
+</style></head><body>
+<div class="wrap" id="app">
+  <div class="gate" id="gate"><div class="card"><h1>Obstetrics Master Review<small>Activation codes · owner only</small></h1><p class="sub" id="gateMsg">Sign in with the owner's Google account.</p><button class="gg" id="ggIn" type="button"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.7v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.8z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.3 6.6l4 3.1c.9-2.8 3.6-4.9 6.7-4.9z"/></svg>Sign in with Google</button></div></div>
+  <div id="main" hidden>
+    <div class="top"><h1>Obstetrics Master Review<small>Activation codes</small></h1><div class="who"><span id="me"></span><button type="button" id="out">Sign out</button></div></div>
+    <div class="stats"><div class="stat"><b id="sAll">0</b><span>Codes</span></div><div class="stat"><b id="sAct">0</b><span>Activated</span></div><div class="stat"><b id="sUn">0</b><span>Unused</span></div></div>
+    <div class="card"><div class="h">New codes</div><p class="sub">Make one code per buyer. Write their name or phone in the note so you can find them later.</p>
+      <div class="row"><input id="note" placeholder="Note, e.g. Ahmed · 0912 345 678" autocomplete="off"><input id="count" type="number" min="1" max="50" value="1" aria-label="How many"><button class="pri" id="create" type="button">Create</button></div>
+      <div id="fresh"></div></div>
+    <div class="card"><div class="lh"><div class="h" style="margin:0">All codes</div><input id="find" type="search" placeholder="Search code or note" autocomplete="off"></div><div id="list"><p class="empty">Loading…</p></div></div>
+  </div>
+</div>
+<div class="msg" id="toast"></div>
+<script src="licence-config.js"></script>
+<script src="sbmini.js"></script>
+<script>
+(function(){
+var CFG=window.OBS_CFG||{},$=function(i){return document.getElementById(i)};
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+function toast(t){var m=$('toast');m.textContent=t;m.classList.add('on');clearTimeout(m._t);m._t=setTimeout(function(){m.classList.remove('on')},1800)}
+function copy(t){(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast('Copied')}).catch(function(){prompt('Copy this:',t)})}
+function fd(s){if(!s)return '';return new Date(s).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}
+if(!CFG.url||!CFG.anon){$('gateMsg').textContent='licence-config.js has no Supabase address yet.';$('ggIn').disabled=true;return}
+var sb=window.OBS_SB(CFG,'obs-admin-auth');
+var SITE=location.origin+location.pathname.replace(/admin(\.html)?$/,'');
+var ALL=[];
+$('ggIn').onclick=function(){sb.signIn(location.origin+location.pathname)};
+$('out').onclick=function(){sb.signOut().then(function(){location.reload()})};
+function msgFor(c){var who=(c.note||'').split('·')[0].trim();
+  return 'السلام عليكم'+(who?' '+who:'')+'، شكراً على اشتراكك في Obstetrics Master Review 🌷\n\n'+
+  'الـ activation code بتاعك:\n'+c.code+'\n\n'+
+  '1. افتح الكتاب: '+SITE+'\n2. دوس «افتح الكتاب كامل»\n3. ألصق الكود ودوس Activate\n\n'+
+  'الكود بيفتح موبايل واحد ولابتوب واحد (أول جهازين تفعّلهم). بعد التفعيل الكتاب بيشتغل بدون إنترنت.'}
+function phoneOf(n){var d=String(n||'').replace(/[^0-9+]/g,'');var m=d.match(/(?:\+?249|0)?(9\d{8}|1\d{8})/);return m?'249'+m[1]:''}
+function devLine(c){var a=[];if(c.phone_dev)a.push(esc(c.phone_label||'Phone')+' (since '+fd(c.phone_since)+', last '+fd(c.phone_last)+')');if(c.pc_dev)a.push(esc(c.pc_label||'Computer')+' (since '+fd(c.pc_since)+', last '+fd(c.pc_last)+')');return a.length?'Devices: '+a.join(' · '):''}
+function render(){var q=$('find').value.trim().toLowerCase();
+  var act=ALL.filter(function(c){return c.activated_at}).length;$('sAll').textContent=ALL.length;$('sAct').textContent=act;$('sUn').textContent=ALL.length-act;
+  var rows=ALL.filter(function(c){return !q||(c.code+' '+c.note).toLowerCase().indexOf(q)>=0});
+  $('list').innerHTML=rows.length?rows.map(function(c){var st=!c.active?'<span class="bdg o">Off</span>':(c.activated_at?'<span class="bdg a">Activated</span>':'<span class="bdg u">Unused</span>');
+    var meta=[c.note?(c.note.split('·').map(function(x){return '<bdi class="ar" dir="auto">'+esc(x.trim())+'</bdi>'}).join(' · ')):'',c.activated_at?'activated '+fd(c.activated_at):''].filter(Boolean).join(' · ');
+    return '<div class="it" data-c="'+esc(c.code)+'"><div class="il"><span class="code">'+esc(c.code)+'</span>'+st+'<span class="dt">'+fd(c.created_at)+'</span></div>'+
+      (meta?'<div class="meta">'+meta+'</div>':'')+(devLine(c)?'<div class="meta">'+devLine(c)+'</div>':'')+
+      '<div class="acts">'+(phoneOf(c.note)?'<button type="button" class="wa" data-a="wa">Send on WhatsApp</button>':'')+'<button type="button" data-a="code">Copy code</button><button type="button" data-a="msg">Copy message</button><button type="button" data-a="note">Edit note</button>'+
+      (c.phone_dev||c.pc_dev?'<button type="button" data-a="reset">Reset devices</button>':'')+
+      (c.active?'<button type="button" class="red" data-a="off">Switch off</button>':'<button type="button" data-a="on">Switch on</button>')+'</div></div>'}).join(''):'<p class="empty">'+(ALL.length?'No code matches.':'No codes yet. Make the first one above.')+'</p>'}
+function load(){return sb.rpc('obs_admin_list').then(function(r){if(r.error){throw r.error}ALL=r.data||[];render()})}
+function call(fn,args,done){return sb.rpc(fn,args).then(function(r){if(r.error){toast('Error: '+r.error.message);return}toast(done);return load()})}
+$('find').addEventListener('input',render);
+$('create').onclick=function(){var n=Math.max(1,Math.min(50,+$('count').value||1)),note=$('note').value.trim();this.disabled=true;var b=this;
+  sb.rpc('obs_admin_create',{p_note:note,p_n:n}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}
+    var codes=r.data||[];$('note').value='';$('count').value=1;
+    $('fresh').innerHTML='<div class="new">'+codes.map(esc).join('<span></span>')+'</div>';
+    load().then(function(){if(codes.length===1){var c=ALL.filter(function(x){return x.code===codes[0]})[0];if(c)copy(msgFor(c))}})})};
+$('list').addEventListener('click',function(e){var b=e.target.closest('button[data-a]');if(!b)return;var code=b.closest('.it').dataset.c,c=ALL.filter(function(x){return x.code===code})[0],a=b.dataset.a;
+  if(a==='code')copy(code);
+  if(a==='msg')copy(msgFor(c));
+  if(a==='wa')window.open('https://wa.me/'+phoneOf(c.note)+'?text='+encodeURIComponent(msgFor(c)),'_blank');
+  if(a==='note'){var v=prompt('Note for '+code,c.note||'');if(v!==null)call('obs_admin_note',{p_code:code,p_note:v},'Note saved')}
+  if(a==='reset'&&confirm('Reset devices for '+code+'?\nThe old phone/computer lose the full book next time they are online, and the code can be activated on new devices (new phone, or a new buyer).'))call('obs_admin_reset',{p_code:code},'Devices reset');
+  if(a==='free'&&confirm('Free '+code+' for another Google account?\nThe current account loses the full book next time it is online.'))call('obs_admin_free',{p_code:code},'Code is free again');
+  if(a==='off'&&confirm('Switch off '+code+'?\nThe full book stops on their devices next time they are online.'))call('obs_admin_active',{p_code:code,p_on:false},'Switched off');
+  if(a==='on')call('obs_admin_active',{p_code:code,p_on:true},'Switched on')});
+sb.user().then(function(u){if(!u)return;
+  load().then(function(){$('gate').hidden=true;$('main').hidden=false;$('me').textContent=u.email}).catch(function(err){
+    $('gateMsg').innerHTML=(String(err.message||'').indexOf('not_admin')>=0?'<b>'+esc(u.email)+'</b> is not the owner account.':'Could not load codes: '+esc(err.message||'')+'. Was the SQL setup run?')+' <button type="button" id="o2">Sign out</button>';
+    $('o2').onclick=function(){sb.signOut().then(function(){location.reload()})}})});
+})();
+</script>
+</body></html>
