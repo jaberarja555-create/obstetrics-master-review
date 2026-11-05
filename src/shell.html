@@ -1374,6 +1374,183 @@ table.numt td.v { color: var(--ch-dark); }
 .covb small{color:#d9d3f2!important;font-weight:600}
 :root[data-theme="dark"] .hero p{color:#cfcae6}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero p{color:#cfcae6}}
 :root[data-theme="dark"] .prog .lab span{color:#cfcae6}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .prog .lab span{color:#cfcae6}}
+
+/* ===== Nov 2026: changes brought over from Surgery Master Review ===== */
+/* bottom bar (owner, Nov 2026): Contents and Listen moved here from the reader's side rail */
+.tabs{grid-template-columns:repeat(7,1fr)}
+.tabs button{font-size:10px;padding-left:0;padding-right:0;white-space:nowrap}
+.tabs button svg{width:21px;height:21px}
+.tabs #lisBtn .eq{display:none}
+
+/* the student's own blank note page: lined paper */
+.page.upage{background:#fffdf7}
+.page.upage .uph{position:absolute;top:30px;left:48px;right:48px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:2px solid #c99a3b;padding-bottom:6px;font:800 11pt 'Cairo','Inter',sans-serif;color:#0e2547}
+.page.upage .uph em{font:600 8.5pt Inter,sans-serif;font-style:normal;color:#8a94a6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60%}
+.page.upage .upl{position:absolute;top:84px;bottom:56px;left:48px;right:48px;background:repeating-linear-gradient(to bottom,transparent 0,transparent 31px,#dbe3ef 31px,#dbe3ef 32px)}
+.page.upage .uph{flex-direction:row-reverse}
+
+/* ===== Home (owner, Nov 2026, second design): light clinical look · white cards · surgical teal + warm amber ===== */
+#home{--hb:#f3f6f8;--hc:#ffffff;--ht:#12263f;--hm:#5b6b80;--hl:#e2e8ef;--hp:#0f766e;--hp2:#0b5d57;--ha:#f59e0b;background:var(--hb);color:var(--ht)}
+#home .wrap.hm{gap:14px;padding-top:16px}
+.hm-top{display:grid;grid-template-columns:74px 1fr;gap:14px;align-items:center}
+.hm-top .cv{width:74px;aspect-ratio:816/1152;border-radius:4px 7px 7px 4px;overflow:hidden;position:relative;background:#fff;box-shadow:0 8px 18px rgba(18,38,63,.22);cursor:pointer}
+.hm-top .cv .bk{transform-origin:0 0;position:absolute;left:0;top:0;width:816px;height:1152px}
+.hm-ti small{display:block;font:700 10px var(--sans);letter-spacing:1.6px;text-transform:uppercase;color:var(--hp)}
+.hm-ti h2{margin:3px 0 6px;font:850 22px/1.12 var(--sans);letter-spacing:-.3px;color:var(--ht)}
+.hm-ti .pill{display:inline-block;margin:0;padding:3px 9px;border-radius:20px;background:#e6f4f1;color:var(--hp2);font:750 10.5px var(--sans);letter-spacing:.6px;text-transform:uppercase;border:0}
+.hm-cov{display:block;margin-top:7px;padding:0;background:none;border:0;color:var(--hp);font:700 12.5px var(--sans);text-decoration:underline;text-underline-offset:3px}
+.hm-cont{display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:center;width:100%;text-align:left;border:0;border-radius:16px;padding:15px 16px;
+  background:linear-gradient(120deg,var(--hp2) 0%,var(--hp) 100%);color:#fff;box-shadow:0 8px 20px rgba(15,118,110,.28)}
+.hm-cont .k{font:750 11px var(--sans);letter-spacing:1.4px;text-transform:uppercase;color:#c9f0e8}
+.hm-cont .t{font:750 16px/1.25 var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.hm-cont .go{grid-row:1/span 2;grid-column:2;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--hp2)}
+.hm-cont .go svg{width:20px;height:20px}
+.hm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.hm-t{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:12px 11px;border-radius:14px;background:var(--hc);border:1px solid var(--hl);
+  box-shadow:0 2px 6px rgba(18,38,63,.05);text-align:left;color:var(--ht);min-width:0}
+.hm-t svg{width:22px;height:22px;color:var(--hp);margin-bottom:4px}
+.hm-t b{font:750 13px/1.2 var(--sans)}
+.hm-t span{font:550 11px/1.3 var(--sans);color:var(--hm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+#home .daily{background:var(--hc)!important;border:1px solid var(--hl)!important;color:var(--ht)!important;box-shadow:0 2px 6px rgba(18,38,63,.05)}
+#home .daily::after{display:none}
+#home .daily .k{color:var(--hp);background:none;-webkit-text-fill-color:currentColor}
+#home .daily .t{color:var(--ht)}
+#home .daily .di{background:#e6f4f1;color:var(--hp)}
+#home .daily .dots i{background:var(--hl)}
+#home .daily .dots i.on{background:var(--hp)}
+#home .daily .go{background:var(--hp);color:#fff}
+#home .daily .ds small{color:var(--hm)}
+#home .trial{background:#fff7e6!important;border:1px solid #f5d38a;color:var(--ht);margin:0}
+#home .trial b{color:#9a5b00}
+#home .trial i{background:var(--ha)!important;color:#fff}
+#home .sh{margin-top:4px}
+#home .sh h3{font:800 15px var(--sans);letter-spacing:0;text-transform:none;color:var(--ht);background:none;-webkit-text-fill-color:currentColor}
+#home .sh span{color:var(--hm)}
+#home .hpt{box-shadow:0 6px 16px rgba(18,38,63,.16)}
+#home .hpt>summary{min-height:96px}
+#home .hpt .gtx{background:none;-webkit-text-fill-color:#fff;color:#fff}
+#home .hpt .pk{color:#ffd88a}
+#home .prog{background:var(--hc);border:1px solid var(--hl);color:var(--ht)}
+#home .prog .lab span{color:var(--hm)}
+#home .prog .pbar{background:var(--hl)}
+#home .prog .pbar i{background:var(--hp)}
+#home .prog .prhint{color:var(--hm)}
+#home .hm-ti .pill,#home .daily .k{-webkit-text-fill-color:currentColor!important;background:none!important}
+#home .hm-ti .pill{color:var(--hp2)!important}
+#home .daily .k{color:var(--hp)!important;display:block}
+.hm-t span{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+#home .prog{background:transparent;border:0;padding:0;gap:8px}
+#home .prog .pts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#home .prog .pt{background:var(--hc);border:1px solid var(--hl);border-radius:14px;padding:11px 12px 10px;display:grid;gap:2px;box-shadow:0 2px 6px rgba(18,38,63,.05)}
+#home .prog .pt b{font:850 21px/1 var(--sans);color:var(--ht);font-variant-numeric:tabular-nums}
+#home .prog .pt b small{font-size:12px;font-weight:750;color:var(--hm)}
+#home .prog .pt span{font:700 12px var(--sans);color:var(--ht)}
+#home .prog .pt em{font:550 11px var(--sans);font-style:normal;color:var(--hm)}
+#home .prog .pt .pbar{height:5px;margin-top:6px;border-radius:3px;background:var(--hl);overflow:hidden}
+#home .prog .pt.pdone .pbar i{background:#3b82f6}
+#home .prog .pt.pmast .pbar i{background:#10b981}
+#home .prog .pt.pcard .pbar i,#home .prog .pt.ptop .pbar i{background:var(--ha)}
+#home .prog .prhint{margin:2px 2px 0;font-size:11.5px}
+#home .hpt{background:var(--hc);border:1px solid var(--hl)}
+.mz .mzh .tt { font-size:8pt; font-weight:800; color:var(--ch-dark); letter-spacing:.2px; }
+/* Home colours (owner): blue with gold, not green; a bigger cover and a tidier title block */
+#home{--hp:#1f4e8c;--hp2:#0e2547;--ha:#c99a3b}
+.hm-top{grid-template-columns:112px 1fr;gap:16px;padding:14px;border-radius:18px;background:var(--hc);border:1px solid var(--hl);box-shadow:0 4px 14px rgba(18,38,63,.07);align-items:center}
+.hm-top .cv{width:112px}
+.hm-ti{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0}
+.hm-ti small{color:#a67c25;font-size:9.5px;letter-spacing:1.8px;line-height:1.3}
+.hm-ti h2{margin:0;font:900 26px/1.05 var(--sans);color:var(--hp2)}
+.hm-ti h2 span{display:block;font-weight:800;font-size:17px;color:var(--hp);letter-spacing:0;margin-top:2px}
+#home .hm-ti .pill{background:#fbf3df;color:#8a6417!important;border:1px solid #ecd9a8}
+.hm-cov{display:inline-flex;align-items:center;gap:6px;margin:2px 0 0;padding:7px 12px;border-radius:10px;background:var(--hp2);color:#f3d98b;text-decoration:none;font:750 12.5px var(--sans)}
+.hm-cov svg{width:16px;height:16px}
+.hm-cont{background:linear-gradient(120deg,#0e2547 0%,#1f4e8c 100%);box-shadow:0 8px 20px rgba(14,37,71,.28);border-bottom:3px solid var(--ha)}
+.hm-cont .k{color:#f3d98b}
+.hm-cont .go{background:linear-gradient(135deg,#f3d98b,#c99a3b);color:#0e2547}
+.hm-t svg{color:var(--ha)}
+#home .daily .di{background:#fbf3df;color:#a67c25}
+#home .daily .k{color:#a67c25!important}
+#home .daily .dots i.on{background:var(--ha)}
+#home .daily .go{background:linear-gradient(135deg,#f3d98b,#c99a3b);color:#0e2547}
+#home .trial{background:#fbf3df!important;border-color:#ecd9a8}
+#home .trial b{color:#8a6417}
+#home .trial i{background:linear-gradient(135deg,#1f4e8c,#0e2547)!important;color:#f3d98b}
+/* cover card text (owner): no gold text, one calm hierarchy */
+.hm-ti{gap:4px}
+.hm-ti small{color:#6b7a90;font:600 11.5px/1.3 var(--sans);letter-spacing:0;text-transform:none}
+.hm-ti h2{font:850 24px/1.1 var(--sans);color:var(--hp2);letter-spacing:-.3px;margin:2px 0 0}
+.hm-ti h2 span{display:block;font:700 18px/1.2 var(--sans);color:var(--hp);margin-top:1px}
+#home .hm-ti .pill{background:none;border:0;padding:0;margin:4px 0 6px;color:#6b7a90!important;font:600 12px var(--sans);letter-spacing:0;text-transform:none}
+.hm-cov{color:#fff;padding:8px 14px;font:700 13px var(--sans)}
+.hm-cov svg{color:#fff}
+/* Home night colours */
+#home.dark{--hb:#08142a;--hc:#11213d;--ht:#eef3fb;--hm:#a3b1c9;--hl:#23395e;--hp:#7fa8e6;--hp2:#0e2547}
+#home.dark .hm-ti h2{color:#fff}
+#home.dark .hm-ti h2 span{color:#9fc0f0}
+#home.dark .hm-ti small,#home.dark .hm-ti .pill{color:#a3b1c9!important}
+#home.dark .hm-cov{background:#1f4e8c}
+#home.dark .hm-cont{background:linear-gradient(120deg,#16335f 0%,#1f4e8c 100%)}
+#home.dark .daily .di,#home.dark .trial{background:#1b2c4d!important}
+#home.dark .trial{border-color:#c99a3b77}
+#home.dark .trial b,#home.dark .daily .k{color:#e6c378!important}
+#home.dark .trial,#home.dark .trial span{color:#eef3fb}
+#home.dark .daily .di{color:#e6c378}
+/* reader tools: a bar along the top of the reader instead of the right side (owner, Nov 2026) */
+.rbar{left:0;right:0;top:0;transform:none!important;flex-direction:row;align-items:center;gap:2px;border-radius:0;border:0;border-bottom:1px solid #c99a3b55;
+  padding:4px 6px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;justify-content:flex-start;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.rbar::-webkit-scrollbar{display:none}
+.rbar.off{transform:translateY(-110%)!important;opacity:0}
+.rbar button{width:auto;min-width:50px;min-height:46px;padding:4px 6px;border-radius:12px}
+.rbar #rbHide{min-height:46px;order:99}
+.rbar #rbHide svg{transform:rotate(-90deg)}
+.rbar #rbHide::after{display:none}
+.urw{flex-direction:row;padding:0 0 0 4px;margin:0 0 0 2px;border-top:0;border-left:1px solid #c99a3b44}
+.urw button{min-height:46px}
+.rbar.two{display:flex}
+@media (min-width:700px){.rbar{justify-content:center}}
+.rbar .urw{display:flex!important;flex-direction:row!important;align-items:center;flex:none}
+.rbar .urw button{min-height:46px;width:auto;min-width:48px}
+#reader:has(.rbar:not(.off)) .pnum{top:66px}
+/* series logo (owner's brand: navy + gold book, STUDENT MASTER | NOTE SERIES) above the cover card */
+.hm-card{background:var(--hc);border:1px solid var(--hl);border-radius:18px;box-shadow:0 4px 14px rgba(18,38,63,.07);overflow:hidden}
+.hm-card .hm-top{background:none;border:0;box-shadow:none;border-radius:0;padding:12px 14px 14px}
+.smlogo{display:flex;align-items:center;justify-content:center;gap:9px;padding:12px 14px 11px;border-bottom:1px solid var(--hl);white-space:nowrap}
+.smlogo svg{width:38px;height:28px;flex:none}
+.smlogo .a{font:800 15px/1 'Inter',sans-serif;letter-spacing:.6px;text-transform:uppercase;color:#0e2547}
+.smlogo i{width:1.5px;height:22px;background:linear-gradient(#d4a62a00,#d4a62a,#d4a62a00);flex:none}
+.smlogo .b{font:600 15.5px/1 'Source Serif 4',Georgia,serif;letter-spacing:2.6px;text-transform:uppercase;color:#b8892b}
+#home.dark .smlogo .a{color:#eef3fb}
+#home.dark .smlogo svg path[stroke="#0e2547"]{stroke:#9fc0f0}
+@media (max-width:350px){.smlogo .a,.smlogo .b{font-size:13px}.smlogo svg{width:32px}}
+.smlogo{gap:8px;padding:11px 10px 10px}
+.smlogo .a{font-size:14px;letter-spacing:.2px}
+.smlogo .b{font-size:14px;letter-spacing:1.8px}
+.smlogo svg{width:34px;height:25px}
+/* top tools bar fits a phone width without scrolling (owner) */
+.rbar{gap:0;padding:3px 2px;justify-content:space-between}
+.rbar button{flex:1 1 0;min-width:0;min-height:40px;padding:3px 1px;gap:2px;font-size:8.5px;border-radius:9px;white-space:nowrap}
+.rbar button svg{width:17px;height:17px}
+.rbar #rbHide,.rbar .urw button{flex:0 0 auto;min-width:26px;font-size:0;gap:0}
+.rbar #rbHide{min-height:40px}
+.rbar .urw{padding-left:2px;margin-left:1px}
+.rbar .urw button{min-height:40px}
+#reader:has(.rbar:not(.off)) .pnum{top:54px}
+
+
+/* Obstetrics: Listen in the bottom bar */
+.tabs #listenBtn{position:relative}
+.tabs #listenBtn.pl{color:var(--rose-hi,#e8c66e)}
+.tabs #listenBtn.na{opacity:.75}
+/* Obstetrics home on the light look: chapter banners, trial card, flashcard of the day */
+#home .chs .chh{box-shadow:0 6px 16px rgba(18,38,63,.16)}
+#home .sh h3{-webkit-text-fill-color:currentColor}
+#home .unl{margin:0}
+#home .qd{background:var(--hc);border:1px solid var(--hl);color:var(--ht);box-shadow:0 2px 6px rgba(18,38,63,.05)}
+#home .qd *{color:inherit}
+#home .hm-t{cursor:pointer}
+#home .prog{display:block}
+#home .prog .pts{margin-bottom:6px}
+.hm-top .cv{cursor:pointer}
 </style>
 
 </head><body><div class="app" id="app">
@@ -1381,29 +1558,35 @@ table.numt td.v { color: var(--ch-dark); }
     <button class="ib" id="backBtn" type="button" aria-label="Home" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
     <h1 id="title">Obstetrics <b>Master Review</b><small id="subtitle">4th edition</small></h1>
     <button class="ib rbshow" id="rbShow" type="button" hidden aria-label="إظهار الأدوات" title="إظهار الأدوات"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v16h-6"/><path d="M10 8l-4 4 4 4"/></svg></button>
+    <button class="ib" id="hmMode" type="button" aria-label="Day or night colours"></button>
     <button class="ib" id="themeBtn" type="button" hidden aria-label="Page colour"></button>
   </header>
 
-  <section class="view" id="home"><div class="wrap">
-    <div class="hero"><div class="cv"><div class="bk" id="coverMini"></div></div>
-      <div><span class="eyebrow">Student Master Note Series</span><h2>Obstetrics Master Review</h2><p>Fourth edition. Each topic covers the cause, clinical features, investigations and management used in our hospitals, with the key points for the exam.</p><span class="pill">49 topics · 341 pages</span></div></div>
-    <button class="covb" id="covBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v16H5.5A1.5 1.5 0 0 0 4 20.5z"/><path d="M4 20.5A1.5 1.5 0 0 0 5.5 22H20"/><path d="M9 8h7M9 12h5"/></svg><span><b>Open the cover</b><small>Front cover · authors · 4th edition</small></span><em>›</em></button>
-    <button class="cont" id="contBtn" type="button"><span class="k" id="contK">Start reading</span><span class="t" id="contT">Contents</span><span class="go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
-    <button class="daily" id="dailyBtn" type="button"><span class="di"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/><path d="M10 9l-1.5 4h3L10 17"/></svg></span><span class="dx"><span class="k gtx">Daily flashcards</span><span class="t" id="dailyT">10 cards for today</span><span class="dots" id="dailyDots"></span></span><span class="ds" id="dailyS"></span><span class="go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
-    <button class="unl" type="button" data-sub="1" dir="rtl"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span><b>افتح الكتاب كامل</b><small>الـ <span class="en">free trial</span> بيفتح أول <span class="en">topic</span> في كل <span class="en">chapter</span>:</small><span class="nms"><span class="nmc en">Physiology of pregnancy</span><span class="nmc en">Hyperemesis gravidarum</span><span class="nmc en">Bleeding in early pregnancy</span><span class="nmc en">Normal labour</span><span class="nmc en">Cord prolapse</span><span class="nmc en">Normal puerperium</span><span class="nmc en">The OSCE station</span></span></span><em><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></em></button>
-<div class="sh"><h3>Your progress</h3></div>
-    <div class="prog" id="prog"></div>
+  <section class="view" id="home"><div class="wrap hm">
+    <div class="hm-card">
+    <div class="smlogo" aria-label="Student Master Note Series"><svg viewBox="0 0 64 46" aria-hidden="true"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M31 41C24 35 14 33 5 34V9C14 8 24 10 31 16" stroke="#0e2547" stroke-width="3.6"/><path d="M33 41C40 35 50 33 59 34V9C50 8 40 10 33 16" stroke="#0e2547" stroke-width="3.6"/><path d="M31 35C25 30 18 28 11 28.5V4C18 4 25 6 31 11" stroke="#d4a62a" stroke-width="3.2"/><path d="M33 35C39 30 46 28 53 28.5V4C46 4 39 6 33 11" stroke="#d4a62a" stroke-width="3.2"/></g><path d="M37 3h6v13l-3-2.6-3 2.6z" fill="#d4a62a"/></svg><span class="a">Student Master</span><i></i><span class="b">Note Series</span></div>
+    <div class="hm-top">
+      <div class="cv" id="hmCover"><div class="bk" id="coverMini"></div></div>
+      <div class="hm-ti"><h2>Obstetrics<span>Master Review</span></h2><span class="pill" id="pill">{{PILL}}</span>
+        <button type="button" class="hm-cov" id="covBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 5h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z"/></svg>Open the book</button></div>
+    </div>
+    </div>
+    <button class="hm-cont" id="contBtn" type="button"><span class="k" id="contK">Start reading</span><span class="t" id="contT">Contents</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
     <div class="sh"><h3>The book</h3><span>Tap a chapter to open</span></div>
     <div class="chs" id="chs"></div>
     <div class="sh"><h3>Study tools</h3></div>
-    <div class="tools">
-      <button class="tool" type="button" data-go="cards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg><b>Flashcards</b><span id="toolCards">Flip, mark, repeat</span></button>
-      <button class="tool" type="button" data-go="qbank-v"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><b>Question bank</b><span id="toolQ">Scenarios and EMQs</span></button>
-      <button class="tool" type="button" data-p="321"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg><b>Rapid review</b><span>Key clinical clues with their answers</span></button>
-      <button class="tool" type="button" data-notes="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><b>My notes</b><span>Highlights and notes</span></button>
-      <button class="tool wide" type="button" data-p="335"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8.5" width="19" height="7" rx="3.5" transform="rotate(-35 12 12)"/><path d="M9.2 7.9l5.6 8.2"/></svg><span class="tw"><b>Obstetric drugs</b><span>Every drug used in our hospitals: use, action, dose, how long, side effects, what to avoid, which trimester</span></span></button>
-      <button class="tool wide lec" type="button" data-go="lect"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg><span class="tw"><b>Lectures</b><span>Listen to every page explained · download and listen offline</span></span><span class="nw">AUDIO</span></button>
+    <div class="hm-grid">
+      <button type="button" class="hm-t" data-go="qbank-v"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><b>Question bank</b><span id="toolQ">Scenarios and EMQs</span></button>
+      <button type="button" class="hm-t" data-go="cards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg><b>Flashcards</b><span id="toolCards">Flip and mark</span></button>
+      <button type="button" class="hm-t" data-go="lect"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></svg><b>Lectures</b><span>Audio, offline</span></button>
+      <button type="button" class="hm-t tool" data-p="{{RRP}}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg><b>Rapid review</b><span>Clue → answer</span></button>
+      <button type="button" class="hm-t tool" data-p="{{DRP}}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8.5" width="19" height="7" rx="3.5" transform="rotate(-35 12 12)"/><path d="M9.2 7.9l5.6 8.2"/></svg><b>Obstetric drugs</b><span>Doses and cautions</span></button>
+      <button type="button" class="hm-t" data-notes="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><b>My notes</b><span>Highlights and notes</span></button>
     </div>
+    <button class="daily" id="dailyBtn" type="button"><span class="di"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/><path d="M10 9l-1.5 4h3L10 17"/></svg></span><span class="dx"><span class="k gtx">Daily flashcards</span><span class="t" id="dailyT">10 cards for today</span><span class="dots" id="dailyDots"></span></span><span class="ds" id="dailyS"></span><span class="go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+    <button class="unl" type="button" data-sub="1" dir="rtl"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span><b>افتح الكتاب كامل</b><small>الـ <span class="en">free trial</span> بيفتح أول <span class="en">topic</span> في كل <span class="en">chapter</span>:</small><span class="nms"><span class="nmc en">Physiology of pregnancy</span><span class="nmc en">Hyperemesis gravidarum</span><span class="nmc en">Bleeding in early pregnancy</span><span class="nmc en">Normal labour</span><span class="nmc en">Cord prolapse</span><span class="nmc en">Normal puerperium</span><span class="nmc en">The OSCE station</span></span></span><em><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></em></button>
+    <div class="sh"><h3>Your progress</h3></div>
+    <div class="prog" id="prog"></div>
     <div class="sh"><h3>Flashcard of the day</h3><span id="qdMeta"></span></div>
     <div class="qd" id="qd"></div>
   </div></section>
@@ -1415,14 +1598,13 @@ table.numt td.v { color: var(--ch-dark); }
     <div class="penfly" id="penFly" hidden lang="ar"></div>
     <div class="rbar" id="rbar" lang="ar">
       <button type="button" id="rbHide" aria-label="إخفاء الأدوات"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>إخفاء</button>
-      <button type="button" id="tocBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>الفهرس</button>
       <button type="button" id="hlPen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l-5 5v3h3l5-5"/><path d="M9 11l7-7 4 4-7 7z"/><path class="ink" d="M3 22h18" stroke-width="3"/></svg><span id="penLbl">تظليل</span></button>
       <button type="button" id="ulBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v7a5 5 0 0 0 10 0V4"/><path class="ink" d="M5 21h14" stroke-width="2.6"/></svg><span id="ulLbl">خط</span></button>
       <button type="button" id="inkBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4L8 20H4v-4z"/><path class="ink" d="M3 22c3-2 5 1 8-1" stroke-width="2.6"/></svg><span id="inkLbl">قلم</span></button>
       <button type="button" id="txtBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6V4h14v2M12 4v14"/><path class="ink" d="M8 21h8" stroke-width="2.6"/></svg><span id="txtLbl">نص</span></button>
       <button type="button" id="rNotes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><span id="nLbl">ملاحظات</span></button>
-      <button type="button" id="listenBtn" class="lbtn" hidden><span class="li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></svg></span><span class="eq"><i></i><i></i><i></i></span><span class="lt2">استمع</span></button>
       <button type="button" id="prBtn" class="pr0" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></svg><span id="prLbl">ما قريتها</span></button>
+      <button type="button" id="upBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg>صفحة</button>
       <button type="button" id="zoomBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M11 8v6M8 11h6M21 21l-4.3-4.3"/></svg><span id="zoomLbl">الحجم</span></button>
       <div class="urw"><button type="button" id="urUndo" disabled aria-label="تراجع"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>تراجع</button><button type="button" id="urRedo" disabled aria-label="إعادة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg>إعادة</button></div>
     </div>
@@ -1462,6 +1644,8 @@ table.numt td.v { color: var(--ch-dark); }
   <nav class="tabs" id="tabs">
     <button type="button" data-go="home" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
     <button type="button" data-go="reader"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 5h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z"/></svg>Read</button>
+    <button type="button" id="tocBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Contents</button>
+    <button type="button" id="listenBtn" class="tlis"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></svg><span class="lt2">Listen</span></button>
     <button type="button" data-go="cards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg>Cards</button>
     <button type="button" data-go="qbank-v"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Questions</button>
     <button type="button" data-go="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Search</button>
@@ -1491,7 +1675,18 @@ var TOPICS=META.topics, NP=META.pages.length;
 function sp(k,v){return st('orr-'+k,v)}
 function spj(k,v){if(v===undefined){try{return JSON.parse(sp(k))}catch(e){return null}}sp(k,JSON.stringify(v))}
 var PAGES=META.pages;
+/* the student's own blank note pages (tools bar button صفحة, as in Surgery Master Review): orr-upg = id -> {a: key of the book page they follow, n: time made}.
+   They get their own keys, so book page keys and everything saved on book pages stay the same. p.bn = book page number. */
+var BOOKN=PAGES.length,UPG=spj('upg')||{};
+(function(){var n={},ok={};PAGES.forEach(function(p,i){p.bn=i+1;var g=p.t;ok[g?g+':'+(n[g]=(n[g]||0)+1):(p.f||'x'+i)]=i});
+  Object.keys(UPG).filter(function(id){return UPG[id]&&ok[UPG[id].a]!==undefined}).sort(function(x,y){return UPG[x].n-UPG[y].n}).forEach(function(id){
+    var a=-1;PAGES.forEach(function(p,j){if(p.bn===ok[UPG[id].a]+1)a=j});var j=a+1;while(j<PAGES.length&&PAGES[j].user)j++;
+    PAGES.splice(j,0,{f:id,user:1,label:PAGES[a].label+' · صفحتي',a:UPG[id].a})});
+  NP=PAGES.length})();
+var BIDX=[];PAGES.forEach(function(p,i){if(p.bn)BIDX[p.bn-1]=i});   // book page index -> place in the reader
 var tpl=$('bookPages').content, pagesEl=$('pages'), wraps=[], srcPages=[].slice.call(tpl.querySelectorAll('section.page'));
+srcPages=(function(){var k=0;return PAGES.map(function(p,i){if(!p.user)return srcPages[k++];var s=document.createElement('section');s.className='page upage';s.dataset.file=p.f;
+  s.innerHTML='<div class="uph"><span>صفحتي · My notes</span><em></em></div><div class="upl"></div>';s.querySelector('em').textContent=PAGES[i-1]?PAGES[i-1].label:'';return s})})();
 srcPages.forEach(function(sec,i){
   var pw=document.createElement('div');pw.className='pw';pw.dataset.i=i;
   var host=document.createElement('div');host.className='bk';host.appendChild(sec.cloneNode(true));
@@ -1521,6 +1716,15 @@ function zoomFly(){var f=$('penFly');f.dataset.k='z';var pc=zpct(),ph=zbase()<1;
   f.innerHTML='<b>حجم الصفحة</b><div class="zrow"><button type="button" class="zb" data-zs="-1" aria-label="أصغر">−</button><span>'+pc+'%</span><button type="button" class="zb" data-zs="1" aria-label="أكبر">+</button></div>'+
     (ph?'<div class="zrow" style="margin-top:8px">'+[1.5,2,3].map(function(x){return '<button type="button" class="ptog'+(Math.abs(pc-x*100)<3?' on':'')+'" data-zx="'+x+'">×'+x+'</button>'}).join('')+'</div>':'')+(ph?[['width','ملء عرض الشاشة (عادي)']]:[['width','ملء عرض الشاشة'],['page','الصفحة كاملة في الشاشة'],['auto','الحجم العادي']]).map(function(x){return '<button type="button" class="ptog'+(ZM===x[0]?' on':'')+'" data-zm="'+x[0]+'" style="margin-top:6px">'+x[1]+'</button>'}).join('')+
     (FINE?'<small>Ctrl + عجلة الماوس (أو قرصة اللوحة) بتكبّر وتصغّر كمان.</small>':'<small>وممكن تكبّر وتصغّر بصباعين على الصفحة (قرصة).</small>');flyAt(f,$('zoomBtn'))}
+/* blank note pages: add an empty lined page after the page in view; delete one of your own pages */
+$('upBtn').onclick=function(e){e.stopPropagation();var f=$('penFly');if(!f.hidden&&f.dataset.k==='u'){penFly(false);return}f.dataset.k='u';var c=currentPage(),me=PAGES[c].user;
+  f.innerHTML='<b>صفحة فاضية</b><button type="button" class="ptog" data-up="add">+ أضف صفحة فاضية بعد دي</button>'+(me?'<button type="button" class="ptog" data-up="del">🗑 احذف صفحتي دي</button>':'')+
+    '<small>صفحة بيضاء تكتب وترسم فيها بالقلم والنص، وتتحفظ مع ملاحظاتك.</small>';flyAt(f,$('upBtn'))};
+$('penFly').addEventListener('click',function(e){var b=e.target.closest('[data-up]');if(!b)return;e.stopPropagation();var c=currentPage(),p=PAGES[c];
+  if(b.dataset.up==='add'){var id='u'+Date.now().toString(36);UPG[id]={a:p.user?p.a:PKEY[c],n:Date.now()};spj('upg',UPG);sp('pk',id)}
+  else if(p.user){delete UPG[p.f];spj('upg',UPG);if(typeof INK!=='undefined'&&INK[p.f]){delete INK[p.f];try{saveInk()}catch(x){}}sp('pk',p.a)}
+  try{smData()}catch(x){}try{syncNow()}catch(x){}
+  setTimeout(function(){location.reload()},350)});
 $('zoomBtn').onclick=function(e){e.stopPropagation();var f=$('penFly');if(!f.hidden&&f.dataset.k==='z')penFly(false);else zoomFly()};
 /* two-finger pinch on the pages zooms (not while the drawing pen or text tool is on: there two fingers scroll) */
 var pin=null,pinF=0;function tdist(e){var a=e.touches[0],b=e.touches[1];return Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)}
@@ -1531,9 +1735,10 @@ $('scroller').addEventListener('touchend',function(e){if(e.touches.length<2)pin=
 $('scroller').addEventListener('wheel',function(e){if(!e.ctrlKey||$('reader').hidden)return;e.preventDefault();zstep(e.deltaY<0?1.1:1/1.1)},{passive:false});
 function currentPage(){var sc=$('scroller'),mid=sc.scrollTop+sc.clientHeight*0.35,cur=0;for(var i=0;i<wraps.length;i++){if(wraps[i].offsetTop<=mid)cur=i}return cur}
 var lastCur=-1;
-function onScroll(){var c=currentPage();lastCur=c;$('pnum').textContent=(c+1)+' / '+NP;var m=PAGES[c];$('subtitle').textContent=m.label;st('orr-page',String(c));sp('pk',PKEY[c]);updPr(c);fitRail()}
+function onScroll(){var c=currentPage();lastCur=c;$('pnum').textContent=PAGES[c].user?'✎ صفحتي':PAGES[c].bn+' / '+BOOKN;var m=PAGES[c];$('subtitle').textContent=m.label;st('orr-page',String(c));sp('pk',PKEY[c]);updPr(c);fitRail()}
 $('scroller').addEventListener('scroll',onScroll,{passive:true});
-function goPage(i,instant){i=Math.max(0,Math.min(NP-1,i));show('reader');layout();var sc=$('scroller');sc.scrollTop=wraps[i].offsetTop-10;onScroll()}
+function goPage(i,instant){goIdx(BIDX[i]!=null?BIDX[i]:i)}   // i = book page index (page number − 1)
+function goIdx(i){i=Math.max(0,Math.min(NP-1,i));show('reader');layout();var sc=$('scroller');sc.scrollTop=wraps[i].offsetTop-10;onScroll()}
 function lastPage(){var k=sp('pk');if(k&&byKey[k]!==undefined)return byKey[k];var n=+(st('orr-page')||0);return n>=0&&n<NP?n:0}
 /* links inside pages (contents rows), notes and highlights */
 pagesEl.addEventListener('click',function(e){if(INKON||TXON)return;var nm=e.target.closest('span.nm');if(nm){openNote(+nm.closest('.pw').dataset.i,+nm.dataset.k);return}
@@ -1543,18 +1748,17 @@ pagesEl.addEventListener('click',function(e){if(INKON||TXON)return;var nm=e.targ
 /* ---------- side rail ---------- */
 var FINE=window.matchMedia&&matchMedia('(pointer:fine)').matches;
 /* the rail never scrolls: when it is taller than the reader it is scaled down so every button shows */
-function fitRail(){var r=$('rbar');if(!r||$('reader').hidden)return;var av=$('reader').clientHeight-20;r.classList.remove('two');var h=r.offsetHeight;
-  if(h>av&&av/h<.7){r.classList.add('two');h=r.offsetHeight}
-  r.style.setProperty('--rs',h>av&&h?Math.max(.4,av/h).toFixed(3):1);railSpace()}
+function fitRail(){var r=$('rbar');if(!r||$('reader').hidden)return;railSpace()}   // tools bar along the top of the reader (Nov 2026)
 /* the open rail never covers the book: the pages get the space to its left */
-function railSpace(){var r=$('rbar'),sc=$('scroller');if(!r||!sc)return;var w=r.classList.contains('off')?0:Math.ceil(r.getBoundingClientRect().width)+12;
+function railSpace(){var r=$('rbar'),sc=$('scroller');if(!r||!sc)return;var w=r.classList.contains('off')?0:Math.ceil(r.offsetHeight);
   if(sc._rw===w)return;sc._rw=w;var cur=currentPage(),wp=wraps[cur],f=wp&&wp.offsetHeight?(sc.scrollTop-wp.offsetTop)/wp.offsetHeight:0;
-  sc.style.right=w+'px';layout();if(wp)sc.scrollTop=wp.offsetTop+f*wp.offsetHeight}
+  sc.style.top=w+'px';sc.style.right='0px';layout();if(wp)sc.scrollTop=wp.offsetTop+f*wp.offsetHeight}
 function setRail(off){$('rbar').classList.toggle('off',off);$('rbShow').hidden=!off||$('reader').hidden;sp('rail',off?'off':'on');setTimeout(railSpace,off?0:60)}
 $('rbHide').onclick=function(){setRail(true)};$('rbShow').onclick=function(){setRail(false)};
 var lisT=null;function railTip(msg){var t=$('lisTip');if(!t){t=document.createElement('div');t.id='lisTip';t.className='listip';t.lang='ar';t.dir='rtl';$('reader').appendChild(t)}
   t.textContent=msg;t.classList.add('on');clearTimeout(lisT);lisT=setTimeout(function(){t.classList.remove('on')},2600)}
-function flyAt(f,btn){var r=btn.getBoundingClientRect(),R=$('reader').getBoundingClientRect();f.hidden=false;f.style.top=Math.max(8,Math.min(r.top-R.top+r.height/2-f.offsetHeight/2,R.height-f.offsetHeight-8))+'px'}
+function flyAt(f,btn){var r=btn.getBoundingClientRect(),R=$('reader').getBoundingClientRect();f.hidden=false;f.style.top=(r.bottom-R.top+6)+'px';
+  f.style.right='auto';f.style.left=Math.max(8,Math.min(r.left-R.left+r.width/2-f.offsetWidth/2,R.width-f.offsetWidth-8))+'px'}
 
 /* ---------- page colour: day (white), eye comfort (warm paper) or night (dark pages); the button sits in the top bar ---------- */
 root.setAttribute('data-theme','dark');   // the app itself is always the dark look (like Surgery Master Review)
@@ -1589,21 +1793,28 @@ function setProg(v){var c=currentPage(),k=PKEY[c];if(v)readSet[k]=v;else delete 
   if(v===0)chime([523.3,392],'sine');else if(v===1)chime([659.3,987.8],'sine');else chime([523.3,659.3,784,1046.5,1318.5],'triangle')}
 
 /* views */
+/* Home day / night colours (Nov 2026): sun/moon button in the top bar on Home, saved in orr-hmode */
+var HMODE=sp('hmode')==='night'?'night':'day';
+function setHm(){$('home').classList.toggle('dark',HMODE==='night');$('hmMode').innerHTML=HMODE==='night'?
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>':
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+  $('hmMode').title=HMODE==='night'?'Day colours':'Night colours'}
+$('hmMode').onclick=function(){HMODE=HMODE==='night'?'day':'night';sp('hmode',HMODE);setHm()};setHm();
 var views=['home','reader','cards','qbank-v','search','lect'];
 function show(v){views.forEach(function(x){$(x).hidden=x!==v});[].forEach.call($('tabs').children,function(b){b.classList.toggle('on',b.dataset.go===v)});
-  $('backBtn').hidden=v==='home';$('themeBtn').hidden=v!=='reader';bmMenu.hidden=true;$('rbShow').hidden=v!=='reader'||!$('rbar').classList.contains('off');hideBar();penFly(false);
+  $('backBtn').hidden=v==='home';$('hmMode').hidden=v!=='home';$('themeBtn').hidden=v!=='reader';bmMenu.hidden=true;$('rbShow').hidden=v!=='reader'||!$('rbar').classList.contains('off');hideBar();penFly(false);
   if(v==='home'){$('subtitle').textContent='4th edition';refreshCont();renderHome()}
   if(v==='cards'){$('subtitle').textContent='Flashcards';if(!started)startDeck(curDeck)}
   if(v==='qbank-v'){$('subtitle').textContent='Question bank';if(!qStarted){qStarted=true;qStart()}else qStats()}
   if(v==='search'){$('subtitle').textContent='Search the book';setTimeout(function(){$('q').focus()},50)}
   if(v==='lect'){$('subtitle').textContent='Lectures';renderLect()}
   if(v==='reader'){layout();onScroll();setTimeout(fitRail,30)}}
-document.addEventListener('click',function(e){var g=e.target.closest('[data-go]');if(g&&!e.target.closest('.bk')){var v=g.dataset.go;if(v==='reader'){goPage(lastPage())}else show(v)}
+document.addEventListener('click',function(e){var g=e.target.closest('[data-go]');if(g&&!e.target.closest('.bk')){var v=g.dataset.go;if(v==='reader'){goIdx(lastPage())}else show(v)}
   var p=e.target.closest('.tool[data-p]');if(p)goPage(+p.dataset.p-1)});
 $('backBtn').onclick=function(){show('home')};
 /* home */
-function refreshCont(){var lp=lastPage();if(sp('pk')&&lp>0){$('contK').textContent='Continue reading';$('contT').textContent='Page '+(lp+1)+' · '+PAGES[lp].label}else{$('contK').textContent='Start reading';$('contT').textContent='Cover and contents'}}
-$('contBtn').onclick=function(){goPage(lastPage())};
+function refreshCont(){var lp=lastPage();if(sp('pk')&&lp>0){$('contK').textContent='Continue reading';$('contT').textContent=(PAGES[lp].user?'✎ ':'Page '+PAGES[lp].bn+' · ')+PAGES[lp].label}else{$('contK').textContent='Start reading';$('contT').textContent='Cover and contents'}}
+$('contBtn').onclick=function(){goIdx(lastPage())};
 /* progress */
 var tpages={};PAGES.forEach(function(p,i){if(p.t){(tpages[p.t]=tpages[p.t]||[]).push(i)}});
 function tRead(t){var n=0;(tpages[t]||[]).forEach(function(i){if(readSet[PKEY[i]])n++});return n}
@@ -1618,11 +1829,8 @@ function renderHome(){
   var tp=0,tr=0,tm=0;TOPICS.forEach(function(t){tp+=(tpages[t.id]||[]).length;tr+=tRead(t.id);tm+=tMast(t.id)});
   var tc=0,tk=0;deckIds.forEach(function(id){tc+=DECKS[id].cards.length;tk+=deckKnown(id)});
   var fin=TOPICS.filter(function(t){var n=(tpages[t.id]||[]).length;return n&&tRead(t.id)===n}).length;
-  $('prog').innerHTML=
-    '<div class="row"><div class="lab">Pages done<span>'+tr+' / '+tp+' · '+pc(tr,tp)+'%</span></div><div class="pbar pdone"><i style="width:'+pc(tr,tp)+'%"></i></div></div>'+
-    '<div class="row"><div class="lab">Pages mastered<span>'+tm+' / '+tp+' · '+pc(tm,tp)+'%</span></div><div class="pbar pmast"><i style="width:'+pc(tm,tp)+'%"></i></div></div>'+
-    '<div class="row"><div class="lab">Flashcards known<span>'+tk+' / '+tc+' · '+pc(tk,tc)+'%</span></div><div class="pbar"><i style="width:'+pc(tk,tc)+'%"></i></div></div>'+
-    '<div class="row"><div class="lab">Topics done<span>'+fin+' / '+TOPICS.length+'</span></div></div>'+
+  function tile(k,n,of,cls,showPct){var v=pc(n,of);return '<div class="pt '+cls+'"><b>'+(showPct?v+'<small>%</small>':n+'<small> / '+of+'</small>')+'</b><span>'+k+'</span>'+(showPct?'<em>'+n+' / '+of+'</em>':'')+'<div class="pbar"><i style="width:'+v+'%"></i></div></div>'}
+  $('prog').innerHTML='<div class="pts">'+tile('Pages read',tr,tp,'pdone',1)+tile('Pages mastered',tm,tp,'pmast',1)+tile('Flashcards known',tk,tc,'pcard',1)+tile('Topics finished',fin,TOPICS.length,'ptop',0)+'</div>'+
     '<p class="prhint" dir="rtl" lang="ar">علّم كل صفحة بزر التقدّم في شريط الأدوات: <b class="c1">قريتها</b> أو <b class="c2">أتقنتها</b>، أو رجّعها <b class="c0">ما قريتها</b>.</p>';
   $('chs').innerHTML=META.chapters.map(function(c){var ts=TOPICS.filter(function(t){return t.ch===c.n});var np=0,ns=0;ts.forEach(function(t){np+=(tpages[t.id]||[]).length;ns+=tRead(t.id)});
     return '<div class="chc c'+c.n+'g'+(openCh===c.n?' open':'')+'"><button class="chh" type="button" data-ch="'+c.n+'" aria-expanded="'+(openCh===c.n)+'">'+(c.img?'<span class="im" style="background-image:url('+c.img+')"></span>':'')+'<span class="ey">Chapter '+c.n+'</span><span class="nm">'+c.name+'</span><span class="mt">'+ts.length+' topics · '+np+' pages · '+pc(ns,np)+'% done</span><span class="cv2">'+CHEV+'</span></button>'
@@ -1649,9 +1857,9 @@ function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'
 function runSearch(){var q=$('q').value.trim();var out=$('results');if(q.length<2){out.innerHTML='<p class="empty">Type at least 2 letters. Every page of the book is searched.</p>';return}
   var ql=q.toLowerCase(),hits=[];TEXT.forEach(function(t,i){var tl=t.toLowerCase(),k=tl.indexOf(ql),n=0;if(k<0)return;var c=k;while(c>=0){n++;c=tl.indexOf(ql,c+1)}
     var a=Math.max(0,k-60),snip=(a?'…':'')+esc(t.slice(a,k))+'<mark>'+esc(t.slice(k,k+q.length))+'</mark>'+esc(t.slice(k+q.length,k+q.length+80))+'…';hits.push({i:i,n:n,snip:snip})});
-  out.innerHTML=hits.length?'<div class="res">'+hits.map(function(h){return '<button class="ri" type="button" data-i="'+h.i+'"><span class="pn">p '+(h.i+1)+'</span><span><b>'+esc(META.pages[h.i].label)+' · '+h.n+'×</b><span>'+h.snip+'</span></span></button>'}).join('')+'</div>':'<p class="empty">No page mentions “'+esc(q)+'”.</p>'}
+  out.innerHTML=hits.length?'<div class="res">'+hits.map(function(h){return '<button class="ri" type="button" data-i="'+h.i+'"><span class="pn">p '+(PAGES[h.i].bn||'✎')+'</span><span><b>'+esc(META.pages[h.i].label)+' · '+h.n+'×</b><span>'+h.snip+'</span></span></button>'}).join('')+'</div>':'<p class="empty">No page mentions “'+esc(q)+'”.</p>'}
 $('q').addEventListener('input',runSearch);runSearch();
-$('results').onclick=function(e){var b=e.target.closest('.ri');if(!b)return;var i=+b.dataset.i;goPage(i);markIn(i,$('q').value.trim())};
+$('results').onclick=function(e){var b=e.target.closest('.ri');if(!b)return;var i=+b.dataset.i;goIdx(i);markIn(i,$('q').value.trim())};
 function markIn(i,q){[].forEach.call(document.querySelectorAll('.bk mark.hit'),function(m){m.replaceWith(document.createTextNode(m.textContent))});if(!q)return;
   var ql=q.toLowerCase(),w=document.createTreeWalker(wraps[i],NodeFilter.SHOW_TEXT),nodes=[];while(w.nextNode())nodes.push(w.currentNode);
   var first=null;nodes.forEach(function(n){if(n.parentNode.closest('svg'))return;var t=n.nodeValue,k=t.toLowerCase().indexOf(ql);if(k<0)return;var r=document.createRange();r.setStart(n,k);r.setEnd(n,k+q.length);var m=document.createElement('mark');m.className='hit';try{r.surroundContents(m);if(!first)first=m}catch(e){}});
@@ -1725,16 +1933,16 @@ function hlHtml(){var notes=[],hls=[];PAGES.forEach(function(p,i){(HL[PKEY[i]]||
   var list=HLTAB==='n'?notes:hls;
   var tabs='<div class="seg hltabs">'+[['n','Notes',notes.length],['h','Highlights',hls.length]].map(function(t){return '<button type="button" data-ht="'+t[0]+'" class="'+(HLTAB===t[0]?'on':'')+'"><b>'+t[1]+'</b><span>'+t[2]+'</span></button>'}).join('')+'</div>';
   var empty=HLTAB==='n'?'No notes yet. In the reader, select text and tap <b>✎ Note</b>, or switch on the notes pen in the side bar.':'No highlights yet. In the reader, select text and tap a colour, or switch on the highlighter in the side bar.';
-  return syncBar()+tabs+(list.length?list.map(function(x){var note=HLTAB==='n';return '<button class="hli'+(note?' isn':'')+'" type="button" data-p="'+(x.i+1)+'"><i class="'+x.h.c+'"></i><span><b>p '+(x.i+1)+' · '+esc(PAGES[x.i].label)+'</b>'+
+  return syncBar()+tabs+(list.length?list.map(function(x){var note=HLTAB==='n';return '<button class="hli'+(note?' isn':'')+'" type="button" data-p="'+(x.i+1)+'"><i class="'+x.h.c+'"></i><span><b>p '+(PAGES[x.i].bn||'✎')+' · '+esc(PAGES[x.i].label)+'</b>'+
     (note?'<em class="hn">'+esc(x.h.n)+'</em><span class="hq">“'+esc(x.h.t)+'”</span>':'<span>'+esc(x.h.t)+'</span>'+(x.h.n?'<em class="hn">✎ note</em>':''))+'</span></button>'}).join(''):'<p class="empty">'+empty+'</p>')}
 function openNotes(){$('nlist').innerHTML=hlHtml();$('nsheet').hidden=false}
 document.addEventListener('click',function(e){var b=e.target.closest('[data-ht]');if(b){HLTAB=b.dataset.ht;sp('hltab',HLTAB);$('nlist').innerHTML=hlHtml();return}
-  var r=e.target.closest('.hli[data-p]');if(r){$('nsheet').hidden=true;goPage(+r.dataset.p-1);return}
+  var r=e.target.closest('.hli[data-p]');if(r){$('nsheet').hidden=true;goIdx(+r.dataset.p-1);return}
   if(e.target.closest('[data-notes]'))openNotes()});
 /* ---------- highlights ---------- */
 function textNodes(sec){var w=document.createTreeWalker(sec,NodeFilter.SHOW_TEXT,{acceptNode:function(n){return n.parentNode.closest('svg')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}}),a=[];while(w.nextNode())a.push(w.currentNode);return a}
 function renderPage(i){var host=wraps[i].firstChild,sec=srcPages[i].cloneNode(true);host.innerHTML='';host.appendChild(sec);delete wraps[i].dataset.dec;
-  (HL[PKEY[i]]||[]).forEach(function(h,k){wrapRange(sec,h.s,h.e,function(){var m=document.createElement('mark');m.className='uhl '+h.c+(h.uw?' uw'+h.uw:'')+(h.n?' hasn':'');m.dataset.k=k;return m});
+  (HL[PKEY[i]]||[]).forEach(function(h,k){if(!hlOk(i,h))return;wrapRange(sec,h.s,h.e,function(){var m=document.createElement('mark');m.className='uhl '+h.c+(h.uw?' uw'+h.uw:'')+(h.n?' hasn':'');m.dataset.k=k;return m});
     if(h.n){var ms=sec.querySelectorAll('mark.uhl[data-k="'+k+'"]'),last=ms[ms.length-1];if(last){var nm=document.createElement('span');nm.className='nm';nm.dataset.k=k;nm.title='Note';last.parentNode.insertBefore(nm,last.nextSibling)}}});}
 function wrapRange(sec,s,e,mk){var pos=0;textNodes(sec).forEach(function(n){var L=n.nodeValue.length,a=Math.max(s,pos),b=Math.min(e,pos+L);
   if(b>a&&n.nodeValue.slice(a-pos,b-pos).trim()){var r=document.createRange();r.setStart(n,a-pos);r.setEnd(n,b-pos);try{r.surroundContents(mk())}catch(err){}}pos+=L})}
@@ -1760,7 +1968,8 @@ function penApply(o){if(NPEN){window.getSelection().removeAllRanges();hideBar();
 function setPens(h,n,u){PEN=h;NPEN=n;UPEN=!!u;sp('pen',h?'1':'0');sp('npen',n?'1':'0');sp('upen',u?'1':'0');if((h||n||u)&&INKON)setInk(false);if((h||n||u)&&TXON)setTx(false);updPen()}
 function updPen(){var b=$('hlPen');b.classList.toggle('on',PEN);b.dataset.pc=PCOL;$('penLbl').textContent=PEN?'تظليل ✓':'تظليل';
   $('rNotes').classList.toggle('on',NPEN);var ub=$('ulBtn');ub.classList.toggle('on',UPEN);ub.dataset.uc=UCOL;$('ulLbl').textContent=UPEN?'خط ✓':'خط';$('nLbl').textContent=NPEN?'ملاحظات ✓':'ملاحظات';$('reader').classList.toggle('penon',penOn())}
-function flyAt(f,btn){var r=btn.getBoundingClientRect(),R=$('reader').getBoundingClientRect();f.hidden=false;f.style.top=Math.max(8,Math.min(r.top-R.top+r.height/2-f.offsetHeight/2,R.height-f.offsetHeight-8))+'px'}
+function flyAt(f,btn){var r=btn.getBoundingClientRect(),R=$('reader').getBoundingClientRect();f.hidden=false;f.style.top=(r.bottom-R.top+6)+'px';
+  f.style.right='auto';f.style.left=Math.max(8,Math.min(r.left-R.left+r.width/2-f.offsetWidth/2,R.width-f.offsetWidth-8))+'px'}
 function noteFly(){var f=$('penFly');f.dataset.k='n';
   f.innerHTML='<b>الملاحظات</b><button type="button" class="ptog'+(NPEN?' on':'')+'" data-npen="1">'+(NPEN?'قلم الملاحظات شغّال · اضغط لإيقافو':'شغّل قلم الملاحظات')+'</button>'+
     '<button type="button" class="ptog" data-list="1" style="margin-top:8px">عرض كل الملاحظات والتظليل</button>'+
@@ -2054,6 +2263,24 @@ var HLDEL=spj('hldel')||{};
 function hid(k,h){return k+'|'+h.s+'|'+h.e+(isU(h.c)?'|u':'')}   // an underline and a highlight on the same words are two items
 function hsnap(){var o={};Object.keys(HL).forEach(function(k){HL[k].forEach(function(h){o[hid(k,h)]=(h.c||'')+'\u0001'+(h.n||'')+'\u0001'+(h.uw||'')})});return o}
 var HLPREV=hsnap();
+/* Highlights and notes are saved as text offsets on a page. When pages are re-laid out the offsets can point at other words:
+   the saved text (h.t) finds its place again in the same topic, and a highlight whose text is gone is not drawn (it stays in My notes). */
+var PTX={};function ptx(i){if(PTX[i]===undefined){var raw=textNodes(srcPages[i]).map(function(n){return n.nodeValue}).join(''),nrm='',map=[],spc=true;
+  for(var j=0;j<raw.length;j++){var c=raw[j];if(/\s/.test(c)){if(!spc){nrm+=' ';map.push(j);spc=true}}else{nrm+=c;map.push(j);spc=false}}PTX[i]={raw:raw,n:nrm,map:map}}return PTX[i]}
+function hlOk(i,h){if(!h.t)return true;var P=ptx(i);return P.raw.slice(h.s,h.e).replace(/\s+/g,' ').trim()===h.t.replace(/\s+/g,' ').trim()}
+function hlFind(i,h){var P=ptx(i),t=h.t.replace(/\s+/g,' ').trim(),full=!(t.length>=240&&h.e-h.s>240),best=-1,from=0,p,want=h.s||0;
+  if(!t)return null;while((p=P.n.indexOf(t,from))>=0){if(best<0||Math.abs(p-want)<Math.abs(best-want))best=p;from=p+1}
+  if(best<0)return null;var s=P.map[best],e=full?P.map[best+t.length-1]+1:s+(h.e-h.s);return {s:s,e:e}}
+function reanchorHL(){var moved=false,now=Date.now(),before=hsnap();
+  Object.keys(HL).forEach(function(k){var i=byKey[k];if(i===undefined||PAGES[i].user)return;var keep=[];
+    HL[k].forEach(function(h){if(hlOk(i,h)){keep.push(h);return}
+      var g=k.slice(0,k.lastIndexOf(':')),cands=[i];for(var d=1;d<8;d++){[i-d,i+d].forEach(function(j){if(j>=0&&j<PKEY.length&&PKEY[j].slice(0,PKEY[j].lastIndexOf(':'))===g)cands.push(j)})}
+      for(var c=0;c<cands.length;c++){var f=hlFind(cands[c],h);if(f){h.s=f.s;h.e=f.e;h.u=now;moved=true;if(cands[c]===i)keep.push(h);else{var k2=PKEY[cands[c]];(HL[k2]=HL[k2]||[]).push(h)}return}}
+      keep.push(h)});
+    HL[k]=keep});
+  if(!moved)return false;var cur=hsnap();Object.keys(before).forEach(function(id){if(cur[id]===undefined)HLDEL[id]=now});Object.keys(cur).forEach(function(id){delete HLDEL[id]});
+  HLPREV=cur;spj('hl2',HL);spj('hldel',HLDEL);try{syncSoon()}catch(e){}return true}
+try{if(reanchorHL())setTimeout(function(){PAGES.forEach(function(p,i){if(HL[PKEY[i]])renderPage(i)})},0)}catch(e){}
 function saveHL(){var now=Date.now(),cur=hsnap();
   Object.keys(HL).forEach(function(k){HL[k].forEach(function(h){var id=hid(k,h);if(HLPREV[id]!==cur[id]){h.u=now;delete HLDEL[id]}})});
   Object.keys(HLPREV).forEach(function(id){if(cur[id]===undefined)HLDEL[id]=now});
@@ -2081,7 +2308,7 @@ function syncSoon(){if(!SYNC)return;clearTimeout(syncT);syncT=setTimeout(functio
 function syncPost(body){return window.__obsSync.call(body)}
 function hlApply(m){progApply(m.prog||{});smApply(m.sm||{});inkApply(m.ink||{},m.idel||{});var before=JSON.stringify(HL);if(JSON.stringify(m.hl)===before&&JSON.stringify(m.del)===JSON.stringify(HLDEL))return;
   var touched={};Object.keys(HL).concat(Object.keys(m.hl)).forEach(function(k){touched[k]=1});
-  HL=m.hl;HLDEL=m.del;HLPREV=hsnap();spj('hl2',HL);spj('hldel',HLDEL);
+  HL=m.hl;HLDEL=m.del;HLPREV=hsnap();spj('hl2',HL);spj('hldel',HLDEL);try{reanchorHL()}catch(e){}
   Object.keys(touched).forEach(function(k){if(byKey[k]!==undefined)renderPage(byKey[k])});
   if(!$('home').hidden)renderHome();if(!$('nsheet').hidden&&$('syncBar'))$('nlist').innerHTML=hlHtml()}
 function syncNow(tries){if(!SYNC||navigator.onLine===false)return Promise.resolve();
@@ -2112,6 +2339,7 @@ if(SYNC){setTimeout(function(){syncNow()},1500);
    Each is a map; a change is stamped with the time it was noticed, removed keys stay as tombstones,
    and merging keeps the newest value per key. */
 var SM={known:{get:function(){return KNOWN},set:function(v){KNOWN=v;spj('known2',KNOWN)}},
+  upg:{get:function(){return UPG},set:function(v){var o={};Object.keys(v).forEach(function(k){if(v[k])o[k]=v[k]});UPG=o;spj('upg',UPG)}},
   qb:{get:function(){return QST},set:function(v){QST=v;saveQ()}},
   streak:{get:function(){var S=spj('streak');return S?{s:S}:{}},set:function(v){if(v.s)spj('streak',v.s)}},
   page:{get:function(){var p=sp('pk');return p?{p:p}:{}},set:function(v){if(v.p)sp('pk',v.p)}}};
@@ -2128,7 +2356,7 @@ function smApply(sm){var ch=false;Object.keys(SM).forEach(function(n){var m=sm[n
   SMU[n]=u;if(JSON.stringify(v)!==JSON.stringify(SM[n].get())){SM[n].set(v);ch=true}SMP[n]=smSnap(n)});spj('smu',SMU);
   if(ch){if(!$('home').hidden)renderHome();if(!$('qbank-v').hidden&&qStarted)qStats()}}
 /* cover on the home screen opens the cover page */
-$('coverMini').parentNode.addEventListener('click',function(){goPage(0)});$('covBtn').onclick=function(){goPage(0)};
+$('hmCover').addEventListener('click',function(){goPage(0)});$('covBtn').onclick=function(){goPage(0)};
 /* today's pearl: one flashcard a day */
 function renderQD(){var all=[];Object.keys(DECKS).forEach(function(k){DECKS[k].cards.forEach(function(c){all.push({k:k,c:c})})});var box=$('qd');if(!all.length){box.parentNode.removeChild(box);return}
   var day=Math.floor(Date.now()/864e5),it=all[(day*7919)%all.length],t=TT[it.k]||{},c=it.c;
@@ -2195,7 +2423,7 @@ function playSeg(t,i,opt){opt=opt||{};if(aLocked(t)){window.__openSub&&window.__
   srcOf(g).then(function(u){if(curURL&&curURL.indexOf('blob:')===0)URL.revokeObjectURL(curURL);curURL=u;A.src=u;A.playbackRate=rate;
     var p=POS[g.src]||0;A.currentTime=0;var go=function(){if(p>3&&p<g.d-4&&!opt.fromStart)A.currentTime=p;A.playbackRate=rate;WANT=true;A.play().catch(function(){})};
     if(A.readyState>=1)go();else A.addEventListener('loadedmetadata',go,{once:true});
-    if(follow&&!$('reader').hidden&&FIDX[g.f]!==undefined&&[g.f].concat(g.also||[]).map(function(f){return FIDX[f]}).indexOf(currentPage())<0){autoT=Date.now();goPage(FIDX[g.f])}mediaMeta()})
+    if(follow&&!$('reader').hidden&&FIDX[g.f]!==undefined&&[g.f].concat(g.also||[]).map(function(f){return FIDX[f]}).indexOf(currentPage())<0){autoT=Date.now();goIdx(FIDX[g.f])}mediaMeta()})
   .catch(function(){cur=null;$('ap').hidden=true;aToast(navigator.onLine?'Could not open this lecture':'Download this lecture first to listen offline')})}
 function pageNo(g){var a=FIDX[g.f]!==undefined?FIDX[g.f]+1:'';if(g.also&&g.also.length){var z=FIDX[g.also[g.also.length-1]];if(z!==undefined)return a+'–'+(z+1)}return a}
 function pagesLbl(g){return (g.also&&g.also.length?'Pages ':'Page ')+pageNo(g)}
@@ -2213,7 +2441,7 @@ A.addEventListener('ended',function(){if(!cur)return;var g=AU[cur.t].segs[cur.i]
 $('apPP').onclick=function(){if(!cur)return;if(A.paused){WANT=true;A.play()}else{WANT=false;A.pause()}};
 $('apBk').onclick=function(){A.currentTime=Math.max(0,A.currentTime-10)};
 $('apSp').onclick=function(){rate=RATES[(RATES.indexOf(rate)+1)%RATES.length];A.playbackRate=rate;st('orr-arate',String(rate));apUI()};
-$('apGo').onclick=function(){if(!cur)return;var g=AU[cur.t].segs[cur.i];follow=true;autoT=Date.now();if(FIDX[g.f]!==undefined)goPage(FIDX[g.f])};
+$('apGo').onclick=function(){if(!cur)return;var g=AU[cur.t].segs[cur.i];follow=true;autoT=Date.now();if(FIDX[g.f]!==undefined)goIdx(FIDX[g.f])};
 $('apX').onclick=function(){savePos();WANT=false;A.pause();cur=null;$('ap').hidden=true;markPills()};
 (function(){var sk=$('apSk'),drag=false;function at(e){var r=sk.getBoundingClientRect(),x=(e.touches?e.touches[0].clientX:e.clientX)-r.left,f=Math.max(0,Math.min(1,x/r.width));if(A.duration){var tt=f*A.duration;if(String(A.src).indexOf('blob:')!==0)PEND=tt;A.currentTime=tt}}
   sk.addEventListener('pointerdown',function(e){drag=true;at(e);sk.setPointerCapture&&sk.setPointerCapture(e.pointerId)});sk.addEventListener('pointermove',function(e){if(drag)at(e)});sk.addEventListener('pointerup',function(){drag=false})})();
@@ -2224,11 +2452,11 @@ function mediaMeta(){if(!('mediaSession' in navigator)||!cur)return;var T=TT[cur
     navigator.mediaSession.setActionHandler('previoustrack',function(){if(cur&&cur.i>0)playSeg(cur.t,cur.i-1,{restart:true,fromStart:true})});
     navigator.mediaSession.setActionHandler('nexttrack',function(){if(cur&&cur.i+1<AU[cur.t].segs.length)playSeg(cur.t,cur.i+1,{restart:true,fromStart:true})})}catch(e){}}
 /* Listen button in the reader bar: plays the page you are on */
-var LB=$('listenBtn');if(Object.keys(AU).length)LB.hidden=false;
+var LB=$('listenBtn');
 function segHere(){var sec=wraps[currentPage()]&&wraps[currentPage()].querySelector('section.page');return sec&&SEGF[sec.dataset.file]}
 function updListen(){if(!LB||LB.hidden)return;var g=segHere();LB.classList.toggle('na',!g);LB.dataset.f=g?g.f:'';var on=!!(g&&cur&&cur.t===g.t&&cur.i===g.i);LB.classList.toggle('pl',on);LB.classList.toggle('paused',on&&A.paused);
-  LB.querySelector('.lt2').textContent=on?(A.paused?'موقوف':'شغّال'):'استمع'}
-LB.onclick=function(){var g=segHere();if(!g){var t=(META.pages[currentPage()]||{}).t;aToast(t&&AU[t]?'This page has no audio part':'No lecture for this page yet');return}playSeg(g.t,g.i,{follow:true})};
+  LB.querySelector('.lt2').textContent=on?(A.paused?'Paused':'Playing'):'Listen'}
+LB.onclick=function(){if($('reader').hidden){show('lect');return}var g=segHere();if(!g){var t=(META.pages[currentPage()]||{}).t;aToast(t&&AU[t]?'This page has no audio part':'No lecture for this page yet');return}playSeg(g.t,g.i,{follow:true})};
 $('scroller').addEventListener('scroll',function(){clearTimeout(updListen.t);updListen.t=setTimeout(function(){updListen();leaveCheck()},150)},{passive:true});
 /* the reader moved to another page while a lecture was playing: end it (position is saved for next time) */
 var autoT=0;function leaveCheck(){if(!cur||!WANT||$('reader').hidden||Date.now()-autoT<1500)return;var g=AU[cur.t].segs[cur.i],pi=FIDX[g.f],ok=[g.f].concat(g.also||[]).map(function(f){return FIDX[f]});
@@ -2257,7 +2485,7 @@ $('lectW').addEventListener('click',function(e){var x;
   if((x=e.target.closest('[data-dl]'))){e.stopPropagation();dlTopic(x.dataset.dl);return}
   if((x=e.target.closest('[data-del]'))){delTopic(x.dataset.del);return}
   if((x=e.target.closest('.lp [data-play]'))){var r=x.closest('.lp');playSeg(r.dataset.t,+r.dataset.i,{follow:false});return}
-  if((x=e.target.closest('.lp .go'))){follow=true;goPage(+x.dataset.pg);return}
+  if((x=e.target.closest('.lp .go'))){follow=true;goIdx(+x.dataset.pg);return}
   if((x=e.target.closest('.ab.pl'))){var t=x.closest('.lt').dataset.t;e.stopPropagation();openLT=t;renderLect();playSeg(t,0,{follow:false});return}
   if((x=e.target.closest('.lt .hd'))){var lt=x.closest('.lt'),t2=lt.dataset.t;if(aLocked(t2)){window.__openSub&&window.__openSub();return}openLT=openLT===t2?null:t2;renderLect()}});
 loadDL().then(function(){if(!$('lect').hidden)renderLect()});
