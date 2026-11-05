@@ -1,0 +1,2189 @@
+{
+ "pages": [
+  {
+   "label": "Cover",
+   "t": "",
+   "f": "a00_cover"
+  },
+  {
+   "label": "Cover",
+   "t": "",
+   "f": "a00b_authors"
+  },
+  {
+   "label": "Cover",
+   "t": "",
+   "f": "a00c_howto1"
+  },
+  {
+   "label": "Cover",
+   "t": "",
+   "f": "a00d_howto2"
+  },
+  {
+   "label": "Cover",
+   "t": "",
+   "f": "a00e_refs"
+  },
+  {
+   "label": "Contents",
+   "t": "",
+   "f": "a01_contents"
+  },
+  {
+   "label": "1.1 · Genital Tract, Heart & Circulation",
+   "t": "pc",
+   "f": "c1s01p1_pc1"
+  },
+  {
+   "label": "1.1 · Genital Tract, Heart & Circulation",
+   "t": "pc",
+   "f": "c1s01p1x2_pc1"
+  },
+  {
+   "label": "1.1 · Blood, Lungs, Kidneys & Gut",
+   "t": "pc",
+   "f": "c1s01p2_pc2"
+  },
+  {
+   "label": "1.1 · Blood, Lungs, Kidneys & Gut",
+   "t": "pc",
+   "f": "c1s01p2x2_pc2"
+  },
+  {
+   "label": "1.1 · Hormones, Skin & Joints",
+   "t": "pc",
+   "f": "c1s01p3_pc3"
+  },
+  {
+   "label": "1.1 · Weight Gain & Normal Values",
+   "t": "pc",
+   "f": "c1s01p4_pc4"
+  },
+  {
+   "label": "1.1 · Weight Gain & Normal Values",
+   "t": "pc",
+   "f": "c1s01p4x2_pc4"
+  },
+  {
+   "label": "1.2 · Symptoms, Signs & Pregnancy Tests",
+   "t": "dx",
+   "f": "c1s02p1_dx1"
+  },
+  {
+   "label": "1.2 · Symptoms, Signs & Pregnancy Tests",
+   "t": "dx",
+   "f": "c1s02p1x2_dx1"
+  },
+  {
+   "label": "1.2 · hCG & Early Ultrasound",
+   "t": "dx",
+   "f": "c1s02p2_dx2"
+  },
+  {
+   "label": "1.2 · EDD & Gestational Age",
+   "t": "dx",
+   "f": "c1s02p3_dx3"
+  },
+  {
+   "label": "1.2 · EDD & Gestational Age",
+   "t": "dx",
+   "f": "c1s02p3x2_dx3"
+  },
+  {
+   "label": "1.3 · Aims & the Booking Visit",
+   "t": "anc",
+   "f": "c1s03p1_anc1"
+  },
+  {
+   "label": "1.3 · Aims & the Booking Visit",
+   "t": "anc",
+   "f": "c1s03p1x2_anc1"
+  },
+  {
+   "label": "1.3 · Booking Tests & Supplements",
+   "t": "anc",
+   "f": "c1s03p2_anc2"
+  },
+  {
+   "label": "1.3 · Booking Tests & Supplements",
+   "t": "anc",
+   "f": "c1s03p2x2_anc2"
+  },
+  {
+   "label": "1.3 · Malaria, Advice & Danger Signs",
+   "t": "anc",
+   "f": "c1s03p3_anc3"
+  },
+  {
+   "label": "1.3 · Risk, Referral & Minor Complaints",
+   "t": "anc",
+   "f": "c1s03p4_anc4"
+  },
+  {
+   "label": "1.3 · Risk, Referral & Minor Complaints",
+   "t": "anc",
+   "f": "c1s03p4x2_anc4"
+  },
+  {
+   "label": "2.1 · Definition, Causes & Diagnosis",
+   "t": "hg",
+   "f": "c2s01p1_hg1"
+  },
+  {
+   "label": "2.1 · Definition, Causes & Diagnosis",
+   "t": "hg",
+   "f": "c2s01p1x2_hg1"
+  },
+  {
+   "label": "2.1 · Complications & Management",
+   "t": "hg",
+   "f": "c2s01p2_hg2"
+  },
+  {
+   "label": "2.2 · Definition, Physiology & Causes",
+   "t": "an",
+   "f": "c2s02p1_an1"
+  },
+  {
+   "label": "2.2 · Definition, Physiology & Causes",
+   "t": "an",
+   "f": "c2s02p1x2_an1"
+  },
+  {
+   "label": "2.2 · Investigations & Types of Anaemia",
+   "t": "an",
+   "f": "c2s02p2_an2"
+  },
+  {
+   "label": "2.2 · Management",
+   "t": "an",
+   "f": "c2s02p3_an3"
+  },
+  {
+   "label": "2.2 · Management",
+   "t": "an",
+   "f": "c2s02p3x2_an3"
+  },
+  {
+   "label": "2.3 · Definition, Risk Factors & Clinical Features",
+   "t": "vt",
+   "f": "c2s03p1_vt1"
+  },
+  {
+   "label": "2.3 · Definition, Risk Factors & Clinical Features",
+   "t": "vt",
+   "f": "c2s03p1x2_vt1"
+  },
+  {
+   "label": "2.3 · Diagnosis & Complications",
+   "t": "vt",
+   "f": "c2s03p2_vt2"
+  },
+  {
+   "label": "2.3 · Management & Thromboprophylaxis",
+   "t": "vt",
+   "f": "c2s03p3_vt3"
+  },
+  {
+   "label": "2.4 · Classification & Pathophysiology",
+   "t": "dm",
+   "f": "c2s04p1_dm1"
+  },
+  {
+   "label": "2.4 · Classification & Pathophysiology",
+   "t": "dm",
+   "f": "c2s04p1x2_dm1"
+  },
+  {
+   "label": "2.4 · Screening & Diagnosis of Gestational Diabetes",
+   "t": "dm",
+   "f": "c2s04p2_dm2"
+  },
+  {
+   "label": "2.4 · Complications",
+   "t": "dm",
+   "f": "c2s04p3_dm3"
+  },
+  {
+   "label": "2.4 · Management",
+   "t": "dm",
+   "f": "c2s04p4_dm4"
+  },
+  {
+   "label": "2.4 · Management",
+   "t": "dm",
+   "f": "c2s04p4x2_dm4"
+  },
+  {
+   "label": "2.5 · Definitions & Classification",
+   "t": "ht",
+   "f": "c2s05p1_ht1"
+  },
+  {
+   "label": "2.5 · Definitions & Classification",
+   "t": "ht",
+   "f": "c2s05p1x2_ht1"
+  },
+  {
+   "label": "2.5 · Pre-eclampsia: Clinical Features & Investigations",
+   "t": "ht",
+   "f": "c2s05p2_ht2"
+  },
+  {
+   "label": "2.5 · Management of Pre-eclampsia",
+   "t": "ht",
+   "f": "c2s05p3_ht3"
+  },
+  {
+   "label": "2.5 · Eclampsia, HELLP Syndrome, Delivery & Prevention",
+   "t": "ht",
+   "f": "c2s05p4_ht4"
+  },
+  {
+   "label": "2.5 · Eclampsia, HELLP Syndrome, Delivery & Prevention",
+   "t": "ht",
+   "f": "c2s05p4x2_ht4"
+  },
+  {
+   "label": "2.6 · Definition, Pathophysiology & Severe Malaria",
+   "t": "ma",
+   "f": "c2s06p1_ma1"
+  },
+  {
+   "label": "2.6 · Definition, Pathophysiology & Severe Malaria",
+   "t": "ma",
+   "f": "c2s06p1x2_ma1"
+  },
+  {
+   "label": "2.6 · Clinical Features, Diagnosis & Complications",
+   "t": "ma",
+   "f": "c2s06p2_ma2"
+  },
+  {
+   "label": "2.6 · Management & Prevention",
+   "t": "ma",
+   "f": "c2s06p3_ma3"
+  },
+  {
+   "label": "2.6 · Management & Prevention",
+   "t": "ma",
+   "f": "c2s06p3x2_ma3"
+  },
+  {
+   "label": "2.7 · Physiology, Aetiology & Classification",
+   "t": "cd",
+   "f": "c2s07p1_cd1"
+  },
+  {
+   "label": "2.7 · Physiology, Aetiology & Classification",
+   "t": "cd",
+   "f": "c2s07p1x2_cd1"
+  },
+  {
+   "label": "2.7 · Clinical Features, Complications & Antenatal Care",
+   "t": "cd",
+   "f": "c2s07p2_cd2"
+  },
+  {
+   "label": "2.7 · Labour, Postpartum & Peripartum Cardiomyopathy",
+   "t": "cd",
+   "f": "c2s07p3_cd3"
+  },
+  {
+   "label": "2.8 · Effects, Differential Diagnosis & Drug Risks",
+   "t": "ep",
+   "f": "c2s08p1_ep1"
+  },
+  {
+   "label": "2.8 · Effects, Differential Diagnosis & Drug Risks",
+   "t": "ep",
+   "f": "c2s08p1x2_ep1"
+  },
+  {
+   "label": "2.8 · Management",
+   "t": "ep",
+   "f": "c2s08p2_ep2"
+  },
+  {
+   "label": "2.9 · Definition, Clinical Features & Diagnosis",
+   "t": "oc",
+   "f": "c2s09p1_oc1"
+  },
+  {
+   "label": "2.9 · Definition, Clinical Features & Diagnosis",
+   "t": "oc",
+   "f": "c2s09p1x2_oc1"
+  },
+  {
+   "label": "2.9 · Complications & Management",
+   "t": "oc",
+   "f": "c2s09p2_oc2"
+  },
+  {
+   "label": "2.10 · Definition, Clinical Features & Investigations",
+   "t": "af",
+   "f": "c2s10p1_af1"
+  },
+  {
+   "label": "2.10 · Definition, Clinical Features & Investigations",
+   "t": "af",
+   "f": "c2s10p1x2_af1"
+  },
+  {
+   "label": "2.10 · Differential Diagnosis & Management",
+   "t": "af",
+   "f": "c2s10p2_af2"
+  },
+  {
+   "label": "2.11 · Physiology & Hyperthyroidism",
+   "t": "th",
+   "f": "c2s11p1_th1"
+  },
+  {
+   "label": "2.11 · Physiology & Hyperthyroidism",
+   "t": "th",
+   "f": "c2s11p1x2_th1"
+  },
+  {
+   "label": "2.11 · Management & Hypothyroidism",
+   "t": "th",
+   "f": "c2s11p2_th2"
+  },
+  {
+   "label": "2.12 · Transmission, Screening & Antenatal Care",
+   "t": "hiv",
+   "f": "c2s12p1_hiv1"
+  },
+  {
+   "label": "2.12 · Transmission, Screening & Antenatal Care",
+   "t": "hiv",
+   "f": "c2s12p1x2_hiv1"
+  },
+  {
+   "label": "2.12 · Delivery, Newborn & Postpartum Care",
+   "t": "hiv",
+   "f": "c2s12p2_hiv2"
+  },
+  {
+   "label": "3.1 · Miscarriage: Definition, Types & Causes",
+   "t": "eb",
+   "f": "c3s01p1_eb1"
+  },
+  {
+   "label": "3.1 · Miscarriage: Definition, Types & Causes",
+   "t": "eb",
+   "f": "c3s01p1x2_eb1"
+  },
+  {
+   "label": "3.1 · Management of Miscarriage",
+   "t": "eb",
+   "f": "c3s01p2_eb2"
+  },
+  {
+   "label": "3.1 · Septic & Recurrent Miscarriage",
+   "t": "eb",
+   "f": "c3s01p3_eb3"
+  },
+  {
+   "label": "3.1 · Ectopic Pregnancy",
+   "t": "eb",
+   "f": "c3s01p4_eb4"
+  },
+  {
+   "label": "3.1 · Molar Pregnancy (GTD)",
+   "t": "eb",
+   "f": "c3s01p5_eb5"
+  },
+  {
+   "label": "3.1 · Molar Pregnancy (GTD)",
+   "t": "eb",
+   "f": "c3s01p5x2_eb5"
+  },
+  {
+   "label": "3.2 · Definition, Causes & Initial Management",
+   "t": "ap",
+   "f": "c3s02p1_ap1"
+  },
+  {
+   "label": "3.2 · Definition, Causes & Initial Management",
+   "t": "ap",
+   "f": "c3s02p1x2_ap1"
+  },
+  {
+   "label": "3.2 · Placenta Praevia",
+   "t": "ap",
+   "f": "c3s02p2_ap2"
+  },
+  {
+   "label": "3.2 · Abruptio Placentae",
+   "t": "ap",
+   "f": "c3s02p3_ap3"
+  },
+  {
+   "label": "3.2 · Abruptio Placentae",
+   "t": "ap",
+   "f": "c3s02p3x2_ap3"
+  },
+  {
+   "label": "3.2 · Placenta Accreta Spectrum",
+   "t": "ap",
+   "f": "c3s02p4_ap4"
+  },
+  {
+   "label": "3.2 · Placenta Accreta Spectrum",
+   "t": "ap",
+   "f": "c3s02p4x2_ap4"
+  },
+  {
+   "label": "3.2 · Vasa Praevia",
+   "t": "ap",
+   "f": "c3s02p5_ap5"
+  },
+  {
+   "label": "3.2 · Uterine Rupture",
+   "t": "ap",
+   "f": "c3s02p6_ap6"
+  },
+  {
+   "label": "3.3 · Definition, Causes & Risk Factors",
+   "t": "pph",
+   "f": "c3s03p1_pph1"
+  },
+  {
+   "label": "3.3 · Definition, Causes & Risk Factors",
+   "t": "pph",
+   "f": "c3s03p1x2_pph1"
+  },
+  {
+   "label": "3.3 · Management of Primary PPH",
+   "t": "pph",
+   "f": "c3s03p2_pph2"
+  },
+  {
+   "label": "3.3 · Surgery, Other Causes & Prevention",
+   "t": "pph",
+   "f": "c3s03p3_pph3"
+  },
+  {
+   "label": "3.3 · Surgery, Other Causes & Prevention",
+   "t": "pph",
+   "f": "c3s03p3x2_pph3"
+  },
+  {
+   "label": "3.4 · Definition, Types & Diagnosis",
+   "t": "mp",
+   "f": "c3s04p1_mp1"
+  },
+  {
+   "label": "3.4 · Definition, Types & Diagnosis",
+   "t": "mp",
+   "f": "c3s04p1x2_mp1"
+  },
+  {
+   "label": "3.4 · Complications",
+   "t": "mp",
+   "f": "c3s04p2_mp2"
+  },
+  {
+   "label": "3.4 · Management",
+   "t": "mp",
+   "f": "c3s04p3_mp3"
+  },
+  {
+   "label": "3.4 · Management",
+   "t": "mp",
+   "f": "c3s04p3x2_mp3"
+  },
+  {
+   "label": "3.5 · Definition, Classification & Causes",
+   "t": "fgr",
+   "f": "c3s05p1_fgr1"
+  },
+  {
+   "label": "3.5 · Definition, Classification & Causes",
+   "t": "fgr",
+   "f": "c3s05p1x2_fgr1"
+  },
+  {
+   "label": "3.5 · Screening & Investigations",
+   "t": "fgr",
+   "f": "c3s05p2_fgr2"
+  },
+  {
+   "label": "3.5 · Complications & Management",
+   "t": "fgr",
+   "f": "c3s05p3_fgr3"
+  },
+  {
+   "label": "3.6 · Definition, Causes & Diagnosis",
+   "t": "iufd",
+   "f": "c3s06p1_iufd1"
+  },
+  {
+   "label": "3.6 · Definition, Causes & Diagnosis",
+   "t": "iufd",
+   "f": "c3s06p1x2_iufd1"
+  },
+  {
+   "label": "3.6 · Investigations, Complications & Management",
+   "t": "iufd",
+   "f": "c3s06p2_iufd2"
+  },
+  {
+   "label": "3.7 · Normal Liquor & Polyhydramnios",
+   "t": "lq",
+   "f": "c3s07p1_lq1"
+  },
+  {
+   "label": "3.7 · Normal Liquor & Polyhydramnios",
+   "t": "lq",
+   "f": "c3s07p1x2_lq1"
+  },
+  {
+   "label": "3.7 · Oligohydramnios",
+   "t": "lq",
+   "f": "c3s07p2_lq2"
+  },
+  {
+   "label": "4.1 · Definition, Onset & Stages",
+   "t": "nl",
+   "f": "c4s01p1_nl1"
+  },
+  {
+   "label": "4.1 · Definition, Onset & Stages",
+   "t": "nl",
+   "f": "c4s01p1x2_nl1"
+  },
+  {
+   "label": "4.1 · Factors in Labour: The 3 Ps",
+   "t": "nl",
+   "f": "c4s01p2_nl2"
+  },
+  {
+   "label": "4.1 · Engagement & Mechanism of Labour",
+   "t": "nl",
+   "f": "c4s01p3_nl3"
+  },
+  {
+   "label": "4.1 · Management: First & Second Stage",
+   "t": "nl",
+   "f": "c4s01p4_nl4"
+  },
+  {
+   "label": "4.1 · Management: Third & Fourth Stage",
+   "t": "nl",
+   "f": "c4s01p5_nl5"
+  },
+  {
+   "label": "4.1 · Management: Third & Fourth Stage",
+   "t": "nl",
+   "f": "c4s01p5x2_nl5"
+  },
+  {
+   "label": "4.2 · Partogram",
+   "t": "ol",
+   "f": "c4s02p1_ol1"
+  },
+  {
+   "label": "4.2 · Partogram",
+   "t": "ol",
+   "f": "c4s02p1x2_ol1"
+  },
+  {
+   "label": "4.2 · Cardiotocography (CTG)",
+   "t": "ol",
+   "f": "c4s02p2_ol2"
+  },
+  {
+   "label": "4.2 · Failure to Progress & Fetal Distress",
+   "t": "ol",
+   "f": "c4s02p3_ol3"
+  },
+  {
+   "label": "4.2 · Failure to Progress & Fetal Distress",
+   "t": "ol",
+   "f": "c4s02p3x2_ol3"
+  },
+  {
+   "label": "4.3 · Definition, Risk Factors & Clinical Features",
+   "t": "ptl",
+   "f": "c4s03p1_ptl1"
+  },
+  {
+   "label": "4.3 · Definition, Risk Factors & Clinical Features",
+   "t": "ptl",
+   "f": "c4s03p1x2_ptl1"
+  },
+  {
+   "label": "4.3 · Diagnosis, Investigations & Complications",
+   "t": "ptl",
+   "f": "c4s03p2_ptl2"
+  },
+  {
+   "label": "4.3 · Management: Steroids, Tocolysis & MgSO₄",
+   "t": "ptl",
+   "f": "c4s03p3_ptl3"
+  },
+  {
+   "label": "4.3 · Intrapartum Management & Prevention",
+   "t": "ptl",
+   "f": "c4s03p4_ptl4"
+  },
+  {
+   "label": "4.3 · Intrapartum Management & Prevention",
+   "t": "ptl",
+   "f": "c4s03p4x2_ptl4"
+  },
+  {
+   "label": "4.4 · Definitions, Causes & Diagnosis",
+   "t": "prom",
+   "f": "c4s04p1_prom1"
+  },
+  {
+   "label": "4.4 · Definitions, Causes & Diagnosis",
+   "t": "prom",
+   "f": "c4s04p1x2_prom1"
+  },
+  {
+   "label": "4.4 · Complications & Management of PPROM",
+   "t": "prom",
+   "f": "c4s04p2_prom2"
+  },
+  {
+   "label": "4.4 · Term PROM & Chorioamnionitis",
+   "t": "prom",
+   "f": "c4s04p3_prom3"
+  },
+  {
+   "label": "4.4 · Term PROM & Chorioamnionitis",
+   "t": "prom",
+   "f": "c4s04p3x2_prom3"
+  },
+  {
+   "label": "4.5 · Definition, Dating & Clinical Features",
+   "t": "pp",
+   "f": "c4s05p1_pp1"
+  },
+  {
+   "label": "4.5 · Definition, Dating & Clinical Features",
+   "t": "pp",
+   "f": "c4s05p1x2_pp1"
+  },
+  {
+   "label": "4.5 · Complications & Management",
+   "t": "pp",
+   "f": "c4s05p2_pp2"
+  },
+  {
+   "label": "4.6 · Definition, Indications & Bishop Score",
+   "t": "iol",
+   "f": "c4s06p1_iol1"
+  },
+  {
+   "label": "4.6 · Definition, Indications & Bishop Score",
+   "t": "iol",
+   "f": "c4s06p1x2_iol1"
+  },
+  {
+   "label": "4.6 · Methods of Induction",
+   "t": "iol",
+   "f": "c4s06p2_iol2"
+  },
+  {
+   "label": "4.6 · Complications & Previous Caesarean",
+   "t": "iol",
+   "f": "c4s06p3_iol3"
+  },
+  {
+   "label": "4.6 · Complications & Previous Caesarean",
+   "t": "iol",
+   "f": "c4s06p3x2_iol3"
+  },
+  {
+   "label": "4.7 · Definitions & Classification",
+   "t": "br",
+   "f": "c4s07p1_br1"
+  },
+  {
+   "label": "4.7 · Definitions & Classification",
+   "t": "br",
+   "f": "c4s07p1x2_br1"
+  },
+  {
+   "label": "4.7 · Aetiology, Diagnosis & Differential",
+   "t": "br",
+   "f": "c4s07p2_br2"
+  },
+  {
+   "label": "4.7 · Complications, Options & ECV",
+   "t": "br",
+   "f": "c4s07p3_br3"
+  },
+  {
+   "label": "4.7 · ECV, Route & Mechanism",
+   "t": "br",
+   "f": "c4s07p4_br4"
+  },
+  {
+   "label": "4.7 · Vaginal Breech Delivery",
+   "t": "br",
+   "f": "c4s07p5_br5"
+  },
+  {
+   "label": "4.7 · Vaginal Breech Delivery",
+   "t": "br",
+   "f": "c4s07p5x2_br5"
+  },
+  {
+   "label": "4.8 · Diameters & Occipito-Posterior Position",
+   "t": "mal",
+   "f": "c4s08p1_mal1"
+  },
+  {
+   "label": "4.8 · Diameters & Occipito-Posterior Position",
+   "t": "mal",
+   "f": "c4s08p1x2_mal1"
+  },
+  {
+   "label": "4.8 · Face & Brow Presentation",
+   "t": "mal",
+   "f": "c4s08p2_mal2"
+  },
+  {
+   "label": "4.8 · Abnormal Lie & Compound Presentation",
+   "t": "mal",
+   "f": "c4s08p3_mal3"
+  },
+  {
+   "label": "4.8 · Abnormal Lie & Compound Presentation",
+   "t": "mal",
+   "f": "c4s08p3x2_mal3"
+  },
+  {
+   "label": "5.1 · Definition, Risk Factors & Diagnosis",
+   "t": "cp",
+   "f": "c5s01p1_cp1"
+  },
+  {
+   "label": "5.1 · Definition, Risk Factors & Diagnosis",
+   "t": "cp",
+   "f": "c5s01p1x2_cp1"
+  },
+  {
+   "label": "5.1 · Immediate Management",
+   "t": "cp",
+   "f": "c5s01p2_cp2"
+  },
+  {
+   "label": "5.1 · Delivery & Prevention",
+   "t": "cp",
+   "f": "c5s01p3_cp3"
+  },
+  {
+   "label": "5.2 · Definition, Classification & Causes",
+   "t": "ui",
+   "f": "c5s02p1_ui1"
+  },
+  {
+   "label": "5.2 · Clinical Features, Diagnosis & Complications",
+   "t": "ui",
+   "f": "c5s02p2_ui2"
+  },
+  {
+   "label": "5.2 · Clinical Features, Diagnosis & Complications",
+   "t": "ui",
+   "f": "c5s02p2x2_ui2"
+  },
+  {
+   "label": "5.2 · Management",
+   "t": "ui",
+   "f": "c5s02p3_ui3"
+  },
+  {
+   "label": "5.2 · Management in the Field & Prevention",
+   "t": "ui",
+   "f": "c5s02p4_ui4"
+  },
+  {
+   "label": "5.3 · Definition, Pathophysiology & Clinical Features",
+   "t": "afe",
+   "f": "c5s03p1_afe1"
+  },
+  {
+   "label": "5.3 · Definition, Pathophysiology & Clinical Features",
+   "t": "afe",
+   "f": "c5s03p1x2_afe1"
+  },
+  {
+   "label": "5.3 · Investigations, Diagnosis & Differential Diagnosis",
+   "t": "afe",
+   "f": "c5s03p2_afe2"
+  },
+  {
+   "label": "5.3 · Management & Prognosis",
+   "t": "afe",
+   "f": "c5s03p3_afe3"
+  },
+  {
+   "label": "5.3 · Management & Prognosis",
+   "t": "afe",
+   "f": "c5s03p3x2_afe3"
+  },
+  {
+   "label": "5.4 · Definition, Pathophysiology & Risk Factors",
+   "t": "sd",
+   "f": "c5s04p1_sd1"
+  },
+  {
+   "label": "5.4 · Definition, Pathophysiology & Risk Factors",
+   "t": "sd",
+   "f": "c5s04p1x2_sd1"
+  },
+  {
+   "label": "5.4 · Clinical Features & Complications",
+   "t": "sd",
+   "f": "c5s04p2_sd2"
+  },
+  {
+   "label": "5.4 · Management: HELPERR",
+   "t": "sd",
+   "f": "c5s04p3_sd3"
+  },
+  {
+   "label": "5.4 · Last Resort, Aftercare & Prevention",
+   "t": "sd",
+   "f": "c5s04p4_sd4"
+  },
+  {
+   "label": "5.4 · Last Resort, Aftercare & Prevention",
+   "t": "sd",
+   "f": "c5s04p4x2_sd4"
+  },
+  {
+   "label": "6.1 · Definition & Physiological Changes",
+   "t": "np",
+   "f": "c6s01p1_np1"
+  },
+  {
+   "label": "6.1 · Definition & Physiological Changes",
+   "t": "np",
+   "f": "c6s01p1x2_np1"
+  },
+  {
+   "label": "6.1 · Other Systems & Lactation",
+   "t": "np",
+   "f": "c6s01p2_np2"
+  },
+  {
+   "label": "6.1 · Management: Postnatal Care",
+   "t": "np",
+   "f": "c6s01p3_np3"
+  },
+  {
+   "label": "6.1 · Management: Breastfeeding",
+   "t": "np",
+   "f": "c6s01p4_np4"
+  },
+  {
+   "label": "6.1 · Management: Breastfeeding",
+   "t": "np",
+   "f": "c6s01p4x2_np4"
+  },
+  {
+   "label": "6.1 · Breast Problems & Contraception",
+   "t": "np",
+   "f": "c6s01p5_np5"
+  },
+  {
+   "label": "6.2 · Definition, Causes & Organisms",
+   "t": "ps",
+   "f": "c6s02p1_ps1"
+  },
+  {
+   "label": "6.2 · Definition, Causes & Organisms",
+   "t": "ps",
+   "f": "c6s02p1x2_ps1"
+  },
+  {
+   "label": "6.2 · Risk Factors & Clinical Features",
+   "t": "ps",
+   "f": "c6s02p2_ps2"
+  },
+  {
+   "label": "6.2 · Recognising Sepsis & Investigations",
+   "t": "ps",
+   "f": "c6s02p3_ps3"
+  },
+  {
+   "label": "6.2 · Management",
+   "t": "ps",
+   "f": "c6s02p4_ps4"
+  },
+  {
+   "label": "6.2 · Complications & Prevention",
+   "t": "ps",
+   "f": "c6s02p5_ps5"
+  },
+  {
+   "label": "6.2 · Complications & Prevention",
+   "t": "ps",
+   "f": "c6s02p5x2_ps5"
+  },
+  {
+   "label": "6.3 · Classification, Onset & Comparison",
+   "t": "pmd",
+   "f": "c6s03p1_pmd1"
+  },
+  {
+   "label": "6.3 · Classification, Onset & Comparison",
+   "t": "pmd",
+   "f": "c6s03p1x2_pmd1"
+  },
+  {
+   "label": "6.3 · Baby Blues & Differential Diagnosis",
+   "t": "pmd",
+   "f": "c6s03p2_pmd2"
+  },
+  {
+   "label": "6.3 · Postnatal Depression",
+   "t": "pmd",
+   "f": "c6s03p3_pmd3"
+  },
+  {
+   "label": "6.3 · Puerperal Psychosis",
+   "t": "pmd",
+   "f": "c6s03p4_pmd4"
+  },
+  {
+   "label": "6.3 · Puerperal Psychosis",
+   "t": "pmd",
+   "f": "c6s03p4x2_pmd4"
+  },
+  {
+   "label": "6.3 · Drugs, Prevention & Prognosis",
+   "t": "pmd",
+   "f": "c6s03p5_pmd5"
+  },
+  {
+   "label": "6.4 · Definitions & Measurement",
+   "t": "mm",
+   "f": "c6s04p1_mm1"
+  },
+  {
+   "label": "6.4 · Definitions & Measurement",
+   "t": "mm",
+   "f": "c6s04p1x2_mm1"
+  },
+  {
+   "label": "6.4 · Burden & Causes",
+   "t": "mm",
+   "f": "c6s04p2_mm2"
+  },
+  {
+   "label": "6.4 · The Three Delays & Prevention",
+   "t": "mm",
+   "f": "c6s04p3_mm3"
+  },
+  {
+   "label": "6.4 · The Three Delays & Prevention",
+   "t": "mm",
+   "f": "c6s04p3x2_mm3"
+  },
+  {
+   "label": "7.1 · Station Types & the 5-Minute Plan",
+   "t": "oa",
+   "f": "c7s01p1_oa1"
+  },
+  {
+   "label": "7.1 · Station Types & the 5-Minute Plan",
+   "t": "oa",
+   "f": "c7s01p1x2_oa1"
+  },
+  {
+   "label": "7.1 · Universal Opening & Closing",
+   "t": "oa",
+   "f": "c7s01p2_oa2"
+  },
+  {
+   "label": "7.1 · Communication Skills",
+   "t": "oa",
+   "f": "c7s01p3_oa3"
+  },
+  {
+   "label": "7.1 · Breaking Bad News & Consent",
+   "t": "oa",
+   "f": "c7s01p4_oa4"
+  },
+  {
+   "label": "7.1 · Presenting Findings & the Viva",
+   "t": "oa",
+   "f": "c7s01p5_oa5"
+  },
+  {
+   "label": "7.1 · Presenting Findings & the Viva",
+   "t": "oa",
+   "f": "c7s01p5x2_oa5"
+  },
+  {
+   "label": "7.1 · Presenting Findings & the Viva",
+   "t": "oa",
+   "f": "c7s01p5x3_oa5"
+  },
+  {
+   "label": "7.2 · The Frame: Personal Data, Dates & Parity",
+   "t": "oh",
+   "f": "c7s02p1_oh1"
+  },
+  {
+   "label": "7.2 · The Frame: Personal Data, Dates & Parity",
+   "t": "oh",
+   "f": "c7s02p1x2_oh1"
+  },
+  {
+   "label": "7.2 · The Frame: Complaint to Social History",
+   "t": "oh",
+   "f": "c7s02p2_oh2"
+  },
+  {
+   "label": "7.2 · The Frame: Complaint to Social History",
+   "t": "oh",
+   "f": "c7s02p2x2_oh2"
+  },
+  {
+   "label": "7.2 · Long Case: Personal Data & Gynae History",
+   "t": "oh",
+   "f": "c7s02p3_oh3"
+  },
+  {
+   "label": "7.2 · Long Case: Past & Medical History",
+   "t": "oh",
+   "f": "c7s02p4_oh4"
+  },
+  {
+   "label": "7.2 · Long Case: Risks & Presenting",
+   "t": "oh",
+   "f": "c7s02p5_oh5"
+  },
+  {
+   "label": "7.2 · Station: Hypertension & Pre-eclampsia",
+   "t": "oh",
+   "f": "c7s02p6_oh6"
+  },
+  {
+   "label": "7.2 · Station: Hypertension & Pre-eclampsia",
+   "t": "oh",
+   "f": "c7s02p6x2_oh6"
+  },
+  {
+   "label": "7.2 · Station: Bleeding in Early Pregnancy",
+   "t": "oh",
+   "f": "c7s02p7_oh7"
+  },
+  {
+   "label": "7.2 · Station: Bleeding in Early Pregnancy",
+   "t": "oh",
+   "f": "c7s02p7x2_oh7"
+  },
+  {
+   "label": "7.2 · Station: Antepartum Haemorrhage",
+   "t": "oh",
+   "f": "c7s02p8_oh8"
+  },
+  {
+   "label": "7.2 · Station: Anaemia in Pregnancy",
+   "t": "oh",
+   "f": "c7s02p9_oh9"
+  },
+  {
+   "label": "7.2 · Station: Anaemia in Pregnancy",
+   "t": "oh",
+   "f": "c7s02p9x2_oh9"
+  },
+  {
+   "label": "7.2 · Station: Diabetes in Pregnancy",
+   "t": "oh",
+   "f": "c7s02p10_oh10"
+  },
+  {
+   "label": "7.2 · Station: Diabetes in Pregnancy",
+   "t": "oh",
+   "f": "c7s02p10x2_oh10"
+  },
+  {
+   "label": "7.2 · Station: Fever & Malaria",
+   "t": "oh",
+   "f": "c7s02p11_oh11"
+  },
+  {
+   "label": "7.2 · Station: Fever & Malaria",
+   "t": "oh",
+   "f": "c7s02p11x2_oh11"
+  },
+  {
+   "label": "7.2 · Stations: Reduced Movements & Leaking Liquor",
+   "t": "oh",
+   "f": "c7s02p12_oh12"
+  },
+  {
+   "label": "7.3 · The Station & Preparation",
+   "t": "oe",
+   "f": "c7s03p1_oe1"
+  },
+  {
+   "label": "7.3 · The Station & Preparation",
+   "t": "oe",
+   "f": "c7s03p1x2_oe1"
+  },
+  {
+   "label": "7.3 · General Look & Inspection",
+   "t": "oe",
+   "f": "c7s03p2_oe2"
+  },
+  {
+   "label": "7.3 · Long Case: General Exam & Tender Abdomen",
+   "t": "oe",
+   "f": "c7s03p3_oe3"
+  },
+  {
+   "label": "7.3 · Fundal Height",
+   "t": "oe",
+   "f": "c7s03p4_oe4"
+  },
+  {
+   "label": "7.3 · Leopold Manoeuvres",
+   "t": "oe",
+   "f": "c7s03p5_oe5"
+  },
+  {
+   "label": "7.3 · Lie, Presentation & Engagement",
+   "t": "oe",
+   "f": "c7s03p6_oe6"
+  },
+  {
+   "label": "7.3 · Liquor & Fetal Heart",
+   "t": "oe",
+   "f": "c7s03p7_oe7"
+  },
+  {
+   "label": "7.3 · Closing, Present It & Viva",
+   "t": "oe",
+   "f": "c7s03p8_oe8"
+  },
+  {
+   "label": "7.3 · Closing, Present It & Viva",
+   "t": "oe",
+   "f": "c7s03p8x2_oe8"
+  },
+  {
+   "label": "7.3 · Closing, Present It & Viva",
+   "t": "oe",
+   "f": "c7s03p8x3_oe8"
+  },
+  {
+   "label": "7.4 · Blood Pressure: the Technique",
+   "t": "obp",
+   "f": "c7s04p1_obp1"
+  },
+  {
+   "label": "7.4 · Korotkoff Sounds & Errors",
+   "t": "obp",
+   "f": "c7s04p2_obp2"
+  },
+  {
+   "label": "7.4 · Korotkoff Sounds & Errors",
+   "t": "obp",
+   "f": "c7s04p2x2_obp2"
+  },
+  {
+   "label": "7.4 · BP Thresholds, Devices & Viva",
+   "t": "obp",
+   "f": "c7s04p3_obp3"
+  },
+  {
+   "label": "7.4 · BP Thresholds, Devices & Viva",
+   "t": "obp",
+   "f": "c7s04p3x2_obp3"
+  },
+  {
+   "label": "7.4 · Urine Dipstick: Sample & Steps",
+   "t": "obp",
+   "f": "c7s04p4_obp4"
+  },
+  {
+   "label": "7.4 · Reading the Dipstick",
+   "t": "obp",
+   "f": "c7s04p5_obp5"
+  },
+  {
+   "label": "7.4 · Present It, 24-Hour Urine & Viva",
+   "t": "obp",
+   "f": "c7s04p6_obp6"
+  },
+  {
+   "label": "7.4 · Present It, 24-Hour Urine & Viva",
+   "t": "obp",
+   "f": "c7s04p6x2_obp6"
+  },
+  {
+   "label": "7.5 · Speculum: Indications & Instruments",
+   "t": "ov",
+   "f": "c7s05p1_ov1"
+  },
+  {
+   "label": "7.5 · Speculum: Indications & Instruments",
+   "t": "ov",
+   "f": "c7s05p1x2_ov1"
+  },
+  {
+   "label": "7.5 · Sterile Speculum: the Steps",
+   "t": "ov",
+   "f": "c7s05p2_ov2"
+  },
+  {
+   "label": "7.5 · Speculum: What You See & Swabs",
+   "t": "ov",
+   "f": "c7s05p3_ov3"
+  },
+  {
+   "label": "7.5 · Speculum: ROM Tests & Present It",
+   "t": "ov",
+   "f": "c7s05p4_ov4"
+  },
+  {
+   "label": "7.5 · Speculum: ROM Tests & Present It",
+   "t": "ov",
+   "f": "c7s05p4x2_ov4"
+  },
+  {
+   "label": "7.5 · Vaginal Examination in Labour: the Steps",
+   "t": "ov",
+   "f": "c7s05p5_ov5"
+  },
+  {
+   "label": "7.5 · Vaginal Examination in Labour: the Steps",
+   "t": "ov",
+   "f": "c7s05p5x2_ov5"
+  },
+  {
+   "label": "7.5 · VE Findings: Cervix & Membranes",
+   "t": "ov",
+   "f": "c7s05p6_ov6"
+  },
+  {
+   "label": "7.5 · VE Findings: Station & Position",
+   "t": "ov",
+   "f": "c7s05p7_ov7"
+  },
+  {
+   "label": "7.5 · VE: Present It & Viva",
+   "t": "ov",
+   "f": "c7s05p8_ov8"
+  },
+  {
+   "label": "7.5 · VE: Present It & Viva",
+   "t": "ov",
+   "f": "c7s05p8x2_ov8"
+  },
+  {
+   "label": "7.6 · Partogram station: how to plot and read",
+   "t": "opc",
+   "f": "c7s06p1_opc1"
+  },
+  {
+   "label": "7.6 · Partogram station: how to plot and read",
+   "t": "opc",
+   "f": "c7s06p1x2_opc1"
+  },
+  {
+   "label": "7.6 · Worked partogram A: normal labour",
+   "t": "opc",
+   "f": "c7s06p2_opc2"
+  },
+  {
+   "label": "7.6 · Worked partogram A: normal labour",
+   "t": "opc",
+   "f": "c7s06p2x2_opc2"
+  },
+  {
+   "label": "7.6 · Worked partogram B: crossing the alert line",
+   "t": "opc",
+   "f": "c7s06p3_opc3"
+  },
+  {
+   "label": "7.6 · Worked partogram C: crossing the action line",
+   "t": "opc",
+   "f": "c7s06p4_opc4"
+  },
+  {
+   "label": "7.6 · Worked partogram C: crossing the action line",
+   "t": "opc",
+   "f": "c7s06p4x2_opc4"
+  },
+  {
+   "label": "7.6 · Worked partogram C: crossing the action line",
+   "t": "opc",
+   "f": "c7s06p4x3_opc4"
+  },
+  {
+   "label": "7.6 · CTG station: applying and reading",
+   "t": "opc",
+   "f": "c7s06p5_opc5"
+  },
+  {
+   "label": "7.6 · CTG traces: the decelerations",
+   "t": "opc",
+   "f": "c7s06p6_opc6"
+  },
+  {
+   "label": "7.6 · CTG: bradycardia, tachycardia & the action",
+   "t": "opc",
+   "f": "c7s06p7_opc7"
+  },
+  {
+   "label": "7.6 · CTG: bradycardia, tachycardia & the action",
+   "t": "opc",
+   "f": "c7s06p7x2_opc7"
+  },
+  {
+   "label": "7.7 · Delivery station: set-up and preparation",
+   "t": "ond",
+   "f": "c7s07p1_ond1"
+  },
+  {
+   "label": "7.7 · Delivery station: set-up and preparation",
+   "t": "ond",
+   "f": "c7s07p1x2_ond1"
+  },
+  {
+   "label": "7.7 · Delivering the baby: head to body",
+   "t": "ond",
+   "f": "c7s07p2_ond2"
+  },
+  {
+   "label": "7.7 · Third stage: cord, AMTSL and placenta",
+   "t": "ond",
+   "f": "c7s07p3_ond3"
+  },
+  {
+   "label": "7.7 · Third stage: cord, AMTSL and placenta",
+   "t": "ond",
+   "f": "c7s07p3x2_ond3"
+  },
+  {
+   "label": "7.7 · Episiotomy: indications and types",
+   "t": "ond",
+   "f": "c7s07p4_ond4"
+  },
+  {
+   "label": "7.7 · Episiotomy: the procedure and tear degrees",
+   "t": "ond",
+   "f": "c7s07p5_ond5"
+  },
+  {
+   "label": "7.7 · Episiotomy: the procedure and tear degrees",
+   "t": "ond",
+   "f": "c7s07p5x2_ond5"
+  },
+  {
+   "label": "7.7 · Repairing an episiotomy or 2nd degree tear",
+   "t": "ond",
+   "f": "c7s07p6_ond6"
+  },
+  {
+   "label": "7.8 · Instrumental delivery: before you apply",
+   "t": "oiv",
+   "f": "c7s08p1_oiv1"
+  },
+  {
+   "label": "7.8 · Instrumental delivery: before you apply",
+   "t": "oiv",
+   "f": "c7s08p1x2_oiv1"
+  },
+  {
+   "label": "7.8 · Ventouse: cups, flexion point and pulls",
+   "t": "oiv",
+   "f": "c7s08p2_oiv2"
+  },
+  {
+   "label": "7.8 · Forceps and ventouse vs forceps",
+   "t": "oiv",
+   "f": "c7s08p3_oiv3"
+  },
+  {
+   "label": "7.8 · Forceps and ventouse vs forceps",
+   "t": "oiv",
+   "f": "c7s08p3x2_oiv3"
+  },
+  {
+   "label": "7.8 · Caesarean section: urgency, indications and consent",
+   "t": "oiv",
+   "f": "c7s08p4_oiv4"
+  },
+  {
+   "label": "7.8 · Caesarean section: preparation and types",
+   "t": "oiv",
+   "f": "c7s08p5_oiv5"
+  },
+  {
+   "label": "7.8 · Caesarean section: post-operative care",
+   "t": "oiv",
+   "f": "c7s08p6_oiv6"
+  },
+  {
+   "label": "7.8 · Caesarean section: post-operative care",
+   "t": "oiv",
+   "f": "c7s08p6x2_oiv6"
+  },
+  {
+   "label": "7.9 · PPH drill: station & sequence",
+   "t": "oem",
+   "f": "c7s09p1_oem1"
+  },
+  {
+   "label": "7.9 · PPH drill: station & sequence",
+   "t": "oem",
+   "f": "c7s09p1x2_oem1"
+  },
+  {
+   "label": "7.9 · PPH drill: team, drugs & hands",
+   "t": "oem",
+   "f": "c7s09p2_oem2"
+  },
+  {
+   "label": "7.9 · Eclampsia drill: station & sequence",
+   "t": "oem",
+   "f": "c7s09p3_oem3"
+  },
+  {
+   "label": "7.9 · Eclampsia drill: station & sequence",
+   "t": "oem",
+   "f": "c7s09p3x2_oem3"
+  },
+  {
+   "label": "7.9 · Eclampsia drill: MgSO₄ & toxicity",
+   "t": "oem",
+   "f": "c7s09p4_oem4"
+  },
+  {
+   "label": "7.9 · Shoulder dystocia drill",
+   "t": "oem",
+   "f": "c7s09p5_oem5"
+  },
+  {
+   "label": "7.9 · Shoulder dystocia: hands & record",
+   "t": "oem",
+   "f": "c7s09p6_oem6"
+  },
+  {
+   "label": "7.9 · Shoulder dystocia: hands & record",
+   "t": "oem",
+   "f": "c7s09p6x2_oem6"
+  },
+  {
+   "label": "7.9 · Cord prolapse drill & breech link",
+   "t": "oem",
+   "f": "c7s09p7_oem7"
+  },
+  {
+   "label": "7.9 · Newborn resuscitation basics",
+   "t": "oem",
+   "f": "c7s09p8_oem8"
+  },
+  {
+   "label": "7.9 · Newborn resuscitation basics",
+   "t": "oem",
+   "f": "c7s09p8x2_oem8"
+  },
+  {
+   "label": "7.9 · Apgar score & drill wrap-up",
+   "t": "oem",
+   "f": "c7s09p9_oem9"
+  },
+  {
+   "label": "7.10 · Examination & labour tools",
+   "t": "osp",
+   "f": "c7s10p1_osp1"
+  },
+  {
+   "label": "7.10 · Delivery & operative instruments",
+   "t": "osp",
+   "f": "c7s10p2_osp2"
+  },
+  {
+   "label": "7.10 · Tamponade, contraception & bedside tests",
+   "t": "osp",
+   "f": "c7s10p3_osp3"
+  },
+  {
+   "label": "7.10 · Drugs: uterotonics & hypertension",
+   "t": "osp",
+   "f": "c7s10p4_osp4"
+  },
+  {
+   "label": "7.10 · Steroids, scans & delivery-room extras",
+   "t": "osp",
+   "f": "c7s10p5_osp5"
+  },
+  {
+   "label": "7.10 · Spotter viva rules",
+   "t": "osp",
+   "f": "c7s10p6_osp6"
+  },
+  {
+   "label": "7.11 · Principles & the Counselling Frame",
+   "t": "oco",
+   "f": "c7s11p1_oco1"
+  },
+  {
+   "label": "7.11 · Principles & the Counselling Frame",
+   "t": "oco",
+   "f": "c7s11p1x2_oco1"
+  },
+  {
+   "label": "7.11 · IUFD: Breaking the News & Options",
+   "t": "oco",
+   "f": "c7s11p2_oco2"
+  },
+  {
+   "label": "7.11 · IUFD: Her Questions & Aftercare",
+   "t": "oco",
+   "f": "c7s11p3_oco3"
+  },
+  {
+   "label": "7.11 · IUFD: Her Questions & Aftercare",
+   "t": "oco",
+   "f": "c7s11p3x2_oco3"
+  },
+  {
+   "label": "7.11 · Heart Disease: Before & During Pregnancy",
+   "t": "oco",
+   "f": "c7s11p4_oco4"
+  },
+  {
+   "label": "7.11 · Heart Disease: Labour & After Birth",
+   "t": "oco",
+   "f": "c7s11p5_oco5"
+  },
+  {
+   "label": "7.11 · Heart Disease: Labour & After Birth",
+   "t": "oco",
+   "f": "c7s11p5x2_oco5"
+  },
+  {
+   "label": "7.11 · Epilepsy: Planning a Pregnancy",
+   "t": "oco",
+   "f": "c7s11p6_oco6"
+  },
+  {
+   "label": "7.11 · Postpartum Contraception & Breastfeeding",
+   "t": "oco",
+   "f": "c7s11p7_oco7"
+  },
+  {
+   "label": "7.11 · Postpartum Contraception & Breastfeeding",
+   "t": "oco",
+   "f": "c7s11p7x2_oco7"
+  },
+  {
+   "label": "7.11 · Gestational Diabetes & Starting Insulin",
+   "t": "oco",
+   "f": "c7s11p8_oco8"
+  },
+  {
+   "label": "7.11 · Consent for Caesarean & Birth After Caesarean",
+   "t": "oco",
+   "f": "c7s11p9_oco9"
+  },
+  {
+   "label": "7.11 · Consent for Caesarean & Birth After Caesarean",
+   "t": "oco",
+   "f": "c7s11p9x2_oco9"
+  },
+  {
+   "label": "Rapid review · 1/14",
+   "t": "",
+   "f": "x901_rr1"
+  },
+  {
+   "label": "Rapid review · 2/14",
+   "t": "",
+   "f": "x902_rr2"
+  },
+  {
+   "label": "Rapid review · 3/14",
+   "t": "",
+   "f": "x903_rr3"
+  },
+  {
+   "label": "Rapid review · 4/14",
+   "t": "",
+   "f": "x904_rr4"
+  },
+  {
+   "label": "Rapid review · 5/14",
+   "t": "",
+   "f": "x905_rr5"
+  },
+  {
+   "label": "Rapid review · 6/14",
+   "t": "",
+   "f": "x906_rr6"
+  },
+  {
+   "label": "Rapid review · 7/14",
+   "t": "",
+   "f": "x907_rr7"
+  },
+  {
+   "label": "Rapid review · 8/14",
+   "t": "",
+   "f": "x908_rr8"
+  },
+  {
+   "label": "Rapid review · 9/14",
+   "t": "",
+   "f": "x909_rr9"
+  },
+  {
+   "label": "Rapid review · 10/14",
+   "t": "",
+   "f": "x910_rr10"
+  },
+  {
+   "label": "Rapid review · 11/14",
+   "t": "",
+   "f": "x911_rr11"
+  },
+  {
+   "label": "Rapid review · 12/14",
+   "t": "",
+   "f": "x912_rr12"
+  },
+  {
+   "label": "Rapid review · 13/14",
+   "t": "",
+   "f": "x913_rr13"
+  },
+  {
+   "label": "Rapid review · 14/14",
+   "t": "",
+   "f": "x914_rr14"
+  },
+  {
+   "label": "Obstetric drugs · 1/6",
+   "t": "",
+   "f": "y01_dr1"
+  },
+  {
+   "label": "Obstetric drugs · 1/6",
+   "t": "",
+   "f": "y01x2_dr1"
+  },
+  {
+   "label": "Obstetric drugs · 2/6",
+   "t": "",
+   "f": "y02_dr2"
+  },
+  {
+   "label": "Obstetric drugs · 3/6",
+   "t": "",
+   "f": "y03_dr3"
+  },
+  {
+   "label": "Obstetric drugs · 4/6",
+   "t": "",
+   "f": "y04_dr4"
+  },
+  {
+   "label": "Obstetric drugs · 5/6",
+   "t": "",
+   "f": "y05_dr5"
+  },
+  {
+   "label": "Obstetric drugs · 6/6",
+   "t": "",
+   "f": "y06_dr6"
+  }
+ ],
+ "topics": [
+  {
+   "no": "1.1",
+   "title": "Physiology of pregnancy",
+   "sub": "Circulation & blood · lungs & kidneys · hormones & skin · normal values",
+   "p": 7,
+   "id": "pc",
+   "ch": 1,
+   "cls": "c1"
+  },
+  {
+   "no": "1.2",
+   "title": "Diagnosis of pregnancy & dating",
+   "sub": "Symptoms & signs · hCG · early scan · EDD & gestational age",
+   "p": 14,
+   "id": "dx",
+   "ch": 1,
+   "cls": "c1"
+  },
+  {
+   "no": "1.3",
+   "title": "Antenatal care",
+   "sub": "Booking · tests · supplements & vaccines · schedule · danger signs",
+   "p": 19,
+   "id": "anc",
+   "ch": 1,
+   "cls": "c1"
+  },
+  {
+   "no": "2.1",
+   "title": "Hyperemesis gravidarum",
+   "sub": "Definition & causes · complications · antiemetic ladder",
+   "p": 26,
+   "id": "hg",
+   "ch": 2,
+   "cls": "c2"
+  },
+  {
+   "no": "2.2",
+   "title": "Anaemia in pregnancy",
+   "sub": "Physiology & causes · investigations & types · management",
+   "p": 29,
+   "id": "an",
+   "ch": 2,
+   "cls": "c2"
+  },
+  {
+   "no": "2.3",
+   "title": "Venous thromboembolism",
+   "sub": "Risk factors · DVT & PE diagnosis · LMWH & thromboprophylaxis",
+   "p": 34,
+   "id": "vt",
+   "ch": 2,
+   "cls": "c2"
+  },
+  {
+   "no": "2.4",
+   "title": "Diabetes in pregnancy",
+   "sub": "Pathophysiology · screening & OGTT · complications · management",
+   "p": 38,
+   "id": "dm",
+   "ch": 2,
+   "cls": "c2"
+  },
+  {
+   "no": "2.5",
+   "title": "Hypertensive disorders of pregnancy",
+   "sub": "Classification · pre-eclampsia · management · eclampsia & HELLP",
+   "p": 44,
+   "id": "ht",
+   "ch": 2,
+   "cls": "c2"
+  },
+  {
+   "no": "2.6",
+   "title": "Malaria in pregnancy",
+   "sub": "Severe malaria · diagnosis · Sudan protocol · IPTp",
+   "p": 50,
+   "id": "ma",
+   "ch": 2,
+   "cls": "c2"
+  },
+  {
+   "no": "2.7",
+   "title": "Cardiac disease in pregnancy",
+   "sub": "Physiology · mitral stenosis · antenatal care · labour",
+   "p": 55,
+   "id": "cd",
+   "ch": 2,
+   "cls": "c2"
+  },
+  {
+   "no": "2.8",
+   "title": "Epilepsy in pregnancy",
+   "sub": "Drug risks · differential of fits · management",
+   "p": 59,
+   "id": "ep",
+   "ch": 2,
+   "cls": "c2"
+  },
+  {
+   "no": "2.9",
+   "title": "Obstetric cholestasis",
+   "sub": "Itching & bile acids · fetal risk · management",
+   "p": 62,
+   "id": "oc",
+   "ch": 2,
+   "cls": "c2"
+  },
+  {
+   "no": "2.10",
+   "title": "Acute fatty liver of pregnancy",
+   "sub": "Features · liver disease comparison · management",
+   "p": 65,
+   "id": "af",
+   "ch": 2,
+   "cls": "c2"
+  },
+  {
+   "no": "2.11",
+   "title": "Thyroid disease in pregnancy",
+   "sub": "Hyperthyroidism · hypothyroidism · postpartum thyroiditis",
+   "p": 68,
+   "id": "th",
+   "ch": 2,
+   "cls": "c2"
+  },
+  {
+   "no": "2.12",
+   "title": "HIV in pregnancy",
+   "sub": "Transmission · ART · mode of delivery · newborn & feeding",
+   "p": 71,
+   "id": "hiv",
+   "ch": 2,
+   "cls": "c2"
+  },
+  {
+   "no": "3.1",
+   "title": "Bleeding in early pregnancy",
+   "sub": "Miscarriage · ectopic pregnancy · molar pregnancy",
+   "p": 74,
+   "id": "eb",
+   "ch": 3,
+   "cls": "c3"
+  },
+  {
+   "no": "3.2",
+   "title": "Antepartum haemorrhage",
+   "sub": "Initial management · praevia · abruption · accreta · vasa praevia · rupture",
+   "p": 81,
+   "id": "ap",
+   "ch": 3,
+   "cls": "c3"
+  },
+  {
+   "no": "3.3",
+   "title": "Postpartum haemorrhage",
+   "sub": "Causes (4 Ts) · prevention · emergency management",
+   "p": 90,
+   "id": "pph",
+   "ch": 3,
+   "cls": "c3"
+  },
+  {
+   "no": "3.4",
+   "title": "Multiple pregnancy",
+   "sub": "Chorionicity · complications · TTTS · delivery of twins",
+   "p": 95,
+   "id": "mp",
+   "ch": 3,
+   "cls": "c3"
+  },
+  {
+   "no": "3.5",
+   "title": "Fetal growth restriction",
+   "sub": "SGA vs FGR · causes · Doppler monitoring · timing of delivery",
+   "p": 100,
+   "id": "fgr",
+   "ch": 3,
+   "cls": "c3"
+  },
+  {
+   "no": "3.6",
+   "title": "Intrauterine fetal death",
+   "sub": "Causes · diagnosis · induction · aftercare",
+   "p": 104,
+   "id": "iufd",
+   "ch": 3,
+   "cls": "c3"
+  },
+  {
+   "no": "3.7",
+   "title": "Abnormal amniotic fluid",
+   "sub": "AFI · polyhydramnios · oligohydramnios",
+   "p": 107,
+   "id": "lq",
+   "ch": 3,
+   "cls": "c3"
+  },
+  {
+   "no": "4.1",
+   "title": "Normal labour",
+   "sub": "Stages · mechanism · management of each stage",
+   "p": 110,
+   "id": "nl",
+   "ch": 4,
+   "cls": "c4"
+  },
+  {
+   "no": "4.2",
+   "title": "Monitoring in labour",
+   "sub": "Partogram · CTG · failure to progress · obstructed labour",
+   "p": 117,
+   "id": "ol",
+   "ch": 4,
+   "cls": "c4"
+  },
+  {
+   "no": "4.3",
+   "title": "Preterm labour",
+   "sub": "Risk & prediction · tocolysis · steroids · MgSO₄",
+   "p": 122,
+   "id": "ptl",
+   "ch": 4,
+   "cls": "c4"
+  },
+  {
+   "no": "4.4",
+   "title": "Prelabour rupture of membranes",
+   "sub": "Diagnosis · PPROM · term PROM · chorioamnionitis",
+   "p": 128,
+   "id": "prom",
+   "ch": 4,
+   "cls": "c4"
+  },
+  {
+   "no": "4.5",
+   "title": "Prolonged pregnancy",
+   "sub": "Dating · risks · sweep & induction",
+   "p": 133,
+   "id": "pp",
+   "ch": 4,
+   "cls": "c4"
+  },
+  {
+   "no": "4.6",
+   "title": "Induction of labour",
+   "sub": "Indications · Bishop score · methods · complications",
+   "p": 136,
+   "id": "iol",
+   "ch": 4,
+   "cls": "c4"
+  },
+  {
+   "no": "4.7",
+   "title": "Breech presentation",
+   "sub": "Types · ECV · vaginal breech delivery · manoeuvres",
+   "p": 141,
+   "id": "br",
+   "ch": 4,
+   "cls": "c4"
+  },
+  {
+   "no": "4.8",
+   "title": "Malpresentations & malpositions",
+   "sub": "OP · face · brow · transverse & unstable lie",
+   "p": 148,
+   "id": "mal",
+   "ch": 4,
+   "cls": "c4"
+  },
+  {
+   "no": "5.1",
+   "title": "Cord prolapse",
+   "sub": "Risk factors · diagnosis · emergency drill",
+   "p": 153,
+   "id": "cp",
+   "ch": 5,
+   "cls": "c5"
+  },
+  {
+   "no": "5.2",
+   "title": "Uterine inversion",
+   "sub": "Causes · shock · replacement",
+   "p": 157,
+   "id": "ui",
+   "ch": 5,
+   "cls": "c5"
+  },
+  {
+   "no": "5.3",
+   "title": "Amniotic fluid embolism",
+   "sub": "Collapse & DIC · differential · resuscitation",
+   "p": 162,
+   "id": "afe",
+   "ch": 5,
+   "cls": "c5"
+  },
+  {
+   "no": "5.4",
+   "title": "Shoulder dystocia",
+   "sub": "Risk factors · HELPERR drill · complications",
+   "p": 167,
+   "id": "sd",
+   "ch": 5,
+   "cls": "c5"
+  },
+  {
+   "no": "6.1",
+   "title": "Normal puerperium",
+   "sub": "Involution · lochia · breastfeeding · contraception",
+   "p": 173,
+   "id": "np",
+   "ch": 6,
+   "cls": "c6"
+  },
+  {
+   "no": "6.2",
+   "title": "Puerperal pyrexia & sepsis",
+   "sub": "Causes by day · Sepsis Six · antibiotics",
+   "p": 180,
+   "id": "ps",
+   "ch": 6,
+   "cls": "c6"
+  },
+  {
+   "no": "6.3",
+   "title": "Postpartum mood disorders",
+   "sub": "Blues · depression · psychosis",
+   "p": 187,
+   "id": "pmd",
+   "ch": 6,
+   "cls": "c6"
+  },
+  {
+   "no": "6.4",
+   "title": "Maternal mortality",
+   "sub": "Definitions · causes · three delays · prevention",
+   "p": 194,
+   "id": "mm",
+   "ch": 6,
+   "cls": "c6"
+  },
+  {
+   "no": "7.1",
+   "title": "The OSCE station",
+   "sub": "Station types · opening & closing · communication · consent",
+   "p": 199,
+   "id": "oa",
+   "ch": 7,
+   "cls": "c7"
+  },
+  {
+   "no": "7.2",
+   "title": "Focused history stations",
+   "sub": "Full long-case history · hypertension · early bleeding · APH · anaemia · diabetes · malaria",
+   "p": 207,
+   "id": "oh",
+   "ch": 7,
+   "cls": "c7"
+  },
+  {
+   "no": "7.3",
+   "title": "Obstetric abdominal examination",
+   "sub": "General exam · inspection · fundal height · Leopold grips · fifths · fetal heart",
+   "p": 226,
+   "id": "oe",
+   "ch": 7,
+   "cls": "c7"
+  },
+  {
+   "no": "7.4",
+   "title": "Blood pressure & urine testing",
+   "sub": "Cuff · Korotkoff sounds · dipstick protein & sugar",
+   "p": 237,
+   "id": "obp",
+   "ch": 7,
+   "cls": "c7"
+  },
+  {
+   "no": "7.5",
+   "title": "Speculum & vaginal examination",
+   "sub": "Cusco & Sims · swabs · dilatation · station · position · Bishop",
+   "p": 246,
+   "id": "ov",
+   "ch": 7,
+   "cls": "c7"
+  },
+  {
+   "no": "7.6",
+   "title": "Partogram & CTG stations",
+   "sub": "Plotting · alert & action lines · reading a CTG",
+   "p": 258,
+   "id": "opc",
+   "ch": 7,
+   "cls": "c7"
+  },
+  {
+   "no": "7.7",
+   "title": "Normal delivery & episiotomy",
+   "sub": "Conducting delivery · AMTSL · episiotomy · tear repair",
+   "p": 270,
+   "id": "ond",
+   "ch": 7,
+   "cls": "c7"
+  },
+  {
+   "no": "7.8",
+   "title": "Operative delivery stations",
+   "sub": "Ventouse · forceps · caesarean section",
+   "p": 279,
+   "id": "oiv",
+   "ch": 7,
+   "cls": "c7"
+  },
+  {
+   "no": "7.9",
+   "title": "Emergency drills",
+   "sub": "PPH · eclampsia · shoulder dystocia · cord prolapse · newborn",
+   "p": 288,
+   "id": "oem",
+   "ch": 7,
+   "cls": "c7"
+  },
+  {
+   "no": "7.10",
+   "title": "Instruments, drugs & spotters",
+   "sub": "What it is · what it is used for · viva questions",
+   "p": 301,
+   "id": "osp",
+   "ch": 7,
+   "cls": "c7"
+  },
+  {
+   "no": "7.11",
+   "title": "Counselling stations",
+   "sub": "Bad news · IUFD · heart disease · epilepsy · contraception",
+   "p": 307,
+   "id": "oco",
+   "ch": 7,
+   "cls": "c7"
+  }
+ ],
+ "chapters": [
+  {
+   "n": 1,
+   "name": "Normal Pregnancy & Antenatal Care",
+   "img": "img/ban1.jpg"
+  },
+  {
+   "n": 2,
+   "name": "Medical Disorders in Pregnancy",
+   "img": "img/ban2.jpg"
+  },
+  {
+   "n": 3,
+   "name": "High-Risk Pregnancy",
+   "img": "img/ban3.jpg"
+  },
+  {
+   "n": 4,
+   "name": "Labour",
+   "img": "img/ban4.jpg"
+  },
+  {
+   "n": 5,
+   "name": "Obstetric Emergencies",
+   "img": "img/ban5.jpg"
+  },
+  {
+   "n": 6,
+   "name": "Puerperium & Maternal Health",
+   "img": "img/ban6.jpg"
+  },
+  {
+   "n": 7,
+   "name": "OSCE Stations",
+   "img": "img/ban7.jpg"
+  }
+ ]
+}

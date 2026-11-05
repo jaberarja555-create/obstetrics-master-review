@@ -1,0 +1,107 @@
+"""Build the Obstetrics Master Review.
+
+  python3 build.py            -> build/site/   (Cloudflare deploy: free pages + locked placeholders + encrypted content.bin)
+                                 build/review/index.html (whole book open, for the authors / artifact)
+
+The AES key that opens content.bin is NOT in this repo. It is read from $OBS_KEY_FILE (default ../secret/licence_key.txt)
+or $OBS_KEY. It must stay the same key that Supabase gives activated devices (table obs_secret, column k).
+"""
+import os, re, json, gzip, glob, shutil, hashlib, base64, html as H
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+
+R = os.path.dirname(os.path.abspath(__file__))
+C = os.path.join(R, 'content')
+OUT = os.path.join(R, 'build')
+FREE = json.load(open(os.path.join(C, 'access.json')))['free']        # topic ids open in the free trial
+
+def load(n): return json.load(open(os.path.join(C, n), encoding='utf-8'))
+def dump(o): return json.dumps(o, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
+
+meta, decks, qbank, audio = load('meta.json'), load('decks.json'), load('qbank.json'), load('audio.json')
+topics = [t for t in meta['topics'] if t['id'] != 'rr']
+TT = {t['id']: t['title'] for t in topics}
+files = sorted(glob.glob(os.path.join(C, 'pages', '*.html')))
+pages = [(re.match(r'\d+_(.+)\.html', os.path.basename(f)).group(1), open(f, encoding='utf-8').read()) for f in files]
+
+def topic_of(f):
+    return re.sub(r'\d+$', '', f.split('_', 1)[1]) if f.startswith('c') and '_' in f else ''
+
+def locked(f):
+    if f.startswith('x9') or f.startswith('y0'): return True
+    t = topic_of(f)
+    return bool(t) and t not in FREE
+
+LOCK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>'
+
+def placeholder(f, sec):
+    name = 'Rapid review' if f.startswith('x9') else 'Obstetric drugs' if f.startswith('y0') else TT.get(topic_of(f), '')
+    name = name[0].upper() + name[1:] if name else name
+    body = (f'<div class="body"><div class="lockpg"><div class="lki">{LOCK_SVG}</div><div class="lkt">{H.escape(name)}</div>'
+            '<div class="lkar" dir="rtl"><b>للمشتركين بس</b><span>الصفحة دي في الكتاب الكامل. الـ <span class="en">free trial</span> بيفتح أول <span class="en">topic</span> في كل <span class="en">chapter</span>.</span></div>'
+            '<button type="button" class="lkb" data-sub="1" dir="rtl">افتح الكتاب كامل</button></div></div>')
+    return re.sub(r'<div class="body">.*(?=<div class="ftr">)', lambda m: body, sec, count=1, flags=re.S)
+
+def key():
+    k = os.environ.get('OBS_KEY')
+    if not k:
+        p = os.environ.get('OBS_KEY_FILE', os.path.join(R, '..', 'secret', 'licence_key.txt'))
+        k = open(p).read().strip()
+    b = base64.b64decode(k)
+    assert len(b) == 32, 'licence key must be 32 bytes (base64)'
+    return b
+
+def main():
+    shell = open(os.path.join(R, 'src', 'shell.html'), encoding='utf-8').read()
+    order = [t['id'] for t in topics]
+    info = {'locked': {t: 1 for t in order if t not in FREE},
+            'free_names': [TT[t][0].upper() + TT[t][1:] for t in order if t in FREE],
+            'order': order}
+    lk_pages = {f: s for f, s in pages if locked(f)}
+    sale_pages = ''.join(placeholder(f, s) if f in lk_pages else s for f, s in pages)
+    free_decks = {k: v for k, v in decks.items() if k in FREE}
+    lk_decks = {k: v for k, v in decks.items() if k not in FREE}
+    free_qb, lk_qb = [], []
+    for ch in qbank:
+        qs = ch['questions']
+        free_qb.append(dict(ch, questions=[q for q in qs if q.get('topic') in FREE]))
+        lk_qb.append(ch)   # the unlocked app replaces the question bank with the whole bank
+
+    def fill(s, pg, dk, qb, inf):
+        return (s.replace('{{PAGES}}', pg).replace('{{META}}', dump(meta)).replace('{{DECKS}}', dump(dk))
+                 .replace('{{QBANK}}', dump(qb)).replace('{{AUDIO}}', dump(audio)).replace('{{OBS_INFO}}', dump(inf)))
+
+    # ---- deploy folder ----
+    site = os.path.join(OUT, 'site')
+    if os.path.exists(site): shutil.rmtree(site)
+    shutil.copytree(os.path.join(R, 'site_static'), site)
+    for d in ('img', 'audio', 'fonts'):
+        if os.path.exists(os.path.join(R, 'assets', d)):
+            shutil.copytree(os.path.join(R, 'assets', d), os.path.join(site, d))
+    open(os.path.join(site, 'index.html'), 'w', encoding='utf-8').write(fill(shell, sale_pages, free_decks, free_qb, info))
+    payload = gzip.compress(json.dumps({'pages': lk_pages, 'decks': lk_decks, 'qbank': lk_qb}, ensure_ascii=False).encode())
+    iv = os.urandom(12)
+    open(os.path.join(site, 'content.bin'), 'wb').write(iv + AESGCM(key()).encrypt(iv, payload, None))
+    ver = hashlib.sha1(open(os.path.join(site, 'index.html'), 'rb').read()).hexdigest()[:10]
+    swp = os.path.join(site, 'sw.js')
+    sw = open(swp).read()
+    imgs = sorted('img/' + n for n in os.listdir(os.path.join(site, 'img'))) if os.path.exists(os.path.join(site, 'img')) else []
+    assets = ["./", "index.html", "content.bin", "licence.js", "sbmini.js", "licence-config.js", "manifest.json", "icon.png"] + imgs
+    sw = re.sub(r"var C='[^']*',ASSETS=\[.*?\]", lambda m: f"var C='orr-{ver}',ASSETS=" + json.dumps(assets), sw, count=1, flags=re.S)
+    open(swp, 'w').write(sw)
+
+    # ---- review copy: whole book open, no activation ----
+    rv = fill(shell, ''.join(s for f, s in pages), decks, qbank, {'locked': {}, 'free_names': [], 'order': order})
+    rv = re.sub(r'<script src="(licence-config|sbmini|licence)\.js"></script>', '', rv)
+    rv = rv.replace('<html lang="en">', '<html lang="en" class="unlocked">', 1)
+    rv = rv.replace('</body>', '<script>window.__boot&&window.__boot()</script></body>', 1)
+    rvd = os.path.join(OUT, 'review')
+    if os.path.exists(rvd): shutil.rmtree(rvd)
+    os.makedirs(rvd)
+    for d in ('img', 'fonts'):
+        if os.path.exists(os.path.join(site, d)): shutil.copytree(os.path.join(site, d), os.path.join(rvd, d))
+    shutil.copy(os.path.join(site, 'icon.png'), rvd)
+    open(os.path.join(OUT, 'review', 'index.html'), 'w', encoding='utf-8').write(rv)
+    print(f'{len(pages)} pages | locked {len(lk_pages)} | content.bin {os.path.getsize(os.path.join(site, "content.bin"))} | ver {ver}')
+
+if __name__ == '__main__':
+    main()

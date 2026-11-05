@@ -1,0 +1,75 @@
+{
+ "eb": {
+  "segs": [
+   {
+    "f": "c3s01p1_eb1",
+    "src": "audio/eb/eb-p1-d2ec0939.mp3",
+    "d": 908.0,
+    "s": 10896618,
+    "also": [
+     "c3s01p1x2_eb1"
+    ]
+   },
+   {
+    "f": "c3s01p1x2_eb1",
+    "src": "audio/eb/eb-p2-8289e8ea.mp3",
+    "d": 290.0,
+    "s": 3480912,
+    "also": [
+     "c3s01p2_eb2"
+    ]
+   },
+   {
+    "f": "c3s01p2_eb2",
+    "src": "audio/eb/eb-p3-62d5e032.mp3",
+    "d": 314.3,
+    "s": 3771504,
+    "also": [
+     "c3s01p3_eb3"
+    ]
+   },
+   {
+    "f": "c3s01p3_eb3",
+    "src": "audio/eb/eb-p4-bd308868.mp3",
+    "d": 348.3,
+    "s": 4180464,
+    "also": [
+     "c3s01p4_eb4"
+    ]
+   },
+   {
+    "f": "c3s01p5_eb5",
+    "src": "audio/eb/eb-p5-fa9edf06.mp3",
+    "d": 322.9,
+    "s": 3875472,
+    "also": [
+     "c3s01p5x2_eb5"
+    ]
+   }
+  ],
+  "d": 2183.5
+ },
+ "hg": {
+  "segs": [
+   {
+    "f": "c2s01p1_hg1",
+    "src": "audio/hg/hg-p1-9c25864b.mp3",
+    "d": 689.8,
+    "s": 8277741,
+    "also": [
+     "c2s01p1x2_hg1"
+    ]
+   },
+   {
+    "f": "c2s01p1x2_hg1",
+    "src": "audio/hg/hg-p2-ca32d138.mp3",
+    "d": 338.4,
+    "s": 4060845,
+    "also": [
+     "c2s01p2_hg2"
+    ]
+   }
+  ],
+  "d": 1028.2
+ }
+}
