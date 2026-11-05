@@ -26,6 +26,7 @@ Sister apps: Surgery Master Review (`surgery-rapid-review`) and Pediatrics: feat
   admin.html (code control page), sw.js (offline cache; version and image list rewritten by build), manifest, icon.
 - `assets/`: img/, audio/, fonts/.
 - Emblem (owner, Nov 2026): the round OBSTETRICS MASTER REVIEW seal cut out as `assets/img/logo.webp`; icons `site_static/icon.png` 512, `icon-192.png`, `apple-touch-icon.png`. Used in the top bar (`.blogo`, hidden in the reader), front-matter banners (`.toc-h::after`, `.au-ban::after`), Rapid Review banner (`.rrlogo`), beside STUDENT MASTER | NOTE SERIES on Home and the Reviewers page (`.smseal`) and the subscription sheet (`.sublogo`), as in Surgery.
+- **Every new app feature must be added to the how-to pages** (004_a00c_howto1 / 005_a00d_howto2, owner Nov 2026), in the same Arabic style, keeping both pages fitted.
 - Reader: tap the page-number pill to type a page and jump there (`.pnum.ed`); full-page reading hides the bars on scroll down, a tap brings them back.
 - `build.py` → `build/site/` (deploy: free pages, lock placeholders, `content.bin` = AES-GCM(gzip JSON of locked pages,
   decks, whole qbank)) and `build/review/index.html` (whole book open; publish as the review artifact).
