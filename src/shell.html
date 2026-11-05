@@ -1585,6 +1585,13 @@ table.numt + table.numt tr:first-child td { border-top: 1px solid var(--ch-line2
 .app.imm .bar,.app.imm .tabs{display:none}
 .app.imm .rbar{transform:translateY(-110%)!important;opacity:0;pointer-events:none}
 .app.imm #reader .pnum{top:10px!important;opacity:.75}
+/* page number editing (owner, Nov 2026) */
+.pnum{cursor:pointer;pointer-events:auto}
+.pnum.ed{display:flex;align-items:center;gap:5px;padding:3px 4px 3px 6px;opacity:1!important}
+.pnum.ed input{width:3.6em;font:700 14px var(--sans);text-align:center;border:0;border-radius:12px;padding:3px 4px;background:#fff;color:#111;-moz-appearance:textfield}
+.pnum.ed input::-webkit-outer-spin-button,.pnum.ed input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.pnum.ed button{border:0;border-radius:12px;padding:3px 9px;background:#d9b45a;color:#0e2547;font:800 12px var(--sans);cursor:pointer}
+
 .app.imm #scroller{top:env(safe-area-inset-top,0px)!important}
 
 /* How-to pages (from Surgery Master Review, Nov 2026) */
@@ -1881,7 +1888,16 @@ $('scroller').addEventListener('touchend',function(e){if(e.touches.length<2)pin=
 $('scroller').addEventListener('wheel',function(e){if(!e.ctrlKey||$('reader').hidden)return;e.preventDefault();zstep(e.deltaY<0?1.1:1/1.1)},{passive:false});
 function currentPage(){var sc=$('scroller'),mid=sc.scrollTop+sc.clientHeight*0.35,cur=0;for(var i=0;i<wraps.length;i++){if(wraps[i].offsetTop<=mid)cur=i}return cur}
 var lastCur=-1;
-function onScroll(){var c=currentPage();lastCur=c;$('pnum').textContent=PAGES[c].user?'✎ صفحتي':PAGES[c].bn+' / '+BOOKN;var m=PAGES[c];$('subtitle').textContent=m.label;st('orr-page',String(c));sp('pk',PKEY[c]);updPr(c);fitRail()}
+function onScroll(){var c=currentPage();lastCur=c;if(!$('pnum').classList.contains('ed'))$('pnum').textContent=PAGES[c].user?'✎ صفحتي':PAGES[c].bn+' / '+BOOKN;var m=PAGES[c];$('subtitle').textContent=m.label;st('orr-page',String(c));sp('pk',PKEY[c]);updPr(c);fitRail()}
+/* page number: tap it, type a page and press Enter (owner, Nov 2026) */
+(function(){var pn=$('pnum');if(!pn)return;pn.title='Go to page';pn.addEventListener('click',function(e){e.stopPropagation();if(pn.classList.contains('ed'))return;
+  var cur=PAGES[currentPage()]||{},v=cur.bn||'';pn.classList.add('ed');
+  pn.innerHTML='<input type="number" inputmode="numeric" min="1" max="'+BOOKN+'" value="'+v+'" aria-label="Page number"><span>/ '+BOOKN+'</span><button type="button" aria-label="Go">Go</button>';
+  var inp=pn.querySelector('input'),done=false;inp.focus();inp.select();
+  function fin(go){if(done)return;done=true;var n=parseInt(inp.value,10);pn.classList.remove('ed');if(go&&n>=1&&n<=BOOKN)goPage(n-1);onScroll()}
+  inp.onkeydown=function(ev){if(ev.key==='Enter'){ev.preventDefault();fin(true)}else if(ev.key==='Escape')fin(false)};
+  pn.querySelector('button').onmousedown=function(ev){ev.preventDefault()};pn.querySelector('button').onclick=function(ev){ev.stopPropagation();fin(true)};
+  inp.onblur=function(){setTimeout(function(){fin(false)},150)}})})();
 $('scroller').addEventListener('scroll',onScroll,{passive:true});
 /* full-page reading (owner, Nov 2026): scrolling down hides the top bar, the tools bar and the bottom bar;
    scrolling up a little, or a tap on the page, brings them back */
