@@ -12,7 +12,7 @@ Sister apps: Surgery Master Review (`surgery-rapid-review`) and Pediatrics: feat
 - Pictures small, beside their text, numbered "Figure x.y.z" with a sentence caption; no big empty spaces.
 - After every change: `python3 build.py` (key needed locally only for checking), check on a 390 px phone screen, commit and
   push to `main`: GitHub Actions (.github/workflows/deploy.yml) builds with the OBS_KEY secret and deploys to the existing
-  Cloudflare Pages project (same address). No zip files any more. Then republish the review copy.
+  Cloudflare Pages project `obstetrics-master-review` (https://obstetrics-master-review.pages.dev, same address). First automatic deploy: 5 Nov 2026. No zip files any more. Then republish the review copy.
 
 ## Layout of this repo (recovered 5 Nov 2026 after the old work folder was lost)
 - `content/pages/NNN_<file>.html`: every book page as finished HTML (`<section class="page mz cN" id="pNNN" data-file=…>`).
