@@ -1560,6 +1560,12 @@ table.numt td.v { color: var(--ch-dark); }
 .hm-note{display:none;margin:0;font:500 13px/1.6 var(--sans);color:#44506a;border-left:3px solid var(--ha,#c99a3b);padding:4px 0 4px 16px}
 #home.dark .hm-note{color:#c9d6ec}
 @media (min-width:600px){.hm-card .hm-top{grid-template-columns:112px auto 1fr;gap:22px}.hm-note{display:block}}
+
+/* full-page reading: bars slide away while reading */
+.app.imm .bar,.app.imm .tabs{display:none}
+.app.imm .rbar{transform:translateY(-110%)!important;opacity:0;pointer-events:none}
+.app.imm #reader .pnum{top:10px!important;opacity:.75}
+.app.imm #scroller{top:env(safe-area-inset-top,0px)!important}
 </style>
 
 </head><body><div class="app" id="app">
@@ -1747,6 +1753,15 @@ function currentPage(){var sc=$('scroller'),mid=sc.scrollTop+sc.clientHeight*0.3
 var lastCur=-1;
 function onScroll(){var c=currentPage();lastCur=c;$('pnum').textContent=PAGES[c].user?'✎ صفحتي':PAGES[c].bn+' / '+BOOKN;var m=PAGES[c];$('subtitle').textContent=m.label;st('orr-page',String(c));sp('pk',PKEY[c]);updPr(c);fitRail()}
 $('scroller').addEventListener('scroll',onScroll,{passive:true});
+/* full-page reading (owner, Nov 2026): scrolling down hides the top bar, the tools bar and the bottom bar;
+   scrolling up a little, or a tap on the page, brings them back */
+var IMM=false,immY=0,immT=0;
+function busyTools(){try{return INKON||TXON||penOn()||!$('penFly').hidden||(window.getSelection&&String(getSelection()))}catch(e){return false}}
+function setImm(on){if(on===IMM)return;var sc=$('scroller'),a=sc.getBoundingClientRect().top;IMM=on;$('app').classList.toggle('imm',on);sc._rw=-1;railSpace();
+  var b=sc.getBoundingClientRect().top;immT=Date.now();sc.scrollTop+=b-a;immY=sc.scrollTop}
+$('scroller').addEventListener('scroll',function(){var sc=$('scroller'),y=sc.scrollTop;if(Date.now()-immT<350){immY=y;return}
+  var d=y-immY;if(d>60&&y>120&&!busyTools()){setImm(true);immY=y}else if(d<-70){setImm(false);immY=y}else if(Math.abs(d)>200)immY=y},{passive:true});
+pagesEl.addEventListener('click',function(e){if(busyTools()||e.target.closest('a,button,[data-p],mark,span.nm,.gl,.ab,input,textarea'))return;setImm(!IMM)});
 function goPage(i,instant){goIdx(BIDX[i]!=null?BIDX[i]:i)}   // i = book page index (page number − 1)
 function goIdx(i){i=Math.max(0,Math.min(NP-1,i));show('reader');layout();var sc=$('scroller');sc.scrollTop=wraps[i].offsetTop-10;onScroll()}
 function lastPage(){var k=sp('pk');if(k&&byKey[k]!==undefined)return byKey[k];var n=+(st('orr-page')||0);return n>=0&&n<NP?n:0}
@@ -1760,7 +1775,7 @@ var FINE=window.matchMedia&&matchMedia('(pointer:fine)').matches;
 /* the rail never scrolls: when it is taller than the reader it is scaled down so every button shows */
 function fitRail(){var r=$('rbar');if(!r||$('reader').hidden)return;railSpace()}   // tools bar along the top of the reader (Nov 2026)
 /* the open rail never covers the book: the pages get the space to its left */
-function railSpace(){var r=$('rbar'),sc=$('scroller');if(!r||!sc)return;var w=r.classList.contains('off')?0:Math.ceil(r.offsetHeight);
+function railSpace(){var r=$('rbar'),sc=$('scroller');if(!r||!sc)return;var w=(r.classList.contains('off')||IMM)?0:Math.ceil(r.offsetHeight);
   if(sc._rw===w)return;sc._rw=w;var cur=currentPage(),wp=wraps[cur],f=wp&&wp.offsetHeight?(sc.scrollTop-wp.offsetTop)/wp.offsetHeight:0;
   sc.style.top=w+'px';sc.style.right='0px';layout();if(wp)sc.scrollTop=wp.offsetTop+f*wp.offsetHeight}
 function setRail(off){$('rbar').classList.toggle('off',off);$('rbShow').hidden=!off||$('reader').hidden;sp('rail',off?'off':'on');setTimeout(railSpace,off?0:60)}
@@ -1811,7 +1826,7 @@ function setHm(){$('home').classList.toggle('dark',HMODE==='night');$('hmMode').
   $('hmMode').title=HMODE==='night'?'Day colours':'Night colours'}
 $('hmMode').onclick=function(){HMODE=HMODE==='night'?'day':'night';sp('hmode',HMODE);setHm()};setHm();
 var views=['home','reader','cards','qbank-v','search','lect'];
-function show(v){views.forEach(function(x){$(x).hidden=x!==v});[].forEach.call($('tabs').children,function(b){b.classList.toggle('on',b.dataset.go===v)});
+function show(v){if(v!=='reader'&&typeof setImm==='function')setImm(false);views.forEach(function(x){$(x).hidden=x!==v});[].forEach.call($('tabs').children,function(b){b.classList.toggle('on',b.dataset.go===v)});
   $('backBtn').hidden=v==='home';$('hmMode').hidden=v!=='home';$('themeBtn').hidden=v!=='reader';bmMenu.hidden=true;$('rbShow').hidden=v!=='reader'||!$('rbar').classList.contains('off');hideBar();penFly(false);
   if(v==='home'){$('subtitle').textContent='4th edition';refreshCont();renderHome()}
   if(v==='cards'){$('subtitle').textContent='Flashcards';if(!started)startDeck(curDeck)}
