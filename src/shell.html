@@ -1535,6 +1535,7 @@ table.numt + table.numt tr:first-child td { border-top: 1px solid var(--ch-line2
 .hm-card .hm-top{background:none;border:0;box-shadow:none;border-radius:0;padding:12px 14px 14px}
 .smlogo{display:flex;align-items:center;justify-content:center;gap:9px;padding:12px 14px 11px;border-bottom:1px solid var(--hl);white-space:nowrap}
 .smlogo svg{width:38px;height:28px;flex:none}
+.smseal{width:38px;height:38px;flex:none;object-fit:contain;filter:drop-shadow(0 1px 3px rgba(14,37,71,.3))}
 .smlogo .a{font:800 15px/1 'Inter',sans-serif;letter-spacing:.6px;text-transform:uppercase;color:#0e2547}
 .smlogo i{width:1.5px;height:22px;background:linear-gradient(#d4a62a00,#d4a62a,#d4a62a00);flex:none}
 .smlogo .b{font:600 15.5px/1 'Source Serif 4',Georgia,serif;letter-spacing:2.6px;text-transform:uppercase;color:#b8892b}
@@ -1708,7 +1709,7 @@ table.numt + table.numt tr:first-child td { border-top: 1px solid var(--ch-line2
 
   <section class="view" id="home"><div class="wrap hm">
     <div class="hm-card">
-    <div class="smlogo" aria-label="Student Master Note Series"><svg viewBox="0 0 64 46" aria-hidden="true"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M31 41C24 35 14 33 5 34V9C14 8 24 10 31 16" stroke="#0e2547" stroke-width="3.6"/><path d="M33 41C40 35 50 33 59 34V9C50 8 40 10 33 16" stroke="#0e2547" stroke-width="3.6"/><path d="M31 35C25 30 18 28 11 28.5V4C18 4 25 6 31 11" stroke="#d4a62a" stroke-width="3.2"/><path d="M33 35C39 30 46 28 53 28.5V4C46 4 39 6 33 11" stroke="#d4a62a" stroke-width="3.2"/></g><path d="M37 3h6v13l-3-2.6-3 2.6z" fill="#d4a62a"/></svg><span class="a">Student Master</span><i></i><span class="b">Note Series</span></div>
+    <div class="smlogo" aria-label="Student Master Note Series"><img class="smseal" src="img/logo.webp" alt=""><span class="a">Student Master</span><i></i><span class="b">Note Series</span></div>
     <div class="hm-top">
       <div class="cv" id="hmCover"><div class="bk" id="coverMini"></div></div>
       <div class="hm-ti"><h2>Obstetrics<span>Master Review</span></h2><span class="pill" id="pill">{{PILL}}</span>
