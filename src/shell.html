@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon.png"><link rel="apple-touch-icon" href="icon.png"><meta name="theme-color" content="#1e1748"><style>/* sale version: trial, lock pages, subscription sheet */
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#1e1748"><style>/* sale version: trial, lock pages, subscription sheet */
 .ar,.unl,.trialbar,.lkar,.lkb{font-family:'Noto Sans Arabic','Inter',system-ui,sans-serif}
 .en{font-family:'Inter',system-ui,sans-serif;direction:ltr;unicode-bidi:isolate}
 .unlocked .unl,.unlocked .trialbar{display:none!important}
@@ -1302,6 +1302,15 @@ table.numt td.v { color: var(--ch-dark); }
 /* key numbers: one value-column width so the stacked tables line up (owner: organised text) */
 table.numt td.v { width: 6.4em !important; }
 table.numt + table.numt tr:first-child td { border-top: 1px solid var(--ch-line2); }
+/* owner's emblem (Nov 2026): app icon, top bar, front-matter headers, Rapid Review banner, subscription sheet */
+.bar .blogo{width:34px;height:34px;flex:none;margin-right:3px;border-radius:50%;box-shadow:0 0 0 1px rgba(230,195,120,.35)}
+#backBtn:not([hidden]) ~ .blogo{display:none}
+.bar h1{letter-spacing:1.2px}
+.toc-h::after{content:'';position:absolute;right:16px;top:50%;width:62px;height:62px;transform:translateY(-50%);background:url(img/logo.webp) center/contain no-repeat;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
+.au-ban{position:relative;padding-right:104px!important}
+.au-ban::after{content:'';position:absolute;right:18px;top:50%;width:70px;height:70px;transform:translateY(-50%);background:url(img/logo.webp) center/contain no-repeat;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
+.mz h1.mzt .rrlogo{width:54px;height:54px;margin:-6px 12px -6px -4px;flex:none;vertical-align:middle;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
+.subx .sublogo,.subin .sublogo{display:block;width:92px;height:92px;margin:0 auto 10px;filter:drop-shadow(0 3px 8px rgba(14,37,71,.3))}
 /* rows of pictures: same height, centred, caption under each (owner) */
 .mz .photos.even { display: flex; flex-wrap: nowrap; justify-content: center; align-items: flex-start; gap: 14px; margin: 8px 0 4px; }
 .mz .photos.even > .photo { flex: none; margin: 0; }
@@ -1690,6 +1699,7 @@ table.numt + table.numt tr:first-child td { border-top: 1px solid var(--ch-line2
 </head><body><div class="app" id="app">
   <header class="bar">
     <button class="ib" id="backBtn" type="button" aria-label="Home" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <img class="blogo" src="img/logo.webp" alt="">
     <h1 id="title">Obstetrics <b>Master Review</b><small id="subtitle">4th edition</small></h1>
     <button class="ib rbshow" id="rbShow" type="button" hidden aria-label="إظهار الأدوات" title="إظهار الأدوات"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v16h-6"/><path d="M10 8l-4 4 4 4"/></svg></button>
     <button class="ib" id="hmMode" type="button" aria-label="Day or night colours"></button>

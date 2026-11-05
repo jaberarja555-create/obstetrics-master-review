@@ -91,7 +91,7 @@ def main():
     swp = os.path.join(site, 'sw.js')
     sw = open(swp).read()
     imgs = sorted('img/' + n for n in os.listdir(os.path.join(site, 'img'))) if os.path.exists(os.path.join(site, 'img')) else []
-    assets = ["./", "index.html", "content.bin", "licence.js", "sbmini.js", "licence-config.js", "manifest.json", "icon.png"] + imgs
+    assets = ["./", "index.html", "content.bin", "licence.js", "sbmini.js", "licence-config.js", "manifest.json", "icon.png", "icon-192.png", "apple-touch-icon.png"] + imgs
     sw = re.sub(r"var C='[^']*',ASSETS=\[.*?\]", lambda m: f"var C='orr-{ver}',ASSETS=" + json.dumps(assets), sw, count=1, flags=re.S)
     open(swp, 'w').write(sw)
 
@@ -105,7 +105,7 @@ def main():
     os.makedirs(rvd)
     for d in ('img', 'fonts'):
         if os.path.exists(os.path.join(site, d)): shutil.copytree(os.path.join(site, d), os.path.join(rvd, d))
-    shutil.copy(os.path.join(site, 'icon.png'), rvd)
+    for n in ('icon.png', 'icon-192.png', 'apple-touch-icon.png'): shutil.copy(os.path.join(site, n), rvd)
     open(os.path.join(OUT, 'review', 'index.html'), 'w', encoding='utf-8').write(rv)
     print(f'{len(pages)} pages | locked {len(lk_pages)} | content.bin {os.path.getsize(os.path.join(site, "content.bin"))} | ver {ver}')
 

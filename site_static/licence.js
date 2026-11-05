@@ -50,7 +50,7 @@ function recheck(){var last=+(LS('orr-kc')||0);if(Date.now()-last<3*864e5||navig
     else if(j.reason==='off'||j.reason==='none'){LS('orr-k',null);LS('orr-kc',null);alert(j.reason==='none'?'الكود بتاعك اتشال من الجهاز دا، فالكتاب الكامل اتقفل هنا. لو دا غلط كلّم '+(CFG.contact||'')+'.':'الكود بتاعك اتوقف، فالكتاب الكامل اتقفل في الجهاز دا. كلّم '+(CFG.contact||'')+'.');location.reload()}})}).catch(function(){})}
 /* ---------- the subscription sheet ---------- */
 var sh=document.createElement('div');sh.className='sheet';sh.id='subSheet';sh.hidden=true;
-sh.innerHTML='<div class="in ar subin" role="dialog" aria-modal="true" dir="rtl"><h3><span>افتح الكتاب كامل</span><button class="chip" type="button" id="subX">Close</button></h3><div id="subBody"></div></div>';
+sh.innerHTML='<div class="in ar subin" role="dialog" aria-modal="true" dir="rtl"><h3><span>افتح الكتاب كامل</span><button class="chip" type="button" id="subX">Close</button></h3><img class="sublogo" src="img/logo.webp" alt=""><div id="subBody"></div></div>';
 document.body.appendChild(sh);
 $('subX').onclick=function(){sh.hidden=true};sh.addEventListener('click',function(e){if(e.target===sh)sh.hidden=true});
 function freeList(){return '<span class="nms">'+(INFO.free_names||[]).map(function(n){return '<span class="nmc en">'+esc(n)+'</span>'}).join('')+'</span>'}
