@@ -1566,6 +1566,60 @@ table.numt td.v { color: var(--ch-dark); }
 .app.imm .rbar{transform:translateY(-110%)!important;opacity:0;pointer-events:none}
 .app.imm #reader .pnum{top:10px!important;opacity:.75}
 .app.imm #scroller{top:env(safe-area-inset-top,0px)!important}
+
+/* How-to pages (from Surgery Master Review, Nov 2026) */
+/* How to use the app / Study tools (Arabic, owner Nov 2026): grouped cards with icon tiles, no numbers */
+.page.howto { font-family:'Noto Sans Arabic','Inter',sans-serif; color:#1c1917; background:#fff; }
+.page.howto .ftr { direction:ltr; }
+.page.howto em, .page.howto [dir=ltr] { font-family:'Inter',sans-serif; }
+.hwh { position:absolute; top:30px; left:48px; right:48px; height:84px; border-radius:12px; display:flex; align-items:center; justify-content:space-between;
+  padding:0 26px; background:linear-gradient(100deg,#1f4e8c 0,#0e2547 100%); border-bottom:3px solid #c99a3b; color:#fff; box-shadow:0 4px 14px rgba(14,37,71,.18); }
+.hwt span { display:block; font:800 7pt Inter; letter-spacing:3px; color:#e6c378; direction:ltr; text-align:right; }
+.hwt b { display:block; font:800 24pt/1.25 'Noto Sans Arabic',sans-serif; }
+.hwl { font:italic 600 12pt 'Source Serif 4',serif; color:#e6c378; direction:ltr; }
+.hwi { position:absolute; top:126px; left:48px; right:48px; margin:0; font:500 9.6pt/1.65 'Noto Sans Arabic',sans-serif; color:#44403c; }
+.howto .hwb { position:absolute; top:186px; left:48px; right:48px; }
+.hws { display:flex; align-items:center; gap:10px; margin:12px 0 7px; font:800 12.5pt/1.3 'Noto Sans Arabic',sans-serif; color:#0e2547; }
+.hws small { font:600 8.4pt 'Noto Sans Arabic',sans-serif; color:#78716c; }
+.hws::after { content:""; flex:1; height:1.5px; background:linear-gradient(270deg,transparent 0,#c99a3b 100%); order:3; }
+.hwg { display:grid; grid-template-columns:1fr 1fr; gap:7px 10px; }
+.hw { --a:#1f4e8c; --at:#eaf1fb; display:flex; gap:10px; align-items:flex-start; padding:8px 10px; border:1px solid #e6e2da; border-radius:10px;
+  background:linear-gradient(270deg,var(--at) 0,#fff 46px); }
+.hw.gd { --a:#a8741a; --at:#fbf1da; border-color:#ecd9ab; }
+.hw.y { --a:#b4235f; --at:#fcebf2; } .hw.b { --a:#0e7490; --at:#e4f4f8; } .hw.g { --a:#208833; --at:#e8f5ea; }
+.hw > i { flex:none; width:34px; height:34px; border-radius:9px; background:var(--a); color:#fff; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 2px 5px rgba(0,0,0,.15); }
+.hw > i svg { width:19px; height:19px; }
+.hw b { display:flex; align-items:baseline; gap:6px; font:800 10.4pt/1.35 'Noto Sans Arabic',sans-serif; color:#0e2547; }
+.hw b em { font:700 7.6pt Inter; font-style:normal; color:var(--a); letter-spacing:.3px; }
+.hw span { display:block; font:500 8.6pt/1.55 'Noto Sans Arabic',sans-serif; color:#44403c; }
+.hw span b { display:inline; font:inherit; font-weight:800; color:#1c1917; }
+.mock { display:flex; align-items:center; border-radius:10px; margin:0 0 8px; background:#0e2547; color:#c7d2e4; box-shadow:inset 0 0 0 1px rgba(255,255,255,.06); }
+.mock svg { width:17px; height:17px; }
+.mtab { justify-content:space-around; padding:6px 4px; }
+.mtab span { display:flex; flex-direction:column; align-items:center; gap:2px; font:600 7.4pt Inter; }
+.mtab span.on { color:#e6c378; }
+.mtop { gap:10px; padding:7px 12px; background:linear-gradient(90deg,#0e2547,#163a6b); }
+.mtop .mt { flex:1; font:700 9.5pt Inter; color:#fff; } .mtop .mt b { color:#e6c378; }
+.mtop .mi { display:flex; } .mtop .mi.g { color:#e6c378; }
+.mrail { justify-content:space-around; padding:5px 4px; background:#f4f1ea; color:#0e2547; border:1px solid #e6e2da; }
+.mrail span { display:flex; flex-direction:column; align-items:center; gap:1px; font:700 7.8pt 'Noto Sans Arabic',sans-serif; }
+.hwtip { display:flex; gap:10px; align-items:center; margin-top:12px; padding:10px 16px; border-radius:10px; background:#0e2547; color:#fff;
+  font:500 9pt/1.6 'Noto Sans Arabic',sans-serif; }
+.hwtip b { color:#e6c378; font-weight:800; }
+.hwtip.wa svg { flex:none; width:24px; height:24px; color:#4ade80; }
+/* How-to pages: a little more air */
+.hwg { gap:9px 12px; } .hw { padding:10px 12px; } .hws { margin:16px 0 8px; } .hwtip { margin-top:16px; }
+.hwg { gap:8px 12px; } .hw { padding:8px 12px; } .hws { margin:12px 0 7px; } .hwtip { margin-top:12px; }
+.howto .hwb { top:178px; } .hw span { line-height:1.5; }
+
+/* Obstetrics colours for the how-to pages */
+.hwh { background:linear-gradient(100deg,#4c2c8f 0,#1e1748 100%); border-bottom-color:#c99a3b; }
+.hw { --a:#4c2c8f; --at:#efeafb; }
+.hws, .hw b { color:#1e1748; }
+.mock, .hwtip { background:#1e1748; } .mtop { background:linear-gradient(90deg,#1e1748,#3a2a78); }
+.mrail { background:#f4f1ea; color:#1e1748; }
+.page.howto { position:relative; }
 </style>
 
 </head><body><div class="app" id="app">
