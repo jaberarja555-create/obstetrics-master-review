@@ -1292,6 +1292,16 @@ table.numt td.v { color: var(--ch-dark); }
 .box.pic .eq .c { border-color: #d1d5db !important; background: #fff !important; }
 .box.pic .eq .p { color: #6b7280 !important; }
 .box.pic .eq .ans { background: #fff !important; border-color: #9ca3af !important; color: #111 !important; }
+/* mnemonic box (owner, Nov 2026): gold title tag; letters in navy tiles */
+.box.mnem { background: #fafafa !important; border-left: 3px solid #b8892b !important; color: #111; }
+.box.mnem .bh { display: inline-block; background: #b8892b !important; color: #fff !important; padding: 2px 9px; border-radius: 3px; margin-bottom: 6px; }
+.box.mnem .mnl { display: flex; flex-wrap: wrap; gap: 5px 12px; align-items: center; }
+.box.mnem .mnl span { display: inline-block; font-size: 9.6pt; line-height: 1.45; color: #111; }
+.box.mnem .mnl i { font-style: normal; display: inline-grid; place-items: center; min-width: 18px; height: 18px; margin-right: 1px; vertical-align: 1px; border-radius: 4px; background: #1f3a63; color: #f3c969; font-weight: 900; font-size: 10pt; }
+.box.mnem .mnn { margin: 6px 0 0; font-size: 9.4pt; line-height: 1.38; color: #111; }
+/* key numbers: one value-column width so the stacked tables line up (owner: organised text) */
+table.numt td.v { width: 6.4em !important; }
+table.numt + table.numt tr:first-child td { border-top: 1px solid var(--ch-line2); }
 /* rows of pictures: same height, centred, caption under each (owner) */
 .mz .photos.even { display: flex; flex-wrap: nowrap; justify-content: center; align-items: flex-start; gap: 14px; margin: 8px 0 4px; }
 .mz .photos.even > .photo { flex: none; margin: 0; }

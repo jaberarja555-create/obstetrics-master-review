@@ -22,6 +22,8 @@ topics = [t for t in meta['topics'] if t['id'] != 'rr']
 TT = {t['id']: t['title'] for t in topics}
 files = sorted(glob.glob(os.path.join(C, 'pages', '*.html')))
 pages = [(re.match(r'\d+_(.+)\.html', os.path.basename(f)).group(1), open(f, encoding='utf-8').read()) for f in files]
+from termify import termify
+pages = [(f, termify(f, s)) for f, s in pages]   # meanings of abbreviations and difficult words (content/terms.json)
 
 def topic_of(f):
     return re.sub(r'\d+$', '', f.split('_', 1)[1]) if f.startswith('c') and '_' in f else ''
