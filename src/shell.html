@@ -2265,7 +2265,7 @@ function hsnap(){var o={};Object.keys(HL).forEach(function(k){HL[k].forEach(func
 var HLPREV=hsnap();
 /* Highlights and notes are saved as text offsets on a page. When pages are re-laid out the offsets can point at other words:
    the saved text (h.t) finds its place again in the same topic, and a highlight whose text is gone is not drawn (it stays in My notes). */
-var PTX={};function ptx(i){if(PTX[i]===undefined){var raw=textNodes(srcPages[i]).map(function(n){return n.nodeValue}).join(''),nrm='',map=[],spc=true;
+var PTX;function ptx(i){PTX=PTX||{};if(PTX[i]===undefined){var raw=textNodes(srcPages[i]).map(function(n){return n.nodeValue}).join(''),nrm='',map=[],spc=true;
   for(var j=0;j<raw.length;j++){var c=raw[j];if(/\s/.test(c)){if(!spc){nrm+=' ';map.push(j);spc=true}}else{nrm+=c;map.push(j);spc=false}}PTX[i]={raw:raw,n:nrm,map:map}}return PTX[i]}
 function hlOk(i,h){if(!h.t)return true;var P=ptx(i);return P.raw.slice(h.s,h.e).replace(/\s+/g,' ').trim()===h.t.replace(/\s+/g,' ').trim()}
 function hlFind(i,h){var P=ptx(i),t=h.t.replace(/\s+/g,' ').trim(),full=!(t.length>=240&&h.e-h.s>240),best=-1,from=0,p,want=h.s||0;
