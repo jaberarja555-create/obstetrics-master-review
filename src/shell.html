@@ -1620,6 +1620,61 @@ table.numt td.v { color: var(--ch-dark); }
 .mock, .hwtip { background:#1e1748; } .mtop { background:linear-gradient(90deg,#1e1748,#3a2a78); }
 .mrail { background:#f4f1ea; color:#1e1748; }
 .page.howto { position:relative; }
+
+/* Reviewers page (from Surgery Master Review) */
+/* Reviewers page (owner, Nov 2026) */
+.page.rvw .rvlogo{position:absolute;top:136px;left:48px;right:48px;display:flex;align-items:center;justify-content:center;gap:12px}
+.page.rvw .rvlogo svg{width:52px;height:38px}
+.page.rvw .rvlogo .a{font:800 19pt/1 Inter,sans-serif;letter-spacing:.3px;text-transform:uppercase;color:#0e2547}
+.page.rvw .rvlogo i{width:2px;height:30px;background:linear-gradient(#d4a62a00,#d4a62a,#d4a62a00)}
+.page.rvw .rvlogo .b{font:600 19pt/1 'Source Serif 4',Georgia,serif;letter-spacing:3px;text-transform:uppercase;color:#b8892b}
+.page.rvw .rvh{position:absolute;top:196px;left:48px;right:48px;margin:0;text-align:center;font:700 25pt/1.1 'Source Serif 4',Georgia,serif;letter-spacing:2px;text-transform:uppercase;color:#0e2547}
+.page.rvw .rvh::after{content:"";display:block;width:90px;height:3px;margin:10px auto 0;border-radius:2px;background:linear-gradient(90deg,#c99a3b,#f3d98b,#c99a3b)}
+.page.rvw .rvi{position:absolute;top:262px;left:96px;right:96px;margin:0;text-align:center;font:500 10.2pt/1.6 Inter,sans-serif;color:#44506a}
+.page.rvw .rvg{position:absolute;top:340px;left:48px;right:48px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.page.rvw .rvc{display:flex;align-items:center;gap:16px;padding:16px 18px;border-radius:14px;background:#fff;border:1px solid #dfe6f1;
+  box-shadow:0 6px 16px rgba(14,37,71,.08);border-left:5px solid #0e2547}
+.page.rvw .rvc.f{border-left-color:#c99a3b}
+.page.rvw .rvc .av{flex:none;width:86px;height:86px}
+.page.rvw .rvc .av svg{width:100%;height:100%}
+.page.rvw .rvt{display:flex;flex-direction:column;gap:4px;min-width:0}
+.page.rvw .rvt b{font:800 15pt/1.3 'Noto Sans Arabic',sans-serif;color:#0e2547;text-align:left}
+.page.rvw .rvt .role{font:800 7.6pt Inter,sans-serif;letter-spacing:1.6px;text-transform:uppercase;color:#b8892b}
+.page.rvw .rvt .uni{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font:600 9.4pt Inter,sans-serif;color:#44506a}
+.page.rvw .rvt .uni svg{width:15px;height:15px;color:#1f4e8c}
+.page.rvw .rvt .uni em{font:600 9.4pt 'Noto Sans Arabic',sans-serif;font-style:normal;color:#7a869c}
+.page.rvw .rvthx{position:absolute;left:48px;right:48px;top:900px;display:flex;flex-direction:column;gap:6px;padding:16px 22px;border-radius:12px;
+  background:linear-gradient(115deg,#0a1a35,#0e2547 60%,#1f4e8c);color:#eef3fb;font:500 11pt/1.7 'Noto Sans Arabic',sans-serif}
+.page.rvw .rvthx b{color:#f3d98b;font-size:13pt}
+.page.rvw .rvg{gap:18px}
+.page.rvw .rvc{padding:22px 20px}
+.page.rvw .rvc .av{width:96px;height:96px}
+.page.rvw .rvthx{top:860px}
+/* contribution level: 5 stars, the owner fills as many as each reviewer earned (edit class "on" in content/reviewers.html) */
+.page.rvw .stars{display:flex;gap:3px;margin:1px 0}
+.page.rvw .stars i{width:17px;height:17px}
+.page.rvw .stars svg{width:100%;height:100%;fill:none;stroke:#c99a3b;stroke-width:1.6;stroke-linejoin:round}
+.page.rvw .stars i.on svg{fill:#d4a62a;stroke:#b8892b}
+
+/* Reviewers: seven cards (Nov 2026); an odd last card sits in the middle */
+.page.rvw .rvg{top:326px;gap:14px 18px}
+.page.rvw .rvc{padding:14px 18px}
+.page.rvw .rvc .av{width:84px;height:84px}
+.page.rvw .rvc:last-child:nth-child(odd){grid-column:1/-1;justify-self:center;width:calc(50% - 9px)}
+.page.rvw .rvthx{top:926px}
+.page.rvw .rvg{top:342px}
+.page.rvw .rvc:last-child:nth-child(odd){width:62%}
+.page.rvw .rvthx{top:936px}
+.page.rvw .rvt .uni{display:block;line-height:1.45}
+.page.rvw .rvt .uni svg{display:inline;vertical-align:-3px;margin-right:6px}
+.page.rvw .rvt .uni em{display:block;text-align:left}
+.page.rvw .rvg{gap:12px 18px}.page.rvw .rvc{padding:11px 18px}
+.page.rvw .rvthx{top:930px}
+.page.rvw .toc-h { position:absolute; top:30px; left:48px; right:48px; height:90px; border-radius:10px; overflow:hidden; display:flex; background:linear-gradient(100deg,#1e1748 0,#4c2c8f 100%); border-bottom:3px solid #c99a3b; }
+.page.rvw .toc-h div { padding:16px 20px; color:#fff; }
+.page.rvw .toc-h b { display:block; font:700 26pt 'Source Serif 4',serif; line-height:1; }
+.page.rvw .toc-h span { font:700 7.6pt Inter; letter-spacing:4px; text-transform:uppercase; color:#e6c378; }
+.page.rvw { background:#fff; font-family:Inter,sans-serif; position:relative; }
 </style>
 
 </head><body><div class="app" id="app">

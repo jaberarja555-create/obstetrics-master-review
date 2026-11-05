@@ -11,6 +11,11 @@
    "f": "a00b_authors"
   },
   {
+   "label": "Reviewers",
+   "t": "",
+   "f": "a00b2_reviewers"
+  },
+  {
    "label": "Cover",
    "t": "",
    "f": "a00c_howto1"
@@ -1711,7 +1716,7 @@
    "no": "1.1",
    "title": "Physiology of pregnancy",
    "sub": "Circulation & blood · lungs & kidneys · hormones & skin · normal values",
-   "p": 7,
+   "p": 8,
    "id": "pc",
    "ch": 1,
    "cls": "c1"
@@ -1720,7 +1725,7 @@
    "no": "1.2",
    "title": "Diagnosis of pregnancy & dating",
    "sub": "Symptoms & signs · hCG · early scan · EDD & gestational age",
-   "p": 14,
+   "p": 15,
    "id": "dx",
    "ch": 1,
    "cls": "c1"
@@ -1729,7 +1734,7 @@
    "no": "1.3",
    "title": "Antenatal care",
    "sub": "Booking · tests · supplements & vaccines · schedule · danger signs",
-   "p": 19,
+   "p": 20,
    "id": "anc",
    "ch": 1,
    "cls": "c1"
@@ -1738,7 +1743,7 @@
    "no": "2.1",
    "title": "Hyperemesis gravidarum",
    "sub": "Definition & causes · complications · antiemetic ladder",
-   "p": 26,
+   "p": 27,
    "id": "hg",
    "ch": 2,
    "cls": "c2"
@@ -1747,7 +1752,7 @@
    "no": "2.2",
    "title": "Anaemia in pregnancy",
    "sub": "Physiology & causes · investigations & types · management",
-   "p": 29,
+   "p": 30,
    "id": "an",
    "ch": 2,
    "cls": "c2"
@@ -1756,7 +1761,7 @@
    "no": "2.3",
    "title": "Venous thromboembolism",
    "sub": "Risk factors · DVT & PE diagnosis · LMWH & thromboprophylaxis",
-   "p": 34,
+   "p": 35,
    "id": "vt",
    "ch": 2,
    "cls": "c2"
@@ -1765,7 +1770,7 @@
    "no": "2.4",
    "title": "Diabetes in pregnancy",
    "sub": "Pathophysiology · screening & OGTT · complications · management",
-   "p": 38,
+   "p": 39,
    "id": "dm",
    "ch": 2,
    "cls": "c2"
@@ -1774,7 +1779,7 @@
    "no": "2.5",
    "title": "Hypertensive disorders of pregnancy",
    "sub": "Classification · pre-eclampsia · management · eclampsia & HELLP",
-   "p": 44,
+   "p": 45,
    "id": "ht",
    "ch": 2,
    "cls": "c2"
@@ -1783,7 +1788,7 @@
    "no": "2.6",
    "title": "Malaria in pregnancy",
    "sub": "Severe malaria · diagnosis · Sudan protocol · IPTp",
-   "p": 50,
+   "p": 51,
    "id": "ma",
    "ch": 2,
    "cls": "c2"
@@ -1792,7 +1797,7 @@
    "no": "2.7",
    "title": "Cardiac disease in pregnancy",
    "sub": "Physiology · mitral stenosis · antenatal care · labour",
-   "p": 55,
+   "p": 56,
    "id": "cd",
    "ch": 2,
    "cls": "c2"
@@ -1801,7 +1806,7 @@
    "no": "2.8",
    "title": "Epilepsy in pregnancy",
    "sub": "Drug risks · differential of fits · management",
-   "p": 59,
+   "p": 60,
    "id": "ep",
    "ch": 2,
    "cls": "c2"
@@ -1810,7 +1815,7 @@
    "no": "2.9",
    "title": "Obstetric cholestasis",
    "sub": "Itching & bile acids · fetal risk · management",
-   "p": 62,
+   "p": 63,
    "id": "oc",
    "ch": 2,
    "cls": "c2"
@@ -1819,7 +1824,7 @@
    "no": "2.10",
    "title": "Acute fatty liver of pregnancy",
    "sub": "Features · liver disease comparison · management",
-   "p": 65,
+   "p": 66,
    "id": "af",
    "ch": 2,
    "cls": "c2"
@@ -1828,7 +1833,7 @@
    "no": "2.11",
    "title": "Thyroid disease in pregnancy",
    "sub": "Hyperthyroidism · hypothyroidism · postpartum thyroiditis",
-   "p": 68,
+   "p": 69,
    "id": "th",
    "ch": 2,
    "cls": "c2"
@@ -1837,7 +1842,7 @@
    "no": "2.12",
    "title": "HIV in pregnancy",
    "sub": "Transmission · ART · mode of delivery · newborn & feeding",
-   "p": 71,
+   "p": 72,
    "id": "hiv",
    "ch": 2,
    "cls": "c2"
@@ -1846,7 +1851,7 @@
    "no": "3.1",
    "title": "Bleeding in early pregnancy",
    "sub": "Miscarriage · ectopic pregnancy · molar pregnancy",
-   "p": 74,
+   "p": 75,
    "id": "eb",
    "ch": 3,
    "cls": "c3"
@@ -1855,7 +1860,7 @@
    "no": "3.2",
    "title": "Antepartum haemorrhage",
    "sub": "Initial management · praevia · abruption · accreta · vasa praevia · rupture",
-   "p": 81,
+   "p": 82,
    "id": "ap",
    "ch": 3,
    "cls": "c3"
@@ -1864,7 +1869,7 @@
    "no": "3.3",
    "title": "Postpartum haemorrhage",
    "sub": "Causes (4 Ts) · prevention · emergency management",
-   "p": 90,
+   "p": 91,
    "id": "pph",
    "ch": 3,
    "cls": "c3"
@@ -1873,7 +1878,7 @@
    "no": "3.4",
    "title": "Multiple pregnancy",
    "sub": "Chorionicity · complications · TTTS · delivery of twins",
-   "p": 95,
+   "p": 96,
    "id": "mp",
    "ch": 3,
    "cls": "c3"
@@ -1882,7 +1887,7 @@
    "no": "3.5",
    "title": "Fetal growth restriction",
    "sub": "SGA vs FGR · causes · Doppler monitoring · timing of delivery",
-   "p": 100,
+   "p": 101,
    "id": "fgr",
    "ch": 3,
    "cls": "c3"
@@ -1891,7 +1896,7 @@
    "no": "3.6",
    "title": "Intrauterine fetal death",
    "sub": "Causes · diagnosis · induction · aftercare",
-   "p": 104,
+   "p": 105,
    "id": "iufd",
    "ch": 3,
    "cls": "c3"
@@ -1900,7 +1905,7 @@
    "no": "3.7",
    "title": "Abnormal amniotic fluid",
    "sub": "AFI · polyhydramnios · oligohydramnios",
-   "p": 107,
+   "p": 108,
    "id": "lq",
    "ch": 3,
    "cls": "c3"
@@ -1909,7 +1914,7 @@
    "no": "4.1",
    "title": "Normal labour",
    "sub": "Stages · mechanism · management of each stage",
-   "p": 110,
+   "p": 111,
    "id": "nl",
    "ch": 4,
    "cls": "c4"
@@ -1918,7 +1923,7 @@
    "no": "4.2",
    "title": "Monitoring in labour",
    "sub": "Partogram · CTG · failure to progress · obstructed labour",
-   "p": 117,
+   "p": 118,
    "id": "ol",
    "ch": 4,
    "cls": "c4"
@@ -1927,7 +1932,7 @@
    "no": "4.3",
    "title": "Preterm labour",
    "sub": "Risk & prediction · tocolysis · steroids · MgSO₄",
-   "p": 122,
+   "p": 123,
    "id": "ptl",
    "ch": 4,
    "cls": "c4"
@@ -1936,7 +1941,7 @@
    "no": "4.4",
    "title": "Prelabour rupture of membranes",
    "sub": "Diagnosis · PPROM · term PROM · chorioamnionitis",
-   "p": 128,
+   "p": 129,
    "id": "prom",
    "ch": 4,
    "cls": "c4"
@@ -1945,7 +1950,7 @@
    "no": "4.5",
    "title": "Prolonged pregnancy",
    "sub": "Dating · risks · sweep & induction",
-   "p": 133,
+   "p": 134,
    "id": "pp",
    "ch": 4,
    "cls": "c4"
@@ -1954,7 +1959,7 @@
    "no": "4.6",
    "title": "Induction of labour",
    "sub": "Indications · Bishop score · methods · complications",
-   "p": 136,
+   "p": 137,
    "id": "iol",
    "ch": 4,
    "cls": "c4"
@@ -1963,7 +1968,7 @@
    "no": "4.7",
    "title": "Breech presentation",
    "sub": "Types · ECV · vaginal breech delivery · manoeuvres",
-   "p": 141,
+   "p": 142,
    "id": "br",
    "ch": 4,
    "cls": "c4"
@@ -1972,7 +1977,7 @@
    "no": "4.8",
    "title": "Malpresentations & malpositions",
    "sub": "OP · face · brow · transverse & unstable lie",
-   "p": 148,
+   "p": 149,
    "id": "mal",
    "ch": 4,
    "cls": "c4"
@@ -1981,7 +1986,7 @@
    "no": "5.1",
    "title": "Cord prolapse",
    "sub": "Risk factors · diagnosis · emergency drill",
-   "p": 153,
+   "p": 154,
    "id": "cp",
    "ch": 5,
    "cls": "c5"
@@ -1990,7 +1995,7 @@
    "no": "5.2",
    "title": "Uterine inversion",
    "sub": "Causes · shock · replacement",
-   "p": 157,
+   "p": 158,
    "id": "ui",
    "ch": 5,
    "cls": "c5"
@@ -1999,7 +2004,7 @@
    "no": "5.3",
    "title": "Amniotic fluid embolism",
    "sub": "Collapse & DIC · differential · resuscitation",
-   "p": 162,
+   "p": 163,
    "id": "afe",
    "ch": 5,
    "cls": "c5"
@@ -2008,7 +2013,7 @@
    "no": "5.4",
    "title": "Shoulder dystocia",
    "sub": "Risk factors · HELPERR drill · complications",
-   "p": 167,
+   "p": 168,
    "id": "sd",
    "ch": 5,
    "cls": "c5"
@@ -2017,7 +2022,7 @@
    "no": "6.1",
    "title": "Normal puerperium",
    "sub": "Involution · lochia · breastfeeding · contraception",
-   "p": 173,
+   "p": 174,
    "id": "np",
    "ch": 6,
    "cls": "c6"
@@ -2026,7 +2031,7 @@
    "no": "6.2",
    "title": "Puerperal pyrexia & sepsis",
    "sub": "Causes by day · Sepsis Six · antibiotics",
-   "p": 180,
+   "p": 181,
    "id": "ps",
    "ch": 6,
    "cls": "c6"
@@ -2035,7 +2040,7 @@
    "no": "6.3",
    "title": "Postpartum mood disorders",
    "sub": "Blues · depression · psychosis",
-   "p": 187,
+   "p": 188,
    "id": "pmd",
    "ch": 6,
    "cls": "c6"
@@ -2044,7 +2049,7 @@
    "no": "6.4",
    "title": "Maternal mortality",
    "sub": "Definitions · causes · three delays · prevention",
-   "p": 194,
+   "p": 195,
    "id": "mm",
    "ch": 6,
    "cls": "c6"
@@ -2053,7 +2058,7 @@
    "no": "7.1",
    "title": "The OSCE station",
    "sub": "Station types · opening & closing · communication · consent",
-   "p": 199,
+   "p": 200,
    "id": "oa",
    "ch": 7,
    "cls": "c7"
@@ -2062,7 +2067,7 @@
    "no": "7.2",
    "title": "Focused history stations",
    "sub": "Full long-case history · hypertension · early bleeding · APH · anaemia · diabetes · malaria",
-   "p": 207,
+   "p": 208,
    "id": "oh",
    "ch": 7,
    "cls": "c7"
@@ -2071,7 +2076,7 @@
    "no": "7.3",
    "title": "Obstetric abdominal examination",
    "sub": "General exam · inspection · fundal height · Leopold grips · fifths · fetal heart",
-   "p": 226,
+   "p": 227,
    "id": "oe",
    "ch": 7,
    "cls": "c7"
@@ -2080,7 +2085,7 @@
    "no": "7.4",
    "title": "Blood pressure & urine testing",
    "sub": "Cuff · Korotkoff sounds · dipstick protein & sugar",
-   "p": 237,
+   "p": 238,
    "id": "obp",
    "ch": 7,
    "cls": "c7"
@@ -2089,7 +2094,7 @@
    "no": "7.5",
    "title": "Speculum & vaginal examination",
    "sub": "Cusco & Sims · swabs · dilatation · station · position · Bishop",
-   "p": 246,
+   "p": 247,
    "id": "ov",
    "ch": 7,
    "cls": "c7"
@@ -2098,7 +2103,7 @@
    "no": "7.6",
    "title": "Partogram & CTG stations",
    "sub": "Plotting · alert & action lines · reading a CTG",
-   "p": 258,
+   "p": 259,
    "id": "opc",
    "ch": 7,
    "cls": "c7"
@@ -2107,7 +2112,7 @@
    "no": "7.7",
    "title": "Normal delivery & episiotomy",
    "sub": "Conducting delivery · AMTSL · episiotomy · tear repair",
-   "p": 270,
+   "p": 271,
    "id": "ond",
    "ch": 7,
    "cls": "c7"
@@ -2116,7 +2121,7 @@
    "no": "7.8",
    "title": "Operative delivery stations",
    "sub": "Ventouse · forceps · caesarean section",
-   "p": 279,
+   "p": 280,
    "id": "oiv",
    "ch": 7,
    "cls": "c7"
@@ -2125,7 +2130,7 @@
    "no": "7.9",
    "title": "Emergency drills",
    "sub": "PPH · eclampsia · shoulder dystocia · cord prolapse · newborn",
-   "p": 288,
+   "p": 289,
    "id": "oem",
    "ch": 7,
    "cls": "c7"
@@ -2134,7 +2139,7 @@
    "no": "7.10",
    "title": "Instruments, drugs & spotters",
    "sub": "What it is · what it is used for · viva questions",
-   "p": 301,
+   "p": 302,
    "id": "osp",
    "ch": 7,
    "cls": "c7"
@@ -2143,7 +2148,7 @@
    "no": "7.11",
    "title": "Counselling stations",
    "sub": "Bad news · IUFD · heart disease · epilepsy · contraception",
-   "p": 307,
+   "p": 308,
    "id": "oco",
    "ch": 7,
    "cls": "c7"
