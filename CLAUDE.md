@@ -10,8 +10,9 @@ Sister apps: Surgery Master Review (`surgery-rapid-review`) and Pediatrics: feat
 - Minimal colour: one colour per chapter on headings and thin lines; text black. Special boxes: only the title tag is
   coloured (Clinical scenario red, Clinical picture green, Distinguishing features purple, Hospital protocol blue, caution orange).
 - Pictures small, beside their text, numbered "Figure x.y.z" with a sentence caption; no big empty spaces.
-- After every change: `python3 build.py`, check on a 390 px phone screen, then give the owner the new zip of `build/site/`
-  (he deploys it with Cloudflare "Create deployment") and republish the review copy.
+- After every change: `python3 build.py` (key needed locally only for checking), check on a 390 px phone screen, commit and
+  push to `main`: GitHub Actions (.github/workflows/deploy.yml) builds with the OBS_KEY secret and deploys to the existing
+  Cloudflare Pages project (same address). No zip files any more. Then republish the review copy.
 
 ## Layout of this repo (recovered 5 Nov 2026 after the old work folder was lost)
 - `content/pages/NNN_<file>.html`: every book page as finished HTML (`<section class="page mz cN" id="pNNN" data-file=…>`).
