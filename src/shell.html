@@ -1879,7 +1879,7 @@ function busyTools(){try{return INKON||TXON||penOn()||!$('penFly').hidden||(wind
 function setImm(on){if(on===IMM)return;var sc=$('scroller'),a=sc.getBoundingClientRect().top;IMM=on;$('app').classList.toggle('imm',on);sc._rw=-1;railSpace();
   var b=sc.getBoundingClientRect().top;immT=Date.now();sc.scrollTop+=b-a;immY=sc.scrollTop}
 $('scroller').addEventListener('scroll',function(){var sc=$('scroller'),y=sc.scrollTop;if(Date.now()-immT<350){immY=y;return}
-  var d=y-immY;if(d>60&&y>120&&!busyTools()){setImm(true);immY=y}else if(d<-70){setImm(false);immY=y}else if(Math.abs(d)>200)immY=y},{passive:true});
+  var d=y-immY;if(d>60&&y>120&&!busyTools()){setImm(true);immY=y}else if(d<0)immY=Math.max(immY+d,y);else if(Math.abs(d)>200)immY=y},{passive:true});
 pagesEl.addEventListener('click',function(e){if(busyTools()||e.target.closest('a,button,[data-p],mark,span.nm,.gl,.ab,input,textarea'))return;setImm(!IMM)});
 function goPage(i,instant){goIdx(BIDX[i]!=null?BIDX[i]:i)}   // i = book page index (page number − 1)
 function goIdx(i){i=Math.max(0,Math.min(NP-1,i));show('reader');layout();var sc=$('scroller');sc.scrollTop=wraps[i].offsetTop-10;onScroll()}
