@@ -1584,7 +1584,7 @@ table.numt + table.numt tr:first-child td { border-top: 1px solid var(--ch-line2
 /* full-page reading: bars slide away while reading */
 .app.imm .bar,.app.imm .tabs{display:none}
 .app.imm .rbar{transform:translateY(-110%)!important;opacity:0;pointer-events:none}
-.app.imm #reader .pnum{top:10px!important;opacity:.75}
+.app.imm #reader .pnum:not(.ed){display:none}
 /* page number editing (owner, Nov 2026) */
 .pnum{cursor:pointer;pointer-events:auto}
 .pnum.ed{display:flex;align-items:center;gap:5px;padding:3px 4px 3px 6px;opacity:1!important}
