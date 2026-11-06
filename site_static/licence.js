@@ -131,6 +131,6 @@ function openChoose(){
 window.__openSub=openSub;
 document.addEventListener('click',function(e){if(e.target.closest('[data-sub]')){e.preventDefault();e.stopPropagation();(fresh()?openChoose:openSub)()}},true);
 function afterLogin(){if(UNLOCKED||INTRIAL||!TMS)return;var t=tget();
-  if(((!t||!t.s)&&!LS('orr-chz'))||(t&&t.s&&tleft()<=0&&!t.seen)){if(!t||!t.s)setMust(true);if(t&&t.s){t.seen=1;tput(t)}setTimeout(openChoose,2900)}}
+  if(((!t||!t.s)&&!LS('orr-chz'))||(t&&t.s&&tleft()<=0&&!t.seen)){if(!t||!t.s)setMust(true);if(t&&t.s){t.seen=1;tput(t)}setTimeout(openChoose,300)}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
