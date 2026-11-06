@@ -151,6 +151,17 @@
 #qbank-v:is(.sday,.seye) .qbpt,#qbank-v:is(.sday,.seye) .qbpt.on small,#qbank-v:is(.sday,.seye) .qblink{color:#8a6416}
 #qbank-v:is(.sday,.seye) .qbpool button.on span,#qbank-v:is(.sday,.seye) .qbnq button.on{color:#8a6416}
 #qbank-v:is(.sday,.seye) .qbe.ok b{color:#047857}#qbank-v:is(.sday,.seye) .qbe.no b{color:#b42318}
+/* night look of the study screens: no dark purple text on the dark background (owner, 6 Nov 2026) */
+:root[data-theme="dark"] #cards:not(.sday):not(.seye) .face .k,:root[data-theme="dark"] #search .ri .pn,:root[data-theme="dark"] #lect .lt,:root[data-theme="dark"] #lect .ab,:root[data-theme="dark"] #lect .lp,:root[data-theme="dark"] #lect .go,:root[data-theme="dark"] #home .tool svg{color:#c9b8ff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #cards:not(.sday):not(.seye) .face .k,:root:not([data-theme="light"]) #search .ri .pn,:root:not([data-theme="light"]) #lect .lt,:root:not([data-theme="light"]) #lect .ab,:root:not([data-theme="light"]) #lect .lp,:root:not([data-theme="light"]) #lect .go,:root:not([data-theme="light"]) #home .tool svg{color:#c9b8ff}}
+:root[data-theme="dark"] #cards:not(.sday):not(.seye) .face.a{background:#2c2468;border:1px solid #e8c66e66}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #cards:not(.sday):not(.seye) .face.a{background:#2c2468;border:1px solid #e8c66e66}}
+:root[data-theme="dark"] #cards:not(.sday):not(.seye) .fbar i{background:#e8c66e}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #cards:not(.sday):not(.seye) .fbar i{background:#e8c66e}}
+:root[data-theme="dark"] #cards:not(.sday):not(.seye) .fact .ag{color:#f7b267;border-color:#f3c99a99}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #cards:not(.sday):not(.seye) .fact .ag{color:#f7b267;border-color:#f3c99a99}}
+:root[data-theme="dark"] #cards:not(.sday):not(.seye) .face .tx{color:#f3f1ff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #cards:not(.sday):not(.seye) .face .tx{color:#f3f1ff}}
 </style>
 <title>Obstetrics Master Review</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
