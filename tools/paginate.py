@@ -7,6 +7,11 @@ import json, os, re, sys, glob, subprocess, tempfile
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KEEP = int(os.environ.get('KEEP', 70)); MINF = 70; BUCKET = 25; ROOM = 1050
 VOID = {'br', 'img', 'hr', 'input', 'meta', 'link', 'col', 'wbr', 'source', 'path', 'circle', 'rect', 'line', 'polyline', 'polygon', 'ellipse', 'stop', 'use'}
+SUBMIN = int(os.environ.get("SUBMIN", 140))
+SUBS = set()
+for _f in glob.glob(os.path.join(R, 'content/pages/*.html')):
+    SUBS.update(re.findall(r'<div class="blk" data-id="([^"]+)"><h2 class="mzsub"', open(_f, encoding='utf-8').read()))
+
 def close_of(s, a):
     d = 0
     for m in re.finditer(r'<(/?)([a-zA-Z][\w-]*)[^>]*?(/?)>', s[a:]):
@@ -43,7 +48,7 @@ def atoms_of(pages):
             b = len(B); B.append(dict(page=pi, bid=bid, h=h, det=det))
             kids = det['kids'] if det else None
             if not det or not det['mh'] or not kids or (len(kids) < 2 and not (kids[0]['tag'] == 'table' and len(kids[0].get('rows') or []) >= 4)):
-                A.append(dict(b=b, h=h, kind='blk')); continue
+                A.append(dict(b=b, h=h, kind='blk', sub=bid in SUBS)); continue
             B[b]['split'] = True
             for ki, kd in enumerate(kids):
                 rows = kd.get('rows') or []
@@ -88,7 +93,12 @@ def plan(pages):
     A, B = atoms_of(pages); C, SP = costs(A, B); n = len(A)
     rooms = [p['cap'] - p['fixed'] for p in pages]
     def room(j): return rooms[j] if j < len(rooms) else ROOM
-    def fits(j, k, i): c = C[k][i]; return c is not None and (c <= room(j) - KEEP or (i - k == 1) or c <= room(j) - 10 and all(x['kind'] == 'blk' for x in A[k:i]) and False)
+    def subok(k, i):
+        # a sub-heading (e.g. "Placenta Praevia") must not sit at the foot of a page with only a little under it
+        if i >= n: return True
+        s = max((x for x in range(k, i) if A[x].get('sub')), default=None)
+        return s is None or sum(A[x]['h'] for x in range(s + 1, i)) >= SUBMIN
+    def fits(j, k, i): c = C[k][i]; return subok(k, i) and c is not None and (c <= room(j) - KEEP or (i - k == 1) or c <= room(j) - 10 and all(x['kind'] == 'blk' for x in A[k:i]) and False)
     # fewest pages
     INF = 10**9; reach = {0: 0}; need = None
     best_n = None

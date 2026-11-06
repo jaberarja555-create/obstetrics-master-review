@@ -1641,6 +1641,11 @@
    "f": "c7s09p9_oem9"
   },
   {
+   "label": "7.9 · Apgar score & drill wrap-up",
+   "t": "oem",
+   "f": "c7s09p9x2_oem9"
+  },
+  {
    "label": "7.10 · Examination & labour tools",
    "t": "osp",
    "f": "c7s10p1_osp1"
@@ -1749,6 +1754,11 @@
    "label": "7.11 · Consent for Caesarean & Birth After Caesarean",
    "t": "oco",
    "f": "c7s11p9x4_oco9"
+  },
+  {
+   "label": "7.11 · Consent for Caesarean & Birth After Caesarean",
+   "t": "oco",
+   "f": "c7s11p9x5_oco9"
   },
   {
    "label": "Rapid review · 1/14",
@@ -2284,7 +2294,7 @@
    "no": "7.10",
    "title": "Instruments, drugs & spotters",
    "sub": "What it is · what it is used for · viva questions",
-   "p": 329,
+   "p": 330,
    "id": "osp",
    "ch": 7,
    "cls": "c7"
@@ -2293,7 +2303,7 @@
    "no": "7.11",
    "title": "Counselling stations",
    "sub": "Bad news · IUFD · heart disease · epilepsy · contraception",
-   "p": 335,
+   "p": 336,
    "id": "oco",
    "ch": 7,
    "cls": "c7"
