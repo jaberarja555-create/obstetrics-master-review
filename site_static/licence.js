@@ -143,7 +143,7 @@ function openChoose(){
   $('chFree').onclick=function(){choiceSnd('free');LS('orr-chz','1');setMust(false);sh.hidden=true}}
 window.__openSub=openSub;
 document.addEventListener('click',function(e){if(e.target.closest('[data-sub]')){e.preventDefault();e.stopPropagation();(fresh()?openChoose:openSub)()}},true);
-function myDevice(){if(!UNLOCKED||document.getElementById('myDev'))return;var u=document.querySelector('.unl');if(!u)return;
+function myDevice(){if(!UNLOCKED||document.getElementById('myDev'))return;var u=document.getElementById('prog')||document.querySelector('.unl');if(!u)return;
   var b=document.createElement('button');b.type='button';b.id='myDev';b.className='mydev';b.setAttribute('dir','rtl');b.setAttribute('data-sub','1');
   b.innerHTML='<span><b>أنت مشترك · الكتاب مفتوح كاملًا</b><small>الكود <bdi dir="ltr">'+esc(LS('orr-code')||'')+'</bdi> · لنقل الكتاب إلى جهاز آخر</small></span><i>إدارة الجهاز</i>';u.parentNode.insertBefore(b,u.nextSibling)}
 function afterLogin(){myDevice();if(UNLOCKED||INTRIAL||!TMS)return;var t=tget();
