@@ -47,7 +47,10 @@ Sister apps: Surgery Master Review (`surgery-rapid-review`) and Pediatrics: feat
   «طريقة الاشتراك» numbered steps, Bankak 4674587 سعاد عبدالكريم from licence-config.js, gold «تفعيل»; locked page «هذه الصفحة للمشتركين» +
   gold «اضغط هنا للاشتراك» in build.py; trial bars on Home, Cards, Questions, Search); flashcards: Today / All, chapter bar (`orr-fcch`,
   short names FCSHORT, colours FCCOL), chosen chapter's topics + «All of chapter N» (`ch:N`); day / eye / night looks for Cards and Questions
-  from the top-bar colour button (`orr-smode`, .sday/.seye). The Questions screen keeps its practice-mode design (chapter / topic / filter).
+  from the top-bar colour button (`orr-smode`, .sday/.seye). Questions screen (owner, 6 Nov 2026) is now the Surgery/Pediatrics test builder: four numbered steps (Tutor/Timed · Unused/Incorrect/Marked/All ·
+  chapters with short names and colours, heading selects all · 10/20/40/All + slider), sticky gold Start bar, test with mark/palette/timer, results ring
+  by chapter, previous tests. Each EMQ item is its own question (id `<emq id>#<k>`). Records in `orr-qb` {n,c,w,a,m} (synced as `qb`), tests
+  `orr-qbtests` (synced as `qbt`), current test `orr-qbcur`, settings `orr-qbset`.
 
 ## The licence key (secret)
 content.bin must be encrypted with the SAME key Supabase gives activated devices (table `obs_secret`, column `k`,

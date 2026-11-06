@@ -79,6 +79,78 @@
 #subSheet .price{font-size:21px!important;line-height:1.35!important;margin:4px 0!important}
 #subSheet .nmc{opacity:1!important;color:#f3e7c4!important;background:rgba(201,154,59,.18)!important}
 #subSheet .ssth{display:block;margin:6px 0 2px;font:800 15px/1.4 'Cairo',Inter,sans-serif;color:#c99a3b}
+/* question bank: create a test (as in the Surgery and Pediatrics books) */
+.qbw{display:flex;flex-direction:column;gap:18px}
+.qbst{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.qbst>div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 6px;text-align:center;display:flex;flex-direction:column;gap:2px}
+.qbst b{font:900 20px var(--sans);font-variant-numeric:tabular-nums}.qbst b small{font-size:12px;color:var(--muted);font-weight:700}
+.qbst span{font:650 11.5px var(--sans);color:var(--muted)}
+.qbf{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 14px 16px;display:flex;flex-direction:column;gap:8px;margin-top:-10px}
+.qbl{display:flex;align-items:center;gap:9px;margin-top:10px;font:800 13px var(--sans);text-transform:uppercase;letter-spacing:.3px;color:var(--fg)}
+.qbl:first-child{margin-top:0}
+.qbl em{margin-left:auto;font:600 12px var(--sans);font-style:normal;color:var(--muted);text-transform:none;letter-spacing:0;display:flex;align-items:center;gap:6px}
+.qbl .qno{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font:900 12px var(--sans);color:#1e1748;background:linear-gradient(145deg,#f7d77c,#d9a640)}
+.qbw .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.qbw .seg button{border:1.5px solid var(--line);border-radius:12px;padding:10px;text-align:left;display:flex;flex-direction:column;gap:2px;background:none;color:inherit}
+.qbw .seg button b{font:800 14.5px var(--sans)}.qbw .seg button span{font:500 12px/1.3 var(--sans);color:var(--muted)}
+.qbw .seg button.on,.qbpool button.on,.qbnq button.on{border-color:#d9a640;background:rgba(217,166,64,.14)}
+.qbpool{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.qbpool button{border:1.5px solid var(--line);border-radius:11px;padding:7px 4px;display:flex;flex-direction:column;align-items:center;gap:1px;background:none;color:inherit}
+.qbpool b{font:900 16px var(--sans);font-variant-numeric:tabular-nums}.qbpool span{font:650 11.5px var(--sans);color:var(--muted)}
+.qbpool button.on span,.qbnq button.on{color:#e8c66e}
+.qbparts{display:flex;flex-direction:column;gap:6px}
+.qbpt{display:flex;align-items:baseline;justify-content:space-between;width:100%;margin:2px 0 0;padding:2px;border:0;background:none;text-align:left;font:800 10.5px var(--sans);letter-spacing:1.2px;text-transform:uppercase;color:#e8c66e}
+.qbpt small{font:650 11px var(--sans);letter-spacing:0;text-transform:none;color:var(--muted)}.qbpt.on small{color:#e8c66e}
+.qbch{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.qbch button{display:grid;grid-template-columns:24px 1fr auto;gap:7px;align-items:center;padding:6px 8px 6px 6px;border:1.5px solid var(--line);border-radius:10px;min-height:40px;text-align:left;background:none;color:inherit}
+.qbch .n{font:900 11px var(--sans);color:#fff;background:var(--qc,#4c2c8f);border-radius:6px;padding:4px 0;text-align:center}
+.qbch .l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:700 13px/1.2 var(--sans)}.qbch small{font:700 11px var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
+.qbch button.on{border-color:var(--qc);background:color-mix(in srgb,var(--qc) 16%,transparent)}
+.qbnq{display:flex;gap:6px}.qbnq button{flex:1;border:1.5px solid var(--line);border-radius:10px;padding:7px 0;font:800 13.5px var(--sans);font-variant-numeric:tabular-nums;background:none;color:inherit}
+.qbn{display:flex;align-items:center;gap:12px}.qbn input{flex:1;accent-color:#d9a640}.qbn b{font:900 18px var(--sans);min-width:34px;text-align:right;font-variant-numeric:tabular-nums}
+.qbgo{width:100%;height:48px;font-size:15px}.qbgo:disabled{opacity:.45}
+.qbgob{position:sticky;bottom:0;z-index:3;margin:-8px -2px 0;padding:10px 2px 12px;background:linear-gradient(to top,var(--paper) 70%,transparent)}
+.qbgob .qbgo,.qbw #qbSub,.qbw #qbBack{height:auto;min-height:50px;padding:8px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;background:linear-gradient(135deg,#f7d77c,#d9a640);color:#1e1748;font:850 15.5px var(--sans);border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.qbgob .qbgo small{font:700 11.5px var(--sans);opacity:.8}
+.qbprev{display:flex;flex-direction:column;gap:6px;margin-top:-10px}
+.qbprev button{display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px 8px 8px;text-align:left;color:inherit}
+.qbprev .sc,.ring b{font:900 14px var(--sans);font-variant-numeric:tabular-nums}
+.qbprev .sc{border-radius:9px;padding:9px 0;text-align:center;color:#fff;background:var(--rc)}
+.sc.g,.ring.g{--rc:#047857}.sc.m,.ring.m{--rc:#b45309}.sc.b,.ring.b{--rc:#b42318}
+.qbprev .l b{font:750 14px var(--sans);display:block}.qbprev .l small{font:500 12px var(--sans);color:var(--muted)}.qbprev .go{font:700 20px var(--sans);color:var(--muted)}
+.qbreset{align-self:center;margin-top:-6px}
+.qbtb{display:flex;align-items:center;gap:8px}.qbtb .qn{font:900 18px var(--sans);flex:1;font-variant-numeric:tabular-nums}.qbtb .qn small{font-size:13px;color:var(--muted)}
+.qbtb .qt{font:800 14px var(--sans);padding:5px 10px;border-radius:9px;background:var(--card);border:1px solid var(--line);font-variant-numeric:tabular-nums}.qbtb .qt.low{color:#fff;background:#b42318;border-color:#b42318}
+.qbic{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;color:var(--muted)}
+.qbic svg{width:20px;height:20px}.qbic.on{color:#d9a640;border-color:#d9a640}
+.qbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px}
+.qbgrid button{height:40px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:inherit;font:800 13.5px var(--sans);font-variant-numeric:tabular-nums}
+.qbgrid .ok{background:#047857;border-color:#047857;color:#fff}.qbgrid .no{background:#b42318;border-color:#b42318;color:#fff}
+.qbgrid .an{background:#4c2c8f;border-color:#4c2c8f;color:#fff}.qbgrid .na{color:var(--muted);border-style:dashed}.qbgrid .cur{outline:2.5px solid #d9a640;outline-offset:1px}
+.qbq{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--qc,#4c2c8f);border-radius:14px;padding:14px 16px}
+.qbq .k{font:800 11.5px var(--sans);text-transform:uppercase;letter-spacing:.5px;color:color-mix(in srgb,var(--qc) 55%,var(--fg))}
+.qbq p{margin:6px 0 0;font:500 16px/1.5 var(--serif)}.qbq .th{font:800 15px/1.35 var(--sans)}.qbq .ld{font:600 13.5px/1.4 var(--sans);color:var(--muted)}.qbq .qq2{font:750 15px/1.4 var(--sans)}
+.qbo{display:flex;flex-direction:column;gap:8px;margin-top:-8px}
+.qbo button{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:center;text-align:left;background:var(--card);color:inherit;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px 10px 10px;font:500 14.5px/1.4 var(--sans)}
+.qbo .l{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:850 13px var(--sans);background:var(--paper);border:1px solid var(--line)}
+.qbo .sel{border-color:#d9a640;box-shadow:inset 0 0 0 1px #d9a640}.qbo .sel .l{background:#d9a640;color:#1e1748;border-color:#d9a640}
+.qbo .ok{border-color:#047857;background:color-mix(in srgb,#047857 14%,var(--card))}.qbo .ok .l{background:#047857;color:#fff;border-color:#047857}
+.qbo .no{border-color:#b42318;background:color-mix(in srgb,#b42318 12%,var(--card))}.qbo .no .l{background:#b42318;color:#fff;border-color:#b42318}
+.qbe{border-radius:14px;padding:12px 14px;border:1px solid var(--line);background:var(--card);border-left:5px solid var(--muted);margin-top:-8px}
+.qbe.ok{border-left-color:#047857}.qbe.no{border-left-color:#b42318}
+.qbe b{font:850 14px var(--sans)}.qbe.ok b{color:#10a36f}.qbe.no b{color:#e0584a}
+.qbe p{margin:6px 0 8px;font:500 14.5px/1.5 var(--sans)}
+.qblink{font:750 13px var(--sans);color:#e8c66e;padding:0;background:none;border:0}
+.qbnav{display:flex;justify-content:space-between;gap:8px}.qbnav .chip{padding:9px 16px;font-size:13.5px;color:inherit}.qbnav .chip:disabled{opacity:.4}
+.qbres{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 16px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.qbres>b{font:850 18px var(--sans)}
+.ring{width:110px;height:110px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--rc) calc(var(--v)*1%),var(--line) 0)}
+.ring b{width:86px;height:86px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:24px}
+.qbtop{display:flex;flex-direction:column;gap:10px;margin-top:-10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.qbtop>div{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font:650 13.5px var(--sans)}.qbtop .pbar{grid-column:1/-1;height:6px;border-radius:3px;background:var(--line);overflow:hidden}.qbtop .pbar i{display:block;height:100%;background:#047857}
+#qbank-v:is(.sday,.seye) .qbpt,#qbank-v:is(.sday,.seye) .qbpt.on small,#qbank-v:is(.sday,.seye) .qblink{color:#8a6416}
+#qbank-v:is(.sday,.seye) .qbpool button.on span,#qbank-v:is(.sday,.seye) .qbnq button.on{color:#8a6416}
+#qbank-v:is(.sday,.seye) .qbe.ok b{color:#047857}#qbank-v:is(.sday,.seye) .qbe.no b{color:#b42318}
 </style>
 <title>Obstetrics Master Review</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1880,8 +1952,7 @@ section[data-file^="x9"] .frow .ans{background:none;color:#1e1748;font-weight:75
   </div></section>
 
   <section class="view" id="qbank-v" hidden><div class="wrap"><button class="trialbar" type="button" data-sub="1" dir="rtl"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span><b>النسخة المجانية</b><small>الأسئلة هنا من الموضوع الأول في كل فصل فقط. اضغط هنا للاشتراك وفتح بنك الأسئلة كاملًا.</small></span></button>
-    <div class="qtop"><div class="qstats" id="qStats"></div><div class="qsel" id="qSel"></div></div>
-    <div id="qStage"></div>
+    <div id="qbWrap" class="qbw"></div>
   </div></section>
 
   <section class="view" id="search" hidden><div class="wrap"><button class="trialbar" type="button" data-sub="1" dir="rtl"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span><b>النسخة المجانية</b><small>البحث يشمل الموضوع الأول في كل فصل فقط. اضغط هنا للاشتراك والبحث في الكتاب كاملًا.</small></span></button>
@@ -2088,7 +2159,7 @@ function show(v){if(v!=='reader'&&typeof setImm==='function')setImm(false);views
   $('backBtn').hidden=v==='home';$('hmMode').hidden=v!=='home';$('themeBtn').hidden=!(v==='reader'||v==='cards'||v==='qbank-v');CURV=v;setNight();bmMenu.hidden=true;$('rbShow').hidden=v!=='reader'||!$('rbar').classList.contains('off');hideBar();penFly(false);
   if(v==='home'){$('subtitle').textContent='4th edition';refreshCont();renderHome()}
   if(v==='cards'){$('subtitle').textContent='Flashcards';if(!started)startDeck(curDeck)}
-  if(v==='qbank-v'){$('subtitle').textContent='Question bank';if(!qStarted){qStarted=true;qStart()}else qStats()}
+  if(v==='qbank-v'){$('subtitle').textContent='Question bank';qStarted=true;if(CUR&&CUR.done&&CUR.review===undefined)CUR=null;qStart()}
   if(v==='search'){$('subtitle').textContent='Search the book';setTimeout(function(){$('q').focus()},50)}
   if(v==='lect'){$('subtitle').textContent='Lectures';renderLect()}
   if(v==='reader'){layout();onScroll();setTimeout(fitRail,30)}}
@@ -2534,36 +2605,108 @@ nbox.addEventListener('click',function(e){var b=e.target.closest('button');if(!b
 
 
 /* ---------- question bank ---------- */
-var QB=JSON.parse($('qbank').textContent),QS=[];QB.forEach(function(ch){ch.questions.forEach(function(q){q.ch=ch.chapter;QS.push(q)})});
+/* ---------- question bank: create a test (Tutor / Timed), as in the Surgery and Pediatrics books ----------
+   Each SBA is one question; each EMQ item becomes its own question (theme + options shared). Per-question record in QST
+   (orr-qb, synced): {n tries, c correct tries, w last answer wrong, a 1 answered, m 1 marked}. Tests: orr-qbtests (synced), orr-qbcur, orr-qbset. */
+var QB=JSON.parse($('qbank').textContent),QS=[];
+QB.forEach(function(ch){ch.questions.forEach(function(q){
+  if(q.type==='emq')(q.items||[]).forEach(function(it,k){QS.push({id:q.id+'#'+k,ch:ch.chapter,topic:q.topic,emq:1,theme:q.theme,lead:q.lead,stem:it.stem,q:'',options:q.options,answer:it.answer,why:it.why})});
+  else{q.ch=ch.chapter;QS.push(q)}})});
 var QST={};try{QST=JSON.parse(st('orr-qb')||'{}')||{}}catch(e){QST={}}
-function saveQ(){st('orr-qb',JSON.stringify(QST));syncSoon()}
+var QT=spj('qbtests')||[],CUR=spj('qbcur'),qset=spj('qbset')||{mode:'tutor',pool:'unused',n:10,ch:{}};if(!qset.ch)qset.ch={};
+function saveQ(){st('orr-qb',JSON.stringify(QST));spj('qbtests',QT);spj('qbcur',CUR);spj('qbset',qset);syncSoon()}
 var TT={};TOPICS.forEach(function(t){TT[t.id]=t});
-var qList=[],qi=0,qFilter={ch:'all',t:'all',m:'all'};
-function qPool(){return QS.filter(function(q){if(qFilter.ch!=='all'&&String(q.ch)!==qFilter.ch)return false;if(qFilter.t!=='all'&&q.topic!==qFilter.t)return false;var s=QST[q.id];if(qFilter.m==='new'&&s)return false;if(qFilter.m==='wrong'&&!(s&&s.w))return false;return true})}
-function qStats(){var a=0,c=0;Object.keys(QST).forEach(function(k){a+=QST[k].n||0;c+=QST[k].c||0});var done=QS.filter(function(q){return QST[q.id]}).length;
-  $('qStats').innerHTML='<div><b>'+done+'</b><span>of '+QS.length+' done</span></div><div><b>'+(a?Math.round(c/a*100):0)+'%</b><span>correct</span></div><div><b>'+QS.filter(function(q){return QST[q.id]&&QST[q.id].w}).length+'</b><span>to review</span></div>'}
-function qSelects(){var chs=META.chapters.map(function(c){return '<option value="'+c.n+'"'+(qFilter.ch==String(c.n)?' selected':'')+'>Chapter '+c.n+' · '+c.name+'</option>'}).join('');
-  var ts=TOPICS.filter(function(t){return qFilter.ch==='all'||String(t.ch)===qFilter.ch}).map(function(t){return '<option value="'+t.id+'"'+(qFilter.t===t.id?' selected':'')+'>'+t.no+' '+t.title+'</option>'}).join('');
-  $('qSel').innerHTML='<select id="qCh" aria-label="Chapter"><option value="all">All chapters</option>'+chs+'</select><select id="qT" aria-label="Topic"><option value="all">All topics</option>'+ts+'</select><select id="qM" aria-label="Which questions"><option value="all">All questions</option><option value="new"'+(qFilter.m==='new'?' selected':'')+'>Not done yet</option><option value="wrong"'+(qFilter.m==='wrong'?' selected':'')+'>My mistakes</option></select>'}
-$('qSel').addEventListener('change',function(e){if(e.target.id==='qCh'){qFilter.ch=e.target.value;qFilter.t='all'}if(e.target.id==='qT')qFilter.t=e.target.value;if(e.target.id==='qM')qFilter.m=e.target.value;qStart()});
-function qStart(){qSelects();qList=qPool();for(var i=qList.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),x=qList[i];qList[i]=qList[j];qList[j]=x}qi=0;qStats();qRender()}
-var L='ABCDEFGHIJ';
-function rec(q,ok){var s=QST[q.id]||{n:0,c:0};s.n++;if(ok)s.c++;s.w=!ok;QST[q.id]=s;saveQ();qStats()}
-function qRender(){var el=$('qStage');if(!qList.length){el.innerHTML='<p class="empty">No questions here yet. Change the chapter, topic or filter.</p>';return}
-  var q=qList[qi],t=TT[q.topic]||{no:'',title:''},head='<div class="qmeta"><span>'+t.no+' '+esc(t.title)+'</span><span>'+(qi+1)+' / '+qList.length+'</span></div>';
-  if(q.type==='emq'){el.innerHTML='<div class="qcard">'+head+'<div class="qq">'+esc(q.theme)+'</div><div class="emqo">'+q.options.map(function(o,i){return '<span><b>'+L[i]+'</b> '+esc(o)+'</span>'}).join('')+'</div><div class="qstem" style="font:600 13.5px var(--sans);color:var(--muted)">'+esc(q.lead||'')+'</div>'+
-    q.items.map(function(it,k){return '<div class="emqi" data-k="'+k+'"><div class="qstem">'+(k+1)+'. '+esc(it.stem)+'</div><div class="emqk">'+q.options.map(function(o,i){return '<button type="button" data-i="'+i+'">'+L[i]+'</button>'}).join('')+'</div><div class="qwhy" hidden></div></div>'}).join('')+'</div>'}
-  else{el.innerHTML='<div class="qcard">'+head+'<div class="qstem">'+esc(q.stem)+'</div><div class="qq">'+esc(q.q)+'</div>'+q.options.map(function(o,i){return '<button class="qopt" type="button" data-i="'+i+'"><span class="l">'+L[i]+'</span><span>'+esc(o)+'</span></button>'}).join('')+'<div class="qwhy" id="qWhy" hidden></div></div>'}
-  el.innerHTML+='<div class="qnav" style="margin-top:12px"><button type="button" id="qPrev">Previous</button><button type="button" class="pri" id="qNext">Next</button></div><button type="button" class="chip" id="qRead" style="align-self:flex-start;margin-top:10px">Read this topic in the book</button>';
-  $('qPrev').disabled=qi===0;$('qPrev').onclick=function(){if(qi>0){qi--;qRender()}};$('qNext').onclick=function(){qi=(qi+1)%qList.length;qRender();$('qbank-v').scrollTop=0};
-  $('qRead').onclick=function(){if(t.p)goPage(t.p-1)}}
-$('qStage').addEventListener('click',function(e){var q=qList[qi];if(!q)return;var o=e.target.closest('.qopt');
-  if(o&&q.type!=='emq'){if($('qStage').querySelector('.qopt.ok'))return;var i=+o.dataset.i,ok=i===q.answer;[].forEach.call($('qStage').querySelectorAll('.qopt'),function(b){var bi=+b.dataset.i;if(bi===q.answer)b.classList.add('ok');else if(bi===i)b.classList.add('bad')});
-    var w=$('qWhy');w.hidden=false;w.innerHTML='<b>'+(ok?'Correct.':'Answer: '+L[q.answer]+'.')+'</b> '+esc(q.why||'');rec(q,ok);return}
-  var k=e.target.closest('.emqk button');if(k){var box=k.closest('.emqi'),it=q.items[+box.dataset.k];if(box.querySelector('.ok'))return;var i2=+k.dataset.i,ok2=i2===it.answer;
-    [].forEach.call(box.querySelectorAll('.emqk button'),function(b){var bi=+b.dataset.i;if(bi===it.answer)b.classList.add('ok');else if(bi===i2)b.classList.add('bad')});
-    var w2=box.querySelector('.qwhy');w2.hidden=false;w2.innerHTML='<b>'+L[it.answer]+' · '+esc(q.options[it.answer])+'.</b> '+esc(it.why||'');
-    if(box.parentNode.querySelectorAll('.emqk .ok').length===q.items.length){var all=[].every.call(box.parentNode.querySelectorAll('.emqi'),function(b){return !b.querySelector('.bad')});rec(q,all)}}});
+var QBY={};QS.forEach(function(q){QBY[q.id]=q});
+var L='ABCDEFGHIJKL',qchs=[];QS.forEach(function(q){if(qchs.indexOf(q.ch)<0)qchs.push(q.ch)});qchs.sort(function(a,b){return a-b});
+if($('toolQ'))$('toolQ').textContent=QS.length+' questions with explanations';
+function qpct(a,b){return b?Math.round(a/b*100):0}
+function used(q){var s=QST[q.id];return !!(s&&(s.n||s.a))}
+function inPool(q,p){var s=QST[q.id];if(p==='unused')return !used(q);if(p==='incorrect')return !!(s&&s.w);if(p==='marked')return !!(s&&s.m);return true}
+function anyCh(){return Object.keys(qset.ch).some(function(k){return qset.ch[k]})}
+function poolQs(){var any=anyCh();return QS.filter(function(q){return (!any||qset.ch[q.ch])&&inPool(q,qset.pool)})}
+function chName(n){var c=META.chapters.filter(function(x){return x.n==n})[0];return c?c.name:'Chapter '+n}
+function qbHead(){var u=0,ok=0,m=0;QS.forEach(function(q){var s=QST[q.id];if(used(q)){u++;if(!s.w)ok++}if(s&&s.m)m++});
+  return '<div class="qbst"><div><b>'+qpct(ok,u)+'%</b><span>Correct</span></div><div><b>'+u+'<small> / '+QS.length+'</small></b><span>Used</span></div><div><b>'+(QS.length-u)+'</b><span>Unused</span></div><div><b>'+m+'</b><span>Marked</span></div></div>'}
+function step(no,t,r){return '<div class="qbl"><span class="qno">'+no+'</span>'+t+(r?'<em>'+r+'</em>':'')+'</div>'}
+function renderQB(keep){if(CUR&&!CUR.done)return renderQ();$('subtitle').textContent='Question bank';
+  var pool=poolQs(),max=pool.length,n=Math.min(qset.n,max),any=anyCh(),nsel=qchs.filter(function(c){return qset.ch[c]}).length;
+  var h=qbHead()+'<div class="sh"><h3>Create a test</h3></div><div class="qbf">';
+  h+=step(1,'Mode')+'<div class="seg" data-k="mode">'+[['tutor','Tutor','see the answer after each question'],['timed','Timed','like the exam · 1 min 15 s each']].map(function(o){return '<button type="button" data-v="'+o[0]+'" class="'+(qset.mode===o[0]?'on':'')+'"><b>'+o[1]+'</b><span>'+o[2]+'</span></button>'}).join('')+'</div>';
+  h+=step(2,'Questions')+'<div class="qbpool" data-k="pool">'+[['unused','Unused'],['incorrect','Incorrect'],['marked','Marked'],['all','All']].map(function(o){
+    var c=QS.filter(function(q){return inPool(q,o[0])}).length;return '<button type="button" class="'+(qset.pool===o[0]?'on':'')+'" data-v="'+o[0]+'"><b>'+c+'</b><span>'+o[1]+'</span></button>'}).join('')+'</div>';
+  var allOn=qchs.every(function(c){return qset.ch[c]});
+  h+=step(3,'Chapters',any?nsel+' selected · <button type="button" class="qblink" id="qbAll">clear</button>':'all chapters')+'<div class="qbparts"><button type="button" class="qbpt'+(allOn?' on':'')+'" data-part="'+qchs.join(',')+'"><span>Obstetrics</span><small>'+QS.length+' questions · '+(allOn?'selected':'select all')+'</small></button><div class="qbch">'+qchs.map(function(c){
+    var k=QS.filter(function(q){return q.ch===c}).length;return '<button type="button" style="--qc:'+(FCCOL[c]||'#4c2c8f')+'" class="'+(qset.ch[c]?'on':'')+'" data-ch="'+c+'" title="'+esc(chName(c))+'"><span class="n">'+c+'</span><span class="l">'+esc(FCSHORT[c]||chName(c))+'</span><small>'+k+'</small></button>'}).join('')+'</div></div>';
+  h+=step(4,'Number of questions',max+' available')+'<div class="qbnq">'+[10,20,40,max].filter(function(v,ix,a){return v>0&&v<=max&&a.indexOf(v)===ix}).map(function(v){return '<button type="button" data-qn="'+v+'" class="'+(n===v?'on':'')+'">'+(v===max&&v>40?'All '+v:v)+'</button>'}).join('')+'</div>'+
+    '<div class="qbn"><input type="range" id="qbN" min="1" max="'+Math.max(1,Math.min(max,100))+'" value="'+Math.max(1,n)+'"'+(max?'':' disabled')+' aria-label="Number of questions"><b id="qbNv">'+n+'</b></div></div>';
+  h+='<div class="qbgob"><button class="btn qbgo" type="button" id="qbGo"'+(max?'':' disabled')+'>'+(max?'Start test<small id="qbGoS">'+n+' questions · '+(qset.mode==='timed'?'Timed':'Tutor')+'</small>':'No questions match')+'</button></div>';
+  if(QT.length){h+='<div class="sh"><h3>Previous tests</h3><span>Tap to review</span></div><div class="qbprev">'+QT.slice().reverse().map(function(t,i){var j=QT.length-1-i,sc=qpct(t.ok,t.ids.length);
+    return '<button type="button" data-t="'+j+'"><span class="sc '+(sc>=70?'g':sc>=50?'m':'b')+'">'+sc+'%</span><span class="l"><b>'+t.ok+' / '+t.ids.length+' correct</b><small>'+(t.mode==='timed'?'Timed':'Tutor')+' · '+new Date(t.d).toLocaleDateString(undefined,{day:'numeric',month:'short'})+'</small></span><span class="go">›</span></button>'}).join('')+'</div>'}
+  if(QT.length||Object.keys(QST).length)h+='<button class="chip qbreset" type="button" id="qbReset">Reset all question-bank progress</button>';
+  var v=$('qbank-v'),y=v.scrollTop;$('qbWrap').innerHTML=h;v.scrollTop=keep?y:0}
+function qStats(){if(!CUR)renderQB(1)}
+function qStart(){CUR&&!CUR.done?renderQ():renderQB()}
+function qAsk(m){try{return window.confirm(m)}catch(e){return true}}
+$('qbWrap').addEventListener('input',function(e){if(e.target.id==='qbN'){qset.n=+e.target.value;$('qbNv').textContent=e.target.value;var gs=$('qbGoS');if(gs)gs.textContent=e.target.value+' questions · '+(qset.mode==='timed'?'Timed':'Tutor');[].forEach.call($('qbWrap').querySelectorAll('[data-qn]'),function(x){x.classList.toggle('on',+x.dataset.qn===qset.n)});saveQ()}});
+$('qbWrap').addEventListener('click',function(e){var b=e.target.closest('button');if(!b||!$('qbWrap').contains(b))return;
+  var g=b.parentNode.dataset&&b.parentNode.dataset.k;
+  if(g&&b.dataset.v){qset[g]=b.dataset.v;saveQ();renderQB(1);return}
+  if(b.dataset.ch){qset.ch[b.dataset.ch]=!qset.ch[b.dataset.ch];saveQ();renderQB(1);return}
+  if(b.dataset.qn){qset.n=+b.dataset.qn;saveQ();renderQB(1);return}
+  if(b.id==='qbAll'){qset.ch={};saveQ();renderQB(1);return}
+  if(b.dataset.part){var ns=b.dataset.part.split(','),on=ns.every(function(n){return qset.ch[n]});ns.forEach(function(n){qset.ch[n]=!on});saveQ();renderQB(1);return}
+  if(b.id==='qbGo'){startTest();return}
+  if(b.dataset.t){var t=QT[+b.dataset.t];CUR={ids:t.ids,ans:t.ans,mode:t.mode,i:0,done:true,review:+b.dataset.t};renderQ();return}
+  if(b.id==='qbReset'){if(qAsk('Clear all answers, marks and previous tests?')){QST={};QT=[];CUR=null;saveQ();renderQB()}return}
+  if(b.dataset.o!==undefined){pick(+b.dataset.o);return}
+  if(b.id==='qbSub'){submitQ();return}
+  if(b.id==='qbPrev'){go(CUR.i-1);return}if(b.id==='qbNext'){go(CUR.i+1);return}
+  if(b.id==='qbMark'){var id=CUR.ids[CUR.i],s=QST[id]=QST[id]||{};if(s.m)delete s.m;else s.m=1;if(!Object.keys(s).length)delete QST[id];saveQ();renderQ();return}
+  if(b.id==='qbEnd'){if(CUR.done){CUR=null;saveQ();renderQB()}else{var un=CUR.ids.filter(function(x){return CUR.ans[x]===undefined}).length;if(!un||qAsk('End the test now? '+un+' unanswered question'+(un>1?'s stay':' stays')+' unused.'))finishTest()}return}
+  if(b.id==='qbEnd2'){var un2=CUR.ids.filter(function(x){return CUR.ans[x]===undefined}).length;if(!un2||qAsk(un2+' question'+(un2>1?'s are':' is')+' unanswered. Finish anyway?'))finishTest();return}
+  if(b.id==='qbGrid'){$('qbPal').hidden=!$('qbPal').hidden;return}
+  if(b.dataset.j!==undefined){go(+b.dataset.j);return}
+  if(b.dataset.rv!==undefined){var k=+b.dataset.k,t2=QT[k];CUR={ids:t2.ids,ans:t2.ans,mode:t2.mode,i:+b.dataset.rv,done:true,review:k};renderQ();return}
+  if(b.id==='qbRes'){showResult(CUR.review);return}
+  if(b.id==='qbBack'){renderQB();return}
+  if(b.dataset.p){goPage(+b.dataset.p-1);return}});
+function startTest(){var pool=poolQs();for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),x=pool[i];pool[i]=pool[j];pool[j]=x}
+  var n=Math.min(qset.n,pool.length);CUR={ids:pool.slice(0,n).map(function(q){return q.id}),ans:{},sub:{},mode:qset.mode,i:0,start:Date.now(),lim:n*75};saveQ();renderQ()}
+function go(i){if(i<0||i>=CUR.ids.length)return;CUR.i=i;saveQ();renderQ();$('qbank-v').scrollTop=0}
+function pick(o){var id=CUR.ids[CUR.i];if(CUR.done||(CUR.mode==='tutor'&&CUR.sub[id]))return;CUR.ans[id]=o;saveQ();renderQ()}
+function submitQ(){var id=CUR.ids[CUR.i];if(CUR.ans[id]===undefined)return;CUR.sub[id]=1;record(id);saveQ();renderQ()}
+function record(id){var q=QBY[id];if(!q)return;var s=QST[id]||{n:0,c:0},ok=CUR.ans[id]===q.answer;s.n=(s.n||0)+1;if(ok)s.c=(s.c||0)+1;s.w=!ok;s.a=1;QST[id]=s}
+function finishTest(){var ok=0;CUR.ids.forEach(function(id){if(CUR.ans[id]!==undefined&&!(CUR.sub&&CUR.sub[id]))record(id);if(QBY[id]&&CUR.ans[id]===QBY[id].answer)ok++});
+  QT.push({d:Date.now(),mode:CUR.mode,ids:CUR.ids,ans:CUR.ans,ok:ok});var k=QT.length-1;if(QT.length>50){QT.shift();k--}CUR=null;saveQ();showResult(k)}
+function showResult(k){var t=QT[k],n=t.ids.length,sc=qpct(t.ok,n);CUR=null;$('subtitle').textContent='Test result';
+  var byC={};t.ids.forEach(function(id){var q=QBY[id];if(!q)return;var s=FCSHORT[q.ch]||chName(q.ch);byC[s]=byC[s]||[0,0];byC[s][1]++;if(t.ans[id]===q.answer)byC[s][0]++});
+  $('qbWrap').innerHTML='<div class="qbres"><div class="ring '+(sc>=70?'g':sc>=50?'m':'b')+'" style="--v:'+sc+'"><b>'+sc+'%</b></div><b>'+t.ok+' of '+n+' correct</b><span class="muted">'+(t.mode==='timed'?'Timed':'Tutor')+' test</span></div>'+
+    '<div class="sh"><h3>By chapter</h3></div><div class="qbtop">'+Object.keys(byC).map(function(s){var v=byC[s];return '<div><span>'+esc(s)+'</span><b>'+v[0]+' / '+v[1]+'</b><div class="pbar"><i style="width:'+qpct(v[0],v[1])+'%"></i></div></div>'}).join('')+'</div>'+
+    '<div class="sh"><h3>Questions</h3><span>Tap to review</span></div><div class="qbgrid">'+t.ids.map(function(id,j){var q=QBY[id],a=t.ans[id];return '<button type="button" data-rv="'+j+'" data-k="'+k+'" class="'+(a===undefined?'na':q&&a===q.answer?'ok':'no')+'">'+(j+1)+'</button>'}).join('')+'</div>'+
+    '<button class="btn qbgo" type="button" id="qbBack">Back to the question bank</button>';$('qbank-v').scrollTop=0}
+var qtick=null;
+function timeLeft(){return Math.max(0,CUR.lim-Math.floor((Date.now()-CUR.start)/1000))}
+function fmtT(s){return Math.floor(s/60)+':'+('0'+s%60).slice(-2)}
+function renderQ(){clearInterval(qtick);var id=CUR.ids[CUR.i],q=QBY[id],n=CUR.ids.length;
+  if(!q){CUR.ids.splice(CUR.i,1);if(!CUR.ids.length){CUR=null;saveQ();return renderQB()}CUR.i=Math.min(CUR.i,CUR.ids.length-1);return renderQ()}
+  var a=CUR.ans[id],shown=CUR.done||(CUR.mode==='tutor'&&CUR.sub&&CUR.sub[id]),t=TT[q.topic]||{no:'',title:''},mk=QST[id]&&QST[id].m;
+  $('subtitle').textContent=CUR.done?'Review':'Question bank';
+  var h='<div class="qbtb"><span class="qn">Q '+(CUR.i+1)+' <small>/ '+n+'</small></span>'+(CUR.mode==='timed'&&!CUR.done?'<span class="qt" id="qbT">'+fmtT(timeLeft())+'</span>':'')+
+    '<button type="button" id="qbMark" class="qbic'+(mk?' on':'')+'" aria-label="Mark question"><svg viewBox="0 0 24 24" fill="'+(mk?'currentColor':'none')+'" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M5 21V4h11l-2 4 2 4H5"/></svg></button>'+
+    '<button type="button" id="qbGrid" class="qbic" aria-label="All questions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg></button>'+
+    '<button type="button" id="qbEnd" class="chip">'+(CUR.done?'Close':'End test')+'</button></div>';
+  h+='<div class="qbgrid pal" id="qbPal" hidden>'+CUR.ids.map(function(x,j){var c='';if(CUR.done||(CUR.sub&&CUR.sub[x]))c=QBY[x]&&CUR.ans[x]===QBY[x].answer?'ok':CUR.ans[x]===undefined?'na':'no';else if(CUR.ans[x]!==undefined)c='an';
+    return '<button type="button" data-j="'+j+'" class="'+c+(j===CUR.i?' cur':'')+'">'+(j+1)+'</button>'}).join('')+'</div>';
+  h+='<div class="qbq" style="--qc:'+(FCCOL[q.ch]||'#4c2c8f')+'"><span class="k">'+esc(t.no)+' · '+esc(t.title)+(q.emq?' · EMQ':'')+'</span>'+
+    (q.emq?'<p class="th">'+esc(q.theme)+'</p>'+(q.lead?'<p class="ld">'+esc(q.lead)+'</p>':''):'')+'<p>'+esc(q.stem)+'</p>'+(q.q?'<p class="qq2">'+esc(q.q)+'</p>':'')+'</div><div class="qbo">'+q.options.map(function(o,j){
+    var c='';if(shown){if(j===q.answer)c='ok';else if(j===a)c='no'}else if(j===a)c='sel';
+    return '<button type="button" data-o="'+j+'" class="'+c+'"><span class="l">'+L[j]+'</span><span>'+esc(o)+'</span></button>'}).join('')+'</div>';
+  if(shown){var right=a===q.answer;h+='<div class="qbe '+(a===undefined?'na':right?'ok':'no')+'"><b>'+(a===undefined?'Not answered':right?'Correct':'Incorrect')+' · answer '+L[q.answer]+'</b><p>'+esc(q.why||'')+'</p>'+(t.p?'<button type="button" class="qblink" data-p="'+t.p+'">Read in the book · p '+t.p+' ›</button>':'')+'</div>'}
+  else if(CUR.mode==='tutor')h+='<button class="btn qbgo" type="button" id="qbSub"'+(a===undefined?' disabled':'')+'>Submit answer</button>';
+  h+='<div class="qbnav"><button type="button" class="chip" id="qbPrev"'+(CUR.i?'':' disabled')+'>‹ Previous</button>'+
+    (CUR.i<n-1?'<button type="button" class="chip" id="qbNext">Next ›</button>':CUR.done?(CUR.review!==undefined?'<button type="button" class="chip" id="qbRes">Results ›</button>':''):'<button type="button" class="chip on" id="qbEnd2">Finish test</button>')+'</div>';
+  $('qbWrap').innerHTML=h;
+  if(CUR.mode==='timed'&&!CUR.done){qtick=setInterval(function(){if(!CUR||CUR.done||!$('qbT')){clearInterval(qtick);return}var s=timeLeft();$('qbT').textContent=fmtT(s);$('qbT').classList.toggle('low',s<60);if(!s){clearInterval(qtick);finishTest()}},1000)}}
 var qStarted=false;
 
 /* ---------- sync: highlights and notes shared by the devices of one activation code ----------
@@ -2652,6 +2795,7 @@ if(SYNC){setTimeout(function(){syncNow()},1500);
 var SM={known:{get:function(){return KNOWN},set:function(v){KNOWN=v;spj('known2',KNOWN)}},
   upg:{get:function(){return UPG},set:function(v){var o={};Object.keys(v).forEach(function(k){if(v[k])o[k]=v[k]});UPG=o;spj('upg',UPG)}},
   qb:{get:function(){return QST},set:function(v){QST=v;saveQ()}},
+  qbt:{get:function(){var o={};QT.forEach(function(t){o[t.d]=t});return o},set:function(v){QT=Object.keys(v).map(function(k){return v[k]}).filter(function(t){return t&&t.ids}).sort(function(a,b){return a.d-b.d}).slice(-50);saveQ()}},
   streak:{get:function(){var S=spj('streak');return S?{s:S}:{}},set:function(v){if(v.s)spj('streak',v.s)}},
   page:{get:function(){var p=sp('pk');return p?{p:p}:{}},set:function(v){if(v.p)sp('pk',v.p)}}};
 var SMU=spj('smu')||{},SMP={};
