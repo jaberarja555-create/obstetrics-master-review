@@ -23,7 +23,9 @@ def children(s, a, b):
         if j < 0 or j >= b: break
         e = close_of(s, j); out.append((j, e)); i = e
     return out
-def tkey(f): return re.sub(r'\d+$', '', f.split('_', 1)[1]) if f.startswith('c') and '_' in f else None
+def tkey(f):
+    if f.startswith('x9'): return 'x9'
+    return re.sub(r'\d+$', '', f.split('_', 1)[1]) if f.startswith('c') and '_' in f else None
 F = json.load(open(os.path.join(R, 'build/blocks.json')))
 files = {re.match(r'\d+_(.+)\.html', os.path.basename(f)).group(1): f for f in glob.glob(os.path.join(R, 'content/pages/*.html'))}
 groups = []
@@ -117,11 +119,11 @@ def frag_html(B, A, idxs, src):
     st = re.search(r'<div class="blk" data-id="' + re.escape(b['bid']) + r'"[^>]*>', s).start(); blk = s[st:close_of(s, st)]
     allidx = [i for i, a in enumerate(A) if a['b'] == a0['b']]
     if a0['kind'] == 'blk' or idxs == allidx: return blk
-    mh = re.search(r'<div class="mh"[^>]*>', blk); mhe = close_of(blk, mh.start())
+    mh = re.search(r'<div class="mh[^"]*"[^>]*>', blk); mhe = close_of(blk, mh.start())
     mc = re.search(r'<div class="mc"[^>]*>', blk); mce = close_of(blk, mc.start())
     kids = children(blk, mc.end(), mce - 6)
     first = idxs[0] == allidx[0]
-    pre = blk[:mc.end()] if first else blk[:mh.start()] + blk[mhe:mc.end()]
+    pre = blk[:mc.end()] if first else blk[:mh.start()] + blk[mh.start():mhe].replace('<div class="mh">', '<div class="mh mhc">', 1) + blk[mhe:mc.end()]
     if not first: pre = re.sub(r'^<div class="blk" data-id="([^"]*)"', lambda m: '<div class="blk" data-id="%s.%d"' % (m.group(1), idxs[0]), pre)
     body, i = '', 0
     while i < len(idxs):
@@ -136,7 +138,9 @@ def frag_html(B, A, idxs, src):
 def main():
     apply = '--apply' in sys.argv
     report = []; jobs = []
+    only = os.environ.get('TOPICS', '').split()
     for k, pages in groups:
+        if only and k not in only: continue
         r = plan(pages)
         if not r: print('no plan', k); continue
         A, B, out, frees = r

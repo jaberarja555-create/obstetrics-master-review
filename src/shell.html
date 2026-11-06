@@ -1363,6 +1363,13 @@ table.numt + table.numt tr:first-child td { border-top: 1px solid var(--ch-line2
 .chcov .cvin.cv2 .cvr:nth-last-child(2):nth-child(odd){border-bottom:0}
 .chcov .cvbot{position:absolute;bottom:0;left:0;right:0;height:40px;display:flex;align-items:center;justify-content:center;gap:14px;background:#1e1748;border-top:3px solid #c8963c;font:700 7.6pt Inter;letter-spacing:2.6px;text-transform:uppercase;color:#e8c36a}
 .chcov .cvbot i{width:5px;height:5px;border-radius:50%;background:#c8963c}
+/* a section that continues from the previous page repeats its title, slimmer (no "continued") */
+.page.mz .mb .mh.mhc{font-size:9.6pt;padding-top:3px;padding-bottom:2px;opacity:.85}
+/* Rapid Review rows (owner, Nov 2026: plain and clean as in Surgery): clue | answer columns, striped rows, no dark pills */
+section[data-file^="x9"] .frow{grid-template-columns:1fr 45%;gap:0;align-items:stretch;padding:0;border-bottom:1px solid #ebe9f3;font-size:9.5pt;line-height:1.32}
+section[data-file^="x9"] .frow:nth-child(even){background:#f8f7fc}
+section[data-file^="x9"] .frow > span:first-child{padding:4px 7px 4px 6px;color:#1c1917}
+section[data-file^="x9"] .frow .ans{background:none;color:#1e1748;font-weight:750;font-size:9.3pt;padding:4px 5px 4px 8px;border-left:1px solid #e3e1ec;border-radius:0;white-space:normal;letter-spacing:0}
 /* rows of pictures: same height, centred, caption under each (owner) */
 .mz .photos.even { display: flex; flex-wrap: nowrap; justify-content: center; align-items: flex-start; gap: 14px; margin: 8px 0 4px; }
 .mz .photos.even > .photo { flex: none; margin: 0; }

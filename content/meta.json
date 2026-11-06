@@ -1296,6 +1296,11 @@
    "f": "c7s03p8x3_oe8"
   },
   {
+   "label": "7.3 · Closing, Present It & Viva",
+   "t": "oe",
+   "f": "c7s03p8x4_oe8"
+  },
+  {
    "label": "7.4 · Blood Pressure: the Technique",
    "t": "obp",
    "f": "c7s04p1_obp1"
@@ -2225,7 +2230,7 @@
    "no": "7.4",
    "title": "Blood pressure & urine testing",
    "sub": "Cuff · Korotkoff sounds · dipstick protein & sugar",
-   "p": 260,
+   "p": 261,
    "id": "obp",
    "ch": 7,
    "cls": "c7"
@@ -2234,7 +2239,7 @@
    "no": "7.5",
    "title": "Speculum & vaginal examination",
    "sub": "Cusco & Sims · swabs · dilatation · station · position · Bishop",
-   "p": 270,
+   "p": 271,
    "id": "ov",
    "ch": 7,
    "cls": "c7"
@@ -2243,7 +2248,7 @@
    "no": "7.6",
    "title": "Partogram & CTG stations",
    "sub": "Plotting · alert & action lines · reading a CTG",
-   "p": 283,
+   "p": 284,
    "id": "opc",
    "ch": 7,
    "cls": "c7"
@@ -2252,7 +2257,7 @@
    "no": "7.7",
    "title": "Normal delivery & episiotomy",
    "sub": "Conducting delivery · AMTSL · episiotomy · tear repair",
-   "p": 296,
+   "p": 297,
    "id": "ond",
    "ch": 7,
    "cls": "c7"
@@ -2261,7 +2266,7 @@
    "no": "7.8",
    "title": "Operative delivery stations",
    "sub": "Ventouse · forceps · caesarean section",
-   "p": 305,
+   "p": 306,
    "id": "oiv",
    "ch": 7,
    "cls": "c7"
@@ -2270,7 +2275,7 @@
    "no": "7.9",
    "title": "Emergency drills",
    "sub": "PPH · eclampsia · shoulder dystocia · cord prolapse · newborn",
-   "p": 315,
+   "p": 316,
    "id": "oem",
    "ch": 7,
    "cls": "c7"
@@ -2279,7 +2284,7 @@
    "no": "7.10",
    "title": "Instruments, drugs & spotters",
    "sub": "What it is · what it is used for · viva questions",
-   "p": 328,
+   "p": 329,
    "id": "osp",
    "ch": 7,
    "cls": "c7"
@@ -2288,7 +2293,7 @@
    "no": "7.11",
    "title": "Counselling stations",
    "sub": "Bad news · IUFD · heart disease · epilepsy · contraception",
-   "p": 334,
+   "p": 335,
    "id": "oco",
    "ch": 7,
    "cls": "c7"
