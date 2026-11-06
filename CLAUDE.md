@@ -55,7 +55,13 @@ activation orr-k / orr-kc). Sync via Supabase RPCs obs_sync_get / obs_sync_put (
 - **Rapid Review (owner, Nov 2026):** two columns of topic cards in the chapter colour (number badge + title once per topic,
   no repeated titles; a topic that runs on into the next column continues with no title), a picture band at the start of each
   chapter (`.rrc`, chapter cover picture). Re-flow after RR content changes: `mkdir -p build/rr && python3 tools/rapid_review/extract.py`,
-  write build/rr/chapters.json (see git history), `python3 build.py && node tools/rapid_review/layout.js && python3 tools/rapid_review/write.py`.
+  write build/rr/chapters.json ({n: {name, img}} from meta chapters, chcover if present), `python3 build.py && node tools/rapid_review/layout.js && python3 tools/rapid_review/write.py`.
+- **Key numbers live in the Rapid Review (owner, 6 Nov 2026):** topic pages have NO Key numbers box any more; every number
+  is written in the text where it belongs (checked and added Nov 2026), and each topic's card in the Rapid Review ends with a
+  "Key numbers" part (`.rvsub` + `.frow.kn`, value on the right). Source of those rows: `content/rr_keynums.json` (topic no →
+  [value html, label html]); edit it there, then re-run the Rapid Review flow below (extract reads the cards' clue rows from the
+  RR pages and the numbers from this file; `layout.js` writes `build/rr/pages.json`; add/remove `x9` pages with
+  `grow_topics.py x9` / `delete_page.py` to match, then `write.py`; relabel meta "Rapid review · i/N").
 - **No repeated titles (owner, 6 Nov 2026):** a section that runs on to the next page continues WITHOUT its title (no slim title,
   no "continued"); tools/cont_titles.py now removes any. To avoid small stubs, a section is divided only when it is big
   (`SPLITMIN` 320 px) and into fair parts (each ≥ `SPLITFR` 30 %); where that would leave big gaps a looser setting is used

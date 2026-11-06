@@ -1,0 +1,4830 @@
+{
+"1.1": [
+[
+"1000 <small>g</small>",
+"Weight of the uterus at term"
+],
+[
+"500–750 <small>mL/min</small>",
+"Uterine blood flow at term"
+],
+[
+"40 <small>%</small>",
+"Rise in cardiac output"
+],
+[
+"10–15 <small>bpm</small>",
+"Rise in heart rate"
+],
+[
+"45 <small>%</small>",
+"Rise in plasma volume"
+],
+[
+"8–10 <small>wk</small>",
+"The placenta takes over progesterone production"
+],
+[
+"40–50 <small>%</small>",
+"Rise in minute ventilation"
+],
+[
+"20 <small>%</small>",
+"Fall in functional residual capacity"
+],
+[
+"50 <small>%</small>",
+"Rise in <span class=\"ab\" data-a=\"Glomerular filtration rate\">GFR</span>"
+],
+[
+"300 <small>mg/24 h</small>",
+"Upper limit of normal <span class=\"gl\" data-a=\"proteinuria: Protein in the urine.\">proteinuria</span>"
+],
+[
+"2–4 <small>×</small>",
+"Normal rise of <span class=\"ab\" data-a=\"Alkaline phosphatase\">ALP</span>"
+],
+[
+"4–6 <small>×</small>",
+"Rise in <span class=\"ab\" data-a=\"Venous thromboembolism\">VTE</span> risk"
+],
+[
+"8–10 <small>wk</small>",
+"<span class=\"ab\" data-a=\"Human chorionic gonadotrophin: the pregnancy hormone made by the placenta, measured in blood or urine\">hCG</span> peak; the placenta takes over"
+],
+[
+"24–28 <small>wk</small>",
+"Insulin resistance appears: screen with an <span class=\"ab\" data-a=\"Oral glucose tolerance test\">OGTT</span>"
+],
+[
+"2 <small>×</small>",
+"Rise in <span class=\"ab\" data-a=\"Thyroxine-binding globulin\">TBG</span> and in pituitary size"
+],
+[
+"8–12 <small>wk</small>",
+"Nausea and vomiting are worst"
+],
+[
+"16–20 <small>wk</small>",
+"Vomiting usually settles"
+],
+[
+"10 <small>×</small>",
+"Rise in prolactin"
+],
+[
+"12.5 <small>kg</small>",
+"Average total weight gain"
+],
+[
+"11.5–16 <small>kg</small>",
+"Recommended gain if <span class=\"ab\" data-a=\"Body mass index\">BMI</span> is normal"
+],
+[
+"5–9 <small>kg</small>",
+"Recommended gain if <span class=\"ab\" data-a=\"Body mass index\">BMI</span> is 30 or more"
+],
+[
+"0.5 <small>kg/wk</small>",
+"Weight gain in the second half"
+],
+[
+"&lt; 75 <small>µmol/L</small>",
+"Normal creatinine in pregnancy"
+],
+[
+"4–6 <small>g/L</small>",
+"Fibrinogen at term"
+]
+],
+"1.2": [
+[
+"6 <small>wk</small>",
+"Nausea and vomiting start"
+],
+[
+"6–10 <small>wk</small>",
+"<span class=\"gl\" data-a=\"Hegar: Soft isthmus of the uterus at 6–10 weeks.\">Hegar</span>'s sign"
+],
+[
+"8 <small>wk</small>",
+"<span class=\"gl\" data-a=\"Chadwick: Bluish vagina and cervix from congestion (≈ 8 wk).\">Chadwick</span>'s sign"
+],
+[
+"12 <small>wk</small>",
+"Uterus palpable above the symphysis pubis"
+],
+[
+"16–18 <small>wk</small>",
+"Quickening in a <span class=\"gl\" data-a=\"multipara: A woman who has given birth (≥ 24 wk) more than once.\">multipara</span>"
+],
+[
+"20–24 <small>wk</small>",
+"Examiner feels fetal parts and movements"
+],
+[
+"8–11 <small>d</small>",
+"Serum <span class=\"ab\" data-a=\"Human chorionic gonadotrophin: the pregnancy hormone made by the placenta, measured in blood or urine\">hCG</span> becomes positive after conception"
+],
+[
+"4 <small>wk</small>",
+"Urine test becomes positive (missed period)"
+],
+[
+"8–10 <small>wk</small>",
+"<span class=\"ab\" data-a=\"Human chorionic gonadotrophin: the pregnancy hormone made by the placenta, measured in blood or urine\">hCG</span> peak"
+],
+[
+"12 <small>wk</small>",
+"Fetal heart heard by Doppler"
+],
+[
+"24 <small>wk</small>",
+"Fetal heart heard by Pinard stethoscope"
+],
+[
+"18–20 <small>wk</small>",
+"Quickening in a first pregnancy"
+],
+[
+"280 <small>d</small>",
+"From the <span class=\"ab\" data-a=\"Last menstrual period\">LMP</span> to the <span class=\"ab\" data-a=\"Expected date of delivery\">EDD</span> (40 weeks)"
+],
+[
+"4.5–5 <small>wk</small>",
+"Gestational sac seen on <span class=\"ab\" data-a=\"Transvaginal scan\">TVS</span>"
+],
+[
+"6 <small>wk</small>",
+"Heartbeat seen on <span class=\"ab\" data-a=\"Transvaginal scan\">TVS</span>"
+],
+[
+"2000 <small>IU/L</small>",
+"<span class=\"gl\" data-a=\"discriminatory zone: The hCG level (about 1500–2000 IU/L) above which a pregnancy inside the uterus should be seen on transvaginal scan.\">Discriminatory zone</span> for <span class=\"ab\" data-a=\"Transvaginal scan\">TVS</span>"
+],
+[
+"± 5 <small>d</small>",
+"Accuracy of dating by <span class=\"ab\" data-a=\"Crown-rump length\">CRL</span>"
+],
+[
+"7 <small>mm</small>",
+"<span class=\"ab\" data-a=\"Crown-rump length\">CRL</span> at which a heartbeat must be seen"
+],
+[
+"37–42 <small>wk</small>",
+"Term pregnancy (37 to 41⁺⁶ weeks)"
+]
+],
+"1.3": [
+[
+"&lt; 12 <small>wk</small>",
+"Ideal time of booking"
+],
+[
+"&lt; 11 <small>g/dL</small>",
+"Haemoglobin defining anaemia"
+],
+[
+"28 <small>wk</small>",
+"Repeat haemoglobin and antibody screen"
+],
+[
+"24–28 <small>wk</small>",
+"<span class=\"ab\" data-a=\"Oral glucose tolerance test\">OGTT</span> for women at risk"
+],
+[
+"18–22 <small>wk</small>",
+"Anomaly scan"
+],
+[
+"8",
+"Minimum number of <span class=\"ab\" data-a=\"World Health Organization\">WHO</span> antenatal contacts"
+],
+[
+"0.4 <small>mg</small>",
+"Folic acid for all women"
+],
+[
+"5 <small>mg</small>",
+"Folic acid for high-risk women"
+],
+[
+"30–60 <small>mg</small>",
+"Elemental iron daily"
+],
+[
+"75 <small>mg</small>",
+"Aspirin from 12 to 36 weeks"
+],
+[
+"1.5–2 <small>g</small>",
+"Calcium daily"
+],
+[
+"5",
+"Td doses for lifelong protection"
+],
+[
+"300 <small>kcal</small>",
+"Extra energy daily in the second half"
+],
+[
+"3 <small>tabs</small>",
+"Tablets of SP per dose (500/25 mg each)"
+],
+[
+"16–20 <small>wk</small>",
+"Time of the first SP dose"
+],
+[
+"≥ 4 <small>wk</small>",
+"Interval between SP doses"
+],
+[
+"8",
+"Danger signs taught to every woman"
+],
+[
+"6 <small>mo</small>",
+"Duration of exclusive breastfeeding"
+],
+[
+"≥ 35 <small>y</small>",
+"Maternal age that is high risk"
+],
+[
+"&lt; 150 <small>cm</small>",
+"Height with a risk of <span class=\"gl\" data-a=\"cephalopelvic disproportion: Baby's head too big for the mother's pelvis.\">cephalopelvic disproportion</span>"
+],
+[
+"36 <small>wk</small>",
+"Check the fetal presentation"
+],
+[
+"≥ 3",
+"Miscarriages that make a woman high risk"
+],
+[
+"2 <small>wk</small>",
+"Move near the hospital before the <span class=\"ab\" data-a=\"Expected date of delivery\">EDD</span>"
+]
+],
+"2.1": [
+[
+"≈ 50%",
+"Women with morning sickness"
+],
+[
+"≈ 1%",
+"Hyperemesis gravidarum"
+],
+[
+"4–6 <small>wk</small>",
+"Nausea starts"
+],
+[
+"9–12 <small>wk</small>",
+"<span class=\"ab\" data-a=\"Human chorionic gonadotrophin: the pregnancy hormone made by the placenta, measured in blood or urine\">hCG</span> and vomiting peak"
+],
+[
+"&gt; 5%",
+"Weight loss in <span class=\"ab\" data-a=\"Hyperemesis gravidarum\">HG</span>"
+],
+[
+"≥ 12",
+"<span class=\"ab\" data-a=\"Pregnancy-Unique Quantification of Emesis score\">PUQE</span>: severe, admit"
+],
+[
+"25 <small>mg</small>",
+"Promethazine, 1st line"
+],
+[
+"50 <small>mg</small>",
+"Cyclizine, 1st line"
+],
+[
+"10 <small>mg</small>",
+"Metoclopramide, 2nd line"
+],
+[
+"100 <small>mg</small>",
+"Thiamine <span class=\"ab\" data-a=\"Intravenous\">IV</span>, before dextrose"
+],
+[
+"24–48 <small>h</small>",
+"Nil by mouth, then light diet"
+],
+[
+"≤ 10",
+"Na⁺ rise, mmol/L per 24 h"
+]
+],
+"2.2": [
+[
+"&lt; 11",
+"Hb g/dL: anaemia, 1st trim"
+],
+[
+"&lt; 10.5",
+"Hb g/dL: anaemia, 2nd and 3rd trim"
+],
+[
+"&lt; 7",
+"Hb g/dL: severe"
+],
+[
+"+45<small>%</small>",
+"Plasma volume"
+],
+[
+"+25<small>%</small>",
+"Red cell mass"
+],
+[
+"1000 <small>mg</small>",
+"Extra iron: fetus 300 · red cells 450 · losses 200"
+],
+[
+"80–90<small>%</small>",
+"Anaemia due to iron lack"
+],
+[
+"&lt; 80",
+"<span class=\"ab\" data-a=\"Mean corpuscular volume\">MCV</span> fL: microcytic"
+],
+[
+"&gt; 100",
+"<span class=\"ab\" data-a=\"Mean corpuscular volume\">MCV</span> fL: macrocytic"
+],
+[
+"&lt; 15",
+"<span class=\"gl\" data-a=\"ferritin: Blood test of iron stores.\">Ferritin</span> µg/L: low"
+],
+[
+"&gt; 3.5<small>%</small>",
+"<span class=\"ab\" data-a=\"Haemoglobin A2\">HbA2</span>: β-thal trait"
+],
+[
+"13",
+"Mentzer: below = thal"
+],
+[
+"0.4 <small>mg</small>",
+"Folic acid, all women"
+],
+[
+"5 <small>mg</small>",
+"Folic acid, high risk"
+],
+[
+"200 <small>mg</small>",
+"Ferrous sulphate, 2–3× daily"
+],
+[
+"1 <small>g/dL</small>",
+"Hb rise / week on iron"
+],
+[
+"7–10 <small>d</small>",
+"Reticulocyte peak"
+],
+[
+"3–4 <small>h</small>",
+"Each unit of packed cells"
+],
+[
+"1 <small>g/dL</small>",
+"Hb rise per unit"
+]
+],
+"2.3": [
+[
+"× 5",
+"<span class=\"ab\" data-a=\"Venous thromboembolism\">VTE</span> risk in pregnancy"
+],
+[
+"75%",
+"DVTs in the left leg"
+],
+[
+"&gt; 2 <small>cm</small>",
+"Calf difference: suspicious"
+],
+[
+"6 <small>wk</small>",
+"Postpartum high-risk window"
+],
+[
+"&gt; 35",
+"Age: risk factor"
+],
+[
+"&gt; 30",
+"<span class=\"ab\" data-a=\"Body mass index\">BMI</span>: risk factor"
+],
+[
+"Day 4, 7",
+"Repeat negative duplex"
+],
+[
+"↓ CO₂",
+"<span class=\"ab\" data-a=\"Arterial blood gas\">ABG</span> in PE: hyperventilation"
+],
+[
+"S1Q3T3",
+"Classic <span class=\"ab\" data-a=\"Electrocardiogram\">ECG</span>, uncommon"
+],
+[
+"↑ HR",
+"Commonest <span class=\"ab\" data-a=\"Electrocardiogram\">ECG</span> finding"
+],
+[
+"≈ 0",
+"Fetal risk from <span class=\"ab\" data-a=\"CT pulmonary angiogram\">CTPA</span> or V/Q"
+],
+[
+"1 <small>mg/kg</small>",
+"Enoxaparin bd: treatment"
+],
+[
+"40 <small>mg</small>",
+"Enoxaparin daily: prophylaxis"
+],
+[
+"12 <small>h</small>",
+"Prophylactic dose → block"
+],
+[
+"24 <small>h</small>",
+"Treatment dose → block"
+],
+[
+"2–3",
+"Target <span class=\"ab\" data-a=\"International normalised ratio\">INR</span> on warfarin"
+],
+[
+"6 <small>wk</small>",
+"Postpartum anticoagulation"
+],
+[
+"28 <small>wk</small>",
+"Start <span class=\"ab\" data-a=\"Low-molecular-weight heparin\">LMWH</span>: 3 risk factors"
+]
+],
+"2.4": [
+[
+"85–90<small>%</small>",
+"Of diabetes in pregnancy is <span class=\"ab\" data-a=\"Gestational diabetes mellitus\">GDM</span>"
+],
+[
+"20 <small>wk</small>",
+"Insulin resistance starts"
+],
+[
+"×2–3",
+"Rise in insulin need"
+],
+[
+"3–8 <small>wk</small>",
+"<span class=\"gl\" data-a=\"organogenesis: Formation of organs: weeks 3–8 after conception.\">Organogenesis</span>: anomaly window"
+],
+[
+"≥ 7.0",
+"Fasting mmol/L = overt"
+],
+[
+"≥ 11.1",
+"2 h mmol/L = overt"
+],
+[
+"75 <small>g</small>",
+"Glucose load"
+],
+[
+"24–28 <small>wk</small>",
+"Routine <span class=\"ab\" data-a=\"Oral glucose tolerance test\">OGTT</span>"
+],
+[
+"16 <small>wk</small>",
+"Previous <span class=\"ab\" data-a=\"Gestational diabetes mellitus\">GDM</span>: first <span class=\"ab\" data-a=\"Oral glucose tolerance test\">OGTT</span>"
+],
+[
+"5.6",
+"Fasting cut-off, mmol/L"
+],
+[
+"7.8",
+"2 h cut-off, mmol/L"
+],
+[
+"18–20 <small>wk</small>",
+"Anomaly scan + fetal echo"
+],
+[
+"4 <small>wk</small>",
+"Growth scan interval"
+],
+[
+"4.5 <small>kg</small>",
+"<span class=\"gl\" data-a=\"macrosomia: Big baby: birth weight > 4 kg (or > 4.5 kg).\">Macrosomia</span>"
+],
+[
+"36 <small>wk</small>",
+"Stillbirth risk rises after"
+],
+[
+"50<small>%</small>",
+"Type 2 within 10 yr of <span class=\"ab\" data-a=\"Gestational diabetes mellitus\">GDM</span>"
+],
+[
+"&lt; 6.5<small>%</small>",
+"<span class=\"ab\" data-a=\"Glycated haemoglobin\">HbA1c</span> before conception"
+],
+[
+"&gt; 10<small>%</small>",
+"<span class=\"ab\" data-a=\"Glycated haemoglobin\">HbA1c</span>: delay pregnancy"
+],
+[
+"5 <small>mg</small>",
+"Folic acid daily"
+],
+[
+"&lt; 5.3",
+"Fasting target"
+],
+[
+"&lt; 7.8",
+"1 h after-meal target"
+],
+[
+"4–7",
+"Labour glucose, mmol/L"
+],
+[
+"0.2 <small>U/kg</small>",
+"Daily insulin start, <span class=\"ab\" data-a=\"Gestational diabetes mellitus\">GDM</span>"
+],
+[
+"0.5–2 <small>U/h</small>",
+"Labour insulin infusion"
+],
+[
+"0.1 <small>U/kg/h</small>",
+"<span class=\"ab\" data-a=\"Diabetic ketoacidosis\">DKA</span> insulin"
+],
+[
+"&gt; 2.6",
+"Neonatal glucose aim"
+],
+[
+"6 <small>wk</small>",
+"Postnatal <span class=\"ab\" data-a=\"Oral glucose tolerance test\">OGTT</span> after <span class=\"ab\" data-a=\"Gestational diabetes mellitus\">GDM</span>"
+]
+],
+"2.5": [
+[
+"140/90",
+"Hypertension"
+],
+[
+"160/110",
+"Severe: treat now"
+],
+[
+"20 <small>wk</small>",
+"Splits chronic from <span class=\"ab\" data-a=\"Pregnancy-induced hypertension\">PIH</span>/PE"
+],
+[
+"300 <small>mg</small>",
+"Protein / 24 h = significant"
+],
+[
+"30",
+"<span class=\"ab\" data-a=\"Protein:creatinine ratio\">PCR</span> mg/mmol = significant"
+],
+[
+"12 <small>wk</small>",
+"Still high after birth = chronic"
+],
+[
+"≥ 160/110",
+"Severe <span class=\"ab\" data-a=\"Blood pressure\">BP</span>"
+],
+[
+"&lt; 100",
+"Platelets ×10⁹/L: severe"
+],
+[
+"&gt; 5 <small>g</small>",
+"Protein / 24 h: severe"
+],
+[
+"&lt; 30",
+"Urine mL/h: oliguria"
+],
+[
+"↑ urate",
+"Rises with severity"
+],
+[
+"4 <small>g</small>",
+"<span class=\"ab\" data-a=\"Magnesium sulphate\">MgSO₄</span> loading <span class=\"ab\" data-a=\"Intravenous\">IV</span>"
+],
+[
+"1 <small>g/h</small>",
+"Maintenance"
+],
+[
+"24 <small>h</small>",
+"After birth or last fit"
+],
+[
+"10 <small>mL</small>",
+"10% calcium gluconate"
+],
+[
+"80 <small>mL/h</small>",
+"Total fluid limit"
+],
+[
+"5 <small>mg</small>",
+"Hydralazine <span class=\"ab\" data-a=\"Intravenous\">IV</span> bolus"
+],
+[
+"38 <small>wk</small>",
+"Deliver <span class=\"ab\" data-a=\"Pregnancy-induced hypertension\">PIH</span> / mild PE"
+],
+[
+"34 <small>wk</small>",
+"Steroids below this"
+],
+[
+"3–5 <small>d</small>",
+"Postpartum <span class=\"ab\" data-a=\"Blood pressure\">BP</span> peak"
+],
+[
+"75 <small>mg</small>",
+"Aspirin, 12 → 36 wk"
+],
+[
+"6 <small>wk</small>",
+"Postnatal <span class=\"ab\" data-a=\"Blood pressure\">BP</span> review"
+]
+],
+"2.6": [
+[
+"&lt; 7 <small>g/dL</small>",
+"Hb: severe anaemia"
+],
+[
+"&lt; 40 <small>mg/dL</small>",
+"<span class=\"ab\" data-a=\"Random blood glucose\">RBG</span> (2.2 mmol/L): hypoglycaemia"
+],
+[
+"&gt; 40 <small>°C</small>",
+"Hyperpyrexia"
+],
+[
+"&gt; 5 <small>%</small>",
+"Red cells infected: hyperparasitaemia"
+],
+[
+"&lt; 90",
+"Systolic <span class=\"ab\" data-a=\"Blood pressure\">BP</span>: algid malaria"
+],
+[
+"≥ 1",
+"Feature makes it severe"
+],
+[
+"2",
+"Films: thick (find) + thin (species, %)"
+],
+[
+"4",
+"Checks in every fit: <span class=\"ab\" data-a=\"Blood pressure\">BP</span>, protein, <span class=\"ab\" data-a=\"Random blood glucose\">RBG</span>, film"
+],
+[
+"140/90",
+"+ protein: points to <span class=\"gl\" data-a=\"eclampsia: Fits in a woman with pre-eclampsia.\">eclampsia</span>"
+],
+[
+"#1",
+"Anaemia: commonest maternal complication"
+],
+[
+"E",
+"Hepatitis that is severe in pregnancy"
+],
+[
+"4 × 6",
+"AL tabs per dose × doses (3 days)"
+],
+[
+"2.4 <small>mg/kg</small>",
+"<span class=\"ab\" data-a=\"Intravenous\">IV</span> artesunate at 0, 12, 24 h"
+],
+[
+"10 <small>mg/kg</small>",
+"Quinine, 8-hourly"
+],
+[
+"30 <small>min</small>",
+"Vomits within this: repeat dose"
+],
+[
+"3 <small>tabs</small>",
+"SP for each <span class=\"ab\" data-a=\"Intermittent preventive treatment in pregnancy\">IPTp</span> dose"
+],
+[
+"≥ 4 <small>wk</small>",
+"Gap between <span class=\"ab\" data-a=\"Intermittent preventive treatment in pregnancy\">IPTp</span> doses"
+]
+],
+"2.7": [
+[
+"40<small>%</small>",
+"Rise in cardiac output"
+],
+[
+"5 <small>wk</small>",
+"CO starts to rise"
+],
+[
+"24–32",
+"Weeks: plateau, oedema risk"
+],
+[
+"300–500",
+"mL per contraction"
+],
+[
+"60–80<small>%</small>",
+"CO rise immediately after birth"
+],
+[
+"4 <small>cm</small>",
+"Marfan aortic root limit"
+],
+[
+"10–12 <small>d</small>",
+"Multidisciplinary clinic visits"
+],
+[
+"28 <small>wk</small>",
+"Repeat Hb check"
+],
+[
+"20–22",
+"Weeks: fetal echo"
+],
+[
+"4 <small>wk</small>",
+"Growth scans from 24 wk"
+],
+[
+"6–12",
+"Weeks: warfarin <span class=\"gl\" data-a=\"embryopathy: Damage to the embryo, usually by a drug or infection.\">embryopathy</span>"
+],
+[
+"3–5<small>%</small>",
+"<span class=\"ab\" data-a=\"Congenital heart disease\">CHD</span> in baby if mother has <span class=\"ab\" data-a=\"Congenital heart disease\">CHD</span>"
+],
+[
+"36 <small>wk</small>",
+"Written delivery plan"
+],
+[
+"5 <small>IU</small>",
+"Oxytocin, slow <span class=\"ab\" data-a=\"Intravenous\">IV</span>"
+],
+[
+"24 <small>h</small>",
+"<span class=\"ab\" data-a=\"Low-molecular-weight heparin\">LMWH</span> stop before epidural"
+],
+[
+"3 <small>d</small>",
+"<span class=\"ab\" data-a=\"High-dependency unit\">HDU</span> after birth"
+],
+[
+"6 <small>mo</small>",
+"<span class=\"ab\" data-a=\"Peripartum cardiomyopathy\">PPCM</span> window after birth"
+],
+[
+"&lt; 45<small>%</small>",
+"EF in <span class=\"ab\" data-a=\"Peripartum cardiomyopathy\">PPCM</span>"
+]
+],
+"2.8": [
+[
+"2–3<small>%</small>",
+"Background anomaly risk"
+],
+[
+"≈ 10<small>%</small>",
+"Valproate alone"
+],
+[
+"6–8<small>%</small>",
+"One drug (average)"
+],
+[
+"8–16<small>%</small>",
+"Polytherapy"
+],
+[
+"1 / 3",
+"Fit more in pregnancy"
+],
+[
+"5 <small>mg</small>",
+"Folic acid daily"
+],
+[
+"2 <small>yr</small>",
+"Fit-free before conceiving"
+],
+[
+"5 <small>min</small>",
+"Fit = status epilepticus"
+],
+[
+"4 <small>mg</small>",
+"Lorazepam <span class=\"ab\" data-a=\"Intravenous\">IV</span>"
+],
+[
+"15–20",
+"Phenytoin mg/kg <span class=\"ab\" data-a=\"Intravenous\">IV</span>"
+],
+[
+"18–20",
+"Weeks: anomaly scan"
+],
+[
+"1 <small>mg</small>",
+"Vitamin K <span class=\"ab\" data-a=\"Intramuscular\">IM</span> to baby"
+],
+[
+"10 <small>d</small>",
+"Back to pre-pregnancy dose"
+]
+],
+"2.9": [
+[
+"&gt; 10",
+"Bile acids µmol/L: abnormal"
+],
+[
+"≥ 100",
+"Bile acids: stillbirth risk ↑"
+],
+[
+"2–3 ×",
+"Rise in <span class=\"ab\" data-a=\"Alanine aminotransferase\">ALT</span> / <span class=\"ab\" data-a=\"Aspartate aminotransferase\">AST</span> / <span class=\"ab\" data-a=\"Gamma-glutamyl transferase\">GGT</span>"
+],
+[
+"1 <small>in</small> 3",
+"Have a family history"
+],
+[
+"3rd",
+"Trimester of onset (usually)"
+],
+[
+"1–2 <small>wk</small>",
+"Repeat tests if itch persists"
+],
+[
+"8–12",
+"<span class=\"ab\" data-a=\"Ursodeoxycholic acid\">UDCA</span> mg/kg/day, 2 doses"
+],
+[
+"1–7 <small>d</small>",
+"Itch eases on <span class=\"ab\" data-a=\"Ursodeoxycholic acid\">UDCA</span>"
+],
+[
+"10 <small>mg</small>",
+"Vitamin K oral, daily"
+],
+[
+"≥ 100",
+"Bile acids: deliver 35–36 wk"
+],
+[
+"38 <small>wk</small>",
+"Deliver: bile acids 40–99"
+],
+[
+"45–70<small>%</small>",
+"Recurrence next pregnancy"
+]
+],
+"2.10": [
+[
+"3rd",
+"Trimester (usually 30–38 wk)"
+],
+[
+"3 : 1",
+"Male : female fetus"
+],
+[
+"9–25<small>%</small>",
+"Of cases are twins"
+],
+[
+"30–60<small>%</small>",
+"Have mild <span class=\"gl\" data-a=\"pre-eclampsia: New hypertension after 20 wk with proteinuria or organ damage.\">pre-eclampsia</span> too"
+],
+[
+"≥ 6",
+"Swansea features = <span class=\"ab\" data-a=\"Acute fatty liver of pregnancy\">AFLP</span>"
+],
+[
+"18<small>%</small>",
+"Maternal death (fetal 23%)"
+],
+[
+"10<small>%</small>",
+"Jaundice in pregnancy due to pregnancy itself"
+],
+[
+"&lt; 80",
+"Platelets: no regional block"
+],
+[
+"1–2 <small>h</small>",
+"Glucose checks"
+],
+[
+"10 <small>mg</small>",
+"<span class=\"ab\" data-a=\"Intravenous\">IV</span> vitamin K"
+],
+[
+"&gt; 1000",
+"<span class=\"ab\" data-a=\"Alanine aminotransferase\">ALT</span>: consider viral hepatitis"
+],
+[
+"20<small>%</small>",
+"Hepatitis E death, 3rd trimester"
+]
+],
+"2.11": [
+[
+"95 <small>%</small>",
+"<span class=\"gl\" data-a=\"thyrotoxicosis: Too much thyroid hormone.\">Thyrotoxicosis</span> due to Graves'"
+],
+[
+"×2",
+"<span class=\"ab\" data-a=\"Thyroxine-binding globulin\">TBG</span> level in pregnancy"
+],
+[
+"2.5",
+"<span class=\"ab\" data-a=\"Thyroid-stimulating hormone\">TSH</span> upper limit, 1st trimester"
+],
+[
+"12 <small>wk</small>",
+"Fetal thyroid starts working"
+],
+[
+"18–20",
+"Weeks: transient thyrotoxicosis settles"
+],
+[
+"≤ 10 <small>%</small>",
+"Babies of Graves' mothers: neonatal thyrotoxicosis"
+],
+[
+"25–30 <small>%</small>",
+"Levothyroxine rise in pregnancy"
+],
+[
+"&lt; 2.5",
+"Target <span class=\"ab\" data-a=\"Thyroid-stimulating hormone\">TSH</span>, 1st trimester"
+],
+[
+"150 <small>mg</small>",
+"<span class=\"ab\" data-a=\"Propylthiouracil\">PTU</span>/day: safe in breastfeeding"
+],
+[
+"15 <small>mg</small>",
+"Carbimazole/day: safe in breastfeeding"
+],
+[
+"3–4 <small>mo</small>",
+"Usual onset, postpartum thyroiditis"
+],
+[
+"70 <small>%</small>",
+"Its recurrence next pregnancy"
+]
+],
+"2.12": [
+[
+"25 <small>%</small>",
+"<span class=\"ab\" data-a=\"Mother-to-child transmission\">MTCT</span> with no treatment"
+],
+[
+"8 <small>%</small>",
+"With zidovudine alone"
+],
+[
+"1–2 <small>%</small>",
+"Combination <span class=\"ab\" data-a=\"Antiretroviral therapy\">ART</span>, <span class=\"ab\" data-a=\"Viral load\">VL</span> undetectable"
+],
+[
+"34–36",
+"Weeks: viral load for birth plan"
+],
+[
+"≤ 350",
+"<span class=\"ab\" data-a=\"CD4 T-cell count\">CD4</span>: start cotrimoxazole"
+],
+[
+"3",
+"Drugs in one TLD tablet"
+],
+[
+"&lt; 50",
+"Copies/mL: vaginal birth"
+],
+[
+"≥ 1000",
+"Copies/mL: elective <span class=\"ab\" data-a=\"Caesarean section\">CS</span>"
+],
+[
+"38 <small>wk</small>",
+"Timing of that <span class=\"ab\" data-a=\"Caesarean section\">CS</span>"
+],
+[
+"6 <small>wk</small>",
+"Infant <span class=\"ab\" data-a=\"Nevirapine\">NVP</span>, low risk · first <span class=\"ab\" data-a=\"Protein:creatinine ratio\">PCR</span>"
+],
+[
+"6 <small>mo</small>",
+"Exclusive breastfeeding"
+],
+[
+"18 <small>mo</small>",
+"Antibody test becomes reliable"
+]
+],
+"3.1": [
+[
+"&lt; 24 <small>wk</small>",
+"Miscarriage (before <span class=\"gl\" data-a=\"viability: Age from which a fetus can survive outside the womb (24 wk here).\">viability</span>)"
+],
+[
+"15–20<small>%</small>",
+"Known pregnancies that miscarry"
+],
+[
+"≈ 50<small>%</small>",
+"1st-trimester losses: chromosomal"
+],
+[
+"7 <small>mm</small>",
+"<span class=\"ab\" data-a=\"Crown-rump length\">CRL</span>, no heart: missed"
+],
+[
+"25 <small>mm</small>",
+"Mean sac, no embryo: missed"
+],
+[
+"≥ 3",
+"Consecutive losses: recurrent"
+],
+[
+"4 <small>wk</small>",
+"Max wait in missed: <span class=\"ab\" data-a=\"Disseminated intravascular coagulation\">DIC</span> risk"
+],
+[
+"800 <small>µg</small>",
+"Misoprostol <span class=\"ab\" data-a=\"Per vaginam (vaginal)\">PV</span>: missed &lt; 13 wk"
+],
+[
+"600 <small>µg</small>",
+"Misoprostol oral: incomplete"
+],
+[
+"400 <small>µg</small>",
+"<span class=\"ab\" data-a=\"Per vaginam (vaginal)\">PV</span>, 3 h before: <span class=\"gl\" data-a=\"priming: Softening and opening the cervix with a drug (misoprostol) before an operation, so instruments pass easily and the cervix tears less.\">priming</span>"
+],
+[
+"12–14 <small>wk</small>",
+"<span class=\"ab\" data-a=\"Manual vacuum aspiration\">MVA</span> upper limit"
+],
+[
+"60 <small>mL</small>",
+"<span class=\"ab\" data-a=\"Manual vacuum aspiration\">MVA</span> hand syringe"
+],
+[
+"≥ 3",
+"Consecutive losses: recurrent"
+],
+[
+"12 <small>wk</small>",
+"Apart: repeat <span class=\"ab\" data-a=\"Antiphospholipid syndrome\">APS</span> antibodies"
+],
+[
+"12–14 <small>wk</small>",
+"Cerclage timing"
+],
+[
+"37–38",
+"Weeks: remove the stitch"
+],
+[
+"250 <small>IU</small>",
+"Anti-D before 20 wk"
+],
+[
+"1500 <small>IU</small>",
+"Anti-D from 20 wk, no Kleihauer"
+],
+[
+"2000",
+"<span class=\"ab\" data-a=\"Human chorionic gonadotrophin: the pregnancy hormone made by the placenta, measured in blood or urine\">hCG</span> (IU/L): <span class=\"ab\" data-a=\"Intrauterine pregnancy\">IUP</span> seen on <span class=\"ab\" data-a=\"Transvaginal scan\">TVS</span>"
+],
+[
+"63 <small>%</small>",
+"Minimum <span class=\"ab\" data-a=\"Human chorionic gonadotrophin: the pregnancy hormone made by the placenta, measured in blood or urine\">hCG</span> rise in 48 h: <span class=\"ab\" data-a=\"Intrauterine pregnancy\">IUP</span>"
+],
+[
+"50 <small>mg/m²</small>",
+"Methotrexate <span class=\"ab\" data-a=\"Intramuscular\">IM</span>"
+],
+[
+"15 <small>%</small>",
+"<span class=\"ab\" data-a=\"Human chorionic gonadotrophin: the pregnancy hormone made by the placenta, measured in blood or urine\">hCG</span> fall, day 4 → 7: success"
+],
+[
+"3.5 <small>cm</small>",
+"Mass limit for methotrexate"
+],
+[
+"46,XX",
+"Complete <span class=\"gl\" data-a=\"mole: Hydatidiform mole: abnormal pregnancy where the placenta grows into grape-like fluid sacs, usually with no normal fetus.\">mole</span>: paternal only"
+],
+[
+"69",
+"Partial mole: triploid"
+],
+[
+"≈ 15 <small>%</small>",
+"Complete mole → <span class=\"ab\" data-a=\"Gestational trophoblastic neoplasia: persistent or malignant trophoblast after a mole\">GTN</span>"
+],
+[
+"56 <small>days</small>",
+"<span class=\"ab\" data-a=\"Human chorionic gonadotrophin: the pregnancy hormone made by the placenta, measured in blood or urine\">hCG</span> normal by then: shorter follow-up"
+],
+[
+"≤ 6",
+"<span class=\"ab\" data-a=\"International Federation of Gynecology and Obstetrics\">FIGO</span> score: methotrexate alone"
+]
+],
+"3.2": [
+[
+"3–5<small>%</small>",
+"Pregnancies with <span class=\"ab\" data-a=\"Antepartum haemorrhage\">APH</span>"
+],
+[
+"14–16 <small>G</small>",
+"Two cannulae"
+],
+[
+"4 <small>units</small>",
+"Cross-match"
+],
+[
+"1–2 <small>L</small>",
+"Warm crystalloid first"
+],
+[
+"≥ 30 <small>mL/h</small>",
+"Urine output target"
+],
+[
+"7–10 <small>min</small>",
+"No clot = low <span class=\"gl\" data-a=\"fibrinogen: Clotting protein; falls fast in major haemorrhage or DIC.\">fibrinogen</span>"
+],
+[
+"500 <small>IU</small>",
+"Anti-D within 72 h"
+],
+[
+"&lt; 2 <small>cm</small>",
+"Edge to os: low-lying"
+],
+[
+"20 <small>wk</small>",
+"Anomaly scan finds it"
+],
+[
+"32 <small>wk</small>",
+"Rescan a low placenta"
+],
+[
+"&lt; 34 <small>wk</small>",
+"Give steroids"
+],
+[
+"37–38",
+"Weeks: elective <span class=\"ab\" data-a=\"Caesarean section\">CS</span>, major"
+],
+[
+"&gt; 2 <small>cm</small>",
+"Edge to os: vaginal birth possible"
+],
+[
+"15 <small>mL/kg</small>",
+"<span class=\"ab\" data-a=\"Fresh frozen plasma\">FFP</span> in <span class=\"ab\" data-a=\"Disseminated intravascular coagulation\">DIC</span>"
+],
+[
+"1 <small>g</small>",
+"Tranexamic acid <span class=\"ab\" data-a=\"Intravenous\">IV</span>"
+],
+[
+"&lt; 50",
+"Platelets + bleeding: transfuse"
+],
+[
+"#1",
+"Abruption: top cause of <span class=\"ab\" data-a=\"Disseminated intravascular coagulation\">DIC</span> in pregnancy"
+],
+[
+"0",
+"<span class=\"ab\" data-a=\"Intramuscular\">IM</span> injections in <span class=\"ab\" data-a=\"Disseminated intravascular coagulation\">DIC</span>"
+],
+[
+"36 <small>wk</small>",
+"Planned <span class=\"ab\" data-a=\"Caesarean section\">CS</span>, <span class=\"ab\" data-a=\"Placenta accreta spectrum\">PAS</span>"
+],
+[
+"6–8 <small>units</small>",
+"Blood ready for <span class=\"ab\" data-a=\"Placenta accreta spectrum\">PAS</span>"
+],
+[
+"40<small>%</small>",
+"<span class=\"ab\" data-a=\"Placenta accreta spectrum\">PAS</span> risk: <span class=\"gl\" data-a=\"praevia: Placenta lying in the lower segment, near or over the os.\">praevia</span> + 2 <span class=\"ab\" data-a=\"Caesarean section\">CS</span>"
+],
+[
+"60<small>%</small>",
+"<span class=\"ab\" data-a=\"Placenta accreta spectrum\">PAS</span> risk: praevia + ≥ 3 <span class=\"ab\" data-a=\"Caesarean section\">CS</span>"
+],
+[
+"75<small>%</small>",
+"<span class=\"ab\" data-a=\"Placenta accreta spectrum\">PAS</span> cases that are accreta"
+],
+[
+"30–32",
+"Weeks: admit, known vasa praevia"
+],
+[
+"34–36",
+"Weeks: <span class=\"ab\" data-a=\"Caesarean section\">CS</span>, known vasa praevia"
+],
+[
+"100 <small>mL</small>",
+"Fetal loss that can kill"
+],
+[
+"80 <small>mL/kg</small>",
+"Fetal blood volume"
+],
+[
+"≈ 60<small>%</small>",
+"Fetal death if not found antenatally"
+],
+[
+"10–20 <small>mL/kg</small>",
+"O-negative blood for the baby"
+],
+[
+"≈ 0.5<small>%</small>",
+"Rupture risk in <span class=\"ab\" data-a=\"Vaginal birth after caesarean\">VBAC</span>, 1 lower-segment scar"
+],
+[
+"4–9<small>%</small>",
+"Rupture risk, classical scar"
+],
+[
+"50–75<small>%</small>",
+"Fetal death after rupture"
+],
+[
+"&lt; 30 <small>min</small>",
+"Decision to delivery"
+],
+[
+"1",
+"Lower-segment scar allowed for <span class=\"ab\" data-a=\"Vaginal birth after caesarean\">VBAC</span>"
+]
+],
+"3.3": [
+[
+"500 <small>mL</small>",
+"<span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> after vaginal birth"
+],
+[
+"1000 <small>mL</small>",
+"<span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> at <span class=\"ab\" data-a=\"Caesarean section\">CS</span> · major <span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span>"
+],
+[
+"24 <small>h</small>",
+"Primary ends, secondary starts"
+],
+[
+"12 <small>wk</small>",
+"Secondary <span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> ends"
+],
+[
+"70<small>%</small>",
+"<span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> due to <span class=\"gl\" data-a=\"atony: A soft, poorly contracted uterus after birth.\">atony</span> (tone)"
+],
+[
+"500–800",
+"mL/min: placental bed flow"
+],
+[
+"10 <small>IU</small>",
+"Oxytocin slow <span class=\"ab\" data-a=\"Intravenous\">IV</span>, first dose"
+],
+[
+"40 <small>IU</small>",
+"Oxytocin in 500 mL over 4 h"
+],
+[
+"0.5 <small>mg</small>",
+"Ergometrine <span class=\"ab\" data-a=\"Intramuscular\">IM</span>/<span class=\"ab\" data-a=\"Intravenous\">IV</span>"
+],
+[
+"800 <small>µg</small>",
+"Misoprostol (4 tablets)"
+],
+[
+"250 <small>µg</small>",
+"Carboprost <span class=\"ab\" data-a=\"Intramuscular\">IM</span>, every 15 min"
+],
+[
+"1 <small>g</small>",
+"Tranexamic acid <span class=\"ab\" data-a=\"Intravenous\">IV</span>, within 3 h"
+],
+[
+"15 <small>L/min</small>",
+"Oxygen by mask"
+],
+[
+"30 <small>min</small>",
+"<span class=\"gl\" data-a=\"retained placenta: Placenta not delivered 30 min after the baby (with AMTSL).\">Retained placenta</span>, active 3rd stage"
+],
+[
+"60 <small>min</small>",
+"Retained placenta, physiological"
+],
+[
+"4 : 6",
+"<span class=\"ab\" data-a=\"Fresh frozen plasma\">FFP</span> : red cell units"
+],
+[
+"&lt; 50",
+"Platelets ×10⁹/L: give platelets"
+],
+[
+"&lt; 2 <small>g/L</small>",
+"<span class=\"gl\" data-a=\"fibrinogen: Clotting protein; falls fast in major haemorrhage or DIC.\">Fibrinogen</span>: give cryo"
+],
+[
+"≈ 90<small>%</small>",
+"B-Lynch success"
+],
+[
+"4 <small>h</small>",
+"Close watch after every birth"
+]
+],
+"3.4": [
+[
+"1 : 80",
+"Natural twin rate (Hellin)"
+],
+[
+"⅔",
+"Twins that are dizygotic"
+],
+[
+"⅔",
+"<span class=\"ab\" data-a=\"Monozygotic\">MZ</span> twins that are <span class=\"ab\" data-a=\"Monochorionic diamniotic\">MCDA</span>"
+],
+[
+"&lt; 3 <small>d</small>",
+"Split → <span class=\"ab\" data-a=\"Dichorionic diamniotic\">DCDA</span>"
+],
+[
+"4–7 <small>d</small>",
+"Split → <span class=\"ab\" data-a=\"Monochorionic diamniotic\">MCDA</span>"
+],
+[
+"8–12 <small>d</small>",
+"Split → <span class=\"ab\" data-a=\"Monochorionic monoamniotic\">MCMA</span>"
+],
+[
+"11–14 <small>wk</small>",
+"Best scan for <span class=\"gl\" data-a=\"chorionicity: Number of placentas (chorions) in a twin pregnancy.\">chorionicity</span>"
+],
+[
+"≈ 5×",
+"<span class=\"gl\" data-a=\"pre-eclampsia: New hypertension after 20 wk with proteinuria or organ damage.\">Pre-eclampsia</span> risk in twins"
+],
+[
+"25<small>%</small>",
+"Twins with <span class=\"ab\" data-a=\"Fetal growth restriction\">FGR</span>"
+],
+[
+"10–15<small>%</small>",
+"MC twins that develop <span class=\"ab\" data-a=\"Twin-to-twin transfusion syndrome\">TTTS</span>"
+],
+[
+"80<small>%</small>",
+"<span class=\"ab\" data-a=\"Twin-to-twin transfusion syndrome\">TTTS</span> mortality if untreated"
+],
+[
+"26 <small>wk</small>",
+"Laser ablation before this"
+],
+[
+"&gt; 30<small>%</small>",
+"Severe weight discordance"
+],
+[
+"25<small>%</small>",
+"MC survivor: death or brain injury"
+],
+[
+"2 <small>wk</small>",
+"Scan interval: MC twins"
+],
+[
+"4 <small>wk</small>",
+"Scan interval: DC twins"
+],
+[
+"38",
+"Weeks: deliver <span class=\"ab\" data-a=\"Dichorionic diamniotic\">DCDA</span>"
+],
+[
+"37",
+"Weeks: deliver <span class=\"ab\" data-a=\"Monochorionic diamniotic\">MCDA</span>"
+],
+[
+"32",
+"Weeks: <span class=\"ab\" data-a=\"Caesarean section\">CS</span> for <span class=\"ab\" data-a=\"Monochorionic monoamniotic\">MCMA</span>"
+],
+[
+"35 <small>wk</small>",
+"Deliver triplets"
+],
+[
+"20 <small>min</small>",
+"Deliver twin 2 within"
+]
+],
+"3.5": [
+[
+"&lt; 10<small>th</small>",
+"<span class=\"gl\" data-a=\"centile: Position on a growth chart compared with 100 babies.\">Centile</span>: <span class=\"ab\" data-a=\"Small for gestational age\">SGA</span>"
+],
+[
+"&lt; 3<small>rd</small>",
+"Centile: severe <span class=\"ab\" data-a=\"Small for gestational age\">SGA</span>"
+],
+[
+"2.5 <small>kg</small>",
+"Low birth weight cut-off"
+],
+[
+"6–10×",
+"<span class=\"gl\" data-a=\"perinatal: Around birth: from 22–24 wk of pregnancy to 7 days after birth.\">Perinatal</span> mortality in <span class=\"ab\" data-a=\"Fetal growth restriction\">FGR</span>"
+],
+[
+"4×",
+"Cerebral palsy risk"
+],
+[
+"30<small>%</small>",
+"Stillbirths that are growth restricted"
+],
+[
+"⅔",
+"<span class=\"ab\" data-a=\"Small for gestational age\">SGA</span> that are constitutional"
+],
+[
+"13 <small>wk</small>",
+"Scan dating most accurate before"
+],
+[
+"3 <small>cm</small>",
+"<span class=\"ab\" data-a=\"Symphysis-fundal height\">SFH</span> lag that triggers a scan"
+],
+[
+"&lt; 10",
+"Movements in 12 h: reduced"
+],
+[
+"20–24",
+"Weeks: uterine artery Doppler"
+],
+[
+"3 <small>wk</small>",
+"Interval between growth scans"
+],
+[
+"32–34",
+"Weeks: HC:AC becomes &lt; 1"
+],
+[
+"37–38",
+"Weeks: <span class=\"ab\" data-a=\"Small for gestational age\">SGA</span>, normal Doppler"
+],
+[
+"37 <small>wk</small>",
+"Latest: raised <span class=\"ab\" data-a=\"Umbilical artery\">UA</span> PI"
+],
+[
+"34 <small>wk</small>",
+"Latest: absent <span class=\"ab\" data-a=\"End-diastolic flow\">EDF</span>"
+],
+[
+"≈ 32 <small>wk</small>",
+"Reversed <span class=\"ab\" data-a=\"End-diastolic flow\">EDF</span>: deliver"
+],
+[
+"6 <small>mg</small>",
+"Dexamethasone <span class=\"ab\" data-a=\"Intramuscular\">IM</span> × 4, 12-hourly"
+],
+[
+"250 <small>g</small>",
+"Weekly weight gain near term"
+]
+],
+"3.6": [
+[
+"28 <small>wk</small>",
+"<span class=\"ab\" data-a=\"World Health Organization\">WHO</span> cut-off for stillbirth"
+],
+[
+"1000 <small>g</small>",
+"Weight cut-off (<span class=\"ab\" data-a=\"World Health Organization\">WHO</span>)"
+],
+[
+"24 <small>wk</small>",
+"Cut-off in some countries"
+],
+[
+"≈ 50<small>%</small>",
+"Unexplained"
+],
+[
+"≈ 12 <small>h</small>",
+"Robert sign appears"
+],
+[
+"≈ 7 <small>days</small>",
+"Spalding sign appears"
+],
+[
+"≈ 85<small>%</small>",
+"Labour by itself within 3 wk"
+],
+[
+"&gt; 3 <small>wk</small>",
+"Retained: <span class=\"ab\" data-a=\"Disseminated intravascular coagulation\">DIC</span> ≈ 30%"
+],
+[
+"2–3× <small>/wk</small>",
+"Clotting if expectant"
+],
+[
+"200 <small>mg</small>",
+"Mifepristone, oral"
+],
+[
+"36–48 <small>h</small>",
+"Gap before misoprostol"
+],
+[
+"1 <small>mg</small>",
+"Cabergoline, once"
+],
+[
+"6 <small>wk</small>",
+"Follow-up visit"
+]
+],
+"3.7": [
+[
+"20 <small>wk</small>",
+"From now liquor = fetal urine"
+],
+[
+"34–36",
+"Weeks: peak volume"
+],
+[
+"9–25 <small>cm</small>",
+"Normal <span class=\"ab\" data-a=\"Amniotic fluid index\">AFI</span>"
+],
+[
+"&gt; 25 <small>cm</small>",
+"<span class=\"ab\" data-a=\"Amniotic fluid index\">AFI</span>: polyhydramnios"
+],
+[
+"&gt; 8 <small>cm</small>",
+"<span class=\"ab\" data-a=\"Deepest vertical pocket\">DVP</span>: polyhydramnios"
+],
+[
+"&lt; 32 <small>wk</small>",
+"Indomethacin only"
+],
+[
+"&lt; 5 <small>cm</small>",
+"<span class=\"ab\" data-a=\"Amniotic fluid index\">AFI</span>: oligohydramnios"
+],
+[
+"&lt; 2 <small>cm</small>",
+"<span class=\"ab\" data-a=\"Deepest vertical pocket\">DVP</span>: oligohydramnios"
+],
+[
+"5–8 <small>cm</small>",
+"<span class=\"ab\" data-a=\"Amniotic fluid index\">AFI</span> borderline"
+],
+[
+"&lt; 22 <small>wk</small>",
+"Onset: poor prognosis, lung hypoplasia"
+],
+[
+"10 <small>days</small>",
+"Erythromycin in <span class=\"ab\" data-a=\"Preterm prelabour rupture of membranes\">PPROM</span>"
+],
+[
+"4 <small>h</small>",
+"Temp, pulse checks after <span class=\"ab\" data-a=\"Rupture of membranes\">ROM</span>"
+]
+],
+"4.1": [
+[
+"37–42 <small>wk</small>",
+"Term: normal labour"
+],
+[
+"4 <small>cm</small>",
+"Active phase starts"
+],
+[
+"10 <small>cm</small>",
+"Full <span class=\"gl\" data-a=\"dilatation: Opening of the cervix, measured in cm (0–10).\">dilatation</span>: 2nd stage"
+],
+[
+"12–18 <small>h</small>",
+"1st stage, primi"
+],
+[
+"6–8 <small>h</small>",
+"1st stage, multi"
+],
+[
+"&lt; 3 <small>h</small>",
+"Whole labour: precipitate"
+],
+[
+"≤ 30 <small>min</small>",
+"3rd stage, active management"
+],
+[
+"&gt; 5",
+"Contractions / 10 min: tachysystole"
+],
+[
+"11 <small>cm</small>",
+"True conjugate: inlet AP"
+],
+[
+"12.5 <small>cm</small>",
+"Diagonal conjugate, by <span class=\"ab\" data-a=\"Vaginal examination\">VE</span>"
+],
+[
+"10.5 <small>cm</small>",
+"Interspinous: narrowest point"
+],
+[
+"13 <small>cm</small>",
+"Inlet transverse, outlet AP"
+],
+[
+"≈ 50<small>%</small>",
+"Women with a gynaecoid pelvis"
+],
+[
+"9.5 <small>cm</small>",
+"Suboccipito-bregmatic: flexed <span class=\"gl\" data-a=\"vertex: Area of the fetal skull between the fontanelles and parietal eminences.\">vertex</span>"
+],
+[
+"11.5 <small>cm</small>",
+"Occipito-frontal: deflexed (<span class=\"ab\" data-a=\"Occipito-posterior\">OP</span>)"
+],
+[
+"13.5 <small>cm</small>",
+"Mento-vertical: brow"
+],
+[
+"1/8",
+"Turn of internal rotation (45°)"
+],
+[
+"2/5",
+"Palpable head = engaged"
+],
+[
+"0",
+"Station at the ischial spines"
+],
+[
+"15–30 <small>min</small>",
+"<span class=\"ab\" data-a=\"Fetal heart rate\">FHR</span> in 1st stage, low risk"
+],
+[
+"5 <small>min</small>",
+"<span class=\"ab\" data-a=\"Fetal heart rate\">FHR</span> in 2nd stage, low risk"
+],
+[
+"4 <small>h</small>",
+"Vaginal exam, 1st stage"
+],
+[
+"30 <small>min</small>",
+"Pulse and contractions"
+],
+[
+"2 / 3 <small>h</small>",
+"2nd stage limit, primi (± epidural)"
+],
+[
+"1 / 2 <small>h</small>",
+"2nd stage limit, multi (± epidural)"
+],
+[
+"10 <small>IU</small>",
+"Oxytocin <span class=\"ab\" data-a=\"Intramuscular\">IM</span> within 1 min"
+],
+[
+"600 <small>µg</small>",
+"Misoprostol oral if no oxytocin"
+],
+[
+"1–3 <small>min</small>",
+"Delayed cord clamping"
+],
+[
+"30 <small>min</small>",
+"<span class=\"gl\" data-a=\"retained placenta: Placenta not delivered 30 min after the baby (with AMTSL).\">Retained placenta</span>, active"
+],
+[
+"60 <small>min</small>",
+"Retained placenta, physiological"
+],
+[
+"80<small>%</small>",
+"Schultze separation"
+],
+[
+"≥ 4 <small>h</small>",
+"Observe after delivery"
+]
+],
+"4.2": [
+[
+"4 <small>cm</small>",
+"Start the partogram"
+],
+[
+"1 <small>cm/h</small>",
+"Slope of the alert line"
+],
+[
+"4 <small>h</small>",
+"Alert → action line gap"
+],
+[
+"30 <small>min</small>",
+"<span class=\"ab\" data-a=\"Fetal heart rate\">FHR</span>, pulse, contractions"
+],
+[
+"4 <small>h</small>",
+"Vaginal exam, <span class=\"ab\" data-a=\"Blood pressure\">BP</span>"
+],
+[
+"+3",
+"Moulding: not reducible"
+],
+[
+"&gt; 40 <small>s</small>",
+"Solid box: strong contraction"
+],
+[
+"110–160",
+"Normal baseline, bpm"
+],
+[
+"5–25",
+"Normal variability, bpm"
+],
+[
+"15 × 15",
+"bpm × s: acceleration or deceleration"
+],
+[
+"&gt; 3 <small>min</small>",
+"Prolonged deceleration"
+],
+[
+"40 <small>min</small>",
+"Fetal sleep: low variability"
+],
+[
+"&lt; 100",
+"Bradycardia: pathological"
+],
+[
+"&lt; 2 <small>cm</small>",
+"In 4 h: slow 1st stage"
+],
+[
+"2 <small>h</small>",
+"Reassess after <span class=\"ab\" data-a=\"Artificial rupture of membranes\">ARM</span> + oxytocin"
+],
+[
+"&gt; 18 <small>h</small>",
+"Prolonged labour"
+],
+[
+"≥ 3/5",
+"Head palpable at full: <span class=\"ab\" data-a=\"Cephalopelvic disproportion\">CPD</span>"
+],
+[
+"7.20",
+"Scalp pH: deliver at or below"
+],
+[
+"14 <small>days</small>",
+"Catheter after obstruction"
+]
+],
+"4.3": [
+[
+"≈ 10<small>%</small>",
+"Pregnancies delivering preterm"
+],
+[
+"24 <small>wk</small>",
+"Lower limit (below = miscarriage)"
+],
+[
+"37 <small>wk</small>",
+"From here = term"
+],
+[
+"⅓",
+"Preterm births after <span class=\"ab\" data-a=\"Preterm prelabour rupture of membranes\">PPROM</span>"
+],
+[
+"≈ 20<small>%</small>",
+"Recurrence after one preterm birth"
+],
+[
+"&lt; 20",
+"<span class=\"ab\" data-a=\"Body mass index\">BMI</span> before pregnancy = risk"
+],
+[
+"#1",
+"Cause of <span class=\"gl\" data-a=\"perinatal: Around birth: from 22–24 wk of pregnancy to 7 days after birth.\">perinatal</span> death"
+],
+[
+"22–34",
+"Weeks fFN is normally absent"
+],
+[
+"7–14 <small>d</small>",
+"Negative fFN: no birth in this time"
+],
+[
+"15 <small>mm</small>",
+"Symptomatic cut-off, cervical length"
+],
+[
+"25 <small>mm</small>",
+"Screening cut-off, no symptoms"
+],
+[
+"34 <small>wk</small>",
+"<span class=\"gl\" data-a=\"surfactant: Lung substance that keeps alveoli open; steroids increase it.\">Surfactant</span> usually enough"
+],
+[
+"#1",
+"<span class=\"ab\" data-a=\"Respiratory distress syndrome\">RDS</span>: commonest neonatal problem"
+],
+[
+"6 <small>mg</small>",
+"Dexamethasone <span class=\"ab\" data-a=\"Intramuscular\">IM</span>, 12-hourly × 4"
+],
+[
+"12 <small>mg</small>",
+"Betamethasone <span class=\"ab\" data-a=\"Intramuscular\">IM</span>, 24 h apart × 2"
+],
+[
+"24 <small>h</small>",
+"Steroids start to work"
+],
+[
+"30 <small>mg</small>",
+"Nifedipine first oral dose"
+],
+[
+"48 <small>h</small>",
+"Maximum <span class=\"gl\" data-a=\"tocolysis: Using drugs to stop or slow uterine contractions.\">tocolysis</span>"
+],
+[
+"4 <small>g</small>",
+"<span class=\"ab\" data-a=\"Magnesium sulphate\">MgSO₄</span> <span class=\"ab\" data-a=\"Intravenous\">IV</span> load, then 1 g/h"
+],
+[
+"&lt; 32 <small>wk</small>",
+"<span class=\"ab\" data-a=\"Magnesium sulphate\">MgSO₄</span> for the fetal brain"
+],
+[
+"12–14 <small>wk</small>",
+"History-indicated cerclage"
+],
+[
+"16–24 <small>wk</small>",
+"Serial TV cervical scans"
+],
+[
+"37 <small>wk</small>",
+"Remove the cerclage"
+],
+[
+"200 <small>mg</small>",
+"Vaginal progesterone, nightly"
+],
+[
+"34 <small>wk</small>",
+"Stop progesterone · <span class=\"gl\" data-a=\"ventouse: Vacuum cup applied to the baby's head to assist delivery.\">ventouse</span> allowed"
+],
+[
+"4.5",
+"Vaginal pH above = <span class=\"ab\" data-a=\"Bacterial vaginosis\">BV</span>"
+]
+],
+"4.4": [
+[
+"37 <small>wk</small>",
+"Splits <span class=\"ab\" data-a=\"Prelabour rupture of membranes\">PROM</span> from <span class=\"ab\" data-a=\"Preterm prelabour rupture of membranes\">PPROM</span>"
+],
+[
+"≈ 2<small>%</small>",
+"Pregnancies with <span class=\"ab\" data-a=\"Preterm prelabour rupture of membranes\">PPROM</span>"
+],
+[
+"≈ 40<small>%</small>",
+"Preterm births after <span class=\"ab\" data-a=\"Preterm prelabour rupture of membranes\">PPROM</span>"
+],
+[
+"&gt; 24 <small>h</small>",
+"Prolonged rupture"
+],
+[
+"7–7.5",
+"pH of liquor (vagina 4.5)"
+],
+[
+"0",
+"Digital <span class=\"ab\" data-a=\"Vaginal examinations\">VEs</span> before labour"
+],
+[
+"20–30 <small>min</small>",
+"Lying down before speculum: lets liquor pool"
+],
+[
+"250 <small>mg</small>",
+"Erythromycin, 6-hourly"
+],
+[
+"10 <small>d</small>",
+"Erythromycin course"
+],
+[
+"34 <small>wk</small>",
+"Upper limit for steroids"
+],
+[
+"4 <small>h</small>",
+"Temperature and pulse"
+],
+[
+"2–3<small>/wk</small>",
+"<span class=\"ab\" data-a=\"Full blood count\">FBC</span>, <span class=\"ab\" data-a=\"C-reactive protein\">CRP</span>"
+],
+[
+"37 <small>wk</small>",
+"Planned delivery, <span class=\"ab\" data-a=\"Preterm prelabour rupture of membranes\">PPROM</span>"
+],
+[
+"&lt; 24 <small>wk</small>",
+"Lung hypoplasia risk"
+],
+[
+"75<small>%</small>",
+"Term <span class=\"ab\" data-a=\"Prelabour rupture of membranes\">PROM</span>: labour within 24 h"
+],
+[
+"24 <small>h</small>",
+"Longest wait before induction"
+],
+[
+"37.8 <small>°C</small>",
+"Fever cut-off"
+],
+[
+"160",
+"Fetal tachycardia, beats/min"
+],
+[
+"2 <small>g</small>",
+"Ampicillin <span class=\"ab\" data-a=\"Intravenous\">IV</span> 6-hourly"
+],
+[
+"5 <small>mg/kg</small>",
+"Gentamicin <span class=\"ab\" data-a=\"Intravenous\">IV</span> daily"
+]
+],
+"4.5": [
+[
+"294 <small>d</small>",
+"42 wk from <span class=\"ab\" data-a=\"Last menstrual period\">LMP</span>"
+],
+[
+"5–10<small>%</small>",
+"Pregnancies reaching 42 wk"
+],
+[
+"&lt; 5<small>%</small>",
+"When dated by early scan"
+],
+[
+"30<small>%</small>",
+"Recurrence after one (40% after two)"
+],
+[
+"± 5 <small>d</small>",
+"Accuracy of <span class=\"ab\" data-a=\"Crown-rump length\">CRL</span> dating"
+],
+[
+"≈ 20<small>%</small>",
+"Post-term babies with postmaturity signs"
+],
+[
+"41+3",
+"Weeks: offer induction"
+],
+[
+"4×",
+"Intrapartum deaths after 42 wk"
+],
+[
+"3×",
+"Early neonatal deaths after 42 wk"
+],
+[
+"2× <small>/wk</small>",
+"<span class=\"ab\" data-a=\"Cardiotocography\">CTG</span> + liquor if she declines"
+],
+[
+"&lt; 2 <small>cm</small>",
+"Deepest pool: <span class=\"gl\" data-a=\"oligohydramnios: Too little amniotic fluid for the gestation (AFI < 5 cm).\">oligohydramnios</span>"
+],
+[
+"&gt; 4 <small>kg</small>",
+"<span class=\"gl\" data-a=\"macrosomia: Big baby: birth weight > 4 kg (or > 4.5 kg).\">Macrosomia</span>"
+],
+[
+"≈ 30<small>%</small>",
+"Labour within 7 days of a sweep"
+]
+],
+"4.6": [
+[
+"13",
+"Maximum Bishop score"
+],
+[
+"≥ 8",
+"Favourable: <span class=\"ab\" data-a=\"Artificial rupture of membranes\">ARM</span> + oxytocin"
+],
+[
+"≤ 6",
+"Unfavourable: ripen first"
+],
+[
+"5",
+"Items: D, L, S, C, P"
+],
+[
+"3 <small>pts</small>",
+"Top score: <span class=\"gl\" data-a=\"dilatation: Opening of the cervix, measured in cm (0–10).\">dilatation</span>, length, station"
+],
+[
+"2 <small>pts</small>",
+"Top score: consistency, position"
+],
+[
+"3 <small>mg</small>",
+"Dinoprostone vaginal tablet"
+],
+[
+"6 <small>h</small>",
+"Gap: prostin repeat, or before oxytocin"
+],
+[
+"25 <small>µg</small>",
+"Misoprostol, live term fetus"
+],
+[
+"2 <small>mU/min</small>",
+"Oxytocin start"
+],
+[
+"30 <small>min</small>",
+"Between oxytocin increases"
+],
+[
+"32 <small>mU/min</small>",
+"Oxytocin maximum"
+],
+[
+"30–50 <small>mL</small>",
+"Foley balloon volume"
+],
+[
+"&gt; 5",
+"Contractions / 10 min: tachysystole"
+],
+[
+"&gt; 2 <small>min</small>",
+"One contraction: hypertonus"
+],
+[
+"0.25 <small>mg</small>",
+"Terbutaline <span class=\"ab\" data-a=\"Subcutaneous\">SC</span>"
+],
+[
+"2–3×",
+"Rupture risk: induced vs spontaneous <span class=\"ab\" data-a=\"Vaginal birth after caesarean\">VBAC</span>"
+],
+[
+"≈ 0.5<small>%</small>",
+"Rupture, spontaneous labour after 1 <span class=\"ab\" data-a=\"Caesarean section\">CS</span>"
+],
+[
+"≥ 2",
+"Previous <span class=\"ab\" data-a=\"Caesarean section\">CS</span>: no induction"
+]
+],
+"4.7": [
+[
+"25<small>%</small>",
+"Breech before 28 wk"
+],
+[
+"3–4<small>%</small>",
+"Breech at term"
+],
+[
+"65<small>%</small>",
+"Frank (extended)"
+],
+[
+"25<small>%</small>",
+"Complete (flexed)"
+],
+[
+"10<small>%</small>",
+"Footling"
+],
+[
+"<span class=\"ab\" data-a=\"Left sacro-anterior\">LSA</span>",
+"Commonest position"
+],
+[
+"≈ 30<small>%</small>",
+"Breech first found in labour"
+],
+[
+"36 <small>wk</small>",
+"Scan to confirm and plan"
+],
+[
+"2–3 ×",
+"Fetal anomalies vs cephalic"
+],
+[
+"0",
+"Role of pelvimetry"
+],
+[
+"15<small>%</small>",
+"<span class=\"gl\" data-a=\"cord prolapse: Umbilical cord slips below the presenting part after membranes rupture.\">Cord prolapse</span>, footling"
+],
+[
+"5<small>%</small>",
+"Cord prolapse, complete"
+],
+[
+"0.5<small>%</small>",
+"Cord prolapse, frank"
+],
+[
+"8<small>%</small>",
+"Turn by themselves after 36 wk"
+],
+[
+"36 / 37",
+"Weeks: <span class=\"ab\" data-a=\"External cephalic version\">ECV</span>, primi / multi"
+],
+[
+"50<small>%</small>",
+"<span class=\"ab\" data-a=\"External cephalic version\">ECV</span> success overall"
+],
+[
+"40 / 60",
+"% success, primi / multi"
+],
+[
+"3<small>%</small>",
+"Revert to breech"
+],
+[
+"0.5<small>%</small>",
+"Emergency <span class=\"ab\" data-a=\"Caesarean section\">CS</span> after <span class=\"ab\" data-a=\"External cephalic version\">ECV</span>"
+],
+[
+"0.25 <small>mg</small>",
+"Terbutaline <span class=\"ab\" data-a=\"Subcutaneous\">SC</span>"
+],
+[
+"500 <small>IU</small>",
+"Anti-D after <span class=\"ab\" data-a=\"External cephalic version\">ECV</span>"
+],
+[
+"39 <small>wk</small>",
+"Elective <span class=\"ab\" data-a=\"Caesarean section\">CS</span> for breech"
+],
+[
+"3.8 <small>kg</small>",
+"Upper <span class=\"ab\" data-a=\"Estimated fetal weight\">EFW</span> for <span class=\"ab\" data-a=\"Assisted breech vaginal delivery\">ABVD</span>"
+],
+[
+"180°",
+"Rotation in Løvset"
+],
+[
+"≈ 4 <small>min</small>",
+"Umbilicus to head"
+],
+[
+"0.5 / 2<small>%</small>",
+"<span class=\"gl\" data-a=\"perinatal: Around birth: from 22–24 wk of pregnancy to 7 days after birth.\">Perinatal</span> death: <span class=\"ab\" data-a=\"Caesarean section\">CS</span> / vaginal"
+],
+[
+"6 <small>wk</small>",
+"Hip ultrasound after breech"
+],
+[
+"10 <small>cm</small>",
+"Bitrochanteric: engages first"
+]
+],
+"4.8": [
+[
+"9.5 <small>cm</small>",
+"Suboccipito-bregmatic"
+],
+[
+"11.5 <small>cm</small>",
+"Occipito-frontal (<span class=\"ab\" data-a=\"Occipito-posterior\">OP</span>)"
+],
+[
+"13.5 <small>cm</small>",
+"Mento-vertical (brow)"
+],
+[
+"25<small>%</small>",
+"<span class=\"ab\" data-a=\"Occipito-posterior\">OP</span> in early labour"
+],
+[
+"90<small>%</small>",
+"<span class=\"ab\" data-a=\"Occipito-posterior\">OP</span>: long anterior rotation"
+],
+[
+"3/8",
+"Circle turned: <span class=\"ab\" data-a=\"Occipito-posterior\">OP</span> → <span class=\"ab\" data-a=\"Occipito-anterior\">OA</span>"
+],
+[
+"1:500",
+"Face presentation"
+],
+[
+"1:2000",
+"Brow presentation"
+],
+[
+"9.5 <small>cm</small>",
+"Submento-bregmatic (face)"
+],
+[
+"13.5 <small>cm</small>",
+"Mento-vertical (brow)"
+],
+[
+"≈ 2/3",
+"Mento-posterior that rotate to MA"
+],
+[
+"1:300",
+"Transverse/oblique lie at term"
+],
+[
+"36 <small>wk</small>",
+"Lie still changing = unstable"
+],
+[
+"37 <small>wk</small>",
+"Admit an unstable lie"
+],
+[
+"39 <small>wk</small>",
+"Elective <span class=\"ab\" data-a=\"Caesarean section\">CS</span>, stable transverse"
+],
+[
+"<span class=\"ab\" data-a=\"Low-dose aspirin\">LDA</span>",
+"Commonest position (left dorso-anterior)"
+]
+],
+"5.1": [
+[
+"1 <small>in 300–500</small>",
+"Deliveries"
+],
+[
+"15<small>%</small>",
+"Footling breech"
+],
+[
+"5<small>%</small>",
+"Complete breech"
+],
+[
+"0.5<small>%</small>",
+"Frank breech"
+],
+[
+"&lt; 100",
+"<span class=\"ab\" data-a=\"Fetal heart rate\">FHR</span> after <span class=\"ab\" data-a=\"Rupture of membranes\">ROM</span>: do a <span class=\"ab\" data-a=\"Vaginal examination\">VE</span>"
+],
+[
+"26 <small>wk</small>",
+"Below this: treat as miscarriage"
+],
+[
+"500 <small>mL</small>",
+"Warm saline into bladder"
+],
+[
+"0.25 <small>mg</small>",
+"Terbutaline <span class=\"ab\" data-a=\"Subcutaneous\">SC</span>"
+],
+[
+"2",
+"Fingers that hold the part up"
+],
+[
+"0",
+"Attempts to replace the cord"
+],
+[
+"7",
+"Steps of the drill, help first"
+],
+[
+"≤ 30 <small>min</small>",
+"Decision to delivery"
+],
+[
+"Cat 1",
+"Caesarean urgency"
+],
+[
+"26 <small>wk</small>",
+"Below: manage as miscarriage"
+],
+[
+"37 <small>wk</small>",
+"Admit unstable lie"
+],
+[
+"0",
+"ARMs with a high head"
+]
+],
+"5.2": [
+[
+"1 <small>in 2000–3000</small>",
+"Deliveries"
+],
+[
+"94<small>%</small>",
+"Have <span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span>"
+],
+[
+"15<small>%</small>",
+"Maternal death, untreated"
+],
+[
+"4",
+"Degrees of inversion"
+],
+[
+"24 <small>h</small>",
+"Acute ends, subacute starts"
+],
+[
+"4 <small>wk</small>",
+"After this: chronic"
+],
+[
+"3",
+"Classic triad: pain, <span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span>, shock"
+],
+[
+"2",
+"Exams that confirm: abdominal + <span class=\"ab\" data-a=\"Vaginal examination\">VE</span>"
+],
+[
+"1<small>st</small>",
+"Degree missed without a <span class=\"ab\" data-a=\"Vaginal examination\">VE</span>"
+],
+[
+"3<small>rd</small>",
+"Stage of labour when most occur"
+],
+[
+"0",
+"Scans needed in acute cases"
+],
+[
+"4–6 <small>units</small>",
+"Cross-match"
+],
+[
+"0.25 <small>mg</small>",
+"Terbutaline <span class=\"ab\" data-a=\"Subcutaneous\">SC</span>"
+],
+[
+"4 <small>g</small>",
+"<span class=\"ab\" data-a=\"Magnesium sulphate\">MgSO₄</span> <span class=\"ab\" data-a=\"Intravenous\">IV</span> to relax"
+],
+[
+"2–5 <small>L</small>",
+"Warm saline, O'Sullivan"
+],
+[
+"3–5 <small>min</small>",
+"Hold fundus after Johnson"
+],
+[
+"2",
+"Large-bore cannulae"
+],
+[
+"40 <small>IU</small>",
+"Oxytocin in 500 mL"
+],
+[
+"4 <small>h</small>",
+"Run the infusion over"
+],
+[
+"10 <small>IU</small>",
+"Oxytocin <span class=\"ab\" data-a=\"Intramuscular\">IM</span>, <span class=\"ab\" data-a=\"Active management of the third stage of labour\">AMTSL</span>"
+],
+[
+"3",
+"Signs of placental separation"
+],
+[
+"&lt; 60",
+"Pulse: vagal sign in inversion"
+]
+],
+"5.3": [
+[
+"1 : 8 000",
+"to 1 : 30 000 births"
+],
+[
+"70<small>%</small>",
+"In labour, around <span class=\"ab\" data-a=\"Rupture of membranes\">ROM</span>"
+],
+[
+"19<small>%</small>",
+"Occur at caesarean"
+],
+[
+"12<small>%</small>",
+"<span class=\"ab\" data-a=\"Disseminated intravascular coagulation\">DIC</span> at presentation"
+],
+[
+"4 <small>h</small>",
+"Almost all have <span class=\"ab\" data-a=\"Disseminated intravascular coagulation\">DIC</span> by then"
+],
+[
+"13–80<small>%</small>",
+"Maternal mortality (series)"
+],
+[
+"≤ 85<small>%</small>",
+"Survivors: brain damage"
+],
+[
+"4 <small>g</small>",
+"<span class=\"ab\" data-a=\"Magnesium sulphate\">MgSO₄</span> <span class=\"ab\" data-a=\"Intravenous\">IV</span>: eclamptic fit"
+],
+[
+"0.5 <small>mg</small>",
+"Adrenaline <span class=\"ab\" data-a=\"Intramuscular\">IM</span>: anaphylaxis"
+],
+[
+"1.5 <small>mL/kg</small>",
+"Lipid 20%: LA toxicity"
+],
+[
+"7–10 <small>min</small>",
+"Clot test: no clot = <span class=\"ab\" data-a=\"Disseminated intravascular coagulation\">DIC</span>"
+],
+[
+"&lt; 2 <small>g/L</small>",
+"<span class=\"gl\" data-a=\"fibrinogen: Clotting protein; falls fast in major haemorrhage or DIC.\">Fibrinogen</span>: severe <span class=\"ab\" data-a=\"Disseminated intravascular coagulation\">DIC</span>"
+],
+[
+"4–6 <small>units</small>",
+"Cross-match"
+],
+[
+"30 : 2",
+"Compressions : breaths"
+],
+[
+"15 <small>L/min</small>",
+"O₂ by mask before intubation"
+],
+[
+"4 → 5 <small>min</small>",
+"Start <span class=\"ab\" data-a=\"Caesarean section\">CS</span> → baby out"
+],
+[
+"20 <small>wk</small>",
+"Uterus large enough to block <span class=\"ab\" data-a=\"Inferior vena cava\">IVC</span>"
+],
+[
+"15 <small>mL/kg</small>",
+"<span class=\"ab\" data-a=\"Fresh frozen plasma\">FFP</span> in <span class=\"ab\" data-a=\"Disseminated intravascular coagulation\">DIC</span>"
+],
+[
+"&lt; 50",
+"Platelets: transfuse"
+],
+[
+"1 <small>g</small>",
+"Tranexamic acid <span class=\"ab\" data-a=\"Intravenous\">IV</span>"
+]
+],
+"5.4": [
+[
+"1 : 200",
+"Vaginal births with SD"
+],
+[
+"&gt; 60 <small>s</small>",
+"Head-to-body interval"
+],
+[
+"0.04",
+"Fall in pH per minute"
+],
+[
+"5 <small>min</small>",
+"Most a baby tolerates"
+],
+[
+"50<small>%</small>",
+"SD in babies &lt; 4 kg"
+],
+[
+"&gt; 4 <small>kg</small>",
+"Macrosomia"
+],
+[
+"7.25",
+"Cord pH below = acidosis"
+],
+[
+"C5–C6",
+"Erb palsy roots"
+],
+[
+"C8–T1",
+"Klumpke palsy roots"
+],
+[
+"&lt; 10<small>%</small>",
+"Erb palsy: permanent"
+],
+[
+"3rd/4th",
+"Degree tears to look for"
+],
+[
+"#1",
+"<span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span>: commonest maternal problem"
+],
+[
+"80<small>%</small>",
+"Freed by L + P"
+],
+[
+"30–60 <small>s</small>",
+"Time for each manoeuvre"
+],
+[
+"7",
+"Steps in <span class=\"ab\" data-a=\"Help, Evaluate episiotomy, Legs, Pressure, Enter, Remove arm, Roll\">HELPERR</span>"
+],
+[
+"0",
+"Fundal pressure"
+],
+[
+"Rubin I",
+"= suprapubic pressure"
+],
+[
+"180°",
+"Woods screw: turn the posterior shoulder"
+],
+[
+"4.5 <small>kg</small>",
+"<span class=\"ab\" data-a=\"Estimated fetal weight\">EFW</span> for <span class=\"ab\" data-a=\"Caesarean section\">CS</span>: diabetic"
+],
+[
+"5 <small>kg</small>",
+"<span class=\"ab\" data-a=\"Estimated fetal weight\">EFW</span> for <span class=\"ab\" data-a=\"Caesarean section\">CS</span>: non-diabetic"
+],
+[
+"40 <small>IU</small>",
+"Oxytocin infusion for <span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span>"
+],
+[
+"0.25 <small>mg</small>",
+"Terbutaline <span class=\"ab\" data-a=\"Subcutaneous\">SC</span>: Zavanelli"
+],
+[
+"≈ 10<small>%</small>",
+"Recurrence of SD"
+],
+[
+"38–39 <small>wk</small>",
+"Delivery in diabetes"
+]
+],
+"6.1": [
+[
+"42 <small>days</small>",
+"Puerperium (6 wk)"
+],
+[
+"1 <small>cm/day</small>",
+"Fall of the fundus"
+],
+[
+"10–14 <small>d</small>",
+"Fundus not palpable"
+],
+[
+"1000 <small>g</small>",
+"Uterus after birth"
+],
+[
+"60–100 <small>g</small>",
+"Uterus at 6 wk"
+],
+[
+"10 <small>d</small>",
+"New endometrium"
+],
+[
+"4 <small>wk</small>",
+"Vaginal rugae return"
+],
+[
+"≈ 250 <small>mL</small>",
+"Total <span class=\"gl\" data-a=\"lochia: Vaginal discharge after birth (blood, decidua, mucus).\">lochia</span>"
+],
+[
+"2–3 <small>wk</small>",
+"Plasma volume back to normal"
+],
+[
+"25 <small>×10⁹</small>",
+"<span class=\"ab\" data-a=\"White blood cells\">WBC</span> can be normal post-birth"
+],
+[
+"6 <small>h</small>",
+"She should pass urine by"
+],
+[
+"7 <small>d</small>",
+"Oestrogen, progesterone normal"
+],
+[
+"10 <small>d</small>",
+"hPL and <span class=\"ab\" data-a=\"Human chorionic gonadotrophin: the pregnancy hormone made by the placenta, measured in blood or urine\">hCG</span> gone"
+],
+[
+"25 <small>d</small>",
+"Earliest ovulation, not breastfeeding"
+],
+[
+"500 <small>mL</small>",
+"Milk per day by day 5"
+],
+[
+"24 <small>h</small>",
+"Minimum stay after vaginal birth"
+],
+[
+"4",
+"Postnatal contacts (<span class=\"ab\" data-a=\"World Health Organization\">WHO</span>)"
+],
+[
+"72 <small>h</small>",
+"Anti-D deadline"
+],
+[
+"1 <small>mo</small>",
+"No pregnancy after <span class=\"ab\" data-a=\"Maternal mortality ratio\">MMR</span>"
+],
+[
+"3 <small>mo</small>",
+"Iron + folate after birth"
+],
+[
+"6 <small>wk</small>",
+"Final check · <span class=\"ab\" data-a=\"Oral glucose tolerance test\">OGTT</span> after <span class=\"ab\" data-a=\"Gestational diabetes mellitus\">GDM</span>"
+],
+[
+"24 <small>mo</small>",
+"Ideal birth-to-pregnancy gap"
+],
+[
+"1 <small>h</small>",
+"Start breastfeeding by"
+],
+[
+"8–12",
+"Feeds a day"
+],
+[
+"6 <small>mo</small>",
+"Exclusive breastfeeding"
+],
+[
+"2 <small>yr</small>",
+"Continue with foods"
+],
+[
+"≥ 6",
+"Wet nappies a day = enough milk"
+],
+[
+"2 <small>wk</small>",
+"<span class=\"ab\" data-a=\"Tuberculosis\">TB</span> treatment before direct feeding"
+],
+[
+"21 <small>d</small>",
+"No method needed before"
+],
+[
+"48 <small>h</small>",
+"Postpartum <span class=\"ab\" data-a=\"Intrauterine device\">IUD</span> window"
+],
+[
+"4 <small>wk</small>",
+"<span class=\"ab\" data-a=\"Intrauterine device\">IUD</span> again after"
+],
+[
+"6 <small>wk</small>",
+"<span class=\"ab\" data-a=\"Depot medroxyprogesterone acetate\">DMPA</span> if breastfeeding · interval sterilisation"
+],
+[
+"6 <small>mo</small>",
+"<span class=\"ab\" data-a=\"Combined oral contraceptive\">COC</span> if breastfeeding · <span class=\"ab\" data-a=\"Lactational amenorrhoea method\">LAM</span> limit"
+],
+[
+"7 <small>d</small>",
+"<span class=\"gl\" data-a=\"puerperal: Related to the 6 weeks after birth.\">Puerperal</span> tubal ligation"
+]
+],
+"6.2": [
+[
+"38 <small>°C</small>",
+"Fever threshold"
+],
+[
+"14 <small>d</small>",
+"Window for puerperal pyrexia"
+],
+[
+"42 <small>d</small>",
+"Window for puerperal sepsis"
+],
+[
+"≥ 2",
+"<span class=\"ab\" data-a=\"World Health Organization\">WHO</span> signs needed for sepsis"
+],
+[
+"2–4<small>%</small>",
+"Postpartum <span class=\"ab\" data-a=\"Urinary tract infection\">UTI</span>"
+],
+[
+"15<small>%</small>",
+"Fever from <span class=\"gl\" data-a=\"engorgement: Overfull, hard, painful breasts as milk comes in.\">engorgement</span>"
+],
+[
+"1<sup>st</sup>",
+"Sepsis rank in Sudan maternal deaths"
+],
+[
+"5–20×",
+"Higher risk after <span class=\"ab\" data-a=\"Caesarean section\">CS</span> vs vaginal birth"
+],
+[
+"&gt; 24 <small>h</small>",
+"<span class=\"ab\" data-a=\"Rupture of membranes\">ROM</span> that raises risk"
+],
+[
+"≈ 6<small>%</small>",
+"<span class=\"ab\" data-a=\"Caesarean section\">CS</span> wound infection, no prophylaxis"
+],
+[
+"&lt; 2<small>%</small>",
+"… with prophylaxis"
+],
+[
+"&lt; 36 <small>°C</small>",
+"Low temperature: also sepsis"
+],
+[
+"30<small>%</small>",
+"People carrying <span class=\"ab\" data-a=\"Group A streptococcus\">GAS</span> in throat or skin"
+],
+[
+"1 <small>red</small>",
+"Or 2 yellow: urgent review"
+],
+[
+"≥ 25",
+"RR in obstetric qSOFA"
+],
+[
+"&lt; 90",
+"Systolic <span class=\"ab\" data-a=\"Blood pressure\">BP</span> in obstetric qSOFA"
+],
+[
+"≥ 2",
+"qSOFA points = high risk"
+],
+[
+"≥ 4 <small>mmol/L</small>",
+"Lactate: severe, <span class=\"ab\" data-a=\"Intensive care unit\">ICU</span>"
+],
+[
+"2 <small>sets</small>",
+"Blood cultures before antibiotics"
+],
+[
+"1 <small>h</small>",
+"Antibiotics after suspicion"
+],
+[
+"94–98<small>%</small>",
+"Target <span class=\"ab\" data-a=\"Oxygen saturation (pulse oximetry)\">SpO₂</span>"
+],
+[
+"20 <small>mL/kg</small>",
+"Fluid if shocked"
+],
+[
+"≥ 30 <small>mL/h</small>",
+"Urine output target"
+],
+[
+"2 <small>g</small>",
+"Ceftriaxone, severe infection"
+],
+[
+"500 <small>mg</small>",
+"Metronidazole <span class=\"ab\" data-a=\"Intravenous\">IV</span> 8-hourly"
+],
+[
+"48 <small>h</small>",
+"Fever-free before stopping <span class=\"ab\" data-a=\"Intravenous\">IV</span>"
+],
+[
+"1.5 <small>g</small>",
+"Cefuroxime <span class=\"ab\" data-a=\"Intravenous\">IV</span> at <span class=\"ab\" data-a=\"Caesarean section\">CS</span>"
+],
+[
+"900 <small>mg</small>",
+"Clindamycin <span class=\"ab\" data-a=\"Intravenous\">IV</span> if allergic"
+],
+[
+"0–60 <small>min</small>",
+"Before incision: prophylaxis time"
+],
+[
+"2 <small>g</small>",
+"Cefazolin <span class=\"ab\" data-a=\"Intravenous\">IV</span> at <span class=\"ab\" data-a=\"Caesarean section\">CS</span>"
+],
+[
+"24 <small>h–6 wk</small>",
+"Secondary <span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> window"
+],
+[
+"~ 1 in 3000",
+"Septic pelvic vein thrombosis"
+]
+],
+"6.3": [
+[
+"50–80<small>%</small>",
+"Mothers with baby blues"
+],
+[
+"Day 4–5",
+"Peak of the blues"
+],
+[
+"2 <small>wk</small>",
+"Blues longer than this: not blues"
+],
+[
+"10–15<small>%</small>",
+"Postnatal depression"
+],
+[
+"≈ 10<small>%</small>",
+"New fathers depressed"
+],
+[
+"1–2<small>/1000</small>",
+"Puerperal psychosis"
+],
+[
+"2 <small>wk</small>",
+"Most psychosis has started"
+],
+[
+"2 <small>wk</small>",
+"Line between blues and depression"
+],
+[
+"3 <small>mo</small>",
+"Most depression has started"
+],
+[
+"1 <small>yr</small>",
+"Depression can start until then"
+],
+[
+"≥ 13",
+"<span class=\"ab\" data-a=\"Edinburgh Postnatal Depression Scale\">EPDS</span>: assess for depression"
+],
+[
+"4–8 <small>mo</small>",
+"Hypothyroid phase of thyroiditis"
+],
+[
+"0",
+"Insight in psychosis"
+],
+[
+"10",
+"<span class=\"ab\" data-a=\"Edinburgh Postnatal Depression Scale\">EPDS</span> questions"
+],
+[
+"30",
+"Maximum <span class=\"ab\" data-a=\"Edinburgh Postnatal Depression Scale\">EPDS</span> score"
+],
+[
+"≥ 13",
+"<span class=\"ab\" data-a=\"Edinburgh Postnatal Depression Scale\">EPDS</span>: probable depression"
+],
+[
+"Q 10",
+"Self-harm item: any score acts"
+],
+[
+"50 <small>mg</small>",
+"Sertraline start, once daily"
+],
+[
+"6 <small>mo</small>",
+"Continue <span class=\"ab\" data-a=\"Selective serotonin reuptake inhibitor\">SSRI</span> after recovery"
+],
+[
+"25<small>%</small>",
+"Recurrence next pregnancy"
+],
+[
+"1 <small>in 500</small>",
+"Deliveries with psychosis"
+],
+[
+"2 <small>wk</small>",
+"Most cases have started"
+],
+[
+"≈ 5<small>%</small>",
+"Suicide in untreated psychosis"
+],
+[
+"≤ 4<small>%</small>",
+"<span class=\"gl\" data-a=\"infanticide: Killing of an infant.\">Infanticide</span>"
+],
+[
+"≈ 50<small>%</small>",
+"Recurrence, next birth"
+],
+[
+"25–50<small>%</small>",
+"Postpartum psychosis risk with bipolar"
+],
+[
+"200 <small>mg</small>",
+"Sertraline maximum daily"
+],
+[
+"6 <small>wk</small>",
+"Postnatal <span class=\"ab\" data-a=\"Edinburgh Postnatal Depression Scale\">EPDS</span> screen"
+],
+[
+"60<small>%</small>",
+"Risk: bipolar + past puerperal psychosis"
+],
+[
+"25<small>%</small>",
+"<span class=\"ab\" data-a=\"Postnatal depression\">PND</span> again next birth"
+],
+[
+"&gt; 70<small>%</small>",
+"Lifetime depression after <span class=\"ab\" data-a=\"Postnatal depression\">PND</span>"
+],
+[
+"80<small>%</small>",
+"Relapse in 10 yr after psychosis"
+]
+],
+"6.4": [
+[
+"42 <small>d</small>",
+"Limit for a maternal death"
+],
+[
+"1 <small>yr</small>",
+"Limit for a late maternal death"
+],
+[
+"256",
+"Sudan <span class=\"ab\" data-a=\"Maternal mortality ratio\">MMR</span>, 2023 (per 100 000)"
+],
+[
+"197",
+"World <span class=\"ab\" data-a=\"Maternal mortality ratio\">MMR</span>, 2023"
+],
+[
+"448",
+"Sub-Saharan Africa <span class=\"ab\" data-a=\"Maternal mortality ratio\">MMR</span>, 2023"
+],
+[
+"1 <small>in 91</small>",
+"Lifetime risk, Sudan, 2023"
+],
+[
+"&lt; 70",
+"Global <span class=\"ab\" data-a=\"Maternal mortality ratio\">MMR</span> target by 2030 (<span class=\"ab\" data-a=\"Sustainable Development Goal\">SDG</span> 3.1)"
+],
+[
+"≈ 260 000",
+"Maternal deaths worldwide, 2023"
+],
+[
+"≈ 70<small>%</small>",
+"Of them in sub-Saharan Africa"
+],
+[
+"≈ 27<small>%</small>",
+"World deaths from haemorrhage"
+],
+[
+"298 → 256",
+"Sudan <span class=\"ab\" data-a=\"Maternal mortality ratio\">MMR</span>, 2015 → 2023"
+],
+[
+"2 <small>min</small>",
+"One maternal death worldwide"
+],
+[
+"42 <small>d</small>",
+"Near miss window"
+],
+[
+"2 <small>h</small>",
+"<span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span>: time to death untreated"
+],
+[
+"2 <small>d</small>",
+"<span class=\"gl\" data-a=\"eclampsia: Fits in a woman with pre-eclampsia.\">Eclampsia</span>: time to death"
+],
+[
+"6 <small>d</small>",
+"Sepsis: time to death untreated"
+],
+[
+"78<small>%</small>",
+"Sudan births with a skilled attendant (2014)"
+],
+[
+"8",
+"<span class=\"ab\" data-a=\"World Health Organization\">WHO</span> antenatal contacts"
+],
+[
+"10 <small>IU</small>",
+"Oxytocin <span class=\"ab\" data-a=\"Intramuscular\">IM</span> in <span class=\"ab\" data-a=\"Active management of the third stage of labour\">AMTSL</span>"
+]
+],
+"7.1": [
+[
+"≈ 1 <small>min</small>",
+"Reading time outside"
+],
+[
+"≈ 5 <small>min</small>",
+"Time in a station"
+],
+[
+"30 <small>s</small>",
+"For the opening"
+],
+[
+"3",
+"Parts of every sheet: open, task, close"
+],
+[
+"7",
+"Station types"
+],
+[
+"20–30 <small>s</small>",
+"Alcohol hand rub"
+],
+[
+"2",
+"Identifiers: full name + age"
+],
+[
+"1",
+"Chaperone, named"
+],
+[
+"3",
+"Danger signs to safety-net: bleed, leak, fewer movements"
+],
+[
+"≈ 1 <small>min</small>",
+"Let her talk first"
+],
+[
+"3",
+"ICE: ideas, concerns, expectations"
+],
+[
+"2–3",
+"Facts, then check she understood"
+],
+[
+"1",
+"Question at a time"
+],
+[
+"12",
+"Communication marks"
+],
+[
+"6",
+"SPIKES steps"
+],
+[
+"4",
+"BRAN: benefits, risks, alternatives, nothing"
+],
+[
+"4",
+"Capacity: understand, retain, weigh, tell"
+],
+[
+"1",
+"Warning shot before the fact"
+],
+[
+"&lt; 1 <small>min</small>",
+"Length of a presentation"
+],
+[
+"6",
+"Parts: who, why, +, −, impression, plan"
+],
+[
+"1",
+"Main differential to give"
+],
+[
+"± 2 <small>cm</small>",
+"<span class=\"ab\" data-a=\"Symphysis-fundal height\">SFH</span> matches weeks from 24 wk"
+]
+],
+"7.2": [
+[
+"280 <small>d</small>",
+"<span class=\"ab\" data-a=\"Last menstrual period\">LMP</span> to <span class=\"ab\" data-a=\"Expected date of delivery\">EDD</span> (40 wk)"
+],
+[
+"+7 −3 +1",
+"Days, months, year"
+],
+[
+"28 <small>d</small>",
+"Cycle the rule assumes"
+],
+[
+"8–13 <small>wk</small>",
+"<span class=\"ab\" data-a=\"Crown-rump length\">CRL</span> dating scan"
+],
+[
+"24 <small>wk</small>",
+"Birth counts in parity"
+],
+[
+"≥ 35",
+"Age: higher risk"
+],
+[
+"18–20 <small>wk</small>",
+"First movements (<span class=\"gl\" data-a=\"quickening: The first fetal movements the mother feels.\">quickening</span>)"
+],
+[
+"3",
+"Booking infections: <span class=\"ab\" data-a=\"Human immunodeficiency virus\">HIV</span>, <span class=\"ab\" data-a=\"Hepatitis B virus\">HBV</span>, syphilis"
+],
+[
+"10",
+"Boxes in the history frame"
+],
+[
+"1",
+"Previous <span class=\"ab\" data-a=\"Caesarean section\">CS</span>: ask the indication and type"
+],
+[
+"24 <small>wk</small>",
+"Line between para and \"+\""
+],
+[
+"&lt; 18 <small>y</small>",
+"Teenage pregnancy"
+],
+[
+"≥ 35 <small>y</small>",
+"Advanced maternal age"
+],
+[
+"≥ 5",
+"<span class=\"gl\" data-a=\"grand multipara: A woman with 5 or more previous births.\">Grand multipara</span>"
+],
+[
+"1",
+"Twins count as one birth"
+],
+[
+"≥ 2 <small>y</small>",
+"Infertility before this pregnancy: \"precious\""
+],
+[
+"≥ 4 <small>kg</small>",
+"Previous <span class=\"gl\" data-a=\"macrosomia: Big baby: birth weight > 4 kg (or > 4.5 kg).\">macrosomia</span>: check glucose"
+],
+[
+"≥ 3",
+"Recurrent miscarriage"
+],
+[
+"2",
+"Previous <span class=\"ab\" data-a=\"Caesarean section\">CS</span>: repeat <span class=\"ab\" data-a=\"Caesarean section\">CS</span> usual"
+],
+[
+"≥ 1000 <small>mL</small>",
+"Major <span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> before: recurs"
+],
+[
+"≥ 24 <small>mo</small>",
+"Birth to next pregnancy"
+],
+[
+"≥ 5",
+"Grand multipara: <span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> risk"
+],
+[
+"&lt; 18 <small>mo</small>",
+"Short interval: anaemia, rupture"
+],
+[
+"≥ 2",
+"Previous preterm births: high risk"
+],
+[
+"2–3 <small>min</small>",
+"Time for presenting a long case history"
+],
+[
+"140/90",
+"Hypertension, 2 readings 4 h apart"
+],
+[
+"160/110",
+"Severe: treat now"
+],
+[
+"20 <small>wk</small>",
+"Splits chronic from PE"
+],
+[
+"300 <small>mg</small>",
+"Protein / 24 h"
+],
+[
+"12 <small>wk</small>",
+"Still high after birth = chronic"
+],
+[
+"&lt; 24 <small>wk</small>",
+"Miscarriage"
+],
+[
+"15–20<small>%</small>",
+"Known pregnancies miscarry"
+],
+[
+"≥ 3",
+"Recurrent miscarriage"
+],
+[
+"250 <small>IU</small>",
+"Anti-D before 20 wk"
+],
+[
+"≥ 28 <small>wk</small>",
+"<span class=\"ab\" data-a=\"Antepartum haemorrhage\">APH</span> (bleed before end of 2nd stage)"
+],
+[
+"4 <small>units</small>",
+"Cross-match"
+],
+[
+"0",
+"Digital PVs before placenta located"
+],
+[
+"500 <small>IU</small>",
+"Anti-D if Rh−, ≥ 20 wk"
+],
+[
+"&lt; 11",
+"Hb g/dL: anaemia, 1st trim"
+],
+[
+"&lt; 10.5",
+"Hb: 2nd and 3rd trim"
+],
+[
+"7–9.9",
+"Moderate"
+],
+[
+"&lt; 7",
+"Severe"
+],
+[
+"1 <small>g/dL</small>",
+"Hb rise per week on iron"
+],
+[
+"≥ 5.6",
+"Fasting mmol/L = <span class=\"ab\" data-a=\"Gestational diabetes mellitus\">GDM</span>"
+],
+[
+"≥ 7.8",
+"2 h mmol/L = <span class=\"ab\" data-a=\"Gestational diabetes mellitus\">GDM</span>"
+],
+[
+"≥ 7.0",
+"Fasting = overt diabetes"
+],
+[
+"24–28",
+"Weeks: routine <span class=\"ab\" data-a=\"Oral glucose tolerance test\">OGTT</span>"
+],
+[
+"4.5 <small>kg</small>",
+"Macrosomia"
+],
+[
+"≥ 1",
+"Severe feature = severe malaria"
+],
+[
+"&lt; 7 <small>g/dL</small>",
+"Severe anaemia"
+],
+[
+"&lt; 40 <small>mg/dL</small>",
+"<span class=\"ab\" data-a=\"Random blood glucose\">RBG</span>: hypoglycaemia"
+],
+[
+"2",
+"<span class=\"ab\" data-a=\"Intermittent preventive treatment in pregnancy\">IPTp</span> doses, ≥ 4 wk apart"
+],
+[
+"16–20 <small>wk</small>",
+"First SP (after <span class=\"gl\" data-a=\"quickening: The first fetal movements the mother feels.\">quickening</span>)"
+],
+[
+"110–160",
+"Normal <span class=\"ab\" data-a=\"Fetal heart rate\">FHR</span>, bpm"
+],
+[
+"≥ 20 <small>min</small>",
+"<span class=\"ab\" data-a=\"Cardiotocography\">CTG</span> length"
+],
+[
+"37 <small>wk</small>",
+"<span class=\"ab\" data-a=\"Prelabour rupture of membranes\">PROM</span> vs <span class=\"ab\" data-a=\"Preterm prelabour rupture of membranes\">PPROM</span>"
+],
+[
+"&gt; 24 <small>h</small>",
+"Prolonged <span class=\"ab\" data-a=\"Rupture of membranes\">ROM</span>"
+],
+[
+"250 <small>mg</small>",
+"Erythromycin 6-hourly × 10 d"
+],
+[
+"24–34 <small>wk</small>",
+"Steroids in <span class=\"ab\" data-a=\"Preterm prelabour rupture of membranes\">PPROM</span>"
+]
+],
+"7.3": [
+[
+"5–7 <small>min</small>",
+"Station time"
+],
+[
+"15°",
+"Left lateral tilt"
+],
+[
+"20 <small>wk</small>",
+"Tilt from here on"
+],
+[
+"≈ 3 <small>cm</small>",
+"Full bladder adds to the <span class=\"ab\" data-a=\"Symphysis-fundal height\">SFH</span>"
+],
+[
+"1",
+"Pillow under her head"
+],
+[
+"10 <small>s</small>",
+"Press to test <span class=\"gl\" data-a=\"pitting: A dent stays after pressing on swollen skin.\">pitting</span>"
+],
+[
+"≈ 24 <small>wk</small>",
+"FM seen on the abdomen"
+],
+[
+"18–20 <small>wk</small>",
+"Primi feels movements"
+],
+[
+"16–18 <small>wk</small>",
+"Multi feels movements"
+],
+[
+"2",
+"Scars to know: <span class=\"gl\" data-a=\"Pfannenstiel: Low transverse skin incision above the pubic hair.\">Pfannenstiel</span>, midline"
+],
+[
+"15–30°",
+"Head-up position"
+],
+[
+"15°",
+"Left lateral tilt"
+],
+[
+"&lt; 150 <small>cm</small>",
+"Short stature: risk of <span class=\"ab\" data-a=\"Cephalopelvic disproportion\">CPD</span>"
+],
+[
+"≥ 140/90",
+"Hypertension"
+],
+[
+"&gt; 100 <small>bpm</small>",
+"Tachycardia: look for a cause"
+],
+[
+"≥ 30",
+"Obese <span class=\"ab\" data-a=\"Body mass index\">BMI</span>"
+],
+[
+"12 <small>wk</small>",
+"Fundus at the <span class=\"gl\" data-a=\"symphysis: The joint between the two pubic bones at the front of the pelvis.\">symphysis</span>"
+],
+[
+"20 <small>wk</small>",
+"At the umbilicus"
+],
+[
+"36 <small>wk</small>",
+"At the <span class=\"gl\" data-a=\"xiphisternum: The lower tip of the breastbone.\">xiphisternum</span>"
+],
+[
+"± 2 <small>cm</small>",
+"<span class=\"ab\" data-a=\"Symphysis-fundal height\">SFH</span> = weeks, 24–36 wk"
+],
+[
+"≈ 2 <small>cm</small>",
+"One finger breadth"
+],
+[
+"&gt; 2 <small>cm</small>",
+"Off the dates: scan"
+],
+[
+"4",
+"Leopold grips"
+],
+[
+"3",
+"Grips facing her head"
+],
+[
+"1",
+"Hand for Pawlik"
+],
+[
+"≈ 96<small>%</small>",
+"Cephalic at term"
+],
+[
+"≈ 3<small>%</small>",
+"Breech at term"
+],
+[
+"≤ 2/5",
+"Palpable = engaged"
+],
+[
+"5/5",
+"Whole head above the brim"
+],
+[
+"9.5 <small>cm</small>",
+"Biparietal: widest diameter"
+],
+[
+"2 <small>wk</small>",
+"Primi engages before term"
+],
+[
+"36 <small>wk</small>",
+"Abnormal lie: scan, plan"
+],
+[
+"110–160",
+"Normal <span class=\"ab\" data-a=\"Fetal heart rate\">FHR</span> / min"
+],
+[
+"1 <small>min</small>",
+"Count the <span class=\"ab\" data-a=\"Fetal heart rate\">FHR</span>"
+],
+[
+"12 <small>wk</small>",
+"Doppler hears the <span class=\"ab\" data-a=\"Fetal heart (heartbeat)\">FH</span>"
+],
+[
+"24 <small>wk</small>",
+"Pinard hears the <span class=\"ab\" data-a=\"Fetal heart (heartbeat)\">FH</span>"
+],
+[
+"8",
+"Findings to present"
+],
+[
+"≥ 10 <small>bpm</small>",
+"<span class=\"ab\" data-a=\"Fetal heart (heartbeat)\">FH</span> difference: two babies"
+],
+[
+"1",
+"Summary sentence at the end"
+],
+[
+"≈ 30 <small>s</small>",
+"Length of a good presentation"
+]
+],
+"7.4": [
+[
+"5 <small>min</small>",
+"Rest before measuring"
+],
+[
+"≥ 80<small>%</small>",
+"Arm covered by the bladder"
+],
+[
+"&gt; 33 <small>cm</small>",
+"Arm: use a large cuff"
+],
+[
+"2–3 <small>cm</small>",
+"Cuff above the elbow crease"
+],
+[
+"+30",
+"mmHg above palpatory systolic"
+],
+[
+"2 <small>mmHg/s</small>",
+"Deflation rate"
+],
+[
+"5",
+"Korotkoff phases"
+],
+[
+"K1",
+"Systolic: first tapping"
+],
+[
+"K5",
+"Diastolic: silence"
+],
+[
+"K4",
+"Diastolic only if sounds go to 0"
+],
+[
+"2 <small>mmHg</small>",
+"Record to the nearest"
+],
+[
+"40<small>%</small>",
+"Cuff width of arm circumference"
+],
+[
+"140/90",
+"Hypertension"
+],
+[
+"160/110",
+"Severe: act now"
+],
+[
+"4 <small>h</small>",
+"Between 2 readings to diagnose"
+],
+[
+"≈ 130/85",
+"Treatment target"
+],
+[
+"15 <small>min</small>",
+"<span class=\"ab\" data-a=\"Blood pressure\">BP</span> in severe PE"
+],
+[
+"20 <small>wk</small>",
+"Splits chronic from <span class=\"ab\" data-a=\"Pregnancy-induced hypertension\">PIH</span> / PE"
+],
+[
+"≈ 1 <small>s</small>",
+"Dip time"
+],
+[
+"30 <small>s</small>",
+"Read glucose"
+],
+[
+"60 <small>s</small>",
+"Read protein, nitrite, blood"
+],
+[
+"2 <small>min</small>",
+"Read leucocytes"
+],
+[
+"2 <small>h</small>",
+"Test the sample within"
+],
+[
+"½",
+"Fill the cup"
+],
+[
+"1+",
+"≈ 0.3 g/L on the strip"
+],
+[
+"30",
+"<span class=\"ab\" data-a=\"Protein:creatinine ratio\">PCR</span> mg/mmol: significant"
+],
+[
+"0.3 <small>g</small>",
+"Protein / 24 h: significant"
+],
+[
+"&gt; 5 <small>g</small>",
+"Protein / 24 h: severe"
+],
+[
+"2+",
+"Glucose: consider <span class=\"ab\" data-a=\"Oral glucose tolerance test\">OGTT</span>"
+],
+[
+"24 <small>h</small>",
+"Exactly, first void discarded"
+],
+[
+"0.3 <small>g</small>",
+"Protein / 24 h: significant"
+],
+[
+"30",
+"<span class=\"ab\" data-a=\"Protein:creatinine ratio\">PCR</span> mg/mmol: significant"
+],
+[
+"&gt; 5 <small>g</small>",
+"Protein / 24 h: severe"
+],
+[
+"2–10<small>%</small>",
+"Pregnant women with <span class=\"gl\" data-a=\"bacteriuria: Bacteria in the urine.\">bacteriuria</span>"
+]
+],
+"7.5": [
+[
+"3",
+"Sizes: small, medium, large"
+],
+[
+"2",
+"Blades in a Cusco"
+],
+[
+"20–30 <small>min</small>",
+"Lying before: liquor pools"
+],
+[
+"0",
+"Digital <span class=\"ab\" data-a=\"Vaginal examinations\">VEs</span> in <span class=\"ab\" data-a=\"Preterm prelabour rupture of membranes\">PPROM</span>, no labour"
+],
+[
+"6 <small>wk</small>",
+"Postnatal: time for a smear"
+],
+[
+"90°",
+"Rotate after insertion"
+],
+[
+"3",
+"Swabs to clean the vulva"
+],
+[
+"2",
+"Swab sites: fornix, os"
+],
+[
+"1",
+"Cough to show a leak"
+],
+[
+"0",
+"Gel on the blades in <span class=\"ab\" data-a=\"Rupture of membranes\">ROM</span>"
+],
+[
+"7–7.5",
+"pH of liquor"
+],
+[
+"4.5",
+"pH of the vagina"
+],
+[
+"&gt; 6.5",
+"Nitrazine turns blue"
+],
+[
+"1–2 <small>cm</small>",
+"Endocervical swab depth"
+],
+[
+"&gt; 4.5",
+"Vaginal pH in <span class=\"ab\" data-a=\"Bacterial vaginosis\">BV</span>"
+],
+[
+"7–7.5",
+"pH of liquor"
+],
+[
+"&gt; 6.5",
+"Nitrazine turns blue"
+],
+[
+"30 <small>min</small>",
+"Lie down, then look again"
+],
+[
+"37 <small>wk</small>",
+"Before = <span class=\"ab\" data-a=\"Preterm prelabour rupture of membranes\">PPROM</span>"
+],
+[
+"&gt; 24 <small>h</small>",
+"Prolonged <span class=\"ab\" data-a=\"Rupture of membranes\">ROM</span>: infection risk"
+],
+[
+"4 <small>h</small>",
+"<span class=\"ab\" data-a=\"Vaginal examination\">VE</span> in the 1st stage"
+],
+[
+"2 <small>h</small>",
+"<span class=\"ab\" data-a=\"Vaginal examination\">VE</span> on oxytocin"
+],
+[
+"2",
+"Fingers: index + middle"
+],
+[
+"4 <small>cm</small>",
+"Active phase: open the partogram"
+],
+[
+"10 <small>cm</small>",
+"Full dilatation"
+],
+[
+"0",
+"Station at the ischial spines"
+],
+[
+"≥ 8",
+"Bishop: favourable"
+],
+[
+"≤ 6",
+"Bishop: ripen first"
+],
+[
+"13",
+"Maximum Bishop score"
+],
+[
+"3 <small>cm</small>",
+"Uneffaced cervix length"
+],
+[
+"10 <small>cm</small>",
+"Full dilatation"
+],
+[
+"0",
+"Station at the ischial spines"
+],
+[
+"3",
+"Sutures at the posterior fontanelle"
+],
+[
+"4",
+"Sutures at the anterior fontanelle"
+],
+[
+"8",
+"<span class=\"gl\" data-a=\"vertex: Area of the fetal skull between the fontanelles and parietal eminences.\">Vertex</span> positions"
+],
+[
+"1/8",
+"Rotation <span class=\"ab\" data-a=\"Left occipito-anterior\">LOA</span> → <span class=\"ab\" data-a=\"Occipito-anterior\">OA</span>"
+],
+[
+"3/8",
+"Rotation <span class=\"ab\" data-a=\"Left occipito-posterior\">LOP</span> → <span class=\"ab\" data-a=\"Occipito-anterior\">OA</span> (long)"
+],
+[
+"4 <small>h</small>",
+"To the next <span class=\"ab\" data-a=\"Vaginal examination\">VE</span>"
+],
+[
+"1 <small>cm/h</small>",
+"Expected dilatation, active phase"
+],
+[
+"+3",
+"Moulding: not reducible"
+],
+[
+"9.5 <small>cm</small>",
+"<span class=\"ab\" data-a=\"Suboccipito-bregmatic diameter\">SOB</span>: flexed vertex"
+],
+[
+"11.5 <small>cm</small>",
+"OF: deflexed (<span class=\"ab\" data-a=\"Occipito-posterior\">OP</span>)"
+]
+],
+"7.6": [
+[
+"4 <small>cm</small>",
+"Open the partogram"
+],
+[
+"1 <small>cm/h</small>",
+"Alert line slope"
+],
+[
+"4 <small>h</small>",
+"Alert → action line"
+],
+[
+"4 / 2 <small>h</small>",
+"<span class=\"ab\" data-a=\"Vaginal examination\">VE</span>: normally / on oxytocin"
+],
+[
+"30 <small>min</small>",
+"<span class=\"ab\" data-a=\"Fetal heart rate\">FHR</span>, pulse, contractions"
+],
+[
+"110–160",
+"Normal <span class=\"ab\" data-a=\"Fetal heart rate\">FHR</span>"
+],
+[
+"1.25 <small>cm/h</small>",
+"Her rate (≥ 1 = normal)"
+],
+[
+"5.5 <small>h</small>",
+"Active 1st stage"
+],
+[
+"30 <small>min</small>",
+"2nd stage (limit 2 h primi)"
+],
+[
+"0/5",
+"Head not palpable"
+],
+[
+"&gt; 40 <small>s</small>",
+"Solid box"
+],
+[
+"&lt; 2 <small>cm</small>",
+"In 4 h: slow progress"
+],
+[
+"5 <small>IU</small>",
+"Oxytocin in 500 mL saline"
+],
+[
+"4 <small>drops</small>",
+"/min = 2 mU/min start"
+],
+[
+"30 <small>min</small>",
+"Between increases"
+],
+[
+"2 <small>h</small>",
+"<span class=\"ab\" data-a=\"Vaginal examination\">VE</span> after <span class=\"gl\" data-a=\"augmentation: Speeding up slow labour, usually with ARM and oxytocin.\">augmentation</span>"
+],
+[
+"3–4",
+"Target contractions / 10 min"
+],
+[
+"4 <small>h</small>",
+"No change = arrest"
+],
+[
+"≥ 3/5",
+"Head palpable: <span class=\"ab\" data-a=\"Cephalopelvic disproportion\">CPD</span>"
+],
+[
+"+3",
+"<span class=\"gl\" data-a=\"moulding: Overlapping of fetal skull bones during labour.\">Moulding</span>, not reducible"
+],
+[
+"≥ 5",
+"Births: <span class=\"gl\" data-a=\"grand multipara: A woman with 5 or more previous births.\">grand multipara</span>"
+],
+[
+"14 <small>days</small>",
+"Catheter after obstruction"
+],
+[
+"110–160",
+"Baseline, bpm"
+],
+[
+"5–25",
+"Variability, bpm"
+],
+[
+"15 × 15",
+"bpm × s: acceleration"
+],
+[
+"1 <small>cm/min</small>",
+"Paper speed"
+],
+[
+"3–5",
+"Contractions / 10 min"
+],
+[
+"2 <small>in 20 min</small>",
+"Accels: reactive antenatal NST"
+],
+[
+"≥ 15 <small>bpm</small>",
+"Fall for a <span class=\"gl\" data-a=\"deceleration: Temporary fall in fetal heart rate on CTG.\">deceleration</span>"
+],
+[
+"≥ 15 <small>s</small>",
+"Duration to count"
+],
+[
+"&gt; 3 <small>min</small>",
+"Prolonged deceleration"
+],
+[
+"&lt; 5 <small>bpm</small>",
+"Reduced variability"
+],
+[
+"&gt; 50 <small>min</small>",
+"Low variability: pathological"
+],
+[
+"&lt; 100",
+"Baseline: pathological"
+],
+[
+"161–180",
+"Baseline: suspicious"
+],
+[
+"&gt; 180",
+"Baseline: pathological"
+],
+[
+"3 <small>min</small>",
+"Prolonged decel: act"
+],
+[
+"9 <small>min</small>",
+"No recovery: deliver"
+],
+[
+"0.25 <small>mg</small>",
+"Terbutaline <span class=\"ab\" data-a=\"Subcutaneous\">SC</span>"
+],
+[
+"≤ 7.20",
+"Scalp pH: deliver"
+]
+],
+"7.7": [
+[
+"2 / 1 <small>h</small>",
+"2nd stage: primi / multi"
+],
+[
+"5 <small>min</small>",
+"<span class=\"ab\" data-a=\"Fetal heart rate\">FHR</span> in 2nd stage"
+],
+[
+"10 <small>IU</small>",
+"Oxytocin <span class=\"ab\" data-a=\"Intramuscular\">IM</span>, ready"
+],
+[
+"1–3 <small>min</small>",
+"Delayed cord clamping"
+],
+[
+"2",
+"Clamps on the cord"
+],
+[
+"9.5 <small>cm</small>",
+"Suboccipitobregmatic"
+],
+[
+"1 · 5 <small>min</small>",
+"<span class=\"gl\" data-a=\"Apgar: Newborn score (0–10) of colour, pulse, reflex, tone, breathing.\">Apgar</span> scores"
+],
+[
+"≥ 7",
+"Normal Apgar"
+],
+[
+"60 <small>s</small>",
+"Golden minute: breathing?"
+],
+[
+"10 <small>IU</small>",
+"Oxytocin <span class=\"ab\" data-a=\"Intramuscular\">IM</span>, ≤ 1 min"
+],
+[
+"600 <small>µg</small>",
+"Misoprostol oral, no oxytocin"
+],
+[
+"1–3 <small>min</small>",
+"Cord clamping"
+],
+[
+"30 <small>min</small>",
+"<span class=\"gl\" data-a=\"retained placenta: Placenta not delivered 30 min after the baby (with AMTSL).\">Retained placenta</span> (<span class=\"ab\" data-a=\"Active management of the third stage of labour\">AMTSL</span>)"
+],
+[
+"3",
+"Cord vessels: 2 arteries, 1 vein"
+],
+[
+"≥ 500 <small>mL</small>",
+"<span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> after vaginal birth"
+],
+[
+"60°",
+"From the midline, at <span class=\"gl\" data-a=\"crowning: Fetal head stays visible at the vulva between contractions.\">crowning</span>"
+],
+[
+"≈ 45°",
+"The same cut after the birth"
+],
+[
+"3–4 <small>cm</small>",
+"Length of the cut"
+],
+[
+"2nd",
+"Degree: an episiotomy"
+],
+[
+"1<small>%</small>",
+"Lidocaine, 10 mL"
+],
+[
+"3 <small>mg/kg</small>",
+"Lidocaine maximum (plain)"
+],
+[
+"50<small>%</small>",
+"EAS: 3a below, 3b above"
+],
+[
+"3c",
+"Internal sphincter torn"
+],
+[
+"1 <small>cm</small>",
+"Above the apex"
+],
+[
+"2-0",
+"Rapid polyglactin"
+],
+[
+"2",
+"Counts: before and after"
+],
+[
+"≤ 24 <small>h</small>",
+"Repair OASI: best at once"
+],
+[
+"6–12 <small>wk</small>",
+"Review after OASI"
+]
+],
+"7.8": [
+[
+"≤ 1/5",
+"Head palpable abdominally"
+],
+[
+"0",
+"Station: spines, not above"
+],
+[
+"+2",
+"Low cavity: at or below"
+],
+[
+"2 / 1 <small>h</small>",
+"2nd stage: primi / multi"
+],
+[
+"10–15<small>%</small>",
+"Births needing instruments"
+],
+[
+"3 <small>cm</small>",
+"Flexion point in front of PF"
+],
+[
+"0.8 <small>kg/cm²</small>",
+"Working pressure (≈ 600 mmHg)"
+],
+[
+"3",
+"Pulls: maximum"
+],
+[
+"2",
+"Cup detachments: stop"
+],
+[
+"15 <small>min</small>",
+"Application to delivery"
+],
+[
+"34 <small>wk</small>",
+"No ventouse before this"
+],
+[
+"1 <small>cm</small>",
+"PF above the shanks"
+],
+[
+"3",
+"Pulls maximum"
+],
+[
+"2",
+"Curves: cephalic, pelvic"
+],
+[
+"≥ 34 <small>wk</small>",
+"Ventouse; forceps any <span class=\"ab\" data-a=\"Gestational age\">GA</span>"
+],
+[
+"≤ 30 <small>min</small>",
+"Category 1"
+],
+[
+"≤ 75 <small>min</small>",
+"Category 2"
+],
+[
+"39 <small>wk</small>",
+"Elective <span class=\"ab\" data-a=\"Caesarean section\">CS</span> (lung maturity)"
+],
+[
+"4 / 5 <small>min</small>",
+"Perimortem: start / baby out"
+],
+[
+"≥ 18 <small>mo</small>",
+"Birth spacing after <span class=\"ab\" data-a=\"Caesarean section\">CS</span>"
+],
+[
+"2 <small>units</small>",
+"Cross-match (4–6 high risk)"
+],
+[
+"6 / 2 <small>h</small>",
+"Fast: solids / clear fluids"
+],
+[
+"15°",
+"Left lateral tilt"
+],
+[
+"1.5 <small>g</small>",
+"Cefuroxime <span class=\"ab\" data-a=\"Intravenous\">IV</span> before incision"
+],
+[
+"5 <small>IU</small>",
+"Oxytocin slow <span class=\"ab\" data-a=\"Intravenous\">IV</span> after baby"
+],
+[
+"2–9<small>%</small>",
+"Classical scar rupture"
+],
+[
+"30 <small>min</small>",
+"Obs for the first 2 h"
+],
+[
+"75 <small>mg</small>",
+"Diclofenac <span class=\"ab\" data-a=\"Intramuscular\">IM</span> 8-hourly"
+],
+[
+"1 <small>g</small>",
+"Paracetamol 6-hourly"
+],
+[
+"40 <small>mg</small>",
+"Enoxaparin <span class=\"ab\" data-a=\"Subcutaneous\">SC</span> daily"
+],
+[
+"10 <small>days</small>",
+"<span class=\"ab\" data-a=\"Low-molecular-weight heparin\">LMWH</span> after emergency <span class=\"ab\" data-a=\"Caesarean section\">CS</span>"
+],
+[
+"12 <small>h</small>",
+"Catheter out"
+],
+[
+"6 <small>wk</small>",
+"Postnatal check"
+]
+],
+"7.9": [
+[
+"≥ 500 <small>mL</small>",
+"<span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> after vaginal birth"
+],
+[
+"15 <small>L/min</small>",
+"Oxygen by mask"
+],
+[
+"14–16 <small>G</small>",
+"Two cannulae"
+],
+[
+"4–6 <small>u</small>",
+"Cross-match"
+],
+[
+"7–10 <small>min</small>",
+"No clot = <span class=\"gl\" data-a=\"coagulopathy: Failure of blood clotting.\">coagulopathy</span>"
+],
+[
+"15 <small>min</small>",
+"Obs and loss charted"
+],
+[
+"10 <small>IU</small>",
+"Oxytocin, first dose"
+],
+[
+"0.5 <small>mg</small>",
+"Ergometrine"
+],
+[
+"800 <small>µg</small>",
+"Misoprostol"
+],
+[
+"250 <small>µg</small>",
+"Carboprost, up to 8 doses"
+],
+[
+"1 <small>g</small>",
+"<span class=\"ab\" data-a=\"Tranexamic acid\">TXA</span> <span class=\"ab\" data-a=\"Intravenous\">IV</span>, within 3 h"
+],
+[
+"≥ 30 <small>mL/h</small>",
+"Urine target"
+],
+[
+"4 <small>g</small>",
+"<span class=\"ab\" data-a=\"Magnesium sulphate\">MgSO₄</span> <span class=\"ab\" data-a=\"Intravenous\">IV</span> loading"
+],
+[
+"1 <small>g/h</small>",
+"Maintenance, 24 h"
+],
+[
+"2 <small>g</small>",
+"Extra <span class=\"ab\" data-a=\"Intravenous\">IV</span> if she fits again"
+],
+[
+"160/110",
+"Treat <span class=\"ab\" data-a=\"Blood pressure\">BP</span> now"
+],
+[
+"80 <small>mL/h</small>",
+"Total fluid limit"
+],
+[
+"6–12 <small>h</small>",
+"Deliver once stable"
+],
+[
+"8 <small>mL</small>",
+"50% <span class=\"ab\" data-a=\"Magnesium sulphate\">MgSO₄</span> = 4 g"
+],
+[
+"5–15 <small>min</small>",
+"Loading given over"
+],
+[
+"25 <small>mL/h</small>",
+"20 g in 500 mL = 1 g/h"
+],
+[
+"≥ 12",
+"RR per minute to continue"
+],
+[
+"≥ 30 <small>mL/h</small>",
+"Urine to continue"
+],
+[
+"10 <small>mL</small>",
+"10% calcium gluconate"
+],
+[
+"24 <small>h</small>",
+"After birth or last fit"
+],
+[
+"&gt; 60 <small>s</small>",
+"Head-to-body interval"
+],
+[
+"30–60 <small>s</small>",
+"Per manoeuvre"
+],
+[
+"80<small>%</small>",
+"Freed by L + P"
+],
+[
+"5 <small>min</small>",
+"Most a baby tolerates"
+],
+[
+"0",
+"Fundal pressure"
+],
+[
+"7.25",
+"Cord pH below = acidosis"
+],
+[
+"2",
+"Helpers for McRoberts"
+],
+[
+"30 <small>s</small>",
+"Suprapubic pressure, then rock"
+],
+[
+"180°",
+"Woods screw rotation"
+],
+[
+"1 and 5 <small>min</small>",
+"<span class=\"gl\" data-a=\"Apgar: Newborn score (0–10) of colour, pulse, reflex, tone, breathing.\">Apgar</span>"
+],
+[
+"≈ 10<small>%</small>",
+"Recurrence next birth"
+],
+[
+"≤ 30 <small>min</small>",
+"Category 1 <span class=\"ab\" data-a=\"Caesarean section\">CS</span>"
+],
+[
+"500 <small>mL</small>",
+"Saline into bladder"
+],
+[
+"0.25 <small>mg</small>",
+"Terbutaline <span class=\"ab\" data-a=\"Subcutaneous\">SC</span>"
+],
+[
+"2",
+"Fingers holding the part up"
+],
+[
+"0",
+"Attempts to replace the cord"
+],
+[
+"≈ 4 <small>min</small>",
+"Breech: umbilicus to head"
+],
+[
+"60 <small>s</small>",
+"Breathing started within"
+],
+[
+"5",
+"Inflation breaths"
+],
+[
+"2–3 <small>s</small>",
+"Each inflation breath"
+],
+[
+"30 <small>/min</small>",
+"Ventilation breaths"
+],
+[
+"&lt; 60",
+"HR: start compressions"
+],
+[
+"3 : 1",
+"Compressions : breaths"
+],
+[
+"&gt; 100",
+"HR: good"
+],
+[
+"10",
+"Maximum Apgar"
+],
+[
+"7–10",
+"Normal"
+],
+[
+"4–6",
+"Moderate depression"
+],
+[
+"0–3",
+"Severe depression"
+],
+[
+"≥ 100",
+"Pulse scoring 2"
+],
+[
+"36.5–37.5 <small>°C</small>",
+"Keep baby's temperature"
+]
+],
+"7.11": [
+[
+"8",
+"Steps of the frame"
+],
+[
+"2–3",
+"Facts per chunk"
+],
+[
+"3",
+"Usual options: wait, medicine, procedure"
+],
+[
+"0",
+"Medical words left unexplained"
+],
+[
+"≈ 85<small>%</small>",
+"Labour within 3 wk"
+],
+[
+"≈ 30<small>%</small>",
+"<span class=\"ab\" data-a=\"Disseminated intravascular coagulation\">DIC</span> if retained &gt; 3 wk"
+],
+[
+"2–3×",
+"Clotting tests/wk if waiting"
+],
+[
+"200 <small>mg</small>",
+"Mifepristone, oral"
+],
+[
+"36–48 <small>h</small>",
+"Then misoprostol"
+],
+[
+"25 <small>µg</small>",
+"Misoprostol <span class=\"ab\" data-a=\"Per vaginam (vaginal)\">PV</span> 6-hourly, &gt; 28 wk"
+],
+[
+"≈ 50<small>%</small>",
+"No cause found"
+],
+[
+"1 <small>mg</small>",
+"Cabergoline, once"
+],
+[
+"500 <small>IU</small>",
+"Anti-D within 72 h"
+],
+[
+"48 <small>h</small>",
+"Postpartum <span class=\"ab\" data-a=\"Intrauterine device\">IUD</span> window"
+],
+[
+"6 <small>wk</small>",
+"Review visit"
+],
+[
+"40<small>%</small>",
+"Rise in cardiac output"
+],
+[
+"6–12 <small>wk</small>",
+"Warfarin <span class=\"gl\" data-a=\"embryopathy: Damage to the embryo, usually by a drug or infection.\">embryopathy</span>"
+],
+[
+"10–12 <small>d</small>",
+"Multidisciplinary clinic visits"
+],
+[
+"24–32 <small>wk</small>",
+"First danger peak"
+],
+[
+"20–22 <small>wk</small>",
+"Fetal echo if she has <span class=\"ab\" data-a=\"Congenital heart disease\">CHD</span>"
+],
+[
+"36 <small>wk</small>",
+"Written delivery plan"
+],
+[
+"24 <small>h</small>",
+"Treatment <span class=\"ab\" data-a=\"Low-molecular-weight heparin\">LMWH</span> stop before epidural"
+],
+[
+"5 <small>IU</small>",
+"Oxytocin, slow <span class=\"ab\" data-a=\"Intravenous\">IV</span>"
+],
+[
+"≥ 3 <small>d</small>",
+"<span class=\"ab\" data-a=\"High-dependency unit\">HDU</span> after birth"
+],
+[
+"8–12 <small>h</small>",
+"Restart <span class=\"ab\" data-a=\"Low-molecular-weight heparin\">LMWH</span>"
+],
+[
+"6 <small>mo</small>",
+"<span class=\"ab\" data-a=\"Peripartum cardiomyopathy\">PPCM</span> window after birth"
+],
+[
+"5 <small>mg</small>",
+"Folic acid daily"
+],
+[
+"3 <small>mo</small>",
+"Folic acid before conceiving"
+],
+[
+"≈ 10<small>%</small>",
+"Anomalies on valproate"
+],
+[
+"1 / 3",
+"Fit more in pregnancy"
+],
+[
+"2 <small>yr</small>",
+"Fit-free before conceiving: ideal"
+],
+[
+"1 <small>mg</small>",
+"Vitamin K <span class=\"ab\" data-a=\"Intramuscular\">IM</span> to baby"
+],
+[
+"98<small>%</small>",
+"<span class=\"ab\" data-a=\"Lactational amenorrhoea method\">LAM</span> protection, rules kept"
+],
+[
+"21 <small>d</small>",
+"No method needed before"
+],
+[
+"48 <small>h</small>",
+"Postpartum <span class=\"ab\" data-a=\"Intrauterine device\">IUD</span> window"
+],
+[
+"4 <small>wk</small>",
+"<span class=\"ab\" data-a=\"Intrauterine device\">IUD</span> again after"
+],
+[
+"6 <small>wk</small>",
+"<span class=\"ab\" data-a=\"Depot medroxyprogesterone acetate\">DMPA</span> if breastfeeding"
+],
+[
+"6 <small>mo</small>",
+"<span class=\"ab\" data-a=\"Combined oral contraceptive\">COC</span> if breastfeeding"
+],
+[
+"2 <small>yr</small>",
+"Spacing advised"
+],
+[
+"&lt; 5.3",
+"Fasting target, mmol/L"
+],
+[
+"&lt; 7.8",
+"1 h after meal target"
+],
+[
+"0.2 <small>U/kg</small>",
+"Daily insulin start"
+],
+[
+"&lt; 4",
+"Hypo: treat at once"
+],
+[
+"6 <small>wk</small>",
+"Postnatal <span class=\"ab\" data-a=\"Oral glucose tolerance test\">OGTT</span>"
+],
+[
+"50<small>%</small>",
+"Type 2 <span class=\"ab\" data-a=\"Diabetes mellitus\">DM</span> in 10 yr"
+],
+[
+"≤ 30 <small>min</small>",
+"Category 1: threat to life"
+],
+[
+"≤ 75 <small>min</small>",
+"Category 2: compromise"
+],
+[
+"3 · 4",
+"Early delivery · elective"
+],
+[
+"39 <small>wk</small>",
+"Elective <span class=\"ab\" data-a=\"Caesarean section\">CS</span>"
+],
+[
+"72–75<small>%</small>",
+"<span class=\"ab\" data-a=\"Vaginal birth after caesarean\">VBAC</span> success"
+],
+[
+"≈ 0.5<small>%</small>",
+"Rupture, spontaneous <span class=\"ab\" data-a=\"Vaginal birth after caesarean\">VBAC</span>"
+]
+]
+}
