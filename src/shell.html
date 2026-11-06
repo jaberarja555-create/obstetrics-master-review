@@ -151,6 +151,29 @@
 #qbank-v:is(.sday,.seye) .qbpt,#qbank-v:is(.sday,.seye) .qbpt.on small,#qbank-v:is(.sday,.seye) .qblink{color:#8a6416}
 #qbank-v:is(.sday,.seye) .qbpool button.on span,#qbank-v:is(.sday,.seye) .qbnq button.on{color:#8a6416}
 #qbank-v:is(.sday,.seye) .qbe.ok b{color:#047857}#qbank-v:is(.sday,.seye) .qbe.no b{color:#b42318}
+/* opening choice (owner, Nov 2026): 24-hour trial or the paid version */
+.chz{display:flex;flex-direction:column;gap:11px}
+.chz .sublogo{align-self:center}
+.chc{display:flex;align-items:center;gap:12px;width:100%;text-align:right;border-radius:16px;padding:14px 14px;border:1px solid #ecd9a8;background:#fff;color:#0e2547;font:inherit;cursor:pointer;position:relative;overflow:hidden}
+.chc i{flex:none;width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-style:normal}
+.chc i svg{width:26px;height:26px}
+.chc span{display:flex;flex-direction:column;gap:3px;min-width:0}
+.chc b{font:850 16px/1.3 'Noto Sans Arabic',Inter,sans-serif}
+.chc small{font:500 13px/1.5 'Noto Sans Arabic',Inter,sans-serif;opacity:.85}
+.chc.tr{background:linear-gradient(120deg,#0e2547 0,#1f4e8c 100%);color:#fff;border-color:#c99a3b;box-shadow:0 6px 18px rgba(14,37,71,.28)}
+.chc.tr i{background:linear-gradient(145deg,#f3d98b,#c99a3b);color:#0e2547}
+.chc.tr b{color:#f3d98b}
+.chc.tr::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);animation:chsh 3.2s ease-in-out infinite}
+@keyframes chsh{0%{left:-60%}55%,100%{left:130%}}
+.chc.tr.off{opacity:.75;cursor:default;box-shadow:none}.chc.tr.off::after{display:none}
+.chc.pd{background:linear-gradient(120deg,#fff7e6,#fbe9bf);border-color:#e6c378}
+.chc.pd i{background:#0e2547;color:#f3d98b}
+.chc.cd{background:#f4f6fb;border-color:#d8deea}
+.chc.cd i{background:#e3e8f3;color:#1f4e8c}
+.subx .chc.tr{margin-bottom:2px}
+.chz .sublogo{width:92px;height:92px;object-fit:contain;margin:0 auto -2px}
+.chz .lead{text-align:right}
+.chfree{background:none;border:0;color:inherit;opacity:.8;font:600 13.5px/1.5 'Noto Sans Arabic',sans-serif;text-decoration:underline;padding:4px;cursor:pointer}
 </style>
 <title>Obstetrics Master Review</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">

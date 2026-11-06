@@ -55,6 +55,12 @@ Sister apps: Surgery Master Review (`surgery-rapid-review`) and Pediatrics: feat
 - **Flashcard look (owner, 6 Nov 2026):** question side navy-purple gradient with gold text (like the Home daily card), answer side cream with a gold edge;
   question 24 px, answer 21 px; day/eye looks: white or cream card with a gold top band (CSS at the end of the main style block).
 
+## Trial (owner, 6 Nov 2026, as in Surgery and Pediatrics)
+On opening, a device that is not activated gets a chooser (licence.js `openChoose`): «النسخة التجريبية لمدة ساعة كاملة» · «الاشتراك في النسخة المدفوعة» ·
+«عندي كود تفعيل» · «متابعة بالنسخة المجانية». The trial opens the whole book for `trial_hours` (licence-config.js, 1) via Supabase RPC
+`obs_trial(p_dev)` (SQL in tools/supabase/obs_trial.sql — the owner must run it once in the Supabase SQL editor; until then the trial
+button says it is not ready). The trial key is kept in `orr-tk` (never `orr-k`), dropped when the time ends; free first topics stay open. Price 15,000 SDG.
+
 ## The licence key (secret)
 content.bin must be encrypted with the SAME key Supabase gives activated devices (table `obs_secret`, column `k`,
 returned by RPC `obs_activate`). It is NOT in this repo. build.py reads `$OBS_KEY` or `$OBS_KEY_FILE`

@@ -31,9 +31,25 @@ function apply(data){
   $('qbank').textContent=JSON.stringify(data.qbank);
   window.__LK={};document.documentElement.classList.add('unlocked')}
 var UNLOCKED=false;
+/* trial (owner, 6 Nov 2026, as in Surgery): on opening, a new device chooses the trial (the WHOLE book for CFG.trial_hours,
+   1 h) or the subscription. Supabase obs_trial(p_dev) keeps each device's first start and returns the key only inside the
+   window (tools/supabase/obs_trial.sql). orr-trial = {s,m,x,seen}; the trial key is kept apart in orr-tk and dropped at the end.
+   After the trial the free topics (first topic of each chapter) stay open as before. */
+var TMS=(+CFG.trial_hours||0)*3600e3,INTRIAL=false;
+function tget(){try{return JSON.parse(LS('orr-trial')||'null')}catch(e){return null}}
+function tput(t){LS('orr-trial',JSON.stringify(t))}
+function tleft(){var t=tget();if(!TMS||!t||!t.s||t.x)return 0;var now=Date.now();if(now<t.m-6e5)t.x=1;t.m=Math.max(t.m,now);if(now>=t.s+TMS)t.x=1;tput(t);return t.x?0:t.s+TMS-now}
+function tdur(){var h=+CFG.trial_hours||1;return h===1?'ساعة كاملة':h===2?'ساعتين':h+' ساعة'}
+function tleftTxt(){var ms=tleft(),h=Math.floor(ms/36e5),m=Math.floor(ms%36e5/6e4);return 'باقي '+(h?h+' ساعة و':'')+m+' دقيقة'}
+function trialUI(){document.documentElement.classList.remove('unlocked');document.documentElement.classList.add('intrial');
+  var up=function(){[].forEach.call(document.querySelectorAll('.unl,.trialbar'),function(b){var t=b.querySelector('b'),sm=b.querySelector('small'),nm=b.querySelector('.nms');
+    if(t)t.textContent='الفترة التجريبية · '+tleftTxt();if(sm)sm.textContent='الكتاب كله مفتوح الآن. اضغط هنا للاشتراك قبل انتهاء الفترة.';if(nm)nm.hidden=true})};
+  up();setInterval(up,30000);setTimeout(function(){location.reload()},Math.min(tleft()+500,2e9))}
 function start(){
-  var k=LS('orr-k');
-  var p=k&&window.crypto&&crypto.subtle&&window.DecompressionStream?decrypt(k).then(function(data){apply(data);UNLOCKED=true}).catch(function(e){if(e&&e.badkey){LS('orr-k',null)}}):Promise.resolve();
+  var k=LS('orr-k'),tk=!k&&TMS&&LS('orr-tk');
+  if(tk&&!(tleft()>0)){LS('orr-tk',null);tk=null}
+  var key=k||tk,ok=window.crypto&&crypto.subtle&&window.DecompressionStream;
+  var p=key&&ok?decrypt(key).then(function(data){apply(data);if(k)UNLOCKED=true;else{INTRIAL=true;trialUI()}}).catch(function(e){if(e&&e.badkey){LS(k?'orr-k':'orr-tk',null)}}):Promise.resolve();
   p.then(function(){window.__boot&&window.__boot();if(UNLOCKED)recheck();afterLogin()})}
 /* ---------- Supabase: students need no sign-in; the app's public key is enough ---------- */
 var SBC=window.OBS_SB(CFG,'orr-auth');
@@ -60,7 +76,7 @@ function render(){
   if(UNLOCKED){body('<p class="lead">هذا الجهاز مفعّل والكتاب مفتوح كاملًا. شكرًا لك!</p>'+(LS('orr-code')?'<div class="devc"><span>كود التفعيل</span><b dir="ltr">'+esc(LS('orr-code'))+'</b></div>':''));return}
   var wa=(CFG.whatsapp||'').replace(/[^0-9]/g,''),who=esc(CFG.contact||'');
   var msg='السلام عليكم '+(CFG.contact||'')+'، أرغب في الاشتراك في كتاب Obstetrics Master Review.';
-  body('<p class="lead">النسخة المجانية تفتح لك <b>الموضوع الأول من كل فصل</b> مع بطاقاته وأسئلته:'+freeList()+'اشترك مرة واحدة لتفتح <b>الكتاب كاملًا</b>، وكل البطاقات، وبنك الأسئلة كاملًا، طوال هذه الطبعة.</p>'+
+  body((INTRIAL?'<p class="lead">أنت الآن في <b>الفترة التجريبية</b>: الكتاب كله مفتوح ('+tleftTxt()+').</p>':'')+'<p class="lead">النسخة المجانية تفتح لك <b>الموضوع الأول من كل فصل</b> مع بطاقاته وأسئلته:'+freeList()+'اشترك مرة واحدة لتفتح <b>الكتاب كاملًا</b>، وكل البطاقات، وبنك الأسئلة كاملًا، طوال هذه الطبعة.</p>'+
    (CFG.price?'<div class="price">قيمة الاشتراك: '+esc(CFG.price)+'</div>':'')+
    '<b class="ssth">طريقة الاشتراك</b><ol class="sst"><li><b>حوّل قيمة الاشتراك</b> عن طريق تطبيق بنكك'+(CFG.bankak?' إلى الحساب رقم <b dir="ltr">'+esc(CFG.bankak)+'</b>'+(CFG.bankak_name?' باسم '+esc(CFG.bankak_name):''):'، وسنرسل لك رقم الحساب في واتساب')+'.</li>'+
    '<li><b>اضغط زر واتساب</b> في الأسفل، وأرسل صورة إشعار التحويل إلى '+who+(CFG.whatsapp_local?' على الرقم <b dir="ltr">'+esc(CFG.whatsapp_local)+'</b>':'')+'.</li>'+
@@ -79,9 +95,30 @@ function render(){
         return decrypt(j.key).then(function(){LS('orr-k',j.key);LS('orr-code',j.code||code);LS('orr-kc',String(Date.now()));$('actMsg').textContent='تم التفعيل بنجاح! يُفتح الكتاب كاملًا الآن…';setTimeout(function(){location.reload()},800)})
       }).catch(function(){$('actMsg').textContent=ERR.net})}
   }).catch(function(e){$('actArea').innerHTML='<p class="muted">'+(ERR[e&&e.message]||ERR.net)+'</p>'})}
-function openSub(){render();sh.hidden=false}
+function setTitle(t){sh.querySelector('h3 span').textContent=t}
+function openSub(){setTitle('الاشتراك في الكتاب');render();sh.hidden=false}
+function openChoose(){
+  var t=tget(),fresh=!t||!t.s,ic=function(d){return '<i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+d+'</svg></i>'};
+  setTitle('مرحبًا بك في الكتاب');
+  body('<div class="chz"><p class="lead">اختر طريقة فتح الكتاب:</p>'+
+    (fresh?'<button type="button" class="chc tr" id="chTrial">'+ic('<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/>')+'<span><b>النسخة التجريبية لمدة '+tdur()+'</b><small>مجانًا: الكتاب كله، البطاقات، بنك الأسئلة، المحاضرات وكل أدوات المذاكرة. يبدأ الوقت من لحظة الضغط، وبعده يبقى الموضوع الأول من كل فصل مفتوحًا.</small></span></button>'
+      :'<div class="chc tr off">'+ic('<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/>')+'<span><b>النسخة التجريبية'+(INTRIAL?': '+tleftTxt():': انتهت')+'</b><small>'+(INTRIAL?'الكتاب كله مفتوح لك حتى نهاية الفترة.':'استُخدمت الفترة التجريبية على هذا الجهاز، ويبقى الموضوع الأول من كل فصل مفتوحًا.')+'</small></span></div>')+
+    '<button type="button" class="chc pd" id="chPaid">'+ic('<path d="M2 8l4 10h12l4-10-6 4-4-7-4 7z"/>')+'<span><b>الاشتراك في النسخة المدفوعة</b><small>'+(CFG.price?esc(CFG.price)+' · ':'')+'الكتاب كاملًا طوال الطبعة على جهازين، مع مزامنة ملاحظاتك.</small></span></button>'+
+    '<button type="button" class="chc cd" id="chCode">'+ic('<circle cx="8" cy="15" r="4"/><path d="M10.8 12.2L20 3M16 7l3 3M14 9l2 2"/>')+'<span><b>عندي كود تفعيل</b><small>الصق الكود الذي وصلك في واتساب.</small></span></button>'+
+    '<button type="button" class="chfree" id="chFree">متابعة بالنسخة المجانية: الموضوع الأول من كل فصل</button><p class="muted" id="chMsg"></p></div>');
+  sh.hidden=false;
+  if($('chTrial'))$('chTrial').onclick=function(){var b=this;b.disabled=true;b.querySelector('small').textContent='جارٍ فتح الكتاب…';
+    if(!(window.crypto&&crypto.subtle&&window.DecompressionStream)){$('chMsg').textContent='هذا المتصفح قديم. افتح الكتاب في متصفح Chrome أو Safari حديث.';return}
+    sb().then(function(c){return c.rpcAnon('obs_trial',{p_dev:DEV})}).then(function(r){var j=r.data,now=Date.now();
+      if(r.error||!j){b.disabled=false;$('chMsg').textContent=r.error?'النسخة التجريبية غير جاهزة بعد. راسل '+(CFG.contact||'')+' في واتساب.':ERR.net;return}
+      if(!j.ok){tput({s:j.start||1,m:now,x:1,seen:1});$('chMsg').textContent='استُخدمت الفترة التجريبية على هذا الجهاز من قبل.';return}
+      return decrypt(j.key).then(function(){tput({s:j.start||now,m:now});LS('orr-tk',j.key);location.reload()})
+    }).catch(function(e){b.disabled=false;$('chMsg').textContent=ERR[e&&e.message]||ERR.net})};
+  $('chPaid').onclick=openSub;$('chCode').onclick=function(){openSub();var w=setInterval(function(){var x=$('actIn');if(x){clearInterval(w);x.scrollIntoView({block:'center'});x.focus()}},150);setTimeout(function(){clearInterval(w)},5000)};
+  $('chFree').onclick=function(){sh.hidden=true}}
 window.__openSub=openSub;
 document.addEventListener('click',function(e){if(e.target.closest('[data-sub]')){e.preventDefault();e.stopPropagation();openSub()}},true);
-function afterLogin(){}
+function afterLogin(){if(UNLOCKED||INTRIAL||!TMS)return;var t=tget();
+  if(!t||!t.s||(tleft()<=0&&!t.seen)){if(t&&t.s){t.seen=1;tput(t)}setTimeout(openChoose,2900)}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
