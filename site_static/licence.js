@@ -50,32 +50,33 @@ function recheck(){var last=+(LS('orr-kc')||0);if(Date.now()-last<3*864e5||navig
     else if(j.reason==='off'||j.reason==='none'){LS('orr-k',null);LS('orr-kc',null);alert(j.reason==='none'?'الكود بتاعك اتشال من الجهاز دا، فالكتاب الكامل اتقفل هنا. لو دا غلط كلّم '+(CFG.contact||'')+'.':'الكود بتاعك اتوقف، فالكتاب الكامل اتقفل في الجهاز دا. كلّم '+(CFG.contact||'')+'.');location.reload()}})}).catch(function(){})}
 /* ---------- the subscription sheet ---------- */
 var sh=document.createElement('div');sh.className='sheet';sh.id='subSheet';sh.hidden=true;
-sh.innerHTML='<div class="in ar subin" role="dialog" aria-modal="true" dir="rtl"><h3><span>افتح الكتاب كامل</span><button class="chip" type="button" id="subX">Close</button></h3><img class="sublogo" src="img/logo.webp" alt=""><div id="subBody"></div></div>';
+sh.innerHTML='<div class="in ar subin" role="dialog" aria-modal="true" dir="rtl"><h3><span>الاشتراك في الكتاب</span><button class="chip" type="button" id="subX">Close</button></h3><img class="sublogo" src="img/logo.webp" alt=""><div id="subBody"></div></div>';
 document.body.appendChild(sh);
 $('subX').onclick=function(){sh.hidden=true};sh.addEventListener('click',function(e){if(e.target===sh)sh.hidden=true});
 function freeList(){return '<span class="nms">'+(INFO.free_names||[]).map(function(n){return '<span class="nmc en">'+esc(n)+'</span>'}).join('')+'</span>'}
-var ERR={bad:'الكود دا ما صحيح. اتأكّد منه (الحروف والأرقام) وجرّب تاني.',off:'الكود دا اتوقف. كلّم '+esc(CFG.contact||'')+'.',noconfig:'التفعيل لسه ما جاهز. رسّل لـ '+esc(CFG.contact||'')+' في الواتساب.',net:'ما في إنترنت. التفعيل محتاج إنترنت مرّة واحدة بس.'};
+var ERR={bad:'هذا الكود غير صحيح. تأكد منه (الحروف والأرقام) وحاول مرة أخرى.',off:'هذا الكود موقوف. تواصل مع '+esc(CFG.contact||'')+'.',noconfig:'التفعيل غير جاهز بعد. راسل '+esc(CFG.contact||'')+' في واتساب.',net:'لا يوجد اتصال بالإنترنت. التفعيل يحتاج إلى الإنترنت مرة واحدة فقط.'};
 function body(html){$('subBody').innerHTML=html}
 function render(){
-  if(UNLOCKED){body('<p class="lead">الجهاز دا متفعّل والكتاب كلّه مفتوح. شكراً ليك!</p>'+(LS('orr-code')?'<div class="devc"><span>الكود</span><b dir="ltr">'+esc(LS('orr-code'))+'</b></div>':''));return}
+  if(UNLOCKED){body('<p class="lead">هذا الجهاز مفعّل والكتاب مفتوح كاملًا. شكرًا لك!</p>'+(LS('orr-code')?'<div class="devc"><span>كود التفعيل</span><b dir="ltr">'+esc(LS('orr-code'))+'</b></div>':''));return}
   var wa=(CFG.whatsapp||'').replace(/[^0-9]/g,''),who=esc(CFG.contact||'');
-  var msg='السلام عليكم '+(CFG.contact||'')+'، داير أشترك في Obstetrics Master Review.';
-  body('<p class="lead">الـ '+E('free trial')+' بيفتح ليك أول '+E('topic')+' في كل '+E('chapter')+' كامل:'+freeList()+'مع الـ '+E('flashcards')+' والـ '+E('QBank')+' بتاعتهم. لو اشتركت مرّة واحدة بيتفتح ليك <b>الكتاب كلّه</b>، وكل الـ '+E('flashcards')+'، والـ '+E('QBank')+' كامل، للطبعة دي كلّها.</p>'+
-   (CFG.price?'<div class="price">'+esc(CFG.price)+'</div>':'')+
-   '<ol class="sst"><li><b>حوّل المبلغ بـ بنكك</b>'+(CFG.bankak?': رقم الحساب <b class="en">'+esc(CFG.bankak)+'</b>'+(CFG.bankak_name?' ('+esc(CFG.bankak_name)+')':''):' (رقم الحساب بنرسله ليك في الواتساب)')+'.</li>'+
-   '<li><b>رسّل صورة الإشعار</b> واتساب لـ '+who+(CFG.whatsapp_local?' (<span class="en">'+esc(CFG.whatsapp_local)+'</span>)':'')+'.</li>'+
-   '<li>بنرسل ليك <b>'+E('activation code')+'</b>: ألصقه تحت ودوس '+E('Activate')+'. ما محتاج تسجّل دخول. الكود الواحد بيفتح <b>موبايل واحد ولابتوب واحد</b>، وأول جهازين يستعملوه بيمسكوه.</li></ol>'+
-   (wa?'<a class="btn wa" href="https://wa.me/'+wa+'?text='+encodeURIComponent(msg)+'" target="_blank" rel="noopener">رسّل واتساب لـ '+who+'</a>':'')+
+  var msg='السلام عليكم '+(CFG.contact||'')+'، أرغب في الاشتراك في كتاب Obstetrics Master Review.';
+  body('<p class="lead">النسخة المجانية تفتح لك <b>الموضوع الأول من كل فصل</b> مع بطاقاته وأسئلته:'+freeList()+'اشترك مرة واحدة لتفتح <b>الكتاب كاملًا</b>، وكل البطاقات، وبنك الأسئلة كاملًا، طوال هذه الطبعة.</p>'+
+   (CFG.price?'<div class="price">قيمة الاشتراك: '+esc(CFG.price)+'</div>':'')+
+   '<b class="ssth">طريقة الاشتراك</b><ol class="sst"><li><b>حوّل قيمة الاشتراك</b> عن طريق تطبيق بنكك'+(CFG.bankak?' إلى الحساب رقم <b dir="ltr">'+esc(CFG.bankak)+'</b>'+(CFG.bankak_name?' باسم '+esc(CFG.bankak_name):''):'، وسنرسل لك رقم الحساب في واتساب')+'.</li>'+
+   '<li><b>اضغط زر واتساب</b> في الأسفل، وأرسل صورة إشعار التحويل إلى '+who+(CFG.whatsapp_local?' على الرقم <b dir="ltr">'+esc(CFG.whatsapp_local)+'</b>':'')+'.</li>'+
+   '<li>سنرسل لك <b>كود التفعيل</b> في واتساب. الصقه في الخانة أدناه واضغط <b>تفعيل</b>. لا تحتاج إلى تسجيل دخول.</li></ol>'+
+   '<p class="muted">الكود الواحد يفتح <b>هاتفًا واحدًا وحاسوبًا واحدًا</b>، وأول جهازين يستخدمانه يرتبطان به.</p>'+
+   (wa?'<a class="btn wa" href="https://wa.me/'+wa+'?text='+encodeURIComponent(msg)+'" target="_blank" rel="noopener">اضغط هنا لمراسلة '+who+' في واتساب</a>':'')+
    '<div id="actArea"><p class="muted">لحظة…</p></div>');
   sb().then(function(c){
-    $('actArea').innerHTML='<p class="muted">لمّا يصلك الكود ألصقه هنا:</p><input id="actIn" dir="ltr" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="OBS-XXXX-XXXX"><button type="button" class="btn" id="actGo"><span class="en">Activate</span></button><p class="muted" id="actMsg"></p>';
-    $('actGo').onclick=function(){var code=$('actIn').value.toUpperCase().replace(/\s+/g,'');if(!code){$('actMsg').textContent='ألصق الكود الأول.';return}
-      if(!(window.crypto&&crypto.subtle&&window.DecompressionStream)){$('actMsg').textContent='المتصفح دا قديم. افتح الكتاب في Chrome أو Safari جديد.';return}
-      $('actMsg').textContent='لحظة…';
+    $('actArea').innerHTML='<b class="ssth">عندك كود التفعيل؟</b><input id="actIn" dir="ltr" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="OBS-XXXX-XXXX"><button type="button" class="btn" id="actGo">تفعيل</button><p class="muted" id="actMsg"></p>';
+    $('actGo').onclick=function(){var code=$('actIn').value.toUpperCase().replace(/\s+/g,'');if(!code){$('actMsg').textContent='الصق الكود أولًا.';return}
+      if(!(window.crypto&&crypto.subtle&&window.DecompressionStream)){$('actMsg').textContent='هذا المتصفح قديم. افتح الكتاب في متصفح Chrome أو Safari حديث.';return}
+      $('actMsg').textContent='جارٍ التفعيل…';
       c.rpcAnon('obs_activate',{p_code:code,p_dev:DEV,p_kind:kind(),p_label:label()}).then(function(r){var j=r.data;
         if(r.error||!j){$('actMsg').textContent=ERR.net;return}
-        if(!j.ok){$('actMsg').textContent=j.reason==='taken'?'الكود دا شغّال في '+(kind()==='phone'?'موبايل':'لابتوب')+' تاني. لو غيّرت جهازك رسّل لـ '+(CFG.contact||'')+' في الواتساب عشان يحوّله ليك.':(ERR[j.reason]||ERR.bad);return}
-        return decrypt(j.key).then(function(){LS('orr-k',j.key);LS('orr-code',j.code||code);LS('orr-kc',String(Date.now()));$('actMsg').textContent='تمام، اتفعّل! الكتاب كلّه بيفتح هسّي…';setTimeout(function(){location.reload()},800)})
+        if(!j.ok){$('actMsg').textContent=j.reason==='taken'?'هذا الكود مستخدم في '+(kind()==='phone'?'هاتف':'حاسوب')+' آخر. إذا غيّرت جهازك فراسل '+(CFG.contact||'')+' في واتساب لنقله إليك.':(ERR[j.reason]||ERR.bad);return}
+        return decrypt(j.key).then(function(){LS('orr-k',j.key);LS('orr-code',j.code||code);LS('orr-kc',String(Date.now()));$('actMsg').textContent='تم التفعيل بنجاح! يُفتح الكتاب كاملًا الآن…';setTimeout(function(){location.reload()},800)})
       }).catch(function(){$('actMsg').textContent=ERR.net})}
   }).catch(function(e){$('actArea').innerHTML='<p class="muted">'+(ERR[e&&e.message]||ERR.net)+'</p>'})}
 function openSub(){render();sh.hidden=false}

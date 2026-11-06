@@ -57,6 +57,28 @@
 .unl .nmc{background:#ffffff22;color:#fff}
 .subin .nmc{background:var(--rose-soft);color:var(--rose);font-size:12.5px}
 .subin .nms{margin:6px 0 8px}
+
+/* flashcards organised and Cards / Questions looks (owner, Nov 2026, as in the Pediatrics book) */
+#deckChips{display:block}
+.fctop{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fctop button{border:1.5px solid var(--line);background:var(--card);color:var(--fg);border-radius:13px;padding:9px 12px;text-align:left;display:flex;flex-direction:column;gap:1px}
+.fctop b{font:800 15px var(--sans,Inter,sans-serif)}.fctop small{font:600 12px var(--sans,Inter,sans-serif);color:var(--muted)}
+.fctop button.on{border-color:#d8b35c;background:rgba(216,179,92,.14)}
+.fclab{margin:12px 2px 6px;font:800 11px var(--sans,Inter,sans-serif);letter-spacing:1.1px;text-transform:uppercase;color:#d8b35c}
+.fcchs{display:flex;gap:6px;overflow-x:auto;padding:0 0 6px;scrollbar-width:none}.fcchs::-webkit-scrollbar{display:none}
+.fcchs button{flex:none;display:flex;align-items:center;gap:7px;padding:6px 10px 6px 6px;border:1.5px solid var(--line);border-radius:11px;background:var(--card);color:var(--fg)}
+.fcchs .n{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font:900 11px var(--sans,Inter,sans-serif);color:#fff;background:var(--qc)}
+.fcchs .l{font:700 13px var(--sans,Inter,sans-serif);white-space:nowrap}.fcchs small{font:650 11px var(--sans,Inter,sans-serif);color:var(--muted)}
+.fcchs button.on{border-color:var(--qc);background:color-mix(in srgb,var(--qc) 18%,var(--card))}
+#cards.sday,#qbank-v.sday{--paper:#f4f3fa;--card:#ffffff;--line:#dcd9ee;--fg:#1d1838;--muted:#5d587a;--rose-soft:#ece8fa;color-scheme:light;background:var(--paper);color:var(--fg)}
+#cards.seye,#qbank-v.seye{--paper:#f3ead6;--card:#fbf5e7;--line:#e0d2b2;--fg:#3a2f1f;--muted:#6e5e44;--rose-soft:#f2e1cf;color-scheme:light;background:var(--paper);color:var(--fg)}
+:is(#cards,#qbank-v):is(.sday,.seye) .fclab{color:#a47a22}
+:is(#cards,#qbank-v):is(.sday,.seye) select{background:var(--card);color:var(--fg);border-color:var(--line)}
+
+.lkb,#subSheet #actGo{background:linear-gradient(145deg,#f3d98b 0%,#c99a3b 100%)!important;color:#1d1838!important;border:0!important;font-weight:800!important;box-shadow:0 3px 10px rgba(201,154,59,.35)}
+#subSheet .price{font-size:21px!important;line-height:1.35!important;margin:4px 0!important}
+#subSheet .nmc{opacity:1!important;color:#f3e7c4!important;background:rgba(201,154,59,.18)!important}
+#subSheet .ssth{display:block;margin:6px 0 2px;font:800 15px/1.4 'Cairo',Inter,sans-serif;color:#c99a3b}
 </style>
 <title>Obstetrics Master Review</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1824,7 +1846,7 @@ section[data-file^="x9"] .frow .ans{background:none;color:#1e1748;font-weight:75
       <button type="button" class="hm-t" data-notes="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><b>My notes</b><span>Highlights and notes</span></button>
     </div>
     <button class="daily" id="dailyBtn" type="button"><span class="di"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/><path d="M10 9l-1.5 4h3L10 17"/></svg></span><span class="dx"><span class="k gtx">Daily flashcards</span><span class="t" id="dailyT">10 cards for today</span><span class="dots" id="dailyDots"></span></span><span class="ds" id="dailyS"></span><span class="go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
-    <button class="unl" type="button" data-sub="1" dir="rtl"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span><b>افتح الكتاب كامل</b><small>الـ <span class="en">free trial</span> بيفتح أول <span class="en">topic</span> في كل <span class="en">chapter</span>:</small><span class="nms"><span class="nmc en">Physiology of pregnancy</span><span class="nmc en">Hyperemesis gravidarum</span><span class="nmc en">Bleeding in early pregnancy</span><span class="nmc en">Normal labour</span><span class="nmc en">Cord prolapse</span><span class="nmc en">Normal puerperium</span><span class="nmc en">The OSCE station</span></span></span><em><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></em></button>
+    <button class="unl" type="button" data-sub="1" dir="rtl"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span><b>النسخة المجانية</b><small>تفتح الموضوع الأول من كل فصل. اضغط هنا للاشتراك وفتح الكتاب كاملًا:</small><span class="nms"><span class="nmc en">Physiology of pregnancy</span><span class="nmc en">Hyperemesis gravidarum</span><span class="nmc en">Bleeding in early pregnancy</span><span class="nmc en">Normal labour</span><span class="nmc en">Cord prolapse</span><span class="nmc en">Normal puerperium</span><span class="nmc en">The OSCE station</span></span></span><em><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></em></button>
     <div class="sh"><h3>Your progress</h3></div>
     <div class="prog" id="prog"></div>
     <div class="sh" hidden><h3>Flashcard of the day</h3><span id="qdMeta"></span></div>
@@ -1850,19 +1872,19 @@ section[data-file^="x9"] .frow .ans{background:none;color:#1e1748;font-weight:75
     </div>
   </section>
 
-  <section class="view" id="cards" hidden><div class="wrap"><button class="trialbar" type="button" data-sub="1" dir="rtl"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span><b>النسخة المجانية</b><small>الـ <span class="en">flashcards</span> هنا من أول <span class="en">topic</span> في كل <span class="en">chapter</span> بس. دوس هنا عشان تفتح الكتاب كامل.</small></span></button>
+  <section class="view" id="cards" hidden><div class="wrap"><button class="trialbar" type="button" data-sub="1" dir="rtl"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span><b>النسخة المجانية</b><small>البطاقات هنا من الموضوع الأول في كل فصل فقط. اضغط هنا للاشتراك وفتح كل البطاقات.</small></span></button>
     <div class="chips" id="deckChips"></div>
     <div class="fcm"><span id="fcLeft"></span><span id="fcScore"></span></div>
     <div class="fbar"><i id="fcProg"></i></div>
     <div id="fcStage"></div>
   </div></section>
 
-  <section class="view" id="qbank-v" hidden><div class="wrap"><button class="trialbar" type="button" data-sub="1" dir="rtl"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span><b>النسخة المجانية</b><small>الأسئلة هنا من أول <span class="en">topic</span> في كل <span class="en">chapter</span> بس. دوس هنا عشان تفتح الكتاب كامل.</small></span></button>
+  <section class="view" id="qbank-v" hidden><div class="wrap"><button class="trialbar" type="button" data-sub="1" dir="rtl"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span><b>النسخة المجانية</b><small>الأسئلة هنا من الموضوع الأول في كل فصل فقط. اضغط هنا للاشتراك وفتح بنك الأسئلة كاملًا.</small></span></button>
     <div class="qtop"><div class="qstats" id="qStats"></div><div class="qsel" id="qSel"></div></div>
     <div id="qStage"></div>
   </div></section>
 
-  <section class="view" id="search" hidden><div class="wrap"><button class="trialbar" type="button" data-sub="1" dir="rtl"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span><b>النسخة المجانية</b><small>البحث بيشمل أول <span class="en">topic</span> في كل <span class="en">chapter</span> بس. دوس هنا عشان تفتح الكتاب كامل.</small></span></button>
+  <section class="view" id="search" hidden><div class="wrap"><button class="trialbar" type="button" data-sub="1" dir="rtl"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span><b>النسخة المجانية</b><small>البحث يشمل الموضوع الأول في كل فصل فقط. اضغط هنا للاشتراك والبحث في الكتاب كاملًا.</small></span></button>
     <div class="sbox"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><input id="q" type="search" placeholder="Search the book: MgSO₄, ferritin, praevia…" autocomplete="off" aria-label="Search the book"></div>
     <div class="chips" id="qchips"></div>
     <div id="results"></div>
@@ -2025,12 +2047,15 @@ var BMODES={day:{l:'نهار',d:'صفحات بيضاء',i:'<circle cx="12" cy="1
   night:{l:'ليلي',d:'صفحات غامقة',i:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>'}};
 var BMODE=BMODES[sp('bmode')]?sp('bmode'):(st('orr-night')==='1'?'night':'day');
 function bmSvg(m){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+BMODES[m].i+'</svg>'}
-function setNight(){var r=$('reader');r.classList.toggle('night',BMODE==='night');r.classList.toggle('eye',BMODE==='eye');var b=$('themeBtn');b.innerHTML=bmSvg(BMODE);b.title=BMODES[BMODE].l}setNight();
+/* flashcards and question bank have their own look (owner, Nov 2026): day, eye comfort or night (the dark default); saved in orr-smode */
+var SMODE=BMODES[sp('smode')]?sp('smode'):'night',CURV='home';
+function studyV(){return CURV==='cards'||CURV==='qbank-v'}
+function setNight(){var r=$('reader');r.classList.toggle('night',BMODE==='night');r.classList.toggle('eye',BMODE==='eye');['cards','qbank-v'].forEach(function(id){var v=$(id);if(v){v.classList.toggle('sday',SMODE==='day');v.classList.toggle('seye',SMODE==='eye')}});var b=$('themeBtn'),bm=studyV()?SMODE:BMODE;b.innerHTML=bmSvg(bm);b.title=BMODES[bm].l}setNight();
 var bmMenu=document.createElement('div');bmMenu.className='bmmenu';bmMenu.hidden=true;bmMenu.lang='ar';document.body.appendChild(bmMenu);
-function bmOpen(){bmMenu.innerHTML='<b>لون الصفحات</b>'+Object.keys(BMODES).map(function(m){return '<button type="button" data-bm="'+m+'" class="'+(m===BMODE?'cur':'')+'">'+bmSvg(m)+'<span>'+BMODES[m].l+'<small>'+BMODES[m].d+'</small></span></button>'}).join('');
+function bmOpen(){var sv=studyV(),cur=sv?SMODE:BMODE,SD={day:'خلفية فاتحة',eye:'لون دافئ مريح للعين',night:'خلفية غامقة'};bmMenu.innerHTML='<b>'+(sv?'لون الشاشة':'لون الصفحات')+'</b>'+Object.keys(BMODES).map(function(m){return '<button type="button" data-bm="'+m+'" class="'+(m===cur?'cur':'')+'">'+bmSvg(m)+'<span>'+BMODES[m].l+'<small>'+(sv?SD[m]:BMODES[m].d)+'</small></span></button>'}).join('');
   var r=$('themeBtn').getBoundingClientRect();bmMenu.style.top=(r.bottom+6)+'px';bmMenu.style.right=Math.max(8,innerWidth-r.right)+'px';bmMenu.hidden=false}
 $('themeBtn').onclick=function(){if(bmMenu.hidden)bmOpen();else bmMenu.hidden=true};
-bmMenu.addEventListener('click',function(e){var b=e.target.closest('[data-bm]');if(!b)return;BMODE=b.dataset.bm;sp('bmode',BMODE);setNight();bmMenu.hidden=true});
+bmMenu.addEventListener('click',function(e){var b=e.target.closest('[data-bm]');if(!b)return;if(studyV()){SMODE=b.dataset.bm;sp('smode',SMODE)}else{BMODE=b.dataset.bm;sp('bmode',BMODE)}setNight();bmMenu.hidden=true});
 document.addEventListener('click',function(e){if(!bmMenu.hidden&&!e.target.closest('.bmmenu,#themeBtn'))bmMenu.hidden=true});
 
 /* ---------- page marks: the student marks each page: not read (red) · done (blue) · mastered (green) ---------- */
@@ -2043,7 +2068,7 @@ function updPr(c){var b=$('prBtn'),pg=PAGES[c]||{};b.hidden=!pg.t;var v=readSet[
 var actx=null;function chime(notes,type){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();var t0=actx.currentTime+.02;
   notes.forEach(function(f,i){var o=actx.createOscillator(),g=actx.createGain(),t=t0+i*.09;o.type=type;o.frequency.value=f;
     g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.18,t+.015);g.gain.exponentialRampToValueAtTime(.001,t+.55);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+.6)})}catch(e){}}
-$('prBtn').onclick=function(e){e.stopPropagation();var c=currentPage();if(pageLocked(c)){railTip('الصفحة دي للمشتركين: بعد الاشتراك تقدر تعلّمها قريتها أو أتقنتها');return}
+$('prBtn').onclick=function(e){e.stopPropagation();var c=currentPage();if(pageLocked(c)){railTip('هذه الصفحة للمشتركين: بعد الاشتراك يمكنك تعليمها «قرأتها» أو «أتقنتها»');return}
   var f=$('penFly');if(!f.hidden&&f.dataset.k==='p'){penFly(false);return}f.dataset.k='p';var v=readSet[PKEY[c]]||0;
   f.innerHTML='<b>الصفحة دي</b>'+PRS.map(function(x,n){return '<button type="button" class="propt p'+n+(n===v?' cur':'')+'" data-pv="'+n+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'+x[1]+'</svg>'+x[0]+'</button>'}).join('');flyAt(f,$('prBtn'))};
 function setProg(v){var c=currentPage(),k=PKEY[c];if(v)readSet[k]=v;else delete readSet[k];PROGU[k]=Date.now();saveRead();updPr(c);
@@ -2060,7 +2085,7 @@ function setHm(){$('home').classList.toggle('dark',HMODE==='night');$('hmMode').
 $('hmMode').onclick=function(){HMODE=HMODE==='night'?'day':'night';sp('hmode',HMODE);setHm()};setHm();
 var views=['home','reader','cards','qbank-v','search','lect'];
 function show(v){if(v!=='reader'&&typeof setImm==='function')setImm(false);views.forEach(function(x){$(x).hidden=x!==v});[].forEach.call($('tabs').children,function(b){b.classList.toggle('on',b.dataset.go===v)});
-  $('backBtn').hidden=v==='home';$('hmMode').hidden=v!=='home';$('themeBtn').hidden=v!=='reader';bmMenu.hidden=true;$('rbShow').hidden=v!=='reader'||!$('rbar').classList.contains('off');hideBar();penFly(false);
+  $('backBtn').hidden=v==='home';$('hmMode').hidden=v!=='home';$('themeBtn').hidden=!(v==='reader'||v==='cards'||v==='qbank-v');CURV=v;setNight();bmMenu.hidden=true;$('rbShow').hidden=v!=='reader'||!$('rbar').classList.contains('off');hideBar();penFly(false);
   if(v==='home'){$('subtitle').textContent='4th edition';refreshCont();renderHome()}
   if(v==='cards'){$('subtitle').textContent='Flashcards';if(!started)startDeck(curDeck)}
   if(v==='qbank-v'){$('subtitle').textContent='Question bank';if(!qStarted){qStarted=true;qStart()}else qStats()}
@@ -2132,14 +2157,28 @@ function saveKnown(){spj('known2',KNOWN);syncSoon()}
 function deckKnown(id){var n=0;(DECKS[id]?DECKS[id].cards:[]).forEach(function(c){if(KNOWN[cardKey(id,c)])n++});return n}
 var curDeck='all',deck=[],total=0,known=0,started=false;
 $('toolCards').textContent=deckIds.reduce(function(a,k){return a+DECKS[k].cards.length},0)+' cards · '+deckIds.length+' topics';
-function chips(){$('deckChips').innerHTML=['daily','all'].concat(deckIds).map(function(k){var lab,cnt;
-  if(k==='daily'){var D=daily();lab='Today';cnt=D.done.length+'/'+D.keys.length}
-  else if(k==='all'){lab='All topics';var a=0,b=0;deckIds.forEach(function(id){a+=deckKnown(id);b+=DECKS[id].cards.length});cnt=a+'/'+b}else{lab=DECKS[k].short;cnt=deckKnown(k)+'/'+DECKS[k].cards.length}
-  return '<button class="chip'+(k===curDeck?' on':'')+'" type="button" data-d="'+k+'">'+esc(lab)+'<small>'+cnt+'</small></button>'}).join('')}
-$('deckChips').onclick=function(e){var b=e.target.closest('.chip');if(b&&b.dataset.d){curDeck=b.dataset.d;startDeck(curDeck)}};
+/* flashcards organised (owner, Nov 2026, as in the Pediatrics book): Today and All on top, a chapter bar, then the chosen chapter's topics */
+var FCSHORT={1:'Antenatal',2:'Medical',3:'High-risk',4:'Labour',5:'Emergencies',6:'Puerperium',7:'OSCE'},FCCOL={1:'#9a5b06',2:'#4c2c8f',3:'#8b2361',4:'#23408e',5:'#b03a14',6:'#1d6b4a',7:'#0b6e7f'};
+var DCH={};(META.topics||[]).forEach(function(t){DCH[t.id]=t.ch});
+var fcChs=(META.chapters||[]).filter(function(c){return deckIds.some(function(id){return DCH[id]===c.n})});
+var FCH=+sp('fcch')||(fcChs[0]&&fcChs[0].n)||1;
+function chDecks(n){return deckIds.filter(function(id){return DCH[id]===n})}
+function kn(ids){var a=0,b=0;ids.forEach(function(id){a+=deckKnown(id);b+=DECKS[id].cards.length});return [a,b]}
+function chips(){if(/^ch:/.test(curDeck))FCH=+curDeck.slice(3);else if(DCH[curDeck])FCH=DCH[curDeck];
+  var D=daily(),A=kn(deckIds),C=kn(chDecks(FCH)),cur=fcChs.filter(function(c){return c.n===FCH})[0];
+  var h='<div class="fctop"><button type="button" data-d="daily" class="'+(curDeck==='daily'?'on':'')+'"><b>Today</b><small>'+D.done.length+' / '+D.keys.length+' cards</small></button>'+
+    '<button type="button" data-d="all" class="'+(curDeck==='all'?'on':'')+'"><b>All topics</b><small>'+A[0]+' / '+A[1]+' known</small></button></div>';
+  h+='<div class="fclab">Chapters</div><div class="fcchs">'+fcChs.map(function(c){var k=kn(chDecks(c.n));
+    return '<button type="button" data-fch="'+c.n+'" class="'+(c.n===FCH?'on':'')+'" style="--qc:'+(FCCOL[c.n]||'#4c2c8f')+'"><span class="n">'+c.n+'</span><span class="l">'+esc(FCSHORT[c.n]||c.name)+'</span><small>'+k[0]+'/'+k[1]+'</small></button>'}).join('')+'</div>';
+  h+='<div class="fclab">'+esc(cur?cur.name:'')+'</div><div class="chips fctops"><button class="chip'+(curDeck==='ch:'+FCH?' on':'')+'" type="button" data-d="ch:'+FCH+'">All of chapter '+FCH+'<small>'+C[0]+'/'+C[1]+'</small></button>'+
+    chDecks(FCH).map(function(k){return '<button class="chip'+(k===curDeck?' on':'')+'" type="button" data-d="'+k+'">'+esc(DECKS[k].short)+'<small>'+deckKnown(k)+'/'+DECKS[k].cards.length+'</small></button>'}).join('')+'</div>';
+  $('deckChips').innerHTML=h;var on=$('deckChips').querySelector('.fcchs .on');if(on&&on.scrollIntoView)try{on.scrollIntoView({block:'nearest',inline:'center'})}catch(e){}}
+$('deckChips').onclick=function(e){var b=e.target.closest('button');if(!b)return;
+  if(b.dataset.fch){FCH=+b.dataset.fch;sp('fcch',FCH);curDeck='ch:'+FCH;startDeck(curDeck);return}
+  if(b.dataset.d){curDeck=b.dataset.d;if(/^ch:/.test(curDeck))sp('fcch',curDeck.slice(3));else if(DCH[curDeck])sp('fcch',DCH[curDeck]);startDeck(curDeck)}};
 function startDeck(k,all){started=true;
   if(k==='daily'){var D=daily();deck=[];total=D.keys.length;known=D.done.length;D.keys.forEach(function(key){if(D.done.indexOf(key)<0){var x=CBYK[key];deck.push({key:key,t:DECKS[x.id].short,cat:x.c[0],q:x.c[1],a:x.c[2]})}});chips();renderCard();return}
-  var src=k==='all'?deckIds:[k];deck=[];total=0;known=0;
+  var src=k==='all'?deckIds:/^ch:/.test(k)?chDecks(+k.slice(3)):[k];deck=[];total=0;known=0;
   src.forEach(function(id){DECKS[id].cards.forEach(function(c){var key=cardKey(id,c);total++;if(KNOWN[key]&&!all){known++;return}deck.push({key:key,t:DECKS[id].short,cat:c[0],q:c[1],a:c[2]})})});
   if(all)known=0;
   for(var i=deck.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),x=deck[i];deck[i]=deck[j];deck[j]=x}chips();renderCard()}
@@ -2149,7 +2188,7 @@ function renderCard(){$('fcProg').style.width=(total?known/total*100:0)+'%';$('f
     $('fcMore').onclick=function(){curDeck='all';startDeck('all')};return}
   if(!deck.length){$('fcLeft').textContent='';$('fcStage').innerHTML='<div class="done"><b>Deck finished</b><span class="muted">All '+total+' cards are marked as known. They stay known next time you open the app.</span><button class="btn" type="button" id="fcAll">Study all cards again</button><button class="chip" type="button" id="fcReset">Reset progress for this deck</button></div>';
     $('fcAll').onclick=function(){startDeck(curDeck,true)};
-    $('fcReset').onclick=function(){var src=curDeck==='all'?deckIds:[curDeck];src.forEach(function(id){DECKS[id].cards.forEach(function(c){delete KNOWN[cardKey(id,c)]})});saveKnown();startDeck(curDeck)};return}
+    $('fcReset').onclick=function(){var src=curDeck==='all'?deckIds:/^ch:/.test(curDeck)?chDecks(+curDeck.slice(3)):[curDeck];src.forEach(function(id){DECKS[id].cards.forEach(function(c){delete KNOWN[cardKey(id,c)]})});saveKnown();startDeck(curDeck)};return}
   var c=deck[0];$('fcLeft').textContent=deck.length+' left';
   $('fcStage').innerHTML='<button class="fc" type="button" id="fcCard" aria-label="Flip card"><div class="in"><div class="face q"><span class="k">'+esc(c.t)+' · '+esc(c.cat)+'</span><div class="tx">'+esc(c.q)+'</div></div><div class="face a"><span class="k">Answer</span><div class="tx">'+esc(c.a)+'</div></div></div></button><p class="fhint" style="margin-top:10px">Tap the card to see the answer</p><div class="fact" style="margin-top:12px"><button class="ag" type="button" id="fcNo">Again</button><button class="gd" type="button" id="fcYes">Knew it</button></div>';
   $('fcCard').onclick=function(){this.classList.toggle('flip')};

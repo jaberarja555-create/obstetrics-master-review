@@ -39,8 +39,8 @@ def placeholder(f, sec):
     name = 'Rapid review' if f.startswith('x9') else 'Obstetric drugs' if f.startswith('y0') else TT.get(topic_of(f), '')
     name = name[0].upper() + name[1:] if name else name
     body = (f'<div class="body"><div class="lockpg"><div class="lki">{LOCK_SVG}</div><div class="lkt">{H.escape(name)}</div>'
-            '<div class="lkar" dir="rtl"><b>للمشتركين بس</b><span>الصفحة دي في الكتاب الكامل. الـ <span class="en">free trial</span> بيفتح أول <span class="en">topic</span> في كل <span class="en">chapter</span>.</span></div>'
-            '<button type="button" class="lkb" data-sub="1" dir="rtl">افتح الكتاب كامل</button></div></div>')
+            '<div class="lkar" dir="rtl"><b>هذه الصفحة للمشتركين</b><span>النسخة المجانية تفتح الموضوع الأول من كل فصل. اشترك لتفتح الكتاب كاملًا مع كل البطاقات وبنك الأسئلة.</span></div>'
+            '<button type="button" class="lkb" data-sub="1" dir="rtl">اضغط هنا للاشتراك</button></div></div>')
     return re.sub(r'<div class="body">.*(?=<div class="ftr">)', lambda m: body, sec, count=1, flags=re.S)
 
 def key():

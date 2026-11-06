@@ -43,6 +43,12 @@ Sister apps: Surgery Master Review (`surgery-rapid-review`) and Pediatrics: feat
 - `build.py` → `build/site/` (deploy: free pages, lock placeholders, `content.bin` = AES-GCM(gzip JSON of locked pages,
   decks, whole qbank)) and `build/review/index.html` (whole book open; publish as the review artifact).
 
+- **Ported from the Pediatrics book (owner, 6 Nov 2026):** subscription texts in clear Arabic (licence.js sheet «الاشتراك في الكتاب» with
+  «طريقة الاشتراك» numbered steps, Bankak 4674587 سعاد عبدالكريم from licence-config.js, gold «تفعيل»; locked page «هذه الصفحة للمشتركين» +
+  gold «اضغط هنا للاشتراك» in build.py; trial bars on Home, Cards, Questions, Search); flashcards: Today / All, chapter bar (`orr-fcch`,
+  short names FCSHORT, colours FCCOL), chosen chapter's topics + «All of chapter N» (`ch:N`); day / eye / night looks for Cards and Questions
+  from the top-bar colour button (`orr-smode`, .sday/.seye). The Questions screen keeps its practice-mode design (chapter / topic / filter).
+
 ## The licence key (secret)
 content.bin must be encrypted with the SAME key Supabase gives activated devices (table `obs_secret`, column `k`,
 returned by RPC `obs_activate`). It is NOT in this repo. build.py reads `$OBS_KEY` or `$OBS_KEY_FILE`
