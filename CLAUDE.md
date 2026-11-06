@@ -33,7 +33,7 @@ Sister apps: Surgery Master Review (`surgery-rapid-review`) and Pediatrics: feat
   sub-heading, pieces ≥ 70 px), laid on the fewest pages that keep `KEEP` (45) px free at the foot, then shared as evenly as possible; it adds
   or removes topic pages (`grow_topics.py`, `delete_page.py`) and rewrites the contents page (`fix_contents.py`). Run after content changes:
   `python3 build.py && python3 tools/measure_blocks.py && KEEP=45 python3 tools/paginate.py --apply && python3 build.py`.
-  At run time `fillPage` (shell.html) spends the spare room inside the boxes (`--ft` 0–2.2: line spacing, padding, table rows, text +≤8 %), leaving ≥ 50 px.
+  At run time `fillPage` (shell.html) spends the spare room inside the boxes (`--ft` 0–3.2: padding, line spacing, table rows; text +≤8 %), then shares what is left between the boxes (`--fgap`, ≤ 44 px each), leaving ≥ 50 px; it re-runs on scroll for pages near the view and after the fonts load (owner, 6 Nov 2026: no packed boxes with an empty bottom).
   Inter is shipped in `assets/fonts` so every phone lays the pages out as planned. `tools/measure_free.py` → build/free.json (free px per page).
 - **Chapter covers (owner, Nov 2026, as in Surgery):** `tools/chapter_covers.py` adds a cover page (`k<n>_cover`, free in the trial, no definition marks)
   before each chapter and rewrites them with the current page numbers (re-run after pages move): navy band with the emblem and book title,

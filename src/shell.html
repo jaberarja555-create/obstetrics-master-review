@@ -1323,15 +1323,15 @@ table.numt + table.numt tr:first-child td { border-top: 1px solid var(--ch-line2
 .mz h1.mzt .rrlogo{width:54px;height:54px;margin:-6px 12px -6px -4px;flex:none;vertical-align:middle;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
 .subx .sublogo,.subin .sublogo{display:block;width:92px;height:92px;margin:0 auto 10px;filter:drop-shadow(0 3px 8px rgba(14,37,71,.3))}
 /* spare room used inside the boxes (fillPage sets --ft from 0 to 2.2) */
-.page.mz.fill .mb:not(.rv) .mc{padding:calc(6px + var(--ft,0)*6px) calc(10px + var(--ft,0)*4px) calc(7px + var(--ft,0)*6px);line-height:calc(1.38 + var(--ft,0)*.16);font-size:calc(9.74pt * (1 + var(--ft,0)*.035))}
+.page.mz.fill .mb:not(.rv) .mc{padding:calc(6px + var(--ft,0)*6px) calc(10px + var(--ft,0)*4px) calc(7px + var(--ft,0)*6px);line-height:calc(1.38 + min(var(--ft,0),2.6)*.16);font-size:calc(9.74pt * (1 + min(var(--ft,0),2.2)*.035))}
 .page.mz.fill .mb:not(.rv) .mc :is(p,li,td,th,dd,dt){line-height:inherit}
-.page.mz.fill .mb:not(.rv) .mc table.t{font-size:calc(9.52pt * (1 + var(--ft,0)*.035))}
+.page.mz.fill .mb:not(.rv) .mc table.t{font-size:calc(9.52pt * (1 + min(var(--ft,0),2.2)*.035))}
 .page.mz.fill .mb:not(.rv) .mc table.t td{padding-top:calc(4.5px + var(--ft,0)*4px);padding-bottom:calc(4.5px + var(--ft,0)*4px)}
 .page.mz.fill .mb:not(.rv) .mc li{margin:calc(1.5px + var(--ft,0)*2.5px) 0}
 .page.mz.fill .mb .mh{padding-top:calc(4px + var(--ft,0)*2px);padding-bottom:calc(3px + var(--ft,0)*2px)}
-.page.mz.fill .box{padding:calc(8px + var(--ft,0)*4px) calc(11px + var(--ft,0)*3px) calc(9px + var(--ft,0)*4px);line-height:calc(1.38 + var(--ft,0)*.14)}
+.page.mz.fill .box{padding:calc(8px + var(--ft,0)*4px) calc(11px + min(var(--ft,0),2.6)*3px) calc(9px + var(--ft,0)*4px);line-height:calc(1.38 + min(var(--ft,0),2.6)*.14)}
 .page.mz.fill .box :is(p,li,div,span){line-height:inherit}
-.page.mz.fill .mzm > .blk > .mrow,.page.mz.fill .mzm > .blk > .xrow{margin-bottom:calc(10px + var(--ft,0)*5px)}
+.page.mz.fill .mzm > .blk > .mrow,.page.mz.fill .mzm > .blk > .xrow{margin-bottom:calc(10px + var(--ft,0)*5px + var(--fgap,0px))}
 .page.mz.fill .mzm > .blk:last-child > .mrow,.page.mz.fill .mzm > .blk:last-child > .xrow{margin-bottom:0}
 /* chapter cover pages (owner, Nov 2026, as in Surgery): tools/chapter_covers.py */
 .page.chcov{display:flex;flex-direction:column;align-items:stretch;background:linear-gradient(180deg,#f6f4fb 0,#fff 55%);font-family:Inter,sans-serif;overflow:hidden;padding:0 0 40px}
@@ -1972,7 +1972,7 @@ $('scroller').addEventListener('touchend',function(e){if(e.touches.length<2)pin=
 $('scroller').addEventListener('wheel',function(e){if(!e.ctrlKey||$('reader').hidden)return;e.preventDefault();zstep(e.deltaY<0?1.1:1/1.1)},{passive:false});
 function currentPage(){var sc=$('scroller'),mid=sc.scrollTop+sc.clientHeight*0.35,cur=0;for(var i=0;i<wraps.length;i++){if(wraps[i].offsetTop<=mid)cur=i}return cur}
 var lastCur=-1;
-function onScroll(){var c=currentPage();lastCur=c;if(!$('pnum').classList.contains('ed'))$('pnum').textContent=PAGES[c].user?'✎ صفحتي':PAGES[c].bn+' / '+BOOKN;var m=PAGES[c];$('subtitle').textContent=m.label;st('orr-page',String(c));sp('pk',PKEY[c]);updPr(c);fitRail();fillNear(c)}
+function onScroll(){var c=currentPage();lastCur=c;try{fillNear(c)}catch(e){}if(!$('pnum').classList.contains('ed'))$('pnum').textContent=PAGES[c].user?'✎ صفحتي':PAGES[c].bn+' / '+BOOKN;var m=PAGES[c];$('subtitle').textContent=m.label;st('orr-page',String(c));sp('pk',PKEY[c]);updPr(c);fitRail();fillNear(c)}
 /* page number: tap it, type a page and press Enter (owner, Nov 2026) */
 (function(){var pn=$('pnum');if(!pn)return;pn.title='Go to page';pn.addEventListener('click',function(e){e.stopPropagation();if(pn.classList.contains('ed'))return;
   var cur=PAGES[currentPage()]||{},v=cur.bn||'';pn.classList.add('ed');
@@ -2198,14 +2198,17 @@ document.addEventListener('click',function(e){var b=e.target.closest('[data-ht]'
 function textNodes(sec){var w=document.createTreeWalker(sec,NodeFilter.SHOW_TEXT,{acceptNode:function(n){return n.parentNode.closest('svg')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}}),a=[];while(w.nextNode())a.push(w.currentNode);return a}
 /* owner (Nov 2026, as in Surgery): spare room at the foot of a page is used inside its boxes (more line spacing, padding,
    roomier rows) instead of sitting empty; at least 50 px stay free above the footer */
-function fillPage(sec){if(!sec||sec.dataset.fd||!sec.classList.contains('mz'))return;var m=sec.querySelector('.mzm'),body=sec.querySelector('.body');if(!m||!body||!sec.offsetHeight||!m.children.length)return;
-  sec.dataset.fd=1;
-  function free(){var sc=sec.getBoundingClientRect().height/sec.offsetHeight||1,b=0;m.querySelectorAll(':scope > .blk > *, :scope > :not(.blk)').forEach(function(c){var r=c.getBoundingClientRect();if(r.height)b=Math.max(b,r.bottom)});return (body.getBoundingClientRect().bottom-b)/sc}
+function fillPage(sec,again){if(!sec||(sec.dataset.fd&&!again)||!sec.classList.contains('mz'))return;var m=sec.querySelector('.mzm'),body=sec.querySelector('.body');if(!m||!body||!sec.offsetHeight||!m.children.length)return;
+  sec.dataset.fd=1;sec.classList.remove('fill');sec.style.removeProperty('--ft');sec.style.removeProperty('--fgap');
+  function free(){var sc=sec.getBoundingClientRect().height/sec.offsetHeight||1,b=0;m.querySelectorAll('*').forEach(function(c){var r=c.getBoundingClientRect();if(r.height)b=Math.max(b,r.bottom)});return (body.getBoundingClientRect().bottom-b)/sc}
   if(free()<80)return;
   function set(t){sec.style.setProperty('--ft',t.toFixed(3))}
-  sec.classList.add('fill');var lo=0,hi=2.2;set(hi);if(free()>=50)return;
-  for(var k=0;k<7;k++){var mid=(lo+hi)/2;set(mid);if(free()>=50)lo=mid;else hi=mid}set(lo)}
+  /* owner: spare room goes INTO the boxes (padding, line spacing, rows); text grows at most ~8 %; what is still left is shared between the boxes */
+  sec.classList.add('fill');var lo=0,hi=3.2;set(hi);
+  if(free()<50){for(var k=0;k<8;k++){var mid=(lo+hi)/2;set(mid);if(free()>=50)lo=mid;else hi=mid}set(lo)}
+  var left=free()-50,n=m.querySelectorAll(':scope > .blk').length-1;if(left>8&&n>0){var g=Math.min(44,left/n);function sg(v){sec.style.setProperty('--fgap',v.toFixed(1)+'px')}sg(g);for(var j=0;j<12&&free()<50&&g>0;j++){g=Math.max(0,g-Math.max(1,(50-free())/n));sg(g)}}}
 window.fillPage=fillPage;
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){document.querySelectorAll('section.page.mz[data-fd]').forEach(function(x){fillPage(x,true)})});
 function fillNear(c){for(var i=Math.max(0,c-1);i<=Math.min(wraps.length-1,c+2);i++){var w=wraps[i];if(w)fillPage(w.querySelector('section.page'))}}
 function renderPage(i){var host=wraps[i].firstChild,sec=srcPages[i].cloneNode(true);host.innerHTML='';host.appendChild(sec);delete wraps[i].dataset.dec;fillPage(sec);
   (HL[PKEY[i]]||[]).forEach(function(h,k){if(!hlOk(i,h))return;wrapRange(sec,h.s,h.e,function(){var m=document.createElement('mark');m.className='uhl '+h.c+(h.uw?' uw'+h.uw:'')+(h.n?' hasn':'');m.dataset.k=k;return m});
