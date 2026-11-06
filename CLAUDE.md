@@ -75,3 +75,8 @@ activation orr-k / orr-kc). Sync via Supabase RPCs obs_sync_get / obs_sync_put (
   Untitled ("bare") boxes with long tables (also `table.osce`) may now be divided by rows.
 - paginate.py never leaves a sub-topic title (`h2.mzsub`) at the foot of a page with less than `SUBMIN` (140) px under it;
   `tools/merge_pieces.py` joins two pieces of one section that land on the same page.
+
+## Handover between the owner's two Claude accounts (Nov 6 2026)
+Work continues on `main` from either account: `git pull` first, read this file and `git log --oneline -15`, push to `main`
+(GitHub Actions builds with the OBS_KEY secret and deploys). The licence key is only in GitHub secrets / Supabase, never in a session file.
+Last work: features ported from the Pediatrics book (see "Ported from the Pediatrics book"). Next: chapter covers 6–7 when the owner sends pictures.
