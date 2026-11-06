@@ -61,6 +61,11 @@ On opening, a device that is not activated gets a chooser (licence.js `openChoos
 `functions/trial.js` (POST /trial; reads the Pages secret OBS_KEY, which the deploy workflow sets from the GitHub secret each deploy), so no
 Supabase step is needed; Supabase RPC `obs_trial` (tools/supabase/obs_trial.sql, optional) is only a fallback. The trial key is kept in `orr-tk` (never `orr-k`), dropped when the time ends; free first topics stay open. Price 15,000 SDG.
 
+## Change of device by the student (owner, 6 Nov 2026, as in Surgery and Pediatrics)
+An activated device shows a Home card «أنت مشترك · … · إدارة الجهاز» (licence.js `myDevice`) → subscription sheet → «إزالة الكود من هذا
+الجهاز» (tap twice; syncs first via `window.__obsSyncNow`) → Supabase RPC `obs_release(p_dev)` clears the device from its code, then the
+device locks. The RPC needs tools/supabase/obs_release.sql run once in the Supabase SQL editor (until then the button says to message the owner).
+
 ## The licence key (secret)
 content.bin must be encrypted with the SAME key Supabase gives activated devices (table `obs_secret`, column `k`,
 returned by RPC `obs_activate`). It is NOT in this repo. build.py reads `$OBS_KEY` or `$OBS_KEY_FILE`

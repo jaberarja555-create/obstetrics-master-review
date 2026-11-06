@@ -76,7 +76,10 @@ function freeList(){return '<span class="nms">'+(INFO.free_names||[]).map(functi
 var ERR={bad:'هذا الكود غير صحيح. تأكد منه (الحروف والأرقام) وحاول مرة أخرى.',off:'هذا الكود موقوف. تواصل مع '+esc(CFG.contact||'')+'.',noconfig:'التفعيل غير جاهز بعد. راسل '+esc(CFG.contact||'')+' في واتساب.',net:'لا يوجد اتصال بالإنترنت. التفعيل يحتاج إلى الإنترنت مرة واحدة فقط.'};
 function body(html){$('subBody').innerHTML=html}
 function render(){
-  if(UNLOCKED){body('<p class="lead">هذا الجهاز مفعّل والكتاب مفتوح كاملًا. شكرًا لك!</p>'+(LS('orr-code')?'<div class="devc"><span>كود التفعيل</span><b dir="ltr">'+esc(LS('orr-code'))+'</b></div>':''));return}
+  if(UNLOCKED){body('<p class="lead">هذا الجهاز مفعّل والكتاب مفتوح كاملًا. شكرًا لك!</p>'+(LS('orr-code')?'<div class="devc"><span>كود التفعيل</span><b dir="ltr">'+esc(LS('orr-code'))+'</b></div>':'')+
+    '<div class="relx"><b class="ssth">تغيير الجهاز</b><p class="muted">إذا أردت أن تنقل الكتاب إلى جهاز آخر، أزل الكود من هذا الجهاز أولًا، ثم اكتبه في الجهاز الجديد. ملاحظاتك وتظليلك وتقدّمك محفوظة مع الكود وتظهر في الجهاز الجديد.</p>'+
+    '<button type="button" class="btn relb" id="relGo">إزالة الكود من هذا الجهاز</button><p class="muted" id="relMsg"></p></div>');
+    $('relGo').onclick=releaseCode;return}
   var wa=(CFG.whatsapp||'').replace(/[^0-9]/g,''),who=esc(CFG.contact||'');
   var msg='السلام عليكم '+(CFG.contact||'')+'، أرغب في الاشتراك في كتاب Obstetrics Master Review.';
   body((INTRIAL?'<p class="lead">أنت الآن في <b>الفترة التجريبية</b>: الكتاب كله مفتوح ('+tleftTxt()+').</p>':'')+'<p class="lead">النسخة المجانية تفتح لك <b>الموضوع الأول من كل فصل</b> مع بطاقاته وأسئلته:'+freeList()+'اشترك مرة واحدة لتفتح <b>الكتاب كاملًا</b>، وكل البطاقات، وبنك الأسئلة كاملًا، طوال هذه الطبعة.</p>'+
@@ -94,7 +97,7 @@ function render(){
       $('actMsg').textContent='جارٍ التفعيل…';
       c.rpcAnon('obs_activate',{p_code:code,p_dev:DEV,p_kind:kind(),p_label:label()}).then(function(r){var j=r.data;
         if(r.error||!j){$('actMsg').textContent=ERR.net;return}
-        if(!j.ok){$('actMsg').textContent=j.reason==='taken'?'هذا الكود مستخدم في '+(kind()==='phone'?'هاتف':'حاسوب')+' آخر. إذا غيّرت جهازك فراسل '+(CFG.contact||'')+' في واتساب لنقله إليك.':(ERR[j.reason]||ERR.bad);return}
+        if(!j.ok){$('actMsg').textContent=j.reason==='taken'?'هذا الكود مستخدم في '+(kind()==='phone'?'هاتف':'حاسوب')+' آخر. لتنقله إلى هذا الجهاز: افتح الكتاب في الجهاز القديم، ثم «إدارة الجهاز» ← «إزالة الكود من هذا الجهاز». إذا فقدت الجهاز القديم فراسل '+(CFG.contact||'')+' في واتساب.':(ERR[j.reason]||ERR.bad);return}
         return decrypt(j.key).then(function(){LS('orr-k',j.key);LS('orr-code',j.code||code);LS('orr-kc',String(Date.now()));$('actMsg').textContent='تم التفعيل بنجاح! يُفتح الكتاب كاملًا الآن…';choiceSnd('ok');sh.hidden=true;openingFx('تم التفعيل · جارٍ فتح الكتاب كاملًا');setTimeout(function(){location.reload()},1000)})
       }).catch(function(){$('actMsg').textContent=ERR.net})}
   }).catch(function(e){$('actArea').innerHTML='<p class="muted">'+(ERR[e&&e.message]||ERR.net)+'</p>'})}
@@ -105,6 +108,16 @@ function choiceSnd(k){if(k==='trial')chime([523.3,659.3,784,1046.5,1318.5,1568],
 function openingFx(msg){var d=$('opening');if(!d){d=document.createElement('div');d.id='opening';document.body.appendChild(d)}
   d.innerHTML='<img src="img/logo.webp" alt=""><b dir="rtl">'+msg+'</b><i><span></span></i>';requestAnimationFrame(function(){d.classList.add('on')})}
 function setTitle(t){sh.querySelector('h3 span').textContent=t}
+/* the student removes the code from this device himself (owner, 6 Nov 2026): tap twice; Supabase obs_release (tools/supabase/obs_release.sql) */
+function releaseCode(){var b=$('relGo'),m=$('relMsg');
+  if(!b.dataset.sure){b.dataset.sure='1';b.textContent='تأكيد: أزل الكود من هذا الجهاز';b.classList.add('sure');m.textContent='سيُقفل الكتاب في هذا الجهاز، ويمكنك استعمال الكود في جهاز آخر.';return}
+  if(navigator.onLine===false){m.textContent='يحتاج هذا إلى الإنترنت. تأكد من الاتصال وحاول مرة أخرى.';return}
+  b.disabled=true;m.textContent='جارٍ الحفظ والإزالة…';
+  var pre=window.__obsSyncNow?Promise.resolve(window.__obsSyncNow()).catch(function(){}):Promise.resolve();
+  pre.then(function(){return sb()}).then(function(c){return c.rpcAnon('obs_release',{p_dev:DEV})}).then(function(r){
+    if(r.error){b.disabled=false;m.textContent='هذه الخدمة غير جاهزة بعد. راسل '+(CFG.contact||'')+' في واتساب لنقل الكود.';return}
+    choiceSnd('free');LS('orr-k',null);LS('orr-kc',null);LS('orr-code',null);m.textContent='تمت إزالة الكود من هذا الجهاز.';setTimeout(function(){location.reload()},900)
+  }).catch(function(){b.disabled=false;m.textContent=ERR.net})}
 function openSub(){setTitle('الاشتراك في الكتاب');render();if(fresh())$('subBody').insertAdjacentHTML('afterbegin','<button type="button" class="chback" data-choose="1">→ الرجوع إلى الخيارات</button>');sh.hidden=false}
 function openChoose(){
   var t=tget(),fresh=!t||!t.s,ic=function(d){return '<i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+d+'</svg></i>'};
@@ -130,7 +143,10 @@ function openChoose(){
   $('chFree').onclick=function(){choiceSnd('free');LS('orr-chz','1');setMust(false);sh.hidden=true}}
 window.__openSub=openSub;
 document.addEventListener('click',function(e){if(e.target.closest('[data-sub]')){e.preventDefault();e.stopPropagation();(fresh()?openChoose:openSub)()}},true);
-function afterLogin(){if(UNLOCKED||INTRIAL||!TMS)return;var t=tget();
+function myDevice(){if(!UNLOCKED||document.getElementById('myDev'))return;var u=document.querySelector('.unl');if(!u)return;
+  var b=document.createElement('button');b.type='button';b.id='myDev';b.className='mydev';b.setAttribute('dir','rtl');b.setAttribute('data-sub','1');
+  b.innerHTML='<span><b>أنت مشترك · الكتاب مفتوح كاملًا</b><small>الكود <bdi dir="ltr">'+esc(LS('orr-code')||'')+'</bdi> · لنقل الكتاب إلى جهاز آخر</small></span><i>إدارة الجهاز</i>';u.parentNode.insertBefore(b,u.nextSibling)}
+function afterLogin(){myDevice();if(UNLOCKED||INTRIAL||!TMS)return;var t=tget();
   if(((!t||!t.s)&&!LS('orr-chz'))||(t&&t.s&&tleft()<=0&&!t.seen)){if(!t||!t.s)setMust(true);if(t&&t.s){t.seen=1;tput(t)}setTimeout(openChoose,300)}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
