@@ -52,3 +52,9 @@ Never commit it, never put it in an artifact.
 ## localStorage keys
 Prefix `orr-` (highlights orr-hl2, ink orr-ink, progress orr-prog, zoom orr-zoom2, cards orr-known2 / orr-daily / orr-streak,
 activation orr-k / orr-kc). Sync via Supabase RPCs obs_sync_get / obs_sync_put (obs-sync-setup.sql).
+- **Rapid Review (owner, Nov 2026):** two columns of topic cards in the chapter colour (number badge + title once per topic,
+  no repeated titles; a topic that runs on into the next column continues with no title), a picture band at the start of each
+  chapter (`.rrc`, chapter cover picture). Re-flow after RR content changes: `mkdir -p build/rr && python3 tools/rapid_review/extract.py`,
+  write build/rr/chapters.json (see git history), `python3 build.py && node tools/rapid_review/layout.js && python3 tools/rapid_review/write.py`.
+- paginate.py never leaves a sub-topic title (`h2.mzsub`) at the foot of a page with less than `SUBMIN` (140) px under it;
+  `tools/merge_pieces.py` joins two pieces of one section that land on the same page.

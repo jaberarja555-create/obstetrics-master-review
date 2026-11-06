@@ -1368,6 +1368,32 @@ table.numt + table.numt tr:first-child td { border-top: 1px solid var(--ch-line2
 /* Rapid Review rows (owner, Nov 2026: plain and clean as in Surgery): clue | answer columns, striped rows, no dark pills */
 section[data-file^="x9"] .frow{grid-template-columns:1fr 45%;gap:0;align-items:stretch;padding:0;border-bottom:1px solid #ebe9f3;font-size:9.5pt;line-height:1.32}
 section[data-file^="x9"] .frow:nth-child(even){background:#f8f7fc}
+.page .rrc.c1,.page .rvk.c1{--ch:#9a5b06; --ch-dark:#4a2a02; --ch-mid:#c98a2b; --ch-tint:#f6ead3; --ch-tint-2:#fbf5ea; --ch-line:#ecd7b0; --ch-line2:#f3e6cc; --ch-wash:#fffcf6; --hdr-topic:#f1dfbd;}
+.page .rrc.c2,.page .rvk.c2{--ch:#4c2c8f; --ch-dark:#241a5c; --ch-mid:#7d5fc8; --ch-tint:#ebe5f8; --ch-tint-2:#f6f3fd; --ch-line:#d9cff0; --ch-line2:#e9e3f6; --ch-wash:#fbf9ff; --hdr-topic:#ddd2fa;}
+.page .rrc.c3,.page .rvk.c3{--ch:#8b2361; --ch-dark:#4a1037; --ch-mid:#c04a8a; --ch-tint:#f7e4ef; --ch-tint-2:#fcf3f8; --ch-line:#efcde0; --ch-line2:#f6e3ee; --ch-wash:#fffafd; --hdr-topic:#f6d3e6;}
+.page .rrc.c4,.page .rvk.c4{--ch:#23408e; --ch-dark:#0f1f4d; --ch-mid:#4f6fc4; --ch-tint:#e4eaf8; --ch-tint-2:#f3f6fd; --ch-line:#cdd8f1; --ch-line2:#e2e8f7; --ch-wash:#fafbff; --hdr-topic:#d5def6;}
+.page .rrc.c5,.page .rvk.c5{--ch:#b03a14; --ch-dark:#5c1a06; --ch-mid:#d9673f; --ch-tint:#fbe6dc; --ch-tint-2:#fdf4ef; --ch-line:#f2cfbf; --ch-line2:#f8e3d9; --ch-wash:#fffbf9; --hdr-topic:#f7d6c8;}
+.page .rrc.c6,.page .rvk.c6{--ch:#1d6b4a; --ch-dark:#0b3523; --ch-mid:#3f9a72; --ch-tint:#ddf1e7; --ch-tint-2:#f1f9f5; --ch-line:#c5e6d6; --ch-line2:#dff0e8; --ch-wash:#fafdfb; --hdr-topic:#cfeadd;}
+.page .rrc.c7,.page .rvk.c7{--ch:#0b6e7f; --ch-dark:#063a44; --ch-mid:#2f9cad; --ch-tint:#d8eff2; --ch-tint-2:#eff8f9; --ch-line:#c0e2e7; --ch-line2:#dceff1; --ch-wash:#f8fcfd; --hdr-topic:#c9eaef;}
+/* Rapid Review layout (Nov 2026): two columns of topic cards, a picture band per chapter */
+.rrcols{display:flex;gap:12px;align-items:flex-start}
+.rrcol{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:9px}
+.rrc{position:relative;display:flex;align-items:center;gap:10px;min-height:50px;border-radius:9px;overflow:hidden;color:#fff;padding:7px 100px 7px 8px;background:linear-gradient(100deg,var(--ch-dark) 0,var(--ch) 70%,var(--ch-mid) 100%);box-shadow:0 2px 6px rgba(20,10,40,.18)}
+.rrc img{position:absolute;right:0;top:0;height:100%;width:150px;object-fit:cover;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 65%);mask-image:linear-gradient(90deg,transparent 0,#000 65%)}
+.rrc .rcn{position:relative;flex:none;width:38px;height:38px;border-radius:8px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;font:900 14pt/1 Inter,sans-serif}
+.rrc .rcn small{font:800 5.4pt/1 Inter,sans-serif;letter-spacing:.9px;opacity:.85;margin-bottom:2px;text-transform:uppercase}
+.rrc .rct{position:relative;font:800 10.8pt/1.22 Inter,sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.rvk{border:1px solid var(--ch-line);border-radius:8px;overflow:hidden;background:#fff}
+.rvk .rvh{display:flex;align-items:center;gap:8px;padding:5px 9px;background:linear-gradient(90deg,var(--ch-tint) 0,var(--ch-tint-2) 100%);border-bottom:1.5px solid var(--ch)}
+.rvk .rvn{flex:none;background:var(--ch);color:#fff;font:850 8.6pt/1 Inter,sans-serif;padding:3px 6px;border-radius:5px;letter-spacing:.2px}
+.rvk .rvt{font:800 10.3pt/1.25 Inter,sans-serif;color:var(--ch-dark)}
+.rvk.rvkc{border-top:2px solid var(--ch)}
+.page .rvk .frow{display:grid;grid-template-columns:1fr 45%;gap:0;align-items:stretch;padding:0;border-bottom:1px solid var(--ch-line2);font-size:9.5pt;line-height:1.32}
+.page .rvk .frow:last-child{border-bottom:0}
+.page .rvk .frow:nth-child(even){background:var(--ch-tint-2)}
+.page .rvk .frow > span:first-child{padding:4px 7px 4px 8px;color:#1c1917}
+.page .rvk .frow .ans{background:none;color:var(--ch-dark);font-weight:750;font-size:9.3pt;padding:4px 6px 4px 8px;border-left:2px solid var(--ch-line);border-radius:0;white-space:normal;letter-spacing:0}
+
 section[data-file^="x9"] .frow > span:first-child{padding:4px 7px 4px 6px;color:#1c1917}
 section[data-file^="x9"] .frow .ans{background:none;color:#1e1748;font-weight:750;font-size:9.3pt;padding:4px 5px 4px 8px;border-left:1px solid #e3e1ec;border-radius:0;white-space:normal;letter-spacing:0}
 /* rows of pictures: same height, centred, caption under each (owner) */
