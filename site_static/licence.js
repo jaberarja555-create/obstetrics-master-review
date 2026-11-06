@@ -68,7 +68,10 @@ function recheck(){var last=+(LS('orr-kc')||0);if(Date.now()-last<3*864e5||navig
 var sh=document.createElement('div');sh.className='sheet';sh.id='subSheet';sh.hidden=true;
 sh.innerHTML='<div class="in ar subin" role="dialog" aria-modal="true" dir="rtl"><h3><span>الاشتراك في الكتاب</span><button class="chip" type="button" id="subX">Close</button></h3><img class="sublogo" src="img/logo.webp" alt=""><div id="subBody"></div></div>';
 document.body.appendChild(sh);
-$('subX').onclick=function(){sh.hidden=true};sh.addEventListener('click',function(e){if(e.target===sh)sh.hidden=true});
+/* MUST (owner, 6 Nov 2026): on the first opening the student has to pick one of the choices; the sheet cannot be closed until then */
+var MUST=false;function setMust(v){MUST=v;sh.classList.toggle('must',v)}
+function fresh(){var t=null;try{t=JSON.parse(LS('orr-trial')||'null')}catch(e){}return !!(+CFG.trial_hours)&&!UNLOCKED&&!(t&&t.s)}
+$('subX').onclick=function(){if(MUST)return;sh.hidden=true};sh.addEventListener('click',function(e){if(e.target===sh&&!MUST)sh.hidden=true;if(e.target.closest('[data-choose]')){choiceSnd('free');openChoose()}});
 function freeList(){return '<span class="nms">'+(INFO.free_names||[]).map(function(n){return '<span class="nmc en">'+esc(n)+'</span>'}).join('')+'</span>'}
 var ERR={bad:'هذا الكود غير صحيح. تأكد منه (الحروف والأرقام) وحاول مرة أخرى.',off:'هذا الكود موقوف. تواصل مع '+esc(CFG.contact||'')+'.',noconfig:'التفعيل غير جاهز بعد. راسل '+esc(CFG.contact||'')+' في واتساب.',net:'لا يوجد اتصال بالإنترنت. التفعيل يحتاج إلى الإنترنت مرة واحدة فقط.'};
 function body(html){$('subBody').innerHTML=html}
@@ -102,7 +105,7 @@ function choiceSnd(k){if(k==='trial')chime([523.3,659.3,784,1046.5,1318.5,1568],
 function openingFx(msg){var d=$('opening');if(!d){d=document.createElement('div');d.id='opening';document.body.appendChild(d)}
   d.innerHTML='<img src="img/logo.webp" alt=""><b dir="rtl">'+msg+'</b><i><span></span></i>';requestAnimationFrame(function(){d.classList.add('on')})}
 function setTitle(t){sh.querySelector('h3 span').textContent=t}
-function openSub(){setTitle('الاشتراك في الكتاب');render();sh.hidden=false}
+function openSub(){setTitle('الاشتراك في الكتاب');render();if(fresh())$('subBody').insertAdjacentHTML('afterbegin','<button type="button" class="chback" data-choose="1">→ الرجوع إلى الخيارات</button>');sh.hidden=false}
 function openChoose(){
   var t=tget(),fresh=!t||!t.s,ic=function(d){return '<i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+d+'</svg></i>'};
   setTitle('مرحبًا بك في الكتاب');
@@ -119,13 +122,13 @@ function openChoose(){
     sb().then(function(c){return c.rpcAnon('obs_trial',{p_dev:DEV})}).then(function(r){var j=r.data,now=Date.now();
       if(r.error||!j){fail(r.error?'النسخة التجريبية غير جاهزة بعد. راسل '+(CFG.contact||'')+' في واتساب.':ERR.net);return}
       if(!j.ok){tput({s:j.start||1,m:now,x:1,seen:1});fail('استُخدمت الفترة التجريبية على هذا الجهاز من قبل.');return}
-      tput({s:j.start||now,m:now});LS('orr-tk',j.key);setTimeout(function(){location.reload()},500)
+      tput({s:j.start||now,m:now});LS('orr-tk',j.key);LS('orr-chz','1');setTimeout(function(){location.reload()},500)
     }).catch(function(e){fail(ERR[e&&e.message]||ERR.net)})};
   $('chPaid').onclick=function(){choiceSnd('paid');openSub()};$('chCode').onclick=function(){choiceSnd('code');openSub();var w=setInterval(function(){var x=$('actIn');if(x){clearInterval(w);x.scrollIntoView({block:'center'});x.focus()}},150);setTimeout(function(){clearInterval(w)},5000)};
-  $('chFree').onclick=function(){choiceSnd('free');sh.hidden=true}}
+  $('chFree').onclick=function(){choiceSnd('free');LS('orr-chz','1');setMust(false);sh.hidden=true}}
 window.__openSub=openSub;
-document.addEventListener('click',function(e){if(e.target.closest('[data-sub]')){e.preventDefault();e.stopPropagation();openSub()}},true);
+document.addEventListener('click',function(e){if(e.target.closest('[data-sub]')){e.preventDefault();e.stopPropagation();(fresh()?openChoose:openSub)()}},true);
 function afterLogin(){if(UNLOCKED||INTRIAL||!TMS)return;var t=tget();
-  if(((!t||!t.s)&&!LS('orr-chz'))||(t&&t.s&&tleft()<=0&&!t.seen)){LS('orr-chz','1');if(t&&t.s){t.seen=1;tput(t)}setTimeout(openChoose,2900)}}
+  if(((!t||!t.s)&&!LS('orr-chz'))||(t&&t.s&&tleft()<=0&&!t.seen)){if(!t||!t.s)setMust(true);if(t&&t.s){t.seen=1;tput(t)}setTimeout(openChoose,2900)}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
