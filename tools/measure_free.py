@@ -5,7 +5,7 @@ R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 JS = r"""() => { const out = {};
  document.querySelectorAll('.pw section.page').forEach(c => {
    const m = c.querySelector('.mzm'); if (!m) return; const body = c.querySelector('.body');
-   m.classList.remove('vg'); m.style.removeProperty('--vg');
+   m.classList.remove('vg'); m.style.removeProperty('--vg'); c.classList.remove('fill');
    const kids = [...m.querySelectorAll(':scope > .blk > *, :scope > *:not(.blk)')].filter(e => e.getBoundingClientRect().height);
    if (!kids.length) return;
    const last = Math.max(...kids.map(e => e.getBoundingClientRect().bottom)), b = body.getBoundingClientRect();

@@ -91,7 +91,7 @@ def main():
     swp = os.path.join(site, 'sw.js')
     sw = open(swp).read()
     imgs = sorted('img/' + n for n in os.listdir(os.path.join(site, 'img'))) if os.path.exists(os.path.join(site, 'img')) else []
-    assets = ["./", "index.html", "content.bin", "licence.js", "sbmini.js", "licence-config.js", "manifest.json", "icon.png", "icon-192.png", "apple-touch-icon.png"] + imgs
+    assets = ["./", "index.html", "content.bin", "licence.js", "sbmini.js", "licence-config.js", "manifest.json", "icon.png", "icon-192.png", "apple-touch-icon.png"] + imgs + sorted('fonts/' + n for n in os.listdir(os.path.join(site, 'fonts')) if n.startswith('inter'))
     sw = re.sub(r"var C='[^']*',ASSETS=\[.*?\]", lambda m: f"var C='orr-{ver}',ASSETS=" + json.dumps(assets), sw, count=1, flags=re.S)
     open(swp, 'w').write(sw)
 
