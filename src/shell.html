@@ -154,26 +154,35 @@
 /* opening choice (owner, Nov 2026): 24-hour trial or the paid version */
 .chz{display:flex;flex-direction:column;gap:11px}
 .chz .sublogo{align-self:center}
-.chc{display:flex;align-items:center;gap:12px;width:100%;text-align:right;border-radius:16px;padding:14px 14px;border:1px solid #ecd9a8;background:#fff;color:#0e2547;font:inherit;cursor:pointer;position:relative;overflow:hidden}
-.chc i{flex:none;width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-style:normal}
-.chc i svg{width:26px;height:26px}
-.chc span{display:flex;flex-direction:column;gap:3px;min-width:0}
-.chc b{font:850 16px/1.3 'Noto Sans Arabic',Inter,sans-serif}
-.chc small{font:500 13px/1.5 'Noto Sans Arabic',Inter,sans-serif;opacity:.85}
-.chc.tr{background:linear-gradient(120deg,#0e2547 0,#1f4e8c 100%);color:#fff;border-color:#c99a3b;box-shadow:0 6px 18px rgba(14,37,71,.28)}
-.chc.tr i{background:linear-gradient(145deg,#f3d98b,#c99a3b);color:#0e2547}
-.chc.tr b{color:#f3d98b}
-.chc.tr::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);animation:chsh 3.2s ease-in-out infinite}
+.opc{display:flex;align-items:center;gap:12px;width:100%;text-align:right;border-radius:16px;padding:14px 14px;border:1px solid #ecd9a8;background:#fff;color:#0e2547;font:inherit;cursor:pointer;position:relative;overflow:hidden}
+.opc i{flex:none;width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-style:normal}
+.opc i svg{width:26px;height:26px}
+.opc span{display:flex;flex-direction:column;gap:3px;min-width:0}
+.opc b{font:850 16px/1.3 'Noto Sans Arabic',Inter,sans-serif}
+.opc small{font:500 13px/1.5 'Noto Sans Arabic',Inter,sans-serif;opacity:.85}
+.opc.tr{background:linear-gradient(120deg,#0e2547 0,#1f4e8c 100%);color:#fff;border-color:#c99a3b;box-shadow:0 6px 18px rgba(14,37,71,.28)}
+.opc.tr i{background:linear-gradient(145deg,#f3d98b,#c99a3b);color:#0e2547}
+.opc.tr b{color:#f3d98b}
+.opc.tr::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);animation:chsh 3.2s ease-in-out infinite}
 @keyframes chsh{0%{left:-60%}55%,100%{left:130%}}
-.chc.tr.off{opacity:.75;cursor:default;box-shadow:none}.chc.tr.off::after{display:none}
-.chc.pd{background:linear-gradient(120deg,#fff7e6,#fbe9bf);border-color:#e6c378}
-.chc.pd i{background:#0e2547;color:#f3d98b}
-.chc.cd{background:#f4f6fb;border-color:#d8deea}
-.chc.cd i{background:#e3e8f3;color:#1f4e8c}
-.subx .chc.tr{margin-bottom:2px}
+.opc.tr.off{opacity:.75;cursor:default;box-shadow:none}.opc.tr.off::after{display:none}
+.opc.pd{background:linear-gradient(120deg,#fff7e6,#fbe9bf);border-color:#e6c378}
+.opc.pd i{background:#0e2547;color:#f3d98b}
+.opc.cd{background:#f4f6fb;border-color:#d8deea}
+.opc.cd i{background:#e3e8f3;color:#1f4e8c}
+.subx .opc.tr{margin-bottom:2px}
 .chz .sublogo{width:92px;height:92px;object-fit:contain;margin:0 auto -2px}
 .chz .lead{text-align:right}
 .chfree{background:none;border:0;color:inherit;opacity:.8;font:600 13.5px/1.5 'Noto Sans Arabic',sans-serif;text-decoration:underline;padding:4px;cursor:pointer}
+/* opening animation after a choice (owner, Nov 2026) */
+#opening{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:radial-gradient(circle at 50% 40%,#1f4e8c 0,#0e2547 55%,#07142b 100%);color:#f3d98b;opacity:0;transition:opacity .25s}
+#opening.on{opacity:1}
+#opening img{width:132px;height:132px;object-fit:contain;filter:drop-shadow(0 0 18px rgba(243,217,139,.55));animation:opPulse 1s ease-in-out infinite alternate}
+#opening b{font:800 17px/1.5 'Noto Sans Arabic',Inter,sans-serif;text-align:center;padding:0 24px}
+#opening i{display:block;width:180px;height:5px;border-radius:3px;background:rgba(243,217,139,.2);overflow:hidden}
+#opening i span{display:block;height:100%;width:0;background:linear-gradient(90deg,#c99a3b,#f3d98b);border-radius:3px;animation:opBar .9s ease-out forwards}
+@keyframes opPulse{from{transform:scale(.94)}to{transform:scale(1.04)}}
+@keyframes opBar{to{width:100%}}
 </style>
 <title>Obstetrics Master Review</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
