@@ -3,3 +3,4 @@ secret/
 licence_key.txt
 obs-licence-setup.sql
 build/
+__pycache__/
