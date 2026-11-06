@@ -41,42 +41,42 @@
    "f": "k1_cover"
   },
   {
-   "label": "1.1 · Genital Tract, Heart & Circulation",
+   "label": "1.1 · Introduction & Genital Tract",
    "t": "pc",
    "f": "c1s01p1_pc1"
   },
   {
-   "label": "1.1 · Genital Tract, Heart & Circulation",
+   "label": "1.1 · Cardiovascular System",
    "t": "pc",
    "f": "c1s01p1x2_pc1"
   },
   {
-   "label": "1.1 · Blood, Lungs, Kidneys & Gut",
+   "label": "1.1 · Haematological & Respiratory Systems",
    "t": "pc",
    "f": "c1s01p2_pc2"
   },
   {
-   "label": "1.1 · Blood, Lungs, Kidneys & Gut",
+   "label": "1.1 · Renal & Urinary Tract",
    "t": "pc",
    "f": "c1s01p2x2_pc2"
   },
   {
-   "label": "1.1 · Hormones, Skin & Joints",
+   "label": "1.1 · Gastrointestinal System & Placental Hormones",
    "t": "pc",
    "f": "c1s01p3_pc3"
   },
   {
-   "label": "1.1 · Weight Gain & Normal Values",
+   "label": "1.1 · Endocrine System & Metabolism",
    "t": "pc",
    "f": "c1s01p4_pc4"
   },
   {
-   "label": "1.1 · Weight Gain & Normal Values",
+   "label": "1.1 · Skin, Weight Gain & Laboratory Values",
    "t": "pc",
    "f": "c1s01p4x2_pc4"
   },
   {
-   "label": "1.1 · Weight Gain & Normal Values",
+   "label": "1.1 · Key Numbers",
    "t": "pc",
    "f": "c1s01p4x3_pc4"
   },
@@ -1855,7 +1855,7 @@
   {
    "no": "1.1",
    "title": "Physiology of pregnancy",
-   "sub": "Circulation & blood · lungs & kidneys · hormones & skin · normal values",
+   "sub": "Cardiovascular, haematological, respiratory, renal and endocrine changes · laboratory values",
    "p": 9,
    "id": "pc",
    "ch": 1,
