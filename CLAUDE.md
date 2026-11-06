@@ -57,9 +57,9 @@ Sister apps: Surgery Master Review (`surgery-rapid-review`) and Pediatrics: feat
 
 ## Trial (owner, 6 Nov 2026, as in Surgery and Pediatrics)
 On opening, a device that is not activated gets a chooser (licence.js `openChoose`): «النسخة التجريبية لمدة ساعة كاملة» · «الاشتراك في النسخة المدفوعة» ·
-«عندي كود تفعيل» · «متابعة بالنسخة المجانية». The trial opens the whole book for `trial_hours` (licence-config.js, 1) via Supabase RPC
-`obs_trial(p_dev)` (SQL in tools/supabase/obs_trial.sql — the owner must run it once in the Supabase SQL editor; until then the trial
-button says it is not ready). The trial key is kept in `orr-tk` (never `orr-k`), dropped when the time ends; free first topics stay open. Price 15,000 SDG.
+«عندي كود تفعيل» · «متابعة بالنسخة المجانية». The trial opens the whole book for `trial_hours` (licence-config.js, 1). The key comes from the site's own Cloudflare Pages Function
+`functions/trial.js` (POST /trial; reads the Pages secret OBS_KEY, which the deploy workflow sets from the GitHub secret each deploy), so no
+Supabase step is needed; Supabase RPC `obs_trial` (tools/supabase/obs_trial.sql, optional) is only a fallback. The trial key is kept in `orr-tk` (never `orr-k`), dropped when the time ends; free first topics stay open. Price 15,000 SDG.
 
 ## The licence key (secret)
 content.bin must be encrypted with the SAME key Supabase gives activated devices (table `obs_secret`, column `k`,

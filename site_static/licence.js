@@ -119,7 +119,9 @@ function openChoose(){
   if($('chTrial'))$('chTrial').onclick=function(){var b=this;b.disabled=true;choiceSnd('trial');sh.hidden=true;openingFx('جارٍ فتح الكتاب كاملًا · '+tdur());
     var fail=function(m){var d=$('opening');if(d)d.remove();sh.hidden=false;b.disabled=false;$('chMsg').textContent=m};
     if(!(window.crypto&&crypto.subtle&&window.DecompressionStream)){$('chMsg').textContent='هذا المتصفح قديم. افتح الكتاب في متصفح Chrome أو Safari حديث.';return}
-    sb().then(function(c){return c.rpcAnon('obs_trial',{p_dev:DEV})}).then(function(r){var j=r.data,now=Date.now();
+    /* the site's own /trial function first (Cloudflare Pages); Supabase obs_trial only if that is missing */
+    fetch('trial',{method:'POST',cache:'no-store',headers:{'content-type':'application/json'},body:JSON.stringify({dev:DEV})}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){return {data:j}})
+    .catch(function(){return sb().then(function(c){return c.rpcAnon('obs_trial',{p_dev:DEV})})}).then(function(r){var j=r.data,now=Date.now();
       if(r.error||!j){fail(r.error?'النسخة التجريبية غير جاهزة بعد. راسل '+(CFG.contact||'')+' في واتساب.':ERR.net);return}
       if(!j.ok){tput({s:j.start||1,m:now,x:1,seen:1});fail('استُخدمت الفترة التجريبية على هذا الجهاز من قبل.');return}
       tput({s:j.start||now,m:now});LS('orr-tk',j.key);LS('orr-chz','1');setTimeout(function(){location.reload()},500)
