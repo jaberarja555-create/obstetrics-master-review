@@ -18,7 +18,7 @@ JS = r"""() => { const out = [];
        const mc = mbs[0].querySelector(':scope > .mc');
        if (mc) { const kids = [...mc.children].map(k => { const r = k.getBoundingClientRect(), cs = getComputedStyle(k);
            const o = {tag: k.tagName.toLowerCase(), cls: k.className || '', h: Math.round(r.height / sc + parseFloat(cs.marginTop) + parseFloat(cs.marginBottom)), fl: cs.float !== 'none'};
-           if (k.matches('table.t')) { const th = k.querySelector('thead'); o.th = th ? Math.round(th.getBoundingClientRect().height / sc) : 0;
+           if (k.matches('table.t, table.osce')) { const th = k.querySelector('thead'); o.th = th ? Math.round(th.getBoundingClientRect().height / sc) : 0;
              o.rows = [...k.querySelectorAll(':scope > tbody > tr')].map(tr => Math.round(tr.getBoundingClientRect().height / sc)); o.span = !!k.querySelector('td[rowspan]'); }
            return o; });
          const inner = kids.reduce((a, k) => a + k.h, 0);

@@ -56,5 +56,10 @@ activation orr-k / orr-kc). Sync via Supabase RPCs obs_sync_get / obs_sync_put (
   no repeated titles; a topic that runs on into the next column continues with no title), a picture band at the start of each
   chapter (`.rrc`, chapter cover picture). Re-flow after RR content changes: `mkdir -p build/rr && python3 tools/rapid_review/extract.py`,
   write build/rr/chapters.json (see git history), `python3 build.py && node tools/rapid_review/layout.js && python3 tools/rapid_review/write.py`.
+- **No repeated titles (owner, 6 Nov 2026):** a section that runs on to the next page continues WITHOUT its title (no slim title,
+  no "continued"); tools/cont_titles.py now removes any. To avoid small stubs, a section is divided only when it is big
+  (`SPLITMIN` 320 px) and into fair parts (each ≥ `SPLITFR` 30 %); where that would leave big gaps a looser setting is used
+  per topic (220/.22 or 0/0). Before re-planning, `python3 tools/merge_pieces.py <topic keys>` gathers split pieces back together.
+  Untitled ("bare") boxes with long tables (also `table.osce`) may now be divided by rows.
 - paginate.py never leaves a sub-topic title (`h2.mzsub`) at the foot of a page with less than `SUBMIN` (140) px under it;
   `tools/merge_pieces.py` joins two pieces of one section that land on the same page.

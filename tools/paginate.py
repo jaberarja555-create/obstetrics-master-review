@@ -7,6 +7,7 @@ import json, os, re, sys, glob, subprocess, tempfile
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KEEP = int(os.environ.get('KEEP', 70)); MINF = 70; BUCKET = 25; ROOM = 1050
 VOID = {'br', 'img', 'hr', 'input', 'meta', 'link', 'col', 'wbr', 'source', 'path', 'circle', 'rect', 'line', 'polyline', 'polygon', 'ellipse', 'stop', 'use'}
+SPLITMIN = int(os.environ.get('SPLITMIN', 320)); SPLITFR = float(os.environ.get('SPLITFR', .3))
 SUBMIN = int(os.environ.get("SUBMIN", 140))
 SUBS = set()
 for _f in glob.glob(os.path.join(R, 'content/pages/*.html')):
@@ -47,7 +48,7 @@ def atoms_of(pages):
         for bid, h, det in p['blocks']:
             b = len(B); B.append(dict(page=pi, bid=bid, h=h, det=det))
             kids = det['kids'] if det else None
-            if not det or not det['mh'] or not kids or (len(kids) < 2 and not (kids[0]['tag'] == 'table' and len(kids[0].get('rows') or []) >= 4)):
+            if not det or not kids or (len(kids) < 2 and not (kids[0]['tag'] == 'table' and len(kids[0].get('rows') or []) >= 4)):
                 A.append(dict(b=b, h=h, kind='blk', sub=bid in SUBS)); continue
             B[b]['split'] = True
             for ki, kd in enumerate(kids):
@@ -68,6 +69,8 @@ def atoms_of(pages):
         if a['kind'] == 'kid' and nx['kind'] == 'row' and False: ok = False
         before = sum(x['h'] for x in A[:i + 1] if x['b'] == a['b']); after = sum(x['h'] for x in A[i + 1:] if x['b'] == a['b'])
         if before < MINF or after < MINF: ok = False
+        # owner: a section is divided only when it is big, and then into two fair parts (no small stub with a repeated title)
+        if before + after < SPLITMIN or min(before, after) < SPLITFR * (before + after): ok = False
         a['cut'] = ok
     return A, B
 
@@ -129,11 +132,11 @@ def frag_html(B, A, idxs, src):
     st = re.search(r'<div class="blk" data-id="' + re.escape(b['bid']) + r'"[^>]*>', s).start(); blk = s[st:close_of(s, st)]
     allidx = [i for i, a in enumerate(A) if a['b'] == a0['b']]
     if a0['kind'] == 'blk' or idxs == allidx: return blk
-    mh = re.search(r'<div class="mh[^"]*"[^>]*>', blk); mhe = close_of(blk, mh.start())
     mc = re.search(r'<div class="mc"[^>]*>', blk); mce = close_of(blk, mc.start())
+    mh = re.search(r'<div class="mh[^"]*"[^>]*>', blk[:mc.start()]); mhe = close_of(blk, mh.start()) if mh else mc.start()
     kids = children(blk, mc.end(), mce - 6)
     first = idxs[0] == allidx[0]
-    pre = blk[:mc.end()] if first else blk[:mh.start()] + blk[mh.start():mhe].replace('<div class="mh">', '<div class="mh mhc">', 1) + blk[mhe:mc.end()]
+    pre = blk[:mc.end()] if first or not mh else blk[:mh.start()] + blk[mhe:mc.end()]  # owner: no repeated title on the next page
     if not first: pre = re.sub(r'^<div class="blk" data-id="([^"]*)"', lambda m: '<div class="blk" data-id="%s.%d"' % (m.group(1), idxs[0]), pre)
     body, i = '', 0
     while i < len(idxs):

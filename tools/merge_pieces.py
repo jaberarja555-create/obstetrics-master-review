@@ -29,7 +29,7 @@ def main():
           blks = [(m.start(), m.group(1)) for m in re.finditer(r'<div class="blk" data-id="([^"]+)"', s)]
           done = True
           for (a1, i1), (a2, i2) in zip(blks, blks[1:]):
-              if i1.split('~')[0] != i2.split('~')[0]: continue
+              if re.sub(r'[.~][0-9.~]+$', '', i1) != re.sub(r'[.~][0-9.~]+$', '', i2): continue
               e1 = close_of(s, a1)
               if e1 != a2: continue
               e2 = close_of(s, a2)
@@ -47,4 +47,24 @@ def main():
       if changed: open(f, 'w', encoding='utf-8').write(s)
   print('joined', n)
 
-if __name__ == '__main__': main()
+BASE = lambda i: re.sub(r'[.~][0-9.~]+$', '', i)
+
+def gather(topics):
+  """move the next page's first piece of a section back onto the page holding its first part (before re-paginating)"""
+  files = sorted(glob.glob(os.path.join(R, 'content/pages/*.html'))); moved = 0
+  tk = lambda f: re.sub(r'\d+$', '', os.path.basename(f)[:-5].split('_', 2)[-1])
+  for fa, fb in zip(files, files[1:]):
+      if tk(fa) != tk(fb) or tk(fa) not in topics: continue
+      while True:
+          a = open(fa, encoding='utf-8').read(); b = open(fb, encoding='utf-8').read()
+          ba = [(m.start(), m.group(1)) for m in re.finditer(r'<div class="blk" data-id="([^"]+)"', a)]
+          bb = [(m.start(), m.group(1)) for m in re.finditer(r'<div class="blk" data-id="([^"]+)"', b)]
+          if not ba or not bb or BASE(ba[-1][1]) != BASE(bb[0][1]): break
+          ea = close_of(a, ba[-1][0]); eb = close_of(b, bb[0][0]); piece = b[bb[0][0]:eb]
+          a = a[:ea] + piece + a[ea:]; b = b[:bb[0][0]] + b[eb:]
+          open(fa, 'w', encoding='utf-8').write(a); open(fb, 'w', encoding='utf-8').write(b); moved += 1
+  print('gathered', moved)
+
+if __name__ == '__main__':
+  if len(sys.argv) > 1: gather(set(sys.argv[1:]))
+  main()
