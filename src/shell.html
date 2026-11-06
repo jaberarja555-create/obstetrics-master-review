@@ -1333,6 +1333,36 @@ table.numt + table.numt tr:first-child td { border-top: 1px solid var(--ch-line2
 .page.mz.fill .box :is(p,li,div,span){line-height:inherit}
 .page.mz.fill .mzm > .blk > .mrow,.page.mz.fill .mzm > .blk > .xrow{margin-bottom:calc(10px + var(--ft,0)*5px)}
 .page.mz.fill .mzm > .blk:last-child > .mrow,.page.mz.fill .mzm > .blk:last-child > .xrow{margin-bottom:0}
+/* chapter cover pages (owner, Nov 2026, as in Surgery): tools/chapter_covers.py */
+.page.chcov{display:flex;flex-direction:column;align-items:stretch;background:linear-gradient(180deg,#f6f4fb 0,#fff 55%);font-family:Inter,sans-serif;overflow:hidden;padding:0 0 40px}
+.chcov .cvtop{position:relative;flex:none;height:226px;color:#fff;background:radial-gradient(120% 140% at 50% 0,#3a2f86 0,#1e1748 62%,#130e33 100%);
+  border-bottom-left-radius:50% 44px;border-bottom-right-radius:50% 44px;box-shadow:0 5px 0 #c8963c,0 10px 24px rgba(30,23,72,.25)}
+.chcov .cvseal{position:absolute;top:38px;left:52px;width:148px;height:148px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.45))}
+.chcov .cvbook{position:absolute;top:52px;left:210px;right:30px;text-align:center}
+.chcov .cvbook b{display:block;font:900 46pt/1 Inter;letter-spacing:5px}
+.chcov .cvbook span{display:block;margin-top:8px;font:700 24pt/1.1 'Source Serif 4',Georgia,serif;color:#e8c36a;letter-spacing:1px}
+.chcov .cvtag{position:absolute;top:166px;left:210px;right:30px;text-align:center;font:600 8.6pt Inter;letter-spacing:2px;text-transform:uppercase;color:#cfc8ee}
+.chcov .cvhead{flex:none;margin:30px 56px 0;text-align:center}
+.chcov .cvno{display:flex;align-items:center;justify-content:center;gap:12px}
+.chcov .cvno b{display:inline-block;padding:5px 22px;border-radius:20px;background:#1e1748;color:#fff;font:800 15pt Inter;letter-spacing:1px;border:2px solid #c8963c}
+.chcov .cvno span{font:800 8.4pt Inter;letter-spacing:2.6px;text-transform:uppercase;color:var(--ch)}
+.chcov .cvt{margin:14px 0 0;padding:16px 20px;border-radius:14px;background:linear-gradient(110deg,var(--ch-dark) 0,var(--ch) 100%);color:#fff;font:800 25pt/1.2 Inter;box-shadow:0 6px 16px rgba(0,0,0,.18)}
+.chcov .cvimg{flex:1 1 auto;min-height:150px;margin:22px 56px 0;border-radius:16px;overflow:hidden;box-shadow:0 8px 22px rgba(30,23,72,.18);border:1px solid #e3ddf5}
+.chcov .cvimg img{width:100%;height:100%;object-fit:cover;display:block}
+.chcov .cvimg:not(.own){flex:0 1 230px}
+.chcov .cvimg.own{flex:none;margin-top:auto}.chcov .cvimg.own img{height:auto}.chcov .cvimg.own ~ .cvin{margin-bottom:auto}
+.chcov .cvin{flex:none;position:relative;margin:26px 56px 22px;padding:16px 16px 8px;border-radius:14px;background:#fff;border:1px solid var(--ch-line);box-shadow:0 4px 12px rgba(30,23,72,.07)}
+.chcov .cvin h3{position:absolute;top:-11px;left:50%;transform:translateX(-50%);margin:0;padding:3px 16px;border-radius:14px;background:#1e1748;color:#fff;font:800 9pt Inter;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
+.chcov .cvr{display:flex;align-items:center;gap:12px;padding:8px 4px;border-bottom:1px solid var(--ch-line2);cursor:pointer}
+.chcov .cvr:last-child{border-bottom:0}
+.chcov .cvr i{flex:none;width:40px;padding:4px 0;border-radius:6px;background:var(--ch);color:#fff;text-align:center;font:800 10pt Inter;font-style:normal}
+.chcov .cvr div{flex:1;min-width:0}.chcov .cvr b{display:block;font:800 11pt/1.25 Inter;color:#1e1748}.chcov .cvr span{display:block;font:500 8.4pt/1.35 Inter;color:#57534e}
+.chcov .cvr em{font:800 12pt Inter;font-style:normal;color:var(--ch)}
+.chcov .cvin.cv2 .cvg{display:grid;grid-template-columns:1fr 1fr;column-gap:18px}
+.chcov .cvin.cv2 .cvr{gap:9px;padding:5px 2px}.chcov .cvin.cv2 .cvr i{width:34px;font-size:9pt}.chcov .cvin.cv2 .cvr b{font-size:9.6pt}.chcov .cvin.cv2 .cvr span{display:none}.chcov .cvin.cv2 .cvr em{font-size:10.5pt}
+.chcov .cvin.cv2 .cvr:nth-last-child(2):nth-child(odd){border-bottom:0}
+.chcov .cvbot{position:absolute;bottom:0;left:0;right:0;height:40px;display:flex;align-items:center;justify-content:center;gap:14px;background:#1e1748;border-top:3px solid #c8963c;font:700 7.6pt Inter;letter-spacing:2.6px;text-transform:uppercase;color:#e8c36a}
+.chcov .cvbot i{width:5px;height:5px;border-radius:50%;background:#c8963c}
 /* rows of pictures: same height, centred, caption under each (owner) */
 .mz .photos.even { display: flex; flex-wrap: nowrap; justify-content: center; align-items: flex-start; gap: 14px; margin: 8px 0 4px; }
 .mz .photos.even > .photo { flex: none; margin: 0; }

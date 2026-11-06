@@ -35,6 +35,11 @@ Sister apps: Surgery Master Review (`surgery-rapid-review`) and Pediatrics: feat
   `python3 build.py && python3 tools/measure_blocks.py && KEEP=45 python3 tools/paginate.py --apply && python3 build.py`.
   At run time `fillPage` (shell.html) spends the spare room inside the boxes (`--ft` 0–2.2: line spacing, padding, table rows, text +≤8 %), leaving ≥ 50 px.
   Inter is shipped in `assets/fonts` so every phone lays the pages out as planned. `tools/measure_free.py` → build/free.json (free px per page).
+- **Chapter covers (owner, Nov 2026, as in Surgery):** `tools/chapter_covers.py` adds a cover page (`k<n>_cover`, free in the trial, no definition marks)
+  before each chapter and rewrites them with the current page numbers (re-run after pages move): navy band with the emblem and book title,
+  Chapter N, title in the chapter colour, the owner's picture `assets/img/chcover_<n>.jpg` (cropped from his mock-ups to the picture only;
+  chapters 1–5 done, 6–7 still use their contents banner until he sends pictures), and "In this chapter" with topic pages (two columns when > 5).
+  Contents chapter bands start at the cover.
 - `build.py` → `build/site/` (deploy: free pages, lock placeholders, `content.bin` = AES-GCM(gzip JSON of locked pages,
   decks, whole qbank)) and `build/review/index.html` (whole book open; publish as the review artifact).
 

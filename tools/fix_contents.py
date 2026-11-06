@@ -18,6 +18,7 @@ bands = list(re.finditer(r'<div class="tc-b" data-p="\d+"(.*?)<span class="mt">(
 starts = []
 for b in bands:
     seg = s[b.end():]; no = re.search(r'<i>(\d+\.\d+)</i>', seg).group(1); starts.append(P[no])
+starts = [first.get('k%d' % (i + 1), a) for i, a in enumerate(starts)]      # a chapter starts at its cover page
 ends = [x - 1 for x in starts[1:]] + [P['RR'] - 1]
 for b, a, e in reversed(list(zip(bands, starts, ends))):
     s = s[:b.start()] + f'<div class="tc-b" data-p="{a}"{b.group(1)}<span class="mt">{b.group(2)} topics · p {a}–{e}</span>' + s[b.end():]
