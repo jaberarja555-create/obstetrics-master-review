@@ -73,6 +73,9 @@ activation orr-k / orr-kc). Sync via Supabase RPCs obs_sync_get / obs_sync_put (
   [value html, label html]); edit it there, then re-run the Rapid Review flow below (extract reads the cards' clue rows from the
   RR pages and the numbers from this file; `layout.js` writes `build/rr/pages.json`; add/remove `x9` pages with
   `grow_topics.py x9` / `delete_page.py` to match, then `write.py`; relabel meta "Rapid review · i/N").
+- **No repeated points in the Rapid Review (owner, 6 Nov 2026):** a Key number that repeats a clue row of its topic (same number, same thing), another
+  Key number, or a row of an earlier topic in the same chapter was removed from `content/rr_keynums.json` (1183 → 876 rows; RR 31 → 26 pages).
+  When adding Key numbers, do not restate what the clue rows already give.
 - **No repeated titles (owner, 6 Nov 2026):** a section that runs on to the next page continues WITHOUT its title (no slim title,
   no "continued"); tools/cont_titles.py now removes any. To avoid small stubs, a section is divided only when it is big
   (`SPLITMIN` 320 px) and into fair parts (each ≥ `SPLITFR` 30 %); where that would leave big gaps a looser setting is used
