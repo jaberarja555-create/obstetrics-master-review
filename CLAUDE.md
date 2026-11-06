@@ -51,6 +51,8 @@ Sister apps: Surgery Master Review (`surgery-rapid-review`) and Pediatrics: feat
   chapters with short names and colours, heading selects all · 10/20/40/All + slider), sticky gold Start bar, test with mark/palette/timer, results ring
   by chapter, previous tests. Each EMQ item is its own question (id `<emq id>#<k>`). Records in `orr-qb` {n,c,w,a,m} (synced as `qb`), tests
   `orr-qbtests` (synced as `qbt`), current test `orr-qbcur`, settings `orr-qbset`.
+- **Flashcard look (owner, 6 Nov 2026):** question side navy-purple gradient with gold text (like the Home daily card), answer side cream with a gold edge;
+  question 24 px, answer 21 px; day/eye looks: white or cream card with a gold top band (CSS at the end of the main style block).
 
 ## The licence key (secret)
 content.bin must be encrypted with the SAME key Supabase gives activated devices (table `obs_secret`, column `k`,
