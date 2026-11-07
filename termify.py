@@ -6,7 +6,7 @@ import re, json, os, html as H
 
 T = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'content', 'terms.json'), encoding='utf-8'))
 AB, BYT, GL = T['abbreviations'], T['by_topic'], T['glossary']
-SKIP_CLASS = re.compile(r'\b(ab|gl|mh|mzh|ftr|mzt|bh|hdr|kicker|toc-h|lbt|no|tn|n|rvn)\b')
+SKIP_CLASS = re.compile(r'\b(ab|gl|mh|mzh|ftr|mzt|bh|hdr|kicker|toc-h|lbt|no|tn|n|rvn|dgb)\b')
 SKIP_TAG = {'style', 'script', 'title', 'h1', 'h2', 'h3', 'button', 'textarea'}
 VOID = {'br', 'img', 'hr', 'input', 'meta', 'link', 'col', 'wbr', 'source'}
 

@@ -97,6 +97,11 @@ activation orr-k / orr-kc). Sync via Supabase RPCs obs_sync_get / obs_sync_put (
   its first card, spare height spread between the cards `--vj` and inside them `--rqx`, KEEP 25 px) → match the number of `x9` pages
   (`grow_topics.py x9` / `delete_page.py`) → `python3 tools/rapid_review/write.py`, relabel meta "Rapid review · i/N", build. The older
   two-column flow below (extract.py, layout.js, rr_keynums.json) is no longer used.
+- **Obstetric drugs section (owner, 7 Nov 2026: "organise it better"):** the source is `content/drugs.json` (intro, 6 groups of drugs with
+  [name, main use, how it works, dose, side effects, cautions], and 4 reference tables: which trimester, safe in every trimester, breastfeeding,
+  contraindicated). Each drug is one whole card (`.dk`) under a coloured group band (`.dgb`); no table is split and no "(cont.)" titles.
+  Edit the JSON, then `python3 tools/drugs.py && python3 build.py && DR=1 node tools/rapid_review/cards.js && python3 tools/drugs_write.py && python3 build.py`
+  (drugs_write adds/removes `y` pages to match and relabels them).
 - **Key numbers live in the Rapid Review (owner, 6 Nov 2026):** topic pages have NO Key numbers box any more; every number
   is written in the text where it belongs (checked and added Nov 2026), and each topic's card in the Rapid Review ends with a
   "Key numbers" part (`.rvsub` + `.frow.kn`, value on the right). Source of those rows: `content/rr_keynums.json` (topic no →

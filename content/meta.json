@@ -1761,39 +1761,59 @@
    "f": "x925_rr25"
   },
   {
-   "label": "Obstetric drugs · 1/6",
+   "label": "Obstetric drugs · 1/11",
    "t": "",
    "f": "y01_dr1"
   },
   {
-   "label": "Obstetric drugs · 1/6",
+   "label": "Obstetric drugs · 2/11",
    "t": "",
    "f": "y01x2_dr1"
   },
   {
-   "label": "Obstetric drugs · 2/6",
+   "label": "Obstetric drugs · 3/11",
    "t": "",
    "f": "y02_dr2"
   },
   {
-   "label": "Obstetric drugs · 3/6",
+   "label": "Obstetric drugs · 4/11",
    "t": "",
    "f": "y03_dr3"
   },
   {
-   "label": "Obstetric drugs · 4/6",
+   "label": "Obstetric drugs · 5/11",
    "t": "",
    "f": "y04_dr4"
   },
   {
-   "label": "Obstetric drugs · 5/6",
+   "label": "Obstetric drugs · 6/11",
    "t": "",
    "f": "y05_dr5"
   },
   {
-   "label": "Obstetric drugs · 6/6",
+   "label": "Obstetric drugs · 7/11",
    "t": "",
    "f": "y06_dr6"
+  },
+  {
+   "label": "Obstetric drugs · 8/11",
+   "t": "",
+   "f": "y08_dr8"
+  },
+  {
+   "label": "Obstetric drugs · 9/11",
+   "t": "",
+   "f": "y09_dr9"
+  },
+  {
+   "label": "Obstetric drugs · 10/11",
+   "t": "",
+   "f": "y10_dr10"
+  },
+  {
+   "label": "Obstetric drugs · 11/11",
+   "t": "",
+   "f": "y11_dr11"
   }
  ],
  "topics": [

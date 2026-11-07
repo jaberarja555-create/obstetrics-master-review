@@ -1542,13 +1542,13 @@ table.numt + table.numt tr:first-child td { border-top: 1px solid var(--ch-line2
 /* Rapid Review rows (owner, Nov 2026: plain and clean as in Surgery): clue | answer columns, striped rows, no dark pills */
 section[data-file^="x9"] .frow{grid-template-columns:1fr 45%;gap:0;align-items:stretch;padding:0;border-bottom:1px solid #ebe9f3;font-size:9.5pt;line-height:1.32}
 section[data-file^="x9"] .frow:nth-child(even){background:#f8f7fc}
-.page .rrc.c1,.page .rvk.c1{--ch:#9a5b06; --ch-dark:#4a2a02; --ch-mid:#c98a2b; --ch-tint:#f6ead3; --ch-tint-2:#fbf5ea; --ch-line:#ecd7b0; --ch-line2:#f3e6cc; --ch-wash:#fffcf6; --hdr-topic:#f1dfbd;}
-.page .rrc.c2,.page .rvk.c2{--ch:#4c2c8f; --ch-dark:#241a5c; --ch-mid:#7d5fc8; --ch-tint:#ebe5f8; --ch-tint-2:#f6f3fd; --ch-line:#d9cff0; --ch-line2:#e9e3f6; --ch-wash:#fbf9ff; --hdr-topic:#ddd2fa;}
-.page .rrc.c3,.page .rvk.c3{--ch:#8b2361; --ch-dark:#4a1037; --ch-mid:#c04a8a; --ch-tint:#f7e4ef; --ch-tint-2:#fcf3f8; --ch-line:#efcde0; --ch-line2:#f6e3ee; --ch-wash:#fffafd; --hdr-topic:#f6d3e6;}
-.page .rrc.c4,.page .rvk.c4{--ch:#23408e; --ch-dark:#0f1f4d; --ch-mid:#4f6fc4; --ch-tint:#e4eaf8; --ch-tint-2:#f3f6fd; --ch-line:#cdd8f1; --ch-line2:#e2e8f7; --ch-wash:#fafbff; --hdr-topic:#d5def6;}
-.page .rrc.c5,.page .rvk.c5{--ch:#b03a14; --ch-dark:#5c1a06; --ch-mid:#d9673f; --ch-tint:#fbe6dc; --ch-tint-2:#fdf4ef; --ch-line:#f2cfbf; --ch-line2:#f8e3d9; --ch-wash:#fffbf9; --hdr-topic:#f7d6c8;}
-.page .rrc.c6,.page .rvk.c6{--ch:#1d6b4a; --ch-dark:#0b3523; --ch-mid:#3f9a72; --ch-tint:#ddf1e7; --ch-tint-2:#f1f9f5; --ch-line:#c5e6d6; --ch-line2:#dff0e8; --ch-wash:#fafdfb; --hdr-topic:#cfeadd;}
-.page .rrc.c7,.page .rvk.c7{--ch:#0b6e7f; --ch-dark:#063a44; --ch-mid:#2f9cad; --ch-tint:#d8eff2; --ch-tint-2:#eff8f9; --ch-line:#c0e2e7; --ch-line2:#dceff1; --ch-wash:#f8fcfd; --hdr-topic:#c9eaef;}
+.page .rrc.c1,.page .rvk.c1,.page .dgx.c1{--ch:#9a5b06; --ch-dark:#4a2a02; --ch-mid:#c98a2b; --ch-tint:#f6ead3; --ch-tint-2:#fbf5ea; --ch-line:#ecd7b0; --ch-line2:#f3e6cc; --ch-wash:#fffcf6; --hdr-topic:#f1dfbd;}
+.page .rrc.c2,.page .rvk.c2,.page .dgx.c2{--ch:#4c2c8f; --ch-dark:#241a5c; --ch-mid:#7d5fc8; --ch-tint:#ebe5f8; --ch-tint-2:#f6f3fd; --ch-line:#d9cff0; --ch-line2:#e9e3f6; --ch-wash:#fbf9ff; --hdr-topic:#ddd2fa;}
+.page .rrc.c3,.page .rvk.c3,.page .dgx.c3{--ch:#8b2361; --ch-dark:#4a1037; --ch-mid:#c04a8a; --ch-tint:#f7e4ef; --ch-tint-2:#fcf3f8; --ch-line:#efcde0; --ch-line2:#f6e3ee; --ch-wash:#fffafd; --hdr-topic:#f6d3e6;}
+.page .rrc.c4,.page .rvk.c4,.page .dgx.c4{--ch:#23408e; --ch-dark:#0f1f4d; --ch-mid:#4f6fc4; --ch-tint:#e4eaf8; --ch-tint-2:#f3f6fd; --ch-line:#cdd8f1; --ch-line2:#e2e8f7; --ch-wash:#fafbff; --hdr-topic:#d5def6;}
+.page .rrc.c5,.page .rvk.c5,.page .dgx.c5{--ch:#b03a14; --ch-dark:#5c1a06; --ch-mid:#d9673f; --ch-tint:#fbe6dc; --ch-tint-2:#fdf4ef; --ch-line:#f2cfbf; --ch-line2:#f8e3d9; --ch-wash:#fffbf9; --hdr-topic:#f7d6c8;}
+.page .rrc.c6,.page .rvk.c6,.page .dgx.c6{--ch:#1d6b4a; --ch-dark:#0b3523; --ch-mid:#3f9a72; --ch-tint:#ddf1e7; --ch-tint-2:#f1f9f5; --ch-line:#c5e6d6; --ch-line2:#dff0e8; --ch-wash:#fafdfb; --hdr-topic:#cfeadd;}
+.page .rrc.c7,.page .rvk.c7,.page .dgx.c7{--ch:#0b6e7f; --ch-dark:#063a44; --ch-mid:#2f9cad; --ch-tint:#d8eff2; --ch-tint-2:#eff8f9; --ch-line:#c0e2e7; --ch-line2:#dceff1; --ch-wash:#f8fcfd; --hdr-topic:#c9eaef;}
 /* Rapid Review layout (Nov 2026): two columns of topic cards, a picture band per chapter */
 .rrcols{display:flex;gap:12px;align-items:flex-start}
 .rrcol{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:9px}
@@ -1583,6 +1583,24 @@ section[data-file^="x9"] .frow:nth-child(even){background:#f8f7fc}
 .rq .rqf.rqn h5 { color:#a07a1f; }
 .rq .rqf.rqt { background:#fff6f4; border-top:1px solid #f3dcd6; }
 .rq .rqf.rqt h5 { color:#c0392b; }
+/* Obstetric drugs (owner, 7 Nov 2026): one whole card per drug under a coloured band per group (tools/drugs.py) */
+.lead.drl { margin:0 0 4px; }
+.dgb { display:flex; align-items:center; gap:10px; margin:0 0 8px; padding:7px 12px; border-radius:9px; color:#fff; font:800 11.5pt/1.25 Inter,sans-serif; background:linear-gradient(100deg,var(--ch-dark) 0,var(--ch) 70%,var(--ch-mid) 100%); }
+.dgb > span { flex:none; display:grid; place-items:center; width:24px; height:24px; border-radius:6px; background:rgba(255,255,255,.18); font-size:10pt; }
+.dgb .ab, .dgb .gl { color:inherit; border-bottom-color:rgba(255,255,255,.5); }
+.dk { border:1px solid var(--ch-line); border-left:4px solid var(--ch); border-radius:8px; overflow:hidden; background:#fff; }
+.dk .dkh { display:flex; align-items:baseline; gap:10px; padding:calc(5px + var(--rqx,0px)/2) 12px; background:var(--ch-tint-2); border-bottom:1px solid var(--ch-line); }
+.dk .dkh b { font:800 10.6pt/1.25 Inter,sans-serif; color:var(--ch-dark); flex:none; max-width:45%; }
+.dk .dkh i { font:italic 500 8.4pt/1.35 Inter,sans-serif; color:#5a5470; }
+.dk .dkg { display:grid; grid-template-columns:38% 62%; }
+.dk .dkf { padding:calc(4px + var(--rqx,0px)/2) 12px calc(5px + var(--rqx,0px)/2); font-size:8.7pt; line-height:1.45; }
+.dk .dkf:nth-child(odd) { border-right:1px solid #eeecf3; }
+.dk .dkf:nth-child(n+3) { border-top:1px solid #eeecf3; }
+.dk .dkf h5 { margin:0 0 1px; font:800 6.9pt Inter,sans-serif; letter-spacing:.9px; text-transform:uppercase; color:var(--ch-dark,var(--ch)); }
+.dk .dkd { background:#fcfbff; }
+.dk .dkd b { color:#1d1240; }
+.dk .dkw h5 { color:#b4532a; }
+.mb.drt { margin:0; }
 .page .rvk .frow{display:grid;grid-template-columns:1fr 45%;gap:0;align-items:stretch;padding:0;border-bottom:1px solid var(--ch-line2);font-size:9.5pt;line-height:1.32}
 .page .rvk .frow:last-child{border-bottom:0}
 .page .rvk .frow:nth-child(even){background:var(--ch-tint-2)}
@@ -2055,7 +2073,7 @@ section[data-file^="x9"] .frow .ans{background:none;color:#1e1748;font-weight:75
       <button type="button" class="hm-t" data-go="qbank-v"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><b>Question bank</b><span id="toolQ">Scenarios and EMQs</span></button>
       <button type="button" class="hm-t" data-go="cards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg><b>Flashcards</b><span id="toolCards">Flip and mark</span></button>
       <button type="button" class="hm-t" data-go="lect"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></svg><b>Lectures</b><span>Audio, offline</span></button>
-      <button type="button" class="hm-t tool" data-p="{{RRP}}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg><b>Rapid review</b><span>Clue → answer</span></button>
+      <button type="button" class="hm-t tool" data-p="{{RRP}}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg><b>Rapid review</b><span>Exam recap of every topic</span></button>
       <button type="button" class="hm-t tool" data-p="{{DRP}}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8.5" width="19" height="7" rx="3.5" transform="rotate(-35 12 12)"/><path d="M9.2 7.9l5.6 8.2"/></svg><b>Obstetric drugs</b><span>Doses and cautions</span></button>
       <button type="button" class="hm-t" data-notes="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><b>My notes</b><span>Highlights and notes</span></button>
     </div>
@@ -2364,9 +2382,9 @@ function renderHome(){
   var tl=document.querySelector('.tool[data-notes] span');if(tl){var tp2=[];if(nn)tp2.push(nn+' note'+(nn>1?'s':''));if(nh)tp2.push(nh+' highlight'+(nh>1?'s':''));tl.textContent=tp2.length?tp2.join(' · '):'Highlights and notes'}}
 $('chs').addEventListener('click',function(e){var h=e.target.closest('.chh');if(h){var n=+h.dataset.ch;openCh=openCh===n?-1:n;st('orr-opench',String(openCh));renderHome();return}var r=e.target.closest('.tr2');if(r)goPage(+r.dataset.p-1)});
 /* contents sheet */
-$('tocList').innerHTML=TOPICS.concat([{no:'RR',title:'Rapid review',sub:'Key clinical clues with their answers',p:321,cls:'rr'},{no:'Rx',title:'Obstetric drugs',sub:'Doses, side effects, what to avoid',p:335,cls:'rr'}]).map(function(t){return '<button class="trow c'+(t.ch||'')+' '+t.cls+'" type="button" data-p="'+t.p+'"><span class="n">'+t.no+'</span><span class="l">'+t.title+'<small>'+(t.sub||'')+'</small></span><span class="p">p '+t.p+'</span></button>'}).join('');
+$('tocList').innerHTML=TOPICS.concat([{no:'RR',title:'Rapid review',sub:'Exam recap card of every topic',p:{{RRP}},cls:'rr'},{no:'Rx',title:'Obstetric drugs',sub:'Doses, side effects, what to avoid',p:{{DRP}},cls:'rr'}]).map(function(t){return '<button class="trow c'+(t.ch||'')+' '+t.cls+'" type="button" data-p="'+t.p+'"><span class="n">'+t.no+'</span><span class="l">'+t.title+'<small>'+(t.sub||'')+'</small></span><span class="p">p '+t.p+'</span></button>'}).join('');
 /* Contents as a side panel, like the bookmarks panel of Adobe Reader (owner, Nov 2026, as in Surgery and Pediatrics) */
-var TDOPEN={},TDX=(function(){function f(re){for(var i=0;i<META.pages.length;i++)if(re.test(META.pages[i].f||''))return i+1;return 0}return[{no:'RR',title:'Rapid review',sub:'Key clinical clues with their answers',p:f(/^x9/)},{no:'Rx',title:'Obstetric drugs',sub:'Doses, side effects, what to avoid',p:f(/^y0/)}]})();
+var TDOPEN={},TDX=(function(){function f(re){for(var i=0;i<META.pages.length;i++)if(re.test(META.pages[i].f||''))return i+1;return 0}return[{no:'RR',title:'Rapid review',sub:'Exam recap card of every topic',p:f(/^x9/)},{no:'Rx',title:'Obstetric drugs',sub:'Doses, side effects, what to avoid',p:f(/^y0/)}]})();
 function tocCur(){var c=lastCur>=0?lastCur:lastPage(),p=PAGES[c];return p?(p.bn||c+1):1}
 function tocDrawer(){var cur=tocCur(),curCh=null,curT=null,last=TDX[0].p;
   TOPICS.forEach(function(t){if(t.p&&t.p<=cur&&cur<last){curCh=t.ch;curT=t.id}});

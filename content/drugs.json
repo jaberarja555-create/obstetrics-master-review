@@ -1,0 +1,541 @@
+{
+ "intro": "Doses as used in this book (Sudan practice). <b>OD</b> once daily · <b>BD</b> twice · <b>TDS</b> three times · <b>QDS</b> four times · <b>stat</b> once now · PO by mouth · <span class=\"ab\" data-a=\"Sublingual: under the tongue\">SL</span> under tongue · <span class=\"ab\" data-a=\"Per vaginam (vaginal)\">PV</span> vaginal · <span class=\"bx\">BOX</span> = boxed (black-box) warning.",
+ "groups": [
+  {
+   "title": "<span class=\"gl\" data-a=\"uterotonic: A drug that makes the uterus contract (e.g. oxytocin).\">Uterotonics</span>: third stage, <span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span>, induction",
+   "drugs": [
+    [
+     "Oxytocin",
+     "<span class=\"ab\" data-a=\"Active management of the third stage of labour\">AMTSL</span> (all births) · <span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> · induction / <span class=\"gl\" data-a=\"augmentation: Speeding up slow labour, usually with ARM and oxytocin.\">augmentation</span>",
+     "Oxytocin receptor → rhythmic contractions",
+     "<span class=\"ab\" data-a=\"Active management of the third stage of labour\">AMTSL</span> <b>10 IU <span class=\"ab\" data-a=\"Intramuscular\">IM</span></b> within 1 min of birth · <span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> 10 IU <span class=\"ab\" data-a=\"Intramuscular\">IM</span>/slow <span class=\"ab\" data-a=\"Intravenous\">IV</span>, then <b>40 IU in 500 mL over 4 h</b> · <span class=\"ab\" data-a=\"Induction of labour\">IOL</span> <b>5 IU in 500 mL saline</b>, start 4 drops/min, double every 30 min to 3–4 contractions/10 min · cardiac disease <b>5 IU slow <span class=\"ab\" data-a=\"Intravenous\">IV</span></b>",
+     "Hyperstimulation, fetal distress, rupture · hypotension if fast <span class=\"ab\" data-a=\"Intravenous\">IV</span> bolus · water intoxication (large doses in dextrose)",
+     "Labour, 3rd stage, postpartum · <span class=\"bx\">BOX</span> not for elective induction without indication"
+    ],
+    [
+     "Ergometrine",
+     "<span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> (<span class=\"gl\" data-a=\"atony: A soft, poorly contracted uterus after birth.\">atony</span>), 2nd line",
+     "Ergot alkaloid → sustained tonic spasm + vasoconstriction",
+     "<b>0.5 mg <span class=\"ab\" data-a=\"Intramuscular\">IM</span></b> (or slow <span class=\"ab\" data-a=\"Intravenous\">IV</span>) · may repeat once after 15 min",
+     "Vomiting, sharp <span class=\"ab\" data-a=\"Blood pressure\">BP</span> rise, coronary spasm",
+     "After delivery only · <b class=\"x\">Never</b>: hypertension, <span class=\"gl\" data-a=\"pre-eclampsia: New hypertension after 20 wk with proteinuria or organ damage.\">pre-eclampsia</span>, heart disease, undelivered twin"
+    ],
+    [
+     "Misoprostol (<span class=\"ab\" data-a=\"Prostaglandin E1 (misoprostol)\">PGE₁</span>)",
+     "<span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> prevention / treatment · <span class=\"ab\" data-a=\"Induction of labour\">IOL</span> · miscarriage, <span class=\"ab\" data-a=\"Intrauterine fetal death\">IUFD</span> · cervical <span class=\"gl\" data-a=\"priming: Softening and opening the cervix with a drug (misoprostol) before an operation, so instruments pass easily and the cervix tears less.\">priming</span>",
+     "Prostaglandin E₁ → contractions + cervical ripening",
+     "<span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> prevention <b>600 µg PO</b> stat (no oxytocin) · <span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> treatment <b>800 µg</b> <span class=\"ab\" data-a=\"Sublingual: under the tongue\">SL</span> or rectal · <span class=\"ab\" data-a=\"Induction of labour\">IOL</span> live term <b>25 µg <span class=\"ab\" data-a=\"Per vaginam (vaginal)\">PV</span> 6-hourly</b> or 25 µg PO 2-hourly · <span class=\"ab\" data-a=\"Intrauterine fetal death\">IUFD</span> &lt; 27 wk 200 µg 4–6-hourly, 27–28 wk 100 µg 4-hourly, &gt; 28 wk 25 µg 6-hourly · missed miscarriage &lt; 13 wk <b>800 µg <span class=\"ab\" data-a=\"Per vaginam (vaginal)\">PV</span></b> · priming 400 µg <span class=\"ab\" data-a=\"Per vaginam (vaginal)\">PV</span>",
+     "Fever, shivering, diarrhoea · hyperstimulation, scar rupture",
+     "<span class=\"bx\">BOX</span> abortifacient, <span class=\"gl\" data-a=\"teratogenic: Causing birth defects.\">teratogenic</span> (Möbius) outside obstetric use · lower doses with previous <span class=\"ab\" data-a=\"Caesarean section\">CS</span> · no fridge needed"
+    ],
+    [
+     "Carboprost (15-methyl PGF₂α)",
+     "Refractory <span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> (atony)",
+     "PGF₂α → strong contraction",
+     "<b>250 µg deep <span class=\"ab\" data-a=\"Intramuscular\">IM</span> every 15 min</b> · max 8 doses (2 mg)",
+     "Bronchospasm, diarrhoea, vomiting, fever",
+     "<b class=\"x\">Never in asthma</b> · <span class=\"bx\">BOX</span> hospital use, exact dosing · keep in fridge"
+    ],
+    [
+     "Tranexamic acid",
+     "<span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span> (any cause) · trauma",
+     "<span class=\"gl\" data-a=\"antifibrinolytic: Drug that stops clot breakdown (e.g. tranexamic acid).\">Antifibrinolytic</span>: blocks plasminogen",
+     "<b>1 g <span class=\"ab\" data-a=\"Intravenous\">IV</span> over 10 min</b> within 3 h of birth · second 1 g after 30 min if still bleeding",
+     "Nausea · no benefit after 3 h",
+     "Postpartum · start early with uterotonics"
+    ],
+    [
+     "Dinoprostone (<span class=\"ab\" data-a=\"Prostaglandin E2 (dinoprostone)\">PGE₂</span>)",
+     "Induction of labour, live fetus",
+     "Cervical ripening",
+     "<b>3 mg tablet in posterior fornix</b> · repeat after 6 h · max 2 doses",
+     "Hyperstimulation, nausea",
+     "Term <span class=\"ab\" data-a=\"Induction of labour\">IOL</span> · <span class=\"ab\" data-a=\"Cardiotocography\">CTG</span> before and after · start oxytocin ≥ 6 h later"
+    ]
+   ]
+  },
+  {
+   "title": "Hypertension, pre-eclampsia, <span class=\"gl\" data-a=\"eclampsia: Fits in a woman with pre-eclampsia.\">eclampsia</span>",
+   "drugs": [
+    [
+     "Magnesium sulphate",
+     "Prevent / treat eclampsia · fetal <span class=\"gl\" data-a=\"neuroprotection: Protecting the preterm baby's brain (MgSO₄ < 32 wk).\">neuroprotection</span> &lt; 32 wk",
+     "Cerebral vasodilator, NMDA blocker, membrane stabiliser",
+     "Eclampsia: <b>4 g <span class=\"ab\" data-a=\"Intravenous\">IV</span> over 5–15 min</b> → <b>1 g/h</b> for 24 h after birth or last fit · refit: extra <b>2 g <span class=\"ab\" data-a=\"Intravenous\">IV</span></b> · <span class=\"ab\" data-a=\"Intramuscular\">IM</span> option: 5 g <span class=\"ab\" data-a=\"Intramuscular\">IM</span> 4-hourly · neuroprotection <b>4 g <span class=\"ab\" data-a=\"Intravenous\">IV</span> over 20 min → 1 g/h</b> until birth",
+     "Flushing · toxicity: loss of knee jerk → RR &lt; 12 → arrest · check reflexes, RR, urine ≥ 30 mL/h hourly · neonatal hypotonia",
+     "Antidote <b>calcium gluconate 10%, 10 mL <span class=\"ab\" data-a=\"Intravenous\">IV</span></b> slowly · any trimester, labour, 24 h postpartum"
+    ],
+    [
+     "Labetalol",
+     "Hypertension: 1st line",
+     "α + β blocker",
+     "<b>200 mg PO TDS</b> (max 2.4 g/day) · severe: <b>20 mg <span class=\"ab\" data-a=\"Intravenous\">IV</span></b>, then 40, 80 mg every 10 min (max 300 mg)",
+     "Bradycardia, bronchospasm · baby: low glucose, slow heart",
+     "<b class=\"x\">Not in asthma</b> · all trimesters, breastfeeding OK"
+    ],
+    [
+     "Nifedipine",
+     "Hypertension: 2nd line · <span class=\"gl\" data-a=\"tocolysis: Using drugs to stop or slow uterine contractions.\">tocolysis</span>",
+     "Calcium-channel blocker",
+     "<span class=\"ab\" data-a=\"Hypertension\">HTN</span> <b>20 mg PO BD</b> (max 60 mg/day) · tocolysis <b>30 mg PO</b>, then <b>20 mg 8-hourly × 48 h</b>",
+     "Headache, flushing, ankle oedema, tachycardia, hypotension",
+     "<b class=\"x\">Never sublingual</b> (sudden <span class=\"ab\" data-a=\"Blood pressure\">BP</span> drop) · all trimesters"
+    ],
+    [
+     "Methyldopa",
+     "Chronic / gestational hypertension: 3rd line",
+     "Central α₂ agonist",
+     "<b>250 mg PO TDS</b> · up to 3 g/day",
+     "Sedation, depression, positive Coombs, liver",
+     "Long safety record · switch after birth (depression)"
+    ],
+    [
+     "Hydralazine",
+     "Severe hypertension ≥ 160/110",
+     "Arteriolar vasodilator",
+     "<b>5 mg <span class=\"ab\" data-a=\"Intravenous\">IV</span> over 10–15 min</b>, every 15 min (max 20 mg) · give <b>500 mL saline</b> first",
+     "Tachycardia, headache · sudden drop → fetal distress",
+     "Labour, severe PE · <span class=\"ab\" data-a=\"Cardiotocography\">CTG</span> during"
+    ],
+    [
+     "Aspirin (low dose)",
+     "Prevent pre-eclampsia, <span class=\"ab\" data-a=\"Fetal growth restriction\">FGR</span> · <span class=\"ab\" data-a=\"Antiphospholipid syndrome\">APS</span>",
+     "↓ Thromboxane",
+     "<b>75 mg PO at night</b>, <b>12 → 36 wk</b>",
+     "Indigestion, bleeding",
+     "1 major or 2 moderate risk factors · stop at 36 wk"
+    ],
+    [
+     "Calcium carbonate",
+     "Prevent pre-eclampsia (low intake)",
+     "Lowers vascular reactivity",
+     "<b>1.5–2 g/day</b> from 20 wk",
+     "Constipation · take apart from iron",
+     "From 20 wk to birth"
+    ]
+   ]
+  },
+  {
+   "title": "Preterm labour, fetal lungs, ruptured membranes",
+   "drugs": [
+    [
+     "Dexamethasone",
+     "Fetal lung maturity",
+     "<span class=\"gl\" data-a=\"surfactant: Lung substance that keeps alveoli open; steroids increase it.\">Surfactant</span>, lung and brain maturation",
+     "<b>6 mg <span class=\"ab\" data-a=\"Intramuscular\">IM</span> 12-hourly × 4</b> (48 h)",
+     "Maternal hyperglycaemia (diabetics: more insulin), <span class=\"ab\" data-a=\"White blood cells\">WBC</span> rise",
+     "24–34 wk, birth likely in 7 days · best 24 h–7 d after"
+    ],
+    [
+     "Betamethasone",
+     "Fetal lung maturity (alternative)",
+     "Corticosteroid: surfactant, lung and brain maturation",
+     "<b>12 mg <span class=\"ab\" data-a=\"Intramuscular\">IM</span> × 2, 24 h apart</b>",
+     "Maternal hyperglycaemia (diabetics: more insulin), WBC rise",
+     "24–34 wk"
+    ],
+    [
+     "Indomethacin",
+     "Tocolysis &lt; 32 wk · <span class=\"gl\" data-a=\"polyhydramnios: Too much amniotic fluid (AFI > 24–25 cm or deepest pool > 8 cm).\">polyhydramnios</span>",
+     "Prostaglandin synthesis inhibitor",
+     "<b>25 mg PO 6-hourly</b> · ≤ 48 h",
+     "Fetal ductus closes early, <span class=\"gl\" data-a=\"oligohydramnios: Too little amniotic fluid for the gestation (AFI < 5 cm).\">oligohydramnios</span>, <span class=\"ab\" data-a=\"Necrotising enterocolitis\">NEC</span>",
+     "<b class=\"x\">Not after 32 wk</b>, never long"
+    ],
+    [
+     "Terbutaline",
+     "Acute tocolysis: hyperstimulation, <span class=\"ab\" data-a=\"External cephalic version\">ECV</span>, <span class=\"gl\" data-a=\"cord prolapse: Umbilical cord slips below the presenting part after membranes rupture.\">cord prolapse</span>, inversion",
+     "β₂ agonist → uterine relaxation",
+     "<b>0.25 mg <span class=\"ab\" data-a=\"Subcutaneous\">SC</span></b> stat",
+     "Tachycardia, tremor, low K⁺, high glucose, pulmonary oedema",
+     "<span class=\"bx\">BOX</span> no prolonged or oral tocolysis · avoid in heart disease"
+    ],
+    [
+     "Erythromycin",
+     "<span class=\"ab\" data-a=\"Preterm prelabour rupture of membranes\">PPROM</span>",
+     "Macrolide",
+     "<b>250 mg PO QDS × 10 days</b>",
+     "GI upset",
+     "<span class=\"ab\" data-a=\"Preterm prelabour rupture of membranes\">PPROM</span> &lt; 34–36 wk · <b class=\"x\">no co-amoxiclav</b> (<span class=\"ab\" data-a=\"Necrotising enterocolitis\">NEC</span>)"
+    ],
+    [
+     "Benzylpenicillin",
+     "<span class=\"ab\" data-a=\"Group B streptococcus\">GBS</span> prophylaxis in labour",
+     "β-lactam",
+     "<b>3 g <span class=\"ab\" data-a=\"Intravenous\">IV</span></b>, then <b>1.8 g 4-hourly</b> until birth",
+     "Allergy",
+     "<span class=\"ab\" data-a=\"Group B streptococcus\">GBS</span> positive / unknown in preterm labour · allergy: clindamycin"
+    ],
+    [
+     "Progesterone (vaginal)",
+     "Prevent preterm birth",
+     "Uterine quiescence",
+     "<b>200 mg <span class=\"ab\" data-a=\"Per vaginam (vaginal)\">PV</span> nightly</b> to 34 wk",
+     "Discharge",
+     "Short cervix / previous preterm birth"
+    ]
+   ]
+  },
+  {
+   "title": "Infections: malaria, urine, sepsis, <span class=\"ab\" data-a=\"Human immunodeficiency virus\">HIV</span>",
+   "drugs": [
+    [
+     "Artemether–lumefantrine (AL)",
+     "Uncomplicated malaria: 1st line",
+     "Artemisinin + lumefantrine",
+     "<b>20/120 mg: 4 tablets per dose × 6 doses</b> (0, 8, 24, 36, 48, 60 h = 3 days) with fatty food or milk",
+     "Headache, dizziness · vomit &lt; 30 min → repeat dose",
+     "<b>All trimesters</b> (Sudan 2023)"
+    ],
+    [
+     "Dihydroartemisinin–piperaquine",
+     "Uncomplicated malaria: 2nd line",
+     "Artemisinin + piperaquine",
+     "<b>Once daily × 3 days</b>, dose by weight",
+     "QT prolongation",
+     "2nd and 3rd trimester only"
+    ],
+    [
+     "Artesunate <span class=\"ab\" data-a=\"Intravenous\">IV</span> / <span class=\"ab\" data-a=\"Intramuscular\">IM</span>",
+     "Severe malaria: 1st line",
+     "Rapid parasite clearance",
+     "<b>2.4 mg/kg <span class=\"ab\" data-a=\"Intravenous\">IV</span> at 0, 12, 24 h</b>, then daily · after ≥ 24 h and able to swallow → full AL course",
+     "Delayed <span class=\"gl\" data-a=\"haemolysis: Breakdown of red blood cells.\">haemolysis</span> (check Hb at 2–4 wk)",
+     "<b>All trimesters</b> · <span class=\"ab\" data-a=\"Intramuscular\">IM</span> if no vein"
+    ],
+    [
+     "Quinine",
+     "Severe malaria: 2nd line · no ACT",
+     "Blood schizonticide",
+     "<b>10 mg/kg 8-hourly</b> <span class=\"ab\" data-a=\"Intravenous\">IV</span> over 4 h in dextrose · or PO × 7 days",
+     "<b>Hypoglycaemia</b>, tinnitus (<span class=\"gl\" data-a=\"cinchonism: Quinine toxicity: tinnitus, deafness, nausea.\">cinchonism</span>), arrhythmia",
+     "Monitor glucose hourly"
+    ],
+    [
+     "Sulfadoxine–pyrimethamine",
+     "<span class=\"ab\" data-a=\"Intermittent preventive treatment in pregnancy\">IPTp</span> (malaria prevention)",
+     "Antifolate",
+     "<b>3 tablets (500/25 mg) stat</b>, observed · 2 doses ≥ 4 wk apart",
+     "Rash (rare SJS)",
+     "<b class=\"x\">Not 1st trimester</b>, not with cotrimoxazole · folic acid 0.4 mg (not 5)"
+    ],
+    [
+     "Cefalexin · nitrofurantoin",
+     "Cystitis, asymptomatic <span class=\"gl\" data-a=\"bacteriuria: Bacteria in the urine.\">bacteriuria</span>",
+     "Cell wall · bacterial DNA",
+     "Cefalexin <b>500 mg PO TDS × 7 d</b> · nitrofurantoin <b>100 mg PO BD × 5–7 d</b>",
+     "GI upset",
+     "Nitrofurantoin: avoid at term (neonatal haemolysis)"
+    ],
+    [
+     "Ceftriaxone",
+     "<span class=\"gl\" data-a=\"pyelonephritis: Kidney infection: fever, loin pain.\">Pyelonephritis</span> · sepsis, <span class=\"gl\" data-a=\"endometritis: Infection of the lining of the uterus, usually after birth.\">endometritis</span> · septic abortion",
+     "3rd-gen cephalosporin",
+     "<b>1–2 g <span class=\"ab\" data-a=\"Intravenous\">IV</span> OD</b> (+ <b>metronidazole 500 mg <span class=\"ab\" data-a=\"Intravenous\">IV</span> TDS</b> for pelvic sepsis)",
+     "Allergy, diarrhoea",
+     "All trimesters"
+    ],
+    [
+     "Ampicillin + gentamicin",
+     "<span class=\"gl\" data-a=\"chorioamnionitis: Infection of the fetal membranes and amniotic fluid.\">Chorioamnionitis</span> · sepsis",
+     "β-lactam + aminoglycoside",
+     "Ampicillin <b>2 g <span class=\"ab\" data-a=\"Intravenous\">IV</span> 6-hourly</b> + gentamicin <b>5 mg/kg <span class=\"ab\" data-a=\"Intravenous\">IV</span> OD</b> (+ metronidazole after <span class=\"ab\" data-a=\"Caesarean section\">CS</span>)",
+     "Gentamicin: kidney, ear (levels)",
+     "Short courses only · severe: piperacillin–tazobactam 4.5 g <span class=\"ab\" data-a=\"Intravenous\">IV</span> TDS or meropenem 1 g <span class=\"ab\" data-a=\"Intravenous\">IV</span> TDS"
+    ],
+    [
+     "Cefazolin / cefuroxime",
+     "Caesarean prophylaxis",
+     "Cephalosporin",
+     "Cefazolin <b>2 g <span class=\"ab\" data-a=\"Intravenous\">IV</span></b> or cefuroxime <b>1.5 g <span class=\"ab\" data-a=\"Intravenous\">IV</span></b> before skin incision",
+     "Allergy",
+     "Penicillin allergy: clindamycin 900 mg <span class=\"ab\" data-a=\"Intravenous\">IV</span>"
+    ],
+    [
+     "Flucloxacillin",
+     "<span class=\"gl\" data-a=\"mastitis: Inflammation or infection of the breast.\">Mastitis</span>, wound infection",
+     "Anti-staphylococcal penicillin",
+     "<b>500 mg PO QDS × 10–14 d</b>",
+     "GI upset, <span class=\"gl\" data-a=\"cholestasis: Bile flow blocked: itching and raised bile acids.\">cholestasis</span>",
+     "Keep breastfeeding"
+    ],
+    [
+     "Metronidazole",
+     "Bacterial vaginosis, trichomonas · pelvic sepsis",
+     "Anaerobes, protozoa",
+     "<b>500 mg PO BD × 7 d</b> · <span class=\"ab\" data-a=\"Intravenous\">IV</span> 500 mg TDS",
+     "Metallic taste, no alcohol",
+     "Safe in pregnancy and breastfeeding"
+    ],
+    [
+     "Clotrimazole",
+     "Vaginal <span class=\"gl\" data-a=\"candida: Yeast causing itchy white curdy discharge.\">candida</span>",
+     "Azole antifungal",
+     "<b>100 mg pessary nightly × 7 nights</b> (or 500 mg once)",
+     "Local irritation",
+     "Prefer 7-day course in pregnancy · avoid oral fluconazole"
+    ],
+    [
+     "Benzathine penicillin",
+     "Syphilis · rheumatic fever prophylaxis",
+     "Long-acting penicillin",
+     "Syphilis <b>2.4 MU <span class=\"ab\" data-a=\"Intramuscular\">IM</span> stat</b> (late: weekly × 3) · rheumatic prophylaxis <b>1.2 MU <span class=\"ab\" data-a=\"Intramuscular\">IM</span> every 4 wk</b>",
+     "Allergy, <span class=\"gl\" data-a=\"Jarisch–Herxheimer: Fever and flu-like reaction after treating syphilis.\">Jarisch–Herxheimer</span>",
+     "All trimesters · treat partner"
+    ],
+    [
+     "TLD (tenofovir + lamivudine + dolutegravir)",
+     "<span class=\"ab\" data-a=\"Human immunodeficiency virus\">HIV</span>",
+     "Antiretroviral",
+     "<b>1 tablet PO OD, lifelong</b> · labour: <span class=\"ab\" data-a=\"Intravenous\">IV</span> zidovudine <b>2 mg/kg over 1 h → 1 mg/kg/h</b> if <span class=\"ab\" data-a=\"Viral load\">VL</span> ≥ 1000 · baby: nevirapine daily × 6 wk",
+     "Nausea, headache · check <span class=\"ab\" data-a=\"Viral load\">VL</span>",
+     "Start at diagnosis, any trimester · cotrimoxazole 960 mg OD if <span class=\"ab\" data-a=\"CD4 T-cell count\">CD4</span> low"
+    ]
+   ]
+  },
+  {
+   "title": "Medical disorders in pregnancy",
+   "drugs": [
+    [
+     "Ferrous sulphate",
+     "Iron deficiency anaemia · prophylaxis",
+     "Iron replacement",
+     "Treatment <b>200 mg (65 mg Fe) PO BD–TDS</b> · prophylaxis 30–60 mg Fe OD · iron sucrose <b>200 mg <span class=\"ab\" data-a=\"Intravenous\">IV</span></b> if oral fails / late",
+     "Black stool, constipation, nausea",
+     "1 h before food, with vitamin C; not with tea or calcium · continue 3 months after Hb normal"
+    ],
+    [
+     "Folic acid",
+     "Prevent <span class=\"ab\" data-a=\"Neural tube defect\">NTD</span> · anaemia",
+     "DNA synthesis",
+     "<b>0.4 mg OD</b> pre-conception → 12 wk · <b>5 mg OD</b> high risk (epilepsy, <span class=\"ab\" data-a=\"Diabetes mellitus\">DM</span>, previous <span class=\"ab\" data-a=\"Neural tube defect\">NTD</span>, obesity, sickle cell)",
+     "None",
+     "Start 3 months before conception"
+    ],
+    [
+     "Insulin",
+     "Diabetes (pre-existing, <span class=\"ab\" data-a=\"Gestational diabetes mellitus\">GDM</span> failing diet/metformin)",
+     "Glucose uptake",
+     "Basal-bolus <span class=\"ab\" data-a=\"Subcutaneous\">SC</span>, adjust every 2–3 days · labour: <b>0.5–2 U/h</b> <span class=\"ab\" data-a=\"Intravenous\">IV</span> sliding scale with dextrose · <span class=\"ab\" data-a=\"Diabetic ketoacidosis\">DKA</span> <b>0.1 U/kg/h</b>",
+     "Hypoglycaemia",
+     "Needs rise from 2nd trimester · fall sharply after birth"
+    ],
+    [
+     "Metformin",
+     "<span class=\"ab\" data-a=\"Gestational diabetes mellitus\">GDM</span> · type 2 <span class=\"ab\" data-a=\"Diabetes mellitus\">DM</span>",
+     "↓ Hepatic glucose output",
+     "<b>500 mg OD</b> with food → max <b>2 g/day</b> in divided doses",
+     "GI upset · rare lactic acidosis",
+     "Crosses placenta, considered safe · glibenclamide 2.5–5 mg/day if no insulin"
+    ],
+    [
+     "Enoxaparin (<span class=\"ab\" data-a=\"Low-molecular-weight heparin\">LMWH</span>)",
+     "<span class=\"ab\" data-a=\"Venous thromboembolism\">VTE</span> prophylaxis and treatment · <span class=\"ab\" data-a=\"Antiphospholipid syndrome\">APS</span>",
+     "Anti-Xa",
+     "Prophylaxis <b>40 mg <span class=\"ab\" data-a=\"Subcutaneous\">SC</span> OD</b> (weight-banded: &lt; 50 kg 20 mg, 90–130 kg 60 mg) · treatment <b>1 mg/kg <span class=\"ab\" data-a=\"Subcutaneous\">SC</span> BD</b>",
+     "Bleeding, bruising, HIT (rare)",
+     "Whole pregnancy + 6 wk postpartum when indicated · stop at labour onset; 12 h (prophylactic) / 24 h (treatment) before neuraxial"
+    ],
+    [
+     "Unfractionated heparin",
+     "Massive PE · near delivery",
+     "Antithrombin activation",
+     "<b>5000 IU <span class=\"ab\" data-a=\"Intravenous\">IV</span></b> bolus → <b>1000–2000 IU/h</b> (<span class=\"ab\" data-a=\"Activated partial thromboplastin time\">APTT</span>)",
+     "Bleeding, HIT",
+     "Short half-life · antidote protamine"
+    ],
+    [
+     "Levothyroxine",
+     "Hypothyroidism",
+     "Thyroid hormone",
+     "Increase dose by <b>25–30%</b> once pregnant · <span class=\"ab\" data-a=\"Thyroid-stimulating hormone\">TSH</span> each trimester",
+     "Over-replacement: palpitations",
+     "Target <span class=\"ab\" data-a=\"Thyroid-stimulating hormone\">TSH</span> &lt; 2.5 in 1st trimester · back to pre-pregnancy dose after birth"
+    ],
+    [
+     "Propylthiouracil · carbimazole",
+     "Hyperthyroidism (Graves)",
+     "Block thyroid hormone synthesis",
+     "<span class=\"ab\" data-a=\"Propylthiouracil\">PTU</span> <b>150–400 mg/day</b> in 1st trimester · carbimazole <b>15–40 mg/day</b> in 2nd–3rd · propranolol 10–40 mg TDS for symptoms",
+     "<span class=\"ab\" data-a=\"Propylthiouracil\">PTU</span>: <span class=\"bx\">BOX</span> liver failure · carbimazole: aplasia cutis, choanal atresia (1st trimester) · agranulocytosis (sore throat → <span class=\"ab\" data-a=\"Full blood count\">FBC</span>)",
+     "Lowest dose; keep free T4 high-normal"
+    ],
+    [
+     "Promethazine · cyclizine",
+     "<span class=\"gl\" data-a=\"hyperemesis: Severe vomiting in pregnancy with dehydration and weight loss.\">Hyperemesis</span>: 1st line",
+     "Antihistamine antiemetics",
+     "Promethazine <b>25 mg TDS</b> · cyclizine <b>50 mg TDS</b> (PO / <span class=\"ab\" data-a=\"Intramuscular\">IM</span> / <span class=\"ab\" data-a=\"Intravenous\">IV</span>)",
+     "Drowsiness",
+     "Any trimester"
+    ],
+    [
+     "Metoclopramide · ondansetron",
+     "Hyperemesis: 2nd line",
+     "D₂ blocker · 5-HT₃ blocker",
+     "Metoclopramide <b>10 mg TDS</b>, max 5 days · ondansetron <b>4–8 mg TDS</b>",
+     "Metoclopramide <span class=\"bx\">BOX</span> tardive dyskinesia, dystonia · ondansetron: constipation, QT",
+     "Ondansetron: small cleft risk in 1st trimester → after 12 wk if possible"
+    ],
+    [
+     "Thiamine",
+     "Hyperemesis, before any dextrose",
+     "Vitamin B₁",
+     "<b>100 mg <span class=\"ab\" data-a=\"Intravenous\">IV</span></b> before dextrose, then PO",
+     "Rare allergy",
+     "Prevents <span class=\"gl\" data-a=\"Wernicke: Brain damage from thiamine deficiency: confusion, ataxia, eye signs.\">Wernicke</span> encephalopathy"
+    ],
+    [
+     "Ursodeoxycholic acid",
+     "Obstetric <span class=\"gl\" data-a=\"cholestasis: Bile flow blocked: itching and raised bile acids.\">cholestasis</span>",
+     "Bile acid displacement",
+     "<b>8–12 mg/kg/day in 2 doses</b> (≈ 500 mg BD)",
+     "Diarrhoea",
+     "Relieves itch · vitamin K 10 mg PO OD if clotting abnormal"
+    ],
+    [
+     "Lamotrigine · levetiracetam",
+     "Epilepsy",
+     "Antiepileptics",
+     "Continue the same dose · lamotrigine levels fall: check, adjust",
+     "Lamotrigine <span class=\"bx\">BOX</span> serious rash (SJS)",
+     "Lowest-risk antiepileptics · folic acid 5 mg · baby vitamin K 1 mg <span class=\"ab\" data-a=\"Intramuscular\">IM</span>"
+    ],
+    [
+     "Furosemide",
+     "Pulmonary oedema, heart failure",
+     "Loop diuretic",
+     "<b>20–40 mg <span class=\"ab\" data-a=\"Intravenous\">IV</span></b>",
+     "<span class=\"gl\" data-a=\"hypokalaemia: Low blood potassium.\">Hypokalaemia</span>, <span class=\"gl\" data-a=\"hypovolaemia: Low circulating blood volume.\">hypovolaemia</span>",
+     "Not for <span class=\"gl\" data-a=\"pre-eclampsia: New hypertension after 20 wk with proteinuria or organ damage.\">pre-eclampsia</span> oedema"
+    ],
+    [
+     "Sertraline · olanzapine",
+     "Postnatal depression · <span class=\"gl\" data-a=\"psychosis: Loss of contact with reality: hallucinations, delusions.\">psychosis</span>",
+     "<span class=\"ab\" data-a=\"Selective serotonin reuptake inhibitor\">SSRI</span> · antipsychotic",
+     "Sertraline <b>50 mg OD</b> (up to 200 mg) · olanzapine <b>5–10 mg nocte</b>",
+     "Nausea · weight gain, sedation",
+     "Both compatible with breastfeeding"
+    ]
+   ]
+  },
+  {
+   "title": "Labour, postpartum and other drugs",
+   "drugs": [
+    [
+     "Pethidine",
+     "Labour analgesia",
+     "Opioid",
+     "<b>50–100 mg <span class=\"ab\" data-a=\"Intramuscular\">IM</span></b> 4-hourly with antiemetic",
+     "Nausea, drowsiness · neonatal respiratory depression",
+     "Not within 2–3 h of birth · baby: naloxone"
+    ],
+    [
+     "Paracetamol",
+     "Pain, fever",
+     "Central COX inhibition",
+     "<b>1 g PO / <span class=\"ab\" data-a=\"Intravenous\">IV</span> 6-hourly</b> (max 4 g/day)",
+     "Liver toxicity in overdose",
+     "Analgesic of choice in all trimesters"
+    ],
+    [
+     "Lidocaine 1%",
+     "<span class=\"gl\" data-a=\"episiotomy: Planned cut of the perineum to enlarge the outlet at birth.\">Episiotomy</span>, perineal repair",
+     "Na⁺-channel block",
+     "Up to <b>10–20 mL</b> infiltration, aspirate first (max 3 mg/kg plain)",
+     "Toxicity: tingling mouth, fits, arrhythmia",
+     "Treat toxicity with lipid 20% 1.5 mL/kg"
+    ],
+    [
+     "Anti-D immunoglobulin",
+     "Prevent Rh sensitisation",
+     "Clears fetal <span class=\"ab\" data-a=\"Rhesus D antigen\">RhD</span>+ cells",
+     "<b>250 IU <span class=\"ab\" data-a=\"Intramuscular\">IM</span></b> &lt; 20 wk · <b>500 IU <span class=\"ab\" data-a=\"Intramuscular\">IM</span></b> ≥ 20 wk and after birth, within 72 h (+ <span class=\"gl\" data-a=\"Kleihauer: Blood test counting fetal cells in the mother's blood.\">Kleihauer</span>; none: 1500 IU)",
+     "Local pain",
+     "<span class=\"ab\" data-a=\"Rhesus D antigen\">RhD</span>-neg, not sensitised · routine 28 wk where available"
+    ],
+    [
+     "Methotrexate",
+     "Unruptured <span class=\"gl\" data-a=\"ectopic: Pregnancy implanted outside the uterine cavity (usually tube).\">ectopic</span>",
+     "Folate antagonist",
+     "<b>50 mg/m² <span class=\"ab\" data-a=\"Intramuscular\">IM</span></b> single dose · <span class=\"ab\" data-a=\"Human chorionic gonadotrophin: the pregnancy hormone made by the placenta, measured in blood or urine\">hCG</span> day 4 and 7 (fall ≥ 15%)",
+     "<span class=\"bx\">BOX</span> <span class=\"gl\" data-a=\"teratogen: Drug or agent that causes birth defects.\">teratogen</span>, marrow, liver",
+     "Stable, <span class=\"ab\" data-a=\"Human chorionic gonadotrophin: the pregnancy hormone made by the placenta, measured in blood or urine\">hCG</span> &lt; 5000, no heartbeat · avoid pregnancy 3 months"
+    ],
+    [
+     "Mifepristone",
+     "<span class=\"ab\" data-a=\"Intrauterine fetal death\">IUFD</span>, termination, miscarriage",
+     "Antiprogesterone",
+     "<b>200 mg PO</b>, then misoprostol 36–48 h later",
+     "Bleeding, cramps",
+     "Not with adrenal failure or long steroid use"
+    ],
+    [
+     "<span class=\"gl\" data-a=\"cabergoline: Dopamine agonist that stops milk production.\">Cabergoline</span>",
+     "Stop lactation (<span class=\"ab\" data-a=\"Intrauterine fetal death\">IUFD</span>, neonatal death)",
+     "Dopamine agonist",
+     "<b>1 mg PO stat</b>",
+     "Dizziness, headache",
+     "Avoid in pre-eclampsia, hypertension"
+    ],
+    [
+     "<span class=\"ab\" data-a=\"Depot medroxyprogesterone acetate\">DMPA</span> (medroxyprogesterone)",
+     "Contraception",
+     "Progestogen: stops ovulation",
+     "<b>150 mg <span class=\"ab\" data-a=\"Intramuscular\">IM</span> every 12 weeks</b>",
+     "Irregular bleeding, weight gain, delayed fertility · <span class=\"bx\">BOX</span> bone density",
+     "Safe in breastfeeding · from 6 wk postpartum"
+    ],
+    [
+     "Hydroxocobalamin",
+     "B₁₂ deficiency",
+     "Vitamin B₁₂",
+     "<b>1 mg <span class=\"ab\" data-a=\"Intramuscular\">IM</span></b> (loading course, then 3-monthly)",
+     "Pink urine",
+     "Safe in pregnancy and breastfeeding"
+    ],
+    [
+     "Vitamin K (newborn)",
+     "Prevent haemorrhagic disease",
+     "Clotting factors",
+     "<b>1 mg <span class=\"ab\" data-a=\"Intramuscular\">IM</span></b> at birth (term)",
+     "Pain at the injection site",
+     "Essential if mother on enzyme-inducing antiepileptics"
+    ],
+    [
+     "Td vaccine",
+     "Prevent maternal and neonatal tetanus",
+     "Toxoid",
+     "<b>0.5 mL <span class=\"ab\" data-a=\"Intramuscular\">IM</span></b>: 2 doses 4 wk apart in 1st pregnancy, then 1 per pregnancy (5 total)",
+     "Sore arm",
+     "2nd dose ≥ 2 wk before birth"
+    ],
+    [
+     "Albendazole",
+     "Hookworm (anaemia)",
+     "Anthelminthic",
+     "<b>400 mg PO stat</b>",
+     "GI upset",
+     "<b class=\"x\">Not 1st trimester</b>"
+    ]
+   ]
+  }
+ ],
+ "refs": [
+  {
+   "title": "Which drug, which trimester",
+   "html": "<table class=\"rx av\"><colgroup><col style=\"width:18%\"/><col style=\"width:41%\"/><col/></colgroup><thead><tr><th>When</th><th>Give</th><th>Avoid</th></tr></thead><tbody><tr><td class=\"dn\">Before pregnancy</td><td>Folic acid 0.4 mg (5 mg high risk) · switch ACEi, valproate, warfarin, statins</td><td>Isotretinoin, methotrexate, mycophenolate (stop months before)</td></tr><tr><td class=\"dn\">1st trimester (to 13⁺⁶ wk)</td><td>Folic acid · antiemetics (promethazine, cyclizine) · <span class=\"ab\" data-a=\"Propylthiouracil\">PTU</span> for Graves · AL for malaria · aspirin from 12 wk</td><td>SP, trimethoprim · carbimazole · ondansetron if possible · tetracyclines · live vaccines · X-rays without need</td></tr><tr><td class=\"dn\">2nd trimester (14–27⁺⁶ wk)</td><td>Iron + folate · SP (<span class=\"ab\" data-a=\"Intermittent preventive treatment in pregnancy\">IPTp</span>) after <span class=\"gl\" data-a=\"quickening: The first fetal movements the mother feels.\">quickening</span> · calcium from 20 wk · Td · DHA-PQ, carbimazole allowed</td><td>Tetracyclines (teeth) · ACEi/ARB (fetal kidney)</td></tr><tr><td class=\"dn\">3rd trimester (28 wk →)</td><td>Steroids 24–34 wk if preterm birth likely · <span class=\"ab\" data-a=\"Magnesium sulphate\">MgSO₄</span> &lt; 32 wk <span class=\"gl\" data-a=\"neuroprotection: Protecting the preterm baby's brain (MgSO₄ < 32 wk).\">neuroprotection</span> · stop aspirin at 36 wk</td><td><span class=\"ab\" data-a=\"Non-steroidal anti-inflammatory drugs\">NSAIDs</span> after 30 wk · indomethacin after 32 wk · nitrofurantoin, chloramphenicol, sulphonamides near term · pethidine 2–3 h before birth</td></tr><tr><td class=\"dn\">Labour, postpartum</td><td>Oxytocin <span class=\"ab\" data-a=\"Active management of the third stage of labour\">AMTSL</span> · <span class=\"ab\" data-a=\"Magnesium sulphate\">MgSO₄</span> 24 h · <span class=\"ab\" data-a=\"Low-molecular-weight heparin\">LMWH</span> 6 wk if at risk · anti-D within 72 h · progestogen contraception</td><td>Ergometrine in hypertension · combined pill before day 21 (<span class=\"ab\" data-a=\"Venous thromboembolism\">VTE</span>)</td></tr></tbody></table>"
+  },
+  {
+   "title": "Drugs considered safe in every trimester",
+   "html": "<table class=\"rx rxw\"><tbody><tr><td class=\"dn\">Pain, fever</td><td>Paracetamol</td></tr><tr><td class=\"dn\">Antibiotics</td><td>Penicillins, cephalosporins, erythromycin, azithromycin, metronidazole</td></tr><tr><td class=\"dn\">Blood pressure</td><td>Labetalol, nifedipine, methyldopa</td></tr><tr><td class=\"dn\">Diabetes</td><td>Insulin, metformin</td></tr><tr><td class=\"dn\">Clots</td><td>LMWH, heparin</td></tr><tr><td class=\"dn\">Thyroid</td><td>Levothyroxine</td></tr><tr><td class=\"dn\">Supplements</td><td>Iron, folic acid, calcium</td></tr><tr><td class=\"dn\">Vomiting</td><td>Promethazine, cyclizine</td></tr><tr><td class=\"dn\">Malaria</td><td>Artemether-lumefantrine (AL), artesunate</td></tr><tr><td class=\"dn\">Epilepsy</td><td>Lamotrigine, levetiracetam</td></tr><tr><td class=\"dn\">Depression</td><td>Sertraline</td></tr></tbody></table>"
+  },
+  {
+   "title": "Breastfeeding: quick safety guide",
+   "html": "<table class=\"rx av\"><colgroup><col style=\"width:24%\"/><col style=\"width:44%\"/><col/></colgroup><thead><tr><th>Group</th><th>Compatible with breastfeeding</th><th>Avoid or caution</th></tr></thead><tbody><tr><td class=\"dn\">Pain</td><td>Paracetamol, ibuprofen</td><td><b class=\"x\">Codeine, tramadol</b> (infant sedation)</td></tr><tr><td class=\"dn\">Antibiotics</td><td>Penicillins, cephalosporins, erythromycin, metronidazole (pause 12 h after a 2 g single dose)</td><td>Tetracycline (long courses), chloramphenicol, ciprofloxacin if alternatives</td></tr><tr><td class=\"dn\"><span class=\"ab\" data-a=\"Blood pressure\">BP</span>, heart</td><td>Labetalol, nifedipine, enalapril (after birth), methyldopa (but depression)</td><td>Atenolol (infant bradycardia), high-dose diuretics (less milk)</td></tr><tr><td class=\"dn\">Clots</td><td><span class=\"ab\" data-a=\"Low-molecular-weight heparin\">LMWH</span>, heparin, warfarin</td><td>DOACs (rivaroxaban, apixaban)</td></tr><tr><td class=\"dn\">Diabetes, thyroid</td><td>Insulin, metformin · levothyroxine, <span class=\"ab\" data-a=\"Propylthiouracil\">PTU</span> (&lt; 150 mg), carbimazole (&lt; 15 mg)</td><td>Radioactive iodine</td></tr><tr><td class=\"dn\">Mind, epilepsy</td><td>Sertraline, olanzapine · lamotrigine, levetiracetam, carbamazepine</td><td>Lithium (levels), benzodiazepines in high dose</td></tr><tr><td class=\"dn\">Hormones</td><td>Progestogen-only methods (<span class=\"ab\" data-a=\"Progestogen-only pill\">POP</span>, implant, <span class=\"ab\" data-a=\"Depot medroxyprogesterone acetate\">DMPA</span>, <span class=\"ab\" data-a=\"Levonorgestrel\">LNG</span>-IUS)</td><td>Combined pill &lt; 6 months (less milk) · <span class=\"gl\" data-a=\"cabergoline: Dopamine agonist that stops milk production.\">cabergoline</span>, bromocriptine (stop milk)</td></tr><tr><td class=\"dn\">Others</td><td>Malaria drugs (AL, quinine, artesunate), <span class=\"ab\" data-a=\"Antiretroviral therapy\">ART</span>, iron, folic acid</td><td>Methotrexate, anticancer drugs, amiodarone</td></tr></tbody></table>"
+  },
+  {
+   "title": "Contraindicated in pregnancy: and what to use instead",
+   "html": "<table class=\"rx av\"><colgroup><col style=\"width:24%\"/><col style=\"width:44%\"/><col/></colgroup><thead><tr><th>Avoid</th><th>Why (risk to fetus or mother)</th><th>Use instead</th></tr></thead><tbody><tr><td class=\"dn\"><span class=\"ab\" data-a=\"Angiotensin-converting enzyme\">ACE</span> inhibitors, <span class=\"ab\" data-a=\"Angiotensin receptor blockers\">ARBs</span></td><td><span class=\"bx\">BOX</span> fetal kidney failure, <span class=\"gl\" data-a=\"oligohydramnios: Too little amniotic fluid for the gestation (AFI < 5 cm).\">oligohydramnios</span>, skull defects (2nd–3rd trimester)</td><td>Labetalol, nifedipine, methyldopa: switch when planning pregnancy</td></tr><tr><td class=\"dn\">Sodium valproate</td><td><span class=\"bx\">BOX</span> neural tube defects (≈ 10%), low IQ, autism</td><td>Lamotrigine, levetiracetam; folic acid 5 mg</td></tr><tr><td class=\"dn\">Phenytoin, carbamazepine</td><td>Fetal hydantoin syndrome, <span class=\"ab\" data-a=\"Neural tube defect\">NTD</span>, clefts · carbamazepine <span class=\"bx\">BOX</span> SJS</td><td>Lamotrigine, levetiracetam</td></tr><tr><td class=\"dn\">Warfarin</td><td><span class=\"gl\" data-a=\"embryopathy: Damage to the embryo, usually by a drug or infection.\">Embryopathy</span> 6–12 wk (nasal hypoplasia, stippled epiphyses), fetal brain bleeds near term</td><td><span class=\"ab\" data-a=\"Low-molecular-weight heparin\">LMWH</span> (warfarin safe postpartum, breastfeeding)</td></tr><tr><td class=\"dn\">Isotretinoin, retinoids</td><td><span class=\"bx\">BOX</span> severe ear, heart, brain malformations</td><td>Stop ≥ 1 month before conception</td></tr><tr><td class=\"dn\">Methotrexate, mycophenolate</td><td><span class=\"bx\">BOX</span> miscarriage, multiple anomalies</td><td>Methotrexate only for <span class=\"gl\" data-a=\"ectopic: Pregnancy implanted outside the uterine cavity (usually tube).\">ectopic</span>; stop 3 months before</td></tr><tr><td class=\"dn\">Misoprostol (non-obstetric use)</td><td><span class=\"bx\">BOX</span> miscarriage, <span class=\"gl\" data-a=\"Möbius syndrome: Facial nerve palsy defect linked to misoprostol misuse.\">Möbius syndrome</span></td><td>Obstetric indications only</td></tr><tr><td class=\"dn\">Tetracycline, doxycycline</td><td>Teeth staining, bone growth (after 15 wk)</td><td>Amoxicillin, erythromycin, azithromycin</td></tr><tr><td class=\"dn\">Fluoroquinolones</td><td>Cartilage damage in animals · <span class=\"bx\">BOX</span> tendon rupture</td><td>Cephalosporins</td></tr><tr><td class=\"dn\">Streptomycin, kanamycin</td><td>Fetal deafness (8th nerve)</td><td>Gentamicin short course only if needed</td></tr><tr><td class=\"dn\">Trimethoprim, SP (1st trimester)</td><td>Antifolate: neural tube and heart defects</td><td>After 1st trimester; folic acid</td></tr><tr><td class=\"dn\">Chloramphenicol (near term)</td><td><span class=\"gl\" data-a=\"grey baby syndrome: Collapse of newborn from chloramphenicol.\">Grey baby syndrome</span></td><td>Ceftriaxone, ampicillin</td></tr><tr><td class=\"dn\"><span class=\"ab\" data-a=\"Non-steroidal anti-inflammatory drugs\">NSAIDs</span> after 30 wk</td><td>Ductus closes early, oligohydramnios, labour delayed</td><td>Paracetamol</td></tr><tr><td class=\"dn\">Ergometrine</td><td>Severe hypertension, stroke, <span class=\"ab\" data-a=\"Myocardial infarction\">MI</span></td><td>Oxytocin, misoprostol</td></tr><tr><td class=\"dn\">Carboprost in asthma</td><td>Severe bronchospasm</td><td>Other <span class=\"gl\" data-a=\"uterotonic: A drug that makes the uterus contract (e.g. oxytocin).\">uterotonics</span></td></tr><tr><td class=\"dn\">Lithium</td><td><span class=\"gl\" data-a=\"Ebstein anomaly: Heart defect of the tricuspid valve (lithium).\">Ebstein anomaly</span> (heart)</td><td>Specialist plan; fetal echo</td></tr><tr><td class=\"dn\">Statins, ribavirin, thalidomide</td><td>Anomalies (thalidomide: phocomelia)</td><td>Stop before conception</td></tr><tr><td class=\"dn\">Radioactive iodine, high-dose iodine</td><td>Fetal hypothyroidism, goitre</td><td><span class=\"ab\" data-a=\"Propylthiouracil\">PTU</span> / carbimazole</td></tr><tr><td class=\"dn\">Primaquine</td><td>Fetal <span class=\"gl\" data-a=\"haemolysis: Breakdown of red blood cells.\">haemolysis</span> (unknown <span class=\"ab\" data-a=\"Glucose-6-phosphate dehydrogenase\">G6PD</span>)</td><td>Delay until after birth</td></tr><tr><td class=\"dn\">Codeine, tramadol (breastfeeding)</td><td><span class=\"bx\">BOX</span> infant breathing depression (ultra-rapid metabolisers)</td><td>Paracetamol, ibuprofen after birth</td></tr><tr><td class=\"dn\">Androgens, danazol</td><td>Virilisation of female fetus</td><td>Stop</td></tr><tr><td class=\"dn\">Oral fluconazole (high dose)</td><td>Craniofacial and limb defects</td><td>Clotrimazole pessary</td></tr></tbody></table>"
+  }
+ ]
+}
