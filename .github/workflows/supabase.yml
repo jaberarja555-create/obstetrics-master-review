@@ -1,0 +1,44 @@
+# Supabase changes straight from the repository (owner, 7 Nov 2026: no more manual steps in the Supabase SQL editor).
+# Needs ONE GitHub secret: SUPABASE_DB_URL = the Session-pooler connection string from Supabase (Project Settings → Database).
+# On every push that adds a file in tools/supabase/migrations/, each file not yet applied is run once, in name order,
+# and recorded in the table obs_migrations. The "inspect" mode prints the obs_* table columns and function definitions
+# (structure only, never student rows; this repository is public, so nothing secret is printed).
+name: Supabase
+on:
+  push:
+    branches: [main]
+    paths: ['tools/supabase/migrations/**']
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'apply or inspect'
+        default: 'apply'
+jobs:
+  supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install psql
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client >/dev/null
+      - name: Apply new migrations
+        if: ${{ github.event_name == 'push' || inputs.mode == 'apply' }}
+        env:
+          DB: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          set -e
+          psql "$DB" -v ON_ERROR_STOP=1 -q -c "create table if not exists obs_migrations (name text primary key, applied timestamptz default now()); alter table obs_migrations enable row level security;"
+          for f in $(ls tools/supabase/migrations/*.sql | sort); do
+            n=$(basename "$f")
+            done=$(psql "$DB" -tA -c "select 1 from obs_migrations where name = '$n'")
+            if [ "$done" = "1" ]; then echo "already applied: $n"; continue; fi
+            echo "applying: $n"
+            psql "$DB" -v ON_ERROR_STOP=1 -q -1 -f "$f"
+            psql "$DB" -q -c "insert into obs_migrations (name) values ('$n')"
+          done
+      - name: Inspect structure
+        if: ${{ inputs.mode == 'inspect' }}
+        env:
+          DB: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          psql "$DB" -c "select table_name, column_name, data_type from information_schema.columns where table_schema='public' and table_name like 'obs%' order by table_name, ordinal_position"
+          psql "$DB" -tA -c "select string_agg(pg_get_functiondef(p.oid), E'\n-- ----\n') from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname like 'obs\_%'"

@@ -108,7 +108,7 @@ function choiceSnd(k){if(k==='trial')chime([523.3,659.3,784,1046.5,1318.5,1568],
 function openingFx(msg){var d=$('opening');if(!d){d=document.createElement('div');d.id='opening';document.body.appendChild(d)}
   d.innerHTML='<img src="img/logo.webp" alt=""><b dir="rtl">'+msg+'</b><i><span></span></i>';requestAnimationFrame(function(){d.classList.add('on')})}
 function setTitle(t){sh.querySelector('h3 span').textContent=t}
-/* the student removes the code from this device himself (owner, 6 Nov 2026): tap twice; Supabase obs_release (tools/supabase/obs_release.sql) */
+/* the student removes the code from this device himself (owner, 6 Nov 2026): tap twice; Supabase obs_release (tools/supabase/migrations/001_obs_release.sql) */
 function releaseCode(){var b=$('relGo'),m=$('relMsg');
   if(!b.dataset.sure){b.dataset.sure='1';b.textContent='تأكيد: أزل الكود من هذا الجهاز';b.classList.add('sure');m.textContent='سيُقفل الكتاب في هذا الجهاز، ويمكنك استعمال الكود في جهاز آخر.';return}
   if(navigator.onLine===false){m.textContent='يحتاج هذا إلى الإنترنت. تأكد من الاتصال وحاول مرة أخرى.';return}

@@ -64,7 +64,14 @@ Supabase step is needed; Supabase RPC `obs_trial` (tools/supabase/obs_trial.sql,
 ## Change of device by the student (owner, 6 Nov 2026, as in Surgery and Pediatrics)
 An activated device shows a Home card «أنت مشترك · … · إدارة الجهاز» (licence.js `myDevice`) → subscription sheet → «إزالة الكود من هذا
 الجهاز» (tap twice; syncs first via `window.__obsSyncNow`) → Supabase RPC `obs_release(p_dev)` clears the device from its code, then the
-device locks. The RPC needs tools/supabase/obs_release.sql run once in the Supabase SQL editor (until then the button says to message the owner).
+device locks. The RPC is in tools/supabase/migrations/001_obs_release.sql (the owner ran it by hand on 7 Nov 2026).
+
+## Supabase changes from the repository (owner, 7 Nov 2026: no manual SQL steps)
+`.github/workflows/supabase.yml` applies every new file in `tools/supabase/migrations/` (name order, once each, recorded in table
+`obs_migrations`) on push, using the GitHub secret `SUPABASE_DB_URL` (Session-pooler connection string). `gh workflow run Supabase -f mode=inspect`
+prints the obs_* columns and function definitions to the run log (read with `gh api .../actions/runs/<id>/logs`). The repository is PUBLIC:
+never print rows, keys or student data in a workflow. New database changes = a new numbered migration file (write it idempotently:
+`create or replace`, `if not exists`).
 
 ## The licence key (secret)
 content.bin must be encrypted with the SAME key Supabase gives activated devices (table `obs_secret`, column `k`,
