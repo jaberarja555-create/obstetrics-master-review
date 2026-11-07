@@ -2,7 +2,7 @@
  "intro": "Doses as used in this book (Sudan practice). <b>OD</b> once daily · <b>BD</b> twice · <b>TDS</b> three times · <b>QDS</b> four times · <b>stat</b> once now · PO by mouth · <span class=\"ab\" data-a=\"Sublingual: under the tongue\">SL</span> under tongue · <span class=\"ab\" data-a=\"Per vaginam (vaginal)\">PV</span> vaginal · <span class=\"bx\">BOX</span> = boxed (black-box) warning.",
  "groups": [
   {
-   "title": "<span class=\"gl\" data-a=\"uterotonic: A drug that makes the uterus contract (e.g. oxytocin).\">Uterotonics</span>: third stage, <span class=\"ab\" data-a=\"Postpartum haemorrhage\">PPH</span>, induction",
+   "title": "<span class=\"gl\" data-a=\"uterotonic: A drug that makes the uterus contract (e.g. oxytocin).\">Uterotonics</span>: third stage, postpartum haemorrhage, induction",
    "drugs": [
     [
      "Oxytocin",
@@ -95,7 +95,7 @@
      "Arteriolar vasodilator",
      "<b>5 mg <span class=\"ab\" data-a=\"Intravenous\">IV</span> over 10–15 min</b>, every 15 min (max 20 mg) · give <b>500 mL saline</b> first",
      "Tachycardia, headache · sudden drop → fetal distress",
-     "Labour, severe PE · <span class=\"ab\" data-a=\"Cardiotocography\">CTG</span> during"
+     "Labour, severe pre-eclampsia · <span class=\"ab\" data-a=\"Cardiotocography\">CTG</span> during"
     ],
     [
      "Aspirin (low dose)",
@@ -338,7 +338,7 @@
     ],
     [
      "Unfractionated heparin",
-     "Massive PE · near delivery",
+     "Massive pulmonary embolism · near delivery",
      "Antithrombin activation",
      "<b>5000 IU <span class=\"ab\" data-a=\"Intravenous\">IV</span></b> bolus → <b>1000–2000 IU/h</b> (<span class=\"ab\" data-a=\"Activated partial thromboplastin time\">APTT</span>)",
      "Bleeding, HIT",
@@ -520,22 +520,355 @@
    ]
   }
  ],
- "refs": [
-  {
-   "title": "Which drug, which trimester",
-   "html": "<table class=\"rx av\"><colgroup><col style=\"width:18%\"/><col style=\"width:41%\"/><col/></colgroup><thead><tr><th>When</th><th>Give</th><th>Avoid</th></tr></thead><tbody><tr><td class=\"dn\">Before pregnancy</td><td>Folic acid 0.4 mg (5 mg high risk) · switch ACEi, valproate, warfarin, statins</td><td>Isotretinoin, methotrexate, mycophenolate (stop months before)</td></tr><tr><td class=\"dn\">1st trimester (to 13⁺⁶ wk)</td><td>Folic acid · antiemetics (promethazine, cyclizine) · <span class=\"ab\" data-a=\"Propylthiouracil\">PTU</span> for Graves · AL for malaria · aspirin from 12 wk</td><td>SP, trimethoprim · carbimazole · ondansetron if possible · tetracyclines · live vaccines · X-rays without need</td></tr><tr><td class=\"dn\">2nd trimester (14–27⁺⁶ wk)</td><td>Iron + folate · SP (<span class=\"ab\" data-a=\"Intermittent preventive treatment in pregnancy\">IPTp</span>) after <span class=\"gl\" data-a=\"quickening: The first fetal movements the mother feels.\">quickening</span> · calcium from 20 wk · Td · DHA-PQ, carbimazole allowed</td><td>Tetracyclines (teeth) · ACEi/ARB (fetal kidney)</td></tr><tr><td class=\"dn\">3rd trimester (28 wk →)</td><td>Steroids 24–34 wk if preterm birth likely · <span class=\"ab\" data-a=\"Magnesium sulphate\">MgSO₄</span> &lt; 32 wk <span class=\"gl\" data-a=\"neuroprotection: Protecting the preterm baby's brain (MgSO₄ < 32 wk).\">neuroprotection</span> · stop aspirin at 36 wk</td><td><span class=\"ab\" data-a=\"Non-steroidal anti-inflammatory drugs\">NSAIDs</span> after 30 wk · indomethacin after 32 wk · nitrofurantoin, chloramphenicol, sulphonamides near term · pethidine 2–3 h before birth</td></tr><tr><td class=\"dn\">Labour, postpartum</td><td>Oxytocin <span class=\"ab\" data-a=\"Active management of the third stage of labour\">AMTSL</span> · <span class=\"ab\" data-a=\"Magnesium sulphate\">MgSO₄</span> 24 h · <span class=\"ab\" data-a=\"Low-molecular-weight heparin\">LMWH</span> 6 wk if at risk · anti-D within 72 h · progestogen contraception</td><td>Ergometrine in hypertension · combined pill before day 21 (<span class=\"ab\" data-a=\"Venous thromboembolism\">VTE</span>)</td></tr></tbody></table>"
-  },
-  {
-   "title": "Drugs considered safe in every trimester",
-   "html": "<table class=\"rx rxw\"><tbody><tr><td class=\"dn\">Pain, fever</td><td>Paracetamol</td></tr><tr><td class=\"dn\">Antibiotics</td><td>Penicillins, cephalosporins, erythromycin, azithromycin, metronidazole</td></tr><tr><td class=\"dn\">Blood pressure</td><td>Labetalol, nifedipine, methyldopa</td></tr><tr><td class=\"dn\">Diabetes</td><td>Insulin, metformin</td></tr><tr><td class=\"dn\">Clots</td><td>LMWH, heparin</td></tr><tr><td class=\"dn\">Thyroid</td><td>Levothyroxine</td></tr><tr><td class=\"dn\">Supplements</td><td>Iron, folic acid, calcium</td></tr><tr><td class=\"dn\">Vomiting</td><td>Promethazine, cyclizine</td></tr><tr><td class=\"dn\">Malaria</td><td>Artemether-lumefantrine (AL), artesunate</td></tr><tr><td class=\"dn\">Epilepsy</td><td>Lamotrigine, levetiracetam</td></tr><tr><td class=\"dn\">Depression</td><td>Sertraline</td></tr></tbody></table>"
-  },
-  {
-   "title": "Breastfeeding: quick safety guide",
-   "html": "<table class=\"rx av\"><colgroup><col style=\"width:24%\"/><col style=\"width:44%\"/><col/></colgroup><thead><tr><th>Group</th><th>Compatible with breastfeeding</th><th>Avoid or caution</th></tr></thead><tbody><tr><td class=\"dn\">Pain</td><td>Paracetamol, ibuprofen</td><td><b class=\"x\">Codeine, tramadol</b> (infant sedation)</td></tr><tr><td class=\"dn\">Antibiotics</td><td>Penicillins, cephalosporins, erythromycin, metronidazole (pause 12 h after a 2 g single dose)</td><td>Tetracycline (long courses), chloramphenicol, ciprofloxacin if alternatives</td></tr><tr><td class=\"dn\"><span class=\"ab\" data-a=\"Blood pressure\">BP</span>, heart</td><td>Labetalol, nifedipine, enalapril (after birth), methyldopa (but depression)</td><td>Atenolol (infant bradycardia), high-dose diuretics (less milk)</td></tr><tr><td class=\"dn\">Clots</td><td><span class=\"ab\" data-a=\"Low-molecular-weight heparin\">LMWH</span>, heparin, warfarin</td><td>DOACs (rivaroxaban, apixaban)</td></tr><tr><td class=\"dn\">Diabetes, thyroid</td><td>Insulin, metformin · levothyroxine, <span class=\"ab\" data-a=\"Propylthiouracil\">PTU</span> (&lt; 150 mg), carbimazole (&lt; 15 mg)</td><td>Radioactive iodine</td></tr><tr><td class=\"dn\">Mind, epilepsy</td><td>Sertraline, olanzapine · lamotrigine, levetiracetam, carbamazepine</td><td>Lithium (levels), benzodiazepines in high dose</td></tr><tr><td class=\"dn\">Hormones</td><td>Progestogen-only methods (<span class=\"ab\" data-a=\"Progestogen-only pill\">POP</span>, implant, <span class=\"ab\" data-a=\"Depot medroxyprogesterone acetate\">DMPA</span>, <span class=\"ab\" data-a=\"Levonorgestrel\">LNG</span>-IUS)</td><td>Combined pill &lt; 6 months (less milk) · <span class=\"gl\" data-a=\"cabergoline: Dopamine agonist that stops milk production.\">cabergoline</span>, bromocriptine (stop milk)</td></tr><tr><td class=\"dn\">Others</td><td>Malaria drugs (AL, quinine, artesunate), <span class=\"ab\" data-a=\"Antiretroviral therapy\">ART</span>, iron, folic acid</td><td>Methotrexate, anticancer drugs, amiodarone</td></tr></tbody></table>"
-  },
-  {
-   "title": "Contraindicated in pregnancy: and what to use instead",
-   "html": "<table class=\"rx av\"><colgroup><col style=\"width:24%\"/><col style=\"width:44%\"/><col/></colgroup><thead><tr><th>Avoid</th><th>Why (risk to fetus or mother)</th><th>Use instead</th></tr></thead><tbody><tr><td class=\"dn\"><span class=\"ab\" data-a=\"Angiotensin-converting enzyme\">ACE</span> inhibitors, <span class=\"ab\" data-a=\"Angiotensin receptor blockers\">ARBs</span></td><td><span class=\"bx\">BOX</span> fetal kidney failure, <span class=\"gl\" data-a=\"oligohydramnios: Too little amniotic fluid for the gestation (AFI < 5 cm).\">oligohydramnios</span>, skull defects (2nd–3rd trimester)</td><td>Labetalol, nifedipine, methyldopa: switch when planning pregnancy</td></tr><tr><td class=\"dn\">Sodium valproate</td><td><span class=\"bx\">BOX</span> neural tube defects (≈ 10%), low IQ, autism</td><td>Lamotrigine, levetiracetam; folic acid 5 mg</td></tr><tr><td class=\"dn\">Phenytoin, carbamazepine</td><td>Fetal hydantoin syndrome, <span class=\"ab\" data-a=\"Neural tube defect\">NTD</span>, clefts · carbamazepine <span class=\"bx\">BOX</span> SJS</td><td>Lamotrigine, levetiracetam</td></tr><tr><td class=\"dn\">Warfarin</td><td><span class=\"gl\" data-a=\"embryopathy: Damage to the embryo, usually by a drug or infection.\">Embryopathy</span> 6–12 wk (nasal hypoplasia, stippled epiphyses), fetal brain bleeds near term</td><td><span class=\"ab\" data-a=\"Low-molecular-weight heparin\">LMWH</span> (warfarin safe postpartum, breastfeeding)</td></tr><tr><td class=\"dn\">Isotretinoin, retinoids</td><td><span class=\"bx\">BOX</span> severe ear, heart, brain malformations</td><td>Stop ≥ 1 month before conception</td></tr><tr><td class=\"dn\">Methotrexate, mycophenolate</td><td><span class=\"bx\">BOX</span> miscarriage, multiple anomalies</td><td>Methotrexate only for <span class=\"gl\" data-a=\"ectopic: Pregnancy implanted outside the uterine cavity (usually tube).\">ectopic</span>; stop 3 months before</td></tr><tr><td class=\"dn\">Misoprostol (non-obstetric use)</td><td><span class=\"bx\">BOX</span> miscarriage, <span class=\"gl\" data-a=\"Möbius syndrome: Facial nerve palsy defect linked to misoprostol misuse.\">Möbius syndrome</span></td><td>Obstetric indications only</td></tr><tr><td class=\"dn\">Tetracycline, doxycycline</td><td>Teeth staining, bone growth (after 15 wk)</td><td>Amoxicillin, erythromycin, azithromycin</td></tr><tr><td class=\"dn\">Fluoroquinolones</td><td>Cartilage damage in animals · <span class=\"bx\">BOX</span> tendon rupture</td><td>Cephalosporins</td></tr><tr><td class=\"dn\">Streptomycin, kanamycin</td><td>Fetal deafness (8th nerve)</td><td>Gentamicin short course only if needed</td></tr><tr><td class=\"dn\">Trimethoprim, SP (1st trimester)</td><td>Antifolate: neural tube and heart defects</td><td>After 1st trimester; folic acid</td></tr><tr><td class=\"dn\">Chloramphenicol (near term)</td><td><span class=\"gl\" data-a=\"grey baby syndrome: Collapse of newborn from chloramphenicol.\">Grey baby syndrome</span></td><td>Ceftriaxone, ampicillin</td></tr><tr><td class=\"dn\"><span class=\"ab\" data-a=\"Non-steroidal anti-inflammatory drugs\">NSAIDs</span> after 30 wk</td><td>Ductus closes early, oligohydramnios, labour delayed</td><td>Paracetamol</td></tr><tr><td class=\"dn\">Ergometrine</td><td>Severe hypertension, stroke, <span class=\"ab\" data-a=\"Myocardial infarction\">MI</span></td><td>Oxytocin, misoprostol</td></tr><tr><td class=\"dn\">Carboprost in asthma</td><td>Severe bronchospasm</td><td>Other <span class=\"gl\" data-a=\"uterotonic: A drug that makes the uterus contract (e.g. oxytocin).\">uterotonics</span></td></tr><tr><td class=\"dn\">Lithium</td><td><span class=\"gl\" data-a=\"Ebstein anomaly: Heart defect of the tricuspid valve (lithium).\">Ebstein anomaly</span> (heart)</td><td>Specialist plan; fetal echo</td></tr><tr><td class=\"dn\">Statins, ribavirin, thalidomide</td><td>Anomalies (thalidomide: phocomelia)</td><td>Stop before conception</td></tr><tr><td class=\"dn\">Radioactive iodine, high-dose iodine</td><td>Fetal hypothyroidism, goitre</td><td><span class=\"ab\" data-a=\"Propylthiouracil\">PTU</span> / carbimazole</td></tr><tr><td class=\"dn\">Primaquine</td><td>Fetal <span class=\"gl\" data-a=\"haemolysis: Breakdown of red blood cells.\">haemolysis</span> (unknown <span class=\"ab\" data-a=\"Glucose-6-phosphate dehydrogenase\">G6PD</span>)</td><td>Delay until after birth</td></tr><tr><td class=\"dn\">Codeine, tramadol (breastfeeding)</td><td><span class=\"bx\">BOX</span> infant breathing depression (ultra-rapid metabolisers)</td><td>Paracetamol, ibuprofen after birth</td></tr><tr><td class=\"dn\">Androgens, danazol</td><td>Virilisation of female fetus</td><td>Stop</td></tr><tr><td class=\"dn\">Oral fluconazole (high dose)</td><td>Craniofacial and limb defects</td><td>Clotrimazole pessary</td></tr></tbody></table>"
-  }
+ "trimester": [
+  [
+   "Before pregnancy",
+   [
+    "Folic acid 0.4 mg daily (5 mg if high risk: epilepsy, diabetes, obesity, previous neural tube defect)",
+    "Change ACE inhibitors, sodium valproate, warfarin and statins to safer drugs"
+   ],
+   [
+    "Isotretinoin: stop at least 1 month before",
+    "Methotrexate and mycophenolate: stop 3 months before"
+   ]
+  ],
+  [
+   "First trimester (up to 13⁺⁶ weeks)",
+   [
+    "Folic acid",
+    "Antiemetics: promethazine, cyclizine",
+    "Propylthiouracil (PTU) for Graves’ disease",
+    "Artemether-lumefantrine for malaria",
+    "Low-dose aspirin from 12 weeks if at risk of pre-eclampsia"
+   ],
+   [
+    "Sulfadoxine-pyrimethamine and trimethoprim (antifolate)",
+    "Carbimazole",
+    "Ondansetron if another antiemetic works",
+    "Tetracyclines",
+    "Live vaccines",
+    "X-rays without a clear need"
+   ]
+  ],
+  [
+   "Second trimester (14 to 27⁺⁶ weeks)",
+   [
+    "Iron and folic acid",
+    "Sulfadoxine-pyrimethamine for malaria prevention after quickening",
+    "Calcium from 20 weeks if intake is low",
+    "Tetanus-diphtheria vaccine",
+    "Dihydroartemisinin-piperaquine and carbimazole are allowed"
+   ],
+   [
+    "Tetracyclines (teeth staining)",
+    "ACE inhibitors and angiotensin receptor blockers (fetal kidney damage)"
+   ]
+  ],
+  [
+   "Third trimester (from 28 weeks)",
+   [
+    "Corticosteroids at 24–34 weeks if preterm birth is likely",
+    "Magnesium sulphate before 32 weeks for fetal brain protection",
+    "Stop low-dose aspirin at 36 weeks"
+   ],
+   [
+    "NSAIDs after 30 weeks; indomethacin after 32 weeks",
+    "Nitrofurantoin, chloramphenicol and sulphonamides near term",
+    "Pethidine within 2–3 hours of birth"
+   ]
+  ],
+  [
+   "Labour and after birth",
+   [
+    "Oxytocin 10 IU IM for the third stage",
+    "Magnesium sulphate for 24 hours in eclampsia",
+    "Low-molecular-weight heparin for 6 weeks if at risk of clots",
+    "Anti-D within 72 hours if Rh-negative",
+    "Progestogen-only contraception"
+   ],
+   [
+    "Ergometrine in hypertension",
+    "Combined pill before day 21 (risk of venous thrombosis)"
+   ]
+  ]
+ ],
+ "safe": [
+  [
+   "Pain, fever",
+   "Paracetamol"
+  ],
+  [
+   "Antibiotics",
+   "Penicillins, cephalosporins, erythromycin, azithromycin, metronidazole"
+  ],
+  [
+   "Blood pressure",
+   "Labetalol, nifedipine, methyldopa"
+  ],
+  [
+   "Diabetes",
+   "Insulin, metformin"
+  ],
+  [
+   "Clot prevention",
+   "Low-molecular-weight heparin, unfractionated heparin"
+  ],
+  [
+   "Thyroid",
+   "Levothyroxine"
+  ],
+  [
+   "Supplements",
+   "Iron, folic acid, calcium"
+  ],
+  [
+   "Vomiting",
+   "Promethazine, cyclizine"
+  ],
+  [
+   "Malaria",
+   "Artemether-lumefantrine, artesunate"
+  ],
+  [
+   "Epilepsy",
+   "Lamotrigine, levetiracetam"
+  ],
+  [
+   "Depression",
+   "Sertraline"
+  ]
+ ],
+ "bf": [
+  [
+   "Pain",
+   [
+    "Paracetamol",
+    "Ibuprofen"
+   ],
+   [
+    "Codeine and tramadol (sedation and breathing depression in the baby)"
+   ]
+  ],
+  [
+   "Antibiotics",
+   [
+    "Penicillins, cephalosporins",
+    "Erythromycin",
+    "Metronidazole (pause feeding 12 hours after a single 2 g dose)"
+   ],
+   [
+    "Tetracycline for long courses",
+    "Chloramphenicol",
+    "Ciprofloxacin when another antibiotic will do"
+   ]
+  ],
+  [
+   "Blood pressure, heart",
+   [
+    "Labetalol, nifedipine",
+    "Enalapril (after birth)",
+    "Methyldopa (may cause depression)"
+   ],
+   [
+    "Atenolol (slow heart rate in the baby)",
+    "High-dose diuretics (reduce milk)"
+   ]
+  ],
+  [
+   "Clot prevention",
+   [
+    "Low-molecular-weight heparin, heparin",
+    "Warfarin"
+   ],
+   [
+    "Direct oral anticoagulants (rivaroxaban, apixaban)"
+   ]
+  ],
+  [
+   "Diabetes, thyroid",
+   [
+    "Insulin, metformin",
+    "Levothyroxine",
+    "Propylthiouracil up to 150 mg/day, carbimazole up to 15 mg/day"
+   ],
+   [
+    "Radioactive iodine"
+   ]
+  ],
+  [
+   "Mental health, epilepsy",
+   [
+    "Sertraline, olanzapine",
+    "Lamotrigine, levetiracetam, carbamazepine"
+   ],
+   [
+    "Lithium (check the baby’s levels)",
+    "High-dose benzodiazepines"
+   ]
+  ],
+  [
+   "Contraception",
+   [
+    "Progestogen-only methods: pill, implant, injection (DMPA), hormonal coil"
+   ],
+   [
+    "Combined pill in the first 6 months (reduces milk)",
+    "Cabergoline, bromocriptine (stop milk)"
+   ]
+  ],
+  [
+   "Other drugs",
+   [
+    "Antimalarials: artemether-lumefantrine, quinine, artesunate",
+    "Antiretroviral therapy for HIV",
+    "Iron, folic acid"
+   ],
+   [
+    "Methotrexate and anticancer drugs",
+    "Amiodarone"
+   ]
+  ]
+ ],
+ "ci": [
+  [
+   "Heart and blood pressure",
+   [
+    [
+     "ACE inhibitors, angiotensin receptor blockers",
+     "<span class=\"bx\">BOX</span> Fetal kidney failure, oligohydramnios, skull defects (2nd–3rd trimester)",
+     "Labetalol, nifedipine, methyldopa: change when pregnancy is planned"
+    ],
+    [
+     "Warfarin",
+     "Embryopathy at 6–12 weeks (nasal hypoplasia, stippled epiphyses); fetal brain bleeding near term",
+     "Low-molecular-weight heparin (warfarin is safe after birth and in breastfeeding)"
+    ],
+    [
+     "Statins",
+     "Possible fetal anomalies",
+     "Stop before conception"
+    ],
+    [
+     "Ergometrine (in hypertension)",
+     "Severe hypertension, stroke, myocardial infarction",
+     "Oxytocin, misoprostol"
+    ]
+   ]
+  ],
+  [
+   "Brain and mind",
+   [
+    [
+     "Sodium valproate",
+     "<span class=\"bx\">BOX</span> Neural tube defects (about 10%), low IQ, autism",
+     "Lamotrigine, levetiracetam; folic acid 5 mg"
+    ],
+    [
+     "Phenytoin, carbamazepine",
+     "Fetal hydantoin syndrome, neural tube defects, clefts; carbamazepine <span class=\"bx\">BOX</span> Stevens–Johnson syndrome",
+     "Lamotrigine, levetiracetam"
+    ],
+    [
+     "Lithium",
+     "Ebstein anomaly of the heart",
+     "Specialist plan and fetal echocardiography"
+    ]
+   ]
+  ],
+  [
+   "Anti-infective drugs",
+   [
+    [
+     "Tetracycline, doxycycline",
+     "Teeth staining and poor bone growth (after 15 weeks)",
+     "Amoxicillin, erythromycin, azithromycin"
+    ],
+    [
+     "Fluoroquinolones (ciprofloxacin)",
+     "Cartilage damage in animal studies; <span class=\"bx\">BOX</span> tendon rupture",
+     "Cephalosporins"
+    ],
+    [
+     "Streptomycin, kanamycin",
+     "Fetal deafness (8th cranial nerve damage)",
+     "Gentamicin, short course only if needed"
+    ],
+    [
+     "Trimethoprim, sulfadoxine-pyrimethamine (1st trimester)",
+     "Antifolate: neural tube and heart defects",
+     "Give after the 1st trimester, with folic acid"
+    ],
+    [
+     "Chloramphenicol (near term)",
+     "Grey baby syndrome",
+     "Ceftriaxone, ampicillin"
+    ],
+    [
+     "Primaquine",
+     "Fetal haemolysis (fetal G6PD status unknown)",
+     "Delay until after birth"
+    ],
+    [
+     "Oral fluconazole (high dose)",
+     "Craniofacial and limb defects",
+     "Clotrimazole pessary"
+    ],
+    [
+     "Ribavirin",
+     "Fetal anomalies",
+     "Avoid; stop before conception"
+    ]
+   ]
+  ],
+  [
+   "Other drugs",
+   [
+    [
+     "Isotretinoin, retinoids",
+     "<span class=\"bx\">BOX</span> Severe ear, heart and brain malformations",
+     "Stop at least 1 month before conception"
+    ],
+    [
+     "Methotrexate, mycophenolate",
+     "<span class=\"bx\">BOX</span> Miscarriage, multiple anomalies",
+     "Methotrexate only for ectopic pregnancy; stop 3 months before conception"
+    ],
+    [
+     "Misoprostol (outside obstetric use)",
+     "<span class=\"bx\">BOX</span> Miscarriage, Möbius syndrome",
+     "Obstetric indications only"
+    ],
+    [
+     "Thalidomide",
+     "Phocomelia (short or absent limbs)",
+     "Never in pregnancy"
+    ],
+    [
+     "NSAIDs after 30 weeks",
+     "Early closure of the ductus arteriosus, oligohydramnios, delayed labour",
+     "Paracetamol"
+    ],
+    [
+     "Carboprost (in asthma)",
+     "Severe bronchospasm",
+     "Other uterotonics"
+    ],
+    [
+     "Radioactive iodine, high-dose iodine",
+     "Fetal hypothyroidism and goitre",
+     "Propylthiouracil or carbimazole"
+    ],
+    [
+     "Androgens, danazol",
+     "Virilisation of a female fetus",
+     "Stop"
+    ],
+    [
+     "Codeine, tramadol (breastfeeding)",
+     "<span class=\"bx\">BOX</span> Breathing depression in the baby (ultra-rapid metabolisers)",
+     "Paracetamol, ibuprofen"
+    ]
+   ]
+  ]
  ]
 }

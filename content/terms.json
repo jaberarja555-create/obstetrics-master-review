@@ -342,7 +342,11 @@
   "WBC": "White blood cells",
   "WHO": "World Health Organization",
   "β-hCG": "Beta human chorionic gonadotrophin: the pregnancy hormone, measured in blood",
-  "MDT": "Multidisciplinary team"
+  "MDT": "Multidisciplinary team",
+  "NMDA": "N-methyl-D-aspartate (a glutamate receptor in the brain)",
+  "ACT": "Artemisinin-based combination therapy",
+  "COX": "Cyclo-oxygenase (the enzyme that makes prostaglandins)",
+  "T4": "Thyroxine"
  },
  "by_topic": {
   "PE": {

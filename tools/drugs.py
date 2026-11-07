@@ -43,7 +43,24 @@ for gi, g in enumerate(D['groups']):
                 f'<div class="dkg"><div class="dkf"><h5>Main use</h5>{use}</div><div class="dkf dkd"><h5>Dose · route · how long</h5>{dose}</div>'
                 f'<div class="dkf"><h5>Side effects · monitor</h5>{side}</div><div class="dkf dkw"><h5>When · cautions</h5>{warn}</div></div></div>')
         units['groups'][-1].append((band if k == 0 else '') + card)
-for r in D['refs']:
-    units['refs'].append(f'<div class="mb drt"><div class="mh">{r["title"]}</div><div class="mc">{r["html"]}</div></div>')
+ul = lambda xs: '<ul class="dkl">' + ''.join(f'<li>{x}</li>' for x in xs) + '</ul>'
+def band(n, c, title): return f'<div class="dgb dgx c{c}"><span>{n}</span>{title}</div>'
+def pair(c, head, a_lab, a, b_lab, b): return (f'<div class="dk dkp dgx c{c}"><div class="dkh"><b>{head}</b></div><div class="dkg dk2">'
+                                            f'<div class="dkf dkok"><h5>{a_lab}</h5>{ul(a)}</div><div class="dkf dkw"><h5>{b_lab}</h5>{ul(b)}</div></div></div>')
+n = len(D['groups'])
+# reference parts (owner, 7 Nov 2026: clear and airy, every abbreviation written in full)
+g = [band(n + 1, 7, 'Which drug, which trimester') + pair(7, *[D['trimester'][0][0], 'Give', D['trimester'][0][1], 'Avoid', D['trimester'][0][2]])]
+g += [pair(7, t, 'Give', a, 'Avoid', b) for t, a, b in D['trimester'][1:]]
+units['groups'].append(g)
+g = [band(n + 2, 6, 'Drugs considered safe in every trimester') + '<div class="dk dgx c6"><table class="dst"><tbody>'
+         + ''.join(f'<tr><th>{a}</th><td>{b}</td></tr>' for a, b in D['safe']) + '</tbody></table></div>']
+g += [(band(n + 3, 4, 'Drugs in breastfeeding') if k == 0 else '') + pair(4, t, 'Safe', a, 'Avoid or use with caution', b) for k, (t, a, b) in enumerate(D['bf'])]
+units['groups'].append(g)
+g = []
+for k, (cat, rows) in enumerate(D['ci']):
+    g.append((band(n + 4, 5, 'Drugs to avoid in pregnancy and what to use instead') if k == 0 else '')
+             + f'<div class="dk dgx c5"><div class="dkh"><b>{cat}</b></div><table class="dci"><thead><tr><th>Avoid</th><th>Why (risk to the fetus or mother)</th><th>Use instead</th></tr></thead><tbody>'
+             + ''.join(f'<tr><td class="dn">{a}</td><td>{b}</td><td>{c}</td></tr>' for a, b, c in rows) + '</tbody></table></div>')
+units['groups'].append(g)
 json.dump(units, open(os.path.join(R, 'build/dr/units.json'), 'w', encoding='utf-8'), ensure_ascii=False)
 print(len(units['groups']), 'groups,', sum(map(len, units['groups'])), 'cards,', len(units['refs']), 'tables')

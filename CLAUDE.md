@@ -98,8 +98,8 @@ activation orr-k / orr-kc). Sync via Supabase RPCs obs_sync_get / obs_sync_put (
   (`grow_topics.py x9` / `delete_page.py`) → `python3 tools/rapid_review/write.py`, relabel meta "Rapid review · i/N", build. The older
   two-column flow below (extract.py, layout.js, rr_keynums.json) is no longer used.
 - **Obstetric drugs section (owner, 7 Nov 2026: "organise it better"):** the source is `content/drugs.json` (intro, 6 groups of drugs with
-  [name, main use, how it works, dose, side effects, cautions], and 4 reference tables: which trimester, safe in every trimester, breastfeeding,
-  contraindicated). Each drug is one whole card (`.dk`) under a coloured group band (`.dgb`); no table is split and no "(cont.)" titles.
+  [name, main use, how it works, dose, side effects, cautions], and the reference parts `trimester`, `safe`, `bf` (breastfeeding), `ci` (avoid in pregnancy,
+  by category), written as cards with Give/Avoid or Safe/Avoid lists and every abbreviation in full (owner, 7 Nov 2026: the old tables were congested)). Each drug is one whole card (`.dk`) under a coloured group band (`.dgb`); no table is split and no "(cont.)" titles.
   Every group starts on its own page and ends on its own pages (owner: no one or two cards spilling over); `tools/drugs_layout.js` packs a group
   tighter (`.dcmp`) when that saves a page and shares its cards evenly over its pages.
   Edit the JSON, then `python3 tools/drugs.py && python3 build.py && node tools/drugs_layout.js && python3 tools/drugs_write.py && python3 build.py`
