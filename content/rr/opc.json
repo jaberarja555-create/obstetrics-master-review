@@ -1,0 +1,34 @@
+{
+"sc": [
+"Cervical dilatation crosses the alert line → <b>Assess cause, ARM + oxytocin if needed</b>",
+"Good contractions, no descent, moulding +3 → <b>Obstructed labour: CS</b>",
+"FHR below 100 for more than 3 minutes → <b>Pathological CTG: act now</b>"
+],
+"f": [
+[
+"Partogram",
+"Opened at <b>4 cm</b> · alert line 1 cm/h · action line <b>4 h</b> later · cervix <b>X</b>, descent <b>O</b> (fifths)"
+],
+[
+"Recording",
+"FHR, pulse, contractions <b>every 30 min</b> · VE every 4 h (2 h on oxytocin) · liquor C/M/B · moulding · BP, urine"
+],
+[
+"Contractions",
+"Boxes per 10 min · dotted < 20 s, hatched 20–40 s, <b>solid > 40 s</b> · target 3–4/10 min"
+],
+[
+"CTG reading (DR C BRAVADO)",
+"Risk · contractions · <b>baseline 110–160</b> · <b>variability 5–25</b> · accelerations (15 bpm × 15 s) · decelerations · overall"
+],
+[
+"Decelerations",
+"<b>Early</b>: head · <b>late</b>: placenta · <b>variable</b>: cord · prolonged > 3 min"
+],
+[
+"Augmentation",
+"Oxytocin <b>5 IU in 500 mL</b>, start 2 mU/min (4 drops/min), increase every 30 min"
+]
+],
+"trap": "Head ≥ 3/5 palpable at full dilatation = <b>CPD</b> · reduced variability > 50 min is pathological · catheter 14 days after obstructed labour"
+}

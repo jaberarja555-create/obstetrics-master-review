@@ -91,6 +91,12 @@ activation orr-k / orr-kc). Sync via Supabase RPCs obs_sync_get / obs_sync_put (
   no repeated titles; a topic that runs on into the next column continues with no title), a picture band at the start of each
   chapter (`.rrc`, chapter cover picture). Re-flow after RR content changes: `mkdir -p build/rr && python3 tools/rapid_review/extract.py`,
   write build/rr/chapters.json ({n: {name, img}} from meta chapters, chcover if present), `python3 build.py && node tools/rapid_review/layout.js && python3 tools/rapid_review/write.py`.
+- **Rapid Review = exam recap cards (owner, 7 Nov 2026, as in Pediatrics and Surgery):** one whole card per topic from
+  `content/rr/<topic id>.json` ({"sc": [3 exam scenarios "picture → **answer**"], "f": [[label, html], ...], "trap": html}); OSCE topics use station
+  labels. Flow: `python3 build.py && python3 tools/rapid_review/cards.py && node tools/rapid_review/cards.js` (whole cards, chapter band kept with
+  its first card, spare height spread between the cards `--vj` and inside them `--rqx`, KEEP 25 px) → match the number of `x9` pages
+  (`grow_topics.py x9` / `delete_page.py`) → `python3 tools/rapid_review/write.py`, relabel meta "Rapid review · i/N", build. The older
+  two-column flow below (extract.py, layout.js, rr_keynums.json) is no longer used.
 - **Key numbers live in the Rapid Review (owner, 6 Nov 2026):** topic pages have NO Key numbers box any more; every number
   is written in the text where it belongs (checked and added Nov 2026), and each topic's card in the Rapid Review ends with a
   "Key numbers" part (`.rvsub` + `.frow.kn`, value on the right). Source of those rows: `content/rr_keynums.json` (topic no →

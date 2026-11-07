@@ -1,0 +1,34 @@
+{
+"sc": [
+"Booking visit at 10 weeks → <b>Hb, group and Rh, HIV, HBV, syphilis, urine, scan</b>",
+"Previous pre-eclampsia, now 12 weeks → <b>Aspirin 75 mg nightly from 12 to 36 wk</b>",
+"Rh-negative woman with bleeding at 30 weeks → <b>Anti-D within 72 h</b>"
+],
+"f": [
+[
+"Contacts",
+"Book <b>before 12 wk</b> · WHO: at least <b>8 contacts</b> · anomaly scan 18–22 wk · repeat Hb at 28 wk · presentation at 36 wk"
+],
+[
+"Supplements",
+"Folic acid <b>0.4 mg</b> (5 mg if high risk) to 12 wk · iron <b>30–60 mg</b> daily · calcium 1.5–2 g from 20 wk if intake low"
+],
+[
+"Td vaccine",
+"2 doses 4 wk apart in the first pregnancy · <b>5 doses</b> give lifelong protection"
+],
+[
+"Malaria IPTp",
+"<b>SP</b> (3 tablets) after quickening (16–20 wk), doses ≥ 4 wk apart · not with <b>cotrimoxazole</b>"
+],
+[
+"Screening",
+"Asymptomatic bacteriuria: <b>treat</b> · OGTT at 24–28 wk if at risk · anaemia Hb < 11 g/dL"
+],
+[
+"High-risk features",
+"Age ≥ 35 · height < 150 cm · ≥ 3 miscarriages · previous CS, PPH, stillbirth · medical disease"
+]
+],
+"trap": "SP is <b>not</b> given with cotrimoxazole (HIV) · teach the <b>danger signs</b> at every visit · move near the hospital 2 wk before the EDD if high risk"
+}

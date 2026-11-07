@@ -1,0 +1,34 @@
+{
+"sc": [
+"Bishop score 4 at 41⁺³ weeks → <b>Ripen first: dinoprostone 3 mg PV</b>",
+"Previous CS, unripe cervix → <b>Foley balloon, not prostaglandin</b>",
+"More than 5 contractions in 10 minutes with FHR 80 → <b>Tachysystole: stop oxytocin, terbutaline 0.25 mg</b>"
+],
+"f": [
+[
+"Indications",
+"<b>Prolonged pregnancy</b> commonest · PE, diabetes, PROM, FGR, IUFD"
+],
+[
+"Bishop score",
+"<b>Dilatation, length, station, consistency, position</b> · max 13 · <b>≥ 8 favourable</b> · ≤ 6 ripen"
+],
+[
+"Ripening",
+"Live fetus: <b>dinoprostone 3 mg</b> or misoprostol 25 µg · IUFD: misoprostol · previous CS: <b>Foley 30–50 mL</b>"
+],
+[
+"Oxytocin",
+"<b>5 IU in 500 mL</b> · start 2 mU/min, increase every 30 min, max <b>32 mU/min</b> · ≥ 6 h after prostaglandin"
+],
+[
+"Complications",
+"<b>Tachysystole</b> · cord prolapse (ARM with high head) · <b>water intoxication</b> · uterine rupture · failed induction"
+],
+[
+"Contraindications",
+"Praevia, transverse lie, ≥ 2 previous CS, active herpes"
+]
+],
+"trap": "Never <b>ARM with a high head</b> · long oxytocin with dextrose causes fits (<b>hyponatraemia</b>) · induced VBAC carries 2–3× the rupture risk"
+}

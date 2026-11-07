@@ -1,0 +1,34 @@
+{
+"sc": [
+"Primigravida, fever, rigors, positive film, able to eat → <b>Artemether-lumefantrine</b>",
+"Fever, convulsion, normal BP and no proteinuria → <b>Cerebral malaria: IV artesunate</b>",
+"Fit with fever, BP 150/100 and proteinuria → <b>Treat both eclampsia and malaria</b>"
+],
+"f": [
+[
+"At risk",
+"<b>Primigravidae</b> · parasites hide in the <b>placenta</b> (CSA binding) → low birth weight, stillbirth"
+],
+[
+"Investigations",
+"<b>Thick and thin films</b> · RDT · RBG (hypoglycaemia) · Hb · BP and urine protein in every fit"
+],
+[
+"Uncomplicated",
+"<b>AL 4 tablets twice daily for 3 days</b> (any trimester) · 2nd line in 2nd/3rd trimester: DHA-piperaquine"
+],
+[
+"Severe",
+"<b>IV artesunate 2.4 mg/kg at 0, 12, 24 h</b> then daily · 2nd line <b>IV quinine</b> 10 mg/kg 8-hourly"
+],
+[
+"Severe features",
+"Fits, coma · hypoglycaemia < 2.2 mmol/L · parasitaemia > 5% · shock · severe anaemia · pulmonary oedema"
+],
+[
+"Prevention",
+"<b>IPTp-SP</b> after quickening, 2 or more doses ≥ 4 wk apart · bed nets"
+]
+],
+"trap": "Quinine causes <b>hypoglycaemia</b> · <b>primaquine</b> is never given in pregnancy · anaemia is the commonest maternal complication"
+}

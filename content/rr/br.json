@@ -1,0 +1,34 @@
+{
+"sc": [
+"Hard round ballotable head in the fundus at 36 weeks → <b>Breech: offer ECV</b>",
+"Footling breech in labour → <b>CS (cord prolapse risk 15%)</b>",
+"Aftercoming head stuck → <b>Mauriceau–Smellie–Veit, then Piper forceps</b>"
+],
+"f": [
+[
+"Facts",
+"<b>3–4%</b> at term · frank (65%), complete (25%), footling (10%) · commonest association <b>prematurity</b>"
+],
+[
+"Diagnosis",
+"Head in fundus, FHS above umbilicus · PV: anus and ischial tuberosities in line · <b>scan at 36 wk</b>"
+],
+[
+"ECV",
+"At <b>36–37 wk</b> · success ≈ 50% · <b>terbutaline 0.25 mg SC</b> · Rh-negative: anti-D 500 IU · contraindicated: APH, ROM, oligohydramnios, previous CS (relative)"
+],
+[
+"Elective CS",
+"<b>39 wk</b> · footling, star-gazing head, EFW > 3.8 kg, praevia, choice"
+],
+[
+"Vaginal breech",
+"Hands off · legs: <b>Pinard</b> · arms: <b>Løvset</b> · head: <b>Mauriceau–Smellie–Veit</b> · Burns–Marshall"
+],
+[
+"Baby",
+"Hip ultrasound at 6 wk (DDH)"
+]
+],
+"trap": "<b>Never pull</b> on the breech · umbilicus to head should take < 4 min · footling breech has the highest cord prolapse risk"
+}

@@ -1,0 +1,34 @@
+{
+"sc": [
+"Day 4, tearful, copes with the baby → <b>Baby blues: reassure</b>",
+"Low mood for 4 weeks, EPDS 15 → <b>Postnatal depression: sertraline, psychology</b>",
+"Day 5, confused, delusions about the baby → <b>Puerperal psychosis: admit today</b>"
+],
+"f": [
+[
+"Baby blues",
+"<b>50–80%</b> · peak day 4–5 · settles within 2 wk · still present at 2 wk → think depression"
+],
+[
+"Postnatal depression",
+"<b>10–15%</b> · within the first year · <b>EPDS ≥ 13</b> (question 10 = self-harm) · sertraline 50 mg (safe in breastfeeding)"
+],
+[
+"Puerperal psychosis",
+"<b>1–2 per 1000</b> · onset in <b>2 wk</b> · risk: bipolar disorder, previous psychosis (50% recurrence)"
+],
+[
+"Psychosis treatment",
+"<b>Mother and baby unit</b> / psychiatric admission · antipsychotics · <b>ECT</b> if severe"
+],
+[
+"Risks",
+"Suicide, infanticide · PND recurrence ≈ 25%"
+],
+[
+"Drugs",
+"Avoid <b>fluoxetine</b> in newborn breastfeeding · <b>lithium</b>: bottle-feed"
+]
+],
+"trap": "Psychosis is a <b>psychiatric emergency</b> · ask EPDS question 10 the same day · screen at 6 wk"
+}

@@ -1,0 +1,34 @@
+{
+"sc": [
+"800 mL blood loss after vaginal birth, soft boggy uterus → <b>Atonic PPH: rub uterus, oxytocin</b>",
+"Contracted uterus, still bleeding → <b>Genital tract trauma: examine and repair</b>",
+"Shock after delivery with no fundus felt and a mass in the vagina → <b>Uterine inversion</b>"
+],
+"f": [
+[
+"Definitions",
+"Primary <b>≥ 500 mL</b> (vaginal) or ≥ 1000 mL (CS) in 24 h · secondary 24 h to 12 wk"
+],
+[
+"4 Ts",
+"<b>Tone</b> (70%) · trauma · tissue (retained placenta) · thrombin (DIC)"
+],
+[
+"Drugs",
+"<b>Oxytocin 10 IU</b> IV/IM then 40 IU infusion · ergometrine 0.5 mg (<b>not in hypertension</b>) · misoprostol 800 µg · carboprost 250 µg (<b>not in asthma</b>) · <b>tranexamic acid 1 g within 3 h</b>"
+],
+[
+"Mechanical and surgery",
+"Bimanual compression · <b>balloon tamponade</b> · <b>B-Lynch</b> · uterine/internal iliac ligation · hysterectomy"
+],
+[
+"Resuscitation",
+"Help, O₂ 15 L/min, 2 cannulae, cross-match · FFP : red cells 4 : 6 · platelets < 50 · cryo if fibrinogen < 2 g/L"
+],
+[
+"Prevention",
+"<b>AMTSL</b>: oxytocin 10 IU IM · controlled cord traction · uterine massage · placenta not out at 30 min → manual removal"
+]
+],
+"trap": "Watch every woman for <b>4 h</b> after birth · secondary PPH = endometritis ± retained products · no lactation and amenorrhoea after PPH = <b>Sheehan syndrome</b>"
+}

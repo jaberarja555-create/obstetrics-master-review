@@ -1,0 +1,34 @@
+{
+"sc": [
+"Missed period, positive urine test, empty uterus, hCG above 2000 → <b>Ectopic until proved otherwise</b>",
+"hCG rises less than 63% in 48 hours → <b>Non-viable or ectopic pregnancy</b>",
+"Scan and LMP differ by more than 5 days → <b>Use the scan (CRL) date</b>"
+],
+"f": [
+[
+"Hormone tests",
+"Serum <b>hCG</b> positive 8–11 d after conception · urine positive by the missed period · viable rise <b>≥ 63% in 48 h</b>"
+],
+[
+"Ultrasound",
+"Sac at <b>4.5–5 wk</b> (TVS) · heartbeat <b>6 wk</b> · discriminatory zone hCG <b>2000 IU/L</b> · CRL 7 mm without heartbeat = missed miscarriage"
+],
+[
+"Clinical signs",
+"<b>Hegar</b> (soft isthmus, 6–10 wk) · <b>Chadwick</b> (bluish vagina, 8 wk) · uterus above symphysis 12 wk · quickening 18–20 wk (primi), 16–18 wk (multi)"
+],
+[
+"Fetal heart",
+"Doppler from <b>12 wk</b> · Pinard from <b>24 wk</b>"
+],
+[
+"Dating",
+"<b>Naegele</b>: LMP + 9 months + 7 days (280 d) · long cycle: add the extra days · <b>CRL at 11–14 wk</b> best (± 5 d)"
+],
+[
+"Term",
+"<b>37 to 41⁺⁶ wk</b> · post-term ≥ 42 wk"
+]
+],
+"trap": "Absent fetal heart on <b>Pinard</b> before 24 wk means nothing · a 35-day cycle moves the EDD <b>7 days later</b> · quickening is a presumptive sign only"
+}

@@ -1,0 +1,34 @@
+{
+"sc": [
+"OGTT at 26 weeks: fasting 5.8, 2 h 8.4 mmol/L → <b>Gestational diabetes</b>",
+"Fasting 7.4 mmol/L at booking → <b>Overt diabetes: insulin</b>",
+"Baby of a diabetic mother is jittery at 2 hours → <b>Neonatal hypoglycaemia</b>"
+],
+"f": [
+[
+"Diagnosis",
+"<b>75 g OGTT</b> at 24–28 wk (16 wk if previous GDM) · GDM: fasting <b>≥ 5.6</b>, 2 h <b>≥ 7.8</b> · overt: fasting ≥ 7.0, 2 h ≥ 11.1"
+],
+[
+"Fetal risks",
+"<b>Cardiac</b> anomaly commonest · <b>caudal regression</b> most specific · macrosomia, shoulder dystocia · stillbirth after 36 wk · neonatal hypoglycaemia, RDS"
+],
+[
+"Treatment",
+"Diet → <b>metformin → insulin</b> · fasting ≥ 7 at diagnosis → insulin first · targets: fasting < 5.3, 1 h < 7.8"
+],
+[
+"Monitoring",
+"Anomaly scan + fetal echo 18–20 wk · growth scans every 4 wk · glucose in labour <b>4–7 mmol/L</b> (insulin 0.5–2 U/h)"
+],
+[
+"Delivery",
+"Pre-existing: <b>38–39⁺⁶ wk</b> · EFW > 4.5 kg: offer CS"
+],
+[
+"After birth",
+"GDM: <b>stop drugs</b>, OGTT at 6 wk · type 2 in 50% within 10 yr · pre-existing: HbA1c < 6.5% before conception"
+]
+],
+"trap": "Insulin needs <b>fall</b> suddenly after the placenta is delivered · HbA1c > 10% → delay pregnancy · DKA in pregnancy: insulin 0.1 U/kg/h"
+}

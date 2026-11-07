@@ -1,0 +1,34 @@
+{
+"sc": [
+"Fever day 3 after CS, foul lochia, tender uterus → <b>Endometritis: ceftriaxone + metronidazole</b>",
+"Sudden toxic collapse after birth, child at home with a sore throat → <b>Group A streptococcal sepsis: add clindamycin</b>",
+"Spiking fever despite antibiotics, no collection → <b>Pelvic vein thrombophlebitis: heparin</b>"
+],
+"f": [
+[
+"Definition",
+"Temperature <b>≥ 38 °C</b> in the first 14 days · sepsis up to <b>42 days</b> · leading direct killer"
+],
+[
+"Causes (sites)",
+"<b>Endometritis</b> commonest · wound · UTI · breast · chest (day 1 after GA: atelectasis, aspiration) · DVT"
+],
+[
+"Risk factors",
+"<b>Caesarean section</b> (strongest) · ROM > 24 h · many VEs · retained products · anaemia, diabetes"
+],
+[
+"Assessment",
+"<b>MEOWS</b> (one red trigger → urgent review) · qSOFA (RR ≥ 25, SBP < 90, confusion) · lactate ≥ 4 = severe"
+],
+[
+"Sepsis Six (1 hour)",
+"<b>O₂</b> to 94–98% · <b>2 blood cultures</b> · <b>IV antibiotics</b> · <b>fluids</b> 20 mL/kg · <b>lactate</b> · <b>urine output</b> ≥ 30 mL/h"
+],
+[
+"Complications",
+"Pelvic abscess (swinging fever, tenesmus) · septic shock · thrombophlebitis"
+]
+],
+"trap": "Antibiotics at CS go <b>before skin incision</b> · <b>hand washing</b> prevents most · stop IV after 48 h fever-free"
+}

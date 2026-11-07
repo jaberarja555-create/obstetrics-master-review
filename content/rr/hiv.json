@@ -1,0 +1,34 @@
+{
+"sc": [
+"HIV positive at booking → <b>Start ART (TLD) at once, lifelong</b>",
+"Viral load ≥ 1000 copies/mL at 36 weeks → <b>Elective CS at 38 weeks + IV zidovudine</b>",
+"Viral load < 50 at 36 weeks → <b>Vaginal birth</b>"
+],
+"f": [
+[
+"Transmission",
+"<b>Labour and delivery</b> commonest (not breastfed) · <b>high viral load</b> strongest risk · no treatment ≈ 25%, ART with undetectable VL 1–2%"
+],
+[
+"Screening",
+"<b>Opt-out testing</b> at booking"
+],
+[
+"ART",
+"<b>TLD</b> (tenofovir, lamivudine, dolutegravir) from diagnosis, lifelong · cotrimoxazole if CD4 ≤ 350"
+],
+[
+"Delivery plan",
+"Viral load at <b>34–36 wk</b> · < 50: vaginal · ≥ 1000: CS at 38 wk · avoid ARM early, instruments"
+],
+[
+"Baby",
+"<b>Nevirapine 6 wk</b> (low risk) · <b>DNA PCR at 6 wk</b> · antibody test reliable at 18 mo"
+],
+[
+"Feeding",
+"<b>Exclusive breastfeeding</b> 6 months with ART · never mixed feeding"
+]
+],
+"trap": "On cotrimoxazole <b>no SP</b> for IPTp · <b>mixed feeding</b> carries the highest risk · antibody tests in infants are misleading before 18 months"
+}

@@ -1,0 +1,34 @@
+{
+"sc": [
+"Sudden breathlessness, hypotension and collapse at ROM → <b>Amniotic fluid embolism</b>",
+"Survivor of collapse now bleeding from every site → <b>DIC: FFP, cryoprecipitate</b>",
+"Cardiac arrest at 34 weeks, no output at 4 minutes → <b>Perimortem CS: baby out by 5 min</b>"
+],
+"f": [
+[
+"Facts",
+"1 : 8000–30 000 · <b>anaphylactoid</b> reaction · 70% in labour around ROM, 19% at CS"
+],
+[
+"Phases",
+"1: <b>cardiorespiratory collapse</b>, hypoxia, fits · 2: <b>DIC and haemorrhage</b> (within 4 h)"
+],
+[
+"Diagnosis",
+"<b>Clinical, by exclusion</b> · post-mortem: fetal squames in the lung · CXR: pulmonary oedema"
+],
+[
+"Treatment",
+"<b>ABC, CPR</b> (30 : 2) · left uterine displacement · O₂ · vasopressors · correct DIC: FFP 15 mL/kg, cryo if fibrinogen < 2 g/L, platelets < 50 · TXA 1 g"
+],
+[
+"Perimortem CS",
+"From <b>20 wk</b> (uterus compresses IVC) · start at 4 min, baby out by 5 min"
+],
+[
+"Differential",
+"PE (pleuritic pain) · eclampsia (MgSO₄ 4 g) · anaphylaxis (adrenaline 0.5 mg IM) · LA toxicity (<b>lipid 20% 1.5 mL/kg</b>) · haemorrhage"
+]
+],
+"trap": "Perimortem CS is done to <b>save the mother</b> · mortality 13–80% · no test confirms AFE in life"
+}

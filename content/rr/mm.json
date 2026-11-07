@@ -1,0 +1,34 @@
+{
+"sc": [
+"Death from PPH 2 days after birth → <b>Direct maternal death</b>",
+"Death from malaria at 30 weeks → <b>Indirect maternal death</b>",
+"Woman who survived eclampsia with ICU care → <b>Maternal near miss</b>"
+],
+"f": [
+[
+"Definitions",
+"Death in pregnancy or within <b>42 days</b> of its end · late: 42 d to 1 year · coincidental: accident"
+],
+[
+"Direct vs indirect",
+"<b>Direct</b>: obstetric complications (PPH, PE, sepsis, ectopic) · <b>indirect</b>: disease worsened by pregnancy (malaria, heart disease, anaemia)"
+],
+[
+"Measures",
+"<b>MMR per 100 000 live births</b> · maternal mortality rate per women 15–49 · lifetime risk"
+],
+[
+"Figures (2023)",
+"Sudan MMR <b>256</b> · world 197 · sub-Saharan Africa 448 · SDG 3.1: <b>< 70</b> by 2030"
+],
+[
+"Causes",
+"World: <b>haemorrhage</b> · Sudan: puerperal sepsis, PPH, PE · UK: VTE"
+],
+[
+"Three delays",
+"1: <b>deciding</b> to seek care · 2: <b>reaching</b> care · 3: <b>receiving</b> care · comprehensive EmONC adds CS and transfusion"
+]
+],
+"trap": "A road accident is <b>coincidental</b>, not counted · MMR denominator is <b>live births</b>, not women · skilled attendance is the key intervention"
+}

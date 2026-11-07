@@ -1,0 +1,34 @@
+{
+"sc": [
+"Small cuff on a large arm → <b>Falsely high reading</b>",
+"Readings 145/95 twice, 4 hours apart at 30 weeks → <b>Hypertension: test urine for protein</b>",
+"Urine: nitrites and leucocytes positive → <b>UTI: send MSU for culture</b>"
+],
+"f": [
+[
+"BP technique",
+"Rest <b>5 min</b>, sitting · cuff bladder covers <b>≥ 80%</b> of arm (large cuff if arm > 33 cm) · arm at heart level"
+],
+[
+"Korotkoff",
+"Inflate 30 mmHg above palpated systolic · deflate <b>2 mmHg/s</b> · systolic <b>K1</b> · diastolic <b>K5</b> (K4 if sounds go to zero)"
+],
+[
+"Thresholds",
+"Hypertension <b>≥ 140/90</b> twice · severe <b>≥ 160/110</b> (treat now, re-check in 15 min)"
+],
+[
+"Urine dipstick",
+"Midstream, dip ≈ 1 s · protein <b>1+ ≈ 0.3 g/L</b> · glucose 2+ → OGTT · ketones → hyperemesis"
+],
+[
+"Proteinuria",
+"Significant: <b>PCR ≥ 30 mg/mmol</b> or <b>≥ 0.3 g/24 h</b> · severe > 5 g/24 h"
+],
+[
+"Bacteriuria",
+"2–10% of pregnant women · always treat"
+]
+],
+"trap": "Record to the nearest <b>2 mmHg</b> · never round to 0 or 5 · read each pad at its own time"
+}

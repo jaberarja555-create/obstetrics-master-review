@@ -1,0 +1,34 @@
+{
+"sc": [
+"Head delivered then pulled back against the perineum (turtle sign) → <b>Shoulder dystocia: call help, McRoberts</b>",
+"McRoberts and suprapubic pressure fail → <b>Internal manoeuvres or posterior arm delivery</b>",
+"Baby after shoulder dystocia with arm hanging, waiter's tip → <b>Erb palsy (C5–C6)</b>"
+],
+"f": [
+[
+"Definition",
+"Head-to-body interval <b>> 60 s</b> or extra manoeuvres needed · <b>anterior shoulder</b> impacted behind the symphysis"
+],
+[
+"Risk factors",
+"<b>Macrosomia</b>, diabetes · obesity · post-term · prolonged 2nd stage, instrument · previous SD (10%)"
+],
+[
+"HELPERR",
+"<b>Help</b> · evaluate episiotomy · <b>legs (McRoberts)</b> · <b>pressure (suprapubic, Rubin I)</b> · enter (Rubin II, Woods screw) · remove posterior arm · roll (all fours, Gaskin)"
+],
+[
+"Last resort",
+"<b>Zavanelli</b> (head pushed back, CS) · cleidotomy · symphysiotomy"
+],
+[
+"Complications",
+"Baby: <b>Erb palsy</b>, Klumpke (C8–T1), fractured clavicle/humerus, hypoxia (pH falls 0.04/min) · mother: <b>PPH</b>, 3rd/4th degree tear"
+],
+[
+"Prevention",
+"Diabetic, EFW > <b>4.5 kg</b> → elective CS (non-diabetic > 5 kg)"
+]
+],
+"trap": "<b>Never fundal pressure</b> · avoid strong lateral traction · McRoberts + suprapubic free 80%"
+}

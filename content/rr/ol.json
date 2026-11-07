@@ -1,0 +1,34 @@
+{
+"sc": [
+"Cervix crosses the action line → <b>Slow progress: ARM + oxytocin, reassess in 2 h</b>",
+"Good contractions, no descent, moulding +3, caput → <b>Obstructed labour: CS</b>",
+"Late decelerations with reduced variability → <b>Placental insufficiency: fetal blood sample or deliver</b>"
+],
+"f": [
+[
+"Partogram",
+"Start at <b>4 cm</b> · alert line 1 cm/h · <b>action line 4 h</b> to the right · < 2 cm in 4 h = slow"
+],
+[
+"Partogram symbols",
+"Cervix <b>X</b> · descent <b>O</b> (fifths) · liquor C/M/B · moulding +1 to +3 · contraction boxes (solid > 40 s)"
+],
+[
+"CTG normal",
+"Baseline <b>110–160</b> · variability <b>5–25 bpm</b> · accelerations · no decelerations"
+],
+[
+"Decelerations",
+"<b>Early</b>: head compression (mirror) · <b>late</b>: placental insufficiency · <b>variable</b>: cord · prolonged > 3 min · bradycardia < 100"
+],
+[
+"Obstructed labour",
+"Prolonged labour > 18 h · <b>Bandl's ring</b> · haematuria, oedematous vulva · catheter 14 days after (fistula)"
+],
+[
+"Fetal scalp pH",
+"<b>≤ 7.20 → deliver</b>"
+]
+],
+"trap": "<b>Oxytocin in an obstructed multipara</b> → uterine rupture · head ≥ 3/5 palpable at full dilatation = CPD · decide by the woman and fetus, not the line alone"
+}

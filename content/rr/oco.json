@@ -1,0 +1,34 @@
+{
+"sc": [
+"Counselling after IUFD → <b>Explain options: induction most common; mifepristone then misoprostol</b>",
+"Woman on warfarin for a valve planning pregnancy → <b>Switch to LMWH before 6 weeks</b>",
+"Woman with epilepsy on valproate → <b>Change drug, folic acid 5 mg before conception</b>"
+],
+"f": [
+[
+"Frame",
+"Introduce · establish <b>what she knows</b> · facts in 2–3 chunks · options · check understanding · <b>ICE</b> · plan · leaflets and follow-up"
+],
+[
+"IUFD",
+"Labour within 3 wk in 85% · DIC ≈ 30% after 3 wk · <b>mifepristone 200 mg</b>, then misoprostol · <b>cabergoline 1 mg</b> · investigations · 6-wk review"
+],
+[
+"Cardiac disease",
+"Cardiac output +40% · joint clinic · fetal echo 20–22 wk · <b>LMWH</b> · no ergometrine · <b>HDU ≥ 3 days</b>"
+],
+[
+"Epilepsy",
+"Fit-free 2 years ideal · <b>avoid valproate</b> · <b>folic acid 5 mg</b> 3 months before · baby vitamin K 1 mg"
+],
+[
+"Contraception",
+"<b>LAM</b> 98% · IUD within 48 h or after 4 wk · no method needed before 21 d"
+],
+[
+"VBAC",
+"Success <b>72–75%</b> · rupture ≈ 0.5% · deliver in hospital with continuous CTG"
+]
+],
+"trap": "<b>Never leave a medical word unexplained</b> · check she understood (teach-back) · offer written information and a follow-up date"
+}

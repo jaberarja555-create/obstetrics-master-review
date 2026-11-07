@@ -1,0 +1,34 @@
+{
+"sc": [
+"No fetal movements, no heart on real-time ultrasound at 34 weeks → <b>IUFD</b>",
+"IUFD retained 4 weeks, bleeding gums → <b>DIC: check clotting, deliver</b>",
+"IUFD with ruptured membranes and fever → <b>Deliver now with antibiotics</b>"
+],
+"f": [
+[
+"Definition",
+"Fetal death <b>≥ 28 wk or ≥ 1000 g</b> (WHO) · commonest cause <b>unexplained</b> (≈ 50%)"
+],
+[
+"Diagnosis",
+"<b>Real-time ultrasound</b> · X-ray signs: <b>Spalding</b> (overlapping skull bones, 7 d), <b>Robert</b> (gas in vessels, 12 h), Deuel (halo)"
+],
+[
+"Causes",
+"PE, abruption, diabetes, infection (malaria, syphilis), cholestasis, FGR, cord accident, anomaly"
+],
+[
+"Management",
+"Most labour within 3 wk (85%) · expectant: clotting <b>2–3 times a week</b> · <b>mifepristone 200 mg</b>, then misoprostol after 36–48 h (25 µg 6-hourly > 28 wk)"
+],
+[
+"Investigations",
+"CBC, clotting, Kleihauer, glucose, TORCH, syphilis, bile acids, placenta, post-mortem"
+],
+[
+"After",
+"<b>Cabergoline 1 mg</b> to suppress lactation · Rh-negative: Kleihauer + anti-D · follow-up at 6 wk"
+]
+],
+"trap": "Absent heart on <b>Pinard</b> is not diagnostic · <b>DIC</b> in ≈ 30% if retained > 3 wk · CS only for obstetric reasons"
+}

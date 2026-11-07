@@ -1,0 +1,34 @@
+{
+"sc": [
+"Pregnancy reaches 42 weeks by an early scan → <b>Post-term: induce</b>",
+"Pregnant at 41⁺³ weeks, cervix favourable → <b>Offer induction of labour</b>",
+"Post-term baby with peeling skin, long nails, alert look → <b>Postmaturity syndrome</b>"
+],
+"f": [
+[
+"Definitions",
+"<b>Post-term ≥ 42⁺⁰ wk</b> (294 d) · post-date: past the EDD, < 42 wk"
+],
+[
+"Causes",
+"<b>Wrong dates</b> commonest · previous post-term (30%) · anencephaly · primigravida, obesity"
+],
+[
+"Risks",
+"Stillbirth and intrapartum death ↑ · <b>meconium</b> aspiration · macrosomia, shoulder dystocia · oligohydramnios · <b>polycythaemia</b>"
+],
+[
+"Management",
+"<b>Membrane sweep</b> at 40–41 wk · <b>induce at 41⁺³ wk</b> (to 42 wk)"
+],
+[
+"Declines induction",
+"<b>CTG + liquor (DVP) twice a week</b> · DVP < 2 cm → induce"
+],
+[
+"Labour",
+"Continuous CTG · thick meconium + abnormal CTG → <b>CS</b>"
+]
+],
+"trap": "Early <b>CRL dating</b> prevents most \"post-term\" · recurrence ≈ 30% · a sweep brings labour in about 30% within 7 days"
+}

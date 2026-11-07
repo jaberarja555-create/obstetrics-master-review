@@ -1,0 +1,34 @@
+{
+"sc": [
+"BP 150/100 at 34 weeks, proteinuria 2+ → <b>Pre-eclampsia</b>",
+"BP 170/115, epigastric pain, platelets 60 → <b>HELLP: stabilise and deliver</b>",
+"Tonic-clonic fit at 36 weeks with hypertension → <b>Eclampsia: MgSO₄</b>"
+],
+"f": [
+[
+"Classification",
+"Chronic (before 20 wk or > 12 wk after birth) · <b>gestational</b> (≥ 140/90 after 20 wk) · <b>pre-eclampsia</b> (+ proteinuria ≥ 300 mg/24 h or PCR ≥ 30) · eclampsia · HELLP"
+],
+[
+"Severe features",
+"BP <b>≥ 160/110</b> · headache, visual flashes · epigastric pain · platelets < 100 · oliguria < 30 mL/h · rising urate"
+],
+[
+"Antihypertensives",
+"Oral <b>labetalol</b> (also nifedipine, methyldopa) · severe: <b>IV hydralazine 5 mg</b> or labetalol · never ACE inhibitor or ARB"
+],
+[
+"MgSO₄",
+"<b>4 g IV loading → 1 g/h for 24 h</b> after birth or last fit · toxicity: <b>lost knee jerk</b> first → RR < 12 → <b>10 mL 10% calcium gluconate</b>"
+],
+[
+"Delivery",
+"<b>Delivery is the cure</b> · mild PE 37–38 wk · steroids < 34 wk · fluids ≤ <b>80 mL/h</b> · oxytocin, <b>no ergometrine</b>"
+],
+[
+"Prevention",
+"<b>Aspirin 75 mg</b> 12 → 36 wk if high risk · postpartum BP peaks day 3–5"
+]
+],
+"trap": "Molar pregnancy causes PE <b>before 20 wk</b> · leading cause of death is <b>brain haemorrhage</b>: control BP · MgSO₄ prevents fits, it does not lower BP"
+}

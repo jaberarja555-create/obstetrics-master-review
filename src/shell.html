@@ -1565,6 +1565,24 @@ section[data-file^="x9"] .frow:nth-child(even){background:#f8f7fc}
 .page .rvk .frow.kn .ans{font-variant-numeric:tabular-nums;white-space:nowrap}
 .page .rvk .frow.kn .ans small{font-size:.82em;font-weight:700;margin-left:1px}
 .rvk.rvkc{border-top:2px solid var(--ch)}
+/* Rapid Review exam recap cards (owner, 7 Nov 2026, as in the Pediatrics and Surgery books): one whole card per topic */
+.rqp > .rqu + .rqu { margin-top:calc(10px + var(--vj,0px)); }
+.rqu > .rrc { margin-bottom:8px; }
+.rvk.rq { border:1px solid var(--ch-line); border-radius:9px; overflow:hidden; background:#fff; }
+.rq .rqh { display:flex; align-items:center; gap:8px; padding:calc(6px + var(--rqx,0px)/2) 13px; background:var(--ch-tint-2); border-bottom:1.5px solid var(--ch); font:800 11pt/1.25 Inter,sans-serif; color:#1d1240; }
+.rq .rqh .rvn { flex:none; background:var(--ch); color:#fff; border-radius:5px; padding:2px 7px; font-size:8.5pt; }
+.rq .rqs { padding:calc(7px + var(--rqx,0px)) 15px calc(6px + var(--rqx,0px)); }
+.rq .rqs div { display:block; position:relative; font-size:9.1pt; line-height:1.5; padding:2px 0 2px 15px; }
+.rq .rqs div::before { content:"▸"; color:var(--ch); font-weight:800; position:absolute; left:0; top:2px; }
+.rq .rqs b, .rq .rqf b { color:#1d1240; }
+.rq .rqg { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid #eeecf3; }
+.rq .rqf { padding:calc(6px + var(--rqx,0px)) 15px calc(7px + var(--rqx,0px)); font-size:8.9pt; line-height:1.5; }
+.rq .rqg .rqf:nth-child(odd) { border-right:1px solid #eeecf3; }
+.rq .rqg .rqf.rqw { grid-column:1 / -1; border-right:0; }
+.rq .rqf h5 { margin:0 0 2px; font:800 7.2pt Inter,sans-serif; letter-spacing:1px; text-transform:uppercase; color:var(--ch-dark,var(--ch)); }
+.rq .rqf.rqn h5 { color:#a07a1f; }
+.rq .rqf.rqt { background:#fff6f4; border-top:1px solid #f3dcd6; }
+.rq .rqf.rqt h5 { color:#c0392b; }
 .page .rvk .frow{display:grid;grid-template-columns:1fr 45%;gap:0;align-items:stretch;padding:0;border-bottom:1px solid var(--ch-line2);font-size:9.5pt;line-height:1.32}
 .page .rvk .frow:last-child{border-bottom:0}
 .page .rvk .frow:nth-child(even){background:var(--ch-tint-2)}
@@ -2484,7 +2502,7 @@ document.addEventListener('click',function(e){var b=e.target.closest('[data-ht]'
 function textNodes(sec){var w=document.createTreeWalker(sec,NodeFilter.SHOW_TEXT,{acceptNode:function(n){return n.parentNode.closest('svg')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}}),a=[];while(w.nextNode())a.push(w.currentNode);return a}
 /* owner (Nov 2026, as in Surgery): spare room at the foot of a page is used inside its boxes (more line spacing, padding,
    roomier rows) instead of sitting empty; at least 50 px stay free above the footer */
-function fillPage(sec,again){if(!sec||(sec.dataset.fd&&!again)||!sec.classList.contains('mz'))return;var m=sec.querySelector('.mzm'),body=sec.querySelector('.body');if(!m||!body||!sec.offsetHeight||!m.children.length)return;
+function fillPage(sec,again){if(!sec||(sec.dataset.fd&&!again)||!sec.classList.contains('mz'))return;var m=sec.querySelector('.mzm'),body=sec.querySelector('.body');if(!m||!body||!sec.offsetHeight||!m.children.length||m.querySelector('.rqp'))return;
   sec.dataset.fd=1;sec.classList.remove('fill');sec.style.removeProperty('--ft');sec.style.removeProperty('--fgap');
   function free(){var sc=sec.getBoundingClientRect().height/sec.offsetHeight||1,b=0;m.querySelectorAll('*').forEach(function(c){var r=c.getBoundingClientRect();if(r.height)b=Math.max(b,r.bottom)});return (body.getBoundingClientRect().bottom-b)/sc}
   if(free()<80)return;

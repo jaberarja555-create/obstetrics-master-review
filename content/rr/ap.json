@@ -1,0 +1,34 @@
+{
+"sc": [
+"Painless bright red bleeding at 34 weeks, soft uterus, high head → <b>Placenta praevia: no PV, scan</b>",
+"Painful bleeding, woody hard uterus, shock worse than the visible loss → <b>Abruption (concealed)</b>",
+"Bleeding at ROM with sudden fetal bradycardia → <b>Vasa praevia: immediate CS</b>"
+],
+"f": [
+[
+"Definition",
+"Bleeding from the genital tract after <b>28 wk</b> (24 wk in some guidelines) before birth"
+],
+[
+"Praevia",
+"Painless, soft uterus, malpresentation · <b>ultrasound</b> diagnosis · low at 20 wk → <b>rescan 32 wk</b> · major praevia: <b>CS at 36–37 wk</b> · edge > 2 cm from os: vaginal birth possible"
+],
+[
+"Abruption",
+"Pain, tender hard uterus, fetal distress or death · <b>clinical</b> diagnosis · risks: PE, trauma, smoking, cocaine · commonest cause of <b>DIC</b>"
+],
+[
+"First steps",
+"Two <b>14–16 G</b> cannulae, cross-match 4 units · warm fluids · urine ≥ 30 mL/h · clot test (no clot at 7–10 min = DIC) · steroids < 34 wk"
+],
+[
+"Abruption, dead fetus",
+"Mother stable → <b>vaginal delivery</b> (ARM + oxytocin) · correct DIC: FFP 15 mL/kg, cryo"
+],
+[
+"Accreta (PAS)",
+"Praevia + previous CS (2 CS ≈ 40%) · planned CS at 36 wk with 6–8 units · leave placenta, hysterectomy"
+]
+],
+"trap": "<b>No digital VE</b> until praevia is excluded · Apt test detects fetal blood · Rh-negative: <b>anti-D 500 IU</b> within 72 h"
+}

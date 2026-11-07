@@ -1,0 +1,34 @@
+{
+"sc": [
+"Contractions at 30 weeks, cervix 2 cm → <b>Preterm labour: steroids, nifedipine, MgSO₄</b>",
+"Symptomatic woman, cervical length 12 mm → <b>High risk of birth within 7 days</b>",
+"Previous preterm birth, cervix 20 mm at 20 weeks → <b>Cerclage or vaginal progesterone</b>"
+],
+"f": [
+[
+"Definition",
+"Labour from <b>24 to < 37 wk</b> · threatened: contractions without cervical change"
+],
+[
+"Causes",
+"<b>Infection</b> (commonest proven) · previous preterm birth (<b>strongest risk</b>) · twins, polyhydramnios · cervical weakness · APH"
+],
+[
+"Prediction",
+"<b>Fetal fibronectin</b> negative → birth unlikely in 7–14 d · cervix <b>≤ 15 mm</b> symptomatic"
+],
+[
+"Steroids",
+"<b>24–34 wk</b>: dexamethasone <b>6 mg × 4</b> (12-hourly) or betamethasone 12 mg × 2 (24 h)"
+],
+[
+"Tocolysis",
+"<b>Nifedipine</b> first line, only <b>48 h</b> (time for steroids) · indomethacin < 32 wk · MgSO₄ < 32 wk for <b>neuroprotection</b>"
+],
+[
+"Delivery",
+"Below 34 wk no <b>ventouse</b> (forceps if needed) · history-indicated cerclage 12–14 wk, removed at 37 wk"
+]
+],
+"trap": "Tocolysis gives <b>48 hours</b>, not term · indomethacin after 32 wk closes the <b>ductus</b> · RDS is the commonest neonatal problem"
+}

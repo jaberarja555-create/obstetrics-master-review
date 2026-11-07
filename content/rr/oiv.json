@@ -1,0 +1,34 @@
+{
+"sc": [
+"Prolonged 2nd stage, head 0/5 palpable, station +2, OA → <b>Outlet/low ventouse or forceps</b>",
+"Need for delivery at 32 weeks in the 2nd stage → <b>Forceps, not ventouse</b>",
+"Cord prolapse at 6 cm, live baby → <b>Category 1 CS within 30 minutes</b>"
+],
+"f": [
+[
+"Prerequisites",
+"Fully dilated, ROM · head <b>≤ 1/5 palpable</b>, at or below the spines · position known · bladder empty · analgesia · consent"
+],
+[
+"Ventouse",
+"Cup on the <b>flexion point</b> (3 cm in front of the posterior fontanelle) · 0.8 kg/cm² · <b>max 3 pulls</b>, stop after 2 detachments · ≥ 34 wk"
+],
+[
+"Forceps",
+"<b>Left blade first</b> · Wrigley (outlet, at CS) · Neville-Barnes · <b>Kielland</b> (rotation) · Piper (aftercoming head)"
+],
+[
+"CS urgency",
+"<b>Category 1 ≤ 30 min</b> · Category 2 ≤ 75 min · elective at 39 wk"
+],
+[
+"CS care",
+"Cefuroxime 1.5 g <b>before incision</b> · oxytocin 5 IU slow IV · left tilt 15° · LMWH 10 d after emergency CS · catheter out 12 h"
+],
+[
+"Perimortem CS",
+"Start at 4 min of arrest, <b>baby out by 5 min</b>"
+]
+],
+"trap": "Never ventouse <b>below 34 wk</b> or for a face · stop if no descent with each pull · classical scar ruptures in 2–9%"
+}

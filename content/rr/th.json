@@ -1,0 +1,34 @@
+{
+"sc": [
+"Weight loss, tremor, goitre, eye signs at 10 weeks → <b>Graves' disease: PTU</b>",
+"Hyperemesis, low TSH, no goitre or eye signs → <b>Gestational thyrotoxicosis: no antithyroid drug</b>",
+"Painless palpitations 3 months after birth → <b>Postpartum thyroiditis: β-blocker</b>"
+],
+"f": [
+[
+"Tests",
+"Use <b>free T4</b> · TSH low in 1st trimester (hCG) · TRAb in Graves'"
+],
+[
+"Hyperthyroidism",
+"<b>PTU in 1st trimester</b> (carbimazole embryopathy: aplasia cutis, choanal atresia) · <b>carbimazole</b> from 2nd trimester · PTU: liver failure"
+],
+[
+"Contraindicated",
+"<b>Radioiodine</b> · surgery if needed in the <b>2nd trimester</b>"
+],
+[
+"Fetus",
+"<b>Maternal TRAb</b> cross the placenta → fetal/neonatal thyrotoxicosis (≤ 10%)"
+],
+[
+"Hypothyroidism",
+"Increase levothyroxine <b>25–30%</b> when pregnant · TSH < 2.5 in 1st trimester"
+],
+[
+"Postpartum thyroiditis",
+"3–4 months · hyper phase: β-blocker only · hypo phase 4–8 months · recurrence 70%"
+]
+],
+"trap": "Do not treat <b>gestational thyrotoxicosis</b> with antithyroid drugs · carbimazole up to 15 mg/day and PTU up to 150 mg/day are safe in breastfeeding"
+}

@@ -1,0 +1,34 @@
+{
+"sc": [
+"Breathless, orthopnoea, diastolic murmur in a Sudanese woman → <b>Rheumatic mitral stenosis</b>",
+"Heart failure in the month after delivery, EF < 45% → <b>Peripartum cardiomyopathy</b>",
+"Mechanical valve, now 7 weeks pregnant → <b>Change warfarin to LMWH (6–12 wk embryopathy)</b>"
+],
+"f": [
+[
+"Physiology",
+"Cardiac output <b>+40%</b> · danger peaks: 24–32 wk, labour, <b>immediately after delivery</b> (+60–80%)"
+],
+[
+"Causes",
+"<b>Rheumatic heart disease</b> commonest · <b>mitral stenosis</b> commonest lesion · congenital heart disease · PPCM"
+],
+[
+"Assessment",
+"NYHA class · <b>echocardiography</b> · ECG · fetal echo at 20–22 wk if CHD"
+],
+[
+"Antenatal care",
+"Joint clinic · treat anaemia, infection · <b>LMWH</b> for valves · severe MS: <b>balloon valvotomy</b>"
+],
+[
+"Labour",
+"Early <b>epidural</b> · left tilt · short 2nd stage (instrument) · oxytocin <b>5 IU slowly</b> · <b>no ergometrine</b> · HDU 3 days"
+],
+[
+"Contraindicate pregnancy",
+"<b>Pulmonary hypertension</b>, Eisenmenger · severe MS/AS · Marfan root > 4 cm · EF < 30%"
+]
+],
+"trap": "A <b>diastolic</b> murmur is always pathological · the most dangerous moment is <b>just after delivery</b> (autotransfusion) · avoid ergometrine"
+}

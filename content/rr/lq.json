@@ -1,0 +1,34 @@
+{
+"sc": [
+"Uterus large for dates, tense, fluid thrill, AFI 30 → <b>Polyhydramnios: look for diabetes, anomaly</b>",
+"Polyhydramnios with a double bubble → <b>Duodenal atresia</b>",
+"AFI 3 cm at 41 weeks → <b>Oligohydramnios: induce</b>"
+],
+"f": [
+[
+"Physiology",
+"After 20 wk liquor is <b>fetal urine</b> · peak <b>34–36 wk</b> · normal AFI 9–25 cm"
+],
+[
+"Polyhydramnios",
+"AFI <b>> 25</b> or DVP > 8 · causes: <b>idiopathic</b>, diabetes, GI atresia, anencephaly, twins (TTTS) · risks: malpresentation, <b>cord prolapse</b>, abruption at ROM, PPH"
+],
+[
+"Oligohydramnios",
+"AFI <b>< 5</b> or DVP < 2 · causes: <b>ROM</b> (commonest), FGR, renal agenesis, post-term, ACE inhibitors"
+],
+[
+"Investigations",
+"Detailed scan · OGTT · speculum for ROM · Doppler"
+],
+[
+"Treatment",
+"Poly: treat cause · indomethacin <b>< 32 wk, 72 h</b> · amnioreduction · oligo: deliver at term"
+],
+[
+"Fetal effects of oligo",
+"<b>Pulmonary hypoplasia</b> (before 22 wk) · <b>Potter sequence</b> (renal agenesis) · limb contractures"
+]
+],
+"trap": "<b>ECV is contraindicated</b> with oligohydramnios · ACE inhibitors cause oligohydramnios and hypocalvaria · controlled ARM in polyhydramnios"
+}

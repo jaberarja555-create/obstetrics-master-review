@@ -1,0 +1,34 @@
+{
+"sc": [
+"Lambda (twin-peak) sign on early scan → <b>Dichorionic twins</b>",
+"Monochorionic twins: one with polyhydramnios, one with oligohydramnios → <b>TTTS: fetoscopic laser < 26 wk</b>",
+"Twin 1 is breech in labour → <b>Caesarean section</b>"
+],
+"f": [
+[
+"Zygosity",
+"Different sex = dizygotic, DCDA · split <b>< day 3 DCDA</b> · days 4–7 MCDA · 8–12 MCMA · > day 12 conjoined"
+],
+[
+"Chorionicity scan",
+"<b>11–13⁺⁶ wk</b> · lambda = DC · <b>T sign</b> = MC"
+],
+[
+"MC complications",
+"<b>TTTS</b> (10–15%, 80% fatal untreated) · TAPS (Hb gap, normal liquor) · TRAP (acardiac twin) · co-twin death → brain injury in survivor"
+],
+[
+"Maternal risks",
+"Hyperemesis, anaemia · <b>pre-eclampsia ×5</b> · preterm labour · PPH · polyhydramnios"
+],
+[
+"Surveillance",
+"MC: scans <b>every 2 wk</b> from 16 wk · DC: every 4 wk · FGR in 25%"
+],
+[
+"Delivery",
+"DCDA <b>38 wk</b> · MCDA <b>37 wk</b> · MCMA <b>32 wk CS</b> · triplets 35 wk · twin 2 within 20 min"
+]
+],
+"trap": "Give <b>oxytocin only after twin 2</b> is born · weight difference > 30% is severe · twin 1 non-cephalic → CS"
+}

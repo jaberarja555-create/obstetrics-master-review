@@ -1,0 +1,34 @@
+{
+"sc": [
+"Entering any station → <b>Hand hygiene, introduce, check name and age, consent</b>",
+"Male student about to examine a woman → <b>Named female chaperone</b>",
+"Breaking bad news → <b>SPIKES with a warning shot</b>"
+],
+"f": [
+[
+"Opening (30 s)",
+"Greet, introduce · confirm <b>identity</b> · explain and <b>consent</b> · privacy, chaperone"
+],
+[
+"Communication",
+"<b>ICE</b> (ideas, concerns, expectations) · open then closed questions · <b>signposting</b> · facts in 2–3 chunks · <b>teach-back</b>"
+],
+[
+"Bad news (SPIKES)",
+"Setting · perception · invitation · knowledge (<b>warning shot</b>) · emotions · strategy and summary"
+],
+[
+"Consent (BRAN)",
+"Benefits · risks · alternatives · nothing (doing nothing) · capacity: understand, retain, weigh, communicate"
+],
+[
+"Presenting",
+"< 1 min: who, why, positives, <b>relevant negatives</b>, impression, plan · one main differential"
+],
+[
+"Closing",
+"Summarise · safety-net (bleeding, leaking, fewer movements) · thank · wash hands"
+]
+],
+"trap": "The first words in an emergency viva are <b>\"call for help\"</b> · never leave a medical word unexplained · let her speak first for about a minute"
+}

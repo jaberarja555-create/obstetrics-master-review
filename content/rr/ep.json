@@ -1,0 +1,34 @@
+{
+"sc": [
+"Woman with epilepsy on valproate wants a pregnancy → <b>Switch to lamotrigine/levetiracetam, folic acid 5 mg</b>",
+"Fit at 36 weeks with high BP and proteinuria → <b>Eclampsia: MgSO₄, not antiepileptics</b>",
+"Fit lasting more than 5 minutes → <b>Status epilepticus: lorazepam 4 mg IV</b>"
+],
+"f": [
+[
+"Effect of pregnancy",
+"Most <b>no change</b> · a third fit more · fits commonest in <b>labour and early postpartum</b>"
+],
+[
+"Teratogens",
+"<b>Valproate</b> worst (≈ 10%, neural tube defect) · phenytoin (cleft, nail hypoplasia) · <b>lamotrigine</b> least · background 2–3%"
+],
+[
+"Before conception",
+"Fit-free <b>2 years</b> ideal · single lowest-dose drug · <b>folic acid 5 mg</b> daily"
+],
+[
+"Antenatal",
+"<b>Anomaly scan 18–20⁺⁶ wk</b> · continue drugs (fits harm more than drugs) · drug levels"
+],
+[
+"Labour and after",
+"Avoid <b>pethidine</b> · baby: <b>vitamin K 1 mg IM</b> · breastfeeding allowed · reduce dose back by 10 d"
+],
+[
+"Contraception",
+"Enzyme inducers: <b>copper IUD or DMPA</b>"
+]
+],
+"trap": "Never stop antiepileptics suddenly · fit + <b>fever + normal BP</b> = cerebral malaria · status: lorazepam then phenytoin 15–20 mg/kg"
+}

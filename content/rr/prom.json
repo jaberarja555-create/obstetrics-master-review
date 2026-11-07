@@ -1,0 +1,34 @@
+{
+"sc": [
+"Gush of fluid at 32 weeks, pool in posterior fornix → <b>PPROM: erythromycin, steroids, no VE</b>",
+"Term PROM, no labour after 24 hours → <b>Induce</b>",
+"Fever, tender uterus, offensive liquor, FHR 170 → <b>Chorioamnionitis: antibiotics and deliver</b>"
+],
+"f": [
+[
+"Definitions",
+"PROM: rupture before labour <b>≥ 37 wk</b> · PPROM < 37 wk · prolonged > 24 h"
+],
+[
+"Diagnosis",
+"<b>Sterile speculum: pooling</b> · nitrazine (blue, pH 7–7.5) · ferning · no digital VE"
+],
+[
+"PPROM treatment",
+"<b>Erythromycin 250 mg 6-hourly for 10 days</b> · steroids < 34 wk · no tocolysis · deliver at <b>37 wk</b>"
+],
+[
+"Monitoring",
+"Temperature and pulse 4-hourly · CBC, CRP 2–3 times a week · CTG"
+],
+[
+"Chorioamnionitis",
+"Fever > 37.8 °C, tachycardia, tender uterus, fetal tachycardia · <b>ampicillin + gentamicin</b> · deliver at any gestation"
+],
+[
+"Complications",
+"Preterm birth, <b>cord prolapse</b>, infection, <b>pulmonary hypoplasia</b> (< 24 wk)"
+]
+],
+"trap": "<b>Co-amoxiclav</b> in PPROM causes NEC · digital VE raises infection risk · term PROM: 75% labour within 24 h"
+}

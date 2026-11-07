@@ -1,0 +1,34 @@
+{
+"sc": [
+"Shock out of proportion to bleeding, bradycardia, no fundus felt → <b>Uterine inversion: replace at once (Johnson)</b>",
+"Inverted uterus with the placenta still attached → <b>Leave the placenta until replaced</b>",
+"Manual replacement fails → <b>O'Sullivan hydrostatic method</b>"
+],
+"f": [
+[
+"Facts",
+"1 in 2000–3000 · most in the <b>3rd stage</b> · cause: <b>cord traction before separation</b>, fundal pressure"
+],
+[
+"Degrees",
+"1st: within the cavity · <b>2nd: through the cervix</b> · 3rd: to the introitus · <b>4th: uterus and vagina outside</b> · chronic > 4 wk"
+],
+[
+"Features",
+"<b>PPH (94%)</b>, pain, <b>shock with bradycardia</b> (vagal) · no fundus abdominally · mass in the vagina"
+],
+[
+"Treatment",
+"Call help · <b>Johnson manoeuvre</b> at once (fundus pushed up last-out first-in) · relax ring: terbutaline, <b>MgSO₄ 4 g</b>, GA"
+],
+[
+"Failure",
+"<b>O'Sullivan</b> (2–5 L warm saline, exclude rupture first) · laparotomy: <b>Huntington</b>, Haultain"
+],
+[
+"After",
+"<b>Oxytocin</b> infusion, hold fist in fundus 3–5 min · antibiotics · remove placenta"
+]
+],
+"trap": "Do <b>not remove the placenta</b> before replacement · no oxytocics until replaced · vagal shock is treated with atropine and fluids"
+}

@@ -1,0 +1,34 @@
+{
+"sc": [
+"Swollen painful left calf at 30 weeks → <b>Treatment-dose LMWH now, then duplex</b>",
+"Sudden breathlessness after CS, sinus tachycardia, normal CXR → <b>PE: V/Q scan</b>",
+"Collapse with massive PE → <b>IV unfractionated heparin ± thrombolysis</b>"
+],
+"f": [
+[
+"Risk factors",
+"Pregnancy (×5), <b>first 6 wk postpartum</b> highest · CS · age > 35, BMI > 30 · thrombophilia (<b>antithrombin III</b> worst) · immobility"
+],
+[
+"Clinical",
+"DVT: <b>left leg</b> (75%), calf difference > 2 cm · PE: dyspnoea, pleuritic pain, tachycardia, ↓ CO₂"
+],
+[
+"Investigations",
+"<b>Duplex</b> (repeat day 4 and 7 if negative and suspicion high) · PE: normal CXR → <b>V/Q</b>, abnormal CXR → <b>CTPA</b> · D-dimer not useful"
+],
+[
+"Treatment",
+"<b>Enoxaparin 1 mg/kg twice daily</b> · for the rest of pregnancy + <b>6 wk</b> postpartum · warfarin only after delivery (INR 2–3)"
+],
+[
+"Labour",
+"Stop treatment dose <b>24 h</b> before regional block (prophylactic dose 12 h)"
+],
+[
+"Prevention",
+"≥ 3 risk factors → LMWH from <b>28 wk</b> · prophylaxis 40 mg daily"
+]
+],
+"trap": "Do not wait for the scan to <b>start LMWH</b> · <b>warfarin</b> is avoided in 6–12 wk (embryopathy) · commonest ECG in PE is sinus tachycardia, not S1Q3T3"
+}
