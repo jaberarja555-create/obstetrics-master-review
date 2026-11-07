@@ -20,25 +20,36 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install psql
         run: sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client >/dev/null
+      - name: Check the connection line (never prints it)
+        env:
+          DB: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          case "$DB" in postgresql://*|postgres://*) ;; *) echo "SUPABASE_DB_URL must start with postgresql://"; exit 1;; esac
+          if printf '%s' "$DB" | grep -q '\[\|\]'; then echo "SUPABASE_DB_URL still has [ or ]: replace [YOUR-PASSWORD] completely, brackets included"; exit 1; fi
+          n=$(printf '%s' "$DB" | tr -cd '@' | wc -c)
+          if [ "$n" != "1" ]; then echo "SUPABASE_DB_URL has $n '@' signs: the password must not contain @ # / ? : (use Supabase's Generate a password)"; exit 1; fi
+          pw=$(printf '%s' "$DB" | sed -E 's#^[a-z]+://[^:]*:([^@]*)@.*#\1#'); echo "::add-mask::$pw"
+          if printf '%s' "$pw" | grep -q '[#/?:%]'; then echo "The password has a character that breaks the line (# / ? : %): reset it with Generate a password"; exit 1; fi
+          echo "connection line looks right"
       - name: Apply new migrations
         if: ${{ github.event_name == 'push' || inputs.mode == 'apply' }}
         env:
           DB: ${{ secrets.SUPABASE_DB_URL }}
         run: |
           set -e
-          psql "$DB" -v ON_ERROR_STOP=1 -q -c "create table if not exists obs_migrations (name text primary key, applied timestamptz default now()); alter table obs_migrations enable row level security;"
+          psql "$DB" 2> >(sed -E "s#[^ \"]*@#***@#g" >&2) -v ON_ERROR_STOP=1 -q -c "create table if not exists obs_migrations (name text primary key, applied timestamptz default now()); alter table obs_migrations enable row level security;"
           for f in $(ls tools/supabase/migrations/*.sql | sort); do
             n=$(basename "$f")
-            done=$(psql "$DB" -tA -c "select 1 from obs_migrations where name = '$n'")
+            done=$(psql "$DB" 2> >(sed -E "s#[^ \"]*@#***@#g" >&2) -tA -c "select 1 from obs_migrations where name = '$n'")
             if [ "$done" = "1" ]; then echo "already applied: $n"; continue; fi
             echo "applying: $n"
-            psql "$DB" -v ON_ERROR_STOP=1 -q -1 -f "$f"
-            psql "$DB" -q -c "insert into obs_migrations (name) values ('$n')"
+            psql "$DB" 2> >(sed -E "s#[^ \"]*@#***@#g" >&2) -v ON_ERROR_STOP=1 -q -1 -f "$f"
+            psql "$DB" 2> >(sed -E "s#[^ \"]*@#***@#g" >&2) -q -c "insert into obs_migrations (name) values ('$n')"
           done
       - name: Inspect structure
         if: ${{ inputs.mode == 'inspect' }}
         env:
           DB: ${{ secrets.SUPABASE_DB_URL }}
         run: |
-          psql "$DB" -c "select table_name, column_name, data_type from information_schema.columns where table_schema='public' and table_name like 'obs%' order by table_name, ordinal_position"
-          psql "$DB" -tA -c "select string_agg(pg_get_functiondef(p.oid), E'\n-- ----\n') from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname like 'obs\_%'"
+          psql "$DB" 2> >(sed -E "s#[^ \"]*@#***@#g" >&2) -c "select table_name, column_name, data_type from information_schema.columns where table_schema='public' and table_name like 'obs%' order by table_name, ordinal_position"
+          psql "$DB" 2> >(sed -E "s#[^ \"]*@#***@#g" >&2) -tA -c "select string_agg(pg_get_functiondef(p.oid), E'\n-- ----\n') from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname like 'obs\_%'"
