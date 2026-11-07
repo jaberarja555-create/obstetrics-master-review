@@ -346,7 +346,9 @@
   "NMDA": "N-methyl-D-aspartate (a glutamate receptor in the brain)",
   "ACT": "Artemisinin-based combination therapy",
   "COX": "Cyclo-oxygenase (the enzyme that makes prostaglandins)",
-  "T4": "Thyroxine"
+  "T4": "Thyroxine",
+  "CO₂": "Carbon dioxide (in a blood gas: normal 4.7–6 kPa, about 4 kPa in pregnancy because of deeper breathing)",
+  "O₂": "Oxygen (in a blood gas: normal above 10.6 kPa)"
  },
  "by_topic": {
   "PE": {

@@ -54,7 +54,7 @@
     "id": "pc-4",
     "topic": "pc",
     "type": "sba",
-    "stem": "Blood gas taken at 35 weeks for breathlessness: pH 7.44, PaCO₂ 4.0 kPa, HCO₃⁻ 19 mmol/L, PaO₂ 13.5 kPa. SpO₂ 99%, chest clear.",
+    "stem": "Blood gas taken at 35 weeks for breathlessness: pH 7.44, CO₂ 4.0 kPa, HCO₃⁻ 19 mmol/L, O₂ 13.5 kPa. SpO₂ 99%, chest clear.",
     "q": "How do you interpret this gas?",
     "options": [
      "Hypoxic respiratory failure",
@@ -64,7 +64,7 @@
      "Metabolic acidosis"
     ],
     "answer": 2,
-    "why": "Progesterone drives deeper breathing, so carbon dioxide in the blood is low (PaCO₂ about 4 kPa); with renal bicarbonate loss this is the normal compensated respiratory alkalosis of pregnancy."
+    "why": "Progesterone drives deeper breathing, so CO₂ in the blood is low (about 4 kPa); with renal bicarbonate loss this is the normal compensated respiratory alkalosis of pregnancy."
    },
    {
     "id": "pc-5",
@@ -1113,7 +1113,7 @@
     "id": "vt-5",
     "topic": "vt",
     "type": "sba",
-    "stem": "A 34-year-old on day 6 after birth is breathless with pleuritic pain. ABG shows low PaO₂ and low PaCO₂.",
+    "stem": "A 34-year-old on day 6 after birth is breathless with pleuritic pain. ABG shows low O₂ and low CO₂.",
     "q": "Which ECG finding is most commonly seen in her likely condition?",
     "options": [
      "ST elevation in V1–V4",
