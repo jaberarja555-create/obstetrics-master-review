@@ -227,6 +227,38 @@
 .tdrr{margin-top:4px;border-top:1px solid rgba(255,255,255,.1);border-radius:0;padding-top:12px}
 .tdrr.cur .tdt{color:#f3d98b}
 .tdrr+.tdrr{border-top:0;margin-top:0;padding-top:9px}
+
+/* Your progress card (owner, 8 Nov 2026) */
+#home .prog .pgc{display:grid;grid-template-columns:118px 1fr;gap:14px;align-items:center;background:var(--hc);border:1px solid var(--hl);border-radius:18px;padding:14px 14px 14px 12px;box-shadow:0 4px 14px rgba(18,38,63,.07)}
+#home .prog .pgring{position:relative;width:118px;height:118px}
+#home .prog .pgring svg{width:100%;height:100%;transform:rotate(-90deg)}
+#home .prog .pgring circle{fill:none;stroke-width:9}
+#home .prog .pgring .bg{stroke:var(--hl)}
+#home .prog .pgring .fg{stroke:#3b82f6;stroke-linecap:round;transition:stroke-dasharray .4s}
+#home .prog .pgv{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:1px}
+#home .prog .pgv b{font:850 26px/1 var(--sans);color:var(--ht);font-variant-numeric:tabular-nums}
+#home .prog .pgv b small{font-size:13px;color:var(--hm);font-weight:750}
+#home .prog .pgv span{font:750 10.5px var(--sans);color:var(--ht);letter-spacing:.2px}
+#home .prog .pgv em{font:600 10px var(--sans);font-style:normal;color:var(--hm)}
+#home .prog .pgl{display:grid;gap:10px;min-width:0}
+#home .prog .pgr{display:grid;grid-template-columns:28px 1fr auto;grid-template-rows:auto auto;column-gap:9px;row-gap:5px;align-items:center}
+#home .prog .pgr i{grid-row:1/3;width:28px;height:28px;border-radius:8px;display:grid;place-items:center}
+#home .prog .pgr i svg{width:16px;height:16px}
+#home .prog .pgr .pgk{display:grid;min-width:0}
+#home .prog .pgr .pgk b{font:750 12.5px/1.2 var(--sans);color:var(--ht);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#home .prog .pgr .pgk em{font:600 10.5px var(--sans);font-style:normal;color:var(--hm);font-variant-numeric:tabular-nums}
+#home .prog .pgr strong{font:850 14px var(--sans);color:var(--ht);font-variant-numeric:tabular-nums}
+#home .prog .pgr .pgb{grid-column:2/4;height:5px;border-radius:3px;background:var(--hl);overflow:hidden}
+#home .prog .pgr .pgb u{display:block;height:100%;border-radius:3px;text-decoration:none}
+#home .prog .pmast i{background:rgba(22,163,74,.12);color:#16a34a}#home .prog .pmast .pgb u{background:#16a34a}
+#home .prog .pcard i{background:rgba(201,154,59,.16);color:#b8862b}#home .prog .pcard .pgb u{background:#c99a3b}
+#home .prog .ptop i{background:rgba(31,78,140,.12);color:var(--hp)}#home .prog .ptop .pgb u{background:var(--hp)}
+#home .prog .prhint{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;margin:0;padding-top:11px;border-top:1px solid var(--hl);font:600 11.5px var(--ar,var(--sans));color:var(--hm)}
+#home .prog .prhint b{font-weight:800;padding:2px 9px;border-radius:999px;font-size:11px}
+#home .prog .prhint .c1{background:rgba(59,130,246,.12);color:#2563eb}
+#home .prog .prhint .c2{background:rgba(22,163,74,.12);color:#15803d}
+#home .prog .prhint .c0{background:rgba(239,68,68,.12);color:#dc2626}
+@media (max-width:350px){#home .prog .pgc{grid-template-columns:96px 1fr}#home .prog .pgring{width:96px;height:96px}#home .prog .pgv b{font-size:22px}}
 </style>
 <title>Obstetrics Master Review</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2414,9 +2446,13 @@ function renderHome(){
   var tp=0,tr=0,tm=0;TOPICS.forEach(function(t){tp+=(tpages[t.id]||[]).length;tr+=tRead(t.id);tm+=tMast(t.id)});
   var tc=0,tk=0;deckIds.forEach(function(id){tc+=DECKS[id].cards.length;tk+=deckKnown(id)});
   var fin=TOPICS.filter(function(t){var n=(tpages[t.id]||[]).length;return n&&tRead(t.id)===n}).length;
-  function tile(k,n,of,cls,showPct){var v=pc(n,of);return '<div class="pt '+cls+'"><b>'+(showPct?v+'<small>%</small>':n+'<small> / '+of+'</small>')+'</b><span>'+k+'</span>'+(showPct?'<em>'+n+' / '+of+'</em>':'')+'<div class="pbar"><i style="width:'+v+'%"></i></div></div>'}
-  $('prog').innerHTML='<div class="pts">'+tile('Pages read',tr,tp,'pdone',1)+tile('Pages mastered',tm,tp,'pmast',1)+tile('Flashcards known',tk,tc,'pcard',1)+tile('Topics finished',fin,TOPICS.length,'ptop',0)+'</div>'+
-    '<p class="prhint" dir="rtl" lang="ar">علّم كل صفحة بزر التقدّم في شريط الأدوات: <b class="c1">قريتها</b> أو <b class="c2">أتقنتها</b>، أو رجّعها <b class="c0">ما قريتها</b>.</p>';
+  // Your progress (owner, 8 Nov 2026: the old tiles looked plain): one card with a ring for pages read and three rows
+  var IC={m:'<path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/>',c:'<rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/>',t:'<path d="M4 4h16v16H4z"/><path d="M8 12l3 3 5-6"/>'};
+  function row(cls,ic,k,n,of){var v=pc(n,of);return '<div class="pgr '+cls+'"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+IC[ic]+'</svg></i><span class="pgk"><b>'+k+'</b><em>'+n+' of '+of+'</em></span><strong>'+v+'%</strong><span class="pgb"><u style="width:'+v+'%"></u></span></div>'}
+  var rv=pc(tr,tp),C=2*Math.PI*44;
+  $('prog').innerHTML='<div class="pgc"><div class="pgring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" class="bg"/>'+(rv?'<circle cx="50" cy="50" r="44" class="fg" stroke-dasharray="'+(C*rv/100).toFixed(1)+' '+C.toFixed(1)+'"/>':'')+'</svg><div class="pgv"><b>'+rv+'<small>%</small></b><span>Pages read</span><em>'+tr+' of '+tp+'</em></div></div>'+
+    '<div class="pgl">'+row('pmast','m','Pages mastered',tm,tp)+row('pcard','c','Flashcards known',tk,tc)+row('ptop','t','Topics finished',fin,TOPICS.length)+'</div>'+
+    '<div class="prhint" dir="rtl" lang="ar"><span>علّم صفحاتك من زر التقدّم:</span><b class="c1">قريتها</b><b class="c2">أتقنتها</b><b class="c0">ما قريتها</b></div></div>';
   $('chs').innerHTML=META.chapters.map(function(c){var ts=TOPICS.filter(function(t){return t.ch===c.n});var np=0,ns=0;ts.forEach(function(t){np+=(tpages[t.id]||[]).length;ns+=tRead(t.id)});
     return '<div class="chc c'+c.n+'g'+(openCh===c.n?' open':'')+'"><button class="chh" type="button" data-ch="'+c.n+'" aria-expanded="'+(openCh===c.n)+'">'+(c.img?'<span class="im" style="background-image:url('+c.img+')"></span>':'')+'<span class="ey">Chapter '+c.n+'</span><span class="nm">'+c.name+'</span><span class="mt">'+ts.length+' topics · '+np+' pages · '+pc(ns,np)+'% done</span><span class="cv2">'+CHEV+'</span></button>'
       +'<div class="tl2">'+ts.map(function(t){var n=(tpages[t.id]||[]).length,rr=tRead(t.id),mm=tMast(t.id);return '<button class="tr2'+(n&&rr===n?' done2':'')+'" type="button" data-p="'+t.p+'"><span class="no2">'+t.no+'</span><span><b>'+t.title+(window.__LK&&window.__LK[t.id]?' <i class="lk3" aria-label="Locked"></i>':'')+'</b>'+tprog(rr,mm,n)+'</span>'+(n&&mm===n?'<span class="pc ms" title="Mastered">★</span>':n&&rr===n?'<span class="pc ok">✓</span>':'<span class="pc">'+(rr?pc(rr,n)+'%':CHEV)+'</span>')+'</button>'}).join('')+'</div></div>'}).join('');
