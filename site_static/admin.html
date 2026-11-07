@@ -45,6 +45,7 @@ button.red{color:var(--off)}
 .meta bdi{unicode-bidi:isolate}
 button.wa{background:#0f9d58;border-color:#0f9d58;color:#fff}
 @media (max-width:600px){.stats{grid-template-columns:repeat(3,1fr);gap:8px}.stat{padding:10px 12px}.stat b{font-size:22px}.stat span{font-size:10.5px;letter-spacing:.8px}.dt{margin-left:0;width:100%}}
+.mx{display:inline-flex;align-items:center;gap:6px;font-size:13px;margin-right:6px}.mx select{padding:6px 8px;border-radius:8px;border:1px solid #c99a3b;background:#fff;font:inherit}
 </style></head><body>
 <div class="wrap" id="app">
   <div class="gate" id="gate"><div class="card"><h1>Obstetrics Master Review<small>Activation codes · owner only</small></h1><p class="sub" id="gateMsg">Sign in with the owner's Google account.</p><button class="gg" id="ggIn" type="button"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.7v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.8z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.3 6.6l4 3.1c.9-2.8 3.6-4.9 6.7-4.9z"/></svg>Sign in with Google</button></div></div>
@@ -79,7 +80,7 @@ function msgFor(c){var who=(c.note||'').split('·')[0].trim();
   '1. افتح الكتاب: '+SITE+'\n2. دوس «افتح الكتاب كامل»\n3. ألصق الكود ودوس Activate\n\n'+
   'الكود بيفتح موبايل واحد ولابتوب واحد (أول جهازين تفعّلهم). بعد التفعيل الكتاب بيشتغل بدون إنترنت.'}
 function phoneOf(n){var d=String(n||'').replace(/[^0-9+]/g,'');var m=d.match(/(?:\+?249|0)?(9\d{8}|1\d{8})/);return m?'249'+m[1]:''}
-function devLine(c){var a=[];if(c.phone_dev)a.push(esc(c.phone_label||'Phone')+' (since '+fd(c.phone_since)+', last '+fd(c.phone_last)+')');if(c.pc_dev)a.push(esc(c.pc_label||'Computer')+' (since '+fd(c.pc_since)+', last '+fd(c.pc_last)+')');return a.length?'Devices: '+a.join(' · '):''}
+function devLine(c){var a=[];if(c.phone_dev)a.push(esc(c.phone_label||'Phone')+' (since '+fd(c.phone_since)+', last '+fd(c.phone_last)+')');if(c.pc_dev)a.push(esc(c.pc_label||'Computer')+' (since '+fd(c.pc_since)+', last '+fd(c.pc_last)+')');(EXTRA[c.code]||[]).forEach(function(d){a.push(esc(d.label||(d.kind==='phone'?'Phone':'Computer'))+' (since '+fd(d.since)+', last '+fd(d.last)+')')});return a.length?'Devices: '+a.join(' · '):''}
 function render(){var q=$('find').value.trim().toLowerCase();
   var act=ALL.filter(function(c){return c.activated_at}).length;$('sAll').textContent=ALL.length;$('sAct').textContent=act;$('sUn').textContent=ALL.length-act;
   var rows=ALL.filter(function(c){return !q||(c.code+' '+c.note).toLowerCase().indexOf(q)>=0});
@@ -88,11 +89,17 @@ function render(){var q=$('find').value.trim().toLowerCase();
     return '<div class="it" data-c="'+esc(c.code)+'"><div class="il"><span class="code">'+esc(c.code)+'</span>'+st+'<span class="dt">'+fd(c.created_at)+'</span></div>'+
       (meta?'<div class="meta">'+meta+'</div>':'')+(devLine(c)?'<div class="meta">'+devLine(c)+'</div>':'')+
       '<div class="acts">'+(phoneOf(c.note)?'<button type="button" class="wa" data-a="wa">Send on WhatsApp</button>':'')+'<button type="button" data-a="code">Copy code</button><button type="button" data-a="msg">Copy message</button><button type="button" data-a="note">Edit note</button>'+
-      (c.phone_dev||c.pc_dev?'<button type="button" data-a="reset">Reset devices</button>':'')+
+      '<label class="mx">Devices <select data-a="max">'+[1,2,3,4,5,6,7,8,9,10].map(function(n){return '<option'+(n===(c.maxdev||2)?' selected':'')+'>'+n+'</option>'}).join('')+'</select></label>'+
+      (c.phone_dev||c.pc_dev||(EXTRA[c.code]||[]).length?'<button type="button" data-a="reset">Reset devices</button>':'')+
       (c.active?'<button type="button" class="red" data-a="off">Switch off</button>':'<button type="button" data-a="on">Switch on</button>')+'</div></div>'}).join(''):'<p class="empty">'+(ALL.length?'No code matches.':'No codes yet. Make the first one above.')+'</p>'}
-function load(){return sb.rpc('obs_admin_list').then(function(r){if(r.error){throw r.error}ALL=r.data||[];render()})}
+var EXTRA={};
+function load(){return Promise.all([sb.rpc('obs_admin_list'),sb.rpc('obs_admin_extra')]).then(function(rs){var r=rs[0];if(r.error){throw r.error}ALL=r.data||[];
+  EXTRA={};((rs[1]&&rs[1].data)||[]).forEach(function(d){(EXTRA[d.code]=EXTRA[d.code]||[]).push(d)});render()})}
 function call(fn,args,done){return sb.rpc(fn,args).then(function(r){if(r.error){toast('Error: '+r.error.message);return}toast(done);return load()})}
 $('find').addEventListener('input',render);
+/* how many devices a code may open, 1–10 (owner, 7 Nov 2026, as in Surgery and Pediatrics) */
+$('list').addEventListener('change',function(e){var s=e.target.closest('select[data-a="max"]');if(!s)return;var code=s.closest('.it').dataset.c;
+  call('obs_admin_maxdev',{p_code:code,p_n:+s.value},code+' can now open '+s.value+' device'+(s.value==='1'?'':'s'))});
 $('create').onclick=function(){var n=Math.max(1,Math.min(50,+$('count').value||1)),note=$('note').value.trim();this.disabled=true;var b=this;
   sb.rpc('obs_admin_create',{p_note:note,p_n:n}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}
     var codes=r.data||[];$('note').value='';$('count').value=1;

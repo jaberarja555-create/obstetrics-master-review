@@ -73,6 +73,11 @@ prints the obs_* columns and function definitions to the run log (read with `gh 
 never print rows, keys or student data in a workflow. New database changes = a new numbered migration file (write it idempotently:
 `create or replace`, `if not exists`).
 
+## Devices per code (owner, 7 Nov 2026, as in Surgery and Pediatrics)
+Migration 002: `obs_codes.maxdev` (1–10, default 2 = old behaviour: one phone slot + one computer slot); devices beyond the two slots
+are rows in `obs_devices`; `obs_code_of(dev)` finds a device's code (slot or extra) for check / sync / release. Admin page: «Devices» selector
+per code (`obs_admin_maxdev`), extra devices listed via `obs_admin_extra`; Reset/Free also clear `obs_devices`.
+
 ## The licence key (secret)
 content.bin must be encrypted with the SAME key Supabase gives activated devices (table `obs_secret`, column `k`,
 returned by RPC `obs_activate`). It is NOT in this repo. build.py reads `$OBS_KEY` or `$OBS_KEY_FILE`
