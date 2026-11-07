@@ -135,3 +135,5 @@ Last work: features ported from the Pediatrics book (see "Ported from the Pediat
 - Chapter covers (tools/chapter_covers.py): the owner's new still-life picture `assets/img/chcov<n>.jpg` when it exists (header band with garbled AI text cut off), otherwise a typographic panel with the big outlined chapter number (`.cvart`). All 7 chapter covers done (picture box follows the picture shape, max 420 px high); chapter 7 uses the Home OSCE banner picture (ban7, owner), its teal left fade cut off, shown from the top.
 - Rapid Review and Drugs covers (pages x900_rrcover, y00_drcover) are typographic pages in the same style (class `chcov cx`, chapter or drug-group list);
   termify skips x900/y00. Home chapter banners and Contents bands keep their photos (owner); RR chapter bands show no picture. Owner will send new chapter cover pictures (chcov<n>.jpg) for chapters 2–7. Next: review AI-looking pictures inside the book with the owner.
+- Contents side panel (owner, 7 Nov 2026): "Book cover" row at the top (p 1) and a "Chapter cover" row first in every chapter (`kCov(n)` finds the
+  k<n>_cover page); chapter page ranges start at the cover.

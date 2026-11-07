@@ -2070,6 +2070,7 @@ section[data-file^="x9"] .frow .ans{background:none;color:#172e48;font-weight:75
 .rrc img{display:none}.page .rrc{padding-right:14px}
 .mz h1.mzt.rrh{background:linear-gradient(115deg,#0e2547 0%,#1f4e8c 70%,#4f7ab8 100%)}
 .chcov .cvimg.own2{flex:none;margin-top:auto}.chcov .cvimg.own2 img{height:auto;max-height:420px;object-fit:cover;object-position:center 65%}.chcov .cvimg.own2~.cvin{margin-bottom:auto}
+.tdi.tdkc .tdin,.tdcov .tdn{display:inline-flex;align-items:center;justify-content:center}.tdi.tdkc .tdl{font-style:italic}
 </style>
 
 </head><body><div class="app" id="app">
@@ -2412,15 +2413,19 @@ $('chs').addEventListener('click',function(e){var h=e.target.closest('.chh');if(
 $('tocList').innerHTML=TOPICS.concat([{no:'RR',title:'Rapid review',sub:'Exam recap card of every topic',p:{{RRP}},cls:'rr'},{no:'Rx',title:'Obstetric drugs',sub:'Doses, side effects, what to avoid',p:{{DRP}},cls:'rr'}]).map(function(t){return '<button class="trow c'+(t.ch||'')+' '+t.cls+'" type="button" data-p="'+t.p+'"><span class="n">'+t.no+'</span><span class="l">'+t.title+'<small>'+(t.sub||'')+'</small></span><span class="p">p '+t.p+'</span></button>'}).join('');
 /* Contents as a side panel, like the bookmarks panel of Adobe Reader (owner, Nov 2026, as in Surgery and Pediatrics) */
 var TDOPEN={},TDX=(function(){function f(re){for(var i=0;i<META.pages.length;i++)if(re.test(META.pages[i].f||''))return i+1;return 0}return[{no:'RR',title:'Rapid review',sub:'Exam recap card of every topic',p:f(/^x9/)},{no:'Rx',title:'Obstetric drugs',sub:'Doses, side effects, what to avoid',p:f(/^y0/)}]})();
+function kCov(n){for(var i=0;i<META.pages.length;i++)if((META.pages[i].f||'')==='k'+n+'_cover')return i+1;return 0}
+var BOOKI='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M4 17a3 3 0 0 1 3-3h11"/></svg>';
 function tocCur(){var c=lastCur>=0?lastCur:lastPage(),p=PAGES[c];return p?(p.bn||c+1):1}
 function tocDrawer(){var cur=tocCur(),curCh=null,curT=null,last=TDX[0].p;
   TOPICS.forEach(function(t){if(t.p&&t.p<=cur&&cur<last){curCh=t.ch;curT=t.id}});
+  META.chapters.forEach(function(ch){if(kCov(ch.n)===cur){curCh=ch.n;curT='cov'+ch.n}});
   if(curCh!=null&&TDOPEN[curCh]===undefined)TDOPEN[curCh]=1;
-  var h='<div class="tdpart">Chapters</div>';
-  META.chapters.forEach(function(ch,k){var ts=TOPICS.filter(function(t){return t.ch===ch.n}),a=ts.length?ts[0].p:0,
-      nx=META.chapters[k+1],nts=nx?TOPICS.filter(function(t){return t.ch===nx.n}):[],b=nts.length?nts[0].p-1:last-1,open=!!TDOPEN[ch.n],col=CHC[ch.n]||'#2c5b8f';
+  var h='<button type="button" class="tdrr tdcov'+(cur===1?' cur':'')+'" data-tp="1"><span class="tdn">'+BOOKI+'</span><span class="tdt">Book cover<small>Obstetrics Master Review · p 1</small></span></button><div class="tdpart">Chapters</div>';
+  META.chapters.forEach(function(ch,k){var ts=TOPICS.filter(function(t){return t.ch===ch.n}),kc=kCov(ch.n),a=kc||(ts.length?ts[0].p:0),
+      nx=META.chapters[k+1],nts=nx?TOPICS.filter(function(t){return t.ch===nx.n}):[],b=nx&&kCov(nx.n)?kCov(nx.n)-1:nts.length?nts[0].p-1:last-1,open=!!TDOPEN[ch.n],col=CHC[ch.n]||'#2c5b8f';
     h+='<div class="tdch'+(open?' open':'')+(ch.n===curCh?' cur':'')+'" style="--tc:'+col+'"><button type="button" class="tdhd" data-tch="'+ch.n+'"><span class="tdn">'+ch.n+'</span><span class="tdt">'+esc(ch.name)+
       '<small>'+ts.length+' topic'+(ts.length===1?'':'s')+(a?' · p '+a+(b>a?'–'+b:''):'')+'</small></span><svg class="tdv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="tdls">'+
+      (kc?'<button type="button" class="tdi tdkc'+(curT==='cov'+ch.n?' cur':'')+'" data-tp="'+kc+'"><span class="tdin">'+BOOKI+'</span><span class="tdl">Chapter cover</span><span class="tdp">'+kc+'</span></button>':'')+
       ts.map(function(t){var n=(tpages[t.id]||[]).length,ok=n&&tRead(t.id)===n;
         return '<button type="button" class="tdi'+(t.id===curT?' cur':'')+'" data-tp="'+t.p+'"><span class="tdin">'+esc(t.no)+'</span><span class="tdl">'+esc(t.title)+'</span><span class="tdp'+(ok?' ok':'')+'">'+(ok?'✓ ':'')+t.p+'</span></button>'}).join('')+'</div></div>'});
   TDX.forEach(function(x,k){var nx=TDX[k+1];h+='<button type="button" class="tdrr'+(cur>=x.p&&(!nx||cur<nx.p)?' cur':'')+'" data-tp="'+x.p+'"><span class="tdn">'+x.no+'</span><span class="tdt">'+x.title+'<small>'+x.sub+' · p '+x.p+'</small></span></button>'});
@@ -2465,7 +2470,7 @@ function deckKnown(id){var n=0;(DECKS[id]?DECKS[id].cards:[]).forEach(function(c
 var curDeck='all',deck=[],total=0,known=0,started=false;
 $('toolCards').textContent=deckIds.reduce(function(a,k){return a+DECKS[k].cards.length},0)+' cards · '+deckIds.length+' topics';
 /* flashcards organised (owner, Nov 2026, as in the Pediatrics book): Today and All on top, a chapter bar, then the chosen chapter's topics */
-var FCSHORT={1:'Antenatal',2:'Medical',3:'High-risk',4:'Labour',5:'Emergencies',6:'Puerperium',7:'OSCE'},FCCOL={1:'#9a5b06',2:'#2c5b8f',3:'#8b2361',4:'#23408e',5:'#b03a14',6:'#1d6b4a',7:'#0b6e7f'};
+var FCSHORT={1:'Antenatal',2:'Medical',3:'High-risk',4:'Labour',5:'Emergencies',6:'Puerperium',7:'OSCE'},FCCOL={1:'#9a5b06',2:'#4c2c8f',3:'#8b2361',4:'#23408e',5:'#b03a14',6:'#1d6b4a',7:'#0b6e7f'};
 var DCH={};(META.topics||[]).forEach(function(t){DCH[t.id]=t.ch});
 var fcChs=(META.chapters||[]).filter(function(c){return deckIds.some(function(id){return DCH[id]===c.n})});
 var FCH=+sp('fcch')||(fcChs[0]&&fcChs[0].n)||1;
@@ -3358,7 +3363,7 @@ function renderLect(){var W=$('lectW');if(!W)return;var ts=Object.keys(AU),tot=0
         +(d&&CHN?'<div class="lfoot"><span>Saved on this phone · '+mb(tSize(T.id))+'</span><button type="button" data-del="'+T.id+'">Delete</button></div>':'')+'</div></div>'})});
   h+='<p class="lnote">Lectures you download stay on this phone. On iPhone, open the app at least once every few weeks so they are kept.</p>';
   W.innerHTML=h;markPills();var b=$('lAll');if(b)b.onclick=function(){ts.filter(function(t){return !tDl(t)&&!aLocked(t)}).reduce(function(p,t){return p.then(function(){return dlTopic(t)})},Promise.resolve())}}
-var CHC={1:'#9a5b06',2:'#2c5b8f',3:'#8b2361',4:'#23408e',5:'#b03a14',6:'#1d6b4a',7:'#0b6e7f'};
+var CHC={1:'#9a5b06',2:'#4c2c8f',3:'#8b2361',4:'#23408e',5:'#b03a14',6:'#1d6b4a',7:'#0b6e7f'};
 $('lectW').addEventListener('click',function(e){var x;
   if((x=e.target.closest('[data-dl]'))){e.stopPropagation();dlTopic(x.dataset.dl);return}
   if((x=e.target.closest('[data-del]'))){delTopic(x.dataset.del);return}
