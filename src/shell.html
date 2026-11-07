@@ -193,6 +193,40 @@
 .mydev{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;width:100%;text-align:right;padding:12px 14px;border-radius:16px;background:#fbf3df;border:1px solid #ecd9a8;color:#1e1748;margin-top:16px;cursor:pointer}
 .mydev span{display:flex;flex-direction:column;gap:2px}.mydev b{font:800 14px 'Noto Sans Arabic',sans-serif}.mydev small{font:500 12px 'Noto Sans Arabic',sans-serif;opacity:.8}
 .mydev i{font:800 12.5px 'Noto Sans Arabic',sans-serif;font-style:normal;background:linear-gradient(120deg,#c99a3b,#f3d98b);color:#0e2547;border-radius:10px;padding:8px 10px}
+/* Contents side panel (owner, Nov 2026: like Adobe Reader) */
+.tocdr{position:fixed;inset:0;z-index:900;background:rgba(5,12,28,0);transition:background .22s}
+.tocdr.on{background:rgba(5,12,28,.5)}
+.tocdr[hidden]{display:none}
+.tdin0{position:absolute;top:0;bottom:0;left:0;width:min(88vw,400px);background:#1e1748;color:#eef2fa;display:flex;flex-direction:column;transform:translateX(-102%);transition:transform .22s ease-out;box-shadow:6px 0 24px rgba(0,0,0,.35);padding-top:env(safe-area-inset-top)}
+.tocdr.on .tdin0{transform:none}
+.tdh{display:flex;align-items:center;gap:10px;padding:14px 14px 12px 18px;border-bottom:1px solid rgba(243,217,139,.25)}
+.tdh b{font:900 15px Inter,sans-serif;letter-spacing:2px;text-transform:uppercase;color:#f3d98b}
+.tdh span{font:600 12.5px Inter,sans-serif;opacity:.7;margin-left:auto}
+.tdh button{width:36px;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:transparent;color:inherit;font-size:16px;cursor:pointer}
+.tdbody{flex:1;overflow-y:auto;padding:6px 8px 30px;overscroll-behavior:contain}
+.tdpart{font:800 10.5px Inter,sans-serif;letter-spacing:1.6px;text-transform:uppercase;color:#d9b45a;padding:14px 10px 6px}
+.tdch{border-radius:12px;margin:2px 0}
+.tdch.cur{background:rgba(255,255,255,.05)}
+.tdhd,.tdrr{display:flex;align-items:center;gap:10px;width:100%;padding:9px 8px;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer;border-radius:12px}
+.tdhd:active,.tdrr:active,.tdi:active{background:rgba(255,255,255,.08)}
+.tdn{flex:none;width:32px;height:32px;border-radius:9px;background:var(--tc,#1f4e8c);color:#fff;display:flex;align-items:center;justify-content:center;font:900 13.5px Inter,sans-serif;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.tdrr .tdn{background:linear-gradient(135deg,#c99a3b,#f3d98b);color:#0e2547;font-size:11px}
+.tdt{flex:1;min-width:0;font:750 14px/1.3 Inter,sans-serif}
+.tdt small{display:block;font:500 11.5px Inter,sans-serif;opacity:.65;margin-top:2px}
+.tdv{flex:none;width:18px;height:18px;opacity:.6;transition:transform .2s}
+.tdch.open .tdv{transform:rotate(90deg)}
+.tdls{display:none;padding:0 0 6px 14px;margin-left:23px;border-left:2px solid rgba(243,217,139,.35)}
+.tdch.open .tdls{display:block}
+.tdi{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;width:100%;padding:7px 8px;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer;border-radius:9px;font:600 13px/1.3 Inter,sans-serif}
+.tdin{font:800 10.5px Inter,sans-serif;color:#fff;background:var(--tc,#1f4e8c);border-radius:5px;padding:3px 0;text-align:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.tdp{font:700 11.5px Inter,sans-serif;opacity:.6;font-variant-numeric:tabular-nums}
+.tdp.ok{color:#7ddc9a;opacity:1}
+.tdi.cur{background:rgba(243,217,139,.14);box-shadow:inset 3px 0 0 #f3d98b}
+.tdi.cur .tdl{color:#f3d98b}
+.tdi.soon{opacity:.45;cursor:default}
+.tdrr{margin-top:4px;border-top:1px solid rgba(255,255,255,.1);border-radius:0;padding-top:12px}
+.tdrr.cur .tdt{color:#f3d98b}
+.tdrr+.tdrr{border-top:0;margin-top:0;padding-top:9px}
 </style>
 <title>Obstetrics Master Review</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2312,7 +2346,28 @@ function renderHome(){
 $('chs').addEventListener('click',function(e){var h=e.target.closest('.chh');if(h){var n=+h.dataset.ch;openCh=openCh===n?-1:n;st('orr-opench',String(openCh));renderHome();return}var r=e.target.closest('.tr2');if(r)goPage(+r.dataset.p-1)});
 /* contents sheet */
 $('tocList').innerHTML=TOPICS.concat([{no:'RR',title:'Rapid review',sub:'Key clinical clues with their answers',p:321,cls:'rr'},{no:'Rx',title:'Obstetric drugs',sub:'Doses, side effects, what to avoid',p:335,cls:'rr'}]).map(function(t){return '<button class="trow c'+(t.ch||'')+' '+t.cls+'" type="button" data-p="'+t.p+'"><span class="n">'+t.no+'</span><span class="l">'+t.title+'<small>'+(t.sub||'')+'</small></span><span class="p">p '+t.p+'</span></button>'}).join('');
-$('tocBtn').onclick=function(){$('sheet').hidden=false};
+/* Contents as a side panel, like the bookmarks panel of Adobe Reader (owner, Nov 2026, as in Surgery and Pediatrics) */
+var TDOPEN={},TDX=[{no:'RR',title:'Rapid review',sub:'Key clinical clues with their answers',p:321},{no:'Rx',title:'Obstetric drugs',sub:'Doses, side effects, what to avoid',p:335}];
+function tocCur(){var c=lastCur>=0?lastCur:lastPage(),p=PAGES[c];return p?(p.bn||c+1):1}
+function tocDrawer(){var cur=tocCur(),curCh=null,curT=null,last=TDX[0].p;
+  TOPICS.forEach(function(t){if(t.p&&t.p<=cur&&cur<last){curCh=t.ch;curT=t.id}});
+  if(curCh!=null&&TDOPEN[curCh]===undefined)TDOPEN[curCh]=1;
+  var h='<div class="tdpart">Chapters</div>';
+  META.chapters.forEach(function(ch,k){var ts=TOPICS.filter(function(t){return t.ch===ch.n}),a=ts.length?ts[0].p:0,
+      nx=META.chapters[k+1],nts=nx?TOPICS.filter(function(t){return t.ch===nx.n}):[],b=nts.length?nts[0].p-1:last-1,open=!!TDOPEN[ch.n],col=CHC[ch.n]||'#4c2c8f';
+    h+='<div class="tdch'+(open?' open':'')+(ch.n===curCh?' cur':'')+'" style="--tc:'+col+'"><button type="button" class="tdhd" data-tch="'+ch.n+'"><span class="tdn">'+ch.n+'</span><span class="tdt">'+esc(ch.name)+
+      '<small>'+ts.length+' topic'+(ts.length===1?'':'s')+(a?' · p '+a+(b>a?'–'+b:''):'')+'</small></span><svg class="tdv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="tdls">'+
+      ts.map(function(t){var n=(tpages[t.id]||[]).length,ok=n&&tRead(t.id)===n;
+        return '<button type="button" class="tdi'+(t.id===curT?' cur':'')+'" data-tp="'+t.p+'"><span class="tdin">'+esc(t.no)+'</span><span class="tdl">'+esc(t.title)+'</span><span class="tdp'+(ok?' ok':'')+'">'+(ok?'✓ ':'')+t.p+'</span></button>'}).join('')+'</div></div>'});
+  TDX.forEach(function(x,k){var nx=TDX[k+1];h+='<button type="button" class="tdrr'+(cur>=x.p&&(!nx||cur<nx.p)?' cur':'')+'" data-tp="'+x.p+'"><span class="tdn">'+x.no+'</span><span class="tdt">'+x.title+'<small>'+x.sub+' · p '+x.p+'</small></span></button>'});
+  var d=$('tocDr');if(!d){d=document.createElement('div');d.id='tocDr';d.className='tocdr';d.hidden=true;document.body.appendChild(d);
+    d.addEventListener('click',function(e){if(e.target===d||e.target.closest('#tdX')){closeToc();return}
+      var c=e.target.closest('[data-tch]');if(c){var n=c.dataset.tch,box=c.parentNode;TDOPEN[n]=TDOPEN[n]?0:1;box.classList.toggle('open',!!TDOPEN[n]);return}
+      var g=e.target.closest('[data-tp]');if(g){closeToc();goPage(+g.dataset.tp-1)}})}
+  d.innerHTML='<div class="tdin0"><div class="tdh"><b>Contents</b><span>Page '+cur+'</span><button type="button" id="tdX" aria-label="Close">✕</button></div><div class="tdbody">'+h+'</div></div>';
+  d.hidden=false;requestAnimationFrame(function(){d.classList.add('on');var x=d.querySelector('.tdi.cur')||d.querySelector('.tdch.cur');if(x)x.scrollIntoView({block:'center'})})}
+function closeToc(){var d=$('tocDr');if(!d)return;d.classList.remove('on');setTimeout(function(){d.hidden=true},220)}
+$('tocBtn').onclick=function(){tocDrawer()};
 $('nsheetX').onclick=function(){$('nsheet').hidden=true};$('nsheet').addEventListener('click',function(e){if(e.target===$('nsheet'))$('nsheet').hidden=true});$('sheetX').onclick=function(){$('sheet').hidden=true};
 $('sheet').addEventListener('click',function(e){if(e.target===$('sheet'))$('sheet').hidden=true;var r=e.target.closest('.trow');if(r){$('sheet').hidden=true;goPage(+r.dataset.p-1)}});
 /* ---------- search ---------- */
