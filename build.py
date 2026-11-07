@@ -29,6 +29,7 @@ def topic_of(f):
     return re.sub(r'\d+$', '', f.split('_', 1)[1]) if f.startswith('c') and '_' in f else ''
 
 def locked(f):
+    if f.startswith('x900'): return False   # Rapid Review cover stays open
     if f.startswith('x9') or f.startswith('y0'): return True
     t = topic_of(f)
     return bool(t) and t not in FREE

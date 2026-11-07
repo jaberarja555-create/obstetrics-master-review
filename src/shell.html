@@ -992,6 +992,7 @@ table.t { margin: 4px 0 7px; }
 /* cover */
 .covbg { position:absolute; inset:-30px; background-size:cover; background-position:center; filter:blur(22px) saturate(1.1); }
 .covimg { position:absolute; top:0; bottom:0; left:50%; transform:translateX(-50%); height:1056px; width:auto; box-shadow:0 0 40px rgba(23,21,61,.35); }
+.page.rrcov { background:#1e1748; } .page.rrcov .covimg { height:auto; width:100%; top:50%; bottom:auto; transform:translate(-50%,-50%); }
 
 p.sub { font-family:'Inter',sans-serif; font-size:11.77pt; font-weight:800; color:var(--ch); text-transform:uppercase; letter-spacing:1.3px; margin:2px 0 8px; padding-bottom:5px; border-bottom:2px solid var(--ch-tint); }
 .toc { top:132px; }
@@ -2347,7 +2348,7 @@ $('chs').addEventListener('click',function(e){var h=e.target.closest('.chh');if(
 /* contents sheet */
 $('tocList').innerHTML=TOPICS.concat([{no:'RR',title:'Rapid review',sub:'Key clinical clues with their answers',p:321,cls:'rr'},{no:'Rx',title:'Obstetric drugs',sub:'Doses, side effects, what to avoid',p:335,cls:'rr'}]).map(function(t){return '<button class="trow c'+(t.ch||'')+' '+t.cls+'" type="button" data-p="'+t.p+'"><span class="n">'+t.no+'</span><span class="l">'+t.title+'<small>'+(t.sub||'')+'</small></span><span class="p">p '+t.p+'</span></button>'}).join('');
 /* Contents as a side panel, like the bookmarks panel of Adobe Reader (owner, Nov 2026, as in Surgery and Pediatrics) */
-var TDOPEN={},TDX=[{no:'RR',title:'Rapid review',sub:'Key clinical clues with their answers',p:321},{no:'Rx',title:'Obstetric drugs',sub:'Doses, side effects, what to avoid',p:335}];
+var TDOPEN={},TDX=(function(){function f(re){for(var i=0;i<META.pages.length;i++)if(re.test(META.pages[i].f||''))return i+1;return 0}return[{no:'RR',title:'Rapid review',sub:'Key clinical clues with their answers',p:f(/^x9/)},{no:'Rx',title:'Obstetric drugs',sub:'Doses, side effects, what to avoid',p:f(/^y0/)}]})();
 function tocCur(){var c=lastCur>=0?lastCur:lastPage(),p=PAGES[c];return p?(p.bn||c+1):1}
 function tocDrawer(){var cur=tocCur(),curCh=null,curT=null,last=TDX[0].p;
   TOPICS.forEach(function(t){if(t.p&&t.p<=cur&&cur<last){curCh=t.ch;curT=t.id}});
