@@ -347,8 +347,10 @@
   "ACT": "Artemisinin-based combination therapy",
   "COX": "Cyclo-oxygenase (the enzyme that makes prostaglandins)",
   "T4": "Thyroxine",
-  "CO₂": "Carbon dioxide (in a blood gas: normal 4.7–6 kPa, about 4 kPa in pregnancy because of deeper breathing)",
-  "O₂": "Oxygen (in a blood gas: normal above 10.6 kPa)"
+  "CO₂": "Carbon dioxide",
+  "O₂": "Oxygen",
+  "pCO₂": "Partial pressure of carbon dioxide on a blood gas (normal 35–45 mmHg = 4.7–6 kPa; about 30 mmHg in pregnancy)",
+  "pO₂": "Partial pressure of oxygen on a blood gas (normal 80–100 mmHg = 10.6–13.3 kPa)"
  },
  "by_topic": {
   "PE": {
