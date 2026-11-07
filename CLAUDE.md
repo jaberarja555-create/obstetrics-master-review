@@ -26,7 +26,7 @@ Sister apps: Surgery Master Review (`surgery-rapid-review`) and Pediatrics: feat
   admin.html (code control page), sw.js (offline cache; version and image list rewritten by build), manifest, icon.
 - `assets/`: img/, audio/, fonts/.
 - Emblem (owner, Nov 2026): the round OBSTETRICS MASTER REVIEW seal cut out as `assets/img/logo.webp`; icons `site_static/icon.png` 512, `icon-192.png`, `apple-touch-icon.png`. Used in the top bar (`.blogo`, hidden in the reader), front-matter banners (`.toc-h::after`, `.au-ban::after`), Rapid Review banner (`.rrlogo`), beside STUDENT MASTER | NOTE SERIES on Home and the Reviewers page (`.smseal`) and the subscription sheet (`.sublogo`), as in Surgery.
-- **Every new app feature must be added to the how-to pages** (004_a00c_howto1 / 005_a00d_howto2, owner Nov 2026), in the same Arabic style, keeping both pages fitted.
+- **Every new app feature must be added to the how-to pages** (005_a00c_howto1 / 006_a00d_howto2, owner Nov 2026), in the same Arabic style, keeping both pages fitted.
 - **Reader tools from Surgery (6 Nov 2026):** pressure/speed pen drawn as smooth outlines (hold still = straight line, 7 colours, 6 sizes), stylus mode with palm rejection (`orr-styl`), pinch-zoom while drawing, marker in the highlighter colours with 4 sizes (also «ماركر حر» in the highlighter panel), highlighter 6 colours + full/lower-half style + scroll guard, pictures on pages (pen tool صورة; IndexedDB `orr-img`, local to the device: Supabase has no picture store, `imgUpload` is off), text boxes dragged with a finger, blank pages in 3 kinds and 3 colours added in place (`upgRebuild`, no reload). Code copied from surgery-rapid-review/src/app.js with st→sp, stj→spj.
 - Reader: tap the page-number pill to type a page and jump there (`.pnum.ed`); full-page reading hides the bars on scroll down, a tap brings them back.
 - **Page fit (owner, Nov 2026, as in Surgery):** no congested pages, no big gaps. `tools/paginate.py` re-plans each topic: sections are cut into
@@ -139,3 +139,6 @@ Last work: features ported from the Pediatrics book (see "Ported from the Pediat
   k<n>_cover page); chapter page ranges start at the cover.
 - Plain words in the whole book (owner, 7 Nov 2026): no hard everyday English (also copes, jittery, oozing, boggy, doughy, plateaus, commoner, undelivered…) (corridor, vagueness, giggling, voided, snugly, spoilt, curdy,
   boggy, gaping, torrential, look-alikes, prerequisites…) and no religious phrases ("it is God's will"); medical terms stay.
+- About this edition (owner, 7 Nov 2026, as in Surgery): page 3 `a00b1_about` after About the authors (inserted with tools/insert_page.py; every
+  later page moved up one). English title, Arabic text (Noto Sans Arabic): this edition, disclaimer, copyright (full width), thanks.
+  tools/poster_pages.py finds the RR/drugs cover files by name.
