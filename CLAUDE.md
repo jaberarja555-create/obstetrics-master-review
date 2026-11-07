@@ -132,6 +132,6 @@ Last work: features ported from the Pediatrics book (see "Ported from the Pediat
   cover's navy hue (same lightness), gold kept; chapter colours unchanged (chapter 2 keeps its purple), "Distinguishing features" box stays purple.
 - New flat seal `assets/img/logo3.webp` (navy disc, gold rings, OBSTETRICS / OB / 4TH EDITION / MASTER REVIEW in Inter, drawn as SVG, no AI art);
   icons in site_static rebuilt from it. logo2.webp is no longer used.
-- Chapter covers (tools/chapter_covers.py): the owner's new still-life picture `assets/img/chcov<n>.jpg` when it exists (header band with garbled AI text cut off), otherwise a typographic panel with the big outlined chapter number (`.cvart`). Chapter 1 done.
+- Chapter covers (tools/chapter_covers.py): the owner's new still-life picture `assets/img/chcov<n>.jpg` when it exists (header band with garbled AI text cut off), otherwise a typographic panel with the big outlined chapter number (`.cvart`). Chapters 1–3 done.
 - Rapid Review and Drugs covers (pages x900_rrcover, y00_drcover) are typographic pages in the same style (class `chcov cx`, chapter or drug-group list);
   termify skips x900/y00. Home chapter banners and Contents bands keep their photos (owner); RR chapter bands show no picture. Owner will send new chapter cover pictures (chcov<n>.jpg) for chapters 2–7. Next: review AI-looking pictures inside the book with the owner.
