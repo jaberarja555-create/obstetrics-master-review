@@ -11,7 +11,7 @@ def cover(ch, tops, no):
                    f'<span>{H.escape(t.get("sub", ""))}</span></div><em>{t["p"]}</em></div>' for t in tops)
     cls = ' cv2' if len(tops) > 5 else ''
     return (f'<section class="page chcov c{n}" id="p{no}" data-file="k{n}_cover">'
-            f'<div class="cvtop"><img class="cvseal" src="img/logo.webp" alt=""><div class="cvbook"><b>OBSTETRICS</b><span>Master Review</span></div>'
+            f'<div class="cvtop"><img class="cvseal" src="img/logo2.webp" alt=""><div class="cvbook"><b>OBSTETRICS</b><span>Master Review</span></div>'
             f'<div class="cvtag">Student Master Note Series · 4th edition · 2026</div></div>'
             f'<div class="cvhead"><div class="cvno"><b>Chapter {n}</b><span>{len(tops)} topic{"s" * (len(tops) > 1)}</span></div>'
             f'<h1 class="cvt">{H.escape(ch["name"])}</h1></div>'

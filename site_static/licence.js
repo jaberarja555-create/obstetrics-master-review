@@ -66,7 +66,7 @@ function recheck(){var last=+(LS('orr-kc')||0);if(Date.now()-last<3*864e5||navig
     else if(j.reason==='off'||j.reason==='none'){LS('orr-k',null);LS('orr-kc',null);alert(j.reason==='none'?'الكود بتاعك اتشال من الجهاز دا، فالكتاب الكامل اتقفل هنا. لو دا غلط كلّم '+(CFG.contact||'')+'.':'الكود بتاعك اتوقف، فالكتاب الكامل اتقفل في الجهاز دا. كلّم '+(CFG.contact||'')+'.');location.reload()}})}).catch(function(){})}
 /* ---------- the subscription sheet ---------- */
 var sh=document.createElement('div');sh.className='sheet';sh.id='subSheet';sh.hidden=true;
-sh.innerHTML='<div class="in ar subin" role="dialog" aria-modal="true" dir="rtl"><h3><span>الاشتراك في الكتاب</span><button class="chip" type="button" id="subX">Close</button></h3><img class="sublogo" src="img/logo.webp" alt=""><div id="subBody"></div></div>';
+sh.innerHTML='<div class="in ar subin" role="dialog" aria-modal="true" dir="rtl"><h3><span>الاشتراك في الكتاب</span><button class="chip" type="button" id="subX">Close</button></h3><img class="sublogo" src="img/logo2.webp" alt=""><div id="subBody"></div></div>';
 document.body.appendChild(sh);
 /* MUST (owner, 6 Nov 2026): on the first opening the student has to pick one of the choices; the sheet cannot be closed until then */
 var MUST=false;function setMust(v){MUST=v;sh.classList.toggle('must',v)}
@@ -106,7 +106,7 @@ var actx=null;function chime(notes,type){try{actx=actx||new (window.AudioContext
   notes.forEach(function(f,i){var o=actx.createOscillator(),g=actx.createGain(),t=t0+i*.09;o.type=type;o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.18,t+.015);g.gain.exponentialRampToValueAtTime(.001,t+.55);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+.6)})}catch(e){}}
 function choiceSnd(k){if(k==='trial')chime([523.3,659.3,784,1046.5,1318.5,1568],'triangle');else if(k==='paid')chime([392,523.3,659.3,784],'sine');else if(k==='code')chime([880,1174.7],'sine');else if(k==='ok')chime([523.3,784,1046.5,1568],'triangle');else chime([659.3,523.3],'sine')}
 function openingFx(msg){var d=$('opening');if(!d){d=document.createElement('div');d.id='opening';document.body.appendChild(d)}
-  d.innerHTML='<img src="img/logo.webp" alt=""><b dir="rtl">'+msg+'</b><i><span></span></i>';requestAnimationFrame(function(){d.classList.add('on')})}
+  d.innerHTML='<img src="img/logo2.webp" alt=""><b dir="rtl">'+msg+'</b><i><span></span></i>';requestAnimationFrame(function(){d.classList.add('on')})}
 function setTitle(t){sh.querySelector('h3 span').textContent=t}
 /* the student removes the code from this device himself (owner, 6 Nov 2026): tap twice; Supabase obs_release (tools/supabase/migrations/001_obs_release.sql) */
 function releaseCode(){var b=$('relGo'),m=$('relMsg');
