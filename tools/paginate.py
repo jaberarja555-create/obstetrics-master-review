@@ -67,6 +67,10 @@ def atoms_of(pages):
         if a['kind'] == 'kid' and (a.get('fl') or a.get('tag') in ('h3', 'h4', 'h5')): ok = False
         if a['kind'] == 'row' and nx['kind'] == 'row' and nx['kid'] == a['kid'] and (a['row'] < 1 or a['row'] > a['nrows'] - 3): ok = False
         if a['kind'] == 'kid' and nx['kind'] == 'row' and False: ok = False
+        # owner (7 Nov 2026): a table is never broken into a small stub; each part keeps at least 4 rows and 35% of the table
+        if a['kind'] == 'row' and nx['kind'] == 'row' and nx['kid'] == a['kid']:
+            rb = a['row'] + 1; ra = a['nrows'] - rb
+            if min(rb, ra) < max(5, .3 * a['nrows']): ok = False
         before = sum(x['h'] for x in A[:i + 1] if x['b'] == a['b']); after = sum(x['h'] for x in A[i + 1:] if x['b'] == a['b'])
         if before < MINF or after < MINF: ok = False
         # owner: a section is divided only when it is big, and then into two fair parts (no small stub with a repeated title)
