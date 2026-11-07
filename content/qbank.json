@@ -9428,17 +9428,17 @@
     "id": "oa-4",
     "topic": "oa",
     "type": "sba",
-    "stem": "You must tell a 29-year-old woman that her 20-week scan shows no fetal heart. She is alone in the clinic corridor and asks, \"Is my baby fine?\"",
+    "stem": "You must tell a 29-year-old woman that her 20-week scan shows no fetal heart. She is standing alone outside the clinic and asks, \"Is my baby fine?\"",
     "q": "What is the best first action?",
     "options": [
-     "Tell her the result at once in the corridor",
+     "Tell her the result at once, standing outside the clinic",
      "Say the doctor will tell her later",
      "Show her the scan image",
      "Give her written information",
      "Move to a quiet room and ask whom she wants with her"
     ],
     "answer": 4,
-    "why": "SPIKES starts with the setting: private room, seated, support person. The corridor is never the place for bad news."
+    "why": "SPIKES starts with the setting: private room, seated, support person. Bad news is never given standing in a public place."
    },
    {
     "id": "oa-5",
