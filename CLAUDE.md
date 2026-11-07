@@ -128,7 +128,7 @@ Work continues on `main` from either account: `git pull` first, read this file a
 Last work: features ported from the Pediatrics book (see "Ported from the Pediatrics book"). Next: chapter covers 6–7 when the owner sends pictures.
 
 ## Less AI look (owner, 7 Nov 2026: students distrust a book that looks AI-made)
-- New cover `assets/img/cover4.jpg` (owner's navy/gold design). The app now follows the cover: every purple of the app shell was shifted to the
+- New cover `assets/img/cover4.jpg` (shown as cover5.jpg: trimmed and resized to the page shape 816×1152, fills page 1 with no blurred edges) (owner's navy/gold design). The app now follows the cover: every purple of the app shell was shifted to the
   cover's navy hue (same lightness), gold kept; chapter colours unchanged (chapter 2 keeps its purple), "Distinguishing features" box stays purple.
 - New flat seal `assets/img/logo3.webp` (navy disc, gold rings, OBSTETRICS / OB / 4TH EDITION / MASTER REVIEW in Inter, drawn as SVG, no AI art);
   icons in site_static rebuilt from it. logo2.webp is no longer used.
