@@ -137,5 +137,5 @@ Last work: features ported from the Pediatrics book (see "Ported from the Pediat
   termify skips x900/y00. Home chapter banners and Contents bands keep their photos (owner); RR chapter bands show no picture. Owner will send new chapter cover pictures (chcov<n>.jpg) for chapters 2–7. Next: review AI-looking pictures inside the book with the owner.
 - Contents side panel (owner, 7 Nov 2026): "Book cover" row at the top (p 1) and a "Chapter cover" row first in every chapter (`kCov(n)` finds the
   k<n>_cover page); chapter page ranges start at the cover.
-- Plain words in the OSCE chapter (owner, 7 Nov 2026): no hard everyday English (corridor, vagueness, giggling, voided, snugly, spoilt, curdy,
+- Plain words in the whole book (owner, 7 Nov 2026): no hard everyday English (also copes, jittery, oozing, boggy, doughy, plateaus, commoner, undelivered…) (corridor, vagueness, giggling, voided, snugly, spoilt, curdy,
   boggy, gaping, torrential, look-alikes, prerequisites…) and no religious phrases ("it is God's will"); medical terms stay.

@@ -1369,7 +1369,7 @@
     "id": "dm-9",
     "topic": "dm",
     "type": "sba",
-    "stem": "A 4.3 kg baby is born at 38 weeks to a mother with GDM on insulin. At 2 hours the baby is jittery and sweaty and feeds poorly.",
+    "stem": "A 4.3 kg baby is born at 38 weeks to a mother with GDM on insulin. At 2 hours the baby is shaky (jittery) and sweaty and feeds poorly.",
     "q": "Which investigation is most urgent?",
     "options": [
      "Serum calcium",
@@ -2105,7 +2105,7 @@
     "id": "cd-11",
     "topic": "cd",
     "type": "sba",
-    "stem": "A woman with mitral stenosis is 2 hours after delivery. She becomes breathless and coughs pink frothy sputum. SpO₂ 88%, crackles at both bases, BP 120/80.",
+    "stem": "A woman with mitral stenosis is 2 hours after delivery. She becomes breathless and coughs pink foamy sputum. SpO₂ 88%, crackles at both bases, BP 120/80.",
     "q": "What is the most appropriate immediate management?",
     "options": [
      "IV antibiotics",
@@ -2323,7 +2323,7 @@
      "Give formula at night only"
     ],
     "answer": 2,
-    "why": "Breastfeeding is encouraged on anti-epileptic drugs; phenobarbitone can make the baby drowsy, so watch feeding. She should also feed and change nappies on the floor for safety."
+    "why": "Breastfeeding is encouraged on anti-epileptic drugs; phenobarbitone can make the baby drowsy, so watch feeding. She should also feed and change diapers on the floor for safety."
    },
    {
     "id": "oc-1",
@@ -2601,7 +2601,7 @@
     "id": "af-6",
     "topic": "af",
     "type": "sba",
-    "stem": "A woman with acute fatty liver at 34 weeks is going for caesarean. INR is 2.4, fibrinogen 0.8 g/L, platelets 95 × 10⁹/L, and she is oozing from the cannula sites.",
+    "stem": "A woman with acute fatty liver at 34 weeks is going for caesarean. INR is 2.4, fibrinogen 0.8 g/L, platelets 95 × 10⁹/L, and she is Bleeding from the cannula sites.",
     "q": "What is the most appropriate preparation?",
     "options": [
      "Heparin for DIC",
@@ -3616,7 +3616,7 @@
     "id": "eb-17",
     "topic": "eb",
     "type": "sba",
-    "stem": "A 19-year-old G1 at 14 weeks has vaginal bleeding and severe vomiting. BP 160/110, urine protein 2+, pulse 108. Uterus is at 20 weeks size and doughy; no fetal heart heard. TVS shows a snowstorm pattern with no fetus.",
+    "stem": "A 19-year-old G1 at 14 weeks has vaginal bleeding and severe vomiting. BP 160/110, urine protein 2+, pulse 108. Uterus is at 20 weeks size and soft; no fetal heart heard. TVS shows a snowstorm pattern with no fetus.",
     "q": "What is the most appropriate treatment?",
     "options": [
      "Misoprostol induction then curettage",
@@ -3795,7 +3795,7 @@
      "Planned caesarean at 36 weeks in a specialist centre with consent for hysterectomy, leaving the placenta in place"
     ],
     "answer": 4,
-    "why": "Suspected percreta is delivered at 36 weeks by a team, with 6–8 units ready, uterine incision away from the placenta and hysterectomy with the placenta left in place. Pulling the placenta causes torrential bleeding."
+    "why": "Suspected percreta is delivered at 36 weeks by a team, with 6–8 units ready, uterine incision away from the placenta and hysterectomy with the placenta left in place. Pulling the placenta causes very heavy bleeding."
    },
    {
     "id": "ap-8",
@@ -3865,7 +3865,7 @@
     "id": "ap-12",
     "topic": "ap",
     "type": "sba",
-    "stem": "A woman with a large abruption is oozing from her cannula sites and the needle punctures. A bedside clot test shows no clot after 10 minutes. Platelets 70 × 10⁹/L, fibrinogen very low.",
+    "stem": "A woman with a large abruption is Bleeding from her cannula sites and the needle punctures. A bedside clot test shows no clot after 10 minutes. Platelets 70 × 10⁹/L, fibrinogen very low.",
     "q": "Besides red cells, what is the most appropriate treatment?",
     "options": [
      "Vitamin K 10 mg IM",
@@ -3971,7 +3971,7 @@
      "Pack the pelvis and close"
     ],
     "answer": 2,
-    "why": "A clean tear in a stable woman who wants children is repaired; tubal ligation only with consent. Hysterectomy is for ragged, infected tears or instability."
+    "why": "A clean tear in a stable woman who wants children is repaired; tubal ligation only with consent. Hysterectomy is for irregular, infected tears or instability."
    },
    {
     "id": "ap-emq1",
@@ -4049,7 +4049,7 @@
     "id": "pph-3",
     "topic": "pph",
     "type": "sba",
-    "stem": "A 30-year-old P5 delivers twins after 16 hours of oxytocin-augmented labour. The placenta is complete, but she starts bleeding heavily. The uterus is soft and boggy above the umbilicus.",
+    "stem": "A 30-year-old P5 delivers twins after 16 hours of oxytocin-augmented labour. The placenta is complete, but she starts bleeding heavily. The uterus is soft and soft above the umbilicus.",
     "q": "What is the most appropriate immediate action?",
     "options": [
      "Ergometrine 1 mg IV bolus",
@@ -4209,7 +4209,7 @@
     "id": "pph-13",
     "topic": "pph",
     "type": "sba",
-    "stem": "A 40-year-old P7 is still bleeding after a B-Lynch suture and uterine artery ligation. Pulse 140, BP 70/40, oozing from wound edges, 10 units transfused.",
+    "stem": "A 40-year-old P7 is still bleeding after a B-Lynch suture and uterine artery ligation. Pulse 140, BP 70/40, Bleeding from wound edges, 10 units transfused.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Transfer to another hospital",
@@ -4273,7 +4273,7 @@
     "id": "pph-17",
     "topic": "pph",
     "type": "sba",
-    "stem": "A 32-year-old P2 is seen on day 10 after a vaginal delivery with fresh bleeding, crampy pain, fever 38.6 °C and offensive lochia. The uterus is bulky and tender, os open. Scan shows echogenic material in the cavity.",
+    "stem": "A 32-year-old P2 is seen on day 10 after a vaginal delivery with fresh bleeding, cramping pain, fever 38.6 °C and offensive lochia. The uterus is bulky and tender, os open. Scan shows echogenic material in the cavity.",
     "q": "What is the most appropriate management?",
     "options": [
      "Methotrexate",
@@ -4326,9 +4326,9 @@
       "why": "A missing cotyledon stops the uterus contracting well: tissue must be removed."
      },
      {
-      "stem": "A woman with HELLP syndrome delivers vaginally. The uterus is firm, but blood oozes from her drip sites and the vaginal blood does not clot.",
+      "stem": "A woman with HELLP syndrome delivers vaginally. The uterus is firm, but blood keeps leaking from her drip sites and the vaginal blood does not clot.",
       "answer": 7,
-      "why": "Oozing from puncture sites with a contracted uterus and unclotting blood is a thrombin (clotting) problem."
+      "why": "Bleeding from puncture sites with a contracted uterus and unclotting blood is a thrombin (clotting) problem."
      },
      {
       "stem": "Eight days after a caesarean for prolonged labour, a woman has fever 38.8 °C, offensive lochia and moderate fresh bleeding. The uterus is tender and larger than expected.",
@@ -4779,7 +4779,7 @@
      "Repeat hand-held Doppler in 24 hours"
     ],
     "answer": 2,
-    "why": "Absent heart sounds on Pinard or hand Doppler are suggestive, not diagnostic (obesity and polyhydramnios mislead); only real-time ultrasound confirms fetal death. X-ray signs are late and no longer needed."
+    "why": "Absent heart sounds on Pinard or hand Doppler are suggestive, not diagnostic (obesity and polyhydramnios give a false result); only real-time ultrasound confirms fetal death. X-ray signs are late and no longer needed."
    },
    {
     "id": "iufd-2",
@@ -4993,7 +4993,7 @@
     "id": "lq-3",
     "topic": "lq",
     "type": "sba",
-    "stem": "A baby is born at 36 weeks to a mother whose AFI was 32 cm. Soon after birth he drools frothy saliva and chokes at the first feed. A nasogastric tube coils back in the upper chest on X-ray.",
+    "stem": "A baby is born at 36 weeks to a mother whose AFI was 32 cm. Soon after birth he has much saliva foamy saliva and chokes at the first feed. A nasogastric tube coils back in the upper chest on X-ray.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Pyloric stenosis",
@@ -6271,7 +6271,7 @@
     "id": "pp-8",
     "topic": "pp",
     "type": "sba",
-    "stem": "A baby born at 42+2 weeks weighing 4.3 kg is 3 hours old. The midwife finds him jittery and feeding poorly. Temperature is 36.6 °C and he is pink and well perfused.",
+    "stem": "A baby born at 42+2 weeks weighing 4.3 kg is 3 hours old. The midwife finds him shaky (jittery) and feeding poorly. Temperature is 36.6 °C and he is pink and well perfused.",
     "q": "Which investigation should be done first?",
     "options": [
      "Serum calcium",
@@ -6793,7 +6793,7 @@
      "Polyhydramnios"
     ],
     "answer": 2,
-    "why": "Recurrent breech in pregnancy after pregnancy points to a uterine shape problem. Prematurity is the commonest association overall but does not explain repeated term breeches."
+    "why": "Recurrent breech in pregnancy after pregnancy points to a uterine shape problem. Prematurity is the commonest association overall but does not explain repeated term breech babies."
    },
    {
     "id": "mal-1",
@@ -7454,7 +7454,7 @@
      "Uterine inversion"
     ],
     "answer": 4,
-    "why": "Third-stage pain with shock out of proportion to the loss, a slow pulse and no fundus are the classic signs. Atony gives a soft, boggy fundus that is easy to feel."
+    "why": "Third-stage pain with shock out of proportion to the loss, a slow pulse and no fundus are the classic signs. Atony gives a soft fundus that is easy to feel."
    },
    {
     "id": "ui-2",
@@ -7470,7 +7470,7 @@
      "Take her to theatre for laparotomy"
     ],
     "answer": 2,
-    "why": "Replacement is done at once, with the placenta left in place. Removing the placenta first opens the raw bed and causes torrential bleeding."
+    "why": "Replacement is done at once, with the placenta left in place. Removing the placenta first opens the raw bed and causes very heavy bleeding."
    },
    {
     "id": "ui-3",
@@ -7652,7 +7652,7 @@
     "id": "afe-1",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 5, 38 years old, 39 weeks, on an oxytocin infusion for induction. Ten minutes after ARM at 6 cm she says something is wrong, becomes breathless and cyanosed and has a fit. SpO2 78%, BP 70/30 mmHg. An hour later blood oozes from her cannula sites.",
+    "stem": "Para 5, 38 years old, 39 weeks, on an oxytocin infusion for induction. Ten minutes after ARM at 6 cm she says something is wrong, becomes breathless and cyanosed and has a fit. SpO2 78%, BP 70/30 mmHg. An hour later blood keeps leaking from her cannula sites.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Amniotic fluid embolism",
@@ -7732,7 +7732,7 @@
     "id": "afe-6",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 4 survived a sudden collapse in labour and was delivered by caesarean. She is now oozing from the wound and cannula sites. Platelets 90 × 10⁹/L, fibrinogen 1.2 g/L, PT prolonged. FFP 15 mL/kg is running.",
+    "stem": "Para 4 survived a sudden collapse in labour and was delivered by caesarean. She is now Bleeding from the wound and cannula sites. Platelets 90 × 10⁹/L, fibrinogen 1.2 g/L, PT prolonged. FFP 15 mL/kg is running.",
     "q": "Which product should be added?",
     "options": [
      "Platelet transfusion",
@@ -8148,9 +8148,9 @@
     "lead": "For each patient choose the most likely cause of her collapse. Each option may be used once, more than once or not at all.",
     "items": [
      {
-      "stem": "Para 6, 30 minutes after a normal delivery, is shocked. BP 80/50 mmHg, pulse 128/min. The fundus is soft and boggy at the umbilicus and clots come out when it is rubbed.",
+      "stem": "Para 6, 30 minutes after a normal delivery, is shocked. BP 80/50 mmHg, pulse 128/min. The fundus is soft and soft at the umbilicus and clots come out when it is rubbed.",
       "answer": 1,
-      "why": "A soft, boggy fundus that firms with rubbing is atony; shock matches the loss and the pulse is fast."
+      "why": "A soft fundus that firms with rubbing is atony; shock matches the loss and the pulse is fast."
      },
      {
       "stem": "Para 3 with a previous caesarean, induced with oxytocin. At 8 cm she has sudden severe pain, contractions stop, the head goes up out of the pelvis and fetal parts are felt under the skin. Pulse 140/min.",
@@ -8163,7 +8163,7 @@
       "why": "A firm uterus with a tense, painful side-wall swelling and shock is a haematoma, often under the repair."
      },
      {
-      "stem": "Para 1, 39 weeks, in labour at 7 cm with clear liquor. Minutes after ARM she becomes agitated, cyanosed and hypotensive, then fits. Her BP before was 110/70 mmHg and urine had no protein. Later she oozes from drip sites.",
+      "stem": "Para 1, 39 weeks, in labour at 7 cm with clear liquor. Minutes after ARM she becomes agitated, cyanosed and hypotensive, then fits. Her BP before was 110/70 mmHg and urine had no protein. Later she keeps leaking from drip sites.",
       "answer": 3,
       "why": "Hypoxia and collapse around ROM followed by DIC, with normal BP before, points away from eclampsia."
      }
@@ -8836,7 +8836,7 @@
     "id": "pmd-5",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 1, day 6 after birth. She has not slept for 3 nights, is restless and perplexed, and says voices are telling her the baby is the devil. Temperature 37 °C, BP 115/75 mmHg, urine normal.",
+    "stem": "Para 1, day 6 after birth. She has not slept for 3 nights, is restless and puzzled, and says voices are telling her the baby is the devil. Temperature 37 °C, BP 115/75 mmHg, urine normal.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Reassure and review at the 6-week visit",
@@ -9283,7 +9283,7 @@
       "why": "Low-grade fever with a tender swollen calf in week 1–3 is DVT; confirm with Doppler."
      },
      {
-      "stem": "Day 6 after a caesarean. Temperature 38.4 °C. The lower part of the wound is red, hot and gaping, with pus coming out. The uterus is not tender.",
+      "stem": "Day 6 after a caesarean. Temperature 38.4 °C. The lower part of the wound is red, hot and opened, with pus coming out. The uterus is not tender.",
       "answer": 4,
       "why": "A red, hot, discharging wound on day 4–8 is a wound infection; open and drain the pus."
      }
@@ -9390,7 +9390,7 @@
      "Fetal heart auscultation"
     ],
     "answer": 0,
-    "why": "A finger in the cervix can tear a praevia and cause torrential bleeding. Speculum is safe once the placenta is located."
+    "why": "A finger in the cervix can tear a praevia and cause very heavy bleeding. Speculum is safe once the placenta is located."
    },
    {
     "id": "oa-2",
@@ -10133,7 +10133,7 @@
      "Ultrasound"
     ],
     "answer": 2,
-    "why": "The history points to placenta praevia; digital PV may cause torrential bleeding. Previous CS also raises accreta risk."
+    "why": "The history points to placenta praevia; digital PV may cause very heavy bleeding. Previous CS also raises accreta risk."
    },
    {
     "id": "oh-6",
@@ -10789,7 +10789,7 @@
      "Digital vaginal examination"
     ],
     "answer": 4,
-    "why": "No digital VE until placenta praevia is excluded by scan; it can provoke torrential bleeding."
+    "why": "No digital VE until placenta praevia is excluded by scan; it can provoke very heavy bleeding."
    },
    {
     "id": "ov-3",
@@ -10957,7 +10957,7 @@
      "Speculum examination"
     ],
     "answer": 2,
-    "why": "Painless bright red bleeding suggests praevia; digital examination can cause torrential bleeding."
+    "why": "Painless bright red bleeding suggests praevia; digital examination can cause very heavy bleeding."
    },
    {
     "id": "oh-lc4",
