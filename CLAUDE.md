@@ -76,7 +76,7 @@ never print rows, keys or student data in a workflow. New database changes = a n
 ## Devices per code (owner, 7 Nov 2026, as in Surgery and Pediatrics)
 Migration 002: `obs_codes.maxdev` (1–10, default 2 = old behaviour: one phone slot + one computer slot); devices beyond the two slots
 are rows in `obs_devices`; `obs_code_of(dev)` finds a device's code (slot or extra) for check / sync / release. Admin page: «Devices» selector
-per code (`obs_admin_maxdev`), extra devices listed via `obs_admin_extra`; Reset/Free also clear `obs_devices`.
+per code (`obs_admin_maxdev`), extra devices listed via `obs_admin_extra`; Reset/Free also clear `obs_devices`. «Student notes» button (migration 003, `obs_admin_notes`): the notes a student wrote on highlights, newest first.
 
 ## The licence key (secret)
 content.bin must be encrypted with the SAME key Supabase gives activated devices (table `obs_secret`, column `k`,
