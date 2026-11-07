@@ -29,15 +29,15 @@ def topic_of(f):
     return re.sub(r'\d+$', '', f.split('_', 1)[1]) if f.startswith('c') and '_' in f else ''
 
 def locked(f):
-    if f.startswith('x900'): return False   # Rapid Review cover stays open
-    if f.startswith('x9') or f.startswith('y0'): return True
+    if f.startswith(('x900', 'y00')): return False   # Rapid Review and drugs covers stay open
+    if f.startswith('x9') or bool(re.match(r'y\d', f)): return True
     t = topic_of(f)
     return bool(t) and t not in FREE
 
 LOCK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>'
 
 def placeholder(f, sec):
-    name = 'Rapid review' if f.startswith('x9') else 'Obstetric drugs' if f.startswith('y0') else TT.get(topic_of(f), '')
+    name = 'Rapid review' if f.startswith('x9') else 'Obstetric drugs' if re.match(r'y\d', f) else TT.get(topic_of(f), '')
     name = name[0].upper() + name[1:] if name else name
     body = (f'<div class="body"><div class="lockpg"><div class="lki">{LOCK_SVG}</div><div class="lkt">{H.escape(name)}</div>'
             '<div class="lkar" dir="rtl"><b>هذه الصفحة للمشتركين</b><span>النسخة المجانية تفتح الموضوع الأول من كل فصل. اشترك لتفتح الكتاب كاملًا مع كل البطاقات وبنك الأسئلة.</span></div>'

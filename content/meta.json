@@ -1761,6 +1761,11 @@
    "f": "x925_rr25"
   },
   {
+   "label": "Obstetric drugs",
+   "t": "",
+   "f": "y00_drcover"
+  },
+  {
    "label": "Obstetric drugs · 1/14",
    "t": "",
    "f": "y01_dr1"

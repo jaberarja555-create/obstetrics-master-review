@@ -103,7 +103,8 @@ activation orr-k / orr-kc). Sync via Supabase RPCs obs_sync_get / obs_sync_put (
   Every group starts on its own page and ends on its own pages (owner: no one or two cards spilling over); `tools/drugs_layout.js` packs a group
   tighter (`.dcmp`) when that saves a page and shares its cards evenly over its pages.
   Edit the JSON, then `python3 tools/drugs.py && python3 build.py && node tools/drugs_layout.js && python3 tools/drugs_write.py && python3 build.py`
-  (drugs_write adds/removes `y` pages to match and relabels them).
+  (drugs_write adds/removes `y` pages to match and relabels them). The section opens with the owner's cover `assets/img/drcover.jpg`
+  (page `y00_drcover`, open in the trial like `x900_rrcover`); build.py locks every `y<digit>` page (y10+ too).
 - **Key numbers live in the Rapid Review (owner, 6 Nov 2026):** topic pages have NO Key numbers box any more; every number
   is written in the text where it belongs (checked and added Nov 2026), and each topic's card in the Rapid Review ends with a
   "Key numbers" part (`.rvsub` + `.frow.kn`, value on the right). Source of those rows: `content/rr_keynums.json` (topic no →

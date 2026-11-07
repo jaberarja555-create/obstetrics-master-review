@@ -5,7 +5,7 @@ R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(R, 'tools'))
 from merge_pieces import close_of
 P = json.load(open(os.path.join(R, 'build/dr/pages.json')))
-files = lambda: sorted(glob.glob(os.path.join(R, 'content/pages/*_y*_dr*.html')))
+files = lambda: sorted(f for f in glob.glob(os.path.join(R, 'content/pages/*_y*_dr*.html')) if 'drcover' not in f)
 name = lambda f: re.match(r'\d+_(.+)\.html', os.path.basename(f)).group(1)
 while len(files()) > len(P):
     subprocess.run(['python3', os.path.join(R, 'tools/delete_page.py'), name(files()[-1])], check=True)
@@ -20,7 +20,7 @@ for f, h in zip(files(), P):
     s = open(f, encoding='utf-8').read(); m = re.search(r'<div class="main mzm[^"]*"[^>]*>', s); e = close_of(s, m.start())
     open(f, 'w', encoding='utf-8').write(s[:m.end()] + h + s[e - 6:])
 meta = json.load(open(os.path.join(R, 'content/meta.json')))
-ys = [p for p in meta['pages'] if re.match(r'y\d+.*_dr', p['f'])]
+ys = [p for p in meta['pages'] if re.match(r'y\d+.*_dr', p['f']) and 'drcover' not in p['f']]
 for i, p in enumerate(ys): p['label'] = f'Obstetric drugs · {i + 1}/{len(ys)}'
 json.dump(meta, open(os.path.join(R, 'content/meta.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 print(len(ys), 'drug pages')
