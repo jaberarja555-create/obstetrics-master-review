@@ -34,16 +34,16 @@ if sys.argv[1:] == ['extract']:
     sys.exit()
 D = json.load(open(J, encoding='utf-8'))
 COL = [5, 2, 4, 6, 1, 3, 7]
-units = [f'<div class="lead drl">{D["intro"]}</div>']
+units = {'intro': f'<div class="lead drl">{D["intro"]}</div>', 'groups': [], 'refs': []}
 for gi, g in enumerate(D['groups']):
-    c = COL[gi % len(COL)]
+    c = COL[gi % len(COL)]; units['groups'].append([])
     band = f'<div class="dgb dgx c{c}"><span>{gi + 1}</span>{re.sub(r"<[^>]+>", "", g["title"])}</div>'
     for k, (name, use, how, dose, side, warn) in enumerate(g['drugs']):
         card = (f'<div class="dk dgx c{c}"><div class="dkh"><b>{name}</b><i>{how}</i></div>'
                 f'<div class="dkg"><div class="dkf"><h5>Main use</h5>{use}</div><div class="dkf dkd"><h5>Dose · route · how long</h5>{dose}</div>'
                 f'<div class="dkf"><h5>Side effects · monitor</h5>{side}</div><div class="dkf dkw"><h5>When · cautions</h5>{warn}</div></div></div>')
-        units.append((band if k == 0 else '') + card)
+        units['groups'][-1].append((band if k == 0 else '') + card)
 for r in D['refs']:
-    units.append(f'<div class="mb drt"><div class="mh">{r["title"]}</div><div class="mc">{r["html"]}</div></div>')
+    units['refs'].append(f'<div class="mb drt"><div class="mh">{r["title"]}</div><div class="mc">{r["html"]}</div></div>')
 json.dump(units, open(os.path.join(R, 'build/dr/units.json'), 'w', encoding='utf-8'), ensure_ascii=False)
-print(len(units), 'units')
+print(len(units['groups']), 'groups,', sum(map(len, units['groups'])), 'cards,', len(units['refs']), 'tables')

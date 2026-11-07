@@ -100,7 +100,9 @@ activation orr-k / orr-kc). Sync via Supabase RPCs obs_sync_get / obs_sync_put (
 - **Obstetric drugs section (owner, 7 Nov 2026: "organise it better"):** the source is `content/drugs.json` (intro, 6 groups of drugs with
   [name, main use, how it works, dose, side effects, cautions], and 4 reference tables: which trimester, safe in every trimester, breastfeeding,
   contraindicated). Each drug is one whole card (`.dk`) under a coloured group band (`.dgb`); no table is split and no "(cont.)" titles.
-  Edit the JSON, then `python3 tools/drugs.py && python3 build.py && DR=1 node tools/rapid_review/cards.js && python3 tools/drugs_write.py && python3 build.py`
+  Every group starts on its own page and ends on its own pages (owner: no one or two cards spilling over); `tools/drugs_layout.js` packs a group
+  tighter (`.dcmp`) when that saves a page and shares its cards evenly over its pages.
+  Edit the JSON, then `python3 tools/drugs.py && python3 build.py && node tools/drugs_layout.js && python3 tools/drugs_write.py && python3 build.py`
   (drugs_write adds/removes `y` pages to match and relabels them).
 - **Key numbers live in the Rapid Review (owner, 6 Nov 2026):** topic pages have NO Key numbers box any more; every number
   is written in the text where it belongs (checked and added Nov 2026), and each topic's card in the Rapid Review ends with a
