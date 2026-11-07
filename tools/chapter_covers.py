@@ -15,7 +15,7 @@ def cover(ch, tops, no):
             f'<div class="cvtag">Student Master Note Series · 4th edition · 2026</div></div>'
             f'<div class="cvhead"><div class="cvno"><b>Chapter {n}</b><span>{len(tops)} topic{"s" * (len(tops) > 1)}</span></div>'
             f'<h1 class="cvt">{H.escape(ch["name"])}</h1></div>'
-            f''            + (f'<div class="cvimg own2"><img src="img/chcov{n}.jpg" alt=""></div>' if os.path.exists(os.path.join(R, 'assets', 'img', f'chcov{n}.jpg')) else f'<div class="cvart"><span>{n}</span></div>') +
+            f''            + (f'<div class="cvimg own2"><img src="img/chcov{n}.jpg" alt=""{' style="object-position:center 8%"' if n == 7 else ''}></div>' if os.path.exists(os.path.join(R, 'assets', 'img', f'chcov{n}.jpg')) else f'<div class="cvart"><span>{n}</span></div>') +
             f''
             f'<div class="cvin{cls}"><h3>In this chapter</h3><div class="cvg">{rows}</div></div>'
             f'<div class="cvbot"><span>Obstetrics Master Review</span><i></i><span>4th edition · 2026</span></div></section>')
