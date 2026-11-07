@@ -11,11 +11,11 @@ def cover(ch, tops, no):
                    f'<span>{H.escape(t.get("sub", ""))}</span></div><em>{t["p"]}</em></div>' for t in tops)
     cls = ' cv2' if len(tops) > 5 else ''
     return (f'<section class="page chcov c{n}" id="p{no}" data-file="k{n}_cover">'
-            f'<div class="cvtop"><img class="cvseal" src="img/logo2.webp" alt=""><div class="cvbook"><b>OBSTETRICS</b><span>Master Review</span></div>'
+            f'<div class="cvtop"><img class="cvseal" src="img/logo3.webp" alt=""><div class="cvbook"><b>OBSTETRICS</b><span>Master Review</span></div>'
             f'<div class="cvtag">Student Master Note Series · 4th edition · 2026</div></div>'
             f'<div class="cvhead"><div class="cvno"><b>Chapter {n}</b><span>{len(tops)} topic{"s" * (len(tops) > 1)}</span></div>'
             f'<h1 class="cvt">{H.escape(ch["name"])}</h1></div>'
-            f'<div class="cvimg{" own" if "chcover" in img else ""}"><img src="{img}" alt=""></div>'
+            f'<div class="cvart"><span>{n}</span></div>'
             f'<div class="cvin{cls}"><h3>In this chapter</h3><div class="cvg">{rows}</div></div>'
             f'<div class="cvbot"><span>Obstetrics Master Review</span><i></i><span>4th edition · 2026</span></div></section>')
 meta = json.load(open(os.path.join(R, 'content/meta.json'), encoding='utf-8'))

@@ -126,3 +126,13 @@ activation orr-k / orr-kc). Sync via Supabase RPCs obs_sync_get / obs_sync_put (
 Work continues on `main` from either account: `git pull` first, read this file and `git log --oneline -15`, push to `main`
 (GitHub Actions builds with the OBS_KEY secret and deploys). The licence key is only in GitHub secrets / Supabase, never in a session file.
 Last work: features ported from the Pediatrics book (see "Ported from the Pediatrics book"). Next: chapter covers 6–7 when the owner sends pictures.
+
+## Less AI look (owner, 7 Nov 2026: students distrust a book that looks AI-made)
+- New cover `assets/img/cover4.jpg` (owner's navy/gold design). The app now follows the cover: every purple of the app shell was shifted to the
+  cover's navy hue (same lightness), gold kept; chapter colours unchanged (chapter 2 keeps its purple), "Distinguishing features" box stays purple.
+- New flat seal `assets/img/logo3.webp` (navy disc, gold rings, OBSTETRICS / OB / 4TH EDITION / MASTER REVIEW in Inter, drawn as SVG, no AI art);
+  icons in site_static rebuilt from it. logo2.webp is no longer used.
+- Chapter covers (tools/chapter_covers.py) have no picture: a typographic panel with the big outlined chapter number (`.cvart`).
+- Rapid Review and Drugs covers (pages x900_rrcover, y00_drcover) are typographic pages in the same style (class `chcov cx`, chapter or drug-group list);
+  termify skips x900/y00. Home chapter banners show a large outlined number instead of the AI picture (`.chh .bn`); Contents bands and RR chapter bands
+  show no picture. Next: review AI-looking pictures inside the book with the owner.

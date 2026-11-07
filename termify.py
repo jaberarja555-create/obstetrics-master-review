@@ -27,7 +27,7 @@ def topic_of(fid):
     return re.sub(r'\d+$', '', fid.split('_', 1)[1]) if fid.startswith('c') and '_' in fid else ''
 
 def termify(fid, page):
-    if fid.startswith(("a0", "k")):               # cover, authors, reviewers, how-to, references, contents
+    if fid.startswith(("a0", "k", "x900", "y00")):               # cover, authors, reviewers, how-to, references, contents
         return page
     topic = topic_of(fid)
     used = set(m.lower() for m in re.findall(r'<span class="gl" data-a="([^":]+):', page))
