@@ -2509,8 +2509,8 @@ $('chs').addEventListener('click',function(e){var h=e.target.closest('.chh');if(
 /* contents sheet */
 $('tocList').innerHTML=TOPICS.concat([{no:'RR',title:'Rapid review',sub:'Exam recap card of every topic',p:{{RRP}},cls:'rr'},{no:'Rx',title:'Obstetric drugs',sub:'Doses, side effects, what to avoid',p:{{DRP}},cls:'rr'}]).map(function(t){return '<button class="trow c'+(t.ch||'')+' '+t.cls+'" type="button" data-p="'+t.p+'"><span class="n">'+t.no+'</span><span class="l">'+t.title+'<small>'+(t.sub||'')+'</small></span><span class="p">p '+t.p+'</span></button>'}).join('');
 /* Contents as a side panel, like the bookmarks panel of Adobe Reader (owner, Nov 2026, as in Surgery and Pediatrics) */
-var TDOPEN={},TDX=(function(){function f(re){for(var i=0;i<META.pages.length;i++)if(re.test(META.pages[i].f||''))return i+1;return 0}return[{no:'RR',title:'Rapid review',sub:'Exam recap card of every topic',p:f(/^x9/)},{no:'Rx',title:'Obstetric drugs',sub:'Doses, side effects, what to avoid',p:f(/^y0/)}]})();
-function kCov(n){for(var i=0;i<META.pages.length;i++)if((META.pages[i].f||'')==='k'+n+'_cover')return i+1;return 0}
+var TDOPEN={},TDX=(function(){function f(re){for(var i=0;i<META.pages.length;i++)if(!META.pages[i].user&&re.test(META.pages[i].f||''))return META.pages[i].bn||i+1;return 0}return[{no:'RR',title:'Rapid review',sub:'Exam recap card of every topic',p:f(/^x9/)},{no:'Rx',title:'Obstetric drugs',sub:'Doses, side effects, what to avoid',p:f(/^y0/)}]})();
+function kCov(n){for(var i=0;i<META.pages.length;i++)if(!META.pages[i].user&&(META.pages[i].f||'')==='k'+n+'_cover')return META.pages[i].bn||i+1;return 0}
 var BOOKI='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M4 17a3 3 0 0 1 3-3h11"/></svg>';
 function tocCur(){var c=lastCur>=0?lastCur:lastPage(),p=PAGES[c];return p?(p.bn||c+1):1}
 function tocDrawer(){var cur=tocCur(),curCh=null,curT=null,last=TDX[0].p;
