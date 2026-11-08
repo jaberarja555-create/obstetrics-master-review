@@ -2130,6 +2130,37 @@ section[data-file^="x9"] .frow .ans{background:none;color:#172e48;font-weight:75
 #home .prog .prhint .c0{background:rgba(248,113,113,.2);color:#fecaca}
 @media (max-width:360px){#home .prog .pgring{width:92px;height:92px}#home .prog .pgv b{font-size:24px}#home .prog .pgtx b{font-size:21px}}
 @media (prefers-reduced-motion:reduce){#home .prog .pgc::before,#home .prog .pgc::after,#home .prog .fg{animation:none}}
+
+/* Your progress card v3 (owner, 8 Nov 2026: four tiles incl. the question bank, refined sizes, type and colours) */
+#home .prog .pgc{position:relative;overflow:hidden;border-radius:22px;padding:18px 14px 14px;color:#fff;
+  background:radial-gradient(120% 90% at 100% 0%,rgba(232,198,110,.26),transparent 55%),radial-gradient(90% 70% at 0% 100%,rgba(90,140,220,.35),transparent 60%),linear-gradient(150deg,#0e2547,#1f4e8c);
+  box-shadow:0 16px 34px rgba(10,25,50,.28),inset 0 0 0 1px rgba(232,198,110,.38)}
+#home .prog .pgtop{gap:18px;padding:0 4px}
+#home .prog .pgring{width:104px;height:104px}
+#home .prog .pgv b{font:850 30px/1 var(--sans);letter-spacing:-.5px}
+#home .prog .pgey{font:800 10.5px var(--sans);letter-spacing:2px;color:#e8c66e}
+#home .prog .pgtx b{font:850 26px/1.05 var(--sans);letter-spacing:-.3px}
+#home .prog .pgtx b small{font-size:13px;font-weight:650;color:rgba(255,255,255,.62);letter-spacing:0}
+#home .prog .pgmsg{margin-top:6px;padding:4px 11px;font:700 11.5px var(--sans);background:linear-gradient(90deg,rgba(232,198,110,.22),rgba(232,198,110,.08));border:1px solid rgba(232,198,110,.45);color:#fbe7a6}
+#home .prog .pgms{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
+#home .prog .pgm{position:relative;display:flex;align-items:center;gap:10px;padding:11px 10px 11px 11px;border-radius:15px;text-align:left;justify-items:initial;
+  background:linear-gradient(160deg,rgba(255,255,255,.11),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.13);overflow:hidden}
+#home .prog .pgm::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac)}
+#home .prog .pgm .mr{flex:none;width:44px;height:44px}
+#home .prog .pgm .bg{stroke:rgba(255,255,255,.14)}
+#home .prog .pgm .fg{stroke:var(--ac)}
+#home .prog .pgm .mr b{font:800 11.5px var(--sans);letter-spacing:-.2px}
+#home .prog .pgm .mt{display:grid;gap:1px;min-width:0}
+#home .prog .pgm .mk{font:800 10px/1.2 var(--sans);letter-spacing:1.1px;text-transform:uppercase;color:var(--al)}
+#home .prog .pgm .mv{font:800 15px/1.2 var(--sans);color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
+#home .prog .pgm .mv small{font-size:11px;font-weight:600;color:rgba(255,255,255,.6)}
+#home .prog .pgm .ms{font:700 10.5px var(--sans);color:var(--al)}
+#home .prog .pgm.pmast{--ac:#4ade80;--al:#a7f3c4}
+#home .prog .pgm.pcard{--ac:#e8c66e;--al:#f6dc96}
+#home .prog .pgm.ptop{--ac:#60b8ff;--al:#b5dcff}
+#home .prog .pgm.pqb{--ac:#f59ec4;--al:#fbc8de}
+#home .prog .prhint{margin-top:14px;padding-top:12px;font:600 12px var(--sans);color:rgba(255,255,255,.82)}
+@media (max-width:360px){#home .prog .pgm{gap:8px;padding:10px 8px}#home .prog .pgm .mr{width:38px;height:38px}#home .prog .pgm .mv{font-size:13.5px}#home .prog .pgm .mk{letter-spacing:.6px}}
 </style>
 
 </head><body><div class="app" id="app">
@@ -2458,14 +2489,15 @@ function renderHome(){
   var tp=0,tr=0,tm=0;TOPICS.forEach(function(t){tp+=(tpages[t.id]||[]).length;tr+=tRead(t.id);tm+=tMast(t.id)});
   var tc=0,tk=0;deckIds.forEach(function(id){tc+=DECKS[id].cards.length;tk+=deckKnown(id)});
   var fin=TOPICS.filter(function(t){var n=(tpages[t.id]||[]).length;return n&&tRead(t.id)===n}).length;
-  // Your progress (owner, 8 Nov 2026: "something magical"): a navy card with a glowing gold ring for pages read, a line that changes with
-  // the progress, three small rings (mastered, flashcards, topics) and the progress chips; every label short so it fits any phone
+  // Your progress (owner, 8 Nov 2026): gold ring for pages read with a message that follows the progress, then four tiles
+  // (mastered pages, flashcards, topics, question bank answered + % correct), each with its own colour
   var rv=pc(tr,tp),C=2*Math.PI*44,c2=2*Math.PI*16;
   var msg=rv>=100?'Book complete ★':rv>=75?'Almost there':rv>=50?'More than half way':rv>=25?'Keep going':rv>0?'A good start':'Mark your first page';
-  function mini(cls,k,n,of){var v=pc(n,of);return '<div class="pgm '+cls+'"><span class="mr"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" class="bg"/>'+(v?'<circle cx="20" cy="20" r="16" class="fg" stroke-dasharray="'+(c2*v/100).toFixed(1)+' '+c2.toFixed(1)+'"/>':'')+'</svg><b>'+v+'<small>%</small></b></span><span class="mk">'+k+'</span><em>'+n+' / '+of+'</em></div>'}
+  var qn=0,qa=0,qok=0;try{QS.forEach(function(q){qn++;var s=QST[q.id];if(s&&(s.n||s.a)){qa++;if(!s.w)qok++}})}catch(e){}
+  function tl(cls,k,n,of,sub){var v=pc(n,of);return '<div class="pgm '+cls+'"><span class="mr"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" class="bg"/>'+(v?'<circle cx="20" cy="20" r="16" class="fg" stroke-dasharray="'+(c2*v/100).toFixed(1)+' '+c2.toFixed(1)+'"/>':'')+'</svg><b>'+v+'<small>%</small></b></span><span class="mt"><span class="mk">'+k+'</span><span class="mv">'+n+'<small> / '+of+'</small></span>'+(sub?'<span class="ms">'+sub+'</span>':'')+'</span></div>'}
   $('prog').innerHTML='<div class="pgc"><div class="pgtop"><div class="pgring"><svg viewBox="0 0 100 100"><defs><linearGradient id="pgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe7a6"/><stop offset=".55" stop-color="#e8c66e"/><stop offset="1" stop-color="#b8862b"/></linearGradient></defs><circle cx="50" cy="50" r="44" class="bg"/>'+(rv?'<circle cx="50" cy="50" r="44" class="fg" stroke-dasharray="'+(C*rv/100).toFixed(1)+' '+C.toFixed(1)+'"/>':'')+'</svg><div class="pgv"><b>'+rv+'<small>%</small></b></div></div>'+
     '<div class="pgtx"><span class="pgey">Pages read</span><b>'+tr+' <small>of '+tp+'</small></b><span class="pgmsg">'+msg+'</span></div></div>'+
-    '<div class="pgms">'+mini('pmast','Mastered',tm,tp)+mini('pcard','Flashcards',tk,tc)+mini('ptop','Topics',fin,TOPICS.length)+'</div>'+
+    '<div class="pgms">'+tl('pmast','Mastered',tm,tp)+tl('pcard','Flashcards',tk,tc)+tl('ptop','Topics',fin,TOPICS.length)+tl('pqb','Questions',qa,qn,qa?pc(qok,qa)+'% correct':'')+'</div>'+
     '<div class="prhint" dir="rtl" lang="ar"><span>علّم صفحاتك من زر التقدّم:</span><span class="pgch"><b class="c1">قريتها</b><b class="c2">أتقنتها</b><b class="c0">ما قريتها</b></span></div></div>';
   $('chs').innerHTML=META.chapters.map(function(c){var ts=TOPICS.filter(function(t){return t.ch===c.n});var np=0,ns=0;ts.forEach(function(t){np+=(tpages[t.id]||[]).length;ns+=tRead(t.id)});
     return '<div class="chc c'+c.n+'g'+(openCh===c.n?' open':'')+'"><button class="chh" type="button" data-ch="'+c.n+'" aria-expanded="'+(openCh===c.n)+'">'+(c.img?'<span class="im" style="background-image:url('+c.img+')"></span>':'')+'<span class="ey">Chapter '+c.n+'</span><span class="nm">'+c.name+'</span><span class="mt">'+ts.length+' topics · '+np+' pages · '+pc(ns,np)+'% done</span><span class="cv2">'+CHEV+'</span></button>'
@@ -3109,6 +3141,7 @@ var QT=spj('qbtests')||[],CUR=spj('qbcur'),qset=spj('qbset')||{mode:'tutor',pool
 function saveQ(){st('orr-qb',JSON.stringify(QST));spj('qbtests',QT);spj('qbcur',CUR);spj('qbset',qset);syncSoon()}
 var TT={};TOPICS.forEach(function(t){TT[t.id]=t});
 var QBY={};QS.forEach(function(q){QBY[q.id]=q});
+if($('home')&&!$('home').hidden)renderHome();  // the progress card counts the question bank
 var L='ABCDEFGHIJKL',qchs=[];QS.forEach(function(q){if(qchs.indexOf(q.ch)<0)qchs.push(q.ch)});qchs.sort(function(a,b){return a-b});
 if($('toolQ'))$('toolQ').textContent=QS.length+' questions with explanations';
 function qpct(a,b){return b?Math.round(a/b*100):0}
