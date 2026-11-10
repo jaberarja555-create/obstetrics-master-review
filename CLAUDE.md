@@ -211,3 +211,10 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
 - Practice on tablets and PCs (owner, 10 Nov 2026): questions and flashcards side by side over the full width, then «تدرّب حسب الفصل» (a tile per chapter with its questions and cards buttons); phones keep the two-tab switch.
 - Chapter previews (owner, 10 Nov 2026): Chapters list, chapter page, lecture and slide cards use the still-life pictures `chcov<n>.jpg` (v2.js `chImg`); the old banner strips `ban<n>.jpg` looked bad as thumbnails.
 - Names in Arabic or English (owner, 10 Nov 2026): greetings are right-to-left with the name isolated (`greet()`, `<bdi>`), so «مرحب بك يا Arja» reads in order; the header name is `dir=auto` and shortens before it can cover the search button.
+- **Reader, new design (owner, 10 Nov 2026; the book page itself is unchanged).** Slim app bar: back to the chapter, a clear Home button
+  (`.rhome`), «Page k of n · Chapter N» over the topic title (`.rt`), the read mark as a chip (`#prBtn`, moved out of the tools), topic
+  bookmark (`.rbm`), page look; a thin progress line under the bar (`.rprog`). The tools (`.rbar`: highlight, underline, pen, text, notes,
+  blank page, size, undo/redo) are a floating rounded dock at the bottom centre; it hides while reading down and a tap brings it back
+  (`.app.imm`); the chevron hides it and a round pen button (`#rbShow`, moved into the reader) shows it. The app's bottom navigation is hidden
+  in the reader on phones. v2.js replaces `railSpace` (pages keep the full height) and `flyAt` (panels open above a bottom button, below a top
+  one); panels, the pen bar and the selection bar take the app colours. The floating page pill is hidden.

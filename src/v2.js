@@ -60,9 +60,30 @@ function applyScope(){wraps.forEach(function(w,i){w.style.display=grp(i)===SCOPE
 var _cp=currentPage;currentPage=function(){var sc=$('scroller'),mid=sc.scrollTop+sc.clientHeight*0.35,cur=-1,first=-1;for(var i=0;i<wraps.length;i++){if(wraps[i].style.display==='none')continue;if(first<0)first=i;if(wraps[i].offsetTop<=mid)cur=i}return cur<0?Math.max(first,0):cur};
 var _gi=goIdx;goIdx=function(i){i=Math.max(0,Math.min(PAGES.length-1,i));var g=grp(i);if(g!==SCOPE){SCOPE=g;applyScope()}_gi(i)};
 /* the page pill counts inside the open place (1 / 8), not the whole book; each place is separate (owner, 10 Nov 2026) */
-function pill(){var pn=$('pnum');if(pn.classList.contains('ed'))return;var c=lastCur,k=0,n=0;for(var i=0;i<wraps.length;i++){if(wraps[i].style.display==='none')continue;n++;if(i<=c)k++}pn.textContent=(PAGES[c]&&PAGES[c].user?'✎ ':'')+k+' / '+n}
+/* ---------- reader, new design (owner, 10 Nov 2026): slim app bar with the place's title, read mark and bookmark; the tools live in a
+   floating dock at the bottom; panels open above it; a thin line shows how far through the place the student is ---------- */
+var RB=document.querySelector('#app>.bar'),RT=document.createElement('div');RT.className='rt';RT.innerHTML='<small id="v2rs"></small><b id="v2rb"></b>';RB.insertBefore(RT,$('title'));
+var RBM=document.createElement('button');RBM.type='button';RBM.className='ib rbm';RBM.setAttribute('aria-label','حفظ الموضوع');RBM.innerHTML=I('bm');RB.insertBefore(RBM,$('themeBtn'));
+RB.insertBefore($('prBtn'),RBM);
+var RH=document.createElement('button');RH.type='button';RH.className='ib rhome';RH.setAttribute('aria-label','Home');RH.title='الرئيسية';RH.innerHTML=I('home');RH.onclick=function(){go('v2home')};RB.insertBefore(RH,RT);
+var RP=document.createElement('i');RP.className='rprog';RP.innerHTML='<i></i>';RB.appendChild(RP);
+$('reader').appendChild($('rbShow'));$('rbShow').innerHTML=I('pen');
+function rtopic(){return SCOPE&&SCOPE.slice(0,2)==='t:'?TOPICS.filter(function(t){return 't:'+t.id===SCOPE})[0]:null}
+RBM.onclick=function(){var t=rtopic();if(!t)return;var k='t:'+t.id;if(BM[k])delete BM[k];else BM[k]=Date.now();spj('bm',BM);pill()};
+function pill(){var c=lastCur<0?currentPage():lastCur,k=0,n=0;for(var i=0;i<wraps.length;i++){if(wraps[i].style.display==='none')continue;n++;if(i<=c)k++}
+  var pn=$('pnum');if(!pn.classList.contains('ed'))pn.textContent=(PAGES[c]&&PAGES[c].user?'✎ ':'')+k+' / '+n;
+  RP.firstChild.style.width=(n?k/n*100:0)+'%';var t=rtopic(),lab=PAGES[c]?String(PAGES[c].label||''):'';
+  $('v2rb').textContent=t?t.no+' '+t.title.charAt(0).toUpperCase()+t.title.slice(1):({rr:'Rapid Review',dr:'Obstetric Drugs',cover:'Book cover',fm:lab}[SCOPE]||lab);
+  $('v2rs').textContent='Page '+k+' of '+n+(t?' · Chapter '+t.ch:'');
+  RBM.hidden=!t;if(t){RBM.classList.toggle('on',!!BM['t:'+t.id]);RBM.setAttribute('aria-pressed',!!BM['t:'+t.id])}}
 var _os=onScroll;onScroll=function(){_os.apply(this,arguments);pill()};
 $('scroller').addEventListener('scroll',pill,{passive:true});
+/* the dock floats over the page, so the pages keep the whole height; panels open above a bottom button and below a top one */
+railSpace=function(){var sc=$('scroller');if(!sc||sc._rw===0)return;sc._rw=0;sc.style.top='0px';sc.style.right='0px';layout()};
+flyAt=function(f,btn){var r=btn.getBoundingClientRect(),R=$('reader').getBoundingClientRect();f.hidden=false;
+  if(r.top>R.top+R.height/2){f.style.top='auto';f.style.bottom=(R.bottom-r.top+10)+'px'}else{f.style.bottom='auto';f.style.top=Math.max(8,r.bottom-R.top+8)+'px'}
+  f.style.right='auto';f.style.left=Math.max(8,Math.min(r.left-R.left+r.width/2-f.offsetWidth/2,R.width-f.offsetWidth-8))+'px'};
+try{$('scroller')._rw=-1;railSpace()}catch(e){}
 var _ur=upgRebuild;upgRebuild=function(){_ur.apply(this,arguments);if(SCOPE)applyScope()};
 var tb=document.createElement('button');tb.type='button';tb.className='ib';tb.setAttribute('aria-label','Contents');tb.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>';
 tb.onclick=function(){$('tocBtn').click()};tb.hidden=true;   // owner, 10 Nov 2026: no whole-book contents inside a place; Chapters is the way between places
@@ -200,7 +221,7 @@ R.v2dl=function(){$('v2dlW').innerHTML=title('التنزيلات','v2settings','
 /* user manual (owner, 10 Nov 2026): every part of the app in clear steps with a picture of the screen (assets/img/help_*.jpg, made by tools/help_shots.js) */
 var HELP=[['home','الرئيسية','من هنا تبدأ كل شيء.',['<b>تابع القراءة</b>: يرجعك إلى آخر موضوع كنت تقرؤه.','<b>افتح غلاف الكتاب</b>: يعرض غلاف الكتاب.','<b>كروت اليوم</b> و<b>بنك الأسئلة</b>: يبدآن المراجعة والتدريب مباشرة.','<b>آخر نشاط · المحاضرات · السلايدات</b>: اختصارات سريعة.','الشريط السفلي ينقلك بين: Home · Chapters · Practice · Resources · Settings.']],
  ['chapters','الفصول','الكتاب مقسّم إلى سبعة فصول، وكل موضوع يُفتح وحده.',['اضغط <b>Chapters</b> ثم اختر الفصل.','ابحث باسم الفصل أو الموضوع، أو اعرض «قيد القراءة» أو «المحفوظة».','اضغط الموضوع لفتحه. علامة <b>FREE</b> تعني أنه مفتوح في النسخة المجانية، والقفل يعني أنه يحتاج إلى اشتراك.','علامة الحفظ بجانب الموضوع تضيفه إلى «المصادر المحفوظة».','أسفل الفصل: <b>ابدأ القراءة</b>، <b>أسئلة الفصل</b>، <b>كروت الفصل</b>.']],
- ['reader','القراءة وأدوات المذاكرة','شريط الأدوات فوق الصفحة.',['<b>تظليل</b> و<b>خط</b>: اسحب إصبعك على الكلام لتظليله أو وضع خط تحته.','<b>قلم</b>: للرسم والكتابة على الصفحة، و<b>نص</b>: لكتابة ملاحظة في أي مكان.','<b>ملاحظات</b>: حدّد جملة واكتب ملاحظتك عليها.','<b>علامة الصفحة</b>: اختر «قريتها» أو «أتقنتها» ليُحسب تقدّمك.','<b>صفحة</b>: يضيف صفحة فارغة لك، و<b>الحجم</b>: يكبّر الصفحة أو يصغّرها.','السهم في أعلى الشاشة يرجعك إلى حيث كنت.']],
+ ['reader','القراءة وأدوات المذاكرة','أدوات القراءة في شريط عائم أسفل الصفحة؛ يختفي وأنت تنزل في القراءة ويرجع بضغطة على الصفحة.',['<b>تظليل</b> و<b>خط</b>: اسحب إصبعك على الكلام لتظليله أو وضع خط تحته.','<b>قلم</b>: للرسم والكتابة على الصفحة، و<b>نص</b>: لكتابة ملاحظة في أي مكان.','<b>ملاحظات</b>: حدّد جملة واكتب ملاحظتك عليها.','<b>علامة القراءة</b> (الدائرة أعلى الشاشة): اختر «قريتها» أو «أتقنتها» ليُحسب تقدّمك.','<b>صفحة</b>: يضيف صفحة فارغة لك، و<b>الحجم</b>: يكبّر الصفحة أو يصغّرها.','في أعلى الشاشة: السهم يرجعك إلى الفصل، وزر <b>البيت</b> يرجعك إلى الرئيسية، وبجانب العنوان علامة القراءة وعلامة الحفظ ولون الصفحة.']],
  ['practice','الممارسة: الأسئلة والكروت','اختبر نفسك بعد كل موضوع.',['اضغط <b>Practice</b> ثم اختر «الأسئلة» أو «الكروت».','<b>الأسئلة</b>: اختر نمط التدريب أو الامتحان بالوقت، ثم الفصول وعدد الأسئلة، واضغط Start. بعد الإجابة يظهر الشرح.','<b>الكروت</b>: اضغط الكرت ليظهر الجواب، ثم اختر «عرفتها» أو «مرة أخرى».','<b>كروت اليوم</b>: عشرة كروت كل يوم، وإكمالها يزيد سلسلة أيامك.']],
  ['resources','المصادر','كل ما تحتاجه للمراجعة في مكان واحد.',['<b>المراجعة السريعة</b>: بطاقة امتحان لكل موضوع.','<b>أدوية التوليد</b>: الجرعات والمحاذير.','<b>السريري OSCE</b>: محطات الفحص والتاريخ المرضي.','<b>المحاضرات</b> و<b>السلايدات</b>: تظهر هنا عند إضافتها.','<b>ملاحظاتي</b>: كل ملاحظاتك وتظليلك، و<b>المصادر المحفوظة</b>: ما حفظته بعلامة الحفظ.']],
  ['sub','الاشتراك','من الإعدادات ← الاشتراك.',['<b>الخطة التجريبية</b>: اضغط «ابدأ التجربة» ليُفتح الكتاب كاملًا ساعة واحدة.','للاشتراك: اختر الخطة (شهري أو سنوي أو مدى الحياة) ثم اضغط <b>اشترك الآن</b>.','حوّل المبلغ إلى الحساب الظاهر، ثم ارفع صورة الإيصال واكتب اسمك ورقم هاتفك واضغط <b>إرسال طلب التفعيل</b>.','يظهر «طلبك قيد المراجعة». يمكنك <b>تعديل الطلب</b> أو <b>إلغاؤه</b> قبل الموافقة.','بعد الموافقة يُفتح الكتاب كاملًا تلقائيًا، بلا أي كود.','<b>جهاز آخر</b>: من جهازك المشترك اضغط «أضف جهازًا آخر»، واكتب رقم الربط في الجهاز الجديد (حتى ثلاثة أجهزة).','عند انتهاء الاشتراك تبقى ملاحظاتك وتقدّمك محفوظة وتعود عند التجديد.']],
