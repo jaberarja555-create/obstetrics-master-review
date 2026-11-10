@@ -353,3 +353,14 @@ button{font-family:inherit}
   :root[data-theme="dark"] .v2side .art::after{background:linear-gradient(180deg,color-mix(in srgb,var(--deep) 88%,transparent) 0,color-mix(in srgb,var(--deep) 60%,transparent) 45%,color-mix(in srgb,var(--deep) 25%,transparent) 100%)}
   .v2side .sb,.v2side nav{position:relative;z-index:1}
 }
+/* slide previews (coming): a small slide per topic with its title, main points and picture */
+.sld{position:relative;aspect-ratio:16/9;border-radius:11px;overflow:hidden;background:linear-gradient(135deg,#fff 0,#F3ECFD 60%,#E4D6F8 100%);color:#392B55;display:flex;container-type:inline-size;border:1px solid var(--bd)}
+.sld .sx{flex:1;min-width:0;padding:6% 0 4% 6%;display:flex;flex-direction:column;gap:3cqw}
+.sld .sx i{display:flex;align-items:center;gap:1.6cqw;font:700 3cqw var(--ui);font-style:normal;letter-spacing:.2px;color:#6A4FA0;text-transform:uppercase;white-space:nowrap}
+.sld .sx i img{width:6cqw;height:6cqw;border-radius:50%;background:#fff}
+.sld .sx b{margin:0;font:800 6cqw/1.15 var(--ui);color:#4B3672;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sld ul{margin:0;padding:0 0 0 4.5cqw;display:grid;gap:1.2cqw}
+.sld li{font:500 3.5cqw/1.25 var(--ui);color:#4a3f63;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sld li::marker{color:#9272C6}
+.sld .sp{flex:none;width:36%;margin:16% 5% 7% 3%;border-radius:8px;background:#E7DCF7 center/cover;box-shadow:0 2px 8px rgba(57,43,85,.18)}
+.sld .sn{left:auto}

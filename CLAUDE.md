@@ -178,3 +178,5 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   (container queries hide its topic line, then its chapter label, then clamp the title), so no text is cut.
 - Welcome screen (owner, 10 Nov 2026): `#v2wel` on every opening: new logo with rings, «مرحب بك يا دكتور» (or the name), «ابدأ رحلتك مع
   Obstetrics Master Review», button «ابدأ» → rising chime + glow, then Home. No forced subscription choice at the start (licence.js `afterLogin`).
+- Slides (owner, 10 Nov 2026): `v2slides` shows a small slide preview for every topic (logo, topic title, up to three points from the topic's
+  `sub` line, its picture, «قريبًا»), with chapter filters; real slides will replace them when the owner uploads them.

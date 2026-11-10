@@ -173,7 +173,14 @@ R.v2lect=function(){var TI=INFO.timg||{},ts=TOPICS.filter(function(t){return !LC
    '<div class="vgl">'+ts.map(function(t){return '<div class="v2c vcd"><div class="th" style="background-image:url('+(TI[t.id]||chap(t.ch).img)+')"><span class="pl">'+I('play')+'</span><span class="sn" lang="ar">قريبًا</span></div>'+
      '<b>'+t.no+' '+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></div>'}).join('')+'</div>'+
    (au?'<button type="button" class="v2c hrow" data-v="lect" lang="ar"><span class="ii">'+I('dl')+'</span><span><b>الشرح الصوتي المتوفر الآن</b><small>'+au+' موضوع · استماع وتنزيل</small></span>'+I('chev')+'</button>':'')};
-R.v2slides=function(){$('v2slidesW').innerHTML=title('السلايدات','v2resources')+'<div class="v2c v2emp" lang="ar">'+I('slides')+'<br>لا توجد سلايدات مضافة بعد.<br>ستظهر هنا عند إضافتها إلى الكتاب.</div>'};
+var SCH=0;
+R.v2slides=function(){var TI=INFO.timg||{},ts=TOPICS.filter(function(t){return !SCH||t.ch===SCH});
+  $('v2slidesW').innerHTML=title('السلايدات','v2resources','Slides')+
+   '<div class="chf lcf" lang="ar"><button type="button" data-act="sch" data-n="0" class="'+(SCH?'':'on')+'">الكل</button>'+META.chapters.map(function(c){return '<button type="button" data-act="sch" data-n="'+c.n+'" class="'+(SCH===c.n?'on':'')+'"><bdi>Ch '+c.n+'</bdi></button>'}).join('')+'</div>'+
+   '<div class="v2c hacc" lang="ar">'+I('slides')+'<div><b>السلايدات قادمة</b><small>ستُضاف سلايدات لكل موضوع، وتظهر هنا فور رفعها.</small></div></div>'+
+   '<div class="vgl">'+ts.map(function(t){var bl=String(t.sub||'').split(' · ').slice(0,3);
+     return '<div class="v2c vcd"><div class="sld"><span class="sn" lang="ar">قريبًا</span><div class="sx"><i><img src="img/v2_logo.webp" alt="">Obstetrics Master Review</i><b>'+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><ul>'+bl.map(function(x){return '<li>'+X(x)+'</li>'}).join('')+'</ul></div><span class="sp" style="background-image:url('+(TI[t.id]||chap(t.ch).img)+')"></span></div>'+
+     '<b>'+t.no+' '+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></div>'}).join('')+'</div>'};
 R.v2saved=function(){var ks=Object.keys(BM).sort(function(a,b){return BM[b]-BM[a]});
   $('v2savedW').innerHTML=title('المصادر المحفوظة','v2resources')+(ks.length?'<div class="tpl">'+ks.map(function(k){var t=TOPICS.filter(function(x){return 't:'+x.id===k})[0];if(!t)return '';
     return '<div class="v2c tpr"><span class="li">'+I(locked(t.id)?'lock':'book')+'</span><button type="button" class="tmn" data-act="topic" data-id="'+t.id+'"><b>'+t.no+' '+X(t.title)+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></button>'+bmk(k)+'</div>'}).join('')+'</div>'
@@ -294,6 +301,7 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
   pseg:function(b){PSEG=b.dataset.s;sp('pseg',PSEG);R.v2practice()},
   rr:function(){goIdx(idxOf(/^x9/))},dr:function(){goIdx(idxOf(/^y0/))},
   lch:function(b){LCH=+b.dataset.n;R.v2lect()},
+  sch:function(b){SCH=+b.dataset.n;R.v2slides()},
   osce:function(){CH=7;CHRET='v2resources';go('v2chapter')},
   notes:function(){openNotes()},
   mode:function(b){MODE=b.dataset.m;sp('mode',MODE);applyLook();R.v2settings()},
