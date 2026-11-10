@@ -161,6 +161,18 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
 - Phone Home fits one screen (owner, 10 Nov 2026): compact sizes under 760 px, spare height goes to the reading card; a tighter tier under 640 px high.
 - Video lectures (owner, 10 Nov 2026): `v2lect` shows a "قريبًا" card for every topic with a picture (OBS_INFO.timg: the topic's first figure,
   else `chcov<n>.jpg`); the owner will upload videos later. The old audio screen (`lect`) stays reachable from a row under the cards.
-- Next (owner, 10 Nov 2026): subscription without codes: the student chooses a plan (monthly 10,000 / annual 30,000 / lifetime 50,000 SD),
-  uploads the receipt and sends the request in the app; the owner gets a notification in his admin app, approves, and the student's device
-  opens by itself. Needs a migration (requests, expiry), receipt storage, admin section, device polling.
+- **Subscription without codes (owner, 10 Nov 2026).** Migration 004 (applied; also on `main`): `obs_codes.expires` + `plan`, tables `obs_requests`,
+  `obs_receipts` (receipt as base64, owner only), `obs_seen` (devices that opened the app). App RPCs `obs_request_submit`, `obs_request_status`
+  (also records the device); owner RPCs `obs_admin_requests`, `obs_admin_receipt`, `obs_admin_decide` (approve → `obs_grant` makes or RENEWS the
+  device's code, so synced notes stay), `obs_admin_grant(user number, name, phone, plan)` = subscription with no receipt, `obs_admin_expires`.
+  `obs_check` answers `expired` for an ended plan and returns exp / plan / name. Old codes have expires = null and keep working.
+  App: `v2sub` (trial, free, plans from licence-config.js `plans`, state of the request) and `v2pay` (transfer details, receipt, name, phone,
+  user number = first 10 characters of the device id, comment); v2.js `poll()` asks the status on opening, when the app comes back, and every
+  45 s while a request waits; when the owner approves, `window.__lic.adopt()` stores the key and reloads. Keys: orr-exp, orr-plan, orr-sname
+  (name approved by the owner; the student's own orr-name wins), orr-ended, orr-req, orr-tel. No code entry in the new app (owner: codes are gone).
+  Admin (`site_static/admin.html`, live on `main` too, installable through admin.webmanifest): Subscription requests (Waiting / Approved /
+  Rejected, receipt view, name and plan can be corrected, sound + badge for a new request, checks every 30 s) and "Give a subscription without
+  a receipt". Tested on a local Postgres copy of the schema. Open: what happens to the students of the old codes when the new app goes live
+  (owner to decide; nothing was deleted); a second device for one subscription; changing device without the owner.
+- Phone Home never scrolls on normal phones (owner, 10 Nov 2026): the wrapper takes the screen height and the reading card gives way
+  (container queries hide its topic line, then its chapter label, then clamp the title), so no text is cut.

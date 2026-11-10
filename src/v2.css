@@ -301,3 +301,26 @@ button{font-family:inherit}
 .frm .upl{display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;border-radius:12px;border:1.5px dashed var(--pri);background:var(--sel);color:var(--tx);font:700 14px 'Cairo','Inter',sans-serif;cursor:pointer;padding:6px 12px;text-align:center}
 .frm .upl .v2ic{transform:rotate(180deg);color:var(--pri)}
 @media (min-width:760px){.plans{grid-template-columns:repeat(3,1fr)}.pln{grid-template-columns:22px 1fr;row-gap:4px}.pln b{grid-column:1/-1;text-align:center;font-size:19px}}
+/* reading card: small label, smaller text that always shows whole; phone Home takes exactly the screen, the reading card gives way */
+.hcont em{font:700 12px var(--ui);font-style:normal;color:var(--pri);letter-spacing:.3px}
+.hcont .ph{inset:0 0 0 46%}.hcont .ph::after{background:linear-gradient(90deg,var(--sf) 0,transparent 55%)}
+@media (min-width:760px){.hcont h3{font-size:17px}}
+@media (max-width:759px){
+  #v2homeW{height:100%;min-height:0}
+  #v2homeW .hgrid,#v2homeW .hgrid>div:first-child{flex:1 1 0;min-height:0}
+  #v2homeW .hgrid>div:last-child{flex:none}
+  .hcont{flex:1 1 0;min-height:98px;padding:10px 12px}
+  .hbook{flex:none}
+  .hcont h3{font-size:13.5px;line-height:1.25;max-width:50%;-webkit-line-clamp:2}
+  .hcont p{font-size:12px;max-width:50%;white-space:normal;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;color:var(--sub)}
+  .hcont .pg{width:44%;padding-top:4px}.hcont .pg b{font-size:12.5px}
+  .hcont .v2btn{height:32px;margin-top:6px;min-width:0;padding:0 14px;font-size:13px}
+}
+@media (max-width:759px){
+  .hcont{container-type:size}
+  .hst .t,.hst .n{white-space:nowrap}
+  @container (max-height:122px){.hcont p{display:none}}
+  @container (max-height:106px){.hcont em{display:none}}
+  @container (max-height:90px){.hcont h3{-webkit-line-clamp:1;max-width:46%}.hcont .pg{padding-top:2px}.hcont .v2btn{margin-top:4px;height:30px}}
+}
+@media (max-width:759px) and (max-height:640px){.hst .t{font-size:13px}.hst .n{font-size:15px}.hst button{gap:6px;padding:9px 4px}}

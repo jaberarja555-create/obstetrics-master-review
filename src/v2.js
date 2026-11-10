@@ -102,7 +102,7 @@ R.v2home=function(){var a=access(),lp=lastPage(),has=sp('pk')&&lp>0,t=has?topicA
     expired:['انتهت الفترة التجريبية','الموضوع الأول من كل فصل ما زال مفتوحًا','اشترك','up'],
     ended:['انتهى اشتراكك','ملاحظاتك وتقدّمك محفوظة · جدّد لفتح الكتاب كاملًا','تجديد','up']}[a];
   if(a!=='paid'&&REQ&&REQ.status==='pending')acc=['طلبك قيد المراجعة','سيُفتح الكتاب كاملًا تلقائيًا بعد الموافقة','الحالة','clock'];
-  var ct=t?'<h3>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</h3><p>'+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</p><div class="pg"><b>'+pct(t.id)+'%</b>'+bar(pct(t.id))+'</div>'
+  var ct=t?'<em>Chapter '+t.ch+'</em><h3>'+X(chap(t.ch).name)+'</h3><p>'+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</p><div class="pg"><b>'+pct(t.id)+'%</b>'+bar(pct(t.id))+'</div>'
     :'<h3>'+X(PAGES[lp].label)+'</h3><p>Page '+PAGES[lp].bn+'</p><div class="pg"></div>';
   var la=spj('lastact'),lal=la?{read:t?t.title:PAGES[lp].label,cards:'Flashcards',qb:'Question bank',lect:'Lectures'}[la.k]:'';
   var sk=0;try{sk=streak()}catch(e){}
