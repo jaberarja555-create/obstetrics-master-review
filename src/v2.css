@@ -364,3 +364,7 @@ button{font-family:inherit}
 .sld li::marker{color:#9272C6}
 .sld .sp{flex:none;width:36%;margin:16% 5% 7% 3%;border-radius:8px;background:#E7DCF7 center/cover;box-shadow:0 2px 8px rgba(57,43,85,.18)}
 .sld .sn{left:auto}
+/* the book cover follows the app colour (owner, 10 Nov 2026): recoloured copies of his navy cover */
+:root[data-pal="lav"] .bk img.covimg{content:url(img/cover5_lav.jpg)}:root[data-pal="green"] .bk img.covimg{content:url(img/cover5_green.jpg)}
+:root[data-pal="orange"] .bk img.covimg{content:url(img/cover5_orange.jpg)}:root[data-pal="red"] .bk img.covimg{content:url(img/cover5_red.jpg)}
+:root[data-pal="mono"] .bk img.covimg{content:url(img/cover5_mono.jpg)}

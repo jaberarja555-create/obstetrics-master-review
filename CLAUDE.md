@@ -180,3 +180,11 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   Obstetrics Master Review», button «ابدأ» → rising chime + glow, then Home. No forced subscription choice at the start (licence.js `afterLogin`).
 - Slides (owner, 10 Nov 2026): `v2slides` shows a small slide preview for every topic (logo, topic title, up to three points from the topic's
   `sub` line, its picture, «قريبًا»), with chapter filters; real slides will replace them when the owner uploads them.
+- Cover follows the app colour (owner, 10 Nov 2026): his navy cover recoloured per palette (only the navy-blue pixels): Home card
+  `assets/img/v2_cover_<pal>.jpg`, book page 1 `cover5_<pal>.jpg` swapped by CSS `content:url()` on `img.covimg` (navy = the original).
+- Devices (owner, 10 Nov 2026; migration 005, applied): a new subscription opens 3 devices (phone, tablet, computer; `maxdev`, changed per
+  subscription in the admin Devices selector). A second device joins with no code: app → Subscription → «مشترك على جهاز آخر» (name + the
+  subscription's phone) sends a request with plan = 'device'; approving ties the device to the subscription whose note carries that phone
+  (`obs_bind`; answers `nosub` or `full`). Notes and progress are shared through the code's sync.
+- Old codes (owner, 10 Nov 2026): they work for ONE MONTH after the new app goes live. `tools/supabase/launch/old_codes_one_month.sql` is
+  NOT applied yet: on launch day copy it into migrations/ with the next number and push.

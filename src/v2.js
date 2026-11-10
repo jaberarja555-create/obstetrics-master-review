@@ -110,7 +110,7 @@ R.v2home=function(){var a=access(),lp=lastPage(),has=sp('pk')&&lp>0,t=has?topicA
    '<div class="v2c hacc" lang="ar">'+I('book')+'<div><b>'+acc[0]+'</b><small>'+acc[1]+'</small></div><button type="button" class="v2btn sm" data-act="sub">'+I(acc[3])+acc[2]+'</button></div>'+
    '<div class="hgrid"><div>'+
     '<div class="v2c hcont"><div class="ph"></div>'+ct+'<button type="button" class="v2btn" data-act="cont" lang="ar">'+(has?'تابع القراءة':'ابدأ القراءة')+I('arrow')+'</button></div>'+
-    '<div class="v2c hbook"><img src="img/v2_cover.jpg" alt="Book cover"><div><h3>Obstetrics Master Review</h3><span class="ed">4th Edition</span>'+
+    '<div class="v2c hbook"><img src="img/v2_cover_'+PAL+'.jpg" alt="Book cover"><div><h3>Obstetrics Master Review</h3><span class="ed">4th Edition</span>'+
       '<div class="ct"><div><b>'+META.chapters.length+'</b><span>chapters</span></div><div><b>'+TOPICS.length+'</b><span>topics</span></div><div><b>'+cTotal()+'</b><span>flashcards</span></div><div><b>'+qTotal()+'</b><span>questions</span></div></div>'+
       '<button type="button" class="v2btn ol" data-act="cover" lang="ar">'+I('book')+'افتح غلاف الكتاب</button></div></div>'+
    '</div><div>'+
@@ -231,7 +231,7 @@ R.v2notif=function(){var all=notifs(),un=all.filter(function(n){return !NR[n.id]
 
 /* ---------- subscription: plans, payment request, automatic opening after the owner approves (no codes) ---------- */
 var LIC=window.__lic||null,PLANS=CFG.plans||[],REQ=spj('req')||null,PAY={plan:sp('plan2')||'month',file:null,busy:false};
-function plan(id){return PLANS.filter(function(p){return p.id===id})[0]||PLANS[0]||{id:id,ar:id,en:id,price:''}}
+function plan(id){if(id==='device')return {id:id,ar:'ربط هذا الجهاز باشتراكك',en:'Add device',price:''};if(id==='old')return {id:id,ar:'كود قديم',en:'',price:''};return PLANS.filter(function(p){return p.id===id})[0]||PLANS[0]||{id:id,ar:id,en:id,price:''}}
 function fdate(ms){try{return new Date(+ms).toLocaleDateString('ar-EG-u-nu-latn',{day:'numeric',month:'long',year:'numeric'})}catch(e){return new Date(+ms).toDateString()}}
 function poll(){if(!LIC||LIC.unlocked()||navigator.onLine===false)return Promise.resolve();
   return LIC.rpc('obs_request_status',{p_dev:LIC.dev,p_kind:LIC.kind(),p_label:LIC.label()}).then(function(r){var d=r.data;if(r.error||!d||!d.ok)return;
@@ -241,16 +241,19 @@ setInterval(function(){if(!document.hidden&&((REQ&&REQ.status==='pending')||CURV
 document.addEventListener('visibilitychange',function(){if(!document.hidden)poll()});
 R.v2sub=function(){var a=access(),ex=+st('orr-exp')||0,pl=st('orr-plan'),pend=a!=='paid'&&REQ&&REQ.status==='pending',h=title('الاشتراك',CURV==='v2sub'&&RETS?RETS:'v2settings','Subscription');
   function chk(t){return '<li>'+I('check')+t+'</li>'}
-  if(a==='paid')h+='<div class="v2c sbx ok" lang="ar"><b>'+I('crown')+'اشتراكك فعّال</b><p>'+(pl?'الخطة: '+plan(pl).ar+' · ':'')+(ex?'ينتهي في '+fdate(ex):'بلا تاريخ انتهاء')+'</p><p class="mu">ملاحظاتك وتظليلك وتقدّمك محفوظة مع اشتراكك. لتغيير الجهاز راسلنا في واتساب.</p></div>';
+  if(a==='paid')h+='<div class="v2c sbx ok" lang="ar"><b>'+I('crown')+'اشتراكك فعّال</b><p>'+(pl?'الخطة: '+plan(pl).ar+' · ':'')+(ex?'ينتهي في '+fdate(ex):'بلا تاريخ انتهاء')+'</p><p class="mu">اشتراكك يفتح هاتفك وجهازك اللوحي وحاسوبك. لفتحه في جهاز آخر: افتح التطبيق هناك ثم «الاشتراك» ← «مشترك على جهاز آخر». ملاحظاتك وتقدّمك تظهر في كل أجهزتك.</p></div>';
   if(a==='ended')h+='<div class="v2c sbx" lang="ar"><b>'+I('lock')+'انتهى اشتراكك</b><p>ملاحظاتك وتظليلك وتقدّمك محفوظة، وتعود كما هي عند تجديد الاشتراك. الموضوع الأول من كل فصل ما زال مفتوحًا.</p></div>';
-  if(pend)h+='<div class="v2c sbx" lang="ar"><b>'+I('clock')+'طلبك قيد المراجعة</b><p>الخطة: '+plan(REQ.plan).ar+' · أُرسل '+ago(Date.parse(REQ.t))+'</p><p class="mu">بعد الموافقة يُفتح الكتاب كاملًا في هذا الجهاز تلقائيًا، ولا تحتاج إلى أي كود.</p><button type="button" class="v2btn sm ol" data-act="repoll">'+I('sync')+'تحديث الحالة</button></div>';
+  if(pend)h+='<div class="v2c sbx" lang="ar"><b>'+I('clock')+'طلبك قيد المراجعة</b><p>'+(REQ.plan==='device'?'':'الخطة: ')+plan(REQ.plan).ar+' · أُرسل '+ago(Date.parse(REQ.t))+'</p><p class="mu">بعد الموافقة يُفتح الكتاب كاملًا في هذا الجهاز تلقائيًا، ولا تحتاج إلى أي كود.</p><button type="button" class="v2btn sm ol" data-act="repoll">'+I('sync')+'تحديث الحالة</button></div>';
   if(!pend&&a!=='paid'&&REQ&&REQ.status==='rejected')h+='<div class="v2c sbx bad" lang="ar"><b>'+I('info')+'لم يُقبل طلبك</b><p>'+X(REQ.reason||'راجع بيانات التحويل ثم أرسل الطلب من جديد.')+'</p></div>';
   if(a!=='paid'){var fr=LIC&&LIC.fresh();
     h+='<div class="v2c sbx tr" lang="ar"><b>الخطة التجريبية <small>Trial</small></b><ul>'+chk('وصول كامل لمدة ساعة')+chk('بنفس مزايا الاشتراك الكامل')+'</ul>'+
       (a==='trial'?'<p class="mu">التجربة جارية الآن · '+(LIC?LIC.trialLeft():'')+'</p>':fr?'<button type="button" class="v2btn" data-act="trial">ابدأ التجربة'+I('back')+'</button><p class="mu" id="trMsg"></p>':'<p class="mu">استُخدمت الفترة التجريبية على هذا الجهاز.</p>')+'</div>'+
       '<div class="v2c sbx" lang="ar"><b>'+I('book')+'المجانية <small>Free</small></b><ul>'+chk('أول موضوع من كل فصل')+chk('عدد محدود من الكروت والأسئلة')+'</ul></div>'}
   if(!pend&&(a!=='paid'||ex)){h+='<div class="v2crumb" lang="ar" style="text-align:right">'+(a==='paid'?'تجديد الاشتراك':'اختر خطة الاشتراك')+'</div><div class="plans" lang="ar">'+PLANS.map(function(p){return '<button type="button" class="v2c pln'+(PAY.plan===p.id?' on':'')+'" data-act="plan" data-p="'+p.id+'" aria-pressed="'+(PAY.plan===p.id)+'"><i></i><span>'+p.ar+' <small>'+p.en+'</small></span><b dir="ltr">'+X(p.price)+'</b></button>'}).join('')+'</div>'+
-    '<button type="button" class="v2btn" data-v="v2pay" lang="ar" style="height:50px">اشترك الآن'+I('back')+'</button>'}
+    '<button type="button" class="v2btn" data-v="v2pay" lang="ar" style="height:50px">اشترك الآن'+I('back')+'</button>'+
+    (a!=='paid'?'<div class="v2c sbx frm" lang="ar"><b>'+I('sync')+'مشترك على جهاز آخر؟</b><p class="mu">اكتب اسمك ورقم الهاتف الذي اشتركت به، وسيُربط هذا الجهاز باشتراكك بعد الموافقة، وتظهر فيه ملاحظاتك وتقدّمك.</p>'+
+      '<label>الاسم<input id="dvN" type="text" maxlength="60" value="'+X(myName())+'" dir="auto"></label><label>رقم هاتف الاشتراك<input id="dvP" type="tel" maxlength="20" value="'+X(sp('tel')||'')+'" dir="ltr" inputmode="tel" placeholder="09XXXXXXXX"></label>'+
+      '<button type="button" class="v2btn ol" data-act="adddev">ربط هذا الجهاز'+I('back')+'</button><p class="mu" id="dvMsg" role="status"></p></div>':'')}
   $('v2subW').innerHTML=h;if(a!=='paid')poll()};
 var RETS='';
 R.v2pay=function(){var p=plan(PAY.plan),dev=LIC?LIC.dev.slice(0,10).toUpperCase():'';
@@ -272,6 +275,12 @@ R.v2pay=function(){var p=plan(PAY.plan),dev=LIC?LIC.dev.slice(0,10).toUpperCase(
 /* ---------- actions ---------- */
 function idxOf(re){for(var i=0;i<PAGES.length;i++)if(!PAGES[i].user&&re.test(PAGES[i].f||''))return i;return 0}
 var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'?CURV:'v2settings';go('v2sub')},
+  adddev:function(b){var M=$('dvMsg'),nm=$('dvN').value.trim(),ph=$('dvP').value.replace(/[٠-٩]/g,function(d){return '٠١٢٣٤٥٦٧٨٩'.indexOf(d)}).trim();
+    if(PAY.busy)return;if(!LIC){M.textContent='غير متاح في نسخة المراجعة.';return}if(nm.length<2){M.textContent='اكتب اسمك.';return}if(!/^[0-9+ ]{7,20}$/.test(ph)){M.textContent='اكتب رقم هاتف صحيحًا.';return}
+    PAY.busy=true;b.disabled=true;M.textContent='جارٍ إرسال الطلب…';sp('tel',ph);
+    LIC.rpc('obs_request_submit',{p_dev:LIC.dev,p_kind:LIC.kind(),p_label:LIC.label(),p_name:nm,p_phone:ph,p_plan:'device',p_comment:'',p_mime:null,p_data:null}).then(function(r){PAY.busy=false;b.disabled=false;var d=r.data;
+      if(r.error||!d||(!d.ok&&d.reason!=='pending')){M.textContent=d&&d.reason==='many'?'أرسلت عدة طلبات اليوم. انتظر المراجعة.':'تعذّر الإرسال. تأكد من الاتصال وحاول مرة أخرى.';return}
+      REQ={status:'pending',plan:'device',t:new Date().toISOString()};spj('req',REQ);header();R.v2sub()},function(){PAY.busy=false;b.disabled=false;M.textContent='تعذّر الإرسال. تأكد من الاتصال وحاول مرة أخرى.'})},
   repoll:function(b){b.disabled=true;poll().then(function(){b.disabled=false})},
   plan:function(b){PAY.plan=b.dataset.p;sp('plan2',PAY.plan);R.v2sub()},
   trial:function(b){if(!LIC)return;b.disabled=true;LIC.startTrial(function(m){b.disabled=false;var e=$('trMsg');if(e)e.textContent=m})},
