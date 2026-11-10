@@ -71,12 +71,23 @@ def v2(shell):
 
 def main():
     shell = v2(open(os.path.join(R, 'src', 'shell.html'), encoding='utf-8').read())
+    # a picture for every topic (video lecture cards): its first figure, else its chapter picture
+    timg = {}
+    for f, s in pages:
+        t = topic_of(f)
+        if t and t not in timg:
+            mm = re.search(r'<img[^>]+src="(img/[^"]+)"', s)
+            if mm: timg[t] = mm.group(1)
+    for t in topics:
+        if t['id'] not in timg:
+            c = 'img/chcov%d.jpg' % t['ch']
+            timg[t['id']] = c if os.path.exists(os.path.join(R, 'assets', c)) else 'img/ban%d.jpg' % t['ch']
     TOTALS = {'cards': sum(len(d['cards']) for d in decks.values()),
               'qs': sum(len(q.get('items', [])) if q.get('type') == 'emq' else 1 for ch in qbank for q in ch['questions'])}
     order = [t['id'] for t in topics]
     info = {'locked': {t: 1 for t in order if t not in FREE},
             'free_names': [TT[t][0].upper() + TT[t][1:] for t in order if t in FREE],
-            'order': order, 'tot': TOTALS}
+            'order': order, 'tot': TOTALS, 'timg': timg}
     lk_pages = {f: s for f, s in pages if locked(f)}
     sale_pages = ''.join(placeholder(f, s) if f in lk_pages else s for f, s in pages)
     free_decks = {k: v for k, v in decks.items() if k in FREE}
@@ -115,7 +126,7 @@ def main():
     open(swp, 'w').write(sw)
 
     # ---- review copy: whole book open, no activation ----
-    rv = fill(shell, ''.join(s for f, s in pages), decks, qbank, {'locked': {}, 'free_names': [], 'order': order, 'tot': TOTALS})
+    rv = fill(shell, ''.join(s for f, s in pages), decks, qbank, {'locked': {}, 'free_names': [], 'order': order, 'tot': TOTALS, 'timg': timg})
     rv = re.sub(r'<script src="(licence-config|sbmini|licence)\.js"></script>', '', rv)
     rv = rv.replace('<html lang="en">', '<html lang="en" class="unlocked">', 1)
     rv = rv.replace('</body>', '<script>window.__boot&&window.__boot()</script></body>', 1)

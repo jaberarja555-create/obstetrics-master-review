@@ -232,3 +232,52 @@ button{font-family:inherit}
   .v2side nav button{background-clip:padding-box}
 }
 @media (max-width:359px){.v2me b{display:none}.v2br b{font-size:11.5px}}
+
+/* Phone Home fits one screen without scrolling (owner, 10 Nov 2026); spare height goes to the reading card, shorter screens scroll */
+@media (max-width:759px){
+  #v2homeW{min-height:100%;box-sizing:border-box;gap:8px;padding:2px 12px 8px}
+  #v2homeW .hgrid,#v2homeW .hgrid>div{gap:8px}
+  #v2homeW .hgrid,#v2homeW .hgrid>div:first-child{flex:1 1 auto}
+  .hgr h2{font-size:19px;line-height:1.25}.hgr p{font-size:12.5px;line-height:1.2}
+  .hacc{padding:6px 12px;gap:10px}.hacc .v2ic{width:24px;height:24px}.hacc b{font-size:14px}.hacc small{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hacc .v2btn{height:30px;padding:0 12px}
+  .hcont{min-height:126px;padding:12px;flex:1 1 auto}
+  .hcont h3{font-size:15px}.hcont p{font-size:13px;margin-top:2px}.hcont .pg{padding-top:6px}.hcont .pg b{font-size:13.5px}
+  .hcont .v2btn{height:36px;margin-top:8px;min-width:136px;font-size:13.5px}
+  .hbook{grid-template-columns:84px 1fr;gap:12px;padding:9px 10px}
+  .hbook img{width:84px;border-radius:8px}
+  .hbook h3{font-size:15.5px}.hbook .ed{margin:3px 0 4px;font-size:11px;padding:1px 8px}
+  .hbook .ct{margin-bottom:6px;gap:2px 9px}.hbook .ct b{font-size:14px}.hbook .ct span{font-size:9.5px}
+  .hbook .v2btn{height:34px;font-size:13px}
+  .hsum{padding:7px 10px}.hsum span{font-size:13px;gap:6px}.hsum .v2ic{width:19px;height:19px}
+  .hst{gap:8px}.hst button{padding:8px 8px;gap:2px}
+  .hst .t{font-size:14px;gap:6px}.hst .t .v2ic{width:22px;height:22px}.hst .n{font-size:18px}.hst .a{font-size:12.5px}
+  .hq{gap:8px}.hq button{padding:7px 4px;gap:1px;font-size:12.5px}.hq .v2ic{width:22px;height:22px}.hq small{display:none}
+  .v2hd{min-height:50px;padding-top:calc(env(safe-area-inset-top,0px) + 6px);padding-bottom:6px}
+  .v2nav{padding-top:4px;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 4px)}.v2nav button{padding:5px 2px}
+}
+@media (max-width:759px){
+  .hcont h3{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:58%}
+  .hcont p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hcont{min-height:118px}
+  .hq button{flex-direction:row;justify-content:center;gap:6px;padding:9px 4px}.hq .v2ic{width:20px;height:20px}
+}
+@media (max-width:759px) and (max-height:640px){
+  .hgr p,.hbook .ed,.hst .a{display:none}
+  .hcont{min-height:108px;padding:10px 12px}.hcont .v2btn{height:32px;margin-top:6px}
+  .hbook img{width:70px}.hbook{grid-template-columns:70px 1fr}.hbook .ct{margin:4px 0 6px}
+  .hst button{flex-direction:row;justify-content:center;gap:10px;padding:9px 6px}.hst .t .v2ic{display:none}
+}
+@media (max-width:759px) and (max-height:640px){#v2homeW,#v2homeW .hgrid,#v2homeW .hgrid>div{gap:6px}}
+/* video lectures (coming): a card per topic with its picture */
+.lcf{overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px;scrollbar-width:none}.lcf button{flex:none}
+.vgl{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.vcd{padding:6px 6px 10px;direction:ltr;text-align:left;overflow:hidden}
+.vcd .th{position:relative;aspect-ratio:16/9;border-radius:11px;background:var(--sel) center/cover;overflow:hidden}
+.vcd .th::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(30,20,50,.05),rgba(30,20,50,.45))}
+.vcd .pl{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:#ffffffd9;color:#4B3672;display:grid;place-items:center;z-index:1}
+.vcd .pl .v2ic{width:20px;height:20px;stroke-width:0;fill:currentColor}
+.vcd .sn{position:absolute;right:6px;top:6px;z-index:1;padding:1px 9px;border-radius:9px;background:var(--pri);color:var(--pon);font:700 11px/1.7 'Cairo',sans-serif}
+.vcd b{display:block;margin:8px 4px 2px;font:700 13.5px/1.3 var(--ui);color:var(--tx)}
+.vcd small{display:block;margin:0 4px;font:500 11px/1.3 var(--ui);color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (min-width:760px){.vgl{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}}

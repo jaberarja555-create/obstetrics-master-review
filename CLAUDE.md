@@ -158,3 +158,9 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
 - Stage 1 done: shell, header, navigation, Home, Chapters + chapter page, Practice hub, Resources hub, Settings, Profile, Notifications
   (events of this device), Saved, look settings. Still old inside: flashcards, question bank, search, lectures (audio), subscription sheet.
 - Real totals differ from the mock-ups: 1,634 flashcards and 749 questions (OBS_INFO.tot), not 219 / 110.
+- Phone Home fits one screen (owner, 10 Nov 2026): compact sizes under 760 px, spare height goes to the reading card; a tighter tier under 640 px high.
+- Video lectures (owner, 10 Nov 2026): `v2lect` shows a "قريبًا" card for every topic with a picture (OBS_INFO.timg: the topic's first figure,
+  else `chcov<n>.jpg`); the owner will upload videos later. The old audio screen (`lect`) stays reachable from a row under the cards.
+- Next (owner, 10 Nov 2026): subscription without codes: the student chooses a plan (monthly 10,000 / annual 30,000 / lifetime 50,000 SD),
+  uploads the receipt and sends the request in the app; the owner gets a notification in his admin app, approves, and the student's device
+  opens by itself. Needs a migration (requests, expiry), receipt storage, admin section, device polling.

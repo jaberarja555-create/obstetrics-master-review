@@ -61,10 +61,10 @@ tb.onclick=function(){$('tocBtn').click()};$('rbShow').parentNode.insertBefore(t
 $('backBtn').onclick=function(){go(RET||'v2home')};
 
 /* ---------- views ---------- */
-var V2=['v2home','v2chapters','v2chapter','v2practice','v2resources','v2settings','v2profile','v2notif','v2saved','v2slides'],R={};
+var V2=['v2home','v2chapters','v2chapter','v2practice','v2resources','v2settings','v2profile','v2notif','v2saved','v2slides','v2lect'],R={};
 var NAV=[['v2home','Home','home'],['v2chapters','Chapters','book'],['v2practice','Practice','clip'],['v2resources','Resources','layers'],['v2settings','Settings','gear']];
 function tabOf(v){if(v==='reader')return SCOPE==='rr'||SCOPE==='dr'?'v2resources':'v2chapters';
-  return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
+  return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
 var _show=show;
 function go(v){if(v==='home')v='v2home';var was=CURV;
   if(V2.indexOf(v)>=0){if(typeof setImm==='function')setImm(false);views.forEach(function(x){$(x).hidden=true});V2.forEach(function(x){$(x).hidden=x!==v});CURV=v;try{hideBar();penFly(false)}catch(e){}R[v]();$(v).scrollTop=v===was?$(v).scrollTop:0}
@@ -90,7 +90,7 @@ function qTotal(){return TOT.qs||QS.length}function cTotal(){var n=0;deckIds.for
 var BM=spj('bm')||{};function bmk(k){return '<button type="button" class="bmk'+(BM[k]?' on':'')+'" data-act="bm" data-k="'+k+'" aria-label="حفظ" aria-pressed="'+!!BM[k]+'">'+I('bm')+'</button>'}
 function openTopic(t){if(locked(t.id)){openSub();return}goPage(t.p-1)}
 function bar(v){return '<span class="v2bar"><i style="width:'+v+'%"></i></span>'}
-function title(t,back,crumb){return '<div class="v2pt" lang="ar">'+(back?'<button type="button" class="v2bk" data-v="'+back+'" aria-label="رجوع">'+I('arrow')+'</button>':'')+'<h2>'+t+'</h2>'+(crumb?'<span class="v2crumb">'+crumb+'</span>':'')+'</div>'}
+function title(t,back,crumb){ return '<div class="v2pt" lang="ar">'+(back?'<button type="button" class="v2bk" data-v="'+back+'" aria-label="رجوع">'+I('arrow')+'</button>':'')+'<h2>'+t+'</h2>'+(crumb?'<span class="v2crumb">'+crumb+'</span>':'')+'</div>'}
 
 /* ---------- Home ---------- */
 R.v2home=function(){var a=access(),lp=lastPage(),has=sp('pk')&&lp>0,t=has?topicAt(lp):TOPICS[0],nm=myName();
@@ -114,7 +114,7 @@ R.v2home=function(){var a=access(),lp=lastPage(),has=sp('pk')&&lp>0,t=has?topicA
     '<div class="hst" lang="ar"><button type="button" class="v2c" data-act="cards"><span class="t">'+I('layers')+'كروت اليوم</span><span class="n">'+(dueToday()?dueToday()+' كروت':'اكتملت ✓')+'</span><span class="a">ابدأ المراجعة'+I('back')+'</span></button>'+
       '<button type="button" class="v2c" data-v="qbank-v"><span class="t">'+I('q')+'بنك الأسئلة</span><span class="n">'+qTotal()+' سؤال</span><span class="a">ابدأ التدريب'+I('back')+'</span></button></div>'+
     '<div class="hq" lang="ar"><button type="button" class="v2c" data-act="last">'+I('clock')+'<span>آخر نشاط'+(lal?'<small dir="ltr">'+X(lal)+'</small>':'')+'</span>'+I('chev','cv')+'</button>'+
-      '<button type="button" class="v2c" data-v="lect">'+I('play')+'<span>المحاضرات<small>Lectures</small></span>'+I('chev','cv')+'</button>'+
+      '<button type="button" class="v2c" data-v="v2lect">'+I('play')+'<span>المحاضرات<small>Lectures</small></span>'+I('chev','cv')+'</button>'+
       '<button type="button" class="v2c" data-v="v2slides">'+I('slides')+'<span>السلايدات<small>Slides</small></span>'+I('chev','cv')+'</button></div>'+
    '</div></div>'};
 
@@ -159,8 +159,16 @@ R.v2resources=function(){var nn=0;Object.keys(HL||{}).forEach(function(k){(HL[k]
   function row(act,ic,a,b,attr){return '<button type="button" class="v2c hrow" '+(attr||'data-act="'+act+'"')+'><span class="ii">'+I(ic)+'</span><span><b>'+a+'</b><small>'+b+'</small></span>'+I('chev')+'</button>'}
   $('v2resourcesW').innerHTML=title('المصادر')+'<div class="hub" lang="ar">'+
     row('rr','bolt','المراجعة السريعة','Rapid Review · بطاقة امتحان لكل موضوع')+row('dr','pill','أدوية التوليد','Obstetric Drugs · الجرعات والمحاذير')+
-    row('osce','steth','السريري OSCE','Clinical & OSCE · '+TOPICS.filter(function(t){return t.ch===7}).length+' محطات')+row('','play','المحاضرات','Lectures','data-v="lect"')+
+    row('osce','steth','السريري OSCE','Clinical & OSCE · '+TOPICS.filter(function(t){return t.ch===7}).length+' محطات')+row('','play','المحاضرات','Video lectures','data-v="v2lect"')+
     row('','slides','السلايدات','Slides','data-v="v2slides"')+row('notes','pen','ملاحظاتي','My Notes'+(nn?' · '+nn:''))+row('','bm','المصادر المحفوظة','Saved'+(nb?' · '+nb:''),'data-v="v2saved"')+'</div>'};
+var LCH=0;
+R.v2lect=function(){var TI=INFO.timg||{},ts=TOPICS.filter(function(t){return !LCH||t.ch===LCH}),au=0;try{au=Object.keys(AU).length}catch(e){}
+  $('v2lectW').innerHTML=title('المحاضرات','v2resources','Video lectures')+
+   '<div class="chf lcf" lang="ar"><button type="button" data-act="lch" data-n="0" class="'+(LCH?'':'on')+'">الكل</button>'+META.chapters.map(function(c){return '<button type="button" data-act="lch" data-n="'+c.n+'" class="'+(LCH===c.n?'on':'')+'"><bdi>Ch '+c.n+'</bdi></button>'}).join('')+'</div>'+
+   '<div class="v2c hacc" lang="ar">'+I('play')+'<div><b>محاضرات الفيديو قادمة</b><small>ستُضاف محاضرة فيديو لكل موضوع، وتظهر هنا فور رفعها.</small></div></div>'+
+   '<div class="vgl">'+ts.map(function(t){return '<div class="v2c vcd"><div class="th" style="background-image:url('+(TI[t.id]||chap(t.ch).img)+')"><span class="pl">'+I('play')+'</span><span class="sn" lang="ar">قريبًا</span></div>'+
+     '<b>'+t.no+' '+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></div>'}).join('')+'</div>'+
+   (au?'<button type="button" class="v2c hrow" data-v="lect" lang="ar"><span class="ii">'+I('dl')+'</span><span><b>الشرح الصوتي المتوفر الآن</b><small>'+au+' موضوع · استماع وتنزيل</small></span>'+I('chev')+'</button>':'')};
 R.v2slides=function(){$('v2slidesW').innerHTML=title('السلايدات','v2resources')+'<div class="v2c v2emp" lang="ar">'+I('slides')+'<br>لا توجد سلايدات مضافة بعد.<br>ستظهر هنا عند إضافتها إلى الكتاب.</div>'};
 R.v2saved=function(){var ks=Object.keys(BM).sort(function(a,b){return BM[b]-BM[a]});
   $('v2savedW').innerHTML=title('المصادر المحفوظة','v2resources')+(ks.length?'<div class="tpl">'+ks.map(function(k){var t=TOPICS.filter(function(x){return 't:'+x.id===k})[0];if(!t)return '';
@@ -226,6 +234,7 @@ var ACT={sub:openSub,
   chc:function(){curDeck='ch:'+CH;started=false;try{sp('fcch',String(CH))}catch(e){}go('cards')},
   pseg:function(b){PSEG=b.dataset.s;sp('pseg',PSEG);R.v2practice()},
   rr:function(){goIdx(idxOf(/^x9/))},dr:function(){goIdx(idxOf(/^y0/))},
+  lch:function(b){LCH=+b.dataset.n;R.v2lect()},
   osce:function(){CH=7;CHRET='v2resources';go('v2chapter')},
   notes:function(){openNotes()},
   mode:function(b){MODE=b.dataset.m;sp('mode',MODE);applyLook();R.v2settings()},
