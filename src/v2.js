@@ -312,4 +312,12 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
 /* progress details live in a sheet now */
 $('v2pbody').appendChild($('prog'));$('v2psx').onclick=function(){$('v2psheet').hidden=true};$('v2psheet').addEventListener('click',function(e){if(e.target===this)this.hidden=true});
 applyLook();go('v2home');poll();
+/* welcome on every opening (owner, 10 Nov 2026): logo, greeting, «ابدأ»; the press plays a rising chime and the screen opens with a glow */
+(function(){var w=$('v2wel'),nm=myName();$('v2welT').textContent=nm?'مرحب بك يا '+nm:'مرحب بك يا دكتور';w.hidden=false;
+  function snd(){try{var a=new (window.AudioContext||window.webkitAudioContext)(),t=a.currentTime+.02;
+    [[523.25,0],[659.25,.09],[783.99,.18],[1046.5,.27],[1318.5,.38],[1568,.5]].forEach(function(n){var o=a.createOscillator(),g=a.createGain();o.type='triangle';o.frequency.value=n[0];
+      g.gain.setValueAtTime(0,t+n[1]);g.gain.linearRampToValueAtTime(.16,t+n[1]+.02);g.gain.exponentialRampToValueAtTime(.001,t+n[1]+1.1);o.connect(g);g.connect(a.destination);o.start(t+n[1]);o.stop(t+n[1]+1.2)});
+    [261.63,392,523.25].forEach(function(f){var o=a.createOscillator(),g=a.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,t+.5);g.gain.linearRampToValueAtTime(.07,t+.6);g.gain.exponentialRampToValueAtTime(.001,t+2.2);o.connect(g);g.connect(a.destination);o.start(t+.5);o.stop(t+2.3)})}catch(e){}}
+  $('v2welGo').onclick=function(){snd();w.classList.add('go');setTimeout(function(){w.hidden=true;w.classList.remove('go')},1150)};
+  setTimeout(function(){try{$('v2welGo').focus()}catch(e){}},50)})();
 })();

@@ -163,6 +163,7 @@ function myDevice(){if(window.__v2sub||!UNLOCKED||document.getElementById('myDev
   var b=document.createElement('button');b.type='button';b.id='myDev';b.className='mydev';b.setAttribute('dir','rtl');b.setAttribute('data-sub','1');
   b.innerHTML='<span><b>أنت مشترك · الكتاب مفتوح كاملًا</b><small>الكود <bdi dir="ltr">'+esc(LS('orr-code')||'')+'</bdi> · لنقل الكتاب إلى جهاز آخر</small></span><i>إدارة الجهاز</i>';u.parentNode.insertBefore(b,u.nextSibling)}
 function afterLogin(){myDevice();if(UNLOCKED||INTRIAL||!TMS)return;var t=tget();
-  if(((!t||!t.s)&&!LS('orr-chz'))||(t&&t.s&&tleft()<=0&&!t.seen)){if(!t||!t.s)setMust(true);if(t&&t.s){t.seen=1;tput(t)}setTimeout(window.__v2sub?function(){setMust(false);LS('orr-chz','1');window.__v2sub()}:openChoose,300)}}
+  if(((!t||!t.s)&&!LS('orr-chz'))||(t&&t.s&&tleft()<=0&&!t.seen)){if(!t||!t.s)setMust(true);if(t&&t.s){t.seen=1;tput(t)}if(window.__v2sub){setMust(false);LS('orr-chz','1');return}   /* new app: a welcome screen, no forced choice (owner, 10 Nov 2026) */
+    setTimeout(openChoose,300)}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();

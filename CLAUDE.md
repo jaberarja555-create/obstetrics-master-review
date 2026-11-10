@@ -176,3 +176,5 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   (owner to decide; nothing was deleted); a second device for one subscription; changing device without the owner.
 - Phone Home never scrolls on normal phones (owner, 10 Nov 2026): the wrapper takes the screen height and the reading card gives way
   (container queries hide its topic line, then its chapter label, then clamp the title), so no text is cut.
+- Welcome screen (owner, 10 Nov 2026): `#v2wel` on every opening: new logo with rings, «مرحب بك يا دكتور» (or the name), «ابدأ رحلتك مع
+  Obstetrics Master Review», button «ابدأ» → rising chime + glow, then Home. No forced subscription choice at the start (licence.js `afterLogin`).
