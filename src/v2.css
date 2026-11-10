@@ -343,3 +343,13 @@ button{font-family:inherit}
 @keyframes wlring{0%{transform:scale(.92);opacity:.55}100%{transform:scale(1.35);opacity:0}}
 @keyframes wlburst{0%{transform:scale(1);opacity:.9}100%{transform:scale(3.2);opacity:0}}
 @media (prefers-reduced-motion:reduce){.v2wel *,.v2wel{animation:none!important;transition:opacity .2s!important}}
+/* the owner's full pictures (10 Nov 2026): consultation photo with its own soft left side; tall baby picture fills the PC sidebar */
+.hcont .ph{inset:0;background:url(img/v2_consult.jpg) right 22%/cover}
+.hcont .ph::after{background:linear-gradient(90deg,var(--sf) 0,color-mix(in srgb,var(--sf) 82%,transparent) 30%,transparent 58%)}
+@media (min-width:1180px){
+  .v2side{background:var(--deep2)}
+  .v2side .art{inset:0;height:auto;background:url(img/v2_fetus.jpg) center bottom/cover;-webkit-mask:none;mask:none;opacity:1}
+  .v2side .art::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,color-mix(in srgb,var(--deep) 62%,transparent) 0,color-mix(in srgb,var(--deep) 30%,transparent) 38%,transparent 62%)}
+  :root[data-theme="dark"] .v2side .art::after{background:linear-gradient(180deg,color-mix(in srgb,var(--deep) 88%,transparent) 0,color-mix(in srgb,var(--deep) 60%,transparent) 45%,color-mix(in srgb,var(--deep) 25%,transparent) 100%)}
+  .v2side .sb,.v2side nav{position:relative;z-index:1}
+}

@@ -153,7 +153,7 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   (lav, navy, green, orange, red, mono) → `html[data-pal]`; the old variables (--paper, --card, --rose…) are mapped to them.
 - Reader scope: `grp(i)` (topic, rr, dr, chapter cover, cover, front matter); only the pages of one group are shown.
 - New keys: orr-name, orr-photo, orr-bm (bookmarks, not synced yet), orr-lastact, orr-nread, orr-nseen, orr-pseg.
-- Temporary pictures cut from the owner's mock-ups (low resolution): assets/img/v2_consult.jpg, v2_fetus.jpg, v2_cover.jpg; logo v2_logo.webp
+- Pictures: assets/img/v2_consult.jpg and v2_fetus.jpg are the owner's full pictures (10 Nov 2026; the tall baby picture fills the PC sidebar); v2_cover.jpg is still cut from his mock-up (low resolution); logo v2_logo.webp
   recoloured from his burgundy logo. Replace when he sends the originals.
 - Stage 1 done: shell, header, navigation, Home, Chapters + chapter page, Practice hub, Resources hub, Settings, Profile, Notifications
   (events of this device), Saved, look settings. Still old inside: flashcards, question bank, search, lectures (audio), subscription sheet.
