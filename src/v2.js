@@ -150,18 +150,23 @@ R.v2chapter=function(){var c=chap(CH),s=chStat(c),fr=isFree();
 
 /* ---------- Practice ---------- */
 var PSEG=sp('pseg')==='c'?'c':'q';
-R.v2practice=function(){var h=title('الممارسة والتقييم')+'<div class="v2c pseg" lang="ar"><button type="button" data-act="pseg" data-s="q" class="'+(PSEG==='q'?'on':'')+'">'+I('q')+'الأسئلة</button><button type="button" data-act="pseg" data-s="c" class="'+(PSEG==='c'?'on':'')+'">'+I('layers')+'الكروت</button></div>';
-  var fr=isFree();
-  if(PSEG==='q'){var qa=0,ok=0,mk=0;QS.forEach(function(q){var s=QST[q.id];if(s){if(s.n||s.a){qa++;if(!s.w)ok++}if(s.m)mk++}});
-    h+='<div class="pstat" lang="ar"><div class="v2c"><b>'+QS.length+'</b><span>سؤال'+(fr&&TOT.qs?' من '+TOT.qs:'')+'</span></div><div class="v2c"><b>'+qa+'</b><span>تمت الإجابة</span></div><div class="v2c"><b>'+(qa?pc(ok,qa)+'%':'–')+'</b><span>إجابات صحيحة</span></div></div>'+
+R.v2practice=function(){var fr=isFree(),wide=window.matchMedia&&matchMedia('(min-width:760px)').matches;
+  function qp(){var qa=0,ok=0,mk=0;QS.forEach(function(q){var s=QST[q.id];if(s){if(s.n||s.a){qa++;if(!s.w)ok++}if(s.m)mk++}});
+    return '<div class="pstat" lang="ar"><div class="v2c"><b>'+QS.length+'</b><span>سؤال'+(fr&&TOT.qs?' من '+TOT.qs:'')+'</span></div><div class="v2c"><b>'+qa+'</b><span>تمت الإجابة</span></div><div class="v2c"><b>'+(qa?pc(ok,qa)+'%':'–')+'</b><span>إجابات صحيحة</span></div></div>'+
       '<button type="button" class="v2btn" data-v="qbank-v" lang="ar" style="height:50px">'+I('play')+'ابدأ التدريب</button>'+
-      '<div class="hub" style="grid-template-columns:1fr" lang="ar"><button type="button" class="v2c hrow" data-v="qbank-v"><span class="ii">'+I('clip')+'</span><span><b>إنشاء اختبار</b><small>تدريب أو امتحان بالوقت · اختيار الفصول وعدد الأسئلة · '+mk+' سؤال محفوظ</small></span>'+I('chev')+'</button></div>'}
-  else{var tc=0,tk=0;deckIds.forEach(function(id){tc+=DECKS[id].cards.length;tk+=deckKnown(id)});
-    h+='<div class="pstat" lang="ar"><div class="v2c"><b>'+tc+'</b><span>كرت'+(fr&&TOT.cards?' من '+TOT.cards:'')+'</span></div><div class="v2c"><b>'+tk+'</b><span>عرفتها</span></div><div class="v2c"><b>'+dueToday()+'</b><span>مستحق اليوم</span></div></div>'+
+      '<button type="button" class="v2c hrow" data-v="qbank-v" lang="ar"><span class="ii">'+I('clip')+'</span><span><b>إنشاء اختبار</b><small>تدريب أو امتحان بالوقت · اختيار الفصول وعدد الأسئلة · '+mk+' سؤال محفوظ</small></span>'+I('chev')+'</button>'}
+  function cp(){var tc=0,tk=0;deckIds.forEach(function(id){tc+=DECKS[id].cards.length;tk+=deckKnown(id)});
+    return '<div class="pstat" lang="ar"><div class="v2c"><b>'+tc+'</b><span>كرت'+(fr&&TOT.cards?' من '+TOT.cards:'')+'</span></div><div class="v2c"><b>'+tk+'</b><span>عرفتها</span></div><div class="v2c"><b>'+dueToday()+'</b><span>مستحق اليوم</span></div></div>'+
       '<button type="button" class="v2btn" data-act="cards" lang="ar" style="height:50px">'+I('play')+'ابدأ مراجعة اليوم</button>'+
-      '<div class="hub" style="grid-template-columns:1fr" lang="ar"><button type="button" class="v2c hrow" data-act="allcards"><span class="ii">'+I('layers')+'</span><span><b>كل الكروت</b><small>حسب الفصل والموضوع</small></span>'+I('chev')+'</button></div>'}
+      '<button type="button" class="v2c hrow" data-act="allcards" lang="ar"><span class="ii">'+I('layers')+'</span><span><b>كل الكروت</b><small>حسب الفصل والموضوع</small></span>'+I('chev')+'</button>'}
+  var h=title('الممارسة والتقييم','','Practice');
+  if(wide)h+='<div class="pgrid"><div class="ppane"><h3 lang="ar">'+I('layers')+'الكروت</h3>'+cp()+'</div><div class="ppane"><h3 lang="ar">'+I('q')+'الأسئلة</h3>'+qp()+'</div></div>';
+  else h+='<div class="v2c pseg" lang="ar"><button type="button" data-act="pseg" data-s="q" class="'+(PSEG==='q'?'on':'')+'">'+I('q')+'الأسئلة</button><button type="button" data-act="pseg" data-s="c" class="'+(PSEG==='c'?'on':'')+'">'+I('layers')+'الكروت</button></div>'+(PSEG==='q'?qp():cp());
+  if(wide)h+='<div class="ppane"><h3 lang="ar">'+I('book')+'تدرّب حسب الفصل</h3><div class="pchs">'+META.chapters.map(function(c){var s=chStat(c);
+    return '<div class="v2c pch"><b>Chapter '+c.n+'</b><span>'+X(c.name)+'</span><div lang="ar"><button type="button" class="v2btn sm ol" data-act="pq" data-n="'+c.n+'">'+I('q')+'أسئلة</button><button type="button" class="v2btn sm ol" data-act="pc" data-n="'+c.n+'">'+I('layers')+'كروت</button></div></div>'}).join('')+'</div></div>';
   if(fr)h+='<button type="button" class="v2c hacc" data-act="sub" lang="ar">'+I('lock')+'<div><b>النسخة المجانية</b><small>الأسئلة والكروت هنا من الموضوع الأول في كل فصل. اشترك لفتح الكل.</small></div></button>';
   $('v2practiceW').innerHTML=h};
+window.addEventListener('resize',function(){if(CURV==='v2practice')R.v2practice()});
 
 /* ---------- Resources ---------- */
 R.v2resources=function(){var nn=0;Object.keys(HL||{}).forEach(function(k){(HL[k]||[]).forEach(function(x){if(x.n)nn++})});var nb=Object.keys(BM).length;
@@ -345,6 +350,7 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
   chread:function(){var ts=chStat(chap(CH)).ts,t=ts.filter(function(x){return pct(x.id)<100})[0]||ts[0];if(t)openTopic(t)},
   chq:function(){qset.ch={};qset.ch[CH]=true;spj('qbset',qset);if(CUR&&CUR.done)CUR=null;go('qbank-v')},
   chc:function(){curDeck='ch:'+CH;started=false;try{sp('fcch',String(CH))}catch(e){}go('cards')},
+  pq:function(b){CH=+b.dataset.n;ACT.chq()},pc:function(b){CH=+b.dataset.n;ACT.chc()},
   pseg:function(b){PSEG=b.dataset.s;sp('pseg',PSEG);R.v2practice()},
   rr:function(){goIdx(idxOf(/^x9/))},dr:function(){goIdx(idxOf(/^y0/))},
   hjump:function(b){var e=$('hlp'+b.dataset.i);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},

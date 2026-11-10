@@ -208,3 +208,4 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   screenshot of the app `assets/img/help_<part>.jpg`. Re-make the pictures after screens change: build, serve build/site on :8765,
   `node tools/help_shots.js`, build again. Add every new feature here (this replaces the old how-to pages for the app).
 - Baby picture follows the app colour: `v2_fetus_<pal>.jpg` (only the purple pixels recoloured; the consultation photo stays as it is).
+- Practice on tablets and PCs (owner, 10 Nov 2026): questions and flashcards side by side over the full width, then «تدرّب حسب الفصل» (a tile per chapter with its questions and cards buttons); phones keep the two-tab switch.
