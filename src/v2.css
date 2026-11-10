@@ -370,3 +370,19 @@ button{font-family:inherit}
 :root[data-pal="mono"] .bk img.covimg{content:url(img/cover5_mono.jpg)}
 .brow{display:flex;gap:8px;flex-wrap:wrap}
 #reader .pnum{pointer-events:none}
+.frm details{border-top:1px solid var(--bd);padding-top:8px;display:grid;gap:8px}.frm details summary{font:600 13px 'Cairo',sans-serif;color:var(--pri);cursor:pointer}
+.frm details[open]{display:grid;gap:8px}.frm details>*{margin-top:8px}
+/* user manual */
+.hlp{display:grid;grid-template-columns:1fr;gap:12px;padding:14px;direction:rtl;text-align:right;scroll-margin-top:8px}
+.hlp b{font-weight:700}.hlp .hx>b{display:flex;align-items:center;gap:10px;font:700 17px 'Cairo',sans-serif}
+.hlp .hx>b i{width:28px;height:28px;border-radius:50%;background:var(--pri);color:var(--pon);display:grid;place-items:center;font:800 14px var(--ui);font-style:normal;flex:none}
+.hlp .mu{margin:4px 0 8px;font:500 13px 'Cairo',sans-serif;color:var(--sub)}
+.hlp ol{margin:0;padding:0 20px 0 0;display:grid;gap:7px}.hlp li{font:500 14px/1.75 'Cairo','Inter',sans-serif}.hlp li::marker{color:var(--pri);font-weight:700}
+.hlp img{width:100%;max-width:300px;justify-self:center;border-radius:14px;border:1px solid var(--bd);box-shadow:var(--sh)}
+@media (min-width:760px){.hlp{grid-template-columns:1fr 260px;align-items:start;gap:20px;padding:18px}.hlp img{max-width:260px}}
+/* the baby picture follows the app colour (owner, 10 Nov 2026) */
+@media (min-width:1180px){
+  :root[data-pal="navy"] .v2side .art{background-image:url(img/v2_fetus_navy.jpg)}:root[data-pal="green"] .v2side .art{background-image:url(img/v2_fetus_green.jpg)}
+  :root[data-pal="orange"] .v2side .art{background-image:url(img/v2_fetus_orange.jpg)}:root[data-pal="red"] .v2side .art{background-image:url(img/v2_fetus_red.jpg)}
+  :root[data-pal="mono"] .v2side .art{background-image:url(img/v2_fetus_mono.jpg)}
+}

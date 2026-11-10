@@ -200,3 +200,11 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   7 days / Ended / Switched off; per subscriber: WhatsApp, Devices 1–10, Extend +1 month / +1 year / never / end now via `obs_admin_expires`,
   edit name and phone, student notes, remove devices, switch off), Give (subscription with no receipt), Old codes (codes with no plan; new
   old-style codes can still be made until launch). Live on `main` too (it needs assets/img/v2_logo.webp and the Cairo fonts there).
+- Devices join by themselves (owner, 10 Nov 2026; migration 007, applied): up to the subscription's limit (3) a device needs no approval.
+  A subscribed device → Subscription → «أضف جهازًا آخر» gets a link number (8 digits, 10 minutes, one use: `obs_pair_new`); the new device
+  writes it under «مشترك على جهاز آخر» (`obs_pair_use`) and opens at once. Beyond the limit `obs_pair_use` files a `device` request for the
+  owner; approving it raises that subscription's `maxdev` by one. Without the old device: name + phone request, owner approves (as before).
+- User manual (owner, 10 Nov 2026): Settings → «دليل الاستخدام» (`v2help`, array HELP in v2.js): seven parts in clear Arabic steps, each with a
+  screenshot of the app `assets/img/help_<part>.jpg`. Re-make the pictures after screens change: build, serve build/site on :8765,
+  `node tools/help_shots.js`, build again. Add every new feature here (this replaces the old how-to pages for the app).
+- Baby picture follows the app colour: `v2_fetus_<pal>.jpg` (only the purple pixels recoloured; the consultation photo stays as it is).
