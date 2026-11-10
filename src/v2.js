@@ -40,13 +40,15 @@ if(MQ.addEventListener)MQ.addEventListener('change',function(){if(MODE==='auto')
 $('v2th').onclick=function(){MODE=isDark()?'day':'night';sp('mode',MODE);applyLook();if(CURV==='v2settings')R.v2settings()};
 
 /* ---------- profile in the shared header ---------- */
-function myName(){return (sp('name')||'').trim()}
+function myName(){return (sp('name')||sp('sname')||'').trim()}   // the name the owner approved, unless the student changed it
 function avatar(el){var ph=sp('photo'),n=myName();el.style.backgroundImage=ph?'url('+ph+')':'';el.innerHTML=ph?'':(n?X(n.replace(/^(dr\.?|د\.?)\s*/i,'').slice(0,1).toUpperCase()):I('user'))}
 function header(){avatar($('v2av'));$('v2nm').textContent=myName()||'Doctor';var n=notifs().filter(function(x){return !NR[x.id]}).length;$('v2bd').hidden=!n;$('v2bd').textContent=n}
 
 /* ---------- access state (from the licence layer) ---------- */
-function access(){var c=root.classList;if(c.contains('intrial'))return 'trial';if(c.contains('unlocked'))return 'paid';var t=spj('trial');return t&&t.s?'expired':'free'}
-function openSub(){if(window.__openSub)window.__openSub()}
+function access(){var c=root.classList;if(c.contains('intrial'))return 'trial';if(c.contains('unlocked'))return 'paid';if(st('orr-ended'))return 'ended';var t=spj('trial');return t&&t.s?'expired':'free'}
+function isFree(){var a=access();return a==='free'||a==='expired'||a==='ended'}
+function openSub(){go('v2sub')}
+window.__v2sub=openSub;
 function locked(id){return !!(window.__LK&&window.__LK[id])}
 
 /* ---------- reader: one place at a time ---------- */
@@ -61,10 +63,10 @@ tb.onclick=function(){$('tocBtn').click()};$('rbShow').parentNode.insertBefore(t
 $('backBtn').onclick=function(){go(RET||'v2home')};
 
 /* ---------- views ---------- */
-var V2=['v2home','v2chapters','v2chapter','v2practice','v2resources','v2settings','v2profile','v2notif','v2saved','v2slides','v2lect'],R={};
+var V2=['v2home','v2chapters','v2chapter','v2practice','v2resources','v2settings','v2profile','v2notif','v2saved','v2slides','v2lect','v2sub','v2pay'],R={};
 var NAV=[['v2home','Home','home'],['v2chapters','Chapters','book'],['v2practice','Practice','clip'],['v2resources','Resources','layers'],['v2settings','Settings','gear']];
 function tabOf(v){if(v==='reader')return SCOPE==='rr'||SCOPE==='dr'?'v2resources':'v2chapters';
-  return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
+  return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',v2sub:'v2settings',v2pay:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
 var _show=show;
 function go(v){if(v==='home')v='v2home';var was=CURV;
   if(V2.indexOf(v)>=0){if(typeof setImm==='function')setImm(false);views.forEach(function(x){$(x).hidden=true});V2.forEach(function(x){$(x).hidden=x!==v});CURV=v;try{hideBar();penFly(false)}catch(e){}R[v]();$(v).scrollTop=v===was?$(v).scrollTop:0}
@@ -97,7 +99,9 @@ R.v2home=function(){var a=access(),lp=lastPage(),has=sp('pk')&&lp>0,t=has?topicA
   var acc={free:['النسخة المجانية','استمتع بالوصول المحدود للمحتوى: الموضوع الأول من كل فصل','ترقية','up'],
     trial:['الفترة التجريبية','الكتاب كله مفتوح الآن حتى تنتهي الفترة','اشترك','up'],
     paid:['النسخة الكاملة','هذا الجهاز مفعّل والكتاب مفتوح كاملًا','الاشتراك','crown'],
-    expired:['انتهت الفترة التجريبية','الموضوع الأول من كل فصل ما زال مفتوحًا','اشترك','up']}[a];
+    expired:['انتهت الفترة التجريبية','الموضوع الأول من كل فصل ما زال مفتوحًا','اشترك','up'],
+    ended:['انتهى اشتراكك','ملاحظاتك وتقدّمك محفوظة · جدّد لفتح الكتاب كاملًا','تجديد','up']}[a];
+  if(a!=='paid'&&REQ&&REQ.status==='pending')acc=['طلبك قيد المراجعة','سيُفتح الكتاب كاملًا تلقائيًا بعد الموافقة','الحالة','clock'];
   var ct=t?'<h3>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</h3><p>'+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</p><div class="pg"><b>'+pct(t.id)+'%</b>'+bar(pct(t.id))+'</div>'
     :'<h3>'+X(PAGES[lp].label)+'</h3><p>Page '+PAGES[lp].bn+'</p><div class="pg"></div>';
   var la=spj('lastact'),lal=la?{read:t?t.title:PAGES[lp].label,cards:'Flashcards',qb:'Question bank',lect:'Lectures'}[la.k]:'';
@@ -131,7 +135,7 @@ R.v2chapters=function(){var q=CHQ.trim().toLowerCase();
     '<div class="chf" lang="ar">'+[['all','الكل'],['prog','قيد القراءة'],['bm','المحفوظة']].map(function(f){return '<button type="button" data-act="chf" data-f="'+f[0]+'" class="'+(CHF===f[0]?'on':'')+'">'+f[1]+'</button>'}).join('')+'</div>'+
     '<div class="chl">'+(rows||'<div class="v2emp" lang="ar">'+I('book')+'<br>لا توجد فصول مطابقة.</div>')+'</div>';
   var el=$('chQ');el.oninput=function(){CHQ=this.value;R.v2chapters()};if(keep){el.focus();el.setSelectionRange(CHQ.length,CHQ.length)}};
-R.v2chapter=function(){var c=chap(CH),s=chStat(c),fr=access()==='free'||access()==='expired';
+R.v2chapter=function(){var c=chap(CH),s=chStat(c),fr=isFree();
   $('v2chapterW').innerHTML='<div class="v2pt" lang="ar"><button type="button" class="v2bk" data-v="'+CHRET+'" aria-label="رجوع">'+I('arrow')+'</button><span class="v2crumb" style="flex:1;text-align:right">'+(CHRET==='v2resources'?'المصادر':'الفصول')+' ‹ <bdi>Chapter '+c.n+'</bdi></span></div>'+
    '<div class="v2c chd"><div class="ph" style="background-image:url('+c.img+')"></div><em>Chapter '+c.n+'</em><h3>'+X(c.name)+'</h3><small>'+s.ts.length+' topics · '+s.np+' pages · '+s.pr+'% read</small></div>'+
    '<div class="tpl">'+s.ts.map(function(t){var lk=locked(t.id),n=npg(t.id),p=pct(t.id);
@@ -142,7 +146,7 @@ R.v2chapter=function(){var c=chap(CH),s=chStat(c),fr=access()==='free'||access()
 /* ---------- Practice ---------- */
 var PSEG=sp('pseg')==='c'?'c':'q';
 R.v2practice=function(){var h=title('الممارسة والتقييم')+'<div class="v2c pseg" lang="ar"><button type="button" data-act="pseg" data-s="q" class="'+(PSEG==='q'?'on':'')+'">'+I('q')+'الأسئلة</button><button type="button" data-act="pseg" data-s="c" class="'+(PSEG==='c'?'on':'')+'">'+I('layers')+'الكروت</button></div>';
-  var fr=access()==='free'||access()==='expired';
+  var fr=isFree();
   if(PSEG==='q'){var qa=0,ok=0,mk=0;QS.forEach(function(q){var s=QST[q.id];if(s){if(s.n||s.a){qa++;if(!s.w)ok++}if(s.m)mk++}});
     h+='<div class="pstat" lang="ar"><div class="v2c"><b>'+QS.length+'</b><span>سؤال'+(fr&&TOT.qs?' من '+TOT.qs:'')+'</span></div><div class="v2c"><b>'+qa+'</b><span>تمت الإجابة</span></div><div class="v2c"><b>'+(qa?pc(ok,qa)+'%':'–')+'</b><span>إجابات صحيحة</span></div></div>'+
       '<button type="button" class="v2btn" data-v="qbank-v" lang="ar" style="height:50px">'+I('play')+'ابدأ التدريب</button>'+
@@ -183,7 +187,7 @@ R.v2settings=function(){var a=access(),sy=window.__obsSync&&window.__obsSync.act
    '<div class="v2c sgrp"><h4>'+I('mon')+'المظهر</h4><div class="sseg">'+[['day','نهاري','sun'],['night','ليلي','moon'],['auto','تلقائي','auto']].map(function(m){return '<button type="button" data-act="mode" data-m="'+m[0]+'" class="'+(MODE===m[0]?'on':'')+'" aria-pressed="'+(MODE===m[0])+'">'+I(m[2])+m[1]+'</button>'}).join('')+'</div></div>'+
    '<div class="v2c sgrp"><h4>'+I('palette')+'لون التطبيق</h4><div class="spal">'+PALS.map(function(p){return '<button type="button" data-act="pal" data-p="'+p[0]+'" class="'+(PAL===p[0]?'on':'')+'" aria-pressed="'+(PAL===p[0])+'"><i style="background:'+p[2]+'">'+(PAL===p[0]?I('check'):'')+'</i>'+p[1]+'</button>'}).join('')+'</div></div>'+
    '</div><div><div class="v2c">'+
-    row('sub','crown','الاشتراك',{free:'النسخة المجانية',trial:'فترة تجريبية',paid:'مفعّل',expired:'انتهت التجربة'}[a])+
+    row('sub','crown','الاشتراك',{free:'النسخة المجانية',trial:'فترة تجريبية',paid:'مفعّل',expired:'انتهت التجربة',ended:'انتهى الاشتراك'}[a])+
     row('sync','sync','المزامنة',sy?'بين أجهزتك':'بعد التفعيل')+row('','dl','التنزيلات','المحاضرات','data-v="lect"')+row('','bell','الإشعارات','','data-v="v2notif"')+
     row('prog','bars','تقدّمي',overall()+'%')+(CFG.whatsapp?row('help','help','المساعدة','واتساب'):'')+row('about','info','عن هذه الطبعة','')+
    '</div></div></div>';avatar($('setAv'))};
@@ -192,7 +196,6 @@ R.v2profile=function(){var dev=st('orr-dev')||'',code=st('orr-code')||'';
    '<label class="v2btn sm" style="cursor:pointer">'+I('cam')+'تغيير الصورة<input id="prF" type="file" accept="image/*" hidden></label>'+(sp('photo')?'<button type="button" class="v2crumb" data-act="nophoto">إزالة الصورة</button>':'')+
    '<label>الاسم<input id="prN" type="text" maxlength="40" value="'+X(myName())+'" placeholder="Dr. …" dir="auto"></label>'+
    '<label>رقم المستخدم (رقم هذا الجهاز)<span class="ro"><span>'+X(dev.slice(0,10).toUpperCase())+'</span><button type="button" class="bmk" data-act="copy" data-c="'+X(dev.slice(0,10).toUpperCase())+'" aria-label="نسخ">'+I('copy')+'</button></span></label>'+
-   (code?'<label>كود التفعيل<span class="ro"><span>'+X(code)+'</span></span></label>':'')+
    '<div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;align-self:stretch"><button type="button" class="v2btn" data-act="saveprof">'+I('check')+'حفظ التغييرات</button><button type="button" class="v2btn ol" data-v="v2settings">إلغاء</button></div></div>';
   avatar($('prAv'));
   $('prF').onchange=function(){var f=this.files[0];if(!f)return;var im=new Image();im.onload=function(){var c=document.createElement('canvas'),s=Math.min(im.width,im.height);c.width=c.height=200;
@@ -204,6 +207,9 @@ function notifs(){var a=[],d=dueToday(),lp=lastPage(),ac=access();
   if(d>0)a.push({id:'cards:'+today(),ic:'cal',t:'حان وقت المراجعة',s:d+' كروت في انتظارك اليوم',act:'cards'});
   if(sp('pk')&&lp>0)a.push({id:'cont:'+PKEY[lp],ic:'book',t:'تابع من حيث توقفت',s:PAGES[lp].label,ltr:1,act:'cont'});
   if(ac==='trial')a.push({id:'trial:'+today(),ic:'clock',t:'الفترة التجريبية جارية',s:'الكتاب كله مفتوح الآن. اشترك قبل انتهاء الفترة.',act:'sub'});
+  if(ac==='ended')a.push({id:'subend',ic:'lock',t:'انتهى اشتراكك',s:'ملاحظاتك وتقدّمك محفوظة. جدّد الاشتراك لفتح الكتاب كاملًا.',act:'sub'});
+  if(REQ&&REQ.status==='pending')a.push({id:'req:'+REQ.t,ic:'clock',t:'طلب الاشتراك قيد المراجعة',s:'سيُفتح الكتاب تلقائيًا بعد الموافقة.',act:'sub'});
+  if(REQ&&REQ.status==='rejected'&&ac!=='paid')a.push({id:'rej:'+REQ.t,ic:'info',t:'لم يُقبل طلب الاشتراك',s:REQ.reason||'راجع بيانات التحويل وأرسل الطلب من جديد.',act:'sub'});
   if(ac==='expired')a.push({id:'trialend',ic:'lock',t:'انتهت الفترة التجريبية',s:'الموضوع الأول من كل فصل ما زال مفتوحًا. اشترك لفتح الكتاب كاملًا.',act:'sub'});
   a.push({id:'welcome',ic:'mail',t:'مرحبًا بك في Obstetrics Master Review',s:'ابدأ المراجعة واستفد من جميع المزايا.'});
   var ch=0;a.forEach(function(n){if(!NS[n.id]){NS[n.id]=Date.now();ch=1}});if(ch)spj('nseen',NS);return a}
@@ -216,9 +222,62 @@ R.v2notif=function(){var all=notifs(),un=all.filter(function(n){return !NR[n.id]
      (n.act?'<button type="button" class="v2btn sm" data-act="nopen" data-id="'+X(n.id)+'" data-go2="'+n.act+'">فتح'+I('back')+'</button>':(NR[n.id]?'<span></span>':'<button type="button" class="bmk" data-act="nread" data-id="'+X(n.id)+'" aria-label="تحديد كمقروء">'+I('check')+'</button>'))+'</div>'}).join('')+'</div>'
     :'<div class="v2c v2emp" lang="ar">'+I('bell')+'<br>لا توجد إشعارات غير مقروءة.</div>')};
 
+/* ---------- subscription: plans, payment request, automatic opening after the owner approves (no codes) ---------- */
+var LIC=window.__lic||null,PLANS=CFG.plans||[],REQ=spj('req')||null,PAY={plan:sp('plan2')||'month',file:null,busy:false};
+function plan(id){return PLANS.filter(function(p){return p.id===id})[0]||PLANS[0]||{id:id,ar:id,en:id,price:''}}
+function fdate(ms){try{return new Date(+ms).toLocaleDateString('ar-EG-u-nu-latn',{day:'numeric',month:'long',year:'numeric'})}catch(e){return new Date(+ms).toDateString()}}
+function poll(){if(!LIC||LIC.unlocked()||navigator.onLine===false)return Promise.resolve();
+  return LIC.rpc('obs_request_status',{p_dev:LIC.dev,p_kind:LIC.kind(),p_label:LIC.label()}).then(function(r){var d=r.data;if(r.error||!d||!d.ok)return;
+    if(d.active)return LIC.rpc('obs_check',{p_dev:LIC.dev}).then(function(q){if(q.data&&q.data.ok&&q.data.key){spj('req',null);return LIC.adopt(q.data)}});
+    REQ=d.status==='none'?null:{status:d.status,plan:d.plan,t:d.created,reason:d.reason};spj('req',REQ);if(CURV==='v2sub'||CURV==='v2home')R[CURV]();header()}).catch(function(){})}
+setInterval(function(){if(!document.hidden&&((REQ&&REQ.status==='pending')||CURV==='v2sub'))poll()},45000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)poll()});
+R.v2sub=function(){var a=access(),ex=+st('orr-exp')||0,pl=st('orr-plan'),pend=a!=='paid'&&REQ&&REQ.status==='pending',h=title('الاشتراك',CURV==='v2sub'&&RETS?RETS:'v2settings','Subscription');
+  function chk(t){return '<li>'+I('check')+t+'</li>'}
+  if(a==='paid')h+='<div class="v2c sbx ok" lang="ar"><b>'+I('crown')+'اشتراكك فعّال</b><p>'+(pl?'الخطة: '+plan(pl).ar+' · ':'')+(ex?'ينتهي في '+fdate(ex):'بلا تاريخ انتهاء')+'</p><p class="mu">ملاحظاتك وتظليلك وتقدّمك محفوظة مع اشتراكك. لتغيير الجهاز راسلنا في واتساب.</p></div>';
+  if(a==='ended')h+='<div class="v2c sbx" lang="ar"><b>'+I('lock')+'انتهى اشتراكك</b><p>ملاحظاتك وتظليلك وتقدّمك محفوظة، وتعود كما هي عند تجديد الاشتراك. الموضوع الأول من كل فصل ما زال مفتوحًا.</p></div>';
+  if(pend)h+='<div class="v2c sbx" lang="ar"><b>'+I('clock')+'طلبك قيد المراجعة</b><p>الخطة: '+plan(REQ.plan).ar+' · أُرسل '+ago(Date.parse(REQ.t))+'</p><p class="mu">بعد الموافقة يُفتح الكتاب كاملًا في هذا الجهاز تلقائيًا، ولا تحتاج إلى أي كود.</p><button type="button" class="v2btn sm ol" data-act="repoll">'+I('sync')+'تحديث الحالة</button></div>';
+  if(!pend&&a!=='paid'&&REQ&&REQ.status==='rejected')h+='<div class="v2c sbx bad" lang="ar"><b>'+I('info')+'لم يُقبل طلبك</b><p>'+X(REQ.reason||'راجع بيانات التحويل ثم أرسل الطلب من جديد.')+'</p></div>';
+  if(a!=='paid'){var fr=LIC&&LIC.fresh();
+    h+='<div class="v2c sbx tr" lang="ar"><b>الخطة التجريبية <small>Trial</small></b><ul>'+chk('وصول كامل لمدة ساعة')+chk('بنفس مزايا الاشتراك الكامل')+'</ul>'+
+      (a==='trial'?'<p class="mu">التجربة جارية الآن · '+(LIC?LIC.trialLeft():'')+'</p>':fr?'<button type="button" class="v2btn" data-act="trial">ابدأ التجربة'+I('back')+'</button><p class="mu" id="trMsg"></p>':'<p class="mu">استُخدمت الفترة التجريبية على هذا الجهاز.</p>')+'</div>'+
+      '<div class="v2c sbx" lang="ar"><b>'+I('book')+'المجانية <small>Free</small></b><ul>'+chk('أول موضوع من كل فصل')+chk('عدد محدود من الكروت والأسئلة')+'</ul></div>'}
+  if(!pend&&(a!=='paid'||ex)){h+='<div class="v2crumb" lang="ar" style="text-align:right">'+(a==='paid'?'تجديد الاشتراك':'اختر خطة الاشتراك')+'</div><div class="plans" lang="ar">'+PLANS.map(function(p){return '<button type="button" class="v2c pln'+(PAY.plan===p.id?' on':'')+'" data-act="plan" data-p="'+p.id+'" aria-pressed="'+(PAY.plan===p.id)+'"><i></i><span>'+p.ar+' <small>'+p.en+'</small></span><b dir="ltr">'+X(p.price)+'</b></button>'}).join('')+'</div>'+
+    '<button type="button" class="v2btn" data-v="v2pay" lang="ar" style="height:50px">اشترك الآن'+I('back')+'</button>'}
+  $('v2subW').innerHTML=h;if(a!=='paid')poll()};
+var RETS='';
+R.v2pay=function(){var p=plan(PAY.plan),dev=LIC?LIC.dev.slice(0,10).toUpperCase():'';
+  $('v2payW').innerHTML=title('إكمال الاشتراك','v2sub','Payment')+
+   '<div class="v2c sbx" lang="ar"><div class="prow"><span>'+I('cal')+'الخطة المختارة</span><b>'+p.ar+' · <bdi dir="ltr">'+X(p.price)+'</bdi></b><button type="button" class="v2btn sm ol" data-v="v2sub">تغيير الخطة</button></div></div>'+
+   '<div class="v2c sbx" lang="ar"><b>'+I('sync')+'التحويل إلى الحساب</b><p>اسم الحساب: <b>'+X(CFG.bankak_name||'')+'</b></p><div class="acct"><span dir="ltr">'+X(CFG.bankak||'')+'</span><button type="button" class="v2btn sm ol" data-act="copy2" data-c="'+X(CFG.bankak||'')+'">'+I('copy')+'نسخ رقم الحساب</button></div><p class="mu">حوّل <bdi dir="ltr">'+X(p.price)+'</bdi> ثم ارفع صورة إشعار التحويل هنا.</p></div>'+
+   '<div class="v2c sbx frm" lang="ar"><label class="upl" id="rcL">'+I('dl')+'<span id="rcT">'+(PAY.file?'✓ '+X(PAY.file.name):'رفع الإيصال (صورة أو PDF)')+'</span><input id="rcF" type="file" accept="image/*,application/pdf" hidden></label>'+
+    '<label>الاسم<input id="pyN" type="text" maxlength="60" value="'+X(myName())+'" dir="auto" autocomplete="name"></label>'+
+    '<label>رقم الهاتف<input id="pyP" type="tel" maxlength="20" value="'+X(sp('tel')||'')+'" dir="ltr" inputmode="tel" placeholder="09XXXXXXXX" autocomplete="tel"></label>'+
+    '<label>رقم المستخدم<input type="text" value="'+dev+'" readonly dir="ltr"></label>'+
+    '<label>تعليق (اختياري)<textarea id="pyC" maxlength="500" rows="2" dir="auto"></textarea></label></div>'+
+   '<button type="button" class="v2btn" id="pyGo" data-act="send" lang="ar" style="height:50px">إرسال طلب التفعيل'+I('back')+'</button><p class="v2crumb" id="pyMsg" lang="ar" style="text-align:center" role="status">يُراجع طلبك بعد إرسال الإيصال، ويُفتح الكتاب تلقائيًا بعد الموافقة.</p>';
+  $('rcF').onchange=function(){var f=this.files[0],T=$('rcT');if(!f)return;PAY.file=null;
+    function done(mime,b64){if(b64.length>2000000){T.textContent='الملف كبير جدًا. اختر صورة أصغر.';return}PAY.file={mime:mime,data:b64,name:f.name};T.textContent='✓ '+f.name}
+    if(f.type==='application/pdf'){if(f.size>1400000){T.textContent='ملف PDF كبير جدًا (الحد 1.4 ميغابايت). أرسل صورة بدلًا منه.';return}var fr=new FileReader();fr.onload=function(){done('application/pdf',String(fr.result).split(',')[1]||'')};fr.readAsDataURL(f);return}
+    var im=new Image();im.onload=function(){var s=Math.min(1,1500/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(im.src);done('image/jpeg',c.toDataURL('image/jpeg',.72).split(',')[1])};
+    im.onerror=function(){T.textContent='تعذّر قراءة الصورة. اختر صورة أخرى.'};im.src=URL.createObjectURL(f)}};
+
 /* ---------- actions ---------- */
 function idxOf(re){for(var i=0;i<PAGES.length;i++)if(!PAGES[i].user&&re.test(PAGES[i].f||''))return i;return 0}
-var ACT={sub:openSub,
+var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'?CURV:'v2settings';go('v2sub')},
+  repoll:function(b){b.disabled=true;poll().then(function(){b.disabled=false})},
+  plan:function(b){PAY.plan=b.dataset.p;sp('plan2',PAY.plan);R.v2sub()},
+  trial:function(b){if(!LIC)return;b.disabled=true;LIC.startTrial(function(m){b.disabled=false;var e=$('trMsg');if(e)e.textContent=m})},
+  copy2:function(b){try{navigator.clipboard.writeText(b.dataset.c);var t=b.innerHTML;b.innerHTML=I('check')+'تم النسخ';setTimeout(function(){b.innerHTML=t},1400)}catch(e){}},
+  send:function(b){var M=$('pyMsg'),nm=$('pyN').value.trim(),ph=$('pyP').value.replace(/[٠-٩]/g,function(d){return '٠١٢٣٤٥٦٧٨٩'.indexOf(d)}).trim();
+    if(PAY.busy)return;if(!LIC){M.textContent='إرسال الطلب غير متاح في نسخة المراجعة.';return}
+    if(!PAY.file){M.textContent='ارفع صورة إشعار التحويل أولًا.';return}if(nm.length<2){M.textContent='اكتب اسمك.';return}if(!/^[0-9+ ]{7,20}$/.test(ph)){M.textContent='اكتب رقم هاتف صحيحًا.';return}
+    if(navigator.onLine===false){M.textContent='لا يوجد اتصال بالإنترنت. حاول مرة أخرى عند توفر الاتصال.';return}
+    PAY.busy=true;b.disabled=true;M.textContent='جارٍ إرسال الطلب…';sp('tel',ph);if(!sp('name'))sp('name',nm);
+    LIC.rpc('obs_request_submit',{p_dev:LIC.dev,p_kind:LIC.kind(),p_label:LIC.label(),p_name:nm,p_phone:ph,p_plan:PAY.plan,p_comment:$('pyC').value,p_mime:PAY.file.mime,p_data:PAY.file.data}).then(function(r){PAY.busy=false;b.disabled=false;var d=r.data;
+      if(r.error||!d){M.textContent='تعذّر الإرسال. تأكد من الاتصال واضغط الزر مرة أخرى.';return}
+      if(!d.ok&&d.reason!=='pending'){M.textContent={many:'أرسلت عدة طلبات اليوم. انتظر المراجعة أو راسلنا في واتساب.',busy:'الطلبات كثيرة الآن. حاول بعد قليل.',name:'اكتب اسمك.',phone:'اكتب رقم هاتف صحيحًا.',file:'الإيصال غير مقبول. ارفع صورة أو ملف PDF.'}[d.reason]||'تعذّر الإرسال. حاول مرة أخرى.';return}
+      PAY.file=null;REQ={status:'pending',plan:PAY.plan,t:new Date().toISOString()};spj('req',REQ);header();go('v2sub')},function(){PAY.busy=false;b.disabled=false;M.textContent='تعذّر الإرسال. تأكد من الاتصال واضغط الزر مرة أخرى.'})},
   cont:function(){goIdx(sp('pk')&&lastPage()>0?lastPage():BIDX[TOPICS[0].p-1])},
   cover:function(){goIdx(0)},
   prog:function(){try{renderHome()}catch(e){}$('v2psheet').hidden=false},
@@ -252,5 +311,5 @@ var ACT={sub:openSub,
 
 /* progress details live in a sheet now */
 $('v2pbody').appendChild($('prog'));$('v2psx').onclick=function(){$('v2psheet').hidden=true};$('v2psheet').addEventListener('click',function(e){if(e.target===this)this.hidden=true});
-applyLook();go('v2home');
+applyLook();go('v2home');poll();
 })();
