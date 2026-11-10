@@ -1,186 +1,259 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Codes · Obstetrics Master Review</title>
-<meta name="robots" content="noindex">
-<link rel="icon" href="icon-192.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@600;700&family=Noto+Sans+Arabic:wght@400;600&display=swap">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Obstetrics Master Review · Admin</title><meta name="robots" content="noindex"><link rel="manifest" href="admin.webmanifest"><meta name="theme-color" content="#F5F1FC">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
-:root{--bg:#f4efe7;--card:#fff;--line:#eadfce;--ink:#1c1917;--muted:#6b6259;--gold:#c5892a;--gold-d:#9a6a1d;--ok:#047857;--okbg:#c9f7e3;--off:#b91c1c;--offbg:#fde2e2;--un:#6b6259;--unbg:#efe8dc}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,sans-serif}
-.wrap{max-width:1040px;margin:0 auto;padding:22px 16px 60px;display:flex;flex-direction:column;gap:16px}
-h1{margin:0;font:800 20px Inter;letter-spacing:-.2px}h1 small{display:block;font:600 13px Inter;color:var(--muted);margin-top:2px}
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.who{font:600 13px Inter;color:var(--muted)}.who button{margin-left:8px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
-.stat b{display:block;font:800 28px Inter}.stat span{font:700 12px Inter;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px}
-.h{font:800 13px Inter;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 8px}
-.card p.sub{margin:0 0 12px;color:var(--muted)}
-.row{display:flex;gap:10px;flex-wrap:wrap}
-input{font:inherit;font-size:16px;border:1px solid var(--line);background:#f6f1e9;border-radius:12px;padding:11px 14px;color:var(--ink);min-width:0}
-input:focus{outline:2px solid var(--gold);outline-offset:1px}
-#note{flex:1 1 260px}#count{width:90px}#find{flex:0 1 380px;width:100%}
-button{font:700 14px Inter;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:12px;padding:9px 13px;cursor:pointer}
-button:hover{border-color:#d6c6ad}button:disabled{opacity:.5;cursor:default}
-button.pri{background:var(--gold);border-color:var(--gold);color:#1c1917;padding:11px 18px}
-button.red{color:var(--off)}
-.lh{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
-.it{padding:16px 0;border-top:1px solid var(--line)}.it:first-child{border-top:0}
-.il{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.code{font:700 17px 'JetBrains Mono',ui-monospace,monospace;letter-spacing:1px}
-.bdg{font:800 11.5px Inter;letter-spacing:1.2px;padding:4px 10px;border-radius:20px;text-transform:uppercase}
-.bdg.a{background:var(--okbg);color:var(--ok)}.bdg.u{background:var(--unbg);color:var(--un)}.bdg.o{background:var(--offbg);color:var(--off)}
-.dt{margin-left:auto;color:var(--muted);font-size:14px}
-.meta{color:var(--muted);font-size:14px;margin:4px 0 2px}.meta .ar{font-family:'Noto Sans Arabic',Inter,sans-serif}
-.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.empty{color:var(--muted);text-align:center;padding:24px}
-.msg{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1c1917;color:#fff;border-radius:12px;padding:10px 16px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
-.msg.on{opacity:1}
-.gate{max-width:440px;margin:12vh auto 0;text-align:center}.gate .card{display:flex;flex-direction:column;gap:12px;align-items:center}
-.gg{display:flex;align-items:center;gap:10px;padding:12px 18px;font-size:15px}
-.new{background:#fff8ea;border:1px dashed var(--gold);border-radius:12px;padding:10px 12px;margin-top:12px;font:700 14px 'JetBrains Mono',monospace;display:flex;flex-wrap:wrap;gap:8px 16px}
-#main{display:flex;flex-direction:column;gap:16px}
-.meta bdi{unicode-bidi:isolate}
-button.wa{background:#0f9d58;border-color:#0f9d58;color:#fff}
-@media (max-width:600px){.stats{grid-template-columns:repeat(3,1fr);gap:8px}.stat{padding:10px 12px}.stat b{font-size:22px}.stat span{font-size:10.5px;letter-spacing:.8px}.dt{margin-left:0;width:100%}}
-.mx{display:inline-flex;align-items:center;gap:6px;font-size:13px;margin-right:6px}.mx select{padding:6px 8px;border-radius:8px;border:1px solid #c99a3b;background:#fff;font:inherit}
-.nbox{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:50;padding:14px}.nbox[hidden]{display:none}
-.nin{background:#fff;color:#111;border-radius:14px;max-width:640px;width:100%;max-height:85vh;overflow:auto;padding:16px}.nin .muted{color:#6b7280;font-size:12px}
-.ni{border-top:1px solid #e5e7eb;padding:8px 0}.ni i{display:block;color:#555;font-size:13px}.ni p{margin:4px 0 0;white-space:normal}
-.rq{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:10px;background:#fff}
-.rq .il b{font:800 16px 'Noto Sans Arabic',Inter,sans-serif}.rq .pl{font:800 12px Inter;padding:4px 10px;border-radius:20px;background:#efe7ff;color:#5b3fa0}
-.rq input{font:600 14px 'Noto Sans Arabic',Inter,sans-serif;border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:150px}
-.rq select,.grow select{font:600 14px Inter;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:#fff}
-button.ok{background:#0f9d58;border-color:#0f9d58;color:#fff}
-.tabs2{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 2px}.tabs2 button.on{background:#1c1917;color:#fff;border-color:#1c1917}
-.cnt{display:inline-block;min-width:22px;text-align:center;background:#dc2626;color:#fff;border-radius:11px;font:800 12px/22px Inter;padding:0 6px;margin-left:6px}
-.rimg{max-width:100%;max-height:72vh;display:block;margin:0 auto;border-radius:8px}
-.grow{display:flex;gap:8px;flex-wrap:wrap}.grow input{flex:1;min-width:130px}
-</style><link rel="manifest" href="admin.webmanifest"><meta name="theme-color" content="#1c1917"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head><body>
-<div class="wrap" id="app">
-  <div class="gate" id="gate"><div class="card"><h1>Obstetrics Master Review<small>Activation codes · owner only</small></h1><p class="sub" id="gateMsg">Sign in with the owner's Google account.</p><button class="gg" id="ggIn" type="button"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.7v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.8z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.3 6.6l4 3.1c.9-2.8 3.6-4.9 6.7-4.9z"/></svg>Sign in with Google</button></div></div>
-  <div id="main" hidden>
-    <div class="top"><h1>Obstetrics Master Review<small>Activation codes</small></h1><div class="who"><span id="me"></span><button type="button" id="out">Sign out</button></div></div>
-    <div class="stats"><div class="stat"><b id="sAll">0</b><span>Codes</span></div><div class="stat"><b id="sAct">0</b><span>Activated</span></div><div class="stat"><b id="sUn">0</b><span>Unused</span></div></div>
-    <div class="card"><div class="lh"><div class="h" style="margin:0">Subscription requests <span class="cnt" id="rqN" hidden></span></div><button type="button" id="rqRef">Refresh</button></div>
-      <p class="sub">A student sends the plan, name, phone and receipt from the app. Approve and the student's device opens by itself: no code to send.</p>
-      <div class="tabs2" id="rqTabs"><button type="button" data-s="pending" class="on">Waiting</button><button type="button" data-s="approved">Approved</button><button type="button" data-s="rejected">Rejected</button></div>
-      <div id="rqList"><p class="empty">Loading…</p></div></div>
-    <div class="card"><div class="h">Give a subscription without a receipt</div><p class="sub">For a free or special subscription: ask the student for the <b>user number</b> shown in the app (Settings → Profile), then choose the plan. The device opens by itself.</p>
-      <div class="grow"><input id="gUser" placeholder="User number, e.g. BE886E1F30" autocomplete="off" dir="ltr"><input id="gName" placeholder="Student name" autocomplete="off" dir="auto"><input id="gPhone" placeholder="Phone (optional)" autocomplete="off" dir="ltr">
-        <select id="gPlan"><option value="month">Monthly</option><option value="year">Annual</option><option value="life" selected>Lifetime</option></select><button class="pri" id="gGo" type="button">Give</button></div></div>
-    <div class="card"><div class="h">New codes</div><p class="sub">Make one code per buyer. Write their name or phone in the note so you can find them later.</p>
-      <div class="row"><input id="note" placeholder="Note, e.g. Ahmed · 0912 345 678" autocomplete="off"><input id="count" type="number" min="1" max="50" value="1" aria-label="How many"><button class="pri" id="create" type="button">Create</button></div>
-      <div id="fresh"></div></div>
-    <div class="card"><div class="lh"><div class="h" style="margin:0">All codes</div><input id="find" type="search" placeholder="Search code or note" autocomplete="off"></div><div id="list"><p class="empty">Loading…</p></div></div>
+/* Admin app (owner, 10 Nov 2026): same look as the student app: lavender, white cards, sidebar on PC, bottom bar on phones */
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url(fonts/inter-400.woff) format('woff')}
+@font-face{font-family:'Inter';font-weight:600;font-display:swap;src:url(fonts/inter-600.woff) format('woff')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url(fonts/inter-700.woff) format('woff')}
+@font-face{font-family:'Inter';font-weight:800;font-display:swap;src:url(fonts/inter-800.woff) format('woff')}
+@font-face{font-family:'Cairo';font-weight:600;font-display:swap;src:url(fonts/cairo-arabic-600-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:'Cairo';font-weight:700;font-display:swap;src:url(fonts/cairo-arabic-700-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+:root{--bg:#F5F1FC;--sf:#fff;--tx:#392B55;--sub:#6F6389;--pri:#8460BF;--sel:#E7DCF7;--bd:#E4DAF3;--deep:#4B3672;--ok:#2F8F5B;--okbg:#E3F4EA;--warn:#B5671C;--warnbg:#FBEBD6;--bad:#C2414B;--badbg:#FBE4E6;
+  --sh:0 1px 2px rgba(57,43,85,.06),0 6px 18px rgba(57,43,85,.07);--ui:'Inter','Cairo',system-ui,sans-serif}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{height:100%}body{margin:0;background:var(--bg);color:var(--tx);font:500 14.5px/1.5 var(--ui);-webkit-tap-highlight-color:transparent}
+button,input,select{font:inherit;color:inherit}button{cursor:pointer;border:0;background:none;padding:0}
+.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:38px;padding:0 14px;border-radius:11px;border:1px solid var(--bd);background:var(--sf);font-weight:700;font-size:13.5px;white-space:nowrap}
+.btn:hover{border-color:var(--pri)}.btn:disabled{opacity:.5;cursor:default}
+.btn.pri{background:var(--pri);border-color:var(--pri);color:#fff}.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}.btn.bad{color:var(--bad)}.btn.wa{background:#0f9d58;border-color:#0f9d58;color:#fff}
+.btn .ic{width:17px;height:17px}
+input,select{height:40px;border-radius:11px;border:1px solid var(--bd);background:var(--sf);padding:0 12px;outline:0;min-width:0}
+input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--sel)}
+/* sign-in */
+.gate{min-height:100%;display:grid;place-items:center;padding:24px}
+.gate .box{background:var(--sf);border:1px solid var(--bd);border-radius:20px;box-shadow:var(--sh);padding:28px 24px;max-width:400px;width:100%;text-align:center;display:grid;gap:12px;justify-items:center}
+.gate img{width:96px;height:96px;border-radius:50%;background:#fff;box-shadow:0 8px 26px rgba(132,96,191,.35)}
+.gate h1{margin:0;font:800 20px/1.25 var(--ui)}.gate h1 small{display:block;font:600 13px var(--ui);color:var(--sub);margin-top:4px}
+.gate p{margin:0;color:var(--sub)}
+/* shell */
+.app{height:100%;display:flex;flex-direction:column}
+.side{display:none}
+.col{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column}
+.top{flex:none;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px 8px}
+.top img{width:38px;height:38px;border-radius:50%;background:#fff;box-shadow:0 0 0 1px var(--bd)}
+.top h1{flex:1;margin:0;font:800 15px/1.2 var(--ui);min-width:0}.top h1 small{display:block;font:600 11.5px var(--ui);color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.main{flex:1;min-height:0;overflow:auto;padding:4px 14px 20px}
+.wrap{max-width:1060px;margin:0 auto;display:grid;gap:12px}
+.nav{flex:none;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--sf);border-top:1px solid var(--bd);padding:5px 6px calc(env(safe-area-inset-bottom,0px) + 5px)}
+.nav button,.side nav button{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;border-radius:12px;font-weight:600;font-size:11px;color:var(--sub)}
+.nav button.on{background:var(--sel);color:var(--tx);font-weight:700}
+.cnt{position:absolute;top:1px;left:calc(50% + 6px);min-width:18px;height:18px;border-radius:9px;background:#E0434C;color:#fff;font:800 10.5px/18px var(--ui);padding:0 5px;text-align:center}
+.h2{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.h2 h2{margin:0;font:800 19px var(--ui);flex:1}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;box-shadow:var(--sh);padding:14px}
+.hint{margin:0;color:var(--sub);font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{padding:12px 14px;display:flex;align-items:center;gap:12px;text-align:left;width:100%}
+.stat i{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--sel);color:var(--pri);flex:none}
+.stat.w i{background:var(--warnbg);color:var(--warn)}.stat.g i{background:var(--okbg);color:var(--ok)}.stat.r i{background:var(--badbg);color:var(--bad)}
+.stat b{display:block;font:800 22px/1.1 var(--ui)}.stat span{font:600 12px var(--ui);color:var(--sub)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{height:34px;padding:0 14px;border-radius:17px;border:1px solid var(--bd);background:var(--sf);font-weight:600;font-size:13px}
+.seg button.on{background:var(--pri);border-color:var(--pri);color:#fff}
+.list{display:grid;gap:10px}
+.it{display:grid;gap:8px}
+.it .r1{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.it .nm{font:700 16px/1.3 'Cairo','Inter',sans-serif}
+.chip{font:700 11.5px/1 var(--ui);padding:5px 9px;border-radius:20px;background:var(--sel);color:var(--deep);white-space:nowrap}
+.chip.g{background:var(--okbg);color:var(--ok)}.chip.w{background:var(--warnbg);color:var(--warn)}.chip.r{background:var(--badbg);color:var(--bad)}.chip.n{background:#eee;color:#555}
+.it .tm{margin-left:auto;color:var(--sub);font-size:12.5px}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px 14px}
+.kv div{min-width:0}.kv span{display:block;font:600 11px var(--ui);color:var(--sub);text-transform:uppercase;letter-spacing:.4px}.kv b{font-weight:600;font-size:13.5px;overflow-wrap:anywhere}
+.cm{background:var(--bg);border-radius:10px;padding:8px 10px;font:600 13.5px/1.6 'Cairo','Inter',sans-serif}
+.acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--bd);padding-top:10px}
+.acts input{flex:1;min-width:140px;font-family:'Cairo','Inter',sans-serif;font-weight:600}
+.acts label{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--sub)}.acts label select{height:36px}
+.form{display:grid;gap:10px;grid-template-columns:1fr}
+.form label{display:grid;gap:4px;font:600 12.5px var(--ui);color:var(--sub)}
+.empty{text-align:center;color:var(--sub);padding:28px 10px}
+.code{font:700 14px ui-monospace,monospace;letter-spacing:.5px}
+.fresh{background:var(--sel);border-radius:10px;padding:10px;font:700 14px ui-monospace,monospace;display:flex;gap:8px 16px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:var(--deep);color:#fff;border-radius:12px;padding:10px 16px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9;max-width:90vw;text-align:center}.toast.on{opacity:1}
+.ovl{position:fixed;inset:0;background:rgba(40,28,70,.55);display:grid;place-items:center;z-index:50;padding:14px}
+.ovl .in{background:var(--sf);border-radius:16px;max-width:640px;width:100%;max-height:88vh;overflow:auto;padding:16px;display:grid;gap:10px}
+.ovl img{max-width:100%;max-height:70vh;margin:0 auto;border-radius:10px;display:block}
+.ni{border-top:1px solid var(--bd);padding:8px 0}.ni i{display:block;color:var(--sub);font-size:13px}.ni p{margin:4px 0 0}
+@media (min-width:860px){
+  .app{flex-direction:row}.nav,.top img{display:none}
+  .side{display:flex;flex-direction:column;gap:6px;width:230px;flex:none;background:linear-gradient(180deg,#9F83D2,#6A4FA0);color:#fff;padding:16px 14px}
+  .side .sb{display:flex;align-items:center;gap:10px;padding:2px 4px 14px;font:800 13px/1.2 var(--ui);letter-spacing:.4px;text-transform:uppercase}.side .sb span{display:block;font-weight:500}
+  .side .sb img{width:46px;height:46px;border-radius:50%;background:#fff}
+  .side nav{display:grid;gap:4px}
+  .side nav button{flex-direction:row;justify-content:flex-start;gap:12px;height:46px;padding:0 14px;font-size:14.5px;color:#fff}
+  .side nav button.on{background:#ffffffe6;color:var(--deep);font-weight:700}.side nav button:not(.on):hover{background:#ffffff1f}
+  .side .cnt{position:static;margin-left:auto}
+  .side .who{margin-top:auto;font-size:12px;opacity:.9;overflow-wrap:anywhere;display:grid;gap:8px}
+  .side .who button{height:34px;border-radius:10px;border:1px solid #ffffff66;font-weight:600}
+  .top{padding:16px 24px 8px}.top .out{display:none}.main{padding:4px 24px 26px}
+  .stats{grid-template-columns:repeat(4,1fr)}.form{grid-template-columns:1fr 1fr}.form .full{grid-column:1/-1}
+  .toast{bottom:28px}
+}
+</style></head><body>
+<div class="gate" id="gate"><div class="box"><img src="img/v2_logo.webp" alt="" onerror="this.src='icon-192.png'"><h1>Obstetrics Master Review<small>Admin · owner only</small></h1><p id="gateMsg">Sign in with the owner's Google account.</p>
+  <button class="btn" id="ggIn" type="button" style="height:46px;padding:0 18px"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.7v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.700-5H1.3v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.200 7.200 0 0 1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.800z"/><path fill="#EA4335" d="M12 4.800c1.800 0 3.300.6 4.600 1.800l3.400-3.400A12 12 0 0 0 1.3 6.6l4 3.100c.9-2.800 3.600-4.900 6.700-4.900z"/></svg>Sign in with Google</button></div></div>
+<div class="app" id="app" hidden>
+  <aside class="side"><div class="sb"><img src="img/v2_logo.webp" alt="" onerror="this.src='icon-192.png'"><div>Obstetrics<span>Master Review</span></div></div><nav id="sn"></nav><div class="who"><span id="me"></span><button type="button" id="out">Sign out</button></div></aside>
+  <div class="col">
+    <header class="top"><img src="img/v2_logo.webp" alt="" onerror="this.src='icon-192.png'"><h1><span id="ttl">Requests</span><small id="sub2">Obstetrics Master Review · Admin</small></h1><button type="button" class="btn out" id="out2">Sign out</button></header>
+    <main class="main"><div class="wrap">
+      <section id="v-req">
+        <div class="wrap">
+          <div class="stats" id="stats"></div>
+          <div class="h2"><h2>Subscription requests</h2><button type="button" class="btn" id="rqRef">Refresh</button></div>
+          <p class="hint">Students send these from the app. Approve and the student's device opens by itself. New requests arrive here with a sound.</p>
+          <div class="seg" id="rqTabs"><button type="button" data-s="pending" class="on">Waiting</button><button type="button" data-s="approved">Approved</button><button type="button" data-s="rejected">Rejected</button><button type="button" data-s="cancelled">Cancelled by student</button></div>
+          <div class="list" id="rqList"><p class="empty">Loading…</p></div>
+        </div>
+      </section>
+      <section id="v-sub" hidden><div class="wrap">
+        <div class="h2"><h2>Subscribers</h2><input id="find" type="search" placeholder="Search name or phone" autocomplete="off" style="flex:1;max-width:320px"></div>
+        <div class="seg" id="sbTabs"><button type="button" data-f="all" class="on">All</button><button type="button" data-f="active">Active</button><button type="button" data-f="soon">Ending in 7 days</button><button type="button" data-f="ended">Ended</button><button type="button" data-f="off">Switched off</button></div>
+        <div class="list" id="sbList"></div>
+      </div></section>
+      <section id="v-give" hidden><div class="wrap">
+        <div class="h2"><h2>Give a subscription</h2></div>
+        <div class="card"><p class="hint" style="margin-bottom:12px">For a free or special subscription with no receipt. Ask the student for the <b>user number</b> shown in the app (Settings → Profile). The device opens by itself.</p>
+          <div class="form"><label>User number<input id="gUser" placeholder="e.g. BE886E1F30" autocomplete="off" dir="ltr"></label><label>Student name<input id="gName" autocomplete="off" dir="auto"></label>
+            <label>Phone (optional)<input id="gPhone" autocomplete="off" dir="ltr" inputmode="tel"></label><label>Plan<select id="gPlan"><option value="month">Monthly</option><option value="year">Annual</option><option value="life" selected>Lifetime</option></select></label>
+            <div class="full"><button class="btn pri" id="gGo" type="button" style="height:44px;padding:0 22px">Give the subscription</button></div></div></div>
+      </div></section>
+      <section id="v-old" hidden><div class="wrap">
+        <div class="h2"><h2>Old activation codes</h2><input id="find2" type="search" placeholder="Search code or note" autocomplete="off" style="flex:1;max-width:320px"></div>
+        <p class="hint">Codes from before the new app. They keep working until one month after the new app goes live. Use this only for students of the current live book.</p>
+        <div class="card"><div class="form"><label>Note for a new code<input id="note" placeholder="Ahmed · 0912 345 678" autocomplete="off" dir="auto"></label><label>How many<input id="count" type="number" min="1" max="50" value="1"></label>
+          <div class="full"><button class="btn" id="create" type="button">Create old-style code</button></div></div><div id="fresh"></div></div>
+        <div class="list" id="list"></div>
+      </div></section>
+    </div></main>
+    <nav class="nav" id="bn"></nav>
   </div>
 </div>
-<div class="msg" id="toast"></div>
+<div class="toast" id="toast"></div>
 <script src="licence-config.js"></script>
 <script src="sbmini.js"></script>
 <script>
 (function(){
 var CFG=window.OBS_CFG||{},$=function(i){return document.getElementById(i)};
-function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
-function toast(t){var m=$('toast');m.textContent=t;m.classList.add('on');clearTimeout(m._t);m._t=setTimeout(function(){m.classList.remove('on')},1800)}
-function copy(t){(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast('Copied')}).catch(function(){prompt('Copy this:',t)})}
-function fd(s){if(!s)return '';return new Date(s).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}
 if(!CFG.url||!CFG.anon){$('gateMsg').textContent='licence-config.js has no Supabase address yet.';$('ggIn').disabled=true;return}
-var sb=window.OBS_SB(CFG,'obs-admin-auth');
-var SITE=location.origin+location.pathname.replace(/admin(\.html)?$/,'');
-var ALL=[];
-$('ggIn').onclick=function(){sb.signIn(location.origin+location.pathname)};
-$('out').onclick=function(){sb.signOut().then(function(){location.reload()})};
-function msgFor(c){var who=(c.note||'').split('·')[0].trim();
-  return 'السلام عليكم'+(who?' '+who:'')+'، شكراً على اشتراكك في Obstetrics Master Review 🌷\n\n'+
-  'الـ activation code بتاعك:\n'+c.code+'\n\n'+
-  '1. افتح الكتاب: '+SITE+'\n2. دوس «افتح الكتاب كامل»\n3. ألصق الكود ودوس Activate\n\n'+
-  'الكود بيفتح موبايل واحد ولابتوب واحد (أول جهازين تفعّلهم). بعد التفعيل الكتاب بيشتغل بدون إنترنت.'}
-function phoneOf(n){var d=String(n||'').replace(/[^0-9+]/g,'');var m=d.match(/(?:\+?249|0)?(9\d{8}|1\d{8})/);return m?'249'+m[1]:''}
-function devLine(c){var a=[];if(c.phone_dev)a.push(esc(c.phone_label||'Phone')+' (since '+fd(c.phone_since)+', last '+fd(c.phone_last)+')');if(c.pc_dev)a.push(esc(c.pc_label||'Computer')+' (since '+fd(c.pc_since)+', last '+fd(c.pc_last)+')');(EXTRA[c.code]||[]).forEach(function(d){a.push(esc(d.label||(d.kind==='phone'?'Phone':'Computer'))+' (since '+fd(d.since)+', last '+fd(d.last)+')')});return a.length?'Devices: '+a.join(' · '):''}
-function render(){var q=$('find').value.trim().toLowerCase();
-  var act=ALL.filter(function(c){return c.activated_at}).length;$('sAll').textContent=ALL.length;$('sAct').textContent=act;$('sUn').textContent=ALL.length-act;
-  var rows=ALL.filter(function(c){return !q||(c.code+' '+c.note).toLowerCase().indexOf(q)>=0});
-  $('list').innerHTML=rows.length?rows.map(function(c){var st=!c.active?'<span class="bdg o">Off</span>':(c.activated_at?'<span class="bdg a">Activated</span>':'<span class="bdg u">Unused</span>');
-    var meta=[c.plan?({month:'Monthly',year:'Annual',life:'Lifetime',old:'Old code'}[c.plan]||c.plan)+(c.expires?(new Date(c.expires)<new Date()?' · <b style="color:#dc2626">ended '+fd(c.expires)+'</b>':' · ends '+fd(c.expires)):''):'',c.note?(c.note.split('·').map(function(x){return '<bdi class="ar" dir="auto">'+esc(x.trim())+'</bdi>'}).join(' · ')):'',c.activated_at?'activated '+fd(c.activated_at):''].filter(Boolean).join(' · ');
-    return '<div class="it" data-c="'+esc(c.code)+'"><div class="il"><span class="code">'+esc(c.code)+'</span>'+st+'<span class="dt">'+fd(c.created_at)+'</span></div>'+
-      (meta?'<div class="meta">'+meta+'</div>':'')+(devLine(c)?'<div class="meta">'+devLine(c)+'</div>':'')+
-      '<div class="acts">'+(phoneOf(c.note)?'<button type="button" class="wa" data-a="wa">Send on WhatsApp</button>':'')+'<button type="button" data-a="code">Copy code</button><button type="button" data-a="msg">Copy message</button><button type="button" data-a="note">Edit note</button><button type="button" data-a="notes">Student notes</button>'+
-      '<label class="mx">Devices <select data-a="max">'+[1,2,3,4,5,6,7,8,9,10].map(function(n){return '<option'+(n===(c.maxdev||2)?' selected':'')+'>'+n+'</option>'}).join('')+'</select></label>'+
-      (c.phone_dev||c.pc_dev||(EXTRA[c.code]||[]).length?'<button type="button" data-a="reset">Reset devices</button>':'')+
-      (c.active?'<button type="button" class="red" data-a="off">Switch off</button>':'<button type="button" data-a="on">Switch on</button>')+'</div></div>'}).join(''):'<p class="empty">'+(ALL.length?'No code matches.':'No codes yet. Make the first one above.')+'</p>'}
-var EXTRA={};
-/* the student's written notes (feedback on the book), newest first (owner, 7 Nov 2026, as in Surgery and Pediatrics) */
-function showNotes(c,n){var w=$('nbox');if(!w){w=document.createElement('div');w.id='nbox';w.className='nbox';document.body.appendChild(w)}
-  var day=function(t){return t?new Date(+t).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'}):''};
-  var txt=n.map(function(x){return x.page+' · "'+x.txt+'"\n'+x.note}).join('\n\n');
-  w.innerHTML='<div class="nin"><div class="nh"><b>Notes of '+esc(c.note||c.code)+'</b> <span class="muted">'+n.length+' note'+(n.length===1?'':'s')+'</span></div>'+
-    (n.length?n.map(function(x){return '<div class="ni"><div class="muted">'+esc(x.page)+' · '+day(x.u)+'</div><i>"'+esc(x.txt)+'"</i><p>'+esc(x.note).replace(/\n/g,'<br>')+'</p></div>'}).join(''):'<p class="muted">No notes yet (notes reach the server when the student is online).</p>')+
-    '<div class="acts"><button type="button" id="ncopy">Copy all</button><button type="button" id="nx">Close</button></div></div>';
-  w.hidden=false;$('nx').onclick=function(){w.hidden=true};$('ncopy').onclick=function(){copy(txt)};w.onclick=function(e){if(e.target===w)w.hidden=true}}
-function load(){return Promise.all([sb.rpc('obs_admin_list'),sb.rpc('obs_admin_extra')]).then(function(rs){var r=rs[0];if(r.error){throw r.error}ALL=r.data||[];
-  EXTRA={};((rs[1]&&rs[1].data)||[]).forEach(function(d){(EXTRA[d.code]=EXTRA[d.code]||[]).push(d)});render()})}
-function call(fn,args,done){return sb.rpc(fn,args).then(function(r){if(r.error){toast('Error: '+r.error.message);return}toast(done);return load()})}
-$('find').addEventListener('input',render);
-/* subscription requests (owner, 10 Nov 2026): the student sends a request from the app; approving opens the device by itself */
-var RQS='pending',RQ=[],RQSEEN=null,PLN={month:'Monthly',year:'Annual',life:'Lifetime',device:'Another device',old:'Old code'},PRICE={};(CFG.plans||[]).forEach(function(p){PRICE[p.id]=p.price});
+var sb=window.OBS_SB(CFG,'obs-admin-auth'),SITE=location.origin+location.pathname.replace(/admin(\.html)?$/,'');
+var P={req:'<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',sub:'<circle cx="9" cy="8" r="3.5"/><path d="M2.500 20a6.500 6.500 0 0 1 13 0"/><path d="M16 4.500a3.500 3.500 0 0 1 0 7M18 14.500c2 .8 3.500 2.800 3.500 5.500"/>',give:'<path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13"/><path d="M12 7c-1-3-5-3-4.500-.5C7.800 8 12 7 12 7zM12 7c1-3 5-3 4.500-.5C16.200 8 12 7 12 7z"/>',
+  old:'<circle cx="8" cy="15" r="4"/><path d="M10.800 12.200L20 3M16 7l3 3"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',check:'<path d="M5 12.500l4.500 4.500L19 7.500"/>',warn:'<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>'};
+function I(n){return '<svg class="ic" viewBox="0 0 24 24">'+P[n].replace(/\.(\d)00\b/g,'.$1')+'</svg>'}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+function toast(t){var m=$('toast');m.textContent=t;m.classList.add('on');clearTimeout(m._t);m._t=setTimeout(function(){m.classList.remove('on')},2600)}
+function copy(t){(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast('Copied')}).catch(function(){prompt('Copy:',t)})}
+function fd(s){return s?new Date(s).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):''}
 function ft(s){return s?new Date(s).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):''}
+function phoneOf(n){var d=String(n||'').replace(/[^0-9+]/g,'');var m=d.match(/(?:\+?249|0)?(9\d{8}|1\d{8})/);return m?'249'+m[1]:''}
+function ovl(html){var w=$('ovl');if(!w){w=document.createElement('div');w.id='ovl';w.className='ovl';document.body.appendChild(w)}w.innerHTML='<div class="in">'+html+'<div><button type="button" class="btn" id="ovx">Close</button></div></div>';w.hidden=false;$('ovx').onclick=function(){w.hidden=true};w.onclick=function(e){if(e.target===w)w.hidden=true}}
+var PLN={month:'Monthly',year:'Annual',life:'Lifetime',device:'Another device',old:'Old code'},PRICE={};(CFG.plans||[]).forEach(function(p){PRICE[p.id]=p.price});
+/* navigation */
+var VIEWS=[['req','Requests','req'],['sub','Subscribers','sub'],['give','Give','give'],['old','Old codes','old']],CUR='req';
+function nav(){var h=VIEWS.map(function(v){return '<button type="button" data-v="'+v[0]+'" class="'+(CUR===v[0]?'on':'')+'">'+I(v[2])+'<span>'+v[1]+'</span>'+(v[0]==='req'&&NWAIT?'<span class="cnt">'+NWAIT+'</span>':'')+'</button>'}).join('');$('sn').innerHTML=h;$('bn').innerHTML=h}
+function go(v){CUR=v;VIEWS.forEach(function(x){$('v-'+x[0]).hidden=x[0]!==v});$('ttl').textContent={req:'Requests',sub:'Subscribers',give:'Give a subscription',old:'Old codes'}[v];nav();document.querySelector('.main').scrollTop=0}
+document.addEventListener('click',function(e){var b=e.target.closest('#sn [data-v],#bn [data-v],.stat[data-v]');if(b){if(b.dataset.f){SBF=b.dataset.f;segOn('sbTabs','f',SBF);sbRender()}go(b.dataset.v)}});
+function segOn(id,k,v){[].forEach.call($(id).children,function(x){x.classList.toggle('on',x.dataset[k]===v)})}
+$('ggIn').onclick=function(){sb.signIn(location.origin+location.pathname)};
+function out(){sb.signOut().then(function(){location.reload()})}$('out').onclick=out;$('out2').onclick=out;
+/* data */
+var ALL=[],EXTRA={},NWAIT=0;
+function isSub(c){return c.plan&&c.plan!=='old'}
+function state(c){if(!c.active)return 'off';if(c.expires&&new Date(c.expires)<=new Date())return 'ended';if(c.expires&&new Date(c.expires)-new Date()<7*864e5)return 'soon';return 'active'}
+function devs(c){var a=[];if(c.phone_dev)a.push(c.phone_label||'Phone');if(c.pc_dev)a.push(c.pc_label||'Computer');(EXTRA[c.code]||[]).forEach(function(d){a.push(d.label||(d.kind==='phone'?'Phone':'Computer'))});return a}
+function nameOf(c){return (c.note||'').split('·')[0].trim()||'(no name)'}function telOf(c){return ((c.note||'').split('·')[1]||'').trim()}
+function load(){return Promise.all([sb.rpc('obs_admin_list'),sb.rpc('obs_admin_extra')]).then(function(rs){var r=rs[0];if(r.error)throw r.error;ALL=r.data||[];
+  EXTRA={};((rs[1]&&rs[1].data)||[]).forEach(function(d){(EXTRA[d.code]=EXTRA[d.code]||[]).push(d)});stats();sbRender();oldRender()})}
+function call(fn,args,done){return sb.rpc(fn,args).then(function(r){if(r.error){toast('Error: '+r.error.message);return}toast(done);return load()})}
+function stats(){var s=ALL.filter(isSub),n={active:0,soon:0,ended:0,off:0};s.forEach(function(c){n[state(c)]++});
+  $('stats').innerHTML='<button type="button" class="card stat w" data-v="req"><i>'+I('clock')+'</i><span><b>'+NWAIT+'</b><span>Waiting requests</span></span></button>'+
+    '<button type="button" class="card stat g" data-v="sub" data-f="active"><i>'+I('check')+'</i><span><b>'+(n.active+n.soon)+'</b><span>Active subscribers</span></span></button>'+
+    '<button type="button" class="card stat" data-v="sub" data-f="soon"><i>'+I('warn')+'</i><span><b>'+n.soon+'</b><span>Ending in 7 days</span></span></button>'+
+    '<button type="button" class="card stat r" data-v="sub" data-f="ended"><i>'+I('x')+'</i><span><b>'+n.ended+'</b><span>Ended</span></span></button>'}
+/* requests */
+var RQS='pending',RQ=[],RQSEEN=null;
 function beep(){try{var a=new (window.AudioContext||window.webkitAudioContext)(),t=a.currentTime;[880,1174.7,1568].forEach(function(f,i){var o=a.createOscillator(),g=a.createGain();o.frequency.value=f;g.gain.setValueAtTime(0,t+i*.12);g.gain.linearRampToValueAtTime(.2,t+i*.12+.02);g.gain.exponentialRampToValueAtTime(.001,t+i*.12+.5);o.connect(g);g.connect(a.destination);o.start(t+i*.12);o.stop(t+i*.12+.55)})}catch(e){}}
-function rqRender(){$('rqList').innerHTML=RQ.length?RQ.map(function(r){var wa=phoneOf(r.phone);
-  return '<div class="rq" data-id="'+r.id+'"><div class="il"><b dir="auto">'+esc(r.name)+'</b><span class="pl">'+(PLN[r.plan]||esc(r.plan))+(PRICE[r.plan]?' · '+esc(PRICE[r.plan]):'')+'</span><span class="dt">'+ft(r.created)+'</span></div>'+
-    '<div class="meta">Phone <bdi dir="ltr">'+esc(r.phone)+'</bdi> · '+esc(r.label||r.kind||'')+' · user number <bdi dir="ltr">'+esc(String(r.dev).slice(0,10).toUpperCase())+'</bdi>'+(r.code?' · '+esc(r.code):'')+'</div>'+
-    (r.comment?'<div class="meta"><bdi class="ar" dir="auto">'+esc(r.comment)+'</bdi></div>':'')+(r.status==='rejected'&&r.reason?'<div class="meta">Reason: <bdi dir="auto">'+esc(r.reason)+'</bdi></div>':'')+
-    '<div class="acts">'+(r.plan==='device'?'':'<button type="button" data-r="img">View receipt</button>')+(wa?'<button type="button" class="wa" data-r="wa" data-p="'+wa+'">WhatsApp</button>':'')+
-    (r.status==='pending'&&r.plan==='device'?'<span class="meta">Adds this device to the subscription with this phone number</span><button type="button" class="ok" data-r="yes">Approve</button><button type="button" class="red" data-r="no">Reject</button>':r.status==='pending'?'<input data-f="name" value="'+esc(r.name)+'" dir="auto" aria-label="Name"><select data-f="plan">'+['month','year','life'].map(function(p){return '<option value="'+p+'"'+(p===r.plan?' selected':'')+'>'+PLN[p]+'</option>'}).join('')+'</select><button type="button" class="ok" data-r="yes">Approve</button><button type="button" class="red" data-r="no">Reject</button>':'')+'</div></div>'}).join('')
+function rqRender(){$('rqList').innerHTML=RQ.length?RQ.map(function(r){var wa=phoneOf(r.phone),dv=r.plan==='device';
+  return '<div class="card it" data-id="'+r.id+'"><div class="r1"><span class="nm" dir="auto">'+esc(r.name)+'</span><span class="chip'+(dv?' n':'')+'">'+(PLN[r.plan]||esc(r.plan))+(PRICE[r.plan]?' · '+esc(PRICE[r.plan]):'')+'</span>'+
+    (r.status==='approved'?'<span class="chip g">Approved</span>':r.status==='rejected'?'<span class="chip r">Rejected</span>':r.status==='cancelled'?'<span class="chip n">Cancelled</span>':'')+(r.edited&&r.status==='pending'?'<span class="chip w">Edited '+ft(r.edited)+'</span>':'')+'<span class="tm">'+ft(r.created)+'</span></div>'+
+    '<div class="kv"><div><span>Phone</span><b dir="ltr">'+esc(r.phone)+'</b></div><div><span>Device</span><b>'+esc(r.label||r.kind||'')+'</b></div><div><span>User number</span><b dir="ltr">'+esc(String(r.dev).slice(0,10).toUpperCase())+'</b></div>'+(r.decided?'<div><span>Decided</span><b>'+ft(r.decided)+'</b></div>':'')+'</div>'+
+    (r.comment?'<div class="cm" dir="auto">'+esc(r.comment)+'</div>':'')+(r.status==='rejected'&&r.reason?'<div class="cm" dir="auto">Reason: '+esc(r.reason)+'</div>':'')+
+    '<div class="acts">'+(dv||r.status==='cancelled'?'':'<button type="button" class="btn" data-r="img">View receipt</button>')+(wa?'<button type="button" class="btn wa" data-r="wa" data-p="'+wa+'">WhatsApp</button>':'')+
+    (r.status!=='pending'?'':dv?'<span class="hint" style="flex:1">Adds this device to the subscription with this phone number</span><button type="button" class="btn ok" data-r="yes">Approve</button><button type="button" class="btn bad" data-r="no">Reject</button>'
+      :'<input data-f="name" value="'+esc(r.name)+'" dir="auto" aria-label="Name"><select data-f="plan" aria-label="Plan">'+['month','year','life'].map(function(p){return '<option value="'+p+'"'+(p===r.plan?' selected':'')+'>'+PLN[p]+'</option>'}).join('')+'</select><button type="button" class="btn ok" data-r="yes">Approve</button><button type="button" class="btn bad" data-r="no">Reject</button>')+'</div></div>'}).join('')
   :'<p class="empty">'+(RQS==='pending'?'No request is waiting.':'Nothing here yet.')+'</p>'}
-function rqLoad(quiet){return sb.rpc('obs_admin_requests',{p_status:RQS}).then(function(r){if(r.error){if(!quiet)$('rqList').innerHTML='<p class="empty">Requests are not ready yet (the database update has not run).</p>';return}RQ=r.data||[];rqRender();
-  return RQS==='pending'?{data:RQ}:sb.rpc('obs_admin_requests',{p_status:'pending'})}).then(function(p){if(!p||!p.data)return;var n=p.data.length,ids=p.data.map(function(x){return x.id});
-    $('rqN').hidden=!n;$('rqN').textContent=n;document.title=(n?'('+n+') ':'')+'Obstetrics Master Review · Admin';try{if(navigator.setAppBadge){n?navigator.setAppBadge(n):navigator.clearAppBadge()}}catch(e){}
+function rqLoad(quiet){return sb.rpc('obs_admin_requests',{p_status:RQS}).then(function(r){if(r.error){if(!quiet)$('rqList').innerHTML='<p class="empty">Could not load the requests.</p>';return}
+    var act=document.activeElement;if(!(quiet&&act&&act.closest&&act.closest('#rqList')&&/INPUT|SELECT/.test(act.tagName))){RQ=r.data||[];rqRender()}
+    return RQS==='pending'?{data:r.data||[]}:sb.rpc('obs_admin_requests',{p_status:'pending'})}).then(function(p){if(!p||!p.data)return;var ids=p.data.map(function(x){return x.id});NWAIT=ids.length;nav();stats();
+    document.title=(NWAIT?'('+NWAIT+') ':'')+'Obstetrics Master Review · Admin';try{if(navigator.setAppBadge){NWAIT?navigator.setAppBadge(NWAIT):navigator.clearAppBadge()}}catch(e){}
     if(RQSEEN&&ids.some(function(i){return RQSEEN.indexOf(i)<0})){beep();toast('New subscription request')}RQSEEN=ids})}
-$('rqTabs').onclick=function(e){var b=e.target.closest('button');if(!b)return;RQS=b.dataset.s;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b)});rqLoad()};
-$('rqRef').onclick=function(){rqLoad()};
-setInterval(function(){if(!$('main').hidden&&!document.hidden)rqLoad(true)},30000);document.addEventListener('visibilitychange',function(){if(!document.hidden&&!$('main').hidden)rqLoad(true)});
-function showReceipt(d){var w=$('nbox');if(!w){w=document.createElement('div');w.id='nbox';w.className='nbox';document.body.appendChild(w)}
-  var url='data:'+d.mime+';base64,'+d.data;
-  w.innerHTML='<div class="nin">'+(d.mime==='application/pdf'?'<p>This receipt is a PDF file.</p><div class="acts"><a href="'+url+'" download="receipt.pdf"><button type="button">Download the PDF</button></a></div>':'<img class="rimg" src="'+url+'" alt="Receipt">')+'<div class="acts"><button type="button" id="nx">Close</button></div></div>';
-  w.hidden=false;$('nx').onclick=function(){w.hidden=true};w.onclick=function(e){if(e.target===w)w.hidden=true}}
-$('rqList').addEventListener('click',function(e){var b=e.target.closest('button[data-r]');if(!b)return;var it=b.closest('.rq'),id=it.dataset.id,a=b.dataset.r;
+$('rqTabs').onclick=function(e){var b=e.target.closest('button');if(!b)return;RQS=b.dataset.s;segOn('rqTabs','s',RQS);rqLoad()};
+$('rqRef').onclick=function(){rqLoad();load()};
+setInterval(function(){if(!$('app').hidden&&!document.hidden)rqLoad(true)},30000);document.addEventListener('visibilitychange',function(){if(!document.hidden&&!$('app').hidden)rqLoad(true)});
+$('rqList').addEventListener('click',function(e){var b=e.target.closest('button[data-r]');if(!b)return;var it=b.closest('.it'),id=it.dataset.id,a=b.dataset.r;
   if(a==='wa'){window.open('https://wa.me/'+b.dataset.p,'_blank');return}
-  if(a==='img'){b.disabled=true;sb.rpc('obs_admin_receipt',{p_id:id}).then(function(r){b.disabled=false;if(r.error||!r.data){toast('No receipt found');return}showReceipt(r.data)});return}
-  var args={p_id:id,p_ok:a==='yes',p_name:null,p_plan:null,p_reason:null};
-  var nf=it.querySelector('[data-f=name]');
+  if(a==='img'){b.disabled=true;sb.rpc('obs_admin_receipt',{p_id:id}).then(function(r){b.disabled=false;if(r.error||!r.data){toast('No receipt found');return}var d=r.data,u='data:'+d.mime+';base64,'+d.data;
+    ovl(d.mime==='application/pdf'?'<p>This receipt is a PDF file.</p><a href="'+u+'" download="receipt.pdf"><button type="button" class="btn pri">Download the PDF</button></a>':'<img src="'+u+'" alt="Receipt">')});return}
+  var args={p_id:id,p_ok:a==='yes',p_name:null,p_plan:null,p_reason:null},nf=it.querySelector('[data-f=name]');
   if(a==='yes'&&!nf){if(!confirm('Add this device to the student\'s subscription?'))return}
   else if(a==='yes'){args.p_name=nf.value.trim();args.p_plan=it.querySelector('[data-f=plan]').value;if(!confirm('Approve '+args.p_name+' · '+PLN[args.p_plan]+'?\nThe student\'s device will open by itself.'))return}
   else{var why=prompt('Reason shown to the student (for example: the amount is not complete)','');if(why===null)return;args.p_reason=why}
-  b.disabled=true;sb.rpc('obs_admin_decide',args).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}if(r.data&&r.data.ok===false){toast({nosub:'No active subscription has this phone number. Check the number, or reject.',full:'This subscription ('+(r.data.code||'')+') already uses all its devices. Raise Devices on it below, then approve again.'}[r.data.reason]||'This request was already decided');}else toast(a==='yes'?'Approved: the device opens by itself':'Rejected');rqLoad();load()})});
+  b.disabled=true;sb.rpc('obs_admin_decide',args).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}
+    if(r.data&&r.data.ok===false)toast({nosub:'No active subscription has this phone number. Check the number, or reject.',full:'This subscription already uses all its devices. Raise its Devices number in Subscribers, then approve again.'}[r.data.reason]||'This request was already decided or cancelled');
+    else toast(a==='yes'?'Approved: the device opens by itself':'Rejected');rqLoad();load()})});
+/* subscribers */
+var SBF='all';
+function subCard(c){var st=state(c),d=devs(c),wa=phoneOf(c.note);
+  return '<div class="card it" data-c="'+esc(c.code)+'"><div class="r1"><span class="nm" dir="auto">'+esc(nameOf(c))+'</span><span class="chip">'+(PLN[c.plan]||esc(c.plan))+'</span>'+
+    '<span class="chip '+{active:'g',soon:'w',ended:'r',off:'n'}[st]+'">'+{active:'Active',soon:'Ending soon',ended:'Ended',off:'Switched off'}[st]+'</span><span class="tm">since '+fd(c.created_at)+'</span></div>'+
+    '<div class="kv"><div><span>Phone</span><b dir="ltr">'+esc(telOf(c)||'–')+'</b></div><div><span>Ends</span><b>'+(c.expires?fd(c.expires):'Never')+'</b></div><div><span>Devices '+d.length+' of '+(c.maxdev||2)+'</span><b>'+(d.length?d.map(esc).join(' · '):'none yet')+'</b></div></div>'+
+    '<div class="acts">'+(wa?'<button type="button" class="btn wa" data-a="wa">WhatsApp</button>':'')+
+    '<label>Devices <select data-a="max">'+[1,2,3,4,5,6,7,8,9,10].map(function(n){return '<option'+(n===(c.maxdev||2)?' selected':'')+'>'+n+'</option>'}).join('')+'</select></label>'+
+    '<label>Extend <select data-a="ext"><option value="">choose…</option><option value="m">+ 1 month</option><option value="y">+ 1 year</option><option value="life">Never ends</option><option value="now">End now</option></select></label>'+
+    '<button type="button" class="btn" data-a="note">Edit name / phone</button><button type="button" class="btn" data-a="notes">Student notes</button>'+(d.length?'<button type="button" class="btn" data-a="reset">Remove devices</button>':'')+
+    (c.active?'<button type="button" class="btn bad" data-a="off">Switch off</button>':'<button type="button" class="btn" data-a="on">Switch on</button>')+'</div></div>'}
+function sbRender(){var q=$('find').value.trim().toLowerCase(),rows=ALL.filter(isSub).filter(function(c){var s=state(c);return (SBF==='all'||SBF===s||(SBF==='active'&&s==='soon'))&&(!q||(c.note||'').toLowerCase().indexOf(q)>=0)});
+  $('sbList').innerHTML=rows.length?rows.map(subCard).join(''):'<p class="empty">'+(ALL.filter(isSub).length?'No subscriber matches.':'No subscribers yet. They appear here when you approve a request or give a subscription.')+'</p>'}
+$('find').addEventListener('input',sbRender);$('sbTabs').onclick=function(e){var b=e.target.closest('button');if(!b)return;SBF=b.dataset.f;segOn('sbTabs','f',SBF);sbRender()};
+function codeAct(e){var s=e.target.closest('select[data-a]'),b=e.target.closest('button[data-a]');if(e.type==='change'&&s){var code=s.closest('.it').dataset.c,c=ALL.filter(function(x){return x.code===code})[0];
+    if(s.dataset.a==='max')call('obs_admin_maxdev',{p_code:code,p_n:+s.value},nameOf(c)+' can now open '+s.value+' device'+(s.value==='1'?'':'s'));
+    if(s.dataset.a==='ext'&&s.value){var base=c.expires&&new Date(c.expires)>new Date()?new Date(c.expires):new Date(),v=s.value,ex=null;
+      if(v==='m'){base.setMonth(base.getMonth()+1);ex=base.toISOString()}if(v==='y'){base.setFullYear(base.getFullYear()+1);ex=base.toISOString()}if(v==='now')ex=new Date().toISOString();
+      if(!confirm({m:'Add one month',y:'Add one year',life:'Make it never end',now:'End the subscription now'}[v]+' for '+nameOf(c)+'?')){s.value='';return}
+      call('obs_admin_expires',{p_code:code,p_expires:ex},'Saved')}return}
+  if(e.type!=='click'||!b)return;var code2=b.closest('.it').dataset.c,c2=ALL.filter(function(x){return x.code===code2})[0],a=b.dataset.a;
+  if(a==='notes'){b.disabled=true;sb.rpc('obs_admin_notes',{p_code:code2}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}var n=r.data||[];
+    ovl('<b>Notes of '+esc(nameOf(c2))+' · '+n.length+'</b>'+(n.length?n.map(function(x){return '<div class="ni"><i>'+esc(x.page)+' · "'+esc(x.txt)+'"</i><p>'+esc(x.note).replace(/\n/g,'<br>')+'</p></div>'}).join(''):'<p class="hint">No notes yet (notes reach the server when the student is online).</p>'))});return}
+  if(a==='code')copy(code2);
+  if(a==='wa')window.open('https://wa.me/'+phoneOf(c2.note),'_blank');
+  if(a==='note'){var v2=prompt('Name · phone',c2.note||'');if(v2!==null)call('obs_admin_note',{p_code:code2,p_note:v2},'Saved')}
+  if(a==='reset'&&confirm('Remove the devices of '+nameOf(c2)+'?\nThose devices lose the full book next time they are online; the student can then add devices again from the app.'))call('obs_admin_reset',{p_code:code2},'Devices removed');
+  if(a==='off'&&confirm('Switch off '+nameOf(c2)+'?\nThe full book stops on their devices next time they are online.'))call('obs_admin_active',{p_code:code2,p_on:false},'Switched off');
+  if(a==='on')call('obs_admin_active',{p_code:code2,p_on:true},'Switched on')}
+['sbList','list'].forEach(function(id){$(id).addEventListener('click',codeAct);$(id).addEventListener('change',codeAct)});
+/* give */
 $('gGo').onclick=function(){var b=this,u=$('gUser').value.trim(),n=$('gName').value.trim();if(u.replace(/[^0-9a-f]/gi,'').length<8){toast('Write the user number (at least 8 characters)');return}if(!n){toast('Write the student name');return}
   b.disabled=true;sb.rpc('obs_admin_grant',{p_user:u,p_name:n,p_phone:$('gPhone').value.trim(),p_plan:$('gPlan').value}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}var d=r.data||{};
     if(!d.ok){toast({unknown:'No device with this user number has opened the app yet',many:'More than one device matches: write more characters',short:'The user number is too short'}[d.reason]||'Could not give the subscription');return}
-    toast('Done: the device opens by itself');$('gUser').value='';$('gName').value='';$('gPhone').value='';load()})};
-/* how many devices a code may open, 1–10 (owner, 7 Nov 2026, as in Surgery and Pediatrics) */
-$('list').addEventListener('change',function(e){var s=e.target.closest('select[data-a="max"]');if(!s)return;var code=s.closest('.it').dataset.c;
-  call('obs_admin_maxdev',{p_code:code,p_n:+s.value},code+' can now open '+s.value+' device'+(s.value==='1'?'':'s'))});
-$('create').onclick=function(){var n=Math.max(1,Math.min(50,+$('count').value||1)),note=$('note').value.trim();this.disabled=true;var b=this;
-  sb.rpc('obs_admin_create',{p_note:note,p_n:n}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}
-    var codes=r.data||[];$('note').value='';$('count').value=1;
-    $('fresh').innerHTML='<div class="new">'+codes.map(esc).join('<span></span>')+'</div>';
-    load().then(function(){if(codes.length===1){var c=ALL.filter(function(x){return x.code===codes[0]})[0];if(c)copy(msgFor(c))}})})};
-$('list').addEventListener('click',function(e){var b=e.target.closest('button[data-a]');if(!b)return;var code=b.closest('.it').dataset.c,c=ALL.filter(function(x){return x.code===code})[0],a=b.dataset.a;
-  if(a==='notes'){b.disabled=true;sb.rpc('obs_admin_notes',{p_code:code}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}showNotes(c,r.data||[])});return}
-  if(a==='code')copy(code);
-  if(a==='msg')copy(msgFor(c));
-  if(a==='wa')window.open('https://wa.me/'+phoneOf(c.note)+'?text='+encodeURIComponent(msgFor(c)),'_blank');
-  if(a==='note'){var v=prompt('Note for '+code,c.note||'');if(v!==null)call('obs_admin_note',{p_code:code,p_note:v},'Note saved')}
-  if(a==='reset'&&confirm('Reset devices for '+code+'?\nThe old phone/computer lose the full book next time they are online, and the code can be activated on new devices (new phone, or a new buyer).'))call('obs_admin_reset',{p_code:code},'Devices reset');
-  if(a==='free'&&confirm('Free '+code+' for another Google account?\nThe current account loses the full book next time it is online.'))call('obs_admin_free',{p_code:code},'Code is free again');
-  if(a==='off'&&confirm('Switch off '+code+'?\nThe full book stops on their devices next time they are online.'))call('obs_admin_active',{p_code:code,p_on:false},'Switched off');
-  if(a==='on')call('obs_admin_active',{p_code:code,p_on:true},'Switched on')});
+    toast('Done: the device opens by itself');$('gUser').value='';$('gName').value='';$('gPhone').value='';load().then(function(){SBF='all';segOn('sbTabs','f','all');sbRender();go('sub')})})};
+/* old codes */
+function msgFor(c){var who=nameOf(c);return 'السلام عليكم '+who+'، شكرًا على اشتراكك في Obstetrics Master Review.\n\nكود التفعيل:\n'+c.code+'\n\nافتح الكتاب: '+SITE+'\nثم الصق الكود واضغط «تفعيل».'}
+function oldRender(){var q=$('find2').value.trim().toLowerCase(),rows=ALL.filter(function(c){return !isSub(c)&&(!q||(c.code+' '+c.note).toLowerCase().indexOf(q)>=0)});
+  $('list').innerHTML=rows.length?rows.map(function(c){var d=devs(c),st=state(c);
+    return '<div class="card it" data-c="'+esc(c.code)+'"><div class="r1"><span class="code">'+esc(c.code)+'</span><span class="chip '+(!c.active?'n':st==='ended'?'r':c.activated_at?'g':'')+'">'+(!c.active?'Off':st==='ended'?'Ended':c.activated_at?'Activated':'Unused')+'</span><span class="tm">'+fd(c.created_at)+'</span></div>'+
+      '<div class="kv"><div><span>Note</span><b dir="auto">'+esc(c.note||'–')+'</b></div><div><span>Ends</span><b>'+(c.expires?fd(c.expires):'Never (until launch)')+'</b></div><div><span>Devices '+d.length+' of '+(c.maxdev||2)+'</span><b>'+(d.length?d.map(esc).join(' · '):'none yet')+'</b></div></div>'+
+      '<div class="acts"><button type="button" class="btn" data-a="code">Copy code</button><button type="button" class="btn" data-a="msg">Copy message</button><button type="button" class="btn" data-a="note">Edit note</button>'+(d.length?'<button type="button" class="btn" data-a="reset">Remove devices</button>':'')+
+      (c.active?'<button type="button" class="btn bad" data-a="off">Switch off</button>':'<button type="button" class="btn" data-a="on">Switch on</button>')+'</div></div>'}).join(''):'<p class="empty">No old codes.</p>'}
+$('find2').addEventListener('input',oldRender);
+$('list').addEventListener('click',function(e){var b=e.target.closest('button[data-a="msg"]');if(b){var c=ALL.filter(function(x){return x.code===b.closest('.it').dataset.c})[0];copy(msgFor(c))}});
+$('create').onclick=function(){var n=Math.max(1,Math.min(50,+$('count').value||1)),note=$('note').value.trim(),b=this;b.disabled=true;
+  sb.rpc('obs_admin_create',{p_note:note,p_n:n}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}var codes=r.data||[];$('note').value='';$('count').value=1;
+    $('fresh').innerHTML='<div class="fresh" style="margin-top:10px">'+codes.map(esc).join('<span></span>')+'</div>';load()})};
+/* start */
+nav();
 sb.user().then(function(u){if(!u)return;
-  load().then(function(){$('gate').hidden=true;$('main').hidden=false;$('me').textContent=u.email;rqLoad()}).catch(function(err){
-    $('gateMsg').innerHTML=(String(err.message||'').indexOf('not_admin')>=0?'<b>'+esc(u.email)+'</b> is not the owner account.':'Could not load codes: '+esc(err.message||'')+'. Was the SQL setup run?')+' <button type="button" id="o2">Sign out</button>';
-    $('o2').onclick=function(){sb.signOut().then(function(){location.reload()})}})});
+  load().then(function(){$('gate').hidden=true;$('app').hidden=false;$('me').textContent=u.email;$('sub2').textContent=u.email;rqLoad()}).catch(function(err){
+    $('gateMsg').innerHTML=(String(err.message||'').indexOf('not_admin')>=0?'<b>'+esc(u.email)+'</b> is not the owner account.':'Could not load: '+esc(err.message||''))+' <button type="button" class="btn" id="o2">Sign out</button>';$('o2').onclick=out})});
 })();
 </script>
 </body></html>

@@ -17,7 +17,8 @@ FREE = json.load(open(os.path.join(C, 'access.json')))['free']        # topic id
 def load(n): return json.load(open(os.path.join(C, n), encoding='utf-8'))
 def dump(o): return json.dumps(o, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
 
-meta, decks, qbank, audio = load('meta.json'), load('decks.json'), load('qbank.json'), load('audio.json')
+meta, decks, qbank = load('meta.json'), load('decks.json'), load('qbank.json')
+audio = {}   # owner, 10 Nov 2026: the audio lectures are no longer used (video lectures and slides replace them); assets/audio is not shipped
 topics = [t for t in meta['topics'] if t['id'] != 'rr']
 TT = {t['id']: t['title'] for t in topics}
 files = sorted(glob.glob(os.path.join(C, 'pages', '*.html')))
@@ -110,7 +111,7 @@ def main():
     site = os.path.join(OUT, 'site')
     if os.path.exists(site): shutil.rmtree(site)
     shutil.copytree(os.path.join(R, 'site_static'), site)
-    for d in ('img', 'audio', 'fonts'):
+    for d in ('img', 'fonts'):
         if os.path.exists(os.path.join(R, 'assets', d)):
             shutil.copytree(os.path.join(R, 'assets', d), os.path.join(site, d))
     open(os.path.join(site, 'index.html'), 'w', encoding='utf-8').write(fill(shell, sale_pages, free_decks, free_qb, info))

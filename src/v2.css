@@ -368,3 +368,5 @@ button{font-family:inherit}
 :root[data-pal="lav"] .bk img.covimg{content:url(img/cover5_lav.jpg)}:root[data-pal="green"] .bk img.covimg{content:url(img/cover5_green.jpg)}
 :root[data-pal="orange"] .bk img.covimg{content:url(img/cover5_orange.jpg)}:root[data-pal="red"] .bk img.covimg{content:url(img/cover5_red.jpg)}
 :root[data-pal="mono"] .bk img.covimg{content:url(img/cover5_mono.jpg)}
+.brow{display:flex;gap:8px;flex-wrap:wrap}
+#reader .pnum{pointer-events:none}

@@ -57,21 +57,26 @@ function grp(i){while(i>0&&PAGES[i].user)i--;var p=PAGES[i],f=p.f||'';if(p.t)ret
 function applyScope(){wraps.forEach(function(w,i){w.style.display=grp(i)===SCOPE?'':'none'})}
 var _cp=currentPage;currentPage=function(){var sc=$('scroller'),mid=sc.scrollTop+sc.clientHeight*0.35,cur=-1,first=-1;for(var i=0;i<wraps.length;i++){if(wraps[i].style.display==='none')continue;if(first<0)first=i;if(wraps[i].offsetTop<=mid)cur=i}return cur<0?Math.max(first,0):cur};
 var _gi=goIdx;goIdx=function(i){i=Math.max(0,Math.min(PAGES.length-1,i));var g=grp(i);if(g!==SCOPE){SCOPE=g;applyScope()}_gi(i)};
+/* the page pill counts inside the open place (1 / 8), not the whole book; each place is separate (owner, 10 Nov 2026) */
+function pill(){var pn=$('pnum');if(pn.classList.contains('ed'))return;var c=lastCur,k=0,n=0;for(var i=0;i<wraps.length;i++){if(wraps[i].style.display==='none')continue;n++;if(i<=c)k++}pn.textContent=(PAGES[c]&&PAGES[c].user?'✎ ':'')+k+' / '+n}
+var _os=onScroll;onScroll=function(){_os.apply(this,arguments);pill()};
+$('scroller').addEventListener('scroll',pill,{passive:true});
 var _ur=upgRebuild;upgRebuild=function(){_ur.apply(this,arguments);if(SCOPE)applyScope()};
 var tb=document.createElement('button');tb.type='button';tb.className='ib';tb.setAttribute('aria-label','Contents');tb.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>';
-tb.onclick=function(){$('tocBtn').click()};$('rbShow').parentNode.insertBefore(tb,$('rbShow'));
+tb.onclick=function(){$('tocBtn').click()};tb.hidden=true;   // owner, 10 Nov 2026: no whole-book contents inside a place; Chapters is the way between places
+$('rbShow').parentNode.insertBefore(tb,$('rbShow'));
 $('backBtn').onclick=function(){go(RET||'v2home')};
 
 /* ---------- views ---------- */
-var V2=['v2home','v2chapters','v2chapter','v2practice','v2resources','v2settings','v2profile','v2notif','v2saved','v2slides','v2lect','v2sub','v2pay'],R={};
+var V2=['v2home','v2chapters','v2chapter','v2practice','v2resources','v2settings','v2profile','v2notif','v2saved','v2slides','v2lect','v2sub','v2pay','v2dl'],R={};
 var NAV=[['v2home','Home','home'],['v2chapters','Chapters','book'],['v2practice','Practice','clip'],['v2resources','Resources','layers'],['v2settings','Settings','gear']];
 function tabOf(v){if(v==='reader')return SCOPE==='rr'||SCOPE==='dr'?'v2resources':'v2chapters';
-  return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',v2sub:'v2settings',v2pay:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
+  return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',v2sub:'v2settings',v2pay:'v2settings',v2dl:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
 var _show=show;
 function go(v){if(v==='home')v='v2home';var was=CURV;
   if(V2.indexOf(v)>=0){if(typeof setImm==='function')setImm(false);views.forEach(function(x){$(x).hidden=true});V2.forEach(function(x){$(x).hidden=x!==v});CURV=v;try{hideBar();penFly(false)}catch(e){}R[v]();$(v).scrollTop=v===was?$(v).scrollTop:0}
   else{V2.forEach(function(x){$(x).hidden=true});if(v==='reader'&&was!=='reader')RET=V2.indexOf(was)>=0||was==='search'||was==='lect'?was:RET;_show(v);
-    var a={reader:'read',cards:'cards','qbank-v':'qb',lect:'lect'}[v];if(a)spj('lastact',{k:a,t:Date.now()});
+    var a={reader:'read',cards:'cards','qbank-v':'qb'}[v];if(a)spj('lastact',{k:a,t:Date.now()});
     if(v==='search'&&document.activeElement===$('v2q'))setTimeout(function(){$('v2q').focus()},80)}
   $('app').classList.toggle('rd',v==='reader');var t=tabOf(v);
   [].forEach.call(document.querySelectorAll('#v2nav button,#v2sn button'),function(b){b.classList.toggle('on',b.dataset.v===t)});header()}
@@ -172,7 +177,7 @@ R.v2lect=function(){var TI=INFO.timg||{},ts=TOPICS.filter(function(t){return !LC
    '<div class="v2c hacc" lang="ar">'+I('play')+'<div><b>محاضرات الفيديو قادمة</b><small>ستُضاف محاضرة فيديو لكل موضوع، وتظهر هنا فور رفعها.</small></div></div>'+
    '<div class="vgl">'+ts.map(function(t){return '<div class="v2c vcd"><div class="th" style="background-image:url('+(TI[t.id]||chap(t.ch).img)+')"><span class="pl">'+I('play')+'</span><span class="sn" lang="ar">قريبًا</span></div>'+
      '<b>'+t.no+' '+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></div>'}).join('')+'</div>'+
-   (au?'<button type="button" class="v2c hrow" data-v="lect" lang="ar"><span class="ii">'+I('dl')+'</span><span><b>الشرح الصوتي المتوفر الآن</b><small>'+au+' موضوع · استماع وتنزيل</small></span>'+I('chev')+'</button>':'')};
+   ''};
 var SCH=0;
 R.v2slides=function(){var TI=INFO.timg||{},ts=TOPICS.filter(function(t){return !SCH||t.ch===SCH});
   $('v2slidesW').innerHTML=title('السلايدات','v2resources','Slides')+
@@ -181,6 +186,9 @@ R.v2slides=function(){var TI=INFO.timg||{},ts=TOPICS.filter(function(t){return !
    '<div class="vgl">'+ts.map(function(t){var bl=String(t.sub||'').split(' · ').slice(0,3);
      return '<div class="v2c vcd"><div class="sld"><span class="sn" lang="ar">قريبًا</span><div class="sx"><i><img src="img/v2_logo.webp" alt="">Obstetrics Master Review</i><b>'+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><ul>'+bl.map(function(x){return '<li>'+X(x)+'</li>'}).join('')+'</ul></div><span class="sp" style="background-image:url('+(TI[t.id]||chap(t.ch).img)+')"></span></div>'+
      '<b>'+t.no+' '+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></div>'}).join('')+'</div>'};
+R.v2dl=function(){$('v2dlW').innerHTML=title('التنزيلات','v2settings','Downloads')+
+  '<div class="v2c sbx" lang="ar"><b>'+I('play')+'محاضرات الفيديو</b><p class="mu">لا توجد محاضرات منزّلة. عند إضافة محاضرات الفيديو يمكنك تنزيلها لمشاهدتها بدون إنترنت، وتظهر هنا.</p><button type="button" class="v2btn sm ol" data-v="v2lect">المحاضرات'+I('back')+'</button></div>'+
+  '<div class="v2c sbx" lang="ar"><b>'+I('slides')+'سلايدات المحاضرات</b><p class="mu">لا توجد سلايدات منزّلة. عند إضافة السلايدات يمكنك تنزيلها، وتظهر هنا.</p><button type="button" class="v2btn sm ol" data-v="v2slides">السلايدات'+I('back')+'</button></div>'};
 R.v2saved=function(){var ks=Object.keys(BM).sort(function(a,b){return BM[b]-BM[a]});
   $('v2savedW').innerHTML=title('المصادر المحفوظة','v2resources')+(ks.length?'<div class="tpl">'+ks.map(function(k){var t=TOPICS.filter(function(x){return 't:'+x.id===k})[0];if(!t)return '';
     return '<div class="v2c tpr"><span class="li">'+I(locked(t.id)?'lock':'book')+'</span><button type="button" class="tmn" data-act="topic" data-id="'+t.id+'"><b>'+t.no+' '+X(t.title)+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></button>'+bmk(k)+'</div>'}).join('')+'</div>'
@@ -195,7 +203,7 @@ R.v2settings=function(){var a=access(),sy=window.__obsSync&&window.__obsSync.act
    '<div class="v2c sgrp"><h4>'+I('palette')+'لون التطبيق</h4><div class="spal">'+PALS.map(function(p){return '<button type="button" data-act="pal" data-p="'+p[0]+'" class="'+(PAL===p[0]?'on':'')+'" aria-pressed="'+(PAL===p[0])+'"><i style="background:'+p[2]+'">'+(PAL===p[0]?I('check'):'')+'</i>'+p[1]+'</button>'}).join('')+'</div></div>'+
    '</div><div><div class="v2c">'+
     row('sub','crown','الاشتراك',{free:'النسخة المجانية',trial:'فترة تجريبية',paid:'مفعّل',expired:'انتهت التجربة',ended:'انتهى الاشتراك'}[a])+
-    row('sync','sync','المزامنة',sy?'بين أجهزتك':'بعد التفعيل')+row('','dl','التنزيلات','المحاضرات','data-v="lect"')+row('','bell','الإشعارات','','data-v="v2notif"')+
+    row('sync','sync','المزامنة',sy?'بين أجهزتك':'بعد التفعيل')+row('','dl','التنزيلات','الفيديو والسلايدات','data-v="v2dl"')+row('','bell','الإشعارات','','data-v="v2notif"')+
     row('prog','bars','تقدّمي',overall()+'%')+(CFG.whatsapp?row('help','help','المساعدة','واتساب'):'')+row('about','info','عن هذه الطبعة','')+
    '</div></div></div>';avatar($('setAv'))};
 R.v2profile=function(){var dev=st('orr-dev')||'',code=st('orr-code')||'';
@@ -236,14 +244,14 @@ function fdate(ms){try{return new Date(+ms).toLocaleDateString('ar-EG-u-nu-latn'
 function poll(){if(!LIC||LIC.unlocked()||navigator.onLine===false)return Promise.resolve();
   return LIC.rpc('obs_request_status',{p_dev:LIC.dev,p_kind:LIC.kind(),p_label:LIC.label()}).then(function(r){var d=r.data;if(r.error||!d||!d.ok)return;
     if(d.active)return LIC.rpc('obs_check',{p_dev:LIC.dev}).then(function(q){if(q.data&&q.data.ok&&q.data.key){spj('req',null);return LIC.adopt(q.data)}});
-    REQ=d.status==='none'?null:{status:d.status,plan:d.plan,t:d.created,reason:d.reason};spj('req',REQ);if(CURV==='v2sub'||CURV==='v2home')R[CURV]();header()}).catch(function(){})}
+    var was=JSON.stringify(REQ);REQ=d.status==='none'||d.status==='cancelled'?null:{status:d.status,plan:d.plan,t:d.created,reason:d.reason};spj('req',REQ);if(JSON.stringify(REQ)!==was&&(CURV==='v2sub'||CURV==='v2home'))R[CURV]();header()}).catch(function(){})}
 setInterval(function(){if(!document.hidden&&((REQ&&REQ.status==='pending')||CURV==='v2sub'))poll()},45000);
 document.addEventListener('visibilitychange',function(){if(!document.hidden)poll()});
 R.v2sub=function(){var a=access(),ex=+st('orr-exp')||0,pl=st('orr-plan'),pend=a!=='paid'&&REQ&&REQ.status==='pending',h=title('الاشتراك',CURV==='v2sub'&&RETS?RETS:'v2settings','Subscription');
   function chk(t){return '<li>'+I('check')+t+'</li>'}
   if(a==='paid')h+='<div class="v2c sbx ok" lang="ar"><b>'+I('crown')+'اشتراكك فعّال</b><p>'+(pl?'الخطة: '+plan(pl).ar+' · ':'')+(ex?'ينتهي في '+fdate(ex):'بلا تاريخ انتهاء')+'</p><p class="mu">اشتراكك يفتح هاتفك وجهازك اللوحي وحاسوبك. لفتحه في جهاز آخر: افتح التطبيق هناك ثم «الاشتراك» ← «مشترك على جهاز آخر». ملاحظاتك وتقدّمك تظهر في كل أجهزتك.</p></div>';
   if(a==='ended')h+='<div class="v2c sbx" lang="ar"><b>'+I('lock')+'انتهى اشتراكك</b><p>ملاحظاتك وتظليلك وتقدّمك محفوظة، وتعود كما هي عند تجديد الاشتراك. الموضوع الأول من كل فصل ما زال مفتوحًا.</p></div>';
-  if(pend)h+='<div class="v2c sbx" lang="ar"><b>'+I('clock')+'طلبك قيد المراجعة</b><p>'+(REQ.plan==='device'?'':'الخطة: ')+plan(REQ.plan).ar+' · أُرسل '+ago(Date.parse(REQ.t))+'</p><p class="mu">بعد الموافقة يُفتح الكتاب كاملًا في هذا الجهاز تلقائيًا، ولا تحتاج إلى أي كود.</p><button type="button" class="v2btn sm ol" data-act="repoll">'+I('sync')+'تحديث الحالة</button></div>';
+  if(pend)h+='<div class="v2c sbx" lang="ar"><b>'+I('clock')+'طلبك قيد المراجعة</b><p>'+(REQ.plan==='device'?'':'الخطة: ')+plan(REQ.plan).ar+' · أُرسل '+ago(Date.parse(REQ.t))+'</p><p class="mu">بعد الموافقة يُفتح الكتاب كاملًا في هذا الجهاز تلقائيًا، ولا تحتاج إلى أي كود.</p><div class="brow">'+(REQ.plan==='device'?'':'<button type="button" class="v2btn sm" data-act="reqedit">'+I('pen')+'تعديل الطلب</button>')+'<button type="button" class="v2btn sm ol" data-act="reqcancel">إلغاء الطلب</button><button type="button" class="v2btn sm ol" data-act="repoll">'+I('sync')+'تحديث الحالة</button></div><p class="mu" id="rqMsg" role="status"></p></div>';
   if(!pend&&a!=='paid'&&REQ&&REQ.status==='rejected')h+='<div class="v2c sbx bad" lang="ar"><b>'+I('info')+'لم يُقبل طلبك</b><p>'+X(REQ.reason||'راجع بيانات التحويل ثم أرسل الطلب من جديد.')+'</p></div>';
   if(a!=='paid'){var fr=LIC&&LIC.fresh();
     h+='<div class="v2c sbx tr" lang="ar"><b>الخطة التجريبية <small>Trial</small></b><ul>'+chk('وصول كامل لمدة ساعة')+chk('بنفس مزايا الاشتراك الكامل')+'</ul>'+
@@ -254,18 +262,19 @@ R.v2sub=function(){var a=access(),ex=+st('orr-exp')||0,pl=st('orr-plan'),pend=a!
     (a!=='paid'?'<div class="v2c sbx frm" lang="ar"><b>'+I('sync')+'مشترك على جهاز آخر؟</b><p class="mu">اكتب اسمك ورقم الهاتف الذي اشتركت به، وسيُربط هذا الجهاز باشتراكك بعد الموافقة، وتظهر فيه ملاحظاتك وتقدّمك.</p>'+
       '<label>الاسم<input id="dvN" type="text" maxlength="60" value="'+X(myName())+'" dir="auto"></label><label>رقم هاتف الاشتراك<input id="dvP" type="tel" maxlength="20" value="'+X(sp('tel')||'')+'" dir="ltr" inputmode="tel" placeholder="09XXXXXXXX"></label>'+
       '<button type="button" class="v2btn ol" data-act="adddev">ربط هذا الجهاز'+I('back')+'</button><p class="mu" id="dvMsg" role="status"></p></div>':'')}
-  $('v2subW').innerHTML=h;if(a!=='paid')poll()};
+  $('v2subW').innerHTML=h};
 var RETS='';
-R.v2pay=function(){var p=plan(PAY.plan),dev=LIC?LIC.dev.slice(0,10).toUpperCase():'';
-  $('v2payW').innerHTML=title('إكمال الاشتراك','v2sub','Payment')+
-   '<div class="v2c sbx" lang="ar"><div class="prow"><span>'+I('cal')+'الخطة المختارة</span><b>'+p.ar+' · <bdi dir="ltr">'+X(p.price)+'</bdi></b><button type="button" class="v2btn sm ol" data-v="v2sub">تغيير الخطة</button></div></div>'+
+R.v2pay=function(){var ED=PAY.edit&&REQ&&REQ.status==='pending',p=plan(PAY.plan),dev=LIC?LIC.dev.slice(0,10).toUpperCase():'';if(!ED)PAY.edit=false;
+  $('v2payW').innerHTML=title(ED?'تعديل الطلب':'إكمال الاشتراك','v2sub',ED?'Edit request':'Payment')+
+   (ED?'<div class="plans" lang="ar">'+PLANS.map(function(q){return '<button type="button" class="v2c pln'+(PAY.plan===q.id?' on':'')+'" data-act="plan2" data-p="'+q.id+'" aria-pressed="'+(PAY.plan===q.id)+'"><i></i><span>'+q.ar+' <small>'+q.en+'</small></span><b dir="ltr">'+X(q.price)+'</b></button>'}).join('')+'</div>'
+   :'<div class="v2c sbx" lang="ar"><div class="prow"><span>'+I('cal')+'الخطة المختارة</span><b>'+p.ar+' · <bdi dir="ltr">'+X(p.price)+'</bdi></b><button type="button" class="v2btn sm ol" data-v="v2sub">تغيير الخطة</button></div></div>')+
    '<div class="v2c sbx" lang="ar"><b>'+I('sync')+'التحويل إلى الحساب</b><p>اسم الحساب: <b>'+X(CFG.bankak_name||'')+'</b></p><div class="acct"><span dir="ltr">'+X(CFG.bankak||'')+'</span><button type="button" class="v2btn sm ol" data-act="copy2" data-c="'+X(CFG.bankak||'')+'">'+I('copy')+'نسخ رقم الحساب</button></div><p class="mu">حوّل <bdi dir="ltr">'+X(p.price)+'</bdi> ثم ارفع صورة إشعار التحويل هنا.</p></div>'+
-   '<div class="v2c sbx frm" lang="ar"><label class="upl" id="rcL">'+I('dl')+'<span id="rcT">'+(PAY.file?'✓ '+X(PAY.file.name):'رفع الإيصال (صورة أو PDF)')+'</span><input id="rcF" type="file" accept="image/*,application/pdf" hidden></label>'+
-    '<label>الاسم<input id="pyN" type="text" maxlength="60" value="'+X(myName())+'" dir="auto" autocomplete="name"></label>'+
+   '<div class="v2c sbx frm" lang="ar"><label class="upl" id="rcL">'+I('dl')+'<span id="rcT">'+(PAY.file?'✓ '+X(PAY.file.name):ED?'الإيصال المرسل محفوظ · اضغط لتغييره':'رفع الإيصال (صورة أو PDF)')+'</span><input id="rcF" type="file" accept="image/*,application/pdf" hidden></label>'+
+    '<label>الاسم<input id="pyN" type="text" maxlength="60" value="'+X(sp('rname')||myName())+'" dir="auto" autocomplete="name"></label>'+
     '<label>رقم الهاتف<input id="pyP" type="tel" maxlength="20" value="'+X(sp('tel')||'')+'" dir="ltr" inputmode="tel" placeholder="09XXXXXXXX" autocomplete="tel"></label>'+
     '<label>رقم المستخدم<input type="text" value="'+dev+'" readonly dir="ltr"></label>'+
     '<label>تعليق (اختياري)<textarea id="pyC" maxlength="500" rows="2" dir="auto"></textarea></label></div>'+
-   '<button type="button" class="v2btn" id="pyGo" data-act="send" lang="ar" style="height:50px">إرسال طلب التفعيل'+I('back')+'</button><p class="v2crumb" id="pyMsg" lang="ar" style="text-align:center" role="status">يُراجع طلبك بعد إرسال الإيصال، ويُفتح الكتاب تلقائيًا بعد الموافقة.</p>';
+   '<button type="button" class="v2btn" id="pyGo" data-act="send" lang="ar" style="height:50px">'+(ED?'حفظ التعديل':'إرسال طلب التفعيل')+I('back')+'</button><p class="v2crumb" id="pyMsg" lang="ar" style="text-align:center" role="status">يُراجع طلبك بعد إرسال الإيصال، ويُفتح الكتاب تلقائيًا بعد الموافقة.</p>';
   $('rcF').onchange=function(){var f=this.files[0],T=$('rcT');if(!f)return;PAY.file=null;
     function done(mime,b64){if(b64.length>2000000){T.textContent='الملف كبير جدًا. اختر صورة أصغر.';return}PAY.file={mime:mime,data:b64,name:f.name};T.textContent='✓ '+f.name}
     if(f.type==='application/pdf'){if(f.size>1400000){T.textContent='ملف PDF كبير جدًا (الحد 1.4 ميغابايت). أرسل صورة بدلًا منه.';return}var fr=new FileReader();fr.onload=function(){done('application/pdf',String(fr.result).split(',')[1]||'')};fr.readAsDataURL(f);return}
@@ -274,32 +283,38 @@ R.v2pay=function(){var p=plan(PAY.plan),dev=LIC?LIC.dev.slice(0,10).toUpperCase(
 
 /* ---------- actions ---------- */
 function idxOf(re){for(var i=0;i<PAGES.length;i++)if(!PAGES[i].user&&re.test(PAGES[i].f||''))return i;return 0}
-var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'?CURV:'v2settings';go('v2sub')},
+var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'?CURV:'v2settings';go('v2sub');poll()},
   adddev:function(b){var M=$('dvMsg'),nm=$('dvN').value.trim(),ph=$('dvP').value.replace(/[٠-٩]/g,function(d){return '٠١٢٣٤٥٦٧٨٩'.indexOf(d)}).trim();
     if(PAY.busy)return;if(!LIC){M.textContent='غير متاح في نسخة المراجعة.';return}if(nm.length<2){M.textContent='اكتب اسمك.';return}if(!/^[0-9+ ]{7,20}$/.test(ph)){M.textContent='اكتب رقم هاتف صحيحًا.';return}
     PAY.busy=true;b.disabled=true;M.textContent='جارٍ إرسال الطلب…';sp('tel',ph);
     LIC.rpc('obs_request_submit',{p_dev:LIC.dev,p_kind:LIC.kind(),p_label:LIC.label(),p_name:nm,p_phone:ph,p_plan:'device',p_comment:'',p_mime:null,p_data:null}).then(function(r){PAY.busy=false;b.disabled=false;var d=r.data;
       if(r.error||!d||(!d.ok&&d.reason!=='pending')){M.textContent=d&&d.reason==='many'?'أرسلت عدة طلبات اليوم. انتظر المراجعة.':'تعذّر الإرسال. تأكد من الاتصال وحاول مرة أخرى.';return}
       REQ={status:'pending',plan:'device',t:new Date().toISOString()};spj('req',REQ);header();R.v2sub()},function(){PAY.busy=false;b.disabled=false;M.textContent='تعذّر الإرسال. تأكد من الاتصال وحاول مرة أخرى.'})},
+  reqedit:function(){PAY.edit=true;PAY.file=null;PAY.plan=REQ.plan;go('v2pay')},
+  plan2:function(b){sp('rname',$('pyN').value.trim());sp('tel',$('pyP').value.trim());PAY.plan=b.dataset.p;R.v2pay()},
+  reqcancel:function(b){var M=$('rqMsg');if(!b.dataset.sure){b.dataset.sure='1';b.textContent='تأكيد الإلغاء';M.textContent='سيُحذف الطلب والإيصال، ويمكنك إرسال طلب جديد في أي وقت.';return}
+    if(!LIC)return;b.disabled=true;LIC.rpc('obs_request_cancel',{p_dev:LIC.dev}).then(function(r){if(r.error){b.disabled=false;M.textContent='تعذّر الإلغاء. تأكد من الاتصال وحاول مرة أخرى.';return}REQ=null;spj('req',null);header();poll();R.v2sub()},function(){b.disabled=false;M.textContent='تعذّر الإلغاء. تأكد من الاتصال وحاول مرة أخرى.'})},
   repoll:function(b){b.disabled=true;poll().then(function(){b.disabled=false})},
   plan:function(b){PAY.plan=b.dataset.p;sp('plan2',PAY.plan);R.v2sub()},
   trial:function(b){if(!LIC)return;b.disabled=true;LIC.startTrial(function(m){b.disabled=false;var e=$('trMsg');if(e)e.textContent=m})},
   copy2:function(b){try{navigator.clipboard.writeText(b.dataset.c);var t=b.innerHTML;b.innerHTML=I('check')+'تم النسخ';setTimeout(function(){b.innerHTML=t},1400)}catch(e){}},
   send:function(b){var M=$('pyMsg'),nm=$('pyN').value.trim(),ph=$('pyP').value.replace(/[٠-٩]/g,function(d){return '٠١٢٣٤٥٦٧٨٩'.indexOf(d)}).trim();
     if(PAY.busy)return;if(!LIC){M.textContent='إرسال الطلب غير متاح في نسخة المراجعة.';return}
-    if(!PAY.file){M.textContent='ارفع صورة إشعار التحويل أولًا.';return}if(nm.length<2){M.textContent='اكتب اسمك.';return}if(!/^[0-9+ ]{7,20}$/.test(ph)){M.textContent='اكتب رقم هاتف صحيحًا.';return}
+    var ED=PAY.edit&&REQ&&REQ.status==='pending';if(!PAY.file&&!ED){M.textContent='ارفع صورة إشعار التحويل أولًا.';return}if(nm.length<2){M.textContent='اكتب اسمك.';return}if(!/^[0-9+ ]{7,20}$/.test(ph)){M.textContent='اكتب رقم هاتف صحيحًا.';return}
     if(navigator.onLine===false){M.textContent='لا يوجد اتصال بالإنترنت. حاول مرة أخرى عند توفر الاتصال.';return}
-    PAY.busy=true;b.disabled=true;M.textContent='جارٍ إرسال الطلب…';sp('tel',ph);if(!sp('name'))sp('name',nm);
-    LIC.rpc('obs_request_submit',{p_dev:LIC.dev,p_kind:LIC.kind(),p_label:LIC.label(),p_name:nm,p_phone:ph,p_plan:PAY.plan,p_comment:$('pyC').value,p_mime:PAY.file.mime,p_data:PAY.file.data}).then(function(r){PAY.busy=false;b.disabled=false;var d=r.data;
+    PAY.busy=true;b.disabled=true;M.textContent=ED?'جارٍ حفظ التعديل…':'جارٍ إرسال الطلب…';sp('tel',ph);sp('rname',nm);if(!sp('name'))sp('name',nm);
+    (ED?LIC.rpc('obs_request_update',{p_dev:LIC.dev,p_name:nm,p_phone:ph,p_plan:PAY.plan,p_comment:$('pyC').value,p_mime:PAY.file?PAY.file.mime:null,p_data:PAY.file?PAY.file.data:null})
+      :LIC.rpc('obs_request_submit',{p_dev:LIC.dev,p_kind:LIC.kind(),p_label:LIC.label(),p_name:nm,p_phone:ph,p_plan:PAY.plan,p_comment:$('pyC').value,p_mime:PAY.file.mime,p_data:PAY.file.data})).then(function(r){PAY.busy=false;b.disabled=false;var d=r.data;
       if(r.error||!d){M.textContent='تعذّر الإرسال. تأكد من الاتصال واضغط الزر مرة أخرى.';return}
-      if(!d.ok&&d.reason!=='pending'){M.textContent={many:'أرسلت عدة طلبات اليوم. انتظر المراجعة أو راسلنا في واتساب.',busy:'الطلبات كثيرة الآن. حاول بعد قليل.',name:'اكتب اسمك.',phone:'اكتب رقم هاتف صحيحًا.',file:'الإيصال غير مقبول. ارفع صورة أو ملف PDF.'}[d.reason]||'تعذّر الإرسال. حاول مرة أخرى.';return}
-      PAY.file=null;REQ={status:'pending',plan:PAY.plan,t:new Date().toISOString()};spj('req',REQ);header();go('v2sub')},function(){PAY.busy=false;b.disabled=false;M.textContent='تعذّر الإرسال. تأكد من الاتصال واضغط الزر مرة أخرى.'})},
+      if(!d.ok&&d.reason==='none'&&ED){PAY.edit=false;M.textContent='تمت مراجعة طلبك قبل التعديل.';poll();return}
+      if(!d.ok&&d.reason!=='pending'){M.textContent={wait:'انتظر لحظات ثم اضغط مرة أخرى.',many:'أرسلت عدة طلبات اليوم. انتظر المراجعة أو راسلنا في واتساب.',busy:'الطلبات كثيرة الآن. حاول بعد قليل.',name:'اكتب اسمك.',phone:'اكتب رقم هاتف صحيحًا.',file:'الإيصال غير مقبول. ارفع صورة أو ملف PDF.'}[d.reason]||'تعذّر الإرسال. حاول مرة أخرى.';return}
+      PAY.file=null;PAY.edit=false;REQ={status:'pending',plan:PAY.plan,t:ED&&REQ?REQ.t:new Date().toISOString()};spj('req',REQ);header();go('v2sub')},function(){PAY.busy=false;b.disabled=false;M.textContent='تعذّر الإرسال. تأكد من الاتصال واضغط الزر مرة أخرى.'})},
   cont:function(){goIdx(sp('pk')&&lastPage()>0?lastPage():BIDX[TOPICS[0].p-1])},
   cover:function(){goIdx(0)},
   prog:function(){try{renderHome()}catch(e){}$('v2psheet').hidden=false},
   cards:function(){curDeck='daily';started=false;go('cards')},
   allcards:function(){curDeck='all';started=false;go('cards')},
-  last:function(){var la=spj('lastact');if(!la||la.k==='read')ACT.cont();else if(la.k==='cards')go('cards');else if(la.k==='qb')go('qbank-v');else go('lect')},
+  last:function(){var la=spj('lastact');if(!la||la.k==='read')ACT.cont();else if(la.k==='cards')go('cards');else if(la.k==='qb')go('qbank-v');else go('v2lect')},
   ch:function(b){CH=+b.dataset.n;CHRET='v2chapters';go('v2chapter')},
   chf:function(b){CHF=b.dataset.f;R.v2chapters()},
   topic:function(b){var t=TOPICS.filter(function(x){return x.id===b.dataset.id})[0];if(t)openTopic(t)},

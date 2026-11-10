@@ -160,7 +160,7 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
 - Real totals differ from the mock-ups: 1,634 flashcards and 749 questions (OBS_INFO.tot), not 219 / 110.
 - Phone Home fits one screen (owner, 10 Nov 2026): compact sizes under 760 px, spare height goes to the reading card; a tighter tier under 640 px high.
 - Video lectures (owner, 10 Nov 2026): `v2lect` shows a "قريبًا" card for every topic with a picture (OBS_INFO.timg: the topic's first figure,
-  else `chcov<n>.jpg`); the owner will upload videos later. The old audio screen (`lect`) stays reachable from a row under the cards.
+  else `chcov<n>.jpg`); the owner will upload videos later.
 - **Subscription without codes (owner, 10 Nov 2026).** Migration 004 (applied; also on `main`): `obs_codes.expires` + `plan`, tables `obs_requests`,
   `obs_receipts` (receipt as base64, owner only), `obs_seen` (devices that opened the app). App RPCs `obs_request_submit`, `obs_request_status`
   (also records the device); owner RPCs `obs_admin_requests`, `obs_admin_receipt`, `obs_admin_decide` (approve → `obs_grant` makes or RENEWS the
@@ -188,3 +188,15 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   (`obs_bind`; answers `nosub` or `full`). Notes and progress are shared through the code's sync.
 - Old codes (owner, 10 Nov 2026): they work for ONE MONTH after the new app goes live. `tools/supabase/launch/old_codes_one_month.sql` is
   NOT applied yet: on launch day copy it into migrations/ with the next number and push.
+- Audio lectures are gone (owner, 10 Nov 2026): build.py ships no audio (`audio = {}`, assets/audio stays in the repo but is not deployed);
+  Settings → Downloads (`v2dl`) is for video lectures and lecture slides (empty until they exist).
+- Each place is separate (owner, 10 Nov 2026): the reader's page pill counts inside the open place («1 / 8»), typing a page is off, and the
+  whole-book contents button is hidden in the reader; the student moves between places from Chapters and Resources.
+- Requests can be changed (owner, 10 Nov 2026; migration 006, applied): while a request waits the student can edit it (`obs_request_update`:
+  plan, name, phone, comment, optional new receipt; `v2pay` in edit mode) or cancel it (`obs_request_cancel`, status `cancelled`, receipt
+  removed). Admin shows «Edited» and a «Cancelled by student» tab. poll() re-renders only when the state changed (it used to loop).
+- Admin app rebuilt (owner, 10 Nov 2026: organised, same level as the app): `site_static/admin.html` in the app's lavender look, sidebar on PC
+  and bottom bar on phones: Requests (four counters, Waiting / Approved / Rejected / Cancelled), Subscribers (search, All / Active / Ending in
+  7 days / Ended / Switched off; per subscriber: WhatsApp, Devices 1–10, Extend +1 month / +1 year / never / end now via `obs_admin_expires`,
+  edit name and phone, student notes, remove devices, switch off), Give (subscription with no receipt), Old codes (codes with no plan; new
+  old-style codes can still be made until launch). Live on `main` too (it needs assets/img/v2_logo.webp and the Cairo fonts there).
