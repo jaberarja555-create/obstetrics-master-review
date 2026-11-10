@@ -142,3 +142,19 @@ Last work: features ported from the Pediatrics book (see "Ported from the Pediat
 - About this edition (owner, 7 Nov 2026, as in Surgery): page 3 `a00b1_about` after About the authors (inserted with tools/insert_page.py; every
   later page moved up one). English title, Arabic text (Noto Sans Arabic): this edition, disclaimer, copyright (full width), thanks.
   tools/poster_pages.py finds the RR/drugs cover files by name.
+
+## App redesign (owner, 10 Nov 2026) — branch `redesign`, NOT yet on `main`
+The owner is turning the book into an app (brief: lavender theme, five destinations, each feature opens only its own place).
+- Work on branch `redesign`; `.github/workflows/preview.yml` deploys every push to https://redesign.obstetrics-master-review.pages.dev
+  (preview; the live book on `main` is untouched until the owner approves the whole redesign, then merge).
+- Code: `src/v2.css`, `src/v2.html` (parts `<!--TOP--> <!--VIEWS--> <!--NAV-->`), `src/v2.js`, laid over `src/shell.html` by build.py `v2()`
+  (v2.js runs at the end of the boot closure and replaces `show`, `goIdx`, `currentPage`). Old Home and old tabs stay in the DOM, hidden.
+- Tokens `--bg --sf --tx --sub --pri --pon --sel --bd --deep`; mode `orr-mode` (day|night|auto) → `html[data-theme]`, colour `orr-pal`
+  (lav, navy, green, orange, red, mono) → `html[data-pal]`; the old variables (--paper, --card, --rose…) are mapped to them.
+- Reader scope: `grp(i)` (topic, rr, dr, chapter cover, cover, front matter); only the pages of one group are shown.
+- New keys: orr-name, orr-photo, orr-bm (bookmarks, not synced yet), orr-lastact, orr-nread, orr-nseen, orr-pseg.
+- Temporary pictures cut from the owner's mock-ups (low resolution): assets/img/v2_consult.jpg, v2_fetus.jpg, v2_cover.jpg; logo v2_logo.webp
+  recoloured from his burgundy logo. Replace when he sends the originals.
+- Stage 1 done: shell, header, navigation, Home, Chapters + chapter page, Practice hub, Resources hub, Settings, Profile, Notifications
+  (events of this device), Saved, look settings. Still old inside: flashcards, question bank, search, lectures (audio), subscription sheet.
+- Real totals differ from the mock-ups: 1,634 flashcards and 749 questions (OBS_INFO.tot), not 219 / 110.
