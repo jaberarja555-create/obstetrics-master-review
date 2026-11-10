@@ -53,12 +53,30 @@ def key():
     assert len(b) == 32, 'licence key must be 32 bytes (base64)'
     return b
 
+def v2(shell):
+    """App redesign (owner, 10 Nov 2026): src/v2.css, v2.html (<!--TOP--> <!--VIEWS--> <!--NAV-->) and v2.js are laid over the old shell."""
+    rd = lambda n: open(os.path.join(R, 'src', n), encoding='utf-8').read()
+    top, rest = rd('v2.html').split('<!--TOP-->')[1].split('<!--VIEWS-->')
+    vw, nav = rest.split('<!--NAV-->')
+    def ins(s, anchor, new, before=True):
+        assert s.count(anchor) == 1, anchor
+        return s.replace(anchor, new + anchor if before else anchor + new)
+    i = shell.rindex('</style>')
+    shell = shell[:i] + rd('v2.css') + shell[i:]
+    shell = ins(shell, '<div class="app" id="app">', top, False)
+    shell = ins(shell, '<div class="ap" id="ap" hidden>', vw)
+    j = shell.index('</nav>', shell.index('<nav class="tabs" id="tabs">')) + 6
+    shell = shell[:j] + nav + shell[j:]
+    return ins(shell, 'refreshCont();\n});\n</script>', rd('v2.js') + '\n', True).replace(rd('v2.js') + '\nrefreshCont();\n});', 'refreshCont();\n' + rd('v2.js') + '\n});')
+
 def main():
-    shell = open(os.path.join(R, 'src', 'shell.html'), encoding='utf-8').read()
+    shell = v2(open(os.path.join(R, 'src', 'shell.html'), encoding='utf-8').read())
+    TOTALS = {'cards': sum(len(d['cards']) for d in decks.values()),
+              'qs': sum(len(q.get('items', [])) if q.get('type') == 'emq' else 1 for ch in qbank for q in ch['questions'])}
     order = [t['id'] for t in topics]
     info = {'locked': {t: 1 for t in order if t not in FREE},
             'free_names': [TT[t][0].upper() + TT[t][1:] for t in order if t in FREE],
-            'order': order}
+            'order': order, 'tot': TOTALS}
     lk_pages = {f: s for f, s in pages if locked(f)}
     sale_pages = ''.join(placeholder(f, s) if f in lk_pages else s for f, s in pages)
     free_decks = {k: v for k, v in decks.items() if k in FREE}
@@ -92,12 +110,12 @@ def main():
     swp = os.path.join(site, 'sw.js')
     sw = open(swp).read()
     imgs = sorted('img/' + n for n in os.listdir(os.path.join(site, 'img'))) if os.path.exists(os.path.join(site, 'img')) else []
-    assets = ["./", "index.html", "content.bin", "licence.js", "sbmini.js", "licence-config.js", "manifest.json", "icon.png", "icon-192.png", "apple-touch-icon.png"] + imgs + sorted('fonts/' + n for n in os.listdir(os.path.join(site, 'fonts')) if n.startswith('inter'))
+    assets = ["./", "index.html", "content.bin", "licence.js", "sbmini.js", "licence-config.js", "manifest.json", "icon.png", "icon-192.png", "apple-touch-icon.png"] + imgs + sorted('fonts/' + n for n in os.listdir(os.path.join(site, 'fonts')) if n.endswith(('.woff', '.woff2')))
     sw = re.sub(r"var C='[^']*',ASSETS=\[.*?\]", lambda m: f"var C='orr-{ver}',ASSETS=" + json.dumps(assets), sw, count=1, flags=re.S)
     open(swp, 'w').write(sw)
 
     # ---- review copy: whole book open, no activation ----
-    rv = fill(shell, ''.join(s for f, s in pages), decks, qbank, {'locked': {}, 'free_names': [], 'order': order})
+    rv = fill(shell, ''.join(s for f, s in pages), decks, qbank, {'locked': {}, 'free_names': [], 'order': order, 'tot': TOTALS})
     rv = re.sub(r'<script src="(licence-config|sbmini|licence)\.js"></script>', '', rv)
     rv = rv.replace('<html lang="en">', '<html lang="en" class="unlocked">', 1)
     rv = rv.replace('</body>', '<script>window.__boot&&window.__boot()</script></body>', 1)

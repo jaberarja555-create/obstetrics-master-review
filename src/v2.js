@@ -1,0 +1,247 @@
+/* ===== App redesign (owner, 10 Nov 2026) =====
+   Five destinations (Home · Chapters · Practice · Resources · Settings); the reader opens ONE place at a time (a topic,
+   the Rapid Review, the drugs, a cover), no longer the whole book in one scroll. Runs inside the boot closure, after the old app.
+   New keys: orr-mode (day|night|auto), orr-pal (palette), orr-name, orr-photo, orr-bm (bookmarks), orr-lastact, orr-nread, orr-nseen. */
+(function(){
+var INFO=window.OBS_INFO||{},TOT=INFO.tot||{},CFG=window.OBS_CFG||{};
+function X(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+var P={home:'<path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/>',
+ book:'<path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.500-.5 6.500 0 8.500 1.500 2-1.500 5-2 8.500-1.500V5C17 4.500 14 5 12 6.500z"/><path d="M12 6.500v13"/>',
+ clip:'<rect x="5" y="4.500" width="14" height="16" rx="2"/><path d="M9 4.500V3.500h6v1M9 10h6M9 14h4"/>',
+ layers:'<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.500l9 5 9-5M3 16.500l9 5 9-5"/>',
+ gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 13.500a7.500 7.500 0 0 0 0-3l2-1.500-2-3.500-2.400 1a7.500 7.500 0 0 0-2.600-1.500L14 2.500h-4l-.4 2.500A7.500 7.500 0 0 0 7 6.500l-2.400-1-2 3.500 2 1.500a7.500 7.500 0 0 0 0 3l-2 1.500 2 3.500 2.400-1a7.500 7.500 0 0 0 2.600 1.500l.4 2.500h4l.4-2.500a7.500 7.500 0 0 0 2.600-1.500l2.400 1 2-3.500z"/>',
+ arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',back:'<path d="M19 12H5M11 6l-6 6 6 6"/>',chev:'<path d="M9 6l6 6-6 6"/>',up:'<path d="M12 19V5M6 11l6-6 6 6"/>',
+ q:'<circle cx="12" cy="12" r="9"/><path d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .9-1 1.700M12 17h.01"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',play:'<circle cx="12" cy="12" r="9"/><path d="M10 8.500l5 3.500-5 3.500z"/>',
+ slides:'<rect x="3" y="4" width="18" height="12" rx="1.500"/><path d="M12 16v4M8 20h8M9 9h6M9 12h3"/>',
+ bars:'<path d="M5 20v-6M10 20V9M15 20v-9M20 20V5"/>',flame:'<path d="M12 3c1 3.500 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 .5 1.500 1.500 2 2 2-1-3 0-6 1-8z"/>',
+ lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',bm:'<path d="M7 4h10v16l-5-4-5 4z"/>',
+ bolt:'<path d="M13 3L5 14h6l-1 7 8-11h-6z"/>',pill:'<rect x="3" y="8" width="18" height="8" rx="4" transform="rotate(-45 12 12)"/><path d="M9 9l6 6"/>',
+ steth:'<path d="M6 3v6a4 4 0 0 0 8 0V3M10 13v3a4 4 0 0 0 8 0v-2"/><circle cx="18" cy="12" r="2"/>',pen:'<path d="M12 20h9M16.500 3.500a2.100 2.100 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.900 4.900l1.400 1.400M17.700 17.700l1.400 1.400M2 12h2M20 12h2M4.900 19.100l1.400-1.400M17.700 6.300l1.400-1.400"/>',
+ moon:'<path d="M21 12.800A9 9 0 1 1 11.200 3a7 7 0 0 0 9.800 9.800z"/>',auto:'<circle cx="12" cy="12" r="9"/><path d="M9 16l3-8 3 8M10 13.500h4"/>',
+ crown:'<path d="M4 18h16l1-10-5 4-4-7-4 7-5-4z"/>',sync:'<path d="M20 11a8 8 0 0 0-14-4L4 9M4 5v4h4M4 13a8 8 0 0 0 14 4l2-2M20 19v-4h-4"/>',
+ dl:'<path d="M12 4v11M7 11l5 5 5-5M5 20h14"/>',bell:'<path d="M6 9a6 6 0 0 1 12 0c0 6 2.500 7 2.500 7h-17S6 15 6 9z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+ help:'<circle cx="12" cy="12" r="9"/><path d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .9-1 1.700M12 17h.01"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.500h.01"/>',
+ user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.500"/>',copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',
+ cal:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4M9 15l2 2 4-4"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+ check:'<path d="M5 12.500l4.500 4.500L19 7.500"/>',mon:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',palette:'<path d="M12 3a9 9 0 1 0 0 18c1.500 0 2-1 2-2s-.5-1.500-.5-2.500 1-1.500 2-1.500H18a3 3 0 0 0 3-3c0-5-4-9-9-9z"/><circle cx="8" cy="10" r="1"/><circle cx="12" cy="7.500" r="1"/><circle cx="16" cy="10" r="1"/>'};
+function I(n,c){return '<svg class="v2ic'+(c?' '+c:'')+'" viewBox="0 0 24 24">'+P[n].replace(/\.(\d)00\b/g,'.$1')+'</svg>'}
+document.body.classList.add('v2');
+
+/* ---------- display mode and colour (independent) ---------- */
+var MODE=sp('mode')||'day',PAL=sp('pal')||'lav',MQ=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):{matches:false};
+var PALS=[['lav','الافتراضي','#9272C6'],['navy','كحلي','#3E64A8'],['green','أخضر فاتح','#A8DDB5'],['orange','برتقالي فاتح','#F3C08A'],['red','أحمر فاتح','#F2ABAF'],['mono','أبيض وأسود','linear-gradient(135deg,#fff 50%,#161616 50%)']];
+function isDark(){return MODE==='night'||(MODE==='auto'&&MQ.matches)}
+function applyLook(){var d=isDark();root.setAttribute('data-pal',PAL);root.setAttribute('data-theme',d?'dark':'light');st('orr-theme',d?'dark':'light');
+  SMODE=d?'night':'day';try{setNight()}catch(e){}
+  $('v2th').innerHTML=I(d?'moon':'sun');var m=document.querySelector('meta[name=theme-color]');if(m)m.content=getComputedStyle(root).getPropertyValue('--bg').trim()||'#F5F1FC'}
+if(MQ.addEventListener)MQ.addEventListener('change',function(){if(MODE==='auto')applyLook()});
+$('v2th').onclick=function(){MODE=isDark()?'day':'night';sp('mode',MODE);applyLook();if(CURV==='v2settings')R.v2settings()};
+
+/* ---------- profile in the shared header ---------- */
+function myName(){return (sp('name')||'').trim()}
+function avatar(el){var ph=sp('photo'),n=myName();el.style.backgroundImage=ph?'url('+ph+')':'';el.innerHTML=ph?'':(n?X(n.replace(/^(dr\.?|د\.?)\s*/i,'').slice(0,1).toUpperCase()):I('user'))}
+function header(){avatar($('v2av'));$('v2nm').textContent=myName()||'Doctor';var n=notifs().filter(function(x){return !NR[x.id]}).length;$('v2bd').hidden=!n;$('v2bd').textContent=n}
+
+/* ---------- access state (from the licence layer) ---------- */
+function access(){var c=root.classList;if(c.contains('intrial'))return 'trial';if(c.contains('unlocked'))return 'paid';var t=spj('trial');return t&&t.s?'expired':'free'}
+function openSub(){if(window.__openSub)window.__openSub()}
+function locked(id){return !!(window.__LK&&window.__LK[id])}
+
+/* ---------- reader: one place at a time ---------- */
+var SCOPE=null,RET='v2home';
+function grp(i){while(i>0&&PAGES[i].user)i--;var p=PAGES[i],f=p.f||'';if(p.t)return 't:'+p.t;if(/^x9/.test(f))return 'rr';if(/^y\d/.test(f))return 'dr';var m=f.match(/^k(\d+)_cover/);if(m)return 'k'+m[1];return f==='a00_cover'?'cover':'fm'}
+function applyScope(){wraps.forEach(function(w,i){w.style.display=grp(i)===SCOPE?'':'none'})}
+var _cp=currentPage;currentPage=function(){var sc=$('scroller'),mid=sc.scrollTop+sc.clientHeight*0.35,cur=-1,first=-1;for(var i=0;i<wraps.length;i++){if(wraps[i].style.display==='none')continue;if(first<0)first=i;if(wraps[i].offsetTop<=mid)cur=i}return cur<0?Math.max(first,0):cur};
+var _gi=goIdx;goIdx=function(i){i=Math.max(0,Math.min(PAGES.length-1,i));var g=grp(i);if(g!==SCOPE){SCOPE=g;applyScope()}_gi(i)};
+var _ur=upgRebuild;upgRebuild=function(){_ur.apply(this,arguments);if(SCOPE)applyScope()};
+var tb=document.createElement('button');tb.type='button';tb.className='ib';tb.setAttribute('aria-label','Contents');tb.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>';
+tb.onclick=function(){$('tocBtn').click()};$('rbShow').parentNode.insertBefore(tb,$('rbShow'));
+$('backBtn').onclick=function(){go(RET||'v2home')};
+
+/* ---------- views ---------- */
+var V2=['v2home','v2chapters','v2chapter','v2practice','v2resources','v2settings','v2profile','v2notif','v2saved','v2slides'],R={};
+var NAV=[['v2home','Home','home'],['v2chapters','Chapters','book'],['v2practice','Practice','clip'],['v2resources','Resources','layers'],['v2settings','Settings','gear']];
+function tabOf(v){if(v==='reader')return SCOPE==='rr'||SCOPE==='dr'?'v2resources':'v2chapters';
+  return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
+var _show=show;
+function go(v){if(v==='home')v='v2home';var was=CURV;
+  if(V2.indexOf(v)>=0){if(typeof setImm==='function')setImm(false);views.forEach(function(x){$(x).hidden=true});V2.forEach(function(x){$(x).hidden=x!==v});CURV=v;try{hideBar();penFly(false)}catch(e){}R[v]();$(v).scrollTop=v===was?$(v).scrollTop:0}
+  else{V2.forEach(function(x){$(x).hidden=true});if(v==='reader'&&was!=='reader')RET=V2.indexOf(was)>=0||was==='search'||was==='lect'?was:RET;_show(v);
+    var a={reader:'read',cards:'cards','qbank-v':'qb',lect:'lect'}[v];if(a)spj('lastact',{k:a,t:Date.now()});
+    if(v==='search'&&document.activeElement===$('v2q'))setTimeout(function(){$('v2q').focus()},80)}
+  $('app').classList.toggle('rd',v==='reader');var t=tabOf(v);
+  [].forEach.call(document.querySelectorAll('#v2nav button,#v2sn button'),function(b){b.classList.toggle('on',b.dataset.v===t)});header()}
+show=go;
+var nb=NAV.map(function(n){return '<button type="button" data-v="'+n[0]+'">'+I(n[2])+'<span>'+n[1]+'</span></button>'}).join('');$('v2nav').innerHTML=nb;$('v2sn').innerHTML=nb;
+document.addEventListener('click',function(e){var b=e.target.closest('[data-v]');if(b&&!e.target.closest('.bk')){go(b.dataset.v);return}
+  b=e.target.closest('[data-act]');if(b&&ACT[b.dataset.act])ACT[b.dataset.act](b,e)});
+$('v2sb').onclick=function(){go('search')};$('v2me').onclick=function(){go('v2profile')};$('v2bell').onclick=function(){go('v2notif')};
+$('v2q').addEventListener('input',function(){if(CURV!=='search')go('search');$('q').value=this.value;runSearch()});
+
+/* ---------- shared data helpers ---------- */
+function topicAt(i){var g=grp(i);if(g.slice(0,2)!=='t:')return null;var id=g.slice(2);for(var k=0;k<TOPICS.length;k++)if(TOPICS[k].id===id)return TOPICS[k];return null}
+function chap(n){for(var i=0;i<META.chapters.length;i++)if(META.chapters[i].n===n)return META.chapters[i];return {n:n,name:''}}
+function npg(id){return (tpages[id]||[]).length}
+function overall(){var tp=0,tr=0;TOPICS.forEach(function(t){tp+=npg(t.id);tr+=tRead(t.id)});return pc(tr,tp)}
+function dueToday(){try{var D=daily();return Math.max(0,D.keys.length-D.done.length)}catch(e){return 0}}
+function qTotal(){return TOT.qs||QS.length}function cTotal(){var n=0;deckIds.forEach(function(id){n+=DECKS[id].cards.length});return TOT.cards||n}
+var BM=spj('bm')||{};function bmk(k){return '<button type="button" class="bmk'+(BM[k]?' on':'')+'" data-act="bm" data-k="'+k+'" aria-label="حفظ" aria-pressed="'+!!BM[k]+'">'+I('bm')+'</button>'}
+function openTopic(t){if(locked(t.id)){openSub();return}goPage(t.p-1)}
+function bar(v){return '<span class="v2bar"><i style="width:'+v+'%"></i></span>'}
+function title(t,back,crumb){return '<div class="v2pt" lang="ar">'+(back?'<button type="button" class="v2bk" data-v="'+back+'" aria-label="رجوع">'+I('arrow')+'</button>':'')+'<h2>'+t+'</h2>'+(crumb?'<span class="v2crumb">'+crumb+'</span>':'')+'</div>'}
+
+/* ---------- Home ---------- */
+R.v2home=function(){var a=access(),lp=lastPage(),has=sp('pk')&&lp>0,t=has?topicAt(lp):TOPICS[0],nm=myName();
+  var acc={free:['النسخة المجانية','استمتع بالوصول المحدود للمحتوى: الموضوع الأول من كل فصل','ترقية','up'],
+    trial:['الفترة التجريبية','الكتاب كله مفتوح الآن حتى تنتهي الفترة','اشترك','up'],
+    paid:['النسخة الكاملة','هذا الجهاز مفعّل والكتاب مفتوح كاملًا','الاشتراك','crown'],
+    expired:['انتهت الفترة التجريبية','الموضوع الأول من كل فصل ما زال مفتوحًا','اشترك','up']}[a];
+  var ct=t?'<h3>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</h3><p>'+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</p><div class="pg"><b>'+pct(t.id)+'%</b>'+bar(pct(t.id))+'</div>'
+    :'<h3>'+X(PAGES[lp].label)+'</h3><p>Page '+PAGES[lp].bn+'</p><div class="pg"></div>';
+  var la=spj('lastact'),lal=la?{read:t?t.title:PAGES[lp].label,cards:'Flashcards',qb:'Question bank',lect:'Lectures'}[la.k]:'';
+  var sk=0;try{sk=streak()}catch(e){}
+  $('v2homeW').innerHTML='<div class="hgr"><div class="l"><b>Obstetrics Master Review</b><span>4th Edition · 2026</span></div><h2 lang="ar">'+(nm?'مرحب بك يا '+X(nm):'مرحب بك يا دكتور')+'</h2><p>Obstetrics Master Review</p></div>'+
+   '<div class="v2c hacc" lang="ar">'+I('book')+'<div><b>'+acc[0]+'</b><small>'+acc[1]+'</small></div><button type="button" class="v2btn sm" data-act="sub">'+I(acc[3])+acc[2]+'</button></div>'+
+   '<div class="hgrid"><div>'+
+    '<div class="v2c hcont"><div class="ph"></div>'+ct+'<button type="button" class="v2btn" data-act="cont" lang="ar">'+(has?'تابع القراءة':'ابدأ القراءة')+I('arrow')+'</button></div>'+
+    '<div class="v2c hbook"><img src="img/v2_cover.jpg" alt="Book cover"><div><h3>Obstetrics Master Review</h3><span class="ed">4th Edition</span>'+
+      '<div class="ct"><div><b>'+META.chapters.length+'</b><span>chapters</span></div><div><b>'+TOPICS.length+'</b><span>topics</span></div><div><b>'+cTotal()+'</b><span>flashcards</span></div><div><b>'+qTotal()+'</b><span>questions</span></div></div>'+
+      '<button type="button" class="v2btn ol" data-act="cover" lang="ar">'+I('book')+'افتح غلاف الكتاب</button></div></div>'+
+   '</div><div>'+
+    '<button type="button" class="v2c hsum" data-act="prog" lang="ar"><span>'+I('flame','fl')+(sk?sk+' أيام سلسلة متتالية':'ابدأ سلسلتك اليوم')+'</span><span>'+I('bars')+'التقدم الكلي <bdi>'+overall()+'%</bdi></span></button>'+
+    '<div class="hst" lang="ar"><button type="button" class="v2c" data-act="cards"><span class="t">'+I('layers')+'كروت اليوم</span><span class="n">'+(dueToday()?dueToday()+' كروت':'اكتملت ✓')+'</span><span class="a">ابدأ المراجعة'+I('back')+'</span></button>'+
+      '<button type="button" class="v2c" data-v="qbank-v"><span class="t">'+I('q')+'بنك الأسئلة</span><span class="n">'+qTotal()+' سؤال</span><span class="a">ابدأ التدريب'+I('back')+'</span></button></div>'+
+    '<div class="hq" lang="ar"><button type="button" class="v2c" data-act="last">'+I('clock')+'<span>آخر نشاط'+(lal?'<small dir="ltr">'+X(lal)+'</small>':'')+'</span>'+I('chev','cv')+'</button>'+
+      '<button type="button" class="v2c" data-v="lect">'+I('play')+'<span>المحاضرات<small>Lectures</small></span>'+I('chev','cv')+'</button>'+
+      '<button type="button" class="v2c" data-v="v2slides">'+I('slides')+'<span>السلايدات<small>Slides</small></span>'+I('chev','cv')+'</button></div>'+
+   '</div></div>'};
+
+/* ---------- Chapters ---------- */
+var CHF='all',CHQ='',CH=1,CHRET='v2chapters';
+function chStat(c){var ts=TOPICS.filter(function(t){return t.ch===c.n}),np=0,nr=0;ts.forEach(function(t){np+=npg(t.id);nr+=tRead(t.id)});return {ts:ts,np:np,pr:pc(nr,np),nr:nr}}
+R.v2chapters=function(){var q=CHQ.trim().toLowerCase();
+  var rows=META.chapters.map(function(c){var s=chStat(c);
+    if(CHF==='prog'&&!(s.nr>0&&s.pr<100))return '';if(CHF==='bm'&&!s.ts.some(function(t){return BM['t:'+t.id]}))return '';
+    if(q&&c.name.toLowerCase().indexOf(q)<0&&!s.ts.some(function(t){return t.title.toLowerCase().indexOf(q)>=0}))return '';
+    return '<button type="button" class="v2c chr" data-act="ch" data-n="'+c.n+'"><span class="im" style="background-image:url('+c.img+')"></span><span><b>Chapter '+c.n+' · '+X(c.name)+'</b><small>'+I('book')+s.ts.length+' topics'+bar(s.pr)+s.pr+'%</small></span>'+I('chev')+'</button>'}).join('');
+  var keep=document.activeElement&&document.activeElement.id==='chQ';
+  $('v2chaptersW').innerHTML=title('الفصول')+'<label class="chs2" lang="ar">'+I('book')+'<input id="chQ" type="search" placeholder="ابحث في الفصول أو الموضوعات…" value="'+X(CHQ)+'" dir="auto"></label>'+
+    '<div class="chf" lang="ar">'+[['all','الكل'],['prog','قيد القراءة'],['bm','المحفوظة']].map(function(f){return '<button type="button" data-act="chf" data-f="'+f[0]+'" class="'+(CHF===f[0]?'on':'')+'">'+f[1]+'</button>'}).join('')+'</div>'+
+    '<div class="chl">'+(rows||'<div class="v2emp" lang="ar">'+I('book')+'<br>لا توجد فصول مطابقة.</div>')+'</div>';
+  var el=$('chQ');el.oninput=function(){CHQ=this.value;R.v2chapters()};if(keep){el.focus();el.setSelectionRange(CHQ.length,CHQ.length)}};
+R.v2chapter=function(){var c=chap(CH),s=chStat(c),fr=access()==='free'||access()==='expired';
+  $('v2chapterW').innerHTML='<div class="v2pt" lang="ar"><button type="button" class="v2bk" data-v="'+CHRET+'" aria-label="رجوع">'+I('arrow')+'</button><span class="v2crumb" style="flex:1;text-align:right">'+(CHRET==='v2resources'?'المصادر':'الفصول')+' ‹ <bdi>Chapter '+c.n+'</bdi></span></div>'+
+   '<div class="v2c chd"><div class="ph" style="background-image:url('+c.img+')"></div><em>Chapter '+c.n+'</em><h3>'+X(c.name)+'</h3><small>'+s.ts.length+' topics · '+s.np+' pages · '+s.pr+'% read</small></div>'+
+   '<div class="tpl">'+s.ts.map(function(t){var lk=locked(t.id),n=npg(t.id),p=pct(t.id);
+     return '<div class="v2c tpr'+(lk?' lk':'')+'"><span class="li">'+I(lk?'lock':'book')+'</span><button type="button" class="tmn" data-act="topic" data-id="'+t.id+'"><b>'+t.no+' '+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b>'+(fr&&!lk?'<span class="fr">FREE</span>':'')+
+       '<small>'+n+' page'+(n===1?'':'s')+'</small><span class="pr">'+bar(p)+p+'%</span></button>'+bmk('t:'+t.id)+'</div>'}).join('')+'</div>'+
+   '<div class="cha" lang="ar"><button type="button" class="v2btn" data-act="chread">ابدأ القراءة'+I('back')+'</button><button type="button" class="v2btn ol" data-act="chq">'+I('q')+'أسئلة الفصل</button><button type="button" class="v2btn ol" data-act="chc">'+I('layers')+'كروت الفصل</button></div>'};
+
+/* ---------- Practice ---------- */
+var PSEG=sp('pseg')==='c'?'c':'q';
+R.v2practice=function(){var h=title('الممارسة والتقييم')+'<div class="v2c pseg" lang="ar"><button type="button" data-act="pseg" data-s="q" class="'+(PSEG==='q'?'on':'')+'">'+I('q')+'الأسئلة</button><button type="button" data-act="pseg" data-s="c" class="'+(PSEG==='c'?'on':'')+'">'+I('layers')+'الكروت</button></div>';
+  var fr=access()==='free'||access()==='expired';
+  if(PSEG==='q'){var qa=0,ok=0,mk=0;QS.forEach(function(q){var s=QST[q.id];if(s){if(s.n||s.a){qa++;if(!s.w)ok++}if(s.m)mk++}});
+    h+='<div class="pstat" lang="ar"><div class="v2c"><b>'+QS.length+'</b><span>سؤال'+(fr&&TOT.qs?' من '+TOT.qs:'')+'</span></div><div class="v2c"><b>'+qa+'</b><span>تمت الإجابة</span></div><div class="v2c"><b>'+(qa?pc(ok,qa)+'%':'–')+'</b><span>إجابات صحيحة</span></div></div>'+
+      '<button type="button" class="v2btn" data-v="qbank-v" lang="ar" style="height:50px">'+I('play')+'ابدأ التدريب</button>'+
+      '<div class="hub" style="grid-template-columns:1fr" lang="ar"><button type="button" class="v2c hrow" data-v="qbank-v"><span class="ii">'+I('clip')+'</span><span><b>إنشاء اختبار</b><small>تدريب أو امتحان بالوقت · اختيار الفصول وعدد الأسئلة · '+mk+' سؤال محفوظ</small></span>'+I('chev')+'</button></div>'}
+  else{var tc=0,tk=0;deckIds.forEach(function(id){tc+=DECKS[id].cards.length;tk+=deckKnown(id)});
+    h+='<div class="pstat" lang="ar"><div class="v2c"><b>'+tc+'</b><span>كرت'+(fr&&TOT.cards?' من '+TOT.cards:'')+'</span></div><div class="v2c"><b>'+tk+'</b><span>عرفتها</span></div><div class="v2c"><b>'+dueToday()+'</b><span>مستحق اليوم</span></div></div>'+
+      '<button type="button" class="v2btn" data-act="cards" lang="ar" style="height:50px">'+I('play')+'ابدأ مراجعة اليوم</button>'+
+      '<div class="hub" style="grid-template-columns:1fr" lang="ar"><button type="button" class="v2c hrow" data-act="allcards"><span class="ii">'+I('layers')+'</span><span><b>كل الكروت</b><small>حسب الفصل والموضوع</small></span>'+I('chev')+'</button></div>'}
+  if(fr)h+='<button type="button" class="v2c hacc" data-act="sub" lang="ar">'+I('lock')+'<div><b>النسخة المجانية</b><small>الأسئلة والكروت هنا من الموضوع الأول في كل فصل. اشترك لفتح الكل.</small></div></button>';
+  $('v2practiceW').innerHTML=h};
+
+/* ---------- Resources ---------- */
+R.v2resources=function(){var nn=0;Object.keys(HL||{}).forEach(function(k){(HL[k]||[]).forEach(function(x){if(x.n)nn++})});var nb=Object.keys(BM).length;
+  function row(act,ic,a,b,attr){return '<button type="button" class="v2c hrow" '+(attr||'data-act="'+act+'"')+'><span class="ii">'+I(ic)+'</span><span><b>'+a+'</b><small>'+b+'</small></span>'+I('chev')+'</button>'}
+  $('v2resourcesW').innerHTML=title('المصادر')+'<div class="hub" lang="ar">'+
+    row('rr','bolt','المراجعة السريعة','Rapid Review · بطاقة امتحان لكل موضوع')+row('dr','pill','أدوية التوليد','Obstetric Drugs · الجرعات والمحاذير')+
+    row('osce','steth','السريري OSCE','Clinical & OSCE · '+TOPICS.filter(function(t){return t.ch===7}).length+' محطات')+row('','play','المحاضرات','Lectures','data-v="lect"')+
+    row('','slides','السلايدات','Slides','data-v="v2slides"')+row('notes','pen','ملاحظاتي','My Notes'+(nn?' · '+nn:''))+row('','bm','المصادر المحفوظة','Saved'+(nb?' · '+nb:''),'data-v="v2saved"')+'</div>'};
+R.v2slides=function(){$('v2slidesW').innerHTML=title('السلايدات','v2resources')+'<div class="v2c v2emp" lang="ar">'+I('slides')+'<br>لا توجد سلايدات مضافة بعد.<br>ستظهر هنا عند إضافتها إلى الكتاب.</div>'};
+R.v2saved=function(){var ks=Object.keys(BM).sort(function(a,b){return BM[b]-BM[a]});
+  $('v2savedW').innerHTML=title('المصادر المحفوظة','v2resources')+(ks.length?'<div class="tpl">'+ks.map(function(k){var t=TOPICS.filter(function(x){return 't:'+x.id===k})[0];if(!t)return '';
+    return '<div class="v2c tpr"><span class="li">'+I(locked(t.id)?'lock':'book')+'</span><button type="button" class="tmn" data-act="topic" data-id="'+t.id+'"><b>'+t.no+' '+X(t.title)+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></button>'+bmk(k)+'</div>'}).join('')+'</div>'
+    :'<div class="v2c v2emp" lang="ar">'+I('bm')+'<br>لم تحفظ شيئًا بعد.<br>اضغط علامة الحفظ بجانب أي موضوع ليظهر هنا.</div>')};
+
+/* ---------- Settings and profile ---------- */
+R.v2settings=function(){var a=access(),sy=window.__obsSync&&window.__obsSync.act();
+  function row(act,ic,t,em,attr){return '<button type="button" class="srow" '+(attr||'data-act="'+act+'"')+'>'+I(ic)+'<span>'+t+'</span>'+(em?'<em>'+em+'</em>':'')+I('chev')+'</button>'}
+  $('v2settingsW').innerHTML=title('الإعدادات')+'<div class="sgrid" lang="ar"><div>'+
+   '<button type="button" class="v2c hrow" data-v="v2profile"><span class="v2av" id="setAv" style="width:44px;height:44px"></span><span><b>'+X(myName()||'الملف الشخصي')+'</b><small>الاسم والصورة ورقم المستخدم</small></span>'+I('chev')+'</button>'+
+   '<div class="v2c sgrp"><h4>'+I('mon')+'المظهر</h4><div class="sseg">'+[['day','نهاري','sun'],['night','ليلي','moon'],['auto','تلقائي','auto']].map(function(m){return '<button type="button" data-act="mode" data-m="'+m[0]+'" class="'+(MODE===m[0]?'on':'')+'" aria-pressed="'+(MODE===m[0])+'">'+I(m[2])+m[1]+'</button>'}).join('')+'</div></div>'+
+   '<div class="v2c sgrp"><h4>'+I('palette')+'لون التطبيق</h4><div class="spal">'+PALS.map(function(p){return '<button type="button" data-act="pal" data-p="'+p[0]+'" class="'+(PAL===p[0]?'on':'')+'" aria-pressed="'+(PAL===p[0])+'"><i style="background:'+p[2]+'">'+(PAL===p[0]?I('check'):'')+'</i>'+p[1]+'</button>'}).join('')+'</div></div>'+
+   '</div><div><div class="v2c">'+
+    row('sub','crown','الاشتراك',{free:'النسخة المجانية',trial:'فترة تجريبية',paid:'مفعّل',expired:'انتهت التجربة'}[a])+
+    row('sync','sync','المزامنة',sy?'بين أجهزتك':'بعد التفعيل')+row('','dl','التنزيلات','المحاضرات','data-v="lect"')+row('','bell','الإشعارات','','data-v="v2notif"')+
+    row('prog','bars','تقدّمي',overall()+'%')+(CFG.whatsapp?row('help','help','المساعدة','واتساب'):'')+row('about','info','عن هذه الطبعة','')+
+   '</div></div></div>';avatar($('setAv'))};
+R.v2profile=function(){var dev=st('orr-dev')||'',code=st('orr-code')||'';
+  $('v2profileW').innerHTML=title('الملف الشخصي','v2settings')+'<div class="v2c prf" lang="ar"><span class="v2av" id="prAv"></span>'+
+   '<label class="v2btn sm" style="cursor:pointer">'+I('cam')+'تغيير الصورة<input id="prF" type="file" accept="image/*" hidden></label>'+(sp('photo')?'<button type="button" class="v2crumb" data-act="nophoto">إزالة الصورة</button>':'')+
+   '<label>الاسم<input id="prN" type="text" maxlength="40" value="'+X(myName())+'" placeholder="Dr. …" dir="auto"></label>'+
+   '<label>رقم المستخدم (رقم هذا الجهاز)<span class="ro"><span>'+X(dev.slice(0,10).toUpperCase())+'</span><button type="button" class="bmk" data-act="copy" data-c="'+X(dev.slice(0,10).toUpperCase())+'" aria-label="نسخ">'+I('copy')+'</button></span></label>'+
+   (code?'<label>كود التفعيل<span class="ro"><span>'+X(code)+'</span></span></label>':'')+
+   '<div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;align-self:stretch"><button type="button" class="v2btn" data-act="saveprof">'+I('check')+'حفظ التغييرات</button><button type="button" class="v2btn ol" data-v="v2settings">إلغاء</button></div></div>';
+  avatar($('prAv'));
+  $('prF').onchange=function(){var f=this.files[0];if(!f)return;var im=new Image();im.onload=function(){var c=document.createElement('canvas'),s=Math.min(im.width,im.height);c.width=c.height=200;
+    c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,200,200);sp('photo',c.toDataURL('image/jpeg',.82));URL.revokeObjectURL(im.src);R.v2profile();header()};im.src=URL.createObjectURL(f)}};
+
+/* ---------- notifications: real events of this device, kept apart from browser push ---------- */
+var NR=spj('nread')||{},NS=spj('nseen')||{};
+function notifs(){var a=[],d=dueToday(),lp=lastPage(),ac=access();
+  if(d>0)a.push({id:'cards:'+today(),ic:'cal',t:'حان وقت المراجعة',s:d+' كروت في انتظارك اليوم',act:'cards'});
+  if(sp('pk')&&lp>0)a.push({id:'cont:'+PKEY[lp],ic:'book',t:'تابع من حيث توقفت',s:PAGES[lp].label,ltr:1,act:'cont'});
+  if(ac==='trial')a.push({id:'trial:'+today(),ic:'clock',t:'الفترة التجريبية جارية',s:'الكتاب كله مفتوح الآن. اشترك قبل انتهاء الفترة.',act:'sub'});
+  if(ac==='expired')a.push({id:'trialend',ic:'lock',t:'انتهت الفترة التجريبية',s:'الموضوع الأول من كل فصل ما زال مفتوحًا. اشترك لفتح الكتاب كاملًا.',act:'sub'});
+  a.push({id:'welcome',ic:'mail',t:'مرحبًا بك في Obstetrics Master Review',s:'ابدأ المراجعة واستفد من جميع المزايا.'});
+  var ch=0;a.forEach(function(n){if(!NS[n.id]){NS[n.id]=Date.now();ch=1}});if(ch)spj('nseen',NS);return a}
+function ago(ts){var m=Math.round((Date.now()-ts)/6e4);return m<1?'الآن':m<60?'قبل '+m+' دقيقة':m<1440?'قبل '+Math.round(m/60)+' ساعة':'قبل '+Math.round(m/1440)+' يوم'}
+var NF='all';
+R.v2notif=function(){var all=notifs(),un=all.filter(function(n){return !NR[n.id]}),ls=NF==='un'?un:all;
+  $('v2notifW').innerHTML=title('الإشعارات','v2home')+'<div class="v2c pseg" lang="ar"><button type="button" data-act="nf" data-f="all" class="'+(NF==='all'?'on':'')+'">الكل ('+all.length+')</button><button type="button" data-act="nf" data-f="un" class="'+(NF==='un'?'on':'')+'">غير المقروءة ('+un.length+')</button></div>'+
+   (un.length?'<button type="button" class="v2btn sm" data-act="nall" lang="ar">'+I('check')+'تحديد الكل كمقروء</button>':'')+
+   (ls.length?'<div class="nfl" lang="ar">'+ls.map(function(n){return '<div class="v2c nfr'+(NR[n.id]?' rd':'')+'"><i class="dot"></i>'+I(n.ic)+'<span><b>'+n.t+'</b><small'+(n.ltr?' dir="ltr" style="text-align:right"':'')+'>'+X(n.s)+'</small><time>'+ago(NS[n.id]||Date.now())+'</time></span>'+
+     (n.act?'<button type="button" class="v2btn sm" data-act="nopen" data-id="'+X(n.id)+'" data-go2="'+n.act+'">فتح'+I('back')+'</button>':(NR[n.id]?'<span></span>':'<button type="button" class="bmk" data-act="nread" data-id="'+X(n.id)+'" aria-label="تحديد كمقروء">'+I('check')+'</button>'))+'</div>'}).join('')+'</div>'
+    :'<div class="v2c v2emp" lang="ar">'+I('bell')+'<br>لا توجد إشعارات غير مقروءة.</div>')};
+
+/* ---------- actions ---------- */
+function idxOf(re){for(var i=0;i<PAGES.length;i++)if(!PAGES[i].user&&re.test(PAGES[i].f||''))return i;return 0}
+var ACT={sub:openSub,
+  cont:function(){goIdx(sp('pk')&&lastPage()>0?lastPage():BIDX[TOPICS[0].p-1])},
+  cover:function(){goIdx(0)},
+  prog:function(){try{renderHome()}catch(e){}$('v2psheet').hidden=false},
+  cards:function(){curDeck='daily';started=false;go('cards')},
+  allcards:function(){curDeck='all';started=false;go('cards')},
+  last:function(){var la=spj('lastact');if(!la||la.k==='read')ACT.cont();else if(la.k==='cards')go('cards');else if(la.k==='qb')go('qbank-v');else go('lect')},
+  ch:function(b){CH=+b.dataset.n;CHRET='v2chapters';go('v2chapter')},
+  chf:function(b){CHF=b.dataset.f;R.v2chapters()},
+  topic:function(b){var t=TOPICS.filter(function(x){return x.id===b.dataset.id})[0];if(t)openTopic(t)},
+  bm:function(b){var k=b.dataset.k;if(BM[k])delete BM[k];else BM[k]=Date.now();spj('bm',BM);if(CURV==='v2saved')R.v2saved();else{b.classList.toggle('on',!!BM[k]);b.setAttribute('aria-pressed',!!BM[k])}},
+  chread:function(){var ts=chStat(chap(CH)).ts,t=ts.filter(function(x){return pct(x.id)<100})[0]||ts[0];if(t)openTopic(t)},
+  chq:function(){qset.ch={};qset.ch[CH]=true;spj('qbset',qset);if(CUR&&CUR.done)CUR=null;go('qbank-v')},
+  chc:function(){curDeck='ch:'+CH;started=false;try{sp('fcch',String(CH))}catch(e){}go('cards')},
+  pseg:function(b){PSEG=b.dataset.s;sp('pseg',PSEG);R.v2practice()},
+  rr:function(){goIdx(idxOf(/^x9/))},dr:function(){goIdx(idxOf(/^y0/))},
+  osce:function(){CH=7;CHRET='v2resources';go('v2chapter')},
+  notes:function(){openNotes()},
+  mode:function(b){MODE=b.dataset.m;sp('mode',MODE);applyLook();R.v2settings()},
+  pal:function(b){PAL=b.dataset.p;sp('pal',PAL);applyLook();R.v2settings()},
+  sync:function(b){if(!(window.__obsSync&&window.__obsSync.act())){openSub();return}var em=b.querySelector('em');if(em)em.textContent='جارٍ المزامنة…';Promise.resolve(window.__obsSyncNow&&window.__obsSyncNow()).then(function(){if(em)em.textContent='تمت المزامنة ✓'},function(){if(em)em.textContent='تعذّرت المزامنة'})},
+  help:function(){window.open('https://wa.me/'+CFG.whatsapp,'_blank')},
+  about:function(){goIdx(idxOf(/^a00b1_about/))},
+  saveprof:function(){sp('name',$('prN').value.trim());header();go('v2settings')},
+  nophoto:function(){try{localStorage.removeItem('orr-photo')}catch(e){}R.v2profile();header()},
+  copy:function(b){try{navigator.clipboard.writeText(b.dataset.c);b.innerHTML=I('check');setTimeout(function(){b.innerHTML=I('copy')},1200)}catch(e){}},
+  nf:function(b){NF=b.dataset.f;R.v2notif()},
+  nall:function(){notifs().forEach(function(n){NR[n.id]=1});spj('nread',NR);R.v2notif();header()},
+  nread:function(b){NR[b.dataset.id]=1;spj('nread',NR);R.v2notif();header()},
+  nopen:function(b){NR[b.dataset.id]=1;spj('nread',NR);header();ACT[b.dataset.go2]()}};
+
+/* progress details live in a sheet now */
+$('v2pbody').appendChild($('prog'));$('v2psx').onclick=function(){$('v2psheet').hidden=true};$('v2psheet').addEventListener('click',function(e){if(e.target===this)this.hidden=true});
+applyLook();go('v2home');
+})();
