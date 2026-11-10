@@ -90,6 +90,7 @@ $('v2q').addEventListener('input',function(){if(CURV!=='search')go('search');$('
 /* ---------- shared data helpers ---------- */
 function topicAt(i){var g=grp(i);if(g.slice(0,2)!=='t:')return null;var id=g.slice(2);for(var k=0;k<TOPICS.length;k++)if(TOPICS[k].id===id)return TOPICS[k];return null}
 function chap(n){for(var i=0;i<META.chapters.length;i++)if(META.chapters[i].n===n)return META.chapters[i];return {n:n,name:''}}
+function chImg(n){return 'img/chcov'+n+'.jpg'}   // chapter previews use the still-life chapter pictures (owner, 10 Nov 2026: the old banner strips looked bad)
 function npg(id){return (tpages[id]||[]).length}
 function overall(){var tp=0,tr=0;TOPICS.forEach(function(t){tp+=npg(t.id);tr+=tRead(t.id)});return pc(tr,tp)}
 function dueToday(){try{var D=daily();return Math.max(0,D.keys.length-D.done.length)}catch(e){return 0}}
@@ -134,7 +135,7 @@ R.v2chapters=function(){var q=CHQ.trim().toLowerCase();
   var rows=META.chapters.map(function(c){var s=chStat(c);
     if(CHF==='prog'&&!(s.nr>0&&s.pr<100))return '';if(CHF==='bm'&&!s.ts.some(function(t){return BM['t:'+t.id]}))return '';
     if(q&&c.name.toLowerCase().indexOf(q)<0&&!s.ts.some(function(t){return t.title.toLowerCase().indexOf(q)>=0}))return '';
-    return '<button type="button" class="v2c chr" data-act="ch" data-n="'+c.n+'"><span class="im" style="background-image:url('+c.img+')"></span><span><b>Chapter '+c.n+' · '+X(c.name)+'</b><small>'+I('book')+s.ts.length+' topics'+bar(s.pr)+s.pr+'%</small></span>'+I('chev')+'</button>'}).join('');
+    return '<button type="button" class="v2c chr" data-act="ch" data-n="'+c.n+'"><span class="im" style="background-image:url('+chImg(c.n)+')"></span><span><b>Chapter '+c.n+' · '+X(c.name)+'</b><small>'+I('book')+s.ts.length+' topics'+bar(s.pr)+s.pr+'%</small></span>'+I('chev')+'</button>'}).join('');
   var keep=document.activeElement&&document.activeElement.id==='chQ';
   $('v2chaptersW').innerHTML=title('الفصول')+'<label class="chs2" lang="ar">'+I('book')+'<input id="chQ" type="search" placeholder="ابحث في الفصول أو الموضوعات…" value="'+X(CHQ)+'" dir="auto"></label>'+
     '<div class="chf" lang="ar">'+[['all','الكل'],['prog','قيد القراءة'],['bm','المحفوظة']].map(function(f){return '<button type="button" data-act="chf" data-f="'+f[0]+'" class="'+(CHF===f[0]?'on':'')+'">'+f[1]+'</button>'}).join('')+'</div>'+
@@ -142,7 +143,7 @@ R.v2chapters=function(){var q=CHQ.trim().toLowerCase();
   var el=$('chQ');el.oninput=function(){CHQ=this.value;R.v2chapters()};if(keep){el.focus();el.setSelectionRange(CHQ.length,CHQ.length)}};
 R.v2chapter=function(){var c=chap(CH),s=chStat(c),fr=isFree();
   $('v2chapterW').innerHTML='<div class="v2pt" lang="ar"><button type="button" class="v2bk" data-v="'+CHRET+'" aria-label="رجوع">'+I('arrow')+'</button><span class="v2crumb" style="flex:1;text-align:right">'+(CHRET==='v2resources'?'المصادر':'الفصول')+' ‹ <bdi>Chapter '+c.n+'</bdi></span></div>'+
-   '<div class="v2c chd"><div class="ph" style="background-image:url('+c.img+')"></div><em>Chapter '+c.n+'</em><h3>'+X(c.name)+'</h3><small>'+s.ts.length+' topics · '+s.np+' pages · '+s.pr+'% read</small></div>'+
+   '<div class="v2c chd"><div class="ph" style="background-image:url('+chImg(c.n)+')"></div><em>Chapter '+c.n+'</em><h3>'+X(c.name)+'</h3><small>'+s.ts.length+' topics · '+s.np+' pages · '+s.pr+'% read</small></div>'+
    '<div class="tpl">'+s.ts.map(function(t){var lk=locked(t.id),n=npg(t.id),p=pct(t.id);
      return '<div class="v2c tpr'+(lk?' lk':'')+'"><span class="li">'+I(lk?'lock':'book')+'</span><button type="button" class="tmn" data-act="topic" data-id="'+t.id+'"><b>'+t.no+' '+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b>'+(fr&&!lk?'<span class="fr">FREE</span>':'')+
        '<small>'+n+' page'+(n===1?'':'s')+'</small><span class="pr">'+bar(p)+p+'%</span></button>'+bmk('t:'+t.id)+'</div>'}).join('')+'</div>'+
@@ -180,7 +181,7 @@ R.v2lect=function(){var TI=INFO.timg||{},ts=TOPICS.filter(function(t){return !LC
   $('v2lectW').innerHTML=title('المحاضرات','v2resources','Video lectures')+
    '<div class="chf lcf" lang="ar"><button type="button" data-act="lch" data-n="0" class="'+(LCH?'':'on')+'">الكل</button>'+META.chapters.map(function(c){return '<button type="button" data-act="lch" data-n="'+c.n+'" class="'+(LCH===c.n?'on':'')+'"><bdi>Ch '+c.n+'</bdi></button>'}).join('')+'</div>'+
    '<div class="v2c hacc" lang="ar">'+I('play')+'<div><b>محاضرات الفيديو قادمة</b><small>ستُضاف محاضرة فيديو لكل موضوع، وتظهر هنا فور رفعها.</small></div></div>'+
-   '<div class="vgl">'+ts.map(function(t){return '<div class="v2c vcd"><div class="th" style="background-image:url('+(TI[t.id]||chap(t.ch).img)+')"><span class="pl">'+I('play')+'</span><span class="sn" lang="ar">قريبًا</span></div>'+
+   '<div class="vgl">'+ts.map(function(t){return '<div class="v2c vcd"><div class="th" style="background-image:url('+(TI[t.id]||chImg(t.ch))+')"><span class="pl">'+I('play')+'</span><span class="sn" lang="ar">قريبًا</span></div>'+
      '<b>'+t.no+' '+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></div>'}).join('')+'</div>'+
    ''};
 var SCH=0;
@@ -189,7 +190,7 @@ R.v2slides=function(){var TI=INFO.timg||{},ts=TOPICS.filter(function(t){return !
    '<div class="chf lcf" lang="ar"><button type="button" data-act="sch" data-n="0" class="'+(SCH?'':'on')+'">الكل</button>'+META.chapters.map(function(c){return '<button type="button" data-act="sch" data-n="'+c.n+'" class="'+(SCH===c.n?'on':'')+'"><bdi>Ch '+c.n+'</bdi></button>'}).join('')+'</div>'+
    '<div class="v2c hacc" lang="ar">'+I('slides')+'<div><b>السلايدات قادمة</b><small>ستُضاف سلايدات لكل موضوع، وتظهر هنا فور رفعها.</small></div></div>'+
    '<div class="vgl">'+ts.map(function(t){var bl=String(t.sub||'').split(' · ').slice(0,3);
-     return '<div class="v2c vcd"><div class="sld"><span class="sn" lang="ar">قريبًا</span><div class="sx"><i><img src="img/v2_logo.webp" alt="">Obstetrics Master Review</i><b>'+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><ul>'+bl.map(function(x){return '<li>'+X(x)+'</li>'}).join('')+'</ul></div><span class="sp" style="background-image:url('+(TI[t.id]||chap(t.ch).img)+')"></span></div>'+
+     return '<div class="v2c vcd"><div class="sld"><span class="sn" lang="ar">قريبًا</span><div class="sx"><i><img src="img/v2_logo.webp" alt="">Obstetrics Master Review</i><b>'+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><ul>'+bl.map(function(x){return '<li>'+X(x)+'</li>'}).join('')+'</ul></div><span class="sp" style="background-image:url('+(TI[t.id]||chImg(t.ch))+')"></span></div>'+
      '<b>'+t.no+' '+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></div>'}).join('')+'</div>'};
 R.v2dl=function(){$('v2dlW').innerHTML=title('التنزيلات','v2settings','Downloads')+
   '<div class="v2c sbx" lang="ar"><b>'+I('play')+'محاضرات الفيديو</b><p class="mu">لا توجد محاضرات منزّلة. عند إضافة محاضرات الفيديو يمكنك تنزيلها لمشاهدتها بدون إنترنت، وتظهر هنا.</p><button type="button" class="v2btn sm ol" data-v="v2lect">المحاضرات'+I('back')+'</button></div>'+
