@@ -218,3 +218,12 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   (`.app.imm`); the chevron hides it and a round pen button (`#rbShow`, moved into the reader) shows it. The app's bottom navigation is hidden
   in the reader on phones. v2.js replaces `railSpace` (pages keep the full height) and `flyAt` (panels open above a bottom button, below a top
   one); panels, the pen bar and the selection bar take the app colours. The floating page pill is hidden.
+- **Reader, second pass (owner, 10 Nov 2026; replaces the floating dock above).** Tools are a strip of symbols along the TOP under the
+  reader bar (as in Surgery; `#reader .rbar`, the chevron hides it and the pen button `#rbShow` in the bar shows it). The BOTTOM is a
+  reading bar `#v2rnav` (topic scopes only): السلايدات and الفيديو open the slides / video page at this topic's chapter with its card marked
+  (`media()`, `FROMRD`: Back returns to the reader), المواضيع opens a sheet of the chapter's topics (`#v2tsheet`, `tpick`, «كل الفصول»), and the
+  page progress button (`#prBtn`, moved here). Both bars hide while reading down (`.app.imm`). The side navigation on tablets and PCs can be
+  hidden and shown (`.sbt` buttons in the header and reader bar, class `.app.nosb`, saved in `orr-sb`).
+- **Standard Arabic (owner, 10 Nov 2026: "proper Arabic, not Sudanese").** All app text is Modern Standard Arabic: `tools/msa.py` rewrote the
+  colloquial strings of src/shell.html and site_static/licence.js (`--check` lists leftovers); v2 says «بطاقات» not «كروت», «قرأتها» not
+  «قريتها». New app text must be standard Arabic. (The OSCE history questions inside the book pages stay as the owner wrote them.)

@@ -2220,7 +2220,7 @@ section[data-file^="x9"] .frow .ans{background:none;color:#172e48;font-weight:75
       <button type="button" id="inkBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4L8 20H4v-4z"/><path class="ink" d="M3 22c3-2 5 1 8-1" stroke-width="2.6"/></svg><span id="inkLbl">قلم</span></button>
       <button type="button" id="txtBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6V4h14v2M12 4v14"/><path class="ink" d="M8 21h8" stroke-width="2.6"/></svg><span id="txtLbl">نص</span></button>
       <button type="button" id="rNotes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><span id="nLbl">ملاحظات</span></button>
-      <button type="button" id="prBtn" class="pr0" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></svg><span id="prLbl">ما قريتها</span></button>
+      <button type="button" id="prBtn" class="pr0" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></svg><span id="prLbl">لم أقرأها</span></button>
       <button type="button" id="upBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg>صفحة</button>
       <button type="button" id="zoomBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M11 8v6M8 11h6M21 21l-4.3-4.3"/></svg><span id="zoomLbl">الحجم</span></button>
       <div class="urw"><button type="button" id="urUndo" disabled aria-label="تراجع"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>تراجع</button><button type="button" id="urRedo" disabled aria-label="إعادة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg>إعادة</button></div>
@@ -2331,16 +2331,16 @@ function zstep(k){if(zbase()<1)k=k>1?1.25:0.8;setZoom(String(Math.round(Math.max
 function zoomFly(){var f=$('penFly');f.dataset.k='z';var pc=zpct(),ph=zbase()<1;
   f.innerHTML='<b>حجم الصفحة</b><div class="zrow"><button type="button" class="zb" data-zs="-1" aria-label="أصغر">−</button><span>'+pc+'%</span><button type="button" class="zb" data-zs="1" aria-label="أكبر">+</button></div>'+
     (ph?'<div class="zrow" style="margin-top:8px">'+[1.5,2,3].map(function(x){return '<button type="button" class="ptog'+(Math.abs(pc-x*100)<3?' on':'')+'" data-zx="'+x+'">×'+x+'</button>'}).join('')+'</div>':'')+(ph?[['width','ملء عرض الشاشة (عادي)']]:[['width','ملء عرض الشاشة'],['page','الصفحة كاملة في الشاشة'],['auto','الحجم العادي']]).map(function(x){return '<button type="button" class="ptog'+(ZM===x[0]?' on':'')+'" data-zm="'+x[0]+'" style="margin-top:6px">'+x[1]+'</button>'}).join('')+
-    (FINE?'<small>Ctrl + عجلة الماوس (أو قرصة اللوحة) بتكبّر وتصغّر كمان.</small>':'<small>وممكن تكبّر وتصغّر بصباعين على الصفحة (قرصة).</small>');flyAt(f,$('zoomBtn'))}
+    (FINE?'<small>Ctrl + عجلة الفأرة (أو قرصة لوحة اللمس) تكبّر وتصغّر أيضًا.</small>':'<small>ويمكنك التكبير والتصغير بإصبعين على الصفحة.</small>');flyAt(f,$('zoomBtn'))}
 /* blank note pages: add an empty lined page after the page in view; delete one of your own pages */
 /* page colour and kind (owner, Nov 2026, as in Surgery): white, cream or light blue; no lines, small lines or big lines.
    Pages are added and removed in place, without a reload (upgRebuild). */
 var UPC=['w','c','b'].indexOf(sp('upc'))>=0?sp('upc'):'c';
 function upFly(){var f=$('penFly');f.dataset.k='u';var c=currentPage(),me=PAGES[c].user;
   f.innerHTML='<b>لون الصفحة</b><div class="upc">'+[['w','أبيض'],['c','كريمي'],['b','أزرق فاتح']].map(function(x){return '<button type="button" data-upc="'+x[0]+'" class="'+(x[0]===(me&&UPG[PAGES[c].f]?UPG[PAGES[c].f].c||'c':UPC)?'cur':'')+'"><i class="pcd pc'+x[0]+'"></i>'+x[1]+'</button>'}).join('')+'</div>'+
-    '<b>أضف صفحة بعد دي</b><div class="upk">'+[[0,'بدون سطور'],[1,'سطور صغيرة'],[2,'سطور كبيرة']].map(function(x){return '<button type="button" data-up="add" data-ls="'+x[0]+'"><i class="upi ls'+x[0]+' pc'+UPC+'"></i>'+x[1]+'</button>'}).join('')+'</div>'+
-    (me?'<button type="button" class="ptog" data-up="del">🗑 احذف صفحتي دي</button>':'')+
-    '<small>صفحة تكتب وترسم فيها بالقلم والنص، وتتحفظ مع ملاحظاتك.</small>';flyAt(f,$('upBtn'))}
+    '<b>أضف صفحة بعد هذه</b><div class="upk">'+[[0,'بدون سطور'],[1,'سطور صغيرة'],[2,'سطور كبيرة']].map(function(x){return '<button type="button" data-up="add" data-ls="'+x[0]+'"><i class="upi ls'+x[0]+' pc'+UPC+'"></i>'+x[1]+'</button>'}).join('')+'</div>'+
+    (me?'<button type="button" class="ptog" data-up="del">🗑 احذف صفحتي هذه</button>':'')+
+    '<small>صفحة تكتب وترسم فيها بالقلم والنص، وتُحفظ مع ملاحظاتك.</small>';flyAt(f,$('upBtn'))}
 $('upBtn').onclick=function(e){e.stopPropagation();var f=$('penFly');if(!f.hidden&&f.dataset.k==='u'){penFly(false);return}upFly()};
 $('penFly').addEventListener('click',function(e){var u=e.target.closest('[data-upc]');if(u){e.stopPropagation();UPC=u.dataset.upc;sp('upc',UPC);var cc=currentPage(),pp=PAGES[cc];
     if(pp.user&&UPG[pp.f]){UPG[pp.f].c=UPC;spj('upg',UPG);try{syncSoon()}catch(x){}
@@ -2351,7 +2351,7 @@ $('penFly').addEventListener('click',function(e){var u=e.target.closest('[data-u
   else if(p.user){delete UPG[p.f];spj('upg',UPG);if(typeof INK!=='undefined'&&INK[p.f]){delete INK[p.f];try{saveInk()}catch(x){}}go=p.a}
   try{smData()}catch(x){}try{syncSoon()}catch(x){}
   penFly(false);upgRebuild();var gi=byKey[go];if(gi!==undefined){$('scroller').scrollTop=wraps[gi].offsetTop-10;onScroll()}
-  railTip(b.dataset.up==='add'?'اتضافت صفحة فاضية':'الصفحة اتحذفت')});
+  railTip(b.dataset.up==='add'?'أُضيفت صفحة فارغة':'حُذفت الصفحة')});
 function upgSec(p,prev){var s=document.createElement('section');s.className='page upage ls'+(UPG[p.f]&&UPG[p.f].s!=null?UPG[p.f].s:1)+' pc'+((UPG[p.f]&&UPG[p.f].c)||'c');s.dataset.file=p.f;
   s.innerHTML='<div class="uph"><span>صفحتي · My notes</span><em></em></div><div class="upl"></div>';s.querySelector('em').textContent=prev?prev.label:'';return s}
 function upgRebuild(){
@@ -2425,7 +2425,7 @@ function flyAt(f,btn){var r=btn.getBoundingClientRect(),R=$('reader').getBoundin
 /* ---------- page colour: day (white), eye comfort (warm paper) or night (dark pages); the button sits in the top bar ---------- */
 root.setAttribute('data-theme','dark');   // the app itself is always the dark look (like Surgery Master Review)
 var BMODES={day:{l:'نهار',d:'صفحات بيضاء',i:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'},
-  eye:{l:'حماية العين',d:'لون دافي ومريح للقراية الطويلة',i:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'},
+  eye:{l:'حماية العين',d:'لون دافئ ومريح للقراءة الطويلة',i:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'},
   night:{l:'ليلي',d:'صفحات غامقة',i:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>'}};
 var BMODE=BMODES[sp('bmode')]?sp('bmode'):(st('orr-night')==='1'?'night':'day');
 function bmSvg(m){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+BMODES[m].i+'</svg>'}
@@ -2444,7 +2444,7 @@ document.addEventListener('click',function(e){if(!bmMenu.hidden&&!e.target.close
 var readSet=spj('prog')||{};      // page key -> 1 done, 2 mastered
 var PROGU=spj('progu')||{};       // page key -> time of the last change (for sync)
 function saveRead(){spj('prog',readSet);spj('progu',PROGU);syncSoon();gcommit()}
-var PRS=[['ما قريتها','<circle cx="12" cy="12" r="8"/>'],['قريتها','<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>'],['أتقنتها','<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>']];
+var PRS=[['لم أقرأها','<circle cx="12" cy="12" r="8"/>'],['قرأتها','<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>'],['أتقنتها','<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>']];
 function pageLocked(c){var sec=wraps[c]&&wraps[c].querySelector('section.page');return !!(sec&&sec.classList.contains('lockp'))||!!(window.__LK&&PAGES[c]&&window.__LK[PAGES[c].t])}
 function updPr(c){var b=$('prBtn'),pg=PAGES[c]||{};b.hidden=!pg.t;var v=readSet[PKEY[c]]||0;b.className='pr'+v+(pageLocked(c)?' soon':'');b.querySelector('svg').innerHTML=PRS[v][1];$('prLbl').textContent=PRS[v][0]}
 var actx=null;function chime(notes,type){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();var t0=actx.currentTime+.02;
@@ -2452,7 +2452,7 @@ var actx=null;function chime(notes,type){try{actx=actx||new (window.AudioContext
     g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.18,t+.015);g.gain.exponentialRampToValueAtTime(.001,t+.55);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+.6)})}catch(e){}}
 $('prBtn').onclick=function(e){e.stopPropagation();var c=currentPage();if(pageLocked(c)){railTip('هذه الصفحة للمشتركين: بعد الاشتراك يمكنك تعليمها «قرأتها» أو «أتقنتها»');return}
   var f=$('penFly');if(!f.hidden&&f.dataset.k==='p'){penFly(false);return}f.dataset.k='p';var v=readSet[PKEY[c]]||0;
-  f.innerHTML='<b>الصفحة دي</b>'+PRS.map(function(x,n){return '<button type="button" class="propt p'+n+(n===v?' cur':'')+'" data-pv="'+n+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'+x[1]+'</svg>'+x[0]+'</button>'}).join('');flyAt(f,$('prBtn'))};
+  f.innerHTML='<b>هذه الصفحة</b>'+PRS.map(function(x,n){return '<button type="button" class="propt p'+n+(n===v?' cur':'')+'" data-pv="'+n+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'+x[1]+'</svg>'+x[0]+'</button>'}).join('');flyAt(f,$('prBtn'))};
 function setProg(v){var c=currentPage(),k=PKEY[c];if(v)readSet[k]=v;else delete readSet[k];PROGU[k]=Date.now();saveRead();updPr(c);
   var b=$('prBtn');b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');
   if(v===0)chime([523.3,392],'sine');else if(v===1)chime([659.3,987.8],'sine');else chime([523.3,659.3,784,1046.5,1318.5],'triangle')}
@@ -2503,7 +2503,7 @@ function renderHome(){
   $('prog').innerHTML='<div class="pgc"><div class="pgtop"><div class="pgring"><svg viewBox="0 0 100 100"><defs><linearGradient id="pgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe7a6"/><stop offset=".55" stop-color="#e8c66e"/><stop offset="1" stop-color="#b8862b"/></linearGradient></defs><circle cx="50" cy="50" r="44" class="bg"/>'+(rv?'<circle cx="50" cy="50" r="44" class="fg" stroke-dasharray="'+(C*rv/100).toFixed(1)+' '+C.toFixed(1)+'"/>':'')+'</svg><div class="pgv"><b>'+rv+'<small>%</small></b></div></div>'+
     '<div class="pgtx"><span class="pgey">Pages read</span><b>'+tr+' <small>of '+tp+'</small></b><span class="pgmsg">'+msg+'</span></div></div>'+
     '<div class="pgms">'+tl('pmast','Mastered',tm,tp)+tl('pcard','Flashcards',tk,tc)+tl('ptop','Topics',fin,TOPICS.length)+tl('pqb','Questions',qa,qn,qa?pc(qok,qa)+'% correct':'')+'</div>'+
-    '<div class="prhint" dir="rtl" lang="ar"><span>علّم صفحاتك من زر التقدّم:</span><span class="pgch"><b class="c1">قريتها</b><b class="c2">أتقنتها</b><b class="c0">ما قريتها</b></span></div></div>';
+    '<div class="prhint" dir="rtl" lang="ar"><span>علّم صفحاتك من زر التقدّم:</span><span class="pgch"><b class="c1">قرأتها</b><b class="c2">أتقنتها</b><b class="c0">لم أقرأها</b></span></div></div>';
   $('chs').innerHTML=META.chapters.map(function(c){var ts=TOPICS.filter(function(t){return t.ch===c.n});var np=0,ns=0;ts.forEach(function(t){np+=(tpages[t.id]||[]).length;ns+=tRead(t.id)});
     return '<div class="chc c'+c.n+'g'+(openCh===c.n?' open':'')+'"><button class="chh" type="button" data-ch="'+c.n+'" aria-expanded="'+(openCh===c.n)+'">'+(c.img?'<span class="im" style="background-image:url('+c.img+')"></span>':'')+'<span class="ey">Chapter '+c.n+'</span><span class="nm">'+c.name+'</span><span class="mt">'+ts.length+' topics · '+np+' pages · '+pc(ns,np)+'% done</span><span class="cv2">'+CHEV+'</span></button>'
       +'<div class="tl2">'+ts.map(function(t){var n=(tpages[t.id]||[]).length,rr=tRead(t.id),mm=tMast(t.id);return '<button class="tr2'+(n&&rr===n?' done2':'')+'" type="button" data-p="'+t.p+'"><span class="no2">'+t.no+'</span><span><b>'+t.title+(window.__LK&&window.__LK[t.id]?' <i class="lk3" aria-label="Locked"></i>':'')+'</b>'+tprog(rr,mm,n)+'</span>'+(n&&mm===n?'<span class="pc ms" title="Mastered">★</span>':n&&rr===n?'<span class="pc ok">✓</span>':'<span class="pc">'+(rr?pc(rr,n)+'%':CHEV)+'</span>')+'</button>'}).join('')+'</div></div>'}).join('');
@@ -2701,35 +2701,35 @@ function updPen(){var b=$('hlPen');b.classList.toggle('on',PEN);b.dataset.pc=PCO
 function flyAt(f,btn){var r=btn.getBoundingClientRect(),R=$('reader').getBoundingClientRect();f.hidden=false;f.style.top=(r.bottom-R.top+6)+'px';
   f.style.right='auto';f.style.left=Math.max(8,Math.min(r.left-R.left+r.width/2-f.offsetWidth/2,R.width-f.offsetWidth-8))+'px'}
 function noteFly(){var f=$('penFly');f.dataset.k='n';
-  f.innerHTML='<b>الملاحظات</b><button type="button" class="ptog'+(NPEN?' on':'')+'" data-npen="1">'+(NPEN?'قلم الملاحظات شغّال · اضغط لإيقافو':'شغّل قلم الملاحظات')+'</button>'+
+  f.innerHTML='<b>الملاحظات</b><button type="button" class="ptog'+(NPEN?' on':'')+'" data-npen="1">'+(NPEN?'قلم الملاحظات يعمل · اضغط لإيقافه':'شغّل قلم الملاحظات')+'</button>'+
     '<button type="button" class="ptog" data-list="1" style="margin-top:8px">عرض كل الملاحظات والتظليل</button>'+
-    '<small>'+(NPEN?(FINE?'حدّد أي كلام بالماوس ويفتح ليك مربّع الملاحظة طوالي.':'اسحب صباعك بالعرض على السطر، أو اضغط مطوّل على كلمة، ويفتح مربّع الملاحظة طوالي.'):'القلم مقفول: لمّا تحدّد كلام اضغط ✎ Note في الشريط التحت.')+'</small>';flyAt(f,$('rNotes'))}
+    '<small>'+(NPEN?(FINE?'حدّد أي نص بالفأرة فيُفتح لك مربّع الملاحظة مباشرة.':'اسحب إصبعك أفقيًا على السطر، أو اضغط مطوّلًا على كلمة، فيُفتح مربّع الملاحظة مباشرة.'):'القلم متوقف: عند تحديد نص اضغط ✎ Note في الشريط السفلي.')+'</small>';flyAt(f,$('rNotes'))}
 function penFly(open){var f=$('penFly');if(!open){f.hidden=true;return}f.dataset.k='h';
   f.innerHTML='<b>لون التظليل</b><div class="pdots">'+HCOL.map(function(c){return '<button type="button" class="dot'+(c===PCOL?' cur':'')+'" data-pc="'+c+'" aria-label="colour"></button>'}).join('')+'</div>'+
     '<div class="hst">'+[[1,'كامل'],[2,'نص سفلي']].map(function(x){return '<button type="button" class="'+(HST===x[0]?'cur':'')+'" data-hst="'+x[0]+'"><mark class="uhl '+PCOL+(x[0]===2?' hs2':'')+'">Aa</mark>'+x[1]+'</button>'}).join('')+'</div>'+
-    '<button type="button" class="ptog'+(PEN?' on':'')+'" data-pen="1">'+(PEN?'التظليل السريع شغّال · اضغط لإيقافو':'شغّل التظليل السريع')+'</button>'+
-    '<button type="button" class="ptog'+(INKON&&ITOOL==='h'?' on':'')+'" data-mk="1">🖍 ماركر حر: ظلّل أي حاجة، حتى كتابة القلم</button>'+
+    '<button type="button" class="ptog'+(PEN?' on':'')+'" data-pen="1">'+(PEN?'التظليل السريع يعمل · اضغط لإيقافه':'شغّل التظليل السريع')+'</button>'+
+    '<button type="button" class="ptog'+(INKON&&ITOOL==='h'?' on':'')+'" data-mk="1">🖍 ماركر حر: ظلّل أي شيء، حتى كتابة القلم</button>'+
     '<div class="isz mks">'+MKW.map(function(w,n){return '<button type="button" class="'+(n+1===MSI?'cur':'')+'" data-msz="'+(n+1)+'" aria-label="marker size '+(n+1)+'"><i style="height:'+Math.round(w/2.2)+'px;background:'+MHEX[PCOL]+'"></i>'+(n+1)+'</button>'}).join('')+'</div>'+
-    '<small>'+(PEN?(FINE?'حدّد أي كلام بالماوس ويتظلّل طوالي.':'اسحب صباعك بالعرض على السطر، أو اضغط مطوّل على كلمة، ويتظلّل طوالي. السحب لفوق وتحت بيقلّب الصفحات عادي.'):'التظليل السريع مقفول: لمّا تحدّد كلام بيظهر شريط الألوان وتختار.')+'</small>';
+    '<small>'+(PEN?(FINE?'حدّد أي نص بالفأرة فيُظلَّل مباشرة.':'اسحب إصبعك أفقيًا على السطر، أو اضغط مطوّلًا على كلمة، فيُظلَّل مباشرة. السحب إلى أعلى وأسفل يقلّب الصفحات كالمعتاد.'):'التظليل السريع متوقف: عند تحديد نص يظهر شريط الألوان لتختار منه.')+'</small>';
   flyAt(f,$('hlPen'))}
 $('hlPen').onclick=function(e){e.stopPropagation();var f=$('penFly');if(!f.hidden&&f.dataset.k==='h')penFly(false);else penFly(true)};
 function uwRow(attr,cur){return '<div class="isz uwr">'+[1,2,3].map(function(n){return '<button type="button" class="'+(n===cur?'cur':'')+'" '+attr+'="'+n+'"><i style="height:'+[2,3.5,6][n-1]+'px"></i>'+n+'</button>'}).join('')+'</div>'}
 function ulFly(){var f=$('penFly');f.dataset.k='u';
-  f.innerHTML='<b>خط تحت الكلام</b><div class="pdots">'+UCOLS.map(function(c){return '<button type="button" class="dot'+(c===UCOL?' cur':'')+'" data-uc="'+c+'" style="background:'+UHEX[c]+'" aria-label="colour"></button>'}).join('')+'</div>'+uwRow('data-uw',UW)+
-    '<button type="button" class="ptog'+(UPEN?' on':'')+'" data-upen="1">'+(UPEN?'الخط السريع شغّال · اضغط لإيقافو':'شغّل الخط السريع')+'</button>'+
-    '<small>'+(UPEN?(FINE?'حدّد أي كلمة أو جملة بالماوس ويتخط تحتها طوالي.':'اسحب صباعك بالعرض على السطر، أو اضغط مطوّل على كلمة، ويتخط تحتها طوالي.'):'مقفول: حدّد الكلام واضغط <b>U خط</b> في الشريط التحت.')+'</small>';flyAt(f,$('ulBtn'))}
+  f.innerHTML='<b>خط تحت النص</b><div class="pdots">'+UCOLS.map(function(c){return '<button type="button" class="dot'+(c===UCOL?' cur':'')+'" data-uc="'+c+'" style="background:'+UHEX[c]+'" aria-label="colour"></button>'}).join('')+'</div>'+uwRow('data-uw',UW)+
+    '<button type="button" class="ptog'+(UPEN?' on':'')+'" data-upen="1">'+(UPEN?'الخط السريع يعمل · اضغط لإيقافه':'شغّل الخط السريع')+'</button>'+
+    '<small>'+(UPEN?(FINE?'حدّد أي كلمة أو جملة بالفأرة فيوضع خط تحتها مباشرة.':'اسحب إصبعك أفقيًا على السطر، أو اضغط مطوّلًا على كلمة، فيوضع خط تحتها مباشرة.'):'متوقف: حدّد الكلام واضغط <b>U خط</b> في الشريط السفلي.')+'</small>';flyAt(f,$('ulBtn'))}
 $('ulBtn').onclick=function(e){e.stopPropagation();var f=$('penFly');if(!f.hidden&&f.dataset.k==='u')penFly(false);else ulFly()};
 $('rNotes').onclick=function(e){e.stopPropagation();var f=$('penFly');if(!f.hidden&&f.dataset.k==='n')penFly(false);else noteFly()};
 $('penFly').addEventListener('click',function(e){e.stopPropagation();var b=e.target.closest('button');if(!b)return;if(b.dataset.upc||b.dataset.up)return;
   if(b.dataset.pv!=null){setProg(+b.dataset.pv);penFly(false);return}
   if(b.dataset.mc){PCOL=b.dataset.mc;sp('pcol',PCOL);updPen();mkFly();return}
   if(b.dataset.msz){var inP=$('penFly').dataset.k==='i';MSI=+b.dataset.msz;sp('msi',MSI);if(!(INKON&&ITOOL==='h')){ITOOL='h';sp('itool','h');setInk(true)}if(inP)mkFly();else penFly(true);railTip('حجم الماركر '+MSI);return}
-  if(b.dataset.mk){if(INKON&&ITOOL==='h'){setInk(false);penFly(false);railTip('الماركر الحر مقفول');return}ITOOL='h';sp('itool','h');setInk(true);penFly(false);railTip('الماركر الحر شغّال بلون التظليل: ظلّل بإصبعك أو بالقلم فوق أي حاجة');return}
+  if(b.dataset.mk){if(INKON&&ITOOL==='h'){setInk(false);penFly(false);railTip('الماركر الحر متوقف');return}ITOOL='h';sp('itool','h');setInk(true);penFly(false);railTip('الماركر الحر يعمل بلون التظليل: ظلّل بإصبعك أو بالقلم فوق أي شيء');return}
   if(b.dataset.hst){HST=+b.dataset.hst;sp('hst',HST);penFly(true);return}
-  if(b.dataset.ic){ICOL=b.dataset.ic;sp('icol',ICOL);setInk(true);penFly(false);railTip('القلم شغّال: ارسم على الصفحة');return}
+  if(b.dataset.ic){ICOL=b.dataset.ic;sp('icol',ICOL);setInk(true);penFly(false);railTip('القلم يعمل: ارسم على الصفحة');return}
   if(b.dataset.isz){ISI=+b.dataset.isz;sp('isz',ISI);if(!INKON)setInk(true);inkFly();return}
-  if(b.dataset.ink){setInk(!INKON);penFly(false);railTip(INKON?'القلم شغّال: ارسم على الصفحة':'القلم مقفول');return}
-  if(b.dataset.styl){setStyl(!STYL);inkFly();railTip(STYL?'الرسم بالقلم الإلكتروني بس: الأصابع بتقلّب الصفحة وكف اليد ما بيرسم':'الرسم بالصباع والقلم الإلكتروني');return}
+  if(b.dataset.ink){setInk(!INKON);penFly(false);railTip(INKON?'القلم يعمل: ارسم على الصفحة':'القلم متوقف');return}
+  if(b.dataset.styl){setStyl(!STYL);inkFly();railTip(STYL?'الرسم بالقلم الإلكتروني فقط: الأصابع تقلّب الصفحة وكفّ اليد لا يرسم':'الرسم بالإصبع والقلم الإلكتروني');return}
   if(b.dataset.iu){inkUndo();return}if(b.dataset.ir){inkRedo();return}
   if(b.dataset.ic0){var ck=PKEY[currentPage()];if(INK[ck])inkDo({t:'del',k:ck,items:INK[ck].slice()});return}
   if(b.dataset.zs){zstep(b.dataset.zs==='1'?1.1:1/1.1);zoomFly();return}
@@ -2738,13 +2738,13 @@ $('penFly').addEventListener('click',function(e){e.stopPropagation();var b=e.tar
   if(b.dataset.list){penFly(false);openNotes();return}
   if(b.dataset.tc){TCOL=b.dataset.tc;sp('tcol',TCOL);if(!TXON)setTx(true);else updTx();txFly();return}
   if(b.dataset.tsz){TSI=+b.dataset.tsz;sp('tsz',TSI);if(!TXON)setTx(true);txFly();return}
-  if(b.dataset.txon){setTx(!TXON);penFly(false);railTip(TXON?'النص شغّال: اضغط مكان النص في الصفحة':'النص مقفول');return}
+  if(b.dataset.txon){setTx(!TXON);penFly(false);railTip(TXON?'النص يعمل: اضغط مكان النص في الصفحة':'النص متوقف');return}
   if(b.dataset.uw){UW=+b.dataset.uw;sp('uw',UW);ulFly();return}
-  if(b.dataset.uc){UCOL=b.dataset.uc;sp('ucol',UCOL);setPens(false,false,true);penFly(false);railTip('الخط السريع شغّال: الكلام البتحدّدو يتخط تحتو طوالي');return}
-  if(b.dataset.upen){setPens(false,false,!UPEN);penFly(false);railTip(UPEN?'الخط السريع شغّال: الكلام البتحدّدو يتخط تحتو طوالي':'الخط السريع مقفول');return}
-  if(b.dataset.npen){setPens(false,!NPEN);penFly(false);railTip(NPEN?'قلم الملاحظات شغّال: حدّد كلام وتكتب ملاحظتك طوالي':'قلم الملاحظات مقفول');return}
+  if(b.dataset.uc){UCOL=b.dataset.uc;sp('ucol',UCOL);setPens(false,false,true);penFly(false);railTip('الخط السريع يعمل: النص الذي تحدّده يوضع خط تحته مباشرة');return}
+  if(b.dataset.upen){setPens(false,false,!UPEN);penFly(false);railTip(UPEN?'الخط السريع يعمل: النص الذي تحدّده يوضع خط تحته مباشرة':'الخط السريع متوقف');return}
+  if(b.dataset.npen){setPens(false,!NPEN);penFly(false);railTip(NPEN?'قلم الملاحظات يعمل: حدّد نصًّا واكتب ملاحظتك مباشرة':'قلم الملاحظات متوقف');return}
   if(b.dataset.pc){PCOL=b.dataset.pc;sp('pcol',PCOL);setPens(true,false)}else if(b.dataset.pen)setPens(!PEN,false);penFly(false);
-  railTip(PEN?'التظليل السريع شغّال: الكلام البتحدّدو بيتظلّل طوالي':'التظليل السريع مقفول')});
+  railTip(PEN?'التظليل السريع يعمل: النص الذي تحدّده يُظلَّل مباشرة':'التظليل السريع متوقف')});
 document.addEventListener('click',function(e){if(!$('penFly').hidden&&!e.target.closest('#penFly'))penFly(false)});
 $('scroller').addEventListener('scroll',function(){var f=$('penFly');if(!f.hidden&&f.dataset.k!=='z')penFly(false)},{passive:true});
 function addHL(o,c){var id=PKEY[o.i],h={s:o.s,e:o.e,c:c,t:o.t.slice(0,240)};if(isU(c))h.uw=UW;else if(HST===2)h.hs=2;var L=(HL[id]=HL[id]||[]);L.push(h);var k=L.length-1;window.getSelection().removeAllRanges();hideBar();
@@ -2844,8 +2844,8 @@ function grestore(str){var o=JSON.parse(str),now=Date.now();GMUTE=true;
   GMUTE=false;GLAST=gsnap();
   Object.keys(tk).forEach(function(k){var i=byKey[k];if(i!==undefined){renderPage(i);inkRender(i)}});
   if(!$('reader').hidden)updPr(currentPage());if(!$('home').hidden)renderHome();TXP=null;TXMV=null;updUR()}
-function inkUndo(){if(!GH.length){railTip('ما في حاجة ترجعها');return}GR.push(gsnap());grestore(GH.pop());railTip('↶ رجّعنا آخر خطوة')}
-function inkRedo(){if(!GR.length){railTip('ما في حاجة تعيدها');return}GH.push(gsnap());grestore(GR.pop());railTip('↷ أعدنا الخطوة')}
+function inkUndo(){if(!GH.length){railTip('لا يوجد ما تتراجع عنه');return}GR.push(gsnap());grestore(GH.pop());railTip('↶ تم التراجع عن آخر خطوة')}
+function inkRedo(){if(!GR.length){railTip('لا يوجد ما يُعاد');return}GH.push(gsnap());grestore(GR.pop());railTip('↷ أُعيدت الخطوة')}
 function updUR(){var u=$('urUndo'),r=$('urRedo');if(u){u.disabled=!GH.length;r.disabled=!GR.length}updInkBar();updTxBar()}
 $('urUndo').onclick=function(){inkUndo()};$('urRedo').onclick=function(){inkRedo()};
 function segD(p,a,b){var dx=b[0]-a[0],dy=b[1]-a[1],l=dx*dx+dy*dy,t=l?Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dy)/l)):0;return Math.hypot(p[0]-a[0]-t*dx,p[1]-a[1]-t*dy)}
@@ -2863,10 +2863,10 @@ function updInkBar(){if(typeof IMB!=='undefined'&&IMB)updImgBar();IB.hidden=!INK
   IB.innerHTML=ITL.map(function(x){return '<button type="button" class="'+(ITOOL===x[0]?'cur':'')+'" data-itl="'+x[0]+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+x[2]+'</svg><span>'+x[1]+'</span></button>'}).join('')+
     '<i class="sep"></i><button type="button" data-iun="1"'+(GH.length?'':' disabled')+'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg><span>تراجع</span></button>'+
     '<button type="button" data-ire="1"'+(GR.length?'':' disabled')+'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg><span>إعادة</span></button>'+
-    '<button type="button" class="ix" data-ix="1" aria-label="اقفل القلم">✕</button>'}
+    '<button type="button" class="ix" data-ix="1" aria-label="أوقف القلم">✕</button>'}
 IB.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
-  if(b.dataset.itl){if(b.dataset.itl==='h'&&ITOOL==='h'){e.stopPropagation();mkFly();return}ITOOL=b.dataset.itl;sp('itool',ITOOL);inkTxt(false);imgSel(null);updInkBar();if(ITOOL==='i'){imgPick(null);return}railTip({p:'ارسم بحرّية · ثبّت القلم لحظة في آخر الخط عشان يبقى مستقيم',h:'ماركر: اضغطو تاني عشان تختار اللون والحجم',a:'اسحب عشان ترسم سهم',u:'اسحب على السطر عشان تخط تحتو',e:'امسح بالضغط أو السحب على الرسمة'}[ITOOL])}
-  else if(b.dataset.iun)inkUndo();else if(b.dataset.ire)inkRedo();else if(b.dataset.ix){setInk(false);railTip('القلم مقفول')}});
+  if(b.dataset.itl){if(b.dataset.itl==='h'&&ITOOL==='h'){e.stopPropagation();mkFly();return}ITOOL=b.dataset.itl;sp('itool',ITOOL);inkTxt(false);imgSel(null);updInkBar();if(ITOOL==='i'){imgPick(null);return}railTip({p:'ارسم بحرّية · ثبّت القلم لحظة في آخر الخط ليصبح مستقيمًا',h:'ماركر: اضغطه مرة أخرى لتختار اللون والحجم',a:'اسحب لترسم سهمًا',u:'اسحب على السطر لتضع خطًّا تحته',e:'امسح بالضغط أو السحب على الرسم'}[ITOOL])}
+  else if(b.dataset.iun)inkUndo();else if(b.dataset.ire)inkRedo();else if(b.dataset.ix){setInk(false);railTip('القلم متوقف')}});
 /* ---------- text boxes (نص): a separate rail tool. With it on: tap the page to write; tap a text to edit, move or delete it
    (on a computer a text can also be dragged). Colour and size in its panel and in the writing box. Saved with the drawings. */
 var TXON=false,TCOL=ICOLS.indexOf(sp('tcol'))>=0?sp('tcol'):'k',TSI=Math.max(1,Math.min(5,+sp('tsz')||2)),TXP=null,TXMV=null;
@@ -2876,8 +2876,8 @@ function tdots(attr,cur){return ICOLS.map(function(c){return '<button type="butt
 function tsizes(attr,cur){return '<div class="isz tsz">'+TFS.map(function(f,n){return '<button type="button" class="'+(n+1===cur?'cur':'')+'" '+attr+'="'+(n+1)+'"><b style="font-size:'+(9+n*3)+'px">ع</b>'+(n+1)+'</button>'}).join('')+'</div>'}
 function txFly(){var f=$('penFly');f.dataset.k='x';
   f.innerHTML='<b>مربّع النص</b><div class="pdots">'+tdots('data-tc',TCOL)+'</div>'+tsizes('data-tsz',TSI)+
-    '<button type="button" class="ptog'+(TXON?' on':'')+'" data-txon="1">'+(TXON?'النص شغّال · اضغط لإيقافو':'شغّل النص')+'</button>'+
-    '<small>اضغط أي مكان في الصفحة واكتب. اضغط على نص مكتوب واسحبو لأي مكان، أو عدّلو أو امسحو.</small>';flyAt(f,$('txtBtn'))}
+    '<button type="button" class="ptog'+(TXON?' on':'')+'" data-txon="1">'+(TXON?'النص يعمل · اضغط لإيقافه':'شغّل النص')+'</button>'+
+    '<small>اضغط أي مكان في الصفحة واكتب. اضغط على نص مكتوب واسحبه إلى أي مكان، أو عدّله أو احذفه.</small>';flyAt(f,$('txtBtn'))}
 $('txtBtn').onclick=function(e){e.stopPropagation();var f=$('penFly');if(!f.hidden&&f.dataset.k==='x')penFly(false);else txFly()};
 /* bar while the text tool is on: undo · redo · close, or for a tapped text: edit · move · delete */
 var TB=document.createElement('div');TB.className='inkbar';TB.id='txBar';TB.lang='ar';TB.hidden=true;$('reader').appendChild(TB);
@@ -2886,10 +2886,10 @@ function updTxBar(){$('reader').classList.toggle('txsel',!!(TXP&&TXON));TB.hidde
   TB.innerHTML=TXP?tbtn('edit','تعديل','<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>')+tbtn('move','تحريك','<path d="M12 2v20M2 12h20M12 2l-3 3M12 2l3 3M12 22l-3-3M12 22l3-3M2 12l3-3M2 12l3 3M22 12l-3-3M22 12l-3 3"/>')+
       tbtn('del','حذف','<path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/>')+'<button type="button" class="ix" data-tb="x" aria-label="رجوع">✕</button>'
     :'<span class="tbl">'+(TXMV?'اضغط المكان الجديد للنص':'اضغط مكان النص')+'</span>'+tbtn('undo','تراجع','<path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/>',!GH.length)+tbtn('redo','إعادة','<path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/>',!GR.length)+
-      '<button type="button" class="ix" data-tb="off" aria-label="اقفل النص">✕</button>'}
+      '<button type="button" class="ix" data-tb="off" aria-label="أوقف النص">✕</button>'}
 function txPick(i,it){TXP=it?{i:i,it:it}:null;TXMV=null;$('reader').classList.toggle('txsel',!!it);inkRender(i);if(it){var el=wraps[i].querySelector('svg.ink text[data-id="'+it.id+'"]');if(el)el.classList.add('sel')}updTxBar()}
 TB.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var a=b.dataset.tb,P=TXP;
-  if(a==='undo')inkUndo();else if(a==='redo')inkRedo();else if(a==='off'){setTx(false);railTip('النص مقفول')}
+  if(a==='undo')inkUndo();else if(a==='redo')inkRedo();else if(a==='off'){setTx(false);railTip('النص متوقف')}
   else if(a==='x')txPick(P.i,null);
   else if(a==='edit'){txPick(P.i,null);inkTxt({i:P.i,edit:P.it})}
   else if(a==='del'){txPick(P.i,null);inkDo({t:'del',k:PKEY[P.i],items:[P.it]})}
@@ -2918,10 +2918,10 @@ function mkFly(){var f=$('penFly');f.dataset.k='i';
 function inkFly(){if(INKON&&ITOOL==='h'){mkFly();return}var f=$('penFly');f.dataset.k='i';
   f.innerHTML='<b>القلم</b><div class="pdots">'+ICOLS.map(function(c){return '<button type="button" class="dot'+(c===ICOL?' cur':'')+'" data-ic="'+c+'" style="background:'+IHEX[c]+'" aria-label="colour"></button>'}).join('')+'</div>'+
     '<div class="isz">'+ISZ.map(function(w,n){return '<button type="button" class="'+(n+1===ISI?'cur':'')+'" data-isz="'+(n+1)+'" aria-label="size '+(n+1)+'"><i style="width:'+(w+3)+'px;height:'+(w+3)+'px;background:'+IHEX[ICOL]+'"></i>'+(n+1)+'</button>'}).join('')+'</div>'+
-    '<button type="button" class="ptog'+(INKON?' on':'')+'" data-ink="1">'+(INKON?'القلم شغّال · اضغط لإيقافو':'شغّل القلم')+'</button>'+
-    '<button type="button" class="ptog'+(STYL?' on':'')+'" data-styl="1" style="margin-top:6px">'+(STYL?'✓ الرسم بالقلم الإلكتروني بس (الأصابع للتقليب)':'الرسم بالقلم الإلكتروني بس (للتابات)')+'</button>'+
+    '<button type="button" class="ptog'+(INKON?' on':'')+'" data-ink="1">'+(INKON?'القلم يعمل · اضغط لإيقافه':'شغّل القلم')+'</button>'+
+    '<button type="button" class="ptog'+(STYL?' on':'')+'" data-styl="1" style="margin-top:6px">'+(STYL?'✓ الرسم بالقلم الإلكتروني فقط (الأصابع للتقليب)':'الرسم بالقلم الإلكتروني فقط (للأجهزة اللوحية)')+'</button>'+
     '<div class="zrow" style="margin-top:8px"><button type="button" class="ptog" data-iu="1">↶ تراجع</button><button type="button" class="ptog" data-ir="1">↷ إعادة</button><button type="button" class="ptog" data-ic0="1">مسح الصفحة</button></div>'+
-    '<small>'+(FINE?'اختار الأداة من الشريط التحت: قلم، سهم، خط تحت، نص أو ممحاة. اقفل القلم عشان تحدّد كلام أو تضغط الروابط.':(STYL?'ارسم بالقلم الإلكتروني، وقلّب الصفحة بصباع أو صباعين.':'اختار الأداة من الشريط التحت. ارسم بصباع واحد، وقلّب الصفحات بصباعين.'))+'</small>';flyAt(f,$('inkBtn'))}
+    '<small>'+(FINE?'اختر الأداة من الشريط السفلي: قلم، سهم، خط تحت، نص أو ممحاة. أوقف القلم لتحدّد نصًّا أو تضغط الروابط.':(STYL?'ارسم بالقلم الإلكتروني، وقلّب الصفحة بإصبع أو إصبعين.':'اختر الأداة من الشريط السفلي. ارسم بإصبع واحد، وقلّب الصفحات بإصبعين.'))+'</small>';flyAt(f,$('inkBtn'))}
 $('inkBtn').onclick=function(e){e.stopPropagation();var f=$('penFly');if(!f.hidden&&f.dataset.k==='i')penFly(false);else inkFly()};
 function inkXY(pw,e,r){r=r||pw.getBoundingClientRect();return [(e.clientX-r.left)*816/r.width,(e.clientY-r.top)*1152/r.height]}
 function inkMid(){var a=Object.keys(inkPts).map(function(k){return inkPts[k]});return [(a[0][0]+a[1][0])/2,(a[0][1]+a[1][1])/2]}
@@ -2935,7 +2935,7 @@ function momGo(vx,vy){momStop();var sc=$('scroller'),t0=performance.now();
   (function f(t){var dt=Math.min(40,t-t0);t0=t;sc.scrollTop-=vy*dt;sc.scrollLeft-=vx*dt;vx*=Math.pow(.995,dt);vy*=Math.pow(.995,dt);if(Math.abs(vx)+Math.abs(vy)>.02)momRaf=requestAnimationFrame(f);else momRaf=0})(t0)}
 var inkRaf=0;function inkFrame(){if(inkRaf)return;inkRaf=requestAnimationFrame(function(){inkRaf=0;if(inkS&&inkS.el)inkPreview(inkS)})}
 pagesEl.addEventListener('pointerdown',function(e){if(!INKON&&!TXON)return;var pw=e.target.closest('.pw');if(!pw||pw.classList.contains('lk'))return;if(INKON||e.pointerType==='mouse')e.preventDefault();
-  if(e.pointerType==='pen'){penAt=Date.now();if(sp('styl')===null){setStyl(true);railTip('القلم الإلكتروني اتعرّف: الرسم بالقلم بس، والأصابع للتقليب')}}
+  if(e.pointerType==='pen'){penAt=Date.now();if(sp('styl')===null){setStyl(true);railTip('تم التعرّف على القلم الإلكتروني: الرسم بالقلم فقط، والأصابع للتقليب')}}
   if(e.isPrimary){inkPts={};panPts={};inkPan=null}   // a primary pointer means no other contact is down: drop any stale ones
   momStop();
   /* stylus mode: a finger still places a waiting picture and moves or resizes pictures */
@@ -2987,7 +2987,7 @@ function inkEnd(e){if(panPts[e.pointerId]){var lone=Object.keys(panPts).length==
   if(s.t==='t'){var it=s.item;
     if(it&&s.moved&&(s.mouse||s.drag)){var nx=it.x,ny=it.y;it.x=s.o[0];it.y=s.o[1];var nit=Object.assign({},it,{id:rid(),x:Math.round(nx),y:Math.round(ny)});TXP=null;inkDo({t:'mod',k:PKEY[s.i],del:[Object.assign({},it)],add:[nit]});if(s.drag)txPick(s.i,nit);return}
     if(s.moved||e.type!=='pointerup')return;
-    if(TXMV){var M=TXMV,mi=M.it;TXMV=null;if(M.i!==s.i){railTip('حرّك النص جوّه نفس الصفحة');updTxBar();return}
+    if(TXMV){var M=TXMV,mi=M.it;TXMV=null;if(M.i!==s.i){railTip('حرّك النص داخل الصفحة نفسها');updTxBar();return}
       inkDo({t:'mod',k:PKEY[s.i],del:[mi],add:[Object.assign({},mi,{id:rid(),x:s.a[0],y:Math.round(s.a[1]+mi.fs*.8)})]});return}
     if(it){txPick(s.i,it);return}if(TXP){txPick(TXP.i,null);return}inkTxt({i:s.i,p:s.a});return}
   if(s.t==='e'){if(s.p0&&e.type==='pointerup')inkErase(s,s.p0);inkEraseEnd(s);return}
@@ -3023,7 +3023,7 @@ function imgUpload(){return;/* obstetrics: pictures stay on the device (activati
   chain.then(function(){imgBusy=false})}
 function imgRedraw(id){Object.keys(INK).forEach(function(k){if(byKey[k]!==undefined&&INK[k].some(function(x){return x.src===id}))inkRender(byKey[k])})}
 function imgEl(x){var c=x.cr||[0,0,1,1],u=imgUrl(x.src),box=' x="'+r1(x.x)+'" y="'+r1(x.y)+'" width="'+r1(x.w)+'" height="'+r1(x.h)+'"';
-  if(!u)return '<rect'+box+' fill="#eef2f7" stroke="#94a3b8" stroke-dasharray="6 4"/>'+(u===null?'<text x="'+r1(x.x+x.w/2)+'" y="'+r1(x.y+x.h/2)+'" text-anchor="middle" font-size="13" fill="#64748b" font-family="system-ui,sans-serif">'+'الصورة محفوظة في جهاز تاني'+'</text>':'');
+  if(!u)return '<rect'+box+' fill="#eef2f7" stroke="#94a3b8" stroke-dasharray="6 4"/>'+(u===null?'<text x="'+r1(x.x+x.w/2)+'" y="'+r1(x.y+x.h/2)+'" text-anchor="middle" font-size="13" fill="#64748b" font-family="system-ui,sans-serif">'+'الصورة محفوظة في جهاز آخر'+'</text>':'');
   var crop=IMS&&IMS.id===x.id&&IMS.crop,full='';
   if(crop){var fw=x.w/c[2],fh=x.h/c[3];full='<image href="'+u+'" x="'+r1(x.x-c[0]*fw)+'" y="'+r1(x.y-c[1]*fh)+'" width="'+r1(fw)+'" height="'+r1(fh)+'" preserveAspectRatio="none" opacity=".3"/>'}
   return full+'<svg'+box+' viewBox="'+c.join(' ')+'" preserveAspectRatio="none"><image href="'+u+'" x="0" y="0" width="1" height="1" preserveAspectRatio="none"/></svg>'}
@@ -3062,32 +3062,32 @@ var IMF=document.createElement('input');IMF.type='file';IMF.accept='image/*';IMF
 /* adding: tap صورة → choose a picture → tap the place on the page (any page: book or your own); or, with the tool on,
    tap an empty place first → choose → it goes there. If the device store fails the picture still shows (kept in memory). */
 var IMPEND=null;
-function imgPick(at){if(at&&wraps[at.i]&&wraps[at.i].classList.contains('lk')){railTip('الصفحة دي مقفولة');return}imgAt0=at||null;IMF.value='';IMF.click()}
+function imgPick(at){if(at&&wraps[at.i]&&wraps[at.i].classList.contains('lk')){railTip('هذه الصفحة مقفلة');return}imgAt0=at||null;IMF.value='';IMF.click()}
 function imgPlace(at){var P=IMPEND;if(!P)return;IMPEND=null;var ar=P.ch/P.cw,w=Math.min(420,816-80),h=w*ar;if(h>560){h=560;w=h/ar}
   var x=Math.max(20,Math.min(816-20-w,at.p[0]-w/2)),y=Math.max(20,Math.min(1152-20-h,at.p[1]-h/2)),it={id:rid(),t:'i',src:P.sid,x:r1(x),y:r1(y),w:r1(w),h:r1(h),cr:[0,0,1,1]};
-  inkDo({t:'add',k:PKEY[at.i],items:[it]});imgSel({i:at.i,id:it.id,crop:false});railTip('اسحب الصورة عشان تحرّكها، والنقط في الأركان عشان تكبّرها')}
-IMF.onchange=function(){var f=IMF.files&&IMF.files[0],at=imgAt0;imgAt0=null;if(!f)return;railTip('بنجهّز الصورة…');
+  inkDo({t:'add',k:PKEY[at.i],items:[it]});imgSel({i:at.i,id:it.id,crop:false});railTip('اسحب الصورة لتحريكها، والنقاط في الأركان لتكبيرها')}
+IMF.onchange=function(){var f=IMF.files&&IMF.files[0],at=imgAt0;imgAt0=null;if(!f)return;railTip('جارٍ تجهيز الصورة…');
   var u=URL.createObjectURL(f),im=new Image();im.onload=function(){var M=1400,s=Math.min(1,M/Math.max(im.naturalWidth,im.naturalHeight)),cw=Math.max(1,Math.round(im.naturalWidth*s)),ch=Math.max(1,Math.round(im.naturalHeight*s)),cv=document.createElement('canvas');
     cv.width=cw;cv.height=ch;var g=cv.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,cw,ch);g.drawImage(im,0,0,cw,ch);URL.revokeObjectURL(u);
-    cv.toBlob(function(b){if(!b){railTip('ما قدرنا نقرا الصورة');return}var sid='im'+rid();IMGU[sid]=URL.createObjectURL(b);
-      var done=function(){IMPEND={sid:sid,cw:cw,ch:ch};if(at)imgPlace(at);else railTip('📍 اضغط المكان في الصفحة اللي عايز تحط فيهو الصورة')};
+    cv.toBlob(function(b){if(!b){railTip('تعذّرت قراءة الصورة');return}var sid='im'+rid();IMGU[sid]=URL.createObjectURL(b);
+      var done=function(){IMPEND={sid:sid,cw:cw,ch:ch};if(at)imgPlace(at);else railTip('📍 اضغط المكان الذي تريد وضع الصورة فيه')};
       idbDo('readwrite',function(o){return o.put(b,sid)}).then(done,done)},'image/jpeg',.85)};
-  im.onerror=function(){URL.revokeObjectURL(u);railTip('ما قدرنا نفتح الصورة')};im.src=u};
+  im.onerror=function(){URL.revokeObjectURL(u);railTip('تعذّر فتح الصورة')};im.src=u};
 /* bar for a selected picture: crop · fix · delete · close */
 var IMB=document.createElement('div');IMB.className='inkbar imb';IMB.lang='ar';IMB.hidden=true;$('reader').appendChild(IMB);
 function updImgBar(){var x=imgItem();IMB.hidden=!(x&&INKON);if(IMB.hidden)return;
   IMB.innerHTML=(x.lk?'':(IMS.crop?'<button type="button" class="cur" data-im="crop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg><span>تم القص</span></button>'
       :tbtn2('crop','قص','<path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/>')))+
-    tbtn2('lk',x.lk?'فك التثبيت':'تثبيت',x.lk?'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/>':'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>')+
+    tbtn2('lk',x.lk?'إلغاء التثبيت':'تثبيت',x.lk?'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/>':'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>')+
     (x.lk?'':tbtn2('full','الأصل','<path d="M3 9V3h6M21 15v6h-6M3 3l7 7M21 21l-7-7"/>'))+
     tbtn2('del','حذف','<path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/>')+'<button type="button" class="ix" data-im="x" aria-label="إلغاء التحديد">✕</button>'}
 function tbtn2(a,label,path){return '<button type="button" data-im="'+a+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+path+'</svg><span>'+label+'</span></button>'}
 IMB.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var a=b.dataset.im,x=imgItem();if(!x){imgSel(null);return}var k=PKEY[IMS.i];
   if(a==='x'){imgSel(null);return}
-  if(a==='crop'){IMS.crop=!IMS.crop;inkRender(IMS.i);updImgBar();if(IMS.crop)railTip('اسحب الحواف أو الأركان عشان تقص الصورة');return}
+  if(a==='crop'){IMS.crop=!IMS.crop;inkRender(IMS.i);updImgBar();if(IMS.crop)railTip('اسحب الحواف أو الأركان لقصّ الصورة');return}
   if(a==='del'){var i=IMS.i;IMS=null;inkDo({t:'del',k:k,items:[x]});updImgBar();inkRender(i);return}
   var nw=JSON.parse(JSON.stringify(x));nw.id=rid();
-  if(a==='lk'){nw.lk=x.lk?undefined:1;if(!nw.lk)delete nw.lk;IMS.crop=false;railTip(nw.lk?'الصورة اتثبّتت في مكانها':'الصورة بقت تتحرّك')}
+  if(a==='lk'){nw.lk=x.lk?undefined:1;if(!nw.lk)delete nw.lk;IMS.crop=false;railTip(nw.lk?'ثُبّتت الصورة في مكانها':'أصبحت الصورة قابلة للتحريك')}
   if(a==='full'){var c=x.cr||[0,0,1,1],fw=x.w/c[2],fh=x.h/c[3];nw.x=r1(x.x-c[0]*fw);nw.y=r1(x.y-c[1]*fh);nw.w=r1(fw);nw.h=r1(fh);nw.cr=[0,0,1,1]}
   IMS.id=nw.id;inkDo({t:'mod',k:k,del:[x],add:[nw]});updImgBar()});
 /* pictures no longer used by any page (after a delete, once undo is gone at the next start) are removed from the device */

@@ -64,10 +64,10 @@ var _gi=goIdx;goIdx=function(i){i=Math.max(0,Math.min(PAGES.length-1,i));var g=g
    floating dock at the bottom; panels open above it; a thin line shows how far through the place the student is ---------- */
 var RB=document.querySelector('#app>.bar'),RT=document.createElement('div');RT.className='rt';RT.innerHTML='<small id="v2rs"></small><b id="v2rb"></b>';RB.insertBefore(RT,$('title'));
 var RBM=document.createElement('button');RBM.type='button';RBM.className='ib rbm';RBM.setAttribute('aria-label','حفظ الموضوع');RBM.innerHTML=I('bm');RB.insertBefore(RBM,$('themeBtn'));
-RB.insertBefore($('prBtn'),RBM);
+$('v2rnav').appendChild($('prBtn'));
 var RH=document.createElement('button');RH.type='button';RH.className='ib rhome';RH.setAttribute('aria-label','Home');RH.title='الرئيسية';RH.innerHTML=I('home');RH.onclick=function(){go('v2home')};RB.insertBefore(RH,RT);
 var RP=document.createElement('i');RP.className='rprog';RP.innerHTML='<i></i>';RB.appendChild(RP);
-$('reader').appendChild($('rbShow'));$('rbShow').innerHTML=I('pen');
+RB.insertBefore($('rbShow'),RBM);$('rbShow').innerHTML=I('pen');$('rbShow').title='إظهار الأدوات';
 function rtopic(){return SCOPE&&SCOPE.slice(0,2)==='t:'?TOPICS.filter(function(t){return 't:'+t.id===SCOPE})[0]:null}
 RBM.onclick=function(){var t=rtopic();if(!t)return;var k='t:'+t.id;if(BM[k])delete BM[k];else BM[k]=Date.now();spj('bm',BM);pill()};
 function pill(){var c=lastCur<0?currentPage():lastCur,k=0,n=0;for(var i=0;i<wraps.length;i++){if(wraps[i].style.display==='none')continue;n++;if(i<=c)k++}
@@ -75,15 +75,28 @@ function pill(){var c=lastCur<0?currentPage():lastCur,k=0,n=0;for(var i=0;i<wrap
   RP.firstChild.style.width=(n?k/n*100:0)+'%';var t=rtopic(),lab=PAGES[c]?String(PAGES[c].label||''):'';
   $('v2rb').textContent=t?t.no+' '+t.title.charAt(0).toUpperCase()+t.title.slice(1):({rr:'Rapid Review',dr:'Obstetric Drugs',cover:'Book cover',fm:lab}[SCOPE]||lab);
   $('v2rs').textContent='Page '+k+' of '+n+(t?' · Chapter '+t.ch:'');
-  RBM.hidden=!t;if(t){RBM.classList.toggle('on',!!BM['t:'+t.id]);RBM.setAttribute('aria-pressed',!!BM['t:'+t.id])}}
+  $('v2rnav').hidden=!t;RBM.hidden=!t;if(t){RBM.classList.toggle('on',!!BM['t:'+t.id]);RBM.setAttribute('aria-pressed',!!BM['t:'+t.id])}}
 var _os=onScroll;onScroll=function(){_os.apply(this,arguments);pill()};
 $('scroller').addEventListener('scroll',pill,{passive:true});
-/* the dock floats over the page, so the pages keep the whole height; panels open above a bottom button and below a top one */
-railSpace=function(){var sc=$('scroller');if(!sc||sc._rw===0)return;sc._rw=0;sc.style.top='0px';sc.style.right='0px';layout()};
+/* panels open above a bottom button and below a top one */
 flyAt=function(f,btn){var r=btn.getBoundingClientRect(),R=$('reader').getBoundingClientRect();f.hidden=false;
   if(r.top>R.top+R.height/2){f.style.top='auto';f.style.bottom=(R.bottom-r.top+10)+'px'}else{f.style.bottom='auto';f.style.top=Math.max(8,r.bottom-R.top+8)+'px'}
   f.style.right='auto';f.style.left=Math.max(8,Math.min(r.left-R.left+r.width/2-f.offsetWidth/2,R.width-f.offsetWidth-8))+'px'};
-try{$('scroller')._rw=-1;railSpace()}catch(e){}
+/* the side navigation (Home and the other destinations) can be hidden and shown on tablets and PCs (owner, 10 Nov 2026) */
+function sbSet(off){$('app').classList.toggle('nosb',off);sp('sb',off?'off':'on');if(CURV==='reader'){try{layout()}catch(e){}}}
+var SBT=document.createElement('button');SBT.type='button';SBT.className='ib sbt';SBT.setAttribute('aria-label','إظهار أو إخفاء القائمة الجانبية');SBT.innerHTML='<svg class="v2ic" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="M9 4.5v15"/></svg>';
+SBT.onclick=function(){sbSet(!$('app').classList.contains('nosb'))};RB.insertBefore(SBT,RB.firstChild);
+var SBT2=SBT.cloneNode(true);SBT2.className='v2hb sbt';SBT2.onclick=SBT.onclick;$('v2hd').insertBefore(SBT2,$('v2hd').firstChild);
+if(sp('sb')==='off')$('app').classList.add('nosb');
+/* reading bar at the bottom of the reader: this topic's slides and video, the other topics of the chapter, the progress of the page */
+var FROMRD=false,FOCUS='';
+function media(v){var t=rtopic();if(!t)return;FOCUS=t.id;if(v==='v2slides')SCH=t.ch;else LCH=t.ch;go(v);FROMRD=true;R[v]();var e=$((v==='v2slides'?'sl-':'vd-')+t.id);if(e){e.classList.add('foc');e.scrollIntoView({block:'center'})}}
+$('rnSl').onclick=function(){media('v2slides')};$('rnVd').onclick=function(){media('v2lect')};
+$('rnTp').onclick=function(){var t=rtopic();if(!t)return;var c=chap(t.ch),ts=chStat(c).ts;
+  $('v2tbody').innerHTML='<p class="v2crumb" style="margin:0 0 8px;direction:ltr;text-align:left">Chapter '+c.n+' · '+X(c.name)+'</p><div class="tpl">'+ts.map(function(x){var lk=locked(x.id),p=pct(x.id);
+    return '<button type="button" class="v2c tpr'+(lk?' lk':'')+(x.id===t.id?' cur':'')+'" data-act="tpick" data-id="'+x.id+'"><span class="li">'+I(lk?'lock':'book')+'</span><span class="tmn"><b>'+x.no+' '+X(x.title.charAt(0).toUpperCase()+x.title.slice(1))+'</b><span class="pr">'+bar(p)+p+'%</span></span><span></span></button>'}).join('')+'</div>'+
+    '<button type="button" class="v2btn ol" data-act="tall" lang="ar" style="width:100%;margin-top:12px">'+I('book')+'كل الفصول</button>';$('v2tsheet').hidden=false};
+$('v2tsx').onclick=function(){$('v2tsheet').hidden=true};$('v2tsheet').addEventListener('click',function(e){if(e.target===this)this.hidden=true});
 var _ur=upgRebuild;upgRebuild=function(){_ur.apply(this,arguments);if(SCOPE)applyScope()};
 var tb=document.createElement('button');tb.type='button';tb.className='ib';tb.setAttribute('aria-label','Contents');tb.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>';
 tb.onclick=function(){$('tocBtn').click()};tb.hidden=true;   // owner, 10 Nov 2026: no whole-book contents inside a place; Chapters is the way between places
@@ -96,9 +109,9 @@ var NAV=[['v2home','Home','home'],['v2chapters','Chapters','book'],['v2practice'
 function tabOf(v){if(v==='reader')return SCOPE==='rr'||SCOPE==='dr'?'v2resources':'v2chapters';
   return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',v2sub:'v2settings',v2pay:'v2settings',v2dl:'v2settings',v2help:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
 var _show=show;
-function go(v){if(v==='home')v='v2home';var was=CURV;
+function go(v){if(v==='home')v='v2home';var was=CURV;if(v!=='v2slides'&&v!=='v2lect')FROMRD=false;$('v2tsheet').hidden=true;
   if(V2.indexOf(v)>=0){if(typeof setImm==='function')setImm(false);views.forEach(function(x){$(x).hidden=true});V2.forEach(function(x){$(x).hidden=x!==v});CURV=v;try{hideBar();penFly(false)}catch(e){}R[v]();$(v).scrollTop=v===was?$(v).scrollTop:0}
-  else{V2.forEach(function(x){$(x).hidden=true});if(v==='reader'&&was!=='reader')RET=V2.indexOf(was)>=0||was==='search'||was==='lect'?was:RET;_show(v);
+  else{V2.forEach(function(x){$(x).hidden=true});if(v==='reader'&&was!=='reader'&&!(FROMRD&&(was==='v2slides'||was==='v2lect')))RET=V2.indexOf(was)>=0||was==='search'?was:RET;_show(v);
     var a={reader:'read',cards:'cards','qbank-v':'qb'}[v];if(a)spj('lastact',{k:a,t:Date.now()});
     if(v==='search'&&document.activeElement===$('v2q'))setTimeout(function(){$('v2q').focus()},80)}
   $('app').classList.toggle('rd',v==='reader');var t=tabOf(v);
@@ -144,7 +157,7 @@ R.v2home=function(){var a=access(),lp=lastPage(),has=sp('pk')&&lp>0,t=has?topicA
       '<button type="button" class="v2btn ol" data-act="cover" lang="ar">'+I('book')+'افتح غلاف الكتاب</button></div></div>'+
    '</div><div>'+
     '<button type="button" class="v2c hsum" data-act="prog" lang="ar"><span>'+I('flame','fl')+(sk?sk+' أيام سلسلة متتالية':'ابدأ سلسلتك اليوم')+'</span><span>'+I('bars')+'التقدم الكلي <bdi>'+overall()+'%</bdi></span></button>'+
-    '<div class="hst" lang="ar"><button type="button" class="v2c" data-act="cards"><span class="t">'+I('layers')+'كروت اليوم</span><span class="n">'+(dueToday()?dueToday()+' كروت':'اكتملت ✓')+'</span><span class="a">ابدأ المراجعة'+I('back')+'</span></button>'+
+    '<div class="hst" lang="ar"><button type="button" class="v2c" data-act="cards"><span class="t">'+I('layers')+'بطاقات اليوم</span><span class="n">'+(dueToday()?dueToday()+' بطاقات':'اكتملت ✓')+'</span><span class="a">ابدأ المراجعة'+I('back')+'</span></button>'+
       '<button type="button" class="v2c" data-v="qbank-v"><span class="t">'+I('q')+'بنك الأسئلة</span><span class="n">'+qTotal()+' سؤال</span><span class="a">ابدأ التدريب'+I('back')+'</span></button></div>'+
     '<div class="hq" lang="ar"><button type="button" class="v2c" data-act="last">'+I('clock')+'<span>آخر نشاط'+(lal?'<small dir="ltr">'+X(lal)+'</small>':'')+'</span>'+I('chev','cv')+'</button>'+
       '<button type="button" class="v2c" data-v="v2lect">'+I('play')+'<span>المحاضرات<small>Lectures</small></span>'+I('chev','cv')+'</button>'+
@@ -170,7 +183,7 @@ R.v2chapter=function(){var c=chap(CH),s=chStat(c),fr=isFree();
    '<div class="tpl">'+s.ts.map(function(t){var lk=locked(t.id),n=npg(t.id),p=pct(t.id);
      return '<div class="v2c tpr'+(lk?' lk':'')+'"><span class="li">'+I(lk?'lock':'book')+'</span><button type="button" class="tmn" data-act="topic" data-id="'+t.id+'"><b>'+t.no+' '+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b>'+(fr&&!lk?'<span class="fr">FREE</span>':'')+
        '<small>'+n+' page'+(n===1?'':'s')+'</small><span class="pr">'+bar(p)+p+'%</span></button>'+bmk('t:'+t.id)+'</div>'}).join('')+'</div>'+
-   '<div class="cha" lang="ar"><button type="button" class="v2btn" data-act="chread">ابدأ القراءة'+I('back')+'</button><button type="button" class="v2btn ol" data-act="chq">'+I('q')+'أسئلة الفصل</button><button type="button" class="v2btn ol" data-act="chc">'+I('layers')+'كروت الفصل</button></div>'};
+   '<div class="cha" lang="ar"><button type="button" class="v2btn" data-act="chread">ابدأ القراءة'+I('back')+'</button><button type="button" class="v2btn ol" data-act="chq">'+I('q')+'أسئلة الفصل</button><button type="button" class="v2btn ol" data-act="chc">'+I('layers')+'بطاقات الفصل</button></div>'};
 
 /* ---------- Practice ---------- */
 var PSEG=sp('pseg')==='c'?'c':'q';
@@ -182,13 +195,13 @@ R.v2practice=function(){var fr=isFree(),wide=window.matchMedia&&matchMedia('(min
   function cp(){var tc=0,tk=0;deckIds.forEach(function(id){tc+=DECKS[id].cards.length;tk+=deckKnown(id)});
     return '<div class="pstat" lang="ar"><div class="v2c"><b>'+tc+'</b><span>كرت'+(fr&&TOT.cards?' من '+TOT.cards:'')+'</span></div><div class="v2c"><b>'+tk+'</b><span>عرفتها</span></div><div class="v2c"><b>'+dueToday()+'</b><span>مستحق اليوم</span></div></div>'+
       '<button type="button" class="v2btn" data-act="cards" lang="ar" style="height:50px">'+I('play')+'ابدأ مراجعة اليوم</button>'+
-      '<button type="button" class="v2c hrow" data-act="allcards" lang="ar"><span class="ii">'+I('layers')+'</span><span><b>كل الكروت</b><small>حسب الفصل والموضوع</small></span>'+I('chev')+'</button>'}
+      '<button type="button" class="v2c hrow" data-act="allcards" lang="ar"><span class="ii">'+I('layers')+'</span><span><b>كل البطاقات</b><small>حسب الفصل والموضوع</small></span>'+I('chev')+'</button>'}
   var h=title('الممارسة والتقييم','','Practice');
-  if(wide)h+='<div class="pgrid"><div class="ppane"><h3 lang="ar">'+I('layers')+'الكروت</h3>'+cp()+'</div><div class="ppane"><h3 lang="ar">'+I('q')+'الأسئلة</h3>'+qp()+'</div></div>';
-  else h+='<div class="v2c pseg" lang="ar"><button type="button" data-act="pseg" data-s="q" class="'+(PSEG==='q'?'on':'')+'">'+I('q')+'الأسئلة</button><button type="button" data-act="pseg" data-s="c" class="'+(PSEG==='c'?'on':'')+'">'+I('layers')+'الكروت</button></div>'+(PSEG==='q'?qp():cp());
+  if(wide)h+='<div class="pgrid"><div class="ppane"><h3 lang="ar">'+I('layers')+'البطاقات</h3>'+cp()+'</div><div class="ppane"><h3 lang="ar">'+I('q')+'الأسئلة</h3>'+qp()+'</div></div>';
+  else h+='<div class="v2c pseg" lang="ar"><button type="button" data-act="pseg" data-s="q" class="'+(PSEG==='q'?'on':'')+'">'+I('q')+'الأسئلة</button><button type="button" data-act="pseg" data-s="c" class="'+(PSEG==='c'?'on':'')+'">'+I('layers')+'البطاقات</button></div>'+(PSEG==='q'?qp():cp());
   if(wide)h+='<div class="ppane"><h3 lang="ar">'+I('book')+'تدرّب حسب الفصل</h3><div class="pchs">'+META.chapters.map(function(c){var s=chStat(c);
-    return '<div class="v2c pch"><b>Chapter '+c.n+'</b><span>'+X(c.name)+'</span><div lang="ar"><button type="button" class="v2btn sm ol" data-act="pq" data-n="'+c.n+'">'+I('q')+'أسئلة</button><button type="button" class="v2btn sm ol" data-act="pc" data-n="'+c.n+'">'+I('layers')+'كروت</button></div></div>'}).join('')+'</div></div>';
-  if(fr)h+='<button type="button" class="v2c hacc" data-act="sub" lang="ar">'+I('lock')+'<div><b>النسخة المجانية</b><small>الأسئلة والكروت هنا من الموضوع الأول في كل فصل. اشترك لفتح الكل.</small></div></button>';
+    return '<div class="v2c pch"><b>Chapter '+c.n+'</b><span>'+X(c.name)+'</span><div lang="ar"><button type="button" class="v2btn sm ol" data-act="pq" data-n="'+c.n+'">'+I('q')+'أسئلة</button><button type="button" class="v2btn sm ol" data-act="pc" data-n="'+c.n+'">'+I('layers')+'بطاقات</button></div></div>'}).join('')+'</div></div>';
+  if(fr)h+='<button type="button" class="v2c hacc" data-act="sub" lang="ar">'+I('lock')+'<div><b>النسخة المجانية</b><small>الأسئلة والبطاقات هنا من الموضوع الأول في كل فصل. اشترك لفتح الكل.</small></div></button>';
   $('v2practiceW').innerHTML=h};
 window.addEventListener('resize',function(){if(CURV==='v2practice')R.v2practice()});
 
@@ -201,28 +214,28 @@ R.v2resources=function(){var nn=0;Object.keys(HL||{}).forEach(function(k){(HL[k]
     row('','slides','السلايدات','Slides','data-v="v2slides"')+row('notes','pen','ملاحظاتي','My Notes'+(nn?' · '+nn:''))+row('','bm','المصادر المحفوظة','Saved'+(nb?' · '+nb:''),'data-v="v2saved"')+'</div>'};
 var LCH=0;
 R.v2lect=function(){var TI=INFO.timg||{},ts=TOPICS.filter(function(t){return !LCH||t.ch===LCH}),au=0;try{au=Object.keys(AU).length}catch(e){}
-  $('v2lectW').innerHTML=title('المحاضرات','v2resources','Video lectures')+
+  $('v2lectW').innerHTML=title('المحاضرات',FROMRD?'reader':'v2resources','Video lectures')+
    '<div class="chf lcf" lang="ar"><button type="button" data-act="lch" data-n="0" class="'+(LCH?'':'on')+'">الكل</button>'+META.chapters.map(function(c){return '<button type="button" data-act="lch" data-n="'+c.n+'" class="'+(LCH===c.n?'on':'')+'"><bdi>Ch '+c.n+'</bdi></button>'}).join('')+'</div>'+
    '<div class="v2c hacc" lang="ar">'+I('play')+'<div><b>محاضرات الفيديو قادمة</b><small>ستُضاف محاضرة فيديو لكل موضوع، وتظهر هنا فور رفعها.</small></div></div>'+
-   '<div class="vgl">'+ts.map(function(t){return '<div class="v2c vcd"><div class="th" style="background-image:url('+(TI[t.id]||chImg(t.ch))+')"><span class="pl">'+I('play')+'</span><span class="sn" lang="ar">قريبًا</span></div>'+
+   '<div class="vgl">'+ts.map(function(t){return '<div class="v2c vcd" id="vd-'+t.id+'"><div class="th" style="background-image:url('+(TI[t.id]||chImg(t.ch))+')"><span class="pl">'+I('play')+'</span><span class="sn" lang="ar">قريبًا</span></div>'+
      '<b>'+t.no+' '+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></div>'}).join('')+'</div>'+
    ''};
 var SCH=0;
 R.v2slides=function(){var TI=INFO.timg||{},ts=TOPICS.filter(function(t){return !SCH||t.ch===SCH});
-  $('v2slidesW').innerHTML=title('السلايدات','v2resources','Slides')+
+  $('v2slidesW').innerHTML=title('السلايدات',FROMRD?'reader':'v2resources','Slides')+
    '<div class="chf lcf" lang="ar"><button type="button" data-act="sch" data-n="0" class="'+(SCH?'':'on')+'">الكل</button>'+META.chapters.map(function(c){return '<button type="button" data-act="sch" data-n="'+c.n+'" class="'+(SCH===c.n?'on':'')+'"><bdi>Ch '+c.n+'</bdi></button>'}).join('')+'</div>'+
    '<div class="v2c hacc" lang="ar">'+I('slides')+'<div><b>السلايدات قادمة</b><small>ستُضاف سلايدات لكل موضوع، وتظهر هنا فور رفعها.</small></div></div>'+
    '<div class="vgl">'+ts.map(function(t){var bl=String(t.sub||'').split(' · ').slice(0,3);
-     return '<div class="v2c vcd"><div class="sld"><span class="sn" lang="ar">قريبًا</span><div class="sx"><i><img src="img/v2_logo.webp" alt="">Obstetrics Master Review</i><b>'+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><ul>'+bl.map(function(x){return '<li>'+X(x)+'</li>'}).join('')+'</ul></div><span class="sp" style="background-image:url('+(TI[t.id]||chImg(t.ch))+')"></span></div>'+
+     return '<div class="v2c vcd" id="sl-'+t.id+'"><div class="sld"><span class="sn" lang="ar">قريبًا</span><div class="sx"><i><img src="img/v2_logo.webp" alt="">Obstetrics Master Review</i><b>'+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><ul>'+bl.map(function(x){return '<li>'+X(x)+'</li>'}).join('')+'</ul></div><span class="sp" style="background-image:url('+(TI[t.id]||chImg(t.ch))+')"></span></div>'+
      '<b>'+t.no+' '+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></div>'}).join('')+'</div>'};
 R.v2dl=function(){$('v2dlW').innerHTML=title('التنزيلات','v2settings','Downloads')+
   '<div class="v2c sbx" lang="ar"><b>'+I('play')+'محاضرات الفيديو</b><p class="mu">لا توجد محاضرات منزّلة. عند إضافة محاضرات الفيديو يمكنك تنزيلها لمشاهدتها بدون إنترنت، وتظهر هنا.</p><button type="button" class="v2btn sm ol" data-v="v2lect">المحاضرات'+I('back')+'</button></div>'+
   '<div class="v2c sbx" lang="ar"><b>'+I('slides')+'سلايدات المحاضرات</b><p class="mu">لا توجد سلايدات منزّلة. عند إضافة السلايدات يمكنك تنزيلها، وتظهر هنا.</p><button type="button" class="v2btn sm ol" data-v="v2slides">السلايدات'+I('back')+'</button></div>'};
 /* user manual (owner, 10 Nov 2026): every part of the app in clear steps with a picture of the screen (assets/img/help_*.jpg, made by tools/help_shots.js) */
-var HELP=[['home','الرئيسية','من هنا تبدأ كل شيء.',['<b>تابع القراءة</b>: يرجعك إلى آخر موضوع كنت تقرؤه.','<b>افتح غلاف الكتاب</b>: يعرض غلاف الكتاب.','<b>كروت اليوم</b> و<b>بنك الأسئلة</b>: يبدآن المراجعة والتدريب مباشرة.','<b>آخر نشاط · المحاضرات · السلايدات</b>: اختصارات سريعة.','الشريط السفلي ينقلك بين: Home · Chapters · Practice · Resources · Settings.']],
- ['chapters','الفصول','الكتاب مقسّم إلى سبعة فصول، وكل موضوع يُفتح وحده.',['اضغط <b>Chapters</b> ثم اختر الفصل.','ابحث باسم الفصل أو الموضوع، أو اعرض «قيد القراءة» أو «المحفوظة».','اضغط الموضوع لفتحه. علامة <b>FREE</b> تعني أنه مفتوح في النسخة المجانية، والقفل يعني أنه يحتاج إلى اشتراك.','علامة الحفظ بجانب الموضوع تضيفه إلى «المصادر المحفوظة».','أسفل الفصل: <b>ابدأ القراءة</b>، <b>أسئلة الفصل</b>، <b>كروت الفصل</b>.']],
- ['reader','القراءة وأدوات المذاكرة','أدوات القراءة في شريط عائم أسفل الصفحة؛ يختفي وأنت تنزل في القراءة ويرجع بضغطة على الصفحة.',['<b>تظليل</b> و<b>خط</b>: اسحب إصبعك على الكلام لتظليله أو وضع خط تحته.','<b>قلم</b>: للرسم والكتابة على الصفحة، و<b>نص</b>: لكتابة ملاحظة في أي مكان.','<b>ملاحظات</b>: حدّد جملة واكتب ملاحظتك عليها.','<b>علامة القراءة</b> (الدائرة أعلى الشاشة): اختر «قريتها» أو «أتقنتها» ليُحسب تقدّمك.','<b>صفحة</b>: يضيف صفحة فارغة لك، و<b>الحجم</b>: يكبّر الصفحة أو يصغّرها.','في أعلى الشاشة: السهم يرجعك إلى الفصل، وزر <b>البيت</b> يرجعك إلى الرئيسية، وبجانب العنوان علامة القراءة وعلامة الحفظ ولون الصفحة.']],
- ['practice','الممارسة: الأسئلة والكروت','اختبر نفسك بعد كل موضوع.',['اضغط <b>Practice</b> ثم اختر «الأسئلة» أو «الكروت».','<b>الأسئلة</b>: اختر نمط التدريب أو الامتحان بالوقت، ثم الفصول وعدد الأسئلة، واضغط Start. بعد الإجابة يظهر الشرح.','<b>الكروت</b>: اضغط الكرت ليظهر الجواب، ثم اختر «عرفتها» أو «مرة أخرى».','<b>كروت اليوم</b>: عشرة كروت كل يوم، وإكمالها يزيد سلسلة أيامك.']],
+var HELP=[['home','الرئيسية','من هنا تبدأ كل شيء.',['<b>تابع القراءة</b>: يعيدك إلى آخر موضوع كنت تقرؤه.','<b>افتح غلاف الكتاب</b>: يعرض غلاف الكتاب.','<b>بطاقات اليوم</b> و<b>بنك الأسئلة</b>: يبدآن المراجعة والتدريب مباشرة.','<b>آخر نشاط · المحاضرات · السلايدات</b>: اختصارات سريعة.','الشريط السفلي ينقلك بين: Home · Chapters · Practice · Resources · Settings.']],
+ ['chapters','الفصول','الكتاب مقسّم إلى سبعة فصول، وكل موضوع يُفتح وحده.',['اضغط <b>Chapters</b> ثم اختر الفصل.','ابحث باسم الفصل أو الموضوع، أو اعرض «قيد القراءة» أو «المحفوظة».','اضغط الموضوع لفتحه. علامة <b>FREE</b> تعني أنه مفتوح في النسخة المجانية، والقفل يعني أنه يحتاج إلى اشتراك.','علامة الحفظ بجانب الموضوع تضيفه إلى «المصادر المحفوظة».','أسفل الفصل: <b>ابدأ القراءة</b>، <b>أسئلة الفصل</b>، <b>بطاقات الفصل</b>.']],
+ ['reader','القراءة وأدوات المذاكرة','الأدوات رموز في شريط أعلى الصفحة، وأزرار القراءة في الأسفل. يختفي الشريطان أثناء النزول في القراءة ويعودان بضغطة على الصفحة.',['<b>تظليل</b> و<b>خط</b>: اسحب إصبعك على الكلام لتظليله أو وضع خط تحته.','<b>قلم</b>: للرسم والكتابة على الصفحة، و<b>نص</b>: لكتابة ملاحظة في أي مكان.','<b>ملاحظات</b>: حدّد جملة واكتب ملاحظتك عليها.','<b>صفحة</b>: يضيف صفحة فارغة لك، و<b>الحجم</b>: يكبّر الصفحة أو يصغّرها.','في الأسفل: <b>السلايدات</b> و<b>الفيديو</b> لهذا الموضوع، و<b>المواضيع</b> لاختيار موضوع آخر من الفصل.','<b>تقدّم الصفحة</b> (الدائرة في الأسفل): اختر «قرأتها» أو «أتقنتها» ليُحسب تقدّمك.','في أعلى الشاشة: السهم يعيدك إلى الفصل، وزر <b>البيت</b> يعيدك إلى الرئيسية، ثم علامة الحفظ ولون الصفحة. على الجهاز اللوحي والحاسوب يوجد زر يخفي القائمة الجانبية ويظهرها.']],
+ ['practice','الممارسة: الأسئلة والبطاقات','اختبر نفسك بعد كل موضوع.',['اضغط <b>Practice</b> ثم اختر «الأسئلة» أو «البطاقات».','<b>الأسئلة</b>: اختر نمط التدريب أو الامتحان بالوقت، ثم الفصول وعدد الأسئلة، واضغط Start. بعد الإجابة يظهر الشرح.','<b>البطاقات</b>: اضغط البطاقة ليظهر الجواب، ثم اختر «عرفتها» أو «مرة أخرى».','<b>بطاقات اليوم</b>: عشر بطاقات كل يوم، وإكمالها يزيد سلسلة أيامك.']],
  ['resources','المصادر','كل ما تحتاجه للمراجعة في مكان واحد.',['<b>المراجعة السريعة</b>: بطاقة امتحان لكل موضوع.','<b>أدوية التوليد</b>: الجرعات والمحاذير.','<b>السريري OSCE</b>: محطات الفحص والتاريخ المرضي.','<b>المحاضرات</b> و<b>السلايدات</b>: تظهر هنا عند إضافتها.','<b>ملاحظاتي</b>: كل ملاحظاتك وتظليلك، و<b>المصادر المحفوظة</b>: ما حفظته بعلامة الحفظ.']],
  ['sub','الاشتراك','من الإعدادات ← الاشتراك.',['<b>الخطة التجريبية</b>: اضغط «ابدأ التجربة» ليُفتح الكتاب كاملًا ساعة واحدة.','للاشتراك: اختر الخطة (شهري أو سنوي أو مدى الحياة) ثم اضغط <b>اشترك الآن</b>.','حوّل المبلغ إلى الحساب الظاهر، ثم ارفع صورة الإيصال واكتب اسمك ورقم هاتفك واضغط <b>إرسال طلب التفعيل</b>.','يظهر «طلبك قيد المراجعة». يمكنك <b>تعديل الطلب</b> أو <b>إلغاؤه</b> قبل الموافقة.','بعد الموافقة يُفتح الكتاب كاملًا تلقائيًا، بلا أي كود.','<b>جهاز آخر</b>: من جهازك المشترك اضغط «أضف جهازًا آخر»، واكتب رقم الربط في الجهاز الجديد (حتى ثلاثة أجهزة).','عند انتهاء الاشتراك تبقى ملاحظاتك وتقدّمك محفوظة وتعود عند التجديد.']],
  ['settings','الإعدادات','اضبط التطبيق كما تحب.',['<b>الملف الشخصي</b>: اسمك وصورتك ورقم المستخدم.','<b>المظهر</b>: نهاري أو ليلي أو تلقائي. زر الشمس أو القمر في أعلى الشاشة يبدّل بسرعة.','<b>لون التطبيق</b>: ستة ألوان، ويتغيّر معها غلاف الكتاب.','<b>المزامنة</b>: تحفظ ملاحظاتك وتقدّمك بين أجهزتك.','<b>التنزيلات</b> و<b>الإشعارات</b> و<b>تقدّمي</b>.','<b>المساعدة</b>: راسلنا في واتساب.']]];
@@ -259,7 +272,7 @@ R.v2profile=function(){var dev=st('orr-dev')||'',code=st('orr-code')||'';
 /* ---------- notifications: real events of this device, kept apart from browser push ---------- */
 var NR=spj('nread')||{},NS=spj('nseen')||{};
 function notifs(){var a=[],d=dueToday(),lp=lastPage(),ac=access();
-  if(d>0)a.push({id:'cards:'+today(),ic:'cal',t:'حان وقت المراجعة',s:d+' كروت في انتظارك اليوم',act:'cards'});
+  if(d>0)a.push({id:'cards:'+today(),ic:'cal',t:'حان وقت المراجعة',s:d+' بطاقات في انتظارك اليوم',act:'cards'});
   if(sp('pk')&&lp>0)a.push({id:'cont:'+PKEY[lp],ic:'book',t:'تابع من حيث توقفت',s:PAGES[lp].label,ltr:1,act:'cont'});
   if(ac==='trial')a.push({id:'trial:'+today(),ic:'clock',t:'الفترة التجريبية جارية',s:'الكتاب كله مفتوح الآن. اشترك قبل انتهاء الفترة.',act:'sub'});
   if(ac==='ended')a.push({id:'subend',ic:'lock',t:'انتهى اشتراكك',s:'ملاحظاتك وتقدّمك محفوظة. جدّد الاشتراك لفتح الكتاب كاملًا.',act:'sub'});
@@ -296,7 +309,7 @@ R.v2sub=function(){var a=access(),ex=+st('orr-exp')||0,pl=st('orr-plan'),pend=a!
   if(a!=='paid'){var fr=LIC&&LIC.fresh();
     h+='<div class="v2c sbx tr" lang="ar"><b>الخطة التجريبية <small>Trial</small></b><ul>'+chk('وصول كامل لمدة ساعة')+chk('بنفس مزايا الاشتراك الكامل')+'</ul>'+
       (a==='trial'?'<p class="mu">التجربة جارية الآن · '+(LIC?LIC.trialLeft():'')+'</p>':fr?'<button type="button" class="v2btn" data-act="trial">ابدأ التجربة'+I('back')+'</button><p class="mu" id="trMsg"></p>':'<p class="mu">استُخدمت الفترة التجريبية على هذا الجهاز.</p>')+'</div>'+
-      '<div class="v2c sbx" lang="ar"><b>'+I('book')+'المجانية <small>Free</small></b><ul>'+chk('أول موضوع من كل فصل')+chk('عدد محدود من الكروت والأسئلة')+'</ul></div>'}
+      '<div class="v2c sbx" lang="ar"><b>'+I('book')+'المجانية <small>Free</small></b><ul>'+chk('أول موضوع من كل فصل')+chk('عدد محدود من البطاقات والأسئلة')+'</ul></div>'}
   if(!pend&&(a!=='paid'||ex)){h+='<div class="v2crumb" lang="ar" style="text-align:right">'+(a==='paid'?'تجديد الاشتراك':'اختر خطة الاشتراك')+'</div><div class="plans" lang="ar">'+PLANS.map(function(p){return '<button type="button" class="v2c pln'+(PAY.plan===p.id?' on':'')+'" data-act="plan" data-p="'+p.id+'" aria-pressed="'+(PAY.plan===p.id)+'"><i></i><span>'+p.ar+' <small>'+p.en+'</small></span><b dir="ltr">'+X(p.price)+'</b></button>'}).join('')+'</div>'+
     '<button type="button" class="v2btn" data-v="v2pay" lang="ar" style="height:50px">اشترك الآن'+I('back')+'</button>'+
     (a!=='paid'?'<div class="v2c sbx frm" lang="ar"><b>'+I('sync')+'مشترك على جهاز آخر؟</b><p class="mu">في جهازك المشترك افتح «الاشتراك» واضغط «أضف جهازًا آخر»، ثم اكتب هنا رقم الربط الذي يظهر هناك. يُفتح هذا الجهاز فورًا بملاحظاتك وتقدّمك.</p>'+
@@ -377,6 +390,8 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
   pq:function(b){CH=+b.dataset.n;ACT.chq()},pc:function(b){CH=+b.dataset.n;ACT.chc()},
   pseg:function(b){PSEG=b.dataset.s;sp('pseg',PSEG);R.v2practice()},
   rr:function(){goIdx(idxOf(/^x9/))},dr:function(){goIdx(idxOf(/^y0/))},
+  tpick:function(b){$('v2tsheet').hidden=true;var t=TOPICS.filter(function(x){return x.id===b.dataset.id})[0];if(t)openTopic(t)},
+  tall:function(){go('v2chapters')},
   hjump:function(b){var e=$('hlp'+b.dataset.i);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},
   lch:function(b){LCH=+b.dataset.n;R.v2lect()},
   sch:function(b){SCH=+b.dataset.n;R.v2slides()},

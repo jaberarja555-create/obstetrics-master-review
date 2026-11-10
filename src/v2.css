@@ -418,25 +418,36 @@ button{font-family:inherit}
 #reader{background:color-mix(in srgb,var(--sel) 55%,var(--bg))}
 :root[data-theme="dark"] #reader{background:color-mix(in srgb,var(--deep) 70%,var(--bg))}
 #reader #scroller{scroll-behavior:auto}
-#reader #pages{padding:14px 8px 110px;gap:14px}
+#reader #pages{padding:14px 8px 40px;gap:14px}
 #reader .pw{border-radius:10px;box-shadow:0 1px 2px rgba(57,43,85,.08),0 10px 28px rgba(57,43,85,.16)}
 #reader .pnum{top:10px;left:50%;right:auto;transform:translateX(-50%);background:color-mix(in srgb,var(--sf) 92%,transparent);color:var(--tx);border:1px solid var(--bd);box-shadow:var(--sh);padding:4px 12px;font:700 12px var(--ui);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:opacity .2s}
-/* tools dock */
-#reader .rbar{left:50%;right:auto;top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);transform:translateX(-50%)!important;width:max-content;max-width:calc(100% - 14px);
-  flex-direction:row;align-items:center;justify-content:center;gap:2px;padding:6px;border-radius:24px;border:1px solid var(--bd);
-  background:color-mix(in srgb,var(--sf) 90%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);
-  box-shadow:0 2px 6px rgba(57,43,85,.10),0 14px 34px rgba(57,43,85,.22);overflow:visible;z-index:6;transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .25s ease}
-#reader .rbar.off,.app.imm #reader .rbar{transform:translate(-50%,150%)!important;opacity:0;pointer-events:none}
-#reader .rbar button{flex:0 0 auto;width:46px;min-width:0;min-height:50px;padding:5px 1px 4px;border-radius:16px;gap:3px;color:var(--sub);font:700 9.5px/1.1 'Cairo','Inter',sans-serif;white-space:nowrap;transition:background .18s ease,color .18s ease,transform .12s ease}
-#reader .rbar button svg{width:22px;height:22px;stroke-width:1.9}
+/* tools: a strip of symbols along the top, under the bar, as in Surgery; it hides while reading down and a tap brings it back */
+#reader .rbar{left:0;right:0;top:0;bottom:auto;transform:none!important;width:auto;max-width:none;flex-direction:row;align-items:center;justify-content:center;gap:2px;padding:4px 6px;
+  border-radius:0;border:0;border-bottom:1px solid var(--bd);background:var(--sf);box-shadow:0 4px 14px rgba(57,43,85,.06);overflow:visible;z-index:6;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .22s ease}
+#reader .rbar.off,.app.imm #reader .rbar{transform:translateY(-110%)!important;opacity:0;pointer-events:none}
+#reader .rbar button{flex:0 1 58px;width:auto;min-width:0;min-height:46px;padding:4px 1px 3px;border-radius:13px;gap:3px;color:var(--sub);font:700 9.5px/1.1 'Cairo','Inter',sans-serif;white-space:nowrap;transition:background .18s ease,color .18s ease,transform .12s ease}
+#reader .rbar button svg{width:21px;height:21px;stroke-width:1.9}
 #reader .rbar button:hover{background:var(--sel)}#reader .rbar button:active{transform:scale(.92)}
-#reader .rbar #hlPen.on,#reader .rbar #ulBtn.on,#reader .rbar #inkBtn.on,#reader .rbar #txtBtn.on,#reader .rbar #rNotes.on,#reader .rbar button.on{background:var(--pri);color:var(--pon);box-shadow:0 4px 12px color-mix(in srgb,var(--pri) 45%,transparent)}
-#reader .rbar #rbHide{order:99;width:34px;font-size:0;gap:0;color:var(--sub)}#reader .rbar #rbHide svg{transform:rotate(90deg);width:18px;height:18px}
-#reader .rbar .urw{display:flex!important;flex-direction:row!important;border:0;border-left:1px solid var(--bd);margin:0 0 0 3px;padding:0 0 0 3px;gap:0}
-#reader .rbar .urw button{width:34px;min-width:0;min-height:50px;font-size:0;gap:0}#reader .rbar .urw button:disabled{opacity:.3}
-#reader #rbShow{position:absolute;right:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:6;width:52px;height:52px;border-radius:50%;background:var(--pri);color:var(--pon);display:grid;place-items:center;box-shadow:0 8px 22px color-mix(in srgb,var(--pri) 50%,transparent)}
-#reader #rbShow[hidden]{display:none}.app.imm #reader #rbShow{display:none}
-@media (max-width:420px){#reader .rbar{gap:0;padding:5px 4px}#reader .rbar button{width:calc((100vw - 14px - 10px - 34px - 68px - 8px)/7);max-width:46px;font-size:8.5px}#reader .rbar button svg{width:20px;height:20px}}
+#reader .rbar #hlPen.on,#reader .rbar #ulBtn.on,#reader .rbar #inkBtn.on,#reader .rbar #txtBtn.on,#reader .rbar #rNotes.on,#reader .rbar button.on{background:var(--pri);color:var(--pon);box-shadow:0 3px 10px color-mix(in srgb,var(--pri) 40%,transparent)}
+#reader .rbar #rbHide{order:99;flex:0 0 30px;font-size:0;gap:0;color:var(--sub)}#reader .rbar #rbHide svg{transform:rotate(-90deg);width:18px;height:18px}
+#reader .rbar .urw{display:flex!important;flex-direction:row!important;border:0;border-left:1px solid var(--bd);margin:0 0 0 3px;padding:0 0 0 3px;gap:0;flex:none}
+#reader .rbar .urw button{flex:0 0 30px;min-height:46px;font-size:0;gap:0}#reader .rbar .urw button:disabled{opacity:.3}
+@media (max-width:420px){#reader .rbar{gap:0;padding:3px 3px}#reader .rbar button{font-size:8.5px}#reader .rbar button svg{width:19px;height:19px}}
+.bar #rbShow{color:var(--pri)!important}.bar #rbShow .v2ic{width:20px;height:20px}
+/* reading bar at the bottom: slides, video, topics, progress of the page */
+.v2rnav{display:none}
+.app.rd .v2rnav:not([hidden]){flex:none;display:grid;grid-template-columns:repeat(4,1fr);direction:rtl;gap:2px;background:var(--sf);border-top:1px solid var(--bd);padding:5px 6px calc(env(safe-area-inset-bottom,0px) + 5px)}
+.app.imm .v2rnav{display:none!important}
+.v2rnav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:48px;padding:5px 2px;border-radius:12px;font:700 11.5px 'Cairo','Inter',sans-serif;color:var(--tx);white-space:nowrap}
+.v2rnav button .v2ic,.v2rnav button svg{width:22px;height:22px;color:var(--pri)}.v2rnav button:active{background:var(--sel)}
+.v2rnav #prBtn{background:none}.v2rnav #prBtn svg{color:currentColor;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.v2rnav #prBtn.pr0{color:var(--bad)}.v2rnav #prBtn.pr1{color:#2563eb}:root[data-theme="dark"] .v2rnav #prBtn.pr1{color:#93c5fd}.v2rnav #prBtn.pr2{color:var(--ok)}.v2rnav #prBtn.pr2 svg{fill:currentColor}
+.v2rnav #prBtn[hidden]{display:none}
+.tpr.cur{border-color:var(--pri);box-shadow:0 0 0 1.5px var(--pri) inset,var(--sh)}button.tpr{width:100%;color:var(--tx)}
+.vcd.foc{border-color:var(--pri);box-shadow:0 0 0 2px var(--pri),var(--sh)}
+/* the side navigation can be hidden and shown */
+.sbt{display:none!important}
+@media (min-width:760px){.sbt{display:grid!important}.app.nosb{padding-left:0}.app.nosb .v2side{display:none}.app.rd .v2rnav:not([hidden]){grid-template-columns:repeat(4,minmax(0,180px));justify-content:center}}
 /* panels and small bars in the app look */
 #reader .penfly,.bmmenu{background:var(--sf);color:var(--tx);border:1px solid var(--bd);border-radius:18px;box-shadow:0 4px 10px rgba(57,43,85,.10),0 18px 40px rgba(57,43,85,.24);font-family:'Cairo','Inter',sans-serif}
 #reader .penfly b,.bmmenu b{color:var(--pri)}
@@ -445,15 +456,14 @@ button{font-family:inherit}
 #reader .penfly .dot,#reader .hlbar .dot{border-color:var(--bd)}#reader .penfly .dot.cur,#reader .hlbar .dot.cur{border-color:var(--sf);box-shadow:0 0 0 2.5px var(--pri)}
 #reader .penfly button:not(.dot):not(.ptog){color:var(--tx)}
 .bmmenu button{color:var(--tx);font-family:'Cairo','Inter',sans-serif}.bmmenu button small{color:var(--sub)}.bmmenu button.cur{background:var(--sel);box-shadow:inset 0 0 0 1.5px var(--pri);color:var(--tx)}.bmmenu button:hover{background:var(--sel)}
-#reader .inkbar,#reader .hlbar{background:color-mix(in srgb,var(--sf) 94%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--bd);box-shadow:0 2px 6px rgba(57,43,85,.10),0 14px 34px rgba(57,43,85,.22);bottom:calc(env(safe-area-inset-bottom,0px) + 86px)}
+#reader .inkbar,#reader .hlbar{background:color-mix(in srgb,var(--sf) 94%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--bd);box-shadow:0 2px 6px rgba(57,43,85,.10),0 14px 34px rgba(57,43,85,.22);bottom:14px}
 #reader .inkbar button{color:var(--sub)}#reader .inkbar button.cur{background:var(--pri);color:var(--pon)}#reader .inkbar .sep{background:var(--bd)}#reader .inkbar .tbl{color:var(--pri)}
 #reader .hlbar{color:var(--tx)}#reader .hlbar .nb{background:var(--sel);color:var(--tx)}#reader .hlbar button{color:var(--tx)}
-#reader .rbar.off~.inkbar,#reader .rbar.off~.hlbar{bottom:calc(env(safe-area-inset-bottom,0px) + 14px)}
 @media (prefers-reduced-motion:reduce){#reader .rbar,.bar .rprog i{transition:none}}
 /* reader bar: a clear Home button; the page count sits in the title line; the read mark is a round chip on phones */
 .bar .rhome{display:none}.app.rd>.bar .rhome{display:grid;background:var(--sel);color:var(--pri)}.bar .rhome .v2ic{width:20px;height:20px}
 #reader .pnum{display:none}
-@media (max-width:759px){.app.rd>.bar #prBtn{width:34px;height:34px;padding:0;justify-content:center;border-radius:50%}.app.rd>.bar #prBtn span{display:none}.app.rd>.bar #prBtn svg{width:18px;height:18px}.app.rd>.bar .ib{width:36px;height:36px}}
+@media (max-width:759px){.app.rd>.bar .ib{width:36px;height:36px}}
 #reader .penfly .hst button,#reader .penfly .upc button{color:var(--tx);border-color:var(--bd)}
 #reader .penfly .hst button.cur,#reader .penfly .upc button.cur{border-color:var(--pri);background:var(--sel)}
 #reader .penfly .isz button.cur{background:var(--pri);color:var(--pon)}#reader .penfly .upk button:active{background:var(--sel)}

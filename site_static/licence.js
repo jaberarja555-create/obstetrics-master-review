@@ -72,7 +72,7 @@ function recheck(){var last=+(LS('orr-kc')||0);if(Date.now()-last<(LS('orr-exp')
   sb().then(function(c){return c.rpcAnon('obs_check',{p_dev:DEV}).then(function(r){var j=r.data;if(r.error||!j)return;
     if(j.ok){saveMeta(j);LS('orr-kc',String(Date.now()));if(j.key&&j.key!==LS('orr-k')){LS('orr-k',j.key);location.reload()}}
     else if(j.reason==='expired'){ended();location.reload()}
-    else if(j.reason==='off'||j.reason==='none'){LS('orr-k',null);LS('orr-kc',null);alert(j.reason==='none'?'الكود بتاعك اتشال من الجهاز دا، فالكتاب الكامل اتقفل هنا. لو دا غلط كلّم '+(CFG.contact||'')+'.':'الكود بتاعك اتوقف، فالكتاب الكامل اتقفل في الجهاز دا. كلّم '+(CFG.contact||'')+'.');location.reload()}})}).catch(function(){})}
+    else if(j.reason==='off'||j.reason==='none'){LS('orr-k',null);LS('orr-kc',null);alert(j.reason==='none'?'أُزيل اشتراكك من هذا الجهاز، فأُقفل الكتاب الكامل هنا. إذا كان ذلك خطأً فتواصل مع '+(CFG.contact||'')+'.':'أُوقف اشتراكك، فأُقفل الكتاب الكامل في هذا الجهاز. تواصل مع '+(CFG.contact||'')+'.');location.reload()}})}).catch(function(){})}
 /* ---------- the subscription sheet ---------- */
 var sh=document.createElement('div');sh.className='sheet';sh.id='subSheet';sh.hidden=true;
 sh.innerHTML='<div class="in ar subin" role="dialog" aria-modal="true" dir="rtl"><h3><span>الاشتراك في الكتاب</span><button class="chip" type="button" id="subX">Close</button></h3><img class="sublogo" src="img/logo3.webp" alt=""><div id="subBody"></div></div>';
