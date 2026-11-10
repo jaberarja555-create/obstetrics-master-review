@@ -49,12 +49,28 @@ button.wa{background:#0f9d58;border-color:#0f9d58;color:#fff}
 .nbox{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:50;padding:14px}.nbox[hidden]{display:none}
 .nin{background:#fff;color:#111;border-radius:14px;max-width:640px;width:100%;max-height:85vh;overflow:auto;padding:16px}.nin .muted{color:#6b7280;font-size:12px}
 .ni{border-top:1px solid #e5e7eb;padding:8px 0}.ni i{display:block;color:#555;font-size:13px}.ni p{margin:4px 0 0;white-space:normal}
-</style></head><body>
+.rq{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:10px;background:#fff}
+.rq .il b{font:800 16px 'Noto Sans Arabic',Inter,sans-serif}.rq .pl{font:800 12px Inter;padding:4px 10px;border-radius:20px;background:#efe7ff;color:#5b3fa0}
+.rq input{font:600 14px 'Noto Sans Arabic',Inter,sans-serif;border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:150px}
+.rq select,.grow select{font:600 14px Inter;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:#fff}
+button.ok{background:#0f9d58;border-color:#0f9d58;color:#fff}
+.tabs2{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 2px}.tabs2 button.on{background:#1c1917;color:#fff;border-color:#1c1917}
+.cnt{display:inline-block;min-width:22px;text-align:center;background:#dc2626;color:#fff;border-radius:11px;font:800 12px/22px Inter;padding:0 6px;margin-left:6px}
+.rimg{max-width:100%;max-height:72vh;display:block;margin:0 auto;border-radius:8px}
+.grow{display:flex;gap:8px;flex-wrap:wrap}.grow input{flex:1;min-width:130px}
+</style><link rel="manifest" href="admin.webmanifest"><meta name="theme-color" content="#1c1917"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head><body>
 <div class="wrap" id="app">
   <div class="gate" id="gate"><div class="card"><h1>Obstetrics Master Review<small>Activation codes · owner only</small></h1><p class="sub" id="gateMsg">Sign in with the owner's Google account.</p><button class="gg" id="ggIn" type="button"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.7v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.8z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.3 6.6l4 3.1c.9-2.8 3.6-4.9 6.7-4.9z"/></svg>Sign in with Google</button></div></div>
   <div id="main" hidden>
     <div class="top"><h1>Obstetrics Master Review<small>Activation codes</small></h1><div class="who"><span id="me"></span><button type="button" id="out">Sign out</button></div></div>
     <div class="stats"><div class="stat"><b id="sAll">0</b><span>Codes</span></div><div class="stat"><b id="sAct">0</b><span>Activated</span></div><div class="stat"><b id="sUn">0</b><span>Unused</span></div></div>
+    <div class="card"><div class="lh"><div class="h" style="margin:0">Subscription requests <span class="cnt" id="rqN" hidden></span></div><button type="button" id="rqRef">Refresh</button></div>
+      <p class="sub">A student sends the plan, name, phone and receipt from the app. Approve and the student's device opens by itself: no code to send.</p>
+      <div class="tabs2" id="rqTabs"><button type="button" data-s="pending" class="on">Waiting</button><button type="button" data-s="approved">Approved</button><button type="button" data-s="rejected">Rejected</button></div>
+      <div id="rqList"><p class="empty">Loading…</p></div></div>
+    <div class="card"><div class="h">Give a subscription without a receipt</div><p class="sub">For a free or special subscription: ask the student for the <b>user number</b> shown in the app (Settings → Profile), then choose the plan. The device opens by itself.</p>
+      <div class="grow"><input id="gUser" placeholder="User number, e.g. BE886E1F30" autocomplete="off" dir="ltr"><input id="gName" placeholder="Student name" autocomplete="off" dir="auto"><input id="gPhone" placeholder="Phone (optional)" autocomplete="off" dir="ltr">
+        <select id="gPlan"><option value="month">Monthly</option><option value="year">Annual</option><option value="life" selected>Lifetime</option></select><button class="pri" id="gGo" type="button">Give</button></div></div>
     <div class="card"><div class="h">New codes</div><p class="sub">Make one code per buyer. Write their name or phone in the note so you can find them later.</p>
       <div class="row"><input id="note" placeholder="Note, e.g. Ahmed · 0912 345 678" autocomplete="off"><input id="count" type="number" min="1" max="50" value="1" aria-label="How many"><button class="pri" id="create" type="button">Create</button></div>
       <div id="fresh"></div></div>
@@ -88,7 +104,7 @@ function render(){var q=$('find').value.trim().toLowerCase();
   var act=ALL.filter(function(c){return c.activated_at}).length;$('sAll').textContent=ALL.length;$('sAct').textContent=act;$('sUn').textContent=ALL.length-act;
   var rows=ALL.filter(function(c){return !q||(c.code+' '+c.note).toLowerCase().indexOf(q)>=0});
   $('list').innerHTML=rows.length?rows.map(function(c){var st=!c.active?'<span class="bdg o">Off</span>':(c.activated_at?'<span class="bdg a">Activated</span>':'<span class="bdg u">Unused</span>');
-    var meta=[c.note?(c.note.split('·').map(function(x){return '<bdi class="ar" dir="auto">'+esc(x.trim())+'</bdi>'}).join(' · ')):'',c.activated_at?'activated '+fd(c.activated_at):''].filter(Boolean).join(' · ');
+    var meta=[c.plan?({month:'Monthly',year:'Annual',life:'Lifetime'}[c.plan]||c.plan)+(c.expires?(new Date(c.expires)<new Date()?' · <b style="color:#dc2626">ended '+fd(c.expires)+'</b>':' · ends '+fd(c.expires)):''):'',c.note?(c.note.split('·').map(function(x){return '<bdi class="ar" dir="auto">'+esc(x.trim())+'</bdi>'}).join(' · ')):'',c.activated_at?'activated '+fd(c.activated_at):''].filter(Boolean).join(' · ');
     return '<div class="it" data-c="'+esc(c.code)+'"><div class="il"><span class="code">'+esc(c.code)+'</span>'+st+'<span class="dt">'+fd(c.created_at)+'</span></div>'+
       (meta?'<div class="meta">'+meta+'</div>':'')+(devLine(c)?'<div class="meta">'+devLine(c)+'</div>':'')+
       '<div class="acts">'+(phoneOf(c.note)?'<button type="button" class="wa" data-a="wa">Send on WhatsApp</button>':'')+'<button type="button" data-a="code">Copy code</button><button type="button" data-a="msg">Copy message</button><button type="button" data-a="note">Edit note</button><button type="button" data-a="notes">Student notes</button>'+
@@ -108,6 +124,39 @@ function load(){return Promise.all([sb.rpc('obs_admin_list'),sb.rpc('obs_admin_e
   EXTRA={};((rs[1]&&rs[1].data)||[]).forEach(function(d){(EXTRA[d.code]=EXTRA[d.code]||[]).push(d)});render()})}
 function call(fn,args,done){return sb.rpc(fn,args).then(function(r){if(r.error){toast('Error: '+r.error.message);return}toast(done);return load()})}
 $('find').addEventListener('input',render);
+/* subscription requests (owner, 10 Nov 2026): the student sends a request from the app; approving opens the device by itself */
+var RQS='pending',RQ=[],RQSEEN=null,PLN={month:'Monthly',year:'Annual',life:'Lifetime'},PRICE={};(CFG.plans||[]).forEach(function(p){PRICE[p.id]=p.price});
+function ft(s){return s?new Date(s).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):''}
+function beep(){try{var a=new (window.AudioContext||window.webkitAudioContext)(),t=a.currentTime;[880,1174.7,1568].forEach(function(f,i){var o=a.createOscillator(),g=a.createGain();o.frequency.value=f;g.gain.setValueAtTime(0,t+i*.12);g.gain.linearRampToValueAtTime(.2,t+i*.12+.02);g.gain.exponentialRampToValueAtTime(.001,t+i*.12+.5);o.connect(g);g.connect(a.destination);o.start(t+i*.12);o.stop(t+i*.12+.55)})}catch(e){}}
+function rqRender(){$('rqList').innerHTML=RQ.length?RQ.map(function(r){var wa=phoneOf(r.phone);
+  return '<div class="rq" data-id="'+r.id+'"><div class="il"><b dir="auto">'+esc(r.name)+'</b><span class="pl">'+(PLN[r.plan]||esc(r.plan))+(PRICE[r.plan]?' · '+esc(PRICE[r.plan]):'')+'</span><span class="dt">'+ft(r.created)+'</span></div>'+
+    '<div class="meta">Phone <bdi dir="ltr">'+esc(r.phone)+'</bdi> · '+esc(r.label||r.kind||'')+' · user number <bdi dir="ltr">'+esc(String(r.dev).slice(0,10).toUpperCase())+'</bdi>'+(r.code?' · '+esc(r.code):'')+'</div>'+
+    (r.comment?'<div class="meta"><bdi class="ar" dir="auto">'+esc(r.comment)+'</bdi></div>':'')+(r.status==='rejected'&&r.reason?'<div class="meta">Reason: <bdi dir="auto">'+esc(r.reason)+'</bdi></div>':'')+
+    '<div class="acts"><button type="button" data-r="img">View receipt</button>'+(wa?'<button type="button" class="wa" data-r="wa" data-p="'+wa+'">WhatsApp</button>':'')+
+    (r.status==='pending'?'<input data-f="name" value="'+esc(r.name)+'" dir="auto" aria-label="Name"><select data-f="plan">'+['month','year','life'].map(function(p){return '<option value="'+p+'"'+(p===r.plan?' selected':'')+'>'+PLN[p]+'</option>'}).join('')+'</select><button type="button" class="ok" data-r="yes">Approve</button><button type="button" class="red" data-r="no">Reject</button>':'')+'</div></div>'}).join('')
+  :'<p class="empty">'+(RQS==='pending'?'No request is waiting.':'Nothing here yet.')+'</p>'}
+function rqLoad(quiet){return sb.rpc('obs_admin_requests',{p_status:RQS}).then(function(r){if(r.error){if(!quiet)$('rqList').innerHTML='<p class="empty">Requests are not ready yet (the database update has not run).</p>';return}RQ=r.data||[];rqRender();
+  return RQS==='pending'?{data:RQ}:sb.rpc('obs_admin_requests',{p_status:'pending'})}).then(function(p){if(!p||!p.data)return;var n=p.data.length,ids=p.data.map(function(x){return x.id});
+    $('rqN').hidden=!n;$('rqN').textContent=n;document.title=(n?'('+n+') ':'')+'Obstetrics Master Review · Admin';try{if(navigator.setAppBadge){n?navigator.setAppBadge(n):navigator.clearAppBadge()}}catch(e){}
+    if(RQSEEN&&ids.some(function(i){return RQSEEN.indexOf(i)<0})){beep();toast('New subscription request')}RQSEEN=ids})}
+$('rqTabs').onclick=function(e){var b=e.target.closest('button');if(!b)return;RQS=b.dataset.s;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b)});rqLoad()};
+$('rqRef').onclick=function(){rqLoad()};
+setInterval(function(){if(!$('main').hidden&&!document.hidden)rqLoad(true)},30000);document.addEventListener('visibilitychange',function(){if(!document.hidden&&!$('main').hidden)rqLoad(true)});
+function showReceipt(d){var w=$('nbox');if(!w){w=document.createElement('div');w.id='nbox';w.className='nbox';document.body.appendChild(w)}
+  var url='data:'+d.mime+';base64,'+d.data;
+  w.innerHTML='<div class="nin">'+(d.mime==='application/pdf'?'<p>This receipt is a PDF file.</p><div class="acts"><a href="'+url+'" download="receipt.pdf"><button type="button">Download the PDF</button></a></div>':'<img class="rimg" src="'+url+'" alt="Receipt">')+'<div class="acts"><button type="button" id="nx">Close</button></div></div>';
+  w.hidden=false;$('nx').onclick=function(){w.hidden=true};w.onclick=function(e){if(e.target===w)w.hidden=true}}
+$('rqList').addEventListener('click',function(e){var b=e.target.closest('button[data-r]');if(!b)return;var it=b.closest('.rq'),id=it.dataset.id,a=b.dataset.r;
+  if(a==='wa'){window.open('https://wa.me/'+b.dataset.p,'_blank');return}
+  if(a==='img'){b.disabled=true;sb.rpc('obs_admin_receipt',{p_id:id}).then(function(r){b.disabled=false;if(r.error||!r.data){toast('No receipt found');return}showReceipt(r.data)});return}
+  var args={p_id:id,p_ok:a==='yes',p_name:null,p_plan:null,p_reason:null};
+  if(a==='yes'){args.p_name=it.querySelector('[data-f=name]').value.trim();args.p_plan=it.querySelector('[data-f=plan]').value;if(!confirm('Approve '+args.p_name+' · '+PLN[args.p_plan]+'?\nThe student\'s device will open by itself.'))return}
+  else{var why=prompt('Reason shown to the student (for example: the amount is not complete)','');if(why===null)return;args.p_reason=why}
+  b.disabled=true;sb.rpc('obs_admin_decide',args).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}if(r.data&&r.data.ok===false){toast('This request was already decided');}else toast(a==='yes'?'Approved: the device opens by itself':'Rejected');rqLoad();load()})});
+$('gGo').onclick=function(){var b=this,u=$('gUser').value.trim(),n=$('gName').value.trim();if(u.replace(/[^0-9a-f]/gi,'').length<8){toast('Write the user number (at least 8 characters)');return}if(!n){toast('Write the student name');return}
+  b.disabled=true;sb.rpc('obs_admin_grant',{p_user:u,p_name:n,p_phone:$('gPhone').value.trim(),p_plan:$('gPlan').value}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}var d=r.data||{};
+    if(!d.ok){toast({unknown:'No device with this user number has opened the app yet',many:'More than one device matches: write more characters',short:'The user number is too short'}[d.reason]||'Could not give the subscription');return}
+    toast('Done: the device opens by itself');$('gUser').value='';$('gName').value='';$('gPhone').value='';load()})};
 /* how many devices a code may open, 1–10 (owner, 7 Nov 2026, as in Surgery and Pediatrics) */
 $('list').addEventListener('change',function(e){var s=e.target.closest('select[data-a="max"]');if(!s)return;var code=s.closest('.it').dataset.c;
   call('obs_admin_maxdev',{p_code:code,p_n:+s.value},code+' can now open '+s.value+' device'+(s.value==='1'?'':'s'))});
@@ -127,7 +176,7 @@ $('list').addEventListener('click',function(e){var b=e.target.closest('button[da
   if(a==='off'&&confirm('Switch off '+code+'?\nThe full book stops on their devices next time they are online.'))call('obs_admin_active',{p_code:code,p_on:false},'Switched off');
   if(a==='on')call('obs_admin_active',{p_code:code,p_on:true},'Switched on')});
 sb.user().then(function(u){if(!u)return;
-  load().then(function(){$('gate').hidden=true;$('main').hidden=false;$('me').textContent=u.email}).catch(function(err){
+  load().then(function(){$('gate').hidden=true;$('main').hidden=false;$('me').textContent=u.email;rqLoad()}).catch(function(err){
     $('gateMsg').innerHTML=(String(err.message||'').indexOf('not_admin')>=0?'<b>'+esc(u.email)+'</b> is not the owner account.':'Could not load codes: '+esc(err.message||'')+'. Was the SQL setup run?')+' <button type="button" id="o2">Sign out</button>';
     $('o2').onclick=function(){sb.signOut().then(function(){location.reload()})}})});
 })();
