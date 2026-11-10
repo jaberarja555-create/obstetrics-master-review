@@ -41,6 +41,8 @@ $('v2th').onclick=function(){MODE=isDark()?'day':'night';sp('mode',MODE);applyLo
 
 /* ---------- profile in the shared header ---------- */
 function myName(){return (sp('name')||sp('sname')||'').trim()}   // the name the owner approved, unless the student changed it
+/* the greeting reads right whether the name is Arabic or English: the sentence is right-to-left and the name is isolated (owner, 10 Nov 2026) */
+function greet(){var n=myName();return n?'مرحب بك يا <bdi>'+X(n)+'</bdi>':'مرحب بك يا دكتور'}
 function avatar(el){var ph=sp('photo'),n=myName();el.style.backgroundImage=ph?'url('+ph+')':'';el.innerHTML=ph?'':(n?X(n.replace(/^(dr\.?|د\.?)\s*/i,'').slice(0,1).toUpperCase()):I('user'))}
 function header(){avatar($('v2av'));$('v2nm').textContent=myName()||'Doctor';var n=notifs().filter(function(x){return !NR[x.id]}).length;$('v2bd').hidden=!n;$('v2bd').textContent=n}
 
@@ -112,7 +114,7 @@ R.v2home=function(){var a=access(),lp=lastPage(),has=sp('pk')&&lp>0,t=has?topicA
     :'<h3>'+X(PAGES[lp].label)+'</h3><p>Page '+PAGES[lp].bn+'</p><div class="pg"></div>';
   var la=spj('lastact'),lal=la?{read:t?t.title:PAGES[lp].label,cards:'Flashcards',qb:'Question bank',lect:'Lectures'}[la.k]:'';
   var sk=0;try{sk=streak()}catch(e){}
-  $('v2homeW').innerHTML='<div class="hgr"><div class="l"><b>Obstetrics Master Review</b><span>4th Edition · 2026</span></div><h2 lang="ar">'+(nm?'مرحب بك يا '+X(nm):'مرحب بك يا دكتور')+'</h2><p>Obstetrics Master Review</p></div>'+
+  $('v2homeW').innerHTML='<div class="hgr"><div class="l"><b>Obstetrics Master Review</b><span>4th Edition · 2026</span></div><h2 lang="ar" dir="rtl">'+greet()+'</h2><p>Obstetrics Master Review</p></div>'+
    '<div class="v2c hacc" lang="ar">'+I('book')+'<div><b>'+acc[0]+'</b><small>'+acc[1]+'</small></div><button type="button" class="v2btn sm" data-act="sub">'+I(acc[3])+acc[2]+'</button></div>'+
    '<div class="hgrid"><div>'+
     '<div class="v2c hcont"><div class="ph"></div>'+ct+'<button type="button" class="v2btn" data-act="cont" lang="ar">'+(has?'تابع القراءة':'ابدأ القراءة')+I('arrow')+'</button></div>'+
@@ -376,7 +378,7 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
 $('v2pbody').appendChild($('prog'));$('v2psx').onclick=function(){$('v2psheet').hidden=true};$('v2psheet').addEventListener('click',function(e){if(e.target===this)this.hidden=true});
 applyLook();go('v2home');poll();
 /* welcome on every opening (owner, 10 Nov 2026): logo, greeting, «ابدأ»; the press plays a rising chime and the screen opens with a glow */
-(function(){var w=$('v2wel'),nm=myName();$('v2welT').textContent=nm?'مرحب بك يا '+nm:'مرحب بك يا دكتور';w.hidden=false;
+(function(){var w=$('v2wel'),nm=myName();$('v2welT').innerHTML=greet();$('v2welT').dir='rtl';w.hidden=false;
   function snd(){try{var a=new (window.AudioContext||window.webkitAudioContext)(),t=a.currentTime+.02;
     [[523.25,0],[659.25,.09],[783.99,.18],[1046.5,.27],[1318.5,.38],[1568,.5]].forEach(function(n){var o=a.createOscillator(),g=a.createGain();o.type='triangle';o.frequency.value=n[0];
       g.gain.setValueAtTime(0,t+n[1]);g.gain.linearRampToValueAtTime(.16,t+n[1]+.02);g.gain.exponentialRampToValueAtTime(.001,t+n[1]+1.1);o.connect(g);g.connect(a.destination);o.start(t+n[1]);o.stop(t+n[1]+1.2)});

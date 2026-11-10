@@ -210,3 +210,4 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
 - Baby picture follows the app colour: `v2_fetus_<pal>.jpg` (only the purple pixels recoloured; the consultation photo stays as it is).
 - Practice on tablets and PCs (owner, 10 Nov 2026): questions and flashcards side by side over the full width, then «تدرّب حسب الفصل» (a tile per chapter with its questions and cards buttons); phones keep the two-tab switch.
 - Chapter previews (owner, 10 Nov 2026): Chapters list, chapter page, lecture and slide cards use the still-life pictures `chcov<n>.jpg` (v2.js `chImg`); the old banner strips `ban<n>.jpg` looked bad as thumbnails.
+- Names in Arabic or English (owner, 10 Nov 2026): greetings are right-to-left with the name isolated (`greet()`, `<bdi>`), so «مرحب بك يا Arja» reads in order; the header name is `dir=auto` and shortens before it can cover the search button.
