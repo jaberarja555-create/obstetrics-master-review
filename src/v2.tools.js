@@ -61,10 +61,20 @@ pagesEl.addEventListener('click',function(e){var t=e.target,g=t.closest&&t.close
   mk.onclick=function(e){e.stopPropagation();var f=$('penFly');if(!f.hidden&&f.dataset.k==='m')penFly(false);else mkSheet()};
   var _mkFly=mkFly;mkFly=function(){if(!$('penFly').hidden&&$('penFly').dataset.k==='m'){mkSheet();return}_mkFly()};
   function at(e,r,deg,i){var a=deg*Math.PI/180;e.style.setProperty('--x',Math.round(r*Math.cos(a))+'px');e.style.setProperty('--y',Math.round(-r*Math.sin(a))+'px');e.style.setProperty('--d',(i*0.04)+'s')}
-  [['inkBtn',132,92],['mkBtn',132,121],['txtBtn',132,150],['upBtn',132,179]].forEach(function(p,i){at($(p[0]),p[1],p[2],i)});at(rb.querySelector('.urw'),64,135,4);
+  
   sh.innerHTML='<svg class="v2ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>';
   sh.title='أدوات الكتابة والرسم';sh.setAttribute('aria-label','أدوات الكتابة والرسم');
-  var z=$('zoomBtn');z.className='v2zoom';z.setAttribute('aria-label','حجم الصفحة');z.title='حجم الصفحة';$('reader').appendChild(z)})();
+  /* tools, zoom and full page sit in the reader's top bar beside the bookmark (owner, 11 Nov 2026 evening), not floating on the page.
+     The tools open in a ring under their button; while the page is full (bars hidden) one small button on the page brings the bars back. */
+  var bar=document.querySelector('.app>.bar'),bm=bar.querySelector('.rbm'),z=$('zoomBtn'),fb=$('v2full');
+  z.className='ib rtl';z.setAttribute('aria-label','حجم الصفحة');z.title='حجم الصفحة';fb.className='ib rtl';sh.className='ib rtl rtools';
+  [sh,z,fb].forEach(function(x){bar.insertBefore(x,bm)});
+  var fx=document.createElement('button');fx.type='button';fx.id='v2fx';fx.setAttribute('aria-label','إظهار الأشرطة');fx.title='إظهار الأشرطة';
+  fx.innerHTML='<svg class="v2ic" viewBox="0 0 24 24"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';fx.onclick=function(){fb.click()};$('reader').appendChild(fx);
+  function place(){var r=sh.getBoundingClientRect();rb.style.left=(r.left+r.width/2)+'px';rb.style.top=(r.top+r.height/2)+'px'}
+  sh.addEventListener('click',place,true);window.addEventListener('resize',function(){if(rb.classList.contains('fan'))place()});
+  [['inkBtn',150,205],['mkBtn',150,230],['txtBtn',150,255],['upBtn',150,280]].forEach(function(p,i){at($(p[0]),p[1],p[2],i)});at(rb.querySelector('.urw'),80,240,4)
+})();
 
 /* ----- the device Back button moves back inside the app ----- */
 function backOne(){var w=$('v2wel');if(w&&!w.hidden)return false;
