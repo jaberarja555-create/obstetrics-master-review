@@ -279,3 +279,4 @@ one-month clock for the old codes (plan = 'old'; they end about 11 Dec 2026). An
 «عندي كود تفعيل قديم» (`window.__lic.activate`). **From now on:** try new work on branch `redesign` (preview address above), and merge it
 into `main` when the owner has seen it; small fixes the owner asks for directly may go to both. Still open: clean wording and levels for
 chapters 2, 3, 4, 5, 7; English texts of the subscription and payment screens; bookmarks sync.
+- Full page is changed ONLY by its button `#v2full` (owner, 11 Nov 2026): v2.js wraps `setImm`, so a tap on the page or scrolling no longer enters or leaves it; leaving the reader ends it.

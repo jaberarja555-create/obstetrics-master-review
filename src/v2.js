@@ -82,7 +82,9 @@ function scNow(){return WHOLE?grp(typeof lastCur==='number'&&lastCur>=0?lastCur:
 /* full page (owner, 11 Nov 2026): with the pen on, a tap draws, so the bars and the side menu could not be hidden. A small button at the
    bottom left of the reader hides and shows them at any time; scrolling down with the pen on hides them too. */
 var FB=document.createElement('button');FB.type='button';FB.id='v2full';FB.setAttribute('aria-label','صفحة كاملة');FB.title='صفحة كاملة';
-FB.innerHTML='<svg class="v2ic" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';FB.onclick=function(){setImm(!$('app').classList.contains('imm'))};$('reader').appendChild(FB);
+FB.innerHTML='<svg class="v2ic" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';FB.onclick=function(){setImm(!$('app').classList.contains('imm'),true)};
+/* only this button enters or leaves full page (owner, 11 Nov 2026): a tap on the page or scrolling no longer changes it */
+var _setImm=setImm;setImm=function(on,btn){if(btn)_setImm(on)};$('reader').appendChild(FB);
 function rtopic(){var s=scNow();return s&&s.slice(0,2)==='t:'?TOPICS.filter(function(t){return 't:'+t.id===s})[0]:null}
 RBM.onclick=function(){var t=rtopic();if(!t)return;var k='t:'+t.id;if(BM[k])delete BM[k];else BM[k]=Date.now();spj('bm',BM);pill()};
 function pill(){var c=lastCur<0?currentPage():lastCur,k=0,n=0;for(var i=0;i<wraps.length;i++){if(wraps[i].style.display==='none')continue;n++;if(i<=c)k++}
@@ -124,7 +126,7 @@ var NAV=[['v2home','Home','home'],['v2chapters','Chapters','book'],['v2practice'
 function tabOf(v){if(v==='reader')return SCOPE==='rr'||SCOPE==='dr'?'v2resources':'v2chapters';
   return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',v2sub:'v2settings',v2pay:'v2settings',v2dl:'v2settings',v2help:'v2settings',v2about:'v2settings',v2contact:'v2settings',v2poster:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
 var _show=show;
-function go(v){if(v==='home')v='v2home';var was=CURV;if(v!=='v2slides'&&v!=='v2lect')FROMRD=false;if(v!=='reader'&&v!=='v2slides'&&v!=='v2lect')WHOLE=false;$('v2tsheet').hidden=true;
+function go(v){if(v==='home')v='v2home';var was=CURV;if(v!=='reader'){try{_setImm(false)}catch(e){}}if(v!=='v2slides'&&v!=='v2lect')FROMRD=false;if(v!=='reader'&&v!=='v2slides'&&v!=='v2lect')WHOLE=false;$('v2tsheet').hidden=true;
   if(V2.indexOf(v)>=0){if(typeof setImm==='function')setImm(false);views.forEach(function(x){$(x).hidden=true});V2.forEach(function(x){$(x).hidden=x!==v});CURV=v;try{hideBar();penFly(false)}catch(e){}R[v]();$(v).scrollTop=v===was?$(v).scrollTop:0}
   else{V2.forEach(function(x){$(x).hidden=true});if(v==='reader'&&was!=='reader'&&!(FROMRD&&(was==='v2slides'||was==='v2lect')))RET=V2.indexOf(was)>=0||was==='search'?was:RET;_show(v);
     var a={reader:'read',cards:'cards','qbank-v':'qb'}[v];if(a)spj('lastact',{k:a,t:Date.now()});
