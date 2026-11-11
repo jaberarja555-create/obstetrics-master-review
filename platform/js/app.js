@@ -47,6 +47,7 @@
     notes: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/>',
     history: '<path d="M8 3h8v3H8z"/><path d="M8 4.5H6a1 1 0 0 0-1 1V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5.5a1 1 0 0 0-1-1h-2"/><path d="M8.5 11h.01M11.5 11h4M8.5 15h.01M11.5 15h4"/>',
     steth: '<path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M11 14v2a4 4 0 0 0 8 0v-1"/><circle cx="19" cy="13" r="2"/>',
+    ext: '<path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
     photo: '<rect x="3" y="5" width="18" height="15" rx="2"/><circle cx="12" cy="12.5" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/>'
   };
   function ic(n, cls) { return '<svg class="ico' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" aria-hidden="true">' + P[n] + '</svg>'; }
@@ -172,7 +173,7 @@
       '<h3><span class="en" lang="en">' + esc(b.title) + '</span><span class="series" lang="en">' + esc(b.series) + '</span></h3><span class="gl" aria-hidden="true"></span>' +
       '<div class="meta">' + chip(b) + (b.edition ? '<span class="tag">' + esc(L(b.edition)) + '</span>' : '') + '</div>';
     if (avail(b)) {
-      h += '<p class="desc">' + esc(L(b.sub)) + '</p><div class="act"><a class="btn" href="' + esc(b.url) + '" data-open="' + b.id + '">' +
+      h += '<p class="desc">' + esc(L(b.sub)) + '</p><div class="act"><a class="btn" href="#read-' + b.id + '" data-open="' + b.id + '">' +
         esc(t('open', { t: shortT(b) })) + ic('arrow', 'flip') + '</a><span class="opens">' + esc(t('opens', { a: b.app })) + '</span></div>';
     } else {
       h += '<p class="desc">' + esc(b.ho ? t('ho.sub') : L(b.sub)) + '</p><div class="act"><a class="btn ghost" href="#book-' + b.id + '" data-book>' +
@@ -191,7 +192,7 @@
   function row(b, extra, action) {
     return '<div class="row">' + img(b, '') + '<div class="rt"><b lang="en">' + esc(b.title) + '</b><i lang="en">' + esc(b.series) + '</i><span>' + extra + '</span></div>' + action + '</div>';
   }
-  function openLink(b, cls) { return '<a class="btn sm rgo ' + (cls || '') + '" href="' + esc(b.url) + '" data-open="' + b.id + '">' + esc(t('open.short')) + ic('arrow', 'flip') + '</a>'; }
+  function openLink(b, cls) { return '<a class="btn sm rgo ' + (cls || '') + '" href="#read-' + b.id + '" data-open="' + b.id + '">' + esc(t('open.short')) + ic('arrow', 'flip') + '</a>'; }
   function vLibrary() {
     var av = S.books.filter(avail), rc = recent(), sv = saved();
     var h = '<header class="pagehead"><h1 tabindex="-1">' + esc(t('lib.t')) + '</h1><p>' + esc(t('lib.sub')) + '</p></header>';
@@ -210,7 +211,7 @@
     S.books.filter(avail).forEach(function (b) {
       var lo = lastOpen(b.id);
       h += '<div class="prow">' + img(b, '') + '<div><b lang="en">' + esc(b.app) + '</b><span>' + esc(lo ? t('prog.last', { w: ago(lo) }) : t('prog.never')) + '</span></div>' +
-        '<a class="btn sm" href="' + esc(b.url) + '" data-open="' + b.id + '">' + esc(t('prog.open', { t: shortT(b) })) + ic('arrow', 'flip') + '</a></div>';
+        '<a class="btn sm" href="#read-' + b.id + '" data-open="' + b.id + '">' + esc(t('prog.open', { t: shortT(b) })) + ic('arrow', 'flip') + '</a></div>';
     });
     return h + '</div><p class="note">' + ic('info') + '<span>' + esc(t('prog.where')) + '</span></p>';
   }
@@ -278,7 +279,7 @@
       return '<a href="#' + s.id + '"' + (on ? ' class="on"' : '') + '>' + img(cv, '') + '<span class="st"><b>' + esc(t(s.key + '.t')) + '</b><span>' + esc(t(s.key + '.tag')) + '</span></span>' + ic('arrow', 'flip') + '</a>';
     }
     var b = BOOK[e.id];
-    var href = avail(b) ? esc(b.url) + '" data-open="' + b.id : '#book-' + b.id + '" data-book="1';
+    var href = avail(b) ? '#read-' + b.id + '" data-open="' + b.id : '#book-' + b.id + '" data-book="1';
     return '<a href="' + href + '"' + (on ? ' class="on"' : '') + '>' + img(b, '') + '<span class="st"><b lang="en">' + esc(b.title) + ' · ' + esc(b.series) + '</b><span>' + esc(secTitle(b.section)) + ' · ' + esc(avail(b) ? t('st.available') : t('st.soon')) + '</span></span>' + ic('arrow', 'flip') + '</a>';
   }
   function countTxt(n) {
@@ -351,12 +352,64 @@
     if (state.cameIn) { state.cameIn = false; history.back(); } else location.replace('#' + back);
   }
 
+
+  /* ---------- books inside the platform ----------
+     Each available book runs in its own frame under the platform bar. Frames stay loaded while the student
+     moves around the platform, so coming back resumes where they were. */
+  var FR = {}, apps = null;
+  function readBack(b) { return state.readFrom && state.readFrom !== 'read' ? state.readFrom : b.section; }
+  function showBook(id) {
+    var b = BOOK[id];
+    apps.hidden = false;
+    $('#abar').innerHTML =
+      '<a class="ib" href="#' + readBack(b) + '" aria-label="' + esc(t('back')) + '">' + ic('back', 'flip') + '</a>' +
+      '<a class="atitle" href="#home" aria-label="Student Master Review"><span class="mark sm" aria-hidden="true"></span></a>' +
+      '<span class="aname">' + img(b, '', false) + '<span><b lang="en">' + esc(b.app) + '</b><small>' + esc(secTitle(b.section)) + '</small></span></span>' +
+      '<a class="ib" href="' + esc(b.url) + '" target="_blank" rel="noopener" data-own="' + b.id + '" aria-label="' + esc(t('read.own')) + '" title="' + esc(t('read.own')) + '">' + ic('ext') + '</a>';
+    Object.keys(FR).forEach(function (k) { FR[k].wrap.hidden = k !== id; });
+    var f = FR[id];
+    if (!f) {
+      var wrap = document.createElement('div'); wrap.className = 'aframe';
+      wrap.innerHTML = '<div class="aload" role="status"><div class="alc">' + img(b, '', false) + '<p>' + esc(t('read.loading', { t: b.app })) + '</p><span class="spin" aria-hidden="true"></span>' +
+        '<div class="aslow" hidden><p>' + esc(t('read.slow')) + '</p><div class="pbtns"><button class="btn sm" type="button" data-retry="' + id + '">' + esc(t('read.retry')) + '</button>' +
+        '<a class="btn sm quiet" href="' + esc(b.url) + '" target="_blank" rel="noopener" data-own="' + id + '">' + esc(t('read.own')) + '</a></div></div></div></div>';
+      var fr = document.createElement('iframe');
+      fr.title = b.app; fr.src = b.url;
+      fr.setAttribute('allow', 'fullscreen; clipboard-read; clipboard-write; autoplay; web-share');
+      fr.setAttribute('allowfullscreen', '');
+      fr.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      f = FR[id] = { wrap: wrap, fr: fr, loaded: false };
+      fr.addEventListener('load', function () { f.loaded = true; var l = wrap.querySelector('.aload'); if (l) l.remove(); });
+      f.timer = setTimeout(function () { if (!f.loaded) { var sl = wrap.querySelector('.aslow'); if (sl) sl.hidden = false; } }, 15000);
+      wrap.appendChild(fr); $('#aframes').appendChild(wrap);
+    }
+    var seen = LS.get('seen', []); if (!Array.isArray(seen)) seen = [];
+    var n = $('#anote');
+    if (seen.indexOf(id) < 0) {
+      n.innerHTML = ic('info') + '<span>' + esc(t('read.first', { t: b.app })) + '</span><button class="btn sm quiet" type="button" data-seen="' + id + '">' + esc(t('got')) + '</button>';
+      n.hidden = false;
+    } else n.hidden = true;
+    document.title = b.app + ' · Student Master Review';
+    noteOpen(id);
+  }
+  function hideBooks() { if (apps && !apps.hidden) apps.hidden = true; }
   /* ---------- router ---------- */
   var VIEWS = { home: vHome, 'my-library': vLibrary, progress: vProgress, preferences: vPrefs, notifications: vNotif, search: vSearch };
   var TITLES = { 'my-library': 'nav.library', progress: 'nav.progress', preferences: 'nav.settings', notifications: 'notif.t', search: 'srch.t' };
   function go(v) { if (location.hash.slice(1) === v) route(true); else location.hash = v; }
   function route(force) {
     var v = decodeURIComponent(location.hash.slice(1)) || 'home';
+    var readId = /^read-/.test(v) ? v.slice(5) : null;
+    if (readId) {
+      if (BOOK[readId] && avail(BOOK[readId])) {
+        if (state.base !== 'read') state.readFrom = state.base;
+        state.view = v; state.base = 'read'; document.body.setAttribute('data-view', 'read');
+        if (dlg.open) dlg.close();
+        showBook(readId); return;
+      }
+      v = 'home';
+    }
+    hideBooks();
     var bookId = /^book-/.test(v) ? v.slice(5) : null;
     if (bookId && !BOOK[bookId]) v = 'home', bookId = null;
     if (!bookId && !VIEWS[v] && !SEC[v]) v = 'home';
@@ -433,6 +486,8 @@
     if (a.hasAttribute('data-lang')) setLang(a.getAttribute('data-lang'));
     if (a.hasAttribute('data-theme')) { setTheme(a.getAttribute('data-theme')); a.parentNode.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === a ? 'true' : 'false'); }); }
     if (a.hasAttribute('data-close')) closeBook();
+    if (a.hasAttribute('data-seen')) { var sn = LS.get('seen', []); if (!Array.isArray(sn)) sn = []; sn.push(a.getAttribute('data-seen')); LS.set('seen', sn); $('#anote').hidden = true; }
+    if (a.hasAttribute('data-retry')) { var rf = FR[a.getAttribute('data-retry')]; if (rf) { rf.wrap.querySelector('.aslow').hidden = true; rf.fr.src = BOOK[a.getAttribute('data-retry')].url; } }
     if (a.id === 'svb') {
       var id = state.view.slice(5), s = saved(), i = s.indexOf(id);
       if (i >= 0) s.splice(i, 1); else s.unshift(id);
@@ -448,7 +503,7 @@
   window.addEventListener('hashchange', function () { route(false); });
 
   /* ---------- start ---------- */
-  dlg = $('#sheet');
+  dlg = $('#sheet'); apps = $('#apps');
   dlg.addEventListener('cancel', function (e) { e.preventDefault(); closeBook(); });
   dlg.addEventListener('click', function (e) { if (e.target === dlg) closeBook(); });
   applyLang(); chrome(); route(true);

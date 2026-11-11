@@ -316,7 +316,8 @@ into `main` when the owner has seen it; small fixes the owner asks for directly 
 One home for all the books (Basic Sciences · Clinical · House Officer), plain static site, its OWN Cloudflare Pages project
 `student-master-review` (`.github/workflows/platform.yml`: main → https://student-master-review.pages.dev, other branches →
 `<branch>.student-master-review.pages.dev`). It does not touch this book's build or deploy. Surgery, Obstetrics and Pediatrics are
-opened by their real addresses in the same tab (link connection, not a code merge: each app keeps its address, subscription and
-saved data). Every screen comes from `platform/js/catalogue.js`; text in `platform/js/i18n.js` (English + standard Arabic);
+opened INSIDE the platform (owner, 11 Nov 2026: `#read-<id>`, a frame under a slim platform bar; frames stay loaded). The apps are
+unchanged; inside the frame a phone keeps separate storage, so students activate once more there (another device) and sync brings notes back.
+Phone Home fits one screen (no scrolling); day/night is one button with a Day / Night / Automatic menu. Every screen comes from `platform/js/catalogue.js`; text in `platform/js/i18n.js` (English + standard Arabic);
 see platform/README.md. No invented data: progress stays in the apps, notifications are an empty state until real ones exist.
 Review copy: https://claude.ai/artifact/VKS3UPJmG5oa9kH9NGGXUm (whole platform; links open the live apps).
