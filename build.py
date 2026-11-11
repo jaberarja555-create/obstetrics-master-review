@@ -73,7 +73,13 @@ def v2(shell):
     """App redesign (owner, 10 Nov 2026): src/v2.css, v2.html (<!--TOP--> <!--VIEWS--> <!--NAV-->) and v2.js are laid over the old shell."""
     rd = lambda n: open(os.path.join(R, 'src', n), encoding='utf-8').read()
     _rd = rd
-    rd = lambda n: _rd(n) + ('\n' + _rd('v2.lang.js') if n == 'v2.js' else '') + (en_css(_rd(n)) if n == 'v2.css' else '')
+    def rd(n):
+        s = _rd(n)
+        if n == 'v2.css': return s + en_css(s)
+        if n == 'v2.js':   # the search and language layers run inside v2's own closure
+            s = s.rstrip(); assert s.endswith('})();')
+            return s[:-5] + '\n' + _rd('v2.search.js') + '\n' + _rd('v2.lang.js') + '\n})();'
+        return s
     top, rest = rd('v2.html').split('<!--TOP-->')[1].split('<!--VIEWS-->')
     vw, nav = rest.split('<!--NAV-->')
     def ins(s, anchor, new, before=True):

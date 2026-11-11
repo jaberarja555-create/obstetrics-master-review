@@ -143,6 +143,7 @@ function topicAt(i){var g=grp(i);if(g.slice(0,2)!=='t:')return null;var id=g.sli
 function chap(n){for(var i=0;i<META.chapters.length;i++)if(META.chapters[i].n===n)return META.chapters[i];return {n:n,name:''}}
 function chImg(n){return 'img/chcov'+n+'.jpg'}   // chapter previews use the still-life chapter pictures (owner, 10 Nov 2026: the old banner strips looked bad)
 function npg(id){return (tpages[id]||[]).length}
+function ring(p,sz){var r=15.5,c=2*Math.PI*r;return '<svg class="rg" viewBox="0 0 36 36" width="'+sz+'" height="'+sz+'"><circle cx="18" cy="18" r="'+r+'" fill="none" stroke="var(--sel)" stroke-width="4"/>'+(p>0?'<circle cx="18" cy="18" r="'+r+'" fill="none" stroke="var(--pri)" stroke-width="4" stroke-linecap="round" stroke-dasharray="'+(c*p/100).toFixed(1)+' '+c.toFixed(1)+'" transform="rotate(-90 18 18)"/>':'')+'</svg>'}
 function overall(){var tp=0,tr=0;TOPICS.forEach(function(t){tp+=npg(t.id);tr+=tRead(t.id)});return pc(tr,tp)}
 function dueToday(){try{var D=daily();return Math.max(0,D.keys.length-D.done.length)}catch(e){return 0}}
 function qTotal(){return TOT.qs||QS.length}function cTotal(){var n=0;deckIds.forEach(function(id){n+=DECKS[id].cards.length});return TOT.cards||n}
@@ -171,7 +172,8 @@ R.v2home=function(){var a=access(),lp=lastPage(),has=sp('pk')&&lp>0,t=has?topicA
       '<div class="ct"><div><b>'+META.chapters.length+'</b><span>chapters</span></div><div><b>'+TOPICS.length+'</b><span>topics</span></div><div><b>'+cTotal()+'</b><span>flashcards</span></div><div><b>'+qTotal()+'</b><span>questions</span></div></div>'+
       '<button type="button" class="v2btn ol" data-act="cover" lang="ar">'+I('book')+'افتح الكتاب كاملًا</button></div></div>'+
    '</div><div>'+
-    '<button type="button" class="v2c hsum" data-act="prog" lang="ar"><span>'+I('flame','fl')+(sk?sk+' أيام سلسلة متتالية':'ابدأ سلسلتك اليوم')+'</span><span>'+I('bars')+'التقدم الكلي <bdi>'+overall()+'%</bdi></span></button>'+
+    '<div class="hsm2" lang="ar"><button type="button" class="v2c" data-act="prog"><span class="ic fl">'+I('flame')+'</span><span class="tx"><b><bdi>'+sk+'</bdi> '+(sk===1?'يوم':'أيام')+'</b><small>'+(sk?'سلسلة المراجعة اليومية':'ابدأ سلسلتك اليوم')+'</small></span></button>'+
+     '<button type="button" class="v2c" data-act="prog"><span class="ic">'+ring(overall(),34)+'</span><span class="tx"><b><bdi>'+overall()+'%</bdi></b><small>التقدم الكلي</small></span></button></div>'+
     '<div class="hst" lang="ar"><button type="button" class="v2c" data-act="cards"><span class="t">'+I('layers')+'بطاقات اليوم</span><span class="n">'+(dueToday()?dueToday()+' بطاقات':'اكتملت ✓')+'</span><span class="a">ابدأ المراجعة'+I('back')+'</span></button>'+
       '<button type="button" class="v2c" data-v="qbank-v"><span class="t">'+I('q')+'بنك الأسئلة</span><span class="n">'+qTotal()+' سؤال</span><span class="a">ابدأ التدريب'+I('back')+'</span></button></div>'+
     '<div class="hq" lang="ar"><button type="button" class="v2c" data-act="last">'+I('clock')+'<span>آخر نشاط'+(lal?'<small dir="ltr">'+X(lal)+'</small>':'')+'</span>'+I('chev','cv')+'</button>'+
@@ -420,7 +422,13 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
       PAY.file=null;PAY.edit=false;REQ={status:'pending',plan:PAY.plan,t:ED&&REQ?REQ.t:new Date().toISOString()};spj('req',REQ);header();go('v2sub')},function(){PAY.busy=false;b.disabled=false;M.textContent='تعذّر الإرسال. تأكد من الاتصال واضغط الزر مرة أخرى.'})},
   cont:function(){goIdx(sp('pk')&&lastPage()>0?lastPage():BIDX[TOPICS[0].p-1])},
   cover:function(){WHOLE=true;SCOPE='all';applyScope();goIdx(0)},
-  prog:function(){try{renderHome()}catch(e){}$('v2psheet').hidden=false},
+  prog:function(){var np=0,nr=0,td=0;TOPICS.forEach(function(t){var a=npg(t.id),b=tRead(t.id);np+=a;nr+=b;if(a&&b>=a)td++});
+    var ck=0,ct=0;deckIds.forEach(function(id){ck+=deckKnown(id);ct+=DECKS[id].cards.length});var qu=0,qo=0;QS.forEach(function(q){var s=QST[q.id];if(s&&(s.n||s.a)){qu++;if(!s.w)qo++}});var sk=0;try{sk=streak()}catch(e){}
+    function tile(ic,a,b,l){return '<div class="v2c ptl"><span class="ic">'+I(ic)+'</span><b><bdi>'+a+'</bdi>'+(b!==''?'<small> / <bdi>'+b+'</bdi></small>':'')+'</b><span>'+l+'</span></div>'}
+    $('v2pbody').innerHTML='<div class="v2c ptop" lang="ar"><span class="pr">'+ring(overall(),120)+'<b><bdi>'+overall()+'%</bdi></b></span><div><h4>التقدم الكلي</h4><p>نسبة الصفحات التي علّمتها «قرأتها» أو «أتقنتها» من كل صفحات الكتاب.</p></div></div>'+
+      '<div class="ptg" lang="ar">'+tile('book',nr,np,'صفحات مقروءة')+tile('check',td,TOPICS.length,'مواضيع مكتملة')+tile('layers',ck,ct,'بطاقات معروفة')+tile('q',qu,QS.length,'أسئلة محلولة')+tile('bars',(qu?Math.round(qo/qu*100):0)+'%','','إجابات صحيحة')+tile('flame',sk,'','أيام متتالية')+'</div>'+
+      '<p class="shd" lang="ar">التقدم في كل فصل</p><div class="v2c pch">'+META.chapters.map(function(c){var s=chStat(c);return '<div><span><b>Chapter '+c.n+'</b> '+X(c.name)+'</span><em><bdi>'+s.pr+'%</bdi></em>'+bar(s.pr)+'</div>'}).join('')+'</div>';
+    $('v2psheet').hidden=false},
   cards:function(){curDeck='daily';started=false;go('cards')},
   allcards:function(){curDeck='all';started=false;go('cards')},
   last:function(){var la=spj('lastact');if(!la||la.k==='read')ACT.cont();else if(la.k==='cards')go('cards');else if(la.k==='qb')go('qbank-v');else go('v2lect')},
@@ -457,7 +465,7 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
   nopen:function(b){NR[b.dataset.id]=1;spj('nread',NR);header();ACT[b.dataset.go2]()}};
 
 /* progress details live in a sheet now */
-$('v2pbody').appendChild($('prog'));$('v2psx').onclick=function(){$('v2psheet').hidden=true};$('v2psheet').addEventListener('click',function(e){if(e.target===this)this.hidden=true});
+$('v2psx').onclick=function(){$('v2psheet').hidden=true};$('v2psheet').addEventListener('click',function(e){if(e.target===this)this.hidden=true});
 applyLook();go('v2home');poll();
 /* welcome on every opening (owner, 10 Nov 2026): logo, greeting, «ابدأ»; the press plays a rising chime and the screen opens with a glow */
 (function(){var w=$('v2wel'),nm=myName();$('v2welT').innerHTML=greet();$('v2welT').dir='rtl';w.hidden=false;

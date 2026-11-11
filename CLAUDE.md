@@ -261,3 +261,11 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   app string to the dictionaries**; `/tmp`-style check: open each screen with orr-lang=en and list text nodes that still hold Arabic. States not
   yet covered: subscription/payment messages, request states, locked-page texts, old sheets (notes list), posters (pictures stay Arabic).
 - Greeting carries «د.»: «مرحب بك يا د. <name>» (a title the student typed is not doubled); header name chip is larger on tablets/PCs.
+- **Search (owner, 11 Nov 2026):** `src/v2.search.js` replaces `runSearch`: under the box the student picks where to search (الكل · المواضيع ·
+  صفحات الكتاب · البطاقات · الأسئلة · التطبيق, `orr-ssc`) and a chapter. Words are matched in any order after normalising case, hyphens and Arabic
+  letter forms (`sn`); topic-name matches come first; `SPLACES` lists the app's own places with Arabic and English keywords (add new screens there).
+  A flashcard result opens its answer in place; a question result opens that question in tutor mode. build.py puts v2.search.js and v2.lang.js
+  inside v2.js's closure.
+- **Progress (owner, 11 Nov 2026):** Home shows two tiles (`.hsm2`: streak days, overall % with a ring); both open the progress sheet, now drawn by
+  v2 (`ACT.prog`: ring, six tiles — pages read, topics completed, cards known, questions answered, % correct, days in a row — and a bar per
+  chapter). The old progress card is no longer moved into the sheet (it showed as a black disc).
