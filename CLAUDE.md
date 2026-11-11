@@ -309,3 +309,5 @@ into `main` when the owner has seen it; small fixes the owner asks for directly 
     topic first and show it to the owner before the rest.
   - **The reader is always continuous (owner, 11 Nov 2026 evening: "ok for the book to be continuous even in chapters"):** `goIdx` always opens
     the whole book (`WHOLE`, `SCOPE='all'`) at the asked page; the earlier rule "each place is separate" no longer applies to the reader.
+  - **Home reading card (owner, 11 Nov 2026 evening):** `.hcont.hc2` shows the chapter picture whole (no white fade, no small preview) with two
+    frosted bars over it: top = chapter chip + chapter name + topic (`.cbt`), bottom = progress + «تابع القراءة» (`.cbb`).
