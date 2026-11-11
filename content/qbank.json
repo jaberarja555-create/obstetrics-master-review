@@ -7264,7 +7264,7 @@
     "id": "cp-1",
     "topic": "cp",
     "type": "sba",
-    "stem": "Para 4, 40 weeks, known polyhydramnios, in labour at 6 cm. The membranes rupture with a big gush and within a minute the FHR falls to 70 bpm and stays there. She has no pain beyond her contractions, there is no bleeding and the liquor is clear.",
+    "stem": "A para 4 woman at 40 weeks with known polyhydramnios is in labour at 6 cm. The membranes rupture with a large gush, and within a minute the fetal heart rate falls to 70 bpm and remains there. She has no pain other than her contractions, there is no bleeding and the liquor is clear.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Vasa praevia",
@@ -7274,13 +7274,14 @@
      "Uterine rupture"
     ],
     "answer": 2,
-    "why": "Rupture of membranes followed by sudden bradycardia in a well mother with clear liquor is the classic picture. Vasa praevia also follows ROM but with fresh bleeding."
+    "why": "Rupture of the membranes followed by sudden bradycardia, in a well mother with clear liquor, is the classic picture of cord prolapse. Vasa praevia also follows rupture of membranes, but with fresh bleeding.",
+    "d": 2
    },
    {
     "id": "cp-2",
     "topic": "cp",
     "type": "sba",
-    "stem": "Para 3, 39 weeks, 5 cm. ARM is done for slow progress; two minutes later the FHR is 80 bpm. On VE a pulsating loop of cord lies in the vagina below the head.",
+    "stem": "A para 3 woman at 39 weeks is 5 cm dilated. Artificial rupture of membranes is performed for slow progress; two minutes later the fetal heart rate is 80 bpm. On vaginal examination a pulsating loop of cord lies in the vagina below the head.",
     "q": "What is the most appropriate immediate action?",
     "options": [
      "Call for help and push the head up with two fingers, keeping it up",
@@ -7290,13 +7291,14 @@
      "Transfer her to theatre lying on her back"
     ],
     "answer": 0,
-    "why": "Help plus elevating the presenting part takes pressure off the cord and buys time for delivery. Replacing the cord causes spasm and is never attempted."
+    "why": "Calling for help and elevating the presenting part relieve the pressure on the cord and gain time for delivery. Replacing the cord causes spasm and is never attempted.",
+    "d": 2
    },
    {
     "id": "cp-3",
     "topic": "cp",
     "type": "sba",
-    "stem": "Para 2, 38 weeks, in early labour at 4 cm with intact membranes. On VE a soft pulsating cord is felt through the membranes in front of the head. CTG is normal.",
+    "stem": "A para 2 woman at 38 weeks is in early labour at 4 cm with intact membranes. On vaginal examination a soft, pulsating cord is felt through the membranes in front of the head. The CTG is normal.",
     "q": "What is the most appropriate management?",
     "options": [
      "Amniotomy and oxytocin augmentation",
@@ -7306,14 +7308,15 @@
      "Forceps delivery once fully dilated"
     ],
     "answer": 3,
-    "why": "Cord felt through intact membranes in labour is managed by caesarean, because the cord prolapses as soon as the membranes go. ARM is absolutely wrong here."
+    "why": "Cord presentation in labour is managed by caesarean section, because the cord prolapses as soon as the membranes rupture. Artificial rupture of membranes is contraindicated.",
+    "d": 2
    },
    {
     "id": "cp-4",
     "topic": "cp",
     "type": "sba",
-    "stem": "Primigravida, 40 weeks, fully dilated for 50 minutes, vertex OA at station +2. Membranes rupture and the FHR falls to 90 bpm. A pulsating loop of cord is felt beside the head.",
-    "q": "What is the best way to deliver her?",
+    "stem": "A primigravida at 40 weeks has been fully dilated for 50 minutes, with the vertex occipito-anterior at station +2. The membranes rupture and the fetal heart rate falls to 90 bpm. A pulsating loop of cord is felt beside the head.",
+    "q": "What is the best mode of delivery?",
     "options": [
      "Category 1 caesarean section",
      "Forceps or ventouse delivery in the room",
@@ -7322,13 +7325,14 @@
      "Terbutaline and repeat CTG in 20 minutes"
     ],
     "answer": 1,
-    "why": "Fully dilated with a low head, an instrumental delivery is quicker than any caesarean. Caesarean is chosen when the head is high or the lie is not cephalic."
+    "why": "At full dilatation with a low head, instrumental delivery is quicker than caesarean section. Caesarean section is chosen when the head is high or the lie is not cephalic.",
+    "d": 2
    },
    {
     "id": "cp-5",
     "topic": "cp",
     "type": "sba",
-    "stem": "Para 5, 39 weeks, fully dilated. The head is 4/5 palpable above the brim. After spontaneous ROM a pulsating cord is seen at the vulva and the FHR is 85 bpm.",
+    "stem": "A para 5 woman at 39 weeks is fully dilated. The head is 4/5 palpable above the pelvic brim. After spontaneous rupture of membranes a pulsating cord is seen at the vulva and the fetal heart rate is 85 bpm.",
     "q": "What is the most appropriate mode of delivery?",
     "options": [
      "Ventouse delivery in the labour room",
@@ -7338,13 +7342,14 @@
      "Caesarean section while the part is held up"
     ],
     "answer": 4,
-    "why": "Even at full dilatation, a high, unengaged head cannot be delivered safely from below, so it is a caesarean. Ventouse needs an engaged head."
+    "why": "Even at full dilatation, a high, unengaged head cannot be delivered safely vaginally, so caesarean section is required. Ventouse delivery requires an engaged head.",
+    "d": 3
    },
    {
     "id": "cp-6",
     "topic": "cp",
     "type": "sba",
-    "stem": "Para 3, 37 weeks, arrives from a village 3 hours after her waters broke. A loop of cord is hanging out of the vulva; it is cold and not pulsating. Bedside ultrasound shows no fetal heart activity.",
+    "stem": "A para 3 woman at 37 weeks arrives from a village 3 hours after her membranes ruptured. A loop of cord is hanging out of the vulva; it is cold and not pulsating. Bedside ultrasound shows no fetal heart activity.",
     "q": "What is the most appropriate plan for delivery?",
     "options": [
      "Category 1 caesarean section",
@@ -7354,13 +7359,14 @@
      "Classical caesarean section"
     ],
     "answer": 1,
-    "why": "Once the fetus is confirmed dead there is no fetal reason for a caesarean, so she delivers vaginally. Caesarean would add maternal risk only."
+    "why": "Once fetal death is confirmed there is no fetal indication for caesarean section, so she delivers vaginally. Caesarean section would only add maternal risk.",
+    "d": 2
    },
    {
     "id": "cp-7",
     "topic": "cp",
     "type": "sba",
-    "stem": "Para 2, 38 weeks, 3 cm. Cord prolapse is found after spontaneous ROM. The cord feels limp and you cannot feel pulsation, but bedside ultrasound shows a fetal heart rate of 90 bpm.",
+    "stem": "A para 2 woman at 38 weeks is 3 cm dilated. Cord prolapse is found after spontaneous rupture of membranes. The cord is limp and no pulsation is felt, but bedside ultrasound shows a fetal heart rate of 90 bpm.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Vaginal delivery, as the cord is not pulsating",
@@ -7370,13 +7376,14 @@
      "Forceps delivery at once"
     ],
     "answer": 3,
-    "why": "A still cord may be in spasm; a heart on scan means the fetus is alive. Alive and not fully dilated means a category 1 caesarean."
+    "why": "A cord without pulsation may be in spasm; fetal heart activity on ultrasound shows that the fetus is alive. A live fetus with a cervix that is not fully dilated requires a category 1 caesarean section.",
+    "d": 3
    },
    {
     "id": "cp-8",
     "topic": "cp",
     "type": "sba",
-    "stem": "Para 4, 38 weeks, at a rural health centre. Cord prolapse is found at 4 cm with a pulsating cord. The nearest theatre is 90 minutes away by ambulance and the midwife cannot keep her hand in the vagina for the whole trip.",
+    "stem": "A para 4 woman at 38 weeks is in a rural health centre. Cord prolapse is found at 4 cm with a pulsating cord. The nearest operating theatre is 90 minutes away by ambulance, and the midwife cannot keep her hand in the vagina for the whole journey.",
     "q": "Which measure is best for the journey?",
     "options": [
      "Fill the bladder with 500 mL warm saline, clamp the catheter, and transfer in exaggerated left Sims position",
@@ -7386,13 +7393,14 @@
      "Wrap the cord in a dry towel and transfer sitting up"
     ],
     "answer": 0,
-    "why": "A full bladder lifts the presenting part off the cord, and left Sims is the safe position in a moving vehicle. Knee-chest is unsafe in an ambulance."
+    "why": "A full bladder lifts the presenting part off the cord, and the left Sims position is safe in a moving vehicle. The knee–chest position is unsafe in an ambulance.",
+    "d": 3
    },
    {
     "id": "cp-9",
     "topic": "cp",
     "type": "sba",
-    "stem": "Para 2, 39 weeks, cord prolapse at 5 cm. A Foley catheter was used to fill her bladder before transfer. She is now on the theatre table under general anaesthesia and the surgeon has opened the abdomen.",
+    "stem": "A para 2 woman at 39 weeks has cord prolapse at 5 cm. A Foley catheter was used to fill her bladder before transfer. She is now on the operating table under general anaesthesia and the surgeon has opened the abdomen.",
     "q": "What must be done before the uterine incision?",
     "options": [
      "Give terbutaline 0.25 mg SC",
@@ -7402,13 +7410,14 @@
      "Push the presenting part down into the pelvis"
     ],
     "answer": 2,
-    "why": "The full bladder lies in front of the lower segment and is at risk of injury, so it is drained before the uterus is opened."
+    "why": "The full bladder lies in front of the lower uterine segment and is at risk of injury, so it is emptied before the uterus is opened.",
+    "d": 3
    },
    {
     "id": "cp-10",
     "topic": "cp",
     "type": "sba",
-    "stem": "Para 3, 39 weeks, 4 cm. A pulsating cord loop is in the vagina and the presenting part is being held up. Theatre will be ready in 15 minutes. She is contracting strongly every 2 minutes and the FHR drops to 80 bpm with each contraction.",
+    "stem": "A para 3 woman at 39 weeks is 4 cm dilated. A pulsating loop of cord is in the vagina and the presenting part is being held up. The theatre will be ready in 15 minutes. She is contracting strongly every 2 minutes, and the fetal heart rate falls to 80 bpm with each contraction.",
     "q": "Which drug is most appropriate now?",
     "options": [
      "Nifedipine 20 mg orally",
@@ -7418,14 +7427,15 @@
      "Terbutaline 0.25 mg SC"
     ],
     "answer": 4,
-    "why": "Terbutaline SC works within minutes and stops contractions pushing the head onto the cord. Oral nifedipine acts too slowly for an emergency."
+    "why": "Subcutaneous terbutaline acts within minutes and stops the contractions pressing the head onto the cord. Oral nifedipine acts too slowly for an emergency.",
+    "d": 2
    },
    {
     "id": "cp-11",
     "topic": "cp",
     "type": "sba",
-    "stem": "You are checking five women in the antenatal clinic, all with intact membranes.",
-    "q": "Which of them has the highest risk of cord prolapse if her membranes rupture?",
+    "stem": "Five women with intact membranes are reviewed in the antenatal clinic.",
+    "q": "Which woman has the highest risk of cord prolapse if her membranes rupture?",
     "options": [
      "Para 1, 36 weeks, footling breech",
      "Para 1, 38 weeks, frank breech",
@@ -7434,14 +7444,15 @@
      "Primigravida, 41 weeks, cephalic, head engaged"
     ],
     "answer": 0,
-    "why": "Footling breech carries about 15% risk, against about 5% for complete and 0.5% for frank breech. An engaged head fills the pelvis and protects the cord."
+    "why": "Footling breech carries a risk of about 15%, compared with about 5% for complete breech and 0.5% for frank breech. An engaged head fills the pelvis and protects the cord.",
+    "d": 2
    },
    {
     "id": "cp-12",
     "topic": "cp",
     "type": "sba",
-    "stem": "Para 6, 38 weeks, with polyhydramnios. Her lie has been transverse, then oblique, then cephalic at three visits. Today it is cephalic with the head high, and induction is planned.",
-    "q": "What is the safest way to rupture her membranes?",
+    "stem": "A para 6 woman at 38 weeks has polyhydramnios. The lie was transverse, then oblique, then cephalic at three successive visits. Today it is cephalic with a high head, and induction of labour is planned.",
+    "q": "What is the safest method of rupturing her membranes?",
     "options": [
      "Routine ARM in the labour room once the cervix is 2 cm",
      "ARM after starting a high-dose oxytocin infusion",
@@ -7450,13 +7461,14 @@
      "No ARM; wait for spontaneous rupture at home"
     ],
     "answer": 2,
-    "why": "With polyhydramnios and a high head, a controlled ARM in theatre lets the liquor out slowly and allows immediate caesarean if the cord comes down."
+    "why": "With polyhydramnios and a high head, controlled artificial rupture of membranes in theatre releases the liquor slowly and allows immediate caesarean section if the cord prolapses.",
+    "d": 3
    },
    {
     "id": "cp-13",
     "topic": "cp",
     "type": "sba",
-    "stem": "Para 5, 37 weeks. At the last three visits her fetus has been transverse, breech and then cephalic. She lives two hours from hospital.",
+    "stem": "A para 5 woman is 37 weeks pregnant. At the last three visits the fetus was transverse, breech and then cephalic. She lives two hours from the hospital.",
     "q": "What is the most appropriate advice now?",
     "options": [
      "Return in 2 weeks for another scan",
@@ -7466,13 +7478,14 @@
      "Deliver at home with a trained midwife"
     ],
     "answer": 1,
-    "why": "An unstable lie is admitted from 37 weeks, because cord prolapse after ROM at home would be fatal for the baby. ARM with a high, changing lie causes cord prolapse."
+    "why": "A woman with an unstable lie is admitted from 37 weeks, because cord prolapse after rupture of membranes at home would be fatal for the baby. Artificial rupture of membranes with a high, changing lie causes cord prolapse.",
+    "d": 2
    },
    {
     "id": "cp-14",
     "topic": "cp",
     "type": "sba",
-    "stem": "Para 2 with PPROM at 24 weeks. She is now in labour at 6 cm and a pulsating cord loop is felt in the vagina. Fetal heart is 140 bpm on Doppler.",
+    "stem": "A para 2 woman with preterm prelabour rupture of membranes at 24 weeks is now in labour at 6 cm, and a pulsating loop of cord is felt in the vagina. The fetal heart rate is 140 bpm on Doppler.",
     "q": "What is the most appropriate management?",
     "options": [
      "Category 1 caesarean section",
@@ -7482,13 +7495,14 @@
      "Classical caesarean section"
     ],
     "answer": 3,
-    "why": "Below 26 weeks, cord prolapse is managed as a miscarriage and delivery is vaginal. Caesarean adds maternal risk when the baby has very little chance of survival."
+    "why": "Before 26 weeks, cord prolapse is managed as a miscarriage and delivery is vaginal. Caesarean section adds maternal risk when the baby has very little chance of survival.",
+    "d": 3
    },
    {
     "id": "ui-1",
     "topic": "ui",
     "type": "sba",
-    "stem": "Para 2, delivered 10 minutes ago by an intern who pulled hard on the cord before any sign of placental separation. She now has severe lower abdominal pain and feels faint. Pulse 54/min, BP 75/40 mmHg, blood loss about 400 mL. The fundus cannot be felt on abdominal palpation.",
+    "stem": "A para 2 woman delivered 10 minutes ago; the intern pulled hard on the cord before any sign of placental separation. She now has severe lower abdominal pain and feels faint. Her pulse is 54/min, blood pressure 75/40 mmHg and blood loss about 400 mL. The fundus cannot be felt on abdominal palpation.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Atonic postpartum haemorrhage",
@@ -7498,13 +7512,14 @@
      "Uterine inversion"
     ],
     "answer": 4,
-    "why": "Third-stage pain with shock out of proportion to the loss, a slow pulse and no fundus are the classic signs. Atony gives a soft fundus that is easy to feel."
+    "why": "Pain in the third stage with shock out of proportion to the blood loss, bradycardia and an absent fundus are the classic signs of uterine inversion. Atony gives a soft fundus that is easily palpable.",
+    "d": 2
    },
    {
     "id": "ui-2",
     "topic": "ui",
     "type": "sba",
-    "stem": "Para 3, a few minutes after delivery. She is shocked. There is a dark-red rounded mass at the introitus with the placenta still stuck on it, and no fundus is felt abdominally. Help has been called and two cannulae are in.",
+    "stem": "A para 3 woman is in shock a few minutes after delivery. There is a dark-red, rounded mass at the introitus with the placenta still attached to it, and no fundus is palpable abdominally. Help has been called and two cannulae are in place.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Peel the placenta off the mass first, then push it back",
@@ -7514,13 +7529,14 @@
      "Take her to theatre for laparotomy"
     ],
     "answer": 2,
-    "why": "Replacement is done at once, with the placenta left in place. Removing the placenta first opens the raw bed and causes very heavy bleeding."
+    "why": "The uterus is replaced immediately with the placenta left in place. Removing the placenta first exposes the placental bed and causes very heavy bleeding.",
+    "d": 2
    },
    {
     "id": "ui-3",
     "topic": "ui",
     "type": "sba",
-    "stem": "Para 4, 20 minutes after delivery. The uterus is turned out into the vagina. Two attempts at manual replacement have failed because a tight ring of cervix will not let the fundus through. There is no sign of a tear.",
+    "stem": "Twenty minutes after delivery, the uterus of a para 4 woman is inverted into the vagina. Two attempts at manual replacement have failed because a tight cervical ring does not allow the fundus through. There is no sign of a tear.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Ergometrine 0.5 mg IM to stop the bleeding",
@@ -7530,14 +7546,15 @@
      "Pack the vagina and wait 6 hours"
     ],
     "answer": 1,
-    "why": "A tight ring is relaxed with a tocolytic or volatile anaesthetic before pushing again. Oxytocics make the ring tighter and must wait until after replacement."
+    "why": "A tight ring is relaxed with a tocolytic or a volatile anaesthetic before replacement is attempted again. Oxytocic drugs tighten the ring and are withheld until after replacement.",
+    "d": 3
    },
    {
     "id": "ui-4",
     "topic": "ui",
     "type": "sba",
-    "stem": "Para 2. A turned-out uterus was replaced manually after terbutaline 0.25 mg SC. The placenta is still attached and the doctor's fist is inside the fundus.",
-    "q": "What drug should be started now?",
+    "stem": "In a para 2 woman, an inverted uterus has been replaced manually after terbutaline 0.25 mg subcutaneously. The placenta is still attached and the doctor's fist is inside the fundus.",
+    "q": "Which drug should be started now?",
     "options": [
      "Oxytocin 40 IU in 500 mL over 4 hours, stopping the tocolytic",
      "A second dose of terbutaline 0.25 mg SC",
@@ -7546,13 +7563,14 @@
      "Halothane by face mask"
     ],
     "answer": 0,
-    "why": "Once the uterus is back, the tocolytic stops and oxytocin contracts the uterus to hold it in place and control bleeding."
+    "why": "Once the uterus has been replaced, the tocolytic is stopped and oxytocin is given to contract the uterus, hold it in place and control bleeding.",
+    "d": 2
    },
    {
     "id": "ui-5",
     "topic": "ui",
     "type": "sba",
-    "stem": "Para 3. The uterus is out to the vulva. Manual replacement has failed despite terbutaline. The team plans to run warm saline fast into the vagina while sealing the labia with a silicone ventouse cup.",
+    "stem": "In a para 3 woman the inverted uterus reaches the vulva. Manual replacement has failed despite terbutaline. The team plans to run warm saline rapidly into the vagina while sealing the labia with a silicone ventouse cup.",
     "q": "What must be excluded before this method is used?",
     "options": [
      "Retained placental tissue",
@@ -7562,14 +7580,15 @@
      "Group B streptococcus carriage"
     ],
     "answer": 3,
-    "why": "Hydrostatic (O'Sullivan) replacement needs an intact genital tract; with a rupture the saline escapes into the peritoneum and the method fails."
+    "why": "Hydrostatic (O'Sullivan) replacement requires an intact genital tract; if there is a rupture the saline escapes into the peritoneal cavity and the method fails.",
+    "d": 3
    },
    {
     "id": "ui-6",
     "topic": "ui",
     "type": "sba",
-    "stem": "Para 2, 15 minutes after delivery, with heavy bleeding and pain. Abdominally the fundus is not felt. On VE a soft, purple mass has passed through the cervix and lies in the vagina, but it does not reach the vulva.",
-    "q": "Which degree is this?",
+    "stem": "Fifteen minutes after delivery a para 2 woman has heavy bleeding and pain. The fundus is not palpable abdominally. On vaginal examination a soft, purple mass has passed through the cervix and lies in the vagina, but it does not reach the vulva.",
+    "q": "Which degree of inversion is this?",
     "options": [
      "First degree",
      "Third degree",
@@ -7578,13 +7597,14 @@
      "Second degree"
     ],
     "answer": 4,
-    "why": "Second degree means the fundus has passed the cervix but stays in the vagina. Third degree reaches to or beyond the vulva."
+    "why": "In second-degree inversion the fundus has passed through the cervix but remains in the vagina. In third-degree inversion it reaches or passes the vulva.",
+    "d": 1
    },
    {
     "id": "ui-7",
     "topic": "ui",
     "type": "sba",
-    "stem": "Para 4, 6 weeks after a home birth. She has irregular bleeding, an offensive discharge and Hb 7 g/dL. Speculum shows a red mass in the vagina; no stalk can be felt around it. On bimanual examination there is no fundus, only a cup-shaped dent at the top.",
+    "stem": "Six weeks after a home delivery, a para 4 woman has irregular bleeding, an offensive discharge and a haemoglobin of 7 g/dL. Speculum examination shows a red mass in the vagina; no stalk can be felt around it. On bimanual examination there is no fundus, only a cup-shaped depression at the top.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Fibroid polyp",
@@ -7594,13 +7614,14 @@
      "Retained products of conception"
     ],
     "answer": 2,
-    "why": "No fundus and a cup at the top with a mass in the vagina point to chronic inversion. A fibroid polyp has a stalk and a normal fundus is felt above."
+    "why": "An absent fundus with a cup-shaped depression and a mass in the vagina indicate chronic inversion. A fibroid polyp has a stalk, and a normal fundus is palpable above it.",
+    "d": 3
    },
    {
     "id": "ui-8",
     "topic": "ui",
     "type": "sba",
-    "stem": "Para 2, just delivered. She has severe pain and BP 80/50 mmHg. There is no fundus abdominally and a purple mass sits at the introitus. The house officer wants a scan before doing anything.",
+    "stem": "A para 2 woman has just delivered. She has severe pain and a blood pressure of 80/50 mmHg. No fundus is palpable abdominally and a purple mass lies at the introitus. The house officer wishes to arrange an ultrasound scan before any treatment.",
     "q": "What is the best advice?",
     "options": [
      "No scan: replace the uterus now and send bloods at the same time",
@@ -7610,14 +7631,15 @@
      "Wait for the haemoglobin result"
     ],
     "answer": 0,
-    "why": "Acute cases are a clinical diagnosis; every minute lets the ring tighten. Cross-match 4–6 units in parallel. Ultrasound is kept for unclear subacute or chronic cases."
+    "why": "Acute inversion is a clinical diagnosis, and with every minute the cervical ring tightens. Four to six units of blood are cross-matched at the same time. Ultrasound is reserved for unclear subacute or chronic cases.",
+    "d": 2
    },
    {
     "id": "ui-9",
     "topic": "ui",
     "type": "sba",
-    "stem": "Para 3, 5 minutes after delivery. She suddenly becomes pale and clammy. Pulse 50/min, BP 70/40 mmHg, blood loss only 300 mL. No fundus is felt and a red mass is seen in the vagina.",
-    "q": "What best explains her slow pulse?",
+    "stem": "Five minutes after delivery a para 3 woman suddenly becomes pale and clammy. Her pulse is 50/min and blood pressure 70/40 mmHg, with a blood loss of only 300 mL. No fundus is palpable and a red mass is seen in the vagina.",
+    "q": "What best explains her bradycardia?",
     "options": [
      "Hypovolaemia from concealed bleeding",
      "Amniotic fluid entering the circulation",
@@ -7626,14 +7648,15 @@
      "Complete heart block from pre-existing disease"
     ],
     "answer": 3,
-    "why": "Traction on the structures pulled into the ring triggers neurogenic shock with bradycardia. Pure blood loss causes a fast pulse."
+    "why": "Traction on the structures drawn into the ring triggers neurogenic shock with bradycardia. Blood loss alone causes tachycardia.",
+    "d": 3
    },
    {
     "id": "ui-10",
     "topic": "ui",
     "type": "sba",
-    "stem": "You are teaching midwives how to manage the third stage of labour after oxytocin 10 IU IM.",
-    "q": "Which practice best prevents the uterus turning inside out?",
+    "stem": "Midwives are being taught how to manage the third stage of labour after oxytocin 10 IU IM.",
+    "q": "Which practice best prevents uterine inversion?",
     "options": [
      "Firm cord traction straight after the baby is born",
      "Controlled cord traction only after signs of separation, with suprapubic counter-pressure",
@@ -7642,13 +7665,14 @@
      "Waiting with the mother upright and pulling on the cord"
     ],
     "answer": 1,
-    "why": "Signs of separation plus counter-pressure above the pubis stop the fundus being pulled down. Traction before separation is the commonest cause of inversion."
+    "why": "Waiting for the signs of separation and applying suprapubic counter-pressure prevent the fundus from being pulled down. Traction before separation is the commonest cause of inversion.",
+    "d": 1
    },
    {
     "id": "ui-11",
     "topic": "ui",
     "type": "sba",
-    "stem": "Para 4 books at 10 weeks. In her last delivery at home, the uterus came out after the cord was pulled and was replaced in hospital.",
+    "stem": "A para 4 woman books at 10 weeks. At her last delivery at home, the uterus inverted after the cord was pulled and was replaced in hospital.",
     "q": "What is the most appropriate plan for this delivery?",
     "options": [
      "Elective caesarean section at 39 weeks",
@@ -7658,13 +7682,14 @@
      "Hospital delivery with a skilled attendant, active third stage, IV line and cross-matched blood ready"
     ],
     "answer": 4,
-    "why": "Inversion can recur, so she should deliver in hospital with active management of the third stage and resuscitation ready. Caesarean is not indicated for this."
+    "why": "Inversion can recur, so she should deliver in hospital with active management of the third stage and resuscitation facilities ready. Caesarean section is not indicated for this reason.",
+    "d": 2
    },
    {
     "id": "ui-12",
     "topic": "ui",
     "type": "sba",
-    "stem": "Para 3, 5 days after a home birth, is brought with fever 38.7 °C, foul discharge and Hb 8 g/dL. A swollen red mass fills the vagina; the fundus is not felt and the cervical ring is tight and oedematous.",
+    "stem": "Five days after a home delivery, a para 3 woman is brought with a fever of 38.7 °C, offensive discharge and a haemoglobin of 8 g/dL. A swollen red mass fills the vagina; the fundus is not palpable and the cervical ring is tight and oedematous.",
     "q": "What is the most appropriate management?",
     "options": [
      "Immediate Johnson manoeuvre in the ward without anaesthesia",
@@ -7674,13 +7699,14 @@
      "Discharge on oral antibiotics and review in 4 weeks"
     ],
     "answer": 1,
-    "why": "In subacute inversion the ring is fixed and the uterus oedematous and infected, so manual replacement rarely works. Treat shock and infection, then replace under GA, often by Huntington or Haultain."
+    "why": "In subacute inversion the ring is fixed and the uterus is oedematous and infected, so manual replacement rarely succeeds. Shock and infection are treated first, and the uterus is then replaced under general anaesthesia, often by the Huntington or Haultain procedure.",
+    "d": 3
    },
    {
     "id": "ui-13",
     "topic": "ui",
     "type": "sba",
-    "stem": "Para 2, village birth with a trained midwife. Straight after a forceful cord pull she collapses, and a red mass appears at the vulva with the placenta on it. One immediate push to replace it has failed. The hospital is 2 hours away.",
+    "stem": "A para 2 woman delivers in a village with a trained midwife. Immediately after forceful cord traction she collapses, and a red mass appears at the vulva with the placenta attached. One immediate attempt at replacement has failed. The hospital is 2 hours away.",
     "q": "What should the midwife do next?",
     "options": [
      "Remove the placenta and transfer sitting up",
@@ -7690,13 +7716,14 @@
      "Pack the vagina tightly with dry gauze and wait"
     ],
     "answer": 3,
-    "why": "In the field, one early push is tried; if it fails, protect the uterus, resuscitate and transfer flat with the placenta on. Removing the placenta adds massive bleeding."
+    "why": "In the community one early attempt at replacement is made; if it fails, the uterus is protected, the woman is resuscitated and she is transferred lying flat with the placenta attached. Removing the placenta causes massive bleeding.",
+    "d": 3
    },
    {
     "id": "afe-1",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 5, 38 years old, 39 weeks, on an oxytocin infusion for induction. Ten minutes after ARM at 6 cm she says something is wrong, becomes breathless and cyanosed and has a fit. SpO2 78%, BP 70/30 mmHg. An hour later blood keeps leaking from her cannula sites.",
+    "stem": "A 38-year-old para 5 woman at 39 weeks is on an oxytocin infusion for induction of labour. Ten minutes after artificial rupture of membranes at 6 cm she says that something is wrong, becomes breathless and cyanosed, and has a convulsion. Her oxygen saturation is 78% and blood pressure 70/30 mmHg. An hour later blood continues to ooze from her cannula sites.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Amniotic fluid embolism",
@@ -7706,13 +7733,14 @@
      "Placental abruption"
     ],
     "answer": 0,
-    "why": "Sudden hypoxia and collapse around ROM, followed by DIC, is the classic picture. PE rarely gives early DIC and usually occurs after delivery."
+    "why": "Sudden hypoxia and collapse around rupture of the membranes, followed by DIC, is the classic picture of amniotic fluid embolism. Pulmonary embolism rarely causes early DIC and usually occurs after delivery.",
+    "d": 2
    },
    {
     "id": "afe-2",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 3 in labour at 7 cm suddenly becomes breathless and agitated. She is cyanosed, SpO2 80%, pulse 130/min, BP 75/40 mmHg. She is still breathing and has a pulse. Help has been called.",
+    "stem": "A para 3 woman in labour at 7 cm suddenly becomes breathless and agitated. She is cyanosed, with an oxygen saturation of 80%, pulse 130/min and blood pressure 75/40 mmHg. She is still breathing and has a pulse. Help has been called.",
     "q": "What is the most appropriate immediate step?",
     "options": [
      "Move her to theatre for immediate caesarean section",
@@ -7722,13 +7750,14 @@
      "Start a heparin infusion"
     ],
     "answer": 2,
-    "why": "Oxygen and taking the uterus off the IVC keep her alive in the first minutes. Large fluid volumes flood the lungs through a failing right heart."
+    "why": "Oxygen and displacement of the uterus off the inferior vena cava maintain life in the first minutes. Large volumes of fluid cause pulmonary oedema when the right heart is failing.",
+    "d": 2
    },
    {
     "id": "afe-3",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 2, 36 weeks, collapses in labour after sudden breathlessness. She is now in cardiac arrest. CPR at 30:2 with left uterine displacement has run for 4 minutes with no output.",
+    "stem": "A para 2 woman at 36 weeks collapses in labour after sudden breathlessness and is now in cardiac arrest. CPR at 30:2 with left uterine displacement has continued for 4 minutes with no cardiac output.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Transfer her to theatre for caesarean section",
@@ -7738,13 +7767,14 @@
      "Perimortem caesarean section where she lies, with CPR continuing"
     ],
     "answer": 4,
-    "why": "From 20 weeks, a perimortem caesarean starts at 4 minutes and the baby should be out by 5 minutes. Transfer wastes minutes and stops CPR."
+    "why": "From 20 weeks, perimortem caesarean section is started at 4 minutes and the baby should be delivered by 5 minutes. Transfer wastes time and interrupts CPR.",
+    "d": 2
    },
    {
     "id": "afe-4",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 1 at 16 weeks has a cardiac arrest during a surgical evacuation for a missed miscarriage. CPR has been running for 4 minutes.",
+    "stem": "A para 1 woman at 16 weeks has a cardiac arrest during surgical evacuation for a missed miscarriage. CPR has been in progress for 4 minutes.",
     "q": "What is the most appropriate management?",
     "options": [
      "Continue CPR; a perimortem uterine evacuation is not indicated",
@@ -7754,7 +7784,8 @@
      "Stop CPR as the outcome is hopeless"
     ],
     "answer": 0,
-    "why": "Before 20 weeks the uterus is too small to block the IVC, so emptying it does not help CPR. The 4-minute rule applies only from 20 weeks."
+    "why": "Before 20 weeks the uterus is too small to compress the inferior vena cava, so emptying it does not improve CPR. The 4-minute rule applies only from 20 weeks.",
+    "d": 3
    },
    {
     "id": "afe-5",
@@ -7770,13 +7801,14 @@
      "It allows a hysterectomy to be done at the same time"
     ],
     "answer": 2,
-    "why": "Perimortem caesarean is mainly for the mother: venous return rises and chest compressions become effective. Fetal survival is a secondary gain."
+    "why": "Perimortem caesarean section is performed mainly for the mother: venous return increases and chest compressions become effective. Fetal survival is a secondary benefit.",
+    "d": 3
    },
    {
     "id": "afe-6",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 4 survived a sudden collapse in labour and was delivered by caesarean. She is now Bleeding from the wound and cannula sites. Platelets 90 × 10⁹/L, fibrinogen 1.2 g/L, PT prolonged. FFP 15 mL/kg is running.",
+    "stem": "A para 4 woman survived a sudden collapse in labour and was delivered by caesarean section. She is now bleeding from the wound and cannula sites. Her platelet count is 90 × 10⁹/L, fibrinogen 1.2 g/L and prothrombin time prolonged. FFP 15 mL/kg is being given.",
     "q": "Which product should be added?",
     "options": [
      "Platelet transfusion",
@@ -7786,14 +7818,15 @@
      "Recombinant erythropoietin"
     ],
     "answer": 1,
-    "why": "Fibrinogen below 2 g/L is the trigger for cryoprecipitate. Platelets are given when the count is below 50 × 10⁹/L."
+    "why": "A fibrinogen level below 2 g/L is the indication for cryoprecipitate. Platelets are given when the count is below 50 × 10⁹/L.",
+    "d": 3
    },
    {
     "id": "afe-7",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 3 collapsed with cyanosis during labour in a rural hospital that has no laboratory. She is now delivered and bleeding from the uterus and puncture sites.",
-    "q": "Which bedside test best shows a clotting failure?",
+    "stem": "A para 3 woman collapsed with cyanosis during labour in a rural hospital that has no laboratory. She has now delivered and is bleeding from the uterus and puncture sites.",
+    "q": "Which bedside test best demonstrates a clotting failure?",
     "options": [
      "Capillary refill time",
      "Urine dipstick for blood",
@@ -7802,13 +7835,14 @@
      "Haemoglobin colour scale"
     ],
     "answer": 3,
-    "why": "The bedside clot test is quick and reliable: no clot in 7–10 minutes means DIC. Products are given without waiting for formal results."
+    "why": "The bedside clotting test is quick and reliable: failure to form a clot within 7–10 minutes indicates DIC. Blood products are given without waiting for laboratory results.",
+    "d": 2
    },
    {
     "id": "afe-8",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 2 after a sudden collapse in labour. She is intubated on oxygen. After a careful 1 L fluid bolus her BP is 70/40 mmHg, JVP is raised and echo shows a dilated right ventricle.",
+    "stem": "A para 2 woman is intubated and receiving oxygen after a sudden collapse in labour. After a careful 1 L fluid bolus her blood pressure is 70/40 mmHg, the JVP is raised and echocardiography shows a dilated right ventricle.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Give another 2 L of crystalloid quickly",
@@ -7818,13 +7852,14 @@
      "Start a vasopressor such as noradrenaline or phenylephrine"
     ],
     "answer": 4,
-    "why": "Low BP after fluids in a failing right heart needs a vasopressor, ± inotrope. More fluid worsens right heart failure and pulmonary oedema."
+    "why": "Hypotension after fluids with a failing right heart requires a vasopressor, with or without an inotrope. Further fluid worsens right heart failure and pulmonary oedema.",
+    "d": 3
    },
    {
     "id": "afe-9",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 1, in labour at 5 cm with ruptured membranes for 20 hours, is given ampicillin 2 g IV. Ten minutes later she is breathless with wheeze, urticaria and swollen lips. BP 80/50 mmHg.",
+    "stem": "A para 1 woman in labour at 5 cm, with membranes ruptured for 20 hours, is given ampicillin 2 g IV. Ten minutes later she is breathless, with wheeze, urticaria and swollen lips. Her blood pressure is 80/50 mmHg.",
     "q": "What is the most appropriate drug?",
     "options": [
      "Hydrocortisone 200 mg IV alone",
@@ -7834,13 +7869,14 @@
      "Magnesium sulphate 4 g IV"
     ],
     "answer": 2,
-    "why": "Collapse with rash and wheeze straight after a drug is anaphylaxis, and IM adrenaline is first-line. Steroids and antihistamines are only add-ons."
+    "why": "Collapse with a rash and wheeze immediately after a drug is anaphylaxis, and intramuscular adrenaline is the first-line treatment. Steroids and antihistamines are adjuncts only.",
+    "d": 2
    },
    {
     "id": "afe-10",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 2 in labour with an epidural. Two minutes after a top-up she says her mouth is tingling and her ears are ringing, then she has a fit. BP 85/50 mmHg.",
+    "stem": "A para 2 woman is in labour with an epidural. Two minutes after a top-up she reports tingling around the mouth and ringing in the ears, and then has a convulsion. Her blood pressure is 85/50 mmHg.",
     "q": "Besides airway support and stopping the injection, what specific treatment is needed?",
     "options": [
      "Magnesium sulphate 4 g IV",
@@ -7850,7 +7886,8 @@
      "Calcium gluconate 10 mL of 10% IV"
     ],
     "answer": 1,
-    "why": "Tingling mouth and tinnitus after a top-up point to local anaesthetic toxicity, treated with 20% lipid. MgSO4 is for an eclamptic fit."
+    "why": "Perioral tingling and tinnitus after an epidural top-up suggest local anaesthetic toxicity, which is treated with 20% lipid emulsion. Magnesium sulphate is used for an eclamptic convulsion.",
+    "d": 3
    },
    {
     "id": "afe-11",
@@ -7866,13 +7903,14 @@
      "A dilated right ventricle on echo before death"
     ],
     "answer": 0,
-    "why": "Only squames in the lung vessels at autopsy are definitive. Squames in PA catheter blood in a living woman are supportive only, as they can be found in normal women."
+    "why": "Only fetal squames in the pulmonary vessels at post-mortem examination are diagnostic. Squames in blood from a pulmonary artery catheter in a living woman are supportive only, because they are also found in normal women.",
+    "d": 2
    },
    {
     "id": "afe-12",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 2, day 5 after an emergency caesarean, has sudden pleuritic chest pain and breathlessness. Her left calf is swollen. SpO2 90%, pulse 115/min, BP 110/70 mmHg. There is no bleeding and the clotting screen is normal.",
+    "stem": "On day 5 after an emergency caesarean section, a para 2 woman has sudden pleuritic chest pain and breathlessness. Her left calf is swollen. Her oxygen saturation is 90%, pulse 115/min and blood pressure 110/70 mmHg. There is no bleeding and the clotting screen is normal.",
     "q": "Which investigation is most appropriate?",
     "options": [
      "Clot test at the bedside",
@@ -7882,13 +7920,14 @@
      "Electroencephalogram"
     ],
     "answer": 3,
-    "why": "Postnatal pleuritic pain, a swollen calf and no early DIC point to PE, confirmed by CTPA and treated with heparin."
+    "why": "Postnatal pleuritic pain with a swollen calf and no early DIC suggests pulmonary embolism, which is confirmed by CT pulmonary angiography and treated with heparin.",
+    "d": 2
    },
    {
     "id": "afe-13",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 4 had a sudden collapse at delivery and is now stable on ICU support, with FFP and cryoprecipitate given. The uterus is soft and bleeding continues despite an oxytocin infusion of 40 IU in 500 mL. She has no asthma.",
+    "stem": "A para 4 woman had a sudden collapse at delivery and is now stable with intensive care support; FFP and cryoprecipitate have been given. The uterus is soft and bleeding continues despite an oxytocin infusion of 40 IU in 500 mL. She does not have asthma.",
     "q": "Which drug is most appropriate next?",
     "options": [
      "Ergometrine 5 mg IV",
@@ -7898,14 +7937,15 @@
      "Carboprost 250 µg IM"
     ],
     "answer": 4,
-    "why": "For atony after oxytocin, carboprost 250 µg IM is the next uterotonic. Terbutaline relaxes the uterus and would make the bleeding worse."
+    "why": "For atony that persists after oxytocin, carboprost 250 µg IM is the next uterotonic. Terbutaline relaxes the uterus and would increase the bleeding.",
+    "d": 2
    },
    {
     "id": "afe-14",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 3, a rural hospital with no blood bank components. After a sudden collapse with cyanosis in labour she is delivered, but she bleeds from everywhere and her blood does not clot.",
-    "q": "Which is the best practical replacement here?",
+    "stem": "A para 3 woman is in a rural hospital that has no blood components. After a sudden collapse with cyanosis in labour she is delivered, but she bleeds from multiple sites and her blood does not clot.",
+    "q": "Which is the best practical replacement in this setting?",
     "options": [
      "Normal saline 5 L",
      "Stored packed red cells only",
@@ -7914,13 +7954,14 @@
      "Wait for transfer before giving any blood"
     ],
     "answer": 2,
-    "why": "Fresh whole blood gives red cells plus clotting factors and platelets when components are short. Large crystalloid volumes dilute clotting factors and flood the lungs."
+    "why": "Fresh whole blood provides red cells, clotting factors and platelets when components are not available. Large volumes of crystalloid dilute the clotting factors and cause pulmonary oedema.",
+    "d": 3
    },
    {
     "id": "afe-15",
     "topic": "afe",
     "type": "sba",
-    "stem": "Para 1 survived a sudden collapse with cyanosis and DIC in labour. She asks about her next pregnancy before discharge.",
+    "stem": "A para 1 woman survived a sudden collapse with cyanosis and DIC in labour. Before discharge she asks about her next pregnancy.",
     "q": "What is the most appropriate advice?",
     "options": [
      "Recurrence is rare; deliver in a hospital with an ICU",
@@ -7930,13 +7971,14 @@
      "Avoid ARM and oxytocin and she is fully protected"
     ],
     "answer": 0,
-    "why": "Recurrence is rare, so pregnancy is not forbidden, but she should deliver where ICU support is on hand. It cannot be prevented by caesarean or drugs."
+    "why": "Recurrence is rare, so a further pregnancy is not contraindicated, but she should deliver where intensive care support is available. Amniotic fluid embolism cannot be prevented by caesarean section or drugs.",
+    "d": 2
    },
    {
     "id": "sd-1",
     "topic": "sd",
     "type": "sba",
-    "stem": "Primigravida, 41 weeks, with GDM on insulin. After a 3-hour second stage the head delivers slowly and then pulls back tight against the perineum. It does not turn to the side, and gentle downward traction with the next contraction fails.",
+    "stem": "A primigravida at 41 weeks has gestational diabetes treated with insulin. After a 3-hour second stage the head delivers slowly and then retracts tightly against the perineum. Restitution does not occur, and gentle downward traction with the next contraction fails.",
     "q": "After calling for help, what is the first manoeuvre?",
     "options": [
      "Episiotomy",
@@ -7946,13 +7988,14 @@
      "Woods screw manoeuvre"
     ],
     "answer": 3,
-    "why": "McRoberts (hips hyperflexed onto the abdomen) is the first manoeuvre; with suprapubic pressure it frees about 80%. Episiotomy only makes room for hands, it does not free the shoulder."
+    "why": "The McRoberts manoeuvre (hips hyperflexed onto the abdomen) is the first manoeuvre; with suprapubic pressure it is successful in about 80% of cases. Episiotomy only provides room for the hands and does not release the shoulder.",
+    "d": 1
    },
    {
     "id": "sd-2",
     "topic": "sd",
     "type": "sba",
-    "stem": "Para 2, 40 weeks, EFW 4.2 kg. The head has delivered but the shoulders are stuck. Help has arrived, she is flat with her thighs pushed back onto her abdomen, and routine traction has failed.",
+    "stem": "A para 2 woman at 40 weeks has an estimated fetal weight of 4.2 kg. The head has delivered but the shoulders are impacted. Help has arrived, she is lying flat with her thighs flexed onto her abdomen, and routine traction has failed.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Fundal pressure by the assistant",
@@ -7962,13 +8005,14 @@
      "Cleidotomy"
     ],
     "answer": 1,
-    "why": "After McRoberts comes suprapubic pressure (Rubin I) on the back of the anterior shoulder. Fundal pressure drives the shoulder harder into the pubis."
+    "why": "The McRoberts manoeuvre is followed by suprapubic pressure (Rubin I) on the back of the anterior shoulder. Fundal pressure impacts the shoulder further against the symphysis pubis.",
+    "d": 2
    },
    {
     "id": "sd-3",
     "topic": "sd",
     "type": "sba",
-    "stem": "Para 3, 41 weeks. The shoulders are impacted after the head. McRoberts and suprapubic pressure have each been tried for 60 seconds without success. The baby is alive and theatre is not yet ready.",
+    "stem": "A para 3 woman is 41 weeks pregnant. The shoulders are impacted after delivery of the head. The McRoberts manoeuvre and suprapubic pressure have each been tried for 60 seconds without success. The baby is alive and the theatre is not yet ready.",
     "q": "Which manoeuvre is the best next choice?",
     "options": [
      "Fundal pressure",
@@ -7978,13 +8022,14 @@
      "Delivery of the posterior arm"
     ],
     "answer": 4,
-    "why": "After L + P the internal manoeuvres follow, and delivery of the posterior arm narrows the shoulder width. Zavanelli and symphysiotomy are last resorts."
+    "why": "After the McRoberts manoeuvre and suprapubic pressure, the internal manoeuvres follow; delivery of the posterior arm reduces the width of the shoulders. The Zavanelli manoeuvre and symphysiotomy are last resorts.",
+    "d": 2
    },
    {
     "id": "sd-4",
     "topic": "sd",
     "type": "sba",
-    "stem": "Para 2. After the head delivers the shoulders do not follow. The team is working: one midwife flexes her hips, a doctor presses above the pubis, a student pushes on the fundus and another doctor makes an episiotomy.",
+    "stem": "In a para 2 woman the shoulders do not follow after delivery of the head. One midwife flexes the woman's hips, a doctor applies suprapubic pressure, a student pushes on the fundus and another doctor performs an episiotomy.",
     "q": "Which action is most likely to cause harm?",
     "options": [
      "Flexing the hips onto the abdomen",
@@ -7994,7 +8039,8 @@
      "Calling out the time"
     ],
     "answer": 1,
-    "why": "Fundal pressure impacts the shoulder further and can rupture the uterus and injure the plexus, so it is never used."
+    "why": "Fundal pressure impacts the shoulder further and can cause uterine rupture and brachial plexus injury, so it is never used.",
+    "d": 1
    },
    {
     "id": "sd-5",
@@ -8010,13 +8056,14 @@
      "It relaxes the pelvic floor muscles"
     ],
     "answer": 3,
-    "why": "McRoberts straightens the lumbosacral angle and rotates the symphysis up over the anterior shoulder; it does not change the bony diameters."
+    "why": "The McRoberts manoeuvre straightens the lumbosacral angle and rotates the symphysis pubis upwards over the anterior shoulder; it does not change the bony diameters of the pelvis.",
+    "d": 2
    },
    {
     "id": "sd-6",
     "topic": "sd",
     "type": "sba",
-    "stem": "Head delivered, shoulders impacted; McRoberts is in place. The fetal back is to the mother's left (LOA). The assistant is about to press above the pubis.",
+    "stem": "The head has delivered and the shoulders are impacted; the McRoberts position has been adopted. The fetal back is on the mother's left (left occipito-anterior). The assistant is about to apply suprapubic pressure.",
     "q": "Where should the pressure be applied?",
     "options": [
      "Down and sideways from the fetal back side, on the back of the anterior shoulder",
@@ -8026,13 +8073,14 @@
      "On the perineum to push it backward"
     ],
     "answer": 0,
-    "why": "Pressing on the back of the anterior shoulder from the fetal back side adducts it into the oblique diameter. Fundal pressure is forbidden."
+    "why": "Pressure on the back of the anterior shoulder, applied from the side of the fetal back, adducts the shoulder into the oblique diameter. Fundal pressure is contraindicated.",
+    "d": 3
    },
    {
     "id": "sd-7",
     "topic": "sd",
     "type": "sba",
-    "stem": "A 4.6 kg baby was born after a difficult delivery with strong traction on the head. The right arm lies limp, internally rotated, with the elbow straight and the wrist flexed. The grasp reflex is present but the Moro is absent on the right.",
+    "stem": "A 4.6 kg baby was born after a difficult delivery with strong traction on the head. The right arm lies limp and internally rotated, with the elbow extended and the wrist flexed. The grasp reflex is present but the Moro reflex is absent on the right.",
     "q": "Which nerve roots are injured?",
     "options": [
      "C8–T1",
@@ -8042,13 +8090,14 @@
      "T2–T3"
     ],
     "answer": 2,
-    "why": "Waiter's tip with a preserved grasp is Erb palsy from C5–C6 stretch. C8–T1 injury gives a claw hand with no grasp."
+    "why": "The waiter's tip position with a preserved grasp reflex indicates Erb's palsy, caused by stretching of C5–C6. Injury to C8–T1 gives a claw hand with an absent grasp reflex.",
+    "d": 2
    },
    {
     "id": "sd-8",
     "topic": "sd",
     "type": "sba",
-    "stem": "A 4.4 kg baby born after impacted shoulders. The left hand is clawed with no grasp. The left eyelid droops and the left pupil is small.",
+    "stem": "A 4.4 kg baby is born after shoulder dystocia. The left hand is clawed with no grasp reflex. The left eyelid droops and the left pupil is small.",
     "q": "What is the most likely injury?",
     "options": [
      "Erb palsy (C5–C6)",
@@ -8058,13 +8107,14 @@
      "Klumpke palsy (C8–T1) with Horner syndrome"
     ],
     "answer": 4,
-    "why": "Claw hand with ptosis and a small pupil is lower plexus injury affecting the sympathetic chain. Erb palsy keeps the grasp."
+    "why": "A claw hand with ptosis and a small pupil indicates a lower brachial plexus injury that involves the sympathetic chain. In Erb's palsy the grasp reflex is preserved.",
+    "d": 3
    },
    {
     "id": "sd-9",
     "topic": "sd",
     "type": "sba",
-    "stem": "Para 3, 41 weeks, after a long induced labour. A 4.3 kg baby was delivered after McRoberts, suprapubic pressure and delivery of the posterior arm. The placenta is out and complete.",
+    "stem": "A para 3 woman at 41 weeks delivers a 4.3 kg baby after a long induced labour; the McRoberts manoeuvre, suprapubic pressure and delivery of the posterior arm were needed. The placenta has been delivered complete.",
     "q": "Which maternal complication is most important to anticipate in the next hour?",
     "options": [
      "Postpartum haemorrhage",
@@ -8074,13 +8124,14 @@
      "Vesicovaginal fistula"
     ],
     "answer": 0,
-    "why": "PPH is the commonest maternal problem after shoulder dystocia, from atony and tears. Start the oxytocin infusion and examine the whole genital tract."
+    "why": "Postpartum haemorrhage is the commonest maternal complication of shoulder dystocia and results from atony and tears. An oxytocin infusion is started and the whole genital tract is examined.",
+    "d": 2
    },
    {
     "id": "sd-10",
     "topic": "sd",
     "type": "sba",
-    "stem": "Para 2 with pre-existing type 2 diabetes on insulin, 38 weeks. Ultrasound EFW is 4.7 kg. Her previous baby was 3.6 kg and born normally.",
+    "stem": "A para 2 woman with pre-existing type 2 diabetes treated with insulin is 38 weeks pregnant. The estimated fetal weight on ultrasound is 4.7 kg. Her previous baby weighed 3.6 kg and was born by normal delivery.",
     "q": "What is the most appropriate plan?",
     "options": [
      "Induction of labour at 41 weeks",
@@ -8090,13 +8141,14 @@
      "Repeat scan in 2 weeks"
     ],
     "answer": 2,
-    "why": "In a diabetic woman an EFW above 4.5 kg is an indication for elective caesarean to avoid impacted shoulders. In a non-diabetic the threshold is 5 kg."
+    "why": "In a diabetic woman an estimated fetal weight above 4.5 kg is an indication for elective caesarean section to avoid shoulder dystocia. In a non-diabetic woman the threshold is 5 kg.",
+    "d": 2
    },
    {
     "id": "sd-11",
     "topic": "sd",
     "type": "sba",
-    "stem": "Para 1 with GDM well controlled on metformin, 37 weeks. EFW is 4.2 kg. No other problems.",
+    "stem": "A para 1 woman with gestational diabetes well controlled on metformin is 37 weeks pregnant. The estimated fetal weight is 4.2 kg. She has no other problems.",
     "q": "What is the most appropriate plan?",
     "options": [
      "Elective caesarean section at 37 weeks",
@@ -8106,13 +8158,14 @@
      "Elective caesarean section at 41 weeks"
     ],
     "answer": 1,
-    "why": "With good control and EFW below 4.5 kg, caesarean is not automatic; she delivers at 38–39 weeks in hospital. Waiting past term adds to fetal size and risk."
+    "why": "With good control and an estimated fetal weight below 4.5 kg, caesarean section is not automatically indicated; she delivers at 38–39 weeks in hospital. Waiting beyond term increases fetal size and risk.",
+    "d": 3
    },
    {
     "id": "sd-12",
     "topic": "sd",
     "type": "sba",
-    "stem": "Para 4, 42 weeks. The head has been out for 5 minutes. McRoberts, suprapubic pressure, internal rotation, posterior arm and all-fours have all failed. The baby is still alive and theatre is ready next door.",
+    "stem": "A para 4 woman is 42 weeks pregnant. The head was delivered 5 minutes ago. The McRoberts manoeuvre, suprapubic pressure, internal rotation, delivery of the posterior arm and the all-fours position have all failed. The baby is still alive and the theatre next door is ready.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Cleidotomy",
@@ -8122,13 +8175,14 @@
      "Symphysiotomy under GA in theatre"
     ],
     "answer": 3,
-    "why": "When all HELPERR steps fail and theatre is ready, Zavanelli (cephalic replacement) under tocolysis followed by caesarean is the choice."
+    "why": "When all the HELPERR steps have failed and a theatre is ready, the Zavanelli manoeuvre (cephalic replacement) under tocolysis followed by caesarean section is chosen.",
+    "d": 3
    },
    {
     "id": "sd-13",
     "topic": "sd",
     "type": "sba",
-    "stem": "Para 3 at a peripheral hospital far from any theatre. The baby's head delivered 6 minutes ago and every manoeuvre, including the posterior arm and all-fours, has failed. The fetal heart is still heard.",
+    "stem": "A para 3 woman is in a peripheral hospital far from any operating theatre. The baby's head delivered 6 minutes ago, and every manoeuvre, including delivery of the posterior arm and the all-fours position, has failed. The fetal heart is still heard.",
     "q": "What is the most appropriate last-resort procedure?",
     "options": [
      "Zavanelli manoeuvre and transfer for caesarean",
@@ -8138,13 +8192,14 @@
      "Symphysiotomy under local anaesthesia, with a catheter displacing the urethra"
     ],
     "answer": 4,
-    "why": "Where caesarean is far away, symphysiotomy is a life-saving last resort for a live baby. Cleidotomy is kept for a dead baby."
+    "why": "Where caesarean section is not available nearby, symphysiotomy is a life-saving last resort for a live baby. Cleidotomy is reserved for a dead baby.",
+    "d": 3
    },
    {
     "id": "sd-14",
     "topic": "sd",
     "type": "sba",
-    "stem": "Para 5 with impacted shoulders after the head. All manoeuvres have failed and there is no fetal heart on Doppler for the last 5 minutes.",
+    "stem": "A para 5 woman has shoulder dystocia. All manoeuvres have failed, and no fetal heart has been detected on Doppler for the last 5 minutes.",
     "q": "What is the most appropriate procedure to deliver the body?",
     "options": [
      "Symphysiotomy",
@@ -8154,13 +8209,14 @@
      "Wait for spontaneous delivery"
     ],
     "answer": 2,
-    "why": "With a dead baby the aim is to spare the mother, so the clavicles are cut. Symphysiotomy and caesarean expose her to risk for no fetal benefit."
+    "why": "When the baby is dead, the aim is to protect the mother, so the clavicles are divided (cleidotomy). Symphysiotomy and caesarean section expose her to risk without fetal benefit.",
+    "d": 3
    },
    {
     "id": "sd-15",
     "topic": "sd",
     "type": "sba",
-    "stem": "Para 1 had impacted shoulders after the head in her first birth; the baby had an Erb palsy that recovered. She is now 30 weeks pregnant and asks if it can happen again.",
+    "stem": "A para 1 woman had shoulder dystocia at her first delivery; the baby had an Erb's palsy that recovered. She is now 30 weeks pregnant and asks whether it can happen again.",
     "q": "What is the best estimate of recurrence?",
     "options": [
      "About 1 in 200",
@@ -8170,7 +8226,8 @@
      "It never recurs"
     ],
     "answer": 1,
-    "why": "Recurrence after a previous shoulder dystocia is about 1 in 10, so mode of birth is discussed with an experienced team. 1 in 200 is the background rate."
+    "why": "The recurrence rate after a previous shoulder dystocia is about 1 in 10, so the mode of delivery is discussed with an experienced team. The background rate is 1 in 200.",
+    "d": 1
    },
    {
     "id": "afe-emq1",
@@ -8192,24 +8249,28 @@
     "lead": "For each patient choose the most likely cause of her collapse. Each option may be used once, more than once or not at all.",
     "items": [
      {
-      "stem": "Para 6, 30 minutes after a normal delivery, is shocked. BP 80/50 mmHg, pulse 128/min. The fundus is soft and soft at the umbilicus and clots come out when it is rubbed.",
+      "stem": "Thirty minutes after a normal delivery a para 6 woman is in shock, with a blood pressure of 80/50 mmHg and a pulse of 128/min. The fundus is soft, at the level of the umbilicus, and clots are expelled when it is rubbed.",
       "answer": 1,
-      "why": "A soft fundus that firms with rubbing is atony; shock matches the loss and the pulse is fast."
+      "why": "A soft fundus that becomes firm when rubbed indicates atony; the shock corresponds to the blood loss and there is tachycardia.",
+      "d": 1
      },
      {
-      "stem": "Para 3 with a previous caesarean, induced with oxytocin. At 8 cm she has sudden severe pain, contractions stop, the head goes up out of the pelvis and fetal parts are felt under the skin. Pulse 140/min.",
+      "stem": "A para 3 woman with a previous caesarean section is induced with oxytocin. At 8 cm she has sudden severe pain, the contractions stop, the head recedes out of the pelvis and fetal parts are palpable under the abdominal wall. Her pulse is 140/min.",
       "answer": 2,
-      "why": "A scar, sudden pain, stopping contractions and recession of the head point to rupture."
+      "why": "A uterine scar, sudden pain, cessation of contractions and recession of the head indicate uterine rupture.",
+      "d": 2
      },
      {
-      "stem": "Para 2, 2 hours after delivery with a second-degree tear repaired, has severe perineal pain and cannot pass urine. Pulse 120/min. The fundus is firm. A tense, tender swelling bulges from the right vaginal wall.",
+      "stem": "Two hours after delivery with repair of a second-degree tear, a para 2 woman has severe perineal pain and cannot pass urine. Her pulse is 120/min and the fundus is firm. A tense, tender swelling bulges from the right vaginal wall.",
       "answer": 8,
-      "why": "A firm uterus with a tense, painful side-wall swelling and shock is a haematoma, often under the repair."
+      "why": "A firm uterus with a tense, painful swelling of the vaginal wall and shock indicates a haematoma, often beneath the repair.",
+      "d": 2
      },
      {
-      "stem": "Para 1, 39 weeks, in labour at 7 cm with clear liquor. Minutes after ARM she becomes agitated, cyanosed and hypotensive, then fits. Her BP before was 110/70 mmHg and urine had no protein. Later she keeps leaking from drip sites.",
+      "stem": "A para 1 woman at 39 weeks is in labour at 7 cm with clear liquor. Minutes after artificial rupture of membranes she becomes agitated, cyanosed and hypotensive, and then has a convulsion. Her blood pressure had been 110/70 mmHg and there was no proteinuria. Later she oozes continuously from the cannula sites.",
       "answer": 3,
-      "why": "Hypoxia and collapse around ROM followed by DIC, with normal BP before, points away from eclampsia."
+      "why": "Hypoxia and collapse around rupture of the membranes, followed by DIC, with a previously normal blood pressure, indicate amniotic fluid embolism and not eclampsia.",
+      "d": 3
      }
     ]
    },
@@ -8233,24 +8294,28 @@
     "lead": "For each situation choose the most appropriate next action. Each option may be used once, more than once or not at all.",
     "items": [
      {
-      "stem": "Head delivered 20 seconds ago in a 4.3 kg baby, pulled back against the perineum. Help has just arrived and she is lying on her back with her legs in stirrups.",
+      "stem": "The head of a 4.3 kg baby delivered 20 seconds ago and has retracted against the perineum. Help has just arrived and the woman is lying on her back with her legs in stirrups.",
       "answer": 0,
-      "why": "After help, the first step is to lie her flat and hyperflex the hips."
+      "why": "After calling for help, the first step is to lay the woman flat and hyperflex her hips (McRoberts manoeuvre).",
+      "d": 1
      },
      {
-      "stem": "Theatre is ready next door. Every manoeuvre including all-fours has failed; the baby is alive and the head has been out for 5 minutes.",
+      "stem": "A theatre next door is ready. Every manoeuvre, including the all-fours position, has failed; the baby is alive and the head was delivered 5 minutes ago.",
       "answer": 6,
-      "why": "With theatre ready, the head is replaced under terbutaline and a caesarean is done."
+      "why": "When a theatre is ready, the head is replaced under terbutaline and caesarean section is performed (Zavanelli manoeuvre).",
+      "d": 3
      },
      {
-      "stem": "Peripheral unit, no theatre within 3 hours. All manoeuvres have failed and the fetal heart is still heard.",
+      "stem": "In a peripheral unit with no operating theatre within 3 hours, all manoeuvres have failed and the fetal heart is still heard.",
       "answer": 7,
-      "why": "Where caesarean is far, symphysiotomy under local anaesthesia can save a live baby."
+      "why": "Where caesarean section is not available nearby, symphysiotomy under local anaesthesia can save a live baby.",
+      "d": 3
      },
      {
       "stem": "All manoeuvres have failed and the fetal heart has been absent for several minutes.",
       "answer": 8,
-      "why": "With a dead baby, cutting the clavicles spares the mother from further trauma."
+      "why": "When the baby is dead, division of the clavicles (cleidotomy) protects the mother from further trauma.",
+      "d": 3
      }
     ]
    },
@@ -8274,24 +8339,28 @@
     "lead": "For each patient choose the most appropriate management. Each option may be used once, more than once or not at all.",
     "items": [
      {
-      "stem": "Para 1, 32 weeks, not in labour, intact membranes. Ultrasound and VE show a loop of cord lying below the breech. CTG is normal.",
+      "stem": "A para 1 woman at 32 weeks is not in labour and has intact membranes. Ultrasound and vaginal examination show a loop of cord lying below the breech. The CTG is normal.",
       "answer": 4,
-      "why": "Cord presentation preterm with intact membranes is managed conservatively, avoiding ARM."
+      "why": "Preterm cord presentation with intact membranes is managed conservatively, and artificial rupture of membranes is avoided.",
+      "d": 2
      },
      {
-      "stem": "Para 4 at a rural health centre, 3 cm, pulsating cord in the vagina; the referral hospital is 2 hours by road.",
+      "stem": "A para 4 woman in a rural health centre is 3 cm dilated with a pulsating cord in the vagina; the referral hospital is 2 hours away by road.",
       "answer": 3,
-      "why": "A full bladder holds the part up during a long transfer; knee-chest is unsafe in a vehicle."
+      "why": "A full bladder keeps the presenting part elevated during a long transfer; the knee–chest position is unsafe in a vehicle.",
+      "d": 2
      },
      {
-      "stem": "Para 3, uterus out to the vulva after the third stage. Manual replacement failed even after terbutaline; examination shows no tear in the vagina or uterus.",
+      "stem": "In a para 3 woman the uterus is inverted to the vulva after the third stage. Manual replacement failed even after terbutaline; examination shows no tear in the vagina or uterus.",
       "answer": 6,
-      "why": "When manual replacement fails and rupture is excluded, warm saline pressure can lift the fundus."
+      "why": "When manual replacement has failed and rupture has been excluded, hydrostatic pressure with warm saline can replace the fundus.",
+      "d": 3
      },
      {
-      "stem": "Para 5 at laparotomy for a turned-out uterus. Clamps on the round ligaments cannot pull the fundus up through a very tight ring.",
+      "stem": "A para 5 woman is undergoing laparotomy for uterine inversion. Clamps on the round ligaments cannot pull the fundus up through a very tight ring.",
       "answer": 7,
-      "why": "When the ring is too tight, a posterior incision through it allows replacement, then repair."
+      "why": "When the ring is too tight, a posterior incision through it (Haultain procedure) allows replacement, followed by repair.",
+      "d": 3
      }
     ]
    }

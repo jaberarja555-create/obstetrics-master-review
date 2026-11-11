@@ -238,7 +238,7 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   with standard medical terms, WITHOUT changing any fact, number or dose; exact duplicate cards are removed. Card = [section, question, answer,
   level, old key]; question field `d` (EMQ items too). Chapter files `tools/levels/ch<N>.py`, applied with `python3 tools/levels/apply.py <file>`.
   App: Level filter in flashcards (`orr-fclv`) and step 3 «Level» in the test builder (`qset.lv`); a level tag on each card and question.
-  **Done: chapters 1 and 6 (ch 1: 86 cards, 44 questions; ch 6: 124 cards, 74 questions). Next: chapters 2, 3, 4, 5, 7.** The question bank and flashcard screens still
+  **Done: chapters 1, 5 and 6. Next: chapters 2, 3, 4, 7.** The question bank and flashcard screens still
   have the old gold look; restyle them to the app tokens.
 - **Help (owner, 11 Nov 2026):** Settings → «المساعدة» (`v2contact`): two cards (`HPS` in v2.js): د. عبدالجليل ارجا 0116984258 and د. العباس عبدالرحمن 0965859782 (+249 96 585 9782), each with three buttons:
   WhatsApp (wa.me), Telegram (t.me/+number), Call (tel:). **Notification sound:** a new notification plays a soft two-note sound and swings the

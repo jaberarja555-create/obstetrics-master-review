@@ -5352,157 +5352,212 @@
    [
     "Definitions",
     "Define cord presentation.",
-    "Umbilical cord lying below the presenting part with intact membranes."
+    "The umbilical cord lies below the presenting part while the membranes are intact.",
+    1,
+    "15ohi2f"
    ],
    [
     "Definitions",
     "Define cord prolapse.",
-    "Cord below the presenting part, in the vagina or outside the vulva, after the membranes rupture."
+    "The cord lies below the presenting part, in the vagina or outside the vulva, after the membranes have ruptured.",
+    1,
+    "1qhywz5"
    ],
    [
     "Definitions",
     "What is occult cord prolapse?",
-    "Cord lies beside the presenting part, not felt on VE; suspected from FHR decelerations."
+    "The cord lies beside the presenting part and is not felt on vaginal examination; it is suspected from fetal heart rate decelerations.",
+    2,
+    "2en7jp"
    ],
    [
     "Incidence",
     "How common is cord prolapse?",
-    "About 1 in 300–500 deliveries."
+    "About 1 in 300–500 deliveries.",
+    1,
+    "1va9o3y"
    ],
    [
     "Risk factors",
-    "Which breech type has the highest risk of cord prolapse?",
-    "Footling breech, about 15% (complete 5%, frank 0.5%)."
+    "Which type of breech presentation carries the highest risk of cord prolapse?",
+    "Footling breech, about 15% (complete breech 5%, frank breech 0.5%).",
+    2,
+    "1xlppgk"
    ],
    [
     "Risk factors",
-    "Name five risk factors for cord prolapse.",
-    "Malpresentation or unstable lie, preterm, twins (second twin), polyhydramnios, multiparity, ARM with a high head."
+    "What are the risk factors for cord prolapse?",
+    "Malpresentation or unstable lie, prematurity, twin pregnancy (second twin), polyhydramnios, multiparity, and artificial rupture of membranes with a high head.",
+    2,
+    "1pxdv07"
    ],
    [
     "Risk factors",
     "Which procedure most often causes cord prolapse?",
-    "Artificial rupture of membranes with a high, unengaged presenting part."
+    "Artificial rupture of membranes when the presenting part is high and not engaged.",
+    1,
+    "68u59o"
    ],
    [
     "Risk factors",
     "Why does polyhydramnios cause cord prolapse?",
-    "The gush of liquor at ROM washes the cord down past a high presenting part."
+    "The gush of liquor at rupture of membranes carries the cord down past a high presenting part.",
+    2,
+    "1qhh8q7"
    ],
    [
     "Risk factors",
-    "Placenta praevia centralis and cord prolapse: linked?",
-    "No; it is the MCQ exception (praevia gives a high head, but the os is covered)."
+    "Is central placenta praevia a risk factor for cord prolapse?",
+    "No. Placenta praevia keeps the head high, but the os is covered by the placenta.",
+    3,
+    "1tc9jt8"
    ],
    [
     "Pathophysiology",
-    "Two mechanisms of fetal hypoxia in cord prolapse?",
-    "Compression between presenting part and pelvis, and vasospasm of umbilical arteries from cold and handling."
+    "What are the two mechanisms of fetal hypoxia in cord prolapse?",
+    "Compression of the cord between the presenting part and the pelvis, and spasm of the umbilical arteries caused by cold and handling.",
+    2,
+    "afdc2p"
    ],
    [
     "Diagnosis",
-    "Classic vignette of cord prolapse?",
-    "ROM or ARM, then sudden fetal bradycardia or variable decelerations; mother well, clear liquor, no bleeding."
+    "What is the typical presentation of cord prolapse?",
+    "Sudden fetal bradycardia or variable decelerations immediately after spontaneous or artificial rupture of membranes; the mother is well, the liquor is clear and there is no bleeding.",
+    2,
+    "dqwz66"
    ],
    [
     "Diagnosis",
-    "Sudden FHR drop right after ROM. Next step?",
-    "Immediate vaginal examination to exclude cord prolapse."
+    "The fetal heart rate falls suddenly immediately after rupture of membranes. What is the next step?",
+    "Immediate vaginal examination to exclude cord prolapse.",
+    2,
+    "zj0egk"
    ],
    [
     "Diagnosis",
-    "Cord not pulsating on VE. Does that mean the fetus is dead?",
-    "No: spasm is possible. Confirm the heart by Doppler or bedside ultrasound."
+    "The cord is not pulsating on vaginal examination. Does this mean that the fetus is dead?",
+    "No, because arterial spasm is possible. The fetal heart is confirmed by Doppler or bedside ultrasound.",
+    3,
+    "1ompd9w"
    ],
    [
     "Complications",
-    "Fetal complications of cord prolapse?",
-    "Asphyxia, fresh stillbirth, hypoxic brain injury, cerebral palsy, periventricular leukomalacia, birth trauma."
+    "What are the fetal complications of cord prolapse?",
+    "Asphyxia, fresh stillbirth, hypoxic brain injury, cerebral palsy, periventricular leukomalacia and birth trauma.",
+    2,
+    "zvve1n"
    ],
    [
     "Management",
-    "First action after diagnosing cord prolapse?",
-    "Call for help (obstetric, anaesthetic, neonatal), then push the presenting part up off the cord."
+    "What is the first action after diagnosing cord prolapse?",
+    "Call for help (obstetric, anaesthetic and neonatal teams), then push the presenting part up off the cord.",
+    1,
+    "vc5m84"
    ],
    [
     "Management",
     "Why should the cord not be handled?",
-    "Handling and cold cause umbilical artery spasm and worsen hypoxia."
+    "Handling and cold cause spasm of the umbilical arteries and worsen hypoxia.",
+    2,
+    "1m57w2d"
    ],
    [
     "Management",
-    "Should you push the cord back into the uterus?",
-    "No. Only tuck an exposed cord gently into the vagina with a warm wet swab."
+    "Should the cord be pushed back into the uterus?",
+    "No. An exposed cord is only placed gently in the vagina with a warm, wet swab.",
+    2,
+    "5e41w"
    ],
    [
     "Management",
-    "How much saline to fill the bladder in cord prolapse?",
-    "About 500 mL warm saline via Foley, then clamp the catheter."
+    "How much saline is used to fill the bladder in cord prolapse?",
+    "About 500 mL of warm saline through a Foley catheter, which is then clamped.",
+    2,
+    "10yk4vu"
    ],
    [
     "Management",
-    "Bladder filled for cord prolapse. What before the uterine incision?",
-    "Unclamp and empty the bladder."
+    "The bladder was filled for cord prolapse. What must be done before the uterine incision?",
+    "The catheter is unclamped and the bladder is emptied.",
+    3,
+    "18adgck"
    ],
    [
     "Management",
-    "Positions used in cord prolapse?",
-    "Knee-chest, or exaggerated left Sims (left lateral, hip raised, head down) for transfer."
+    "Which maternal positions are used in cord prolapse?",
+    "The knee–chest position, or the exaggerated left Sims position (left lateral with the hips raised and the head down) for transfer.",
+    2,
+    "1vkj5kb"
    ],
    [
     "Management",
-    "Tocolytic used in cord prolapse and dose?",
-    "Terbutaline 0.25 mg SC, to stop contractions pressing on the cord."
+    "Which tocolytic is used in cord prolapse, and at what dose?",
+    "Terbutaline 0.25 mg subcutaneously, to stop the contractions compressing the cord.",
+    2,
+    "1fwbr8d"
    ],
    [
     "Management",
-    "Pulsating cord prolapse at 4 cm. Delivery?",
-    "Category 1 caesarean section."
+    "How is the baby delivered when the cord is pulsating and the cervix is 4 cm dilated?",
+    "By category 1 caesarean section.",
+    1,
+    "3y79ld"
    ],
    [
     "Management",
-    "Target decision-to-delivery interval in cord prolapse?",
-    "30 minutes or less."
+    "What is the target decision-to-delivery interval in cord prolapse?",
+    "30 minutes or less.",
+    1,
+    "1v9zgwp"
    ],
    [
     "Management",
-    "Cord prolapse, fully dilated, vertex low. Delivery?",
-    "Instrumental: forceps or ventouse, if quick delivery is likely."
+    "How is the baby delivered in cord prolapse at full dilatation with a low vertex?",
+    "By instrumental delivery (forceps or ventouse), if a quick delivery is likely.",
+    2,
+    "19fzls"
    ],
    [
     "Management",
-    "Cord prolapse, fully dilated, transverse lie. Delivery?",
-    "Caesarean section."
+    "How is the baby delivered in cord prolapse at full dilatation with a transverse lie?",
+    "By caesarean section.",
+    2,
+    "7kz4qr"
    ],
    [
     "Management",
-    "Cord prolapse with a dead fetus. Delivery?",
-    "Vaginal delivery; no caesarean for the baby."
+    "How is delivery managed in cord prolapse when the fetus is dead?",
+    "Vaginal delivery; caesarean section is not performed for the baby.",
+    2,
+    "154cjfr"
    ],
    [
     "Management",
-    "Cord prolapse before 26 weeks?",
-    "Managed as a miscarriage: vaginal delivery, no caesarean."
+    "How is cord prolapse before 26 weeks managed?",
+    "It is managed as a miscarriage: vaginal delivery, without caesarean section.",
+    3,
+    "jqleih"
    ],
    [
     "Management",
-    "Why active third stage after cord prolapse delivery?",
-    "PPH risk is higher after tocolysis, caesarean or instrumental delivery."
+    "Why is the third stage actively managed after delivery for cord prolapse?",
+    "The risk of PPH is higher after tocolysis, caesarean section or instrumental delivery.",
+    3,
+    "1gn8fkc"
    ],
    [
     "Cord presentation",
-    "Cord presentation at term. Management?",
-    "No ARM; counsel. Most end in caesarean, as the cord prolapses at ROM."
+    "How is cord presentation at term managed?",
+    "Artificial rupture of membranes is avoided and the woman is counselled. Most cases end in caesarean section, because the cord prolapses when the membranes rupture.",
+    2,
+    "13q1gr9"
    ],
    [
     "Prevention",
-    "How to do ARM safely in polyhydramnios?",
-    "Controlled ARM in theatre, head held at the brim, liquor let out slowly."
-   ],
-   [
-    "Practice",
-    "Which breech carries the highest risk of cord prolapse?",
-    "Footling breech (about 15%)."
+    "How is artificial rupture of membranes performed safely in polyhydramnios?",
+    "As a controlled procedure in theatre, with the head held at the pelvic brim and the liquor released slowly.",
+    3,
+    "16eg12o"
    ]
   ]
  },
@@ -5512,152 +5567,198 @@
    [
     "Definitions",
     "Define uterine inversion.",
-    "The uterus turns inside out, the fundus descending into the cavity, through the cervix or out of the vulva."
+    "The uterus turns inside out: the fundus descends into the uterine cavity, through the cervix or out of the vulva.",
+    1,
+    "s0o7fw"
    ],
    [
     "Incidence",
     "How common is uterine inversion?",
-    "About 1 in 2000–3000 deliveries; maternal death up to 15%."
+    "About 1 in 2000–3000 deliveries; maternal mortality is up to 15%.",
+    1,
+    "so4hhl"
    ],
    [
     "Classification",
-    "First-degree inversion?",
-    "Fundus inverts into the cavity but does not pass the cervix."
+    "What is first-degree uterine inversion?",
+    "The fundus inverts into the cavity but does not pass through the cervix.",
+    1,
+    "l94yub"
    ],
    [
     "Classification",
-    "Second-degree inversion?",
-    "Fundus passes through the cervix and lies in the vagina."
+    "What is second-degree uterine inversion?",
+    "The fundus passes through the cervix and lies in the vagina.",
+    1,
+    "m0uquf"
    ],
    [
     "Classification",
-    "Third-degree inversion?",
-    "Fundus reaches or passes the vulva."
+    "What is third-degree uterine inversion?",
+    "The fundus reaches or passes the vulva.",
+    1,
+    "18phzyy"
    ],
    [
     "Classification",
-    "Fourth-degree (total) inversion?",
-    "Uterus and vagina are both inverted outside the vulva."
+    "What is fourth-degree (total) uterine inversion?",
+    "Both the uterus and the vagina are inverted outside the vulva.",
+    1,
+    "1rsw9og"
    ],
    [
     "Classification",
-    "Acute, subacute and chronic inversion?",
-    "Acute < 24 h, subacute 24 h to 4 weeks, chronic > 4 weeks after delivery."
+    "How is inversion classified by timing?",
+    "Acute: less than 24 hours; subacute: 24 hours to 4 weeks; chronic: more than 4 weeks after delivery.",
+    2,
+    "1p3wr5f"
    ],
    [
     "Classification",
-    "Commonest cause of chronic (non-puerperal) inversion?",
-    "A fundal submucous fibroid polyp pulling the fundus down."
+    "What is the commonest cause of chronic (non-puerperal) inversion?",
+    "A fundal submucous fibroid polyp that pulls the fundus down.",
+    2,
+    "1x8domw"
    ],
    [
     "Aetiology",
-    "Commonest cause of acute uterine inversion?",
-    "Cord traction before the placenta separates, on a relaxed uterus."
+    "What is the commonest cause of acute uterine inversion?",
+    "Cord traction before the placenta has separated, when the uterus is relaxed.",
+    1,
+    "5vc601"
    ],
    [
     "Aetiology",
-    "Name five risk factors for inversion.",
-    "Fundal placenta, short cord, atony, placenta accreta, fundal pressure (Credé), previous inversion."
+    "What are the risk factors for uterine inversion?",
+    "Fundal placenta, short cord, uterine atony, placenta accreta, fundal pressure (Credé manoeuvre) and previous inversion.",
+    2,
+    "gszoo6"
    ],
    [
     "Clinical features",
-    "Most common sign of acute inversion?",
-    "Postpartum haemorrhage, in about 94%."
+    "What is the commonest sign of acute uterine inversion?",
+    "Postpartum haemorrhage, in about 94% of cases.",
+    1,
+    "3ywcp2"
    ],
    [
     "Clinical features",
-    "Why is shock out of proportion to blood loss?",
-    "Traction on ovaries, tubes and peritoneum stimulates the vagus: neurogenic shock with bradycardia."
+    "Why is the shock out of proportion to the blood loss?",
+    "Traction on the ovaries, tubes and peritoneum stimulates the vagus nerve, causing neurogenic shock with bradycardia.",
+    3,
+    "naxmrg"
    ],
    [
     "Clinical features",
-    "Abdominal finding in inversion?",
-    "Fundus absent, or a cup-shaped dent at the top (1st, 2nd degree)."
+    "What is the abdominal finding in uterine inversion?",
+    "The fundus is absent, or there is a cup-shaped depression at the top of the uterus (first and second degree).",
+    2,
+    "w0z4m9"
    ],
    [
     "Clinical features",
-    "Vaginal finding in inversion?",
-    "Soft purple-red mass in the vagina or at the vulva, placenta sometimes attached."
+    "What is the vaginal finding in uterine inversion?",
+    "A soft, purple-red mass in the vagina or at the vulva, sometimes with the placenta attached.",
+    2,
+    "7wwe7w"
    ],
    [
-    "Differential",
-    "PPH: fundus soft but felt vs fundus absent?",
-    "Felt and soft = atonic PPH; absent with vaginal mass = inversion."
+    "Differential diagnosis",
+    "In PPH, how does the fundus distinguish atony from inversion?",
+    "A fundus that is palpable and soft indicates atonic PPH; an absent fundus with a vaginal mass indicates inversion.",
+    2,
+    "1xp0czd"
    ],
    [
     "Management",
-    "First step in acute uterine inversion?",
-    "Call help and replace the uterus at once (Johnson manoeuvre), placenta left on."
+    "What is the first step in acute uterine inversion?",
+    "Call for help and replace the uterus immediately (Johnson manoeuvre), with the placenta left attached.",
+    1,
+    "4n51u3"
    ],
    [
     "Management",
-    "Should the placenta be removed before replacement?",
-    "No: very heavy bleeding. Replace the uterus first, then remove the placenta."
+    "Should the placenta be removed before the uterus is replaced?",
+    "No, because this causes very heavy bleeding. The uterus is replaced first and the placenta is removed afterwards.",
+    2,
+    "130u8ht"
    ],
    [
     "Management",
     "Describe the Johnson manoeuvre.",
-    "Palm on fundus, push up through the cervix toward the umbilicus; last part out goes in first."
+    "With the palm on the fundus, the uterus is pushed up through the cervix towards the umbilicus; the part that came out last is replaced first.",
+    2,
+    "144jhxj"
    ],
    [
     "Management",
-    "Oxytocin is running when inversion occurs. What do you do?",
-    "Stop the oxytocin infusion; it tightens the cervical ring."
+    "An oxytocin infusion is running when inversion occurs. What is done?",
+    "The oxytocin infusion is stopped, because it tightens the cervical ring.",
+    3,
+    "1q3ykf6"
    ],
    [
     "Management",
-    "Drugs to relax the ring in inversion?",
-    "Terbutaline 0.25 mg SC, MgSO₄ 4 g IV over 15 min, or GA with a volatile agent."
+    "Which drugs relax the cervical ring in uterine inversion?",
+    "Terbutaline 0.25 mg subcutaneously, magnesium sulphate 4 g IV over 15 minutes, or general anaesthesia with a volatile agent.",
+    3,
+    "xtnei6"
    ],
    [
     "Management",
-    "Blood to cross-match in inversion?",
-    "4–6 units, with two large-bore cannulae."
+    "How much blood is cross-matched in uterine inversion?",
+    "4–6 units, with two large-bore cannulae inserted.",
+    2,
+    "1blqrmo"
    ],
    [
     "Management",
     "Describe O'Sullivan's method.",
-    "Hydrostatic: 2–5 L warm saline run into the sealed vagina pushes the fundus back."
+    "Hydrostatic replacement: 2–5 L of warm saline is run into the sealed vagina and pushes the fundus back.",
+    2,
+    "1dyozj6"
    ],
    [
     "Management",
     "What must be excluded before O'Sullivan's method?",
-    "Uterine or vaginal rupture."
+    "Rupture of the uterus or vagina.",
+    3,
+    "1dlq9rf"
    ],
    [
     "Management",
-    "Huntington procedure?",
-    "At laparotomy, clamps on the round ligaments inside the cup pull the fundus up step by step."
+    "What is the Huntington procedure?",
+    "At laparotomy, clamps are placed on the round ligaments inside the cup and the fundus is pulled up step by step.",
+    3,
+    "1jwq9c8"
    ],
    [
     "Management",
-    "Haultain procedure?",
-    "At laparotomy, a posterior incision through the tight cervical ring allows replacement."
+    "What is the Haultain procedure?",
+    "At laparotomy, a posterior incision through the tight cervical ring allows the uterus to be replaced.",
+    3,
+    "yww06i"
    ],
    [
     "Management",
-    "After replacement: next steps?",
-    "Stop tocolytic, oxytocin 40 IU in 500 mL over 4 h, fist in fundus, then remove placenta."
+    "What are the steps after the uterus has been replaced?",
+    "The tocolytic is stopped, oxytocin 40 IU in 500 mL is given over 4 hours, the fist is kept in the fundus, and then the placenta is removed.",
+    3,
+    "1ooy12p"
    ],
    [
     "Management",
-    "Why antibiotics after inversion?",
-    "Manual handling and a raw surface raise the risk of endometritis."
+    "Why are antibiotics given after uterine inversion?",
+    "Manual handling and a raw surface increase the risk of endometritis.",
+    2,
+    "i0pge5"
    ],
    [
     "Prevention",
-    "How to prevent uterine inversion?",
-    "Cord traction only after signs of separation, with suprapubic counter-pressure; no fundal pressure."
-   ],
-   [
-    "Practice",
-    "Most common cause of acute uterine inversion?",
-    "Cord traction before the placenta separates."
-   ],
-   [
-    "Practice",
-    "Best way to prevent uterine inversion?",
-    "CCT only after separation, with suprapubic counter-pressure."
+    "How is uterine inversion prevented?",
+    "Cord traction is applied only after the signs of placental separation, with suprapubic counter-pressure; fundal pressure is avoided.",
+    1,
+    "17g441h"
    ]
   ]
  },
@@ -5666,163 +5767,213 @@
   "cards": [
    [
     "Definition",
-    "What is amniotic fluid embolism?",
-    "Sudden collapse in labour or soon after delivery when amniotic fluid and fetal cells enter the maternal circulation."
+    "What is amniotic fluid embolism (AFE)?",
+    "Sudden maternal collapse in labour or soon after delivery, when amniotic fluid and fetal cells enter the maternal circulation.",
+    1,
+    "6sm8rh"
    ],
    [
     "Incidence",
-    "How common is AFE?",
-    "Rare: about 1 in 8 000 to 1 in 30 000 births; unpredictable and not preventable."
+    "How common is amniotic fluid embolism?",
+    "It is rare: about 1 in 8000 to 1 in 30 000 births. It is unpredictable and not preventable.",
+    1,
+    "1pq2cfk"
    ],
    [
     "Timing",
-    "When does AFE most often occur?",
-    "In labour around rupture of membranes (70%); 19% at caesarean; 11% after delivery within 48 h."
+    "When does amniotic fluid embolism most often occur?",
+    "In labour, around rupture of the membranes (70%); 19% occur at caesarean section and 11% within 48 hours after delivery.",
+    2,
+    "4f24p"
    ],
    [
     "Risk factors",
-    "Name four risk factors for AFE.",
-    "Induction/ARM, caesarean or instrumental delivery, multiple pregnancy, polyhydramnios, older mother, praevia, abruption, uterine rupture."
+    "What are the risk factors for amniotic fluid embolism?",
+    "Induction or artificial rupture of membranes, caesarean or instrumental delivery, multiple pregnancy, polyhydramnios, advanced maternal age, placenta praevia, abruption and uterine rupture.",
+    2,
+    "502xxp"
    ],
    [
     "Risk factors",
-    "Why avoid oxytocin early in molar evacuation?",
-    "Contractions before the uterus is half emptied can push trophoblast and fluid into the veins: embolism."
+    "Why is oxytocin avoided early in the evacuation of a molar pregnancy?",
+    "Contractions before the uterus is half emptied can force trophoblast and fluid into the veins, causing embolism.",
+    3,
+    "1rfcafd"
    ],
    [
     "Pathophysiology",
-    "Is AFE a mechanical embolus?",
-    "No: an anaphylactoid (allergy-like) reaction to fetal material, causing vasospasm and heart failure."
+    "Is amniotic fluid embolism a mechanical embolus?",
+    "No. It is an anaphylactoid reaction to fetal material, which causes vasospasm and heart failure.",
+    2,
+    "1eep1s6"
    ],
    [
     "Pathophysiology",
-    "What happens in phase 1 of AFE?",
-    "Pulmonary vasospasm → right then left heart failure → hypoxia, shock, fits, cardiac arrest within minutes."
+    "What happens in phase 1 of amniotic fluid embolism?",
+    "Pulmonary vasospasm causes right and then left heart failure, leading to hypoxia, shock, convulsions and cardiac arrest within minutes.",
+    3,
+    "1icb24k"
    ],
    [
     "Pathophysiology",
-    "What happens in phase 2 of AFE?",
-    "Tissue factor in amniotic fluid triggers DIC → massive bleeding with uterine atony."
+    "What happens in phase 2 of amniotic fluid embolism?",
+    "Tissue factor in the amniotic fluid triggers DIC, causing massive haemorrhage with uterine atony.",
+    3,
+    "og71c5"
    ],
    [
     "DIC",
-    "How many AFE cases have DIC at presentation, and later?",
-    "12% at presentation; almost all survivors develop it within 4 hours."
+    "How many cases of amniotic fluid embolism have DIC at presentation, and later?",
+    "12% at presentation; almost all survivors develop DIC within 4 hours.",
+    3,
+    "16eogln"
    ],
    [
     "Clinical features",
-    "Classic picture of AFE?",
-    "Labour or just delivered + sudden dyspnoea, hypoxia, hypotension/collapse, then bleeding (coagulopathy)."
+    "What is the classic clinical picture of amniotic fluid embolism?",
+    "A woman in labour or just delivered develops sudden dyspnoea, hypoxia and hypotension or collapse, followed by bleeding from coagulopathy.",
+    1,
+    "104swo"
    ],
    [
     "Clinical features",
-    "Warning symptoms before AFE collapse?",
-    "Sudden breathlessness, chills, agitation, a sense that something is wrong."
+    "What are the warning symptoms before collapse in amniotic fluid embolism?",
+    "Sudden breathlessness, chills, agitation and a feeling that something is wrong.",
+    2,
+    "1jysu2r"
    ],
    [
     "Clinical features",
-    "Fetal sign of AFE before delivery?",
-    "Sudden fetal bradycardia."
+    "What is the fetal sign of amniotic fluid embolism before delivery?",
+    "Sudden fetal bradycardia.",
+    1,
+    "z8xdcg"
    ],
    [
     "Clinical features",
-    "Can bleeding be the first sign of AFE?",
-    "Yes: in some women severe haemorrhage with DIC is the first sign."
+    "Can bleeding be the first sign of amniotic fluid embolism?",
+    "Yes. In some women severe haemorrhage with DIC is the first sign.",
+    2,
+    "alfuyh"
    ],
    [
     "Investigations",
-    "Key investigations in suspected AFE?",
-    "ABG, FBC, clotting with fibrinogen, clot test, U&E, Ca, Mg, cross-match, CXR, ECG, echo."
+    "What are the key investigations in suspected amniotic fluid embolism?",
+    "Arterial blood gas, full blood count, clotting screen with fibrinogen, bedside clotting test, urea and electrolytes, calcium, magnesium, cross-match, chest X-ray, ECG and echocardiography.",
+    2,
+    "1bwrjsm"
    ],
    [
     "Investigations",
-    "CXR and ECG findings in AFE?",
-    "CXR: pulmonary oedema. ECG: ischaemia, right heart strain."
+    "What are the chest X-ray and ECG findings in amniotic fluid embolism?",
+    "The chest X-ray shows pulmonary oedema; the ECG shows ischaemia and right heart strain.",
+    2,
+    "161zu4n"
    ],
    [
     "Diagnosis",
-    "How is AFE diagnosed in life?",
-    "Clinically, by exclusion; no test proves it. Treat without waiting for tests."
+    "How is amniotic fluid embolism diagnosed in a living patient?",
+    "Clinically, by exclusion; no test confirms it. Treatment is given without waiting for results.",
+    2,
+    "31o59k"
    ],
    [
     "Diagnosis",
-    "Definitive diagnosis of AFE?",
-    "Post-mortem: fetal squames and debris in the maternal pulmonary vessels."
+    "What gives the definitive diagnosis of amniotic fluid embolism?",
+    "Post-mortem examination showing fetal squames and debris in the maternal pulmonary vessels.",
+    2,
+    "1tebnfg"
    ],
    [
     "Diagnosis",
-    "Meaning of fetal squames in pulmonary artery blood of a living woman?",
-    "Supportive only, not proof of AFE."
+    "What is the significance of fetal squames in pulmonary artery blood from a living woman?",
+    "The finding is supportive only and does not prove amniotic fluid embolism.",
+    3,
+    "10ai8rq"
    ],
    [
-    "Differential",
-    "Postnatal day 5, pleuritic pain, swollen calf, collapse. Diagnosis?",
-    "Pulmonary embolism: no early DIC; confirm by CTPA."
+    "Differential diagnosis",
+    "On postnatal day 5 a woman has pleuritic chest pain, a swollen calf and collapse. What is the diagnosis?",
+    "Pulmonary embolism; there is no early DIC, and it is confirmed by CT pulmonary angiography.",
+    2,
+    "12t1v5h"
    ],
    [
-    "Differential",
-    "Collapse with fits after an epidural top-up, tinnitus. Treatment?",
-    "Local anaesthetic toxicity: lipid emulsion 20% 1.5 mL/kg IV."
+    "Differential diagnosis",
+    "A woman collapses with convulsions and tinnitus after an epidural top-up. What is the treatment?",
+    "This is local anaesthetic toxicity: lipid emulsion 20%, 1.5 mL/kg IV.",
+    3,
+    "7u6gjc"
    ],
    [
-    "Differential",
-    "Collapse minutes after IV antibiotic with rash and wheeze. Drug?",
-    "Anaphylaxis: adrenaline 0.5 mg IM."
-   ],
-   [
-    "Management",
-    "First step in suspected AFE collapse?",
-    "Call for help (crash team), then airway with high-flow oxygen 15 L/min."
-   ],
-   [
-    "Management",
-    "CPR ratio in maternal cardiac arrest?",
-    "30 compressions to 2 breaths, with the uterus displaced to the left."
-   ],
-   [
-    "Perimortem CS",
-    "When is perimortem caesarean done?",
-    "Arrest at ≥ 20 weeks: start at 4 min of CPR, baby out by 5 min, where she lies."
-   ],
-   [
-    "Perimortem CS",
-    "Main reason for perimortem caesarean?",
-    "Removes uterine compression of IVC and aorta so CPR works; mainly for the mother."
+    "Differential diagnosis",
+    "A woman collapses with a rash and wheeze minutes after an IV antibiotic. Which drug is given?",
+    "This is anaphylaxis: adrenaline 0.5 mg IM.",
+    2,
+    "1h64nop"
    ],
    [
     "Management",
-    "Treatment of DIC in AFE?",
-    "Blood, FFP 15 mL/kg, cryoprecipitate if fibrinogen < 2 g/L, platelets if < 50, TXA 1 g IV."
+    "What is the first step when a woman collapses with suspected amniotic fluid embolism?",
+    "Call for help (resuscitation team), then secure the airway and give high-flow oxygen at 15 L/min.",
+    1,
+    "130raz5"
    ],
    [
     "Management",
-    "Drug for refractory hypotension in AFE?",
-    "Vasopressor such as phenylephrine or noradrenaline, ± inotrope, in ICU."
+    "What is the CPR ratio in maternal cardiac arrest?",
+    "30 compressions to 2 breaths, with the uterus displaced to the left.",
+    1,
+    "dcnq0c"
+   ],
+   [
+    "Perimortem caesarean section",
+    "When is perimortem caesarean section performed?",
+    "In cardiac arrest at 20 weeks or more: it is started at 4 minutes of CPR and the baby is delivered by 5 minutes, at the place of arrest.",
+    2,
+    "1ck463e"
+   ],
+   [
+    "Perimortem caesarean section",
+    "What is the main purpose of perimortem caesarean section?",
+    "It removes uterine compression of the inferior vena cava and aorta so that CPR is effective; it is performed mainly for the mother.",
+    3,
+    "15tbb46"
    ],
    [
     "Management",
-    "Why give fluids with care in AFE?",
-    "The right heart is failing; large volumes cause pulmonary oedema."
+    "How is DIC treated in amniotic fluid embolism?",
+    "Blood, FFP 15 mL/kg, cryoprecipitate if fibrinogen is below 2 g/L, platelets if below 50 × 10⁹/L, and tranexamic acid 1 g IV.",
+    3,
+    "8rp39z"
    ],
    [
     "Management",
-    "Uterotonics for atony in AFE?",
-    "Oxytocin 40 IU in 500 mL over 4 h; carboprost 250 µg IM; hysterectomy if bleeding persists."
+    "Which drugs are used for refractory hypotension in amniotic fluid embolism?",
+    "A vasopressor such as phenylephrine or noradrenaline, with or without an inotrope, in the intensive care unit.",
+    3,
+    "2jd2qe"
+   ],
+   [
+    "Management",
+    "Why are IV fluids given with care in amniotic fluid embolism?",
+    "The right heart is failing, so large volumes cause pulmonary oedema.",
+    3,
+    "mznpid"
+   ],
+   [
+    "Management",
+    "Which uterotonics are used for uterine atony in amniotic fluid embolism?",
+    "Oxytocin 40 IU in 500 mL over 4 hours and carboprost 250 µg IM; hysterectomy if bleeding persists.",
+    2,
+    "124y02b"
    ],
    [
     "Prognosis",
-    "Prognosis of AFE?",
-    "Maternal death 13–80% in series; up to 85% of survivors have hypoxic brain damage."
-   ],
-   [
-    "Practice",
-    "Is AFE a mechanical blockage of the pulmonary artery?",
-    "No: an anaphylactoid (allergy-like) reaction."
-   ],
-   [
-    "Practice",
-    "Commonest time for AFE to occur?",
-    "In labour, around rupture of membranes."
+    "What is the prognosis of amniotic fluid embolism?",
+    "Maternal mortality is 13–80% in reported series, and up to 85% of survivors have hypoxic brain damage.",
+    2,
+    "17cpz62"
    ]
   ]
  },
@@ -5832,177 +5983,233 @@
    [
     "Definition",
     "Define shoulder dystocia.",
-    "Head delivered, shoulders fail with gentle downward traction and need extra manoeuvres; head-to-body interval > 60 s."
+    "After delivery of the head, the shoulders fail to deliver with gentle downward traction and additional manoeuvres are needed; the head-to-body interval exceeds 60 seconds.",
+    1,
+    "194ykdt"
    ],
    [
     "Incidence",
     "How common is shoulder dystocia?",
-    "About 1 in 200 vaginal births."
+    "About 1 in 200 vaginal births.",
+    1,
+    "19seufi"
    ],
    [
     "Mechanism",
-    "What is impacted in shoulder dystocia?",
-    "The anterior shoulder behind the symphysis pubis; rarely the posterior shoulder on the sacral promontory."
+    "Which part is impacted in shoulder dystocia?",
+    "The anterior shoulder behind the symphysis pubis; rarely, the posterior shoulder on the sacral promontory.",
+    1,
+    "1k7vqd3"
    ],
    [
     "Mechanism",
     "Why does episiotomy alone not relieve shoulder dystocia?",
-    "It is a bony problem; episiotomy only gives room for internal manoeuvres."
+    "The obstruction is bony; episiotomy only provides room for internal manoeuvres.",
+    2,
+    "rrrz96"
    ],
    [
-    "Emergency",
-    "How fast does fetal pH fall in shoulder dystocia?",
-    "About 0.04 per minute; about 5 minutes is the most a baby tolerates."
-   ],
-   [
-    "Risk factors",
-    "Antenatal risk factors for shoulder dystocia?",
-    "Previous SD, macrosomia, diabetes, BMI > 30, excess weight gain, post-term, anencephaly."
-   ],
-   [
-    "Risk factors",
-    "Intrapartum risk factors for shoulder dystocia?",
-    "Prolonged late 1st or 2nd stage, instrumental (mid-cavity) delivery, oxytocin augmentation, induction."
+    "Mechanism",
+    "How fast does the fetal pH fall in shoulder dystocia?",
+    "By about 0.04 per minute; about 5 minutes is the longest that a baby tolerates.",
+    3,
+    "amkgtk"
    ],
    [
     "Risk factors",
-    "Why is diabetes a strong risk factor?",
-    "Fetal insulin lays fat on shoulders and trunk while the head stays normal size."
+    "What are the antenatal risk factors for shoulder dystocia?",
+    "Previous shoulder dystocia, macrosomia, diabetes, BMI above 30, excessive weight gain, post-term pregnancy and anencephaly.",
+    2,
+    "1sgjlu7"
+   ],
+   [
+    "Risk factors",
+    "What are the intrapartum risk factors for shoulder dystocia?",
+    "A prolonged late first stage or second stage, instrumental (mid-cavity) delivery, oxytocin augmentation and induction of labour.",
+    2,
+    "14zai2y"
+   ],
+   [
+    "Risk factors",
+    "Why is diabetes a strong risk factor for shoulder dystocia?",
+    "Fetal insulin deposits fat on the shoulders and trunk, while the head remains of normal size.",
+    2,
+    "lpsxl6"
    ],
    [
     "Risk factors",
     "Can shoulder dystocia be predicted?",
-    "Poorly: about half occur in babies under 4 kg; scan weight can be 10–15% wrong."
+    "Poorly: about half of cases occur in babies under 4 kg, and the estimated weight on ultrasound may be wrong by 10–15%.",
+    3,
+    "13tummu"
    ],
    [
     "Clinical features",
     "What is the turtle sign?",
-    "The delivered head retracts tight against the perineum: shoulder dystocia."
+    "The delivered head retracts tightly against the perineum; it indicates shoulder dystocia.",
+    1,
+    "gqqo3r"
    ],
    [
     "Clinical features",
-    "Other signs of shoulder dystocia?",
-    "Slow delivery of face and chin, no restitution, failure of gentle traction, congested face."
+    "What are the other signs of shoulder dystocia?",
+    "Slow delivery of the face and chin, absence of restitution, failure of gentle traction and a congested face.",
+    2,
+    "h0pozw"
    ],
    [
     "Management",
-    "Mnemonic for shoulder dystocia drill?",
-    "HELPERR: Help, Evaluate episiotomy, Legs (McRoberts), Pressure suprapubic, Enter, Remove posterior arm, Roll."
+    "What is the mnemonic for the shoulder dystocia drill?",
+    "HELPERR: Help, Evaluate for episiotomy, Legs (McRoberts), suprapubic Pressure, Enter (internal manoeuvres), Remove the posterior arm, Roll onto all fours.",
+    1,
+    "1ojdq0n"
    ],
    [
     "Management",
-    "First manoeuvre after calling for help?",
-    "McRoberts: hips hyperflexed and abducted, thighs onto the abdomen."
+    "What is the first manoeuvre after calling for help?",
+    "The McRoberts manoeuvre: the hips are hyperflexed and abducted, with the thighs on the abdomen.",
+    1,
+    "8hl43f"
    ],
    [
     "Management",
-    "How does McRoberts work?",
-    "Flattens the sacrum and rotates the symphysis upward, freeing the anterior shoulder."
+    "How does the McRoberts manoeuvre work?",
+    "It flattens the sacrum and rotates the symphysis pubis upwards, which frees the anterior shoulder.",
+    2,
+    "qwu3ma"
    ],
    [
     "Management",
     "How is suprapubic pressure applied?",
-    "Assistant presses down and sideways from the fetal back side, behind the anterior shoulder; steady then rocking."
+    "An assistant presses downwards and laterally from the side of the fetal back, behind the anterior shoulder; the pressure is steady and then rocking.",
+    2,
+    "es6dfh"
    ],
    [
     "Management",
-    "What proportion deliver with McRoberts plus suprapubic pressure?",
-    "About 80%."
+    "What proportion of babies deliver with McRoberts and suprapubic pressure?",
+    "About 80%.",
+    1,
+    "1qko5c"
    ],
    [
     "Management",
-    "How long to try each manoeuvre?",
-    "30–60 seconds, then move to the next."
+    "How long is each manoeuvre attempted?",
+    "For 30–60 seconds, before moving on to the next.",
+    2,
+    "1mcc2hw"
    ],
    [
     "Manoeuvres",
-    "Describe Rubin II.",
-    "Fingers on the back of the anterior shoulder push it toward the chest into the oblique diameter."
+    "Describe the Rubin II manoeuvre.",
+    "Fingers placed on the back of the anterior shoulder push it towards the chest and into the oblique diameter.",
+    3,
+    "1d78ywt"
    ],
    [
     "Manoeuvres",
     "Describe the Woods screw manoeuvre.",
-    "Rubin II plus pressure on the front of the posterior shoulder to rotate the shoulders."
+    "Rubin II combined with pressure on the front of the posterior shoulder to rotate the shoulders.",
+    3,
+    "dyj8dw"
    ],
    [
     "Manoeuvres",
-    "How does delivering the posterior arm help?",
-    "Reduces shoulder-to-shoulder width to shoulder-to-axilla width."
+    "How does delivery of the posterior arm help?",
+    "It reduces the shoulder-to-shoulder width to the shoulder-to-axilla width.",
+    3,
+    "1wplif2"
    ],
    [
     "Manoeuvres",
     "What is the Gaskin manoeuvre?",
-    "Rolling the mother onto all fours, then repeating manoeuvres."
+    "The mother is rolled onto all fours and the manoeuvres are repeated.",
+    2,
+    "1kr3ztn"
    ],
    [
     "Last resort",
-    "Name three last-resort measures.",
-    "Deliberate clavicle fracture, Zavanelli (head replacement then caesarean), symphysiotomy."
+    "Name three last-resort measures in shoulder dystocia.",
+    "Deliberate fracture of the clavicle, the Zavanelli manoeuvre (replacement of the head followed by caesarean section) and symphysiotomy.",
+    2,
+    "624dai"
    ],
    [
     "Last resort",
     "What is the Zavanelli manoeuvre?",
-    "Head pushed back into the vagina, with terbutaline 0.25 mg SC, then caesarean."
+    "The head is pushed back into the vagina, with terbutaline 0.25 mg subcutaneously, and the baby is delivered by caesarean section.",
+    2,
+    "1gxekuc"
    ],
    [
-    "Traps",
-    "Two forbidden actions in shoulder dystocia?",
-    "Fundal pressure and strong or lateral traction on the head."
-   ],
-   [
-    "Complications",
-    "Commonest fetal injury after shoulder dystocia?",
-    "Brachial plexus injury, usually Erb palsy (C5–C6)."
-   ],
-   [
-    "Complications",
-    "Picture of Erb palsy?",
-    "Arm limp, internally rotated, elbow extended, wrist flexed (waiter's tip); grasp present."
+    "Contraindicated actions",
+    "Which two actions are contraindicated in shoulder dystocia?",
+    "Fundal pressure, and strong or lateral traction on the head.",
+    1,
+    "16g3uka"
    ],
    [
     "Complications",
-    "Picture of Klumpke palsy?",
-    "C8–T1: claw hand, absent grasp, sometimes Horner syndrome."
+    "What is the commonest fetal injury after shoulder dystocia?",
+    "Brachial plexus injury, usually Erb's palsy (C5–C6).",
+    1,
+    "1a0ibt1"
    ],
    [
     "Complications",
-    "Maternal complications of shoulder dystocia?",
-    "PPH, 3rd/4th degree tears, cervical/vaginal tears, uterine rupture (fundal pressure), bladder injury."
+    "What is the clinical picture of Erb's palsy?",
+    "The arm is limp and internally rotated, with the elbow extended and the wrist flexed (waiter's tip position); the grasp reflex is present.",
+    2,
+    "1anhh1s"
+   ],
+   [
+    "Complications",
+    "What is the clinical picture of Klumpke's palsy?",
+    "It affects C8–T1: claw hand, absent grasp reflex and sometimes Horner syndrome.",
+    3,
+    "1ukz8ms"
+   ],
+   [
+    "Complications",
+    "What are the maternal complications of shoulder dystocia?",
+    "PPH, third- and fourth-degree perineal tears, cervical and vaginal tears, uterine rupture (after fundal pressure) and bladder injury.",
+    2,
+    "1gn341z"
    ],
    [
     "Aftercare",
-    "How to prevent PPH after shoulder dystocia?",
-    "Active 3rd stage plus oxytocin 40 IU in 500 mL over 4 hours."
+    "How is PPH prevented after shoulder dystocia?",
+    "Active management of the third stage, with oxytocin 40 IU in 500 mL over 4 hours.",
+    2,
+    "124alsm"
    ],
    [
     "Prevention",
-    "When is elective caesarean offered for macrosomia?",
-    "EFW > 4.5 kg in a diabetic, > 5 kg in a non-diabetic woman."
+    "When is elective caesarean section offered for macrosomia?",
+    "When the estimated fetal weight exceeds 4.5 kg in a diabetic woman or 5 kg in a non-diabetic woman.",
+    2,
+    "1r5s0t0"
    ],
    [
     "Prevention",
-    "Recurrence risk of shoulder dystocia?",
-    "About 1 in 10; discuss mode of delivery with an experienced team."
+    "What is the recurrence risk of shoulder dystocia?",
+    "About 1 in 10; the mode of delivery is discussed with an experienced team.",
+    2,
+    "18vb1c5"
    ],
    [
-    "Practice",
+    "Clinical application",
     "Which fetal anomaly classically causes shoulder dystocia?",
-    "Anencephaly."
+    "Anencephaly.",
+    3,
+    "1r0vwil"
    ],
    [
-    "Practice",
-    "Why does diabetes cause SD more than other big babies?",
-    "Fat on shoulders and trunk; head is normal."
-   ],
-   [
-    "Practice",
-    "Commonest maternal complication?",
-    "Postpartum haemorrhage."
-   ],
-   [
-    "Practice",
-    "Name the manoeuvre: head pushed back, then caesarean.",
-    "Zavanelli (cephalic replacement)."
+    "Clinical application",
+    "What is the commonest maternal complication of shoulder dystocia?",
+    "Postpartum haemorrhage.",
+    1,
+    "kxiylu"
    ]
   ]
  },
