@@ -293,8 +293,8 @@ into `main` when the owner has seen it; small fixes the owner asks for directly 
     (`.ptog.tsw`), close; labelled parts (colour, thickness…), hint line.
   - **Marking text (owner, same evening; replaces the "calm selection" and "free notes" tried that afternoon — both removed, do not bring back):**
     there are NO highlight / underline / note tools to switch on (`setPens(false,false,false)` at start, their ring buttons hidden). The student
-    selects text the normal way and the options bar appears (`#hlbar.selopt`, `showPalette` / `pickHL` replaced): six highlight colours, «خط»,
-    «ملاحظة», close; tapping an existing mark shows colours, «حذف», «ملاحظة». Free notes made during the short test stay readable (`g.fn`, `#fnb`).
+    selects text the normal way and the options bar appears (`#hlbar.selopt`, `showPalette` / `pickHL` replaced): six highlight colours, a row of the four underline colours
+    (`data-ulc`; an underline is a line only, default thickness 1), «ملاحظة», close; tapping an existing mark shows colours, «حذف», «ملاحظة». Free notes made during the short test stay readable (`g.fn`, `#fnb`).
   - **Tools button** (`#rbShow`, wrench icon, 54 px) opens one ring with only the drawing tools: قلم, ماركر (`#mkBtn`, free highlight: its own sheet
     with colours, widths and switch), نص, صفحة, plus undo/redo. **Zoom** is its own round button on the page (`#zoomBtn.v2zoom`, bottom left beside
     full page) and the **page number** is its own pill at the bottom centre (`#reader .pnum`).

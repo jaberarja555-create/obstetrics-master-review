@@ -28,8 +28,12 @@ try{setPens(false,false,false)}catch(e){}
 var SOU='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v7a5 5 0 0 0 10 0V4"/><path d="M5 20.5h14"/></svg>',
     SON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+TIC.rNotes+'</svg>',
     SOD='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>';
+if(!sp('uw'))UW=1;   /* underline starts thin (owner) */
 showPalette=function(){var hb=$('hlbar');hb.className='hlbar selopt';hb.lang='ar';hb.dir='rtl';
-  hb.innerHTML='<div class="soc">'+colDots('data-c')+'</div><div class="sob"><button class="txt" type="button" data-ul="1">'+SOU+'<span>خط</span></button><button class="txt" type="button" data-n="1">'+SON+'<span>ملاحظة</span></button><button class="txt sox" type="button" data-x="1" aria-label="إغلاق">✕</button></div>';hb.hidden=false};
+  hb.innerHTML='<div class="sor"><b>تظليل</b><div class="soc">'+colDots('data-c')+'</div></div>'+
+    '<div class="sor"><b>خط</b><div class="soc sou">'+UCOLS.map(function(c){return '<button type="button" class="ud" data-ulc="'+c+'" aria-label="خط"><span>abc</span><i style="background:'+UHEX[c]+'"></i></button>'}).join('')+'</div></div>'+
+    '<div class="sob"><button class="txt" type="button" data-n="1">'+SON+'<span>ملاحظة</span></button><button class="txt sox" type="button" data-x="1" aria-label="إغلاق">✕</button></div>';hb.hidden=false};
+$('hlbar').addEventListener('click',function(e){var b=e.target.closest('button[data-ulc]');if(!b||!pending)return;e.stopPropagation();UCOL=b.dataset.ulc;sp('ucol',UCOL);addHL(pending,UCOL)},true);
 var _pickHL=pickHL;pickHL=function(m){_pickHL(m);var hb=$('hlbar');hb.className='hlbar selopt';hb.lang='ar';hb.dir='rtl';var bs=[].slice.call(hb.children),c=document.createElement('div'),b=document.createElement('div');c.className='soc';b.className='sob';
   bs.forEach(function(x){if(x.classList.contains('dot')||x.classList.contains('uwp'))c.appendChild(x);else{if(x.dataset.rm)x.innerHTML=SOD+'<span>حذف</span>';else if(x.dataset.an)x.innerHTML=SON+'<span>ملاحظة</span>';else if(x.dataset.x){x.classList.add('sox');x.setAttribute('aria-label','إغلاق')}b.appendChild(x)}});hb.appendChild(c);hb.appendChild(b)};
 /* notes that were put freely on a page during the short time that feature existed stay readable (tap to read, edit or delete); new ones cannot be made */
