@@ -1,0 +1,25 @@
+# Student Master Review platform (owner, 11 Nov 2026): the static site in platform/ is deployed to its OWN Cloudflare Pages
+# project "student-master-review" (https://student-master-review.pages.dev). The three book apps are not touched.
+# Push to main  → live address.  Push to any other branch → preview address https://<branch>.student-master-review.pages.dev
+# Uses the same secrets as deploy.yml (CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID). No build step: platform/ is published as it is.
+name: Deploy Student Master Review
+on:
+  push:
+    paths: ['platform/**', '.github/workflows/platform.yml']
+  workflow_dispatch:
+concurrency: platform-${{ github.ref_name }}
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create the Pages project the first time (ignored when it exists)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx --yes wrangler@3 pages project create student-master-review --production-branch=main || true
+      - name: Deploy platform/
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx --yes wrangler@3 pages deploy platform --project-name=student-master-review --branch="${GITHUB_REF_NAME}" --commit-dirty=true

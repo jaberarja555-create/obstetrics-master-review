@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Student Master Review</title>
+<meta name="description" content="Student Master Review: the Student Master Note medical books for Basic Sciences, Clinical years and House Officers in one place.">
+<meta name="theme-color" content="#f7f3ec">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+<link rel="stylesheet" href="css/app.css">
+<script>
+/* set look and language before the first paint */
+(function(){try{var t=JSON.parse(localStorage.getItem('smr-theme')||'"system"'),l=JSON.parse(localStorage.getItem('smr-lang')||'null');
+if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);
+if(l==='ar'||(!l&&/^ar/i.test(navigator.language||''))){document.documentElement.lang='ar';document.documentElement.dir='rtl';}}catch(e){}})();
+</script>
+</head>
+<body>
+<button class="skip" id="skip" type="button">Skip to content</button>
+<div class="bgfx" aria-hidden="true"></div>
+<header class="top" id="top"></header>
+<main id="main" tabindex="-1"><noscript><p style="padding:24px">Student Master Review needs JavaScript. You can open the books directly:
+<a href="https://surgery-master-review.jaberarja555.workers.dev/">Surgery</a> ·
+<a href="https://obstetrics-master-review.pages.dev/">Obstetrics</a> ·
+<a href="https://pediatrics-master-review.jaberarja555.workers.dev/">Pediatrics</a></p></noscript></main>
+<nav class="bnav" id="bnav"></nav>
+<dialog class="sheet" id="sheet"></dialog>
+<script src="js/catalogue.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
