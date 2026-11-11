@@ -42,7 +42,7 @@ $('v2th').onclick=function(){MODE=isDark()?'day':'night';sp('mode',MODE);applyLo
 /* ---------- profile in the shared header ---------- */
 function myName(){return (sp('name')||sp('sname')||'').trim()}   // the name the owner approved, unless the student changed it
 /* the greeting reads right whether the name is Arabic or English: the sentence is right-to-left and the name is isolated (owner, 10 Nov 2026) */
-function greet(){var n=myName();return n?'مرحب بك يا <bdi>'+X(n)+'</bdi>':'مرحب بك يا دكتور'}
+function greet(){var n=(myName()||'').replace(/^\s*(د\s*\.|د\s*\/|دكتور|دكتورة|dr\.?|doctor)\s*/i,'');return n?'مرحب بك يا د. <bdi>'+X(n)+'</bdi>':'مرحب بك يا دكتور'}
 function avatar(el){var ph=sp('photo'),n=myName();el.style.backgroundImage=ph?'url('+ph+')':'';el.innerHTML=ph?'':(n?X(n.replace(/^(dr\.?|د\.?)\s*/i,'').slice(0,1).toUpperCase()):I('user'))}
 function header(){avatar($('v2av'));$('v2nm').textContent=myName()||'Doctor';var n=notifs().filter(function(x){return !NR[x.id]}).length;$('v2bd').hidden=!n;$('v2bd').textContent=n}
 
@@ -288,6 +288,7 @@ R.v2settings=function(){var a=access(),sy=window.__obsSync&&window.__obsSync.act
   $('v2settingsW').innerHTML=title('الإعدادات')+'<div class="sgrid" lang="ar"><div>'+
    '<button type="button" class="v2c hrow" data-v="v2profile"><span class="v2av" id="setAv" style="width:44px;height:44px"></span><span><b>'+X(myName()||'الملف الشخصي')+'</b><small>الاسم والصورة ورقم المستخدم</small></span>'+I('chev')+'</button>'+
    '<div class="v2c sgrp"><h4>'+I('mon')+'المظهر</h4><div class="sseg">'+[['day','نهاري','sun'],['night','ليلي','moon'],['auto','تلقائي','auto']].map(function(m){return '<button type="button" data-act="mode" data-m="'+m[0]+'" class="'+(MODE===m[0]?'on':'')+'" aria-pressed="'+(MODE===m[0])+'">'+I(m[2])+m[1]+'</button>'}).join('')+'</div></div>'+
+   '<div class="v2c sgrp"><h4>'+I('info')+'اللغة</h4><div class="sseg" data-notr>'+[['ar','العربية'],['en','English']].map(function(m){return '<button type="button" data-act="lang" data-l="'+m[0]+'" class="'+(LANG===m[0]?'on':'')+'" aria-pressed="'+(LANG===m[0])+'">'+m[1]+'</button>'}).join('')+'</div></div>'+
    '<div class="v2c sgrp"><h4>'+I('palette')+'لون التطبيق</h4><div class="spal">'+PALS.map(function(p){return '<button type="button" data-act="pal" data-p="'+p[0]+'" class="'+(PAL===p[0]?'on':'')+'" aria-pressed="'+(PAL===p[0])+'"><i style="background:'+p[2]+'">'+(PAL===p[0]?I('check'):'')+'</i>'+p[1]+'</button>'}).join('')+'</div></div>'+
    '</div><div><div class="v2c">'+
     row('sub','crown','الاشتراك',{free:'النسخة المجانية',trial:'فترة تجريبية',paid:'مفعّل',expired:'انتهت التجربة',ended:'انتهى الاشتراك'}[a])+

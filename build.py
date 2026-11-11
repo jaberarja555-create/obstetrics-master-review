@@ -54,9 +54,26 @@ def key():
     assert len(b) == 32, 'licence key must be 32 bytes (base64)'
     return b
 
+def en_css(css):
+    """English app language: the app's Arabic screens are laid out right-to-left; every v2 rule that sets that direction, right
+    alignment or a mirrored icon gets a left-to-right twin under html[data-lang="en"]."""
+    out = []
+    for sel, body in re.findall(r'([^{}@]+)\{([^{}]*)\}', css):
+        d = []
+        if 'direction:rtl' in body: d.append('direction:ltr')
+        if 'text-align:right' in body: d.append('text-align:left')
+        if 'transform:scaleX(-1)' in body: d.append('transform:none')
+        if d and '%' not in sel:
+            out.append(','.join('html[data-lang="en"] ' + s.strip() for s in sel.split(',') if s.strip()) + '{' + ';'.join(d) + '}')
+    out.append('html[data-lang="en"] #app [lang="ar"]:not(.page):not(.page *),html[data-lang="en"] .sheet [lang="ar"],html[data-lang="en"] .v2wel [dir="rtl"]{direction:ltr}')
+    out.append('html[data-lang="en"] .v2bk .v2ic{transform:scaleX(-1)}')
+    return '\n/* English language: left-to-right twins (made by build.py en_css) */\n' + '\n'.join(out) + '\n'
+
 def v2(shell):
     """App redesign (owner, 10 Nov 2026): src/v2.css, v2.html (<!--TOP--> <!--VIEWS--> <!--NAV-->) and v2.js are laid over the old shell."""
     rd = lambda n: open(os.path.join(R, 'src', n), encoding='utf-8').read()
+    _rd = rd
+    rd = lambda n: _rd(n) + ('\n' + _rd('v2.lang.js') if n == 'v2.js' else '') + (en_css(_rd(n)) if n == 'v2.css' else '')
     top, rest = rd('v2.html').split('<!--TOP-->')[1].split('<!--VIEWS-->')
     vw, nav = rest.split('<!--NAV-->')
     def ins(s, anchor, new, before=True):

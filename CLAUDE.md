@@ -254,3 +254,10 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
 - **Tools ring (owner, 11 Nov 2026; replaces the top strip):** the round pen button at the bottom right of the reader (`#rbShow`, always there)
   opens the tools in two rings around it with a soft glow (`#reader .rbar.fan`, positions `--x/--y` set in v2.js; undo/redo pill on the outer ring);
   choosing a tool closes the ring and opens its panel; a touch elsewhere closes it. The shell's rail stays "off" so the pages keep the full height.
+- **App language (owner, 11 Nov 2026):** Settings → «اللغة» Arabic / English (`orr-lang`, `html[data-lang]`). `src/v2.lang.js` (appended to v2.js by
+  build.py) rewrites the app's text nodes and placeholder/title/aria-label after every render from two dictionaries keyed by the text with numbers
+  as `#`: `T_EN` (Arabic → English) and `T_AR` (English study-screen labels → Arabic). Book pages, topic and chapter names, questions, flashcards
+  and the book's name are not touched. English mode gets left-to-right twins of every right-to-left v2 rule (build.py `en_css`). **Add every new
+  app string to the dictionaries**; `/tmp`-style check: open each screen with orr-lang=en and list text nodes that still hold Arabic. States not
+  yet covered: subscription/payment messages, request states, locked-page texts, old sheets (notes list), posters (pictures stay Arabic).
+- Greeting carries «د.»: «مرحب بك يا د. <name>» (a title the student typed is not doubled); header name chip is larger on tablets/PCs.
