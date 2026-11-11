@@ -104,10 +104,10 @@ $('rbShow').parentNode.insertBefore(tb,$('rbShow'));
 $('backBtn').onclick=function(){go(RET||'v2home')};
 
 /* ---------- views ---------- */
-var V2=['v2home','v2chapters','v2chapter','v2practice','v2resources','v2settings','v2profile','v2notif','v2saved','v2slides','v2lect','v2sub','v2pay','v2dl','v2help'],R={};
+var V2=['v2home','v2chapters','v2chapter','v2practice','v2resources','v2settings','v2profile','v2notif','v2saved','v2slides','v2lect','v2sub','v2pay','v2dl','v2help','v2about','v2poster'],R={};
 var NAV=[['v2home','Home','home'],['v2chapters','Chapters','book'],['v2practice','Practice','clip'],['v2resources','Resources','layers'],['v2settings','Settings','gear']];
 function tabOf(v){if(v==='reader')return SCOPE==='rr'||SCOPE==='dr'?'v2resources':'v2chapters';
-  return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',v2sub:'v2settings',v2pay:'v2settings',v2dl:'v2settings',v2help:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
+  return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',v2sub:'v2settings',v2pay:'v2settings',v2dl:'v2settings',v2help:'v2settings',v2about:'v2settings',v2poster:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
 var _show=show;
 function go(v){if(v==='home')v='v2home';var was=CURV;if(v!=='v2slides'&&v!=='v2lect')FROMRD=false;$('v2tsheet').hidden=true;
   if(V2.indexOf(v)>=0){if(typeof setImm==='function')setImm(false);views.forEach(function(x){$(x).hidden=true});V2.forEach(function(x){$(x).hidden=x!==v});CURV=v;try{hideBar();penFly(false)}catch(e){}R[v]();$(v).scrollTop=v===was?$(v).scrollTop:0}
@@ -193,7 +193,7 @@ R.v2practice=function(){var fr=isFree(),wide=window.matchMedia&&matchMedia('(min
       '<button type="button" class="v2btn" data-v="qbank-v" lang="ar" style="height:50px">'+I('play')+'ابدأ التدريب</button>'+
       '<button type="button" class="v2c hrow" data-v="qbank-v" lang="ar"><span class="ii">'+I('clip')+'</span><span><b>إنشاء اختبار</b><small>تدريب أو امتحان بالوقت · اختيار الفصول وعدد الأسئلة · '+mk+' سؤال محفوظ</small></span>'+I('chev')+'</button>'}
   function cp(){var tc=0,tk=0;deckIds.forEach(function(id){tc+=DECKS[id].cards.length;tk+=deckKnown(id)});
-    return '<div class="pstat" lang="ar"><div class="v2c"><b>'+tc+'</b><span>كرت'+(fr&&TOT.cards?' من '+TOT.cards:'')+'</span></div><div class="v2c"><b>'+tk+'</b><span>عرفتها</span></div><div class="v2c"><b>'+dueToday()+'</b><span>مستحق اليوم</span></div></div>'+
+    return '<div class="pstat" lang="ar"><div class="v2c"><b>'+tc+'</b><span>بطاقة'+(fr&&TOT.cards?' من '+TOT.cards:'')+'</span></div><div class="v2c"><b>'+tk+'</b><span>عرفتها</span></div><div class="v2c"><b>'+dueToday()+'</b><span>مستحق اليوم</span></div></div>'+
       '<button type="button" class="v2btn" data-act="cards" lang="ar" style="height:50px">'+I('play')+'ابدأ مراجعة اليوم</button>'+
       '<button type="button" class="v2c hrow" data-act="allcards" lang="ar"><span class="ii">'+I('layers')+'</span><span><b>كل البطاقات</b><small>حسب الفصل والموضوع</small></span>'+I('chev')+'</button>'}
   var h=title('الممارسة والتقييم','','Practice');
@@ -242,6 +242,12 @@ var HELP=[['home','الرئيسية','من هنا تبدأ كل شيء.',['<b>ت
 R.v2help=function(){$('v2helpW').innerHTML=title('دليل الاستخدام','v2settings','User manual')+
   '<div class="chf lcf" lang="ar">'+HELP.map(function(h,i){return '<button type="button" data-act="hjump" data-i="'+i+'">'+h[1]+'</button>'}).join('')+'</div>'+
   HELP.map(function(h,i){return '<div class="v2c hlp" id="hlp'+i+'" lang="ar"><div class="hx"><b><i>'+(i+1)+'</i>'+h[1]+'</b><p class="mu">'+h[2]+'</p><ol>'+h[3].map(function(s){return '<li>'+s+'</li>'}).join('')+'</ol></div><img src="img/help_'+h[0]+'.jpg" alt="صورة شاشة: '+h[1]+'" loading="lazy"></div>'}).join('')};
+/* About the book (owner's design, 11 Nov 2026): a hero and eight tiles; five open the owner's posters, three lead to places of the app */
+var ABOUT=[['authors','مؤلفا الكتاب','p'],['reviewers','مراجعو الكتاب','p'],['edition','عن هذه الطبعة','p'],['howto','كيف تستخدم الكتاب','v2help'],['tools','أدوات الدراسة','help:2'],['refs','مراجع الكتاب','p'],['contents','محتويات الكتاب','v2chapters'],['goals','أهدافنا المستقبلية','p']],POST='authors';
+R.v2about=function(){$('v2aboutW').innerHTML=title('عن الكتاب','v2settings','About')+
+  '<div class="v2c abh" lang="ar"><img src="img/v2_cover_'+PAL+'.jpg" alt="غلاف الكتاب"><div><h3>رفيقك في رحلة تعلّم التوليد</h3><span class="abl">'+I('book')+'</span><p>تعرّف على الكتاب، وفريقه، وطريقة الاستفادة منه</p></div></div>'+
+  '<div class="abg" lang="ar">'+ABOUT.map(function(a){return '<button type="button" class="v2c abt" data-act="about" data-k="'+a[0]+'"><span class="im" style="background-image:url(img/abt_'+a[0]+'.jpg)"></span><span class="lb"><b>'+a[1]+'</b>'+I('chev')+'</span></button>'}).join('')+'</div>'};
+R.v2poster=function(){var a=ABOUT.filter(function(x){return x[0]===POST})[0];$('v2posterW').innerHTML=title(a[1],'v2about','About')+'<div class="v2c abp"><img src="img/ab_'+a[0]+'.jpg" alt="'+a[1]+'"></div>'};
 R.v2saved=function(){var ks=Object.keys(BM).sort(function(a,b){return BM[b]-BM[a]});
   $('v2savedW').innerHTML=title('المصادر المحفوظة','v2resources')+(ks.length?'<div class="tpl">'+ks.map(function(k){var t=TOPICS.filter(function(x){return 't:'+x.id===k})[0];if(!t)return '';
     return '<div class="v2c tpr"><span class="li">'+I(locked(t.id)?'lock':'book')+'</span><button type="button" class="tmn" data-act="topic" data-id="'+t.id+'"><b>'+t.no+' '+X(t.title)+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></button>'+bmk(k)+'</div>'}).join('')+'</div>'
@@ -257,7 +263,7 @@ R.v2settings=function(){var a=access(),sy=window.__obsSync&&window.__obsSync.act
    '</div><div><div class="v2c">'+
     row('sub','crown','الاشتراك',{free:'النسخة المجانية',trial:'فترة تجريبية',paid:'مفعّل',expired:'انتهت التجربة',ended:'انتهى الاشتراك'}[a])+
     row('sync','sync','المزامنة',sy?'بين أجهزتك':'بعد التفعيل')+row('','dl','التنزيلات','الفيديو والسلايدات','data-v="v2dl"')+row('','bell','الإشعارات','','data-v="v2notif"')+
-    row('prog','bars','تقدّمي',overall()+'%')+row('','book','دليل الاستخدام','شرح التطبيق بالصور','data-v="v2help"')+(CFG.whatsapp?row('help','help','المساعدة','واتساب'):'')+row('about','info','عن هذه الطبعة','')+
+    row('prog','bars','تقدّمي',overall()+'%')+row('','book','دليل الاستخدام','شرح التطبيق بالصور','data-v="v2help"')+(CFG.whatsapp?row('help','help','المساعدة','واتساب'):'')+row('','info','عن الكتاب','المؤلفان · المراجعون · المراجع','data-v="v2about"')+
    '</div></div></div>';avatar($('setAv'))};
 R.v2profile=function(){var dev=st('orr-dev')||'',code=st('orr-code')||'';
   $('v2profileW').innerHTML=title('الملف الشخصي','v2settings')+'<div class="v2c prf" lang="ar"><span class="v2av" id="prAv"></span>'+
@@ -401,7 +407,8 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
   pal:function(b){PAL=b.dataset.p;sp('pal',PAL);applyLook();R.v2settings()},
   sync:function(b){if(!(window.__obsSync&&window.__obsSync.act())){openSub();return}var em=b.querySelector('em');if(em)em.textContent='جارٍ المزامنة…';Promise.resolve(window.__obsSyncNow&&window.__obsSyncNow()).then(function(){if(em)em.textContent='تمت المزامنة ✓'},function(){if(em)em.textContent='تعذّرت المزامنة'})},
   help:function(){window.open('https://wa.me/'+CFG.whatsapp,'_blank')},
-  about:function(){goIdx(idxOf(/^a00b1_about/))},
+  about:function(b){var a=ABOUT.filter(function(x){return x[0]===b.dataset.k})[0];if(!a)return;
+    if(a[2]==='p'){POST=a[0];go('v2poster');$('v2poster').scrollTop=0}else if(a[2].indexOf('help:')===0){go('v2help');var e=$('hlp'+a[2].slice(5));if(e)e.scrollIntoView({block:'start'})}else go(a[2])},
   saveprof:function(){sp('name',$('prN').value.trim());header();go('v2settings')},
   nophoto:function(){try{localStorage.removeItem('orr-photo')}catch(e){}R.v2profile();header()},
   copy:function(b){try{navigator.clipboard.writeText(b.dataset.c);b.innerHTML=I('check');setTimeout(function(){b.innerHTML=I('copy')},1200)}catch(e){}},
