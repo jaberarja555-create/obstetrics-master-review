@@ -374,10 +374,6 @@
   function showBook(id) {
     var b = BOOK[id];
     apps.hidden = false;
-    $('#abar').innerHTML =
-      '<a class="ib" href="#' + readBack(b) + '" aria-label="' + esc(t('back')) + '">' + ic('back', 'flip') + '</a>' +
-      '<a class="atitle" href="#home" aria-label="Student Master Review"><span class="mark sm" aria-hidden="true"></span></a>' +
-      '<span class="aname">' + img(b, '', false) + '<span><b lang="en">' + esc(b.app) + '</b><small>' + esc(secTitle(b.section)) + '</small></span></span>';
     Object.keys(FR).forEach(function (k) { FR[k].wrap.hidden = k !== id; });
     var f = FR[id];
     if (!f) {
@@ -394,16 +390,17 @@
       f.timer = setTimeout(function () { if (!f.loaded) { var sl = wrap.querySelector('.aslow'); if (sl) sl.hidden = false; } }, 15000);
       wrap.appendChild(fr); $('#aframes').appendChild(wrap);
     }
-    var seen = LS.get('seen', []); if (!Array.isArray(seen)) seen = [];
-    var n = $('#anote');
-    if (seen.indexOf(id) < 0) {
-      n.innerHTML = ic('info') + '<span>' + esc(t('read.first', { t: b.app })) + '</span><button class="btn sm quiet" type="button" data-seen="' + id + '">' + esc(t('got')) + '</button>';
-      n.hidden = false;
-    } else n.hidden = true;
     document.title = b.app + ' · Student Master Review';
     noteOpen(id);
   }
   function hideBooks() { if (apps && !apps.hidden) apps.hidden = true; }
+  /* the small button on each book's Home asks to go back to the platform's library */
+  window.addEventListener('message', function (e) {
+    if (!e.data || e.data.smr !== 'library' || state.base !== 'read') return;
+    var id = state.view.slice(5), b = BOOK[id];
+    if (!b || !FR[id] || e.source !== FR[id].fr.contentWindow) return;
+    location.hash = readBack(b);
+  });
 
   /* ---------- opening screen: install the app or continue in the browser ----------
      Install follows the device: the browser's own install window where it offers one (Android, computers),
@@ -581,7 +578,6 @@
     if (a.hasAttribute('data-wclose')) { welClose(); return; }
     if (a.hasAttribute('data-copy')) { copyLink(); return; }
     if (a.hasAttribute('data-close')) closeBook();
-    if (a.hasAttribute('data-seen')) { var sn = LS.get('seen', []); if (!Array.isArray(sn)) sn = []; sn.push(a.getAttribute('data-seen')); LS.set('seen', sn); $('#anote').hidden = true; }
     if (a.hasAttribute('data-retry')) { var rf = FR[a.getAttribute('data-retry')]; if (rf) { rf.wrap.querySelector('.aslow').hidden = true; rf.fr.src = BOOK[a.getAttribute('data-retry')].url; } }
     if (a.id === 'svb') {
       var id = state.view.slice(5), s = saved(), i = s.indexOf(id);
