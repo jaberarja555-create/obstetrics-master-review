@@ -57,6 +57,10 @@
   function secTitle(id) { return t(SEC[id].key + '.t'); }
   function shortT(b) { return b.short || b.title.split(' & ')[0]; }
   function avail(b) { return b.status === 'available' && b.url; }
+  /* Books open inside the platform, except where the platform itself is shown inside another page (for example a
+     preview), which does not allow other sites inside it: there the book opens in a new tab. */
+  var EMBED = (function () { try { return window.top === window.self; } catch (e) { return false; } })();
+  function rlink(b) { return EMBED ? 'href="#read-' + b.id + '"' : 'href="' + esc(b.url) + '" target="_blank" rel="noopener"'; }
 
   /* ---------- profile, recent, saved ---------- */
   function cleanName(n) { return String(n || '').trim().replace(/^(dr\.?|doctor|د\.?|دكتور)\s*/i, '').trim(); }
@@ -106,18 +110,14 @@
     $('#top').innerHTML =
       '<div class="top-in">' +
       '<a class="brand" href="#home" aria-label="Student Master Review · ' + esc(t('nav.home')) + '"><span class="mark" aria-hidden="true"></span>' +
-      '<span class="bname" lang="en" dir="ltr"><span>Student</span><span>Master Review</span></span></a>' +
+      '<span class="bname" lang="en" dir="ltr"><span class="b1">Student </span>Master Review</span></a>' +
       '<nav class="tnav" aria-label="' + esc(t('menu')) + '">' + navLinks() + '</nav>' +
-      '<div class="tsearch" role="search"><label class="field">' + ic('search') +
-      '<input id="qtop" type="search" autocomplete="off" spellcheck="false" placeholder="' + esc(t('search.ph')) + '" aria-label="' + esc(t('search.short')) + '" aria-controls="sdrop" aria-expanded="false"></label>' +
-      '<div class="sdrop" id="sdrop" hidden></div></div>' +
       '<div class="tbtns">' +
-      '<a class="ib ph-only ph-search" href="#search" aria-label="' + esc(t('search.short')) + '">' + ic('search') + '</a>' +
-      '<button class="lbtn" id="lbtn" type="button" aria-label="' + esc(t('lang.aria')) + '"><span class="' + (lang === 'en' ? 'lt' : '') + '">' + esc(t('lang.switch')) + '</span></button>' +
       '<div class="thm"><button class="ib" id="thb" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="tmenu"></button>' +
       '<div class="tmenu" id="tmenu" hidden>' + [['light', 'sun', 'look.light'], ['dark', 'moon', 'look.dark'], ['system', 'auto', 'look.system']].map(function (o) {
         return '<button type="button" data-look="' + o[0] + '" aria-pressed="false">' + ic(o[1]) + '<span>' + esc(t(o[2])) + '</span>' + ic('check', 'ck') + '</button>';
       }).join('') + '</div></div>' +
+      '<a class="ib" href="#search" aria-label="' + esc(t('search.short')) + '" title="' + esc(t('search.short')) + '">' + ic('search') + '</a>' +
       '<a class="ib" href="#notifications" aria-label="' + esc(t('notif.t')) + '">' + ic('bell') + '</a>' +
       '<a class="pchip" href="#preferences" aria-label="' + esc(t('profile')) + '">' + avatar() + '<span class="pn"><bdi>' + esc(displayName()) + '</bdi></span></a>' +
       '</div></div>';
@@ -154,7 +154,6 @@
       '<p class="eyebrow"><span>' + (n ? t('welcome.n', { n: '<bdi>' + esc(n) + '</bdi>' }) : esc(t('welcome'))) + '</span></p>' +
       '<h1 tabindex="-1"><span>' + esc(t('hero.t1')) + '</span><span>' + esc(t('hero.t2')) + '</span></h1>' +
       '<p class="lead">' + esc(t('hero.sub')) + '</p>' +
-      '<a class="hsearch" href="#search" aria-label="' + esc(t('search.short')) + '"><span class="field">' + ic('search') + '<span>' + esc(t('search.ph')) + '</span></span></a>' +
       '</section><div class="stages">';
     S.sections.forEach(function (s) {
       h += '<article class="stage">' + stand(s.home) +
@@ -173,7 +172,7 @@
       '<h3><span class="en" lang="en">' + esc(b.title) + '</span><span class="series" lang="en">' + esc(b.series) + '</span></h3><span class="gl" aria-hidden="true"></span>' +
       '<div class="meta">' + chip(b) + (b.edition ? '<span class="tag">' + esc(L(b.edition)) + '</span>' : '') + '</div>';
     if (avail(b)) {
-      h += '<p class="desc">' + esc(L(b.sub)) + '</p><div class="act"><a class="btn" href="#read-' + b.id + '" data-open="' + b.id + '">' +
+      h += '<p class="desc">' + esc(L(b.sub)) + '</p><div class="act"><a class="btn" ' + rlink(b) + ' data-open="' + b.id + '">' +
         esc(t('open', { t: shortT(b) })) + ic('arrow', 'flip') + '</a><span class="opens">' + esc(t('opens', { a: b.app })) + '</span></div>';
     } else {
       h += '<p class="desc">' + esc(b.ho ? t('ho.sub') : L(b.sub)) + '</p><div class="act"><a class="btn ghost" href="#book-' + b.id + '" data-book>' +
@@ -192,7 +191,7 @@
   function row(b, extra, action) {
     return '<div class="row">' + img(b, '') + '<div class="rt"><b lang="en">' + esc(b.title) + '</b><i lang="en">' + esc(b.series) + '</i><span>' + extra + '</span></div>' + action + '</div>';
   }
-  function openLink(b, cls) { return '<a class="btn sm rgo ' + (cls || '') + '" href="#read-' + b.id + '" data-open="' + b.id + '">' + esc(t('open.short')) + ic('arrow', 'flip') + '</a>'; }
+  function openLink(b, cls) { return '<a class="btn sm rgo ' + (cls || '') + '" ' + rlink(b) + ' data-open="' + b.id + '">' + esc(t('open.short')) + ic('arrow', 'flip') + '</a>'; }
   function vLibrary() {
     var av = S.books.filter(avail), rc = recent(), sv = saved();
     var h = '<header class="pagehead"><h1 tabindex="-1">' + esc(t('lib.t')) + '</h1><p>' + esc(t('lib.sub')) + '</p></header>';
@@ -211,7 +210,7 @@
     S.books.filter(avail).forEach(function (b) {
       var lo = lastOpen(b.id);
       h += '<div class="prow">' + img(b, '') + '<div><b lang="en">' + esc(b.app) + '</b><span>' + esc(lo ? t('prog.last', { w: ago(lo) }) : t('prog.never')) + '</span></div>' +
-        '<a class="btn sm" href="#read-' + b.id + '" data-open="' + b.id + '">' + esc(t('prog.open', { t: shortT(b) })) + ic('arrow', 'flip') + '</a></div>';
+        '<a class="btn sm" ' + rlink(b) + ' data-open="' + b.id + '">' + esc(t('prog.open', { t: shortT(b) })) + ic('arrow', 'flip') + '</a></div>';
     });
     return h + '</div><p class="note">' + ic('info') + '<span>' + esc(t('prog.where')) + '</span></p>';
   }
@@ -279,8 +278,8 @@
       return '<a href="#' + s.id + '"' + (on ? ' class="on"' : '') + '>' + img(cv, '') + '<span class="st"><b>' + esc(t(s.key + '.t')) + '</b><span>' + esc(t(s.key + '.tag')) + '</span></span>' + ic('arrow', 'flip') + '</a>';
     }
     var b = BOOK[e.id];
-    var href = avail(b) ? '#read-' + b.id + '" data-open="' + b.id : '#book-' + b.id + '" data-book="1';
-    return '<a href="' + href + '"' + (on ? ' class="on"' : '') + '>' + img(b, '') + '<span class="st"><b lang="en">' + esc(b.title) + ' · ' + esc(b.series) + '</b><span>' + esc(secTitle(b.section)) + ' · ' + esc(avail(b) ? t('st.available') : t('st.soon')) + '</span></span>' + ic('arrow', 'flip') + '</a>';
+    var href = avail(b) ? rlink(b) + ' data-open="' + b.id + '"' : 'href="#book-' + b.id + '" data-book="1"';
+    return '<a ' + href + (on ? ' class="on"' : '') + '>' + img(b, '') + '<span class="st"><b lang="en">' + esc(b.title) + ' · ' + esc(b.series) + '</b><span>' + esc(secTitle(b.section)) + ' · ' + esc(avail(b) ? t('st.available') : t('st.soon')) + '</span></span>' + ic('arrow', 'flip') + '</a>';
   }
   function countTxt(n) {
     if (n === 1) return t('srch.n1');
@@ -401,6 +400,7 @@
     var v = decodeURIComponent(location.hash.slice(1)) || 'home';
     var readId = /^read-/.test(v) ? v.slice(5) : null;
     if (readId) {
+      if (BOOK[readId] && avail(BOOK[readId]) && !EMBED) { location.replace('#' + BOOK[readId].section); return; }
       if (BOOK[readId] && avail(BOOK[readId])) {
         if (state.base !== 'read') state.readFrom = state.base;
         state.view = v; state.base = 'read'; document.body.setAttribute('data-view', 'read');

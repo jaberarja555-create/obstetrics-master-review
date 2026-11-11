@@ -45,7 +45,7 @@ SMR.T = {
     'lang.switch': 'العربية', 'lang.aria': 'Switch the interface to Arabic',
     'read.own': 'Open at its own address', 'read.loading': 'Opening {t}…',
     'read.slow': 'This is taking longer than usual. Check your internet connection.', 'read.retry': 'Try again',
-    'read.first': 'First time opening {t} here: activate your subscription once inside the book. Your notes and progress come back through sync.',
+    'read.first': 'First time here: activate once inside the book. Your notes come back through sync.',
     'got': 'OK',
     'just': 'just now', 'skip': 'Skip to content', 'menu': 'Main sections', 'doctor': 'Doctor'
   },
@@ -93,7 +93,7 @@ SMR.T = {
     'lang.switch': 'English', 'lang.aria': 'Switch the interface to English',
     'read.own': 'افتحه على عنوانه الخاص', 'read.loading': 'جارٍ فتح {t}…',
     'read.slow': 'يستغرق الفتح وقتًا أطول من المعتاد. تحقّق من اتصالك بالإنترنت.', 'read.retry': 'أعد المحاولة',
-    'read.first': 'أول مرة تفتح {t} هنا: فعّل اشتراكك مرة واحدة داخل الكتاب، وستعود ملاحظاتك وتقدّمك عبر المزامنة.',
+    'read.first': 'أول مرة هنا: فعّل اشتراكك مرة واحدة داخل الكتاب، وستعود ملاحظاتك بالمزامنة.',
     'got': 'حسنًا',
     'just': 'الآن', 'skip': 'انتقل إلى المحتوى', 'menu': 'الأقسام الرئيسية', 'doctor': 'دكتور'
   }
