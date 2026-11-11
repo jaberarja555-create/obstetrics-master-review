@@ -421,21 +421,25 @@ button{font-family:inherit}
 #reader #pages{padding:14px 8px 40px;gap:14px}
 #reader .pw{border-radius:10px;box-shadow:0 1px 2px rgba(57,43,85,.08),0 10px 28px rgba(57,43,85,.16)}
 #reader .pnum{top:10px;left:50%;right:auto;transform:translateX(-50%);background:color-mix(in srgb,var(--sf) 92%,transparent);color:var(--tx);border:1px solid var(--bd);box-shadow:var(--sh);padding:4px 12px;font:700 12px var(--ui);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:opacity .2s}
-/* tools: a strip of symbols along the top, under the bar, as in Surgery; it hides while reading down and a tap brings it back */
-#reader .rbar{left:0;right:0;top:0;bottom:auto;transform:none!important;width:auto;max-width:none;flex-direction:row;align-items:center;justify-content:center;gap:2px;padding:4px 6px;
-  border-radius:0;border:0;border-bottom:1px solid var(--bd);background:var(--sf);box-shadow:0 4px 14px rgba(57,43,85,.06);overflow:visible;z-index:6;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .22s ease}
-#reader .rbar.off,.app.imm #reader .rbar{transform:translateY(-110%)!important;opacity:0;pointer-events:none}
-#reader .rbar button{flex:0 1 58px;width:auto;min-width:0;min-height:46px;padding:4px 1px 3px;border-radius:13px;gap:3px;color:var(--sub);font:700 9.5px/1.1 'Cairo','Inter',sans-serif;white-space:nowrap;transition:background .18s ease,color .18s ease,transform .12s ease}
-#reader .rbar button svg{width:21px;height:21px;stroke-width:1.9}
-#reader .rbar button:hover{background:var(--sel)}#reader .rbar button:active{transform:scale(.92)}
-#reader .rbar #hlPen.on,#reader .rbar #ulBtn.on,#reader .rbar #inkBtn.on,#reader .rbar #txtBtn.on,#reader .rbar #rNotes.on,#reader .rbar button.on{background:var(--pri);color:var(--pon);box-shadow:0 3px 10px color-mix(in srgb,var(--pri) 40%,transparent)}
-#reader .rbar #rbHide{order:99;flex:0 0 30px;font-size:0;gap:0;color:var(--sub)}#reader .rbar #rbHide svg{transform:rotate(-90deg);width:18px;height:18px}
-#reader .rbar .urw{display:flex!important;flex-direction:row!important;border:0;border-left:1px solid var(--bd);margin:0 0 0 3px;padding:0 0 0 3px;gap:0;flex:none}
-#reader .rbar .urw button{flex:0 0 30px;min-height:46px;font-size:0;gap:0}#reader .rbar .urw button:disabled{opacity:.3}
-@media (max-width:420px){#reader .rbar{gap:0;padding:3px 3px}#reader .rbar button{font-size:8.5px}#reader .rbar button svg{width:19px;height:19px}}
-/* tools hidden: a small round pen button at the bottom brings them back (owner, 11 Nov 2026) */
-#reader #rbShow{position:absolute;right:12px;bottom:12px;left:auto;top:auto;z-index:6;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--pri);color:var(--pon)!important;border:0;box-shadow:0 4px 12px rgba(57,43,85,.28);transition:transform .15s ease,opacity .2s ease}
-#reader #rbShow[hidden]{display:none}#reader #rbShow:active{transform:scale(.9)}#reader #rbShow .v2ic{width:21px;height:21px}
+/* tools (owner, 11 Nov 2026): a round pen button at the bottom right; pressing it opens the tools in rings around it */
+#reader .rbar{position:absolute;right:34px;bottom:34px;left:auto;top:auto;width:0;height:0;padding:0;margin:0;border:0;border-radius:0;background:none;box-shadow:none;overflow:visible;display:block;
+  transform:none!important;opacity:1!important;pointer-events:none;z-index:7}
+#reader .rbar::before{content:'';position:absolute;left:-250px;top:-250px;width:500px;height:500px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,color-mix(in srgb,var(--pri) 30%,transparent) 0,color-mix(in srgb,var(--pri) 16%,transparent) 45%,transparent 70%);transform:scale(.1);opacity:0;transition:transform .45s cubic-bezier(.2,.9,.3,1.2),opacity .3s ease}
+#reader .rbar.fan::before{transform:scale(1);opacity:1}
+#reader .rbar>button,#reader .rbar>.urw{position:absolute;left:-27px;top:-27px;width:54px;height:54px;min-height:0;flex:none;margin:0;padding:0;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  background:var(--sf);color:var(--tx);border:1px solid var(--bd);box-shadow:0 4px 14px rgba(57,43,85,.24);font:700 9px/1.1 'Cairo','Inter',sans-serif;white-space:nowrap;
+  transform:translate(0,0) scale(.2) rotate(-90deg);opacity:0;pointer-events:none;transition:transform .42s cubic-bezier(.2,.9,.3,1.25),opacity .25s ease,background .18s ease;transition-delay:var(--d,0s)}
+#reader .rbar.fan>button,#reader .rbar.fan>.urw{transform:translate(var(--x,0),var(--y,0)) scale(1) rotate(0);opacity:1;pointer-events:auto}
+#reader .rbar>button svg{width:21px;height:21px;stroke-width:1.9;color:var(--pri)}
+#reader .rbar>button:active{background:var(--sel)}
+#reader .rbar>button.on{background:var(--pri);color:var(--pon);border-color:var(--pri)}#reader .rbar>button.on svg{color:var(--pon)}
+#reader .rbar #rbHide{display:none}
+#reader .rbar>.urw{width:auto;height:44px;left:-46px;top:-22px;flex-direction:row;gap:0;padding:0 4px;border-radius:999px;margin:0}
+#reader .rbar .urw button{width:42px;height:42px;min-height:0;flex:none;border-radius:50%;font-size:0;gap:0;color:var(--pri)}#reader .rbar .urw button svg{width:20px;height:20px}#reader .rbar .urw button:disabled{opacity:.3}
+#reader #rbShow{position:absolute;right:12px;bottom:12px;left:auto;top:auto;z-index:8;width:44px;height:44px;border-radius:50%;display:grid!important;place-items:center;background:var(--pri);color:var(--pon)!important;border:0;box-shadow:0 4px 12px rgba(57,43,85,.28);transition:transform .3s cubic-bezier(.2,.9,.3,1.3)}
+#reader #rbShow.open{transform:rotate(135deg) scale(1.08)}#reader #rbShow:active{transform:scale(.9)}#reader #rbShow .v2ic{width:21px;height:21px}
+@media (max-width:759px){#reader .inkbar,#reader .hlbar{bottom:64px!important}}
 /* reading bar at the bottom: slides, video, topics, progress of the page */
 .v2rnav{display:none}
 .app.rd .v2rnav:not([hidden]){flex:none;display:grid;grid-template-columns:repeat(4,1fr);direction:rtl;gap:2px;background:var(--sf);border-top:1px solid var(--bd);padding:5px 6px calc(env(safe-area-inset-bottom,0px) + 5px)}

@@ -68,6 +68,16 @@ $('v2rnav').appendChild($('prBtn'));
 var RH=document.createElement('button');RH.type='button';RH.className='ib rhome';RH.setAttribute('aria-label','Home');RH.title='الرئيسية';RH.innerHTML=I('home');RH.onclick=function(){go('v2home')};RB.insertBefore(RH,RT);
 var RP=document.createElement('i');RP.className='rprog';RP.innerHTML='<i></i>';RB.appendChild(RP);
 $('reader').appendChild($('rbShow'));$('rbShow').innerHTML=I('pen');$('rbShow').title='إظهار الأدوات';
+/* the tools open in rings around the pen button (owner, 11 Nov 2026) */
+(function(){var rb=$('rbar'),sh=$('rbShow'),ur=rb.querySelector('.urw');
+  var P=[['hlPen',78,96],['inkBtn',78,135],['txtBtn',78,174],['ulBtn',140,93],['rNotes',140,120],['upBtn',140,148],['zoomBtn',140,176]];
+  function at(e,r,deg,i){if(!e)return;var a=deg*Math.PI/180;e.style.setProperty('--x',Math.round(r*Math.cos(a))+'px');e.style.setProperty('--y',Math.round(-r*Math.sin(a))+'px');e.style.setProperty('--d',(i*0.035)+'s')}
+  P.forEach(function(p,i){at($(p[0]),p[1],p[2],i)});at(ur,196,135,7);
+  function fan(on){rb.classList.toggle('fan',on);sh.classList.toggle('open',on)}
+  try{setRail(true)}catch(e){}
+  sh.onclick=function(e){e.stopPropagation();fan(!rb.classList.contains('fan'))};
+  rb.addEventListener('click',function(e){var b=e.target.closest('button');if(b&&!b.closest('.urw'))setTimeout(function(){fan(false)},0)},true);
+  document.addEventListener('pointerdown',function(e){if(rb.classList.contains('fan')&&!e.target.closest('#rbar,#rbShow'))fan(false)},true)})();
 function scNow(){return WHOLE?grp(typeof lastCur==='number'&&lastCur>=0?lastCur:currentPage()):SCOPE}
 /* full page (owner, 11 Nov 2026): with the pen on, a tap draws, so the bars and the side menu could not be hidden. A small button at the
    bottom left of the reader hides and shows them at any time; scrolling down with the pen on hides them too. */

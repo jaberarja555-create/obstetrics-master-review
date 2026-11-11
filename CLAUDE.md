@@ -251,3 +251,6 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
 - **Full page with the pen (owner, 11 Nov 2026):** `#v2full` (bottom left of the reader) hides and shows the bars and the side menu at any time;
   scrolling down with the pen or text tool on hides them too (shell scroll listener). `.app.imm` removes the side-menu space on tablets.
 - Resources on tablets/PCs: seven large tiles filling the screen (12-column grid, 4 + 3).
+- **Tools ring (owner, 11 Nov 2026; replaces the top strip):** the round pen button at the bottom right of the reader (`#rbShow`, always there)
+  opens the tools in two rings around it with a soft glow (`#reader .rbar.fan`, positions `--x/--y` set in v2.js; undo/redo pill on the outer ring);
+  choosing a tool closes the ring and opens its panel; a touch elsewhere closes it. The shell's rail stays "off" so the pages keep the full height.
