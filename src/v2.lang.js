@@ -179,5 +179,7 @@ function trAll(){TRBUSY=true;try{trTree(document.body)}catch(e){}TRBUSY=false}
 function setLang(l){LANG=l==='en'?'en':'ar';sp('lang',LANG);root.setAttribute('data-lang',LANG);root.lang=LANG;try{$('v2welT').innerHTML=greet()}catch(e){}try{if(R[CURV])R[CURV]()}catch(e){}trAll()}
 root.setAttribute('data-lang',LANG);
 new MutationObserver(function(ms){if(TRBUSY)return;TRBUSY=true;try{ms.forEach(function(m){if(m.type==='characterData')trNode(m.target);else [].forEach.call(m.addedNodes,trTree)})}catch(e){}TRBUSY=false}).observe(document.body,{childList:true,subtree:true,characterData:true});
-document.addEventListener('click',function(e){var b=e.target.closest('[data-act="lang"]');if(b)setLang(b.dataset.l)});
+document.addEventListener('click',function(e){var b=e.target.closest('[data-act="lang"]');if(b){try{localStorage.setItem('smr-langown','1')}catch(x){}setLang(b.dataset.l)}});
+/* inside the Student Master Review platform the book follows the platform language unless the student chose one here (owner, 11 Nov 2026) */
+window.__smrLang=function(l){if((l==='ar'||l==='en')&&l!==LANG)setLang(l)};
 trAll();

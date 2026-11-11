@@ -1,3 +1,7 @@
+/* Arabic font shipped with the platform, so Arabic always shapes correctly even when Google Fonts does not load */
+@font-face{font-family:'Cairo';font-weight:400;font-display:swap;src:url(../fonts/cairo-arabic-400-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:'Cairo';font-weight:600;font-display:swap;src:url(../fonts/cairo-arabic-600-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:'Cairo';font-weight:700;font-display:swap;src:url(../fonts/cairo-arabic-700-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
 /* Student Master Review: a bright medical library. Navy serif titles, teal actions, gold rules; books stand on cream plinths.
    Layout: header (phone: bottom tabs) · home = hero + three stage cards · libraries = header band + shelf of book cards. */
 :root{
@@ -614,3 +618,11 @@ html[lang="ar"] .wcard h2{font-family:var(--arab);font-weight:700}
   .pbh .btn{padding:0 12px}
 }
 @media (min-width:900px){ .pbl{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px} .pbm{gap:28px} }
+
+/* greeting, second step: language and look (owner, 11 Nov 2026) */
+.wset{display:grid;gap:8px;width:100%;margin-top:14px;text-align:start}
+.wlab{margin:6px 0 0;font-weight:700;font-size:14px;color:var(--sub)}
+.wseg{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;border-radius:16px;background:var(--sf2);border:1px solid var(--bd)}
+.wseg button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:0;border-radius:12px;background:transparent;color:var(--sub);font-weight:700;font-size:15.5px;cursor:pointer}
+.wseg button[lang="ar"]{font-family:var(--arab)}
+.wseg button[aria-pressed="true"]{background:var(--pri);color:var(--pon);box-shadow:0 4px 12px rgba(17,128,122,.25)}

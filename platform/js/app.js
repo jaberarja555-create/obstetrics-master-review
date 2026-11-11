@@ -110,7 +110,7 @@
   if (mq && mq.addEventListener) mq.addEventListener('change', applyTheme);
   function setTheme(v) { theme = v; LS.set('theme', v); applyTheme(); }
   function applyLang() { var r = document.documentElement; r.lang = lang; r.dir = lang === 'ar' ? 'rtl' : 'ltr'; }
-  function setLang(v) { lang = v; LS.set('lang', v); applyLang(); chrome(); route(true); Object.keys(FR).forEach(tellLang); }
+  function setLang(v) { lang = v; LS.set('lang', v); LS.set('langset', Date.now()); applyLang(); chrome(); route(true); Object.keys(FR).forEach(function (k) { tellLang(k, true); }); }
 
   /* ---------- chrome: header + bottom tabs ---------- */
   var NAV = [['home', 'nav.home', 'home'], ['my-library', 'nav.library', 'library'], ['progress', 'nav.progress', 'progress'], ['preferences', 'nav.settings', 'gear']];
@@ -437,7 +437,7 @@
       fr.setAttribute('allowfullscreen', '');
       fr.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
       f = FR[id] = { wrap: wrap, fr: fr, loaded: false };
-      fr.addEventListener('load', function () { f.loaded = true; var l = wrap.querySelector('.aload'); if (l) l.remove(); tellLang(id); });
+      fr.addEventListener('load', function () { f.loaded = true; var l = wrap.querySelector('.aload'); if (l) l.remove(); tellLang(id, (LS.get('langset', 0) || 0) > (LS.get('lt-' + id, 0) || 0)); LS.set('lt-' + id, Date.now()); });
       f.timer = setTimeout(function () { if (!f.loaded) { var sl = wrap.querySelector('.aslow'); if (sl) sl.hidden = false; } }, 15000);
       wrap.appendChild(fr); $('#aframes').appendChild(wrap);
     }
@@ -445,7 +445,7 @@
     noteOpen(id);
   }
   /* the book's Library button follows the platform language when the book has no language setting of its own */
-  function tellLang(id) { var f = FR[id]; if (!f) return; try { f.fr.contentWindow.postMessage({ smr: 'lang', lang: lang }, new URL(BOOK[id].url).origin); } catch (e) {} }
+  function tellLang(id, force) { var f = FR[id]; if (!f) return; try { f.fr.contentWindow.postMessage({ smr: 'lang', lang: lang, force: !!force }, new URL(BOOK[id].url).origin); } catch (e) {} }
   function hideBooks() { if (apps && !apps.hidden) apps.hidden = true; }
   /* the small button on each book's Home asks to go back to the platform's library */
   window.addEventListener('message', function (e) {
@@ -522,6 +522,20 @@
     welOpen(h + '<ol class="steps">' + st + '</ol><div class="wbtns wrow">' + extra +
       '<button class="btn sm" type="button" data-wclose data-first>' + esc(t('i.ok')) + '</button></div><p class="ok-msg" id="wmsg" role="status" aria-live="polite"></p>');
   }
+  /* second step of the greeting (owner, 11 Nov 2026): the app language and the day / night look, shown with the current choice; applied at once */
+  function setupStep() {
+    var segL = [['ar', 'العربية', 'ar'], ['en', 'English', 'en']].map(function (o) {
+      return '<button type="button" data-wlang="' + o[0] + '" lang="' + o[2] + '" aria-pressed="' + (lang === o[0]) + '">' + o[1] + '</button>';
+    }).join('');
+    var dark = isDark(), segT = [['light', 'sun', 'look.light', !dark], ['dark', 'moon', 'look.dark', dark]].map(function (o) {
+      return '<button type="button" data-wlook="' + o[0] + '" aria-pressed="' + o[3] + '">' + ic(o[1]) + '<span>' + esc(t(o[2])) + '</span></button>';
+    }).join('');
+    welOpen('<span class="wmark" aria-hidden="true"><span class="mark"></span></span><h2 id="welT">' + esc(t('w.setT')) + '</h2>' +
+      '<div class="wset"><p class="wlab">' + esc(t('set.lang')) + '</p><div class="wseg">' + segL + '</div>' +
+      '<p class="wlab">' + esc(t('set.look')) + '</p><div class="wseg">' + segT + '</div></div>' +
+      '<div class="wbtns"><button class="btn" type="button" data-wdone data-first>' + esc(t('w.start')) + ic('arrow', 'flip') + '</button></div>');
+  }
+  function welNext() { setupStep(); }
   function welDone() {
     welOpen(welHead() + '<p class="ok-msg wdone">' + ic('check') + ' ' + esc(t('i.done')) + '</p><div class="wbtns"><button class="btn" type="button" data-wclose data-first>' + esc(t('w.start')) + '</button></div>');
   }
@@ -637,7 +651,10 @@
     if (a.hasAttribute('data-lang')) setLang(a.getAttribute('data-lang'));
     if (a.hasAttribute('data-theme')) { setTheme(a.getAttribute('data-theme')); a.parentNode.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === a ? 'true' : 'false'); }); }
     if (a.hasAttribute('data-install')) { install(); return; }
-    if (a.hasAttribute('data-wclose')) { welClose(); return; }
+    if (a.hasAttribute('data-wclose')) { welNext(); return; }
+    if (a.hasAttribute('data-wdone')) { LS.set('setup', 1); welClose(); return; }
+    if (a.hasAttribute('data-wlang')) { setLang(a.getAttribute('data-wlang')); setupStep(); return; }
+    if (a.hasAttribute('data-wlook')) { setTheme(a.getAttribute('data-wlook')); setupStep(); return; }
     if (a.hasAttribute('data-copy')) { copyLink(); return; }
     if (a.hasAttribute('data-close')) closeBook();
     if (a.hasAttribute('data-retry')) { var rf = FR[a.getAttribute('data-retry')]; if (rf) { rf.wrap.querySelector('.aslow').hidden = true; rf.fr.src = BOOK[a.getAttribute('data-retry')].url; } }

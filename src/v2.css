@@ -734,3 +734,17 @@ button{font-family:inherit}
 @media (max-width:759px){#v2homeW .hcont.hc2{min-height:64px;padding:8px;gap:6px;overflow:hidden}.hc2 .cb{padding:6px 10px}.hc2 .cbb{padding:5px 5px 5px 10px}#v2homeW .hc2 .cbb .v2btn{height:34px}
   @container (max-height:128px){.hc2 .cbt{margin:auto 0;max-width:calc(100% - 140px)}.hc2 .cbb{position:absolute;right:8px;top:50%;transform:translateY(-50%);padding:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}.hc2 .cp{display:none}.hc2 .cbt small{display:block}.hc2 .cbt em{display:none}}
   @container (max-height:74px){.hc2 .cbt small{display:none}}}
+/* opening choice after the greeting (owner, 11 Nov 2026) */
+.v2chz{z-index:90}
+.v2chz .in{max-width:440px;margin:auto;padding:22px 18px 18px;border-radius:24px}
+.v2chz h3{margin:0;font:800 21px/1.3 'Cairo','Inter',sans-serif;text-align:center;color:var(--tx);text-transform:none;letter-spacing:0;display:block}
+.v2chz .chzl{margin:4px 0 14px;text-align:center;color:var(--sub);font:600 14px 'Cairo','Inter',sans-serif}
+.chzb{display:flex;align-items:center;gap:14px;width:100%;padding:14px 16px;margin-bottom:10px;border:1px solid var(--bd);border-radius:18px;background:var(--sf);color:var(--tx);text-align:start;cursor:pointer;font-family:inherit}
+.chzb .v2ic{width:26px;height:26px;flex:none;color:var(--pri)}
+.chzb span{display:flex;flex-direction:column;gap:2px}
+.chzb b{font-size:16px}
+.chzb small{font-size:12.5px;color:var(--sub)}
+.chzb.pd{background:var(--deep);color:#fff;border-color:transparent}
+.chzb.pd .v2ic,.chzb.pd small{color:#f3d68a}
+.chzb.tr{background:var(--sel)}
+.chzb:disabled{opacity:.6}

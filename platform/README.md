@@ -27,7 +27,7 @@ Arabic is the default language. Each time the link is opened in a browser (once 
 (`beforeinstallprompt`, kept in `window.__bip` from the head; Android Chrome, Chrome/Edge on computers), otherwise the steps:
 iPhone/iPad Share → Add to Home Screen (in-app browsers: open in Safari first), Android without the offer (e.g. opened from WhatsApp):
 an «افتح في Chrome» button (`intent://…;package=com.android.chrome`) then menu → Install app, Mac Safari File → Add to Dock, Firefox: use Chrome/Edge.
-The installed app (standalone) shows only a welcome with «ابدأ». Settings has «تثبيت التطبيق» too. `sw.js` (network first, offline copy of the
+The installed app (standalone) shows only a welcome with «ابدأ». Every path then shows a second step «اختر لغة التطبيق ومظهره» (Arabic/English, day/night, current choice selected, applied at once); `smr-setup` records that it was seen. The platform language is sent to each book (`{smr:'lang'}`; with `force` after the student changes it), and the book follows it unless the student chose a language inside the book. Settings has «تثبيت التطبيق» too. `sw.js` (network first, offline copy of the
 platform's own screens) makes it installable.
 
 ## Files

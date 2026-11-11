@@ -99,3 +99,20 @@ window.__smrStats=function(){var r={pages:{total:0,read:0,mastered:0},q:{total:Q
   QS.forEach(function(q){var x=QST[q.id];if(x&&(x.n||x.a)){r.q.answered++;if(x.w)r.q.wrong++;else r.q.correct++}});
   try{r.streak=streak()}catch(e){}
   META.chapters.forEach(function(c){var x=chStat(c),m=0;x.ts.forEach(function(t){m+=tMast(t.id)});r.ch.push({n:c.n,name:c.name,read:x.nr,mastered:m,total:x.np})});return r};
+/* after the greeting, a device that is not subscribed chooses how to open the book (owner, 11 Nov 2026): the full subscription,
+   the one-hour trial (only while it is unused) or the free version; a subscribed device or a running trial goes straight in */
+(function(){var go=$('v2welGo');if(!go)return;
+  function L(ar,en){return typeof LANG!=='undefined'&&LANG==='en'?en:ar}
+  function due(){var a=access();return (a==='free'||a==='expired'||a==='ended')&&!(REQ&&REQ.status==='pending')}
+  function chooser(){if($('v2chz'))return;var fr=LIC&&LIC.fresh&&LIC.fresh(),d=document.createElement('div');d.className='sheet v2chz';d.id='v2chz';
+    d.innerHTML='<div class="in" role="dialog" aria-modal="true" aria-labelledby="chzT" lang="'+(L('ar','en'))+'" dir="'+L('rtl','ltr')+'"><h3 id="chzT">'+L('مرحبًا بك في الكتاب','Welcome to the book')+'</h3><p class="chzl">'+L('اختر طريقة فتح الكتاب:','Choose how to open the book:')+'</p>'+
+      '<button type="button" class="v2c chzb pd" data-c="sub">'+I('crown')+'<span><b>'+L('الاشتراك في النسخة الكاملة','Subscribe to the full book')+'</b><small>'+L('الكتاب كله مع البطاقات وبنك الأسئلة','The whole book with flashcards and the question bank')+'</small></span></button>'+
+      (fr?'<button type="button" class="v2c chzb tr" data-c="trial">'+I('clock')+'<span><b>'+L('النسخة التجريبية لمدة ساعة','One-hour trial')+'</b><small>'+L('الكتاب كله مفتوح ساعة كاملة، مرة واحدة','The whole book open for one hour, once')+'</small></span></button>':'')+
+      '<button type="button" class="v2c chzb fr" data-c="free">'+I('book')+'<span><b>'+L('متابعة بالنسخة المجانية','Continue with the free version')+'</b><small>'+L('الموضوع الأول من كل فصل','The first topic of every chapter')+'</small></span></button>'+
+      '<p class="mu" id="chzMsg" role="status"></p></div>';
+    document.body.appendChild(d);
+    d.addEventListener('click',function(e){var b=e.target.closest('[data-c]');if(!b)return;var c=b.dataset.c;
+      if(c==='free'){d.remove();return}
+      if(c==='sub'){d.remove();ACT.sub();return}
+      if(c==='trial'&&LIC){b.disabled=true;LIC.startTrial(function(m){b.disabled=false;var x=$('chzMsg');if(x)x.textContent=m})}})}
+  go.addEventListener('click',function(){if(due())setTimeout(chooser,1200)})})();
