@@ -272,3 +272,10 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
 - Question bank and flashcard screens take the app's colours (v2.css block "question bank and flashcards in the app's colours"); the gold look is gone.
 - Home order (owner, 11 Nov 2026): greeting · book card · continue reading · question bank and today's cards · streak and overall progress · the
   three shortcuts · subscription card last (CSS `order` at the end of v2.css; the markup order is older).
+
+## New app is LIVE (owner, 11 Nov 2026: "we can deploy to students as we work on other things")
+`redesign` was merged into `main` on 11 Nov 2026 and deploys to https://obstetrics-master-review.pages.dev. Migration 008 started the
+one-month clock for the old codes (plan = 'old'; they end about 11 Dec 2026). An old code can still be typed in the new app: Subscription →
+«عندي كود تفعيل قديم» (`window.__lic.activate`). **From now on:** try new work on branch `redesign` (preview address above), and merge it
+into `main` when the owner has seen it; small fixes the owner asks for directly may go to both. Still open: clean wording and levels for
+chapters 2, 3, 4, 5, 7; English texts of the subscription and payment screens; bookmarks sync.

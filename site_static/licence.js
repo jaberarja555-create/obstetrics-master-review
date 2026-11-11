@@ -154,7 +154,15 @@ function openChoose(){
   $('chFree').onclick=function(){choiceSnd('free');LS('orr-chz','1');setMust(false);sh.hidden=true}}
 window.__openSub=openSub;
 /* the new app (v2.js) has its own subscription pages; it uses these */
-window.__lic={dev:DEV,kind:kind,label:label,rpc:function(n,a){return sb().then(function(c){return c.rpcAnon(n,a)})},unlocked:function(){return UNLOCKED},intrial:function(){return INTRIAL},
+window.__lic={/* an old activation code typed in the new app (they keep working for one month after launch) */
+  activate:function(code,say){code=String(code||'').toUpperCase().replace(/\s+/g,'');if(!code){say('اكتب الكود أولًا.');return}
+    if(!(window.crypto&&crypto.subtle&&window.DecompressionStream)){say('هذا المتصفح قديم. افتح التطبيق في متصفح Chrome أو Safari حديث.');return}
+    say('جارٍ التفعيل…');sb().then(function(c){return c.rpcAnon('obs_activate',{p_code:code,p_dev:DEV,p_kind:kind(),p_label:label()})}).then(function(r){var j=r.data;
+      if(r.error||!j){say(ERR.net);return}
+      if(!j.ok){say(j.reason==='taken'?'هذا الكود مستخدم في جهاز آخر. أزل الكود من الجهاز القديم أولًا، أو تواصل معنا من «المساعدة».':j.reason==='off'?'هذا الكود موقوف. تواصل معنا من «المساعدة».':j.reason==='expired'?'انتهت مدة هذا الكود. يمكنك الاشتراك من جديد.':'الكود غير صحيح. تأكد من كتابته كما وصلك.');return}
+      return decrypt(j.key).then(function(){saveMeta(j);LS('orr-k',j.key);LS('orr-code',j.code||code);LS('orr-kc',String(Date.now()));say('تم التفعيل. يُفتح الكتاب كاملًا الآن…');setTimeout(function(){location.reload()},900)})
+    }).catch(function(){say(ERR.net)})},
+  dev:DEV,kind:kind,label:label,rpc:function(n,a){return sb().then(function(c){return c.rpcAnon(n,a)})},unlocked:function(){return UNLOCKED},intrial:function(){return INTRIAL},
   fresh:fresh,trialLeft:tleftTxt,trialDur:tdur,startTrial:startTrial,
   codeEntry:function(){openSub();var w=setInterval(function(){var x=$('actIn');if(x){clearInterval(w);x.scrollIntoView({block:'center'});x.focus()}},150);setTimeout(function(){clearInterval(w)},5000)},
   adopt:function(j){return decrypt(j.key).then(function(){saveMeta(j);LS('orr-k',j.key);if(j.code)LS('orr-code',j.code);LS('orr-kc',String(Date.now()));LS('orr-tk',null);choiceSnd('ok');openingFx('تم تفعيل اشتراكك · جارٍ فتح الكتاب كاملًا');setTimeout(function(){location.reload()},1100)})}};

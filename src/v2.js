@@ -362,7 +362,9 @@ R.v2sub=function(){var a=access(),ex=+st('orr-exp')||0,pl=st('orr-plan'),pend=a!
       '<label>رقم الربط<input id="dvPin" type="tel" maxlength="9" dir="ltr" inputmode="numeric" placeholder="0000 0000" autocomplete="one-time-code"></label><button type="button" class="v2btn" data-act="pairuse">ربط هذا الجهاز'+I('back')+'</button><p class="mu" id="pnMsg" role="status"></p>'+
       '<details><summary>لا أستطيع الوصول إلى جهازي المشترك</summary><p class="mu">اكتب اسمك ورقم الهاتف الذي اشتركت به، وسيُربط هذا الجهاز بعد موافقة الإدارة.</p>'+
       '<label>الاسم<input id="dvN" type="text" maxlength="60" value="'+X(myName())+'" dir="auto"></label><label>رقم هاتف الاشتراك<input id="dvP" type="tel" maxlength="20" value="'+X(sp('tel')||'')+'" dir="ltr" inputmode="tel" placeholder="09XXXXXXXX"></label>'+
-      '<button type="button" class="v2btn ol" data-act="adddev">إرسال طلب الربط'+I('back')+'</button><p class="mu" id="dvMsg" role="status"></p></details></div>':'')}
+      '<button type="button" class="v2btn ol" data-act="adddev">إرسال طلب الربط'+I('back')+'</button><p class="mu" id="dvMsg" role="status"></p></details></div>'+
+      '<div class="v2c sbx frm" lang="ar"><details><summary>عندي كود تفعيل قديم</summary><p class="mu">أكواد التفعيل السابقة تعمل لمدة شهر من إطلاق التطبيق الجديد. اكتب الكود كما وصلك.</p>'+
+      '<label>كود التفعيل<input id="ocIn" type="text" dir="ltr" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="OBS-XXXX-XXXX"></label><button type="button" class="v2btn ol" data-act="oldcode">تفعيل'+I('back')+'</button><p class="mu" id="ocMsg" role="status"></p></details></div>':'')}
   $('v2subW').innerHTML=h};
 var RETS='';
 R.v2pay=function(){var ED=PAY.edit&&REQ&&REQ.status==='pending',p=plan(PAY.plan),dev=LIC?LIC.dev.slice(0,10).toUpperCase():'';if(!ED)PAY.edit=false;
@@ -445,6 +447,7 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
   tpick:function(b){$('v2tsheet').hidden=true;var t=TOPICS.filter(function(x){return x.id===b.dataset.id})[0];if(t)openTopic(t)},
   tall:function(){go('v2chapters')},
   ugjump:function(b){var e=$('ug'+b.dataset.i);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},
+  oldcode:function(){var m=$('ocMsg');if(!LIC||!LIC.activate){m.textContent='تعذّر التفعيل الآن.';return}LIC.activate($('ocIn').value,function(t){m.textContent=t})},
   hjump:function(b){var e=$('hlp'+b.dataset.i);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},
   lch:function(b){LCH=+b.dataset.n;R.v2lect()},
   sch:function(b){SCH=+b.dataset.n;R.v2slides()},
