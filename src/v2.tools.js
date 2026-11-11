@@ -62,7 +62,7 @@ pagesEl.addEventListener('click',function(e){var t=e.target,g=t.closest&&t.close
   var _mkFly=mkFly;mkFly=function(){if(!$('penFly').hidden&&$('penFly').dataset.k==='m'){mkSheet();return}_mkFly()};
   function at(e,r,deg,i){var a=deg*Math.PI/180;e.style.setProperty('--x',Math.round(r*Math.cos(a))+'px');e.style.setProperty('--y',Math.round(-r*Math.sin(a))+'px');e.style.setProperty('--d',(i*0.04)+'s')}
   
-  sh.innerHTML='<svg class="v2ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>';
+  sh.innerHTML='<svg class="v2ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 3.5l3 3a1.4 1.4 0 0 1 0 2L9 20l-5.5 1.5L5 16 16.5 4.5"/><path d="M14 6l4 4"/><path d="M5 16l3 3"/><path d="M5.5 2.5v4M3.5 4.5h4"/><path d="M19.5 16.5v3M18 18h3"/></svg>';
   sh.title='أدوات الكتابة والرسم';sh.setAttribute('aria-label','أدوات الكتابة والرسم');
   /* tools, zoom and full page sit in the reader's top bar beside the bookmark (owner, 11 Nov 2026 evening), not floating on the page.
      The tools open in a ring under their button; while the page is full (bars hidden) one small button on the page brings the bars back. */
