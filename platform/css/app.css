@@ -96,13 +96,14 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .lbtn{height:36px;padding:0 12px;border-radius:999px;border:1px solid var(--bd2);background:var(--sf);cursor:pointer;font-size:13.5px;font-weight:600;color:var(--tx)}
 .lbtn:hover{border-color:var(--pri)}
 .lbtn .lt{font-family:var(--arab)}
-.tsw{position:relative;width:62px;height:32px;border-radius:999px;border:1px solid var(--bd2);background:var(--sf);cursor:pointer;padding:0;display:flex;align-items:center;justify-content:space-between;padding-inline:7px;color:var(--mut);flex:none}
-.tsw .ico{width:16px;height:16px;position:relative;z-index:1}
-.tsw::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:26px;height:24px;border-radius:999px;background:linear-gradient(180deg,#ffd978,#f2b43b);box-shadow:0 1px 4px rgba(0,0,0,.2);transition:inset-inline-start .2s,background .2s}
-.tsw .sun{color:#7a4b00}
-.tsw[aria-checked="true"]::after{inset-inline-start:31px;background:linear-gradient(180deg,#3d5a8a,#22385e)}
-.tsw[aria-checked="true"] .moon{color:#fff}
-.tsw[aria-checked="true"] .sun{color:var(--mut)}
+.thm{position:relative}
+.tmenu{position:absolute;top:calc(100% + 8px);inset-inline-end:-6px;z-index:60;min-width:220px;white-space:nowrap;padding:6px;border-radius:16px;background:var(--sf);border:1px solid var(--bd2);box-shadow:var(--shadow);display:grid;gap:2px}
+.tmenu button{display:flex;align-items:center;gap:12px;min-height:46px;padding:0 12px;border:0;border-radius:11px;background:transparent;cursor:pointer;color:var(--tx);font-weight:500;text-align:start}
+.tmenu button:hover{background:var(--pritint)}
+.tmenu button span{flex:1}
+.tmenu .ck{opacity:0;color:var(--tl)}
+.tmenu button[aria-pressed="true"]{color:var(--tl);font-weight:600}
+.tmenu button[aria-pressed="true"] .ck{opacity:1}
 .pchip{display:flex;align-items:center;gap:9px;height:44px;padding:0 4px;border-radius:999px;text-decoration:none;color:var(--tx);font-weight:600;font-size:14px;max-width:190px}
 .pchip:hover{background:var(--pritint)}
 .pchip .pn{display:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-inline-end:10px}
@@ -168,7 +169,7 @@ main{max-width:1320px;margin:0 auto;padding-left:var(--g);padding-right:var(--gr
 .hero h1 span{display:block}
 .hero p.lead{font-family:var(--serif);font-style:italic;font-size:clamp(15px,1.6vw,20px);color:var(--sub);margin:10px 0 0;max-width:46ch}
 html[lang="ar"] .hero p.lead{font-family:var(--arab);font-style:normal}
-.hsearch{display:none;margin-top:16px}
+.hsearch{display:none;margin-top:16px;text-decoration:none}
 .hsearch .field{width:100%;cursor:text}
 .stages{display:grid;gap:20px;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:16px}
 .stage{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:26px 22px 24px;border-radius:24px;background:var(--glass);border:1px solid var(--bd);box-shadow:var(--shadow);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:transform .2s,box-shadow .2s}
@@ -360,8 +361,6 @@ html[lang="ar"] .sh-sub{font-family:var(--arab);letter-spacing:0;font-size:14px}
   .shelf.v .bk .one,.bk .one{--cw:86%}
   .ib{width:38px;height:38px}
   .tbtns{gap:3px}
-  .tsw{width:56px}
-  .tsw[aria-checked="true"]::after{inset-inline-start:25px}
   .pchip{padding:0}
   .bname{font-size:14.5px}
   .top-in{gap:8px}
@@ -397,3 +396,37 @@ html[lang="ar"] .sh-sub{font-family:var(--arab);letter-spacing:0;font-size:14px}
   .hero p.lead{display:none}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* Home fits one screen on phones and portrait tablets (owner, 11 Nov 2026: no scrolling).
+   main takes the height between the header and the bottom tabs; the three cards share it; covers and text follow the card height.
+   Very short screens (landscape phones) keep normal scrolling. */
+@media (max-width:959px) and (min-height:540px){
+  body[data-view="home"] main{height:calc(100vh - 128px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));height:calc(100dvh - 128px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;padding-block-end:0;overflow:hidden}
+  body[data-view="home"] .hero{flex:none}
+  body[data-view="home"] .stages{flex:1;min-height:0;grid-template-rows:repeat(3,minmax(0,1fr));margin:6px 0 12px}
+  body[data-view="home"] .homefoot{display:none}
+  body[data-view="home"] .stage{container-type:size;min-height:0;transform:none}
+  body[data-view="home"] .stage .books img{height:min(var(--h),76cqh)}
+  body[data-view="home"] .stage .books.n3 img:nth-child(2){height:min(var(--h),88cqh)}
+  @container (max-height:122px){ .stage .rule{display:none} }
+}
+@media (max-width:720px) and (min-height:540px){
+  body[data-view="home"] .hero{padding-block:10px 4px}
+  body[data-view="home"] .eyebrow{font-size:13.5px;margin-bottom:4px}
+  body[data-view="home"] .eyebrow::before{height:16px}
+  body[data-view="home"] .hero h1{font-size:clamp(21px,3.3vh,27px)}
+  body[data-view="home"] .hero p.lead{display:none}
+  body[data-view="home"] .hsearch{margin-top:10px}
+  body[data-view="home"] .hsearch .field{height:42px}
+  body[data-view="home"] .stages{gap:10px}
+  body[data-view="home"] .stage{padding:8px 14px 8px 8px;gap:4px 12px}
+  [dir="rtl"] body[data-view="home"] .stage{padding:8px 8px 8px 14px}
+  body[data-view="home"] .stxt{gap:4px}
+  body[data-view="home"] .stage h2{font-size:min(25px,20cqh)}
+  html[lang="ar"] body[data-view="home"] .stage h2{font-size:min(22px,18cqh)}
+  body[data-view="home"] .stage .rule{font-size:min(14px,11.5cqh)}
+  body[data-view="home"] .stage .btn{min-height:min(42px,32cqh);margin-top:2px}
+}
+@media (max-width:720px) and (min-height:800px){
+  body[data-view="home"] .hero p.lead{display:block;font-size:14px;margin-top:6px}
+}

@@ -33,6 +33,7 @@
     bell: '<path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/>',
     sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
     moon: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+    auto: '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>',
     arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
     back: '<path d="M19 12H5M11 18l-6-6 6-6"/>',
     x: '<path d="M6 6l12 12M18 6 6 18"/>',
@@ -86,7 +87,8 @@
   function applyTheme() {
     var r = document.documentElement;
     if (theme === 'system') r.removeAttribute('data-theme'); else r.setAttribute('data-theme', theme);
-    var sw = $('#tsw'); if (sw) { sw.setAttribute('aria-checked', isDark() ? 'true' : 'false'); sw.setAttribute('aria-label', t(isDark() ? 'theme.toDay' : 'theme.toNight')); }
+    var tb = $('#thb'); if (tb) { tb.innerHTML = ic(theme === 'system' ? 'auto' : isDark() ? 'moon' : 'sun'); tb.setAttribute('aria-label', t('set.look') + ': ' + t(theme === 'light' ? 'look.light' : theme === 'dark' ? 'look.dark' : 'look.system')); }
+    document.querySelectorAll('[data-look]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-look') === theme ? 'true' : 'false'); });
     var m = $('meta[name="theme-color"]'); if (m) m.setAttribute('content', isDark() ? '#0c1525' : '#f7f3ec');
   }
   if (mq && mq.addEventListener) mq.addEventListener('change', applyTheme);
@@ -111,7 +113,10 @@
       '<div class="tbtns">' +
       '<a class="ib ph-only ph-search" href="#search" aria-label="' + esc(t('search.short')) + '">' + ic('search') + '</a>' +
       '<button class="lbtn" id="lbtn" type="button" aria-label="' + esc(t('lang.aria')) + '"><span class="' + (lang === 'en' ? 'lt' : '') + '">' + esc(t('lang.switch')) + '</span></button>' +
-      '<button class="tsw" id="tsw" type="button" role="switch">' + ic('sun', 'sun') + ic('moon', 'moon') + '</button>' +
+      '<div class="thm"><button class="ib" id="thb" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="tmenu"></button>' +
+      '<div class="tmenu" id="tmenu" hidden>' + [['light', 'sun', 'look.light'], ['dark', 'moon', 'look.dark'], ['system', 'auto', 'look.system']].map(function (o) {
+        return '<button type="button" data-look="' + o[0] + '" aria-pressed="false">' + ic(o[1]) + '<span>' + esc(t(o[2])) + '</span>' + ic('check', 'ck') + '</button>';
+      }).join('') + '</div></div>' +
       '<a class="ib" href="#notifications" aria-label="' + esc(t('notif.t')) + '">' + ic('bell') + '</a>' +
       '<a class="pchip" href="#preferences" aria-label="' + esc(t('profile')) + '">' + avatar() + '<span class="pn"><bdi>' + esc(displayName()) + '</bdi></span></a>' +
       '</div></div>';
@@ -422,7 +427,8 @@
     var a = e.target.closest('a,button'); if (!a) return;
     if (a.hasAttribute('data-open')) noteOpen(a.getAttribute('data-open'));
     if (a.hasAttribute('data-book')) { state.cameIn = true; state.fromList = state.base === 'my-library' || state.base === 'search' ? state.base : false; }
-    if (a.id === 'tsw') setTheme(isDark() ? 'light' : 'dark');
+    if (a.id === 'thb') { var mn = $('#tmenu'), op = mn.hidden; mn.hidden = !op; a.setAttribute('aria-expanded', op ? 'true' : 'false'); if (op) { var cur = mn.querySelector('[aria-pressed="true"]'); if (cur) cur.focus(); } return; }
+    if (a.hasAttribute('data-look')) { setTheme(a.getAttribute('data-look')); closeMenu(); var tb = $('#thb'); if (tb) tb.focus(); }
     if (a.id === 'lbtn') setLang(lang === 'ar' ? 'en' : 'ar');
     if (a.hasAttribute('data-lang')) setLang(a.getAttribute('data-lang'));
     if (a.hasAttribute('data-theme')) { setTheme(a.getAttribute('data-theme')); a.parentNode.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === a ? 'true' : 'false'); }); }
@@ -436,6 +442,9 @@
     }
     if (a.id === 'skip') { var m = $('#main h1') || $('#main'); try { m.focus(); } catch (er) {} }
   });
+  function closeMenu() { var mn = $('#tmenu'), tb = $('#thb'); if (mn && !mn.hidden) { mn.hidden = true; if (tb) tb.setAttribute('aria-expanded', 'false'); } }
+  document.addEventListener('click', function (e) { if (!e.target.closest('.thm')) closeMenu(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && $('#tmenu') && !$('#tmenu').hidden) { closeMenu(); var tb = $('#thb'); if (tb) tb.focus(); } });
   window.addEventListener('hashchange', function () { route(false); });
 
   /* ---------- start ---------- */
