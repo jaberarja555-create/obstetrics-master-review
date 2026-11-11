@@ -730,3 +730,7 @@ button{font-family:inherit}
 @container (max-height:118px){.hc2 .cbt small{display:none}.hc2 .cb{padding-top:5px;padding-bottom:5px}}
 @media (min-width:760px){#v2homeW .hgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}#v2homeW .hgrid>div,#v2homeW .hcont.hc2,.hc2 .cb{min-width:0}
 @media (min-width:760px){.hc2 .cbt b{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.hc2 .cbt{align-items:flex-start}}
+/* phones: the reading card never pushes over the tiles under it; when it is short its two bars sit in one row */
+@media (max-width:759px){#v2homeW .hcont.hc2{min-height:64px;padding:8px;gap:6px;overflow:hidden}.hc2 .cb{padding:6px 10px}.hc2 .cbb{padding:5px 5px 5px 10px}#v2homeW .hc2 .cbb .v2btn{height:34px}
+  @container (max-height:128px){.hc2 .cbt{margin:auto 0;max-width:calc(100% - 140px)}.hc2 .cbb{position:absolute;right:8px;top:50%;transform:translateY(-50%);padding:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}.hc2 .cp{display:none}.hc2 .cbt small{display:block}.hc2 .cbt em{display:none}}
+  @container (max-height:74px){.hc2 .cbt small{display:none}}}
