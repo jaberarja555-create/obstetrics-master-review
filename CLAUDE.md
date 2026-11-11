@@ -284,7 +284,8 @@ into `main` when the owner has seen it; small fixes the owner asks for directly 
 - **Owner's fixes, 11 Nov 2026 (afternoon)** — code in `src/v2.tools.js` (inside v2.js's closure, after v2.search.js) and the last blocks of v2.css:
   - **Device Back button** goes back inside the app (`backOne()`: closes an open panel/sheet/note, then leaves the reader, then follows the screen's
     own back arrow, then Home); only Back on Home leaves the app. One guard history entry is pushed again after every handled Back.
-  - **Sounds:** opening sound is two quiet low notes; the «تابع من حيث توقفت» notification is one silent entry (`id:'cont'`, `q:1`), so moving
+  - **Sounds:** opening sound is a soft three-note bell (C–E–G, sine, clearly audible; the owner found the first chime annoying and a quieter
+    version inaudible); the «تابع من حيث توقفت» notification is one silent entry (`id:'cont'`, `q:1`), so moving
     between pages and chapters never rings. Sound is for real notifications only.
   - **No stars on reviewers** (owner: they read as a rating of the book): removed from page 004 and painted out of `assets/img/ab_reviewers.jpg`
     (with the line that explained them). Do not bring them back.

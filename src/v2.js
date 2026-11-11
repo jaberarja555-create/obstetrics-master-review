@@ -474,11 +474,12 @@ $('v2psx').onclick=function(){$('v2psheet').hidden=true};$('v2psheet').addEventL
 applyLook();go('v2home');poll();
 /* welcome on every opening (owner, 10 Nov 2026): logo, greeting, «ابدأ»; the press plays a rising chime and the screen opens with a glow */
 (function(){var w=$('v2wel'),nm=myName();$('v2welT').innerHTML=greet();$('v2welT').dir='rtl';w.hidden=false;
-  /* soft opening sound (owner, 11 Nov 2026: the rising chime was annoying): two quiet sine notes with a slow start, through a low-pass */
-  function snd(){try{var a=new (window.AudioContext||window.webkitAudioContext)(),t=a.currentTime+.03,lp=a.createBiquadFilter();lp.type='lowpass';lp.frequency.value=1400;lp.connect(a.destination);
-    [[392,0,.05],[587.33,.16,.04]].forEach(function(n){var o=a.createOscillator(),g=a.createGain();o.type='sine';o.frequency.value=n[0];
-      g.gain.setValueAtTime(0,t+n[1]);g.gain.linearRampToValueAtTime(n[2],t+n[1]+.09);g.gain.exponentialRampToValueAtTime(.0001,t+n[1]+1.1);o.connect(g);g.connect(lp);o.start(t+n[1]);o.stop(t+n[1]+1.2)});
-    setTimeout(function(){try{a.close()}catch(e){}},1800)}catch(e){}}
+  /* opening sound (owner, 11 Nov 2026: the first rising chime was annoying, the second was too quiet to hear): a soft, warm three-note bell
+     (pure sine notes with a light octave above, quick gentle start, long fade), loud enough for a phone speaker */
+  function snd(){try{var a=new (window.AudioContext||window.webkitAudioContext)();if(a.resume)a.resume();var t=a.currentTime+.04,out=a.createGain();out.gain.value=.9;out.connect(a.destination);
+    [[523.25,0,.20],[659.25,.13,.17],[783.99,.26,.19]].forEach(function(n){[[1,1],[2,.22]].forEach(function(h){var o=a.createOscillator(),g=a.createGain();o.type='sine';o.frequency.value=n[0]*h[0];
+      g.gain.setValueAtTime(0,t+n[1]);g.gain.linearRampToValueAtTime(n[2]*h[1],t+n[1]+.025);g.gain.exponentialRampToValueAtTime(.0001,t+n[1]+(h[0]===1?1.5:.7));o.connect(g);g.connect(out);o.start(t+n[1]);o.stop(t+n[1]+1.6)})});
+    setTimeout(function(){try{a.close()}catch(e){}},2400)}catch(e){}}
   $('v2welGo').onclick=function(){snd();w.classList.add('go');setTimeout(function(){w.hidden=true;w.classList.remove('go')},1150)};
   setTimeout(function(){try{$('v2welGo').focus()}catch(e){}},50)})();
 })();
