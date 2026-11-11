@@ -240,8 +240,12 @@ var HELP=[['home','الرئيسية','من هنا تبدأ كل شيء.',['<b>ت
  ['resources','المصادر','كل ما تحتاجه للمراجعة في مكان واحد.',['<b>المراجعة السريعة</b>: بطاقة امتحان لكل موضوع.','<b>أدوية التوليد</b>: الجرعات والمحاذير.','<b>السريري OSCE</b>: محطات الفحص والتاريخ المرضي.','<b>المحاضرات</b> و<b>السلايدات</b>: تظهر هنا عند إضافتها.','<b>ملاحظاتي</b>: كل ملاحظاتك وتظليلك، و<b>المصادر المحفوظة</b>: ما حفظته بعلامة الحفظ.']],
  ['sub','الاشتراك','من الإعدادات ← الاشتراك.',['<b>الخطة التجريبية</b>: اضغط «ابدأ التجربة» ليُفتح الكتاب كاملًا ساعة واحدة.','للاشتراك: اختر الخطة (شهري أو سنوي أو مدى الحياة) ثم اضغط <b>اشترك الآن</b>.','حوّل المبلغ إلى الحساب الظاهر، ثم ارفع صورة الإيصال واكتب اسمك ورقم هاتفك واضغط <b>إرسال طلب التفعيل</b>.','يظهر «طلبك قيد المراجعة». يمكنك <b>تعديل الطلب</b> أو <b>إلغاؤه</b> قبل الموافقة.','بعد الموافقة يُفتح الكتاب كاملًا تلقائيًا، بلا أي كود.','<b>جهاز آخر</b>: من جهازك المشترك اضغط «أضف جهازًا آخر»، واكتب رقم الربط في الجهاز الجديد (حتى ثلاثة أجهزة).','عند انتهاء الاشتراك تبقى ملاحظاتك وتقدّمك محفوظة وتعود عند التجديد.']],
  ['settings','الإعدادات','اضبط التطبيق كما تحب.',['<b>الملف الشخصي</b>: اسمك وصورتك ورقم المستخدم.','<b>المظهر</b>: نهاري أو ليلي أو تلقائي. زر الشمس أو القمر في أعلى الشاشة يبدّل بسرعة.','<b>لون التطبيق</b>: ستة ألوان، ويتغيّر معها غلاف الكتاب.','<b>المزامنة</b>: تحفظ ملاحظاتك وتقدّمك بين أجهزتك.','<b>التنزيلات</b> و<b>الإشعارات</b> و<b>تقدّمي</b>.','<b>المساعدة</b>: راسلنا في واتساب.']]];
+/* the owner's five user-guide posters come first (11 Nov 2026), then the detailed steps with screenshots */
+var UG5=['التنقّل والرئيسية','القراءة والتعليقات','الأسئلة والبطاقات','المصادر وأدوات الدراسة','الإعدادات والاشتراك'];
 R.v2help=function(){$('v2helpW').innerHTML=title('دليل الاستخدام','v2settings','User manual')+
-  '<div class="chf lcf" lang="ar">'+HELP.map(function(h,i){return '<button type="button" data-act="hjump" data-i="'+i+'">'+h[1]+'</button>'}).join('')+'</div>'+
+  '<div class="chf lcf" lang="ar">'+UG5.map(function(t,i){return '<button type="button" data-act="ugjump" data-i="'+(i+1)+'">'+(i+1)+' · '+t+'</button>'}).join('')+'<button type="button" data-act="ugjump" data-i="d">شرح مفصّل بالصور</button></div>'+
+  UG5.map(function(t,i){return '<div class="v2c abp" id="ug'+(i+1)+'"><img src="img/ug_'+(i+1)+'.jpg" alt="دليل المستخدم: '+t+'" loading="lazy"></div>'}).join('')+
+  '<h3 class="ugh" id="ugd" lang="ar">شرح مفصّل بصور من التطبيق</h3>'+
   HELP.map(function(h,i){return '<div class="v2c hlp" id="hlp'+i+'" lang="ar"><div class="hx"><b><i>'+(i+1)+'</i>'+h[1]+'</b><p class="mu">'+h[2]+'</p><ol>'+h[3].map(function(s){return '<li>'+s+'</li>'}).join('')+'</ol></div><img src="img/help_'+h[0]+'.jpg" alt="صورة شاشة: '+h[1]+'" loading="lazy"></div>'}).join('')};
 /* About the book (owner's design, 11 Nov 2026): a hero and eight tiles; five open the owner's posters, three lead to places of the app */
 var ABOUT=[['authors','مؤلفا الكتاب','p'],['reviewers','مراجعو الكتاب','p'],['edition','عن هذه الطبعة','p'],['howto','كيف تستخدم الكتاب','p'],['tools','أدوات الدراسة','help:2'],['refs','مراجع الكتاب','p'],['contents','محتويات الكتاب','v2chapters'],['goals','أهدافنا المستقبلية','p'],['rights','حقوق النشر وشروط الاستخدام','p']],POST='authors';
@@ -418,6 +422,7 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
   rr:function(){goIdx(idxOf(/^x9/))},dr:function(){goIdx(idxOf(/^y0/))},
   tpick:function(b){$('v2tsheet').hidden=true;var t=TOPICS.filter(function(x){return x.id===b.dataset.id})[0];if(t)openTopic(t)},
   tall:function(){go('v2chapters')},
+  ugjump:function(b){var e=$('ug'+b.dataset.i);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},
   hjump:function(b){var e=$('hlp'+b.dataset.i);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},
   lch:function(b){LCH=+b.dataset.n;R.v2lect()},
   sch:function(b){SCH=+b.dataset.n;R.v2slides()},

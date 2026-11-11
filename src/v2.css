@@ -515,3 +515,5 @@ button{font-family:inherit}
 
 @keyframes v2ring{0%,100%{transform:rotate(0)}15%{transform:rotate(16deg)}30%{transform:rotate(-14deg)}45%{transform:rotate(10deg)}60%{transform:rotate(-7deg)}80%{transform:rotate(3deg)}}
 .ring>.v2ic,.ring>svg{animation:v2ring .9s ease;transform-origin:50% 10%}
+
+.ugh{margin:10px 2px 0;font:800 18px 'Cairo',sans-serif;direction:rtl;text-align:right;color:var(--tx);scroll-margin-top:8px}#v2helpW .abp{scroll-margin-top:8px}

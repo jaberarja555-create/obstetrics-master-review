@@ -244,3 +244,4 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   WhatsApp (wa.me), Telegram (t.me/+number), Call (tel:). **Notification sound:** a new notification plays a soft two-note sound and swings the
   bell (`nding`, after the first touch). **Preview trial:** preview.yml sets the Pages secret OBS_KEY for the preview environment too
   (`--env preview`); without it /trial answered 503 on the preview address.
+- **User-guide posters (owner, 11 Nov 2026):** `assets/img/ug_1..5.jpg` open the user manual (`v2help`, chips `ugjump`), followed by the detailed steps with screenshots (HELP).
