@@ -1,0 +1,21 @@
+# Checks that the live book apps serve the latest code (owner, 11 Nov 2026): fetches each live address and looks for a marker string.
+# Runs on demand and when this file changes on a working branch. Prints FOUND / MISSING only; no student data.
+name: Check live apps
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: [main]
+    paths: ['.github/workflows/check-live.yml']
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Look for the latest code on each live app
+        run: |
+          check() { if curl -fsSL "$1" | grep -q "$2"; then echo "FOUND   $3"; else echo "MISSING $3"; fi; }
+          check https://surgery-master-review.jaberarja555.workers.dev/ "smr-langown" "Surgery: language follows the platform"
+          check https://surgery-master-review.jaberarja555.workers.dev/ "LOCKED&&!INTRIAL&&!REVIEW" "Surgery: choices after the greeting"
+          check https://pediatrics-master-review.jaberarja555.workers.dev/ "smr-langown" "Pediatrics: language follows the platform"
+          check https://pediatrics-master-review.jaberarja555.workers.dev/ "function chooseDue" "Pediatrics: choices after the greeting"
+          check https://obstetrics-master-review.pages.dev/ "smr-langown" "Obstetrics: language follows the platform"
+          check https://student-master-review.pages.dev/js/app.js "data-wlang" "Platform: language and look step"
