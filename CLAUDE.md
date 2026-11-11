@@ -269,3 +269,4 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
 - **Progress (owner, 11 Nov 2026):** Home shows two tiles (`.hsm2`: streak days, overall % with a ring); both open the progress sheet, now drawn by
   v2 (`ACT.prog`: ring, six tiles — pages read, topics completed, cards known, questions answered, % correct, days in a row — and a bar per
   chapter). The old progress card is no longer moved into the sheet (it showed as a black disc).
+- Question bank and flashcard screens take the app's colours (v2.css block "question bank and flashcards in the app's colours"); the gold look is gone.

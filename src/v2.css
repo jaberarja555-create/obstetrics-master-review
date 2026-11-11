@@ -590,3 +590,22 @@ button{font-family:inherit}
 .pch{padding:6px 14px}.pch>div{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:9px 0;border-top:1px solid var(--bd);font:500 13px var(--ui);color:var(--tx);direction:ltr;text-align:left}.pch>div:first-child{border-top:0}
 .pch em{font:800 13px var(--ui);font-style:normal;color:var(--pri)}.pch>div>:last-child{grid-column:1/-1}
 .pch .v2bar{height:6px;align-self:center}
+/* question bank and flashcards in the app's colours (owner, 11 Nov 2026: the gold look was the old book's) */
+#qbank-v,#cards{--gold:var(--pri)}
+:is(#qbank-v,#cards) :is(.qbw .seg button,.qbpool button,.qbnq button,.fctop button,.qbch button,.fcchs button,.qbo button,.qbgrid button,.qbic,.qbtb .qt,.chip){background:var(--sf);border-color:var(--bd);color:var(--tx)}
+:is(#qbank-v,#cards) :is(.qbst>div,.qbf,.qbq,.qbe,.qbres,.qbtop,.qbprev button){background:var(--sf);border-color:var(--bd);color:var(--tx)}
+#qbank-v .qbw .seg button.on,#qbank-v .qbpool button.on,#qbank-v .qbnq button.on,#cards .fctop button.on,#cards .chip.on{border-color:var(--pri)!important;background:var(--sel)!important;color:var(--tx)!important}
+#qbank-v .qbpool button.on span,#qbank-v .qbnq button.on,#qbank-v .qbpt,#qbank-v .qbpt.on small,#qbank-v .qblink,:is(#qbank-v,#cards) .fclab{color:var(--pri)!important}
+#qbank-v .qbl .qno{background:var(--pri);color:var(--pon)}
+#qbank-v .qbgo,#qbank-v #qbSub{background:var(--pri)!important;color:var(--pon)!important;border:0;box-shadow:0 6px 16px color-mix(in srgb,var(--pri) 35%,transparent)}
+#qbank-v .qbgob{background:linear-gradient(to top,var(--bg) 70%,transparent)}
+#qbank-v .qbn input{accent-color:var(--pri)}#qbank-v .qbic.on{color:var(--pri);border-color:var(--pri)}#qbank-v .qbgrid .cur{outline-color:var(--pri)}
+#qbank-v .qbo .sel{border-color:var(--pri);box-shadow:inset 0 0 0 1px var(--pri)}#qbank-v .qbo .sel .l{background:var(--pri);color:var(--pon);border-color:var(--pri)}
+#qbank-v .qbo .l{background:var(--bg);border-color:var(--bd);color:var(--tx)}
+#qbank-v .qbq{border-left-color:var(--pri)}#qbank-v .qbq .k{color:var(--pri)}#qbank-v .qbq p{color:var(--tx)}
+#qbank-v .qbst span,#qbank-v .qbpool span,:is(#qbank-v,#cards) small,#cards .fcm,#qbank-v .qbl em{color:var(--sub)}
+#cards .face.q{background:linear-gradient(150deg,var(--sf),var(--sel))!important;border:1px solid var(--bd)!important;border-top:6px solid var(--pri)!important;color:var(--tx)!important;box-shadow:0 10px 26px rgba(57,43,85,.14)!important}
+#cards .face.q .k,#cards .face.a .k{color:var(--pri)!important}#cards .face.q .tx{background:none!important;color:var(--tx)!important;-webkit-text-fill-color:currentColor}
+#cards .face.a{background:var(--sf)!important;color:var(--tx)!important;border:1px solid var(--bd)!important;border-left:6px solid var(--pri)!important;box-shadow:0 10px 26px rgba(57,43,85,.14)!important}
+#cards .fbar{background:var(--sel)}#cards .fbar i{background:var(--pri)}
+#cards .fact .ag{color:#B4541A;border-color:#EFC7A6;background:var(--sf)}:root[data-theme="dark"] #cards .fact .ag{color:#F2B58A;border-color:#6b4a36}
