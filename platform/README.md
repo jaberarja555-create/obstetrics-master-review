@@ -6,7 +6,7 @@ to its own Cloudflare Pages project `student-master-review`.
 
 ## How the existing apps are connected
 The three live apps open **inside the platform** (owner, 11 Nov 2026): route `#read-<id>` shows the app in a frame under
-a slim platform bar (back to the library, the platform seal → Home, the book's name, and "Open at its own address" in a new tab).
+a slim platform bar (back to the library, the platform seal → Home, the book's name; no separate address is shown, owner 11 Nov 2026).
 Each frame stays loaded while the student moves around the platform, so returning resumes where they were.
 
 | Book | App | Address shown in the frame |

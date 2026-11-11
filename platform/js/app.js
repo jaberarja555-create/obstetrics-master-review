@@ -178,7 +178,7 @@
       '<div class="meta">' + chip(b) + (b.edition ? '<span class="tag">' + esc(L(b.edition)) + '</span>' : '') + '</div>';
     if (avail(b)) {
       h += '<p class="desc">' + esc(L(b.sub)) + '</p><div class="act"><a class="btn" ' + rlink(b) + ' data-open="' + b.id + '">' +
-        esc(t('open', { t: shortT(b) })) + ic('arrow', 'flip') + '</a><span class="opens">' + esc(t('opens', { a: b.app })) + '</span></div>';
+        esc(t('open', { t: shortT(b) })) + ic('arrow', 'flip') + '</a></div>';
     } else {
       h += '<p class="desc">' + esc(b.ho ? t('ho.sub') : L(b.sub)) + '</p><div class="act"><a class="btn ghost" href="#book-' + b.id + '" data-book>' +
         esc(t(b.ho ? 'plan' : 'about')) + '</a></div>';
@@ -235,7 +235,7 @@
     h += '<section class="panel"><h2>' + esc(t('set.lang')) + '</h2>' + seg(t('set.lang'), [['lang', 'en', 'English'], ['lang', 'ar', 'العربية', 'ar', 'ar']], lang) + '</section>';
     h += '<section class="panel"><h2>' + esc(t('set.look')) + '</h2>' + seg(t('set.look'), [['theme', 'light', t('look.light')], ['theme', 'dark', t('look.dark')], ['theme', 'system', t('look.system')]], theme) + '</section>';
     h += '<section class="panel"><h2>' + esc(t('set.acc')) + '</h2><p>' + esc(t('set.acc.txt')) + '</p><div class="rows" style="margin-top:14px">' +
-      S.books.filter(avail).map(function (b) { return row(b, esc(b.url.replace(/^https:\/\//, '').replace(/\/$/, '')), openLink(b)); }).join('') + '</div></section>';
+      S.books.filter(avail).map(function (b) { return row(b, esc(secTitle(b.section)) + (b.edition ? ' · ' + esc(L(b.edition)) : ''), openLink(b)); }).join('') + '</div></section>';
     h += '<section class="panel"><h2>' + esc(t('set.data')) + '</h2><p>' + esc(t('set.data.txt')) + '</p><div class="confirm" id="clr"><button class="btn sm quiet" type="button" id="clr1">' + esc(t('set.clear')) + '</button></div></section>';
     h += '<section class="panel"><h2>' + esc(t('set.about')) + '</h2><p>' + esc(t('set.about.txt')) + '</p></section>';
     return h + '</div>';
@@ -368,15 +368,13 @@
     $('#abar').innerHTML =
       '<a class="ib" href="#' + readBack(b) + '" aria-label="' + esc(t('back')) + '">' + ic('back', 'flip') + '</a>' +
       '<a class="atitle" href="#home" aria-label="Student Master Review"><span class="mark sm" aria-hidden="true"></span></a>' +
-      '<span class="aname">' + img(b, '', false) + '<span><b lang="en">' + esc(b.app) + '</b><small>' + esc(secTitle(b.section)) + '</small></span></span>' +
-      '<a class="ib" href="' + esc(b.url) + '" target="_blank" rel="noopener" data-own="' + b.id + '" aria-label="' + esc(t('read.own')) + '" title="' + esc(t('read.own')) + '">' + ic('ext') + '</a>';
+      '<span class="aname">' + img(b, '', false) + '<span><b lang="en">' + esc(b.app) + '</b><small>' + esc(secTitle(b.section)) + '</small></span></span>';
     Object.keys(FR).forEach(function (k) { FR[k].wrap.hidden = k !== id; });
     var f = FR[id];
     if (!f) {
       var wrap = document.createElement('div'); wrap.className = 'aframe';
       wrap.innerHTML = '<div class="aload" role="status"><div class="alc">' + img(b, '', false) + '<p>' + esc(t('read.loading', { t: b.app })) + '</p><span class="spin" aria-hidden="true"></span>' +
-        '<div class="aslow" hidden><p>' + esc(t('read.slow')) + '</p><div class="pbtns"><button class="btn sm" type="button" data-retry="' + id + '">' + esc(t('read.retry')) + '</button>' +
-        '<a class="btn sm quiet" href="' + esc(b.url) + '" target="_blank" rel="noopener" data-own="' + id + '">' + esc(t('read.own')) + '</a></div></div></div></div>';
+        '<div class="aslow" hidden><p>' + esc(t('read.slow')) + '</p><div class="pbtns"><button class="btn sm" type="button" data-retry="' + id + '">' + esc(t('read.retry')) + '</button></div></div></div></div>';
       var fr = document.createElement('iframe');
       fr.title = b.app; fr.src = b.url;
       fr.setAttribute('allow', 'fullscreen; clipboard-read; clipboard-write; autoplay; web-share');
