@@ -270,3 +270,5 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   v2 (`ACT.prog`: ring, six tiles — pages read, topics completed, cards known, questions answered, % correct, days in a row — and a bar per
   chapter). The old progress card is no longer moved into the sheet (it showed as a black disc).
 - Question bank and flashcard screens take the app's colours (v2.css block "question bank and flashcards in the app's colours"); the gold look is gone.
+- Home order (owner, 11 Nov 2026): greeting · book card · continue reading · question bank and today's cards · streak and overall progress · the
+  three shortcuts · subscription card last (CSS `order` at the end of v2.css; the markup order is older).

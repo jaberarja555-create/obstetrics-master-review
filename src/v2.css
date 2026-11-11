@@ -609,3 +609,7 @@ button{font-family:inherit}
 #cards .face.a{background:var(--sf)!important;color:var(--tx)!important;border:1px solid var(--bd)!important;border-left:6px solid var(--pri)!important;box-shadow:0 10px 26px rgba(57,43,85,.14)!important}
 #cards .fbar{background:var(--sel)}#cards .fbar i{background:var(--pri)}
 #cards .fact .ag{color:#B4541A;border-color:#EFC7A6;background:var(--sf)}:root[data-theme="dark"] #cards .fact .ag{color:#F2B58A;border-color:#6b4a36}
+/* Home order (owner, 11 Nov 2026): greeting · book · continue reading · question bank and today's cards · streak and progress · three shortcuts · subscription last */
+#v2homeW .hacc{order:9}
+#v2homeW .hbook{order:1}#v2homeW .hcont{order:2}
+#v2homeW .hst{order:1}#v2homeW .hsm2{order:2}#v2homeW .hq{order:3}
