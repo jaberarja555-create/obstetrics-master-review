@@ -281,3 +281,21 @@ one-month clock for the old codes (plan = 'old'; they end about 11 Dec 2026). An
 «عندي كود تفعيل قديم» (`window.__lic.activate`). **From now on:** try new work on branch `redesign` (preview address above), and merge it
 into `main` when the owner has seen it; small fixes the owner asks for directly may go to both. English texts of the subscription and payment screens are in T_EN and bookmarks sync (`bm`) since 11 Nov 2026. Still open: the owner tests one live subscription; his corrected posters.
 - Full page is changed ONLY by its button `#v2full` (owner, 11 Nov 2026): v2.js wraps `setImm`, so a tap on the page or scrolling no longer enters or leaves it; leaving the reader ends it.
+- **Owner's fixes, 11 Nov 2026 (afternoon)** — code in `src/v2.tools.js` (inside v2.js's closure, after v2.search.js) and the last blocks of v2.css:
+  - **Device Back button** goes back inside the app (`backOne()`: closes an open panel/sheet/note, then leaves the reader, then follows the screen's
+    own back arrow, then Home); only Back on Home leaves the app. One guard history entry is pushed again after every handled Back.
+  - **Sounds:** opening sound is two quiet low notes; the «تابع من حيث توقفت» notification is one silent entry (`id:'cont'`, `q:1`), so moving
+    between pages and chapters never rings. Sound is for real notifications only.
+  - **No stars on reviewers** (owner: they read as a rating of the book): removed from page 004 and painted out of `assets/img/ab_reviewers.jpg`
+    (with the line that explained them). Do not bring them back.
+  - **Tool sheets:** every tool panel (`#penFly.tsheet`, decorated in `flyAt`) is a bottom sheet in the app's design: icon, name, on/off switch
+    (`.ptog.tsw`), close; labelled parts (colour, thickness…), hint line. Ring icons redrawn (`TIC`).
+  - **Calm selection:** with highlighter, underline or note tool on, a finger swipe or long-press only selects (snapped to whole words); two
+    handles (`.psh`) adjust the ends and the bar `#psb` confirms («ظلِّل» / «ضع الخط» / «اكتب ملاحظة») or cancels. Nothing is marked before the
+    confirm. A mouse still marks at once. (`penApply` is wrapped; `PS` holds the pending selection.)
+  - **Free notes:** with the note tool on, a tap anywhere on the page puts a note there: ink item `t:'n'` {x,y,txt} drawn as a small yellow note
+    (`g.fn`), tap to read / edit / delete (`#fnb`); listed in My notes; synced with the drawings.
+  - **Next (owner, 11 Nov 2026): rewrite of the chapters** — new page design and better medical writing: no fixed "Introduction" opening, short
+    basic background only where needed, a clinical case to introduce disease topics, smoother order, standard terms and titles. Make ONE model
+    topic first and show it to the owner before the rest.
+

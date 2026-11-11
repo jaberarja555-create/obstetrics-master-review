@@ -78,7 +78,7 @@ def v2(shell):
         if n == 'v2.css': return s + en_css(s)
         if n == 'v2.js':   # the search and language layers run inside v2's own closure
             s = s.rstrip(); assert s.endswith('})();')
-            return s[:-5] + '\n' + _rd('v2.search.js') + '\n' + _rd('v2.lang.js') + '\n})();'
+            return s[:-5] + '\n' + _rd('v2.search.js') + '\n' + _rd('v2.tools.js') + '\n' + _rd('v2.lang.js') + '\n})();'
         return s
     top, rest = rd('v2.html').split('<!--TOP-->')[1].split('<!--VIEWS-->')
     vw, nav = rest.split('<!--NAV-->')
