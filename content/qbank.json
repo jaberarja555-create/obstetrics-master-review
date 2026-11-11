@@ -719,7 +719,8 @@
      "Pelvic ultrasound"
     ],
     "answer": 4,
-    "why": "A uterus large for dates with heavy vomiting points to a molar or twin pregnancy, which ultrasound shows at once. TFTs are part of the work-up but will not explain the uterine size."
+    "why": "A uterus large for dates with heavy vomiting points to a molar or twin pregnancy, which ultrasound shows at once. TFTs are part of the work-up but will not explain the uterine size.",
+    "d": 1
    },
    {
     "id": "hg-2",
@@ -735,7 +736,8 @@
      "High anion gap metabolic acidosis"
     ],
     "answer": 0,
-    "why": "Vomiting loses HCl and K⁺, so bicarbonate rises with low chloride and potassium. Ketonuria alone does not make an acidosis when the high bicarbonate shows alkalosis."
+    "why": "Vomiting loses HCl and K⁺, so bicarbonate rises with low chloride and potassium. Ketonuria alone does not make an acidosis when the high bicarbonate shows alkalosis.",
+    "d": 3
    },
    {
     "id": "hg-3",
@@ -751,13 +753,14 @@
      "0.45% sodium chloride"
     ],
     "answer": 2,
-    "why": "Normal saline with KCl replaces sodium, chloride and potassium. Dextrose before thiamine can precipitate Wernicke, and hypotonic fluids make the low sodium worse."
+    "why": "Normal saline with KCl replaces sodium, chloride and potassium. Dextrose before thiamine can precipitate Wernicke, and hypotonic fluids make the low sodium worse.",
+    "d": 2
    },
    {
     "id": "hg-4",
     "topic": "hg",
     "type": "sba",
-    "stem": "A 24-year-old at 11 weeks has been on IV 5% dextrose for 3 days for severe vomiting. Today she is confused, cannot walk straight and has horizontal nystagmus. BP 110/70, glucose 5.6 mmol/L.",
+    "stem": "A 24-year-old at 11 weeks has been on IV 5% dextrose for 3 days for severe vomiting. Today she is confused, cannot walk straight and has horizontal nystagmus. Blood pressure 110/70 mmHg, glucose 5.6 mmol/L.",
     "q": "What is the most appropriate immediate treatment?",
     "options": [
      "Intravenous magnesium sulphate",
@@ -767,7 +770,8 @@
      "Hypertonic saline"
     ],
     "answer": 3,
-    "why": "Confusion, ataxia and nystagmus after dextrose in a starved woman is thiamine (B1) lack; give thiamine IV now. Pyridoxine is added in hyperemesis but does not treat this."
+    "why": "Confusion, ataxia and nystagmus after dextrose in a starved woman is thiamine (B1) lack; give thiamine IV now. Pyridoxine is added in hyperemesis but does not treat this.",
+    "d": 2
    },
    {
     "id": "hg-5",
@@ -783,7 +787,8 @@
      "Admit for IV fluids, thiamine and regular antiemetics"
     ],
     "answer": 4,
-    "why": "A PUQE score of 12 or more is severe and she cannot keep up fluids, so she needs admission. Oral treatment at home is for mild disease (score 6 or less)."
+    "why": "A PUQE score of 12 or more is severe and she cannot keep up fluids, so she needs admission. Oral treatment at home is for mild disease (score 6 or less).",
+    "d": 2
    },
    {
     "id": "hg-6",
@@ -799,13 +804,14 @@
      "Ondansetron 8 mg 12-hourly"
     ],
     "answer": 0,
-    "why": "After a first-line drug fails, the next step on the ladder is metoclopramide or domperidone. Ondansetron is third line and steroids come after that."
+    "why": "After a first-line drug fails, the next step on the ladder is metoclopramide or domperidone. Ondansetron is third line and steroids come after that.",
+    "d": 2
    },
    {
     "id": "hg-7",
     "topic": "hg",
     "type": "sba",
-    "stem": "A 21-year-old at 10 weeks, on IV antiemetics for vomiting, suddenly develops a twisted neck, jaw spasm and eyes rolled upwards on day 3. She is fully alert and her BP is 105/70.",
+    "stem": "A 21-year-old at 10 weeks, on IV antiemetics for vomiting, suddenly develops a twisted neck, jaw spasm and eyes rolled upwards on day 3. She is fully alert and her blood pressure is 105/70.",
     "q": "What is the most likely cause?",
     "options": [
      "Central pontine myelinolysis",
@@ -815,7 +821,8 @@
      "Hypokalaemia"
     ],
     "answer": 1,
-    "why": "Sudden dystonia with clear consciousness is a known side effect of metoclopramide, so it is limited to 5 days. Wernicke gives confusion, ataxia and eye signs, not spasm."
+    "why": "Sudden dystonia with clear consciousness is a known side effect of metoclopramide, so it is limited to 5 days. Wernicke gives confusion, ataxia and eye signs, not spasm.",
+    "d": 3
    },
    {
     "id": "hg-8",
@@ -831,7 +838,8 @@
      "Cerebral venous thrombosis"
     ],
     "answer": 3,
-    "why": "A rise of 15 mmol/L in 24 h is far above the limit of 10 mmol/L, causing pontine myelinolysis (dysarthria, dysphagia, quadriparesis). Wernicke does not cause this bulbar picture."
+    "why": "A rise of 15 mmol/L in 24 hours is far above the limit of 10 mmol/L, causing pontine myelinolysis (dysarthria, dysphagia, quadriparesis). Wernicke does not cause this bulbar picture.",
+    "d": 3
    },
    {
     "id": "hg-9",
@@ -847,7 +855,8 @@
      "Routine IV dextrose 10%"
     ],
     "answer": 2,
-    "why": "Dehydration and immobility make VTE likely, so every admitted woman gets a VTE assessment with stockings and LMWH. Bed rest raises the risk and is not advised."
+    "why": "Dehydration and immobility make VTE likely, so every admitted woman gets a VTE assessment with stockings and low-molecular-weight heparin. Bed rest raises the risk and is not advised.",
+    "d": 2
    },
    {
     "id": "hg-10",
@@ -863,7 +872,8 @@
      "IV hydrocortisone, then oral prednisolone"
     ],
     "answer": 4,
-    "why": "When three drug lines fail, steroids are the next step (hydrocortisone 100 mg IV 12-hourly, then prednisolone). TPN and then termination are last resorts after steroids fail."
+    "why": "When three drug lines fail, steroids are the next step (hydrocortisone 100 mg IV 12-hourly, then prednisolone). TPN and then termination are last resorts after steroids fail.",
+    "d": 3
    },
    {
     "id": "hg-11",
@@ -879,7 +889,8 @@
      "Gastroenteritis"
     ],
     "answer": 3,
-    "why": "Fever, loin pain and a positive dipstick make this pyelonephritis. Vomiting that starts after 12 weeks, with fever or pain, is not hyperemesis."
+    "why": "Fever, loin pain and a positive dipstick make this pyelonephritis. Vomiting that starts after 12 weeks, with fever or pain, is not hyperemesis.",
+    "d": 2
    },
    {
     "id": "hg-12",
@@ -895,7 +906,8 @@
      "Mallory-Weiss tear"
     ],
     "answer": 4,
-    "why": "Fresh streaks of blood after forceful retching, with a stable Hb, fit a mucosal tear at the oesophagogastric junction. Varices need portal hypertension and bleed heavily."
+    "why": "Fresh streaks of blood after forceful retching, with a stable Hb, fit a mucosal tear at the oesophagogastric junction. Varices need portal hypertension and bleed heavily.",
+    "d": 2
    },
    {
     "id": "an-1",
@@ -911,7 +923,8 @@
      "Thalassaemia trait: send electrophoresis"
     ],
     "answer": 0,
-    "why": "In the 2nd trimester anaemia starts below 10.5 g/dL; normal MCV and ferritin show dilution from plasma rising faster than red cells. No extra treatment is needed."
+    "why": "In the second trimester anaemia starts below 10.5 g/dL; normal MCV and ferritin show dilution from plasma rising faster than red cells. No extra treatment is needed.",
+    "d": 1
    },
    {
     "id": "an-2",
@@ -927,7 +940,8 @@
      "Physiological anaemia"
     ],
     "answer": 1,
-    "why": "In the 1st trimester the cut-off is 11 g/dL, so 10.8 is mild anaemia (10–10.9). The 10.5 cut-off and physiological dilution apply to the 2nd and 3rd trimesters."
+    "why": "In the first trimester the cut-off is 11 g/dL, so 10.8 is mild anaemia (10–10.9). The 10.5 cut-off and physiological dilution apply to the 2nd and third trimesters.",
+    "d": 2
    },
    {
     "id": "an-3",
@@ -943,7 +957,8 @@
      "Total-dose iron dextran infusion"
     ],
     "answer": 3,
-    "why": "Moderate iron deficiency before 34 weeks in a woman who tolerates tablets is treated with oral iron first. Parenteral iron is for intolerance, poor adherence or late presentation."
+    "why": "Moderate iron deficiency before 34 weeks in a woman who tolerates tablets is treated with oral iron first. Parenteral iron is for intolerance, poor adherence or late presentation.",
+    "d": 1
    },
    {
     "id": "an-4",
@@ -959,7 +974,8 @@
      "Bone marrow aspirate"
     ],
     "answer": 3,
-    "why": "Very small cells with a normal ferritin and a Mentzer index below 13 (61 ÷ 5.9 ≈ 10) suggest thalassaemia trait; HbA2 above 3.5% confirms it. B12 and folate are for large cells."
+    "why": "Very small cells with a normal ferritin and a Mentzer index below 13 (61 ÷ 5.9 about 10) suggest thalassaemia trait; HbA2 above 3.5% confirms it. B12 and folate are for large cells.",
+    "d": 3
    },
    {
     "id": "an-5",
@@ -975,7 +991,8 @@
      "Packed cell transfusion"
     ],
     "answer": 1,
-    "why": "Large cells with hypersegmented neutrophils in a woman on an anti-epileptic point to folate lack; treat with folic acid 5 mg plus iron. 0.4 mg is the prevention dose for low-risk women."
+    "why": "Large cells with hypersegmented neutrophils in a woman on an anti-epileptic point to folate lack; treat with folic acid 5 mg plus iron. 0.4 mg is the prevention dose for low-risk women.",
+    "d": 2
    },
    {
     "id": "an-6",
@@ -991,7 +1008,8 @@
      "Rapid whole blood transfusion"
     ],
     "answer": 2,
-    "why": "Hb below 7 after 36 weeks leaves no time for iron to work, so she is transfused with packed cells, one unit over 3–4 h, with furosemide if overload threatens. Whole blood adds too much volume."
+    "why": "Hb below 7 after 36 weeks leaves no time for iron to work, so she is transfused with packed cells, one unit over 3–4 hours, with furosemide if overload threatens. Whole blood adds too much volume.",
+    "d": 3
    },
    {
     "id": "an-7",
@@ -1007,7 +1025,8 @@
      "Discharge on folic acid 5 mg"
     ],
     "answer": 0,
-    "why": "Severe anaemia before 36 weeks without failure is admitted, the cause found (malaria, worms, iron lack) and treated with iron; transfusion is for after 36 weeks, failure or Hb below 5."
+    "why": "Severe anaemia before 36 weeks without failure is admitted, the cause found (malaria, worms, iron lack) and treated with iron; transfusion is for after 36 weeks, failure or Hb below 5.",
+    "d": 2
    },
    {
     "id": "an-8",
@@ -1023,7 +1042,8 @@
      "Oral iron with an antiemetic"
     ],
     "answer": 0,
-    "why": "Intolerance of oral iron and Hb 7–9.9 after about 34 weeks are both indications for parenteral iron; iron sucrose is the safest. Transfusion is not needed at Hb 8.4."
+    "why": "Intolerance of oral iron and Hb 7–9.9 after about 34 weeks are both indications for parenteral iron; iron sucrose is the safest. Transfusion is not needed at Hb 8.4.",
+    "d": 2
    },
    {
     "id": "an-9",
@@ -1039,7 +1059,8 @@
      "Switch to IV iron"
     ],
     "answer": 1,
-    "why": "Tea blocks iron absorption; black stools show she takes the tablets, so fix how she takes them. IV iron is for true intolerance or non-adherence."
+    "why": "Tea blocks iron absorption; black stools show she takes the tablets, so fix how she takes them. IV iron is for true intolerance or non-adherence.",
+    "d": 3
    },
    {
     "id": "an-10",
@@ -1055,7 +1076,8 @@
      "A rise in the reticulocyte count"
     ],
     "answer": 4,
-    "why": "The first sign of response is a reticulocyte peak at 7–10 days; Hb rises only about 1 g/dL per week. Black stools show she takes the iron, not that it works."
+    "why": "The first sign of response is a reticulocyte peak at 7–10 days; Hb rises only about 1 g/dL per week. Black stools show she takes the iron, not that it works.",
+    "d": 2
    },
    {
     "id": "an-11",
@@ -1071,13 +1093,14 @@
      "Ferrous sulphate alone"
     ],
     "answer": 1,
-    "why": "Women with sickle cell disease need folic acid 5 mg for constant haemolysis; iron is given only if ferritin is low, and hers is high. 0.4 mg is the low-risk dose."
+    "why": "Women with sickle cell disease need folic acid 5 mg for constant haemolysis; iron is given only if ferritin is low, and hers is high. 0.4 mg is the low-risk dose.",
+    "d": 3
    },
    {
     "id": "an-12",
     "topic": "an",
     "type": "sba",
-    "stem": "A 28-year-old at 30 weeks with known G6PD deficiency has dysuria and frequency. Urine culture grows E. coli sensitive to several drugs.",
+    "stem": "A 28-year-old at 30 weeks with known G6PD deficiency has dysuria and frequency. Urine culture grows E. Coli sensitive to several drugs.",
     "q": "Which antibiotic should be avoided?",
     "options": [
      "Nitrofurantoin",
@@ -1087,7 +1110,8 @@
      "Cefalexin"
     ],
     "answer": 0,
-    "why": "Nitrofurantoin (like sulphonamides and primaquine) causes haemolysis in G6PD deficiency. The penicillins and cephalosporins are safe."
+    "why": "Nitrofurantoin (like sulphonamides and primaquine) causes haemolysis in G6PD deficiency. The penicillins and cephalosporins are safe.",
+    "d": 3
    },
    {
     "id": "vt-1",
@@ -1103,13 +1127,14 @@
      "Start warfarin"
     ],
     "answer": 3,
-    "why": "Clinical suspicion of DVT is treated with full-dose LMWH before the scan unless she is bleeding. D-dimer rises normally in pregnancy and after birth, so it does not help."
+    "why": "Clinical suspicion of DVT is treated with full-dose low-molecular-weight heparin before the scan unless she is bleeding. D-dimer rises normally in pregnancy and after birth, so it does not help.",
+    "d": 2
    },
    {
     "id": "vt-2",
     "topic": "vt",
     "type": "sba",
-    "stem": "A 28-year-old at 32 weeks has a swollen, tender left leg. Treatment-dose LMWH was started and the duplex ultrasound is negative, but the leg is still very suspicious.",
+    "stem": "A 28-year-old at 32 weeks has a swollen, tender left leg. Treatment-dose low-molecular-weight heparin was started and the duplex ultrasound is negative, but the leg is still very suspicious.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Insert an IVC filter",
@@ -1119,13 +1144,14 @@
      "Request CTPA"
     ],
     "answer": 3,
-    "why": "A negative scan with high suspicion is managed by keeping LMWH and repeating the scan; iliac clots may also need MRI venography. Stopping now risks missing a DVT."
+    "why": "A negative scan with high suspicion is managed by keeping low-molecular-weight heparin and repeating the scan; iliac clots may also need MRI venography. Stopping now risks missing a DVT.",
+    "d": 3
    },
    {
     "id": "vt-3",
     "topic": "vt",
     "type": "sba",
-    "stem": "A 33-year-old is 5 days after caesarean. She is breathless, pulse 118/min, SpO₂ 93% on air, and her left leg is swollen. LMWH has been started; ECG shows sinus tachycardia.",
+    "stem": "A 33-year-old is 5 days after caesarean. She is breathless, pulse 118/min, oxygen saturation 93% on air, and her left leg is swollen. Low-molecular-weight heparin has been started; ECG shows sinus tachycardia.",
     "q": "Which investigation is most appropriate next?",
     "options": [
      "Compression duplex ultrasound of the legs",
@@ -1135,13 +1161,14 @@
      "D-dimer"
     ],
     "answer": 0,
-    "why": "With leg signs, scan the legs first: a DVT on duplex proves VTE and spares the chest scan. Chest imaging is chosen only if the legs are negative."
+    "why": "With leg signs, scan the legs first: a DVT on duplex proves VTE and spares the chest scan. Chest imaging is chosen only if the legs are negative.",
+    "d": 3
    },
    {
     "id": "vt-4",
     "topic": "vt",
     "type": "sba",
-    "stem": "A 29-year-old at 30 weeks has sudden pleuritic chest pain and breathlessness, SpO₂ 94%. There are no leg signs. Chest X-ray is normal. LMWH has been started.",
+    "stem": "A 29-year-old at 30 weeks has sudden pleuritic chest pain and breathlessness, oxygen saturation 94%. There are no leg signs. Chest X-ray is normal. Low-molecular-weight heparin has been started.",
     "q": "Which imaging is most appropriate?",
     "options": [
      "Repeat chest X-ray in 24 hours",
@@ -1151,13 +1178,14 @@
      "V/Q scan"
     ],
     "answer": 4,
-    "why": "A normal chest X-ray with no leg signs points to a V/Q scan, which gives a lower breast dose. CTPA is chosen when the X-ray is abnormal."
+    "why": "A normal chest X-ray with no leg signs points to a V/Q scan, which gives a lower breast dose. CTPA is chosen when the X-ray is abnormal.",
+    "d": 3
    },
    {
     "id": "vt-5",
     "topic": "vt",
     "type": "sba",
-    "stem": "A 34-year-old on day 6 after birth is breathless with pleuritic pain. ABG shows low O₂ and low CO₂.",
+    "stem": "A 34-year-old on day 6 after birth is breathless with pleuritic pain. ABG shows low oxygen and low CO₂.",
     "q": "Which ECG finding is most commonly seen in her likely condition?",
     "options": [
      "ST elevation in V1–V4",
@@ -1167,13 +1195,14 @@
      "Sinus tachycardia"
     ],
     "answer": 4,
-    "why": "The commonest ECG finding in PE is sinus tachycardia. S1Q3T3 is the classic textbook sign but uncommon."
+    "why": "The commonest ECG finding in PE is sinus tachycardia. S1Q3T3 is the classic textbook sign but uncommon.",
+    "d": 2
    },
    {
     "id": "vt-6",
     "topic": "vt",
     "type": "sba",
-    "stem": "A 30-year-old on day 3 after caesarean collapses in the ward. BP 75/40, RR 36/min, SpO₂ 82%, JVP raised. Bedside echo shows a dilated right ventricle.",
+    "stem": "A 30-year-old on day 3 after caesarean collapses in the ward. Blood pressure 75/40 mmHg, respiratory rate 36/min, oxygen saturation 82%, JVP raised. Bedside echo shows a dilated right ventricle.",
     "q": "What is the most appropriate treatment?",
     "options": [
      "IVC filter alone",
@@ -1183,7 +1212,8 @@
      "SC enoxaparin 1 mg/kg twice daily"
     ],
     "answer": 2,
-    "why": "Hypotension with respiratory distress is massive PE: ICU, O₂, IV UFH (5000 IU then infusion) and thrombolysis or embolectomy. An IVC filter is only for failure or contraindication to anticoagulation."
+    "why": "Hypotension with respiratory distress is massive PE: ICU, oxygen, IV UFH (5000 IU then infusion) and thrombolysis or embolectomy. An IVC filter is only for failure or contraindication to anticoagulation.",
+    "d": 3
    },
    {
     "id": "vt-7",
@@ -1199,13 +1229,14 @@
      "Enoxaparin 60 mg twice daily"
     ],
     "answer": 4,
-    "why": "LMWH is the anticoagulant of pregnancy; treatment is 1 mg/kg twice daily by booking weight (50–69 kg = 60 mg bd). Warfarin at 6–12 weeks causes embryopathy; 40 mg daily is only prophylaxis."
+    "why": "Low-molecular-weight heparin is the anticoagulant of pregnancy; treatment is 1 mg/kg twice daily by booking weight (50–69 kg = 60 mg bd). Warfarin at 6–12 weeks causes embryopathy; 40 mg daily is only prophylaxis.",
+    "d": 2
    },
    {
     "id": "vt-8",
     "topic": "vt",
     "type": "sba",
-    "stem": "A 27-year-old has a DVT diagnosed at 30 weeks and starts treatment-dose LMWH.",
+    "stem": "A 27-year-old has a DVT diagnosed at 30 weeks and starts treatment-dose low-molecular-weight heparin.",
     "q": "For how long should she be anticoagulated?",
     "options": [
      "6 weeks in total",
@@ -1215,7 +1246,8 @@
      "Lifelong"
     ],
     "answer": 3,
-    "why": "Anticoagulation continues for the rest of pregnancy and at least 6 weeks postpartum, with a total of at least 3 months. The risk is highest after birth, so stopping at delivery is unsafe."
+    "why": "Anticoagulation continues for the rest of pregnancy and at least 6 weeks postpartum, with a total of at least 3 months. The risk is highest after birth, so stopping at delivery is unsafe.",
+    "d": 2
    },
    {
     "id": "vt-9",
@@ -1231,7 +1263,8 @@
      "Switch to IV heparin and site the epidural"
     ],
     "answer": 2,
-    "why": "After a treatment dose, wait 24 h before a block (12 h after a prophylactic dose). Protamine only partly reverses LMWH and is not used to allow an epidural."
+    "why": "After a treatment dose, wait 24 hours before a block (12 hours after a prophylactic dose). Protamine only partly reverses low-molecular-weight heparin and is not used to allow an epidural.",
+    "d": 3
    },
    {
     "id": "vt-10",
@@ -1247,7 +1280,8 @@
      "Aspirin 75 mg from 12 weeks"
     ],
     "answer": 2,
-    "why": "Age over 35, BMI over 30 and parity of 3 or more are three risk factors, so LMWH starts at 28 weeks and continues to 6 weeks postnatal. Four or more factors would mean the whole pregnancy."
+    "why": "Age over 35, BMI over 30 and parity of 3 or more are three risk factors, so low-molecular-weight heparin starts at 28 weeks and continues to 6 weeks postnatal. Four or more factors would mean the whole pregnancy.",
+    "d": 3
    },
    {
     "id": "vt-11",
@@ -1263,13 +1297,14 @@
      "Aspirin 75 mg only"
     ],
     "answer": 3,
-    "why": "A previous unprovoked, oestrogen-related or thrombophilia-related VTE needs LMWH through the whole pregnancy and 6 weeks after. A VTE provoked by major surgery would count as 3 factors (from 28 weeks)."
+    "why": "A previous unprovoked, oestrogen-related or thrombophilia-related VTE needs low-molecular-weight heparin through the whole pregnancy and 6 weeks after. A VTE provoked by major surgery would count as 3 factors (from 28 weeks).",
+    "d": 3
    },
    {
     "id": "vt-12",
     "topic": "vt",
     "type": "sba",
-    "stem": "A 30-year-old is on day 3 after vaginal birth, on treatment-dose LMWH for a DVT found at 34 weeks. She dislikes injections and wants to breastfeed.",
+    "stem": "A 30-year-old is on day 3 after vaginal birth, on treatment-dose low-molecular-weight heparin for a DVT found at 34 weeks. She dislikes injections and wants to breastfeed.",
     "q": "What is the most appropriate advice?",
     "options": [
      "Change to aspirin 75 mg",
@@ -1279,7 +1314,8 @@
      "Stop LMWH and start warfarin today"
     ],
     "answer": 2,
-    "why": "Warfarin is safe after birth and in breastfeeding but must overlap with LMWH until INR is 2–3 on two days (at least 5 days). Warfarin alone at first is not protective."
+    "why": "Warfarin is safe after birth and in breastfeeding but must overlap with low-molecular-weight heparin until INR is 2–3 on two days (at least 5 days). Warfarin alone at first is not protective.",
+    "d": 2
    },
    {
     "id": "dm-1",
@@ -1295,7 +1331,8 @@
      "Normal for pregnancy"
     ],
     "answer": 1,
-    "why": "One abnormal value is enough: fasting 5.6 or more, or 2 h 7.8 or more, means GDM. Overt diabetes needs fasting 7.0 or 2 h 11.1."
+    "why": "One abnormal value is enough: fasting 5.6 or more, or 2 hours 7.8 or more, means gestational diabetes. Overt diabetes needs fasting 7.0 or 2 hours 11.1.",
+    "d": 2
    },
    {
     "id": "dm-2",
@@ -1311,7 +1348,8 @@
      "Renal glycosuria"
     ],
     "answer": 1,
-    "why": "A fasting value of 7.0 or more found in pregnancy is overt diabetes and is managed as pre-existing (early anomaly scan, fetal echo, tight control). It is not GDM."
+    "why": "A fasting value of 7.0 or more found in pregnancy is overt diabetes and is managed as pre-existing (early anomaly scan, fetal echo, tight control). It is not gestational diabetes.",
+    "d": 2
    },
    {
     "id": "dm-3",
@@ -1327,13 +1365,14 @@
      "Only if glycosuria appears"
     ],
     "answer": 1,
-    "why": "Previous GDM is the one group tested early, at 16 weeks; a normal result is repeated at 24–28 weeks. Other risk factors are tested at 24–28 weeks."
+    "why": "Previous gestational diabetes is the one group tested early, at 16 weeks; a normal result is repeated at 24–28 weeks. Other risk factors are tested at 24–28 weeks.",
+    "d": 2
    },
    {
     "id": "dm-4",
     "topic": "dm",
     "type": "sba",
-    "stem": "A 23-year-old at 22 weeks has glucose 1+ on urine dipstick at two visits. She has no risk factors. Her OGTT: fasting 4.6 and 2 h 6.8 mmol/L.",
+    "stem": "A 23-year-old at 22 weeks has glucose 1+ on urine dipstick at two visits. She has no risk factors. Her OGTT: fasting 4.6 and 2 hours 6.8 mmol/L.",
     "q": "What is the most likely explanation of the glycosuria?",
     "options": [
      "Urinary tract infection",
@@ -1343,13 +1382,14 @@
      "Renal tubular disease"
     ],
     "answer": 2,
-    "why": "GFR rises in pregnancy and the renal threshold falls, so glycosuria with a normal OGTT is normal. That is why urine glucose is a poor screening test."
+    "why": "GFR rises in pregnancy and the renal threshold falls, so glycosuria with a normal OGTT is normal. That is why urine glucose is a poor screening test.",
+    "d": 2
    },
    {
     "id": "dm-5",
     "topic": "dm",
     "type": "sba",
-    "stem": "A 32-year-old was diagnosed with GDM at 28 weeks (fasting 5.9 mmol/L). After 2 weeks of diet and walking, her fasting glucose is still 5.9 and 1-h post-meal values 8.2–8.6 mmol/L.",
+    "stem": "A 32-year-old was diagnosed with gestational diabetes at 28 weeks (fasting 5.9 mmol/L). After 2 weeks of diet and walking, her fasting glucose is still 5.9 and 1-h post-meal values 8.2–8.6 mmol/L.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Start metformin",
@@ -1359,13 +1399,14 @@
      "Start insulin at once"
     ],
     "answer": 0,
-    "why": "Above target (fasting 5.3 or more, 1 h 7.8 or more) after 1–2 weeks of diet means adding metformin, the first drug in GDM. Insulin first is for fasting 7 or more at diagnosis."
+    "why": "Above target (fasting 5.3 or more, 1 hour 7.8 or more) after 1–2 weeks of diet means adding metformin, the first drug in gestational diabetes. Insulin first is for fasting 7 or more at diagnosis.",
+    "d": 2
    },
    {
     "id": "dm-6",
     "topic": "dm",
     "type": "sba",
-    "stem": "A 36-year-old at 28 weeks has an OGTT: fasting 7.4 mmol/L and 2 h 10.2 mmol/L. Her BMI is 36.",
+    "stem": "A 36-year-old at 28 weeks has an OGTT: fasting 7.4 mmol/L and 2 hours 10.2 mmol/L. Her BMI is 36.",
     "q": "What is the most appropriate initial treatment?",
     "options": [
      "Metformin alone",
@@ -1375,7 +1416,8 @@
      "Induction of labour at 36 weeks"
     ],
     "answer": 1,
-    "why": "A fasting value of 7 or more at diagnosis goes straight to insulin. Diet trial first would waste weeks of high glucose for the fetus."
+    "why": "A fasting value of 7 or more at diagnosis goes straight to insulin. Diet trial first would waste weeks of high glucose for the fetus.",
+    "d": 3
    },
    {
     "id": "dm-7",
@@ -1391,7 +1433,8 @@
      "Pregnancy is contraindicated; offer sterilisation"
     ],
     "answer": 1,
-    "why": "Before pregnancy: stop ACE inhibitors and statins, change oral drugs except metformin to insulin, give folic acid 5 mg, and aim for HbA1c below 6.5%. Only above 10% is pregnancy strongly advised against for now."
+    "why": "Before pregnancy: stop ACE inhibitors and statins, change oral drugs except metformin to insulin, give folic acid 5 mg, and aim for HbA1c below 6.5%. Only above 10% is pregnancy strongly advised against for now.",
+    "d": 2
    },
    {
     "id": "dm-8",
@@ -1407,13 +1450,14 @@
      "Caudal regression syndrome"
     ],
     "answer": 4,
-    "why": "Absent sacrum is caudal regression, the most characteristic anomaly of maternal diabetes (the commonest is cardiac). It comes from high glucose in weeks 3–8."
+    "why": "Absent sacrum is caudal regression, the most characteristic anomaly of maternal diabetes (the commonest is cardiac). It comes from high glucose in weeks 3–8.",
+    "d": 2
    },
    {
     "id": "dm-9",
     "topic": "dm",
     "type": "sba",
-    "stem": "A 4.3 kg baby is born at 38 weeks to a mother with GDM on insulin. At 2 hours the baby is shaky (jittery) and sweaty and feeds poorly.",
+    "stem": "A 4.3 kg baby is born at 38 weeks to a mother with gestational diabetes on insulin. At 2 hours the baby is shaky (jittery) and sweaty and feeds poorly.",
     "q": "Which investigation is most urgent?",
     "options": [
      "Serum calcium",
@@ -1423,7 +1467,8 @@
      "Serum bilirubin"
     ],
     "answer": 2,
-    "why": "Neonatal hypoglycaemia is the commonest problem: fetal insulin stays high after the cord is cut. Aim for glucose above 2.6 mmol/L; calcium is checked if glucose is normal."
+    "why": "Neonatal hypoglycaemia is the commonest problem: fetal insulin stays high after the cord is cut. Aim for glucose above 2.6 mmol/L; calcium is checked if glucose is normal.",
+    "d": 1
    },
    {
     "id": "dm-10",
@@ -1439,13 +1484,14 @@
      "Fetal dehydration from polyuria"
     ],
     "answer": 0,
-    "why": "Glucose crosses the placenta but insulin does not; fetal hyperinsulinaemia raises metabolism and O₂ use, and hypoxia drives erythropoietin. Maternal insulin does not cross."
+    "why": "Glucose crosses the placenta but insulin does not; fetal hyperinsulinaemia raises metabolism and oxygen use, and hypoxia drives erythropoietin. Maternal insulin does not cross.",
+    "d": 2
    },
    {
     "id": "dm-11",
     "topic": "dm",
     "type": "sba",
-    "stem": "A 30-year-old with GDM on metformin 2 g/day at 32 weeks brings her glucose diary: fasting 4.9–5.1 mmol/L, 1 h after meals 8.4–8.9 mmol/L. She takes the tablets correctly.",
+    "stem": "A 30-year-old with gestational diabetes on metformin 2 g/day at 32 weeks brings her glucose diary: fasting 4.9–5.1 mmol/L, 1 hour after meals 8.4–8.9 mmol/L. She takes the tablets correctly.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Deliver at 34 weeks",
@@ -1455,13 +1501,14 @@
      "Stop metformin and give glibenclamide"
     ],
     "answer": 2,
-    "why": "The 1-hour target is below 7.8 mmol/L; on maximum metformin the next step on the ladder is insulin (soluble before meals). Metformin's maximum is 2 g/day."
+    "why": "The 1-hour target is below 7.8 mmol/L; on maximum metformin the next step on the ladder is insulin (soluble before meals). Metformin's maximum is 2 g/day.",
+    "d": 3
    },
    {
     "id": "dm-12",
     "topic": "dm",
     "type": "sba",
-    "stem": "A 34-year-old with type 2 diabetes on insulin is 38 weeks. Ultrasound EFW is 4.7 kg. Glucose control has been fair.",
+    "stem": "A 34-year-old with type 2 diabetes on insulin is 38 weeks. Ultrasound estimated fetal weight is 4.7 kg. Glucose control has been fair.",
     "q": "What is the most appropriate plan?",
     "options": [
      "Repeat scan in 2 weeks",
@@ -1471,7 +1518,8 @@
      "Induce at 41 weeks"
     ],
     "answer": 2,
-    "why": "An EFW above 4.5 kg in a diabetic carries a high risk of shoulder dystocia, so elective caesarean is offered. Induction suits a normal-sized baby."
+    "why": "An estimated fetal weight above 4.5 kg in a diabetic carries a high risk of shoulder dystocia, so elective caesarean is offered. Induction suits a normal-sized baby.",
+    "d": 2
    },
    {
     "id": "dm-13",
@@ -1487,7 +1535,8 @@
      "Stop all insulin until after delivery"
     ],
     "answer": 1,
-    "why": "Type 1 needs insulin plus dextrose from established labour, glucose checked hourly, aiming for 4–7 mmol/L. Never give insulin without dextrose, and never stop insulin in type 1."
+    "why": "Type 1 needs insulin plus dextrose from established labour, glucose checked hourly, aiming for 4–7 mmol/L. Never give insulin without dextrose, and never stop insulin in type 1.",
+    "d": 2
    },
    {
     "id": "dm-14",
@@ -1503,7 +1552,8 @@
      "Reduce insulin to the pre-pregnancy dose or lower"
     ],
     "answer": 4,
-    "why": "Once the placenta is out, insulin resistance disappears, so she returns to her pre-pregnancy dose or lower. Stopping insulin entirely in type 1 risks DKA."
+    "why": "Once the placenta is out, insulin resistance disappears, so she returns to her pre-pregnancy dose or lower. Stopping insulin entirely in type 1 risks DKA.",
+    "d": 3
    },
    {
     "id": "dm-15",
@@ -1519,13 +1569,14 @@
      "Emergency caesarean for fetal distress"
     ],
     "answer": 3,
-    "why": "DKA occurs at lower glucose in pregnancy. The CTG usually recovers as she is corrected; treat the mother first (saline, insulin, potassium) and decide on delivery later."
+    "why": "DKA occurs at lower glucose in pregnancy. The CTG usually recovers as she is corrected; treat the mother first (saline, insulin, potassium) and decide on delivery later.",
+    "d": 3
    },
    {
     "id": "dm-16",
     "topic": "dm",
     "type": "sba",
-    "stem": "A 31-year-old with GDM on metformin delivered a healthy baby yesterday.",
+    "stem": "A 31-year-old with gestational diabetes on metformin delivered a healthy baby yesterday.",
     "q": "What is the most appropriate plan for her glucose?",
     "options": [
      "Stop metformin; no further tests needed",
@@ -1535,13 +1586,14 @@
      "Switch to insulin until 6 weeks"
     ],
     "answer": 1,
-    "why": "GDM resolves after birth, so stop all drugs, but about half develop type 2 diabetes within 10 years: test at 6 weeks and yearly for life."
+    "why": "Gestational diabetes resolves after birth, so stop all drugs, but about half develop type 2 diabetes within 10 years: test at 6 weeks and yearly for life.",
+    "d": 2
    },
    {
     "id": "ht-1",
     "topic": "ht",
     "type": "sba",
-    "stem": "A 22-year-old primigravida at 36 weeks has BP 150/100 on two readings 4 hours apart. Urine PCR is 45 mg/mmol. She has no symptoms; platelets, creatinine and ALT are normal.",
+    "stem": "A 22-year-old primigravida at 36 weeks has blood pressure 150/100 mmHg on two readings 4 hours apart. Urine PCR is 45 mg/mmol. She has no symptoms; platelets, creatinine and ALT are normal.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Severe pre-eclampsia",
@@ -1551,13 +1603,14 @@
      "Gestational hypertension"
     ],
     "answer": 1,
-    "why": "New hypertension after 20 weeks with PCR 30 or more is pre-eclampsia; BP 150/100 is moderate, and there is no organ sign, so it is not severe."
+    "why": "New hypertension after 20 weeks with PCR 30 or more is pre-eclampsia; blood pressure 150/100 mmHg is moderate, and there is no organ sign, so it is not severe.",
+    "d": 1
    },
    {
     "id": "ht-2",
     "topic": "ht",
     "type": "sba",
-    "stem": "A 35-year-old para 2 books at 10 weeks. Her BP is 150/95 on two visits; urine protein is negative and she takes no drugs.",
+    "stem": "A 35-year-old para 2 books at 10 weeks. Her blood pressure is 150/95 on two visits; urine protein is negative and she takes no drugs.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Chronic hypertension",
@@ -1567,13 +1620,14 @@
      "Gestational hypertension"
     ],
     "answer": 0,
-    "why": "Hypertension before 20 weeks is chronic (pre-existing). Gestational hypertension and pre-eclampsia start after 20 weeks."
+    "why": "Hypertension before 20 weeks is chronic (pre-existing). Gestational hypertension and pre-eclampsia start after 20 weeks.",
+    "d": 1
    },
    {
     "id": "ht-3",
     "topic": "ht",
     "type": "sba",
-    "stem": "A 27-year-old at 34 weeks, normotensive at booking, now has BP 145/95 twice. Urine dipstick is negative and PCR 12 mg/mmol. Bloods are normal.",
+    "stem": "A 27-year-old at 34 weeks, normotensive at booking, now has blood pressure 145/95 mmHg twice. Urine dipstick is negative and PCR 12 mg/mmol. Bloods are normal.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Chronic hypertension",
@@ -1583,13 +1637,14 @@
      "Superimposed pre-eclampsia"
     ],
     "answer": 2,
-    "why": "New hypertension after 20 weeks with no significant proteinuria and no organ damage is gestational hypertension. About 1 in 4 progress to pre-eclampsia, so she needs follow-up."
+    "why": "New hypertension after 20 weeks with no significant proteinuria and no organ damage is gestational hypertension. About 1 in 4 progress to pre-eclampsia, so she needs follow-up.",
+    "d": 1
    },
    {
     "id": "ht-4",
     "topic": "ht",
     "type": "sba",
-    "stem": "A 19-year-old at 14 weeks has BP 150/100, urine protein 2+ and heavy vaginal spotting. The uterus is the size of 20 weeks and no fetal heart is heard on Doppler.",
+    "stem": "A 19-year-old at 14 weeks has blood pressure 150/100 mmHg, urine protein 2+ and heavy vaginal spotting. The uterus is the size of 20 weeks and no fetal heart is heard on Doppler.",
     "q": "What is the most likely underlying cause?",
     "options": [
      "Twin pregnancy",
@@ -1599,13 +1654,14 @@
      "Chronic hypertension"
     ],
     "answer": 1,
-    "why": "Pre-eclampsia features before 20 weeks with a large uterus and no fetal heart point to a molar pregnancy. Ordinary pre-eclampsia does not start before 20 weeks."
+    "why": "Pre-eclampsia features before 20 weeks with a large uterus and no fetal heart point to a molar pregnancy. Ordinary pre-eclampsia does not start before 20 weeks.",
+    "d": 3
    },
    {
     "id": "ht-5",
     "topic": "ht",
     "type": "sba",
-    "stem": "A 24-year-old at 33 weeks has BP 145/95 and protein 1+. She complains of a severe frontal headache and flashing lights since morning. Reflexes are brisk with 3 beats of clonus.",
+    "stem": "A 24-year-old at 33 weeks has blood pressure 145/95 mmHg and protein 1+. She complains of a severe frontal headache and flashing lights since morning. Reflexes are brisk with 3 beats of clonus.",
     "q": "How is her condition best classified?",
     "options": [
      "Severe pre-eclampsia",
@@ -1615,13 +1671,14 @@
      "Gestational hypertension with migraine"
     ],
     "answer": 0,
-    "why": "Any one organ sign (here severe headache, visual flashes, clonus) makes pre-eclampsia severe whatever the BP. It is not eclampsia until she fits."
+    "why": "Any one organ sign (here severe headache, visual flashes, clonus) makes pre-eclampsia severe whatever the blood pressure. It is not eclampsia until she has a convulsion.",
+    "d": 2
    },
    {
     "id": "ht-6",
     "topic": "ht",
     "type": "sba",
-    "stem": "A 30-year-old at 34 weeks has epigastric pain and vomiting. BP 145/95, protein 2+. Platelets 70 × 10⁹/L, ALT 280 U/L, LDH 900 U/L, glucose 5.0 mmol/L; the film shows fragmented red cells.",
+    "stem": "A 30-year-old at 34 weeks has epigastric pain and vomiting. Blood pressure 145/95 mmHg, protein 2+. Platelets 70 × 10⁹/L, ALT 280 U/L, LDH 900 U/L, glucose 5.0 mmol/L; the film shows fragmented red cells.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Viral hepatitis",
@@ -1631,13 +1688,14 @@
      "Acute cholecystitis"
     ],
     "answer": 2,
-    "why": "Haemolysis, raised liver enzymes and platelets below 100 is HELLP, a severe form whatever the BP. Normal glucose argues against acute fatty liver."
+    "why": "Haemolysis, raised liver enzymes and platelets below 100 is HELLP, a severe form whatever the blood pressure. Normal glucose argues against acute fatty liver.",
+    "d": 2
    },
    {
     "id": "ht-7",
     "topic": "ht",
     "type": "sba",
-    "stem": "A 26-year-old at 35 weeks has BP 168/112, protein 3+ and headache. She is admitted to HDU and IV labetalol is started.",
+    "stem": "A 26-year-old at 35 weeks has blood pressure 168/112 mmHg, protein 3+ and headache. She is admitted to HDU and IV labetalol is started.",
     "q": "Which regimen is most appropriate to prevent fits?",
     "options": [
      "Phenytoin 15 mg/kg IV",
@@ -1647,13 +1705,14 @@
      "MgSO₄ 2 g IV once"
     ],
     "answer": 1,
-    "why": "Magnesium sulphate prevents and treats eclamptic fits: 4 g loading, then 1 g/h continued for 24 h after delivery or the last fit. Diazepam is used only if magnesium is not available."
+    "why": "Magnesium sulphate prevents and treats eclamptic fits: 4 g loading, then 1 g/h continued for 24 hours after delivery or the last fit. Diazepam is used only if magnesium is not available.",
+    "d": 2
    },
    {
     "id": "ht-8",
     "topic": "ht",
     "type": "sba",
-    "stem": "A woman on MgSO₄ 1 g/h for severe pre-eclampsia for 10 hours now has absent knee jerks. RR is 16/min, SpO₂ 97% and urine output 35 mL/h.",
+    "stem": "A woman on magnesium sulphate 1 g/h for severe pre-eclampsia for 10 hours now has absent knee jerks. RR is 16/min, oxygen saturation 97% and urine output 35 mL/h.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Give 10 mL of 10% calcium gluconate",
@@ -1663,13 +1722,14 @@
      "Intubate and ventilate"
     ],
     "answer": 2,
-    "why": "Loss of the knee jerk is the first sign of toxicity: stop and check the level. Calcium gluconate is for respiratory depression (RR below 12), which she does not have."
+    "why": "Loss of the knee jerk is the first sign of toxicity: stop and check the level. Calcium gluconate is for respiratory depression (RR below 12), which she does not have.",
+    "d": 3
    },
    {
     "id": "ht-9",
     "topic": "ht",
     "type": "sba",
-    "stem": "A woman on MgSO₄ for eclampsia becomes drowsy. Knee jerks are absent and RR is 8/min. Urine output has been 15 mL/h for 3 hours.",
+    "stem": "A woman on magnesium sulphate for eclampsia becomes drowsy. Knee jerks are absent and RR is 8/min. Urine output has been 15 mL/h for 3 hours.",
     "q": "What is the most appropriate immediate treatment, besides stopping the infusion?",
     "options": [
      "IV furosemide only",
@@ -1679,13 +1739,14 @@
      "Extra 2 g MgSO₄ IV"
     ],
     "answer": 3,
-    "why": "Respiratory depression is the second stage of magnesium toxicity, made worse by oliguria (kidneys clear it); the antidote is calcium gluconate. Naloxone reverses opioids, not magnesium."
+    "why": "Respiratory depression is the second stage of magnesium toxicity, made worse by oliguria (kidneys clear it); the antidote is calcium gluconate. Naloxone reverses opioids, not magnesium.",
+    "d": 2
    },
    {
     "id": "ht-10",
     "topic": "ht",
     "type": "sba",
-    "stem": "A primigravida at 37 weeks had an eclamptic fit and was loaded with MgSO₄ 4 g IV. She is on 1 g/h. Two hours later she fits again. BP 155/100.",
+    "stem": "A primigravida at 37 weeks had an eclamptic convulsion and was loaded with magnesium sulphate 4 g IV. She is on 1 g/h. Two hours later she fits again. Blood pressure 155/100 mmHg.",
     "q": "What is the most appropriate next drug?",
     "options": [
      "Diazepam 10 mg IV",
@@ -1695,14 +1756,15 @@
      "Phenytoin 15–20 mg/kg IV"
     ],
     "answer": 1,
-    "why": "A fit on magnesium is treated with an extra 2 g IV. If she still fits, phenytoin, then general anaesthesia."
+    "why": "A fit on magnesium is treated with an extra 2 g IV. If she still fits, phenytoin, then general anaesthesia.",
+    "d": 3
    },
    {
     "id": "ht-11",
     "topic": "ht",
     "type": "sba",
-    "stem": "A 28-year-old at 33 weeks has BP 170/115 with a headache. MgSO₄ has been started and 500 mL of saline given.",
-    "q": "Which drug is most appropriate to lower the BP now?",
+    "stem": "A 28-year-old at 33 weeks has blood pressure 170/115 mmHg with a headache. Magnesium sulphate has been started and 500 mL of saline given.",
+    "q": "Which drug is most appropriate to lower the blood pressure now?",
     "options": [
      "Oral enalapril 10 mg",
      "Oral methyldopa 250 mg",
@@ -1711,13 +1773,14 @@
      "Hydralazine 5 mg IV over 10–15 minutes"
     ],
     "answer": 4,
-    "why": "Severe BP (160/110 or more) is lowered now with IV hydralazine (or IV labetalol), repeated every 15 min. Methyldopa and twice-daily nifedipine are too slow; ACE inhibitors and diuretics are never used."
+    "why": "Severe blood pressure (160/110 or more) is lowered now with IV hydralazine (or IV labetalol), repeated every 15 min. Methyldopa and twice-daily nifedipine are too slow; ACE inhibitors and diuretics are never used.",
+    "d": 2
    },
    {
     "id": "ht-12",
     "topic": "ht",
     "type": "sba",
-    "stem": "A 31-year-old with asthma on inhalers is 30 weeks pregnant. She has pre-eclampsia with BP 155/105 and no severe features.",
+    "stem": "A 31-year-old with asthma on inhalers is 30 weeks pregnant. She has pre-eclampsia with blood pressure 155/105 mmHg and no severe features.",
     "q": "Which oral drug is most appropriate?",
     "options": [
      "Enalapril 5 mg daily",
@@ -1727,13 +1790,14 @@
      "Atenolol 50 mg"
     ],
     "answer": 2,
-    "why": "Labetalol is first line but blocks β receptors, so it is avoided in asthma; nifedipine is the next line. ACE inhibitors and diuretics are never used in pregnancy."
+    "why": "Labetalol is first line but blocks β receptors, so it is avoided in asthma; nifedipine is the next line. ACE inhibitors and diuretics are never used in pregnancy.",
+    "d": 3
    },
    {
     "id": "ht-13",
     "topic": "ht",
     "type": "sba",
-    "stem": "A 36-year-old with chronic hypertension controlled on enalapril finds she is 8 weeks pregnant. BP is 135/85.",
+    "stem": "A 36-year-old with chronic hypertension controlled on enalapril finds she is 8 weeks pregnant. Blood pressure is 135/85.",
     "q": "What is the most appropriate change?",
     "options": [
      "Stop enalapril and start labetalol",
@@ -1743,13 +1807,14 @@
      "Switch to furosemide"
     ],
     "answer": 0,
-    "why": "ACE inhibitors are fetotoxic and are stopped as soon as pregnancy is known; labetalol is first line. Stopping all drugs would let her BP rise."
+    "why": "ACE inhibitors are fetotoxic and are stopped as soon as pregnancy is known; labetalol is first line. Stopping all drugs would let her blood pressure rise.",
+    "d": 2
    },
    {
     "id": "ht-14",
     "topic": "ht",
     "type": "sba",
-    "stem": "A woman with severe pre-eclampsia at 32 weeks in HDU had 2 L of saline over 3 hours. She becomes breathless with basal crackles and SpO₂ 88%. BP 160/105.",
+    "stem": "A woman with severe pre-eclampsia at 32 weeks in HDU had 2 L of saline over 3 hours. She becomes breathless with basal crackles and oxygen saturation 88%. Blood pressure 160/105 mmHg.",
     "q": "What is the most likely cause?",
     "options": [
      "Pulmonary embolism",
@@ -1759,13 +1824,14 @@
      "Magnesium toxicity"
     ],
     "answer": 1,
-    "why": "Leaky capillaries in pre-eclampsia flood the lungs when drips are run freely; fluids are kept to 80 mL/h. Magnesium toxicity causes slow breathing, not crackles."
+    "why": "Leaky capillaries in pre-eclampsia flood the lungs when drips are run freely; fluids are kept to 80 mL/h. Magnesium toxicity causes slow breathing, not crackles.",
+    "d": 3
    },
    {
     "id": "ht-15",
     "topic": "ht",
     "type": "sba",
-    "stem": "A 25-year-old with severe pre-eclampsia at 32 weeks is stable on labetalol and MgSO₄. Scan: EFW below the 5th centile, umbilical artery Doppler shows reversed end-diastolic flow.",
+    "stem": "A 25-year-old with severe pre-eclampsia at 32 weeks is stable on labetalol and magnesium sulphate. Ultrasound: estimated fetal weight below the 5th centile, umbilical artery Doppler shows reversed end-diastolic flow.",
     "q": "What is the most appropriate plan?",
     "options": [
      "Induction of labour with prostaglandin",
@@ -1775,13 +1841,14 @@
      "Steroids and delivery, usually by caesarean"
     ],
     "answer": 4,
-    "why": "Reversed EDF means the placenta is failing; give steroids (below 34 weeks), keep MgSO₄ and deliver, usually by caesarean as the fetus will not tolerate labour."
+    "why": "Reversed EDF means the placenta is failing; give steroids (below 34 weeks), keep magnesium sulphate and deliver, usually by caesarean as the fetus will not tolerate labour.",
+    "d": 3
    },
    {
     "id": "ht-16",
     "topic": "ht",
     "type": "sba",
-    "stem": "A 41-year-old primigravida with a BMI of 32 books at 11 weeks. BP 120/75; she has no other medical history.",
+    "stem": "A 41-year-old primigravida with a BMI of 32 books at 11 weeks. Blood pressure 120/75 mmHg; she has no other medical history.",
     "q": "What is the most appropriate advice to lower her risk of pre-eclampsia?",
     "options": [
      "Low-salt diet only",
@@ -1791,7 +1858,8 @@
      "No prophylaxis needed"
     ],
     "answer": 3,
-    "why": "First pregnancy, age 40 or more and BMI above 30 are moderate risk factors; two or more mean aspirin 75 mg from 12 to 36 weeks. Starting late reduces the benefit."
+    "why": "First pregnancy, age 40 or more and BMI above 30 are moderate risk factors; two or more mean aspirin 75 mg from 12 to 36 weeks. Starting late reduces the benefit.",
+    "d": 3
    },
    {
     "id": "ma-1",
@@ -1807,13 +1875,14 @@
      "Thalassaemia trait"
     ],
     "answer": 1,
-    "why": "A primigravida in an endemic area with anaemia, a normal ferritin and a small baby, without fever, fits silent placental malaria. Iron deficiency would lower the ferritin."
+    "why": "A primigravida in an endemic area with anaemia, a normal ferritin and a small baby, without fever, fits silent placental malaria. Iron deficiency would lower the ferritin.",
+    "d": 3
    },
    {
     "id": "ma-2",
     "topic": "ma",
     "type": "sba",
-    "stem": "A 24-year-old at 8 weeks has fever and rigors. RDT is positive for P. falciparum. She is alert, eating and has no vomiting; Hb 11 g/dL, RBG normal.",
+    "stem": "A 24-year-old at 8 weeks has fever and rigors. RDT is positive for P. Falciparum. She is alert, eating and has no vomiting; Hb 11 g/dL, RBG normal.",
     "q": "What is the most appropriate treatment?",
     "options": [
      "Dihydroartemisinin-piperaquine",
@@ -1823,13 +1892,14 @@
      "Chloroquine"
     ],
     "answer": 1,
-    "why": "Uncomplicated malaria in any trimester, including the first, is treated with AL 20/120 (Sudan protocol 2023). DHA-piperaquine is second line in the 2nd and 3rd trimesters; quinine is for when no ACT is available."
+    "why": "Uncomplicated malaria in any trimester, including the first, is treated with AL 20/120 (Sudan protocol 2023). DHA-piperaquine is second line in the 2nd and third trimesters; quinine is for when no ACT is available.",
+    "d": 2
    },
    {
     "id": "ma-3",
     "topic": "ma",
     "type": "sba",
-    "stem": "A 26-year-old at 30 weeks has fever for 3 days and is now confused. The thin film shows 7% parasitised red cells. BP 110/70, RBG 90 mg/dL.",
+    "stem": "A 26-year-old at 30 weeks has fever for 3 days and is now confused. The thin film shows 7% parasitised red cells. Blood pressure 110/70 mmHg, RBG 90 mg/dL.",
     "q": "What is the drug of choice?",
     "options": [
      "IM artemether",
@@ -1839,13 +1909,14 @@
      "Oral artemether-lumefantrine"
     ],
     "answer": 2,
-    "why": "Impaired consciousness and parasitaemia above 5% mean severe malaria; IV artesunate is first line in any trimester. IV quinine is used only if artesunate is not available."
+    "why": "Impaired consciousness and parasitaemia above 5% mean severe malaria; IV artesunate is first line in any trimester. IV quinine is used only if artesunate is not available.",
+    "d": 1
    },
    {
     "id": "ma-4",
     "topic": "ma",
     "type": "sba",
-    "stem": "A woman at 32 weeks on IV quinine for severe malaria becomes restless, sweaty and confused 6 hours into treatment. Pulse 112/min, BP 115/70.",
+    "stem": "A woman at 32 weeks on IV quinine for severe malaria becomes restless, sweaty and confused 6 hours into treatment. Her pulse is 112/min and blood pressure 115/70 mmHg.",
     "q": "Which test should be done first?",
     "options": [
      "Lumbar puncture",
@@ -1855,7 +1926,8 @@
      "Serum creatinine"
     ],
     "answer": 3,
-    "why": "Quinine releases insulin and the parasites consume glucose, so hypoglycaemia is common in pregnancy; check RBG first. It can mimic worsening cerebral malaria."
+    "why": "Quinine releases insulin and the parasites consume glucose, so hypoglycaemia is common in pregnancy; check RBG first. It can mimic worsening cerebral malaria.",
+    "d": 2
    },
    {
     "id": "ma-5",
@@ -1871,13 +1943,14 @@
      "Glucagon 1 mg IM"
     ],
     "answer": 2,
-    "why": "Hypoglycaemia (below 40 mg/dL) is treated with 50% dextrose IV followed by 10% dextrose, checking RBG every 1–2 hours. Artesunate is continued."
+    "why": "Hypoglycaemia (below 40 mg/dL) is treated with 50% dextrose IV followed by 10% dextrose, checking RBG every 1–2 hours. Artesunate is continued.",
+    "d": 2
    },
    {
     "id": "ma-6",
     "topic": "ma",
     "type": "sba",
-    "stem": "A 23-year-old at 34 weeks has a generalised fit. Temperature 39.5 °C, BP 110/70, urine protein negative, RBG 95 mg/dL. The blood film shows ring forms.",
+    "stem": "A 23-year-old at 34 weeks has a generalised convulsion. Temperature 39.5 °C, blood pressure 110/70 mmHg, urine protein negative, RBG 95 mg/dL. The blood film shows ring forms.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Bacterial meningitis",
@@ -1887,13 +1960,14 @@
      "Cerebral malaria"
     ],
     "answer": 4,
-    "why": "Fit, fever and parasites with normal BP and no protein is cerebral malaria until proven otherwise. Eclampsia needs hypertension and proteinuria."
+    "why": "Fit, fever and parasites with normal blood pressure and no protein is cerebral malaria until proven otherwise. Eclampsia needs hypertension and proteinuria.",
+    "d": 2
    },
    {
     "id": "ma-7",
     "topic": "ma",
     "type": "sba",
-    "stem": "A primigravida at 34 weeks is brought in after a fit. Temperature 39 °C, BP 160/110, urine protein 2+, RDT positive. You cannot tell which disease caused the fit.",
+    "stem": "A primigravida at 34 weeks is brought in after a convulsion. Temperature 39 °C, blood pressure 160/110 mmHg, urine protein 2+, RDT positive. You cannot tell which disease caused the convulsion.",
     "q": "What is the most appropriate treatment?",
     "options": [
      "Diazepam and oral AL",
@@ -1903,7 +1977,8 @@
      "MgSO₄ and IV artesunate together"
     ],
     "answer": 4,
-    "why": "When eclampsia and cerebral malaria cannot be separated, treat both: magnesium sulphate for the fits and IV artesunate for the malaria."
+    "why": "When eclampsia and cerebral malaria cannot be separated, treat both: magnesium sulphate for the fits and IV artesunate for the malaria.",
+    "d": 3
    },
    {
     "id": "ma-8",
@@ -1919,7 +1994,8 @@
      "Reassure: malaria is excluded"
     ],
     "answer": 1,
-    "why": "A negative test with strong suspicion is repeated (thick film to find parasites, thin film for species and %). One negative RDT does not exclude malaria."
+    "why": "A negative test with strong suspicion is repeated (thick film to find parasites, thin film for species and %). One negative RDT does not exclude malaria.",
+    "d": 2
    },
    {
     "id": "ma-9",
@@ -1935,7 +2011,8 @@
      "Primaquine once"
     ],
     "answer": 1,
-    "why": "IPTp with SP (3 tablets of 500/25 mg, observed) is given after quickening, with a second dose at least 4 weeks later, plus a treated net. SP is not given in the 1st trimester, and primaquine is avoided."
+    "why": "IPTp with SP (3 tablets of 500/25 mg, observed) is given after quickening, with a second dose at least 4 weeks later, plus a treated net. SP is not given in the first trimester, and primaquine is avoided.",
+    "d": 1
    },
    {
     "id": "ma-10",
@@ -1951,13 +2028,14 @@
      "10 mg"
     ],
     "answer": 0,
-    "why": "High-dose folic acid (5 mg) blocks the action of SP, so women on IPTp take 0.4 mg."
+    "why": "High-dose folic acid (5 mg) blocks the action of SP, so women on IPTp take 0.4 mg.",
+    "d": 3
    },
    {
     "id": "ma-11",
     "topic": "ma",
     "type": "sba",
-    "stem": "A woman at 30 weeks with severe malaria on IV artesunate has BP 80/50, cold peripheries and a weak pulse. Hb 9 g/dL, no bleeding.",
+    "stem": "A woman at 30 weeks with severe malaria on IV artesunate has blood pressure 80/50 mmHg, cold peripheries and a weak pulse. Hb 9 g/dL, no bleeding.",
     "q": "What should be added to fluid resuscitation?",
     "options": [
      "Packed-cell transfusion",
@@ -1967,7 +2045,8 @@
      "Heparin infusion"
     ],
     "answer": 1,
-    "why": "Shock in severe malaria (algid malaria) is often gram-negative sepsis; take cultures and give a 3rd-generation cephalosporin. Her Hb does not need transfusion."
+    "why": "Shock in severe malaria (algid malaria) is often gram-negative sepsis; take cultures and give a 3rd-generation cephalosporin. Her Hb does not need transfusion.",
+    "d": 3
    },
    {
     "id": "ma-12",
@@ -1983,7 +2062,8 @@
      "Add paracetamol and reassure"
     ],
     "answer": 0,
-    "why": "Fever again on day 3 needs a repeat film; persisting parasites mean treatment failure and a change of drug. Repeating the same course does not treat failure."
+    "why": "Fever again on day 3 needs a repeat film; persisting parasites mean treatment failure and a change of drug. Repeating the same course does not treat failure.",
+    "d": 3
    },
    {
     "id": "cd-1",
@@ -1999,7 +2079,8 @@
      "Start furosemide"
     ],
     "answer": 3,
-    "why": "A soft ejection systolic flow murmur, a third sound and mild breathlessness are normal in pregnancy. Diastolic murmurs, orthopnoea or crackles need investigation."
+    "why": "A soft ejection systolic flow murmur, a third sound and mild breathlessness are normal in pregnancy. Diastolic murmurs, orthopnoea or crackles need investigation.",
+    "d": 2
    },
    {
     "id": "cd-2",
@@ -2015,7 +2096,8 @@
      "Echocardiography"
     ],
     "answer": 4,
-    "why": "Echo is the key test: it gives the valve area, ejection fraction and pulmonary pressure. ECG shows rhythm only."
+    "why": "Echo is the key test: it gives the valve area, ejection fraction and pulmonary pressure. ECG shows rhythm only.",
+    "d": 1
    },
    {
     "id": "cd-3",
@@ -2031,13 +2113,14 @@
      "Cannot be graded in pregnancy"
     ],
     "answer": 1,
-    "why": "Symptoms on moderate effort (stairs) are class II. Class III is symptoms on mild effort, class IV at rest."
+    "why": "Symptoms on moderate effort (stairs) are class II. Class III is symptoms on mild effort, class IV at rest.",
+    "d": 1
    },
    {
     "id": "cd-4",
     "topic": "cd",
     "type": "sba",
-    "stem": "A 23-year-old with an unrepaired VSD is 8 weeks pregnant. She is cyanosed, SpO₂ 84% at rest, with clubbing and a loud P2.",
+    "stem": "A 23-year-old with an unrepaired VSD is 8 weeks pregnant. She is cyanosed, oxygen saturation 84% at rest, with clubbing and a loud P2.",
     "q": "What is the most appropriate advice?",
     "options": [
      "Elective caesarean at 36 weeks",
@@ -2047,7 +2130,8 @@
      "VSD closure during pregnancy"
     ],
     "answer": 3,
-    "why": "Cyanosis with a loud P2 in a known VSD is Eisenmenger syndrome; maternal death is 40–60%, so pregnancy is contraindicated and termination offered."
+    "why": "Cyanosis with a loud P2 in a known VSD is Eisenmenger syndrome; maternal death is 40–60%, so pregnancy is contraindicated and termination offered.",
+    "d": 2
    },
    {
     "id": "cd-5",
@@ -2063,13 +2147,14 @@
      "Start digoxin"
     ],
     "answer": 3,
-    "why": "Anaemia adds load on a diseased heart; remove extra loads (anaemia, infection, hypertension) first. Valvotomy is for severe symptomatic MS."
+    "why": "Anaemia adds load on a diseased heart; remove extra loads (anaemia, infection, hypertension) first. Valvotomy is for severe symptomatic MS.",
+    "d": 2
    },
    {
     "id": "cd-6",
     "topic": "cd",
     "type": "sba",
-    "stem": "A woman with mitral stenosis at 30 weeks becomes breathless. Pulse is irregularly irregular at 130/min, BP 110/70, lungs clear. ECG shows atrial fibrillation.",
+    "stem": "A woman with mitral stenosis at 30 weeks becomes breathless. Pulse is irregularly irregular at 130/min, blood pressure 110/70 mmHg, lungs clear. ECG shows atrial fibrillation.",
     "q": "What is the most appropriate management?",
     "options": [
      "Emergency caesarean",
@@ -2079,7 +2164,8 @@
      "Rate control only"
     ],
     "answer": 3,
-    "why": "AF in MS needs rate control (slower rate = longer filling) and anticoagulation with LMWH, as the stroke risk is high. Rate control alone ignores clot risk."
+    "why": "AF in MS needs rate control (slower rate = longer filling) and anticoagulation with low-molecular-weight heparin, as the stroke risk is high. Rate control alone ignores clot risk.",
+    "d": 3
    },
    {
     "id": "cd-7",
@@ -2095,7 +2181,8 @@
      "Stop anticoagulation until 12 weeks"
     ],
     "answer": 3,
-    "why": "Warfarin causes embryopathy at 6–12 weeks, so LMWH twice daily by weight is used then; anticoagulation must never stop because valve thrombosis kills."
+    "why": "Warfarin causes embryopathy at 6–12 weeks, so low-molecular-weight heparin twice daily by weight is used then; anticoagulation must never stop because valve thrombosis causes death.",
+    "d": 3
    },
    {
     "id": "cd-8",
@@ -2111,13 +2198,14 @@
      "IM pethidine"
     ],
     "answer": 0,
-    "why": "Early epidural removes pain and the rise in heart rate, which shortens filling time in MS. LMWH, if given, is stopped 24 h before."
+    "why": "Early epidural removes pain and the rise in heart rate, which shortens filling time in MS. Low-molecular-weight heparin, if given, is stopped 24 hours before.",
+    "d": 2
    },
    {
     "id": "cd-9",
     "topic": "cd",
     "type": "sba",
-    "stem": "A woman with mitral stenosis, NYHA III, reaches full dilatation. After 20 minutes of pushing the head is at +2, direct OA, and she is tired and breathless.",
+    "stem": "A woman with mitral stenosis, NYHA III, reaches full dilatation. After 20 minutes of pushing the head is at +2, direct occipito-anterior, and she is tired and breathless.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Continue pushing for another hour",
@@ -2127,7 +2215,8 @@
      "Assisted delivery with forceps or ventouse"
     ],
     "answer": 4,
-    "why": "Long pushing strains the heart, so the 2nd stage is shortened with forceps or ventouse. Caesarean is for obstetric reasons only."
+    "why": "Long pushing strains the heart, so the second stage is shortened with forceps or ventouse. Caesarean is for obstetric reasons only.",
+    "d": 2
    },
    {
     "id": "cd-10",
@@ -2143,13 +2232,14 @@
      "Syntometrine IM"
     ],
     "answer": 0,
-    "why": "Oxytocin given slowly is safe; ergometrine clamps the veins and causes acute pulmonary oedema, and a rapid oxytocin bolus drops the BP. Carboprost causes bronchospasm and pulmonary hypertension."
+    "why": "Oxytocin given slowly is safe; ergometrine clamps the veins and causes acute pulmonary oedema, and a rapid oxytocin bolus drops the blood pressure. Carboprost causes bronchospasm and pulmonary hypertension.",
+    "d": 1
    },
    {
     "id": "cd-11",
     "topic": "cd",
     "type": "sba",
-    "stem": "A woman with mitral stenosis is 2 hours after delivery. She becomes breathless and coughs pink foamy sputum. SpO₂ 88%, crackles at both bases, BP 120/80.",
+    "stem": "A woman with mitral stenosis is 2 hours after delivery. She becomes breathless and coughs pink foamy sputum. Oxygen saturation 88%, crackles at both bases, blood pressure 120/80 mmHg.",
     "q": "What is the most appropriate immediate management?",
     "options": [
      "IV antibiotics",
@@ -2159,7 +2249,8 @@
      "Lay flat and give a fluid bolus"
     ],
     "answer": 1,
-    "why": "Autotransfusion after birth gives the highest load on the heart, causing pulmonary oedema; sit her up, give O₂, stop fluids and give furosemide."
+    "why": "Autotransfusion after birth gives the highest load on the heart, causing pulmonary oedema; sit her up, give oxygen, stop fluids and give furosemide.",
+    "d": 2
    },
    {
     "id": "cd-12",
@@ -2175,7 +2266,8 @@
      "Rheumatic mitral stenosis"
     ],
     "answer": 1,
-    "why": "Heart failure from 32 weeks to 6 months after birth with EF below 45% and no other cause is peripartum cardiomyopathy; multiparity and twins are risk factors. Valves are normal, so it is not MS."
+    "why": "Heart failure from 32 weeks to 6 months after birth with EF below 45% and no other cause is peripartum cardiomyopathy; multiparity and twins are risk factors. Valves are normal, so it is not MS.",
+    "d": 2
    },
    {
     "id": "ep-1",
@@ -2191,7 +2283,8 @@
      "Add carbamazepine to lower the valproate dose"
     ],
     "answer": 1,
-    "why": "Valproate carries about 10% anomaly risk (NTD, heart, cleft, low IQ), so it is changed before conception, never stopped suddenly. Folic acid 5 mg starts 3 months before conception."
+    "why": "Valproate carries about 10% anomaly risk (NTD, heart, cleft, low IQ), so it is changed before conception, never stopped suddenly. Folic acid 5 mg starts 3 months before conception.",
+    "d": 2
    },
    {
     "id": "ep-2",
@@ -2207,13 +2300,14 @@
      "Stop carbamazepine at once"
     ],
     "answer": 3,
-    "why": "Never stop anti-epileptic drugs suddenly: status epilepticus is more dangerous than the drug. Organogenesis is already under way; continue and give 5 mg folic acid."
+    "why": "Never stop anti-epileptic drugs suddenly: status epilepticus is more dangerous than the drug. Organogenesis is already under way; continue and give 5 mg folic acid.",
+    "d": 2
    },
    {
     "id": "ep-3",
     "topic": "ep",
     "type": "sba",
-    "stem": "A 30-year-old on lamotrigine, fit-free before pregnancy, has two fits at 30 weeks. She takes every dose. BP 115/70, urine protein negative.",
+    "stem": "A 30-year-old on lamotrigine, fit-free before pregnancy, has two convulsions at 30 weeks. She takes every dose. Blood pressure 115/70 mmHg, urine protein negative.",
     "q": "What is the most likely explanation?",
     "options": [
      "Lamotrigine levels have fallen from faster clearance",
@@ -2223,7 +2317,8 @@
      "Lamotrigine toxicity"
     ],
     "answer": 0,
-    "why": "Bigger blood volume and faster clearance lower drug levels in pregnancy, lamotrigine most of all; the dose is raised. Normal BP and no protein argue against eclampsia."
+    "why": "Bigger blood volume and faster clearance lower drug levels in pregnancy, lamotrigine most of all; the dose is raised. Normal blood pressure and no protein argue against eclampsia.",
+    "d": 3
    },
    {
     "id": "ep-4",
@@ -2239,7 +2334,8 @@
      "Lamotrigine"
     ],
     "answer": 1,
-    "why": "Cleft, nail and finger hypoplasia with heart defects is fetal hydantoin syndrome from phenytoin. Valproate typically gives neural tube defects."
+    "why": "Cleft, nail and finger hypoplasia with heart defects is fetal hydantoin syndrome from phenytoin. Valproate typically gives neural tube defects.",
+    "d": 2
    },
    {
     "id": "ep-5",
@@ -2255,13 +2351,14 @@
      "CVS for karyotype"
     ],
     "answer": 3,
-    "why": "Anti-epileptic drugs raise the risk of heart defects, so fetal echo at 22–24 weeks is added to the anomaly scan (18–20+6 weeks) and growth scans. Karyotype is not affected by the drug."
+    "why": "Anti-epileptic drugs raise the risk of heart defects, so fetal echo at 22–24 weeks is added to the anomaly scan (18–20+6 weeks) and growth scans. Karyotype is not affected by the drug.",
+    "d": 2
    },
    {
     "id": "ep-6",
     "topic": "ep",
     "type": "sba",
-    "stem": "A 24-year-old known epileptic at 28 weeks has been fitting for 7 minutes. BP 115/70, urine protein negative, capillary glucose 5.2 mmol/L. Airway is secured and O₂ given.",
+    "stem": "A 24-year-old known epileptic at 28 weeks has been convulsing for 7 minutes. Blood pressure 115/70 mmHg, urine protein negative, capillary glucose 5.2 mmol/L. Airway is secured and oxygen given.",
     "q": "What is the first drug to give?",
     "options": [
      "MgSO₄ 4 g IV",
@@ -2271,13 +2368,14 @@
      "Phenytoin 15–20 mg/kg IV"
     ],
     "answer": 2,
-    "why": "A fit over 5 minutes is status epilepticus; the first-line drug is lorazepam 4 mg IV (or diazepam). MgSO₄ is for eclampsia, which normal BP and no protein make unlikely."
+    "why": "A fit over 5 minutes is status epilepticus; the first-line drug is lorazepam 4 mg IV (or diazepam). Magnesium sulphate is for eclampsia, which normal blood pressure and no protein make unlikely.",
+    "d": 2
    },
    {
     "id": "ep-7",
     "topic": "ep",
     "type": "sba",
-    "stem": "A woman with known epilepsy at 36 weeks has a fit. BP is 160/110 and urine protein 2+.",
+    "stem": "A woman with known epilepsy at 36 weeks has a convulsion. Blood pressure is 160/110 and urine protein 2+.",
     "q": "What is the most appropriate drug?",
     "options": [
      "Diazepam 10 mg IV",
@@ -2287,7 +2385,8 @@
      "Lorazepam 4 mg IV"
     ],
     "answer": 2,
-    "why": "Hypertension with proteinuria after 20 weeks means eclampsia cannot be excluded, even in a known epileptic; treat with magnesium sulphate."
+    "why": "Hypertension with proteinuria after 20 weeks means eclampsia cannot be excluded, even in a known epileptic; treat with magnesium sulphate.",
+    "d": 2
    },
    {
     "id": "ep-8",
@@ -2303,7 +2402,8 @@
      "Morphine"
     ],
     "answer": 0,
-    "why": "Norpethidine, the metabolite of pethidine, lowers the fit threshold. Early epidural is encouraged because pain, exhaustion and hyperventilation trigger fits."
+    "why": "Norpethidine, the metabolite of pethidine, lowers the convulsion threshold. Early epidural is encouraged because pain, exhaustion and hyperventilation trigger fits.",
+    "d": 1
    },
    {
     "id": "ep-9",
@@ -2319,7 +2419,8 @@
      "FFP"
     ],
     "answer": 0,
-    "why": "Enzyme inducers can cause vitamin K deficiency in the baby, so 1 mg IM is given at birth. Maternal vitamin K from 36 weeks is no longer advised."
+    "why": "Enzyme inducers can cause vitamin K deficiency in the baby, so 1 mg IM is given at birth. Maternal vitamin K from 36 weeks is no longer advised.",
+    "d": 1
    },
    {
     "id": "ep-10",
@@ -2335,13 +2436,14 @@
      "Progestogen-only pill"
     ],
     "answer": 0,
-    "why": "Carbamazepine induces liver enzymes and makes the pill, POP and implant fail; the copper IUD, LNG-IUS or DMPA are reliable."
+    "why": "Carbamazepine induces liver enzymes and makes the pill, POP and implant fail; the copper IUD, LNG-IUS or DMPA are reliable.",
+    "d": 3
    },
    {
     "id": "ep-11",
     "topic": "ep",
     "type": "sba",
-    "stem": "A woman's lamotrigine dose was doubled at 28 weeks because of fits. She is now 6 days after birth and complains of dizziness, double vision and unsteadiness.",
+    "stem": "A woman's lamotrigine dose was doubled at 28 weeks because of convulsions. She is now 6 days after birth and complains of dizziness, double vision and unsteadiness.",
     "q": "What is the most appropriate step?",
     "options": [
      "Reduce lamotrigine back to her pre-pregnancy dose",
@@ -2351,7 +2453,8 @@
      "Add carbamazepine"
     ],
     "answer": 0,
-    "why": "Clearance falls back after birth, so a dose raised in pregnancy is returned to the old dose within about 10 days to avoid toxicity. Stopping it risks fits."
+    "why": "Clearance falls back after birth, so a dose raised in pregnancy is returned to the old dose within about 10 days to avoid toxicity. Stopping it risks fits.",
+    "d": 3
    },
    {
     "id": "ep-12",
@@ -2367,13 +2470,14 @@
      "Give formula at night only"
     ],
     "answer": 2,
-    "why": "Breastfeeding is encouraged on anti-epileptic drugs; phenobarbitone can make the baby drowsy, so watch feeding. She should also feed and change diapers on the floor for safety."
+    "why": "Breastfeeding is encouraged on anti-epileptic drugs; phenobarbitone can make the baby drowsy, so watch feeding. She should also feed and change diapers on the floor for safety.",
+    "d": 2
    },
    {
     "id": "oc-1",
     "topic": "oc",
     "type": "sba",
-    "stem": "A 29-year-old at 33 weeks has itching of the palms and soles, worse at night, for 2 weeks. There is no rash, only scratch marks. Bile acids 28 µmol/L, ALT twice normal, BP 118/76.",
+    "stem": "A 29-year-old at 33 weeks has itching of the palms and soles, worse at night, for 2 weeks. There is no rash, only scratch marks. Bile acids 28 µmol/L, ALT twice normal, blood pressure 118/76 mmHg.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Pemphigoid gestationis",
@@ -2383,7 +2487,8 @@
      "Viral hepatitis"
     ],
     "answer": 1,
-    "why": "Itch without a rash, starting on the palms and soles, with raised bile acids is obstetric cholestasis. Polymorphic eruption and pemphigoid both have a rash."
+    "why": "Itch without a rash, starting on the palms and soles, with raised bile acids is obstetric cholestasis. Polymorphic eruption and pemphigoid both have a rash.",
+    "d": 1
    },
    {
     "id": "oc-2",
@@ -2399,7 +2504,8 @@
      "Start ursodeoxycholic acid"
     ],
     "answer": 2,
-    "why": "The itch may come weeks before the tests turn abnormal, so repeat them every 1–2 weeks. Do not treat or deliver on itch alone."
+    "why": "The itch may come weeks before the tests turn abnormal, so repeat them every 1–2 weeks. Do not treat or deliver on itch alone.",
+    "d": 3
    },
    {
     "id": "oc-3",
@@ -2415,7 +2521,8 @@
      "Over 90%"
     ],
     "answer": 3,
-    "why": "Obstetric cholestasis recurs in 45–70% of later pregnancies, so LFTs are checked early next time."
+    "why": "Obstetric cholestasis recurs in 45–70% of later pregnancies, so LFTs are checked early next time.",
+    "d": 1
    },
    {
     "id": "oc-4",
@@ -2431,7 +2538,8 @@
      "Ursodeoxycholic acid 8–12 mg/kg/day in 2 doses"
     ],
     "answer": 4,
-    "why": "UDCA eases the itch within 1–7 days and improves LFTs. Chlorphenamine only sedates; it helps sleep, not itch."
+    "why": "UDCA eases the itch within 1–7 days and improves LFTs. Chlorphenamine only sedates; it helps sleep, not itch.",
+    "d": 1
    },
    {
     "id": "oc-5",
@@ -2447,7 +2555,8 @@
      "Ferrous sulphate"
     ],
     "answer": 3,
-    "why": "Fat malabsorption causes vitamin K deficiency and PPH; water-soluble vitamin K (menadiol) 10 mg daily protects against it."
+    "why": "Fat malabsorption causes vitamin K deficiency and PPH; water-soluble vitamin K (menadiol) 10 mg daily protects against it.",
+    "d": 2
    },
    {
     "id": "oc-6",
@@ -2463,7 +2572,8 @@
      "41 weeks"
     ],
     "answer": 3,
-    "why": "Mild disease (peak bile acids 10–39 µmol/L) is delivered at 39 weeks; 40–99 at 38 weeks; 100 or more at 35–36 weeks."
+    "why": "Mild disease (peak bile acids 10–39 µmol/L) is delivered at 39 weeks; 40–99 at 38 weeks; 100 or more at 35–36 weeks.",
+    "d": 3
    },
    {
     "id": "oc-7",
@@ -2479,7 +2589,8 @@
      "40 weeks"
     ],
     "answer": 2,
-    "why": "Peak bile acids of 40–99 µmol/L mean moderate disease, delivered at 38 weeks by induction. A normal CTG does not change the plan."
+    "why": "Peak bile acids of 40–99 µmol/L mean moderate disease, delivered at 38 weeks by induction. A normal CTG does not change the plan.",
+    "d": 3
    },
    {
     "id": "oc-8",
@@ -2495,7 +2606,8 @@
      "Neonatal hypoglycaemia"
     ],
     "answer": 1,
-    "why": "Stillbirth in cholestasis is sudden (bile acids act on the fetal heart) and is not predicted by CTG, so timing is set by the bile acid level. It is not a slow placental failure."
+    "why": "Stillbirth in cholestasis is sudden (bile acids act on the fetal heart) and is not predicted by CTG, so timing is set by the bile acid level. It is not a slow placental failure.",
+    "d": 2
    },
    {
     "id": "oc-9",
@@ -2511,7 +2623,8 @@
      "Repeat LFT in 1 year"
     ],
     "answer": 1,
-    "why": "Obstetric cholestasis resolves after delivery; LFTs still abnormal later point to another liver disease (PBC, autoimmune hepatitis, viral)."
+    "why": "Obstetric cholestasis resolves after delivery; LFTs still abnormal later point to another liver disease (PBC, autoimmune hepatitis, viral).",
+    "d": 3
    },
    {
     "id": "oc-10",
@@ -2527,7 +2640,8 @@
      "Sterilisation is advised"
     ],
     "answer": 3,
-    "why": "Oestrogen pills can bring the itch back in women with past cholestasis, so progestogen-only methods or an IUCD are used."
+    "why": "Oestrogen pills can bring the itch back in women with past cholestasis, so progestogen-only methods or an IUCD are used.",
+    "d": 2
    },
    {
     "id": "oc-11",
@@ -2543,7 +2657,8 @@
      "Scabies"
     ],
     "answer": 0,
-    "why": "Blisters starting around the umbilicus are pemphigoid gestationis. Obstetric cholestasis has no rash at all, only scratch marks."
+    "why": "Blisters starting around the umbilicus are pemphigoid gestationis. Obstetric cholestasis has no rash at all, only scratch marks.",
+    "d": 3
    },
    {
     "id": "oc-12",
@@ -2559,13 +2674,14 @@
      "Serum ALP"
     ],
     "answer": 3,
-    "why": "Anti-mitochondrial antibodies are positive in PBC; anti-smooth muscle antibodies point to autoimmune hepatitis. ALP is made by the placenta and does not help."
+    "why": "Anti-mitochondrial antibodies are positive in PBC; anti-smooth muscle antibodies point to autoimmune hepatitis. ALP is made by the placenta and does not help.",
+    "d": 3
    },
    {
     "id": "af-1",
     "topic": "af",
     "type": "sba",
-    "stem": "A 24-year-old primigravida with twins at 35 weeks has vomited for 5 days and is now jaundiced. RBG 40 mg/dL, INR 2.1, ALT 380 U/L, platelets 120 × 10⁹/L, BP 145/90, urate high.",
+    "stem": "A 24-year-old primigravida with twins at 35 weeks has vomited for 5 days and is now jaundiced. RBG 40 mg/dL, INR 2.1, ALT 380 U/L, platelets 120 × 10⁹/L, blood pressure 145/90 mmHg, urate high.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Acute fatty liver of pregnancy",
@@ -2575,13 +2691,14 @@
      "HELLP syndrome"
     ],
     "answer": 0,
-    "why": "Third-trimester vomiting with jaundice, low glucose and high INR is acute fatty liver; twins and first pregnancy are risk factors. HELLP does not cause hypoglycaemia or early high INR."
+    "why": "Third-trimester vomiting with jaundice, low glucose and high INR is acute fatty liver; twins and first pregnancy are risk factors. HELLP does not cause hypoglycaemia or early high INR.",
+    "d": 2
    },
    {
     "id": "af-2",
     "topic": "af",
     "type": "sba",
-    "stem": "A woman at 34 weeks has vomiting and RUQ pain. BP 150/95, protein 1+, platelets 90 × 10⁹/L and ALT 300 U/L.",
+    "stem": "A woman at 34 weeks has vomiting and RUQ pain. Blood pressure 150/95 mmHg, protein 1+, platelets 90 × 10⁹/L and ALT 300 U/L.",
     "q": "Which additional finding would most favour acute fatty liver over HELLP?",
     "options": [
      "Raised ALT",
@@ -2591,13 +2708,14 @@
      "Schistocytes on the film"
     ],
     "answer": 1,
-    "why": "A failing liver cannot make glucose, so hypoglycaemia is typical of fatty liver, not HELLP. Raised LDH and schistocytes point to haemolysis in HELLP."
+    "why": "A failing liver cannot make glucose, so hypoglycaemia is typical of fatty liver, not HELLP. Raised LDH and schistocytes point to haemolysis in HELLP.",
+    "d": 3
    },
    {
     "id": "af-3",
     "topic": "af",
     "type": "sba",
-    "stem": "A 30-year-old at 36 weeks admitted with vomiting and jaundice becomes drowsy and sweaty on the ward. BP 135/85, pulse 110/min.",
+    "stem": "A 30-year-old at 36 weeks admitted with vomiting and jaundice becomes drowsy and sweaty on the ward. Blood pressure 135/85 mmHg, pulse 110/min.",
     "q": "Which bedside test is most urgent?",
     "options": [
      "Pulse oximetry",
@@ -2607,13 +2725,14 @@
      "Capillary blood glucose"
     ],
     "answer": 4,
-    "why": "Hypoglycaemia in liver failure can kill quietly and causes drowsiness and sweating; check glucose first and every 1–2 hours."
+    "why": "Hypoglycaemia in liver failure can kill quietly and causes drowsiness and sweating; check glucose first and every 1–2 hours.",
+    "d": 2
    },
    {
     "id": "af-4",
     "topic": "af",
     "type": "sba",
-    "stem": "A woman at 32 weeks with acute fatty liver has had her glucose, clotting and BP corrected in ICU. She is now stable.",
+    "stem": "A woman at 32 weeks with acute fatty liver has had her glucose, clotting and blood pressure corrected in ICU. She is now stable.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Refer for liver transplant",
@@ -2623,7 +2742,8 @@
      "Start ursodeoxycholic acid"
     ],
     "answer": 1,
-    "why": "Delivery is the definitive treatment and is done once she is stable, whatever the gestation. Waiting lets the liver failure progress."
+    "why": "Delivery is the definitive treatment and is done once she is stable, whatever the gestation. Waiting lets the liver failure progress.",
+    "d": 2
    },
    {
     "id": "af-5",
@@ -2639,13 +2759,14 @@
      "Spinal anaesthesia"
     ],
     "answer": 1,
-    "why": "No spinal or epidural is given if platelets are below 80 or clotting is deranged (risk of spinal haematoma), so general anaesthesia is used."
+    "why": "No spinal or epidural is given if platelets are below 80 or clotting is deranged (risk of spinal haematoma), so general anaesthesia is used.",
+    "d": 3
    },
    {
     "id": "af-6",
     "topic": "af",
     "type": "sba",
-    "stem": "A woman with acute fatty liver at 34 weeks is going for caesarean. INR is 2.4, fibrinogen 0.8 g/L, platelets 95 × 10⁹/L, and she is Bleeding from the cannula sites.",
+    "stem": "A woman with acute fatty liver at 34 weeks is going for caesarean. INR is 2.4, fibrinogen 0.8 g/L, platelets 95 × 10⁹/L, and she is bleeding from the cannula sites.",
     "q": "What is the most appropriate preparation?",
     "options": [
      "Heparin for DIC",
@@ -2655,7 +2776,8 @@
      "Platelet transfusion only"
     ],
     "answer": 3,
-    "why": "The liver cannot make clotting factors; give IV vitamin K, FFP and cryoprecipitate (plus platelets if needed) before delivery."
+    "why": "The liver cannot make clotting factors; give IV vitamin K, FFP and cryoprecipitate (plus platelets if needed) before delivery.",
+    "d": 3
    },
    {
     "id": "af-7",
@@ -2671,7 +2793,8 @@
      "Acute kidney injury"
     ],
     "answer": 3,
-    "why": "Transient diabetes insipidus is a known feature of acute fatty liver; her glucose is low, so it is not diabetes mellitus."
+    "why": "Transient diabetes insipidus is a known feature of acute fatty liver; her glucose is low, so it is not diabetes mellitus.",
+    "d": 3
    },
    {
     "id": "af-8",
@@ -2687,13 +2810,14 @@
      "Karyotype"
     ],
     "answer": 1,
-    "why": "A fetal LCHAD deficiency is linked to maternal fatty liver; affected babies get hypoglycaemia and cardiomyopathy. The parents should be tested too."
+    "why": "A fetal LCHAD deficiency is linked to maternal fatty liver; affected babies get hypoglycaemia and cardiomyopathy. The parents should be tested too.",
+    "d": 3
    },
    {
     "id": "af-9",
     "topic": "af",
     "type": "sba",
-    "stem": "A 25-year-old at 30 weeks from a village with many recent cases of jaundice after floods has vomiting and deep jaundice. ALT is 2500 U/L, glucose normal, BP 110/70.",
+    "stem": "A 25-year-old at 30 weeks from a village with many recent cases of jaundice after floods has vomiting and deep jaundice. ALT is 2500 U/L, glucose normal, blood pressure 110/70 mmHg.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Obstetric cholestasis",
@@ -2703,7 +2827,8 @@
      "Acute fatty liver of pregnancy"
     ],
     "answer": 3,
-    "why": "ALT above 1000 points to viral hepatitis, and outbreaks from unsafe water are hepatitis E, which can be fulminant in the 3rd trimester."
+    "why": "ALT above 1000 points to viral hepatitis, and outbreaks from unsafe water are hepatitis E, which can be fulminant in the third trimester.",
+    "d": 2
    },
    {
     "id": "af-10",
@@ -2719,7 +2844,8 @@
      "Glucose low, INR high, urate high, ammonia high"
     ],
     "answer": 4,
-    "why": "Fatty liver is liver failure: low glucose, high INR, marked hyperuricaemia, raised ammonia. A normal INR with haemolysis and very low platelets is HELLP."
+    "why": "Fatty liver is liver failure: low glucose, high INR, marked hyperuricaemia, raised ammonia. A normal INR with haemolysis and very low platelets is HELLP.",
+    "d": 3
    },
    {
     "id": "af-11",
@@ -2735,7 +2861,8 @@
      "Gallstones"
     ],
     "answer": 1,
-    "why": "Timing is the first clue: vomiting with ketones and a mildly raised ALT at 9 weeks is hyperemesis. Fatty liver, cholestasis and HELLP occur late in pregnancy."
+    "why": "Timing is the first clue: vomiting with ketones and a mildly raised ALT at 9 weeks is hyperemesis. Fatty liver, cholestasis and HELLP occur late in pregnancy.",
+    "d": 2
    },
    {
     "id": "af-12",
@@ -2751,7 +2878,8 @@
      "Cirrhosis develops in most cases"
     ],
     "answer": 1,
-    "why": "With delivery and supportive care, most women recover fully within days; transplant is rarely needed. It may recur in a later pregnancy, mainly with an LCHAD gene."
+    "why": "With delivery and supportive care, most women recover fully within days; transplant is rarely needed. It may recur in a later pregnancy, mainly with an LCHAD gene.",
+    "d": 2
    },
    {
     "id": "th-1",
@@ -2767,7 +2895,8 @@
      "Thyroid peroxidase antibodies"
     ],
     "answer": 0,
-    "why": "Goitre and eye signs point to Graves' disease; TRAb confirms it. A radioiodine scan is contraindicated in pregnancy."
+    "why": "Goitre and eye signs point to Graves' disease; TRAb confirms it. A radioiodine scan is contraindicated in pregnancy.",
+    "d": 2
    },
    {
     "id": "th-2",
@@ -2783,7 +2912,8 @@
      "Arrange radioiodine"
     ],
     "answer": 2,
-    "why": "In the 1st trimester carbimazole can cause aplasia cutis and choanal or oesophageal atresia, so PTU is used until about 13 weeks."
+    "why": "In the first trimester carbimazole can cause aplasia cutis and choanal or oesophageal atresia, so PTU is used until about 13 weeks.",
+    "d": 3
    },
    {
     "id": "th-3",
@@ -2799,7 +2929,8 @@
      "Change to carbimazole"
     ],
     "answer": 4,
-    "why": "After the 1st trimester carbimazole is preferred to avoid PTU liver failure. Antithyroid drugs are not stopped while disease is active."
+    "why": "After the first trimester carbimazole is preferred to avoid PTU liver failure. Antithyroid drugs are not stopped while disease is active.",
+    "d": 3
    },
    {
     "id": "th-4",
@@ -2815,7 +2946,8 @@
      "Excess maternal levothyroxine"
     ],
     "answer": 0,
-    "why": "TRAb persist after surgery or radioiodine, cross the placenta and stimulate the fetal thyroid from 12 weeks; that is why TRAb is checked even when the mother is euthyroid."
+    "why": "TRAb persist after surgery or radioiodine, cross the placenta and stimulate the fetal thyroid from 12 weeks; that is why TRAb is checked even when the mother is euthyroid.",
+    "d": 3
    },
    {
     "id": "th-5",
@@ -2831,7 +2963,8 @@
      "Lab error: repeat total T4"
     ],
     "answer": 0,
-    "why": "Oestrogen doubles TBG, so total T4 rises in every pregnant woman; free T4 stays normal, which is why free T4 is measured."
+    "why": "Oestrogen doubles TBG, so total T4 rises in every pregnant woman; free T4 stays normal, which is why free T4 is measured.",
+    "d": 2
    },
    {
     "id": "th-6",
@@ -2847,7 +2980,8 @@
      "Halve the dose"
     ],
     "answer": 2,
-    "why": "Need rises early and the fetal brain depends on maternal T4 before 12 weeks; raise the dose by 25–30% as soon as pregnancy is confirmed (e.g. 2 extra tablets a week), then check TSH."
+    "why": "Need rises early and the fetal brain depends on maternal T4 before 12 weeks; raise the dose by 25–30% as soon as pregnancy is confirmed (e.g. 2 extra tablets a week), then check TSH.",
+    "d": 2
    },
    {
     "id": "th-7",
@@ -2863,7 +2997,8 @@
      "Switch to liothyronine"
     ],
     "answer": 0,
-    "why": "Iron binds levothyroxine in the gut and blocks its absorption; separating them by 4 hours fixes the problem without raising the dose."
+    "why": "Iron binds levothyroxine in the gut and blocks its absorption; separating them by 4 hours fixes the problem without raising the dose.",
+    "d": 3
    },
    {
     "id": "th-8",
@@ -2879,7 +3014,8 @@
      "Carbimazole alone"
     ],
     "answer": 0,
-    "why": "Thyroid storm is treated in HDU with fluids, cooling, propranolol, PTU, iodine an hour after PTU, and hydrocortisone, plus treating the trigger. Iodine before PTU can make it worse."
+    "why": "Thyroid storm is treated in HDU with fluids, cooling, propranolol, PTU, iodine an hour after PTU, and hydrocortisone, plus treating the trigger. Iodine before PTU can make it worse.",
+    "d": 3
    },
    {
     "id": "th-9",
@@ -2895,7 +3031,8 @@
      "Carbimazole"
     ],
     "answer": 1,
-    "why": "Painless thyrotoxicosis 1–4 months after birth with negative TRAb is the hyper phase of postpartum thyroiditis (preformed T4 leaking); treat symptoms with a β-blocker, not antithyroid drugs."
+    "why": "Painless thyrotoxicosis 1–4 months after birth with negative TRAb is the hyper phase of postpartum thyroiditis (preformed T4 leaking); treat symptoms with a β-blocker, not antithyroid drugs.",
+    "d": 3
    },
    {
     "id": "th-10",
@@ -2911,7 +3048,8 @@
      "Carbimazole"
     ],
     "answer": 1,
-    "why": "This is the hypo phase of postpartum thyroiditis; give thyroxine for symptoms, stop at about 6 months to test recovery, and check TFTs yearly (recurrence 70%)."
+    "why": "This is the hypo phase of postpartum thyroiditis; give thyroxine for symptoms, stop at about 6 months to test recovery, and check TFTs yearly (recurrence 70%).",
+    "d": 3
    },
    {
     "id": "th-11",
@@ -2927,7 +3065,8 @@
      "Stop carbimazole while breastfeeding"
     ],
     "answer": 0,
-    "why": "Breastfeeding is safe; above 15 mg/day of carbimazole (or 150 mg/day of PTU) the baby's TFTs are checked."
+    "why": "Breastfeeding is safe; above 15 mg/day of carbimazole (or 150 mg/day of PTU) the baby's TFTs are checked.",
+    "d": 2
    },
    {
     "id": "th-12",
@@ -2943,7 +3082,8 @@
      "Radioiodine"
     ],
     "answer": 2,
-    "why": "Stridor, dysphagia, suspected cancer or allergy to both drugs are indications for surgery, safest in the 2nd trimester. Radioiodine is never used in pregnancy."
+    "why": "Stridor, dysphagia, suspected cancer or allergy to both drugs are indications for surgery, safest in the second trimester. Radioiodine is never used in pregnancy.",
+    "d": 3
    },
    {
     "id": "hiv-1",
@@ -2959,7 +3099,8 @@
      "Repeat the same rapid test in 3 months"
     ],
     "answer": 3,
-    "why": "A positive rapid test is confirmed with a second, different test (ELISA ± Western blot) before the diagnosis is given; then ART starts at once."
+    "why": "A positive rapid test is confirmed with a second, different test (ELISA with or without Western blot) before the diagnosis is given; then ART starts at once.",
+    "d": 1
    },
    {
     "id": "hiv-2",
@@ -2975,7 +3116,8 @@
      "After delivery only"
     ],
     "answer": 0,
-    "why": "ART is started as soon as HIV is diagnosed, at any CD4 and any gestation, and continued for life. Starting late leaves the viral load high at delivery."
+    "why": "ART is started as soon as HIV is diagnosed, at any CD4 and any gestation, and continued for life. Starting late leaves the viral load high at delivery.",
+    "d": 1
    },
    {
     "id": "hiv-3",
@@ -2991,7 +3133,8 @@
      "Cotrimoxazole alone"
     ],
     "answer": 3,
-    "why": "TLD (300/300/50 mg), one tablet daily and lifelong, is first line. Zidovudine alone cuts transmission only to about 8%."
+    "why": "TLD (300/300/50 mg), one tablet daily and lifelong, is first line. Zidovudine alone cuts transmission only to about 8%.",
+    "d": 2
    },
    {
     "id": "hiv-4",
@@ -3007,7 +3150,8 @@
      "SP for IPTp"
     ],
     "answer": 2,
-    "why": "CD4 of 350 or less (or WHO stage 3–4) needs cotrimoxazole, which protects against PCP, toxoplasma and malaria."
+    "why": "CD4 of 350 or less (or WHO stage 3–4) needs cotrimoxazole, which protects against PCP, toxoplasma and malaria.",
+    "d": 2
    },
    {
     "id": "hiv-5",
@@ -3023,7 +3167,8 @@
      "Replace cotrimoxazole with SP"
     ],
     "answer": 0,
-    "why": "Two sulfa drugs together cause severe skin reactions, and cotrimoxazole already prevents malaria, so SP is not given. A treated bed net is still used."
+    "why": "Two sulfa drugs together cause severe skin reactions, and cotrimoxazole already prevents malaria, so SP is not given. A treated bed net is still used.",
+    "d": 3
    },
    {
     "id": "hiv-6",
@@ -3039,7 +3184,8 @@
      "Vaginal birth with IV zidovudine"
     ],
     "answer": 3,
-    "why": "With VL below 50 copies/mL, vaginal birth is advised with oral ART continued; IV zidovudine is only for VL of 1000 or more or unknown."
+    "why": "With VL below 50 copies/mL, vaginal birth is advised with oral ART continued; IV zidovudine is only for VL of 1000 or more or unknown.",
+    "d": 2
    },
    {
     "id": "hiv-7",
@@ -3055,7 +3201,8 @@
      "Elective caesarean at 38 weeks with IV zidovudine"
     ],
     "answer": 4,
-    "why": "A VL of 1000 or more at 36 weeks means elective caesarean at 38 weeks, before labour and ROM, with IV zidovudine and continued oral ART."
+    "why": "A VL of 1000 or more at 36 weeks means elective caesarean at 38 weeks, before labour and rupture of membranes, with IV zidovudine and continued oral ART.",
+    "d": 2
    },
    {
     "id": "hiv-8",
@@ -3071,7 +3218,8 @@
      "Test the baby at 6 weeks"
     ],
     "answer": 0,
-    "why": "Status unknown in labour: test now with a rapid test so ART, IV zidovudine and infant prophylaxis can start in time."
+    "why": "Status unknown in labour: test now with a rapid test so ART, IV zidovudine and infant prophylaxis can start in time.",
+    "d": 2
    },
    {
     "id": "hiv-9",
@@ -3087,7 +3235,8 @@
      "Epidural analgesia"
     ],
     "answer": 1,
-    "why": "Scalp electrodes, fetal blood sampling and early ARM expose the fetus to maternal blood and raise transmission. External monitoring is fine."
+    "why": "Scalp electrodes, fetal blood sampling and early artificial rupture of membranes expose the fetus to maternal blood and raise transmission. External monitoring is fine.",
+    "d": 3
    },
    {
     "id": "hiv-10",
@@ -3103,7 +3252,8 @@
      "Nevirapine 15 mg daily for 6 weeks"
     ],
     "answer": 4,
-    "why": "A low-risk baby (mother on ART with suppressed VL) gets nevirapine 15 mg daily for 6 weeks. The 12-week dual regimen is for high-risk babies."
+    "why": "A low-risk baby (mother on ART with suppressed VL) gets nevirapine 15 mg daily for 6 weeks. The 12-week dual regimen is for high-risk babies.",
+    "d": 2
    },
    {
     "id": "hiv-11",
@@ -3119,7 +3269,8 @@
      "Single-dose nevirapine only"
     ],
     "answer": 2,
-    "why": "Mother found in labour (or VL of 1000 or more, or ART less than 4 weeks) means a high-risk baby: AZT + NVP for 6 weeks, then NVP for 6 weeks."
+    "why": "Mother found in labour (or VL of 1000 or more, or ART less than 4 weeks) means a high-risk baby: AZT + NVP for 6 weeks, then NVP for 6 weeks.",
+    "d": 3
    },
    {
     "id": "hiv-12",
@@ -3135,7 +3286,8 @@
      "Stop breastfeeding at once"
     ],
     "answer": 0,
-    "why": "Maternal antibodies remain in the baby up to 18 months, so an antibody test is not reliable now; DNA PCR is used (and again after weaning)."
+    "why": "Maternal antibodies remain in the baby up to 18 months, so an antibody test is not reliable now; DNA PCR is used (and again after weaning).",
+    "d": 3
    },
    {
     "id": "hiv-13",
@@ -3151,7 +3303,8 @@
      "Exclusive breastfeeding for 6 months while she takes ART"
     ],
     "answer": 4,
-    "why": "Exclusive breastfeeding on maternal ART is safest where diarrhoea and malnutrition kill more babies than HIV; mixed feeding damages the gut and raises transmission."
+    "why": "Exclusive breastfeeding on maternal ART is safest where diarrhoea and malnutrition kill more babies than HIV; mixed feeding damages the gut and raises transmission.",
+    "d": 2
    },
    {
     "id": "hg-emq1",
@@ -3175,22 +3328,26 @@
      {
       "stem": "A 25-year-old at 7 weeks feels sick each morning and vomits once or twice a day. PUQE score 5, urine ketones negative, weight steady.",
       "answer": 0,
-      "why": "PUQE of 6 or less is mild disease, managed at home with diet advice and reassurance."
+      "why": "PUQE of 6 or less is mild disease, managed at home with diet advice and reassurance.",
+      "d": 1
      },
      {
       "stem": "A 28-year-old at 12 weeks has had cyclizine, metoclopramide and ondansetron with fluids and thiamine for 10 days, and is still losing weight.",
       "answer": 2,
-      "why": "After three drug lines fail, steroids come next; TPN and termination are only for when steroids fail."
+      "why": "After three drug lines fail, steroids come next; TPN and termination are only for when steroids fail.",
+      "d": 3
      },
      {
       "stem": "A 30-year-old at 10 weeks has tremor, weight loss, a goitre and lid retraction with proptosis. TSH < 0.01 mU/L, free T4 high, mild nausea only.",
       "answer": 4,
-      "why": "Goitre and eye signs mean Graves' disease; PTU is the drug in the 1st trimester (carbimazole is teratogenic now)."
+      "why": "Goitre and eye signs mean Graves' disease; PTU is the drug in the first trimester (carbimazole is teratogenic now).",
+      "d": 2
      },
      {
       "stem": "A 24-year-old admitted at 9 weeks with severe vomiting has a painful swollen left calf, 3 cm wider than the right, on day 4.",
       "answer": 7,
-      "why": "Dehydration and immobility make DVT likely; start treatment-dose LMWH and then scan."
+      "why": "Dehydration and immobility make DVT likely; start treatment-dose low-molecular-weight heparin and then scan.",
+      "d": 3
      }
     ]
    },
@@ -3214,24 +3371,28 @@
     "lead": "For each woman choose the most appropriate treatment or next step.",
     "items": [
      {
-      "stem": "A 23-year-old at 16 weeks has fever and rigors. RDT positive for P. falciparum. She is alert, eating, Hb 9.6 g/dL, RBG normal.",
+      "stem": "A 23-year-old at 16 weeks has fever and rigors. RDT positive for P. Falciparum. She is alert, eating, Hb 9.6 g/dL, RBG normal.",
       "answer": 7,
-      "why": "Uncomplicated falciparum malaria in any trimester is treated with AL; quinine is used only if no ACT is available."
+      "why": "Uncomplicated falciparum malaria in any trimester is treated with AL; quinine is used only if no ACT is available.",
+      "d": 2
      },
      {
       "stem": "A 26-year-old at 32 weeks has Hb 9.0 g/dL, MCV 68 fL and ferritin 5 µg/L. She tolerates tablets well and has no other illness.",
       "answer": 1,
-      "why": "Iron deficiency in a woman who tolerates tablets, before 34 weeks and with Hb above 9, is treated with oral iron."
+      "why": "Iron deficiency in a woman who tolerates tablets, before 34 weeks and with Hb above 9, is treated with oral iron.",
+      "d": 1
      },
      {
       "stem": "A para 6 at 38 weeks has Hb 6.4 g/dL, MCV 62 fL, and is short of breath on walking.",
       "answer": 3,
-      "why": "Hb below 7 after 36 weeks needs transfusion, slowly, as there is no time for iron to work."
+      "why": "Hb below 7 after 36 weeks needs transfusion, slowly, as there is no time for iron to work.",
+      "d": 2
      },
      {
       "stem": "A 27-year-old strict vegan at 26 weeks has Hb 8.8 g/dL, MCV 112 fL, low serum B12 and normal folate.",
       "answer": 5,
-      "why": "Low B12 is replaced with hydroxocobalamin 1 mg IM first; folate alone could worsen the nerve damage."
+      "why": "Low B12 is replaced with hydroxocobalamin 1 mg IM first; folate alone could worsen the nerve damage.",
+      "d": 2
      }
     ]
    },
@@ -3256,22 +3417,26 @@
      {
       "stem": "A 30-year-old with a mechanical mitral valve has taken warfarin with a good INR from 12 weeks. She is now 36 weeks and well.",
       "answer": 6,
-      "why": "From 36 weeks to birth warfarin is replaced by twice-daily LMWH, so it can be stopped 24 h before birth or epidural; warfarin restarts from day 5 after birth."
+      "why": "From 36 weeks to birth warfarin is replaced by twice-daily low-molecular-weight heparin, so it can be stopped 24 hours before birth or epidural; warfarin restarts from day 5 after birth.",
+      "d": 3
      },
      {
       "stem": "A 37-year-old para 3 with BMI 32 books at 11 weeks with a twin pregnancy. She has no past VTE.",
       "answer": 3,
-      "why": "Age over 35, BMI over 30, parity 3 or more and twins are four risk factors: LMWH for the whole pregnancy and 6 weeks after."
+      "why": "Age over 35, BMI over 30, parity 3 or more and twins are four risk factors: low-molecular-weight heparin for the whole pregnancy and 6 weeks after.",
+      "d": 3
      },
      {
       "stem": "A 29-year-old with BMI 33 has an emergency caesarean in labour. She has no other risk factors.",
       "answer": 1,
-      "why": "Caesarean in labour plus BMI above 30 are two risk factors, so LMWH for 10 days after birth."
+      "why": "Caesarean in labour plus BMI above 30 are two risk factors, so low-molecular-weight heparin for 10 days after birth.",
+      "d": 2
      },
      {
-      "stem": "A 31-year-old at 32 weeks suddenly becomes breathless and collapses. BP 70/40, SpO₂ 80%, JVP raised.",
+      "stem": "A 31-year-old at 32 weeks suddenly becomes breathless and collapses. Blood pressure 70/40 mmHg, oxygen saturation 80%, JVP raised.",
       "answer": 4,
-      "why": "Hypotension with respiratory distress is massive PE: IV UFH and thrombolysis or embolectomy."
+      "why": "Hypotension with respiratory distress is massive PE: IV UFH and thrombolysis or embolectomy.",
+      "d": 2
      }
     ]
    },
@@ -3296,22 +3461,26 @@
      {
       "stem": "A 24-year-old primigravida at 36 weeks has itchy red papules that started inside her abdominal striae, sparing the navel. LFTs and bile acids are normal.",
       "answer": 7,
-      "why": "An itchy rash starting in the striae and sparing the umbilicus is polymorphic eruption; cholestasis has no rash."
+      "why": "An itchy rash starting in the striae and sparing the umbilicus is polymorphic eruption; cholestasis has no rash.",
+      "d": 3
      },
      {
-      "stem": "A 31-year-old at 34 weeks has RUQ pain, BP 160/105 and protein 2+. Platelets 60 × 10⁹/L, LDH 1100 U/L, glucose 5.2 mmol/L, INR normal.",
+      "stem": "A 31-year-old at 34 weeks has RUQ pain, blood pressure 160/105 mmHg and protein 2+. Platelets 60 × 10⁹/L, LDH 1100 U/L, glucose 5.2 mmol/L, INR normal.",
       "answer": 2,
-      "why": "Haemolysis, raised enzymes and low platelets with hypertension is HELLP; normal glucose and INR argue against fatty liver."
+      "why": "Haemolysis, raised enzymes and low platelets with hypertension is HELLP; normal glucose and INR argue against fatty liver.",
+      "d": 2
      },
      {
       "stem": "A 29-year-old at 37 weeks has a routine LFT showing ALP 3 times the non-pregnant range. ALT, bilirubin and bile acids are normal and she has no itch.",
       "answer": 8,
-      "why": "The placenta makes ALP, so an isolated high ALP late in pregnancy is normal."
+      "why": "The placenta makes ALP, so an isolated high ALP late in pregnancy is normal.",
+      "d": 1
      },
      {
-      "stem": "A 33-year-old at 36 weeks has 4 days of vomiting, confusion and jaundice. Glucose 2.4 mmol/L, INR 2.3, urate high, BP 140/90.",
+      "stem": "A 33-year-old at 36 weeks has 4 days of vomiting, confusion and jaundice. Glucose 2.4 mmol/L, INR 2.3, urate high, blood pressure 140/90 mmHg.",
       "answer": 1,
-      "why": "Low glucose and high INR in the 3rd trimester mean a failing liver: acute fatty liver."
+      "why": "Low glucose and high INR in the third trimester mean a failing liver: acute fatty liver.",
+      "d": 2
      }
     ]
    },
@@ -3335,24 +3504,28 @@
     "lead": "For each woman choose the most appropriate immediate drug.",
     "items": [
      {
-      "stem": "A 23-year-old on day 2 after a normal birth has a generalised fit. BP 165/110, urine protein 2+, temperature 37 °C.",
+      "stem": "A 23-year-old on day 2 after a normal birth has a generalised convulsion. Blood pressure 165/110 mmHg, urine protein 2+, temperature 37 °C.",
       "answer": 0,
-      "why": "Eclampsia can occur after birth; MgSO₄ loading then maintenance."
+      "why": "Eclampsia can occur after birth; magnesium sulphate loading then maintenance.",
+      "d": 2
      },
      {
-      "stem": "A 26-year-old with type 1 diabetes at 30 weeks became sweaty and confused, then had a fit. BP 120/75, urine protein negative.",
+      "stem": "A 26-year-old with type 1 diabetes at 30 weeks became sweaty and confused, then had a convulsion. Blood pressure 120/75 mmHg, urine protein negative.",
       "answer": 4,
-      "why": "A fit on insulin with sweating is hypoglycaemia until proven otherwise; give dextrose IV."
+      "why": "A fit on insulin with sweating is hypoglycaemia until proven otherwise; give dextrose IV.",
+      "d": 2
      },
      {
-      "stem": "A known epileptic at 26 weeks is still fitting after two doses of lorazepam 4 mg IV. BP 120/80, urine protein negative, glucose normal.",
+      "stem": "A known epileptic at 26 weeks is still convulsing after two doses of lorazepam 4 mg IV. Blood pressure 120/80 mmHg, urine protein negative, glucose normal.",
       "answer": 3,
-      "why": "Status epilepticus not stopped by a benzodiazepine needs second-line IV phenytoin with ECG monitoring."
+      "why": "Status epilepticus not stopped by a benzodiazepine needs second-line IV phenytoin with ECG monitoring.",
+      "d": 3
      },
      {
-      "stem": "A woman on MgSO₄ 1 g/h after eclampsia is drowsy, has no knee jerks and RR 7/min.",
+      "stem": "A woman on magnesium sulphate 1 g/h after eclampsia is drowsy, has no knee jerks and respiratory rate 7/min.",
       "answer": 7,
-      "why": "Respiratory depression from magnesium toxicity: stop the infusion and give calcium gluconate."
+      "why": "Respiratory depression from magnesium toxicity: stop the infusion and give calcium gluconate.",
+      "d": 2
      }
     ]
    },
@@ -3374,24 +3547,28 @@
     "lead": "For each woman choose the most appropriate plan for delivery.",
     "items": [
      {
-      "stem": "A 29-year-old with type 1 diabetes, HbA1c 6.3%, is 37 weeks. EFW 3.8 kg, liquor normal, no other problems.",
+      "stem": "A 29-year-old with type 1 diabetes, HbA1c 6.3%, is 37 weeks. Estimated fetal weight 3.8 kg, liquor normal, no other problems.",
       "answer": 1,
-      "why": "Pre-existing diabetes is delivered at 38–39+6 weeks, vaginally by induction, unless there is a complication."
+      "why": "Pre-existing diabetes is delivered at 38–39+6 weeks, vaginally by induction, unless there is a complication.",
+      "d": 2
      },
      {
-      "stem": "A 32-year-old with gestational diabetes controlled on diet alone is 38 weeks. EFW 3.4 kg.",
+      "stem": "A 32-year-old with gestational diabetes controlled on diet alone is 38 weeks. Estimated fetal weight 3.4 kg.",
       "answer": 0,
-      "why": "Well-controlled GDM can wait for labour, with delivery by 40+6 weeks."
+      "why": "Well-controlled gestational diabetes can wait for labour, with delivery by 40+6 weeks.",
+      "d": 2
      },
      {
       "stem": "A 25-year-old books at 36 weeks and is diagnosed with HIV. She started ART a week ago; the viral load result is not yet available. She is not in labour.",
       "answer": 2,
-      "why": "Viral load unknown (or 1000 or more) means elective caesarean at 38 weeks with IV zidovudine."
+      "why": "Viral load unknown (or 1000 or more) means elective caesarean at 38 weeks with IV zidovudine.",
+      "d": 3
      },
      {
       "stem": "A 30-year-old at 34 weeks with obstetric cholestasis has a peak bile acid level of 130 µmol/L despite UDCA.",
       "answer": 5,
-      "why": "Bile acids of 100 or more carry a high stillbirth risk; plan delivery at 35–36 weeks."
+      "why": "Bile acids of 100 or more carry a high stillbirth risk; plan delivery at 35–36 weeks.",
+      "d": 3
      }
     ]
    }

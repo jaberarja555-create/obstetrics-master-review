@@ -3337,6 +3337,7 @@ var SM={known:{get:function(){return KNOWN},set:function(v){KNOWN=v;spj('known2'
   upg:{get:function(){return UPG},set:function(v){var o={};Object.keys(v).forEach(function(k){if(v[k])o[k]=v[k]});var ch=JSON.stringify(o)!==JSON.stringify(UPG);UPG=o;spj('upg',UPG);if(ch&&wraps.length){var ck=PKEY[currentPage()];upgRebuild();if(byKey[ck]!==undefined&&!$('reader').hidden){$('scroller').scrollTop=wraps[byKey[ck]].offsetTop-10;onScroll()}}}},
   qb:{get:function(){return QST},set:function(v){QST=v;saveQ()}},
   qbt:{get:function(){var o={};QT.forEach(function(t){o[t.d]=t});return o},set:function(v){QT=Object.keys(v).map(function(k){return v[k]}).filter(function(t){return t&&t.ids}).sort(function(a,b){return a.d-b.d}).slice(-50);saveQ()}},
+  bm:{get:function(){return spj('bm')||{}},set:function(v){spj('bm',v);if(window.__bmSet)window.__bmSet(v)}},
   streak:{get:function(){var S=spj('streak');return S?{s:S}:{}},set:function(v){if(v.s)spj('streak',v.s)}},
   page:{get:function(){var p=sp('pk');return p?{p:p}:{}},set:function(v){if(v.p)sp('pk',v.p)}}};
 var SMU=spj('smu')||{},SMP={};

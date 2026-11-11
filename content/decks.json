@@ -622,157 +622,212 @@
    [
     "Definition",
     "Define hyperemesis gravidarum.",
-    "Vomiting all day in pregnancy so severe she cannot keep up fluids and nutrition: dehydration, ketonuria, electrolyte upset, weight loss > 5%."
+    "Vomiting all day in pregnancy so severe she cannot keep up fluids and nutrition: dehydration, ketonuria, electrolyte upset, weight loss > 5%.",
+    1,
+    "1g2c5yp"
    ],
    [
     "Definition",
     "Morning sickness vs emesis gravidarum?",
-    "Morning sickness = nausea on waking (about 50%). Emesis gravidarum = actual vomiting, but she stays hydrated."
+    "Morning sickness = nausea on waking (about 50%). Emesis gravidarum = actual vomiting, but she stays hydrated.",
+    2,
+    "19re1vz"
    ],
    [
     "Definition",
     "When does pregnancy nausea start and stop?",
-    "Starts 4–6 wk, peaks 9–12 wk with hCG, usually gone by 12–16 wk."
+    "Starts 4–6 weeks, peaks 9–12 weeks with hCG, usually gone by 12–16 weeks.",
+    1,
+    "2zmbmf"
    ],
    [
     "Aetiology",
     "Main theory of the cause of HG?",
-    "High hCG: vomiting peaks with hCG at 9–12 wk."
+    "High hCG: vomiting peaks with hCG at 9–12 weeks.",
+    1,
+    "l4volu"
    ],
    [
     "Risk factors",
     "Two pregnancy conditions that raise hCG and cause HG?",
-    "Multiple pregnancy and molar pregnancy."
+    "Multiple pregnancy and molar pregnancy.",
+    2,
+    "1sa8sio"
    ],
    [
     "Risk factors",
     "Other risk factors for HG?",
-    "Primigravida, previous HG, thyrotoxicosis."
+    "Primigravida, previous HG, thyrotoxicosis.",
+    2,
+    "dzhbm4"
    ],
    [
     "Investigations",
     "Bedside test that shows severity of dehydration in HG?",
-    "Urine dipstick for ketones."
+    "Urine dipstick for ketones.",
+    2,
+    "1vs21eb"
    ],
    [
     "Investigations",
     "Typical U&E in HG?",
-    "↓ Na⁺, ↓ K⁺, ↓ Cl⁻, ↑ urea; FBC shows ↑ haematocrit."
+    "↓ Na⁺, ↓ K⁺, ↓ Cl⁻, ↑ urea; FBC shows ↑ haematocrit.",
+    2,
+    "e7mksh"
    ],
    [
     "Investigations",
     "Acid–base disorder in HG and why?",
-    "Hypochloraemic hypokalaemic metabolic alkalosis: loss of gastric HCl and K⁺ in vomit."
+    "Hypochloraemic hypokalaemic metabolic alkalosis: loss of gastric HCl and K⁺ in vomit.",
+    3,
+    "2w3n4d"
    ],
    [
     "Investigations",
     "Why scan every woman with HG?",
-    "Confirm viability and exclude twins and molar pregnancy."
+    "Confirm viability and exclude twins and molar pregnancy.",
+    2,
+    "t83qtw"
    ],
    [
     "Investigations",
     "LFT changes in HG?",
-    "Raised transaminases and low albumin; settle with treatment."
+    "Raised transaminases and low albumin; settle with treatment.",
+    3,
+    "156aezs"
    ],
    [
     "Investigations",
     "HG with low TSH and high free T4, no goitre. Diagnosis and treatment?",
-    "Gestational transient thyrotoxicosis (hCG stimulates TSH receptor). No antithyroid drugs; settles by about 20 wk."
+    "Gestational transient thyrotoxicosis (hCG stimulates TSH receptor). No antithyroid drugs; settles by about 20 weeks.",
+    3,
+    "e5mief"
    ],
    [
     "Differential",
-    "Vomiting with fever and loin pain at 10 wk?",
-    "Pyelonephritis: send MSU."
+    "Vomiting with fever and loin pain at 10 weeks?",
+    "Pyelonephritis: send MSU.",
+    2,
+    "khyn5v"
    ],
    [
     "Differential",
-    "Vomiting that first starts at 24 wk?",
-    "Not HG. Look for another cause: UTI, hepatitis, pre-eclampsia/HELLP, acute abdomen."
+    "Vomiting that first starts at 24 weeks?",
+    "Not HG. Look for another cause: urinary tract infection, hepatitis, pre-eclampsia/HELLP, acute abdomen.",
+    2,
+    "jetqqf"
    ],
    [
     "Differential",
     "Name five differentials of HG.",
-    "UTI, hepatitis, thyrotoxicosis, molar pregnancy, gastroenteritis, peptic ulcer, DKA, raised ICP."
+    "Urinary tract infection, hepatitis, thyrotoxicosis, molar pregnancy, gastroenteritis, peptic ulcer, DKA, raised ICP.",
+    2,
+    "1fiblvr"
    ],
    [
     "Severity",
     "What is the PUQE score?",
-    "Nausea hours, vomits and retches per day, each 1–5. ≤ 6 mild, 7–11 moderate, ≥ 12 severe."
+    "Nausea hours, vomits and retches per day, each 1–5. ≤ 6 mild, 7–11 moderate, ≥ 12 severe.",
+    2,
+    "1obxrqj"
    ],
    [
     "Complications",
     "Most dangerous neurological complication of HG?",
-    "Wernicke encephalopathy from thiamine (B1) deficiency: confusion, ataxia, eye signs."
+    "Wernicke encephalopathy from thiamine (B1) deficiency: confusion, ataxia, eye signs.",
+    2,
+    "gg1yze"
    ],
    [
     "Complications",
     "Risk of correcting hyponatraemia too fast?",
-    "Central pontine myelinolysis. Raise Na⁺ by no more than 10 mmol/L per 24 h."
+    "Central pontine myelinolysis. Raise Na⁺ by no more than 10 mmol/L per 24 hours.",
+    3,
+    "lyt893"
    ],
    [
     "Complications",
     "Haematemesis after repeated retching in HG?",
-    "Mallory-Weiss tear."
+    "Mallory-Weiss tear.",
+    2,
+    "1njm2b7"
    ],
    [
     "Complications",
-    "Why give LMWH to an admitted woman with HG?",
-    "Dehydration and immobility in pregnancy raise VTE risk."
+    "Why give low-molecular-weight heparin to an admitted woman with HG?",
+    "Dehydration and immobility in pregnancy raise VTE risk.",
+    2,
+    "gmgpsx"
    ],
    [
     "Complications",
     "Fetal complications of HG?",
-    "Low birth weight / IUGR; fetal death if Wernicke develops."
+    "Low birth weight / IUGR; fetal death if Wernicke develops.",
+    2,
+    "1y6eroi"
    ],
    [
     "Management",
     "When to admit a woman with HG?",
-    "Cannot keep down oral fluids or drugs, ketonuria, weight loss, electrolyte upset, or coexisting illness."
+    "Cannot keep down oral fluids or drugs, ketonuria, weight loss, electrolyte upset, or coexisting illness.",
+    1,
+    "uqbnal"
    ],
    [
     "Management",
     "IV fluid of choice in HG?",
-    "0.9% saline with KCl guided by daily U&E. No dextrose before thiamine."
+    "0.9% saline with KCl guided by daily U&E. No dextrose before thiamine.",
+    1,
+    "h9yjxg"
    ],
    [
     "Management",
     "Why no dextrose before thiamine?",
-    "Glucose metabolism uses up remaining thiamine and can precipitate Wernicke encephalopathy."
+    "Glucose metabolism uses up remaining thiamine and can precipitate Wernicke encephalopathy.",
+    3,
+    "p2qkb0"
    ],
    [
     "Management",
     "Thiamine in HG?",
-    "Thiamine 100 mg IV before any dextrose, then oral; add pyridoxine (B6)."
+    "Thiamine 100 mg IV before any dextrose, then oral; add pyridoxine (B6).",
+    2,
+    "16zv0me"
    ],
    [
     "Drugs",
     "First-line antiemetics in HG?",
-    "Promethazine 25 mg or cyclizine 50 mg 8-hourly."
+    "Promethazine 25 mg or cyclizine 50 mg 8-hourly.",
+    1,
+    "10fdd6c"
    ],
    [
     "Drugs",
     "Second-line antiemetics in HG?",
-    "Metoclopramide 10 mg or domperidone 10 mg 8-hourly. Metoclopramide ≤ 5 days (dystonia)."
+    "Metoclopramide 10 mg or domperidone 10 mg 8-hourly. Metoclopramide ≤ 5 days (dystonia).",
+    2,
+    "8jyc54"
    ],
    [
     "Drugs",
     "Third-line antiemetic in HG?",
-    "Ondansetron 4–8 mg 8–12-hourly."
+    "Ondansetron 4–8 mg 8–12-hourly.",
+    2,
+    "12vqfho"
    ],
    [
     "Drugs",
     "Vomiting resistant to three antiemetic lines?",
-    "Corticosteroids: hydrocortisone 100 mg IV 12-hourly, then oral prednisolone tapered."
+    "Corticosteroids: hydrocortisone 100 mg IV 12-hourly, then oral prednisolone tapered.",
+    3,
+    "11z1jk6"
    ],
    [
     "Management",
     "Steps after steroids fail?",
-    "Total parenteral nutrition; termination of pregnancy as the last resort."
-   ],
-   [
-    "Practice",
-    "First imaging in every woman with hyperemesis, and why?",
-    "Ultrasound: exclude twins and molar pregnancy."
+    "Total parenteral nutrition; termination of pregnancy as the last resort.",
+    3,
+    "1pdfiph"
    ]
   ]
  },
@@ -782,192 +837,254 @@
    [
     "Numbers",
     "Definition of anaemia in pregnancy?",
-    "Hb < 11 g/dL in the 1st trimester; < 10.5 g/dL in the 2nd and 3rd trimesters."
+    "Hb < 11 g/dL in the first trimester; < 10.5 g/dL in the 2nd and third trimesters.",
+    1,
+    "16fybgl"
    ],
    [
     "Numbers",
     "Severity bands of anaemia in pregnancy?",
-    "Mild 10–10.9, moderate 7–9.9, severe < 7, very severe < 4 g/dL."
+    "Mild 10–10.9, moderate 7–9.9, severe < 7, very severe < 4 g/dL.",
+    1,
+    "1gcul0d"
    ],
    [
     "Numbers",
     "Postpartum anaemia cut-off?",
-    "Hb < 10 g/dL."
+    "Hb < 10 g/dL.",
+    2,
+    "s16t0c"
    ],
    [
     "Definitions",
     "What is physiological anaemia of pregnancy?",
-    "Dilutional Hb fall to about 10.5–11 g/dL in the 2nd trimester with normal MCV and ferritin; no treatment."
+    "Dilutional Hb fall to about 10.5–11 g/dL in the second trimester with normal MCV and ferritin; no treatment.",
+    1,
+    "1ibdohy"
    ],
    [
     "Why",
     "Why does Hb fall in normal pregnancy?",
-    "Plasma volume rises 40–50% but red cell mass only 20–30%, so the blood is diluted."
+    "Plasma volume rises 40–50% but red cell mass only 20–30%, so the blood is diluted.",
+    2,
+    "10tm0wu"
    ],
    [
     "Numbers",
     "Total extra iron needed over one pregnancy?",
-    "About 1000 mg: fetus and placenta 300, extra red cells 450, losses 200."
+    "About 1000 mg: fetus and placenta 300, extra red cells 450, losses 200.",
+    3,
+    "1see861"
    ],
    [
     "Causes",
     "Commonest anaemia in pregnancy?",
-    "Iron deficiency, about 80–90% of cases."
+    "Iron deficiency, about 80–90% of cases.",
+    1,
+    "1tqb7ss"
    ],
    [
     "Causes",
     "Commonest cause of macrocytic anaemia in pregnancy?",
-    "Folate deficiency."
+    "Folate deficiency.",
+    1,
+    "ea98re"
    ],
    [
     "Tests",
     "Best single test of iron stores?",
-    "Serum ferritin; < 15 µg/L confirms iron deficiency."
+    "Serum ferritin; < 15 µg/L confirms iron deficiency.",
+    1,
+    "1cst64s"
    ],
    [
     "Why",
     "Why can ferritin give a false result in infection?",
-    "It is an acute-phase protein, so it rises and can look normal even when iron is low."
+    "It is an acute-phase protein, so it rises and can look normal even when iron is low.",
+    3,
+    "1xz28qu"
    ],
    [
     "Tests",
     "Microcytic anaemia with normal ferritin: likely diagnosis and test?",
-    "Thalassaemia trait; Hb electrophoresis showing HbA2 > 3.5%."
+    "Thalassaemia trait; Hb electrophoresis showing HbA2 > 3.5%.",
+    3,
+    "12jxd9h"
    ],
    [
     "Tests",
     "Mentzer index and its cut-off?",
-    "MCV ÷ RBC count: < 13 suggests thalassaemia trait, > 13 suggests iron deficiency."
+    "MCV ÷ RBC count: < 13 suggests thalassaemia trait, > 13 suggests iron deficiency.",
+    3,
+    "4mn7oh"
    ],
    [
     "Tests",
     "Film in megaloblastic anaemia?",
-    "Macro-ovalocytes and hypersegmented neutrophils."
+    "Macro-ovalocytes and hypersegmented neutrophils.",
+    2,
+    "1epnmq5"
    ],
    [
     "Tests",
     "Film in iron deficiency?",
-    "Hypochromic microcytic cells and pencil cells."
+    "Hypochromic microcytic cells and pencil cells.",
+    2,
+    "18ir55p"
    ],
    [
     "Drugs",
     "Folic acid dose for all pregnant women and for how long?",
-    "0.4 mg daily from before conception to 12 weeks."
+    "0.4 mg daily from before conception to 12 weeks.",
+    1,
+    "p3pkef"
    ],
    [
     "Drugs",
     "Who needs high-dose folic acid (5 mg)?",
-    "Previous NTD, anti-epileptics, diabetes, obesity, sickle cell, thalassaemia, twins."
+    "Previous NTD, anti-epileptics, diabetes, obesity, sickle cell, thalassaemia, twins.",
+    2,
+    "v69aw0"
    ],
    [
     "Drugs",
     "First-line oral iron and dose?",
-    "Ferrous sulphate 200 mg (65 mg elemental iron) two or three times daily."
+    "Ferrous sulphate 200 mg (65 mg elemental iron) two or three times daily.",
+    1,
+    "1h3mk4k"
    ],
    [
     "Drugs",
     "How should oral iron be taken?",
-    "One hour before food with vitamin C or orange juice; not with tea, milk or antacids."
+    "One hour before food with vitamin C or orange juice; not with tea, milk or antacids.",
+    2,
+    "4n9w9e"
    ],
    [
     "Numbers",
     "Expected response to oral iron?",
-    "Reticulocytes rise at 7–10 days; Hb rises about 1 g/dL per week. Recheck at 3 weeks."
+    "Reticulocytes rise at 7–10 days; Hb rises about 1 g/dL per week. Recheck at 3 weeks.",
+    2,
+    "16tnbf7"
    ],
    [
     "Drugs",
     "How long to continue iron after Hb is normal?",
-    "Three more months to refill stores."
+    "Three more months to refill stores.",
+    2,
+    "u0gvis"
    ],
    [
     "Why",
     "Causes of failed response to oral iron?",
-    "Poor adherence, wrong diagnosis (thal, folate, B12), ongoing loss (hookworm, bleeding), malabsorption."
+    "Poor adherence, wrong diagnosis (thal, folate, B12), ongoing loss (hookworm, bleeding), malabsorption.",
+    2,
+    "xv0xzv"
    ],
    [
     "Drugs",
     "Indications for parenteral iron?",
-    "Oral intolerance, non-adherence, malabsorption, or Hb 7–9.9 presenting late (after about 34 weeks). Not in 1st trimester."
+    "Oral intolerance, non-adherence, malabsorption, or Hb 7–9.9 presenting late (after about 34 weeks). Not in first trimester.",
+    2,
+    "1bugyhl"
    ],
    [
     "Drugs",
     "IV iron sucrose dose?",
-    "200 mg in 100–200 mL saline over 30 min, 2–3 times a week to the total dose."
+    "200 mg in 100–200 mL saline over 30 min, 2–3 times a week to the total dose.",
+    3,
+    "rso1t9"
    ],
    [
     "Drugs",
     "Main precaution with IV iron dextran?",
-    "Test dose and anaphylaxis readiness (adrenaline); observe for 1 hour."
+    "Test dose and anaphylaxis readiness (adrenaline); observe for 1 hour.",
+    3,
+    "40klkb"
    ],
    [
     "Cases",
     "Para 8, 37 weeks, Hb 6 g/dL, breathless, MCV 58. Management?",
-    "Severe iron deficiency late in pregnancy: transfuse packed red cells slowly with furosemide."
+    "Severe iron deficiency late in pregnancy: transfuse packed red cells slowly with furosemide.",
+    3,
+    "11jmrxl"
    ],
    [
     "Cases",
     "28 weeks, Hb 6.5 g/dL, no heart failure. Plan?",
-    "Admit, find cause, give iron (oral or IV), treat malaria and worms, weekly Hb."
+    "Admit, find cause, give iron (oral or IV), treat malaria and worms, weekly Hb.",
+    2,
+    "2ibfj"
    ],
    [
     "Numbers",
     "Transfusion triggers in anaemic pregnancy?",
-    "Hb < 7 after 36 weeks, heart failure or Hb < 5 at any gestation, bleeding, sepsis, labour or CS."
+    "Hb < 7 after 36 weeks, heart failure or Hb < 5 at any gestation, bleeding, sepsis, labour or caesarean section.",
+    2,
+    "1o51qkm"
    ],
    [
     "Why",
     "Why packed cells, not whole blood, in severe anaemia?",
-    "Whole blood gives too much volume and can precipitate heart failure."
+    "Whole blood gives too much volume and can precipitate heart failure.",
+    3,
+    "14vby73"
    ],
    [
     "Drugs",
     "Transfusion rate and diuretic in severe anaemia?",
-    "One unit over 3–4 hours; furosemide 20–40 mg IV with the unit if overload."
+    "One unit over 3–4 hours; furosemide 20–40 mg IV with the unit if overload.",
+    3,
+    "12dqocc"
    ],
    [
     "Numbers",
     "How much does one unit of packed cells raise Hb?",
-    "About 1 g/dL."
+    "About 1 g/dL.",
+    2,
+    "ndqntx"
    ],
    [
     "Complications",
     "Main maternal dangers of severe anaemia?",
-    "High-output heart failure, poor tolerance of PPH, puerperal sepsis."
+    "High-output heart failure, poor tolerance of PPH, puerperal sepsis.",
+    2,
+    "pkdobv"
    ],
    [
     "Complications",
     "Does iron deficiency cause malformations?",
-    "No. Neural tube defects are linked to folate deficiency."
+    "No. Neural tube defects are linked to folate deficiency.",
+    2,
+    "z7k2si"
    ],
    [
     "Drugs",
     "Treatment of B12 deficiency and the key rule?",
-    "Hydroxocobalamin 1 mg IM; give B12 before folate, as folate alone can worsen nerve damage."
+    "Hydroxocobalamin 1 mg IM; give B12 before folate, as folate alone can worsen nerve damage.",
+    3,
+    "846fn5"
    ],
    [
     "Cases",
     "Sickle cell disease in pregnancy: routine supplements?",
-    "Folic acid 5 mg daily; no iron unless ferritin is low."
+    "Folic acid 5 mg daily; no iron unless ferritin is low.",
+    3,
+    "xbjlki"
    ],
    [
     "Cases",
     "Both partners carry β-thal trait. Risk to baby?",
-    "25% thalassaemia major; offer counselling and prenatal diagnosis."
+    "25% thalassaemia major; offer counselling and prenatal diagnosis.",
+    2,
+    "13rxu4g"
    ],
    [
     "Sudan",
     "Pale, febrile pregnant woman with big spleen in Sudan: first thought and drug?",
-    "Malaria; treat per national protocol, artemether-lumefantrine first line."
-   ],
-   [
-    "Practice",
-    "Commonest cause of anaemia in pregnancy? Commonest macrocytic one?",
-    "Iron deficiency · folate deficiency."
-   ],
-   [
-    "Practice",
-    "First lab sign that oral iron is working, and when?",
-    "Reticulocytes rise at 7–10 days."
+    "Malaria; treat per national protocol, artemether-lumefantrine first line.",
+    2,
+    "1ahafe0"
    ]
   ]
  },
@@ -977,182 +1094,226 @@
    [
     "Definition",
     "What does VTE include?",
-    "Deep vein thrombosis and pulmonary embolism."
+    "Deep vein thrombosis and pulmonary embolism.",
+    1,
+    "hh0l0b"
    ],
    [
     "Definition",
     "When is VTE risk highest?",
-    "Postpartum, especially the first 6 weeks and after caesarean section; most fatal PEs occur after birth."
+    "Postpartum, especially the first 6 weeks and after caesarean section; most fatal PEs occur after birth.",
+    1,
+    "1xmciir"
    ],
    [
     "Pathophysiology",
     "Virchow's triad in pregnancy?",
-    "Hypercoagulability (↑ fibrinogen, VII, VIII, X; ↓ protein S, fibrinolysis), venous stasis, vessel injury at delivery."
+    "Hypercoagulability (↑ fibrinogen, VII, VIII, X; ↓ protein S, fibrinolysis), venous stasis, vessel injury at delivery.",
+    2,
+    "1gez9ub"
    ],
    [
     "Pathophysiology",
     "Why is pregnancy DVT mostly left-sided?",
-    "Right common iliac artery crosses and compresses the left iliac vein; about 75% are left."
+    "Right common iliac artery crosses and compresses the left iliac vein; about 75% are left.",
+    3,
+    "8lf4if"
    ],
    [
     "Risk factors",
     "Name pre-existing VTE risk factors.",
-    "Previous VTE, thrombophilia, age > 35, BMI > 30, parity ≥ 3, smoking, varicose veins, malignancy."
+    "Previous VTE, thrombophilia, age > 35, BMI > 30, parity ≥ 3, smoking, varicose veins, malignancy.",
+    2,
+    "98yhgs"
    ],
    [
     "Risk factors",
     "Name obstetric VTE risk factors.",
-    "Caesarean, pre-eclampsia, multiple pregnancy, prolonged labour, induction, PPH/APH, IUFD, PROM, IVF."
+    "Caesarean, pre-eclampsia, multiple pregnancy, prolonged labour, induction, PPH/APH, intrauterine fetal death, prelabour rupture of membranes, IVF.",
+    2,
+    "1i4hit2"
    ],
    [
     "Thrombophilia",
     "Inherited thrombophilia with the highest VTE risk?",
-    "Antithrombin III deficiency."
+    "Antithrombin III deficiency.",
+    3,
+    "1a9bbrw"
    ],
    [
     "Thrombophilia",
     "Commonest inherited thrombophilia?",
-    "Factor V Leiden."
+    "Factor V Leiden.",
+    2,
+    "8ghqry"
    ],
    [
     "Thrombophilia",
     "Main acquired thrombophilia?",
-    "Antiphospholipid syndrome."
+    "Antiphospholipid syndrome.",
+    1,
+    "1fnyyem"
    ],
    [
     "Clinical",
     "Classic DVT presentation in pregnancy?",
-    "Unilateral (usually left) leg pain and swelling, calf > 2 cm wider; iliofemoral clot may cause abdominal pain."
+    "Unilateral (usually left) leg pain and swelling, calf > 2 cm wider; iliofemoral clot may cause abdominal pain.",
+    1,
+    "1qazivn"
    ],
    [
     "Clinical",
     "PE symptoms and signs?",
-    "Breathlessness, pleuritic chest pain, haemoptysis, collapse; tachycardia, tachypnoea, low SpO₂."
+    "Breathlessness, pleuritic chest pain, haemoptysis, collapse; tachycardia, tachypnoea, low oxygen saturation.",
+    1,
+    "h5kf6l"
    ],
    [
     "Clinical",
     "Features of massive PE?",
-    "Hypotension, respiratory distress, raised JVP, cyanosis, collapse."
+    "Hypotension, respiratory distress, raised JVP, cyanosis, collapse.",
+    2,
+    "1bl30co"
    ],
    [
     "Investigations",
     "First step when DVT or PE is suspected?",
-    "Start treatment-dose LMWH before tests, unless contraindicated."
+    "Start treatment-dose low-molecular-weight heparin before tests, unless contraindicated.",
+    2,
+    "1toluc1"
    ],
    [
     "Investigations",
     "Test of choice for DVT?",
-    "Duplex (compression) ultrasound of the leg veins."
+    "Duplex (compression) ultrasound of the leg veins.",
+    1,
+    "1xea6ew"
    ],
    [
     "Investigations",
     "Duplex negative but suspicion high?",
-    "Continue LMWH and repeat the scan on day 4 and day 7."
+    "Continue low-molecular-weight heparin and repeat the scan on day 4 and day 7.",
+    3,
+    "1h3k29u"
    ],
    [
     "Investigations",
     "Is D-dimer useful in pregnancy?",
-    "No: it rises in normal pregnancy, so a positive result means nothing."
+    "No: it rises in normal pregnancy, so a positive result means nothing.",
+    2,
+    "lx0v65"
    ],
    [
     "Investigations",
     "Commonest ECG finding in PE?",
-    "Sinus tachycardia. S1Q3T3 is classic but uncommon and not diagnostic."
+    "Sinus tachycardia. S1Q3T3 is classic but uncommon and not diagnostic.",
+    2,
+    "1e4qjoi"
    ],
    [
     "Investigations",
     "Role of CXR in suspected PE?",
-    "Excludes other causes and chooses the scan: normal → V/Q; abnormal → CTPA."
+    "Excludes other causes and chooses the scan: normal → V/Q; abnormal → CTPA.",
+    2,
+    "hq9ao7"
    ],
    [
     "Investigations",
     "CTPA vs V/Q radiation?",
-    "CTPA: higher maternal breast dose, lower fetal. V/Q: slightly higher fetal, lower breast. Both fetal doses tiny."
+    "CTPA: higher maternal breast dose, lower fetal. V/Q: slightly higher fetal, lower breast. Both fetal doses tiny.",
+    3,
+    "1qpehkb"
    ],
    [
     "Investigations",
     "Suspected PE with leg symptoms: first imaging?",
-    "Duplex of the legs; a DVT confirms VTE and avoids chest imaging."
+    "Duplex of the legs; a DVT confirms VTE and avoids chest imaging.",
+    3,
+    "j7wsgi"
    ],
    [
     "Management",
     "Anticoagulant of choice in pregnancy and why?",
-    "LMWH: does not cross the placenta, no routine monitoring, less bleeding, HIT and osteoporosis."
+    "Low-molecular-weight heparin: does not cross the placenta, no routine monitoring, less bleeding, HIT and osteoporosis.",
+    1,
+    "1fxjqd0"
    ],
    [
     "Drugs",
     "Treatment dose of enoxaparin?",
-    "1 mg/kg twice daily by booking weight (e.g. 70–89 kg: 80 mg bd)."
+    "1 mg/kg twice daily by booking weight (e.g. 70–89 kg: 80 mg bd).",
+    2,
+    "zvtq3e"
    ],
    [
     "Drugs",
     "Prophylactic dose of enoxaparin?",
-    "40 mg once daily for 50–90 kg; 20 mg if < 50 kg; 60 mg if 91–130 kg."
+    "40 mg once daily for 50–90 kg; 20 mg if < 50 kg; 60 mg if 91–130 kg.",
+    2,
+    "145328m"
    ],
    [
     "Management",
     "Duration of VTE treatment in pregnancy?",
-    "Rest of pregnancy plus at least 6 weeks postpartum; at least 3 months in total."
+    "Rest of pregnancy plus at least 6 weeks postpartum; at least 3 months in total.",
+    2,
+    "si8t9r"
    ],
    [
     "Drugs",
     "Why avoid warfarin in pregnancy?",
-    "Crosses the placenta: embryopathy at 6–12 wk (nasal hypoplasia, stippled epiphyses), later fetal bleeding."
+    "Crosses the placenta: embryopathy at 6–12 weeks (nasal hypoplasia, stippled epiphyses), later fetal bleeding.",
+    2,
+    "ywj1j8"
    ],
    [
     "Management",
-    "Regional anaesthesia timing after LMWH?",
-    "≥ 12 h after a prophylactic dose, ≥ 24 h after a treatment dose. Avoid on IV heparin."
+    "Regional anaesthesia timing after low-molecular-weight heparin?",
+    "≥ 12 hours after a prophylactic dose, ≥ 24 hours after a treatment dose. Avoid on IV heparin.",
+    3,
+    "23s5ko"
    ],
    [
     "Management",
     "Switching to warfarin postpartum?",
-    "Overlap with LMWH until INR 2–3 on two days (at least 5 days). Safe in breastfeeding."
+    "Overlap with low-molecular-weight heparin until INR 2–3 on two days (at least 5 days). Safe in breastfeeding.",
+    3,
+    "1e8ctgb"
    ],
    [
     "Management",
     "Treatment of massive PE?",
-    "Resuscitate, IV unfractionated heparin (5000 IU bolus then 1000–2000 IU/h), thrombolysis or embolectomy."
+    "Resuscitate, IV unfractionated heparin (5000 IU bolus then 1000–2000 IU/h), thrombolysis or embolectomy.",
+    3,
+    "ts9b1p"
    ],
    [
     "Management",
     "Indications for an IVC filter?",
-    "Anticoagulation contraindicated, or recurrent PE despite adequate anticoagulation."
+    "Anticoagulation contraindicated, or recurrent PE despite adequate anticoagulation.",
+    3,
+    "14b6oa2"
    ],
    [
     "Drugs",
     "Antidote to heparin?",
-    "Protamine sulphate: complete for UFH, partial for LMWH."
+    "Protamine sulphate: complete for UFH, partial for low-molecular-weight heparin.",
+    1,
+    "15iaa8p"
    ],
    [
     "Prevention",
     "Thromboprophylaxis with 3 risk factors?",
-    "LMWH from 28 wk until 6 wk postpartum."
+    "Low-molecular-weight heparin from 28 weeks until 6 weeks postpartum.",
+    3,
+    "fzylhx"
    ],
    [
     "Prevention",
     "Thromboprophylaxis with ≥ 4 risk factors or previous unprovoked VTE?",
-    "LMWH throughout pregnancy and 6 wk postpartum."
-   ],
-   [
-    "Practice",
-    "Which inherited thrombophilia carries the highest VTE risk in pregnancy?",
-    "Antithrombin III deficiency."
-   ],
-   [
-    "Practice",
-    "Why is DVT in pregnancy usually in the left leg?",
-    "Right common iliac artery compresses the left iliac vein."
-   ],
-   [
-    "Practice",
-    "Which PE scan gives the higher radiation dose to the maternal breast?",
-    "CTPA (V/Q gives the fetus slightly more)."
-   ],
-   [
-    "Practice",
-    "How long to anticoagulate a DVT found at 30 wk?",
-    "Rest of pregnancy + ≥ 6 wk postpartum (≥ 3 months total)."
+    "Low-molecular-weight heparin throughout pregnancy and 6 weeks postpartum.",
+    3,
+    "179zoib"
    ]
   ]
  },
@@ -1161,208 +1322,262 @@
   "cards": [
    [
     "Definitions",
-    "What is gestational diabetes (GDM)?",
-    "Glucose intolerance first recognised in pregnancy, usually from 20–24 wk, below overt diabetes levels; usually resolves after birth."
+    "What is gestational diabetes (gestational diabetes)?",
+    "Glucose intolerance first recognised in pregnancy, usually from 20–24 weeks, below overt diabetes levels; usually resolves after birth.",
+    1,
+    "rmylky"
    ],
    [
     "Definitions",
     "What is overt diabetes in pregnancy?",
-    "Diabetes first found in pregnancy at diabetic levels (fasting ≥ 7.0 or 2 h ≥ 11.1 mmol/L); treat as pre-existing."
+    "Diabetes first found in pregnancy at diabetic levels (fasting ≥ 7.0 or 2 hours ≥ 11.1 mmol/L); treat as pre-existing.",
+    2,
+    "o56p6"
    ],
    [
     "Numbers",
-    "What proportion of diabetes in pregnancy is GDM?",
-    "About 85–90%."
+    "What proportion of diabetes in pregnancy is gestational diabetes?",
+    "About 85–90%.",
+    1,
+    "gy0mr9"
    ],
    [
     "Why",
     "Why does insulin resistance develop in pregnancy?",
-    "Placental hormones (hPL, cortisol, progesterone, oestrogen) and placental insulinase rise from about 20 wk."
+    "Placental hormones (hPL, cortisol, progesterone, oestrogen) and placental insulinase rise from about 20 weeks.",
+    2,
+    "pzdtew"
    ],
    [
     "Why",
     "State the Pedersen hypothesis.",
-    "Maternal glucose crosses the placenta, insulin does not → fetal hyperinsulinaemia → macrosomia, organomegaly, delayed lung maturity."
+    "Maternal glucose crosses the placenta, insulin does not → fetal hyperinsulinaemia → macrosomia, organomegaly, delayed lung maturity.",
+    2,
+    "vjx634"
    ],
    [
     "Why",
     "Why does the neonate become hypoglycaemic?",
-    "After cord clamping maternal glucose supply stops but fetal insulin stays high."
+    "After cord clamping maternal glucose supply stops but fetal insulin stays high.",
+    2,
+    "1bjxlma"
    ],
    [
     "Why",
-    "Why does GDM not cause congenital anomalies?",
-    "It starts after organogenesis (weeks 3–8), when organs have already formed."
+    "Why does gestational diabetes not cause congenital anomalies?",
+    "It starts after organogenesis (weeks 3–8), when organs have already formed.",
+    3,
+    "axdzp3"
    ],
    [
     "Why",
     "Why does the baby of a diabetic mother get RDS?",
-    "Fetal hyperinsulinaemia delays surfactant production and lung maturity."
+    "Fetal hyperinsulinaemia delays surfactant production and lung maturity.",
+    3,
+    "1823u7k"
    ],
    [
     "Why",
     "What happens to insulin need after the placenta is delivered?",
-    "Falls sharply at once; risk of maternal hypoglycaemia, so reduce the dose."
+    "Falls sharply at once; risk of maternal hypoglycaemia, so reduce the dose.",
+    2,
+    "7jiwqa"
    ],
    [
     "Risk factors",
-    "Name four strong risk factors for GDM.",
-    "Previous GDM, BMI > 30, previous macrosomic baby, first-degree relative with diabetes (also high-prevalence ethnic group)."
+    "Name four strong risk factors for gestational diabetes.",
+    "Previous gestational diabetes, BMI > 30, previous macrosomic baby, first-degree relative with diabetes (also high-prevalence ethnic group).",
+    1,
+    "1pbqun2"
    ],
    [
     "Features",
     "Why is glycosuria a poor screening test in pregnancy?",
-    "The renal threshold for glucose falls in pregnancy."
+    "The renal threshold for glucose falls in pregnancy.",
+    2,
+    "1av8mq6"
    ],
    [
     "Investigations",
-    "When is the OGTT done in a woman with risk factors (no previous GDM)?",
-    "At 24–28 weeks."
+    "When is the OGTT done in a woman with risk factors (no previous gestational diabetes)?",
+    "At 24–28 weeks.",
+    2,
+    "1b01c0a"
    ],
    [
     "Investigations",
-    "When is the OGTT done after a previous GDM?",
-    "At 16 wk; repeat at 24–28 wk if normal."
+    "When is the OGTT done after a previous gestational diabetes?",
+    "At 16 weeks; repeat at 24–28 weeks if normal.",
+    2,
+    "iaiy68"
    ],
    [
     "Numbers",
-    "75 g OGTT cut-offs for GDM?",
-    "Fasting ≥ 5.6 or 2 h ≥ 7.8 mmol/L; either value is enough."
+    "75 g OGTT cut-offs for gestational diabetes?",
+    "Fasting ≥ 5.6 or 2 hours ≥ 7.8 mmol/L; either value is enough.",
+    2,
+    "1n5mt9m"
    ],
    [
     "Numbers",
     "Fasting glucose level of overt diabetes in pregnancy?",
-    "≥ 7.0 mmol/L (126 mg/dL)."
+    "≥ 7.0 mmol/L (126 mg/dL).",
+    2,
+    "oq7is1"
    ],
    [
     "Sudan",
     "No OGTT available in Sudan: how do you test?",
-    "Fasting plus 2 h post-prandial glucose on a laboratory sample; not urine dipstick."
+    "Fasting plus 2 hours post-prandial glucose on a laboratory sample; not urine dipstick.",
+    2,
+    "sok6e9"
    ],
    [
     "Investigations",
     "When are the anomaly scan and fetal echo done in pre-existing diabetes?",
-    "At 18–20 weeks."
+    "At 18–20 weeks.",
+    3,
+    "18xt7bv"
    ],
    [
     "Complications",
     "Commonest congenital anomaly in diabetic pregnancy?",
-    "Cardiac anomalies."
+    "Cardiac anomalies.",
+    2,
+    "94r530"
    ],
    [
     "Complications",
     "Most characteristic anomaly of maternal diabetes?",
-    "Caudal regression syndrome (sacral agenesis)."
+    "Caudal regression syndrome (sacral agenesis).",
+    2,
+    "4ttaq4"
    ],
    [
     "Complications",
     "Commonest neonatal problem in infants of diabetic mothers?",
-    "Hypoglycaemia."
+    "Hypoglycaemia.",
+    1,
+    "1acbpx9"
    ],
    [
     "Complications",
-    "Long-term maternal risk after GDM?",
-    "Type 2 diabetes: about 50% within 10 years."
+    "Long-term maternal risk after gestational diabetes?",
+    "Type 2 diabetes: about 50% within 10 years.",
+    1,
+    "1p84xgz"
    ],
    [
     "Complications",
     "When does a diabetic mother get IUGR instead of macrosomia?",
-    "When she has vascular disease or nephropathy."
+    "When she has vascular disease or nephropathy.",
+    3,
+    "h686dm"
    ],
    [
     "Numbers",
     "Glucose targets in pregnancy?",
-    "Fasting < 5.3, 1 h after meal < 7.8, 2 h after meal < 6.4 mmol/L."
+    "Fasting < 5.3, 1 hour after meal < 7.8, 2 hours after meal < 6.4 mmol/L.",
+    2,
+    "1newil"
    ],
    [
     "Drugs",
     "Pre-conception folic acid dose in diabetes?",
-    "5 mg daily from 3 months before conception until 12 weeks."
+    "5 mg daily from 3 months before conception until 12 weeks.",
+    1,
+    "15ocv3u"
    ],
    [
     "Drugs",
     "Which drugs must be stopped before pregnancy in a diabetic woman?",
-    "ACE inhibitors, ARBs and statins (teratogenic)."
+    "ACE inhibitors, ARBs and statins (teratogenic).",
+    2,
+    "voe1rz"
    ],
    [
     "Drugs",
-    "Metformin dose in GDM?",
-    "500 mg daily with food, increased to 500 mg 8-hourly; maximum 2 g/day."
+    "Metformin dose in gestational diabetes?",
+    "500 mg daily with food, increased to 500 mg 8-hourly; maximum 2 g/day.",
+    2,
+    "xmiwgy"
    ],
    [
     "Drugs",
-    "When is insulin started directly in GDM?",
-    "Fasting glucose ≥ 7 mmol/L at diagnosis, or failure of diet and metformin."
+    "When is insulin started directly in gestational diabetes?",
+    "Fasting glucose ≥ 7 mmol/L at diagnosis, or failure of diet and metformin.",
+    3,
+    "yf6fid"
    ],
    [
     "Drugs",
-    "Starting insulin dose in GDM?",
-    "0.2 U/kg/day, adjusted every 2–3 days by the glucose chart."
+    "Starting insulin dose in gestational diabetes?",
+    "0.2 U/kg/day, adjusted every 2–3 days by the glucose chart.",
+    3,
+    "12q2h6l"
    ],
    [
     "Drugs",
-    "Why give aspirin 75 mg from 12 wk in diabetes?",
-    "To reduce the risk of pre-eclampsia."
+    "Why give aspirin 75 mg from 12 weeks in diabetes?",
+    "To reduce the risk of pre-eclampsia.",
+    2,
+    "1f91oxh"
    ],
    [
     "Management",
-    "Timing of delivery in pre-existing diabetes vs GDM?",
-    "Pre-existing 38 to 39+6 wk; well-controlled GDM 38 to 40+6 wk."
+    "Timing of delivery in pre-existing diabetes vs gestational diabetes?",
+    "Pre-existing 38 to 39+6 weeks; well-controlled gestational diabetes 38 to 40+6 weeks.",
+    2,
+    "u8dzum"
    ],
    [
     "Management",
-    "Diabetic woman, EFW 4.7 kg at 38 wk. Plan?",
-    "Offer elective caesarean section (shoulder dystocia risk)."
+    "Diabetic woman, estimated fetal weight 4.7 kg at 38 weeks. Plan?",
+    "Offer elective caesarean section (shoulder dystocia risk).",
+    2,
+    "pprzio"
    ],
    [
     "Management",
     "Target glucose in labour?",
-    "4–7 mmol/L, checked hourly; insulin + dextrose infusion if outside."
+    "4–7 mmol/L, checked hourly; insulin + dextrose infusion if outside.",
+    2,
+    "frg1qe"
    ],
    [
     "Sudan",
     "No syringe pump in labour: how is insulin given?",
-    "Added to the dextrose bag, about 1 U per 5 g dextrose, with hourly glucose checks."
+    "Added to the dextrose bag, about 1 U per 5 g dextrose, with hourly glucose checks.",
+    3,
+    "1m8lpxi"
    ],
    [
     "Management",
-    "GDM mother after delivery: follow-up?",
-    "Stop all drugs; fasting glucose or OGTT at 6 weeks, then yearly for life."
+    "Gestational diabetes mother after delivery: follow-up?",
+    "Stop all drugs; fasting glucose or OGTT at 6 weeks, then yearly for life.",
+    2,
+    "13h5fw3"
    ],
    [
     "Cases",
-    "Type 1 diabetic at 30 wk, vomiting, Kussmaul breathing, glucose 10 mmol/L. Diagnosis and first steps?",
-    "DKA (occurs at lower glucose in pregnancy): saline, insulin 0.1 U/kg/h, potassium, treat cause."
+    "Type 1 diabetic at 30 weeks, vomiting, Kussmaul breathing, glucose 10 mmol/L. Diagnosis and first steps?",
+    "DKA (occurs at lower glucose in pregnancy): saline, insulin 0.1 U/kg/h, potassium, treat cause.",
+    3,
+    "1luzpb3"
    ],
    [
     "Cases",
     "DKA in pregnancy with CTG showing fetal distress. Deliver now?",
-    "No. Stabilise the mother first; fetal distress improves as she improves."
-   ],
-   [
-    "Practice",
-    "Main hormone behind insulin resistance in pregnancy?",
-    "Human placental lactogen (hPL)."
-   ],
-   [
-    "Practice",
-    "Why does the infant of a diabetic mother get RDS?",
-    "Fetal hyperinsulinaemia delays surfactant."
-   ],
-   [
-    "Practice",
-    "Why is urine glucose a poor screen in pregnancy?",
-    "GFR rises, renal threshold for glucose falls."
-   ],
-   [
-    "Practice",
-    "Most specific anomaly of maternal diabetes?",
-    "Caudal regression syndrome."
+    "No. Stabilise the mother first; fetal distress improves as she improves.",
+    3,
+    "youkjq"
    ],
    [
     "Practice",
     "Why is the infant of a diabetic mother polycythaemic?",
-    "Hyperinsulinaemia raises fetal O₂ use → hypoxia → erythropoietin ↑."
+    "Hyperinsulinaemia raises fetal oxygen use → hypoxia → erythropoietin ↑.",
+    3,
+    "1y61o2h"
    ]
   ]
  },
@@ -1371,223 +1586,297 @@
   "cards": [
    [
     "Definition",
-    "BP threshold for hypertension in pregnancy?",
-    "≥ 140/90 on 2 readings 4 h apart (or one reading ≥ 160/110). Diastolic = Korotkoff V."
+    "Blood pressure threshold for hypertension in pregnancy?",
+    "≥ 140/90 on 2 readings 4 hours apart (or one reading ≥ 160/110). Diastolic = Korotkoff V.",
+    1,
+    "32d2wh"
    ],
    [
     "Definition",
-    "Chronic HTN vs gestational HTN: how do you tell them?",
-    "Chronic: before pregnancy, before 20 wk, or on treatment at booking. Gestational: new after 20 wk, no proteinuria, settles by 6 wk postpartum. Still high at 12 wk = chronic."
+    "Chronic hypertension vs gestational hypertension: how do you tell them?",
+    "Chronic: before pregnancy, before 20 weeks, or on treatment at booking. Gestational: new after 20 weeks, no proteinuria, settles by 6 weeks postpartum. Still high at 12 weeks = chronic.",
+    2,
+    "1p7ghcs"
    ],
    [
     "Definition",
     "Define pre-eclampsia.",
-    "New HTN after 20 wk with proteinuria (older definition), or with organ dysfunction: ↑ creatinine, ↑ AST/ALT, ↓ platelets, haemolysis, neurological symptoms, pulmonary oedema."
+    "New hypertension after 20 weeks with proteinuria (older definition), or with organ dysfunction: ↑ creatinine, ↑ AST/ALT, ↓ platelets, haemolysis, neurological symptoms, pulmonary oedema.",
+    1,
+    "1i2mdfs"
    ],
    [
     "Definition",
     "Significant proteinuria?",
-    "24 h protein ≥ 300 mg, or protein:creatinine ratio ≥ 30 mg/mmol, or albumin:creatinine ratio ≥ 8 mg/mmol. Dipstick 1+ or more is a screen only."
+    "24 hours protein ≥ 300 mg, or protein:creatinine ratio ≥ 30 mg/mmol, or albumin:creatinine ratio ≥ 8 mg/mmol. Dipstick 1+ or more is a screen only.",
+    1,
+    "1rprhys"
    ],
    [
     "Definition",
     "What is superimposed pre-eclampsia?",
-    "Chronic HTN + new proteinuria, organ damage, or sudden rise in BP after 20 wk."
+    "Chronic hypertension + new proteinuria, organ damage, or sudden rise in blood pressure after 20 weeks.",
+    2,
+    "1es2aw6"
    ],
    [
     "Definition",
-    "BP bands?",
-    "Mild 140/90–149/99. Moderate 150/100–159/109. Severe ≥ 160/110."
+    "Blood pressure bands?",
+    "Mild 140/90–149/99. Moderate 150/100–159/109. Severe ≥ 160/110.",
+    1,
+    "1x8sbw3"
    ],
    [
     "Definition",
     "Define HELLP.",
-    "Haemolysis, Elevated Liver enzymes, Low Platelets. Severe form of pre-eclampsia."
+    "Haemolysis, Elevated Liver enzymes, Low Platelets. Severe form of pre-eclampsia.",
+    1,
+    "1ehj5j4"
    ],
    [
     "Cases",
-    "36 wk, BP 150/100, no proteinuria, feels well. Diagnosis and plan?",
-    "Gestational HTN. Urine protein, FBC, creatinine, LFT. Monitor BP; treat if it stays high; induce at 38 wk."
+    "36 weeks, blood pressure 150/100 mmHg, no proteinuria, feels well. Diagnosis and plan?",
+    "Gestational hypertension. Urine protein, FBC, creatinine, LFT. Monitor blood pressure; treat if it stays high; induce at 38 weeks.",
+    2,
+    "1vhh3rd"
    ],
    [
     "Cases",
-    "34 wk, BP 170/115, headache, epigastric pain. Diagnosis and first steps?",
-    "Severe pre-eclampsia. Call for help, ABC, IV access, hydralazine or labetalol, MgSO₄, restrict fluids, steroids, deliver after stabilising."
+    "34 weeks, blood pressure 170/115 mmHg, headache, epigastric pain. Diagnosis and first steps?",
+    "Severe pre-eclampsia. Call for help, ABC, IV access, hydralazine or labetalol, magnesium sulphate, restrict fluids, steroids, deliver after stabilising.",
+    2,
+    "ry0x2h"
    ],
    [
     "Cases",
-    "Woman fits at home, BP 160/110. What do you do?",
-    "Eclampsia until proved otherwise. Left lateral, airway, MgSO₄, control BP, check glucose and malaria test, deliver once stable."
+    "Woman fits at home, blood pressure 160/110 mmHg. What do you do?",
+    "Eclampsia until proved otherwise. Left lateral, airway, magnesium sulphate, control blood pressure, check glucose and malaria test, deliver once stable.",
+    2,
+    "7egfxq"
    ],
    [
     "Cases",
     "Epigastric pain, platelets 60, ↑ AST, ↑ LDH, schistocytes.",
-    "HELLP. Manage as severe PE in HDU; FFP and cryoprecipitate if bleeding; deliver."
+    "HELLP. Manage as severe PE in HDU; FFP and cryoprecipitate if bleeding; deliver.",
+    2,
+    "ekeddm"
    ],
    [
     "Cases",
-    "Pre-eclampsia signs at 14 wk. Think of?",
-    "Molar pregnancy (also triploidy, antiphospholipid syndrome)."
+    "Pre-eclampsia signs at 14 weeks. Think of?",
+    "Molar pregnancy (also triploidy, antiphospholipid syndrome).",
+    3,
+    "bcuezp"
    ],
    [
     "Why",
     "Basic pathology of pre-eclampsia in one line?",
-    "Poor trophoblast invasion → spiral arteries stay narrow → placental ischaemia → endothelial damage → vasospasm, capillary leak, clotting activation."
+    "Poor trophoblast invasion → spiral arteries stay narrow → placental ischaemia → endothelial damage → vasospasm, capillary leak, clotting activation.",
+    2,
+    "1di72bl"
    ],
    [
     "Why",
     "Why do we restrict fluids (≤ 80 mL/h)?",
-    "Capillary leak and low oncotic pressure → high risk of pulmonary oedema."
+    "Capillary leak and low oncotic pressure → high risk of pulmonary oedema.",
+    3,
+    "14b17sq"
    ],
    [
     "Why",
     "Why avoid ergometrine in third stage?",
-    "It constricts vessels and raises BP. Use oxytocin."
+    "It constricts vessels and raises blood pressure. Use oxytocin.",
+    2,
+    "oip9hj"
    ],
    [
     "Why",
     "Why does proteinuria occur?",
-    "Glomerular endotheliosis: damaged glomerular endothelium leaks protein."
+    "Glomerular endotheliosis: damaged glomerular endothelium leaks protein.",
+    2,
+    "mo9one"
    ],
    [
     "Why",
     "Why is uric acid raised?",
-    "Reduced renal clearance and placental ischaemia. Rising level reflects severity."
+    "Reduced renal clearance and placental ischaemia. Rising level reflects severity.",
+    3,
+    "42ouen"
    ],
    [
     "Why",
     "Why does HELLP cause bleeding?",
-    "Low platelets, DIC and liver damage reduce clotting factors."
+    "Low platelets, DIC and liver damage reduce clotting factors.",
+    2,
+    "188ee84"
    ],
    [
     "Risk",
     "Major risk factors for pre-eclampsia?",
-    "Previous PE, chronic HTN, renal disease, diabetes, autoimmune disease (SLE, APS), multiple pregnancy."
+    "Previous PE, chronic hypertension, renal disease, diabetes, autoimmune disease (SLE, antiphospholipid syndrome), multiple pregnancy.",
+    2,
+    "fs2775"
    ],
    [
     "Risk",
     "Moderate risk factors?",
-    "First pregnancy, age ≥ 40, interval > 10 yr, BMI > 30, family history of PE."
+    "First pregnancy, age ≥ 40, interval > 10 yr, BMI > 30, family history of PE.",
+    2,
+    "1384uy7"
    ],
    [
     "Features",
     "Severe features of pre-eclampsia?",
-    "BP ≥ 160/110, headache, visual disturbance, epigastric/RUQ pain, hyperreflexia with clonus, pulmonary oedema, oliguria, ↑ creatinine, ↑ LFT, platelets < 100."
+    "Blood pressure ≥ 160/110, headache, visual disturbance, epigastric/RUQ pain, hyperreflexia with clonus, pulmonary oedema, oliguria, ↑ creatinine, ↑ LFT, platelets < 100.",
+    1,
+    "6odati"
    ],
    [
     "Features",
     "Warning symptoms before eclampsia?",
-    "Severe headache, blurred vision, flashing lights, epigastric pain, vomiting, brisk reflexes with clonus."
+    "Severe headache, blurred vision, flashing lights, epigastric pain, vomiting, brisk reflexes with clonus.",
+    1,
+    "3cq9vd"
    ],
    [
     "Tests",
     "Baseline tests in suspected PE?",
-    "Urine protein, FBC (platelets), creatinine, urate, LFT, LDH, film for haemolysis, clotting if severe; fetal scan and CTG."
+    "Urine protein, FBC (platelets), creatinine, urate, LFT, LDH, film for haemolysis, clotting if severe; fetal scan and CTG.",
+    2,
+    "n4vs4f"
    ],
    [
     "Complications",
     "Maternal complications of PE?",
-    "Eclampsia, stroke, HELLP, DIC, AKI, pulmonary oedema, abruption, liver rupture."
+    "Eclampsia, stroke, HELLP, DIC, AKI, pulmonary oedema, abruption, liver rupture.",
+    2,
+    "1b2c400"
    ],
    [
     "Complications",
     "Fetal complications of PE?",
-    "Growth restriction, prematurity, abruption, stillbirth."
+    "Growth restriction, prematurity, abruption, stillbirth.",
+    2,
+    "1y6exkc"
    ],
    [
     "Complications",
     "Commonest cause of death in eclampsia/HELLP?",
-    "Cerebral haemorrhage."
+    "Cerebral haemorrhage.",
+    2,
+    "i4ds3s"
    ],
    [
     "Drugs",
     "Oral antihypertensives in pregnancy?",
-    "Labetalol 200 mg 8-hourly 1st line; nifedipine 20 mg twice daily (max 60 mg/day); methyldopa 250 mg 8-hourly (max 3 g/day)."
+    "Labetalol 200 mg 8-hourly 1st line; nifedipine 20 mg twice daily (max 60 mg/day); methyldopa 250 mg 8-hourly (max 3 g/day).",
+    1,
+    "130nyu"
    ],
    [
     "Drugs",
     "IV treatment for severe hypertension?",
-    "Hydralazine 5 mg IV over 10–15 min, repeat every 15 min (after 500 mL saline preload); or labetalol IV."
+    "Hydralazine 5 mg IV over 10–15 min, repeat every 15 min (after 500 mL saline preload); or labetalol IV.",
+    2,
+    "rqpp3z"
    ],
    [
     "Drugs",
     "Which antihypertensives are contraindicated?",
-    "ACE inhibitors and ARBs (fetal renal damage). Atenolol is also avoided."
+    "ACE inhibitors and ARBs (fetal renal damage). Atenolol is also avoided.",
+    2,
+    "1k2z42x"
    ],
    [
     "MgSO₄",
-    "MgSO₄ regimen?",
-    "Loading 4 g IV over 5–15 min, then 1 g/h infusion for 24 h after delivery or last fit."
+    "Magnesium sulphate regimen?",
+    "Loading 4 g IV over 5–15 min, then 1 g/h infusion for 24 hours after delivery or last fit.",
+    2,
+    "1ormdyo"
    ],
    [
     "MgSO₄",
-    "Signs of MgSO₄ toxicity, in order?",
-    "Loss of patellar reflexes first, then respiratory depression, then cardiac arrest. Also check urine output > 30 mL/h."
+    "Signs of magnesium sulphate toxicity, in order?",
+    "Loss of patellar reflexes first, then respiratory depression, then cardiac arrest. Also check urine output > 30 mL/h.",
+    2,
+    "in6evk"
    ],
    [
     "MgSO₄",
-    "Antidote for MgSO₄ toxicity?",
-    "10% calcium gluconate 10 mL IV slowly."
+    "Antidote for magnesium sulphate toxicity?",
+    "10% calcium gluconate 10 mL IV slowly.",
+    1,
+    "1p043ml"
    ],
    [
     "MgSO₄",
-    "Fit recurs on MgSO₄. What now?",
-    "Further 2 g IV (or raise to 2 g/h); still fitting: phenytoin, then general anaesthesia. Check airway, glucose and malaria."
+    "Fit recurs on magnesium sulphate. What now?",
+    "Further 2 g IV (or raise to 2 g/h); still convulsing: phenytoin, then general anaesthesia. Check airway, glucose and malaria.",
+    3,
+    "1dzeh6j"
    ],
    [
     "Eclampsia",
     "Differentials for fits in pregnancy (Sudan)?",
-    "Cerebral malaria, epilepsy, meningitis, hypoglycaemia, cerebral venous thrombosis, intracranial bleed. Always test malaria and glucose."
+    "Cerebral malaria, epilepsy, meningitis, hypoglycaemia, cerebral venous thrombosis, intracranial bleed. Always test malaria and glucose.",
+    2,
+    "hg1zws"
    ],
    [
     "Delivery",
-    "Timing of delivery in mild gestational HTN or PE?",
-    "Induce at 38 wk. Severe PE or complications: stabilise first, then deliver whatever the gestation."
+    "Timing of delivery in mild gestational hypertension or PE?",
+    "Induce at 38 weeks. Severe PE or complications: stabilise first, then deliver whatever the gestation.",
+    2,
+    "17g60k"
    ],
    [
     "Delivery",
     "Mode of delivery?",
-    "Vaginal if favourable (Bishop ≥ 6); caesarean if Bishop < 6 or obstetric indication. Regional anaesthesia unless platelets low or fitting."
+    "Vaginal if favourable (Bishop ≥ 6); caesarean if Bishop < 6 or obstetric indication. Regional anaesthesia unless platelets low or fitting.",
+    2,
+    "glgmin"
    ],
    [
     "After birth",
     "Postpartum care for PE?",
-    "MgSO₄ for 24 h, BP at least 4 times a day (peaks days 3–5), step drugs down, change methyldopa (depression)."
+    "Magnesium sulphate for 24 hours, blood pressure at least 4 times a day (peaks days 3–5), step drugs down, change methyldopa (depression).",
+    2,
+    "jdv4op"
    ],
    [
     "Prevention",
     "Aspirin for prevention?",
-    "75 mg daily from 12 wk to 36 wk in women with major risk factors or two or more moderate risk factors."
+    "75 mg daily from 12 weeks to 36 weeks in women with major risk factors or two or more moderate risk factors.",
+    1,
+    "1db2wsk"
    ],
    [
     "Prevention",
     "Calcium for prevention?",
-    "1.5–2 g/day elemental calcium from about 20 wk where dietary intake is low."
+    "1.5–2 g/day elemental calcium from about 20 weeks where dietary intake is low.",
+    2,
+    "1oygyf8"
    ],
    [
     "Practice",
     "Which woman needs aspirin: first pregnancy + BMI 34, or previous PE?",
-    "Both: 2 moderate, or 1 major factor."
+    "Both: 2 moderate, or 1 major factor.",
+    3,
+    "1wi0nc1"
    ],
    [
     "Practice",
     "Lab test that best reflects severity of pre-eclampsia?",
-    "Serum uric acid (with platelets)."
-   ],
-   [
-    "Practice",
-    "Commonest cause of maternal death in eclampsia?",
-    "Intracranial haemorrhage."
-   ],
-   [
-    "Practice",
-    "First sign of magnesium toxicity?",
-    "Loss of the patellar reflex."
+    "Serum uric acid (with platelets).",
+    3,
+    "1iz52li"
    ],
    [
     "Practice",
     "Definitive treatment of pre-eclampsia?",
-    "Delivery of the placenta (baby)."
+    "Delivery of the placenta (baby).",
+    1,
+    "gl1au0"
    ]
   ]
  },
@@ -1597,197 +1886,254 @@
    [
     "Definitions",
     "Which Plasmodium species causes most malaria in pregnancy in Sudan?",
-    "P. falciparum."
+    "P. Falciparum.",
+    1,
+    "nkk107"
    ],
    [
     "Definitions",
     "Define uncomplicated malaria in pregnancy.",
-    "Symptoms plus parasites, no severe feature, and able to take oral drugs."
+    "Symptoms plus parasites, no severe feature, and able to take oral drugs.",
+    1,
+    "1nhd2fc"
    ],
    [
     "Definitions",
     "What is placental (silent) malaria?",
-    "Parasites in blood or placenta without fever; harms the fetus quietly. The target of IPTp."
+    "Parasites in blood or placenta without fever; harms the fetus quietly. The target of IPTp.",
+    2,
+    "1933oc0"
    ],
    [
     "Numbers",
     "Haemoglobin threshold for severe malarial anaemia?",
-    "Hb < 7 g/dL."
+    "Hb < 7 g/dL.",
+    2,
+    "bl88z9"
    ],
    [
     "Numbers",
     "Blood glucose that defines hypoglycaemia in severe malaria?",
-    "RBG < 40 mg/dL (2.2 mmol/L)."
+    "RBG < 40 mg/dL (2.2 mmol/L).",
+    2,
+    "204ol2"
    ],
    [
     "Numbers",
     "Parasitaemia that defines hyperparasitaemia (severe malaria)?",
-    "More than 5% of red cells parasitised."
+    "More than 5% of red cells parasitised.",
+    2,
+    "13vzida"
    ],
    [
     "Numbers",
     "Temperature that defines hyperpyrexia?",
-    "Above 40 °C."
+    "Above 40 °C.",
+    2,
+    "dkes2q"
    ],
    [
     "Definitions",
     "What is algid malaria?",
-    "Severe malaria with shock: systolic BP < 90 mmHg."
+    "Severe malaria with shock: systolic blood pressure < 90 mmHg.",
+    2,
+    "p6kc01"
    ],
    [
     "Definitions",
     "What is blackwater fever?",
-    "Dark urine from massive intravascular haemolysis (haemoglobinuria): a severe malaria feature."
+    "Dark urine from massive intravascular haemolysis (haemoglobinuria): a severe malaria feature.",
+    2,
+    "1k545d5"
    ],
    [
     "Why",
     "Why is malaria worse in the first pregnancy?",
-    "She has no immunity yet to the parasites that bind the placenta (chondroitin sulphate A)."
+    "She has no immunity yet to the parasites that bind the placenta (chondroitin sulphate A).",
+    3,
+    "14nhh3v"
    ],
    [
     "Why",
     "What makes placental malaria harm the fetus?",
-    "Infected red cells stick to placental chondroitin sulphate A, impairing transfer: growth restriction, low birth weight."
+    "Infected red cells stick to placental chondroitin sulphate A, impairing transfer: growth restriction, low birth weight.",
+    3,
+    "16wsgix"
    ],
    [
     "Why",
     "Give four reasons for hypoglycaemia in malaria in pregnancy.",
-    "Parasites consume glucose, liver gluconeogenesis fails, pregnancy raises insulin response, quinine releases insulin."
+    "Parasites consume glucose, liver gluconeogenesis fails, pregnancy raises insulin response, quinine releases insulin.",
+    3,
+    "1gbz1yr"
    ],
    [
     "Why",
     "Why does cerebral malaria occur?",
-    "Infected red cells stick to brain capillaries (cytoadherence), blocking the microcirculation."
+    "Infected red cells stick to brain capillaries (cytoadherence), blocking the microcirculation.",
+    3,
+    "mha2c3"
    ],
    [
     "Risk",
     "Which pregnant woman is at highest risk of malaria?",
-    "Primigravida (also young, non-immune visitors or displaced women, HIV, no bed net or IPTp)."
+    "Primigravida (also young, non-immune visitors or displaced women, HIV, no bed net or IPTp).",
+    1,
+    "1hxiah3"
    ],
    [
     "Investigations",
     "Thick film vs thin film: what does each show?",
-    "Thick: detects parasites and density. Thin: species and % parasitaemia."
+    "Thick: detects parasites and density. Thin: species and % parasitaemia.",
+    2,
+    "fp9tg5"
    ],
    [
     "Investigations",
     "Film negative but malaria still suspected. Next step?",
-    "Repeat the blood film."
+    "Repeat the blood film.",
+    2,
+    "asgs15"
    ],
    [
     "Cases",
-    "Pregnant, 30 wk, fit, temp 39.5 °C, BP 118/74, no proteinuria. Diagnosis?",
-    "Cerebral malaria until proved otherwise: RBG, film, then IV artesunate."
+    "Pregnant, 30 weeks, fit, temp 39.5 °C, blood pressure 118/74 mmHg, no proteinuria. Diagnosis?",
+    "Cerebral malaria until proved otherwise: RBG, film, then IV artesunate.",
+    2,
+    "z5kgfu"
    ],
    [
     "Cases",
-    "Fitting woman, fever and BP 165/110 with proteinuria. Approach?",
-    "Cerebral malaria and eclampsia may coexist: treat both, MgSO4 plus IV artesunate."
+    "Fitting woman, fever and blood pressure 165/110 mmHg with proteinuria. Approach?",
+    "Cerebral malaria and eclampsia may coexist: treat both, magnesium sulphate plus IV artesunate.",
+    3,
+    "g5elnk"
    ],
    [
     "Exam",
     "Four tests in every fitting pregnant woman?",
-    "BP, urine protein, blood glucose, malaria film."
+    "Blood pressure, urine protein, blood glucose, malaria film.",
+    2,
+    "ln1rw8"
    ],
    [
     "Drugs",
-    "First-line drug for uncomplicated malaria in the 1st trimester (Sudan)?",
-    "Artemether-lumefantrine (AL): first line in all trimesters."
+    "First-line drug for uncomplicated malaria in the first trimester (Sudan)?",
+    "Artemether-lumefantrine (AL): first line in all trimesters.",
+    2,
+    "51qrhp"
    ],
    [
     "Drugs",
     "Adult AL dose in pregnancy?",
-    "4 tablets (20/120 mg) twice daily for 3 days (6 doses), with fatty food or milk."
+    "4 tablets (20/120 mg) twice daily for 3 days (6 doses), with fatty food or milk.",
+    2,
+    "13ekrfd"
    ],
    [
     "Drugs",
-    "Second-line drug for uncomplicated malaria in 2nd/3rd trimester?",
-    "Dihydroartemisinin-piperaquine once daily for 3 days by weight."
+    "Second-line drug for uncomplicated malaria in 2nd/third trimester?",
+    "Dihydroartemisinin-piperaquine once daily for 3 days by weight.",
+    2,
+    "1721e9k"
    ],
    [
     "Drugs",
     "First-line treatment of severe malaria in pregnancy, any trimester?",
-    "IV artesunate 2.4 mg/kg at 0, 12 and 24 h, then once daily."
+    "IV artesunate 2.4 mg/kg at 0, 12 and 24 hours, then once daily.",
+    1,
+    "vt9poh"
    ],
    [
     "Drugs",
     "Second-line IV drug for severe malaria and its dose?",
-    "IV quinine 10 mg/kg over 4 h in dextrose, 8-hourly; check RBG before and after."
+    "IV quinine 10 mg/kg over 4 hours in dextrose, 8-hourly; check RBG before and after.",
+    3,
+    "1neyk25"
    ],
    [
     "Drugs",
     "After IV treatment of severe malaria, what next?",
-    "After at least 24 h IV and once she can swallow: a full 3-day oral ACT course."
+    "After at least 24 hours IV and once she can swallow: a full 3-day oral ACT course.",
+    2,
+    "1upct9n"
    ],
    [
     "Drugs",
     "Why avoid primaquine in pregnancy?",
-    "It can cause haemolysis in a G6PD-deficient fetus."
+    "It can cause haemolysis in a G6PD-deficient fetus.",
+    2,
+    "1u12qkx"
    ],
    [
     "Management",
     "Patient vomits AL within 30 minutes. Action?",
-    "Repeat the dose."
+    "Repeat the dose.",
+    2,
+    "1k0yw0a"
    ],
    [
     "Management",
     "Treatment of hypoglycaemia in severe malaria?",
-    "50 mL of 50% dextrose IV, then 10% dextrose infusion; RBG 1–2-hourly."
+    "50 mL of 50% dextrose IV, then 10% dextrose infusion; RBG 1–2-hourly.",
+    2,
+    "blyoku"
    ],
    [
     "Management",
     "Management of algid malaria?",
-    "Fluids carefully, blood cultures, add ceftriaxone: gram-negative sepsis often coexists."
+    "Fluids carefully, blood cultures, add ceftriaxone: gram-negative sepsis often coexists.",
+    3,
+    "1b39cmr"
    ],
    [
     "Management",
     "Why restrict fluids in severe malaria in pregnancy?",
-    "Pregnant women are prone to pulmonary oedema; over-hydration worsens it."
+    "Pregnant women are prone to pulmonary oedema; over-hydration worsens it.",
+    3,
+    "g648mq"
    ],
    [
     "Complications",
     "Commonest maternal complication of malaria in pregnancy?",
-    "Severe anaemia."
+    "Severe anaemia.",
+    1,
+    "mhp3iw"
    ],
    [
     "Complications",
     "Fetal complications of malaria in pregnancy?",
-    "Miscarriage, preterm birth, growth restriction, low birth weight, stillbirth, congenital malaria."
+    "Miscarriage, preterm birth, growth restriction, low birth weight, stillbirth, congenital malaria.",
+    1,
+    "1wb2fps"
    ],
    [
     "Complications",
     "How does high fever affect labour?",
-    "Stimulates the uterus: preterm or precipitate labour. Cool her and keep fluids adequate."
+    "Stimulates the uterus: preterm or precipitate labour. Cool her and keep fluids adequate.",
+    3,
+    "14khg0o"
    ],
    [
     "Prevention",
     "IPTp-SP dose?",
-    "3 tablets of SP 500/25 mg as a single observed dose at ANC."
+    "3 tablets of SP 500/25 mg as a single observed dose at ANC.",
+    2,
+    "1apkdzd"
    ],
    [
     "Prevention",
     "When to start IPTp-SP and how far apart?",
-    "Two doses: first at the ANC visit after quickening (16–20 wk), second at the next visit at least 4 weeks later; high-transmission areas; never in the 1st trimester."
+    "Two doses: first at the ANC visit after quickening (16–20 weeks), second at the next visit at least 4 weeks later; high-transmission areas; never in the first trimester.",
+    2,
+    "1ja7srn"
    ],
    [
     "Prevention",
-    "When is IPTp-SP contraindicated besides the 1st trimester?",
-    "With cotrimoxazole prophylaxis (HIV). Also avoid 5 mg folic acid; use 0.4 mg."
-   ],
-   [
-    "Practice",
-    "Which pregnancy is most affected by malaria in an endemic area?",
-    "The first (primigravida)."
-   ],
-   [
-    "Practice",
-    "Why does placental malaria cause low birth weight?",
-    "Parasites block the placenta: poor transfer to the fetus."
-   ],
-   [
-    "Practice",
-    "Drug of choice for severe malaria in the 1st trimester?",
-    "IV artesunate."
+    "When is IPTp-SP contraindicated besides the first trimester?",
+    "With cotrimoxazole prophylaxis (HIV). Also avoid 5 mg folic acid; use 0.4 mg.",
+    3,
+    "1nymo1d"
    ]
   ]
  },
@@ -1797,162 +2143,212 @@
    [
     "Physiology",
     "By how much does cardiac output rise in pregnancy?",
-    "About 40%, starting at 5 wk; stroke volume and heart rate both rise."
+    "About 40%, starting at 5 weeks; stroke volume and heart rate both rise.",
+    1,
+    "1vjg7dv"
    ],
    [
     "Physiology",
     "When is the heart under the greatest strain?",
-    "Immediately after delivery: autotransfusion from the emptied uterus raises CO by 60–80%."
+    "Immediately after delivery: autotransfusion from the emptied uterus raises CO by 60–80%.",
+    2,
+    "1xm7yj7"
    ],
    [
     "Physiology",
     "Three danger times for pulmonary oedema in cardiac disease?",
-    "24–32 wk (plateau), labour, and the first hours after birth."
+    "24–32 weeks (plateau), labour, and the first hours after birth.",
+    2,
+    "b9sdsn"
    ],
    [
     "Physiology",
     "Which murmur is normal in pregnancy?",
-    "Soft ejection systolic flow murmur. Any diastolic murmur is pathological."
+    "Soft ejection systolic flow murmur. Any diastolic murmur is pathological.",
+    1,
+    "kall65"
    ],
    [
     "Physiology",
     "Normal ECG changes in pregnancy?",
-    "Left axis deviation, T inversion in lead III, ectopic beats."
+    "Left axis deviation, T inversion in lead III, ectopic beats.",
+    3,
+    "bqp4tc"
    ],
    [
     "Aetiology",
     "Commonest heart disease in pregnant Sudanese women?",
-    "Rheumatic heart disease; mitral stenosis is the commonest lesion."
+    "Rheumatic heart disease; mitral stenosis is the commonest lesion.",
+    1,
+    "dttoq6"
    ],
    [
     "Classification",
     "NYHA class III?",
-    "Symptoms on mild effort (ordinary daily activity); comfortable only at rest."
+    "Symptoms on mild effort (ordinary daily activity); comfortable only at rest.",
+    1,
+    "x76rui"
    ],
    [
     "Classification",
     "NYHA class IV?",
-    "Symptoms at rest. Admit; high risk of failure."
+    "Symptoms at rest. Admit; high risk of failure.",
+    1,
+    "h3ytim"
    ],
    [
     "High risk",
     "Name lesions where pregnancy is contraindicated.",
-    "Pulmonary hypertension, Eisenmenger, severe MS/AS, EF < 30%, Marfan root > 4 cm, PPCM not recovered."
+    "Pulmonary hypertension, Eisenmenger, severe MS/AS, EF < 30%, Marfan root > 4 cm, PPCM not recovered.",
+    2,
+    "9f509q"
    ],
    [
     "High risk",
     "Why are stenotic lesions worse than regurgitant?",
-    "Output across a fixed narrow valve cannot rise to meet pregnancy's demand."
+    "Output across a fixed narrow valve cannot rise to meet pregnancy's demand.",
+    3,
+    "oz0aly"
    ],
    [
     "Vignette",
-    "Rheumatic woman, 28 wk, breathless, pink foamy sputum. Diagnosis?",
-    "Acute pulmonary oedema from mitral stenosis."
+    "Rheumatic woman, 28 weeks, breathless, pink foamy sputum. Diagnosis?",
+    "Acute pulmonary oedema from mitral stenosis.",
+    2,
+    "d71lp1"
    ],
    [
     "Investigations",
     "Key investigation for heart disease in pregnancy?",
-    "Echocardiography: valve area, EF, pulmonary pressure, aortic root."
+    "Echocardiography: valve area, EF, pulmonary pressure, aortic root.",
+    1,
+    "ki9d2x"
    ],
    [
     "Complications",
     "Maternal complications of cardiac disease?",
-    "Heart failure, pulmonary oedema, AF and stroke, thromboembolism, endocarditis, PPH, death."
+    "Heart failure, pulmonary oedema, AF and stroke, thromboembolism, endocarditis, PPH, death.",
+    2,
+    "fo9wxe"
    ],
    [
     "Complications",
     "Fetal complications of maternal heart disease?",
-    "Miscarriage, IUGR, preterm birth, stillbirth, CHD in baby (3–5%), drug effects."
+    "Miscarriage, IUGR, preterm birth, stillbirth, CHD in baby (3–5%), drug effects.",
+    2,
+    "1ejmxar"
    ],
    [
     "Antenatal",
     "Extra loads to remove antenatally?",
-    "Anaemia, infection (UTI, chest, dental), hypertension, thyroid disease."
+    "Anaemia, infection (urinary tract infection, chest, dental), hypertension, thyroid disease.",
+    2,
+    "1frl27y"
    ],
    [
     "Drugs",
     "Why give a beta-blocker in mitral stenosis?",
-    "Slower heart rate lengthens diastole, improving LV filling. Watch fetal growth."
+    "Slower heart rate lengthens diastole, improving LV filling. Watch fetal growth.",
+    3,
+    "xpiny2"
    ],
    [
     "Drugs",
     "Drug for AF rate control in pregnancy?",
-    "Digoxin or beta-blocker, plus LMWH anticoagulation."
+    "Digoxin or beta-blocker, plus low-molecular-weight heparin anticoagulation.",
+    2,
+    "maadym"
    ],
    [
     "Anticoagulation",
     "When is warfarin teratogenic?",
-    "6–12 wk: embryopathy (nasal hypoplasia, stippled epiphyses). Also fetal bleeding later."
+    "6–12 weeks: embryopathy (nasal hypoplasia, stippled epiphyses). Also fetal bleeding later.",
+    2,
+    "y78hu4"
    ],
    [
     "Anticoagulation",
     "Mechanical valve: anticoagulation plan?",
-    "LMWH 6–12 wk, warfarin 12–36 wk, LMWH 36 wk to birth, warfarin again postpartum."
+    "Low-molecular-weight heparin 6–12 weeks, warfarin 12–36 weeks, low-molecular-weight heparin 36 weeks to birth, warfarin again postpartum.",
+    3,
+    "jhb923"
    ],
    [
     "Antenatal",
     "Severe symptomatic MS despite drugs in pregnancy?",
-    "Balloon mitral valvotomy in the 2nd trimester."
+    "Balloon mitral valvotomy in the second trimester.",
+    3,
+    "tljzko"
    ],
    [
     "Labour",
     "Preferred mode of delivery in heart disease?",
-    "Vaginal; caesarean only for obstetric reasons (or aortic root > 4 cm, recent MI)."
+    "Vaginal; caesarean only for obstetric reasons (or aortic root > 4 cm, recent MI).",
+    1,
+    "xtitef"
    ],
    [
     "Labour",
     "Best analgesia in labour for a cardiac patient?",
-    "Early low-dose epidural: stops pain-driven tachycardia."
+    "Early low-dose epidural: stops pain-driven tachycardia.",
+    2,
+    "1j2ry76"
    ],
    [
     "Labour",
     "Why shorten the second stage?",
-    "Pushing raises cardiac load; use forceps or ventouse if NYHA III–IV or slow."
+    "Pushing raises cardiac load; use forceps or ventouse if NYHA III–IV or slow.",
+    2,
+    "lzik23"
    ],
    [
     "Labour",
     "Which oxytocic is contraindicated?",
-    "Ergometrine: venoconstriction floods the heart, causing pulmonary oedema."
+    "Ergometrine: venoconstriction floods the heart, causing pulmonary oedema.",
+    1,
+    "4d9wg0"
    ],
    [
     "Labour",
     "Oxytocin in cardiac disease?",
-    "5 IU slow IV or low-dose infusion; fast bolus drops BP."
+    "5 IU slow IV or low-dose infusion; fast bolus drops blood pressure.",
+    2,
+    "1wzom8"
    ],
    [
     "Labour",
     "Is endocarditis prophylaxis routine at delivery?",
-    "No. Only for a prosthetic valve or previous endocarditis; otherwise usual caesarean antibiotics."
+    "No. Only for a prosthetic valve or previous endocarditis; otherwise usual caesarean antibiotics.",
+    2,
+    "g36y42"
    ],
    [
     "Postpartum",
     "Where should a cardiac mother go after birth, and why?",
-    "HDU, staying at least 3 days: autotransfusion can cause pulmonary oedema."
+    "HDU, staying at least 3 days: autotransfusion can cause pulmonary oedema.",
+    2,
+    "1cbkksc"
    ],
    [
     "Contraception",
     "Contraception in heart disease?",
-    "Progestogen-only (implant, LNG-IUS, injection); avoid combined pill; sterilisation if pregnancy contraindicated."
+    "Progestogen-only (implant, LNG-IUS, injection); avoid combined pill; sterilisation if pregnancy contraindicated.",
+    2,
+    "1x4pcex"
    ],
    [
     "PPCM",
     "Define peripartum cardiomyopathy.",
-    "Heart failure from 32 wk of pregnancy to 6 months postpartum, no other cause, EF < 45%."
+    "Heart failure from 32 weeks of pregnancy to 6 months postpartum, no other cause, EF < 45%.",
+    1,
+    "8yvyo3"
    ],
    [
     "PPCM",
     "Risk factors for peripartum cardiomyopathy?",
-    "Multiparity, twins, pre-eclampsia, age > 30, African women."
-   ],
-   [
-    "Practice",
-    "Best test to assess heart disease in pregnancy?",
-    "Echocardiography."
-   ],
-   [
-    "Practice",
-    "Why do beta-blockers help in mitral stenosis?",
-    "Slower rate = longer diastole = better LV filling, less LA pressure."
+    "Multiparity, twins, pre-eclampsia, age > 30, African women.",
+    2,
+    "m6vr0z"
    ]
   ]
  },
@@ -1962,162 +2358,212 @@
    [
     "Effect",
     "Effect of pregnancy on fit frequency?",
-    "Two thirds unchanged; about one third fit more, mostly those poorly controlled before."
+    "Two thirds unchanged; about one third fit more, mostly those poorly controlled before.",
+    1,
+    "boe6py"
    ],
    [
     "Effect",
     "Why may fits increase in pregnancy?",
-    "Missed doses, vomiting, poor sleep, falling drug levels (bigger volume, faster clearance)."
+    "Missed doses, vomiting, poor sleep, falling drug levels (bigger volume, faster clearance).",
+    2,
+    "16fzdga"
    ],
    [
     "Effect",
     "When are fits most likely in pregnancy?",
-    "Labour and the first days after birth."
+    "Labour and the first days after birth.",
+    2,
+    "j3acxu"
    ],
    [
     "Effect",
     "Which drug's levels fall most in pregnancy?",
-    "Lamotrigine."
+    "Lamotrigine.",
+    3,
+    "1pj61th"
    ],
    [
     "Complications",
     "Maternal risks of epilepsy in pregnancy?",
-    "Injury, aspiration, pre-eclampsia, APH/PPH, anaemia, depression, status epilepticus, SUDEP."
+    "Injury, aspiration, pre-eclampsia, APH/PPH, anaemia, depression, status epilepticus, SUDEP.",
+    2,
+    "97uo91"
    ],
    [
     "Complications",
     "Fetal risks of epilepsy in pregnancy?",
-    "Miscarriage, anomalies, IUGR, preterm birth, hypoxia in long fits, stillbirth."
+    "Miscarriage, anomalies, IUGR, preterm birth, hypoxia in long fits, stillbirth.",
+    2,
+    "1kbctjt"
    ],
    [
     "Drugs",
     "Most teratogenic antiepileptic?",
-    "Sodium valproate: about 10% major anomaly; NTD, heart, cleft, low IQ."
+    "Sodium valproate: about 10% major anomaly; NTD, heart, cleft, low IQ.",
+    1,
+    "ihdve"
    ],
    [
     "Drugs",
     "Least teratogenic antiepileptic?",
-    "Lamotrigine (and levetiracetam), about 2–3%. Average for one drug: 6–8%."
+    "Lamotrigine (and levetiracetam), about 2–3%. Average for one drug: 6–8%.",
+    1,
+    "poi68k"
    ],
    [
     "Drugs",
     "Background major anomaly risk?",
-    "2–3%."
+    "2–3%.",
+    2,
+    "qpz75m"
    ],
    [
     "Drugs",
     "Polytherapy anomaly risk?",
-    "8–16%; risk rises with dose and number of drugs."
+    "8–16%; risk rises with dose and number of drugs.",
+    2,
+    "sapd00"
    ],
    [
     "Drugs",
     "Fetal hydantoin syndrome features?",
-    "Cleft lip/palate, nail and finger hypoplasia, heart defects (phenytoin)."
+    "Cleft lip/palate, nail and finger hypoplasia, heart defects (phenytoin).",
+    2,
+    "1f7vmoj"
    ],
    [
     "Drugs",
     "Main anomaly with valproate and carbamazepine?",
-    "Neural tube defect (spina bifida)."
+    "Neural tube defect (spina bifida).",
+    1,
+    "blcy6u"
    ],
    [
     "Counselling",
     "Folic acid dose in epilepsy?",
-    "5 mg daily from 3 months before conception and throughout pregnancy."
+    "5 mg daily from 3 months before conception and throughout pregnancy.",
+    1,
+    "1nx54lk"
    ],
    [
     "Counselling",
     "Ideal seizure-free time before conceiving?",
-    "2 years."
+    "2 years.",
+    2,
+    "1a52na7"
    ],
    [
     "Counselling",
     "On valproate, planning pregnancy. Plan?",
-    "Switch to a safer drug before conception, under the neurologist."
+    "Switch to a safer drug before conception, under the neurologist.",
+    2,
+    "a4gna9"
    ],
    [
     "Vignette",
-    "7 wk pregnant on carbamazepine, fit-free. Stop the drug?",
-    "No. Continue; start folic acid 5 mg. Sudden stopping risks status."
+    "7 weeks pregnant on carbamazepine, fit-free. Stop the drug?",
+    "No. Continue; start folic acid 5 mg. Sudden stopping risks status.",
+    2,
+    "1vp0pgh"
    ],
    [
     "Antenatal",
     "Key scan in epilepsy?",
-    "Detailed anomaly scan 18–20+6 wk (spine, face, heart); fetal echo 22–24 wk."
+    "Detailed anomaly scan 18–20+6 weeks (spine, face, heart); fetal echo 22–24 weeks.",
+    2,
+    "klxq5j"
    ],
    [
     "Antenatal",
     "Vitamin K in epilepsy?",
-    "Give the baby 1 mg IM at birth; enzyme inducers cause neonatal deficiency."
+    "Give the baby 1 mg IM at birth; enzyme inducers cause neonatal deficiency.",
+    2,
+    "fkib0o"
    ],
    [
     "Differential",
-    "Fit at 36 wk, BP 160/110, proteinuria. Diagnosis and drug?",
-    "Eclampsia: MgSO₄ 4 g IV."
+    "Fit at 36 weeks, blood pressure 160/110 mmHg, proteinuria. Diagnosis and drug?",
+    "Eclampsia: magnesium sulphate 4 g IV.",
+    2,
+    "42axo2"
    ],
    [
     "Differential",
-    "Fit with fever and normal BP in Sudan?",
-    "Cerebral malaria until proven otherwise: IV artesunate."
+    "Fit with fever and normal blood pressure in Sudan?",
+    "Cerebral malaria until proven otherwise: IV artesunate.",
+    2,
+    "1drswua"
    ],
    [
     "Differential",
     "One bedside test in every fitting pregnant woman?",
-    "Blood glucose (hypoglycaemia)."
+    "Blood glucose (hypoglycaemia).",
+    1,
+    "8phgx7"
    ],
    [
     "Status",
     "Define status epilepticus.",
-    "Fit > 5 min or repeated fits without recovery."
+    "Fit > 5 min or repeated fits without recovery.",
+    1,
+    "1960gtg"
    ],
    [
     "Status",
     "First-line drug for status epilepticus?",
-    "Lorazepam 4 mg IV (or diazepam 10 mg)."
+    "Lorazepam 4 mg IV (or diazepam 10 mg).",
+    2,
+    "146h8ia"
    ],
    [
     "Status",
     "Second-line drug for status epilepticus?",
-    "Phenytoin 15–20 mg/kg IV with ECG monitoring."
+    "Phenytoin 15–20 mg/kg IV with ECG monitoring.",
+    3,
+    "1uusjme"
    ],
    [
     "Labour",
     "Which opioid to avoid in labour?",
-    "Pethidine: norpethidine lowers the seizure threshold."
+    "Pethidine: norpethidine lowers the seizure threshold.",
+    2,
+    "1r98jdm"
    ],
    [
     "Labour",
     "Is epilepsy an indication for caesarean?",
-    "No. Plan induction at 38 wk and aim for vaginal birth."
+    "No. Plan induction at 38 weeks and aim for vaginal birth.",
+    1,
+    "1p6gjr1"
    ],
    [
     "Postpartum",
     "Can she breastfeed on antiepileptics?",
-    "Yes. Watch baby for drowsiness and poor feeding (phenobarbitone, benzodiazepines)."
+    "Yes. Watch baby for drowsiness and poor feeding (phenobarbitone, benzodiazepines).",
+    1,
+    "itawmr"
    ],
    [
     "Postpartum",
     "Baby safety advice for an epileptic mother?",
-    "Feed and change baby on the floor; never bathe baby alone."
+    "Feed and change baby on the floor; never bathe baby alone.",
+    2,
+    "1qwfek9"
    ],
    [
     "Contraception",
     "Contraception with carbamazepine?",
-    "Copper IUD, LNG-IUS or DMPA; inducers make pill, POP and implant fail."
+    "Copper IUD, LNG-IUS or DMPA; inducers make pill, POP and implant fail.",
+    3,
+    "1et2r5k"
    ],
    [
     "Contraception",
     "Combined pill and lamotrigine?",
-    "Oestrogen lowers lamotrigine levels: breakthrough fits."
-   ],
-   [
-    "Practice",
-    "Which opioid to avoid in labour in epilepsy?",
-    "Pethidine (norpethidine lowers the fit threshold)."
-   ],
-   [
-    "Practice",
-    "Can a woman on lamotrigine breastfeed?",
-    "Yes; watch the baby for drowsiness."
+    "Oestrogen lowers lamotrigine levels: breakthrough fits.",
+    3,
+    "5az51j"
    ]
   ]
  },
@@ -2127,172 +2573,219 @@
    [
     "Definitions",
     "Define obstetric cholestasis.",
-    "Pregnancy itch without rash plus raised bile acids or LFTs, no other cause, resolving after delivery."
+    "Pregnancy itch without rash plus raised bile acids or LFTs, no other cause, resolving after delivery.",
+    1,
+    "10uy10q"
    ],
    [
     "Definitions",
     "Other name for obstetric cholestasis?",
-    "Intrahepatic cholestasis of pregnancy."
+    "Intrahepatic cholestasis of pregnancy.",
+    1,
+    "1dbobde"
    ],
    [
     "Definitions",
     "When does obstetric cholestasis usually start?",
-    "Third trimester."
+    "Third trimester.",
+    1,
+    "nxr16u"
    ],
    [
     "Risk factors",
     "What proportion of women with obstetric cholestasis have a family history?",
-    "About one in three."
+    "About one in three.",
+    2,
+    "161pz1c"
    ],
    [
     "Risk factors",
     "Which ethnic group has a higher rate of obstetric cholestasis?",
-    "Women of South Asian origin."
+    "Women of South Asian origin.",
+    3,
+    "qb8ruk"
    ],
    [
     "Pathophysiology",
     "Why does pregnancy cause cholestasis in some women?",
-    "High oestrogen and progesterone slow bile acid excretion in a genetically susceptible liver."
+    "High oestrogen and progesterone slow bile acid excretion in a genetically susceptible liver.",
+    2,
+    "723v"
    ],
    [
     "Clinical",
     "Classic site of itch in obstetric cholestasis?",
-    "Palms and soles, then trunk and limbs; worse at night."
+    "Palms and soles, then trunk and limbs; worse at night.",
+    1,
+    "srhlwf"
    ],
    [
     "Clinical",
     "Is there a rash in obstetric cholestasis?",
-    "No. Only scratch marks; a true rash suggests a skin disease."
+    "No. Only scratch marks; a true rash suggests a skin disease.",
+    1,
+    "2jsx8m"
    ],
    [
     "Clinical",
     "Less common symptoms of obstetric cholestasis?",
-    "Dark urine, pale stools, steatorrhoea, epigastric discomfort, mild jaundice."
+    "Dark urine, pale stools, steatorrhoea, epigastric discomfort, mild jaundice.",
+    2,
+    "kq519z"
    ],
    [
     "Investigations",
     "Key diagnostic test for obstetric cholestasis?",
-    "Serum bile acids above 10 µmol/L."
+    "Serum bile acids above 10 µmol/L.",
+    1,
+    "5fypnn"
    ],
    [
     "Investigations",
     "Typical LFT change in obstetric cholestasis?",
-    "ALT, AST and GGT raised 2–3 times normal."
+    "ALT, AST and GGT raised 2–3 times normal.",
+    2,
+    "9wxg8n"
    ],
    [
     "Investigations",
     "Why is ALP not useful in pregnancy?",
-    "The placenta produces ALP, so it rises normally."
+    "The placenta produces ALP, so it rises normally.",
+    2,
+    "u1cwix"
    ],
    [
     "Investigations",
     "Itch with normal LFT and bile acids: next step?",
-    "Repeat LFT and bile acids every 1–2 weeks; itch can precede abnormal tests."
+    "Repeat LFT and bile acids every 1–2 weeks; itch can precede abnormal tests.",
+    3,
+    "1hmfosg"
    ],
    [
     "Investigations",
     "Tests to exclude other liver disease in suspected cholestasis?",
-    "Liver/biliary ultrasound, viral serology, antimitochondrial and anti-smooth muscle antibodies, clotting."
+    "Liver/biliary ultrasound, viral serology, antimitochondrial and anti-smooth muscle antibodies, clotting.",
+    2,
+    "1cn5dca"
    ],
    [
     "Differential",
     "Itch with blisters around the umbilicus in pregnancy?",
-    "Pemphigoid gestationis, not obstetric cholestasis."
+    "Pemphigoid gestationis, not obstetric cholestasis.",
+    3,
+    "fx5qn4"
    ],
    [
     "Differential",
-    "Raised LFT with BP 160/110 and low platelets?",
-    "HELLP syndrome."
+    "Raised LFT with blood pressure 160/110 mmHg and low platelets?",
+    "HELLP syndrome.",
+    2,
+    "jf4z4w"
    ],
    [
     "Differential",
     "Antimitochondrial antibody positive with cholestatic LFTs?",
-    "Primary biliary cholangitis."
+    "Primary biliary cholangitis.",
+    3,
+    "fx9iin"
    ],
    [
     "Complications",
     "Main fetal risk of obstetric cholestasis?",
-    "Sudden stillbirth; risk rises with bile acids ≥ 100 µmol/L."
+    "Sudden stillbirth; risk rises with bile acids ≥ 100 µmol/L.",
+    1,
+    "tqv1yt"
    ],
    [
     "Complications",
     "Other fetal risks of obstetric cholestasis?",
-    "Meconium-stained liquor, preterm birth, neonatal respiratory distress."
+    "Meconium-stained liquor, preterm birth, neonatal respiratory distress.",
+    2,
+    "4g3r2r"
    ],
    [
     "Complications",
     "Main maternal risk of obstetric cholestasis?",
-    "Vitamin K deficiency from fat malabsorption, causing PPH."
+    "Vitamin K deficiency from fat malabsorption, causing PPH.",
+    2,
+    "1uqyd97"
    ],
    [
     "Management",
     "Drug of choice for obstetric cholestasis and dose?",
-    "Ursodeoxycholic acid 8–12 mg/kg/day in two divided doses."
+    "Ursodeoxycholic acid 8–12 mg/kg/day in two divided doses.",
+    2,
+    "2s8m1h"
    ],
    [
     "Management",
     "Effect of ursodeoxycholic acid?",
-    "Eases itch within 1–7 days and improves LFTs; no proven fetal benefit."
+    "Eases itch within 1–7 days and improves LFTs; no proven fetal benefit.",
+    2,
+    "r0waoq"
    ],
    [
     "Management",
     "Vitamin K in obstetric cholestasis?",
-    "Water-soluble vitamin K (menadiol) 10 mg orally daily from diagnosis."
+    "Water-soluble vitamin K (menadiol) 10 mg orally daily from diagnosis.",
+    2,
+    "10woh1q"
    ],
    [
     "Management",
     "Do antihistamines treat cholestatic itch?",
-    "No. Chlorphenamine only sedates; use emollients for relief."
+    "No. Chlorphenamine only sedates; use emollients for relief.",
+    2,
+    "143po2a"
    ],
    [
     "Management",
     "Does a normal CTG exclude fetal death risk in cholestasis?",
-    "No. Death is sudden, not from placental failure; delivery timing is set by bile acids."
+    "No. Death is sudden, not from placental failure; delivery timing is set by bile acids.",
+    3,
+    "wjdans"
    ],
    [
     "Delivery",
     "Delivery timing with peak bile acids ≥ 100 µmol/L?",
-    "Planned birth at 35–36 weeks."
+    "Planned birth at 35–36 weeks.",
+    3,
+    "180cmfe"
    ],
    [
     "Delivery",
     "Delivery timing with peak bile acids 40–99 µmol/L?",
-    "Around 38 weeks."
+    "Around 38 weeks.",
+    3,
+    "1y07ia3"
    ],
    [
     "Delivery",
     "Delivery timing with peak bile acids 10–39 µmol/L?",
-    "Around 39 weeks."
+    "Around 39 weeks.",
+    3,
+    "x156oe"
    ],
    [
     "Postpartum",
     "When does obstetric cholestasis resolve?",
-    "Within days of delivery; confirm normal LFTs postnatally."
+    "Within days of delivery; confirm normal LFTs postnatally.",
+    1,
+    "5ihop7"
    ],
    [
     "Postpartum",
     "Recurrence risk of obstetric cholestasis?",
-    "45–70% in later pregnancies (also with the combined pill)."
+    "45–70% in later pregnancies (also with the combined pill).",
+    2,
+    "3foa9q"
    ],
    [
     "Postpartum",
     "Contraception advice after obstetric cholestasis?",
-    "Avoid oestrogen pills; use progestogen-only methods or IUCD."
-   ],
-   [
-    "Practice",
-    "Why is ALP a poor test for cholestasis in pregnancy?",
-    "Placenta makes ALP; it rises normally."
-   ],
-   [
-    "Practice",
-    "Why give vitamin K in obstetric cholestasis?",
-    "Fat malabsorption → low vitamin K → PPH risk."
-   ],
-   [
-    "Practice",
-    "Drug of choice for the itch of obstetric cholestasis?",
-    "Ursodeoxycholic acid."
+    "Avoid oestrogen pills; use progestogen-only methods or IUCD.",
+    2,
+    "16o1bhf"
    ]
   ]
  },
@@ -2302,162 +2795,212 @@
    [
     "Definitions",
     "Define AFLP.",
-    "Acute liver failure from microvesicular fatty infiltration in the third trimester or just after birth."
+    "Acute liver failure from microvesicular fatty infiltration in the third trimester or just after birth.",
+    1,
+    "1bcjrkw"
    ],
    [
     "Definitions",
     "Typical timing of AFLP?",
-    "Third trimester, usually 30–38 weeks, or early postpartum."
+    "Third trimester, usually 30–38 weeks, or early postpartum.",
+    1,
+    "1rsrbpv"
    ],
    [
     "Risk factors",
     "Three classic associations of AFLP?",
-    "Twin pregnancy, male fetus, and mild pre-eclampsia."
+    "Twin pregnancy, male fetus, and mild pre-eclampsia.",
+    2,
+    "ptptaj"
    ],
    [
     "Risk factors",
     "Male : female fetus ratio in AFLP?",
-    "About 3 : 1."
+    "About 3 : 1.",
+    3,
+    "4jvdbs"
    ],
    [
     "Risk factors",
     "How often is AFLP associated with pre-eclampsia?",
-    "30–60% of cases."
+    "30–60% of cases.",
+    2,
+    "1bxwn5r"
    ],
    [
     "Pathophysiology",
     "Which fetal enzyme defect is linked to AFLP?",
-    "LCHAD deficiency, a mitochondrial fatty-acid oxidation defect."
+    "LCHAD deficiency, a mitochondrial fatty-acid oxidation defect.",
+    3,
+    "tzkgic"
    ],
    [
     "Pathophysiology",
     "Histology of AFLP?",
-    "Microvesicular fat in hepatocytes."
+    "Microvesicular fat in hepatocytes.",
+    3,
+    "13p6zor"
    ],
    [
     "Clinical",
     "Presenting symptoms of AFLP?",
-    "Nausea, vomiting, abdominal pain, malaise, jaundice, headache; later confusion and coma."
+    "Nausea, vomiting, abdominal pain, malaise, jaundice, headache; later confusion and coma.",
+    1,
+    "10y0nvu"
    ],
    [
     "Clinical",
     "Why may polyuria and polydipsia occur in AFLP?",
-    "Transient diabetes insipidus."
+    "Transient diabetes insipidus.",
+    3,
+    "1isa79q"
    ],
    [
     "Investigations",
     "Why is hypoglycaemia typical in AFLP?",
-    "The failing liver cannot make glucose (gluconeogenesis)."
+    "The failing liver cannot make glucose (gluconeogenesis).",
+    2,
+    "hrguqv"
    ],
    [
     "Investigations",
     "Clotting picture in AFLP?",
-    "Raised PT/INR, low fibrinogen; may progress to DIC."
+    "Raised PT/INR, low fibrinogen; may progress to DIC.",
+    2,
+    "13hrtep"
    ],
    [
     "Investigations",
     "Typical urate in AFLP?",
-    "Markedly raised."
+    "Markedly raised.",
+    2,
+    "4jo4uu"
    ],
    [
     "Investigations",
-    "Typical WBC in AFLP?",
-    "Raised."
+    "Typical white cell count in AFLP?",
+    "Raised.",
+    2,
+    "1el892r"
    ],
    [
     "Investigations",
     "Role of ultrasound in AFLP?",
-    "Mainly to exclude other causes; may show a bright fatty liver."
+    "Mainly to exclude other causes; may show a bright fatty liver.",
+    2,
+    "1kjdgih"
    ],
    [
     "Investigations",
     "Swansea criteria for AFLP?",
-    "Six or more of 14 clinical, blood and scan features with no other cause."
+    "Six or more of 14 clinical, blood and scan features with no other cause.",
+    3,
+    "1kg7w00"
    ],
    [
     "Differential",
     "AFLP vs HELLP: best discriminating tests?",
-    "AFLP: low glucose, high INR, jaundice. HELLP: very low platelets, haemolysis, high BP."
+    "AFLP: low glucose, high INR, jaundice. HELLP: very low platelets, haemolysis, high blood pressure.",
+    3,
+    "1jqfakm"
    ],
    [
     "Differential",
     "Proportion of jaundice in pregnancy caused by pregnancy itself?",
-    "About 10%."
+    "About 10%.",
+    3,
+    "1bxg4sp"
    ],
    [
     "Differential",
     "Pregnancy-specific causes of abnormal LFTs?",
-    "Hyperemesis, obstetric cholestasis, pre-eclampsia/HELLP, AFLP."
+    "Hyperemesis, obstetric cholestasis, pre-eclampsia/HELLP, AFLP.",
+    2,
+    "vn1kcv"
    ],
    [
     "Differential",
     "Which viral hepatitis is most dangerous in the third trimester?",
-    "Hepatitis E: fulminant liver failure, high maternal mortality."
+    "Hepatitis E: fulminant liver failure, high maternal mortality.",
+    2,
+    "10w6emu"
    ],
    [
     "Differential",
     "Jaundice with ALT above 1000 in pregnancy suggests?",
-    "Viral hepatitis rather than AFLP."
+    "Viral hepatitis rather than AFLP.",
+    2,
+    "1n31cew"
    ],
    [
     "Complications",
     "Maternal complications of AFLP?",
-    "Fulminant liver failure, DIC, PPH, kidney failure, hypoglycaemic coma, pancreatitis, death."
+    "Fulminant liver failure, DIC, PPH, kidney failure, hypoglycaemic coma, pancreatitis, death.",
+    2,
+    "1hhfxe4"
    ],
    [
     "Complications",
     "Maternal and fetal mortality of AFLP?",
-    "Maternal 18% (higher if diagnosis is delayed), fetal 23%."
+    "Maternal 18% (higher if diagnosis is delayed), fetal 23%.",
+    2,
+    "14kaqdn"
    ],
    [
     "Management",
     "Where should AFLP be managed?",
-    "HDU or ICU with a multidisciplinary team; inform a liver unit early."
+    "HDU or ICU with a multidisciplinary team; inform a liver unit early.",
+    1,
+    "gil8my"
    ],
    [
     "Management",
     "How is hypoglycaemia treated in AFLP?",
-    "Dextrose 10–50% infusion with glucose checks every 1–2 hours."
+    "Dextrose 10–50% infusion with glucose checks every 1–2 hours.",
+    2,
+    "4cjht2"
    ],
    [
     "Management",
     "How is coagulopathy corrected in AFLP?",
-    "IV vitamin K, FFP, cryoprecipitate and platelets."
+    "IV vitamin K, FFP, cryoprecipitate and platelets.",
+    2,
+    "1lobtry"
    ],
    [
     "Management",
     "Definitive treatment of AFLP?",
-    "Delivery after stabilisation, whatever the gestation."
+    "Delivery after stabilisation, whatever the gestation.",
+    1,
+    "1vq35le"
    ],
    [
     "Management",
     "When is regional anaesthesia contraindicated in AFLP?",
-    "Platelets below 80 or deranged clotting."
+    "Platelets below 80 or deranged clotting.",
+    3,
+    "1volfmu"
    ],
    [
     "Management",
     "Outcome after delivery in AFLP?",
-    "Most recover rapidly with no lasting liver damage; rarely transplant."
+    "Most recover rapidly with no lasting liver damage; rarely transplant.",
+    2,
+    "1hqpfhx"
    ],
    [
     "Postpartum",
     "What should be checked in the baby of a mother with AFLP?",
-    "LCHAD deficiency: risk of hypoglycaemia and cardiomyopathy."
+    "LCHAD deficiency: risk of hypoglycaemia and cardiomyopathy.",
+    3,
+    "1c86dzq"
    ],
    [
     "Postpartum",
     "Can AFLP recur?",
-    "Yes, especially if parents carry an LCHAD mutation."
-   ],
-   [
-    "Practice",
-    "Why is hypoglycaemia typical in AFLP but not in HELLP?",
-    "Failing liver cannot make glucose (gluconeogenesis)."
-   ],
-   [
-    "Practice",
-    "Which viral hepatitis is most dangerous in late pregnancy?",
-    "Hepatitis E."
+    "Yes, especially if parents carry an LCHAD mutation.",
+    2,
+    "1mhfbt"
    ]
   ]
  },
@@ -2466,158 +3009,220 @@
   "cards": [
    [
     "Physiology",
-    "Why does TSH fall in the 1st trimester?",
-    "hCG (peak 10–12 wk) weakly stimulates the TSH receptor, so T4 rises slightly and TSH is suppressed."
+    "Why does TSH fall in the first trimester?",
+    "hCG (peak 10–12 weeks) weakly stimulates the TSH receptor, so T4 rises slightly and TSH is suppressed.",
+    2,
+    "33vwjr"
    ],
    [
     "Physiology",
     "Why measure free T4, not total T4, in pregnancy?",
-    "Oestrogen doubles TBG, so total T4 and T3 rise in every pregnancy; free T4 stays normal."
+    "Oestrogen doubles TBG, so total T4 and T3 rise in every pregnancy; free T4 stays normal.",
+    2,
+    "jj2sxu"
    ],
    [
     "Physiology",
-    "Upper limit of TSH in the 1st trimester?",
-    "About 2.5 mU/L; about 3.0 mU/L in the 2nd and 3rd trimesters."
+    "Upper limit of TSH in the first trimester?",
+    "About 2.5 mU/L; about 3.0 mU/L in the 2nd and third trimesters.",
+    2,
+    "1yk6961"
    ],
    [
     "Physiology",
     "When does the fetal thyroid start working?",
-    "From about 12 weeks; before that the fetus depends on maternal T4."
+    "From about 12 weeks; before that the fetus depends on maternal T4.",
+    2,
+    "1s0k9hb"
    ],
    [
     "Aetiology",
     "Commonest cause of thyrotoxicosis in pregnancy?",
-    "Graves' disease, about 95 % of cases."
+    "Graves' disease, about 95 % of cases.",
+    1,
+    "1j6h1b1"
    ],
    [
     "Diagnosis",
-    "Hyperemesis at 9 wk, low TSH, high free T4, no goitre or eye signs. Diagnosis?",
-    "Gestational transient thyrotoxicosis (hCG effect). No antithyroid drugs; fluids and antiemetics."
+    "Hyperemesis at 9 weeks, low TSH, high free T4, no goitre or eye signs. Diagnosis?",
+    "Gestational transient thyrotoxicosis (hCG effect). No antithyroid drugs; fluids and antiemetics.",
+    2,
+    "pdnaew"
    ],
    [
     "Diagnosis",
     "How do you tell Graves' from gestational thyrotoxicosis?",
-    "Graves': goitre, eye signs, TRAb positive, symptoms before pregnancy. Gestational: none of these, settles by 18–20 wk."
+    "Graves': goitre, eye signs, TRAb positive, symptoms before pregnancy. Gestational: none of these, settles by 18–20 weeks.",
+    3,
+    "d16cdz"
    ],
    [
     "Diagnosis",
     "TFT pattern in hyperthyroidism?",
-    "Low TSH with high free T4."
+    "Low TSH with high free T4.",
+    1,
+    "c5iswq"
    ],
    [
     "Course",
     "Course of Graves' through pregnancy?",
-    "Often worse in 1st trimester, improves in 2nd–3rd, relapses after delivery."
+    "Often worse in first trimester, improves in 2nd–3rd, relapses after delivery.",
+    3,
+    "ubqrug"
    ],
    [
     "Drugs",
-    "Antithyroid drug of choice in the 1st trimester?",
-    "PTU 150–400 mg/day: carbimazole is teratogenic in early pregnancy."
+    "Antithyroid drug of choice in the first trimester?",
+    "PTU 150–400 mg/day: carbimazole is teratogenic in early pregnancy.",
+    1,
+    "19y66tx"
    ],
    [
     "Drugs",
-    "Why switch from PTU to carbimazole in the 2nd trimester?",
-    "PTU can cause severe liver damage; carbimazole's teratogenic window has passed."
+    "Why switch from PTU to carbimazole in the second trimester?",
+    "PTU can cause severe liver damage; carbimazole's teratogenic window has passed.",
+    3,
+    "18ezvcp"
    ],
    [
     "Drugs",
     "Features of carbimazole embryopathy?",
-    "Aplasia cutis (scalp defect), choanal atresia, oesophageal atresia, facial anomalies."
+    "Aplasia cutis (scalp defect), choanal atresia, oesophageal atresia, facial anomalies.",
+    3,
+    "okicv6"
    ],
    [
     "Drugs",
     "Target of antithyroid treatment in pregnancy?",
-    "Lowest dose keeping free T4 at the upper limit of normal, to avoid fetal goitre and hypothyroidism."
+    "Lowest dose keeping free T4 at the upper limit of normal, to avoid fetal goitre and hypothyroidism.",
+    2,
+    "drsfra"
    ],
    [
     "Drugs",
     "Role of propranolol?",
-    "Symptom relief (10–40 mg 8-hourly) for a short time only; long use causes IUGR."
+    "Symptom relief (10–40 mg 8-hourly) for a short time only; long use causes IUGR.",
+    2,
+    "172wma0"
    ],
    [
     "Drugs",
     "Is radioiodine allowed in pregnancy?",
-    "Never: contraindicated in pregnancy and breastfeeding (destroys the fetal thyroid)."
+    "Never: contraindicated in pregnancy and breastfeeding (destroys the fetal thyroid).",
+    1,
+    "1scu94s"
    ],
    [
     "Surgery",
     "Indications and timing of thyroidectomy in pregnancy?",
-    "Dysphagia, stridor, suspected cancer, allergy to both drugs. Best in the 2nd trimester."
+    "Dysphagia, stridor, suspected cancer, allergy to both drugs. Best in the second trimester.",
+    3,
+    "wxntii"
    ],
    [
     "Fetal",
     "Cause of fetal / neonatal thyrotoxicosis?",
-    "Maternal TSH-receptor stimulating antibodies (TRAb) cross the placenta; up to 10 % of babies of Graves' mothers."
+    "Maternal TSH-receptor stimulating antibodies (TRAb) cross the placenta; up to 10 % of babies of Graves' mothers.",
+    2,
+    "1bfbik3"
    ],
    [
     "Fetal",
     "Past thyroidectomy for Graves', now on thyroxine. Fetal heart 175. Why?",
-    "Persisting TRAb still cross the placenta: fetal thyrotoxicosis. Check TRAb in all past Graves'."
+    "Persisting TRAb still cross the placenta: fetal thyrotoxicosis. Check TRAb in all past Graves'.",
+    3,
+    "1qh7mvj"
    ],
    [
     "Breastfeeding",
     "Safe antithyroid doses in breastfeeding?",
-    "PTU < 150 mg/day or carbimazole < 15 mg/day; above this check the baby's TFTs."
+    "PTU < 150 mg/day or carbimazole < 15 mg/day; above this check the baby's TFTs.",
+    3,
+    "sxwq75"
    ],
    [
     "Emergency",
     "Features of thyroid storm?",
-    "Fever, confusion, tachycardia or AF, heart failure; triggered by labour, caesarean or infection."
+    "Fever, confusion, tachycardia or AF, heart failure; triggered by labour, caesarean or infection.",
+    2,
+    "cxmg5b"
    ],
    [
     "Emergency",
     "Treatment of thyroid storm?",
-    "HDU, fluids, cooling, propranolol, PTU, then iodine 1 h later, IV hydrocortisone; treat the trigger."
+    "HDU, fluids, cooling, propranolol, PTU, then iodine 1 hour later, IV hydrocortisone; treat the trigger.",
+    3,
+    "t4koze"
    ],
    [
     "Labour",
     "Is thyrotoxicosis an indication for caesarean?",
-    "No. Vaginal delivery; watch for thyroid storm and keep well hydrated."
+    "No. Vaginal delivery; watch for thyroid storm and keep well hydrated.",
+    1,
+    "1700tsp"
    ],
    [
     "Hypothyroidism",
     "Commonest cause of hypothyroidism in pregnancy?",
-    "Autoimmune (Hashimoto's) thyroiditis; iodine deficiency worldwide."
+    "Autoimmune (Hashimoto's) thyroiditis; iodine deficiency worldwide.",
+    1,
+    "vd1t80"
    ],
    [
     "Hypothyroidism",
     "Risks of untreated hypothyroidism?",
-    "Infertility, miscarriage, pre-eclampsia, low birth weight, stillbirth, lower IQ in the child."
+    "Infertility, miscarriage, pre-eclampsia, low birth weight, stillbirth, lower IQ in the child.",
+    2,
+    "8xbfy4"
    ],
    [
     "Hypothyroidism",
     "Woman on levothyroxine gets a positive pregnancy test. Action?",
-    "Increase dose by 25–30 % at once (e.g. 2 extra tablets weekly); TSH in 6 wk."
+    "Increase dose by 25–30 % at once (e.g. 2 extra tablets weekly); TSH in 6 weeks.",
+    2,
+    "xj9cma"
    ],
    [
     "Hypothyroidism",
     "Target TSH on levothyroxine in pregnancy?",
-    "Below 2.5 mU/L in the 1st trimester; below 3 later."
+    "Below 2.5 mU/L in the first trimester; below 3 later.",
+    2,
+    "czlvd6"
    ],
    [
     "Hypothyroidism",
     "Why may thyroxine fail with iron tablets?",
-    "Iron (and calcium) block absorption: take them 4 hours apart."
+    "Iron (and calcium) block absorption: take them 4 hours apart.",
+    3,
+    "1v4itk9"
    ],
    [
     "Postpartum thyroiditis",
     "Typical onset of postpartum thyroiditis?",
-    "Usually 3–4 months after delivery; can appear up to 1 year."
+    "Usually 3–4 months after delivery; can appear up to 1 year.",
+    2,
+    "zwrhnq"
    ],
    [
     "Postpartum thyroiditis",
     "Phases of postpartum thyroiditis?",
-    "Hyperthyroid (preformed T4 released) then hypothyroid as stores run out; most recover."
+    "Hyperthyroid (preformed T4 released) then hypothyroid as stores run out; most recover.",
+    2,
+    "upjtq9"
    ],
    [
     "Postpartum thyroiditis",
     "Treatment of the hyperthyroid phase?",
-    "β-blocker for symptoms, not antithyroid drugs (no overproduction)."
+    "β-blocker for symptoms, not antithyroid drugs (no overproduction).",
+    2,
+    "wewm6b"
    ],
    [
     "Postpartum thyroiditis",
     "Recurrence risk and follow-up?",
-    "70 % recur in a future pregnancy; annual TFT for later hypothyroidism."
+    "70 % recur in a future pregnancy; annual TFT for later hypothyroidism.",
+    2,
+    "1vfth82"
    ]
   ]
  },
@@ -2627,157 +3232,205 @@
    [
     "Transmission",
     "Three routes of mother-to-child HIV transmission?",
-    "In utero (transplacental), intrapartum (blood and secretions), and breastfeeding."
+    "In utero (transplacental), intrapartum (blood and secretions), and breastfeeding.",
+    1,
+    "1vb0vkf"
    ],
    [
     "Transmission",
     "When does most MTCT occur in a non-breastfed baby?",
-    "Around labour and delivery."
+    "Around labour and delivery.",
+    2,
+    "xcfm6f"
    ],
    [
     "Transmission",
     "MTCT risk with no treatment, AZT alone, and suppressive ART?",
-    "About 25 %, about 8 %, and below 1–2 %."
+    "About 25 %, about 8 %, and below 1–2 %.",
+    2,
+    "5b79la"
    ],
    [
     "Risk factors",
     "Strongest single risk factor for MTCT?",
-    "High maternal viral load."
+    "High maternal viral load.",
+    1,
+    "3ogyax"
    ],
    [
     "Risk factors",
     "Obstetric factors that increase transmission?",
-    "Prolonged ROM, chorioamnionitis, preterm birth, early ARM, scalp electrodes, fetal blood sampling."
+    "Prolonged rupture of membranes, chorioamnionitis, preterm birth, early artificial rupture of membranes, scalp electrodes, fetal blood sampling.",
+    2,
+    "6qfeir"
    ],
    [
     "Screening",
     "How is HIV screening offered in pregnancy?",
-    "To every woman at booking, opt-out: tested unless she declines; with syphilis and hepatitis B."
+    "To every woman at booking, opt-out: tested unless she declines; with syphilis and hepatitis B.",
+    1,
+    "t8yj7x"
    ],
    [
     "Screening",
     "Positive rapid HIV test at booking. Next step?",
-    "Confirm with a second, different test (ELISA ± Western blot); then CD4 and viral load."
+    "Confirm with a second, different test (ELISA with or without Western blot); then CD4 and viral load.",
+    2,
+    "vmnkvw"
    ],
    [
     "Screening",
     "Unbooked woman in labour, HIV status unknown?",
-    "Rapid HIV test now; if positive start ART, IV AZT, and infant high-risk prophylaxis."
+    "Rapid HIV test now; if positive start ART, IV AZT, and infant high-risk prophylaxis.",
+    2,
+    "12f0b3b"
    ],
    [
     "ART",
     "When should a pregnant woman with HIV start ART?",
-    "As soon as diagnosed, any CD4, any gestation, and continue for life."
+    "As soon as diagnosed, any CD4, any gestation, and continue for life.",
+    1,
+    "yvpbes"
    ],
    [
     "ART",
     "First-line ART regimen in pregnancy?",
-    "TLD: tenofovir 300 mg + lamivudine 300 mg + dolutegravir 50 mg, one tablet daily."
+    "TLD: tenofovir 300 mg + lamivudine 300 mg + dolutegravir 50 mg, one tablet daily.",
+    2,
+    "mmtswy"
    ],
    [
     "ART",
     "Which baseline test is needed before tenofovir?",
-    "Renal function (creatinine): tenofovir is nephrotoxic."
+    "Renal function (creatinine): tenofovir is nephrotoxic.",
+    3,
+    "sle3gx"
    ],
    [
     "Monitoring",
     "When is viral load checked in pregnancy?",
-    "3 months after starting ART and at 34–36 weeks to plan the birth."
+    "3 months after starting ART and at 34–36 weeks to plan the birth.",
+    2,
+    "kwcnvk"
    ],
    [
     "Cotrimoxazole",
     "Indication and dose of cotrimoxazole prophylaxis?",
-    "960 mg daily if CD4 ≤ 350 or WHO stage 3–4; prevents PCP, toxoplasmosis and malaria."
+    "960 mg daily if CD4 ≤ 350 or WHO stage 3–4; prevents PCP, toxoplasmosis and malaria.",
+    2,
+    "1uki335"
    ],
    [
     "Cotrimoxazole",
     "Woman on cotrimoxazole is due for IPTp. Give SP?",
-    "No: two sulfa drugs risk severe skin reactions, and cotrimoxazole already protects against malaria."
+    "No: two sulfa drugs risk severe skin reactions, and cotrimoxazole already protects against malaria.",
+    3,
+    "lt6lpy"
    ],
    [
     "Antenatal",
     "Which procedures are avoided antenatally?",
-    "Amniocentesis and CVS (invasive tests) where possible."
+    "Amniocentesis and CVS (invasive tests) where possible.",
+    2,
+    "31grzt"
    ],
    [
     "Delivery",
-    "Mode of delivery with viral load < 50 copies/mL at 36 wk?",
-    "Vaginal birth; caesarean only for usual obstetric reasons."
+    "Mode of delivery with viral load < 50 copies/mL at 36 weeks?",
+    "Vaginal birth; caesarean only for usual obstetric reasons.",
+    2,
+    "1t2dmqn"
    ],
    [
     "Delivery",
     "Mode of delivery with viral load ≥ 1000 or unknown?",
-    "Elective caesarean at 38 wk, before labour and membrane rupture, plus IV zidovudine."
+    "Elective caesarean at 38 weeks, before labour and membrane rupture, plus IV zidovudine.",
+    2,
+    "22l4uu"
    ],
    [
     "Intrapartum",
     "IV zidovudine regimen in labour?",
-    "2 mg/kg over 1 h, then 1 mg/kg/h until the cord is clamped; continue oral ART."
+    "2 mg/kg over 1 hour, then 1 mg/kg/h until the cord is clamped; continue oral ART.",
+    3,
+    "saeypo"
    ],
    [
     "Intrapartum",
     "Procedures to avoid in labour?",
-    "Early ARM, prolonged ROM, scalp electrodes, fetal blood sampling, routine episiotomy."
+    "Early artificial rupture of membranes, prolonged rupture of membranes, scalp electrodes, fetal blood sampling, routine episiotomy.",
+    2,
+    "7d3sid"
    ],
    [
     "Intrapartum",
     "Should oral ART be stopped in labour?",
-    "No. Continue oral ART through labour and after delivery."
+    "No. Continue oral ART through labour and after delivery.",
+    2,
+    "8fnghf"
    ],
    [
     "Infant",
     "Prophylaxis for a low-risk HIV-exposed baby?",
-    "Nevirapine 15 mg once daily for 6 weeks (birth weight ≥ 2.5 kg)."
+    "Nevirapine 15 mg once daily for 6 weeks (birth weight ≥ 2.5 kg).",
+    2,
+    "1kosrg6"
    ],
    [
     "Infant",
     "Prophylaxis for a high-risk baby?",
-    "AZT + NVP for 6 weeks, then NVP for 6 more weeks (mother VL ≥ 1000, short ART, or diagnosed late)."
+    "AZT + NVP for 6 weeks, then NVP for 6 more weeks (mother VL ≥ 1000, short ART, or diagnosed late).",
+    3,
+    "1by3aqu"
    ],
    [
     "Infant",
     "How is HIV diagnosed in an infant?",
-    "DNA PCR at 6 weeks, repeated after weaning; antibody tests unreliable before 18 months."
+    "DNA PCR at 6 weeks, repeated after weaning; antibody tests unreliable before 18 months.",
+    2,
+    "1sxwl1y"
    ],
    [
     "Infant",
     "Why is a positive antibody test at 9 months not diagnostic?",
-    "Maternal IgG antibodies cross the placenta and persist up to 18 months."
+    "Maternal IgG antibodies cross the placenta and persist up to 18 months.",
+    3,
+    "ysrspi"
    ],
    [
     "Infant",
     "When does the infant start cotrimoxazole?",
-    "From 6 weeks until HIV infection is excluded."
+    "From 6 weeks until HIV infection is excluded.",
+    2,
+    "1uaavfz"
    ],
    [
     "Feeding",
     "Recommended infant feeding in Sudan for a mother on ART?",
-    "Exclusive breastfeeding for 6 months, then continue with foods to 12–24 months."
+    "Exclusive breastfeeding for 6 months, then continue with foods to 12–24 months.",
+    2,
+    "gs43ld"
    ],
    [
     "Feeding",
     "Why avoid mixed feeding in the first 6 months?",
-    "Other foods damage the gut lining and raise HIV transmission from breast milk."
+    "Other foods damage the gut lining and raise HIV transmission from breast milk.",
+    3,
+    "en27nw"
    ],
    [
     "Postpartum",
     "Contraceptive advice after delivery?",
-    "All methods suitable plus condoms (dual protection); efavirenz and rifampicin lower implant and pill levels."
+    "All methods suitable plus condoms (dual protection); efavirenz and rifampicin lower implant and pill levels.",
+    2,
+    "9ttxzi"
    ],
    [
     "Prevention",
     "Four prongs of PMTCT?",
-    "Prevent HIV in women, prevent unplanned pregnancy, prevent MTCT, treat and support the family."
-   ],
-   [
-    "Practice",
-    "When does most mother-to-child transmission happen without breastfeeding?",
-    "Around labour and delivery."
-   ],
-   [
-    "Practice",
-    "Why avoid mixed feeding in an HIV-exposed baby?",
-    "Gut damage raises transmission; exclusive breast milk is safer."
+    "Prevent HIV in women, prevent unplanned pregnancy, prevent MTCT, treat and support the family.",
+    2,
+    "1wyecsn"
    ]
   ]
  },

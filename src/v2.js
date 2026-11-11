@@ -86,7 +86,7 @@ FB.innerHTML='<svg class="v2ic" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M
 /* only this button enters or leaves full page (owner, 11 Nov 2026): a tap on the page or scrolling no longer changes it */
 var _setImm=setImm;setImm=function(on,btn){if(btn)_setImm(on)};$('reader').appendChild(FB);
 function rtopic(){var s=scNow();return s&&s.slice(0,2)==='t:'?TOPICS.filter(function(t){return 't:'+t.id===s})[0]:null}
-RBM.onclick=function(){var t=rtopic();if(!t)return;var k='t:'+t.id;if(BM[k])delete BM[k];else BM[k]=Date.now();spj('bm',BM);pill()};
+RBM.onclick=function(){var t=rtopic();if(!t)return;var k='t:'+t.id;if(BM[k])delete BM[k];else BM[k]=Date.now();spj('bm',BM);syncSoon();pill()};
 function pill(){var c=lastCur<0?currentPage():lastCur,k=0,n=0;for(var i=0;i<wraps.length;i++){if(wraps[i].style.display==='none')continue;n++;if(i<=c)k++}
   var pn=$('pnum');if(!pn.classList.contains('ed'))pn.textContent=(PAGES[c]&&PAGES[c].user?'✎ ':'')+k+' / '+n;
   RP.firstChild.style.width=(n?k/n*100:0)+'%';var t=rtopic(),lab=PAGES[c]?String(PAGES[c].label||''):'';
@@ -149,7 +149,7 @@ function ring(p,sz){var r=15.5,c=2*Math.PI*r;return '<svg class="rg" viewBox="0 
 function overall(){var tp=0,tr=0;TOPICS.forEach(function(t){tp+=npg(t.id);tr+=tRead(t.id)});return pc(tr,tp)}
 function dueToday(){try{var D=daily();return Math.max(0,D.keys.length-D.done.length)}catch(e){return 0}}
 function qTotal(){return TOT.qs||QS.length}function cTotal(){var n=0;deckIds.forEach(function(id){n+=DECKS[id].cards.length});return TOT.cards||n}
-var BM=spj('bm')||{};function bmk(k){return '<button type="button" class="bmk'+(BM[k]?' on':'')+'" data-act="bm" data-k="'+k+'" aria-label="حفظ" aria-pressed="'+!!BM[k]+'">'+I('bm')+'</button>'}
+var BM=spj('bm')||{};window.__bmSet=function(v){BM=v||{};try{if(CURV==='v2saved')R.v2saved();pill()}catch(e){}};function bmk(k){return '<button type="button" class="bmk'+(BM[k]?' on':'')+'" data-act="bm" data-k="'+k+'" aria-label="حفظ" aria-pressed="'+!!BM[k]+'">'+I('bm')+'</button>'}
 function openTopic(t){if(locked(t.id)){openSub();return}goPage(t.p-1)}
 function bar(v){return '<span class="v2bar"><i style="width:'+v+'%"></i></span>'}
 function title(t,back,crumb){ return '<div class="v2pt" lang="ar">'+(back?'<button type="button" class="v2bk" data-v="'+back+'" aria-label="رجوع">'+I('arrow')+'</button>':'')+'<h2>'+t+'</h2>'+(crumb?'<span class="v2crumb">'+crumb+'</span>':'')+'</div>'}
@@ -439,7 +439,7 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
   ch:function(b){CH=+b.dataset.n;CHRET='v2chapters';go('v2chapter')},
   chf:function(b){CHF=b.dataset.f;R.v2chapters()},
   topic:function(b){var t=TOPICS.filter(function(x){return x.id===b.dataset.id})[0];if(t)openTopic(t)},
-  bm:function(b){var k=b.dataset.k;if(BM[k])delete BM[k];else BM[k]=Date.now();spj('bm',BM);if(CURV==='v2saved')R.v2saved();else{b.classList.toggle('on',!!BM[k]);b.setAttribute('aria-pressed',!!BM[k])}},
+  bm:function(b){var k=b.dataset.k;if(BM[k])delete BM[k];else BM[k]=Date.now();spj('bm',BM);syncSoon();if(CURV==='v2saved')R.v2saved();else{b.classList.toggle('on',!!BM[k]);b.setAttribute('aria-pressed',!!BM[k])}},
   chread:function(){var ts=chStat(chap(CH)).ts,t=ts.filter(function(x){return pct(x.id)<100})[0]||ts[0];if(t)openTopic(t)},
   chq:function(){qset.ch={};qset.ch[CH]=true;spj('qbset',qset);if(CUR&&CUR.done)CUR=null;go('qbank-v')},
   chc:function(){curDeck='ch:'+CH;started=false;try{sp('fcch',String(CH))}catch(e){}go('cards')},

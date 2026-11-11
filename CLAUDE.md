@@ -152,7 +152,7 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
 - Tokens `--bg --sf --tx --sub --pri --pon --sel --bd --deep`; mode `orr-mode` (day|night|auto) → `html[data-theme]`, colour `orr-pal`
   (lav, navy, green, orange, red, mono) → `html[data-pal]`; the old variables (--paper, --card, --rose…) are mapped to them.
 - Reader scope: `grp(i)` (topic, rr, dr, chapter cover, cover, front matter); only the pages of one group are shown.
-- New keys: orr-name, orr-photo, orr-bm (bookmarks, not synced yet), orr-lastact, orr-nread, orr-nseen, orr-pseg.
+- New keys: orr-name, orr-photo, orr-bm (bookmarks, synced as `bm` since 11 Nov 2026), orr-lastact, orr-nread, orr-nseen, orr-pseg.
 - Pictures: assets/img/v2_consult.jpg and v2_fetus.jpg are the owner's full pictures (10 Nov 2026; the tall baby picture fills the PC sidebar); v2_cover.jpg is still cut from his mock-up (low resolution); logo v2_logo.webp
   recoloured from his burgundy logo. Replace when he sends the originals.
 - Stage 1 done: shell, header, navigation, Home, Chapters + chapter page, Practice hub, Resources hub, Settings, Profile, Notifications
@@ -238,7 +238,9 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   with standard medical terms, WITHOUT changing any fact, number or dose; exact duplicate cards are removed. Card = [section, question, answer,
   level, old key]; question field `d` (EMQ items too). Chapter files `tools/levels/ch<N>.py`, applied with `python3 tools/levels/apply.py <file>`.
   App: Level filter in flashcards (`orr-fclv`) and step 3 «Level» in the test builder (`qset.lv`); a level tag on each card and question.
-  **Done: chapters 1, 3, 5 and 6 (chapter 3 questions: levels by hand, wording normalised by `tools/levels/clean.py`, which writes the shorthand out in full terms — `LV` in the chapter file; cards may use `CLV` the same way). Chapters 4 and 7 done the same way (cards `CLV`, questions `LV`). Next: chapter 2.** The question bank and flashcard screens still
+  **All seven chapters done (11 Nov 2026): 1,537 cards (464 easy, 788 medium, 285 hard) and 749 questions (112 / 398 / 239).** Chapters 1, 5, 6 (cards and
+  questions) and chapter 3 cards were rewritten by hand (`CARDS`, `QS`); chapters 2, 4, 7 cards (`CLV`) and chapters 2, 3, 4, 7 questions (`LV`) have levels
+  by hand and wording normalised by `tools/levels/clean.py` (shorthand written out in full terms), not sentence-by-sentence rewriting.
   have the old gold look; restyle them to the app tokens.
 - **Help (owner, 11 Nov 2026):** Settings → «المساعدة» (`v2contact`): two cards (`HPS` in v2.js): د. عبدالجليل ارجا 0116984258 and د. العباس عبدالرحمن 0965859782 (+249 96 585 9782), each with three buttons:
   WhatsApp (wa.me), Telegram (t.me/+number), Call (tel:). **Notification sound:** a new notification plays a soft two-note sound and swings the
@@ -277,6 +279,5 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
 `redesign` was merged into `main` on 11 Nov 2026 and deploys to https://obstetrics-master-review.pages.dev. Migration 008 started the
 one-month clock for the old codes (plan = 'old'; they end about 11 Dec 2026). An old code can still be typed in the new app: Subscription →
 «عندي كود تفعيل قديم» (`window.__lic.activate`). **From now on:** try new work on branch `redesign` (preview address above), and merge it
-into `main` when the owner has seen it; small fixes the owner asks for directly may go to both. Still open: clean wording and levels for
-chapters 2, 3, 4, 5, 7; English texts of the subscription and payment screens; bookmarks sync.
+into `main` when the owner has seen it; small fixes the owner asks for directly may go to both. English texts of the subscription and payment screens are in T_EN and bookmarks sync (`bm`) since 11 Nov 2026. Still open: the owner tests one live subscription; his corrected posters.
 - Full page is changed ONLY by its button `#v2full` (owner, 11 Nov 2026): v2.js wraps `setImm`, so a tap on the page or scrolling no longer enters or leaves it; leaving the reader ends it.
