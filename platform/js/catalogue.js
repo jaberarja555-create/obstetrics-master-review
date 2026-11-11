@@ -4,7 +4,7 @@
 window.SMR = window.SMR || {};
 SMR.sections = [
   { id: 'basic-sciences', key: 'basic', home: ['anatomy', 'physiology', 'pathology', 'microbiology', 'community-medicine'], layout: 'v' },
-  { id: 'clinical', key: 'clinical', home: ['medicine', 'surgery', 'pediatrics', 'obstetrics'], layout: 'h' },
+  { id: 'clinical', key: 'clinical', home: ['medicine', 'surgery', 'pediatrics', 'obstetrics', 'gynecology'], layout: 'h' },
   { id: 'house-officer', key: 'house', home: ['ho-pediatrics', 'house-officer', 'ho-medicine'], layout: 'h' }
 ];
 
@@ -61,12 +61,17 @@ SMR.books = [
     sub: { en: 'The full pediatrics book with its study tools', ar: 'كتاب طب الأطفال كاملًا مع أدوات المذاكرة' },
     tools: ['Book reader', 'Question bank', 'Flashcards', 'Rapid Review', 'Pediatric drugs', 'OSCE'],
     kw: 'أطفال طب الأطفال paediatrics pediatric' },
-  { id: 'obstetrics', section: 'clinical', title: 'Obstetrics & Gynaecology', series: 'Master Review', status: 'available',
+  { id: 'obstetrics', section: 'clinical', title: 'Obstetrics', series: 'Master Review', status: 'available',
     app: 'Obstetrics Master Review', url: 'https://obstetrics-master-review.pages.dev/',
     cover: 'img/covers/obstetrics.webp', w: 480, h: 678, edition: { en: '4th edition', ar: 'الطبعة الرابعة' },
     sub: { en: 'The full obstetrics book with its study tools', ar: 'كتاب التوليد كاملًا مع أدوات المذاكرة' },
     tools: ['Book reader', 'Question bank', 'Flashcards', 'Rapid Review', 'Obstetric drugs', 'OSCE'],
-    kw: 'توليد نساء وتوليد obstetrics gynecology obs gyn' },
+    kw: 'توليد obstetric obs' },
+  { id: 'gynecology', section: 'clinical', title: 'Gynecology', series: 'Master Review', status: 'soon',
+    cover: 'img/covers/gynecology.webp', w: 480, h: 720,
+    sub: { en: 'Gynecology for clinical students', ar: 'أمراض النساء لطلاب المرحلة السريرية' },
+    areas: ['Menstrual Disorders', 'Benign Gynecology', 'Infertility', 'Contraception', 'Gynecologic Oncology', 'Pelvic Floor Disorders', 'Infections', 'Gynecologic Emergencies'],
+    kw: 'نساء أمراض النساء gynaecology gyn gyne' },
 
   /* House Officer: four planned handbooks */
   { id: 'ho-pediatrics', section: 'house-officer', title: 'Pediatrics', series: 'House Officer Handbook', status: 'soon',

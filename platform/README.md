@@ -10,7 +10,7 @@ The three live apps stay exactly where they are and are opened by their real add
 | Book | App | Address |
 |---|---|---|
 | Surgery | Surgery Master Review | https://surgery-master-review.jaberarja555.workers.dev/ |
-| Obstetrics & Gynaecology | Obstetrics Master Review | https://obstetrics-master-review.pages.dev/ |
+| Obstetrics | Obstetrics Master Review | https://obstetrics-master-review.pages.dev/ |
 | Pediatrics | Pediatric Master Review | https://pediatrics-master-review.jaberarja555.workers.dev/ |
 
 This is a **link connection, not a code merge**. Each app keeps its own address, activation, subscription, saved notes,
