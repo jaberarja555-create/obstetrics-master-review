@@ -240,7 +240,7 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   App: Level filter in flashcards (`orr-fclv`) and step 3 «Level» in the test builder (`qset.lv`); a level tag on each card and question.
   **Done: chapter 1 (86 cards, 44 questions). Next: chapters 2–7, one chapter at a time.** The question bank and flashcard screens still
   have the old gold look; restyle them to the app tokens.
-- **Help (owner, 11 Nov 2026):** Settings → «المساعدة» (`v2contact`): د. عبدالجليل ارجا, 0116984258 (`HPH`/`HPI` in v2.js), three buttons:
+- **Help (owner, 11 Nov 2026):** Settings → «المساعدة» (`v2contact`): two cards (`HPS` in v2.js): د. عبدالجليل ارجا 0116984258 and د. العباس عبدالرحمن 0965859782 (+249 96 585 9782), each with three buttons:
   WhatsApp (wa.me), Telegram (t.me/+number), Call (tel:). **Notification sound:** a new notification plays a soft two-note sound and swings the
   bell (`nding`, after the first touch). **Preview trial:** preview.yml sets the Pages secret OBS_KEY for the preview environment too
   (`--env preview`); without it /trial answered 503 on the preview address.

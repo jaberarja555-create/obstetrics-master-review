@@ -254,15 +254,14 @@ R.v2about=function(){$('v2aboutW').innerHTML=title('عن الكتاب','v2settin
   '<div class="abg" lang="ar">'+ABOUT.slice(0,8).map(function(a){return '<button type="button" class="v2c abt" data-act="about" data-k="'+a[0]+'"><span class="im" style="background-image:url(img/abt_'+a[0]+'.jpg)"></span><span class="lb"><b>'+a[1]+'</b>'+I('chev')+'</span></button>'}).join('')+'</div>'+
   '<button type="button" class="v2c hrow" data-act="about" data-k="rights" lang="ar"><span class="ii">'+I('info')+'</span><span><b>حقوق النشر وشروط الاستخدام</b><small>إخلاء المسؤولية العلمية والطبية</small></span>'+I('chev')+'</button>'};
 /* Help (owner, 11 Nov 2026): the author's name and number with three ways to reach him */
-var HPH='0116984258',HPI='249116984258';
+var HPS=[['د. عبدالجليل ارجا','0116984258','249116984258'],['د. العباس عبدالرحمن','0965859782','249965859782']];
 R.v2contact=function(){var P='<svg class="v2ic" viewBox="0 0 24 24">',ph='<path d="M8.6 4.5l1.6 3.6-1.5 1.6c.9 2 2.6 3.7 4.6 4.6l1.6-1.5 3.6 1.6v2.7c0 .8-.7 1.4-1.5 1.4C10.600 18.5 5.5 13.400 5.500 6c0-.8.6-1.500 1.400-1.500z"/>';
   $('v2contactW').innerHTML=title('المساعدة','v2settings','Help')+
-  '<div class="v2c hcd" lang="ar"><img src="img/v2_logo.webp" alt=""><h3>د. عبدالجليل ارجا</h3><p>للاستفسار عن الكتاب أو الاشتراك، أو للإبلاغ عن خطأ، تواصل معنا بالطريقة التي تناسبك.</p><a class="hph" href="tel:+'+HPI+'" dir="ltr">'+HPH+'</a></div>'+
-  '<div class="hcg" lang="ar">'+
-    '<a class="v2c hco wa" href="https://wa.me/'+HPI+'" target="_blank" rel="noopener"><span>'+P+'<path d="M12 3.5a8.500 8.500 0 0 0-7.300 12.800L3.500 20.500l4.300-1.100A8.500 8.500 0 1 0 12 3.500z"/><path d="M9.300 8.300l.9 1.900-.8.9c.5 1 1.400 1.900 2.400 2.400l.9-.8 1.900.9v1c0 .5-.4.8-.9.800-3.300-.2-6-2.900-6.200-6.200 0-.5.300-.900.800-.900z"/></svg></span><b>واتساب</b><small>راسلنا على واتساب</small></a>'+
-    '<a class="v2c hco tg" href="https://t.me/+'+HPI+'" target="_blank" rel="noopener"><span>'+P+'<path d="M20.500 4.500L3.500 11l5 1.800 1.800 5.700 2.800-3.400 4.400 3.400z"/><path d="M8.500 12.800l8-5.300-6.200 6.900"/></svg></span><b>تيليجرام</b><small>راسلنا على تيليجرام</small></a>'+
-    '<a class="v2c hco cl" href="tel:+'+HPI+'"><span>'+P+ph+'</svg></span><b>اتصال</b><small>اتصل بنا مباشرة</small></a>'+
-  '</div>'};
+  '<div class="v2c hcd" lang="ar"><img src="img/v2_logo.webp" alt=""><p>للاستفسار عن الكتاب أو الاشتراك، أو للإبلاغ عن خطأ، تواصل مع أحد المؤلفين بالطريقة التي تناسبك.</p></div>'+
+  '<div class="hpp" lang="ar">'+HPS.map(function(h){return '<div class="v2c hpc"><h3>'+h[0]+'</h3><a class="hph" href="tel:+'+h[2]+'" dir="ltr">'+h[1]+'</a><div class="hcg">'+
+    '<a class="hco wa" href="https://wa.me/'+h[2]+'" target="_blank" rel="noopener"><span>'+P+'<path d="M12 3.5a8.500 8.500 0 0 0-7.300 12.800L3.500 20.500l4.300-1.100A8.500 8.500 0 1 0 12 3.500z"/><path d="M9.300 8.300l.9 1.900-.8.9c.5 1 1.400 1.900 2.400 2.400l.9-.8 1.900.9v1c0 .5-.4.8-.9.800-3.300-.2-6-2.900-6.200-6.200 0-.5.300-.900.800-.900z"/></svg></span><b>واتساب</b></a>'+
+    '<a class="hco tg" href="https://t.me/+'+h[2]+'" target="_blank" rel="noopener"><span>'+P+'<path d="M20.500 4.500L3.500 11l5 1.800 1.800 5.700 2.800-3.400 4.400 3.400z"/><path d="M8.500 12.800l8-5.300-6.200 6.900"/></svg></span><b>تيليجرام</b></a>'+
+    '<a class="hco cl" href="tel:+'+h[2]+'"><span>'+P+ph+'</svg></span><b>اتصال</b></a></div></div>'}).join('')+'</div>'};
 R.v2poster=function(){var a=ABOUT.filter(function(x){return x[0]===POST})[0];$('v2posterW').innerHTML=title(a[1],'v2about','About')+'<div class="v2c abp"><img src="img/ab_'+a[0]+'.jpg" alt="'+a[1]+'"></div>'+(a[0]==='howto'?'<button type="button" class="v2btn" data-v="v2help" lang="ar" style="max-width:760px;width:100%;margin:0 auto;height:50px">'+I('book')+'دليل الاستخدام المفصّل بالصور</button>':'')};
 R.v2saved=function(){var ks=Object.keys(BM).sort(function(a,b){return BM[b]-BM[a]});
   $('v2savedW').innerHTML=title('المصادر المحفوظة','v2resources')+(ks.length?'<div class="tpl">'+ks.map(function(k){var t=TOPICS.filter(function(x){return 't:'+x.id===k})[0];if(!t)return '';

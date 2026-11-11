@@ -517,3 +517,10 @@ button{font-family:inherit}
 .ring>.v2ic,.ring>svg{animation:v2ring .9s ease;transform-origin:50% 10%}
 
 .ugh{margin:10px 2px 0;font:800 18px 'Cairo',sans-serif;direction:rtl;text-align:right;color:var(--tx);scroll-margin-top:8px}#v2helpW .abp{scroll-margin-top:8px}
+
+.hpp{display:grid;grid-template-columns:1fr;gap:12px;direction:rtl}@media (min-width:760px){.hpp{grid-template-columns:1fr 1fr}}
+.hpc{display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 14px;text-align:center}
+.hpc h3{margin:0;font:800 20px 'Cairo',sans-serif;color:var(--tx)}
+.hpc .hph{padding:4px 18px;border-radius:999px;background:var(--sel);color:var(--pri);font:800 19px var(--ui);letter-spacing:1px;text-decoration:none}
+.hpc .hcg{width:100%;margin-top:6px}.hpc .hco{padding:6px 4px}.hpc .hco span{width:52px;height:52px}
+.hcd{padding:16px 18px}.hcd img{width:64px;height:64px}
