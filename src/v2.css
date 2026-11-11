@@ -706,3 +706,10 @@ button{font-family:inherit}
 .bar .rpg{display:none}.app.rd>.bar .rpg{display:block;position:static;transform:none;flex:none;margin:0 2px;padding:5px 9px;border-radius:999px;background:var(--sel);color:var(--tx);border:0;box-shadow:none;font:800 12px 'Inter',sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap;pointer-events:none;opacity:1}
 @media (max-width:759px){.app.rd>.bar .rpg{padding:4px 7px;font-size:11px}.app.rd>.bar .rhome{display:none}}
 @media (max-width:759px){.app.rd>.bar #v2rs{display:none}.app.rd>.bar #v2rb{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:12px;line-height:1.2;letter-spacing:-.01em;text-overflow:clip}.app.rd>.bar .rpg{padding:4px 6px;font-size:10.5px;margin:0}.app.rd>.bar .ib{width:32px;height:32px}}
+/* tools button is an icon like its neighbours (owner: the filled disc looked too big); the page chip can be tapped to type a page */
+.app.rd>.bar .rtools{background:transparent;color:var(--tx)!important}.app.rd>.bar .rtools.open{background:var(--sel);color:var(--pri)!important;transform:none}
+.app.rd>.bar .rpg{pointer-events:auto;cursor:pointer}
+.app.rd>.bar .rpg.ed{display:flex;align-items:center;gap:4px;padding:3px 4px 3px 8px;background:var(--sel)}
+.app.rd>.bar .rpg.ed input{width:3.4em;font:800 13px 'Inter',sans-serif;text-align:center;border:1.5px solid var(--pri);border-radius:10px;padding:4px 2px;background:var(--sf);color:var(--tx)}
+.app.rd>.bar .rpg.ed span{color:var(--sub)}.app.rd>.bar .rpg.ed button{border:0;border-radius:10px;padding:5px 10px;background:var(--pri);color:var(--pon);font:800 12px 'Inter',sans-serif}
+@media (max-width:759px){.app.rd>.bar:has(.rpg.ed) .rt{display:none}.app.rd>.bar:has(.rpg.ed) .rpg{margin-inline-start:auto}}
