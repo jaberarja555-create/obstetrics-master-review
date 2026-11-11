@@ -18,8 +18,9 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx --yes wrangler@3 pages project create student-master-review --production-branch=main || true
-      - name: Deploy platform/
+      - name: Deploy platform/ (run inside it, so the book's functions/ folder is not picked up)
+        working-directory: platform
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: npx --yes wrangler@3 pages deploy platform --project-name=student-master-review --branch="${GITHUB_REF_NAME}" --commit-dirty=true
+        run: npx --yes wrangler@3 pages deploy . --project-name=student-master-review --branch="${GITHUB_REF_NAME}" --commit-dirty=true
