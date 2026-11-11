@@ -21,6 +21,15 @@ device of the subscription; Surgery and Pediatrics codes allow 2 devices by defa
 needed). Notes and progress come back through each app's sync. A first-time note in the book bar says this (`smr-seen`).
 If an app ever sends `X-Frame-Options` or `frame-ancestors`, the frame shows a "taking longer" message with "Open at its own address".
 
+## Opening screen and installing (owner, 11 Nov 2026)
+Arabic is the default language. Each time the link is opened in a browser (once per visit, `sessionStorage smr-wel`) a greeting offers
+«ثبّت التطبيق» or «المتابعة في المتصفح». Install follows the device: the browser's own install window when it offers one
+(`beforeinstallprompt`, kept in `window.__bip` from the head; Android Chrome, Chrome/Edge on computers), otherwise the steps:
+iPhone/iPad Share → Add to Home Screen (in-app browsers: open in Safari first), Android without the offer (e.g. opened from WhatsApp):
+an «افتح في Chrome» button (`intent://…;package=com.android.chrome`) then menu → Install app, Mac Safari File → Add to Dock, Firefox: use Chrome/Edge.
+The installed app (standalone) shows only a welcome with «ابدأ». Settings has «تثبيت التطبيق» too. `sw.js` (network first, offline copy of the
+platform's own screens) makes it installable.
+
 ## Files
 - `index.html` shell · `css/app.css` look (day/night tokens, phone/tablet/desktop, right-to-left) · `js/app.js` screens and routing
 - `js/catalogue.js` **the book list**: every screen is built from it. To release a book: set `status: 'available'`, add `url`

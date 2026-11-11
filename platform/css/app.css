@@ -491,3 +491,35 @@ body[data-view="read"] .top,body[data-view="read"] .bnav,body[data-view="read"] 
 }
 @media (max-width:340px){ .bname{font-size:13.5px} .mark{width:28px;height:30px} }
 @media (max-width:720px) and (min-height:540px){ body[data-view="home"] .stage{grid-template-columns:47% minmax(0,1fr)} }
+
+/* ---------- opening screen and install steps ---------- */
+.wel{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) var(--gr) max(16px,env(safe-area-inset-bottom,0px)) var(--g);background:var(--bg);overflow-y:auto}
+.wel::before{content:"";position:fixed;inset:-40px;background:url(../img/ui/library.webp) center/cover;filter:blur(18px) saturate(1.1);opacity:var(--bgfx);z-index:-1}
+body.welon{overflow:hidden}
+.wcard{position:relative;width:min(440px,100%);display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:30px 24px 24px;border-radius:28px;background:var(--glass);border:1px solid var(--bd);box-shadow:0 24px 60px rgba(20,42,76,.16);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);animation:wIn .45s ease both}
+@keyframes wIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.wmark{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;background:var(--sf);border:1px solid var(--bd);box-shadow:0 0 0 8px var(--pritint),var(--shadow2);margin-bottom:10px}
+.wmark .mark{width:60px;height:64px}
+.wmark.sm{width:64px;height:64px;color:var(--tl);box-shadow:0 0 0 6px var(--pritint)}
+.wmark.sm .ico{width:30px;height:30px}
+.wcard h2{margin:6px 0 0;font-size:26px;line-height:1.2}
+html[lang="ar"] .wcard h2{font-family:var(--arab);font-weight:700}
+.wbrand{margin:0;font-family:var(--serif);font-weight:700;font-size:17px;color:var(--gold)}
+.wsub{margin:2px 0 8px;color:var(--sub);font-size:15px;max-width:34ch}
+.wbtns{display:grid;gap:10px;width:100%;margin-top:12px}
+.wbtns.wrow{display:flex;flex-wrap:wrap;justify-content:center}
+#welT:focus{outline:none}
+.wbig{min-height:62px;justify-content:flex-start;gap:14px;padding:0 18px;text-align:start;border-radius:18px}
+.wbig .ico{width:26px;height:26px}
+.wbig span{display:flex;flex-direction:column;line-height:1.25}
+.wbig b{font-size:16.5px}
+.wbig small{font-size:12.5px;font-weight:500;opacity:.85}
+.wnote{margin:10px 0 0;font-size:13px;color:var(--mut)}
+.steps{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px;width:100%;text-align:start}
+.steps li{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:16px;background:var(--sf2);border:1px solid var(--bd);font-size:15px;line-height:1.55}
+.steps li.warn{flex-direction:column;align-items:stretch;background:var(--soonbg);color:var(--tx)}
+.steps .sn{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--pri);color:var(--pon);font-weight:700;font-size:14px}
+.si{display:inline-grid;place-items:center;width:28px;height:28px;margin-inline:2px;vertical-align:middle;border-radius:8px;background:var(--sf);border:1px solid var(--bd2);color:var(--tl)}
+.si .ico{width:17px;height:17px}
+.wdone{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px}
+@media (max-height:600px){ .wmark{width:72px;height:72px} .wmark .mark{width:44px;height:48px} .wcard{padding:20px 18px 18px} }

@@ -318,6 +318,6 @@ One home for all the books (Basic Sciences · Clinical · House Officer), plain 
 `<branch>.student-master-review.pages.dev`). It does not touch this book's build or deploy. Surgery, Obstetrics and Pediatrics are
 opened INSIDE the platform (owner, 11 Nov 2026: `#read-<id>`, a frame under a slim platform bar; frames stay loaded). The apps are
 unchanged; inside the frame a phone keeps separate storage, so students activate once more there (another device) and sync brings notes back.
-Phone Home fits one screen (no scrolling); day/night is one button with a Day / Night / Automatic menu. Every screen comes from `platform/js/catalogue.js`; text in `platform/js/i18n.js` (English + standard Arabic);
+Phone Home fits one screen (no scrolling); day/night is one button with a Day / Night / Automatic menu. Arabic by default; on opening, a greeting offers «ثبّت التطبيق» (install by device type) or «المتابعة في المتصفح» (platform/README.md). Every screen comes from `platform/js/catalogue.js`; text in `platform/js/i18n.js` (English + standard Arabic);
 see platform/README.md. No invented data: progress stays in the apps, notifications are an empty state until real ones exist.
 Review copy: https://claude.ai/artifact/VKS3UPJmG5oa9kH9NGGXUm (whole platform; links open the live apps).

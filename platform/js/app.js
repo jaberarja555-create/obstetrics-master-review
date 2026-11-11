@@ -11,7 +11,7 @@
     set: function (k, v) { try { localStorage.setItem('smr-' + k, JSON.stringify(v)); return true; } catch (e) { return false; } },
     del: function (k) { try { localStorage.removeItem('smr-' + k); } catch (e) {} }
   };
-  var lang = LS.get('lang', null) || (/^ar/i.test(navigator.language || '') ? 'ar' : 'en');
+  var lang = LS.get('lang', null) || 'ar';  /* Arabic unless the student chose English */
   var theme = LS.get('theme', 'system');
   var state = { q: '', view: '', fromList: false };
 
@@ -48,7 +48,14 @@
     history: '<path d="M8 3h8v3H8z"/><path d="M8 4.5H6a1 1 0 0 0-1 1V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5.5a1 1 0 0 0-1-1h-2"/><path d="M8.5 11h.01M11.5 11h4M8.5 15h.01M11.5 15h4"/>',
     steth: '<path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M11 14v2a4 4 0 0 0 8 0v-1"/><circle cx="19" cy="13" r="2"/>',
     ext: '<path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
-    photo: '<rect x="3" y="5" width="18" height="15" rx="2"/><circle cx="12" cy="12.5" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/>'
+    download: '<path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 20h14"/>',
+    share: '<path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/>',
+    addsq: '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/>',
+    dots: '<circle cx="12" cy="5" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="12" cy="19" r="1.4" fill="currentColor"/>',
+    instpc: '<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M12 7v6M9.5 10.5 12 13l2.5-2.5M8 21h8"/>',
+    phone: '<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>',
+    browser: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/>',
+        photo: '<rect x="3" y="5" width="18" height="15" rx="2"/><circle cx="12" cy="12.5" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/>'
   };
   function ic(n, cls) { return '<svg class="ico' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" aria-hidden="true">' + P[n] + '</svg>'; }
 
@@ -237,6 +244,8 @@
     h += '<section class="panel"><h2>' + esc(t('set.acc')) + '</h2><p>' + esc(t('set.acc.txt')) + '</p><div class="rows" style="margin-top:14px">' +
       S.books.filter(avail).map(function (b) { return row(b, esc(secTitle(b.section)) + (b.edition ? ' · ' + esc(L(b.edition)) : ''), openLink(b)); }).join('') + '</div></section>';
     h += '<section class="panel"><h2>' + esc(t('set.data')) + '</h2><p>' + esc(t('set.data.txt')) + '</p><div class="confirm" id="clr"><button class="btn sm quiet" type="button" id="clr1">' + esc(t('set.clear')) + '</button></div></section>';
+    h += '<section class="panel"><h2>' + esc(t('set.inst')) + '</h2>' + (STANDALONE ? '<p>' + esc(t('i.already')) + '</p>' :
+      '<p>' + esc(t('set.inst.txt')) + '</p><div class="confirm"><button class="btn sm" type="button" data-install>' + ic('download') + esc(t('w.install')) + '</button></div>') + '</section>';
     h += '<section class="panel"><h2>' + esc(t('set.about')) + '</h2><p>' + esc(t('set.about.txt')) + '</p></section>';
     return h + '</div>';
   }
@@ -395,6 +404,86 @@
     noteOpen(id);
   }
   function hideBooks() { if (apps && !apps.hidden) apps.hidden = true; }
+
+  /* ---------- opening screen: install the app or continue in the browser ----------
+     Install follows the device: the browser's own install window where it offers one (Android, computers),
+     otherwise the steps for that device (iPhone/iPad: Share → Add to Home Screen; Android in WhatsApp: open in Chrome first). */
+  var UA = navigator.userAgent || '';
+  var STANDALONE = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+  var DEV = /iPad|iPhone|iPod/.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) ? 'ios' : /Android/i.test(UA) ? 'android' : 'pc';
+  var IOS_INAPP = DEV === 'ios' && (!/Safari\//.test(UA) || /FBAN|FBAV|Instagram|WhatsApp|Line\//.test(UA));
+  var MAC_SAFARI = DEV === 'pc' && /Macintosh/.test(UA) && /Safari\//.test(UA) && !/Chrome|Chromium|Edg|Firefox/.test(UA);
+  var FIREFOX = /Firefox\//.test(UA) && DEV === 'pc';
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); window.__bip = e; });
+  window.addEventListener('appinstalled', function () { window.__bip = null; LS.set('installed', 1); if (!$('#wel').hidden) welDone(); });
+  function wel() { return $('#wel'); }
+  function welOpen(html) { $('#wcard').innerHTML = html; wel().hidden = false; document.body.classList.add('welon'); var f = $('#welT'); if (f) { f.setAttribute('tabindex', '-1'); try { f.focus({ preventScroll: true }); } catch (e) {} } }
+  function welClose() { wel().hidden = true; document.body.classList.remove('welon'); try { sessionStorage.setItem('smr-wel', '1'); } catch (e) {} }
+  function welHead() {
+    var n = cleanName(LS.get('name', ''));
+    return '<span class="wmark" aria-hidden="true"><span class="mark"></span></span>' +
+      '<h2 id="welT">' + (n ? t('w.hin', { n: '<bdi>' + esc(n) + '</bdi>' }) : esc(t('w.hi'))) + '</h2>' +
+      '<p class="wbrand" lang="en" dir="ltr">Student Master Review</p><p class="wsub">' + esc(t('w.sub')) + '</p>';
+  }
+  function welcome() {
+    if (STANDALONE) {
+      welOpen(welHead() + '<div class="wbtns"><button class="btn" type="button" data-wclose data-first>' + esc(t('w.start')) + ic('arrow', 'flip') + '</button></div>');
+      return;
+    }
+    welOpen(welHead() +
+      '<div class="wbtns"><button class="btn wbig" type="button" data-install data-first>' + ic(DEV === 'pc' ? 'instpc' : 'download') +
+      '<span><b>' + esc(t('w.install')) + '</b><small>' + esc(t('w.on.' + DEV)) + '</small></span></button>' +
+      '<button class="btn quiet wbig" type="button" data-wclose>' + ic('browser') + '<span><b>' + esc(t('w.browser')) + '</b></span></button></div>' +
+      '<p class="wnote">' + esc(t('w.why')) + '</p>');
+  }
+  function step(n, txt, icn) {
+    return '<li><span class="sn">' + n + '</span><span>' + esc(txt).replace('{i}', icn ? '<span class="si">' + ic(icn) + '</span>' : '') + '</span></li>';
+  }
+  function guide() {
+    var h = '<button class="ib xbtn" type="button" data-wclose aria-label="' + esc(t('close')) + '">' + ic('x') + '</button>' +
+      '<span class="wmark sm" aria-hidden="true">' + ic(DEV === 'pc' ? 'instpc' : 'phone') + '</span><h2 id="welT">' + esc(t('i.t.' + DEV)) + '</h2>';
+    var st = '', extra = '';
+    if (DEV === 'ios') {
+      if (IOS_INAPP) st += '<li class="warn"><span>' + esc(t('i.iosapp')).replace('{i}', '<span class="si">' + ic('dots') + '</span>') + '</span></li>';
+      st += step(1, t('i.ios1'), 'share') + step(2, t('i.ios2'), 'addsq') + step(3, t('i.ios3'));
+      extra = '<button class="btn sm quiet" type="button" data-copy>' + esc(t('i.copy')) + '</button>';
+    } else if (DEV === 'android') {
+      var u = location.href.replace(/^https?:\/\//, '').replace(/#.*$/, '');
+      var intent = 'intent://' + u + '#Intent;scheme=https;package=com.android.chrome;end';
+      st += '<li class="warn"><span>' + esc(t('i.and0')) + '</span><a class="btn sm" href="' + esc(intent) + '">' + esc(t('i.chrome')) + '</a></li>';
+      st += step(1, t('i.and1'), 'dots') + step(2, t('i.and2'), 'download') + step(3, t('i.and3'));
+      extra = '<button class="btn sm quiet" type="button" data-copy>' + esc(t('i.copy')) + '</button>';
+    } else if (MAC_SAFARI) {
+      st += step(1, t('i.mac'));
+    } else if (FIREFOX) {
+      st += '<li class="warn"><span>' + esc(t('i.ff')) + '</span></li>';
+      extra = '<button class="btn sm quiet" type="button" data-copy>' + esc(t('i.copy')) + '</button>';
+    } else {
+      st += step(1, t('i.pc1'), 'instpc') + step(2, t('i.pc2'), 'dots');
+    }
+    welOpen(h + '<ol class="steps">' + st + '</ol><div class="wbtns wrow">' + extra +
+      '<button class="btn sm" type="button" data-wclose data-first>' + esc(t('i.ok')) + '</button></div><p class="ok-msg" id="wmsg" role="status" aria-live="polite"></p>');
+  }
+  function welDone() {
+    welOpen(welHead() + '<p class="ok-msg wdone">' + ic('check') + ' ' + esc(t('i.done')) + '</p><div class="wbtns"><button class="btn" type="button" data-wclose data-first>' + esc(t('w.start')) + '</button></div>');
+  }
+  function install() {
+    var p = window.__bip;
+    if (p) {
+      p.prompt();
+      (p.userChoice || Promise.resolve({})).then(function (r) {
+        window.__bip = null;
+        if (r && r.outcome === 'accepted') { LS.set('installed', 1); welDone(); }
+      });
+      return;
+    }
+    guide();
+  }
+  function copyLink() {
+    var u = location.href.replace(/#.*$/, ''), m = $('#wmsg');
+    var done = function () { if (m) m.textContent = t('i.copied'); };
+    try { navigator.clipboard.writeText(u).then(done, function () { if (m) m.textContent = u; }); } catch (e) { if (m) m.textContent = u; }
+  }
   /* ---------- router ---------- */
   var VIEWS = { home: vHome, 'my-library': vLibrary, progress: vProgress, preferences: vPrefs, notifications: vNotif, search: vSearch };
   var TITLES = { 'my-library': 'nav.library', progress: 'nav.progress', preferences: 'nav.settings', notifications: 'notif.t', search: 'srch.t' };
@@ -488,6 +577,9 @@
     if (a.id === 'lbtn') setLang(lang === 'ar' ? 'en' : 'ar');
     if (a.hasAttribute('data-lang')) setLang(a.getAttribute('data-lang'));
     if (a.hasAttribute('data-theme')) { setTheme(a.getAttribute('data-theme')); a.parentNode.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === a ? 'true' : 'false'); }); }
+    if (a.hasAttribute('data-install')) { install(); return; }
+    if (a.hasAttribute('data-wclose')) { welClose(); return; }
+    if (a.hasAttribute('data-copy')) { copyLink(); return; }
     if (a.hasAttribute('data-close')) closeBook();
     if (a.hasAttribute('data-seen')) { var sn = LS.get('seen', []); if (!Array.isArray(sn)) sn = []; sn.push(a.getAttribute('data-seen')); LS.set('seen', sn); $('#anote').hidden = true; }
     if (a.hasAttribute('data-retry')) { var rf = FR[a.getAttribute('data-retry')]; if (rf) { rf.wrap.querySelector('.aslow').hidden = true; rf.fr.src = BOOK[a.getAttribute('data-retry')].url; } }
@@ -510,4 +602,9 @@
   dlg.addEventListener('cancel', function (e) { e.preventDefault(); closeBook(); });
   dlg.addEventListener('click', function (e) { if (e.target === dlg) closeBook(); });
   applyLang(); chrome(); route(true);
+  /* the opening screen once per opening of the link (not again while moving around) */
+  var seenWel = false; try { seenWel = sessionStorage.getItem('smr-wel') === '1'; } catch (e) {}
+  if (!seenWel && !/^read-/.test(location.hash.slice(1))) welcome();
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !wel().hidden) welClose(); });
+  if ('serviceWorker' in navigator && location.protocol === 'https:') { try { navigator.serviceWorker.register('sw.js'); } catch (e) {} }
 })();
