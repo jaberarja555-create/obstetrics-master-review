@@ -289,12 +289,14 @@ into `main` when the owner has seen it; small fixes the owner asks for directly 
   - **No stars on reviewers** (owner: they read as a rating of the book): removed from page 004 and painted out of `assets/img/ab_reviewers.jpg`
     (with the line that explained them). Do not bring them back.
   - **Tool sheets:** every tool panel (`#penFly.tsheet`, decorated in `flyAt`) is a bottom sheet in the app's design: icon, name, on/off switch
-    (`.ptog.tsw`), close; labelled parts (colour, thickness…), hint line. Ring icons redrawn (`TIC`).
-  - **Calm selection:** with highlighter, underline or note tool on, a finger swipe or long-press only selects (snapped to whole words); two
-    handles (`.psh`) adjust the ends and the bar `#psb` confirms («ظلِّل» / «ضع الخط» / «اكتب ملاحظة») or cancels. Nothing is marked before the
-    confirm. A mouse still marks at once. (`penApply` is wrapped; `PS` holds the pending selection.)
-  - **Free notes:** with the note tool on, a tap anywhere on the page puts a note there: ink item `t:'n'` {x,y,txt} drawn as a small yellow note
-    (`g.fn`), tap to read / edit / delete (`#fnb`); listed in My notes; synced with the drawings.
+    (`.ptog.tsw`), close; labelled parts (colour, thickness…), hint line.
+  - **Marking text (owner, same evening; replaces the "calm selection" and "free notes" tried that afternoon — both removed, do not bring back):**
+    there are NO highlight / underline / note tools to switch on (`setPens(false,false,false)` at start, their ring buttons hidden). The student
+    selects text the normal way and the options bar appears (`#hlbar.selopt`, `showPalette` / `pickHL` replaced): six highlight colours, «خط»,
+    «ملاحظة», close; tapping an existing mark shows colours, «حذف», «ملاحظة». Free notes made during the short test stay readable (`g.fn`, `#fnb`).
+  - **Tools button** (`#rbShow`, wrench icon, 54 px) opens one ring with only the drawing tools: قلم, ماركر (`#mkBtn`, free highlight: its own sheet
+    with colours, widths and switch), نص, صفحة, plus undo/redo. **Zoom** is its own round button on the page (`#zoomBtn.v2zoom`, bottom left beside
+    full page) and the **page number** is its own pill at the bottom centre (`#reader .pnum`).
   - **Next (owner, 11 Nov 2026): rewrite of the chapters** — new page design and better medical writing: no fixed "Introduction" opening, short
     basic background only where needed, a clinical case to introduce disease topics, smoother order, standard terms and titles. Make ONE model
     topic first and show it to the owner before the rest.

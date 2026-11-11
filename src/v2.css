@@ -642,16 +642,25 @@ button{font-family:inherit}
 /* tools ring: each tool in a tinted disc */
 #reader .rbar.fan>button svg,#reader .rbar>button svg{stroke-width:1.8}
 #reader .rbar>button.on{background:var(--pri)!important;color:var(--pon)!important}
-/* calm selection */
-#psb{position:absolute;z-index:9;left:50%;transform:translateX(-50%);bottom:74px;display:flex;align-items:center;gap:10px;max-width:calc(100% - 20px);padding:8px 8px 8px 8px;border-radius:999px;background:var(--sf);border:1px solid var(--bd);
-  box-shadow:0 4px 10px rgba(57,43,85,.12),0 16px 40px rgba(57,43,85,.28);font:700 12.5px 'Cairo','Inter',sans-serif;color:var(--sub);white-space:nowrap;animation:tsUp .2s ease}
-#psb[hidden]{display:none}#psb span{overflow:hidden;text-overflow:ellipsis}
-#psb .x{flex:none;width:40px;height:40px;border-radius:50%;background:var(--sel);color:var(--sub);font:700 14px/1 sans-serif}
-#psb .ok{flex:none;display:flex;align-items:center;gap:6px;height:44px;padding:0 18px;border-radius:999px;background:var(--pri);color:var(--pon);font:800 14.5px 'Cairo','Inter',sans-serif}#psb .ok .v2ic{width:18px;height:18px}
-@media (min-width:760px){#psb{bottom:24px}}
-.psh{position:fixed;z-index:60;width:22px;height:30px;touch-action:none;cursor:ew-resize}.psh[hidden]{display:none}
-.psh::before{content:"";position:absolute;left:10px;top:-22px;width:2px;height:24px;background:var(--pri)}
-.psh::after{content:"";position:absolute;left:2px;top:2px;width:18px;height:18px;border-radius:50% 50% 50% 50%/40% 40% 60% 60%;background:var(--pri);box-shadow:0 0 0 2px var(--sf),0 2px 6px rgba(0,0,0,.3)}
+/* options after selecting text */
+#reader .hlbar.selopt{flex-direction:column;align-items:stretch;gap:10px;padding:12px 14px;border-radius:22px;width:min(360px,calc(100% - 20px));box-sizing:border-box;bottom:74px!important;background:var(--sf);border:1px solid var(--bd);box-shadow:0 4px 10px rgba(57,43,85,.12),0 18px 44px rgba(57,43,85,.28);animation:tsUp .2s ease}
+#reader .hlbar.selopt[hidden]{display:none}
+.selopt .soc{display:flex;align-items:center;justify-content:space-between;gap:6px}.selopt .soc .dot{width:36px;height:36px;border:0!important;box-shadow:inset 0 0 0 1px rgba(0,0,0,.10);flex:none}
+.selopt .soc .dot.cur{box-shadow:0 0 0 2.5px var(--sf),0 0 0 5px var(--pri)!important}.selopt .soc .uwp{display:flex;gap:4px}
+.selopt .sob{display:flex;gap:8px}.selopt .sob .txt{flex:1;height:44px;justify-content:center;gap:7px;border-radius:14px;background:var(--sel)!important;color:var(--tx)!important;font:700 14px 'Cairo','Inter',sans-serif;padding:0 10px}
+.selopt .sob .txt svg{width:19px;height:19px;color:var(--pri);flex:none}.selopt .sob .sox{flex:0 0 44px;color:var(--sub)!important;font:700 14px/1 sans-serif}
+.selopt .soc .txt{height:34px;min-width:34px;justify-content:center;border-radius:10px;background:var(--bg);color:var(--tx)!important}.selopt .soc .txt.cur{background:var(--pri)!important;color:var(--pon)!important}
+@media (min-width:760px){#reader .hlbar.selopt{bottom:24px!important}}
+/* the tools button: only the drawing tools, larger discs with their names */
+#reader #hlPen,#reader #ulBtn,#reader #rNotes{display:none!important}
+#reader #rbShow{width:54px;height:54px;right:14px;bottom:14px}#reader #rbShow .v2ic{width:25px;height:25px}
+#reader .rbar>button{width:64px;height:64px;left:-32px;top:-32px;font:700 11.5px 'Cairo','Inter',sans-serif;color:var(--tx);box-shadow:0 3px 8px rgba(57,43,85,.12),0 10px 26px rgba(57,43,85,.2)}
+#reader .rbar>button svg{width:25px;height:25px}
+/* zoom and page number: their own small controls on the page */
+#reader .v2zoom{position:absolute;left:62px;bottom:14px;z-index:6;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;padding:0;font-size:0;background:color-mix(in srgb,var(--sf) 92%,transparent);color:var(--pri);border:1px solid var(--bd);box-shadow:0 3px 10px rgba(57,43,85,.2)}
+#reader .v2zoom svg{width:21px;height:21px}#reader .v2zoom span{display:none}
+#reader #v2full{width:42px;height:42px;bottom:14px}
+#reader .pnum{display:block;top:auto;bottom:20px;left:50%;right:auto;transform:translateX(-50%);z-index:5;padding:6px 14px;border-radius:999px;font:800 12.5px 'Inter',sans-serif;font-variant-numeric:tabular-nums;background:color-mix(in srgb,var(--sf) 94%,transparent);color:var(--tx);border:1px solid var(--bd);box-shadow:0 3px 10px rgba(57,43,85,.18);opacity:1}
 /* free notes */
 .pw svg.ink g.fn{pointer-events:auto;cursor:pointer}
 #fnb{position:fixed;z-index:80;left:50%;transform:translateX(-50%);width:min(440px,calc(100vw - 24px));padding:14px;border-radius:22px;background:var(--sf);border:1px solid var(--bd);box-shadow:0 6px 14px rgba(57,43,85,.14),0 24px 60px rgba(57,43,85,.34);font-family:'Cairo','Inter',sans-serif;color:var(--tx)}
@@ -660,3 +669,7 @@ button{font-family:inherit}
 #fnb textarea{width:100%;box-sizing:border-box;min-height:110px;padding:12px;border-radius:14px;border:1.5px solid var(--bd);background:var(--bg);color:var(--tx);font:500 15px/1.7 'Cairo','Inter',sans-serif;resize:vertical}#fnb textarea:focus{outline:0;border-color:var(--pri)}
 #fnb .fna{display:flex;gap:8px;margin-top:10px}#fnb .fna button{flex:1;height:44px;border-radius:14px;background:var(--sel);color:var(--tx);font:700 14px 'Cairo','Inter',sans-serif}#fnb .fna .ok{background:var(--pri);color:var(--pon)}#fnb .fna .d{flex:0 0 auto;padding:0 16px;background:transparent;color:#b42318}
 #reader .listip{background:var(--deep,#2b2140);color:#fff;border:0;border-radius:16px;font:700 13px/1.6 'Cairo','Inter',sans-serif;box-shadow:0 10px 30px rgba(57,43,85,.3)}
+#reader #rbShow.open{transform:rotate(-45deg) scale(1.06)}
+#reader .rbar>button span{font-size:11.5px;line-height:1.1;white-space:nowrap}
+#reader .rbar>button{width:60px;height:60px;left:-30px;top:-30px}
+#reader:has(#rbar.fan) .pnum,#reader:has(#rbar.fan) .v2zoom,#reader:has(#rbar.fan) #v2full{opacity:0;pointer-events:none;transition:opacity .15s}
