@@ -24,7 +24,23 @@ for k, cards in m.get('CARDS', {}).items():
         assert lv in (1, 2, 3)
         new.append([sec, q, a, lv] + ([h(old[oi][1])] if oi is not None else []))
     print(k, len(old), '->', len(new)); D[k]['cards'] = new
-P = m.get('QS', {}); seen = set()
+# CLV = {deck id: 'one digit per card'}: level 1-3, or 0 to drop a card that repeats another; the wording is normalised by clean.py
+for k, digits in m.get('CLV', {}).items():
+    old = D[k]['cards']
+    if any(len(c) > 3 for c in old): print(k, 'already done, skipped'); continue
+    assert len(digits) == len(old), (k, len(digits), len(old))
+    from_clean = __import__('importlib').import_module('clean').clean if False else None
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import clean as _cl
+    D[k]['cards'] = [[c[0], _cl.clean(c[1]), _cl.clean(c[2]), int(x), h(c[1])] for c, x in zip(old, digits) if x != '0']
+    print(k, len(old), '->', len(D[k]['cards']))
+P = dict(m.get('QS', {})); seen = set()
+# LV = {question id: level}: questions whose wording is only normalised by clean.py (shorthand written out), with the level given by hand
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from clean import clean
+LV = m.get('LV', {})
+for qid, d in LV.items():
+    if qid not in P: P[qid] = {'d': d, '_auto': 1}
 for ch in Q:
     for q in ch['questions']:
         its = [(q['id'] + '#%d' % i, it) for i, it in enumerate(q['items'])] if q['type'] == 'emq' else [(q['id'], q)]
@@ -34,6 +50,10 @@ for ch in Q:
             seen.add(qid)
             for f in ('stem', 'q', 'why', 'd'):
                 if f in p: it[f] = p[f]
+            if p.get('_auto') and not it.get('_c'):
+                for f in ('stem', 'q', 'why'):
+                    if f in it: it[f] = clean(it[f])
+                it['_c'] = 1
             if 'options' in p: assert len(p['options']) == len(it['options']); it['options'] = p['options']
 print('questions patched', len(seen), 'unknown ids', sorted(set(P) - seen))
 json.dump(D, open(R + '/decks.json', 'w'), ensure_ascii=False, indent=1)

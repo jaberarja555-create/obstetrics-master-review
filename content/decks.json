@@ -2787,167 +2787,226 @@
    [
     "Definitions",
     "Define miscarriage.",
-    "Spontaneous loss of a pregnancy before 24 weeks (before viability). Abortion is the induced loss."
+    "Spontaneous loss of a pregnancy before 24 weeks (before viability). Abortion is the induced loss of a pregnancy.",
+    1,
+    "zfpv0o"
    ],
    [
     "Definitions",
     "Define recurrent miscarriage.",
-    "Three or more consecutive miscarriages."
+    "Three or more consecutive miscarriages.",
+    1,
+    "1phfv2a"
    ],
    [
     "Causes",
-    "List the pregnancy causes of bleeding before 24 weeks.",
-    "Miscarriage (commonest), ectopic pregnancy (most dangerous), molar pregnancy, implantation bleed."
+    "What are the pregnancy-related causes of bleeding before 24 weeks?",
+    "Miscarriage (the commonest), ectopic pregnancy (the most dangerous), molar pregnancy and implantation bleeding.",
+    1,
+    "1y3nfql"
    ],
    [
     "Causes",
-    "Commonest cause of first-trimester miscarriage?",
-    "Chromosomal abnormality (aneuploidy): about half of first-trimester losses."
+    "What is the commonest cause of first-trimester miscarriage?",
+    "Chromosomal abnormality (aneuploidy), which accounts for about half of first-trimester losses.",
+    1,
+    "1fdw365"
    ],
    [
-    "Types",
-    "10 wk, light bleed, os closed, live fetus. Diagnosis?",
-    "Threatened miscarriage."
+    "Types of miscarriage",
+    "At 10 weeks a woman has light bleeding, a closed os and a live fetus. What is the diagnosis?",
+    "Threatened miscarriage.",
+    1,
+    "1rmn468"
    ],
    [
-    "Types",
-    "Heavy bleed, colic, os open, no tissue passed yet. Diagnosis?",
-    "Inevitable miscarriage."
+    "Types of miscarriage",
+    "A woman has heavy bleeding and colicky pain, with an open os and no tissue passed. What is the diagnosis?",
+    "Inevitable miscarriage.",
+    2,
+    "vdq1qt"
    ],
    [
-    "Types",
-    "Bleed, os open, tissue felt in the os, uterus slightly small. Diagnosis?",
-    "Incomplete miscarriage."
+    "Types of miscarriage",
+    "A woman has bleeding, an open os with tissue felt in it and a uterus that is slightly small. What is the diagnosis?",
+    "Incomplete miscarriage.",
+    2,
+    "11hr0b9"
    ],
    [
-    "Types",
-    "Pain and bleeding settled, os closed, empty uterus. What must you exclude?",
-    "Ectopic pregnancy: confirm a previous intrauterine pregnancy or follow hCG to negative."
+    "Types of miscarriage",
+    "Pain and bleeding have settled, the os is closed and the uterus is empty. What must be excluded?",
+    "Ectopic pregnancy: a previous intrauterine pregnancy must be confirmed, or hCG followed until it is negative.",
+    3,
+    "slcwdg"
    ],
    [
-    "Types",
-    "Scan criteria for missed miscarriage?",
-    "CRL ≥ 7 mm with no heartbeat, or mean sac diameter ≥ 25 mm with no embryo."
+    "Types of miscarriage",
+    "What are the ultrasound criteria for missed miscarriage?",
+    "A crown–rump length of 7 mm or more with no heartbeat, or a mean sac diameter of 25 mm or more with no embryo.",
+    2,
+    "1x5uj38"
    ],
    [
     "Management",
-    "Management of threatened miscarriage?",
-    "Reassure; bed rest and progesterone unproven; avoid intercourse until bleeding stops."
+    "How is threatened miscarriage managed?",
+    "Reassurance; bed rest and progesterone are of unproven benefit; intercourse is avoided until the bleeding stops.",
+    1,
+    "xz8rgm"
    ],
    [
     "Management",
-    "Maximum time for expectant management of missed miscarriage, and why?",
-    "4 weeks: a retained dead fetus risks DIC (consumption coagulopathy)."
+    "What is the maximum duration of expectant management of missed miscarriage, and why?",
+    "Four weeks, because a retained dead fetus carries a risk of DIC (consumption coagulopathy).",
+    3,
+    "qx2g02"
    ],
    [
-    "Drugs",
-    "Misoprostol dose for missed miscarriage under 13 weeks?",
-    "800 µg vaginally or 600 µg sublingually, repeated after 3 hours if needed."
+    "Drug treatment",
+    "What is the dose of misoprostol for missed miscarriage before 13 weeks?",
+    "800 µg vaginally or 600 µg sublingually, repeated after 3 hours if needed.",
+    2,
+    "2kllyh"
    ],
    [
-    "Drugs",
-    "Misoprostol dose for incomplete miscarriage under 13 weeks?",
-    "600 µg orally or 400 µg sublingually, single dose."
+    "Drug treatment",
+    "What is the dose of misoprostol for incomplete miscarriage before 13 weeks?",
+    "600 µg orally or 400 µg sublingually, as a single dose.",
+    2,
+    "71z5m4"
    ],
    [
-    "Drugs",
-    "Why give misoprostol before surgical evacuation?",
-    "400 µg vaginally 3 h before ripens the cervix and prevents cervical tears and weakness."
+    "Drug treatment",
+    "Why is misoprostol given before surgical evacuation?",
+    "A dose of 400 µg vaginally 3 hours before the procedure ripens the cervix and prevents cervical tears and cervical weakness.",
+    2,
+    "1rlxucl"
    ],
    [
     "Complications",
-    "Amenorrhoea after repeated curettage. Diagnosis?",
-    "Asherman syndrome: intrauterine adhesions from over-curettage."
+    "A woman has amenorrhoea after repeated curettage. What is the diagnosis?",
+    "Asherman syndrome: intrauterine adhesions caused by excessive curettage.",
+    2,
+    "1173p0b"
    ],
    [
-    "Septic",
-    "Antibiotics for septic miscarriage?",
-    "IV ceftriaxone 1–2 g daily plus metronidazole 500 mg 8-hourly, after cultures, then evacuation."
+    "Septic miscarriage",
+    "Which antibiotics are given for septic miscarriage?",
+    "IV ceftriaxone 1–2 g daily plus metronidazole 500 mg 8-hourly, after cultures have been taken, followed by evacuation.",
+    2,
+    "1eopbko"
    ],
    [
-    "Septic",
-    "Septic abortion with jaundice and haematuria suggests which organism?",
-    "Clostridium (welchii) causing haemolysis."
+    "Septic miscarriage",
+    "Which organism is suggested by septic abortion with jaundice and haematuria?",
+    "Clostridium welchii, which causes haemolysis.",
+    3,
+    "p4uijk"
    ],
    [
-    "Recurrent",
-    "Most important treatable cause of recurrent miscarriage, and its treatment?",
-    "Antiphospholipid syndrome: aspirin 75 mg plus LMWH (e.g. enoxaparin 40 mg daily)."
+    "Recurrent miscarriage",
+    "What is the most important treatable cause of recurrent miscarriage, and how is it treated?",
+    "Antiphospholipid syndrome, treated with aspirin 75 mg plus low-molecular-weight heparin (for example enoxaparin 40 mg daily).",
+    2,
+    "3su4rm"
    ],
    [
-    "Recurrent",
-    "Painless second-trimester losses, each one earlier. Cause and treatment?",
-    "Cervical weakness: history-indicated cerclage at 12–14 weeks."
+    "Recurrent miscarriage",
+    "A woman has painless second-trimester losses, each earlier than the last. What are the cause and treatment?",
+    "Cervical weakness; history-indicated cervical cerclage at 12–14 weeks.",
+    2,
+    "q0wtng"
    ],
    [
-    "Recurrent",
+    "Recurrent miscarriage",
     "When is a cervical cerclage removed?",
-    "At 37–38 weeks, or earlier with labour, ruptured membranes, bleeding, infection or fetal death."
+    "At 37–38 weeks, or earlier if there is labour, rupture of membranes, bleeding, infection or fetal death.",
+    2,
+    "cmxghf"
    ],
    [
-    "Ectopic",
-    "Commonest site of ectopic pregnancy?",
-    "Ampulla of the fallopian tube."
+    "Ectopic pregnancy",
+    "What is the commonest site of ectopic pregnancy?",
+    "The ampulla of the fallopian tube.",
+    1,
+    "18p90eu"
    ],
    [
-    "Ectopic",
-    "Single biggest risk factor for tubal ectopic?",
-    "Pelvic inflammatory disease (tubal damage); previous ectopic is also strong."
+    "Ectopic pregnancy",
+    "What is the most important risk factor for tubal ectopic pregnancy?",
+    "Pelvic inflammatory disease (tubal damage); a previous ectopic pregnancy is also a strong risk factor.",
+    1,
+    "60y5qq"
    ],
    [
-    "Ectopic",
+    "Ectopic pregnancy",
     "What is the discriminatory zone?",
-    "hCG level (2000 IU/L on TVS, about 6000 on abdominal scan) above which an intrauterine sac should be seen."
+    "The hCG level (2000 IU/L on transvaginal ultrasound, about 6000 IU/L on abdominal ultrasound) above which an intrauterine sac should be visible.",
+    2,
+    "1247tg9"
    ],
    [
-    "Ectopic",
-    "How does hCG behave in a normal IUP vs ectopic over 48 h?",
-    "Normal rises at least 63% (about doubles); ectopic rises slowly or stays at the same level."
+    "Ectopic pregnancy",
+    "How does hCG change over 48 hours in a normal intrauterine pregnancy and in an ectopic pregnancy?",
+    "In a normal pregnancy it rises by at least 63% (approximately doubles); in an ectopic pregnancy it rises slowly or remains at the same level.",
+    2,
+    "1gsan6c"
    ],
    [
-    "Ectopic",
-    "Methotrexate dose and success check in ectopic?",
-    "50 mg/m² IM once; hCG falls ≥ 15% between day 4 and day 7."
+    "Ectopic pregnancy",
+    "What is the dose of methotrexate for ectopic pregnancy, and how is success assessed?",
+    "50 mg/m² IM as a single dose; hCG should fall by 15% or more between day 4 and day 7.",
+    3,
+    "jt6iay"
    ],
    [
-    "Ectopic",
-    "Contraindications to methotrexate for ectopic?",
-    "Unstable, ruptured, hCG > 5000, mass > 3.5 cm, live embryo, unable to follow up."
+    "Ectopic pregnancy",
+    "What are the contraindications to methotrexate for ectopic pregnancy?",
+    "Haemodynamic instability, rupture, hCG above 5000 IU/L, a mass larger than 3.5 cm, a live embryo and inability to attend follow-up.",
+    3,
+    "13s2418"
    ],
    [
-    "Ectopic",
-    "Salpingectomy or salpingotomy: how to choose?",
-    "Salpingectomy if the other tube is healthy; salpingotomy if it is damaged (needs hCG follow-up)."
+    "Ectopic pregnancy",
+    "How is the choice made between salpingectomy and salpingotomy?",
+    "Salpingectomy is performed if the other tube is healthy; salpingotomy if it is damaged (hCG follow-up is then required).",
+    3,
+    "rmnlld"
    ],
    [
-    "Ectopic",
-    "Shocked woman, positive test, distended abdomen. Next step?",
-    "Resuscitate and immediate laparotomy with salpingectomy; do not wait for a scan."
+    "Ectopic pregnancy",
+    "A woman is in shock with a positive pregnancy test and a distended abdomen. What is the next step?",
+    "Resuscitation and immediate laparotomy with salpingectomy, without waiting for an ultrasound scan.",
+    2,
+    "1r2msu8"
    ],
    [
-    "Mole",
-    "Karyotype of complete vs partial mole?",
-    "Complete 46,XX (empty ovum, paternal only); partial 69,XXY triploid (two sperm)."
+    "Molar pregnancy",
+    "What are the karyotypes of complete and partial hydatidiform mole?",
+    "Complete mole: 46,XX (an empty ovum; paternal chromosomes only). Partial mole: 69,XXY triploid (two sperm).",
+    2,
+    "fgqmfo"
    ],
    [
-    "Mole",
-    "Why no misoprostol before evacuating a mole?",
-    "Contractions can embolise trophoblast; use suction with dilators, oxytocin only after emptying starts."
+    "Molar pregnancy",
+    "Why is misoprostol not given before evacuation of a molar pregnancy?",
+    "Contractions can cause embolisation of trophoblast; suction evacuation with dilators is used, and oxytocin is given only after emptying has started.",
+    3,
+    "dx55i7"
    ],
    [
-    "Mole",
-    "hCG follow-up after molar evacuation?",
-    "Every 2 weeks to normal; normal ≤ 56 days: 6 months from evacuation, else 6 months from normal."
+    "Molar pregnancy",
+    "How is hCG followed up after evacuation of a molar pregnancy?",
+    "Every 2 weeks until normal. If hCG is normal within 56 days, follow-up continues for 6 months from evacuation; otherwise for 6 months from normalisation.",
+    3,
+    "lcgfuu"
    ],
    [
     "Anti-D",
-    "Anti-D in early pregnancy for RhD-negative women?",
-    "250 IU IM within 72 h (< 20 wk) for ectopic, partial mole, any miscarriage ≥ 10 wk, surgical evacuation < 10 wk, or heavy/repeated threatened bleeding; complete mole needs none."
-   ],
-   [
-    "Practice",
-    "Commonest cause of 1st-trimester miscarriage?",
-    "Chromosomal abnormality (aneuploidy)."
+    "When is anti-D given in early pregnancy to an RhD-negative woman?",
+    "250 IU IM within 72 hours (before 20 weeks) for ectopic pregnancy, partial mole, any miscarriage at 10 weeks or more, surgical evacuation before 10 weeks, and heavy or repeated threatened bleeding. A complete mole does not require it.",
+    3,
+    "2e1j8y"
    ]
   ]
  },
@@ -2957,192 +3016,254 @@
    [
     "Definitions",
     "Define antepartum haemorrhage.",
-    "Bleeding from the genital tract after 28 weeks and before the end of the 2nd stage of labour."
+    "Bleeding from the genital tract after 28 weeks and before the end of the second stage of labour.",
+    1,
+    "xc4lcr"
    ],
    [
     "Definitions",
     "Define placenta praevia.",
-    "Placenta implanted wholly or partly in the lower uterine segment."
+    "A placenta that is implanted wholly or partly in the lower uterine segment.",
+    1,
+    "1e9aq0d"
    ],
    [
     "Definitions",
-    "Define abruptio placentae.",
-    "Premature separation of a normally sited placenta before delivery of the baby."
+    "Define placental abruption.",
+    "Premature separation of a normally situated placenta before delivery of the baby.",
+    1,
+    "1j0y3sa"
    ],
    [
     "Definitions",
-    "Major vs minor placenta praevia?",
-    "Major covers the internal os; minor lies in the lower segment but does not cover the os."
+    "What is the difference between major and minor placenta praevia?",
+    "Major placenta praevia covers the internal os; minor placenta praevia lies in the lower segment but does not cover the os.",
+    1,
+    "xn2ejg"
    ],
    [
     "Definitions",
-    "Accreta, increta, percreta?",
-    "Villi attach to the myometrium (accreta), invade into it (increta), or go through the wall, maybe into bladder (percreta)."
+    "Define placenta accreta, increta and percreta.",
+    "The villi attach to the myometrium (accreta), invade it (increta) or penetrate through the uterine wall, sometimes into the bladder (percreta).",
+    2,
+    "1xsnrss"
    ],
    [
-    "Cases",
-    "32 wk, painless bright red bleed, soft non-tender uterus, breech. Diagnosis and next step?",
-    "Placenta praevia. Resuscitate, ultrasound to confirm; no digital vaginal examination."
+    "Clinical scenarios",
+    "At 32 weeks a woman has painless bright red bleeding, a soft non-tender uterus and a breech presentation. What are the diagnosis and next step?",
+    "Placenta praevia. She is resuscitated and the diagnosis is confirmed by ultrasound; digital vaginal examination is not performed.",
+    2,
+    "ewwgm2"
    ],
    [
-    "Cases",
-    "34 wk, pre-eclampsia, sudden constant pain, woody uterus, little PV blood, BP falling. Diagnosis?",
-    "Concealed abruption. Resuscitate, correct clotting and deliver."
+    "Clinical scenarios",
+    "At 34 weeks a woman with pre-eclampsia has sudden constant pain, a woody-hard uterus, little vaginal bleeding and a falling blood pressure. What is the diagnosis?",
+    "Concealed placental abruption. She is resuscitated, the clotting is corrected and she is delivered.",
+    2,
+    "tx403c"
    ],
    [
-    "Cases",
-    "Membranes rupture, small painless bleed, sudden fetal bradycardia, mother well. Diagnosis and action?",
-    "Vasa praevia. Immediate caesarean with neonatal team and blood ready."
+    "Clinical scenarios",
+    "The membranes rupture, followed by slight painless bleeding and sudden fetal bradycardia; the mother is well. What are the diagnosis and action?",
+    "Vasa praevia. Immediate caesarean section, with the neonatal team and blood ready.",
+    3,
+    "12dpaq4"
    ],
    [
-    "Cases",
-    "Previous caesarean, oxytocin in labour; sudden pain, contractions stop, head rises, shock. Diagnosis and action?",
-    "Uterine rupture. Resuscitate and immediate laparotomy."
+    "Clinical scenarios",
+    "A woman with a previous caesarean section receives oxytocin in labour; she has sudden pain, the contractions stop, the head recedes and she is in shock. What are the diagnosis and action?",
+    "Uterine rupture. Resuscitation and immediate laparotomy.",
+    2,
+    "1oe9bht"
    ],
    [
-    "Cases",
-    "Abruption, fetal death confirmed, mother stable. Mode of delivery?",
-    "Vaginal: ARM and oxytocin after correcting clotting; labour is usually fast."
+    "Clinical scenarios",
+    "In placental abruption with confirmed fetal death and a stable mother, what is the mode of delivery?",
+    "Vaginal delivery, with artificial rupture of membranes and oxytocin after the clotting has been corrected; labour is usually rapid.",
+    3,
+    "1e0gcx4"
    ],
    [
-    "Cases",
-    "Abruption, baby alive with fetal distress. Action?",
-    "Emergency caesarean once resuscitation has started."
+    "Clinical scenarios",
+    "In placental abruption with a live fetus and fetal distress, what is the action?",
+    "Emergency caesarean section once resuscitation has started.",
+    2,
+    "1nvlwt"
    ],
    [
-    "Why",
-    "Why is praevia bleeding painless?",
-    "The placenta separates the stretching lower segment; no contractions or clot pressure on the uterus."
+    "Pathophysiology",
+    "Why is the bleeding in placenta praevia painless?",
+    "The placenta separates from the stretching lower segment; there are no contractions and no clot pressing on the uterus.",
+    2,
+    "19jg2we"
    ],
    [
-    "Why",
-    "Why does the lower segment bleed heavily in praevia?",
-    "It has few muscle fibres, so it cannot clamp the sinuses (no living ligature)."
+    "Pathophysiology",
+    "Why does the lower segment bleed heavily in placenta praevia?",
+    "It contains few muscle fibres, so it cannot compress the venous sinuses (there are no living ligatures).",
+    3,
+    "dm787a"
    ],
    [
-    "Why",
-    "Why is shock out of proportion in abruption?",
-    "Much of the blood is concealed behind the placenta and in the myometrium."
+    "Pathophysiology",
+    "Why is shock out of proportion to the visible loss in placental abruption?",
+    "Much of the blood is concealed behind the placenta and within the myometrium.",
+    2,
+    "6d64un"
    ],
    [
-    "Why",
-    "Why does abruption cause DIC?",
-    "Decidual thromboplastin enters maternal blood, consuming fibrinogen, platelets and clotting factors."
+    "Pathophysiology",
+    "Why does placental abruption cause DIC?",
+    "Decidual thromboplastin enters the maternal circulation and consumes fibrinogen, platelets and clotting factors.",
+    3,
+    "frrmkn"
    ],
    [
-    "Why",
-    "Why do praevia and accreta go together?",
-    "A scarred lower segment has poor decidua, so villi invade too deep."
+    "Pathophysiology",
+    "Why are placenta praevia and placenta accreta associated?",
+    "A scarred lower segment has poor decidua, so the villi invade too deeply.",
+    3,
+    "z05g96"
    ],
    [
-    "Why",
-    "Why is a digital vaginal examination dangerous in APH?",
-    "A finger can disrupt a praevia and cause very heavy bleeding."
+    "Pathophysiology",
+    "Why is digital vaginal examination dangerous in antepartum haemorrhage?",
+    "The examining finger can disrupt a placenta praevia and cause very heavy bleeding.",
+    1,
+    "1bqe4hv"
    ],
    [
-    "Why",
-    "What is a Couvelaire uterus and its risk?",
-    "Blood infiltrating the myometrium (blue, bruised uterus); poor contraction causes atony and PPH."
+    "Pathophysiology",
+    "What is a Couvelaire uterus, and what is its risk?",
+    "Blood infiltrates the myometrium (a blue, bruised uterus); poor contraction causes atony and PPH.",
+    3,
+    "1jscp69"
    ],
    [
-    "Numbers",
-    "Risk of accreta with praevia and 0, 1, 2, 3+ caesareans?",
-    "About 3%, 11%, 40% and 60%."
+    "Key figures",
+    "What is the risk of placenta accreta with placenta praevia and 0, 1, 2 and 3 or more previous caesarean sections?",
+    "About 3%, 11%, 40% and 60% respectively.",
+    3,
+    "1cxkvru"
    ],
    [
-    "Numbers",
-    "Placenta low at 20 weeks: when to rescan?",
-    "At 32 weeks; most move up as the lower segment grows."
+    "Key figures",
+    "When is the scan repeated for a placenta that is low at 20 weeks?",
+    "At 32 weeks; most placentas move upwards as the lower segment develops.",
+    2,
+    "1q78rbs"
    ],
    [
-    "Numbers",
-    "When is elective caesarean for asymptomatic major praevia?",
-    "37 to 38 weeks."
+    "Key figures",
+    "When is elective caesarean section performed for asymptomatic major placenta praevia?",
+    "At 37–38 weeks.",
+    1,
+    "1tks4ww"
    ],
    [
-    "Numbers",
-    "When to deliver known placenta accreta spectrum?",
-    "Planned caesarean at 36 weeks by a team able to do hysterectomy."
+    "Key figures",
+    "When is a woman with known placenta accreta spectrum delivered?",
+    "By planned caesarean section at 36 weeks, by a team able to perform hysterectomy.",
+    2,
+    "15q6fui"
    ],
    [
-    "Numbers",
-    "When to deliver known vasa praevia?",
-    "Elective caesarean at 34 to 36 weeks, before membranes rupture."
+    "Key figures",
+    "When is a woman with known vasa praevia delivered?",
+    "By elective caesarean section at 34–36 weeks, before the membranes rupture.",
+    2,
+    "14wnpt3"
    ],
    [
-    "Numbers",
-    "Placental edge distance allowing a trial of vaginal birth?",
-    "More than 2 cm from the internal os."
+    "Key figures",
+    "What distance of the placental edge from the internal os allows a trial of vaginal delivery?",
+    "More than 2 cm.",
+    2,
+    "1wju2gt"
    ],
    [
-    "Numbers",
-    "How many units to cross-match in heavy APH?",
-    "4 units (abruption, general APH); 6 to 8 for placenta praevia or accreta."
+    "Key figures",
+    "How many units of blood are cross-matched in heavy antepartum haemorrhage?",
+    "Four units for abruption and antepartum haemorrhage in general; 6–8 units for placenta praevia or accreta.",
+    2,
+    "15ujy7j"
    ],
    [
-    "Drugs",
-    "Anti-D in APH for an RhD-negative woman?",
-    "500 IU IM within 72 hours plus Kleihauer to decide if more is needed; if no Kleihauer is available, give 1500 IU."
+    "Drug treatment",
+    "What dose of anti-D is given in antepartum haemorrhage to an RhD-negative woman?",
+    "500 IU IM within 72 hours, with a Kleihauer test to decide whether more is needed; if the Kleihauer test is not available, 1500 IU is given.",
+    2,
+    "yc0izs"
    ],
    [
-    "Drugs",
-    "FFP dose for DIC in abruption?",
-    "15 mL/kg, plus cryoprecipitate and platelets if bleeding with count below 50."
+    "Drug treatment",
+    "What is the dose of FFP for DIC in placental abruption?",
+    "15 mL/kg, with cryoprecipitate, and platelets if she is bleeding with a count below 50 × 10⁹/L.",
+    3,
+    "17n9hri"
    ],
    [
-    "Drugs",
-    "Tranexamic acid dose in APH with bleeding?",
-    "1 g IV."
+    "Drug treatment",
+    "What is the dose of tranexamic acid in antepartum haemorrhage with continuing bleeding?",
+    "1 g IV.",
+    1,
+    "2tmmb"
    ],
    [
     "Investigations",
-    "Bedside clot test?",
-    "5 mL blood in a plain tube; no clot in 7 to 10 minutes means low fibrinogen."
+    "What is the bedside clotting test?",
+    "5 mL of blood is placed in a plain tube; failure to clot within 7–10 minutes indicates a low fibrinogen.",
+    2,
+    "1ebzpkz"
    ],
    [
     "Investigations",
-    "Apt test?",
-    "Distinguishes fetal from maternal blood: fetal Hb resists alkali and stays pink (vasa praevia)."
+    "What is the Apt test?",
+    "It distinguishes fetal from maternal blood: fetal haemoglobin resists alkali and remains pink (used in vasa praevia).",
+    3,
+    "lh19n6"
    ],
    [
     "Investigations",
-    "Diagnosis of praevia vs abruption?",
-    "Praevia is an ultrasound diagnosis; abruption is clinical (scan sees the clot in only about 25%)."
+    "How are placenta praevia and placental abruption diagnosed?",
+    "Placenta praevia is diagnosed by ultrasound; abruption is a clinical diagnosis (ultrasound shows the clot in only about 25%).",
+    2,
+    "tcdzio"
    ],
    [
     "Complications",
-    "Commonest fetal problem in placenta praevia?",
-    "Prematurity."
+    "What is the commonest fetal complication of placenta praevia?",
+    "Prematurity.",
+    1,
+    "15uouni"
    ],
    [
     "Complications",
-    "Placenta will not separate at caesarean for praevia. What not to do?",
-    "Do not pull it: hysterectomy with placenta in place or leave it in situ."
+    "The placenta does not separate at caesarean section for placenta praevia. What must not be done?",
+    "It must not be pulled; hysterectomy is performed with the placenta in place, or the placenta is left in situ.",
+    3,
+    "n9acu7"
    ],
    [
     "Management",
-    "Uterine rupture: repair or hysterectomy?",
-    "Repair a clean tear if she wants children; hysterectomy if irregular, extends to cervix or broad ligament, or unstable."
+    "In uterine rupture, when is repair chosen and when hysterectomy?",
+    "A clean tear is repaired if the woman wishes to have more children; hysterectomy is performed if the tear is irregular, extends to the cervix or broad ligament, or she is unstable.",
+    3,
+    "1d4w1rq"
    ],
    [
-    "Sudan",
-    "APH at a peripheral facility: what to do?",
-    "Cannula, fluids, O2, left tilt, transfer with a midwife, referral note and blood sample. Do not delay for tests."
+    "Management",
+    "How is antepartum haemorrhage managed at a peripheral facility?",
+    "An IV cannula, fluids, oxygen and left lateral tilt, then transfer with a midwife, a referral note and a blood sample. Transfer is not delayed for investigations.",
+    2,
+    "yz6743"
    ],
    [
-    "Practice",
-    "Why is the bleeding in praevia painless?",
-    "Lower segment stretches and shears the placenta; no contraction or clot in muscle."
-   ],
-   [
-    "Practice",
-    "Which APH is diagnosed clinically, not by scan?",
-    "Abruptio placentae."
-   ],
-   [
-    "Practice",
-    "Most common type of placenta accreta spectrum?",
-    "Accreta (about 75%)."
+    "Clinical application",
+    "What is the commonest type of placenta accreta spectrum?",
+    "Placenta accreta (about 75%).",
+    1,
+    "1kqyz5q"
    ]
   ]
  },
@@ -3151,168 +3272,220 @@
   "cards": [
    [
     "Definitions",
-    "Define primary PPH.",
-    "Blood loss ≥ 500 mL after vaginal birth or ≥ 1000 mL at caesarean within 24 h, or any loss causing instability."
+    "Define primary postpartum haemorrhage.",
+    "Blood loss of 500 mL or more after vaginal delivery, or 1000 mL or more at caesarean section, within 24 hours; or any loss that causes haemodynamic instability.",
+    1,
+    "7d2nhl"
    ],
    [
     "Definitions",
-    "Define secondary PPH.",
-    "Abnormal or heavy genital-tract bleeding from 24 hours to 12 weeks after birth."
+    "Define secondary postpartum haemorrhage.",
+    "Abnormal or heavy bleeding from the genital tract between 24 hours and 12 weeks after delivery.",
+    1,
+    "1s24m47"
    ],
    [
     "Definitions",
-    "Minor vs major PPH?",
-    "Minor 500–1000 mL with a stable mother; major more than 1000 mL or any shock."
+    "What is the difference between minor and major PPH?",
+    "Minor: 500–1000 mL with a stable mother. Major: more than 1000 mL, or any shock.",
+    1,
+    "842f3q"
    ],
    [
     "Causes",
-    "What are the 4 Ts of PPH?",
-    "Tone (atony), Trauma (tears, rupture, inversion), Tissue (retained placenta), Thrombin (coagulopathy)."
+    "What are the four Ts of PPH?",
+    "Tone (atony), Trauma (tears, rupture, inversion), Tissue (retained placenta) and Thrombin (coagulopathy).",
+    1,
+    "8cou02"
    ],
    [
     "Causes",
-    "Commonest cause of primary PPH?",
-    "Uterine atony: about 70% of cases."
+    "What is the commonest cause of primary PPH?",
+    "Uterine atony, which accounts for about 70% of cases.",
+    1,
+    "1jl9taa"
    ],
    [
     "Causes",
-    "Uterus hard and well contracted, yet bright red bleeding continues. Cause?",
-    "Genital tract trauma: look for cervical, vaginal or perineal tears."
+    "The uterus is hard and well contracted, but bright red bleeding continues. What is the cause?",
+    "Genital tract trauma; cervical, vaginal and perineal tears are looked for.",
+    2,
+    "scxn3e"
    ],
    [
     "Risk factors",
-    "Why do twins and polyhydramnios cause PPH?",
-    "Overdistension: a stretched uterus contracts poorly (atony)."
+    "Why do twin pregnancy and polyhydramnios cause PPH?",
+    "Overdistension: a stretched uterus contracts poorly (atony).",
+    2,
+    "1i2nlml"
    ],
    [
     "Risk factors",
-    "Which drugs used in labour relax the uterus and raise PPH risk?",
-    "MgSO₄, nifedipine, beta-mimetics, indomethacin, halogenated anaesthetics."
+    "Which drugs used in labour relax the uterus and increase the risk of PPH?",
+    "Magnesium sulphate, nifedipine, beta-mimetics, indomethacin and halogenated anaesthetic agents.",
+    3,
+    "b2v7a5"
    ],
    [
     "Risk factors",
-    "Obstetric causes of DIC leading to PPH?",
-    "Abruption, pre-eclampsia/HELLP, IUFD, sepsis, amniotic fluid embolism."
+    "Which obstetric conditions cause DIC that leads to PPH?",
+    "Placental abruption, pre-eclampsia and HELLP syndrome, intrauterine fetal death, sepsis and amniotic fluid embolism.",
+    2,
+    "6tc68m"
    ],
    [
     "Pathophysiology",
-    "What are the 'living ligatures'?",
-    "Criss-cross myometrial fibres that clamp the spiral vessels shut after the placenta separates."
+    "What are the \"living ligatures\"?",
+    "The criss-cross myometrial fibres that compress the spiral vessels after the placenta separates.",
+    2,
+    "dp3ke1"
    ],
    [
-    "Clinical",
+    "Clinical features",
     "Which vital sign changes first in PPH?",
-    "Tachycardia; BP falls late, after about 30% of blood volume is lost."
+    "Tachycardia; the blood pressure falls late, after about 30% of the blood volume has been lost.",
+    2,
+    "11fxhdl"
    ],
    [
     "Investigations",
-    "Bedside clot test result in coagulopathy?",
-    "No clot forms in a plain tube within 7–10 minutes."
+    "What is the result of the bedside clotting test in coagulopathy?",
+    "No clot forms in a plain tube within 7–10 minutes.",
+    2,
+    "1ae5dh1"
    ],
    [
     "Management",
-    "First steps in major PPH?",
-    "Call for help, ABC, O₂ 15 L/min, two 14–16 G cannulae, bloods, cross-match, warm fluids, rub uterus."
+    "What are the first steps in major PPH?",
+    "Call for help; airway, breathing and circulation; oxygen 15 L/min; two 14–16 G cannulae; blood tests and cross-match; warmed fluids; and uterine massage.",
+    1,
+    "1p8a2og"
    ],
    [
     "Management",
-    "Oxytocin dose for PPH?",
-    "10 IU slow IV, then 40 IU in 500 mL over 4 h; 5 IU if cardiac disease."
+    "What is the dose of oxytocin for PPH?",
+    "10 IU by slow IV injection, then 40 IU in 500 mL over 4 hours; 5 IU in cardiac disease.",
+    2,
+    "jo7jwu"
    ],
    [
-    "Drugs",
-    "Ergometrine dose and contraindications?",
-    "0.5 mg IM or slow IV; avoid in hypertension, pre-eclampsia and heart disease."
+    "Drug treatment",
+    "What are the dose and contraindications of ergometrine?",
+    "0.5 mg IM or by slow IV injection; it is avoided in hypertension, pre-eclampsia and heart disease.",
+    2,
+    "yiksqy"
    ],
    [
-    "Drugs",
-    "Misoprostol dose in PPH?",
-    "800 µg (4 × 200 µg) sublingual, or rectal if she cannot swallow."
+    "Drug treatment",
+    "What is the dose of misoprostol in PPH?",
+    "800 µg (4 × 200 µg) sublingually, or rectally if she cannot swallow.",
+    2,
+    "nlon0"
    ],
    [
-    "Drugs",
-    "Carboprost dose and contraindication?",
-    "250 µg deep IM every 15 min, max 8 doses; avoid in asthma (bronchospasm)."
+    "Drug treatment",
+    "What are the dose and contraindication of carboprost?",
+    "250 µg by deep IM injection every 15 minutes, to a maximum of 8 doses; it is avoided in asthma (bronchospasm).",
+    2,
+    "l8kj3d"
    ],
    [
-    "Drugs",
-    "Tranexamic acid in PPH: dose and time limit?",
-    "1 g IV over 10 min, within 3 hours of birth; no benefit later."
+    "Drug treatment",
+    "What are the dose and time limit of tranexamic acid in PPH?",
+    "1 g IV over 10 minutes, within 3 hours of delivery; there is no benefit later.",
+    2,
+    "10dlsyt"
    ],
    [
-    "Mechanical",
-    "How is bimanual compression done?",
-    "Fist in the anterior fornix, other hand presses the fundus down onto it."
+    "Mechanical measures",
+    "How is bimanual compression performed?",
+    "One fist is placed in the anterior fornix and the other hand presses the fundus down onto it.",
+    2,
+    "lmnto6"
    ],
    [
-    "Mechanical",
-    "Balloon tamponade: devices and volume?",
-    "Bakri, Sengstaken or condom catheter filled with 300–500 mL saline for 12–24 h."
+    "Mechanical measures",
+    "Which devices and volume are used for balloon tamponade?",
+    "A Bakri balloon, Sengstaken tube or condom catheter, filled with 300–500 mL of saline for 12–24 hours.",
+    2,
+    "1cbnlkh"
    ],
    [
     "Surgery",
-    "Surgical ladder for atony that fails drugs and balloon?",
-    "B-Lynch suture, uterine artery ligation, internal iliac ligation, then hysterectomy."
+    "What is the order of surgical measures for atony that does not respond to drugs and balloon tamponade?",
+    "B-Lynch suture, uterine artery ligation, internal iliac artery ligation and finally hysterectomy.",
+    3,
+    "1yxwvds"
    ],
    [
     "Surgery",
-    "First uterus-sparing operation for atony at laparotomy?",
-    "B-Lynch brace suture: success about 90%."
+    "What is the first uterus-conserving operation for atony at laparotomy?",
+    "The B-Lynch brace suture, with a success rate of about 90%.",
+    2,
+    "1u7c6sw"
    ],
    [
-    "Tissue",
+    "Retained placenta",
     "Define retained placenta.",
-    "Not delivered 30 min after birth with active management, or 60 min with physiological."
+    "A placenta that is not delivered within 30 minutes of birth with active management, or 60 minutes with physiological management.",
+    1,
+    "1byvxwj"
    ],
    [
-    "Tissue",
-    "Management of retained placenta?",
-    "Oxytocin, empty bladder, then manual removal under anaesthesia in theatre with antibiotics."
+    "Retained placenta",
+    "How is retained placenta managed?",
+    "Oxytocin, emptying of the bladder, and then manual removal under anaesthesia in theatre with antibiotic cover.",
+    2,
+    "ompq0r"
    ],
    [
     "Trauma",
-    "Shock out of proportion to loss after cord traction, no fundus felt. Diagnosis and action?",
-    "Uterine inversion: replace it manually at once, then oxytocin."
+    "After cord traction a woman has shock out of proportion to the blood loss and the fundus is not palpable. What are the diagnosis and action?",
+    "Uterine inversion; the uterus is replaced manually at once, followed by oxytocin.",
+    3,
+    "g4dd21"
    ],
    [
-    "Thrombin",
-    "Blood products in PPH with coagulopathy?",
-    "FFP 4 units per 6 red cells; platelets if < 50; cryoprecipitate if fibrinogen < 2 g/L."
+    "Coagulopathy",
+    "Which blood products are given in PPH with coagulopathy?",
+    "FFP 4 units for every 6 units of red cells; platelets if the count is below 50 × 10⁹/L; cryoprecipitate if fibrinogen is below 2 g/L.",
+    3,
+    "evoqms"
    ],
    [
-    "Secondary",
-    "Commonest causes of secondary PPH?",
-    "Endometritis and retained products of conception; rarely choriocarcinoma."
+    "Secondary PPH",
+    "What are the commonest causes of secondary PPH?",
+    "Endometritis and retained products of conception; rarely choriocarcinoma.",
+    1,
+    "wzamez"
    ],
    [
-    "Secondary",
-    "Treatment of secondary PPH with fever and bulky uterus?",
-    "IV antibiotics (cephalosporin + metronidazole), uterotonics, evacuation if tissue retained."
+    "Secondary PPH",
+    "How is secondary PPH with fever and a bulky uterus treated?",
+    "IV antibiotics (a cephalosporin plus metronidazole), uterotonics, and evacuation if tissue is retained.",
+    2,
+    "od1a4i"
    ],
    [
     "Prevention",
-    "Active management of the third stage?",
-    "Oxytocin 10 IU IM within 1 min, delayed cord clamping (1–3 min), controlled cord traction, uterine massage after delivery."
+    "What is active management of the third stage?",
+    "Oxytocin 10 IU IM within 1 minute, delayed cord clamping (1–3 minutes), controlled cord traction, and uterine massage after delivery of the placenta.",
+    1,
+    "uqyyi7"
    ],
    [
     "Prevention",
-    "Uterotonic for the third stage when oxytocin is unavailable?",
-    "Misoprostol 600 µg orally."
+    "Which uterotonic is used in the third stage when oxytocin is not available?",
+    "Misoprostol 600 µg orally.",
+    2,
+    "d57v75"
    ],
    [
     "Complications",
-    "Late endocrine complication of massive PPH?",
-    "Sheehan syndrome: pituitary necrosis, failed lactation, amenorrhoea."
-   ],
-   [
-    "Practice",
-    "Why is tranexamic acid limited to 3 h after birth?",
-    "No benefit after 3 h; given late it may do harm."
-   ],
-   [
-    "Practice",
-    "Drug and route in active management of the 3rd stage?",
-    "Oxytocin 10 IU IM."
+    "What is the late endocrine complication of massive PPH?",
+    "Sheehan syndrome: pituitary necrosis with failure of lactation and amenorrhoea.",
+    2,
+    "1rfh5iv"
    ]
   ]
  },
@@ -3322,167 +3495,219 @@
    [
     "Types",
     "What proportion of twins are dizygotic?",
-    "About two-thirds; dizygotic twins are always dichorionic diamniotic."
+    "About two-thirds; dizygotic twins are always dichorionic diamniotic.",
+    1,
+    "1q3dn3x"
    ],
    [
     "Types",
-    "Monozygotic split before day 3 gives which type?",
-    "Dichorionic diamniotic (DCDA)."
+    "Which type of twins results from division of a monozygotic embryo before day 3?",
+    "Dichorionic diamniotic (DCDA) twins.",
+    2,
+    "ghwcgk"
    ],
    [
     "Types",
-    "Monozygotic split at days 4–7 gives which type?",
-    "Monochorionic diamniotic (MCDA): about 70% of monozygotic twins."
+    "Which type of twins results from division of a monozygotic embryo on days 4–7?",
+    "Monochorionic diamniotic (MCDA) twins, about 70% of monozygotic twins.",
+    2,
+    "1sss8qm"
    ],
    [
     "Types",
-    "Monozygotic split at days 8–12 gives which type?",
-    "Monochorionic monoamniotic (MCMA): about 1%."
+    "Which type of twins results from division of a monozygotic embryo on days 8–12?",
+    "Monochorionic monoamniotic (MCMA) twins, about 1%.",
+    2,
+    "1bz33we"
    ],
    [
     "Types",
-    "Split after day 12 gives what?",
-    "Conjoined twins (very rare)."
+    "What results from division of the embryo after day 12?",
+    "Conjoined twins (very rare).",
+    1,
+    "1yp61zg"
    ],
    [
     "Risk factors",
-    "Strongest risk factor for twins today?",
-    "Assisted reproduction: IVF with two embryos gives 20–30% multiple pregnancy."
+    "What is the strongest risk factor for twin pregnancy today?",
+    "Assisted reproduction: IVF with two embryos results in multiple pregnancy in 20–30%.",
+    1,
+    "1e2sf5n"
    ],
    [
     "Diagnosis",
-    "Best time to determine chorionicity?",
-    "11–13+6 weeks on ultrasound."
+    "When is chorionicity best determined?",
+    "At 11 to 13⁺⁶ weeks on ultrasound.",
+    1,
+    "pdq9cg"
    ],
    [
     "Diagnosis",
-    "Lambda (twin-peak) sign means?",
-    "Dichorionic twins: a wedge of chorion between the two membranes."
+    "What does the lambda (twin-peak) sign indicate?",
+    "Dichorionic twins: a wedge of chorion lies between the two membranes.",
+    2,
+    "1727glk"
    ],
    [
     "Diagnosis",
-    "T sign means?",
-    "Monochorionic twins: thin membrane meets the placenta at a right angle."
+    "What does the T sign indicate?",
+    "Monochorionic twins: a thin membrane meets the placenta at a right angle.",
+    2,
+    "1vxviy0"
    ],
    [
     "Diagnosis",
-    "Chorionicity unclear on a late scan. How to manage?",
-    "Treat as monochorionic."
+    "How is the pregnancy managed when chorionicity is unclear on a late scan?",
+    "It is managed as monochorionic.",
+    3,
+    "1m74odi"
    ],
    [
-    "Clinical",
-    "Name three signs of twins on examination.",
-    "Uterus large for dates, many fetal parts (≥ 3 poles), two fetal hearts at different rates."
+    "Clinical features",
+    "What are the signs of twin pregnancy on examination?",
+    "A uterus that is large for dates, multiple fetal parts (three or more poles) and two fetal hearts at different rates.",
+    1,
+    "1ew22yp"
    ],
    [
     "Complications",
-    "Pre-eclampsia risk in twins compared with singletons?",
-    "About 5 times higher."
+    "How does the risk of pre-eclampsia in twin pregnancy compare with singleton pregnancy?",
+    "It is about 5 times higher.",
+    2,
+    "mt1iyy"
    ],
    [
     "Complications",
-    "Main cause of perinatal death in twins?",
-    "Prematurity."
+    "What is the main cause of perinatal death in twins?",
+    "Prematurity.",
+    1,
+    "1565wzc"
    ],
    [
     "Complications",
-    "Why is PPH more common after twins?",
-    "Overdistended uterus and a large placental bed cause atony."
+    "Why is PPH more common after twin delivery?",
+    "An overdistended uterus and a large placental bed cause atony.",
+    2,
+    "1tcuyig"
    ],
    [
-    "TTTS",
-    "Cause of twin-to-twin transfusion syndrome?",
-    "Unbalanced artery-to-vein anastomoses in a shared monochorionic placenta."
+    "Twin-to-twin transfusion",
+    "What causes twin-to-twin transfusion syndrome (TTTS)?",
+    "Unbalanced arteriovenous anastomoses in a shared monochorionic placenta.",
+    2,
+    "1ivs0u9"
    ],
    [
-    "TTTS",
-    "Scan picture of TTTS?",
-    "MC twins: oligohydramnios ('stuck') donor, polyhydramnios recipient."
+    "Twin-to-twin transfusion",
+    "What is the ultrasound picture of TTTS?",
+    "Monochorionic twins with oligohydramnios around the donor (\"stuck\" twin) and polyhydramnios around the recipient.",
+    2,
+    "d0nfrw"
    ],
    [
-    "TTTS",
-    "Which twin gets hydrops and heart failure in TTTS?",
-    "The recipient: hypervolaemic and polycythaemic."
+    "Twin-to-twin transfusion",
+    "Which twin develops hydrops and heart failure in TTTS?",
+    "The recipient, which is hypervolaemic and polycythaemic.",
+    2,
+    "16o3ni1"
    ],
    [
-    "TTTS",
-    "Treatment of TTTS before 26 weeks?",
-    "Fetoscopic laser ablation of the placental anastomoses."
+    "Twin-to-twin transfusion",
+    "How is TTTS treated before 26 weeks?",
+    "Fetoscopic laser ablation of the placental anastomoses.",
+    2,
+    "1uxpq3f"
    ],
    [
-    "MC twins",
-    "TAPS vs TTTS: key difference?",
-    "TAPS: Hb discordance with equal liquor volumes; diagnosed by MCA Doppler."
+    "Monochorionic twins",
+    "What is the key difference between TAPS and TTTS?",
+    "In TAPS there is discordance in haemoglobin with equal liquor volumes; it is diagnosed by middle cerebral artery Doppler.",
+    3,
+    "1dxn6sp"
    ],
    [
-    "MC twins",
-    "What is TRAP sequence?",
-    "Acardiac twin perfused by a normal pump twin, who risks heart failure."
+    "Monochorionic twins",
+    "What is the TRAP sequence?",
+    "An acardiac twin is perfused by a normal \"pump\" twin, which is at risk of heart failure.",
+    3,
+    "k02mlh"
    ],
    [
     "Growth",
-    "Severe twin weight discordance?",
-    "More than 30% of the larger twin's weight."
+    "What defines severe weight discordance in twins?",
+    "A difference of more than 30% of the larger twin's weight.",
+    2,
+    "dq10gw"
    ],
    [
-    "Twin death",
-    "Effect of one twin dying in a monochorionic pair?",
-    "Up to 25% risk of death or brain damage in the survivor."
+    "Death of one twin",
+    "What is the effect of the death of one twin in a monochorionic pair?",
+    "A risk of up to 25% of death or brain damage in the surviving twin.",
+    3,
+    "1bj6u7t"
    ],
    [
-    "Twin death",
-    "Does immediate delivery protect the MC survivor's brain?",
-    "No: the injury happens at the moment of the co-twin's death."
+    "Death of one twin",
+    "Does immediate delivery protect the brain of the surviving monochorionic twin?",
+    "No. The injury occurs at the moment of death of the co-twin.",
+    3,
+    "1fst12r"
    ],
    [
     "Antenatal care",
-    "Growth scan interval: MC vs DC twins?",
-    "MC every 2 weeks from 16 wk; DC every 4 weeks from 20 wk."
+    "How often are growth scans performed in monochorionic and dichorionic twins?",
+    "Monochorionic: every 2 weeks from 16 weeks. Dichorionic: every 4 weeks from 20 weeks.",
+    2,
+    "qt082v"
    ],
    [
-    "Timing",
-    "When to deliver uncomplicated DCDA and MCDA twins?",
-    "DCDA at 38 wk; MCDA at 37 wk."
+    "Timing of delivery",
+    "When are uncomplicated DCDA and MCDA twins delivered?",
+    "DCDA twins at 38 weeks; MCDA twins at 37 weeks.",
+    2,
+    "siqjz2"
    ],
    [
-    "Timing",
-    "How and when to deliver MCMA twins?",
-    "Caesarean at 32 wk (cord entanglement risk)."
+    "Timing of delivery",
+    "How and when are MCMA twins delivered?",
+    "By caesarean section at 32 weeks, because of the risk of cord entanglement.",
+    2,
+    "8u6i6v"
    ],
    [
-    "Mode",
-    "Twin 1 cephalic, twin 2 breech. Mode of delivery?",
-    "Vaginal birth is reasonable."
+    "Mode of delivery",
+    "The first twin is cephalic and the second twin is breech. What is the mode of delivery?",
+    "Vaginal delivery is reasonable.",
+    2,
+    "1goihv0"
    ],
    [
-    "Mode",
-    "Twin 1 breech. Mode of delivery?",
-    "Elective caesarean (risk of locked twins)."
+    "Mode of delivery",
+    "The first twin is breech. What is the mode of delivery?",
+    "Elective caesarean section, because of the risk of locked twins.",
+    2,
+    "19iws0h"
    ],
    [
     "Second twin",
-    "Twin 2 transverse with intact membranes. Next step?",
-    "External cephalic version (or internal podalic version and breech extraction)."
+    "The second twin is transverse with intact membranes. What is the next step?",
+    "External cephalic version (or internal podalic version and breech extraction).",
+    3,
+    "115pdu0"
    ],
    [
     "Second twin",
-    "Twin 2 longitudinal cephalic, contractions weak. Management?",
-    "Oxytocin, then ARM when the head enters the pelvis."
+    "The second twin is longitudinal and cephalic, with weak contractions. How is it managed?",
+    "Oxytocin, followed by artificial rupture of membranes when the head enters the pelvis.",
+    3,
+    "t0iqhi"
    ],
    [
     "Third stage",
-    "How to prevent PPH after twins?",
-    "Active management of third stage plus oxytocin infusion for 2–4 hours."
-   ],
-   [
-    "Practice",
-    "Which twin in TTTS gets hydrops and heart failure?",
-    "The recipient (volume overload)."
-   ],
-   [
-    "Practice",
-    "Why give an oxytocin infusion after twin delivery?",
-    "Overdistended uterus: high risk of atonic PPH."
+    "How is PPH prevented after twin delivery?",
+    "Active management of the third stage, with an oxytocin infusion for 2–4 hours.",
+    2,
+    "1ppg6x9"
    ]
   ]
  },
@@ -3492,167 +3717,212 @@
    [
     "Definitions",
     "Define small for gestational age (SGA).",
-    "Estimated or birth weight below the 10th centile for gestational age."
+    "An estimated fetal weight or birth weight below the 10th centile for gestational age.",
+    1,
+    "19oese7"
    ],
    [
     "Definitions",
-    "Define fetal growth restriction (IUGR).",
-    "Fetus fails to reach its growth potential because of a pathological process."
+    "Define fetal growth restriction (FGR).",
+    "Failure of the fetus to reach its growth potential because of a pathological process.",
+    1,
+    "qxcxx8"
    ],
    [
     "Definitions",
-    "Severe SGA cut-off?",
-    "Weight below the 3rd centile."
+    "What defines severe SGA?",
+    "A weight below the 3rd centile.",
+    1,
+    "1mxgxbu"
    ],
    [
     "Definitions",
     "Define low birth weight.",
-    "Birth weight under 2.5 kg at any gestation."
+    "A birth weight below 2.5 kg at any gestation.",
+    1,
+    "1ehchw"
    ],
    [
     "Definitions",
-    "What share of SGA babies are constitutionally small?",
-    "About two-thirds: normal Doppler, small parents, healthy."
+    "What proportion of SGA babies are constitutionally small?",
+    "About two-thirds; they have normal Doppler studies and small parents, and are healthy.",
+    2,
+    "9xwtv0"
    ],
    [
     "Classification",
-    "Symmetrical FGR: timing and typical causes?",
-    "Early onset; chromosomal anomalies, congenital infection, drugs."
+    "What are the timing and typical causes of symmetrical FGR?",
+    "It is of early onset; the causes are chromosomal abnormalities, congenital infection and drugs.",
+    2,
+    "20tfkv"
    ],
    [
     "Classification",
-    "Asymmetrical FGR: timing and cause?",
-    "Late onset; placental insufficiency with brain sparing."
+    "What are the timing and cause of asymmetrical FGR?",
+    "It is of late onset and is caused by placental insufficiency, with brain sparing.",
+    2,
+    "oneyl"
    ],
    [
     "Classification",
-    "Which FGR type has the worse outlook?",
-    "Symmetrical (fewer cells, often an intrinsic fetal cause)."
+    "Which type of FGR has the worse prognosis?",
+    "Symmetrical FGR (fewer cells, and often an intrinsic fetal cause).",
+    2,
+    "rp9ggf"
    ],
    [
     "Causes",
-    "Most common cause of FGR?",
-    "Uteroplacental insufficiency, e.g. pre-eclampsia."
+    "What is the commonest cause of FGR?",
+    "Uteroplacental insufficiency, for example in pre-eclampsia.",
+    1,
+    "qkl56w"
    ],
    [
     "Causes",
-    "Name three maternal causes of FGR.",
-    "Malnutrition/anaemia, hypertension or renal disease, smoking (also alcohol, APS, warfarin)."
+    "What are the maternal causes of FGR?",
+    "Malnutrition and anaemia, hypertension or renal disease, and smoking (also alcohol, antiphospholipid syndrome and warfarin).",
+    2,
+    "wus5ot"
    ],
    [
     "Pathophysiology",
-    "Why does AC fall first in placental FGR?",
-    "Liver glycogen is used and the liver shrinks while the brain is spared."
+    "Why does the abdominal circumference fall first in placental FGR?",
+    "Liver glycogen is consumed and the liver becomes smaller, while the brain is spared.",
+    3,
+    "1w4ze3"
    ],
    [
     "Pathophysiology",
     "Why does placental FGR cause oligohydramnios?",
-    "Blood is shunted away from the kidneys, so fetal urine falls."
+    "Blood is diverted away from the kidneys, so fetal urine output falls.",
+    3,
+    "9e2t3y"
    ],
    [
     "Screening",
-    "SFH finding that should trigger a growth scan?",
-    "Fundal height lagging more than 3 cm behind dates."
+    "Which symphysis–fundal height finding should prompt a growth scan?",
+    "A fundal height more than 3 cm below that expected for dates.",
+    1,
+    "ph9kzq"
    ],
    [
     "Screening",
-    "Uterine artery Doppler: when and what sign?",
-    "At 20–24 weeks; a diastolic notch or high PI predicts FGR and PE."
+    "When is uterine artery Doppler performed, and what is the abnormal finding?",
+    "At 20–24 weeks; a diastolic notch or a high pulsatility index predicts FGR and pre-eclampsia.",
+    3,
+    "jb9wy4"
    ],
    [
     "Screening",
-    "First-trimester biochemical marker linked to FGR?",
-    "Low PAPP-A."
+    "Which first-trimester biochemical marker is associated with FGR?",
+    "A low PAPP-A.",
+    2,
+    "1jl80lc"
    ],
    [
     "Investigations",
-    "Best single biometric measure of FGR?",
-    "Abdominal circumference."
+    "What is the best single biometric measurement for FGR?",
+    "The abdominal circumference.",
+    1,
+    "1griokx"
    ],
    [
     "Investigations",
-    "Ideal interval between growth scans?",
-    "About 3 weeks; shorter gaps give false positives."
+    "What is the ideal interval between growth scans?",
+    "About 3 weeks; shorter intervals give false-positive results.",
+    2,
+    "2fvgfu"
    ],
    [
     "Investigations",
-    "Best Doppler to assess the placenta in FGR?",
-    "Umbilical artery Doppler."
+    "Which Doppler study best assesses placental function in FGR?",
+    "Umbilical artery Doppler.",
+    1,
+    "166pcmp"
    ],
    [
     "Investigations",
-    "Low MCA pulsatility index means?",
-    "Brain sparing: redistribution of flow in the hypoxic fetus."
+    "What does a low middle cerebral artery pulsatility index indicate?",
+    "Brain sparing: redistribution of blood flow in the hypoxic fetus.",
+    3,
+    "zp6638"
    ],
    [
     "Investigations",
-    "High MCA peak systolic velocity means?",
-    "Fetal anaemia."
+    "What does a high middle cerebral artery peak systolic velocity indicate?",
+    "Fetal anaemia.",
+    3,
+    "af1jwg"
    ],
    [
     "Investigations",
-    "Abnormal ductus venosus a-wave means?",
-    "Fetal acidaemia: a late, near-terminal sign. Deliver."
+    "What does an abnormal a-wave in the ductus venosus indicate?",
+    "Fetal acidaemia; it is a late, pre-terminal sign and an indication for delivery.",
+    3,
+    "1d10j2d"
    ],
    [
     "Investigations",
-    "Order of Doppler deterioration in placental FGR?",
-    "UA PI ↑, MCA PI ↓, UA absent EDF, reversed EDF, DV abnormal, CTG abnormal."
+    "What is the order of Doppler deterioration in placental FGR?",
+    "Raised umbilical artery pulsatility index, reduced middle cerebral artery pulsatility index, absent end-diastolic flow, reversed end-diastolic flow, abnormal ductus venosus, and finally an abnormal CTG.",
+    3,
+    "zkidzl"
    ],
    [
     "Management",
-    "FGR with absent end-diastolic flow: plan?",
-    "Steroids, close CTG; deliver by 34 weeks, usually by caesarean."
+    "What is the plan for FGR with absent end-diastolic flow?",
+    "Corticosteroids and close CTG monitoring; delivery by 34 weeks, usually by caesarean section.",
+    3,
+    "12ae8tk"
    ],
    [
     "Management",
-    "FGR with reversed end-diastolic flow: plan?",
-    "Steroids if time, then deliver (about 32 weeks) by caesarean."
+    "What is the plan for FGR with reversed end-diastolic flow?",
+    "Corticosteroids if time allows, then delivery (at about 32 weeks) by caesarean section.",
+    3,
+    "1rzl0hd"
    ],
    [
     "Management",
-    "SGA with normal UA Doppler: when to deliver?",
-    "At 37–38 weeks; induction with continuous CTG is acceptable."
+    "When is an SGA fetus with normal umbilical artery Doppler delivered?",
+    "At 37–38 weeks; induction of labour with continuous CTG is acceptable.",
+    2,
+    "i4vgln"
    ],
    [
     "Management",
-    "Antenatal steroid dose before preterm FGR delivery?",
-    "Dexamethasone 6 mg IM 12-hourly for four doses."
+    "What is the dose of antenatal corticosteroids before preterm delivery for FGR?",
+    "Dexamethasone 6 mg IM 12-hourly for four doses.",
+    2,
+    "13ng76f"
    ],
    [
     "Management",
-    "Principle that decides delivery timing in FGR?",
-    "Deliver when the risk inside the uterus exceeds the risk of prematurity."
+    "Which principle decides the timing of delivery in FGR?",
+    "Delivery is indicated when the risk of remaining in the uterus exceeds the risk of prematurity.",
+    2,
+    "ya18id"
    ],
    [
     "Complications",
-    "Common metabolic problem in the FGR newborn?",
-    "Hypoglycaemia, from low glycogen stores."
+    "What is the common metabolic problem in the growth-restricted newborn?",
+    "Hypoglycaemia, caused by low glycogen stores.",
+    1,
+    "14dqh0t"
    ],
    [
     "Complications",
-    "Why are FGR babies polycythaemic?",
-    "Chronic hypoxia raises erythropoietin."
+    "Why are growth-restricted babies polycythaemic?",
+    "Chronic hypoxia increases erythropoietin.",
+    2,
+    "r3gvzf"
    ],
    [
     "Complications",
-    "Name the theory linking FGR to adult disease.",
-    "Barker hypothesis: adult hypertension, diabetes, heart disease."
-   ],
-   [
-    "Practice",
-    "Why is the AC the first measurement to fall in placental FGR?",
-    "Liver glycogen is used up and liver shrinks; the brain is spared."
-   ],
-   [
-    "Practice",
-    "Which Doppler change is the late, pre-terminal sign?",
-    "Absent or reversed a-wave in the ductus venosus."
-   ],
-   [
-    "Practice",
-    "Name the theory linking low birth weight to adult hypertension and diabetes.",
-    "Barker hypothesis (fetal origins of adult disease)."
+    "Which hypothesis links FGR to adult disease?",
+    "The Barker hypothesis: adult hypertension, diabetes and heart disease.",
+    2,
+    "1ccw8wv"
    ]
   ]
  },
@@ -3661,163 +3931,220 @@
   "cards": [
    [
     "Definitions",
-    "WHO definition of stillbirth / IUFD cut-off?",
-    "Baby with no signs of life at ≥ 28 weeks or weighing ≥ 1000 g."
+    "What is the WHO definition of stillbirth?",
+    "A baby born with no signs of life at 28 weeks or more, or weighing 1000 g or more.",
+    1,
+    "zrd2np"
    ],
    [
     "Definitions",
-    "Fetal death before the viability cut-off is managed as?",
-    "A miscarriage."
+    "How is fetal death before the viability threshold managed?",
+    "As a miscarriage.",
+    1,
+    "1ehpw67"
    ],
    [
     "Causes",
-    "Commonest cause of IUFD?",
-    "Unexplained: about half of cases."
+    "What is the commonest cause of intrauterine fetal death?",
+    "It is unexplained in about half of cases.",
+    1,
+    "d943k8"
    ],
    [
     "Causes",
-    "IUFD with fever and rigors in Sudan: first test for the cause?",
-    "Blood film for malaria."
+    "In Sudan, what is the first test for the cause of intrauterine fetal death with fever and rigors?",
+    "A blood film for malaria.",
+    1,
+    "101dy6h"
    ],
    [
     "Causes",
-    "Name four maternal causes of IUFD.",
-    "Pre-eclampsia, diabetes, infection (malaria, TORCH, syphilis), antiphospholipid syndrome."
+    "What are the maternal causes of intrauterine fetal death?",
+    "Pre-eclampsia, diabetes, infection (malaria, TORCH infections, syphilis) and antiphospholipid syndrome.",
+    2,
+    "1iof94y"
    ],
    [
     "Causes",
-    "Fetal causes of IUFD?",
-    "Congenital anomalies, FGR, twin-twin transfusion, hydrops, feto-maternal haemorrhage."
+    "What are the fetal causes of intrauterine fetal death?",
+    "Congenital anomalies, fetal growth restriction, twin-to-twin transfusion, hydrops and fetomaternal haemorrhage.",
+    2,
+    "1r4vvya"
    ],
    [
     "Causes",
-    "Placental and cord causes of IUFD?",
-    "Abruption, placental insufficiency, true knot, cord prolapse."
+    "What are the placental and cord causes of intrauterine fetal death?",
+    "Placental abruption, placental insufficiency, a true knot of the cord and cord prolapse.",
+    2,
+    "1c67qnl"
    ],
    [
-    "Clinical",
-    "Commonest presenting complaint of IUFD?",
-    "Reduced or absent fetal movements."
+    "Clinical features",
+    "What is the commonest presenting complaint of intrauterine fetal death?",
+    "Reduced or absent fetal movements.",
+    1,
+    "1udv1xx"
    ],
    [
-    "Clinical",
-    "Uterine size on examination after IUFD?",
-    "Small for dates: SFH and maternal weight stop rising."
-   ],
-   [
-    "Diagnosis",
-    "Investigation that confirms IUFD?",
-    "Real-time ultrasound showing no fetal heart motion, ideally by two operators."
-   ],
-   [
-    "Diagnosis",
-    "Is absent heart on Pinard or hand Doppler diagnostic?",
-    "No: suggestive only; confirm with real-time ultrasound."
+    "Clinical features",
+    "What is the uterine size on examination after intrauterine fetal death?",
+    "Small for dates; the symphysis–fundal height and maternal weight stop increasing.",
+    2,
+    "qmc8z8"
    ],
    [
     "Diagnosis",
-    "Spalding sign?",
-    "Overlapping fetal skull bones, about 7 days after death."
+    "Which investigation confirms intrauterine fetal death?",
+    "Real-time ultrasound showing absent fetal heart activity, ideally confirmed by two operators.",
+    1,
+    "123obib"
    ],
    [
     "Diagnosis",
-    "Robert sign?",
-    "Gas in the fetal heart and great vessels: earliest X-ray sign (≈ 12 h)."
+    "Is an absent fetal heart on Pinard stethoscope or hand-held Doppler diagnostic?",
+    "No. It is only suggestive; the diagnosis is confirmed by real-time ultrasound.",
+    2,
+    "1i65v1i"
    ],
    [
     "Diagnosis",
-    "Deuel halo sign?",
-    "Scalp oedema lifts the fat line off the skull (≈ 48 h)."
+    "What is the Spalding sign?",
+    "Overlapping of the fetal skull bones, about 7 days after death.",
+    2,
+    "1e0xqso"
+   ],
+   [
+    "Diagnosis",
+    "What is the Robert sign?",
+    "Gas in the fetal heart and great vessels; it is the earliest radiological sign (about 12 hours).",
+    3,
+    "zrkz6s"
+   ],
+   [
+    "Diagnosis",
+    "What is the Deuel halo sign?",
+    "Scalp oedema lifts the fat line away from the skull (about 48 hours).",
+    3,
+    "1x9d6g3"
    ],
    [
     "Investigations",
-    "Clotting tests in IUFD: why?",
-    "To detect DIC (hypofibrinogenaemia) early: FBC, clotting, fibrinogen."
+    "Why are clotting tests done in intrauterine fetal death?",
+    "To detect DIC (hypofibrinogenaemia) early: full blood count, clotting screen and fibrinogen.",
+    2,
+    "18lsrvj"
    ],
    [
     "Investigations",
-    "Rh-negative woman with IUFD: which test?",
-    "Kleihauer test for feto-maternal haemorrhage, then anti-D."
+    "Which test is done in an RhD-negative woman with intrauterine fetal death?",
+    "A Kleihauer test for fetomaternal haemorrhage, followed by anti-D.",
+    2,
+    "7j10j6"
    ],
    [
     "Investigations",
-    "Best investigation for the cause after birth?",
-    "Autopsy plus placental histology; MRI or X-ray if autopsy refused."
+    "What is the best investigation for the cause after delivery?",
+    "Post-mortem examination with placental histology; MRI or X-ray if post-mortem examination is declined.",
+    2,
+    "ymdtff"
    ],
    [
     "Investigations",
-    "When is thrombophilia screening done?",
-    "At about 6 weeks after delivery."
+    "When is thrombophilia screening performed?",
+    "About 6 weeks after delivery.",
+    2,
+    "qslztr"
    ],
    [
     "Complications",
-    "Most serious maternal complication of a retained dead fetus?",
-    "DIC (hypofibrinogenaemia)."
+    "What is the most serious maternal complication of a retained dead fetus?",
+    "DIC (hypofibrinogenaemia).",
+    1,
+    "bskx1p"
    ],
    [
     "Complications",
-    "Why does DIC occur in IUFD?",
-    "Thromboplastin from the dead fetus enters the maternal circulation."
+    "Why does DIC occur in intrauterine fetal death?",
+    "Thromboplastin from the dead fetus enters the maternal circulation.",
+    2,
+    "1lx0pi7"
    ],
    [
     "Complications",
-    "DIC risk with a dead fetus retained > 3 weeks?",
-    "About 30% (≈ 10% in the first 3 weeks)."
+    "What is the risk of DIC when a dead fetus is retained for more than 3 weeks?",
+    "About 30% (about 10% in the first 3 weeks).",
+    3,
+    "ox97ws"
    ],
    [
     "Management",
-    "Indications for immediate delivery in IUFD?",
-    "Sepsis or ROM, DIC, abruption, pre-eclampsia."
+    "What are the indications for immediate delivery in intrauterine fetal death?",
+    "Sepsis or ruptured membranes, DIC, placental abruption and pre-eclampsia.",
+    2,
+    "vidhef"
    ],
    [
     "Management",
-    "How many women labour spontaneously within 3 weeks of IUFD?",
-    "About 85%."
+    "What proportion of women go into spontaneous labour within 3 weeks of intrauterine fetal death?",
+    "About 85%.",
+    2,
+    "19si4t7"
    ],
    [
     "Management",
-    "Expectant management: what monitoring?",
-    "Clotting profile 2–3 times a week; induce if it falls or infection appears."
+    "What monitoring is required during expectant management?",
+    "A clotting profile 2–3 times a week; labour is induced if it deteriorates or infection develops.",
+    3,
+    "nee0ye"
    ],
    [
     "Management",
-    "Mifepristone dose before induction for IUFD?",
-    "200 mg oral, then misoprostol 36–48 h later."
+    "What is the dose of mifepristone before induction for intrauterine fetal death?",
+    "200 mg orally, followed by misoprostol 36–48 hours later.",
+    2,
+    "fhs9lm"
    ],
    [
     "Management",
-    "Misoprostol dose for IUFD beyond 28 weeks?",
-    "25 µg vaginally 6-hourly or 25 µg oral 2-hourly."
+    "What is the dose of misoprostol for intrauterine fetal death after 28 weeks?",
+    "25 µg vaginally 6-hourly or 25 µg orally 2-hourly.",
+    3,
+    "14rrv3m"
    ],
    [
     "Management",
-    "Misoprostol dose for IUFD before 27 weeks?",
-    "200 µg vaginal or sublingual 4–6-hourly."
+    "What is the dose of misoprostol for intrauterine fetal death before 27 weeks?",
+    "200 µg vaginally or sublingually every 4–6 hours.",
+    3,
+    "7kes3n"
    ],
    [
     "Management",
-    "IUFD with two previous caesareans: induction method?",
-    "Avoid routine misoprostol: Foley catheter plus oxytocin, or caesarean."
+    "Which method of induction is used for intrauterine fetal death after two previous caesarean sections?",
+    "Routine misoprostol is avoided; a Foley catheter with oxytocin, or caesarean section, is used.",
+    3,
+    "1b5ryui"
    ],
    [
     "Management",
-    "Why avoid ARM when inducing for IUFD?",
-    "Risk of intrauterine infection and sepsis."
+    "Why is artificial rupture of membranes avoided during induction for intrauterine fetal death?",
+    "Because of the risk of intrauterine infection and sepsis.",
+    2,
+    "gxjeqa"
    ],
    [
-    "Postnatal",
-    "Drug to suppress lactation after IUFD?",
-    "Cabergoline 1 mg oral, single dose."
+    "Postnatal care",
+    "Which drug suppresses lactation after intrauterine fetal death?",
+    "Cabergoline 1 mg orally as a single dose.",
+    2,
+    "1jsmfsq"
    ],
    [
-    "Postnatal",
-    "When is the follow-up visit after IUFD?",
-    "About 6 weeks: results, cause, grief and plan for next pregnancy."
-   ],
-   [
-    "Practice",
-    "Why avoid ARM in induction for IUFD?",
-    "Risk of intrauterine infection and sepsis."
+    "Postnatal care",
+    "When is the follow-up visit after intrauterine fetal death?",
+    "At about 6 weeks, to discuss the results, the cause, grief and the plan for the next pregnancy.",
+    1,
+    "1c7spf8"
    ]
   ]
  },
@@ -3826,153 +4153,213 @@
   "cards": [
    [
     "Physiology",
-    "Main source of amniotic fluid after 20 weeks?",
-    "Fetal urine."
+    "What is the main source of amniotic fluid after 20 weeks?",
+    "Fetal urine.",
+    1,
+    "172yh4p"
    ],
    [
     "Physiology",
-    "Main route of removal of amniotic fluid?",
-    "Fetal swallowing, then absorption from the gut."
+    "What is the main route of removal of amniotic fluid?",
+    "Fetal swallowing, followed by absorption from the gut.",
+    1,
+    "1j9ez1h"
    ],
    [
     "Physiology",
-    "When is amniotic fluid volume highest?",
-    "34–36 weeks (about 900 mL); about 600 mL at 40 weeks."
+    "When is the amniotic fluid volume greatest?",
+    "At 34–36 weeks (about 900 mL); it is about 600 mL at 40 weeks.",
+    2,
+    "2csb29"
    ],
    [
     "Measurement",
-    "What is the AFI?",
-    "Sum of the deepest vertical pool in each of the 4 uterine quadrants."
+    "What is the amniotic fluid index (AFI)?",
+    "The sum of the deepest vertical pool in each of the four uterine quadrants.",
+    1,
+    "pxlef8"
    ],
    [
     "Measurement",
-    "Normal AFI range?",
-    "9–25 cm (5–8 cm = borderline)."
+    "What is the normal range of the AFI?",
+    "9–25 cm (5–8 cm is borderline).",
+    1,
+    "r4clyv"
    ],
    [
     "Polyhydramnios",
     "Define polyhydramnios.",
-    "AFI > 25 cm or deepest vertical pool > 8 cm."
+    "An AFI above 25 cm or a deepest vertical pool above 8 cm.",
+    1,
+    "ii2to3"
    ],
    [
     "Polyhydramnios",
-    "Commonest cause of polyhydramnios?",
-    "Idiopathic (usually mild)."
+    "What is the commonest cause of polyhydramnios?",
+    "It is idiopathic (and usually mild).",
+    1,
+    "t6gcsc"
    ],
    [
     "Polyhydramnios",
-    "Commonest maternal cause of polyhydramnios?",
-    "Diabetes: fetal hyperglycaemia causes polyuria."
+    "What is the commonest maternal cause of polyhydramnios?",
+    "Diabetes: fetal hyperglycaemia causes polyuria.",
+    1,
+    "1xq49qe"
    ],
    [
     "Polyhydramnios",
-    "GI causes of polyhydramnios?",
-    "Oesophageal atresia with TOF, duodenal atresia: the fetus cannot swallow or absorb."
+    "What are the gastrointestinal causes of polyhydramnios?",
+    "Oesophageal atresia with tracheo-oesophageal fistula and duodenal atresia: the fetus cannot swallow or absorb the fluid.",
+    2,
+    "2ktrqw"
    ],
    [
     "Polyhydramnios",
-    "CNS cause of polyhydramnios?",
-    "Anencephaly (no swallowing, transudation from exposed meninges)."
+    "What is the central nervous system cause of polyhydramnios?",
+    "Anencephaly (absent swallowing and transudation from the exposed meninges).",
+    2,
+    "t4fa9b"
    ],
    [
     "Polyhydramnios",
-    "Acute polyhydramnios before 20 weeks: usual cause?",
-    "Monozygotic twins with twin-twin transfusion syndrome."
+    "What is the usual cause of acute polyhydramnios before 20 weeks?",
+    "Monozygotic twins with twin-to-twin transfusion syndrome.",
+    3,
+    "15fqlii"
    ],
    [
     "Polyhydramnios",
-    "Examination findings in polyhydramnios?",
-    "Large for dates, tense uterus, fetal parts and heart hard to find, fluid thrill."
+    "What are the examination findings in polyhydramnios?",
+    "A uterus that is large for dates and tense, fetal parts and heart sounds that are difficult to detect, and a fluid thrill.",
+    1,
+    "7tdez9"
    ],
    [
     "Polyhydramnios",
-    "Differential of a large-for-dates uterus?",
-    "Wrong dates, twins, macrosomia, fibroids, ovarian cyst, ascites."
+    "What is the differential diagnosis of a uterus that is large for dates?",
+    "Incorrect dates, twin pregnancy, macrosomia, fibroids, ovarian cyst and ascites.",
+    2,
+    "13z0awx"
    ],
    [
     "Polyhydramnios",
-    "Key investigations in polyhydramnios?",
-    "Detailed scan, OGTT, TORCH and syphilis serology, blood group antibodies, karyotype if anomaly."
+    "What are the key investigations in polyhydramnios?",
+    "A detailed ultrasound scan, oral glucose tolerance test, TORCH and syphilis serology, red cell antibodies, and karyotype if an anomaly is found.",
+    2,
+    "1wa4rb0"
    ],
    [
     "Polyhydramnios",
-    "Two dangers at membrane rupture in polyhydramnios?",
-    "Cord prolapse and placental abruption from sudden decompression."
+    "What are the two dangers when the membranes rupture in polyhydramnios?",
+    "Cord prolapse and placental abruption caused by sudden decompression.",
+    2,
+    "kdzd2p"
    ],
    [
     "Polyhydramnios",
     "Why does polyhydramnios cause PPH?",
-    "Overstretched uterus contracts poorly (atony)."
+    "The overdistended uterus contracts poorly (atony).",
+    2,
+    "tiz5mx"
    ],
    [
     "Polyhydramnios",
-    "Treatment of severe (AFI > 40 cm) symptomatic polyhydramnios?",
-    "Amnioreduction with slow drainage; fluid often reaccumulates."
+    "How is severe symptomatic polyhydramnios (AFI above 40 cm) treated?",
+    "Amnioreduction with slow drainage; the fluid often re-accumulates.",
+    2,
+    "syzzcl"
    ],
    [
     "Polyhydramnios",
-    "Indomethacin for polyhydramnios: dose and limit?",
-    "25 mg oral 6-hourly, only before 32 weeks, no longer than 72 h."
+    "What are the dose and limits of indomethacin for polyhydramnios?",
+    "25 mg orally 6-hourly, only before 32 weeks and for no longer than 72 hours.",
+    3,
+    "3llaww"
    ],
    [
     "Polyhydramnios",
-    "Fetal side effects of indomethacin?",
-    "Premature closure of the ductus arteriosus and fetal oliguria."
+    "What are the fetal side effects of indomethacin?",
+    "Premature closure of the ductus arteriosus and fetal oliguria.",
+    2,
+    "lp1zx6"
    ],
    [
     "Polyhydramnios",
-    "Treatment of TTTS?",
-    "Laser ablation of the placental anastomoses."
+    "How is twin-to-twin transfusion syndrome treated?",
+    "Laser ablation of the placental anastomoses.",
+    2,
+    "1vjhpi7"
    ],
    [
     "Oligohydramnios",
     "Define oligohydramnios.",
-    "AFI < 5 cm or deepest vertical pool < 2 cm."
+    "An AFI below 5 cm or a deepest vertical pool below 2 cm.",
+    1,
+    "rpt2l1"
    ],
    [
     "Oligohydramnios",
-    "Commonest cause of oligohydramnios?",
-    "Rupture of membranes."
+    "What is the commonest cause of oligohydramnios?",
+    "Rupture of the membranes.",
+    1,
+    "3jw8z2"
    ],
    [
     "Oligohydramnios",
-    "Renal causes of oligohydramnios?",
-    "Renal agenesis (Potter), dysplastic kidneys, posterior urethral valves."
+    "What are the renal causes of oligohydramnios?",
+    "Renal agenesis (Potter syndrome), dysplastic kidneys and posterior urethral valves.",
+    2,
+    "1fbsrji"
    ],
    [
     "Oligohydramnios",
-    "Drugs causing oligohydramnios?",
-    "NSAIDs such as indomethacin, ACE inhibitors and ARBs."
+    "Which drugs cause oligohydramnios?",
+    "NSAIDs such as indomethacin, ACE inhibitors and angiotensin receptor blockers.",
+    2,
+    "1qvsozs"
    ],
    [
     "Oligohydramnios",
-    "Main lethal complication of early oligohydramnios?",
-    "Pulmonary hypoplasia, especially if before about 22 weeks."
+    "What is the main lethal complication of early oligohydramnios?",
+    "Pulmonary hypoplasia, especially when it begins before about 22 weeks.",
+    2,
+    "13pfxwm"
    ],
    [
     "Oligohydramnios",
-    "Features of Potter sequence?",
-    "Flat nose, low-set ears, limb contractures, talipes, pulmonary hypoplasia."
+    "What are the features of the Potter sequence?",
+    "A flattened nose, low-set ears, limb contractures, talipes and pulmonary hypoplasia.",
+    2,
+    "225u7k"
    ],
    [
     "Oligohydramnios",
-    "Why fetal distress in labour with oligohydramnios?",
-    "Cord compression without fluid cushion causes hypoxia and meconium."
+    "Why does fetal distress occur in labour with oligohydramnios?",
+    "Cord compression, without the cushioning effect of the fluid, causes hypoxia and passage of meconium.",
+    3,
+    "ao2wme"
    ],
    [
     "Oligohydramnios",
-    "Is ECV allowed with oligohydramnios?",
-    "No: contraindicated, no fluid cushion."
+    "Is external cephalic version allowed in oligohydramnios?",
+    "No. It is contraindicated because there is no cushion of fluid.",
+    2,
+    "93i7vp"
    ],
    [
     "Oligohydramnios",
-    "PPROM: antibiotic and dose?",
-    "Erythromycin 250 mg oral 6-hourly for 10 days."
+    "Which antibiotic is given in preterm prelabour rupture of membranes, and at what dose?",
+    "Erythromycin 250 mg orally 6-hourly for 10 days.",
+    2,
+    "wwz7tj"
    ],
    [
     "Oligohydramnios",
-    "ROM at 34–36 weeks or more: management?",
-    "Induce labour unless caesarean is indicated for another reason."
+    "How is rupture of membranes at 34–36 weeks or later managed?",
+    "Labour is induced, unless caesarean section is indicated for another reason.",
+    2,
+    "1jy6qct"
    ]
   ]
  },

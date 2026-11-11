@@ -3404,7 +3404,7 @@
     "id": "eb-1",
     "topic": "eb",
     "type": "sba",
-    "stem": "A 27-year-old G2P1 at 9 weeks has had light vaginal bleeding since yesterday with mild lower abdominal ache. Pulse 82, BP 115/70. Speculum: small amount of blood, os closed. Transvaginal scan shows a live fetus, CRL matching dates.",
+    "stem": "A 27-year-old G2P1 at 9 weeks has had light vaginal bleeding since yesterday with mild lower abdominal ache. Her pulse is 82/min and blood pressure 115/70 mmHg. Speculum examination: small amount of blood, os closed. Transvaginal scan shows a live fetus, CRL matching dates.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Complete miscarriage",
@@ -3414,13 +3414,15 @@
      "Incomplete miscarriage"
     ],
     "answer": 2,
-    "why": "Bleeding with a closed os and a live fetus is threatened miscarriage; most continue. Inevitable miscarriage needs an open os."
+    "why": "Bleeding with a closed os and a live fetus is threatened miscarriage; most continue. Inevitable miscarriage needs an open os.",
+    "d": 1,
+    "_c": 1
    },
    {
     "id": "eb-2",
     "topic": "eb",
     "type": "sba",
-    "stem": "A 30-year-old G4P3 at 11 weeks is brought with heavy bleeding and colicky pain for 3 hours. Pulse 124, BP 80/50. Speculum: os open with tissue in the canal.",
+    "stem": "A 30-year-old G4P3 at 11 weeks is brought with heavy bleeding and colicky pain for 3 hours. Her pulse is 124/min and blood pressure 80/50 mmHg. Speculum examination: os open with tissue in the canal.",
     "q": "What is the most appropriate management?",
     "options": [
      "Misoprostol 600 µg orally and review in 2 weeks",
@@ -3430,13 +3432,15 @@
      "Ergometrine IM and discharge if bleeding settles"
     ],
     "answer": 3,
-    "why": "Heavy bleeding with shock needs resuscitation and surgical evacuation, which is definitive. Medical and expectant options are for stable women."
+    "why": "Heavy bleeding with shock needs resuscitation and surgical evacuation, which is definitive. Medical and expectant options are for stable women.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "eb-3",
     "topic": "eb",
     "type": "sba",
-    "stem": "A 25-year-old G2P1 at 9 weeks by dates noticed her breast tenderness has gone and has brownish spotting. Vitals normal, os closed. TVS: CRL 12 mm, no fetal heart activity. She refuses any operation.",
+    "stem": "A 25-year-old G2P1 at 9 weeks by dates noticed her breast tenderness has gone and has brownish spotting. Vitals normal, os closed. Transvaginal ultrasound: CRL 12 mm, no fetal heart activity. She refuses any operation.",
     "q": "Which is the most appropriate treatment?",
     "options": [
      "Methotrexate 50 mg/m² IM",
@@ -3446,13 +3450,15 @@
      "Misoprostol 800 µg vaginally, repeated after 3 hours if needed"
     ],
     "answer": 4,
-    "why": "CRL ≥ 7 mm with no heart confirms a missed miscarriage; the medical regimen under 13 weeks is 800 µg PV (or 600 µg SL), repeated after 3 h. 600 µg oral once is the regimen for incomplete miscarriage."
+    "why": "CRL ≥ 7 mm with no heart confirms a missed miscarriage; the medical regimen under 13 weeks is 800 µg vaginally (or 600 µg sublingually), repeated after 3 hours. 600 µg oral once is the regimen for incomplete miscarriage.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "eb-4",
     "topic": "eb",
     "type": "sba",
-    "stem": "A 31-year-old at 8 weeks by her last period has had one episode of spotting. She is stable. TVS: intrauterine gestational sac, mean sac diameter 18 mm, no yolk sac or embryo seen.",
+    "stem": "A 31-year-old at 8 weeks by her last period has had one episode of spotting. She is stable. Transvaginal ultrasound: intrauterine gestational sac, mean sac diameter 18 mm, no yolk sac or embryo seen.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Repeat transvaginal scan in 7–14 days",
@@ -3462,13 +3468,15 @@
      "Start progesterone support"
     ],
     "answer": 0,
-    "why": "A missed miscarriage needs a mean sac ≥ 25 mm with no embryo (or CRL ≥ 7 mm with no heart); 18 mm is not diagnostic, so rescan before any intervention. Treating now risks ending a viable pregnancy."
+    "why": "A missed miscarriage needs a mean sac ≥ 25 mm with no embryo (or CRL ≥ 7 mm with no heart); 18 mm is not diagnostic, so rescan before any intervention. Treating now risks ending a viable pregnancy.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "eb-5",
     "topic": "eb",
     "type": "sba",
-    "stem": "A 22-year-old presents 2 days after an evacuation at 12 weeks done by an unqualified person. Temperature 39.4 °C, pulse 118, BP 100/60. Offensive brown discharge, tender uterus, os open.",
+    "stem": "A 22-year-old presents 2 days after an evacuation at 12 weeks done by an unqualified person. Temperature 39.4 °C, pulse 118/min, blood pressure 100/60 mmHg. Offensive brown discharge, tender uterus, os open.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Misoprostol 800 µg vaginally and discharge",
@@ -3478,13 +3486,15 @@
      "Total abdominal hysterectomy"
     ],
     "answer": 1,
-    "why": "In septic miscarriage, antibiotics (ceftriaxone 1–2 g IV daily + metronidazole 500 mg IV 8-hourly) start first, then gentle evacuation. Evacuating before antibiotics risks spreading sepsis and perforating the soft uterus."
+    "why": "In septic miscarriage, antibiotics (ceftriaxone 1–2 g IV daily + metronidazole 500 mg IV 8-hourly) start first, then gentle evacuation. Evacuating before antibiotics risks spreading sepsis and perforating the soft uterus.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "eb-6",
     "topic": "eb",
     "type": "sba",
-    "stem": "A 19-year-old is admitted 3 days after an unsafe abortion with fever, rigors, yellow sclera and dark red urine. BP 85/50. Hb 7 g/dL, creatinine rising.",
+    "stem": "A 19-year-old is admitted 3 days after an unsafe abortion with fever, rigors, yellow sclera and dark red urine. Blood pressure 85/50 mmHg. Hb 7 g/dL, creatinine rising.",
     "q": "Which organism is most likely responsible?",
     "options": [
      "Clostridium perfringens",
@@ -3494,7 +3504,9 @@
      "Staphylococcus aureus"
     ],
     "answer": 0,
-    "why": "Jaundice and haematuria (haemolysis) after septic abortion point to Clostridium. E. coli is common in septic abortion but does not usually cause this haemolytic picture."
+    "why": "Jaundice and haematuria (haemolysis) after septic abortion point to Clostridium. E. Coli is common in septic abortion but does not usually cause this haemolytic picture.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "eb-7",
@@ -3510,7 +3522,9 @@
      "Aspirin 75 mg plus enoxaparin 40 mg SC daily"
     ],
     "answer": 4,
-    "why": "Antiphospholipid syndrome with recurrent miscarriage is treated with low-dose aspirin plus LMWH. Warfarin is teratogenic in the first trimester."
+    "why": "Antiphospholipid syndrome with recurrent miscarriage is treated with low-dose aspirin plus low-molecular-weight heparin. Warfarin is teratogenic in the first trimester.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "eb-8",
@@ -3526,7 +3540,9 @@
      "Cervical cerclage now at 8 weeks"
     ],
     "answer": 1,
-    "why": "Painless second-trimester losses, each earlier than the last, suggest cervical weakness; history-indicated cerclage is placed at 12–14 weeks. Before 12 weeks many pregnancies still miscarry from other causes."
+    "why": "Painless second-trimester losses, each earlier than the last, suggest cervical weakness; history-indicated cerclage is placed at 12–14 weeks. Before 12 weeks many pregnancies still miscarry from other causes.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "eb-9",
@@ -3542,13 +3558,15 @@
      "Polycystic ovary syndrome"
     ],
     "answer": 2,
-    "why": "Amenorrhoea after repeated or infected curettage with normal hormones and no withdrawal bleed is Asherman syndrome. Pituitary necrosis (Sheehan) gives low hormones and failed lactation."
+    "why": "Amenorrhoea after repeated or infected curettage with normal hormones and no withdrawal bleed is Asherman syndrome. Pituitary necrosis (Sheehan) gives low hormones and failed lactation.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "eb-10",
     "topic": "eb",
     "type": "sba",
-    "stem": "A 26-year-old RhD-negative woman at 11 weeks has an MVA for incomplete miscarriage. Antibody screen is negative.",
+    "stem": "A 26-year-old RhD-negative woman at 11 weeks has an manual vacuum aspiration for incomplete miscarriage. Antibody screen is negative.",
     "q": "What does she need?",
     "options": [
      "Anti-D only if the partner is RhD-positive on testing",
@@ -3558,13 +3576,15 @@
      "Anti-D 1500 IU IM"
     ],
     "answer": 3,
-    "why": "Before 20 weeks the dose is 250 IU within 72 h, given for any miscarriage ≥ 10 weeks or after surgical evacuation. 500 IU with Kleihauer is the dose from 20 weeks."
+    "why": "Before 20 weeks the dose is 250 IU within 72 hours, given for any miscarriage ≥ 10 weeks or after surgical evacuation. 500 IU with Kleihauer is the dose from 20 weeks.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "eb-11",
     "topic": "eb",
     "type": "sba",
-    "stem": "A 24-year-old, 7 weeks since her last period, has left lower abdominal pain and dark spotting. Pulse 88, BP 118/74. Cervical excitation on the left. β-hCG 2600 IU/L. TVS: empty uterus, thin endometrium, small amount of free fluid in the pouch of Douglas.",
+    "stem": "A 24-year-old, 7 weeks since her last period, has left lower abdominal pain and dark spotting. Her pulse is 88/min and blood pressure 118/74 mmHg. Cervical excitation on the left. β-hCG 2600 IU/L. Transvaginal ultrasound: empty uterus, thin endometrium, small amount of free fluid in the pouch of Douglas.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Complete miscarriage",
@@ -3574,13 +3594,15 @@
      "Ruptured corpus luteum cyst"
     ],
     "answer": 3,
-    "why": "With hCG above the discriminatory zone (2000 IU/L on TVS) an intrauterine sac should be seen; an empty uterus means ectopic until proven otherwise. Complete miscarriage would not give cervical excitation and free fluid with this hCG."
+    "why": "With hCG above the discriminatory zone (2000 IU/L on transvaginal ultrasound) an intrauterine sac should be seen; an empty uterus means ectopic until proven otherwise. Complete miscarriage would not give cervical excitation and free fluid with this hCG.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "eb-12",
     "topic": "eb",
     "type": "sba",
-    "stem": "A 28-year-old at 6 weeks has mild pelvic pain and spotting. She is stable. TVS shows neither an intrauterine nor an adnexal sac. β-hCG is 1200 IU/L, and 1250 IU/L after 48 hours.",
+    "stem": "A 28-year-old at 6 weeks has mild pelvic pain and spotting. She is stable. Transvaginal ultrasound shows neither an intrauterine nor an adnexal sac. β-hCG is 1200 IU/L, and 1250 IU/L after 48 hours.",
     "q": "How should this hCG result be interpreted?",
     "options": [
      "A molar pregnancy",
@@ -3590,13 +3612,15 @@
      "A normal intrauterine pregnancy"
     ],
     "answer": 1,
-    "why": "A viable intrauterine pregnancy raises hCG by at least 63% in 48 h; a plateau suggests ectopic. A complete miscarriage would show a clear fall."
+    "why": "A viable intrauterine pregnancy raises hCG by at least 63% in 48 hours; a plateau suggests ectopic. A complete miscarriage would show a clear fall.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "eb-13",
     "topic": "eb",
     "type": "sba",
-    "stem": "A 26-year-old at 7 weeks has mild right iliac fossa pain. Pulse 80, BP 120/75. TVS: empty uterus, 2.8 cm right adnexal mass, no fetal heart, minimal fluid. β-hCG 3200 IU/L. She lives near the hospital and agrees to follow-up.",
+    "stem": "A 26-year-old at 7 weeks has mild right iliac fossa pain. Her pulse is 80/min and blood pressure 120/75 mmHg. Transvaginal ultrasound: empty uterus, 2.8 cm right adnexal mass, no fetal heart, minimal fluid. β-hCG 3200 IU/L. She lives near the hospital and agrees to follow-up.",
     "q": "What is the most appropriate management?",
     "options": [
      "Expectant management with weekly hCG",
@@ -3606,13 +3630,15 @@
      "Laparoscopic salpingectomy"
     ],
     "answer": 2,
-    "why": "Stable, hCG < 5000 IU/L, mass < 3.5 cm, no heartbeat and reliable follow-up fit methotrexate. Expectant care needs hCG < 1000 and falling."
+    "why": "Stable, hCG < 5000 IU/L, mass < 3.5 cm, no heartbeat and reliable follow-up fit methotrexate. Expectant care needs hCG < 1000 and falling.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "eb-14",
     "topic": "eb",
     "type": "sba",
-    "stem": "A 30-year-old at 8 weeks has right iliac fossa pain and is haemodynamically stable. TVS: empty uterus, 4 cm right adnexal mass with an embryo showing heart activity. β-hCG 8000 IU/L. At laparoscopy the left tube looks normal.",
+    "stem": "A 30-year-old at 8 weeks has right iliac fossa pain and is haemodynamically stable. Transvaginal ultrasound: empty uterus, 4 cm right adnexal mass with an embryo showing heart activity. β-hCG 8000 IU/L. At laparoscopy the left tube looks normal.",
     "q": "Which procedure is most appropriate?",
     "options": [
      "Right salpingectomy",
@@ -3622,7 +3648,9 @@
      "Right salpingotomy"
     ],
     "answer": 0,
-    "why": "A live tubal embryo, mass > 3.5 cm and hCG > 5000 need surgery; with a healthy other tube, salpingectomy is preferred. Salpingotomy is chosen when the other tube is damaged and needs hCG follow-up."
+    "why": "A live tubal embryo, mass > 3.5 cm and hCG > 5000 need surgery; with a healthy other tube, salpingectomy is preferred. Salpingotomy is chosen when the other tube is damaged and needs hCG follow-up.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "eb-15",
@@ -3638,13 +3666,15 @@
      "Inadequate response: a further dose or surgery is needed"
     ],
     "answer": 4,
-    "why": "Success needs an hCG fall of at least 15% from day 4 to day 7; here it fell only about 7.5%. She is stable, so immediate laparotomy is not indicated."
+    "why": "Success needs an hCG fall of at least 15% from day 4 to day 7; here it fell only about 7.5%. She is stable, so immediate laparotomy is not indicated.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "eb-16",
     "topic": "eb",
     "type": "sba",
-    "stem": "A 28-year-old collapses at home. She missed her period 7 weeks ago. Pulse 130, BP 70/40, cold and pale. Abdomen distended and tender; she complains of shoulder-tip pain. Urine pregnancy test positive.",
+    "stem": "A 28-year-old collapses at home. She missed her period 7 weeks ago. Her pulse is 130/min and blood pressure 70/40 mmHg, cold and pale. Abdomen distended and tender; she complains of shoulder-tip pain. Urine pregnancy test positive.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Serum β-hCG and repeat in 48 hours",
@@ -3654,13 +3684,15 @@
      "Methotrexate 50 mg/m² IM"
     ],
     "answer": 3,
-    "why": "A positive test with shock and haemoperitoneum is a ruptured ectopic: resuscitate and operate now. Waiting for a formal scan or hCG delays surgery in a shocked woman."
+    "why": "A positive test with shock and haemoperitoneum is a ruptured ectopic: resuscitate and operate now. Waiting for a formal scan or hCG delays surgery in a shocked woman.",
+    "d": 1,
+    "_c": 1
    },
    {
     "id": "eb-17",
     "topic": "eb",
     "type": "sba",
-    "stem": "A 19-year-old G1 at 14 weeks has vaginal bleeding and severe vomiting. BP 160/110, urine protein 2+, pulse 108. Uterus is at 20 weeks size and soft; no fetal heart heard. TVS shows a snowstorm pattern with no fetus.",
+    "stem": "A 19-year-old G1 at 14 weeks has vaginal bleeding and severe vomiting. Blood pressure 160/110 mmHg, urine protein 2+, pulse 108/min. Uterus is at 20 weeks size and soft; no fetal heart heard. Transvaginal ultrasound shows a snowstorm pattern with no fetus.",
     "q": "What is the most appropriate treatment?",
     "options": [
      "Misoprostol induction then curettage",
@@ -3670,7 +3702,9 @@
      "Suction evacuation, with oxytocin only once emptying has started"
     ],
     "answer": 4,
-    "why": "A complete mole is emptied by suction evacuation. Misoprostol is avoided because contractions push trophoblast into the veins (embolism, spread)."
+    "why": "A complete mole is emptied by suction evacuation. Misoprostol is avoided because contractions push trophoblast into the veins (embolism, spread).",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "eb-18",
@@ -3686,7 +3720,9 @@
      "Pulmonary tuberculosis"
     ],
     "answer": 2,
-    "why": "Rising hCG after a mole with lung metastases (haemoptysis) points to choriocarcinoma, a gestational trophoblastic neoplasia scored by FIGO for chemotherapy. Placental site tumour usually has low hCG."
+    "why": "Rising hCG after a mole with lung metastases (haemoptysis) points to choriocarcinoma, a gestational trophoblastic neoplasia scored by FIGO for chemotherapy. Placental site tumour usually has low hCG.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "eb-emq1",
@@ -3710,22 +3746,30 @@
      {
       "stem": "A 29-year-old at 10 weeks has heavy bleeding and colicky pain. Os is open; nothing has been passed. Scan shows a fetus with heart activity low in the cavity.",
       "answer": 1,
-      "why": "Heavy bleeding, pain and an open os with nothing passed is inevitable, even with a live fetus. Threatened miscarriage has a closed os."
+      "why": "Heavy bleeding, pain and an open os with nothing passed is inevitable, even with a live fetus. Threatened miscarriage has a closed os.",
+      "d": 2,
+      "_c": 1
      },
      {
       "stem": "A 33-year-old at 12 weeks by dates says her nausea stopped two weeks ago. She has brown spotting. Uterus is 8 weeks size, os closed.",
       "answer": 4,
-      "why": "Fading symptoms, brown loss and a small uterus with a closed os mean a retained dead fetus."
+      "why": "Fading symptoms, brown loss and a small uterus with a closed os mean a retained dead fetus.",
+      "d": 2,
+      "_c": 1
      },
      {
       "stem": "A 26-year-old at 16 weeks has bleeding. Uterus is 16 weeks size. Scan shows a fetus with abnormalities and a thick placenta with cystic spaces; karyotype is 69,XXY.",
       "answer": 8,
-      "why": "Triploidy with an abnormal fetus and cystic placenta is a partial mole; a complete mole has no fetus and is 46,XX."
+      "why": "Triploidy with an abnormal fetus and cystic placenta is a partial mole; a complete mole has no fetus and is 46,XX.",
+      "d": 3,
+      "_c": 1
      },
      {
-      "stem": "A 24-year-old at 9 weeks bled heavily yesterday and passed tissue. Pain has now settled, os is closed, TVS shows an empty uterus with thin endometrium and hCG has halved in 48 hours.",
+      "stem": "A 24-year-old at 9 weeks bled heavily yesterday and passed tissue. Pain has now settled, os is closed, transvaginal ultrasound shows an empty uterus with thin endometrium and hCG has halved in 48 hours.",
       "answer": 3,
-      "why": "Settled pain, closed os, empty uterus and falling hCG mean complete miscarriage; a pregnancy test should be negative at 2–3 weeks."
+      "why": "Settled pain, closed os, empty uterus and falling hCG mean complete miscarriage; a pregnancy test should be negative at 2–3 weeks.",
+      "d": 2,
+      "_c": 1
      }
     ]
    },
@@ -3733,7 +3777,7 @@
     "id": "ap-1",
     "topic": "ap",
     "type": "sba",
-    "stem": "A 32-year-old G4P3 at 33 weeks has painless bright red vaginal bleeding, about 200 mL, after waking. Pulse 92, BP 120/75. Uterus soft and non-tender, breech presentation, FHR 140/min.",
+    "stem": "A 32-year-old G4P3 at 33 weeks has painless bright red vaginal bleeding, about 200 mL, after waking. Her pulse is 92/min and blood pressure 120/75 mmHg. Uterus soft and non-tender, breech presentation, fetal heart rate 140/min.",
     "q": "What is the most appropriate next step?",
     "options": [
      "CTG for 30 minutes and discharge",
@@ -3743,13 +3787,15 @@
      "Digital vaginal examination to assess the cervix"
     ],
     "answer": 3,
-    "why": "Painless bleeding, soft uterus and malpresentation suggest praevia: no digital examination until a scan excludes it. She is stable, so immediate caesarean is not needed."
+    "why": "Painless bleeding, soft uterus and malpresentation suggest praevia: no digital examination until a scan excludes it. She is stable, so immediate caesarean is not needed.",
+    "d": 1,
+    "_c": 1
    },
    {
     "id": "ap-2",
     "topic": "ap",
     "type": "sba",
-    "stem": "A 29-year-old G3P2 at 31 weeks was admitted with a painless bleed. Scan shows the placenta covering the internal os. Bleeding has stopped, Hb 10.8 g/dL, FHR normal.",
+    "stem": "A 29-year-old G3P2 at 31 weeks was admitted with a painless bleed. Scan shows the placenta covering the internal os. Bleeding has stopped, Hb 10.8 g/dL, fetal heart rate normal.",
     "q": "What is the best management?",
     "options": [
      "Tocolysis and discharge after 24 hours",
@@ -3759,7 +3805,9 @@
      "Caesarean section now"
     ],
     "answer": 2,
-    "why": "When bleeding settles before term, praevia is managed expectantly in hospital with steroids < 34 weeks and blood ready, aiming for 37 weeks. Caesarean at any gestation is for heavy bleeding or instability."
+    "why": "When bleeding settles before term, praevia is managed expectantly in hospital with steroids < 34 weeks and blood ready, aiming for 37 weeks. Caesarean at any gestation is for heavy bleeding or instability.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "ap-3",
@@ -3775,7 +3823,9 @@
      "Elective caesarean at 39–40 weeks"
     ],
     "answer": 0,
-    "why": "Major praevia without bleeding is delivered by elective caesarean at 37–38 weeks. 36 weeks is the planned timing for placenta accreta spectrum."
+    "why": "Major praevia without bleeding is delivered by elective caesarean at 37–38 weeks. 36 weeks is the planned timing for placenta accreta spectrum.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "ap-4",
@@ -3791,7 +3841,9 @@
      "Rescan at 32 weeks"
     ],
     "answer": 4,
-    "why": "A low placenta at 20 weeks is rescanned at 32 weeks; about 90% move up as the lower segment forms. Planning a caesarean now is premature."
+    "why": "A low placenta at 20 weeks is rescanned at 32 weeks; about 90% move up as the lower segment forms. Planning a caesarean now is premature.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "ap-5",
@@ -3807,13 +3859,15 @@
      "Elective caesarean at 38 weeks"
     ],
     "answer": 1,
-    "why": "An edge more than 2 cm from the os allows a trial of vaginal birth. Elective caesarean is not indicated."
+    "why": "An edge more than 2 cm from the os allows a trial of vaginal birth. Elective caesarean is not indicated.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "ap-6",
     "topic": "ap",
     "type": "sba",
-    "stem": "A 34-year-old G4P3 with three previous caesareans has an anterior placenta covering the internal os at 28 weeks. She is asymptomatic.",
+    "stem": "A 34-year-old G4P3 with three previous caesarean sections has an anterior placenta covering the internal os at 28 weeks. She is asymptomatic.",
     "q": "What is the best next investigation?",
     "options": [
      "Cervical length scan",
@@ -3823,13 +3877,15 @@
      "Amniocentesis for lung maturity"
     ],
     "answer": 3,
-    "why": "Praevia over a caesarean scar carries a high risk of placenta accreta spectrum (≈ 60% with ≥ 3 CS); colour Doppler is used first, then MRI if unclear or posterior. Cystoscopy is not the screening test."
+    "why": "Praevia over a caesarean scar carries a high risk of placenta accreta spectrum (about 60% with ≥ 3 caesarean section); colour Doppler is used first, then MRI if unclear or posterior. Cystoscopy is not the screening test.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "ap-7",
     "topic": "ap",
     "type": "sba",
-    "stem": "A 36-year-old G5P4 with two previous caesareans is 30 weeks. Doppler shows an anterior praevia, lost clear zone, many lacunae and broken bladder line. She reports two episodes of blood in her urine.",
+    "stem": "A 36-year-old G5P4 with two previous caesarean sections is 30 weeks. Doppler shows an anterior praevia, lost clear zone, many lacunae and broken bladder line. She reports two episodes of blood in her urine.",
     "q": "What is the best delivery plan?",
     "options": [
      "Vaginal birth with blood available",
@@ -3839,13 +3895,15 @@
      "Planned caesarean at 36 weeks in a specialist centre with consent for hysterectomy, leaving the placenta in place"
     ],
     "answer": 4,
-    "why": "Suspected percreta is delivered at 36 weeks by a team, with 6–8 units ready, uterine incision away from the placenta and hysterectomy with the placenta left in place. Pulling the placenta causes very heavy bleeding."
+    "why": "Suspected percreta is delivered at 36 weeks by a team, with 6–8 units ready, uterine incision away from the placenta and hysterectomy with the placenta left in place. Pulling the placenta causes very heavy bleeding.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "ap-8",
     "topic": "ap",
     "type": "sba",
-    "stem": "At an elective caesarean for anterior praevia in a woman with two previous caesareans, the baby is delivered through a fundal incision. The placenta does not separate after oxytocin and there is no bleeding yet.",
+    "stem": "At an elective caesarean for anterior praevia in a woman with two previous caesarean sections, the baby is delivered through a fundal incision. The placenta does not separate after oxytocin and there is no bleeding yet.",
     "q": "What is the most appropriate action?",
     "options": [
      "Remove it manually piece by piece",
@@ -3855,7 +3913,9 @@
      "Insert a B-Lynch suture and close"
     ],
     "answer": 1,
-    "why": "A placenta that will not separate means accreta spectrum: do not pull it; hysterectomy with the placenta in place. Manual removal opens a bed with no cleavage plane and causes massive haemorrhage."
+    "why": "A placenta that will not separate means accreta spectrum: do not pull it; hysterectomy with the placenta in place. Manual removal opens a bed with no cleavage plane and causes massive haemorrhage.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "ap-9",
@@ -3871,13 +3931,15 @@
      "No anti-D because bleeding was not massive"
     ],
     "answer": 2,
-    "why": "After 20 weeks give 500 IU within 72 h and use the Kleihauer test to see if more is needed; 1500 IU is given only when a Kleihauer test is not available."
+    "why": "After 20 weeks give 500 IU within 72 hours and use the Kleihauer test to see if more is needed; 1500 IU is given only when a Kleihauer test is not available.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "ap-10",
     "topic": "ap",
     "type": "sba",
-    "stem": "A 26-year-old primigravida at 35 weeks with BP 160/110 and proteinuria 3+ has sudden constant abdominal pain and a small dark bleed. Pulse 120, BP now 100/70. Uterus hard and tender; FHR 90/min.",
+    "stem": "A 26-year-old primigravida at 35 weeks with blood pressure 160/110 mmHg and proteinuria 3+ has sudden constant abdominal pain and a small dark bleed. Pulse 120/min, blood pressure now 100/70. Uterus hard and tender; fetal heart rate 90/min.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Resuscitate and perform emergency caesarean section",
@@ -3887,13 +3949,15 @@
      "Magnesium sulphate and observe for 24 hours"
     ],
     "answer": 0,
-    "why": "Abruption with a live, distressed fetus needs emergency caesarean once resuscitation starts. Ultrasound misses most clots; abruption is a clinical diagnosis."
+    "why": "Abruption with a live, distressed fetus needs emergency caesarean once resuscitation starts. Ultrasound misses most clots; abruption is a clinical diagnosis.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "ap-11",
     "topic": "ap",
     "type": "sba",
-    "stem": "A 33-year-old G6P5 at 36 weeks has severe abdominal pain and a woody uterus. Scan shows no fetal heart activity. After 2 L of fluid: pulse 96, BP 115/75; clot test forms a clot at 7 minutes; head is engaged.",
+    "stem": "A 33-year-old G6P5 at 36 weeks has severe abdominal pain and a woody uterus. Scan shows no fetal heart activity. After 2 L of fluid: pulse 96/min, blood pressure 115/75 mmHg; clot test forms a clot at 7 minutes; head is engaged.",
     "q": "What is the most appropriate management?",
     "options": [
      "Emergency caesarean section",
@@ -3903,13 +3967,15 @@
      "Wait for spontaneous labour within 2 weeks"
     ],
     "answer": 3,
-    "why": "With a dead fetus and a stable mother, abruption is delivered vaginally by ARM + oxytocin; labour is usually fast. There is no expectant option in abruption, and caesarean adds risk without fetal benefit."
+    "why": "With a dead fetus and a stable mother, abruption is delivered vaginally by artificial rupture of membranes + oxytocin; labour is usually fast. There is no expectant option in abruption, and caesarean adds risk without fetal benefit.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "ap-12",
     "topic": "ap",
     "type": "sba",
-    "stem": "A woman with a large abruption is Bleeding from her cannula sites and the needle punctures. A bedside clot test shows no clot after 10 minutes. Platelets 70 × 10⁹/L, fibrinogen very low.",
+    "stem": "A woman with a large abruption is bleeding from her cannula sites and the needle punctures. A bedside clot test shows no clot after 10 minutes. Platelets 70 × 10⁹/L, fibrinogen very low.",
     "q": "Besides red cells, what is the most appropriate treatment?",
     "options": [
      "Vitamin K 10 mg IM",
@@ -3919,7 +3985,9 @@
      "FFP 15 mL/kg and cryoprecipitate while preparing delivery"
     ],
     "answer": 4,
-    "why": "Abruption is the commonest cause of DIC in pregnancy; replace clotting factors with FFP 15 mL/kg and cryoprecipitate, and deliver. Platelets are given when < 50 with bleeding; IM injections are avoided in DIC."
+    "why": "Abruption is the commonest cause of DIC in pregnancy; replace clotting factors with FFP 15 mL/kg and cryoprecipitate, and deliver. Platelets are given when < 50 with bleeding; IM injections are avoided in DIC.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "ap-13",
@@ -3935,13 +4003,15 @@
      "Internal iliac artery ligation first"
     ],
     "answer": 1,
-    "why": "Blood in the myometrium (Couvelaire uterus) is not itself an indication for hysterectomy: use uterotonics, massage and compression sutures first. Hysterectomy is the last step."
+    "why": "Blood in the myometrium (Couvelaire uterus) is not itself an indication for hysterectomy: use uterotonics, massage and compression sutures first. Hysterectomy is the last step.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "ap-14",
     "topic": "ap",
     "type": "sba",
-    "stem": "A 24-year-old G2P1 at 30 weeks was a passenger in a road accident 2 hours ago. She has mild abdominal tenderness and no vaginal bleeding. Vitals normal. Scan: fundal placenta, no clot seen, FHR 148/min.",
+    "stem": "A 24-year-old G2P1 at 30 weeks was a passenger in a road accident 2 hours ago. She has mild abdominal tenderness and no vaginal bleeding. Vitals normal. Ultrasound: fundal placenta, no clot seen, fetal heart rate 148/min.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Immediate caesarean section",
@@ -3951,13 +4021,15 @@
      "Induction of labour"
     ],
     "answer": 2,
-    "why": "Trauma can cause a concealed abruption that a scan often misses, so she needs continuous CTG monitoring. A normal scan does not exclude abruption."
+    "why": "Trauma can cause a concealed abruption that a scan often misses, so she needs continuous CTG monitoring. A normal scan does not exclude abruption.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "ap-15",
     "topic": "ap",
     "type": "sba",
-    "stem": "A 30-year-old G2P1 at 39 weeks is in labour at 5 cm. Shortly after artificial rupture of membranes there is a small painless bleed and the FHR drops to 70/min, then becomes sinusoidal. Her pulse is 82, BP 120/80, uterus soft between contractions.",
+    "stem": "A 30-year-old G2P1 at 39 weeks is in labour at 5 cm. Shortly after artificial rupture of membranes there is a small painless bleed and the fetal heart rate drops to 70/min, then becomes sinusoidal. Her pulse is 82, blood pressure 120/80 mmHg, uterus soft between contractions.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Immediate caesarean section",
@@ -3967,7 +4039,9 @@
      "Apt test on the blood before deciding"
     ],
     "answer": 0,
-    "why": "Bleeding at ROM with fetal distress and a well mother suggests vasa praevia: the blood is fetal, so deliver at once by caesarean in the first stage. Never wait for the Apt test; instrumental delivery needs full dilatation."
+    "why": "Bleeding at rupture of membranes with fetal distress and a well mother suggests vasa praevia: the blood is fetal, so deliver at once by caesarean in the first stage. Never wait for the Apt test; instrumental delivery needs full dilatation.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "ap-16",
@@ -3983,13 +4057,15 @@
      "Induction at 37 weeks with early ARM"
     ],
     "answer": 0,
-    "why": "Known vasa praevia: admit at 30–32 weeks, steroids, and caesarean at 34–36 weeks before ROM; no ARM or sweep. Waiting for labour risks fetal death (≈ 60% if missed)."
+    "why": "Known vasa praevia: admit at 30–32 weeks, steroids, and caesarean at 34–36 weeks before rupture of membranes; no artificial rupture of membranes or sweep. Waiting for labour risks fetal death (about 60% if missed).",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "ap-17",
     "topic": "ap",
     "type": "sba",
-    "stem": "A 33-year-old G3P2 with one previous lower-segment caesarean is on oxytocin for slow labour. At 8 cm she has sudden severe pain, then the contractions stop. The head, at 0 station, is now at −3. FHR 70/min, pulse 128, BP 90/60, little vaginal bleeding.",
+    "stem": "A 33-year-old G3P2 with one previous lower-segment caesarean is on oxytocin for slow labour. At 8 cm she has sudden severe pain, then the contractions stop. The head, at 0 station, is now at −3. Fetal heart rate 70/min, pulse 128/min, blood pressure 90/60 mmHg, little vaginal bleeding.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Increase the oxytocin rate",
@@ -3999,7 +4075,9 @@
      "Resuscitate and perform immediate laparotomy"
     ],
     "answer": 4,
-    "why": "Scar, sudden pain, stopped contractions and loss of station mean uterine rupture: resuscitate and operate now (decision to delivery < 30 min). The head is no longer in the pelvis, so instrumental delivery is impossible."
+    "why": "Scar, sudden pain, stopped contractions and loss of station mean uterine rupture: resuscitate and operate now (decision to delivery < 30 min). The head is no longer in the pelvis, so instrumental delivery is impossible.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "ap-18",
@@ -4015,7 +4093,9 @@
      "Pack the pelvis and close"
     ],
     "answer": 2,
-    "why": "A clean tear in a stable woman who wants children is repaired; tubal ligation only with consent. Hysterectomy is for irregular, infected tears or instability."
+    "why": "A clean tear in a stable woman who wants children is repaired; tubal ligation only with consent. Hysterectomy is for irregular, infected tears or instability.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "ap-emq1",
@@ -4036,24 +4116,32 @@
     "lead": "For each patient choose the most likely cause. Each option may be used once, more than once or not at all.",
     "items": [
      {
-      "stem": "A 38-year-old G4P3 with two previous caesareans is 34 weeks. Scan shows an anterior low placenta. She reports blood in her urine; there is no vaginal bleeding.",
+      "stem": "A 38-year-old G4P3 with two previous caesarean sections is 34 weeks. Scan shows an anterior low placenta. She reports blood in her urine; there is no vaginal bleeding.",
       "answer": 4,
-      "why": "Praevia over a scar with haematuria suggests villi through the wall into the bladder."
+      "why": "Praevia over a scar with haematuria suggests villi through the wall into the bladder.",
+      "d": 3,
+      "_c": 1
      },
      {
-      "stem": "A 24-year-old at 34 weeks has spotting after intercourse. Uterus soft, placenta fundal on scan, FHR normal. Speculum shows a red velvety area around the os that bleeds on touch.",
+      "stem": "A 24-year-old at 34 weeks has spotting after intercourse. Uterus soft, placenta fundal on scan, fetal heart rate normal. Speculum shows a red velvety area around the os that bleeds on touch.",
       "answer": 5,
-      "why": "Post-coital spotting with a normal placental site and a red velvety cervix is ectropion; speculum examination is safe once praevia is excluded."
+      "why": "Post-coital spotting with a normal placental site and a red velvety cervix is ectropion; speculum examination is safe once praevia is excluded.",
+      "d": 1,
+      "_c": 1
      },
      {
-      "stem": "A G7P6 has been in labour for 20 hours with a transverse lie. A ring is felt rising towards the umbilicus. Suddenly the pain eases, contractions stop and fetal parts are felt just under the skin; pulse 140.",
+      "stem": "A G7P6 has been in labour for 20 hours with a transverse lie. A ring is felt rising towards the umbilicus. Suddenly the pain eases, contractions stop and fetal parts are felt just under the skin; pulse 140/min.",
       "answer": 3,
-      "why": "Obstructed labour in a multipara with sudden cessation of contractions and easily felt fetal parts is rupture."
+      "why": "Obstructed labour in a multipara with sudden cessation of contractions and easily felt fetal parts is rupture.",
+      "d": 2,
+      "_c": 1
      },
      {
       "stem": "A 22-year-old at 39 weeks has a small blood-stained mucous discharge with regular tightenings every 5 minutes. Cervix 3 cm, vitals normal, CTG normal.",
       "answer": 6,
-      "why": "Blood-stained mucus with early labour is a show; the loss is small and the mother and fetus are well."
+      "why": "Blood-stained mucus with early labour is a show; the loss is small and the mother and fetus are well.",
+      "d": 1,
+      "_c": 1
      }
     ]
    },
@@ -4061,7 +4149,7 @@
     "id": "pph-1",
     "topic": "pph",
     "type": "sba",
-    "stem": "A 28-year-old P1 delivers vaginally. Measured blood loss over the next hour is 900 mL. Pulse 96, BP 112/70, she is alert.",
+    "stem": "A 28-year-old P1 delivers vaginally. Measured blood loss over the next hour is 900 mL. Her pulse is 96/min and blood pressure 112/70 mmHg, she is alert.",
     "q": "How is this bleeding classified?",
     "options": [
      "Minor primary PPH",
@@ -4071,13 +4159,15 @@
      "Secondary PPH"
     ],
     "answer": 0,
-    "why": "≥ 500 mL after vaginal birth within 24 h is primary PPH; 500–1000 mL in a stable woman is minor. Major PPH is > 1000 mL or shock."
+    "why": "≥ 500 mL after vaginal birth within 24 hours is primary PPH; 500–1000 mL in a stable woman is minor. Major PPH is > 1000 mL or shock.",
+    "d": 1,
+    "_c": 1
    },
    {
     "id": "pph-2",
     "topic": "pph",
     "type": "sba",
-    "stem": "A 35-year-old P4 has a normal delivery. Pads and drapes show about 600 mL, but 30 minutes later her pulse is 128 and BP 84/50. The uterus is soft and well above the umbilicus.",
+    "stem": "A 35-year-old P4 has a normal delivery. Pads and drapes show about 600 mL, but 30 minutes later her pulse is 128 and blood pressure 84/50 mmHg. The uterus is soft and well above the umbilicus.",
     "q": "How is this bleeding best classified?",
     "options": [
      "Vasovagal reaction",
@@ -4087,13 +4177,15 @@
      "Minor primary PPH"
     ],
     "answer": 1,
-    "why": "Shock makes it major PPH whatever the estimate; blood hides as clot in a big soft uterus, and low BP means ≥ 30% of volume is gone. Visible loss is often underestimated."
+    "why": "Shock makes it major PPH whatever the estimate; blood hides as clot in a big soft uterus, and low blood pressure means ≥ 30% of volume is gone. Visible loss is often underestimated.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "pph-3",
     "topic": "pph",
     "type": "sba",
-    "stem": "A 30-year-old P5 delivers twins after 16 hours of oxytocin-augmented labour. The placenta is complete, but she starts bleeding heavily. The uterus is soft and soft above the umbilicus.",
+    "stem": "A 30-year-old P5 delivers twins after 16 hours of oxytocin-augmented labour. The placenta is complete, but she starts bleeding heavily. The uterus is soft and above the umbilicus.",
     "q": "What is the most appropriate immediate action?",
     "options": [
      "Ergometrine 1 mg IV bolus",
@@ -4103,13 +4195,15 @@
      "Carboprost 250 µg IM"
     ],
     "answer": 2,
-    "why": "Atony from overdistension and long labour is treated first by massage and oxytocin 10 IU slow IV (then 40 IU in 500 mL over 4 h). Ergometrine maximum is 1 mg and is not given as a bolus first."
+    "why": "Atony from overdistension and long labour is treated first by massage and oxytocin 10 IU slow IV (then 40 IU in 500 mL over 4 hours). Ergometrine maximum is 1 mg and is not given as a bolus first.",
+    "d": 1,
+    "_c": 1
    },
    {
     "id": "pph-4",
     "topic": "pph",
     "type": "sba",
-    "stem": "A 24-year-old P1 with pre-eclampsia (BP 165/110) bleeds from a soft uterus after delivery. Oxytocin bolus and infusion are running and the uterus remains soft.",
+    "stem": "A 24-year-old P1 with pre-eclampsia (blood pressure 165/110 mmHg) bleeds from a soft uterus after delivery. Oxytocin bolus and infusion are running and the uterus remains soft.",
     "q": "Which is the most appropriate next uterotonic?",
     "options": [
      "Ergometrine 0.5 mg IM",
@@ -4119,7 +4213,9 @@
      "Misoprostol 800 µg sublingually or rectally"
     ],
     "answer": 4,
-    "why": "Ergometrine (and syntometrine, which contains it) is avoided in hypertension and pre-eclampsia; misoprostol 800 µg is the next step. A fast oxytocin bolus causes hypotension."
+    "why": "Ergometrine (and syntometrine, which contains it) is avoided in hypertension and pre-eclampsia; misoprostol 800 µg is the next step. A fast oxytocin bolus causes hypotension.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "pph-5",
@@ -4135,7 +4231,9 @@
      "Tranexamic acid"
     ],
     "answer": 3,
-    "why": "Carboprost (PGF₂α) causes bronchospasm and is contraindicated in asthma. Tranexamic acid is safe and given alongside every step."
+    "why": "Carboprost (PGF₂α) causes bronchospasm and is contraindicated in asthma. Tranexamic acid is safe and given alongside every step.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "pph-6",
@@ -4151,7 +4249,9 @@
      "Give 1 g IM now"
     ],
     "answer": 2,
-    "why": "Tranexamic acid 1 g IV over 10 min helps only within 3 h of birth; given later it gives no benefit and may harm."
+    "why": "Tranexamic acid 1 g IV over 10 min helps only within 3 hours of birth; given later it gives no benefit and may harm.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "pph-7",
@@ -4167,7 +4267,9 @@
      "Carboprost 250 µg IM"
     ],
     "answer": 0,
-    "why": "Bleeding with a hard, contracted uterus after an instrumental delivery is trauma until proven otherwise; find and repair the tear. Uterotonics will not stop bleeding from a tear."
+    "why": "Bleeding with a hard, contracted uterus after an instrumental delivery is trauma until proven otherwise; find and repair the tear. Uterotonics will not stop bleeding from a tear.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "pph-8",
@@ -4183,13 +4285,15 @@
      "Ergometrine 0.5 mg IV"
     ],
     "answer": 1,
-    "why": "After active management, a placenta not out by 30 min is retained; manual removal in theatre with antibiotics. The 60-minute limit applies to physiological management."
+    "why": "After active management, a placenta not out by 30 min is retained; manual removal in theatre with antibiotics. The 60-minute limit applies to physiological management.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "pph-9",
     "topic": "pph",
     "type": "sba",
-    "stem": "A 21-year-old primigravida is shocked immediately after the attendant pulled hard on the cord before the placenta separated. Pulse 50, BP 70/40; little external bleeding. The fundus cannot be felt abdominally and a mass is seen at the introitus.",
+    "stem": "A 21-year-old primigravida is shocked immediately after the attendant pulled hard on the cord before the placenta separated. Her pulse is 50/min and blood pressure 70/40 mmHg; little external bleeding. The fundus cannot be felt abdominally and a mass is seen at the introitus.",
     "q": "What is the most appropriate immediate action?",
     "options": [
      "Laparotomy",
@@ -4199,7 +4303,9 @@
      "Push the fundus back into place at once, then give oxytocin"
     ],
     "answer": 4,
-    "why": "Shock out of proportion to loss with no fundus felt is uterine inversion; replace it immediately, then give oxytocin. Oxytocin first closes the cervical ring and traps the uterus."
+    "why": "Shock out of proportion to loss with no fundus felt is uterine inversion; replace it immediately, then give oxytocin. Oxytocin first closes the cervical ring and traps the uterus.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "pph-10",
@@ -4215,13 +4321,15 @@
      "Platelets only"
     ],
     "answer": 3,
-    "why": "Platelets < 50 with bleeding need platelets, fibrinogen < 2 g/L needs cryoprecipitate, and FFP is given (4 units per 6 units of red cells)."
+    "why": "Platelets < 50 with bleeding need platelets, fibrinogen < 2 g/L needs cryoprecipitate, and FFP is given (4 units per 6 units of red cells).",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "pph-11",
     "topic": "pph",
     "type": "sba",
-    "stem": "A 26-year-old P1 continues to bleed from a soft uterus after oxytocin, ergometrine and misoprostol. Theatre will be ready in 20 minutes. Pulse 118, BP 95/60; blood is running.",
+    "stem": "A 26-year-old P1 continues to bleed from a soft uterus after oxytocin, ergometrine and misoprostol. Theatre will be ready in 20 minutes. Her pulse is 118/min and blood pressure 95/60 mmHg; blood is running.",
     "q": "What is the most appropriate measure while waiting?",
     "options": [
      "Another 10 IU oxytocin as a fast IV bolus",
@@ -4231,7 +4339,9 @@
      "Immediate hysterectomy"
     ],
     "answer": 3,
-    "why": "When drugs fail, bimanual compression buys time and a balloon (300–500 mL saline, 12–24 h) often stops atonic bleeding. Ergometrine maximum is 1 mg in total, already given."
+    "why": "When drugs fail, bimanual compression buys time and a balloon (300–500 mL saline, 12–24 hours) often stops atonic bleeding. Ergometrine maximum is 1 mg in total, already given.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "pph-12",
@@ -4247,13 +4357,15 @@
      "Subtotal hysterectomy"
     ],
     "answer": 2,
-    "why": "The first surgical step is a B-Lynch suture, which works in about 9 of 10 and keeps the uterus. Hysterectomy is the last step."
+    "why": "The first surgical step is a B-Lynch suture, which works in about 9 of 10 and keeps the uterus. Hysterectomy is the last step.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "pph-13",
     "topic": "pph",
     "type": "sba",
-    "stem": "A 40-year-old P7 is still bleeding after a B-Lynch suture and uterine artery ligation. Pulse 140, BP 70/40, Bleeding from wound edges, 10 units transfused.",
+    "stem": "A 40-year-old P7 is still bleeding after a B-Lynch suture and uterine artery ligation. Her pulse is 140/min and blood pressure 70/40 mmHg, Bleeding from wound edges, 10 units transfused.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Transfer to another hospital",
@@ -4263,7 +4375,9 @@
      "Hysterectomy"
     ],
     "answer": 4,
-    "why": "When a mother keeps getting worse, decide on hysterectomy early: a living mother matters more than her uterus. Transfer of an unstable woman is unsafe."
+    "why": "When a mother keeps getting worse, decide on hysterectomy early: a living mother matters more than her uterus. Transfer of an unstable woman is unsafe.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "pph-14",
@@ -4279,7 +4393,9 @@
      "Misoprostol 800 µg sublingually"
     ],
     "answer": 0,
-    "why": "Active management of the third stage uses oxytocin 10 IU IM within 1 minute, with delayed cord clamping and controlled cord traction. Misoprostol 600 µg orally is the alternative only when oxytocin is unavailable."
+    "why": "Active management of the third stage uses oxytocin 10 IU IM within 1 minute, with delayed cord clamping and controlled cord traction. Misoprostol 600 µg orally is the alternative only when oxytocin is unavailable.",
+    "d": 1,
+    "_c": 1
    },
    {
     "id": "pph-15",
@@ -4295,7 +4411,9 @@
      "Ergometrine 0.5 mg IV"
     ],
     "answer": 1,
-    "why": "When oxytocin is not available, misoprostol 600 µg orally is used for prevention; it needs no fridge. 800 µg is the treatment dose."
+    "why": "When oxytocin is not available, misoprostol 600 µg orally is used for prevention; it needs no fridge. 800 µg is the treatment dose.",
+    "d": 1,
+    "_c": 1
    },
    {
     "id": "pph-16",
@@ -4311,7 +4429,9 @@
      "Oxytocin 5 IU slowly IV, then an infusion"
     ],
     "answer": 4,
-    "why": "In heart disease the oxytocin dose is reduced to 5 IU given slowly, since a fast bolus drops BP. Ergometrine is contraindicated in heart disease."
+    "why": "In heart disease the oxytocin dose is reduced to 5 IU given slowly, since a fast bolus drops blood pressure. Ergometrine is contraindicated in heart disease.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "pph-17",
@@ -4327,7 +4447,9 @@
      "Oral antibiotics at home"
     ],
     "answer": 2,
-    "why": "Secondary PPH with fever and retained products is treated with IV antibiotics (cephalosporin + metronidazole) and uterotonics, then evacuation. Evacuating an infected uterus first risks perforation."
+    "why": "Secondary PPH with fever and retained products is treated with IV antibiotics (cephalosporin + metronidazole) and uterotonics, then evacuation. Evacuating an infected uterus first risks perforation.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "pph-18",
@@ -4343,7 +4465,9 @@
      "Primary hypothyroidism"
     ],
     "answer": 3,
-    "why": "Failed lactation, amenorrhoea and hypopituitary features after massive PPH are Sheehan syndrome (pituitary necrosis). Asherman gives amenorrhoea but normal lactation and hormones."
+    "why": "Failed lactation, amenorrhoea and hypopituitary features after massive PPH are Sheehan syndrome (pituitary necrosis). Asherman gives amenorrhoea but normal lactation and hormones.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "pph-emq1",
@@ -4367,22 +4491,30 @@
      {
       "stem": "After a normal delivery the placenta is checked and a gap is found on the maternal surface. The uterus contracts with massage, then relaxes and bleeding restarts.",
       "answer": 5,
-      "why": "A missing cotyledon stops the uterus contracting well: tissue must be removed."
+      "why": "A missing cotyledon stops the uterus contracting well: tissue must be removed.",
+      "d": 2,
+      "_c": 1
      },
      {
-      "stem": "A woman with HELLP syndrome delivers vaginally. The uterus is firm, but blood keeps leaking from her drip sites and the vaginal blood does not clot.",
+      "stem": "A woman with HELLP syndrome delivers vaginally. The uterus is firm, but blood keeps leaking from her cannula sites and the vaginal blood does not clot.",
       "answer": 7,
-      "why": "Bleeding from puncture sites with a contracted uterus and unclotting blood is a thrombin (clotting) problem."
+      "why": "Bleeding from puncture sites with a contracted uterus and unclotting blood is a thrombin (clotting) problem.",
+      "d": 2,
+      "_c": 1
      },
      {
       "stem": "Eight days after a caesarean for prolonged labour, a woman has fever 38.8 °C, offensive lochia and moderate fresh bleeding. The uterus is tender and larger than expected.",
       "answer": 8,
-      "why": "Fever, smelly lochia and a tender bulky uterus in the first weeks is infection: a cause of secondary PPH."
+      "why": "Fever, smelly lochia and a tender bulky uterus in the first weeks is infection: a cause of secondary PPH.",
+      "d": 2,
+      "_c": 1
      },
      {
       "stem": "A P2 with one previous caesarean has a long labour on oxytocin, then a vaginal birth. She becomes shocked with abdominal pain and haematuria; vaginal bleeding is modest.",
       "answer": 3,
-      "why": "A scar, oxytocin, haematuria and shock out of proportion to the visible loss point to rupture: laparotomy."
+      "why": "A scar, oxytocin, haematuria and shock out of proportion to the visible loss point to rupture: laparotomy.",
+      "d": 3,
+      "_c": 1
      }
     ]
    },
@@ -4400,7 +4532,9 @@
      "Conjoined twins"
     ],
     "answer": 1,
-    "why": "A thin membrane with a T sign and no chorionic wedge means monochorionic diamniotic. A triangular wedge (lambda sign) would mean dichorionic."
+    "why": "A thin membrane with a T sign and no chorionic wedge means monochorionic diamniotic. A triangular wedge (lambda sign) would mean dichorionic.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "mp-2",
@@ -4416,7 +4550,9 @@
      "Dizygotic and monochorionic"
     ],
     "answer": 3,
-    "why": "Twins of different sex are dizygotic, and dizygotic twins are always DCDA; the 'single' placenta is two fused placentas."
+    "why": "Twins of different sex are dizygotic, and dizygotic twins are always DCDA; the 'single' placenta is two fused placentas.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "mp-3",
@@ -4432,7 +4568,9 @@
      "Refer for fetoscopic laser ablation of the placental vessels"
     ],
     "answer": 4,
-    "why": "Poly in one sac and oligo in the other in MC twins is TTTS; before 26 weeks fetoscopic laser treats the cause (untreated mortality up to 80%). Delivery at 21 weeks is not viable."
+    "why": "Poly in one sac and oligo in the other in MC twins is TTTS; before 26 weeks fetoscopic laser treats the cause (untreated mortality up to 80%). Delivery at 21 weeks is not viable.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "mp-4",
@@ -4448,7 +4586,9 @@
      "Rhesus isoimmunisation"
     ],
     "answer": 0,
-    "why": "Tiny anastomoses make one twin anaemic (high MCA velocity) and one polycythaemic without liquor difference: TAPS. TTTS shows a poly–oligo difference."
+    "why": "Tiny anastomoses make one twin anaemic (high MCA velocity) and one polycythaemic without liquor difference: TAPS. TTTS shows a poly–oligo difference.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "mp-5",
@@ -4464,7 +4604,9 @@
      "Terminate the pregnancy"
     ],
     "answer": 2,
-    "why": "In MC twins the survivor is harmed at the moment of the co-twin's death (up to 25% die or have brain injury), so immediate delivery does not help. Check maternal clotting and monitor weekly."
+    "why": "In MC twins the survivor is harmed at the moment of the co-twin's death (up to 25% die or have brain injury), so immediate delivery does not help. Check maternal clotting and monitor weekly.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "mp-6",
@@ -4480,7 +4622,9 @@
      "40 weeks"
     ],
     "answer": 3,
-    "why": "Uncomplicated DCDA twins are delivered at 38 weeks; MCDA at 37 weeks."
+    "why": "Uncomplicated DCDA twins are delivered at 38 weeks; MCDA at 37 weeks.",
+    "d": 1,
+    "_c": 1
    },
    {
     "id": "mp-7",
@@ -4496,13 +4640,15 @@
      "Caesarean section at 35 weeks"
     ],
     "answer": 2,
-    "why": "MCMA twins are delivered by caesarean at 32 weeks because of cord entanglement. 35 weeks is the timing for triplets."
+    "why": "MCMA twins are delivered by caesarean at 32 weeks because of cord entanglement. 35 weeks is the timing for triplets.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "mp-8",
     "topic": "mp",
     "type": "sba",
-    "stem": "A 31-year-old with dichorionic twins is 37 weeks. Scan: twin 1 cephalic, twin 2 breech; both normally grown. No other complications.",
+    "stem": "A 31-year-old with dichorionic twins is 37 weeks. Ultrasound: twin 1 cephalic, twin 2 breech; both normally grown. No other complications.",
     "q": "What is the recommended mode of delivery?",
     "options": [
      "Elective caesarean section",
@@ -4512,7 +4658,9 @@
      "External cephalic version of twin 2 at 37 weeks, then induction"
     ],
     "answer": 3,
-    "why": "When twin 1 is cephalic, vaginal birth is aimed for whatever twin 2's presentation. Caesarean is chosen when twin 1 is non-cephalic."
+    "why": "When twin 1 is cephalic, vaginal birth is aimed for whatever twin 2's presentation. Caesarean is chosen when twin 1 is non-cephalic.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "mp-9",
@@ -4528,13 +4676,15 @@
      "Await spontaneous labour"
     ],
     "answer": 1,
-    "why": "Twin 1 breech is an indication for caesarean, partly to prevent locked twins (chins lock when twin 1 is breech and twin 2 cephalic)."
+    "why": "Twin 1 breech is an indication for caesarean, partly to prevent locked twins (chins lock when twin 1 is breech and twin 2 cephalic).",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "mp-10",
     "topic": "mp",
     "type": "sba",
-    "stem": "After vaginal delivery of twin 1, the second twin is found to be lying transversely. Membranes are intact, FHR 140/min and contractions are weak.",
+    "stem": "After vaginal delivery of twin 1, the second twin is found to be lying transversely. Membranes are intact, fetal heart rate 140/min and contractions are weak.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Fundal pressure",
@@ -4544,13 +4694,15 @@
      "External cephalic version"
     ],
     "answer": 4,
-    "why": "With the sac intact, external version to a longitudinal lie is tried first; internal podalic version is for a transverse twin 2 after the membranes have ruptured."
+    "why": "With the sac intact, external version to a longitudinal lie is tried first; internal podalic version is for a transverse twin 2 after the membranes have ruptured.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "mp-11",
     "topic": "mp",
     "type": "sba",
-    "stem": "Twenty-five minutes after twin 1 was born, twin 2 is cephalic at −3 station with ruptured membranes. The cervix is thickening and the FHR is 80/min.",
+    "stem": "Twenty-five minutes after twin 1 was born, twin 2 is cephalic at −3 station with ruptured membranes. The cervix is thickening and the fetal heart rate is 80/min.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Caesarean section",
@@ -4560,7 +4712,9 @@
      "Ventouse delivery"
     ],
     "answer": 0,
-    "why": "Twin 2 should be delivered within 20 min; a retained twin 2 with fetal distress and a high head needs caesarean. Instruments need a low head."
+    "why": "Twin 2 should be delivered within 20 min; a retained twin 2 with fetal distress and a high head needs caesarean. Instruments need a low head.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "mp-12",
@@ -4576,7 +4730,9 @@
      "No extra measures after normal active management"
     ],
     "answer": 1,
-    "why": "The overdistended uterus after twins is at high risk of atony, so an oxytocin infusion for 2–4 h follows active management."
+    "why": "The overdistended uterus after twins is at high risk of atony, so an oxytocin infusion for 2–4 hours follows active management.",
+    "d": 1,
+    "_c": 1
    },
    {
     "id": "fgr-1",
@@ -4592,7 +4748,9 @@
      "Give steroids and deliver within 48 hours"
     ],
     "answer": 1,
-    "why": "A small baby with normal Doppler and liquor is usually constitutional SGA; do not rush, deliver at 37–38 weeks. Immediate delivery adds prematurity risk without benefit."
+    "why": "A small baby with normal Doppler and liquor is usually constitutional SGA; do not rush, deliver at 37–38 weeks. Immediate delivery adds prematurity risk without benefit.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "fgr-2",
@@ -4608,13 +4766,15 @@
      "Maternal OGTT"
     ],
     "answer": 0,
-    "why": "Early, symmetrical restriction with normal Doppler suggests a fetal cause such as chromosomes or infection; karyotype and TORCH look for it. Placental tests fit late, asymmetrical FGR."
+    "why": "Early, symmetrical restriction with normal Doppler suggests a fetal cause such as chromosomes or infection; karyotype and TORCH look for it. Placental tests fit late, asymmetrical fetal growth restriction.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "fgr-3",
     "topic": "fgr",
     "type": "sba",
-    "stem": "A 35-year-old with pre-eclampsia is 34 weeks. Scan: AC below the 3rd centile, head circumference on the 40th centile, AFI 4 cm, umbilical artery PI raised.",
+    "stem": "A 35-year-old with pre-eclampsia is 34 weeks. Ultrasound: AC below the 3rd centile, head circumference on the 40th centile, AFI 4 cm, umbilical artery PI raised.",
     "q": "What is the most likely cause of this growth pattern?",
     "options": [
      "Constitutionally small fetus",
@@ -4624,7 +4784,9 @@
      "Wrong dates"
     ],
     "answer": 3,
-    "why": "A small AC with a spared head and low liquor is asymmetrical FGR from placental insufficiency: brain sparing, liver glycogen falls and kidney flow drops. Chromosomal causes give symmetrical FGR."
+    "why": "A small AC with a spared head and low liquor is asymmetrical fetal growth restriction from placental insufficiency: brain sparing, liver glycogen falls and kidney flow drops. Chromosomal causes give symmetrical fetal growth restriction.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "fgr-4",
@@ -4640,13 +4802,15 @@
      "Growth scan with liquor and umbilical artery Doppler"
     ],
     "answer": 4,
-    "why": "An SFH lag > 3 cm or reduced movements needs a growth scan (EFW, AC, liquor) plus umbilical artery Doppler. Uterine artery Doppler is a screening test at 20–24 weeks."
+    "why": "An symphysis–fundal height lag > 3 cm or reduced movements needs a growth scan (estimated fetal weight, AC, liquor) plus umbilical artery Doppler. Uterine artery Doppler is a screening test at 20–24 weeks.",
+    "d": 1,
+    "_c": 1
    },
    {
     "id": "fgr-5",
     "topic": "fgr",
     "type": "sba",
-    "stem": "A 28-year-old at 30 weeks has FGR (EFW < 3rd centile). Umbilical artery Doppler shows absent end-diastolic flow; ductus venosus and CTG are normal.",
+    "stem": "A 28-year-old at 30 weeks has fetal growth restriction (estimated fetal weight < 3rd centile). Umbilical artery Doppler shows absent end-diastolic flow; ductus venosus and CTG are normal.",
     "q": "What is the most appropriate management?",
     "options": [
      "Induction of labour now",
@@ -4656,13 +4820,15 @@
      "Repeat growth scan in 3 weeks"
     ],
     "answer": 2,
-    "why": "Absent EDF with normal DV and CTG: give dexamethasone, monitor daily and deliver by 34 weeks, usually by caesarean. Immediate delivery is for abnormal DV or a pathological CTG."
+    "why": "Absent EDF with normal DV and CTG: give dexamethasone, monitor daily and deliver by 34 weeks, usually by caesarean. Immediate delivery is for abnormal DV or a pathological CTG.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "fgr-6",
     "topic": "fgr",
     "type": "sba",
-    "stem": "A 32-year-old at 31 weeks has a fetus with EFW below the 3rd centile. She has had steroids and is being scanned twice weekly in a unit with good neonatal care.",
+    "stem": "A 32-year-old at 31 weeks has a fetus with estimated fetal weight below the 3rd centile. She has had steroids and is being scanned twice weekly in a unit with good neonatal care.",
     "q": "Which new finding is an indication to deliver now?",
     "options": [
      "HC:AC ratio above 1",
@@ -4672,13 +4838,15 @@
      "Notched uterine artery waveform"
     ],
     "answer": 2,
-    "why": "An abnormal ductus venosus a-wave signals fetal acidaemia, a late near-terminal sign: deliver now if viable. Low MCA PI (brain sparing) is an earlier change."
+    "why": "An abnormal ductus venosus a-wave signals fetal acidaemia, a late near-terminal sign: deliver now if viable. Low MCA PI (brain sparing) is an earlier change.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "fgr-7",
     "topic": "fgr",
     "type": "sba",
-    "stem": "A 33-year-old at 33 weeks has FGR with reversed end-diastolic flow in the umbilical artery. CTG shows reduced variability but no decelerations.",
+    "stem": "A 33-year-old at 33 weeks has fetal growth restriction with reversed end-diastolic flow in the umbilical artery. CTG shows reduced variability but no decelerations.",
     "q": "What is the most appropriate management?",
     "options": [
      "Repeat Doppler in 1 week",
@@ -4688,13 +4856,15 @@
      "Bed rest and maternal oxygen"
     ],
     "answer": 3,
-    "why": "Reversed EDF means severe placental failure: deliver (≈ 32 weeks), with steroids first if time, by caesarean. These fetuses cannot tolerate contractions, so induction is unsuitable."
+    "why": "Reversed EDF means severe placental failure: deliver (about 32 weeks), with steroids first if time, by caesarean. These fetuses cannot tolerate contractions, so induction is unsuitable.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "fgr-8",
     "topic": "fgr",
     "type": "sba",
-    "stem": "A 29-year-old at 35 weeks has an EFW on the 4th centile. Umbilical artery PI is raised but end-diastolic flow is present; MCA PI is low. CTG and liquor are normal.",
+    "stem": "A 29-year-old at 35 weeks has an estimated fetal weight on the 4th centile. Umbilical artery PI is raised but end-diastolic flow is present; MCA PI is low. CTG and liquor are normal.",
     "q": "By when should she be delivered?",
     "options": [
      "At 38–39 weeks",
@@ -4704,7 +4874,9 @@
      "By 37 weeks, with Doppler twice weekly"
     ],
     "answer": 4,
-    "why": "Raised UA PI with EDF present (± low MCA PI) is delivered by 37 weeks with twice-weekly Doppler; induction is possible."
+    "why": "Raised UA PI with EDF present (± low MCA PI) is delivered by 37 weeks with twice-weekly Doppler; induction is possible.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "fgr-9",
@@ -4720,7 +4892,9 @@
      "Caesarean if labour has not started by 39 weeks"
     ],
     "answer": 0,
-    "why": "With normal Doppler and reassuring CTG, induction and vaginal birth with continuous monitoring is suitable. Caesarean is for absent/reversed EDF or an abnormal CTG."
+    "why": "With normal Doppler and reassuring CTG, induction and vaginal birth with continuous monitoring is suitable. Caesarean is for absent/reversed EDF or an abnormal CTG.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "fgr-10",
@@ -4736,7 +4910,9 @@
      "Neonatal dehydration from poor feeding"
     ],
     "answer": 1,
-    "why": "In FGR, chronic hypoxia drives erythropoietin and causes polycythaemia; PCV is checked routinely in these babies."
+    "why": "In fetal growth restriction, chronic hypoxia drives erythropoietin and causes polycythaemia; PCV is checked routinely in these babies.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "fgr-11",
@@ -4752,7 +4928,9 @@
      "Vaginal progesterone"
     ],
     "answer": 1,
-    "why": "Women at high risk of placental disease (previous FGR or pre-eclampsia) take low-dose aspirin from 12 weeks. Starting at 28 weeks is too late."
+    "why": "Women at high risk of placental disease (previous fetal growth restriction or pre-eclampsia) take low-dose aspirin from 12 weeks. Starting at 28 weeks is too late.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "fgr-12",
@@ -4768,7 +4946,9 @@
      "PAPP-A"
     ],
     "answer": 2,
-    "why": "Uterine artery Doppler at 20–24 weeks screens for placental disease. Umbilical artery Doppler is used to monitor a fetus already small; PAPP-A is a first-trimester marker."
+    "why": "Uterine artery Doppler at 20–24 weeks screens for placental disease. Umbilical artery Doppler is used to monitor a fetus already small; PAPP-A is a first-trimester marker.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "fgr-emq1",
@@ -4790,22 +4970,30 @@
      {
       "stem": "At 29 weeks the fetus is below the 3rd centile with absent end-diastolic flow in the umbilical artery. Ductus venosus and CTG are normal.",
       "answer": 2,
-      "why": "Absent EDF with normal DV and CTG: steroids, daily CTG, deliver by 34 weeks."
+      "why": "Absent EDF with normal DV and CTG: steroids, daily CTG, deliver by 34 weeks.",
+      "d": 3,
+      "_c": 1
      },
      {
-      "stem": "At 33 weeks the EFW is on the 5th centile; umbilical artery PI is raised with forward end-diastolic flow; CTG normal.",
+      "stem": "At 33 weeks the estimated fetal weight is on the 5th centile; umbilical artery PI is raised with forward end-diastolic flow; CTG normal.",
       "answer": 3,
-      "why": "Raised UA PI with EDF present: Doppler twice weekly and deliver by 37 weeks."
+      "why": "Raised UA PI with EDF present: Doppler twice weekly and deliver by 37 weeks.",
+      "d": 3,
+      "_c": 1
      },
      {
-      "stem": "At 36 weeks the EFW is on the 7th centile, growing along it; umbilical artery Doppler and liquor are normal.",
+      "stem": "At 36 weeks the estimated fetal weight is on the 7th centile, growing along it; umbilical artery Doppler and liquor are normal.",
       "answer": 4,
-      "why": "Small with normal Doppler and liquor is likely constitutional; deliver at 37–38 weeks."
+      "why": "Small with normal Doppler and liquor is likely constitutional; deliver at 37–38 weeks.",
+      "d": 2,
+      "_c": 1
      },
      {
       "stem": "At 30 weeks a growth-restricted fetus shows a reversed a-wave in the ductus venosus and decelerations on CTG.",
       "answer": 0,
-      "why": "Abnormal DV or a pathological CTG means acidaemia: deliver now, by caesarean."
+      "why": "Abnormal DV or a pathological CTG means acidaemia: deliver now, by caesarean.",
+      "d": 2,
+      "_c": 1
      }
     ]
    },
@@ -4823,7 +5011,9 @@
      "Repeat hand-held Doppler in 24 hours"
     ],
     "answer": 2,
-    "why": "Absent heart sounds on Pinard or hand Doppler are suggestive, not diagnostic (obesity and polyhydramnios give a false result); only real-time ultrasound confirms fetal death. X-ray signs are late and no longer needed."
+    "why": "Absent heart sounds on Pinard or hand Doppler are suggestive, not diagnostic (obesity and polyhydramnios give a false result); only real-time ultrasound confirms fetal death. X-ray signs are late and no longer needed.",
+    "d": 1,
+    "_c": 1
    },
    {
     "id": "iufd-2",
@@ -4839,7 +5029,9 @@
      "About 3 weeks"
     ],
     "answer": 1,
-    "why": "Overlapping skull bones (Spalding sign) appear about 7 days after death. Gas in the heart (Robert sign) appears at ≈ 12 h and the halo sign at ≈ 48 h."
+    "why": "Overlapping skull bones (Spalding sign) appear about 7 days after death. Gas in the heart (Robert sign) appears at about 12 hours and the halo sign at about 48 hours.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "iufd-3",
@@ -4855,13 +5047,15 @@
      "Correct the clotting with FFP and cryoprecipitate, then deliver"
     ],
     "answer": 4,
-    "why": "DIC is the most serious complication of a retained dead fetus (≈ 30% if retained > 3 weeks); correct the coagulopathy and deliver now. Operating before correction risks uncontrolled bleeding."
+    "why": "DIC is the most serious complication of a retained dead fetus (about 30% if retained > 3 weeks); correct the coagulopathy and deliver now. Operating before correction risks uncontrolled bleeding.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "iufd-4",
     "topic": "iufd",
     "type": "sba",
-    "stem": "A 28-year-old with a fetal death confirmed at 33 weeks is well, membranes intact, BP and clotting normal. After counselling she wants to wait for labour to start.",
+    "stem": "A 28-year-old with a fetal death confirmed at 33 weeks is well, membranes intact, blood pressure and clotting normal. After counselling she wants to wait for labour to start.",
     "q": "What monitoring is needed while waiting?",
     "options": [
      "Clotting tests once at 4 weeks",
@@ -4871,7 +5065,9 @@
      "No tests needed if she feels well"
     ],
     "answer": 3,
-    "why": "Expectant care needs clotting checks 2–3 times a week; induce if clotting falls, infection appears or she changes her mind. Most labour within 3 weeks."
+    "why": "Expectant care needs clotting checks 2–3 times a week; induce if clotting falls, infection appears or she changes her mind. Most labour within 3 weeks.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "iufd-5",
@@ -4887,13 +5083,15 @@
      "Misoprostol 200 µg vaginally 4-hourly"
     ],
     "answer": 0,
-    "why": "After 28 weeks, mifepristone 200 mg is followed 36–48 h later by misoprostol 25 µg PV 6-hourly (or 25 µg oral 2-hourly). 200 µg doses are for < 27 weeks and would risk rupture at term."
+    "why": "After 28 weeks, mifepristone 200 mg is followed 36–48 hours later by misoprostol 25 µg vaginally 6-hourly (or 25 µg oral 2-hourly). 200 µg doses are for < 27 weeks and would risk rupture at term.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "iufd-6",
     "topic": "iufd",
     "type": "sba",
-    "stem": "A 32-year-old with two previous caesareans has a fetal death at 37 weeks. Cephalic, cervix 1 cm and soft, clotting normal.",
+    "stem": "A 32-year-old with two previous caesarean sections has a fetal death at 37 weeks. Cephalic, cervix 1 cm and soft, clotting normal.",
     "q": "What is the most appropriate method of delivery?",
     "options": [
      "Artificial rupture of membranes",
@@ -4903,7 +5101,9 @@
      "Misoprostol 25 µg vaginally 6-hourly"
     ],
     "answer": 2,
-    "why": "With ≥ 2 caesareans or a classical scar, routine misoprostol is avoided; use Foley + oxytocin or caesarean. ARM is avoided in IUFD because of infection."
+    "why": "With ≥ 2 caesarean sections or a classical scar, routine misoprostol is avoided; use Foley + oxytocin or caesarean. Artificial rupture of membranes is avoided in intrauterine fetal death because of infection.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "iufd-7",
@@ -4919,7 +5119,9 @@
      "Opioid analgesia"
     ],
     "answer": 0,
-    "why": "ARM is avoided in IUFD because of the risk of intrauterine infection and sepsis. Epidural is acceptable when clotting is normal."
+    "why": "Artificial rupture of membranes is avoided in intrauterine fetal death because of the risk of intrauterine infection and sepsis. Epidural is acceptable when clotting is normal.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "iufd-8",
@@ -4935,7 +5137,9 @@
      "TORCH serology"
     ],
     "answer": 1,
-    "why": "Fever, rigors, anaemia and low platelets in Sudan point to malaria as the cause; a blood film is the test."
+    "why": "Fever, rigors, anaemia and low platelets in Sudan point to malaria as the cause; a blood film is the test.",
+    "d": 1,
+    "_c": 1
    },
    {
     "id": "iufd-9",
@@ -4951,7 +5155,9 @@
      "OGTT and HbA1c"
     ],
     "answer": 4,
-    "why": "A big baby with polyhydramnios and IUFD suggests diabetes; check OGTT and HbA1c."
+    "why": "A big baby with polyhydramnios and intrauterine fetal death suggests diabetes; check OGTT and HbA1c.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "iufd-10",
@@ -4967,7 +5173,9 @@
      "Parental karyotype only"
     ],
     "answer": 3,
-    "why": "Recurrent IUFD with thrombosis and miscarriages suggests antiphospholipid syndrome; thrombophilia and APS tests are done at 6 weeks, as pregnancy and the acute event alter results."
+    "why": "Recurrent intrauterine fetal death with thrombosis and miscarriages suggests antiphospholipid syndrome; thrombophilia and antiphospholipid syndrome tests are done at 6 weeks, as pregnancy and the acute event alter results.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "iufd-11",
@@ -4983,7 +5191,9 @@
      "Cabergoline 1 mg orally once"
     ],
     "answer": 4,
-    "why": "Cabergoline 1 mg once suppresses lactation; ideally it is given soon after delivery. Metoclopramide raises prolactin and increases milk."
+    "why": "Cabergoline 1 mg once suppresses lactation; ideally it is given soon after delivery. Metoclopramide raises prolactin and increases milk.",
+    "d": 1,
+    "_c": 1
    },
    {
     "id": "iufd-12",
@@ -4999,13 +5209,15 @@
      "Anti-D at the 6-week visit"
     ],
     "answer": 2,
-    "why": "After 20 weeks give 500 IU within 72 h after a Kleihauer test; the dead fetus can still sensitise her. 250 IU is the dose before 20 weeks."
+    "why": "After 20 weeks give 500 IU within 72 hours after a Kleihauer test; the dead fetus can still sensitise her. 250 IU is the dose before 20 weeks.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "lq-1",
     "topic": "lq",
     "type": "sba",
-    "stem": "A 30-year-old G3P2 is 32 weeks. Fundal height is 38 cm, AFI 31 cm, EFW > 90th centile. Urine shows glucose 2+ on two visits. Anomaly scan was normal.",
+    "stem": "A 30-year-old G3P2 is 32 weeks. Fundal height is 38 cm, AFI 31 cm, estimated fetal weight > 90th centile. Urine shows glucose 2+ on two visits. Anomaly scan was normal.",
     "q": "Which investigation is most likely to show the cause?",
     "options": [
      "Maternal thyroid function",
@@ -5015,7 +5227,9 @@
      "TORCH screen"
     ],
     "answer": 3,
-    "why": "Polyhydramnios with a big baby and glycosuria suggests diabetes (fetal polyuria); check OGTT."
+    "why": "Polyhydramnios with a big baby and glycosuria suggests diabetes (fetal polyuria); check OGTT.",
+    "d": 1,
+    "_c": 1
    },
    {
     "id": "lq-2",
@@ -5031,7 +5245,9 @@
      "TORCH serology"
     ],
     "answer": 2,
-    "why": "A double bubble means duodenal atresia, which is strongly linked to Down syndrome; offer fetal karyotype."
+    "why": "A double bubble means duodenal atresia, which is strongly linked to Down syndrome; offer fetal karyotype.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "lq-3",
@@ -5047,7 +5263,9 @@
      "Duodenal atresia"
     ],
     "answer": 1,
-    "why": "Drooling, choking and a coiled NG tube are oesophageal atresia, usually with a fistula; the fetus could not swallow liquor, hence polyhydramnios."
+    "why": "Drooling, choking and a coiled NG tube are oesophageal atresia, usually with a fistula; the fetus could not swallow liquor, hence polyhydramnios.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "lq-4",
@@ -5063,7 +5281,9 @@
      "Amnioreduction, draining slowly"
     ],
     "answer": 4,
-    "why": "Severe (AFI > 40 cm), symptomatic polyhydramnios is relieved by slow amnioreduction; fast drainage risks abruption. Indomethacin is limited to ≤ 72 h."
+    "why": "Severe (AFI > 40 cm), symptomatic polyhydramnios is relieved by slow amnioreduction; fast drainage risks abruption. Indomethacin is limited to ≤ 72 hours.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "lq-5",
@@ -5079,7 +5299,9 @@
      "Fetal tachycardia"
     ],
     "answer": 0,
-    "why": "Indomethacin is used only < 32 weeks and for ≤ 72 h because it closes the ductus arteriosus and reduces fetal urine (oligohydramnios)."
+    "why": "Indomethacin is used only < 32 weeks and for ≤ 72 hours because it closes the ductus arteriosus and reduces fetal urine (oligohydramnios).",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "lq-6",
@@ -5095,7 +5317,9 @@
      "Avoid ARM and wait until full dilatation"
     ],
     "answer": 1,
-    "why": "Sudden decompression in polyhydramnios can cause cord prolapse and abruption, so ARM is controlled with the lie checked. Caesarean is not needed for polyhydramnios alone."
+    "why": "Sudden decompression in polyhydramnios can cause cord prolapse and abruption, so artificial rupture of membranes is controlled with the lie checked. Caesarean is not needed for polyhydramnios alone.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "lq-7",
@@ -5111,7 +5335,9 @@
      "Tocolysis and discharge home"
     ],
     "answer": 2,
-    "why": "Preterm ROM < 34 weeks: erythromycin 250 mg 6-hourly × 10 days and steroids, watching for infection. Digital examination increases infection and co-amoxiclav is linked to NEC."
+    "why": "Preterm rupture of membranes < 34 weeks: erythromycin 250 mg 6-hourly × 10 days and steroids, watching for infection. Digital examination increases infection and co-amoxiclav is linked to NEC.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "lq-8",
@@ -5127,7 +5353,9 @@
      "Amnioinfusion"
     ],
     "answer": 3,
-    "why": "ROM at ≥ 34–36 weeks is managed by induction unless caesarean is needed for another reason."
+    "why": "Rupture of membranes at ≥ 34–36 weeks is managed by induction unless caesarean is needed for another reason.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "lq-9",
@@ -5143,7 +5371,9 @@
      "Congenital heart disease"
     ],
     "answer": 0,
-    "why": "Bilateral renal agenesis gives anhydramnios before 22 weeks and lethal pulmonary hypoplasia (Potter sequence); the lungs, not the kidneys, kill first."
+    "why": "Bilateral renal agenesis gives anhydramnios before 22 weeks and lethal pulmonary hypoplasia (Potter sequence); the lungs, not the kidneys, kill first.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "lq-10",
@@ -5159,7 +5389,9 @@
      "Posterior urethral valves"
     ],
     "answer": 4,
-    "why": "A big bladder with a keyhole sign in a boy is posterior urethral valves blocking urine outflow. Renal agenesis shows no bladder at all."
+    "why": "A big bladder with a keyhole sign in a boy is posterior urethral valves blocking urine outflow. Renal agenesis shows no bladder at all.",
+    "d": 3,
+    "_c": 1
    },
    {
     "id": "lq-11",
@@ -5175,7 +5407,9 @@
      "Maternal dehydration"
     ],
     "answer": 1,
-    "why": "ACE inhibitors cause fetal renal failure and oligohydramnios and must be stopped in pregnancy. Normal growth and Doppler argue against placental insufficiency."
+    "why": "ACE inhibitors cause fetal renal failure and oligohydramnios and must be stopped in pregnancy. Normal growth and Doppler argue against placental insufficiency.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "lq-12",
@@ -5191,7 +5425,9 @@
      "Repeat AFI in 1 week"
     ],
     "answer": 2,
-    "why": "Post-term pregnancy with low liquor is induced; the risk of cord compression and stillbirth rises if she waits."
+    "why": "Post-term pregnancy with low liquor is induced; the risk of cord compression and stillbirth rises if she waits.",
+    "d": 2,
+    "_c": 1
    },
    {
     "id": "lq-emq1",
@@ -5215,22 +5451,30 @@
      {
       "stem": "At 31 weeks AFI is 27 cm. Detailed anomaly scan, OGTT and TORCH serology are all normal; the baby's growth is normal.",
       "answer": 0,
-      "why": "Mild polyhydramnios with a normal search for causes is idiopathic, the commonest group."
+      "why": "Mild polyhydramnios with a normal search for causes is idiopathic, the commonest group.",
+      "d": 1,
+      "_c": 1
      },
      {
       "stem": "At 22 weeks AFI is 30 cm. The scan shows no cranial vault above the orbits.",
       "answer": 3,
-      "why": "Absent cranial vault is anencephaly; the fetus does not swallow normally, so liquor builds up."
+      "why": "Absent cranial vault is anencephaly; the fetus does not swallow normally, so liquor builds up.",
+      "d": 1,
+      "_c": 1
      },
      {
       "stem": "At 42 weeks AFI is 4 cm. Growth and umbilical artery Doppler are normal, membranes intact, CTG reactive.",
       "answer": 9,
-      "why": "Liquor falls after term as placental function declines; post-term with oligohydramnios is induced."
+      "why": "Liquor falls after term as placental function declines; post-term with oligohydramnios is induced.",
+      "d": 2,
+      "_c": 1
      },
      {
       "stem": "A woman with a single placenta and two fetuses at 19 weeks has a rapidly enlarging, tense uterus and breathlessness. One sac has a deepest pool of 11 cm, the other almost none.",
       "answer": 4,
-      "why": "Acute polyhydramnios before 20 weeks in monochorionic twins with a poly–oligo pair is TTTS."
+      "why": "Acute polyhydramnios before 20 weeks in monochorionic twins with a poly–oligo pair is TTTS.",
+      "d": 3,
+      "_c": 1
      }
     ]
    }
