@@ -748,3 +748,22 @@ button{font-family:inherit}
 .chzb.pd .v2ic,.chzb.pd small{color:#f3d68a}
 .chzb.tr{background:var(--sel)}
 .chzb:disabled{opacity:.6}
+
+/* ===== Phone Home, less crowded (owner, 11 Nov 2026, from his phone): the two progress tiles are left out on phones (Settings → «تقدّمي»
+   still shows them), so the reading card keeps its two bars; the name chip shows only the picture on narrow phones; forward arrows point
+   right in English; the shortcut labels and the subscription line get room instead of being cut ===== */
+@media (max-width:759px){
+  #v2homeW .hsm2{display:none}
+  #v2homeW .hq button{padding:10px 6px;gap:6px;font-size:13px}
+  #v2homeW .hq button>.v2ic{width:20px;height:20px}
+  #v2homeW .hq button span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  #v2homeW .hacc small{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+}
+@media (max-width:430px){.v2me b{display:none}.v2me{padding:0 3px}}
+html[data-lang="en"] .v2ic.fwd{transform:scaleX(-1)}
+/* reading card in one row (short phones): the button is smaller and the chapter name stops before it, in both languages */
+@media (max-width:759px){
+  @container (max-height:128px){.hc2 .cbb .v2btn{height:36px;padding:0 13px;font-size:13.5px;gap:6px}.hc2 .cbt{max-width:calc(100% - 150px)}
+    html[data-lang="en"] .hc2 .cbt{max-width:calc(100% - 172px)}}
+}
+@media (max-width:379px){html[data-lang="en"] #v2homeW .hq button>.v2ic:first-child{display:none}}

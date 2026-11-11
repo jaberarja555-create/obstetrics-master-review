@@ -26,7 +26,7 @@ var P={home:'<path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"
  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.500"/>',copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',
  cal:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4M9 15l2 2 4-4"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
  check:'<path d="M5 12.500l4.500 4.500L19 7.500"/>',mon:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',palette:'<path d="M12 3a9 9 0 1 0 0 18c1.500 0 2-1 2-2s-.5-1.500-.5-2.500 1-1.500 2-1.500H18a3 3 0 0 0 3-3c0-5-4-9-9-9z"/><circle cx="8" cy="10" r="1"/><circle cx="12" cy="7.500" r="1"/><circle cx="16" cy="10" r="1"/>'};
-function I(n,c){return '<svg class="v2ic'+(c?' '+c:'')+'" viewBox="0 0 24 24">'+P[n].replace(/\.(\d)00\b/g,'.$1')+'</svg>'}
+function I(n,c){return '<svg class="v2ic'+(n==='back'?' fwd':'')+(c?' '+c:'')+'" viewBox="0 0 24 24">'+P[n].replace(/\.(\d)00\b/g,'.$1')+'</svg>'}
 document.body.classList.add('v2');
 
 /* ---------- display mode and colour (independent) ---------- */
