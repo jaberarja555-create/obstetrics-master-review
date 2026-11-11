@@ -68,7 +68,8 @@ pagesEl.addEventListener('click',function(e){var t=e.target,g=t.closest&&t.close
      The tools open in a ring under their button; while the page is full (bars hidden) one small button on the page brings the bars back. */
   var bar=document.querySelector('.app>.bar'),bm=bar.querySelector('.rbm'),z=$('zoomBtn'),fb=$('v2full');
   z.className='ib rtl';z.setAttribute('aria-label','حجم الصفحة');z.title='حجم الصفحة';fb.className='ib rtl';sh.className='ib rtl rtools';
-  [sh,z,fb].forEach(function(x){bar.insertBefore(x,bm)});
+  var pn=$('pnum');pn.className='pnum rpg';pn.title='رقم الصفحة';
+  [pn,sh,z,fb].forEach(function(x){bar.insertBefore(x,bm)});
   var fx=document.createElement('button');fx.type='button';fx.id='v2fx';fx.setAttribute('aria-label','إظهار الأشرطة');fx.title='إظهار الأشرطة';
   fx.innerHTML='<svg class="v2ic" viewBox="0 0 24 24"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';fx.onclick=function(){fb.click()};$('reader').appendChild(fx);
   function place(){var r=sh.getBoundingClientRect();rb.style.left=(r.left+r.width/2)+'px';rb.style.top=(r.top+r.height/2)+'px'}

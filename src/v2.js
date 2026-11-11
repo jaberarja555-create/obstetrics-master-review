@@ -93,7 +93,7 @@ function pill(){var c=lastCur<0?currentPage():lastCur,k=0,n=0;for(var i=0;i<wrap
   var pn=$('pnum');if(!pn.classList.contains('ed'))pn.textContent=(PAGES[c]&&PAGES[c].user?'✎ ':'')+k+' / '+n;
   RP.firstChild.style.width=(n?k/n*100:0)+'%';var t=rtopic(),lab=PAGES[c]?String(PAGES[c].label||''):'';
   $('v2rb').textContent=t?t.no+' '+t.title.charAt(0).toUpperCase()+t.title.slice(1):({rr:'Rapid Review',dr:'Obstetric Drugs',cover:'Book cover',fm:lab}[scNow()]||lab);
-  $('v2rs').textContent='Page '+k+' of '+n+(t?' · Chapter '+t.ch:'');
+  $('v2rs').textContent=t?'Chapter '+t.ch+' · '+chap(t.ch).name:'Obstetrics Master Review';
   $('v2rnav').hidden=!t&&!WHOLE;$('rnSl').disabled=$('rnVd').disabled=!t;RBM.hidden=!t;if(t){RBM.classList.toggle('on',!!BM['t:'+t.id]);RBM.setAttribute('aria-pressed',!!BM['t:'+t.id])}}
 var _os=onScroll;onScroll=function(){_os.apply(this,arguments);pill()};
 $('scroller').addEventListener('scroll',pill,{passive:true});
