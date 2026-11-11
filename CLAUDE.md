@@ -303,7 +303,7 @@ into `main` when the owner has seen it; small fixes the owner asks for directly 
     full page (`#v2full`) are buttons in the top bar before the bookmark. The tools ring opens UNDER its button (`#rbar` is fixed at the
     button's centre): قلم, ماركر (`#mkBtn`, free highlight with its own card), نص, صفحة, plus undo/redo. Tool cards open at the top right under
     the bar. While the page is full (bars hidden) the small button `#v2fx` on the page brings the bars back. The page number is a chip in the same bar (`#pnum.rpg`, «10 / 368»; tap it to type a page and go there); the small line
-    over the topic title names the chapter. Nothing floats on the page. On phones the bar has no Home button (Back and the phone's Back lead out).
+    over the topic title names the chapter. Nothing floats on the page. Home is the first button of the bottom reading bar (`#rnHm`); the top bar has no Home button.
   - **Next (owner, 11 Nov 2026): rewrite of the chapters** — new page design and better medical writing: no fixed "Introduction" opening, short
     basic background only where needed, a clinical case to introduce disease topics, smoother order, standard terms and titles. Make ONE model
     topic first and show it to the owner before the rest.

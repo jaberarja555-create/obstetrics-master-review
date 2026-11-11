@@ -89,3 +89,5 @@ function backOne(){var w=$('v2wel');if(w&&!w.hidden)return false;
   if(CURV!=='v2home'){var t=tabOf(CURV);go(t!==CURV?t:'v2home');return true}return false}
 try{history.replaceState({obs:0},'');history.pushState({obs:1},'');
   window.addEventListener('popstate',function(){var ok=false;try{ok=backOne()}catch(e){}if(ok)history.pushState({obs:1},'')})}catch(e){}
+/* Home is the first button of the reader's bottom bar (owner, 11 Nov 2026 evening) */
+(function(){var h=document.createElement('button');h.type='button';h.id='rnHm';h.innerHTML=I('home')+'<span>الرئيسية</span>';h.onclick=function(){go('v2home')};var n=$('v2rnav');n.insertBefore(h,n.firstChild)})();

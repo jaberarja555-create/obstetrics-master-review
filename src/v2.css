@@ -713,3 +713,6 @@ button{font-family:inherit}
 .app.rd>.bar .rpg.ed input{width:3.4em;font:800 13px 'Inter',sans-serif;text-align:center;border:1.5px solid var(--pri);border-radius:10px;padding:4px 2px;background:var(--sf);color:var(--tx)}
 .app.rd>.bar .rpg.ed span{color:var(--sub)}.app.rd>.bar .rpg.ed button{border:0;border-radius:10px;padding:5px 10px;background:var(--pri);color:var(--pon);font:800 12px 'Inter',sans-serif}
 @media (max-width:759px){.app.rd>.bar:has(.rpg.ed) .rt{display:none}.app.rd>.bar:has(.rpg.ed) .rpg{margin-inline-start:auto}}
+.app.rd .v2rnav:not([hidden]){grid-template-columns:repeat(5,1fr)}
+@media (min-width:760px){.app.rd .v2rnav:not([hidden]){grid-template-columns:repeat(5,minmax(0,160px));justify-content:center}.app.rd>.bar .rhome{display:none}}
+.v2rnav button{font-size:11px}
