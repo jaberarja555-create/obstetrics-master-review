@@ -62,6 +62,10 @@ def v2(shell):
     def ins(s, anchor, new, before=True):
         assert s.count(anchor) == 1, anchor
         return s.replace(anchor, new + anchor if before else anchor + new)
+    # first paint is already the new app (owner, 11 Nov 2026: the old look flashed before the new one): colour and mode are set in the
+    # head from what the student chose, the welcome screen is in the page from the start, and the browser bar takes the app colour
+    assert shell.count('<meta name="theme-color" content="#172e48">') == 1
+    shell = shell.replace('<meta name="theme-color" content="#172e48">', '<meta name="theme-color" content="#F5F1FC"><script>(function(){var r=document.documentElement,p="lav",m="day";try{p=localStorage.getItem("orr-pal")||p;m=localStorage.getItem("orr-mode")||m}catch(e){}r.setAttribute("data-pal",p);r.setAttribute("data-theme",m==="night"||(m==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light")})()</script>')
     i = shell.rindex('</style>')
     shell = shell[:i] + rd('v2.css') + shell[i:]
     shell = ins(shell, '<div class="app" id="app">', top, False)

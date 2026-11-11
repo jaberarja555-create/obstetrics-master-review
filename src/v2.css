@@ -524,3 +524,6 @@ button{font-family:inherit}
 .hpc .hph{padding:4px 18px;border-radius:999px;background:var(--sel);color:var(--pri);font:800 19px var(--ui);letter-spacing:1px;text-decoration:none}
 .hpc .hcg{width:100%;margin-top:6px}.hpc .hco{padding:6px 4px}.hpc .hco span{width:52px;height:52px}
 .hcd{padding:16px 18px}.hcd img{width:64px;height:64px}
+/* first paint: nothing of the old app shows before the new one is ready (owner, 11 Nov 2026) */
+#home,#tabs{display:none!important}
+.v2wel{background-color:#F5F1FC}

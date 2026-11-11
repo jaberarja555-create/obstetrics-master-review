@@ -245,3 +245,6 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   bell (`nding`, after the first touch). **Preview trial:** preview.yml sets the Pages secret OBS_KEY for the preview environment too
   (`--env preview`); without it /trial answered 503 on the preview address.
 - **User-guide posters (owner, 11 Nov 2026):** `assets/img/ug_1..5.jpg` open the user manual (`v2help`, chips `ugjump`), followed by the detailed steps with screenshots (HELP).
+- **First paint and icon (owner, 11 Nov 2026):** the old look flashed before the new app: build.py `v2()` now sets palette and mode in the head, the
+  welcome screen is in the page from the start, old `#home`/`#tabs` are never displayed; icons (`site_static/icon*.png`, apple-touch-icon) are the
+  new logo on lavender and the manifest colours are lavender. An installed app keeps its old icon until it is removed and installed again.
