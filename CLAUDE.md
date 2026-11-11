@@ -289,8 +289,12 @@ into `main` when the owner has seen it; small fixes the owner asks for directly 
     between pages and chapters never rings. Sound is for real notifications only.
   - **No stars on reviewers** (owner: they read as a rating of the book): removed from page 004 and painted out of `assets/img/ab_reviewers.jpg`
     (with the line that explained them). Do not bring them back.
-  - **Tool sheets:** every tool panel (`#penFly.tsheet`, decorated in `flyAt`) is a bottom sheet in the app's design: icon, name, on/off switch
-    (`.ptog.tsw`), close; labelled parts (colour, thickness…), hint line.
+  - **Tool cards:** every tool panel (`#penFly.tsheet`, decorated in `flyAt`) is a SMALL card (276 px) above the tools button: icon, name, on/off
+    switch (`.ptog.tsw`), one row of colour dots, one row of sizes; no labels, no hint text, no undo/redo inside (the owner rejected the
+    full-width sheet as "big and ugly"). The zoom card opens above the zoom button on the left.
+  - **Home on sideways tablets/laptops** never scrolls: tighter tier at `(min-width:760px) and (max-height:720px)`, tighter again under 600 px.
+  - **Whole book** behaves like a chapter everywhere: the reading bar stays on the cover and front pages too (slides/video dimmed there,
+    «المواضيع» lists the chapters, `ACT.wch`).
   - **Marking text (owner, same evening; replaces the "calm selection" and "free notes" tried that afternoon — both removed, do not bring back):**
     there are NO highlight / underline / note tools to switch on (`setPens(false,false,false)` at start, their ring buttons hidden). The student
     selects text the normal way and the options bar appears (`#hlbar.selopt`, `showPalette` / `pickHL` replaced): six highlight colours, a row of the four underline colours

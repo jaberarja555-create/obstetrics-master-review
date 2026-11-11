@@ -159,7 +159,8 @@ var T_EN={
 "شغّل قلم الملاحظات ثم اضغط أي مكان في الصفحة لتضع ملاحظة.":"Switch on the note tool, then tap anywhere on the page to put a note.",
 "ماركر":"Marker",
 "الماركر":"Marker",
-"ظلّل بحرّية بإصبعك أو بالقلم الإلكتروني فوق أي شيء في الصفحة: كلام، صورة أو كتابة القلم.":"Highlight freely with your finger or stylus over anything on the page: text, a picture or pen writing."};
+"ظلّل بحرّية بإصبعك أو بالقلم الإلكتروني فوق أي شيء في الصفحة: كلام، صورة أو كتابة القلم.":"Highlight freely with your finger or stylus over anything on the page: text, a picture or pen writing.",
+"قلم إلكتروني فقط":"Stylus only","✓ قلم إلكتروني فقط":"✓ Stylus only"};
 var T_AR={"Home":"الرئيسية","Chapters":"الفصول","Practice":"التدريب","Resources":"المصادر","Settings":"الإعدادات","Doctor":"دكتور","chapters":"فصول","topics":"مواضيع","flashcards":"بطاقات","questions":"أسئلة","Today":"اليوم","All topics":"كل المواضيع","Level":"المستوى","All levels":"كل المستويات","Easy":"سهل","Medium":"متوسط","Hard":"صعب",
 "Again":"مرة أخرى","Knew it":"عرفتها","Tap the card to see the answer":"اضغط البطاقة لإظهار الإجابة","Answer":"الإجابة","Correct":"صحيحة","Used":"مستخدمة","Unused":"جديدة","Marked":"معلّمة","Incorrect":"خاطئة","All":"الكل","Create a test":"إنشاء اختبار","Mode":"النمط","Tutor":"تدريب","Timed":"امتحان",
 "see the answer after each question":"تظهر الإجابة بعد كل سؤال","like the exam · # min # s each":"مثل الامتحان · # دقيقة و# ثانية لكل سؤال","Questions":"الأسئلة","all chapters":"كل الفصول","Number of questions":"عدد الأسئلة","# available":"# متاحة","Start test":"ابدأ الاختبار","# questions · Tutor":"# سؤال · تدريب","# questions · Timed":"# سؤال · امتحان",

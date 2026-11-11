@@ -92,7 +92,7 @@ function pill(){var c=lastCur<0?currentPage():lastCur,k=0,n=0;for(var i=0;i<wrap
   RP.firstChild.style.width=(n?k/n*100:0)+'%';var t=rtopic(),lab=PAGES[c]?String(PAGES[c].label||''):'';
   $('v2rb').textContent=t?t.no+' '+t.title.charAt(0).toUpperCase()+t.title.slice(1):({rr:'Rapid Review',dr:'Obstetric Drugs',cover:'Book cover',fm:lab}[scNow()]||lab);
   $('v2rs').textContent='Page '+k+' of '+n+(t?' · Chapter '+t.ch:'');
-  $('v2rnav').hidden=!t;RBM.hidden=!t;if(t){RBM.classList.toggle('on',!!BM['t:'+t.id]);RBM.setAttribute('aria-pressed',!!BM['t:'+t.id])}}
+  $('v2rnav').hidden=!t&&!WHOLE;$('rnSl').disabled=$('rnVd').disabled=!t;RBM.hidden=!t;if(t){RBM.classList.toggle('on',!!BM['t:'+t.id]);RBM.setAttribute('aria-pressed',!!BM['t:'+t.id])}}
 var _os=onScroll;onScroll=function(){_os.apply(this,arguments);pill()};
 $('scroller').addEventListener('scroll',pill,{passive:true});
 /* panels open above a bottom button and below a top one */
@@ -109,7 +109,9 @@ if(sp('sb')==='off')$('app').classList.add('nosb');
 var FROMRD=false,FOCUS='';
 function media(v){var t=rtopic();if(!t)return;FOCUS=t.id;if(v==='v2slides')SCH=t.ch;else LCH=t.ch;go(v);FROMRD=true;R[v]();var e=$((v==='v2slides'?'sl-':'vd-')+t.id);if(e){e.classList.add('foc');e.scrollIntoView({block:'center'})}}
 $('rnSl').onclick=function(){media('v2slides')};$('rnVd').onclick=function(){media('v2lect')};
-$('rnTp').onclick=function(){var t=rtopic();if(!t)return;var c=chap(t.ch),ts=chStat(c).ts;
+$('rnTp').onclick=function(){var t=rtopic();
+  if(!t){if(!WHOLE)return;$('v2tbody').innerHTML='<div class="tpl">'+META.chapters.map(function(c){return '<button type="button" class="v2c tpr" data-act="wch" data-n="'+c.n+'"><span class="li">'+I('book')+'</span><span class="tmn"><b>Chapter '+c.n+' · '+X(c.name)+'</b></span><span></span></button>'}).join('')+'</div>';$('v2tsheet').hidden=false;return}
+  var c=chap(t.ch),ts=chStat(c).ts;
   $('v2tbody').innerHTML='<p class="v2crumb" style="margin:0 0 8px;direction:ltr;text-align:left">Chapter '+c.n+' · '+X(c.name)+'</p><div class="tpl">'+ts.map(function(x){var lk=locked(x.id),p=pct(x.id);
     return '<button type="button" class="v2c tpr'+(lk?' lk':'')+(x.id===t.id?' cur':'')+'" data-act="tpick" data-id="'+x.id+'"><span class="li">'+I(lk?'lock':'book')+'</span><span class="tmn"><b>'+x.no+' '+X(x.title.charAt(0).toUpperCase()+x.title.slice(1))+'</b><span class="pr">'+bar(p)+p+'%</span></span><span></span></button>'}).join('')+'</div>'+
     '<button type="button" class="v2btn ol" data-act="tall" lang="ar" style="width:100%;margin-top:12px">'+I('book')+'كل الفصول</button>';$('v2tsheet').hidden=false};
@@ -448,6 +450,7 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
   rr:function(){goIdx(idxOf(/^x9/))},dr:function(){goIdx(idxOf(/^y0/))},
   tpick:function(b){$('v2tsheet').hidden=true;var t=TOPICS.filter(function(x){return x.id===b.dataset.id})[0];if(t)openTopic(t)},
   tall:function(){go('v2chapters')},
+  wch:function(b){$('v2tsheet').hidden=true;var ts=chStat(chap(+b.dataset.n)).ts;if(ts&&ts[0])openTopic(ts[0])},
   ugjump:function(b){var e=$('ug'+b.dataset.i);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},
   oldcode:function(){var m=$('ocMsg');if(!LIC||!LIC.activate){m.textContent='تعذّر التفعيل الآن.';return}LIC.activate($('ocIn').value,function(t){m.textContent=t})},
   hjump:function(b){var e=$('hlp'+b.dataset.i);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},

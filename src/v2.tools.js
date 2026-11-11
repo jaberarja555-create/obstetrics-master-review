@@ -20,6 +20,8 @@ flyAt=function(f,btn){f.hidden=false;f.classList.add('tsheet');f.style.top=f.sty
   var m=f.querySelector('.ptog[data-ink],.ptog[data-txon]')||(f.dataset.k==='m'?f.querySelector('.ptog[data-mk]'):null);
   if(m){var on=m.classList.contains('on');m.classList.add('tsw');m.setAttribute('role','switch');m.setAttribute('aria-checked',on);m.setAttribute('aria-label',m.textContent);m.innerHTML='<i></i>';h.appendChild(m)}
   var x=document.createElement('button');x.type='button';x.className='tfx';x.setAttribute('aria-label','إغلاق');x.textContent='✕';x.addEventListener('click',function(e){e.stopPropagation();penFly(false)});h.appendChild(x);
+  var st=f.querySelector('.ptog[data-styl]');if(st)st.textContent=(st.classList.contains('on')?'✓ ':'')+'قلم إلكتروني فقط';
+  var cl=f.querySelector('.ptog[data-ic0]');if(cl&&st){var row=document.createElement('div');row.className='zrow';st.parentNode.insertBefore(row,st);row.appendChild(st);row.appendChild(cl);st.style.marginTop=''}
   f.insertBefore(h,f.firstChild)};
 
 /* ----- marking text (owner, 11 Nov 2026, evening): no highlight / underline / note tools to switch on. The student selects text the usual
