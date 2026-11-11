@@ -91,3 +91,11 @@ try{history.replaceState({obs:0},'');history.pushState({obs:1},'');
   window.addEventListener('popstate',function(){var ok=false;try{ok=backOne()}catch(e){}if(ok)history.pushState({obs:1},'')})}catch(e){}
 /* Home is the first button of the reader's bottom bar (owner, 11 Nov 2026 evening) */
 (function(){var h=document.createElement('button');h.type='button';h.id='rnHm';h.innerHTML=I('home')+'<span>الرئيسية</span>';h.onclick=function(){go('v2home')};var n=$('v2rnav');n.insertBefore(h,n.firstChild)})();
+
+/* Student Master Review platform (owner, 11 Nov 2026): the book's real progress, sent to the platform's Progress page when the book runs inside it */
+window.__smrStats=function(){var r={pages:{total:0,read:0,mastered:0},q:{total:QS.length,answered:0,correct:0,wrong:0},cards:{total:0,known:0},topics:{total:TOPICS.length,done:0},streak:0,ch:[]};
+  TOPICS.forEach(function(t){var a=npg(t.id),b=tRead(t.id);r.pages.total+=a;r.pages.read+=b;r.pages.mastered+=tMast(t.id);if(a&&b>=a)r.topics.done++});
+  deckIds.forEach(function(id){r.cards.total+=DECKS[id].cards.length;r.cards.known+=deckKnown(id)});
+  QS.forEach(function(q){var x=QST[q.id];if(x&&(x.n||x.a)){r.q.answered++;if(x.w)r.q.wrong++;else r.q.correct++}});
+  try{r.streak=streak()}catch(e){}
+  META.chapters.forEach(function(c){var x=chStat(c),m=0;x.ts.forEach(function(t){m+=tMast(t.id)});r.ch.push({n:c.n,name:c.name,read:x.nr,mastered:m,total:x.np})});return r};

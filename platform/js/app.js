@@ -217,14 +217,64 @@
     }).join('') + '</div>' : '<div class="empty">' + ic('bookmark') + '<span>' + esc(t('lib.saved.none')) + '</span></div>') + '</section>';
     return h + '<p class="note">' + ic('info') + '<span>' + esc(t('lib.note')) + '</span></p>';
   }
-  function vProgress() {
-    var h = '<header class="pagehead"><h1 tabindex="-1">' + esc(t('prog.t')) + '</h1><p>' + esc(t('prog.sub')) + '</p></header><div class="rows">';
-    S.books.filter(avail).forEach(function (b) {
-      var lo = lastOpen(b.id);
-      h += '<div class="prow">' + img(b, '') + '<div><b lang="en">' + esc(b.app) + '</b><span>' + esc(lo ? t('prog.last', { w: ago(lo) }) : t('prog.never')) + '</span></div>' +
-        '<a class="btn sm" ' + rlink(b) + ' data-open="' + b.id + '">' + esc(t('prog.open', { t: shortT(b) })) + ic('arrow', 'flip') + '</a></div>';
+  /* ---------- Progress: real figures sent by each book while it runs inside the platform ---------- */
+  function num(x) { x = +x; return isFinite(x) && x > 0 ? Math.round(x) : 0; }
+  function cleanStats(s) {
+    if (!s || typeof s !== 'object') return null;
+    var g = function (o, k) { return num(o && o[k]); };
+    var r = { pages: { total: g(s.pages, 'total'), read: g(s.pages, 'read'), mastered: g(s.pages, 'mastered') },
+      q: { total: g(s.q, 'total'), answered: g(s.q, 'answered'), correct: g(s.q, 'correct'), wrong: g(s.q, 'wrong') },
+      cards: { total: g(s.cards, 'total'), known: g(s.cards, 'known') }, topics: { total: g(s.topics, 'total'), done: g(s.topics, 'done') },
+      streak: num(s.streak), ch: [] };
+    (Array.isArray(s.ch) ? s.ch.slice(0, 40) : []).forEach(function (c) {
+      if (c && typeof c === 'object') r.ch.push({ n: String(c.n == null ? '' : c.n).slice(0, 6), name: String(c.name || '').slice(0, 90), read: num(c.read), mastered: num(c.mastered), total: num(c.total) });
     });
-    return h + '</div><p class="note">' + ic('info') + '<span>' + esc(t('prog.where')) + '</span></p>';
+    return r;
+  }
+  function stats(id) { var x = LS.get('st-' + id, null); return x && x.s ? x : null; }
+  function pc(a, b) { return b ? Math.min(100, Math.round(a / b * 100)) : 0; }
+  function bar(v, cls) { return '<span class="pbar' + (cls ? ' ' + cls : '') + '"><i style="width:' + v + '%"></i></span>'; }
+  function ring(v) {
+    var r = 42, c = 2 * Math.PI * r;
+    return '<span class="pring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="' + r + '" class="rt"/>' + (v ? '<circle cx="50" cy="50" r="' + r + '" class="rv" stroke-dasharray="' + (c * v / 100).toFixed(1) + ' ' + c.toFixed(1) + '"/>' : '') + '</svg><b>' + v + '%</b></span>';
+  }
+  function n(x) { return '<bdi>' + x + '</bdi>'; }
+  function bookProg(b) {
+    var x = stats(b.id), go = '<a class="btn sm" ' + rlink(b) + ' data-open="' + b.id + '">' + esc(t(x ? 'prog.cont' : 'prog.open', { t: shortT(b) })) + ic('arrow', 'flip') + '</a>';
+    var head = '<div class="pbh">' + img(b, '') + '<div><b lang="en">' + esc(b.app) + '</b><span>' + (x ? esc(t('prog.upd', { w: ago(x.t) })) : esc(secTitle(b.section))) + '</span></div>' + go + '</div>';
+    if (!x) return '<article class="pbk empty">' + head + '<p class="pnone">' + ic('info') + '<span>' + esc(t('prog.none')) + '</span></p></article>';
+    var s = x.s, rp = pc(s.pages.read, s.pages.total), mp = pc(s.pages.mastered, s.pages.total), qa = pc(s.q.answered, s.q.total),
+      acc = pc(s.q.correct, s.q.correct + s.q.wrong), cr = pc(s.q.correct, s.q.answered), wr = pc(s.q.wrong, s.q.answered), kp = pc(s.cards.known, s.cards.total);
+    var h = '<article class="pbk">' + head +
+      '<div class="pbm"><div class="pbr">' + ring(rp) + '<span class="prl">' + esc(t('prog.ring')) + '</span></div><div class="pbl">' +
+      '<div class="pmet"><div class="pmh"><span class="pi">' + ic('book') + '</span><b>' + esc(t('prog.read')) + '</b><em>' + n(rp + '%') + '</em></div>' + bar(rp) +
+        '<div class="pms"><span>' + esc(t('prog.pages', { a: s.pages.read, b: s.pages.total })) + '</span></div>' + bar(mp, 'gold') +
+        '<div class="pms"><span class="dot gold"></span><span>' + esc(t('prog.mast', { a: s.pages.mastered })) + '</span></div></div>' +
+      '<div class="pmet"><div class="pmh"><span class="pi">' + ic('notes') + '</span><b>' + esc(t('prog.qb')) + '</b><em>' + n(qa + '%') + '</em></div>' + bar(qa) +
+        '<div class="pms"><span>' + esc(t('prog.qans', { a: s.q.answered, b: s.q.total })) + '</span></div>' +
+        '<span class="pbar split" role="img" aria-label="' + esc(t('prog.right') + ' ' + s.q.correct + ' · ' + t('prog.wrong') + ' ' + s.q.wrong) + '"><i class="ok" style="width:' + cr + '%"></i><i class="no" style="width:' + wr + '%"></i></span>' +
+        '<div class="pms"><span class="dot ok"></span><span>' + esc(t('prog.right')) + ' ' + n(s.q.correct) + '</span><span class="dot no"></span><span>' + esc(t('prog.wrong')) + ' ' + n(s.q.wrong) + '</span>' +
+        (s.q.correct + s.q.wrong ? '<span class="pacc">' + esc(t('prog.acc')) + ' ' + n(acc + '%') + '</span>' : '') + '</div></div>' +
+      '<div class="pmet"><div class="pmh"><span class="pi">' + ic('library') + '</span><b>' + esc(t('prog.cards')) + '</b><em>' + n(kp + '%') + '</em></div>' + bar(kp, 'violet') +
+        '<div class="pms"><span>' + esc(t('prog.cknown', { a: s.cards.known, b: s.cards.total })) + '</span></div></div>' +
+      '</div></div><div class="pchips"><span class="pchip2 fire">' + ic('clock') + esc(t('prog.streak', { n: s.streak })) + '</span><span class="pchip2">' + ic('check') + esc(t('prog.topics', { a: s.topics.done, b: s.topics.total })) + '</span></div>';
+    if (s.ch.length) h += '<details class="pch"><summary>' + esc(t('prog.byc')) + ic('back', 'chev') + '</summary><div class="pchl">' + s.ch.map(function (c) {
+      var v = pc(c.read, c.total), m = pc(c.mastered, c.total);
+      return '<div class="pcr"><div class="pct"><span class="pcn">' + esc(c.n) + '</span><span class="pcname" lang="en">' + esc(c.name) + '</span><em>' + n(v + '%') + '</em></div><span class="pbar dual"><i style="width:' + v + '%"></i><i class="gold" style="width:' + m + '%"></i></span></div>';
+    }).join('') + '</div></details>';
+    return h + '</article>';
+  }
+  function vProgress() {
+    var books = S.books.filter(avail), tot = { r: 0, p: 0, m: 0, qa: 0, qt: 0, c: 0, w: 0, k: 0, kt: 0 }, any = false;
+    books.forEach(function (b) { var x = stats(b.id); if (!x) return; any = true; var s = x.s; tot.r += s.pages.read; tot.p += s.pages.total; tot.m += s.pages.mastered; tot.qa += s.q.answered; tot.qt += s.q.total; tot.c += s.q.correct; tot.w += s.q.wrong; tot.k += s.cards.known; tot.kt += s.cards.total; });
+    var h = '<header class="pagehead"><h1 tabindex="-1">' + esc(t('prog.t')) + '</h1><p>' + esc(t('prog.sub')) + '</p></header>';
+    if (any) {
+      var tile = function (icn, a, b, l, cls) { return '<div class="psum ' + (cls || '') + '"><span class="pi">' + ic(icn) + '</span><b>' + n(a) + (b !== '' ? '<small> / ' + n(b) + '</small>' : '') + '</b><span>' + esc(l) + '</span></div>'; };
+      h += '<div class="psums">' + tile('book', tot.r, tot.p, t('prog.sum.pages')) + tile('check', tot.m, tot.p, t('prog.sum.mast'), 'g') +
+        tile('notes', tot.qa, tot.qt, t('prog.sum.q') + (tot.c + tot.w ? ' · ' + pc(tot.c, tot.c + tot.w) + '%' : '')) + tile('library', tot.k, tot.kt, t('prog.sum.c'), 'v') + '</div>';
+    }
+    h += '<div class="pbks">' + books.map(bookProg).join('') + '</div>';
+    return h + '<p class="note">' + ic('info') + '<span>' + esc(t('prog.where')) + '</span></p>';
   }
   function seg(name, opts, cur) {
     return '<div class="seg" role="group" aria-label="' + esc(name) + '">' + opts.map(function (o) {
@@ -397,6 +447,14 @@
   function hideBooks() { if (apps && !apps.hidden) apps.hidden = true; }
   /* the small button on each book's Home asks to go back to the platform's library */
   window.addEventListener('message', function (e) {
+    if (!e.data || e.data.smr !== 'stats') return;
+    var id = null; Object.keys(FR).forEach(function (k) { if (FR[k].fr.contentWindow === e.source) id = k; });
+    var cs = id && cleanStats(e.data.s); if (!cs) return;
+    LS.set('st-' + id, { s: cs, t: Date.now() });
+    if (state.base === 'progress') { var y = window.scrollY, op = []; document.querySelectorAll('.pch[open]').forEach(function (d, i) { op.push(d.closest('.pbk') && [].indexOf.call(document.querySelectorAll('.pbk'), d.closest('.pbk'))); });
+      $('#main').innerHTML = '<div class="narrow">' + vProgress() + '</div>'; var ps = document.querySelectorAll('.pbk'); op.forEach(function (k) { var d = ps[k] && ps[k].querySelector('.pch'); if (d) d.open = true; }); window.scrollTo(0, y); }
+  });
+  window.addEventListener('message', function (e) {
     if (!e.data || e.data.smr !== 'library' || state.base !== 'read') return;
     var id = state.view.slice(5), b = BOOK[id];
     if (!b || !FR[id] || e.source !== FR[id].fr.contentWindow) return;
@@ -512,6 +570,7 @@
       m.innerHTML = SEC[base] ? vSection(base) : base === 'home' ? vHome() : '<div class="narrow">' + VIEWS[base]() + '</div>';
       if (base === 'search') { fillSearchPage(); bindSearchPage(); }
       if (base === 'preferences') bindPrefs();
+      if (base === 'progress') Object.keys(FR).forEach(function (k) { try { FR[k].fr.contentWindow.postMessage({ smr: 'getStats' }, new URL(BOOK[k].url).origin); } catch (e) {} });
       document.title = (base === 'home' ? '' : (SEC[base] ? t(SEC[base].key + '.t') : t(TITLES[base])) + ' · ') + 'Student Master Review';
       if (!force && prevBase !== undefined) {
         window.scrollTo(0, 0);
