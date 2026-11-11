@@ -47,6 +47,7 @@ SMR.T = {
     'read.slow': 'This is taking longer than usual. Check your internet connection.', 'read.retry': 'Try again',
     'read.first': 'First time here: activate once inside the book. Your notes come back through sync.',
     'got': 'OK',
+    'prev.note': 'Preview copy: books open inside the platform only on its own page:',
     'just': 'just now', 'skip': 'Skip to content', 'menu': 'Main sections', 'doctor': 'Doctor'
   },
   ar: {
@@ -95,6 +96,7 @@ SMR.T = {
     'read.slow': 'يستغرق الفتح وقتًا أطول من المعتاد. تحقّق من اتصالك بالإنترنت.', 'read.retry': 'أعد المحاولة',
     'read.first': 'أول مرة هنا: فعّل اشتراكك مرة واحدة داخل الكتاب، وستعود ملاحظاتك بالمزامنة.',
     'got': 'حسنًا',
+    'prev.note': 'هذه نسخة للمعاينة: تُفتح الكتب داخل المنصة على صفحتها الخاصة فقط:',
     'just': 'الآن', 'skip': 'انتقل إلى المحتوى', 'menu': 'الأقسام الرئيسية', 'doctor': 'دكتور'
   }
 };

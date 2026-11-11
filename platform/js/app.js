@@ -60,7 +60,11 @@
   /* Books open inside the platform, except where the platform itself is shown inside another page (for example a
      preview), which does not allow other sites inside it: there the book opens in a new tab. */
   var EMBED = (function () { try { return window.top === window.self; } catch (e) { return false; } })();
-  function rlink(b) { return EMBED ? 'href="#read-' + b.id + '"' : 'href="' + esc(b.url) + '" target="_blank" rel="noopener"'; }
+  function rlink(b) {
+    if (EMBED) return 'href="#read-' + b.id + '"';
+    /* in a preview copy, open the real platform at this book (it opens inside there) */
+    return 'href="' + esc(S.site ? S.site + '#read-' + b.id : b.url) + '" target="_blank" rel="noopener"';
+  }
 
   /* ---------- profile, recent, saved ---------- */
   function cleanName(n) { return String(n || '').trim().replace(/^(dr\.?|doctor|د\.?|دكتور)\s*/i, '').trim(); }
@@ -160,6 +164,7 @@
         '<div class="stxt"><h2>' + esc(t(s.key + '.t')) + '</h2><p class="rule">' + esc(t(s.key + '.tag')) + '</p>' +
         '<a class="btn" href="#' + s.id + '">' + esc(t(s.key + '.cta')) + ic('arrow', 'flip') + '</a></div></article>';
     });
+    if (!EMBED && S.site) h = '<p class="note" style="margin-top:12px">' + ic('info') + '<span>' + esc(t('prev.note')) + ' <b style="user-select:all;word-break:break-all">' + esc(S.site) + '</b></span></p>' + h;
     return h + '</div><p class="homefoot">' + esc(t('foot')) + '</p>';
   }
 
