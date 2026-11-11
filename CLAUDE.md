@@ -248,3 +248,6 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
 - **First paint and icon (owner, 11 Nov 2026):** the old look flashed before the new app: build.py `v2()` now sets palette and mode in the head, the
   welcome screen is in the page from the start, old `#home`/`#tabs` are never displayed; icons (`site_static/icon*.png`, apple-touch-icon) are the
   new logo on lavender and the manifest colours are lavender. An installed app keeps its old icon until it is removed and installed again.
+- **Full page with the pen (owner, 11 Nov 2026):** `#v2full` (bottom left of the reader) hides and shows the bars and the side menu at any time;
+  scrolling down with the pen or text tool on hides them too (shell scroll listener). `.app.imm` removes the side-menu space on tablets.
+- Resources on tablets/PCs: seven large tiles filling the screen (12-column grid, 4 + 3).

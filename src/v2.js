@@ -69,6 +69,10 @@ var RH=document.createElement('button');RH.type='button';RH.className='ib rhome'
 var RP=document.createElement('i');RP.className='rprog';RP.innerHTML='<i></i>';RB.appendChild(RP);
 $('reader').appendChild($('rbShow'));$('rbShow').innerHTML=I('pen');$('rbShow').title='إظهار الأدوات';
 function scNow(){return WHOLE?grp(typeof lastCur==='number'&&lastCur>=0?lastCur:currentPage()):SCOPE}
+/* full page (owner, 11 Nov 2026): with the pen on, a tap draws, so the bars and the side menu could not be hidden. A small button at the
+   bottom left of the reader hides and shows them at any time; scrolling down with the pen on hides them too. */
+var FB=document.createElement('button');FB.type='button';FB.id='v2full';FB.setAttribute('aria-label','صفحة كاملة');FB.title='صفحة كاملة';
+FB.innerHTML='<svg class="v2ic" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';FB.onclick=function(){setImm(!$('app').classList.contains('imm'))};$('reader').appendChild(FB);
 function rtopic(){var s=scNow();return s&&s.slice(0,2)==='t:'?TOPICS.filter(function(t){return 't:'+t.id===s})[0]:null}
 RBM.onclick=function(){var t=rtopic();if(!t)return;var k='t:'+t.id;if(BM[k])delete BM[k];else BM[k]=Date.now();spj('bm',BM);pill()};
 function pill(){var c=lastCur<0?currentPage():lastCur,k=0,n=0;for(var i=0;i<wraps.length;i++){if(wraps[i].style.display==='none')continue;n++;if(i<=c)k++}
