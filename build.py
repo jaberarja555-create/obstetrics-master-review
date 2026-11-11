@@ -17,7 +17,8 @@ FREE = json.load(open(os.path.join(C, 'access.json')))['free']        # topic id
 def load(n): return json.load(open(os.path.join(C, n), encoding='utf-8'))
 def dump(o): return json.dumps(o, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
 
-meta, decks, qbank, audio = load('meta.json'), load('decks.json'), load('qbank.json'), load('audio.json')
+meta, decks, qbank = load('meta.json'), load('decks.json'), load('qbank.json')
+audio = {}   # owner, 10 Nov 2026: the audio lectures are no longer used (video lectures and slides replace them); assets/audio is not shipped
 topics = [t for t in meta['topics'] if t['id'] != 'rr']
 TT = {t['id']: t['title'] for t in topics}
 files = sorted(glob.glob(os.path.join(C, 'pages', '*.html')))
@@ -53,12 +54,68 @@ def key():
     assert len(b) == 32, 'licence key must be 32 bytes (base64)'
     return b
 
+def en_css(css):
+    """English app language: the app's Arabic screens are laid out right-to-left; every v2 rule that sets that direction, right
+    alignment or a mirrored icon gets a left-to-right twin under html[data-lang="en"]."""
+    out = []
+    for sel, body in re.findall(r'([^{}@]+)\{([^{}]*)\}', css):
+        d = []
+        if 'direction:rtl' in body: d.append('direction:ltr')
+        if 'text-align:right' in body: d.append('text-align:left')
+        if 'transform:scaleX(-1)' in body: d.append('transform:none')
+        if d and '%' not in sel:
+            out.append(','.join('html[data-lang="en"] ' + s.strip() for s in sel.split(',') if s.strip()) + '{' + ';'.join(d) + '}')
+    out.append('html[data-lang="en"] #app [lang="ar"]:not(.page):not(.page *),html[data-lang="en"] .sheet [lang="ar"],html[data-lang="en"] .v2wel [dir="rtl"]{direction:ltr}')
+    out.append('html[data-lang="en"] .v2bk .v2ic{transform:scaleX(-1)}')
+    return '\n/* English language: left-to-right twins (made by build.py en_css) */\n' + '\n'.join(out) + '\n'
+
+def v2(shell):
+    """App redesign (owner, 10 Nov 2026): src/v2.css, v2.html (<!--TOP--> <!--VIEWS--> <!--NAV-->) and v2.js are laid over the old shell."""
+    rd = lambda n: open(os.path.join(R, 'src', n), encoding='utf-8').read()
+    _rd = rd
+    def rd(n):
+        s = _rd(n)
+        if n == 'v2.css': return s + en_css(s)
+        if n == 'v2.js':   # the search and language layers run inside v2's own closure
+            s = s.rstrip(); assert s.endswith('})();')
+            return s[:-5] + '\n' + _rd('v2.search.js') + '\n' + _rd('v2.lang.js') + '\n})();'
+        return s
+    top, rest = rd('v2.html').split('<!--TOP-->')[1].split('<!--VIEWS-->')
+    vw, nav = rest.split('<!--NAV-->')
+    def ins(s, anchor, new, before=True):
+        assert s.count(anchor) == 1, anchor
+        return s.replace(anchor, new + anchor if before else anchor + new)
+    # first paint is already the new app (owner, 11 Nov 2026: the old look flashed before the new one): colour and mode are set in the
+    # head from what the student chose, the welcome screen is in the page from the start, and the browser bar takes the app colour
+    assert shell.count('<meta name="theme-color" content="#172e48">') == 1
+    shell = shell.replace('<meta name="theme-color" content="#172e48">', '<meta name="theme-color" content="#F5F1FC"><script>(function(){var r=document.documentElement,p="lav",m="day";try{p=localStorage.getItem("orr-pal")||p;m=localStorage.getItem("orr-mode")||m}catch(e){}r.setAttribute("data-pal",p);r.setAttribute("data-theme",m==="night"||(m==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light")})()</script>')
+    i = shell.rindex('</style>')
+    shell = shell[:i] + rd('v2.css') + shell[i:]
+    shell = ins(shell, '<div class="app" id="app">', top, False)
+    shell = ins(shell, '<div class="ap" id="ap" hidden>', vw)
+    j = shell.index('</nav>', shell.index('<nav class="tabs" id="tabs">')) + 6
+    shell = shell[:j] + nav + shell[j:]
+    return ins(shell, 'refreshCont();\n});\n</script>', rd('v2.js') + '\n', True).replace(rd('v2.js') + '\nrefreshCont();\n});', 'refreshCont();\n' + rd('v2.js') + '\n});')
+
 def main():
-    shell = open(os.path.join(R, 'src', 'shell.html'), encoding='utf-8').read()
+    shell = v2(open(os.path.join(R, 'src', 'shell.html'), encoding='utf-8').read())
+    # a picture for every topic (video lecture cards): its first figure, else its chapter picture
+    timg = {}
+    for f, s in pages:
+        t = topic_of(f)
+        if t and t not in timg:
+            mm = re.search(r'<img[^>]+src="(img/[^"]+)"', s)
+            if mm: timg[t] = mm.group(1)
+    for t in topics:
+        if t['id'] not in timg:
+            c = 'img/chcov%d.jpg' % t['ch']
+            timg[t['id']] = c if os.path.exists(os.path.join(R, 'assets', c)) else 'img/ban%d.jpg' % t['ch']
+    TOTALS = {'cards': sum(len(d['cards']) for d in decks.values()),
+              'qs': sum(len(q.get('items', [])) if q.get('type') == 'emq' else 1 for ch in qbank for q in ch['questions'])}
     order = [t['id'] for t in topics]
     info = {'locked': {t: 1 for t in order if t not in FREE},
             'free_names': [TT[t][0].upper() + TT[t][1:] for t in order if t in FREE],
-            'order': order}
+            'order': order, 'tot': TOTALS, 'timg': timg}
     lk_pages = {f: s for f, s in pages if locked(f)}
     sale_pages = ''.join(placeholder(f, s) if f in lk_pages else s for f, s in pages)
     free_decks = {k: v for k, v in decks.items() if k in FREE}
@@ -81,7 +138,7 @@ def main():
     site = os.path.join(OUT, 'site')
     if os.path.exists(site): shutil.rmtree(site)
     shutil.copytree(os.path.join(R, 'site_static'), site)
-    for d in ('img', 'audio', 'fonts'):
+    for d in ('img', 'fonts'):
         if os.path.exists(os.path.join(R, 'assets', d)):
             shutil.copytree(os.path.join(R, 'assets', d), os.path.join(site, d))
     open(os.path.join(site, 'index.html'), 'w', encoding='utf-8').write(fill(shell, sale_pages, free_decks, free_qb, info))
@@ -92,12 +149,12 @@ def main():
     swp = os.path.join(site, 'sw.js')
     sw = open(swp).read()
     imgs = sorted('img/' + n for n in os.listdir(os.path.join(site, 'img'))) if os.path.exists(os.path.join(site, 'img')) else []
-    assets = ["./", "index.html", "content.bin", "licence.js", "sbmini.js", "licence-config.js", "manifest.json", "icon.png", "icon-192.png", "apple-touch-icon.png"] + imgs + sorted('fonts/' + n for n in os.listdir(os.path.join(site, 'fonts')) if n.startswith('inter'))
+    assets = ["./", "index.html", "content.bin", "licence.js", "sbmini.js", "licence-config.js", "manifest.json", "icon.png", "icon-192.png", "apple-touch-icon.png"] + imgs + sorted('fonts/' + n for n in os.listdir(os.path.join(site, 'fonts')) if n.endswith(('.woff', '.woff2')))
     sw = re.sub(r"var C='[^']*',ASSETS=\[.*?\]", lambda m: f"var C='orr-{ver}',ASSETS=" + json.dumps(assets), sw, count=1, flags=re.S)
     open(swp, 'w').write(sw)
 
     # ---- review copy: whole book open, no activation ----
-    rv = fill(shell, ''.join(s for f, s in pages), decks, qbank, {'locked': {}, 'free_names': [], 'order': order})
+    rv = fill(shell, ''.join(s for f, s in pages), decks, qbank, {'locked': {}, 'free_names': [], 'order': order, 'tot': TOTALS, 'timg': timg})
     rv = re.sub(r'<script src="(licence-config|sbmini|licence)\.js"></script>', '', rv)
     rv = rv.replace('<html lang="en">', '<html lang="en" class="unlocked">', 1)
     rv = rv.replace('</body>', '<script>window.__boot&&window.__boot()</script></body>', 1)

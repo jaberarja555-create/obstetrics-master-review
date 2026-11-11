@@ -142,3 +142,140 @@ Last work: features ported from the Pediatrics book (see "Ported from the Pediat
 - About this edition (owner, 7 Nov 2026, as in Surgery): page 3 `a00b1_about` after About the authors (inserted with tools/insert_page.py; every
   later page moved up one). English title, Arabic text (Noto Sans Arabic): this edition, disclaimer, copyright (full width), thanks.
   tools/poster_pages.py finds the RR/drugs cover files by name.
+
+## App redesign (owner, 10 Nov 2026) — branch `redesign`, NOT yet on `main`
+The owner is turning the book into an app (brief: lavender theme, five destinations, each feature opens only its own place).
+- Work on branch `redesign`; `.github/workflows/preview.yml` deploys every push to https://redesign.obstetrics-master-review.pages.dev
+  (preview; the live book on `main` is untouched until the owner approves the whole redesign, then merge).
+- Code: `src/v2.css`, `src/v2.html` (parts `<!--TOP--> <!--VIEWS--> <!--NAV-->`), `src/v2.js`, laid over `src/shell.html` by build.py `v2()`
+  (v2.js runs at the end of the boot closure and replaces `show`, `goIdx`, `currentPage`). Old Home and old tabs stay in the DOM, hidden.
+- Tokens `--bg --sf --tx --sub --pri --pon --sel --bd --deep`; mode `orr-mode` (day|night|auto) → `html[data-theme]`, colour `orr-pal`
+  (lav, navy, green, orange, red, mono) → `html[data-pal]`; the old variables (--paper, --card, --rose…) are mapped to them.
+- Reader scope: `grp(i)` (topic, rr, dr, chapter cover, cover, front matter); only the pages of one group are shown.
+- New keys: orr-name, orr-photo, orr-bm (bookmarks, not synced yet), orr-lastact, orr-nread, orr-nseen, orr-pseg.
+- Pictures: assets/img/v2_consult.jpg and v2_fetus.jpg are the owner's full pictures (10 Nov 2026; the tall baby picture fills the PC sidebar); v2_cover.jpg is still cut from his mock-up (low resolution); logo v2_logo.webp
+  recoloured from his burgundy logo. Replace when he sends the originals.
+- Stage 1 done: shell, header, navigation, Home, Chapters + chapter page, Practice hub, Resources hub, Settings, Profile, Notifications
+  (events of this device), Saved, look settings. Still old inside: flashcards, question bank, search, lectures (audio), subscription sheet.
+- Real totals differ from the mock-ups: 1,634 flashcards and 749 questions (OBS_INFO.tot), not 219 / 110.
+- Phone Home fits one screen (owner, 10 Nov 2026): compact sizes under 760 px, spare height goes to the reading card; a tighter tier under 640 px high.
+- Video lectures (owner, 10 Nov 2026): `v2lect` shows a "قريبًا" card for every topic with a picture (OBS_INFO.timg: the topic's first figure,
+  else `chcov<n>.jpg`); the owner will upload videos later.
+- **Subscription without codes (owner, 10 Nov 2026).** Migration 004 (applied; also on `main`): `obs_codes.expires` + `plan`, tables `obs_requests`,
+  `obs_receipts` (receipt as base64, owner only), `obs_seen` (devices that opened the app). App RPCs `obs_request_submit`, `obs_request_status`
+  (also records the device); owner RPCs `obs_admin_requests`, `obs_admin_receipt`, `obs_admin_decide` (approve → `obs_grant` makes or RENEWS the
+  device's code, so synced notes stay), `obs_admin_grant(user number, name, phone, plan)` = subscription with no receipt, `obs_admin_expires`.
+  `obs_check` answers `expired` for an ended plan and returns exp / plan / name. Old codes have expires = null and keep working.
+  App: `v2sub` (trial, free, plans from licence-config.js `plans`, state of the request) and `v2pay` (transfer details, receipt, name, phone,
+  user number = first 10 characters of the device id, comment); v2.js `poll()` asks the status on opening, when the app comes back, and every
+  45 s while a request waits; when the owner approves, `window.__lic.adopt()` stores the key and reloads. Keys: orr-exp, orr-plan, orr-sname
+  (name approved by the owner; the student's own orr-name wins), orr-ended, orr-req, orr-tel. No code entry in the new app (owner: codes are gone).
+  Admin (`site_static/admin.html`, live on `main` too, installable through admin.webmanifest): Subscription requests (Waiting / Approved /
+  Rejected, receipt view, name and plan can be corrected, sound + badge for a new request, checks every 30 s) and "Give a subscription without
+  a receipt". Tested on a local Postgres copy of the schema. Open: what happens to the students of the old codes when the new app goes live
+  (owner to decide; nothing was deleted); a second device for one subscription; changing device without the owner.
+- Phone Home never scrolls on normal phones (owner, 10 Nov 2026): the wrapper takes the screen height and the reading card gives way
+  (container queries hide its topic line, then its chapter label, then clamp the title), so no text is cut.
+- Welcome screen (owner, 10 Nov 2026): `#v2wel` on every opening: new logo with rings, «مرحب بك يا دكتور» (or the name), «ابدأ رحلتك مع
+  Obstetrics Master Review», button «ابدأ» → rising chime + glow, then Home. No forced subscription choice at the start (licence.js `afterLogin`).
+- Slides (owner, 10 Nov 2026): `v2slides` shows a small slide preview for every topic (logo, topic title, up to three points from the topic's
+  `sub` line, its picture, «قريبًا»), with chapter filters; real slides will replace them when the owner uploads them.
+- Cover follows the app colour (owner, 10 Nov 2026): his navy cover recoloured per palette (only the navy-blue pixels): Home card
+  `assets/img/v2_cover_<pal>.jpg`, book page 1 `cover5_<pal>.jpg` swapped by CSS `content:url()` on `img.covimg` (navy = the original).
+- Devices (owner, 10 Nov 2026; migration 005, applied): a new subscription opens 3 devices (phone, tablet, computer; `maxdev`, changed per
+  subscription in the admin Devices selector). A second device joins with no code: app → Subscription → «مشترك على جهاز آخر» (name + the
+  subscription's phone) sends a request with plan = 'device'; approving ties the device to the subscription whose note carries that phone
+  (`obs_bind`; answers `nosub` or `full`). Notes and progress are shared through the code's sync.
+- Old codes (owner, 10 Nov 2026): they work for ONE MONTH after the new app goes live. `tools/supabase/launch/old_codes_one_month.sql` is
+  NOT applied yet: on launch day copy it into migrations/ with the next number and push.
+- Audio lectures are gone (owner, 10 Nov 2026): build.py ships no audio (`audio = {}`, assets/audio stays in the repo but is not deployed);
+  Settings → Downloads (`v2dl`) is for video lectures and lecture slides (empty until they exist).
+- Each place is separate (owner, 10 Nov 2026): the reader's page pill counts inside the open place («1 / 8»), typing a page is off, and the
+  whole-book contents button is hidden in the reader; the student moves between places from Chapters and Resources.
+- Requests can be changed (owner, 10 Nov 2026; migration 006, applied): while a request waits the student can edit it (`obs_request_update`:
+  plan, name, phone, comment, optional new receipt; `v2pay` in edit mode) or cancel it (`obs_request_cancel`, status `cancelled`, receipt
+  removed). Admin shows «Edited» and a «Cancelled by student» tab. poll() re-renders only when the state changed (it used to loop).
+- Admin app rebuilt (owner, 10 Nov 2026: organised, same level as the app): `site_static/admin.html` in the app's lavender look, sidebar on PC
+  and bottom bar on phones: Requests (four counters, Waiting / Approved / Rejected / Cancelled), Subscribers (search, All / Active / Ending in
+  7 days / Ended / Switched off; per subscriber: WhatsApp, Devices 1–10, Extend +1 month / +1 year / never / end now via `obs_admin_expires`,
+  edit name and phone, student notes, remove devices, switch off), Give (subscription with no receipt), Old codes (codes with no plan; new
+  old-style codes can still be made until launch). Live on `main` too (it needs assets/img/v2_logo.webp and the Cairo fonts there).
+- Devices join by themselves (owner, 10 Nov 2026; migration 007, applied): up to the subscription's limit (3) a device needs no approval.
+  A subscribed device → Subscription → «أضف جهازًا آخر» gets a link number (8 digits, 10 minutes, one use: `obs_pair_new`); the new device
+  writes it under «مشترك على جهاز آخر» (`obs_pair_use`) and opens at once. Beyond the limit `obs_pair_use` files a `device` request for the
+  owner; approving it raises that subscription's `maxdev` by one. Without the old device: name + phone request, owner approves (as before).
+- User manual (owner, 10 Nov 2026): Settings → «دليل الاستخدام» (`v2help`, array HELP in v2.js): seven parts in clear Arabic steps, each with a
+  screenshot of the app `assets/img/help_<part>.jpg`. Re-make the pictures after screens change: build, serve build/site on :8765,
+  `node tools/help_shots.js`, build again. Add every new feature here (this replaces the old how-to pages for the app).
+- Baby picture follows the app colour: `v2_fetus_<pal>.jpg` (only the purple pixels recoloured; the consultation photo stays as it is).
+- Practice on tablets and PCs (owner, 10 Nov 2026): questions and flashcards side by side over the full width, then «تدرّب حسب الفصل» (a tile per chapter with its questions and cards buttons); phones keep the two-tab switch.
+- Chapter previews (owner, 10 Nov 2026): Chapters list, chapter page, lecture and slide cards use the still-life pictures `chcov<n>.jpg` (v2.js `chImg`); the old banner strips `ban<n>.jpg` looked bad as thumbnails.
+- Names in Arabic or English (owner, 10 Nov 2026): greetings are right-to-left with the name isolated (`greet()`, `<bdi>`), so «مرحب بك يا Arja» reads in order; the header name is `dir=auto` and shortens before it can cover the search button.
+- **Reader, new design (owner, 10 Nov 2026; the book page itself is unchanged).** Slim app bar: back to the chapter, a clear Home button
+  (`.rhome`), «Page k of n · Chapter N» over the topic title (`.rt`), the read mark as a chip (`#prBtn`, moved out of the tools), topic
+  bookmark (`.rbm`), page look; a thin progress line under the bar (`.rprog`). The tools (`.rbar`: highlight, underline, pen, text, notes,
+  blank page, size, undo/redo) are a floating rounded dock at the bottom centre; it hides while reading down and a tap brings it back
+  (`.app.imm`); the chevron hides it and a round pen button (`#rbShow`, moved into the reader) shows it. The app's bottom navigation is hidden
+  in the reader on phones. v2.js replaces `railSpace` (pages keep the full height) and `flyAt` (panels open above a bottom button, below a top
+  one); panels, the pen bar and the selection bar take the app colours. The floating page pill is hidden.
+- **Reader, second pass (owner, 10 Nov 2026; replaces the floating dock above).** Tools are a strip of symbols along the TOP under the
+  reader bar (as in Surgery; `#reader .rbar`, the chevron hides it and the pen button `#rbShow` in the bar shows it). The BOTTOM is a
+  reading bar `#v2rnav` (topic scopes only): السلايدات and الفيديو open the slides / video page at this topic's chapter with its card marked
+  (`media()`, `FROMRD`: Back returns to the reader), المواضيع opens a sheet of the chapter's topics (`#v2tsheet`, `tpick`, «كل الفصول»), and the
+  page progress button (`#prBtn`, moved here). Both bars hide while reading down (`.app.imm`). The side navigation on tablets and PCs can be
+  hidden and shown (`.sbt` buttons in the header and reader bar, class `.app.nosb`, saved in `orr-sb`).
+- **Standard Arabic (owner, 10 Nov 2026: "proper Arabic, not Sudanese").** All app text is Modern Standard Arabic: `tools/msa.py` rewrote the
+  colloquial strings of src/shell.html and site_static/licence.js (`--check` lists leftovers); v2 says «بطاقات» not «كروت», «قرأتها» not
+  «قريتها». New app text must be standard Arabic. (The OSCE history questions inside the book pages stay as the owner wrote them.)
+- **About the book (owner, 11 Nov 2026):** Settings → «عن الكتاب» (`v2about`): hero and eight tiles as in his mock-up; six open his posters
+  (`v2poster`, `assets/img/ab_<authors|reviewers|edition|howto|refs|goals|rights>.jpg`; thumbnails `abt_*.jpg`; «حقوق النشر وشروط الاستخدام»
+  is a row under the tiles), «أدوات الدراسة» opens the user manual, «محتويات الكتاب» opens Chapters.
+- **Whole book (owner, 11 Nov 2026):** Home «افتح الكتاب كاملًا» opens the book as one continuous book from the cover (`WHOLE`; every page
+  shown, title and reading bar follow the topic in view); leaving the reader ends it and places are separate again.
+- Tools hidden → a small round pen button at the bottom right brings them back (`#rbShow`, not in the top bar). Tablet/PC Home fills the height.
+- **Levels and clean wording of flashcards and questions (owner, 11 Nov 2026).** Every card and question gets a level (1 easy = direct recall,
+  2 medium = understanding or applying a fact, 3 hard = clinical reasoning, exceptions, several steps) and is rewritten in complete sentences
+  with standard medical terms, WITHOUT changing any fact, number or dose; exact duplicate cards are removed. Card = [section, question, answer,
+  level, old key]; question field `d` (EMQ items too). Chapter files `tools/levels/ch<N>.py`, applied with `python3 tools/levels/apply.py <file>`.
+  App: Level filter in flashcards (`orr-fclv`) and step 3 «Level» in the test builder (`qset.lv`); a level tag on each card and question.
+  **Done: chapters 1 and 6 (ch 1: 86 cards, 44 questions; ch 6: 124 cards, 74 questions). Next: chapters 2, 3, 4, 5, 7.** The question bank and flashcard screens still
+  have the old gold look; restyle them to the app tokens.
+- **Help (owner, 11 Nov 2026):** Settings → «المساعدة» (`v2contact`): two cards (`HPS` in v2.js): د. عبدالجليل ارجا 0116984258 and د. العباس عبدالرحمن 0965859782 (+249 96 585 9782), each with three buttons:
+  WhatsApp (wa.me), Telegram (t.me/+number), Call (tel:). **Notification sound:** a new notification plays a soft two-note sound and swings the
+  bell (`nding`, after the first touch). **Preview trial:** preview.yml sets the Pages secret OBS_KEY for the preview environment too
+  (`--env preview`); without it /trial answered 503 on the preview address.
+- **User-guide posters (owner, 11 Nov 2026):** `assets/img/ug_1..5.jpg` open the user manual (`v2help`, chips `ugjump`), followed by the detailed steps with screenshots (HELP).
+- **First paint and icon (owner, 11 Nov 2026):** the old look flashed before the new app: build.py `v2()` now sets palette and mode in the head, the
+  welcome screen is in the page from the start, old `#home`/`#tabs` are never displayed; icons (`site_static/icon*.png`, apple-touch-icon) are the
+  new logo on lavender and the manifest colours are lavender. An installed app keeps its old icon until it is removed and installed again.
+- **Full page with the pen (owner, 11 Nov 2026):** `#v2full` (bottom left of the reader) hides and shows the bars and the side menu at any time;
+  scrolling down with the pen or text tool on hides them too (shell scroll listener). `.app.imm` removes the side-menu space on tablets.
+- Resources on tablets/PCs: seven large tiles filling the screen (12-column grid, 4 + 3).
+- **Tools ring (owner, 11 Nov 2026; replaces the top strip):** the round pen button at the bottom right of the reader (`#rbShow`, always there)
+  opens the tools in two rings around it with a soft glow (`#reader .rbar.fan`, positions `--x/--y` set in v2.js; undo/redo pill on the outer ring);
+  choosing a tool closes the ring and opens its panel; a touch elsewhere closes it. The shell's rail stays "off" so the pages keep the full height.
+- **App language (owner, 11 Nov 2026):** Settings → «اللغة» Arabic / English (`orr-lang`, `html[data-lang]`). `src/v2.lang.js` (appended to v2.js by
+  build.py) rewrites the app's text nodes and placeholder/title/aria-label after every render from two dictionaries keyed by the text with numbers
+  as `#`: `T_EN` (Arabic → English) and `T_AR` (English study-screen labels → Arabic). Book pages, topic and chapter names, questions, flashcards
+  and the book's name are not touched. English mode gets left-to-right twins of every right-to-left v2 rule (build.py `en_css`). **Add every new
+  app string to the dictionaries**; `/tmp`-style check: open each screen with orr-lang=en and list text nodes that still hold Arabic. States not
+  yet covered: subscription/payment messages, request states, locked-page texts, old sheets (notes list), posters (pictures stay Arabic).
+- Greeting carries «د.»: «مرحب بك يا د. <name>» (a title the student typed is not doubled); header name chip is larger on tablets/PCs.
+- **Search (owner, 11 Nov 2026):** `src/v2.search.js` replaces `runSearch`: under the box the student picks where to search (الكل · المواضيع ·
+  صفحات الكتاب · البطاقات · الأسئلة · التطبيق, `orr-ssc`) and a chapter. Words are matched in any order after normalising case, hyphens and Arabic
+  letter forms (`sn`); topic-name matches come first; `SPLACES` lists the app's own places with Arabic and English keywords (add new screens there).
+  A flashcard result opens its answer in place; a question result opens that question in tutor mode. build.py puts v2.search.js and v2.lang.js
+  inside v2.js's closure.
+- **Progress (owner, 11 Nov 2026):** Home shows two tiles (`.hsm2`: streak days, overall % with a ring); both open the progress sheet, now drawn by
+  v2 (`ACT.prog`: ring, six tiles — pages read, topics completed, cards known, questions answered, % correct, days in a row — and a bar per
+  chapter). The old progress card is no longer moved into the sheet (it showed as a black disc).
+- Question bank and flashcard screens take the app's colours (v2.css block "question bank and flashcards in the app's colours"); the gold look is gone.
+- Home order (owner, 11 Nov 2026): greeting · book card · continue reading · question bank and today's cards · streak and overall progress · the
+  three shortcuts · subscription card last (CSS `order` at the end of v2.css; the markup order is older).
+
+## New app is LIVE (owner, 11 Nov 2026: "we can deploy to students as we work on other things")
+`redesign` was merged into `main` on 11 Nov 2026 and deploys to https://obstetrics-master-review.pages.dev. Migration 008 started the
+one-month clock for the old codes (plan = 'old'; they end about 11 Dec 2026). An old code can still be typed in the new app: Subscription →
+«عندي كود تفعيل قديم» (`window.__lic.activate`). **From now on:** try new work on branch `redesign` (preview address above), and merge it
+into `main` when the owner has seen it; small fixes the owner asks for directly may go to both. Still open: clean wording and levels for
+chapters 2, 3, 4, 5, 7; English texts of the subscription and payment screens; bookmarks sync.

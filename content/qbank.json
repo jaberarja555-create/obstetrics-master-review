@@ -6,8 +6,8 @@
     "id": "pc-1",
     "topic": "pc",
     "type": "sba",
-    "stem": "Primigravida, 30 weeks, routine visit. Hb 10.9 g/dL, MCV 89 fL, ferritin 40 µg/L. She feels well.",
-    "q": "What best explains this Hb?",
+    "stem": "A primigravida attends a routine antenatal visit at 30 weeks. Her haemoglobin is 10.9 g/dL, MCV 89 fL and ferritin 40 µg/L. She feels well.",
+    "q": "What is the most likely explanation for this haemoglobin level?",
     "options": [
      "Haemodilution from a larger rise in plasma than red cells",
      "Iron deficiency anaemia",
@@ -16,13 +16,14 @@
      "Thalassaemia trait"
     ],
     "answer": 0,
-    "why": "Plasma rises ~45% and red cells ~25%, so Hb falls with a normal MCV and ferritin. Iron deficiency would lower MCV and ferritin."
+    "why": "Plasma volume rises by about 45% and red cell mass by about 25%, so haemoglobin falls while the MCV and ferritin remain normal. Iron deficiency would lower the MCV and ferritin.",
+    "d": 2
    },
    {
     "id": "pc-2",
     "topic": "pc",
     "type": "sba",
-    "stem": "G2 P1, 34 weeks, attends with dizziness and sweating while lying flat for an ultrasound. BP 85/50, pulse 110. It settles within minutes.",
+    "stem": "A woman (G2 P1) at 34 weeks develops dizziness and sweating while lying flat for an ultrasound scan. Her blood pressure is 85/50 mmHg and her pulse is 110/min. The symptoms settle within minutes.",
     "q": "What is the most appropriate immediate action?",
     "options": [
      "Start CTG monitoring and observe",
@@ -32,7 +33,8 @@
      "Turn her onto her left side"
     ],
     "answer": 4,
-    "why": "Aortocaval compression after 20 weeks causes supine hypotension; a left lateral tilt relieves it at once."
+    "why": "After 20 weeks the uterus compresses the aorta and inferior vena cava in the supine position, causing supine hypotension. Left lateral tilt relieves it immediately.",
+    "d": 2
    },
    {
     "id": "pc-3",
@@ -48,14 +50,15 @@
      "Mitral stenosis"
     ],
     "answer": 2,
-    "why": "Ejection systolic flow murmurs and a left axis shift are normal in pregnancy. A diastolic murmur would point to mitral stenosis."
+    "why": "An ejection systolic flow murmur and left axis deviation are normal findings in pregnancy. A diastolic murmur would suggest mitral stenosis.",
+    "d": 2
    },
    {
     "id": "pc-4",
     "topic": "pc",
     "type": "sba",
-    "stem": "Blood gas taken at 35 weeks for breathlessness: pH 7.44, pCO₂ 30 mmHg, HCO₃⁻ 19 mmol/L, pO₂ 100 mmHg. SpO₂ 99%, chest clear.",
-    "q": "How do you interpret this gas?",
+    "stem": "An arterial blood gas taken at 35 weeks for breathlessness shows pH 7.44, pCO₂ 30 mmHg, HCO₃⁻ 19 mmol/L and pO₂ 100 mmHg. Oxygen saturation is 99% and the chest is clear.",
+    "q": "What is the correct interpretation of this blood gas?",
     "options": [
      "Hypoxic respiratory failure",
      "Uncompensated respiratory alkalosis",
@@ -64,13 +67,14 @@
      "Metabolic acidosis"
     ],
     "answer": 2,
-    "why": "Progesterone drives deeper breathing, so CO₂ in the blood is low (pCO₂ 30 mmHg); with renal bicarbonate loss this is the normal compensated respiratory alkalosis of pregnancy."
+    "why": "Progesterone increases ventilation, so the arterial pCO₂ is low (30 mmHg). With renal loss of bicarbonate, this is the normal compensated respiratory alkalosis of pregnancy.",
+    "d": 3
    },
    {
     "id": "pc-5",
     "topic": "pc",
     "type": "sba",
-    "stem": "A woman at 28 weeks has creatinine 92 µmol/L on a routine panel. BP 128/80, urine protein trace.",
+    "stem": "A woman at 28 weeks has a serum creatinine of 92 µmol/L on routine testing. Her blood pressure is 128/80 mmHg and urinalysis shows a trace of protein.",
     "q": "Which statement is correct?",
     "options": [
      "It reflects muscle growth in pregnancy",
@@ -80,13 +84,14 @@
      "It indicates dehydration only"
     ],
     "answer": 3,
-    "why": "GFR rises 50% so creatinine falls below ~75 µmol/L. A non-pregnant 'normal' value is abnormal in pregnancy."
+    "why": "GFR rises by 50%, so serum creatinine falls below about 75 µmol/L. A value that is normal outside pregnancy is abnormal in pregnancy.",
+    "d": 3
    },
    {
     "id": "pc-6",
     "topic": "pc",
     "type": "sba",
-    "stem": "Routine dipstick at 26 weeks shows glucose 1+. She has no diabetes risk factors and is well.",
+    "stem": "A routine urine dipstick at 26 weeks shows glucose 1+. The woman is well and has no risk factors for diabetes.",
     "q": "What is the best next step?",
     "options": [
      "Start metformin",
@@ -96,13 +101,14 @@
      "Admit for insulin"
     ],
     "answer": 1,
-    "why": "Glycosuria is common in pregnancy from the raised GFR and is not diagnostic; diabetes is confirmed by blood glucose."
+    "why": "Glycosuria is common in pregnancy because of the raised GFR and is not diagnostic; diabetes is confirmed by blood glucose testing.",
+    "d": 2
    },
    {
     "id": "pc-7",
     "topic": "pc",
     "type": "sba",
-    "stem": "At 36 weeks a woman's liver tests show ALP 380 IU/L, ALT 22 IU/L, bilirubin normal. No itching.",
+    "stem": "At 36 weeks a woman's liver function tests show ALP 380 IU/L, ALT 22 IU/L and a normal bilirubin. She has no itching.",
     "q": "What is the most likely source of the ALP?",
     "options": [
      "Hepatitis",
@@ -112,14 +118,15 @@
      "Placenta"
     ],
     "answer": 4,
-    "why": "Placental ALP rises 2–4 times in normal pregnancy; ALT and bilirubin stay normal."
+    "why": "Placental ALP rises 2–4 times in normal pregnancy, while ALT and bilirubin remain normal.",
+    "d": 2
    },
    {
     "id": "pc-8",
     "topic": "pc",
     "type": "sba",
-    "stem": "A woman has total T4 above the normal range at 16 weeks with normal free T4 and TSH. She has no symptoms.",
-    "q": "What explains the result?",
+    "stem": "At 16 weeks a woman has a total T4 above the normal range, with a normal free T4 and TSH. She has no symptoms.",
+    "q": "What explains this result?",
     "options": [
      "Gestational trophoblastic disease",
      "Graves' disease",
@@ -128,7 +135,8 @@
      "Iodine excess"
     ],
     "answer": 3,
-    "why": "Oestrogen doubles TBG, raising total T4 while free T4 stays normal."
+    "why": "Oestrogen doubles thyroxine-binding globulin (TBG), which raises total T4 while free T4 remains normal.",
+    "d": 3
    },
    {
     "id": "pc-9",
@@ -144,7 +152,8 @@
      "Oxytocin"
     ],
     "answer": 3,
-    "why": "Until 8–10 weeks the corpus luteum supplies progesterone; removing it needs progesterone support to prevent miscarriage."
+    "why": "Until 8–10 weeks the corpus luteum is the source of progesterone. If it is removed, progesterone support is needed to prevent miscarriage.",
+    "d": 3
    },
    {
     "id": "pc-10",
@@ -160,13 +169,14 @@
      "12.5–18 kg"
     ],
     "answer": 0,
-    "why": "For BMI ≥ 30 the advised gain is 5–9 kg."
+    "why": "For a BMI of 30 or more, the advised total weight gain is 5–9 kg.",
+    "d": 1
    },
    {
     "id": "pc-11",
     "topic": "pc",
     "type": "sba",
-    "stem": "Day 1 after massive PPH, fibrinogen is 2.1 g/L, platelets 140.",
+    "stem": "On the first day after a massive postpartum haemorrhage, the fibrinogen is 2.1 g/L and the platelet count is 140 × 10⁹/L.",
     "q": "How should the fibrinogen be interpreted?",
     "options": [
      "Diluted by fluids, ignore",
@@ -176,14 +186,15 @@
      "Raised due to infection"
     ],
     "answer": 2,
-    "why": "Fibrinogen at term is 4–6 g/L, so 2 g/L in haemorrhage means consumption and should be replaced."
+    "why": "Fibrinogen at term is 4–6 g/L, so a level of 2 g/L during haemorrhage indicates consumption, and it should be replaced.",
+    "d": 3
    },
    {
     "id": "pc-12",
     "topic": "pc",
     "type": "sba",
-    "stem": "At 24–28 weeks, many women develop abnormal glucose tolerance for the first time.",
-    "q": "Which hormone mainly drives this?",
+    "stem": "Many women develop abnormal glucose tolerance for the first time at 24–28 weeks.",
+    "q": "Which hormone is mainly responsible?",
     "options": [
      "Relaxin",
      "Human placental lactogen",
@@ -192,13 +203,14 @@
      "Prolactin"
     ],
     "answer": 1,
-    "why": "hPL rises with placental mass and causes insulin resistance in the second half."
+    "why": "Human placental lactogen (hPL) rises with placental mass and causes insulin resistance in the second half of pregnancy.",
+    "d": 1
    },
    {
     "id": "dx-1",
     "topic": "dx",
     "type": "sba",
-    "stem": "A 24-year-old has 7 weeks' amenorrhoea. On bimanual examination the isthmus feels so soft that the fingers almost meet.",
+    "stem": "A 24-year-old woman has 7 weeks of amenorrhoea. On bimanual examination the isthmus is so soft that the examining fingers almost meet.",
     "q": "What is this sign called?",
     "options": [
      "Goodell sign",
@@ -208,13 +220,14 @@
      "Chadwick sign"
     ],
     "answer": 2,
-    "why": "Hegar sign = soft compressible isthmus at 6–10 weeks."
+    "why": "Hegar's sign is a soft, compressible isthmus at 6–10 weeks.",
+    "d": 1
    },
    {
     "id": "dx-2",
     "topic": "dx",
     "type": "sba",
-    "stem": "A 25-year-old has 10 weeks of amenorrhoea, nausea and a positive urine test.",
+    "stem": "A 25-year-old woman has 10 weeks of amenorrhoea, nausea and a positive urine pregnancy test.",
     "q": "Which finding would make the diagnosis of pregnancy certain?",
     "options": [
      "Enlarged uterus",
@@ -224,14 +237,15 @@
      "Fetal heart seen on ultrasound"
     ],
     "answer": 4,
-    "why": "Only fetal heart, fetus on scan or fetal parts/movements felt by the examiner are certain."
+    "why": "Only fetal heart activity, a fetus seen on ultrasound, or fetal parts or movements felt by the examiner are certain signs.",
+    "d": 1
    },
    {
     "id": "dx-3",
     "topic": "dx",
     "type": "sba",
-    "stem": "Bleeding at 6 weeks by dates. Serum hCG 1200 IU/L, repeated 48 h later: 1560 IU/L. TVS: empty uterus, no adnexal mass.",
-    "q": "What is the most likely situation?",
+    "stem": "A woman presents with vaginal bleeding at 6 weeks by dates. Serum hCG is 1200 IU/L, and 1560 IU/L when repeated 48 hours later. Transvaginal ultrasound shows an empty uterus and no adnexal mass.",
+    "q": "What is the most likely diagnosis?",
     "options": [
      "Non-viable or ectopic pregnancy",
      "Molar pregnancy",
@@ -240,13 +254,14 @@
      "Viable intrauterine pregnancy too early to see"
     ],
     "answer": 0,
-    "why": "A viable pregnancy rises ≥ 63% in 48 h; a 30% rise suggests a failing or ectopic pregnancy."
+    "why": "In a viable pregnancy hCG rises by at least 63% in 48 hours; a rise of 30% suggests a failing or ectopic pregnancy.",
+    "d": 3
    },
    {
     "id": "dx-4",
     "topic": "dx",
     "type": "sba",
-    "stem": "hCG 3400 IU/L. Transvaginal scan shows an empty uterus and a little free fluid.",
+    "stem": "Serum hCG is 3400 IU/L. Transvaginal ultrasound shows an empty uterus and a small amount of free fluid.",
     "q": "What is the working diagnosis?",
     "options": [
      "Complete miscarriage",
@@ -256,7 +271,8 @@
      "Ectopic pregnancy until proven otherwise"
     ],
     "answer": 4,
-    "why": "Above the discriminatory zone (2000 IU/L on TVS) an intrauterine sac should be seen."
+    "why": "Above the discriminatory zone (2000 IU/L on transvaginal ultrasound) an intrauterine sac should be visible.",
+    "d": 2
    },
    {
     "id": "dx-5",
@@ -272,14 +288,15 @@
      "Fibroid"
     ],
     "answer": 2,
-    "why": "Very high hCG with a large-for-dates uterus and vomiting suggests a molar pregnancy."
+    "why": "A very high hCG with a uterus that is large for dates and vomiting suggests a molar pregnancy.",
+    "d": 2
    },
    {
     "id": "dx-6",
     "topic": "dx",
     "type": "sba",
-    "stem": "LMP 10 January 2026, regular 28-day cycles.",
-    "q": "What is her EDD?",
+    "stem": "The LMP was 10 January 2026 and the cycles are regular at 28 days.",
+    "q": "What is the expected date of delivery (EDD)?",
     "options": [
      "3 October 2026",
      "24 October 2026",
@@ -288,13 +305,14 @@
      "7 November 2026"
     ],
     "answer": 2,
-    "why": "Naegele: 10 Jan + 7 d − 3 mo + 1 y = 17 October 2026 (LMP + 280 days)."
+    "why": "Naegele's rule: 10 January + 7 days − 3 months + 1 year = 17 October 2026 (LMP + 280 days).",
+    "d": 1
    },
    {
     "id": "dx-7",
     "topic": "dx",
     "type": "sba",
-    "stem": "LMP 1 March 2026 with regular 35-day cycles.",
+    "stem": "The LMP was 1 March 2026 and the cycles are regular at 35 days.",
     "q": "What is the corrected EDD?",
     "options": [
      "22 December 2026",
@@ -304,13 +322,14 @@
      "15 December 2026"
     ],
     "answer": 4,
-    "why": "Naegele gives 8 December; a 35-day cycle adds 7 days → 15 December."
+    "why": "Naegele's rule gives 8 December; a 35-day cycle adds 7 days, giving 15 December.",
+    "d": 2
    },
    {
     "id": "dx-8",
     "topic": "dx",
     "type": "sba",
-    "stem": "Sure LMP gives 12⁺⁴ weeks; CRL on scan corresponds to 11⁺² weeks.",
+    "stem": "A certain LMP gives a gestation of 12⁺⁴ weeks, but the crown–rump length on ultrasound corresponds to 11⁺² weeks.",
     "q": "How should the pregnancy be dated?",
     "options": [
      "By the scan",
@@ -320,7 +339,8 @@
      "By LMP"
     ],
     "answer": 0,
-    "why": "A difference of more than 5 days (here 9) means the CRL date is used."
+    "why": "A difference of more than 5 days (here 9 days) means that the CRL date is used.",
+    "d": 2
    },
    {
     "id": "dx-9",
@@ -336,14 +356,15 @@
      "Keep the best clinical dates and assess for growth restriction"
     ],
     "answer": 4,
-    "why": "Late scans cannot date a pregnancy (± 3 weeks); a small baby late is assumed growth restriction, not wrong dates."
+    "why": "A late scan cannot date a pregnancy (error ± 3 weeks). A small fetus in late pregnancy is assumed to have growth restriction, not incorrect dates.",
+    "d": 3
    },
    {
     "id": "dx-10",
     "topic": "dx",
     "type": "sba",
-    "stem": "On transvaginal scan at 5½ weeks a gestational sac is seen in the uterus.",
-    "q": "Which finding first confirms it is a true intrauterine pregnancy?",
+    "stem": "A transvaginal scan at 5½ weeks shows a gestational sac in the uterus.",
+    "q": "Which finding first confirms a true intrauterine pregnancy?",
     "options": [
      "Yolk sac within the sac",
      "Free fluid in the pouch",
@@ -352,13 +373,14 @@
      "Corpus luteum cyst"
     ],
     "answer": 0,
-    "why": "A yolk sac distinguishes a true gestational sac from a pseudosac."
+    "why": "A yolk sac distinguishes a true gestational sac from a pseudosac.",
+    "d": 2
    },
    {
     "id": "dx-11",
     "topic": "dx",
     "type": "sba",
-    "stem": "A 32-year-old, married 9 years without children, says she is 7 months pregnant. Her abdomen is large and she reports movements. hCG negative; ultrasound shows an empty uterus.",
+    "stem": "A 32-year-old woman, married for 9 years without children, says she is 7 months pregnant. Her abdomen is enlarged and she reports fetal movements. The hCG test is negative and ultrasound shows an empty uterus.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Ectopic pregnancy",
@@ -368,7 +390,8 @@
      "Hydatidiform mole"
     ],
     "answer": 3,
-    "why": "Pseudocyesis: convinced of pregnancy with symptoms but negative hCG and an empty uterus."
+    "why": "Pseudocyesis is a firm belief of being pregnant, with symptoms of pregnancy but a negative hCG and an empty uterus.",
+    "d": 1
    },
    {
     "id": "dx-12",
@@ -384,7 +407,8 @@
      "Full term"
     ],
     "answer": 1,
-    "why": "Late term is 41⁺⁰–41⁺⁶; post-term starts at 42 weeks."
+    "why": "Late term is 41⁺⁰ to 41⁺⁶ weeks; post-term begins at 42 weeks.",
+    "d": 2
    },
    {
     "id": "anc-1",
@@ -400,7 +424,8 @@
      "0.4 mg daily from before conception to 12 weeks"
     ],
     "answer": 4,
-    "why": "All women: 0.4 mg from pre-conception to 12 weeks to prevent NTDs."
+    "why": "All women take 0.4 mg daily from before conception until 12 weeks to prevent neural tube defects.",
+    "d": 1
    },
    {
     "id": "anc-2",
@@ -416,13 +441,14 @@
      "0.4 mg"
     ],
     "answer": 2,
-    "why": "High-risk women (epilepsy drugs, diabetes, previous NTD, obesity, sickle cell) take 5 mg."
+    "why": "High-risk women (antiepileptic drugs, diabetes, previous neural tube defect, obesity, sickle cell disease) take 5 mg daily.",
+    "d": 1
    },
    {
     "id": "anc-3",
     "topic": "anc",
     "type": "sba",
-    "stem": "Booking urine culture grows E. coli > 10⁵/mL. She has no symptoms.",
+    "stem": "A booking urine culture grows E. coli > 10⁵/mL. The woman has no symptoms.",
     "q": "What is the correct management?",
     "options": [
      "Increase fluid intake only",
@@ -432,7 +458,8 @@
      "Admit for IV antibiotics"
     ],
     "answer": 1,
-    "why": "Asymptomatic bacteriuria in pregnancy is treated because 20–30% progress to pyelonephritis."
+    "why": "Asymptomatic bacteriuria is treated in pregnancy because 20–30% of cases progress to pyelonephritis.",
+    "d": 2
    },
    {
     "id": "anc-4",
@@ -448,7 +475,8 @@
      "Td at 36 weeks only"
     ],
     "answer": 3,
-    "why": "Two Td doses 4 weeks apart, the second at least 2 weeks before birth."
+    "why": "Two doses of Td are given 4 weeks apart, the second at least 2 weeks before delivery.",
+    "d": 2
    },
    {
     "id": "anc-5",
@@ -464,7 +492,8 @@
      "Artemether–lumefantrine monthly"
     ],
     "answer": 0,
-    "why": "SP is not given with cotrimoxazole (both antifolates); she still uses a net and early testing."
+    "why": "SP is not given with cotrimoxazole because both are antifolate drugs. She should still use an insecticide-treated net and have any fever tested promptly.",
+    "d": 3
    },
    {
     "id": "anc-6",
@@ -480,13 +509,14 @@
      "Now, observed in the clinic"
     ],
     "answer": 4,
-    "why": "First SP dose at the first visit after quickening; second ≥ 4 weeks later."
+    "why": "The first dose of SP is given at the first visit after quickening, and the second at least 4 weeks later.",
+    "d": 2
    },
    {
     "id": "anc-7",
     "topic": "anc",
     "type": "sba",
-    "stem": "A woman's previous pregnancy had pre-eclampsia delivered at 32 weeks. She is now 10 weeks pregnant.",
+    "stem": "A woman's previous pregnancy was complicated by pre-eclampsia that required delivery at 32 weeks. She is now 10 weeks pregnant.",
     "q": "Which drug should start at 12 weeks?",
     "options": [
      "Magnesium sulphate",
@@ -496,14 +526,15 @@
      "Labetalol"
     ],
     "answer": 2,
-    "why": "Previous pre-eclampsia is a high-risk factor: aspirin 75 mg from 12 to 36 weeks."
+    "why": "Previous pre-eclampsia is a high-risk factor: aspirin 75 mg is given from 12 to 36 weeks.",
+    "d": 2
    },
    {
     "id": "anc-8",
     "topic": "anc",
     "type": "sba",
-    "stem": "RhD-negative woman, no antibodies, has vaginal bleeding after a fall at 26 weeks.",
-    "q": "What is needed regarding anti-D?",
+    "stem": "An RhD-negative woman with no antibodies has vaginal bleeding after a fall at 26 weeks.",
+    "q": "What is required regarding anti-D?",
     "options": [
      "Rhesus antibodies test only",
      "Anti-D within 72 hours (with Kleihauer)",
@@ -512,7 +543,8 @@
      "Anti-D at 36 weeks only"
     ],
     "answer": 1,
-    "why": "Abdominal trauma is a sensitising event: give anti-D within 72 h."
+    "why": "Abdominal trauma is a sensitising event, so anti-D is given within 72 hours.",
+    "d": 2
    },
    {
     "id": "anc-9",
@@ -528,14 +560,15 @@
      "Use diclofenac injections"
     ],
     "answer": 0,
-    "why": "NSAIDs after 30 weeks risk ductus closure and oligohydramnios."
+    "why": "NSAIDs after 30 weeks carry a risk of premature closure of the ductus arteriosus and oligohydramnios.",
+    "d": 2
    },
    {
     "id": "anc-10",
     "topic": "anc",
     "type": "sba",
-    "stem": "WHO advises a minimum number of antenatal contacts in a normal pregnancy.",
-    "q": "How many?",
+    "stem": "WHO recommends a minimum number of antenatal contacts in a normal pregnancy.",
+    "q": "How many contacts are recommended?",
     "options": [
      "Four",
      "Eight",
@@ -544,7 +577,8 @@
      "Two"
     ],
     "answer": 1,
-    "why": "The WHO model advises eight contacts."
+    "why": "The WHO model recommends eight contacts.",
+    "d": 1
    },
    {
     "id": "anc-11",
@@ -560,13 +594,14 @@
      "Caesarean section"
     ],
     "answer": 1,
-    "why": "Newborn vaccination plus HBIG within 12–24 h prevents most transmission; breastfeeding is allowed."
+    "why": "Hepatitis B vaccine and immunoglobulin (HBIG) given to the newborn within 12–24 hours prevent most transmission; breastfeeding is allowed.",
+    "d": 2
    },
    {
     "id": "anc-12",
     "topic": "anc",
     "type": "sba",
-    "stem": "A primigravida at 36 weeks. On palpation a hard round ballotable mass is felt in the fundus.",
+    "stem": "A primigravida is examined at 36 weeks. On abdominal palpation a hard, round, ballotable mass is felt in the fundus.",
     "q": "What is the next step in antenatal care?",
     "options": [
      "Wait for labour",
@@ -576,7 +611,8 @@
      "Induction now"
     ],
     "answer": 2,
-    "why": "Presentation is checked at 36 weeks; breech is confirmed by scan and ECV offered."
+    "why": "Presentation is checked at 36 weeks; a breech presentation is confirmed by ultrasound and ECV is offered.",
+    "d": 2
    },
    {
     "id": "c1-emq1",
@@ -597,22 +633,26 @@
      {
       "stem": "Bluish discolouration of the vagina at 8 weeks.",
       "answer": 1,
-      "why": "Chadwick sign: venous congestion."
+      "why": "Chadwick's sign is caused by venous congestion.",
+      "d": 1
      },
      {
       "stem": "First movements felt by the mother at 19 weeks.",
       "answer": 3,
-      "why": "Quickening is felt by the mother: a presumptive sign."
+      "why": "Quickening is felt by the mother and is a presumptive sign.",
+      "d": 1
      },
      {
       "stem": "Confirms a true intrauterine pregnancy at 5½ weeks.",
       "answer": 4,
-      "why": "A yolk sac inside the sac excludes a pseudosac."
+      "why": "A yolk sac within the sac excludes a pseudosac.",
+      "d": 2
      },
      {
       "stem": "hCG level above which an intrauterine sac should be visible on TVS.",
       "answer": 5,
-      "why": "About 2000 IU/L on TVS."
+      "why": "The level is about 2000 IU/L on transvaginal ultrasound.",
+      "d": 2
      }
     ],
     "type": "emq"
@@ -634,24 +674,28 @@
     "lead": "For each woman choose the most appropriate preventive measure.",
     "items": [
      {
-      "stem": "Type 1 diabetic planning pregnancy.",
+      "stem": "A woman with type 1 diabetes who is planning pregnancy.",
       "answer": 1,
-      "why": "Diabetes needs high-dose folic acid."
+      "why": "Women with diabetes need high-dose folic acid.",
+      "d": 2
      },
      {
-      "stem": "Chronic hypertension at 12 weeks.",
+      "stem": "A woman with chronic hypertension at 12 weeks.",
       "answer": 2,
-      "why": "Major risk factor for pre-eclampsia: aspirin 12–36 wk."
+      "why": "Chronic hypertension is a major risk factor for pre-eclampsia: aspirin is given from 12 to 36 weeks.",
+      "d": 2
      },
      {
-      "stem": "Healthy woman at 20 weeks in a high-transmission malaria area, quickening felt.",
+      "stem": "A healthy woman at 20 weeks in a high-transmission malaria area who has felt quickening.",
       "answer": 5,
-      "why": "IPTp with SP after quickening."
+      "why": "IPTp with SP starts after quickening.",
+      "d": 2
      },
      {
       "stem": "RhD-negative woman after an external cephalic version.",
       "answer": 6,
-      "why": "ECV is a sensitising event."
+      "why": "ECV is a sensitising event.",
+      "d": 3
      }
     ],
     "type": "emq"
@@ -8260,8 +8304,8 @@
     "id": "np-1",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 2, day 7 after a normal vaginal delivery. She is well, breastfeeding and her lochia is pink-brown and not offensive.",
-    "q": "Where would you expect to feel the fundus?",
+    "stem": "A para 2 woman is seen on day 7 after a normal vaginal delivery. She is well and breastfeeding, and her lochia is pink-brown and not offensive.",
+    "q": "Where is the fundus expected to be felt?",
     "options": [
      "At the level of the umbilicus",
      "Two fingers above the umbilicus",
@@ -8270,13 +8314,14 @@
      "Not palpable abdominally"
     ],
     "answer": 2,
-    "why": "The fundus starts at the umbilicus and falls about 1 cm a day, so by day 7 it is about halfway down. It is not palpable by day 10–14."
+    "why": "The fundus is at the umbilicus after delivery and falls by about 1 cm a day, so by day 7 it is about halfway down. It is not palpable by day 10–14.",
+    "d": 1
    },
    {
     "id": "np-2",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 3, day 16 after a home birth. Her lochia has turned bright red again and the uterus is still felt three fingers above the symphysis. Temperature 37.2 °C.",
+    "stem": "A para 3 woman is seen on day 16 after a home delivery. Her lochia has become bright red again and the uterus is still palpable three finger breadths above the symphysis. Her temperature is 37.2 °C.",
     "q": "What is the most appropriate investigation?",
     "options": [
      "Pelvic ultrasound",
@@ -8286,13 +8331,14 @@
      "Chest X-ray"
     ],
     "answer": 0,
-    "why": "A uterus still felt after day 14 with red lochia returning suggests retained tissue and subinvolution; ultrasound looks for it."
+    "why": "A uterus that is still palpable after day 14 with a return of red lochia suggests retained tissue and subinvolution; ultrasound is used to look for it.",
+    "d": 2
    },
    {
     "id": "np-3",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 1, day 2 after a normal birth. She feels well, temperature 37.1 °C, pulse 82/min. A routine blood count shows WBC 19 × 10⁹/L with normal haemoglobin.",
+    "stem": "A para 1 woman is seen on day 2 after a normal delivery. She feels well; her temperature is 37.1 °C and her pulse 82/min. A routine blood count shows a white cell count of 19 × 10⁹/L with a normal haemoglobin.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Start IV ceftriaxone and metronidazole",
@@ -8302,14 +8348,15 @@
      "Refer to haematology"
     ],
     "answer": 3,
-    "why": "WBC up to 20–25 × 10⁹/L is normal in the first days after birth. In a well, afebrile woman it does not mean infection."
+    "why": "A white cell count of up to 20–25 × 10⁹/L is normal in the first days after delivery. In a well, afebrile woman it does not indicate infection.",
+    "d": 2
    },
    {
     "id": "np-4",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 2 with moderate mitral stenosis is in labour at 38 weeks. She has been stable through pregnancy.",
-    "q": "At which time is she at greatest risk of pulmonary oedema?",
+    "stem": "A para 2 woman with moderate mitral stenosis is in labour at 38 weeks. She has been stable throughout pregnancy.",
+    "q": "When is she at the greatest risk of pulmonary oedema?",
     "options": [
      "In the latent phase of labour",
      "Immediately after delivery of the placenta",
@@ -8318,13 +8365,14 @@
      "During the first trimester"
     ],
     "answer": 1,
-    "why": "Contraction of the uterus after birth returns blood to the circulation (autotransfusion), raising cardiac output when the heart can least cope."
+    "why": "Contraction of the uterus after delivery returns blood to the circulation (autotransfusion), which raises cardiac output at the time when the heart is least able to cope.",
+    "d": 3
    },
    {
     "id": "np-5",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 1, 8 hours after a ventouse delivery under epidural. She has not passed urine. A tender suprapubic swelling is felt and the fundus is pushed up and to the right.",
+    "stem": "A para 1 woman is reviewed 8 hours after a ventouse delivery under epidural analgesia. She has not passed urine. A tender suprapubic swelling is palpable and the fundus is displaced upwards and to the right.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Encourage oral fluids and wait 6 hours",
@@ -8334,13 +8382,14 @@
      "Catheterise the bladder"
     ],
     "answer": 4,
-    "why": "She should void within 6 hours; a full bladder after an epidural and instruments is retention and needs a catheter. It also stops the uterus contracting well."
+    "why": "A woman should pass urine within 6 hours of delivery. A full bladder after epidural analgesia and instrumental delivery indicates urinary retention, which requires catheterisation; it also prevents the uterus from contracting well.",
+    "d": 2
    },
    {
     "id": "np-6",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 2, blood group O RhD-negative, delivered a healthy baby today. The baby is O RhD-positive and the direct Coombs test is negative. She had no antibodies at booking.",
+    "stem": "A para 2 woman with blood group O RhD-negative delivered a healthy baby today. The baby is O RhD-positive and the direct Coombs test is negative. She had no antibodies at booking.",
     "q": "What is the most appropriate management?",
     "options": [
      "Anti-D 250 IU IM within 7 days",
@@ -8350,13 +8399,14 @@
      "Exchange transfusion for the baby"
     ],
     "answer": 1,
-    "why": "An unsensitised RhD-negative mother with an RhD-positive baby gets 500 IU within 72 hours. The Kleihauer test shows whether a larger bleed needs more."
+    "why": "A non-sensitised RhD-negative mother of an RhD-positive baby receives 500 IU of anti-D within 72 hours. The Kleihauer test shows whether a larger fetomaternal haemorrhage requires a larger dose.",
+    "d": 2
    },
    {
     "id": "np-7",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 1, day 1 after a normal birth, breastfeeding. Her booking rubella IgG was negative.",
+    "stem": "A para 1 woman is breastfeeding on day 1 after a normal delivery. Her booking rubella IgG was negative.",
     "q": "What is the most appropriate advice?",
     "options": [
      "Delay MMR until she stops breastfeeding",
@@ -8366,13 +8416,14 @@
      "Give MMR at the start of her next pregnancy"
     ],
     "answer": 3,
-    "why": "Non-immune mothers are vaccinated before discharge; breastfeeding is not a bar. A live vaccine is avoided in pregnancy, so she waits 1 month."
+    "why": "Non-immune mothers are vaccinated before discharge, and breastfeeding is not a contraindication. Because a live vaccine is avoided in pregnancy, she should avoid pregnancy for 1 month.",
+    "d": 2
    },
    {
     "id": "np-8",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 2 had gestational diabetes controlled on diet. She delivered a 3.8 kg baby at 39 weeks and her capillary glucose is normal after birth.",
+    "stem": "A para 2 woman had gestational diabetes controlled by diet. She delivered a 3.8 kg baby at 39 weeks, and her capillary glucose is normal after delivery.",
     "q": "What follow-up is most appropriate?",
     "options": [
      "Fasting glucose or OGTT at 6 weeks",
@@ -8382,13 +8433,14 @@
      "Daily capillary glucose for 6 months"
     ],
     "answer": 0,
-    "why": "Testing at 6 weeks picks up diabetes that persisted after pregnancy. HbA1c soon after birth is unreliable."
+    "why": "Testing at 6 weeks detects diabetes that has persisted after pregnancy. HbA1c soon after delivery is unreliable.",
+    "d": 2
    },
    {
     "id": "np-9",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 3 is HBsAg-positive. Her baby is born at term and is well. She wants to breastfeed.",
+    "stem": "A para 3 woman is HBsAg-positive. Her baby is born at term and is well. She wishes to breastfeed.",
     "q": "What is the most appropriate advice?",
     "options": [
      "Formula feed only",
@@ -8398,13 +8450,14 @@
      "Breastfeed only if her viral load is undetectable"
     ],
     "answer": 2,
-    "why": "Hepatitis B is not a contraindication to breastfeeding once the baby has had vaccine and HBIG."
+    "why": "Hepatitis B is not a contraindication to breastfeeding once the baby has received the vaccine and HBIG.",
+    "d": 2
    },
    {
     "id": "np-10",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 2, day 3 after delivery, has a cough for 6 weeks and her sputum smear is positive for acid-fast bacilli. She has not yet started treatment.",
+    "stem": "A para 2 woman on day 3 after delivery has had a cough for 6 weeks, and her sputum smear is positive for acid-fast bacilli. She has not yet started treatment.",
     "q": "What is the most appropriate plan for feeding the baby?",
     "options": [
      "Stop breastfeeding permanently and use formula",
@@ -8414,7 +8467,8 @@
      "Start her treatment; she expresses milk while the baby gets isoniazid and BCG, then breastfeeds directly after about 2 weeks"
     ],
     "answer": 4,
-    "why": "With untreated smear-positive TB, she starts treatment, wears a mask and expresses; the baby gets isoniazid prophylaxis and BCG. Direct feeding resumes once she is smear-negative."
+    "why": "A mother with untreated smear-positive tuberculosis starts treatment, wears a mask and expresses her milk; the baby receives isoniazid prophylaxis and BCG. Direct breastfeeding resumes once she is smear-negative.",
+    "d": 3
    },
    {
     "id": "np-11",
@@ -8430,13 +8484,14 @@
      "Express breast milk and feed it by cup"
     ],
     "answer": 0,
-    "why": "Vomiting, jaundice and cataracts in a breastfed baby suggest galactosaemia, an absolute contraindication to breast milk."
+    "why": "Vomiting, jaundice and cataracts in a breastfed baby suggest galactosaemia, which is an absolute contraindication to breast milk.",
+    "d": 3
    },
    {
     "id": "np-12",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 3 delivered a stillborn baby at 38 weeks. She is normotensive and has no other illness. She asks for something to stop the milk coming in.",
+    "stem": "A para 3 woman delivered a stillborn baby at 38 weeks. She is normotensive and has no other illness. She asks for medication to suppress lactation.",
     "q": "What is the most appropriate drug?",
     "options": [
      "Bromocriptine 2.5 mg twice daily for 14 days",
@@ -8446,13 +8501,14 @@
      "Pyridoxine 200 mg daily"
     ],
     "answer": 2,
-    "why": "A single dose of cabergoline is the drug of choice. Bromocriptine and high-dose oestrogen are no longer used because of stroke, MI and VTE."
+    "why": "A single dose of cabergoline is the drug of choice. Bromocriptine and high-dose oestrogen are no longer used because of the risks of stroke, myocardial infarction and VTE.",
+    "d": 2
    },
    {
     "id": "np-13",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 1, day 4 after birth. Both breasts are hard, full and tender and the baby has difficulty latching. Temperature 37.9 °C. There is no red area.",
+    "stem": "A para 1 woman is seen on day 4 after delivery. Both breasts are hard, full and tender, and the baby has difficulty latching on. Her temperature is 37.9 °C and there is no area of redness.",
     "q": "What is the most appropriate management?",
     "options": [
      "Flucloxacillin 500 mg 6-hourly for 10 days",
@@ -8462,13 +8518,14 @@
      "Ultrasound and aspiration"
     ],
     "answer": 1,
-    "why": "Both breasts hard on day 3–5 with a low fever is engorgement; emptying the breasts relieves it. Antibiotics are for a red wedge with high fever."
+    "why": "Hardness of both breasts on days 3–5 with a low-grade fever is breast engorgement, which is relieved by emptying the breasts. Antibiotics are indicated for a red, wedge-shaped area with high fever.",
+    "d": 1
    },
    {
     "id": "np-14",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 2, 3 weeks after birth, has a painful red wedge-shaped area on the right breast, temperature 38.6 °C and aches all over. No fluctuant lump is felt.",
+    "stem": "Three weeks after delivery, a para 2 woman has a painful, red, wedge-shaped area on the right breast, a temperature of 38.6 °C and generalised aches. No fluctuant lump is palpable.",
     "q": "What is the most appropriate management?",
     "options": [
      "Stop feeding from the right breast until it settles",
@@ -8478,13 +8535,14 @@
      "Tetracycline 250 mg 6-hourly"
     ],
     "answer": 3,
-    "why": "Infective mastitis is usually S. aureus; flucloxacillin plus continued feeding helps emptying. Tetracycline is avoided in breastfeeding."
+    "why": "Infective mastitis is usually caused by Staphylococcus aureus; flucloxacillin is given and continued breastfeeding helps to empty the breast. Tetracycline is avoided during breastfeeding.",
+    "d": 2
    },
    {
     "id": "np-15",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 1 has taken flucloxacillin for 5 days for a red, tender breast. She still has fever 38.8 °C and now a tense, fluctuant, very tender lump in the upper outer quadrant.",
+    "stem": "A para 1 woman has taken flucloxacillin for 5 days for a red, tender breast. She still has a fever of 38.8 °C and now has a tense, fluctuant, very tender lump in the upper outer quadrant.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Change to oral amoxicillin",
@@ -8494,13 +8552,14 @@
      "Ultrasound and needle aspiration or incision and drainage"
     ],
     "answer": 4,
-    "why": "A fluctuant mass with persisting fever is an abscess; pus must be drained. She can feed from the other side."
+    "why": "A fluctuant mass with persistent fever is a breast abscess, and the pus must be drained. She may continue to feed from the other breast.",
+    "d": 2
    },
    {
     "id": "np-16",
     "topic": "np",
     "type": "sba",
-    "stem": "Para 3, 6 weeks after birth, is exclusively breastfeeding. She asks for a pill to start today.",
+    "stem": "A para 3 woman is exclusively breastfeeding 6 weeks after delivery. She asks for a contraceptive pill to start today.",
     "q": "Which method is most suitable?",
     "options": [
      "Combined oral contraceptive pill",
@@ -8510,13 +8569,14 @@
      "No method is needed while breastfeeding"
     ],
     "answer": 2,
-    "why": "Progestogen methods do not reduce milk and are first choice while breastfeeding. The combined pill is avoided until 6 months."
+    "why": "Progestogen-only methods do not reduce milk production and are the first choice during breastfeeding. The combined pill is avoided until 6 months.",
+    "d": 2
    },
    {
     "id": "ps-1",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 2, day 12 after a vaginal birth, has a temperature of 38.2 °C on one occasion. Earlier observations were all normal.",
+    "stem": "A para 2 woman has a single temperature of 38.2 °C on day 12 after a vaginal delivery. All earlier observations were normal.",
     "q": "Which term best describes this?",
     "options": [
      "Puerperal morbidity",
@@ -8526,13 +8586,14 @@
      "Septic shock"
     ],
     "answer": 1,
-    "why": "Puerperal pyrexia is ≥ 38 °C at any time in the first 14 days. Puerperal morbidity needs ≥ 38 °C on 2 of the first 10 days, after the first 24 hours."
+    "why": "Puerperal pyrexia is a temperature of 38 °C or more at any time in the first 14 days. Puerperal morbidity requires 38 °C or more on 2 of the first 10 days, excluding the first 24 hours.",
+    "d": 2
    },
    {
     "id": "ps-2",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 1, day 3 after a caesarean for a prolonged labour with ruptured membranes for 30 hours. Temperature 38.6 °C, pulse 110/min. Lochia is offensive and the uterus is bulky and tender. The wound is clean and the breasts are soft.",
+    "stem": "A para 1 woman is seen on day 3 after a caesarean section for prolonged labour with membranes ruptured for 30 hours. Her temperature is 38.6 °C and pulse 110/min. The lochia is offensive and the uterus is bulky and tender. The wound is clean and the breasts are soft.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Endometritis",
@@ -8542,13 +8603,14 @@
      "Septic pelvic thrombophlebitis"
     ],
     "answer": 0,
-    "why": "Fever with foul lochia and a tender bulky uterus is endometritis, the commonest cause of puerperal fever."
+    "why": "Fever with offensive lochia and a tender, bulky uterus indicates endometritis, the commonest cause of puerperal fever.",
+    "d": 1
    },
    {
     "id": "ps-3",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 3, day 4 after a long labour with many vaginal examinations. She has fever and foul-smelling lochia, and the uterus is tender. A high vaginal swab is sent.",
+    "stem": "A para 3 woman is seen on day 4 after a long labour with many vaginal examinations. She has fever and offensive lochia, and the uterus is tender. A high vaginal swab is sent.",
     "q": "Which organism is classically the commonest cause of this infection?",
     "options": [
      "Staphylococcus aureus",
@@ -8558,13 +8620,14 @@
      "Neisseria gonorrhoeae"
     ],
     "answer": 3,
-    "why": "Anaerobic streptococci, with Bacteroides, are the classic commonest organisms in endometritis, giving the foul smell. Staph. aureus causes mastitis and wound infection."
+    "why": "Anaerobic streptococci, together with Bacteroides, are the classic commonest organisms in endometritis and cause the offensive odour. Staphylococcus aureus causes mastitis and wound infection.",
+    "d": 2
    },
    {
     "id": "ps-4",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 2, day 2 after a normal delivery. She has diarrhoea and vomiting, and lower abdominal pain so severe she needs morphine, though her uterus feels only mildly tender. Temperature 38.9 °C, pulse 132/min. Her son had a sore throat last week.",
+    "stem": "A para 2 woman is seen on day 2 after a normal delivery. She has diarrhoea, vomiting and lower abdominal pain severe enough to require morphine, although the uterus is only mildly tender. Her temperature is 38.9 °C and pulse 132/min. Her son had a sore throat last week.",
     "q": "Which organism is most likely?",
     "options": [
      "Escherichia coli",
@@ -8574,13 +8637,14 @@
      "Group A β-haemolytic streptococcus"
     ],
     "answer": 4,
-    "why": "Pain out of proportion, D&V and a family sore throat point to group A strep, the killer organism, which spreads by hands from the throat."
+    "why": "Pain out of proportion to the signs, diarrhoea and vomiting, and a family member with a sore throat suggest group A streptococcus, which is spread by the hands from the throat and causes rapidly fatal sepsis.",
+    "d": 3
    },
    {
     "id": "ps-5",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 1, day 3. Her daughter has tonsillitis. She has severe abdominal pain needing morphine, a red rash, temperature 39.2 °C and BP 85/50 mmHg after fluids. IV piperacillin-tazobactam has been started.",
+    "stem": "A para 1 woman is seen on day 3; her daughter has tonsillitis. She has severe abdominal pain requiring morphine, a red rash, a temperature of 39.2 °C and a blood pressure of 85/50 mmHg after fluids. IV piperacillin–tazobactam has been started.",
     "q": "Which antibiotic should be added, and why?",
     "options": [
      "Gentamicin, because it covers anaerobes",
@@ -8590,13 +8654,14 @@
      "Doxycycline, because it penetrates the uterus well"
     ],
     "answer": 2,
-    "why": "Clindamycin switches off streptococcal toxin production, so it is added in severe GAS sepsis. Gentamicin has no anaerobic cover."
+    "why": "Clindamycin suppresses streptococcal toxin production, so it is added in severe group A streptococcal sepsis. Gentamicin has no anaerobic cover.",
+    "d": 3
    },
    {
     "id": "ps-6",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 3, day 4 after a caesarean. She is confused. Temperature 35.4 °C, pulse 128/min, RR 26/min, BP 95/60 mmHg.",
+    "stem": "A para 3 woman is confused on day 4 after a caesarean section. Her temperature is 35.4 °C, pulse 128/min, respiratory rate 26/min and blood pressure 95/60 mmHg.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Start the Sepsis Six within 1 hour",
@@ -8606,13 +8671,14 @@
      "CT head to look for a stroke first"
     ],
     "answer": 0,
-    "why": "Low temperature, tachycardia and fast breathing with confusion is high-risk sepsis (obstetric qSOFA ≥ 2). Normal or low temperature does not exclude sepsis."
+    "why": "A low temperature, tachycardia and tachypnoea with confusion indicate high-risk sepsis (obstetric qSOFA ≥ 2). A normal or low temperature does not exclude sepsis.",
+    "d": 3
    },
    {
     "id": "ps-7",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 2, day 2 after an emergency caesarean, has fever 38.7 °C, foul lochia and a tender uterus. She is breastfeeding. Cultures are sent.",
+    "stem": "A para 2 woman has a fever of 38.7 °C, offensive lochia and a tender uterus on day 2 after an emergency caesarean section. She is breastfeeding. Cultures have been sent.",
     "q": "What is the most appropriate first-line antibiotic regimen?",
     "options": [
      "Oral amoxicillin 500 mg 8-hourly",
@@ -8622,13 +8688,14 @@
      "Chloramphenicol 1 g IV 6-hourly"
     ],
     "answer": 3,
-    "why": "Endometritis is polymicrobial and needs IV broad cover including anaerobes. Tetracycline and chloramphenicol are avoided while breastfeeding."
+    "why": "Endometritis is polymicrobial and requires IV broad-spectrum antibiotics that include anaerobic cover. Tetracycline and chloramphenicol are avoided during breastfeeding.",
+    "d": 2
    },
    {
     "id": "ps-8",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 4, day 6, on IV ceftriaxone and metronidazole for 3 days for postnatal uterine infection. She is still febrile. The uterus is bulky, the os admits a finger and the lochia is heavy.",
+    "stem": "A para 4 woman on day 6 has received IV ceftriaxone and metronidazole for 3 days for postnatal uterine infection. She is still febrile. The uterus is bulky, the os admits one finger and the lochia is heavy.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Change to meropenem and wait 3 more days",
@@ -8638,13 +8705,14 @@
      "Hysterectomy"
     ],
     "answer": 1,
-    "why": "No response in 48–72 hours means look for a cause; a bulky uterus with an open os suggests retained tissue, removed after antibiotics have started."
+    "why": "Failure to respond within 48–72 hours requires a search for the cause; a bulky uterus with an open os suggests retained tissue, which is removed after antibiotics have been started.",
+    "d": 3
    },
    {
     "id": "ps-9",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 1, day 7 after a caesarean. She has spiking fevers up to 39 °C despite 5 days of IV antibiotics, but between spikes she looks well and eats. Pelvic ultrasound shows no collection or retained tissue. Malaria film and urine are negative.",
+    "stem": "A para 1 woman is seen on day 7 after a caesarean section. She has spiking fevers up to 39 °C despite 5 days of IV antibiotics, but between the spikes she appears well and eats. Pelvic ultrasound shows no collection or retained tissue. The malaria film and urine are negative.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Change antibiotics to a carbapenem only",
@@ -8654,13 +8722,14 @@
      "CT of the pelvis and add therapeutic heparin"
     ],
     "answer": 4,
-    "why": "Spiking fever on antibiotics with no collection in a well-looking woman suggests pelvic (ovarian) vein thrombosis; it responds to heparin."
+    "why": "A spiking fever despite antibiotics, with no collection, in a woman who appears well suggests pelvic (ovarian) vein thrombophlebitis, which responds to heparin.",
+    "d": 3
    },
    {
     "id": "ps-10",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 2, day 9 after a caesarean. She has a swinging fever, diarrhoea and painful straining at stool. On rectal examination a tender fluctuant mass is felt in front of the rectum.",
+    "stem": "A para 2 woman is seen on day 9 after a caesarean section. She has a swinging fever, diarrhoea and painful straining at stool. On rectal examination a tender, fluctuant mass is felt in front of the rectum.",
     "q": "What is the most appropriate management?",
     "options": [
      "Oral metronidazole only",
@@ -8670,13 +8739,14 @@
      "Repeat examination in 1 week"
     ],
     "answer": 1,
-    "why": "Swinging fever, diarrhoea, tenesmus and a mass in the pouch of Douglas is a pelvic abscess. Pus must be drained, by ultrasound guidance, colpotomy or laparotomy."
+    "why": "A swinging fever, diarrhoea, tenesmus and a mass in the pouch of Douglas indicate a pelvic abscess. The pus must be drained under ultrasound guidance, by colpotomy or by laparotomy.",
+    "d": 2
    },
    {
     "id": "ps-11",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 3, day 4 after a caesarean. She has severe wound pain, far more than the redness suggests. The skin around the wound is dusky and crepitus is felt. Pulse 125/min, BP 90/55 mmHg.",
+    "stem": "A para 3 woman is seen on day 4 after a caesarean section. She has severe wound pain that is far greater than the redness suggests. The skin around the wound is dusky and crepitus is felt. Her pulse is 125/min and blood pressure 90/55 mmHg.",
     "q": "What is the most appropriate management?",
     "options": [
      "Oral flucloxacillin and dressing",
@@ -8686,13 +8756,14 @@
      "Wound swab and wait for the result"
     ],
     "answer": 3,
-    "why": "Pain out of proportion, dusky skin and crepitus mean necrotising fasciitis; early debridement saves life."
+    "why": "Pain out of proportion to the signs, dusky skin and crepitus indicate necrotising fasciitis; early surgical debridement is life-saving.",
+    "d": 3
    },
    {
     "id": "ps-12",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 2 is going for an emergency caesarean. She had anaphylaxis to penicillin in the past.",
+    "stem": "A para 2 woman is about to have an emergency caesarean section. She has a history of anaphylaxis to penicillin.",
     "q": "What is the best antibiotic prophylaxis?",
     "options": [
      "Clindamycin 900 mg IV before the skin incision",
@@ -8702,13 +8773,14 @@
      "No prophylaxis, as it is an emergency"
     ],
     "answer": 0,
-    "why": "Prophylaxis is given before the skin incision; with penicillin anaphylaxis, clindamycin replaces the cephalosporin. Co-amoxiclav before birth is avoided (NEC)."
+    "why": "Prophylaxis is given before the skin incision; in a woman with penicillin anaphylaxis, clindamycin replaces the cephalosporin. Co-amoxiclav is avoided before delivery because of necrotising enterocolitis.",
+    "d": 2
    },
    {
     "id": "ps-13",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 4 in Shendi, day 5 after a normal birth. She has rigors and fever 39.5 °C. The uterus is involuting and not tender, lochia is normal, breasts are soft, wound none, chest clear and urine dipstick normal.",
+    "stem": "A para 4 woman in Shendi is seen on day 5 after a normal delivery. She has rigors and a fever of 39.5 °C. The uterus is involuting and not tender, the lochia is normal, the breasts are soft, the chest is clear and the urine dipstick is normal.",
     "q": "Besides blood cultures, which investigation is most important now?",
     "options": [
      "Widal test",
@@ -8718,13 +8790,14 @@
      "Serum amylase"
     ],
     "answer": 2,
-    "why": "In Sudan every postnatal fever needs a malaria film or RDT, especially when no pelvic source is found. Widal is unreliable; blood culture is used for typhoid."
+    "why": "In Sudan every postnatal fever requires a malaria film or rapid diagnostic test, especially when no pelvic source is found. The Widal test is unreliable; blood culture is used for typhoid.",
+    "d": 2
    },
    {
     "id": "ps-14",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 1, day 3 after a long labour in which she was catheterised. She has rigors, temperature 39 °C, pain in the right loin and burning on passing urine. The uterus is not tender and lochia is normal.",
+    "stem": "A para 1 woman is seen on day 3 after a long labour during which she was catheterised. She has rigors, a temperature of 39 °C, right loin pain and dysuria. The uterus is not tender and the lochia is normal.",
     "q": "What is the most appropriate treatment after sending an MSU?",
     "options": [
      "Oral cefalexin 500 mg 8-hourly for 3 days",
@@ -8734,13 +8807,14 @@
      "IV ceftriaxone, adjusted to culture"
     ],
     "answer": 4,
-    "why": "Loin pain and rigors after a catheter point to pyelonephritis, which needs IV treatment. Oral cefalexin is for simple cystitis."
+    "why": "Loin pain and rigors after catheterisation suggest pyelonephritis, which requires IV treatment. Oral cefalexin is used for simple cystitis.",
+    "d": 2
    },
    {
     "id": "ps-15",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 2 was admitted on day 3 with fever, foul lochia and a tender uterus and started on IV ceftriaxone and metronidazole. She has been fever-free for 48 hours, the uterus is no longer tender and she is eating well.",
+    "stem": "A para 2 woman was admitted on day 3 with fever, offensive lochia and a tender uterus, and was started on IV ceftriaxone and metronidazole. She has been afebrile for 48 hours, the uterus is no longer tender and she is eating well.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Stop antibiotics; no oral course is needed",
@@ -8750,13 +8824,14 @@
      "Switch to oral doxycycline for 7 days"
     ],
     "answer": 0,
-    "why": "IV antibiotics are given until 48 hours fever-free; after uncomplicated endometritis an oral course adds nothing."
+    "why": "IV antibiotics are continued until the woman has been afebrile for 48 hours; after uncomplicated endometritis an oral course gives no additional benefit.",
+    "d": 2
    },
    {
     "id": "ps-16",
     "topic": "ps",
     "type": "sba",
-    "stem": "Para 3 at a rural health centre, day 3 after a home birth. Temperature 39 °C, pulse 124/min, foul lochia and a tender uterus. The nearest hospital is 2 hours away.",
+    "stem": "A para 3 woman presents to a rural health centre on day 3 after a home delivery. Her temperature is 39 °C and pulse 124/min; she has offensive lochia and a tender uterus. The nearest hospital is 2 hours away.",
     "q": "What is the most appropriate action before referral?",
     "options": [
      "Give oral amoxicillin and send her home",
@@ -8766,13 +8841,14 @@
      "Give oxytocin and observe overnight"
     ],
     "answer": 2,
-    "why": "Every hour of delay in antibiotics raises the risk of death. A septic mother gets IV antibiotics and fluids before transfer, never oral drugs alone at home."
+    "why": "Each hour of delay in giving antibiotics increases the risk of death. A septic mother receives IV antibiotics and fluids before transfer, and is never sent home on oral drugs alone.",
+    "d": 2
    },
    {
     "id": "pmd-1",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 1, day 4 after a normal birth. She cries easily, feels irritable and anxious and is not sleeping well. She is feeding and caring for her baby well and has no thoughts of harm.",
+    "stem": "A para 1 woman is seen on day 4 after a normal delivery. She cries easily, feels irritable and anxious, and is not sleeping well. She is feeding and caring for her baby well and has no thoughts of harm.",
     "q": "What is the most appropriate management?",
     "options": [
      "Sertraline 50 mg daily",
@@ -8782,13 +8858,14 @@
      "Stop breastfeeding to allow rest"
     ],
     "answer": 1,
-    "why": "Tearfulness in the first days with full coping is the baby blues, seen in up to 80% of mothers; it settles within 2 weeks. Antidepressants are not needed."
+    "why": "Tearfulness in the first days in a mother who is coping fully is the baby blues, which affects up to 80% of mothers and resolves within 2 weeks. Antidepressants are not needed.",
+    "d": 1
    },
    {
     "id": "pmd-2",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 2, 7 weeks after birth. For the last month she has felt low most of the day, takes no pleasure in anything, cannot sleep even when the baby sleeps and says she is a bad mother. She has no delusions and knows she is unwell. Temperature and BP are normal.",
+    "stem": "A para 2 woman is seen 7 weeks after delivery. For the last month she has felt low for most of the day, takes no pleasure in anything, cannot sleep even when the baby sleeps, and says she is a bad mother. She has no delusions and knows that she is unwell. Her temperature and blood pressure are normal.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Baby blues",
@@ -8798,13 +8875,14 @@
      "Sheehan syndrome"
     ],
     "answer": 3,
-    "why": "Low mood and anhedonia for more than 2 weeks with guilt and poor bonding is postnatal depression. Blues last less than 2 weeks; psychosis has delusions and no insight."
+    "why": "Low mood and anhedonia for more than 2 weeks, with guilt and poor bonding, indicate postnatal depression. The baby blues lasts less than 2 weeks; psychosis is characterised by delusions and loss of insight.",
+    "d": 2
    },
    {
     "id": "pmd-3",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 3, 8 weeks after birth, breastfeeding. Her Edinburgh score is 16 with a 0 on the self-harm question. Hb and TSH are normal. She has moderate depression.",
+    "stem": "A para 3 woman is breastfeeding 8 weeks after delivery. Her Edinburgh Postnatal Depression Scale score is 16, with a score of 0 on the self-harm question. Haemoglobin and TSH are normal. She has moderate depression.",
     "q": "What is the most appropriate treatment?",
     "options": [
      "Fluoxetine 20 mg daily and stop breastfeeding",
@@ -8814,13 +8892,14 @@
      "Sertraline 50 mg once daily plus CBT, continuing breastfeeding"
     ],
     "answer": 4,
-    "why": "Sertraline passes into milk in tiny amounts and is the SSRI of choice; breastfeeding continues. Fluoxetine builds up in the baby."
+    "why": "Sertraline passes into breast milk in very small amounts and is the SSRI of choice; breastfeeding continues. Fluoxetine accumulates in the baby.",
+    "d": 2
    },
    {
     "id": "pmd-4",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 1 at her 6-week postnatal visit has an Edinburgh score of 8. She scored 2 on the last question, saying the thought of harming herself has happened 'sometimes'.",
+    "stem": "At her 6-week postnatal visit a para 1 woman has an Edinburgh Postnatal Depression Scale score of 8. She scored 2 on the last question, stating that the thought of harming herself has occurred \"sometimes\".",
     "q": "What is the most appropriate next step?",
     "options": [
      "Reassure, as the total score is below 13",
@@ -8830,13 +8909,14 @@
      "Refer for CBT on the routine waiting list"
     ],
     "answer": 2,
-    "why": "Any score on the self-harm item needs same-day assessment, whatever the total score."
+    "why": "Any score on the self-harm item requires assessment on the same day, whatever the total score.",
+    "d": 3
    },
    {
     "id": "pmd-5",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 1, day 6 after birth. She has not slept for 3 nights, is restless and puzzled, and says voices are telling her the baby is the devil. Temperature 37 °C, BP 115/75 mmHg, urine normal.",
+    "stem": "A para 1 woman is seen on day 6 after delivery. She has not slept for 3 nights, is restless and perplexed, and says that voices are telling her the baby is the devil. Her temperature is 37 °C, blood pressure 115/75 mmHg and urinalysis normal.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Reassure and review at the 6-week visit",
@@ -8846,13 +8926,14 @@
      "Refer for outpatient CBT"
     ],
     "answer": 1,
-    "why": "Delusions about the baby with loss of insight in the first 2 weeks is a psychiatric emergency; risk of suicide and infanticide. Organic causes have been screened."
+    "why": "Delusions about the baby with loss of insight in the first 2 weeks constitute a psychiatric emergency, with a risk of suicide and infanticide. Organic causes have been excluded.",
+    "d": 2
    },
    {
     "id": "pmd-6",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 3, day 5 after a long labour with manual removal of the placenta. She is confused and agitated and does not know where she is. Temperature 39 °C, pulse 124/min, foul lochia. BP 120/80 mmHg.",
+    "stem": "A para 3 woman is seen on day 5 after a long labour with manual removal of the placenta. She is confused, agitated and disorientated in place. Her temperature is 39 °C, pulse 124/min and blood pressure 120/80 mmHg; the lochia is offensive.",
     "q": "What is the most likely cause of her confusion?",
     "options": [
      "Sepsis delirium",
@@ -8862,13 +8943,14 @@
      "Baby blues"
     ],
     "answer": 0,
-    "why": "Confusion with fever and foul lochia is organic until proved otherwise; septic screen and malaria film come first."
+    "why": "Confusion with fever and offensive lochia is organic until proved otherwise; a septic screen and a malaria film are done first.",
+    "d": 3
    },
    {
     "id": "pmd-7",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 2, day 8 after birth. She has a severe headache for 2 days and had a fit this morning. BP 120/75 mmHg, no proteinuria, temperature normal.",
+    "stem": "A para 2 woman on day 8 after delivery has had a severe headache for 2 days and had a convulsion this morning. Her blood pressure is 120/75 mmHg, there is no proteinuria and her temperature is normal.",
     "q": "Which investigation is most appropriate?",
     "options": [
      "Electroencephalogram",
@@ -8878,13 +8960,14 @@
      "Thyroid function tests"
     ],
     "answer": 3,
-    "why": "Headache and fits in week 1–2 with normal BP suggest cerebral venous thrombosis, best shown on MRI venogram."
+    "why": "Headache and convulsions in the first or second week with a normal blood pressure suggest cerebral venous thrombosis, which is best demonstrated by MR venography.",
+    "d": 3
    },
    {
     "id": "pmd-8",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 1, 5 months after birth, is tired, low in mood, cold all the time and has gained weight. In the second month she had palpitations and lost weight. She is not anaemic.",
+    "stem": "Five months after delivery a para 1 woman is tired, low in mood, intolerant of cold and has gained weight. In the second month she had palpitations and lost weight. She is not anaemic.",
     "q": "Which investigation is most appropriate?",
     "options": [
      "Edinburgh score only",
@@ -8894,13 +8977,14 @@
      "TSH and free T4"
     ],
     "answer": 4,
-    "why": "A hyperthyroid phase followed by a hypothyroid phase at 4–8 months is postpartum thyroiditis, which mimics depression."
+    "why": "A hyperthyroid phase followed by a hypothyroid phase at 4–8 months indicates postpartum thyroiditis, which mimics depression.",
+    "d": 3
    },
    {
     "id": "pmd-9",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 2 with bipolar disorder became elated, sleepless and deluded on day 5 after birth. The psychiatrist has started lithium. She wants to breastfeed.",
+    "stem": "A para 2 woman with bipolar disorder became elated, sleepless and deluded on day 5 after delivery. The psychiatrist has started lithium. She wishes to breastfeed.",
     "q": "What is the most appropriate feeding advice?",
     "options": [
      "Breastfeed and check the baby's lithium level weekly",
@@ -8910,13 +8994,14 @@
      "Breastfeed and give the baby vitamin K"
     ],
     "answer": 2,
-    "why": "Lithium reaches high levels in breast milk and can be toxic to the baby, so breastfeeding is avoided. Antipsychotics usually allow breastfeeding."
+    "why": "Lithium reaches high levels in breast milk and can be toxic to the baby, so breastfeeding is avoided. Antipsychotic drugs usually allow breastfeeding.",
+    "d": 2
    },
    {
     "id": "pmd-10",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 1 with bipolar disorder, 34 weeks pregnant. After her first baby she had a psychotic episode on day 4. She is well now and off medication.",
+    "stem": "A para 1 woman with bipolar disorder is 34 weeks pregnant. After her first delivery she had a psychotic episode on day 4. She is currently well and not taking medication.",
     "q": "What is the most appropriate plan?",
     "options": [
      "Shared psychiatry plan, hospital birth and prophylaxis with an antipsychotic or lithium right after delivery",
@@ -8926,13 +9011,14 @@
      "Routine discharge 6 hours after birth"
     ],
     "answer": 0,
-    "why": "With bipolar disorder and a past puerperal psychosis, her risk is about 60%; prophylaxis starts right after delivery, with daily review for the first 2 weeks."
+    "why": "With bipolar disorder and a previous puerperal psychosis, her risk is about 60%; prophylaxis starts immediately after delivery, with daily review for the first 2 weeks.",
+    "d": 3
    },
    {
     "id": "pmd-11",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 2 had postnatal depression after her first baby, treated with sertraline. She is now 12 weeks pregnant and asks about the chance of it returning after this birth.",
+    "stem": "A para 2 woman had postnatal depression after her first delivery, treated with sertraline. She is now 12 weeks pregnant and asks about the chance of recurrence after this delivery.",
     "q": "What is the best estimate?",
     "options": [
      "About 2%",
@@ -8942,13 +9028,14 @@
      "It does not recur"
     ],
     "answer": 3,
-    "why": "Postnatal depression recurs in about 1 in 4 after the next birth. About 50% is the figure for puerperal psychosis."
+    "why": "Postnatal depression recurs in about 1 in 4 women after the next delivery. About 50% is the figure for puerperal psychosis.",
+    "d": 2
    },
    {
     "id": "pmd-12",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 3 began hearing voices and became agitated on day 7 after birth and was admitted. Despite olanzapine she has refused all food and drink for 3 days and is not speaking.",
+    "stem": "A para 3 woman began hearing voices and became agitated on day 7 after delivery and was admitted. Despite olanzapine she has refused all food and drink for 3 days and is not speaking.",
     "q": "What is the most appropriate treatment?",
     "options": [
      "Increase olanzapine and wait 4 weeks",
@@ -8958,13 +9045,14 @@
      "CBT"
     ],
     "answer": 1,
-    "why": "ECT works fast and is safe in the puerperium; it is used when the illness is life-threatening, such as refusal of food and drink."
+    "why": "Electroconvulsive therapy (ECT) acts rapidly and is safe in the puerperium; it is used when the illness is life-threatening, as in refusal of food and drink.",
+    "d": 3
    },
    {
     "id": "pmd-13",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 2, 2 weeks after birth, breastfeeding her baby. She has moderate depression and needs an antidepressant.",
+    "stem": "A para 2 woman is breastfeeding 2 weeks after delivery. She has moderate depression and needs an antidepressant.",
     "q": "Which drug is least suitable?",
     "options": [
      "Sertraline",
@@ -8974,13 +9062,14 @@
      "Fluoxetine"
     ],
     "answer": 4,
-    "why": "Fluoxetine has a long half-life and builds up in the newborn. Sertraline and paroxetine have very low milk levels."
+    "why": "Fluoxetine has a long half-life and accumulates in the newborn. Sertraline and paroxetine reach very low levels in breast milk.",
+    "d": 2
    },
    {
     "id": "pmd-14",
     "topic": "pmd",
     "type": "sba",
-    "stem": "A 27-year-old woman with bipolar disorder, well controlled on sodium valproate, wants to start trying for a baby.",
+    "stem": "A 27-year-old woman with bipolar disorder, well controlled on sodium valproate, wishes to conceive.",
     "q": "What is the most appropriate advice?",
     "options": [
      "Continue valproate and add folic acid 400 µg",
@@ -8990,13 +9079,14 @@
      "Avoid pregnancy for life"
     ],
     "answer": 1,
-    "why": "Valproate causes neural tube defects and low IQ, so it is switched before pregnancy. Stopping all treatment risks relapse."
+    "why": "Valproate causes neural tube defects and reduced IQ, so it is changed before pregnancy. Stopping all treatment carries a risk of relapse.",
+    "d": 2
    },
    {
     "id": "pmd-15",
     "topic": "pmd",
     "type": "sba",
-    "stem": "Para 1 was tearful from day 4 after birth. She is now 4 weeks postpartum and still cries most days and has lost interest in her baby.",
+    "stem": "A para 1 woman became tearful from day 4 after delivery. She is now 4 weeks postpartum, still cries on most days and has lost interest in her baby.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Reassure: baby blues can last up to 3 months",
@@ -9006,7 +9096,8 @@
      "Check serum oestrogen"
     ],
     "answer": 3,
-    "why": "Blues longer than 2 weeks are no longer blues; a long or severe blues is a risk factor for depression and needs screening."
+    "why": "Symptoms that last longer than 2 weeks are no longer the baby blues; prolonged or severe blues is a risk factor for depression and requires screening.",
+    "d": 2
    },
    {
     "id": "mm-1",
@@ -9022,7 +9113,8 @@
      "Not a maternal death"
     ],
     "answer": 0,
-    "why": "A pre-existing disease made worse by pregnancy is an indirect death."
+    "why": "Death from a pre-existing disease that is made worse by pregnancy is an indirect maternal death.",
+    "d": 1
    },
    {
     "id": "mm-2",
@@ -9038,7 +9130,8 @@
      "Pregnancy-related death"
     ],
     "answer": 2,
-    "why": "Death from a direct or indirect cause between 42 days and 1 year after the end of pregnancy is a late maternal death."
+    "why": "A death from a direct or indirect cause between 42 days and 1 year after the end of pregnancy is a late maternal death.",
+    "d": 2
    },
    {
     "id": "mm-3",
@@ -9054,13 +9147,14 @@
      "Excluded: it is a coincidental death"
     ],
     "answer": 4,
-    "why": "Accidental and incidental deaths are not maternal deaths and are not counted in the MMR, though they are pregnancy-related deaths."
+    "why": "Accidental and incidental deaths are not maternal deaths and are not counted in the maternal mortality ratio, although they are pregnancy-related deaths.",
+    "d": 2
    },
    {
     "id": "mm-4",
     "topic": "mm",
     "type": "sba",
-    "stem": "Para 1 dies of pulmonary embolism on day 10 after an emergency caesarean.",
+    "stem": "A para 1 woman dies of pulmonary embolism on day 10 after an emergency caesarean section.",
     "q": "How is this death classified?",
     "options": [
      "Direct maternal death",
@@ -9070,7 +9164,8 @@
      "Not a maternal death, as it occurred after delivery"
     ],
     "answer": 0,
-    "why": "VTE is an obstetric complication of the puerperium, so it is direct; any death within 42 days from such a cause counts."
+    "why": "Venous thromboembolism is an obstetric complication of the puerperium, so the death is direct; any death within 42 days from such a cause is counted.",
+    "d": 2
    },
    {
     "id": "mm-5",
@@ -9086,13 +9181,14 @@
      "400 per 100 000 live births"
     ],
     "answer": 2,
-    "why": "MMR = maternal deaths ÷ live births × 100 000 = 40 ÷ 16 000 × 100 000 = 250. Deaths per women 15–49 is the maternal mortality rate."
+    "why": "Maternal mortality ratio = maternal deaths ÷ live births × 100 000 = 40 ÷ 16 000 × 100 000 = 250. Deaths per number of women aged 15–49 is the maternal mortality rate.",
+    "d": 2
    },
    {
     "id": "mm-6",
     "topic": "mm",
     "type": "sba",
-    "stem": "Para 3 had eclampsia at 36 weeks, then a massive PPH needing an emergency hysterectomy and ICU care. She went home well on day 12.",
+    "stem": "A para 3 woman had eclampsia at 36 weeks, followed by a massive PPH that required an emergency hysterectomy and intensive care. She went home well on day 12.",
     "q": "Which term best describes her case?",
     "options": [
      "Late maternal death",
@@ -9102,7 +9198,8 @@
      "Pregnancy-related death"
     ],
     "answer": 1,
-    "why": "A woman who nearly died from a life-threatening complication but survived is a near miss; these cases are reviewed to improve care."
+    "why": "A woman who nearly died from a life-threatening complication but survived is a maternal near miss; such cases are reviewed to improve care.",
+    "d": 1
    },
    {
     "id": "mm-7",
@@ -9118,13 +9215,14 @@
      "Anaesthetic complications"
     ],
     "answer": 3,
-    "why": "Sepsis is the leading cause of maternal death in Sudan, ahead of haemorrhage. Worldwide, haemorrhage leads."
+    "why": "Sepsis is the leading cause of maternal death in Sudan, ahead of haemorrhage. Worldwide, haemorrhage is the leading cause.",
+    "d": 1
    },
    {
     "id": "mm-8",
     "topic": "mm",
     "type": "sba",
-    "stem": "Para 5 in a village bled heavily after a home birth. Her mother-in-law felt the bleeding was normal, and the family waited for her husband to return from the farm before leaving. She died on arrival at the hospital.",
+    "stem": "A para 5 woman in a village bled heavily after a home delivery. Her mother-in-law considered the bleeding normal, and the family waited for her husband to return from the farm before leaving. She died on arrival at the hospital.",
     "q": "Which delay mainly caused her death?",
     "options": [
      "Delay in reaching care",
@@ -9134,14 +9232,15 @@
      "Delay in deciding to seek care"
     ],
     "answer": 4,
-    "why": "Not recognising danger and waiting for permission is the first delay, the decision to seek care."
+    "why": "Failure to recognise danger and waiting for permission constitute the first delay: the decision to seek care.",
+    "d": 2
    },
    {
     "id": "mm-9",
     "topic": "mm",
     "type": "sba",
-    "stem": "Para 4 lives 80 km from the nearest hospital and the road is cut in the rainy season. In her last pregnancy she nearly died of bleeding on the way.",
-    "q": "Which intervention best tackles her main delay?",
+    "stem": "A para 4 woman lives 80 km from the nearest hospital, and the road is cut off in the rainy season. In her last pregnancy she nearly died of haemorrhage on the way.",
+    "q": "Which intervention best addresses her main delay?",
     "options": [
      "Health education about danger signs",
      "Training more obstetricians at the hospital",
@@ -9150,13 +9249,14 @@
      "Free caesarean sections"
     ],
     "answer": 2,
-    "why": "Waiting homes deal with the second delay, reaching care, by bringing the woman close to the hospital before labour."
+    "why": "Maternity waiting homes address the second delay, reaching care, by bringing the woman close to the hospital before labour.",
+    "d": 3
    },
    {
     "id": "mm-10",
     "topic": "mm",
     "type": "sba",
-    "stem": "Para 2 reaches a referral hospital 1 hour after a PPH. She waits 3 hours for blood because the blood bank has none, and dies.",
+    "stem": "A para 2 woman reaches a referral hospital 1 hour after a PPH. She waits 3 hours for blood because the blood bank has none, and dies.",
     "q": "Which delay is this?",
     "options": [
      "Delay in deciding to seek care",
@@ -9166,7 +9266,8 @@
      "No delay; this is an unavoidable death"
     ],
     "answer": 1,
-    "why": "Once she reaches the facility, a lack of blood, staff or theatre is the third delay, receiving adequate care."
+    "why": "Once the woman has reached the facility, a lack of blood, staff or an operating theatre is the third delay: receiving adequate care.",
+    "d": 2
    },
    {
     "id": "mm-11",
@@ -9182,7 +9283,8 @@
      "Puerperal sepsis"
     ],
     "answer": 0,
-    "why": "Untreated PPH kills in about 2 hours, against about 1 day for rupture, 2 days for eclampsia, 3 for obstructed labour and 6 for sepsis."
+    "why": "Untreated PPH causes death in about 2 hours, compared with about 1 day for uterine rupture, 2 days for eclampsia, 3 days for obstructed labour and 6 days for sepsis.",
+    "d": 3
    },
    {
     "id": "mm-12",
@@ -9198,7 +9300,8 @@
      "A family planning clinic"
     ],
     "answer": 3,
-    "why": "These are the 7 basic EmONC signal functions; comprehensive care adds caesarean section and blood transfusion."
+    "why": "These are the seven signal functions of basic EmONC; comprehensive care adds caesarean section and blood transfusion.",
+    "d": 2
    },
    {
     "id": "mm-13",
@@ -9214,7 +9317,8 @@
      "Sisterhood method"
     ],
     "answer": 4,
-    "why": "The sisterhood method asks adults about deaths among their sisters; it is useful where registration is poor."
+    "why": "The sisterhood method asks adults about deaths among their sisters; it is useful where vital registration is poor.",
+    "d": 2
    },
    {
     "id": "mm-14",
@@ -9230,13 +9334,14 @@
      "In the UK, haemorrhage is the leading direct cause"
     ],
     "answer": 2,
-    "why": "In the UK VTE leads the direct causes and cardiac disease leads overall. Worldwide haemorrhage leads (about 27%); in Sudan sepsis leads."
+    "why": "In the United Kingdom VTE is the leading direct cause and cardiac disease the leading cause overall. Worldwide haemorrhage leads (about 27%); in Sudan sepsis leads.",
+    "d": 3
    },
    {
     "id": "mm-15",
     "topic": "mm",
     "type": "sba",
-    "stem": "Para 3 delivered a healthy baby in a health centre 6 hours ago and is ready to go home to her village.",
+    "stem": "A para 3 woman delivered a healthy baby in a health centre 6 hours ago and is ready to return to her village.",
     "q": "Which postnatal follow-up best reduces her risk of dying?",
     "options": [
      "Checks at 24 hours, day 3, week 1–2 and 6 weeks",
@@ -9246,7 +9351,8 @@
      "A check at 6 months for contraception"
     ],
     "answer": 0,
-    "why": "Most maternal deaths happen in the first days after birth, so the early checks (day 3, week 1–2) matter most, with the final check at 6 weeks."
+    "why": "Most maternal deaths occur in the first days after delivery, so the early checks (day 3 and week 1–2) are the most important, with the final check at 6 weeks.",
+    "d": 2
    },
    {
     "id": "ps-emq1",
@@ -9270,22 +9376,26 @@
      {
       "stem": "Day 1 after a caesarean under general anaesthesia. Temperature 38.1 °C, RR 24/min, SpO2 93%. Crackles at both lung bases; the uterus and wound are normal.",
       "answer": 0,
-      "why": "Fever on day 0–2 after GA with chest signs is from the lungs."
+      "why": "Fever on days 0–2 after general anaesthesia with chest signs arises from the lungs.",
+      "d": 2
      },
      {
       "stem": "Day 3 after a normal birth. Temperature 37.9 °C. Both breasts are hard, full and tender; no red area. Uterus and lochia are normal.",
       "answer": 3,
-      "why": "Both breasts hard on day 3–5 with low fever is engorgement, not infection."
+      "why": "Hardness of both breasts on days 3–5 with a low-grade fever is engorgement, not infection.",
+      "d": 1
      },
      {
       "stem": "Day 12 after a caesarean. Low-grade fever 37.8 °C and a painful swollen left calf, 3 cm bigger than the right.",
       "answer": 6,
-      "why": "Low-grade fever with a tender swollen calf in week 1–3 is DVT; confirm with Doppler."
+      "why": "A low-grade fever with a tender, swollen calf in weeks 1–3 indicates deep vein thrombosis, which is confirmed by Doppler ultrasound.",
+      "d": 2
      },
      {
       "stem": "Day 6 after a caesarean. Temperature 38.4 °C. The lower part of the wound is red, hot and opened, with pus coming out. The uterus is not tender.",
       "answer": 4,
-      "why": "A red, hot, discharging wound on day 4–8 is a wound infection; open and drain the pus."
+      "why": "A red, hot, discharging wound on days 4–8 is a wound infection; it is opened and the pus is drained.",
+      "d": 1
      }
     ]
    },
@@ -9311,22 +9421,26 @@
      {
       "stem": "Para 4, 3 months after a massive PPH with 8 units transfused. She is tired and low, her milk never came in, she has no periods and her BP is 90/60 mmHg. Hb 12 g/dL.",
       "answer": 7,
-      "why": "Failure of lactation, amenorrhoea and low BP after a massive PPH point to pituitary necrosis."
+      "why": "Failure of lactation, amenorrhoea and a low blood pressure after a massive PPH indicate pituitary necrosis.",
+      "d": 3
      },
      {
       "stem": "Para 1, day 5. Afebrile, BP normal. She is elated, talks fast, has not slept for 3 nights and says the baby was swapped at birth. Her sister has bipolar disorder.",
       "answer": 2,
-      "why": "Mania with delusions and a family history of bipolar disorder in the first 2 weeks is puerperal psychosis."
+      "why": "Mania with delusions and a family history of bipolar disorder in the first 2 weeks indicates puerperal psychosis.",
+      "d": 2
      },
      {
       "stem": "Para 2, day 3 after birth, is confused and has a fit. BP 170/110 mmHg, urine protein 3+.",
       "answer": 4,
-      "why": "Fits with high BP and proteinuria after birth are eclampsia; pre-eclampsia can start up to 6 weeks postpartum."
+      "why": "Convulsions with a high blood pressure and proteinuria after delivery indicate eclampsia; pre-eclampsia can begin up to 6 weeks postpartum.",
+      "d": 2
      },
      {
       "stem": "Para 3, 6 weeks after a PPH. She is tired, breathless on walking and tearful. She is pale; Hb 6.8 g/dL. She enjoys her baby and has no guilt.",
       "answer": 8,
-      "why": "Tiredness and low mood with Hb under 7 g/dL after a PPH is anaemia; treat it before diagnosing depression."
+      "why": "Tiredness and low mood with a haemoglobin below 7 g/dL after a PPH indicate anaemia, which is treated before depression is diagnosed.",
+      "d": 3
      }
     ]
    },
@@ -9352,22 +9466,26 @@
      {
       "stem": "Para 2, 3 months after birth, fully breastfeeding day and night. She has had no period and wants a method without drugs.",
       "answer": 0,
-      "why": "No period, full breastfeeding and a baby under 6 months give 98% protection."
+      "why": "No menstruation, full breastfeeding and a baby under 6 months give 98% protection.",
+      "d": 1
      },
      {
       "stem": "Para 1 is bottle-feeding because of a breast problem. She is 3 weeks after birth, has no VTE risk factors and wants the combined pill.",
       "answer": 3,
-      "why": "Not breastfeeding and no VTE risk, the combined pill can start from day 21."
+      "why": "In a woman who is not breastfeeding and has no risk of VTE, the combined pill can be started from day 21.",
+      "d": 2
      },
      {
       "stem": "Para 3, day 10 after a vaginal birth, asks for a copper IUD to be fitted today.",
       "answer": 5,
-      "why": "Between 48 hours and 4 weeks the soft uterus has a high risk of expulsion and perforation."
+      "why": "Between 48 hours and 4 weeks the soft uterus carries a high risk of expulsion and perforation.",
+      "d": 3
      },
      {
       "stem": "Para 6, day 2 after a normal birth. She and her husband have completed their family and want a permanent method before she goes home.",
       "answer": 7,
-      "why": "Puerperal mini-laparotomy within 7 days is convenient; otherwise interval sterilisation after 6 weeks."
+      "why": "Puerperal mini-laparotomy within 7 days is convenient; otherwise interval sterilisation is performed after 6 weeks.",
+      "d": 2
      }
     ]
    }

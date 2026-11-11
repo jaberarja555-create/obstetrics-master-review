@@ -3,154 +3,207 @@
   "short": "Physiology",
   "cards": [
    [
-    "Blood",
-    "By how much does plasma volume rise in pregnancy?",
-    "About 45%, peaking at 32–34 weeks."
+    "Haematological",
+    "By how much does the plasma volume increase in pregnancy, and when does it peak?",
+    "It increases by about 45% and peaks at 32–34 weeks.",
+    1,
+    "1hxmhrf"
    ],
    [
-    "Blood",
-    "By how much does red cell mass rise?",
-    "About 25%, so Hb falls by dilution (physiological anaemia)."
+    "Haematological",
+    "By how much does the red cell mass increase, and what is the effect on haemoglobin?",
+    "It increases by about 25%. Because the plasma volume rises more, haemoglobin falls by dilution (physiological anaemia).",
+    2,
+    "18plvvw"
    ],
    [
-    "Blood",
-    "What is the MCV in physiological anaemia?",
-    "Normal: it is dilution, not iron deficiency."
+    "Haematological",
+    "What is the mean corpuscular volume (MCV) in physiological anaemia of pregnancy?",
+    "The MCV is normal, because the fall in haemoglobin is caused by haemodilution and not by iron deficiency.",
+    2,
+    "1myddbg"
    ],
    [
-    "Blood",
-    "Which clotting factors rise in pregnancy?",
-    "Fibrinogen and factors VII, VIII and X; protein S falls."
+    "Haematological",
+    "Which coagulation factors change in pregnancy?",
+    "Fibrinogen and factors VII, VIII and X increase; protein S decreases.",
+    2,
+    "4zxkpf"
    ],
    [
-    "Blood",
-    "How much does VTE risk rise in pregnancy?",
-    "About 4–6 times, highest after birth."
+    "Haematological",
+    "By how much does the risk of venous thromboembolism (VTE) increase in pregnancy?",
+    "About 4–6 times; the risk is highest after delivery.",
+    1,
+    "19do7je"
    ],
    [
-    "Blood",
-    "Why is a fibrinogen of 2 g/L worrying in PPH?",
-    "Normal at term is 4–6 g/L: 2 g/L means consumption (DIC)."
+    "Haematological",
+    "Why is a fibrinogen level of 2 g/L a concern in postpartum haemorrhage?",
+    "The normal level at term is 4–6 g/L, so 2 g/L indicates consumption of clotting factors (DIC).",
+    3,
+    "wl9718"
    ],
    [
-    "Heart",
-    "How much does cardiac output rise?",
-    "About 40%, mostly by 20–24 weeks."
+    "Cardiovascular",
+    "By how much does cardiac output increase in pregnancy?",
+    "By about 40%; most of the increase occurs by 20–24 weeks.",
+    1,
+    "14rlk68"
    ],
    [
-    "Heart",
-    "When is BP lowest in pregnancy?",
-    "Mid-pregnancy (22–24 wk); back to booking level at term."
+    "Cardiovascular",
+    "When is blood pressure lowest in pregnancy?",
+    "In mid-pregnancy (22–24 weeks); it returns to the booking level by term.",
+    1,
+    "1gqsbep"
    ],
    [
-    "Heart",
-    "Which murmur is normal in pregnancy?",
-    "A soft ejection systolic flow murmur; a diastolic murmur never is."
+    "Cardiovascular",
+    "Which heart murmur is a normal finding in pregnancy?",
+    "A soft ejection systolic flow murmur. A diastolic murmur is never normal.",
+    2,
+    "kall65"
    ],
    [
-    "Heart",
-    "When does cardiac output peak again?",
-    "Just after delivery (autotransfusion from the uterus)."
+    "Cardiovascular",
+    "When does cardiac output reach a second peak?",
+    "Immediately after delivery, because blood returns to the circulation from the uterus (autotransfusion).",
+    2,
+    "8zoc87"
    ],
    [
-    "Heart",
+    "Cardiovascular",
     "What is supine hypotension?",
-    "After 20 wk the uterus compresses the IVC when supine: dizziness, low BP; tilt her left."
+    "After 20 weeks the uterus compresses the inferior vena cava when the woman lies supine, causing dizziness and low blood pressure. It is relieved by left lateral tilt.",
+    2,
+    "zxpw7l"
    ],
    [
-    "Lungs",
-    "Which breathing measure does NOT change in pregnancy?",
-    "Respiratory rate; tidal volume and minute ventilation rise 40%."
+    "Respiratory",
+    "Which respiratory measurement does not change in pregnancy?",
+    "The respiratory rate. Tidal volume and minute ventilation increase by 40%.",
+    2,
+    "1fgq6y6"
    ],
    [
-    "Lungs",
-    "What is the normal pCO₂ on a blood gas in pregnancy?",
-    "30 mmHg (4 kPa), lower than the non-pregnant 35–45 mmHg: compensated respiratory alkalosis."
+    "Respiratory",
+    "What is the normal arterial pCO₂ in pregnancy?",
+    "30 mmHg (4 kPa), which is lower than the non-pregnant range of 35–45 mmHg. This is a compensated respiratory alkalosis.",
+    2,
+    "w4eqy"
    ],
    [
-    "Lungs",
-    "Why does a pregnant woman desaturate fast when apnoeic?",
-    "FRC falls 20% and O₂ use rises 20%."
+    "Respiratory",
+    "Why does oxygen saturation fall rapidly in a pregnant woman during apnoea?",
+    "Functional residual capacity (FRC) falls by 20% and oxygen consumption rises by 20%.",
+    3,
+    "1komh9r"
    ],
    [
-    "Kidney",
-    "How much does GFR rise?",
-    "About 50%, so creatinine, urea and urate fall."
+    "Renal",
+    "By how much does the glomerular filtration rate (GFR) increase in pregnancy?",
+    "By about 50%; therefore serum creatinine, urea and urate fall.",
+    1,
+    "kfzg2t"
    ],
    [
-    "Kidney",
-    "What is a normal creatinine in pregnancy?",
-    "Below about 75 µmol/L."
+    "Renal",
+    "What is the normal serum creatinine in pregnancy?",
+    "Less than about 75 µmol/L.",
+    1,
+    "1ng4gu7"
    ],
    [
-    "Kidney",
+    "Renal",
     "Why is glycosuria common in pregnancy?",
-    "Filtered glucose exceeds tubular reabsorption: not diagnostic of diabetes."
+    "The filtered glucose load exceeds tubular reabsorption. It is therefore not diagnostic of diabetes.",
+    2,
+    "h8hfjm"
    ],
    [
-    "Kidney",
-    "Why is bacteriuria treated in pregnancy?",
-    "Dilated ureters and stasis: 20–30% progress to pyelonephritis."
+    "Renal",
+    "Why is asymptomatic bacteriuria treated in pregnancy?",
+    "The ureters are dilated and urine flow is slow (stasis), so 20–30% of cases progress to pyelonephritis.",
+    2,
+    "yazhex"
    ],
    [
-    "Liver",
-    "Which liver enzyme rises normally in pregnancy?",
-    "ALP, 2–4 times, from the placenta."
+    "Hepatic",
+    "Which liver enzyme rises in normal pregnancy?",
+    "Alkaline phosphatase (ALP) rises 2–4 times, because it is also produced by the placenta.",
+    1,
+    "jjbcey"
    ],
    [
-    "Liver",
-    "Raised ALT in the 3rd trimester means?",
-    "Disease: cholestasis, AFLP, HELLP or hepatitis; ALT does not rise normally."
+    "Hepatic",
+    "What does a raised ALT in the third trimester indicate?",
+    "It indicates disease, because ALT does not rise in normal pregnancy. The causes are obstetric cholestasis, AFLP, HELLP syndrome and hepatitis.",
+    3,
+    "10xc5vq"
    ],
    [
-    "Hormones",
+    "Endocrine",
     "When does the placenta take over progesterone production?",
-    "8–10 weeks; before then the corpus luteum is essential."
+    "At 8–10 weeks. Before this, the corpus luteum is essential.",
+    1,
+    "m7514y"
    ],
    [
-    "Hormones",
-    "Which hormone causes insulin resistance in the 2nd half?",
-    "hPL (with cortisol and progesterone)."
+    "Endocrine",
+    "Which hormone causes insulin resistance in the second half of pregnancy?",
+    "Human placental lactogen (hPL), together with cortisol and progesterone.",
+    2,
+    "1apip0"
    ],
    [
-    "Hormones",
-    "Why is TSH low in the 1st trimester?",
-    "hCG stimulates the TSH receptor."
+    "Endocrine",
+    "Why is TSH low in the first trimester?",
+    "Because hCG stimulates the TSH receptor.",
+    2,
+    "492tj9"
    ],
    [
-    "Hormones",
-    "Why is total T4 high but free T4 normal?",
-    "Oestrogen doubles thyroxine-binding globulin."
+    "Endocrine",
+    "Why is total T4 raised in pregnancy while free T4 remains normal?",
+    "Oestrogen doubles the level of thyroxine-binding globulin (TBG).",
+    3,
+    "ymutth"
    ],
    [
     "Skin",
     "What is chloasma?",
-    "Brown patches on the face (melasma) of pregnancy, worse in the sun."
+    "Brown pigmented patches on the face in pregnancy (melasma), which become darker with sun exposure.",
+    1,
+    "w4tqon"
    ],
    [
     "Weight",
-    "Recommended weight gain for a normal BMI?",
-    "11.5–16 kg; average about 12.5 kg."
+    "What is the recommended weight gain in pregnancy for a woman with a normal BMI?",
+    "11.5–16 kg; the average gain is about 12.5 kg.",
+    1,
+    "8nc3d2"
    ],
    [
     "Weight",
-    "Sudden gain of ≥ 1 kg in a week suggests?",
-    "Fluid retention: think pre-eclampsia."
+    "What does a sudden weight gain of 1 kg or more in one week suggest?",
+    "Fluid retention; pre-eclampsia should be considered.",
+    2,
+    "cy1vpd"
    ],
    [
-    "Practice",
+    "Clinical application",
     "Why does mitral stenosis often decompensate at 24–28 weeks?",
-    "Cardiac output and plasma volume reach near-peak levels."
+    "Because cardiac output and plasma volume reach near-peak levels at this time.",
+    3,
+    "1pv3fj8"
    ],
    [
-    "Practice",
-    "Why is asymptomatic bacteriuria treated in pregnancy but not usually outside it?",
-    "Dilated ureters and stasis: 20–30% go on to pyelonephritis."
-   ],
-   [
-    "Practice",
-    "Why is gestational diabetes screened at 24–28 weeks?",
-    "Placental hormones (hPL) make insulin resistance appear then."
+    "Clinical application",
+    "Why is screening for gestational diabetes performed at 24–28 weeks?",
+    "Because the insulin resistance caused by placental hormones (hPL) appears at this time.",
+    2,
+    "1wr5aw1"
    ]
   ]
  },
@@ -159,153 +212,192 @@
   "cards": [
    [
     "Signs",
-    "Name the positive (certain) signs of pregnancy.",
-    "Fetal heart heard or seen, fetus on scan, fetal parts or movements felt by the examiner."
+    "What are the positive (certain) signs of pregnancy?",
+    "Fetal heart sounds heard or fetal heart activity seen, a fetus seen on ultrasound, and fetal parts or movements felt by the examiner.",
+    2,
+    "1y08a8c"
    ],
    [
     "Signs",
     "What is Hegar's sign?",
-    "Soft compressible isthmus at 6–10 weeks."
+    "A soft, compressible uterine isthmus at 6–10 weeks.",
+    1,
+    "1ch4i7"
    ],
    [
     "Signs",
     "What is Chadwick's sign?",
-    "Bluish discolouration of the vagina and cervix, about 8 weeks."
+    "Bluish discolouration of the vagina and cervix at about 8 weeks.",
+    1,
+    "pw2fka"
    ],
    [
     "Signs",
     "What is Goodell's sign?",
-    "Softening of the cervix."
+    "Softening of the cervix.",
+    1,
+    "1m2qgm4"
    ],
    [
     "Signs",
-    "Is quickening a positive sign?",
-    "No: it is presumptive; the examiner must feel movements."
+    "Is quickening a positive sign of pregnancy?",
+    "No. It is a presumptive sign; fetal movements are a positive sign only when they are felt by the examiner.",
+    2,
+    "1bxlplk"
    ],
    [
     "Signs",
-    "When is quickening felt?",
-    "18–20 wk in a primigravida, 16–18 wk in a multigravida."
+    "When is quickening first felt?",
+    "At 18–20 weeks in a primigravida and at 16–18 weeks in a multigravida.",
+    1,
+    "qfdkms"
    ],
    [
     "hCG",
-    "Which cells make hCG?",
-    "The syncytiotrophoblast."
+    "Which cells produce hCG?",
+    "The syncytiotrophoblast.",
+    1,
+    "ar19yr"
    ],
    [
     "hCG",
-    "Why do tests measure β-hCG?",
-    "The α-subunit is shared with LH, FSH and TSH."
+    "Why do pregnancy tests measure the β-subunit of hCG?",
+    "Because the α-subunit is shared with LH, FSH and TSH and would cross-react.",
+    2,
+    "iwjhu4"
    ],
    [
     "hCG",
-    "When is serum hCG first positive?",
-    "8–11 days after conception."
+    "When does serum hCG first become positive?",
+    "8–11 days after conception.",
+    1,
+    "j4yb62"
    ],
    [
     "hCG",
-    "How much should hCG rise in 48 h in a viable early pregnancy?",
-    "At least 63% (it about doubles)."
+    "By how much should serum hCG rise in 48 hours in a viable early pregnancy?",
+    "By at least 63% (it approximately doubles).",
+    2,
+    "1s9ka6y"
    ],
    [
     "hCG",
-    "When does hCG peak?",
-    "8–10 weeks."
+    "When does the hCG level peak?",
+    "At 8–10 weeks.",
+    1,
+    "bqcvpn"
    ],
    [
     "hCG",
-    "Name causes of a very high hCG.",
-    "Molar pregnancy, multiple pregnancy, wrong dates, Down syndrome."
+    "What are the causes of a very high hCG level?",
+    "Molar pregnancy, multiple pregnancy, incorrect dates and Down syndrome.",
+    2,
+    "2mhaxp"
    ],
    [
-    "Scan",
-    "When is the gestational sac seen on TVS?",
-    "At 4.5–5 weeks."
+    "Ultrasound",
+    "When is the gestational sac first seen on transvaginal ultrasound (TVS)?",
+    "At 4.5–5 weeks.",
+    1,
+    "14w67oz"
    ],
    [
-    "Scan",
-    "What is the first proof of an intrauterine pregnancy?",
-    "A yolk sac inside the gestational sac."
+    "Ultrasound",
+    "What is the first definite evidence of an intrauterine pregnancy on ultrasound?",
+    "A yolk sac within the gestational sac.",
+    2,
+    "1i01b31"
    ],
    [
-    "Scan",
-    "When is fetal heart activity seen on TVS?",
-    "About 6 weeks."
+    "Ultrasound",
+    "When is fetal heart activity first seen on transvaginal ultrasound?",
+    "At about 6 weeks.",
+    1,
+    "jbsimp"
    ],
    [
-    "Scan",
+    "Ultrasound",
     "What is the discriminatory zone?",
-    "hCG ≥ 2000 IU/L: an intrauterine sac should be seen on TVS."
+    "The hCG level (2000 IU/L or more) at which an intrauterine gestational sac should be visible on transvaginal ultrasound.",
+    3,
+    "1247tg9"
    ],
    [
-    "Scan",
-    "CRL with no heartbeat that defines missed miscarriage?",
-    "CRL ≥ 7 mm with no heartbeat."
+    "Ultrasound",
+    "Which crown–rump length (CRL) without a heartbeat defines a missed miscarriage?",
+    "A CRL of 7 mm or more with no fetal heart activity.",
+    3,
+    "h5rgpw"
    ],
    [
     "Dating",
     "State Naegele's rule.",
-    "EDD = LMP + 7 days − 3 months + 1 year (LMP + 280 days)."
+    "EDD = LMP + 7 days − 3 months + 1 year (LMP + 280 days).",
+    1,
+    "oebdug"
    ],
    [
     "Dating",
-    "Cycle of 35 days: how do you adjust the EDD?",
-    "Add 7 days to the Naegele date."
+    "How is the EDD adjusted for a regular 35-day cycle?",
+    "Add 7 days to the date given by Naegele's rule.",
+    2,
+    "4zo10g"
    ],
    [
     "Dating",
-    "Most accurate way to date a pregnancy?",
-    "CRL at 11–14 weeks (± 5 days)."
+    "What is the most accurate method of dating a pregnancy?",
+    "Crown–rump length (CRL) at 11–14 weeks (accuracy ± 5 days).",
+    1,
+    "48jb8e"
    ],
    [
     "Dating",
-    "Early scan and LMP differ by 8 days. Which date?",
-    "The scan date (difference > 5 days)."
+    "The early scan and the LMP differ by 8 days. Which date is used?",
+    "The ultrasound date, because the difference is more than 5 days.",
+    3,
+    "ynk8o2"
    ],
    [
     "Dating",
-    "Can a 3rd-trimester scan date a pregnancy?",
-    "No: error ± 3 weeks; never re-date from it."
+    "Can a third-trimester scan be used to date a pregnancy?",
+    "No. The error is ± 3 weeks, so a pregnancy is never re-dated from a late scan.",
+    2,
+    "jw8dae"
    ],
    [
-    "Terms",
+    "Definitions",
     "Define term pregnancy.",
-    "37⁺⁰ to 41⁺⁶ weeks."
+    "37⁺⁰ to 41⁺⁶ weeks of gestation.",
+    1,
+    "1cjxr4g"
    ],
    [
-    "Terms",
+    "Definitions",
     "Define post-term pregnancy.",
-    "42 weeks or more."
+    "42 weeks of gestation or more.",
+    1,
+    "r6vah9"
    ],
    [
-    "Terms",
-    "Uterus larger than dates: give causes.",
-    "Wrong dates, twins, polyhydramnios, macrosomia, mole, fibroids."
+    "Definitions",
+    "What are the causes of a uterus that is larger than dates?",
+    "Incorrect dates, twin pregnancy, polyhydramnios, macrosomia, molar pregnancy and fibroids.",
+    2,
+    "wqtyus"
    ],
    [
-    "Terms",
-    "Uterus smaller than dates: give causes.",
-    "Wrong dates, FGR, oligohydramnios, IUFD, transverse lie."
+    "Definitions",
+    "What are the causes of a uterus that is smaller than dates?",
+    "Incorrect dates, fetal growth restriction (FGR), oligohydramnios, intrauterine fetal death (IUFD) and transverse lie.",
+    2,
+    "196fo4j"
    ],
    [
-    "Other",
+    "Definitions",
     "What is pseudocyesis?",
-    "False belief of pregnancy with symptoms but negative hCG and empty uterus."
-   ],
-   [
-    "Practice",
-    "Is quickening a positive sign of pregnancy?",
-    "No: presumptive. The examiner must feel movements."
-   ],
-   [
-    "Practice",
-    "Which signs of pregnancy are \"positive\" (certain)?",
-    "Fetal heart, fetus on scan, parts or movements felt by the examiner."
-   ],
-   [
-    "Practice",
-    "Why do pregnancy tests measure β-hCG and not α-hCG?",
-    "α is shared with LH, FSH and TSH: cross-reacts."
+    "A false belief of being pregnant, with symptoms of pregnancy but a negative hCG test and an empty uterus.",
+    1,
+    "1h1ed5"
    ]
   ]
  },
@@ -314,163 +406,213 @@
   "cards": [
    [
     "Booking",
-    "When should a woman book?",
-    "Before 12 weeks."
+    "When should a pregnant woman book for antenatal care?",
+    "Before 12 weeks.",
+    1,
+    "55h7ci"
    ],
    [
     "Booking",
-    "Name the booking blood tests.",
-    "Hb, blood group and Rh, antibodies, glucose, HIV, HBsAg, syphilis."
+    "Which blood tests are done at the booking visit?",
+    "Haemoglobin, blood group and Rh type, antibody screen, glucose, HIV, HBsAg and syphilis.",
+    1,
+    "2q9kta"
    ],
    [
     "Booking",
-    "Why culture urine at booking?",
-    "To find and treat asymptomatic bacteriuria."
+    "Why is urine cultured at the booking visit?",
+    "To detect and treat asymptomatic bacteriuria.",
+    1,
+    "1hqpc30"
    ],
    [
     "Booking",
-    "What is the hand-held antenatal card for?",
-    "Dates, results and plan travel with her to every visit and to labour."
+    "What is the purpose of the hand-held antenatal card?",
+    "It carries the dates, results and plan of care with the woman to every visit and to labour.",
+    1,
+    "s31v9a"
    ],
    [
     "Schedule",
-    "How many antenatal contacts does WHO advise?",
-    "Eight: one in the 1st, two in the 2nd, five in the 3rd trimester."
+    "How many antenatal contacts does WHO recommend?",
+    "Eight: one in the first trimester, two in the second and five in the third.",
+    1,
+    "1wlfja0"
    ],
    [
     "Schedule",
-    "What do you check at every visit?",
-    "BP, urine protein, fetal movements, danger signs, SFH from 24 wk, fetal heart."
+    "What is checked at every antenatal visit?",
+    "Blood pressure, urine protein, fetal movements, danger signs, symphysis–fundal height (from 24 weeks) and the fetal heart.",
+    2,
+    "1vk7oic"
    ],
    [
     "Schedule",
-    "When is the anomaly scan done?",
-    "18–22 weeks."
+    "When is the anomaly scan performed?",
+    "At 18–22 weeks.",
+    1,
+    "1lfu5au"
    ],
    [
     "Schedule",
-    "When is Hb repeated?",
-    "At 28 weeks."
+    "When is haemoglobin repeated?",
+    "At 28 weeks.",
+    1,
+    "pfa3fz"
    ],
    [
     "Schedule",
-    "When is presentation checked?",
-    "From 36 weeks (breech → ECV plan)."
+    "From which gestation is the presentation checked?",
+    "From 36 weeks; if the presentation is breech, external cephalic version (ECV) is planned.",
+    2,
+    "7sufri"
    ],
    [
     "Supplements",
-    "Folic acid dose for all women?",
-    "0.4 mg daily from before conception to 12 weeks."
+    "What dose of folic acid is given to all women?",
+    "0.4 mg daily from before conception until 12 weeks.",
+    1,
+    "10kdkyi"
    ],
    [
     "Supplements",
-    "Who needs folic acid 5 mg?",
-    "Epilepsy, diabetes, previous NTD, obesity, sickle cell."
+    "Which women need folic acid 5 mg daily?",
+    "Women with epilepsy, diabetes, a previous neural tube defect, obesity or sickle cell disease.",
+    2,
+    "1cxk07z"
    ],
    [
     "Supplements",
-    "Daily iron supplement in pregnancy?",
-    "30–60 mg elemental iron with folic acid."
+    "What is the daily iron supplement in pregnancy?",
+    "30–60 mg of elemental iron with folic acid.",
+    1,
+    "jcbgt3"
    ],
    [
     "Supplements",
-    "Who gets aspirin and what dose?",
-    "Pre-eclampsia risk: 75 mg nightly from 12 to 36 weeks."
+    "Which women are given aspirin, and at what dose?",
+    "Women at risk of pre-eclampsia: 75 mg at night from 12 to 36 weeks.",
+    2,
+    "1dzx090"
    ],
    [
     "Supplements",
-    "Calcium dose to reduce pre-eclampsia?",
-    "1.5–2 g daily from 20 wk if dietary intake is low."
+    "What dose of calcium reduces the risk of pre-eclampsia?",
+    "1.5–2 g daily from 20 weeks when the dietary intake is low.",
+    2,
+    "1w306m0"
    ],
    [
-    "Vaccine",
-    "Td doses for a never-vaccinated woman in her first pregnancy?",
-    "Two, 4 weeks apart, the second ≥ 2 weeks before birth."
+    "Vaccination",
+    "How many doses of Td does a never-vaccinated woman receive in her first pregnancy?",
+    "Two doses 4 weeks apart, the second at least 2 weeks before delivery.",
+    2,
+    "1aqd1r1"
    ],
    [
-    "Vaccine",
-    "How many Td doses give life-long protection?",
-    "Five."
+    "Vaccination",
+    "How many doses of Td give life-long protection?",
+    "Five.",
+    1,
+    "1o0x0tp"
    ],
    [
     "Malaria",
-    "When is the first SP (IPTp) dose given?",
-    "At the first visit after quickening (16–20 wk)."
+    "When is the first dose of sulfadoxine–pyrimethamine (SP) for IPTp given?",
+    "At the first visit after quickening (16–20 weeks).",
+    2,
+    "8o18k7"
    ],
    [
     "Malaria",
     "Which drug must not be combined with SP?",
-    "Cotrimoxazole."
+    "Cotrimoxazole.",
+    2,
+    "1y0dt7x"
    ],
    [
     "Malaria",
-    "Which folic acid dose is used with SP?",
-    "0.4 mg, not 5 mg."
+    "Which dose of folic acid is used with SP?",
+    "0.4 mg, not 5 mg.",
+    3,
+    "om9syj"
    ],
    [
     "Advice",
-    "Why avoid NSAIDs after 30 weeks?",
-    "Premature closure of the ductus arteriosus and oligohydramnios."
+    "Why are NSAIDs avoided after 30 weeks?",
+    "They can cause premature closure of the ductus arteriosus and oligohydramnios.",
+    2,
+    "jcekxq"
    ],
    [
     "Advice",
-    "Extra energy needed in pregnancy?",
-    "About 300 kcal/day in the 2nd half only."
+    "How much extra energy is needed in pregnancy?",
+    "About 300 kcal per day, in the second half of pregnancy only.",
+    1,
+    "1lbdih6"
    ],
    [
     "Danger signs",
-    "Name danger signs every woman should know.",
-    "Bleeding, fits, severe headache, fever, severe pain, breathlessness, reduced movements, leaking fluid."
+    "Which danger signs should every pregnant woman know?",
+    "Vaginal bleeding, convulsions, severe headache, fever, severe pain, breathlessness, reduced fetal movements and leaking of fluid.",
+    1,
+    "1kc0157"
    ],
    [
     "Rh",
-    "When is anti-D given?",
-    "Within 72 h of any sensitising event and after birth of an RhD-positive baby."
+    "When is anti-D immunoglobulin given?",
+    "Within 72 hours of any sensitising event, and after the birth of an RhD-positive baby.",
+    2,
+    "103gg9l"
    ],
    [
     "Risk",
-    "Name features that make a pregnancy high risk.",
-    "Previous CS, PPH, medical disease, twins, age < 18 or ≥ 35, BP ≥ 140/90, malpresentation."
+    "Which features make a pregnancy high risk?",
+    "Previous caesarean section, previous PPH, medical disease, twin pregnancy, age below 18 or 35 and above, blood pressure ≥ 140/90 mmHg and malpresentation.",
+    2,
+    "12o2e62"
    ],
    [
     "Birth plan",
     "What is birth preparedness?",
-    "Planned place, transport, money, blood donor and companion for the birth."
+    "A plan for the place of birth, transport, money, a blood donor and a companion.",
+    1,
+    "ddjhsg"
    ],
    [
-    "Complaints",
-    "First advice for heartburn?",
-    "Small frequent meals, no late meals, raise the bed head; antacids."
+    "Common complaints",
+    "What is the first advice for heartburn in pregnancy?",
+    "Small frequent meals, no late meals and raising the head of the bed; antacids may be used.",
+    1,
+    "1ubk2s9"
    ],
    [
-    "Complaints",
-    "Normal vs abnormal vaginal discharge in pregnancy?",
-    "White, odourless, non-itchy is normal; itchy curdy suggests candida."
+    "Common complaints",
+    "How is normal vaginal discharge in pregnancy distinguished from abnormal discharge?",
+    "Normal discharge is white, odourless and not itchy. An itchy, curd-like discharge suggests candidiasis.",
+    2,
+    "71m2j1"
    ],
    [
-    "Practice",
-    "Why screen and treat asymptomatic bacteriuria in pregnancy?",
-    "Prevents pyelonephritis and preterm labour."
+    "Clinical application",
+    "What is the benefit of screening for and treating asymptomatic bacteriuria in pregnancy?",
+    "It prevents pyelonephritis and preterm labour.",
+    2,
+    "1ph572"
    ],
    [
-    "Practice",
-    "Name four booking blood tests.",
-    "Hb, blood group and Rh, HIV, HBsAg, syphilis, glucose."
-   ],
-   [
-    "Practice",
+    "Clinical application",
     "Why is SP not given in the first trimester?",
-    "Antifolate: risk to organogenesis (and folate antagonism)."
+    "It is an antifolate drug, so it carries a risk during organogenesis.",
+    3,
+    "1uxginn"
    ],
    [
-    "Practice",
-    "Give four danger signs you teach at the booking visit.",
-    "Bleeding, fits/headache, fever, reduced fetal movements."
-   ],
-   [
-    "Practice",
-    "Why arrange a blood donor before the birth?",
-    "Haemorrhage is a leading cause of maternal death."
+    "Clinical application",
+    "Why is a blood donor arranged before delivery?",
+    "Because haemorrhage is a leading cause of maternal death.",
+    2,
+    "fl155x"
    ]
   ]
  },
@@ -5870,162 +6012,226 @@
    [
     "Definition",
     "Define the puerperium.",
-    "From delivery of the placenta until the genital organs return to the non-pregnant state: about 6 weeks (42 days)."
+    "The period from delivery of the placenta until the genital organs return to the non-pregnant state, about 6 weeks (42 days).",
+    1,
+    "1hk4ikk"
    ],
    [
     "Involution",
-    "Where is the fundus just after delivery?",
-    "Firm and contracted at about the level of the umbilicus."
+    "Where is the uterine fundus immediately after delivery?",
+    "It is firm and contracted, at about the level of the umbilicus.",
+    1,
+    "19021vo"
    ],
    [
     "Involution",
-    "How fast does the fundus fall after birth?",
-    "About 1 cm (one finger breadth) a day."
+    "How fast does the fundal height fall after delivery?",
+    "By about 1 cm (one finger breadth) per day.",
+    1,
+    "ss7mzy"
    ],
    [
     "Involution",
     "When is the uterus no longer palpable abdominally?",
-    "By day 10–14."
+    "By day 10–14.",
+    1,
+    "1l24swz"
    ],
    [
     "Involution",
-    "Uterine weight after birth, at 1 week and at 6 weeks?",
-    "About 1000 g, 500 g, then 60–100 g."
+    "What is the weight of the uterus after delivery, at 1 week and at 6 weeks?",
+    "About 1000 g after delivery, 500 g at 1 week and 60–100 g at 6 weeks.",
+    2,
+    "12bbt0r"
    ],
    [
     "Involution",
-    "How do uterine muscle cells involute?",
-    "They shrink by autolysis; the number of cells does not fall."
+    "How do the uterine muscle cells involute?",
+    "The cells become smaller by autolysis; their number does not decrease.",
+    2,
+    "nxmure"
    ],
    [
     "Involution",
     "What stops bleeding from the placental site?",
-    "Contraction of crossing myometrial fibres kinking the vessels: living ligatures."
+    "Contraction of the crossing myometrial fibres, which compress the vessels (living ligatures).",
+    2,
+    "jthxeg"
    ],
    [
     "Endometrium",
     "From which layer does the endometrium regenerate?",
-    "The basal layer of the decidua, by about day 10; placental site by 6 weeks."
+    "From the basal layer of the decidua, by about day 10; the placental site is healed by 6 weeks.",
+    2,
+    "1wdj0xs"
    ],
    [
     "Cervix",
-    "How open is the cervix after birth?",
-    "Admits 2–3 fingers for 4–6 days, 1 finger by day 10–14; os becomes a transverse slit."
+    "How does the cervix close after delivery?",
+    "It admits 2–3 fingers for 4–6 days and 1 finger by day 10–14; the external os becomes a transverse slit.",
+    2,
+    "15mrfv4"
    ],
    [
     "Lochia",
-    "Timing of lochia rubra, serosa and alba?",
-    "Rubra day 1–4, serosa day 5–9, alba from day 10 to 3–6 weeks."
+    "What is the timing of lochia rubra, serosa and alba?",
+    "Lochia rubra on days 1–4, lochia serosa on days 5–9, and lochia alba from day 10 to 3–6 weeks.",
+    1,
+    "64m2m6"
    ],
    [
     "Lochia",
-    "What does foul lochia with a tender bulky uterus suggest?",
-    "Endometritis."
+    "What does offensive lochia with a tender, bulky uterus suggest?",
+    "Endometritis.",
+    1,
+    "11r66l6"
    ],
    [
     "Lochia",
-    "Red lochia returning on day 12 with a bulky uterus?",
-    "Retained placental tissue or subinvolution; ultrasound."
+    "What does a return of red lochia on day 12 with a bulky uterus suggest?",
+    "Retained placental tissue or subinvolution; an ultrasound scan is indicated.",
+    3,
+    "xloc70"
    ],
    [
     "Circulation",
-    "Why does heart disease decompensate right after birth?",
-    "Autotransfusion from the contracting uterus raises cardiac output."
+    "Why may heart disease decompensate immediately after delivery?",
+    "Autotransfusion from the contracting uterus increases cardiac output.",
+    3,
+    "18pzjs3"
    ],
    [
-    "Blood",
-    "Is a WBC of 20 × 10⁹/L on day 1 abnormal?",
-    "No; up to 20–25 × 10⁹/L is normal in the first days if she is well."
+    "Haematological",
+    "Is a white cell count of 20 × 10⁹/L on day 1 abnormal?",
+    "No. A count of up to 20–25 × 10⁹/L is normal in the first days if the woman is well.",
+    2,
+    "12rpfyj"
    ],
    [
-    "Blood",
-    "How long does the hypercoagulable state last after birth?",
-    "About 6 weeks: the period of highest VTE risk."
+    "Haematological",
+    "How long does the hypercoagulable state last after delivery?",
+    "About 6 weeks; this is the period of highest risk of venous thromboembolism.",
+    2,
+    "fmw3ws"
    ],
    [
-    "Hormones",
-    "When are hPL and hCG undetectable after birth?",
-    "By about day 10."
+    "Endocrine",
+    "When do hPL and hCG become undetectable after delivery?",
+    "By about day 10.",
+    1,
+    "1jlzdkz"
    ],
    [
     "Fertility",
-    "Earliest ovulation in a non-breastfeeding mother?",
-    "About day 25; so contraception is needed from day 21."
+    "When is the earliest ovulation in a mother who is not breastfeeding?",
+    "At about day 25; contraception is therefore needed from day 21.",
+    2,
+    "1qmtusv"
    ],
    [
     "Lactation",
-    "Which hormone makes milk and which ejects it?",
-    "Prolactin (anterior pituitary) makes it; oxytocin (posterior pituitary) causes let-down."
+    "Which hormone produces milk and which hormone ejects it?",
+    "Prolactin (anterior pituitary) produces milk; oxytocin (posterior pituitary) causes milk ejection (let-down).",
+    1,
+    "ur5tfx"
    ],
    [
     "Lactation",
-    "Why does breastfeeding speed involution?",
-    "Suckling releases oxytocin, which contracts the uterus (after-pains)."
+    "Why does breastfeeding speed uterine involution?",
+    "Suckling releases oxytocin, which contracts the uterus (after-pains).",
+    2,
+    "1t31vo3"
    ],
    [
     "Lactation",
-    "What lets milk 'come in' on day 2–4?",
-    "The fall in oestrogen and progesterone after the placenta is delivered."
+    "What allows milk to \"come in\" on days 2–4?",
+    "The fall in oestrogen and progesterone after delivery of the placenta.",
+    2,
+    "1qhreyt"
    ],
    [
     "Postnatal care",
-    "WHO postnatal contacts?",
-    "At least 4: first 24 h, day 2–3, day 7–14 and 6 weeks."
+    "How many postnatal contacts does WHO recommend?",
+    "At least four: within the first 24 hours, on day 2–3, on day 7–14 and at 6 weeks.",
+    1,
+    "1xzp3bq"
    ],
    [
     "Postnatal care",
-    "Anti-D after birth: who, dose, deadline?",
-    "RhD-negative non-sensitised mother of RhD-positive baby: 500 IU IM within 72 h, plus Kleihauer."
+    "Who receives anti-D after delivery, at what dose and by when?",
+    "An RhD-negative, non-sensitised mother of an RhD-positive baby: 500 IU IM within 72 hours, with a Kleihauer test.",
+    2,
+    "1bi1uny"
    ],
    [
     "Postnatal care",
-    "Rubella non-immune mother, breastfeeding: what now?",
-    "MMR before discharge; breastfeeding is fine; avoid pregnancy for 1 month."
+    "How is a breastfeeding mother who is not immune to rubella managed?",
+    "MMR vaccine is given before discharge; breastfeeding may continue; pregnancy is avoided for 1 month.",
+    2,
+    "9dlf3r"
    ],
    [
     "Breastfeeding",
-    "WHO breastfeeding rules?",
-    "Start within 1 hour, exclusive for 6 months, on demand, continue to 2 years."
+    "What are the WHO recommendations on breastfeeding?",
+    "Start within 1 hour of birth, breastfeed exclusively for 6 months and on demand, and continue up to 2 years.",
+    1,
+    "sw1d77"
    ],
    [
     "Breastfeeding",
-    "Absolute contraindication to breastfeeding in the baby?",
-    "Galactosaemia."
+    "Which condition in the baby is an absolute contraindication to breastfeeding?",
+    "Galactosaemia.",
+    1,
+    "14bn9pv"
    ],
    [
     "Breastfeeding",
-    "HIV-positive mother in Sudan: feeding advice?",
-    "Exclusive breastfeeding for 6 months on ART; no mixed feeding."
+    "What feeding advice is given to an HIV-positive mother in Sudan?",
+    "Exclusive breastfeeding for 6 months while on antiretroviral therapy; mixed feeding is avoided.",
+    2,
+    "146fsoz"
    ],
    [
     "Breast",
-    "Commonest organism and treatment of mastitis?",
-    "Staph. aureus; flucloxacillin 500 mg 6-hourly for 10–14 days and keep breastfeeding."
+    "What is the commonest organism in mastitis, and how is it treated?",
+    "Staphylococcus aureus; flucloxacillin 500 mg 6-hourly for 10–14 days, and breastfeeding continues.",
+    2,
+    "1dupifa"
    ],
    [
     "Breast",
-    "Day 3, both breasts hard and tender, 37.8 °C: diagnosis?",
-    "Breast engorgement: frequent feeds, expressing, analgesia."
+    "On day 3 both breasts are hard and tender and the temperature is 37.8 °C. What is the diagnosis?",
+    "Breast engorgement; it is managed with frequent feeds, expression of milk and analgesia.",
+    2,
+    "jcfki1"
    ],
    [
     "Lactation",
-    "Drug to stop lactation after a stillbirth?",
-    "Cabergoline 1 mg once; avoid in pre-eclampsia or hypertension."
+    "Which drug is used to suppress lactation after a stillbirth?",
+    "Cabergoline 1 mg as a single dose; it is avoided in pre-eclampsia or hypertension.",
+    2,
+    "2mjmij"
    ],
    [
     "Contraception",
-    "Three LAM rules?",
-    "No period, full or nearly full breastfeeding, baby under 6 months: 98% protection."
+    "What are the three conditions of the lactational amenorrhoea method (LAM)?",
+    "No menstruation, full or nearly full breastfeeding, and a baby under 6 months; it gives 98% protection.",
+    2,
+    "1avzquq"
    ],
    [
     "Contraception",
-    "When can a copper IUD be inserted after birth?",
-    "Within 48 h or from 4 weeks; avoid in between (expulsion, perforation)."
+    "When can a copper IUD be inserted after delivery?",
+    "Within 48 hours or from 4 weeks; the period in between is avoided because of expulsion and perforation.",
+    3,
+    "ger4o9"
    ],
    [
     "Contraception",
-    "Combined pill timing after birth?",
-    "Not breastfeeding: from day 21 (day 42 with VTE risk); breastfeeding: avoid until 6 months."
+    "When can the combined oral contraceptive pill be started after delivery?",
+    "Not breastfeeding: from day 21 (day 42 if there is a risk of VTE). Breastfeeding: avoided until 6 months.",
+    3,
+    "67egdq"
    ]
   ]
  },
@@ -6035,187 +6241,226 @@
    [
     "Definition",
     "Define puerperal pyrexia.",
-    "Temperature of 38 °C or more in the first 14 days after birth."
+    "A temperature of 38 °C or more in the first 14 days after delivery.",
+    1,
+    "h0hb0p"
    ],
    [
     "Definition",
-    "Classic definition of puerperal morbidity?",
-    "38 °C or more on any 2 of the first 10 days, excluding the first 24 h."
+    "What is the classic definition of puerperal morbidity?",
+    "A temperature of 38 °C or more on any 2 of the first 10 days, excluding the first 24 hours.",
+    2,
+    "8ljes2"
    ],
    [
     "Definition",
-    "WHO definition of puerperal sepsis?",
-    "Genital tract infection from ROM or labour to day 42 with ≥ 2: pain, fever, abnormal or foul discharge, slow involution."
+    "What is the WHO definition of puerperal sepsis?",
+    "Infection of the genital tract between rupture of membranes or labour and day 42, with two or more of: pelvic pain, fever, abnormal or offensive discharge, and delayed involution.",
+    3,
+    "xn7nzs"
    ],
    [
     "Burden",
-    "Leading cause of maternal death in Sudan?",
-    "Sepsis."
+    "What is the leading cause of maternal death in Sudan?",
+    "Sepsis.",
+    1,
+    "j9ftoj"
    ],
    [
     "Causes",
-    "Commonest cause of puerperal infection?",
-    "Endometritis (upper genital tract)."
+    "What is the commonest cause of puerperal infection?",
+    "Endometritis (infection of the upper genital tract).",
+    1,
+    "1ikcjur"
    ],
    [
     "Causes",
-    "Fever on day 1 after caesarean under GA with crackles?",
-    "Atelectasis or aspiration (Mendelson syndrome)."
+    "What causes fever with chest crackles on day 1 after caesarean section under general anaesthesia?",
+    "Atelectasis or aspiration (Mendelson syndrome).",
+    3,
+    "vo2frw"
    ],
    [
     "Causes",
-    "Which fever cause typically starts 1–4 weeks after birth?",
-    "Mastitis or breast abscess."
+    "Which cause of puerperal fever typically begins 1–4 weeks after delivery?",
+    "Mastitis or breast abscess.",
+    2,
+    "1o8f2o9"
    ],
    [
     "Risk factors",
-    "Strongest risk factor for endometritis?",
-    "Caesarean section, especially in labour and without prophylactic antibiotics."
+    "What is the strongest risk factor for endometritis?",
+    "Caesarean section, especially in labour and without prophylactic antibiotics.",
+    1,
+    "e94jrs"
    ],
    [
     "Risk factors",
-    "Name intrapartum risk factors for puerperal sepsis.",
-    "Prolonged labour and ROM, many vaginal examinations, instruments, tears, manual removal, chorioamnionitis."
+    "What are the intrapartum risk factors for puerperal sepsis?",
+    "Prolonged labour, prolonged rupture of membranes, repeated vaginal examinations, instrumental delivery, tears, manual removal of the placenta and chorioamnionitis.",
+    2,
+    "a631yl"
    ],
    [
     "Risk factors",
-    "Does precipitate labour raise infection risk?",
-    "No; prolonged labour does."
+    "Does precipitate labour increase the risk of infection?",
+    "No; prolonged labour does.",
+    2,
+    "n773lh"
    ],
    [
     "Organisms",
-    "Commonest organism in puerperal endometritis (classic MCQ)?",
-    "Anaerobic streptococcus; infection is usually polymicrobial."
+    "What is the commonest organism in puerperal endometritis?",
+    "Anaerobic streptococcus; the infection is usually polymicrobial.",
+    2,
+    "1o41b4w"
    ],
    [
     "Organisms",
-    "Organism behind most sudden sepsis deaths?",
-    "Group A β-haemolytic streptococcus (S. pyogenes), often from a family sore throat."
+    "Which organism causes most deaths from sudden puerperal sepsis?",
+    "Group A β-haemolytic streptococcus (Streptococcus pyogenes), often acquired from a family member with a sore throat.",
+    2,
+    "19cc13j"
    ],
    [
     "Organisms",
-    "Organisms of postpartum UTI?",
-    "E. coli, Proteus, Klebsiella."
+    "Which organisms cause postpartum urinary tract infection?",
+    "Escherichia coli, Proteus and Klebsiella.",
+    1,
+    "6lg1kw"
    ],
    [
-    "Clinical",
-    "Signs of endometritis?",
-    "Fever, lower abdominal pain, foul lochia, tender bulky subinvoluted uterus."
+    "Clinical features",
+    "What are the signs of endometritis?",
+    "Fever, lower abdominal pain, offensive lochia and a tender, bulky, subinvoluted uterus.",
+    1,
+    "1u7ev8h"
    ],
    [
-    "Clinical",
-    "Warning features of GAS sepsis?",
-    "Looks well then collapses; pain needing opioids, diarrhoea and vomiting, rash, hypothermia."
+    "Clinical features",
+    "What are the warning features of group A streptococcal sepsis?",
+    "The woman appears well and then collapses; severe pain requiring opioids, diarrhoea and vomiting, a rash and hypothermia.",
+    3,
+    "jemitr"
    ],
    [
     "Recognition",
-    "Obstetric qSOFA criteria?",
-    "RR ≥ 25, systolic BP < 90, altered mental state; ≥ 2 = high risk."
+    "What are the obstetric qSOFA criteria?",
+    "Respiratory rate ≥ 25/min, systolic blood pressure < 90 mmHg and altered mental state; two or more indicate high risk.",
+    2,
+    "7nkupd"
    ],
    [
     "Recognition",
-    "MEOWS escalation rule?",
-    "One red or two yellow triggers: urgent medical review."
+    "What is the escalation rule of the MEOWS chart?",
+    "One red trigger or two yellow triggers require urgent medical review.",
+    2,
+    "lmqaed"
    ],
    [
-    "Investigation",
-    "Must-do test in every postpartum fever in Sudan?",
-    "Malaria blood film or RDT."
+    "Investigations",
+    "Which test is essential in every postpartum fever in Sudan?",
+    "A blood film or rapid diagnostic test for malaria.",
+    1,
+    "1okg0kd"
    ],
    [
-    "Investigation",
-    "Why take blood cultures before antibiotics?",
-    "To identify the organism and sensitivity; but never delay antibiotics beyond 1 hour."
-   ],
-   [
-    "Management",
-    "List the Sepsis Six.",
-    "Give O₂, IV fluids, IV antibiotics; take blood cultures, lactate (+Hb), urine output."
-   ],
-   [
-    "Management",
-    "Time limit for the Sepsis Six?",
-    "Within 1 hour of suspecting sepsis."
-   ],
-   [
-    "Antibiotics",
-    "First-line antibiotics for endometritis in Sudan?",
-    "Ceftriaxone 1–2 g IV daily plus metronidazole 500 mg IV 8-hourly."
-   ],
-   [
-    "Antibiotics",
-    "Alternative regimen for endometritis?",
-    "Clindamycin 900 mg IV 8-hourly plus gentamicin 5 mg/kg IV daily."
-   ],
-   [
-    "Antibiotics",
-    "Why add clindamycin in GAS toxic shock?",
-    "It suppresses bacterial toxin production."
-   ],
-   [
-    "Antibiotics",
-    "Antibiotics to avoid in breastfeeding?",
-    "Tetracyclines and chloramphenicol."
+    "Investigations",
+    "Why are blood cultures taken before antibiotics?",
+    "To identify the organism and its sensitivity; however, antibiotics must never be delayed beyond 1 hour.",
+    2,
+    "1rj9yg1"
    ],
    [
     "Management",
-    "Febrile on antibiotics, bulky uterus, open os at day 7. Next step?",
-    "Ultrasound; evacuate retained products after antibiotics have started."
+    "What are the components of the Sepsis Six?",
+    "Give oxygen, IV fluids and IV antibiotics; take blood cultures, measure lactate (and haemoglobin) and monitor urine output.",
+    2,
+    "prv2rg"
+   ],
+   [
+    "Management",
+    "Within what time must the Sepsis Six be completed?",
+    "Within 1 hour of suspecting sepsis.",
+    1,
+    "15ppj0g"
+   ],
+   [
+    "Antibiotics",
+    "What is the first-line antibiotic regimen for endometritis in Sudan?",
+    "Ceftriaxone 1–2 g IV daily plus metronidazole 500 mg IV 8-hourly.",
+    2,
+    "1rha2th"
+   ],
+   [
+    "Antibiotics",
+    "What is the alternative antibiotic regimen for endometritis?",
+    "Clindamycin 900 mg IV 8-hourly plus gentamicin 5 mg/kg IV daily.",
+    3,
+    "1qsajkn"
+   ],
+   [
+    "Antibiotics",
+    "Why is clindamycin added in group A streptococcal toxic shock?",
+    "It suppresses bacterial toxin production.",
+    3,
+    "xc06qq"
+   ],
+   [
+    "Antibiotics",
+    "Which antibiotics are avoided during breastfeeding?",
+    "Tetracyclines and chloramphenicol.",
+    1,
+    "12xss6g"
+   ],
+   [
+    "Management",
+    "A woman remains febrile on antibiotics at day 7, with a bulky uterus and an open os. What is the next step?",
+    "Ultrasound scan; retained products are evacuated after antibiotics have been started.",
+    3,
+    "aogw9y"
    ],
    [
     "Complications",
-    "Spiking fever on antibiotics, looks well, no collection after CS?",
-    "Septic pelvic (ovarian vein) thrombophlebitis: CT/MRI, add therapeutic heparin."
+    "After caesarean section a woman has a spiking fever despite antibiotics, appears well and has no collection. What is the diagnosis?",
+    "Septic pelvic (ovarian vein) thrombophlebitis; it is confirmed by CT or MRI, and therapeutic heparin is added.",
+    3,
+    "znmg8z"
    ],
    [
     "Complications",
-    "Swinging fever, diarrhoea, tenesmus, pelvic mass?",
-    "Pelvic abscess in the pouch of Douglas: drain."
+    "What do a swinging fever, diarrhoea, tenesmus and a pelvic mass indicate?",
+    "A pelvic abscess in the pouch of Douglas, which requires drainage.",
+    3,
+    "sazsnj"
    ],
    [
     "Complications",
-    "Long-term complication of pelvic sepsis?",
-    "Tubal blockage causing infertility or ectopic pregnancy; chronic pelvic pain."
+    "What are the long-term complications of pelvic sepsis?",
+    "Tubal blockage causing infertility or ectopic pregnancy, and chronic pelvic pain.",
+    2,
+    "h57vj7"
    ],
    [
     "Prevention",
-    "Best timing of antibiotic prophylaxis at CS?",
-    "Before skin incision: cefuroxime 1.5 g IV or cefazolin 2 g IV (clindamycin 900 mg if allergic)."
+    "When is antibiotic prophylaxis given at caesarean section, and which antibiotic is used?",
+    "Before the skin incision: cefuroxime 1.5 g IV or cefazolin 2 g IV (clindamycin 900 mg if allergic).",
+    2,
+    "11fv0s2"
    ],
    [
     "Prevention",
-    "Why avoid co-amoxiclav before birth?",
-    "Linked to necrotising enterocolitis in the newborn."
+    "Why is co-amoxiclav avoided before delivery?",
+    "It is associated with necrotising enterocolitis in the newborn.",
+    3,
+    "1juuwz9"
    ],
    [
     "Prevention",
-    "Single most effective preventive measure?",
-    "Hand washing before every examination and pad change."
-   ],
-   [
-    "Practice",
-    "Organism behind most sepsis deaths after birth?",
-    "Group A β-haemolytic strep (S. pyogenes)."
-   ],
-   [
-    "Practice",
-    "Which delivery factor does NOT raise infection: precipitate or prolonged labour?",
-    "Precipitate labour."
-   ],
-   [
-    "Practice",
-    "Why add clindamycin in GAS sepsis?",
-    "It blocks toxin production."
-   ],
-   [
-    "Practice",
-    "Best time for antibiotic prophylaxis at caesarean?",
-    "Before skin incision, not after cord clamping."
-   ],
-   [
-    "Practice",
-    "Single most effective measure against puerperal sepsis in the labour ward?",
-    "Hand washing."
+    "What is the single most effective measure to prevent puerperal sepsis?",
+    "Hand washing before every examination and every change of pad.",
+    1,
+    "2qnq1v"
    ]
   ]
  },
@@ -6224,188 +6469,227 @@
   "cards": [
    [
     "Classification",
-    "Name the three postpartum mood disorders by severity.",
-    "Baby blues (mild), postnatal depression (moderate), puerperal psychosis (severe, emergency)."
+    "What are the three postpartum mood disorders, in order of severity?",
+    "Baby blues (mild), postnatal depression (moderate) and puerperal psychosis (severe; an emergency).",
+    1,
+    "6t8w9b"
    ],
    [
     "Incidence",
     "How common is the baby blues?",
-    "50–80% of new mothers."
+    "It affects 50–80% of new mothers.",
+    1,
+    "bsgdzk"
    ],
    [
     "Onset",
-    "When does the baby blues start and peak?",
-    "Day 3–10 after birth; peaks day 4–5."
+    "When does the baby blues begin and peak?",
+    "It begins on day 3–10 after delivery and peaks on day 4–5.",
+    1,
+    "1thushk"
    ],
    [
     "Course",
     "How long does the baby blues last?",
-    "Resolves within 2 weeks; longer means think depression."
+    "It resolves within 2 weeks; if it lasts longer, depression should be considered.",
+    2,
+    "ngirqy"
    ],
    [
-    "Features",
-    "Features of the baby blues?",
-    "Tearful, mood swings, irritable, anxious, poor sleep; Still manages and cares for the baby."
+    "Clinical features",
+    "What are the features of the baby blues?",
+    "Tearfulness, mood swings, irritability, anxiety and poor sleep; the mother still copes and cares for her baby.",
+    1,
+    "2kbv0b"
    ],
    [
     "Management",
-    "Management of the baby blues?",
-    "Explanation and reassurance, rest, family support; review if not gone by 2 weeks. No antidepressant."
+    "How is the baby blues managed?",
+    "Explanation and reassurance, rest and family support, with review if it has not resolved by 2 weeks. Antidepressants are not needed.",
+    2,
+    "bs2zg5"
    ],
    [
     "Aetiology",
-    "Hormonal trigger of postpartum mood change?",
-    "Sudden fall in oestrogen and progesterone after delivery of the placenta."
+    "What is the hormonal trigger of postpartum mood change?",
+    "The sudden fall in oestrogen and progesterone after delivery of the placenta.",
+    2,
+    "12y2lla"
    ],
    [
     "Incidence",
     "How common is postnatal depression?",
-    "10–15% of mothers; about 10% of new fathers."
+    "It affects 10–15% of mothers and about 10% of new fathers.",
+    1,
+    "1q7m1p0"
    ],
    [
     "Onset",
-    "When does postnatal depression start?",
-    "Any time in the first year, usually within 3 months of birth."
+    "When does postnatal depression begin?",
+    "At any time in the first year, usually within 3 months of delivery.",
+    1,
+    "a5udky"
    ],
    [
     "Risk factors",
-    "Main risk factors for postnatal depression?",
-    "Past depression, depression in pregnancy, family history, young age, no partner, low support, stressful events, severe blues."
+    "What are the main risk factors for postnatal depression?",
+    "Previous depression, depression in pregnancy, family history, young age, absence of a partner, poor support, stressful life events and severe baby blues.",
+    2,
+    "3aods8"
    ],
    [
-    "Features",
-    "Vignette: 6 wk postpartum, no joy, poor sleep while baby sleeps, feels a bad mother. Diagnosis?",
-    "Postnatal depression."
-   ],
-   [
-    "Screening",
-    "Screening tool for postnatal depression?",
-    "Edinburgh Postnatal Depression Scale: 10 items, scored 0–3, maximum 30."
-   ],
-   [
-    "Screening",
-    "EPDS cut-off for probable depression?",
-    "Score of 13 or more → full assessment."
+    "Clinical features",
+    "Six weeks after delivery a mother has no enjoyment, sleeps poorly even when the baby sleeps and feels she is a bad mother. What is the diagnosis?",
+    "Postnatal depression.",
+    2,
+    "yvvsvy"
    ],
    [
     "Screening",
-    "EPDS low total but question 10 scored. Action?",
-    "Self-harm item: assess the same day."
+    "Which tool is used to screen for postnatal depression?",
+    "The Edinburgh Postnatal Depression Scale (EPDS): 10 items, each scored 0–3, with a maximum of 30.",
+    1,
+    "ilsgk0"
+   ],
+   [
+    "Screening",
+    "Which EPDS score indicates probable depression?",
+    "A score of 13 or more, which requires a full assessment.",
+    2,
+    "uw1t1d"
+   ],
+   [
+    "Screening",
+    "The total EPDS score is low but question 10 is scored. What is the action?",
+    "Question 10 is the self-harm item, so the woman is assessed on the same day.",
+    3,
+    "1issmlt"
    ],
    [
     "Investigations",
-    "Which blood tests in suspected postnatal depression?",
-    "Hb and TSH: anaemia and postpartum thyroiditis mimic depression."
+    "Which blood tests are done in suspected postnatal depression?",
+    "Haemoglobin and TSH, because anaemia and postpartum thyroiditis mimic depression.",
+    2,
+    "e99qi0"
    ],
    [
-    "Infant",
-    "Effect of maternal depression on the infant?",
-    "Poor bonding, insecure attachment, poor growth, slow milestones, later behaviour problems."
+    "Effect on the infant",
+    "What is the effect of maternal depression on the infant?",
+    "Poor bonding, insecure attachment, poor growth, delayed milestones and later behavioural problems.",
+    2,
+    "1uh5vop"
    ],
    [
-    "Drugs",
-    "Antidepressant of choice when breastfeeding, and dose?",
-    "Sertraline 50 mg once daily, up to 200 mg; continue breastfeeding."
+    "Drug treatment",
+    "Which antidepressant is preferred during breastfeeding, and at what dose?",
+    "Sertraline 50 mg once daily, increased up to 200 mg; breastfeeding continues.",
+    2,
+    "14p54w5"
    ],
    [
-    "Drugs",
-    "How long to continue an SSRI after recovery?",
-    "About 6 months."
+    "Drug treatment",
+    "For how long is an SSRI continued after recovery?",
+    "For about 6 months.",
+    2,
+    "129h8bs"
    ],
    [
-    "Drugs",
-    "Why avoid fluoxetine in a breastfeeding newborn?",
-    "Long half-life; accumulates in the baby."
+    "Drug treatment",
+    "Why is fluoxetine avoided when the mother is breastfeeding a newborn?",
+    "It has a long half-life and accumulates in the baby.",
+    3,
+    "1gl7prp"
    ],
    [
     "Prognosis",
-    "Recurrence of postnatal depression after the next birth?",
-    "About 25%; lifetime risk of further depression over 70%."
+    "What is the recurrence rate of postnatal depression after the next delivery?",
+    "About 25%; the lifetime risk of further depression is over 70%.",
+    2,
+    "1b32tal"
    ],
    [
     "Incidence",
-    "Incidence of puerperal psychosis?",
-    "1–2 per 1000 births (about 1 in 500)."
+    "What is the incidence of puerperal psychosis?",
+    "1–2 per 1000 births (about 1 in 500).",
+    1,
+    "1if3k5p"
    ],
    [
     "Onset",
-    "When does puerperal psychosis start?",
-    "Suddenly, mostly in the first 2 weeks; up to 4 weeks."
+    "When does puerperal psychosis begin?",
+    "Suddenly, mostly in the first 2 weeks and up to 4 weeks after delivery.",
+    1,
+    "13762ov"
    ],
    [
     "Risk factors",
-    "Strongest risk factors for puerperal psychosis?",
-    "Previous puerperal psychosis, bipolar disorder, family history of bipolar or puerperal psychosis."
+    "What are the strongest risk factors for puerperal psychosis?",
+    "Previous puerperal psychosis, bipolar disorder, and a family history of bipolar disorder or puerperal psychosis.",
+    2,
+    "1k4ucmr"
    ],
    [
-    "Features",
-    "Vignette: day 5, no sleep, confused, believes the baby is evil. Diagnosis?",
-    "Puerperal psychosis: a psychiatric emergency."
+    "Clinical features",
+    "On day 5 a mother has not slept, is confused and believes her baby is evil. What is the diagnosis?",
+    "Puerperal psychosis, which is a psychiatric emergency.",
+    2,
+    "19uekju"
    ],
    [
-    "Differential",
+    "Differential diagnosis",
     "What must be excluded before diagnosing puerperal psychosis?",
-    "Organic causes: sepsis, malaria, eclampsia, cerebral vein thrombosis, metabolic upset, drugs or withdrawal."
+    "Organic causes: sepsis, malaria, eclampsia, cerebral venous thrombosis, metabolic disturbance, and drugs or drug withdrawal.",
+    3,
+    "1nl60e0"
    ],
    [
     "Management",
-    "First steps in puerperal psychosis?",
-    "Never leave her alone with the baby; same-day psychiatry; admit, ideally to a mother-and-baby unit."
+    "What are the first steps in the management of puerperal psychosis?",
+    "The mother is never left alone with the baby; psychiatric review is arranged on the same day; she is admitted, ideally to a mother-and-baby unit.",
+    2,
+    "jecr3m"
    ],
    [
     "Management",
-    "Drug treatment of puerperal psychosis?",
-    "Antipsychotic (olanzapine or haloperidol) ± short benzodiazepine; lithium for mania; ECT if severe."
+    "What is the drug treatment of puerperal psychosis?",
+    "An antipsychotic (olanzapine or haloperidol) with or without a short course of a benzodiazepine; lithium for mania; ECT if severe.",
+    3,
+    "1nyy91d"
    ],
    [
     "Risk",
-    "Life-threatening risks of puerperal psychosis?",
-    "Suicide (about 5%) and infanticide (up to 4%)."
+    "What are the life-threatening risks of puerperal psychosis?",
+    "Suicide (about 5%) and infanticide (up to 4%).",
+    2,
+    "1ugprbv"
    ],
    [
-    "Drugs",
-    "Mother on lithium: can she breastfeed?",
-    "No; lithium is high in milk. Bottle-feed."
+    "Drug treatment",
+    "Can a mother who takes lithium breastfeed?",
+    "No. Lithium reaches high levels in breast milk, so the baby is bottle-fed.",
+    2,
+    "ejneyq"
    ],
    [
     "Prevention",
-    "Prevention in a woman with bipolar disorder?",
-    "Switch valproate before pregnancy, shared psychiatry plan, protect sleep, prophylaxis right after delivery."
+    "How is puerperal psychosis prevented in a woman with bipolar disorder?",
+    "Valproate is changed before pregnancy, a shared plan is made with psychiatry, sleep is protected, and prophylaxis is started immediately after delivery.",
+    3,
+    "8xxhus"
    ],
    [
     "Prognosis",
-    "Recurrence of puerperal psychosis after the next birth?",
-    "About 50%; most women recover fully from each episode."
+    "What is the recurrence rate of puerperal psychosis after the next delivery?",
+    "About 50%; most women recover fully from each episode.",
+    2,
+    "vgk9sw"
    ],
    [
-    "Practice",
-    "Which postpartum mood disorder is commonest, and when does it peak?",
-    "Baby blues; peaks day 4–5."
-   ],
-   [
-    "Practice",
-    "Which hormone change is blamed for the baby blues?",
-    "Sudden fall in oestrogen and progesterone after delivery."
-   ],
-   [
-    "Practice",
-    "What single feature makes a postpartum mood problem an emergency?",
-    "Psychotic features or thoughts of harm."
-   ],
-   [
-    "Practice",
-    "Name the screening tool for postnatal depression and its cut-off.",
-    "EPDS; score ≥ 13."
-   ],
-   [
-    "Practice",
-    "Strongest single risk factor for puerperal psychosis?",
-    "Previous puerperal psychosis (or bipolar disorder)."
-   ],
-   [
-    "Practice",
-    "Why is fluoxetine not first choice in a breastfeeding mother?",
-    "Long half-life; accumulates in the newborn."
+    "Clinical application",
+    "Which single feature makes a postpartum mood disorder an emergency?",
+    "Psychotic features or thoughts of harm.",
+    2,
+    "1hcd06k"
    ]
   ]
  },
@@ -6413,159 +6697,200 @@
   "short": "Mortality",
   "cards": [
    [
-    "Definition",
+    "Definitions",
     "Define maternal death.",
-    "Death in pregnancy or within 42 days of its end, from causes related to or aggravated by pregnancy, not accidents."
+    "Death of a woman during pregnancy or within 42 days of its end, from a cause related to or aggravated by the pregnancy, and not from an accident.",
+    1,
+    "poojvt"
    ],
    [
-    "Definition",
+    "Definitions",
     "Define direct maternal death.",
-    "Death from obstetric complications or their management: e.g. PPH, eclampsia, sepsis, VTE."
+    "Death from obstetric complications or their management, for example PPH, eclampsia, sepsis or VTE.",
+    1,
+    "qmqroc"
    ],
    [
-    "Definition",
+    "Definitions",
     "Define indirect maternal death.",
-    "Death from pre-existing or new non-obstetric disease made worse by pregnancy: e.g. heart disease, malaria."
+    "Death from a pre-existing or new non-obstetric disease that is made worse by pregnancy, for example heart disease or malaria.",
+    1,
+    "xod5tt"
    ],
    [
-    "Definition",
+    "Definitions",
     "Define late maternal death.",
-    "Direct or indirect maternal death between 42 days and 1 year after pregnancy ends."
+    "A direct or indirect maternal death between 42 days and 1 year after the end of pregnancy.",
+    2,
+    "1jh5w2h"
    ],
    [
-    "Definition",
+    "Definitions",
     "What is a coincidental maternal death?",
-    "Accidental or incidental death (road accident, violence); not counted in the MMR."
+    "An accidental or incidental death (road accident, violence); it is not counted in the maternal mortality ratio.",
+    2,
+    "5ho8f5"
    ],
    [
-    "Definition",
+    "Definitions",
     "Define pregnancy-related death.",
-    "Death in pregnancy or within 42 days from any cause, accidents included."
+    "Death during pregnancy or within 42 days of its end from any cause, including accidents.",
+    2,
+    "ltljis"
    ],
    [
     "Measurement",
-    "Formula of the maternal mortality ratio?",
-    "Maternal deaths ÷ live births × 100 000."
+    "What is the formula of the maternal mortality ratio?",
+    "Number of maternal deaths ÷ number of live births × 100 000.",
+    1,
+    "1hqpy3v"
    ],
    [
     "Measurement",
-    "Maternal mortality rate: denominator?",
-    "Women aged 15–49 (per 100 000 per year)."
+    "What is the denominator of the maternal mortality rate?",
+    "Women aged 15–49 years (per 100 000 per year).",
+    2,
+    "n9buc"
    ],
    [
     "Measurement",
-    "Define lifetime risk of maternal death.",
-    "Chance a 15-year-old girl dies of a maternal cause in her life; Sudan about 1 in 91."
+    "Define the lifetime risk of maternal death.",
+    "The probability that a 15-year-old girl will die of a maternal cause during her life; in Sudan it is about 1 in 91.",
+    2,
+    "zbzvms"
    ],
    [
     "Measurement",
-    "Sisterhood method?",
-    "Estimating maternal deaths by asking adults about the deaths of their sisters."
+    "What is the sisterhood method?",
+    "A method of estimating maternal deaths by asking adults about the deaths of their sisters.",
+    2,
+    "1t53zr2"
    ],
    [
     "Morbidity",
     "Define a maternal near miss.",
-    "A woman who nearly died but survived a life-threatening complication in pregnancy, birth or within 42 days."
+    "A woman who nearly died but survived a life-threatening complication during pregnancy, childbirth or within 42 days.",
+    1,
+    "a7cb6y"
    ],
    [
     "Figures",
-    "Sudan MMR (WHO estimate, 2023)?",
-    "256 per 100 000 live births."
+    "What is the maternal mortality ratio of Sudan (WHO estimate, 2023)?",
+    "256 per 100 000 live births.",
+    1,
+    "1wshh18"
    ],
    [
     "Figures",
-    "World MMR and deaths (2023)?",
-    "197 per 100 000 live births; about 260 000 deaths a year."
+    "What are the global maternal mortality ratio and number of deaths (2023)?",
+    "197 per 100 000 live births; about 260 000 deaths per year.",
+    2,
+    "1k3ttz5"
    ],
    [
     "Figures",
-    "Sub-Saharan Africa share of maternal deaths?",
-    "About 70%; MMR 448 per 100 000 (2023)."
+    "What share of maternal deaths occurs in sub-Saharan Africa?",
+    "About 70%; its maternal mortality ratio was 448 per 100 000 in 2023.",
+    2,
+    "13dpnhf"
    ],
    [
     "Figures",
-    "SDG 3.1 target?",
-    "Global MMR below 70 per 100 000 live births by 2030."
+    "What is Sustainable Development Goal target 3.1?",
+    "A global maternal mortality ratio below 70 per 100 000 live births by 2030.",
+    1,
+    "1l4s34q"
    ],
    [
     "Causes",
-    "Leading cause of maternal death in Sudan?",
-    "Puerperal (genital tract) sepsis, then haemorrhage, hypertensive disorders, VTE."
+    "What are the leading causes of maternal death in Sudan?",
+    "Puerperal (genital tract) sepsis, followed by haemorrhage, hypertensive disorders and VTE.",
+    1,
+    "j9ftoj"
    ],
    [
     "Causes",
-    "Leading cause of maternal death worldwide?",
-    "Haemorrhage, about a quarter of deaths."
+    "What is the leading cause of maternal death worldwide?",
+    "Haemorrhage, which accounts for about a quarter of deaths.",
+    1,
+    "1c0dxya"
    ],
    [
     "Causes",
-    "Leading direct cause of maternal death in the UK?",
-    "Venous thromboembolism."
+    "What is the leading direct cause of maternal death in the United Kingdom?",
+    "Venous thromboembolism.",
+    2,
+    "17igymi"
    ],
    [
     "Causes",
-    "Organism of fatal community-acquired genital tract sepsis?",
-    "Group A β-haemolytic streptococcus (Strep. pyogenes)."
+    "Which organism causes fatal community-acquired genital tract sepsis?",
+    "Group A β-haemolytic streptococcus (Streptococcus pyogenes).",
+    2,
+    "jilrgj"
    ],
    [
     "Causes",
     "Name four indirect causes of maternal death.",
-    "Cardiac disease, anaemia, malaria, HIV (also epilepsy, asthma, diabetes)."
+    "Cardiac disease, anaemia, malaria and HIV (also epilepsy, asthma and diabetes).",
+    2,
+    "kkglou"
    ],
    [
     "Three delays",
     "What are the three delays?",
-    "Delay in deciding to seek care, in reaching the facility, and in receiving adequate care."
+    "Delay in deciding to seek care, delay in reaching the health facility, and delay in receiving adequate care.",
+    1,
+    "ygb7cm"
    ],
    [
     "Three delays",
-    "Woman waits for her husband's permission to go to hospital. Which delay?",
-    "Delay 1: deciding to seek care."
+    "A woman waits for her husband's permission to go to hospital. Which delay is this?",
+    "The first delay: deciding to seek care.",
+    2,
+    "83dy2v"
    ],
    [
     "Three delays",
-    "Reaches hospital but no blood or theatre. Which delay?",
-    "Delay 3: receiving adequate care."
+    "A woman reaches the hospital but there is no blood or operating theatre. Which delay is this?",
+    "The third delay: receiving adequate care.",
+    2,
+    "14ms18q"
    ],
    [
     "Three delays",
-    "Untreated PPH: time to death?",
-    "About 2 hours (sepsis about 6 days)."
+    "How long does untreated postpartum haemorrhage take to cause death?",
+    "About 2 hours (sepsis takes about 6 days).",
+    3,
+    "c6dkq3"
    ],
    [
     "Prevention",
-    "Basic vs comprehensive EmONC?",
-    "Comprehensive adds caesarean section and blood transfusion."
+    "What is the difference between basic and comprehensive EmONC?",
+    "Comprehensive EmONC adds caesarean section and blood transfusion.",
+    2,
+    "11xs6ps"
    ],
    [
     "Prevention",
-    "Key interventions to reduce maternal deaths?",
-    "Family planning, antenatal care, skilled birth attendant, EmONC, post-abortion care, postnatal care, MDSR."
+    "What are the key interventions that reduce maternal deaths?",
+    "Family planning, antenatal care, a skilled birth attendant, EmONC, post-abortion care, postnatal care and MDSR.",
+    2,
+    "1gapoo6"
    ],
    [
     "Prevention",
     "What is MDSR?",
-    "Maternal Death Surveillance and Response: notify every death, review without blame, act on findings."
+    "Maternal Death Surveillance and Response: every death is notified, reviewed without blame, and the findings are acted upon.",
+    2,
+    "u84p3j"
    ],
    [
     "Red flags",
-    "Red flag symptoms needing urgent review in a pregnant or postnatal woman?",
-    "Signs of sepsis, breathlessness, severe headache."
-   ],
-   [
-    "Practice",
-    "What is the denominator of the maternal mortality ratio?",
-    "100 000 live births."
-   ],
-   [
-    "Practice",
-    "Organism behind most fatal genital tract sepsis?",
-    "Group A β-haemolytic streptococcus."
-   ],
-   [
-    "Practice",
-    "What turns a basic EmONC unit into a comprehensive one?",
-    "Caesarean section and blood transfusion."
+    "Which red-flag symptoms need urgent review in a pregnant or postnatal woman?",
+    "Signs of sepsis, breathlessness and severe headache.",
+    1,
+    "12kkznb"
    ]
   ]
  },
