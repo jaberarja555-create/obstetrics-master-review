@@ -234,11 +234,12 @@
   function vPrefs() {
     var ph = LS.get('photo', '');
     var h = '<header class="pagehead"><h1 tabindex="-1">' + esc(t('set.t')) + '</h1></header><div class="panels">';
-    h += '<section class="panel"><h2>' + esc(t('set.profile')) + '</h2><div class="prof"><span id="pfav">' + avatar(true) + '</span><div class="pf">' +
-      '<div><label for="pf-name">' + esc(t('set.name')) + '</label><input class="inp" id="pf-name" maxlength="40" autocomplete="name" placeholder="' + esc(t('set.name.ph')) + '" value="' + esc(LS.get('name', '')) + '"></div>' +
-      '<div class="pbtns"><label class="btn sm quiet" for="pf-photo" tabindex="0" role="button">' + ic('photo') + esc(t('set.photo.add')) + '</label><input id="pf-photo" type="file" accept="image/*" class="sr">' +
+    h += '<section class="panel pfp"><h2>' + esc(t('set.profile')) + '</h2>' +
+      '<label class="pfpic" for="pf-photo" tabindex="-1" aria-hidden="true"><span id="pfav">' + avatar(true) + '</span><span class="pfcam">' + ic('photo') + '</span></label>' +
+      '<div class="pbtns pfb"><label class="btn sm quiet" for="pf-photo" tabindex="0" role="button">' + ic('photo') + '<span>' + esc(t('set.photo.add')) + '</span></label><input id="pf-photo" type="file" accept="image/*" class="sr">' +
       (ph ? '<button class="btn sm quiet" type="button" id="pf-rm">' + esc(t('set.photo.rm')) + '</button>' : '') + '</div>' +
-      '<div class="ok-msg" id="pf-ok" role="status" aria-live="polite"></div></div></div><p style="margin-top:12px">' + esc(t('set.profile.note')) + '</p></section>';
+      '<div class="pfname"><label for="pf-name">' + esc(t('set.name')) + '</label><input class="inp" id="pf-name" maxlength="40" autocomplete="name" placeholder="' + esc(t('set.name.ph')) + '" value="' + esc(LS.get('name', '')) + '"></div>' +
+      '<div class="ok-msg" id="pf-ok" role="status" aria-live="polite"></div><p class="pfnote">' + esc(t('set.profile.note')) + '</p></section>';
     h += '<section class="panel"><h2>' + esc(t('set.lang')) + '</h2>' + seg(t('set.lang'), [['lang', 'en', 'English'], ['lang', 'ar', 'العربية', 'ar', 'ar']], lang) + '</section>';
     h += '<section class="panel"><h2>' + esc(t('set.look')) + '</h2>' + seg(t('set.look'), [['theme', 'light', t('look.light')], ['theme', 'dark', t('look.dark')], ['theme', 'system', t('look.system')]], theme) + '</section>';
     h += '<section class="panel"><h2>' + esc(t('set.acc')) + '</h2><p>' + esc(t('set.acc.txt')) + '</p><div class="rows" style="margin-top:14px">' +
@@ -541,7 +542,7 @@
       rd.onload = function () {
         var im = new Image();
         im.onload = function () {
-          var s = 192, c = document.createElement('canvas'); c.width = c.height = s;
+          var s = 320, c = document.createElement('canvas'); c.width = c.height = s;
           var k = Math.min(im.width, im.height), x = c.getContext('2d');
           x.drawImage(im, (im.width - k) / 2, (im.height - k) / 2, k, k, 0, 0, s, s);
           if (LS.set('photo', c.toDataURL('image/jpeg', 0.86))) { ok.textContent = t('set.saved'); route(true); refreshProfile(); }
@@ -550,7 +551,7 @@
       };
       rd.readAsDataURL(file);
     });
-    $('label[for="pf-photo"]').addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); f.click(); } });
+    document.querySelectorAll('label.btn[for="pf-photo"]').forEach(function (l) { l.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); f.click(); } }); });
     var rm = $('#pf-rm'); if (rm) rm.addEventListener('click', function () { LS.del('photo'); route(true); refreshProfile(); });
     $('#clr').addEventListener('click', function (e) {
       var b = e.target.closest('button'); if (!b) return; var box = $('#clr');

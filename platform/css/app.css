@@ -523,3 +523,17 @@ html[lang="ar"] .wcard h2{font-family:var(--arab);font-weight:700}
 .si .ico{width:17px;height:17px}
 .wdone{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px}
 @media (max-height:600px){ .wmark{width:72px;height:72px} .wmark .mark{width:44px;height:48px} .wcard{padding:20px 18px 18px} }
+
+/* Settings → profile (owner, 11 Nov 2026): big photo first, the photo button under it, then the name */
+.panel label.btn{display:inline-flex;margin:0;font-size:14px}
+.pfp{display:flex;flex-direction:column;align-items:center;text-align:center}
+.pfp h2{align-self:stretch;text-align:start}
+.pfpic{position:relative;display:block;margin:6px 0 12px;cursor:pointer;border-radius:50%}
+.pfpic .av.big{width:132px;height:132px;font-size:44px;box-shadow:0 0 0 5px var(--sf),0 0 0 7px var(--pritint),var(--shadow2)}
+.pfpic .av.big .ico{width:58px;height:58px}
+.pfcam{position:absolute;bottom:4px;inset-inline-end:4px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--pri);color:var(--pon);border:3px solid var(--sf)}
+.pfcam .ico{width:18px;height:18px}
+.pfb{justify-content:center}
+.pfname{align-self:stretch;text-align:start;margin-top:18px}
+.pfname label{margin-bottom:8px}
+.pfnote{margin:12px 0 0!important;font-size:13px!important;color:var(--mut)!important;max-width:44ch}
