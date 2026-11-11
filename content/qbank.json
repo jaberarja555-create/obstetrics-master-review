@@ -6,8 +6,8 @@
     "id": "pc-1",
     "topic": "pc",
     "type": "sba",
-    "stem": "Primigravida, 30 weeks, routine visit. Hb 10.9 g/dL, MCV 89 fL, ferritin 40 µg/L. She feels well.",
-    "q": "What best explains this Hb?",
+    "stem": "A primigravida attends a routine antenatal visit at 30 weeks. Her haemoglobin is 10.9 g/dL, MCV 89 fL and ferritin 40 µg/L. She feels well.",
+    "q": "What is the most likely explanation for this haemoglobin level?",
     "options": [
      "Haemodilution from a larger rise in plasma than red cells",
      "Iron deficiency anaemia",
@@ -16,13 +16,14 @@
      "Thalassaemia trait"
     ],
     "answer": 0,
-    "why": "Plasma rises ~45% and red cells ~25%, so Hb falls with a normal MCV and ferritin. Iron deficiency would lower MCV and ferritin."
+    "why": "Plasma volume rises by about 45% and red cell mass by about 25%, so haemoglobin falls while the MCV and ferritin remain normal. Iron deficiency would lower the MCV and ferritin.",
+    "d": 2
    },
    {
     "id": "pc-2",
     "topic": "pc",
     "type": "sba",
-    "stem": "G2 P1, 34 weeks, attends with dizziness and sweating while lying flat for an ultrasound. BP 85/50, pulse 110. It settles within minutes.",
+    "stem": "A woman (G2 P1) at 34 weeks develops dizziness and sweating while lying flat for an ultrasound scan. Her blood pressure is 85/50 mmHg and her pulse is 110/min. The symptoms settle within minutes.",
     "q": "What is the most appropriate immediate action?",
     "options": [
      "Start CTG monitoring and observe",
@@ -32,7 +33,8 @@
      "Turn her onto her left side"
     ],
     "answer": 4,
-    "why": "Aortocaval compression after 20 weeks causes supine hypotension; a left lateral tilt relieves it at once."
+    "why": "After 20 weeks the uterus compresses the aorta and inferior vena cava in the supine position, causing supine hypotension. Left lateral tilt relieves it immediately.",
+    "d": 2
    },
    {
     "id": "pc-3",
@@ -48,14 +50,15 @@
      "Mitral stenosis"
     ],
     "answer": 2,
-    "why": "Ejection systolic flow murmurs and a left axis shift are normal in pregnancy. A diastolic murmur would point to mitral stenosis."
+    "why": "An ejection systolic flow murmur and left axis deviation are normal findings in pregnancy. A diastolic murmur would suggest mitral stenosis.",
+    "d": 2
    },
    {
     "id": "pc-4",
     "topic": "pc",
     "type": "sba",
-    "stem": "Blood gas taken at 35 weeks for breathlessness: pH 7.44, pCO₂ 30 mmHg, HCO₃⁻ 19 mmol/L, pO₂ 100 mmHg. SpO₂ 99%, chest clear.",
-    "q": "How do you interpret this gas?",
+    "stem": "An arterial blood gas taken at 35 weeks for breathlessness shows pH 7.44, pCO₂ 30 mmHg, HCO₃⁻ 19 mmol/L and pO₂ 100 mmHg. Oxygen saturation is 99% and the chest is clear.",
+    "q": "What is the correct interpretation of this blood gas?",
     "options": [
      "Hypoxic respiratory failure",
      "Uncompensated respiratory alkalosis",
@@ -64,13 +67,14 @@
      "Metabolic acidosis"
     ],
     "answer": 2,
-    "why": "Progesterone drives deeper breathing, so CO₂ in the blood is low (pCO₂ 30 mmHg); with renal bicarbonate loss this is the normal compensated respiratory alkalosis of pregnancy."
+    "why": "Progesterone increases ventilation, so the arterial pCO₂ is low (30 mmHg). With renal loss of bicarbonate, this is the normal compensated respiratory alkalosis of pregnancy.",
+    "d": 3
    },
    {
     "id": "pc-5",
     "topic": "pc",
     "type": "sba",
-    "stem": "A woman at 28 weeks has creatinine 92 µmol/L on a routine panel. BP 128/80, urine protein trace.",
+    "stem": "A woman at 28 weeks has a serum creatinine of 92 µmol/L on routine testing. Her blood pressure is 128/80 mmHg and urinalysis shows a trace of protein.",
     "q": "Which statement is correct?",
     "options": [
      "It reflects muscle growth in pregnancy",
@@ -80,13 +84,14 @@
      "It indicates dehydration only"
     ],
     "answer": 3,
-    "why": "GFR rises 50% so creatinine falls below ~75 µmol/L. A non-pregnant 'normal' value is abnormal in pregnancy."
+    "why": "GFR rises by 50%, so serum creatinine falls below about 75 µmol/L. A value that is normal outside pregnancy is abnormal in pregnancy.",
+    "d": 3
    },
    {
     "id": "pc-6",
     "topic": "pc",
     "type": "sba",
-    "stem": "Routine dipstick at 26 weeks shows glucose 1+. She has no diabetes risk factors and is well.",
+    "stem": "A routine urine dipstick at 26 weeks shows glucose 1+. The woman is well and has no risk factors for diabetes.",
     "q": "What is the best next step?",
     "options": [
      "Start metformin",
@@ -96,13 +101,14 @@
      "Admit for insulin"
     ],
     "answer": 1,
-    "why": "Glycosuria is common in pregnancy from the raised GFR and is not diagnostic; diabetes is confirmed by blood glucose."
+    "why": "Glycosuria is common in pregnancy because of the raised GFR and is not diagnostic; diabetes is confirmed by blood glucose testing.",
+    "d": 2
    },
    {
     "id": "pc-7",
     "topic": "pc",
     "type": "sba",
-    "stem": "At 36 weeks a woman's liver tests show ALP 380 IU/L, ALT 22 IU/L, bilirubin normal. No itching.",
+    "stem": "At 36 weeks a woman's liver function tests show ALP 380 IU/L, ALT 22 IU/L and a normal bilirubin. She has no itching.",
     "q": "What is the most likely source of the ALP?",
     "options": [
      "Hepatitis",
@@ -112,14 +118,15 @@
      "Placenta"
     ],
     "answer": 4,
-    "why": "Placental ALP rises 2–4 times in normal pregnancy; ALT and bilirubin stay normal."
+    "why": "Placental ALP rises 2–4 times in normal pregnancy, while ALT and bilirubin remain normal.",
+    "d": 2
    },
    {
     "id": "pc-8",
     "topic": "pc",
     "type": "sba",
-    "stem": "A woman has total T4 above the normal range at 16 weeks with normal free T4 and TSH. She has no symptoms.",
-    "q": "What explains the result?",
+    "stem": "At 16 weeks a woman has a total T4 above the normal range, with a normal free T4 and TSH. She has no symptoms.",
+    "q": "What explains this result?",
     "options": [
      "Gestational trophoblastic disease",
      "Graves' disease",
@@ -128,7 +135,8 @@
      "Iodine excess"
     ],
     "answer": 3,
-    "why": "Oestrogen doubles TBG, raising total T4 while free T4 stays normal."
+    "why": "Oestrogen doubles thyroxine-binding globulin (TBG), which raises total T4 while free T4 remains normal.",
+    "d": 3
    },
    {
     "id": "pc-9",
@@ -144,7 +152,8 @@
      "Oxytocin"
     ],
     "answer": 3,
-    "why": "Until 8–10 weeks the corpus luteum supplies progesterone; removing it needs progesterone support to prevent miscarriage."
+    "why": "Until 8–10 weeks the corpus luteum is the source of progesterone. If it is removed, progesterone support is needed to prevent miscarriage.",
+    "d": 3
    },
    {
     "id": "pc-10",
@@ -160,13 +169,14 @@
      "12.5–18 kg"
     ],
     "answer": 0,
-    "why": "For BMI ≥ 30 the advised gain is 5–9 kg."
+    "why": "For a BMI of 30 or more, the advised total weight gain is 5–9 kg.",
+    "d": 1
    },
    {
     "id": "pc-11",
     "topic": "pc",
     "type": "sba",
-    "stem": "Day 1 after massive PPH, fibrinogen is 2.1 g/L, platelets 140.",
+    "stem": "On the first day after a massive postpartum haemorrhage, the fibrinogen is 2.1 g/L and the platelet count is 140 × 10⁹/L.",
     "q": "How should the fibrinogen be interpreted?",
     "options": [
      "Diluted by fluids, ignore",
@@ -176,14 +186,15 @@
      "Raised due to infection"
     ],
     "answer": 2,
-    "why": "Fibrinogen at term is 4–6 g/L, so 2 g/L in haemorrhage means consumption and should be replaced."
+    "why": "Fibrinogen at term is 4–6 g/L, so a level of 2 g/L during haemorrhage indicates consumption, and it should be replaced.",
+    "d": 3
    },
    {
     "id": "pc-12",
     "topic": "pc",
     "type": "sba",
-    "stem": "At 24–28 weeks, many women develop abnormal glucose tolerance for the first time.",
-    "q": "Which hormone mainly drives this?",
+    "stem": "Many women develop abnormal glucose tolerance for the first time at 24–28 weeks.",
+    "q": "Which hormone is mainly responsible?",
     "options": [
      "Relaxin",
      "Human placental lactogen",
@@ -192,13 +203,14 @@
      "Prolactin"
     ],
     "answer": 1,
-    "why": "hPL rises with placental mass and causes insulin resistance in the second half."
+    "why": "Human placental lactogen (hPL) rises with placental mass and causes insulin resistance in the second half of pregnancy.",
+    "d": 1
    },
    {
     "id": "dx-1",
     "topic": "dx",
     "type": "sba",
-    "stem": "A 24-year-old has 7 weeks' amenorrhoea. On bimanual examination the isthmus feels so soft that the fingers almost meet.",
+    "stem": "A 24-year-old woman has 7 weeks of amenorrhoea. On bimanual examination the isthmus is so soft that the examining fingers almost meet.",
     "q": "What is this sign called?",
     "options": [
      "Goodell sign",
@@ -208,13 +220,14 @@
      "Chadwick sign"
     ],
     "answer": 2,
-    "why": "Hegar sign = soft compressible isthmus at 6–10 weeks."
+    "why": "Hegar's sign is a soft, compressible isthmus at 6–10 weeks.",
+    "d": 1
    },
    {
     "id": "dx-2",
     "topic": "dx",
     "type": "sba",
-    "stem": "A 25-year-old has 10 weeks of amenorrhoea, nausea and a positive urine test.",
+    "stem": "A 25-year-old woman has 10 weeks of amenorrhoea, nausea and a positive urine pregnancy test.",
     "q": "Which finding would make the diagnosis of pregnancy certain?",
     "options": [
      "Enlarged uterus",
@@ -224,14 +237,15 @@
      "Fetal heart seen on ultrasound"
     ],
     "answer": 4,
-    "why": "Only fetal heart, fetus on scan or fetal parts/movements felt by the examiner are certain."
+    "why": "Only fetal heart activity, a fetus seen on ultrasound, or fetal parts or movements felt by the examiner are certain signs.",
+    "d": 1
    },
    {
     "id": "dx-3",
     "topic": "dx",
     "type": "sba",
-    "stem": "Bleeding at 6 weeks by dates. Serum hCG 1200 IU/L, repeated 48 h later: 1560 IU/L. TVS: empty uterus, no adnexal mass.",
-    "q": "What is the most likely situation?",
+    "stem": "A woman presents with vaginal bleeding at 6 weeks by dates. Serum hCG is 1200 IU/L, and 1560 IU/L when repeated 48 hours later. Transvaginal ultrasound shows an empty uterus and no adnexal mass.",
+    "q": "What is the most likely diagnosis?",
     "options": [
      "Non-viable or ectopic pregnancy",
      "Molar pregnancy",
@@ -240,13 +254,14 @@
      "Viable intrauterine pregnancy too early to see"
     ],
     "answer": 0,
-    "why": "A viable pregnancy rises ≥ 63% in 48 h; a 30% rise suggests a failing or ectopic pregnancy."
+    "why": "In a viable pregnancy hCG rises by at least 63% in 48 hours; a rise of 30% suggests a failing or ectopic pregnancy.",
+    "d": 3
    },
    {
     "id": "dx-4",
     "topic": "dx",
     "type": "sba",
-    "stem": "hCG 3400 IU/L. Transvaginal scan shows an empty uterus and a little free fluid.",
+    "stem": "Serum hCG is 3400 IU/L. Transvaginal ultrasound shows an empty uterus and a small amount of free fluid.",
     "q": "What is the working diagnosis?",
     "options": [
      "Complete miscarriage",
@@ -256,7 +271,8 @@
      "Ectopic pregnancy until proven otherwise"
     ],
     "answer": 4,
-    "why": "Above the discriminatory zone (2000 IU/L on TVS) an intrauterine sac should be seen."
+    "why": "Above the discriminatory zone (2000 IU/L on transvaginal ultrasound) an intrauterine sac should be visible.",
+    "d": 2
    },
    {
     "id": "dx-5",
@@ -272,14 +288,15 @@
      "Fibroid"
     ],
     "answer": 2,
-    "why": "Very high hCG with a large-for-dates uterus and vomiting suggests a molar pregnancy."
+    "why": "A very high hCG with a uterus that is large for dates and vomiting suggests a molar pregnancy.",
+    "d": 2
    },
    {
     "id": "dx-6",
     "topic": "dx",
     "type": "sba",
-    "stem": "LMP 10 January 2026, regular 28-day cycles.",
-    "q": "What is her EDD?",
+    "stem": "The LMP was 10 January 2026 and the cycles are regular at 28 days.",
+    "q": "What is the expected date of delivery (EDD)?",
     "options": [
      "3 October 2026",
      "24 October 2026",
@@ -288,13 +305,14 @@
      "7 November 2026"
     ],
     "answer": 2,
-    "why": "Naegele: 10 Jan + 7 d − 3 mo + 1 y = 17 October 2026 (LMP + 280 days)."
+    "why": "Naegele's rule: 10 January + 7 days − 3 months + 1 year = 17 October 2026 (LMP + 280 days).",
+    "d": 1
    },
    {
     "id": "dx-7",
     "topic": "dx",
     "type": "sba",
-    "stem": "LMP 1 March 2026 with regular 35-day cycles.",
+    "stem": "The LMP was 1 March 2026 and the cycles are regular at 35 days.",
     "q": "What is the corrected EDD?",
     "options": [
      "22 December 2026",
@@ -304,13 +322,14 @@
      "15 December 2026"
     ],
     "answer": 4,
-    "why": "Naegele gives 8 December; a 35-day cycle adds 7 days → 15 December."
+    "why": "Naegele's rule gives 8 December; a 35-day cycle adds 7 days, giving 15 December.",
+    "d": 2
    },
    {
     "id": "dx-8",
     "topic": "dx",
     "type": "sba",
-    "stem": "Sure LMP gives 12⁺⁴ weeks; CRL on scan corresponds to 11⁺² weeks.",
+    "stem": "A certain LMP gives a gestation of 12⁺⁴ weeks, but the crown–rump length on ultrasound corresponds to 11⁺² weeks.",
     "q": "How should the pregnancy be dated?",
     "options": [
      "By the scan",
@@ -320,7 +339,8 @@
      "By LMP"
     ],
     "answer": 0,
-    "why": "A difference of more than 5 days (here 9) means the CRL date is used."
+    "why": "A difference of more than 5 days (here 9 days) means that the CRL date is used.",
+    "d": 2
    },
    {
     "id": "dx-9",
@@ -336,14 +356,15 @@
      "Keep the best clinical dates and assess for growth restriction"
     ],
     "answer": 4,
-    "why": "Late scans cannot date a pregnancy (± 3 weeks); a small baby late is assumed growth restriction, not wrong dates."
+    "why": "A late scan cannot date a pregnancy (error ± 3 weeks). A small fetus in late pregnancy is assumed to have growth restriction, not incorrect dates.",
+    "d": 3
    },
    {
     "id": "dx-10",
     "topic": "dx",
     "type": "sba",
-    "stem": "On transvaginal scan at 5½ weeks a gestational sac is seen in the uterus.",
-    "q": "Which finding first confirms it is a true intrauterine pregnancy?",
+    "stem": "A transvaginal scan at 5½ weeks shows a gestational sac in the uterus.",
+    "q": "Which finding first confirms a true intrauterine pregnancy?",
     "options": [
      "Yolk sac within the sac",
      "Free fluid in the pouch",
@@ -352,13 +373,14 @@
      "Corpus luteum cyst"
     ],
     "answer": 0,
-    "why": "A yolk sac distinguishes a true gestational sac from a pseudosac."
+    "why": "A yolk sac distinguishes a true gestational sac from a pseudosac.",
+    "d": 2
    },
    {
     "id": "dx-11",
     "topic": "dx",
     "type": "sba",
-    "stem": "A 32-year-old, married 9 years without children, says she is 7 months pregnant. Her abdomen is large and she reports movements. hCG negative; ultrasound shows an empty uterus.",
+    "stem": "A 32-year-old woman, married for 9 years without children, says she is 7 months pregnant. Her abdomen is enlarged and she reports fetal movements. The hCG test is negative and ultrasound shows an empty uterus.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Ectopic pregnancy",
@@ -368,7 +390,8 @@
      "Hydatidiform mole"
     ],
     "answer": 3,
-    "why": "Pseudocyesis: convinced of pregnancy with symptoms but negative hCG and an empty uterus."
+    "why": "Pseudocyesis is a firm belief of being pregnant, with symptoms of pregnancy but a negative hCG and an empty uterus.",
+    "d": 1
    },
    {
     "id": "dx-12",
@@ -384,7 +407,8 @@
      "Full term"
     ],
     "answer": 1,
-    "why": "Late term is 41⁺⁰–41⁺⁶; post-term starts at 42 weeks."
+    "why": "Late term is 41⁺⁰ to 41⁺⁶ weeks; post-term begins at 42 weeks.",
+    "d": 2
    },
    {
     "id": "anc-1",
@@ -400,7 +424,8 @@
      "0.4 mg daily from before conception to 12 weeks"
     ],
     "answer": 4,
-    "why": "All women: 0.4 mg from pre-conception to 12 weeks to prevent NTDs."
+    "why": "All women take 0.4 mg daily from before conception until 12 weeks to prevent neural tube defects.",
+    "d": 1
    },
    {
     "id": "anc-2",
@@ -416,13 +441,14 @@
      "0.4 mg"
     ],
     "answer": 2,
-    "why": "High-risk women (epilepsy drugs, diabetes, previous NTD, obesity, sickle cell) take 5 mg."
+    "why": "High-risk women (antiepileptic drugs, diabetes, previous neural tube defect, obesity, sickle cell disease) take 5 mg daily.",
+    "d": 1
    },
    {
     "id": "anc-3",
     "topic": "anc",
     "type": "sba",
-    "stem": "Booking urine culture grows E. coli > 10⁵/mL. She has no symptoms.",
+    "stem": "A booking urine culture grows E. coli > 10⁵/mL. The woman has no symptoms.",
     "q": "What is the correct management?",
     "options": [
      "Increase fluid intake only",
@@ -432,7 +458,8 @@
      "Admit for IV antibiotics"
     ],
     "answer": 1,
-    "why": "Asymptomatic bacteriuria in pregnancy is treated because 20–30% progress to pyelonephritis."
+    "why": "Asymptomatic bacteriuria is treated in pregnancy because 20–30% of cases progress to pyelonephritis.",
+    "d": 2
    },
    {
     "id": "anc-4",
@@ -448,7 +475,8 @@
      "Td at 36 weeks only"
     ],
     "answer": 3,
-    "why": "Two Td doses 4 weeks apart, the second at least 2 weeks before birth."
+    "why": "Two doses of Td are given 4 weeks apart, the second at least 2 weeks before delivery.",
+    "d": 2
    },
    {
     "id": "anc-5",
@@ -464,7 +492,8 @@
      "Artemether–lumefantrine monthly"
     ],
     "answer": 0,
-    "why": "SP is not given with cotrimoxazole (both antifolates); she still uses a net and early testing."
+    "why": "SP is not given with cotrimoxazole because both are antifolate drugs. She should still use an insecticide-treated net and have any fever tested promptly.",
+    "d": 3
    },
    {
     "id": "anc-6",
@@ -480,13 +509,14 @@
      "Now, observed in the clinic"
     ],
     "answer": 4,
-    "why": "First SP dose at the first visit after quickening; second ≥ 4 weeks later."
+    "why": "The first dose of SP is given at the first visit after quickening, and the second at least 4 weeks later.",
+    "d": 2
    },
    {
     "id": "anc-7",
     "topic": "anc",
     "type": "sba",
-    "stem": "A woman's previous pregnancy had pre-eclampsia delivered at 32 weeks. She is now 10 weeks pregnant.",
+    "stem": "A woman's previous pregnancy was complicated by pre-eclampsia that required delivery at 32 weeks. She is now 10 weeks pregnant.",
     "q": "Which drug should start at 12 weeks?",
     "options": [
      "Magnesium sulphate",
@@ -496,14 +526,15 @@
      "Labetalol"
     ],
     "answer": 2,
-    "why": "Previous pre-eclampsia is a high-risk factor: aspirin 75 mg from 12 to 36 weeks."
+    "why": "Previous pre-eclampsia is a high-risk factor: aspirin 75 mg is given from 12 to 36 weeks.",
+    "d": 2
    },
    {
     "id": "anc-8",
     "topic": "anc",
     "type": "sba",
-    "stem": "RhD-negative woman, no antibodies, has vaginal bleeding after a fall at 26 weeks.",
-    "q": "What is needed regarding anti-D?",
+    "stem": "An RhD-negative woman with no antibodies has vaginal bleeding after a fall at 26 weeks.",
+    "q": "What is required regarding anti-D?",
     "options": [
      "Rhesus antibodies test only",
      "Anti-D within 72 hours (with Kleihauer)",
@@ -512,7 +543,8 @@
      "Anti-D at 36 weeks only"
     ],
     "answer": 1,
-    "why": "Abdominal trauma is a sensitising event: give anti-D within 72 h."
+    "why": "Abdominal trauma is a sensitising event, so anti-D is given within 72 hours.",
+    "d": 2
    },
    {
     "id": "anc-9",
@@ -528,14 +560,15 @@
      "Use diclofenac injections"
     ],
     "answer": 0,
-    "why": "NSAIDs after 30 weeks risk ductus closure and oligohydramnios."
+    "why": "NSAIDs after 30 weeks carry a risk of premature closure of the ductus arteriosus and oligohydramnios.",
+    "d": 2
    },
    {
     "id": "anc-10",
     "topic": "anc",
     "type": "sba",
-    "stem": "WHO advises a minimum number of antenatal contacts in a normal pregnancy.",
-    "q": "How many?",
+    "stem": "WHO recommends a minimum number of antenatal contacts in a normal pregnancy.",
+    "q": "How many contacts are recommended?",
     "options": [
      "Four",
      "Eight",
@@ -544,7 +577,8 @@
      "Two"
     ],
     "answer": 1,
-    "why": "The WHO model advises eight contacts."
+    "why": "The WHO model recommends eight contacts.",
+    "d": 1
    },
    {
     "id": "anc-11",
@@ -560,13 +594,14 @@
      "Caesarean section"
     ],
     "answer": 1,
-    "why": "Newborn vaccination plus HBIG within 12–24 h prevents most transmission; breastfeeding is allowed."
+    "why": "Hepatitis B vaccine and immunoglobulin (HBIG) given to the newborn within 12–24 hours prevent most transmission; breastfeeding is allowed.",
+    "d": 2
    },
    {
     "id": "anc-12",
     "topic": "anc",
     "type": "sba",
-    "stem": "A primigravida at 36 weeks. On palpation a hard round ballotable mass is felt in the fundus.",
+    "stem": "A primigravida is examined at 36 weeks. On abdominal palpation a hard, round, ballotable mass is felt in the fundus.",
     "q": "What is the next step in antenatal care?",
     "options": [
      "Wait for labour",
@@ -576,7 +611,8 @@
      "Induction now"
     ],
     "answer": 2,
-    "why": "Presentation is checked at 36 weeks; breech is confirmed by scan and ECV offered."
+    "why": "Presentation is checked at 36 weeks; a breech presentation is confirmed by ultrasound and ECV is offered.",
+    "d": 2
    },
    {
     "id": "c1-emq1",
@@ -597,22 +633,26 @@
      {
       "stem": "Bluish discolouration of the vagina at 8 weeks.",
       "answer": 1,
-      "why": "Chadwick sign: venous congestion."
+      "why": "Chadwick's sign is caused by venous congestion.",
+      "d": 1
      },
      {
       "stem": "First movements felt by the mother at 19 weeks.",
       "answer": 3,
-      "why": "Quickening is felt by the mother: a presumptive sign."
+      "why": "Quickening is felt by the mother and is a presumptive sign.",
+      "d": 1
      },
      {
       "stem": "Confirms a true intrauterine pregnancy at 5½ weeks.",
       "answer": 4,
-      "why": "A yolk sac inside the sac excludes a pseudosac."
+      "why": "A yolk sac within the sac excludes a pseudosac.",
+      "d": 2
      },
      {
       "stem": "hCG level above which an intrauterine sac should be visible on TVS.",
       "answer": 5,
-      "why": "About 2000 IU/L on TVS."
+      "why": "The level is about 2000 IU/L on transvaginal ultrasound.",
+      "d": 2
      }
     ],
     "type": "emq"
@@ -634,24 +674,28 @@
     "lead": "For each woman choose the most appropriate preventive measure.",
     "items": [
      {
-      "stem": "Type 1 diabetic planning pregnancy.",
+      "stem": "A woman with type 1 diabetes who is planning pregnancy.",
       "answer": 1,
-      "why": "Diabetes needs high-dose folic acid."
+      "why": "Women with diabetes need high-dose folic acid.",
+      "d": 2
      },
      {
-      "stem": "Chronic hypertension at 12 weeks.",
+      "stem": "A woman with chronic hypertension at 12 weeks.",
       "answer": 2,
-      "why": "Major risk factor for pre-eclampsia: aspirin 12–36 wk."
+      "why": "Chronic hypertension is a major risk factor for pre-eclampsia: aspirin is given from 12 to 36 weeks.",
+      "d": 2
      },
      {
-      "stem": "Healthy woman at 20 weeks in a high-transmission malaria area, quickening felt.",
+      "stem": "A healthy woman at 20 weeks in a high-transmission malaria area who has felt quickening.",
       "answer": 5,
-      "why": "IPTp with SP after quickening."
+      "why": "IPTp with SP starts after quickening.",
+      "d": 2
      },
      {
       "stem": "RhD-negative woman after an external cephalic version.",
       "answer": 6,
-      "why": "ECV is a sensitising event."
+      "why": "ECV is a sensitising event.",
+      "d": 3
      }
     ],
     "type": "emq"

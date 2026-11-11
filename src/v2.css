@@ -433,7 +433,9 @@ button{font-family:inherit}
 #reader .rbar .urw{display:flex!important;flex-direction:row!important;border:0;border-left:1px solid var(--bd);margin:0 0 0 3px;padding:0 0 0 3px;gap:0;flex:none}
 #reader .rbar .urw button{flex:0 0 30px;min-height:46px;font-size:0;gap:0}#reader .rbar .urw button:disabled{opacity:.3}
 @media (max-width:420px){#reader .rbar{gap:0;padding:3px 3px}#reader .rbar button{font-size:8.5px}#reader .rbar button svg{width:19px;height:19px}}
-.bar #rbShow{color:var(--pri)!important}.bar #rbShow .v2ic{width:20px;height:20px}
+/* tools hidden: a small round pen button at the bottom brings them back (owner, 11 Nov 2026) */
+#reader #rbShow{position:absolute;right:12px;bottom:12px;left:auto;top:auto;z-index:6;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--pri);color:var(--pon)!important;border:0;box-shadow:0 4px 12px rgba(57,43,85,.28);transition:transform .15s ease,opacity .2s ease}
+#reader #rbShow[hidden]{display:none}#reader #rbShow:active{transform:scale(.9)}#reader #rbShow .v2ic{width:21px;height:21px}
 /* reading bar at the bottom: slides, video, topics, progress of the page */
 .v2rnav{display:none}
 .app.rd .v2rnav:not([hidden]){flex:none;display:grid;grid-template-columns:repeat(4,1fr);direction:rtl;gap:2px;background:var(--sf);border-top:1px solid var(--bd);padding:5px 6px calc(env(safe-area-inset-bottom,0px) + 5px)}
@@ -482,3 +484,19 @@ button{font-family:inherit}
 .abp{padding:0;overflow:hidden;max-width:760px;margin:0 auto;width:100%}.abp img{display:block;width:100%;height:auto}
 @media (max-width:520px){.abh{grid-template-columns:1fr;justify-items:center;gap:10px}.abh img{height:170px}}
 @media (min-width:760px){.abg{grid-template-columns:repeat(4,1fr);gap:14px}.abh img{height:250px}.abt .lb{font-size:16px;padding:12px 14px}}
+
+/* levels of flashcards and questions */
+.fclv{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.fclv button{border:1.5px solid var(--bd);background:var(--sf);color:var(--tx);border-radius:11px;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:1px;font:700 13px var(--ui)}
+.fclv button small{font:600 11px var(--ui);color:var(--sub)}.fclv button.on{border-color:var(--pri);background:var(--sel)}
+.lvt{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:8px;font:700 10.5px/1.6 var(--ui);letter-spacing:.3px;text-transform:uppercase;vertical-align:middle}
+.lvt.l1{background:#dcf5e7;color:#0b6b43}.lvt.l2{background:#fdeccb;color:#8a5a00}.lvt.l3{background:#fbdcd9;color:#a3261b}
+/* tablet and PC Home fills the screen height (owner, 11 Nov 2026: no empty space at the bottom) */
+@media (min-width:760px){
+  #v2homeW{min-height:100%;box-sizing:border-box}
+  #v2homeW .hgrid{flex:1 1 auto;align-items:stretch}
+  #v2homeW .hgrid>div{min-height:0}
+  #v2homeW .hgrid>div>.hcont{flex:1 1 auto;min-height:230px}
+  #v2homeW .hgrid>div>.hst{flex:1 1 auto}#v2homeW .hst>button{justify-content:center}
+  #v2homeW .hgrid>div>.hq{flex:1 1 auto;display:flex;flex-direction:column}#v2homeW .hq button{flex:1 1 auto}
+}

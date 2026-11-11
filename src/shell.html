@@ -2562,7 +2562,7 @@ function markIn(i,q){[].forEach.call(document.querySelectorAll('.bk mark.hit'),f
   var first=null;nodes.forEach(function(n){if(n.parentNode.closest('svg'))return;var t=n.nodeValue,k=t.toLowerCase().indexOf(ql);if(k<0)return;var r=document.createRange();r.setStart(n,k);r.setEnd(n,k+q.length);var m=document.createElement('mark');m.className='hit';try{r.surroundContents(m);if(!first)first=m}catch(e){}});
   if(first){var sc=$('scroller');var top=first.getBoundingClientRect().top-sc.getBoundingClientRect().top+sc.scrollTop-120;sc.scrollTop=top}}
 /* ---------- flashcards: known cards are remembered; 10 daily cards and a streak ---------- */
-function cardKey(id,c){var s=c[1]||'',h=0;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return id+':'+(h>>>0).toString(36)}
+function cardKey(id,c){if(c[4])return id+':'+c[4];var s=c[1]||'',h=0;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return id+':'+(h>>>0).toString(36)}
 var deckIds=Object.keys(DECKS);
 var KNOWN=spj('known2');
 if(!KNOWN){KNOWN={};getSet('orr-known').forEach(function(o){var p=String(o).split(':'),d=DECKS[p[0]],c=d&&d.cards[+p[1]];if(c)KNOWN[cardKey(p[0],c)]=1});spj('known2',KNOWN)}
@@ -2575,6 +2575,8 @@ $('toolCards').textContent=deckIds.reduce(function(a,k){return a+DECKS[k].cards.
 var FCSHORT={1:'Antenatal',2:'Medical',3:'High-risk',4:'Labour',5:'Emergencies',6:'Puerperium',7:'OSCE'},FCCOL={1:'#9a5b06',2:'#4c2c8f',3:'#8b2361',4:'#23408e',5:'#b03a14',6:'#1d6b4a',7:'#0b6e7f'};
 var DCH={};(META.topics||[]).forEach(function(t){DCH[t.id]=t.ch});
 var fcChs=(META.chapters||[]).filter(function(c){return deckIds.some(function(id){return DCH[id]===c.n})});
+var LVN={1:'Easy',2:'Medium',3:'Hard'},FLV=+sp('fclv')||0;
+function lvTag(d){return d?'<span class="lvt l'+d+'">'+LVN[d]+'</span>':''}
 var FCH=+sp('fcch')||(fcChs[0]&&fcChs[0].n)||1;
 function chDecks(n){return deckIds.filter(function(id){return DCH[id]===n})}
 function kn(ids){var a=0,b=0;ids.forEach(function(id){a+=deckKnown(id);b+=DECKS[id].cards.length});return [a,b]}
@@ -2586,14 +2588,17 @@ function chips(){if(/^ch:/.test(curDeck))FCH=+curDeck.slice(3);else if(DCH[curDe
     return '<button type="button" data-fch="'+c.n+'" class="'+(c.n===FCH?'on':'')+'" style="--qc:'+(FCCOL[c.n]||'#2c5b8f')+'"><span class="n">'+c.n+'</span><span class="l">'+esc(FCSHORT[c.n]||c.name)+'</span><small>'+k[0]+'/'+k[1]+'</small></button>'}).join('')+'</div>';
   h+='<div class="fclab">'+esc(cur?cur.name:'')+'</div><div class="chips fctops"><button class="chip'+(curDeck==='ch:'+FCH?' on':'')+'" type="button" data-d="ch:'+FCH+'">All of chapter '+FCH+'<small>'+C[0]+'/'+C[1]+'</small></button>'+
     chDecks(FCH).map(function(k){return '<button class="chip'+(k===curDeck?' on':'')+'" type="button" data-d="'+k+'">'+esc(DECKS[k].short)+'<small>'+deckKnown(k)+'/'+DECKS[k].cards.length+'</small></button>'}).join('')+'</div>';
+  var LC=[0,0,0,0];deckIds.forEach(function(id){DECKS[id].cards.forEach(function(c){LC[0]++;if(c[3])LC[c[3]]++})});
+  h+='<div class="fclab">Level</div><div class="fclv">'+[[0,'All levels'],[1,'Easy'],[2,'Medium'],[3,'Hard']].map(function(o){return '<button type="button" data-lv="'+o[0]+'" class="'+(FLV===o[0]?'on':'')+'">'+o[1]+'<small>'+LC[o[0]]+'</small></button>'}).join('')+'</div>';
   $('deckChips').innerHTML=h;var on=$('deckChips').querySelector('.fcchs .on');if(on&&on.scrollIntoView)try{on.scrollIntoView({block:'nearest',inline:'center'})}catch(e){}}
 $('deckChips').onclick=function(e){var b=e.target.closest('button');if(!b)return;
+  if(b.dataset.lv!==undefined){FLV=+b.dataset.lv;sp('fclv',FLV);if(curDeck==='daily')curDeck='all';startDeck(curDeck);return}
   if(b.dataset.fch){FCH=+b.dataset.fch;sp('fcch',FCH);curDeck='ch:'+FCH;startDeck(curDeck);return}
   if(b.dataset.d){curDeck=b.dataset.d;if(/^ch:/.test(curDeck))sp('fcch',curDeck.slice(3));else if(DCH[curDeck])sp('fcch',DCH[curDeck]);startDeck(curDeck)}};
 function startDeck(k,all){started=true;
-  if(k==='daily'){var D=daily();deck=[];total=D.keys.length;known=D.done.length;D.keys.forEach(function(key){if(D.done.indexOf(key)<0){var x=CBYK[key];deck.push({key:key,t:DECKS[x.id].short,cat:x.c[0],q:x.c[1],a:x.c[2]})}});chips();renderCard();return}
+  if(k==='daily'){var D=daily();deck=[];total=D.keys.length;known=D.done.length;D.keys.forEach(function(key){if(D.done.indexOf(key)<0){var x=CBYK[key];deck.push({key:key,t:DECKS[x.id].short,cat:x.c[0],q:x.c[1],a:x.c[2],d:x.c[3]})}});chips();renderCard();return}
   var src=k==='all'?deckIds:/^ch:/.test(k)?chDecks(+k.slice(3)):[k];deck=[];total=0;known=0;
-  src.forEach(function(id){DECKS[id].cards.forEach(function(c){var key=cardKey(id,c);total++;if(KNOWN[key]&&!all){known++;return}deck.push({key:key,t:DECKS[id].short,cat:c[0],q:c[1],a:c[2]})})});
+  src.forEach(function(id){DECKS[id].cards.forEach(function(c){if(FLV&&c[3]!==FLV)return;var key=cardKey(id,c);total++;if(KNOWN[key]&&!all){known++;return}deck.push({key:key,t:DECKS[id].short,cat:c[0],q:c[1],a:c[2],d:c[3]})})});
   if(all)known=0;
   for(var i=deck.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),x=deck[i];deck[i]=deck[j];deck[j]=x}chips();renderCard()}
 function renderCard(){$('fcProg').style.width=(total?known/total*100:0)+'%';$('fcScore').textContent=(curDeck==='daily'?'Done ':'Known ')+known+' / '+total;
@@ -2604,7 +2609,7 @@ function renderCard(){$('fcProg').style.width=(total?known/total*100:0)+'%';$('f
     $('fcAll').onclick=function(){startDeck(curDeck,true)};
     $('fcReset').onclick=function(){var src=curDeck==='all'?deckIds:/^ch:/.test(curDeck)?chDecks(+curDeck.slice(3)):[curDeck];src.forEach(function(id){DECKS[id].cards.forEach(function(c){delete KNOWN[cardKey(id,c)]})});saveKnown();startDeck(curDeck)};return}
   var c=deck[0];$('fcLeft').textContent=deck.length+' left';
-  $('fcStage').innerHTML='<button class="fc" type="button" id="fcCard" aria-label="Flip card"><div class="in"><div class="face q"><span class="k">'+esc(c.t)+' · '+esc(c.cat)+'</span><div class="tx">'+esc(c.q)+'</div></div><div class="face a"><span class="k">Answer</span><div class="tx">'+esc(c.a)+'</div></div></div></button><p class="fhint" style="margin-top:10px">Tap the card to see the answer</p><div class="fact" style="margin-top:12px"><button class="ag" type="button" id="fcNo">Again</button><button class="gd" type="button" id="fcYes">Knew it</button></div>';
+  $('fcStage').innerHTML='<button class="fc" type="button" id="fcCard" aria-label="Flip card"><div class="in"><div class="face q"><span class="k">'+esc(c.t)+' · '+esc(c.cat)+lvTag(c.d)+'</span><div class="tx">'+esc(c.q)+'</div></div><div class="face a"><span class="k">Answer</span><div class="tx">'+esc(c.a)+'</div></div></div></button><p class="fhint" style="margin-top:10px">Tap the card to see the answer</p><div class="fact" style="margin-top:12px"><button class="ag" type="button" id="fcNo">Again</button><button class="gd" type="button" id="fcYes">Knew it</button></div>';
   $('fcCard').onclick=function(){this.classList.toggle('flip')};
   $('fcNo').onclick=function(){deck.push(deck.shift());renderCard()};
   $('fcYes').onclick=function(){var x=deck.shift();KNOWN[x.key]=1;saveKnown();known++;if(curDeck==='daily')dailyDone(x.key);chips();renderCard()}}
@@ -3142,7 +3147,7 @@ nbox.addEventListener('click',function(e){var b=e.target.closest('button');if(!b
    (orr-qb, synced): {n tries, c correct tries, w last answer wrong, a 1 answered, m 1 marked}. Tests: orr-qbtests (synced), orr-qbcur, orr-qbset. */
 var QB=JSON.parse($('qbank').textContent),QS=[];
 QB.forEach(function(ch){ch.questions.forEach(function(q){
-  if(q.type==='emq')(q.items||[]).forEach(function(it,k){QS.push({id:q.id+'#'+k,ch:ch.chapter,topic:q.topic,emq:1,theme:q.theme,lead:q.lead,stem:it.stem,q:'',options:q.options,answer:it.answer,why:it.why})});
+  if(q.type==='emq')(q.items||[]).forEach(function(it,k){QS.push({id:q.id+'#'+k,ch:ch.chapter,topic:q.topic,emq:1,theme:q.theme,lead:q.lead,stem:it.stem,q:'',options:q.options,answer:it.answer,why:it.why,d:it.d})});
   else{q.ch=ch.chapter;QS.push(q)}})});
 var QST={};try{QST=JSON.parse(st('orr-qb')||'{}')||{}}catch(e){QST={}}
 var QT=spj('qbtests')||[],CUR=spj('qbcur'),qset=spj('qbset')||{mode:'tutor',pool:'unused',n:10,ch:{}};if(!qset.ch)qset.ch={};
@@ -3156,7 +3161,7 @@ function qpct(a,b){return b?Math.round(a/b*100):0}
 function used(q){var s=QST[q.id];return !!(s&&(s.n||s.a))}
 function inPool(q,p){var s=QST[q.id];if(p==='unused')return !used(q);if(p==='incorrect')return !!(s&&s.w);if(p==='marked')return !!(s&&s.m);return true}
 function anyCh(){return Object.keys(qset.ch).some(function(k){return qset.ch[k]})}
-function poolQs(){var any=anyCh();return QS.filter(function(q){return (!any||qset.ch[q.ch])&&inPool(q,qset.pool)})}
+function poolQs(){var any=anyCh();return QS.filter(function(q){return (!any||qset.ch[q.ch])&&inPool(q,qset.pool)&&(!+qset.lv||q.d===+qset.lv)})}
 function chName(n){var c=META.chapters.filter(function(x){return x.n==n})[0];return c?c.name:'Chapter '+n}
 function qbHead(){var u=0,ok=0,m=0;QS.forEach(function(q){var s=QST[q.id];if(used(q)){u++;if(!s.w)ok++}if(s&&s.m)m++});
   return '<div class="qbst"><div><b>'+qpct(ok,u)+'%</b><span>Correct</span></div><div><b>'+u+'<small> / '+QS.length+'</small></b><span>Used</span></div><div><b>'+(QS.length-u)+'</b><span>Unused</span></div><div><b>'+m+'</b><span>Marked</span></div></div>'}
@@ -3167,10 +3172,12 @@ function renderQB(keep){if(CUR&&!CUR.done)return renderQ();$('subtitle').textCon
   h+=step(1,'Mode')+'<div class="seg" data-k="mode">'+[['tutor','Tutor','see the answer after each question'],['timed','Timed','like the exam · 1 min 15 s each']].map(function(o){return '<button type="button" data-v="'+o[0]+'" class="'+(qset.mode===o[0]?'on':'')+'"><b>'+o[1]+'</b><span>'+o[2]+'</span></button>'}).join('')+'</div>';
   h+=step(2,'Questions')+'<div class="qbpool" data-k="pool">'+[['unused','Unused'],['incorrect','Incorrect'],['marked','Marked'],['all','All']].map(function(o){
     var c=QS.filter(function(q){return inPool(q,o[0])}).length;return '<button type="button" class="'+(qset.pool===o[0]?'on':'')+'" data-v="'+o[0]+'"><b>'+c+'</b><span>'+o[1]+'</span></button>'}).join('')+'</div>';
+  h+=step(3,'Level')+'<div class="qbpool" data-k="lv">'+[['0','All levels'],['1','Easy'],['2','Medium'],['3','Hard']].map(function(o){
+    var c=QS.filter(function(q){return !+o[0]||q.d===+o[0]}).length;return '<button type="button" class="'+(String(+qset.lv||0)===o[0]?'on':'')+'" data-v="'+o[0]+'"><b>'+c+'</b><span>'+o[1]+'</span></button>'}).join('')+'</div>';
   var allOn=qchs.every(function(c){return qset.ch[c]});
-  h+=step(3,'Chapters',any?nsel+' selected · <button type="button" class="qblink" id="qbAll">clear</button>':'all chapters')+'<div class="qbparts"><button type="button" class="qbpt'+(allOn?' on':'')+'" data-part="'+qchs.join(',')+'"><span>Obstetrics</span><small>'+QS.length+' questions · '+(allOn?'selected':'select all')+'</small></button><div class="qbch">'+qchs.map(function(c){
+  h+=step(4,'Chapters',any?nsel+' selected · <button type="button" class="qblink" id="qbAll">clear</button>':'all chapters')+'<div class="qbparts"><button type="button" class="qbpt'+(allOn?' on':'')+'" data-part="'+qchs.join(',')+'"><span>Obstetrics</span><small>'+QS.length+' questions · '+(allOn?'selected':'select all')+'</small></button><div class="qbch">'+qchs.map(function(c){
     var k=QS.filter(function(q){return q.ch===c}).length;return '<button type="button" style="--qc:'+(FCCOL[c]||'#2c5b8f')+'" class="'+(qset.ch[c]?'on':'')+'" data-ch="'+c+'" title="'+esc(chName(c))+'"><span class="n">'+c+'</span><span class="l">'+esc(FCSHORT[c]||chName(c))+'</span><small>'+k+'</small></button>'}).join('')+'</div></div>';
-  h+=step(4,'Number of questions',max+' available')+'<div class="qbnq">'+[10,20,40,max].filter(function(v,ix,a){return v>0&&v<=max&&a.indexOf(v)===ix}).map(function(v){return '<button type="button" data-qn="'+v+'" class="'+(n===v?'on':'')+'">'+(v===max&&v>40?'All '+v:v)+'</button>'}).join('')+'</div>'+
+  h+=step(5,'Number of questions',max+' available')+'<div class="qbnq">'+[10,20,40,max].filter(function(v,ix,a){return v>0&&v<=max&&a.indexOf(v)===ix}).map(function(v){return '<button type="button" data-qn="'+v+'" class="'+(n===v?'on':'')+'">'+(v===max&&v>40?'All '+v:v)+'</button>'}).join('')+'</div>'+
     '<div class="qbn"><input type="range" id="qbN" min="1" max="'+Math.max(1,Math.min(max,100))+'" value="'+Math.max(1,n)+'"'+(max?'':' disabled')+' aria-label="Number of questions"><b id="qbNv">'+n+'</b></div></div>';
   h+='<div class="qbgob"><button class="btn qbgo" type="button" id="qbGo"'+(max?'':' disabled')+'>'+(max?'Start test<small id="qbGoS">'+n+' questions · '+(qset.mode==='timed'?'Timed':'Tutor')+'</small>':'No questions match')+'</button></div>';
   if(QT.length){h+='<div class="sh"><h3>Previous tests</h3><span>Tap to review</span></div><div class="qbprev">'+QT.slice().reverse().map(function(t,i){var j=QT.length-1-i,sc=qpct(t.ok,t.ids.length);
@@ -3230,7 +3237,7 @@ function renderQ(){clearInterval(qtick);var id=CUR.ids[CUR.i],q=QBY[id],n=CUR.id
     '<button type="button" id="qbEnd" class="chip">'+(CUR.done?'Close':'End test')+'</button></div>';
   h+='<div class="qbgrid pal" id="qbPal" hidden>'+CUR.ids.map(function(x,j){var c='';if(CUR.done||(CUR.sub&&CUR.sub[x]))c=QBY[x]&&CUR.ans[x]===QBY[x].answer?'ok':CUR.ans[x]===undefined?'na':'no';else if(CUR.ans[x]!==undefined)c='an';
     return '<button type="button" data-j="'+j+'" class="'+c+(j===CUR.i?' cur':'')+'">'+(j+1)+'</button>'}).join('')+'</div>';
-  h+='<div class="qbq" style="--qc:'+(FCCOL[q.ch]||'#2c5b8f')+'"><span class="k">'+esc(t.no)+' · '+esc(t.title)+(q.emq?' · EMQ':'')+'</span>'+
+  h+='<div class="qbq" style="--qc:'+(FCCOL[q.ch]||'#2c5b8f')+'"><span class="k">'+esc(t.no)+' · '+esc(t.title)+(q.emq?' · EMQ':'')+lvTag(q.d)+'</span>'+
     (q.emq?'<p class="th">'+esc(q.theme)+'</p>'+(q.lead?'<p class="ld">'+esc(q.lead)+'</p>':''):'')+'<p>'+esc(q.stem)+'</p>'+(q.q?'<p class="qq2">'+esc(q.q)+'</p>':'')+'</div><div class="qbo">'+q.options.map(function(o,j){
     var c='';if(shown){if(j===q.answer)c='ok';else if(j===a)c='no'}else if(j===a)c='sel';
     return '<button type="button" data-o="'+j+'" class="'+c+'"><span class="l">'+L[j]+'</span><span>'+esc(o)+'</span></button>'}).join('')+'</div>';

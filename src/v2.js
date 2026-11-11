@@ -54,11 +54,11 @@ window.__v2sub=openSub;
 function locked(id){return !!(window.__LK&&window.__LK[id])}
 
 /* ---------- reader: one place at a time ---------- */
-var SCOPE=null,RET='v2home';
+var SCOPE=null,RET='v2home',WHOLE=false;   // WHOLE: the whole book open as one continuous book (Home → «افتح الكتاب كاملًا», owner 11 Nov 2026)
 function grp(i){while(i>0&&PAGES[i].user)i--;var p=PAGES[i],f=p.f||'';if(p.t)return 't:'+p.t;if(/^x9/.test(f))return 'rr';if(/^y\d/.test(f))return 'dr';var m=f.match(/^k(\d+)_cover/);if(m)return 'k'+m[1];return f==='a00_cover'?'cover':'fm'}
-function applyScope(){wraps.forEach(function(w,i){w.style.display=grp(i)===SCOPE?'':'none'})}
-var _cp=currentPage;currentPage=function(){var sc=$('scroller'),mid=sc.scrollTop+sc.clientHeight*0.35,cur=-1,first=-1;for(var i=0;i<wraps.length;i++){if(wraps[i].style.display==='none')continue;if(first<0)first=i;if(wraps[i].offsetTop<=mid)cur=i}return cur<0?Math.max(first,0):cur};
-var _gi=goIdx;goIdx=function(i){i=Math.max(0,Math.min(PAGES.length-1,i));var g=grp(i);if(g!==SCOPE){SCOPE=g;applyScope()}_gi(i)};
+function applyScope(){wraps.forEach(function(w,i){w.style.display=WHOLE||grp(i)===SCOPE?'':'none'})}
+var _cp=currentPage;currentPage=function(){var sc=$('scroller');if(!sc.clientHeight&&typeof lastCur==='number'&&lastCur>=0)return lastCur;var mid=sc.scrollTop+sc.clientHeight*0.35,cur=-1,first=-1;for(var i=0;i<wraps.length;i++){if(wraps[i].style.display==='none')continue;if(first<0)first=i;if(wraps[i].offsetTop<=mid)cur=i}return cur<0?Math.max(first,0):cur};
+var _gi=goIdx;goIdx=function(i){i=Math.max(0,Math.min(PAGES.length-1,i));if(WHOLE){_gi(i);return}var g=grp(i);if(g!==SCOPE){SCOPE=g;applyScope()}_gi(i)};
 /* the page pill counts inside the open place (1 / 8), not the whole book; each place is separate (owner, 10 Nov 2026) */
 /* ---------- reader, new design (owner, 10 Nov 2026): slim app bar with the place's title, read mark and bookmark; the tools live in a
    floating dock at the bottom; panels open above it; a thin line shows how far through the place the student is ---------- */
@@ -67,13 +67,14 @@ var RBM=document.createElement('button');RBM.type='button';RBM.className='ib rbm
 $('v2rnav').appendChild($('prBtn'));
 var RH=document.createElement('button');RH.type='button';RH.className='ib rhome';RH.setAttribute('aria-label','Home');RH.title='الرئيسية';RH.innerHTML=I('home');RH.onclick=function(){go('v2home')};RB.insertBefore(RH,RT);
 var RP=document.createElement('i');RP.className='rprog';RP.innerHTML='<i></i>';RB.appendChild(RP);
-RB.insertBefore($('rbShow'),RBM);$('rbShow').innerHTML=I('pen');$('rbShow').title='إظهار الأدوات';
-function rtopic(){return SCOPE&&SCOPE.slice(0,2)==='t:'?TOPICS.filter(function(t){return 't:'+t.id===SCOPE})[0]:null}
+$('reader').appendChild($('rbShow'));$('rbShow').innerHTML=I('pen');$('rbShow').title='إظهار الأدوات';
+function scNow(){return WHOLE?grp(typeof lastCur==='number'&&lastCur>=0?lastCur:currentPage()):SCOPE}
+function rtopic(){var s=scNow();return s&&s.slice(0,2)==='t:'?TOPICS.filter(function(t){return 't:'+t.id===s})[0]:null}
 RBM.onclick=function(){var t=rtopic();if(!t)return;var k='t:'+t.id;if(BM[k])delete BM[k];else BM[k]=Date.now();spj('bm',BM);pill()};
 function pill(){var c=lastCur<0?currentPage():lastCur,k=0,n=0;for(var i=0;i<wraps.length;i++){if(wraps[i].style.display==='none')continue;n++;if(i<=c)k++}
   var pn=$('pnum');if(!pn.classList.contains('ed'))pn.textContent=(PAGES[c]&&PAGES[c].user?'✎ ':'')+k+' / '+n;
   RP.firstChild.style.width=(n?k/n*100:0)+'%';var t=rtopic(),lab=PAGES[c]?String(PAGES[c].label||''):'';
-  $('v2rb').textContent=t?t.no+' '+t.title.charAt(0).toUpperCase()+t.title.slice(1):({rr:'Rapid Review',dr:'Obstetric Drugs',cover:'Book cover',fm:lab}[SCOPE]||lab);
+  $('v2rb').textContent=t?t.no+' '+t.title.charAt(0).toUpperCase()+t.title.slice(1):({rr:'Rapid Review',dr:'Obstetric Drugs',cover:'Book cover',fm:lab}[scNow()]||lab);
   $('v2rs').textContent='Page '+k+' of '+n+(t?' · Chapter '+t.ch:'');
   $('v2rnav').hidden=!t;RBM.hidden=!t;if(t){RBM.classList.toggle('on',!!BM['t:'+t.id]);RBM.setAttribute('aria-pressed',!!BM['t:'+t.id])}}
 var _os=onScroll;onScroll=function(){_os.apply(this,arguments);pill()};
@@ -109,7 +110,7 @@ var NAV=[['v2home','Home','home'],['v2chapters','Chapters','book'],['v2practice'
 function tabOf(v){if(v==='reader')return SCOPE==='rr'||SCOPE==='dr'?'v2resources':'v2chapters';
   return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',v2sub:'v2settings',v2pay:'v2settings',v2dl:'v2settings',v2help:'v2settings',v2about:'v2settings',v2poster:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
 var _show=show;
-function go(v){if(v==='home')v='v2home';var was=CURV;if(v!=='v2slides'&&v!=='v2lect')FROMRD=false;$('v2tsheet').hidden=true;
+function go(v){if(v==='home')v='v2home';var was=CURV;if(v!=='v2slides'&&v!=='v2lect')FROMRD=false;if(v!=='reader'&&v!=='v2slides'&&v!=='v2lect')WHOLE=false;$('v2tsheet').hidden=true;
   if(V2.indexOf(v)>=0){if(typeof setImm==='function')setImm(false);views.forEach(function(x){$(x).hidden=true});V2.forEach(function(x){$(x).hidden=x!==v});CURV=v;try{hideBar();penFly(false)}catch(e){}R[v]();$(v).scrollTop=v===was?$(v).scrollTop:0}
   else{V2.forEach(function(x){$(x).hidden=true});if(v==='reader'&&was!=='reader'&&!(FROMRD&&(was==='v2slides'||was==='v2lect')))RET=V2.indexOf(was)>=0||was==='search'?was:RET;_show(v);
     var a={reader:'read',cards:'cards','qbank-v':'qb'}[v];if(a)spj('lastact',{k:a,t:Date.now()});
@@ -118,7 +119,7 @@ function go(v){if(v==='home')v='v2home';var was=CURV;if(v!=='v2slides'&&v!=='v2l
   [].forEach.call(document.querySelectorAll('#v2nav button,#v2sn button'),function(b){b.classList.toggle('on',b.dataset.v===t)});header()}
 show=go;
 var nb=NAV.map(function(n){return '<button type="button" data-v="'+n[0]+'">'+I(n[2])+'<span>'+n[1]+'</span></button>'}).join('');$('v2nav').innerHTML=nb;$('v2sn').innerHTML=nb;
-document.addEventListener('click',function(e){var b=e.target.closest('[data-v]');if(b&&!e.target.closest('.bk')){go(b.dataset.v);return}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-v]');if(b&&!e.target.closest('.bk')&&(b.dataset.v==='home'||(document.getElementById(b.dataset.v)||{}).className&&/\bview\b/.test(document.getElementById(b.dataset.v).className))){go(b.dataset.v);return}
   b=e.target.closest('[data-act]');if(b&&ACT[b.dataset.act])ACT[b.dataset.act](b,e)});
 $('v2sb').onclick=function(){go('search')};$('v2me').onclick=function(){go('v2profile')};$('v2bell').onclick=function(){go('v2notif')};
 $('v2q').addEventListener('input',function(){if(CURV!=='search')go('search');$('q').value=this.value;runSearch()});
@@ -154,7 +155,7 @@ R.v2home=function(){var a=access(),lp=lastPage(),has=sp('pk')&&lp>0,t=has?topicA
     '<div class="v2c hcont"><div class="ph"></div>'+ct+'<button type="button" class="v2btn" data-act="cont" lang="ar">'+(has?'تابع القراءة':'ابدأ القراءة')+I('arrow')+'</button></div>'+
     '<div class="v2c hbook"><img src="img/v2_cover_'+PAL+'.jpg" alt="Book cover"><div><h3>Obstetrics Master Review</h3><span class="ed">4th Edition</span>'+
       '<div class="ct"><div><b>'+META.chapters.length+'</b><span>chapters</span></div><div><b>'+TOPICS.length+'</b><span>topics</span></div><div><b>'+cTotal()+'</b><span>flashcards</span></div><div><b>'+qTotal()+'</b><span>questions</span></div></div>'+
-      '<button type="button" class="v2btn ol" data-act="cover" lang="ar">'+I('book')+'افتح غلاف الكتاب</button></div></div>'+
+      '<button type="button" class="v2btn ol" data-act="cover" lang="ar">'+I('book')+'افتح الكتاب كاملًا</button></div></div>'+
    '</div><div>'+
     '<button type="button" class="v2c hsum" data-act="prog" lang="ar"><span>'+I('flame','fl')+(sk?sk+' أيام سلسلة متتالية':'ابدأ سلسلتك اليوم')+'</span><span>'+I('bars')+'التقدم الكلي <bdi>'+overall()+'%</bdi></span></button>'+
     '<div class="hst" lang="ar"><button type="button" class="v2c" data-act="cards"><span class="t">'+I('layers')+'بطاقات اليوم</span><span class="n">'+(dueToday()?dueToday()+' بطاقات':'اكتملت ✓')+'</span><span class="a">ابدأ المراجعة'+I('back')+'</span></button>'+
@@ -232,7 +233,7 @@ R.v2dl=function(){$('v2dlW').innerHTML=title('التنزيلات','v2settings','
   '<div class="v2c sbx" lang="ar"><b>'+I('play')+'محاضرات الفيديو</b><p class="mu">لا توجد محاضرات منزّلة. عند إضافة محاضرات الفيديو يمكنك تنزيلها لمشاهدتها بدون إنترنت، وتظهر هنا.</p><button type="button" class="v2btn sm ol" data-v="v2lect">المحاضرات'+I('back')+'</button></div>'+
   '<div class="v2c sbx" lang="ar"><b>'+I('slides')+'سلايدات المحاضرات</b><p class="mu">لا توجد سلايدات منزّلة. عند إضافة السلايدات يمكنك تنزيلها، وتظهر هنا.</p><button type="button" class="v2btn sm ol" data-v="v2slides">السلايدات'+I('back')+'</button></div>'};
 /* user manual (owner, 10 Nov 2026): every part of the app in clear steps with a picture of the screen (assets/img/help_*.jpg, made by tools/help_shots.js) */
-var HELP=[['home','الرئيسية','من هنا تبدأ كل شيء.',['<b>تابع القراءة</b>: يعيدك إلى آخر موضوع كنت تقرؤه.','<b>افتح غلاف الكتاب</b>: يعرض غلاف الكتاب.','<b>بطاقات اليوم</b> و<b>بنك الأسئلة</b>: يبدآن المراجعة والتدريب مباشرة.','<b>آخر نشاط · المحاضرات · السلايدات</b>: اختصارات سريعة.','الشريط السفلي ينقلك بين: Home · Chapters · Practice · Resources · Settings.']],
+var HELP=[['home','الرئيسية','من هنا تبدأ كل شيء.',['<b>تابع القراءة</b>: يعيدك إلى آخر موضوع كنت تقرؤه.','<b>افتح الكتاب كاملًا</b>: يفتح الكتاب كله متصلًا من الغلاف إلى آخر صفحة.','<b>بطاقات اليوم</b> و<b>بنك الأسئلة</b>: يبدآن المراجعة والتدريب مباشرة.','<b>آخر نشاط · المحاضرات · السلايدات</b>: اختصارات سريعة.','الشريط السفلي ينقلك بين: Home · Chapters · Practice · Resources · Settings.']],
  ['chapters','الفصول','الكتاب مقسّم إلى سبعة فصول، وكل موضوع يُفتح وحده.',['اضغط <b>Chapters</b> ثم اختر الفصل.','ابحث باسم الفصل أو الموضوع، أو اعرض «قيد القراءة» أو «المحفوظة».','اضغط الموضوع لفتحه. علامة <b>FREE</b> تعني أنه مفتوح في النسخة المجانية، والقفل يعني أنه يحتاج إلى اشتراك.','علامة الحفظ بجانب الموضوع تضيفه إلى «المصادر المحفوظة».','أسفل الفصل: <b>ابدأ القراءة</b>، <b>أسئلة الفصل</b>، <b>بطاقات الفصل</b>.']],
  ['reader','القراءة وأدوات المذاكرة','الأدوات رموز في شريط أعلى الصفحة، وأزرار القراءة في الأسفل. يختفي الشريطان أثناء النزول في القراءة ويعودان بضغطة على الصفحة.',['<b>تظليل</b> و<b>خط</b>: اسحب إصبعك على الكلام لتظليله أو وضع خط تحته.','<b>قلم</b>: للرسم والكتابة على الصفحة، و<b>نص</b>: لكتابة ملاحظة في أي مكان.','<b>ملاحظات</b>: حدّد جملة واكتب ملاحظتك عليها.','<b>صفحة</b>: يضيف صفحة فارغة لك، و<b>الحجم</b>: يكبّر الصفحة أو يصغّرها.','في الأسفل: <b>السلايدات</b> و<b>الفيديو</b> لهذا الموضوع، و<b>المواضيع</b> لاختيار موضوع آخر من الفصل.','<b>تقدّم الصفحة</b> (الدائرة في الأسفل): اختر «قرأتها» أو «أتقنتها» ليُحسب تقدّمك.','في أعلى الشاشة: السهم يعيدك إلى الفصل، وزر <b>البيت</b> يعيدك إلى الرئيسية، ثم علامة الحفظ ولون الصفحة. على الجهاز اللوحي والحاسوب يوجد زر يخفي القائمة الجانبية ويظهرها.']],
  ['practice','الممارسة: الأسئلة والبطاقات','اختبر نفسك بعد كل موضوع.',['اضغط <b>Practice</b> ثم اختر «الأسئلة» أو «البطاقات».','<b>الأسئلة</b>: اختر نمط التدريب أو الامتحان بالوقت، ثم الفصول وعدد الأسئلة، واضغط Start. بعد الإجابة يظهر الشرح.','<b>البطاقات</b>: اضغط البطاقة ليظهر الجواب، ثم اختر «عرفتها» أو «مرة أخرى».','<b>بطاقات اليوم</b>: عشر بطاقات كل يوم، وإكمالها يزيد سلسلة أيامك.']],
@@ -243,11 +244,12 @@ R.v2help=function(){$('v2helpW').innerHTML=title('دليل الاستخدام','
   '<div class="chf lcf" lang="ar">'+HELP.map(function(h,i){return '<button type="button" data-act="hjump" data-i="'+i+'">'+h[1]+'</button>'}).join('')+'</div>'+
   HELP.map(function(h,i){return '<div class="v2c hlp" id="hlp'+i+'" lang="ar"><div class="hx"><b><i>'+(i+1)+'</i>'+h[1]+'</b><p class="mu">'+h[2]+'</p><ol>'+h[3].map(function(s){return '<li>'+s+'</li>'}).join('')+'</ol></div><img src="img/help_'+h[0]+'.jpg" alt="صورة شاشة: '+h[1]+'" loading="lazy"></div>'}).join('')};
 /* About the book (owner's design, 11 Nov 2026): a hero and eight tiles; five open the owner's posters, three lead to places of the app */
-var ABOUT=[['authors','مؤلفا الكتاب','p'],['reviewers','مراجعو الكتاب','p'],['edition','عن هذه الطبعة','p'],['howto','كيف تستخدم الكتاب','v2help'],['tools','أدوات الدراسة','help:2'],['refs','مراجع الكتاب','p'],['contents','محتويات الكتاب','v2chapters'],['goals','أهدافنا المستقبلية','p']],POST='authors';
+var ABOUT=[['authors','مؤلفا الكتاب','p'],['reviewers','مراجعو الكتاب','p'],['edition','عن هذه الطبعة','p'],['howto','كيف تستخدم الكتاب','p'],['tools','أدوات الدراسة','help:2'],['refs','مراجع الكتاب','p'],['contents','محتويات الكتاب','v2chapters'],['goals','أهدافنا المستقبلية','p'],['rights','حقوق النشر وشروط الاستخدام','p']],POST='authors';
 R.v2about=function(){$('v2aboutW').innerHTML=title('عن الكتاب','v2settings','About')+
   '<div class="v2c abh" lang="ar"><img src="img/v2_cover_'+PAL+'.jpg" alt="غلاف الكتاب"><div><h3>رفيقك في رحلة تعلّم التوليد</h3><span class="abl">'+I('book')+'</span><p>تعرّف على الكتاب، وفريقه، وطريقة الاستفادة منه</p></div></div>'+
-  '<div class="abg" lang="ar">'+ABOUT.map(function(a){return '<button type="button" class="v2c abt" data-act="about" data-k="'+a[0]+'"><span class="im" style="background-image:url(img/abt_'+a[0]+'.jpg)"></span><span class="lb"><b>'+a[1]+'</b>'+I('chev')+'</span></button>'}).join('')+'</div>'};
-R.v2poster=function(){var a=ABOUT.filter(function(x){return x[0]===POST})[0];$('v2posterW').innerHTML=title(a[1],'v2about','About')+'<div class="v2c abp"><img src="img/ab_'+a[0]+'.jpg" alt="'+a[1]+'"></div>'};
+  '<div class="abg" lang="ar">'+ABOUT.slice(0,8).map(function(a){return '<button type="button" class="v2c abt" data-act="about" data-k="'+a[0]+'"><span class="im" style="background-image:url(img/abt_'+a[0]+'.jpg)"></span><span class="lb"><b>'+a[1]+'</b>'+I('chev')+'</span></button>'}).join('')+'</div>'+
+  '<button type="button" class="v2c hrow" data-act="about" data-k="rights" lang="ar"><span class="ii">'+I('info')+'</span><span><b>حقوق النشر وشروط الاستخدام</b><small>إخلاء المسؤولية العلمية والطبية</small></span>'+I('chev')+'</button>'};
+R.v2poster=function(){var a=ABOUT.filter(function(x){return x[0]===POST})[0];$('v2posterW').innerHTML=title(a[1],'v2about','About')+'<div class="v2c abp"><img src="img/ab_'+a[0]+'.jpg" alt="'+a[1]+'"></div>'+(a[0]==='howto'?'<button type="button" class="v2btn" data-v="v2help" lang="ar" style="max-width:760px;width:100%;margin:0 auto;height:50px">'+I('book')+'دليل الاستخدام المفصّل بالصور</button>':'')};
 R.v2saved=function(){var ks=Object.keys(BM).sort(function(a,b){return BM[b]-BM[a]});
   $('v2savedW').innerHTML=title('المصادر المحفوظة','v2resources')+(ks.length?'<div class="tpl">'+ks.map(function(k){var t=TOPICS.filter(function(x){return 't:'+x.id===k})[0];if(!t)return '';
     return '<div class="v2c tpr"><span class="li">'+I(locked(t.id)?'lock':'book')+'</span><button type="button" class="tmn" data-act="topic" data-id="'+t.id+'"><b>'+t.no+' '+X(t.title)+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></button>'+bmk(k)+'</div>'}).join('')+'</div>'
@@ -381,7 +383,7 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
       if(!d.ok&&d.reason!=='pending'){M.textContent={wait:'انتظر لحظات ثم اضغط مرة أخرى.',many:'أرسلت عدة طلبات اليوم. انتظر المراجعة أو راسلنا في واتساب.',busy:'الطلبات كثيرة الآن. حاول بعد قليل.',name:'اكتب اسمك.',phone:'اكتب رقم هاتف صحيحًا.',file:'الإيصال غير مقبول. ارفع صورة أو ملف PDF.'}[d.reason]||'تعذّر الإرسال. حاول مرة أخرى.';return}
       PAY.file=null;PAY.edit=false;REQ={status:'pending',plan:PAY.plan,t:ED&&REQ?REQ.t:new Date().toISOString()};spj('req',REQ);header();go('v2sub')},function(){PAY.busy=false;b.disabled=false;M.textContent='تعذّر الإرسال. تأكد من الاتصال واضغط الزر مرة أخرى.'})},
   cont:function(){goIdx(sp('pk')&&lastPage()>0?lastPage():BIDX[TOPICS[0].p-1])},
-  cover:function(){goIdx(0)},
+  cover:function(){WHOLE=true;SCOPE='all';applyScope();goIdx(0)},
   prog:function(){try{renderHome()}catch(e){}$('v2psheet').hidden=false},
   cards:function(){curDeck='daily';started=false;go('cards')},
   allcards:function(){curDeck='all';started=false;go('cards')},

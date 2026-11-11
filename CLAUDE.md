@@ -227,3 +227,16 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
 - **Standard Arabic (owner, 10 Nov 2026: "proper Arabic, not Sudanese").** All app text is Modern Standard Arabic: `tools/msa.py` rewrote the
   colloquial strings of src/shell.html and site_static/licence.js (`--check` lists leftovers); v2 says «بطاقات» not «كروت», «قرأتها» not
   «قريتها». New app text must be standard Arabic. (The OSCE history questions inside the book pages stay as the owner wrote them.)
+- **About the book (owner, 11 Nov 2026):** Settings → «عن الكتاب» (`v2about`): hero and eight tiles as in his mock-up; six open his posters
+  (`v2poster`, `assets/img/ab_<authors|reviewers|edition|howto|refs|goals|rights>.jpg`; thumbnails `abt_*.jpg`; «حقوق النشر وشروط الاستخدام»
+  is a row under the tiles), «أدوات الدراسة» opens the user manual, «محتويات الكتاب» opens Chapters.
+- **Whole book (owner, 11 Nov 2026):** Home «افتح الكتاب كاملًا» opens the book as one continuous book from the cover (`WHOLE`; every page
+  shown, title and reading bar follow the topic in view); leaving the reader ends it and places are separate again.
+- Tools hidden → a small round pen button at the bottom right brings them back (`#rbShow`, not in the top bar). Tablet/PC Home fills the height.
+- **Levels and clean wording of flashcards and questions (owner, 11 Nov 2026).** Every card and question gets a level (1 easy = direct recall,
+  2 medium = understanding or applying a fact, 3 hard = clinical reasoning, exceptions, several steps) and is rewritten in complete sentences
+  with standard medical terms, WITHOUT changing any fact, number or dose; exact duplicate cards are removed. Card = [section, question, answer,
+  level, old key]; question field `d` (EMQ items too). Chapter files `tools/levels/ch<N>.py`, applied with `python3 tools/levels/apply.py <file>`.
+  App: Level filter in flashcards (`orr-fclv`) and step 3 «Level» in the test builder (`qset.lv`); a level tag on each card and question.
+  **Done: chapter 1 (86 cards, 44 questions). Next: chapters 2–7, one chapter at a time.** The question bank and flashcard screens still
+  have the old gold look; restyle them to the app tokens.
