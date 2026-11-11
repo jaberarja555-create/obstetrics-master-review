@@ -305,4 +305,5 @@ into `main` when the owner has seen it; small fixes the owner asks for directly 
   - **Next (owner, 11 Nov 2026): rewrite of the chapters** — new page design and better medical writing: no fixed "Introduction" opening, short
     basic background only where needed, a clinical case to introduce disease topics, smoother order, standard terms and titles. Make ONE model
     topic first and show it to the owner before the rest.
-
+  - **The reader is always continuous (owner, 11 Nov 2026 evening: "ok for the book to be continuous even in chapters"):** `goIdx` always opens
+    the whole book (`WHOLE`, `SCOPE='all'`) at the asked page; the earlier rule "each place is separate" no longer applies to the reader.

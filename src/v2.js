@@ -58,7 +58,9 @@ var SCOPE=null,RET='v2home',WHOLE=false;   // WHOLE: the whole book open as one 
 function grp(i){while(i>0&&PAGES[i].user)i--;var p=PAGES[i],f=p.f||'';if(p.t)return 't:'+p.t;if(/^x9/.test(f))return 'rr';if(/^y\d/.test(f))return 'dr';var m=f.match(/^k(\d+)_cover/);if(m)return 'k'+m[1];return f==='a00_cover'?'cover':'fm'}
 function applyScope(){wraps.forEach(function(w,i){w.style.display=WHOLE||grp(i)===SCOPE?'':'none'})}
 var _cp=currentPage;currentPage=function(){var sc=$('scroller');if(!sc.clientHeight&&typeof lastCur==='number'&&lastCur>=0)return lastCur;var mid=sc.scrollTop+sc.clientHeight*0.35,cur=-1,first=-1;for(var i=0;i<wraps.length;i++){if(wraps[i].style.display==='none')continue;if(first<0)first=i;if(wraps[i].offsetTop<=mid)cur=i}return cur<0?Math.max(first,0):cur};
-var _gi=goIdx;goIdx=function(i){i=Math.max(0,Math.min(PAGES.length-1,i));if(WHOLE){_gi(i);return}var g=grp(i);if(g!==SCOPE){SCOPE=g;applyScope()}_gi(i)};
+/* the book is always one continuous book in the reader (owner, 11 Nov 2026 evening): opening a topic, the Rapid Review or the drugs jumps
+   to its page and the student can keep scrolling into what follows; the title and reading bar follow the topic in view */
+var _gi=goIdx;goIdx=function(i){i=Math.max(0,Math.min(PAGES.length-1,i));if(!WHOLE||SCOPE!=='all'){WHOLE=true;SCOPE='all';applyScope()}_gi(i)};
 /* the page pill counts inside the open place (1 / 8), not the whole book; each place is separate (owner, 10 Nov 2026) */
 /* ---------- reader, new design (owner, 10 Nov 2026): slim app bar with the place's title, read mark and bookmark; the tools live in a
    floating dock at the bottom; panels open above it; a thin line shows how far through the place the student is ---------- */
