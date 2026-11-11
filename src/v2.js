@@ -105,10 +105,10 @@ $('rbShow').parentNode.insertBefore(tb,$('rbShow'));
 $('backBtn').onclick=function(){go(RET||'v2home')};
 
 /* ---------- views ---------- */
-var V2=['v2home','v2chapters','v2chapter','v2practice','v2resources','v2settings','v2profile','v2notif','v2saved','v2slides','v2lect','v2sub','v2pay','v2dl','v2help','v2about','v2poster'],R={};
+var V2=['v2home','v2chapters','v2chapter','v2practice','v2resources','v2settings','v2profile','v2notif','v2saved','v2slides','v2lect','v2sub','v2pay','v2dl','v2help','v2about','v2poster','v2contact'],R={};
 var NAV=[['v2home','Home','home'],['v2chapters','Chapters','book'],['v2practice','Practice','clip'],['v2resources','Resources','layers'],['v2settings','Settings','gear']];
 function tabOf(v){if(v==='reader')return SCOPE==='rr'||SCOPE==='dr'?'v2resources':'v2chapters';
-  return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',v2sub:'v2settings',v2pay:'v2settings',v2dl:'v2settings',v2help:'v2settings',v2about:'v2settings',v2poster:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
+  return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',v2sub:'v2settings',v2pay:'v2settings',v2dl:'v2settings',v2help:'v2settings',v2about:'v2settings',v2contact:'v2settings',v2poster:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
 var _show=show;
 function go(v){if(v==='home')v='v2home';var was=CURV;if(v!=='v2slides'&&v!=='v2lect')FROMRD=false;if(v!=='reader'&&v!=='v2slides'&&v!=='v2lect')WHOLE=false;$('v2tsheet').hidden=true;
   if(V2.indexOf(v)>=0){if(typeof setImm==='function')setImm(false);views.forEach(function(x){$(x).hidden=true});V2.forEach(function(x){$(x).hidden=x!==v});CURV=v;try{hideBar();penFly(false)}catch(e){}R[v]();$(v).scrollTop=v===was?$(v).scrollTop:0}
@@ -249,6 +249,16 @@ R.v2about=function(){$('v2aboutW').innerHTML=title('عن الكتاب','v2settin
   '<div class="v2c abh" lang="ar"><img src="img/v2_cover_'+PAL+'.jpg" alt="غلاف الكتاب"><div><h3>رفيقك في رحلة تعلّم التوليد</h3><span class="abl">'+I('book')+'</span><p>تعرّف على الكتاب، وفريقه، وطريقة الاستفادة منه</p></div></div>'+
   '<div class="abg" lang="ar">'+ABOUT.slice(0,8).map(function(a){return '<button type="button" class="v2c abt" data-act="about" data-k="'+a[0]+'"><span class="im" style="background-image:url(img/abt_'+a[0]+'.jpg)"></span><span class="lb"><b>'+a[1]+'</b>'+I('chev')+'</span></button>'}).join('')+'</div>'+
   '<button type="button" class="v2c hrow" data-act="about" data-k="rights" lang="ar"><span class="ii">'+I('info')+'</span><span><b>حقوق النشر وشروط الاستخدام</b><small>إخلاء المسؤولية العلمية والطبية</small></span>'+I('chev')+'</button>'};
+/* Help (owner, 11 Nov 2026): the author's name and number with three ways to reach him */
+var HPH='0116984258',HPI='249116984258';
+R.v2contact=function(){var P='<svg class="v2ic" viewBox="0 0 24 24">',ph='<path d="M8.6 4.5l1.6 3.6-1.5 1.6c.9 2 2.6 3.7 4.6 4.6l1.6-1.5 3.6 1.6v2.7c0 .8-.7 1.4-1.5 1.4C10.600 18.5 5.5 13.400 5.500 6c0-.8.6-1.500 1.400-1.500z"/>';
+  $('v2contactW').innerHTML=title('المساعدة','v2settings','Help')+
+  '<div class="v2c hcd" lang="ar"><img src="img/v2_logo.webp" alt=""><h3>د. عبدالجليل ارجا</h3><p>للاستفسار عن الكتاب أو الاشتراك، أو للإبلاغ عن خطأ، تواصل معنا بالطريقة التي تناسبك.</p><a class="hph" href="tel:+'+HPI+'" dir="ltr">'+HPH+'</a></div>'+
+  '<div class="hcg" lang="ar">'+
+    '<a class="v2c hco wa" href="https://wa.me/'+HPI+'" target="_blank" rel="noopener"><span>'+P+'<path d="M12 3.5a8.500 8.500 0 0 0-7.300 12.800L3.500 20.500l4.300-1.100A8.500 8.500 0 1 0 12 3.500z"/><path d="M9.300 8.300l.9 1.900-.8.9c.5 1 1.400 1.900 2.400 2.400l.9-.8 1.900.9v1c0 .5-.4.8-.9.800-3.300-.2-6-2.900-6.200-6.200 0-.5.300-.900.800-.900z"/></svg></span><b>واتساب</b><small>راسلنا على واتساب</small></a>'+
+    '<a class="v2c hco tg" href="https://t.me/+'+HPI+'" target="_blank" rel="noopener"><span>'+P+'<path d="M20.500 4.500L3.500 11l5 1.800 1.800 5.700 2.800-3.400 4.400 3.400z"/><path d="M8.500 12.800l8-5.300-6.200 6.900"/></svg></span><b>تيليجرام</b><small>راسلنا على تيليجرام</small></a>'+
+    '<a class="v2c hco cl" href="tel:+'+HPI+'"><span>'+P+ph+'</svg></span><b>اتصال</b><small>اتصل بنا مباشرة</small></a>'+
+  '</div>'};
 R.v2poster=function(){var a=ABOUT.filter(function(x){return x[0]===POST})[0];$('v2posterW').innerHTML=title(a[1],'v2about','About')+'<div class="v2c abp"><img src="img/ab_'+a[0]+'.jpg" alt="'+a[1]+'"></div>'+(a[0]==='howto'?'<button type="button" class="v2btn" data-v="v2help" lang="ar" style="max-width:760px;width:100%;margin:0 auto;height:50px">'+I('book')+'دليل الاستخدام المفصّل بالصور</button>':'')};
 R.v2saved=function(){var ks=Object.keys(BM).sort(function(a,b){return BM[b]-BM[a]});
   $('v2savedW').innerHTML=title('المصادر المحفوظة','v2resources')+(ks.length?'<div class="tpl">'+ks.map(function(k){var t=TOPICS.filter(function(x){return 't:'+x.id===k})[0];if(!t)return '';
@@ -265,7 +275,7 @@ R.v2settings=function(){var a=access(),sy=window.__obsSync&&window.__obsSync.act
    '</div><div><div class="v2c">'+
     row('sub','crown','الاشتراك',{free:'النسخة المجانية',trial:'فترة تجريبية',paid:'مفعّل',expired:'انتهت التجربة',ended:'انتهى الاشتراك'}[a])+
     row('sync','sync','المزامنة',sy?'بين أجهزتك':'بعد التفعيل')+row('','dl','التنزيلات','الفيديو والسلايدات','data-v="v2dl"')+row('','bell','الإشعارات','','data-v="v2notif"')+
-    row('prog','bars','تقدّمي',overall()+'%')+row('','book','دليل الاستخدام','شرح التطبيق بالصور','data-v="v2help"')+(CFG.whatsapp?row('help','help','المساعدة','واتساب'):'')+row('','info','عن الكتاب','المؤلفان · المراجعون · المراجع','data-v="v2about"')+
+    row('prog','bars','تقدّمي',overall()+'%')+row('','book','دليل الاستخدام','شرح التطبيق بالصور','data-v="v2help"')+row('','help','المساعدة','واتساب · تيليجرام · اتصال','data-v="v2contact"')+row('','info','عن الكتاب','المؤلفان · المراجعون · المراجع','data-v="v2about"')+
    '</div></div></div>';avatar($('setAv'))};
 R.v2profile=function(){var dev=st('orr-dev')||'',code=st('orr-code')||'';
   $('v2profileW').innerHTML=title('الملف الشخصي','v2settings')+'<div class="v2c prf" lang="ar"><span class="v2av" id="prAv"></span>'+
@@ -279,6 +289,14 @@ R.v2profile=function(){var dev=st('orr-dev')||'',code=st('orr-code')||'';
 
 /* ---------- notifications: real events of this device, kept apart from browser push ---------- */
 var NR=spj('nread')||{},NS=spj('nseen')||{};
+/* a new notification arrives with a soft two-note sound and a small swing of the bell (owner, 11 Nov 2026). Browsers allow sound only
+   after the first touch, so one that arrives before it waits for that touch. */
+var UG=false,NPEND=false;
+function nding(){try{var b=$('v2bd').parentNode;b.classList.remove('ring');void b.offsetWidth;b.classList.add('ring')}catch(e){}
+  try{var a=new (window.AudioContext||window.webkitAudioContext)(),t=a.currentTime+.03;[[880,0],[1318.5,.13]].forEach(function(n){var o=a.createOscillator(),g=a.createGain();o.type='sine';o.frequency.value=n[0];
+    g.gain.setValueAtTime(0,t+n[1]);g.gain.linearRampToValueAtTime(.09,t+n[1]+.02);g.gain.exponentialRampToValueAtTime(.0001,t+n[1]+.55);o.connect(g);g.connect(a.destination);o.start(t+n[1]);o.stop(t+n[1]+.6)});
+    setTimeout(function(){try{a.close()}catch(e){}},1500)}catch(e){}}
+document.addEventListener('pointerdown',function(){if(UG)return;UG=true;if(NPEND){NPEND=false;setTimeout(nding,2200)}},true);
 function notifs(){var a=[],d=dueToday(),lp=lastPage(),ac=access();
   if(d>0)a.push({id:'cards:'+today(),ic:'cal',t:'حان وقت المراجعة',s:d+' بطاقات في انتظارك اليوم',act:'cards'});
   if(sp('pk')&&lp>0)a.push({id:'cont:'+PKEY[lp],ic:'book',t:'تابع من حيث توقفت',s:PAGES[lp].label,ltr:1,act:'cont'});
@@ -288,7 +306,7 @@ function notifs(){var a=[],d=dueToday(),lp=lastPage(),ac=access();
   if(REQ&&REQ.status==='rejected'&&ac!=='paid')a.push({id:'rej:'+REQ.t,ic:'info',t:'لم يُقبل طلب الاشتراك',s:REQ.reason||'راجع بيانات التحويل وأرسل الطلب من جديد.',act:'sub'});
   if(ac==='expired')a.push({id:'trialend',ic:'lock',t:'انتهت الفترة التجريبية',s:'الموضوع الأول من كل فصل ما زال مفتوحًا. اشترك لفتح الكتاب كاملًا.',act:'sub'});
   a.push({id:'welcome',ic:'mail',t:'مرحبًا بك في Obstetrics Master Review',s:'ابدأ المراجعة واستفد من جميع المزايا.'});
-  var ch=0;a.forEach(function(n){if(!NS[n.id]){NS[n.id]=Date.now();ch=1}});if(ch)spj('nseen',NS);return a}
+  var ch=0;a.forEach(function(n){if(!NS[n.id]){NS[n.id]=Date.now();ch=1}});if(ch){spj('nseen',NS);if(UG)setTimeout(nding,300);else NPEND=true}return a}
 function ago(ts){var m=Math.round((Date.now()-ts)/6e4);return m<1?'الآن':m<60?'قبل '+m+' دقيقة':m<1440?'قبل '+Math.round(m/60)+' ساعة':'قبل '+Math.round(m/1440)+' يوم'}
 var NF='all';
 R.v2notif=function(){var all=notifs(),un=all.filter(function(n){return !NR[n.id]}),ls=NF==='un'?un:all;
