@@ -12,7 +12,7 @@
     del: function (k) { try { localStorage.removeItem('smr-' + k); } catch (e) {} }
   };
   var lang = LS.get('lang', null) || 'ar';  /* Arabic unless the student chose English */
-  var theme = LS.get('theme', 'system');
+  var theme = LS.get('theme', 'light');  /* day (white) unless the student chose otherwise */
   var state = { q: '', view: '', fromList: false };
 
   /* ---------- helpers ---------- */
@@ -110,7 +110,7 @@
   if (mq && mq.addEventListener) mq.addEventListener('change', applyTheme);
   function setTheme(v) { theme = v; LS.set('theme', v); applyTheme(); }
   function applyLang() { var r = document.documentElement; r.lang = lang; r.dir = lang === 'ar' ? 'rtl' : 'ltr'; }
-  function setLang(v) { lang = v; LS.set('lang', v); applyLang(); chrome(); route(true); }
+  function setLang(v) { lang = v; LS.set('lang', v); applyLang(); chrome(); route(true); Object.keys(FR).forEach(tellLang); }
 
   /* ---------- chrome: header + bottom tabs ---------- */
   var NAV = [['home', 'nav.home', 'home'], ['my-library', 'nav.library', 'library'], ['progress', 'nav.progress', 'progress'], ['preferences', 'nav.settings', 'gear']];
@@ -437,13 +437,15 @@
       fr.setAttribute('allowfullscreen', '');
       fr.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
       f = FR[id] = { wrap: wrap, fr: fr, loaded: false };
-      fr.addEventListener('load', function () { f.loaded = true; var l = wrap.querySelector('.aload'); if (l) l.remove(); });
+      fr.addEventListener('load', function () { f.loaded = true; var l = wrap.querySelector('.aload'); if (l) l.remove(); tellLang(id); });
       f.timer = setTimeout(function () { if (!f.loaded) { var sl = wrap.querySelector('.aslow'); if (sl) sl.hidden = false; } }, 15000);
       wrap.appendChild(fr); $('#aframes').appendChild(wrap);
     }
     document.title = b.app + ' · Student Master Review';
     noteOpen(id);
   }
+  /* the book's Library button follows the platform language when the book has no language setting of its own */
+  function tellLang(id) { var f = FR[id]; if (!f) return; try { f.fr.contentWindow.postMessage({ smr: 'lang', lang: lang }, new URL(BOOK[id].url).origin); } catch (e) {} }
   function hideBooks() { if (apps && !apps.hidden) apps.hidden = true; }
   /* the small button on each book's Home asks to go back to the platform's library */
   window.addEventListener('message', function (e) {
