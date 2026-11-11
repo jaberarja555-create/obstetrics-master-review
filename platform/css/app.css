@@ -490,3 +490,4 @@ body[data-view="read"] .top,body[data-view="read"] .bnav,body[data-view="read"] 
   .top-in{gap:4px}
 }
 @media (max-width:340px){ .bname{font-size:13.5px} .mark{width:28px;height:30px} }
+@media (max-width:720px) and (min-height:540px){ body[data-view="home"] .stage{grid-template-columns:47% minmax(0,1fr)} }

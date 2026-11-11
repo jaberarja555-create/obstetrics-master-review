@@ -152,7 +152,7 @@
     var n = cleanName(LS.get('name', ''));
     var h = '<section class="hero"><div class="hero-art" aria-hidden="true"></div>' +
       '<p class="eyebrow"><span>' + (n ? t('welcome.n', { n: '<bdi>' + esc(n) + '</bdi>' }) : esc(t('welcome'))) + '</span></p>' +
-      '<h1 tabindex="-1"><span>' + esc(t('hero.t1')) + '</span><span>' + esc(t('hero.t2')) + '</span></h1>' +
+      '<h1 class="sr" tabindex="-1">Student Master Review</h1>' +
       '<p class="lead">' + esc(t('hero.sub')) + '</p>' +
       '</section><div class="stages">';
     S.sections.forEach(function (s) {
