@@ -166,7 +166,7 @@ R.v2home=function(){var a=access(),lp=lastPage(),has=sp('pk')&&lp>0,t=has?topicA
   $('v2homeW').innerHTML='<div class="hgr"><div class="l"><b>Obstetrics Master Review</b><span>4th Edition · 2026</span></div><h2 lang="ar" dir="rtl">'+greet()+'</h2><p>Obstetrics Master Review</p></div>'+
    '<div class="v2c hacc" lang="ar">'+I('book')+'<div><b>'+acc[0]+'</b><small>'+acc[1]+'</small></div><button type="button" class="v2btn sm" data-act="sub">'+I(acc[3])+acc[2]+'</button></div>'+
    '<div class="hgrid"><div>'+
-    '<div class="v2c hcont"><div class="ph"></div>'+ct+'<button type="button" class="v2btn" data-act="cont" lang="ar">'+(has?'تابع القراءة':'ابدأ القراءة')+I('arrow')+'</button></div>'+
+    '<div class="v2c hcont"><div class="ph"'+(t?' style="background-image:url('+chImg(t.ch)+')"':'')+'></div>'+(t&&(INFO.timg||{})[t.id]?'<span class="pv" style="background-image:url('+INFO.timg[t.id]+')"></span>':'')+ct+'<button type="button" class="v2btn" data-act="cont" lang="ar">'+(has?'تابع القراءة':'ابدأ القراءة')+I('arrow')+'</button></div>'+
     '<div class="v2c hbook"><img src="img/v2_cover_'+PAL+'.jpg" alt="Book cover"><div><h3>Obstetrics Master Review</h3><span class="ed">4th Edition</span>'+
       '<div class="ct"><div><b>'+META.chapters.length+'</b><span>chapters</span></div><div><b>'+TOPICS.length+'</b><span>topics</span></div><div><b>'+cTotal()+'</b><span>flashcards</span></div><div><b>'+qTotal()+'</b><span>questions</span></div></div>'+
       '<button type="button" class="v2btn ol" data-act="cover" lang="ar">'+I('book')+'افتح الكتاب كاملًا</button></div></div>'+

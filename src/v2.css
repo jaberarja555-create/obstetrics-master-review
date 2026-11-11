@@ -551,3 +551,14 @@ button{font-family:inherit}
   .v2me .av{width:36px;height:36px;font-size:13px}.v2me b{font:700 15px/1.3 'Cairo',var(--ui);unicode-bidi:plaintext}
   html[data-lang="ar"] .v2me b{font-size:15.5px}
 }
+
+/* reading card (owner, 11 Nov 2026): the chapter's picture fills the right side and a small preview of the topic's figure sits in the corner */
+.hcont .ph{inset:0 0 0 40%;background-position:center;background-size:cover}
+.hcont .ph::after{background:linear-gradient(90deg,var(--sf) 0,color-mix(in srgb,var(--sf) 70%,transparent) 22%,transparent 55%)}
+.hcont .pv{position:absolute;right:10px;bottom:10px;width:28%;max-width:150px;aspect-ratio:4/3;border-radius:12px;background:#fff center/cover;border:3px solid var(--sf);box-shadow:0 6px 16px rgba(40,25,70,.3)}
+@media (min-width:760px){
+  .hcont{padding:22px}.hcont em{font-size:14px}.hcont h3{font-size:24px;line-height:1.2;max-width:46%}.hcont p{font-size:16px;margin-top:8px;max-width:46%}
+  .hcont .pg{width:42%}.hcont .pg b{font-size:17px}.hcont .v2btn{height:48px;min-width:190px;font-size:16px;margin-top:14px}
+  .hcont .ph{inset:0 0 0 44%}.hcont .pv{right:16px;bottom:16px;max-width:190px;width:26%}
+}
+@media (max-width:759px){@container (max-height:150px){.hcont .pv{display:none}}}
