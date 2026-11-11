@@ -27,7 +27,10 @@ for k, cards in m.get('CARDS', {}).items():
 # CLV = {deck id: 'one digit per card'}: level 1-3, or 0 to drop a card that repeats another; the wording is normalised by clean.py
 for k, digits in m.get('CLV', {}).items():
     old = D[k]['cards']
-    if any(len(c) > 3 for c in old): print(k, 'already done, skipped'); continue
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import clean as _cl
+    if any(len(c) > 3 for c in old):   # done before: only bring the wording up to the current clean.py rules
+        D[k]['cards'] = [[c[0], _cl.clean(c[1]), _cl.clean(c[2])] + c[3:] for c in old]; print(k, 're-cleaned'); continue
     assert len(digits) == len(old), (k, len(digits), len(old))
     from_clean = __import__('importlib').import_module('clean').clean if False else None
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -50,10 +53,10 @@ for ch in Q:
             seen.add(qid)
             for f in ('stem', 'q', 'why', 'd'):
                 if f in p: it[f] = p[f]
-            if p.get('_auto') and not it.get('_c'):
+            if p.get('_auto'):   # clean() gives the same text when run again
+                it.pop('_c', None)
                 for f in ('stem', 'q', 'why'):
                     if f in it: it[f] = clean(it[f])
-                it['_c'] = 1
             if 'options' in p: assert len(p['options']) == len(it['options']); it['options'] = p['options']
 print('questions patched', len(seen), 'unknown ids', sorted(set(P) - seen))
 json.dump(D, open(R + '/decks.json', 'w'), ensure_ascii=False, indent=1)

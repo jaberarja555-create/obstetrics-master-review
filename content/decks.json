@@ -4369,182 +4369,233 @@
    [
     "Definition",
     "Define normal labour.",
-    "Spontaneous onset at term, single cephalic vertex fetus, vaginal birth within 3–18 h, no complications for mother or baby."
+    "Spontaneous onset at term, single cephalic vertex fetus, vaginal birth within 3–18 hours, no complications for mother or baby.",
+    1,
+    "13wy9ej"
    ],
    [
     "Definition",
     "What confirms that a woman is in labour?",
-    "Regular painful contractions with progressive effacement and dilatation of the cervix."
+    "Regular painful contractions with progressive effacement and dilatation of the cervix.",
+    1,
+    "vw07ee"
    ],
    [
     "Onset",
     "Name three signs of the onset of labour.",
-    "True labour pains, show (blood-stained mucus) and a bag of forewaters bulging with contractions."
+    "True labour pains, show (blood-stained mucus) and a bag of forewaters bulging with contractions.",
+    1,
+    "14eo1dm"
    ],
    [
     "Onset",
     "How do Braxton Hicks contractions differ from true labour?",
-    "Irregular, not progressive, no cervical change, relieved by rest or sedation."
+    "Irregular, not progressive, no cervical change, relieved by rest or sedation.",
+    2,
+    "1ftpzsa"
    ],
    [
     "Stages",
-    "When does the 1st stage end?",
-    "At full cervical dilatation (10 cm)."
+    "When does the first stage end?",
+    "At full cervical dilatation (10 cm).",
+    1,
+    "1xy3yf8"
    ],
    [
     "Stages",
     "At what dilatation does the active phase start?",
-    "4 cm: open the partogram here."
+    "4 cm: open the partogram here.",
+    1,
+    "1jnhqws"
    ],
    [
     "Stages",
     "Three parts of the active phase (Friedman)?",
-    "Acceleration phase, phase of maximum slope, deceleration phase."
+    "Acceleration phase, phase of maximum slope, deceleration phase.",
+    2,
+    "5oxlmb"
    ],
    [
     "Stages",
-    "Usual duration of the 1st stage in a primi and a multi?",
-    "Primi about 12–18 h; multi about 6–8 h."
+    "Usual duration of the first stage in a primigravida and a multigravida?",
+    "Primi about 12–18 hours; multigravida about 6–8 hours.",
+    1,
+    "4zvzez"
    ],
    [
     "Stages",
     "Normal active-phase dilatation rate?",
-    "At least 1 cm/h (primi about 1.2, multi about 1.5 cm/h)."
+    "At least 1 cm/h (primigravida about 1.2, multigravida about 1.5 cm/h).",
+    1,
+    "2wsln1"
    ],
    [
     "Stages",
-    "Upper limit of the 2nd stage in a primi?",
-    "2 h without epidural, 3 h with epidural."
+    "Upper limit of the second stage in a primigravida?",
+    "2 hours without epidural, 3 hours with epidural.",
+    2,
+    "1h4ohpj"
    ],
    [
     "Stages",
-    "Upper limit of the 2nd stage in a multi?",
-    "1 h without epidural, 2 h with epidural."
+    "Upper limit of the second stage in a multigravida?",
+    "1 hour without epidural, 2 hours with epidural.",
+    2,
+    "1fr92gh"
    ],
    [
     "Stages",
-    "What is the 4th stage of labour?",
-    "The recovery period after delivery of the placenta, when PPH risk is highest."
+    "What is the fourth stage of labour?",
+    "The recovery period after delivery of the placenta, when PPH risk is highest.",
+    1,
+    "622bmi"
    ],
    [
     "3 Ps",
     "Criteria of efficient contractions?",
-    "3–5 per 10 min, each 40–60 s, 40–60 mmHg, coordinated with fundal dominance."
+    "3–5 per 10 min, each 40–60 s, 40–60 mmHg, coordinated with fundal dominance.",
+    2,
+    "1x7vna3"
    ],
    [
     "3 Ps",
     "Danger of more than 5 contractions in 10 min?",
-    "Fetal hypoxia and uterine rupture: stop oxytocin."
+    "Fetal hypoxia and uterine rupture: stop oxytocin.",
+    2,
+    "1b9cu2z"
    ],
    [
     "3 Ps",
     "Which contraction feature needs a CTG or catheter to measure?",
-    "Amplitude (intrauterine pressure); frequency and duration are felt by hand."
+    "Amplitude (intrauterine pressure); frequency and duration are felt by hand.",
+    3,
+    "1hprdbi"
    ],
    [
     "Mechanism",
     "List the cardinal movements in order.",
-    "Engagement, descent, flexion, internal rotation, extension, restitution, external rotation, expulsion."
+    "Engagement, descent, flexion, internal rotation, extension, restitution, external rotation, expulsion.",
+    1,
+    "997oq8"
    ],
    [
     "Mechanism",
-    "When does the head engage in a primi and a multi?",
-    "Primi about 2 weeks before term; multi often only in labour."
+    "When does the head engage in a primigravida and a multigravida?",
+    "Primi about 2 weeks before term; multigravida often only in labour.",
+    2,
+    "12qfsye"
    ],
    [
     "Mechanism",
-    "Primi at 39 wk, head 5/5 palpable. Think of?",
-    "CPD, placenta praevia, malposition or wrong dates."
+    "Primi at 39 weeks, head 5/5 palpable. Think of?",
+    "Cephalopelvic disproportion, placenta praevia, malposition or wrong dates.",
+    3,
+    "5tv9ae"
    ],
    [
     "Mechanism",
     "Why does flexion help labour?",
-    "It presents the smallest diameter: suboccipito-bregmatic 9.5 cm."
+    "It presents the smallest diameter: suboccipito-bregmatic 9.5 cm.",
+    2,
+    "1saz62p"
    ],
    [
     "Mechanism",
     "Where does internal rotation happen and how far?",
-    "At the pelvic floor (level of spines): occiput turns 1/8 circle forward."
+    "At the pelvic floor (level of spines): occiput turns 1/8 circle forward.",
+    2,
+    "1hs7fea"
    ],
    [
     "Mechanism",
     "What is restitution?",
-    "The born head untwists 1/8 to line up with the shoulders."
+    "The born head untwists 1/8 to line up with the shoulders.",
+    2,
+    "7h6yvj"
    ],
    [
     "Fetus",
     "Caput vs severe moulding: which signals obstruction?",
-    "Both together: big caput plus moulding +3 suggest obstruction."
+    "Both together: big caput plus moulding +3 suggest obstruction.",
+    3,
+    "ltfg7g"
    ],
    [
     "1st stage",
     "How is the fetus monitored in low-risk labour?",
-    "Intermittent auscultation every 15–30 min in the 1st stage, every 5 min in the 2nd."
+    "Intermittent auscultation every 15–30 min in the first stage, every 5 min in the 2nd.",
+    1,
+    "1x42uoq"
    ],
    [
     "1st stage",
-    "How often is vaginal examination done in the 1st stage?",
-    "Every 4 h; every 2 h on oxytocin."
+    "How often is vaginal examination done in the first stage?",
+    "Every 4 hours; every 2 hours on oxytocin.",
+    1,
+    "1ofsju2"
    ],
    [
     "Analgesia",
     "Why avoid pethidine close to birth?",
-    "Neonatal respiratory depression; reverse with naloxone."
+    "Neonatal respiratory depression; reverse with naloxone.",
+    2,
+    "12k4od2"
    ],
    [
     "2nd stage",
     "Give four indications for episiotomy.",
-    "Instrumental delivery, rigid perineum about to tear, fetal distress, shoulder dystocia or breech."
+    "Instrumental delivery, rigid perineum about to tear, fetal distress, shoulder dystocia or breech.",
+    2,
+    "1gbuekh"
    ],
    [
     "3rd stage",
-    "Three components of active management of the 3rd stage?",
-    "Oxytocin 10 IU IM within 1 min, controlled cord traction, uterine massage."
+    "Three components of active management of the third stage?",
+    "Oxytocin 10 IU IM within 1 min, controlled cord traction, uterine massage.",
+    1,
+    "13bjawg"
    ],
    [
     "3rd stage",
-    "Uterotonic for AMTSL if no oxytocin?",
-    "Misoprostol 600 µg orally."
+    "Uterotonic for active management of the third stage if no oxytocin?",
+    "Misoprostol 600 µg orally.",
+    2,
+    "1w3t6ai"
    ],
    [
     "3rd stage",
     "When should the cord be clamped in a healthy baby?",
-    "After 1–3 min (delayed clamping): better iron stores."
+    "After 1–3 min (delayed clamping): better iron stores.",
+    1,
+    "14pj98j"
    ],
    [
     "3rd stage",
     "Signs of placental separation?",
-    "Fundus rises, firm and globular; cord lengthens; gush of blood."
+    "Fundus rises, firm and globular; cord lengthens; gush of blood.",
+    1,
+    "eyggc2"
    ],
    [
     "3rd stage",
     "When is the placenta called retained?",
-    "Not delivered 30 min after birth with active management (60 min with physiological)."
+    "Not delivered 30 min after birth with active management (60 min with physiological).",
+    1,
+    "mi072d"
    ],
    [
     "4th stage",
     "How long and how often to observe after delivery?",
-    "At least 4 h: pulse, BP, fundus and bleeding every 30 min."
-   ],
-   [
-    "Practice",
-    "Which finding confirms labour: show, ROM or cervical change?",
-    "Progressive cervical change with regular contractions."
+    "At least 4 hours: pulse, blood pressure, fundus and bleeding every 30 min.",
+    1,
+    "yozls5"
    ],
    [
     "Practice",
     "Why does the head enter the pelvis transverse but leave it AP?",
-    "Inlet widest transverse, outlet widest AP: internal rotation."
-   ],
-   [
-    "Practice",
-    "Which cardinal movement happens at the pelvic floor and brings the occiput forward?",
-    "Internal rotation (1/8 turn)."
-   ],
-   [
-    "Practice",
-    "Why avoid pethidine shortly before birth?",
-    "Neonatal respiratory depression (reverse with naloxone)."
+    "Inlet widest transverse, outlet widest AP: internal rotation.",
+    3,
+    "1stvr5k"
    ]
   ]
  },
@@ -4554,167 +4605,226 @@
    [
     "Partogram",
     "What is a partogram?",
-    "A graphic record of labour on one sheet: fetal condition, progress and maternal condition against time."
+    "A graphic record of labour on one sheet: fetal condition, progress and maternal condition against time.",
+    1,
+    "ekwdxh"
    ],
    [
     "Partogram",
     "When is the partogram started?",
-    "In the active phase, from 4 cm dilatation."
+    "In the active phase, from 4 cm dilatation.",
+    1,
+    "4x0uqy"
    ],
    [
     "Partogram",
     "Slope of the alert line?",
-    "1 cm per hour, starting at 4 cm."
+    "1 cm per hour, starting at 4 cm.",
+    1,
+    "y54fus"
    ],
    [
     "Partogram",
     "Where is the action line?",
-    "Parallel to the alert line, 4 hours to its right."
+    "Parallel to the alert line, 4 hours to its right.",
+    1,
+    "1kaudql"
    ],
    [
     "Partogram",
     "Plot crosses the alert line in a health centre. Action?",
-    "Refer to hospital before the action line is reached."
+    "Refer to hospital before the action line is reached.",
+    2,
+    "1yn1kju"
    ],
    [
     "Partogram",
     "Plot crosses the action line. Action?",
-    "Full review of the 3 Ps: ARM and oxytocin or caesarean section."
+    "Full review of the 3 Ps: artificial rupture of membranes and oxytocin or caesarean section.",
+    2,
+    "a84eop"
    ],
    [
     "Partogram",
     "What do the liquor letters I C M B A mean?",
-    "Intact, clear, meconium, blood-stained, absent."
+    "Intact, clear, meconium, blood-stained, absent.",
+    1,
+    "xzry3z"
    ],
    [
     "Partogram",
     "Grade moulding +2 vs +3?",
-    "+2 overlapping but reducible; +3 overlapping and not reducible (obstruction sign)."
+    "+2 overlapping but reducible; +3 overlapping and not reducible (obstruction sign).",
+    2,
+    "tvzn1"
    ],
    [
     "Partogram",
     "How is descent recorded?",
-    "O mark for fifths of the head palpable above the brim."
+    "O mark for fifths of the head palpable above the brim.",
+    2,
+    "1x9wy77"
    ],
    [
     "Partogram",
     "What does solid shading of a contraction box mean?",
-    "Contraction lasting more than 40 s."
+    "Contraction lasting more than 40 s.",
+    1,
+    "jegv8p"
    ],
    [
     "Partogram",
-    "How often are FHR, pulse and contractions charted?",
-    "Every 30 min in the 1st stage."
+    "How often are fetal heart rate, pulse and contractions charted?",
+    "Every 30 min in the first stage.",
+    1,
+    "hem6o7"
    ],
    [
     "CTG",
     "Components of DR C BRAVADO?",
-    "Define risk, contractions, baseline rate, variability, accelerations, decelerations, overall impression."
+    "Define risk, contractions, baseline rate, variability, accelerations, decelerations, overall impression.",
+    2,
+    "lsmq94"
    ],
    [
     "CTG",
-    "Normal baseline FHR?",
-    "110–160 bpm."
+    "Normal baseline fetal heart rate?",
+    "110–160 bpm.",
+    1,
+    "kz8tu9"
    ],
    [
     "CTG",
     "Normal baseline variability?",
-    "5–25 bpm."
+    "5–25 bpm.",
+    1,
+    "vnuryx"
    ],
    [
     "CTG",
     "Define an acceleration.",
-    "Rise of at least 15 bpm lasting at least 15 s: sign of a healthy fetus."
+    "Rise of at least 15 bpm lasting at least 15 s: sign of a healthy fetus.",
+    1,
+    "e1q4yo"
    ],
    [
     "CTG",
     "Cause of early decelerations?",
-    "Head compression: they mirror the contraction and are benign."
+    "Head compression: they mirror the contraction and are benign.",
+    2,
+    "10cu7qy"
    ],
    [
     "CTG",
     "Cause of late decelerations?",
-    "Uteroplacental insufficiency: the dip reaches its lowest point after the contraction peak."
+    "Uteroplacental insufficiency: the dip reaches its lowest point after the contraction peak.",
+    2,
+    "1dfz8z7"
    ],
    [
     "CTG",
     "Most common deceleration in labour and its cause?",
-    "Variable deceleration: umbilical cord compression."
+    "Variable deceleration: umbilical cord compression.",
+    2,
+    "n6sruu"
    ],
    [
     "CTG",
     "Flat trace for 30 min then accelerations return. Cause?",
-    "Fetal sleep cycle (up to about 40 min)."
+    "Fetal sleep cycle (up to about 40 min).",
+    3,
+    "1hmwog"
    ],
    [
     "CTG",
     "Sinusoidal CTG suggests?",
-    "Severe fetal anaemia, e.g. Rh disease or vasa praevia."
+    "Severe fetal anaemia, e.g. Rh disease or vasa praevia.",
+    3,
+    "1120arp"
    ],
    [
     "CTG",
-    "Fetal tachycardia 175 with maternal fever after long ROM?",
-    "Chorioamnionitis."
+    "Fetal tachycardia 175 with maternal fever after long rupture of membranes?",
+    "Chorioamnionitis.",
+    3,
+    "blp1uf"
    ],
    [
     "CTG",
     "Why not routine CTG in low-risk labour?",
-    "Low specificity: raises caesarean and instrumental births without better outcomes."
+    "Low specificity: raises caesarean and instrumental births without better outcomes.",
+    2,
+    "6sf9lk"
    ],
    [
     "Fetal distress",
     "Scalp pH that needs immediate delivery?",
-    "7.20 or below; 7.21–7.24 repeat in 30 min."
+    "7.20 or below; 7.21–7.24 repeat in 30 min.",
+    2,
+    "m6jdh9"
    ],
    [
     "Fetal distress",
     "Steps of intrauterine resuscitation?",
-    "Left lateral, stop oxytocin, IV fluids, correct hypotension, tocolysis (terbutaline 0.25 mg SC), exclude cord prolapse."
+    "Left lateral, stop oxytocin, IV fluids, correct hypotension, tocolysis (terbutaline 0.25 mg subcutaneously), exclude cord prolapse.",
+    2,
+    "1mvok44"
    ],
    [
     "Fetal distress",
-    "Fetal distress in 1st vs 2nd stage: delivery route?",
-    "1st stage emergency caesarean; 2nd stage instrumental delivery if criteria met."
+    "Fetal distress in 1st vs second stage: delivery route?",
+    "First stage emergency caesarean; second stage instrumental delivery if criteria met.",
+    2,
+    "dlfst3"
    ],
    [
     "Progress",
     "Define slow progress in the active phase.",
-    "Dilatation less than 2 cm in 4 hours."
+    "Dilatation less than 2 cm in 4 hours.",
+    1,
+    "q942n0"
    ],
    [
     "Progress",
     "Commonest cause of slow progress in a primigravida?",
-    "Inefficient uterine contractions (power)."
+    "Inefficient uterine contractions (power).",
+    1,
+    "skjhf"
    ],
    [
     "Progress",
-    "Primi, slow progress, weak contractions, no CPD. Management?",
-    "ARM plus oxytocin, then vaginal examination after 2 h."
+    "Primi, slow progress, weak contractions, no cephalopelvic disproportion. Management?",
+    "Artificial rupture of membranes plus oxytocin, then vaginal examination after 2 hours.",
+    2,
+    "1aqlyaq"
    ],
    [
     "Obstruction",
     "Define obstructed labour.",
-    "No descent of the presenting part despite good contractions, due to a mechanical block."
+    "No descent of the presenting part despite good contractions, due to a mechanical block.",
+    1,
+    "gppk1n"
    ],
    [
     "Obstruction",
     "What is Bandl's ring?",
-    "A pathological retraction ring between thick upper and thinned lower segment: sign of obstruction."
+    "A pathological retraction ring between thick upper and thinned lower segment: sign of obstruction.",
+    2,
+    "1iieja0"
    ],
    [
     "Obstruction",
-    "Main complication of obstructed labour in a primi vs a multi?",
-    "Primi: obstetric fistula; multi: uterine rupture."
+    "Main complication of obstructed labour in a primigravida vs a multigravida?",
+    "Primi: obstetric fistula; multigravida: uterine rupture.",
+    3,
+    "1tbdqnb"
    ],
    [
     "Obstruction",
     "Why catheterise for 14 days after obstructed labour?",
-    "To let the pressure-damaged bladder heal and prevent vesicovaginal fistula."
-   ],
-   [
-    "Practice",
-    "Most common type of deceleration in labour?",
-    "Variable (cord compression)."
+    "To let the pressure-damaged bladder heal and prevent vesicovaginal fistula.",
+    3,
+    "yd2xo9"
    ]
   ]
  },
@@ -4724,177 +4834,240 @@
    [
     "Definition",
     "Define preterm labour.",
-    "Regular contractions with cervical change after 24 and before 37 completed weeks."
+    "Regular contractions with cervical change after 24 and before 37 completed weeks.",
+    1,
+    "1ur5me1"
    ],
    [
     "Definition",
     "What is threatened preterm labour?",
-    "True contractions without cervical change; most of these women do not deliver."
+    "True contractions without cervical change; most of these women do not deliver.",
+    1,
+    "cwxg8b"
    ],
    [
     "Classification",
     "Extremely, very and mild preterm: gestations?",
-    "Extremely 24–27⁺⁶ wk, very 28–31⁺⁶ wk, mild 32–36⁺⁶ wk."
+    "Extremely 24–27⁺⁶ weeks, very 28–31⁺⁶ weeks, mild 32–36⁺⁶ weeks.",
+    1,
+    "12ne91v"
    ],
    [
     "Epidemiology",
     "How common is preterm birth and why does it matter?",
-    "About 10% of births; the leading cause of perinatal death and long-term handicap."
+    "About 10% of births; the leading cause of perinatal death and long-term handicap.",
+    1,
+    "g55wgc"
    ],
    [
     "Aetiology",
     "Commonest proven cause of spontaneous preterm labour?",
-    "Infection, often subclinical and ascending (BV, chorioamnionitis, UTI)."
+    "Infection, often subclinical and ascending (BV, chorioamnionitis, urinary tract infection).",
+    1,
+    "ey5j0z"
    ],
    [
     "Aetiology",
     "Name the four main pathways to preterm labour.",
-    "Infection, decidual bleeding, uterine over-distension, cervical weakness."
+    "Infection, decidual bleeding, uterine over-distension, cervical weakness.",
+    2,
+    "1oj21gf"
    ],
    [
     "Risk factors",
     "Strongest single risk factor for preterm birth?",
-    "A previous preterm birth (recurrence about 20%)."
+    "A previous preterm birth (recurrence about 20%).",
+    1,
+    "1gpouq7"
    ],
    [
     "Risk factors",
     "Name three maternal social risk factors.",
-    "Age under 17 or over 35, BMI under 20, smoking, interval under 1 year."
+    "Age under 17 or over 35, BMI under 20, smoking, interval under 1 year.",
+    1,
+    "375hr9"
    ],
    [
     "Diagnosis",
     "First examination in suspected preterm labour?",
-    "Sterile speculum: pooling, membranes, cervix, swabs; digital VE only if membranes intact and no praevia."
+    "Sterile speculum: pooling, membranes, cervix, swabs; digital vaginal examination only if membranes intact and no praevia.",
+    2,
+    "16c66rt"
    ],
    [
     "Investigations",
     "What is fetal fibronectin and when is it normally absent?",
-    "Membrane–decidua 'glue' protein; normally absent from 22 to 34 weeks."
+    "Membrane–decidua 'glue' protein; normally absent from 22 to 34 weeks.",
+    2,
+    "rluy6d"
    ],
    [
     "Investigations",
     "Best use of a fetal fibronectin test?",
-    "A negative test: delivery within 7–14 days is unlikely, so avoid tocolysis and transfer."
+    "A negative test: delivery within 7–14 days is unlikely, so avoid tocolysis and transfer.",
+    3,
+    "xv3p6r"
    ],
    [
     "Investigations",
     "Symptomatic woman, cervical length 12 mm. Meaning?",
-    "15 mm or less: birth likely within 7 days; give steroids."
+    "15 mm or less: birth likely within 7 days; give steroids.",
+    3,
+    "1iw3h5u"
    ],
    [
     "Differential",
     "Pain, fever, dysuria at 30 weeks, cervix closed. Diagnosis?",
-    "Pyelonephritis, which can itself trigger preterm labour."
+    "Pyelonephritis, which can itself trigger preterm labour.",
+    2,
+    "9btz4l"
    ],
    [
     "Steroids",
     "Dexamethasone regimen for fetal lung maturity?",
-    "6 mg IM 12-hourly, 4 doses, between 24 and 34 weeks."
+    "6 mg IM 12-hourly, 4 doses, between 24 and 34 weeks.",
+    2,
+    "1mf6cdk"
    ],
    [
     "Steroids",
     "Betamethasone regimen?",
-    "12 mg IM, 2 doses 24 hours apart."
+    "12 mg IM, 2 doses 24 hours apart.",
+    2,
+    "144v3ye"
    ],
    [
     "Steroids",
     "When do antenatal steroids start working and peak?",
-    "Start after 24 hours; best effect from 2 to 7 days."
+    "Start after 24 hours; best effect from 2 to 7 days.",
+    2,
+    "gy67k2"
    ],
    [
     "Steroids",
     "Which neonatal problems do steroids reduce?",
-    "RDS, intraventricular haemorrhage, NEC and neonatal death."
+    "RDS, intraventricular haemorrhage, NEC and neonatal death.",
+    1,
+    "z7fabm"
    ],
    [
     "Steroids",
     "Steroids in a woman on carbamazepine?",
-    "Double the dexamethasone dose: enzyme inducers speed its breakdown."
+    "Double the dexamethasone dose: enzyme inducers speed its breakdown.",
+    3,
+    "hjop0v"
    ],
    [
     "Steroids",
     "Steroids in a diabetic mother: what to watch?",
-    "Hyperglycaemia for several days: increase insulin and check sugars."
+    "Hyperglycaemia for several days: increase insulin and check sugars.",
+    3,
+    "1g4pb6"
    ],
    [
     "Tocolysis",
     "Why give a tocolytic?",
-    "To buy 48 hours for steroids and in-utero transfer; it does not cure."
+    "To buy 48 hours for steroids and in-utero transfer; it does not cure.",
+    2,
+    "1ntnovv"
    ],
    [
     "Tocolysis",
     "First-line tocolytic and dose?",
-    "Nifedipine 30 mg oral, then 20 mg 8-hourly for 48 hours; never sublingual."
+    "Nifedipine 30 mg oral, then 20 mg 8-hourly for 48 hours; never sublingual.",
+    2,
+    "1lqbm04"
    ],
    [
     "Tocolysis",
     "Tocolytic that closes the ductus arteriosus?",
-    "Indomethacin: avoid after 32 weeks; also causes oligohydramnios."
+    "Indomethacin: avoid after 32 weeks; also causes oligohydramnios.",
+    2,
+    "12qkkw5"
    ],
    [
     "Tocolysis",
     "Side effects of salbutamol as a tocolytic?",
-    "Tachycardia, hypokalaemia, hyperglycaemia, pulmonary oedema; avoid in heart disease."
+    "Tachycardia, hypokalaemia, hyperglycaemia, pulmonary oedema; avoid in heart disease.",
+    2,
+    "1tpavds"
    ],
    [
     "Tocolysis",
     "Name four contraindications to tocolysis.",
-    "Chorioamnionitis, fetal distress or death, abruption or heavy APH, severe pre-eclampsia, over 34 weeks."
+    "Chorioamnionitis, fetal distress or death, abruption or heavy APH, severe pre-eclampsia, over 34 weeks.",
+    2,
+    "akz8fv"
    ],
    [
     "MgSO4",
-    "MgSO4 for neuroprotection: when and dose?",
-    "Under 32 weeks, birth within 24 h: 4 g IV over 20 min, then 1 g/h."
+    "Magnesium sulphate for neuroprotection: when and dose?",
+    "Under 32 weeks, birth within 24 hours: 4 g IV over 20 min, then 1 g/h.",
+    2,
+    "2x6cwk"
    ],
    [
     "MgSO4",
-    "What does MgSO4 protect the preterm baby from?",
-    "Cerebral palsy (reduced by about one third)."
+    "What does magnesium sulphate protect the preterm baby from?",
+    "Cerebral palsy (reduced by about one third).",
+    1,
+    "554hqh"
    ],
    [
     "Intrapartum",
-    "GBS prophylaxis in preterm labour?",
-    "Benzylpenicillin 3 g IV, then 1.8 g 4-hourly until birth, unless GBS swab negative."
+    "Group B streptococcus prophylaxis in preterm labour?",
+    "Benzylpenicillin 3 g IV, then 1.8 g 4-hourly until birth, unless group B streptococcus swab negative.",
+    2,
+    "15avd2b"
    ],
    [
     "Intrapartum",
     "Instrument to avoid below 34 weeks?",
-    "Ventouse: risk of cephalhaematoma, subgaleal and brain bleeds; use forceps."
+    "Ventouse: risk of cephalhaematoma, subgaleal and brain bleeds; use forceps.",
+    2,
+    "12r4mwp"
    ],
    [
     "Prevention",
     "Indication and timing of history-indicated cerclage?",
-    "Three or more mid-trimester losses or preterm births; stitch at 12–14 weeks."
+    "Three or more mid-trimester losses or preterm births; stitch at 12–14 weeks.",
+    2,
+    "1bmh7hn"
    ],
    [
     "Prevention",
     "Previous preterm birth, cervix 20 mm at 20 weeks. Options?",
-    "Cerclage or vaginal progesterone 200 mg nightly until 34 weeks."
+    "Cerclage or vaginal progesterone 200 mg nightly until 34 weeks.",
+    3,
+    "1hmmd1p"
    ],
    [
     "Prevention",
     "When is a cervical cerclage removed?",
-    "At 37 weeks, or at once with labour, ROM, APH or IUFD."
+    "At 37 weeks, or at once with labour, rupture of membranes, APH or intrauterine fetal death.",
+    2,
+    "cmxghf"
    ],
    [
     "Complications",
     "Commonest complication of prematurity?",
-    "Respiratory distress syndrome from surfactant deficiency."
-   ],
-   [
-    "Practice",
-    "Name the commonest proven cause of spontaneous preterm labour.",
-    "Infection (often subclinical, ascending)."
+    "Respiratory distress syndrome from surfactant deficiency.",
+    1,
+    "5c6ldj"
    ],
    [
     "Practice",
     "Why do the speculum before any finger exam?",
-    "To check for ROM and praevia; a VE with ROM carries infection."
+    "To check for rupture of membranes and praevia; a vaginal examination with rupture of membranes carries infection.",
+    2,
+    "10ytu6s"
    ],
    [
     "Practice",
-    "Why is ventouse avoided below 34 wk?",
-    "Soft skull: cephalhaematoma, subgaleal and brain bleeds."
+    "Why is ventouse avoided below 34 weeks?",
+    "Soft skull: cephalhaematoma, subgaleal and brain bleeds.",
+    2,
+    "f5tb0"
    ]
   ]
  },
@@ -4903,168 +5076,213 @@
   "cards": [
    [
     "Definition",
-    "Define PROM.",
-    "Spontaneous rupture of membranes before contractions start, at 37 weeks or more."
+    "Define prelabour rupture of membranes.",
+    "Spontaneous rupture of membranes before contractions start, at 37 weeks or more.",
+    1,
+    "1bl0eh5"
    ],
    [
     "Definition",
-    "Define PPROM.",
-    "Rupture of membranes before labour and before 37 weeks."
+    "Define preterm prelabour rupture of membranes.",
+    "Rupture of membranes before labour and before 37 weeks.",
+    1,
+    "1ig1rab"
    ],
    [
     "Definition",
     "What is prolonged rupture of membranes?",
-    "Membranes ruptured for more than 24 hours before birth."
+    "Membranes ruptured for more than 24 hours before birth.",
+    1,
+    "1o35y7r"
    ],
    [
     "Epidemiology",
-    "How common is PPROM and its share of preterm births?",
-    "About 2% of pregnancies; about 40% of preterm births."
+    "How common is preterm prelabour rupture of membranes and its share of preterm births?",
+    "About 2% of pregnancies; about 40% of preterm births.",
+    2,
+    "1qroq5w"
    ],
    [
     "Aetiology",
-    "Main cause of PPROM?",
-    "Ascending infection (BV, GBS, UTI): proteases and prostaglandins weaken the membranes."
+    "Main cause of preterm prelabour rupture of membranes?",
+    "Ascending infection (BV, group B streptococcus, urinary tract infection): proteases and prostaglandins weaken the membranes.",
+    1,
+    "1ym9wai"
    ],
    [
     "Diagnosis",
-    "Key examination to confirm ROM?",
-    "Sterile speculum: pooling of liquor in the posterior fornix or leak on coughing."
+    "Key examination to confirm rupture of membranes?",
+    "Sterile speculum: pooling of liquor in the posterior fornix or leak on coughing.",
+    1,
+    "gmn084"
    ],
    [
     "Diagnosis",
-    "Why avoid digital VE in suspected PROM?",
-    "It carries bacteria upward, shortening the time to infection and labour."
+    "Why avoid digital vaginal examination in suspected prelabour rupture of membranes?",
+    "It carries bacteria upward, shortening the time to infection and labour.",
+    2,
+    "1vf3s5c"
    ],
    [
     "Diagnosis",
     "How does the nitrazine test work?",
-    "Alkaline liquor (pH 7–7.5) turns yellow paper blue."
+    "Alkaline liquor (pH 7–7.5) turns yellow paper blue.",
+    2,
+    "1hgjno8"
    ],
    [
     "Diagnosis",
     "False positives of the nitrazine test?",
-    "Blood, semen, urine, bacterial vaginosis."
+    "Blood, semen, urine, bacterial vaginosis.",
+    3,
+    "1bswczq"
    ],
    [
     "Diagnosis",
     "What is the fern test?",
-    "Dried liquor on a slide shows a fern pattern of salt crystals."
+    "Dried liquor on a slide shows a fern pattern of salt crystals.",
+    2,
+    "1vzd26p"
    ],
    [
     "Diagnosis",
-    "Role of ultrasound in PROM?",
-    "Low AFI supports the diagnosis; also gestation, growth, presentation. Normal AFI does not exclude."
+    "Role of ultrasound in prelabour rupture of membranes?",
+    "Low AFI supports the diagnosis; also gestation, growth, presentation. Normal AFI does not exclude.",
+    2,
+    "1kru3eq"
    ],
    [
     "Differential",
     "Wet pants on coughing, no pool on speculum. Diagnosis?",
-    "Stress urinary incontinence."
+    "Stress urinary incontinence.",
+    2,
+    "g2nnuf"
    ],
    [
     "Complications",
-    "Fetal complications of PPROM?",
-    "Prematurity, sepsis, cord prolapse, pulmonary hypoplasia and limb contractures."
+    "Fetal complications of preterm prelabour rupture of membranes?",
+    "Prematurity, sepsis, cord prolapse, pulmonary hypoplasia and limb contractures.",
+    2,
+    "px6dvx"
    ],
    [
     "Complications",
-    "PPROM at what gestation risks pulmonary hypoplasia?",
-    "Before about 22–24 weeks."
+    "Preterm prelabour rupture of membranes at what gestation risks pulmonary hypoplasia?",
+    "Before about 22–24 weeks.",
+    3,
+    "1vjrvk7"
    ],
    [
     "Complications",
-    "Main maternal complication of PPROM?",
-    "Chorioamnionitis, leading to sepsis."
+    "Main maternal complication of preterm prelabour rupture of membranes?",
+    "Chorioamnionitis, leading to sepsis.",
+    1,
+    "g2vrpf"
    ],
    [
     "Management",
-    "Antibiotic for PPROM and dose?",
-    "Erythromycin 250 mg oral 6-hourly for 10 days."
+    "Antibiotic for preterm prelabour rupture of membranes and dose?",
+    "Erythromycin 250 mg oral 6-hourly for 10 days.",
+    2,
+    "96pntm"
    ],
    [
     "Management",
-    "Antibiotic to avoid in PPROM and why?",
-    "Co-amoxiclav: raises necrotising enterocolitis in the newborn."
+    "Antibiotic to avoid in preterm prelabour rupture of membranes and why?",
+    "Co-amoxiclav: raises necrotising enterocolitis in the newborn.",
+    3,
+    "1vnx3hv"
    ],
    [
     "Management",
-    "Steroids in PPROM?",
-    "Yes, 24–34 weeks: dexamethasone 6 mg IM 12-hourly × 4."
+    "Steroids in preterm prelabour rupture of membranes?",
+    "Yes, 24–34 weeks: dexamethasone 6 mg IM 12-hourly × 4.",
+    2,
+    "6hv0f5"
    ],
    [
     "Management",
-    "Tocolysis in PPROM?",
-    "No role: no benefit and it can mask chorioamnionitis."
+    "Tocolysis in preterm prelabour rupture of membranes?",
+    "No role: no benefit and it can mask chorioamnionitis.",
+    2,
+    "1epycwj"
    ],
    [
     "Management",
-    "How is a woman with PPROM monitored?",
-    "Temperature, pulse, uterine tenderness 4-hourly; daily CTG; FBC, CRP 2–3 times weekly."
+    "How is a woman with preterm prelabour rupture of membranes monitored?",
+    "Temperature, pulse, uterine tenderness 4-hourly; daily CTG; FBC, CRP 2–3 times weekly.",
+    2,
+    "lop571"
    ],
    [
     "Management",
-    "When to deliver PPROM without complications?",
-    "At 37 weeks."
+    "When to deliver preterm prelabour rupture of membranes without complications?",
+    "At 37 weeks.",
+    2,
+    "1avxevg"
    ],
    [
     "Management",
-    "Indications for immediate delivery in PPROM?",
-    "Chorioamnionitis, fetal distress, abruption, or established labour."
+    "Indications for immediate delivery in preterm prelabour rupture of membranes?",
+    "Chorioamnionitis, fetal distress, abruption, or established labour.",
+    2,
+    "1knxjwt"
    ],
    [
     "Term PROM",
-    "Proportion of term PROM labouring within 24 hours?",
-    "About 75%."
+    "Proportion of term prelabour rupture of membranes labouring within 24 hours?",
+    "About 75%.",
+    2,
+    "1985det"
    ],
    [
     "Term PROM",
-    "Options for term PROM?",
-    "Induce now with oxytocin, or wait up to 24 hours then induce."
+    "Options for term prelabour rupture of membranes?",
+    "Induce now with oxytocin, or wait up to 24 hours then induce.",
+    2,
+    "vev938"
    ],
    [
     "Term PROM",
-    "Term PROM with GBS positive swab: plan?",
-    "IV penicillin and induce now."
+    "Term prelabour rupture of membranes with group B streptococcus positive swab: plan?",
+    "IV penicillin and induce now.",
+    3,
+    "vx4wqi"
    ],
    [
     "Chorioamnionitis",
     "Clinical criteria of chorioamnionitis?",
-    "Fever > 37.8 °C, maternal and fetal tachycardia, uterine tenderness, offensive liquor, raised WBC."
+    "Fever > 37.8 °C, maternal and fetal tachycardia, uterine tenderness, offensive liquor, raised white cell count.",
+    2,
+    "1ez7rpd"
    ],
    [
     "Chorioamnionitis",
     "Earliest sign of chorioamnionitis often seen?",
-    "Fetal tachycardia above 160/min."
+    "Fetal tachycardia above 160/min.",
+    2,
+    "1wwn3l2"
    ],
    [
     "Chorioamnionitis",
     "Antibiotics for chorioamnionitis?",
-    "IV ampicillin 2 g 6-hourly + gentamicin 5 mg/kg daily + metronidazole 500 mg 8-hourly."
+    "IV ampicillin 2 g 6-hourly + gentamicin 5 mg/kg daily + metronidazole 500 mg 8-hourly.",
+    2,
+    "1s5l896"
    ],
    [
     "Chorioamnionitis",
     "Chorioamnionitis at 28 weeks: wait for steroids?",
-    "No: IV antibiotics and deliver; it is an indication for delivery at any gestation."
+    "No: IV antibiotics and deliver; it is an indication for delivery at any gestation.",
+    3,
+    "1uq4ax3"
    ],
    [
     "Chorioamnionitis",
     "Is chorioamnionitis an indication for caesarean?",
-    "No: aim for vaginal birth; caesarean for usual obstetric reasons."
-   ],
-   [
-    "Practice",
-    "Why does liquor turn nitrazine paper blue?",
-    "Liquor is alkaline (pH 7–7.5); vagina is acidic."
-   ],
-   [
-    "Practice",
-    "Why is tocolysis avoided in PPROM?",
-    "No benefit; it can mask chorioamnionitis."
-   ],
-   [
-    "Practice",
-    "Earliest sign of chorioamnionitis on the CTG?",
-    "Fetal tachycardia (> 160/min)."
+    "No: aim for vaginal birth; caesarean for usual obstetric reasons.",
+    3,
+    "rsc30z"
    ]
   ]
  },
@@ -5074,147 +5292,205 @@
    [
     "Definition",
     "Definition of prolonged (post-term) pregnancy?",
-    "Pregnancy reaching 42+0 weeks (294 days) from the LMP, with regular 28-day cycles."
+    "Pregnancy reaching 42+0 weeks (294 days) from the LMP, with regular 28-day cycles.",
+    1,
+    "27oo32"
    ],
    [
     "Definition",
     "What is a post-date pregnancy?",
-    "Past the EDD (40+1) but not yet 42 weeks."
+    "Past the EDD (40+1) but not yet 42 weeks.",
+    1,
+    "3sn4ls"
    ],
    [
     "Definition",
     "Does 'postmaturity' describe the weeks or the baby?",
-    "The baby: signs of intrauterine malnutrition."
+    "The baby: signs of intrauterine malnutrition.",
+    2,
+    "5hipco"
    ],
    [
     "Dating",
     "Commonest reason a pregnancy appears post-term?",
-    "Wrong dates."
+    "Wrong dates.",
+    1,
+    "134lhu9"
    ],
    [
     "Dating",
     "Naegele's rule?",
-    "EDD = first day of LMP + 9 months + 7 days (28-day cycle)."
+    "EDD = first day of LMP + 9 months + 7 days (28-day cycle).",
+    1,
+    "k043h4"
    ],
    [
     "Dating",
     "Four situations where LMP dates cannot be trusted?",
-    "Unsure LMP, irregular cycles, recent combined pill, conception during lactational amenorrhoea."
+    "Unsure LMP, irregular cycles, recent combined pill, conception during lactational amenorrhoea.",
+    2,
+    "1rnmgke"
    ],
    [
     "Dating",
     "Most accurate dating method?",
-    "Crown-rump length scan at 11–14 weeks: accurate to about ± 5 days."
+    "Crown-rump length scan at 11–14 weeks: accurate to about with or without 5 days.",
+    1,
+    "fblq48"
    ],
    [
     "Dating",
     "Early scan and LMP differ by more than 5 days. Which date?",
-    "The scan date."
+    "The scan date.",
+    2,
+    "1d7st6z"
    ],
    [
     "Dating",
     "Can a third-trimester scan re-date a pregnancy?",
-    "No: error about ± 3 weeks."
+    "No: error about with or without 3 weeks.",
+    2,
+    "n59qh4"
    ],
    [
     "Epidemiology",
     "How common is pregnancy reaching 42 weeks?",
-    "5–10%; under 5% when dated by early ultrasound."
+    "5–10%; under 5% when dated by early ultrasound.",
+    1,
+    "147ryid"
    ],
    [
     "Risk factors",
     "Recurrence risk after one post-term pregnancy?",
-    "About 30% (40% after two)."
+    "About 30% (40% after two).",
+    2,
+    "12rvxco"
    ],
    [
     "Aetiology",
     "Fetal causes of prolonged pregnancy?",
-    "Anencephaly (without hydramnios), fetal adrenal hypoplasia, placental sulphatase deficiency: low fetal cortisol/oestrogen."
+    "Anencephaly (without hydramnios), fetal adrenal hypoplasia, placental sulphatase deficiency: low fetal cortisol/oestrogen.",
+    3,
+    "1732hj1"
    ],
    [
     "Aetiology",
     "Maternal risk factors for prolonged pregnancy?",
-    "Previous post-term pregnancy, primigravida, obesity, family history; male fetus."
+    "Previous post-term pregnancy, primigravida, obesity, family history; male fetus.",
+    2,
+    "rgz8fu"
    ],
    [
     "Pathophysiology",
     "Why does oligohydramnios develop after term?",
-    "Placental insufficiency → fetal blood shifted from kidneys → less fetal urine."
+    "Placental insufficiency → fetal blood shifted from kidneys → less fetal urine.",
+    2,
+    "fbaofv"
    ],
    [
     "Pathophysiology",
     "Why is meconium common in post-term labour?",
-    "Mature gut plus hypoxia or cord compression cause meconium passage."
+    "Mature gut plus hypoxia or cord compression cause meconium passage.",
+    2,
+    "av4tpk"
    ],
    [
     "Clinical",
     "Features of postmaturity syndrome?",
-    "Long thin baby, scaphoid abdomen, little fat, peeling palms/soles, long nails, meconium staining, alert anxious look."
+    "Long thin baby, scaphoid abdomen, little fat, peeling palms/soles, long nails, meconium staining, alert anxious look.",
+    1,
+    "bn2aud"
    ],
    [
     "Clinical",
     "What proportion of post-term babies show postmaturity syndrome?",
-    "About 20%: a minority."
+    "About 20%: a minority.",
+    2,
+    "1f9gpbw"
    ],
    [
     "Complications",
     "Intrapartum death risk after 42 weeks compared with term?",
-    "About 4 times higher (early neonatal deaths 3 times)."
+    "About 4 times higher (early neonatal deaths 3 times).",
+    2,
+    "qphn9l"
    ],
    [
     "Complications",
     "Fetal complications of prolonged pregnancy?",
-    "Stillbirth, fetal distress, oligohydramnios, meconium aspiration, macrosomia with shoulder dystocia, birth injury."
+    "Stillbirth, fetal distress, oligohydramnios, meconium aspiration, macrosomia with shoulder dystocia, birth injury.",
+    2,
+    "178p6rs"
    ],
    [
     "Complications",
     "Neonatal metabolic and blood problems after post-term birth?",
-    "Hypoglycaemia, hypothermia, polycythaemia."
+    "Hypoglycaemia, hypothermia, polycythaemia.",
+    2,
+    "86r8ts"
    ],
    [
     "Complications",
     "Maternal risks of prolonged pregnancy?",
-    "Anxiety, induction, instrumental delivery, caesarean, perineal trauma, PPH."
+    "Anxiety, induction, instrumental delivery, caesarean, perineal trauma, PPH.",
+    2,
+    "1l7zglf"
    ],
    [
     "Management",
     "What is a membrane sweep and when is it offered?",
-    "Finger through the os separates membranes from lower segment, releasing prostaglandins; offered at 40–41 weeks."
+    "Finger through the os separates membranes from lower segment, releasing prostaglandins; offered at 40–41 weeks.",
+    1,
+    "fk66yg"
    ],
    [
     "Management",
     "When is induction offered for an uncomplicated prolonged pregnancy?",
-    "At 41+3 weeks (within 41+0 to 41+6)."
+    "At 41+3 weeks (within 41+0 to 41+6).",
+    1,
+    "120yapu"
    ],
    [
     "Management",
     "Does induction at 41 weeks raise the caesarean rate?",
-    "No: it lowers stillbirth without raising caesareans."
+    "No: it lowers stillbirth without raising caesarean sections.",
+    3,
+    "1fhvwxg"
    ],
    [
     "Management",
     "Monitoring if she declines induction?",
-    "CTG and deepest pool twice weekly, daily kick count, Doppler if growth poor."
+    "CTG and deepest pool twice weekly, daily kick count, Doppler if growth poor.",
+    2,
+    "12p7ehy"
    ],
    [
     "Management",
     "Declined induction: findings that mean induce now?",
-    "Oligohydramnios, reduced movements, poor growth, abnormal CTG, new hypertension or medical illness."
+    "Oligohydramnios, reduced movements, poor growth, abnormal CTG, new hypertension or medical illness.",
+    3,
+    "157z3am"
    ],
    [
     "Management",
     "Intrapartum care in post-term labour?",
-    "Continuous CTG, early ARM to see liquor, prepare for shoulder dystocia, neonatal team, active third stage."
+    "Continuous CTG, early artificial rupture of membranes to see liquor, prepare for shoulder dystocia, neonatal team, active third stage.",
+    2,
+    "q787zq"
    ],
    [
     "Management",
     "Should the baby's mouth be suctioned on the perineum for meconium?",
-    "No: not recommended; resuscitate only if the baby is floppy."
+    "No: not recommended; resuscitate only if the baby is floppy.",
+    3,
+    "2osu8e"
    ],
    [
     "Prevention",
     "Best single step to reduce the diagnosis of post-term pregnancy?",
-    "Early (first-trimester) dating ultrasound for every woman."
+    "Early (first-trimester) dating ultrasound for every woman.",
+    1,
+    "jw8xkn"
    ]
   ]
  },
@@ -5224,162 +5500,226 @@
    [
     "Definition",
     "Definition of induction of labour?",
-    "Starting labour artificially before it begins spontaneously, aiming at vaginal birth."
+    "Starting labour artificially before it begins spontaneously, aiming at vaginal birth.",
+    1,
+    "1vkfur6"
    ],
    [
     "Definition",
     "Induction versus augmentation?",
-    "Augmentation speeds up a labour that has already started; induction starts it."
+    "Augmentation speeds up a labour that has already started; induction starts it.",
+    1,
+    "1cmpsw8"
    ],
    [
     "Indications",
     "Commonest indication for induction of labour?",
-    "Prolonged pregnancy."
+    "Prolonged pregnancy.",
+    1,
+    "44slv0"
    ],
    [
     "Indications",
     "Fetal indications for induction?",
-    "Uteroplacental insufficiency: FGR, oligohydramnios, abnormal Dopplers, non-reassuring CTG; IUFD; Rh isoimmunisation."
+    "Uteroplacental insufficiency: fetal growth restriction, oligohydramnios, abnormal Dopplers, non-reassuring CTG; intrauterine fetal death; Rh isoimmunisation.",
+    2,
+    "1yg21by"
    ],
    [
     "Indications",
     "Maternal medical indications for induction?",
-    "Severe hypertension, uncontrolled diabetes, worsening renal disease, cholestasis."
+    "Severe hypertension, uncontrolled diabetes, worsening renal disease, cholestasis.",
+    2,
+    "ujbpj5"
    ],
    [
     "Contraindications",
     "Absolute contraindications to induction?",
-    "Placenta/vasa praevia, transverse lie, cord presentation, CPD, classical or ≥ 2 CS, previous rupture, active herpes."
+    "Placenta/vasa praevia, transverse lie, cord presentation, cephalopelvic disproportion, classical or ≥ 2 caesarean section, previous rupture, active herpes.",
+    1,
+    "cmyt3k"
    ],
    [
     "Contraindications",
     "Relative contraindications to induction?",
-    "One previous lower-segment CS, breech, high head, grand multipara, polyhydramnios, twins, heart disease."
+    "One previous lower-segment caesarean section, breech, high head, grand multipara, polyhydramnios, twins, heart disease.",
+    2,
+    "1px86cl"
    ],
    [
     "Bishop",
     "Five components of the modified Bishop score?",
-    "Dilatation, cervical length, station, consistency, position (D-L-S-C-P)."
+    "Dilatation, cervical length, station, consistency, position (D-L-S-C-P).",
+    1,
+    "1gbyp6d"
    ],
    [
     "Bishop",
     "What does 'modified' Bishop score change?",
-    "Cervical length replaces effacement."
+    "Cervical length replaces effacement.",
+    3,
+    "14yyhr0"
    ],
    [
     "Bishop",
     "Maximum modified Bishop score?",
-    "13."
+    "13.",
+    1,
+    "h8jezd"
    ],
    [
     "Bishop",
     "Bishop score cut-offs?",
-    "≥ 8 favourable: ARM + oxytocin. ≤ 6 unfavourable: ripen first."
+    "≥ 8 favourable: artificial rupture of membranes + oxytocin. ≤ 6 unfavourable: ripen first.",
+    2,
+    "85jbjz"
    ],
    [
     "Bishop",
     "Predictors of successful induction?",
-    "Gestational age, parity (multipara better), and Bishop score."
+    "Gestational age, parity (multipara better), and Bishop score.",
+    2,
+    "zi04lg"
    ],
    [
     "Methods",
     "How does a membrane sweep work?",
-    "Separating membranes from the lower segment releases local prostaglandins."
+    "Separating membranes from the lower segment releases local prostaglandins.",
+    2,
+    "7dspxf"
    ],
    [
     "Methods",
     "Dinoprostone (Prostin) dose for induction?",
-    "3 mg vaginal tablet in posterior fornix; repeat after 6 h; maximum 2 doses."
+    "3 mg vaginal tablet in posterior fornix; repeat after 6 hours; maximum 2 doses.",
+    2,
+    "1t62wno"
    ],
    [
     "Methods",
     "Ripening agent used for a live fetus in our hospitals?",
-    "Dinoprostone (Prostin E2)."
+    "Dinoprostone (Prostin E2).",
+    2,
+    "v7pt1u"
    ],
    [
     "Methods",
-    "Ripening agent used for IUFD in our hospitals?",
-    "Misoprostol, dose by gestational age."
+    "Ripening agent used for intrauterine fetal death in our hospitals?",
+    "Misoprostol, dose by gestational age.",
+    2,
+    "kvapni"
    ],
    [
     "Methods",
     "Misoprostol dose for a live term fetus?",
-    "25 µg vaginally 6-hourly; never with a uterine scar."
+    "25 µg vaginally 6-hourly; never with a uterine scar.",
+    2,
+    "fxy1p4"
    ],
    [
     "Methods",
     "Foley balloon induction: how and main advantage?",
-    "Catheter past internal os, 30–50 mL saline, traction 12–24 h; no hyperstimulation, so safe with a scar."
+    "Catheter past internal os, 30–50 mL saline, traction 12–24 hours; no hyperstimulation, so safe with a scar.",
+    2,
+    "1nyfu8l"
    ],
    [
     "Methods",
-    "Prerequisite before ARM?",
-    "Head fixed in the pelvis (to avoid cord prolapse); placenta praevia excluded."
+    "Prerequisite before artificial rupture of membranes?",
+    "Head fixed in the pelvis (to avoid cord prolapse); placenta praevia excluded.",
+    2,
+    "1r8xcu2"
    ],
    [
     "Methods",
     "Minimum gap between last prostaglandin and starting oxytocin?",
-    "6 hours."
+    "6 hours.",
+    3,
+    "104chx9"
    ],
    [
     "Oxytocin",
     "Standard oxytocin dilution?",
-    "5 IU in 500 mL normal saline = 10 mU/mL."
+    "5 IU in 500 mL normal saline = 10 mU/mL.",
+    2,
+    "sxaj31"
    ],
    [
     "Oxytocin",
     "Oxytocin starting dose and increases?",
-    "Start 2 mU/min; increase by 2–4 mU/min every 30 min."
+    "Start 2 mU/min; increase by 2–4 mU/min every 30 min.",
+    2,
+    "noe1fh"
    ],
    [
     "Oxytocin",
     "Target contractions on oxytocin, and maximum dose?",
-    "3–4 contractions in 10 min, 40–60 s each; maximum 32 mU/min."
+    "3–4 contractions in 10 min, 40–60 s each; maximum 32 mU/min.",
+    2,
+    "1d3ehff"
    ],
    [
     "Complications",
     "Definition of tachysystole?",
-    "More than 5 contractions in 10 minutes."
+    "More than 5 contractions in 10 minutes.",
+    1,
+    "1bj3fd5"
    ],
    [
     "Complications",
     "Hypertonus versus hyperstimulation?",
-    "Hypertonus: one contraction > 2 min. Hyperstimulation: tachysystole or hypertonus with abnormal FHR."
+    "Hypertonus: one contraction > 2 min. Hyperstimulation: tachysystole or hypertonus with abnormal fetal heart rate.",
+    3,
+    "1eltmd7"
    ],
    [
     "Complications",
     "Management of hyperstimulation with fetal bradycardia?",
-    "Stop oxytocin, remove prostin, left lateral, fluids, terbutaline 0.25 mg SC; CS if no recovery."
+    "Stop oxytocin, remove prostin, left lateral, fluids, terbutaline 0.25 mg subcutaneously; caesarean section if no recovery.",
+    2,
+    "150abqc"
    ],
    [
     "Complications",
-    "Complications of ARM?",
-    "Cord prolapse, infection, abruption in polyhydramnios or twins, bleeding from vasa praevia."
+    "Complications of artificial rupture of membranes?",
+    "Cord prolapse, infection, abruption in polyhydramnios or twins, bleeding from vasa praevia.",
+    2,
+    "ap5f4x"
    ],
    [
     "Complications",
     "Oxytocin side effects besides hyperstimulation?",
-    "Water intoxication (hyponatraemia, fits) and neonatal jaundice."
+    "Water intoxication (hyponatraemia, fits) and neonatal jaundice.",
+    3,
+    "18m8dd3"
    ],
    [
     "Complications",
     "Why does induction raise PPH risk?",
-    "Tired, atonic uterus after long oxytocin; give active management of the third stage."
+    "Tired, atonic uterus after long oxytocin; give active management of the third stage.",
+    2,
+    "p4qh9y"
    ],
    [
     "Complications",
     "Definition and options in failed induction?",
-    "No labour after a full course (ripening, ARM, 6–12 h oxytocin): rest and second course, or caesarean."
+    "No labour after a full course (ripening, artificial rupture of membranes, 6–12 hours oxytocin): rest and second course, or caesarean.",
+    2,
+    "10kr7a6"
    ],
    [
     "Previous CS",
-    "Preferred induction method after one lower-segment CS?",
-    "Foley balloon, then ARM + carefully titrated oxytocin; no misoprostol."
+    "Preferred induction method after one lower-segment caesarean section?",
+    "Foley balloon, then artificial rupture of membranes + carefully titrated oxytocin; no misoprostol.",
+    3,
+    "yfe2nr"
    ],
    [
     "Previous CS",
-    "Rupture risk of induced versus spontaneous labour after CS?",
-    "About 2–3 times higher (spontaneous ≈ 0.5%)."
+    "Rupture risk of induced versus spontaneous labour after caesarean section?",
+    "About 2–3 times higher (spontaneous about 0.5%).",
+    3,
+    "u4pon8"
    ]
   ]
  },
@@ -5389,182 +5729,226 @@
    [
     "Definitions",
     "Define malpresentation.",
-    "Longitudinal lie with any presenting part other than the vertex: breech, face, brow, shoulder, compound, cord."
+    "Longitudinal lie with any presenting part other than the vertex: breech, face, brow, shoulder, compound, cord.",
+    1,
+    "fsdcpt"
    ],
    [
     "Definitions",
     "Define malposition.",
-    "Vertex presentation with the occiput not anterior: occipito-transverse or occipito-posterior."
+    "Vertex presentation with the occiput not anterior: occipito-transverse or occipito-posterior.",
+    1,
+    "11blotu"
    ],
    [
     "Definitions",
     "Define fetal position.",
-    "Relation of the denominator to fixed points of the maternal pelvis, e.g. LOA, LSA."
+    "Relation of the denominator to fixed points of the maternal pelvis, e.g. LOA, LSA.",
+    1,
+    "ygihq8"
    ],
    [
     "Definitions",
     "Denominator in breech presentation?",
-    "The sacrum; commonest position is LSA."
+    "The sacrum; commonest position is LSA.",
+    1,
+    "mjy7ff"
    ],
    [
     "Incidence",
     "Incidence of breech before 28 weeks and at term?",
-    "About 25% before 28 weeks; 3–4% at term."
+    "About 25% before 28 weeks; 3–4% at term.",
+    2,
+    "hzcaav"
    ],
    [
     "Types",
     "Commonest type of breech?",
-    "Frank (extended) breech, about 65%: hips flexed, knees extended."
+    "Frank (extended) breech, about 65%: hips flexed, knees extended.",
+    1,
+    "sbzy3m"
    ],
    [
     "Types",
     "Describe a complete breech.",
-    "Hips and knees both flexed; buttocks and feet present together (about 25%)."
+    "Hips and knees both flexed; buttocks and feet present together (about 25%).",
+    1,
+    "s188na"
    ],
    [
     "Types",
     "Describe a footling breech.",
-    "One or both feet below the buttocks (about 10%); highest risk of cord prolapse."
+    "One or both feet below the buttocks (about 10%); highest risk of cord prolapse.",
+    1,
+    "kianld"
    ],
    [
     "Causes",
     "Commonest association of breech presentation?",
-    "Prematurity; at term most breech babies are idiopathic."
+    "Prematurity; at term most breech babies are idiopathic.",
+    1,
+    "oquz1b"
    ],
    [
     "Causes",
     "Name four uterine or placental causes of breech.",
-    "Bicornuate or septate uterus, fibroid, placenta praevia, cornual-fundal placenta."
+    "Bicornuate or septate uterus, fibroid, placenta praevia, cornual-fundal placenta.",
+    2,
+    "di4qvm"
    ],
    [
     "Diagnosis",
     "Abdominal signs of breech?",
-    "Hard round ballotable head in the fundus; fetal heart heard at or above the umbilicus."
+    "Hard round ballotable head in the fundus; fetal heart heard at or above the umbilicus.",
+    1,
+    "fxvj4q"
    ],
    [
     "Diagnosis",
     "Vaginal findings of breech?",
-    "Anus and two ischial tuberosities in one line, sacrum, genitalia, feet, meconium on the glove."
+    "Anus and two ischial tuberosities in one line, sacrum, genitalia, feet, meconium on the glove.",
+    1,
+    "1t8w64j"
    ],
    [
     "Diagnosis",
-    "How do you tell face from breech on PV?",
-    "Face: mouth with hard gums and malar bones form a triangle. Breech: anus and tuberosities in a line."
+    "How do you tell face from breech on vaginal examination?",
+    "Face: mouth with hard gums and malar bones form a triangle. Breech: anus and tuberosities in a line.",
+    3,
+    "lje0hz"
    ],
    [
     "Complications",
     "Cord prolapse risk by breech type?",
-    "Footling about 15%, complete 5%, frank 0.5%."
+    "Footling about 15%, complete 5%, frank 0.5%.",
+    2,
+    "ux2vcg"
    ],
    [
     "Complications",
     "Main cause of death in vaginal breech delivery?",
-    "Asphyxia from a trapped aftercoming head; rapid head delivery causes intracranial bleeding."
+    "Asphyxia from a trapped aftercoming head; rapid head delivery causes intracranial bleeding.",
+    2,
+    "1vpgg7s"
    ],
    [
     "Complications",
     "Typical birth injuries after breech delivery?",
-    "Fractured humerus, femur or clavicle; Erb palsy; liver or adrenal tear."
+    "Fractured humerus, femur or clavicle; Erb palsy; liver or adrenal tear.",
+    2,
+    "155r00u"
    ],
    [
     "ECV",
     "When is ECV offered?",
-    "36 weeks in a primigravida, 37 weeks in a multipara, with theatre available."
+    "36 weeks in a primigravida, 37 weeks in a multipara, with theatre available.",
+    1,
+    "jgqi0s"
    ],
    [
     "ECV",
     "Success rate of ECV?",
-    "About 50% overall: 40% in primigravidae, 60% in multiparae; 3% revert to breech."
+    "About 50% overall: 40% in primigravidae, 60% in multiparae; 3% revert to breech.",
+    1,
+    "15hltn1"
    ],
    [
     "ECV",
     "Tocolytic used to help ECV?",
-    "Terbutaline 0.25 mg subcutaneously before the attempt."
+    "Terbutaline 0.25 mg subcutaneously before the attempt.",
+    2,
+    "ig414u"
    ],
    [
     "ECV",
     "What must an RhD-negative woman receive after ECV?",
-    "Anti-D 500 IU IM within 72 h, with a Kleihauer test."
+    "Anti-D 500 IU IM within 72 hours, with a Kleihauer test.",
+    2,
+    "52z8oq"
    ],
    [
     "ECV",
     "Absolute contraindications to ECV?",
-    "Placenta praevia or APH, twins, ruptured membranes, CS needed anyway, fetal compromise, pre-eclampsia."
+    "Placenta praevia or APH, twins, ruptured membranes, caesarean section needed anyway, fetal compromise, pre-eclampsia.",
+    2,
+    "1sq81yx"
    ],
    [
     "ECV",
     "Serious complications of ECV?",
-    "Abruption, cord accident, fetal bradycardia, feto-maternal haemorrhage, emergency caesarean in about 0.5%."
+    "Abruption, cord accident, fetal bradycardia, feto-maternal haemorrhage, emergency caesarean in about 0.5%.",
+    2,
+    "3bb0kp"
    ],
    [
     "Mode of delivery",
     "Criteria for assisted vaginal breech delivery?",
-    "Frank or complete breech, EFW 2.5–3.8 kg, flexed head, no fetal compromise, adequate pelvis, trained staff."
+    "Frank or complete breech, estimated fetal weight 2.5–3.8 kg, flexed head, no fetal compromise, adequate pelvis, trained staff.",
+    2,
+    "8k0u8k"
    ],
    [
     "Mode of delivery",
-    "When is breech delivered by elective CS?",
-    "At 39 weeks if ECV fails or is contraindicated and criteria for vaginal birth are not met or she prefers CS."
+    "When is breech delivered by elective caesarean section?",
+    "At 39 weeks if ECV fails or is contraindicated and criteria for vaginal birth are not met or she prefers caesarean section.",
+    2,
+    "os10y2"
    ],
    [
     "Mode of delivery",
     "Breech labour is slow in the first stage. Next step?",
-    "Caesarean section; oxytocin is not used to push a breech through."
+    "Caesarean section; oxytocin is not used to push a breech through.",
+    3,
+    "jwjb7f"
    ],
    [
     "Manoeuvres",
     "Manoeuvre for extended legs in breech delivery?",
-    "Pinard: press the popliteal fossa so the knee flexes, then lift the foot out."
+    "Pinard: press the popliteal fossa so the knee flexes, then lift the foot out.",
+    2,
+    "1l9vz2s"
    ],
    [
     "Manoeuvres",
     "Manoeuvre for extended arms in breech delivery?",
-    "Løvset: rotate the body 180° with back anterior so each arm delivers under the pubis."
+    "Løvset: rotate the body 180° with back anterior so each arm delivers under the pubis.",
+    2,
+    "1rthcxy"
    ],
    [
     "Manoeuvres",
     "First-choice manoeuvre for the aftercoming head?",
-    "Mauriceau-Smellie-Veit: jaw flexion and shoulder traction with suprapubic pressure."
+    "Mauriceau-Smellie-Veit: jaw flexion and shoulder traction with suprapubic pressure.",
+    2,
+    "1osdnyw"
    ],
    [
     "Manoeuvres",
-    "If MSV fails to deliver the aftercoming head?",
-    "Piper forceps to the aftercoming head."
+    "If the Mauriceau–Smellie–Veit manoeuvre fails to deliver the aftercoming head?",
+    "Piper forceps to the aftercoming head.",
+    3,
+    "1jazf6z"
    ],
    [
     "Manoeuvres",
     "Aftercoming head trapped in an incompletely dilated cervix?",
-    "Dührssen incisions of the cervix at 2 and 10 o'clock, then MSV."
+    "Dührssen incisions of the cervix at 2 and 10 o'clock, then the Mauriceau–Smellie–Veit manoeuvre.",
+    3,
+    "11quiox"
    ],
    [
     "Manoeuvres",
     "Indications for total breech extraction?",
-    "Second twin, or acute fetal distress at full dilatation."
+    "Second twin, or acute fetal distress at full dilatation.",
+    3,
+    "1um8lop"
    ],
    [
     "Practice",
     "Denominator in breech, and in face?",
-    "Sacrum; mentum (chin)."
-   ],
-   [
-    "Practice",
-    "Commonest type of breech in a primigravida at term?",
-    "Frank (extended) breech, about 65%."
-   ],
-   [
-    "Practice",
-    "Commonest cause of breech presentation?",
-    "Prematurity (term breech: mostly idiopathic)."
-   ],
-   [
-    "Practice",
-    "Which breech carries the highest risk of cord prolapse?",
-    "Footling (about 15%)."
-   ],
-   [
-    "Practice",
-    "Drug given before ECV to raise success?",
-    "Tocolytic: terbutaline 0.25 mg SC."
+    "Sacrum; mentum (chin).",
+    2,
+    "7z0zlm"
    ]
   ]
  },
@@ -5574,162 +5958,219 @@
    [
     "Diameters",
     "Presenting diameter of a well-flexed vertex?",
-    "Suboccipito-bregmatic, 9.5 cm."
+    "Suboccipito-bregmatic, 9.5 cm.",
+    1,
+    "1rb3ep0"
    ],
    [
     "Diameters",
     "Presenting diameter in occipito-posterior position?",
-    "Occipito-frontal, 11.5 cm, because the head is deflexed."
+    "Occipito-frontal, 11.5 cm, because the head is deflexed.",
+    1,
+    "uudp9z"
    ],
    [
     "Diameters",
     "Presenting diameter in brow presentation?",
-    "Mento-vertical, 13.5 cm: the largest, so vaginal birth is not possible."
+    "Mento-vertical, 13.5 cm: the largest, so vaginal birth is not possible.",
+    1,
+    "1kr6me6"
    ],
    [
     "Diameters",
     "Presenting diameter in face presentation?",
-    "Submento-bregmatic, 9.5 cm, so a mento-anterior face can deliver."
+    "Submento-bregmatic, 9.5 cm, so a mento-anterior face can deliver.",
+    1,
+    "18719hf"
    ],
    [
     "OP",
     "Define occipito-posterior position.",
-    "Vertex presentation with the occiput in a posterior quadrant of the pelvis; a malposition."
+    "Vertex presentation with the occiput in a posterior quadrant of the pelvis; a malposition.",
+    1,
+    "j83f3e"
    ],
    [
     "OP",
-    "Incidence of OP in early labour?",
-    "About 25%; right OP is more common than left."
+    "Incidence of occipito-posterior in early labour?",
+    "About 25%; right occipito-posterior is more common than left.",
+    2,
+    "rovf6i"
    ],
    [
     "OP",
-    "Pelvic shapes that favour OP?",
-    "Android and anthropoid pelvis."
+    "Pelvic shapes that favour occipito-posterior?",
+    "Android and anthropoid pelvis.",
+    3,
+    "ihplcx"
    ],
    [
     "OP",
-    "Classic symptoms of OP in labour?",
-    "Severe backache, prolonged labour, early urge to push before full dilatation."
+    "Classic symptoms of occipito-posterior in labour?",
+    "Severe backache, prolonged labour, early urge to push before full dilatation.",
+    2,
+    "1em9gmb"
    ],
    [
     "OP",
-    "Abdominal signs of OP?",
-    "Flat saucer-shaped lower abdomen, limbs felt in front, fetal heart in the flank."
+    "Abdominal signs of occipito-posterior?",
+    "Flat saucer-shaped lower abdomen, limbs felt in front, fetal heart in the flank.",
+    2,
+    "3j5dvy"
    ],
    [
     "OP",
-    "PV sign of OP?",
-    "Anterior fontanelle easily felt in the front of the pelvis."
+    "Vaginal examination sign of occipito-posterior?",
+    "Anterior fontanelle easily felt in the front of the pelvis.",
+    2,
+    "tk9j6m"
    ],
    [
     "OP",
-    "Commonest outcome of OP in labour?",
-    "Long anterior rotation (3/8 circle) in about 90%, delivering as OA."
+    "Commonest outcome of occipito-posterior in labour?",
+    "Long anterior rotation (3/8 circle) in about 90%, delivering as occipito-anterior.",
+    1,
+    "161w5u6"
    ],
    [
     "OP",
     "What is face-to-pubis delivery?",
-    "Persistent OP after short posterior rotation; the head is born by flexion with an episiotomy."
+    "Persistent occipito-posterior after short posterior rotation; the head is born by flexion with an episiotomy.",
+    2,
+    "1wjm6ra"
    ],
    [
     "OP",
     "Define deep transverse arrest.",
-    "Sagittal suture transverse at the ischial spines with no descent despite good contractions."
+    "Sagittal suture transverse at the ischial spines with no descent despite good contractions.",
+    2,
+    "mon0v9"
    ],
    [
     "OP",
     "Options in deep transverse arrest?",
-    "Manual rotation, Kielland forceps or rotational ventouse if skilled; otherwise caesarean."
+    "Manual rotation, Kielland forceps or rotational ventouse if skilled; otherwise caesarean.",
+    3,
+    "15mrwpu"
    ],
    [
     "Face",
     "Incidence of face presentation?",
-    "About 1 in 500 deliveries."
+    "About 1 in 500 deliveries.",
+    1,
+    "1hnk85r"
    ],
    [
     "Face",
     "Denominator in face presentation?",
-    "The mentum (chin)."
+    "The mentum (chin).",
+    1,
+    "r83v4z"
    ],
    [
     "Face",
     "Fetal anomaly to exclude in face presentation?",
-    "Anencephaly; also neck masses such as goitre."
+    "Anencephaly; also neck masses such as goitre.",
+    2,
+    "1j464pb"
    ],
    [
     "Face",
     "Which face position cannot deliver vaginally?",
-    "Persistent mento-posterior: the neck is already fully extended. Deliver by caesarean."
+    "Persistent mento-posterior: the neck is already fully extended. Deliver by caesarean.",
+    2,
+    "1nitudj"
    ],
    [
     "Face",
     "Instrument contraindicated in face presentation?",
-    "Ventouse; low forceps allowed for mento-anterior."
+    "Ventouse; low forceps allowed for mento-anterior.",
+    2,
+    "1hzt232"
    ],
    [
     "Brow",
     "Incidence of brow presentation?",
-    "About 1 in 2000, the least common presentation."
+    "About 1 in 2000, the least common presentation.",
+    1,
+    "1u7pl2i"
    ],
    [
     "Brow",
-    "What is felt on PV in brow presentation?",
-    "Anterior fontanelle, orbital ridges and root of the nose; no mouth or chin."
+    "What is felt on vaginal examination in brow presentation?",
+    "Anterior fontanelle, orbital ridges and root of the nose; no mouth or chin.",
+    2,
+    "19n1fb4"
    ],
    [
     "Brow",
     "Management of persistent brow at term?",
-    "Caesarean section; no forceps, ventouse or oxytocin."
+    "Caesarean section; no forceps, ventouse or oxytocin.",
+    2,
+    "12gpxkh"
    ],
    [
     "Lie",
     "Commonest cause of transverse lie?",
-    "Multiparity with a lax uterus and abdomen."
+    "Multiparity with a lax uterus and abdomen.",
+    1,
+    "19w8e1p"
    ],
    [
     "Lie",
     "Abdominal findings in transverse lie?",
-    "Wide uterus, fundal height less than dates, empty fundus and empty pelvic grip."
+    "Wide uterus, fundal height less than dates, empty fundus and empty pelvic grip.",
+    1,
+    "u08a6u"
    ],
    [
     "Lie",
     "Define unstable lie.",
-    "A lie that keeps changing after 36 weeks."
+    "A lie that keeps changing after 36 weeks.",
+    1,
+    "10u75pp"
    ],
    [
     "Lie",
     "Management of unstable lie at 37 weeks?",
-    "Admit until the lie is stable or delivery; scan for a cause; ECV or stabilising induction."
+    "Admit until the lie is stable or delivery; scan for a cause; ECV or stabilising induction.",
+    2,
+    "12u68h3"
    ],
    [
     "Lie",
     "Main danger when membranes rupture with a transverse lie?",
-    "Cord prolapse, then arm prolapse and neglected shoulder."
+    "Cord prolapse, then arm prolapse and neglected shoulder.",
+    2,
+    "g7vr5s"
    ],
    [
     "Lie",
     "Course of a neglected shoulder?",
-    "Obstructed labour, thin lower segment, Bandl ring, uterine rupture, fetal death."
+    "Obstructed labour, thin lower segment, Bandl ring, uterine rupture, fetal death.",
+    3,
+    "1vmcbh1"
    ],
    [
     "Lie",
     "Management of neglected shoulder with a dead fetus?",
-    "Caesarean section; manipulation risks uterine rupture."
+    "Caesarean section; manipulation risks uterine rupture.",
+    3,
+    "18lgnw"
    ],
    [
     "Compound",
     "Management of a hand beside the head?",
-    "Leave it; it usually retracts as the head descends. Caesarean if labour arrests."
+    "Leave it; it usually retracts as the head descends. Caesarean if labour arrests.",
+    3,
+    "1ir6sk0"
    ],
    [
     "Practice",
     "Which presentation is an absolute indication for caesarean at term?",
-    "Persistent brow (and persistent mento-posterior face)."
-   ],
-   [
-    "Practice",
-    "Main risk when membranes rupture in an unstable lie?",
-    "Cord prolapse."
+    "Persistent brow (and persistent mento-posterior face).",
+    2,
+    "acubib"
    ]
   ]
  },
@@ -7494,132 +7935,184 @@
    [
     "Format",
     "What does OSCE stand for?",
-    "Objective structured clinical examination: same task, patient and checklist for every student."
+    "Objective structured clinical examination: same task, patient and checklist for every student.",
+    1,
+    "o4ofrj"
    ],
    [
     "Format",
     "Two parts of the OSCE mark?",
-    "Checklist steps plus a global score for attitude, communication and safety."
+    "Checklist steps plus a global score for attitude, communication and safety.",
+    1,
+    "13a4zy4"
    ],
    [
     "Format",
     "Name the seven obstetric station types.",
-    "History, examination, procedure, data, spotter, counselling, emergency drill."
+    "History, examination, procedure, data, spotter, counselling, emergency drill.",
+    2,
+    "1n14cgf"
    ],
    [
     "Plan",
     "How do you split a 5-minute station?",
-    "Read ≈ 1 min outside; open 30 s; task 3 min; close 30 s; then present and viva."
+    "Read about 1 min outside; open 30 s; task 3 min; close 30 s; then present and viva.",
+    1,
+    "pmrw0k"
    ],
    [
     "Plan",
     "What decides what you do in a station?",
-    "The verb in the task: take a history, examine, counsel, interpret, demonstrate."
+    "The verb in the task: take a history, examine, counsel, interpret, demonstrate.",
+    1,
+    "g4onx8"
    ],
    [
     "Opening",
     "Steps of the universal opening, in order?",
-    "Hand hygiene, greet, introduce, identify, explain, consent, chaperone, privacy, comfort, position and exposure."
+    "Hand hygiene, greet, introduce, identify, explain, consent, chaperone, privacy, comfort, position and exposure.",
+    1,
+    "s77jbo"
    ],
    [
     "Opening",
     "How many identifiers do you check?",
-    "Two: full name and age (wristband or card)."
+    "Two: full name and age (wristband or card).",
+    1,
+    "1uulp6u"
    ],
    [
     "Opening",
     "Why ask her to empty the bladder before abdominal exam?",
-    "A full bladder raises fundal height and makes palpation uncomfortable."
+    "A full bladder raises fundal height and makes palpation uncomfortable.",
+    2,
+    "1ti079l"
    ],
    [
     "Opening",
     "Male student, abdominal or vaginal exam: what is required?",
-    "A named female chaperone, consent, privacy and minimal exposure."
+    "A named female chaperone, consent, privacy and minimal exposure.",
+    1,
+    "1r0nn5n"
    ],
    [
     "Closing",
     "Steps of the universal closing?",
-    "Cover, thank, summarise, invite questions, safety-net, hand hygiene, document, present."
+    "Cover, thank, summarise, invite questions, safety-net, hand hygiene, document, present.",
+    1,
+    "py8n3y"
    ],
    [
     "Closing",
     "Three danger signs to safety-net in late pregnancy?",
-    "Bleeding, leaking fluid, fewer fetal movements."
+    "Bleeding, leaking fluid, fewer fetal movements.",
+    1,
+    "1qnzxhr"
    ],
    [
     "Communication",
     "Why start with an open question?",
-    "She tells her story and gives clues you would not think to ask."
+    "She tells her story and gives clues you would not think to ask.",
+    2,
+    "pi1eeq"
    ],
    [
     "Communication",
     "What is signposting?",
-    "Telling her the next topic before moving to it."
+    "Telling her the next topic before moving to it.",
+    1,
+    "nf88hg"
    ],
    [
     "Communication",
     "What is ICE?",
-    "Her ideas, concerns and expectations."
+    "Her ideas, concerns and expectations.",
+    1,
+    "llf032"
    ],
    [
     "Communication",
     "Fix: \"Any headache, blurred vision or pain?\"",
-    "Double question: ask each one separately."
+    "Double question: ask each one separately.",
+    3,
+    "1qwi01u"
    ],
    [
     "Bad news",
     "What do the letters of SPIKES stand for?",
-    "Setting, Perception, Invitation, Knowledge, Emotion, Strategy."
+    "Setting, Perception, Invitation, Knowledge, Emotion, Strategy.",
+    2,
+    "zitfhh"
    ],
    [
     "Bad news",
     "What is a warning shot?",
-    "A short line before the fact: \"I am afraid I have bad news.\""
+    "A short line before the fact: \"I am afraid I have bad news.\"",
+    1,
+    "1bi54qw"
    ],
    [
     "Bad news",
     "She goes silent after the news. What do you do?",
-    "Wait; offer tissues; do not fill the silence with facts."
+    "Wait; offer tissues; do not fill the silence with facts.",
+    2,
+    "q49hch"
    ],
    [
     "Consent",
     "What does BRAN stand for?",
-    "Benefits, Risks, Alternatives, doing Nothing."
+    "Benefits, Risks, Alternatives, doing Nothing.",
+    1,
+    "lex5x4"
    ],
    [
     "Consent",
     "Four parts of capacity?",
-    "Understand, retain, weigh, and communicate a choice."
+    "Understand, retain, weigh, and communicate a choice.",
+    2,
+    "1uzacra"
    ],
    [
     "Consent",
-    "Unconscious eclamptic woman needs CS. Consent?",
-    "Act in her best interest to save life; inform family; explain later."
+    "Unconscious eclamptic woman needs caesarean section. Consent?",
+    "Act in her best interest to save life; inform family; explain later.",
+    3,
+    "1kf4x9v"
    ],
    [
     "Consent",
     "What is teach-back?",
-    "She explains the plan in her own words to show she understood."
+    "She explains the plan in her own words to show she understood.",
+    1,
+    "10igg4m"
    ],
    [
     "Presenting",
     "Six parts of presenting a history?",
-    "Who, why, positives, relevant negatives, impression, plan."
+    "Who, why, positives, relevant negatives, impression, plan.",
+    2,
+    "gfvvx4"
    ],
    [
     "Presenting",
     "What is a relevant negative?",
-    "An absent finding that rules out a danger or a differential."
+    "An absent finding that rules out a danger or a differential.",
+    2,
+    "130r2tc"
    ],
    [
     "Viva",
     "First words to any emergency viva question?",
-    "\"Call for help, then ABC and resuscitate.\""
+    "\"Call for help, then ABC and resuscitate.\"",
+    1,
+    "igf4xk"
    ],
    [
     "Viva",
     "Name three unsafe acts that fail a station.",
-    "PV in APH before praevia excluded; ergometrine in HTN or heart disease; leaving her flat on her back."
+    "Vaginal in APH before praevia excluded; ergometrine in hypertension or heart disease; leaving her flat on her back.",
+    1,
+    "1aahe72"
    ]
   ]
  },
@@ -7629,297 +8122,366 @@
    [
     "Frame",
     "Order of the obstetric history frame?",
-    "Personal, dates, complaint, HPI, this pregnancy, past obstetric, gynae, medical/drug, family, social."
+    "Personal, dates, complaint, HPI, this pregnancy, past obstetric, gynae, medical/drug, family, social.",
+    1,
+    "1cmqnsr"
    ],
    [
     "Dates",
     "State Naegele's rule.",
-    "LMP + 7 days − 3 months + 1 year (= LMP + 280 days), for a 28-day cycle."
+    "LMP + 7 days − 3 months + 1 year (= LMP + 280 days), for a 28-day cycle.",
+    1,
+    "oebdug"
    ],
    [
     "Dates",
     "LMP 1 March 2026. EDD?",
-    "8 December 2026."
+    "8 December 2026.",
+    2,
+    "hrp3ez"
    ],
    [
     "Dates",
     "Cycle 35 days: how do you adjust EDD?",
-    "Add 7 days."
+    "Add 7 days.",
+    2,
+    "jtzteu"
    ],
    [
     "Dates",
     "When is LMP unreliable?",
-    "Irregular cycles, recent pill or injection, conception while breastfeeding: date by CRL scan."
+    "Irregular cycles, recent pill or injection, conception while breastfeeding: date by CRL scan.",
+    2,
+    "lcq2e3"
    ],
    [
     "Parity",
     "Define para.",
-    "Number of births ≥ 24 weeks, alive or dead; losses < 24 wk written after \"+\"."
+    "Number of births ≥ 24 weeks, alive or dead; losses < 24 weeks written after \"+\".",
+    1,
+    "1c2w4p5"
    ],
    [
     "Parity",
-    "Pregnant now, one CS at term, one miscarriage at 8 wk.",
-    "G3 P1+1."
+    "Pregnant now, one caesarean section at term, one miscarriage at 8 weeks.",
+    "G3 P1+1.",
+    3,
+    "13megz6"
    ],
    [
     "Past obstetric",
-    "Why ask the indication for a previous CS?",
-    "A recurrent cause means repeat CS; a one-off cause allows VBAC."
+    "Why ask the indication for a previous caesarean section?",
+    "A recurrent cause means repeat caesarean section; a one-off cause allows VBAC.",
+    2,
+    "7z2rea"
    ],
    [
     "Social",
     "Why ask about toombak?",
-    "Nicotine product: low birth weight and abruption, like smoking."
+    "Nicotine product: low birth weight and abruption, like smoking.",
+    2,
+    "11abzem"
    ],
    [
     "HTN",
     "Three symptoms that make pre-eclampsia severe.",
-    "Severe headache, visual disturbance, epigastric or RUQ pain."
+    "Severe headache, visual disturbance, epigastric or RUQ pain.",
+    1,
+    "1vu1c0o"
    ],
    [
     "HTN",
-    "Which question separates chronic HTN from PE?",
-    "Was BP high before pregnancy or before 20 weeks?"
+    "Which question separates chronic hypertension from PE?",
+    "Was blood pressure high before pregnancy or before 20 weeks?",
+    2,
+    "1125ahf"
    ],
    [
     "HTN",
     "Breathless and coughing when lying flat in PE means?",
-    "Pulmonary oedema."
+    "Pulmonary oedema.",
+    3,
+    "9e8zrj"
    ],
    [
     "Early bleeding",
     "Bleeding with tissue passed and colicky central pain: likely?",
-    "Incomplete miscarriage."
+    "Incomplete miscarriage.",
+    2,
+    "1m8e530"
    ],
    [
     "Early bleeding",
     "One-sided pain before spotting, shoulder-tip pain, fainting?",
-    "Ruptured ectopic pregnancy."
+    "Ruptured ectopic pregnancy.",
+    2,
+    "islgsq"
    ],
    [
     "Early bleeding",
     "Grape-like vesicles and severe vomiting?",
-    "Molar pregnancy."
+    "Molar pregnancy.",
+    1,
+    "p0nyra"
    ],
    [
     "Early bleeding",
     "Which result must you never forget to ask?",
-    "Blood group: Rh-negative women need anti-D."
+    "Blood group: Rh-negative women need anti-D.",
+    2,
+    "mhxmxw"
    ],
    [
     "APH",
-    "Painless bright red bleed at rest, previous CS?",
-    "Placenta praevia (with accreta risk)."
+    "Painless bright red bleed at rest, previous caesarean section?",
+    "Placenta praevia (with accreta risk).",
+    2,
+    "lyoqdt"
    ],
    [
     "APH",
-    "Constant pain, hard uterus, dark blood, high BP?",
-    "Placental abruption."
+    "Constant pain, hard uterus, dark blood, high blood pressure?",
+    "Placental abruption.",
+    2,
+    "fbo7us"
    ],
    [
     "APH",
     "Bleeding starting at rupture of membranes with fetal bradycardia?",
-    "Vasa praevia."
+    "Vasa praevia.",
+    3,
+    "1o5wfra"
    ],
    [
     "APH",
     "What must you not do before the placenta is located?",
-    "Digital vaginal examination."
+    "Digital vaginal examination.",
+    1,
+    "ncebsr"
    ],
    [
     "Anaemia",
     "Pica, tea with meals, short birth interval suggest?",
-    "Iron deficiency anaemia."
+    "Iron deficiency anaemia.",
+    2,
+    "mtkm7g"
    ],
    [
     "Anaemia",
     "Haematuria and canal-water contact in Sudan suggest?",
-    "Schistosomiasis."
+    "Schistosomiasis.",
+    3,
+    "lfepm4"
    ],
    [
     "Diabetes",
-    "OGTT cut-offs for GDM?",
-    "Fasting ≥ 5.6 or 2 h ≥ 7.8 mmol/L: one value is enough."
+    "OGTT cut-offs for gestational diabetes?",
+    "Fasting ≥ 5.6 or 2 hours ≥ 7.8 mmol/L: one value is enough.",
+    2,
+    "1v4klvz"
    ],
    [
     "Diabetes",
-    "Three past-history clues to GDM risk?",
-    "Previous GDM, baby > 4.5 kg, unexplained stillbirth."
+    "Three past-history clues to gestational diabetes risk?",
+    "Previous gestational diabetes, baby > 4.5 kg, unexplained stillbirth.",
+    2,
+    "1ah7hie"
    ],
    [
     "Malaria",
     "Name four severe malaria features to ask about.",
-    "Confusion or fits, jaundice or dark urine, low urine output, breathlessness."
+    "Confusion or fits, jaundice or dark urine, low urine output, breathlessness.",
+    2,
+    "l8pl1s"
    ],
    [
     "Malaria",
     "Two prevention questions in a fever history?",
-    "Treated bed net every night; IPTp doses at ANC."
+    "Treated bed net every night; IPTp doses at ANC.",
+    2,
+    "wkbnaq"
    ],
    [
     "RFM",
     "First action for reduced fetal movements?",
-    "Listen to the fetal heart now, then CTG ≥ 20 min."
+    "Listen to the fetal heart now, then CTG ≥ 20 min.",
+    2,
+    "6xt6r2"
    ],
    [
     "Leaking",
     "Wet only on coughing, no pool on speculum?",
-    "Stress incontinence, not ruptured membranes."
+    "Stress incontinence, not ruptured membranes.",
+    2,
+    "fecomk"
    ],
    [
     "Leaking",
-    "PPROM: antibiotic of choice and one to avoid?",
-    "Erythromycin 250 mg 6-hourly × 10 days; avoid co-amoxiclav (NEC)."
+    "Preterm prelabour rupture of membranes: antibiotic of choice and one to avoid?",
+    "Erythromycin 250 mg 6-hourly × 10 days; avoid co-amoxiclav (NEC).",
+    2,
+    "w0e0k"
    ],
    [
     "Long case · Parity",
     "What does gravida mean?",
-    "Number of pregnancies, including the current one."
+    "Number of pregnancies, including the current one.",
+    1,
+    "1gc7uhh"
    ],
    [
     "Long case · Parity",
     "What does para count?",
-    "Births at ≥ 24 weeks, alive or dead."
+    "Births at ≥ 24 weeks, alive or dead.",
+    1,
+    "9zuc4l"
    ],
    [
     "Long case · Parity",
     "How are losses before 24 weeks written?",
-    "As '+' after the parity (e.g. P2+1)."
+    "As '+' after the parity (e.g. P2+1).",
+    2,
+    "1he9709"
    ],
    [
     "Long case · Parity",
     "Pregnant, 2 term births, 1 miscarriage. Write it.",
-    "G4 P2+1."
+    "G4 P2+1.",
+    2,
+    "1ul7tap"
    ],
    [
     "Long case · Parity",
     "How are twins counted in parity?",
-    "As one birth event (P1)."
+    "As one birth event (P1).",
+    3,
+    "pqftga"
    ],
    [
     "Long case · Parity",
     "Define grand multipara.",
-    "A woman with ≥ 5 previous births."
+    "A woman with ≥ 5 previous births.",
+    1,
+    "141xw4u"
    ],
    [
     "Long case · Personal",
     "Why ask her age?",
-    "< 18 and ≥ 35 carry more risks (anaemia, pre-eclampsia, Down syndrome, diabetes)."
+    "< 18 and ≥ 35 carry more risks (anaemia, pre-eclampsia, Down syndrome, diabetes).",
+    2,
+    "ty0lm"
    ],
    [
     "Long case · Personal",
     "Why ask about consanguinity?",
-    "Recessive disorders and congenital anomalies."
+    "Recessive disorders and congenital anomalies.",
+    2,
+    "74o304"
    ],
    [
     "Long case · Personal",
     "Why ask about residence?",
-    "Malaria risk and distance to hospital for birth planning."
+    "Malaria risk and distance to hospital for birth planning.",
+    2,
+    "153y9pn"
    ],
    [
     "Long case · Complaint",
     "What mnemonic analyses pain?",
-    "SOCRATES: site, onset, character, radiation, associations, timing, exacerbating/relieving, severity."
+    "SOCRATES: site, onset, character, radiation, associations, timing, exacerbating/relieving, severity.",
+    1,
+    "hs8tor"
    ],
    [
     "Long case · Complaint",
     "How do you estimate blood loss in the history?",
-    "Number of soaked pads, clots, compared with a period."
-   ],
-   [
-    "Long case · Complaint",
-    "Painless bright red recurrent bleeding at 34 wk suggests?",
-    "Placenta praevia."
-   ],
-   [
-    "Long case · Complaint",
-    "Bleeding with grape-like vesicles suggests?",
-    "Molar pregnancy."
-   ],
-   [
-    "Long case · Complaint",
-    "Shoulder-tip pain in early pregnancy suggests?",
-    "Blood under the diaphragm: ruptured ectopic."
+    "Number of soaked pads, clots, compared with a period.",
+    2,
+    "1q923ww"
    ],
    [
     "Long case · This pregnancy",
-    "Why ask about drugs in the 1st trimester?",
-    "Organogenesis: teratogen risk."
+    "Why ask about drugs in the first trimester?",
+    "Organogenesis: teratogen risk.",
+    2,
+    "mmm8av"
    ],
    [
     "Long case · This pregnancy",
-    "Which symptoms of pre-eclampsia must you ask in the 3rd trimester?",
-    "Headache, blurred vision, epigastric pain, swelling."
+    "Which symptoms of pre-eclampsia must you ask in the third trimester?",
+    "Headache, blurred vision, epigastric pain, swelling.",
+    1,
+    "1jzttun"
    ],
    [
     "Long case · This pregnancy",
-    "What fetal symptom do you ask about at every visit after 24 wk?",
-    "Fetal movements: any reduction."
+    "What fetal symptom do you ask about at every visit after 24 weeks?",
+    "Fetal movements: any reduction.",
+    1,
+    "i3wcpn"
    ],
    [
     "Long case · Past",
-    "Which detail of a previous CS matters most?",
-    "The uterine incision: lower segment or classical."
+    "Which detail of a previous caesarean section matters most?",
+    "The uterine incision: lower segment or classical.",
+    2,
+    "1yzuv1n"
    ],
    [
     "Long case · Past",
     "Previous baby ≥ 4 kg. What do you screen for?",
-    "Diabetes (OGTT)."
+    "Diabetes (OGTT).",
+    2,
+    "b1hba2"
    ],
    [
     "Long case · Past",
     "Why ask about a previous blood transfusion?",
-    "Red-cell antibodies (haemolytic disease of the newborn)."
+    "Red-cell antibodies (haemolytic disease of the newborn).",
+    2,
+    "14wx0r5"
    ],
    [
     "Long case · Past",
     "Painless mid-trimester losses suggest?",
-    "Cervical weakness."
+    "Cervical weakness.",
+    2,
+    "185mi9x"
    ],
    [
     "Long case · Gynae",
     "Why ask about female genital cutting?",
-    "Type III needs deinfibulation for examination and birth."
+    "Type III needs deinfibulation for examination and birth.",
+    2,
+    "1bxc2cr"
    ],
    [
     "Long case · Gynae",
     "Should a woman be re-infibulated after birth?",
-    "No."
+    "No.",
+    2,
+    "rkj33c"
    ],
    [
     "Long case · Social",
     "Which local habits should you ask about?",
-    "Smoking, shisha, toombak, alcohol."
+    "Smoking, shisha, toombak, alcohol.",
+    1,
+    "qysw8u"
    ],
    [
     "Long case · Presenting",
     "What must end your history presentation?",
-    "A one-line summary and your diagnosis or differential."
+    "A one-line summary and your diagnosis or differential.",
+    1,
+    "qcdux8"
    ],
    [
     "Long case · Presenting",
     "In an emergency, which history comes first?",
-    "Resuscitate, then ask gestation, parity, previous CS, bleeding, fits, drugs, allergies."
-   ],
-   [
-    "Practice",
-    "Why ask a woman's address in an antenatal history?",
-    "Malaria risk, and distance to hospital for birth planning."
-   ],
-   [
-    "Practice",
-    "Which detail of a previous CS decides if she can labour now?",
-    "Uterine incision type: lower segment or classical."
-   ],
-   [
-    "Practice",
-    "Why ask about previous blood transfusion?",
-    "Red-cell antibodies: risk to the fetus (haemolytic disease)."
-   ],
-   [
-    "Practice",
-    "What two things must end your history presentation?",
-    "A one-line summary and your diagnosis or differential."
+    "Resuscitate, then ask gestation, parity, previous caesarean section, bleeding, fits, drugs, allergies.",
+    2,
+    "1x1cg9o"
    ]
   ]
  },
@@ -7929,267 +8491,282 @@
    [
     "Preparation",
     "Why ask her to empty the bladder first?",
-    "A full bladder lifts the fundus (about 3 cm) and makes palpation painful."
+    "A full bladder lifts the fundus (about 3 cm) and makes palpation painful.",
+    1,
+    "1ifaxfs"
    ],
    [
     "Preparation",
     "Why a left tilt after 20 weeks?",
-    "The uterus compresses the IVC and aorta: supine hypotension and less placental flow. Wedge under right hip, 15°."
+    "The uterus compresses the IVC and aorta: supine hypotension and less placental flow. Wedge under right hip, 15°.",
+    2,
+    "600ckd"
    ],
    [
     "Preparation",
     "Exposure for the obstetric abdomen?",
-    "Xiphisternum to symphysis only; cover breasts and legs; chaperone present."
+    "Xiphisternum to symphysis only; cover breasts and legs; chaperone present.",
+    1,
+    "17jwfqj"
    ],
    [
     "General",
     "Three general signs to check?",
-    "Pallor (eyelid, palms), BP and urine, pitting oedema of the legs."
+    "Pallor (eyelid, palms), blood pressure and urine, pitting oedema of the legs.",
+    1,
+    "11jqzbs"
    ],
    [
     "Inspection",
     "Red vs silvery striae?",
-    "Red = new (this pregnancy); silvery = old, from a previous pregnancy."
+    "Red = new (this pregnancy); silvery = old, from a previous pregnancy.",
+    2,
+    "17olpln"
    ],
    [
     "Inspection",
     "Pfannenstiel vs midline scar?",
-    "Pfannenstiel = lower segment CS; midline may mean classical CS: no labour."
+    "Pfannenstiel = lower segment caesarean section; midline may mean classical caesarean section: no labour.",
+    2,
+    "1n46p6k"
    ],
    [
     "Inspection",
     "Abdominal shape in transverse lie?",
-    "Broad, wide uterus with a low fundus."
+    "Broad, wide uterus with a low fundus.",
+    2,
+    "1hnm3dp"
    ],
    [
     "Fundal height",
     "Fundus at 12, 20 and 36 weeks?",
-    "Symphysis, umbilicus, xiphisternum."
+    "Symphysis, umbilicus, xiphisternum.",
+    1,
+    "4qgzmf"
    ],
    [
     "Fundal height",
-    "SFH rule?",
-    "From 24 to 36 wk, SFH in cm = weeks ± 2. More than 2 cm off: scan."
+    "Symphysis–fundal height rule?",
+    "From 24 to 36 weeks, symphysis–fundal height in cm = weeks with or without 2. More than 2 cm off: scan.",
+    1,
+    "162cta0"
    ],
    [
     "Fundal height",
-    "How do you measure SFH?",
-    "Centralise uterus, find fundus with ulnar hand edge, tape blind from fundus to top of symphysis."
+    "How do you measure symphysis–fundal height?",
+    "Centralise uterus, find fundus with ulnar hand edge, tape blind from fundus to top of symphysis.",
+    2,
+    "ck61ki"
    ],
    [
     "Fundal height",
     "Why does the fundus fall at 40 weeks?",
-    "The head engages (lightening)."
+    "The head engages (lightening).",
+    2,
+    "bkcb99"
    ],
    [
     "Fundal height",
     "Large for dates: causes?",
-    "Wrong dates, twins, polyhydramnios, macrosomia, fibroids, full bladder."
+    "Wrong dates, twins, polyhydramnios, macrosomia, fibroids, full bladder.",
+    2,
+    "hmgeee"
    ],
    [
     "Fundal height",
     "Small for dates: causes?",
-    "Wrong dates, FGR, oligohydramnios, transverse lie, engaged head, IUFD."
+    "Wrong dates, fetal growth restriction, oligohydramnios, transverse lie, engaged head, intrauterine fetal death.",
+    2,
+    "iper2y"
    ],
    [
     "Leopold",
     "Leopold 1 asks?",
-    "What is in the fundus: head (hard, round, ballotable) or breech (soft, irregular)."
+    "What is in the fundus: head (hard, round, ballotable) or breech (soft, irregular).",
+    1,
+    "w0wkeb"
    ],
    [
     "Leopold",
     "Leopold 2 asks?",
-    "Where is the back: smooth firm curve vs small irregular limbs."
+    "Where is the back: smooth firm curve vs small irregular limbs.",
+    1,
+    "1apaumc"
    ],
    [
     "Leopold",
     "Pawlik grip: how?",
-    "Right hand only, thumb and fingers above the symphysis, gently grasp the presenting part."
+    "Right hand only, thumb and fingers above the symphysis, gently grasp the presenting part.",
+    2,
+    "1o2swqn"
    ],
    [
     "Leopold",
     "Pelvic grip: which way do you face?",
-    "Her feet. Fingers converge = not engaged; diverge = engaged."
+    "Her feet. Fingers converge = not engaged; diverge = engaged.",
+    1,
+    "1fz9jbz"
    ],
    [
     "Words",
     "Define lie.",
-    "Relation of the long axis of the fetus to the long axis of the uterus."
+    "Relation of the long axis of the fetus to the long axis of the uterus.",
+    1,
+    "1jro3v"
    ],
    [
     "Words",
     "Define presentation.",
-    "The fetal part lying over the pelvic brim."
+    "The fetal part lying over the pelvic brim.",
+    1,
+    "1epzh73"
    ],
    [
     "Engagement",
     "When is the head engaged?",
-    "When 2/5 or less is palpable above the brim (biparietal past the inlet)."
+    "When 2/5 or less is palpable above the brim (biparietal past the inlet).",
+    1,
+    "10nwn31"
    ],
    [
     "Engagement",
-    "Head 5/5 at term in a primi: think?",
-    "CPD, placenta praevia, wrong dates, OP, polyhydramnios."
+    "Head 5/5 at term in a primigravida: think?",
+    "Cephalopelvic disproportion, placenta praevia, wrong dates, occipito-posterior, polyhydramnios.",
+    3,
+    "rs8xs8"
    ],
    [
     "Liquor",
     "Signs of polyhydramnios?",
-    "Tense shiny uterus, SFH > dates, parts hard to feel, muffled FH, fluid thrill."
+    "Tense shiny uterus, symphysis–fundal height > dates, parts hard to feel, muffled FH, fluid thrill.",
+    1,
+    "ujcc16"
    ],
    [
     "Auscultation",
     "Where to listen in cephalic LOA?",
-    "Over the anterior shoulder: spino-umbilical line on the mother's left."
+    "Over the anterior shoulder: spino-umbilical line on the mother's left.",
+    2,
+    "uxv0t0"
    ],
    [
     "Auscultation",
-    "Normal FHR and how long to count?",
-    "110–160/min, counted for 1 full minute with maternal pulse felt."
+    "Normal fetal heart rate and how long to count?",
+    "110–160/min, counted for 1 full minute with maternal pulse felt.",
+    1,
+    "13282nn"
    ],
    [
     "Auscultation",
     "Doppler vs Pinard: earliest?",
-    "Doppler from about 12 wk; Pinard from about 24 wk."
+    "Doppler from about 12 weeks; Pinard from about 24 weeks.",
+    2,
+    "1m1u447"
    ],
    [
     "Present",
     "The 8 findings to present?",
-    "SFH vs dates, fundus content, lie, presentation, position, engagement, liquor, FHR."
+    "Symphysis–fundal height vs dates, fundus content, lie, presentation, position, engagement, liquor, fetal heart rate.",
+    2,
+    "prkxgq"
    ],
    [
     "Long case · Preparation",
-    "Why should she empty her bladder before examination?",
-    "A full bladder raises the fundus and hides the presenting part."
-   ],
-   [
-    "Long case · Preparation",
-    "Position for abdominal examination after 20 wk?",
-    "Semi-recumbent with a left tilt."
+    "Position for abdominal examination after 20 weeks?",
+    "Semi-recumbent with a left tilt.",
+    1,
+    "cdfby1"
    ],
    [
     "Long case · Preparation",
     "Which side do you stand on?",
-    "Her right side."
+    "Her right side.",
+    1,
+    "1uennza"
    ],
    [
     "Long case · General",
     "Height under 150 cm suggests what risk?",
-    "Small pelvis: cephalopelvic disproportion."
+    "Small pelvis: cephalopelvic disproportion.",
+    2,
+    "16ylhus"
    ],
    [
     "Long case · General",
     "Pulse > 100 in pregnancy: think of?",
-    "Bleeding, sepsis, anaemia, thyroid disease, heart disease."
+    "Bleeding, sepsis, anaemia, thyroid disease, heart disease.",
+    2,
+    "9hfgne"
    ],
    [
     "Long case · Inspection",
     "A broad abdomen suggests?",
-    "Transverse lie."
+    "Transverse lie.",
+    2,
+    "194op31"
    ],
    [
     "Long case · Inspection",
     "A Pfannenstiel scar means?",
-    "Previous lower segment CS (or other pelvic surgery)."
-   ],
-   [
-    "Long case · Inspection",
-    "Silvery striae mean?",
-    "Old striae: a previous pregnancy."
+    "Previous lower segment caesarean section (or other pelvic surgery).",
+    2,
+    "1xin7qi"
    ],
    [
     "Long case · Inspection",
     "Pendulous abdomen suggests?",
-    "Grand multiparity (lax abdominal wall)."
+    "Grand multiparity (lax abdominal wall).",
+    2,
+    "1vnaksl"
    ],
    [
     "Long case · Fundal height",
-    "Where is the fundus at 20 weeks?",
-    "At the umbilicus."
-   ],
-   [
-    "Long case · Fundal height",
-    "Where is the fundus at 36 weeks?",
-    "At the xiphisternum."
-   ],
-   [
-    "Long case · Fundal height",
-    "State the SFH rule.",
-    "From 24–36 wk, SFH in cm = weeks ± 2."
-   ],
-   [
-    "Long case · Fundal height",
-    "SFH differs from dates by > 2 cm. Next?",
-    "Ultrasound for growth and liquor."
-   ],
-   [
-    "Long case · Leopold",
-    "What does the fundal grip find?",
-    "Which pole is in the fundus (head or breech)."
-   ],
-   [
-    "Long case · Leopold",
-    "What does the lateral grip find?",
-    "The side of the fetal back and limbs: lie and position."
-   ],
-   [
-    "Long case · Leopold",
-    "How is Pawlik's grip done?",
-    "Right hand only, thumb and fingers wide just above the symphysis."
-   ],
-   [
-    "Long case · Leopold",
-    "Which grip is done facing her feet?",
-    "The 4th (second pelvic) grip."
+    "Symphysis–fundal height differs from dates by > 2 cm. Next?",
+    "Ultrasound for growth and liquor.",
+    2,
+    "1hsnv1a"
    ],
    [
     "Long case · Leopold",
     "Fingers converge in the pelvic grip. Meaning?",
-    "The head is not engaged."
-   ],
-   [
-    "Long case · Terms",
-    "Define engagement.",
-    "The widest presenting diameter has passed the pelvic brim (≤ 2/5 palpable)."
+    "The head is not engaged.",
+    3,
+    "qd6cvi"
    ],
    [
     "Long case · Terms",
     "What is the denominator of a vertex presentation?",
-    "The occiput."
-   ],
-   [
-    "Long case · Liquor",
-    "Signs of polyhydramnios on palpation?",
-    "Tense shiny abdomen, parts hard to feel, fluid thrill, SFH > dates."
+    "The occiput.",
+    1,
+    "q2hfta"
    ],
    [
     "Long case · Heart",
     "Where do you listen to the fetal heart in breech?",
-    "At or above the umbilicus."
+    "At or above the umbilicus.",
+    2,
+    "1a2oqdd"
    ],
    [
     "Long case · Heart",
     "How do you prove you hear the fetal heart?",
-    "Feel the mother's radial pulse at the same time."
-   ],
-   [
-    "Long case · Heart",
-    "Normal fetal heart rate?",
-    "110–160 bpm."
+    "Feel the mother's radial pulse at the same time.",
+    2,
+    "16lwgfj"
    ],
    [
     "Long case · Pelvic",
-    "When is digital VE contraindicated?",
-    "Placenta praevia not excluded, and PPROM without labour."
+    "When is digital vaginal examination contraindicated?",
+    "Placenta praevia not excluded, and preterm prelabour rupture of membranes without labour.",
+    1,
+    "gqdsge"
    ],
    [
     "Long case · Pelvic",
     "Name indications for a speculum examination.",
-    "Discharge, bleeding (praevia excluded), suspected ROM, cervical screening."
-   ],
-   [
-    "Practice",
-    "Why must she empty her bladder before abdominal examination?",
-    "A full bladder raises the fundus and hides the presenting part."
+    "Discharge, bleeding (praevia excluded), suspected rupture of membranes, cervical screening.",
+    2,
+    "1tn42pr"
    ]
   ]
  },
@@ -8198,118 +8775,164 @@
   "cards": [
    [
     "Technique",
-    "Position for BP in pregnancy?",
-    "Seated or 45° semi-recumbent, back supported, arm at heart level; never flat on her back."
+    "Position for blood pressure in pregnancy?",
+    "Seated or 45° semi-recumbent, back supported, arm at heart level; never flat on her back.",
+    1,
+    "1p3jm09"
    ],
    [
     "Technique",
     "Correct cuff size?",
-    "Bladder covers ≥ 80% of arm circumference; large cuff if arm > 33 cm."
+    "Bladder covers ≥ 80% of arm circumference; large cuff if arm > 33 cm.",
+    1,
+    "j5cah2"
    ],
    [
     "Technique",
     "Why palpatory systolic first?",
-    "To avoid the auscultatory gap; inflate 30 mmHg above it."
+    "To avoid the auscultatory gap; inflate 30 mmHg above it.",
+    2,
+    "79xdif"
    ],
    [
     "Technique",
     "Deflation rate?",
-    "2 mmHg per second."
+    "2 mmHg per second.",
+    1,
+    "dh1azx"
    ],
    [
     "Korotkoff",
     "Systolic and diastolic sounds?",
-    "K1 first tapping = systolic; K5 disappearance = diastolic."
+    "K1 first tapping = systolic; K5 disappearance = diastolic.",
+    1,
+    "phhkkk"
    ],
    [
     "Korotkoff",
     "When use K4?",
-    "Only when sounds continue down to 0."
+    "Only when sounds continue down to 0.",
+    3,
+    "9yi6gn"
    ],
    [
     "Errors",
     "Small cuff on a big arm?",
-    "Falsely high reading: commonest clinic error."
+    "Falsely high reading: commonest clinic error.",
+    2,
+    "rsgl66"
    ],
    [
     "Errors",
     "Left lateral with cuff on upper arm?",
-    "Falsely low: the arm is above the heart."
+    "Falsely low: the arm is above the heart.",
+    3,
+    "1daqxxo"
    ],
    [
     "Errors",
     "Arm hanging below heart?",
-    "Falsely high."
+    "Falsely high.",
+    2,
+    "kulejg"
    ],
    [
     "Thresholds",
     "Hypertension in pregnancy?",
-    "≥ 140/90 on two readings 4 h apart."
+    "≥ 140/90 on two readings 4 hours apart.",
+    1,
+    "16lwpkj"
    ],
    [
     "Thresholds",
     "Severe hypertension?",
-    "≥ 160/110: one reading enough, treat now."
+    "≥ 160/110: one reading enough, treat now.",
+    1,
+    "15c9lal"
    ],
    [
     "Thresholds",
-    "BP 150/100 at 14 wk with proteinuria?",
-    "Think molar pregnancy."
+    "Blood pressure 150/100 mmHg at 14 weeks with proteinuria?",
+    "Think molar pregnancy.",
+    3,
+    "z4qtqh"
    ],
    [
     "Devices",
     "Problem with automated devices in PE?",
-    "They may under-read: check with a manual device."
+    "They may under-read: check with a manual device.",
+    3,
+    "vyyugr"
    ],
    [
     "Urine",
     "Midstream sample instructions?",
-    "Wash front to back, pass first urine to toilet, fill cup halfway, finish in toilet."
+    "Wash front to back, pass first urine to toilet, fill cup halfway, finish in toilet.",
+    1,
+    "nwtfp8"
    ],
    [
     "Urine",
     "Steps of dipstick reading?",
-    "Check expiry, dip all pads 1 s, remove excess, hold flat, read each pad at its time."
+    "Check expiry, dip all pads 1 s, remove excess, hold flat, read each pad at its time.",
+    1,
+    "rizd6m"
    ],
    [
     "Urine",
     "When to read glucose and leucocytes?",
-    "Typically glucose 30 s, leucocytes 2 min: follow the bottle."
+    "Typically glucose 30 s, leucocytes 2 min: follow the bottle.",
+    2,
+    "124jzx1"
    ],
    [
     "Urine",
     "Dipstick 1+ protein equals?",
-    "About 0.3 g/L."
+    "About 0.3 g/L.",
+    2,
+    "1auno3c"
    ],
    [
     "Urine",
     "Significant proteinuria?",
-    "PCR ≥ 30 mg/mmol or ≥ 0.3 g in 24 h."
+    "PCR ≥ 30 mg/mmol or ≥ 0.3 g in 24 hours.",
+    1,
+    "1rprhys"
    ],
    [
     "Urine",
     "Why glycosuria is a poor test?",
-    "GFR rises and renal threshold falls; repeated or ≥ 2+ → OGTT."
+    "GFR rises and renal threshold falls; repeated or ≥ 2+ → OGTT.",
+    2,
+    "1kjt5gk"
    ],
    [
     "Urine",
     "Nitrite + leucocytes positive?",
-    "UTI: send MSU culture before the antibiotic."
+    "Urinary tract infection: send MSU culture before the antibiotic.",
+    1,
+    "wbz4m6"
    ],
    [
     "Urine",
-    "Ketones 3+ with vomiting at 9 wk?",
-    "Hyperemesis gravidarum: IV fluids."
+    "Ketones 3+ with vomiting at 9 weeks?",
+    "Hyperemesis gravidarum: IV fluids.",
+    2,
+    "l0ffqh"
    ],
    [
     "Urine",
     "Haematuria in a long labour with caput?",
-    "Bladder compressed: obstructed labour."
+    "Bladder compressed: obstructed labour.",
+    3,
+    "1uptp8o"
    ],
    [
     "Urine",
-    "24 h urine: key instruction?",
-    "Discard first morning sample, collect all after, include next morning's first."
+    "24 hours urine: key instruction?",
+    "Discard first morning sample, collect all after, include next morning's first.",
+    2,
+    "1p34o3p"
    ]
   ]
  },
@@ -8319,122 +8942,170 @@
    [
     "Speculum",
     "Indications in pregnancy?",
-    "Suspected ROM, APH after scan, discharge/swabs, preterm labour, cervical lesions, tears after birth."
+    "Suspected rupture of membranes, APH after scan, discharge/swabs, preterm labour, cervical lesions, tears after birth.",
+    1,
+    "1hrnb1g"
    ],
    [
     "Speculum",
     "Cusco vs Sims?",
-    "Cusco: bivalve, self-retaining, views cervix. Sims: single-blade, needs assistant, anterior wall, VVF."
+    "Cusco: bivalve, self-retaining, views cervix. Sims: single-blade, needs assistant, anterior wall, VVF.",
+    2,
+    "yq4odv"
    ],
    [
     "Speculum",
-    "Lubricant in suspected ROM?",
-    "Sterile water only; gel spoils swabs, nitrazine and fern tests."
+    "Lubricant in suspected rupture of membranes?",
+    "Sterile water only; gel spoils swabs, nitrazine and fern tests.",
+    2,
+    "1o3bw3s"
    ],
    [
     "Speculum",
     "Insertion technique?",
-    "Part labia, insert closed blades sideways, backwards and down, rotate 90°, open to frame cervix."
+    "Part labia, insert closed blades sideways, backwards and down, rotate 90°, open to frame cervix.",
+    1,
+    "l8uwww"
    ],
    [
     "Speculum",
     "Removing the speculum?",
-    "Loosen the screw, let blades close off the cervix, withdraw inspecting walls."
+    "Loosen the screw, let blades close off the cervix, withdraw inspecting walls.",
+    1,
+    "1vh0f3b"
    ],
    [
     "Speculum",
-    "Signs of ROM on speculum?",
-    "Pool of clear liquor in posterior fornix, leak from os on coughing."
+    "Signs of rupture of membranes on speculum?",
+    "Pool of clear liquor in posterior fornix, leak from os on coughing.",
+    1,
+    "i6sznn"
    ],
    [
     "ROM tests",
     "Nitrazine result with liquor?",
-    "Yellow to blue: liquor pH 7–7.5."
+    "Yellow to blue: liquor pH 7–7.5.",
+    1,
+    "18q6q9e"
    ],
    [
     "ROM tests",
     "False-positive nitrazine?",
-    "Blood, semen, BV, antiseptic, infected urine."
+    "Blood, semen, BV, antiseptic, infected urine.",
+    2,
+    "2nuv0u"
    ],
    [
     "ROM tests",
     "Fern test?",
-    "Dried fluid on a slide shows a fern pattern of salt crystals."
+    "Dried fluid on a slide shows a fern pattern of salt crystals.",
+    2,
+    "111346g"
    ],
    [
     "Swabs",
-    "HVS vs endocervical swab?",
-    "HVS from posterior fornix: candida, BV, TV, GBS. Endocervical in the os: gonorrhoea, chlamydia."
+    "High vaginal swab vs endocervical swab?",
+    "High vaginal swab from posterior fornix: candida, BV, TV, group B streptococcus. Endocervical in the os: gonorrhoea, chlamydia.",
+    2,
+    "10oyloh"
    ],
    [
     "Safety",
-    "When is digital VE forbidden?",
-    "APH before praevia is excluded; PPROM not in labour."
+    "When is digital vaginal examination forbidden?",
+    "APH before praevia is excluded; preterm prelabour rupture of membranes not in labour.",
+    1,
+    "ur6olb"
    ],
    [
     "VE",
-    "How often VE in labour?",
-    "Every 4 h; every 2 h on oxytocin."
+    "How often vaginal examination in labour?",
+    "Every 4 hours; every 2 hours on oxytocin.",
+    1,
+    "14ucoa4"
    ],
    [
     "VE",
     "What do you assess on the cervix?",
-    "Dilatation, length/effacement, consistency, position, application to the head."
+    "Dilatation, length/effacement, consistency, position, application to the head.",
+    1,
+    "soko3g"
    ],
    [
     "VE",
-    "Full dilatation on VE?",
-    "No cervix felt around the head: 10 cm."
+    "Full dilatation on vaginal examination?",
+    "No cervix felt around the head: 10 cm.",
+    1,
+    "4xzsw3"
    ],
    [
     "VE",
     "Define station.",
-    "Lowest bony point of the head vs ischial spines, in cm; 0 = at spines."
+    "Lowest bony point of the head vs ischial spines, in cm; 0 = at spines.",
+    1,
+    "pv8mcf"
    ],
    [
     "VE",
     "Why may station give a false result?",
-    "Caput lies lower than the bone; check abdominal fifths."
+    "Caput lies lower than the bone; check abdominal fifths.",
+    3,
+    "1afrt2u"
    ],
    [
     "VE",
     "Posterior vs anterior fontanelle?",
-    "Posterior: small, Y-shaped, 3 sutures (occiput). Anterior: diamond, 4 sutures."
+    "Posterior: small, Y-shaped, 3 sutures (occiput). Anterior: diamond, 4 sutures.",
+    2,
+    "1i7zk0t"
    ],
    [
     "VE",
     "Anterior fontanelle easily felt?",
-    "Deflexed head: think OP."
+    "Deflexed head: think occipito-posterior.",
+    2,
+    "187y8ab"
    ],
    [
     "VE",
     "Moulding grades?",
-    "0 apart, +1 touching, +2 overlap reducible, +3 overlap not reducible."
+    "0 apart, +1 touching, +2 overlap reducible, +3 overlap not reducible.",
+    2,
+    "ssjvcq"
    ],
    [
     "VE",
     "Moulding +3, caput +3, head 3/5 at full dilatation?",
-    "Obstructed labour: caesarean, not instruments."
+    "Obstructed labour: caesarean, not instruments.",
+    3,
+    "1ua8dxl"
    ],
    [
     "VE",
     "First action after membranes rupture?",
-    "FHR and VE to exclude cord prolapse."
+    "Fetal heart rate and vaginal examination to exclude cord prolapse.",
+    2,
+    "xzpfj0"
    ],
    [
     "Bishop",
     "Bishop items and cut-offs?",
-    "Dilatation, length, station, consistency, position; ≥ 8 favourable, ≤ 6 ripen first."
+    "Dilatation, length, station, consistency, position; ≥ 8 favourable, ≤ 6 ripen first.",
+    2,
+    "f4fdyc"
    ],
    [
     "Bishop",
     "2 cm, 2 cm long, medium, mid, −2?",
-    "Score 5: unfavourable, ripen with prostaglandin."
+    "Score 5: unfavourable, ripen with prostaglandin.",
+    3,
+    "hgye60"
    ],
    [
     "VE",
-    "Face vs breech on VE?",
-    "Mouth and malar bones form a triangle; anus and ischial tuberosities lie in a line."
+    "Face vs breech on vaginal examination?",
+    "Mouth and malar bones form a triangle; anus and ischial tuberosities lie in a line.",
+    3,
+    "1fcm7zu"
    ]
   ]
  },
@@ -8444,142 +9115,198 @@
    [
     "Partogram",
     "When do you open the partogram?",
-    "In the active phase, at 4 cm; first X on the alert line."
+    "In the active phase, at 4 cm; first X on the alert line.",
+    1,
+    "40rwjl"
    ],
    [
     "Partogram",
     "Describe the alert line.",
-    "Starts at 4 cm, rises 1 cm/h, reaching 10 cm at 6 h."
+    "Starts at 4 cm, rises 1 cm/h, reaching 10 cm at 6 hours.",
+    1,
+    "ihtq4y"
    ],
    [
     "Partogram",
     "Where is the action line?",
-    "Parallel to the alert line, 4 hours to its right."
+    "Parallel to the alert line, 4 hours to its right.",
+    1,
+    "1kaudql"
    ],
    [
     "Partogram",
     "Symbol for cervical dilatation and how often?",
-    "X, by vaginal exam every 4 h (every 2 h on oxytocin)."
+    "X, by vaginal exam every 4 hours (every 2 hours on oxytocin).",
+    1,
+    "121jn29"
    ],
    [
     "Partogram",
     "How is descent recorded?",
-    "O = fifths of the head palpable above the brim, abdominal exam."
+    "O = fifths of the head palpable above the brim, abdominal exam.",
+    2,
+    "1x9wy77"
    ],
    [
     "Partogram",
     "Liquor letters?",
-    "I intact, C clear, M meconium, B blood, A absent."
+    "I intact, C clear, M meconium, B blood, A absent.",
+    1,
+    "ydletq"
    ],
    [
     "Partogram",
     "Moulding grades?",
-    "0 apart, +1 touching, +2 overlap reducible, +3 overlap not reducible."
+    "0 apart, +1 touching, +2 overlap reducible, +3 overlap not reducible.",
+    2,
+    "ssjvcq"
    ],
    [
     "Partogram",
     "How are contractions charted?",
-    "Boxes = number in 10 min; dots < 20 s, lines 20–40 s, solid > 40 s."
+    "Boxes = number in 10 min; dots < 20 s, lines 20–40 s, solid > 40 s.",
+    2,
+    "kcj97t"
    ],
    [
     "Partogram",
     "Maternal observation intervals?",
-    "Pulse 30 min, BP 4 h, temperature 2 h, urine at each void."
+    "Pulse 30/min min, blood pressure 4 hours, temperature 2 hours, urine at each void.",
+    1,
+    "8qax89"
    ],
    [
     "Partogram",
     "Order for reading a partogram?",
-    "Who → fetus → progress → mother → verdict and plan."
+    "Who → fetus → progress → mother → verdict and plan.",
+    2,
+    "pyxah4"
    ],
    [
     "Partogram",
-    "Primigravida, 4→5 cm in 4 h, 2 weak contractions. Diagnosis and plan?",
-    "Slow progress from inefficient contractions: ARM + oxytocin, VE after 2 h."
+    "Primigravida, 4→5 cm in 4 hours, 2 weak contractions. Diagnosis and plan?",
+    "Slow progress from inefficient contractions: artificial rupture of membranes + oxytocin, vaginal examination after 2 hours.",
+    2,
+    "1a39pb4"
    ],
    [
     "Partogram",
     "Starting oxytocin regimen?",
-    "5 IU in 500 mL saline; 4 drops/min (2 mU/min), increase every 30 min."
+    "5 IU in 500 mL saline; 4 drops/min (2 mU/min), increase every 30 min.",
+    2,
+    "n2ywjl"
    ],
    [
     "Partogram",
-    "Para 5, 7 cm static 4 h, head 3/5, moulding +3, strong contractions. Diagnosis?",
-    "Obstructed labour: emergency CS, no oxytocin."
+    "Para 5, 7 cm static 4 hours, head 3/5, moulding +3, strong contractions. Diagnosis?",
+    "Obstructed labour: emergency caesarean section, no oxytocin.",
+    3,
+    "15olh74"
    ],
    [
     "Partogram",
     "Health centre: plot crosses the alert line. Action?",
-    "Refer to hospital before the action line."
+    "Refer to hospital before the action line.",
+    2,
+    "1482nk4"
    ],
    [
     "Partogram",
     "Why catheterise for 14 days after obstructed labour?",
-    "To prevent vesicovaginal fistula from pressure necrosis."
+    "To prevent vesicovaginal fistula from pressure necrosis.",
+    3,
+    "yd2xo9"
    ],
    [
     "CTG",
     "How to apply a CTG?",
-    "Left tilt, find back, toco on fundus without gel, ultrasound with gel over the back."
+    "Left tilt, find back, toco on fundus without gel, ultrasound with gel over the back.",
+    1,
+    "5mzlyn"
    ],
    [
     "CTG",
     "How to avoid recording the maternal pulse?",
-    "Feel her pulse and compare with the trace."
+    "Feel her pulse and compare with the trace.",
+    2,
+    "iq5hfg"
    ],
    [
     "CTG",
     "What does DR C BRAVADO stand for?",
-    "Define risk, Contractions, Baseline rate, Variability, Accelerations, Decelerations, Overall."
+    "Define risk, Contractions, Baseline rate, Variability, Accelerations, Decelerations, Overall.",
+    2,
+    "56rwt9"
    ],
    [
     "CTG",
     "Normal baseline and variability?",
-    "Baseline 110–160 bpm; variability 5–25 bpm."
+    "Baseline 110–160 bpm; variability 5–25 bpm.",
+    1,
+    "1vd3xs2"
    ],
    [
     "CTG",
     "Define an acceleration.",
-    "Rise of ≥ 15 bpm lasting ≥ 15 s; sign of a healthy fetus."
+    "Rise of ≥ 15 bpm lasting ≥ 15 s; sign of a healthy fetus.",
+    1,
+    "e1q4yo"
    ],
    [
     "CTG",
     "Early deceleration: shape and cause?",
-    "U-shaped dip mirroring the contraction; head compression; normal."
+    "U-shaped dip mirroring the contraction; head compression; normal.",
+    2,
+    "iz9pog"
    ],
    [
     "CTG",
     "Variable deceleration: shape and cause?",
-    "Abrupt V-shaped dip, any timing; cord compression; commonest."
+    "Abrupt V-shaped dip, any timing; cord compression; commonest.",
+    2,
+    "lw4fd3"
    ],
    [
     "CTG",
     "Late deceleration: timing and cause?",
-    "Nadir after the contraction peak; placental insufficiency."
+    "Nadir after the contraction peak; placental insufficiency.",
+    2,
+    "1k10xx2"
    ],
    [
     "CTG",
     "When is a CTG pathological?",
-    "One pathological feature or two suspicious ones."
+    "One pathological feature or two suspicious ones.",
+    3,
+    "h2y1bb"
    ],
    [
     "CTG",
-    "FHR 80 for 4 min: first actions?",
-    "Help, left lateral, stop oxytocin, fluids, VE for cord prolapse."
+    "Fetal heart rate 80 for 4 min: first actions?",
+    "Help, left lateral, stop oxytocin, fluids, vaginal examination for cord prolapse.",
+    2,
+    "18e273j"
    ],
    [
     "CTG",
     "Prolonged bradycardia not recovering by 9 min?",
-    "Deliver: 1st stage category 1 CS; fully dilated, instrumental."
+    "Deliver: first stage category 1 caesarean section; fully dilated, instrumental.",
+    3,
+    "1gsw9bm"
    ],
    [
     "CTG",
     "Baseline 170, low variability, mother 38.6 °C. Cause?",
-    "Chorioamnionitis: antibiotics, antipyretic, plan delivery."
+    "Chorioamnionitis: antibiotics, antipyretic, plan delivery.",
+    3,
+    "3b2ula"
    ],
    [
     "CTG",
     "Paper speed of a standard CTG?",
-    "1 cm per minute."
+    "1 cm per minute.",
+    1,
+    "vyqqnl"
    ]
   ]
  },
@@ -8589,142 +9316,198 @@
    [
     "Delivery",
     "First steps of the delivery station?",
-    "Introduce, consent, chaperone, privacy, empty bladder, asepsis, check kit."
+    "Introduce, consent, chaperone, privacy, empty bladder, asepsis, check kit.",
+    1,
+    "lvk4ko"
    ],
    [
     "Delivery",
     "How should she push?",
-    "Only with contractions: deep breath, chin on chest, long push; rest between."
+    "Only with contractions: deep breath, chin on chest, long push; rest between.",
+    1,
+    "tbaw8o"
    ],
    [
     "Delivery",
     "Why pant at crowning?",
-    "Slow birth of the head: fewer tears."
+    "Slow birth of the head: fewer tears.",
+    2,
+    "1wbl8l4"
    ],
    [
     "Delivery",
     "Two hands at crowning?",
-    "Left hand keeps head flexed and slow; right hand with pad guards perineum."
+    "Left hand keeps head flexed and slow; right hand with pad guards perineum.",
+    1,
+    "9ad0ev"
    ],
    [
     "Delivery",
     "Cord round the neck: action?",
-    "Loose: slip over the head. Tight: clamp twice and cut."
+    "Loose: slip over the head. Tight: clamp twice and cut.",
+    2,
+    "1jw8igx"
    ],
    [
     "Delivery",
     "What is restitution?",
-    "The head untwists to face the mother's thigh, in line with the shoulders."
+    "The head untwists to face the mother's thigh, in line with the shoulders.",
+    2,
+    "7h6yvj"
    ],
    [
     "Delivery",
     "Delivering the shoulders?",
-    "Gentle traction downward for the anterior, then upward for the posterior."
+    "Gentle traction downward for the anterior, then upward for the posterior.",
+    1,
+    "1qto90e"
    ],
    [
     "Delivery",
     "Why avoid strong lateral pulling on the head?",
-    "Brachial plexus (Erb) injury."
+    "Brachial plexus (Erb) injury.",
+    2,
+    "13zgfr5"
    ],
    [
     "Delivery",
     "Immediate care of a well baby?",
-    "On mother's chest, dry, change towel, cover, cap; Apgar at 1 and 5 min."
+    "On mother's chest, dry, change towel, cover, cap; Apgar at 1 and 5 min.",
+    1,
+    "szifr3"
    ],
    [
     "3rd stage",
     "What must you exclude before oxytocin?",
-    "A second twin."
+    "A second twin.",
+    2,
+    "b5o143"
    ],
    [
     "3rd stage",
-    "Oxytocin dose in AMTSL?",
-    "10 IU IM within 1 minute of birth."
+    "Oxytocin dose in active management of the third stage?",
+    "10 IU IM within 1 minute of birth.",
+    1,
+    "do1t09"
    ],
    [
     "3rd stage",
     "No oxytocin available: what instead?",
-    "Misoprostol 600 µg orally."
+    "Misoprostol 600 µg orally.",
+    2,
+    "ffnk9a"
    ],
    [
     "3rd stage",
     "When to clamp the cord?",
-    "At 1–3 min in a well baby; at once if resuscitation needed."
+    "At 1–3 min in a well baby; at once if resuscitation needed.",
+    1,
+    "bw9tim"
    ],
    [
     "3rd stage",
     "How is controlled cord traction done?",
-    "With a contraction: left hand pushes uterus up, right pulls cord down and back."
+    "With a contraction: left hand pushes uterus up, right pulls cord down and back.",
+    2,
+    "1ee4iyv"
    ],
    [
     "3rd stage",
     "What do you check on the placenta?",
-    "Complete cotyledons, whole membranes, no vessels to a gap, 3 cord vessels."
+    "Complete cotyledons, whole membranes, no vessels to a gap, 3 cord vessels.",
+    1,
+    "ix9rt9"
    ],
    [
     "3rd stage",
     "Observation after delivery?",
-    "Pulse, BP, fundus, bleeding every 30 min for at least 4 h."
+    "Pulse, blood pressure, fundus, bleeding every 30 min for at least 4 hours.",
+    1,
+    "pdejxv"
    ],
    [
     "Episiotomy",
     "Indications for episiotomy?",
-    "Instrumental delivery, breech, shoulder dystocia, fetal distress, rigid perineum, scarring."
+    "Instrumental delivery, breech, shoulder dystocia, fetal distress, rigid perineum, scarring.",
+    2,
+    "3tv5zx"
    ],
    [
     "Episiotomy",
     "Angle and length of mediolateral episiotomy?",
-    "60° from midline at crowning, 3–4 cm from the fourchette."
+    "60° from midline at crowning, 3–4 cm from the fourchette.",
+    2,
+    "lqvf53"
    ],
    [
     "Episiotomy",
     "Why not midline?",
-    "It can extend into the anal sphincter."
+    "It can extend into the anal sphincter.",
+    2,
+    "vg13u0"
    ],
    [
     "Episiotomy",
     "Best time to cut?",
-    "At crowning, at the height of a contraction."
+    "At crowning, at the height of a contraction.",
+    1,
+    "5vk26j"
    ],
    [
     "Episiotomy",
     "Local anaesthetic used?",
-    "Lidocaine 1%, about 10 mL; aspirate before injecting."
+    "Lidocaine 1%, about 10 mL; aspirate before injecting.",
+    2,
+    "1w7yqi4"
    ],
    [
     "Tears",
-    "Define a 2nd degree tear.",
-    "Perineal muscles torn, anal sphincter intact (same as an episiotomy)."
+    "Define a second degree tear.",
+    "Perineal muscles torn, anal sphincter intact (same as an episiotomy).",
+    1,
+    "ewjhkk"
    ],
    [
     "Tears",
     "3a vs 3b vs 3c?",
-    "3a < 50% EAS; 3b > 50% EAS; 3c internal sphincter torn too."
+    "3a < 50% EAS; 3b > 50% EAS; 3c internal sphincter torn too.",
+    3,
+    "1yk03e4"
    ],
    [
     "Tears",
-    "4th degree tear?",
-    "Anal sphincter complex plus anorectal mucosa torn."
+    "Fourth degree tear?",
+    "Anal sphincter complex plus anorectal mucosa torn.",
+    1,
+    "ilhi69"
    ],
    [
     "Repair",
     "Where is the first stitch?",
-    "1 cm above the apex of the vaginal wound."
+    "1 cm above the apex of the vaginal wound.",
+    2,
+    "gytqtu"
    ],
    [
     "Repair",
     "Layers of repair?",
-    "Vaginal mucosa continuous, perineal muscles, then skin subcuticular."
+    "Vaginal mucosa continuous, perineal muscles, then skin subcuticular.",
+    2,
+    "10npx1j"
    ],
    [
     "Repair",
     "Two safety checks after repair?",
-    "PR for stitches in rectum; count swabs and needle."
+    "PR for stitches in rectum; count swabs and needle.",
+    2,
+    "1lpta5v"
    ],
    [
     "Repair",
-    "Where are 3rd and 4th degree tears repaired?",
-    "In theatre with good anaesthesia, by an experienced operator."
+    "Where are 3rd and fourth degree tears repaired?",
+    "In theatre with good anaesthesia, by an experienced operator.",
+    2,
+    "1dsjm29"
    ]
   ]
  },
@@ -8734,142 +9517,198 @@
    [
     "Instrumental",
     "Maternal indications for instrumental delivery?",
-    "Exhaustion, prolonged 2nd stage, conditions where pushing is harmful (heart disease)."
+    "Exhaustion, prolonged second stage, conditions where pushing is harmful (heart disease).",
+    2,
+    "14q927l"
    ],
    [
     "Instrumental",
-    "Prolonged 2nd stage definition?",
-    "Primi > 2 h (3 h epidural); multi > 1 h (2 h epidural)."
+    "Prolonged second stage definition?",
+    "Primi > 2 hours (3 hours epidural); multigravida > 1 hour (2 hours epidural).",
+    1,
+    "sr3pyy"
    ],
    [
     "Instrumental",
     "What does FORCEPS remind you to check?",
-    "Full dilatation, obstruction excluded, ruptured membranes, consent/catheter, explain/analgesia, position, station."
+    "Full dilatation, obstruction excluded, ruptured membranes, consent/catheter, explain/analgesia, position, station.",
+    2,
+    "1kuu4e5"
    ],
    [
     "Instrumental",
     "Maximum head palpable abdominally?",
-    "1/5."
+    "1/5.",
+    2,
+    "197noqa"
    ],
    [
     "Instrumental",
     "Highest acceptable station?",
-    "At the ischial spines (0); never above."
+    "At the ischial spines (0); never above.",
+    2,
+    "1vgkp2l"
    ],
    [
     "Instrumental",
     "Low-cavity delivery definition?",
-    "Leading point at station +2 or below, not yet on the pelvic floor."
+    "Leading point at station +2 or below, not yet on the pelvic floor.",
+    2,
+    "1xzg5qp"
    ],
    [
     "Ventouse",
     "What is the flexion point?",
-    "On the sagittal suture, 3 cm in front of the posterior fontanelle."
+    "On the sagittal suture, 3 cm in front of the posterior fontanelle.",
+    2,
+    "dt4jux"
    ],
    [
     "Ventouse",
     "Why place the cup on the flexion point?",
-    "It keeps the head flexed: smallest diameter, less failure."
+    "It keeps the head flexed: smallest diameter, less failure.",
+    3,
+    "1lrfmj2"
    ],
    [
     "Ventouse",
     "Working vacuum pressure?",
-    "0.8 kg/cm², about 600 mmHg."
+    "0.8 kg/cm², about 600 mmHg.",
+    2,
+    "a5yvj2"
    ],
    [
     "Ventouse",
     "When do you abandon a ventouse?",
-    "No descent, not delivered after 3 pulls, cup off twice, or > 15 min."
+    "No descent, not delivered after 3 pulls, cup off twice, or > 15 min.",
+    2,
+    "1tcz3nc"
    ],
    [
     "Ventouse",
     "Contraindications to ventouse?",
-    "< 34 wk, face, brow, breech, unknown position, fetal bleeding disorder."
+    "< 34 weeks, face, brow, breech, unknown position, fetal bleeding disorder.",
+    2,
+    "do216f"
    ],
    [
     "Ventouse",
     "What is a chignon?",
-    "Artificial caput formed by the cup; settles in hours to days."
+    "Artificial caput formed by the cup; settles in hours to days.",
+    1,
+    "q4ni26"
    ],
    [
     "Ventouse",
     "Serious ventouse injury?",
-    "Subgaleal haemorrhage: pale, shocked baby with soft scalp."
+    "Subgaleal haemorrhage: pale, shocked baby with soft scalp.",
+    2,
+    "xps87l"
    ],
    [
     "Forceps",
     "Use of Wrigley forceps?",
-    "Outlet/low delivery and the head at caesarean."
+    "Outlet/low delivery and the head at caesarean.",
+    1,
+    "1uq0ioq"
    ],
    [
     "Forceps",
     "Use of Kielland forceps?",
-    "Rotational delivery from OT or OP; experienced operators only."
+    "Rotational delivery from OT or occipito-posterior; experienced operators only.",
+    2,
+    "54wesx"
    ],
    [
     "Forceps",
     "Which blade first?",
-    "The left blade, in the left hand, on the left side of the pelvis."
+    "The left blade, in the left hand, on the left side of the pelvis.",
+    1,
+    "1vjsusa"
    ],
    [
     "Forceps",
     "Checks of correct application?",
-    "Sagittal suture midline, PF 1 cm above shanks, fenestrations ≤ fingertip."
+    "Sagittal suture midline, PF 1 cm above shanks, fenestrations ≤ fingertip.",
+    3,
+    "wtr7cp"
    ],
    [
     "Forceps",
     "Forceps vs ventouse: maternal trauma?",
-    "More with forceps (3rd/4th tears)."
+    "More with forceps (3rd/4th tears).",
+    2,
+    "1sc79jd"
    ],
    [
     "Forceps",
     "Forceps vs ventouse: failure?",
-    "Ventouse fails more often."
+    "Ventouse fails more often.",
+    2,
+    "mow321"
    ],
    [
     "Forceps",
     "Typical forceps neonatal injury?",
-    "Facial bruising and facial nerve palsy."
+    "Facial bruising and facial nerve palsy.",
+    2,
+    "1kcu42m"
    ],
    [
     "CS",
     "Category 1 caesarean: definition and time?",
-    "Immediate threat to life of mother or fetus; within 30 min."
+    "Immediate threat to life of mother or fetus; within 30 min.",
+    1,
+    "kb1xt2"
    ],
    [
     "CS",
     "Category 2 caesarean?",
-    "Compromise, not immediately life-threatening; within 75 min."
+    "Compromise, not immediately life-threatening; within 75 min.",
+    2,
+    "1nies4a"
    ],
    [
     "CS",
     "Perimortem caesarean timing?",
-    "Start by 4 min of arrest; baby out by 5 min."
+    "Start by 4 min of arrest; baby out by 5 min.",
+    2,
+    "15tyagy"
    ],
    [
     "CS",
     "When is the prophylactic antibiotic given?",
-    "Before the skin incision: e.g. cefuroxime 1.5 g IV."
+    "Before the skin incision: e.g. Cefuroxime 1.5 g IV.",
+    1,
+    "sexsz1"
    ],
    [
     "CS",
-    "Why give an antacid before CS?",
-    "Reduce acid aspiration (Mendelson syndrome) if GA is needed."
+    "Why give an antacid before caesarean section?",
+    "Reduce acid aspiration (Mendelson syndrome) if GA is needed.",
+    2,
+    "11pnjc6"
    ],
    [
     "CS",
-    "Thromboprophylaxis after emergency CS?",
-    "Enoxaparin 40 mg SC daily for 10 days, mobilise, stockings."
+    "Thromboprophylaxis after emergency caesarean section?",
+    "Enoxaparin 40 mg subcutaneously daily for 10 days, mobilise, stockings.",
+    2,
+    "g1bnv0"
    ],
    [
     "CS",
-    "LSCS vs classical: scar rupture risk?",
-    "LSCS 0.5–1%; classical 2–9%."
+    "Lower-segment caesarean section vs classical: scar rupture risk?",
+    "Lower-segment caesarean section 0.5–1%; classical 2–9%.",
+    2,
+    "ci5j17"
    ],
    [
     "CS",
-    "Indications for a classical CS?",
-    "No lower segment (very preterm), back-down transverse lie, fibroid, perimortem CS."
+    "Indications for a classical caesarean section?",
+    "No lower segment (very preterm), back-down transverse lie, fibroid, perimortem caesarean section.",
+    3,
+    "u39lrh"
    ]
   ]
  },
@@ -8879,147 +9718,205 @@
    [
     "PPH drill",
     "First action when called to a bleeding woman after birth?",
-    "Say it is PPH, note the time and call for help; then airway, breathing, circulation."
+    "Say it is PPH, note the time and call for help; then airway, breathing, circulation.",
+    1,
+    "1s7x825"
    ],
    [
     "PPH drill",
     "Resuscitation steps in PPH?",
-    "Lie flat, left tilt, O₂ 15 L/min, two 14–16 G cannulae, cross-match 4–6 units, warm crystalloid then blood."
+    "Lie flat, left tilt, oxygen 15 L/min, two 14–16 G cannulae, cross-match 4–6 units, warm crystalloid then blood.",
+    1,
+    "99sjsu"
    ],
    [
     "PPH drill",
     "Soft fundus above the umbilicus: first two actions?",
-    "Rub up the uterus to expel clots and give oxytocin 10 IU slow IV."
+    "Rub up the uterus to expel clots and give oxytocin 10 IU slow IV.",
+    1,
+    "10zfq6w"
    ],
    [
     "PPH drill",
     "Why catheterise in PPH?",
-    "A full bladder stops the uterus contracting; hourly urine shows perfusion (≥ 30 mL/h)."
+    "A full bladder stops the uterus contracting; hourly urine shows perfusion (≥ 30 mL/h).",
+    2,
+    "1xhikn"
    ],
    [
     "PPH drugs",
     "Order of uterotonics in atonic PPH?",
-    "Oxytocin → ergometrine 0.5 mg → misoprostol 800 µg → carboprost 250 µg; TXA 1 g IV within 3 h."
+    "Oxytocin → ergometrine 0.5 mg → misoprostol 800 µg → carboprost 250 µg; TXA 1 g IV within 3 hours.",
+    2,
+    "czokke"
    ],
    [
     "PPH drugs",
     "Ergometrine and carboprost: main contraindications?",
-    "Ergometrine: hypertension, pre-eclampsia, heart disease. Carboprost: asthma."
+    "Ergometrine: hypertension, pre-eclampsia, heart disease. Carboprost: asthma.",
+    2,
+    "1j146qx"
    ],
    [
     "PPH hands",
     "How is bimanual compression done?",
-    "Fist in the anterior fornix, other hand presses the fundus down onto it; buys time for drugs or theatre."
+    "Fist in the anterior fornix, other hand presses the fundus down onto it; buys time for drugs or theatre.",
+    2,
+    "lmnto6"
    ],
    [
     "PPH roles",
     "Who does what in the PPH drill?",
-    "Anaesthetist: airway and cannulae; midwife: rubs uterus; another: drugs; scribe: times; runner: blood; you lead at the foot."
+    "Anaesthetist: airway and cannulae; midwife: rubs uterus; another: drugs; scribe: times; runner: blood; you lead at the foot.",
+    2,
+    "1f8oh7z"
    ],
    [
     "Eclampsia drill",
-    "First steps during an eclamptic fit?",
-    "Call help, left lateral, protect from injury, do not restrain; airway and O₂ when the fit stops."
+    "First steps during an eclamptic convulsion?",
+    "Call help, left lateral, protect from injury, do not restrain; airway and oxygen when the convulsion stops.",
+    1,
+    "1mc9cc3"
    ],
    [
     "Eclampsia drill",
-    "MgSO₄ regimen in this book?",
-    "4 g IV over 5–15 min, then 1 g/h for 24 h after birth or the last fit."
+    "Magnesium sulphate regimen in this book?",
+    "4 g IV over 5–15 min, then 1 g/h for 24 hours after birth or the last fit.",
+    2,
+    "1eblxpa"
    ],
    [
     "Eclampsia drill",
     "How do you make the 4 g loading dose from 50% ampoules?",
-    "8 mL of 50% MgSO₄ plus 12 mL saline = 20 mL, given over 5–15 min."
+    "8 mL of 50% magnesium sulphate plus 12 mL saline = 20 mL, given over 5–15 min.",
+    3,
+    "1m0kwxu"
    ],
    [
     "Eclampsia drill",
-    "Three checks before each hour of MgSO₄?",
-    "Knee jerk present, respiratory rate ≥ 12/min, urine ≥ 30 mL/h."
+    "Three checks before each hour of magnesium sulphate?",
+    "Knee jerk present, respiratory rate ≥ 12/min, urine ≥ 30 mL/h.",
+    2,
+    "1h9zq4v"
    ],
    [
     "Eclampsia drill",
     "Antidote for magnesium toxicity?",
-    "Calcium gluconate 10%, 10 mL IV over 10 min, with oxygen and airway support."
+    "Calcium gluconate 10%, 10 mL IV over 10 min, with oxygen and airway support.",
+    1,
+    "2zzu5j"
    ],
    [
     "Eclampsia drill",
-    "She fits again on MgSO₄. Next?",
-    "Extra 2 g MgSO₄ IV."
+    "She fits again on magnesium sulphate. Next?",
+    "Extra 2 g magnesium sulphate IV.",
+    3,
+    "kv3shr"
    ],
    [
     "Eclampsia drill",
-    "Which other causes of fits must be excluded in Sudan?",
-    "Hypoglycaemia and cerebral malaria: check glucose and a malaria test."
+    "Which other causes of convulsions must be excluded in Sudan?",
+    "Hypoglycaemia and cerebral malaria: check glucose and a malaria test.",
+    2,
+    "1e64bdf"
    ],
    [
     "Eclampsia drill",
     "Definitive treatment after eclampsia?",
-    "Delivery once stable (within 6–12 h), any gestation; oxytocin, no ergometrine, in the 3rd stage."
+    "Delivery once stable (within 6–12 hours), any gestation; oxytocin, no ergometrine, in the third stage.",
+    1,
+    "168ynqr"
    ],
    [
     "SD drill",
     "First manoeuvre in shoulder dystocia after calling help?",
-    "McRoberts: thighs pushed back onto the abdomen, with routine axial traction."
+    "McRoberts: thighs pushed back onto the abdomen, with routine axial traction.",
+    1,
+    "1x659kh"
    ],
    [
     "SD drill",
     "Where and how is suprapubic pressure applied?",
-    "Heel of hand above the pubis, from the fetal back side, down and across; steady then rocking."
+    "Heel of hand above the pubis, from the fetal back side, down and across; steady then rocking.",
+    2,
+    "79kynv"
    ],
    [
     "SD drill",
     "Three things never done in shoulder dystocia?",
-    "Fundal pressure, strong or sideways pulling on the head, and letting her keep pushing."
+    "Fundal pressure, strong or sideways pulling on the head, and letting her keep pushing.",
+    1,
+    "1vhqwav"
    ],
    [
     "SD drill",
     "What must be documented after shoulder dystocia?",
-    "Times of head and body, anterior shoulder, each manoeuvre with time and person, baby's condition and gases."
+    "Times of head and body, anterior shoulder, each manoeuvre with time and person, baby's condition and gases.",
+    2,
+    "12wgov9"
    ],
    [
     "Cord prolapse drill",
     "Key hand action in cord prolapse?",
-    "Two fingers push the presenting part up and stay there until delivery; do not handle the cord."
+    "Two fingers push the presenting part up and stay there until delivery; do not handle the cord.",
+    1,
+    "5saozi"
    ],
    [
     "Cord prolapse drill",
     "Positions for cord prolapse?",
-    "Knee-chest, or exaggerated left Sims for transfer (pillow under hip, head down)."
+    "Knee-chest, or exaggerated left Sims for transfer (pillow under hip, head down).",
+    1,
+    "1ved2ei"
    ],
    [
     "Cord prolapse drill",
     "How much saline fills the bladder, and what before incision?",
-    "500 mL warm saline via Foley, clamped; empty the bladder before the uterine incision."
+    "500 mL warm saline via Foley, clamped; empty the bladder before the uterine incision.",
+    2,
+    "hrovpv"
    ],
    [
     "Cord prolapse drill",
     "Route of delivery in cord prolapse?",
-    "Category 1 caesarean ≤ 30 min; instrumental if fully dilated with the head low."
+    "Category 1 caesarean ≤ 30 min; instrumental if fully dilated with the head low.",
+    2,
+    "ywcohq"
    ],
    [
     "Newborn resus",
     "First steps for a floppy, non-breathing newborn?",
-    "Dry, keep warm, assess tone, breathing and heart rate; open the airway with the head neutral."
+    "Dry, keep warm, assess tone, breathing and heart rate; open the airway with the head neutral.",
+    1,
+    "q2ang7"
    ],
    [
     "Newborn resus",
     "How are inflation breaths given?",
-    "Five breaths, each 2–3 s, in air, with a good mask seal; watch the chest rise."
+    "Five breaths, each 2–3 s, in air, with a good mask seal; watch the chest rise.",
+    2,
+    "1jmijgh"
    ],
    [
     "Newborn resus",
     "When are chest compressions started?",
-    "Heart rate < 60 after 30 s of effective ventilation; 3 compressions : 1 breath."
+    "Heart rate < 60 after 30 s of effective ventilation; 3 compressions : 1 breath.",
+    2,
+    "c0bn8g"
    ],
    [
     "Apgar",
     "Five Apgar signs?",
-    "Appearance, pulse, grimace, activity (tone), respiration; each scored 0–2 at 1 and 5 min."
+    "Appearance, pulse, grimace, activity (tone), respiration; each scored 0–2 at 1 and 5 min.",
+    1,
+    "a1j3ta"
    ],
    [
     "Apgar",
     "What does an Apgar of 4–6 mean?",
-    "Moderately depressed baby; 7–10 normal, 0–3 severely depressed."
+    "Moderately depressed baby; 7–10 normal, 0–3 severely depressed.",
+    2,
+    "1s1wtuv"
    ]
   ]
  },
@@ -9029,152 +9926,212 @@
    [
     "Answer rule",
     "How do you answer a spotter?",
-    "Name (exact type) → what it is → main use → one complication or contraindication → one viva fact."
+    "Name (exact type) → what it is → main use → one complication or contraindication → one viva fact.",
+    1,
+    "1yys3yz"
    ],
    [
     "Examination",
     "From when can the Pinard detect the fetal heart?",
-    "From about 24 weeks; place it over the fetal back and listen a full minute."
+    "From about 24 weeks; place it over the fetal back and listen a full minute.",
+    2,
+    "1qfadu"
    ],
    [
     "Examination",
     "Cusco vs Sims speculum?",
-    "Cusco: bivalve, self-retaining, views the cervix. Sims: duck-bill, held by an assistant, views the vaginal walls."
+    "Cusco: bivalve, self-retaining, views the cervix. Sims: duck-bill, held by an assistant, views the vaginal walls.",
+    2,
+    "1y3fcht"
    ],
    [
     "Examination",
-    "SFH tape rule?",
-    "From 24 wk, fundal height in cm = weeks ± 2; more than 3 cm off → scan."
+    "Symphysis–fundal height tape rule?",
+    "From 24 weeks, fundal height in cm = weeks with or without 2; more than 3 cm off → scan.",
+    1,
+    "1abha7k"
    ],
    [
     "Examination",
-    "Nitrazine paper in PROM: result and false positives?",
-    "Turns blue with alkaline liquor; false positive with blood, semen, urine or BV."
+    "Nitrazine paper in prelabour rupture of membranes: result and false positives?",
+    "Turns blue with alkaline liquor; false positive with blood, semen, urine or BV.",
+    2,
+    "ehggfn"
    ],
    [
     "Labour",
     "Prerequisite before using the amniotomy hook?",
-    "The head must be well applied to the cervix, to avoid cord prolapse; check FHR after."
+    "The head must be well applied to the cervix, to avoid cord prolapse; check fetal heart rate after.",
+    2,
+    "2y9mx"
    ],
    [
     "Labour",
     "Episiotomy scissors: angle and timing?",
-    "Mediolateral cut 60° from the midline at crowning, after lidocaine, two fingers guarding the head."
+    "Mediolateral cut 60° from the midline at crowning, after lidocaine, two fingers guarding the head.",
+    2,
+    "r943l0"
    ],
    [
     "Labour",
     "Partogram sheet: alert and action lines?",
-    "Alert line 1 cm/h from 4 cm; action line 4 h to its right."
+    "Alert line 1 cm/h from 4 cm; action line 4 hours to its right.",
+    1,
+    "1iwvu4l"
    ],
    [
     "Operative",
     "Where is the ventouse cup placed?",
-    "On the flexion point: on the sagittal suture, 3 cm in front of the posterior fontanelle."
+    "On the flexion point: on the sagittal suture, 3 cm in front of the posterior fontanelle.",
+    2,
+    "c8msvt"
    ],
    [
     "Operative",
     "Which forceps have a sliding lock and why?",
-    "Kielland: the sliding lock corrects asynclitism; used to rotate OT or OP heads."
+    "Kielland: the sliding lock corrects asynclitism; used to rotate OT or occipito-posterior heads.",
+    3,
+    "5oiapt"
    ],
    [
     "Operative",
     "Use of Wrigley forceps?",
-    "Outlet delivery, and lifting the head at caesarean section."
+    "Outlet delivery, and lifting the head at caesarean section.",
+    1,
+    "1uq0ioq"
    ],
    [
     "Operative",
     "Neville-Barnes forceps: two uses?",
-    "Low and mid-cavity non-rotational delivery in OA; aftercoming head of the breech."
+    "Low and mid-cavity non-rotational delivery in occipito-anterior; aftercoming head of the breech.",
+    2,
+    "tnhus0"
    ],
    [
     "Operative",
-    "MVA: upper gestational limit and cannula rule?",
-    "Up to 12–14 weeks; cannula size in mm about equal to weeks of gestation."
+    "Manual vacuum aspiration: upper gestational limit and cannula rule?",
+    "Up to 12–14 weeks; cannula size in mm about equal to weeks of gestation.",
+    3,
+    "t6601y"
    ],
    [
     "Operative",
     "Foley catheter for induction: volume and duration?",
-    "30–50 mL saline in the balloon past the internal os, traction for 12–24 h."
+    "30–50 mL saline in the balloon past the internal os, traction for 12–24 hours.",
+    2,
+    "1vjuvmr"
    ],
    [
     "PPH devices",
     "Bakri balloon: fill volume and duration?",
-    "300–500 mL saline for 12–24 h, with oxytocin infusion and antibiotics."
+    "300–500 mL saline for 12–24 hours, with oxytocin infusion and antibiotics.",
+    2,
+    "1whrq69"
    ],
    [
     "Contraception",
     "When can a copper IUCD be inserted after birth?",
-    "Within 48 h or after 4 weeks; it lasts about 10 years."
+    "Within 48 hours or after 4 weeks; it lasts about 10 years.",
+    3,
+    "1hakbe8"
    ],
    [
     "Contraception",
     "DMPA dose and timing after birth?",
-    "150 mg deep IM every 12 weeks; from 6 weeks if breastfeeding."
+    "150 mg deep IM every 12 weeks; from 6 weeks if breastfeeding.",
+    2,
+    "t8j1ck"
    ],
    [
     "Contraception",
-    "Why avoid the COC while breastfeeding?",
-    "Oestrogen reduces milk and raises VTE risk; avoid before 6 months, and before day 21."
+    "Why avoid the combined oral contraceptive while breastfeeding?",
+    "Oestrogen reduces milk and raises VTE risk; avoid before 6 months, and before day 21.",
+    2,
+    "y7qf0y"
    ],
    [
     "Drugs",
-    "Oxytocin in AMTSL: dose and route?",
-    "10 IU IM within 1 minute of birth."
+    "Oxytocin in active management of the third stage: dose and route?",
+    "10 IU IM within 1 minute of birth.",
+    1,
+    "1s307zn"
    ],
    [
     "Drugs",
     "Misoprostol tablet strength and PPH dose?",
-    "200 µg tablets; 800 µg sublingual or rectal for PPH; 600 µg oral for AMTSL."
+    "200 µg tablets; 800 µg sublingual or rectal for PPH; 600 µg oral for active management of the third stage.",
+    2,
+    "1l68gdr"
    ],
    [
     "Drugs",
     "Tranexamic acid in PPH?",
-    "1 g IV over 10 min, only within 3 hours of birth."
+    "1 g IV over 10 min, only within 3 hours of birth.",
+    2,
+    "yrzkqz"
    ],
    [
     "Drugs",
-    "50% MgSO₄: grams per mL and first toxicity sign?",
-    "1 g in 2 mL; loss of the knee jerk is the first sign."
+    "50% magnesium sulphate: grams per mL and first toxicity sign?",
+    "1 g in 2 mL; loss of the knee jerk is the first sign.",
+    3,
+    "aw7ofi"
    ],
    [
     "Drugs",
     "Hydralazine: dose and precaution?",
-    "5 mg IV over 10–15 min every 15 min; give 500 mL saline first to avoid a sudden BP drop."
+    "5 mg IV over 10–15 min every 15 min; give 500 mL saline first to avoid a sudden blood pressure drop.",
+    2,
+    "13jld5a"
    ],
    [
     "Drugs",
     "Why must methyldopa be changed after birth?",
-    "It can cause postnatal depression."
+    "It can cause postnatal depression.",
+    3,
+    "dbyps7"
    ],
    [
     "Drugs",
     "Nifedipine as a tocolytic?",
-    "30 mg orally, then 20 mg 8-hourly for 48 h; never sublingual."
+    "30 mg orally, then 20 mg 8-hourly for 48 hours; never sublingual.",
+    2,
+    "30ply9"
    ],
    [
     "Drugs",
     "Steroid regimens for fetal lungs?",
-    "Dexamethasone 6 mg IM 12-hourly × 4, or betamethasone 12 mg IM × 2, 24 h apart, before 34 wk."
+    "Dexamethasone 6 mg IM 12-hourly × 4, or betamethasone 12 mg IM × 2, 24 hours apart, before 34 weeks.",
+    2,
+    "k8rm27"
    ],
    [
     "Drugs",
     "Anti-D dose after a sensitising event at 30 weeks?",
-    "500 IU IM within 72 h plus a Kleihauer test."
+    "500 IU IM within 72 hours plus a Kleihauer test.",
+    2,
+    "1a17opx"
    ],
    [
     "Lab",
     "Bedside clot test result meaning DIC?",
-    "No clot in a plain glass tube after 7–10 minutes."
+    "No clot in a plain glass tube after 7–10 minutes.",
+    2,
+    "1s7hbvn"
    ],
    [
     "Scan",
     "Snowstorm uterus with no fetus?",
-    "Complete molar pregnancy: β-hCG, suction evacuation, then hCG follow-up."
+    "Complete molar pregnancy: β-hCG, suction evacuation, then hCG follow-up.",
+    1,
+    "1bf8n65"
    ],
    [
     "Scan",
     "Positive pregnancy test with an empty uterus and adnexal mass?",
-    "Ectopic pregnancy until proved otherwise."
+    "Ectopic pregnancy until proved otherwise.",
+    1,
+    "ed34mt"
    ]
   ]
  },
@@ -9184,152 +10141,212 @@
    [
     "Frame",
     "Eight steps of a counselling station?",
-    "Prepare, open, find out, explain, check, options, decide, close."
+    "Prepare, open, find out, explain, check, options, decide, close.",
+    2,
+    "mfmkse"
    ],
    [
     "Frame",
     "What is chunk and check?",
-    "Give 2–3 facts, then check understanding before going on."
+    "Give 2–3 facts, then check understanding before going on.",
+    1,
+    "156dezx"
    ],
    [
     "Frame",
     "She asks \"What would you do?\"",
-    "Say what most women choose and why, then respect her choice."
+    "Say what most women choose and why, then respect her choice.",
+    2,
+    "tzzrvu"
    ],
    [
     "IUFD",
     "How do you tell her the baby has died?",
-    "Warning shot, pause, then plainly: \"the baby's heart has stopped; the baby has died.\""
+    "Warning shot, pause, then plainly: \"the baby's heart has stopped; the baby has died.\"",
+    2,
+    "l8b4by"
    ],
    [
     "IUFD",
-    "Three delivery options at 34 wk?",
-    "Induction (preferred), expectant with clotting checks, CS only for a usual obstetric reason."
+    "Three delivery options at 34 weeks?",
+    "Induction (preferred), expectant with clotting checks, caesarean section only for a usual obstetric reason.",
+    2,
+    "1ozjdgt"
    ],
    [
     "IUFD",
     "Induction regimen?",
-    "Mifepristone 200 mg oral, then misoprostol 36–48 h later (25 µg PV 6-hourly > 28 wk)."
+    "Mifepristone 200 mg oral, then misoprostol 36–48 hours later (25 µg vaginally 6-hourly > 28 weeks).",
+    3,
+    "qcnp5p"
    ],
    [
     "IUFD",
     "Risk of waiting more than 3 weeks?",
-    "DIC in about 30%; check clotting 2–3 times a week."
+    "DIC in about 30%; check clotting 2–3 times a week.",
+    2,
+    "1cynjzg"
    ],
    [
     "IUFD",
     "How often is no cause found?",
-    "About half of cases."
+    "About half of cases.",
+    1,
+    "mhu1af"
    ],
    [
     "IUFD",
     "Stop lactation how?",
-    "Cabergoline 1 mg once; avoid in pre-eclampsia or hypertension."
+    "Cabergoline 1 mg once; avoid in pre-eclampsia or hypertension.",
+    2,
+    "1jcdm3i"
    ],
    [
     "IUFD",
-    "Rh-negative after IUFD?",
-    "Kleihauer, then anti-D 500 IU IM within 72 h."
+    "Rh-negative after intrauterine fetal death?",
+    "Kleihauer, then anti-D 500 IU IM within 72 hours.",
+    2,
+    "1rliku5"
    ],
    [
     "IUFD",
     "When is the follow-up visit?",
-    "6 weeks: results, cause, grief, next pregnancy plan."
+    "6 weeks: results, cause, grief, next pregnancy plan.",
+    1,
+    "16y8hi4"
    ],
    [
     "Heart",
-    "Mechanical valve, positive test at 5 wk. Action?",
-    "Switch warfarin to weight-based LMWH before 6 weeks; never stop anticoagulation."
+    "Mechanical valve, positive test at 5 weeks. Action?",
+    "Switch warfarin to weight-based low-molecular-weight heparin before 6 weeks; never stop anticoagulation.",
+    3,
+    "1k8ox1"
    ],
    [
     "Heart",
     "Warfarin embryopathy window?",
-    "6–12 weeks."
+    "6–12 weeks.",
+    3,
+    "2wnlgp"
    ],
    [
     "Heart",
     "How often is the multidisciplinary cardiac–obstetric clinic?",
-    "Every 10–12 days."
+    "Every 10–12 days.",
+    2,
+    "13q17d"
    ],
    [
     "Heart",
     "Uterotonic to avoid in heart disease and why?",
-    "Ergometrine: venoconstriction loads the heart → pulmonary oedema."
+    "Ergometrine: venoconstriction loads the heart → pulmonary oedema.",
+    2,
+    "v5mr7j"
    ],
    [
     "Heart",
     "Why HDU for ≥ 3 days after birth?",
-    "Autotransfusion from the emptied uterus: highest load in the first hours."
+    "Autotransfusion from the emptied uterus: highest load in the first hours.",
+    3,
+    "dbkbbj"
    ],
    [
     "Heart",
     "Contraception for a mechanical valve?",
-    "Progestogen-only (implant, LNG-IUS, POP); no combined pill."
+    "Progestogen-only (implant, LNG-IUS, POP); no combined pill.",
+    3,
+    "1c9l0uj"
    ],
    [
     "Heart",
     "Is endocarditis prophylaxis routine in labour?",
-    "No: only prosthetic valve or previous endocarditis."
+    "No: only prosthetic valve or previous endocarditis.",
+    2,
+    "1ruwhw9"
    ],
    [
     "Epilepsy",
     "Preferred antiepileptics in pregnancy?",
-    "Lamotrigine or levetiracetam; avoid valproate."
+    "Lamotrigine or levetiracetam; avoid valproate.",
+    2,
+    "1lghwcs"
    ],
    [
     "Epilepsy",
     "Folic acid dose and timing?",
-    "5 mg daily from 3 months before conception, all pregnancy."
+    "5 mg daily from 3 months before conception, all pregnancy.",
+    1,
+    "ip2y6h"
    ],
    [
     "Epilepsy",
     "Fit after 20 weeks: first diagnosis to exclude?",
-    "Eclampsia."
+    "Eclampsia.",
+    2,
+    "1yyqt6d"
    ],
    [
     "Epilepsy",
     "What does the baby get at birth?",
-    "Vitamin K 1 mg IM."
+    "Vitamin K 1 mg IM.",
+    2,
+    "i6dicz"
    ],
    [
     "Contraception",
     "Three rules of LAM?",
-    "No period, full breastfeeding day and night, baby < 6 months: 98% protection."
+    "No period, full breastfeeding day and night, baby < 6 months: 98% protection.",
+    1,
+    "5czd45"
    ],
    [
     "Contraception",
     "IUD timing after birth?",
-    "Within 48 hours, or from 4 weeks."
+    "Within 48 hours, or from 4 weeks.",
+    3,
+    "5oi94i"
    ],
    [
     "Contraception",
     "Combined pill in a breastfeeding mother?",
-    "Not before 6 months: reduces milk."
+    "Not before 6 months: reduces milk.",
+    2,
+    "1ecg4yt"
    ],
    [
     "GDM",
     "Is insulin safe for the baby?",
-    "Yes: it does not cross the placenta and stops after birth."
+    "Yes: it does not cross the placenta and stops after birth.",
+    1,
+    "5l076k"
    ],
    [
     "GDM",
     "Hypoglycaemia self-treatment?",
-    "Glucose < 4: 15–20 g sugar in water, recheck 15 min, repeat, then eat."
+    "Glucose < 4: 15–20 g sugar in water, recheck 15 min, repeat, then eat.",
+    1,
+    "1s68cve"
    ],
    [
     "GDM",
-    "Follow-up after GDM?",
-    "Stop drugs; OGTT at 6 wk, then yearly: 50% type 2 in 10 years."
+    "Follow-up after gestational diabetes?",
+    "Stop drugs; OGTT at 6 weeks, then yearly: 50% type 2 in 10 years.",
+    2,
+    "5l5f30"
    ],
    [
     "CS",
-    "CS urgency categories?",
-    "1: threat to life ≤ 30 min; 2: compromise ≤ 75 min; 3: early delivery; 4: elective."
+    "Caesarean section urgency categories?",
+    "1: threat to life ≤ 30 min; 2: compromise ≤ 75 min; 3: early delivery; 4: elective.",
+    2,
+    "gqyqak"
    ],
    [
     "VBAC",
     "VBAC success and rupture risk?",
-    "Success 72–75%; rupture ≈ 0.5% in spontaneous labour, 2–3× if induced."
+    "Success 72–75%; rupture about 0.5% in spontaneous labour, 2–3× if induced.",
+    2,
+    "1ntghl"
    ]
   ]
  }
