@@ -9,7 +9,11 @@ self.addEventListener('install',function(e){e.waitUntil(caches.open(C).then(func
   var list=ASSETS.slice(),n=0;function more(){var part=list.splice(0,6);if(!part.length)return Promise.resolve();
     return Promise.all(part.map(function(u){return fetch(u,{cache:'no-cache'}).then(function(r){if(r.ok)return c.put(u,r)}).catch(function(){})})).then(more)}
   return more()}).then(function(){return self.skipWaiting()}))});
-self.addEventListener('activate',function(e){e.waitUntil(caches.keys().then(function(ks){return Promise.all(ks.filter(function(k){return k!==C&&/^(orr|prr|srr)-/.test(k)}).map(function(k){return caches.delete(k)}))}).then(function(){return self.clients.claim()}))});
+/* a new version replaces an older saved copy: once it is saved, every open page of the book is reloaded with it (owner, 12 Nov 2026: a student
+   opening the book must see the change, also pages still running the older copy, which cannot reload themselves) */
+self.addEventListener('activate',function(e){e.waitUntil(caches.keys().then(function(ks){var old=ks.filter(function(k){return k!==C&&/^(orr|prr|srr)-/.test(k)&&!/-audio$/.test(k)});
+  return Promise.all(old.map(function(k){return caches.delete(k)})).then(function(){return self.clients.claim()}).then(function(){if(!old.length)return;
+    return self.clients.matchAll({type:'window'}).then(function(cs){cs.forEach(function(c){try{c.navigate(c.url)}catch(er){}})})})}))});
 self.addEventListener('fetch',function(e){var r=e.request,u=new URL(r.url);
   if(r.method!=='GET'||r.headers.has('range')||r.destination==='video'||r.destination==='audio')return;
   if(u.origin!==location.origin||SKIP.test(u.pathname))return;

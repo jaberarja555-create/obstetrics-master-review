@@ -3565,7 +3565,7 @@ refreshCont();
     '#smrBack svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}' +
     '[dir=rtl] #smrBack svg,html[dir=rtl] #smrBack svg{transform:scaleX(-1)}' +
     '#smrBack img{width:20px;height:auto;display:block}#smrBack .smrl{font:700 13px/1 system-ui,-apple-system,"Segoe UI",Roboto,Cairo,sans-serif;padding-inline-start:3px;white-space:nowrap}' +
-    '#smrBack.flow{position:static;margin-top:4px;align-self:flex-start}' + '' + '@media (min-width:760px){#smrBack{position:static;order:1;margin-left:auto;margin-right:14px}#v2homeW .hgr h2{order:2}}@media (max-width:759px){#v2homeW .hgr.smr-host{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:12px;align-items:center;direction:ltr;text-align:right;padding-top:4px}#v2homeW .hgr.smr-host #smrBack{position:static;grid-column:1;grid-row:1/span 2;align-self:center}#v2homeW .hgr.smr-host>h2{grid-column:2;grid-row:1;font-size:20px}#v2homeW .hgr.smr-host>p{grid-column:2;grid-row:2}html[data-lang=en] #v2homeW .hgr.smr-host{text-align:left}}';
+    '#smrBack.flow{position:static;margin-top:4px;align-self:flex-start}#smrBack.inhd{position:static;flex:none;order:-1;margin-inline-end:6px}' + '' + '@media (min-width:760px){#smrBack{position:static;order:1;margin-left:auto;margin-right:14px}#v2homeW .hgr h2{order:2}}@media (max-width:759px){#v2homeW .hgr.smr-host{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:12px;align-items:center;direction:ltr;text-align:right;padding-top:4px}#v2homeW .hgr.smr-host #smrBack{position:static;grid-column:1;grid-row:1/span 2;align-self:center}#v2homeW .hgr.smr-host>h2{grid-column:2;grid-row:1;font-size:20px}#v2homeW .hgr.smr-host>p{grid-column:2;grid-row:2}html[data-lang=en] #v2homeW .hgr.smr-host{text-align:left}}';
   document.head.appendChild(st);
   var PL = ''; try { PL = sessionStorage.getItem('smr-plang') || ''; } catch (e) {}
   function lang() {
@@ -3578,16 +3578,22 @@ refreshCont();
     var b = document.getElementById('smrBack'); if (!b) return; var L = lang(), x = b.querySelector('.smrl'), txt = L === 'en' ? 'Library' : 'المكتبة';
     if (x && x.textContent !== txt) { x.textContent = txt; x.lang = L; b.setAttribute('aria-label', L === 'en' ? 'Back to the library' : 'العودة إلى المكتبة'); }
   }
+  /* where the button goes (owner, 12 Nov 2026): beside the Home greeting; when the greeting is not shown (sideways tablets, short screens)
+     at the start of the top bar; visible only while Home is open */
+  function want() { var home = document.getElementById('v2home'), g = document.querySelector('#v2homeW .hgr');
+    var gv = !!(g && g.getClientRects().length && getComputedStyle(g).display !== 'none');
+    return { host: gv ? g : (document.getElementById('v2hd') || g), show: home ? !home.hidden : true }; }
+  function put(b) { var w = want(); if (!w.host) return; if (b.parentNode !== w.host) { w.host.classList.add('smr-host'); if (w.host.id === 'v2hd') w.host.insertBefore(b, w.host.firstChild); else w.host.appendChild(b); }
+    b.classList.toggle('inhd', w.host.id === 'v2hd'); b.style.display = w.show ? '' : 'none'; }
   function place() {
-    if (document.getElementById('smrBack')) { label(); return; }
-    var host = document.querySelector('#v2homeW .hgr'); if (!host) return;
-    host.classList.add('smr-host');
+    var ex = document.getElementById('smrBack'); if (ex) { put(ex); label(); return; }
+    if (!want().host) return;
     var b = document.createElement('button');
     b.type = 'button'; b.id = 'smrBack';
     if ('0' === '1') b.className = 'flow';
     b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><img alt="" src="data:image/png;base64,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"><span class="smrl"></span>';
     b.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); send(); try { window.parent.postMessage({ smr: 'library' }, org); } catch (er) {} });
-    host.appendChild(b); label();
+    put(b); label();
   }
   /* real progress for the platform's Progress page (each app defines window.__smrStats) */
   function send() { try { if (typeof window.__smrStats !== 'function') return; window.parent.postMessage({ smr: 'stats', s: window.__smrStats() }, org); } catch (e) {} }
@@ -3608,7 +3614,8 @@ refreshCont();
   var q = 0;
   function soon() { if (q) return; q = requestAnimationFrame(function () { q = 0; place(); }); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', place); else place();
-  new MutationObserver(soon).observe(document.documentElement, { childList: true, subtree: true });
+  new MutationObserver(soon).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
+  window.addEventListener('resize', soon);
 })();
 </script>
 </body></html>
