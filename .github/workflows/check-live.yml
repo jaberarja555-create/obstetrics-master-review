@@ -13,9 +13,18 @@ jobs:
       - name: Look for the latest code on each live app
         run: |
           check() { if curl -fsSL "$1" | grep -q "$2"; then echo "FOUND   $3"; else echo "MISSING $3"; fi; }
-          check https://surgery-master-review.jaberarja555.workers.dev/ "smr-langown" "Surgery: language follows the platform"
-          check https://surgery-master-review.jaberarja555.workers.dev/ "LOCKED&&!INTRIAL&&!REVIEW" "Surgery: choices after the greeting"
-          check https://pediatrics-master-review.jaberarja555.workers.dev/ "smr-langown" "Pediatrics: language follows the platform"
-          check https://pediatrics-master-review.jaberarja555.workers.dev/ "function chooseDue" "Pediatrics: choices after the greeting"
-          check https://obstetrics-master-review.pages.dev/ "smr-langown" "Obstetrics: language follows the platform"
-          check https://student-master-review.pages.dev/js/app.js "data-wlang" "Platform: language and look step"
+          check https://student-master-review.pages.dev/js/app.js "function preload" "Platform: books load in the background"
+          check https://student-master-review.pages.dev/js/app.js "palPick" "Platform: app colours"
+          check https://obstetrics-master-review.pages.dev/ "hc3" "Obstetrics: new reading card"
+          check https://obstetrics-master-review.pages.dev/sw.js "SKIP=" "Obstetrics: saves all files"
+          check https://obstetrics-master-review.pages.dev/admin.html "stuCard" "Admin: one card per student"
+          check https://pediatrics-master-review.jaberarja555.workers.dev/sw.js "ASSETS=\[\"./\"" "Pediatrics: saves all files"
+          check https://surgery-master-review.jaberarja555.workers.dev/sw.js "ASSETS=\[\"./\"" "Surgery: saves all files"
+      - name: The shared subscription answers (read-only; an invalid device id, so nothing is written)
+        run: |
+          U=https://kgdmjeffeqfdlfnjnnek.supabase.co/rest/v1/rpc; K=sb_publishable_aUgkKc4QpItV4yKKViVFCg_dipnUdDl
+          rpc() { echo "$1 -> $(curl -s -X POST "$U/$1" -H "apikey: $K" -H "Content-Type: application/json" -d "$2")"; }
+          rpc obs_request_status '{"p_dev":"x","p_kind":"phone","p_label":"t","p_book":"ped"}'
+          rpc obs_request_status '{"p_dev":"x","p_kind":"phone","p_label":"t"}'
+          rpc obs_check '{"p_dev":"x"}'
+          echo "obs_key_of must be refused (key never public): $(curl -s -o /dev/null -w '%{http_code}' -X POST "$U/obs_key_of" -H "apikey: $K" -H "Content-Type: application/json" -d '{"p_book":"ped"}')"
