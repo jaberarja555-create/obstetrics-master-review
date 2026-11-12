@@ -3601,6 +3601,7 @@ refreshCont();
   window.addEventListener('message', function (e) {
     if (e.origin !== org || !e.data) return;
     if (e.data.smr === 'getStats') send();
+    if (e.data.smr === 'profile') profIn(e.data);
     if (e.data.smr === 'lang' && /^(ar|en)$/.test(e.data.lang)) {
       PL = e.data.lang; try { sessionStorage.setItem('smr-plang', PL); } catch (er) {}
       /* the book follows the platform language unless the student chose one inside the book; a change in the platform's settings applies to every book */
@@ -3609,6 +3610,20 @@ refreshCont();
       label();
     }
   });
+  /* One name and one picture (owner, 12 Nov 2026: "the user name from the main app should be the same inside the books, and also the picture"):
+     the platform sends its profile to the book; a change made inside the book goes back to the platform, which passes it to the other books. */
+  var PFX = 'orr', pfIn = false;
+  function pfGet() { var n = '', p = ''; try { n = (localStorage.getItem(PFX + '-name') || localStorage.getItem(PFX + '-sname') || '').trim(); p = localStorage.getItem(PFX + '-photo') || ''; } catch (e) {} return { name: n, photo: p }; }
+  function pfUp(init) { try { var o = pfGet(); window.parent.postMessage({ smr: 'profile', init: !!init, name: o.name, photo: o.photo }, org); } catch (e) {} }
+  function profIn(d) { if (typeof d.name !== 'string' || typeof d.photo !== 'string') return; pfIn = true;
+    try { if (d.name) localStorage.setItem(PFX + '-name', d.name); else localStorage.removeItem(PFX + '-name');
+      if (/^data:image\//.test(d.photo)) localStorage.setItem(PFX + '-photo', d.photo); else localStorage.removeItem(PFX + '-photo'); } catch (e) {}
+    pfIn = false; try { if (typeof window.__smrProfile === 'function') window.__smrProfile(); } catch (e) {} }
+  (function () { var S = Storage.prototype, si = S.setItem, ri = S.removeItem, tm = 0;
+    function chk(k, o) { if (pfIn || o !== window.localStorage || (k !== PFX + '-name' && k !== PFX + '-photo')) return; clearTimeout(tm); tm = setTimeout(function () { pfUp(false); }, 600); }
+    S.setItem = function (k) { var r = si.apply(this, arguments); chk(k, this); return r; };
+    S.removeItem = function (k) { var r = ri.apply(this, arguments); chk(k, this); return r; }; })();
+  setTimeout(function () { pfUp(true); }, 60);
   setTimeout(send, 2500); setInterval(function () { if (!document.hidden) send(); }, 60000);
   document.addEventListener('click', sendSoon, true); document.addEventListener('visibilitychange', send); window.addEventListener('pagehide', send);
   var q = 0;

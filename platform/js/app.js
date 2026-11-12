@@ -519,6 +519,29 @@
     if (state.base === 'progress') { var y = window.scrollY, op = []; document.querySelectorAll('.pch[open]').forEach(function (d, i) { op.push(d.closest('.pbk') && [].indexOf.call(document.querySelectorAll('.pbk'), d.closest('.pbk'))); });
       $('#main').innerHTML = '<div class="narrow">' + vProgress() + '</div>'; var ps = document.querySelectorAll('.pbk'); op.forEach(function (k) { var d = ps[k] && ps[k].querySelector('.pch'); if (d) d.open = true; }); window.scrollTo(0, y); }
   });
+  /* One name and one picture for the platform and its books (owner, 12 Nov 2026). The platform's profile is the one used; a book that already
+     has a name or picture gives it to the platform the first time (until the student sets the profile); a change made inside a book comes
+     here and goes to the other books. */
+  function profMsg() { return { smr: 'profile', name: LS.get('name', '') || '', photo: LS.get('photo', '') || '' }; }
+  function hasProf() { return !!(LS.get('profset', 0) || LS.get('name', '') || LS.get('photo', '')); }
+  function tellProf(id) { var f = FR[id]; if (!f || !hasProf()) return; try { f.fr.contentWindow.postMessage(profMsg(), new URL(BOOK[id].url).origin); } catch (e) {} }
+  function tellProfAll(skip) { Object.keys(FR).forEach(function (k) { if (k !== skip) tellProf(k); }); }
+  function profChanged() { LS.set('profset', Date.now()); tellProfAll(); }
+  window.addEventListener('message', function (e) {
+    if (!e.data || e.data.smr !== 'profile') return;
+    var id = null; Object.keys(FR).forEach(function (k) { if (FR[k].fr.contentWindow === e.source) id = k; }); if (!id) return;
+    var nm = typeof e.data.name === 'string' ? e.data.name.trim().slice(0, 40) : '';
+    var ph = typeof e.data.photo === 'string' && /^data:image\/(jpeg|png|webp);base64,/.test(e.data.photo) && e.data.photo.length < 600000 ? e.data.photo : '';
+    if (e.data.init) {
+      if (!LS.get('profset', 0)) { var ch = false;
+        if (nm && !LS.get('name', '')) { LS.set('name', nm); ch = true; }
+        if (ph && !LS.get('photo', '')) { LS.set('photo', ph); ch = true; }
+        if (ch) { LS.set('profset', Date.now()); refreshProfile(); if (state.base !== 'read') route(true); tellProfAll(id); } }
+      tellProf(id); return; }
+    if (nm) LS.set('name', nm); else LS.del('name');
+    if (ph) LS.set('photo', ph); else LS.del('photo');
+    LS.set('profset', Date.now()); refreshProfile(); if (state.base !== 'read') route(true); tellProfAll(id);
+  });
   window.addEventListener('message', function (e) {
     if (!e.data || e.data.smr !== 'library' || state.base !== 'read') return;
     var id = state.view.slice(5), b = BOOK[id];
@@ -672,7 +695,7 @@
       clearTimeout(tm);
       tm = setTimeout(function () {
         var v = n.value.trim(); if (v) LS.set('name', v); else LS.del('name');
-        ok.textContent = t('set.saved'); refreshProfile();
+        ok.textContent = t('set.saved'); refreshProfile(); profChanged();
       }, 350);
     });
     var f = $('#pf-photo');
@@ -685,14 +708,14 @@
           var s = 320, c = document.createElement('canvas'); c.width = c.height = s;
           var k = Math.min(im.width, im.height), x = c.getContext('2d');
           x.drawImage(im, (im.width - k) / 2, (im.height - k) / 2, k, k, 0, 0, s, s);
-          if (LS.set('photo', c.toDataURL('image/jpeg', 0.86))) { ok.textContent = t('set.saved'); route(true); refreshProfile(); }
+          if (LS.set('photo', c.toDataURL('image/jpeg', 0.86))) { ok.textContent = t('set.saved'); route(true); refreshProfile(); profChanged(); }
         };
         im.src = rd.result;
       };
       rd.readAsDataURL(file);
     });
     document.querySelectorAll('label.btn[for="pf-photo"]').forEach(function (l) { l.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); f.click(); } }); });
-    var rm = $('#pf-rm'); if (rm) rm.addEventListener('click', function () { LS.del('photo'); route(true); refreshProfile(); });
+    var rm = $('#pf-rm'); if (rm) rm.addEventListener('click', function () { LS.del('photo'); route(true); refreshProfile(); profChanged(); });
     $('#clr').addEventListener('click', function (e) {
       var b = e.target.closest('button'); if (!b) return; var box = $('#clr');
       if (b.id === 'clr1') box.innerHTML = '<button class="btn sm" type="button" id="clr2">' + esc(t('set.clear.ok')) + '</button><button class="btn sm quiet" type="button" id="clr0">' + esc(t('cancel')) + '</button>';
