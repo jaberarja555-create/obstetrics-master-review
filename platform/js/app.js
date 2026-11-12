@@ -12,7 +12,10 @@
     del: function (k) { try { localStorage.removeItem('smr-' + k); } catch (e) {} }
   };
   var lang = LS.get('lang', null) || 'ar';  /* Arabic unless the student chose English */
-  var theme = LS.get('theme', 'light');  /* day (white) unless the student chose otherwise */
+  var theme = LS.get('theme', 'light');
+  /* app colour (owner, 12 Nov 2026): six colours for the platform, chosen in Settings and on the first opening */
+  var PALS = [['teal', '#11807a'], ['navy', '#2f4f86'], ['lav', '#7a5bb5'], ['green', '#1e7a4c'], ['blue', '#1768b3'], ['rose', '#b4235f']];
+  var pal = LS.get('pal', 'teal');  /* day (white) unless the student chose otherwise */
   var state = { q: '', view: '', fromList: false };
 
   /* ---------- helpers ---------- */
@@ -109,6 +112,12 @@
   }
   if (mq && mq.addEventListener) mq.addEventListener('change', applyTheme);
   function setTheme(v) { theme = v; LS.set('theme', v); applyTheme(); }
+  function applyPal() { var r = document.documentElement; if (pal && pal !== 'teal') r.setAttribute('data-pal', pal); else r.removeAttribute('data-pal');
+    document.querySelectorAll('[data-pal]').forEach(function (b) { if (b !== r) b.setAttribute('aria-pressed', b.getAttribute('data-pal') === pal ? 'true' : 'false'); }); }
+  function setPal(v) { pal = v; LS.set('pal', v); applyPal(); }
+  function palPick() { return '<div class="pals" role="group" aria-label="' + esc(t('set.color')) + '">' + PALS.map(function (p) {
+    return '<button type="button" data-pal="' + p[0] + '" aria-pressed="' + (pal === p[0]) + '"><i style="--c:' + p[1] + '"></i><span>' + esc(t('pal.' + p[0])) + '</span></button>'; }).join('') + '</div>'; }
+  applyPal();
   function applyLang() { var r = document.documentElement; r.lang = lang; r.dir = lang === 'ar' ? 'rtl' : 'ltr'; }
   function setLang(v) { lang = v; LS.set('lang', v); LS.set('langset', Date.now()); applyLang(); chrome(); route(true); Object.keys(FR).forEach(function (k) { tellLang(k, true); }); }
 
@@ -292,6 +301,7 @@
       '<div class="ok-msg" id="pf-ok" role="status" aria-live="polite"></div><p class="pfnote">' + esc(t('set.profile.note')) + '</p></section>';
     h += '<section class="panel"><h2>' + esc(t('set.lang')) + '</h2>' + seg(t('set.lang'), [['lang', 'en', 'English'], ['lang', 'ar', 'العربية', 'ar', 'ar']], lang) + '</section>';
     h += '<section class="panel"><h2>' + esc(t('set.look')) + '</h2>' + seg(t('set.look'), [['theme', 'light', t('look.light')], ['theme', 'dark', t('look.dark')], ['theme', 'system', t('look.system')]], theme) + '</section>';
+    h += '<section class="panel"><h2>' + esc(t('set.color')) + '</h2>' + palPick() + '</section>';
     h += '<section class="panel"><h2>' + esc(t('set.acc')) + '</h2><p>' + esc(t('set.acc.txt')) + '</p><div class="rows" style="margin-top:14px">' +
       S.books.filter(avail).map(function (b) { return row(b, esc(secTitle(b.section)) + (b.edition ? ' · ' + esc(L(b.edition)) : ''), openLink(b)); }).join('') + '</div></section>';
     h += '<section class="panel"><h2>' + esc(t('set.data')) + '</h2><p>' + esc(t('set.data.txt')) + '</p><div class="confirm" id="clr"><button class="btn sm quiet" type="button" id="clr1">' + esc(t('set.clear')) + '</button></div></section>';
@@ -422,11 +432,12 @@
      moves around the platform, so coming back resumes where they were. */
   var FR = {}, apps = null;
   function readBack(b) { return state.readFrom && state.readFrom !== 'read' ? state.readFrom : b.section; }
-  function showBook(id) {
-    var b = BOOK[id];
-    apps.hidden = false;
-    Object.keys(FR).forEach(function (k) { FR[k].wrap.hidden = k !== id; });
-    var f = FR[id];
+  /* Opening fast (owner, 12 Nov 2026: "all needed files downloaded from the first time, then the app acts smoothly"): right after the
+     platform opens, every book is loaded once in the background, one after the other, in a frame kept off the screen but laid out
+     (class .bg). Opening a book then only brings its frame forward. Each book's own service worker saves its files on the device, so the
+     next openings read them from the device. Not done on "save data" connections. */
+  function frameOf(id) {
+    var b = BOOK[id], f = FR[id];
     if (!f) {
       var wrap = document.createElement('div'); wrap.className = 'aframe';
       wrap.innerHTML = '<div class="aload" role="status"><div class="alc">' + img(b, '', false) + '<p>' + esc(t('read.loading', { t: b.app })) + '</p><span class="spin" aria-hidden="true"></span>' +
@@ -439,14 +450,36 @@
       f = FR[id] = { wrap: wrap, fr: fr, loaded: false };
       fr.addEventListener('load', function () { f.loaded = true; var l = wrap.querySelector('.aload'); if (l) l.remove(); tellLang(id, (LS.get('langset', 0) || 0) > (LS.get('lt-' + id, 0) || 0)); LS.set('lt-' + id, Date.now()); });
       f.timer = setTimeout(function () { if (!f.loaded) { var sl = wrap.querySelector('.aslow'); if (sl) sl.hidden = false; } }, 15000);
-      wrap.appendChild(fr); $('#aframes').appendChild(wrap);
+      wrap.classList.add('bg'); wrap.appendChild(fr); $('#aframes').appendChild(wrap);
     }
+    return f;
+  }
+  function showBook(id) {
+    var b = BOOK[id];
+    apps.hidden = false; apps.classList.remove('bg'); apps.removeAttribute('aria-hidden');
+    frameOf(id);
+    Object.keys(FR).forEach(function (k) { FR[k].wrap.classList.toggle('bg', k !== id); FR[k].wrap.hidden = false; });
     document.title = b.app + ' · Student Master Review';
     noteOpen(id);
   }
   /* the book's Library button follows the platform language when the book has no language setting of its own */
   function tellLang(id, force) { var f = FR[id]; if (!f) return; try { f.fr.contentWindow.postMessage({ smr: 'lang', lang: lang, force: !!force }, new URL(BOOK[id].url).origin); } catch (e) {} }
-  function hideBooks() { if (apps && !apps.hidden) apps.hidden = true; }
+  function hideBooks() { if (!apps || apps.classList.contains('bg')) return; if (Object.keys(FR).length) { apps.hidden = false; apps.classList.add('bg'); apps.setAttribute('aria-hidden', 'true'); } else apps.hidden = true; }
+  var preT = 0;
+  function preload() {
+    if (preT || !EMBED) return; preT = 1;   // EMBED: the platform is the top page and can hold the books
+    var c = navigator.connection; if (c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || ''))) return;
+    var ids = Object.keys(BOOK).filter(function (k) { return BOOK[k].url && BOOK[k].status === 'available'; });
+    function next() {
+      var id = ids.shift(); if (!id) return;
+      if (FR[id]) { next(); return; }
+      if (apps.hidden) { apps.hidden = false; apps.classList.add('bg'); apps.setAttribute('aria-hidden', 'true'); }
+      var f = frameOf(id), done = false;
+      function go() { if (done) return; done = true; setTimeout(next, 2500); }
+      f.fr.addEventListener('load', go); setTimeout(go, 30000);
+    }
+    (window.requestIdleCallback || function (fn) { setTimeout(fn, 1200); })(next, { timeout: 4000 });
+  }
   /* the small button on each book's Home asks to go back to the platform's library */
   window.addEventListener('message', function (e) {
     if (!e.data || e.data.smr !== 'stats') return;
@@ -532,7 +565,8 @@
     }).join('');
     welOpen('<span class="wmark" aria-hidden="true"><span class="mark"></span></span><h2 id="welT">' + esc(t('w.setT')) + '</h2>' +
       '<div class="wset"><p class="wlab">' + esc(t('set.lang')) + '</p><div class="wseg">' + segL + '</div>' +
-      '<p class="wlab">' + esc(t('set.look')) + '</p><div class="wseg">' + segT + '</div></div>' +
+      '<p class="wlab">' + esc(t('set.look')) + '</p><div class="wseg">' + segT + '</div>' +
+      '<p class="wlab">' + esc(t('set.color')) + '</p>' + palPick() + '</div>' +
       '<div class="wbtns"><button class="btn" type="button" data-wdone data-first>' + esc(t('w.start')) + ic('arrow', 'flip') + '</button></div>');
   }
   function welNext() { setupStep(); }
@@ -655,6 +689,7 @@
     if (a.hasAttribute('data-wdone')) { LS.set('setup', 1); welClose(); return; }
     if (a.hasAttribute('data-wlang')) { setLang(a.getAttribute('data-wlang')); setupStep(); return; }
     if (a.hasAttribute('data-wlook')) { setTheme(a.getAttribute('data-wlook')); setupStep(); return; }
+    if (a.hasAttribute('data-pal')) { setPal(a.getAttribute('data-pal')); return; }
     if (a.hasAttribute('data-copy')) { copyLink(); return; }
     if (a.hasAttribute('data-close')) closeBook();
     if (a.hasAttribute('data-retry')) { var rf = FR[a.getAttribute('data-retry')]; if (rf) { rf.wrap.querySelector('.aslow').hidden = true; rf.fr.src = BOOK[a.getAttribute('data-retry')].url; } }
@@ -674,6 +709,7 @@
 
   /* ---------- start ---------- */
   dlg = $('#sheet'); apps = $('#apps');
+  setTimeout(preload, 700);   // the books load in the background from the first opening
   dlg.addEventListener('cancel', function (e) { e.preventDefault(); closeBook(); });
   dlg.addEventListener('click', function (e) { if (e.target === dlg) closeBook(); });
   applyLang(); chrome(); route(true);

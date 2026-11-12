@@ -2276,7 +2276,7 @@ section[data-file^="x9"] .frow .ans{background:none;color:#172e48;font-weight:75
 <script type="application/json" id="decks">{{DECKS}}</script>
 <script type="application/json" id="qbank">{{QBANK}}</script>
 <script type="application/json" id="audio">{{AUDIO}}</script>
-<script src="licence-config.js"></script><script>window.OBS_INFO={{OBS_INFO}}</script><script src="sbmini.js"></script><script src="licence.js"></script><script>if('serviceWorker' in navigator&&location.protocol==='https:')addEventListener('load',function(){navigator.serviceWorker.register('sw.js')})</script>
+<script src="licence-config.js"></script><script>window.OBS_INFO={{OBS_INFO}}</script><script src="sbmini.js"></script><script src="licence.js"></script><script>if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))addEventListener('load',function(){navigator.serviceWorker.register('sw.js')})</script>
 <script>
 window.__boot=(function(){
 var $=function(id){return document.getElementById(id)};

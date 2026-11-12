@@ -767,3 +767,17 @@ html[data-lang="en"] .v2ic.fwd{transform:scaleX(-1)}
     html[data-lang="en"] .hc2 .cbt{max-width:calc(100% - 172px)}}
 }
 @media (max-width:379px){html[data-lang="en"] #v2homeW .hq button>.v2ic:first-child{display:none}}
+
+/* ===== Reading card (owner, 12 Nov 2026): "the chapter text covers the picture" → the picture is shown alone, two buttons under it ===== */
+#v2homeW .hcont.hc3{padding:0;display:flex;flex-direction:column;align-items:stretch;gap:0;overflow:hidden;direction:ltr;text-align:left}
+#v2homeW .hcont.hc3 .ph{position:relative!important;inset:auto!important;flex:1 1 auto;min-height:70px;background-size:cover!important;background-position:center 35%!important;background-color:var(--deep)}
+#v2homeW .hc3 .hpl{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.55)}#v2homeW .hc3 .hpl i{display:block;height:100%;background:var(--pri)}
+#v2homeW .hc3 .hcb{flex:none;display:flex;align-items:stretch;gap:8px;padding:8px;background:var(--sf)}
+#v2homeW .hc3 .hcn{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:1px;padding:6px 12px;border-radius:12px;background:var(--sel);color:var(--tx);text-align:left}
+#v2homeW .hc3 .hcn small{font:700 11px/1.2 var(--ui);color:var(--pri);letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#v2homeW .hc3 .hcn b{font:700 13.5px/1.25 var(--ui);color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#v2homeW .hc3 .hgo{flex:none;margin:0;min-height:44px;height:auto;padding:0 16px;font-size:14.5px;border-radius:12px;gap:8px}
+@media (min-width:760px){#v2homeW .hc3 .hcb{padding:10px;gap:10px}#v2homeW .hc3 .hcn{padding:8px 14px}#v2homeW .hc3 .hcn b{font-size:15px}#v2homeW .hc3 .hgo{min-height:50px;padding:0 22px;font-size:15.5px}}
+@media (max-width:379px){#v2homeW .hc3 .hgo{padding:0 12px;font-size:13.5px}}
+html:not([data-lang="en"]) #v2homeW .hc3 .hgo .v2ic{transform:scaleX(-1)}
+html[data-lang="en"] #v2homeW .hq small{display:none}   /* the English subtitle repeats the label in English */

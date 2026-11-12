@@ -145,7 +145,7 @@ def main():
     payload = gzip.compress(json.dumps({'pages': lk_pages, 'decks': lk_decks, 'qbank': lk_qb}, ensure_ascii=False).encode())
     iv = os.urandom(12)
     open(os.path.join(site, 'content.bin'), 'wb').write(iv + AESGCM(key()).encrypt(iv, payload, None))
-    ver = hashlib.sha1(open(os.path.join(site, 'index.html'), 'rb').read()).hexdigest()[:10]
+    ver = hashlib.sha1(b''.join(open(os.path.join(site, n), 'rb').read() for n in ('index.html', 'licence.js', 'licence-config.js', 'sbmini.js'))).hexdigest()[:10]   # a new version → a new saved copy
     swp = os.path.join(site, 'sw.js')
     sw = open(swp).read()
     imgs = sorted('img/' + n for n in os.listdir(os.path.join(site, 'img'))) if os.path.exists(os.path.join(site, 'img')) else []
