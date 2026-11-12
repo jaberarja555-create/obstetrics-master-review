@@ -445,6 +445,14 @@
        the greeting with «ثبّت التطبيق» / «المتابعة في المتصفح», then the language and look step, then Home */
     MOVED = true; try { sessionStorage.removeItem('smr-wel'); } catch (e) {} LS.del('setup');
     try { history.replaceState(null, '', location.pathname + location.search + '#home'); } catch (e) {} })();
+  /* owner, 12 Nov 2026 ("old links open the book, I think because of #read-surgery"): an opening of the app on an address that points inside a
+     book (a saved tab, bookmark or link from an older move) starts on Home with the greeting; the book is one tap away. Coming from a book's
+     old address also shows the note that the books now open here. */
+  (function () { if (!/^#read-/.test(location.hash)) return;
+    var ref = ''; try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) {}
+    if (/^(obstetrics-master-review\.pages\.dev|surgery-master-review\.jaberarja555\.workers\.dev|pediatrics-master-review\.jaberarja555\.workers\.dev)$/.test(ref)) {
+      MOVED = true; try { sessionStorage.removeItem('smr-wel'); } catch (e) {} LS.del('setup'); }
+    try { history.replaceState(null, '', location.pathname + location.search + '#home'); } catch (e) {} })();
   function readBack(b) { return state.readFrom && state.readFrom !== 'read' ? state.readFrom : b.section; }
   /* Opening fast (owner, 12 Nov 2026: "all needed files downloaded from the first time, then the app acts smoothly"): right after the
      platform opens, every book is loaded once in the background, one after the other, in a frame kept off the screen but laid out
