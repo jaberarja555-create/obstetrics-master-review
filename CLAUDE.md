@@ -328,8 +328,17 @@ Review copy: https://claude.ai/artifact/VKS3UPJmG5oa9kH9NGGXUm (whole platform; 
   tools/v2book.json). **After changing the app here, re-run port_v2.py in both repos** so they stay the same.
 - Phone Home (owner, 11 Nov 2026): no progress tiles on phones; the name chip shows only the picture under 430 px; forward arrows (`I('back')`,
   class `fwd`) point right in English. The video lectures are called «الفيديو» / Videos and the slides «المحاضرات» / Lectures (owner).
-- Admin (site_static/admin.html) has a book filter (All / Obstetrics / Pediatrics / Surgery, `adm-book`) and a book label on every request
-  and subscriber; Give shows the device's book (`obs_admin_seen`).
+- Admin (site_static/admin.html) is the admin of the three books (owner, 12 Nov 2026): platform logo and colours (smr-icon-*.png, admin.webmanifest),
+  a book filter (All / Obstetrics / Pediatrics / Surgery, `adm-book`), a book label on every request; **Students** = one card per student
+  (subscriptions with the same phone number, last 9 digits) with a row per book (or «Not subscribed»), each row with its own Devices / Extend /
+  Notes / Remove devices / Switch off; «All notes» shows the student's notes of every book, grouped by book and page; a request shows what the
+  student already has («Already: …»). Give shows the device's book (`obs_admin_seen`).
+- Fast opening (owner, 12 Nov 2026): the platform loads every book in the background right after it opens (frames off the screen, class .bg,
+  not on save-data connections); each book's service worker (same file in the three books: site_static/sw.js here, src/sw.js there) saves every
+  file at the first opening and then opens from the device, fetching the newest page in the background for the next opening.
+- Platform colours (owner, 12 Nov 2026): six colours (`smr-pal`, html[data-pal]) in Settings and in the first-opening step with language and look.
+- Home reading card (owner, 12 Nov 2026: "the chapter text covers the picture"): `.hc3` = the chapter picture alone with a thin progress line,
+  under it a chapter button (small text: «الفصل N · %» + chapter name) and «تابع القراءة».
 - `tools/supabase/pending/009_three_books.sql` (NOT applied; waits for the owner): book column on codes / requests / devices seen, a key per
   book (`obs_book_keys`, its SHA-256 printed in the apply log → book.json access.key_hash of Pediatrics / Surgery), 4- and 10-argument
   `obs_request_status` / `obs_request_submit` with p_book, a link number joins only a device of the same book. Obstetrics calls are
