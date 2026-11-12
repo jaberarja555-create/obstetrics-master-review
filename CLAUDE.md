@@ -339,7 +339,7 @@ Review copy: https://claude.ai/artifact/VKS3UPJmG5oa9kH9NGGXUm (whole platform; 
 - Platform colours (owner, 12 Nov 2026): six colours (`smr-pal`, html[data-pal]) in Settings and in the first-opening step with language and look.
 - Home reading card (owner, 12 Nov 2026: "the chapter text covers the picture"): `.hc3` = the chapter picture alone with a thin progress line,
   under it a chapter button (small text: «الفصل N · %» + chapter name) and «تابع القراءة».
-- `tools/supabase/pending/009_three_books.sql` (NOT applied; waits for the owner): book column on codes / requests / devices seen, a key per
+- `tools/supabase/migrations/009_three_books.sql` (applied 12 Nov 2026 with the owner's OK): book column on codes / requests / devices seen, a key per
   book (`obs_book_keys`, its SHA-256 printed in the apply log → book.json access.key_hash of Pediatrics / Surgery), 4- and 10-argument
   `obs_request_status` / `obs_request_submit` with p_book, a link number joins only a device of the same book. Obstetrics calls are
   unchanged. Tested on a local Postgres copy. To apply: move it into migrations/ and push to main.
