@@ -501,21 +501,30 @@
   function prune(cur) { Object.keys(FR).filter(function (k) { return FR[k].used; }).sort(function (a, b) { return FR[b].used - FR[a].used; })
       .forEach(function (k, i) { if (i >= KEEP && k !== cur) drop(k); }); }
   function hideBooks() { if (!apps || apps.classList.contains('bg')) return; if (Object.keys(FR).length) { apps.hidden = false; apps.classList.add('bg'); apps.setAttribute('aria-hidden', 'true'); } else apps.hidden = true; }
+  /* Speed (owner, 12 Nov 2026: "the app is very slow"): a book loading in the background uses the same processor as the screen the
+     student is touching, so the books are now loaded only while the student is NOT touching the app (whenIdle), the last opened book
+     first, one after the other. A phone with little memory loads only its last opened book this way; its other books load when opened. */
+  var lastInput = 0;
+  ['pointerdown', 'touchmove', 'wheel', 'keydown', 'scroll'].forEach(function (ev) { window.addEventListener(ev, function () { lastInput = Date.now(); }, { capture: true, passive: true }); });
+  function whenIdle(fn, quiet) { (function wait() { if (document.hidden || Date.now() - lastInput < (quiet || 1500)) { setTimeout(wait, 700); return; }
+    (window.requestIdleCallback || function (f) { setTimeout(f, 200); })(fn, { timeout: 3000 }); })(); }
   var preT = 0;
   function preload() {
     if (preT || !EMBED) return; preT = 1;   // EMBED: the platform is the top page and can hold the books
     var c = navigator.connection; if (c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || ''))) return;
     var ids = Object.keys(BOOK).filter(function (k) { return BOOK[k].url && BOOK[k].status === 'available'; });
+    var rec = []; try { rec = (LS.get('recent', []) || []).map(function (x) { return x && x.id ? x.id : x; }); } catch (e) {}
+    ids.sort(function (a, b) { var x = rec.indexOf(a), y = rec.indexOf(b); return (x < 0 ? 99 : x) - (y < 0 ? 99 : y); });
+    if (LOWMEM) ids = ids.slice(0, 1);
     function next() {
       var id = ids.shift(); if (!id) return;
-      if (FR[id]) { next(); return; }
+      if (FR[id]) { whenIdle(next); return; }
       if (apps.hidden) { apps.hidden = false; apps.classList.add('bg'); apps.setAttribute('aria-hidden', 'true'); }
       var f = frameOf(id), done = false;
-      /* the book saves its files on the device while it is open; after that it is closed unless the student opened it meanwhile */
-      function go() { if (done) return; done = true; setTimeout(function () { if (LOWMEM && FR[id] && !FR[id].used) drop(id); next(); }, LOWMEM ? 25000 : 6000); }
+      function go() { if (done) return; done = true; setTimeout(function () { whenIdle(next); }, 2500); }
       f.fr.addEventListener('load', go); setTimeout(go, 45000);
     }
-    (window.requestIdleCallback || function (fn) { setTimeout(fn, 1200); })(next, { timeout: 4000 });
+    whenIdle(next);
   }
   /* the small button on each book's Home asks to go back to the platform's library */
   window.addEventListener('message', function (e) {
@@ -803,7 +812,7 @@
 
   /* ---------- start ---------- */
   dlg = $('#sheet'); apps = $('#apps');
-  setTimeout(preload, 700);   // the books load in the background from the first opening
+  setTimeout(preload, 1500);   // the books load in the background, while the student is not touching the app
   dlg.addEventListener('cancel', function (e) { e.preventDefault(); closeBook(); });
   dlg.addEventListener('click', function (e) { if (e.target === dlg) closeBook(); });
   applyLang(); chrome(); route(true);
@@ -811,5 +820,16 @@
   var seenWel = false; try { seenWel = sessionStorage.getItem('smr-wel') === '1'; } catch (e) {}
   if (!seenWel && !/^read-/.test(location.hash.slice(1))) welcome();
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !wel().hidden) welClose(); });
-  if ('serviceWorker' in navigator && location.protocol === 'https:') { try { navigator.serviceWorker.register('sw.js'); } catch (e) {} }
+  /* Speed (owner, 12 Nov 2026): the platform opens at once from the copy saved on the device (sw.js); when the internet then brings a
+     newer page, style or script, the worker says so: an app that was only just opened and not yet touched shows it at once, otherwise
+     the next opening does. */
+  if ('serviceWorker' in navigator && location.protocol === 'https:') { try {
+    navigator.serviceWorker.register('sw.js');
+    var swT = Date.now(), swNew = false;
+    navigator.serviceWorker.addEventListener('message', function (e) {
+      if (!e.data || e.data.smr !== 'new' || swNew) return; swNew = true;
+      setTimeout(function () { var last = 0; try { last = +sessionStorage.getItem('smr-rl') || 0; } catch (x) {}
+        if (lastInput || Date.now() - swT > 15000 || Date.now() - last < 60000 || Object.keys(FR).some(function (k) { return FR[k].used; })) return;
+        try { sessionStorage.setItem('smr-rl', String(Date.now())); } catch (x) {} location.reload(); }, 1500); });
+  } catch (e) {} }
 })();

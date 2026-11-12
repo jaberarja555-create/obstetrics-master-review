@@ -2300,7 +2300,7 @@ section[data-file^="x9"] .frow .ans{background:none;color:#172e48;font-weight:75
 <script type="application/json" id="decks">{{DECKS}}</script>
 <script type="application/json" id="qbank">{{QBANK}}</script>
 <script type="application/json" id="audio">{{AUDIO}}</script>
-<script src="licence-config.js"></script><script>window.OBS_INFO={{OBS_INFO}}</script><script src="sbmini.js"></script><script src="licence.js"></script><script>if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))addEventListener('load',function(){navigator.serviceWorker.register('sw.js')})</script>
+<script src="licence-config.js"></script><script>window.OBS_INFO={{OBS_INFO}}</script><script src="sbmini.js"></script><script src="licence.js"></script><script>if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))addEventListener('load',function(){navigator.serviceWorker.register('sw.js').then(function(g){var t=Date.now();document.addEventListener('visibilitychange',function(){if(!document.hidden&&g&&g.update&&Date.now()-t>18e5){t=Date.now();try{g.update().catch(function(){})}catch(e){}}})}).catch(function(){})})</script>
 <script>
 window.__boot=(function(){
 var $=function(id){return document.getElementById(id)};
@@ -2398,7 +2398,7 @@ function upgRebuild(){
   BIDX=[];PAGES.forEach(function(p,i){if(p.bn)BIDX[p.bn-1]=i});
   PKEY=[];byKey={};var n={};PAGES.forEach(function(p,i){var g=p.t,k=g?g+':'+(n[g]=(n[g]||0)+1):(p.f||'x'+i);if(p.user)k=p.f;PKEY[i]=k;byKey[k]=i});
   if(typeof tpages!=='undefined'){tpages={};PAGES.forEach(function(p,i){if(p.t){(tpages[p.t]=tpages[p.t]||[]).push(i)}})}
-  if(typeof TEXT!=='undefined')TEXT=srcPages.map(ptext);layout();PAGES.forEach(function(p,i){if(p.user||(typeof INK!=='undefined'&&INK[PKEY[i]]))inkRender(i)})}
+  if(typeof TEXT!=='undefined')TEXT=[];layout();PAGES.forEach(function(p,i){if(p.user||(typeof INK!=='undefined'&&INK[PKEY[i]]))inkRender(i)})}
 $('zoomBtn').onclick=function(e){e.stopPropagation();var f=$('penFly');if(!f.hidden&&f.dataset.k==='z')penFly(false);else zoomFly()};
 /* two-finger pinch on the pages zooms (not while the drawing pen or text tool is on: there two fingers scroll) */
 var pin=null,pinF=0;function tdist(e){var a=e.touches[0],b=e.touches[1];return Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)}
@@ -2576,13 +2576,14 @@ function inl(e){var t=e.tagName;return /^(B|I|EM|STRONG|SUB|SUP|MARK|A|U|SMALL)$
 function brk(a,b){var A=[],x=a.parentNode;while(x){A.push(x);x=x.parentNode}var y=b.parentNode,opened=[];while(y&&A.indexOf(y)<0){opened.push(y);y=y.parentNode}
   for(var i=0;A[i]!==y;i++){if(!inl(A[i]))return true}for(var j=0;j<opened.length;j++){if(!inl(opened[j]))return true}return false}
 function ptext(pw){var w=document.createTreeWalker(pw,NodeFilter.SHOW_TEXT),out='',prev=null,n;while((n=w.nextNode())){if(prev&&brk(prev,n))out+=' ';out+=n.nodeValue;prev=n}return out.replace(/\s+/g,' ')}
-var TEXT=srcPages.map(ptext);   // from the page sources: pages need not be built
+/* the text of every page for the search: made at the first search (speed, 12 Nov 2026: it cost a third of a second at every opening) */
+var TEXT=[];function textReady(){if(TEXT.length!==srcPages.length)TEXT=srcPages.map(ptext)}
 var qch=['MgSO₄','ferritin','artesunate','praevia','accreta','OGTT','HELLP','anti-D'];
 $('qchips').innerHTML=qch.map(function(c){return '<button class="chip" type="button">'+c+'</button>'}).join('');
 $('qchips').onclick=function(e){var b=e.target.closest('.chip');if(b){$('q').value=b.textContent;runSearch()}};
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
 function runSearch(){var q=$('q').value.trim();var out=$('results');if(q.length<2){out.innerHTML='<p class="empty">Type at least 2 letters. Every page of the book is searched.</p>';return}
-  var ql=q.toLowerCase(),hits=[];TEXT.forEach(function(t,i){var tl=t.toLowerCase(),k=tl.indexOf(ql),n=0;if(k<0)return;var c=k;while(c>=0){n++;c=tl.indexOf(ql,c+1)}
+  textReady();var ql=q.toLowerCase(),hits=[];TEXT.forEach(function(t,i){var tl=t.toLowerCase(),k=tl.indexOf(ql),n=0;if(k<0)return;var c=k;while(c>=0){n++;c=tl.indexOf(ql,c+1)}
     var a=Math.max(0,k-60),snip=(a?'…':'')+esc(t.slice(a,k))+'<mark>'+esc(t.slice(k,k+q.length))+'</mark>'+esc(t.slice(k+q.length,k+q.length+80))+'…';hits.push({i:i,n:n,snip:snip})});
   out.innerHTML=hits.length?'<div class="res">'+hits.map(function(h){return '<button class="ri" type="button" data-i="'+h.i+'"><span class="pn">p '+(PAGES[h.i].bn||'✎')+'</span><span><b>'+esc(META.pages[h.i].label)+' · '+h.n+'×</b><span>'+h.snip+'</span></span></button>'}).join('')+'</div>':'<p class="empty">No page mentions “'+esc(q)+'”.</p>'}
 $('q').addEventListener('input',runSearch);runSearch();

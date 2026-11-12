@@ -1,9 +1,10 @@
 /* Offline copy, fast opening and quick updates (owner, 12 Nov 2026; the same file in the three books).
    - First opening: the book's page and its small files are saved at once; the pictures are saved in the background (and whenever shown).
-   - Every opening with internet: the page is asked from the internet first (up to 3 s), so a new version shows at once; with no or slow
-     internet the saved copy opens. Pictures and fonts always come from the device.
-   - A new version (new cache name) copies the pictures already saved from the older copy (no download again), saves only the new page, then
-     reloads every open page of the book, also pages still running an older copy. */
+   - Every later opening: the saved page opens AT ONCE from the device, with no waiting for the internet (owner, 12 Nov 2026: "the app is
+     very slow, especially opening each book"). Pictures and fonts always come from the device.
+   - A new version = a new copy of this file (new cache name): the browser finds it in the background at each opening (the page also asks,
+     see shell.html), it copies the pictures already saved from the older copy (no download again), saves only the new page, then reloads
+     every open page of the book, also pages still running an older copy. So a new version still shows within seconds of opening. */
 var C='orr-0',ASSETS=[];
 var SKIP=/^\/(check|activate|sync|release|trial|api\/|admin|audio\/|video\/)|^\/img$/;   // server calls and media, never saved
 function fill(c,list){var n=0;function more(){var part=list.splice(0,6);if(!part.length)return Promise.resolve();
@@ -22,9 +23,7 @@ self.addEventListener('activate',function(e){e.waitUntil(caches.keys().then(func
 self.addEventListener('fetch',function(e){var r=e.request,u=new URL(r.url);
   if(r.method!=='GET'||r.headers.has('range')||r.destination==='video'||r.destination==='audio')return;
   if(u.origin!==location.origin||SKIP.test(u.pathname))return;
-  if(r.mode==='navigate'||/\/(index\.html)?$/.test(u.pathname)){   // the book itself: newest from the internet when it answers within 3 s
-    var net=fetch(r,{cache:'no-cache'}).then(function(res){if(res&&res.ok){var cp=res.clone();caches.open(C).then(function(c){c.put('./',cp)})}return res});
-    e.waitUntil(net.then(function(){},function(){}));
-    e.respondWith(new Promise(function(done){var t=setTimeout(function(){caches.match('./').then(function(m){if(m)done(m)})},3000);
-      net.then(function(res){clearTimeout(t);done(res)},function(){clearTimeout(t);caches.match('./').then(function(m){done(m||Response.error())})})}));return}
+  if(r.mode==='navigate'||/\/(index\.html)?$/.test(u.pathname)){   // the book itself: the saved copy at once; the internet only when nothing is saved yet
+    e.respondWith(caches.open(C).then(function(c){return c.match('./').then(function(m){if(m)return m;
+      return fetch(r,{cache:'no-cache'}).then(function(res){if(res&&res.ok)c.put('./',res.clone());return res})})}).catch(function(){return fetch(r)}));return}
   e.respondWith(caches.match(r).then(function(m){return m||fetch(r).then(function(res){if(res&&res.ok){var cp=res.clone();caches.open(C).then(function(c){c.put(r,cp)})}return res})}))});

@@ -10,7 +10,7 @@ var SPLACES=[['الفصول','chapters topics contents فهرس محتويات',
  ['الإشعارات','notifications bell اشعار','v:v2notif','bell'],['دليل الاستخدام','user manual guide how to use شرح طريقه','v:v2help','book'],['المساعدة','help contact whatsapp telegram call phone support مساعده تواصل واتساب','v:v2contact','help'],
  ['عن الكتاب','about authors reviewers references edition copyright مؤلف مراجع حقوق','v:v2about','info'],['التنزيلات','downloads offline تنزيل','v:v2dl','dl'],['تقدّمي','progress statistics تقدم','a:prog','bars'],['الإعدادات','settings اعدادات','v:v2settings','gear']];
 var STXT=null,SCARD=null,SQ=null;
-function sIndex(){if(STXT&&STXT.length===TEXT.length)return;STXT=TEXT.map(sn);SCARD=[];deckIds.forEach(function(id){DECKS[id].cards.forEach(function(c){SCARD.push({id:id,c:c,n:sn(c[1]+' '+c[2])})})});
+function sIndex(){if(typeof textReady==='function')textReady();if(STXT&&STXT.length===TEXT.length)return;STXT=TEXT.map(sn);SCARD=[];deckIds.forEach(function(id){DECKS[id].cards.forEach(function(c){SCARD.push({id:id,c:c,n:sn(c[1]+' '+c[2])})})});
   SQ=QS.map(function(q){return {q:q,n:sn((q.stem||'')+' '+(q.q||'')+' '+(q.theme||''))}})}
 function sHit(n,tk){for(var i=0;i<tk.length;i++)if(n.indexOf(tk[i])<0)return false;return true}
 function sMark(raw,tk,len){var low=raw.toLowerCase(),k=-1,w='';tk.forEach(function(t){var p=low.indexOf(t);if(p>=0&&(k<0||p<k)){k=p;w=t}});if(k<0)return X(raw.slice(0,len||140))+(raw.length>(len||140)?'…':'');
