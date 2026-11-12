@@ -343,3 +343,8 @@ Review copy: https://claude.ai/artifact/VKS3UPJmG5oa9kH9NGGXUm (whole platform; 
   book (`obs_book_keys`, its SHA-256 printed in the apply log → book.json access.key_hash of Pediatrics / Surgery), 4- and 10-argument
   `obs_request_status` / `obs_request_submit` with p_book, a link number joins only a device of the same book. Obstetrics calls are
   unchanged. Tested on a local Postgres copy. To apply: move it into migrations/ and push to main.
+- **Automatic sync (owner, 12 Nov 2026: "once there is internet, notes and every edit sync and upload by themselves, even with one phone"):**
+  a block right after the sync start (`/* Automatic sync … */`, same in the three books) watches localStorage writes of the synced keys
+  (highlights, notes, drawings, page marks, cards known, question answers, tests, bookmarks, blank pages, streak) and starts a sync 4 s later;
+  `<prefix>-dirty` = changes not yet online (kept across restarts); retried every 30 s when the upload failed; a check for other devices'
+  changes every 3 minutes while the app is open; upload on pagehide / going to the background. Subscribed devices only (sync is per subscription).
