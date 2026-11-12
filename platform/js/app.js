@@ -433,7 +433,7 @@
   var FR = {}, apps = null;
   /* A book opened on its own address moves the student here (owner, 12 Nov 2026: one app): #read-<book>~move=<device identity>. The identity is
      kept for this tab only and handed to the book's frame, so the subscription and synced notes follow. */
-  var MOVE = {};
+  var MOVE = {}, MOVED = false;
   /* owner, 12 Nov 2026: a student coming from a book's old link lands on the platform's Home first (so they see that everything changed);
      the book's hand-over waits on this device until that book is opened (or loaded in the background) here. */
   function moveGet(id) { try { return localStorage.getItem('smr-move-' + id); } catch (e) { return null; } }
@@ -441,6 +441,9 @@
   (function () { var h = location.hash, m = h.match(/^#([a-z-]*)~move-([a-z-]+)=(.+)$/) || h.match(/^#read-([a-z-]+)~move=(.+)$/), id, v;
     if (!m) return; if (m.length === 4) { id = m[2]; v = m[3]; } else { id = m[1]; v = m[2]; }
     MOVE[id] = v; try { localStorage.setItem('smr-move-' + id, v); } catch (e) {}
+    /* owner, 12 Nov 2026: someone coming from an old book link or book app gets the main app exactly as on a first opening:
+       the greeting with «ثبّت التطبيق» / «المتابعة في المتصفح», then the language and look step, then Home */
+    MOVED = true; try { sessionStorage.removeItem('smr-wel'); } catch (e) {} LS.del('setup');
     try { history.replaceState(null, '', location.pathname + location.search + '#home'); } catch (e) {} })();
   function readBack(b) { return state.readFrom && state.readFrom !== 'read' ? state.readFrom : b.section; }
   /* Opening fast (owner, 12 Nov 2026: "all needed files downloaded from the first time, then the app acts smoothly"): right after the
@@ -527,10 +530,11 @@
     var n = cleanName(LS.get('name', ''));
     return '<span class="wmark" aria-hidden="true"><span class="mark"></span></span>' +
       '<h2 id="welT">' + (n ? t('w.hin', { n: '<bdi>' + esc(n) + '</bdi>' }) : esc(t('w.hi'))) + '</h2>' +
-      '<p class="wbrand" lang="en" dir="ltr">Student Master Review</p><p class="wsub">' + esc(t('w.sub')) + '</p>';
+      '<p class="wbrand" lang="en" dir="ltr">Student Master Review</p><p class="wsub">' + esc(t('w.sub')) + '</p>' +
+      (MOVED ? '<p class="wmoved">' + ic('info') + '<span>' + esc(t('w.moved')) + '</span></p>' : '');
   }
   function welcome() {
-    if (STANDALONE) {
+    if (STANDALONE && !MOVED) {
       welOpen(welHead() + '<div class="wbtns"><button class="btn" type="button" data-wclose data-first>' + esc(t('w.start')) + ic('arrow', 'flip') + '</button></div>');
       return;
     }

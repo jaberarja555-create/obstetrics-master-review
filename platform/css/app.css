@@ -654,3 +654,4 @@ html[lang="ar"] .pals button{font-family:var(--arab)}
 .wset .pals{justify-content:center;padding:4px 0 2px;gap:2px;flex-wrap:nowrap}
 .wset .pals button{min-width:0;flex:1 1 0;padding:6px 0;font-size:11px;gap:5px}
 .wset .pals i{width:28px;height:28px}
+.wmoved{display:flex;gap:10px;align-items:flex-start;margin:4px 0 2px;padding:12px 14px;border-radius:14px;background:var(--pritint);color:var(--tx);font-weight:600;font-size:14.5px;line-height:1.6;text-align:start}.wmoved svg{flex:none;width:20px;height:20px;color:var(--tl);margin-top:2px}
