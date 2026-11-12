@@ -785,3 +785,16 @@ html[data-lang="en"] #v2homeW .hq small{display:none}   /* the English subtitle 
 .tocdr .tdin0{background:var(--deep);color:#fff}.tocdr .tdh b{color:#fff}.tocdr .tdpart{color:rgba(255,255,255,.7)}
 .tocdr .tdi.cur,.tocdr .tdrr.cur{background:rgba(255,255,255,.14);box-shadow:inset 3px 0 0 #fff}
 .tocdr .tdt,.tocdr .tdt small,.tocdr .tdl{unicode-bidi:plaintext;text-align:left}   /* Arabic labels read right to left inside the English contents */
+/* this topic's video / lecture from the reader (owner, 12 Nov 2026) */
+.v2msheet .in{max-width:760px}.v2msheet .mvt{margin:0 0 10px;direction:ltr;text-align:left}.v2msheet .mvt b{display:block;font:700 15px/1.3 var(--ui);color:var(--tx)}.v2msheet .mvt small{font:500 12px var(--ui);color:var(--sub)}
+.v2msheet .mvp{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:14px;background:#000}
+.v2msheet .mth{position:relative;background:var(--sel) center/cover}.v2msheet .mth::after{content:'';position:absolute;inset:0;border-radius:14px;background:rgba(20,15,40,.35)}
+.v2msheet .mth .pl{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:#ffffffd9;color:var(--deep);display:grid;place-items:center;z-index:1;opacity:.85}
+.v2msheet .mth .pl .v2ic{width:30px;height:30px;stroke-width:0;fill:currentColor}
+.v2msheet .mth .sn,.v2msheet .sld .sn{position:absolute;right:10px;top:10px;z-index:2;padding:2px 12px;border-radius:10px;background:var(--pri);color:var(--pon);font:700 13px/1.8 'Cairo',sans-serif}
+.v2msheet .sld{background:linear-gradient(135deg,#fff 0,var(--sel) 100%)}
+.v2msheet .mvn{margin:10px 2px 0;font:600 14px/1.6 'Cairo',sans-serif;color:var(--sub);text-align:center}
+.tocdr .tdtabs{display:flex;gap:6px;padding:10px 12px 4px}.tocdr .tdtabs button{flex:1;height:38px;border-radius:12px;border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;font:700 14px 'Cairo',var(--ui);cursor:pointer}
+.tocdr .tdtabs button.on{background:#fff;color:var(--deep);border-color:#fff}.tocdr .tdemp{margin:18px 10px;font:500 14px/1.7 'Cairo',sans-serif;color:rgba(255,255,255,.8);text-align:center}
+.tocdr .tdbm .tdi{margin:2px 0}
+.v2msheet .mvn,.tocdr .tdemp{direction:rtl}

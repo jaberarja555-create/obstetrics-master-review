@@ -80,7 +80,7 @@ pagesEl.addEventListener('click',function(e){var t=e.target,g=t.closest&&t.close
 /* ----- the device Back button moves back inside the app ----- */
 function backOne(){var w=$('v2wel');if(w&&!w.hidden)return false;
   if(!FNB.hidden){FN=null;FNB.hidden=true;return true}if(!$('hlbar').hidden){try{getSelection().removeAllRanges()}catch(e){}hideBar();return true}
-  var ids=['penFly','v2tsheet','nsheet','bmMenu'],i,el;for(i=0;i<ids.length;i++){el=$(ids[i]);if(el&&!el.hidden){if(ids[i]==='penFly')penFly(false);else el.hidden=true;return true}}
+  var ids=['penFly','v2msheet','tocDr','v2tsheet','nsheet','bmMenu'],i,el;for(i=0;i<ids.length;i++){el=$(ids[i]);if(el&&!el.hidden){if(ids[i]==='penFly')penFly(false);else if(ids[i]==='tocDr'&&typeof closeToc==='function')closeToc();else{var vv=el.querySelector&&el.querySelector('video');if(vv)vv.pause();el.hidden=true}return true}}
   el=[].filter.call(document.querySelectorAll('.sheet,.nbox,.itx'),function(x){return !x.hidden&&x.offsetParent!==null})[0];
   if(el){var c=el.querySelector('[data-a="close"],[data-no]');if(c)c.click();else el.hidden=true;return true}
   var rb=$('rbar');if(rb&&rb.classList.contains('fan')){$('rbShow').click();return true}

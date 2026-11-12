@@ -351,9 +351,12 @@ Review copy: https://claude.ai/artifact/VKS3UPJmG5oa9kH9NGGXUm (whole platform; 
 - **One app (owner, 12 Nov 2026: "the links of each book no longer work, even the installed apps; everything works with the big app link"):**
   the three book addresses (obstetrics-master-review.pages.dev, surgery-/pediatrics-master-review.jaberarja555.workers.dev) opened on their own
   (not inside the platform frame) show «الكتاب الآن داخل تطبيق Student Master Review», save what is not yet online (`window.__autoSync.now`),
-  then `location.replace` to https://student-master-review.pages.dev/#read-<book>~move=<base64 JSON of the device identity keys: dev, code,
+  then `location.replace` to https://student-master-review.pages.dev/#home~move-<book>=<base64 JSON (owner, 12 Nov 2026: the platform's Home first, so students see the change; the platform keeps it in localStorage `smr-move-<book>` until that book's frame is made) of the device identity keys: dev, code,
   act (Worker token), sdev, trial, chz, name, sname, lang, mode, pal, tel, req; plus a WhatsApp #code=>. The platform (`MOVE`, js/app.js) keeps it for
   this tab and opens the frame with `#smr-move=…`; the head script of each book imports the keys only when that frame has no subscription of its
   own, then clears the address (restoring #code= if any). Same device id → the subscription and synced notes follow with no code and no extra
   device slot; Obstetrics adopts its key through poll() (no choices sheet when `orr-code` came along). Only the production host names move;
   previews, localhost, admin.html and the Workers' /admin keep working. Free/trial students' notes that were never online stay in the old app.
+- Reader (owner, 12 Nov 2026): «الفيديو» / «المحاضرات» in the reading bar open THIS topic's video or lecture in a sheet (`media()`, `#v2msheet`;
+  a file in INFO.video[topic] / INFO.slides[topic] plays there, otherwise the topic's own «قريبًا» card) with «كل الفيديوهات / كل المحاضرات» for the list;
+  «المحتويات» opens the book contents panel (`tocDrawer`) with a second tab «المحفوظة» = the bookmarked topics (`contents()`); Back closes both.

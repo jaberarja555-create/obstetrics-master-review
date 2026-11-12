@@ -3535,7 +3535,7 @@ refreshCont();
   function go(){if(done)return;done=true;var o={},n=0;KEYS.forEach(function(k){try{var v=localStorage.getItem(k);if(v!=null&&v.length<4000){o[k]=v;n++}}catch(e){}});
     var lc=(location.hash.match(/code=([A-Za-z0-9-]{11,16})/)||[])[1];if(lc){o.__code=lc;n++}   // an activation link from WhatsApp keeps its code
     var b=n?encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(o))))):'';
-    location.replace('https://student-master-review.pages.dev/#read-'+ID+(b?'~move='+b:''))}
+    location.replace('https://student-master-review.pages.dev/#home'+(b?'~move-'+ID+'='+b:'')) /* the platform's Home first (owner, 12 Nov 2026) */}
   var p=null;try{var a=window.__autoSync;if(a&&a.now&&navigator.onLine!==false)p=a.now()}catch(e){}
   if(p&&p.then)Promise.race([p,new Promise(function(r){setTimeout(r,8000)})]).then(function(){setTimeout(go,300)},go);else setTimeout(go,1500)})();
 </script>

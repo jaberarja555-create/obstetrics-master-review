@@ -434,9 +434,14 @@
   /* A book opened on its own address moves the student here (owner, 12 Nov 2026: one app): #read-<book>~move=<device identity>. The identity is
      kept for this tab only and handed to the book's frame, so the subscription and synced notes follow. */
   var MOVE = {};
-  (function () { var m = location.hash.match(/^#read-([a-z-]+)~move=(.+)$/); if (!m) return;
-    MOVE[m[1]] = m[2]; try { sessionStorage.setItem('smr-move-' + m[1], m[2]); } catch (e) {}
-    try { history.replaceState(null, '', location.pathname + location.search + '#read-' + m[1]); } catch (e) {} })();
+  /* owner, 12 Nov 2026: a student coming from a book's old link lands on the platform's Home first (so they see that everything changed);
+     the book's hand-over waits on this device until that book is opened (or loaded in the background) here. */
+  function moveGet(id) { try { return localStorage.getItem('smr-move-' + id); } catch (e) { return null; } }
+  function moveDel(id) { try { localStorage.removeItem('smr-move-' + id); } catch (e) {} }
+  (function () { var h = location.hash, m = h.match(/^#([a-z-]*)~move-([a-z-]+)=(.+)$/) || h.match(/^#read-([a-z-]+)~move=(.+)$/), id, v;
+    if (!m) return; if (m.length === 4) { id = m[2]; v = m[3]; } else { id = m[1]; v = m[2]; }
+    MOVE[id] = v; try { localStorage.setItem('smr-move-' + id, v); } catch (e) {}
+    try { history.replaceState(null, '', location.pathname + location.search + '#home'); } catch (e) {} })();
   function readBack(b) { return state.readFrom && state.readFrom !== 'read' ? state.readFrom : b.section; }
   /* Opening fast (owner, 12 Nov 2026: "all needed files downloaded from the first time, then the app acts smoothly"): right after the
      platform opens, every book is loaded once in the background, one after the other, in a frame kept off the screen but laid out
@@ -449,9 +454,9 @@
       wrap.innerHTML = '<div class="aload" role="status"><div class="alc">' + img(b, '', false) + '<p>' + esc(t('read.loading', { t: b.app })) + '</p><span class="spin" aria-hidden="true"></span>' +
         '<div class="aslow" hidden><p>' + esc(t('read.slow')) + '</p><div class="pbtns"><button class="btn sm" type="button" data-retry="' + id + '">' + esc(t('read.retry')) + '</button></div></div></div></div>';
       var fr = document.createElement('iframe');
-      var mv = MOVE[id]; if (!mv) { try { mv = sessionStorage.getItem('smr-move-' + id); } catch (e) {} }
+      var mv = MOVE[id] || moveGet(id);
       fr.title = b.app; fr.src = b.url + (mv ? '#smr-move=' + mv : '');
-      if (mv) { delete MOVE[id]; try { sessionStorage.removeItem('smr-move-' + id); } catch (e) {} }
+      if (mv) { delete MOVE[id]; moveDel(id); }
       fr.setAttribute('allow', 'fullscreen; clipboard-read; clipboard-write; autoplay; web-share');
       fr.setAttribute('allowfullscreen', '');
       fr.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');

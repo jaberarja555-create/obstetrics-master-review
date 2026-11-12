@@ -109,11 +109,35 @@ var SBT2=SBT.cloneNode(true);SBT2.className='v2hb sbt';SBT2.onclick=SBT.onclick;
 if(sp('sb')==='off')$('app').classList.add('nosb');
 /* reading bar at the bottom of the reader: this topic's slides and video, the other topics of the chapter, the progress of the page */
 var FROMRD=false,FOCUS='';
-function media(v){var t=rtopic();if(!t)return;FOCUS=t.id;if(v==='v2slides')SCH=t.ch;else LCH=t.ch;go(v);FROMRD=true;R[v]();var e=$((v==='v2slides'?'sl-':'vd-')+t.id);if(e){e.classList.add('foc');e.scrollIntoView({block:'center'})}}
+function mediaAll(v,t){FOCUS=t.id;if(v==='v2slides')SCH=t.ch;else LCH=t.ch;go(v);FROMRD=true;R[v]();var e=$((v==='v2slides'?'sl-':'vd-')+t.id);if(e){e.classList.add('foc');e.scrollIntoView({block:'center'})}}
+/* reader → Videos / Lectures (owner, 12 Nov 2026): open THIS topic's video or lecture on the screen, not the list of all of them. A file listed
+   in INFO.video[topic] / INFO.slides[topic] plays here; until it is uploaded the topic's own card says it is coming. */
+function media(v){var t=rtopic();if(!t)return;var vid=v==='v2lect',TI=INFO.timg||{},pic=TI[t.id]||chImg(t.ch),src=((vid?INFO.video:INFO.slides)||{})[t.id],tt=t.no+' '+X(t.title.charAt(0).toUpperCase()+t.title.slice(1));
+  var body=src?(vid?'<video class="mvp" controls playsinline preload="metadata" poster="'+pic+'" src="'+X(src)+'"></video>':'<iframe class="mvp" src="'+X(src)+'" title="'+X(t.title)+'"></iframe>')
+    :(vid?'<div class="mvp mth" style="background-image:url('+pic+')"><span class="pl">'+I('play')+'</span><span class="sn" lang="ar">قريبًا</span></div>'
+      :'<div class="sld mvp"><span class="sn" lang="ar">قريبًا</span><div class="sx"><i><img src="img/v2_logo.webp" alt="">Obstetrics Master Review</i><b>'+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><ul>'+String(t.sub||'').split(' · ').slice(0,3).map(function(x){return '<li>'+X(x)+'</li>'}).join('')+'</ul></div><span class="sp" style="background-image:url('+pic+')"></span></div>')+
+      '<p class="mvn" lang="ar">'+(vid?'سيُضاف فيديو هذا الموضوع قريبًا، ويظهر هنا فور رفعه.':'ستُضاف محاضرة هذا الموضوع قريبًا، وتظهر هنا فور رفعها.')+'</p>';
+  var d=$('v2msheet');if(!d){d=document.createElement('div');d.className='sheet v2msheet';d.id='v2msheet';d.hidden=true;document.body.appendChild(d);
+    d.addEventListener('click',function(e){if(e.target===d||e.target.closest('[data-mx]')){var vv=d.querySelector('video');if(vv)vv.pause();d.hidden=true;return}
+      var b=e.target.closest('[data-mall]');if(b){d.hidden=true;mediaAll(b.dataset.mall,rtopic()||t)}})}
+  d.innerHTML='<div class="in" role="dialog" aria-modal="true"><h3><span lang="ar" class="ar">'+(vid?'الفيديو':'المحاضرة')+'</span> <button class="chip" type="button" data-mx>إغلاق</button></h3>'+
+    '<p class="mvt"><b>'+tt+'</b><small>'+(sp('lang')==='en'?'Chapter ':'الفصل ')+t.ch+' · '+X(chap(t.ch).name)+'</small></p>'+body+
+    '<button type="button" class="v2btn ol" data-mall="'+v+'" lang="ar" style="width:100%;margin-top:12px">'+I(vid?'play':'slides')+(vid?'كل الفيديوهات':'كل المحاضرات')+'</button></div>';
+  d.hidden=false}
 $('rnSl').onclick=function(){media('v2slides')};$('rnVd').onclick=function(){media('v2lect')};
 /* «المحتويات» opens the book contents as before (owner, 12 Nov 2026: "show the chapters like the book contents"): every chapter with its
    cover and topics and page numbers, the Rapid Review and the drugs, the current place marked */
-$('rnTp').onclick=function(){if(typeof tocDrawer==='function'){tocDrawer();return}var t=rtopic();
+/* the contents panel has a second tab with the student's bookmarks (owner, 12 Nov 2026: "the contents also has the bookmarks") */
+var TDTAB='c';
+function contents(tab){tocDrawer();var d=$('tocDr'),inn=d&&d.querySelector('.tdin0');if(!inn)return;TDTAB=tab||'c';
+  var ks=Object.keys(BM).filter(function(k){return k.slice(0,2)==='t:'}).sort(function(a,b){return BM[b]-BM[a]}),rows=ks.map(function(k){var t=TOPICS.filter(function(x){return 't:'+x.id===k})[0];if(!t)return '';
+    var col=(typeof CHC!=='undefined'&&CHC[t.ch])||'#2c5b8f';return '<button type="button" class="tdi" style="--tc:'+col+'" data-tp="'+t.p+'"><span class="tdin">'+X(t.no)+'</span><span class="tdl">'+X(t.title)+'</span><span class="tdp">'+t.p+'</span></button>'}).join('');
+  var tabs=document.createElement('div');tabs.className='tdtabs';tabs.innerHTML='<button type="button" data-tdtab="c" lang="ar">المحتويات</button><button type="button" data-tdtab="b" lang="ar">المحفوظة <bdi>'+ks.length+'</bdi></button>';
+  var bm=document.createElement('div');bm.className='tdbody tdbm';bm.innerHTML=rows||'<p class="tdemp" lang="ar">لم تحفظ أي موضوع بعد. اضغط علامة الحفظ في شريط القراءة لتحفظ الموضوع الذي تقرؤه، فيظهر هنا.</p>';
+  inn.insertBefore(tabs,inn.querySelector('.tdbody'));inn.appendChild(bm);
+  function show(t){TDTAB=t;[].forEach.call(tabs.children,function(b){b.classList.toggle('on',b.dataset.tdtab===t)});inn.querySelector('.tdbody:not(.tdbm)').hidden=t!=='c';bm.hidden=t!=='b'}
+  tabs.onclick=function(e){var b=e.target.closest('[data-tdtab]');if(b)show(b.dataset.tdtab)};show(TDTAB)}
+$('rnTp').onclick=function(){if(typeof tocDrawer==='function'){contents('c');return}var t=rtopic();
   if(!t){if(!WHOLE)return;$('v2tbody').innerHTML='<div class="tpl">'+META.chapters.map(function(c){return '<button type="button" class="v2c tpr" data-act="wch" data-n="'+c.n+'"><span class="li">'+I('book')+'</span><span class="tmn"><b>Chapter '+c.n+' · '+X(c.name)+'</b></span><span></span></button>'}).join('')+'</div>';$('v2tsheet').hidden=false;return}
   var c=chap(t.ch),ts=chStat(c).ts;
   $('v2tbody').innerHTML='<p class="v2crumb" style="margin:0 0 8px;direction:ltr;text-align:left">Chapter '+c.n+' · '+X(c.name)+'</p><div class="tpl">'+ts.map(function(x){var lk=locked(x.id),p=pct(x.id);
