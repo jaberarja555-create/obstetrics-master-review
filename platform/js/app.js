@@ -350,7 +350,7 @@
   }
   function resLink(e, on) {
     if (e.kind === 'section') {
-      var s = SEC[e.id], cv = BOOK[s.home[0]] || S.covers[s.home[0]];
+      var s = SEC[e.id], fr = s.home[s.home.length - 1], cv = BOOK[fr] || S.covers[fr];   // the book in front of the stand
       return '<a href="#' + s.id + '"' + (on ? ' class="on"' : '') + '>' + img(cv, '') + '<span class="st"><b>' + esc(t(s.key + '.t')) + '</b><span>' + esc(t(s.key + '.tag')) + '</span></span>' + ic('arrow', 'flip') + '</a>';
     }
     var b = BOOK[e.id];

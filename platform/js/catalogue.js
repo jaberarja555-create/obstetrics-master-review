@@ -2,9 +2,10 @@
    Every screen (Home, the three libraries, search, My Library, Progress) is built from this list.
    To release a planned book: set status to 'available', give it its url, and list its real tools. */
 window.SMR = window.SMR || {};
+/* home: the covers on each Home stand, back to front (the last one stands in front; owner, 12 Nov 2026: Anatomy and Surgery in front) */
 SMR.sections = [
-  { id: 'basic-sciences', key: 'basic', home: ['anatomy', 'physiology', 'pathology', 'microbiology', 'community-medicine'], layout: 'v' },
-  { id: 'clinical', key: 'clinical', home: ['medicine', 'surgery', 'pediatrics', 'obstetrics', 'gynecology'], layout: 'h' },
+  { id: 'basic-sciences', key: 'basic', home: ['community-medicine', 'physiology', 'pathology', 'microbiology', 'anatomy'], layout: 'v' },
+  { id: 'clinical', key: 'clinical', home: ['medicine', 'gynecology', 'pediatrics', 'obstetrics', 'surgery'], layout: 'h' },
   { id: 'house-officer', key: 'house', home: ['ho-pediatrics', 'house-officer', 'ho-medicine'], layout: 'h' }
 ];
 
