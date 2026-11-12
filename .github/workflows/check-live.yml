@@ -21,6 +21,8 @@ jobs:
           check https://pediatrics-master-review.jaberarja555.workers.dev/ "v2homeW" "Pediatrics: the new app design is live"
           check https://surgery-master-review.jaberarja555.workers.dev/ "v2homeW" "Surgery: the new app design is live"
           check https://student-master-review.pages.dev/js/app.js "moveGet" "Platform: old links land on Home first"
+          check https://student-master-review.pages.dev/js/app.js "function prune" "Platform: lighter background loading"
+          check https://surgery-master-review.jaberarja555.workers.dev/ "srr-search-button{display:none" "Surgery: no old search in the reader bar"
           check https://obstetrics-master-review.pages.dev/sw.js "c.navigate" "Obstetrics: new version reloads old copies"
           check https://pediatrics-master-review.jaberarja555.workers.dev/sw.js "c.navigate" "Pediatrics: new version reloads old copies"
           check https://surgery-master-review.jaberarja555.workers.dev/sw.js "c.navigate" "Surgery: new version reloads old copies"
