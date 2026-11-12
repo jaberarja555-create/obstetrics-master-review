@@ -360,3 +360,11 @@ Review copy: https://claude.ai/artifact/VKS3UPJmG5oa9kH9NGGXUm (whole platform; 
 - Reader (owner, 12 Nov 2026): «الفيديو» / «المحاضرات» in the reading bar open THIS topic's video or lecture in a sheet (`media()`, `#v2msheet`;
   a file in INFO.video[topic] / INFO.slides[topic] plays there, otherwise the topic's own «قريبًا» card) with «كل الفيديوهات / كل المحاضرات» for the list;
   «المحتويات» opens the book contents panel (`tocDrawer`) with a second tab «المحفوظة» = the bookmarked topics (`contents()`); Back closes both.
+- **One name and picture (owner, 12 Nov 2026):** the platform's profile (smr-name / smr-photo) is used inside every book: the end script of each
+  src/shell.html receives `{smr:'profile'}` into `<px>-name` / `<px>-photo` and calls `window.__smrProfile` (v2.tools.js: header, greeting,
+  Home); a change made inside a book goes back to the platform (Storage watcher) and on to the other books. A book's existing name/picture
+  fills an empty platform profile once (`smr-profset`). Opening the platform on `#read-<book>` starts on Home (old saved tabs/links).
+- **Install from any browser (owner, 12 Nov 2026):** in-app browsers (WhatsApp, Facebook, Messenger, Instagram, Telegram…) cannot install a web
+  app, so on Android the platform jumps to Chrome by itself (intent link with fallback `?nochrome=1`; the # travels as `?h=`), other phone
+  browsers go to Chrome from «ثبّت التطبيق», iPhone in-app browsers go to Safari (`x-safari-https://`); in Chrome the button waits up to 4 s for
+  the install window and says when the app is already installed (manifest related_applications + getInstalledRelatedApps).
