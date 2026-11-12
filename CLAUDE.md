@@ -321,3 +321,16 @@ unchanged; inside the frame a phone keeps separate storage, so students activate
 Phone Home fits one screen (no scrolling); day/night is one button with a Day / Night / Automatic menu. Arabic by default; on opening, a greeting offers «ثبّت التطبيق» (install by device type) or «المتابعة في المتصفح» (platform/README.md). No bar over a book: each book's Home has a small round back button (`#smrBack`, script at the end of each app's src/shell.html; here beside the greeting) that posts `{smr:'library'}` to the platform. Settings → profile: big photo, «اختر صورة» under it, then the name. Opening (owner, 11 Nov 2026): after «ثبّت التطبيق» / «المتابعة في المتصفح» / «ابدأ» the greeting's second step «اختر لغة التطبيق ومظهره» (current choice shown, applied at once; Cairo shipped in platform/fonts). Each book shows its greeting, then (not subscribed, no trial running) the choices subscribe · trial while unused · free (here `#v2chz` in v2.tools.js after «ابدأ»). Books follow the platform language (`window.__smrLang`, v2.lang.js) unless the student chose one in the book (`smr-langown`); a language change in the platform is sent with force to every book. Progress page: real figures from each book (`window.__smrStats` in each app — here at the end of src/v2.tools.js — sent as `{smr:'stats'}` and kept in the platform as `smr-st-<id>`): totals, ring, bars for reading/mastered, questions (correct/wrong split, accuracy), flashcards, streak, topics, per-chapter bars. Every screen comes from `platform/js/catalogue.js`; text in `platform/js/i18n.js` (English + standard Arabic);
 see platform/README.md. No invented data: progress stays in the apps, notifications are an empty state until real ones exist.
 Review copy: https://claude.ai/artifact/VKS3UPJmG5oa9kH9NGGXUm (whole platform; links open the live apps).
+
+## One app design and one subscription system for the three books (owner, 11–12 Nov 2026)
+- Surgery and Pediatrics are being made exactly like this app: their repos copy src/v2.js, v2.search.js, v2.tools.js, v2.lang.js,
+  v2.css, v2.html from here with `tools/port_v2.py` (their own adapter src/v2.book.js / v2.book.post.js / v2.book.css, settings
+  tools/v2book.json). **After changing the app here, re-run port_v2.py in both repos** so they stay the same.
+- Phone Home (owner, 11 Nov 2026): no progress tiles on phones; the name chip shows only the picture under 430 px; forward arrows (`I('back')`,
+  class `fwd`) point right in English. The video lectures are called «الفيديو» / Videos and the slides «المحاضرات» / Lectures (owner).
+- Admin (site_static/admin.html) has a book filter (All / Obstetrics / Pediatrics / Surgery, `adm-book`) and a book label on every request
+  and subscriber; Give shows the device's book (`obs_admin_seen`).
+- `tools/supabase/pending/009_three_books.sql` (NOT applied; waits for the owner): book column on codes / requests / devices seen, a key per
+  book (`obs_book_keys`, its SHA-256 printed in the apply log → book.json access.key_hash of Pediatrics / Surgery), 4- and 10-argument
+  `obs_request_status` / `obs_request_submit` with p_book, a link number joins only a device of the same book. Obstetrics calls are
+  unchanged. Tested on a local Postgres copy. To apply: move it into migrations/ and push to main.
