@@ -781,3 +781,7 @@ html[data-lang="en"] .v2ic.fwd{transform:scaleX(-1)}
 @media (max-width:379px){#v2homeW .hc3 .hgo{padding:0 12px;font-size:13.5px}}
 html:not([data-lang="en"]) #v2homeW .hc3 .hgo .v2ic{transform:scaleX(-1)}
 html[data-lang="en"] #v2homeW .hq small{display:none}   /* the English subtitle repeats the label in English */
+/* book contents panel in the app's colours (owner, 12 Nov 2026: the reader's «المحتويات» opens it) */
+.tocdr .tdin0{background:var(--deep);color:#fff}.tocdr .tdh b{color:#fff}.tocdr .tdpart{color:rgba(255,255,255,.7)}
+.tocdr .tdi.cur,.tocdr .tdrr.cur{background:rgba(255,255,255,.14);box-shadow:inset 3px 0 0 #fff}
+.tocdr .tdt,.tocdr .tdt small,.tocdr .tdl{unicode-bidi:plaintext;text-align:left}   /* Arabic labels read right to left inside the English contents */
