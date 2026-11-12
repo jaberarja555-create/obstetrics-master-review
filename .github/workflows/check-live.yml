@@ -39,6 +39,8 @@ jobs:
           check https://obstetrics-master-review.pages.dev/admin.html "stuCard" "Admin: one card per student"
           check https://pediatrics-master-review.jaberarja555.workers.dev/sw.js "ASSETS=\[\"./\"" "Pediatrics: saves all files"
           check https://surgery-master-review.jaberarja555.workers.dev/sw.js "ASSETS=\[\"./\"" "Surgery: saves all files"
+          check https://student-master-review.pages.dev/js/app.js "older move" "Platform: a book address opens Home first"
+          check https://surgery-master-review.jaberarja555.workers.dev/ "retired bottom bar" "Surgery: no empty band under the reader"
       - name: The shared subscription answers (read-only; an invalid device id, so nothing is written)
         run: |
           U=https://kgdmjeffeqfdlfnjnnek.supabase.co/rest/v1/rpc; K=sb_publishable_aUgkKc4QpItV4yKKViVFCg_dipnUdDl
