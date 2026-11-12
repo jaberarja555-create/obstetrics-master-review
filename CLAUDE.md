@@ -348,3 +348,12 @@ Review copy: https://claude.ai/artifact/VKS3UPJmG5oa9kH9NGGXUm (whole platform; 
   (highlights, notes, drawings, page marks, cards known, question answers, tests, bookmarks, blank pages, streak) and starts a sync 4 s later;
   `<prefix>-dirty` = changes not yet online (kept across restarts); retried every 30 s when the upload failed; a check for other devices'
   changes every 3 minutes while the app is open; upload on pagehide / going to the background. Subscribed devices only (sync is per subscription).
+- **One app (owner, 12 Nov 2026: "the links of each book no longer work, even the installed apps; everything works with the big app link"):**
+  the three book addresses (obstetrics-master-review.pages.dev, surgery-/pediatrics-master-review.jaberarja555.workers.dev) opened on their own
+  (not inside the platform frame) show «الكتاب الآن داخل تطبيق Student Master Review», save what is not yet online (`window.__autoSync.now`),
+  then `location.replace` to https://student-master-review.pages.dev/#read-<book>~move=<base64 JSON of the device identity keys: dev, code,
+  act (Worker token), sdev, trial, chz, name, sname, lang, mode, pal, tel, req; plus a WhatsApp #code=>. The platform (`MOVE`, js/app.js) keeps it for
+  this tab and opens the frame with `#smr-move=…`; the head script of each book imports the keys only when that frame has no subscription of its
+  own, then clears the address (restoring #code= if any). Same device id → the subscription and synced notes follow with no code and no extra
+  device slot; Obstetrics adopts its key through poll() (no choices sheet when `orr-code` came along). Only the production host names move;
+  previews, localhost, admin.html and the Workers' /admin keep working. Free/trial students' notes that were never online stay in the old app.

@@ -103,7 +103,7 @@ window.__smrStats=function(){var r={pages:{total:0,read:0,mastered:0},q:{total:Q
    the one-hour trial (only while it is unused) or the free version; a subscribed device or a running trial goes straight in */
 (function(){var go=$('v2welGo');if(!go)return;
   function L(ar,en){return typeof LANG!=='undefined'&&LANG==='en'?en:ar}
-  function due(){var a=access();return (a==='free'||a==='expired'||a==='ended')&&!(REQ&&REQ.status==='pending')}
+  function due(){var a=access();return (a==='free'||a==='expired'||a==='ended')&&!(REQ&&REQ.status==='pending')&&!(a==='free'&&sp('code'))}   // a device that came with its subscription (owner, 12 Nov 2026: one app) opens by itself after the status check
   function chooser(){if($('v2chz'))return;var fr=LIC&&LIC.fresh&&LIC.fresh(),d=document.createElement('div');d.className='sheet v2chz';d.id='v2chz';
     d.innerHTML='<div class="in" role="dialog" aria-modal="true" aria-labelledby="chzT" lang="'+(L('ar','en'))+'" dir="'+L('rtl','ltr')+'"><h3 id="chzT">'+L('مرحبًا بك في الكتاب','Welcome to the book')+'</h3><p class="chzl">'+L('اختر طريقة فتح الكتاب:','Choose how to open the book:')+'</p>'+
       '<button type="button" class="v2c chzb pd" data-c="sub">'+I('crown')+'<span><b>'+L('الاشتراك في النسخة الكاملة','Subscribe to the full book')+'</b><small>'+L('الكتاب كله مع البطاقات وبنك الأسئلة','The whole book with flashcards and the question bank')+'</small></span></button>'+

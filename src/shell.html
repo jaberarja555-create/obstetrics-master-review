@@ -1,4 +1,21 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#172e48"><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><script>
+/* One app (owner, 12 Nov 2026: "the links of each book no longer work, even the installed apps; everything works with the big app link").
+   1) Inside Student Master Review: a book frame opened with #smr-move=… takes the student's device identity from the book they used on its
+      own (device id, activation, trial, name, language), so the subscription and the synced notes follow with no new code and no extra device.
+   2) Opened on its own address (old link or installed book app): a short notice; the end of the page saves what is not yet online and moves
+      the student into the platform. */
+(function(){var PX='orr';
+  try{var m=location.hash.match(/smr-move=([A-Za-z0-9+\/=%_-]+)/);if(m){var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));
+    var mine=localStorage.getItem(PX+'-k')||localStorage.getItem(PX+'-act')||localStorage.getItem(PX+'-code');
+    if(!mine)Object.keys(o).forEach(function(k){if(k.indexOf(PX+'-')===0&&typeof o[k]==='string')localStorage.setItem(k,o[k])});
+    history.replaceState(null,'',location.pathname+location.search+(o.__code?'#code='+o.__code:''))}}catch(e){}
+  var top=true;try{top=window.top===window.self}catch(e){top=false}
+  if(top&&/^(obstetrics-master-review\.pages\.dev|surgery-master-review\.jaberarja555\.workers\.dev|pediatrics-master-review\.jaberarja555\.workers\.dev)$/.test(location.hostname)){window.__smrMove=1;var en=false;try{en=localStorage.getItem(PX+'-lang')==='en'}catch(e){}
+    document.addEventListener('DOMContentLoaded',function(){var d=document.createElement('div');d.id='smrMove';d.setAttribute('role','status');
+      d.innerHTML='<div><img src="https://student-master-review.pages.dev/icon-192.png" alt=""><b>'+(en?'This book now opens inside Student Master Review':'الكتاب الآن داخل تطبيق Student Master Review')+'</b><span>'+(en?'Saving your notes and moving you…':'جارٍ حفظ ملاحظاتك والانتقال…')+'</span><i></i></div>';
+      var s=document.createElement('style');s.textContent='#smrMove{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;background:#f7f3ec;font:600 15px/1.5 system-ui,-apple-system,"Segoe UI",Cairo,sans-serif;color:#142a4c;text-align:center;padding:24px}#smrMove div{display:flex;flex-direction:column;align-items:center;gap:10px;max-width:340px}#smrMove img{width:84px;height:84px;border-radius:22px}#smrMove b{font-size:18px}#smrMove span{color:#55617a}#smrMove i{width:28px;height:28px;border-radius:50%;border:3px solid #11807a33;border-top-color:#11807a;animation:smrsp 0.9s linear infinite}@keyframes smrsp{to{transform:rotate(360deg)}}';
+      document.head.appendChild(s);document.body.appendChild(d)})}})();
+</script><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#172e48"><style>
 /* Inter shipped with the book so every phone shows the same page fill (as in Surgery, Nov 2026) */
 @font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:block;src:url(fonts/inter-400.woff) format('woff')}
 @font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:block;src:url(fonts/inter-500.woff) format('woff')}
@@ -3345,7 +3362,7 @@ if(SYNC){setTimeout(function(){syncNow()},1500);
   setInterval(function(){if(!due())return;if(dirty||syncErr==='net')syncNow();else if(Date.now()-(+localStorage.getItem('orr-synced')||0)>18e4)syncNow()},30000);
   window.addEventListener('pagehide',function(){if(dirty)syncNow()});
   document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'&&dirty)syncNow()});
-  window.__autoSync={dirty:function(){return dirty}};
+  window.__autoSync={dirty:function(){return dirty},now:function(){return syncNow()}};
   if(dirty)setTimeout(function(){syncNow()},2500)})();
 
 /* ---------- sync of everything else: flashcards known, QBank answers, daily streak, last page ----------
@@ -3510,6 +3527,17 @@ GLAST=gsnap();updUR();
 setRail(sp('rail')==='off');zlabel();renderHome();
 refreshCont();
 });
+</script>
+<script>
+/* One app (owner, 12 Nov 2026): opened on its own address, the book saves what is not yet online, then opens inside Student Master Review,
+   carrying the device identity in the link (never to a server: it is after the #). */
+(function(){if(!window.__smrMove)return;var PX='orr',ID='obstetrics',KEYS=["orr-dev", "orr-code", "orr-trial", "orr-chz", "orr-name", "orr-sname", "orr-lang", "orr-mode", "orr-pal", "orr-tel", "orr-req"],done=false;
+  function go(){if(done)return;done=true;var o={},n=0;KEYS.forEach(function(k){try{var v=localStorage.getItem(k);if(v!=null&&v.length<4000){o[k]=v;n++}}catch(e){}});
+    var lc=(location.hash.match(/code=([A-Za-z0-9-]{11,16})/)||[])[1];if(lc){o.__code=lc;n++}   // an activation link from WhatsApp keeps its code
+    var b=n?encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(o))))):'';
+    location.replace('https://student-master-review.pages.dev/#read-'+ID+(b?'~move='+b:''))}
+  var p=null;try{var a=window.__autoSync;if(a&&a.now&&navigator.onLine!==false)p=a.now()}catch(e){}
+  if(p&&p.then)Promise.race([p,new Promise(function(r){setTimeout(r,8000)})]).then(function(){setTimeout(go,300)},go);else setTimeout(go,1500)})();
 </script>
 <script>
 /* Student Master Review (owner, 11 Nov 2026): when this book is opened inside the Student Master Review platform, its Home shows
