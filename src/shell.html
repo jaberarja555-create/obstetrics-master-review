@@ -508,7 +508,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--rose-hi);outlin
 :root[data-theme="dark"] #reader{background:#060f1a}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #reader{background:#060f1a}}
 #scroller{position:absolute;inset:0;overflow:auto;-webkit-overflow-scrolling:touch}
 #pages{min-width:100%;width:max-content;box-sizing:border-box;padding:10px 8px 96px;display:flex;flex-direction:column;align-items:center;gap:10px}
-.pw{position:relative;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.35);flex:none;overflow:hidden}
+.pw{position:relative;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.35);flex:none;overflow:hidden;contain:strict}
+/* Speed (owner, 12 Nov 2026): each page is its own layout island, and pages off the screen are not rendered (html.lz = pages built on demand) */
+html.lz .pw{content-visibility:auto}
 .pw>.bk{position:absolute;left:0;top:0;width:816px;height:1152px;transform-origin:0 0}
 .night .pw{filter:invert(.9) hue-rotate(180deg)}
 .night .pw img{filter:invert(1) hue-rotate(180deg)}
@@ -2325,10 +2327,16 @@ var BIDX=[];PAGES.forEach(function(p,i){if(p.bn)BIDX[p.bn-1]=i});   // book page
 var tpl=$('bookPages').content, pagesEl=$('pages'), wraps=[], srcPages=[].slice.call(tpl.querySelectorAll('section.page'));
 srcPages=(function(){var k=0;return PAGES.map(function(p,i){if(!p.user)return srcPages[k++];var s=document.createElement('section');s.className='page upage ls'+(UPG[p.f]&&UPG[p.f].s!=null?UPG[p.f].s:1)+' pc'+((UPG[p.f]&&UPG[p.f].c)||'c');s.dataset.file=p.f;
   s.innerHTML='<div class="uph"><span>صفحتي · My notes</span><em></em></div><div class="upl"></div>';s.querySelector('em').textContent=PAGES[i-1]?PAGES[i-1].label:'';return s})})();
-srcPages.forEach(function(sec,i){
+/* Speed (owner, 12 Nov 2026: "the app is very slow"): a page's content is built only when it comes near the screen (ensurePage);
+   before that its wrapper is an empty sheet of the right size. Tools that measure every page (paginate.py, measure_*.py, screenshots)
+   run in an automated browser and get all pages at once, as before; window.__lazy = 1 forces the students' way there. */
+var LAZY=!navigator.webdriver||!!window.__lazy;if(LAZY)document.documentElement.classList.add('lz');
+(function(){var fr=document.createDocumentFragment();srcPages.forEach(function(sec,i){
   var pw=document.createElement('div');pw.className='pw';pw.dataset.i=i;
-  var host=document.createElement('div');host.className='bk';host.appendChild(sec.cloneNode(true));
-  pw.appendChild(host);pagesEl.appendChild(pw);wraps.push(pw)});
+  var host=document.createElement('div');host.className='bk';if(!LAZY||PAGES[i].user){host.appendChild(sec.cloneNode(true));pw.dataset.r='1'}
+  pw.appendChild(host);fr.appendChild(pw);wraps.push(pw)});pagesEl.appendChild(fr)})();
+function ensurePage(i){var pw=wraps[i];if(pw&&!pw.dataset.r)renderPage(i,1)}
+window.__renderAll=function(){for(var i=0;i<wraps.length;i++)ensurePage(i)};
 var cm=$('coverMini');cm.appendChild(srcPages[0].cloneNode(true));
 function fitCover(){var w=cm.parentNode.clientWidth||112;cm.style.transform='scale('+(w/816)+')'}fitCover();
 /* saved things (highlights, drawings, page marks, last page) are keyed by topic + page within the topic ("eb:2"),
@@ -2341,7 +2349,7 @@ var PH=1152;
 var ZM=sp('zoom2')||'auto';
 function zscale(){var sc=$('scroller'),W=sc.clientWidth-16,H=sc.clientHeight-20;if(ZM==='width')return W/816;if(ZM==='page')return Math.min(W/816,H/PH);if(ZM==='auto')return Math.min(W,816)/816;return +ZM||1}
 function layout(){var s=zscale(),avail=816*s;if(avail<100)return;$('reader').classList.toggle('zoomed',avail>$('scroller').clientWidth-14);
-  wraps.forEach(function(pw){pw.style.width=avail+'px';pw.style.height=(PH*s)+'px';pw.firstChild.style.transform='scale('+s+')'})}
+  wraps.forEach(function(pw){if(pw._s===s)return;pw._s=s;pw.style.width=avail+'px';pw.style.height=(PH*s)+'px';pw.firstChild.style.transform='scale('+s+')'})}
 window.addEventListener('resize',function(){layout();fitCover();fitRail()});
 /* on a screen narrower than the page (phones) sizes are shown against the screen width (fill width = 100 %), with bigger steps */
 function zbase(){var W=$('scroller').clientWidth-16;return W<816?W/816:1}
@@ -2384,13 +2392,13 @@ function upgRebuild(){
     if(a<0)return;var j=a+1;while(j<PAGES.length&&PAGES[j].user)j++;
     var np={f:id,user:1,label:PAGES[a].label+' · صفحتي',a:UPG[id].a},sec=upgSec(np,PAGES[j-1]);
     PAGES.splice(j,0,np);srcPages.splice(j,0,sec);
-    var pw=document.createElement('div');pw.className='pw';var host=document.createElement('div');host.className='bk';host.appendChild(sec.cloneNode(true));pw.appendChild(host);
+    var pw=document.createElement('div');pw.className='pw';pw.dataset.r='1';var host=document.createElement('div');host.className='bk';host.appendChild(sec.cloneNode(true));pw.appendChild(host);
     pagesEl.insertBefore(pw,wraps[j]||null);wraps.splice(j,0,pw)});
   NP=PAGES.length;wraps.forEach(function(pw,i){pw.dataset.i=i;delete pw.dataset.dec});
   BIDX=[];PAGES.forEach(function(p,i){if(p.bn)BIDX[p.bn-1]=i});
   PKEY=[];byKey={};var n={};PAGES.forEach(function(p,i){var g=p.t,k=g?g+':'+(n[g]=(n[g]||0)+1):(p.f||'x'+i);if(p.user)k=p.f;PKEY[i]=k;byKey[k]=i});
   if(typeof tpages!=='undefined'){tpages={};PAGES.forEach(function(p,i){if(p.t){(tpages[p.t]=tpages[p.t]||[]).push(i)}})}
-  if(typeof TEXT!=='undefined')TEXT=wraps.map(ptext);layout();PAGES.forEach(function(p,i){if(p.user||(typeof INK!=='undefined'&&INK[PKEY[i]]))inkRender(i)})}
+  if(typeof TEXT!=='undefined')TEXT=srcPages.map(ptext);layout();PAGES.forEach(function(p,i){if(p.user||(typeof INK!=='undefined'&&INK[PKEY[i]]))inkRender(i)})}
 $('zoomBtn').onclick=function(e){e.stopPropagation();var f=$('penFly');if(!f.hidden&&f.dataset.k==='z')penFly(false);else zoomFly()};
 /* two-finger pinch on the pages zooms (not while the drawing pen or text tool is on: there two fingers scroll) */
 var pin=null,pinF=0;function tdist(e){var a=e.touches[0],b=e.touches[1];return Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)}
@@ -2401,7 +2409,7 @@ $('scroller').addEventListener('touchend',function(e){if(e.touches.length<2)pin=
 $('scroller').addEventListener('wheel',function(e){if(!e.ctrlKey||$('reader').hidden)return;e.preventDefault();zstep(e.deltaY<0?1.1:1/1.1)},{passive:false});
 function currentPage(){var sc=$('scroller'),mid=sc.scrollTop+sc.clientHeight*0.35,cur=0;for(var i=0;i<wraps.length;i++){if(wraps[i].offsetTop<=mid)cur=i}return cur}
 var lastCur=-1;
-function onScroll(){var c=currentPage();lastCur=c;try{fillNear(c)}catch(e){}if(!$('pnum').classList.contains('ed'))$('pnum').textContent=PAGES[c].user?'✎ صفحتي':PAGES[c].bn+' / '+BOOKN;var m=PAGES[c];$('subtitle').textContent=m.label;st('orr-page',String(c));sp('pk',PKEY[c]);updPr(c);fitRail();fillNear(c)}
+function onScroll(how){var c=currentPage(),same=how==='s'&&c===lastCur;lastCur=c;try{fillNear(c)}catch(e){}if(same)return;if(!$('pnum').classList.contains('ed'))$('pnum').textContent=PAGES[c].user?'✎ صفحتي':PAGES[c].bn+' / '+BOOKN;var m=PAGES[c];$('subtitle').textContent=m.label;st('orr-page',String(c));sp('pk',PKEY[c]);updPr(c);fitRail()}
 /* page number: tap it, type a page and press Enter (owner, Nov 2026) */
 (function(){var pn=$('pnum');if(!pn)return;pn.title='Go to page';pn.addEventListener('click',function(e){e.stopPropagation();if(pn.classList.contains('ed'))return;
   var cur=PAGES[currentPage()]||{},v=cur.bn||'';pn.classList.add('ed');
@@ -2411,7 +2419,7 @@ function onScroll(){var c=currentPage();lastCur=c;try{fillNear(c)}catch(e){}if(!
   inp.onkeydown=function(ev){if(ev.key==='Enter'){ev.preventDefault();fin(true)}else if(ev.key==='Escape')fin(false)};
   pn.querySelector('button').onmousedown=function(ev){ev.preventDefault()};pn.querySelector('button').onclick=function(ev){ev.stopPropagation();fin(true)};
   inp.onblur=function(){setTimeout(function(){fin(false)},150)}})})();
-$('scroller').addEventListener('scroll',onScroll,{passive:true});
+var osRaf=0;$('scroller').addEventListener('scroll',function(){if(osRaf)return;osRaf=requestAnimationFrame(function(){osRaf=0;onScroll('s')})},{passive:true});   // one update per frame
 /* full-page reading (owner, Nov 2026): scrolling down hides the top bar, the tools bar and the bottom bar;
    scrolling up a little, or a tap on the page, brings them back */
 var IMM=false,immY=0,immT=0;
@@ -2467,7 +2475,7 @@ var readSet=spj('prog')||{};      // page key -> 1 done, 2 mastered
 var PROGU=spj('progu')||{};       // page key -> time of the last change (for sync)
 function saveRead(){spj('prog',readSet);spj('progu',PROGU);syncSoon();gcommit()}
 var PRS=[['لم أقرأها','<circle cx="12" cy="12" r="8"/>'],['قرأتها','<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>'],['أتقنتها','<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>']];
-function pageLocked(c){var sec=wraps[c]&&wraps[c].querySelector('section.page');return !!(sec&&sec.classList.contains('lockp'))||!!(window.__LK&&PAGES[c]&&window.__LK[PAGES[c].t])}
+function pageLocked(c){var sec=srcPages[c];return !!(sec&&sec.classList.contains('lockp'))||!!(window.__LK&&PAGES[c]&&window.__LK[PAGES[c].t])}
 function updPr(c){var b=$('prBtn'),pg=PAGES[c]||{};b.hidden=!pg.t;var v=readSet[PKEY[c]]||0;b.className='pr'+v+(pageLocked(c)?' soon':'');b.querySelector('svg').innerHTML=PRS[v][1];$('prLbl').textContent=PRS[v][0]}
 var actx=null;function chime(notes,type){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();var t0=actx.currentTime+.02;
   notes.forEach(function(f,i){var o=actx.createOscillator(),g=actx.createGain(),t=t0+i*.09;o.type=type;o.frequency.value=f;
@@ -2568,7 +2576,7 @@ function inl(e){var t=e.tagName;return /^(B|I|EM|STRONG|SUB|SUP|MARK|A|U|SMALL)$
 function brk(a,b){var A=[],x=a.parentNode;while(x){A.push(x);x=x.parentNode}var y=b.parentNode,opened=[];while(y&&A.indexOf(y)<0){opened.push(y);y=y.parentNode}
   for(var i=0;A[i]!==y;i++){if(!inl(A[i]))return true}for(var j=0;j<opened.length;j++){if(!inl(opened[j]))return true}return false}
 function ptext(pw){var w=document.createTreeWalker(pw,NodeFilter.SHOW_TEXT),out='',prev=null,n;while((n=w.nextNode())){if(prev&&brk(prev,n))out+=' ';out+=n.nodeValue;prev=n}return out.replace(/\s+/g,' ')}
-var TEXT=wraps.map(ptext);
+var TEXT=srcPages.map(ptext);   // from the page sources: pages need not be built
 var qch=['MgSO₄','ferritin','artesunate','praevia','accreta','OGTT','HELLP','anti-D'];
 $('qchips').innerHTML=qch.map(function(c){return '<button class="chip" type="button">'+c+'</button>'}).join('');
 $('qchips').onclick=function(e){var b=e.target.closest('.chip');if(b){$('q').value=b.textContent;runSearch()}};
@@ -2580,7 +2588,7 @@ function runSearch(){var q=$('q').value.trim();var out=$('results');if(q.length<
 $('q').addEventListener('input',runSearch);runSearch();
 $('results').onclick=function(e){var b=e.target.closest('.ri');if(!b)return;var i=+b.dataset.i;goIdx(i);markIn(i,$('q').value.trim())};
 function markIn(i,q){[].forEach.call(document.querySelectorAll('.bk mark.hit'),function(m){m.replaceWith(document.createTextNode(m.textContent))});if(!q)return;
-  var ql=q.toLowerCase(),w=document.createTreeWalker(wraps[i],NodeFilter.SHOW_TEXT),nodes=[];while(w.nextNode())nodes.push(w.currentNode);
+  ensurePage(i);var ql=q.toLowerCase(),w=document.createTreeWalker(wraps[i],NodeFilter.SHOW_TEXT),nodes=[];while(w.nextNode())nodes.push(w.currentNode);
   var first=null;nodes.forEach(function(n){if(n.parentNode.closest('svg'))return;var t=n.nodeValue,k=t.toLowerCase().indexOf(ql);if(k<0)return;var r=document.createRange();r.setStart(n,k);r.setEnd(n,k+q.length);var m=document.createElement('mark');m.className='hit';try{r.surroundContents(m);if(!first)first=m}catch(e){}});
   if(first){var sc=$('scroller');var top=first.getBoundingClientRect().top-sc.getBoundingClientRect().top+sc.scrollTop-120;sc.scrollTop=top}}
 /* ---------- flashcards: known cards are remembered; 10 daily cards and a streak ---------- */
@@ -2684,19 +2692,29 @@ function textNodes(sec){var w=document.createTreeWalker(sec,NodeFilter.SHOW_TEXT
 function fillPage(sec,again){if(!sec||(sec.dataset.fd&&!again)||!sec.classList.contains('mz'))return;var m=sec.querySelector('.mzm'),body=sec.querySelector('.body');if(!m||!body||!sec.offsetHeight||!m.children.length||m.querySelector('.rqp'))return;
   sec.dataset.fd=1;sec.classList.remove('fill');sec.style.removeProperty('--ft');sec.style.removeProperty('--fgap');
   function free(){var sc=sec.getBoundingClientRect().height/sec.offsetHeight||1,b=0;m.querySelectorAll('*').forEach(function(c){var r=c.getBoundingClientRect();if(r.height)b=Math.max(b,r.bottom)});return (body.getBoundingClientRect().bottom-b)/sc}
-  if(free()<80)return;
+  var f0=free();if(f0<80)return;
   function set(t){sec.style.setProperty('--ft',t.toFixed(3))}
   /* owner: spare room goes INTO the boxes (padding, line spacing, rows); text grows at most ~8 %; what is still left is shared between the boxes */
-  sec.classList.add('fill');var lo=0,hi=3.2;set(hi);
-  if(free()<50){for(var k=0;k<8;k++){var mid=(lo+hi)/2;set(mid);if(free()>=50)lo=mid;else hi=mid}set(lo)}
-  var left=free()-50,n=m.querySelectorAll(':scope > .blk').length-1;if(left>8&&n>0){var g=Math.min(44,left/n);function sg(v){sec.style.setProperty('--fgap',v.toFixed(1)+'px')}sg(g);for(var j=0;j<12&&free()<50&&g>0;j++){g=Math.max(0,g-Math.max(1,(50-free())/n));sg(g)}}}
+  sec.classList.add('fill');var lo=0,hi=3.2;set(hi);var fh=free();
+  /* interpolation instead of 8 halvings: every try lays the page out again (speed, 12 Nov 2026) */
+  if(fh<50){for(var k=0;k<5&&hi-lo>.02;k++){var mid=lo+(hi-lo)*Math.min(.93,Math.max(.07,(f0-52)/((f0-fh)||1)));set(mid);var fm=free();if(fm>=50){lo=mid;f0=fm;if(fm<56)break}else{hi=mid;fh=fm}}set(lo);fh=f0}
+  var left=fh-50,n=m.querySelectorAll(':scope > .blk').length-1;if(left>8&&n>0){var g=Math.min(44,left/n);function sg(v){sec.style.setProperty('--fgap',v.toFixed(1)+'px')}sg(g);for(var j=0;j<12&&g>0;j++){var fr2=free();if(fr2>=50)break;g=Math.max(0,g-Math.max(1,(50-fr2)/n));sg(g)}}}
 window.fillPage=fillPage;
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){document.querySelectorAll('section.page.mz[data-fd]').forEach(function(x){fillPage(x,true)})});
-function fillNear(c){for(var i=Math.max(0,c-1);i<=Math.min(wraps.length-1,c+2);i++){var w=wraps[i];if(w)fillPage(w.querySelector('section.page'))}}
+/* the pages on the screen are built and filled at once, the next ones while the phone is idle */
+var DQ=[],DQT=0;
+function prepPage(j){var w=wraps[j];if(!w)return;if(!w.dataset.r)renderPage(j,1);else fillPage(w.querySelector('section.page'));if($('scroller').clientHeight)w._f=1}
+function dqRun(dl){DQT=0;var n=0;while(DQ.length&&(n<1||(dl&&dl.timeRemaining&&dl.timeRemaining()>14))){prepPage(DQ.shift());n++}if(DQ.length)dqGo()}
+function dqGo(){if(DQT)return;DQT=1;if(window.requestIdleCallback)requestIdleCallback(dqRun,{timeout:500});else setTimeout(dqRun,60)}
+function pageReady(j){var w=wraps[j];return !!(w&&w.dataset.r&&w._f)}
+function fillNear(c){if(!LAZY){for(var i=Math.max(0,c-1);i<=Math.min(wraps.length-1,c+2);i++){var w=wraps[i];if(w)fillPage(w.querySelector('section.page'))}return}
+  var sc=$('scroller'),top=sc.scrollTop,bot=top+sc.clientHeight,q=[];if(!sc.clientHeight)return;
+  [c,c+1,c-1].forEach(function(j){var w=wraps[j];if(!w||pageReady(j))return;var t=w.offsetTop;if(t<bot+120&&t+w.offsetHeight>top-120)prepPage(j);else q.push(j)});
+  DQ=q.concat([c+2,c+3,c-2,c+4,c-3]).filter(function(j){return j>=0&&j<wraps.length&&!pageReady(j)});if(DQ.length)dqGo()}
 /* a highlight or note on a dark box gets a see-through colour so the words stay readable (owner, 8 Nov 2026) */
 function markDk(sec){sec.querySelectorAll('mark.uhl').forEach(function(m){var e=m.parentElement;while(e&&e!==sec){var c=getComputedStyle(e).backgroundColor,v=c.match(/[\d.]+/g);
   if(v&&(v.length<4||+v[3]>.5)){if(.2126*v[0]+.7152*v[1]+.0722*v[2]<110)m.classList.add('dk');return}e=e.parentElement}})}
-function renderPage(i){var host=wraps[i].firstChild,sec=srcPages[i].cloneNode(true);host.innerHTML='';host.appendChild(sec);delete wraps[i].dataset.dec;fillPage(sec);
+function renderPage(i,force){var pw0=wraps[i];if(!pw0||(!pw0.dataset.r&&!force))return;pw0.dataset.r='1';pw0._f=0;var host=wraps[i].firstChild,sec=srcPages[i].cloneNode(true);host.innerHTML='';host.appendChild(sec);delete wraps[i].dataset.dec;fillPage(sec);
   (HL[PKEY[i]]||[]).forEach(function(h,k){if(!hlOk(i,h))return;wrapRange(sec,h.s,h.e,function(){var m=document.createElement('mark');m.className='uhl '+h.c+(h.uw?' uw'+h.uw:'')+(h.hs===2?' hs2':'')+(h.n?' hasn':'');m.dataset.k=k;return m});
     if(h.n){var ms=sec.querySelectorAll('mark.uhl[data-k="'+k+'"]'),last=ms[ms.length-1];if(last){var nm=document.createElement('span');nm.className='nm';nm.dataset.k=k;nm.title='Note';last.parentNode.insertBefore(nm,last.nextSibling)}}});markDk(sec);}
 function wrapRange(sec,s,e,mk){var pos=0;textNodes(sec).forEach(function(n){var L=n.nodeValue.length,a=Math.max(s,pos),b=Math.min(e,pos+L);
@@ -3411,7 +3429,7 @@ var IC={play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 
   ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>',
   lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
   hp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>'};
-var FIDX={};wraps.forEach(function(pw,i){var sec=pw.querySelector('section.page');if(sec)FIDX[sec.dataset.file]=i});
+var FIDX={};srcPages.forEach(function(sec,i){if(sec)FIDX[sec.dataset.file]=i});
 var SEGF={};Object.keys(AU).forEach(function(t){AU[t].segs.forEach(function(g,i){g.t=t;g.i=i;SEGF[g.f]=g;(g.also||[]).forEach(function(f){SEGF[f]=g})})});
 var CHN=window.caches?'orr-audio':null,DL={},DLR={},dling={};
 function aLocked(t){return !!(window.__LK&&window.__LK[t])}
@@ -3490,7 +3508,7 @@ function mediaMeta(){if(!('mediaSession' in navigator)||!cur)return;var T=TT[cur
     navigator.mediaSession.setActionHandler('nexttrack',function(){if(cur&&cur.i+1<AU[cur.t].segs.length)playSeg(cur.t,cur.i+1,{restart:true,fromStart:true})})}catch(e){}}
 /* Listen button in the reader bar: plays the page you are on */
 var LB=$('listenBtn');
-function segHere(){var sec=wraps[currentPage()]&&wraps[currentPage()].querySelector('section.page');return sec&&SEGF[sec.dataset.file]}
+function segHere(){var sec=srcPages[currentPage()];return sec&&SEGF[sec.dataset.file]}
 function updListen(){if(!LB||LB.hidden)return;var g=segHere();LB.classList.toggle('na',!g);LB.dataset.f=g?g.f:'';var on=!!(g&&cur&&cur.t===g.t&&cur.i===g.i);LB.classList.toggle('pl',on);LB.classList.toggle('paused',on&&A.paused);
   LB.querySelector('.lt2').textContent=on?(A.paused?'Paused':'Playing'):'Listen'}
 LB.onclick=function(){if($('reader').hidden){show('lect');return}var g=segHere();if(!g){var t=(META.pages[currentPage()]||{}).t;aToast(t&&AU[t]?'This page has no audio part':'No lecture for this page yet');return}playSeg(g.t,g.i,{follow:true})};

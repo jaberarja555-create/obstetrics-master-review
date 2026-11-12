@@ -95,8 +95,8 @@ function pill(){var c=lastCur<0?currentPage():lastCur,k=0,n=0;for(var i=0;i<wrap
   $('v2rb').textContent=t?t.no+' '+t.title.charAt(0).toUpperCase()+t.title.slice(1):({rr:'Rapid Review',dr:'Obstetric Drugs',cover:'Book cover',fm:lab}[scNow()]||lab);
   $('v2rs').textContent=t?'Chapter '+t.ch+' · '+chap(t.ch).name:'Obstetrics Master Review';
   $('v2rnav').hidden=!t&&!WHOLE;$('rnSl').disabled=$('rnVd').disabled=!t;RBM.hidden=!t;if(t){RBM.classList.toggle('on',!!BM['t:'+t.id]);RBM.setAttribute('aria-pressed',!!BM['t:'+t.id])}}
-var _os=onScroll;onScroll=function(){_os.apply(this,arguments);pill()};
-$('scroller').addEventListener('scroll',pill,{passive:true});
+/* Speed (12 Nov 2026): while the same page stays in view a scroll rewrites nothing (the shell calls onScroll('s') once per frame) */
+var _os=onScroll;onScroll=function(how){var c0=lastCur;_os.apply(this,arguments);if(how!=='s'||lastCur!==c0)pill()};
 /* panels open above a bottom button and below a top one */
 flyAt=function(f,btn){var r=btn.getBoundingClientRect(),R=$('reader').getBoundingClientRect();f.hidden=false;
   if(r.top>R.top+R.height/2){f.style.top='auto';f.style.bottom=(R.bottom-r.top+10)+'px'}else{f.style.bottom='auto';f.style.top=Math.max(8,r.bottom-R.top+8)+'px'}
