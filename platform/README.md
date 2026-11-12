@@ -27,8 +27,8 @@ Arabic is the default language. Each time the link is opened in a browser (once 
 (`beforeinstallprompt`, kept in `window.__bip` from the head; Android Chrome, Chrome/Edge on computers), otherwise the steps:
 iPhone/iPad Share → Add to Home Screen (in-app browsers: open in Safari first), Android without the offer (e.g. opened from WhatsApp):
 an «افتح في Chrome» button (`intent://…;package=com.android.chrome`) then menu → Install app, Mac Safari File → Add to Dock, Firefox: use Chrome/Edge.
-The installed app (standalone) shows only a welcome with «ابدأ». Every path then shows a second step «اختر لغة التطبيق ومظهره» (Arabic/English, day/night, current choice selected, applied at once); `smr-setup` records that it was seen. The platform language is sent to each book (`{smr:'lang'}`; with `force` after the student changes it), and the book follows it unless the student chose a language inside the book. Settings has «تثبيت التطبيق» too. `sw.js` (network first, offline copy of the
-platform's own screens) makes it installable.
+The installed app (standalone) shows only a welcome with «ابدأ». Every path then shows a second step «اختر لغة التطبيق ومظهره» (Arabic/English, day/night, current choice selected, applied at once); `smr-setup` records that it was seen. The platform language is sent to each book (`{smr:'lang'}`; with `force` after the student changes it), and the book follows it unless the student chose a language inside the book. Settings has «تثبيت التطبيق» too. `sw.js` makes it installable and fast: every screen opens at once from the copy saved on the device and is renewed in the
+background (owner, 12 Nov 2026: speed); a changed page, style or script is shown at once in an app that was only just opened, otherwise at the next opening.
 
 ## Files
 - `index.html` shell · `css/app.css` look (day/night tokens, phone/tablet/desktop, right-to-left) · `js/app.js` screens and routing

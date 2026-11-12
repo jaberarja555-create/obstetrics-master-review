@@ -368,3 +368,26 @@ Review copy: https://claude.ai/artifact/VKS3UPJmG5oa9kH9NGGXUm (whole platform; 
   app, so on Android the platform jumps to Chrome by itself (intent link with fallback `?nochrome=1`; the # travels as `?h=`), other phone
   browsers go to Chrome from «ثبّت التطبيق», iPhone in-app browsers go to Safari (`x-safari-https://`); in Chrome the button waits up to 4 s for
   the install window and says when the app is already installed (manifest related_applications + getInstalledRelatedApps).
+
+## Speed (owner, 12 Nov 2026: "the app is very slow: opening a book, opening its content, moving between pages and chapters")
+Measured on a simulated mid-range phone (Chromium, CPU 4x slower): start 3.1 s → about 1.6 s, opening the reader 9.3 s → 0.4 s, smooth scrolling (median frame 17 ms).
+- **Pages are built on demand** (src/shell.html `LAZY`, `ensurePage`, `renderPage(i,force)`): at start every page is only an empty sheet of the right
+  size (`.pw` > `.bk`); its content is cloned from the `<template id="bookPages">` source when it comes near the screen (`fillNear` / `prepPage`: pages on
+  the screen at once, the next ones in idle time through `DQ`). Search text, highlights' text and page keys read the SOURCES (`srcPages`), never
+  the built pages. Anything that needs a page's DOM must call `ensurePage(i)` first. `window.__renderAll()` builds everything.
+  **Tools** (paginate, check, measure, screenshots) run in an automated browser (`navigator.webdriver`) and get all pages built at start, as
+  before; set `window.__lazy = 1` before the page loads to test the students' way.
+- **Each page is its own layout island**: `.pw{contain:strict}` and, with lazy pages, `html.lz .pw{content-visibility:auto}`. Do not put
+  anything inside a `.pw` that must show outside its box.
+- **Scroll**: one update per frame (`onScroll('s')`); the bars, page number and saved position are rewritten only when the page in view
+  changes (v2.js `pill` too). Do not add work to the scroll path; never write the DOM or localStorage on every scroll event.
+- **Page spacing** (`fillPage`): the value is found by interpolation (about 3 layouts instead of 9); the result is the same within 2 px.
+- The search text (`TEXT`) is made at the first search (`textReady()`), not at every opening.
+- **Opening from the device**: the service worker answers the book page from the saved copy at once (no waiting for the internet). A new
+  build has a new worker file (cache name = page hash): the browser finds it in the background, the worker saves the new page and reloads
+  the open book (also asked again when the app returns to the screen after 30 minutes). Do not go back to "internet first".
+- **Platform** (platform/sw.js, js/app.js): every screen opens at once from the saved copy and is renewed in the background; when a page,
+  style or script changed the worker tells the app ({smr:'new'}), which reloads once if it was only just opened and not yet touched. The
+  Latin web fonts no longer hold up the first screen (Cairo is shipped). Books are loaded in the background only while the student is not
+  touching the app (`whenIdle`), the last opened book first; a phone with ≤ 2 GB memory loads only its last opened book that way.
+- The same reader changes are in Surgery and Pediatrics (their src/app.js); v2.js / v2.search.js changes reach them through tools/port_v2.py.

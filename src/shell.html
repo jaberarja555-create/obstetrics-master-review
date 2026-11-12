@@ -2709,9 +2709,12 @@ function dqRun(dl){DQT=0;var n=0;while(DQ.length&&(n<1||(dl&&dl.timeRemaining&&d
 function dqGo(){if(DQT)return;DQT=1;if(window.requestIdleCallback)requestIdleCallback(dqRun,{timeout:500});else setTimeout(dqRun,60)}
 function pageReady(j){var w=wraps[j];return !!(w&&w.dataset.r&&w._f)}
 function fillNear(c){if(!LAZY){for(var i=Math.max(0,c-1);i<=Math.min(wraps.length-1,c+2);i++){var w=wraps[i];if(w)fillPage(w.querySelector('section.page'))}return}
-  var sc=$('scroller'),top=sc.scrollTop,bot=top+sc.clientHeight,q=[];if(!sc.clientHeight)return;
-  [c,c+1,c-1].forEach(function(j){var w=wraps[j];if(!w||pageReady(j))return;var t=w.offsetTop;if(t<bot+120&&t+w.offsetHeight>top-120)prepPage(j);else q.push(j)});
-  DQ=q.concat([c+2,c+3,c-2,c+4,c-3]).filter(function(j){return j>=0&&j<wraps.length&&!pageReady(j)});if(DQ.length)dqGo()}
+  var sc=$('scroller'),top=sc.scrollTop,bot=top+sc.clientHeight,N=wraps.length;if(!sc.clientHeight)return;
+  /* every page on the screen is prepared at once, however many fit (a small page size on a tablet or computer shows several) */
+  var a=c,b=c,j,w;for(j=c;j<N&&j<c+40;j++){w=wraps[j];if(w.style.display==='none')continue;if(w.offsetTop>bot+120)break;b=j;if(!pageReady(j))prepPage(j)}
+  for(j=c-1;j>=0&&j>c-40;j--){w=wraps[j];if(w.style.display==='none')continue;if(w.offsetTop+w.offsetHeight<top-120)break;a=j;if(!pageReady(j))prepPage(j)}
+  DQ=[b+1,b+2,a-1,b+3,a-2].filter(function(j){return j>=0&&j<N&&!pageReady(j)});if(DQ.length)dqGo()}
+window.addEventListener('resize',function(){if(LAZY)setTimeout(function(){try{fillNear(currentPage())}catch(e){}},150)});   // a turned or resized screen shows other pages
 /* a highlight or note on a dark box gets a see-through colour so the words stay readable (owner, 8 Nov 2026) */
 function markDk(sec){sec.querySelectorAll('mark.uhl').forEach(function(m){var e=m.parentElement;while(e&&e!==sec){var c=getComputedStyle(e).backgroundColor,v=c.match(/[\d.]+/g);
   if(v&&(v.length<4||+v[3]>.5)){if(.2126*v[0]+.7152*v[1]+.0722*v[2]<110)m.classList.add('dk');return}e=e.parentElement}})}
