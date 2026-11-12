@@ -798,3 +798,10 @@ html[data-lang="en"] #v2homeW .hq small{display:none}   /* the English subtitle 
 .tocdr .tdtabs button.on{background:#fff;color:var(--deep);border-color:#fff}.tocdr .tdemp{margin:18px 10px;font:500 14px/1.7 'Cairo',sans-serif;color:rgba(255,255,255,.8);text-align:center}
 .tocdr .tdbm .tdi{margin:2px 0}
 .v2msheet .mvn,.tocdr .tdemp{direction:rtl}
+/* Flashcard scrolls with the screen on phones (owner, 12 Nov 2026: "scrolling does not work on the flashcard area"): the two faces sit in
+   one grid cell, so the card grows to its longer face; no inner scroll box and no scroll trap, so a swipe on the card moves the screen.
+   The hidden face takes no touches. */
+#cards .fc{display:block!important;height:auto!important;min-height:0!important;touch-action:pan-y}
+#cards .fc .in{display:grid!important;height:auto!important;min-height:300px!important}
+#cards .fc .face{position:relative!important;inset:auto!important;grid-area:1/1;min-height:300px;overflow:visible!important;overscroll-behavior:auto!important}
+#cards .fc:not(.flip) .face.a,#cards .fc.flip .face.q{pointer-events:none}
