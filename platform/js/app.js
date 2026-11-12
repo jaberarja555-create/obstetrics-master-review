@@ -473,13 +473,18 @@
   function showBook(id) {
     var b = BOOK[id];
     apps.hidden = false; apps.classList.remove('bg'); apps.removeAttribute('aria-hidden');
-    frameOf(id);
+    frameOf(id).used = Date.now(); prune(id);
     Object.keys(FR).forEach(function (k) { FR[k].wrap.classList.toggle('bg', k !== id); FR[k].wrap.hidden = false; });
     document.title = b.app + ' · Student Master Review';
     noteOpen(id);
   }
   /* the book's Library button follows the platform language when the book has no language setting of its own */
   function tellLang(id, force) { var f = FR[id]; if (!f) return; try { f.fr.contentWindow.postMessage({ smr: 'lang', lang: lang, force: !!force }, new URL(BOOK[id].url).origin); } catch (e) {} }
+  /* memory (owner, 12 Nov 2026: "the app is slow"): only the books the student opened stay running, at most the last two; a book loaded in
+     the background only to save its files is closed again once that is done */
+  function drop(k) { var f = FR[k]; if (!f) return; try { f.wrap.remove(); } catch (e) {} delete FR[k]; }
+  function prune(cur) { Object.keys(FR).filter(function (k) { return FR[k].used; }).sort(function (a, b) { return FR[b].used - FR[a].used; })
+      .forEach(function (k, i) { if (i >= 2 && k !== cur) drop(k); }); }
   function hideBooks() { if (!apps || apps.classList.contains('bg')) return; if (Object.keys(FR).length) { apps.hidden = false; apps.classList.add('bg'); apps.setAttribute('aria-hidden', 'true'); } else apps.hidden = true; }
   var preT = 0;
   function preload() {
@@ -491,8 +496,9 @@
       if (FR[id]) { next(); return; }
       if (apps.hidden) { apps.hidden = false; apps.classList.add('bg'); apps.setAttribute('aria-hidden', 'true'); }
       var f = frameOf(id), done = false;
-      function go() { if (done) return; done = true; setTimeout(next, 2500); }
-      f.fr.addEventListener('load', go); setTimeout(go, 30000);
+      /* the book saves its files on the device while it is open; after that it is closed unless the student opened it meanwhile */
+      function go() { if (done) return; done = true; setTimeout(function () { if (FR[id] && !FR[id].used) drop(id); next(); }, 25000); }
+      f.fr.addEventListener('load', go); setTimeout(go, 45000);
     }
     (window.requestIdleCallback || function (fn) { setTimeout(fn, 1200); })(next, { timeout: 4000 });
   }

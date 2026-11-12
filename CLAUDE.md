@@ -333,7 +333,7 @@ Review copy: https://claude.ai/artifact/VKS3UPJmG5oa9kH9NGGXUm (whole platform; 
   (subscriptions with the same phone number, last 9 digits) with a row per book (or «Not subscribed»), each row with its own Devices / Extend /
   Notes / Remove devices / Switch off; «All notes» shows the student's notes of every book, grouped by book and page; a request shows what the
   student already has («Already: …»). Give shows the device's book (`obs_admin_seen`).
-- Fast opening (owner, 12 Nov 2026): the platform loads every book in the background right after it opens (frames off the screen, class .bg,
+- Fast opening (owner, 12 Nov 2026; lighter the same day after "the app is slow"): the platform loads every book in the background ONE AT A TIME and closes it 25 s after it loaded (it only needs to save its files); of the books the student opens, the last two stay running (`prune`). Frames off the screen, class .bg,
   not on save-data connections); each book's service worker (same file in the three books: site_static/sw.js here, src/sw.js there) saves every
   file at the first opening and then opens from the device, fetching the newest page in the background for the next opening.
 - Platform colours (owner, 12 Nov 2026): six colours (`smr-pal`, html[data-pal]) in Settings and in the first-opening step with language and look.

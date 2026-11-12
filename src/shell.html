@@ -3609,7 +3609,7 @@ refreshCont();
       label();
     }
   });
-  setTimeout(send, 2500); setInterval(function () { if (!document.hidden) send(); }, 20000);
+  setTimeout(send, 2500); setInterval(function () { if (!document.hidden) send(); }, 60000);
   document.addEventListener('click', sendSoon, true); document.addEventListener('visibilitychange', send); window.addEventListener('pagehide', send);
   var q = 0;
   function soon() { if (q) return; q = requestAnimationFrame(function () { q = 0; place(); }); }
