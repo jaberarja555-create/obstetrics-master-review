@@ -3319,7 +3319,7 @@ function syncNow(tries){if(!SYNC||navigator.onLine===false)return Promise.resolv
     .then(function(){syncing=false;showSync();if(syncAgain){syncAgain=false;syncSoon()}})}
 function ago(t){var m=Math.round((Date.now()-t)/6e4);return m<1?'just now':m<60?m+' min ago':m<1440?Math.round(m/60)+' h ago':Math.round(m/1440)+' d ago'}
 function syncBar(){var t=+sp('synced')||0,msg,btn='';
-  if(SYNC){msg=syncing?'Syncing…':syncErr==='net'?'Not synced: no internet. It syncs again when you are online.':syncErr==='big'?'Not synced: too much saved (mostly drawings). Clear some drawings and try again.':syncErr?'Not synced. Try again later.':t?'Synced with your other device · '+ago(t):'Not synced yet';btn='<button type="button" class="chip" id="syncGo"'+(syncing?' disabled':'')+'>Sync now</button>'}
+  if(SYNC){msg=syncing?'Syncing…':syncErr==='net'?'Not synced: no internet. It syncs again when you are online.':syncErr==='big'?'Not synced: too much saved (mostly drawings). Clear some drawings and try again.':syncErr?'Not synced. Try again later.':t?'Saved online · '+ago(t):'Not saved online yet';btn='<button type="button" class="chip" id="syncGo"'+(syncing?' disabled':'')+'>Sync now</button>'}
   else if(!window.__obsSync)msg='Sync works when the book is opened from its own link.';
   else if(!window.__obsSync.act())msg='After you activate the book, your notes, highlights, drawings, progress, flashcards and QBank results sync between your two devices.';
   else msg='Sync stopped: this device is no longer active for the code.';
@@ -3329,6 +3329,24 @@ document.addEventListener('click',function(e){if(e.target.closest('#syncGo'))syn
 if(SYNC){setTimeout(function(){syncNow()},1500);
   document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')syncNow();else if(syncT){clearTimeout(syncT);syncNow()}});
   window.addEventListener('online',function(){syncNow()})}
+/* Automatic sync (owner, 12 Nov 2026: "once there is internet, the notes and every edit sync and upload by themselves, even with one phone").
+   Every change to what is saved (highlights, notes, drawings, page marks, cards known, question answers, tests, bookmarks, blank pages, streak)
+   marks the book "not yet online" and starts a sync a few seconds later; with no internet it waits and goes up as soon as the connection is back;
+   a failed upload is tried again every 30 s; while the app is open it also checks for changes from the other devices every 3 minutes, and it
+   uploads when the app is closed or put in the background. */
+(function(){if(!SYNC)return;
+  var RE=/^orr-(hl2?|hldel|ink|inkdel|prog|progu|known2?|upg|qb|qbtests|bm|streak)$/,dirty=false,late=false;try{dirty=localStorage.getItem('orr-dirty')==='1'}catch(e){}
+  function mark(v){dirty=v;try{localStorage.setItem('orr-dirty',v?'1':'0')}catch(e){}}
+  var si=Storage.prototype.setItem;
+  Storage.prototype.setItem=function(k,v){var watch=this===window.localStorage&&RE.test(k),old=watch?this.getItem(k):null;si.apply(this,arguments);
+    if(watch&&old!==String(v)){if(syncing)late=true;else{mark(true);syncSoon()}}};   // a change made during a sync is sent by the next one
+  var _sn=syncNow;syncNow=function(){var was=dirty;late=false;return _sn.apply(this,arguments).then(function(r){if(!syncErr&&!syncing&&was)mark(false);if(late){late=false;mark(true);syncSoon()}return r})};
+  function due(){return !document.hidden&&navigator.onLine!==false&&!syncing}
+  setInterval(function(){if(!due())return;if(dirty||syncErr==='net')syncNow();else if(Date.now()-(+localStorage.getItem('orr-synced')||0)>18e4)syncNow()},30000);
+  window.addEventListener('pagehide',function(){if(dirty)syncNow()});
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'&&dirty)syncNow()});
+  window.__autoSync={dirty:function(){return dirty}};
+  if(dirty)setTimeout(function(){syncNow()},2500)})();
 
 /* ---------- sync of everything else: flashcards known, QBank answers, daily streak, last page ----------
    Each is a map; a change is stamped with the time it was noticed, removed keys stay as tombstones,
