@@ -15,6 +15,11 @@
       d.innerHTML='<div><img src="https://student-master-review.pages.dev/icon-192.png" alt=""><b>'+(en?'This book now opens inside Student Master Review':'الكتاب الآن داخل تطبيق Student Master Review')+'</b><span>'+(en?'Saving your notes and moving you…':'جارٍ حفظ ملاحظاتك والانتقال…')+'</span><i></i></div>';
       var s=document.createElement('style');s.textContent='#smrMove{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;background:#f7f3ec;font:600 15px/1.5 system-ui,-apple-system,"Segoe UI",Cairo,sans-serif;color:#142a4c;text-align:center;padding:24px}#smrMove div{display:flex;flex-direction:column;align-items:center;gap:10px;max-width:340px}#smrMove img{width:84px;height:84px;border-radius:22px}#smrMove b{font-size:18px}#smrMove span{color:#55617a}#smrMove i{width:28px;height:28px;border-radius:50%;border:3px solid #11807a33;border-top-color:#11807a;animation:smrsp 0.9s linear infinite}@keyframes smrsp{to{transform:rotate(360deg)}}';
       document.head.appendChild(s);document.body.appendChild(d)})}})();
+</script><script>
+/* A new version of the book replaces the saved copy at once when the app has just been opened (owner, 12 Nov 2026: changes must show),
+   instead of only at the next opening: when the new saved copy is ready in the first 90 s (or while the app is in the background), reload once. */
+(function(){if(!('serviceWorker' in navigator))return;var had=!!navigator.serviceWorker.controller,t0=Date.now(),done=false;
+  navigator.serviceWorker.addEventListener('controllerchange',function(){if(done||!had)return;if(Date.now()-t0<90000||document.hidden){done=true;location.reload()}})})();
 </script><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#172e48"><style>
 /* Inter shipped with the book so every phone shows the same page fill (as in Surgery, Nov 2026) */
 @font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:block;src:url(fonts/inter-400.woff) format('woff')}
