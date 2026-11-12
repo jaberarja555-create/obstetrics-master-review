@@ -14,6 +14,10 @@ jobs:
         run: |
           check() { if curl -fsSL "$1" | grep -q "$2"; then echo "FOUND   $3"; else echo "MISSING $3"; fi; }
           check https://student-master-review.pages.dev/js/app.js "function preload" "Platform: books load in the background"
+          check https://student-master-review.pages.dev/js/app.js "smr-move-" "Platform: receives students moved from a book link"
+          check https://obstetrics-master-review.pages.dev/ "smrMove" "Obstetrics: own address moves to the main app"
+          check https://pediatrics-master-review.jaberarja555.workers.dev/ "smrMove" "Pediatrics: own address moves to the main app"
+          check https://surgery-master-review.jaberarja555.workers.dev/ "smrMove" "Surgery: own address moves to the main app"
           check https://student-master-review.pages.dev/js/app.js "palPick" "Platform: app colours"
           check https://obstetrics-master-review.pages.dev/ "hc3" "Obstetrics: new reading card"
           check https://obstetrics-master-review.pages.dev/sw.js "SKIP=" "Obstetrics: saves all files"
