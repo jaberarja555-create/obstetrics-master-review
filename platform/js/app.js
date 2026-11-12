@@ -448,7 +448,7 @@
     MOVE[id] = v; try { localStorage.setItem('smr-move-' + id, v); } catch (e) {}
     /* owner, 12 Nov 2026: someone coming from an old book link or book app gets the main app exactly as on a first opening:
        the greeting with «ثبّت التطبيق» / «المتابعة في المتصفح», then the language and look step, then Home */
-    MOVED = true; try { sessionStorage.removeItem('smr-wel'); } catch (e) {} LS.del('setup');
+    MOVED = true; try { sessionStorage.removeItem('smr-wel'); } catch (e) {} LS.del('setup'); LS.del('setup-app');
     try { history.replaceState(null, '', location.pathname + location.search + '#home'); } catch (e) {} })();
   /* owner, 12 Nov 2026 ("old links open the book, I think because of #read-surgery"): an opening of the app on an address that points inside a
      book (a saved tab, bookmark or link from an older move) starts on Home with the greeting; the book is one tap away. Coming from a book's
@@ -456,7 +456,7 @@
   (function () { if (!/^#read-/.test(location.hash)) return;
     var ref = ''; try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) {}
     if (/^(obstetrics-master-review\.pages\.dev|surgery-master-review\.jaberarja555\.workers\.dev|pediatrics-master-review\.jaberarja555\.workers\.dev)$/.test(ref)) {
-      MOVED = true; try { sessionStorage.removeItem('smr-wel'); } catch (e) {} LS.del('setup'); }
+      MOVED = true; try { sessionStorage.removeItem('smr-wel'); } catch (e) {} LS.del('setup'); LS.del('setup-app'); }
     try { history.replaceState(null, '', location.pathname + location.search + '#home'); } catch (e) {} })();
   function readBack(b) { return state.readFrom && state.readFrom !== 'read' ? state.readFrom : b.section; }
   /* Opening fast (owner, 12 Nov 2026: "all needed files downloaded from the first time, then the app acts smoothly"): right after the
@@ -641,7 +641,10 @@
       '<p class="wlab">' + esc(t('set.color')) + '</p>' + palPick() + '</div>' +
       '<div class="wbtns"><button class="btn" type="button" data-wdone data-first>' + esc(t('w.start')) + ic('arrow', 'flip') + '</button></div>');
   }
-  function welNext() { setupStep(); }
+  /* the language, look and colour step only on the first opening in the browser and the first opening of the installed app (owner,
+     12 Nov 2026: "after the first time just keep the greeting") */
+  function setupKey() { return STANDALONE ? 'setup-app' : 'setup'; }
+  function welNext() { if (LS.get(setupKey(), 0) && !MOVED) welClose(); else setupStep(); }
   function welDone() {
     welOpen(welHead() + '<p class="ok-msg wdone">' + ic('check') + ' ' + esc(t('i.done')) + '</p><div class="wbtns"><button class="btn" type="button" data-wclose data-first>' + esc(t('w.start')) + '</button></div>');
   }
@@ -775,7 +778,7 @@
     if (a.hasAttribute('data-theme')) { setTheme(a.getAttribute('data-theme')); a.parentNode.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === a ? 'true' : 'false'); }); }
     if (a.hasAttribute('data-install')) { install(false); return; }
     if (a.hasAttribute('data-wclose')) { welNext(); return; }
-    if (a.hasAttribute('data-wdone')) { LS.set('setup', 1); welClose(); return; }
+    if (a.hasAttribute('data-wdone')) { LS.set(setupKey(), 1); welClose(); return; }
     if (a.hasAttribute('data-wlang')) { setLang(a.getAttribute('data-wlang')); setupStep(); return; }
     if (a.hasAttribute('data-wlook')) { setTheme(a.getAttribute('data-wlook')); setupStep(); return; }
     if (a.hasAttribute('data-pal')) { setPal(a.getAttribute('data-pal')); return; }
