@@ -6,6 +6,7 @@
   var S = window.SMR, T = S.T;
 
   /* ---------- device storage (every read/write guarded) ---------- */
+  var HREF0 = location.href;   // the address as opened (the move code below rewrites the #)
   var LS = {
     get: function (k, d) { try { var v = localStorage.getItem('smr-' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
     set: function (k, v) { try { localStorage.setItem('smr-' + k, JSON.stringify(v)); return true; } catch (e) { return false; } },
@@ -433,6 +434,10 @@
   var FR = {}, apps = null;
   /* A book opened on its own address moves the student here (owner, 12 Nov 2026: one app): #read-<book>~move=<device identity>. The identity is
      kept for this tab only and handed to the book's frame, so the subscription and synced notes follow. */
+  /* the # does not survive the jump into Chrome (intent link), so it travels as ?h= and is put back here */
+  (function () { var m = location.search.match(/[?&]h=([^&]+)/); if (!m) return; var h = ''; try { h = decodeURIComponent(m[1]); } catch (e) {}
+    var q = location.search.replace(/[?&]h=[^&]+/, '').replace(/^&/, '?'); if (q === '?') q = '';
+    try { history.replaceState(null, '', location.pathname + q + (h.charAt(0) === '#' ? h : '')); HREF0 = location.href; } catch (e) {} })();
   var MOVE = {}, MOVED = false;
   /* owner, 12 Nov 2026: a student coming from a book's old link lands on the platform's Home first (so they see that everything changed);
      the book's hand-over waits on this device until that book is opened (or loaded in the background) here. */
@@ -556,6 +561,21 @@
   var STANDALONE = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
   var DEV = /iPad|iPhone|iPod/.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) ? 'ios' : /Android/i.test(UA) ? 'android' : 'pc';
   var IOS_INAPP = DEV === 'ios' && (!/Safari\//.test(UA) || /FBAN|FBAV|Instagram|WhatsApp|Line\//.test(UA));
+  /* Other browsers (owner, 12 Nov 2026: "make WhatsApp, Facebook, Messenger, Telegram and other browsers act like Chrome and install
+     directly"): those apps let no website install itself, so the app takes the student to the browser that can: Chrome on Android (by
+     itself when the link is opened inside another app, and from «ثبّت التطبيق» in other phone browsers), Safari on iPhone/iPad. */
+  var AND_INAPP = DEV === 'android' && /; wv\)|FBAN|FBAV|FB_IAB|FBIOS|Instagram|Line\/|Telegram|MicroMessenger|Snapchat|musical_ly|TikTok|WhatsApp/i.test(UA);
+  var AND_CAN = DEV === 'android' && !AND_INAPP && /Chrome\//.test(UA) && !/MiuiBrowser|HeyTapBrowser|OppoBrowser|VivoBrowser|UCBrowser|Opera Mini|OPiOS|QQBrowser|Quark|PHX\/|Phoenix/i.test(UA);
+  var IS_CHROME = AND_CAN && !/SamsungBrowser|EdgA|OPR\/|YaBrowser|Brave/i.test(UA);
+  function chromeLink() {
+    var u = new URL(HREF0), h = u.hash; u.hash = ''; if (h && h !== '#home') u.searchParams.set('h', h);
+    var fb = new URL(u.href); fb.searchParams.set('nochrome', '1');
+    return 'intent://' + u.href.replace(/^https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(fb.href) + ';end';
+  }
+  function toChrome() { try { sessionStorage.setItem('smr-tochrome', '1'); } catch (e) {} location.href = chromeLink(); }
+  function toSafari() { location.href = 'x-safari-' + HREF0.replace(/^http:/, 'https:'); }
+  (function () { if (!AND_INAPP || /[?&]nochrome=1/.test(location.search)) return; var done = false; try { done = sessionStorage.getItem('smr-tochrome') === '1'; } catch (e) {}
+    if (!done && location.protocol === 'https:') setTimeout(toChrome, 300); })();
   var MAC_SAFARI = DEV === 'pc' && /Macintosh/.test(UA) && /Safari\//.test(UA) && !/Chrome|Chromium|Edg|Firefox/.test(UA);
   var FIREFOX = /Firefox\//.test(UA) && DEV === 'pc';
   window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); window.__bip = e; });
@@ -593,9 +613,7 @@
       st += step(1, t('i.ios1'), 'share') + step(2, t('i.ios2'), 'addsq') + step(3, t('i.ios3'));
       extra = '<button class="btn sm quiet" type="button" data-copy>' + esc(t('i.copy')) + '</button>';
     } else if (DEV === 'android') {
-      var u = location.href.replace(/^https?:\/\//, '').replace(/#.*$/, '');
-      var intent = 'intent://' + u + '#Intent;scheme=https;package=com.android.chrome;end';
-      st += '<li class="warn"><span>' + esc(t('i.and0')) + '</span><a class="btn sm" href="' + esc(intent) + '">' + esc(t('i.chrome')) + '</a></li>';
+      if (!IS_CHROME) st += '<li class="warn"><span>' + esc(t('i.and0')) + '</span><a class="btn sm" href="' + esc(chromeLink()) + '">' + esc(t('i.chrome')) + '</a></li>';
       st += step(1, t('i.and1'), 'dots') + step(2, t('i.and2'), 'download') + step(3, t('i.and3'));
       extra = '<button class="btn sm quiet" type="button" data-copy>' + esc(t('i.copy')) + '</button>';
     } else if (MAC_SAFARI) {
@@ -627,8 +645,23 @@
   function welDone() {
     welOpen(welHead() + '<p class="ok-msg wdone">' + ic('check') + ' ' + esc(t('i.done')) + '</p><div class="wbtns"><button class="btn" type="button" data-wclose data-first>' + esc(t('w.start')) + '</button></div>');
   }
-  function install() {
+  function install(waited) {
     var p = window.__bip;
+    if (!p && !waited) {
+      if (DEV === 'android' && !AND_CAN) { msgOn(t('i.moving')); toChrome(); setTimeout(function () { if (!document.hidden) guide(); }, 2500); return; }
+      if (IOS_INAPP) { msgOn(t('i.safari')); toSafari(); setTimeout(function () { if (!document.hidden) guide(); }, 2500); return; }
+      /* Chrome offers its install window a few seconds after the page opens: wait for it instead of showing the steps at once; an app
+         already installed is said so */
+      if (DEV !== 'ios' && !MAC_SAFARI && !FIREFOX) {
+        msgOn(t('i.wait')); var t0 = Date.now();
+        var have = navigator.getInstalledRelatedApps ? navigator.getInstalledRelatedApps().then(function (a) { return a && a.length > 0; }, function () { return false; }) : Promise.resolve(false);
+        have.then(function (yes) {
+          if (yes) { welOpen(welHead() + '<p class="ok-msg wdone">' + ic('check') + ' ' + esc(t('i.have')) + '</p><div class="wbtns"><button class="btn" type="button" data-wclose data-first>' + esc(t('w.browser')) + '</button></div>'); return; }
+          (function wait() { if (window.__bip) { msgOff(); install(true); return; } if (Date.now() - t0 > 4000) { msgOff(); guide(); return; } setTimeout(wait, 150); })();
+        });
+        return;
+      }
+    }
     if (p) {
       p.prompt();
       (p.userChoice || Promise.resolve({})).then(function (r) {
@@ -639,6 +672,8 @@
     }
     guide();
   }
+  function msgOn(txt) { var b = document.querySelector('#wcard [data-install]'); if (b) { b.disabled = true; b.setAttribute('aria-busy', 'true'); var sm = b.querySelector('small'); if (sm) sm.textContent = txt; } }
+  function msgOff() { var b = document.querySelector('#wcard [data-install]'); if (b) { b.disabled = false; b.removeAttribute('aria-busy'); } }
   function copyLink() {
     var u = location.href.replace(/#.*$/, ''), m = $('#wmsg');
     var done = function () { if (m) m.textContent = t('i.copied'); };
@@ -738,7 +773,7 @@
     if (a.id === 'lbtn') setLang(lang === 'ar' ? 'en' : 'ar');
     if (a.hasAttribute('data-lang')) setLang(a.getAttribute('data-lang'));
     if (a.hasAttribute('data-theme')) { setTheme(a.getAttribute('data-theme')); a.parentNode.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === a ? 'true' : 'false'); }); }
-    if (a.hasAttribute('data-install')) { install(); return; }
+    if (a.hasAttribute('data-install')) { install(false); return; }
     if (a.hasAttribute('data-wclose')) { welNext(); return; }
     if (a.hasAttribute('data-wdone')) { LS.set('setup', 1); welClose(); return; }
     if (a.hasAttribute('data-wlang')) { setLang(a.getAttribute('data-wlang')); setupStep(); return; }
