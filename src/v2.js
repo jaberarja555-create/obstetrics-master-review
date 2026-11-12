@@ -171,7 +171,7 @@ R.v2home=function(){var a=access(),lp=lastPage(),has=sp('pk')&&lp>0,t=has?topicA
      and «تابع القراءة»; a thin line under the picture shows how much of the topic is read */
   var ct=t?'<button type="button" class="hcn" data-act="ch" data-n="'+t.ch+'"><small dir="auto">'+(sp('lang')==='en'?'Chapter ':'الفصل ')+t.ch+' · '+pct(t.id)+'%</small><b>'+X(chap(t.ch).name)+'</b></button>'
     :'<button type="button" class="hcn" data-act="cont"><small>'+(sp('lang')==='en'?'Page ':'صفحة ')+PAGES[lp].bn+'</small><b>'+X(PAGES[lp].label)+'</b></button>';
-  var la=spj('lastact'),lal=la?{read:t?t.title:PAGES[lp].label,cards:'Flashcards',qb:'Question bank',lect:'Videos'}[la.k]:'';
+  var la=spj('lastact'),lal=la?{read:t?t.title:PAGES[lp].label,cards:'البطاقات',qb:'بنك الأسئلة',lect:'الفيديو'}[la.k]:'';
   var sk=0;try{sk=streak()}catch(e){}
   $('v2homeW').innerHTML='<div class="hgr"><div class="l"><b>Obstetrics Master Review</b><span>4th Edition · 2026</span></div><h2 lang="ar" dir="rtl">'+greet()+'</h2><p>Obstetrics Master Review</p></div>'+
    '<div class="v2c hacc" lang="ar">'+I('book')+'<div><b>'+acc[0]+'</b><small>'+acc[1]+'</small></div><button type="button" class="v2btn sm" data-act="sub">'+I(acc[3])+acc[2]+'</button></div>'+
@@ -186,8 +186,8 @@ R.v2home=function(){var a=access(),lp=lastPage(),has=sp('pk')&&lp>0,t=has?topicA
     '<div class="hst" lang="ar"><button type="button" class="v2c" data-act="cards"><span class="t">'+I('layers')+'بطاقات اليوم</span><span class="n">'+(dueToday()?dueToday()+' بطاقات':'اكتملت ✓')+'</span><span class="a">ابدأ المراجعة'+I('back')+'</span></button>'+
       '<button type="button" class="v2c" data-v="qbank-v"><span class="t">'+I('q')+'بنك الأسئلة</span><span class="n">'+qTotal()+' سؤال</span><span class="a">ابدأ التدريب'+I('back')+'</span></button></div>'+
     '<div class="hq" lang="ar"><button type="button" class="v2c" data-act="last">'+I('clock')+'<span>آخر نشاط'+(lal?'<small dir="ltr">'+X(lal)+'</small>':'')+'</span>'+I('chev','cv')+'</button>'+
-      '<button type="button" class="v2c" data-v="v2lect">'+I('play')+'<span>الفيديو<small>Videos</small></span>'+I('chev','cv')+'</button>'+
-      '<button type="button" class="v2c" data-v="v2slides">'+I('slides')+'<span>المحاضرات<small>Lectures</small></span>'+I('chev','cv')+'</button></div>'+
+      '<button type="button" class="v2c" data-v="v2lect">'+I('play')+'<span>الفيديو</span>'+I('chev','cv')+'</button>'+
+      '<button type="button" class="v2c" data-v="v2slides">'+I('slides')+'<span>المحاضرات</span>'+I('chev','cv')+'</button></div>'+
    '</div></div>'};
 
 /* ---------- Chapters ---------- */
@@ -222,7 +222,7 @@ R.v2practice=function(){var fr=isFree(),wide=window.matchMedia&&matchMedia('(min
     return '<div class="pstat" lang="ar"><div class="v2c"><b>'+tc+'</b><span>بطاقة'+(fr&&TOT.cards?' من '+TOT.cards:'')+'</span></div><div class="v2c"><b>'+tk+'</b><span>عرفتها</span></div><div class="v2c"><b>'+dueToday()+'</b><span>مستحق اليوم</span></div></div>'+
       '<button type="button" class="v2btn" data-act="cards" lang="ar" style="height:50px">'+I('play')+'ابدأ مراجعة اليوم</button>'+
       '<button type="button" class="v2c hrow" data-act="allcards" lang="ar"><span class="ii">'+I('layers')+'</span><span><b>كل البطاقات</b><small>حسب الفصل والموضوع</small></span>'+I('chev')+'</button>'}
-  var h=title('الممارسة والتقييم','','Practice');
+  var h=title('الممارسة والتقييم');
   if(wide)h+='<div class="pgrid"><div class="ppane"><h3 lang="ar">'+I('layers')+'البطاقات</h3>'+cp()+'</div><div class="ppane"><h3 lang="ar">'+I('q')+'الأسئلة</h3>'+qp()+'</div></div>';
   else h+='<div class="v2c pseg" lang="ar"><button type="button" data-act="pseg" data-s="q" class="'+(PSEG==='q'?'on':'')+'">'+I('q')+'الأسئلة</button><button type="button" data-act="pseg" data-s="c" class="'+(PSEG==='c'?'on':'')+'">'+I('layers')+'البطاقات</button></div>'+(PSEG==='q'?qp():cp());
   if(wide)h+='<div class="ppane"><h3 lang="ar">'+I('book')+'تدرّب حسب الفصل</h3><div class="pchs">'+META.chapters.map(function(c){var s=chStat(c);
@@ -235,12 +235,12 @@ window.addEventListener('resize',function(){if(CURV==='v2practice')R.v2practice(
 R.v2resources=function(){var nn=0;Object.keys(HL||{}).forEach(function(k){(HL[k]||[]).forEach(function(x){if(x.n)nn++})});var nb=Object.keys(BM).length;
   function row(act,ic,a,b,attr){return '<button type="button" class="v2c hrow" '+(attr||'data-act="'+act+'"')+'><span class="ii">'+I(ic)+'</span><span><b>'+a+'</b><small>'+b+'</small></span>'+I('chev')+'</button>'}
   $('v2resourcesW').innerHTML=title('المصادر')+'<div class="hub" lang="ar">'+
-    row('rr','bolt','المراجعة السريعة','Rapid Review · بطاقة امتحان لكل موضوع')+row('dr','pill','أدوية التوليد','Obstetric Drugs · الجرعات والمحاذير')+
-    row('osce','steth','السريري OSCE','Clinical & OSCE · '+TOPICS.filter(function(t){return t.ch===7}).length+' محطات')+row('','play','الفيديو','Videos · فيديو شرح لكل موضوع','data-v="v2lect"')+
-    row('','slides','المحاضرات','Lectures · محاضرة لكل موضوع','data-v="v2slides"')+row('notes','pen','ملاحظاتي','My Notes'+(nn?' · '+nn:''))+row('','bm','المصادر المحفوظة','Saved'+(nb?' · '+nb:''),'data-v="v2saved"')+'</div>'};
+    row('rr','bolt','المراجعة السريعة','بطاقة امتحان لكل موضوع')+row('dr','pill','أدوية التوليد','الجرعات والمحاذير')+
+    row('osce','steth','السريري OSCE',''+TOPICS.filter(function(t){return t.ch===7}).length+' محطات')+row('','play','الفيديو','فيديو شرح لكل موضوع','data-v="v2lect"')+
+    row('','slides','المحاضرات','محاضرة لكل موضوع','data-v="v2slides"')+row('notes','pen','ملاحظاتي','ملاحظاتك وتظليلك'+(nn?' · '+nn:''))+row('','bm','المصادر المحفوظة','ما حفظته بعلامة الحفظ'+(nb?' · '+nb:''),'data-v="v2saved"')+'</div>'};
 var LCH=0;
 R.v2lect=function(){var TI=INFO.timg||{},ts=TOPICS.filter(function(t){return !LCH||t.ch===LCH}),au=0;try{au=Object.keys(AU).length}catch(e){}
-  $('v2lectW').innerHTML=title('الفيديو',FROMRD?'reader':'v2resources','Videos')+
+  $('v2lectW').innerHTML=title('الفيديو',FROMRD?'reader':'v2resources')+
    '<div class="chf lcf" lang="ar"><button type="button" data-act="lch" data-n="0" class="'+(LCH?'':'on')+'">الكل</button>'+META.chapters.map(function(c){return '<button type="button" data-act="lch" data-n="'+c.n+'" class="'+(LCH===c.n?'on':'')+'"><bdi>Ch '+c.n+'</bdi></button>'}).join('')+'</div>'+
    '<div class="v2c hacc" lang="ar">'+I('play')+'<div><b>محاضرات الفيديو قادمة</b><small>ستُضاف محاضرة فيديو لكل موضوع، وتظهر هنا فور رفعها.</small></div></div>'+
    '<div class="vgl">'+ts.map(function(t){return '<div class="v2c vcd" id="vd-'+t.id+'"><div class="th" style="background-image:url('+(TI[t.id]||chImg(t.ch))+')"><span class="pl">'+I('play')+'</span><span class="sn" lang="ar">قريبًا</span></div>'+
@@ -248,13 +248,13 @@ R.v2lect=function(){var TI=INFO.timg||{},ts=TOPICS.filter(function(t){return !LC
    ''};
 var SCH=0;
 R.v2slides=function(){var TI=INFO.timg||{},ts=TOPICS.filter(function(t){return !SCH||t.ch===SCH});
-  $('v2slidesW').innerHTML=title('المحاضرات',FROMRD?'reader':'v2resources','Lectures')+
+  $('v2slidesW').innerHTML=title('المحاضرات',FROMRD?'reader':'v2resources')+
    '<div class="chf lcf" lang="ar"><button type="button" data-act="sch" data-n="0" class="'+(SCH?'':'on')+'">الكل</button>'+META.chapters.map(function(c){return '<button type="button" data-act="sch" data-n="'+c.n+'" class="'+(SCH===c.n?'on':'')+'"><bdi>Ch '+c.n+'</bdi></button>'}).join('')+'</div>'+
    '<div class="v2c hacc" lang="ar">'+I('slides')+'<div><b>المحاضرات قادمة</b><small>ستُضاف محاضرة لكل موضوع، وتظهر هنا فور رفعها.</small></div></div>'+
    '<div class="vgl">'+ts.map(function(t){var bl=String(t.sub||'').split(' · ').slice(0,3);
      return '<div class="v2c vcd" id="sl-'+t.id+'"><div class="sld"><span class="sn" lang="ar">قريبًا</span><div class="sx"><i><img src="img/v2_logo.webp" alt="">Obstetrics Master Review</i><b>'+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><ul>'+bl.map(function(x){return '<li>'+X(x)+'</li>'}).join('')+'</ul></div><span class="sp" style="background-image:url('+(TI[t.id]||chImg(t.ch))+')"></span></div>'+
      '<b>'+t.no+' '+X(t.title.charAt(0).toUpperCase()+t.title.slice(1))+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></div>'}).join('')+'</div>'};
-R.v2dl=function(){$('v2dlW').innerHTML=title('التنزيلات','v2settings','Downloads')+
+R.v2dl=function(){$('v2dlW').innerHTML=title('التنزيلات','v2settings')+
   '<div class="v2c sbx" lang="ar"><b>'+I('play')+'محاضرات الفيديو</b><p class="mu">لا توجد محاضرات منزّلة. عند إضافة محاضرات الفيديو يمكنك تنزيلها لمشاهدتها بدون إنترنت، وتظهر هنا.</p><button type="button" class="v2btn sm ol" data-v="v2lect">الفيديو'+I('back')+'</button></div>'+
   '<div class="v2c sbx" lang="ar"><b>'+I('slides')+'المحاضرات</b><p class="mu">لا توجد محاضرات منزّلة. عند إضافة المحاضرات يمكنك تنزيلها، وتظهر هنا.</p><button type="button" class="v2btn sm ol" data-v="v2slides">المحاضرات'+I('back')+'</button></div>'};
 /* user manual (owner, 10 Nov 2026): every part of the app in clear steps with a picture of the screen (assets/img/help_*.jpg, made by tools/help_shots.js) */
@@ -267,27 +267,27 @@ var HELP=[['home','الرئيسية','من هنا تبدأ كل شيء.',['<b>ت
  ['settings','الإعدادات','اضبط التطبيق كما تحب.',['<b>الملف الشخصي</b>: اسمك وصورتك ورقم المستخدم.','<b>المظهر</b>: نهاري أو ليلي أو تلقائي. زر الشمس أو القمر في أعلى الشاشة يبدّل بسرعة.','<b>لون التطبيق</b>: ستة ألوان، ويتغيّر معها غلاف الكتاب.','<b>المزامنة</b>: تحفظ ملاحظاتك وتقدّمك بين أجهزتك.','<b>التنزيلات</b> و<b>الإشعارات</b> و<b>تقدّمي</b>.','<b>المساعدة</b>: راسلنا في واتساب.']]];
 /* the owner's five user-guide posters come first (11 Nov 2026), then the detailed steps with screenshots */
 var UG5=['التنقّل والرئيسية','القراءة والتعليقات','الأسئلة والبطاقات','المصادر وأدوات الدراسة','الإعدادات والاشتراك'];
-R.v2help=function(){$('v2helpW').innerHTML=title('دليل الاستخدام','v2settings','User manual')+
+R.v2help=function(){$('v2helpW').innerHTML=title('دليل الاستخدام','v2settings')+
   '<div class="chf lcf" lang="ar">'+UG5.map(function(t,i){return '<button type="button" data-act="ugjump" data-i="'+(i+1)+'">'+(i+1)+' · '+t+'</button>'}).join('')+'<button type="button" data-act="ugjump" data-i="d">شرح مفصّل بالصور</button></div>'+
   UG5.map(function(t,i){return '<div class="v2c abp" id="ug'+(i+1)+'"><img src="img/ug_'+(i+1)+'.jpg" alt="دليل المستخدم: '+t+'" loading="lazy"></div>'}).join('')+
   '<h3 class="ugh" id="ugd" lang="ar">شرح مفصّل بصور من التطبيق</h3>'+
   HELP.map(function(h,i){return '<div class="v2c hlp" id="hlp'+i+'" lang="ar"><div class="hx"><b><i>'+(i+1)+'</i>'+h[1]+'</b><p class="mu">'+h[2]+'</p><ol>'+h[3].map(function(s){return '<li>'+s+'</li>'}).join('')+'</ol></div><img src="img/help_'+h[0]+'.jpg" alt="صورة شاشة: '+h[1]+'" loading="lazy"></div>'}).join('')};
 /* About the book (owner's design, 11 Nov 2026): a hero and eight tiles; five open the owner's posters, three lead to places of the app */
 var ABOUT=[['authors','مؤلفا الكتاب','p'],['reviewers','مراجعو الكتاب','p'],['edition','عن هذه الطبعة','p'],['howto','كيف تستخدم الكتاب','p'],['tools','أدوات الدراسة','help:2'],['refs','مراجع الكتاب','p'],['contents','محتويات الكتاب','v2chapters'],['goals','أهدافنا المستقبلية','p'],['rights','حقوق النشر وشروط الاستخدام','p']],POST='authors';
-R.v2about=function(){$('v2aboutW').innerHTML=title('عن الكتاب','v2settings','About')+
+R.v2about=function(){$('v2aboutW').innerHTML=title('عن الكتاب','v2settings')+
   '<div class="v2c abh" lang="ar"><img src="img/v2_cover_'+PAL+'.jpg" alt="غلاف الكتاب"><div><h3>رفيقك في رحلة تعلّم التوليد</h3><span class="abl">'+I('book')+'</span><p>تعرّف على الكتاب، وفريقه، وطريقة الاستفادة منه</p></div></div>'+
   '<div class="abg" lang="ar">'+ABOUT.slice(0,8).map(function(a){return '<button type="button" class="v2c abt" data-act="about" data-k="'+a[0]+'"><span class="im" style="background-image:url(img/abt_'+a[0]+'.jpg)"></span><span class="lb"><b>'+a[1]+'</b>'+I('chev')+'</span></button>'}).join('')+'</div>'+
   '<button type="button" class="v2c hrow" data-act="about" data-k="rights" lang="ar"><span class="ii">'+I('info')+'</span><span><b>حقوق النشر وشروط الاستخدام</b><small>إخلاء المسؤولية العلمية والطبية</small></span>'+I('chev')+'</button>'};
 /* Help (owner, 11 Nov 2026): the author's name and number with three ways to reach him */
 var HPS=[['د. عبدالجليل ارجا','0116984258','249116984258'],['د. العباس عبدالرحمن','0965859782','249965859782']];
 R.v2contact=function(){var P='<svg class="v2ic" viewBox="0 0 24 24">',ph='<path d="M8.6 4.5l1.6 3.6-1.5 1.6c.9 2 2.6 3.7 4.6 4.6l1.6-1.5 3.6 1.6v2.7c0 .8-.7 1.4-1.5 1.4C10.600 18.5 5.5 13.400 5.500 6c0-.8.6-1.500 1.400-1.500z"/>';
-  $('v2contactW').innerHTML=title('المساعدة','v2settings','Help')+
+  $('v2contactW').innerHTML=title('المساعدة','v2settings')+
   '<div class="v2c hcd" lang="ar"><img src="img/v2_logo.webp" alt=""><p>للاستفسار عن الكتاب أو الاشتراك، أو للإبلاغ عن خطأ، تواصل مع أحد المؤلفين بالطريقة التي تناسبك.</p></div>'+
   '<div class="hpp" lang="ar">'+HPS.map(function(h){return '<div class="v2c hpc"><h3>'+h[0]+'</h3><a class="hph" href="tel:+'+h[2]+'" dir="ltr">'+h[1]+'</a><div class="hcg">'+
     '<a class="hco wa" href="https://wa.me/'+h[2]+'" target="_blank" rel="noopener"><span>'+P+'<path d="M12 3.5a8.500 8.500 0 0 0-7.300 12.800L3.500 20.500l4.300-1.100A8.500 8.500 0 1 0 12 3.500z"/><path d="M9.300 8.300l.9 1.900-.8.9c.5 1 1.400 1.900 2.400 2.400l.9-.8 1.900.9v1c0 .5-.4.8-.9.800-3.300-.2-6-2.900-6.200-6.200 0-.5.300-.900.800-.900z"/></svg></span><b>واتساب</b></a>'+
     '<a class="hco tg" href="https://t.me/+'+h[2]+'" target="_blank" rel="noopener"><span>'+P+'<path d="M20.500 4.500L3.500 11l5 1.800 1.800 5.700 2.800-3.400 4.400 3.400z"/><path d="M8.500 12.800l8-5.300-6.200 6.900"/></svg></span><b>تيليجرام</b></a>'+
     '<a class="hco cl" href="tel:+'+h[2]+'"><span>'+P+ph+'</svg></span><b>اتصال</b></a></div></div>'}).join('')+'</div>'};
-R.v2poster=function(){var a=ABOUT.filter(function(x){return x[0]===POST})[0];$('v2posterW').innerHTML=title(a[1],'v2about','About')+'<div class="v2c abp"><img src="img/ab_'+a[0]+'.jpg" alt="'+a[1]+'"></div>'+(a[0]==='howto'?'<button type="button" class="v2btn" data-v="v2help" lang="ar" style="max-width:760px;width:100%;margin:0 auto;height:50px">'+I('book')+'دليل الاستخدام المفصّل بالصور</button>':'')};
+R.v2poster=function(){var a=ABOUT.filter(function(x){return x[0]===POST})[0];$('v2posterW').innerHTML=title(a[1],'v2about')+'<div class="v2c abp"><img src="img/ab_'+a[0]+'.jpg" alt="'+a[1]+'"></div>'+(a[0]==='howto'?'<button type="button" class="v2btn" data-v="v2help" lang="ar" style="max-width:760px;width:100%;margin:0 auto;height:50px">'+I('book')+'دليل الاستخدام المفصّل بالصور</button>':'')};
 R.v2saved=function(){var ks=Object.keys(BM).sort(function(a,b){return BM[b]-BM[a]});
   $('v2savedW').innerHTML=title('المصادر المحفوظة','v2resources')+(ks.length?'<div class="tpl">'+ks.map(function(k){var t=TOPICS.filter(function(x){return 't:'+x.id===k})[0];if(!t)return '';
     return '<div class="v2c tpr"><span class="li">'+I(locked(t.id)?'lock':'book')+'</span><button type="button" class="tmn" data-act="topic" data-id="'+t.id+'"><b>'+t.no+' '+X(t.title)+'</b><small>Chapter '+t.ch+' · '+X(chap(t.ch).name)+'</small></button>'+bmk(k)+'</div>'}).join('')+'</div>'
@@ -355,17 +355,17 @@ function poll(){if(!LIC||LIC.unlocked()||navigator.onLine===false)return Promise
     var was=JSON.stringify(REQ);REQ=d.status==='none'||d.status==='cancelled'?null:{status:d.status,plan:d.plan,t:d.created,reason:d.reason};spj('req',REQ);if(JSON.stringify(REQ)!==was&&(CURV==='v2sub'||CURV==='v2home'))R[CURV]();header()}).catch(function(){})}
 setInterval(function(){if(!document.hidden&&((REQ&&REQ.status==='pending')||CURV==='v2sub'))poll()},45000);
 document.addEventListener('visibilitychange',function(){if(!document.hidden)poll()});
-R.v2sub=function(){var a=access(),ex=+st('orr-exp')||0,pl=st('orr-plan'),pend=a!=='paid'&&REQ&&REQ.status==='pending',h=title('الاشتراك',CURV==='v2sub'&&RETS?RETS:'v2settings','Subscription');
+R.v2sub=function(){var a=access(),ex=+st('orr-exp')||0,pl=st('orr-plan'),pend=a!=='paid'&&REQ&&REQ.status==='pending',h=title('الاشتراك',CURV==='v2sub'&&RETS?RETS:'v2settings');
   function chk(t){return '<li>'+I('check')+t+'</li>'}
   if(a==='paid')h+='<div class="v2c sbx ok" lang="ar"><b>'+I('crown')+'اشتراكك فعّال</b><p>'+(pl?'الخطة: '+plan(pl).ar+' · ':'')+(ex?'ينتهي في '+fdate(ex):'بلا تاريخ انتهاء')+'</p><p class="mu">اشتراكك يفتح هاتفك وجهازك اللوحي وحاسوبك، وملاحظاتك وتقدّمك تظهر في كل أجهزتك.</p><button type="button" class="v2btn sm" data-act="pairnew">'+I('sync')+'أضف جهازًا آخر</button><div id="prBox"></div></div>';
   if(a==='ended')h+='<div class="v2c sbx" lang="ar"><b>'+I('lock')+'انتهى اشتراكك</b><p>ملاحظاتك وتظليلك وتقدّمك محفوظة، وتعود كما هي عند تجديد الاشتراك. الموضوع الأول من كل فصل ما زال مفتوحًا.</p></div>';
   if(pend)h+='<div class="v2c sbx" lang="ar"><b>'+I('clock')+'طلبك قيد المراجعة</b><p>'+(REQ.plan==='device'?'':'الخطة: ')+plan(REQ.plan).ar+' · أُرسل '+ago(Date.parse(REQ.t))+'</p><p class="mu">'+(REQ.plan==='device'?'اشتراكك وصل إلى حدّ أجهزته أو يحتاج إلى مراجعة، فأُرسل طلب إلى الإدارة. ':'')+'بعد الموافقة يُفتح الكتاب كاملًا في هذا الجهاز تلقائيًا، ولا تحتاج إلى أي كود.</p><div class="brow">'+(REQ.plan==='device'?'':'<button type="button" class="v2btn sm" data-act="reqedit">'+I('pen')+'تعديل الطلب</button>')+'<button type="button" class="v2btn sm ol" data-act="reqcancel">إلغاء الطلب</button><button type="button" class="v2btn sm ol" data-act="repoll">'+I('sync')+'تحديث الحالة</button></div><p class="mu" id="rqMsg" role="status"></p></div>';
   if(!pend&&a!=='paid'&&REQ&&REQ.status==='rejected')h+='<div class="v2c sbx bad" lang="ar"><b>'+I('info')+'لم يُقبل طلبك</b><p>'+X(REQ.reason||'راجع بيانات التحويل ثم أرسل الطلب من جديد.')+'</p></div>';
   if(a!=='paid'){var fr=LIC&&LIC.fresh();
-    h+='<div class="v2c sbx tr" lang="ar"><b>الخطة التجريبية <small>Trial</small></b><ul>'+chk('وصول كامل لمدة ساعة')+chk('بنفس مزايا الاشتراك الكامل')+'</ul>'+
+    h+='<div class="v2c sbx tr" lang="ar"><b>الخطة التجريبية</b><ul>'+chk('وصول كامل لمدة ساعة')+chk('بنفس مزايا الاشتراك الكامل')+'</ul>'+
       (a==='trial'?'<p class="mu">التجربة جارية الآن · '+(LIC?LIC.trialLeft():'')+'</p>':fr?'<button type="button" class="v2btn" data-act="trial">ابدأ التجربة'+I('back')+'</button><p class="mu" id="trMsg"></p>':'<p class="mu">استُخدمت الفترة التجريبية على هذا الجهاز.</p>')+'</div>'+
-      '<div class="v2c sbx" lang="ar"><b>'+I('book')+'المجانية <small>Free</small></b><ul>'+chk('أول موضوع من كل فصل')+chk('عدد محدود من البطاقات والأسئلة')+'</ul></div>'}
-  if(!pend&&(a!=='paid'||ex)){h+='<div class="v2crumb" lang="ar" style="text-align:right">'+(a==='paid'?'تجديد الاشتراك':'اختر خطة الاشتراك')+'</div><div class="plans" lang="ar">'+PLANS.map(function(p){return '<button type="button" class="v2c pln'+(PAY.plan===p.id?' on':'')+'" data-act="plan" data-p="'+p.id+'" aria-pressed="'+(PAY.plan===p.id)+'"><i></i><span>'+p.ar+' <small>'+p.en+'</small></span><b dir="ltr">'+X(p.price)+'</b></button>'}).join('')+'</div>'+
+      '<div class="v2c sbx" lang="ar"><b>'+I('book')+'المجانية</b><ul>'+chk('أول موضوع من كل فصل')+chk('عدد محدود من البطاقات والأسئلة')+'</ul></div>'}
+  if(!pend&&(a!=='paid'||ex)){h+='<div class="v2crumb" lang="ar" style="text-align:right">'+(a==='paid'?'تجديد الاشتراك':'اختر خطة الاشتراك')+'</div><div class="plans" lang="ar">'+PLANS.map(function(p){return '<button type="button" class="v2c pln'+(PAY.plan===p.id?' on':'')+'" data-act="plan" data-p="'+p.id+'" aria-pressed="'+(PAY.plan===p.id)+'"><i></i><span>'+(sp('lang')==='en'?p.en:p.ar)+'</span><b dir="ltr">'+X(p.price)+'</b></button>'}).join('')+'</div>'+
     '<button type="button" class="v2btn" data-v="v2pay" lang="ar" style="height:50px">اشترك الآن'+I('back')+'</button>'+
     (a!=='paid'?'<div class="v2c sbx frm" lang="ar"><b>'+I('sync')+'مشترك على جهاز آخر؟</b><p class="mu">في جهازك المشترك افتح «الاشتراك» واضغط «أضف جهازًا آخر»، ثم اكتب هنا رقم الربط الذي يظهر هناك. يُفتح هذا الجهاز فورًا بملاحظاتك وتقدّمك.</p>'+
       '<label>رقم الربط<input id="dvPin" type="tel" maxlength="9" dir="ltr" inputmode="numeric" placeholder="0000 0000" autocomplete="one-time-code"></label><button type="button" class="v2btn" data-act="pairuse">ربط هذا الجهاز'+I('back')+'</button><p class="mu" id="pnMsg" role="status"></p>'+
@@ -377,8 +377,8 @@ R.v2sub=function(){var a=access(),ex=+st('orr-exp')||0,pl=st('orr-plan'),pend=a!
   $('v2subW').innerHTML=h};
 var RETS='';
 R.v2pay=function(){var ED=PAY.edit&&REQ&&REQ.status==='pending',p=plan(PAY.plan),dev=LIC?LIC.dev.slice(0,10).toUpperCase():'';if(!ED)PAY.edit=false;
-  $('v2payW').innerHTML=title(ED?'تعديل الطلب':'إكمال الاشتراك','v2sub',ED?'Edit request':'Payment')+
-   (ED?'<div class="plans" lang="ar">'+PLANS.map(function(q){return '<button type="button" class="v2c pln'+(PAY.plan===q.id?' on':'')+'" data-act="plan2" data-p="'+q.id+'" aria-pressed="'+(PAY.plan===q.id)+'"><i></i><span>'+q.ar+' <small>'+q.en+'</small></span><b dir="ltr">'+X(q.price)+'</b></button>'}).join('')+'</div>'
+  $('v2payW').innerHTML=title(ED?'تعديل الطلب':'إكمال الاشتراك','v2sub')+
+   (ED?'<div class="plans" lang="ar">'+PLANS.map(function(q){return '<button type="button" class="v2c pln'+(PAY.plan===q.id?' on':'')+'" data-act="plan2" data-p="'+q.id+'" aria-pressed="'+(PAY.plan===q.id)+'"><i></i><span>'+(sp('lang')==='en'?q.en:q.ar)+'</span><b dir="ltr">'+X(q.price)+'</b></button>'}).join('')+'</div>'
    :'<div class="v2c sbx" lang="ar"><div class="prow"><span>'+I('cal')+'الخطة المختارة</span><b>'+p.ar+' · <bdi dir="ltr">'+X(p.price)+'</bdi></b><button type="button" class="v2btn sm ol" data-v="v2sub">تغيير الخطة</button></div></div>')+
    '<div class="v2c sbx" lang="ar"><b>'+I('sync')+'التحويل إلى الحساب</b><p>اسم الحساب: <b>'+X(CFG.bankak_name||'')+'</b></p><div class="acct"><span dir="ltr">'+X(CFG.bankak||'')+'</span><button type="button" class="v2btn sm ol" data-act="copy2" data-c="'+X(CFG.bankak||'')+'">'+I('copy')+'نسخ رقم الحساب</button></div><p class="mu">حوّل <bdi dir="ltr">'+X(p.price)+'</bdi> ثم ارفع صورة إشعار التحويل هنا.</p></div>'+
    '<div class="v2c sbx frm" lang="ar"><label class="upl" id="rcL">'+I('dl')+'<span id="rcT">'+(PAY.file?'✓ '+X(PAY.file.name):ED?'الإيصال المرسل محفوظ · اضغط لتغييره':'رفع الإيصال (صورة أو PDF)')+'</span><input id="rcF" type="file" accept="image/*,application/pdf" hidden></label>'+
