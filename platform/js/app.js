@@ -493,11 +493,13 @@
   }
   /* the book's Library button follows the platform language when the book has no language setting of its own */
   function tellLang(id, force) { var f = FR[id]; if (!f) return; try { f.fr.contentWindow.postMessage({ smr: 'lang', lang: lang, force: !!force }, new URL(BOOK[id].url).origin); } catch (e) {} }
-  /* memory (owner, 12 Nov 2026: "the app is slow"): only the books the student opened stay running, at most the last two; a book loaded in
-     the background only to save its files is closed again once that is done */
+  /* every book opens at once (owner, 12 Nov 2026: "two books open fast and the third slowly; I want all of them fast"): the books loaded in
+     the background stay ready, so opening any of them only brings its frame forward. Only a phone with little memory (deviceMemory ≤ 2 GB)
+     keeps the older rule: the last two books opened stay running and a book loaded only to save its files is closed again. */
+  var LOWMEM = !!(navigator.deviceMemory && navigator.deviceMemory <= 2), KEEP = LOWMEM ? 2 : 6;
   function drop(k) { var f = FR[k]; if (!f) return; try { f.wrap.remove(); } catch (e) {} delete FR[k]; }
   function prune(cur) { Object.keys(FR).filter(function (k) { return FR[k].used; }).sort(function (a, b) { return FR[b].used - FR[a].used; })
-      .forEach(function (k, i) { if (i >= 2 && k !== cur) drop(k); }); }
+      .forEach(function (k, i) { if (i >= KEEP && k !== cur) drop(k); }); }
   function hideBooks() { if (!apps || apps.classList.contains('bg')) return; if (Object.keys(FR).length) { apps.hidden = false; apps.classList.add('bg'); apps.setAttribute('aria-hidden', 'true'); } else apps.hidden = true; }
   var preT = 0;
   function preload() {
@@ -510,7 +512,7 @@
       if (apps.hidden) { apps.hidden = false; apps.classList.add('bg'); apps.setAttribute('aria-hidden', 'true'); }
       var f = frameOf(id), done = false;
       /* the book saves its files on the device while it is open; after that it is closed unless the student opened it meanwhile */
-      function go() { if (done) return; done = true; setTimeout(function () { if (FR[id] && !FR[id].used) drop(id); next(); }, 25000); }
+      function go() { if (done) return; done = true; setTimeout(function () { if (LOWMEM && FR[id] && !FR[id].used) drop(id); next(); }, LOWMEM ? 25000 : 6000); }
       f.fr.addEventListener('load', go); setTimeout(go, 45000);
     }
     (window.requestIdleCallback || function (fn) { setTimeout(fn, 1200); })(next, { timeout: 4000 });
