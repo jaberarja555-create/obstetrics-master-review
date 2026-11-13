@@ -62,3 +62,15 @@ jobs:
           check https://obs.studentmasterreview.com/admin.html "People who control this admin" "Admin: second person section"
           check https://obs.studentmasterreview.com/admin.html "Same person as" "Admin: join two cards"
           echo "obs_key_of must be refused (key never public): $(curl -s -o /dev/null -w '%{http_code}' -X POST "$U/obs_key_of" -H "apikey: $K" -H "Content-Type: application/json" -d '{"p_book":"ped"}')"
+      - name: Where Google sign-in returns (the address in the sign-in state; no secrets)
+        run: |
+          A=https://kgdmjeffeqfdlfnjnnek.supabase.co/auth/v1/authorize
+          for R in https://obs.studentmasterreview.com/admin.html https://studentmasterreview.com/admin https://studentmasterreview.com/admin.html https://obstetrics-master-review.pages.dev/admin.html; do
+            L=$(curl -s -o /dev/null -w '%{redirect_url}' "$A?provider=google&redirect_to=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1],safe=''))" "$R")")
+            echo "$R -> $(python3 -c "
+          import sys,urllib.parse,base64,json
+          q=urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[1]).query);s=q.get('state',[''])[0]
+          try:
+            p=s.split('.')[1];p+='='*(-len(p)%4);d=json.loads(base64.urlsafe_b64decode(p));print('returns to',d.get('referrer'),'| site',d.get('site_url'))
+          except Exception as e: print('no state',sys.argv[1][:80])" "$L")"
+          done
