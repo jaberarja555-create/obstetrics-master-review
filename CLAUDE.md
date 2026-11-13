@@ -401,3 +401,13 @@ Measured on a simulated mid-range phone (Chromium, CPU 4x slower): start 3.1 s �
 - **Subscribed students (13 Nov 2026):** the unlocked pages from content.bin stay as text (`window.__PGSRC`) and each is made into a page
   the first time it is needed (`pgSrc(i)` in shell.html: read a page's source through it, not `srcPages[i]`); decks and questions are handed
   over as objects (`window.__DECKS`, `__QBANK`). Start for a subscribed student: app ready 1.4 s → 0.9 s, the blocking step 0.8 s → 0.3 s.
+- **Drawings and notes no longer slow the start (owner, 13 Nov 2026: "still not as fast as Pediatrics").** Every saved drawing used to be built
+  at each opening (a student with drawings on ~200 pages waited about 1.5 s longer, so a much-annotated book felt slower than a clean
+  one). `inkRender(i)` now does nothing for a page that is not built yet; `renderPage` draws a page's ink when it first builds the page.
+  The check that re-anchors highlights (`reanchorHL`) runs 2.5 s after the start, not during it.
+- **The greeting no longer comes twice (owner, 13 Nov 2026).** A new version used to reload the book in front of the student (the service
+  worker navigated every open page, and the page reloaded itself within 90 s). Now the worker never reloads pages, and the page (head
+  script in src/shell.html) reloads itself ONLY while the student cannot see it: the app is in the background, or the book is waiting off
+  the screen inside Student Master Review (IntersectionObserver on the frame). A book on the screen keeps running; the new version shows
+  at its next opening. Tested with a local parent page: on screen = no reload, off screen = one silent reload.
+- Platform: `{smr:'new'}` now reloads the platform only while it is in the background (it used to reload a just-opened app, greeting again).

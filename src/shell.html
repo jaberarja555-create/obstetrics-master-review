@@ -18,8 +18,14 @@
 </script><script>
 /* A new version of the book replaces the saved copy at once when the app has just been opened (owner, 12 Nov 2026: changes must show),
    instead of only at the next opening: when the new saved copy is ready in the first 90 s (or while the app is in the background), reload once. */
-(function(){if(!('serviceWorker' in navigator))return;var had=!!navigator.serviceWorker.controller,t0=Date.now(),done=false;
-  navigator.serviceWorker.addEventListener('controllerchange',function(){if(done||!had)return;if(Date.now()-t0<90000||document.hidden){done=true;location.reload()}})})();
+/* (owner, 13 Nov 2026: "the greeting sometimes comes twice, like a reload") The new version is now put in place ONLY while the student cannot
+   see the book: the app is in the background, or this book is waiting off the screen inside Student Master Review (where books are loaded
+   ahead in the background, so this is the usual case). A book that is on the screen keeps running and shows the new version at its next opening. */
+(function(){if(!('serviceWorker' in navigator))return;var had=!!navigator.serviceWorker.controller,want=false,done=false,off=false;
+  function go(){if(done||!want)return;if(document.hidden||off){done=true;location.reload()}}
+  navigator.serviceWorker.addEventListener('controllerchange',function(){if(!had)return;want=true;go()});
+  document.addEventListener('visibilitychange',go);
+  try{if(window.top!==window&&'IntersectionObserver' in window)new IntersectionObserver(function(es){off=!es[es.length-1].isIntersecting;go()}).observe(document.documentElement)}catch(e){}})();
 </script><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#172e48"><style>
 /* Inter shipped with the book so every phone shows the same page fill (as in Surgery, Nov 2026) */
 @font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:block;src:url(fonts/inter-400.woff) format('woff')}
@@ -2729,7 +2735,7 @@ window.addEventListener('resize',function(){if(LAZY)setTimeout(function(){try{fi
 /* a highlight or note on a dark box gets a see-through colour so the words stay readable (owner, 8 Nov 2026) */
 function markDk(sec){sec.querySelectorAll('mark.uhl').forEach(function(m){var e=m.parentElement;while(e&&e!==sec){var c=getComputedStyle(e).backgroundColor,v=c.match(/[\d.]+/g);
   if(v&&(v.length<4||+v[3]>.5)){if(.2126*v[0]+.7152*v[1]+.0722*v[2]<110)m.classList.add('dk');return}e=e.parentElement}})}
-function renderPage(i,force){var pw0=wraps[i];if(!pw0||(!pw0.dataset.r&&!force))return;pw0.dataset.r='1';pw0._f=0;var host=wraps[i].firstChild,sec=pgSrc(i).cloneNode(true);host.innerHTML='';host.appendChild(sec);delete wraps[i].dataset.dec;fillPage(sec);
+function renderPage(i,force){var pw0=wraps[i];if(!pw0||(!pw0.dataset.r&&!force))return;var first0=!pw0.dataset.r;pw0.dataset.r='1';if(first0&&typeof INK==='object'&&INK&&INK[PKEY[i]])inkRender(i);pw0._f=0;var host=wraps[i].firstChild,sec=pgSrc(i).cloneNode(true);host.innerHTML='';host.appendChild(sec);delete wraps[i].dataset.dec;fillPage(sec);
   (HL[PKEY[i]]||[]).forEach(function(h,k){if(!hlOk(i,h))return;wrapRange(sec,h.s,h.e,function(){var m=document.createElement('mark');m.className='uhl '+h.c+(h.uw?' uw'+h.uw:'')+(h.hs===2?' hs2':'')+(h.n?' hasn':'');m.dataset.k=k;return m});
     if(h.n){var ms=sec.querySelectorAll('mark.uhl[data-k="'+k+'"]'),last=ms[ms.length-1];if(last){var nm=document.createElement('span');nm.className='nm';nm.dataset.k=k;nm.title='Note';last.parentNode.insertBefore(nm,last.nextSibling)}}});markDk(sec);}
 function wrapRange(sec,s,e,mk){var pos=0;textNodes(sec).forEach(function(n){var L=n.nodeValue.length,a=Math.max(s,pos),b=Math.min(e,pos+L);
@@ -2881,7 +2887,9 @@ function inkF(e,prev,last,p){if(e.pointerType==='pen'&&e.pressure>0)return Math.
   if(!last)return 1;var dt=Math.max(1,(e.timeStamp||0)-(prev.ts||0)),v=Math.hypot(p[0]-last[0],p[1]-last[1])/dt,f=Math.max(.62,Math.min(1.2,1.22-v*.22));return .75*(last[2]||1)+.25*f}
 /* light smoothing of a finished stroke: removes the small hand tremor and finger jitter */
 function inkSmooth(q){if(q.length<4)return q;var o=[q[0]];for(var n=1;n<q.length-1;n++)o.push(q[n].map(function(v,j){return (q[n-1][j]+2*v+q[n+1][j])/4}));o.push(q[q.length-1]);return o}
-function inkRender(i){var L=INK[PKEY[i]],svg=inkSvg(wraps[i],L&&L.length);if(!svg)return;
+/* Speed (13 Nov 2026): a page's drawings are made when the page itself is built (renderPage), not for every drawn page at every opening:
+   a student with drawings on 200 pages waited about 1.5 s longer at each start */
+function inkRender(i){if(LAZY&&wraps[i]&&!wraps[i].dataset.r)return;var L=INK[PKEY[i]],svg=inkSvg(wraps[i],L&&L.length);if(!svg)return;
   svg.innerHTML=(L||[]).filter(function(x){return x.t==='i'}).map(inkEl).join('')+(L||[]).filter(function(x){return x.t!=='i'}).map(inkEl).join('')+imgSelSvg(i)}
 /* undo / redo: a history of this session's actions ({t:'add'|'del', k: page key, items}); every change still syncs */
 var ITOOL=['p','h','a','u','e','i'].indexOf(sp('itool'))>=0?sp('itool'):'p',IHIST=[],IREDO=[];
@@ -3329,7 +3337,8 @@ function reanchorHL(){var moved=false,now=Date.now(),before=hsnap();
     HL[k]=keep});
   if(!moved)return false;var cur=hsnap();Object.keys(before).forEach(function(id){if(cur[id]===undefined)HLDEL[id]=now});Object.keys(cur).forEach(function(id){delete HLDEL[id]});
   HLPREV=cur;spj('hl2',HL);spj('hldel',HLDEL);try{syncSoon()}catch(e){}return true}
-try{if(reanchorHL())setTimeout(function(){PAGES.forEach(function(p,i){if(HL[PKEY[i]])renderPage(i)})},0)}catch(e){}
+/* checked a moment after the start, not during it (it reads the text of every page that has a highlight) */
+setTimeout(function(){try{if(reanchorHL())PAGES.forEach(function(p,i){if(HL[PKEY[i]])renderPage(i)})}catch(e){}},LAZY?2500:0);
 function saveHL(){var now=Date.now(),cur=hsnap();
   Object.keys(HL).forEach(function(k){HL[k].forEach(function(h){var id=hid(k,h);if(HLPREV[id]!==cur[id]){h.u=now;delete HLDEL[id]}})});
   Object.keys(HLPREV).forEach(function(id){if(cur[id]===undefined)HLDEL[id]=now});

@@ -821,15 +821,17 @@
   if (!seenWel && !/^read-/.test(location.hash.slice(1))) welcome();
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !wel().hidden) welClose(); });
   /* Speed (owner, 12 Nov 2026): the platform opens at once from the copy saved on the device (sw.js); when the internet then brings a
-     newer page, style or script, the worker says so: an app that was only just opened and not yet touched shows it at once, otherwise
-     the next opening does. */
+     newer page, style or script, the worker says so: the app reloads itself only while it is in the background, otherwise the new
+     version shows at the next opening. */
   if ('serviceWorker' in navigator && location.protocol === 'https:') { try {
     navigator.serviceWorker.register('sw.js');
     var swT = Date.now(), swNew = false;
     navigator.serviceWorker.addEventListener('message', function (e) {
       if (!e.data || e.data.smr !== 'new' || swNew) return; swNew = true;
       setTimeout(function () { var last = 0; try { last = +sessionStorage.getItem('smr-rl') || 0; } catch (x) {}
-        if (lastInput || Date.now() - swT > 15000 || Date.now() - last < 60000 || Object.keys(FR).some(function (k) { return FR[k].used; })) return;
-        try { sessionStorage.setItem('smr-rl', String(Date.now())); } catch (x) {} location.reload(); }, 1500); });
+        /* only while the app is not on the screen (owner, 13 Nov 2026: a reload in front of the student showed the greeting twice);
+           an app that is being looked at shows the new version at its next opening */
+        function rl() { if (!document.hidden || Date.now() - last < 60000) return; try { sessionStorage.setItem('smr-rl', String(Date.now())); } catch (x) {} location.reload(); }
+        rl(); document.addEventListener('visibilitychange', rl); }, 1500); });
   } catch (e) {} }
 })();

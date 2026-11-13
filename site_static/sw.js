@@ -3,8 +3,8 @@
    - Every later opening: the saved page opens AT ONCE from the device, with no waiting for the internet (owner, 12 Nov 2026: "the app is
      very slow, especially opening each book"). Pictures and fonts always come from the device.
    - A new version = a new copy of this file (new cache name): the browser finds it in the background at each opening (the page also asks,
-     see shell.html), it copies the pictures already saved from the older copy (no download again), saves only the new page, then reloads
-     every open page of the book, also pages still running an older copy. So a new version still shows within seconds of opening. */
+     see shell.html), it copies the pictures already saved from the older copy (no download again) and saves only the new page. A book that is not on
+     the screen then reloads itself (shell.html); a book the student is looking at shows the new version at its next opening. */
 var C='orr-0',ASSETS=[];
 var SKIP=/^\/(check|activate|sync|release|trial|api\/|admin|audio\/|video\/)|^\/img$/;   // server calls and media, never saved
 function fill(c,list){var n=0;function more(){var part=list.splice(0,6);if(!part.length)return Promise.resolve();
@@ -19,7 +19,9 @@ self.addEventListener('install',function(e){e.waitUntil(caches.open(C).then(func
 self.addEventListener('activate',function(e){e.waitUntil(caches.keys().then(function(ks){var old=ks.filter(function(k){return k!==C&&/^(orr|prr|srr)-/.test(k)&&!/-audio$/.test(k)});
   return Promise.all(old.map(function(k){return caches.delete(k)})).then(function(){return self.clients.claim()}).then(function(){
     caches.open(C).then(function(c){fill(c,ASSETS.filter(function(u){return /^img\//.test(u)}))});   // the remaining pictures, in the background
-    if(!old.length)return;return self.clients.matchAll({type:'window'}).then(function(cs){cs.forEach(function(c){try{c.navigate(c.url)}catch(er){}})})})}))});
+    /* the open pages are NOT reloaded from here any more (13 Nov 2026: a book on the screen restarted and showed its greeting again);
+       each page reloads itself when the student cannot see it (shell.html), otherwise the new version shows at the next opening */
+    })}))});
 self.addEventListener('fetch',function(e){var r=e.request,u=new URL(r.url);
   if(r.method!=='GET'||r.headers.has('range')||r.destination==='video'||r.destination==='audio')return;
   if(u.origin!==location.origin||SKIP.test(u.pathname))return;
