@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Master Review · Admin</title><meta name="robots" content="noindex"><link rel="manifest" href="admin.webmanifest"><meta name="theme-color" content="#f7f3ec">
+<title>Master Review · Admin</title><meta name="robots" content="noindex"><link rel="manifest" href="admin.webmanifest"><meta name="theme-color" content="#eef4f8">
 <link rel="icon" type="image/png" sizes="192x192" href="smr-icon-192.png"><link rel="apple-touch-icon" href="smr-apple-touch.png">
 <style>
 /* Admin app (owner, 10 Nov 2026): same look as the student app: lavender, white cards, sidebar on PC, bottom bar on phones */
@@ -173,6 +173,21 @@ input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--sel)
 }
 .stu .dup{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:var(--warnbg);color:var(--warn)}
 .stu .dup b{font-size:12.5px;flex:1 1 140px}.stu .dup select{height:32px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);padding:0 6px}.stu .dup .btn{height:32px;padding:0 12px;font-size:12.5px}
+
+/* medical look (owner, 13 Nov 2026: "make the background and design more medical"): clinical white and blue-teal, a faint
+   pattern of small medical crosses, an ECG line under the top bar and in the side menu */
+:root{--bg:#eef4f8;--sf:#ffffff;--tx:#0f2a3d;--sub:#5a6b7c;--pri:#0b7c86;--sel:#dff1f3;--bd:#d9e4ec;--deep:#0d3550;
+  --sh:0 1px 2px rgba(13,53,80,.05),0 6px 18px rgba(13,53,80,.07)}
+body{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cpath d='M20 17h4v3h3v4h-3v3h-4v-3h-3v-4h3z' fill='%230b7c86' fill-opacity='.035'/%3E%3C/svg%3E") ,linear-gradient(180deg,#f6fafc 0,#eef4f8 320px) fixed;background-color:var(--bg)}
+.col{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='80' viewBox='0 0 600 80'%3E%3Cpath d='M0 50h170l12-14 10 14h22l10-38 14 62 12-34 10 10h340' fill='none' stroke='%230b7c86' stroke-opacity='.10' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 8px top 6px/520px 70px}
+.card{border-color:var(--bd)}
+.side{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='80' viewBox='0 0 600 80'%3E%3Cpath d='M0 50h170l12-14 10 14h22l10-38 14 62 12-34 10 10h340' fill='none' stroke='%23ffffff' stroke-opacity='.16' stroke-width='2'/%3E%3C/svg%3E") no-repeat left -40px bottom 70px/420px 56px,linear-gradient(180deg,#0f4a68 0%,#0d3550 60%,#0a2a40 100%)!important}
+.side nav button.on{background:#fff!important;color:var(--deep)!important;box-shadow:inset 3px 0 0 #35c1c9}
+.nav{background:#ffffffee;border-top:1px solid var(--bd);backdrop-filter:blur(8px)}
+.nav button.on{color:var(--pri)}
+.gate{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='80' viewBox='0 0 600 80'%3E%3Cpath d='M0 50h170l12-14 10 14h22l10-38 14 62 12-34 10 10h340' fill='none' stroke='%230b7c86' stroke-opacity='.10' stroke-width='2'/%3E%3C/svg%3E") no-repeat center 70%/700px 90px,radial-gradient(circle at 50% 30%,#ffffff 0,#eaf3f7 70%)}
+.stu .av{background:linear-gradient(135deg,#dff1f3,#cfe6f2);color:var(--deep)}
+
 </style></head><body>
 <div class="gate" id="gate"><div class="box"><img src="smr-icon-192.png" alt=""><h1>Student Master Review<small>Admin of the three books · owner only</small></h1><p id="gateMsg">Sign in with the owner's Google account.</p>
   <button class="btn" id="ggIn" type="button" style="height:46px;padding:0 18px"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.7v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.700-5H1.3v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.200 7.200 0 0 1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.800z"/><path fill="#EA4335" d="M12 4.800c1.800 0 3.300.6 4.600 1.800l3.400-3.400A12 12 0 0 0 1.3 6.6l4 3.100c.9-2.800 3.600-4.900 6.700-4.900z"/></svg>Sign in with Google</button></div></div>
