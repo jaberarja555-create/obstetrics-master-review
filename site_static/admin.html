@@ -392,11 +392,11 @@ function ovRender(){var subs=ALL.filter(function(c){return c.plan&&c.plan!=='old
       '<div class="ovh">All '+L.length+' by state</div>'+row('Active',cnt(L,function(c){return state(c)==='active'}),'st',t)+row('Ending soon',cnt(L,function(c){return state(c)==='soon'}),'so',t)+
       row('Ended',cnt(L,function(c){return state(c)==='ended'}),'en',t)+row('Switched off',cnt(L,function(c){return state(c)==='off'}),'of',t)+
       '<div class="ovh">Devices in use</div>'+row('Devices',L.reduce(function(x,c){return x+devs(c).length},0),'',Math.max(L.reduce(function(x,c){return x+(c.maxdev||2)},0),1))+'</div>'});
-  $('ovw').innerHTML=h+'</div><div id="adms"></div>';admRender()}
+  $('ovw').innerHTML='<div id="adms"></div>'+h+'</div>';admRender()}
 /* a second person can control the admin (owner, 13 Nov 2026; migration 016): the owner adds a Google email here; that person signs in with it */
-var ADMS=null;function admLoad(){sb.rpc('obs_admin_admins',{}).then(function(r){if(r.error)return;ADMS=r.data;admRender()})}
+var ADMS=null,ADME='',ADMB=false;function admLoad(){if(ADMB)return;ADMB=true;sb.rpc('obs_admin_admins',{}).then(function(r){ADMB=false;if(r.error){ADME=r.error.message||'error';var w=$('adms');if(w)w.innerHTML='<div class="card" style="margin-bottom:14px"><h3>People who control this admin</h3><p class="hint">Could not load ('+esc(ADME)+').</p></div>';return}ADMS=r.data;admRender()})}
 function admRender(){var w=$('adms');if(!w)return;if(!ADMS){admLoad();return}
-  var L=ADMS.list||[];w.innerHTML='<div class="card" style="margin-top:14px"><h3>People who control this admin</h3><p class="hint">The owner account, plus the Google accounts below. They see and do everything here, except adding or removing people.</p>'+
+  var L=ADMS.list||[];w.innerHTML='<div class="card" style="margin-bottom:14px"><h3>People who control this admin</h3><p class="hint">The owner account, plus the Google accounts below. They see and do everything here, except adding or removing people.</p>'+
    (L.length?L.map(function(a){return '<div class="r1" style="justify-content:space-between;margin:6px 0"><b>'+esc(a.email)+'</b>'+(ADMS.owner?'<button type="button" class="btn" data-adel="'+esc(a.email)+'">Remove</button>':'')+'</div>'}).join(''):'<p class="hint">No other person yet.</p>')+
    (ADMS.owner?'<div class="form"><label>Google email of the second person<input type="email" id="admE" autocomplete="off" placeholder="name@gmail.com"></label><div class="full"><button type="button" class="btn pri" id="admAdd">Add</button></div></div>':'')+'</div>'}
 function admSet(e,add){sb.rpc('obs_admin_admin_set',{p_email:e,p_add:add}).then(function(r){if(r.error){toast('Error: '+r.error.message);return}if(r.data&&!r.data.ok){toast('That email is not valid');return}toast(add?'Added: they can sign in with this Google account':'Removed');ADMS=null;admLoad()})}
