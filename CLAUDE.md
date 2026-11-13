@@ -472,3 +472,22 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   A book opened on its own address (old or new) moves to https://studentmasterreview.com with its identity. Tested in Chromium with all eight
   hosts routed to local builds: device numbers, names and settings arrive. A student whose move carried nothing can still join with
   «مشترك على جهاز آخر» (owner approves with «Link to…»).
+
+## Later on 13 Nov 2026 (owner)
+- **Student's own name everywhere (migration 015):** the name a student types (Settings → profile, or the platform profile) replaces the
+  name the owner wrote: v2.tools.js `pushName` → `obs_set_name(dev, name)` rewrites the name part of the note (phone kept) of the device's
+  subscription and of every subscription with the same phone (all books), so the admin and every book show it. Retried at each opening
+  until it reaches the server (`<px>-nameup`).
+- **No old codes any more:** «عندي كود تفعيل قديم» is gone from Subscription; the admin's "Bring the … subscribers" cards are gone; the
+  Surgery / Pediatrics Workers no longer serve `/admin` or `/api/codes` (410). Old codes already in use stay Monthly subscriptions.
+- **Receipt:** the app no longer says the receipt is optional (it is still accepted without one).
+- **New versions reach resumed apps:** each book's head script (src/shell.html, same in the three books) and the platform (js/app.js) ask
+  the browser to look for a new version when the app comes back to the screen (after 1 minute), 5 s after opening and every 10 minutes
+  while open; a phone that resumes the app from memory never loaded the page again, so it kept the old version for hours.
+- **Deploy retries:** deploy.yml tries the Pages secret and the deploy 3 times (Cloudflare sometimes answers 503).
+- **A second admin (migrations 016, 018):** `obs_is_admin()` = the owner's original check (renamed `obs_is_owner()`) OR an email in table
+  `obs_admins` (it already existed in the database). Admin → Overview → "People who control this admin": Owner / Admin beside each email,
+  the owner adds or removes admins (`obs_admin_admin_set`; nobody can remove their own email). No email is written in this public repo.
+- **Same student on two cards (migration 017):** a student card's «Same person as…» moves everything to the other card: its subscriptions
+  take that card's name and phone (cards are grouped by phone), and a book both cards have is merged (`obs_admin_merge`: devices moved,
+  device count raised, better plan and later end date kept, synced notes kept or re-uploaded by the devices, the second subscription removed).
