@@ -5,7 +5,7 @@
 name: Deploy Student Master Review
 on:
   push:
-    paths: ['platform/**', '.github/workflows/platform.yml']
+    paths: ['platform/**', '.github/workflows/platform.yml', 'site_static/admin.html', 'site_static/sbmini.js', 'site_static/licence-config.js', 'site_static/smr-*.png']
   workflow_dispatch:
 concurrency: platform-${{ github.ref_name }}
 jobs:
@@ -18,6 +18,14 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx --yes wrangler@3 pages project create student-master-review --production-branch=main || true
+      - name: The admin of the three books at https://studentmasterreview.com/admin (owner, 13 Nov 2026; same file as obs…/admin.html)
+        run: |
+          mkdir -p platform/admin/fonts
+          cp site_static/admin.html platform/admin/index.html
+          cp site_static/sbmini.js site_static/licence-config.js site_static/smr-icon-192.png site_static/smr-icon-512.png site_static/smr-apple-touch.png platform/admin/
+          cp assets/fonts/inter-400.woff assets/fonts/inter-600.woff assets/fonts/inter-700.woff assets/fonts/inter-800.woff assets/fonts/cairo-arabic-600-normal.woff2 assets/fonts/cairo-arabic-700-normal.woff2 platform/admin/fonts/
+          sed -e 's#"start_url": "./admin.html", "scope": "./"#"id": "/admin/", "start_url": "/admin/", "scope": "/admin/"#' site_static/admin.webmanifest > platform/admin/admin.webmanifest
+          grep -q '"/admin/"' platform/admin/admin.webmanifest
       - name: Deploy platform/ (run inside it, so the book's functions/ folder is not picked up)
         working-directory: platform
         env:

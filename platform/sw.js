@@ -13,6 +13,7 @@ function tell() { return self.clients.matchAll({ type: 'window' }).then(function
 self.addEventListener('fetch', function (e) {
   var r = e.request, u = new URL(r.url);
   if (r.method !== 'GET' || u.origin !== self.location.origin || r.headers.has('range')) return;
+  if (/^\/admin(\/|$)/.test(u.pathname)) return;   // the admin (owner, 13 Nov 2026) is its own page, always from the internet
   var nav = r.mode === 'navigate', key = nav ? './' : r;   // every address of the platform is the same page
   e.respondWith(caches.open(C).then(function (c) {
     return c.match(key, { ignoreSearch: nav }).then(function (old) {

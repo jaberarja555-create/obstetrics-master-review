@@ -511,3 +511,9 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   once for all calls that start together (they used to send the same one-use refresh token, which can end the whole sign-in), picks up a
   renewal made by another tab, and signs out only on a 400/401/403 answer; the admin's `boot()` shows «Opening…» while a saved sign-in is
   renewed and tries again every 4 s with no connection, instead of showing the sign-in button.
+- **Admin address https://studentmasterreview.com/admin (owner, 13 Nov 2026):** platform.yml copies site_static/admin.html (as admin/index.html),
+  sbmini.js, licence-config.js, the smr icons, Inter/Cairo fonts and a manifest with scope /admin/ into platform/admin/ at deploy (the source stays
+  site_static/admin.html; a change there redeploys both addresses). platform/sw.js leaves /admin alone. Google sign-in returns to
+  https://studentmasterreview.com/admin/, which must be in Supabase → Authentication → URL Configuration → Redirect URLs. The old address
+  obs.studentmasterreview.com/admin.html keeps working and shows the new address on its sign-in screen. Another admin: the owner adds the
+  Google email under Home → People who control this admin; that person opens the same address and signs in with that Google account.
