@@ -517,3 +517,9 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   https://studentmasterreview.com/admin/, which must be in Supabase → Authentication → URL Configuration → Redirect URLs. The old address
   obs.studentmasterreview.com/admin.html keeps working and shows the new address on its sign-in screen. Another admin: the owner adds the
   Google email under Home → People who control this admin; that person opens the same address and signs in with that Google account.
+- **Notes in the admin (owner, 14 Nov 2026: "the admin does not show the student notes"; "all notes of one book in one place"; migration 022):**
+  a student's notes are of three kinds in the synced data: notes on highlights (`hl[page][].n`), text written with the Text tool
+  (`ink[page][]` with `t:'t'`, `txt`) and the older free notes (`ink` `t:'n'`); the admin used to read only the first. `obs_notes_of(data)` reads
+  all three; `obs_admin_notes(code)` (one subscription; now also returns `kind`) and `obs_admin_book_notes(book|null)` (every student of one book,
+  newest first, at most 5000) use it. Admin: new **Notes** tab (bottom bar has 6 tabs): the notes of the book chosen in the book filter, grouped by
+  student and page, with search; page keys are shown as "Topic · page N". Tested on a local Postgres copy (also with malformed data).
