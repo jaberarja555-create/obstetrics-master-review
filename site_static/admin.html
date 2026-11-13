@@ -115,7 +115,7 @@ input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--sel)
       <section id="v-sub" hidden><div class="wrap">
         <div class="h2"><h2>Students</h2><input id="find" type="search" placeholder="Search name or phone" autocomplete="off" style="flex:1;max-width:320px"></div>
         <div class="seg" id="sbTabs"><button type="button" data-f="all" class="on">All</button><button type="button" data-f="active">Active</button><button type="button" data-f="soon">Ending in 7 days</button><button type="button" data-f="ended">Ended</button><button type="button" data-f="off">Switched off</button></div>
-        <div class="list" id="sbList"></div>
+        <div id="imp"></div><div class="list" id="sbList"></div>
       </div></section>
       <section id="v-give" hidden><div class="wrap">
         <div class="h2"><h2>Give a subscription</h2></div>
@@ -160,7 +160,7 @@ var BKN={obs:'Obstetrics',ped:'Pediatrics',srg:'Surgery'},BKF='all';try{BKF=loca
 function bkOf(x){return x.book||'obs'}function inBk(x){return BKF==='all'||bkOf(x)===BKF}function bkChip(x){return '<span class="chip bk '+bkOf(x)+'">'+BKN[bkOf(x)]+'</span>'}
 var PLN={month:'Monthly',year:'Annual',life:'Lifetime',device:'Another device',old:'Old code'},PRICE={};(CFG.plans||[]).forEach(function(p){PRICE[p.id]=p.price});
 /* navigation */
-var VIEWS=[['req','Requests','req'],['sub','Students','sub'],['give','Give','give'],['old','Old codes','old']],CUR='req';
+var VIEWS=[['req','Requests','req'],['sub','Students','sub'],['give','Give','give']],CUR='req';
 function nav(){var h=VIEWS.map(function(v){return '<button type="button" data-v="'+v[0]+'" class="'+(CUR===v[0]?'on':'')+'">'+I(v[2])+'<span>'+v[1]+'</span>'+(v[0]==='req'&&NWAIT?'<span class="cnt">'+NWAIT+'</span>':'')+'</button>'}).join('');$('sn').innerHTML=h;$('bn').innerHTML=h}
 function go(v){CUR=v;VIEWS.forEach(function(x){$('v-'+x[0]).hidden=x[0]!==v});$('ttl').textContent={req:'Requests',sub:'Students',give:'Give a subscription',old:'Old codes'}[v];nav();document.querySelector('.main').scrollTop=0}
 document.addEventListener('click',function(e){var b=e.target.closest('#sn [data-v],#bn [data-v],.stat[data-v]');if(b){if(b.dataset.f){SBF=b.dataset.f;segOn('sbTabs','f',SBF);sbRender()}go(b.dataset.v)}});
@@ -312,7 +312,23 @@ function msgFor(c){var who=nameOf(c);if(c.wk){var nm={srg:'Surgery Master Review
 function wkGate(b){var e=WERR[b];return '<div class="card wkg" data-w="'+b+'"><div class="r1"><span class="chip bk '+b+'">'+BKN[b]+'</span><b>Old codes on the '+BKN[b]+' server</b></div>'+
   '<p class="hint">'+(e==='wrong'?'That password was not accepted. ':e?'Could not reach the server ('+esc(e)+'). ':'')+'The '+BKN[b]+' old codes (from before the new app) are kept on the book\'s own server. Type its old admin password once; this device remembers it.</p>'+
   '<div class="form"><label>'+BKN[b]+' old admin password<input type="password" class="wkpw" autocomplete="off"></label><div class="full"><button type="button" class="btn pri" data-wk="go">Connect</button></div></div></div>'}
-function oldRender(){var q=$('find2').value.trim().toLowerCase(),wb=['srg','ped'].filter(function(b){return BKF==='all'||BKF===b}),gates=wb.filter(function(b){return !WOLD[b]}),
+/* Owner, 13 Nov 2026: "I don't want to see old codes anymore". There is no Old codes screen: used old codes are Monthly subscriptions
+   (migration 011, also for codes used later). Surgery and Pediatrics old codes live on their own servers, so until they are brought in
+   once, Students shows one card per book with that server's password and one button; the card goes away when all are in. */
+function impNeed(b){if(WOLD[b])return WOLD[b].some(function(c){return !ALL.some(function(x){return x.code===c.code})});
+  return !ALL.some(function(x){return x.book===b&&/^(SMR|PMR)-/.test(x.code)})}
+function impRender(){var bs=['srg','ped'].filter(function(b){return (BKF==='all'||BKF===b)&&impNeed(b)});
+  $('imp').innerHTML=bs.map(function(b){var e=WERR[b];return '<div class="card wkg" data-i="'+b+'"><div class="r1"><span class="chip bk '+b+'">'+BKN[b]+'</span><b>Bring the '+BKN[b]+' subscribers from the old system</b></div>'+
+    '<p class="hint" style="margin:6px 0 10px">Done once. Every student who used an old '+BKN[b]+' code becomes a <b>Monthly</b> subscription from today and shows here; their devices, notes and progress stay. Type the password of the old '+BKN[b]+' admin page.</p>'+
+    '<div class="form"><label>Old '+BKN[b]+' admin password<input type="password" class="wkpw" autocomplete="off" value="'+esc(wkPw(b))+'"></label><div class="full"><button type="button" class="btn pri" data-imp="1">Bring them in</button></div></div>'+
+    (e?'<p class="hint" style="color:var(--bad,#b3261e);margin-top:8px">'+(e==='wrong'?'Wrong password.':'Could not reach the '+BKN[b]+' server: '+esc(e))+'</p>':'')+'</div>'}).join('')}
+$('imp').addEventListener('click',function(e){var bt=e.target.closest('button[data-imp]');if(!bt)return;var g=bt.closest('.wkg'),bk=g.dataset.i,v=g.querySelector('.wkpw').value;if(!v){toast('Type the password');return}
+  try{localStorage.setItem('adm-wk-'+bk,v)}catch(er){}bt.disabled=true;
+  wkLoad(bk).then(function(){if(!WOLD[bk]){bt.disabled=false;impRender();toast('Not connected');return}
+    var have={};ALL.forEach(function(c){have[c.code]=1});var L=WOLD[bk].filter(function(c){return !have[c.code]}),n=0;
+    (function next(){var c=L.shift();if(!c){toast(n+' '+BKN[bk]+' subscriber'+(n===1?'':'s')+' brought in');load();return}
+      sb.rpc('obs_admin_import_old',{p_book:bk,p_code:c.code,p_note:c.note,p_maxdev:c.maxdev,p_active:c.active,p_used:!!c.activated_at}).then(function(r){if(r.error){bt.disabled=false;toast('Error: '+r.error.message);return}if(c.activated_at)n++;next()})})()})});
+function oldRender(){impRender();var q=$('find2').value.trim().toLowerCase(),wb=['srg','ped'].filter(function(b){return BKF==='all'||BKF===b}),gates=wb.filter(function(b){return !WOLD[b]}),
     rows=ALL.filter(function(c){return !(c.plan&&c.plan!=='old')&&inBk(c)});
   var have={};ALL.forEach(function(c){have[c.code]=1});wb.forEach(function(b){rows=rows.concat((WOLD[b]||[]).filter(function(c){return !have[c.code]}))});   // a code already moved to the shared system shows once, from thererows=rows.filter(function(c){return !q||(c.code+' '+c.note).toLowerCase().indexOf(q)>=0});
   $('wkGates').innerHTML=gates.map(wkGate).join('');

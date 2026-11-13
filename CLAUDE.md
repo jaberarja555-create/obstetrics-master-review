@@ -423,6 +423,10 @@ Measured on a simulated mid-range phone (Chromium, CPU 4x slower): start 3.1 s �
 - Students: a card shows only the books the student subscribes to; «Type» (Monthly / Annual / Lifetime) = `obs_admin_plan` (month and year run
   from today); «Extend → Never ends» also sets Lifetime (Extend used to change only the end date, so the type stayed "Monthly").
 - The receipt picture is optional (app «رفع الإيصال (اختياري…)»; `obs_request_submit` accepts a request without it; admin says "No receipt").
+- **No Old codes screen (owner, 13 Nov 2026: "I don't want to see old codes anymore"):** migration 011 made every used old code (any book) a
+  Monthly subscription ending one month later (3 devices), and a trigger (`obs_old_to_month_on_use`) does the same for an old code first used
+  later; unused old codes stay hidden. The admin has only Requests / Students / Give. Until Surgery / Pediatrics codes are brought in once,
+  Students shows a card per book (old admin password + «Bring them in», calls `obs_admin_import_old`); it disappears when all are in.
 - One phone counted as many devices (old Worker codes): every separate address or browser on a phone has its own storage, so the book saw a
   new device each time. Since the books open only inside Student Master Review (and the old addresses hand over the device id), a phone keeps one
   identity; «Remove devices» clears the old duplicates.
