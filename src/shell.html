@@ -3681,6 +3681,8 @@ refreshCont();
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', place); else place();
   new MutationObserver(soon).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
   window.addEventListener('resize', soon);
+  /* the book's page is built: the platform takes its «Opening…» screen away now, without waiting for every picture and font (owner, 13 Nov 2026) */
+  try { window.parent.postMessage({ smr: 'up' }, org); } catch (e) {}
 })();
 </script>
 </body></html>

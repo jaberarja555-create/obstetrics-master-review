@@ -486,7 +486,10 @@
       fr.setAttribute('allowfullscreen', '');
       fr.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
       f = FR[id] = { wrap: wrap, fr: fr, loaded: false };
-      fr.addEventListener('load', function () { f.loaded = true; var l = wrap.querySelector('.aload'); if (l) l.remove(); tellLang(id, (LS.get('langset', 0) || 0) > (LS.get('lt-' + id, 0) || 0)); LS.set('lt-' + id, Date.now()); });
+      /* ready = the book says its page is built ({smr:'up'}, sent before its pictures and fonts arrive) or, for an older book, its load event
+         (owner, 13 Nov 2026: "this delay in opening a book from the library: is it necessary?") */
+      f.ready = function () { if (f.loaded) return; f.loaded = true; var l = wrap.querySelector('.aload'); if (l) l.remove(); tellLang(id, (LS.get('langset', 0) || 0) > (LS.get('lt-' + id, 0) || 0)); LS.set('lt-' + id, Date.now()); };
+      fr.addEventListener('load', function () { f.ready(); });
       f.timer = setTimeout(function () { if (!f.loaded) { var sl = wrap.querySelector('.aslow'); if (sl) sl.hidden = false; } }, 15000);
       wrap.classList.add('bg'); wrap.appendChild(fr); $('#aframes').appendChild(wrap);
     }
@@ -535,6 +538,10 @@
     }
     whenIdle(next);
   }
+  window.addEventListener('message', function (e) {
+    if (!e.data || e.data.smr !== 'up') return;
+    Object.keys(FR).forEach(function (k) { if (FR[k].fr.contentWindow === e.source && FR[k].ready) FR[k].ready(); });
+  });
   /* the small button on each book's Home asks to go back to the platform's library */
   window.addEventListener('message', function (e) {
     if (!e.data || e.data.smr !== 'stats') return;
