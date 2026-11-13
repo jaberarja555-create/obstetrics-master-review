@@ -143,8 +143,6 @@ input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--sel)
 
 /* design pass (owner, 13 Nov 2026: "design the admin app to perfect") */
 .top h1{font:800 19px/1.2 var(--ui)}
-.h2 h2{display:none}
-.h2:not(:has(input,button)){display:none}
 .bkf,.seg{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .bkf::-webkit-scrollbar,.seg::-webkit-scrollbar{display:none}
 .bkf button,.seg button{flex:none}
@@ -164,7 +162,6 @@ input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--sel)
   .top{padding-bottom:4px}
 }
 
-.h2:has(#rqRef),.h2:has(#mgRef){display:none}
 @media (max-width:859px){
   .ovt{grid-template-columns:repeat(4,1fr)!important;gap:6px!important}
   .ovt .card{padding:9px 9px!important}
@@ -188,13 +185,62 @@ body{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
 .gate{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='80' viewBox='0 0 600 80'%3E%3Cpath d='M0 50h170l12-14 10 14h22l10-38 14 62 12-34 10 10h340' fill='none' stroke='%230b7c86' stroke-opacity='.10' stroke-width='2'/%3E%3C/svg%3E") no-repeat center 70%/700px 90px,radial-gradient(circle at 50% 30%,#ffffff 0,#eaf3f7 70%)}
 .stu .av{background:linear-gradient(135deg,#dff1f3,#cfe6f2);color:var(--deep)}
 
+
+/* app design (owner, 13 Nov 2026: "like this design or better"): dark teal header, Home dashboard, filled navigation */
+:root{--pri:#0e7c7b;--deep:#0b3d4a;--sel:#dcf0ef}
+.top{background:linear-gradient(120deg,#0b4f5c,#0e6b70 60%,#118079);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 12px) 14px 12px;box-shadow:0 2px 10px rgba(11,61,74,.18)}
+.top img{width:40px;height:40px;background:#fff;box-shadow:0 0 0 2px #ffffff40}
+.top h1{color:#fff;font:800 16.5px/1.15 var(--ui)}
+.top h1 small{color:#cfeeee;font:600 12px var(--ui);margin-top:2px}
+.hb,.hav{flex:none;position:relative;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:0;cursor:pointer}
+.hb{background:#ffffff1f;color:#fff}.hb .ic{width:20px;height:20px}
+.hb .cnt{position:absolute;top:-3px;right:-3px}
+.hav{background:#fff;color:var(--deep);font:800 15px var(--ui)}
+.bkf{padding-top:10px}
+#stats,#rqRef,#mgRef,#v-ovw>.wrap>.h2{display:none}
+.h2 h2{display:block;font:800 21px var(--ui)}
+.nav{background:#fff;box-shadow:0 -4px 16px rgba(11,61,74,.06)}
+.nav button{border-radius:14px}
+.nav button.on{background:var(--pri)!important;color:#fff!important}
+.nav button.on .ic{stroke:#fff}
+.dash{display:grid;gap:10px}
+.hero{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 16px;border-radius:18px;color:#fff;background:linear-gradient(120deg,#0b4f5c,#0f7476 55%,#14928a);box-shadow:0 8px 22px rgba(11,79,92,.22)}
+.hero h2{margin:0;font:800 20px/1.2 var(--ui)}.hero p{margin:4px 0 0;font-size:13px;color:#d6f1ef}
+.hero svg{flex:none;width:110px;height:74px}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.dt{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-align:left;padding:12px;border-radius:16px;background:#fff;border:1px solid var(--bd);box-shadow:var(--sh);cursor:pointer}
+.dt i{grid-row:1/3;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--sel);color:var(--pri)}
+.dt.g i{background:var(--okbg);color:var(--ok)}.dt.w i{background:var(--warnbg);color:var(--warn)}.dt.r i{background:var(--badbg);color:var(--bad)}
+.dt span{font-size:12px;font-weight:600;color:var(--sub);line-height:1.2}.dt b{font:800 22px/1.1 var(--ui);color:var(--tx)}
+.sec{margin:8px 2px 0;font:800 15px var(--ui);color:var(--tx)}
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.qa button{display:grid;justify-items:center;gap:6px;padding:12px 4px;border-radius:14px;background:#fff;border:1px solid var(--bd);font-size:11.5px;font-weight:700;color:var(--tx);cursor:pointer;text-align:center;line-height:1.2}
+.qa i{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--sel);color:var(--pri)}
+.lst{padding:4px 12px}
+.ar,.ev{display:flex;align-items:center;gap:10px;width:100%;padding:10px 0;border:0;border-bottom:1px solid var(--bd);background:none;text-align:left;color:inherit;font:inherit}
+.ar{cursor:pointer}.lst>:last-child{border-bottom:0}
+.ar>i,.ev>i{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--sel);color:var(--pri)}
+.ar>i.w{background:var(--warnbg);color:var(--warn)}.ar>i.r{background:var(--badbg);color:var(--bad)}.ar>i.b{background:#e3ecfb;color:#2c5fb5}
+.ar>span,.ev>span{flex:1;min-width:0;display:flex;flex-direction:column}
+.ar b,.ev b{font-size:13.5px}.ar small,.ev small{font-size:12px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ar em{font-style:normal;font:800 11.5px var(--ui);padding:3px 8px;border-radius:10px;background:var(--sel);color:var(--pri)}
+.ar em.w{background:var(--warnbg);color:var(--warn)}.ar em.r{background:var(--badbg);color:var(--bad)}.ar em.b{background:#e3ecfb;color:#2c5fb5}
+.ar>.ic:last-child{width:16px;height:16px;color:var(--sub)}
+.ev time{flex:none;font-size:11.5px;color:var(--sub)}
+.ok0{display:flex;align-items:center;gap:8px;margin:10px 0;color:var(--ok);font-weight:600;font-size:13px}
+#rqList .btn.ok{background:var(--pri);border-color:var(--pri)}
+@media (min-width:860px){.tiles{grid-template-columns:repeat(4,1fr)}.top img{display:none}.hero{padding:22px 24px}.hero h2{font-size:24px}}
+#ovw .ovt{display:none}
+@media (max-width:380px){.qa button{font-size:10.5px}.hero svg{width:84px}}
 </style></head><body>
 <div class="gate" id="gate"><div class="box"><img src="smr-icon-192.png" alt=""><h1>Student Master Review<small>Admin of the three books · owner only</small></h1><p id="gateMsg">Sign in with the owner's Google account.</p>
   <button class="btn" id="ggIn" type="button" style="height:46px;padding:0 18px"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.7v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.700-5H1.3v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.200 7.200 0 0 1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.800z"/><path fill="#EA4335" d="M12 4.800c1.800 0 3.300.6 4.600 1.800l3.400-3.400A12 12 0 0 0 1.3 6.6l4 3.100c.9-2.800 3.600-4.900 6.700-4.900z"/></svg>Sign in with Google</button></div></div>
 <div class="app" id="app" hidden>
   <aside class="side"><div class="sb"><img src="smr-icon-192.png" alt=""><div>Student<span>Master Review</span></div></div><nav id="sn"></nav><div class="who"><span id="me"></span><button type="button" id="out">Sign out</button></div></aside>
   <div class="col">
-    <header class="top"><img src="smr-icon-192.png" alt=""><h1><span id="ttl">Requests</span></h1><button type="button" class="btn out" id="out2">Sign out</button></header>
+    <header class="top"><img src="smr-icon-192.png" alt=""><h1>Master Review Admin<small id="ttl">Requests</small></h1><span id="sub2" hidden></span>
+      <button type="button" class="hb" id="hbBell" aria-label="Requests and messages"><svg class="ic" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg><span class="cnt" id="bellN" hidden></span></button>
+      <button type="button" class="hav" id="out2" aria-label="Sign out" title="Sign out">A</button></header>
     <div class="seg bkf" id="bkTabs" role="group" aria-label="Book"><button type="button" data-b="all" class="on">All books</button><button type="button" data-b="obs">Obstetrics</button><button type="button" data-b="ped">Pediatrics</button><button type="button" data-b="srg">Surgery</button></div>
     <main class="main"><div class="wrap">
       <section id="v-req">
@@ -246,7 +292,7 @@ body{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
 var CFG=window.OBS_CFG||{},$=function(i){return document.getElementById(i)};
 if(!CFG.url||!CFG.anon){$('gateMsg').textContent='licence-config.js has no Supabase address yet.';$('ggIn').disabled=true;return}
 var sb=window.OBS_SB(CFG,'obs-admin-auth'),SITE=location.origin+location.pathname.replace(/admin(\.html)?$/,'');
-var P={chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',req:'<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',sub:'<circle cx="9" cy="8" r="3.5"/><path d="M2.500 20a6.500 6.500 0 0 1 13 0"/><path d="M16 4.500a3.500 3.500 0 0 1 0 7M18 14.500c2 .8 3.500 2.800 3.500 5.500"/>',give:'<path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13"/><path d="M12 7c-1-3-5-3-4.500-.5C7.800 8 12 7 12 7zM12 7c1-3 5-3 4.500-.5C16.200 8 12 7 12 7z"/>',
+var P={home:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8"/>',layers:'<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>',doc:'<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/>',bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',chev:'<path d="M9 6l6 6-6 6"/>',plus:'<path d="M12 5v14M5 12h14"/>',chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',req:'<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',sub:'<circle cx="9" cy="8" r="3.5"/><path d="M2.500 20a6.500 6.500 0 0 1 13 0"/><path d="M16 4.500a3.500 3.500 0 0 1 0 7M18 14.500c2 .8 3.500 2.800 3.500 5.500"/>',give:'<path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13"/><path d="M12 7c-1-3-5-3-4.500-.5C7.800 8 12 7 12 7zM12 7c1-3 5-3 4.500-.5C16.200 8 12 7 12 7z"/>',
   old:'<circle cx="8" cy="15" r="4"/><path d="M10.800 12.200L20 3M16 7l3 3"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',check:'<path d="M5 12.500l4.500 4.500L19 7.500"/>',warn:'<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>'};
 function I(n){return '<svg class="ic" viewBox="0 0 24 24">'+P[n].replace(/\.(\d)00\b/g,'.$1')+'</svg>'}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
@@ -261,13 +307,13 @@ var BKN={obs:'Obstetrics',ped:'Pediatrics',srg:'Surgery'},BKF='all';try{BKF=loca
 function bkOf(x){return x.book||'obs'}function inBk(x){return BKF==='all'||bkOf(x)===BKF}function bkChip(x){return '<span class="chip bk '+bkOf(x)+'">'+BKN[bkOf(x)]+'</span>'}
 var PLN={month:'Monthly',year:'Annual',life:'Lifetime',device:'Another device',old:'Old code'},PRICE={};(CFG.plans||[]).forEach(function(p){PRICE[p.id]=p.price});
 /* navigation */
-var VIEWS=[['ovw','Overview','chart'],['req','Requests','req'],['sub','Students','sub'],['msg','Messages','mail'],['give','Give','give']],CUR='req';
-function nav(){var h=VIEWS.map(function(v){return '<button type="button" data-v="'+v[0]+'" class="'+(CUR===v[0]?'on':'')+'">'+I(v[2])+'<span>'+v[1]+'</span>'+(v[0]==='req'&&NWAIT?'<span class="cnt">'+NWAIT+'</span>':'')+(v[0]==='msg'&&NMSG?'<span class="cnt">'+NMSG+'</span>':'')+'</button>'}).join('');$('sn').innerHTML=h;$('bn').innerHTML=h}
-function go(v){CUR=v;VIEWS.forEach(function(x){$('v-'+x[0]).hidden=x[0]!==v});$('ttl').textContent={req:'Requests',sub:'Students',give:'Give a subscription',old:'Old codes',msg:'Messages',ovw:'Overview'}[v];nav();if(v==='msg')mgRender();if(v==='ovw')ovRender();document.querySelector('.main').scrollTop=0}
+var ME='',VIEWS=[['ovw','Home','home'],['req','Requests','req'],['sub','Students','sub'],['msg','Messages','mail'],['give','Give','give']],CUR='req';
+function nav(){try{var bn=NWAIT+NMSG,be=$('bellN');be.hidden=!bn;be.textContent=bn}catch(e){}var h=VIEWS.map(function(v){return '<button type="button" data-v="'+v[0]+'" class="'+(CUR===v[0]?'on':'')+'">'+I(v[2])+'<span>'+v[1]+'</span>'+(v[0]==='req'&&NWAIT?'<span class="cnt">'+NWAIT+'</span>':'')+(v[0]==='msg'&&NMSG?'<span class="cnt">'+NMSG+'</span>':'')+'</button>'}).join('');$('sn').innerHTML=h;$('bn').innerHTML=h}
+function go(v){CUR=v;VIEWS.forEach(function(x){$('v-'+x[0]).hidden=x[0]!==v});$('ttl').textContent={req:'Requests',sub:'Students',give:'Give a subscription',old:'Old codes',msg:'Messages',ovw:'Home'}[v];nav();if(v==='msg')mgRender();if(v==='ovw')ovRender();document.querySelector('.main').scrollTop=0}
 document.addEventListener('click',function(e){var b=e.target.closest('#sn [data-v],#bn [data-v],.stat[data-v]');if(b){if(b.dataset.f){SBF=b.dataset.f;segOn('sbTabs','f',SBF);sbRender()}go(b.dataset.v)}});
 function segOn(id,k,v){[].forEach.call($(id).children,function(x){x.classList.toggle('on',x.dataset[k]===v)})}
 $('ggIn').onclick=function(){sb.signIn(location.origin+location.pathname)};
-function out(){sb.signOut().then(function(){location.reload()})}$('out').onclick=out;$('out2').onclick=out;
+function out(){sb.signOut().then(function(){location.reload()})}$('out').onclick=out;$('out2').onclick=function(){if(confirm('Sign out of the admin?'))out()};$('hbBell').onclick=function(){go(NWAIT||!NMSG?'req':'msg')};
 /* data */
 var ALL=[],EXTRA={},NWAIT=0,NMSG=0;
 /* Old codes of Surgery and Pediatrics (owner, 13 Nov 2026: "Pediatrics and Surgery exactly as Obstetrics in the new admin app").
@@ -476,7 +522,30 @@ function ovRender(){var subs=ALL.filter(function(c){return c.plan&&c.plan!=='old
       '<div class="ovh">All '+L.length+' by state</div>'+row('Active',cnt(L,function(c){return state(c)==='active'}),'st',t)+row('Ending soon',cnt(L,function(c){return state(c)==='soon'}),'so',t)+
       row('Ended',cnt(L,function(c){return state(c)==='ended'}),'en',t)+row('Switched off',cnt(L,function(c){return state(c)==='off'}),'of',t)+
       '<div class="ovh">Devices in use</div>'+row('Devices',L.reduce(function(x,c){return x+devs(c).length},0),'',Math.max(L.reduce(function(x,c){return x+(c.maxdev||2)},0),1))+'</div>'});
-  $('ovw').innerHTML='<div id="adms"></div>'+h+'</div>';admRender()}
+  $('ovw').innerHTML=homeDash()+'<h3 class="sec">Subscribers by book</h3>'+h+'</div><div id="adms" style="margin-top:14px"></div>';admRender()}
+/* Home dashboard (owner, 13 Nov 2026, from his design: greeting, numbers, quick actions, what needs attention, recent activity); real data only */
+function ago(t){var m=Math.round((Date.now()-new Date(t))/6e4);if(!(m>=0))return '';if(m<1)return 'now';if(m<60)return m+' min ago';var h=Math.round(m/60);if(h<24)return h+' h ago';var d=Math.round(h/24);return d<31?d+' d ago':fd(t)}
+function homeDash(){var subs=ALL.filter(function(c){return c.plan&&c.plan!=='old'&&inBk(c)}),st=function(c){return state(c)},
+    act=subs.filter(function(c){var x=st(c);return x==='active'||x==='soon'}),soon=subs.filter(function(c){return st(c)==='soon'}),
+    S=students().filter(function(x){return x.codes.some(inBk)}),
+    dup=S.filter(function(x){var b={},d=false;x.codes.forEach(function(c){var k=bkOf(c);if(b[k])d=true;b[k]=1});return d}),
+    hr=new Date().getHours(),gr=hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
+  var tile=function(ic,lb,n,go,f,cl){return '<button type="button" class="dt '+(cl||'')+'" data-go="'+go+'"'+(f?' data-f="'+f+'"':'')+'><i>'+I(ic)+'</i><span>'+lb+'</span><b>'+n+'</b></button>'};
+  var row=function(ic,cl,t,sub,n,go,f){return '<button type="button" class="ar" data-go="'+go+'"'+(f?' data-f="'+f+'"':'')+'><i class="'+cl+'">'+I(ic)+'</i><span><b>'+t+'</b><small>'+sub+'</small></span>'+(n!=null?'<em class="'+cl+'">'+n+'</em>':'')+I('chev')+'</button>'};
+  var att=[];if(NWAIT)att.push(row('doc','w','Subscription requests',NWAIT+' waiting for your answer',NWAIT,'req'));
+  if(NMSG)att.push(row('mail','b','Messages',NMSG+' new from students',NMSG,'msg'));
+  if(soon.length)att.push(row('clock','w','Ending in 7 days',soon.length+' subscription'+(soon.length>1?'s':'')+' to renew',soon.length,'sub','soon'));
+  if(dup.length)att.push(row('users','r','Two subscriptions of one book',dup.length+' student'+(dup.length>1?'s':'')+' to merge',dup.length,'sub','all'));
+  var ev=[];subs.forEach(function(c){ev.push({t:c.created_at,ic:'users',a:'New subscription',b:nameOf(c)+' · '+BKN[bkOf(c)]+' · '+(PLN[c.plan]||'')})});
+  RQALL.filter(inBk).forEach(function(r){ev.push({t:r.created,ic:'doc',a:r.plan==='device'?'Device request':'Subscription request',b:(r.name||'')+' · '+BKN[bkOf(r)]})});
+  MSG.filter(function(m){return m.dir==='in'}).forEach(function(m){ev.push({t:m.created,ic:'mail',a:'Message',b:(m.name||'Student')+' · '+String(m.body||'').slice(0,40)})});
+  ev=ev.filter(function(e){return e.t}).sort(function(a,b){return new Date(b.t)-new Date(a.t)}).slice(0,6);
+  return '<div class="dash"><div class="hero"><div><h2>'+gr+(ADMS&&ADMS.owner?', Dr. Arja':'')+'</h2><p>Your medical learning platform at a glance'+(BKF!=='all'?' · '+BKN[BKF]:'')+'.</p></div>'+
+    '<svg viewBox="0 0 120 80" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity=".55"><path d="M14 64V22c10-4 22-4 32 3v42c-10-6-22-6-32-3z"/><path d="M78 64V22c-10-4-22-4-32 3"/><path d="M46 67c10-6 22-6 32-3"/><path d="M84 14v18a12 12 0 0 0 24 0V14"/><path d="M96 44v10a12 12 0 0 1-12 12h-2"/><circle cx="80" cy="66" r="4"/><path d="M82 14h4M106 14h-4"/></g></svg></div>'+
+    '<div class="tiles">'+tile('users','Students',S.length,'sub','all')+tile('layers','Active subscriptions',act.length,'sub','active','g')+tile('doc','Waiting requests',NWAIT,'req','','w')+tile('clock','Ending in 7 days',soon.length,'sub','soon','r')+'</div>'+
+    '<h3 class="sec">Quick actions</h3><div class="qa"><button type="button" data-go="give"><i>'+I('plus')+'</i><span>Give a subscription</span></button><button type="button" data-go="req"><i>'+I('doc')+'</i><span>Review requests</span></button><button type="button" data-go="msg"><i>'+I('mail')+'</i><span>Messages</span></button><button type="button" data-go="sub" data-f="all"><i>'+I('users')+'</i><span>Find a student</span></button></div>'+
+    '<h3 class="sec">Needs attention</h3><div class="card lst">'+(att.length?att.join(''):'<p class="ok0">'+I('check')+' Nothing needs your attention.</p>')+'</div>'+
+    '<h3 class="sec">Recent activity</h3><div class="card lst">'+(ev.length?ev.map(function(e){return '<div class="ev"><i>'+I(e.ic)+'</i><span><b>'+esc(e.a)+'</b><small dir="auto">'+esc(e.b)+'</small></span><time>'+ago(e.t)+'</time></div>'}).join(''):'<p class="ok0">No activity yet.</p>')+'</div></div>'}
 /* a second person can control the admin (owner, 13 Nov 2026; migration 016): the owner adds a Google email here; that person signs in with it */
 var ADMS=null,ADME='',ADMB=false;function admLoad(){if(ADMB)return;ADMB=true;sb.rpc('obs_admin_admins',{}).then(function(r){ADMB=false;if(r.error){ADME=r.error.message||'error';var w=$('adms');if(w)w.innerHTML='<div class="card" style="margin-bottom:14px"><h3>People who control this admin</h3><p class="hint">Could not load ('+esc(ADME)+').</p></div>';return}ADMS=r.data;admRender()})}
 function admRender(){var w=$('adms');if(!w)return;if(!ADMS){admLoad();return}
@@ -489,7 +558,7 @@ function admRender(){var w=$('adms');if(!w)return;if(!ADMS){admLoad();return}
      (ADMS.owner&&!own&&a.email!==ADMS.me?'<button type="button" class="btn" data-adel="'+esc(a.email)+'">Remove</button>':'')+'</div>'}).join('')+
    (ADMS.owner?'<div class="form"><label>Add an admin (Google email)<input type="email" id="admE" autocomplete="off" placeholder="name@gmail.com"></label><div class="full"><button type="button" class="btn pri" id="admAdd">Add</button></div></div>':'')+'</div>'}
 function admSet(e,add){sb.rpc('obs_admin_admin_set',{p_email:e,p_add:add}).then(function(r){if(r.error){toast('Error: '+r.error.message);return}if(r.data&&!r.data.ok){toast(r.data.reason==='self'?'You cannot remove yourself':'That email is not valid');return}toast(add?'Added: they can sign in with this Google account':'Removed');ADMS=null;admLoad()})}
-$('ovw').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+$('ovw').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;if(b.dataset.go){if(b.dataset.f){SBF=b.dataset.f;segOn('sbTabs','f',SBF);sbRender()}go(b.dataset.go);return}
   if(b.id==='admAdd'){var v=($('admE').value||'').trim();if(v)admSet(v,true)}
   else if(b.dataset.adel){if(confirm('Remove '+b.dataset.adel+'?'))admSet(b.dataset.adel,false)}});
 var STN={active:'Active',soon:'Ending soon',ended:'Ended',off:'Switched off'},STC={active:'g',soon:'w',ended:'r',off:'n'};
@@ -632,7 +701,7 @@ $('create').onclick=function(){var n=Math.max(1,Math.min(50,+$('count').value||1
 /* start */
 nav();
 sb.user().then(function(u){if(!u)return;
-  load().then(function(){$('gate').hidden=true;$('app').hidden=false;$('me').textContent=u.email;$('sub2').textContent=u.email;rqLoad()}).catch(function(err){
+  load().then(function(){$('gate').hidden=true;$('app').hidden=false;$('me').textContent=u.email;ME=u.email||'';$('out2').textContent=(ME.charAt(0)||'A').toUpperCase();rqLoad()}).catch(function(err){
     $('gateMsg').innerHTML=(String(err.message||'').indexOf('not_admin')>=0?'<b>'+esc(u.email)+'</b> is not an admin account.':'Could not load: '+esc(err.message||''))+' <button type="button" class="btn" id="o2">Sign out</button>';$('o2').onclick=out})});
 })();
 </script>
