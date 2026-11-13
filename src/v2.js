@@ -526,7 +526,7 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
   help:function(){window.open('https://wa.me/'+CFG.whatsapp,'_blank')},
   about:function(b){var a=ABOUT.filter(function(x){return x[0]===b.dataset.k})[0];if(!a)return;
     if(a[2]==='p'){POST=a[0];go('v2poster');$('v2poster').scrollTop=0}else if(a[2].indexOf('help:')===0){go('v2help');var e=$('hlp'+a[2].slice(5));if(e)e.scrollIntoView({block:'start'})}else go(a[2])},
-  saveprof:function(){sp('name',$('prN').value.trim());header();go('v2settings')},
+  saveprof:function(){sp('name',$('prN').value.trim());header();try{window.__smrProfile()}catch(e){}go('v2settings')},
   nophoto:function(){try{localStorage.removeItem('orr-photo')}catch(e){}R.v2profile();header()},
   copy:function(b){try{navigator.clipboard.writeText(b.dataset.c);b.innerHTML=I('check');setTimeout(function(){b.innerHTML=I('copy')},1200)}catch(e){}},
   nf:function(b){NF=b.dataset.f;R.v2notif()},

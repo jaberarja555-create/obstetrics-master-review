@@ -464,7 +464,7 @@ function wkGate(b){var e=WERR[b];return '<div class="card wkg" data-w="'+b+'"><d
    (migration 011, also for codes used later). Surgery and Pediatrics old codes live on their own servers, so until they are brought in
    once, Students shows one card per book with that server's password and one button; the card goes away when all are in. */
 function impNeed(b){if(WOLD[b])return WOLD[b].some(function(c){return !ALL.some(function(x){return x.code===c.code})});return true}
-function impRender(){var bs=['srg','ped'].filter(function(b){return (BKF==='all'||BKF===b)&&impNeed(b)});
+function impRender(){var e=$('imp');if(e)e.innerHTML='';return;var bs=['srg','ped'].filter(function(b){return (BKF==='all'||BKF===b)&&impNeed(b)});
   $('imp').innerHTML=bs.map(function(b){var e=WERR[b];return '<div class="card wkg" data-i="'+b+'"><div class="r1"><span class="chip bk '+b+'">'+BKN[b]+'</span><b>Bring the '+BKN[b]+' subscribers from the old system</b></div>'+
     '<p class="hint" style="margin:6px 0 10px">Done once. Every student who used an old '+BKN[b]+' code becomes a <b>Monthly</b> subscription from today and shows here; their devices, notes and progress stay. Type the password of the old '+BKN[b]+' admin page.</p>'+
     '<div class="form"><label>Old '+BKN[b]+' admin password<input type="password" class="wkpw" autocomplete="off" value="'+esc(wkPw(b))+'"></label><div class="full"><button type="button" class="btn pri" data-imp="1">Bring them in</button></div></div>'+

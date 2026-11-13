@@ -94,7 +94,12 @@ try{history.replaceState({obs:0},'');history.pushState({obs:1},'');
 
 /* Student Master Review platform (owner, 11 Nov 2026): the book's real progress, sent to the platform's Progress page when the book runs inside it */
 /* the name and picture came from Student Master Review (owner, 12 Nov 2026: one profile for the main app and the books) */
-window.__smrProfile=function(){try{header();var w=$('v2welT');if(w)w.innerHTML=greet();if(CURV==='v2home'||CURV==='v2profile'||CURV==='v2settings')R[CURV]()}catch(e){}};
+/* the student's own name goes online (owner, 13 Nov 2026): it replaces the name the owner wrote, in the admin page and in every book of the
+   same student (obs_set_name); sent when it changes, retried at the next opening while it has not reached the server */
+function pushName(){try{var n=(sp('name')||'').trim();if(n.length<2||n===sp('nameup')||!LIC||!LIC.rpc||!LIC.dev)return;
+  LIC.rpc('obs_set_name',{p_dev:LIC.dev,p_name:n}).then(function(r){var d=r&&r.data;if(d&&d.ok){sp('nameup',n);sp('sname',d.name||n)}}).catch(function(){})}catch(e){}}
+setTimeout(pushName,4000);
+window.__smrProfile=function(){pushName();try{header();var w=$('v2welT');if(w)w.innerHTML=greet();if(CURV==='v2home'||CURV==='v2profile'||CURV==='v2settings')R[CURV]()}catch(e){}};
 window.__smrStats=function(){var r={pages:{total:0,read:0,mastered:0},q:{total:QS.length,answered:0,correct:0,wrong:0},cards:{total:0,known:0},topics:{total:TOPICS.length,done:0},streak:0,ch:[]};
   TOPICS.forEach(function(t){var a=npg(t.id),b=tRead(t.id);r.pages.total+=a;r.pages.read+=b;r.pages.mastered+=tMast(t.id);if(a&&b>=a)r.topics.done++});
   deckIds.forEach(function(id){r.cards.total+=DECKS[id].cards.length;r.cards.known+=deckKnown(id)});
