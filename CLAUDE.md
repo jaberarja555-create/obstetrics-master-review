@@ -434,6 +434,14 @@ Measured on a simulated mid-range phone (Chromium, CPU 4x slower): start 3.1 s �
   10 minutes (v2.js `poll`), so a renewal or switch-on opens it by itself.
 - **Done 13 Nov 2026:** the owner brought in the Surgery and Pediatrics old codes (the Pediatrics Worker had no `ADMIN_PASSWORD` secret, so
   every password was "Wrong password"; he added it as a Secret in Cloudflare → Workers → pediatrics-master-review → Variables and Secrets).
+- **Messages and adding a book (owner, 13 Nov 2026; migration 012):** table `obs_msgs` (one conversation per student: `tk` = 'p:' + last 9 digits
+  of the subscription's phone, so the same student in every book; 'c:' + code without a phone; 'd:' + device without a subscription). App
+  (v2.js, ported): Help and Notifications have «مراسلة الإدارة» → screen `v2msg` (chat, `obs_msg_send`); answers come with `obs_msg_list` on
+  opening, return to the app, internet back, every 10 minutes and every 20 s while the chat is open (`mpoll`, kept in `<px>-msgs`) and show
+  first in the notifications («رسالة من الإدارة», with the sound). Admin: «Messages» view (red count, sound for a new message, conversations,
+  reply, delete), «Message» on each student card, «Add a book» (`obs_admin_add_book`: a subscription of the missing book with the student's
+  name and phone + a link number valid 14 days, sent to the student as a message: Subscription → «مشترك على جهاز آخر؟»), «Link number» on a
+  book row with no device yet (`obs_admin_pin`, a new 14-day number).
 - One phone counted as many devices (old Worker codes): every separate address or browser on a phone has its own storage, so the book saw a
   new device each time. Since the books open only inside Student Master Review (and the old addresses hand over the device id), a phone keeps one
   identity; «Remove devices» clears the old duplicates.

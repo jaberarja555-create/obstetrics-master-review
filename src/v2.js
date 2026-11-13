@@ -151,7 +151,7 @@ $('rbShow').parentNode.insertBefore(tb,$('rbShow'));
 $('backBtn').onclick=function(){go(RET||'v2home')};
 
 /* ---------- views ---------- */
-var V2=['v2home','v2chapters','v2chapter','v2practice','v2resources','v2settings','v2profile','v2notif','v2saved','v2slides','v2lect','v2sub','v2pay','v2dl','v2help','v2about','v2poster','v2contact'],R={};
+var V2=['v2home','v2chapters','v2chapter','v2practice','v2resources','v2settings','v2profile','v2notif','v2saved','v2slides','v2lect','v2sub','v2pay','v2dl','v2help','v2about','v2poster','v2contact','v2msg'],R={};
 var NAV=[['v2home','Home','home'],['v2chapters','Chapters','book'],['v2practice','Practice','clip'],['v2resources','Resources','layers'],['v2settings','Settings','gear']];
 function tabOf(v){if(v==='reader')return SCOPE==='rr'||SCOPE==='dr'?'v2resources':'v2chapters';
   return {v2chapter:'v2chapters',cards:'v2practice','qbank-v':'v2practice',lect:'v2resources',v2lect:'v2resources',v2slides:'v2resources',v2saved:'v2resources',v2profile:'v2settings',v2sub:'v2settings',v2pay:'v2settings',v2dl:'v2settings',v2help:'v2settings',v2about:'v2settings',v2contact:'v2settings',v2poster:'v2settings',search:'v2home',v2notif:'v2home'}[v]||v}
@@ -290,7 +290,7 @@ var HELP=[['home','الرئيسية','من هنا تبدأ كل شيء.',['<b>ت
  ['practice','الممارسة: الأسئلة والبطاقات','اختبر نفسك بعد كل موضوع.',['اضغط <b>Practice</b> ثم اختر «الأسئلة» أو «البطاقات».','<b>الأسئلة</b>: اختر نمط التدريب أو الامتحان بالوقت، ثم الفصول وعدد الأسئلة، واضغط Start. بعد الإجابة يظهر الشرح.','<b>البطاقات</b>: اضغط البطاقة ليظهر الجواب، ثم اختر «عرفتها» أو «مرة أخرى».','<b>بطاقات اليوم</b>: عشر بطاقات كل يوم، وإكمالها يزيد سلسلة أيامك.']],
  ['resources','المصادر','كل ما تحتاجه للمراجعة في مكان واحد.',['<b>المراجعة السريعة</b>: بطاقة امتحان لكل موضوع.','<b>أدوية التوليد</b>: الجرعات والمحاذير.','<b>السريري OSCE</b>: محطات الفحص والتاريخ المرضي.','<b>الفيديو</b> و<b>المحاضرات</b>: تظهر هنا عند إضافتها.','<b>ملاحظاتي</b>: كل ملاحظاتك وتظليلك، و<b>المصادر المحفوظة</b>: ما حفظته بعلامة الحفظ.']],
  ['sub','الاشتراك','من الإعدادات ← الاشتراك.',['<b>الخطة التجريبية</b>: اضغط «ابدأ التجربة» ليُفتح الكتاب كاملًا ساعة واحدة.','للاشتراك: اختر الخطة (شهري أو سنوي أو مدى الحياة) ثم اضغط <b>اشترك الآن</b>.','حوّل المبلغ إلى الحساب الظاهر، ثم اكتب اسمك ورقم هاتفك (صورة الإيصال اختيارية) واضغط <b>إرسال طلب التفعيل</b>.','يظهر «طلبك قيد المراجعة». يمكنك <b>تعديل الطلب</b> أو <b>إلغاؤه</b> قبل الموافقة.','بعد الموافقة يُفتح الكتاب كاملًا تلقائيًا، بلا أي كود.','<b>جهاز آخر</b>: من جهازك المشترك اضغط «أضف جهازًا آخر»، واكتب رقم الربط في الجهاز الجديد (حتى ثلاثة أجهزة).','عند انتهاء الاشتراك تبقى ملاحظاتك وتقدّمك محفوظة وتعود عند التجديد.']],
- ['settings','الإعدادات','اضبط التطبيق كما تحب.',['<b>الملف الشخصي</b>: اسمك وصورتك ورقم المستخدم.','<b>المظهر</b>: نهاري أو ليلي أو تلقائي. زر الشمس أو القمر في أعلى الشاشة يبدّل بسرعة.','<b>لون التطبيق</b>: ستة ألوان، ويتغيّر معها غلاف الكتاب.','<b>المزامنة</b>: تحفظ ملاحظاتك وتقدّمك بين أجهزتك.','<b>التنزيلات</b> و<b>الإشعارات</b> و<b>تقدّمي</b>.','<b>المساعدة</b>: راسلنا في واتساب.']]];
+ ['settings','الإعدادات','اضبط التطبيق كما تحب.',['<b>الملف الشخصي</b>: اسمك وصورتك ورقم المستخدم.','<b>المظهر</b>: نهاري أو ليلي أو تلقائي. زر الشمس أو القمر في أعلى الشاشة يبدّل بسرعة.','<b>لون التطبيق</b>: ستة ألوان، ويتغيّر معها غلاف الكتاب.','<b>المزامنة</b>: تحفظ ملاحظاتك وتقدّمك بين أجهزتك.','<b>التنزيلات</b> و<b>الإشعارات</b> و<b>تقدّمي</b>.','<b>المساعدة</b>: راسلنا في واتساب أو بالهاتف.','<b>مراسلة الإدارة</b>: من «المساعدة» أو من «الإشعارات» اكتب رسالتك داخل التطبيق، وتصلك الإجابة في الإشعارات مع صوت تنبيه.']]];
 /* the owner's five user-guide posters come first (11 Nov 2026), then the detailed steps with screenshots */
 var UG5=['التنقّل والرئيسية','القراءة والتعليقات','الأسئلة والبطاقات','المصادر وأدوات الدراسة','الإعدادات والاشتراك'];
 R.v2help=function(){$('v2helpW').innerHTML=title('دليل الاستخدام','v2settings')+
@@ -309,6 +309,7 @@ var HPS=[['د. عبدالجليل ارجا','0116984258','249116984258'],['د. �
 R.v2contact=function(){var P='<svg class="v2ic" viewBox="0 0 24 24">',ph='<path d="M8.6 4.5l1.6 3.6-1.5 1.6c.9 2 2.6 3.7 4.6 4.6l1.6-1.5 3.6 1.6v2.7c0 .8-.7 1.4-1.5 1.4C10.600 18.5 5.5 13.400 5.500 6c0-.8.6-1.500 1.400-1.500z"/>';
   $('v2contactW').innerHTML=title('المساعدة','v2settings')+
   '<div class="v2c hcd" lang="ar"><img src="img/v2_logo.webp" alt=""><p>للاستفسار عن الكتاب أو الاشتراك، أو للإبلاغ عن خطأ، تواصل مع أحد المؤلفين بالطريقة التي تناسبك.</p></div>'+
+  '<button type="button" class="v2c hrow" data-act="msgs" lang="ar"><span class="ii">'+I('mail')+'</span><span><b>راسِل الإدارة من داخل التطبيق</b><small>اكتب سؤالك أو ملاحظتك، وتصلك الإجابة في الإشعارات</small></span>'+I('chev')+'</button>'+
   '<div class="hpp" lang="ar">'+HPS.map(function(h){return '<div class="v2c hpc"><h3>'+h[0]+'</h3><a class="hph" href="tel:+'+h[2]+'" dir="ltr">'+h[1]+'</a><div class="hcg">'+
     '<a class="hco wa" href="https://wa.me/'+h[2]+'" target="_blank" rel="noopener"><span>'+P+'<path d="M12 3.5a8.500 8.500 0 0 0-7.300 12.800L3.500 20.500l4.300-1.100A8.500 8.500 0 1 0 12 3.500z"/><path d="M9.300 8.300l.9 1.900-.8.9c.5 1 1.400 1.900 2.400 2.400l.9-.8 1.900.9v1c0 .5-.4.8-.9.800-3.300-.2-6-2.900-6.200-6.200 0-.5.300-.900.800-.900z"/></svg></span><b>واتساب</b></a>'+
     '<a class="hco tg" href="https://t.me/+'+h[2]+'" target="_blank" rel="noopener"><span>'+P+'<path d="M20.500 4.500L3.500 11l5 1.800 1.800 5.700 2.800-3.400 4.400 3.400z"/><path d="M8.500 12.800l8-5.300-6.200 6.900"/></svg></span><b>تيليجرام</b></a>'+
@@ -343,7 +344,7 @@ R.v2profile=function(){var dev=st('orr-dev')||'',code=st('orr-code')||'';
     c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,200,200);sp('photo',c.toDataURL('image/jpeg',.82));URL.revokeObjectURL(im.src);R.v2profile();header()};im.src=URL.createObjectURL(f)}};
 
 /* ---------- notifications: real events of this device, kept apart from browser push ---------- */
-var NR=spj('nread')||{},NS=spj('nseen')||{};
+var NR=spj('nread')||{},NS=spj('nseen')||{},MSGS=spj('msgs')||[];
 /* a new notification arrives with a soft two-note sound and a small swing of the bell (owner, 11 Nov 2026). Browsers allow sound only
    after the first touch, so one that arrives before it waits for that touch. */
 var UG=false,NPEND=false;
@@ -353,6 +354,8 @@ function nding(){try{var b=$('v2bd').parentNode;b.classList.remove('ring');void 
     setTimeout(function(){try{a.close()}catch(e){}},1500)}catch(e){}}
 document.addEventListener('pointerdown',function(){if(UG)return;UG=true;if(NPEND){NPEND=false;setTimeout(nding,2200)}},true);
 function notifs(){var a=[],d=dueToday(),lp=lastPage(),ac=access();
+  /* messages from the administration come first, newest at the top (owner, 13 Nov 2026) */
+  (MSGS||[]).filter(function(m){return m.dir==='out'}).slice(-30).reverse().forEach(function(m){a.push({id:'m'+m.id,ic:'mail',t:'رسالة من الإدارة',s:m.body,act:'msgs',ts:Date.parse(m.t)})});
   if(d>0)a.push({id:'cards:'+today(),ic:'cal',t:'حان وقت المراجعة',s:d+' بطاقات في انتظارك اليوم',act:'cards'});
   if(sp('pk')&&lp>0)a.push({id:'cont',q:1,ic:'book',t:'تابع من حيث توقفت',s:PAGES[lp].label,ltr:1,act:'cont'});
   if(ac==='trial')a.push({id:'trial:'+today(),ic:'clock',t:'الفترة التجريبية جارية',s:'الكتاب كله مفتوح الآن. اشترك قبل انتهاء الفترة.',act:'sub'});
@@ -365,9 +368,9 @@ function notifs(){var a=[],d=dueToday(),lp=lastPage(),ac=access();
 function ago(ts){var m=Math.round((Date.now()-ts)/6e4);return m<1?'الآن':m<60?'قبل '+m+' دقيقة':m<1440?'قبل '+Math.round(m/60)+' ساعة':'قبل '+Math.round(m/1440)+' يوم'}
 var NF='all';
 R.v2notif=function(){var all=notifs(),un=all.filter(function(n){return !NR[n.id]}),ls=NF==='un'?un:all;
-  $('v2notifW').innerHTML=title('الإشعارات','v2home')+'<div class="v2c pseg" lang="ar"><button type="button" data-act="nf" data-f="all" class="'+(NF==='all'?'on':'')+'">الكل ('+all.length+')</button><button type="button" data-act="nf" data-f="un" class="'+(NF==='un'?'on':'')+'">غير المقروءة ('+un.length+')</button></div>'+
+  $('v2notifW').innerHTML=title('الإشعارات','v2home')+'<button type="button" class="v2c hrow nfm" data-act="msgs" lang="ar"><span class="ii">'+I('mail')+'</span><span><b>مراسلة الإدارة</b><small>اكتب سؤالك أو ملاحظتك، وتصلك الإجابة هنا</small></span>'+I('chev')+'</button><div class="v2c pseg" lang="ar"><button type="button" data-act="nf" data-f="all" class="'+(NF==='all'?'on':'')+'">الكل ('+all.length+')</button><button type="button" data-act="nf" data-f="un" class="'+(NF==='un'?'on':'')+'">غير المقروءة ('+un.length+')</button></div>'+
    (un.length?'<button type="button" class="v2btn sm" data-act="nall" lang="ar">'+I('check')+'تحديد الكل كمقروء</button>':'')+
-   (ls.length?'<div class="nfl" lang="ar">'+ls.map(function(n){return '<div class="v2c nfr'+(NR[n.id]?' rd':'')+'"><i class="dot"></i>'+I(n.ic)+'<span><b>'+n.t+'</b><small'+(n.ltr?' dir="ltr" style="text-align:right"':'')+'>'+X(n.s)+'</small><time>'+ago(NS[n.id]||Date.now())+'</time></span>'+
+   (ls.length?'<div class="nfl" lang="ar">'+ls.map(function(n){return '<div class="v2c nfr'+(NR[n.id]?' rd':'')+'"><i class="dot"></i>'+I(n.ic)+'<span><b>'+n.t+'</b><small'+(n.ltr?' dir="ltr" style="text-align:right"':'')+'>'+X(n.s)+'</small><time>'+ago(n.ts||NS[n.id]||Date.now())+'</time></span>'+
      (n.act?'<button type="button" class="v2btn sm" data-act="nopen" data-id="'+X(n.id)+'" data-go2="'+n.act+'">فتح'+I('back')+'</button>':(NR[n.id]?'<span></span>':'<button type="button" class="bmk" data-act="nread" data-id="'+X(n.id)+'" aria-label="تحديد كمقروء">'+I('check')+'</button>'))+'</div>'}).join('')+'</div>'
     :'<div class="v2c v2emp" lang="ar">'+I('bell')+'<br>لا توجد إشعارات غير مقروءة.</div>')};
 
@@ -385,6 +388,23 @@ setInterval(function(){if(!document.hidden&&((REQ&&REQ.status==='pending')||CURV
 setInterval(function(){if(!document.hidden&&(st('orr-ended')||st('orr-wassub')))poll()},600000);
 document.addEventListener('visibilitychange',function(){if(!document.hidden)poll()});window.addEventListener('online',function(){poll()});
 /* the licence layer saw a new end date, plan or name from the admin: show it now */
+/* ---------- messages with the administration (owner, 13 Nov 2026): the student writes from Help or Notifications, the owner answers
+   from the admin page; answers arrive in the notifications with the sound. Asked on opening, on return to the app, when the internet
+   returns, every 10 minutes, and every 20 s while the conversation is open. ---------- */
+var MRET='v2contact',MBUSY=false;
+function mlast(){return MSGS.length?MSGS[MSGS.length-1].id:0}
+function mpoll(){if(!LIC||!LIC.rpc||!LIC.dev||navigator.onLine===false||MBUSY)return Promise.resolve();MBUSY=true;
+  return LIC.rpc('obs_msg_list',{p_dev:LIC.dev,p_after:mlast()}).then(function(r){MBUSY=false;var a=r&&r.data;if(!r||r.error||!Array.isArray(a)||!a.length)return;
+    var have={};MSGS.forEach(function(m){have[m.id]=1});a.forEach(function(m){if(!have[m.id])MSGS.push(m)});MSGS.sort(function(x,y){return x.id-y.id});
+    if(MSGS.length>300)MSGS=MSGS.slice(-300);spj('msgs',MSGS);header();if(CURV==='v2msg')R.v2msg();else if(CURV==='v2notif')R.v2notif()},function(){MBUSY=false})}
+setTimeout(mpoll,3000);setInterval(function(){if(!document.hidden&&(CURV==='v2msg'||Date.now()-(mpoll.t||0)>6e5)){mpoll.t=Date.now();mpoll()}},20000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)mpoll()});window.addEventListener('online',function(){mpoll()});
+R.v2msg=function(){var h=title('مراسلة الإدارة',MRET);
+  MSGS.forEach(function(m){if(m.dir==='out')NR['m'+m.id]=1});spj('nread',NR);header();
+  h+='<div class="v2c msgw" lang="ar"><div class="msl" id="msL">'+(MSGS.length?MSGS.map(function(m){return '<div class="msb '+(m.dir==='in'?'me':'ad')+'">'+(m.dir==='in'?'':'<b>الإدارة</b>')+'<p dir="auto">'+X(m.body).replace(/\n/g,'<br>')+'</p><time>'+ago(Date.parse(m.t))+'</time></div>'}).join(''):
+    '<p class="mu msemp">اكتب سؤالك أو ملاحظتك عن الكتاب أو الاشتراك، وستصلك إجابة الإدارة هنا وفي الإشعارات.</p>')+'</div>'+
+    '<div class="msf"><textarea id="msT" rows="2" maxlength="1500" placeholder="اكتب رسالتك…" dir="auto"></textarea><button type="button" class="v2btn" data-act="msend">إرسال</button></div><p class="mu" id="msM"></p></div>';
+  $('v2msgW').innerHTML=h;var L=$('msL');if(L)L.scrollTop=L.scrollHeight};
 window.addEventListener('obs-sub',function(){try{header();if(CURV==='v2sub'||CURV==='v2home'||CURV==='v2settings')R[CURV]()}catch(e){}});
 R.v2sub=function(){var a=access(),ex=+st('orr-exp')||0,pl=st('orr-plan'),pend=a!=='paid'&&REQ&&REQ.status==='pending',h=title('الاشتراك',CURV==='v2sub'&&RETS?RETS:'v2settings');
   function chk(t){return '<li>'+I('check')+t+'</li>'}
@@ -506,6 +526,13 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
   nf:function(b){NF=b.dataset.f;R.v2notif()},
   nall:function(){notifs().forEach(function(n){NR[n.id]=1});spj('nread',NR);R.v2notif();header()},
   nread:function(b){NR[b.dataset.id]=1;spj('nread',NR);R.v2notif();header()},
+  msgs:function(){if(CURV!=='v2msg')MRET=CURV&&CURV.indexOf('v2')===0?CURV:'v2contact';go('v2msg');mpoll()},
+  msend:function(b){var t=$('msT'),M=$('msM'),v=(t&&t.value||'').trim();if(!v){M.textContent='اكتب رسالتك أولًا.';return}
+    if(!LIC||!LIC.rpc){M.textContent='تعذّر الإرسال الآن.';return}if(navigator.onLine===false){M.textContent='لا يوجد اتصال بالإنترنت. أرسل الرسالة عند عودة الاتصال.';return}
+    b.disabled=true;M.textContent='جارٍ الإرسال…';
+    LIC.rpc('obs_msg_send',{p_dev:LIC.dev,p_name:myName(),p_phone:sp('tel')||'',p_body:v}).then(function(r){b.disabled=false;var d=r&&r.data;
+      if(!r||r.error||!d||!d.ok){M.textContent=d&&d.reason==='many'?'أرسلت رسائل كثيرة اليوم. حاول مرة أخرى غدًا.':'تعذّر الإرسال. تأكد من الاتصال بالإنترنت.';return}
+      t.value='';mpoll().then(function(){var m=$('msM');if(m)m.textContent='أُرسلت رسالتك. ستصلك الإجابة في الإشعارات.'})},function(){b.disabled=false;M.textContent='تعذّر الإرسال. تأكد من الاتصال بالإنترنت.'})},
   nopen:function(b){NR[b.dataset.id]=1;spj('nread',NR);header();ACT[b.dataset.go2]()}};
 
 /* progress details live in a sheet now */

@@ -36,7 +36,7 @@ input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--sel)
 .top h1{flex:1;margin:0;font:800 15px/1.2 var(--ui);min-width:0}.top h1 small{display:block;font:600 11.5px var(--ui);color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .main{flex:1;min-height:0;overflow:auto;padding:4px 14px 20px}
 .wrap{max-width:1060px;margin:0 auto;display:grid;gap:12px}
-.nav{flex:none;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--sf);border-top:1px solid var(--bd);padding:5px 6px calc(env(safe-area-inset-bottom,0px) + 5px)}
+.nav{flex:none;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;background:var(--sf);border-top:1px solid var(--bd);padding:5px 6px calc(env(safe-area-inset-bottom,0px) + 5px)}
 .nav button,.side nav button{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;border-radius:12px;font-weight:600;font-size:11px;color:var(--sub)}
 .nav button.on{background:var(--sel);color:var(--tx);font-weight:700}
 .cnt{position:absolute;top:1px;left:calc(50% + 6px);min-width:18px;height:18px;border-radius:9px;background:#E0434C;color:#fff;font:800 10.5px/18px var(--ui);padding:0 5px;text-align:center}
@@ -75,6 +75,22 @@ input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--sel)
 .code{font:700 14px ui-monospace,monospace;letter-spacing:.5px}
 .fresh{background:var(--sel);border-radius:10px;padding:10px;font:700 14px ui-monospace,monospace;display:flex;gap:8px 16px;flex-wrap:wrap}
 .toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:var(--deep);color:#fff;border-radius:12px;padding:10px 16px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9;max-width:90vw;text-align:center}.toast.on{opacity:1}
+.ovt{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}@media(min-width:760px){.ovt{grid-template-columns:repeat(4,1fr)}}
+.ovt .card{display:grid;gap:2px;padding:12px 14px}.ovt b{font:800 26px/1.1 var(--ui)}.ovt span{color:var(--sub);font-size:13px}
+.ovb{display:grid;gap:12px;margin-top:12px}@media(min-width:900px){.ovb{grid-template-columns:repeat(3,1fr)}}
+.ovb .card{display:grid;gap:10px}.ovb h3{margin:0;display:flex;align-items:center;gap:8px;font-size:17px}.ovb h3 em{margin-left:auto;font:800 24px var(--ui);font-style:normal}
+.ovr{display:grid;grid-template-columns:96px 1fr 34px;gap:8px;align-items:center;font-size:14px}.ovr i{height:10px;border-radius:5px;background:var(--bd);overflow:hidden;display:block}.ovr i s{display:block;height:100%;background:var(--pri)}
+.ovr.st i s{background:#2E9E6B}.ovr.so i s{background:#E0A43C}.ovr.en i s{background:#E0434C}.ovr.of i s{background:#8A8FA3}.ovr b{text-align:right}
+.ovh{font-size:12px;color:var(--sub);text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+.mgg{display:grid;gap:12px}@media(min-width:900px){.mgg{grid-template-columns:minmax(260px,360px) 1fr;align-items:start}.mgth{position:sticky;top:8px}}
+.mgr{display:grid;grid-template-columns:1fr auto;gap:4px 10px;text-align:left;cursor:pointer;width:100%;font:inherit;color:inherit}.mgr.on{outline:2px solid var(--pri)}
+.mgr .nm{font-weight:800}.mgr .sn{grid-column:1/-1;color:var(--sub);font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mgr .un{background:#E0434C;color:#fff;border-radius:9px;padding:0 7px;font:800 11px/18px var(--ui)}
+.mgth .tl{display:flex;flex-direction:column;gap:8px;max-height:min(58vh,560px);overflow-y:auto;padding:6px 2px}
+.mb{max-width:85%;padding:8px 11px 5px;border-radius:14px;line-height:1.5;position:relative}.mb p{margin:0;white-space:pre-wrap;word-wrap:break-word}.mb time{display:block;font-size:11px;opacity:.7;margin-top:2px}
+.mb.in{align-self:flex-start;background:var(--bg);border:1px solid var(--bd)}.mb.out{align-self:flex-end;background:var(--pri);color:#fff}
+.mb .dl{position:absolute;top:2px;right:4px;border:0;background:none;color:inherit;opacity:.45;cursor:pointer;font-size:13px}.mb:not(:hover) .dl{display:none}
+.mgf{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end;margin-top:8px}.mgf textarea{min-height:56px;resize:vertical;font:inherit;padding:9px 11px;border:1px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx)}
+.pinb{font:800 28px/1.2 var(--ui);letter-spacing:3px;text-align:center;padding:10px;border:2px dashed var(--pri);border-radius:12px}
 .ovl{position:fixed;inset:0;background:rgba(40,28,70,.55);display:grid;place-items:center;z-index:50;padding:14px}
 .ovl .in{background:var(--sf);border-radius:16px;max-width:640px;width:100%;max-height:88vh;overflow:auto;padding:16px;display:grid;gap:10px}
 .ovl img{max-width:100%;max-height:70vh;margin:0 auto;border-radius:10px;display:block}
@@ -117,6 +133,16 @@ input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--sel)
         <div class="seg" id="sbTabs"><button type="button" data-f="all" class="on">All</button><button type="button" data-f="active">Active</button><button type="button" data-f="soon">Ending in 7 days</button><button type="button" data-f="ended">Ended</button><button type="button" data-f="off">Switched off</button></div>
         <div id="imp"></div><div class="list" id="sbList"></div>
       </div></section>
+      <section id="v-ovw" hidden><div class="wrap">
+        <div class="h2"><h2>Overview</h2></div>
+        <p class="hint">Subscribers of each book by type and state. A student with two books counts once in each book and once in «Students».</p>
+        <div id="ovw"></div>
+      </div></section>
+      <section id="v-msg" hidden><div class="wrap">
+        <div class="h2"><h2>Messages</h2><button type="button" class="btn" id="mgRef">Refresh</button></div>
+        <p class="hint">Students write from the app (Help or Notifications). Your answer reaches the student in the notifications of every book they use, with a sound. A new message here rings and shows a red number.</p>
+        <div class="mgg"><div class="list" id="mgList"><p class="empty">Loading…</p></div><div class="card mgth" id="mgTh" hidden></div></div>
+      </div></section>
       <section id="v-give" hidden><div class="wrap">
         <div class="h2"><h2>Give a subscription</h2></div>
         <div class="card"><p class="hint" style="margin-bottom:12px">For a free or special subscription with no receipt. Ask the student for the <b>user number</b> shown in the app (Settings → Profile). The device opens by itself.</p>
@@ -145,7 +171,7 @@ input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--sel)
 var CFG=window.OBS_CFG||{},$=function(i){return document.getElementById(i)};
 if(!CFG.url||!CFG.anon){$('gateMsg').textContent='licence-config.js has no Supabase address yet.';$('ggIn').disabled=true;return}
 var sb=window.OBS_SB(CFG,'obs-admin-auth'),SITE=location.origin+location.pathname.replace(/admin(\.html)?$/,'');
-var P={req:'<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',sub:'<circle cx="9" cy="8" r="3.5"/><path d="M2.500 20a6.500 6.500 0 0 1 13 0"/><path d="M16 4.500a3.500 3.500 0 0 1 0 7M18 14.500c2 .8 3.500 2.800 3.500 5.500"/>',give:'<path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13"/><path d="M12 7c-1-3-5-3-4.500-.5C7.800 8 12 7 12 7zM12 7c1-3 5-3 4.500-.5C16.200 8 12 7 12 7z"/>',
+var P={chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',req:'<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',sub:'<circle cx="9" cy="8" r="3.5"/><path d="M2.500 20a6.500 6.500 0 0 1 13 0"/><path d="M16 4.500a3.500 3.500 0 0 1 0 7M18 14.500c2 .8 3.500 2.800 3.500 5.500"/>',give:'<path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13"/><path d="M12 7c-1-3-5-3-4.500-.5C7.800 8 12 7 12 7zM12 7c1-3 5-3 4.500-.5C16.200 8 12 7 12 7z"/>',
   old:'<circle cx="8" cy="15" r="4"/><path d="M10.800 12.200L20 3M16 7l3 3"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',check:'<path d="M5 12.500l4.500 4.500L19 7.500"/>',warn:'<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>'};
 function I(n){return '<svg class="ic" viewBox="0 0 24 24">'+P[n].replace(/\.(\d)00\b/g,'.$1')+'</svg>'}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
@@ -160,15 +186,15 @@ var BKN={obs:'Obstetrics',ped:'Pediatrics',srg:'Surgery'},BKF='all';try{BKF=loca
 function bkOf(x){return x.book||'obs'}function inBk(x){return BKF==='all'||bkOf(x)===BKF}function bkChip(x){return '<span class="chip bk '+bkOf(x)+'">'+BKN[bkOf(x)]+'</span>'}
 var PLN={month:'Monthly',year:'Annual',life:'Lifetime',device:'Another device',old:'Old code'},PRICE={};(CFG.plans||[]).forEach(function(p){PRICE[p.id]=p.price});
 /* navigation */
-var VIEWS=[['req','Requests','req'],['sub','Students','sub'],['give','Give','give']],CUR='req';
-function nav(){var h=VIEWS.map(function(v){return '<button type="button" data-v="'+v[0]+'" class="'+(CUR===v[0]?'on':'')+'">'+I(v[2])+'<span>'+v[1]+'</span>'+(v[0]==='req'&&NWAIT?'<span class="cnt">'+NWAIT+'</span>':'')+'</button>'}).join('');$('sn').innerHTML=h;$('bn').innerHTML=h}
-function go(v){CUR=v;VIEWS.forEach(function(x){$('v-'+x[0]).hidden=x[0]!==v});$('ttl').textContent={req:'Requests',sub:'Students',give:'Give a subscription',old:'Old codes'}[v];nav();document.querySelector('.main').scrollTop=0}
+var VIEWS=[['ovw','Overview','chart'],['req','Requests','req'],['sub','Students','sub'],['msg','Messages','mail'],['give','Give','give']],CUR='req';
+function nav(){var h=VIEWS.map(function(v){return '<button type="button" data-v="'+v[0]+'" class="'+(CUR===v[0]?'on':'')+'">'+I(v[2])+'<span>'+v[1]+'</span>'+(v[0]==='req'&&NWAIT?'<span class="cnt">'+NWAIT+'</span>':'')+(v[0]==='msg'&&NMSG?'<span class="cnt">'+NMSG+'</span>':'')+'</button>'}).join('');$('sn').innerHTML=h;$('bn').innerHTML=h}
+function go(v){CUR=v;VIEWS.forEach(function(x){$('v-'+x[0]).hidden=x[0]!==v});$('ttl').textContent={req:'Requests',sub:'Students',give:'Give a subscription',old:'Old codes',msg:'Messages',ovw:'Overview'}[v];nav();if(v==='msg')mgRender();if(v==='ovw')ovRender();document.querySelector('.main').scrollTop=0}
 document.addEventListener('click',function(e){var b=e.target.closest('#sn [data-v],#bn [data-v],.stat[data-v]');if(b){if(b.dataset.f){SBF=b.dataset.f;segOn('sbTabs','f',SBF);sbRender()}go(b.dataset.v)}});
 function segOn(id,k,v){[].forEach.call($(id).children,function(x){x.classList.toggle('on',x.dataset[k]===v)})}
 $('ggIn').onclick=function(){sb.signIn(location.origin+location.pathname)};
 function out(){sb.signOut().then(function(){location.reload()})}$('out').onclick=out;$('out2').onclick=out;
 /* data */
-var ALL=[],EXTRA={},NWAIT=0;
+var ALL=[],EXTRA={},NWAIT=0,NMSG=0;
 /* Old codes of Surgery and Pediatrics (owner, 13 Nov 2026: "Pediatrics and Surgery exactly as Obstetrics in the new admin app").
    Their old codes (SMR-…, PMR-…) live on each book's own server (Cloudflare Worker + Durable Object), not in Supabase, so this page asks
    those servers directly: GET/POST <server>/api/codes… with "Authorization: Bearer <that book's old admin password>" (the servers allow
@@ -191,7 +217,7 @@ function state(c){if(!c.active)return 'off';if(c.expires&&new Date(c.expires)<=n
 function devs(c){if(c.wk)return c.wdevs.slice();var a=[];if(c.phone_dev)a.push(c.phone_label||'Phone');if(c.pc_dev)a.push(c.pc_label||'Computer');(EXTRA[c.code]||[]).forEach(function(d){a.push(d.label||(d.kind==='phone'?'Phone':'Computer'))});return a}
 function nameOf(c){return (c.note||'').split('·')[0].trim()||'(no name)'}function telOf(c){return ((c.note||'').split('·')[1]||'').trim()}
 function load(){return Promise.all([sb.rpc('obs_admin_list'),sb.rpc('obs_admin_extra')]).then(function(rs){var r=rs[0];if(r.error)throw r.error;ALL=r.data||[];
-  EXTRA={};((rs[1]&&rs[1].data)||[]).forEach(function(d){(EXTRA[d.code]=EXTRA[d.code]||[]).push(d)});stats();sbRender();oldRender();wkLoadAll()})}
+  EXTRA={};((rs[1]&&rs[1].data)||[]).forEach(function(d){(EXTRA[d.code]=EXTRA[d.code]||[]).push(d)});stats();sbRender();oldRender();ovRender();wkLoadAll();if(!MGDONE)mgLoad()})}
 function call(fn,args,done){return sb.rpc(fn,args).then(function(r){if(r.error){toast('Error: '+r.error.message);return}toast(done);return load()})}
 function stats(){var s=ALL.filter(isSub),n={active:0,soon:0,ended:0,off:0};s.forEach(function(c){n[state(c)]++});
   $('stats').innerHTML='<button type="button" class="card stat w" data-v="req"><i>'+I('clock')+'</i><span><b>'+NWAIT+'</b><span>Waiting requests</span></span></button>'+
@@ -215,11 +241,11 @@ function rqLoad(quiet){return sb.rpc('obs_admin_requests',{p_status:RQS}).then(f
     return RQS==='pending'?{data:r.data||[]}:sb.rpc('obs_admin_requests',{p_status:'pending'})}).then(function(p){if(!p||!p.data)return;var ids=p.data.map(function(x){return x.id});NWAIT=p.data.filter(inBk).length;nav();stats();
     document.title=(NWAIT?'('+NWAIT+') ':'')+'Master Review · Admin';try{if(navigator.setAppBadge){NWAIT?navigator.setAppBadge(NWAIT):navigator.clearAppBadge()}}catch(e){}
     if(RQSEEN&&ids.some(function(i){return RQSEEN.indexOf(i)<0})){beep();toast('New subscription request')}RQSEEN=ids})}
-$('bkTabs').onclick=function(e){var b=e.target.closest('button');if(!b)return;BKF=b.dataset.b;try{localStorage.setItem('adm-book',BKF)}catch(er){}segOn('bkTabs','b',BKF);rqRender();stats();sbRender();oldRender();rqLoad(true)};
+$('bkTabs').onclick=function(e){var b=e.target.closest('button');if(!b)return;BKF=b.dataset.b;try{localStorage.setItem('adm-book',BKF)}catch(er){}segOn('bkTabs','b',BKF);rqRender();stats();sbRender();oldRender();ovRender();if(CUR==='msg')mgRender();rqLoad(true)};
 segOn('bkTabs','b',BKF);
 $('rqTabs').onclick=function(e){var b=e.target.closest('button');if(!b)return;RQS=b.dataset.s;segOn('rqTabs','s',RQS);rqLoad()};
 $('rqRef').onclick=function(){rqLoad();load()};
-setInterval(function(){if(!$('app').hidden&&!document.hidden)rqLoad(true)},30000);document.addEventListener('visibilitychange',function(){if(!document.hidden&&!$('app').hidden)rqLoad(true)});
+setInterval(function(){if(!$('app').hidden&&!document.hidden){rqLoad(true);mgLoad()}},30000);document.addEventListener('visibilitychange',function(){if(!document.hidden&&!$('app').hidden)rqLoad(true)});
 $('rqList').addEventListener('click',function(e){var b=e.target.closest('button[data-r]');if(!b)return;var it=b.closest('.it'),id=it.dataset.id,a=b.dataset.r;
   if(a==='wa'){window.open('https://wa.me/'+b.dataset.p,'_blank');return}
   if(a==='img'){b.disabled=true;sb.rpc('obs_admin_receipt',{p_id:id}).then(function(r){b.disabled=false;if(r.error||!r.data){toast('No receipt: the student sent the request without a picture');return}var d=r.data,u='data:'+d.mime+';base64,'+d.data;
@@ -241,6 +267,74 @@ function students(){var m={},L=[];ALL.filter(function(c){return c.plan&&c.plan!=
   L.forEach(function(x){x.codes.sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at)});x.name=nameOf(x.codes[0]);x.tel=telOf(x.codes[0]);x.last=Math.max.apply(null,x.codes.map(function(c){return +new Date(c.created_at)||0}))});
   return L.sort(function(a,b){return b.last-a.last})}
 function stuOf(phone){var k=ph9(phone);return k?students().filter(function(x){return x.k===k})[0]:null}
+/* ---------- messages (owner, 13 Nov 2026): one conversation per student ('p:' + the last 9 digits of the phone, 'c:' + code when there
+   is no phone, 'd:' + device for a student with no subscription). The student sees the answers in the app's notifications. ---------- */
+var MSG=[],MTK=null,MGDONE=false,BKA={obs:'التوليد',ped:'الأطفال',srg:'الجراحة'},PLA={month:'شهري',year:'سنوي',life:'مدى الحياة'};
+function tkOf(x){return /^c:/.test(x.k)?x.k:'p:'+x.k}
+function mgLoad(){return sb.rpc('obs_admin_msgs').then(function(r){if(r.error){if(!MGDONE)$('mgList').innerHTML='<p class="empty">Could not load the messages.</p>';return}
+  var old=MSG.length?MSG[MSG.length-1].id:0,first=!MGDONE;MSG=r.data||[];MGDONE=true;
+  var un=MSG.filter(function(m){return m.dir==='in'&&!m.seen});if(!first&&un.some(function(m){return m.id>old}))beep();NMSG=un.length;nav();if(CUR==='msg')mgRender()})}
+function threads(){var m={},L=[];MSG.forEach(function(x){if(!m[x.tk]){m[x.tk]={tk:x.tk,ms:[]};L.push(m[x.tk])}m[x.tk].ms.push(x)});
+  L.forEach(function(t){t.last=t.ms[t.ms.length-1];t.un=t.ms.filter(function(x){return x.dir==='in'&&!x.seen}).length;var w=whoOf(t.tk,t.ms);t.name=w.name;t.tel=w.tel;t.books=w.books;t.sub=w.sub});
+  return L.sort(function(a,b){return b.last.id-a.last.id})}
+function whoOf(tk,ms){var ins=(ms||[]).filter(function(x){return x.dir==='in'}),li=ins[ins.length-1]||{},bks={};ins.forEach(function(x){if(x.book)bks[x.book]=1});
+  var x=null;if(tk.indexOf('p:')===0)x=students().filter(function(y){return y.k===tk.slice(2)})[0];else if(tk.indexOf('c:')===0)x=students().filter(function(y){return y.k===tk})[0];
+  if(x){x.codes.forEach(function(c){bks[bkOf(c)]=1});return {name:x.name,tel:x.tel,books:Object.keys(bks),sub:true}}
+  return {name:li.name||'Student',tel:li.phone||'',books:Object.keys(bks),sub:false}}
+function mgRender(){var L=threads().filter(function(t){return BKF==='all'||t.books.indexOf(BKF)>=0});
+  $('mgList').innerHTML=L.length?L.map(function(t){return '<button type="button" class="card mgr'+(t.tk===MTK?' on':'')+'" data-tk="'+esc(t.tk)+'"><span class="nm" dir="auto">'+esc(t.name)+'</span>'+(t.un?'<span class="un">'+t.un+'</span>':'<span class="tm">'+fd(t.last.created)+'</span>')+
+    '<span class="sn">'+t.books.map(function(b){return '<span class="chip bk '+b+'">'+BKN[b]+'</span> '}).join('')+(t.sub?'':'<span class="chip n">Not subscribed</span> ')+(t.last.dir==='out'?'You: ':'')+esc(t.last.body)+'</span></button>'}).join('')
+    :'<p class="empty">No messages yet. Students write from Help or Notifications in the app; you can also start one from a student\'s card («Message»).</p>';
+  if(MTK)mgThread()}
+function mgOpen(tk){MTK=tk;mgRender();var t=$('mgTh');if(t&&window.innerWidth<900)t.scrollIntoView({block:'start'})}
+function mgThread(){var ms=MSG.filter(function(m){return m.tk===MTK}),w=whoOf(MTK,ms),wa=phoneOf(' · '+(w.tel||'')),T=$('mgTh');T.hidden=false;
+  T.innerHTML='<div class="r1"><span class="nm" dir="auto"><b>'+esc(w.name)+'</b></span>'+w.books.map(function(b){return '<span class="chip bk '+b+'">'+BKN[b]+'</span>'}).join('')+(w.sub?'':'<span class="chip n">Not subscribed</span>')+'<span class="tm" dir="ltr">'+esc(w.tel||'')+'</span></div>'+
+    '<div class="tl" id="mgTl">'+(ms.length?ms.map(function(m){return '<div class="mb '+m.dir+'"><button type="button" class="dl" data-del="'+m.id+'" title="Delete this message">✕</button><p dir="auto">'+esc(m.body)+'</p><time>'+(m.dir==='in'&&m.book?BKN[m.book]+' · ':'')+new Date(m.created).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'</time></div>'}).join(''):'<p class="hint">No messages with this student yet. Write the first one below.</p>')+'</div>'+
+    '<div class="mgf"><textarea id="mgT" placeholder="Write your answer (Arabic or English)…" dir="auto"></textarea><button type="button" class="btn pri" id="mgSend" style="height:56px">Send</button></div>'+
+    (wa?'<p class="hint" style="margin-top:6px">The student sees it in the app\'s notifications. <a href="https://wa.me/'+wa+'" target="_blank" rel="noopener">WhatsApp instead</a></p>':'');
+  var tl=$('mgTl');tl.scrollTop=tl.scrollHeight;
+  if(ms.some(function(m){return m.dir==='in'&&!m.seen}))sb.rpc('obs_admin_msg_seen',{p_tk:MTK}).then(function(){ms.forEach(function(m){m.seen=true});NMSG=MSG.filter(function(m){return m.dir==='in'&&!m.seen}).length;nav();
+    var r=document.querySelector('.mgr.on .un');if(r)r.remove()})}
+$('mgList').addEventListener('click',function(e){var b=e.target.closest('[data-tk]');if(b)mgOpen(b.dataset.tk)});
+$('mgRef').onclick=function(){mgLoad()};
+$('mgTh').addEventListener('click',function(e){var d=e.target.closest('[data-del]');if(d){if(!confirm('Delete this message for you and the student?'))return;sb.rpc('obs_admin_msg_delete',{p_id:+d.dataset.del}).then(function(r){if(r.error){toast('Error: '+r.error.message);return}mgLoad()});return}
+  if(!e.target.closest('#mgSend'))return;var t=$('mgT'),v=t.value.trim(),b=$('mgSend');if(!v){toast('Write the message first');return}b.disabled=true;
+  msgSend(MTK,v).then(function(ok){b.disabled=false;if(ok){t.value='';toast('Sent: the student will see it in the notifications')}})});
+function msgSend(tk,v){return sb.rpc('obs_admin_msg_send',{p_tk:tk,p_body:v}).then(function(r){if(r.error){toast('Error: '+r.error.message);return false}return mgLoad().then(function(){return true})})}
+/* add a subscription of another book to a student: made with the student's name and phone; the student's device in that book joins it with
+   a link number (valid 14 days, once), which is sent to the student in a message at once */
+function addBook(x){var have={};x.codes.forEach(function(c){have[bkOf(c)]=1});var miss=['obs','ped','srg'].filter(function(b){return !have[b]});if(!miss.length){toast('This student has all three books');return}
+  ovl('<b>Add a book for '+esc(x.name)+'</b><div class="form"><label>Book<select id="abB">'+miss.map(function(b){return '<option value="'+b+'">'+BKN[b]+'</option>'}).join('')+'</select></label>'+
+    '<label>Type<select id="abP"><option value="month">Monthly</option><option value="year">Annual</option><option value="life">Lifetime</option></select></label>'+
+    '<div class="full"><button type="button" class="btn pri" id="abGo">Add the subscription</button></div></div><p class="hint">It uses this student\'s name and phone. The student gets a message with a link number to type in that book: Subscription → «مشترك على جهاز آخر؟».</p>');
+  $('abGo').onclick=function(){var bk=$('abB').value,pl=$('abP').value,b=this;b.disabled=true;
+    sb.rpc('obs_admin_add_book',{p_book:bk,p_name:x.name,p_phone:x.tel||'',p_plan:pl}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}var d=r.data||{};
+      if(!d.ok){toast(d.reason==='there'?'This student already has '+BKN[bk]:'Could not add');return}
+      load().then(function(){pinShow(x,bk,pl,d.pin,true)})})}}
+function pinText(bk,pl,pin){return 'أُضيف إلى حسابك اشتراك '+PLA[pl||'month']+' في كتاب '+BKA[bk]+'.\nلتفعيله: افتح كتاب '+BKA[bk]+' ← «الاشتراك» ← «مشترك على جهاز آخر؟» واكتب رقم الربط: '+pin+'\nالرقم صالح 14 يومًا ولمرة واحدة.'}
+function pinShow(x,bk,pl,pin,isNew){var txt=pinText(bk,pl,pin),wa=phoneOf(' · '+(x.tel||''));
+  msgSend(tkOf(x),txt).then(function(ok){
+    ovl('<b>'+(isNew?BKN[bk]+' added for '+esc(x.name):'New link number for '+esc(x.name)+' · '+BKN[bk])+'</b><div class="pinb" dir="ltr">'+pin+'</div>'+
+      '<p class="hint">'+(ok?'The student got this in a message in the app\'s notifications.':'The message could not be sent; copy it below.')+' In '+BKN[bk]+' the student opens Subscription → «مشترك على جهاز آخر؟» and types the number. It works once, for 14 days.</p>'+
+      '<div class="acts"><button type="button" class="btn" id="pnCopy">Copy the message</button>'+(wa?'<a class="btn wa" href="https://wa.me/'+wa+'?text='+encodeURIComponent(txt)+'" target="_blank" rel="noopener">Send on WhatsApp too</a>':'')+'</div>');
+    $('pnCopy').onclick=function(){copy(txt)}})}
+/* Overview (owner, 13 Nov 2026: "how many subscribers in each book and which type of subscription") */
+function ovRender(){var subs=ALL.filter(function(c){return c.plan&&c.plan!=='old'}),bks=['obs','ped','srg'].filter(function(b){return BKF==='all'||BKF===b});
+  function cnt(L,f){return L.filter(f).length}
+  var act=subs.filter(function(c){var s=state(c);return s==='active'||s==='soon'}),stu={};act.forEach(function(c){if(BKF==='all'||bkOf(c)===BKF)stu[ph9(telOf(c))||c.code]=1});
+  var inB=function(c){return BKF==='all'||bkOf(c)===BKF},A=act.filter(inB),S=subs.filter(inB);
+  var h='<div class="ovt"><div class="card"><b>'+A.length+'</b><span>Active subscriptions</span></div><div class="card"><b>'+Object.keys(stu).length+'</b><span>Active students</span></div>'+
+    '<div class="card"><b>'+cnt(S,function(c){return state(c)==='soon'})+'</b><span>Ending in 7 days</span></div><div class="card"><b>'+NWAIT+'</b><span>Waiting requests</span></div></div><div class="ovb">';
+  bks.forEach(function(b){var L=subs.filter(function(c){return bkOf(c)===b}),a=L.filter(function(c){var s=state(c);return s==='active'||s==='soon'}),n=Math.max(a.length,1);
+    function row(lb,v,cl,tot){return '<div class="ovr '+(cl||'')+'"><span>'+lb+'</span><i><s style="width:'+Math.round(100*v/(tot||n))+'%"></s></i><b>'+v+'</b></div>'}
+    var t=Math.max(L.length,1);
+    h+='<div class="card"><h3><span class="chip bk '+b+'">'+BKN[b]+'</span>Active<em>'+a.length+'</em></h3><div class="ovh">Active by type</div>'+
+      row('Monthly',cnt(a,function(c){return c.plan==='month'}))+row('Annual',cnt(a,function(c){return c.plan==='year'}))+row('Lifetime',cnt(a,function(c){return c.plan==='life'}))+
+      '<div class="ovh">All '+L.length+' by state</div>'+row('Active',cnt(L,function(c){return state(c)==='active'}),'st',t)+row('Ending soon',cnt(L,function(c){return state(c)==='soon'}),'so',t)+
+      row('Ended',cnt(L,function(c){return state(c)==='ended'}),'en',t)+row('Switched off',cnt(L,function(c){return state(c)==='off'}),'of',t)+
+      '<div class="ovh">Devices in use</div>'+row('Devices',L.reduce(function(x,c){return x+devs(c).length},0),'',Math.max(L.reduce(function(x,c){return x+(c.maxdev||2)},0),1))+'</div>'});
+  $('ovw').innerHTML=h+'</div>'}
+$('ovw').addEventListener('click',function(){});
 var STN={active:'Active',soon:'Ending soon',ended:'Ended',off:'Switched off'},STC={active:'g',soon:'w',ended:'r',off:'n'};
 function bookRow(c,bk){if(!c)return '<div class="bkrow none"><span class="chip bk '+bk+'">'+BKN[bk]+'</span><span class="hint">Not subscribed</span></div>';
   var st=state(c),d=devs(c);
@@ -249,12 +343,12 @@ function bookRow(c,bk){if(!c)return '<div class="bkrow none"><span class="chip b
     '<div class="acts"><label>Devices <select data-a="max">'+[1,2,3,4,5,6,7,8,9,10].map(function(n){return '<option'+(n===(c.maxdev||2)?' selected':'')+'>'+n+'</option>'}).join('')+'</select></label>'+
     '<label>Type <select data-a="plan">'+[['month','Monthly'],['year','Annual'],['life','Lifetime']].map(function(o){return '<option value="'+o[0]+'"'+(c.plan===o[0]?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select></label>'+
     '<label>Extend <select data-a="ext"><option value="">choose…</option><option value="m">+ 1 month</option><option value="y">+ 1 year</option><option value="life">Never ends</option><option value="now">End now</option></select></label>'+
-    '<button type="button" class="btn" data-a="notes">Notes</button>'+(d.length?'<button type="button" class="btn" data-a="reset">Remove devices</button>':'')+
+    '<button type="button" class="btn" data-a="notes">Notes</button>'+(d.length?'<button type="button" class="btn" data-a="reset">Remove devices</button>':'<button type="button" class="btn" data-s="pin">Link number</button>')+
     (c.active?'<button type="button" class="btn bad" data-a="off">Switch off</button>':'<button type="button" class="btn" data-a="on">Switch on</button>')+'</div></div>'}
 function stuCard(x){var by={};x.codes.forEach(function(c){var b=bkOf(c);if(!by[b])by[b]=c});var wa=phoneOf(x.codes[0].note),nb=Object.keys(by).length;
   return '<div class="card stu" data-k="'+esc(x.k)+'"><div class="r1"><span class="nm" dir="auto">'+esc(x.name)+'</span><span class="chip">'+nb+' book'+(nb===1?'':'s')+'</span><span class="tm" dir="ltr">'+esc(x.tel||'')+'</span></div>'+
     ['obs','ped','srg'].filter(function(b){return by[b]}).map(function(b){return bookRow(by[b],b)}).join('')+
-    '<div class="acts">'+(wa?'<button type="button" class="btn wa" data-s="wa" data-p="'+wa+'">WhatsApp</button>':'')+'<button type="button" class="btn" data-s="notes">All notes</button><button type="button" class="btn" data-s="edit">Edit name / phone</button></div></div>'}
+    '<div class="acts">'+(wa?'<button type="button" class="btn wa" data-s="wa" data-p="'+wa+'">WhatsApp</button>':'')+'<button type="button" class="btn pri" data-s="msg">Message</button>'+(nb<3?'<button type="button" class="btn" data-s="addbk">Add a book</button>':'')+'<button type="button" class="btn" data-s="notes">All notes</button><button type="button" class="btn" data-s="edit">Edit name / phone</button></div></div>'}
 function sbRender(){var q=$('find').value.trim().toLowerCase(),all=students(),rows=all.filter(function(x){
     if(BKF!=='all'&&!x.codes.some(function(c){return bkOf(c)===BKF}))return false;
     if(SBF!=='all'&&!x.codes.some(function(c){var s=state(c);return SBF===s||(SBF==='active'&&s==='soon')}))return false;
@@ -262,6 +356,10 @@ function sbRender(){var q=$('find').value.trim().toLowerCase(),all=students(),ro
   $('sbList').innerHTML=rows.length?rows.map(stuCard).join(''):'<p class="empty">'+(all.length?'No student matches.':'No subscribers yet. They appear here when you approve a request or give a subscription.')+'</p>'}
 $('sbList').addEventListener('click',function(e){var b=e.target.closest('button[data-s]');if(!b)return;var x=students().filter(function(y){return y.k===b.closest('.stu').dataset.k})[0];if(!x)return;
   if(b.dataset.s==='wa'){window.open('https://wa.me/'+b.dataset.p,'_blank');return}
+  if(b.dataset.s==='msg'){go('msg');mgOpen(tkOf(x));return}
+  if(b.dataset.s==='addbk'){addBook(x);return}
+  if(b.dataset.s==='pin'){var pc=b.closest('.bkrow').dataset.c,pcc=ALL.filter(function(y){return y.code===pc})[0];b.disabled=true;
+    sb.rpc('obs_admin_pin',{p_code:pc}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}pinShow(x,bkOf(pcc),pcc.plan,r.data,false)});return}
   if(b.dataset.s==='edit'){var v=prompt('Name · phone (all books of this student)',x.codes[0].note||'');if(v===null)return;
     x.codes.reduce(function(p,c){return p.then(function(){return sb.rpc('obs_admin_note',{p_code:c.code,p_note:v})})},Promise.resolve()).then(function(){toast('Saved');return load()});return}
   if(b.dataset.s==='notes'){b.disabled=true;Promise.all(x.codes.map(function(c){return sb.rpc('obs_admin_notes',{p_code:c.code}).then(function(r){return {c:c,n:r.data||[]}})})).then(function(R){b.disabled=false;

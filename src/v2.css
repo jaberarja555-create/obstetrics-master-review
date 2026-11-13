@@ -807,3 +807,18 @@ html[data-lang="en"] #v2homeW .hq small{display:none}   /* the English subtitle 
 #cards .fc:not(.flip) .face.a,#cards .fc.flip .face.q{pointer-events:none}
 /* undo and redo belong to the pen, text and marker bars only (owner, 13 Nov 2026: not a separate pill in the tools ring) */
 #reader .rbar>.urw{display:none!important}
+/* messages with the administration (owner, 13 Nov 2026) */
+.nfm{margin-bottom:10px}
+.msgw{display:flex;flex-direction:column;gap:10px;padding:12px}
+.msl{display:flex;flex-direction:column;gap:8px;max-height:min(62vh,560px);min-height:180px;overflow-y:auto;padding:4px 2px;overscroll-behavior:contain}
+.msb{max-width:84%;padding:9px 12px 6px;border-radius:16px;line-height:1.55;font-size:15px;word-wrap:break-word}
+.msb p{margin:0;white-space:normal}
+.msb b{display:block;font-size:12px;color:var(--pri);margin-bottom:2px}
+.msb time{display:block;font-size:11px;opacity:.7;margin-top:3px}
+.msb.me{align-self:flex-start;background:var(--pri);color:var(--pon);border-end-start-radius:6px}
+.msb.ad{align-self:flex-end;background:var(--sel);color:var(--tx);border:1px solid var(--bd);border-end-end-radius:6px}
+.msemp{text-align:center;margin:auto 8px}
+.msf{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}
+.msf textarea{width:100%;min-height:52px;max-height:160px;resize:vertical;border:1px solid var(--bd);border-radius:14px;padding:10px 12px;font:inherit;font-size:15px;background:var(--bg);color:var(--tx)}
+.msf .v2btn{height:52px;padding:0 20px}
+#msM:empty{display:none}
