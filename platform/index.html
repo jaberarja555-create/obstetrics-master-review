@@ -28,15 +28,36 @@ window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();win
 <div class="bgfx" aria-hidden="true"></div>
 <header class="top" id="top"></header>
 <main id="main" tabindex="-1"><noscript><p style="padding:24px">Student Master Review needs JavaScript. You can open the books directly:
-<a href="https://surgery-master-review.jaberarja555.workers.dev/">Surgery</a> ·
-<a href="https://obstetrics-master-review.pages.dev/">Obstetrics</a> ·
-<a href="https://pediatrics-master-review.jaberarja555.workers.dev/">Pediatrics</a></p></noscript></main>
+<a href="https://srg.studentmasterreview.com/">Surgery</a> ·
+<a href="https://obs.studentmasterreview.com/">Obstetrics</a> ·
+<a href="https://ped.studentmasterreview.com/">Pediatrics</a></p></noscript></main>
 <nav class="bnav" id="bnav"></nav>
 <section class="apps" id="apps" hidden aria-label="Book"><div class="aframes" id="aframes"></div></section>
 <dialog class="sheet" id="sheet"></dialog>
 <div class="wel" id="wel" hidden role="dialog" aria-modal="true" aria-labelledby="welT"><div class="wcard" id="wcard"></div></div>
-<script src="js/catalogue.js?v=28"></script>
+<script>
+/* New address (owner, 13 Nov 2026: Sudanese networks break the HTTP/3 connection that *.pages.dev always uses; studentmasterreview.com has it
+   switched off). Opened on the old address, the platform first asks each book (old addresses, from this phone's saved copies) for its device
+   identity, then moves to the new address carrying it and the platform's own settings after the # (never sent to a server). */
+(function(){if(location.hostname!=='student-master-review.pages.dev')return;window.__smrOld=1;
+  var NEW='https://studentmasterreview.com/',BK={obstetrics:'https://obstetrics-master-review.pages.dev/',surgery:'https://surgery-master-review.jaberarja555.workers.dev/',pediatrics:'https://pediatrics-master-review.jaberarja555.workers.dev/'},
+    got={},done=false,en=false;try{en=JSON.parse(localStorage.getItem('smr-lang')||'null')==='en'}catch(e){}
+  function b64(o){return encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(o)))))}
+  function go(){if(done)return;done=true;var p={},n=0;try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i),v=localStorage.getItem(k);
+      if(k.indexOf('smr-')===0&&!/^smr-(st-|move-)/.test(k)&&v!=null&&v.length<150000){p[k]=v;n++}}}catch(e){}
+    var h='#home';Object.keys(got).forEach(function(id){h+='~move-'+id+'='+got[id]});if(n)h+='~plat='+b64(p);
+    location.replace(NEW+h)}
+  window.addEventListener('message',function(e){var d=e.data;if(!d||d.smr!=='ident'||!BK[d.id]||e.origin+'/'!==BK[d.id])return;if(d.b)got[d.id]=d.b;else got[d.id]=got[d.id]||'';
+    if(Object.keys(got).length===3)setTimeout(go,200)});
+  document.addEventListener('DOMContentLoaded',function(){var d=document.createElement('div');d.id='smrNew';
+    d.innerHTML='<div><img src="icon-192.png" alt=""><b>'+(en?'Student Master Review has a new address':'تطبيق Student Master Review في عنوان جديد')+'</b><span>'+(en?'studentmasterreview.com · saving your notes and moving you…':'studentmasterreview.com · جارٍ حفظ ملاحظاتك والانتقال…')+'</span><i></i><button type="button">'+(en?'Continue now':'متابعة الآن')+'</button></div>';
+    var s=document.createElement('style');s.textContent='#smrNew{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;background:#f7f3ec;font:600 15px/1.5 system-ui,-apple-system,"Segoe UI",Cairo,sans-serif;color:#142a4c;text-align:center;padding:24px}#smrNew div{display:flex;flex-direction:column;align-items:center;gap:10px;max-width:340px}#smrNew img{width:84px;height:84px;border-radius:22px}#smrNew b{font-size:18px}#smrNew span{color:#55617a}#smrNew i{width:28px;height:28px;border-radius:50%;border:3px solid #11807a33;border-top-color:#11807a;animation:smrnw .9s linear infinite}#smrNew button{margin-top:14px;border:0;border-radius:12px;padding:10px 18px;font:inherit;background:#11807a;color:#fff;opacity:0;transition:opacity .3s}#smrNew button.on{opacity:1}@keyframes smrnw{to{transform:rotate(360deg)}}iframe.smrid{position:fixed;width:1px;height:1px;left:-9px;top:-9px;opacity:0;border:0}';
+    document.head.appendChild(s);document.body.appendChild(d);var bt=d.querySelector('button');bt.onclick=go;setTimeout(function(){bt.className='on'},8000);
+    Object.keys(BK).forEach(function(id){var f=document.createElement('iframe');f.className='smrid';f.setAttribute('aria-hidden','true');f.tabIndex=-1;f.src=BK[id]+'#smr-ident';document.body.appendChild(f)});
+    setTimeout(go,30000)})})();
+</script>
+<script src="js/catalogue.js?v=29"></script>
 <script src="js/i18n.js?v=26"></script>
-<script src="js/app.js?v=32"></script>
+<script src="js/app.js?v=33"></script>
 </body>
 </html>

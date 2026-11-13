@@ -1,5 +1,5 @@
 # Student Master Review platform (owner, 11 Nov 2026): the static site in platform/ is deployed to its OWN Cloudflare Pages
-# project "student-master-review" (https://student-master-review.pages.dev). The three book apps are not touched.
+# project "student-master-review" (https://student-master-review.pages.dev; students use https://studentmasterreview.com). The three book apps are not touched.
 # Push to main  → live address.  Push to any other branch → preview address https://<branch>.student-master-review.pages.dev
 # Uses the same secrets as deploy.yml (CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID). No build step: platform/ is published as it is.
 name: Deploy Student Master Review

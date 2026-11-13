@@ -458,3 +458,17 @@ Measured on a simulated mid-range phone (Chromium, CPU 4x slower): start 3.1 s �
 - **Deleting subscriptions (owner, 13 Nov 2026: "there is no delete option"):** every book row on a student card has «Delete» (`obs_admin_delete`:
   the subscription, its devices, link numbers and synced notes; a second confirmation when devices use it), and a student with more than one
   book has «Delete student» (all of them).
+
+## New address studentmasterreview.com (owner, 13 Nov 2026: "students in Sudan report the link is not working", ERR_QUIC_PROTOCOL_ERROR)
+Some Sudanese networks break HTTP/3 (QUIC), which *.pages.dev / *.workers.dev always offer. The owner bought studentmasterreview.com in
+Cloudflare and switched **HTTP/3 (with QUIC) off** for it (Speed → Settings → Protocol Optimization). Addresses: platform
+https://studentmasterreview.com (Pages project student-master-review), books https://obs.studentmasterreview.com (Pages obstetrics-master-review),
+https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Workers, custom domains). **Use these in all new links.**
+- Moving the students (a phone keeps its data per address): the platform's old address (index.html, `window.__smrOld`; app.js does nothing
+  there) loads each book's OLD address in a hidden frame with `#smr-ident`; the book (end script of src/shell.html, same in the three books)
+  saves what is not online and posts `{smr:'ident',id,b}` (its identity keys) to https://student-master-review.pages.dev only; then the platform
+  moves to `https://studentmasterreview.com/#home~move-<book>=…~plat=<smr-* settings>` (after 3 answers, or 30 s; «متابعة الآن» after 8 s).
+  The new platform imports `~plat` (keys not already set, setup kept) and hands each book its identity as before (`smr-move-<book>`).
+  A book opened on its own address (old or new) moves to https://studentmasterreview.com with its identity. Tested in Chromium with all eight
+  hosts routed to local builds: device numbers, names and settings arrive. A student whose move carried nothing can still join with
+  «مشترك على جهاز آخر» (owner approves with «Link to…»).

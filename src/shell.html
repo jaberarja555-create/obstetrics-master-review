@@ -10,9 +10,9 @@
     if(!mine)Object.keys(o).forEach(function(k){if(k.indexOf(PX+'-')===0&&typeof o[k]==='string')localStorage.setItem(k,o[k])});
     history.replaceState(null,'',location.pathname+location.search+(o.__code?'#code='+o.__code:''))}}catch(e){}
   var top=true;try{top=window.top===window.self}catch(e){top=false}
-  if(top&&/^(obstetrics-master-review\.pages\.dev|surgery-master-review\.jaberarja555\.workers\.dev|pediatrics-master-review\.jaberarja555\.workers\.dev)$/.test(location.hostname)){window.__smrMove=1;var en=false;try{en=localStorage.getItem(PX+'-lang')==='en'}catch(e){}
+  if(top&&/^(obstetrics-master-review\.pages\.dev|surgery-master-review\.jaberarja555\.workers\.dev|pediatrics-master-review\.jaberarja555\.workers\.dev|(obs|srg|ped)\.studentmasterreview\.com)$/.test(location.hostname)){window.__smrMove=1;var en=false;try{en=localStorage.getItem(PX+'-lang')==='en'}catch(e){}
     document.addEventListener('DOMContentLoaded',function(){var d=document.createElement('div');d.id='smrMove';d.setAttribute('role','status');
-      d.innerHTML='<div><img src="https://student-master-review.pages.dev/icon-192.png" alt=""><b>'+(en?'This book now opens inside Student Master Review':'الكتاب الآن داخل تطبيق Student Master Review')+'</b><span>'+(en?'Saving your notes and moving you…':'جارٍ حفظ ملاحظاتك والانتقال…')+'</span><i></i></div>';
+      d.innerHTML='<div><img src="https://studentmasterreview.com/icon-192.png" alt=""><b>'+(en?'This book now opens inside Student Master Review':'الكتاب الآن داخل تطبيق Student Master Review')+'</b><span>'+(en?'Saving your notes and moving you…':'جارٍ حفظ ملاحظاتك والانتقال…')+'</span><i></i></div>';
       var s=document.createElement('style');s.textContent='#smrMove{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;background:#f7f3ec;font:600 15px/1.5 system-ui,-apple-system,"Segoe UI",Cairo,sans-serif;color:#142a4c;text-align:center;padding:24px}#smrMove div{display:flex;flex-direction:column;align-items:center;gap:10px;max-width:340px}#smrMove img{width:84px;height:84px;border-radius:22px}#smrMove b{font-size:18px}#smrMove span{color:#55617a}#smrMove i{width:28px;height:28px;border-radius:50%;border:3px solid #11807a33;border-top-color:#11807a;animation:smrsp 0.9s linear infinite}@keyframes smrsp{to{transform:rotate(360deg)}}';
       document.head.appendChild(s);document.body.appendChild(d)})}})();
 </script><script>
@@ -3578,11 +3578,14 @@ refreshCont();
 <script>
 /* One app (owner, 12 Nov 2026): opened on its own address, the book saves what is not yet online, then opens inside Student Master Review,
    carrying the device identity in the link (never to a server: it is after the #). */
-(function(){if(!window.__smrMove)return;var PX='orr',ID='obstetrics',KEYS=["orr-dev", "orr-code", "orr-trial", "orr-chz", "orr-name", "orr-sname", "orr-lang", "orr-mode", "orr-pal", "orr-tel", "orr-req"],done=false;
+/* (owner, 13 Nov 2026: new address studentmasterreview.com) the platform's old address asks this book, in a hidden frame, for its identity
+   (#smr-ident): the same keys are sent to that parent only, after saving what is not yet online. */
+(function(){var IDT=false;try{IDT=window.top!==window.self&&/smr-ident/.test(location.hash)}catch(e){}if(!window.__smrMove&&!IDT)return;var PX='orr',ID='obstetrics',KEYS=["orr-dev", "orr-code", "orr-trial", "orr-chz", "orr-name", "orr-sname", "orr-lang", "orr-mode", "orr-pal", "orr-tel", "orr-req"],done=false;
   function go(){if(done)return;done=true;var o={},n=0;KEYS.forEach(function(k){try{var v=localStorage.getItem(k);if(v!=null&&v.length<4000){o[k]=v;n++}}catch(e){}});
     var lc=(location.hash.match(/code=([A-Za-z0-9-]{11,16})/)||[])[1];if(lc){o.__code=lc;n++}   // an activation link from WhatsApp keeps its code
     var b=n?encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(o))))):'';
-    location.replace('https://student-master-review.pages.dev/#home'+(b?'~move-'+ID+'='+b:'')) /* the platform's Home first (owner, 12 Nov 2026) */}
+    if(IDT){try{parent.postMessage({smr:'ident',id:ID,b:b},'https://student-master-review.pages.dev')}catch(e){}return}
+    location.replace('https://studentmasterreview.com/#home'+(b?'~move-'+ID+'='+b:'')) /* the platform's Home first (owner, 12 Nov 2026) */}
   var p=null;try{var a=window.__autoSync;if(a&&a.now&&navigator.onLine!==false)p=a.now()}catch(e){}
   if(p&&p.then)Promise.race([p,new Promise(function(r){setTimeout(r,8000)})]).then(function(){setTimeout(go,300)},go);else setTimeout(go,1500)})();
 </script>
@@ -3592,7 +3595,7 @@ refreshCont();
 (function(){
   var inFrame; try { inFrame = window.top !== window.self; } catch (e) { inFrame = true; }
   if (!inFrame) return;
-  var OK = /^https:\/\/([a-z0-9-]+\.)*student-master-review\.pages\.dev$|^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+  var OK = /^https:\/\/([a-z0-9-]+\.)*student-master-review\.pages\.dev$|^https:\/\/studentmasterreview\.com$|^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
   var org = '';
   try { var ao = location.ancestorOrigins; if (ao && ao.length) org = ao[0]; } catch (e) {}
   if (!org) { try { org = sessionStorage.getItem('smr-parent') || ''; } catch (e) {} }

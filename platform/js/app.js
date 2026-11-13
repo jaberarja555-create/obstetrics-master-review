@@ -3,6 +3,7 @@
    Available books are plain links to their existing apps (same tab); nothing here touches their data. */
 (function () {
   'use strict';
+  if (window.__smrOld) return;   // the old address only moves the student to studentmasterreview.com (index.html)
   var S = window.SMR, T = S.T;
 
   /* ---------- device storage (every read/write guarded) ---------- */
@@ -443,7 +444,15 @@
      the book's hand-over waits on this device until that book is opened (or loaded in the background) here. */
   function moveGet(id) { try { return localStorage.getItem('smr-move-' + id); } catch (e) { return null; } }
   function moveDel(id) { try { localStorage.removeItem('smr-move-' + id); } catch (e) {} }
-  (function () { var h = location.hash, m = h.match(/^#([a-z-]*)~move-([a-z-]+)=(.+)$/) || h.match(/^#read-([a-z-]+)~move=(.+)$/), id, v;
+  /* owner, 13 Nov 2026: coming from the old address of the platform, its settings (~plat=) and every book's identity (~move-<book>=) arrive
+     together; the settings are kept as they were, so the greeting and setup steps are not asked again. */
+  (function () { var h = location.hash, pm = h.match(/~plat=([^~]+)/), any = false, re = /~move-([a-z-]+)=([^~]+)/g, x;
+    if (pm) { try { var o = JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(pm[1]))))); Object.keys(o).forEach(function (k) {
+      if (k.indexOf('smr-') === 0 && typeof o[k] === 'string' && localStorage.getItem(k) == null) localStorage.setItem(k, o[k]); }); } catch (e) {} }
+    while ((x = re.exec(h))) { if (x[2]) { MOVE[x[1]] = x[2]; try { localStorage.setItem('smr-move-' + x[1], x[2]); } catch (e) {} } any = true; }
+    if (!pm) return;
+    MOVED = true; try { history.replaceState(null, '', location.pathname + location.search + '#home'); } catch (e) {} })();
+  (function () { if (MOVED) return; var h = location.hash, m = h.match(/^#([a-z-]*)~move-([a-z-]+)=(.+)$/) || h.match(/^#read-([a-z-]+)~move=(.+)$/), id, v;
     if (!m) return; if (m.length === 4) { id = m[2]; v = m[3]; } else { id = m[1]; v = m[2]; }
     MOVE[id] = v; try { localStorage.setItem('smr-move-' + id, v); } catch (e) {}
     /* owner, 12 Nov 2026: someone coming from an old book link or book app gets the main app exactly as on a first opening:
@@ -455,7 +464,7 @@
      old address also shows the note that the books now open here. */
   (function () { if (!/^#read-/.test(location.hash)) return;
     var ref = ''; try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) {}
-    if (/^(obstetrics-master-review\.pages\.dev|surgery-master-review\.jaberarja555\.workers\.dev|pediatrics-master-review\.jaberarja555\.workers\.dev)$/.test(ref)) {
+    if (/^(obstetrics-master-review\.pages\.dev|surgery-master-review\.jaberarja555\.workers\.dev|pediatrics-master-review\.jaberarja555\.workers\.dev|(obs|srg|ped)\.studentmasterreview\.com)$/.test(ref)) {
       MOVED = true; try { sessionStorage.removeItem('smr-wel'); } catch (e) {} LS.del('setup'); LS.del('setup-app'); }
     try { history.replaceState(null, '', location.pathname + location.search + '#home'); } catch (e) {} })();
   function readBack(b) { return state.readFrom && state.readFrom !== 'read' ? state.readFrom : b.section; }
