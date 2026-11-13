@@ -40,6 +40,14 @@ jobs:
           check https://ped.studentmasterreview.com/sw.js "ASSETS=\[\"./\"" "Pediatrics: saves all files"
           check https://srg.studentmasterreview.com/sw.js "ASSETS=\[\"./\"" "Surgery: saves all files"
           check https://studentmasterreview.com/js/app.js "older move" "Platform: a book address opens Home first"
+          check https://srg.studentmasterreview.com/ "obs_set_name" "Surgery: today's changes (name online)"
+          check https://ped.studentmasterreview.com/ "obs_set_name" "Pediatrics: today's changes (name online)"
+          check https://obs.studentmasterreview.com/ "obs_set_name" "Obstetrics: today's changes (name online)"
+          check https://surgery-master-review.jaberarja555.workers.dev/ "obs_set_name" "Surgery workers.dev: today's changes"
+          check https://pediatrics-master-review.jaberarja555.workers.dev/ "obs_set_name" "Pediatrics workers.dev: today's changes"
+          check https://srg.studentmasterreview.com/ "is optional" "Surgery: OLD optional text still served"
+          echo "--- surgery sw version:"; curl -fsSL https://srg.studentmasterreview.com/sw.js | head -c 300; echo
+          echo "--- surgery page headers:"; curl -sSI https://srg.studentmasterreview.com/ | grep -i "cache\|etag\|last-mod\|age"
           check https://srg.studentmasterreview.com/ "retired bottom bar" "Surgery: no empty band under the reader"
       - name: The shared subscription answers (read-only; an invalid device id, so nothing is written)
         run: |
