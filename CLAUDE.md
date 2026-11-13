@@ -455,3 +455,6 @@ Measured on a simulated mid-range phone (Chromium, CPU 4x slower): start 3.1 s �
   and the request card offers «Link to…» (search the book's subscriptions by name / phone / code, `obs_admin_link`: same book only, device
   count raised when full) and «New subscription» with a plan (`obs_admin_decide` with p_plan month/year/life on a device request = a new
   subscription for that device). «Approve» shows only when a subscription with that phone exists and names it.
+- **Deleting subscriptions (owner, 13 Nov 2026: "there is no delete option"):** every book row on a student card has «Delete» (`obs_admin_delete`:
+  the subscription, its devices, link numbers and synced notes; a second confirmation when devices use it), and a student with more than one
+  book has «Delete student» (all of them).

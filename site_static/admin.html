@@ -387,11 +387,11 @@ function bookRow(c,bk){if(!c)return '<div class="bkrow none"><span class="chip b
     '<label>Type <select data-a="plan">'+[['month','Monthly'],['year','Annual'],['life','Lifetime']].map(function(o){return '<option value="'+o[0]+'"'+(c.plan===o[0]?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select></label>'+
     '<label>Extend <select data-a="ext"><option value="">choose…</option><option value="m">+ 1 month</option><option value="y">+ 1 year</option><option value="life">Never ends</option><option value="now">End now</option></select></label>'+
     '<button type="button" class="btn" data-a="notes">Notes</button>'+(d.length?'<button type="button" class="btn" data-a="reset">Remove devices</button>':'<button type="button" class="btn" data-s="pin">Link number</button>')+
-    (c.active?'<button type="button" class="btn bad" data-a="off">Switch off</button>':'<button type="button" class="btn" data-a="on">Switch on</button>')+'</div></div>'}
+    (c.active?'<button type="button" class="btn bad" data-a="off">Switch off</button>':'<button type="button" class="btn" data-a="on">Switch on</button>')+'<button type="button" class="btn bad" data-a="del">Delete</button></div></div>'}
 function stuCard(x){var by={};x.codes.forEach(function(c){var b=bkOf(c);if(!by[b])by[b]=c});var wa=phoneOf(x.codes[0].note),nb=Object.keys(by).length;
   return '<div class="card stu" data-k="'+esc(x.k)+'"><div class="r1"><span class="nm" dir="auto">'+esc(x.name)+'</span><span class="chip">'+nb+' book'+(nb===1?'':'s')+'</span><span class="tm" dir="ltr">'+esc(x.tel||'')+'</span></div>'+
     ['obs','ped','srg'].filter(function(b){return by[b]}).map(function(b){return bookRow(by[b],b)}).join('')+
-    '<div class="acts">'+(wa?'<button type="button" class="btn wa" data-s="wa" data-p="'+wa+'">WhatsApp</button>':'')+'<button type="button" class="btn pri" data-s="msg">Message</button>'+(nb<3?'<button type="button" class="btn" data-s="addbk">Add a book</button>':'')+'<button type="button" class="btn" data-s="notes">All notes</button><button type="button" class="btn" data-s="edit">Edit name / phone</button></div></div>'}
+    '<div class="acts">'+(wa?'<button type="button" class="btn wa" data-s="wa" data-p="'+wa+'">WhatsApp</button>':'')+'<button type="button" class="btn pri" data-s="msg">Message</button>'+(nb<3?'<button type="button" class="btn" data-s="addbk">Add a book</button>':'')+'<button type="button" class="btn" data-s="notes">All notes</button><button type="button" class="btn" data-s="edit">Edit name / phone</button>'+(nb>1?'<button type="button" class="btn bad" data-s="delall">Delete student</button>':'')+'</div></div>'}
 function sbRender(){var q=$('find').value.trim().toLowerCase(),all=students(),rows=all.filter(function(x){
     if(BKF!=='all'&&!x.codes.some(function(c){return bkOf(c)===BKF}))return false;
     if(SBF!=='all'&&!x.codes.some(function(c){var s=state(c);return SBF===s||(SBF==='active'&&s==='soon')}))return false;
@@ -401,6 +401,11 @@ $('sbList').addEventListener('click',function(e){var b=e.target.closest('button[
   if(b.dataset.s==='wa'){window.open('https://wa.me/'+b.dataset.p,'_blank');return}
   if(b.dataset.s==='msg'){go('msg');mgOpen(tkOf(x));return}
   if(b.dataset.s==='addbk'){addBook(x);return}
+  if(b.dataset.s==='delall'){var nd=x.codes.reduce(function(n,c){return n+devs(c).length},0);
+    if(!confirm('Delete '+x.name+' completely?\nAll '+x.codes.length+' subscriptions ('+x.codes.map(function(c){return BKN[bkOf(c)]}).join(', ')+') are deleted with their synced notes. This cannot be undone.'))return;
+    if(nd&&!confirm(x.name+' has '+nd+' device'+(nd===1?'':'s')+' using these books. They lose the full books next time they are online. Delete anyway?'))return;
+    b.disabled=true;x.codes.reduce(function(p,c){return p.then(function(){return sb.rpc('obs_admin_delete',{p_code:c.code}).then(function(r){if(r.error)throw r.error})})},Promise.resolve())
+      .then(function(){toast('Deleted');return load()},function(er){b.disabled=false;toast('Error: '+er.message);load()});return}
   if(b.dataset.s==='pin'){var pc=b.closest('.bkrow').dataset.c,pcc=ALL.filter(function(y){return y.code===pc})[0];b.disabled=true;
     sb.rpc('obs_admin_pin',{p_code:pc}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}pinShow(x,bkOf(pcc),pcc.plan,r.data,false)});return}
   if(b.dataset.s==='edit'){var v=prompt('Name · phone (all books of this student)',x.codes[0].note||'');if(v===null)return;
@@ -428,7 +433,9 @@ function codeAct(e){var s=e.target.closest('select[data-a]'),b=e.target.closest(
   if(a==='reset'&&confirm('Remove the devices of '+nameOf(c2)+'?\nThose devices lose the full book next time they are online; the student can then add devices again from the app.'))call('obs_admin_reset',{p_code:code2},'Devices removed');
   if(a==='off'&&confirm('Switch off '+nameOf(c2)+'?\nThe full book stops on their devices next time they are online.'))call('obs_admin_active',{p_code:code2,p_on:false},'Switched off');
   if(a==='on')call('obs_admin_active',{p_code:code2,p_on:true},'Switched on');
-  if(a==='del'&&confirm('Delete '+code2+' ('+nameOf(c2)+') completely?\nIts devices lose the full book and its synced notes are deleted. This cannot be undone.'))call('obs_admin_delete',{p_code:code2},'Deleted')}
+  if(a==='del'){var nd2=devs(c2).length;if(!confirm('Delete the '+BKN[bkOf(c2)]+' subscription of '+nameOf(c2)+' ('+code2+')?\nIt is removed completely with its synced notes. This cannot be undone.'))return;
+    if(nd2&&!confirm('It is used on '+nd2+' device'+(nd2===1?'':'s')+'. They lose the full book next time they are online. Delete anyway?'))return;
+    call('obs_admin_delete',{p_code:code2},'Deleted')}}
 function wkCodeAct(e,s,b,it){var bk=it.dataset.w,code=it.dataset.c,c=oc(code);if(!c)return;
   if(e.type==='change'&&s&&s.dataset.a==='wmax'){wkAct(bk,code,'max',{max:+s.value},nameOf(c)+' can now open '+s.value+' device'+(s.value==='1'?'':'s'));return}
   if(e.type!=='click'||!b)return;var a=b.dataset.a;
