@@ -283,6 +283,22 @@ function students(){var m={},L=[];ALL.filter(function(c){return c.plan&&c.plan!=
 /* a device request («subscribed on another device»): the subscription of the same book whose note carries the phone number */
 function phMatch(r){var k=ph9(r.phone);if(!k)return null;return ALL.filter(function(c){return bkOf(c)===bkOf(r)&&c.plan&&c.plan!=='old'&&c.active&&(!c.expires||new Date(c.expires)>new Date())&&String(c.note||'').replace(/[^0-9]/g,'').indexOf(k)>=0})[0]||null}
 /* the owner picks the student's subscription himself (another phone number was given) */
+/* two cards are the same student (owner, 13 Nov 2026): this card's subscriptions take the other card's name and phone, so they show as one
+   student (cards are grouped by phone) and share one conversation */
+function joinPick(x){
+  ovl('<h3 style="margin:0">Same person as…</h3><p class="hint" style="margin:0">Find the other card of <b dir="auto">'+esc(x.name)+'</b>. Its name and phone are given to '+(x.codes.length>1?'all '+x.codes.length+' subscriptions':'the subscription')+' of this card, and the two show as one student.</p>'+
+    '<input id="jnQ" class="inp" dir="auto" placeholder="Name, phone or code"><div id="jnL" class="lkl"></div>');
+  function draw(){var ws=$('jnQ').value.toLowerCase().split(/\s+/).filter(function(w){return w.length>1}),L=students().filter(function(y){if(y.k===x.k)return false;
+      var t=y.codes.map(function(c){return (c.note||'')+' '+c.code+' '+(c.note||'').replace(/[^0-9]/g,'')}).join(' ').toLowerCase();return ws.every(function(w){return t.indexOf(w)>=0})}).slice(0,40);
+    $('jnL').innerHTML=ws.length?(L.length?L.map(function(y){return '<div class="card lkr"><span class="lkn"><b dir="auto">'+esc(y.name)+'</b><small dir="ltr">'+esc(y.tel||'no phone')+'</small><small>'+y.codes.map(function(c){return BKN[bkOf(c)]}).join(' · ')+'</small></span><button type="button" class="btn pri" data-j="'+esc(y.k)+'">Join</button></div>'}).join('')
+      :'<p class="empty" style="margin:0">No student matches.</p>'):'<p class="hint" style="margin:0">Type part of the name or the phone number.</p>'}
+  $('jnQ').oninput=draw;draw();setTimeout(function(){try{$('jnQ').focus()}catch(e){}},50);
+  $('jnL').onclick=function(e){var b=e.target.closest('button[data-j]');if(!b)return;var y=students().filter(function(z){return z.k===b.dataset.j})[0];if(!y)return;
+    var nt=y.codes[0].note||'';if(!ph9(telOf(y.codes[0]))){nt=prompt('The other card has no phone number either. Write the name · phone for both (for example: Areej · 0912345678)',nt);if(!nt)return}
+    var both=x.codes.filter(function(c){return y.codes.some(function(d){return bkOf(d)===bkOf(c)})});
+    if(both.length&&!confirm('Both cards have '+both.map(function(c){return BKN[bkOf(c)]}).join(', ')+'. The joined card shows one of them; you can delete the other afterwards. Join anyway?'))return;
+    b.disabled=true;x.codes.concat(ph9(telOf(y.codes[0]))?[]:y.codes).reduce(function(p,c){return p.then(function(){return sb.rpc('obs_admin_note',{p_code:c.code,p_note:nt}).then(function(r){if(r.error)throw r.error})})},Promise.resolve())
+      .then(function(){$('ovl').hidden=true;toast('Joined: one student now');return load()},function(er){b.disabled=false;toast('Error: '+er.message)})}}
 function linkPick(r){var bk=bkOf(r);
   ovl('<h3 style="margin:0">Link this device to a subscription</h3><p class="hint" style="margin:0"><b dir="auto">'+esc(r.name)+'</b> · <span dir="ltr">'+esc(r.phone)+'</span> asks to join a '+BKN[bk]+' subscription from another device. Find the student\'s '+BKN[bk]+' subscription (name, phone or code):</p>'+
     '<input id="lkQ" class="inp" dir="auto" value="'+esc(r.name)+'" placeholder="Name, phone or code"><div id="lkL" class="lkl"></div>');
@@ -400,7 +416,7 @@ function bookRow(c,bk){if(!c)return '<div class="bkrow none"><span class="chip b
 function stuCard(x){var by={};x.codes.forEach(function(c){var b=bkOf(c);if(!by[b])by[b]=c});var wa=phoneOf(x.codes[0].note),nb=Object.keys(by).length;
   return '<div class="card stu" data-k="'+esc(x.k)+'"><div class="r1"><span class="nm" dir="auto">'+esc(x.name)+'</span><span class="chip">'+nb+' book'+(nb===1?'':'s')+'</span><span class="tm" dir="ltr">'+esc(x.tel||'')+'</span></div>'+
     ['obs','ped','srg'].filter(function(b){return by[b]}).map(function(b){return bookRow(by[b],b)}).join('')+
-    '<div class="acts">'+(wa?'<button type="button" class="btn wa" data-s="wa" data-p="'+wa+'">WhatsApp</button>':'')+'<button type="button" class="btn pri" data-s="msg">Message</button>'+(nb<3?'<button type="button" class="btn" data-s="addbk">Add a book</button>':'')+'<button type="button" class="btn" data-s="notes">All notes</button><button type="button" class="btn" data-s="edit">Edit name / phone</button>'+(nb>1?'<button type="button" class="btn bad" data-s="delall">Delete student</button>':'')+'</div></div>'}
+    '<div class="acts">'+(wa?'<button type="button" class="btn wa" data-s="wa" data-p="'+wa+'">WhatsApp</button>':'')+'<button type="button" class="btn pri" data-s="msg">Message</button>'+(nb<3?'<button type="button" class="btn" data-s="addbk">Add a book</button>':'')+'<button type="button" class="btn" data-s="notes">All notes</button><button type="button" class="btn" data-s="join">Same person as…</button><button type="button" class="btn" data-s="edit">Edit name / phone</button>'+(nb>1?'<button type="button" class="btn bad" data-s="delall">Delete student</button>':'')+'</div></div>'}
 function sbRender(){var q=$('find').value.trim().toLowerCase(),all=students(),rows=all.filter(function(x){
     if(BKF!=='all'&&!x.codes.some(function(c){return bkOf(c)===BKF}))return false;
     if(SBF!=='all'&&!x.codes.some(function(c){var s=state(c);return SBF===s||(SBF==='active'&&s==='soon')}))return false;
@@ -410,6 +426,7 @@ $('sbList').addEventListener('click',function(e){var b=e.target.closest('button[
   if(b.dataset.s==='wa'){window.open('https://wa.me/'+b.dataset.p,'_blank');return}
   if(b.dataset.s==='msg'){go('msg');mgOpen(tkOf(x));return}
   if(b.dataset.s==='addbk'){addBook(x);return}
+  if(b.dataset.s==='join'){joinPick(x);return}
   if(b.dataset.s==='delall'){var nd=x.codes.reduce(function(n,c){return n+devs(c).length},0);
     if(!confirm('Delete '+x.name+' completely?\nAll '+x.codes.length+' subscriptions ('+x.codes.map(function(c){return BKN[bkOf(c)]}).join(', ')+') are deleted with their synced notes. This cannot be undone.'))return;
     if(nd&&!confirm(x.name+' has '+nd+' device'+(nd===1?'':'s')+' using these books. They lose the full books next time they are online. Delete anyway?'))return;
