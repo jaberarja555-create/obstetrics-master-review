@@ -23,12 +23,13 @@ function decrypt(keyB64){
     var ds=new Response(new Blob([pt]).stream().pipeThrough(new DecompressionStream('gzip')));return ds.text()
   }).then(JSON.parse)}
 function apply(data){
-  var tpl=$('bookPages').content,holder=document.createElement('template');
-  Object.keys(data.pages).forEach(function(f){var old=tpl.querySelector('section.page[data-file="'+f+'"]');if(!old)return;holder.innerHTML=data.pages[f];var nw=holder.content.firstElementChild;if(nw)old.replaceWith(nw)});
+  /* Speed (owner, 13 Nov 2026: "Obstetrics opens slower than Pediatrics"): the unlocked pages stay as text and each one is made into a
+     page the first time it is needed (shell.html srcOf). Making all 300 of them at every opening held the app for about half a second on a
+     phone. The flashcards and questions are handed over as they are, not turned into text and read again. */
+  window.__PGSRC=data.pages;
   var d=JSON.parse($('decks').textContent);Object.keys(data.decks).forEach(function(k){d[k]=data.decks[k]});
   var ordered={};(INFO.order||[]).forEach(function(k){if(d[k])ordered[k]=d[k]});Object.keys(d).forEach(function(k){if(!ordered[k])ordered[k]=d[k]});
-  $('decks').textContent=JSON.stringify(ordered);
-  $('qbank').textContent=JSON.stringify(data.qbank);
+  window.__DECKS=ordered;window.__QBANK=data.qbank;
   window.__LK={};document.documentElement.classList.add('unlocked')}
 var UNLOCKED=false;
 /* trial (owner, 6 Nov 2026, as in Surgery): on opening, a new device chooses the trial (the WHOLE book for CFG.trial_hours,

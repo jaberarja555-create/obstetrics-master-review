@@ -26,6 +26,25 @@ pages = [(re.match(r'\d+_(.+)\.html', os.path.basename(f)).group(1), open(f, enc
 from termify import termify
 pages = [(f, termify(f, s)) for f, s in pages]   # meanings of abbreviations and difficult words (content/terms.json)
 
+# Speed (owner, 13 Nov 2026: "Obstetrics and Surgery open slower than Pediatrics"): how the spare room of a page is spread (shell.html
+# fillPage: --ft, --fgap) used to be measured on the phone every time a page was opened, about 20 layouts a page. It is now measured ONCE
+# by `node tools/fill.js` (the app's own fillPage, in a browser) and kept in content/fill.json. Every page carries data-h (a hash of its
+# HTML); a page whose HTML and the styles are the same as when it was measured also carries data-fl, and the phone just applies it.
+# After a change of content or styles the hash differs, data-fl is left out and the phone measures as before until fill.js is run again.
+def _styles():
+    sh = open(os.path.join(R, 'src', 'shell.html'), encoding='utf-8').read()
+    return ''.join(re.findall(r'<style[^>]*>(.*?)</style>', sh, flags=re.S)) + open(os.path.join(R, 'src', 'v2.css'), encoding='utf-8').read()
+FLCSS = hashlib.sha1(_styles().encode()).hexdigest()[:12]
+try:
+    _fl = json.load(open(os.path.join(C, 'fill.json'), encoding='utf-8'))
+    _fl = _fl.get('pages', {}) if _fl.get('css') == FLCSS else {}
+except Exception:
+    _fl = {}
+def _mark(s):
+    h = hashlib.sha1(s.encode()).hexdigest()[:10]
+    return s.replace('<section', '<section data-h="%s"' % h + (' data-fl="%s"' % _fl[h] if h in _fl else ''), 1)
+pages = [(f, _mark(s)) for f, s in pages]
+
 def topic_of(f):
     return re.sub(r'\d+$', '', f.split('_', 1)[1]) if f.startswith('c') and '_' in f else ''
 
@@ -43,6 +62,7 @@ def placeholder(f, sec):
     body = (f'<div class="body"><div class="lockpg"><div class="lki">{LOCK_SVG}</div><div class="lkt">{H.escape(name)}</div>'
             '<div class="lkar" dir="rtl"><b>هذه الصفحة للمشتركين</b><span>النسخة المجانية تفتح الموضوع الأول من كل فصل. اشترك لتفتح الكتاب كاملًا مع كل البطاقات وبنك الأسئلة.</span></div>'
             '<button type="button" class="lkb" data-sub="1" dir="rtl">اضغط هنا للاشتراك</button></div></div>')
+    sec = re.sub(r' data-fl="[^"]*"', '', sec, count=1)   # a lock page has nothing to spread
     return re.sub(r'<div class="body">.*(?=<div class="ftr">)', lambda m: body, sec, count=1, flags=re.S)
 
 def key():
@@ -115,7 +135,7 @@ def main():
     order = [t['id'] for t in topics]
     info = {'locked': {t: 1 for t in order if t not in FREE},
             'free_names': [TT[t][0].upper() + TT[t][1:] for t in order if t in FREE],
-            'order': order, 'tot': TOTALS, 'timg': timg}
+            'order': order, 'tot': TOTALS, 'timg': timg, 'flcss': FLCSS}
     lk_pages = {f: s for f, s in pages if locked(f)}
     sale_pages = ''.join(placeholder(f, s) if f in lk_pages else s for f, s in pages)
     free_decks = {k: v for k, v in decks.items() if k in FREE}
@@ -154,7 +174,7 @@ def main():
     open(swp, 'w').write(sw)
 
     # ---- review copy: whole book open, no activation ----
-    rv = fill(shell, ''.join(s for f, s in pages), decks, qbank, {'locked': {}, 'free_names': [], 'order': order, 'tot': TOTALS, 'timg': timg})
+    rv = fill(shell, ''.join(s for f, s in pages), decks, qbank, {'locked': {}, 'free_names': [], 'order': order, 'tot': TOTALS, 'timg': timg, 'flcss': FLCSS})
     rv = re.sub(r'<script src="(licence-config|sbmini|licence)\.js"></script>', '', rv)
     rv = rv.replace('<html lang="en">', '<html lang="en" class="unlocked">', 1)
     rv = rv.replace('</body>', '<script>window.__boot&&window.__boot()</script></body>', 1)

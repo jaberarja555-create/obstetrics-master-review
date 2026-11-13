@@ -2309,7 +2309,7 @@ var root=document.documentElement;
 var saved=st('orr-theme');if(saved==='dark'||saved==='light')root.setAttribute('data-theme',saved);
 $('themeBtn').onclick=function(){var dark=root.getAttribute('data-theme')?root.getAttribute('data-theme')==='dark':matchMedia('(prefers-color-scheme: dark)').matches;var n=dark?'light':'dark';root.setAttribute('data-theme',n);st('orr-theme',n)};
 
-var META=JSON.parse($('meta').textContent), DECKS=JSON.parse($('decks').textContent);
+var META=JSON.parse($('meta').textContent), DECKS=window.__DECKS||JSON.parse($('decks').textContent);
 var TOPICS=META.topics, NP=META.pages.length;
 /* ---------- pages ---------- */
 function sp(k,v){return st('orr-'+k,v)}
@@ -2331,13 +2331,18 @@ srcPages=(function(){var k=0;return PAGES.map(function(p,i){if(!p.user)return sr
    before that its wrapper is an empty sheet of the right size. Tools that measure every page (paginate.py, measure_*.py, screenshots)
    run in an automated browser and get all pages at once, as before; window.__lazy = 1 forces the students' way there. */
 var LAZY=!navigator.webdriver||!!window.__lazy;if(LAZY)document.documentElement.classList.add('lz');
+/* a subscribed student's pages arrive as text (licence.js apply, window.__PGSRC: file name → HTML); pgSrc(i) makes page i from its text
+   the first time it is needed and puts it in srcPages. Read a page's source through pgSrc(i), not srcPages[i]. */
+var PGS=window.__PGSRC||null,PGH=null;
+function pgSrc(i){var s=srcPages[i];if(!PGS||!s||s._full)return s;s._full=1;var f=s.dataset&&s.dataset.file,h=f&&PGS[f];if(!h)return s;
+  PGH=PGH||document.createElement('template');PGH.innerHTML=h;var nw=PGH.content.firstElementChild;if(!nw)return s;nw._full=1;PGS[f]=null;srcPages[i]=nw;return nw}
 (function(){var fr=document.createDocumentFragment();srcPages.forEach(function(sec,i){
   var pw=document.createElement('div');pw.className='pw';pw.dataset.i=i;
-  var host=document.createElement('div');host.className='bk';if(!LAZY||PAGES[i].user){host.appendChild(sec.cloneNode(true));pw.dataset.r='1'}
+  var host=document.createElement('div');host.className='bk';if(!LAZY||PAGES[i].user){host.appendChild(pgSrc(i).cloneNode(true));pw.dataset.r='1'}
   pw.appendChild(host);fr.appendChild(pw);wraps.push(pw)});pagesEl.appendChild(fr)})();
 function ensurePage(i){var pw=wraps[i];if(pw&&!pw.dataset.r)renderPage(i,1)}
 window.__renderAll=function(){for(var i=0;i<wraps.length;i++)ensurePage(i)};
-var cm=$('coverMini');cm.appendChild(srcPages[0].cloneNode(true));
+var cm=$('coverMini');cm.appendChild(pgSrc(0).cloneNode(true));
 function fitCover(){var w=cm.parentNode.clientWidth||112;cm.style.transform='scale('+(w/816)+')'}fitCover();
 /* saved things (highlights, drawings, page marks, last page) are keyed by topic + page within the topic ("eb:2"),
    so they stay on the right page when pages are added elsewhere in the book */
@@ -2577,7 +2582,7 @@ function brk(a,b){var A=[],x=a.parentNode;while(x){A.push(x);x=x.parentNode}var 
   for(var i=0;A[i]!==y;i++){if(!inl(A[i]))return true}for(var j=0;j<opened.length;j++){if(!inl(opened[j]))return true}return false}
 function ptext(pw){var w=document.createTreeWalker(pw,NodeFilter.SHOW_TEXT),out='',prev=null,n;while((n=w.nextNode())){if(prev&&brk(prev,n))out+=' ';out+=n.nodeValue;prev=n}return out.replace(/\s+/g,' ')}
 /* the text of every page for the search: made at the first search (speed, 12 Nov 2026: it cost a third of a second at every opening) */
-var TEXT=[];function textReady(){if(TEXT.length!==srcPages.length)TEXT=srcPages.map(ptext)}
+var TEXT=[];function textReady(){if(TEXT.length!==srcPages.length)TEXT=srcPages.map(function(x,i){return ptext(pgSrc(i))})}
 var qch=['MgSO₄','ferritin','artesunate','praevia','accreta','OGTT','HELLP','anti-D'];
 $('qchips').innerHTML=qch.map(function(c){return '<button class="chip" type="button">'+c+'</button>'}).join('');
 $('qchips').onclick=function(e){var b=e.target.closest('.chip');if(b){$('q').value=b.textContent;runSearch()}};
@@ -2690,7 +2695,10 @@ document.addEventListener('click',function(e){var b=e.target.closest('[data-ht]'
 function textNodes(sec){var w=document.createTreeWalker(sec,NodeFilter.SHOW_TEXT,{acceptNode:function(n){return n.parentNode.closest('svg')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}}),a=[];while(w.nextNode())a.push(w.currentNode);return a}
 /* owner (Nov 2026, as in Surgery): spare room at the foot of a page is used inside its boxes (more line spacing, padding,
    roomier rows) instead of sitting empty; at least 50 px stay free above the footer */
-function fillPage(sec,again){if(!sec||(sec.dataset.fd&&!again)||!sec.classList.contains('mz'))return;var m=sec.querySelector('.mzm'),body=sec.querySelector('.body');if(!m||!body||!sec.offsetHeight||!m.children.length||m.querySelector('.rqp'))return;
+/* Speed (13 Nov 2026): a page that carries data-fl was measured when the book was built (build.py, tools/fill.js): its spacing is
+   applied as it is, with no measuring on the phone. window.__flm = 1 (the measuring tool) forces the measuring below. */
+function fillPage(sec,again){var pf=sec&&sec.getAttribute('data-fl');if(pf!=null&&!window.__flm){if(!sec.dataset.fd){sec.dataset.fd=1;if(pf){var pq=pf.split(';');sec.classList.add('fill');sec.style.setProperty('--ft',pq[0]);if(pq[1])sec.style.setProperty('--fgap',pq[1])}}return}
+  if(!sec||(sec.dataset.fd&&!again)||!sec.classList.contains('mz'))return;var m=sec.querySelector('.mzm'),body=sec.querySelector('.body');if(!m||!body||!sec.offsetHeight||!m.children.length||m.querySelector('.rqp'))return;
   sec.dataset.fd=1;sec.classList.remove('fill');sec.style.removeProperty('--ft');sec.style.removeProperty('--fgap');
   function free(){var sc=sec.getBoundingClientRect().height/sec.offsetHeight||1,b=0;m.querySelectorAll('*').forEach(function(c){var r=c.getBoundingClientRect();if(r.height)b=Math.max(b,r.bottom)});return (body.getBoundingClientRect().bottom-b)/sc}
   var f0=free();if(f0<80)return;
@@ -2701,6 +2709,9 @@ function fillPage(sec,again){if(!sec||(sec.dataset.fd&&!again)||!sec.classList.c
   if(fh<50){for(var k=0;k<5&&hi-lo>.02;k++){var mid=lo+(hi-lo)*Math.min(.93,Math.max(.07,(f0-52)/((f0-fh)||1)));set(mid);var fm=free();if(fm>=50){lo=mid;f0=fm;if(fm<56)break}else{hi=mid;fh=fm}}set(lo);fh=f0}
   var left=fh-50,n=m.querySelectorAll(':scope > .blk').length-1;if(left>8&&n>0){var g=Math.min(44,left/n);function sg(v){sec.style.setProperty('--fgap',v.toFixed(1)+'px')}sg(g);for(var j=0;j<12&&g>0;j++){var fr2=free();if(fr2>=50)break;g=Math.max(0,g-Math.max(1,(50-fr2)/n));sg(g)}}}
 window.fillPage=fillPage;
+/* for tools/fill.js: measure every page with the code above and give back {page hash: spacing} */
+window.__fillDump=function(){window.__flm=1;goIdx(0);var out={};for(var i=0;i<wraps.length;i++){if(PAGES[i].user)continue;renderPage(i,1);var sec=wraps[i].querySelector('section.page'),h=sec&&sec.getAttribute('data-h');if(!h)continue;
+  out[h]=sec.classList.contains('fill')?sec.style.getPropertyValue('--ft')+';'+sec.style.getPropertyValue('--fgap'):''}window.__flm=0;return {css:(window.OBS_INFO||{}).flcss||'',pages:out}};
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){document.querySelectorAll('section.page.mz[data-fd]').forEach(function(x){fillPage(x,true)})});
 /* the pages on the screen are built and filled at once, the next ones while the phone is idle */
 var DQ=[],DQT=0;
@@ -2718,7 +2729,7 @@ window.addEventListener('resize',function(){if(LAZY)setTimeout(function(){try{fi
 /* a highlight or note on a dark box gets a see-through colour so the words stay readable (owner, 8 Nov 2026) */
 function markDk(sec){sec.querySelectorAll('mark.uhl').forEach(function(m){var e=m.parentElement;while(e&&e!==sec){var c=getComputedStyle(e).backgroundColor,v=c.match(/[\d.]+/g);
   if(v&&(v.length<4||+v[3]>.5)){if(.2126*v[0]+.7152*v[1]+.0722*v[2]<110)m.classList.add('dk');return}e=e.parentElement}})}
-function renderPage(i,force){var pw0=wraps[i];if(!pw0||(!pw0.dataset.r&&!force))return;pw0.dataset.r='1';pw0._f=0;var host=wraps[i].firstChild,sec=srcPages[i].cloneNode(true);host.innerHTML='';host.appendChild(sec);delete wraps[i].dataset.dec;fillPage(sec);
+function renderPage(i,force){var pw0=wraps[i];if(!pw0||(!pw0.dataset.r&&!force))return;pw0.dataset.r='1';pw0._f=0;var host=wraps[i].firstChild,sec=pgSrc(i).cloneNode(true);host.innerHTML='';host.appendChild(sec);delete wraps[i].dataset.dec;fillPage(sec);
   (HL[PKEY[i]]||[]).forEach(function(h,k){if(!hlOk(i,h))return;wrapRange(sec,h.s,h.e,function(){var m=document.createElement('mark');m.className='uhl '+h.c+(h.uw?' uw'+h.uw:'')+(h.hs===2?' hs2':'')+(h.n?' hasn':'');m.dataset.k=k;return m});
     if(h.n){var ms=sec.querySelectorAll('mark.uhl[data-k="'+k+'"]'),last=ms[ms.length-1];if(last){var nm=document.createElement('span');nm.className='nm';nm.dataset.k=k;nm.title='Note';last.parentNode.insertBefore(nm,last.nextSibling)}}});markDk(sec);}
 function wrapRange(sec,s,e,mk){var pos=0;textNodes(sec).forEach(function(n){var L=n.nodeValue.length,a=Math.max(s,pos),b=Math.min(e,pos+L);
@@ -3189,7 +3200,7 @@ nbox.addEventListener('click',function(e){var b=e.target.closest('button');if(!b
 /* ---------- question bank: create a test (Tutor / Timed), as in the Surgery and Pediatrics books ----------
    Each SBA is one question; each EMQ item becomes its own question (theme + options shared). Per-question record in QST
    (orr-qb, synced): {n tries, c correct tries, w last answer wrong, a 1 answered, m 1 marked}. Tests: orr-qbtests (synced), orr-qbcur, orr-qbset. */
-var QB=JSON.parse($('qbank').textContent),QS=[];
+var QB=window.__QBANK||JSON.parse($('qbank').textContent),QS=[];
 QB.forEach(function(ch){ch.questions.forEach(function(q){
   if(q.type==='emq')(q.items||[]).forEach(function(it,k){QS.push({id:q.id+'#'+k,ch:ch.chapter,topic:q.topic,emq:1,theme:q.theme,lead:q.lead,stem:it.stem,q:'',options:q.options,answer:it.answer,why:it.why,d:it.d})});
   else{q.ch=ch.chapter;QS.push(q)}})});
@@ -3303,7 +3314,7 @@ function hsnap(){var o={};Object.keys(HL).forEach(function(k){HL[k].forEach(func
 var HLPREV=hsnap();
 /* Highlights and notes are saved as text offsets on a page. When pages are re-laid out the offsets can point at other words:
    the saved text (h.t) finds its place again in the same topic, and a highlight whose text is gone is not drawn (it stays in My notes). */
-var PTX;function ptx(i){PTX=PTX||{};if(PTX[i]===undefined){var raw=textNodes(srcPages[i]).map(function(n){return n.nodeValue}).join(''),nrm='',map=[],spc=true;
+var PTX;function ptx(i){PTX=PTX||{};if(PTX[i]===undefined){var raw=textNodes(pgSrc(i)).map(function(n){return n.nodeValue}).join(''),nrm='',map=[],spc=true;
   for(var j=0;j<raw.length;j++){var c=raw[j];if(/\s/.test(c)){if(!spc){nrm+=' ';map.push(j);spc=true}}else{nrm+=c;map.push(j);spc=false}}PTX[i]={raw:raw,n:nrm,map:map}}return PTX[i]}
 function hlOk(i,h){if(!h.t)return true;var P=ptx(i);return P.raw.slice(h.s,h.e).replace(/\s+/g,' ').trim()===h.t.replace(/\s+/g,' ').trim()}
 function hlFind(i,h){var P=ptx(i),t=h.t.replace(/\s+/g,' ').trim(),full=!(t.length>=240&&h.e-h.s>240),best=-1,from=0,p,want=h.s||0;

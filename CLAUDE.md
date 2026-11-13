@@ -391,3 +391,13 @@ Measured on a simulated mid-range phone (Chromium, CPU 4x slower): start 3.1 s �
   Latin web fonts no longer hold up the first screen (Cairo is shipped). Books are loaded in the background only while the student is not
   touching the app (`whenIdle`), the last opened book first; a phone with ≤ 2 GB memory loads only its last opened book that way.
 - The same reader changes are in Surgery and Pediatrics (their src/app.js); v2.js / v2.search.js changes reach them through tools/port_v2.py.
+- **Page spacing is measured when the book is built (owner, 13 Nov 2026: "Pediatrics feels faster than Surgery and Obstetrics").** Opening a
+  page made the phone lay it out 20–50 times to find `--ft` / `--fgap` (Surgery and Obstetrics about twice as much as Pediatrics). Now
+  `node tools/fill.js` runs the app's own `fillPage` once on every page and writes `content/fill.json` ({styles hash, page hash → spacing});
+  build.py (`_mark`) gives every page `data-h` (hash of its HTML) and, when its HTML and the styles are unchanged since the measuring, `data-fl`;
+  `fillPage` applies `data-fl` with no measuring. **After any change of content or styles run:**
+  `python3 build.py && node tools/fill.js && python3 build.py` (if it is forgotten nothing breaks: changed pages carry no `data-fl` and are
+  measured on the phone as before, only slower). Phone simulation after this: opening the reader 0.32 s → 0.18 s, a topic 0.18 s → 0.13 s.
+- **Subscribed students (13 Nov 2026):** the unlocked pages from content.bin stay as text (`window.__PGSRC`) and each is made into a page
+  the first time it is needed (`pgSrc(i)` in shell.html: read a page's source through it, not `srcPages[i]`); decks and questions are handed
+  over as objects (`window.__DECKS`, `__QBANK`). Start for a subscribed student: app ready 1.4 s → 0.9 s, the blocking step 0.8 s → 0.3 s.
