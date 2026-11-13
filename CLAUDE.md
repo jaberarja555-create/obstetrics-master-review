@@ -491,3 +491,7 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
 - **Same student on two cards (migration 017):** a student card's «Same person as…» moves everything to the other card: its subscriptions
   take that card's name and phone (cards are grouped by phone), and a book both cards have is merged (`obs_admin_merge`: devices moved,
   device count raised, better plan and later end date kept, synced notes kept or re-uploaded by the devices, the second subscription removed).
+- **Admin design pass (owner, 13 Nov 2026):** one title per screen (top bar), no explanation paragraphs, book filter and tabs in one
+  scrolling row, compact numbers on phones; Students = one line per student (students() joins subscriptions with the same `sid`,
+  migration 019, or the same phone), tap to open. Two subscriptions of the same book show «Merge into one» with a plan choice
+  (`obs_admin_merge2`, migration 020: devices and notes kept; the end date of the subscription that already had that plan is kept).

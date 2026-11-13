@@ -140,20 +140,52 @@ input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--sel)
 .stu .sacts{display:flex;flex-wrap:wrap;gap:6px;padding-top:4px}
 #sbList{display:grid;gap:8px}
 @media (max-width:520px){.stu .bbs{max-width:48%}.stu .bkrow .meta{margin-left:0;width:100%}}
+
+/* design pass (owner, 13 Nov 2026: "design the admin app to perfect") */
+.top h1{font:800 19px/1.2 var(--ui)}
+.h2 h2{display:none}
+.h2:not(:has(input,button)){display:none}
+.bkf,.seg{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.bkf::-webkit-scrollbar,.seg::-webkit-scrollbar{display:none}
+.bkf button,.seg button{flex:none}
+.bkf button{height:32px;padding:0 13px;font-size:12.5px}
+.seg button{height:32px;padding:0 12px;font-size:12.5px}
+.h2 input[type=search]{max-width:none!important;height:38px}
+#mgTh .r1{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+#mgTh .r1 .tm{margin-left:auto}
+#mgTh .r1 .nm{margin-right:4px}
+@media (max-width:859px){
+  .stats{grid-template-columns:repeat(4,1fr);gap:6px}
+  .stat{flex-direction:column;align-items:flex-start;gap:4px;padding:8px 9px}
+  .stat i{width:26px;height:26px;border-radius:8px}
+  .stat i svg{width:15px;height:15px}
+  .stat b{font-size:19px}
+  .stat span span{font-size:10.5px;line-height:1.2;color:var(--sub)}
+  .top{padding-bottom:4px}
+}
+
+.h2:has(#rqRef),.h2:has(#mgRef){display:none}
+@media (max-width:859px){
+  .ovt{grid-template-columns:repeat(4,1fr)!important;gap:6px!important}
+  .ovt .card{padding:9px 9px!important}
+  .ovt .card b{font-size:19px!important}
+  .ovt .card span{font-size:10.5px!important;line-height:1.2}
+}
+.stu .dup{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:var(--warnbg);color:var(--warn)}
+.stu .dup b{font-size:12.5px;flex:1 1 140px}.stu .dup select{height:32px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);padding:0 6px}.stu .dup .btn{height:32px;padding:0 12px;font-size:12.5px}
 </style></head><body>
 <div class="gate" id="gate"><div class="box"><img src="smr-icon-192.png" alt=""><h1>Student Master Review<small>Admin of the three books · owner only</small></h1><p id="gateMsg">Sign in with the owner's Google account.</p>
   <button class="btn" id="ggIn" type="button" style="height:46px;padding:0 18px"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.7v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.700-5H1.3v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.200 7.200 0 0 1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.800z"/><path fill="#EA4335" d="M12 4.800c1.800 0 3.300.6 4.600 1.800l3.400-3.400A12 12 0 0 0 1.3 6.6l4 3.100c.9-2.800 3.600-4.900 6.700-4.900z"/></svg>Sign in with Google</button></div></div>
 <div class="app" id="app" hidden>
   <aside class="side"><div class="sb"><img src="smr-icon-192.png" alt=""><div>Student<span>Master Review</span></div></div><nav id="sn"></nav><div class="who"><span id="me"></span><button type="button" id="out">Sign out</button></div></aside>
   <div class="col">
-    <header class="top"><img src="smr-icon-192.png" alt=""><h1><span id="ttl">Requests</span><small id="sub2">Master Review books · Admin</small></h1><button type="button" class="btn out" id="out2">Sign out</button></header>
+    <header class="top"><img src="smr-icon-192.png" alt=""><h1><span id="ttl">Requests</span></h1><button type="button" class="btn out" id="out2">Sign out</button></header>
     <div class="seg bkf" id="bkTabs" role="group" aria-label="Book"><button type="button" data-b="all" class="on">All books</button><button type="button" data-b="obs">Obstetrics</button><button type="button" data-b="ped">Pediatrics</button><button type="button" data-b="srg">Surgery</button></div>
     <main class="main"><div class="wrap">
       <section id="v-req">
         <div class="wrap">
           <div class="stats" id="stats"></div>
           <div class="h2"><h2>Subscription requests</h2><button type="button" class="btn" id="rqRef">Refresh</button></div>
-          <p class="hint">Students send these from the app. Approve and the student's device opens by itself. New requests arrive here with a sound.</p>
           <div class="seg" id="rqTabs"><button type="button" data-s="pending" class="on">Waiting</button><button type="button" data-s="approved">Approved</button><button type="button" data-s="rejected">Rejected</button><button type="button" data-s="cancelled">Cancelled by student</button></div>
           <div class="list" id="rqList"><p class="empty">Loading…</p></div>
         </div>
@@ -165,17 +197,15 @@ input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--sel)
       </div></section>
       <section id="v-ovw" hidden><div class="wrap">
         <div class="h2"><h2>Overview</h2></div>
-        <p class="hint">Subscribers of each book by type and state. A student with two books counts once in each book and once in «Students».</p>
         <div id="ovw"></div>
       </div></section>
       <section id="v-msg" hidden><div class="wrap">
         <div class="h2"><h2>Messages</h2><button type="button" class="btn" id="mgRef">Refresh</button></div>
-        <p class="hint">Students write from the app (Help or Notifications). Your answer reaches the student in the notifications of every book they use, with a sound. A new message here rings and shows a red number.</p>
         <div class="mgg"><div class="list" id="mgList"><p class="empty">Loading…</p></div><div class="card mgth" id="mgTh" hidden></div></div>
       </div></section>
       <section id="v-give" hidden><div class="wrap">
         <div class="h2"><h2>Give a subscription</h2></div>
-        <div class="card"><p class="hint" style="margin-bottom:12px">For a free or special subscription with no receipt. Ask the student for the <b>user number</b> shown in the app (Settings → Profile). The device opens by itself.</p>
+        <div class="card"><p class="hint" style="margin-bottom:12px">A subscription without a receipt. The <b>user number</b> is in the student's app: Settings → Profile.</p>
           <div class="form"><label>User number<input id="gUser" placeholder="e.g. BE886E1F30" autocomplete="off" dir="ltr"></label><label>Student name<input id="gName" autocomplete="off" dir="auto"></label>
             <label>Phone (optional)<input id="gPhone" autocomplete="off" dir="ltr" inputmode="tel"></label><label>Plan<select id="gPlan"><option value="month">Monthly</option><option value="year">Annual</option><option value="life" selected>Lifetime</option></select></label>
             <div class="full"><button class="btn pri" id="gGo" type="button" style="height:44px;padding:0 22px">Give the subscription</button></div></div></div>
@@ -463,7 +493,8 @@ function stuCard(x){var L=x.codes.slice().sort(function(a,b){return ['obs','ped'
   return '<div class="card stu'+(op?' open':'')+'" data-k="'+esc(x.k)+'"><button type="button" class="sh" data-s="tog" aria-expanded="'+op+'"><span class="av">'+esc((x.name||'?').trim().charAt(0).toUpperCase())+'</span>'+
     '<span class="who"><b dir="auto">'+esc(x.name)+'</b><small dir="ltr">'+esc(x.tel||'no phone')+'</small></span>'+
     '<span class="bbs">'+L.map(function(c){var b=bkOf(c);return '<span class="bb '+b+'"><i class="'+(SDOT[state(c)]||'n')+'"></i>'+BSH[b]+' · '+(PLN[c.plan]||'')+'</span>'}).join('')+'</span><span class="cv">'+(op?'▴':'▾')+'</span></button>'+
-    (op?'<div class="sbd">'+L.map(function(c){return bookRow(c,bkOf(c))}).join('')+
+    (op?'<div class="sbd">'+L.map(function(c,i){var b=bkOf(c),n=L.filter(function(d){return bkOf(d)===b}).length,first=!L.slice(0,i).some(function(d){return bkOf(d)===b});
+      return (n>1&&first?'<div class="dup"><b>'+n+' '+BKN[b]+' subscriptions</b><select data-mp="'+b+'" aria-label="Plan after merging">'+['month','year','life'].map(function(pl){return '<option value="'+pl+'"'+(pl===c.plan?' selected':'')+'>'+PLN[pl]+'</option>'}).join('')+'</select><button type="button" class="btn pri" data-s="mergebk" data-b="'+b+'">Merge into one</button></div>':'')+bookRow(c,b)}).join('')+
     '<div class="sacts">'+(wa?'<button type="button" class="btn wa" data-s="wa" data-p="'+wa+'">WhatsApp</button>':'')+'<button type="button" class="btn pri" data-s="msg">Message</button>'+(nb<3?'<button type="button" class="btn" data-s="addbk">Add a book</button>':'')+'<button type="button" class="btn" data-s="notes">All notes</button><button type="button" class="btn" data-s="join">Same person as…</button><button type="button" class="btn" data-s="edit">Edit name / phone</button>'+(x.codes.length>1?'<button type="button" class="btn bad" data-s="delall">Delete student</button>':'')+'</div></div>':'')+'</div>'}
 function sbRender(){var q=$('find').value.trim().toLowerCase(),all=students(),rows=all.filter(function(x){
     if(BKF!=='all'&&!x.codes.some(function(c){return bkOf(c)===BKF}))return false;
@@ -475,6 +506,12 @@ $('sbList').addEventListener('click',function(e){var b=e.target.closest('button[
   if(b.dataset.s==='msg'){go('msg');mgOpen(tkOf(x));return}
   if(b.dataset.s==='addbk'){addBook(x);return}
   if(b.dataset.s==='join'){joinPick(x);return}
+  if(b.dataset.s==='mergebk'){var bk2=b.dataset.b,pl2=b.closest('.dup').querySelector('select').value,cs=x.codes.filter(function(c){return bkOf(c)===bk2});
+    /* the subscription that already has the chosen plan (else the newest) stays; the others are merged into it with their devices */
+    var into=cs.filter(function(c){return c.plan===pl2})[0]||cs[0],from=cs.filter(function(c){return c!==into});
+    if(!confirm('Merge the '+cs.length+' '+BKN[bk2]+' subscriptions of '+x.name+' into one '+PLN[pl2]+' subscription?\nAll devices and notes are kept.'))return;
+    b.disabled=true;from.reduce(function(p,c){return p.then(function(){return sb.rpc('obs_admin_merge2',{p_from:c.code,p_into:into.code,p_plan:pl2}).then(function(r){if(r.error)throw r.error;if(r.data&&r.data.ok===false)throw {message:r.data.reason}})})},Promise.resolve())
+      .then(function(){toast('Merged: one '+BKN[bk2]+' subscription');return load()},function(er){b.disabled=false;toast('Error: '+er.message);load()});return}
   if(b.dataset.s==='delall'){var nd=x.codes.reduce(function(n,c){return n+devs(c).length},0);
     if(!confirm('Delete '+x.name+' completely?\nAll '+x.codes.length+' subscriptions ('+x.codes.map(function(c){return BKN[bkOf(c)]}).join(', ')+') are deleted with their synced notes. This cannot be undone.'))return;
     if(nd&&!confirm(x.name+' has '+nd+' device'+(nd===1?'':'s')+' using these books. They lose the full books next time they are online. Delete anyway?'))return;
