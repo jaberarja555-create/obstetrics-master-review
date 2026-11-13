@@ -445,3 +445,8 @@ Measured on a simulated mid-range phone (Chromium, CPU 4x slower): start 3.1 s �
 - One phone counted as many devices (old Worker codes): every separate address or browser on a phone has its own storage, so the book saw a
   new device each time. Since the books open only inside Student Master Review (and the old addresses hand over the device id), a phone keeps one
   identity; «Remove devices» clears the old duplicates.
+- **Overview, editing and deleting messages (owner, 13 Nov 2026; migration 013):** admin «Overview» tab = subscribers per book and per type.
+  The student taps their own message → «تعديل» / «حذف» (`obs_msg_edit`, `obs_msg_delete`, only messages the student wrote, «عُدّلت» shown); the
+  owner has ✎ / ✕ on each message (`obs_admin_msg_edit` for his own answers, `obs_admin_msg_delete` for any). `obs_msg_list` now returns the
+  whole conversation every time (`p_after` ignored) with `e` = edited, so an edit or deletion on one side reaches the other. The admin Messages
+  screen checks every 8 s while it is open (30 s elsewhere) and redraws only when something changed, keeping a half-written answer.

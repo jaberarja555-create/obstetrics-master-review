@@ -818,6 +818,16 @@ html[data-lang="en"] #v2homeW .hq small{display:none}   /* the English subtitle 
 .msb.me{align-self:flex-start;background:var(--pri);color:var(--pon);border-end-start-radius:6px}
 .msb.ad{align-self:flex-end;background:var(--sel);color:var(--tx);border:1px solid var(--bd);border-end-end-radius:6px}
 .msemp{text-align:center;margin:auto 8px}
+.msb.me{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.msb.me.sel,.msb.me.ed{box-shadow:0 0 0 3px color-mix(in srgb,var(--pri) 30%,transparent)}
+.msb .mset{font-style:normal}.msb .mset::before{content:' · '}
+.msa{display:flex;gap:6px;margin:6px 0 2px}
+.msa button{display:inline-flex;align-items:center;gap:4px;border:0;border-radius:999px;padding:5px 11px;font:inherit;font-size:13px;font-weight:600;background:var(--pon);color:var(--pri);cursor:pointer}
+.msa button+button{color:#c0392b}
+.msa .v2ic{width:15px;height:15px}
+.mse{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 12px;border-radius:12px;background:var(--sel);font-size:13px;font-weight:600;color:var(--pri)}
+.mse span{display:inline-flex;align-items:center;gap:6px}.mse .v2ic{width:16px;height:16px}
+.mse button{border:0;background:none;font:inherit;font-size:13px;color:var(--sub);cursor:pointer;text-decoration:underline}
 .msf{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}
 .msf textarea{width:100%;min-height:52px;max-height:160px;resize:vertical;border:1px solid var(--bd);border-radius:14px;padding:10px 12px;font:inherit;font-size:15px;background:var(--bg);color:var(--tx)}
 .msf .v2btn{height:52px;padding:0 20px}

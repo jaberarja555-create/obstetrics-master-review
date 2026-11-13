@@ -23,7 +23,7 @@ var P={home:'<path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"
  crown:'<path d="M4 18h16l1-10-5 4-4-7-4 7-5-4z"/>',sync:'<path d="M20 11a8 8 0 0 0-14-4L4 9M4 5v4h4M4 13a8 8 0 0 0 14 4l2-2M20 19v-4h-4"/>',
  dl:'<path d="M12 4v11M7 11l5 5 5-5M5 20h14"/>',bell:'<path d="M6 9a6 6 0 0 1 12 0c0 6 2.500 7 2.500 7h-17S6 15 6 9z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
  help:'<circle cx="12" cy="12" r="9"/><path d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .9-1 1.700M12 17h.01"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.500h.01"/>',
- user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.500"/>',copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',
+ user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.500"/>',trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/>',copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',
  cal:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4M9 15l2 2 4-4"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
  check:'<path d="M5 12.500l4.500 4.500L19 7.500"/>',mon:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',palette:'<path d="M12 3a9 9 0 1 0 0 18c1.500 0 2-1 2-2s-.5-1.500-.5-2.500 1-1.500 2-1.500H18a3 3 0 0 0 3-3c0-5-4-9-9-9z"/><circle cx="8" cy="10" r="1"/><circle cx="12" cy="7.500" r="1"/><circle cx="16" cy="10" r="1"/>'};
 function I(n,c){return '<svg class="v2ic'+(n==='back'?' fwd':'')+(c?' '+c:'')+'" viewBox="0 0 24 24">'+P[n].replace(/\.(\d)00\b/g,'.$1')+'</svg>'}
@@ -391,20 +391,26 @@ document.addEventListener('visibilitychange',function(){if(!document.hidden)poll
 /* ---------- messages with the administration (owner, 13 Nov 2026): the student writes from Help or Notifications, the owner answers
    from the admin page; answers arrive in the notifications with the sound. Asked on opening, on return to the app, when the internet
    returns, every 10 minutes, and every 20 s while the conversation is open. ---------- */
-var MRET='v2contact',MBUSY=false;
-function mlast(){return MSGS.length?MSGS[MSGS.length-1].id:0}
+var MRET='v2contact',MBUSY=false,MSEL=0,MEDIT=0;
+/* the whole conversation comes every time, so a message changed or deleted on the other side changes here too */
 function mpoll(){if(!LIC||!LIC.rpc||!LIC.dev||navigator.onLine===false||MBUSY)return Promise.resolve();MBUSY=true;
-  return LIC.rpc('obs_msg_list',{p_dev:LIC.dev,p_after:mlast()}).then(function(r){MBUSY=false;var a=r&&r.data;if(!r||r.error||!Array.isArray(a)||!a.length)return;
-    var have={};MSGS.forEach(function(m){have[m.id]=1});a.forEach(function(m){if(!have[m.id])MSGS.push(m)});MSGS.sort(function(x,y){return x.id-y.id});
-    if(MSGS.length>300)MSGS=MSGS.slice(-300);spj('msgs',MSGS);header();if(CURV==='v2msg')R.v2msg();else if(CURV==='v2notif')R.v2notif()},function(){MBUSY=false})}
+  return LIC.rpc('obs_msg_list',{p_dev:LIC.dev,p_after:0}).then(function(r){MBUSY=false;var a=r&&r.data;if(!r||r.error||!Array.isArray(a))return;
+    a.sort(function(x,y){return x.id-y.id});if(JSON.stringify(a)===JSON.stringify(MSGS))return;
+    MSGS=a.slice(-300);spj('msgs',MSGS);header();if(CURV==='v2msg')R.v2msg();else if(CURV==='v2notif')R.v2notif()},function(){MBUSY=false})}
 setTimeout(mpoll,3000);setInterval(function(){if(!document.hidden&&(CURV==='v2msg'||Date.now()-(mpoll.t||0)>6e5)){mpoll.t=Date.now();mpoll()}},20000);
 document.addEventListener('visibilitychange',function(){if(!document.hidden)mpoll()});window.addEventListener('online',function(){mpoll()});
-R.v2msg=function(){var h=title('مراسلة الإدارة',MRET);
+R.v2msg=function(){var h=title('مراسلة الإدارة',MRET),o=$('msT'),keep=o?o.value:'',foc=o&&document.activeElement===o,ol=$('msL'),
+    atEnd=!ol||ol.scrollHeight-ol.scrollTop-ol.clientHeight<40,top=ol?ol.scrollTop:0;
   MSGS.forEach(function(m){if(m.dir==='out')NR['m'+m.id]=1});spj('nread',NR);header();
-  h+='<div class="v2c msgw" lang="ar"><div class="msl" id="msL">'+(MSGS.length?MSGS.map(function(m){return '<div class="msb '+(m.dir==='in'?'me':'ad')+'">'+(m.dir==='in'?'':'<b>الإدارة</b>')+'<p dir="auto">'+X(m.body).replace(/\n/g,'<br>')+'</p><time>'+ago(Date.parse(m.t))+'</time></div>'}).join(''):
+  if(MEDIT&&!MSGS.some(function(m){return m.id===MEDIT&&m.dir==='in'}))MEDIT=0;
+  h+='<div class="v2c msgw" lang="ar"><div class="msl" id="msL">'+(MSGS.length?MSGS.map(function(m){var me=m.dir==='in';
+      return '<div class="msb '+(me?'me':'ad')+(me&&MSEL===m.id?' sel':'')+(MEDIT===m.id?' ed':'')+'"'+(me?' data-act="msel" data-id="'+m.id+'" role="button" tabindex="0"':'')+'>'+(me?'':'<b>الإدارة</b>')+
+        '<p dir="auto">'+X(m.body).replace(/\n/g,'<br>')+'</p><time>'+ago(Date.parse(m.t))+(m.e?'<i class="mset">عُدّلت</i>':'')+'</time>'+
+        (me&&MSEL===m.id&&!MEDIT?'<span class="msa"><button type="button" data-act="medit" data-id="'+m.id+'">'+I('pen')+'تعديل</button><button type="button" data-act="mdel" data-id="'+m.id+'">'+I('trash')+'حذف</button></span>':'')+'</div>'}).join(''):
     '<p class="mu msemp">اكتب سؤالك أو ملاحظتك عن الكتاب أو الاشتراك، وستصلك إجابة الإدارة هنا وفي الإشعارات.</p>')+'</div>'+
-    '<div class="msf"><textarea id="msT" rows="2" maxlength="1500" placeholder="اكتب رسالتك…" dir="auto"></textarea><button type="button" class="v2btn" data-act="msend">إرسال</button></div><p class="mu" id="msM"></p></div>';
-  $('v2msgW').innerHTML=h;var L=$('msL');if(L)L.scrollTop=L.scrollHeight};
+    (MEDIT?'<div class="mse"><span>'+I('pen')+'تعديل الرسالة</span><button type="button" data-act="mcancel">إلغاء</button></div>':'')+
+    '<div class="msf"><textarea id="msT" rows="2" maxlength="1500" placeholder="اكتب رسالتك…" dir="auto"></textarea><button type="button" class="v2btn" data-act="msend">'+(MEDIT?'حفظ':'إرسال')+'</button></div><p class="mu" id="msM"></p></div>';
+  $('v2msgW').innerHTML=h;var L=$('msL'),t=$('msT');if(L)L.scrollTop=atEnd?L.scrollHeight:top;if(t){t.value=keep;if(foc)t.focus()}};
 window.addEventListener('obs-sub',function(){try{header();if(CURV==='v2sub'||CURV==='v2home'||CURV==='v2settings')R[CURV]()}catch(e){}});
 R.v2sub=function(){var a=access(),ex=+st('orr-exp')||0,pl=st('orr-plan'),pend=a!=='paid'&&REQ&&REQ.status==='pending',h=title('الاشتراك',CURV==='v2sub'&&RETS?RETS:'v2settings');
   function chk(t){return '<li>'+I('check')+t+'</li>'}
@@ -527,12 +533,22 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
   nall:function(){notifs().forEach(function(n){NR[n.id]=1});spj('nread',NR);R.v2notif();header()},
   nread:function(b){NR[b.dataset.id]=1;spj('nread',NR);R.v2notif();header()},
   msgs:function(){if(CURV!=='v2msg')MRET=CURV&&CURV.indexOf('v2')===0?CURV:'v2contact';go('v2msg');mpoll()},
+  msel:function(b,e){if(e&&e.target.closest('.msa'))return;var id=+b.dataset.id;MSEL=MSEL===id?0:id;R.v2msg()},
+  medit:function(b){var id=+b.dataset.id,m=MSGS.filter(function(x){return x.id===id})[0];if(!m)return;MEDIT=id;MSEL=0;R.v2msg();
+    var t=$('msT');if(t){t.value=m.body;t.focus();try{t.setSelectionRange(t.value.length,t.value.length)}catch(e){}}},
+  mcancel:function(){MEDIT=0;MSEL=0;R.v2msg();var t=$('msT');if(t)t.value=''},
+  mdel:function(b){var id=+b.dataset.id,M=$('msM');if(!confirm(sp('lang')==='en'?'Delete this message?':'حذف هذه الرسالة؟'))return;
+    if(!LIC||!LIC.rpc||navigator.onLine===false){M.textContent='لا يوجد اتصال بالإنترنت.';return}
+    LIC.rpc('obs_msg_delete',{p_dev:LIC.dev,p_id:id}).then(function(r){var d=r&&r.data;
+      if(!r||r.error||!d||!d.ok){M.textContent='تعذّر الحذف. تأكد من الاتصال بالإنترنت.';return}
+      MSEL=0;MSGS=MSGS.filter(function(x){return x.id!==id});spj('msgs',MSGS);R.v2msg();mpoll()},function(){M.textContent='تعذّر الحذف. تأكد من الاتصال بالإنترنت.'})},
   msend:function(b){var t=$('msT'),M=$('msM'),v=(t&&t.value||'').trim();if(!v){M.textContent='اكتب رسالتك أولًا.';return}
     if(!LIC||!LIC.rpc){M.textContent='تعذّر الإرسال الآن.';return}if(navigator.onLine===false){M.textContent='لا يوجد اتصال بالإنترنت. أرسل الرسالة عند عودة الاتصال.';return}
-    b.disabled=true;M.textContent='جارٍ الإرسال…';
-    LIC.rpc('obs_msg_send',{p_dev:LIC.dev,p_name:myName(),p_phone:sp('tel')||'',p_body:v}).then(function(r){b.disabled=false;var d=r&&r.data;
-      if(!r||r.error||!d||!d.ok){M.textContent=d&&d.reason==='many'?'أرسلت رسائل كثيرة اليوم. حاول مرة أخرى غدًا.':'تعذّر الإرسال. تأكد من الاتصال بالإنترنت.';return}
-      t.value='';mpoll().then(function(){var m=$('msM');if(m)m.textContent='أُرسلت رسالتك. ستصلك الإجابة في الإشعارات.'})},function(){b.disabled=false;M.textContent='تعذّر الإرسال. تأكد من الاتصال بالإنترنت.'})},
+    b.disabled=true;var eid=MEDIT;M.textContent=eid?'جارٍ الحفظ…':'جارٍ الإرسال…';
+    (eid?LIC.rpc('obs_msg_edit',{p_dev:LIC.dev,p_id:eid,p_body:v}):LIC.rpc('obs_msg_send',{p_dev:LIC.dev,p_name:myName(),p_phone:sp('tel')||'',p_body:v})).then(function(r){b.disabled=false;var d=r&&r.data;
+      if(!r||r.error||!d||!d.ok){M.textContent=d&&d.reason==='many'?'أرسلت رسائل كثيرة اليوم. حاول مرة أخرى غدًا.':eid?'تعذّر حفظ التعديل. تأكد من الاتصال بالإنترنت.':'تعذّر الإرسال. تأكد من الاتصال بالإنترنت.';return}
+      t.value='';if(eid){MEDIT=0;MSGS.forEach(function(x){if(x.id===eid){x.body=v;x.e=new Date().toISOString()}});R.v2msg()}
+      mpoll().then(function(){var m=$('msM');if(m)m.textContent=eid?'حُفظ التعديل.':'أُرسلت رسالتك. ستصلك الإجابة في الإشعارات.'})},function(){b.disabled=false;M.textContent='تعذّر الإرسال. تأكد من الاتصال بالإنترنت.'})},
   nopen:function(b){NR[b.dataset.id]=1;spj('nread',NR);header();ACT[b.dataset.go2]()}};
 
 /* progress details live in a sheet now */
