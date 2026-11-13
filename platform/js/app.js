@@ -834,6 +834,9 @@
      version shows at the next opening. */
   if ('serviceWorker' in navigator && location.protocol === 'https:') { try {
     navigator.serviceWorker.register('sw.js');
+    /* look for a new version when the app comes back to the screen (after 1 minute): a phone resumes the app without opening it again */
+    var swLast = Date.now(); document.addEventListener('visibilitychange', function () { if (document.hidden || Date.now() - swLast < 6e4) return; swLast = Date.now();
+      navigator.serviceWorker.getRegistration().then(function (g) { if (g) g.update().catch(function () {}); }).catch(function () {}); });
     var swT = Date.now(), swNew = false;
     navigator.serviceWorker.addEventListener('message', function (e) {
       if (!e.data || e.data.smr !== 'new' || swNew) return; swNew = true;

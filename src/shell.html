@@ -25,6 +25,11 @@
   function go(){if(done||!want)return;if(document.hidden||off){done=true;location.reload()}}
   navigator.serviceWorker.addEventListener('controllerchange',function(){if(!had)return;want=true;go()});
   document.addEventListener('visibilitychange',go);
+  /* look for a new version whenever the app comes back to the screen (after 1 minute) and every 10 minutes while open (owner, 13 Nov 2026:
+     "I reopened it many times and still no changes": a phone brings the app back from memory without opening the page again, so the
+     browser never looked for the new version) */
+  var last=Date.now();function chk(){last=Date.now();try{navigator.serviceWorker.getRegistration().then(function(g){if(g)g.update().catch(function(){})}).catch(function(){})}catch(e){}}
+  document.addEventListener('visibilitychange',function(){if(!document.hidden&&Date.now()-last>6e4)chk()});setInterval(function(){if(!document.hidden&&Date.now()-last>6e5)chk()},6e4);setTimeout(chk,5000);
   try{if(window.top!==window&&'IntersectionObserver' in window)new IntersectionObserver(function(es){off=!es[es.length-1].isIntersecting;go()}).observe(document.documentElement)}catch(e){}})();
 </script><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#172e48"><style>
 /* Inter shipped with the book so every phone shows the same page fill (as in Surgery, Nov 2026) */
