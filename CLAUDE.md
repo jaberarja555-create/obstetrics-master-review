@@ -254,7 +254,7 @@ The owner is turning the book into an app (brief: lavender theme, five destinati
   scrolling down with the pen or text tool on hides them too (shell scroll listener). `.app.imm` removes the side-menu space on tablets.
 - Resources on tablets/PCs: seven large tiles filling the screen (12-column grid, 4 + 3).
 - **Tools ring (owner, 11 Nov 2026; replaces the top strip):** the round pen button at the bottom right of the reader (`#rbShow`, always there)
-  opens the tools in two rings around it with a soft glow (`#reader .rbar.fan`, positions `--x/--y` set in v2.js; undo/redo pill on the outer ring);
+  opens the tools in two rings around it with a soft glow (`#reader .rbar.fan`, positions `--x/--y` set in v2.js; no undo/redo in the ring: owner, 13 Nov 2026, they are only in the pen / text / marker bars);
   choosing a tool closes the ring and opens its panel; a touch elsewhere closes it. The shell's rail stays "off" so the pages keep the full height.
 - **App language (owner, 11 Nov 2026):** Settings → «اللغة» Arabic / English (`orr-lang`, `html[data-lang]`). `src/v2.lang.js` (appended to v2.js by
   build.py) rewrites the app's text nodes and placeholder/title/aria-label after every render from two dictionaries keyed by the text with numbers
@@ -301,7 +301,7 @@ into `main` when the owner has seen it; small fixes the owner asks for directly 
     (`data-ulc`; an underline is a line only, default thickness 1), «ملاحظة», close; tapping an existing mark shows colours, «حذف», «ملاحظة». Free notes made during the short test stay readable (`g.fn`, `#fnb`).
   - **Reader bar holds the controls (owner, same evening: not floating on the page):** tools (`#rbShow.rtools`, a smart-pen icon (stylus with sparks; the owner rejected the wrench), a plain icon the same size as its neighbours), zoom (`#zoomBtn`) and
     full page (`#v2full`) are buttons in the top bar before the bookmark. The tools ring opens UNDER its button (`#rbar` is fixed at the
-    button's centre): قلم, ماركر (`#mkBtn`, free highlight with its own card), نص, صفحة, plus undo/redo. Tool cards open at the top right under
+    button's centre): قلم, ماركر (`#mkBtn`, free highlight with its own card), نص, صفحة (undo/redo only in the bar of the pen, marker or text while it is on). Tool cards open at the top right under
     the bar. While the page is full (bars hidden) the small button `#v2fx` on the page brings the bars back. The page number is a chip in the same bar (`#pnum.rpg`, «10 / 368»; tap it to type a page and go there); the small line
     over the topic title names the chapter. Nothing floats on the page. Home is the first button of the bottom reading bar (`#rnHm`); the top bar has no Home button.
   - **Next (owner, 11 Nov 2026): rewrite of the chapters** — new page design and better medical writing: no fixed "Introduction" opening, short
