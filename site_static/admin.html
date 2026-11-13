@@ -321,7 +321,7 @@ function impRender(){var bs=['srg','ped'].filter(function(b){return (BKF==='all'
     '<p class="hint" style="margin:6px 0 10px">Done once. Every student who used an old '+BKN[b]+' code becomes a <b>Monthly</b> subscription from today and shows here; their devices, notes and progress stay. Type the password of the old '+BKN[b]+' admin page.</p>'+
     '<div class="form"><label>Old '+BKN[b]+' admin password<input type="password" class="wkpw" autocomplete="off" value="'+esc(wkPw(b))+'"></label><div class="full"><button type="button" class="btn pri" data-imp="1">Bring them in</button></div></div>'+
     (e?'<p class="hint" style="color:var(--bad,#b3261e);margin-top:8px">'+(e==='wrong'?'Wrong password.':'Could not reach the '+BKN[b]+' server: '+esc(e))+'</p>':'')+'</div>'}).join('')}
-$('imp').addEventListener('click',function(e){var bt=e.target.closest('button[data-imp]');if(!bt)return;var g=bt.closest('.wkg'),bk=g.dataset.i,v=g.querySelector('.wkpw').value;if(!v){toast('Type the password');return}
+$('imp').addEventListener('click',function(e){var bt=e.target.closest('button[data-imp]');if(!bt)return;var g=bt.closest('.wkg'),bk=g.dataset.i,v=g.querySelector('.wkpw').value.trim();if(!v){toast('Type the password');return}
   try{localStorage.setItem('adm-wk-'+bk,v)}catch(er){}bt.disabled=true;
   wkLoad(bk).then(function(){if(!WOLD[bk]){bt.disabled=false;impRender();toast('Not connected');return}
     var have={};ALL.forEach(function(c){have[c.code]=1});var L=WOLD[bk].filter(function(c){return !have[c.code]}),n=0;
@@ -338,7 +338,7 @@ function oldRender(){impRender();var q=$('find2').value.trim().toLowerCase(),wb=
       (c.active?'<button type="button" class="btn bad" data-a="off">Switch off</button>':'<button type="button" class="btn" data-a="on">Switch on</button>')+'<button type="button" class="btn bad" data-a="del">Delete</button></div></div>'}).join(''):(gates.length&&gates.length===wb.length&&BKF!=='all'?'':'<p class="empty">No old codes.</p>')}
 $('find2').addEventListener('input',oldRender);
 $('list').addEventListener('click',function(e){var b=e.target.closest('button[data-a="msg"]');if(b){copy(msgFor(oc(b.closest('.it').dataset.c)))}});
-$('wkGates').addEventListener('click',function(e){var b=e.target.closest('button[data-wk]');if(!b)return;var g=b.closest('.wkg'),bk=g.dataset.w,v=g.querySelector('.wkpw').value;if(!v){toast('Type the password');return}
+$('wkGates').addEventListener('click',function(e){var b=e.target.closest('button[data-wk]');if(!b)return;var g=b.closest('.wkg'),bk=g.dataset.w,v=g.querySelector('.wkpw').value.trim();if(!v){toast('Type the password');return}
   try{localStorage.setItem('adm-wk-'+bk,v)}catch(er){}b.disabled=true;wkLoad(bk).then(function(){b.disabled=false;oldRender();toast(WOLD[bk]?BKN[bk]+' connected: '+WOLD[bk].length+' old code'+(WOLD[bk].length===1?'':'s'):'Not connected')})});
 $('mvGo').onclick=function(){var bk=BKF,b=this;if(bk==='all'){toast('Choose the book first (Obstetrics, Pediatrics or Surgery)');return}
   if(bk!=='obs'&&!WOLD[bk]){toast('Connect '+BKN[bk]+' first (password below)');return}
