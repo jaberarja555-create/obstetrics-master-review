@@ -61,6 +61,9 @@ jobs:
           check() { if curl -fsSL "$1" | grep -q "$2"; then echo "FOUND   $3"; else echo "MISSING $3"; fi; }
           check https://obs.studentmasterreview.com/admin.html "People who control this admin" "Admin: second person section"
           check https://obs.studentmasterreview.com/admin.html "Same person as" "Admin: join two cards"
+          check https://studentmasterreview.com/admin/ "stuCard" "Admin at studentmasterreview.com/admin"
+          echo "studentmasterreview.com/admin -> $(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' https://studentmasterreview.com/admin)"
+          for f in sbmini.js licence-config.js admin.webmanifest smr-icon-192.png fonts/inter-700.woff; do echo "admin/$f $(curl -s -o /dev/null -w '%{http_code}' https://studentmasterreview.com/admin/$f)"; done
           echo "obs_key_of must be refused (key never public): $(curl -s -o /dev/null -w '%{http_code}' -X POST "$U/obs_key_of" -H "apikey: $K" -H "Content-Type: application/json" -d '{"p_book":"ped"}')"
       - name: Where Google sign-in returns (the address in the sign-in state; no secrets)
         run: |
