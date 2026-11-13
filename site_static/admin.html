@@ -71,6 +71,7 @@ input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--sel)
 .form{display:grid;gap:10px;grid-template-columns:1fr}
 .form label{display:grid;gap:4px;font:600 12.5px var(--ui);color:var(--sub)}
 .empty{text-align:center;color:var(--sub);padding:28px 10px}
+.wkg{margin-bottom:12px}.wkg .r1{display:flex;gap:8px;align-items:center;margin-bottom:6px}.kv select{margin-left:6px;font:inherit;padding:1px 4px;border:1px solid var(--bd);border-radius:6px;background:var(--bg);color:var(--tx)}
 .code{font:700 14px ui-monospace,monospace;letter-spacing:.5px}
 .fresh{background:var(--sel);border-radius:10px;padding:10px;font:700 14px ui-monospace,monospace;display:flex;gap:8px 16px;flex-wrap:wrap}
 .toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:var(--deep);color:#fff;border-radius:12px;padding:10px 16px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9;max-width:90vw;text-align:center}.toast.on{opacity:1}
@@ -125,9 +126,11 @@ input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--sel)
       </div></section>
       <section id="v-old" hidden><div class="wrap">
         <div class="h2"><h2>Old activation codes</h2><input id="find2" type="search" placeholder="Search code or note" autocomplete="off" style="flex:1;max-width:320px"></div>
-        <p class="hint">Codes from before the new app. They keep working until one month after the new app goes live. Use this only for students of the current live book.</p>
+        <p class="hint">Codes from before the new app, for each book. They keep working until one month after the new app goes live (Obstetrics about 11 Dec 2026, Surgery and Pediatrics 12 Dec 2026). Choose the book above to make new old-style codes for it.</p>
         <div class="card"><div class="form"><label>Note for a new code<input id="note" placeholder="Ahmed · 0912 345 678" autocomplete="off" dir="auto"></label><label>How many<input id="count" type="number" min="1" max="50" value="1"></label>
           <div class="full"><button class="btn" id="create" type="button">Create old-style code</button></div></div><div id="fresh"></div></div>
+        <div class="card" id="mvCard"><b>Move old codes to the new subscriptions</b><p class="hint" style="margin:6px 0 10px">Every old code of the chosen book that a student has activated becomes a <b>Monthly</b> subscription ending one month from today, and shows under Students. The student's devices, notes and progress stay; nothing has to be typed again (Surgery and Pediatrics devices join by themselves the next time the app opens). Unused codes stay old codes.</p><button type="button" class="btn pri" id="mvGo">Move the old codes of this book</button></div>
+        <div id="wkGates"></div>
         <div class="list" id="list"></div>
       </div></section>
     </div></main>
@@ -166,12 +169,29 @@ $('ggIn').onclick=function(){sb.signIn(location.origin+location.pathname)};
 function out(){sb.signOut().then(function(){location.reload()})}$('out').onclick=out;$('out2').onclick=out;
 /* data */
 var ALL=[],EXTRA={},NWAIT=0;
+/* Old codes of Surgery and Pediatrics (owner, 13 Nov 2026: "Pediatrics and Surgery exactly as Obstetrics in the new admin app").
+   Their old codes (SMR-…, PMR-…) live on each book's own server (Cloudflare Worker + Durable Object), not in Supabase, so this page asks
+   those servers directly: GET/POST <server>/api/codes… with "Authorization: Bearer <that book's old admin password>" (the servers allow
+   any origin). The password is typed once here and kept only in this device's storage (adm-wk-<book>). */
+var WK={srg:'https://surgery-master-review.jaberarja555.workers.dev',ped:'https://pediatrics-master-review.jaberarja555.workers.dev'},
+  WKEND='2026-12-12T23:59:59+02:00',WOLD={srg:null,ped:null},WERR={srg:'',ped:''};
+function wkPw(b){try{return localStorage.getItem('adm-wk-'+b)||''}catch(e){return ''}}
+function wkCall(b,path,body){var pw=wkPw(b);if(!pw)return Promise.reject({need:1});
+  return fetch(WK[b]+path,{method:body?'POST':'GET',cache:'no-store',headers:Object.assign({authorization:'Bearer '+pw},body?{'content-type':'application/json'}:{}),body:body?JSON.stringify(body):undefined})
+    .then(function(r){return r.json().catch(function(){return {}}).then(function(j){if(r.status===401){try{localStorage.removeItem('adm-wk-'+b)}catch(e){}throw {need:1,wrong:1}}if(!r.ok)throw {msg:j.error||('Error '+r.status)};return j})},function(){throw {msg:'no connection'}})}
+function wkRow(b,r){return {code:r.code,note:r.note||'',created_at:r.created,activated_at:r.activated,active:r.on,maxdev:r.max,book:b,wk:1,expires:WKEND,
+  wdevs:(r.devices||[]).map(function(d){return d.kind||'Device'})}}
+function wkSet(b,j){if(j&&j.codes)WOLD[b]=j.codes.map(function(r){return wkRow(b,r)});WERR[b]=''}
+function wkLoad(b){if(!wkPw(b)){WOLD[b]=null;return Promise.resolve()}return wkCall(b,'/api/codes').then(function(j){wkSet(b,j)}).catch(function(e){WOLD[b]=null;WERR[b]=e.wrong?'wrong':e.need?'':(e.msg||'no connection')})}
+function wkLoadAll(){return Promise.all(['srg','ped'].map(wkLoad)).then(function(){oldRender()})}
+function wkAct(b,code,act,body,done){return wkCall(b,'/api/codes/'+encodeURIComponent(code)+'/'+act,body||{}).then(function(j){wkSet(b,j);toast(done||'Saved');oldRender()}).catch(function(e){toast(e.need?'Connect '+BKN[b]+' first':'Error: '+(e.msg||'no connection'));if(e.need)wkLoadAll()})}
+function oc(code){return ALL.concat(WOLD.srg||[],WOLD.ped||[]).filter(function(x){return x.code===code})[0]}
 function isSub(c){return c.plan&&c.plan!=='old'&&inBk(c)}
 function state(c){if(!c.active)return 'off';if(c.expires&&new Date(c.expires)<=new Date())return 'ended';if(c.expires&&new Date(c.expires)-new Date()<7*864e5)return 'soon';return 'active'}
-function devs(c){var a=[];if(c.phone_dev)a.push(c.phone_label||'Phone');if(c.pc_dev)a.push(c.pc_label||'Computer');(EXTRA[c.code]||[]).forEach(function(d){a.push(d.label||(d.kind==='phone'?'Phone':'Computer'))});return a}
+function devs(c){if(c.wk)return c.wdevs.slice();var a=[];if(c.phone_dev)a.push(c.phone_label||'Phone');if(c.pc_dev)a.push(c.pc_label||'Computer');(EXTRA[c.code]||[]).forEach(function(d){a.push(d.label||(d.kind==='phone'?'Phone':'Computer'))});return a}
 function nameOf(c){return (c.note||'').split('·')[0].trim()||'(no name)'}function telOf(c){return ((c.note||'').split('·')[1]||'').trim()}
 function load(){return Promise.all([sb.rpc('obs_admin_list'),sb.rpc('obs_admin_extra')]).then(function(rs){var r=rs[0];if(r.error)throw r.error;ALL=r.data||[];
-  EXTRA={};((rs[1]&&rs[1].data)||[]).forEach(function(d){(EXTRA[d.code]=EXTRA[d.code]||[]).push(d)});stats();sbRender();oldRender()})}
+  EXTRA={};((rs[1]&&rs[1].data)||[]).forEach(function(d){(EXTRA[d.code]=EXTRA[d.code]||[]).push(d)});stats();sbRender();oldRender();wkLoadAll()})}
 function call(fn,args,done){return sb.rpc(fn,args).then(function(r){if(r.error){toast('Error: '+r.error.message);return}toast(done);return load()})}
 function stats(){var s=ALL.filter(isSub),n={active:0,soon:0,ended:0,off:0};s.forEach(function(c){n[state(c)]++});
   $('stats').innerHTML='<button type="button" class="card stat w" data-v="req"><i>'+I('clock')+'</i><span><b>'+NWAIT+'</b><span>Waiting requests</span></span></button>'+
@@ -202,7 +222,7 @@ $('rqRef').onclick=function(){rqLoad();load()};
 setInterval(function(){if(!$('app').hidden&&!document.hidden)rqLoad(true)},30000);document.addEventListener('visibilitychange',function(){if(!document.hidden&&!$('app').hidden)rqLoad(true)});
 $('rqList').addEventListener('click',function(e){var b=e.target.closest('button[data-r]');if(!b)return;var it=b.closest('.it'),id=it.dataset.id,a=b.dataset.r;
   if(a==='wa'){window.open('https://wa.me/'+b.dataset.p,'_blank');return}
-  if(a==='img'){b.disabled=true;sb.rpc('obs_admin_receipt',{p_id:id}).then(function(r){b.disabled=false;if(r.error||!r.data){toast('No receipt found');return}var d=r.data,u='data:'+d.mime+';base64,'+d.data;
+  if(a==='img'){b.disabled=true;sb.rpc('obs_admin_receipt',{p_id:id}).then(function(r){b.disabled=false;if(r.error||!r.data){toast('No receipt: the student sent the request without a picture');return}var d=r.data,u='data:'+d.mime+';base64,'+d.data;
     ovl(d.mime==='application/pdf'?'<p>This receipt is a PDF file.</p><a href="'+u+'" download="receipt.pdf"><button type="button" class="btn pri">Download the PDF</button></a>':'<img src="'+u+'" alt="Receipt">')});return}
   var args={p_id:id,p_ok:a==='yes',p_name:null,p_plan:null,p_reason:null},nf=it.querySelector('[data-f=name]');
   if(a==='yes'&&!nf){if(!confirm('Add this device to the student\'s subscription?'))return}
@@ -227,12 +247,13 @@ function bookRow(c,bk){if(!c)return '<div class="bkrow none"><span class="chip b
   return '<div class="it bkrow" data-c="'+esc(c.code)+'"><div class="r1"><span class="chip bk '+bk+'">'+BKN[bk]+'</span><span class="chip">'+(PLN[c.plan]||esc(c.plan))+'</span><span class="chip '+STC[st]+'">'+STN[st]+'</span><span class="tm">since '+fd(c.created_at)+'</span></div>'+
     '<div class="kv"><div><span>Ends</span><b>'+(c.expires?fd(c.expires):'Never')+'</b></div><div><span>Devices '+d.length+' of '+(c.maxdev||2)+'</span><b>'+(d.length?d.map(esc).join(' · '):'none yet')+'</b></div></div>'+
     '<div class="acts"><label>Devices <select data-a="max">'+[1,2,3,4,5,6,7,8,9,10].map(function(n){return '<option'+(n===(c.maxdev||2)?' selected':'')+'>'+n+'</option>'}).join('')+'</select></label>'+
+    '<label>Type <select data-a="plan">'+[['month','Monthly'],['year','Annual'],['life','Lifetime']].map(function(o){return '<option value="'+o[0]+'"'+(c.plan===o[0]?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select></label>'+
     '<label>Extend <select data-a="ext"><option value="">choose…</option><option value="m">+ 1 month</option><option value="y">+ 1 year</option><option value="life">Never ends</option><option value="now">End now</option></select></label>'+
     '<button type="button" class="btn" data-a="notes">Notes</button>'+(d.length?'<button type="button" class="btn" data-a="reset">Remove devices</button>':'')+
     (c.active?'<button type="button" class="btn bad" data-a="off">Switch off</button>':'<button type="button" class="btn" data-a="on">Switch on</button>')+'</div></div>'}
 function stuCard(x){var by={};x.codes.forEach(function(c){var b=bkOf(c);if(!by[b])by[b]=c});var wa=phoneOf(x.codes[0].note),nb=Object.keys(by).length;
-  return '<div class="card stu" data-k="'+esc(x.k)+'"><div class="r1"><span class="nm" dir="auto">'+esc(x.name)+'</span><span class="chip">'+nb+' of 3 books</span><span class="tm" dir="ltr">'+esc(x.tel||'')+'</span></div>'+
-    ['obs','ped','srg'].map(function(b){return bookRow(by[b],b)}).join('')+
+  return '<div class="card stu" data-k="'+esc(x.k)+'"><div class="r1"><span class="nm" dir="auto">'+esc(x.name)+'</span><span class="chip">'+nb+' book'+(nb===1?'':'s')+'</span><span class="tm" dir="ltr">'+esc(x.tel||'')+'</span></div>'+
+    ['obs','ped','srg'].filter(function(b){return by[b]}).map(function(b){return bookRow(by[b],b)}).join('')+
     '<div class="acts">'+(wa?'<button type="button" class="btn wa" data-s="wa" data-p="'+wa+'">WhatsApp</button>':'')+'<button type="button" class="btn" data-s="notes">All notes</button><button type="button" class="btn" data-s="edit">Edit name / phone</button></div></div>'}
 function sbRender(){var q=$('find').value.trim().toLowerCase(),all=students(),rows=all.filter(function(x){
     if(BKF!=='all'&&!x.codes.some(function(c){return bkOf(c)===BKF}))return false;
@@ -248,8 +269,11 @@ $('sbList').addEventListener('click',function(e){var b=e.target.closest('button[
       return '<h3 class="nbk"><span class="chip bk '+bkOf(g.c)+'">'+BKN[bkOf(g.c)]+'</span> '+g.n.length+' note'+(g.n.length===1?'':'s')+'</h3>'+(g.n.length?Object.keys(pg).map(function(k){return '<div class="ni"><b class="npg">'+esc(k)+'</b>'+pg[k].map(function(n){return '<i>"'+esc(n.txt)+'"</i><p>'+esc(n.note).replace(/\n/g,'<br>')+'</p>'}).join('')+'</div>'}).join(''):'<p class="hint">No notes in this book yet.</p>')}).join('');
     ovl('<b>Notes of '+esc(x.name)+' · '+tot+'</b>'+h+'<p class="hint">Notes reach the server when the student is online.</p>')})}});
 $('find').addEventListener('input',sbRender);$('sbTabs').onclick=function(e){var b=e.target.closest('button');if(!b)return;SBF=b.dataset.f;segOn('sbTabs','f',SBF);sbRender()};
-function codeAct(e){var s=e.target.closest('select[data-a]'),b=e.target.closest('button[data-a]');if(e.type==='change'&&s){var code=s.closest('.it').dataset.c,c=ALL.filter(function(x){return x.code===code})[0];
+function codeAct(e){var s=e.target.closest('select[data-a]'),b=e.target.closest('button[data-a]');var wit=(s||b)&&(s||b).closest('.it[data-w]');if(wit){wkCodeAct(e,s,b,wit);return}if(e.type==='change'&&s){var code=s.closest('.it').dataset.c,c=ALL.filter(function(x){return x.code===code})[0];
     if(s.dataset.a==='max')call('obs_admin_maxdev',{p_code:code,p_n:+s.value},nameOf(c)+' can now open '+s.value+' device'+(s.value==='1'?'':'s'));
+    if(s.dataset.a==='plan'){var pv=s.value,pn={month:'Monthly: ends one month from today',year:'Annual: ends one year from today',life:'Lifetime: never ends'}[pv];
+      if(!confirm('Change '+nameOf(c)+' to '+pn+'?')){s.value=c.plan||'';return}call('obs_admin_plan',{p_code:code,p_plan:pv},'Changed to '+PLN[pv]);return}
+    if(s.dataset.a==='ext'&&s.value==='life'){if(!confirm('Make it never end for '+nameOf(c)+'?')){s.value='';return}call('obs_admin_plan',{p_code:code,p_plan:'life'},'Changed to '+PLN.life);return}
     if(s.dataset.a==='ext'&&s.value){var base=c.expires&&new Date(c.expires)>new Date()?new Date(c.expires):new Date(),v=s.value,ex=null;
       if(v==='m'){base.setMonth(base.getMonth()+1);ex=base.toISOString()}if(v==='y'){base.setFullYear(base.getFullYear()+1);ex=base.toISOString()}if(v==='now')ex=new Date().toISOString();
       if(!confirm({m:'Add one month',y:'Add one year',life:'Make it never end',now:'End the subscription now'}[v]+' for '+nameOf(c)+'?')){s.value='';return}
@@ -262,7 +286,19 @@ function codeAct(e){var s=e.target.closest('select[data-a]'),b=e.target.closest(
   if(a==='note'){var v2=prompt('Name · phone',c2.note||'');if(v2!==null)call('obs_admin_note',{p_code:code2,p_note:v2},'Saved')}
   if(a==='reset'&&confirm('Remove the devices of '+nameOf(c2)+'?\nThose devices lose the full book next time they are online; the student can then add devices again from the app.'))call('obs_admin_reset',{p_code:code2},'Devices removed');
   if(a==='off'&&confirm('Switch off '+nameOf(c2)+'?\nThe full book stops on their devices next time they are online.'))call('obs_admin_active',{p_code:code2,p_on:false},'Switched off');
-  if(a==='on')call('obs_admin_active',{p_code:code2,p_on:true},'Switched on')}
+  if(a==='on')call('obs_admin_active',{p_code:code2,p_on:true},'Switched on');
+  if(a==='del'&&confirm('Delete '+code2+' ('+nameOf(c2)+') completely?\nIts devices lose the full book and its synced notes are deleted. This cannot be undone.'))call('obs_admin_delete',{p_code:code2},'Deleted')}
+function wkCodeAct(e,s,b,it){var bk=it.dataset.w,code=it.dataset.c,c=oc(code);if(!c)return;
+  if(e.type==='change'&&s&&s.dataset.a==='wmax'){wkAct(bk,code,'max',{max:+s.value},nameOf(c)+' can now open '+s.value+' device'+(s.value==='1'?'':'s'));return}
+  if(e.type!=='click'||!b)return;var a=b.dataset.a;
+  if(a==='code')copy(code);
+  if(a==='note'){var v=prompt('Name · phone',c.note||'');if(v!==null)wkAct(bk,code,'note',{note:v},'Saved')}
+  if(a==='notes'){b.disabled=true;wkCall(bk,'/api/codes/'+encodeURIComponent(code)+'/notes',{}).then(function(j){b.disabled=false;var n=j.notes||[];
+    ovl('<b>Notes of '+esc(nameOf(c))+' · '+n.length+'</b>'+(n.length?n.map(function(x){return '<div class="ni"><i>'+esc(x.page)+' · "'+esc(x.text)+'"</i><p>'+esc(x.note).replace(/\n/g,'<br>')+'</p></div>'}).join(''):'<p class="hint">No notes yet (notes reach the server when the student is online).</p>'))}).catch(function(er){b.disabled=false;toast('Error: '+(er.msg||'no connection'))});return}
+  if(a==='reset'&&confirm('Remove the devices of '+nameOf(c)+'?\nThe code can then be activated again on new devices.'))wkAct(bk,code,'reset',{},'Devices removed');
+  if(a==='off'&&confirm('Switch off '+nameOf(c)+'?\nThe full book stops on their devices next time they are online.'))wkAct(bk,code,'off',{},'Switched off');
+  if(a==='on')wkAct(bk,code,'on',{},'Switched on');
+  if(a==='del'&&confirm('Delete '+code+' ('+nameOf(c)+') completely?\nIts devices lose the full book and its synced notes are deleted. This cannot be undone.'))wkAct(bk,code,'delete',{},'Deleted')}
 ['sbList','list'].forEach(function(id){$(id).addEventListener('click',codeAct);$(id).addEventListener('change',codeAct)});
 /* give */
 $('gUser').addEventListener('input',function(){var u=this.value.trim(),el=$('gBook');if(!el){el=document.createElement('p');el.id='gBook';el.className='hint';this.parentNode.appendChild(el)}el.textContent='';if(u.replace(/[^0-9a-f]/gi,'').length<8)return;
@@ -272,16 +308,36 @@ $('gGo').onclick=function(){var b=this,u=$('gUser').value.trim(),n=$('gName').va
     if(!d.ok){toast({unknown:'No device with this user number has opened the app yet',many:'More than one device matches: write more characters',short:'The user number is too short'}[d.reason]||'Could not give the subscription');return}
     toast('Done: the device opens by itself');$('gUser').value='';$('gName').value='';$('gPhone').value='';load().then(function(){SBF='all';segOn('sbTabs','f','all');sbRender();go('sub')})})};
 /* old codes */
-function msgFor(c){var who=nameOf(c);return 'السلام عليكم '+who+'، شكرًا على اشتراكك في Obstetrics Master Review.\n\nكود التفعيل:\n'+c.code+'\n\nافتح الكتاب: '+SITE+'\nثم الصق الكود واضغط «تفعيل».'}
-function oldRender(){var q=$('find2').value.trim().toLowerCase(),rows=ALL.filter(function(c){return !(c.plan&&c.plan!=='old')&&inBk(c)&&(!q||(c.code+' '+c.note).toLowerCase().indexOf(q)>=0)});
+function msgFor(c){var who=nameOf(c);if(c.wk){var nm={srg:'Surgery Master Review',ped:'Pediatric Master Review'}[c.book];return 'السلام عليكم '+who+'، شكرًا على اشتراكك في '+nm+'.\n\nكود التفعيل:\n'+c.code+'\n\nافتح التطبيق: https://student-master-review.pages.dev\nثم افتح '+nm+'، واضغط «الاشتراك» ثم «عندي كود تفعيل قديم»، والصق الكود واضغط «تفعيل».'}return 'السلام عليكم '+who+'، شكرًا على اشتراكك في Obstetrics Master Review.\n\nكود التفعيل:\n'+c.code+'\n\nافتح الكتاب: '+SITE+'\nثم الصق الكود واضغط «تفعيل».'}
+function wkGate(b){var e=WERR[b];return '<div class="card wkg" data-w="'+b+'"><div class="r1"><span class="chip bk '+b+'">'+BKN[b]+'</span><b>Old codes on the '+BKN[b]+' server</b></div>'+
+  '<p class="hint">'+(e==='wrong'?'That password was not accepted. ':e?'Could not reach the server ('+esc(e)+'). ':'')+'The '+BKN[b]+' old codes (from before the new app) are kept on the book\'s own server. Type its old admin password once; this device remembers it.</p>'+
+  '<div class="form"><label>'+BKN[b]+' old admin password<input type="password" class="wkpw" autocomplete="off"></label><div class="full"><button type="button" class="btn pri" data-wk="go">Connect</button></div></div></div>'}
+function oldRender(){var q=$('find2').value.trim().toLowerCase(),wb=['srg','ped'].filter(function(b){return BKF==='all'||BKF===b}),gates=wb.filter(function(b){return !WOLD[b]}),
+    rows=ALL.filter(function(c){return !(c.plan&&c.plan!=='old')&&inBk(c)});
+  var have={};ALL.forEach(function(c){have[c.code]=1});wb.forEach(function(b){rows=rows.concat((WOLD[b]||[]).filter(function(c){return !have[c.code]}))});   // a code already moved to the shared system shows once, from thererows=rows.filter(function(c){return !q||(c.code+' '+c.note).toLowerCase().indexOf(q)>=0});
+  $('wkGates').innerHTML=gates.map(wkGate).join('');
   $('list').innerHTML=rows.length?rows.map(function(c){var d=devs(c),st=state(c);
-    return '<div class="card it" data-c="'+esc(c.code)+'"><div class="r1"><span class="code">'+esc(c.code)+'</span><span class="chip '+(!c.active?'n':st==='ended'?'r':c.activated_at?'g':'')+'">'+(!c.active?'Off':st==='ended'?'Ended':c.activated_at?'Activated':'Unused')+'</span><span class="tm">'+fd(c.created_at)+'</span></div>'+
-      '<div class="kv"><div><span>Note</span><b dir="auto">'+esc(c.note||'–')+'</b></div><div><span>Ends</span><b>'+(c.expires?fd(c.expires):'Never (until launch)')+'</b></div><div><span>Devices '+d.length+' of '+(c.maxdev||2)+'</span><b>'+(d.length?d.map(esc).join(' · '):'none yet')+'</b></div></div>'+
-      '<div class="acts"><button type="button" class="btn" data-a="code">Copy code</button><button type="button" class="btn" data-a="msg">Copy message</button><button type="button" class="btn" data-a="note">Edit note</button>'+(d.length?'<button type="button" class="btn" data-a="reset">Remove devices</button>':'')+
-      (c.active?'<button type="button" class="btn bad" data-a="off">Switch off</button>':'<button type="button" class="btn" data-a="on">Switch on</button>')+'</div></div>'}).join(''):'<p class="empty">No old codes.</p>'}
+    return '<div class="card it" data-c="'+esc(c.code)+'"'+(c.wk?' data-w="'+c.book+'"':'')+'><div class="r1">'+bkChip(c)+'<span class="code">'+esc(c.code)+'</span><span class="chip '+(!c.active?'n':st==='ended'?'r':c.activated_at?'g':'')+'">'+(!c.active?'Off':st==='ended'?'Ended':c.activated_at?'Activated':'Unused')+'</span><span class="tm">'+fd(c.created_at)+'</span></div>'+
+      '<div class="kv"><div><span>Note</span><b dir="auto">'+esc(c.note||'–')+'</b></div><div><span>Ends</span><b>'+(c.expires?fd(c.expires):'Never (until launch)')+'</b></div><div><span>Devices '+d.length+' of '+(c.maxdev||2)+(c.wk?' <select data-a="wmax" aria-label="Devices">'+[1,2,3,4,5,6,7,8,9,10].map(function(n){return '<option'+(n===(c.maxdev||2)?' selected':'')+'>'+n+'</option>'}).join('')+'</select>':'')+'</span><b>'+(d.length?d.map(esc).join(' · '):'none yet')+'</b></div></div>'+
+      '<div class="acts"><button type="button" class="btn" data-a="code">Copy code</button><button type="button" class="btn" data-a="msg">Copy message</button><button type="button" class="btn" data-a="note">Edit note</button><button type="button" class="btn" data-a="notes">Notes</button>'+(d.length?'<button type="button" class="btn" data-a="reset">Remove devices</button>':'')+
+      (c.active?'<button type="button" class="btn bad" data-a="off">Switch off</button>':'<button type="button" class="btn" data-a="on">Switch on</button>')+'<button type="button" class="btn bad" data-a="del">Delete</button></div></div>'}).join(''):(gates.length&&gates.length===wb.length&&BKF!=='all'?'':'<p class="empty">No old codes.</p>')}
 $('find2').addEventListener('input',oldRender);
-$('list').addEventListener('click',function(e){var b=e.target.closest('button[data-a="msg"]');if(b){var c=ALL.filter(function(x){return x.code===b.closest('.it').dataset.c})[0];copy(msgFor(c))}});
-$('create').onclick=function(){var n=Math.max(1,Math.min(50,+$('count').value||1)),note=$('note').value.trim(),b=this;b.disabled=true;
+$('list').addEventListener('click',function(e){var b=e.target.closest('button[data-a="msg"]');if(b){copy(msgFor(oc(b.closest('.it').dataset.c)))}});
+$('wkGates').addEventListener('click',function(e){var b=e.target.closest('button[data-wk]');if(!b)return;var g=b.closest('.wkg'),bk=g.dataset.w,v=g.querySelector('.wkpw').value;if(!v){toast('Type the password');return}
+  try{localStorage.setItem('adm-wk-'+bk,v)}catch(er){}b.disabled=true;wkLoad(bk).then(function(){b.disabled=false;oldRender();toast(WOLD[bk]?BKN[bk]+' connected: '+WOLD[bk].length+' old code'+(WOLD[bk].length===1?'':'s'):'Not connected')})});
+$('mvGo').onclick=function(){var bk=BKF,b=this;if(bk==='all'){toast('Choose the book first (Obstetrics, Pediatrics or Surgery)');return}
+  if(bk!=='obs'&&!WOLD[bk]){toast('Connect '+BKN[bk]+' first (password below)');return}
+  if(!confirm('Move the activated old codes of '+BKN[bk]+' to Monthly subscriptions ending one month from today?'))return;b.disabled=true;
+  var done=function(t){b.disabled=false;toast(t);load().then(function(){SBF='all';segOn('sbTabs','f','all');sbRender()})};
+  if(bk==='obs'){sb.rpc('obs_admin_old_to_month',{p_book:'obs'}).then(function(r){if(r.error){b.disabled=false;toast('Error: '+r.error.message);return}done(r.data+' code'+(r.data===1?'':'s')+' moved to Monthly')});return}
+  var L=WOLD[bk].slice(),n=0,m=0;(function next(){var c=L.shift();if(!c){done(n+' moved to Monthly'+(m?', '+m+' unused kept as old codes':''));return}
+    sb.rpc('obs_admin_import_old',{p_book:bk,p_code:c.code,p_note:c.note,p_maxdev:c.maxdev,p_active:c.active,p_used:!!c.activated_at}).then(function(r){if(r.error){b.disabled=false;toast('Error: '+r.error.message);return}if(c.activated_at)n++;else m++;next()})})()};
+$('wkGates').addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.classList.contains('wkpw')){e.preventDefault();e.target.closest('.wkg').querySelector('button[data-wk]').click()}});
+$('create').onclick=function(){var n=Math.max(1,Math.min(50,+$('count').value||1)),note=$('note').value.trim(),b=this;
+  if(BKF==='srg'||BKF==='ped'){var bk=BKF;b.disabled=true;wkCall(bk,'/api/codes',{note:note,count:n}).then(function(j){b.disabled=false;wkSet(bk,j);$('note').value='';$('count').value=1;
+      $('fresh').innerHTML='<div class="fresh" style="margin-top:10px">'+(j.made||[]).map(esc).join('<span></span>')+'</div>';oldRender()}).catch(function(e){b.disabled=false;toast(e.need?'Connect '+BKN[bk]+' first (password below)':'Error: '+(e.msg||'no connection'));oldRender()});return}
+  if(BKF==='all'){toast('Choose the book first (Obstetrics, Pediatrics or Surgery)');return}
+  b.disabled=true;
   sb.rpc('obs_admin_create',{p_note:note,p_n:n}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}var codes=r.data||[];$('note').value='';$('count').value=1;
     $('fresh').innerHTML='<div class="fresh" style="margin-top:10px">'+codes.map(esc).join('<span></span>')+'</div>';load()})};
 /* start */

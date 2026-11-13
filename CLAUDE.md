@@ -411,3 +411,18 @@ Measured on a simulated mid-range phone (Chromium, CPU 4x slower): start 3.1 s �
   the screen inside Student Master Review (IntersectionObserver on the frame). A book on the screen keeps running; the new version shows
   at its next opening. Tested with a local parent page: on screen = no reload, off screen = one silent reload.
 - Platform: `{smr:'new'}` now reloads the platform only while it is in the background (it used to reload a just-opened app, greeting again).
+
+## Old codes into the new subscriptions (owner, 13 Nov 2026)
+- Admin «Old codes» shows the three books like Obstetrics: Surgery (SMR-) and Pediatrics (PMR-) old codes are read live from each book's own
+  server (`WK` in admin.html: GET/POST `<worker>/api/codes…` with `Authorization: Bearer <that book's old admin password>`, typed once in the
+  admin and kept in that device's localStorage `adm-wk-<book>`; the Workers allow any origin). Every old-code card has Notes and Delete.
+- «Move the old codes of this book» (migration 010): Obstetrics `obs_admin_old_to_month('obs')`; Surgery / Pediatrics `obs_admin_import_old` copies
+  each Worker code into obs_codes (book srg/ped): activated codes become plan 'month' ending one month later (maxdev at least 3), unused ones
+  stay 'old' until 12 Dec 2026. A Surgery / Pediatrics device that opened with an old code joins by itself (src/v2.book.js `oldToNew`: obs_activate
+  with its old code, every 6 h until it holds the book key, silently); a typed old code is tried in the shared system first, then the Worker.
+- Students: a card shows only the books the student subscribes to; «Type» (Monthly / Annual / Lifetime) = `obs_admin_plan` (month and year run
+  from today); «Extend → Never ends» also sets Lifetime (Extend used to change only the end date, so the type stayed "Monthly").
+- The receipt picture is optional (app «رفع الإيصال (اختياري…)»; `obs_request_submit` accepts a request without it; admin says "No receipt").
+- One phone counted as many devices (old Worker codes): every separate address or browser on a phone has its own storage, so the book saw a
+  new device each time. Since the books open only inside Student Master Review (and the old addresses hand over the device id), a phone keeps one
+  identity; «Remove devices» clears the old duplicates.
