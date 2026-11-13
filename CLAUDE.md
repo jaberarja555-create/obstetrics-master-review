@@ -427,6 +427,11 @@ Measured on a simulated mid-range phone (Chromium, CPU 4x slower): start 3.1 s �
   Monthly subscription ending one month later (3 devices), and a trigger (`obs_old_to_month_on_use`) does the same for an old code first used
   later; unused old codes stay hidden. The admin has only Requests / Students / Give. Until Surgery / Pediatrics codes are brought in once,
   Students shows a card per book (old admin password + «Bring them in», calls `obs_admin_import_old`); it disappears when all are in.
+- **Admin changes reach the phone at its next opening (owner, 13 Nov 2026: "make the change reach the phone immediately"; then "every minute will slow
+  their phone"):** a subscribed device asks `obs_check` on opening, when the app comes back to the screen, when the internet returns and every 10 minutes while open (Obstetrics licence.js
+  `recheck`, Surgery/Pediatrics src/v2.book.js `recheck`); a new end date / plan / name is shown at once (event `obs-sub`, v2.js re-renders);
+  ended, switched off or removed → locked. A locked device that had a subscription (`-ended` / `-wassub`) asks `obs_request_status` on opening and every
+  10 minutes (v2.js `poll`), so a renewal or switch-on opens it by itself.
 - One phone counted as many devices (old Worker codes): every separate address or browser on a phone has its own storage, so the book saw a
   new device each time. Since the books open only inside Student Master Review (and the old addresses hand over the device id), a phone keeps one
   identity; «Remove devices» clears the old duplicates.

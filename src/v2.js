@@ -380,7 +380,12 @@ function poll(){if(!LIC||LIC.unlocked()||navigator.onLine===false)return Promise
     if(d.active)return LIC.rpc('obs_check',{p_dev:LIC.dev}).then(function(q){if(q.data&&q.data.ok&&q.data.key){spj('req',null);return LIC.adopt(q.data)}});
     var was=JSON.stringify(REQ);REQ=d.status==='none'||d.status==='cancelled'?null:{status:d.status,plan:d.plan,t:d.created,reason:d.reason};spj('req',REQ);if(JSON.stringify(REQ)!==was&&(CURV==='v2sub'||CURV==='v2home'))R[CURV]();header()}).catch(function(){})}
 setInterval(function(){if(!document.hidden&&((REQ&&REQ.status==='pending')||CURV==='v2sub'))poll()},45000);
-document.addEventListener('visibilitychange',function(){if(!document.hidden)poll()});
+/* a device whose subscription ended, was switched off or removed asks again every 10 minutes (and on every opening / return to the app),
+   so a renewal or switch-on in the admin opens it by itself */
+setInterval(function(){if(!document.hidden&&(st('orr-ended')||st('orr-wassub')))poll()},600000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)poll()});window.addEventListener('online',function(){poll()});
+/* the licence layer saw a new end date, plan or name from the admin: show it now */
+window.addEventListener('obs-sub',function(){try{header();if(CURV==='v2sub'||CURV==='v2home'||CURV==='v2settings')R[CURV]()}catch(e){}});
 R.v2sub=function(){var a=access(),ex=+st('orr-exp')||0,pl=st('orr-plan'),pend=a!=='paid'&&REQ&&REQ.status==='pending',h=title('الاشتراك',CURV==='v2sub'&&RETS?RETS:'v2settings');
   function chk(t){return '<li>'+I('check')+t+'</li>'}
   if(a==='paid')h+='<div class="v2c sbx ok" lang="ar"><b>'+I('crown')+'اشتراكك فعّال</b><p>'+(pl?'الخطة: '+plan(pl).ar+' · ':'')+(ex?'ينتهي في '+fdate(ex):'بلا تاريخ انتهاء')+'</p><p class="mu">اشتراكك يفتح هاتفك وجهازك اللوحي وحاسوبك، وملاحظاتك وتقدّمك تظهر في كل أجهزتك.</p><button type="button" class="v2btn sm" data-act="pairnew">'+I('sync')+'أضف جهازًا آخر</button><div id="prBox"></div></div>';

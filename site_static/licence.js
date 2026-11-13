@@ -48,7 +48,8 @@ function trialUI(){document.documentElement.classList.remove('unlocked');documen
   up();setInterval(up,30000);setTimeout(function(){location.reload()},Math.min(tleft()+500,2e9))}
 /* plans that end (owner, 10 Nov 2026): orr-exp = end time (ms) of a monthly / annual plan, orr-plan, orr-sname = the name the owner
    approved, orr-ended = the plan ended on this device. The server decides (obs_check); the date kept here only tells when to ask. */
-function saveMeta(j){LS('orr-exp',j.exp?String(Date.parse(j.exp)):null);LS('orr-plan',j.plan||null);if(j.name)LS('orr-sname',j.name);LS('orr-ended',null)}
+function saveMeta(j){var was=[LS('orr-exp'),LS('orr-plan'),LS('orr-sname')].join('|');LS('orr-exp',j.exp?String(Date.parse(j.exp)):null);LS('orr-plan',j.plan||null);if(j.name)LS('orr-sname',j.name);LS('orr-ended',null);LS('orr-wassub',null);
+  if([LS('orr-exp'),LS('orr-plan'),LS('orr-sname')].join('|')!==was)try{window.dispatchEvent(new Event('obs-sub'))}catch(e){}}
 function ended(){LS('orr-k',null);LS('orr-kc',null);LS('orr-ended','1')}
 function start(){
   var k=LS('orr-k'),ex=+LS('orr-exp')||0,pre=Promise.resolve();
@@ -59,7 +60,8 @@ function start(){
   if(tk&&!(tleft()>0)){LS('orr-tk',null);tk=null}
   var key=k||tk,ok=window.crypto&&crypto.subtle&&window.DecompressionStream;
   var p=key&&ok?decrypt(key).then(function(data){apply(data);if(k)UNLOCKED=true;else{INTRIAL=true;trialUI()}}).catch(function(e){if(e&&e.badkey){LS(k?'orr-k':'orr-tk',null)}}):Promise.resolve();
-  p.then(function(){window.__boot&&window.__boot();if(UNLOCKED)recheck();afterLogin()})})}
+  p.then(function(){window.__boot&&window.__boot();if(UNLOCKED){recheck();setInterval(function(){if(!document.hidden)recheck()},600000);
+    document.addEventListener('visibilitychange',function(){if(!document.hidden)recheck()});window.addEventListener('online',recheck)}afterLogin()})})}
 /* ---------- Supabase: students need no sign-in; the app's public key is enough ---------- */
 var SBC=window.OBS_SB(CFG,'orr-auth');
 function sb(){return SBC.ready?Promise.resolve(SBC):Promise.reject(new Error('noconfig'))}
@@ -68,12 +70,15 @@ function sb(){return SBC.ready?Promise.resolve(SBC):Promise.reject(new Error('no
 window.__obsSync={act:function(){return UNLOCKED},on:function(){return UNLOCKED&&!!SBC.ready},
   call:function(b){return sb().then(function(c){return b&&b.data?c.rpcAnon('obs_sync_put',{p_dev:DEV,p_ver:b.ver||0,p_data:b.data}):c.rpcAnon('obs_sync_get',{p_dev:DEV})})
     .then(function(r){if(r.error){var m=String(r.error.message||r.error.code||'');throw {reason:/obs_sync|function/.test(m)?'setup':'net'}}return r.data})}};
-/* re-check the code every 3 days when online: switched off or devices reset → lock again */
-function recheck(){var last=+(LS('orr-kc')||0);if(Date.now()-last<(LS('orr-exp')?1:3)*864e5||navigator.onLine===false)return;
+/* the subscription is asked again on opening, when the app comes back to the screen, when the internet returns, and every 10 minutes while
+   it stays open (owner, 13 Nov 2026: "make the change reach the phone immediately", then "every minute will slow their phone"): one small
+   request, no page work. A change made in the admin (type, end date, name, switched off, devices removed, ended) shows at the next opening. */
+var RCL=0;
+function recheck(){if(navigator.onLine===false||Date.now()-RCL<20000)return;RCL=Date.now();
   sb().then(function(c){return c.rpcAnon('obs_check',{p_dev:DEV}).then(function(r){var j=r.data;if(r.error||!j)return;
     if(j.ok){saveMeta(j);LS('orr-kc',String(Date.now()));if(j.key&&j.key!==LS('orr-k')){LS('orr-k',j.key);location.reload()}}
     else if(j.reason==='expired'){ended();location.reload()}
-    else if(j.reason==='off'||j.reason==='none'){LS('orr-k',null);LS('orr-kc',null);alert(j.reason==='none'?'أُزيل اشتراكك من هذا الجهاز، فأُقفل الكتاب الكامل هنا. إذا كان ذلك خطأً فتواصل مع '+(CFG.contact||'')+'.':'أُوقف اشتراكك، فأُقفل الكتاب الكامل في هذا الجهاز. تواصل مع '+(CFG.contact||'')+'.');location.reload()}})}).catch(function(){})}
+    else if(j.reason==='off'||j.reason==='none'){LS('orr-k',null);LS('orr-kc',null);LS('orr-wassub','1');alert(j.reason==='none'?'أُزيل اشتراكك من هذا الجهاز، فأُقفل الكتاب الكامل هنا. إذا كان ذلك خطأً فتواصل مع '+(CFG.contact||'')+'.':'أُوقف اشتراكك، فأُقفل الكتاب الكامل في هذا الجهاز. تواصل مع '+(CFG.contact||'')+'.');location.reload()}})}).catch(function(){})}
 /* ---------- the subscription sheet ---------- */
 var sh=document.createElement('div');sh.className='sheet';sh.id='subSheet';sh.hidden=true;
 sh.innerHTML='<div class="in ar subin" role="dialog" aria-modal="true" dir="rtl"><h3><span>الاشتراك في الكتاب</span><button class="chip" type="button" id="subX">Close</button></h3><img class="sublogo" src="img/logo3.webp" alt=""><div id="subBody"></div></div>';
