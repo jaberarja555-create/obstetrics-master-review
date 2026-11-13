@@ -805,3 +805,6 @@ html[data-lang="en"] #v2homeW .hq small{display:none}   /* the English subtitle 
 #cards .fc .in{display:grid!important;height:auto!important;min-height:300px!important}
 #cards .fc .face{position:relative!important;inset:auto!important;grid-area:1/1;min-height:300px;overflow:visible!important;overscroll-behavior:auto!important}
 #cards .fc:not(.flip) .face.a,#cards .fc.flip .face.q{pointer-events:none}
+/* undo / redo of the tools ring are hidden, not only transparent, while the ring is closed (owner, 13 Nov 2026: in Surgery they stayed
+   on the screen over the page because the old toolbar style there gives the pill no size, so transparency was not applied on phones) */
+#reader .rbar:not(.fan)>.urw,#reader .rbar:not(.fan)>.urw button{visibility:hidden}
