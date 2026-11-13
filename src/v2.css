@@ -293,7 +293,7 @@ button{font-family:inherit}
 .pln i{width:20px;height:20px;border-radius:50%;border:2px solid var(--sub);box-sizing:border-box}
 .pln.on{border-color:var(--pri);box-shadow:0 0 0 2px var(--pri) inset,var(--sh)}.pln.on i{border:6px solid var(--pri)}
 .pln span{font:700 15px 'Cairo',sans-serif}.pln small{font:500 12.5px var(--ui);color:var(--sub);margin-right:6px}.pln b{font:800 16px var(--ui)}
-.prow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.prow span{display:flex;align-items:center;gap:8px;font:600 13px 'Cairo',sans-serif;color:var(--sub)}.prow .v2ic{color:var(--pri)}.prow b{flex:1;font:700 15px 'Cairo','Inter',sans-serif}
+.prow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.prow span{display:flex;align-items:center;gap:8px;font:600 13px 'Cairo',sans-serif;color:var(--sub)}.prow .v2ic{color:var(--pri)}.prow b{flex:1 1 140px;min-width:0;font:700 15px 'Cairo','Inter',sans-serif}.prow b bdi{white-space:nowrap}
 .acct{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.acct span{flex:1;min-width:120px;text-align:center;padding:8px;border-radius:10px;background:var(--bg);font:800 20px var(--ui);letter-spacing:2px}
 .frm label{display:grid;gap:5px;font:600 13px 'Cairo',sans-serif;color:var(--sub)}
 .frm input[type=text],.frm input[type=tel],.frm textarea{min-height:44px;border-radius:12px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);padding:8px 12px;font:600 15px 'Cairo','Inter',sans-serif;outline:0;resize:vertical}
