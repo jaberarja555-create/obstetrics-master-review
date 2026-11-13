@@ -500,3 +500,14 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   book-and-stethoscope drawing, four tiles (students, active subscriptions, waiting requests, ending in 7 days), Quick actions, Needs attention
   (requests, messages, ending soon, two subscriptions of one book), Recent activity; then subscribers by book and the admins list. Bottom bar
   with a filled active pill. Keep `#sub2` in the header (the sign-in code writes to it).
+- **Inner screens and messages (owner, 13 Nov 2026: "even the buttons inside"; "improve the discussion area"):** soft buttons with icons
+  (`.btn` / `.pri` / `.bad` / `.warn` / `.wa`), fields with a chevron/search sign, status tabs in a white track; request cards with avatar,
+  info tiles and a full-width Approve; a book row on a student card = three labelled selects + four icon buttons; dialogs are bottom sheets
+  on phones. Messages: tabs All / Unread / Subscribers / Not subscribed, the chat opens as its own page on phones (back arrow), header with
+  WhatsApp / Call / Clear, day separators, tap a message for Change / Delete for both. **Clear from the admin only** (migration 021: column
+  `obs_msgs.ahide`, `obs_admin_msg_hide(tks[])`; `obs_admin_msgs` skips hidden messages, the student's `obs_msg_list` does not): «Clear all /
+  these» clears the listed conversations, the trash in the chat header one conversation; a new message from the student shows again.
+- **Staying signed in (owner, 13 Nov 2026: "each time I open, the sign-in screen appears"):** site_static/sbmini.js renews the access token
+  once for all calls that start together (they used to send the same one-use refresh token, which can end the whole sign-in), picks up a
+  renewal made by another tab, and signs out only on a 400/401/403 answer; the admin's `boot()` shows «Opening…» while a saved sign-in is
+  renewed and tries again every 4 s with no connection, instead of showing the sign-in button.
