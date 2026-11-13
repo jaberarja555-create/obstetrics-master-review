@@ -432,6 +432,8 @@ Measured on a simulated mid-range phone (Chromium, CPU 4x slower): start 3.1 s �
   `recheck`, Surgery/Pediatrics src/v2.book.js `recheck`); a new end date / plan / name is shown at once (event `obs-sub`, v2.js re-renders);
   ended, switched off or removed → locked. A locked device that had a subscription (`-ended` / `-wassub`) asks `obs_request_status` on opening and every
   10 minutes (v2.js `poll`), so a renewal or switch-on opens it by itself.
+- **Done 13 Nov 2026:** the owner brought in the Surgery and Pediatrics old codes (the Pediatrics Worker had no `ADMIN_PASSWORD` secret, so
+  every password was "Wrong password"; he added it as a Secret in Cloudflare → Workers → pediatrics-master-review → Variables and Secrets).
 - One phone counted as many devices (old Worker codes): every separate address or browser on a phone has its own storage, so the book saw a
   new device each time. Since the books open only inside Student Master Review (and the old addresses hand over the device id), a phone keeps one
   identity; «Remove devices» clears the old duplicates.
