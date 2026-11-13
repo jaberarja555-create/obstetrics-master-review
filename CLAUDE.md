@@ -495,3 +495,8 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   scrolling row, compact numbers on phones; Students = one line per student (students() joins subscriptions with the same `sid`,
   migration 019, or the same phone), tap to open. Two subscriptions of the same book show «Merge into one» with a plan choice
   (`obs_admin_merge2`, migration 020: devices and notes kept; the end date of the subscription that already had that plan is kept).
+- **Admin app design (owner, 13 Nov 2026, from his concept picture):** teal header «Master Review Admin» + screen name, bell (requests +
+  messages, opens the one waiting) and a round letter avatar (sign out); first tab **Home** (`homeDash()` in ovRender): greeting banner with a
+  book-and-stethoscope drawing, four tiles (students, active subscriptions, waiting requests, ending in 7 days), Quick actions, Needs attention
+  (requests, messages, ending soon, two subscriptions of one book), Recent activity; then subscribers by book and the admins list. Bottom bar
+  with a filled active pill. Keep `#sub2` in the header (the sign-in code writes to it).
