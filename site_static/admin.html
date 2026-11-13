@@ -95,6 +95,8 @@ input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--sel)
 .pinb{font:800 28px/1.2 var(--ui);letter-spacing:3px;text-align:center;padding:10px;border:2px dashed var(--pri);border-radius:12px}
 .ovl{position:fixed;inset:0;background:rgba(40,28,70,.55);display:grid;place-items:center;z-index:50;padding:14px}
 .ovl .in{background:var(--sf);border-radius:16px;max-width:640px;width:100%;max-height:88vh;overflow:auto;padding:16px;display:grid;gap:10px}
+.lkl{display:grid;gap:8px}.lkr{display:flex;align-items:center;gap:10px;padding:10px 12px}.lkn{flex:1;display:grid;gap:2px;min-width:0}.lkn small{color:var(--sub);font-size:12.5px}
+#lkQ{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:12px;font:inherit;background:var(--bg);color:var(--tx)}
 .ovl img{max-width:100%;max-height:70vh;margin:0 auto;border-radius:10px;display:block}
 .ni{border-top:1px solid var(--bd);padding:8px 0}.ni i{display:block;color:var(--sub);font-size:13px}.ni p{margin:4px 0 0}
 @media (min-width:860px){
@@ -235,7 +237,9 @@ function rqRender(){var RQ=RQALL.filter(inBk);$('rqList').innerHTML=RQ.length?RQ
     '<div class="kv"><div><span>Phone</span><b dir="ltr">'+esc(r.phone)+'</b></div><div><span>Device</span><b>'+esc(r.label||r.kind||'')+'</b></div><div><span>User number</span><b dir="ltr">'+esc(String(r.dev).slice(0,10).toUpperCase())+'</b></div>'+(r.decided?'<div><span>Decided</span><b>'+ft(r.decided)+'</b></div>':'')+'</div>'+
     (function(){var x=stuOf(r.phone);if(!x)return '';var by={};x.codes.forEach(function(c){var b=bkOf(c);if(!by[b])by[b]=c});return '<div class="cm">Already: '+Object.keys(by).map(function(b){return BKN[b]+' ('+STN[state(by[b])]+')'}).join(' · ')+'</div>'})()+(r.comment?'<div class="cm" dir="auto">'+esc(r.comment)+'</div>':'')+(r.status==='rejected'&&r.reason?'<div class="cm" dir="auto">Reason: '+esc(r.reason)+'</div>':'')+
     '<div class="acts">'+(dv||r.status==='cancelled'?'':'<button type="button" class="btn" data-r="img">View receipt</button>')+(wa?'<button type="button" class="btn wa" data-r="wa" data-p="'+wa+'">WhatsApp</button>':'')+
-    (r.status!=='pending'?'':dv?'<span class="hint" style="flex:1">Adds this device to the subscription with this phone number</span><button type="button" class="btn ok" data-r="yes">Approve</button><button type="button" class="btn bad" data-r="no">Reject</button>'
+    (r.status!=='pending'?'':dv?(function(){var m=phMatch(r);return '<span class="hint" style="flex:1 1 100%">'+(m?'Adds this device to the '+BKN[bkOf(r)]+' subscription of <b dir="auto">'+esc(nameOf(m))+'</b> ('+esc(m.code)+').':'No '+BKN[bkOf(r)]+' subscription has this phone number. Link the device to the student\'s subscription («Link to…»), or give it a subscription of its own.')+'</span>'+
+      (m?'<button type="button" class="btn ok" data-r="yes">Approve</button>':'')+'<button type="button" class="btn'+(m?'':' pri')+'" data-r="link">Link to…</button>'+
+      '<select data-f="nplan" aria-label="Plan">'+['month','year','life'].map(function(p){return '<option value="'+p+'">'+PLN[p]+'</option>'}).join('')+'</select><button type="button" class="btn" data-r="new">New subscription</button><button type="button" class="btn bad" data-r="no">Reject</button>'})()
       :'<input data-f="name" value="'+esc(r.name)+'" dir="auto" aria-label="Name"><select data-f="plan" aria-label="Plan">'+['month','year','life'].map(function(p){return '<option value="'+p+'"'+(p===r.plan?' selected':'')+'>'+PLN[p]+'</option>'}).join('')+'</select><button type="button" class="btn ok" data-r="yes">Approve</button><button type="button" class="btn bad" data-r="no">Reject</button>')+'</div></div>'}).join('')
   :'<p class="empty">'+(RQS==='pending'?'No request is waiting.':'Nothing here yet.')+'</p>'}
 function rqLoad(quiet){return sb.rpc('obs_admin_requests',{p_status:RQS}).then(function(r){if(r.error){if(!quiet)$('rqList').innerHTML='<p class="empty">Could not load the requests.</p>';return}
@@ -254,11 +258,17 @@ $('rqList').addEventListener('click',function(e){var b=e.target.closest('button[
   if(a==='wa'){window.open('https://wa.me/'+b.dataset.p,'_blank');return}
   if(a==='img'){b.disabled=true;sb.rpc('obs_admin_receipt',{p_id:id}).then(function(r){b.disabled=false;if(r.error||!r.data){toast('No receipt: the student sent the request without a picture');return}var d=r.data,u='data:'+d.mime+';base64,'+d.data;
     ovl(d.mime==='application/pdf'?'<p>This receipt is a PDF file.</p><a href="'+u+'" download="receipt.pdf"><button type="button" class="btn pri">Download the PDF</button></a>':'<img src="'+u+'" alt="Receipt">')});return}
+  var rq=RQALL.filter(function(x){return String(x.id)===String(id)})[0];
+  if(a==='link'){if(rq)linkPick(rq);return}
+  if(a==='new'){var np=it.querySelector('[data-f=nplan]').value;if(!rq||!confirm('Give '+rq.name+' a new '+PLN[np]+' subscription of '+BKN[bkOf(rq)]+' on this device?\nUse this only when the student has no subscription of this book.'))return;
+    b.disabled=true;sb.rpc('obs_admin_decide',{p_id:id,p_ok:true,p_name:rq.name,p_plan:np,p_reason:null}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}
+      if(r.data&&r.data.ok===false){toast('This request was already decided or cancelled');rqLoad();return}toast('Approved: the device opens by itself');rqLoad();load()});return}
   var args={p_id:id,p_ok:a==='yes',p_name:null,p_plan:null,p_reason:null},nf=it.querySelector('[data-f=name]');
   if(a==='yes'&&!nf){if(!confirm('Add this device to the student\'s subscription?'))return}
   else if(a==='yes'){args.p_name=nf.value.trim();args.p_plan=it.querySelector('[data-f=plan]').value;if(!confirm('Approve '+args.p_name+' · '+PLN[args.p_plan]+'?\nThe student\'s device will open by itself.'))return}
   else{var why=prompt('Reason shown to the student (for example: the amount is not complete)','');if(why===null)return;args.p_reason=why}
   b.disabled=true;sb.rpc('obs_admin_decide',args).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}
+    if(r.data&&r.data.ok===false&&r.data.reason==='nosub'&&rq){toast('No subscription of this book has this phone number: choose the student\'s subscription');linkPick(rq);return}
     if(r.data&&r.data.ok===false)toast({nosub:'No active subscription has this phone number. Check the number, or reject.',full:'This subscription already uses all its devices. Raise its Devices number in Subscribers, then approve again.'}[r.data.reason]||'This request was already decided or cancelled');
     else toast(a==='yes'?'Approved: the device opens by itself':'Rejected');rqLoad();load()})});
 /* subscribers */
@@ -270,6 +280,24 @@ function ph9(t){var d=String(t||'').replace(/[^0-9]/g,'');return d.length>=7?d.s
 function students(){var m={},L=[];ALL.filter(function(c){return c.plan&&c.plan!=='old'}).forEach(function(c){var k=ph9(telOf(c))||('c:'+c.code);if(!m[k]){m[k]={k:k,codes:[]};L.push(m[k])}m[k].codes.push(c)});
   L.forEach(function(x){x.codes.sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at)});x.name=nameOf(x.codes[0]);x.tel=telOf(x.codes[0]);x.last=Math.max.apply(null,x.codes.map(function(c){return +new Date(c.created_at)||0}))});
   return L.sort(function(a,b){return b.last-a.last})}
+/* a device request («subscribed on another device»): the subscription of the same book whose note carries the phone number */
+function phMatch(r){var k=ph9(r.phone);if(!k)return null;return ALL.filter(function(c){return bkOf(c)===bkOf(r)&&c.plan&&c.plan!=='old'&&c.active&&(!c.expires||new Date(c.expires)>new Date())&&String(c.note||'').replace(/[^0-9]/g,'').indexOf(k)>=0})[0]||null}
+/* the owner picks the student's subscription himself (another phone number was given) */
+function linkPick(r){var bk=bkOf(r);
+  ovl('<h3 style="margin:0">Link this device to a subscription</h3><p class="hint" style="margin:0"><b dir="auto">'+esc(r.name)+'</b> · <span dir="ltr">'+esc(r.phone)+'</span> asks to join a '+BKN[bk]+' subscription from another device. Find the student\'s '+BKN[bk]+' subscription (name, phone or code):</p>'+
+    '<input id="lkQ" class="inp" dir="auto" value="'+esc(r.name)+'" placeholder="Name, phone or code"><div id="lkL" class="lkl"></div>');
+  function words(q){return q.toLowerCase().split(/\s+/).filter(function(w){return w.length>1})}
+  function draw(){var ws=words($('lkQ').value),pool=ALL.filter(function(c){return bkOf(c)===bk&&c.plan&&c.plan!=='old'}),txt=function(c){return ((c.note||'')+' '+c.code+' '+(c.note||'').replace(/[^0-9]/g,'')).toLowerCase()};
+    var L=pool.filter(function(c){var t=txt(c);return ws.every(function(w){return t.indexOf(w)>=0})}),loose=false;
+    if(!L.length&&ws.length>1){loose=true;L=pool.filter(function(c){var t=txt(c);return ws.some(function(w){return w.length>2&&t.indexOf(w)>=0})})}
+    L=L.slice(0,40);
+    $('lkL').innerHTML=(loose&&L.length?'<p class="hint" style="margin:0">No exact match; subscriptions with part of the name:</p>':'')+(L.length?L.map(function(c){return '<div class="card lkr"><span class="lkn"><b dir="auto">'+esc(nameOf(c))+'</b><small dir="ltr">'+esc(telOf(c)||'no phone')+' · '+esc(c.code)+'</small><small>'+(PLN[c.plan]||'')+' · '+STN[state(c)]+'</small></span><button type="button" class="btn ok" data-lk="'+esc(c.code)+'">Link</button></div>'}).join('')
+      :'<p class="empty" style="margin:0">No '+BKN[bk]+' subscription matches. Try part of the name or the phone number. If the student has no '+BKN[bk]+' subscription, close this and use «New subscription» or «Reject».</p>')}
+  $('lkQ').oninput=draw;draw();
+  $('lkL').onclick=function(e){var b=e.target.closest('[data-lk]');if(!b)return;if(!confirm('Add this device to the subscription '+b.dataset.lk+'?'))return;b.disabled=true;
+    sb.rpc('obs_admin_link',{p_id:r.id,p_code:b.dataset.lk}).then(function(x){b.disabled=false;if(x.error){toast('Error: '+x.error.message);return}var d=x.data||{};
+      if(!d.ok){toast({book:'That subscription is of another book.',full:'That subscription could not take another device.',nocode:'That subscription no longer exists.'}[d.reason]||'This request was already decided or cancelled');if(d.reason==='done'){$('ovl').hidden=true;rqLoad()}return}
+      $('ovl').hidden=true;toast('Linked: the device opens by itself');rqLoad();load()})}}
 function stuOf(phone){var k=ph9(phone);return k?students().filter(function(x){return x.k===k})[0]:null}
 /* ---------- messages (owner, 13 Nov 2026): one conversation per student ('p:' + the last 9 digits of the phone, 'c:' + code when there
    is no phone, 'd:' + device for a student with no subscription). The student sees the answers in the app's notifications. ---------- */

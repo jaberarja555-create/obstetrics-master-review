@@ -450,3 +450,8 @@ Measured on a simulated mid-range phone (Chromium, CPU 4x slower): start 3.1 s �
   owner has ✎ / ✕ on each message (`obs_admin_msg_edit` for his own answers, `obs_admin_msg_delete` for any). `obs_msg_list` now returns the
   whole conversation every time (`p_after` ignored) with `e` = edited, so an edit or deletion on one side reaches the other. The admin Messages
   screen checks every 8 s while it is open (30 s elsewhere) and redraws only when something changed, keeping a half-written answer.
+- **Device requests that match no phone (owner, 13 Nov 2026; migration 014):** a «مشترك على جهاز آخر» request whose phone no subscription of that
+  book carries used to end in "No active subscription has this phone number". Now the phone is found anywhere in a note (old codes had no «·»),
+  and the request card offers «Link to…» (search the book's subscriptions by name / phone / code, `obs_admin_link`: same book only, device
+  count raised when full) and «New subscription» with a plan (`obs_admin_decide` with p_plan month/year/life on a device request = a new
+  subscription for that device). «Approve» shows only when a subscription with that phone exists and names it.
