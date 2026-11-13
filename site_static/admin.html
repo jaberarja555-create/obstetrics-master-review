@@ -315,8 +315,7 @@ function wkGate(b){var e=WERR[b];return '<div class="card wkg" data-w="'+b+'"><d
 /* Owner, 13 Nov 2026: "I don't want to see old codes anymore". There is no Old codes screen: used old codes are Monthly subscriptions
    (migration 011, also for codes used later). Surgery and Pediatrics old codes live on their own servers, so until they are brought in
    once, Students shows one card per book with that server's password and one button; the card goes away when all are in. */
-function impNeed(b){if(WOLD[b])return WOLD[b].some(function(c){return !ALL.some(function(x){return x.code===c.code})});
-  return !ALL.some(function(x){return x.book===b&&/^(SMR|PMR)-/.test(x.code)})}
+function impNeed(b){if(WOLD[b])return WOLD[b].some(function(c){return !ALL.some(function(x){return x.code===c.code})});return true}
 function impRender(){var bs=['srg','ped'].filter(function(b){return (BKF==='all'||BKF===b)&&impNeed(b)});
   $('imp').innerHTML=bs.map(function(b){var e=WERR[b];return '<div class="card wkg" data-i="'+b+'"><div class="r1"><span class="chip bk '+b+'">'+BKN[b]+'</span><b>Bring the '+BKN[b]+' subscribers from the old system</b></div>'+
     '<p class="hint" style="margin:6px 0 10px">Done once. Every student who used an old '+BKN[b]+' code becomes a <b>Monthly</b> subscription from today and shows here; their devices, notes and progress stay. Type the password of the old '+BKN[b]+' admin page.</p>'+
