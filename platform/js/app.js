@@ -574,6 +574,18 @@
     if (ph) LS.set('photo', ph); else LS.del('photo');
     LS.set('profset', Date.now()); refreshProfile(); if (state.base !== 'read') route(true); tellProfAll(id);
   });
+  /* A book added by the admin opens by itself (owner, 14 Nov 2026): every book tells the platform its device number; each book is given
+     the device numbers of the other books on this phone, so a book with no subscription of its own can join the same student's
+     subscription of that book (obs_auto_join, migration 023). Only device numbers travel, never keys. */
+  function tellDevs(id) { var f = FR[id]; if (!f || !BOOK[id]) return; var D = LS.get('devs', {}) || {};
+    var L = Object.keys(D).filter(function (k) { return k !== id && /^[0-9a-f]{20,64}$/.test(D[k] || ''); }).map(function (k) { return D[k]; });
+    if (!L.length) return; try { f.fr.contentWindow.postMessage({ smr: 'devs', devs: L }, new URL(BOOK[id].url).origin); } catch (e) {} }
+  window.addEventListener('message', function (e) {
+    if (!e.data || e.data.smr !== 'dev' || typeof e.data.dev !== 'string' || !/^[0-9a-f]{20,64}$/.test(e.data.dev)) return;
+    var id = null; Object.keys(FR).forEach(function (k) { if (FR[k].fr.contentWindow === e.source) id = k; }); if (!id) return;
+    var D = LS.get('devs', {}) || {}, ch = D[id] !== e.data.dev; D[id] = e.data.dev; LS.set('devs', D);
+    tellDevs(id); if (ch || e.data.sub) Object.keys(FR).forEach(function (k) { if (k !== id) tellDevs(k); });
+  });
   window.addEventListener('message', function (e) {
     if (!e.data || e.data.smr !== 'library' || state.base !== 'read') return;
     var id = state.view.slice(5), b = BOOK[id];

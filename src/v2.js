@@ -379,9 +379,24 @@ var LIC=window.__lic||null,PLANS=CFG.plans||[],REQ=spj('req')||null,PAY={plan:sp
 function plan(id){if(id==='device')return {id:id,ar:'ربط هذا الجهاز باشتراكك',en:'Add device',price:''};if(id==='old')return {id:id,ar:'كود قديم',en:'',price:''};return PLANS.filter(function(p){return p.id===id})[0]||PLANS[0]||{id:id,ar:id,en:id,price:''}}
 function fdate(ms){try{return new Date(+ms).toLocaleDateString('ar-EG-u-nu-latn',{day:'numeric',month:'long',year:'numeric'})}catch(e){return new Date(+ms).toDateString()}}
 function poll(){if(!LIC||LIC.unlocked()||navigator.onLine===false)return Promise.resolve();
-  return LIC.rpc('obs_request_status',{p_dev:LIC.dev,p_kind:LIC.kind(),p_label:LIC.label()}).then(function(r){var d=r.data;if(r.error||!d||!d.ok)return;
+  return autoJoin().then(function(j){if(j)return;return LIC.rpc('obs_request_status',{p_dev:LIC.dev,p_kind:LIC.kind(),p_label:LIC.label()}).then(function(r){var d=r.data;if(r.error||!d||!d.ok)return;
     if(d.active)return LIC.rpc('obs_check',{p_dev:LIC.dev}).then(function(q){if(q.data&&q.data.ok&&q.data.key){spj('req',null);return LIC.adopt(q.data)}});
-    var was=JSON.stringify(REQ);REQ=d.status==='none'||d.status==='cancelled'?null:{status:d.status,plan:d.plan,t:d.created,reason:d.reason};spj('req',REQ);if(JSON.stringify(REQ)!==was&&(CURV==='v2sub'||CURV==='v2home'))R[CURV]();header()}).catch(function(){})}
+    var was=JSON.stringify(REQ);REQ=d.status==='none'||d.status==='cancelled'?null:{status:d.status,plan:d.plan,t:d.created,reason:d.reason};spj('req',REQ);if(JSON.stringify(REQ)!==was&&(CURV==='v2sub'||CURV==='v2home'))R[CURV]();header()})}).catch(function(){})}
+/* A book added by the admin opens by itself (owner, 14 Nov 2026: "it has to be automatic, not the student copying the message into the
+   book"). Inside Student Master Review the platform passes this book the device numbers of the other books on the same phone
+   ({smr:'devs'}); a device with no subscription asks obs_auto_join (migration 023), which joins it to the same student's subscription of
+   this book (same student id or phone number). The link number in the message stays as a fallback. */
+var SIB=spj('sib')||[],AJT=0;
+function smrOrg(){try{return window.top!==window.self?(sessionStorage.getItem('smr-parent')||''):''}catch(e){return ''}}
+function devTell(){var o=smrOrg();if(!o||!LIC||!LIC.dev)return;try{parent.postMessage({smr:'dev',dev:LIC.dev,sub:!!LIC.unlocked()},o)}catch(e){}}
+function autoJoin(){if(!LIC||LIC.unlocked()||!SIB.length||navigator.onLine===false||Date.now()-AJT<15000)return Promise.resolve(false);AJT=Date.now();
+  return LIC.rpc('obs_auto_join',{p_dev:LIC.dev,p_kind:LIC.kind(),p_label:LIC.label(),p_book:(typeof BK!=='undefined'&&BK&&BK.book)||'obs',p_others:SIB}).then(function(r){var d=r.data;
+    if(r.error||!d||!d.ok)return false;
+    return LIC.rpc('obs_check',{p_dev:LIC.dev}).then(function(q){if(q.data&&q.data.ok&&q.data.key){spj('req',null);return Promise.resolve(LIC.adopt(q.data)).then(function(){return true})}return false})}).catch(function(){return false})}
+window.addEventListener('message',function(e){var o=smrOrg();if(!o||e.origin!==o||!e.data||e.data.smr!=='devs'||!Array.isArray(e.data.devs))return;
+  var L=e.data.devs.filter(function(x){return typeof x==='string'&&/^[0-9a-f]{20,64}$/.test(x)&&(!LIC||x!==LIC.dev)}).slice(0,6);
+  if(JSON.stringify(L)!==JSON.stringify(SIB)){SIB=L;spj('sib',L);AJT=0}autoJoin()});
+setTimeout(devTell,1500);
 setInterval(function(){if(!document.hidden&&((REQ&&REQ.status==='pending')||CURV==='v2sub'))poll()},45000);
 /* a device whose subscription ended, was switched off or removed asks again every 10 minutes (and on every opening / return to the app),
    so a renewal or switch-on in the admin opens it by itself */

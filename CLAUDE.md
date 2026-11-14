@@ -523,3 +523,14 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   all three; `obs_admin_notes(code)` (one subscription; now also returns `kind`) and `obs_admin_book_notes(book|null)` (every student of one book,
   newest first, at most 5000) use it. Admin: new **Notes** tab (bottom bar has 6 tabs): the notes of the book chosen in the book filter, grouped by
   student and page, with search; page keys are shown as "Topic · page N". Tested on a local Postgres copy (also with malformed data).
+- **Adding a book works by itself (owner, 14 Nov 2026: "adding a book made a new account instead of adding the book, and it has to be
+  automatic, not the student copying the message"; migration 023):** admin «Add a book» now gives the new subscription the student's id
+  (`obs_admin_sid` on all the card's subscriptions + the new one), so it stays on the same card even without a phone number. Inside Student
+  Master Review every book posts its device number to the platform (`{smr:'dev'}`, v2.js `devTell`); the platform keeps them (`smr-devs`)
+  and gives each book the others' (`{smr:'devs'}`, platform/js/app.js `tellDevs`). A book with no subscription calls `obs_auto_join(p_dev,
+  p_kind, p_label, p_book, p_others)` (v2.js `autoJoin`, also first in `poll()`): if one of those devices belongs to a live subscription and the
+  same student (same `sid`, or the same phone in the note) has a live subscription of this book, the device is bound to it (`obs_bind`), then
+  obs_check + adopt open the book. Only device numbers travel between frames. The message still carries a link number, needed only on a phone
+  with none of the student's books. Tested on a local Postgres copy (phone match, sid match, already joined, stranger, wrong book, switched-off
+  source, full) and in Chromium with Surgery inside a local parent page. Ported to Surgery and Pediatrics with tools/port_v2.py.
+

@@ -702,16 +702,19 @@ function msgSend(tk,v){return sb.rpc('obs_admin_msg_send',{p_tk:tk,p_body:v}).th
 function addBook(x){var have={};x.codes.forEach(function(c){have[bkOf(c)]=1});var miss=['obs','ped','srg'].filter(function(b){return !have[b]});if(!miss.length){toast('This student has all three books');return}
   ovl('<b>Add a book for '+esc(x.name)+'</b><div class="form"><label>Book<select id="abB">'+miss.map(function(b){return '<option value="'+b+'">'+BKN[b]+'</option>'}).join('')+'</select></label>'+
     '<label>Type<select id="abP"><option value="month">Monthly</option><option value="year">Annual</option><option value="life">Lifetime</option></select></label>'+
-    '<div class="full"><button type="button" class="btn pri" id="abGo">Add the subscription</button></div></div><p class="hint">It uses this student\'s name and phone. The student gets a message with a link number to type in that book: Subscription → «مشترك على جهاز آخر؟».</p>');
-  $('abGo').onclick=function(){var bk=$('abB').value,pl=$('abP').value,b=this;b.disabled=true;
-    sb.rpc('obs_admin_add_book',{p_book:bk,p_name:x.name,p_phone:x.tel||'',p_plan:pl}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}var d=r.data||{};
-      if(!d.ok){toast(d.reason==='there'?'This student already has '+BKN[bk]:'Could not add');return}
-      load().then(function(){pinShow(x,bk,pl,d.pin,true)})})}}
-function pinText(bk,pl,pin){return 'أُضيف إلى حسابك اشتراك '+PLA[pl||'month']+' في كتاب '+BKA[bk]+'.\nلتفعيله: افتح كتاب '+BKA[bk]+' ← «الاشتراك» ← «مشترك على جهاز آخر؟» واكتب رقم الربط: '+pin+'\nالرقم صالح 14 يومًا ولمرة واحدة.'}
-function pinShow(x,bk,pl,pin,isNew){var txt=pinText(bk,pl,pin),wa=phoneOf(' · '+(x.tel||''));
+    '<div class="full"><button type="button" class="btn pri" id="abGo">Add the subscription</button></div></div><p class="hint">The book is added to this student (same card, name and phone). On the student\'s phone it opens by itself the next time the student opens Student Master Review. A message with a link number is also sent, for a phone that has none of the student\'s books yet.</p>');
+  /* owner, 14 Nov 2026: "it makes a new account instead of adding just the book": the new subscription gets this student's id (sid), so it
+     stays on the same card even when the phone is missing or written differently */
+  $('abGo').onclick=function(){var bk=$('abB').value,pl=$('abP').value,b=this,sid=x.sid||('s'+Date.now().toString(36)+Math.random().toString(36).slice(2,8));b.disabled=true;
+    sb.rpc('obs_admin_add_book',{p_book:bk,p_name:x.name,p_phone:x.tel||'',p_plan:pl}).then(function(r){if(r.error){b.disabled=false;toast('Error: '+r.error.message);return}var d=r.data||{};
+      if(!d.ok){b.disabled=false;toast(d.reason==='there'?'This student already has '+BKN[bk]:'Could not add');return}
+      return sb.rpc('obs_admin_sid',{p_codes:x.codes.map(function(c){return c.code}).concat([d.code]),p_sid:sid}).then(function(q){b.disabled=false;if(q.error)toast('Added, but could not join it to this card: '+q.error.message);
+        return load().then(function(){pinShow(x,bk,pl,d.pin,true)})})})}}
+function pinText(bk,pl,pin,isNew){return (isNew?'أُضيف إلى حسابك اشتراك '+PLA[pl||'month']+' في كتاب '+BKA[bk]+'.\nيُفتح الكتاب لك تلقائيًا عند فتح تطبيق Student Master Review على جهازك، ولا تحتاج إلى أي خطوة.\nإن لم يُفتح (على جهاز ليس عليه أي كتاب من كتبك)، افتح كتاب '+BKA[bk]+' ← «الاشتراك» ← «مشترك على جهاز آخر؟» واكتب رقم الربط: ':'رقم ربط جديد لاشتراكك في كتاب '+BKA[bk]+'.\nافتح كتاب '+BKA[bk]+' ← «الاشتراك» ← «مشترك على جهاز آخر؟» واكتب رقم الربط: ')+pin+'\nالرقم صالح 14 يومًا ولمرة واحدة.'}
+function pinShow(x,bk,pl,pin,isNew){var txt=pinText(bk,pl,pin,isNew),wa=phoneOf(' · '+(x.tel||''));
   msgSend(tkOf(x),txt).then(function(ok){
     ovl('<b>'+(isNew?BKN[bk]+' added for '+esc(x.name):'New link number for '+esc(x.name)+' · '+BKN[bk])+'</b><div class="pinb" dir="ltr">'+pin+'</div>'+
-      '<p class="hint">'+(ok?'The student got this in a message in the app\'s notifications.':'The message could not be sent; copy it below.')+' In '+BKN[bk]+' the student opens Subscription → «مشترك على جهاز آخر؟» and types the number. It works once, for 14 days.</p>'+
+      '<p class="hint">'+(ok?'The student got this in a message in the app\'s notifications.':'The message could not be sent; copy it below.')+(isNew?' On the student\'s phone the book opens by itself the next time Student Master Review is opened (it uses the student\'s other books on that phone). The number is only needed on a phone that has none of the student\'s books; it works once, for 14 days.':' In '+BKN[bk]+' the student opens Subscription → «مشترك على جهاز آخر؟» and types the number. It works once, for 14 days.')+'</p>'+
       '<div class="acts"><button type="button" class="btn" id="pnCopy">Copy the message</button>'+(wa?'<a class="btn wa" href="https://wa.me/'+wa+'?text='+encodeURIComponent(txt)+'" target="_blank" rel="noopener">Send on WhatsApp too</a>':'')+'</div>');
     $('pnCopy').onclick=function(){copy(txt)}})}
 /* Overview (owner, 13 Nov 2026: "how many subscribers in each book and which type of subscription") */
