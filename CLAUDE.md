@@ -546,3 +546,8 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   - Both: emoji sign, title, a real phone screenshot (tap to enlarge) with orange numbered marks matching the numbered lines, «تخطّي» / Skip,
     Back / Next or swipe, Arabic by default and English when chosen.
 - Platform progress page fitted to phones (it was 460 px wide at 390 and zoomed out): `.pbk{min-width:0}`, `.pbh` wraps.
+- **Sync when a book is opened or closed inside Student Master Review (owner, 14 Nov 2026):** a book frame stays loaded when the student
+  goes back to the library, so the app's own open/close syncs never ran. The platform (js/app.js `tellVis`, `SHOWN`) now posts `{smr:'show'}`
+  when a book comes forward and `{smr:'hide'}` when it leaves the screen; the end script of each book's src/shell.html calls
+  `window.__smrSync()` (= syncNow: fetch the other devices' changes, upload what is not online) on both. Opening or closing the app itself
+  already synced (start, visibilitychange, pagehide).

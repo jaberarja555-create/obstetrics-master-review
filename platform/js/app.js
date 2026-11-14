@@ -501,6 +501,7 @@
     apps.hidden = false; apps.classList.remove('bg'); apps.removeAttribute('aria-hidden');
     frameOf(id).used = Date.now(); prune(id);
     Object.keys(FR).forEach(function (k) { FR[k].wrap.classList.toggle('bg', k !== id); FR[k].wrap.hidden = false; });
+    if (SHOWN !== id) { if (SHOWN) tellVis(SHOWN, false); SHOWN = id; tellVis(id, true); }
     document.title = b.app + ' · Student Master Review';
     noteOpen(id);
   }
@@ -513,7 +514,12 @@
   function drop(k) { var f = FR[k]; if (!f) return; try { f.wrap.remove(); } catch (e) {} delete FR[k]; }
   function prune(cur) { Object.keys(FR).filter(function (k) { return FR[k].used; }).sort(function (a, b) { return FR[b].used - FR[a].used; })
       .forEach(function (k, i) { if (i >= KEEP && k !== cur) drop(k); }); }
-  function hideBooks() { if (!apps || apps.classList.contains('bg')) return; if (Object.keys(FR).length) { apps.hidden = false; apps.classList.add('bg'); apps.setAttribute('aria-hidden', 'true'); } else apps.hidden = true; }
+  /* owner, 14 Nov 2026: "make the student's phone sync the notes when they close their book or open their book": a book frame stays loaded
+     when the student goes back to the library, so the book is told when it comes forward ({smr:'show'}: fetch the other devices' changes and
+     upload) and when it leaves the screen ({smr:'hide'}: upload what is not yet online). */
+  var SHOWN = null;
+  function tellVis(id, v) { var f = FR[id]; if (!f) return; try { f.fr.contentWindow.postMessage({ smr: v ? 'show' : 'hide' }, new URL(BOOK[id].url).origin); } catch (e) {} }
+  function hideBooks() { if (SHOWN) { tellVis(SHOWN, false); SHOWN = null; } if (!apps || apps.classList.contains('bg')) return; if (Object.keys(FR).length) { apps.hidden = false; apps.classList.add('bg'); apps.setAttribute('aria-hidden', 'true'); } else apps.hidden = true; }
   /* Speed (owner, 12 Nov 2026: "the app is very slow"): a book loading in the background uses the same processor as the screen the
      student is touching, so the books are now loaded only while the student is NOT touching the app (whenIdle), the last opened book
      first, one after the other. A phone with little memory loads only its last opened book this way; its other books load when opened. */

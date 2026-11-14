@@ -3374,7 +3374,7 @@ function hlApply(m){progApply(m.prog||{});smApply(m.sm||{});inkApply(m.ink||{},m
   HL=m.hl;HLDEL=m.del;HLPREV=hsnap();spj('hl2',HL);spj('hldel',HLDEL);try{reanchorHL()}catch(e){}
   Object.keys(touched).forEach(function(k){if(byKey[k]!==undefined)renderPage(byKey[k])});
   if(!$('home').hidden)renderHome();if(!$('nsheet').hidden&&$('syncBar'))$('nlist').innerHTML=hlHtml()}
-window.__obsSyncNow=function(){return syncNow()};
+window.__obsSyncNow=function(){return syncNow()};window.__smrSync=function(){return syncNow()};   // the book opened or closed inside Student Master Review
 function syncNow(tries){if(!SYNC||navigator.onLine===false)return Promise.resolve();
   if(syncing){syncAgain=true;return Promise.resolve()}
   if(NOTE||pending||picked){syncSoon();return Promise.resolve()}      // the student is busy with a highlight: sync a bit later
@@ -3651,6 +3651,7 @@ refreshCont();
   window.addEventListener('message', function (e) {
     if (e.origin !== org || !e.data) return;
     if (e.data.smr === 'getStats') send();
+    if (e.data.smr === 'show' || e.data.smr === 'hide') { try { if (typeof window.__smrSync === 'function') window.__smrSync(); } catch (er) {} if (e.data.smr === 'hide') send(); }
     if (e.data.smr === 'profile') profIn(e.data);
     if (e.data.smr === 'lang' && /^(ar|en)$/.test(e.data.lang)) {
       PL = e.data.lang; try { sessionStorage.setItem('smr-plang', PL); } catch (er) {}
