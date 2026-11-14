@@ -307,6 +307,7 @@
     h += '<section class="panel"><h2>' + esc(t('set.acc')) + '</h2><p>' + esc(t('set.acc.txt')) + '</p><div class="rows" style="margin-top:14px">' +
       S.books.filter(avail).map(function (b) { return row(b, esc(secTitle(b.section)) + (b.edition ? ' · ' + esc(L(b.edition)) : ''), openLink(b)); }).join('') + '</div></section>';
     h += '<section class="panel"><h2>' + esc(t('set.data')) + '</h2><p>' + esc(t('set.data.txt')) + '</p><div class="confirm" id="clr"><button class="btn sm quiet" type="button" id="clr1">' + esc(t('set.clear')) + '</button></div></section>';
+    h += '<section class="panel"><h2>' + esc(t('set.tour')) + '</h2><p>' + esc(t('set.tour.txt')) + '</p><div class="confirm"><button class="btn sm" type="button" data-tour>' + ic('info') + esc(t('set.tour.go')) + '</button></div></section>';
     h += '<section class="panel"><h2>' + esc(t('set.inst')) + '</h2>' + (STANDALONE ? '<p>' + esc(t('i.already')) + '</p>' :
       '<p>' + esc(t('set.inst.txt')) + '</p><div class="confirm"><button class="btn sm" type="button" data-install>' + ic('download') + esc(t('w.install')) + '</button></div>') + '</section>';
     h += '<section class="panel"><h2>' + esc(t('set.about')) + '</h2><p>' + esc(t('set.about.txt')) + '</p></section>';
@@ -620,7 +621,7 @@
   window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); window.__bip = e; });
   window.addEventListener('appinstalled', function () { window.__bip = null; LS.set('installed', 1); if (!$('#wel').hidden) welDone(); });
   function wel() { return $('#wel'); }
-  function welOpen(html) { $('#wcard').innerHTML = html; wel().hidden = false; document.body.classList.add('welon'); var f = $('#welT'); if (f) { f.setAttribute('tabindex', '-1'); try { f.focus({ preventScroll: true }); } catch (e) {} } }
+  function welOpen(html) { $('#wcard').classList.remove('tour'); $('#wcard').innerHTML = html; wel().hidden = false; document.body.classList.add('welon'); var f = $('#welT'); if (f) { f.setAttribute('tabindex', '-1'); try { f.focus({ preventScroll: true }); } catch (e) {} } }
   function welClose() { wel().hidden = true; document.body.classList.remove('welon'); try { sessionStorage.setItem('smr-wel', '1'); } catch (e) {} }
   function welHead() {
     var n = cleanName(LS.get('name', ''));
@@ -687,6 +688,81 @@
   function welDone() {
     welOpen(welHead() + '<p class="ok-msg wdone">' + ic('check') + ' ' + esc(t('i.done')) + '</p><div class="wbtns"><button class="btn" type="button" data-wclose data-first>' + esc(t('w.start')) + '</button></div>');
   }
+  /* ---------- first-opening guide (owner, 14 Nov 2026: "after the installation page, steps for how to use the app: tips, students can skip,
+     Arabic by default, clear instructions with symbols and pictures, only the first time, the main things"). Shown once after the language and
+     look step (LS 'tour'); «تخطّي» ends it at any time; Settings → «جولة في التطبيق» shows it again. Pictures: real screens of the app
+     (img/tour/<n>.webp) with orange numbered marks that match the numbered lines. Swipe or the buttons move between screens. */
+  var TOUR = [
+    ['👋', 'مرحبًا بك في Student Master Review', 'Welcome to Student Master Review', [
+      [0, 'جولة قصيرة في أهم ما في التطبيق. يمكنك تخطّيها الآن، وإعادتها متى شئت من الإعدادات.', 'A short tour of the main things in the app. You can skip it now and see it again at any time from Settings.'],
+      [1, '«الرئيسية»: أقسام الكتب الثلاثة.', '"Home": the three sections of books.'],
+      [2, '«مكتبتي»: كل كتبك في مكان واحد.', '"My library": all your books in one place.'],
+      [3, '«استكشف»: كتب كل قسم.', '"Explore": the books of each section.']]],
+    ['📚', 'افتح كتابك', 'Open your book', [
+      [1, 'اضغط «افتح» بجانب الكتاب الذي تريده.', 'Tap "Open" beside the book you want.'],
+      [0, 'كل كتاب يحفظ مكانك وتظليلك وملاحظاتك.', 'Each book keeps your place, highlights and notes.'],
+      [0, 'للعودة إلى المكتبة اضغط زر «المكتبة» أعلى رئيسية الكتاب.', 'To return to the library, tap "Library" at the top of the book\'s Home.']]],
+    ['🏠', 'رئيسية الكتاب', 'The book\'s Home', [
+      [1, '«ابدأ القراءة»: يكمل من الصفحة التي توقفت عندها.', '"Start reading": continues from the page where you stopped.'],
+      [2, '«الفصول»: كل فصول الكتاب ومواضيعه.', '"Chapters": every chapter and topic of the book.'],
+      [3, '«التدريب»: بنك الأسئلة والبطاقات.', '"Practice": the question bank and flashcards.']]],
+    ['📖', 'القراءة', 'Reading', [
+      [0, 'اسحب الصفحة إلى الأعلى لتنتقل إلى الصفحة التالية.', 'Swipe the page up to move to the next page.'],
+      [1, 'اضغط رقم الصفحة واكتب رقمًا لتنتقل إليه.', 'Tap the page number and type a page to go there.'],
+      [2, '«المحتويات»: الفصول والمواضيع للتنقل السريع.', '"Contents": chapters and topics for quick moving.'],
+      [3, 'علّم الصفحة: لم أقرأها · قرأتها · أتقنتها.', 'Mark the page: Not read · Read · Mastered.'],
+      [0, 'الرمز 🚀 بجانب اسم موضوع رابطٌ إليه، وزر «رجوع إلى الصفحة» يعيدك.', 'A 🚀 beside a topic name is a link to it; "Back to page" brings you back.']]],
+    ['🖍️', 'التظليل والملاحظات', 'Highlights and notes', [
+      [0, 'اضغط مطوّلًا على كلمة ثم اسحب لتحديد النص.', 'Press and hold a word, then drag to select the text.'],
+      [1, 'اختر لون التظليل.', 'Choose a highlight colour.'],
+      [2, 'أو ضع خطًّا تحت النص.', 'Or underline the text.'],
+      [3, 'أو اكتب ملاحظة عليه.', 'Or write a note on it.'],
+      [0, 'اضغط على التظليل لاحقًا لتغيير لونه أو حذفه.', 'Tap a highlight later to change its colour or delete it.']]],
+    ['✏️', 'أدوات الكتابة', 'Writing tools', [
+      [1, 'زر الأدوات أعلى الشاشة يفتح: قلم · ماركر · نص · صفحة فارغة.', 'The tools button at the top opens: Pen · Marker · Text · Blank page.'],
+      [0, 'اكتب بإصبع واحد، ومرّر الصفحة بإصبعين.', 'Write with one finger; scroll with two fingers.'],
+      [0, 'التراجع والإعادة في شريط الأداة المفتوحة.', 'Undo and redo are in the bar of the open tool.']]],
+    ['🎯', 'التدريب', 'Practice', [
+      [1, '«ابدأ التدريب»: أسئلة مباشرة مع الإجابة والشرح.', '"Start practice": questions with the answer and explanation.'],
+      [2, '«إنشاء اختبار»: اختر النظام والفصول وعدد الأسئلة.', '"Create a test": choose the mode, chapters and number of questions.'],
+      [3, '«البطاقات»: اقلب البطاقة ثم اختر «عرفتها» أو «مرة أخرى».', '"Flashcards": flip the card, then choose "Knew it" or "Again".']]],
+    ['💳', 'الاشتراك', 'Subscription', [
+      [1, '«ابدأ التجربة»: الكتاب كاملًا لمدة ساعة.', '"Start the trial": the whole book for one hour.'],
+      [0, 'النسخة المجانية: أول موضوع من كل فصل.', 'Free version: the first topic of each chapter.'],
+      [2, 'اختر الخطة ثم «اشترك الآن»، وحوّل المبلغ وأرسل صورة الإيصال.', 'Choose a plan, tap "Subscribe now", transfer the amount and send the receipt.'],
+      [0, 'بعد الموافقة يُفتح الكتاب وحده، وتُحفظ ملاحظاتك وتتزامن بين أجهزتك.', 'Once approved, the book opens by itself, and your notes are saved and shared between your devices.']]],
+    ['⚙️', 'الإعدادات والمساعدة', 'Settings and help', [
+      [1, 'اللغة: العربية أو English.', 'Language: Arabic or English.'],
+      [2, 'المظهر: نهاري أو ليلي، ولون التطبيق.', 'Look: day or night, and the app colour.'],
+      [0, '«المساعدة» ← «مراسلة الإدارة» لأي سؤال أو مشكلة.', '"Help" → "Message the admin" for any question or problem.'],
+      [0, '«دليل الاستخدام»: شرح كامل بالصور.', '"User guide": a full explanation with pictures.']]]
+  ];
+  var TI = 0;
+  function tour(i) {
+    TI = Math.max(0, Math.min(TOUR.length - 1, i)); var s = TOUR[TI], ar = lang === 'ar', last = TI === TOUR.length - 1;
+    var li = s[3].map(function (x) {
+      return '<li' + (x[0] ? '' : ' class="gtb"') + '><span class="gtn" aria-hidden="true">' + (x[0] || '') + '</span><span>' + esc(ar ? x[1] : x[2]) + '</span></li>';
+    }).join('');
+    var dots = TOUR.map(function (_, k) { return '<span' + (k === TI ? ' class="on"' : '') + '></span>'; }).join('');
+    welOpen('<button class="gtskip" type="button" data-tskip>' + esc(ar ? 'تخطّي' : 'Skip') + '</button>' +
+      '<span class="gtico" aria-hidden="true">' + s[0] + '</span><h2 id="welT">' + esc(ar ? s[1] : s[2]) + '</h2>' +
+      '<div class="gtbody"><button class="gtpic" type="button" data-gtzoom aria-label="' + esc(ar ? 'تكبير الصورة' : 'Enlarge the picture') + '"><img src="img/tour/' + TI + '.webp" alt="" width="190" height="380" decoding="async"><span class="gtzi" aria-hidden="true">⤢</span></button><ol class="gtlist">' + li + '</ol></div>' +
+      '<div class="gtdots" aria-label="' + (TI + 1) + ' / ' + TOUR.length + '">' + dots + '</div>' +
+      '<div class="gtnav">' + (TI ? '<button class="btn quiet" type="button" data-tgo="' + (TI - 1) + '">' + ic('back', 'flip') + esc(ar ? 'السابق' : 'Back') + '</button>' : '<span></span>') +
+      (last ? '<button class="btn" type="button" data-tskip data-first>' + esc(ar ? 'ابدأ الآن' : 'Start now') + ic('arrow', 'flip') + '</button>'
+            : '<button class="btn" type="button" data-tgo="' + (TI + 1) + '" data-first>' + esc(ar ? 'التالي' : 'Next') + ic('arrow', 'flip') + '</button>') + '</div>');
+    $('#wcard').classList.add('tour');
+    if (TI < TOUR.length - 1) { var im = new Image(); im.src = 'img/tour/' + (TI + 1) + '.webp'; }
+  }
+  function tourEnd() { LS.set('tour', 1); $('#wcard').classList.remove('tour'); welClose(); }
+  (function () { var x0 = null, y0 = 0;
+    document.addEventListener('touchstart', function (e) { if (!$('#wcard') || !$('#wcard').classList.contains('tour') || wel().hidden) return; x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    document.addEventListener('touchend', function (e) { if (x0 == null) return; var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+      if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return; var fwd = lang === 'ar' ? dx > 0 : dx < 0;   // right-to-left in Arabic
+      if (fwd) { if (TI < TOUR.length - 1) tour(TI + 1); } else if (TI) tour(TI - 1); }, { passive: true });
+    document.addEventListener('keydown', function (e) { if (wel().hidden || !$('#wcard').classList.contains('tour')) return;
+      if (e.key === 'Escape') { var zz = document.getElementById('gtzoom'); if (zz) zz.remove(); else tourEnd(); } else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { var f = (e.key === 'ArrowLeft') === (lang === 'ar'); tour(TI + (f ? 1 : -1)); } });
+  })();
   function install(waited) {
     var p = window.__bip;
     if (!p && !waited) {
@@ -817,7 +893,11 @@
     if (a.hasAttribute('data-theme')) { setTheme(a.getAttribute('data-theme')); a.parentNode.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === a ? 'true' : 'false'); }); }
     if (a.hasAttribute('data-install')) { install(false); return; }
     if (a.hasAttribute('data-wclose')) { welNext(); return; }
-    if (a.hasAttribute('data-wdone')) { LS.set(setupKey(), 1); welClose(); return; }
+    if (a.hasAttribute('data-wdone')) { LS.set(setupKey(), 1); if (!LS.get('tour', 0)) tour(0); else welClose(); return; }
+    if (a.hasAttribute('data-gtzoom')) { var z = document.createElement('div'); z.id = 'gtzoom'; z.setAttribute('role', 'button'); z.innerHTML = '<img src="img/tour/' + TI + '.webp" alt="">'; z.onclick = function () { z.remove(); }; document.body.appendChild(z); return; }
+    if (a.hasAttribute('data-tgo')) { tour(+a.getAttribute('data-tgo')); return; }
+    if (a.hasAttribute('data-tskip')) { tourEnd(); return; }
+    if (a.hasAttribute('data-tour')) { tour(0); return; }
     if (a.hasAttribute('data-wlang')) { setLang(a.getAttribute('data-wlang')); setupStep(); return; }
     if (a.hasAttribute('data-wlook')) { setTheme(a.getAttribute('data-wlook')); setupStep(); return; }
     if (a.hasAttribute('data-pal')) { setPal(a.getAttribute('data-pal')); return; }

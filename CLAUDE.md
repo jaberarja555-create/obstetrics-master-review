@@ -533,4 +533,10 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   obs_check + adopt open the book. Only device numbers travel between frames. The message still carries a link number, needed only on a phone
   with none of the student's books. Tested on a local Postgres copy (phone match, sid match, already joined, stranger, wrong book, switched-off
   source, full) and in Chromium with Surgery inside a local parent page. Ported to Surgery and Pediatrics with tools/port_v2.py.
-
+- **First-opening guide (owner, 14 Nov 2026: "after the installation page, steps for how to use the app: tips, students can skip, Arabic by
+  default, clear instructions with symbols and pictures, only the first time, the main things"):** platform/js/app.js `TOUR` / `tour(i)`: nine
+  screens after the language-and-look step of the first opening (welcome and sections, opening a book, the book's Home, reading, highlights and
+  notes, writing tools, practice, subscription, settings and help). Each screen = an emoji sign, a title, a real phone screenshot
+  (platform/img/tour/<n>.webp, tap to enlarge) with orange numbered marks that match the numbered lines, dots, Back / Next (swipe or arrow keys);
+  «تخطّي» / Skip at any time; seen once (`smr-tour`); Settings → «جولة في التطبيق» shows it again. Classes `gt*` (the platform already uses
+  .tnav / .tlist). Arabic and English text in the TOUR array. Pictures remade with tools/tour_shots.js when the screens change.
