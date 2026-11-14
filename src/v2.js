@@ -294,6 +294,7 @@ var HELP=[['home','الرئيسية','من هنا تبدأ كل شيء.',['<b>ت
 /* the owner's five user-guide posters come first (11 Nov 2026), then the detailed steps with screenshots */
 var UG5=['التنقّل والرئيسية','القراءة والتعليقات','الأسئلة والبطاقات','المصادر وأدوات الدراسة','الإعدادات والاشتراك'];
 R.v2help=function(){$('v2helpW').innerHTML=title('دليل الاستخدام','v2settings')+
+  '<button type="button" class="v2c btgo" data-act="btour" lang="ar">'+I('book')+'<span><b>جولة في الكتاب</b><small>شرح سريع بالصور لأهم ما في الكتاب</small></span></button>'+
   '<div class="chf lcf" lang="ar">'+UG5.map(function(t,i){return '<button type="button" data-act="ugjump" data-i="'+(i+1)+'">'+(i+1)+' · '+t+'</button>'}).join('')+'<button type="button" data-act="ugjump" data-i="d">شرح مفصّل بالصور</button></div>'+
   UG5.map(function(t,i){return '<div class="v2c abp" id="ug'+(i+1)+'"><img src="img/ug_'+(i+1)+'.jpg" alt="دليل المستخدم: '+t+'" loading="lazy"></div>'}).join('')+
   '<h3 class="ugh" id="ugd" lang="ar">شرح مفصّل بصور من التطبيق</h3>'+

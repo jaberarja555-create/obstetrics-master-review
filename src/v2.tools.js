@@ -123,4 +123,43 @@ window.__smrStats=function(){var r={pages:{total:0,read:0,mastered:0},q:{total:Q
       if(c==='free'){d.remove();return}
       if(c==='sub'){d.remove();ACT.sub();return}
       if(c==='trial'&&LIC){b.disabled=true;LIC.startTrial(function(m){b.disabled=false;var x=$('chzMsg');if(x)x.textContent=m})}})}
-  go.addEventListener('click',function(){if(due())setTimeout(chooser,1200)})})();
+  /* the book's own guide comes first on the book's first opening, then the choices (owner, 14 Nov 2026) */
+  go.addEventListener('click',function(){setTimeout(function(){if(!sp('btour')&&window.__btour)window.__btour(function(){if(due())chooser()});else if(due())chooser()},1200)})})();
+/* The book's guide (owner, 14 Nov 2026: "when the app opens it has a guide, then when each book opens it has its own guide"): shown once,
+   the first time this book is opened (after its greeting, before the subscription choices); «تخطّي» ends it; Settings → User guide →
+   «جولة في الكتاب» shows it again. Pictures are this book's own screens (img/tour_<n>.webp) with orange numbers that match the lines.
+   The app itself (library, settings of Student Master Review) has its own guide in the platform. */
+(function(){
+  var BT=[
+    ['🏠','رئيسية الكتاب','The book\'s Home',[[1,'«ابدأ القراءة»: يكمل من الصفحة التي توقفت عندها.','"Start reading": continues from the page where you stopped.'],[2,'«الفصول»: كل فصول الكتاب ومواضيعه.','"Chapters": every chapter and topic of the book.'],[3,'«التدريب»: بنك الأسئلة والبطاقات.','"Practice": the question bank and flashcards.'],[0,'زر «المكتبة» أعلى الرئيسية يعيدك إلى مكتبة كتبك.','The "Library" button at the top of Home takes you back to your books.']]],
+    ['📖','القراءة','Reading',[[0,'اسحب الصفحة إلى الأعلى لتنتقل إلى الصفحة التالية.','Swipe the page up to move to the next page.'],[1,'اضغط رقم الصفحة واكتب رقمًا لتنتقل إليه.','Tap the page number and type a page to go there.'],[2,'«المحتويات»: الفصول والمواضيع للتنقل السريع.','"Contents": chapters and topics for quick moving.'],[3,'علّم الصفحة: لم أقرأها · قرأتها · أتقنتها.','Mark the page: Not read · Read · Mastered.'],[0,'الرمز 🚀 بجانب اسم موضوع رابطٌ إليه، وزر «رجوع إلى الصفحة» يعيدك.','A 🚀 beside a topic name is a link to it; "Back to page" brings you back.']]],
+    ['🖍️','التظليل والملاحظات','Highlights and notes',[[0,'اضغط مطوّلًا على كلمة ثم اسحب لتحديد النص.','Press and hold a word, then drag to select the text.'],[1,'اختر لون التظليل.','Choose a highlight colour.'],[2,'أو ضع خطًّا تحت النص.','Or underline the text.'],[3,'أو اكتب ملاحظة عليه.','Or write a note on it.'],[0,'اضغط على التظليل لاحقًا لتغيير لونه أو حذفه.','Tap a highlight later to change its colour or delete it.']]],
+    ['✏️','أدوات الكتابة','Writing tools',[[1,'زر الأدوات أعلى الشاشة يفتح: قلم · ماركر · نص · صفحة فارغة.','The tools button at the top opens: Pen · Marker · Text · Blank page.'],[0,'اكتب بإصبع واحد، ومرّر الصفحة بإصبعين.','Write with one finger; scroll with two fingers.'],[0,'التراجع والإعادة في شريط الأداة المفتوحة.','Undo and redo are in the bar of the open tool.']]],
+    ['🎯','التدريب','Practice',[[1,'«ابدأ التدريب»: أسئلة مباشرة مع الإجابة والشرح.','"Start practice": questions with the answer and explanation.'],[2,'«إنشاء اختبار»: اختر النظام والفصول وعدد الأسئلة.','"Create a test": choose the mode, chapters and number of questions.'],[3,'«البطاقات»: اقلب البطاقة ثم اختر «عرفتها» أو «مرة أخرى».','"Flashcards": flip the card, then choose "Knew it" or "Again".']]],
+    ['💳','الاشتراك','Subscription',[[1,'«ابدأ التجربة»: الكتاب كاملًا لمدة ساعة.','"Start the trial": the whole book for one hour.'],[0,'النسخة المجانية: أول موضوع من كل فصل.','Free version: the first topic of each chapter.'],[2,'اختر الخطة ثم «اشترك الآن»، وحوّل المبلغ وأرسل صورة الإيصال.','Choose a plan, tap "Subscribe now", transfer the amount and send the receipt.'],[0,'بعد الموافقة يُفتح الكتاب وحده، وتُحفظ ملاحظاتك وتتزامن بين أجهزتك.','Once approved, the book opens by itself, and your notes are saved and shared between your devices.']]],
+    ['💬','المساعدة','Help',[[1,'«دليل الاستخدام»: شرح كامل بالصور، ومنه تعيد هذه الجولة.','"User guide": a full explanation with pictures; you can repeat this tour from there.'],[2,'«المساعدة» ← «مراسلة الإدارة» لأي سؤال أو مشكلة.','"Help" → "Message the admin" for any question or problem.']]]
+  ];
+  var i=0,done=null,box=null,x0=null,y0=0;
+  function L(ar,en){return typeof LANG!=='undefined'&&LANG==='en'?en:ar}
+  function draw(){var s=BT[i],last=i===BT.length-1;
+    box.innerHTML='<div class="in" role="dialog" aria-modal="true" aria-labelledby="btT" lang="'+L('ar','en')+'" dir="'+L('rtl','ltr')+'" data-notr>'+
+      '<button type="button" class="btsk" data-b="end">'+L('تخطّي','Skip')+'</button><span class="btic" aria-hidden="true">'+s[0]+'</span><h3 id="btT">'+L(s[1],s[2])+'</h3>'+
+      '<div class="btb"><button type="button" class="btp" data-b="zoom" aria-label="'+L('تكبير الصورة','Enlarge the picture')+'"><img src="img/tour_'+i+'.webp" alt="" decoding="async"><span aria-hidden="true">⤢</span></button><ol>'+
+      s[3].map(function(x){return '<li'+(x[0]?'':' class="o"')+'><i>'+(x[0]||'')+'</i><span>'+L(x[1],x[2])+'</span></li>'}).join('')+'</ol></div>'+
+      '<div class="btd">'+BT.map(function(_,k){return '<span'+(k===i?' class="on"':'')+'></span>'}).join('')+'</div>'+
+      '<div class="btn2">'+(i?'<button type="button" class="v2btn ol" data-b="prev">'+L('السابق','Back')+'</button>':'<span></span>')+
+      '<button type="button" class="v2btn" data-b="'+(last?'end':'next')+'">'+(last?L('ابدأ الآن','Start now'):L('التالي','Next'))+'</button></div></div>';
+    if(!last){var im=new Image();im.src='img/tour_'+(i+1)+'.webp'}
+    var f=box.querySelector('[data-b="'+(last?'end':'next')+'"]');try{f.focus({preventScroll:true})}catch(e){}}
+  function end(){sp('btour','1');if(box){box.remove();box=null}var d=done;done=null;if(d)d()}
+  window.__btour=function(cb){if(box)return;done=cb||null;i=0;box=document.createElement('div');box.className='v2bt';document.body.appendChild(box);draw();
+    box.addEventListener('click',function(e){var z=e.target.closest('.btz');if(z){z.remove();return}var b=e.target.closest('[data-b]');if(!b)return;var a=b.dataset.b;
+      if(a==='end')end();else if(a==='next'){i++;draw()}else if(a==='prev'){i--;draw()}
+      else if(a==='zoom'){var o=document.createElement('div');o.className='btz';o.innerHTML='<img src="img/tour_'+i+'.webp" alt="">';box.appendChild(o)}});
+    box.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+    box.addEventListener('touchend',function(e){if(x0==null)return;var dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;
+      if(Math.abs(dx)<50||Math.abs(dx)<Math.abs(dy)*1.5||box.querySelector('.btz'))return;var f=L(dx>0,dx<0);
+      if(f&&i<BT.length-1){i++;draw()}else if(!f&&i){i--;draw()}},{passive:true});
+    box.addEventListener('keydown',function(e){if(e.key==='Escape'){var z=box.querySelector('.btz');if(z)z.remove();else end()}})};
+  ACT.btour=function(){window.__btour()};
+})();
