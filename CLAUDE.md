@@ -533,10 +533,16 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   obs_check + adopt open the book. Only device numbers travel between frames. The message still carries a link number, needed only on a phone
   with none of the student's books. Tested on a local Postgres copy (phone match, sid match, already joined, stranger, wrong book, switched-off
   source, full) and in Chromium with Surgery inside a local parent page. Ported to Surgery and Pediatrics with tools/port_v2.py.
-- **First-opening guide (owner, 14 Nov 2026: "after the installation page, steps for how to use the app: tips, students can skip, Arabic by
-  default, clear instructions with symbols and pictures, only the first time, the main things"):** platform/js/app.js `TOUR` / `tour(i)`: nine
-  screens after the language-and-look step of the first opening (welcome and sections, opening a book, the book's Home, reading, highlights and
-  notes, writing tools, practice, subscription, settings and help). Each screen = an emoji sign, a title, a real phone screenshot
-  (platform/img/tour/<n>.webp, tap to enlarge) with orange numbered marks that match the numbered lines, dots, Back / Next (swipe or arrow keys);
-  «تخطّي» / Skip at any time; seen once (`smr-tour`); Settings → «جولة في التطبيق» shows it again. Classes `gt*` (the platform already uses
-  .tnav / .tlist). Arabic and English text in the TOUR array. Pictures remade with tools/tour_shots.js when the screens change.
+- **Two guides (owner, 14 Nov 2026: "when the app opens it has a guide, then when each book opens it has its own guide"; first version the same
+  day mixed both):**
+  - **App guide** (platform/js/app.js `TOUR` / `tour(i)`): six screens after the language-and-look step of the platform's first opening:
+    welcome and sections, opening a book, the «المكتبة» button inside a book, progress, top bar, settings. Seen once (`smr-tour`); Settings →
+    «جولة في التطبيق» shows it again. Classes `gt*` (the platform already uses .tnav / .tlist). Pictures platform/img/tour/<n>.webp
+    (tools/tour_shots_app.js).
+  - **Book guide** (src/v2.tools.js `window.__btour`, ported to Surgery and Pediatrics): seven screens on the book's first opening, after its
+    greeting and before the subscription choices: the book's Home, reading, highlights and notes, writing tools, practice, subscription, help.
+    Seen once per book (`<px>-btour`); Settings → دليل الاستخدام → «جولة في الكتاب» shows it again. Pictures are each book's own screens:
+    img/tour_<n>.webp (Obstetrics assets/img, the others content/img; tools/tour_shots_book.js). CSS `.v2bt` at the end of src/v2.css.
+  - Both: emoji sign, title, a real phone screenshot (tap to enlarge) with orange numbered marks matching the numbered lines, «تخطّي» / Skip,
+    Back / Next or swipe, Arabic by default and English when chosen.
+- Platform progress page fitted to phones (it was 460 px wide at 390 and zoomed out): `.pbk{min-width:0}`, `.pbh` wraps.

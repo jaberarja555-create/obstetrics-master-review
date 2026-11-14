@@ -690,52 +690,37 @@
   }
   /* ---------- first-opening guide (owner, 14 Nov 2026: "after the installation page, steps for how to use the app: tips, students can skip,
      Arabic by default, clear instructions with symbols and pictures, only the first time, the main things"). Shown once after the language and
-     look step (LS 'tour'); «تخطّي» ends it at any time; Settings → «جولة في التطبيق» shows it again. Pictures: real screens of the app
+     look step (LS 'tour'); «تخطّي» ends it at any time; Settings → «جولة في التطبيق» shows it again. Owner, 14 Nov 2026: "when the app
+     opens it has a guide, then when each book opens it has its own guide": this one covers only the app (sections, library, the Library
+     button, progress, top bar, settings); reading, tools, practice and subscription are in each book's own guide (v2.tools.js __btour). Pictures: real screens of the app
      (img/tour/<n>.webp) with orange numbered marks that match the numbered lines. Swipe or the buttons move between screens. */
   var TOUR = [
     ['👋', 'مرحبًا بك في Student Master Review', 'Welcome to Student Master Review', [
-      [0, 'جولة قصيرة في أهم ما في التطبيق. يمكنك تخطّيها الآن، وإعادتها متى شئت من الإعدادات.', 'A short tour of the main things in the app. You can skip it now and see it again at any time from Settings.'],
+      [0, 'جولة قصيرة في التطبيق. يمكنك تخطّيها الآن، وإعادتها من الإعدادات. ولكل كتاب جولته الخاصة عند فتحه أول مرة.', 'A short tour of the app. You can skip it now and see it again from Settings. Each book has its own tour the first time you open it.'],
       [1, '«الرئيسية»: أقسام الكتب الثلاثة.', '"Home": the three sections of books.'],
       [2, '«مكتبتي»: كل كتبك في مكان واحد.', '"My library": all your books in one place.'],
       [3, '«استكشف»: كتب كل قسم.', '"Explore": the books of each section.']]],
     ['📚', 'افتح كتابك', 'Open your book', [
       [1, 'اضغط «افتح» بجانب الكتاب الذي تريده.', 'Tap "Open" beside the book you want.'],
-      [0, 'كل كتاب يحفظ مكانك وتظليلك وملاحظاتك.', 'Each book keeps your place, highlights and notes.'],
-      [0, 'للعودة إلى المكتبة اضغط زر «المكتبة» أعلى رئيسية الكتاب.', 'To return to the library, tap "Library" at the top of the book\'s Home.']]],
-    ['🏠', 'رئيسية الكتاب', 'The book\'s Home', [
-      [1, '«ابدأ القراءة»: يكمل من الصفحة التي توقفت عندها.', '"Start reading": continues from the page where you stopped.'],
-      [2, '«الفصول»: كل فصول الكتاب ومواضيعه.', '"Chapters": every chapter and topic of the book.'],
-      [3, '«التدريب»: بنك الأسئلة والبطاقات.', '"Practice": the question bank and flashcards.']]],
-    ['📖', 'القراءة', 'Reading', [
-      [0, 'اسحب الصفحة إلى الأعلى لتنتقل إلى الصفحة التالية.', 'Swipe the page up to move to the next page.'],
-      [1, 'اضغط رقم الصفحة واكتب رقمًا لتنتقل إليه.', 'Tap the page number and type a page to go there.'],
-      [2, '«المحتويات»: الفصول والمواضيع للتنقل السريع.', '"Contents": chapters and topics for quick moving.'],
-      [3, 'علّم الصفحة: لم أقرأها · قرأتها · أتقنتها.', 'Mark the page: Not read · Read · Mastered.'],
-      [0, 'الرمز 🚀 بجانب اسم موضوع رابطٌ إليه، وزر «رجوع إلى الصفحة» يعيدك.', 'A 🚀 beside a topic name is a link to it; "Back to page" brings you back.']]],
-    ['🖍️', 'التظليل والملاحظات', 'Highlights and notes', [
-      [0, 'اضغط مطوّلًا على كلمة ثم اسحب لتحديد النص.', 'Press and hold a word, then drag to select the text.'],
-      [1, 'اختر لون التظليل.', 'Choose a highlight colour.'],
-      [2, 'أو ضع خطًّا تحت النص.', 'Or underline the text.'],
-      [3, 'أو اكتب ملاحظة عليه.', 'Or write a note on it.'],
-      [0, 'اضغط على التظليل لاحقًا لتغيير لونه أو حذفه.', 'Tap a highlight later to change its colour or delete it.']]],
-    ['✏️', 'أدوات الكتابة', 'Writing tools', [
-      [1, 'زر الأدوات أعلى الشاشة يفتح: قلم · ماركر · نص · صفحة فارغة.', 'The tools button at the top opens: Pen · Marker · Text · Blank page.'],
-      [0, 'اكتب بإصبع واحد، ومرّر الصفحة بإصبعين.', 'Write with one finger; scroll with two fingers.'],
-      [0, 'التراجع والإعادة في شريط الأداة المفتوحة.', 'Undo and redo are in the bar of the open tool.']]],
-    ['🎯', 'التدريب', 'Practice', [
-      [1, '«ابدأ التدريب»: أسئلة مباشرة مع الإجابة والشرح.', '"Start practice": questions with the answer and explanation.'],
-      [2, '«إنشاء اختبار»: اختر النظام والفصول وعدد الأسئلة.', '"Create a test": choose the mode, chapters and number of questions.'],
-      [3, '«البطاقات»: اقلب البطاقة ثم اختر «عرفتها» أو «مرة أخرى».', '"Flashcards": flip the card, then choose "Knew it" or "Again".']]],
-    ['💳', 'الاشتراك', 'Subscription', [
-      [1, '«ابدأ التجربة»: الكتاب كاملًا لمدة ساعة.', '"Start the trial": the whole book for one hour.'],
-      [0, 'النسخة المجانية: أول موضوع من كل فصل.', 'Free version: the first topic of each chapter.'],
-      [2, 'اختر الخطة ثم «اشترك الآن»، وحوّل المبلغ وأرسل صورة الإيصال.', 'Choose a plan, tap "Subscribe now", transfer the amount and send the receipt.'],
-      [0, 'بعد الموافقة يُفتح الكتاب وحده، وتُحفظ ملاحظاتك وتتزامن بين أجهزتك.', 'Once approved, the book opens by itself, and your notes are saved and shared between your devices.']]],
-    ['⚙️', 'الإعدادات والمساعدة', 'Settings and help', [
+      [0, '«فُتح مؤخرًا من هنا»: آخر الكتب التي فتحتها.', '"Recently opened here": the books you opened last.'],
+      [0, 'كل كتاب يحفظ مكانك وتظليلك وملاحظاتك واشتراكه.', 'Each book keeps your place, highlights, notes and its subscription.']]],
+    ['↩️', 'داخل الكتاب', 'Inside a book', [
+      [1, 'زر «المكتبة» يعيدك إلى كتبك.', 'The "Library" button takes you back to your books.'],
+      [0, 'يبقى الكتاب مفتوحًا في الخلفية، فتعود إليه بسرعة.', 'The book stays open in the background, so you return to it quickly.'],
+      [0, 'اللغة والاسم والصورة التي تختارها هنا تظهر في كل كتاب.', 'The language, name and photo you choose here show in every book.']]],
+    ['📊', 'التقدّم', 'Progress', [
+      [0, 'تقدّمك الحقيقي في كل كتاب: الصفحات المقروءة والمتقنة، والأسئلة، والبطاقات.', 'Your real progress in each book: pages read and mastered, questions and flashcards.'],
+      [0, '«تابع» يعيدك إلى الكتاب من حيث توقفت.', '"Continue" takes you back to the book where you stopped.']]],
+    ['🔎', 'الشريط العلوي', 'The top bar', [
+      [1, 'المظهر: نهاري أو ليلي.', 'Look: day or night.'],
+      [2, 'البحث عن كتاب.', 'Search for a book.'],
+      [3, 'الإشعارات.', 'Notifications.'],
+      [4, 'ملفك الشخصي: اسمك وصورتك.', 'Your profile: your name and photo.']]],
+    ['⚙️', 'الإعدادات', 'Settings', [
       [1, 'اللغة: العربية أو English.', 'Language: Arabic or English.'],
-      [2, 'المظهر: نهاري أو ليلي، ولون التطبيق.', 'Look: day or night, and the app colour.'],
-      [0, '«المساعدة» ← «مراسلة الإدارة» لأي سؤال أو مشكلة.', '"Help" → "Message the admin" for any question or problem.'],
-      [0, '«دليل الاستخدام»: شرح كامل بالصور.', '"User guide": a full explanation with pictures.']]]
+      [2, 'المظهر: نهاري أو ليلي أو تلقائي.', 'Look: day, night or automatic.'],
+      [3, 'لون التطبيق.', 'The app colour.'],
+      [0, 'ومنها: تثبيت التطبيق، و«جولة في التطبيق» لإعادة هذه الجولة.', 'Also here: installing the app, and "App tour" to see this tour again.']]]
   ];
   var TI = 0;
   function tour(i) {

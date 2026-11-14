@@ -588,7 +588,9 @@ html[lang="ar"] .gtlist li{font-family:var(--arab)}
 .pbh>div{flex:1;min-width:0}
 .pbh b{display:block;font-family:var(--serif);font-size:19px;line-height:1.2}
 .pbh span{display:block;font-size:13px;color:var(--sub);margin-top:2px}
-.pbh .btn{flex:none}
+.pbh .btn{flex:none;max-width:100%}
+/* phones (owner's progress page was wider than the screen and zoomed out, 14 Nov 2026): the card may shrink and its button drops below the title */
+.pbk{min-width:0}.pbh{flex-wrap:wrap}.pbh .btn{white-space:normal;text-align:center}
 .pnone{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 14px;border-radius:14px;background:var(--sf2);color:var(--sub);font-size:14px}
 .pnone .ico{color:var(--tl);flex:none}
 .pbm{display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;align-items:center;margin-top:16px}
