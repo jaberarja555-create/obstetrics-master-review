@@ -537,12 +537,13 @@ html[lang="ar"] .wcard h2{font-family:var(--arab);font-weight:700}
 .gtskip:hover{color:var(--tx)}
 .gtico{font-size:34px;line-height:1;margin-top:4px}
 .wcard.tour h2{font-size:21px;margin:4px 0 6px;padding-inline:56px}
-.gtbody{display:grid;grid-template-columns:minmax(0,min(45%,230px)) minmax(0,1fr);gap:12px;width:100%;align-items:start;text-align:start}
-.gtpic{position:relative;border-radius:18px;overflow:hidden;border:5px solid #1d2733;box-shadow:0 10px 26px rgba(20,42,76,.22);background:#fff;aspect-ratio:1/2;cursor:zoom-in;padding:0;font:inherit}
-.gtpic .gtzi{position:absolute;top:46%;inset-inline-start:4px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(29,39,51,.78);color:#fff;font-size:15px;line-height:1}
+.gtbody{display:grid;grid-template-columns:minmax(0,min(44%,230px)) minmax(0,1fr);gap:12px;width:100%;align-items:center;text-align:start}
+/* the picture box hugs the picture (owner, 14 Nov 2026: a white strip showed under the screen and the thick black frame looked ugly) */
+.gtpic{position:relative;display:block;width:100%;height:auto;margin:0;padding:0;border:1px solid var(--bd2);border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 8px 22px rgba(20,42,76,.16);cursor:zoom-in;font:inherit;line-height:0}
+.gtpic img{display:block;width:100%;height:auto}
+.gtpic .gtzi{position:absolute;top:46%;inset-inline-start:4px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(29,39,51,.7);color:#fff;font-size:15px;line-height:1}
 #gtzoom{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:16px;background:rgba(10,18,28,.82);cursor:zoom-out}
-#gtzoom img{max-width:100%;max-height:100%;border-radius:18px;border:6px solid #1d2733;background:#fff;box-shadow:0 20px 50px rgba(0,0,0,.5)}
-.gtpic img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+#gtzoom img{max-width:100%;max-height:100%;border-radius:16px;background:#fff;box-shadow:0 20px 50px rgba(0,0,0,.5)}
 .gtlist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .gtlist li{display:flex;gap:9px;align-items:flex-start;font-size:14.5px;line-height:1.55;padding:8px 10px;border-radius:14px;background:var(--sf2);border:1px solid var(--bd)}
 .gtlist .gtn{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#f59e0b;color:#fff;font-weight:700;font-size:13px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);font-family:Inter,Arial,sans-serif}
@@ -555,7 +556,7 @@ html[lang="ar"] .gtlist li{font-family:var(--arab)}
 .gtnav{display:flex;justify-content:space-between;gap:10px;width:100%;margin-top:8px}
 .gtnav .btn{min-width:120px}
 @media (max-width:380px){ .gtbody{grid-template-columns:minmax(0,40%) minmax(0,1fr);gap:10px} .gtlist li{font-size:13.5px;padding:6px 8px} .wcard.tour h2{font-size:19px} }
-@media (max-height:700px){ .gtico{display:none} .gtpic{aspect-ratio:auto;height:46vh} .gtpic img{object-fit:contain} }
+@media (max-height:700px){ .gtico{display:none} .gtpic img{width:auto;max-width:100%;max-height:46vh;margin:0 auto} }
 @media (max-height:600px){ .wmark{width:72px;height:72px} .wmark .mark{width:44px;height:48px} .wcard{padding:20px 18px 18px} }
 
 /* Settings → profile (owner, 11 Nov 2026): big photo first, the photo button under it, then the name */
