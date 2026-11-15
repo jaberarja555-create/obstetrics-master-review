@@ -570,3 +570,7 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   when neither had an end date). The migration repaired the subscriptions already hit: an end date that lies BEFORE the approval of a
   request now attached to that subscription (only a merge does that; «End now» is later than the approval) gets the date that approval gave
   (approval + its plan; lifetime again for a lifetime request). Reproduced and tested on a local Postgres with the real functions.
+  Check after the fix: `Supabase` workflow with mode `diag` (tools/supabase/diag.sql, read-only transaction, counts only) showed every
+  device that had a subscription approved (23 in the three books) opening its book again; a locked device re-adopts its key by itself
+  (v2.js `poll` → obs_check) at its next opening or within 10 minutes.
+
