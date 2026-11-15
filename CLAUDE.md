@@ -551,3 +551,15 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   when a book comes forward and `{smr:'hide'}` when it leaves the screen; the end script of each book's src/shell.html calls
   `window.__smrSync()` (= syncNow: fetch the other devices' changes, upload what is not online) on both. Opening or closing the app itself
   already synced (start, visibilitychange, pagehide).
+- **One waiting request per student and book (owner, 15 Nov 2026: "the same student's subscription request comes many times";
+  migration 024):** a request was refused only when the same DEVICE had one waiting, so a student sending from a second phone, a
+  computer or an older address of the app made a new request each time. `obs_request_submit` now files requests one at a time per device
+  and per student (advisory locks), and when the student (same book, same phone, `obs_phone9`) already has a subscription request
+  waiting, a request from another device becomes that device's request to join it (plan 'device', column `joins`); a receipt sent with it
+  is added to the waiting request if that has none; the device shows "under review" as before. `obs_admin_decide`: approving binds every
+  joined device to the new subscription (result `joined`), rejecting rejects them with the same reason. Copies already waiting were tidied
+  by the migration (same device: the newest stays, the others are cancelled with reason "Duplicate request"; several devices: the one with
+  a receipt, else the oldest, stays and the others join it). Admin: joined requests are shown inside their request's card ("Also sent
+  from N other devices of this student"), not as cards of their own, and are not counted as waiting. Tested on a local Postgres with
+  the real functions: same device again, second and third device (another phone format), another book, approve, reject, the tidy-up,
+  and two devices sending at the same instant.
