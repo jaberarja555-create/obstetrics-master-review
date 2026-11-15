@@ -290,7 +290,7 @@ var HELP=[['home','الرئيسية','من هنا تبدأ كل شيء.',['<b>ت
  ['practice','الممارسة: الأسئلة والبطاقات','اختبر نفسك بعد كل موضوع.',['اضغط <b>Practice</b> ثم اختر «الأسئلة» أو «البطاقات».','<b>الأسئلة</b>: اختر نمط التدريب أو الامتحان بالوقت، ثم الفصول وعدد الأسئلة، واضغط Start. بعد الإجابة يظهر الشرح.','<b>البطاقات</b>: اضغط البطاقة ليظهر الجواب، ثم اختر «عرفتها» أو «مرة أخرى».','<b>بطاقات اليوم</b>: عشر بطاقات كل يوم، وإكمالها يزيد سلسلة أيامك.']],
  ['resources','المصادر','كل ما تحتاجه للمراجعة في مكان واحد.',['<b>المراجعة السريعة</b>: بطاقة امتحان لكل موضوع.','<b>أدوية التوليد</b>: الجرعات والمحاذير.','<b>السريري OSCE</b>: محطات الفحص والتاريخ المرضي.','<b>الفيديو</b> و<b>المحاضرات</b>: تظهر هنا عند إضافتها.','<b>ملاحظاتي</b>: كل ملاحظاتك وتظليلك، و<b>المصادر المحفوظة</b>: ما حفظته بعلامة الحفظ.']],
  ['sub','الاشتراك','من الإعدادات ← الاشتراك.',['<b>الخطة التجريبية</b>: اضغط «ابدأ التجربة» ليُفتح الكتاب كاملًا ساعة واحدة.','للاشتراك: اختر الخطة (شهري أو سنوي أو مدى الحياة) ثم اضغط <b>اشترك الآن</b>.','حوّل المبلغ إلى الحساب الظاهر، ثم اكتب اسمك ورقم هاتفك وأرفق صورة الإيصال واضغط <b>إرسال طلب التفعيل</b>.','يظهر «طلبك قيد المراجعة». يمكنك <b>تعديل الطلب</b> أو <b>إلغاؤه</b> قبل الموافقة.','بعد الموافقة يُفتح الكتاب كاملًا تلقائيًا، بلا أي كود.','<b>جهاز آخر</b>: من جهازك المشترك اضغط «أضف جهازًا آخر»، واكتب رقم الربط في الجهاز الجديد (حتى ثلاثة أجهزة).','عند انتهاء الاشتراك تبقى ملاحظاتك وتقدّمك محفوظة وتعود عند التجديد.']],
- ['settings','الإعدادات','اضبط التطبيق كما تحب.',['<b>الملف الشخصي</b>: اسمك وصورتك ورقم المستخدم.','<b>المظهر</b>: نهاري أو ليلي أو تلقائي. زر الشمس أو القمر في أعلى الشاشة يبدّل بسرعة.','<b>لون التطبيق</b>: ستة ألوان، ويتغيّر معها غلاف الكتاب.','<b>المزامنة</b>: تحفظ ملاحظاتك وتقدّمك بين أجهزتك.','<b>التنزيلات</b> و<b>الإشعارات</b> و<b>تقدّمي</b>.','<b>المساعدة</b>: راسلنا في واتساب أو بالهاتف.','<b>مراسلة الإدارة</b>: من «المساعدة» أو من «الإشعارات» اكتب رسالتك داخل التطبيق، وتصلك الإجابة في الإشعارات مع صوت تنبيه.']]];
+ ['settings','الإعدادات','اضبط التطبيق كما تحب.',['<b>الملف الشخصي</b>: اسمك وصورتك ورقم المستخدم.','<b>المظهر</b>: نهاري أو ليلي أو تلقائي. زر الشمس أو القمر في أعلى الشاشة يبدّل بسرعة.','<b>لون التطبيق</b>: ستة ألوان، ويتغيّر معها غلاف الكتاب.','<b>المزامنة</b>: تحفظ ملاحظاتك وتقدّمك بين أجهزتك.','<b>تحديث الكتاب</b>: إذا لم تظهر آخر التعديلات، اضغطه ليُحمّل أحدث نسخة ويعيد فتح الكتاب، وتبقى ملاحظاتك كما هي.','<b>التنزيلات</b> و<b>الإشعارات</b> و<b>تقدّمي</b>.','<b>المساعدة</b>: راسلنا في واتساب أو بالهاتف.','<b>مراسلة الإدارة</b>: من «المساعدة» أو من «الإشعارات» اكتب رسالتك داخل التطبيق، وتصلك الإجابة في الإشعارات مع صوت تنبيه.']]];
 /* the owner's five user-guide posters come first (11 Nov 2026), then the detailed steps with screenshots */
 var UG5=['التنقّل والرئيسية','القراءة والتعليقات','الأسئلة والبطاقات','المصادر وأدوات الدراسة','الإعدادات والاشتراك'];
 R.v2help=function(){$('v2helpW').innerHTML=title('دليل الاستخدام','v2settings')+
@@ -331,7 +331,7 @@ R.v2settings=function(){var a=access(),sy=window.__obsSync&&window.__obsSync.act
    '<div class="v2c sgrp"><h4>'+I('palette')+'لون التطبيق</h4><div class="spal">'+PALS.map(function(p){return '<button type="button" data-act="pal" data-p="'+p[0]+'" class="'+(PAL===p[0]?'on':'')+'" aria-pressed="'+(PAL===p[0])+'"><i style="background:'+p[2]+'">'+(PAL===p[0]?I('check'):'')+'</i>'+p[1]+'</button>'}).join('')+'</div></div>'+
    '</div><div><div class="v2c">'+
     row('sub','crown','الاشتراك',{free:'النسخة المجانية',trial:'فترة تجريبية',paid:'مفعّل',expired:'انتهت التجربة',ended:'انتهى الاشتراك'}[a])+
-    row('sync','sync','المزامنة',sy?'بين أجهزتك':'بعد التفعيل')+row('','dl','التنزيلات','الفيديو والمحاضرات','data-v="v2dl"')+row('','bell','الإشعارات','','data-v="v2notif"')+
+    row('sync','sync','المزامنة',sy?'بين أجهزتك':'بعد التفعيل')+row('upd','dl','تحديث الكتاب','تحميل أحدث نسخة')+row('','dl','التنزيلات','الفيديو والمحاضرات','data-v="v2dl"')+row('','bell','الإشعارات','','data-v="v2notif"')+
     row('prog','bars','تقدّمي',overall()+'%')+row('','book','دليل الاستخدام','شرح التطبيق بالصور','data-v="v2help"')+row('','help','المساعدة','واتساب · تيليجرام · اتصال','data-v="v2contact"')+row('','info','عن الكتاب','المؤلفان · المراجعون · المراجع','data-v="v2about"')+
    '</div></div></div>';avatar($('setAv'))};
 R.v2profile=function(){var dev=st('orr-dev')||'',code=st('orr-code')||'';
@@ -466,6 +466,8 @@ R.v2pay=function(){var ED=PAY.edit&&REQ&&REQ.status==='pending',p=plan(PAY.plan)
 
 /* ---------- actions ---------- */
 function idxOf(re){for(var i=0;i<PAGES.length;i++)if(!PAGES[i].user&&re.test(PAGES[i].f||''))return i;return 0}
+/* the saved version this page opened from (for «تحديث الكتاب»): known only when the device holds one saved version */
+try{if(window.caches)caches.keys().then(function(ks){var m=ks.filter(function(k){return /^(orr|prr|srr)-/.test(k)&&!/-audio$/.test(k)});window.__bootC=m.length===1?m:[]})}catch(e){}
 var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'?CURV:'v2settings';go('v2sub');poll()},
   adddev:function(b){var M=$('dvMsg'),nm=$('dvN').value.trim(),ph=$('dvP').value.replace(/[٠-٩]/g,function(d){return '٠١٢٣٤٥٦٧٨٩'.indexOf(d)}).trim();
     if(PAY.busy)return;if(!LIC){M.textContent='غير متاح في نسخة المراجعة.';return}if(nm.length<2){M.textContent='اكتب اسمك.';return}if(!/^[0-9+ ]{7,20}$/.test(ph)){M.textContent='اكتب رقم هاتف صحيحًا.';return}
@@ -537,6 +539,30 @@ var ACT={sub:function(){RETS=V2.indexOf(CURV)>=0&&CURV!=='v2sub'&&CURV!=='v2pay'
   mode:function(b){MODE=b.dataset.m;sp('mode',MODE);applyLook();R.v2settings()},
   pal:function(b){PAL=b.dataset.p;sp('pal',PAL);applyLook();R.v2settings()},
   sync:function(b){if(!(window.__obsSync&&window.__obsSync.act())){openSub();return}var em=b.querySelector('em');if(em)em.textContent='جارٍ المزامنة…';Promise.resolve(window.__obsSyncNow&&window.__obsSyncNow()).then(function(){if(em)em.textContent='تمت المزامنة ✓'},function(){if(em)em.textContent='تعذّرت المزامنة'})},
+  /* Update the book (owner, 15 Nov 2026: "a button that updates the book, because the browser refresh sometimes fails to update fast"):
+     saves what is not yet online, asks the server for the newest version (the cache name in sw.js), installs it and reopens the book;
+     if the browser's update gets stuck, the saved copy of the page is removed so it loads fresh (pictures and the student's data stay) */
+  upd:function(b){var em=b.querySelector('em');function say(t){if(em)em.textContent=t}
+    if(navigator.onLine===false){say('تعذّر الاتصال بالإنترنت');return}
+    say('جارٍ البحث عن تحديث…');var done=0;
+    function go(){if(done)return;done=1;say('جارٍ التحديث…');setTimeout(function(){location.reload()},400)}
+    function hard(){if(done)return;done=1;say('جارٍ التحديث…');var c=window.caches;
+      (c?c.keys().then(function(ks){return Promise.all(ks.filter(function(k){return !/-audio$/.test(k)}).map(function(k){return c.open(k).then(function(o){
+        return o.keys().then(function(rs){return Promise.all(rs.filter(function(r){return !/\/img\//.test(r.url)}).map(function(r){return o.delete(r)}))})})}))}):Promise.resolve())
+      .then(function(){return navigator.serviceWorker&&navigator.serviceWorker.getRegistration()}).then(function(g){return g&&g.unregister()})
+      .catch(function(){}).then(function(){location.reload()})}
+    var sv=Promise.resolve();try{var a=window.__autoSync;if(a&&a.now&&a.dirty&&a.dirty())sv=Promise.race([Promise.resolve(a.now()).catch(function(){}),new Promise(function(r){setTimeout(r,6000)})])}catch(e){}
+    sv.then(function(){
+      if(!('serviceWorker' in navigator)||!navigator.serviceWorker.controller||!window.caches){location.reload();return}
+      fetch('sw.js?u='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(t){var m=t.match(/var C='([^']+)'/),nw=m&&m[1];
+        if(!nw){hard();return}
+        return caches.keys().then(function(ks){var mine=ks.filter(function(k){return /^(orr|prr|srr)-/.test(k)&&!/-audio$/.test(k)});
+          if(mine.length===1&&mine[0]===nw){if((window.__bootC||[]).indexOf(nw)>=0)say('لديك أحدث نسخة ✓');else go();return}
+          return navigator.serviceWorker.getRegistration().then(function(g){if(!g){hard();return}
+            navigator.serviceWorker.addEventListener('controllerchange',go);
+            return g.update().then(function(){var w=g.installing||g.waiting;if(!w){hard();return}
+              if(w.state==='activated')go();else w.addEventListener('statechange',function(){if(w.state==='activated')go();if(w.state==='redundant')hard()});
+              setTimeout(hard,25000)})}).catch(hard)})}).catch(function(){say('تعذّر الاتصال بالإنترنت')})})},
   help:function(){window.open('https://wa.me/'+CFG.whatsapp,'_blank')},
   about:function(b){var a=ABOUT.filter(function(x){return x[0]===b.dataset.k})[0];if(!a)return;
     if(a[2]==='p'){POST=a[0];go('v2poster');$('v2poster').scrollTop=0}else if(a[2].indexOf('help:')===0){go('v2help');var e=$('hlp'+a[2].slice(5));if(e)e.scrollIntoView({block:'start'})}else go(a[2])},
