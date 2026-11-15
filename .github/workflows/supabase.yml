@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'apply or inspect'
+        description: 'apply, inspect or diag'
         default: 'apply'
 jobs:
   supabase:
@@ -53,3 +53,10 @@ jobs:
         run: |
           psql "$DB" 2> >(sed -E "s#[^ \"]*@#***@#g" >&2) -c "select table_name, column_name, data_type from information_schema.columns where table_schema='public' and table_name like 'obs%' order by table_name, ordinal_position"
           psql "$DB" 2> >(sed -E "s#[^ \"]*@#***@#g" >&2) -tA -c "select string_agg(pg_get_functiondef(p.oid), E'\n-- ----\n') from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname like 'obs\_%'"
+      - name: Diagnostic counts
+        if: ${{ inputs.mode == 'diag' }}
+        env:
+          DB: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          # tools/supabase/diag.sql prints counts only (no student data: this repository is public)
+          psql "$DB" 2> >(sed -E "s#[^ \"]*@#***@#g" >&2) -f tools/supabase/diag.sql
