@@ -563,3 +563,10 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   from N other devices of this student"), not as cards of their own, and are not counted as waiting. Tested on a local Postgres with
   the real functions: same device again, second and third device (another phone format), another book, approve, reject, the tidy-up,
   and two devices sending at the same instant.
+- **A merge never ends a subscription (owner, 15 Nov 2026: "I merged the student's subscriptions of the same book and the student lost the
+  subscription"; migration 025):** «Merge into one» (`obs_admin_merge2`) kept the subscription that already had the chosen plan and gave it
+  THAT subscription's end date, so merging a student's old, ended subscription with the newly approved one could keep the past date: the
+  app was told "expired" and locked. Now both merges keep the LATEST end date (`greatest()`, lifetime stays lifetime; a fresh month/year only
+  when neither had an end date). The migration repaired the subscriptions already hit: an end date that lies BEFORE the approval of a
+  request now attached to that subscription (only a merge does that; «End now» is later than the approval) gets the date that approval gave
+  (approval + its plan; lifetime again for a lifetime request). Reproduced and tested on a local Postgres with the real functions.
