@@ -546,7 +546,8 @@ function rqRender(){var RQ=RQALL.filter(inBk).filter(function(r){return !rqMainW
     (r.status!=='pending'?'':dv?(function(){var m=phMatch(r);return '<p class="rqn">'+(m?'Adds this device to the '+BKN[bkOf(r)]+' subscription of <b dir="auto">'+esc(nameOf(m))+'</b> ('+esc(m.code)+').':'No '+BKN[bkOf(r)]+' subscription has this phone number. Link the device to the student\'s subscription, or give it a subscription of its own.')+'</p>'+
       '<div class="acts">'+(m?'<button type="button" class="btn ok big" data-r="yes">'+I('check')+'Approve</button>':'')+'<button type="button" class="btn'+(m?'':' pri big')+'" data-r="link">'+I('link')+'Link to…</button></div>'+
       '<div class="acts"><select data-f="nplan" aria-label="Plan">'+['month','year','life'].map(function(p){return '<option value="'+p+'">'+PLN[p]+'</option>'}).join('')+'</select><button type="button" class="btn" data-r="new">'+I('plus')+'New subscription</button></div><div class="acts"><button type="button" class="btn bad" data-r="no">'+I('x')+'Reject</button></div>'})()
-      :'<div class="acts ed"><label>Name<input data-f="name" value="'+esc(r.name)+'" dir="auto" aria-label="Name"></label><label>Plan<select data-f="plan" aria-label="Plan">'+['month','year','life'].map(function(p){return '<option value="'+p+'"'+(p===r.plan?' selected':'')+'>'+PLN[p]+'</option>'}).join('')+'</select></label></div>'+
+      :(function(){var x=stuSub(r);return x?'<p class="rqn"><b dir="auto">'+esc(nameOf(x))+'</b> already has a '+BKN[bkOf(r)]+' subscription ('+esc(x.code)+', '+STN[state(x)]+(x.expires?', ends '+fd(x.expires):', never ends')+'). <b>Add device only</b> opens the book on this device and keeps the end date. <b>Approve</b> adds this device and extends that same subscription by the plan. No second subscription is made.</p><div class="acts"><button type="button" class="btn pri big" data-r="add" data-c="'+esc(x.code)+'">'+I('link')+'Add device only</button></div>':''})()+
+        '<div class="acts ed"><label>Name<input data-f="name" value="'+esc(r.name)+'" dir="auto" aria-label="Name"></label><label>Plan<select data-f="plan" aria-label="Plan">'+['month','year','life'].map(function(p){return '<option value="'+p+'"'+(p===r.plan?' selected':'')+'>'+PLN[p]+'</option>'}).join('')+'</select></label></div>'+
         '<div class="acts dec"><button type="button" class="btn ok big" data-r="yes">'+I('check')+'Approve</button><button type="button" class="btn bad" data-r="no">'+I('x')+'Reject</button></div>')+'</div>'}).join('')
   :'<div class="empty">'+I('inbox')+'<b>'+(RQS==='pending'?'No request is waiting':'Nothing here yet')+'</b></div>'}
 function rqLoad(quiet){return sb.rpc('obs_admin_requests',{p_status:RQS}).then(function(r){if(r.error){if(!quiet)$('rqList').innerHTML='<p class="empty">Could not load the requests.</p>';return}
@@ -567,12 +568,16 @@ $('rqList').addEventListener('click',function(e){var b=e.target.closest('button[
     ovl(d.mime==='application/pdf'?'<p>This receipt is a PDF file.</p><a href="'+u+'" download="receipt.pdf"><button type="button" class="btn pri">Download the PDF</button></a>':'<img src="'+u+'" alt="Receipt">')});return}
   var rq=RQALL.filter(function(x){return String(x.id)===String(id)})[0];
   if(a==='link'){if(rq)linkPick(rq);return}
-  if(a==='new'){var np=it.querySelector('[data-f=nplan]').value;if(!rq||!confirm('Give '+rq.name+' a new '+PLN[np]+' subscription of '+BKN[bkOf(rq)]+' on this device?\nUse this only when the student has no subscription of this book.'))return;
+  if(a==='add'){if(!rq||!confirm('Add this device to '+rq.name+'\'s '+BKN[bkOf(rq)]+' subscription '+b.dataset.c+'?\nThe end date does not change. The device opens by itself.'))return;
+    b.disabled=true;sb.rpc('obs_admin_add_device',{p_id:id,p_code:b.dataset.c}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}var d=r.data||{};
+      if(!d.ok){toast({book:'That subscription is of another book.',full:'That subscription could not take another device.',nocode:'That subscription no longer exists.'}[d.reason]||'This request was already decided or cancelled');rqLoad();return}
+      toast('Added: the device opens by itself'+(d.joined?' (with '+d.joined+' other device'+(d.joined>1?'s':'')+')':''));rqLoad();load()});return}
+  if(a==='new'){var np=it.querySelector('[data-f=nplan]').value,xn=rq&&stuSub(rq);if(!rq||!confirm(xn?'The student already has the '+BKN[bkOf(rq)]+' subscription '+xn.code+'. This device is added to it and it is extended by '+PLN[np]+'. Continue?':'Give '+rq.name+' a new '+PLN[np]+' subscription of '+BKN[bkOf(rq)]+' on this device?'))return;
     b.disabled=true;sb.rpc('obs_admin_decide',{p_id:id,p_ok:true,p_name:rq.name,p_plan:np,p_reason:null}).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}
       if(r.data&&r.data.ok===false){toast('This request was already decided or cancelled');rqLoad();return}var jd=r.data&&r.data.joined;toast('Approved: the device opens by itself'+(jd?' (with '+jd+' other device'+(jd>1?'s':'')+' of this student)':''));rqLoad();load()});return}
   var args={p_id:id,p_ok:a==='yes',p_name:null,p_plan:null,p_reason:null},nf=it.querySelector('[data-f=name]');
   if(a==='yes'&&!nf){if(!confirm('Add this device to the student\'s subscription?'))return}
-  else if(a==='yes'){args.p_name=nf.value.trim();args.p_plan=it.querySelector('[data-f=plan]').value;if(!confirm('Approve '+args.p_name+' · '+PLN[args.p_plan]+'?\nThe student\'s device will open by itself.'))return}
+  else if(a==='yes'){args.p_name=nf.value.trim();args.p_plan=it.querySelector('[data-f=plan]').value;var xs=rq&&stuSub(rq);if(!confirm('Approve '+args.p_name+' · '+PLN[args.p_plan]+'?\n'+(xs?'This device is added to the student\'s '+BKN[bkOf(rq)]+' subscription '+xs.code+', which is extended by '+PLN[args.p_plan]+'.':'The student\'s device will open by itself.')))return}
   else{var why=prompt('Reason shown to the student (for example: the amount is not complete)','');if(why===null)return;args.p_reason=why}
   b.disabled=true;sb.rpc('obs_admin_decide',args).then(function(r){b.disabled=false;if(r.error){toast('Error: '+r.error.message);return}
     if(r.data&&r.data.ok===false&&r.data.reason==='nosub'&&rq){toast('No subscription of this book has this phone number: choose the student\'s subscription');linkPick(rq);return}
@@ -594,6 +599,11 @@ function students(){var C=ALL.filter(function(c){return c.plan&&c.plan!=='old'})
     x.last=Math.max.apply(null,x.codes.map(function(c){return +new Date(c.created_at)||0}))});
   return L.sort(function(a,b){return b.last-a.last})}
 /* a device request («subscribed on another device»): the subscription of the same book whose note carries the phone number */
+/* owner, 15 Nov 2026: the student's own subscription of the request's book (live first, then the one ending last). A request from a phone
+   that already has one never makes a second subscription (migration 026): «Approve» adds the device and extends that subscription,
+   «Add device only» adds the device with no change to the end date. */
+function stuSub(r){var k=ph9(r.phone);if(!k)return null;var L=ALL.filter(function(c){return bkOf(c)===bkOf(r)&&c.plan&&c.plan!=='old'&&c.active&&String(c.note||'').replace(/[^0-9]/g,'').indexOf(k)>=0});
+  L.sort(function(a,b){var la=!a.expires||new Date(a.expires)>new Date(),lb=!b.expires||new Date(b.expires)>new Date();if(la!==lb)return la?-1:1;if(!a.expires)return -1;if(!b.expires)return 1;return new Date(b.expires)-new Date(a.expires)});return L[0]||null}
 function phMatch(r){var k=ph9(r.phone);if(!k)return null;return ALL.filter(function(c){return bkOf(c)===bkOf(r)&&c.plan&&c.plan!=='old'&&c.active&&(!c.expires||new Date(c.expires)>new Date())&&String(c.note||'').replace(/[^0-9]/g,'').indexOf(k)>=0})[0]||null}
 /* the owner picks the student's subscription himself (another phone number was given) */
 /* two cards are the same student (owner, 13 Nov 2026): this card's subscriptions take the other card's name and phone, so they show as one

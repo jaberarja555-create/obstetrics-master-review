@@ -574,3 +574,16 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   device that had a subscription approved (23 in the three books) opening its book again; a locked device re-adopts its key by itself
   (v2.js `poll` → obs_check) at its next opening or within 10 minutes.
 
+- **One subscription per student and book (owner, 15 Nov 2026: "the student has 2 Surgery subscriptions, his phone still shows no
+  subscription, and merging loses it; I want a permanent solution"; migration 026):** a phone gets a NEW device number whenever a book
+  opens with empty storage (Safari and the Home-screen app of an iPhone keep separate storage, cleared site data, another browser);
+  approving that number's request used to make a second subscription. Now `obs_grant` (Approve, Give, «New subscription») adds a device
+  with no subscription to the student's existing subscription of that book (`obs_student_sub`: same phone, active, live first) and renews
+  it; a new subscription is made only for a student who has none. Admin request card: «Add device only» (`obs_admin_add_device`: adds the
+  device, end date unchanged, joined devices too) beside «Approve» (adds and extends). All merges go through `obs_merge_core`: latest end
+  date, all devices, and the synced notes of both JOINED (`obs_jmerge`: objects key by key, lists of items united by id; before, the notes
+  of the removed subscription were dropped). Duplicates that existed (same book and phone, then same sid) were merged by the migration.
+  Student Master Review keeps the device numbers each book had while subscribed on this phone (`smr-devh`, up to 3) and passes them with
+  `{smr:'devs'}`; `obs_auto_join` binds a new number to the subscription of an earlier number of the same book, replacing it when full.
+  Tested on a local Postgres with the real functions (duplicates merged with notes joined, approve joins + extends, add-device keeps the
+  date, a new student still gets a new subscription, full subscription replaced by the same phone's new number).

@@ -584,13 +584,19 @@
   /* A book added by the admin opens by itself (owner, 14 Nov 2026): every book tells the platform its device number; each book is given
      the device numbers of the other books on this phone, so a book with no subscription of its own can join the same student's
      subscription of that book (obs_auto_join, migration 023). Only device numbers travel, never keys. */
-  function tellDevs(id) { var f = FR[id]; if (!f || !BOOK[id]) return; var D = LS.get('devs', {}) || {};
-    var L = Object.keys(D).filter(function (k) { return k !== id && /^[0-9a-f]{20,64}$/.test(D[k] || ''); }).map(function (k) { return D[k]; });
+  /* owner, 15 Nov 2026 ("the student's phone shows no subscription"): a book whose storage was emptied starts with a NEW device number.
+     The platform remembers the numbers that were subscribed in each book on this phone (devh) and gives them back to that book, so
+     obs_auto_join (migration 026) puts the new number in the place of the old one in the same subscription, with no request. */
+  function tellDevs(id) { var f = FR[id]; if (!f || !BOOK[id]) return; var D = LS.get('devs', {}) || {}, H = LS.get('devh', {}) || {};
+    var L = (H[id] || []).filter(function (x) { return x !== D[id] && /^[0-9a-f]{20,64}$/.test(x || ''); })
+      .concat(Object.keys(D).filter(function (k) { return k !== id && /^[0-9a-f]{20,64}$/.test(D[k] || ''); }).map(function (k) { return D[k]; }));
     if (!L.length) return; try { f.fr.contentWindow.postMessage({ smr: 'devs', devs: L }, new URL(BOOK[id].url).origin); } catch (e) {} }
   window.addEventListener('message', function (e) {
     if (!e.data || e.data.smr !== 'dev' || typeof e.data.dev !== 'string' || !/^[0-9a-f]{20,64}$/.test(e.data.dev)) return;
     var id = null; Object.keys(FR).forEach(function (k) { if (FR[k].fr.contentWindow === e.source) id = k; }); if (!id) return;
     var D = LS.get('devs', {}) || {}, ch = D[id] !== e.data.dev; D[id] = e.data.dev; LS.set('devs', D);
+    if (e.data.sub) { var H = LS.get('devh', {}) || {}, h = (H[id] || []).filter(function (x) { return x !== e.data.dev; });
+      h.unshift(e.data.dev); H[id] = h.slice(0, 3); LS.set('devh', H); }
     tellDevs(id); if (ch || e.data.sub) Object.keys(FR).forEach(function (k) { if (k !== id) tellDevs(k); });
   });
   window.addEventListener('message', function (e) {
