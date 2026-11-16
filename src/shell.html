@@ -2270,6 +2270,7 @@ section[data-file^="x9"] .frow .ans{background:none;color:#172e48;font-weight:75
 /* picture rows fill their space (owner, 16 Nov 2026: "no empty space around the picture; the words on it big and clear") */
 .page.nd figure.bf.frow { grid-template-columns:auto minmax(170px,1fr) !important; gap:14px !important; padding:8px 14px 8px 8px !important; }
 .page.nd figure.bf.frow .fps { justify-content:flex-start !important; }
+.page.nd figure.bf.frow { max-width:100%; box-sizing:border-box; } .page.nd figure.bf.frow figcaption { min-width:0; overflow-wrap:anywhere; }
 .page.nd figure.bf.frow figcaption { font-size:11.5pt !important; line-height:1.45; }
 .page.nd figure.bf.frow .lbt { font-size:10pt !important; padding:2px 6px !important; }
 .page.nd figure.bf.frow .fk { font-size:11pt !important; padding:3px 6px !important; }

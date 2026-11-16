@@ -448,7 +448,7 @@ button{font-family:inherit}
 .v2rnav button .v2ic,.v2rnav button svg{width:22px;height:22px;color:var(--pri)}.v2rnav button:active{background:var(--sel)}
 .v2rnav #prBtn{background:none}.v2rnav #prBtn svg{color:currentColor;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .v2rnav #prBtn.pr0{color:var(--bad)}.v2rnav #prBtn.pr1{color:#2563eb}:root[data-theme="dark"] .v2rnav #prBtn.pr1{color:#93c5fd}.v2rnav #prBtn.pr2{color:var(--ok)}.v2rnav #prBtn.pr2 svg{fill:currentColor}
-.v2rnav #prBtn[hidden]{display:none}
+.v2rnav #prBtn[hidden]{display:flex!important;opacity:.38;pointer-events:none;color:var(--tx)!important}  /* owner, 16 Nov 2026: kept in its place, dimmed, on pages that are not a topic */
 .tpr.cur{border-color:var(--pri);box-shadow:0 0 0 1.5px var(--pri) inset,var(--sh)}button.tpr{width:100%;color:var(--tx)}
 .vcd.foc{border-color:var(--pri);box-shadow:0 0 0 2px var(--pri),var(--sh)}
 /* the side navigation can be hidden and shown */
