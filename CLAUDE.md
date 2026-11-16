@@ -658,6 +658,9 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   light chapter-tint panel); a floated picture moves after the text it was beside; labels on pictures keep their places. `python3 tools/nd_figs.py`
   (run on each rebuilt chapter, then re-plan its pages). Chapters 1–3 re-planned after it. Second pass (owner: "no empty space around the picture; the words big and clear"): pictures up to
   250 px high and as wide as the row allows (H 250, AREA 520), the caption takes the rest of the row (11.5 pt), labels on pictures 10 pt.
+- **Labels on pictures (owner, 16 Nov 2026: "the label line covers the finding; no need to repeat the same label"):** `python3 tools/nd_labels.py`
+  (rebuilt chapters, before nd_figs.py): pointer lines stop 9 px before the finding (no dot), a label written twice on one picture is kept once
+  midway with a line to each finding, every label is kept inside its picture and clear of the a/b/c tile; labels are 9.5–10 pt and wrap on narrow pictures.
 - **Rapid Review chapter colours (owner, 16 Nov 2026):** the rq3 parts take their own chapter colour (vars added to the `.page .rrc.cN` rules)
   and the chapter band is larger (96 px, number tile, 19 pt serif title).
 - **Box colours (owner, 16 Nov 2026: "some box has bad colours and background"):** in diagrams of `nd` pages every box that holds text is a light
