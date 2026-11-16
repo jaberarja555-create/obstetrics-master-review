@@ -16,6 +16,19 @@
       var s=document.createElement('style');s.textContent='#smrMove{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;background:#f7f3ec;font:600 15px/1.5 system-ui,-apple-system,"Segoe UI",Cairo,sans-serif;color:#142a4c;text-align:center;padding:24px}#smrMove div{display:flex;flex-direction:column;align-items:center;gap:10px;max-width:340px}#smrMove img{width:84px;height:84px;border-radius:22px}#smrMove b{font-size:18px}#smrMove span{color:#55617a}#smrMove i{width:28px;height:28px;border-radius:50%;border:3px solid #11807a33;border-top-color:#11807a;animation:smrsp 0.9s linear infinite}@keyframes smrsp{to{transform:rotate(360deg)}}';
       document.head.appendChild(s);document.body.appendChild(d)})}})();
 </script><script>
+/* Same phone, same device, with nothing to do (owner, 16 Nov 2026: "find a way that is automatic, no need to do anything from the student").
+   The book's device identity is also kept in a cookie of studentmasterreview.com. An iPhone copies a site's cookies into the Home-screen app
+   when the app is installed (iOS 17.2 and later), so the installed app starts with the same device number as Safari: the same subscription,
+   no request and no extra device. The cookie is used only when this storage has no identity of its own; it is renewed at every opening. */
+(function(){var PX='orr',ID='orr-dev',KEYS=["orr-dev", "orr-code", "orr-trial", "orr-chz", "orr-name", "orr-sname", "orr-lang", "orr-mode", "orr-pal", "orr-tel", "orr-req"],CK='smrid_'+PX;if(!/(^|\.)studentmasterreview\.com$/.test(location.hostname))return;
+  function rd(){var m=document.cookie.match(new RegExp('(?:^|; )'+CK+'=([^;]*)'));if(!m)return null;try{return JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))))}catch(e){return null}}
+  function wr(){try{if(!localStorage.getItem(ID))return;var o={};KEYS.forEach(function(k){var v=localStorage.getItem(k);if(v!=null&&v.length<700)o[k]=v});
+    var v=encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(o)))));if(v.length>3800)return;
+    document.cookie=CK+'='+v+';domain=studentmasterreview.com;path=/;max-age=34560000;secure;samesite=lax'}catch(e){}}
+  try{var c=rd();if(c&&c[ID]&&!localStorage.getItem(ID))Object.keys(c).forEach(function(k){if(KEYS.indexOf(k)>=0&&typeof c[k]==='string'&&localStorage.getItem(k)==null)localStorage.setItem(k,c[k])})}catch(e){}
+  setTimeout(wr,4000);addEventListener('pagehide',wr);document.addEventListener('visibilitychange',function(){if(document.hidden)wr()});
+})();
+</script><script>
 /* A new version of the book replaces the saved copy at once when the app has just been opened (owner, 12 Nov 2026: changes must show),
    instead of only at the next opening: when the new saved copy is ready in the first 90 s (or while the app is in the background), reload once. */
 /* (owner, 13 Nov 2026: "the greeting sometimes comes twice, like a reload") The new version is now put in place ONLY while the student cannot

@@ -609,7 +609,10 @@
       .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error((j && j.message) || 'net'); return j; }); });
   }
   function pkHost() { return location.hostname === 'studentmasterreview.com'; }
-  if (pkHost() && window.PublicKeyCredential && navigator.credentials && PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable) {
+  /* owner, 16 Nov 2026: "I don't like it; find a way that is automatic, no need to do anything from the student" — the Face ID offers are
+     switched off (PKAV stays false, so no card, no Settings panel, no pill); each book now keeps its device identity in a cookie that an
+     iPhone copies into the Home-screen app (head script of src/shell.html). The passkey code and database functions stay, unused. */
+  if (false && pkHost() && window.PublicKeyCredential && navigator.credentials && PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable) {
     PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().then(function (v) { PKAV = !!v; if (PKAV && (state.base === 'home' || state.base === 'preferences')) route(true); pkPill(); }).catch(function () {});
   }
   function b64u(buf) { var s = '', b = new Uint8Array(buf); for (var i = 0; i < b.length; i++) s += String.fromCharCode(b[i]); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }

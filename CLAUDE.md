@@ -601,3 +601,14 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   Works only on https://studentmasterreview.com (the passkey's site). Tested on a local Postgres + Chromium virtual authenticator: turn on in
   one place, open in a fresh place with a new device number → joined, book reloaded, one device in the count; replayed, tampered, wrong-site
   and made-up-challenge answers refused.
+- **Same phone, same device with nothing to do (owner, 16 Nov 2026: "the Face ID card shows even on my Android phone; I don't like it; find
+  a way that is automatic, no need to do anything from the student"):** the Face ID offers are switched off in the platform (PKAV never
+  true; passkey code and migration 027 stay, unused). Each book's head script (second script of src/shell.html, the same in the three books)
+  also keeps the device identity keys (the KEYS of the move script) in a cookie `smrid_<prefix>` on Domain=studentmasterreview.com
+  (1-year max-age, renewed 4 s after opening, on pagehide and when hidden; Safari limits script cookies to 7 days, so a weekly visit keeps
+  it). When the book's storage has no device id (`<px>-sdev`, Obstetrics `orr-dev`) and the cookie has one, the keys are restored before the
+  app starts; the book then re-adopts its key by itself (poll → obs_check). An iPhone (iOS 17.2 and later) copies a site's cookies into the
+  Home-screen app when it is added, so Safari and the installed app are one device. Android needs nothing (Chrome and its installed app share
+  storage). A different browser, or a phone whose data was cleared, is still a new device (admin «Add device only»). Tested in Chromium:
+  a fresh context with only the copied cookies opened the book with the same device number; a context without them got its own.
+
