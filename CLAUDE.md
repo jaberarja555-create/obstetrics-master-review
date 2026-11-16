@@ -587,3 +587,17 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   `{smr:'devs'}`; `obs_auto_join` binds a new number to the subscription of an earlier number of the same book, replacing it when full.
   Tested on a local Postgres with the real functions (duplicates merged with notes joined, approve joins + extends, add-device keeps the
   date, a new student still gets a new subscription, full subscription replaced by the same phone's new number).
+- **One phone = one device with Face ID / fingerprint (owner, 16 Nov 2026: "even if he opens from Safari the device must be one"; chose
+  Face ID / fingerprint over a PIN; migration 027):** a passkey for `studentmasterreview.com` is kept by the phone (iCloud Keychain / Google
+  Password Manager), the same in Safari, the Home-screen app and other browsers. Student Master Review (platform/js/app.js block "One phone =
+  one device") offers it on Home and in Settings (panel «البصمة / Face ID»): a page where a book is subscribed turns it on (`pkReg`:
+  `obs_pk_ch('reg')` → `navigator.credentials.create`, ES256, resident key, user verification → `obs_pk_register(dev, cred, x, y, clientDataJSON,
+  devs)`); a new place opens with it (`pkLogin`: `obs_pk_login` checks rpIdHash, the user-verified flag, the one-time challenge, the origin
+  https://studentmasterreview.com and the ECDSA P-256 signature IN SQL (`obs_p256_verify`, pure plpgsql, ~15 ms, tested against Node crypto),
+  then joins each book's device number of the page to the student's subscription of that book (`obs_pk_code`: its own codes, else same sid /
+  phone) and returns a token (`smr-pkt`); books opened later on that page join with `obs_pk_bind(token, …)`; a joined book frame is reloaded so
+  it opens at once. Device numbers with the same passkey (`obs_devlink`) count ONCE in `obs_bind`'s device limit and the admin lists them once
+  ("iPhone (Face ID)", `obs_admin_devlinks`). A not-subscribed book shows a small pill «مشترك؟ افتح بالبصمة / Face ID» (closed = 3 days).
+  Works only on https://studentmasterreview.com (the passkey's site). Tested on a local Postgres + Chromium virtual authenticator: turn on in
+  one place, open in a fresh place with a new device number → joined, book reloaded, one device in the count; replayed, tampered, wrong-site
+  and made-up-challenge answers refused.

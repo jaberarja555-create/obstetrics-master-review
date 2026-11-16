@@ -683,3 +683,11 @@ html[lang="ar"] .pals button{font-family:var(--arab)}
 .wset .pals button{min-width:0;flex:1 1 0;padding:6px 0;font-size:11px;gap:5px}
 .wset .pals i{width:28px;height:28px}
 .wmoved{display:flex;gap:10px;align-items:flex-start;margin:4px 0 2px;padding:12px 14px;border-radius:14px;background:var(--pritint);color:var(--tx);font-weight:600;font-size:14.5px;line-height:1.6;text-align:start}.wmoved svg{flex:none;width:20px;height:20px;color:var(--tl);margin-top:2px}
+/* Face ID / fingerprint (owner, 16 Nov 2026) */
+.pkc{align-items:flex-start}.pkc>span{display:flex;flex-direction:column;gap:4px}.pkc b{display:block}.pkc .pbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+#pkmsg{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:9000;max-width:min(92vw,460px);padding:12px 16px;border-radius:14px;background:#123b38;color:#fff;font-size:14px;line-height:1.5;box-shadow:0 10px 30px rgba(0,0,0,.25);text-align:center}
+#pkmsg.bad{background:#7a1f1f}
+#pkpill{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:8000;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;background:var(--pri);box-shadow:0 8px 24px rgba(0,0,0,.22);max-width:calc(100vw - 24px)}
+#pkpill .pkgo{display:flex;align-items:center;gap:8px;border:0;background:transparent;color:var(--pon);font:600 13.5px/1.2 inherit;padding:8px 10px 8px 12px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#pkpill .pkgo .ico{width:18px;height:18px;flex:none}
+#pkpill .pkx{border:0;background:rgba(255,255,255,.18);color:var(--pon);width:30px;height:30px;border-radius:50%;font-size:18px;line-height:1;cursor:pointer;flex:none}

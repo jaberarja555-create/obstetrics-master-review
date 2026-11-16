@@ -2,6 +2,11 @@
 window.SMR = window.SMR || {};
 SMR.T = {
   en: {
+    'pk.set': 'Face ID / fingerprint', 'pk.set.txt': 'Your subscription opens with Face ID or your fingerprint anywhere on this phone: in Safari, in the installed app or in another browser. They all count as one device.', 'pk.set.on': 'On for this phone. In another browser or in the installed app, tap «Open with Face ID / fingerprint» once and your books open there as the same device.',
+    'pk.reg.t': 'Open your books with Face ID or fingerprint', 'pk.reg.txt': 'Turn it on once: then Safari, the installed app and any browser on this phone open your subscription as one device.', 'pk.reg.go': 'Turn on Face ID / fingerprint',
+    'pk.in.t': 'Already subscribed?', 'pk.in.txt': 'If you turned on Face ID or fingerprint on this phone before, open your books with it. No new request is needed.', 'pk.in.go': 'Open with Face ID / fingerprint', 'pk.later': 'Later',
+    'pk.pill': 'Subscribed? Open with Face ID / fingerprint', 'pk.nosub': 'Open a subscribed book first, then turn this on.', 'pk.fail': 'It did not work. Check the internet and try again.', 'pk.cancel': 'Cancelled.',
+    'pk.reg.ok': 'Done. Face ID / fingerprint now opens your books anywhere on this phone.', 'pk.in.ok': 'Done. Your books open here as the same device.', 'pk.in.none': 'Your subscription was found, but no book here is part of it.', 'pk.unknown': 'This phone has no Face ID key for your subscription yet. Turn it on from a place where your books are open.',
     brand1: 'Student', brand2: 'Master Review',
     'nav.home': 'Home', 'nav.library': 'My Library', 'nav.progress': 'Progress', 'nav.settings': 'Settings',
     'search.ph': 'Search books and subjects…', 'search.short': 'Search',
@@ -70,6 +75,11 @@ SMR.T = {
     'just': 'just now', 'skip': 'Skip to content', 'menu': 'Main sections', 'doctor': 'Doctor'
   },
   ar: {
+    'pk.set': 'البصمة / Face ID', 'pk.set.txt': 'يُفتح اشتراكك بالبصمة أو Face ID في أي مكان على هذا الهاتف: في Safari، وفي التطبيق المثبّت، وفي أي متصفح آخر، وتُحسب كلها جهازًا واحدًا.', 'pk.set.on': 'مفعّل على هذا الهاتف. في متصفح آخر أو في التطبيق المثبّت اضغط «افتح بالبصمة / Face ID» مرة واحدة، فتُفتح كتبك هناك على أنها الجهاز نفسه.',
+    'pk.reg.t': 'افتح كتبك بالبصمة أو Face ID', 'pk.reg.txt': 'فعّلها مرة واحدة، وبعدها يفتح Safari والتطبيق المثبّت وأي متصفح على هذا الهاتف اشتراكك على أنها جهاز واحد.', 'pk.reg.go': 'فعّل البصمة / Face ID',
+    'pk.in.t': 'مشترك من قبل؟', 'pk.in.txt': 'إذا فعّلت البصمة أو Face ID على هذا الهاتف من قبل، فافتح كتبك بها دون طلب جديد.', 'pk.in.go': 'افتح بالبصمة / Face ID', 'pk.later': 'لاحقًا',
+    'pk.pill': 'مشترك؟ افتح بالبصمة / Face ID', 'pk.nosub': 'افتح كتابًا مشتركًا فيه أولًا، ثم فعّل هذه الخاصية.', 'pk.fail': 'لم تنجح العملية. تأكد من الإنترنت ثم حاول مرة أخرى.', 'pk.cancel': 'أُلغيت العملية.',
+    'pk.reg.ok': 'تم. أصبحت البصمة / Face ID تفتح كتبك في أي مكان على هذا الهاتف.', 'pk.in.ok': 'تم. تُفتح كتبك هنا على أنها الجهاز نفسه.', 'pk.in.none': 'وُجد اشتراكك، لكن لا يوجد هنا كتاب من كتبه.', 'pk.unknown': 'لا يوجد على هذا الهاتف مفتاح بصمة لاشتراكك بعد. فعّله من مكان كتبك فيه مفتوحة.',
     brand1: 'Student', brand2: 'Master Review',
     'nav.home': 'الرئيسية', 'nav.library': 'مكتبتي', 'nav.progress': 'التقدّم', 'nav.settings': 'الإعدادات',
     'search.ph': 'ابحث في الكتب والمواد…', 'search.short': 'بحث',

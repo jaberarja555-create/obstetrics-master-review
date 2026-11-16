@@ -47,6 +47,7 @@
     check: '<path d="m5 12 5 5 9-10"/>',
     info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>',
     clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    lock: '<path d="M12 11c0 3-1 6-2.5 8M8.5 7.5A5 5 0 0 1 17 11c0 2-.3 4-1 6M6 10c0-.8.2-1.6.5-2.3M14 11c0 3-.6 6-1.8 8.5M12 3a8 8 0 0 1 8 8c0 1.3-.1 2.6-.4 3.8M4 11a8 8 0 0 1 4-6.9"/>',
     book: '<path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z"/><path d="M4 19.5A1.5 1.5 0 0 0 5.5 21H20"/>',
     pill: '<path d="m10.5 20.5-7-7a5 5 0 0 1 7-7l7 7a5 5 0 0 1-7 7z"/><path d="m7 10 7 7"/>',
     notes: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/>',
@@ -182,6 +183,7 @@
         '<div class="stxt"><h2>' + esc(t(s.key + '.t')) + '</h2><p class="rule">' + esc(t(s.key + '.tag')) + '</p>' +
         '<a class="btn" href="#' + s.id + '">' + esc(t(s.key + '.cta')) + ic('arrow', 'flip') + '</a></div></article>';
     });
+    h = pkCard('home').replace('class="note pkc"', 'class="note pkc" style="margin:14px 0 0"') + h;
     if (!EMBED && S.site) h = '<p class="note" style="margin-top:12px">' + ic('info') + '<span>' + esc(t('prev.note')) + ' <b style="user-select:all;word-break:break-all">' + esc(S.site) + '</b></span></p>' + h;
     return h + '</div><p class="homefoot">' + esc(t('foot')) + '</p>';
   }
@@ -306,6 +308,7 @@
     h += '<section class="panel"><h2>' + esc(t('set.color')) + '</h2>' + palPick() + '</section>';
     h += '<section class="panel"><h2>' + esc(t('set.acc')) + '</h2><p>' + esc(t('set.acc.txt')) + '</p><div class="rows" style="margin-top:14px">' +
       S.books.filter(avail).map(function (b) { return row(b, esc(secTitle(b.section)) + (b.edition ? ' · ' + esc(L(b.edition)) : ''), openLink(b)); }).join('') + '</div></section>';
+    h += pkCard('set');
     h += '<section class="panel"><h2>' + esc(t('set.data')) + '</h2><p>' + esc(t('set.data.txt')) + '</p><div class="confirm" id="clr"><button class="btn sm quiet" type="button" id="clr1">' + esc(t('set.clear')) + '</button></div></section>';
     h += '<section class="panel"><h2>' + esc(t('set.tour')) + '</h2><p>' + esc(t('set.tour.txt')) + '</p><div class="confirm"><button class="btn sm" type="button" data-tour>' + ic('info') + esc(t('set.tour.go')) + '</button></div></section>';
     h += '<section class="panel"><h2>' + esc(t('set.inst')) + '</h2>' + (STANDALONE ? '<p>' + esc(t('i.already')) + '</p>' :
@@ -502,6 +505,7 @@
     frameOf(id).used = Date.now(); prune(id);
     Object.keys(FR).forEach(function (k) { FR[k].wrap.classList.toggle('bg', k !== id); FR[k].wrap.hidden = false; });
     if (SHOWN !== id) { if (SHOWN) tellVis(SHOWN, false); SHOWN = id; tellVis(id, true); }
+    pkPill();
     document.title = b.app + ' · Student Master Review';
     noteOpen(id);
   }
@@ -519,7 +523,7 @@
      upload) and when it leaves the screen ({smr:'hide'}: upload what is not yet online). */
   var SHOWN = null;
   function tellVis(id, v) { var f = FR[id]; if (!f) return; try { f.fr.contentWindow.postMessage({ smr: v ? 'show' : 'hide' }, new URL(BOOK[id].url).origin); } catch (e) {} }
-  function hideBooks() { if (SHOWN) { tellVis(SHOWN, false); SHOWN = null; } if (!apps || apps.classList.contains('bg')) return; if (Object.keys(FR).length) { apps.hidden = false; apps.classList.add('bg'); apps.setAttribute('aria-hidden', 'true'); } else apps.hidden = true; }
+  function hideBooks() { if (SHOWN) { tellVis(SHOWN, false); SHOWN = null; } if (typeof pkPill === 'function') pkPill(); if (!apps || apps.classList.contains('bg')) return; if (Object.keys(FR).length) { apps.hidden = false; apps.classList.add('bg'); apps.setAttribute('aria-hidden', 'true'); } else apps.hidden = true; }
   /* Speed (owner, 12 Nov 2026: "the app is very slow"): a book loading in the background uses the same processor as the screen the
      student is touching, so the books are now loaded only while the student is NOT touching the app (whenIdle), the last opened book
      first, one after the other. A phone with little memory loads only its last opened book this way; its other books load when opened. */
@@ -591,12 +595,116 @@
     var L = (H[id] || []).filter(function (x) { return x !== D[id] && /^[0-9a-f]{20,64}$/.test(x || ''); })
       .concat(Object.keys(D).filter(function (k) { return k !== id && /^[0-9a-f]{20,64}$/.test(D[k] || ''); }).map(function (k) { return D[k]; }));
     if (!L.length) return; try { f.fr.contentWindow.postMessage({ smr: 'devs', devs: L }, new URL(BOOK[id].url).origin); } catch (e) {} }
+
+  /* ---------- One phone = one device, with Face ID / fingerprint (owner, 16 Nov 2026: "even if he opens from Safari the device must be
+     one"). An iPhone keeps Safari and the Home-screen app apart, so each gets its own device number in a book. A passkey for
+     studentmasterreview.com lives in the phone itself and is the same in both: a subscribed student turns it on once (pkReg); in a new
+     place one Face ID / fingerprint (pkLogin) joins every book of that place to the student's subscriptions, and they count as ONE device.
+     The signature is checked in the database (migration 027); this page only passes it on. ---------- */
+  var SB = { url: 'https://kgdmjeffeqfdlfnjnnek.supabase.co', key: 'sb_publishable_aUgkKc4QpItV4yKKViVFCg_dipnUdDl' };
+  var PKB = { surgery: 'srg', pediatrics: 'ped', obstetrics: 'obs' };
+  var PKAV = false, PKBUSY = false, PKDONE = {};
+  function rpc(fn, args) {
+    return fetch(SB.url + '/rest/v1/rpc/' + fn, { method: 'POST', headers: { apikey: SB.key, 'Content-Type': 'application/json' }, body: JSON.stringify(args || {}) })
+      .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error((j && j.message) || 'net'); return j; }); });
+  }
+  function pkHost() { return location.hostname === 'studentmasterreview.com'; }
+  if (pkHost() && window.PublicKeyCredential && navigator.credentials && PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable) {
+    PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().then(function (v) { PKAV = !!v; if (PKAV && (state.base === 'home' || state.base === 'preferences')) route(true); pkPill(); }).catch(function () {});
+  }
+  function b64u(buf) { var s = '', b = new Uint8Array(buf); for (var i = 0; i < b.length; i++) s += String.fromCharCode(b[i]); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+  function unb64u(s) { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; var bin = atob(s), u = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u; }
+  function hex(buf) { var b = new Uint8Array(buf), s = ''; for (var i = 0; i < b.length; i++) s += ('0' + b[i].toString(16)).slice(-2); return s; }
+  function devKind() { return /iPhone|iPod|Android.*Mobile|Mobile/i.test(navigator.userAgent) ? 'phone' : 'pc'; }
+  function devLabel() { var u = navigator.userAgent; return /iPhone/.test(u) ? 'iPhone' : /iPad/.test(u) ? 'iPad' : /Android/.test(u) ? 'Android' : /Windows/.test(u) ? 'Windows' : /Mac/.test(u) ? 'Mac' : 'Computer'; }
+  function pkDevs() { var D = LS.get('devs', {}) || {}; return Object.keys(D).filter(function (k) { return PKB[k] && /^[0-9a-f]{20,64}$/.test(D[k] || ''); })
+    .map(function (k) { return { b: PKB[k], d: D[k], k: devKind(), l: devLabel() }; }); }
+  function subsHere() { var S2 = LS.get('subs', {}) || {}; return Object.keys(S2).filter(function (k) { return S2[k]; }); }
+  /* the public key of a new passkey: getPublicKey() (SPKI: the last 64 bytes are x and y), else read from the attestation (CBOR) */
+  function cbor(u) { var i = 0;
+    function n(ai) { if (ai < 24) return ai; var l = ai === 24 ? 1 : ai === 25 ? 2 : ai === 26 ? 4 : 8, v = 0; for (var k = 0; k < l; k++) v = v * 256 + u[i++]; return v; }
+    function it() { var b = u[i++], mt = b >> 5, ai = b & 31, v = n(ai), o, k;
+      if (mt === 0) return v; if (mt === 1) return -1 - v; if (mt === 2) { o = u.slice(i, i + v); i += v; return o; }
+      if (mt === 3) { o = new TextDecoder().decode(u.slice(i, i + v)); i += v; return o; }
+      if (mt === 4) { o = []; for (k = 0; k < v; k++) o.push(it()); return o; }
+      if (mt === 5) { o = new Map(); for (k = 0; k < v; k++) { var kk = it(); o.set(kk, it()); } return o; }
+      if (mt === 7) return ai === 21 ? true : ai === 20 ? false : null; return null; }
+    return { it: it, at: function () { return i; }, set: function (x) { i = x; } }; }
+  function pubXY(resp) {
+    try { if (resp.getPublicKey) { var spki = new Uint8Array(resp.getPublicKey()); if (spki.length >= 65 && spki[spki.length - 65] === 4) return [hex(spki.slice(-64, -32)), hex(spki.slice(-32))]; } } catch (e) {}
+    var ao = cbor(new Uint8Array(resp.attestationObject)).it(), ad = ao.get('authData'), l = ad[53] * 256 + ad[54], c = cbor(ad.slice(55 + l)).it();
+    return [hex(c.get(-2)), hex(c.get(-3))];
+  }
+  function pkMsg(k, bad) { var m = $('#pkmsg'); if (!m) { m = document.createElement('div'); m.id = 'pkmsg'; m.setAttribute('role', 'status'); document.body.appendChild(m); }
+    m.className = bad ? 'bad' : ''; m.textContent = t(k); m.hidden = false; clearTimeout(pkMsg.tm); pkMsg.tm = setTimeout(function () { m.hidden = true; }, 6000); }
+  function reloadBook(id) { var f = FR[id]; if (!f) return; try { f.fr.src = BOOK[id].url; } catch (e) {} }
+  function pkReg() {
+    if (PKBUSY) return; var D = LS.get('devs', {}) || {}, S2 = LS.get('subs', {}) || {}, own = Object.keys(S2).filter(function (k) { return S2[k] && D[k]; })[0];
+    if (!own) { pkMsg('pk.nosub', true); return; }
+    PKBUSY = true;
+    rpc('obs_pk_ch', { p_kind: 'reg' }).then(function (ch) {
+      var nm = cleanName(LS.get('name', '')) || 'Student';
+      return navigator.credentials.create({ publicKey: { challenge: unb64u(ch), rp: { id: 'studentmasterreview.com', name: 'Student Master Review' },
+        user: { id: crypto.getRandomValues(new Uint8Array(16)), name: nm, displayName: nm }, pubKeyCredParams: [{ type: 'public-key', alg: -7 }],
+        authenticatorSelection: { authenticatorAttachment: 'platform', residentKey: 'required', requireResidentKey: true, userVerification: 'required' },
+        attestation: 'none', timeout: 90000 } }).then(function (cr) {
+        var xy = pubXY(cr.response);
+        return rpc('obs_pk_register', { p_dev: D[own], p_cred: b64u(cr.rawId), p_x: xy[0], p_y: xy[1], p_cdj: hex(cr.response.clientDataJSON), p_devs: pkDevs() });
+      });
+    }).then(function (r) { PKBUSY = false; if (!r || !r.ok) { pkMsg('pk.fail', true); return; }
+      LS.set('pk', 1); if (r.tok) LS.set('pkt', r.tok); pkMsg('pk.reg.ok'); route(true); })
+      .catch(function (e) { PKBUSY = false; pkMsg(e && e.name === 'NotAllowedError' ? 'pk.cancel' : 'pk.fail', true); });
+  }
+  function pkLogin() {
+    if (PKBUSY) return; PKBUSY = true;
+    rpc('obs_pk_ch', { p_kind: 'get' }).then(function (ch) {
+      return navigator.credentials.get({ publicKey: { challenge: unb64u(ch), rpId: 'studentmasterreview.com', userVerification: 'required', timeout: 90000 } });
+    }).then(function (a) {
+      return rpc('obs_pk_login', { p_cred: b64u(a.rawId), p_cdj: hex(a.response.clientDataJSON), p_ad: hex(a.response.authenticatorData), p_sig: hex(a.response.signature), p_devs: pkDevs() });
+    }).then(function (r) { PKBUSY = false;
+      if (!r || !r.ok) { pkMsg(r && r.reason === 'unknown' ? 'pk.unknown' : 'pk.fail', true); return; }
+      LS.set('pk', 1); LS.set('pkt', r.tok); var bk = r.books || {}, any = false;
+      Object.keys(PKB).forEach(function (id) { var st = bk[PKB[id]]; if (st === 'ok' || st === 'already') { any = true; if (st === 'ok') reloadBook(id); } });
+      pkMsg(any || !pkDevs().length ? 'pk.in.ok' : 'pk.in.none', !any && pkDevs().length > 0); pkPill(); route(true);
+    }).catch(function (e) { PKBUSY = false; pkMsg(e && e.name === 'NotAllowedError' ? 'pk.cancel' : 'pk.fail', true); });
+  }
+  /* a book of this page that is not subscribed joins with this page's token (no second Face ID) */
+  function pkAuto(id, dev) {
+    var tok = LS.get('pkt', ''); if (!tok || !PKB[id] || PKDONE[dev]) return; PKDONE[dev] = 1;
+    rpc('obs_pk_bind', { p_tok: tok, p_book: PKB[id], p_dev: dev, p_kind: devKind(), p_label: devLabel() }).then(function (r) {
+      if (r && r.ok && r.st === 'ok') reloadBook(id); else if (r && r.reason === 'tok') LS.set('pkt', '');
+    }).catch(function () { PKDONE[dev] = 0; });
+  }
+  /* a small offer over a book that says it is not subscribed (once in 3 days if closed) */
+  function pkPill() {
+    var el = $('#pkpill'), S2 = LS.get('subs', {}) || {}, show = PKAV && SHOWN && PKB[SHOWN] && S2[SHOWN] === false && !LS.get('pkt', '') && Date.now() - (LS.get('pkno', 0) || 0) > 3 * 864e5;
+    if (!show) { if (el) el.hidden = true; return; }
+    if (!el) { el = document.createElement('div'); el.id = 'pkpill'; document.body.appendChild(el); }
+    el.innerHTML = '<button type="button" class="pkgo" data-pk="in">' + ic('lock') + '<span>' + esc(t('pk.pill')) + '</span></button><button type="button" class="pkx" data-pk="pillx" aria-label="' + esc(t('pk.later')) + '">×</button>';
+    el.hidden = false;
+  }
+  function pkCard(where) {
+    if (!PKAV) return '';
+    var on = !!LS.get('pk', 0), subs = subsHere().length > 0;
+    if (where === 'home') {
+      if (on || Date.now() - (LS.get('pkno', 0) || 0) < 3 * 864e5) return '';
+      if (subs) return '<div class="note pkc">' + ic('lock') + '<span><b>' + esc(t('pk.reg.t')) + '</b>' + esc(t('pk.reg.txt')) + '<span class="pbtns"><button class="btn sm" type="button" data-pk="reg">' + esc(t('pk.reg.go')) + '</button><button class="btn sm quiet" type="button" data-pk="no">' + esc(t('pk.later')) + '</button></span></span></div>';
+      return '<div class="note pkc">' + ic('lock') + '<span><b>' + esc(t('pk.in.t')) + '</b>' + esc(t('pk.in.txt')) + '<span class="pbtns"><button class="btn sm" type="button" data-pk="in">' + esc(t('pk.in.go')) + '</button><button class="btn sm quiet" type="button" data-pk="no">' + esc(t('pk.later')) + '</button></span></span></div>';
+    }
+    return '<section class="panel"><h2>' + esc(t('pk.set')) + '</h2><p>' + esc(t(on ? 'pk.set.on' : 'pk.set.txt')) + '</p><div class="confirm">' +
+      (subs && !on ? '<button class="btn sm" type="button" data-pk="reg">' + esc(t('pk.reg.go')) + '</button>' : '') +
+      '<button class="btn sm' + (subs && !on ? ' quiet' : '') + '" type="button" data-pk="in">' + esc(t('pk.in.go')) + '</button></div></section>';
+  }
+  document.addEventListener('click', function (e) { var b = e.target.closest('[data-pk]'); if (!b) return; var a = b.getAttribute('data-pk');
+    if (a === 'reg') pkReg(); else if (a === 'in') pkLogin(); else if (a === 'no') { LS.set('pkno', Date.now()); route(true); } else if (a === 'pillx') { LS.set('pkno', Date.now()); pkPill(); } });
   window.addEventListener('message', function (e) {
     if (!e.data || e.data.smr !== 'dev' || typeof e.data.dev !== 'string' || !/^[0-9a-f]{20,64}$/.test(e.data.dev)) return;
     var id = null; Object.keys(FR).forEach(function (k) { if (FR[k].fr.contentWindow === e.source) id = k; }); if (!id) return;
     var D = LS.get('devs', {}) || {}, ch = D[id] !== e.data.dev; D[id] = e.data.dev; LS.set('devs', D);
     if (e.data.sub) { var H = LS.get('devh', {}) || {}, h = (H[id] || []).filter(function (x) { return x !== e.data.dev; });
       h.unshift(e.data.dev); H[id] = h.slice(0, 3); LS.set('devh', H); }
+    var SU = LS.get('subs', {}) || {}; SU[id] = !!e.data.sub; LS.set('subs', SU);
+    if (!e.data.sub) pkAuto(id, e.data.dev); if (id === SHOWN) pkPill();
     tellDevs(id); if (ch || e.data.sub) Object.keys(FR).forEach(function (k) { if (k !== id) tellDevs(k); });
   });
   window.addEventListener('message', function (e) {

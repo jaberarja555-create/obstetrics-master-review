@@ -509,7 +509,10 @@ function wkAct(b,code,act,body,done){return wkCall(b,'/api/codes/'+encodeURIComp
 function oc(code){return ALL.concat(WOLD.srg||[],WOLD.ped||[]).filter(function(x){return x.code===code})[0]}
 function isSub(c){return c.plan&&c.plan!=='old'&&inBk(c)}
 function state(c){if(!c.active)return 'off';if(c.expires&&new Date(c.expires)<=new Date())return 'ended';if(c.expires&&new Date(c.expires)-new Date()<7*864e5)return 'soon';return 'active'}
-function devs(c){if(c.wk)return c.wdevs.slice();var a=[];if(c.phone_dev)a.push(c.phone_label||'Phone');if(c.pc_dev)a.push(c.pc_label||'Computer');(EXTRA[c.code]||[]).forEach(function(d){a.push(d.label||(d.kind==='phone'?'Phone':'Computer'))});return a}
+/* owner, 16 Nov 2026: device numbers opened with the same Face ID / fingerprint key are ONE phone (migration 027, obs_devlink) */
+var DLK={};
+function devs(c){if(c.wk)return c.wdevs.slice();var a=[],seen={};function add(dev,label){var k=DLK[dev]?'k:'+DLK[dev]:'d:'+dev;if(seen[k])return;seen[k]=1;a.push(label+(DLK[dev]?' (Face ID)':''))}
+  if(c.phone_dev)add(c.phone_dev,c.phone_label||'Phone');if(c.pc_dev)add(c.pc_dev,c.pc_label||'Computer');(EXTRA[c.code]||[]).forEach(function(d){add(d.dev,d.label||(d.kind==='phone'?'Phone':'Computer'))});return a}
 function pgOf(k){var m=/^(.*):(\d+)$/.exec(k||'');if(!m)return esc(k);var t=m[1].replace(/^ex(\d+)$/,'Exam corner $1').replace(/-/g,' ');return esc(t.charAt(0).toUpperCase()+t.slice(1))+' · page '+m[2]}
 function noteItem(n){return (n.kind==='text'?'<i>Written on the page</i>':n.kind==='pnote'?'<i>Note on the page</i>':'<i>"'+esc(n.txt)+'"</i>')+'<p dir="auto">'+esc(n.note).replace(/\n/g,'<br>')+'</p>'}
 var NTS=null;function ntLoad(){$('ntList').innerHTML='<p class="empty">Loading…</p>';sb.rpc('obs_admin_book_notes',{p_book:BKF==='all'?null:BKF}).then(function(r){if(r.error){$('ntList').innerHTML='<p class="empty">Error: '+esc(r.error.message)+'</p>';return}NTS=r.data||[];ntRender()})}
@@ -521,7 +524,8 @@ function ntRender(){if(!NTS)return;var q=($('ntFind').value||'').trim().toLowerC
     :'<p class="empty">'+(q?'No note matches.':'No notes yet. Notes reach the server when the student is online.')+'</p>')}
 document.addEventListener('input',function(e){if(e.target&&e.target.id==='ntFind')ntRender()});document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('#ntRef'))ntLoad()});
 function nameOf(c){return (c.note||'').split('·')[0].trim()||'(no name)'}function telOf(c){return ((c.note||'').split('·')[1]||'').trim()}
-function load(){return Promise.all([sb.rpc('obs_admin_list'),sb.rpc('obs_admin_extra')]).then(function(rs){var r=rs[0];if(r.error)throw r.error;ALL=r.data||[];
+function load(){return Promise.all([sb.rpc('obs_admin_list'),sb.rpc('obs_admin_extra'),sb.rpc('obs_admin_devlinks')]).then(function(rs){var r=rs[0];if(r.error)throw r.error;ALL=r.data||[];
+  DLK={};((rs[2]&&rs[2].data)||[]).forEach(function(x){DLK[x.dev]=x.cred});
   EXTRA={};((rs[1]&&rs[1].data)||[]).forEach(function(d){(EXTRA[d.code]=EXTRA[d.code]||[]).push(d)});stats();sbRender();oldRender();ovRender();wkLoadAll();if(!MGDONE)mgLoad()})}
 function call(fn,args,done){return sb.rpc(fn,args).then(function(r){if(r.error){toast('Error: '+r.error.message);return}toast(done);return load()})}
 function stats(){var s=ALL.filter(isSub),n={active:0,soon:0,ended:0,off:0};s.forEach(function(c){n[state(c)]++});
