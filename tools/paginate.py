@@ -120,6 +120,8 @@ def plan(pages):
                     pv = Dp[j - 1][k]
                     if pv is None or C[k][i] is None or not fits(j - 1, k, i): continue
                     free = room(j - 1) - C[k][i]
+                    # owner (16 Nov 2026: "why you left this empty space"): new design fills every page in full; only the topic's last page may end short
+                    if EVEN and i == n: free = max(0, free - int(.6 * room(j - 1)))   # the last page should still hold about a third of a page
                     # owner (16 Nov 2026): with EVEN=1, after the emptiest page every other page is also filled as evenly as possible
                     # (sum of squared gaps before the number of divided sections), so one unavoidable gap no longer leaves others half empty
                     sq = max(free, 0) ** 2 // 100

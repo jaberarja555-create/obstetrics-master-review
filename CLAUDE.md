@@ -632,6 +632,9 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   table may continue on the next page with ≥ 2 rows each side (header repeated); the planner may now use up to twice the old page count.
   Chapter 1: 21 → 27 pages (pc 10, dx 7, anc 10), every page ends about 60 px above the footer. Locally build.py needs a 32-byte base64 key
   file for checking only (`OBS_KEY_FILE`); the deploy uses the real key from GitHub secrets.
+- **Full pages (owner, 16 Nov 2026: "why you left this empty space" on 2.2):** spreading the free room evenly left ~200 px empty on every page of
+  a topic (table pages cannot absorb it). Now with EVEN=1 the last page of a topic is not charged until it is more than 60% empty, so every
+  other page is filled to the foot and only a topic's last page ends short. Two plain bullet lists side by side were joined into one list.
 - **Chapter 2 done (16 Nov 2026)** in the same design and flow (47 → 63 pages). Corrections, each with the local way as a Local practice
   note: pre-existing diabetes planned birth 37+0–38+6 wk (NICE NG3; local 38–39); gestational hypertension / pre-eclampsia without severe
   features delivered at 37 wk and BP target 135/85 (NICE NG133; local 38 wk); IPTp-SP as in chapter 1 (WHO; local two doses); obstetric
