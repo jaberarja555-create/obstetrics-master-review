@@ -1,34 +1,24 @@
 {
-"sc": [
-"Itchy palms and soles at 32 weeks, no rash → <b>Obstetric cholestasis: bile acids</b>",
-"Bile acids 120 µmol/L → <b>Deliver at 35–36 weeks</b>",
-"Itch with normal tests → <b>Repeat in 1–2 weeks</b>"
-],
+"lead": "Obstetric cholestasis is <b>itching without a rash</b> with <b>raised bile acids</b> and/or abnormal liver tests and no other cause, usually in the third trimester, that resolves after birth. The mother itches; the <b>fetus</b> is at risk of sudden death.",
 "f": [
-[
-"Key features",
-"<b>Itch of palms and soles</b>, no rash, 3rd trimester, worse at night · family history in a third"
-],
-[
-"Investigations",
-"<b>Serum bile acids</b> > 10 µmol/L · ALT/AST 2–3× · exclude hepatitis, gallstones · ALP is not useful (placental)"
-],
-[
-"Treatment",
-"<b>Ursodeoxycholic acid</b> 8–12 mg/kg/day · antihistamines only sedate · vitamin K if steatorrhoea"
-],
-[
-"Delivery",
-"Bile acids <b>≥ 100</b>: deliver 35–36 wk · 40–99: about 38 wk"
-],
-[
-"Risks",
-"Fetal: <b>sudden stillbirth</b>, meconium, preterm birth · maternal: vitamin K ↓ → PPH"
-],
-[
-"Recurrence",
-"<b>45–70%</b> next pregnancy · avoid oestrogen pills"
+["Risk factors and features",
+"Family history in 1 of 3, <b>previous cholestasis</b>, South Asian origin, twins · Pruritus of the <b>palms and soles</b>, then trunk; <b>worse at night</b> · Only scratch marks on examination; mild jaundice in a few; dark urine, pale stool, steatorrhoea",
+{"sc": ["Itchy palms and soles, no rash, bile acids raised → <b>Obstetric cholestasis</b>"]}],
+["Investigations",
+"<b>Bile acids ≥ 19 µmol/L</b> on a random sample (RCOG 2022): the key test; <b>≥ 100 = high fetal risk</b> · ALT, AST, GGT 2–3 times normal; <b>ALP not useful</b> (placental) · PT for vitamin K deficiency · Exclude others: liver ultrasound, viral serology, autoantibodies · Itching with normal tests: <b>repeat in 1–2 wk</b> (itch can precede abnormal tests)",
+{"sc": ["32 wk, itchy at night, normal LFT and bile acids → <b>Repeat LFT and bile acids in 1–2 wk</b>"]}],
+["Differential diagnosis",
+"Itch with a rash: eczema, scabies, polymorphic eruption, <b>pemphigoid gestationis</b> (blisters around the umbilicus) · Abnormal LFT: <b>HELLP</b> (BP, platelets), <b>AFLP</b> (vomiting, low glucose), viral hepatitis, gallstones, PBC (AMA), autoimmune hepatitis (ASMA)",
+{"sc": ["High ALP only, no itch at 34 wk → <b>Normal (placental ALP)</b>"]}],
+["Complications",
+"Mother: itch, poor sleep, <b>vitamin K deficiency → PPH</b>; no lasting liver damage · Fetus: <b>sudden stillbirth</b> (risk rises with bile acids ≥ 100), meconium, preterm birth, neonatal respiratory distress",
+{"tr": ["A normal CTG does not exclude sudden fetal death in cholestasis: plan birth by the bile acid level"]}],
+["Antenatal management",
+"<b>Ursodeoxycholic acid 8–12 mg/kg/day</b> in 2 doses: itch improves in 1–7 days; no proven fetal benefit · <b>Vitamin K</b> (menadiol 10 mg daily) only if <b>PT prolonged or steatorrhoea</b> (RCOG 2022) · Emollients (aqueous cream with menthol); chlorphenamine only helps sleep · <b>LFT and bile acids weekly</b>; the peak level sets the birth timing"],
+["Timing of birth",
+"Peak bile acids <b>19–39: by 40 wk</b> · <b>40–99: at 38–39 wk</b> · <b>≥ 100: at 35–36 wk</b> · Induction; CS for usual obstetric reasons; steroids if before 35 wk · Continuous CTG, active third stage · Local practice: fasting bile acids over 10, birth at 39 or 38 wk, vitamin K for all",
+{"sc": ["Bile acids 25 µmol/L at 34 wk → <b>UDCA, birth by 40 wk</b>", "Bile acids 130 µmol/L at 34 wk → <b>Plan birth at 35–36 wk</b>"]}],
+["After birth",
+"Itch goes within days; check LFT before discharge or at 6 wk · Still abnormal: look for <b>chronic liver disease</b> · <b>Recurs in 45–70%</b> of later pregnancies · <b>Avoid oestrogen pills</b>: use progestogen-only or IUCD"]
 ]
-],
-"trap": "Bile acids above <b>100</b> mark high stillbirth risk · itch with <b>rash</b> is another disease · UDCA relieves itch but its effect on stillbirth is unproved"
 }

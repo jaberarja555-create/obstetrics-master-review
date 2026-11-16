@@ -1,34 +1,27 @@
 {
-"sc": [
-"Primigravida, fever, rigors, positive film, able to eat → <b>Artemether-lumefantrine</b>",
-"Fever, convulsion, normal BP and no proteinuria → <b>Cerebral malaria: IV artesunate</b>",
-"Fit with fever, BP 150/100 and proteinuria → <b>Treat both eclampsia and malaria</b>"
-],
+"lead": "Malaria in pregnancy is mostly <b>P. falciparum</b>. Reduced immunity and parasites that bind the placenta make it more severe: it causes <b>anaemia</b>, hypoglycaemia, pulmonary oedema, miscarriage, low birth weight and stillbirth.",
 "f": [
-[
-"At risk",
-"<b>Primigravidae</b> · parasites hide in the <b>placenta</b> (CSA binding) → low birth weight, stillbirth"
-],
-[
-"Investigations",
-"<b>Thick and thin films</b> · RDT · RBG (hypoglycaemia) · Hb · BP and urine protein in every fit"
-],
-[
-"Uncomplicated",
-"<b>AL 4 tablets twice daily for 3 days</b> (any trimester) · 2nd line in 2nd/3rd trimester: DHA-piperaquine"
-],
-[
-"Severe",
-"<b>IV artesunate 2.4 mg/kg at 0, 12, 24 h</b> then daily · 2nd line <b>IV quinine</b> 10 mg/kg 8-hourly"
-],
-[
-"Severe features",
-"Fits, coma · hypoglycaemia < 2.2 mmol/L · parasitaemia > 5% · shock · severe anaemia · pulmonary oedema"
-],
-[
-"Prevention",
-"<b>IPTp-SP</b> after quickening, 2 or more doses ≥ 4 wk apart · bed nets"
+["Types and severe features",
+"<b>Uncomplicated:</b> symptoms + parasites, no severe feature, can take oral drugs · <b>Severe:</b> parasites + any severe feature · <b>Placental (silent):</b> parasites without fever; harms the fetus; the target of IPTp · Severe features: impaired consciousness, repeated fits, <b>Hb below 7</b>, <b>glucose below 40 mg/dL</b>, temperature over 40 °C, <b>parasitaemia over 5%</b>, jaundice, blackwater urine, pulmonary oedema, renal failure, shock",
+{"sc": ["No fever, anaemia, small baby → <b>Placental malaria</b>"]}],
+["Risk factors and pathophysiology",
+"<b>Primigravidae</b> (no immunity to placenta-binding parasites), young mothers, non-immune women, HIV, no net or IPTp · Sticky infected red cells block small vessels and bind <b>placental CSA</b> · Pregnancy adds <b>hypoglycaemia</b> (parasites use glucose; quinine releases insulin) and <b>pulmonary oedema</b>",
+{"tr": ["Check blood glucose in every case; do not flood her with fluids"]}],
+["Clinical features and investigations",
+"Fever, rigors, sweats, headache, vomiting; can mimic labour pains · Pallor, splenomegaly, mild jaundice · Many have no fever: anaemia or a small baby may be the only clue · <b>Fever in pregnancy in an endemic area: test for malaria first</b> · <b>Thick film</b> (parasites, density), <b>thin film</b> (species, % parasitaemia), <b>RDT</b> · Negative but suspicious: <b>repeat the film</b> · Severity: glucose, FBC, creatinine, bilirubin, urine output, fetal heart, growth scan",
+{"sc": ["Febrile, RDT negative, still suspected → <b>Repeat the blood film</b>"]}],
+["Differential diagnosis",
+"Fever: pyelonephritis, typhoid, chorioamnionitis, brucellosis · Fits or coma: <b>eclampsia</b>, meningitis, hypoglycaemia, epilepsy · Jaundice: hepatitis (E is severe in pregnancy), HELLP, AFLP",
+{"sc": ["Fit, fever, BP 110/70, film positive → <b>Cerebral malaria</b>", "Fit at 34 wk, fever 39 °C and BP 160/110 → <b>Treat both: MgSO₄ + IV artesunate</b>"]}],
+["Complications",
+"Maternal: <b>anaemia (commonest)</b>, hypoglycaemia, cerebral malaria, renal failure, pulmonary oedema, shock, preterm labour, PPH · Fetal: miscarriage, preterm birth, stillbirth, <b>FGR and low birth weight</b>, congenital malaria"],
+["Drug treatment",
+"Decide by <b>severity, not trimester</b> · <b>Uncomplicated:</b> <b>artemether–lumefantrine 4 tablets twice daily for 3 days</b> in every trimester, with fatty food or milk; repeat a dose vomited within 30 min · Second line in the second and third trimester: DHA–piperaquine; no ACT: oral quinine 7 days · <b>Severe:</b> <b>IV artesunate 2.4 mg/kg at 0, 12 and 24 h</b>, then daily (IM if no vein) · Second line <b>IV quinine 10 mg/kg 8-hourly</b> in dextrose, with glucose checks · After at least 24 h IV and able to swallow: <b>full 3-day oral ACT</b>",
+{"sc": ["Fever again on day 3 of AL → <b>Repeat the film; treatment failure → change drug</b>", "Confused and sweating on IV quinine → <b>Check blood glucose (quinine releases insulin)</b>"]}],
+["Severe malaria and complications",
+"HDU, left lateral, airway, O₂ · Glucose at once, film, Hb, creatinine; <b>IV artesunate now</b> · Fits: diazepam, or MgSO₄ if eclampsia is possible · Careful fluids, catheter, hourly urine · <b>Hypoglycaemia:</b> 50 mL 50% dextrose then 10% infusion · <b>Severe anaemia:</b> Hb below 5 (below 7 after 36 wk): slow packed cells · <b>Pulmonary oedema:</b> sit up, O₂, stop fluids, furosemide · Shock: fluids, cultures, ceftriaxone · Labour: CTG, CS for obstetric reasons only; film on the newborn"],
+["Prevention",
+"<b>IPTp-SP</b> (3 tablets, observed) from 13 wk at every scheduled visit at least 4 wk apart, <b>at least 3 doses</b> (WHO); local clinics often give two · Insecticide-treated net every night, indoor spraying, iron and folate",
+{"tr": ["No SP in the first trimester or with cotrimoxazole; folic acid 0.4 mg, not 5 mg", "No primaquine in pregnancy (fetal G6PD haemolysis)"]}]
 ]
-],
-"trap": "Quinine causes <b>hypoglycaemia</b> · <b>primaquine</b> is never given in pregnancy · anaemia is the commonest maternal complication"
 }

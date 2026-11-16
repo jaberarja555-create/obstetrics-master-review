@@ -1,34 +1,25 @@
 {
-"sc": [
-"Swollen painful left calf at 30 weeks → <b>Treatment-dose LMWH now, then duplex</b>",
-"Sudden breathlessness after CS, sinus tachycardia, normal CXR → <b>PE: V/Q scan</b>",
-"Collapse with massive PE → <b>IV unfractionated heparin ± thrombolysis</b>"
-],
+"lead": "Venous thromboembolism is DVT and its complication, pulmonary embolism. Pregnancy raises the risk about <b>5 times</b> and the puerperium more; PE is a leading <b>direct cause of maternal death</b>, and most fatal PEs happen <b>after birth</b>.",
 "f": [
-[
-"Risk factors",
-"Pregnancy (×5), <b>first 6 wk postpartum</b> highest · CS · age > 35, BMI > 30 · thrombophilia (<b>antithrombin III</b> worst) · immobility"
-],
-[
-"Clinical",
-"DVT: <b>left leg</b> (75%), calf difference > 2 cm · PE: dyspnoea, pleuritic pain, tachycardia, ↓ CO₂"
-],
-[
-"Investigations",
-"<b>Duplex</b> (repeat day 4 and 7 if negative and suspicion high) · PE: normal CXR → <b>V/Q</b>, abnormal CXR → <b>CTPA</b> · D-dimer not useful"
-],
-[
-"Treatment",
-"<b>Enoxaparin 1 mg/kg twice daily</b> · for the rest of pregnancy + <b>6 wk</b> postpartum · warfarin only after delivery (INR 2–3)"
-],
-[
-"Labour",
-"Stop treatment dose <b>24 h</b> before regional block (prophylactic dose 12 h)"
-],
-[
-"Prevention",
-"≥ 3 risk factors → LMWH from <b>28 wk</b> · prophylaxis 40 mg daily"
+["Risk factors",
+"Pre-existing: <b>previous VTE</b>, thrombophilia, age over 35, <b>BMI over 30</b>, parity 3 or more, smoking, varicose veins, SLE, sickle cell · Obstetric: <b>caesarean</b> (above all in labour), pre-eclampsia, twins, prolonged labour, PPH, IUFD, IVF · Transient: immobility, surgery, <b>hyperemesis</b>, infection, long travel · Congenital thrombophilia: <b>antithrombin III deficiency</b> (highest risk), protein C or S deficiency, <b>factor V Leiden</b> (commonest) · Acquired: <b>antiphospholipid syndrome</b> · Left leg affected in about 75%: the right common iliac artery compresses the left iliac vein"],
+["Clinical features",
+"<b>DVT:</b> leg pain and swelling, usually left; calf <b>more than 2 cm wider</b>; tender, warm; iliofemoral clot may give abdominal or back pain · <b>PE:</b> breathlessness, pleuritic pain, haemoptysis, collapse; tachycardia, tachypnoea, low SpO₂ · <b>Massive:</b> hypotension, raised JVP, cyanosis",
+{"sc": ["Both ankles swollen, painless, 36 wk → <b>Physiological oedema</b>", "Day 5 after CS, breathless, pulse 120 → <b>PE</b>"], "tr": ["One painful swollen leg in pregnancy = DVT until proven otherwise"]}],
+["Investigations",
+"<b>Start treatment-dose LMWH first</b>, then investigate (unless bleeding) · Baseline FBC, U&E, LFT, clotting · <b>Compression duplex:</b> negative but suspicion high → keep LMWH, repeat on day 4 and 7 · Iliac DVT: Doppler of the iliac vein or MRI venography · <b>D-dimer not useful</b> (raised in normal pregnancy) · PE: ECG commonest <b>sinus tachycardia</b> (S1Q3T3 suggestive only); CXR often normal; ABG low O₂ and CO₂ · <b>Legs first:</b> a DVT on duplex proves VTE · Normal CXR → <b>V/Q scan</b>; abnormal CXR → <b>CTPA</b>; fetal radiation risk almost nil",
+{"sc": ["Day 4 after CS, breathless, SpO₂ 91% → <b>Treatment-dose LMWH before imaging</b>"]}],
+["Differential diagnosis and complications",
+"DVT: cellulitis, <b>ruptured Baker's cyst</b>, muscle strain, physiological oedema · PE: pneumonia, pneumothorax, pulmonary oedema (peripartum cardiomyopathy), aortic dissection, amniotic fluid embolism · Complications: PE, recurrence, <b>post-thrombotic syndrome</b>, venous gangrene · Of treatment: bleeding, heparin-induced thrombocytopenia, osteoporosis"],
+["Antenatal treatment",
+"<b>LMWH</b> (does not cross the placenta): enoxaparin <b>1 mg/kg twice daily</b> by booking weight (50–69 kg 60 mg, 70–89 kg 80 mg twice daily) · For the rest of pregnancy and <b>at least 6 wk after birth</b> (3 months in total) · Stockings, leg elevation, early mobilisation · LMWH needs no routine monitoring; <b>UFH</b> (APTT 1.5–2.5 times) for massive PE, high bleeding risk or near delivery · Reversal: <b>protamine</b> (complete for UFH, partial for LMWH)",
+{"tr": ["Warfarin crosses the placenta: embryopathy at 6–12 wk and fetal brain bleeds later; avoid in pregnancy, safe after birth"]}],
+["Labour and after birth",
+"Stop injections when labour or bleeding starts · <b>No regional block within 24 h of a treatment dose</b> (12 h after a prophylactic dose) · Restart LMWH 8–12 h after birth, at least 4 h after the epidural catheter is removed · Postpartum: LMWH or <b>warfarin</b> (overlap until INR 2–3 on 2 days, at least 5 days) · Both are <b>safe in breastfeeding</b>",
+{"sc": ["Last treatment dose 8 h ago, wants an epidural → <b>No block: wait 24 h</b>"]}],
+["Massive PE",
+"Hypotension and respiratory distress · ICU, O₂, fluids · <b>IV UFH</b> 5000 IU then 1000–2000 IU/h · <b>Thrombolysis</b> or embolectomy · IVC filter if anticoagulation is contraindicated or PE recurs on it"],
+["Thromboprophylaxis",
+"Assess at booking, every admission, 36 wk, in labour and after birth · 0–1 risk factor: mobilise · <b>2 factors:</b> LMWH 10 days postpartum · <b>3 factors:</b> from 28 wk to 6 wk after birth · <b>4 or more:</b> whole pregnancy + 6 wk · Previous VTE after major surgery: as 3 factors; unprovoked, oestrogen-related or with thrombophilia: <b>whole pregnancy + 6 wk</b> · <b>Enoxaparin 40 mg daily</b> (50–90 kg); 20 mg under 50 kg; 60 mg at 91–130 kg"]
 ]
-],
-"trap": "Do not wait for the scan to <b>start LMWH</b> · <b>warfarin</b> is avoided in 6–12 wk (embryopathy) · commonest ECG in PE is sinus tachycardia, not S1Q3T3"
 }

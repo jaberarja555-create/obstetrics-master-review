@@ -1,34 +1,22 @@
 {
-"sc": [
-"Woman with epilepsy on valproate wants a pregnancy → <b>Switch to lamotrigine/levetiracetam, folic acid 5 mg</b>",
-"Fit at 36 weeks with high BP and proteinuria → <b>Eclampsia: MgSO₄, not antiepileptics</b>",
-"Fit lasting more than 5 minutes → <b>Status epilepticus: lorazepam 4 mg IV</b>"
-],
+"lead": "Epilepsy is the commonest neurological disorder in pregnancy. Most women have normal pregnancies; the risks come from <b>fits</b> and from <b>antiepileptic drugs</b>.",
 "f": [
-[
-"Effect of pregnancy",
-"Most <b>no change</b> · a third fit more · fits commonest in <b>labour and early postpartum</b>"
-],
-[
-"Teratogens",
-"<b>Valproate</b> worst (≈ 10%, neural tube defect) · phenytoin (cleft, nail hypoplasia) · <b>lamotrigine</b> least · background 2–3%"
-],
-[
-"Before conception",
-"Fit-free <b>2 years</b> ideal · single lowest-dose drug · <b>folic acid 5 mg</b> daily"
-],
-[
-"Antenatal",
-"<b>Anomaly scan 18–20⁺⁶ wk</b> · continue drugs (fits harm more than drugs) · drug levels"
-],
-[
-"Labour and after",
-"Avoid <b>pethidine</b> · baby: <b>vitamin K 1 mg IM</b> · breastfeeding allowed · reduce dose back by 10 d"
-],
-[
-"Contraception",
-"Enzyme inducers: <b>copper IUD or DMPA</b>"
+["Effect of pregnancy on epilepsy",
+"About two thirds: no change · About one third fit more, mostly those poorly controlled before · Why: vomiting and <b>missed doses</b>, poor sleep, <b>falling drug levels</b> (lamotrigine most) · Fits are commonest <b>in labour and the first days after birth</b>",
+{"sc": ["More fits at 30 wk on lamotrigine → <b>Levels fell: raise the dose</b>"]}],
+["Fits in pregnancy and complications",
+"Differential: <b>eclampsia</b> (over 20 wk or within 48 h of birth, high BP, proteinuria), cerebral malaria, <b>hypoglycaemia</b>, meningitis, cerebral venous thrombosis, low sodium · Maternal: injury, aspiration, pre-eclampsia, anaemia (folate), depression, status epilepticus, <b>SUDEP</b> · Fetal: miscarriage, anomalies (drugs), FGR, preterm birth, hypoxia in long fits",
+{"sc": ["Known epileptic fits at 36 wk with BP 160/110 → <b>Treat as eclampsia: MgSO₄</b>"]}],
+["Antiepileptic drugs and anomalies",
+"Major anomaly risk about <b>6–8% with one drug</b>, 8–16% with several · <b>Valproate:</b> neural tube defect (1–2%), heart, cleft, low IQ: avoid if she may conceive · <b>Carbamazepine:</b> NTD about 1%, cleft; enzyme inducer · <b>Phenytoin:</b> fetal hydantoin syndrome (cleft, nail and finger hypoplasia) · Phenobarbitone: heart, cleft, neonatal drowsiness · <b>Lamotrigine: lowest risk</b>",
+{"sc": ["Cleft lip, small nails, short fingers → <b>Phenytoin</b>", "Spina bifida, mother on antiepileptics → <b>Valproate</b>"]}],
+["Pre-pregnancy and antenatal care",
+"Plan pregnancy; ideally <b>fit-free for 2 years</b>; one drug, lowest dose; <b>switch from valproate before conception</b> · <b>Folic acid 5 mg</b> from 3 months before conception · <b>Never stop drugs suddenly</b>: status epilepticus is more dangerous · Continue the same drugs; levels not routine · Anomaly scan, fetal echo, growth scans; BP and urine each visit · Enzyme inducers: <b>vitamin K 1 mg IM to the baby</b> at birth",
+{"sc": ["7 wk pregnant on carbamazepine, fit-free → <b>Continue it; folic acid 5 mg</b>"]}],
+["Status epilepticus",
+"A fit <b>over 5 min</b> or repeated fits without recovery · <b>IV lorazepam</b>; hypoxia threatens mother and fetus"],
+["Labour and after birth",
+"Hospital birth; induction about 38 wk; vaginal birth (CS for obstetric reasons) · Continue drugs (IV if vomiting); avoid exhaustion and dehydration · <b>Early epidural; avoid pethidine</b> (its metabolite causes fits) · Breastfeeding encouraged; a dose raised in pregnancy returns to the old dose within 10 days · Screen for depression · Baby safety: feed and change on the floor, never bathe alone",
+{"tr": ["Enzyme inducers make the combined pill, POP and implant fail: use a copper IUD, LNG-IUS or DMPA", "The combined pill lowers lamotrigine levels and brings fits back"]}]
 ]
-],
-"trap": "Never stop antiepileptics suddenly · fit + <b>fever + normal BP</b> = cerebral malaria · status: lorazepam then phenytoin 15–20 mg/kg"
 }

@@ -1,34 +1,27 @@
 {
-"sc": [
-"Lambda (twin-peak) sign on early scan → <b>Dichorionic twins</b>",
-"Monochorionic twins: one with polyhydramnios, one with oligohydramnios → <b>TTTS: fetoscopic laser < 26 wk</b>",
-"Twin 1 is breech in labour → <b>Caesarean section</b>"
-],
+"lead": "Multiple pregnancy is more than one fetus in the uterus; twins occur naturally in about <b>1 in 80</b> (Hellin's law: triplets 1 in 80²). <b>Chorionicity</b>, not zygosity, decides the risk, and <b>prematurity</b> is the main cause of death.",
 "f": [
-[
-"Zygosity",
-"Different sex = dizygotic, DCDA · split <b>< day 3 DCDA</b> · days 4–7 MCDA · 8–12 MCMA · > day 12 conjoined"
-],
-[
-"Chorionicity scan",
-"<b>11–13⁺⁶ wk</b> · lambda = DC · <b>T sign</b> = MC"
-],
-[
-"MC complications",
-"<b>TTTS</b> (10–15%, 80% fatal untreated) · TAPS (Hb gap, normal liquor) · TRAP (acardiac twin) · co-twin death → brain injury in survivor"
-],
-[
-"Maternal risks",
-"Hyperemesis, anaemia · <b>pre-eclampsia ×5</b> · preterm labour · PPH · polyhydramnios"
-],
-[
-"Surveillance",
-"MC: scans <b>every 2 wk</b> from 16 wk · DC: every 4 wk · FGR in 25%"
-],
-[
-"Delivery",
-"DCDA <b>37 wk</b> · MCDA <b>36 wk</b> (NICE; local 38 and 37 wk) · MCMA <b>32 wk CS</b> · triplets 35 wk · twin 2 within 20 min"
+["Types and chorionicity",
+"<b>Dizygotic</b> (about two thirds): 2 ova + 2 sperm, either sex, <b>always DCDA</b> · <b>Monozygotic</b> (one third, constant): split day decides the type · Split by day 3: DCDA; days 4–8: <b>MCDA</b> (commonest MZ); days 8–13: MCMA; after day 13: <b>conjoined</b> · Risk factors (DZ): <b>IVF</b>, clomiphene, previous twins, family history, age and parity, African race",
+{"sc": ["Twins of different sex → <b>Dizygotic, DCDA</b>"]}],
+["Diagnosis",
+"Severe hyperemesis, <b>uterus large for dates</b>, many fetal parts, two hearts · Ultrasound: number, viability; <b>chorionicity at 11–13⁺⁶ wk</b>; if late and unclear, treat as MC · <b>Lambda (twin-peak) sign → DC</b>; <b>T sign → MC</b>; two placentas or two sexes → DC; no membrane → MCMA · Large for dates: wrong dates, polyhydramnios, macrosomia, fibroids, ovarian mass, mole",
+{"sc": ["One placenta, thick membrane with a triangular wedge at 12 wk → <b>Dichorionic (lambda sign)</b>"]}],
+["Complications",
+"Maternal: hyperemesis, <b>anaemia</b>, <b>pre-eclampsia</b> (about 5 times), GDM, <b>preterm labour</b>, polyhydramnios, praevia, APH, malpresentation, <b>PPH</b>, operative birth · Fetal: miscarriage, vanishing twin, anomalies (twice in MC), <b>prematurity</b>, FGR (25%), discordance, stillbirth, cerebral palsy · Labour: malpresentation, cord prolapse, hypoxia of twin 2, <b>locked twins</b>"],
+["Monochorionic complications",
+"<b>TTTS</b> (10–15% of MC): artery-to-vein links pump blood from donor to recipient; untreated mortality up to 80% · <b>Donor:</b> anaemic, <b>oligohydramnios ('stuck twin')</b>, FGR, small bladder · <b>Recipient:</b> polycythaemic, <b>polyhydramnios</b>, large bladder, heart failure, hydrops · Treatment: fetal medicine; <b>fetoscopic laser under 26 wk</b> · <b>TAPS:</b> Hb gap, liquor equal (MCA Doppler) · <b>TRAP:</b> acardiac twin fed by the pump twin · Discordance over 25% needs referral",
+{"sc": ["MCDA at 20 wk, deep pool 10 cm in one sac, other twin stuck → <b>TTTS: fetoscopic laser</b>"]}],
+["Death of one twin",
+"<b>DC:</b> early loss harmless (vanishing twin); later: preterm labour (90% deliver within 3 wk) · <b>MC:</b> the survivor bleeds into the dead twin; up to 25% die or have brain damage at that moment, so <b>rushed delivery does not help</b> · Weekly scans, check maternal clotting, aim for about 36 wk",
+{"sc": ["MC twins, one dies at 30 wk → <b>Do not rush delivery</b>"]}],
+["Antenatal care",
+"Team care, more visits · Iron and folic acid; CBC at booking and 28 wk · BP and urine every visit (moderate risk factor for PE) · Scans: chorionicity 11–13⁺⁶ wk, NT, anomaly scan · <b>DC: growth scan every 4 wk from 20 wk</b> · <b>MC: every 2 wk from 16 wk</b> (TTTS) · Steroids if preterm birth is likely; birth plan by 36 wk"],
+["Timing and mode of birth",
+"<b>DCDA 37 wk</b> · <b>MCDA 36 wk</b> (NICE NG137; local practice often 38 and 37 wk) · <b>MCMA 32 wk by CS</b> (cord entanglement) · Triplets 35 wk by CS · <b>Twin 1 cephalic: aim for vaginal birth</b>, whatever twin 2 · CS if twin 1 is non-cephalic, MCMA, triplets or usual reasons",
+{"sc": ["Twin 1 cephalic, twin 2 breech → <b>Vaginal birth</b>", "Twin 1 breech → <b>Elective caesarean</b>"]}],
+["Labour and the second twin",
+"Hospital, IV line, group and save, <b>continuous CTG of both</b>, epidural ideal · After twin 1: hold twin 2 longitudinal; restart oxytocin if contractions fade; <b>ARM once the head enters the pelvis</b> · Twin 2 transverse with intact sac: ECV; with ruptured sac: internal podalic version · Third stage: active management + <b>oxytocin infusion for 2–4 h</b> (PPH)",
+{"sc": ["Twin 2 cephalic, membranes intact, contractions weak → <b>Oxytocin, then ARM once the head enters the pelvis</b>"], "tr": ["Locked twins: twin 1 breech and twin 2 cephalic; prevented by caesarean when twin 1 is breech"]}]
 ]
-],
-"trap": "Give <b>oxytocin only after twin 2</b> is born · weight difference > 30% is severe · twin 1 non-cephalic → CS"
 }

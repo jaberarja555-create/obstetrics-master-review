@@ -1,34 +1,27 @@
 {
-"sc": [
-"SFH 4 cm less than dates at 32 weeks → <b>Growth scan</b>",
-"AC small, head spared, umbilical artery absent end-diastolic flow → <b>Asymmetrical FGR: steroids, deliver by 34 wk</b>",
-"Early FGR with all measurements small and an anomaly → <b>Symmetrical FGR: karyotype</b>"
-],
+"lead": "Fetal growth restriction is a fetus that fails to reach its growth potential from a pathological cause. <b>SGA</b> (weight below the 10th centile) is a size, not a disease: about two thirds of SGA babies are constitutionally small. FGR raises perinatal death 6–10 times.",
 "f": [
-[
-"Definitions",
-"SGA: EFW <b>< 10th centile</b> · severe < 3rd · low birth weight < 2.5 kg"
-],
-[
-"Causes",
-"<b>Uteroplacental insufficiency</b> commonest (PE, smoking, renal disease) · chromosomal, infection (symmetrical) · twins"
-],
-[
-"Diagnosis",
-"<b>Abdominal circumference</b> best single measure · growth scans <b>every 3 wk</b> · low PAPP-A · uterine artery Doppler 20–24 wk"
-],
-[
-"Doppler",
-"UA raised PI → AEDF → <b>REDF</b> · <b>MCA PI low</b> = brain sparing · MCA peak velocity high = fetal anaemia · abnormal <b>ductus venosus</b> = deliver now"
-],
-[
-"Delivery",
-"SGA with normal Doppler 39 wk (RCOG 2024; local 37–38 wk) · AEDF by 34 wk · REDF about 32 wk · <b>dexamethasone 6 mg × 4</b> before 34 wk"
-],
-[
-"Newborn",
-"<b>Hypoglycaemia</b>, hypothermia, polycythaemia · adult disease later (<b>Barker</b>)"
+["Definitions",
+"<b>SGA:</b> below the 10th centile for gestation · <b>FGR:</b> pathological failure to grow · <b>Low birth weight:</b> under 2.5 kg at any gestation (two thirds preterm, one third SGA)",
+{"sc": ["EFW 8th centile, normal Doppler, small parents → <b>Constitutional SGA</b>"]}],
+["Symmetrical and asymmetrical FGR",
+"<b>Symmetrical</b> (20–30%): early onset; <b>fetal</b> cause (chromosomes, TORCH, drugs); HC, AC and FL all small; too few cells; poor outlook · <b>Asymmetrical</b> (70–80%): late onset; <b>placental insufficiency</b> (PE, HTN, malnutrition); <b>AC small, head spared</b> (raised HC:AC); abnormal Doppler, oligohydramnios; good catch-up if delivered in time",
+{"sc": ["All measurements small from 20 wk → <b>Symmetrical FGR: karyotype, TORCH</b>", "AC small at 34 wk, mother has PE → <b>Asymmetrical FGR</b>"]}],
+["Causes and pathophysiology",
+"Maternal: malnutrition, anaemia, HTN, renal or heart disease, diabetes with vasculopathy, APS, <b>smoking</b>, alcohol, drugs, interval under 6 months · <b>Placental (commonest):</b> pre-eclampsia, abruption, praevia, infarcts · Fetal: trisomy 13, 18, 21; infection (CMV, rubella, toxoplasma, malaria); twins; anomalies · Poor placental flow → <b>brain sparing</b> → low liver glycogen (<b>AC falls first</b>) and less renal flow (<b>oligohydramnios</b>)"],
+["Screening and detection",
+"<b>Early dating scan</b> comes first · <b>SFH lag over 3 cm</b> or reduced movements → growth scan + umbilical artery Doppler · Low PAPP-A; uterine artery Doppler at 20–24 wk",
+{"sc": ["32 wk, SFH 28 cm, mother hypertensive → <b>Growth scan + umbilical artery Doppler</b>"]}],
+["Investigations",
+"<b>Growth scan:</b> HC, AC, FL, EFW; <b>AC is the best single measure</b>; every 3 wk (shorter gives false positives) · Liquor: falling AFI · <b>Umbilical artery Doppler:</b> raised PI → <b>absent → reversed EDF</b>; normal = FGR unlikely · <b>MCA:</b> low PI = brain sparing; high peak velocity = <b>fetal anaemia</b> · <b>Ductus venosus</b> absent or reversed a-wave = acidaemia (late) · CTG · Cause: anomaly scan, karyotype if early or symmetrical, TORCH, BP",
+{"tr": ["Small baby + normal UA Doppler + normal liquor = usually constitutional SGA: do not rush delivery"]}],
+["Complications",
+"Before birth: IUFD, hypoxia, fetal distress in labour, meconium aspiration · Neonatal: <b>hypoglycaemia</b> (low glycogen), <b>hypothermia</b> (little fat), <b>polycythaemia</b> (chronic hypoxia), hypocalcaemia, RDS, NEC, IVH · Long term: cerebral palsy, learning delay; <b>Barker hypothesis</b> (adult HTN, diabetes, heart disease)",
+{"sc": ["FGR newborn, 2 h old, jittery → <b>Blood glucose</b>"]}],
+["Management and timing of birth",
+"Treat the cause; stop smoking; treat malaria and anaemia · Kick chart, CTG, growth every 3 wk, UA Doppler weekly · <b>Dexamethasone 6 mg IM 12-hourly × 4</b> if birth before 34 wk · <b>SGA, normal Doppler: 39 wk</b> (RCOG 2024; local 37–38 wk) · Raised UA PI with EDF present: <b>by 37 wk</b> · <b>Absent EDF: by 34 wk</b> · <b>Reversed EDF: about 32 wk</b> · Abnormal DV, pathological CTG or fast falling liquor: <b>now</b> · Normal Doppler: induction with continuous CTG; absent or reversed EDF: <b>caesarean</b>",
+{"sc": ["FGR 31 wk, DV a-wave reversed → <b>Steroids + caesarean now</b>", "FGR 30 wk, absent EDF, CTG normal → <b>Steroids, deliver by 34 wk</b>"]}],
+["Neonatal care and prevention",
+"Paediatrician at birth, early feeding, glucose checks, warmth, check PCV · Prevention: early booking and dating, stop smoking, treat anaemia, malaria and HTN · <b>Low-dose aspirin from 12 wk</b> if high risk of placental disease · Interpregnancy gap over 6 months"]
 ]
-],
-"trap": "Reduced movements (< 10 in 12 h) need <b>CTG and scan</b> · constitutionally small babies are two-thirds of SGA · dating must come from an early scan"
 }

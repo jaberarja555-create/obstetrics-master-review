@@ -1,34 +1,21 @@
 {
-"sc": [
-"Uterus large for dates, tense, fluid thrill, AFI 30 → <b>Polyhydramnios: look for diabetes, anomaly</b>",
-"Polyhydramnios with a double bubble → <b>Duodenal atresia</b>",
-"AFI 3 cm at 41 weeks → <b>Oligohydramnios: induce</b>"
-],
+"lead": "After 20 wk amniotic fluid is mostly <b>fetal urine</b>, removed by fetal swallowing; it peaks at about 900 mL at 34–36 wk. <b>AFI</b> adds the deepest pool of four quadrants (normal about 9–25 cm); <b>DVP</b> is the single deepest pool.",
 "f": [
-[
-"Physiology",
-"After 20 wk liquor is <b>fetal urine</b> · peak <b>34–36 wk</b> · normal AFI 9–25 cm"
-],
-[
-"Polyhydramnios",
-"AFI <b>> 25</b> or DVP > 8 · causes: <b>idiopathic</b>, diabetes, GI atresia, anencephaly, twins (TTTS) · risks: malpresentation, <b>cord prolapse</b>, abruption at ROM, PPH"
-],
-[
-"Oligohydramnios",
-"AFI <b>< 5</b> or DVP < 2 · causes: <b>ROM</b> (commonest), FGR, renal agenesis, post-term, ACE inhibitors"
-],
-[
-"Investigations",
-"Detailed scan · OGTT · speculum for ROM · Doppler"
-],
-[
-"Treatment",
-"Poly: treat cause · indomethacin <b>< 32 wk, 72 h</b> · amnioreduction · oligo: deliver at term"
-],
-[
-"Fetal effects of oligo",
-"<b>Pulmonary hypoplasia</b> (before 22 wk) · <b>Potter sequence</b> (renal agenesis) · limb contractures"
+["Polyhydramnios: definition and causes",
+"<b>AFI over 25 cm or DVP over 8 cm</b> · Chronic (common, gradual) or acute (rare, under 20 wk, usually monozygotic twins) · Causes: <b>idiopathic</b> (commonest), <b>diabetes</b> (fetal polyuria), <b>GI atresia</b> (oesophageal, duodenal), anencephaly, myotonic dystrophy, twins and TTTS, hydrops",
+{"sc": ["Polyhydramnios; newborn drools and chokes, NG tube coils → <b>Oesophageal atresia with TOF</b>", "Polyhydramnios with a double bubble → <b>Duodenal atresia (Down syndrome)</b>"]}],
+["Polyhydramnios: features and investigations",
+"Uterus large for dates, tense; fetal parts and heart hard to find; <b>fluid thrill</b> · Discomfort, breathlessness · Unstable lie · Detailed scan, <b>OGTT</b>, TORCH, syphilis, blood group and antibodies, karyotype if anomaly"],
+["Polyhydramnios: complications and management",
+"Preterm labour, malpresentation · At ROM: <b>cord prolapse</b> and <b>abruption</b> · <b>PPH</b> (atony) · Treat the cause (glucose control, laser for TTTS) · Severe and symptomatic (AFI over 40): slow <b>amnioreduction</b> · <b>Indomethacin</b> 25 mg 6-hourly under 32 wk for no more than 72 h (ductus closure) · Labour: check the lie, controlled ARM, oxytocin ready for PPH",
+{"sc": ["Polyhydramnios: membranes rupture, sudden pain, dark bleed → <b>Abruption</b>"]}],
+["Oligohydramnios: definition and causes",
+"<b>AFI under 5 cm or DVP under 2 cm</b> (5–8 borderline); anhydramnios = no pool · Fluid leaks out: <b>ROM</b> (commonest) · Less urine: <b>FGR</b>, placental insufficiency, post-term, <b>renal agenesis (Potter)</b> · Urine blocked: <b>posterior urethral valves</b> in boys · Drugs: NSAIDs, <b>ACE inhibitors</b>, ARBs · Mnemonic <b>DRIPP</b>: Demise, Renal, IUGR, Post-term, PROM",
+{"sc": ["Boy, large bladder, keyhole sign → <b>Posterior urethral valves</b>", "42 wk, liquor low, CTG normal → <b>Post-term: induce</b>"]}],
+["Oligohydramnios: features and investigations",
+"Watery leak, reduced movements · Uterus small for dates, fetal parts easily felt, often breech · Sterile speculum (pool), FBC, CRP, HVS if ROM · Scan: AFI, growth, kidneys, bladder; UA Doppler if growth is poor"],
+["Oligohydramnios: complications and management",
+"From the cause: chorioamnionitis, preterm birth, stillbirth · From low volume: <b>pulmonary hypoplasia</b> (before about 22 wk), limb contractures, talipes, <b>Potter facies</b>, cord compression · ROM at or after 34–36 wk: induce · ROM before 34–36 wk: <b>erythromycin 250 mg 6-hourly × 10 days</b>, dexamethasone if under 34 wk, watch for infection · FGR: timing by Doppler and CTG · Renal anomaly: fetal medicine",
+{"sc": ["Breech at 37 wk, AFI 3 cm → <b>ECV is usually not offered</b>", "Newborn with flat nose, low-set ears, talipes, respiratory failure → <b>Potter sequence (renal agenesis)</b>"], "tr": ["ACE inhibitors are banned in pregnancy: fetal renal failure, oligohydramnios, hypocalvaria"]}]
 ]
-],
-"trap": "<b>ECV is usually not offered</b> with oligohydramnios · ACE inhibitors cause oligohydramnios and hypocalvaria · controlled ARM in polyhydramnios"
 }

@@ -1,34 +1,30 @@
 {
-"sc": [
-"Hb 9 g/dL at 28 weeks, low MCV, low ferritin → <b>Iron deficiency: oral iron</b>",
-"Low MCV with normal ferritin → <b>Thalassaemia trait: HbA2</b>",
-"Pale, febrile pregnant woman with a palpable spleen → <b>Malaria</b>"
-],
+"lead": "Anaemia is the commonest medical problem of pregnancy; <b>iron deficiency</b> causes 80–90%. It is <b>Hb below 11 g/dL</b> in the first trimester, <b>below 10.5</b> in the second and third, and below 10 after birth. It makes haemorrhage, infection and heart failure more dangerous.",
 "f": [
-[
-"Definition",
-"Hb <b>< 11 g/dL</b> (1st trimester), < 10.5 later · severe <b>< 7 g/dL</b>"
-],
-[
-"Causes",
-"<b>Iron deficiency</b> (80–90%) · folate (commonest macrocytic) · malaria, hookworm, schistosomiasis · haemoglobinopathies"
-],
-[
-"Investigations",
-"CBC, MCV (< 80 microcytic, > 100 macrocytic) · <b>ferritin</b> (< 15 low) · film · stool, malaria film · HbA2 (> 3.5% β-thal trait)"
-],
-[
-"Treatment",
-"<b>Ferrous sulphate 200 mg</b> 2–3 times daily · IV iron if intolerant or late · folic acid 5 mg if high risk"
-],
-[
-"Monitoring",
-"<b>Reticulocytes rise at 7–10 days</b> (first sign) · Hb rises about <b>1 g/dL a week</b>"
-],
-[
-"Severe anaemia",
-"Hb < 7 after <b>36 wk</b> → transfuse packed cells (each over 3–4 h) · before 36 wk → admit, iron, find the cause"
+["Grades and physiological anaemia",
+"<b>Mild</b> 10–10.9 · <b>moderate</b> 7–9.9 · <b>severe</b> below 7 · very severe below 4 g/dL · <b>Physiological anaemia:</b> plasma rises faster than red cells; Hb 10.5–11 in the second trimester with <b>normal MCV and ferritin</b>: no treatment · Iron need about <b>1000 mg</b>; folate need doubles",
+{"sc": ["Hb 10.6 at 24 wk, MCV normal, well → <b>Physiological: reassure</b>"]}],
+["Causes and risk factors",
+"<b>Deficiency:</b> iron (commonest), folate (megaloblastic), B12 (rare) · <b>Haemolytic:</b> sickle cell, thalassaemia, G6PD, <b>malaria</b> · <b>Blood loss:</b> APH, miscarriage, <b>hookworm</b>, schistosomiasis · <b>Chronic disease:</b> TB, HIV, renal disease · Risk: poor diet, pica, tea with meals, high parity, short interval, twins, teenage pregnancy, anti-epileptics",
+{"sc": ["Pale, fever, splenomegaly → <b>Malaria</b>", "Pale, on phenytoin, large cells → <b>Folate deficiency</b>"]}],
+["Clinical features",
+"Often none · Tired, dizzy, breathless; pica · Pallor, tachycardia, flow murmur · Iron lack: <b>smooth tongue, koilonychia</b> · Jaundice and spleen in haemolysis; S3 in failure"],
+["Investigations",
+"First line: <b>FBC + MCV</b>, film, <b>ferritin</b>, malaria film or RDT, stool for ova, urine · No response: <b>Hb electrophoresis</b>, B12, folate, G6PD, renal, liver, thyroid, HIV, TB · <b>Iron deficiency:</b> low MCV, pencil cells, <b>ferritin below 15</b>, TIBC raised · <b>Megaloblastic:</b> high MCV, macro-ovalocytes, hypersegmented neutrophils · <b>β-thal trait:</b> MCV very low for the Hb, target cells, normal ferritin, <b>HbA2 over 3.5%</b> · Sickle: sickle cells, HbS · <b>Mentzer index</b> (MCV ÷ RBC): under 13 thal, over 13 iron",
+{"sc": ["MCV 62, ferritin 8 → <b>Iron deficiency</b>", "No rise after 4 wk of iron, MCV 64, ferritin normal → <b>Hb electrophoresis (thal trait)</b>"], "tr": ["Small cells with normal ferritin = thal trait: do not give iron for months; ferritin also rises with infection"]}],
+["Types and their treatment",
+"<b>Megaloblastic:</b> folic acid 5 mg + iron; low B12: hydroxocobalamin 1 mg IM first · <b>Sickle cell (HbSS):</b> crises, infection, VTE, FGR; folic acid 5 mg, no iron unless ferritin low, malaria prophylaxis, growth scans; crisis: fluids, O₂, analgesia, antibiotics, LMWH · Sickle trait: more UTIs · <b>β-thal trait:</b> folic acid 5 mg, iron only if ferritin low; two carriers: 25% major · <b>G6PD:</b> avoid sulphonamides, nitrofurantoin, primaquine"],
+["Complications",
+"Mother: <b>heart failure</b>, PPH poorly tolerated, APH, sepsis, VTE · Baby: preterm birth, FGR, stillbirth, low iron stores · NTD from folate lack (not iron)"],
+["Prevention",
+"Folic acid <b>0.4 mg</b> before conception to 12 wk; <b>5 mg</b> if high risk (previous NTD, anti-epileptics, diabetes, obesity, sickle cell, thal, twins) · <b>Iron 30–60 mg + folate</b> daily from booking to 3 months after birth · Hb at booking, 28 and 36 wk · Treat malaria and hookworm, bed nets, space births"],
+["Oral and parenteral iron",
+"<b>Ferrous sulphate 200 mg</b> (65 mg iron) 2–3 times daily: first choice, black stool · Take 1 h before food with vitamin C; <b>not with tea, milk or antacids</b> · Response: <b>reticulocytes rise at 7–10 days</b>, <b>Hb rises about 1 g/dL a week</b>; recheck at 3 wk; continue 3 months after Hb is normal · <b>Parenteral iron:</b> intolerance, non-adherence, malabsorption, or Hb 7–9.9 after about 34 wk; not in the first trimester · <b>Iron sucrose 200 mg IV</b> 2–3 times a week: safest · Iron dextran: test dose, adrenaline ready",
+{"sc": ["Hb 8.5 at 35 wk, vomits oral iron → <b>IV iron sucrose</b>", "No rise on iron, takes it with tea → <b>Correct how she takes it</b>"]}],
+["Blood transfusion",
+"<b>Hb below 7 before 36 wk, no failure:</b> admit, find the cause, oral or IV iron · <b>Hb below 7 after 36 wk:</b> transfuse (no time for iron) · <b>Heart failure or Hb below 5:</b> transfuse at any gestation · Also with bleeding, sepsis, labour or CS due · <b>Packed cells</b>, 1 unit over 3–4 h, furosemide 20–40 mg IV if overload risk · Observe every 15 min at first; stop for breathlessness, crackles or fever · Aim for safety (Hb about 8), not full correction",
+{"sc": ["Para 8, 37 wk, Hb 6, breathless, MCV 58 → <b>Slow packed cells with furosemide</b>"]}],
+["Labour and puerperium",
+"Hospital birth, <b>2 units cross-matched</b>, IV line, semi-sitting, careful fluids · Shorten the second stage if tired · <b>Active third stage</b> (oxytocin 10 IU IM); replace loss early · Iron for 3 months, family planning"]
 ]
-],
-"trap": "Ferritin is the <b>best test</b> of iron stores · thalassaemia trait must <b>not</b> get extra iron · a normal Hb fall in pregnancy is dilutional"
 }

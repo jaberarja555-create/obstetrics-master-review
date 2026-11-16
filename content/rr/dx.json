@@ -1,34 +1,24 @@
 {
-"sc": [
-"Missed period, positive urine test, empty uterus, hCG above 2000 → <b>Ectopic until proved otherwise</b>",
-"hCG rises less than 63% in 48 hours → <b>Non-viable or ectopic pregnancy</b>",
-"Scan and LMP differ by more than 5 days → <b>Use the scan (CRL) date</b>"
-],
+"lead": "Pregnancy is <b>suspected</b> from the history, <b>confirmed</b> by hCG, and its site, number and age are set by <b>ultrasound</b>. Consider it in every woman of reproductive age with amenorrhoea, vomiting, abdominal pain or bleeding, and exclude it before X-rays, teratogenic drugs and surgery.",
 "f": [
-[
-"Hormone tests",
-"Serum <b>hCG</b> positive 8–11 d after conception · urine positive by the missed period · viable rise <b>≥ 63% in 48 h</b>"
-],
-[
-"Ultrasound",
-"Sac at <b>4.5–5 wk</b> (TVS) · heartbeat <b>6 wk</b> · discriminatory zone hCG <b>2000 IU/L</b> · CRL 7 mm without heartbeat = missed miscarriage"
-],
-[
-"Clinical signs",
-"<b>Hegar</b> (soft isthmus, 6–10 wk) · <b>Chadwick</b> (bluish vagina, 8 wk) · uterus above symphysis 12 wk · quickening 18–20 wk (primi), 16–18 wk (multi)"
-],
-[
-"Fetal heart",
-"Doppler from <b>12 wk</b> · Pinard from <b>24 wk</b>"
-],
-[
-"Dating",
-"<b>Naegele</b>: LMP + 9 months + 7 days (280 d) · long cycle: add the extra days · <b>CRL at 11–14 wk</b> best (± 5 d)"
-],
-[
-"Term",
-"<b>37 to 41⁺⁶ wk</b> · post-term ≥ 42 wk"
+["Clinical features",
+"<b>Presumptive</b> (noticed by the woman): <b>amenorrhoea</b> (first and most useful), nausea from about 6 wk, breast tenderness, frequency, tiredness · <b>Quickening</b> at 18–20 wk in a first pregnancy, 16–18 wk later · <b>Probable</b> (found by the examiner): positive hCG, <b>Hegar's sign</b> (soft isthmus, 6–10 wk), <b>Goodell's</b> (soft cervix), <b>Chadwick's</b> (bluish vagina, about 8 wk), <b>Piskacek's</b> (asymmetric uterus), ballottement · <b>Positive</b> (proof): fetal heart on TVS from 6 wk, Doppler from about 12 wk, Pinard from about 24 wk; fetal parts and movements felt by the examiner; fetus seen on scan",
+{"sc": ["Soft isthmus, the fingers almost meet → <b>Hegar's sign</b>", "One cornu of the uterus larger → <b>Piskacek's sign</b>"]}],
+["Amenorrhoea that is not pregnancy",
+"Stress, weight loss, heavy exercise, <b>breastfeeding</b>, PCOS, thyroid disease, high prolactin, <b>DMPA</b>, menopause · Bleeding does not exclude pregnancy: implantation bleed, threatened miscarriage, <b>ectopic</b> · <b>Pseudocyesis:</b> firm belief of pregnancy, hCG negative, empty uterus; often linked to infertility: explain gently, counselling",
+{"sc": ["Breastfeeding, 10 wk amenorrhoea, positive test → <b>Pregnant: arrange a dating scan</b>"]}],
+["Pregnancy tests (hCG)",
+"Made by the <b>syncytiotrophoblast</b>; keeps the corpus luteum · Tests measure the <b>β-subunit</b> (α is shared with LH, FSH, TSH) · <b>Serum</b> positive 8–11 days after conception; peak about 100 000 IU/L at <b>8–10 wk</b> · Viable pregnancy: rises <b>≥ 35% in 48 h</b> (about doubles) · <b>Urine</b> positive at about the missed period; early-morning urine best; stays positive 2–4 wk after a loss · High: molar, multiple, wrong dates, Down syndrome · Low or not rising: <b>ectopic</b> or failing pregnancy · False negative: too early, dilute urine, <b>hook effect</b>",
+{"sc": ["hCG rises only 20% in 48 h with pain → <b>Ectopic pregnancy</b>", "Very high hCG, severe vomiting, uterus large for dates → <b>Molar pregnancy</b>"]}],
+["Ultrasound in early pregnancy",
+"TVS sees each structure about 1 wk before an abdominal scan · <b>Gestational sac 4.5–5 wk</b>: not proof alone (pseudosac of ectopic) · <b>Yolk sac 5–5.5 wk</b>: first definite proof of an intrauterine pregnancy · <b>Fetal pole with heartbeat 6 wk</b>: viable · CRL ≥ 7 mm without heartbeat: missed miscarriage, confirmed by a second opinion or repeat scan ≥ 7 days later · Early scan gives site, viability, number and <b>chorionicity (best before 14 wk)</b>, dating, anomalies and NT at 11–14 wk · <b>Discriminatory zone:</b> hCG ≥ 2000 IU/L should show an intrauterine sac on TVS (about 6000 abdominally)",
+{"sc": ["hCG 3500 IU/L, empty uterus on TVS → <b>Ectopic until proven otherwise</b>"]}],
+["Expected date of delivery and dating",
+"Gestation counts from the <b>first day of the LMP</b>; term = 280 days · <b>Naegele's rule:</b> LMP + 7 days + 9 months (LMP 10 Jan 2026 → EDD 17 Oct 2026) · Longer cycle: add the extra days (35-day cycle: +7) · LMP unreliable (unsure, irregular, pill or DMPA in the last 3 months, breastfeeding, early bleeding): date by scan · <b>CRL at 11–14 wk: ± 5 days</b>; head at 14–20 wk ± 7–10 days; third trimester ± 3 wk (not for dating) · Scan and LMP differ by <b>more than 5 days</b>: use the scan · <b>Never re-date</b> after a reliable early scan: a small fetus later is growth restriction",
+{"sc": ["LMP 10 Jan 2026, regular 35-day cycles → <b>EDD 24 Oct 2026</b>", "First scan at 34 wk shows a small baby → <b>Do not re-date: assess growth</b>"]}],
+["Terms for gestational age",
+"First trimester to 13⁺⁶ wk; second 14–27⁺⁶; third from 28 wk · Loss before <b>24 wk</b> = miscarriage; after = stillbirth · <b>Preterm</b> under 37 wk: extremely preterm under 28, very preterm 28–31⁺⁶, moderate to late 32–36⁺⁶ · <b>Term</b> 37–41⁺⁶: early term 37–38⁺⁶, full term 39–40⁺⁶, late term 41–41⁺⁶ · <b>Post-term</b> 42 wk or more"],
+["Uterine size and the dates",
+"From about 20 wk the <b>SFH in cm ≈ weeks</b> · First step in any mismatch: <b>check the dates</b> · Larger than dates: multiple pregnancy, polyhydramnios, macrosomia, molar pregnancy, fibroids, ovarian mass, full bladder · Smaller than dates: <b>FGR</b>, oligohydramnios, IUFD, missed miscarriage, transverse lie, deeply engaged head · Late booking with unknown LMP: combine quickening (add 20–22 wk in a first pregnancy, 22–24 wk later), earliest fundal height and first scan; record the dates as uncertain"]
 ]
-],
-"trap": "Absent fetal heart on <b>Pinard</b> before 24 wk means nothing · a 35-day cycle moves the EDD <b>7 days later</b> · quickening is a presumptive sign only"
 }

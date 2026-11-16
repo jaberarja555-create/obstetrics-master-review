@@ -644,6 +644,15 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   38/37; question mp-6 key changed to 37 weeks); SGA with normal Doppler born at 39 wk (RCOG 2024; local 37–38); ECV with oligohydramnios a relative
   contraindication. Matching flashcards, questions, content/rr cards and the Rapid Review pages were updated in place (the RR layout tool
   cards.js now asks for 49 pages instead of 25: not re-run; check it before using it again).
+- **Rapid Review as a short topic (owner, 16 Nov 2026: "not as detailed as the topic, not as short as now; like a summary for someone who
+  knows the topic and has an exam coming; every exam point, as points"):** chapters 1–3 cards are `content/rr/<topic>.json` = {"lead": html,
+  "f": [[section title, "fact · fact · …", {"sc": [...], "tr": [...]}], ...]}: sections follow the topic's own headings, one fact per line,
+  exam scenarios and exam traps inside their section. tools/rapid_review/cards.py `rq3` turns them into units (title + opening line kept with
+  what follows; facts in pieces of up to 4 lines so a section may continue on the next page); cards.js packs units (it now opens the reader
+  first: the new app hides it, and every page measured 0 px, which was why it asked for 49 pages); `python3 tools/rapid_review/fit.py` adds
+  or removes x9 pages, writes and relabels them. Flow: build → cards.py → cards.js → fit.py → build → fill.js → build. CSS block "Rapid Review
+  as a short topic" (12 pt, numbered tabs as in the rebuilt chapters). Older cards (chapters 4–7) keep the compact style until those chapters
+  are rebuilt. Rapid Review 25 → 73 pages. Pictures in their own column beside text (`.mrow > .mb.bare figure.bf.solo/side`) now fill the column.
 - **Box colours (owner, 16 Nov 2026: "some box has bad colours and background"):** in diagrams of `nd` pages every box that holds text is a light
   chapter tint (or white) with a chapter-colour edge and black text (no navy, orange or teal boxes with white/purple text): `python3 tools/nd_colours.py`
   (run it on each newly rebuilt chapter; charts and unframed bands are left alone). Ladders (Mild/Moderate/Severe) are graded tints of the chapter colour.

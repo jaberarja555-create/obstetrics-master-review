@@ -1,34 +1,40 @@
 {
-"sc": [
-"Bleeding at 8 weeks, os closed, live fetus → <b>Threatened miscarriage</b>",
-"Positive hCG, empty uterus, adnexal tenderness, shoulder-tip pain → <b>Ruptured ectopic: resuscitate, laparotomy</b>",
-"Bleeding, uterus large for dates, snowstorm scan → <b>Complete mole: suction evacuation</b>"
-],
+"lead": "Bleeding before 24 weeks. <b>Miscarriage</b> is the commonest cause, <b>ectopic pregnancy</b> the most dangerous, and <b>molar pregnancy</b> the one with very high hCG. Incidental causes: ectropion, polyp, cervicitis, cervical cancer.",
 "f": [
-[
-"Miscarriage types",
-"<b>Threatened</b> (os closed, live) · <b>inevitable</b> (os open) · <b>incomplete</b> (tissue in os) · complete · <b>missed</b> (CRL ≥ 7 mm, no heartbeat; sac ≥ 25 mm empty) · septic"
-],
-[
-"Miscarriage treatment",
-"Expectant (missed: up to 4 wk, DIC risk) · <b>misoprostol 800 µg PV</b> (missed) or 600 µg oral (incomplete) · MVA ≤ 12–14 wk · septic: antibiotics + evacuation"
-],
-[
-"Recurrent (≥ 3)",
-"Antiphospholipid: <b>aspirin + LMWH</b> · cervical weakness (painless 2nd-trimester loss): <b>cerclage 12–14 wk</b>"
-],
-[
-"Ectopic",
-"hCG > 2000 with empty uterus · stable, hCG < 5000, mass < 3.5 cm: <b>methotrexate 50 mg/m²</b> (hCG must fall 15% day 4→7) · surgery: <b>salpingectomy</b> if other tube healthy"
-],
-[
-"Molar pregnancy",
-"Complete <b>46,XX</b> (paternal) · partial triploid 69 · hyperemesis, early PE, thyrotoxicosis · follow <b>hCG</b> · rising hCG = <b>GTN</b> (methotrexate if FIGO ≤ 6)"
-],
-[
-"Anti-D",
-"Rh-negative: none before 12 wk (NICE), 250 IU from 12 wk · 500 IU + Kleihauer from 20 wk (1500 IU if no Kleihauer)"
+["Miscarriage: definition and types",
+"Miscarriage: spontaneous loss before 24 wk; about <b>15–20%</b> of known pregnancies · <b>Threatened:</b> mild bleeding, os <b>closed</b>, live fetus; most continue · <b>Inevitable:</b> heavy bleeding, colic, os <b>open</b>, nothing passed yet · <b>Incomplete:</b> os open, <b>tissue in the os</b>, uterus smaller than dates, may be shocked · <b>Complete:</b> pain and bleeding settle, os closed, <b>empty uterus</b> (exclude ectopic) · <b>Missed:</b> dead fetus retained, os closed, brown loss, symptoms fade · <b>Septic:</b> fever, offensive loss, tender uterus",
+{"sc": ["10 wk, light bleed, os closed, live fetus on scan → <b>Threatened miscarriage</b>", "Heavy bleed, colic, open os, nothing passed → <b>Inevitable miscarriage</b>"]}],
+["Aetiology",
+"<b>Chromosomal (aneuploidy):</b> about 50% of first-trimester losses · Infection and high fever: <b>malaria</b>, TORCH · Endocrine: diabetes, thyroid disease, PCOS · Immune: <b>antiphospholipid syndrome</b>, SLE · Uterine anomaly, fibroid, cervical weakness · Drugs: quinine, alcohol, tobacco"],
+["Investigations",
+"<b>Speculum:</b> os open or closed, local cause · FBC, blood group and Rh, malaria film · <b>Transvaginal scan</b> is the key test · <b>Missed miscarriage:</b> CRL ≥ 7 mm with no heartbeat, or mean sac ≥ 25 mm with no embryo · Confirm with a <b>second opinion or a repeat scan ≥ 7 days later</b> (NICE)"],
+["Management by type",
+"<b>Threatened:</b> reassure; bed rest is unproven · Previous miscarriage + bleeding: <b>vaginal micronised progesterone 400 mg twice daily until 16 wk</b> (NICE 2021) · <b>Complete:</b> confirm the empty uterus; pregnancy test negative after 2–3 wk · Inevitable, incomplete or missed: three options · <b>Expectant:</b> wait 2–4 wk; best under 8 wk · <b>Medical:</b> misoprostol; preferred from 12 wk · <b>Surgical:</b> MVA up to 12–14 wk; the choice for <b>heavy bleeding, shock or sepsis</b>",
+{"sc": ["Incomplete miscarriage, BP 80/50, heavy bleeding → <b>Resuscitate, then evacuate (MVA)</b>"], "tr": ["A missed miscarriage should not wait longer than 4 wk: a retained dead fetus can cause DIC"]}],
+["Misoprostol doses",
+"<b>Incomplete, under 13 wk:</b> 600 µg oral or 400 µg sublingual once · <b>Missed, under 13 wk:</b> 800 µg vaginal or 600 µg sublingual; repeat after 3 h if needed · <b>13–24 wk:</b> 400 µg sublingual or vaginal every 3 h · <b>Priming before evacuation:</b> 400 µg vaginal 3 h before, to soften the cervix"],
+["Surgical evacuation",
+"<b>MVA:</b> plastic cannula and 60 mL hand syringe; no electricity; up to 12–14 wk under paracervical block · Prime the cervix first in a nullipara or near 12 wk · After 14 wk: <b>D&E</b> in theatre · Risks: bleeding, perforation, cervical tear, infection, <b>Asherman syndrome</b>, cervical weakness",
+{"tr": ["Amenorrhoea after repeated D&C → <b>Asherman syndrome</b> (intrauterine adhesions)"]}],
+["Septic miscarriage",
+"Usually after an <b>unsafe abortion</b> or unclean instruments · Fever, rigors, offensive loss, tender uterus · <b>Clostridium perfringens:</b> haemolysis with jaundice and dark urine = severe sepsis · Complications: septic shock, AKI, DIC, ARDS, pelvic abscess, tubal block · Treat: resuscitate, cultures, <b>ceftriaxone + metronidazole</b> IV, anti-tetanus · <b>Evacuate gently after antibiotics start</b> (the soft uterus perforates easily)"],
+["Recurrent miscarriage",
+"Definition: <b>≥ 3 miscarriages</b>, not necessarily consecutive (RCOG 2023) · First trimester: <b>antiphospholipid syndrome</b>, parental translocation, PCOS, poorly controlled diabetes or thyroid disease · TORCH does <b>not</b> cause recurrent loss: do not test · Second trimester: <b>cervical weakness</b> (painless, each loss earlier), uterine anomaly (painful, each loss later), syphilis · Investigate: lupus anticoagulant and anticardiolipin <b>twice, 12 wk apart</b>, parental karyotype, pelvic scan, HbA1c, TSH · APS: <b>aspirin 75 mg + enoxaparin 40 mg daily</b> from a positive test · Cervical weakness: <b>cerclage at 12–14 wk</b>, removed at 36–37 wk or when labour starts",
+{"sc": ["3 losses at 8–10 wk, lupus anticoagulant positive → <b>Aspirin + LMWH in the next pregnancy</b>", "Painless second-trimester losses, each earlier than the last → <b>Cervical weakness: cerclage</b>"]}],
+["Anti-D in RhD-negative women",
+"Miscarriage or ectopic: <b>no anti-D before 12 wk</b> (NICE 2025); from 12 wk <b>250 IU IM within 72 h</b> · From 20 wk: <b>500 IU</b> + Kleihauer test; 1500 IU if Kleihauer is not available · Local practice: often given after any loss from 10 wk, a partial mole or a surgical evacuation"],
+["Ectopic pregnancy",
+"Implantation outside the uterine cavity; the <b>ampulla of the tube</b> is the commonest site · Positive hCG + empty uterus = <b>ectopic until proven otherwise</b> · Risk factors: <b>PID</b>, previous ectopic, tubal surgery, IUCD or progestogen-only pill, IVF, endometriosis · Features: amenorrhoea 6–8 wk, lower abdominal pain, dark spotting · Shoulder-tip pain, fainting: blood in the abdomen · <b>Cervical excitation</b>, adnexal mass"],
+["Ectopic: investigations",
+"Transvaginal scan: empty uterus, adnexal mass, free fluid · An intrauterine sac should be seen once hCG is above about <b>2000 IU/L</b> · <b>Serial hCG 48 h apart:</b> a viable pregnancy rises <b>≥ 35%</b>; ectopic usually rises less, plateaus or falls slowly · Laparoscopy if still unclear · Differential: miscarriage, ovarian cyst accident, PID, appendicitis",
+{"tr": ["Never send home a woman with pain and a positive hCG before ectopic is excluded"]}],
+["Ectopic: treatment",
+"<b>Expectant:</b> stable, little pain, hCG under 1000 and falling · <b>Methotrexate 50 mg/m² IM:</b> stable, hCG under 5000, mass under 3.5 cm, no heartbeat · Check hCG day 4 and day 7: success = day-7 level <b>≥ 15% lower</b> than day 4; then weekly to negative · <b>Surgery (laparoscopy):</b> unstable, hCG over 5000, mass over 3.5 cm or live embryo · <b>Salpingectomy</b> if the other tube is healthy; <b>salpingotomy</b> if it is damaged (follow hCG) · Ruptured with shock: resuscitate and <b>laparotomy now</b>",
+{"sc": ["Empty uterus, hCG 3000, stable → <b>Methotrexate</b>", "Pain, shock, fluid in the pelvis → <b>Laparotomy now</b>"]}],
+["Molar pregnancy (GTD)",
+"Swollen villi and trophoblast overgrowth with <b>very high hCG</b> · <b>Complete mole:</b> empty ovum + sperm, <b>46,XX</b>; no fetus; large for dates; malignant change about <b>15%</b> · <b>Partial mole:</b> <b>69,XXY</b> triploid; abnormal fetus; malignant change about 0.5% · Features: bleeding, grape-like vesicles, <b>hyperemesis</b>, <b>pre-eclampsia before 20 wk</b>, hyperthyroidism, theca lutein cysts · Scan: <b>snowstorm</b>, no fetus · Bloods: hCG, TFT; chest X-ray for lung spread",
+{"sc": ["BP 160/110 at 14 wk, uterus large for dates, no fetal heart → <b>Complete mole</b>"]}],
+["Molar pregnancy: management",
+"<b>Suction evacuation</b>; no misoprostol before; oxytocin only once the uterus is emptying · Histology, then <b>serial hCG</b> until normal · <b>No pregnancy</b> until follow-up ends: condoms or the pill; no IUCD while hCG is raised · hCG plateau or rise = <b>persistent GTN</b>: FIGO score, <b>methotrexate if ≤ 6</b> · Haemoptysis with rising hCG after a mole → <b>choriocarcinoma</b>"]
 ]
-],
-"trap": "Never send a woman with <b>pain and a positive hCG</b> home without excluding ectopic · about half of first-trimester miscarriages are chromosomal · no pregnancy until hCG normal"
 }

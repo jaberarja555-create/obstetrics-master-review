@@ -1,34 +1,32 @@
 {
-"sc": [
-"Booking visit at 10 weeks → <b>Hb, group and Rh, HIV, HBV, syphilis, urine, scan</b>",
-"Previous pre-eclampsia, now 12 weeks → <b>Aspirin 75 mg nightly from 12 to 36 wk</b>",
-"Rh-negative woman with bleeding at 30 weeks → <b>Anti-D within 72 h</b>"
-],
+"lead": "Antenatal care is planned care from conception to labour. It prevents disease, detects complications early, classifies each woman as low or high risk, and teaches her and her family. Most deaths from pre-eclampsia, anaemia, malaria and haemorrhage can be prevented or detected early at these visits.",
 "f": [
-[
-"Contacts",
-"Book <b>before 12 wk</b> · WHO: at least <b>8 contacts</b> · anomaly scan 18–22 wk · repeat Hb at 28 wk · presentation at 36 wk"
-],
-[
-"Supplements",
-"Folic acid <b>0.4 mg</b> (5 mg if high risk) to 12 wk · iron <b>30–60 mg</b> daily · calcium 1.5–2 g from 20 wk if intake low"
-],
-[
-"Td vaccine",
-"2 doses 4 wk apart in the first pregnancy · <b>5 doses</b> give lifelong protection"
-],
-[
-"Malaria IPTp",
-"<b>SP</b> (3 tablets) after quickening (16–20 wk), doses ≥ 4 wk apart · not with <b>cotrimoxazole</b>"
-],
-[
-"Screening",
-"Asymptomatic bacteriuria: <b>treat</b> · OGTT at 24–28 wk if at risk · anaemia Hb < 11 g/dL"
-],
-[
-"High-risk features",
-"Age ≥ 35 · height < 150 cm · ≥ 3 miscarriages · previous CS, PPH, stillbirth · medical disease"
+["Booking visit",
+"Ideally <b>before 12 wk</b>: accurate dating, early folic acid, tests done in time · Full obstetric, medical, drug, family and social history for the risk assessment · Height, weight, <b>BMI</b>, BP, pallor, heart, chest, thyroid, abdomen, legs · Start <b>iron and folic acid</b>, <b>Td</b>, malaria prevention; aspirin and calcium when indicated · Hand-held antenatal card brought to every visit"],
+["Schedule of visits",
+"<b>WHO: at least 8 contacts</b>: 1 in the first trimester, 2 in the second, <b>5 in the third</b> · Each visit: <b>ask</b> (movements, bleeding, headache, visual change, swelling, fever, leaking, contractions, iron), <b>check</b> (BP, urine protein, pallor, oedema, SFH from 24 wk, fetal heart, presentation from 36 wk), <b>act</b>"],
+["Booking investigations",
+"<b>CBC:</b> anaemia below 11 g/dL; repeat at 28 wk · <b>Blood group and Rh</b>, antibody screen at booking and 28 wk · <b>Urine culture:</b> treat asymptomatic bacteriuria (prevents pyelonephritis and preterm labour) · Blood glucose; <b>OGTT at 24–28 wk</b> with risk factors (16 wk after previous GDM) · <b>HIV, HBsAg, syphilis</b> · Scan: dating, number, viability; <b>anomaly scan 18–22 wk</b> · Selected: Hb electrophoresis, thyroid tests, malaria film with fever",
+{"sc": ["VDRL positive → <b>Benzathine penicillin</b>", "HBsAg positive → <b>Vaccine and immunoglobulin for the baby</b>"]}],
+["Supplements and preventive drugs",
+"<b>Folic acid 0.4 mg</b> from before conception to 12 wk · <b>5 mg</b> with epilepsy, diabetes, previous NTD, obesity, sickle cell disease · <b>Iron 30–60 mg</b> elemental daily throughout pregnancy · <b>Calcium 1.5–2 g</b> daily from 20 wk if dietary intake is low · <b>Aspirin 75 mg at night, 12–36 wk</b>: one high or two moderate risk factors for pre-eclampsia · <b>Albendazole 400 mg</b> once after the first trimester where hookworm is common",
+{"tr": ["A woman taking SP for IPTp gets folic acid 0.4 mg, not 5 mg (high dose reduces the effect of SP)"]}],
+["Tetanus–diphtheria vaccine",
+"Prevents <b>neonatal tetanus</b> (umbilical stump infection, usually fatal) · Never vaccinated: <b>first dose at the first visit, second at least 4 wk later</b>, at least 2 wk before birth · Five doses give lifelong protection",
+{"sc": ["Never vaccinated, books at 32 wk → <b>Td now and 4 wk later</b>"]}],
+["Prevention of malaria",
+"Malaria is more severe in pregnancy; parasites collect in the placenta: anaemia, miscarriage, low birth weight, stillbirth · <b>IPTp-SP:</b> 3 tablets swallowed under observation, from <b>13 wk</b>, at every scheduled visit <b>at least 4 wk apart, at least 3 doses</b> (WHO) · Local practice: often two doses (after quickening and 4 wk later) · <b>No SP</b> in the first trimester or with <b>cotrimoxazole</b> · Insecticide-treated net every night · Any fever: malaria test the same day"],
+["Health advice",
+"Only about <b>300 extra kcal</b> a day, second half only; 'eating for two' is a myth · No strong tea or coffee with meals (less iron absorption) · Avoid smoking, shisha, <b>toombak</b>, alcohol · <b>NSAIDs avoided from 20 wk</b> (less fetal urine; after 30 wk closure of the ductus arteriosus); also tetracycline, warfarin · Normal work, walking, left-side rest late; seat belt below the abdomen · <b>Exclusive breastfeeding 6 months</b>, starting within the first hour",
+{"sc": ["Asks for ibuprofen at 32 wk → <b>Avoid it; use paracetamol</b>"]}],
+["Special situations",
+"<b>RhD-negative:</b> antibody screen at booking and 28 wk; anti-D within <b>72 h</b> of any sensitising event (bleeding, miscarriage, ectopic, ECV, trauma, amniocentesis, birth of an Rh-positive baby); routine anti-D at 28 wk where available · <b>Late booking (after 20 wk):</b> all tests the same day, date with every clue, iron and folic acid, two Td doses 4 wk apart, SP, bed net; look for anaemia, hypertension, malpresentation, twins"],
+["Danger signs",
+"Vaginal bleeding · Fits, severe headache, blurred vision · Fever, too weak to get up · Severe abdominal pain · Fast or difficult breathing · <b>Reduced fetal movements</b> · Leaking fluid · Swelling of the face and hands"],
+["Risk assessment and birth preparedness",
+"Low risk: midwife care, birth in a health facility · <b>High risk:</b> doctor-led care, hospital with theatre and blood · Previous pregnancies: CS or uterine surgery, PPH, pre-eclampsia, stillbirth, preterm birth, ≥ 3 miscarriages, anomaly, grand multiparity · Medical: heart disease, hypertension, diabetes, epilepsy, kidney or thyroid disease, sickle cell, HIV, hepatitis B · Current: age <b>under 18 or 35+</b>, BMI 30+ or under 18.5, <b>height under 150 cm</b>, twins, Rh antibodies, <b>Hb below 9</b>, BP 140/90+, APH, SFH not matching dates, malpresentation at 36 wk · Birth plan: place, transport and money, <b>blood donor</b>, companion; high risk moves near the hospital about 2 wk before the EDD",
+{"sc": ["Two previous CS → <b>Hospital: planned caesarean</b>", "Breech at 36 wk → <b>Hospital: ECV or delivery plan</b>"]}],
+["Minor complaints",
+"<b>Nausea:</b> small dry meals, ginger; ketonuria or weight loss = hyperemesis · <b>Heartburn:</b> small meals, no late meals, raise the bed head, antacids · <b>Constipation, piles:</b> fluids, fibre, lactulose (iron worsens it) · <b>Backache:</b> posture, flat shoes, paracetamol · <b>Cramps, varicose veins:</b> stretching, leg raising, stockings · <b>Frequency</b> is normal; dysuria, fever or loin pain need a urine culture · Itchy curd-like discharge: <b>clotrimazole pessary</b> · Fainting: avoid lying flat; carpal tunnel: night splint"]
 ]
-],
-"trap": "SP is <b>not</b> given with cotrimoxazole (HIV) · teach the <b>danger signs</b> at every visit · move near the hospital 2 wk before the EDD if high risk"
 }

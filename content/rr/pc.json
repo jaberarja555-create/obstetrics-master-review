@@ -1,34 +1,32 @@
 {
-"sc": [
-"Breathless at rest is not normal: mild breathlessness on effort is → <b>Physiological hyperventilation (progesterone)</b>",
-"Faint when lying flat at 32 weeks → <b>Supine hypotension: left lateral tilt</b>",
-"Diastolic murmur in a pregnant woman → <b>Always abnormal: echocardiography</b>"
-],
+"lead": "Almost every organ system changes in pregnancy, mainly under <b>progesterone</b> (relaxes smooth muscle) and <b>oestrogen</b> (growth, plasma proteins, clotting factors). The changes supply the fetus and prepare the mother for blood loss at delivery, and they return to normal within about <b>6 weeks</b> after birth. Knowing them stops normal findings being mistaken for disease.",
 "f": [
-[
-"Cardiovascular",
-"Plasma volume <b>+45%</b>, red cell mass +25% (dilutional anaemia) · cardiac output <b>+40%</b> · heart rate +10–15 · BP lowest at <b>22–24 wk</b> · ejection systolic murmur normal"
-],
-[
-"Respiratory",
-"Minute ventilation +40–50% · <b>low pCO₂</b> (30 mmHg): respiratory alkalosis · FRC −20%"
-],
-[
-"Renal",
-"GFR <b>+50%</b> · creatinine < 75 µmol/L · proteinuria up to 300 mg/24 h · hydronephrosis (right) · glycosuria"
-],
-[
-"Endocrine",
-"<b>hCG</b> peaks 8–10 wk · placenta takes over progesterone at 8–10 wk · <b>hPL</b> → insulin resistance (OGTT 24–28 wk) · TSH low in 1st trimester (hCG) · prolactin ×10"
-],
-[
-"Blood and liver",
-"Fibrinogen 4–6 g/L · VTE risk <b>×4–6</b> · <b>ALP</b> ×2–4 (placenta) · albumin ↓"
-],
-[
-"Key numbers",
-"Weight gain 11.5–16 kg (normal BMI) · uterus 1000 g at term · uterine blood flow 500–750 mL/min"
+["Genital tract",
+"Uterus 50–70 g → about <b>1000 g</b> at term; hypertrophy early, stretching later · <b>Braxton Hicks</b> contractions from mid-pregnancy: painless, do not open the cervix · Isthmus forms the <b>lower uterine segment</b> in the third trimester · Cervix soft (<b>Goodell's sign</b>), mucus plug · Vagina bluish (<b>Chadwick's sign</b>, about 8 wk); leucorrhoea; candida more common"],
+["Cardiovascular changes",
+"<b>Cardiac output +40%</b>: stroke volume first, then heart rate +10–15 · Most of the rise by <b>20–24 wk</b>; highest just after delivery · Heart failure risk peaks at <b>24–28 wk, in labour and just after delivery</b> · Uterine blood flow 500–750 mL/min at term: why PPH kills in minutes · Peripheral resistance falls: <b>BP lowest in the second trimester</b>, back to booking level by term · IVC compression: ankle oedema, varicose veins, haemorrhoids · <b>Supine hypotension</b> after 20 wk: prevent with a <b>15° left lateral tilt</b> · Apex in the 4th space, ejection systolic murmur and third sound are normal · <b>A diastolic murmur is never normal</b>",
+{"sc": ["Feels faint lying flat at 32 wk → <b>Supine hypotension: left lateral tilt</b>", "Mid-diastolic murmur with breathlessness → <b>Mitral stenosis</b>"]}],
+["Haematological changes",
+"Plasma volume <b>+45%</b>, red cell mass <b>+25%</b>: Hb about 11 g/dL with normal MCV = <b>physiological anaemia</b> · Iron need about <b>1000 mg</b> · WBC up to 15 × 10⁹/L (higher in labour); platelets slightly lower · ESR normally high: not useful · <b>Hypercoagulable:</b> fibrinogen and factors VII, VIII, X rise; protein S falls; less fibrinolysis · VTE risk <b>4–6 times</b>, highest after delivery",
+{"sc": ["Hb 11.2 g/dL at 30 wk, MCV 88 fL → <b>Haemodilution: physiological anaemia</b>"]}],
+["Respiratory changes",
+"Progesterone drives breathing: <b>tidal volume +40%</b>, minute ventilation +40–50%, <b>respiratory rate unchanged</b> · pCO₂ falls to about <b>30 mmHg (4 kPa)</b>: compensated respiratory alkalosis · Oxygen use +20%, <b>FRC −20%</b>: quick hypoxia at induction, so pre-oxygenate · Physiological breathlessness in up to 70%: at rest or talking, normal SpO₂ · Breathless on mild effort, at night or with low SpO₂: look for anaemia, heart disease, PE",
+{"tr": ["A fast respiratory rate is a sign of illness, not of pregnancy", "A 'normal' pCO₂ of 40 mmHg in an asthmatic pregnant woman means she is tiring"]}],
+["Renal and urinary tract",
+"Renal plasma flow +50–75%, <b>GFR +50%</b>: creatinine, urea and uric acid fall · <b>Creatinine above 75 µmol/L</b> suggests kidney disease · Glycosuria is common: confirm diabetes with a blood test (OGTT) · Protein up to <b>300 mg/24 h</b> is normal · Dilated ureters, right more than left: <b>asymptomatic bacteriuria</b> → pyelonephritis in 20–30% if untreated: screen all women · Frequency early and near term"],
+["Gastrointestinal and liver",
+"Nausea peaks at <b>8–12 wk</b> (hCG), settles by 16–20 wk · Heartburn; slow gastric emptying in labour: <b>aspiration risk</b> under general anaesthesia · Constipation, gingivitis, gallstones more common · <b>ALP rises 2–4 times</b> (placental): normal · Albumin falls; total calcium falls, ionised normal · <b>ALT, bilirubin and bile acids do not rise</b>: if raised, think obstetric cholestasis, AFLP, HELLP or hepatitis",
+{"sc": ["ALT 120 IU/L with itching at 34 wk → <b>Obstetric cholestasis</b>"]}],
+["Placental hormones and endocrine changes",
+"<b>hCG</b> (syncytiotrophoblast) keeps the corpus luteum until the placenta takes over at <b>8–10 wk</b>; very high in molar and twin pregnancy · <b>hPL</b> rises with placental size: insulin resistance in the second half · Progesterone: heartburn, constipation, dilated ureters · Relaxin: loose pelvic joints · <b>Thyroid:</b> TBG doubles, total T4 rises, free T4 normal; TSH low in the first trimester (hCG) · Pituitary doubles (prolactin cells): <b>Sheehan's syndrome</b> after massive PPH · Gestational diabetes appears at <b>24–28 wk</b>: screening time · Reduced cell-mediated immunity: severe malaria, varicella, hepatitis E",
+{"sc": ["Low TSH, normal free T4 in the first trimester → <b>Normal (hCG effect): no treatment</b>", "High total T4, normal free T4 and TSH at 16 wk → <b>Raised thyroxine-binding globulin</b>"]}],
+["Skin, breasts and musculoskeletal",
+"<b>Linea nigra</b>, <b>chloasma</b> (worse in sunlight), <b>striae gravidarum</b> (red-purple now, silvery later) · Spider naevi, palmar erythema: fade after delivery · Breasts tender from 6 wk; <b>Montgomery's tubercles</b>; colostrum from mid-pregnancy · Symphysis pain, backache, lordosis, <b>carpal tunnel syndrome</b> · Hair falls out 2–4 months after delivery",
+{"tr": ["Itching of the palms and soles without a rash is not dry skin: check bile acids"]}],
+["Weight gain",
+"About <b>12.5 kg</b> in a normal-weight woman, about 0.5 kg a week in the second half · Recommended gain by booking BMI: under 18.5: <b>12.5–18 kg</b>; 18.5–24.9: <b>11.5–16 kg</b>; 25–29.9: 7–11.5 kg; 30 or more: <b>5–9 kg</b> · Fetus 3.5 kg, placenta 0.7, liquor 0.8, uterus 1, blood 1.5, fat 3–4 kg · <b>Gain of 1 kg or more in a week</b> with face and hand oedema: suspect pre-eclampsia"],
+["Normal values in pregnancy",
+"<b>Hb:</b> 11 or more (10.5 in the second and third trimester) · <b>WBC:</b> up to 15, up to 25 in labour · <b>Platelets</b> below 100: think HELLP or pre-eclampsia · <b>Fibrinogen 4–6 g/L</b>: 2 g/L during PPH means consumption (DIC) · <b>Creatinine</b> below 75 µmol/L · <b>Uric acid</b> lower; rises in pre-eclampsia · <b>ALP</b> up to 4 times · <b>ESR</b> up to 70 mm/h",
+{"sc": ["Fibrinogen 2 g/L during PPH → <b>Not reassuring: consumption (DIC), replace it</b>"]}]
 ]
-],
-"trap": "A raised <b>ALP</b> is normal, a raised ALT is not · creatinine 90 µmol/L is <b>abnormal</b> in pregnancy · low TSH in the first trimester is usually hCG, not thyrotoxicosis"
 }

@@ -1,34 +1,20 @@
 {
-"sc": [
-"No fetal movements, no heart on real-time ultrasound at 34 weeks → <b>IUFD</b>",
-"IUFD retained 4 weeks, bleeding gums → <b>DIC: check clotting, deliver</b>",
-"IUFD with ruptured membranes and fever → <b>Deliver now with antibiotics</b>"
-],
+"lead": "Intrauterine fetal death is death of the fetus in the uterus after the limit of viability: <b>WHO ≥ 28 wk or ≥ 1000 g</b> (UK stillbirth from 24 wk). Earlier loss is managed as a miscarriage. About half have no cause found.",
 "f": [
-[
-"Definition",
-"Fetal death <b>≥ 28 wk or ≥ 1000 g</b> (WHO) · commonest cause <b>unexplained</b> (≈ 50%)"
-],
-[
-"Diagnosis",
-"<b>Real-time ultrasound</b> · X-ray signs: <b>Spalding</b> (overlapping skull bones, 7 d), <b>Robert</b> (gas in vessels, 12 h), Deuel (halo)"
-],
-[
-"Causes",
-"PE, abruption, diabetes, infection (malaria, syphilis), cholestasis, FGR, cord accident, anomaly"
-],
-[
-"Management",
-"Most labour within 3 wk (85%) · expectant: clotting <b>2–3 times a week</b> · <b>mifepristone 200 mg</b>, then misoprostol after 36–48 h (25 µg 6-hourly > 28 wk)"
-],
-[
-"Investigations",
-"CBC, clotting, Kleihauer, glucose, TORCH, syphilis, bile acids, placenta, post-mortem"
-],
-[
-"After",
-"<b>Cabergoline 1 mg</b> to suppress lactation · Rh-negative: Kleihauer + anti-D · follow-up at 6 wk"
+["Causes",
+"<b>Unexplained:</b> about 50%, the commonest single group · Maternal: <b>pre-eclampsia</b>, diabetes, infection (<b>malaria</b>, TORCH, syphilis, listeria), anaemia, thyroid disease, thrombophilia (APS), Rh isoimmunisation · Fetal: anomalies, FGR, TTTS, hydrops, feto-maternal haemorrhage · Placenta and cord: abruption, insufficiency, cord accident",
+{"sc": ["IUFD with fever and rigors → <b>Malaria: blood film</b>", "Recurrent IUFD with DVT and miscarriages → <b>Antiphospholipid syndrome</b>"]}],
+["Diagnosis",
+"Reduced or absent movements; breasts soften · Uterus small for dates, SFH stops rising · <b>Real-time ultrasound with no heart motion is diagnostic</b> (second operator if possible) · Later signs: <b>Robert sign</b> (gas in the fetal heart, about 12 h, earliest X-ray sign), <b>Spalding sign</b> (overlapping skull bones, about 7 days), maceration",
+{"tr": ["No heart on a Pinard or hand Doppler does not prove death: only a real-time scan confirms"]}],
+["Investigations for the cause",
+"Mother now: FBC, <b>clotting + fibrinogen</b>, urine protein, LFT, RFT, glucose/OGTT, malaria film, TORCH, syphilis, blood group (Rh-negative: Kleihauer), TFT if symptoms · At 6 wk: thrombophilia, APS · Fetus: detailed scan; karyotype · After birth: <b>autopsy</b> and placental histology"],
+["Complications",
+"<b>DIC</b> (hypofibrinogenaemia) is the most serious: about 10% in the first 3 wk, about <b>30% if retained over 3 wk</b> · Infection and sepsis (especially after ROM) · PPH · Grief and depression"],
+["Management",
+"Most choose <b>induction</b>: <b>mifepristone 200 mg</b>, then misoprostol 36–48 h later · Misoprostol: under 27 wk 200 µg 4–6-hourly; 27–28 wk 100 µg 4-hourly; <b>over 28 wk 25 µg vaginal 6-hourly</b> or 25 µg oral 2-hourly · Previous CS: lower doses; 2 or more CS or classical scar: Foley + oxytocin or CS · <b>Expectant:</b> 85% labour within 3 wk; clotting 2–3 times a week · <b>Deliver now</b> with ROM, fever, DIC, abruption or PE · Avoid ARM; CS only for usual indications; epidural only with normal clotting",
+{"sc": ["IUFD with bleeding and low fibrinogen → <b>Correct DIC, deliver now</b>", "IUFD with two previous CS → <b>No routine misoprostol</b>"]}],
+["Postnatal care",
+"See, hold and name the baby · Suppress lactation: <b>cabergoline 1 mg once</b> · Rh-negative: <b>anti-D 500 IU</b> within 72 h after Kleihauer · Review at 6 wk: results, cause, grief · Next pregnancy: folic acid, early booking, OGTT, aspirin if placental cause, serial growth scans, birth at term"]
 ]
-],
-"trap": "Absent heart on <b>Pinard</b> is not diagnostic · <b>DIC</b> in ≈ 30% if retained > 3 wk · CS only for obstetric reasons"
 }

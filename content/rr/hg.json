@@ -1,34 +1,22 @@
 {
-"sc": [
-"Vomiting all day at 9 weeks, ketonuria, weight loss > 5% → <b>Hyperemesis gravidarum</b>",
-"Hyperemesis with confusion, ataxia and nystagmus → <b>Wernicke encephalopathy: thiamine</b>",
-"Vomiting that starts after 12 weeks → <b>Look for another cause</b>"
-],
+"lead": "Hyperemesis gravidarum is vomiting through the day in early pregnancy, severe enough to cause <b>dehydration, ketonuria, electrolyte upset and weight loss over 5%</b>. Morning sickness (about half of women, 4–12 wk) and emesis gravidarum (vomiting but hydrated) are milder forms.",
 "f": [
-[
-"Cause",
-"<b>High hCG</b> · worse in <b>twins and molar pregnancy</b> · peaks 9–12 wk"
-],
-[
-"Investigations",
-"<b>Urine ketones</b> (severity) · U&E (low K⁺, Na⁺) · <b>ultrasound</b> (twins, mole) · TFT (gestational thyrotoxicosis) · PUQE ≥ 12 = admit"
-],
-[
-"Biochemistry",
-"<b>Hypochloraemic metabolic alkalosis</b> · hypokalaemia · hyponatraemia"
-],
-[
-"Treatment",
-"<b>0.9% saline + KCl</b> · <b>thiamine 100 mg IV before dextrose</b> · antiemetic: promethazine 25 mg or cyclizine 50 mg → metoclopramide 10 mg → <b>hydrocortisone</b> · LMWH"
-],
-[
-"Complications",
-"<b>Wernicke</b> · central pontine myelinolysis (Na⁺ corrected > 10 mmol/L in 24 h) · VTE · Mallory–Weiss tear · weight loss"
-],
-[
-"Last resort",
-"Termination when all treatment fails"
+["Aetiology and risk factors",
+"Cause unclear; main theory is <b>high hCG</b> (peaks at 9–12 wk, like the vomiting) · <b>Multiple and molar pregnancy</b> · Primigravida, previous HG · Thyrotoxicosis",
+{"sc": ["Vomiting at 9 wk, uterus large for dates → <b>Molar pregnancy or twins: scan</b>", "Vomiting that starts at 24 wk → <b>Not HG: find the cause</b>"]}],
+["Clinical features and severity",
+"Vomiting all day, cannot keep food or fluid down, weight loss, weakness · Blood after retching: <b>Mallory–Weiss tear</b> · Dehydration: dry tongue, poor skin turgor, tachycardia, low BP · <b>PUQE score</b> (hours of nausea, vomits, retching): <b>≤ 6</b> diet and oral drugs; <b>7–11</b> oral or day-case IV; <b>≥ 12 admit</b>"],
+["Investigations",
+"<b>Urine ketones</b>; MSU to exclude UTI · FBC (raised Hct), U&E (low Na⁺, K⁺, Cl⁻, raised urea), LFT, TFT, glucose · <b>Ultrasound:</b> viability, twins, molar pregnancy · Acid–base: <b>hypochloraemic hypokalaemic metabolic alkalosis</b> · Differential: pyelonephritis, gastroenteritis, hepatitis, peptic ulcer, thyrotoxicosis, DKA, raised ICP, red degeneration · <b>Onset after 12 wk, pain, fever or headache = not HG</b>",
+{"sc": ["10 wk, ketones 3+, Na 128, K 2.9 → <b>Hypochloraemic hypokalaemic metabolic alkalosis</b>"]}],
+["Complications",
+"<b>Wernicke encephalopathy</b> (thiamine lack: confusion, ataxia, nystagmus) · Hyponatraemia; corrected too fast → <b>central pontine myelinolysis</b> · Hypokalaemia, Mallory–Weiss tear · <b>VTE</b> (dehydration, immobility) · Liver and renal failure, malnutrition, depression · Fetus: low birth weight; death if Wernicke develops · Low TSH with high free T4 and no goitre = <b>gestational transient thyrotoxicosis</b>: no antithyroid drugs; settles by about 20 wk",
+{"sc": ["On IV dextrose, now confused and ataxic → <b>Wernicke: IV thiamine</b>", "Swollen calf on day 4 of admission → <b>DVT: Doppler + LMWH</b>"]}],
+["Management",
+"Mild: small dry low-fat meals, reassure (settles by 12–16 wk), oral antiemetic · <b>Admit</b> if she cannot keep down fluid or drugs, ketonuria, weight loss, low K⁺ or Na⁺, or coexisting illness · <b>IV 0.9% saline (or Hartmann's) + KCl</b> by daily U&E · <b>Thiamine 100 mg IV before any dextrose</b>, then oral; add pyridoxine · No hypotonic fluids (worsen low Na⁺) · <b>LMWH and stockings</b> while admitted · Nil by mouth 24–48 h if vomiting everything; fluid chart, weight, U&E, ketones; psychological support",
+{"tr": ["No dextrose before thiamine: it can precipitate Wernicke", "Raise sodium by no more than 10 mmol/L in 24 h"]}],
+["Antiemetic ladder",
+"1st: <b>promethazine 25 mg</b> or <b>cyclizine 50 mg</b> 8-hourly · 2nd: <b>metoclopramide 10 mg</b> (no longer than 5 days: dystonia) or domperidone · 3rd: <b>ondansetron 4–8 mg</b> · Then <b>hydrocortisone 100 mg IV 12-hourly</b> → oral prednisolone · Then TPN · <b>Termination</b>: last resort when life is at risk · Climb one step only when the step below fails",
+{"sc": ["Fails three antiemetic lines → <b>Hydrocortisone</b>"]}]
 ]
-],
-"trap": "No dextrose before <b>thiamine</b> · low TSH with high T4 and no goitre = <b>gestational thyrotoxicosis</b> (no antithyroid drugs) · correct sodium <b>slowly</b>"
 }

@@ -1806,129 +1806,369 @@
    "f": "x900_rrcover"
   },
   {
-   "label": "Rapid review · 1/25",
+   "label": "Rapid review · 1/73",
    "t": "",
    "f": "x901_rr1"
   },
   {
-   "label": "Rapid review · 2/25",
+   "label": "Rapid review · 2/73",
    "t": "",
    "f": "x902_rr2"
   },
   {
-   "label": "Rapid review · 3/25",
+   "label": "Rapid review · 3/73",
    "t": "",
    "f": "x903_rr3"
   },
   {
-   "label": "Rapid review · 4/25",
+   "label": "Rapid review · 4/73",
    "t": "",
    "f": "x904_rr4"
   },
   {
-   "label": "Rapid review · 5/25",
+   "label": "Rapid review · 5/73",
    "t": "",
    "f": "x905_rr5"
   },
   {
-   "label": "Rapid review · 6/25",
+   "label": "Rapid review · 6/73",
    "t": "",
    "f": "x906_rr6"
   },
   {
-   "label": "Rapid review · 7/25",
+   "label": "Rapid review · 7/73",
    "t": "",
    "f": "x907_rr7"
   },
   {
-   "label": "Rapid review · 8/25",
+   "label": "Rapid review · 8/73",
    "t": "",
    "f": "x908_rr8"
   },
   {
-   "label": "Rapid review · 9/25",
+   "label": "Rapid review · 9/73",
    "t": "",
    "f": "x909_rr9"
   },
   {
-   "label": "Rapid review · 10/25",
+   "label": "Rapid review · 10/73",
    "t": "",
    "f": "x910_rr10"
   },
   {
-   "label": "Rapid review · 11/25",
+   "label": "Rapid review · 11/73",
    "t": "",
    "f": "x911_rr11"
   },
   {
-   "label": "Rapid review · 12/25",
+   "label": "Rapid review · 12/73",
    "t": "",
    "f": "x912_rr12"
   },
   {
-   "label": "Rapid review · 13/25",
+   "label": "Rapid review · 13/73",
    "t": "",
    "f": "x913_rr13"
   },
   {
-   "label": "Rapid review · 14/25",
+   "label": "Rapid review · 14/73",
    "t": "",
    "f": "x914_rr14"
   },
   {
-   "label": "Rapid review · 15/25",
+   "label": "Rapid review · 15/73",
    "t": "",
    "f": "x915_rr15"
   },
   {
-   "label": "Rapid review · 16/25",
+   "label": "Rapid review · 16/73",
    "t": "",
    "f": "x916_rr16"
   },
   {
-   "label": "Rapid review · 17/25",
+   "label": "Rapid review · 17/73",
    "t": "",
    "f": "x917_rr17"
   },
   {
-   "label": "Rapid review · 18/25",
+   "label": "Rapid review · 18/73",
    "t": "",
    "f": "x918_rr18"
   },
   {
-   "label": "Rapid review · 19/25",
+   "label": "Rapid review · 19/73",
    "t": "",
    "f": "x919_rr19"
   },
   {
-   "label": "Rapid review · 20/25",
+   "label": "Rapid review · 20/73",
    "t": "",
    "f": "x920_rr20"
   },
   {
-   "label": "Rapid review · 21/25",
+   "label": "Rapid review · 21/73",
    "t": "",
    "f": "x921_rr21"
   },
   {
-   "label": "Rapid review · 22/25",
+   "label": "Rapid review · 22/73",
    "t": "",
    "f": "x922_rr22"
   },
   {
-   "label": "Rapid review · 23/25",
+   "label": "Rapid review · 23/73",
    "t": "",
    "f": "x923_rr23"
   },
   {
-   "label": "Rapid review · 24/25",
+   "label": "Rapid review · 24/73",
    "t": "",
    "f": "x924_rr24"
   },
   {
-   "label": "Rapid review · 25/25",
+   "label": "Rapid review · 25/73",
    "t": "",
    "f": "x925_rr25"
+  },
+  {
+   "label": "Rapid review · 26/73",
+   "t": "",
+   "f": "x926_rr26"
+  },
+  {
+   "label": "Rapid review · 27/73",
+   "t": "",
+   "f": "x927_rr27"
+  },
+  {
+   "label": "Rapid review · 28/73",
+   "t": "",
+   "f": "x928_rr28"
+  },
+  {
+   "label": "Rapid review · 29/73",
+   "t": "",
+   "f": "x929_rr29"
+  },
+  {
+   "label": "Rapid review · 30/73",
+   "t": "",
+   "f": "x930_rr30"
+  },
+  {
+   "label": "Rapid review · 31/73",
+   "t": "",
+   "f": "x931_rr31"
+  },
+  {
+   "label": "Rapid review · 32/73",
+   "t": "",
+   "f": "x932_rr32"
+  },
+  {
+   "label": "Rapid review · 33/73",
+   "t": "",
+   "f": "x933_rr33"
+  },
+  {
+   "label": "Rapid review · 34/73",
+   "t": "",
+   "f": "x934_rr34"
+  },
+  {
+   "label": "Rapid review · 35/73",
+   "t": "",
+   "f": "x935_rr35"
+  },
+  {
+   "label": "Rapid review · 36/73",
+   "t": "",
+   "f": "x936_rr36"
+  },
+  {
+   "label": "Rapid review · 37/73",
+   "t": "",
+   "f": "x937_rr37"
+  },
+  {
+   "label": "Rapid review · 38/73",
+   "t": "",
+   "f": "x938_rr38"
+  },
+  {
+   "label": "Rapid review · 39/73",
+   "t": "",
+   "f": "x939_rr39"
+  },
+  {
+   "label": "Rapid review · 40/73",
+   "t": "",
+   "f": "x940_rr40"
+  },
+  {
+   "label": "Rapid review · 41/73",
+   "t": "",
+   "f": "x941_rr41"
+  },
+  {
+   "label": "Rapid review · 42/73",
+   "t": "",
+   "f": "x942_rr42"
+  },
+  {
+   "label": "Rapid review · 43/73",
+   "t": "",
+   "f": "x943_rr43"
+  },
+  {
+   "label": "Rapid review · 44/73",
+   "t": "",
+   "f": "x944_rr44"
+  },
+  {
+   "label": "Rapid review · 45/73",
+   "t": "",
+   "f": "x945_rr45"
+  },
+  {
+   "label": "Rapid review · 46/73",
+   "t": "",
+   "f": "x946_rr46"
+  },
+  {
+   "label": "Rapid review · 47/73",
+   "t": "",
+   "f": "x947_rr47"
+  },
+  {
+   "label": "Rapid review · 48/73",
+   "t": "",
+   "f": "x948_rr48"
+  },
+  {
+   "label": "Rapid review · 49/73",
+   "t": "",
+   "f": "x949_rr49"
+  },
+  {
+   "label": "Rapid review · 50/73",
+   "t": "",
+   "f": "x950_rr50"
+  },
+  {
+   "label": "Rapid review · 51/73",
+   "t": "",
+   "f": "x951_rr51"
+  },
+  {
+   "label": "Rapid review · 52/73",
+   "t": "",
+   "f": "x952_rr52"
+  },
+  {
+   "label": "Rapid review · 53/73",
+   "t": "",
+   "f": "x953_rr53"
+  },
+  {
+   "label": "Rapid review · 54/73",
+   "t": "",
+   "f": "x954_rr54"
+  },
+  {
+   "label": "Rapid review · 55/73",
+   "t": "",
+   "f": "x955_rr55"
+  },
+  {
+   "label": "Rapid review · 56/73",
+   "t": "",
+   "f": "x956_rr56"
+  },
+  {
+   "label": "Rapid review · 57/73",
+   "t": "",
+   "f": "x957_rr57"
+  },
+  {
+   "label": "Rapid review · 58/73",
+   "t": "",
+   "f": "x958_rr58"
+  },
+  {
+   "label": "Rapid review · 59/73",
+   "t": "",
+   "f": "x959_rr59"
+  },
+  {
+   "label": "Rapid review · 60/73",
+   "t": "",
+   "f": "x960_rr60"
+  },
+  {
+   "label": "Rapid review · 61/73",
+   "t": "",
+   "f": "x961_rr61"
+  },
+  {
+   "label": "Rapid review · 62/73",
+   "t": "",
+   "f": "x962_rr62"
+  },
+  {
+   "label": "Rapid review · 63/73",
+   "t": "",
+   "f": "x963_rr63"
+  },
+  {
+   "label": "Rapid review · 64/73",
+   "t": "",
+   "f": "x964_rr64"
+  },
+  {
+   "label": "Rapid review · 65/73",
+   "t": "",
+   "f": "x965_rr65"
+  },
+  {
+   "label": "Rapid review · 66/73",
+   "t": "",
+   "f": "x966_rr66"
+  },
+  {
+   "label": "Rapid review · 67/73",
+   "t": "",
+   "f": "x967_rr67"
+  },
+  {
+   "label": "Rapid review · 68/73",
+   "t": "",
+   "f": "x968_rr68"
+  },
+  {
+   "label": "Rapid review · 69/73",
+   "t": "",
+   "f": "x969_rr69"
+  },
+  {
+   "label": "Rapid review · 70/73",
+   "t": "",
+   "f": "x970_rr70"
+  },
+  {
+   "label": "Rapid review · 71/73",
+   "t": "",
+   "f": "x971_rr71"
+  },
+  {
+   "label": "Rapid review · 72/73",
+   "t": "",
+   "f": "x972_rr72"
+  },
+  {
+   "label": "Rapid review · 73/73",
+   "t": "",
+   "f": "x973_rr73"
   },
   {
    "label": "Obstetric drugs",

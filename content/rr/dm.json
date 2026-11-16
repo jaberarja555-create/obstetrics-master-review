@@ -1,34 +1,32 @@
 {
-"sc": [
-"OGTT at 26 weeks: fasting 5.8, 2 h 8.4 mmol/L → <b>Gestational diabetes</b>",
-"Fasting 7.4 mmol/L at booking → <b>Overt diabetes: insulin</b>",
-"Baby of a diabetic mother is shaky (jittery) at 2 hours → <b>Neonatal hypoglycaemia</b>"
-],
+"lead": "Diabetes in pregnancy is either <b>pre-existing</b> (type 1 or 2), <b>gestational</b> (glucose intolerance first found in pregnancy, gone after birth; 85–90%), or <b>overt diabetes</b> first found in pregnancy at diabetic levels (treated as pre-existing). Good glucose control prevents most of its harm to mother and baby.",
 "f": [
-[
-"Diagnosis",
-"<b>75 g OGTT</b> at 24–28 wk (16 wk if previous GDM) · GDM: fasting <b>≥ 5.6</b>, 2 h <b>≥ 7.8</b> · overt: fasting ≥ 7.0, 2 h ≥ 11.1"
-],
-[
-"Fetal risks",
-"<b>Cardiac</b> anomaly commonest · <b>caudal regression</b> most specific · macrosomia, shoulder dystocia · stillbirth after 36 wk · neonatal hypoglycaemia, RDS"
-],
-[
-"Treatment",
-"Diet → <b>metformin → insulin</b> · fasting ≥ 7 at diagnosis → insulin first · targets: fasting < 5.3, 1 h < 7.8"
-],
-[
-"Monitoring",
-"Anomaly scan + fetal echo 18–20 wk · growth scans every 4 wk · glucose in labour <b>4–7 mmol/L</b> (insulin 0.5–2 U/h)"
-],
-[
-"Delivery",
-"Pre-existing: <b>38–39⁺⁶ wk</b> · EFW > 4.5 kg: offer CS"
-],
-[
-"After birth",
-"GDM: <b>stop drugs</b>, OGTT at 6 wk · type 2 in 50% within 10 yr · pre-existing: HbA1c < 6.5% before conception"
+["Risk factors for GDM",
+"Strong (screen with OGTT): <b>previous GDM</b>, <b>BMI over 30</b>, previous macrosomic baby, first-degree relative with diabetes · Others: age 35 or more, PCOS, multiparity, previous unexplained stillbirth, steroids",
+{"sc": ["High glucose at 26 wk, normal 6 wk after birth → <b>GDM</b>", "Fasting 7.8 at 10 wk → <b>Overt diabetes: treat as pre-existing</b>"]}],
+["Pathophysiology",
+"From 20 wk placental hormones (hPL, cortisol) cause <b>insulin resistance</b> · <b>Pedersen hypothesis:</b> glucose crosses the placenta, insulin does not → fetal hyperinsulinaemia → <b>macrosomia, RDS, neonatal hypoglycaemia</b> · Anomalies need high glucose in weeks 3–8: <b>pre-existing diabetes only</b>, not GDM · Features: often none; candida, UTI, large for dates, <b>polyhydramnios</b> (fetal polyuria) · Glycosuria is a poor test (low renal threshold)"],
+["Screening and the 75 g OGTT",
+"<b>Previous GDM:</b> OGTT at <b>16 wk</b>; normal → repeat at 24–28 wk · Other risk factors: <b>OGTT at 24–28 wk</b> · Pre-existing: no OGTT; HbA1c at booking · Normal diet 3 days, overnight fast, <b>75 g glucose</b>, 2 h sample · <b>GDM: fasting ≥ 5.6 mmol/L (100 mg/dL) or 2 h ≥ 7.8 (140)</b>: any one value · Overt: fasting ≥ 7.0 (126) or 2 h ≥ 11.1 (200) · mg/dL ÷ 18 = mmol/L",
+{"sc": ["Fasting 5.8, 2 h 7.0 → <b>GDM (one value is enough)</b>", "Glycosuria 1+, OGTT normal → <b>Low renal threshold: normal</b>"], "tr": ["The load is 75 g, not 75 mg; never diagnose from the urine dipstick"]}],
+["Investigations in pre-existing diabetes",
+"<b>HbA1c</b> (aim under 6.5%), creatinine and urine protein, <b>fundoscopy</b> at booking and each trimester, FBC, MSU · Fetus: early dating scan, <b>anomaly scan + fetal echocardiography at 18–20 wk</b>, growth scans every 4 wk from 24–36 wk, CTG late"],
+["Maternal and fetal complications",
+"Mother: hypoglycaemia, <b>DKA</b>, pre-eclampsia, polyhydramnios, preterm labour, infections, worse retinopathy and nephropathy; obstructed labour, operative birth, PPH · <b>Type 2 diabetes in about 50% within 10 years after GDM</b> · Fetus: miscarriage, anomalies (pre-existing only) · <b>Commonest anomaly: cardiac</b>; most characteristic: <b>caudal regression</b> · Macrosomia; FGR with vascular disease; <b>unexplained stillbirth after 36 wk</b> · Birth: <b>shoulder dystocia</b>, Erb palsy · Neonate: <b>hypoglycaemia (commonest)</b>, RDS, polycythaemia, jaundice, hypocalcaemia",
+{"sc": ["Macrosomic baby, jittery at 2 h → <b>Hypoglycaemia</b>", "Type 1 with nephropathy, small fetus → <b>FGR (vascular disease)</b>"]}],
+["Pre-pregnancy and antenatal care",
+"<b>HbA1c under 6.5%</b> before conceiving; above 10%: avoid pregnancy for now · <b>Folic acid 5 mg</b> from 3 months before conception to 12 wk · <b>Stop ACE inhibitors, ARBs, statins</b>; oral drugs except metformin → insulin · MDT clinic, <b>aspirin 75 mg from 12 wk</b>, BP and urine every visit · Targets: <b>fasting under 5.3</b>, 1 h after meals under 7.8, 2 h under 6.4 mmol/L",
+{"sc": ["Type 2 on enalapril and atorvastatin, planning pregnancy → <b>Stop both; folic acid 5 mg</b>"]}],
+["Drugs",
+"GDM ladder: diet → <b>metformin</b> (500 mg/day up to 2 g/day; first drug) → <b>insulin</b> · Glibenclamide 2.5–15 mg if no insulin (neonatal hypoglycaemia) · Soluble insulin before meals; isophane at bedtime for high fasting glucose · Type 1: about 0.7 U/kg/day early, 1 U/kg/day or more late; basal-bolus is best · Steroids and β-agonists raise insulin needs",
+{"sc": ["GDM, 2 wk of diet, fasting 5.9 → <b>Add metformin</b>", "New GDM, fasting 7.4 at diagnosis → <b>Insulin straight away</b>"]}],
+["Timing and mode of birth",
+"<b>Pre-existing:</b> 37⁺⁰–38⁺⁶ wk by induction (NICE); local units often 38–39 wk · <b>GDM, controlled:</b> 38 wk to 40⁺⁶ wk · <b>EFW over 4.5 kg:</b> offer elective caesarean (shoulder dystocia)"],
+["Labour and after birth",
+"Glucose <b>4–7 mmol/L</b> in labour; hourly checks; CTG; CS first on the list · Type 1: <b>insulin + dextrose</b> from established labour; never insulin without dextrose · Baby: feed within 30–60 min, then 2–3-hourly; heel-prick glucose from 2 h (aim over 2.6) · <b>GDM: stop all drugs</b>; fasting glucose or OGTT at 6 wk, then yearly · Type 1: return to the pre-pregnancy dose or lower (placenta gone)",
+{"sc": ["Type 1, glucose 3.1 just after delivery → <b>Cut insulin: placenta gone</b>"]}],
+["Diabetic ketoacidosis",
+"Occurs at <b>lower glucose</b> in pregnancy · Ketones, <b>pH below 7.3</b>, HCO₃⁻ below 15 · Saline 1 L in the first hour, <b>insulin 0.1 U/kg/h</b>, dextrose once glucose below 14, K⁺ once below 5.5 · <b>Fetal distress: treat the mother first</b>, not an emergency CS",
+{"sc": ["Vomiting, Kussmaul breathing, glucose only 11 → <b>DKA</b>"]}]
 ]
-],
-"trap": "Insulin needs <b>fall</b> suddenly after the placenta is delivered · HbA1c > 10% → delay pregnancy · DKA in pregnancy: insulin 0.1 U/kg/h"
 }

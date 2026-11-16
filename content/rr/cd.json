@@ -1,34 +1,27 @@
 {
-"sc": [
-"Breathless, orthopnoea, diastolic murmur in a Sudanese woman → <b>Rheumatic mitral stenosis</b>",
-"Heart failure in the month after delivery, EF < 45% → <b>Peripartum cardiomyopathy</b>",
-"Mechanical valve, now 7 weeks pregnant → <b>Change warfarin to LMWH (6–12 wk embryopathy)</b>"
-],
+"lead": "Heart disease is a leading indirect cause of maternal death. Cardiac output rises by <b>40%</b> and a diseased heart cannot meet the load. <b>Rheumatic heart disease</b> is the commonest cause locally and <b>mitral stenosis</b> the commonest lesion.",
 "f": [
-[
-"Physiology",
-"Cardiac output <b>+40%</b> · danger peaks: 24–32 wk, labour, <b>immediately after delivery</b> (+60–80%)"
-],
-[
-"Causes",
-"<b>Rheumatic heart disease</b> commonest · <b>mitral stenosis</b> commonest lesion · congenital heart disease · PPCM"
-],
-[
-"Assessment",
-"NYHA class · <b>echocardiography</b> · ECG · fetal echo at 20–22 wk if CHD"
-],
-[
-"Antenatal care",
-"Joint clinic · treat anaemia, infection · <b>LMWH</b> for valves · severe MS: <b>balloon valvotomy</b>"
-],
-[
-"Labour",
-"Early <b>epidural</b> · left tilt · short 2nd stage (instrument) · oxytocin <b>5 IU slowly</b> · <b>no ergometrine</b> · HDU 3 days"
-],
-[
-"Contraindicate pregnancy",
-"<b>Pulmonary hypertension</b>, Eisenmenger · severe MS/AS · Marfan root > 4 cm · EF < 30%"
+["Physiological changes and danger times",
+"Cardiac output +40%, blood volume +40–50%, resistance falls · Three danger times: <b>24–32 wk</b> (plateau), <b>labour</b> (each contraction adds 300–500 mL), and <b>just after birth</b> (autotransfusion: the highest load) · Normal: mild breathlessness, ankle oedema, bounding pulse, ejection systolic murmur, third sound · Investigate: orthopnoea, PND, haemoptysis, syncope, pulse over 100 or irregular, <b>any diastolic murmur</b>, raised JVP, basal crackles, cyanosis",
+{"sc": ["Cyanosis, loud P2, known VSD → <b>Eisenmenger syndrome</b>"]}],
+["Aetiology and classification",
+"Acquired: <b>rheumatic heart disease</b>, mitral stenosis, peripartum cardiomyopathy, IHD · Congenital: ASD, VSD, PDA; Fallot, Eisenmenger; coarctation; Marfan · <b>NYHA I</b> no symptoms · <b>II</b> moderate effort · <b>III</b> mild effort · <b>IV</b> at rest · Often worsens by one class as pregnancy advances",
+{"sc": ["Rheumatic history, mid-diastolic murmur, breathless at 28 wk → <b>Mitral stenosis</b>"]}],
+["Pregnancy contraindicated",
+"<b>Pulmonary hypertension and Eisenmenger</b> (maternal death 40–60%) · Severe MS or AS · <b>EF below 30%</b> or NYHA III–IV · Previous peripartum cardiomyopathy with poor recovery · <b>Marfan with aortic root over 4 cm</b> · Advise against pregnancy; offer termination · Stenotic lesions are worse than regurgitant (fixed output)"],
+["Investigations and complications",
+"<b>Echocardiography</b> is the key test (valve area, EF, pulmonary pressure, aortic root) · ECG, FBC (anaemia strains the heart), INR on warfarin · Maternal: <b>heart failure and pulmonary oedema</b>, AF and stroke, valve thrombosis, endocarditis, PPH, death · Fetal: FGR, preterm birth, stillbirth, <b>congenital heart disease 3–5%</b> if the mother has CHD, warfarin effects",
+{"sc": ["MS, 28 wk or just after birth, pink frothy sputum → <b>Pulmonary oedema: sit up, furosemide</b>"]}],
+["Pre-pregnancy and antenatal care",
+"Joint team: cardiologist, obstetrician, anaesthetist · Repair the valve before pregnancy if needed; stop ACE inhibitors and statins · Clinic every 10–12 days; NYHA, pulse, lung bases each visit · <b>Remove extra loads:</b> treat anaemia, infection, hypertension, thyroid disease · Furosemide for congestion, <b>beta-blocker</b> (longer filling in MS), digoxin for AF, penicillin prophylaxis · Fetal echo at 20–22 wk if CHD; growth scans · Admit NYHA III–IV, AF or failure · Severe MS: <b>balloon valvotomy</b> in the second trimester · <b>Mechanical valve:</b> never stop anticoagulation; warfarin → <b>LMWH at 6–12 wk</b>",
+{"sc": ["MS, NYHA II, Hb 8 → <b>Treat the anaemia first</b>", "MS with a new irregular pulse → <b>AF: rate control + LMWH</b>"]}],
+["Labour",
+"Written plan by 36 wk; await spontaneous labour · <b>Vaginal birth is safer</b>; CS for obstetric reasons (or aortic root over 4 cm, failure) · Sit up or left lateral; <b>restrict IV fluids</b>, catheter · <b>Early low-dose epidural</b> (LMWH stopped 24 h before) · <b>Shorten the second stage</b>: forceps or ventouse · Third stage: <b>oxytocin 5 IU slowly</b> or low-dose infusion · PPH: oxytocin slowly, misoprostol; avoid carboprost · Endocarditis prophylaxis only for a prosthetic valve or previous endocarditis",
+{"tr": ["No ergometrine: it pushes blood into the heart and causes acute pulmonary oedema"]}],
+["After birth and contraception",
+"<b>HDU for at least 3 days</b>: autotransfusion → pulmonary oedema in the first hours · Breathless with crackles: sit up, O₂, stop fluids, <b>furosemide 40 mg IV</b> · Restart LMWH 8–12 h after birth; mechanical valve → warfarin from day 5 · Breastfeeding safe · Contraception: <b>progestogen-only</b> (implant, injection, LNG-IUS); no combined pill; sterilisation if pregnancy is contraindicated"],
+["Peripartum cardiomyopathy",
+"Heart failure from <b>32 wk of pregnancy to 6 months after birth</b>, no other cause, <b>EF below 45%</b> · Risks: multiparity, twins, pre-eclampsia, age over 30, African women · Treat: furosemide, beta-blocker, hydralazine + nitrate (ACE inhibitor after birth), LMWH if EF below 35% · Half recover; recurs in the next pregnancy",
+{"sc": ["Breathless 2 months after birth, EF 30% → <b>Peripartum cardiomyopathy</b>"]}]
 ]
-],
-"trap": "A <b>diastolic</b> murmur is always pathological · the most dangerous moment is <b>just after delivery</b> (autotransfusion) · avoid ergometrine"
 }

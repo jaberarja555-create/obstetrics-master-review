@@ -1,34 +1,31 @@
 {
-"sc": [
-"800 mL blood loss after vaginal birth, soft uterus → <b>Atonic PPH: rub uterus, oxytocin</b>",
-"Contracted uterus, still bleeding → <b>Genital tract trauma: examine and repair</b>",
-"Shock after delivery with no fundus felt and a mass in the vagina → <b>Uterine inversion</b>"
-],
+"lead": "Primary PPH is blood loss <b>≥ 500 mL after vaginal birth or ≥ 1000 mL at caesarean</b> within 24 h, or any loss that makes her unstable. It is a leading cause of maternal death; <b>uterine atony</b> causes most cases.",
 "f": [
-[
-"Definitions",
-"Primary <b>≥ 500 mL</b> (vaginal) or ≥ 1000 mL (CS) in 24 h · secondary 24 h to 12 wk"
-],
-[
-"4 Ts",
-"<b>Tone</b> (70%) · trauma · tissue (retained placenta) · thrombin (DIC)"
-],
-[
-"Drugs",
-"<b>Oxytocin 10 IU</b> IV/IM then 40 IU infusion · ergometrine 0.5 mg (<b>not in hypertension</b>) · misoprostol 800 µg · carboprost 250 µg (<b>not in asthma</b>) · <b>tranexamic acid 1 g within 3 h</b>"
-],
-[
-"Mechanical and surgery",
-"Bimanual compression · <b>balloon tamponade</b> · <b>B-Lynch</b> · uterine/internal iliac ligation · hysterectomy"
-],
-[
-"Resuscitation",
-"Help, O₂ 15 L/min, 2 cannulae, cross-match · FFP : red cells 4 : 6 · platelets < 50 · cryo if fibrinogen < 2 g/L"
-],
-[
-"Prevention",
-"<b>AMTSL</b>: oxytocin 10 IU IM · controlled cord traction · uterine tone checks · placenta not out at 30 min → manual removal"
+["Definition and classification",
+"<b>Primary:</b> within 24 h · <b>Secondary:</b> abnormal bleeding from 24 h to 12 wk · <b>Minor</b> 500–1000 mL, stable · <b>Major</b> over 1000 mL or shock · Placental bed takes 500–800 mL/min; crossing fibres act as <b>living ligatures</b>",
+{"tr": ["Loss is underestimated (clot in a soft uterus); tachycardia comes first, low BP means ≥ 30% of volume is lost"]}],
+["Causes: the 4 Ts",
+"<b>Tone</b> (about 70%): overdistension (twins, polyhydramnios, macrosomia), grand multipara, fibroids, long or fast labour, chorioamnionitis, MgSO₄, nifedipine, anaemia · <b>Trauma</b> (20%): instrumental birth, precipitate labour, macrosomia, VBAC · <b>Tissue</b> (10%): retained placenta, accreta, succenturiate lobe · <b>Thrombin</b> (under 1%): DIC (abruption, PE, HELLP, IUFD, sepsis, AFE), anticoagulants",
+{"sc": ["Uterus soft, above the umbilicus → <b>Tone: atony</b>", "Uterus hard, steady bright bleeding after forceps → <b>Trauma: tear</b>", "Twins, 18 h on oxytocin, 900 mL loss → <b>Uterine atony</b>"]}],
+["Investigations and complications",
+"FBC, <b>cross-match 4–6 units</b>, clotting, fibrinogen, RFT, LFT, <b>bedside clot test</b> · Do not wait for results · Complications: shock, DIC, organ failure, death; transfusion reactions; hysterectomy; anaemia, sepsis, <b>Sheehan syndrome</b>",
+{"sc": ["Cannot breastfeed and no periods after a massive PPH → <b>Sheehan syndrome</b>"]}],
+["Emergency management",
+"Call for help; all first steps at once · Two cannulae, bloods, <b>warm crystalloid 20 mL/kg</b>, then blood (O-negative if needed) · <b>Tranexamic acid 1 g IV over 10 min within 3 h of birth</b> · Empty the bladder (catheter) · Chart pulse, BP, SpO₂, urine and loss every 15 min",
+{"sc": ["Bleeding 4 h after birth, TXA not given → <b>Too late for TXA</b>"]}],
+["Atony: uterotonics",
+"Rub up the uterus, then drugs · <b>Oxytocin</b> 10 IU slowly then 40 IU over 4 h: first line; fast bolus drops BP · <b>Ergometrine 0.5 mg</b> IM or slow IV: <b>not in hypertension, PE or heart disease</b> · <b>Misoprostol 800 µg</b> sublingual or rectal: fever, shivering; no fridge · <b>Carboprost 250 µg</b> deep IM every 15 min, max 8 doses: <b>not in asthma</b>",
+{"sc": ["Atony, BP 165/110 → <b>Avoid ergometrine</b>", "Atony, drowsy, cannot swallow → <b>Rectal misoprostol</b>"]}],
+["Mechanical measures and surgery",
+"<b>Bimanual compression</b> buys time · <b>Balloon tamponade</b> (Bakri or condom catheter, 300–500 mL saline, 12–24 h) with oxytocin and antibiotics · Laparotomy: repair tears, then <b>B-Lynch suture</b> (works in about 9 of 10) → uterine artery ligation → internal iliac ligation → <b>hysterectomy</b> (decide early if she is getting worse)",
+{"sc": ["Atony after oxytocin, ergometrine and misoprostol → <b>Bimanual compression, then balloon</b>", "Atony not controlled, wants more children → <b>B-Lynch suture</b>"]}],
+["Tissue, trauma and thrombin",
+"<b>Retained placenta:</b> not out 30 min after active management (60 min physiological) → manual removal in theatre + antibiotics; will not separate: suspect accreta · <b>Trauma:</b> good light, repair tears; rupture → laparotomy · <b>Inversion:</b> shock out of proportion, no fundus felt: push it back at once, then oxytocin · <b>Thrombin:</b> FFP 4 units per 6 units of red cells, platelets if under 50, <b>cryoprecipitate if fibrinogen under 2 g/L</b>",
+{"sc": ["Shock after cord traction, no fundus felt → <b>Uterine inversion</b>"]}],
+["Secondary PPH",
+"Causes: <b>endometritis</b>, retained products; rarely choriocarcinoma · Clues: pain, bulky uterus, open os, fever, offensive lochia · FBC, cultures, scan, β-hCG if it persists · IV <b>cephalosporin + metronidazole</b>, uterotonics, evacuation if tissue retained",
+{"sc": ["Bleeding weeks later with high β-hCG → <b>Choriocarcinoma</b>"]}],
+["Prevention",
+"Treat anaemia; high-risk women deliver where blood and theatre exist; partograph · <b>Active third stage for every birth:</b> <b>oxytocin 10 IU IM</b> within 1 min (or misoprostol 600 µg oral) · Delayed cord clamping 1–3 min · Controlled cord traction · Check the placenta is complete; <b>uterine tone checks</b> every 15 min for 2 h (WHO) · Watch every mother for the first 4 h"]
 ]
-],
-"trap": "Watch every woman for <b>4 h</b> after birth · secondary PPH = endometritis ± retained products · no lactation and amenorrhoea after PPH = <b>Sheehan syndrome</b>"
 }

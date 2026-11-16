@@ -1,34 +1,21 @@
 {
-"sc": [
-"HIV positive at booking → <b>Start ART (TLD) at once, lifelong</b>",
-"Viral load ≥ 1000 copies/mL at 36 weeks → <b>Elective CS at 38 weeks + IV zidovudine</b>",
-"Viral load < 50 at 36 weeks → <b>Vaginal birth</b>"
-],
+"lead": "Mother-to-child transmission happens <b>in utero, in labour or through breast milk</b>. Early lifelong ART with a suppressed viral load, infant prophylaxis and safe feeding reduce it to <b>under 1%</b>; untreated it is about 25%.",
 "f": [
-[
-"Transmission",
-"<b>Labour and delivery</b> commonest (not breastfed) · <b>high viral load</b> strongest risk · no treatment ≈ 25%, ART with undetectable VL 1–2%"
-],
-[
-"Screening",
-"<b>Opt-out testing</b> at booking"
-],
-[
-"ART",
-"<b>TLD</b> (tenofovir, lamivudine, dolutegravir) from diagnosis, lifelong · cotrimoxazole if CD4 ≤ 350"
-],
-[
-"Delivery plan",
-"Viral load at <b>34–36 wk</b> · < 50: vaginal · ≥ 1000: CS at 38 wk · avoid ARM early, instruments"
-],
-[
-"Baby",
-"<b>Nevirapine 6 wk</b> (low risk) · <b>DNA PCR at 6 wk</b> · antibody test reliable at 18 mo"
-],
-[
-"Feeding",
-"<b>Exclusive breastfeeding</b> 6 months with ART · never mixed feeding"
+["Risk factors for transmission",
+"<b>High viral load: the strongest factor</b> · Low CD4, advanced disease, no ART, new infection in pregnancy · Prolonged ROM, chorioamnionitis, preterm birth, early ARM, scalp electrode · <b>Mixed feeding</b>, cracked nipples · Complications: miscarriage, PROM, preterm labour, opportunistic infection, TB, FGR"],
+["Screening and investigations",
+"<b>Opt-out testing</b> at booking with syphilis and hepatitis B · Positive rapid test: confirm with a second, different test; retest late if at risk · Baseline CD4, viral load, Hb, creatinine, LFT, HBV, HCV, TB screen; test the partner",
+{"sc": ["Unbooked, in labour, status unknown → <b>Rapid HIV test now</b>"]}],
+["Antenatal management",
+"<b>ART for all</b>: start as soon as diagnosed (same day if ready), any CD4, any gestation, <b>for life</b> · <b>TLD</b> (tenofovir + lamivudine + dolutegravir) one tablet daily · Viral load 3 months after starting and at <b>34–36 wk</b> (birth plan) · <b>Cotrimoxazole 960 mg daily</b> if CD4 ≤ 350 or WHO stage 3–4 · Avoid amniocentesis and CVS",
+{"sc": ["Diagnosed at 16 wk, CD4 500 → <b>Start ART now, lifelong</b>"], "tr": ["On cotrimoxazole: no SP for IPTp (two sulfa drugs; cotrimoxazole already prevents malaria)"]}],
+["Mode of birth and labour",
+"The viral load decides · <b>VL under 50 at 36 wk:</b> vaginal birth, oral ART, no IV zidovudine · <b>VL ≥ 1000 or unknown:</b> <b>elective CS at 38 wk</b> + <b>IV zidovudine</b> (2 mg/kg over 1 h, then 1 mg/kg/h until the cord is clamped) · Continue oral ART through labour · Avoid early ARM, prolonged ROM, scalp electrodes, fetal blood sampling, routine episiotomy",
+{"sc": ["VL under 50, breech at 38 wk → <b>Mode by obstetric reasons only</b>"]}],
+["The newborn",
+"Wash, vitamin K, BCG, eye ointment · <b>Low risk:</b> nevirapine 15 mg daily for 6 wk · <b>High risk</b> (VL ≥ 1000, ART under 4 wk, found in labour): AZT + NVP 6 wk, then NVP 6 wk · Cotrimoxazole from 6 wk until HIV is excluded · <b>DNA PCR at 6 wk</b> and after weaning; <b>antibody test only from 18 months</b>",
+{"sc": ["Baby antibody positive at 9 months → <b>Maternal antibody: do a PCR</b>"]}],
+["Feeding, after birth and prevention",
+"<b>Exclusive breastfeeding for 6 months</b> while the mother takes ART, then foods and continue to 12–24 months · <b>No mixed feeding</b> in the first 6 months · ART for life; viral load every 6–12 months · Contraception: all methods, plus condoms; efavirenz and rifampicin lower implant and pill levels · Four prongs: prevent HIV, family planning, stop MTCT, treat the family"]
 ]
-],
-"trap": "On cotrimoxazole <b>no SP</b> for IPTp · <b>mixed feeding</b> carries the highest risk · antibody tests in infants are misleading before 18 months"
 }

@@ -1,34 +1,23 @@
 {
-"sc": [
-"Weight loss, tremor, goitre, eye signs at 10 weeks → <b>Graves' disease: PTU</b>",
-"Hyperemesis, low TSH, no goitre or eye signs → <b>Gestational thyrotoxicosis: no antithyroid drug</b>",
-"Painless palpitations 3 months after birth → <b>Postpartum thyroiditis: β-blocker</b>"
-],
+"lead": "Thyroid disease is common in pregnancy. Iodine needs rise, TBG doubles, and hCG stimulates the TSH receptor, so thyroid tests are read with <b>free T4</b> and <b>trimester ranges</b> (TSH upper limit 2.5 in the first trimester, 3.0 later).",
 "f": [
-[
-"Tests",
-"Use <b>free T4</b> · TSH low in 1st trimester (hCG) · TRAb in Graves'"
-],
-[
-"Hyperthyroidism",
-"<b>PTU in 1st trimester</b> (carbimazole embryopathy: aplasia cutis, choanal atresia) · <b>carbimazole</b> from 2nd trimester · PTU: liver failure"
-],
-[
-"Contraindicated",
-"<b>Radioiodine</b> · surgery if needed in the <b>2nd trimester</b>"
-],
-[
-"Fetus",
-"<b>Maternal TRAb</b> cross the placenta → fetal/neonatal thyrotoxicosis (≤ 10%)"
-],
-[
-"Hypothyroidism",
-"Increase levothyroxine <b>25–30%</b> when pregnant · TSH < 2.5 in 1st trimester"
-],
-[
-"Postpartum thyroiditis",
-"3–4 months · hyper phase: β-blocker only · hypo phase 4–8 months · recurrence 70%"
+["Thyrotoxicosis: causes",
+"<b>Graves' disease about 95%</b> · Others: toxic nodular goitre, adenoma, thyroiditis, amiodarone, lithium · <b>Graves':</b> TRAb positive, goitre, eye signs; improves in late pregnancy, relapses after birth; needs antithyroid drugs · <b>Gestational transient thyrotoxicosis:</b> high hCG (hyperemesis, mole, twins), TRAb negative, no goitre or eye signs, settles by 18–20 wk: <b>no antithyroid drugs</b>",
+{"sc": ["Low TSH at 10 wk with exophthalmos → <b>Graves': start PTU</b>", "Low TSH at 10 wk, vomiting, no goitre → <b>Gestational: no drug</b>"]}],
+["Features and complications",
+"Weight loss despite appetite, tremor, <b>resting pulse over 100</b>, eye signs, goitre · TFTs: low TSH, high free T4; TRAb · Maternal: miscarriage, pre-eclampsia, heart failure, AF, <b>thyroid storm</b> · Fetal: preterm birth, FGR, stillbirth, <b>fetal thyrotoxicosis</b>, fetal goitre from drugs",
+{"tr": ["Past Graves' treated by surgery or radioiodine: still check TRAb; the antibodies cross the placenta (fetal heart over 160, goitre, FGR)"]}],
+["Treatment of hyperthyroidism",
+"<b>PTU 150–400 mg/day in the first trimester</b>, then <b>carbimazole 15–40 mg/day</b> · Carbimazole embryopathy: <b>aplasia cutis</b>, choanal and oesophageal atresia · PTU: liver failure · Propranolol for a few weeks only (FGR) · Lowest dose keeping free T4 at the upper limit of normal; TFT every 4–6 wk · Breastfeeding safe at PTU under 150 or carbimazole under 15 mg/day",
+{"sc": ["On carbimazole, positive test at 6 wk → <b>Switch to PTU</b>", "Graves' at 24 wk, well on PTU → <b>Change to carbimazole</b>"]}],
+["Thyroid storm",
+"Poor control + trigger (labour, CS, infection) · Fever, confusion, tachycardia or AF, heart failure · HDU: fluids, cooling, <b>propranolol, PTU</b>, iodine 1 h after PTU, IV hydrocortisone; treat the trigger",
+{"sc": ["Fever, AF and confusion after CS → <b>Thyroid storm</b>"]}],
+["Hypothyroidism",
+"About 1%; <b>Hashimoto's</b> commonest; also thyroidectomy, radioiodine, iodine deficiency · High TSH, low free T4 · Risks: miscarriage, pre-eclampsia, low birth weight, stillbirth, <b>lower IQ</b> in the child · <b>Raise levothyroxine by 25–30%</b> as soon as pregnancy is confirmed · TSH each trimester and 6 wk after any change; target <b>under 2.5</b> in the first trimester, under 3 later · Back to the pre-pregnancy dose after birth",
+{"sc": ["On thyroxine, TSH rising, takes it with ferrous sulphate → <b>Take iron 4 h apart</b>"]}],
+["Postpartum thyroiditis",
+"Autoimmune; onset usually <b>3–4 months after birth</b> · Hyper phase 1–4 months, hypo phase 4–8 months, most recover by 1 year · Hyper phase: <b>beta-blocker, not antithyroid drugs</b> · Hypo phase: thyroxine, stop at 6 months to test recovery · Recurs in 70%; yearly TFT",
+{"sc": ["Palpitations 3 months after birth, painless goitre → <b>Thyroiditis: propranolol</b>"]}]
 ]
-],
-"trap": "Do not treat <b>gestational thyrotoxicosis</b> with antithyroid drugs · carbimazole up to 15 mg/day and PTU up to 150 mg/day are safe in breastfeeding"
 }

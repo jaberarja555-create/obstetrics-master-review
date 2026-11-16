@@ -1,34 +1,31 @@
 {
-"sc": [
-"BP 150/100 at 34 weeks, proteinuria 2+ → <b>Pre-eclampsia</b>",
-"BP 170/115, epigastric pain, platelets 60 → <b>HELLP: stabilise and deliver</b>",
-"Tonic-clonic fit at 36 weeks with hypertension → <b>Eclampsia: MgSO₄</b>"
-],
+"lead": "Hypertension in pregnancy is <b>BP ≥ 140/90</b> on two readings 4 h apart (one reading if ≥ 160/110). <b>Pre-eclampsia</b> is a placental disease of the whole body: new hypertension after 20 wk with proteinuria, or (current definition) with maternal organ damage or fetal growth restriction. <b>Delivery is the cure.</b>",
 "f": [
-[
-"Classification",
-"Chronic (before 20 wk or > 12 wk after birth) · <b>gestational</b> (≥ 140/90 after 20 wk) · <b>pre-eclampsia</b> (+ proteinuria ≥ 300 mg/24 h or PCR ≥ 30) · eclampsia · HELLP"
-],
-[
-"Severe features",
-"BP <b>≥ 160/110</b> · headache, visual flashes · epigastric pain · platelets < 100 · oliguria < 30 mL/h · rising urate"
-],
-[
-"Antihypertensives",
-"Oral <b>labetalol</b> (also nifedipine, methyldopa) · severe: <b>IV hydralazine 5 mg</b> or labetalol · never ACE inhibitor or ARB"
-],
-[
-"MgSO₄",
-"<b>4 g IV loading → 1 g/h for 24 h</b> after birth or last fit · toxicity: <b>lost knee jerk</b> first → RR < 12 → <b>10 mL 10% calcium gluconate</b>"
-],
-[
-"Delivery",
-"<b>Delivery is the cure</b> · mild PE 37–38 wk · steroids < 34 wk · fluids ≤ <b>80 mL/h</b> · oxytocin, <b>no ergometrine</b>"
-],
-[
-"Prevention",
-"<b>Aspirin 75 mg</b> 12 → 36 wk if high risk · postpartum BP peaks day 3–5"
+["Classification",
+"<b>Chronic:</b> before pregnancy or before 20 wk, still high at 12 wk after birth · <b>Gestational (PIH):</b> after 20 wk without protein; 1 in 4 progress to PE · <b>Pre-eclampsia:</b> after 20 wk + proteinuria (≥ 300 mg/24 h or <b>PCR ≥ 30 mg/mmol</b>) · <b>Superimposed PE:</b> chronic HTN with new protein or organ damage · <b>Eclampsia:</b> PE + fits; may be the first sign, even after birth · BP: mild 140/90–149/99, moderate 150/100–159/109, <b>severe ≥ 160/110</b>",
+{"sc": ["BP 150/100 + proteinuria at 14 wk → <b>Molar pregnancy</b>", "New HTN at 34 wk, urine clear → <b>Gestational hypertension</b>"]}],
+["Risk factors and prevention",
+"<b>High risk</b> (aspirin if one): previous PE, chronic HTN, kidney disease, diabetes, SLE or antiphospholipid · <b>Moderate</b> (aspirin if two): first pregnancy, age 40 or more, BMI over 30, family history, twins, interval over 10 years · <b>Aspirin 75 mg at night, 12–36 wk</b> · <b>Calcium 1.5–2 g/day</b> from 20 wk if dietary intake is low"],
+["Clinical features and severe features",
+"Often no symptoms: ask about headache, flashes, epigastric pain, vomiting · Sudden face and hand oedema, hyperreflexia, clonus, RUQ tenderness, small fundus · <b>Severe PE (any one):</b> BP ≥ 160/110 · severe headache, visual disturbance, clonus · epigastric or RUQ pain, raised AST/ALT · <b>platelets below 100</b>, haemolysis · oliguria, raised creatinine · pulmonary oedema · severe FGR",
+{"sc": ["BP 145/95, protein 1+, severe headache → <b>Severe pre-eclampsia</b>", "RUQ pain, shock, falling Hb → <b>Liver capsule rupture</b>"]}],
+["Investigations",
+"Urine dipstick → <b>PCR</b> or 24 h protein · FBC (platelets), creatinine, <b>uric acid</b> (rises with severity), LFT, LDH, film; clotting if platelets low · Fetus: growth scan, liquor, <b>umbilical artery Doppler</b>, CTG · Absent or reversed end-diastolic flow = deliver soon",
+{"sc": ["PE at 32 wk, reversed EDF → <b>Steroids, MgSO₄, deliver (usually CS)</b>"]}],
+["Fits in pregnancy and complications",
+"Differential: eclampsia, epilepsy, hypoglycaemia, meningitis, cerebral venous thrombosis, <b>cerebral malaria</b> · Test glucose and malaria in every fit; unsure: MgSO₄ + IV artesunate · Maternal: eclampsia, <b>intracranial haemorrhage (leading cause of death)</b>, HELLP, DIC, AKI, pulmonary oedema, abruption, PPH · Fetal: FGR, oligohydramnios, prematurity (mostly iatrogenic), stillbirth",
+{"sc": ["Fit, fever 39 °C, BP normal → <b>Cerebral malaria</b>"]}],
+["Follow-up and antihypertensives",
+"Mild: clinic, BP every 2 wk · Moderate: clinic or admit, BP 2–3 times a week, bloods weekly · Severe: <b>admit, HDU</b>, BP every 15 min · <b>Labetalol</b> first (200 mg 8-hourly; IV when severe; not in asthma) · <b>Nifedipine</b> 20 mg twice daily (max 60 mg/day) · <b>Methyldopa</b> 250 mg 8-hourly (change after birth: depression) · Severe: <b>hydralazine 5 mg IV</b> over 10–15 min every 15 min, with 500 mL saline first · <b>Never ACE inhibitors, ARBs or diuretics</b> · Target <b>135/85</b> (NICE)",
+{"sc": ["BP 170/115 at 33 wk with headache → <b>IV hydralazine (or labetalol) + MgSO₄</b>", "On enalapril, now 8 wk pregnant → <b>Switch to labetalol</b>"]}],
+["Magnesium sulphate",
+"Prevents and treats eclamptic fits · <b>Loading 4 g IV</b> over 5–15 min, then <b>1 g/h for 24 h</b> after birth or the last fit · Toxicity in order: <b>loss of knee jerk</b> → respiratory depression (RR below 12) → cardiac arrest · Keep urine ≥ 30 mL/h (kidneys clear it) · Antidote: <b>10 mL of 10% calcium gluconate</b> IV slowly · Fit on MgSO₄: extra 2 g IV · <b>Fluids ≤ 80 mL/h</b>: leaky capillaries cause pulmonary oedema",
+{"sc": ["On MgSO₄, reflexes absent, RR 16 → <b>Stop the infusion, check the level</b>", "On MgSO₄, RR 8 → <b>Calcium gluconate + O₂</b>"], "tr": ["MgSO₄ prevents fits; it does not lower BP"]}],
+["Eclampsia and HELLP",
+"Eclampsia: call for help, left lateral, airway, O₂; do not hold her down · <b>MgSO₄ 4 g IV then 1 g/h</b> (diazepam only if no magnesium) · Lower BP if ≥ 160/110; check glucose and malaria; catheter · <b>Deliver once stable</b> (within 6–12 h) · <b>HELLP:</b> haemolysis (LDH raised), elevated liver enzymes, <b>platelets below 100</b>; BP may be only mildly raised; treat as severe PE and deliver; risks DIC, liver rupture",
+{"tr": ["Epigastric pain and vomiting at 34 wk = HELLP until proven otherwise, not gastritis", "HELLP is severe whatever the BP"]}],
+["Delivery and postpartum care",
+"<b>Gestational HTN or PE without severe features: 37 wk</b> (NICE); local units often 38 wk · Severe PE, eclampsia, HELLP: deliver <b>once stable, at any gestation</b>; steroids under 34 wk · Induction preferred; CS if the cervix is unfavourable and birth is not near, or fetal distress · Continuous CTG; epidural if platelets over 80 · Third stage: <b>oxytocin, no ergometrine</b> · After birth: fits still possible (MgSO₄ 24 h); <b>BP peaks on days 3–5</b>; wean drugs; 6-wk review",
+{"sc": ["Fit on day 2 after birth, BP 160/110 → <b>Postpartum eclampsia</b>", "PPH in a woman with PE → <b>Oxytocin, not ergometrine</b>"]}]
 ]
-],
-"trap": "Molar pregnancy causes PE <b>before 20 wk</b> · leading cause of death is <b>brain haemorrhage</b>: control BP · MgSO₄ prevents fits, it does not lower BP"
 }

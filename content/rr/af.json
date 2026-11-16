@@ -1,34 +1,21 @@
 {
-"sc": [
-"Third trimester vomiting, jaundice, hypoglycaemia, raised INR → <b>Acute fatty liver of pregnancy</b>",
-"Twin pregnancy, male fetus, mild PE, then liver failure → <b>AFLP</b>",
-"Jaundice with ALT above 1000 → <b>Consider viral hepatitis (hepatitis E)</b>"
-],
+"lead": "Acute fatty liver of pregnancy is <b>acute liver failure</b> from microvesicular fat in liver cells, in the <b>third trimester</b> or just after birth. It is rare (about 1 in 10 000) but deadly: an obstetric emergency treated by stabilising and <b>delivering</b>.",
 "f": [
-[
-"Cause",
-"Fetal <b>LCHAD deficiency</b> · microvesicular fat · twins, male fetus, PE"
-],
-[
-"Features",
-"Nausea, vomiting, abdominal pain · jaundice · <b>hypoglycaemia</b> · encephalopathy · polydipsia"
-],
-[
-"Investigations",
-"Glucose <b>low</b> · INR ↑, <b>DIC</b> · urate markedly ↑ · ALT moderate · <b>Swansea criteria ≥ 6</b>"
-],
-[
-"AFLP vs HELLP",
-"AFLP: <b>glucose ↓, INR ↑</b> · HELLP: haemolysis, platelets ↓, hypertension"
-],
-[
-"Treatment",
-"<b>HDU/ICU</b> · dextrose infusion (glucose checks 1–2 h) · vitamin K, FFP · <b>stabilise then deliver</b>"
-],
-[
-"Prognosis",
-"Maternal death 18% · hepatitis E in the 3rd trimester: about <b>20% mortality</b>"
+["Risk factors and pathophysiology",
+"<b>Twins</b>, <b>male fetus</b> (about 3 : 1), coexisting mild PE, first pregnancy, low BMI · Fault in mitochondrial fatty-acid oxidation, often a <b>fetal LCHAD deficiency</b>",
+{"sc": ["AFLP mother; newborn later has low glucose → <b>Test the baby for LCHAD deficiency</b>"]}],
+["Clinical features",
+"Days of nausea, <b>vomiting</b>, malaise · Epigastric or RUQ pain · <b>Jaundice</b>, headache · Polyuria, polydipsia (transient diabetes insipidus) · Confusion → coma · Mild hypertension ± proteinuria"],
+["Investigations",
+"<b>Hypoglycaemia</b>: check often · <b>PT/INR raised, fibrinogen low</b> → DIC · Bilirubin raised; ALT/AST moderately raised (usually under 1000) · <b>Marked hyperuricaemia</b>, raised creatinine · WBC raised; platelets low (milder than HELLP) · Acidosis, raised ammonia and lactate · Ultrasound: bright liver; mainly to exclude others · <b>Swansea criteria:</b> 6 or more of 14 features",
+{"sc": ["Jaundice, glucose 40 mg/dL, INR 2 at 35 wk → <b>AFLP</b>", "RUQ pain, platelets 40, BP 170/110 → <b>HELLP</b>"]}],
+["Complications",
+"Fulminant liver failure, DIC, PPH, AKI, hypoglycaemic coma, pancreatitis · Maternal death about 18%, fetal death about 23% · Baby with LCHAD defect: hypoglycaemia, cardiomyopathy"],
+["Jaundice in pregnancy",
+"Trimester is the first clue · <b>Hyperemesis:</b> early, vomiting, mild ALT rise · <b>Cholestasis:</b> itch, well, bile acids raised · <b>HELLP:</b> high BP, low platelets, LDH raised · <b>AFLP:</b> ill, vomiting, <b>low glucose, raised INR</b> · <b>Hepatitis E:</b> any trimester, ALT over 1000, IgM",
+{"tr": ["Hepatitis E is mild in non-pregnant adults but causes fulminant liver failure in the third trimester (death up to 20%)"]}],
+["Management",
+"HDU/ICU with a team; inform a liver unit · <b>10–50% dextrose</b>, glucose every 1–2 h · Clotting: <b>IV vitamin K 10 mg, FFP</b>, cryoprecipitate, platelets before delivery · Strict fluid balance; treat hypertension · <b>Deliver once stable, whatever the gestation</b> (usually CS) · No regional block if platelets below 80 or clotting deranged · Most recover within days; may recur (test parents and baby for LCHAD)",
+{"sc": ["Ill, jaundiced, vomiting at 36 wk → <b>Check glucose, INR, platelets and BP first</b>", "AFLP, INR 2.5, for caesarean → <b>General anaesthesia</b>"]}]
 ]
-],
-"trap": "No regional block if platelets <b>< 80</b> · test the newborn for <b>LCHAD</b> · AFLP needs delivery, not waiting"
 }

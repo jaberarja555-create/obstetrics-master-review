@@ -1,34 +1,34 @@
 {
-"sc": [
-"Painless bright red bleeding at 34 weeks, soft uterus, high head → <b>Placenta praevia: no PV, scan</b>",
-"Painful bleeding, woody hard uterus, shock worse than the visible loss → <b>Abruption (concealed)</b>",
-"Bleeding at ROM with sudden fetal bradycardia → <b>Vasa praevia: immediate CS</b>"
-],
+"lead": "Antepartum haemorrhage is bleeding from the genital tract <b>from 24 wk</b> (28 wk in local definitions) until the end of the second stage; about 3–5% of pregnancies. The main causes are <b>placenta praevia</b> and <b>abruption</b>; vasa praevia and uterine rupture are rare but deadly.",
 "f": [
-[
-"Definition",
-"Bleeding from the genital tract from <b>24 wk</b> (RCOG; 28 wk in local definitions) before birth"
-],
-[
-"Praevia",
-"Painless, soft uterus, malpresentation · <b>ultrasound</b> diagnosis · low at 20 wk → <b>rescan 32 wk</b> · major praevia: <b>CS at 36–37 wk</b> · edge > 2 cm from os: vaginal birth possible"
-],
-[
-"Abruption",
-"Pain, tender hard uterus, fetal distress or death · <b>clinical</b> diagnosis · risks: PE, trauma, smoking, cocaine · commonest cause of <b>DIC</b>"
-],
-[
-"First steps",
-"Two <b>14–16 G</b> cannulae, cross-match 4 units · warm fluids · urine ≥ 30 mL/h · clot test (no clot at 7–10 min = DIC) · steroids < 34 wk"
-],
-[
-"Abruption, dead fetus",
-"Mother stable → <b>vaginal delivery</b> (ARM + oxytocin) · correct DIC: FFP 15 mL/kg, cryo"
-],
-[
-"Accreta (PAS)",
-"Praevia + previous CS (2 CS ≈ 40%) · planned CS at 36 wk with 6–8 units · leave placenta, hysterectomy"
+["Causes and assessment",
+"Placental: <b>praevia</b>, <b>abruption</b>, marginal sinus bleed · Non-placental: vasa praevia, uterine rupture, show, cervical polyp or cancer · Unexplained: still raises preterm birth, FGR, stillbirth · History: amount, colour, pain, trigger, movements, previous CS · <b>No digital PV until a scan excludes praevia</b>; speculum then safe"],
+["Investigations and first hour",
+"FBC, <b>cross-match 4 units</b>, clotting, fibrinogen, <b>clot test</b> (no clot in 7–10 min = low fibrinogen), creatinine, Kleihauer · CTG; ultrasound for placental site · Help, O₂, two cannulae, fluids, blood; O-negative if collapsed · <b>Anti-D 500 IU</b> within 72 h if RhD-negative + Kleihauer (1500 IU if none) · Peripheral unit: cannula, fluids, O₂, left tilt, transfer with a sample",
+{"sc": ["RhD-negative woman with APH at 32 wk → <b>Anti-D 500 IU within 72 h + Kleihauer</b>"]}],
+["Praevia versus abruption",
+"<b>Praevia:</b> painless, bright red, recurrent; soft non-tender uterus; shock matches the loss; high head or malpresentation; diagnosis by <b>ultrasound</b> · <b>Abruption:</b> constant pain, dark blood or none; <b>hard woody uterus</b>; shock out of proportion; fetal distress; diagnosis is <b>clinical</b>",
+{"sc": ["Painless bleed, soft uterus, breech → <b>Placenta praevia</b>", "Pain, hard uterus, BP 160/110 → <b>Abruption</b>"]}],
+["Placenta praevia",
+"Placenta in the lower segment · RCOG terms: <b>low-lying</b> (edge under 20 mm from the os) and <b>praevia</b> (covers the os); older grading minor/major · Low at 20 wk → <b>rescan at 32 wk</b> (most move up) · Risks: <b>previous CS</b>, previous praevia, multiparity, age over 35, smoking, twins, IVF · Bleeds because the stretching lower segment shears the placenta; thin muscle has no living ligature · <b>TVS is safe</b> (probe in the fornix); previous CS: Doppler ± MRI for accreta",
+{"tr": ["A transvaginal scan is safe in praevia; the danger is a finger in the cervix"]}],
+["Praevia: management",
+"Heavy bleeding, unstable: resuscitate, <b>caesarean at any gestation</b> · Bleed settles, preterm: admit, steroids under 34 wk, blood ready · No bleeding: <b>elective CS at 36–37 wk</b> (RCOG 2018; local 37–38 wk) · Edge more than 2 cm from the os: vaginal birth can be tried · Bed bleeding at CS: oxytocin → sutures → balloon → artery ligation → hysterectomy",
+{"sc": ["G3, 34 wk, painless bright bleed, head high → <b>Ultrasound for the placental site; no PV exam</b>"]}],
+["Abruption",
+"Premature separation of a <b>normally sited</b> placenta · Concealed or revealed · Risks: previous abruption, <b>pre-eclampsia</b>, trauma, smoking, cocaine, <b>polyhydramnios with sudden ROM</b>, thrombophilia · Clot strips the placenta → fetal hypoxia · Blood into the muscle → <b>Couvelaire uterus</b> · Thromboplastin → <b>DIC</b> (commonest cause of DIC in pregnancy) · Scan misses most clots · Complications: shock, DIC, PPH, AKI, Sheehan, fetal death",
+{"tr": ["Couvelaire uterus is not itself a reason for hysterectomy: uterotonics, massage, compression sutures first"]}],
+["Abruption: management",
+"Mother unstable or DIC: resuscitate, correct clotting (<b>tranexamic acid 1 g IV</b>, platelets if under 50, FFP 15 mL/kg), deliver now; no IM injections · Fetus alive and distressed: <b>emergency caesarean</b> · <b>Fetus dead, mother stable: vaginal birth</b>, ARM + oxytocin (labour is fast)",
+{"sc": ["Abruption, FHR absent, mother stable → <b>ARM + oxytocin, vaginal birth</b>", "Bleeding from cannula sites → <b>DIC: FFP, cryoprecipitate</b>"]}],
+["Placenta accreta spectrum",
+"Deficient decidua; villi attach too deep · <b>Accreta</b> on the myometrium (about 75%), <b>increta</b> into it, <b>percreta</b> through the serosa into bladder or bowel · Risk with praevia + previous CS: none 3%, one <b>11%</b>, two <b>40%</b>, three or more 60% · Usually silent; percreta may cause haematuria · <b>Colour Doppler</b> in every praevia with a scar; MRI if unclear · Scan signs: lost clear zone, lacunae, thin myometrium, bridging vessels · Plan at a specialist centre, consent for hysterectomy, 6–8 units, <b>CS at about 36 wk</b>, incision away from the placenta · <b>Do not pull the placenta</b>: hysterectomy with it in place",
+{"sc": ["Anterior praevia with 2 previous CS → <b>Colour Doppler ± MRI for accreta</b>"]}],
+["Vasa praevia",
+"Fetal vessels in the membranes over the os; they tear at ROM: <b>the blood lost is fetal</b> · Types: velamentous insertion; vessels between lobes (bilobed, succenturiate) · Undiagnosed: about <b>60% of babies die</b>; a term baby has only 250–300 mL of blood · Triad: <b>ROM + painless small bleed + fetal distress</b> (bradycardia or sinusoidal CTG); mother well · Known before labour: admit 30–32 wk, <b>CS at 34–36 wk</b> before ROM · Bleeding in labour: immediate CS; fully dilated with the head low: instrumental · <b>Apt test</b> or Kleihauer, but never wait",
+{"sc": ["Bleed at ROM, FHR 80, fully dilated, head at +2 → <b>Instrumental delivery now</b>"]}],
+["Uterine rupture",
+"Complete (all layers) or incomplete (dehiscence, serosa intact) · Risks: <b>scar</b> (about 0.5% after one lower-segment CS, 4–9% after a classical scar), <b>obstructed labour in a multipara</b>, oxytocin or misoprostol overdose, grand multiparity · Impending: <b>Bandl's ring</b> rising, tender lower segment, tachycardia, haematuria · Rupture: pain, <b>contractions stop</b>, <b>presenting part rises</b>, fetal parts under the skin, fetal bradycardia, shock · Resuscitate, <b>laparotomy</b>: repair a clean tear or hysterectomy; check the bladder · Prevent: partograph, no oxytocin in obstruction, VBAC only in hospital",
+{"sc": ["VBAC in labour: sudden pain, contractions stop, FHR 70 → <b>Resuscitate, immediate laparotomy</b>"], "tr": ["Obstructed labour in a primigravida → fistula more likely; in a multipara → rupture more likely"]}]
 ]
-],
-"trap": "<b>No digital VE</b> until praevia is excluded · Apt test detects fetal blood · Rh-negative: <b>anti-D 500 IU</b> within 72 h"
 }
