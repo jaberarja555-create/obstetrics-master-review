@@ -276,7 +276,7 @@
    [
     "hCG",
     "By how much should serum hCG rise in 48 hours in a viable early pregnancy?",
-    "By at least 63% (it approximately doubles).",
+    "By at least 35% in 48 hours (NICE); the older figure of 63% misses some normal pregnancies.",
     2,
     "1s9ka6y"
    ],
@@ -3447,7 +3447,7 @@
    [
     "Definitions",
     "Define recurrent miscarriage.",
-    "Three or more consecutive miscarriages.",
+    "Three or more miscarriages (RCOG 2023: they need not be consecutive).",
     1,
     "1phfv2a"
    ],
@@ -3601,7 +3601,7 @@
    [
     "Ectopic pregnancy",
     "How does hCG change over 48 hours in a normal intrauterine pregnancy and in an ectopic pregnancy?",
-    "In a normal pregnancy it rises by at least 63% (approximately doubles); in an ectopic pregnancy it rises slowly or remains at the same level.",
+    "In a normal pregnancy it rises by at least 35% in 48 hours; in an ectopic pregnancy it rises slowly or remains at the same level.",
     2,
     "1gsan6c"
    ],
@@ -4316,7 +4316,7 @@
    [
     "Timing of delivery",
     "When are uncomplicated DCDA and MCDA twins delivered?",
-    "DCDA twins at 38 weeks; MCDA twins at 37 weeks.",
+    "DCDA twins at 37 weeks; MCDA twins at 36 weeks (NICE NG137); local practice is often 38 and 37 weeks.",
     2,
     "siqjz2"
    ],

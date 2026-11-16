@@ -254,7 +254,7 @@
      "Viable intrauterine pregnancy too early to see"
     ],
     "answer": 0,
-    "why": "In a viable pregnancy hCG rises by at least 63% in 48 hours; a rise of 30% suggests a failing or ectopic pregnancy.",
+    "why": "In a viable pregnancy hCG rises by at least 35% in 48 hours; a rise of 30% suggests a failing or ectopic pregnancy.",
     "d": 3
    },
    {
@@ -3778,7 +3778,7 @@
      "A normal intrauterine pregnancy"
     ],
     "answer": 1,
-    "why": "A viable intrauterine pregnancy raises hCG by at least 63% in 48 hours; a plateau suggests ectopic. A complete miscarriage would show a clear fall.",
+    "why": "A viable intrauterine pregnancy raises hCG by at least 35% in 48 hours; a plateau suggests ectopic. A complete miscarriage would show a clear fall.",
     "d": 2
    },
    {
@@ -4727,8 +4727,8 @@
      "38 weeks",
      "40 weeks"
     ],
-    "answer": 3,
-    "why": "Uncomplicated DCDA twins are delivered at 38 weeks; MCDA at 37 weeks.",
+    "answer": 2,
+    "why": "Uncomplicated DCDA twins are delivered at 37 weeks and MCDA twins at 36 weeks (NICE NG137); local practice is often 38 and 37 weeks.",
     "d": 1
    },
    {

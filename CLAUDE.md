@@ -635,6 +635,15 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
 - **Full pages (owner, 16 Nov 2026: "why you left this empty space" on 2.2):** spreading the free room evenly left ~200 px empty on every page of
   a topic (table pages cannot absorb it). Now with EVEN=1 the last page of a topic is not charged until it is more than 60% empty, so every
   other page is filled to the foot and only a topic's last page ends short. Two plain bullet lists side by side were joined into one list.
+- **Chapter 3 done (16 Nov 2026)** in the same design and flow (35 → 45 pages; nd_colours and paired-list join applied). Corrections, local way as a
+  Local practice note where it differs: hCG rise ≥ 35% in 48 h; missed miscarriage confirmed by a second opinion or repeat scan ≥ 7 days;
+  threatened miscarriage with a previous loss: vaginal micronised progesterone 400 mg twice daily to 16 wk (NICE 2021); recurrent miscarriage ≥ 3
+  losses, not necessarily consecutive (RCOG 2023); cerclage removed 36–37 wk (local 37–38); anti-D for miscarriage/ectopic only from 12 wk, 250 IU
+  (NICE 2025; local: after any loss ≥ 10 wk, partial mole, surgical evacuation); APH and abruption from 24 wk (local 28 wk); praevia: RCOG 2018 terms,
+  elective CS 36–37 wk (local 37–38); third stage: uterine tone checks instead of routine massage (WHO); twins DCDA 37 wk, MCDA 36 wk (NICE NG137; local
+  38/37; question mp-6 key changed to 37 weeks); SGA with normal Doppler born at 39 wk (RCOG 2024; local 37–38); ECV with oligohydramnios a relative
+  contraindication. Matching flashcards, questions, content/rr cards and the Rapid Review pages were updated in place (the RR layout tool
+  cards.js now asks for 49 pages instead of 25: not re-run; check it before using it again).
 - **Box colours (owner, 16 Nov 2026: "some box has bad colours and background"):** in diagrams of `nd` pages every box that holds text is a light
   chapter tint (or white) with a chapter-colour edge and black text (no navy, orange or teal boxes with white/purple text): `python3 tools/nd_colours.py`
   (run it on each newly rebuilt chapter; charts and unframed bands are left alone). Ladders (Mild/Moderate/Severe) are graded tints of the chapter colour.
