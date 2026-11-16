@@ -1,34 +1,30 @@
 {
-"sc": [
-"Regular painful contractions with a cervix changing from 2 to 5 cm → <b>Established labour</b>",
-"Irregular pains, cervix unchanged after 2 hours → <b>False labour</b>",
-"Placenta not delivered 30 minutes after active management → <b>Retained placenta: manual removal</b>"
-],
+"lead": "Labour is regular painful contractions that cause <b>progressive effacement and dilatation</b> of the cervix, ending in the birth of the baby and placenta. <b>Normal labour:</b> spontaneous onset at term (37–42 wk), single cephalic vertex, vaginal birth, 3–18 h, no complications.",
 "f": [
-[
-"Stages",
-"1st: active phase from <b>4 cm</b> to full dilatation (primi 12–18 h, multi 6–8 h) · 2nd: full to birth (<b>primi 2 h</b>, 3 h with epidural; <b>multi 1 h</b>, 2 h) · 3rd: placenta"
-],
-[
-"Mechanism",
-"Engagement → descent → <b>flexion</b> → <b>internal rotation</b> → extension → restitution → external rotation → expulsion"
-],
-[
-"Diameters",
-"<b>SOB 9.5 cm</b> (flexed vertex) · inlet AP 11 cm · interspinous 10.5 cm (narrowest)"
-],
-[
-"Monitoring",
-"Low risk: <b>intermittent auscultation</b> (15–30 min in 1st stage, 5 min in 2nd) · VE every 4 h · contractions <b>3–5/10 min</b>"
-],
-[
-"Third stage",
-"<b>AMTSL</b>: oxytocin 10 IU IM within 1 min · controlled cord traction · massage · delayed cord clamping <b>1–3 min</b>"
-],
-[
-"Separation signs",
-"Cord lengthens, fundus rises and becomes globular, gush of blood"
+["Onset and diagnosis",
+"Diagnose by <b>painful regular contractions + a changing cervix</b>; show and bulging forewaters support it · <b>True labour:</b> regular, closer, stronger; abdomen to back; cervix dilates; not relieved by sedation · <b>False (Braxton Hicks):</b> irregular, unchanged, lower abdomen, no cervical change, relieved by rest",
+{"sc": ["39 wk, irregular tightenings relieved by rest, cervix closed → <b>False labour: send home</b>"]}],
+["Stages and phases",
+"<b>First stage:</b> onset to full dilatation · latent 0–4 cm; <b>active from 4 cm</b> (open the partogram) · primi 12–18 h, multi 6–8 h; about 1 cm/h or more in the active phase · <b>Second stage:</b> full dilatation to birth: primi up to 2 h (3 h with epidural), multi 1 h (2 h with epidural) · <b>Third stage:</b> birth to placenta, 5–15 min; <b>retained if over 30 min</b> with active management · <b>Fourth stage:</b> recovery; highest PPH risk: observe at least 4 h",
+{"sc": ["Cervix 5 cm, 3 contractions in 10 min → <b>Active phase: start the partogram</b>"]}],
+["The 3 Ps",
+"<b>Power:</b> 3–5 contractions in 10 min, 40–60 s, fundal dominance · <b>More than 5 in 10 min:</b> fetal hypoxia, uterine rupture · Upper segment contracts and <b>retracts</b>; thin lower segment stretches (physiological retraction ring) · <b>Passenger:</b> vertex, OA, well flexed; posterior fontanelle (Y, 3 sutures) gives the position · <b>Passage:</b> gynaecoid 50%, android 20% (OP, deep transverse arrest), anthropoid 25% (face to pubis), platypelloid 5% (inlet delay)",
+{"sc": ["Six contractions in 10 min on oxytocin → <b>Stop oxytocin: hypoxia and rupture risk</b>"]}],
+["Pelvic diameters and engagement",
+"<b>Inlet:</b> AP 11 cm (true conjugate), transverse 13 cm: head enters transverse · <b>Mid-cavity</b> round 12 cm (spines 10.5): head rotates · <b>Outlet:</b> AP 13, transverse 11 cm: head leaves AP · Diagonal conjugate 12.5 cm (promontory not reached = adequate inlet) · <b>Engaged:</b> biparietal (9.5 cm) past the inlet = <b>2/5 or less palpable</b> · Station: lowest bony point vs the spines (−5 to +5) · High head at term in a primi: think CPD, praevia, wrong dates"],
+["Mechanism of labour",
+"Engagement · Descent · <b>Flexion</b> (SOB 9.5 cm presents) · <b>Internal rotation</b> (occiput 1/8 forward at the pelvic floor) · <b>Extension</b> (born under the symphysis) · Restitution · External rotation (shoulders AP) · Expulsion (anterior shoulder first) · Deflexed OP: occipito-frontal 11.5 cm; brow: mento-vertical <b>13.5 cm</b> (largest) · <b>Caput</b> crosses sutures, gone in days; <b>cephalhaematoma</b> stops at sutures and grows on day 2 · Severe moulding + caput = obstruction",
+{"sc": ["Scalp swelling limited by suture lines, growing on day 2 → <b>Cephalhaematoma</b>"]}],
+["First stage care",
+"Admission: history, vitals, abdomen (fifths, contractions, FHR), VE · <b>Partogram from 4 cm</b>; VE every 4 h (2 h on oxytocin); contractions every 30 min · Low risk: <b>intermittent auscultation every 15–30 min for 1 min after a contraction</b>; high risk: continuous CTG · Pulse 30 min, BP 4-hourly, temperature 2-hourly, urine · Companion, mobile, fluids, empty bladder · Pain relief ladder to epidural; pethidine not near birth",
+{"tr": ["No routine ARM, enema, shaving or oxytocin in normal labour"]}],
+["Second stage care",
+"Full dilatation on VE; urge to push, head visible · FHR every 5 min (low risk) · Push with contractions · Control the head at crowning, support the perineum · Feel for cord round the neck; clamp and cut if tight · Gentle downward traction for the anterior shoulder, then upward · <b>Episiotomy not routine:</b> mediolateral for instruments, fetal distress, shoulder dystocia, breech, tight perineum",
+{"sc": ["Multi, fully dilated 1 h, no epidural → <b>Delay: assess for instrumental birth</b>"]}],
+["Third stage",
+"Separation through the spongy decidua; crossed fibres act as <b>living ligatures</b> · Schultze (80%, fetal surface first) or Matthews Duncan (20%, edge first, more bleeding) · Signs: fundus rises and firms, <b>cord lengthens</b>, gush of blood · <b>Active management (AMTSL):</b> <b>oxytocin 10 IU IM within 1 min</b> (misoprostol 600 µg oral if none) + <b>controlled cord traction with counter-pressure</b>; then check uterine tone (WHO) · Ergometrine 0.5 mg only if BP normal · <b>Delayed cord clamping 1–3 min</b> · Retained placenta: 30 min active (60 min physiological) → manual removal · Check the placenta, cord vessels (2 arteries + 1 vein), tears",
+{"tr": ["Never pull the cord without a contraction and counter-pressure: cord snap or uterine inversion", "Exclude a second twin before any uterotonic"], "sc": ["Shock with no fundus felt after strong cord pulling → <b>Acute uterine inversion: replace at once</b>"]}],
+["Fourth stage and the newborn",
+"At least 4 h on the labour ward: pulse, BP, fundus and bleeding every 30 min; bladder; early breastfeeding · <b>Apgar</b> at 1 and 5 min: appearance, pulse, grimace, activity, respiration; 7–10 normal, 4–6 support, 0–3 resuscitate"]
 ]
-],
-"trap": "Observe every woman <b>at least 4 h</b> after birth · head 2/5 palpable = <b>engaged</b> · station 0 = ischial spines"
 }

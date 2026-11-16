@@ -4122,7 +4122,7 @@
    [
     "Prevention",
     "What is active management of the third stage?",
-    "Oxytocin 10 IU IM within 1 minute, delayed cord clamping (1–3 minutes), controlled cord traction, and uterine massage after delivery of the placenta.",
+    "Oxytocin 10 IU IM within 1 minute, delayed cord clamping (1–3 minutes), controlled cord traction, and checks of uterine tone after delivery of the placenta (routine massage is not needed after oxytocin, WHO).",
     1,
     "uqyyi7"
    ],
@@ -5204,7 +5204,7 @@
    [
     "3rd stage",
     "Three components of active management of the third stage?",
-    "Oxytocin 10 IU IM within 1 min, controlled cord traction, uterine massage.",
+    "Oxytocin 10 IU IM within 1 min, controlled cord traction, then uterine tone checks.",
     1,
     "13bjawg"
    ],
@@ -5697,7 +5697,7 @@
    [
     "Prevention",
     "When is a cervical cerclage removed?",
-    "At 37 weeks, or at once with labour, rupture of membranes, APH or intrauterine fetal death.",
+    "At 36–37 weeks (RCOG), or at once with labour, rupture of membranes, APH or intrauterine fetal death.",
     2,
     "cmxghf"
    ],
@@ -5717,7 +5717,7 @@
    ],
    [
     "Practice",
-    "Why is ventouse avoided below 34 weeks?",
+    "Why is ventouse avoided before 32 weeks and used with care at 32–36 weeks?",
     "Soft skull: cephalhaematoma, subgaleal and brain bleeds.",
     2,
     "f5tb0"
@@ -6099,7 +6099,7 @@
    [
     "Management",
     "When is induction offered for an uncomplicated prolonged pregnancy?",
-    "At 41+3 weeks (within 41+0 to 41+6).",
+    "From 41+0 weeks (NICE 2021; WHO: at or after 41 weeks); many local units offer it at 41+3 weeks.",
     1,
     "120yapu"
    ],
@@ -6536,7 +6536,7 @@
    [
     "Mode of delivery",
     "Criteria for assisted vaginal breech delivery?",
-    "Frank or complete breech, estimated fetal weight 2.5–3.8 kg, flexed head, no fetal compromise, adequate pelvis, trained staff.",
+    "Frank or complete breech, estimated fetal weight 2.0–3.8 kg (RCOG; many local units use 2.5 kg), flexed head, no fetal compromise, adequate pelvis, trained staff.",
     2,
     "8k0u8k"
    ],
@@ -10240,7 +10240,7 @@
    [
     "Ventouse",
     "Contraindications to ventouse?",
-    "< 34 weeks, face, brow, breech, unknown position, fetal bleeding disorder.",
+    "< 32 weeks (care at 32–36 weeks), face, brow, breech, unknown position, fetal bleeding disorder.",
     2,
     "do216f"
    ],

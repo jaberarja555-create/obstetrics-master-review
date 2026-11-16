@@ -1,34 +1,26 @@
 {
-"sc": [
-"Bishop score 4 at 41⁺³ weeks → <b>Ripen first: dinoprostone 3 mg PV</b>",
-"Previous CS, unripe cervix → <b>Foley balloon, not prostaglandin</b>",
-"More than 5 contractions in 10 minutes with FHR 80 → <b>Tachysystole: stop oxytocin, terbutaline 0.25 mg</b>"
-],
+"lead": "Induction of labour starts labour artificially before it begins on its own, aiming at vaginal birth. It differs from <b>augmentation</b>, which speeds up labour that has already started. The <b>Bishop score</b> decides whether the cervix must be ripened first.",
 "f": [
-[
-"Indications",
-"<b>Prolonged pregnancy</b> commonest · PE, diabetes, PROM, FGR, IUFD"
-],
-[
-"Bishop score",
-"<b>Dilatation, length, station, consistency, position</b> · max 13 · <b>≥ 8 favourable</b> · ≤ 6 ripen"
-],
-[
-"Ripening",
-"Live fetus: <b>dinoprostone 3 mg</b> or misoprostol 25 µg · IUFD: misoprostol · previous CS: <b>Foley 30–50 mL</b>"
-],
-[
-"Oxytocin",
-"<b>5 IU in 500 mL</b> · start 2 mU/min, increase every 30 min, max <b>32 mU/min</b> · ≥ 6 h after prostaglandin"
-],
-[
-"Complications",
-"<b>Tachysystole</b> · cord prolapse (ARM with high head) · <b>water intoxication</b> · uterine rupture · failed induction"
-],
-[
-"Contraindications",
-"Praevia, transverse lie, ≥ 2 previous CS, active herpes"
+["Indications",
+"<b>Prolonged pregnancy</b> (commonest) · PROM at term · Pre-eclampsia, eclampsia · Unexplained APH at term · Chorioamnionitis · FGR, oligohydramnios, abnormal Doppler · <b>IUFD</b> · Rh isoimmunisation · Severe hypertension, uncontrolled diabetes, renal disease, cholestasis",
+{"sc": ["Labour already started, slow → <b>Augmentation, not induction</b>"]}],
+["Contraindications",
+"<b>Absolute:</b> placenta or vasa praevia, transverse or oblique lie, cord presentation or prolapse, CPD, <b>classical CS, 2 or more CS</b>, previous rupture, active herpes, VVF repair · <b>Relative:</b> one previous lower-segment CS, breech, high free head, grand multipara, polyhydramnios, twins, heart disease, asthma (prostaglandins) · Before inducing: clear indication, sure dates, lie and pelvis checked, normal CTG",
+{"sc": ["Induction asked, 2 previous CS → <b>Elective caesarean</b>", "41 wk, transverse lie → <b>No induction: CS</b>"]}],
+["Modified Bishop score",
+"Five items: <b>consistency, position, effacement (cervical length), dilatation, station</b> · Each 0–3 (consistency and position 0–2), maximum 13 · <b>8 or more: favourable</b> → ARM + oxytocin · <b>6 or less: unfavourable</b> → ripen first · Success also depends on gestation and parity (multipara better)",
+{"sc": ["Cervix 3 cm, 1.5 cm long, soft, mid, station −1 → <b>Bishop 9: favourable</b>"]}],
+["Methods",
+"<b>Membrane sweep</b> at 40–41 wk · <b>Dinoprostone 3 mg PV</b>, repeat after 6 h, max 2 doses: the live fetus · <b>Misoprostol:</b> live term fetus 25 µg PV 6-hourly or 25 µg oral 2-hourly (WHO 2022 prefers oral); <b>IUFD</b> dose by weeks; never in a scarred uterus · <b>Foley balloon</b> 30–50 mL, 12–24 h: no hyperstimulation, <b>choice after a previous CS</b> · <b>ARM</b> with the head fixed; check liquor and cord · <b>Oxytocin</b> after ARM, at least 6 h after the last prostaglandin",
+{"sc": ["Unripe cervix, previous CS → <b>Foley balloon</b>", "Unripe cervix, IUFD at 34 wk → <b>Misoprostol</b>", "Prostin 2 h ago, no labour → <b>Wait 6 h before oxytocin</b>"]}],
+["Oxytocin regimen",
+"<b>5 IU in 500 mL saline = 10 mU/mL</b> · Start 2 mU/min (4 drops) · Increase 2–4 mU/min every 30 min · Aim 3–4 contractions in 10 min, 40–60 s each · <b>Maximum 32 mU/min</b> · Saline, not large volumes of dextrose (water intoxication)",
+{"sc": ["18 h of oxytocin with 3 L of 5% dextrose, now confused and fitting → <b>Water intoxication (hyponatraemia)</b>"]}],
+["Complications and hyperstimulation",
+"Drugs: <b>hyperstimulation</b> → fetal distress, uterine rupture; water intoxication · ARM: <b>cord prolapse</b> (high head), infection, abruption (polyhydramnios) · Any IOL: failed induction, prematurity, PPH, instrumental birth · <b>Tachysystole:</b> over 5 contractions in 10 min; <b>hypertonus:</b> one over 2 min; hyperstimulation = either + abnormal FHR · Stop oxytocin, left lateral, fluids, <b>terbutaline 0.25 mg SC</b>; restart lower after 30 min; persistent bradycardia → CS",
+{"sc": ["On oxytocin, 6 in 10 min, FHR 80 → <b>Stop it, terbutaline</b>"]}],
+["Failed induction and previous caesarean",
+"Failed: no labour after a full course (2 prostins or Foley, then ARM + oxytocin 6–12 h) → rest and second course, or CS · <b>One lower-segment CS:</b> hospital with theatre; <b>Foley + ARM + oxytocin</b>; prostin lowest dose; <b>no misoprostol</b> with a live fetus; continuous CTG · Rupture risk about 0.5% in spontaneous labour, 2–3 times higher if induced · Classical scar, 2 or more CS, previous rupture: elective CS",
+{"tr": ["Scar rupture often shows first as fetal bradycardia, not pain"], "sc": ["One previous CS, 41+3 wk, Bishop 3 → <b>Foley balloon, then ARM + oxytocin</b>"]}]
 ]
-],
-"trap": "Never <b>ARM with a high head</b> · long oxytocin with dextrose causes fits (<b>hyponatraemia</b>) · induced VBAC carries 2–3× the rupture risk"
 }

@@ -1,34 +1,23 @@
 {
-"sc": [
-"Cervix crosses the action line → <b>Slow progress: ARM + oxytocin, reassess in 2 h</b>",
-"Good contractions, no descent, moulding +3, caput → <b>Obstructed labour: CS</b>",
-"Late decelerations with reduced variability → <b>Placental insufficiency: fetal blood sample or deliver</b>"
-],
+"lead": "Monitoring in labour follows the fetus, the progress and the mother. The <b>partogram</b> shows slow labour early, and <b>CTG</b> looks for fetal hypoxia in high-risk labour. Slow progress must be sorted into weak contractions, which are treated, and <b>obstruction</b>, which needs a caesarean.",
 "f": [
-[
-"Partogram",
-"Start at <b>4 cm</b> · alert line 1 cm/h · <b>action line 4 h</b> to the right · < 2 cm in 4 h = slow"
-],
-[
-"Partogram symbols",
-"Cervix <b>X</b> · descent <b>O</b> (fifths) · liquor C/M/B · moulding +1 to +3 · contraction boxes (solid > 40 s)"
-],
-[
-"CTG normal",
-"Baseline <b>110–160</b> · variability <b>5–25 bpm</b> · accelerations · no decelerations"
-],
-[
-"Decelerations",
-"<b>Early</b>: head compression (mirror) · <b>late</b>: placental insufficiency · <b>variable</b>: cord · prolonged > 3 min · bradycardia < 100"
-],
-[
-"Obstructed labour",
-"Prolonged labour > 18 h · <b>Bandl's ring</b> · haematuria, oedematous vulva · catheter 14 days after (fistula)"
-],
-[
-"Fetal scalp pH",
-"<b>≤ 7.20 → deliver</b>"
+["The partogram",
+"Opened in the active phase at <b>4 cm</b>, starting on the alert line · <b>Alert line:</b> 1 cm/h from 4 cm · <b>Action line:</b> 4 h to the right · Crossing the alert line in a health centre: <b>refer</b> · Crossing the action line: full review of the 3 Ps · Fetus: FHR every 30 min (110–160), liquor (I, C, M, B, A), moulding 0 to +3 · Progress: cervix (X) every 4 h, descent in fifths, contractions every 30 min · Mother: pulse 30 min, BP 4 h, temperature 2 h, urine",
+{"sc": ["Liquor B with maternal tachycardia → <b>Suspect abruption</b>"], "tr": ["Number of boxes = frequency, shading = duration; fewer than 3 in 10 min or under 40 s is inefficient"]}],
+["Reading a CTG (DR C BRAVADO)",
+"<b>Contractions</b> 3–5 in 10 min; over 5 = tachysystole · <b>Baseline</b> 110–160 bpm · <b>Variability</b> 5–25 bpm · <b>Accelerations</b> (≥ 15 bpm for 15 s) = healthy fetus · <b>Decelerations:</b> early (head compression), <b>late</b> (placental hypoxia), variable (cord), prolonged over 3 min · CTG is sensitive, not specific: in low-risk women it only raises caesareans",
+{"sc": ["Dip after the peak of every contraction, pre-eclampsia → <b>Late decelerations: placental insufficiency</b>", "Flat trace 30 min, then accelerations return → <b>Fetal sleep: normal</b>"]}],
+["CTG classification",
+"<b>Suspicious:</b> baseline 100–109 or 161–180, variability under 5 for 30–50 min, uncomplicated variable decelerations · <b>Pathological:</b> baseline under 100 or over 180, variability under 5 for over 50 min, <b>sinusoidal</b>, repeated late decelerations, one over 3 min · Normal = all normal; suspicious = one suspicious; pathological = one pathological or two suspicious · FHR over 160: fever, chorioamnionitis, hypoxia · Under 100: cord prolapse, abruption, rupture, epidural hypotension · Sinusoidal: <b>severe fetal anaemia</b>",
+{"sc": ["FHR 175, mother 38.6 °C, ROM 30 h → <b>Chorioamnionitis</b>"]}],
+["Failure to progress",
+"<b>First stage:</b> under 2 cm in 4 h in the active phase, or crossing the action line · <b>Second stage:</b> over 2 h primi (3 h epidural), over 1 h multi (2 h epidural) · Prolonged labour: over 18 h · Causes: power (<b>commonest</b>, mainly primi), passenger (OP, malpresentation, macrosomia), passage (CPD) · Weak contractions, no CPD, fetus well: <b>ARM + oxytocin</b>, VE in 2 h · Tired and dry: fluids and analgesia · <b>Slow progress in a multipara = obstruction until proved otherwise</b>",
+{"sc": ["Primi, 6 cm for 4 h, 2 weak contractions → <b>ARM + oxytocin</b>"]}],
+["Obstructed labour",
+"No descent despite good contractions from a mechanical block: CPD, brow, mento-posterior face, shoulder, hydrocephalus, locked twins · Exhausted, dry, ketotic, febrile · <b>Bandl's ring</b>, head 3/5 or more at full dilatation, <b>moulding +3</b>, caput, swollen cervix, haematuria · Complications: <b>uterine rupture</b> (multi), <b>VVF/RVF</b> (primi), sepsis, PPH, foot drop, fetal death · Resuscitate, antibiotics, catheter → <b>caesarean even if the fetus is dead</b> · Catheter <b>14 days</b> after birth to prevent fistula",
+{"tr": ["Never give oxytocin in obstructed labour"], "sc": ["Grand multipara, obstructed labour, given oxytocin → <b>Uterine rupture</b>", "Leaking urine 10 days after a long labour → <b>Vesicovaginal fistula</b>"]}],
+["Fetal distress",
+"Pathological CTG; thick meconium; FHR under 100 or over 160; late decelerations · <b>Fetal scalp pH:</b> 7.25 or more normal; 7.21–7.24 repeat in 30 min; <b>7.20 or less: deliver</b> · Intrauterine resuscitation: left lateral, stop oxytocin, IV fluids, treat hypotension, <b>terbutaline 0.25 mg SC</b> for hyperstimulation, VE for cord prolapse · Deliver: first stage → <b>emergency CS</b>; second stage → <b>instrumental</b>",
+{"sc": ["Multi fully dilated 1 h, late decelerations, head 0/5, OA → <b>Ventouse or forceps</b>"]}]
 ]
-],
-"trap": "<b>Oxytocin in an obstructed multipara</b> → uterine rupture · head ≥ 3/5 palpable at full dilatation = CPD · decide by the woman and fetus, not the line alone"
 }

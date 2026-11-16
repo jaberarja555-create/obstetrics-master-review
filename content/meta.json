@@ -791,6 +791,16 @@
    "f": "c4s01p5x2_nl5"
   },
   {
+   "label": "4.1 · Management: Third & Fourth Stage",
+   "t": "nl",
+   "f": "c4s01p5x3_nl5"
+  },
+  {
+   "label": "4.1 · Management: Third & Fourth Stage",
+   "t": "nl",
+   "f": "c4s01p5x4_nl5"
+  },
+  {
    "label": "4.2 · Partogram",
    "t": "ol",
    "f": "c4s02p1_ol1"
@@ -814,6 +824,11 @@
    "label": "4.2 · Failure to Progress & Fetal Distress",
    "t": "ol",
    "f": "c4s02p3x2_ol3"
+  },
+  {
+   "label": "4.2 · Failure to Progress & Fetal Distress",
+   "t": "ol",
+   "f": "c4s02p3x3_ol3"
   },
   {
    "label": "4.3 · Definition, Risk Factors & Clinical Features",
@@ -846,6 +861,11 @@
    "f": "c4s03p4x2_ptl4"
   },
   {
+   "label": "4.3 · Intrapartum Management & Prevention",
+   "t": "ptl",
+   "f": "c4s03p4x3_ptl4"
+  },
+  {
    "label": "4.4 · Definitions, Causes & Diagnosis",
    "t": "prom",
    "f": "c4s04p1_prom1"
@@ -866,6 +886,16 @@
    "f": "c4s04p3_prom3"
   },
   {
+   "label": "4.4 · Term PROM & Chorioamnionitis",
+   "t": "prom",
+   "f": "c4s04p3x2_prom3"
+  },
+  {
+   "label": "4.4 · Term PROM & Chorioamnionitis",
+   "t": "prom",
+   "f": "c4s04p3x3_prom3"
+  },
+  {
    "label": "4.5 · Definition, Dating & Clinical Features",
    "t": "pp",
    "f": "c4s05p1_pp1"
@@ -879,6 +909,11 @@
    "label": "4.5 · Complications & Management",
    "t": "pp",
    "f": "c4s05p2_pp2"
+  },
+  {
+   "label": "4.5 · Complications & Management",
+   "t": "pp",
+   "f": "c4s05p2x2_pp2"
   },
   {
    "label": "4.6 · Definition, Indications & Bishop Score",
@@ -904,6 +939,11 @@
    "label": "4.6 · Complications & Previous Caesarean",
    "t": "iol",
    "f": "c4s06p3x2_iol3"
+  },
+  {
+   "label": "4.6 · Complications & Previous Caesarean",
+   "t": "iol",
+   "f": "c4s06p3x3_iol3"
   },
   {
    "label": "4.7 · Definitions & Classification",
@@ -941,6 +981,21 @@
    "f": "c4s07p5x2_br5"
   },
   {
+   "label": "4.7 · Vaginal Breech Delivery",
+   "t": "br",
+   "f": "c4s07p5x3_br5"
+  },
+  {
+   "label": "4.7 · Vaginal Breech Delivery",
+   "t": "br",
+   "f": "c4s07p5x4_br5"
+  },
+  {
+   "label": "4.7 · Vaginal Breech Delivery",
+   "t": "br",
+   "f": "c4s07p5x5_br5"
+  },
+  {
    "label": "4.8 · Diameters & Occipito-Posterior Position",
    "t": "mal",
    "f": "c4s08p1_mal1"
@@ -964,6 +1019,16 @@
    "label": "4.8 · Abnormal Lie & Compound Presentation",
    "t": "mal",
    "f": "c4s08p3x2_mal3"
+  },
+  {
+   "label": "4.8 · Abnormal Lie & Compound Presentation",
+   "t": "mal",
+   "f": "c4s08p3x3_mal3"
+  },
+  {
+   "label": "4.8 · Abnormal Lie & Compound Presentation",
+   "t": "mal",
+   "f": "c4s08p3x4_mal3"
   },
   {
    "label": "Chapter 5 · Obstetric Emergencies",
@@ -1821,369 +1886,404 @@
    "f": "x900_rrcover"
   },
   {
-   "label": "Rapid review · 1/73",
+   "label": "Rapid review · 1/80",
    "t": "",
    "f": "x901_rr1"
   },
   {
-   "label": "Rapid review · 2/73",
+   "label": "Rapid review · 2/80",
    "t": "",
    "f": "x902_rr2"
   },
   {
-   "label": "Rapid review · 3/73",
+   "label": "Rapid review · 3/80",
    "t": "",
    "f": "x903_rr3"
   },
   {
-   "label": "Rapid review · 4/73",
+   "label": "Rapid review · 4/80",
    "t": "",
    "f": "x904_rr4"
   },
   {
-   "label": "Rapid review · 5/73",
+   "label": "Rapid review · 5/80",
    "t": "",
    "f": "x905_rr5"
   },
   {
-   "label": "Rapid review · 6/73",
+   "label": "Rapid review · 6/80",
    "t": "",
    "f": "x906_rr6"
   },
   {
-   "label": "Rapid review · 7/73",
+   "label": "Rapid review · 7/80",
    "t": "",
    "f": "x907_rr7"
   },
   {
-   "label": "Rapid review · 8/73",
+   "label": "Rapid review · 8/80",
    "t": "",
    "f": "x908_rr8"
   },
   {
-   "label": "Rapid review · 9/73",
+   "label": "Rapid review · 9/80",
    "t": "",
    "f": "x909_rr9"
   },
   {
-   "label": "Rapid review · 10/73",
+   "label": "Rapid review · 10/80",
    "t": "",
    "f": "x910_rr10"
   },
   {
-   "label": "Rapid review · 11/73",
+   "label": "Rapid review · 11/80",
    "t": "",
    "f": "x911_rr11"
   },
   {
-   "label": "Rapid review · 12/73",
+   "label": "Rapid review · 12/80",
    "t": "",
    "f": "x912_rr12"
   },
   {
-   "label": "Rapid review · 13/73",
+   "label": "Rapid review · 13/80",
    "t": "",
    "f": "x913_rr13"
   },
   {
-   "label": "Rapid review · 14/73",
+   "label": "Rapid review · 14/80",
    "t": "",
    "f": "x914_rr14"
   },
   {
-   "label": "Rapid review · 15/73",
+   "label": "Rapid review · 15/80",
    "t": "",
    "f": "x915_rr15"
   },
   {
-   "label": "Rapid review · 16/73",
+   "label": "Rapid review · 16/80",
    "t": "",
    "f": "x916_rr16"
   },
   {
-   "label": "Rapid review · 17/73",
+   "label": "Rapid review · 17/80",
    "t": "",
    "f": "x917_rr17"
   },
   {
-   "label": "Rapid review · 18/73",
+   "label": "Rapid review · 18/80",
    "t": "",
    "f": "x918_rr18"
   },
   {
-   "label": "Rapid review · 19/73",
+   "label": "Rapid review · 19/80",
    "t": "",
    "f": "x919_rr19"
   },
   {
-   "label": "Rapid review · 20/73",
+   "label": "Rapid review · 20/80",
    "t": "",
    "f": "x920_rr20"
   },
   {
-   "label": "Rapid review · 21/73",
+   "label": "Rapid review · 21/80",
    "t": "",
    "f": "x921_rr21"
   },
   {
-   "label": "Rapid review · 22/73",
+   "label": "Rapid review · 22/80",
    "t": "",
    "f": "x922_rr22"
   },
   {
-   "label": "Rapid review · 23/73",
+   "label": "Rapid review · 23/80",
    "t": "",
    "f": "x923_rr23"
   },
   {
-   "label": "Rapid review · 24/73",
+   "label": "Rapid review · 24/80",
    "t": "",
    "f": "x924_rr24"
   },
   {
-   "label": "Rapid review · 25/73",
+   "label": "Rapid review · 25/80",
    "t": "",
    "f": "x925_rr25"
   },
   {
-   "label": "Rapid review · 26/73",
+   "label": "Rapid review · 26/80",
    "t": "",
    "f": "x926_rr26"
   },
   {
-   "label": "Rapid review · 27/73",
+   "label": "Rapid review · 27/80",
    "t": "",
    "f": "x927_rr27"
   },
   {
-   "label": "Rapid review · 28/73",
+   "label": "Rapid review · 28/80",
    "t": "",
    "f": "x928_rr28"
   },
   {
-   "label": "Rapid review · 29/73",
+   "label": "Rapid review · 29/80",
    "t": "",
    "f": "x929_rr29"
   },
   {
-   "label": "Rapid review · 30/73",
+   "label": "Rapid review · 30/80",
    "t": "",
    "f": "x930_rr30"
   },
   {
-   "label": "Rapid review · 31/73",
+   "label": "Rapid review · 31/80",
    "t": "",
    "f": "x931_rr31"
   },
   {
-   "label": "Rapid review · 32/73",
+   "label": "Rapid review · 32/80",
    "t": "",
    "f": "x932_rr32"
   },
   {
-   "label": "Rapid review · 33/73",
+   "label": "Rapid review · 33/80",
    "t": "",
    "f": "x933_rr33"
   },
   {
-   "label": "Rapid review · 34/73",
+   "label": "Rapid review · 34/80",
    "t": "",
    "f": "x934_rr34"
   },
   {
-   "label": "Rapid review · 35/73",
+   "label": "Rapid review · 35/80",
    "t": "",
    "f": "x935_rr35"
   },
   {
-   "label": "Rapid review · 36/73",
+   "label": "Rapid review · 36/80",
    "t": "",
    "f": "x936_rr36"
   },
   {
-   "label": "Rapid review · 37/73",
+   "label": "Rapid review · 37/80",
    "t": "",
    "f": "x937_rr37"
   },
   {
-   "label": "Rapid review · 38/73",
+   "label": "Rapid review · 38/80",
    "t": "",
    "f": "x938_rr38"
   },
   {
-   "label": "Rapid review · 39/73",
+   "label": "Rapid review · 39/80",
    "t": "",
    "f": "x939_rr39"
   },
   {
-   "label": "Rapid review · 40/73",
+   "label": "Rapid review · 40/80",
    "t": "",
    "f": "x940_rr40"
   },
   {
-   "label": "Rapid review · 41/73",
+   "label": "Rapid review · 41/80",
    "t": "",
    "f": "x941_rr41"
   },
   {
-   "label": "Rapid review · 42/73",
+   "label": "Rapid review · 42/80",
    "t": "",
    "f": "x942_rr42"
   },
   {
-   "label": "Rapid review · 43/73",
+   "label": "Rapid review · 43/80",
    "t": "",
    "f": "x943_rr43"
   },
   {
-   "label": "Rapid review · 44/73",
+   "label": "Rapid review · 44/80",
    "t": "",
    "f": "x944_rr44"
   },
   {
-   "label": "Rapid review · 45/73",
+   "label": "Rapid review · 45/80",
    "t": "",
    "f": "x945_rr45"
   },
   {
-   "label": "Rapid review · 46/73",
+   "label": "Rapid review · 46/80",
    "t": "",
    "f": "x946_rr46"
   },
   {
-   "label": "Rapid review · 47/73",
+   "label": "Rapid review · 47/80",
    "t": "",
    "f": "x947_rr47"
   },
   {
-   "label": "Rapid review · 48/73",
+   "label": "Rapid review · 48/80",
    "t": "",
    "f": "x948_rr48"
   },
   {
-   "label": "Rapid review · 49/73",
+   "label": "Rapid review · 49/80",
    "t": "",
    "f": "x949_rr49"
   },
   {
-   "label": "Rapid review · 50/73",
+   "label": "Rapid review · 50/80",
    "t": "",
    "f": "x950_rr50"
   },
   {
-   "label": "Rapid review · 51/73",
+   "label": "Rapid review · 51/80",
    "t": "",
    "f": "x951_rr51"
   },
   {
-   "label": "Rapid review · 52/73",
+   "label": "Rapid review · 52/80",
    "t": "",
    "f": "x952_rr52"
   },
   {
-   "label": "Rapid review · 53/73",
+   "label": "Rapid review · 53/80",
    "t": "",
    "f": "x953_rr53"
   },
   {
-   "label": "Rapid review · 54/73",
+   "label": "Rapid review · 54/80",
    "t": "",
    "f": "x954_rr54"
   },
   {
-   "label": "Rapid review · 55/73",
+   "label": "Rapid review · 55/80",
    "t": "",
    "f": "x955_rr55"
   },
   {
-   "label": "Rapid review · 56/73",
+   "label": "Rapid review · 56/80",
    "t": "",
    "f": "x956_rr56"
   },
   {
-   "label": "Rapid review · 57/73",
+   "label": "Rapid review · 57/80",
    "t": "",
    "f": "x957_rr57"
   },
   {
-   "label": "Rapid review · 58/73",
+   "label": "Rapid review · 58/80",
    "t": "",
    "f": "x958_rr58"
   },
   {
-   "label": "Rapid review · 59/73",
+   "label": "Rapid review · 59/80",
    "t": "",
    "f": "x959_rr59"
   },
   {
-   "label": "Rapid review · 60/73",
+   "label": "Rapid review · 60/80",
    "t": "",
    "f": "x960_rr60"
   },
   {
-   "label": "Rapid review · 61/73",
+   "label": "Rapid review · 61/80",
    "t": "",
    "f": "x961_rr61"
   },
   {
-   "label": "Rapid review · 62/73",
+   "label": "Rapid review · 62/80",
    "t": "",
    "f": "x962_rr62"
   },
   {
-   "label": "Rapid review · 63/73",
+   "label": "Rapid review · 63/80",
    "t": "",
    "f": "x963_rr63"
   },
   {
-   "label": "Rapid review · 64/73",
+   "label": "Rapid review · 64/80",
    "t": "",
    "f": "x964_rr64"
   },
   {
-   "label": "Rapid review · 65/73",
+   "label": "Rapid review · 65/80",
    "t": "",
    "f": "x965_rr65"
   },
   {
-   "label": "Rapid review · 66/73",
+   "label": "Rapid review · 66/80",
    "t": "",
    "f": "x966_rr66"
   },
   {
-   "label": "Rapid review · 67/73",
+   "label": "Rapid review · 67/80",
    "t": "",
    "f": "x967_rr67"
   },
   {
-   "label": "Rapid review · 68/73",
+   "label": "Rapid review · 68/80",
    "t": "",
    "f": "x968_rr68"
   },
   {
-   "label": "Rapid review · 69/73",
+   "label": "Rapid review · 69/80",
    "t": "",
    "f": "x969_rr69"
   },
   {
-   "label": "Rapid review · 70/73",
+   "label": "Rapid review · 70/80",
    "t": "",
    "f": "x970_rr70"
   },
   {
-   "label": "Rapid review · 71/73",
+   "label": "Rapid review · 71/80",
    "t": "",
    "f": "x971_rr71"
   },
   {
-   "label": "Rapid review · 72/73",
+   "label": "Rapid review · 72/80",
    "t": "",
    "f": "x972_rr72"
   },
   {
-   "label": "Rapid review · 73/73",
+   "label": "Rapid review · 73/80",
    "t": "",
    "f": "x973_rr73"
+  },
+  {
+   "label": "Rapid review · 74/80",
+   "t": "",
+   "f": "x974_rr74"
+  },
+  {
+   "label": "Rapid review · 75/80",
+   "t": "",
+   "f": "x975_rr75"
+  },
+  {
+   "label": "Rapid review · 76/80",
+   "t": "",
+   "f": "x976_rr76"
+  },
+  {
+   "label": "Rapid review · 77/80",
+   "t": "",
+   "f": "x977_rr77"
+  },
+  {
+   "label": "Rapid review · 78/80",
+   "t": "",
+   "f": "x978_rr78"
+  },
+  {
+   "label": "Rapid review · 79/80",
+   "t": "",
+   "f": "x979_rr79"
+  },
+  {
+   "label": "Rapid review · 80/80",
+   "t": "",
+   "f": "x980_rr80"
   },
   {
    "label": "Obstetric drugs",
@@ -2473,7 +2573,7 @@
    "no": "4.2",
    "title": "Monitoring in labour",
    "sub": "Partogram · CTG · failure to progress · obstructed labour",
-   "p": 159,
+   "p": 161,
    "id": "ol",
    "ch": 4,
    "cls": "c4"
@@ -2482,7 +2582,7 @@
    "no": "4.3",
    "title": "Preterm labour",
    "sub": "Risk & prediction · tocolysis · steroids · MgSO₄",
-   "p": 164,
+   "p": 167,
    "id": "ptl",
    "ch": 4,
    "cls": "c4"
@@ -2491,7 +2591,7 @@
    "no": "4.4",
    "title": "Prelabour rupture of membranes",
    "sub": "Diagnosis · PPROM · term PROM · chorioamnionitis",
-   "p": 170,
+   "p": 174,
    "id": "prom",
    "ch": 4,
    "cls": "c4"
@@ -2500,7 +2600,7 @@
    "no": "4.5",
    "title": "Prolonged pregnancy",
    "sub": "Dating · risks · sweep & induction",
-   "p": 174,
+   "p": 180,
    "id": "pp",
    "ch": 4,
    "cls": "c4"
@@ -2509,7 +2609,7 @@
    "no": "4.6",
    "title": "Induction of labour",
    "sub": "Indications · Bishop score · methods · complications",
-   "p": 177,
+   "p": 184,
    "id": "iol",
    "ch": 4,
    "cls": "c4"
@@ -2518,7 +2618,7 @@
    "no": "4.7",
    "title": "Breech presentation",
    "sub": "Types · ECV · vaginal breech delivery · manoeuvres",
-   "p": 182,
+   "p": 190,
    "id": "br",
    "ch": 4,
    "cls": "c4"
@@ -2527,7 +2627,7 @@
    "no": "4.8",
    "title": "Malpresentations & malpositions",
    "sub": "OP · face · brow · transverse & unstable lie",
-   "p": 189,
+   "p": 200,
    "id": "mal",
    "ch": 4,
    "cls": "c4"
@@ -2536,7 +2636,7 @@
    "no": "5.1",
    "title": "Cord prolapse",
    "sub": "Risk factors · diagnosis · emergency drill",
-   "p": 195,
+   "p": 208,
    "id": "cp",
    "ch": 5,
    "cls": "c5"
@@ -2545,7 +2645,7 @@
    "no": "5.2",
    "title": "Uterine inversion",
    "sub": "Causes · shock · replacement",
-   "p": 200,
+   "p": 213,
    "id": "ui",
    "ch": 5,
    "cls": "c5"
@@ -2554,7 +2654,7 @@
    "no": "5.3",
    "title": "Amniotic fluid embolism",
    "sub": "Collapse & DIC · differential · resuscitation",
-   "p": 206,
+   "p": 219,
    "id": "afe",
    "ch": 5,
    "cls": "c5"
@@ -2563,7 +2663,7 @@
    "no": "5.4",
    "title": "Shoulder dystocia",
    "sub": "Risk factors · HELPERR drill · complications",
-   "p": 210,
+   "p": 223,
    "id": "sd",
    "ch": 5,
    "cls": "c5"
@@ -2572,7 +2672,7 @@
    "no": "6.1",
    "title": "Normal puerperium",
    "sub": "Involution · lochia · breastfeeding · contraception",
-   "p": 217,
+   "p": 230,
    "id": "np",
    "ch": 6,
    "cls": "c6"
@@ -2581,7 +2681,7 @@
    "no": "6.2",
    "title": "Puerperal pyrexia & sepsis",
    "sub": "Causes by day · Sepsis Six · antibiotics",
-   "p": 224,
+   "p": 237,
    "id": "ps",
    "ch": 6,
    "cls": "c6"
@@ -2590,7 +2690,7 @@
    "no": "6.3",
    "title": "Postpartum mood disorders",
    "sub": "Blues · depression · psychosis",
-   "p": 232,
+   "p": 245,
    "id": "pmd",
    "ch": 6,
    "cls": "c6"
@@ -2599,7 +2699,7 @@
    "no": "6.4",
    "title": "Maternal mortality",
    "sub": "Definitions · causes · three delays · prevention",
-   "p": 239,
+   "p": 252,
    "id": "mm",
    "ch": 6,
    "cls": "c6"
@@ -2608,7 +2708,7 @@
    "no": "7.1",
    "title": "The OSCE station",
    "sub": "Station types · opening & closing · communication · consent",
-   "p": 244,
+   "p": 257,
    "id": "oa",
    "ch": 7,
    "cls": "c7"
@@ -2617,7 +2717,7 @@
    "no": "7.2",
    "title": "Focused history stations",
    "sub": "Full long-case history · hypertension · early bleeding · APH · anaemia · diabetes · malaria",
-   "p": 251,
+   "p": 264,
    "id": "oh",
    "ch": 7,
    "cls": "c7"
@@ -2626,7 +2726,7 @@
    "no": "7.3",
    "title": "Obstetric abdominal examination",
    "sub": "General exam · inspection · fundal height · Leopold grips · fifths · fetal heart",
-   "p": 269,
+   "p": 282,
    "id": "oe",
    "ch": 7,
    "cls": "c7"
@@ -2635,7 +2735,7 @@
    "no": "7.4",
    "title": "Blood pressure & urine testing",
    "sub": "Cuff · Korotkoff sounds · dipstick protein & sugar",
-   "p": 280,
+   "p": 293,
    "id": "obp",
    "ch": 7,
    "cls": "c7"
@@ -2644,7 +2744,7 @@
    "no": "7.5",
    "title": "Speculum & vaginal examination",
    "sub": "Cusco & Sims · swabs · dilatation · station · position · Bishop",
-   "p": 289,
+   "p": 302,
    "id": "ov",
    "ch": 7,
    "cls": "c7"
@@ -2653,7 +2753,7 @@
    "no": "7.6",
    "title": "Partogram & CTG stations",
    "sub": "Plotting · alert & action lines · reading a CTG",
-   "p": 301,
+   "p": 314,
    "id": "opc",
    "ch": 7,
    "cls": "c7"
@@ -2662,7 +2762,7 @@
    "no": "7.7",
    "title": "Normal delivery & episiotomy",
    "sub": "Conducting delivery · AMTSL · episiotomy · tear repair",
-   "p": 313,
+   "p": 326,
    "id": "ond",
    "ch": 7,
    "cls": "c7"
@@ -2671,7 +2771,7 @@
    "no": "7.8",
    "title": "Operative delivery stations",
    "sub": "Ventouse · forceps · caesarean section",
-   "p": 322,
+   "p": 335,
    "id": "oiv",
    "ch": 7,
    "cls": "c7"
@@ -2680,7 +2780,7 @@
    "no": "7.9",
    "title": "Emergency drills",
    "sub": "PPH · eclampsia · shoulder dystocia · cord prolapse · newborn",
-   "p": 331,
+   "p": 344,
    "id": "oem",
    "ch": 7,
    "cls": "c7"
@@ -2689,7 +2789,7 @@
    "no": "7.10",
    "title": "Instruments, drugs & spotters",
    "sub": "What it is · what it is used for · viva questions",
-   "p": 345,
+   "p": 358,
    "id": "osp",
    "ch": 7,
    "cls": "c7"
@@ -2698,7 +2798,7 @@
    "no": "7.11",
    "title": "Counselling stations",
    "sub": "Bad news · IUFD · heart disease · epilepsy · contraception",
-   "p": 351,
+   "p": 364,
    "id": "oco",
    "ch": 7,
    "cls": "c7"

@@ -1,34 +1,21 @@
 {
-"sc": [
-"Gush of fluid at 32 weeks, pool in posterior fornix → <b>PPROM: erythromycin, steroids, no VE</b>",
-"Term PROM, no labour after 24 hours → <b>Induce</b>",
-"Fever, tender uterus, offensive liquor, FHR 170 → <b>Chorioamnionitis: antibiotics and deliver</b>"
-],
+"lead": "Prelabour rupture of membranes is rupture before contractions start. At term (<b>PROM</b>) it is physiological; before 37 wk (<b>PPROM</b>) it is pathological and causes about 40% of preterm births. The two dangers are <b>infection</b> and <b>prematurity</b>.",
 "f": [
-[
-"Definitions",
-"PROM: rupture before labour <b>≥ 37 wk</b> · PPROM < 37 wk · prolonged > 24 h"
-],
-[
-"Diagnosis",
-"<b>Sterile speculum: pooling</b> · nitrazine (blue, pH 7–7.5) · ferning · no digital VE"
-],
-[
-"PPROM treatment",
-"<b>Erythromycin 250 mg 6-hourly for 10 days</b> · steroids < 34 wk · no tocolysis · deliver at <b>37 wk</b>"
-],
-[
-"Monitoring",
-"Temperature and pulse 4-hourly · CBC, CRP 2–3 times a week · CTG"
-],
-[
-"Chorioamnionitis",
-"Fever > 37.8 °C, tachycardia, tender uterus, fetal tachycardia · <b>ampicillin + gentamicin</b> · deliver at any gestation"
-],
-[
-"Complications",
-"Preterm birth, <b>cord prolapse</b>, infection, <b>pulmonary hypoplasia</b> (< 24 wk)"
+["Definitions and causes",
+"<b>PROM:</b> at 37 wk or more, 8–10% of term births · <b>PPROM:</b> before 37 wk, about 2% of pregnancies · <b>Prolonged ROM:</b> over 24 h before birth · Causes: <b>infection</b> (BV, GBS, UTI, STIs), previous PPROM, twins, polyhydramnios, cervical weakness, amniocentesis, APH, smoking"],
+["Diagnosis",
+"Sudden gush, then a slow leak, worse on standing · <b>Sterile speculum:</b> pool in the posterior fornix or leak on coughing (after lying 20–30 min) · <b>Nitrazine</b> turns blue (false positive with blood, semen, BV) · <b>Fern test</b> on a dried slide · Ultrasound: low AFI supports · Differential: urine (acidic), discharge, show; liquor is alkaline (pH 7–7.5)",
+{"tr": ["No digital VE unless she is in labour: each VE carries bacteria up"], "sc": ["32 wk, gush of clear fluid, no pains → <b>Sterile speculum; no digital VE</b>"]}],
+["Complications",
+"Mother: <b>chorioamnionitis</b> → sepsis, abruption, endometritis · Fetus: <b>prematurity (leading cause of death)</b>, sepsis, cord prolapse, lung hypoplasia (ROM before 24 wk)"],
+["Management of PPROM",
+"Admit at least 48–72 h · <b>Erythromycin 250 mg oral 6-hourly × 10 days</b> (or until labour) · Steroids 24–34 wk · MgSO₄ under 32 wk if birth expected within 24 h · <b>No tocolysis</b> (may hide infection) · Temperature, pulse, tenderness 4-hourly; FBC, CRP 2–3 times a week; daily CTG (FHR rising is an early sign) · <b>Deliver at 37 wk</b> if well; at once with infection, fetal distress or abruption",
+{"tr": ["No co-amoxiclav in PPROM: it raises necrotising enterocolitis"], "sc": ["PPROM 30 wk, FHR 175, fever → <b>IV antibiotics + deliver</b>"]}],
+["Term PROM",
+"About 75% labour within 24 h · Observations and CTG as for PPROM, no steroids · <b>Induce now</b> (oxytocin; prostaglandin if unfavourable) or <b>wait up to 24 h</b>, then induce · Induce at once with meconium, GBS or any sign of infection · <b>GBS prophylaxis</b> if positive, ROM over 24 h or preterm · High head or malpresentation: check the FHR for cord prolapse · CS only for obstetric reasons",
+{"sc": ["Term PROM 26 h, no labour → <b>Induce with oxytocin</b>", "Term PROM, GBS positive → <b>IV penicillin, induce now</b>"]}],
+["Chorioamnionitis",
+"Ascending infection of membranes, liquor and placenta (GBS, E. coli, anaerobes) · Mother: <b>fever over 37.8 °C</b>, tachycardia, uterine tenderness, offensive liquor · <b>Fetal tachycardia over 160</b>, often the first sign · Rising WBC and CRP; HVS and blood cultures · <b>Ampicillin + gentamicin + metronidazole IV</b>, continued after birth · <b>Deliver at any gestation</b>; CS only for obstetric reasons; no tocolysis; never wait for steroids · Complications: sepsis, PPH, endometritis; neonatal sepsis, meningitis, cerebral palsy",
+{"tr": ["Antibiotics alone cannot clear an infected uterus"], "sc": ["Chorioamnionitis at 28 wk → <b>IV antibiotics and deliver; do not wait for steroids</b>"]}]
 ]
-],
-"trap": "<b>Co-amoxiclav</b> in PPROM causes NEC · digital VE raises infection risk · term PROM: 75% labour within 24 h"
 }

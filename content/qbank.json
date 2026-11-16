@@ -6300,7 +6300,7 @@
      "Low forceps"
     ],
     "answer": 4,
-    "why": "Below 34 weeks ventouse is avoided because the soft skull bleeds (cephalhaematoma, subgaleal, brain bleeds); forceps are used. Caesarean is not needed with a low occipito-anterior head.",
+    "why": "Ventouse is contraindicated before 32 weeks and used with care at 32–36 weeks (RCOG) because the soft skull bleeds (cephalhaematoma, subgaleal, brain bleeds); forceps are used. Caesarean is not needed with a low occipito-anterior head.",
     "d": 3
    },
    {
@@ -6572,7 +6572,7 @@
      "Weekly CTG until spontaneous labour"
     ],
     "answer": 3,
-    "why": "Low-risk women with sure dates are offered induction at 41+3 weeks, which reduces stillbirth without raising caesarean sections. Waiting to 42 weeks raises perinatal death.",
+    "why": "Low-risk women with sure dates are offered induction from 41+0 weeks (NICE 2021; local units often at 41+3), which reduces stillbirth without raising caesarean sections. Waiting to 42 weeks raises perinatal death.",
     "d": 1
    },
    {
@@ -7099,7 +7099,7 @@
      "Await spontaneous labour and use oxytocin if slow"
     ],
     "answer": 3,
-    "why": "Vaginal breech needs estimated fetal weight 2.5–3.8 kg; a baby over 3.8 kg is delivered by elective caesarean at 39 weeks. A frank breech alone does not make vaginal delivery safe.",
+    "why": "Vaginal breech needs estimated fetal weight 2.0–3.8 kg (RCOG; locally often 2.5–3.8 kg); a baby over 3.8 kg is delivered by elective caesarean at 39 weeks. A frank breech alone does not make vaginal delivery safe.",
     "d": 2
    },
    {
@@ -7116,7 +7116,7 @@
      "Oxytocin augmentation then reassess"
     ],
     "answer": 3,
-    "why": "Advanced labour with criteria met (frank, 2.5–3.8 kg, flexed head) and skilled staff allows assisted vaginal breech. Total breech extraction is only for the second twin or acute distress at full dilatation.",
+    "why": "Advanced labour with criteria met (frank, 2.0–3.8 kg, flexed head) and skilled staff allows assisted vaginal breech. Total breech extraction is only for the second twin or acute distress at full dilatation.",
     "d": 3
    },
    {
@@ -10953,7 +10953,7 @@
      "No instrument; wait"
     ],
     "answer": 1,
-    "why": "Ventouse is avoided before 34 weeks; forceps can be used at any gestation.",
+    "why": "Ventouse is contraindicated before 32 weeks and used with care at 32–36 weeks (RCOG); forceps can be used at any gestation.",
     "d": 2
    },
    {

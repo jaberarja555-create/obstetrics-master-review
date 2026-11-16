@@ -644,6 +644,12 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   38/37; question mp-6 key changed to 37 weeks); SGA with normal Doppler born at 39 wk (RCOG 2024; local 37–38); ECV with oligohydramnios a relative
   contraindication. Matching flashcards, questions, content/rr cards and the Rapid Review pages were updated in place (the RR layout tool
   cards.js now asks for 49 pages instead of 25: not re-run; check it before using it again).
+- **Chapter 4 done (16 Nov 2026)** in the same design and flow (42 → 55 pages; nd_colours, list join, nd_labels, nd_figs; Rapid Review cards
+  nl ol ptl prom pp iol br mal rewritten as short topics; Rapid Review 73 → 80 pages). Corrections, local way as a note where it differs: breech
+  perinatal death 0.5 per 1000 (planned CS) vs 2 per 1000 (planned vaginal), was written as % (RCOG); vaginal breech EFW 2.0–3.8 kg (RCOG 2017;
+  local 2.5); induction for prolonged pregnancy from 41+0 wk (NICE 2021; local 41+3); third stage tone checks instead of routine massage (WHO);
+  cerclage removal 36–37 wk; ventouse contraindicated before 32 wk, care at 32–36 wk (RCOG); misoprostol for a live term fetus also 25 µg oral
+  2-hourly (WHO 2022 prefers oral); "in Sudan" → "locally". Matching flashcards and questions updated.
 - **Rapid Review as a short topic (owner, 16 Nov 2026: "not as detailed as the topic, not as short as now; like a summary for someone who
   knows the topic and has an exam coming; every exam point, as points"):** chapters 1–3 cards are `content/rr/<topic>.json` = {"lead": html,
   "f": [[section title, "fact · fact · …", {"sc": [...], "tr": [...]}], ...]}: sections follow the topic's own headings, one fact per line,

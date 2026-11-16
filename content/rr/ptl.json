@@ -1,34 +1,27 @@
 {
-"sc": [
-"Contractions at 30 weeks, cervix 2 cm → <b>Preterm labour: steroids, nifedipine, MgSO₄</b>",
-"Symptomatic woman, cervical length 12 mm → <b>High risk of birth within 7 days</b>",
-"Previous preterm birth, cervix 20 mm at 20 weeks → <b>Cerclage or vaginal progesterone</b>"
-],
+"lead": "Preterm labour is regular contractions with <b>cervical change</b> after 24 wk and before 37 completed weeks. It affects about 10% of births and is the <b>leading cause of perinatal death and handicap</b>. Management buys time for steroids and transfer, then plans a safe birth.",
 "f": [
-[
-"Definition",
-"Labour from <b>24 to < 37 wk</b> · threatened: contractions without cervical change"
-],
-[
-"Causes",
-"<b>Infection</b> (commonest proven) · previous preterm birth (<b>strongest risk</b>) · twins, polyhydramnios · cervical weakness · APH"
-],
-[
-"Prediction",
-"<b>Fetal fibronectin</b> negative → birth unlikely in 7–14 d · cervix <b>≤ 15 mm</b> symptomatic"
-],
-[
-"Steroids",
-"<b>24–34 wk</b>: dexamethasone <b>6 mg × 4</b> (12-hourly) or betamethasone 12 mg × 2 (24 h)"
-],
-[
-"Tocolysis",
-"<b>Nifedipine</b> first line, only <b>48 h</b> (time for steroids) · indomethacin < 32 wk · MgSO₄ < 32 wk for <b>neuroprotection</b>"
-],
-[
-"Delivery",
-"Below 34 wk no <b>ventouse</b> (forceps if needed) · history-indicated cerclage 12–14 wk, removed at 37 wk"
+["Classification and causes",
+"Extremely preterm 24–27⁺⁶ · very 28–31⁺⁶ · mild 32–36⁺⁶ wk · About a third each: after PPROM, spontaneous with intact membranes, iatrogenic · <b>Threatened:</b> contractions, cervix unchanged · <b>Established:</b> progressive dilatation · Four pathways: <b>infection (commonest proven)</b>, bleeding, over-distension, cervical weakness · Risks: <b>previous preterm birth</b>, twins, polyhydramnios, uterine anomaly, cone biopsy, pyelonephritis, malaria, APH, age under 17 or over 35, short interval, smoking"],
+["Features and diagnosis",
+"Regular pains, backache, pelvic pressure, show, fluid, bleeding · The diagnosis is clinical; <b>progressive cervical change is the proof</b> · Sterile speculum first; digital VE only with intact membranes and praevia excluded · <b>Fetal fibronectin</b> negative: birth unlikely in 7–14 days · <b>TV cervical length:</b> over 15 mm labour unlikely; 15 mm or less birth likely within 7 days · Scan, CTG, HVS, urine culture, FBC, CRP · Differential: Braxton Hicks, pyelonephritis, red degeneration, abruption, appendicitis",
+{"tr": ["Contractions alone are not preterm labour: without cervical change most do not deliver"], "sc": ["31 wk, tightenings, fFN negative → <b>Birth unlikely in 7–14 days: no tocolysis</b>"]}],
+["Complications of prematurity",
+"<b>RDS</b> (no surfactant): the commonest neonatal problem · Apnoea, chronic lung disease, PDA · <b>IVH</b>, periventricular leukomalacia → cerebral palsy · <b>NEC</b>, feeding problems, sepsis · Hypothermia, hypoglycaemia, jaundice · Retinopathy of prematurity, deafness",
+{"sc": ["Preterm baby with bloody stools and distension → <b>NEC</b>"]}],
+["Management by gestation",
+"Admit, confirm gestation, assess the fetus, tell parents and the neonatal team · <b>Under 24 wk:</b> counsel, comfort care, no steroids or tocolysis · <b>24–33⁺⁶ wk:</b> steroids, nifedipine 48 h, GBS cover, MgSO₄ under 32 wk, transfer to a unit with NICU · <b>34 wk or more:</b> no tocolysis, no steroids, let labour go on",
+{"sc": ["Preterm labour at 30 wk with fever and a tender uterus → <b>No tocolysis: deliver</b>", "Preterm labour at 35 wk → <b>No tocolysis, no steroids</b>"]}],
+["Corticosteroids and tocolysis",
+"<b>Steroids 24–34 wk:</b> dexamethasone 6 mg IM 12-hourly × 4 or betamethasone 12 mg IM × 2, 24 h apart · Work after 24 h, best at 2–7 days; reduce RDS, IVH, NEC, death · One course; raise insulin in diabetics; double the dose with enzyme inducers · <b>Tocolysis 24–34 wk for 48 h</b> only: buys time for steroids and transfer · <b>Nifedipine</b> first line (30 mg oral, then 20 mg 8-hourly; never sublingual) · Atosiban: fewest side effects, costly · <b>Indomethacin</b> under 32 wk only (ductus closure, oligohydramnios) · β-agonists: tachycardia, pulmonary oedema; not with heart disease or diabetes · Never two tocolytics",
+{"tr": ["No tocolysis with chorioamnionitis, fetal distress, IUFD, heavy APH, severe pre-eclampsia, advanced labour or over 34 wk"], "sc": ["Preterm labour with mitral stenosis → <b>Nifedipine, not salbutamol</b>"]}],
+["Magnesium sulphate for neuroprotection",
+"<b>Under 32 wk</b> when birth is expected within 24 h (also planned early birth) · <b>4 g IV over 20 min, then 1 g/h</b> until birth or 24 h · Reduces cerebral palsy by about one third · Toxicity: lost reflexes, slow breathing → stop, calcium gluconate 10% 10 mL IV"],
+["Intrapartum care",
+"Deliver where there is a neonatal unit; <b>in-utero transfer</b> is safer · <b>GBS prophylaxis</b> if positive or unknown: benzylpenicillin 3 g IV, then 1.8 g 4-hourly; not if the swab is negative · Continuous CTG once viable · Vaginal for cephalic; preterm breech often by CS · Forceps if needed; <b>no ventouse before 32 wk</b>, care at 32–36 wk · Delay cord clamping 1 min if well · Antibiotics with intact membranes only for GBS, UTI or BV",
+{"sc": ["Preterm 32 wk, delay in the second stage → <b>Forceps, not ventouse</b>"]}],
+["Prevention",
+"<b>History-indicated cerclage at 12–14 wk</b> after 3 or more mid-trimester losses or preterm births · 1–2 losses: TV cervical length every 2 wk at 16–24 wk; <b>under 25 mm: cerclage or vaginal progesterone</b> (200 mg nightly to 34 wk) · Emergency (rescue) cerclage for painless dilatation without infection · McDonald (simple) or Shirodkar (higher) · Remove at <b>36–37 wk</b>, or at once with labour, ROM, APH or IUFD · Treat BV, bacteriuria, malaria; stop smoking; space pregnancies",
+{"sc": ["One previous birth at 30 wk; now 20 wk, cervix 18 mm → <b>Cerclage or vaginal progesterone</b>"]}]
 ]
-],
-"trap": "Tocolysis gives <b>48 hours</b>, not term · indomethacin after 32 wk closes the <b>ductus</b> · RDS is the commonest neonatal problem"
 }

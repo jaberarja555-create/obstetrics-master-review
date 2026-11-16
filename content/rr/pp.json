@@ -1,34 +1,19 @@
 {
-"sc": [
-"Pregnancy reaches 42 weeks by an early scan → <b>Post-term: induce</b>",
-"Pregnant at 41⁺³ weeks, cervix favourable → <b>Offer induction of labour</b>",
-"Post-term baby with peeling skin, long nails, alert look → <b>Postmaturity syndrome</b>"
-],
+"lead": "A prolonged (post-term) pregnancy reaches <b>42+0 wk</b> (294 days) or more. The commonest reason a pregnancy only looks post-term is <b>wrong dates</b>. Risks rise after 41 wk, so every woman needs a plan before 42 wk.",
 "f": [
-[
-"Definitions",
-"<b>Post-term ≥ 42⁺⁰ wk</b> (294 d) · post-date: past the EDD, < 42 wk"
-],
-[
-"Causes",
-"<b>Wrong dates</b> commonest · previous post-term (30%) · anencephaly · primigravida, obesity"
-],
-[
-"Risks",
-"Stillbirth and intrapartum death ↑ · <b>meconium</b> aspiration · macrosomia, shoulder dystocia · oligohydramnios · <b>polycythaemia</b>"
-],
-[
-"Management",
-"<b>Membrane sweep</b> at 40–41 wk · <b>induce at 41⁺³ wk</b> (to 42 wk)"
-],
-[
-"Declines induction",
-"<b>CTG + liquor (DVP) twice a week</b> · DVP < 2 cm → induce"
-],
-[
-"Labour",
-"Continuous CTG · thick meconium + abnormal CTG → <b>CS</b>"
+["Definitions and dating",
+"<b>Post-date:</b> past the EDD but under 42 wk · <b>Postmaturity</b> describes the baby, not the weeks · 5–10% reach 42 wk (under 5% with early scan dating) · Recurs in about 30% · <b>CRL at 11–14 wk ± 5 days</b> is the best dating; scan and LMP differ by over 5 days: use the scan · <b>Never re-date from a late scan</b>",
+{"sc": ["Booked at 30 wk, '42 wk' by LMP, irregular cycles → <b>Confirm gestational age first</b>"]}],
+["Causes and pathophysiology",
+"Usually unknown · Previous post-term pregnancy, primigravida, obesity, male fetus · <b>Low fetal cortisol:</b> anencephaly, adrenal hypoplasia, placental sulphatase deficiency · Failing placenta: fetal distress, <b>oligohydramnios</b>, cord compression, meconium · Good placenta: <b>macrosomia</b>, shoulder dystocia"],
+["Clinical features and complications",
+"Often none · <b>Postmaturity syndrome</b> (about 20%): long thin baby, peeling skin, long nails, no vernix, meconium staining · Fetal: <b>stillbirth</b> (intrapartum death 4 times after 42 wk), distress, oligohydramnios, meconium aspiration, macrosomia · Neonatal: hypoglycaemia, hypothermia, <b>polycythaemia</b> · Maternal: more induction, instrumental birth, CS, tears, PPH",
+{"sc": ["Peeling skin and long nails at 42 wk → <b>Postmaturity syndrome</b>; the same at 37 wk → <b>FGR</b>"]}],
+["Antenatal management",
+"Confirm dates; deliver earlier with PE, diabetes, FGR or APH · <b>Membrane sweep at 40–41 wk</b> (not with praevia or after ROM) · <b>Offer induction from 41+0 wk</b> (NICE 2021); local units often at 41+3 · Fewer stillbirths, <b>no rise in caesareans</b> · Declines: <b>CTG + deepest pool twice a week</b>, kick count · <b>Induce now</b> with low liquor (deepest pool under 2 cm), reduced movements, poor growth, abnormal CTG",
+{"sc": ["41+4 wk, declined induction, deepest pool 1.5 cm → <b>Induce now</b>"]}],
+["Intrapartum care",
+"Continuous CTG · Early ARM to see the liquor · Meconium + abnormal CTG → CS · Ready for shoulder dystocia · Neonatal team; active third stage",
+{"tr": ["Suctioning the mouth on the perineum to prevent meconium aspiration is not done"]}]
 ]
-],
-"trap": "Early <b>CRL dating</b> prevents most \"post-term\" · recurrence ≈ 30% · a sweep brings labour in about 30% within 7 days"
 }

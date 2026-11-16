@@ -1,34 +1,26 @@
 {
-"sc": [
-"Hard round ballotable head in the fundus at 36 weeks → <b>Breech: offer ECV</b>",
-"Footling breech in labour → <b>CS (cord prolapse risk 15%)</b>",
-"Aftercoming head stuck → <b>Mauriceau–Smellie–Veit, then Piper forceps</b>"
-],
+"lead": "Breech is a longitudinal lie with the <b>buttocks or feet presenting</b> and the head in the fundus; the denominator is the sacrum. It is the commonest malpresentation: 25% before 28 wk but <b>3–4% at term</b>. The danger is the <b>aftercoming head</b>.",
 "f": [
-[
-"Facts",
-"<b>3–4%</b> at term · frank (65%), complete (25%), footling (10%) · commonest association <b>prematurity</b>"
-],
-[
-"Diagnosis",
-"Head in fundus, FHS above umbilicus · PV: anus and ischial tuberosities in line · <b>scan at 36 wk</b>"
-],
-[
-"ECV",
-"At <b>36–37 wk</b> · success ≈ 50% · <b>terbutaline 0.25 mg SC</b> · Rh-negative: anti-D 500 IU · contraindicated: APH, ROM, oligohydramnios, previous CS (relative)"
-],
-[
-"Elective CS",
-"<b>39 wk</b> · footling, star-gazing head, EFW > 3.8 kg, praevia, choice"
-],
-[
-"Vaginal breech",
-"Hands off · legs: <b>Pinard</b> · arms: <b>Løvset</b> · head: <b>Mauriceau–Smellie–Veit</b> · Burns–Marshall"
-],
-[
-"Baby",
-"Hip ultrasound at 6 wk (DDH)"
+["Definitions",
+"<b>Lie:</b> long axis (longitudinal, transverse, oblique) · <b>Presentation:</b> lowest part · <b>Attitude:</b> flexion or extension · <b>Denominator:</b> occiput, sacrum, mentum, acromion · <b>Malpresentation:</b> not vertex (breech, face, brow, shoulder) · <b>Malposition:</b> vertex with the occiput not anterior (OT, OP)",
+{"tr": ["OP is a malposition, not a malpresentation"]}],
+["Types and causes",
+"<b>Frank 65%</b> (hips flexed, knees extended; commonest in primigravidae) · <b>Complete 25%</b> (hips and knees flexed) · <b>Footling 10%</b> (highest cord prolapse risk) · Causes: idiopathic; <b>prematurity</b> (commonest association); uterine anomaly, fibroid; poly- or oligohydramnios; praevia, cornual placenta; twins, hydrocephalus, anencephaly; contracted pelvis; lax multiparous uterus",
+{"sc": ["Breech in 3 pregnancies in a row → <b>Uterine anomaly</b>"]}],
+["Diagnosis",
+"Discomfort under the ribs; kicks felt low · <b>Hard ballotable head in the fundus</b>; FHS at or above the umbilicus · VE: ischial tuberosities and anus in one line, sacrum, genitalia, feet, meconium on the glove · <b>Ultrasound:</b> type, EFW, head flexion, placenta, liquor, anomalies (2–3 times more common) · About 30% found only in labour · Face vs breech: face has gums and a triangle of mouth and malar bones",
+{"sc": ["Thick meconium in a breech in the second stage → <b>Often normal (compressed bowel)</b>"]}],
+["Complications",
+"Fetal: <b>cord prolapse</b> (footling 15%, complete 5%, frank 0.5%), trapped aftercoming head, intracranial bleed, fractures, Erb palsy, liver and adrenal tears, higher perinatal death · Maternal: CS risks, tears, PPH, a scar for next time",
+{"tr": ["The body can slip through a cervix that is not fully dilated (preterm, footling); the bigger head is then trapped"]}],
+["External cephalic version",
+"Offer at <b>36 wk primigravida, 37 wk multipara</b> · Labour ward with theatre; scan, CTG, <b>terbutaline 0.25 mg SC</b> · Forward roll, no force · After: CTG 30 min; <b>anti-D 500 IU + Kleihauer</b> if RhD-negative · Success about <b>50%</b> (40% primi, 60% multi) · Contraindicated: praevia, APH, twins, CS needed anyway, ruptured membranes, severe oligohydramnios, fetal compromise · Complications: transient FHR slowing, abruption, cord accident, feto-maternal bleed · Knee-chest position does not work",
+{"sc": ["Primigravida, breech at 37 wk, normal liquor → <b>ECV</b>", "Bleeding and FHR 80 after ECV → <b>Abruption: emergency CS</b>"]}],
+["Choosing the route",
+"<b>Assisted vaginal breech:</b> frank or complete, <b>EFW 2.0–3.8 kg</b> (RCOG; local units often 2.5 kg), flexed head, no FGR or other problem, adequate pelvis, skilled staff · <b>Elective CS at 39 wk:</b> footling, EFW over 3.8 or under 2.0 kg, <b>star-gazing head</b>, other CS indication, her choice, first twin breech · Perinatal death about <b>0.5 per 1000 with planned CS vs 2 per 1000</b> with planned vaginal breech (RCOG) · In labour: criteria not met or early labour → CS · Preterm breech: CS often chosen; steroids, MgSO₄",
+{"sc": ["Breech with a star-gazing head on scan → <b>Caesarean</b>"]}],
+["Vaginal breech delivery",
+"Continuous CTG, paediatrician, no early ARM; slow progress = CS, not oxytocin · <b>Hands off</b>: push from above, never pull from below · Umbilicus to head in about 4 min; head delivered slowly · <b>Pinard</b> for extended legs · <b>Løvset</b> for extended arms · <b>Mauriceau-Smellie-Veit</b> for the head (first choice) · <b>Piper forceps</b> when MSV fails · Breech extraction only for the second twin or acute distress at full dilatation · After: check clavicle, humerus, femur, Erb palsy; <b>hip check for DDH</b>",
+{"sc": ["Arms extended above the head → <b>Løvset manoeuvre</b>", "Arm cannot move after a breech birth → <b>Erb palsy or fractured humerus/clavicle</b>"]}]
 ]
-],
-"trap": "<b>Never pull</b> on the breech · umbilicus to head should take < 4 min · footling breech has the highest cord prolapse risk"
 }

@@ -1,34 +1,22 @@
 {
-"sc": [
-"Backache, early urge to push, flat lower abdomen → <b>Occipito-posterior position</b>",
-"Head arrested at the spines with the sagittal suture transverse → <b>Deep transverse arrest: rotate or CS</b>",
-"Persistent brow presentation in labour → <b>Caesarean section</b>"
-],
+"lead": "A malposition is a vertex with the occiput not anterior; a malpresentation is any presentation other than the vertex. The <b>presenting diameter</b> decides whether the head can pass: well-flexed vertex 9.5 cm, deflexed OP 11.5 cm, <b>brow 13.5 cm</b>, fully extended face 9.5 cm.",
 "f": [
-[
-"Diameters",
-"Flexed vertex <b>SOB 9.5</b> · deflexed OP <b>OF 11.5</b> · brow <b>MV 13.5</b> · face <b>SMB 9.5</b>"
-],
-[
-"OP position",
-"25% in early labour · <b>90% rotate forward</b> (long rotation) · persistent OP: face to pubis · rotation (Kielland/manual/ventouse) or CS"
-],
-[
-"Face",
-"Mento-anterior: vaginal birth · <b>mento-posterior persistent: CS</b> · never ventouse · rule out <b>anencephaly</b>"
-],
-[
-"Brow",
-"Commonest <b>largest</b> diameter · persistent → <b>CS</b>"
-],
-[
-"Transverse lie",
-"Cause: <b>multiparity</b>, praevia, polyhydramnios · unstable lie at 37 wk: <b>admit</b> · in labour: <b>CS</b>"
-],
-[
-"Compound",
-"Hand beside the head: <b>leave it</b>"
+["Occipito-posterior position",
+"Occiput posterior; about 25% in early labour, ROP commoner · Android or anthropoid pelvis, deflexed head, anterior placenta · <b>Backache</b>, long labour, <b>early urge to push</b>, early ROM, swollen anterior lip · Flat lower abdomen, limbs in front; <b>anterior fontanelle felt in front</b> on VE · Presenting diameter <b>occipito-frontal 11.5 cm</b>",
+{"sc": ["Primigravida, 6 cm, severe backache, wants to push early → <b>Occipito-posterior</b>"]}],
+["OP: outcome and management",
+"<b>Long anterior rotation about 90%</b>: delivers as OA · Short posterior rotation about 6%: <b>face to pubis</b>, born by flexion, episiotomy · About 4% no full rotation: <b>deep transverse arrest</b> (sagittal suture transverse at the spines, no descent) → manual rotation, Kielland or ventouse if skilled, else CS · Oxytocin only for weak contractions without CPD · Complications: prolonged labour, third-degree tear, PPH"],
+["Face and brow",
+"<b>Face:</b> fully extended, denominator <b>mentum</b>, about 1 in 500, submento-bregmatic 9.5 cm; feel mouth with gums, nose, malar bones · <b>Brow:</b> midway, about 1 in 2000, <b>mento-vertical 13.5 cm</b>; feel anterior fontanelle, orbital ridges, no chin · Causes: <b>anencephaly</b>, neck mass, cord coils, multiparity, contracted pelvis, polyhydramnios, prematurity · Head high with a deep groove between head and back",
+{"sc": ["Anterior fontanelle, orbital ridges, no chin → <b>Brow: caesarean</b>"]}],
+["Face and brow: management",
+"<b>Mento-anterior face:</b> vaginal birth by flexion under the pubis; low forceps allowed · <b>Mento-posterior:</b> about two thirds rotate; <b>persistent MP → CS</b> · Face: <b>no ventouse</b>, scalp electrode or FBS · <b>Persistent brow → CS</b>; no forceps, ventouse or oxytocin · Facial bruising and oedema fade in days",
+{"tr": ["Ventouse is never used on a face"], "sc": ["Face, chin at the sacrum, no progress → <b>Caesarean</b>"]}],
+["Transverse, oblique and unstable lie",
+"Transverse lie presents by the shoulder (acromion); about 1 in 300 at term · Unstable lie keeps changing after 36 wk · Causes: <b>multiparity with a lax uterus</b> (commonest), polyhydramnios, prematurity, twins, praevia, pelvic tumour, uterine anomaly · Wide uterus, fundus below dates, empty pelvis, FHS near the umbilicus · Neglected shoulder: ROM → arm or cord prolapse → obstruction → <b>rupture</b>, death, fistula",
+{"sc": ["Wide uterus, fundus less than dates, empty pelvis → <b>Transverse lie</b>"]}],
+["Abnormal lie: management",
+"<b>Admit from 37 wk</b> so a CS is ready · ECV from 37 wk; stable transverse lie → <b>elective CS at 39 wk</b> · Early labour, membranes intact: ECV then ARM, otherwise CS · <b>Neglected shoulder: caesarean even if the fetus is dead</b> (vertical incision if needed) · Second twin transverse: ECV or internal podalic version + breech extraction · <b>Compound presentation</b> (hand by the head): leave it, it usually retracts; arrest or cord prolapse → CS",
+{"sc": ["Multipara at term in labour, transverse lie, ROM → <b>Caesarean</b>", "Arm out, dead fetus, obstructed → <b>Caesarean, not traction</b>"]}]
 ]
-],
-"trap": "<b>Ventouse is never</b> used for face presentation · a transverse lie in labour with ROM risks <b>cord/arm prolapse</b> · brow does not deliver vaginally at term"
 }
