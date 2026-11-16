@@ -2215,42 +2215,60 @@ section[data-file^="x9"] .frow .ans{background:none;color:#172e48;font-weight:75
 .bk mark.uhl.dk.n{background:rgba(253,224,71,.3)}
 .bk mark.uhl.dk *{color:inherit}
 
-/* ===== new design, chapter by chapter (owner, 16 Nov 2026: "start Obstetrics chapter 1 in the new design", as in Surgery; 12 pt text).
-   Pages of a rebuilt chapter carry class "nd". One text size (12 pt; the page fill changes only spacing), numbered section titles as a
-   chapter-colour tab with an arrow point and a serif title on a fading tint, open sections (no card frame), boxes with a sign before
-   their title, and «Local practice» notes (box loc) beside a guideline. ===== */
+/* ===== new design, chapter by chapter (owner, 16 Nov 2026; second pass the same day: "the design is poor, space left for nothing, box
+   shape and text place are bad"). Pages of a rebuilt chapter carry class "nd": 12 pt text everywhere; numbered section titles as a chapter-
+   colour tab with an arrow point and a serif title; every box full width with a coloured title band across its top and the text under it
+   (as the Surgery callouts); fixed, even gaps between blocks (the page fill adds no extra gaps on these pages). ===== */
 @font-face{font-family:'NB Serif';font-weight:400 800;font-display:block;src:url(fonts/sourceserif4-latin.woff2) format('woff2')}
+.page.mz.nd .mzm > .blk > .mrow,.page.mz.nd .mzm > .blk > .xrow{margin-bottom:16px!important}
+.page.mz.nd.fill .mzm > .blk > .mrow,.page.mz.nd.fill .mzm > .blk > .xrow{margin-bottom:calc(16px + var(--fgap,0px))!important}
 .page.mz.nd .mb{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;overflow:visible}
-.page.mz.nd .mb .mh{display:flex;align-items:center;gap:12px;margin:2px 0 4px;padding:0 10px 0 0;background:linear-gradient(90deg,var(--ch-tint-2),rgba(255,255,255,0) 78%)!important;
+.page.mz.nd .mb .mh{display:flex;align-items:center;gap:12px;margin:0 0 6px;padding:0 10px 0 0;background:linear-gradient(90deg,var(--ch-tint-2),rgba(255,255,255,0) 78%)!important;
   color:var(--ch-dark)!important;font:700 16pt/1.25 'NB Serif',Georgia,serif!important;text-transform:none!important;letter-spacing:0!important;border:0!important;
   border-bottom:1.5px solid var(--ch-line)!important;border-radius:9px 0 0 0;opacity:1!important}
-.page.mz.nd .mb .mh .mhn{flex:none;align-self:stretch;display:flex;align-items:center;padding:4px 20px 4px 12px;background:var(--ch);color:#fff;
+.page.mz.nd .mb .mh .mhn{flex:none;align-self:stretch;display:flex;align-items:center;padding:5px 20px 5px 12px;background:var(--ch);color:#fff;
   font:800 12.5pt/1 'Inter',sans-serif;border-radius:9px 0 0 0;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 50%,calc(100% - 10px) 100%,0 100%)}
 .page.mz.nd .mb .mh.mhc{font-size:13pt!important;padding:2px 10px!important;opacity:.9!important}
-.page.mz.nd .mb .mc,.page.mz.nd.fill .mb:not(.rv) .mc{font-size:12pt!important;line-height:calc(1.5 + min(var(--ft,0),3)*.05)!important;padding:8px 2px calc(6px + var(--ft,0)*3px)!important}
-.page.mz.nd .mc p{margin:0 0 calc(7px + var(--ft,0)*2px)}
-.page.mz.nd .mc li{margin-bottom:calc(4px + var(--ft,0)*1.5px)}
-.page.mz.nd table.t,.page.mz.nd.fill .mb:not(.rv) .mc table.t{font-size:11.5pt!important}
-.page.mz.nd table.t td{padding:calc(6px + var(--ft,0)*1.5px) 9px!important;line-height:1.45}
+.page.mz.nd .mb .mc,.page.mz.nd.fill .mb:not(.rv) .mc{font-size:12pt!important;line-height:calc(1.5 + min(var(--ft,0),2.2)*.06)!important;padding:4px 0 0!important}
+.page.mz.nd .mc > *:last-child{margin-bottom:0!important}
+.page.mz.nd .mc p{margin:0 0 calc(8px + var(--ft,0)*3px)}
+.page.mz.nd .mc li{margin-bottom:calc(4px + var(--ft,0)*2px)}
+.page.mz.nd table.t,.page.mz.nd.fill .mb:not(.rv) .mc table.t{font-size:11.5pt!important;margin:6px 0 10px!important}
+.page.mz.nd table.t td{padding:calc(6px + var(--ft,0)*2px) 9px!important;line-height:1.45}
 .page.mz.nd table.t th{font:800 10.5pt/1.3 'Inter',sans-serif!important;letter-spacing:.2px!important;text-transform:none!important;padding:7px 9px!important}
-.page.mz.nd table.t td.hl{font-weight:700;color:var(--ch-dark)}
-.page.mz.nd .box{font-size:11.5pt!important;line-height:1.5;padding:calc(9px + var(--ft,0)*1.5px) 13px!important;border-radius:10px!important;margin:9px 0!important}
-.page.mz.nd .box .bh{font:800 10pt/1.4 'Inter',sans-serif!important;letter-spacing:.6px!important;padding:3px 11px!important;border-radius:6px!important;margin-bottom:7px!important}
+/* side-by-side boxes are stacked at full width (no tall empty half next to a long box) */
+.page.mz.nd .xrow,.page.mz.nd .two{display:flex!important;flex-direction:column!important;gap:12px!important;grid-template-columns:none!important}
+.page.mz.nd .xrow > *,.page.mz.nd .two > *{width:auto!important;max-width:none!important;flex:none!important;margin:0!important}
+/* boxes: a coloured title band across the top, the text under it */
+.page.mz.nd .box{--bx:var(--ch);--bxt:var(--ch-tint-2);position:relative;background:#fff!important;border:1px solid color-mix(in srgb,var(--bx) 30%,#fff)!important;border-left:1px solid color-mix(in srgb,var(--bx) 30%,#fff)!important;
+  border-radius:10px!important;padding:0 14px calc(10px + var(--ft,0)*3px)!important;margin:0!important;font-size:11.5pt!important;line-height:1.5;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.page.mz.nd .mc .box{margin:10px 0!important}
+.page.mz.nd .box > .bh{display:block!important;margin:0 -14px 9px!important;padding:7px 14px!important;border-radius:0!important;background:linear-gradient(90deg,var(--bxt),#fff)!important;
+  color:var(--bx)!important;font:800 10.5pt/1.35 'Inter',sans-serif!important;letter-spacing:.5px!important;text-transform:uppercase;border-bottom:1px solid color-mix(in srgb,var(--bx) 22%,#fff)}
+.page.mz.nd .box p,.page.mz.nd .box li{color:#1f2421!important}
+.page.mz.nd .box.case{--bx:#b42318;--bxt:#fdecea}.page.mz.nd .box.pic{--bx:#15803d;--bxt:#e7f6ec}.page.mz.nd .box.dif{--bx:#6d28d9;--bxt:#f1ebfd}
+.page.mz.nd .box.guide{--bx:#1d4ed8;--bxt:#e8eefc}.page.mz.nd .box.trap,.page.mz.nd .box.caution{--bx:#c2410c;--bxt:#fdefe5}
+.page.mz.nd .box.core,.page.mz.nd .box.key,.page.mz.nd .box.next{--bx:var(--ch-dark);--bxt:var(--ch-tint-2)}
 .page.mz.nd .box.case .bh::before{content:"🩺 "}.page.mz.nd .box.pic .bh::before{content:"🖼️ "}.page.mz.nd .box.dif .bh::before{content:"🔍 "}
 .page.mz.nd .box.trap .bh::before{content:"⚠️ "}.page.mz.nd .box.guide .bh::before{content:"📋 "}.page.mz.nd .box.core .bh::before{content:"🔑 "}
 .page.mz.nd .box.key .bh::before{content:"🎯 "}.page.mz.nd .box.next .bh::before{content:"👉 "}
-.page.mz.nd .box.dif .r{font-size:11.2pt!important;padding:5px 0!important}
-.page.mz.nd .box.case .qa{font-size:11.5pt!important}
-.page.mz.nd .box.pic .eq{font-size:11pt!important}.page.mz.nd .box.pic .eq .c{padding:2px 10px}
+.page.mz.nd .box.dif .r{font-size:11.2pt!important;padding:5px 0!important;border-bottom-color:color-mix(in srgb,var(--bx) 18%,#fff)!important}
+.page.mz.nd .box.dif .r .to,.page.mz.nd .box.dif .r .to::before{color:#4c1d95!important}
+.page.mz.nd .box.dif .rs{grid-template-columns:1fr!important}
+.page.mz.nd .box.case .qa{font-size:11.5pt!important;border-bottom-color:#f6d5d1!important}
+.page.mz.nd .box.case .qa .a,.page.mz.nd .box.case .qa .a::before{color:#912018!important}
+.page.mz.nd .box.pic .eq{font-size:11pt!important}.page.mz.nd .box.pic .eq .c{padding:2px 10px;border-color:#bfe3cb!important}
+.page.mz.nd .box.pic .eq .p{color:#15803d!important}.page.mz.nd .box.pic .eq .ans{background:#15803d!important;color:#fff!important}
+.page.mz.nd .box.pic > b,.page.mz.nd .box.pic .fl > b{color:#14532d!important}
 .page.mz.nd .cap,.page.mz.nd .fig .cap{font-size:10.5pt!important;line-height:1.45!important}
-/* «Local practice»: where a guideline is now in the text, the local way stays beside it (owner, 16 Nov 2026) */
-.page.mz .box.loc{background:#f2f8f4!important;border-left:4px solid #2e7d4f!important;border-radius:10px;padding:8px 12px;margin:9px 0}
-.page.mz .box.loc .bh{display:inline-block;background:#2e7d4f!important;color:#fff!important;font:800 9.6pt/1.4 'Inter',sans-serif;letter-spacing:.5px;text-transform:uppercase;padding:2px 10px;border-radius:5px;margin-bottom:5px}
-.page.mz .box.loc .bh::before{content:"🏥 "}
+/* «Local practice»: where a guideline is now in the text, the local way stays with it (owner, 16 Nov 2026) */
+.page.mz .box.loc{background:#f2f8f4!important;border-left:4px solid #1f7a5a!important;border-radius:10px;padding:8px 12px;margin:9px 0}
+.page.mz .box.loc .bh{display:inline-block;background:#1f7a5a!important;color:#fff!important;font:800 9.6pt/1.4 'Inter',sans-serif;letter-spacing:.5px;text-transform:uppercase;padding:2px 10px;border-radius:5px;margin-bottom:5px}
+.page.mz .box.loc .bh::before,.page.mz.nd .box .box.loc .bh::before{content:"🏥 "}
 .page.mz .box.loc p{margin:0;color:#1e3b2a}
-.page.mz.nd .box.loc{font-size:11.2pt!important}
-.page.mz .box .box.loc{margin:10px 0 0;background:#fff!important}
-.page.mz.nd .box .box.loc .bh::before,.page.mz.nd .box.loc .bh::before{content:"🏥 "}
+.page.mz.nd .box.loc{--bx:#1f7a5a;--bxt:#e3f2ea;font-size:11.2pt!important;background:#fff!important;border:1px solid #b9dcc8!important;padding:0 14px 10px!important}
+.page.mz.nd .box .box.loc{margin:10px 0 2px!important;box-shadow:none}
+.page.mz.nd .box.loc > .bh{display:block!important}
 </style>
 
 </head><body><div class="app" id="app">
@@ -2765,10 +2783,10 @@ function fillPage(sec,again){var pf=sec&&sec.getAttribute('data-fl');if(pf!=null
   var f0=free();if(f0<80)return;
   function set(t){sec.style.setProperty('--ft',t.toFixed(3))}
   /* owner: spare room goes INTO the boxes (padding, line spacing, rows); text grows at most ~8 %; what is still left is shared between the boxes */
-  sec.classList.add('fill');var lo=0,hi=3.2;set(hi);var fh=free();
+  sec.classList.add('fill');var ND=sec.classList.contains('nd'),lo=0,hi=ND?2.2:3.2;set(hi);var fh=free();
   /* interpolation instead of 8 halvings: every try lays the page out again (speed, 12 Nov 2026) */
   if(fh<50){for(var k=0;k<5&&hi-lo>.02;k++){var mid=lo+(hi-lo)*Math.min(.93,Math.max(.07,(f0-52)/((f0-fh)||1)));set(mid);var fm=free();if(fm>=50){lo=mid;f0=fm;if(fm<56)break}else{hi=mid;fh=fm}}set(lo);fh=f0}
-  var left=fh-50,n=m.querySelectorAll(':scope > .blk').length-1;if(left>8&&n>0){var g=Math.min(44,left/n);function sg(v){sec.style.setProperty('--fgap',v.toFixed(1)+'px')}sg(g);for(var j=0;j<12&&g>0;j++){var fr2=free();if(fr2>=50)break;g=Math.max(0,g-Math.max(1,(50-fr2)/n));sg(g)}}}
+  var left=fh-50,n=m.querySelectorAll(':scope > .blk').length-1;if(left>8&&n>0){var g=Math.min(ND?24:44,left/n);function sg(v){sec.style.setProperty('--fgap',v.toFixed(1)+'px')}sg(g);for(var j=0;j<12&&g>0;j++){var fr2=free();if(fr2>=50)break;g=Math.max(0,g-Math.max(1,(50-fr2)/n));sg(g)}}}
 window.fillPage=fillPage;
 /* for tools/fill.js: measure every page with the code above and give back {page hash: spacing} */
 window.__fillDump=function(){window.__flm=1;goIdx(0);var out={};for(var i=0;i<wraps.length;i++){if(PAGES[i].user)continue;renderPage(i,1);var sec=wraps[i].querySelector('section.page'),h=sec&&sec.getAttribute('data-h');if(!h)continue;
