@@ -2246,6 +2246,10 @@ section[data-file^="x9"] .frow .ans{background:none;color:#172e48;font-weight:75
 .page.mz.nd .mc .two > .box,.page.mz.nd .mc .xrow > .box,.page.mz.nd .xrow > .box{margin:0!important}
 /* owner, 16 Nov 2026: "some box has bad colours" — ladders in graded tints of the chapter colour, black text */
 .page.mz.nd .ladder .st{background:color-mix(in srgb,var(--ch) 10%,#fff)!important;color:#000!important}
+/* owner, 16 Nov 2026: the dark memory strip (.mn) hid its label — now a light chapter-tint strip with a chapter-colour edge and black text */
+.page.mz.nd .mn{background:color-mix(in srgb,var(--ch) 8%,#fff)!important;color:#000!important;border-left:4px solid var(--ch)!important;border-radius:0 8px 8px 0!important;padding:8px 12px!important;font-size:11.5pt!important;line-height:1.5}
+.page.mz.nd .mn b{color:var(--ch-dark)!important;font-weight:800}
+.page.mz.nd .mn b:first-child::before{content:"💡 "}
 .page.mz.nd .ladder .st.gold{background:color-mix(in srgb,var(--ch) 22%,#fff)!important}
 .page.mz.nd .ladder .st.dark{background:color-mix(in srgb,var(--ch) 36%,#fff)!important}
 .page.mz.nd .ladder .st b,.page.mz.nd .ladder .st.dark b{color:#000!important}
