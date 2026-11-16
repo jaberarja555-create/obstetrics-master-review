@@ -612,3 +612,23 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   storage). A different browser, or a phone whose data was cleared, is still a new device (admin «Add device only»). Tested in Chromium:
   a fresh context with only the copied cookies opened the book with the same device number; a context without them got its own.
 
+
+## New design, chapter by chapter (owner, 16 Nov 2026: "start Obstetrics chapter 1 in the new design … most content is from local resources:
+## where a guideline differs put the local way as a side note as in Surgery, and do not change content unless necessary"; text 12 pt)
+- **Chapter 1 done.** Pages of a rebuilt chapter carry class `nd` (`<section class="page mz cN nd">`); CSS block "new design, chapter by chapter"
+  at the end of the main style in src/shell.html: one text size 12 pt (tables 11.5, boxes 11.5, box titles 10 pt; the page fill changes only
+  spacing), numbered section titles = chapter-colour number tab with an arrow point (`.mh > span.mhn`, written into the page files) and a serif
+  title (Source Serif 4 shipped as assets/fonts/sourceserif4-latin.woff2, family 'NB Serif') on a fading tint, open sections without a card
+  frame, a sign before each box title (🩺 scenario, 🖼️ picture, 🔍 distinguishing, ⚠️ trap, 📋 protocol, 🔑 core). **Local practice:**
+  `<div class="box loc"><div class="bh">Local practice</div><p>…</p></div>` (green bar, 🏥) inside the box or section whose text now
+  follows the guideline. Content kept; only these corrections (listed for the owner): hCG rise ≥ 35% in 48 h in a viable pregnancy (older
+  63–66% missed normal pregnancies); CRL ≥ 7 mm without heartbeat confirmed by a second opinion or a repeat scan ≥ 7 days later (NICE NG126);
+  NSAIDs avoided from 20 weeks (FDA 2020); IPTp-SP from 13 weeks at every scheduled visit ≥ 4 weeks apart, ≥ 3 doses (WHO), with the local
+  two-dose practice as a Local practice note. In 1.2 the "when each sign becomes positive" chart now comes before the signs table (page balance).
+- **Planning a rebuilt chapter:** `python3 tools/merge_pieces.py <topic keys>` (BEFORE planning; never after: it gathers divided pieces back),
+  `python3 build.py && node tools/measure_blocks.js` (Node version of measure_blocks.py), then
+  `EVEN=1 TOPICS="<keys>" KEEP=45 SPLITMIN=0 SPLITFR=0 python3 tools/paginate.py --apply`, `python3 tools/chapter_covers.py`, build,
+  `node tools/fill.js`, build. `EVEN=1` (new design): after the emptiest page, the other pages are also evened out (sum of squared gaps), and a
+  table may continue on the next page with ≥ 2 rows each side (header repeated); the planner may now use up to twice the old page count.
+  Chapter 1: 21 → 27 pages (pc 10, dx 7, anc 10), every page ends about 60 px above the footer. Locally build.py needs a 32-byte base64 key
+  file for checking only (`OBS_KEY_FILE`); the deploy uses the real key from GitHub secrets.

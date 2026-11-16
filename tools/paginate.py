@@ -9,6 +9,7 @@ KEEP = int(os.environ.get('KEEP', 70)); MINF = 70; BUCKET = 25; ROOM = 1050
 VOID = {'br', 'img', 'hr', 'input', 'meta', 'link', 'col', 'wbr', 'source', 'path', 'circle', 'rect', 'line', 'polyline', 'polygon', 'ellipse', 'stop', 'use'}
 SPLITMIN = int(os.environ.get('SPLITMIN', 320)); SPLITFR = float(os.environ.get('SPLITFR', .3))
 SUBMIN = int(os.environ.get("SUBMIN", 140))
+EVEN = os.environ.get('EVEN', '') == '1'   # new-design chapters: also even out the other pages
 SUBS = set()
 for _f in glob.glob(os.path.join(R, 'content/pages/*.html')):
     SUBS.update(re.findall(r'<div class="blk" data-id="([^"]+)"><h2 class="mzsub"', open(_f, encoding='utf-8').read()))
@@ -65,12 +66,12 @@ def atoms_of(pages):
         if not nx or nx['b'] != a['b']: a['cut'] = True; continue
         ok = True
         if a['kind'] == 'kid' and (a.get('fl') or a.get('tag') in ('h3', 'h4', 'h5')): ok = False
-        if a['kind'] == 'row' and nx['kind'] == 'row' and nx['kid'] == a['kid'] and (a['row'] < 1 or a['row'] > a['nrows'] - 3): ok = False
+        if a['kind'] == 'row' and nx['kind'] == 'row' and nx['kid'] == a['kid'] and (a['row'] < 1 or a['row'] > a['nrows'] - (2 if EVEN else 3)): ok = False
         if a['kind'] == 'kid' and nx['kind'] == 'row' and False: ok = False
         # owner (7 Nov 2026): a table is never broken into a small stub; each part keeps at least 4 rows and 35% of the table
         if a['kind'] == 'row' and nx['kind'] == 'row' and nx['kid'] == a['kid']:
             rb = a['row'] + 1; ra = a['nrows'] - rb
-            if min(rb, ra) < max(5, .3 * a['nrows']): ok = False
+            if min(rb, ra) < (max(2, .2 * a['nrows']) if EVEN else max(5, .3 * a['nrows'])): ok = False   # new design: 2 rows per part
         before = sum(x['h'] for x in A[:i + 1] if x['b'] == a['b']); after = sum(x['h'] for x in A[i + 1:] if x['b'] == a['b'])
         if before < MINF or after < MINF: ok = False
         # owner: a section is divided only when it is big, and then into two fair parts (no small stub with a repeated title)
@@ -109,9 +110,9 @@ def plan(pages):
     # fewest pages
     INF = 10**9; reach = {0: 0}; need = None
     best_n = None
-    for npg in range(1, len(pages) + 4):
-        dp = [None] * (n + 1); dp[0] = (0, 0); back = {}
-        Dp = [[None] * (n + 1) for _ in range(npg + 1)]; Dp[0][0] = (0, 0)
+    for npg in range(1, 2 * len(pages) + 4):   # a chapter moved to the larger new-design text needs more pages
+        dp = [None] * (n + 1); dp[0] = (0, 0, 0); back = {}
+        Dp = [[None] * (n + 1) for _ in range(npg + 1)]; Dp[0][0] = (0, 0, 0)
         for j in range(1, npg + 1):
             for i in range(1, n + 1):
                 bestv = None
@@ -119,7 +120,11 @@ def plan(pages):
                     pv = Dp[j - 1][k]
                     if pv is None or C[k][i] is None or not fits(j - 1, k, i): continue
                     free = room(j - 1) - C[k][i]
-                    v = (max(pv[0], -(-max(free, 0) // BUCKET)), pv[1] + SP[k][i])
+                    # owner (16 Nov 2026): with EVEN=1, after the emptiest page every other page is also filled as evenly as possible
+                    # (sum of squared gaps before the number of divided sections), so one unavoidable gap no longer leaves others half empty
+                    sq = max(free, 0) ** 2 // 100
+                    v = ((max(pv[0], -(-max(free, 0) // BUCKET)), pv[1] + sq, pv[2] + SP[k][i]) if EVEN else
+                         (max(pv[0], -(-max(free, 0) // BUCKET)), pv[1] + SP[k][i], pv[2] + sq))
                     if bestv is None or v < bestv: bestv = v; back[(j, i)] = k
                 Dp[j][i] = bestv
         if Dp[npg][n] is not None: best_n = npg; break
