@@ -653,6 +653,10 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   or removes x9 pages, writes and relabels them. Flow: build → cards.py → cards.js → fit.py → build → fill.js → build. CSS block "Rapid Review
   as a short topic" (12 pt, numbered tabs as in the rebuilt chapters). Older cards (chapters 4–7) keep the compact style until those chapters
   are rebuilt. Rapid Review 25 → 73 pages. Pictures in their own column beside text (`.mrow > .mb.bare figure.bf.solo/side`) now fill the column.
+- **Picture rows (owner, 16 Nov 2026: "most pictures look small and their area is not well organised"):** on `nd` pages every floated or
+  side picture is a full-width row (`figure.bf.frow`: pictures enlarged to about 205 px high and centred, caption in a 200 px column beside them,
+  light chapter-tint panel); a floated picture moves after the text it was beside; labels on pictures keep their places. `python3 tools/nd_figs.py`
+  (run on each rebuilt chapter, then re-plan its pages). Chapters 1–3 re-planned after it.
 - **Box colours (owner, 16 Nov 2026: "some box has bad colours and background"):** in diagrams of `nd` pages every box that holds text is a light
   chapter tint (or white) with a chapter-colour edge and black text (no navy, orange or teal boxes with white/purple text): `python3 tools/nd_colours.py`
   (run it on each newly rebuilt chapter; charts and unframed bands are left alone). Ladders (Mild/Moderate/Severe) are graded tints of the chapter colour.

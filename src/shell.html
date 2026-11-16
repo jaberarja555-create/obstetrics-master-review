@@ -2252,6 +2252,14 @@ section[data-file^="x9"] .frow .ans{background:none;color:#172e48;font-weight:75
 .page.nd .mrow > .mb.bare figure.bf.solo .fp, .page.nd .mrow > .mb.bare figure.bf.side .fp { flex:1; display:flex; }
 .page.nd .mrow > .mb.bare figure.bf.solo .fp img, .page.nd .mrow > .mb.bare figure.bf.side .fp img { width:100% !important; height:100% !important; min-height:140px; object-fit:cover; border-radius:6px; }
 .page.nd .mrow > .mb.bare figure.bf.solo figcaption, .page.nd .mrow > .mb.bare figure.bf.side figcaption { font-size:10pt; line-height:1.4; }
+/* picture rows on new-design pages (owner, 16 Nov 2026: "pictures look small and their area is not organised"; tools/nd_figs.py) */
+.page.nd figure.bf.frow { float:none !important; width:auto !important; display:grid; grid-template-columns:minmax(0,1fr) 200px; gap:16px; align-items:center;
+  margin:10px 0 4px !important; padding:10px 14px; background:var(--ch-tint-2); border:1px solid var(--ch-line); border-radius:10px; }
+.page.nd figure.bf.frow .fps { display:flex; gap:8px; justify-content:center; align-items:center; flex-wrap:nowrap; }
+.page.nd figure.bf.frow .fp img, .page.nd figure.bf.frow .lbw { border-radius:6px; overflow:hidden; }
+.page.nd figure.bf.frow figcaption { margin:0; font-size:10.5pt; line-height:1.45; color:#333; }
+.page.nd figure.bf.frow figcaption .fn { display:block; color:var(--ch-dark); font-weight:800; margin-bottom:2px; }
+.page.nd .fwrap { display:flow-root; }
 /* Rapid Review as a short topic (owner, 16 Nov 2026: "like the main topic but short, as points; every exam point"): title tab, opening
    line, numbered section titles as in the rebuilt chapters, one fact per line at 12 pt, exam-scenario and exam-trap boxes inside the section.
    Units (tools/rapid_review/cards.py rq3) may run over the page; a section piece that continues has no title. */
