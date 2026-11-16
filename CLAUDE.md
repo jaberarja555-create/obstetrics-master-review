@@ -632,3 +632,8 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   table may continue on the next page with ≥ 2 rows each side (header repeated); the planner may now use up to twice the old page count.
   Chapter 1: 21 → 27 pages (pc 10, dx 7, anc 10), every page ends about 60 px above the footer. Locally build.py needs a 32-byte base64 key
   file for checking only (`OBS_KEY_FILE`); the deploy uses the real key from GitHub secrets.
+- **Chapter 2 done (16 Nov 2026)** in the same design and flow (47 → 63 pages). Corrections, each with the local way as a Local practice
+  note: pre-existing diabetes planned birth 37+0–38+6 wk (NICE NG3; local 38–39); gestational hypertension / pre-eclampsia without severe
+  features delivered at 37 wk and BP target 135/85 (NICE NG133; local 38 wk); IPTp-SP as in chapter 1 (WHO; local two doses); obstetric
+  cholestasis per RCOG 2022: bile acids ≥ 19 µmol/L random, birth by 40 wk (19–39), 38–39 wk (40–99), 35–36 wk (≥ 100), vitamin K only if
+  the PT is prolonged or there is steatorrhoea (local: fasting > 10, 39/38 wk, vitamin K for all).
