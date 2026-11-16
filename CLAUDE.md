@@ -635,6 +635,9 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
 - **Full pages (owner, 16 Nov 2026: "why you left this empty space" on 2.2):** spreading the free room evenly left ~200 px empty on every page of
   a topic (table pages cannot absorb it). Now with EVEN=1 the last page of a topic is not charged until it is more than 60% empty, so every
   other page is filled to the foot and only a topic's last page ends short. Two plain bullet lists side by side were joined into one list.
+- **Box colours (owner, 16 Nov 2026: "some box has bad colours and background"):** in diagrams of `nd` pages every box that holds text is a light
+  chapter tint (or white) with a chapter-colour edge and black text (no navy, orange or teal boxes with white/purple text): `python3 tools/nd_colours.py`
+  (run it on each newly rebuilt chapter; charts and unframed bands are left alone). Ladders (Mild/Moderate/Severe) are graded tints of the chapter colour.
 - **Chapter 2 done (16 Nov 2026)** in the same design and flow (47 → 63 pages). Corrections, each with the local way as a Local practice
   note: pre-existing diabetes planned birth 37+0–38+6 wk (NICE NG3; local 38–39); gestational hypertension / pre-eclampsia without severe
   features delivered at 37 wk and BP target 135/85 (NICE NG133; local 38 wk); IPTp-SP as in chapter 1 (WHO; local two doses); obstetric
