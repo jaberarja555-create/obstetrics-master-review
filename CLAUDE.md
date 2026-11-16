@@ -656,7 +656,10 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
 - **Picture rows (owner, 16 Nov 2026: "most pictures look small and their area is not well organised"):** on `nd` pages every floated or
   side picture is a full-width row (`figure.bf.frow`: pictures enlarged to about 205 px high and centred, caption in a 200 px column beside them,
   light chapter-tint panel); a floated picture moves after the text it was beside; labels on pictures keep their places. `python3 tools/nd_figs.py`
-  (run on each rebuilt chapter, then re-plan its pages). Chapters 1–3 re-planned after it.
+  (run on each rebuilt chapter, then re-plan its pages). Chapters 1–3 re-planned after it. Second pass (owner: "no empty space around the picture; the words big and clear"): pictures up to
+  250 px high and as wide as the row allows (H 250, AREA 520), the caption takes the rest of the row (11.5 pt), labels on pictures 10 pt.
+- **Rapid Review chapter colours (owner, 16 Nov 2026):** the rq3 parts take their own chapter colour (vars added to the `.page .rrc.cN` rules)
+  and the chapter band is larger (96 px, number tile, 19 pt serif title).
 - **Box colours (owner, 16 Nov 2026: "some box has bad colours and background"):** in diagrams of `nd` pages every box that holds text is a light
   chapter tint (or white) with a chapter-colour edge and black text (no navy, orange or teal boxes with white/purple text): `python3 tools/nd_colours.py`
   (run it on each newly rebuilt chapter; charts and unframed bands are left alone). Ladders (Mild/Moderate/Severe) are graded tints of the chapter colour.
