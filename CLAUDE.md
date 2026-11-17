@@ -722,7 +722,7 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   (Rapid Review 125 pages).
 - **Missing chapter 7 pictures solved without the owner (17 Nov 2026; owner: "solve the problem yourself"; image apps refused birth pictures):**
   open-licence picture from Wikimedia Commons: thigh IM injection sites (BruceBlaus, CC BY-SA 4.0, credited in the caption) for oxytocin 10 IU IM
-  (assets/img/ond_im_site.jpg). Drawn diagrams (SVG in the chapter colours): placenta maternal surface (lobes and grooves, no vessels) in 7.7; cord clamping: no picture (the AI photo ond_clamp.jpg showed the cord coming out of the mother's abdomen; a drawn diagram was rejected by the owner as very bad, 17 Nov 2026; step 18 of the table and the clamps in Figure 7.7.1 cover it);
+  (assets/img/ond_im_site.jpg). Drawn diagrams (SVG in the chapter colours): placenta maternal surface (lobes and grooves, no vessels) in 7.7; cord clamping: the owner's cartoon assets/img/ond_clamp_cut.jpg (two clamps, scissors between; Figure 7.7.5); the AI photo ond_clamp.jpg (cord out of the mother's abdomen) and a drawn diagram were rejected;
   urine protein pad colour scale with the correct values (trace 0.15, 1+ 0.3, 2+ 1.0, 3+ 3.0, 4+ ≥ 20 g/L) in 7.4. Station on VE already has its
   own diagram in 7.5. Delivery hand positions and all fours: no accurate open picture found; the mechanism picture and the step table cover them.
   Commons hosts commons.wikimedia.org and upload.wikimedia.org were added to the environment; upload.wikimedia.org answers 429 to this shared
