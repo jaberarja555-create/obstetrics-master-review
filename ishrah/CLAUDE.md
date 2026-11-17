@@ -53,3 +53,8 @@ applied at sign-up, lesson content hidden from non-enrolled students, forgot-pas
 4. `js/config.js`: supabaseUrl, supabaseAnonKey (public) and bunnyLibrary; push.
 5. The owner registers FIRST (the first account becomes the owner), turns on 2FA under Security, then invites the team.
 6. Domain: add the custom domain to the Pages project `ishrah`, and switch off HTTP/3 (QUIC) for it in Cloudflare (Sudanese networks break it).
+
+## Tests
+Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.server 8820 -d ishrah`), then
+`node tools/ishrah/flow.js <shots dir> 1440` (owner → lecturer → course → payment → certificate) and `node tools/ishrah/flow2.js <shots dir> 390`
+(team, 2FA, tasks, student message answered by Finance). Run each at 1440 and 390; they print "OK, no errors" and any element running off the screen.
