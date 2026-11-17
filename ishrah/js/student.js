@@ -76,16 +76,15 @@
     h += feats();
     h += '<section class="sec"><header class="sh"><h2>' + ic('layers') + IS.T('الأقسام', 'Browse by section') + '</h2><a class="more" href="#courses">' + esc(A('كل الكورسات', 'All courses')) + ic('chev', 'fl') + '</a></header><div class="doors">' + IS.CATS.map(function (c) { var n = cs.filter(function (x) { return x.cat === c.id; }).length;
       return '<a class="door t-' + c.tone + '" href="#courses/' + c.id + '"><span class="di">' + ic(c.icon) + '</span><b lang="en">' + esc(c.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(c.ar) + '</small>') + '<em>' + (n ? N(n) + ' ' + esc(A('كورس', 'courses')) : esc(A('قريبًا', 'Coming soon'))) + '</em>' + ic('chev', 'fl go') + '</a>'; }).join('') + '</div></section>';
-    h += '<div class="cols"><div class="main">';
     h += '<section class="sec"><header class="sh"><h2>' + ic('star', 'gold') + IS.T('الكورسات المميزة', 'Featured courses') + '</h2><a class="more" href="#courses">' + esc(A('كل الكورسات', 'All courses')) + ic('chev', 'fl') + '</a></header>' +
-      (cs.length ? '<div class="grid g3">' + cs.slice(0, 6).map(function (c) { return IS.courseCard(c, L, E); }).join('') + '</div>' :
+      (cs.length ? '<div class="grid g4">' + cs.slice(0, 8).map(function (c) { return IS.courseCard(c, L, E); }).join('') + '</div>' :
         '<div class="soon">' + ic('layers') + '<div><b>' + esc(A('الكورسات الأولى في الطريق', 'The first courses are on their way')) + '</b><span>' + esc(A('تظهر هنا كورسات المحاضرين بعد مراجعتها ونشرها من فريق المنصة. هل أنت محاضر؟ قدّم كورسك الآن.', 'Lecturers’ courses appear here once the platform team reviews and publishes them. Are you a lecturer? Offer your course now.')) + '</span></div><button class="btn pri" data-act="register" data-k="lecturer">' + ic('studio') + esc(A('كن أول محاضر', 'Be the first lecturer')) + '</button></div>') + '</section>';
     h += steps();
     if (lecs.length) h += '<section class="sec"><header class="sh"><h2>' + ic('users') + IS.T('المحاضرون', 'Lecturers') + '</h2><a class="more" href="#lecturers">' + esc(A('الكل', 'All')) + ic('chev', 'fl') + '</a></header><div class="grid g4">' +
       lecs.slice(0, 4).map(function (l) { return lecCard(l, cs.filter(function (c) { return c.lecturer_id === l.id; }).length); }).join('') + '</div></section>';
-    h += '</div><aside class="aside">' + eventsBox(ev.slice(0, 4)) + statsBox(cs, lecs) +
+    h += '<section class="hboxes">' + eventsBox(ev.slice(0, 4)) + statsBox(cs, lecs) +
       '<a class="box join" href="#community"><b>' + esc(A('انضم إلى مجتمع طلاب الكليات الصحية', 'Join the health students’ community')) + '</b><span>' + esc(A('ناقش، اسأل، وشارك ما تعرف.', 'Discuss, ask and share what you know.')) + '</span><em class="btn">' + ic('group') + esc(A('ادخل المجتمع', 'Open the community')) + '</em></a>' +
-      '<a class="box teach" href="#studio-apply"><img src="img/logo_gold.svg" alt="" width="54" height="47"><b>' + esc(A('علّم على اشرح لي', 'Teach on Ishrah Li')) + '</b><span>' + esc(A('أنشئ صفحتك، ارفع محاضراتك واحصل على نصيبك من كل التحاق.', 'Build your page, upload your lectures and earn a share of every enrolment.')) + '</span><em class="btn pri">' + ic('studio') + esc(A('قدّم طلبك', 'Apply now')) + '</em></a></aside></div>';
+      '<a class="box teach" href="#studio-apply"><img src="img/logo_gold.svg" alt="" width="54" height="47"><b>' + esc(A('علّم على اشرح لي', 'Teach on Ishrah Li')) + '</b><span>' + esc(A('أنشئ صفحتك، ارفع محاضراتك واحصل على نصيبك من كل التحاق.', 'Build your page, upload your lectures and earn a share of every enrolment.')) + '</span><em class="btn pri">' + ic('studio') + esc(A('قدّم طلبك', 'Apply now')) + '</em></a></section>';
     return h;
   });
 

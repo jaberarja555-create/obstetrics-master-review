@@ -9,7 +9,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="css/app.css?v=3">
+<link rel="stylesheet" href="css/app.css?v=4">
 <script>(function(){try{var l=JSON.parse(localStorage.getItem('ish-lang')||'"ar"');if(l==='en'){document.documentElement.lang='en';document.documentElement.dir='ltr';}
 document.documentElement.setAttribute('data-theme',JSON.parse(localStorage.getItem('ish-theme')||'"light"'));}catch(e){}})();</script>
 </head>
@@ -18,18 +18,18 @@ document.documentElement.setAttribute('data-theme',JSON.parse(localStorage.getIt
 <aside id="side"></aside>
 <main id="main" tabindex="-1"><div class="loading"><span class="spin"></span></div><noscript>اشرح لي يحتاج إلى JavaScript.</noscript></main>
 <nav id="tabs"></nav>
-<script src="js/config.js?v=3"></script>
+<script src="js/config.js?v=4"></script>
 <script>
 /* the database and video libraries are loaded only when the platform is connected (js/config.js) */
 (function(){var c=window.ISH_CONFIG||{};if(c.supabaseUrl&&c.supabaseAnonKey){document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"><\/script><script src="https://cdn.jsdelivr.net/npm/tus-js-client@4.1.0/dist/tus.min.js"><\/script>');}})();
 </script>
-<script src="js/db.js?v=3"></script>
-<script src="js/core.js?v=3"></script>
-<script src="js/student.js?v=3"></script>
-<script src="js/library.js?v=3"></script>
-<script src="js/studio.js?v=3"></script>
-<script src="js/control.js?v=3"></script>
-<script src="js/org.js?v=3"></script>
+<script src="js/db.js?v=4"></script>
+<script src="js/core.js?v=4"></script>
+<script src="js/student.js?v=4"></script>
+<script src="js/library.js?v=4"></script>
+<script src="js/studio.js?v=4"></script>
+<script src="js/control.js?v=4"></script>
+<script src="js/org.js?v=4"></script>
 <script>IS.start();if('serviceWorker'in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(function(){});</script>
 </body>
 </html>

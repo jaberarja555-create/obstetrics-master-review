@@ -936,3 +936,11 @@ body[data-area="control"]{--pri:#13305c;--pri2:#0c2246;--tint:rgba(201,154,46,.1
 @media (max-width:1279px){.cgrid>.box:has(.mtable,.table,.rtable,table){grid-column:1/-1}}
 .tools{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
 @media (min-width:761px){.specbar{flex-wrap:wrap;overflow:visible}}
+/* home: events, figures, community and teaching boxes in one even row instead of a tall side column (owner: "why empty space") */
+.hboxes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:stretch;margin-top:8px}
+.hboxes>.box{margin:0;display:flex;flex-direction:column}
+.hboxes>.box.join,.hboxes>.box.teach{justify-content:space-between}
+@media (max-width:1279px){.hboxes{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.hboxes{grid-template-columns:1fr}}
+.nums h2 .tt{display:inline-flex;flex-direction:column;align-items:flex-start;padding:0;background:none;border-radius:0;text-align:start}
+.hboxes .box>.mut{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;min-height:80px;border:1px dashed var(--bd2);border-radius:14px;margin-top:6px}
