@@ -75,3 +75,6 @@ insert into subjects (id, cat, spec, ar, en, icon, sort) values
   ('oet', 'special', 'medicine', 'اختبار اللغة الإنجليزية المهني', 'OET', 'world', 49),
   ('ielts', 'special', 'medicine', 'اختبار اللغة الإنجليزية', 'IELTS', 'world', 50)
 on conflict (id) do update set cat = excluded.cat, ar = excluded.ar, en = excluded.en, sort = excluded.sort;
+
+-- a picture for each subject card (owner, 18 Nov 2026)
+alter table subjects add column if not exists img text;

@@ -944,3 +944,8 @@ body[data-area="control"]{--pri:#13305c;--pri2:#0c2246;--tint:rgba(201,154,46,.1
 @media (max-width:640px){.hboxes{grid-template-columns:1fr}}
 .nums h2 .tt{display:inline-flex;flex-direction:column;align-items:flex-start;padding:0;background:none;border-radius:0;text-align:start}
 .hboxes .box>.mut{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;min-height:80px;border:1px dashed var(--bd2);border-radius:14px;margin-top:6px}
+.subjs{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.subjs>.subj{flex:0 1 calc((100% - 6 * 12px) / 7);min-width:0}
+@media (max-width:1279px){.subjs>.subj{flex-basis:calc((100% - 4 * 12px) / 5)}}
+@media (max-width:900px){.subjs>.subj{flex-basis:calc((100% - 2 * 12px) / 3)}}
+@media (max-width:520px){.subjs>.subj{flex-basis:calc((100% - 12px) / 2)}}

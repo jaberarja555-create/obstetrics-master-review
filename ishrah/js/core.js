@@ -136,7 +136,7 @@
   };
   IS.loadBase = async function () {
     var r = await Promise.all([DB.q('settings'), DB.q('categories', { order: ['sort'] }), DB.q('subjects', { order: ['sort'] }), DB.q('specialties', { order: ['sort'] }).catch(function () { return []; })]);
-    IS.SET = {}; r[0].forEach(function (s) { IS.SET[s.id] = s.value; }); IS.CATS = r[1]; IS.SUBJ = r[2].map(function (x) { if (!x.spec) x.spec = 'medicine'; return x; }); IS.SPECS = r[3];
+    IS.SET = {}; r[0].forEach(function (s) { IS.SET[s.id] = s.value; }); IS.CATS = r[1]; IS.SUBJ = r[2].map(function (x) { if (!x.spec) x.spec = 'medicine'; if (!x.img && (window.ISH_SUBIMG || []).indexOf(x.id) >= 0) x.img = 'img/sub_' + x.id + '.webp'; return x; }); IS.SPECS = r[3];
     try { var rp = await DB.q('role_perms'), m = JSON.parse(JSON.stringify(IS.DEFRP)), seen = {}; rp.forEach(function (x) { if (!seen[x.role]) { seen[x.role] = 1; m[x.role] = {}; } if ((x.acts || ALL).length) m[x.role][x.perm] = x.acts || ALL.slice(); }); IS.RP = m; } catch (e) {}
   };
   IS.cat = function (id) { return IS.CATS.filter(function (c) { return c.id === id; })[0]; };
