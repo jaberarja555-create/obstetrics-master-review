@@ -85,3 +85,7 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   have the picture on top and a gold "Soon" label, House Officer subjects are wide cards, section cards have pictures `img/sec_<id>.webp`.
   Subject pictures come from the owner's designs and photos (46 of 54 done; no logos of OET/IELTS/IFOM used, they are trademarks).
   Boxes never follow the scroll (no sticky side columns).
+- Colours (owner, 18 Nov 2026, from his banner pictures): royal blue `#0a2a5c` / `#0d3a7d` with bright blue `#1e9bff` / `#3fb4ff`; gold only in the logo
+  and small highlights. Every page banner has a photo (`img/ban_<name>.webp`, map `BANIMG` in core.js, fallback by area); no page is left without one.
+- No empty space: `IS.balance()` turns a short side column into a row of cards; dashboards use balanced columns (`.cgrid`, `.cols.cflow`).
+- The service worker loads the newest files first when online (cache only offline).
