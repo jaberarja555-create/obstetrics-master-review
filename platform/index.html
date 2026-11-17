@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Student Master Review</title>
-<meta name="description" content="Student Master Review: the Student Master Note medical books for Basic Sciences, Clinical years and House Officers in one place.">
-<meta name="theme-color" content="#f7f3ec">
+<title>اشرح لي</title>
+<meta name="description" content="اشرح لي: منصة تعليمية متكاملة لطلبة الطب في السودان: كورسات، كتب تفاعلية، بنوك أسئلة، بطاقات، مسارات وفعاليات.">
+<meta name="theme-color" content="#f1f5f5">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,400&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="css/app.css?v=28">
+<link rel="stylesheet" href="css/learn.css?v=1">
 <script>
 /* set look and language before the first paint */
 (function(){try{var t=JSON.parse(localStorage.getItem('smr-theme')||'"light"'),l=JSON.parse(localStorage.getItem('smr-lang')||'null');
@@ -27,6 +28,7 @@ window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();win
 <button class="skip" id="skip" type="button">Skip to content</button>
 <div class="bgfx" aria-hidden="true"></div>
 <header class="top" id="top"></header>
+<aside class="side" id="side" hidden></aside>
 <main id="main" tabindex="-1"><noscript><p style="padding:24px">Student Master Review needs JavaScript. You can open the books directly:
 <a href="https://srg.studentmasterreview.com/">Surgery</a> ·
 <a href="https://obs.studentmasterreview.com/">Obstetrics</a> ·
@@ -58,6 +60,8 @@ window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();win
 </script>
 <script src="js/catalogue.js?v=29"></script>
 <script src="js/i18n.js?v=28"></script>
+<script src="js/courses.js?v=1"></script>
+<script src="js/learn.js?v=1"></script>
 <script src="js/app.js?v=36"></script>
 </body>
 </html>

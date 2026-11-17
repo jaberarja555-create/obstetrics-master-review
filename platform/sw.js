@@ -3,7 +3,7 @@
    device; the same file is then asked from the internet in the background and the saved copy is renewed. When a page, style or script
    has changed, the open app is told ({smr:'new'}) and shows the new version (at once if it was only just opened, otherwise next opening).
    With nothing saved yet (first opening) or offline with no copy, the internet / the saved home page is used. The books are not cached here. */
-var C = 'smr-v2';
+var C = 'smr-v3';
 self.addEventListener('install', function (e) { self.skipWaiting(); });
 self.addEventListener('activate', function (e) {
   e.waitUntil(caches.keys().then(function (ks) { return Promise.all(ks.filter(function (k) { return /^smr-v/.test(k) && k !== C; }).map(function (k) { return caches.delete(k); })); }).then(function () { return self.clients.claim(); }));

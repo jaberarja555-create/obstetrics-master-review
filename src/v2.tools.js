@@ -99,6 +99,12 @@ try{history.replaceState({obs:0},'');history.pushState({obs:1},'');
 function pushName(){try{var n=(sp('name')||'').trim();if(n.length<2||n===sp('nameup')||!LIC||!LIC.rpc||!LIC.dev)return;
   LIC.rpc('obs_set_name',{p_dev:LIC.dev,p_name:n}).then(function(r){var d=r&&r.data;if(d&&d.ok){sp('nameup',n);sp('sname',d.name||n)}}).catch(function(){})}catch(e){}}
 setTimeout(pushName,4000);
+/* اشرح لي (owner, 17 Nov 2026): the platform opens the book at a lesson or tool ({smr:'open', topic, tool}: book · qbank · cards · rr) */
+window.__smrOpen=function(topic,tool){try{var t=TOPICS.filter(function(x){return x.id===topic})[0];
+  if(tool==='qbank'){if(t){qset.ch={};qset.ch[t.ch]=true;spj('qbset',qset)}if(CUR&&CUR.done)CUR=null;go('qbank-v');return}
+  if(tool==='cards'){curDeck=t?t.id:'daily';started=false;go('cards');return}
+  if(tool==='rr'){ACT.rr();return}
+  if(t)openTopic(t);else ACT.cont()}catch(e){}};
 window.__smrProfile=function(){pushName();try{header();var w=$('v2welT');if(w)w.innerHTML=greet();if(CURV==='v2home'||CURV==='v2profile'||CURV==='v2settings')R[CURV]()}catch(e){}};
 window.__smrStats=function(){var r={pages:{total:0,read:0,mastered:0},q:{total:QS.length,answered:0,correct:0,wrong:0},cards:{total:0,known:0},topics:{total:TOPICS.length,done:0},streak:0,ch:[]};
   TOPICS.forEach(function(t){var a=npg(t.id),b=tRead(t.id);r.pages.total+=a;r.pages.read+=b;r.pages.mastered+=tMast(t.id);if(a&&b>=a)r.topics.done++});

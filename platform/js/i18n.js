@@ -44,7 +44,7 @@ SMR.T = {
     'set.acc.txt': 'There is no shared account yet. Each book keeps its own subscription inside it: activate once inside each book.',
     'set.data': 'Data on this device', 'set.data.txt': 'Clear the list of recently opened and saved books.',
     'set.clear': 'Clear the lists', 'set.clear.ok': 'Clear now', 'cancel': 'Cancel', 'set.cleared': 'The lists were cleared.',
-    'set.saved': 'Saved', 'set.about': 'About', 'set.about.txt': 'Student Master Review brings the Student Master Note books together. Authors: Dr. Abdaljalil Abdalkareem Arja and Dr. Alabass Abdulrahman.',
+    'set.saved': 'Saved', 'set.about': 'About', 'set.about.txt': 'Ishrah Li (اشرح لي) brings the Student Master Note books together. Authors: Dr. Abdaljalil Abdalkareem Arja and Dr. Alabass Abdulrahman.',
     'notif.t': 'Notifications', 'notif.none': 'No notifications', 'notif.txt': 'News about new books and updates will appear here.',
     'srch.t': 'Search', 'srch.n': '{n} results', 'srch.n1': '1 result', 'srch.none': 'No book or subject matches “{q}”.',
     'srch.scope': 'Search looks through book titles and subjects. To search inside a book, open it and use its own search.',
@@ -68,10 +68,10 @@ SMR.T = {
     'i.iosapp': 'You opened the link inside another app. Open it in Safari first: tap the menu {i} and choose “Open in Safari”, or copy the link and paste it in Safari.',
     'i.and0': 'If you opened the link from WhatsApp or another app, open it in Chrome first:', 'i.chrome': 'Open in Chrome',
     'i.and1': 'In Chrome, tap the menu {i} at the top right.', 'i.and2': 'Choose “Install app” or “Add to Home screen”.', 'i.and3': 'Confirm with “Install”. The app appears on your home screen.',
-    'i.pc1': 'In Chrome or Edge, click the install button {i} at the right end of the address bar.', 'i.pc2': 'Or open the menu {i} and choose “Install Student Master Review”.',
+    'i.pc1': 'In Chrome or Edge, click the install button {i} at the right end of the address bar.', 'i.pc2': 'Or open the menu {i} and choose “Install اشرح لي”.',
     'i.mac': 'In Safari on a Mac: File menu → “Add to Dock”.', 'i.ff': 'Firefox cannot install apps. Open this link in Chrome or Edge to install it.',
     'i.wait': 'Preparing the installation…', 'i.moving': 'Opening Chrome…', 'i.safari': 'Opening Safari…', 'i.have': 'The app is already installed on this device. Open it from your home screen.', 'i.copy': 'Copy the link', 'i.copied': 'Link copied', 'i.ok': 'Got it, continue', 'i.done': 'The app is installed. You will find it on your home screen.',
-    'i.already': 'The app is installed on this device.', 'set.tour': 'App tour', 'set.tour.txt': 'A short tour of the app with pictures. Each book has its own tour inside it (Settings → User guide).', 'set.tour.go': 'Show the tour', 'set.inst': 'Install the app', 'set.inst.txt': 'Install Student Master Review on this device so it opens from the home screen like any app.',
+    'i.already': 'The app is installed on this device.', 'set.tour': 'App tour', 'set.tour.txt': 'A short tour of the app with pictures. Each book has its own tour inside it (Settings → User guide).', 'set.tour.go': 'Show the tour', 'set.inst': 'Install the app', 'set.inst.txt': 'Install اشرح لي on this device so it opens from the home screen like any app.',
     'just': 'just now', 'skip': 'Skip to content', 'menu': 'Main sections', 'doctor': 'Doctor'
   },
   ar: {
@@ -117,7 +117,7 @@ SMR.T = {
     'set.acc.txt': 'لا يوجد حساب موحّد بعد. لكل كتاب اشتراكه داخله: فعّل اشتراكك مرة واحدة داخل كل كتاب.',
     'set.data': 'البيانات على هذا الجهاز', 'set.data.txt': 'امسح قائمة الكتب التي فُتحت مؤخرًا والكتب المحفوظة.',
     'set.clear': 'امسح القائمتين', 'set.clear.ok': 'امسح الآن', 'cancel': 'إلغاء', 'set.cleared': 'تم مسح القائمتين.',
-    'set.saved': 'تم الحفظ', 'set.about': 'عن المنصة', 'set.about.txt': 'تجمع Student Master Review كتب سلسلة Student Master Note في مكان واحد. المؤلفان: د. عبدالجليل عبدالكريم ارجا ود. العباس عبدالرحمن.',
+    'set.saved': 'تم الحفظ', 'set.about': 'عن المنصة', 'set.about.txt': 'تجمع منصة اشرح لي كتب سلسلة Student Master Note في مكان واحد. المؤلفان: د. عبدالجليل عبدالكريم ارجا ود. العباس عبدالرحمن.',
     'notif.t': 'الإشعارات', 'notif.none': 'لا توجد إشعارات', 'notif.txt': 'ستظهر هنا أخبار الكتب الجديدة والتحديثات.',
     'srch.t': 'البحث', 'srch.n': '{n} نتائج', 'srch.n1': 'نتيجة واحدة', 'srch.none': 'لا يوجد كتاب أو مادة تطابق «{q}».',
     'srch.scope': 'يبحث في أسماء الكتب والمواد. للبحث داخل كتاب افتحه واستخدم البحث فيه.',
@@ -141,10 +141,10 @@ SMR.T = {
     'i.iosapp': 'فتحت الرابط داخل تطبيق آخر. افتحه أولًا في Safari: اضغط القائمة {i} واختر «فتح في Safari»، أو انسخ الرابط والصقه في Safari.',
     'i.and0': 'إذا فتحت الرابط من واتساب أو من تطبيق آخر فافتحه أولًا في Chrome:', 'i.chrome': 'افتح في Chrome',
     'i.and1': 'في Chrome اضغط القائمة {i} أعلى الشاشة.', 'i.and2': 'اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».', 'i.and3': 'أكّد بالضغط على «تثبيت»، فيظهر التطبيق على الشاشة الرئيسية.',
-    'i.pc1': 'في Chrome أو Edge اضغط زر التثبيت {i} في طرف شريط العنوان.', 'i.pc2': 'أو افتح القائمة {i} واختر «تثبيت Student Master Review».',
+    'i.pc1': 'في Chrome أو Edge اضغط زر التثبيت {i} في طرف شريط العنوان.', 'i.pc2': 'أو افتح القائمة {i} واختر «تثبيت اشرح لي».',
     'i.mac': 'في Safari على جهاز Mac: قائمة «ملف» ← «إضافة إلى Dock».', 'i.ff': 'لا يستطيع Firefox تثبيت التطبيقات. افتح الرابط في Chrome أو Edge لتثبيته.',
     'i.wait': 'جارٍ تجهيز التثبيت…', 'i.moving': 'جارٍ الفتح في Chrome…', 'i.safari': 'جارٍ الفتح في Safari…', 'i.have': 'التطبيق مثبّت على هذا الجهاز، افتحه من الشاشة الرئيسية.', 'i.copy': 'انسخ الرابط', 'i.copied': 'تم نسخ الرابط', 'i.ok': 'فهمت، تابع', 'i.done': 'تم تثبيت التطبيق، وستجده على الشاشة الرئيسية.',
-    'i.already': 'التطبيق مثبّت على هذا الجهاز.', 'set.tour': 'جولة في التطبيق', 'set.tour.txt': 'جولة قصيرة بالصور في التطبيق. ولكل كتاب جولته داخله (الإعدادات ← دليل الاستخدام).', 'set.tour.go': 'اعرض الجولة', 'set.inst': 'تثبيت التطبيق', 'set.inst.txt': 'ثبّت Student Master Review على هذا الجهاز ليُفتح من الشاشة الرئيسية مثل أي تطبيق.',
+    'i.already': 'التطبيق مثبّت على هذا الجهاز.', 'set.tour': 'جولة في التطبيق', 'set.tour.txt': 'جولة قصيرة بالصور في التطبيق. ولكل كتاب جولته داخله (الإعدادات ← دليل الاستخدام).', 'set.tour.go': 'اعرض الجولة', 'set.inst': 'تثبيت التطبيق', 'set.inst.txt': 'ثبّت اشرح لي على هذا الجهاز ليُفتح من الشاشة الرئيسية مثل أي تطبيق.',
     'just': 'الآن', 'skip': 'انتقل إلى المحتوى', 'menu': 'الأقسام الرئيسية', 'doctor': 'دكتور'
   }
 };

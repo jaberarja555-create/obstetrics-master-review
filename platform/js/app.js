@@ -63,6 +63,7 @@
     browser: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/>',
         photo: '<rect x="3" y="5" width="18" height="15" rx="2"/><circle cx="12" cy="12.5" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/>'
   };
+  function addIcons(o) { Object.keys(o).forEach(function (k) { if (!P[k]) P[k] = o[k]; }); }
   function ic(n, cls) { return '<svg class="ico' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" aria-hidden="true">' + P[n] + '</svg>'; }
 
   var BOOK = {}; S.books.forEach(function (b) { BOOK[b.id] = b; });
@@ -132,26 +133,29 @@
   function chrome() {
     $('#top').innerHTML =
       '<div class="top-in">' +
-      '<a class="brand" href="#home" aria-label="Student Master Review · ' + esc(t('nav.home')) + '"><span class="mark" aria-hidden="true"></span>' +
-      '<span class="bname" lang="en" dir="ltr"><span class="b1">Student </span>Master Review</span></a>' +
-      '<nav class="tnav" aria-label="' + esc(t('menu')) + '">' + navLinks() + '</nav>' +
+      '<a class="brand xbrand" href="#home" aria-label="' + (X ? X.name : 'Student Master Review') + ' · ' + esc(t('nav.home')) + '"><img class="xlogo" src="img/ui/ishrah.svg" alt="" width="46" height="38">' +
+      '<span class="xbn"><b>' + (X ? X.name : 'Student Master Review') + '</b><small>' + esc(lang === 'en' ? 'Learning platform for medical students in Sudan' : 'منصة تعليمية لطلبة الطب في السودان') + '</small></span></a>' +
+      (X ? '<form class="xtsearch" role="search" data-hsearch><span>' + ic('search') + '</span><input type="search" name="q" autocomplete="off" placeholder="' + esc(lang === 'en' ? 'Search courses, lessons, lecturers…' : 'ابحث عن كورس أو درس أو محاضر…') + '" aria-label="' + esc(t('search.short')) + '"></form>' :
+      '<nav class="tnav" aria-label="' + esc(t('menu')) + '">' + navLinks() + '</nav>') +
       '<div class="tbtns">' +
       '<div class="thm"><button class="ib" id="thb" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="tmenu"></button>' +
       '<div class="tmenu" id="tmenu" hidden>' + [['light', 'sun', 'look.light'], ['dark', 'moon', 'look.dark'], ['system', 'auto', 'look.system']].map(function (o) {
         return '<button type="button" data-look="' + o[0] + '" aria-pressed="false">' + ic(o[1]) + '<span>' + esc(t(o[2])) + '</span>' + ic('check', 'ck') + '</button>';
       }).join('') + '</div></div>' +
       '<a class="ib" href="#search" aria-label="' + esc(t('search.short')) + '" title="' + esc(t('search.short')) + '">' + ic('search') + '</a>' +
-      '<a class="ib" href="#notifications" aria-label="' + esc(t('notif.t')) + '">' + ic('bell') + '</a>' +
+      '<a class="ib xbell" href="#notifications" aria-label="' + esc(t('notif.t')) + '">' + ic('bell') + (X && X.notifCount() ? '<i>' + X.notifCount() + '</i>' : '') + '</a>' +
       '<a class="pchip" href="#preferences" aria-label="' + esc(t('profile')) + '">' + avatar() + '<span class="pn"><bdi>' + esc(displayName()) + '</bdi></span></a>' +
       '</div></div>';
-    $('#bnav').innerHTML = navLinks();
+    $('#bnav').innerHTML = X ? X.tabs() : navLinks();
+    var sd = $('#side'); if (sd) { sd.innerHTML = X ? '<nav aria-label="' + esc(t('menu')) + '">' + X.side() + '</nav>' : ''; sd.hidden = !X; }
+    document.body.classList.toggle('xon', !!X);
     $('#bnav').setAttribute('aria-label', t('menu'));
     $('#skip').textContent = t('skip');
     applyTheme();
     bindTopSearch();
   }
   function markNav(v) {
-    var cur = v === 'home' || SEC[v] || /^book-/.test(v) ? 'home' : v;
+    var cur = X ? X.navKey(v) : v === 'home' || SEC[v] || /^book-/.test(v) ? 'home' : v;
     document.querySelectorAll('[data-nav]').forEach(function (a) {
       if (a.getAttribute('data-nav') === cur) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
@@ -343,17 +347,19 @@
           b.ho ? S.hoTools.map(function (x) { return x.en + ' ' + x.ar; }).join(' ') + ' house officer handbook امتياز' : '',
           T.en[s.key + '.t'], T.ar[s.key + '.t']].join(' ')) };
     }));
+    if (X) IDX = IDX.concat(X.index().map(function (e) { e.hay = norm(e.hay); e.ttl = norm(e.ttl); return e; }));
     return IDX;
   }
   function find(q) {
     var qs = norm(q).split(' ').filter(Boolean); if (!qs.length) return [];
     return index().filter(function (e) { return qs.every(function (w) { return e.hay.indexOf(w) >= 0; }); })
       .map(function (e) {
-        var sc = (qs.every(function (w) { return e.ttl.indexOf(w) >= 0; }) ? 0 : 10) + (e.kind === 'section' ? 0 : 1) + (e.kind === 'book' && !avail(BOOK[e.id]) ? 2 : 0);
+        var sc = (qs.every(function (w) { return e.ttl.indexOf(w) >= 0; }) ? 0 : 10) + (e.kind === 'section' ? 0 : e.kind === 'place' ? 1 : e.kind === 'lesson' ? 3 : 1) + (e.kind === 'book' && !avail(BOOK[e.id]) ? 2 : 0);
         return { e: e, sc: sc };
       }).sort(function (a, b) { return a.sc - b.sc; }).map(function (x) { return x.e; });
   }
   function resLink(e, on) {
+    if (e.href) return '<a href="' + e.href + '"' + (on ? ' class="on"' : '') + '><span class="xri">' + ic(e.ico) + '</span><span class="st"><b' + (e.kind === 'lesson' ? ' lang="en"' : '') + '>' + esc(e.t) + '</b><span' + (e.kind === 'lesson' ? ' lang="en"' : '') + '>' + esc(e.s) + '</span></span>' + ic('arrow', 'flip') + '</a>';
     if (e.kind === 'section') {
       var s = SEC[e.id], fr = s.home[s.home.length - 1], cv = BOOK[fr] || S.covers[fr];   // the book in front of the stand
       return '<a href="#' + s.id + '"' + (on ? ' class="on"' : '') + '>' + img(cv, '') + '<span class="st"><b>' + esc(t(s.key + '.t')) + '</b><span>' + esc(t(s.key + '.tag')) + '</span></span>' + ic('arrow', 'flip') + '</a>';
@@ -415,7 +421,7 @@
     if (b.ho) more = '<p class="sh-sub">' + esc(t('ho.tools')) + '</p><div class="tools">' + S.hoTools.map(function (x) {
       return '<div class="tool"><span class="ti">' + ic(x.icon) + '</span><div><b>' + esc(x[lang] || x.en) + '</b><span>' + esc(x['d' + lang] || x.den) + '</span><span class="tag">' + esc(t('st.planned')) + '</span></div></div>';
     }).join('') + '</div>';
-    dlg.innerHTML = '<button class="ib xbtn" type="button" data-close aria-label="' + esc(t('close')) + '">' + ic('x') + '</button>' +
+    dlg.innerHTML = '<button class="ib shx" type="button" data-close aria-label="' + esc(t('close')) + '">' + ic('x') + '</button>' +
       '<div class="sh-in"><div class="cv">' + img(b, b.title + ' ' + b.series, false) + '</div><div>' +
       '<h2 id="shT" tabindex="-1" autofocus><span lang="en">' + esc(b.title) + '</span><span class="series" lang="en">' + esc(b.series) + '</span></h2>' +
       '<div class="meta" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">' + chip(b) + '<span class="tag">' + esc(secTitle(b.section)) + '</span></div>' +
@@ -506,7 +512,7 @@
     Object.keys(FR).forEach(function (k) { FR[k].wrap.classList.toggle('bg', k !== id); FR[k].wrap.hidden = false; });
     if (SHOWN !== id) { if (SHOWN) tellVis(SHOWN, false); SHOWN = id; tellVis(id, true); }
     pkPill();
-    document.title = b.app + ' · Student Master Review';
+    document.title = b.app + ' · ' + (X ? X.name : 'Student Master Review');
     noteOpen(id);
   }
   /* the book's Library button follows the platform language when the book has no language setting of its own */
@@ -750,7 +756,7 @@
     var n = cleanName(LS.get('name', ''));
     return '<span class="wmark" aria-hidden="true"><span class="mark"></span></span>' +
       '<h2 id="welT">' + (n ? t('w.hin', { n: '<bdi>' + esc(n) + '</bdi>' }) : esc(t('w.hi'))) + '</h2>' +
-      '<p class="wbrand" lang="en" dir="ltr">Student Master Review</p><p class="wsub">' + esc(t('w.sub')) + '</p>' +
+      '<p class="wbrand">اشرح لي</p><p class="wsub">' + esc(t('w.sub')) + '</p>' +
       (MOVED ? '<p class="wmoved">' + ic('info') + '<span>' + esc(t('w.moved')) + '</span></p>' : '');
   }
   function welcome() {
@@ -768,7 +774,7 @@
     return '<li><span class="sn">' + n + '</span><span>' + esc(txt).replace('{i}', icn ? '<span class="si">' + ic(icn) + '</span>' : '') + '</span></li>';
   }
   function guide() {
-    var h = '<button class="ib xbtn" type="button" data-wclose aria-label="' + esc(t('close')) + '">' + ic('x') + '</button>' +
+    var h = '<button class="ib shx" type="button" data-wclose aria-label="' + esc(t('close')) + '">' + ic('x') + '</button>' +
       '<span class="wmark sm" aria-hidden="true">' + ic(DEV === 'pc' ? 'instpc' : 'phone') + '</span><h2 id="welT">' + esc(t('i.t.' + DEV)) + '</h2>';
     var st = '', extra = '';
     if (DEV === 'ios') {
@@ -818,7 +824,7 @@
      button, progress, top bar, settings); reading, tools, practice and subscription are in each book's own guide (v2.tools.js __btour). Pictures: real screens of the app
      (img/tour/<n>.webp) with orange numbered marks that match the numbered lines. Swipe or the buttons move between screens. */
   var TOUR = [
-    ['👋', 'مرحبًا بك في Student Master Review', 'Welcome to Student Master Review', [
+    ['👋', 'مرحبًا بك في اشرح لي', 'Welcome to Ishrah Li (اشرح لي)', [
       [0, 'جولة قصيرة في التطبيق. يمكنك تخطّيها الآن، وإعادتها من الإعدادات. ولكل كتاب جولته الخاصة عند فتحه أول مرة.', 'A short tour of the app. You can skip it now and see it again from Settings. Each book has its own tour the first time you open it.'],
       [1, '«الرئيسية»: أقسام الكتب الثلاثة.', '"Home": the three sections of books.'],
       [2, '«مكتبتي»: كل كتبك في مكان واحد.', '"My library": all your books in one place.'],
@@ -908,6 +914,23 @@
   /* ---------- router ---------- */
   var VIEWS = { home: vHome, 'my-library': vLibrary, progress: vProgress, preferences: vPrefs, notifications: vNotif, search: vSearch };
   var TITLES = { 'my-library': 'nav.library', progress: 'nav.progress', preferences: 'nav.settings', notifications: 'notif.t', search: 'srch.t' };
+  /* اشرح لي (owner, 17 Nov 2026): the learning platform screens of js/learn.js */
+  var X = null;
+  if (S.ext) try {
+    X = S.ext({ LS: LS, esc: esc, L: L, BOOK: BOOK, avail: avail, stats: stats, cleanName: cleanName, ago: ago, norm: norm, addIcons: addIcons,
+      lang: function () { return lang; }, route: function (f) { route(f); }, go: function (v) { go(v); },
+      search: function (q) { state.q = String(q || ''); go('search'); }, openAt: openAt });
+    Object.keys(X.views).forEach(function (k) { VIEWS[k] = X.views[k]; });
+  } catch (er) { X = null; if (window.console) console.error(er); }
+  /* open a book inside the platform at a topic and tool ({smr:'open'}; a book that does not know it simply opens) */
+  function openAt(id, topic, tool) {
+    var b = BOOK[id]; if (!b || !avail(b)) return;
+    if (!EMBED) { window.open(b.url, '_blank', 'noopener'); return; }
+    go('read-' + id);
+    var tries = 0;
+    (function send() { var f = FR[id]; if (f && f.loaded) { setTimeout(function () { try { f.fr.contentWindow.postMessage({ smr: 'open', topic: topic || '', tool: tool || 'book' }, new URL(b.url).origin); } catch (e) {} }, f.sent ? 0 : 350); f.sent = 1; return; }
+      if (++tries < 120) setTimeout(send, 250); })();
+  }
   function go(v) { if (location.hash.slice(1) === v) route(true); else location.hash = v; }
   function route(force) {
     var v = decodeURIComponent(location.hash.slice(1)) || 'home';
@@ -925,18 +948,24 @@
     hideBooks();
     var bookId = /^book-/.test(v) ? v.slice(5) : null;
     if (bookId && !BOOK[bookId]) v = 'home', bookId = null;
-    if (!bookId && !VIEWS[v] && !SEC[v]) v = 'home';
+    var pm = !bookId && X ? v.match(/^(course|lesson|path|lecturer|cert|cat)-(.+)$/) : null, ph = null;
+    if (pm && X.param[pm[1]]) { try { ph = X.param[pm[1]](pm[2]); } catch (er) { if (window.console) console.error(er); } }
+    if (pm && !ph) { v = 'home'; pm = null; }
+    if (!bookId && !pm && !VIEWS[v] && !SEC[v]) v = 'home';
     var base = bookId ? (state.fromList && state.view === state.fromList ? state.fromList : BOOK[bookId].section) : v;
     var prevBase = state.base;
     state.view = v; state.base = base;
     document.body.setAttribute('data-view', base);
     if (force || base !== prevBase) {
       var m = $('#main');
-      m.innerHTML = SEC[base] ? vSection(base) : base === 'home' ? vHome() : '<div class="narrow">' + VIEWS[base]() + '</div>';
+      var wide = X && (pm || X.views[base]);
+      m.innerHTML = ph != null ? '<div class="xpage">' + ph + '</div>' : SEC[base] ? vSection(base) : wide ? '<div class="xpage">' + VIEWS[base]() + '</div>' : base === 'home' ? vHome() : '<div class="narrow">' + VIEWS[base]() + '</div>';
+      if (X) X.bind(base);
       if (base === 'search') { fillSearchPage(); bindSearchPage(); }
       if (base === 'preferences') bindPrefs();
       if (base === 'progress') Object.keys(FR).forEach(function (k) { try { FR[k].fr.contentWindow.postMessage({ smr: 'getStats' }, new URL(BOOK[k].url).origin); } catch (e) {} });
-      document.title = (base === 'home' ? '' : (SEC[base] ? t(SEC[base].key + '.t') : t(TITLES[base])) + ' · ') + 'Student Master Review';
+      var nm0 = X ? X.name : 'Student Master Review', xt = X && X.title(base);
+      document.title = (base === 'home' ? '' : (xt || (SEC[base] ? t(SEC[base].key + '.t') : t(TITLES[base]))) + ' · ') + nm0;
       if (!force && prevBase !== undefined) {
         window.scrollTo(0, 0);
         var h1 = m.querySelector('h1'); if (h1 && base !== 'search') try { h1.focus({ preventScroll: true }); } catch (e) {}

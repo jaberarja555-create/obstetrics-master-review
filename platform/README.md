@@ -49,3 +49,23 @@ saved for later), `smr-seen` (books whose first-time note was closed). Nothing i
 
 ## Check after changes
 Serve the folder (`python3 -m http.server -d platform 8811`) and look at 390 px, 820 px and 1440 px, day and night, English and Arabic.
+
+## اشرح لي: the learning platform (owner, 17 Nov 2026)
+The library became a full learning platform named **«اشرح لي»** (Arabic first, main titles in English, language in Settings).
+- `js/learn.js` (loaded before `js/app.js`, which calls `SMR.ext(core)`): Home (hero search, four doors Basics · Clinical · Local Exam ·
+  Special Exams, basic subjects, available courses, learning paths, events, real platform numbers), Courses catalogue (categories, filters by
+  status / subject / lecturer / content type, grid or list), course page (curriculum by chapter, overview, lecturers, study tools, progress,
+  certificate), lesson player (`#lesson-<book>.<topic>`: video when one exists in `SMR.videos`, otherwise the key points and "read in the
+  book"; notes with formatting and quick tags, materials, quiz, Q&A, done mark, previous/next), learning paths, events (`SMR.events`), lecturers and
+  profiles, student community (opening in stages; course/lecturer requests and support work now through WhatsApp), My Library (books, Rapid Review,
+  QBanks, flashcards, OSCE; collections; real device storage), favourites, learning history, achievements (points, level, badges from the books'
+  real figures) and printable certificates, About.
+- Real content only: `js/courses.js` is made by `python3 tools/platform/courses.py` (run from the obstetrics repo with the Surgery and Pediatrics
+  repos beside it) from each book's chapters, topics and card/question counts; chapter pictures in `img/ch/`. Lecturers are the real authors and
+  the Surgery co-authors. No invented students, ratings, events or recordings: those parts show honest empty states until real data exist.
+- Nothing can be downloaded as a file. A course item opens its book inside the platform at the lesson, question bank, flashcards or Rapid Review:
+  `{smr:'open', topic, tool}` → each book's `window.__smrOpen` (src/v2.tools.js, ported to Surgery and Pediatrics).
+- Device keys added: `smr-ldone` (lessons marked done), `smr-lnote` (lesson notes), `smr-fav`, `smr-hist`, `smr-coll` (collections), `smr-pstep`,
+  `smr-ntf` (notify-me), `smr-cview`, `smr-lview`. Logo `img/ui/ishrah.svg` (icons made from it).
+- Not built yet (needs server tables and moderation): community posts, lecturer accounts and uploads, live-event registration, ratings, synced
+  lesson notes. Video lessons appear as soon as their files are listed in `SMR.videos`.

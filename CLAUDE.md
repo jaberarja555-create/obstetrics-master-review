@@ -738,3 +738,9 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   label per group. A picture had landed inside the last step of a `.ladder` (7.2 kick chart beside the PPROM step): figures never go inside a
   ladder step; the same happened inside a «What to say» box in 7.9 (newborn pictures in the Arabic line): every page was checked with a script and no picture now sits inside a text line, table cell, list item, step or say-box. Plain words (17 Nov 2026): "Marks hinge on", look-alikes, commoner, plateaus, undelivered, stale, jittery, errs, earns, floods,
   perplexed, deluded, fooled, extras, bloods, tummy … replaced across pages, Rapid Review, cards and questions.
+
+## اشرح لي: the learning platform (owner, 17 Nov 2026: "make the library a full learning platform … better than all of them")
+Student Master Review (platform/) is now **«اشرح لي»**: courses built from the three books, lesson player, learning paths, events, lecturers,
+student community, My Library with collections, favourites, history, achievements and certificates, About (details in platform/README.md).
+Real data only; nothing downloadable. Each book answers `{smr:'open', topic, tool}` with `window.__smrOpen` (src/v2.tools.js, ported to the other
+books). Work is on branch `ccr-38b3f943-ba1ode` (preview https://ccr-38b3f943-ba1ode.student-master-review.pages.dev) until the owner approves.
