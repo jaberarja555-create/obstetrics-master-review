@@ -2284,6 +2284,8 @@ section[data-file^="x9"] .frow .ans{background:none;color:#172e48;font-weight:75
 /* a picture row never shares a line with a table or box (owner, 17 Nov 2026: the breech manoeuvres table was squeezed beside its picture) */
 .page.nd .photos:has(> figure.frow), .page.nd .mz .photos.even:has(> figure.frow){display:block !important}
 .page.nd .photos:has(> figure.frow) > * + *{margin-top:12px}
+/* short lists in two columns (owner, 17 Nov 2026: one narrow list left half the page empty) */
+.page.nd ul.g2{display:grid;grid-template-columns:1fr 1fr;column-gap:26px;align-items:start}
 /* Rapid Review as a short topic (owner, 16 Nov 2026: "like the main topic but short, as points; every exam point"): title tab, opening
    line, numbered section titles as in the rebuilt chapters, one fact per line at 12 pt, exam-scenario and exam-trap boxes inside the section.
    Units (tools/rapid_review/cards.py rq3) may run over the page; a section piece that continues has no title. */

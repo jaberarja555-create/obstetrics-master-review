@@ -1511,11 +1511,6 @@
    "f": "c7s02p11x6_oh11"
   },
   {
-   "label": "7.2 · Station: Fever & Malaria",
-   "t": "oh",
-   "f": "c7s02p11x7_oh11"
-  },
-  {
    "label": "7.3 · The Station & Preparation",
    "t": "oe",
    "f": "c7s03p1_oe1"
@@ -1646,11 +1641,6 @@
    "f": "c7s04p6x4_obp6"
   },
   {
-   "label": "7.4 · Present It, 24-Hour Urine & Viva",
-   "t": "obp",
-   "f": "c7s04p6x5_obp6"
-  },
-  {
    "label": "7.5 · Speculum: Indications & Instruments",
    "t": "ov",
    "f": "c7s05p1_ov1"
@@ -1724,11 +1714,6 @@
    "label": "7.5 · VE: Present It & Viva",
    "t": "ov",
    "f": "c7s05p8x5_ov8"
-  },
-  {
-   "label": "7.5 · VE: Present It & Viva",
-   "t": "ov",
-   "f": "c7s05p8x6_ov8"
   },
   {
    "label": "7.6 · Partogram station: how to plot and read",
@@ -2004,11 +1989,6 @@
    "label": "7.9 · Apgar score & drill wrap-up",
    "t": "oem",
    "f": "c7s09p9x5_oem9"
-  },
-  {
-   "label": "7.9 · Apgar score & drill wrap-up",
-   "t": "oem",
-   "f": "c7s09p9x6_oem9"
   },
   {
    "label": "7.10 · Examination & labour tools",
@@ -3131,7 +3111,7 @@
    "no": "7.3",
    "title": "Obstetric abdominal examination",
    "sub": "General exam · inspection · fundal height · Leopold grips · fifths · fetal heart",
-   "p": 304,
+   "p": 303,
    "id": "oe",
    "ch": 7,
    "cls": "c7"
@@ -3140,7 +3120,7 @@
    "no": "7.4",
    "title": "Blood pressure & urine testing",
    "sub": "Cuff · Korotkoff sounds · dipstick protein & sugar",
-   "p": 319,
+   "p": 318,
    "id": "obp",
    "ch": 7,
    "cls": "c7"
@@ -3149,7 +3129,7 @@
    "no": "7.5",
    "title": "Speculum & vaginal examination",
    "sub": "Cusco & Sims · swabs · dilatation · station · position · Bishop",
-   "p": 331,
+   "p": 329,
    "id": "ov",
    "ch": 7,
    "cls": "c7"
@@ -3158,7 +3138,7 @@
    "no": "7.6",
    "title": "Partogram & CTG stations",
    "sub": "Plotting · alert & action lines · reading a CTG",
-   "p": 347,
+   "p": 344,
    "id": "opc",
    "ch": 7,
    "cls": "c7"
@@ -3167,7 +3147,7 @@
    "no": "7.7",
    "title": "Normal delivery & episiotomy",
    "sub": "Conducting delivery · AMTSL · episiotomy · tear repair",
-   "p": 361,
+   "p": 358,
    "id": "ond",
    "ch": 7,
    "cls": "c7"
@@ -3176,7 +3156,7 @@
    "no": "7.8",
    "title": "Operative delivery stations",
    "sub": "Ventouse · forceps · caesarean section",
-   "p": 374,
+   "p": 371,
    "id": "oiv",
    "ch": 7,
    "cls": "c7"
@@ -3185,7 +3165,7 @@
    "no": "7.9",
    "title": "Emergency drills",
    "sub": "PPH · eclampsia · shoulder dystocia · cord prolapse · newborn",
-   "p": 385,
+   "p": 382,
    "id": "oem",
    "ch": 7,
    "cls": "c7"
@@ -3194,7 +3174,7 @@
    "no": "7.10",
    "title": "Instruments, drugs & spotters",
    "sub": "What it is · what it is used for · viva questions",
-   "p": 403,
+   "p": 399,
    "id": "osp",
    "ch": 7,
    "cls": "c7"
@@ -3203,7 +3183,7 @@
    "no": "7.11",
    "title": "Counselling stations",
    "sub": "Bad news · IUFD · heart disease · epilepsy · contraception",
-   "p": 410,
+   "p": 406,
    "id": "oco",
    "ch": 7,
    "cls": "c7"

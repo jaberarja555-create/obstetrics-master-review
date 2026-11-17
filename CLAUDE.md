@@ -732,3 +732,9 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   chapter 7 became picture rows; any multi-picture figure wider than 430 px is a full-width row with the caption below (also 5 pages of ch 1–2,
   where captions were cut off). Checked: no element of any page runs past the page edge (scratchpad ovf.js).
 
+- **Short lists in two columns (owner, 17 Nov 2026: "this ugly space"):** the OSCE "Examiner marking points" were several narrow unlabelled lists
+  one under another, leaving the right half of the page empty. Consecutive short lists (items ≤ ~80 characters) in chapter 7 are now ONE list
+  `ul.g2` shown in two columns (CSS before "Rapid Review as a short topic"); 7.1's five lists became a table "Area | Marking points" with a
+  label per group. A picture had landed inside the last step of a `.ladder` (7.2 kick chart beside the PPROM step): figures never go inside a
+  ladder step. Plain words (17 Nov 2026): "Marks hinge on", look-alikes, commoner, plateaus, undelivered, stale, jittery, errs, earns, floods,
+  perplexed, deluded, fooled, extras, bloods, tummy … replaced across pages, Rapid Review, cards and questions.
