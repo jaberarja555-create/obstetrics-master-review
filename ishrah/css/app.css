@@ -1096,3 +1096,5 @@ body[data-area="control"]{--pri:#13305c;--pri2:#0c2246;--tint:rgba(201,154,46,.1
 .hchk{flex-wrap:nowrap}
 .hchk li{padding:0 14px;white-space:nowrap}
 @media (max-width:1400px){.hchk li{padding:0 9px;font-size:12px}.hero .hlogo{flex-basis:20%}.hero .hart{flex-basis:28%}}
+@media (max-width:700px){.hchk{display:grid;grid-template-columns:1fr 1fr;row-gap:12px;width:100%}.hchk li{white-space:normal;padding:0 6px}.hchk li+li{border-inline-start:0}.hchk li:nth-child(even){border-inline-start:1px solid rgba(233,198,108,.35)}}
+.hero{overflow:hidden}
