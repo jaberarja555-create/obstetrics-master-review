@@ -744,3 +744,7 @@ Student Master Review (platform/) is now **«اشرح لي»**: courses built fr
 student community, My Library with collections, favourites, history, achievements and certificates, About (details in platform/README.md).
 Real data only; nothing downloadable. Each book answers `{smr:'open', topic, tool}` with `window.__smrOpen` (src/v2.tools.js, ported to the other
 books). Work is on branch `ccr-38b3f943-ba1ode` (preview https://ccr-38b3f943-ba1ode.student-master-review.pages.dev) until the owner approves.
+
+## اشرح لي (Ishrah Li), the separate learning platform (owner, 17 Nov 2026)
+Lives in `ishrah/` with its own instructions: read `ishrah/CLAUDE.md` before working on it. It does not touch the books, Student Master Review
+or the books' Supabase. Branch `ccr-38b3f943-ba1ode` (preview https://ccr-38b3f943-ba1ode.ishrah.pages.dev) until the owner approves.

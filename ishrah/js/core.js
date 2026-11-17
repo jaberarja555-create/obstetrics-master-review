@@ -82,10 +82,22 @@
 
   /* ---------- signed-in user, lecturer record, team roles ---------- */
   IS.ME = null; IS.LEC = null; IS.SET = {}; IS.CATS = []; IS.SUBJ = [];
-  /* the platform's administrative structure (owner's chart, 17 Nov 2026); staff members get the sections chosen for them ('p:<section>') */
-  var PERMS = IS.PERMS = { owner: ['*'], gm: ['dash', 'students', 'lecturers', 'apps', 'review', 'paths', 'library', 'requests', 'pay', 'payout', 'events', 'community', 'notify', 'reports', 'cats', 'settings', 'audit', 'team'],
-    academic: ['dash', 'apps', 'lecturers', 'review', 'paths', 'reports'], finance: ['dash', 'pay', 'payout', 'lecturers', 'reports'], content: ['dash', 'library', 'requests', 'cats'],
-    community: ['dash', 'community', 'events', 'notify'], support: ['dash', 'students', 'requests', 'notify'], tech: ['dash', 'settings', 'audit', 'cats', 'reports'], staff: ['dash'] };
+  /* the platform's administrative structure (owner's chart, 17 Nov 2026). Each role has, per section, the actions it may do:
+     view · add · edit · delete · approve. The owner edits this matrix in the control app (the general manager for roles below him); the
+     database applies the same matrix (supabase role_perms + ish_can), so hiding a button is never the only protection.
+     Staff get sections chosen for them personally: 'p:<section>' (view, add, edit) and 'p:<section>:approve'. */
+  var ALL = ['view', 'add', 'edit', 'delete', 'approve'];
+  IS.ACTS = [['view', 'عرض', 'View'], ['add', 'إضافة', 'Add'], ['edit', 'تعديل', 'Edit'], ['delete', 'حذف', 'Delete'], ['approve', 'اعتماد', 'Approve']];
+  var DEF = { gm: ['dash', 'students', 'lecturers', 'apps', 'review', 'paths', 'library', 'requests', 'pay', 'payout', 'events', 'community', 'notify', 'reports', 'cats', 'settings', 'audit', 'team', 'tickets', 'tasks'],
+    academic: ['dash', 'apps', 'lecturers', 'review', 'paths', 'reports', 'tickets', 'tasks'], finance: ['dash', 'pay', 'payout', 'reports', 'tickets', 'tasks', ['lecturers', ['view', 'edit']]],
+    content: ['dash', 'library', 'requests', 'cats', 'tickets', 'tasks'], community: ['dash', 'community', 'events', 'notify', 'tickets', 'tasks'],
+    support: ['dash', 'students', 'requests', 'notify', 'tickets', 'tasks'], tech: ['dash', 'settings', 'audit', 'cats', 'reports', 'tickets', 'tasks'], staff: [['dash', ['view']], ['tasks', ['view', 'edit']]] };
+  IS.DEFRP = {}; Object.keys(DEF).forEach(function (r) { IS.DEFRP[r] = {}; DEF[r].forEach(function (x) { if (typeof x === 'string') IS.DEFRP[r][x] = ALL.slice(); else IS.DEFRP[r][x[0]] = x[1].slice(); }); });
+  IS.RP = IS.DEFRP;
+  var PERMS = IS.PERMS = {}; Object.keys(IS.DEFRP).forEach(function (r) { PERMS[r] = Object.keys(IS.DEFRP[r]); }); PERMS.owner = ['*'];
+  /* the department each manager role runs (tickets, tasks and staff are grouped by it) */
+  IS.DEPTS = [['academic', 'القسم الأكاديمي', 'Academic'], ['finance', 'القسم المالي', 'Finance'], ['content', 'المحتوى والمكتبة', 'Content & library'], ['community', 'المجتمع والفعاليات', 'Community & events'],
+    ['support', 'خدمة العملاء', 'Customer support'], ['tech', 'القسم التقني', 'Technical']];
   IS.ROLES = [['owner', 'مالك المنصة', 'Owner (Super Admin)', 'shield', 'التحكم الأعلى في النظام، إدارة الصلاحيات الحساسة، وتعيين المدير العام', 'Highest control, sensitive permissions and appointing the general manager'],
     ['gm', 'المدير العام', 'General Manager', 'briefcase', 'الإشراف على الأقسام، اعتماد القرارات، متابعة الأداء والتقارير العامة', 'Oversees the departments, approves decisions, follows performance and reports'],
     ['academic', 'المدير الأكاديمي', 'Academic Director', 'cert', 'إدارة المحاضرين، الكورسات، والمحتوى الأكاديمي وضمان جودته', 'Lecturers, courses and the quality of academic content'],
@@ -95,7 +107,17 @@
     ['support', 'مدير خدمة العملاء', 'Support Manager', 'help', 'الرد على استفسارات المستخدمين، معالجة الطلبات والشكاوى', 'User enquiries, requests and complaints'],
     ['tech', 'المدير التقني', 'Technical Manager', 'gear', 'إدارة النظام والمنصة، البنية التقنية، الأمان والدعم الفني', 'The system, technical infrastructure, security and technical support'],
     ['staff', 'المشرفون والموظفون', 'Supervisors & Staff', 'users', 'تنفيذ المهام التشغيلية في الأقسام المختلفة تحت إشراف مديري الأقسام', 'Operational tasks in the departments under the department managers']];
-  IS.can = function (p) { var t = (IS.ME && IS.ME.team) || []; return t.indexOf('p:' + p) >= 0 || t.some(function (r) { var a = PERMS[r] || []; return a.indexOf('*') >= 0 || a.indexOf(p) >= 0; }); };
+  IS.can = function (p, act) {
+    act = act || 'view'; var me = IS.ME, t = (me && me.team) || []; if (!t.length) return false;
+    if (me.status === 'blocked' || me.team_status === 'suspended') return false;
+    if (IS.MFA_NEEDED) return false;   // two-factor login required and not done yet
+    if (t.indexOf('owner') >= 0) return true;
+    if (act === 'approve' && me.approval === 'none') return false;
+    if (t.indexOf('p:' + p + ':' + act) >= 0 || (t.indexOf('p:' + p) >= 0 && ['view', 'add', 'edit'].indexOf(act) >= 0)) return true;
+    return t.some(function (r) { var x = IS.RP[r] && IS.RP[r][p]; return !!(x && x.indexOf(act) >= 0); });
+  };
+  IS.dept = function () { var me = IS.ME; if (!me) return ''; if (me.dept) return me.dept; var t = me.team || []; return (IS.DEPTS.filter(function (d) { return t.indexOf(d[0]) >= 0; })[0] || [''])[0]; };
+  IS.manager = function () { var t = (IS.ME && IS.ME.team) || []; return t.some(function (r) { return r !== 'staff' && r.indexOf('p:') !== 0; }); };
   IS.team = function () { return !!(IS.ME && (IS.ME.team || []).length); };
   IS.loadMe = async function () {
     var uid = DB.uid(); IS.ME = null; IS.LEC = null;
@@ -108,6 +130,7 @@
   IS.loadBase = async function () {
     var r = await Promise.all([DB.q('settings'), DB.q('categories', { order: ['sort'] }), DB.q('subjects', { order: ['sort'] })]);
     IS.SET = {}; r[0].forEach(function (s) { IS.SET[s.id] = s.value; }); IS.CATS = r[1]; IS.SUBJ = r[2];
+    try { var rp = await DB.q('role_perms'), m = JSON.parse(JSON.stringify(IS.DEFRP)), seen = {}; rp.forEach(function (x) { if (!seen[x.role]) { seen[x.role] = 1; m[x.role] = {}; } if ((x.acts || ALL).length) m[x.role][x.perm] = x.acts || ALL.slice(); }); IS.RP = m; } catch (e) {}
   };
   IS.cat = function (id) { return IS.CATS.filter(function (c) { return c.id === id; })[0]; };
   IS.subj = function (id) { return IS.SUBJ.filter(function (c) { return c.id === id; })[0]; };
@@ -191,6 +214,7 @@
     IS.area = o.area || 'student'; document.body.setAttribute('data-area', IS.area); document.body.setAttribute('data-page', name);
     IS.chrome(name);
     if (o.auth && !IS.ME) { main.innerHTML = authGate(); return; }
+    if (IS.mfaGate) { var g = IS.mfaGate(); if (g) { main.innerHTML = g; return; } }
     if (o.perm && !IS.can(o.perm)) { main.innerHTML = IS.empty('lock', A('لا تملك صلاحية هذه الصفحة', 'You do not have access to this page'), A('اطلب الصلاحية من مالك المنصة.', 'Ask the platform owner for access.')); return; }
     if (o.lec && !IS.LEC) { IS.go('studio-apply'); return; }
     main.innerHTML = '<div class="loading"><span class="spin"></span></div>';
@@ -222,7 +246,7 @@
   /* ---------- shell ---------- */
   var NAV = {
     student: [['home', 'home', 'الرئيسية', 'Home'], ['courses', 'layers', 'الكورسات', 'Courses'], ['learning', 'bookmark', 'تعلّمي', 'My learning'], ['events', 'cal', 'الفعاليات', 'Events'],
-      ['lecturers', 'users', 'المحاضرون', 'Lecturers'], ['community', 'group', 'المجتمع', 'Community'], ['library', 'open', 'مكتبتي', 'My Library'], ['paths', 'route', 'المسارات', 'Paths'], ['favorites', 'heart', 'المفضلة', 'Favourites'], ['achievements', 'trophy', 'الإنجازات', 'Achievements'], ['about', 'info', 'عن المنصة', 'About']],
+      ['lecturers', 'users', 'المحاضرون', 'Lecturers'], ['community', 'group', 'المجتمع', 'Community'], ['library', 'open', 'مكتبتي', 'My Library'], ['paths', 'route', 'المسارات', 'Paths'], ['favorites', 'heart', 'المفضلة', 'Favourites'], ['achievements', 'trophy', 'الإنجازات', 'Achievements'], ['support', 'chat', 'الدعم والرسائل', 'Support & messages'], ['about', 'info', 'عن المنصة', 'About']],
     studio: [['studio', 'chart', 'لوحة المحاضر', 'Dashboard'], ['studio-courses', 'layers', 'كورساتي', 'My courses'], ['studio-page', 'user', 'صفحتي', 'My page'], ['studio-events', 'cal', 'فعالياتي', 'My events'],
       ['studio-students', 'users', 'طلابي', 'My students'], ['studio-qa', 'chat', 'الأسئلة', 'Questions'], ['studio-money', 'wallet', 'الأرباح', 'Earnings']],
     control: [['control', 'chart', 'لوحة التحكم', 'Dashboard', 'dash'], ['control-pay', 'receipt', 'المدفوعات', 'Payments', 'pay'], ['control-review', 'eye', 'مراجعة الكورسات', 'Course review', 'review'], ['control-apps', 'user', 'طلبات المحاضرين', 'Lecturer requests', 'apps'],
@@ -244,7 +268,7 @@
         '<button class="btn pri sm" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button>') + '</div></div>';
     var items = navItems(area);
     IS.$('#side').innerHTML = areaSw + (area === 'control' && IS.ctrlSide ? '<nav class="cnav">' + IS.ctrlSide(page) + '</nav>' : '<nav>' + items.map(function (n) { return '<a href="#' + n[0] + '" class="' + (n[0] === page || (page.indexOf(n[0] + '-') === 0 && area === 'student') ? 'on' : '') + '">' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') + '</nav>');
-    var tabs = area === 'student' ? ['home', 'courses', 'library', 'learning'] : items.slice(0, 4).map(function (n) { return n[0]; });
+    var tabs = area === 'student' ? ['home', 'courses', 'learning', 'community'] : items.slice(0, 4).map(function (n) { return n[0]; });
     IS.$('#tabs').innerHTML = tabs.map(function (k) { var n = items.filter(function (x) { return x[0] === k; })[0]; if (!n) return ''; return '<a href="#' + n[0] + '" class="' + (n[0] === page ? 'on' : '') + '">' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') +
       '<a href="#more" data-act="more">' + ic('menu') + '<span>' + esc(A('المزيد', 'More')) + '</span></a>';
     if (me) IS.bell();
@@ -254,7 +278,7 @@
       n = n.filter(function (x) { return (!x.user_id || x.user_id === IS.ME.id) && new Date(x.created_at).getTime() > seen; }); var b = IS.$('#bellN'); if (b) { b.hidden = !n.length; b.textContent = n.length > 9 ? '9+' : n.length; } } catch (e) {}
   };
   IS.ACT.more = function () {
-    var items = navItems(IS.area), extra = IS.area === 'student' ? [['notifications', 'bell', 'الإشعارات', 'Notifications'], ['account', 'user', 'حسابي', 'My account'], ['search', 'search', 'البحث', 'Search']] : [];
+    var items = navItems(IS.area), extra = IS.area === 'student' ? [['notifications', 'bell', 'الإشعارات', 'Notifications'], ['account', 'user', 'حسابي', 'My account'], ['search', 'search', 'البحث', 'Search']] : [['security', 'shield', 'الأمان والتحقق', 'Security']];
     var areas = [['home', 'home', 'المنصة', 'Platform', true], ['studio', 'studio', 'استوديو المحاضر', 'Lecturer studio', !!IS.ME], ['control', 'crown', 'التحكم', 'Control', IS.team()]].filter(function (x) { return x[4]; });
     IS.sheet(A('المزيد', 'More'), '<div class="mgrid">' + items.concat(extra).map(function (n) { return '<a href="#' + n[0] + '">' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') + '</div>' +
       (areas.length > 1 ? '<h3 class="sub">' + esc(A('الانتقال إلى', 'Switch to')) + '</h3><div class="mgrid">' + areas.map(function (n) { return '<a href="#' + n[0] + '" class="alt">' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') + '</div>' : ''), { nofocus: 1 });
@@ -284,7 +308,7 @@
         '<label class="chk"><input type="checkbox" name="terms" required><span>' + esc(A('أوافق على ', 'I agree to the ')) + '<a href="#terms" class="link" data-close>' + esc(A('شروط الاستخدام وسياسة الخصوصية', 'terms of use and privacy policy')) + '</a></span></label>' : '') +
       '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic(up ? 'user' : 'logout') + '<span>' + esc(up ? A('إنشاء الحساب', 'Create account') : A('دخول', 'Sign in')) + '</span></button></form>' +
       '<p class="alt">' + (up ? esc(A('لديك حساب بالفعل؟', 'Already have an account?')) + ' <button class="link" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button>' :
-        esc(A('ليس لديك حساب؟', 'No account?')) + ' <button class="link" data-act="register">' + esc(A('أنشئ حسابًا', 'Create one')) + '</button><br><a class="link" target="_blank" rel="noopener" href="' + IS.wa(null, 'نسيت كلمة المرور في منصة اشرح لي. رقمي: ') + '">' + esc(A('نسيت كلمة المرور؟', 'Forgot your password?')) + '</a>') + '</p>' +
+        esc(A('ليس لديك حساب؟', 'No account?')) + ' <button class="link" data-act="register">' + esc(A('أنشئ حسابًا', 'Create one')) + '</button><br><button class="link" data-act="ticket" data-k="password">' + esc(A('نسيت كلمة المرور؟', 'Forgot your password?')) + '</button>') + '</p>' +
       (DB.live ? '' : '<p class="pv">' + IS.ic('info') + esc(A('نسخة معاينة: الحسابات والبيانات محفوظة على هذا الجهاز فقط. أول حساب يُنشأ هو مالك المنصة.', 'Preview copy: accounts and data stay on this device only. The first account created is the platform owner.')) + '</p>'));
     IS.AUTHKIND = kind;
   }
@@ -300,7 +324,8 @@
   };
   IS.SUB.signin = async function (d) {
     try { await DB.signIn({ phone: d.phone, pass: d.pass }); } catch (e) { return authMsg(A('الرقم أو كلمة المرور غير صحيحة.', 'Wrong phone number or password.')); }
-    IS.closeSheet(); await IS.loadMe(); if (IS.ME && IS.ME.status === 'blocked') { await DB.signOut(); IS.ME = null; IS.toast(A('هذا الحساب موقوف. تواصل مع الدعم.', 'This account is blocked. Contact support.'), true); } IS.route();
+    IS.closeSheet(); await IS.loadMe(); if (IS.ME && IS.ME.status === 'blocked') { await DB.signOut(); IS.ME = null; IS.toast(A('هذا الحساب موقوف. تواصل مع الدعم.', 'This account is blocked. Contact support.'), true); }
+    if (IS.mfaCheck) await IS.mfaCheck(); if (IS.team()) IS.go('control'); else IS.route();
   };
   IS.ACT.google = async function () { if (IS.AUTHKIND === 'lecturer') LS.set('afterlogin', 'studio-apply'); await DB.google(); if (!DB.live) { IS.closeSheet(); await IS.loadMe(); var a = LS.get('afterlogin', ''); LS.set('afterlogin', ''); if (a) IS.go(a); else IS.route(); } };
   IS.ACT.logout = async function () { await DB.signOut(); IS.ME = null; IS.LEC = null; IS.go('home'); };
@@ -311,7 +336,9 @@
     if (DB.ready) await DB.ready;
     try { await IS.loadBase(); } catch (e) { IS.SET = {}; }
     await IS.loadMe();
-    DB.onAuth(async function () { await IS.loadMe(); IS.route(); });
+    if (IS.mfaCheck) await IS.mfaCheck();
+    if (IS.ME) DB.upd('profiles', IS.ME.id, { last_seen: new Date().toISOString() }).catch(function () {});
+    DB.onAuth(async function () { await IS.loadMe(); if (IS.mfaCheck) await IS.mfaCheck(); IS.route(); });
     IS.route();
     if (!DB.live) document.body.classList.add('preview');
   };

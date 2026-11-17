@@ -8,7 +8,7 @@
   function uid() { return IS.ME.id; }
   /* grouped side menu */
   IS.CTRL = [
-    [null, [['control', 'home', 'الرئيسية', 'Dashboard', 'dash']]],
+    [null, [['control', 'home', 'لوحة التحكم', 'Dashboard', 'dash'], ['control-tickets', 'mail', 'صندوق الرسائل', 'Inbox', 'tickets'], ['control-tasks', 'checkc', 'المهام', 'Tasks', 'tasks']]],
     [['users', 'المستخدمون', 'Users'], [['control-students', 'user', 'الطلاب', 'Students', 'students'], ['control-lecturers', 'users', 'المحاضرون', 'Lecturers', 'lecturers'], ['control-apps', 'cert', 'طلبات المحاضرين', 'Lecturer requests', 'apps']]],
     [['layers', 'المحتوى التعليمي', 'Content'], [['control-review', 'eye', 'الكورسات والمراجعة', 'Courses & review', 'review'], ['control-library', 'open', 'الكتب والملفات', 'Books & files', 'library'], ['control-paths', 'route', 'المسارات التعليمية', 'Learning paths', 'paths']]],
     [['cal', 'الفعاليات', 'Events'], [['control-events', 'cal', 'إدارة الفعاليات', 'Manage events', 'events']]],
@@ -16,7 +16,7 @@
     [['group', 'المجتمع والتواصل', 'Community'], [['control-community', 'flag', 'البلاغات والنقاشات', 'Reports & posts', 'community'], ['control-notify', 'bell', 'الإعلانات والإشعارات', 'Announcements', 'notify']]],
     [['wallet', 'الاشتراكات والمدفوعات', 'Payments'], [['control-pay', 'receipt', 'مراجعة المدفوعات', 'Payment review', 'pay'], ['control-payouts', 'wallet', 'مستحقات المحاضرين', 'Lecturer payouts', 'payout']]],
     [['chart', 'التقارير والتحليلات', 'Reports'], [['control-reports', 'chart', 'التقارير', 'Reports', 'reports']]],
-    [['shield', 'إدارة الصلاحيات', 'Permissions'], [['control-structure', 'org', 'الهيكل الإداري', 'Administrative structure', 'dash'], ['control-team', 'shield', 'الأدوار والصلاحيات', 'Roles & permissions', 'team']]],
+    [['shield', 'إدارة الصلاحيات', 'Permissions'], [['control-structure', 'org', 'الهيكل الإداري', 'Administrative structure', 'dash'], ['control-team', 'shield', 'المستخدمون والصلاحيات', 'Users & permissions', 'team']]],
     [['gear', 'إدارة الموقع والتطبيق', 'Site & app'], [['control-cats', 'grid', 'الأقسام والمواد', 'Categories & subjects', 'cats'], ['control-settings', 'gear', 'الإعدادات العامة', 'General settings', 'settings'], ['control-audit', 'clock', 'سجل العمليات', 'Activity log', 'audit']]]];
   IS.ctrlSide = function (page) {
     return IS.CTRL.map(function (g) {
@@ -49,7 +49,7 @@
   function tabsBar(base, cur, list) { return '<div class="tabs pills">' + list.map(function (t) { return '<a href="#' + base + '/' + t[0] + '" class="' + (cur === t[0] ? 'on' : '') + '">' + esc(t[1]) + (t[2] != null ? ' <i>' + N(t[2]) + '</i>' : '') + '</a>'; }).join('') + '</div>'; }
 
   /* ========== DASHBOARD ========== */
-  IS.page('control', async function () {
+  IS.ctrlOverview = async function () {
     var r = await Promise.all([DB.q('profiles'), DB.q('lecturers'), DB.q('courses'), DB.q('lessons'), DB.q('files'), DB.q('events'), DB.q('requests', { order: ['created_at', false] }), DB.q('lecturer_apps', { order: ['created_at', false] }),
       DB.q('enrollments'), DB.q('progress'), DB.q('posts'), DB.q('event_regs'), DB.q('reports', { eq: { status: 'open' } }), DB.q('audit', { order: ['created_at', false], limit: 6 })]);
     var us = r[0], lec = r[1], cs = r[2], ls = r[3], fs = r[4], ev = r[5], rq = r[6], ap = r[7], en = r[8], pr = r[9], po = r[10], er = r[11], rp = r[12];
@@ -92,7 +92,7 @@
       cs.filter(function (c) { return c.status === 'review'; }).slice(0, 3).map(function (c) { return '<li class="grn">' + esc(A('كورس جديد جاهز للنشر: ', 'New course ready to publish: ')) + esc(c.title) + '</li>'; }).join('') +
       r[13].map(function (a) { return '<li>' + esc(a.name || '') + ': ' + esc(a.action) + ' <small>' + esc(IS.ago(a.created_at)) + '</small></li>'; }).join('') + '</ul></section></aside></div>';
     return h;
-  }, P('dash'));
+  };
 
   /* ========== PAYMENTS ========== */
   IS.page('control-pay', async function (tab) {
@@ -135,7 +135,7 @@
       (list.length ? list.map(function (a) { return '<article class="box app"><header class="sh"><h2>' + IS.av(a, 'sm') + esc(a.name) + '</h2>' + IS.status(a.status) + '</header><ul class="kv sm"><li><span>' + esc(A('المؤهل', 'Qualification')) + '</span><b dir="ltr">' + esc(a.qual) + '</b></li><li><span>' + esc(A('التخصص', 'Specialty')) + '</span><b>' + esc(a.specialty) + '</b></li><li><span>' + esc(A('اللقب', 'Title')) + '</span><b>' + esc(a.title || '—') + '</b></li><li><span>' + esc(A('الهاتف', 'Phone')) + '</span><b dir="ltr">' + esc(a.phone) + '</b></li><li><span>' + esc(A('البريد', 'Email')) + '</span><b dir="ltr">' + esc(a.email || '—') + '</b></li></ul>' +
         '<h3 class="sub">' + esc(A('الخبرة', 'Experience')) + '</h3><p class="pre">' + esc(a.experience) + '</p><h3 class="sub">' + esc(A('الكورس المقترح', 'Proposed course')) + ': ' + esc(a.plan_title) + '</h3><p class="pre">' + esc(a.plan) + '</p>' +
         '<div class="row">' + (a.cv ? '<button class="btn sm ghost" data-act="appfile" data-p="' + esc(a.cv) + '">' + ic('file') + esc(A('السيرة الذاتية', 'CV')) + '</button>' : '') + (a.certs ? '<button class="btn sm ghost" data-act="appfile" data-p="' + esc(a.certs) + '">' + ic('cert') + esc(A('الشهادات', 'Certificates')) + '</button>' : '') + (a.sample ? '<a class="btn sm ghost" target="_blank" rel="noopener" href="' + esc(/^https?:/.test(a.sample) ? a.sample : 'https://' + a.sample) + '">' + ic('video') + esc(A('العينة', 'Sample')) + '</a>' : '') +
-        '<a class="btn sm ghost" target="_blank" rel="noopener" href="' + IS.wa(a.phone.replace(/^0/, '249')) + '">' + ic('wa') + 'WhatsApp</a></div>' + (a.status === 'pending' ? '<div class="row end"><button class="btn ghost bad" data-act="appno" data-id="' + a.id + '">' + esc(A('رفض', 'Reject')) + '</button><button class="btn pri" data-act="appok" data-id="' + a.id + '">' + ic('check') + esc(A('اعتماد كمحاضر', 'Approve as lecturer')) + '</button></div>' : (a.note ? '<p class="mut">' + esc(a.note) + '</p>' : '')) + '</article>'; }).join('') : IS.empty('cert', A('لا توجد طلبات هنا', 'No requests here')));
+        '</div>' + (a.status === 'pending' ? '<div class="row end"><button class="btn ghost bad" data-act="appno" data-id="' + a.id + '">' + esc(A('رفض', 'Reject')) + '</button><button class="btn pri" data-act="appok" data-id="' + a.id + '">' + ic('check') + esc(A('اعتماد كمحاضر', 'Approve as lecturer')) + '</button></div>' : (a.note ? '<p class="mut">' + esc(a.note) + '</p>' : '')) + '</article>'; }).join('') : IS.empty('cert', A('لا توجد طلبات هنا', 'No requests here')));
   }, P('apps'));
   IS.ACT.appfile = async function (b) { var u = await DB.fileUrl('apps', b.getAttribute('data-p')); if (u) window.open(u, '_blank', 'noopener'); };
   IS.ACT.appok = async function (b) {
@@ -203,7 +203,7 @@
     var u = await DB.one('profiles', b.getAttribute('data-id')), en = await DB.q('enrollments', { eq: { user_id: u.id } }), cs = await DB.q('courses'), C = {}; cs.forEach(function (c) { C[c.id] = c; });
     IS.sheet(esc(u.name), '<ul class="kv"><li><span>' + esc(A('الهاتف', 'Phone')) + '</span><b dir="ltr">' + esc(u.phone || '—') + '</b></li><li><span>' + esc(A('البريد', 'Email')) + '</span><b dir="ltr">' + esc(u.email || '—') + '</b></li><li><span>' + esc(A('التسجيل', 'Joined')) + '</span><b>' + esc(IS.date(u.created_at)) + '</b></li></ul>' +
       '<h3 class="sub">' + esc(A('الكورسات', 'Courses')) + '</h3>' + (en.length ? '<div class="list">' + en.map(function (e) { return '<div class="li"><span><b>' + esc((C[e.course_id] || {}).title || '') + '</b><small>' + IS.money(e.price) + '</small></span>' + IS.status(e.status) + '</div>'; }).join('') + '</div>' : '<p class="mut">—</p>') +
-      '<div class="row wrap"><button class="btn ghost sm" data-act="grant" data-id="' + u.id + '">' + ic('plus') + esc(A('منح كورس', 'Grant a course')) + '</button>' + (u.phone ? '<button class="btn ghost sm" data-act="setpass" data-id="' + u.id + '">' + ic('lock') + esc(A('تعيين كلمة مرور', 'Set password')) + '</button><a class="btn ghost sm" target="_blank" rel="noopener" href="' + IS.wa('249' + String(u.phone).replace(/^0/, '')) + '">' + ic('wa') + 'WhatsApp</a>' : '') +
+      '<div class="row wrap"><button class="btn ghost sm" data-act="grant" data-id="' + u.id + '">' + ic('plus') + esc(A('منح كورس', 'Grant a course')) + '</button>' + (u.phone ? '<button class="btn ghost sm" data-act="setpass" data-id="' + u.id + '">' + ic('lock') + esc(A('تعيين كلمة مرور', 'Set password')) + '</button>' : '') +
       '<button class="btn ghost sm" data-act="umsg" data-id="' + u.id + '">' + ic('bell') + esc(A('إشعار خاص', 'Send notice')) + '</button><button class="btn sm ' + (u.status === 'blocked' ? 'pri' : 'ghost bad') + '" data-act="ublock" data-id="' + u.id + '" data-s="' + (u.status === 'blocked' ? 'active' : 'blocked') + '">' + esc(u.status === 'blocked' ? A('إلغاء الإيقاف', 'Unblock') : A('إيقاف الحساب', 'Block')) + '</button></div>', { nofocus: 1 });
   };
   IS.ACT.ublock = async function (b) { var u = await DB.upd('profiles', b.getAttribute('data-id'), { status: b.getAttribute('data-s') }); IS.audit(u.status === 'blocked' ? 'block user' : 'unblock user', u.name); IS.closeSheet(); IS.refresh(); };
@@ -345,8 +345,7 @@
   IS.page('control-settings', async function (tab) {
     var S = IS.SET;
     return IS.banner(esc(A('الإعدادات العامة', 'General settings')), '', 'gear') + '<form class="box form" data-form="settings"><h2>' + ic('wallet') + esc(A('الدفع', 'Payment')) + '</h2><div class="g2f"><label class="fl"><span>' + esc(A('رقم حساب بنكك لاستلام المدفوعات', 'Bankak account for payments')) + '</span><input name="bankak_account" dir="ltr" value="' + esc(S.bankak_account || '') + '"></label><label class="fl"><span>' + esc(A('اسم صاحب الحساب', 'Account name')) + '</span><input name="bankak_name" value="' + esc(S.bankak_name || '') + '"></label>' +
-      '<label class="fl"><span>' + esc(A('العملة', 'Currency')) + '</span><input name="currency" value="' + esc(S.currency || 'SDG') + '"></label><label class="fl"><span>' + esc(A('نسبة المحاضر الافتراضية %', 'Default lecturer share %')) + '</span><input name="default_share" type="number" min="0" max="100" value="' + esc(S.default_share || 70) + '"></label></div>' +
-      '<h2>' + ic('wa') + esc(A('الدعم', 'Support')) + '</h2><label class="fl"><span>' + esc(A('رقم واتساب الدعم (بالصيغة الدولية)', 'Support WhatsApp (international form)')) + '</span><input name="whatsapp" dir="ltr" value="' + esc(S.whatsapp || '') + '"></label><button class="btn pri">' + esc(A('حفظ', 'Save')) + '</button></form>' +
+      '<label class="fl"><span>' + esc(A('العملة', 'Currency')) + '</span><input name="currency" value="' + esc(S.currency || 'SDG') + '"></label><label class="fl"><span>' + esc(A('نسبة المحاضر الافتراضية %', 'Default lecturer share %')) + '</span><input name="default_share" type="number" min="0" max="100" value="' + esc(S.default_share || 70) + '"></label></div><button class="btn pri">' + esc(A('حفظ', 'Save')) + '</button></form>' +
       '<section class="box" id="backup"><h2>' + ic('cloud') + esc(A('النسخ الاحتياطي والتكاملات', 'Backup and integrations')) + '</h2><ul class="kv"><li><span>' + esc(A('قاعدة البيانات', 'Database')) + '</span><b>' + esc(DB.live ? 'Supabase · ' + A('متصلة', 'connected') : A('معاينة على هذا الجهاز', 'Preview on this device')) + '</b></li><li><span>' + esc(A('الفيديو', 'Video')) + '</span><b>' + esc((window.ISH_CONFIG || {}).bunnyLibrary ? 'Bunny Stream · ' + window.ISH_CONFIG.bunnyLibrary : A('لم يُربط بعد', 'Not connected yet')) + '</b></li></ul>' +
       (DB.live ? '<p class="mut">' + esc(A('يأخذ Supabase نسخة احتياطية يومية تلقائيًا (Project Settings → Database → Backups).', 'Supabase takes a daily backup automatically (Project Settings → Database → Backups).')) + '</p>' : '<button class="btn ghost" data-act="backup">' + ic('file') + esc(A('تنزيل نسخة من بيانات المعاينة', 'Download a copy of the preview data')) + '</button> <button class="btn ghost bad" data-act="wipe">' + ic('trash') + esc(A('مسح بيانات المعاينة', 'Clear the preview data')) + '</button>') + '</section>';
   }, P('settings'));

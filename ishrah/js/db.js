@@ -63,6 +63,8 @@
     function mkProfile(u, name, phone, email) {
       var owner = !tb('profiles').some(function (p) { return (p.team || []).indexOf('owner') >= 0; });
       var p = { id: u.id, name: name, phone: phone || '', email: email || '', photo: '', university: '', year: '', team: owner ? ['owner'] : [], status: 'active', created_at: now() };
+      var inv = tb('invites').filter(function (v) { return v.status === 'pending' && ((phone && v.phone && digits(v.phone) === digits(phone)) || (email && v.email && v.email === String(email).toLowerCase())); })[0];
+      if (inv) { p.team = [inv.role].concat(inv.extras || []); p.dept = inv.dept; p.manager_id = inv.manager_id; p.approval = inv.approval; p.mfa_required = inv.mfa_required; p.team_status = inv.team_status || 'active'; inv.status = 'used'; }
       tb('profiles').push(p); save(); return p;
     }
     return {
@@ -84,7 +86,7 @@
         if (!u) { u = { id: uuid(), email: em }; var us = users(); us.push(u); setUsers(us); mkProfile(u, em.split('@')[0], '', em); }
         localStorage.setItem('ish-session', u.id); fire(); return u.id;
       },
-      signOut: async function () { localStorage.removeItem('ish-session'); fire(); },
+      signOut: async function () { localStorage.removeItem('ish-session'); try { Object.keys(sessionStorage).forEach(function (k) { if (/^ish-aal2-/.test(k)) sessionStorage.removeItem(k); }); } catch (e) {} fire(); },
       setPassword: async function (uid, pass) { var us = users(), u = us.filter(function (x) { return x.id === uid; })[0]; if (!u || !u.phone) throw new Error('nophone'); u.hash = await sha(u.phone + ':' + pass); setUsers(us); },
       q: async function (t, f) {
         f = f || {}; var r = tb(t).filter(function (x) { return match(x, f); }).map(function (x) { return Object.assign({}, x); });
