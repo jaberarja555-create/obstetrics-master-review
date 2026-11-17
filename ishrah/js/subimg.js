@@ -1,2 +1,2 @@
 /* subjects that have a card picture img/sub_<id>.webp (written by tools/ishrah/cut.py) */
-window.ISH_SUBIMG = [];
+window.ISH_SUBIMG = ["anaesthesia", "anatomy", "australia", "biochemistry", "blood-bank", "canada", "clin-chem", "clin-pharm", "community", "dent-mat", "dermatology", "ent", "haematology", "histopath", "ho-intern", "ho-skills", "ielts", "ifom", "med-micro", "medicine", "microbiology", "mrcog", "mrcp", "mrcpch", "mrcs", "nurs-comm", "nurs-fund", "nurs-mat", "nurs-medsurg", "nurs-ped", "obgyn", "oet", "operative", "ophthalmology", "pathology", "pediatrics", "ph-pharmacology", "pharmaceutics", "pharmacology", "physiology", "plab", "psychiatry", "radiology", "smc", "surgery", "usmle"];

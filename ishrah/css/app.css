@@ -949,3 +949,96 @@ body[data-area="control"]{--pri:#13305c;--pri2:#0c2246;--tint:rgba(201,154,46,.1
 @media (max-width:1279px){.subjs>.subj{flex-basis:calc((100% - 4 * 12px) / 5)}}
 @media (max-width:900px){.subjs>.subj{flex-basis:calc((100% - 2 * 12px) / 3)}}
 @media (max-width:520px){.subjs>.subj{flex-basis:calc((100% - 12px) / 2)}}
+
+/* ---------- owner's design, 18 Nov 2026: top menu, hero, horizontal speciality cards, picture subject cards ---------- */
+.tnav{display:none}
+@media (min-width:1024px){
+  body[data-area="student"] #side{display:none}
+  body[data-area="student"] #top,body[data-area="student"] main{margin-inline-start:0}
+  body[data-area="student"] main{margin-inline:auto;max-width:1480px}
+  body[data-area="student"] .tsearch{display:none}
+  body[data-area="student"] .only-ph{display:inline-flex}
+  .tnav{display:flex;align-items:stretch;gap:2px;flex:1;justify-content:center;min-width:0}
+  .tnav>a,.tnav>button{display:flex;align-items:center;gap:7px;padding:8px 11px;border-radius:12px;color:#dfe5f0;border:0;background:none;cursor:pointer;white-space:nowrap}
+  .tnav .ico{width:19px;height:19px;color:var(--gold2)}
+  .tnav .nl b{font-size:13.5px}.tnav .nl small{font-size:10.5px;opacity:.7}
+  .tnav>a:hover,.tnav>button:hover{background:rgba(233,198,108,.12)}
+  .tnav>a.on{background:var(--goldg);color:#1a1405}.tnav>a.on .ico{color:#1a1405}
+  .tnav>a+a,.tnav>a+button{position:relative}
+}
+@media (min-width:1024px) and (max-width:1379px){.tnav .nl small{display:none}.tnav>a,.tnav>button{padding:8px 8px}body[data-area="student"] .brand small{display:none}}
+@media (min-width:1024px) and (max-width:1180px){.tnav>a .nl,.tnav>button .nl{display:none}.tnav>a.on .nl{display:flex}}
+
+/* hero: logo · title and features · books picture */
+.hero.gold{display:flex;align-items:stretch;padding:0;min-height:300px;gap:0}
+.hero .hlogo{flex:0 0 22%;display:grid;place-items:center;padding:18px;position:relative;z-index:2}
+.hero .hlogo img{width:min(230px,100%);filter:drop-shadow(0 8px 22px rgba(0,0,0,.45))}
+.hero .hin{flex:1;padding:30px 18px;max-width:none;display:flex;flex-direction:column;align-items:center;text-align:center}
+.hero .hin .hsearch{width:100%;max-width:560px}
+.hero .hin .hbtn{justify-content:center}
+.hero .hart{position:relative;flex:0 0 32%;width:auto;opacity:1;inset:auto;background:url(../img/hero_gold.webp) center/cover;-webkit-mask-image:linear-gradient(270deg,transparent 0,#000 30%);mask-image:linear-gradient(270deg,transparent 0,#000 30%)}
+[dir="ltr"] .hero .hart{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%);mask-image:linear-gradient(90deg,transparent 0,#000 30%)}
+.hchk{justify-content:center;gap:0;margin-top:14px;padding:10px 6px;border-top:1px solid rgba(233,198,108,.35)}
+.hchk li{flex-direction:column;gap:4px;padding:0 18px;font-size:13px}
+.hchk li+li{border-inline-start:1px solid rgba(233,198,108,.35)}
+.hchk .ico{width:24px;height:24px}
+@media (max-width:1023px){.hero .hlogo{flex-basis:26%}.hero .hart{display:none}}
+@media (max-width:700px){.hero.gold{flex-direction:column;min-height:0}.hero .hlogo{padding:16px 16px 0}.hero .hlogo img{width:120px}.hero .hin{padding:10px 14px 20px}.hchk li{padding:0 8px;font-size:12px}.hchk{flex-wrap:nowrap}}
+
+/* speciality cards: picture beside the text, 3 in a row */
+.spcs>.spc{flex-basis:calc((100% - 2 * 16px) / 3)}
+.spcs{gap:16px}
+.spc{flex-direction:row;align-items:stretch;text-align:start;padding:0;border:1px solid rgba(201,154,46,.4);min-height:220px}
+.spc .spi{flex:0 0 42%;aspect-ratio:auto;margin:0;background:var(--sf2)}
+.spc .spi img{width:100%;height:100%;object-fit:cover}
+.spt{flex:1;display:flex;flex-direction:column;gap:6px;padding:14px 14px 14px;min-width:0}
+.sph{display:flex;align-items:center;gap:10px}
+.sph i{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--deep);color:var(--gold2)}
+.sph i .ico{width:24px;height:24px}
+.sph>span{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+.sph b{font-family:var(--en);font-size:19px;font-weight:800;color:var(--deep)}
+:root[data-theme="dark"] .sph b{color:#fff}
+.sph small{font-size:12px;color:var(--sub);font-weight:700}
+.spt p{font-size:13px;color:var(--sub);line-height:1.65;flex:1;padding:0}
+.spt .spn{margin:0}
+.spt .btn{align-self:flex-start;min-height:34px;font-size:13px}
+@media (max-width:1279px){.spcs>.spc{flex-basis:calc((100% - 16px) / 2)}}
+@media (max-width:640px){.spcs>.spc{flex-basis:100%}.spc{min-height:170px}.spc .spi{flex-basis:38%}.spt p{display:block;font-size:12.5px;-webkit-line-clamp:3;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}}
+
+/* subject cards: picture on top, English name, Arabic, gold label */
+.subj.pic{padding:8px 8px 12px;gap:6px}
+.subj.pic .sjp{margin:0;border-radius:14px!important;aspect-ratio:16/9;overflow:hidden;background:#eef1f6!important}
+.subj.pic .sjp img{object-fit:cover}
+.sjt{display:flex;flex-direction:column;align-items:center;gap:2px;width:auto!important;height:auto!important;background:none!important;box-shadow:none!important;border-radius:0!important}
+.subj b{font-size:15px;color:var(--deep);line-height:1.2}
+:root[data-theme="dark"] .subj b{color:#fff}
+.subj em{margin-top:6px;padding:2px 14px;border-radius:999px;background:linear-gradient(180deg,#fbeec9,#f1d99a);color:#6b4d0d!important;font-size:12px}
+.subjs.small>.subj{flex-basis:calc((100% - 9 * 12px) / 10)}
+.subjs.small .subj b{font-size:14px}.subjs.small .subj small{font-size:11px}
+@media (max-width:1279px){.subjs.small>.subj{flex-basis:calc((100% - 4 * 12px) / 5)}}
+@media (max-width:900px){.subjs.small>.subj{flex-basis:calc((100% - 2 * 12px) / 3)}}
+@media (max-width:520px){.subjs.small>.subj{flex-basis:calc((100% - 12px) / 2)}}
+/* House Officer: wide cards, picture beside the name */
+.subjs.wide>.subj{flex-basis:calc((100% - 2 * 16px) / 3);flex-direction:row;align-items:center;gap:16px;padding:12px 18px;text-align:start}
+.subjs.wide{gap:16px}
+.subjs.wide .sjp{flex:0 0 42%;aspect-ratio:4/3!important;background:transparent!important}
+.subjs.wide .sjp img{object-fit:contain}
+.subjs.wide .sjt{align-items:flex-start;flex:1}
+.subjs.wide .subj b{font-size:18px}
+@media (max-width:900px){.subjs.wide>.subj{flex-basis:100%}}
+/* boxes never follow the scroll (owner, 18 Nov 2026: "I do not like this box moving up and down") */
+.aside,.lcur,.lside{position:static!important;max-height:none!important}
+.spc .spi{order:2}
+.hero .hlogo img{-webkit-mask-image:radial-gradient(closest-side,#000 78%,transparent 100%);mask-image:radial-gradient(closest-side,#000 78%,transparent 100%)}
+/* subject cards with a real picture */
+.subj.pic{overflow:hidden}
+.subj .sjp{position:relative;display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:14px;background:#eef1f6;box-shadow:none;overflow:hidden}
+.subj .sjp img{width:100%;height:100%;object-fit:cover;display:block}
+@media (min-width:1280px){.subjs.small>.subj{flex-basis:calc((100% - 5 * 12px) / 6)}}
+.spc .spi{min-width:0;overflow:hidden}.spc .spi img{max-width:none}
+/* section cards with a picture */
+.door.pic{padding:0 0 16px;overflow:hidden}
+.door .dimg{display:block;aspect-ratio:16/8;overflow:hidden;margin-bottom:-26px}
+.door .dimg img{width:100%;height:100%;object-fit:cover}
+.door.pic .di{position:relative;margin:0 16px 6px;background:var(--deep);color:var(--gold2);border:2px solid var(--gold2);width:50px;height:50px}
+.door.pic>b,.door.pic>small,.door.pic>em{padding:0 16px}
