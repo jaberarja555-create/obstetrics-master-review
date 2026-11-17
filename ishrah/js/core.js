@@ -153,7 +153,13 @@
   IS.chip = function (t, c) { return '<span class="chip ' + (c || '') + '">' + t + '</span>'; };
   IS.bar = function (v, c) { v = Math.max(0, Math.min(100, Math.round(v || 0))); return '<span class="bar' + (c ? ' ' + c : '') + '"><i style="width:' + v + '%"></i></span>'; };
   IS.empty = function (icon, t1, t2, act) { return '<div class="empty">' + ic(icon) + '<b>' + esc(t1) + '</b>' + (t2 ? '<span>' + esc(t2) + '</span>' : '') + (act || '') + '</div>'; };
-  IS.banner = function (title, sub, icon, extra, cls) { return '<section class="ban ' + (cls || '') + '"><div class="bt"><span class="bi">' + ic(icon) + '</span><div><h1 tabindex="-1">' + title + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div></div>' + (extra || '') + '</section>'; };
+  /* page banners with the owner's pictures (18 Nov 2026): text and icon on one side, the photo on the other, a bright blue wave between */
+  var BANIMG = { courses: 'courses', specialties: 'specialties', learning: 'learning', events: 'events', lecturers: 'lecturers', community: 'community', library: 'library', paths: 'paths', path: 'paths',
+    support: 'support', ticket: 'support', achievements: 'achievements', cert: 'achievements', 'control-tickets': 'support', 'control-paths': 'paths', 'control-events': 'events', 'control-lecturers': 'lecturers',
+    'control-community': 'community', 'control-library': 'library', 'control-review': 'courses', 'control-cats': 'specialties', 'control-apps': 'lecturers', 'studio-courses': 'courses', 'studio-events': 'events', 'studio-apply': 'lecturers' };
+  IS.banner = function (title, sub, icon, extra, cls) { var pg = document.body.getAttribute('data-page') || '', im = BANIMG[pg] || (/^control/.test(pg) ? 'admin' : '');
+    return '<section class="ban ' + (cls || '') + (im ? ' bpic' : '') + '"' + (im ? ' style="--bimg:url(' + IS.U('img/ban_' + im + '.webp') + ')"' : '') + '>' + (im ? '<span class="bph" aria-hidden="true"></span><svg class="bwave" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M60 0 C40 30 45 70 22 100 L0 100 L0 0Z" fill="currentColor"/><path d="M62 0 C42 30 47 70 24 100" fill="none" stroke="#3fb4ff" stroke-width="1.6"/></svg>' : '') +
+      '<div class="bt"><span class="bi">' + ic(icon) + '</span><div><h1 tabindex="-1">' + title + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div></div>' + (extra || '') + '</section>'; };
   IS.stars = function (v) { var h = ''; for (var i = 1; i <= 5; i++) h += ic('star', i <= Math.round(v) ? 'on' : ''); return '<span class="stars">' + h + '</span>'; };
   IS.status = function (s) {
     var m = { pending: ['قيد المراجعة', 'Pending', 'warn'], active: ['مفعّل', 'Active', 'ok'], approved: ['مقبول', 'Approved', 'ok'], rejected: ['مرفوض', 'Rejected', 'bad'], draft: ['مسودة', 'Draft', ''], review: ['قيد المراجعة', 'In review', 'warn'],
@@ -240,7 +246,13 @@
     var h1 = main.querySelector('h1'); if (h1) try { h1.focus({ preventScroll: true }); } catch (e) {}
     var tt = h1 && (h1.querySelector('.tt small') || h1); document.title = (tt ? tt.textContent.trim() + ' · ' : '') + 'اشرح لي';
     if (IS.after) try { await IS.after(main); } catch (e) { if (window.console) console.error(e); }
+    IS.balance();
   };
+  /* a side column much shorter than its main column becomes a row of cards above it (owner, 18 Nov 2026: no empty spaces) */
+  IS.balance = function () { if (window.innerWidth < 1180) return; IS.$$('#main .cols').forEach(function (c) {
+    if (c.classList.contains('cflow')) return; var a = c.querySelector(':scope>.aside'), m = c.querySelector(':scope>.main'); if (!a || !m || c.querySelector(':scope>.filt')) return;
+    c.classList.toggle('flat', m.offsetHeight - a.offsetHeight > 240); }); };
+  window.addEventListener('resize', function () { clearTimeout(IS._bt); IS._bt = setTimeout(IS.balance, 200); });
   IS.refresh = function () { IS.keepScroll = true; return IS.route(); };
   function authGate() {
     return '<div class="page"><div class="gate">' + ic('lock') + '<h1 tabindex="-1">' + IS.T('سجّل الدخول للمتابعة', 'Sign in to continue') + '</h1><p>' + esc(A('أنشئ حسابًا مجانيًا خلال دقيقة، أو ادخل بحسابك.', 'Create a free account in a minute, or sign in.')) + '</p>' +

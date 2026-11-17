@@ -197,9 +197,11 @@
       return true; });
     r.sort(function (a, b) { if (F.sort === 'pop') return (b.n_students || 0) - (a.n_students || 0); if (F.sort === 'top') return (b.rating || 0) - (a.rating || 0); if (F.sort === 'low') return (+a.price || 0) - (+b.price || 0); return String(b.published_at || '').localeCompare(String(a.published_at || '')); });
     $('#cres').innerHTML = '<p class="count">' + esc(A('كل الكورسات', 'All courses')) + ' · ' + N(r.length) + ' ' + esc(A('نتيجة', 'results')) + '</p>' + (r.length ? '<div class="grid ' + (F.view === 'list' ? 'list' : 'g3') + '">' + r.map(function (c) { return IS.courseCard(c, L, E); }).join('') + '</div>' :
-      IS.empty('layers', A('لا توجد كورسات هنا بعد', 'No courses here yet'), A('عند نشر كورسات في هذا القسم ستظهر هنا. يمكنك طلب كورس تحتاجه.', 'Courses published in this section will appear here. You can request a course you need.'), '<button class="btn ghost" data-act="ticket" data-k="course">' + ic('plus') + esc(A('اطلب كورسًا', 'Request a course')) + '</button>'));
+      IS.empty('layers', A('لا توجد كورسات هنا بعد', 'No courses here yet'), A('عند نشر كورسات في هذا القسم ستظهر هنا. يمكنك طلب كورس تحتاجه.', 'Courses published in this section will appear here. You can request a course you need.'), '<button class="btn ghost" data-act="ticket" data-k="course">' + ic('plus') + esc(A('اطلب كورسًا', 'Request a course')) + '</button>') + browseSubj());
   }
   IS.ACT.fspec = function (b) { F.spec = b.getAttribute('data-v'); F.sub = {}; IS.refresh(); };
+  function browseSubj() { var ss = IS.SUBJ.filter(function (x) { return (!F.cat || x.cat === F.cat) && (!F.spec || x.spec === F.spec); }).slice(0, 12); if (!ss.length) return '';
+    return '<h3 class="ph2">' + IS.T('تصفّح المواد', 'Browse subjects') + '</h3><div class="subjs">' + ss.map(function (x, i) { return '<a class="subj s' + (i % 7) + (x.img ? ' pic' : '') + '" href="#courses/' + x.cat + '/' + x.id + '">' + (x.img ? '<span class="sjp"><img src="' + IS.U(x.img) + '" alt="" loading="lazy"></span>' : '<span>' + ic(x.icon) + '</span>') + '<span class="sjt"><b lang="en">' + esc(x.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(x.ar) + '</small>') + '<em>' + esc(A('قريبًا', 'Soon')) + '</em></span></a>'; }).join('') + '</div>'; }
   IS.ACT.fclear = function () { F.spec = ''; F.sub = {}; F.lec = {}; F.price = 'all'; F.q = ''; IS.refresh(); };
   IS.ACT.ftog = function () { $('#filt').classList.toggle('show'); };
 

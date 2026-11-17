@@ -1127,3 +1127,56 @@ body[data-area="control"]{--pri:#13305c;--pri2:#0c2246;--tint:rgba(201,154,46,.1
 .rtiles>*{flex:1 1 190px}.ptiles>*{flex:1 1 150px}.kgrid>*{flex:1 1 190px}.rolecards>*{flex:1 1 230px}.qa>*{flex:1 1 130px}.sopts>*{flex:1 1 110px}
 @media (min-width:761px){.setg{display:block;columns:2;column-gap:16px}.setg>.box{display:inline-block;width:100%;break-inside:avoid;margin:0 0 16px}}
 @media (min-width:761px) and (max-width:1279px){.grid.g2>:last-child:nth-child(odd){grid-column:1/-1}}
+/* dashboard lower part: all boxes (main and side) flow into balanced columns, no hole under the shorter column */
+@media (min-width:761px){
+  .cols.cflow{display:block;columns:2;column-gap:16px}
+  .cols.cflow>.main,.cols.cflow>.aside,.cols.cflow .grid.g2{display:contents}
+  .cols.cflow .box{display:inline-block;width:100%;break-inside:avoid;margin:0 0 16px;vertical-align:top}
+}
+@media (min-width:1700px){.cols.cflow{columns:3}}
+.snote li.none{color:var(--sub);list-style:none;text-align:center;padding:14px;border:1px dashed var(--bd2);border-radius:12px}
+/* courses page: the results column is as tall as the filter column */
+@media (min-width:1180px){.cols.rev{align-items:stretch}.cols.rev>.main{display:flex;flex-direction:column}#cres{flex:1;display:flex;flex-direction:column}#cres>.empty{padding:28px 18px}#cres .subjs>.subj{flex-basis:calc((100% - 3 * 12px) / 4)}}
+.fg>div{max-height:340px}
+/* My Library (owner, 18 Nov 2026: "disorganized"): one side column (filter, collections, upload) and a wide main area */
+@media (min-width:1180px){
+  .cols.rev:has(>.aside){grid-template-columns:300px minmax(0,1fr);grid-template-areas:"filt main" "side main";grid-template-rows:auto 1fr;align-items:start}
+  .cols.rev:has(>.aside)>.filt{grid-area:filt}
+  .cols.rev:has(>.aside)>.main{grid-area:main;align-self:stretch;display:flex;flex-direction:column}
+  .cols.rev:has(>.aside)>.aside{grid-area:side}
+  .cols.rev:has(>.aside)>.main>:last-child{flex:1}
+  .cols.rev:has(>.aside)>.main .empty{height:100%;justify-content:center}
+}
+
+/* side column turned into a row of cards above the main column */
+@media (min-width:1180px){
+  .cols.flat{grid-template-columns:minmax(0,1fr)!important}
+  .cols.flat>.aside{order:-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;align-items:stretch}
+  .cols.flat>.aside>*{margin:0}
+}
+
+/* ---------- page banners with photos (owner, 18 Nov 2026), colours matched to his pictures: deep royal blue with a bright blue wave ---------- */
+.ban.bpic,[dir="ltr"] .ban.bpic{--bb:#0a2a5c;--bb2:#0d3a7d;background:linear-gradient(90deg,var(--bb2),var(--bb) 60%,#071d42)!important;border:1px solid rgba(63,180,255,.35);min-height:170px;isolation:isolate}
+[dir="rtl"] .ban.bpic{background:linear-gradient(270deg,var(--bb2),var(--bb) 60%,#071d42)!important}
+.ban.bpic::after{display:none}
+.bph{position:absolute;inset-block:0;inset-inline-end:0;width:52%;background:var(--bimg) center/cover;z-index:0}
+.bwave{position:absolute;inset-block:0;inset-inline-end:calc(52% - 9%);width:14%;height:100%;color:var(--bb);z-index:1;pointer-events:none}
+[dir="rtl"] .bwave{transform:scaleX(-1)}
+[dir="ltr"] .bwave{inset-inline-end:auto;inset-inline-start:calc(48% - 5%);transform:scaleX(-1)}
+[dir="ltr"] .bph{inset-inline-end:auto;inset-inline-start:auto;right:0}
+.ban.bpic .bt,.ban.bpic>.row,.ban.bpic>.bnums,.ban.bpic>a,.ban.bpic>button{position:relative;z-index:2}
+.ban.bpic .bt{max-width:46%}
+.ban.bpic .bi{width:62px;height:62px;border-radius:16px;background:transparent;border:2px solid rgba(160,215,255,.85);color:#e8f4ff;box-shadow:0 0 0 4px rgba(63,180,255,.12)}
+.ban.bpic .bi .ico{width:32px;height:32px}
+.ban.bpic .bt>div{padding-inline-start:16px;border-inline-start:2px solid rgba(255,255,255,.55)}
+.ban.bpic h1 .tt>b{color:#fff;font-size:clamp(26px,3vw,38px)}
+.ban.bpic h1 .tt>small{color:#dbeaff;opacity:1;font-size:.55em}
+.ban.bpic p{color:#cfe1fb}
+.ban.bpic>.row,.ban.bpic>.bnums{margin-inline-start:auto}
+@media (max-width:760px){.bph{width:100%;opacity:.28}.bwave{display:none}.ban.bpic .bt{max-width:none}}
+/* control dashboard welcome uses the admin picture */
+.cban{position:relative;overflow:hidden;background:linear-gradient(270deg,#0d3a7d,#0a2a5c 55%,#071d42)!important;border-color:rgba(63,180,255,.35)!important}
+.cban::before{content:"";position:absolute;inset-block:0;inset-inline-end:0;width:45%;background:url(../img/ban_admin.webp) center/cover;-webkit-mask-image:linear-gradient(270deg,transparent,#000 35%);mask-image:linear-gradient(270deg,transparent,#000 35%)}
+[dir="ltr"] .cban::before{-webkit-mask-image:linear-gradient(90deg,transparent,#000 35%);mask-image:linear-gradient(90deg,transparent,#000 35%)}
+.cban>*{position:relative;z-index:1}
+.ban.bpic>.bnums span,.ban.bpic>.row>*{background:rgba(7,29,66,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(160,215,255,.3);border-radius:14px}
