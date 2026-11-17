@@ -1,34 +1,86 @@
 {
-"sc": [
-"Shock out of proportion to bleeding, bradycardia, no fundus felt → <b>Uterine inversion: replace at once (Johnson)</b>",
-"Inverted uterus with the placenta still attached → <b>Leave the placenta until replaced</b>",
-"Manual replacement fails → <b>O'Sullivan hydrostatic method</b>"
-],
+"lead": "The uterus turns <b>inside out</b>, almost always in the <b>3rd stage</b> of labour. About <b>1 in 2000–3000</b> deliveries; maternal death up to <b>15%</b> if not treated fast.",
 "f": [
 [
-"Facts",
-"1 in 2000–3000 · most in the <b>3rd stage</b> · cause: <b>cord traction before separation</b>, fundal pressure"
-],
-[
-"Degrees",
-"1st: within the cavity · <b>2nd: through the cervix</b> · 3rd: to the introitus · <b>4th: uterus and vagina outside</b> · chronic > 4 wk"
-],
-[
-"Features",
-"<b>PPH (94%)</b>, pain, <b>shock with bradycardia</b> (vagal) · no fundus abdominally · mass in the vagina"
-],
-[
-"Treatment",
-"Call help · <b>Johnson manoeuvre</b> at once (fundus pushed up last-out first-in) · relax ring: terbutaline, <b>MgSO₄ 4 g</b>, GA"
-],
-[
-"Failure",
-"<b>O'Sullivan</b> (2–5 L warm saline, exclude rupture first) · laparotomy: <b>Huntington</b>, Haultain"
-],
-[
-"After",
-"<b>Oxytocin</b> infusion, hold fist in fundus 3–5 min · antibiotics · remove placenta"
+"Classification",
+"<b>1st degree:</b> fundus in the cavity, not past the cervix · <b>2nd:</b> through the cervix, in the vagina · <b>3rd:</b> to or beyond the vulva · <b>4th:</b> uterus and vagina turned out · Incomplete = 1st, 2nd · complete = 3rd, 4th · <b>Acute</b> &lt; 24 h (most) · <b>Subacute</b> 24 h – 4 wk · <b>Chronic</b> &gt; 4 wk (often a fundal fibroid polyp)",
+{
+"sc": [
+"Fundus past the cervix but not the vulva → <b>Second degree (incomplete)</b>"
 ]
+}
 ],
-"trap": "Do <b>not remove the placenta</b> before replacement · no oxytocics until replaced · vagal shock is treated with atropine and fluids"
+[
+"Aetiology",
+"<b>Mismanaged 3rd stage:</b> cord traction <b>before separation</b>, no counter-traction · <b>Fundal pressure</b> (Credé) on a relaxed uterus · Fundal placenta, short cord · Atony · Placenta accreta, fundal fibroid · Uterine anomaly, <b>previous inversion</b>"
+],
+[
+"Pathophysiology",
+"Relaxed fundus (placental site) dimples in · Cord traction or fundal push pulls it down · Cervix closes as a <b>constriction ring</b>; the fundus swells · Traction on ovaries, tubes and peritoneum: <b>vagal (neurogenic) shock</b> with <b>bradycardia</b>, plus bleeding"
+],
+[
+"Clinical features",
+"<b>Severe pain</b> in the 3rd stage · <b>PPH in about 94%</b> · <b>Shock out of proportion</b> to the blood loss, slow pulse · Abdomen: <b>fundus absent</b> or a cup at the top · VE: <b>purple-red mass</b> in the vagina or at the vulva, placenta may be on it",
+{
+"sc": [
+"Cord pulled hard, pulse 52, BP 70/40, little bleeding, red mass at the vulva → <b>Acute inversion, vagal shock</b>"
+]
+}
+],
+[
+"Investigations",
+"Diagnosis is <b>clinical</b>: <b>replace first</b> · At the same time: CBC, coagulation, cross-match 4–6 units · Ultrasound only if unclear (subacute, chronic)",
+{
+"tr": [
+"Ultrasound before replacing an acute inversion wastes the minutes that matter"
+]
+}
+],
+[
+"Differential diagnosis",
+"<b>Atonic PPH:</b> soft fundus felt, shock matches the loss · <b>Uterine rupture:</b> shock with a fast pulse, scar, labour pain · <b>Amniotic fluid embolism:</b> cyanosis, fits, then bleeding; uterus in place · Mass in the vagina with a normal fundus: <b>fibroid polyp</b>, prolapse, vaginal haematoma"
+],
+[
+"Management: the drill",
+"<b>Call help</b> · <b>Replace at once</b>, everything else in parallel: the ring tightens every minute · <b>Leave the placenta on</b> until the uterus is back · IV lines, fluids, blood",
+{
+"tr": [
+"Removing the placenta first makes the raw bed bleed torrentially"
+]
+}
+],
+[
+"Methods of replacement",
+"<b>Johnson manoeuvre:</b> palm on the fundus, push up through the cervix toward the umbilicus; the part out last goes in first; hold 3–5 min · <b>Relax the ring:</b> terbutaline 0.25 mg SC, <b>MgSO₄ 4 g IV</b> over 15 min, or GA with a volatile agent · <b>O'Sullivan (hydrostatic):</b> 2–5 L warm saline into the sealed vagina; exclude rupture first · <b>Huntington</b> (laparotomy): clamps on the round ligaments, pull up step by step · <b>Haultain</b> (laparotomy): posterior incision through a tight ring",
+{
+"sc": [
+"Ring tight, uterus will not go up → <b>Terbutaline or GA, then Johnson</b>",
+"Manual replacement fails, no rupture → <b>O'Sullivan</b>",
+"Ring too tight at laparotomy → <b>Haultain incision</b>"
+]
+}
+],
+[
+"After replacement",
+"Stop tocolysis, start <b>oxytocin 40 IU in 500 mL over 4 h</b>; fist in the fundus until it contracts · Then <b>manual removal of the placenta</b> in theatre; check for tears · Antibiotics, transfusion · Watch for re-inversion and PPH",
+{
+"sc": [
+"Uterus replaced → <b>Oxytocin infusion; stop the tocolytic</b>"
+]
+}
+],
+[
+"Subacute and chronic inversion",
+"Ring fixed, uterus swollen: treat <b>shock and infection</b> first · Replacement under GA, usually at <b>laparotomy</b> (Huntington, Haultain) · Chronic: look for a <b>fundal fibroid polyp</b>; hysterectomy if necrotic",
+{
+"sc": [
+"6 weeks after a home birth, red mass in the vagina, no fundus, a cup at the top → <b>Chronic inversion: laparotomy (Haultain)</b>"
+]
+}
+],
+[
+"Prevention",
+"Active 3rd stage: <b>oxytocin 10 IU IM</b> · Controlled cord traction only after <b>signs of separation</b>, with <b>counter-pressure</b> above the pubis · No Credé, no pulling on a relaxed uterus · Previous inversion: it can <b>recur</b>; deliver in hospital"
+]
+]
 }

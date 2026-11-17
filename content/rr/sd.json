@@ -1,34 +1,73 @@
 {
-"sc": [
-"Head delivered then pulled back against the perineum (turtle sign) → <b>Shoulder dystocia: call help, McRoberts</b>",
-"McRoberts and suprapubic pressure fail → <b>Internal manoeuvres or posterior arm delivery</b>",
-"Baby after shoulder dystocia with arm hanging, waiter's tip → <b>Erb palsy (C5–C6)</b>"
-],
+"lead": "The head is delivered but the shoulders do not follow with gentle downward traction, so extra manoeuvres are needed (or a head-to-body interval <b>&gt; 60 s</b>). About <b>1 in 200</b> vaginal births; mostly <b>unpredictable</b>: about half occur in babies under 4 kg.",
 "f": [
 [
-"Definition",
-"Head-to-body interval <b>> 60 s</b> or extra manoeuvres needed · <b>anterior shoulder</b> impacted behind the symphysis"
+"Pathophysiology",
+"Shoulders stay antero-posterior: the <b>anterior shoulder</b> sticks behind the <b>symphysis pubis</b> · Rarely the posterior shoulder on the sacral promontory · A <b>bony</b> problem: episiotomy alone does not free it · Diabetes: large trunk, normal head · Each minute the fetal pH falls about 0.04; injury risk rises after <b>5 min</b>"
 ],
 [
 "Risk factors",
-"<b>Macrosomia</b>, diabetes · obesity · post-term · prolonged 2nd stage, instrument · previous SD (10%)"
+"<b>Antenatal:</b> previous SD · <b>macrosomia</b> (EFW &gt; 4 kg) · <b>diabetes</b> · BMI &gt; 30 · post-term · <b>Intrapartum:</b> prolonged late 1st or 2nd stage · <b>mid-cavity instrumental</b> delivery · oxytocin augmentation, induction"
 ],
 [
-"HELPERR",
-"<b>Help</b> · evaluate episiotomy · <b>legs (McRoberts)</b> · <b>pressure (suprapubic, Rubin I)</b> · enter (Rubin II, Woods screw) · remove posterior arm · roll (all fours, Gaskin)"
-],
-[
-"Last resort",
-"<b>Zavanelli</b> (head pushed back, CS) · cleidotomy · symphysiotomy"
+"Clinical features",
+"Head delivers slowly; face and chin hard to deliver · <b>Turtle sign</b>: head retracts against the perineum · No restitution · Gentle axial traction fails",
+{
+"sc": [
+"Head out, retracts against the perineum, gentle traction fails → <b>Shoulder dystocia: call help, McRoberts</b>"
+]
+}
 ],
 [
 "Complications",
-"Baby: <b>Erb palsy</b>, Klumpke (C8–T1), fractured clavicle/humerus, hypoxia (pH falls 0.04/min) · mother: <b>PPH</b>, 3rd/4th degree tear"
+"<b>Mother:</b> <b>PPH</b> (commonest) · 3rd/4th degree, cervical and vaginal tears · uterine rupture (from fundal pressure) · symphysis separation · <b>Baby:</b> <b>Erb palsy C5–C6</b> (commonest; waiter's tip, grasp present; under 10% permanent) · Klumpke C8–T1 (claw hand ± Horner) · fractured <b>clavicle</b> (no splint) or humerus · hypoxia, HIE, death",
+{
+"sc": [
+"Limp arm, waiter's tip, grasp present → <b>Erb palsy (C5–C6)</b>",
+"Claw hand, ptosis, small pupil → <b>Klumpke + Horner</b>"
+],
+"tr": [
+"Plexus injury comes from <b>strong lateral traction</b>, not the manoeuvres; it can follow a normal birth or even a caesarean"
+]
+}
+],
+[
+"Management: HELPERR",
+"Say \"shoulder dystocia\", note the time, stop her pushing · <b>H</b>elp: midwives, obstetrician, anaesthetist, paediatrician · <b>E</b>valuate for episiotomy (room for internal manoeuvres only) · <b>L</b>egs: <b>McRoberts</b> (hips hyperflexed onto the abdomen) · <b>P</b>ressure: <b>suprapubic</b> (Rubin I) from the fetal back side · <b>E</b>nter: Rubin II, <b>Woods screw</b>, reverse Woods · <b>R</b>emove the <b>posterior arm</b> · <b>R</b>oll onto all fours (Gaskin) · 30–60 s per manoeuvre · McRoberts + suprapubic pressure deliver about <b>80%</b>",
+{
+"sc": [
+"Turtle sign; after calling for help, first manoeuvre → <b>McRoberts</b>",
+"McRoberts and suprapubic pressure fail → <b>Posterior arm or internal rotation</b>"
+],
+"tr": [
+"<b>Never fundal pressure</b>: it impacts the shoulder and ruptures the uterus",
+"Episiotomy is not the first step"
+]
+}
+],
+[
+"When HELPERR fails",
+"Deliberate <b>clavicle fracture</b> · <b>Zavanelli</b>: head pushed back (terbutaline 0.25 mg SC), then caesarean · <b>Symphysiotomy</b> under local anaesthetic where theatre is far · Dead baby: <b>cleidotomy</b>",
+{
+"sc": [
+"All manoeuvres fail, theatre ready → <b>Zavanelli + caesarean</b>",
+"All fail, baby dead → <b>Cleidotomy</b>"
+]
+}
+],
+[
+"After delivery",
+"Mother: expect <b>PPH</b> (active 3rd stage, oxytocin infusion); examine and repair the whole genital tract · Baby: paediatrician, <b>cord gases</b> (arterial pH &lt; 7.20 = acidaemia), examine arms and clavicles · <b>Document</b> head and body times, anterior shoulder, each manoeuvre and who did it"
 ],
 [
 "Prevention",
-"Diabetic, EFW > <b>4.5 kg</b> → elective CS (non-diabetic > 5 kg)"
+"<b>Elective caesarean:</b> EFW <b>&gt; 4.5 kg in a diabetic</b> or <b>&gt; 5 kg in a non-diabetic</b> woman · Diabetes: good control; planned birth <b>37+0 – 38+6 wk</b> in pre-existing diabetes, by 40+6 wk in gestational diabetes (NICE; local units: 38–39 wk) · Previous SD recurs in about <b>1 in 10</b> · Known risk: deliver in hospital, no mid-cavity instrument · Scan weight errs by 10–15%: every labour ward drills HELPERR",
+{
+"sc": [
+"Diabetic, EFW 4.6 kg before labour → <b>Elective caesarean</b>",
+"GDM, EFW 4.2 kg, good control → <b>Individual plan, not automatic caesarean</b>"
 ]
-],
-"trap": "<b>Never fundal pressure</b> · avoid strong lateral traction · McRoberts + suprapubic free 80%"
+}
+]
+]
 }

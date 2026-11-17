@@ -1,34 +1,65 @@
 {
-"sc": [
-"Sudden fetal bradycardia just after ARM with a high head → <b>Cord prolapse: immediate VE</b>",
-"Cord felt in the vagina, cervix 5 cm, live fetus → <b>Push the part up, Category 1 CS</b>",
-"Cord prolapse at full dilatation, head low → <b>Expedite vaginal birth (instrument)</b>"
-],
+"lead": "The umbilical cord lies <b>below the presenting part</b>. A true emergency: cord <b>compression</b> and <b>vasospasm</b> can kill the fetus within minutes. About <b>1 in 300–500</b> deliveries.",
 "f": [
 [
-"Types",
-"<b>Presentation</b> (membranes intact) · <b>prolapse</b> (ruptured) · occult (beside the part)"
+"Definition",
+"<b>Cord presentation:</b> membranes <b>intact</b>, cord felt through them · <b>Cord prolapse (overt):</b> membranes <b>ruptured</b>, cord in the vagina or at the vulva · <b>Occult prolapse:</b> cord beside the presenting part, not felt; suspect from FHR dips",
+{
+"sc": [
+"Intact membranes, cord felt below the head on VE → <b>Cord presentation</b>"
+]
+}
 ],
 [
 "Risk factors",
-"<b>Footling breech</b> (15%) · transverse lie · polyhydramnios · prematurity · <b>ARM with a high head</b> · twin 2"
+"Anything that leaves the presenting part <b>not fitting the pelvis</b> · <b>Malpresentation:</b> footling breech (about 15%), complete 5%, frank 0.5%; transverse, oblique, <b>unstable lie</b> · Preterm, low birth weight, PPROM · <b>Second twin</b> · Polyhydramnios: gush at ROM · Multiparity, high head (CPD, praevia) · <b>ARM with a high head</b>, ECV, internal version, balloon induction"
 ],
 [
-"Immediate actions",
-"<b>Call for help</b> · manually <b>elevate the presenting part</b> (2 fingers) · knee–chest or left Sims · stop oxytocin"
+"Pathophysiology",
+"<b>Compression</b> between the presenting part and the pelvis · <b>Vasospasm</b> of the umbilical arteries from cold, drying and handling · Result: acute fetal <b>hypoxia</b>; death or brain injury within minutes"
 ],
 [
-"Relieve compression",
-"<b>Fill bladder with 500 mL</b> warm saline · <b>terbutaline 0.25 mg SC</b>"
-],
-[
-"Delivery",
-"<b>Category 1 CS</b> (decision to delivery ≤ 30 min) · fully dilated: instrument · dead fetus or < 26 wk: vaginal"
-],
-[
-"Cord care",
-"<b>Do not handle</b> the cord (spasm) · keep it warm and moist in the vagina"
+"Clinical features and diagnosis",
+"Labour going well, membranes rupture (or ARM), then <b>sudden fetal bradycardia</b> or variable decelerations · Mother <b>well</b>, no bleeding, clear liquor · <b>VE at once</b> after any ROM followed by an abnormal FHR · Pulsating cord = fetus alive · Still cord: check the heart by Doppler or <b>bedside scan</b> (may be spasm) · Diagnosis is <b>clinical</b>: no other test",
+{
+"sc": [
+"ARM at 5 cm, FHR falls to 80, loop of cord in the vagina → <b>Cord prolapse: call help, push the head up</b>",
+"Mother well, fresh bleed after ROM, FHR 70 → <b>Vasa praevia</b>"
 ]
+}
 ],
-"trap": "Never try to <b>replace</b> the cord · empty the bladder before CS · ARM only with an engaged head"
+[
+"Management: the drill",
+"<b>Call help</b>, note the time; stop oxytocin · <b>Hands off the cord</b>: do not push it back; if outside, tuck it gently into the vagina · <b>Elevate the presenting part</b> with two fingers and keep it up until delivery · Long transfer: <b>fill the bladder with 500 mL</b> warm saline, clamp; <b>empty it before the uterine incision</b> · Position: <b>knee-chest</b>, or <b>exaggerated left Sims</b> for transfer · <b>Terbutaline 0.25 mg SC</b> stops contractions",
+{
+"tr": [
+"Never try to <b>replace the cord</b> in the uterus",
+"In a moving ambulance use <b>exaggerated left Sims</b>, not knee-chest"
+]
+}
+],
+[
+"Route of delivery",
+"Alive, 1st stage: <b>Category 1 CS</b>, decision to delivery <b>≤ 30 min</b> (GA, or spinal if quick) · Alive, fully dilated, head low: <b>forceps or ventouse</b> in the room · Fully dilated, head high or transverse lie: caesarean · Second twin: breech extraction or ventouse · <b>Dead fetus</b>: vaginal, no CS for the baby · <b>Before 24 wk</b> (limit of viability): counsel; managed as a miscarriage (RCOG; local units: 26 wk)",
+{
+"sc": [
+"Pulsating cord prolapse at 4 cm → <b>Category 1 caesarean</b>",
+"Pulsating cord, fully dilated, head +2 → <b>Forceps or ventouse</b>",
+"Cord prolapse, no fetal heart on scan → <b>Vaginal delivery</b>"
+]
+}
+],
+[
+"After birth",
+"Neonatal team at delivery: asphyxia, HIE · <b>Cord blood gases</b> · Active 3rd stage: PPH risk after tocolysis, CS or instruments · Document times: prolapse, decision, delivery; debrief the mother"
+],
+[
+"Cord presentation",
+"<b>Do not do ARM</b>; abandon an ARM if the cord is felt · Preterm: conservative · Term: counsel; most end in caesarean · In labour: <b>caesarean</b>"
+],
+[
+"Prevention",
+"<b>No ARM with a high head</b> · Needed ARM (polyhydramnios, unstable lie): <b>controlled ARM in theatre</b>, head held at the brim · Admit unstable lie from <b>37 wk</b> · Check for cord after ECV or internal version · <b>VE and FHR after every ROM</b> in a woman at risk"
+]
+]
 }

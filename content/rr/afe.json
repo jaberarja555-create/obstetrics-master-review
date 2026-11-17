@@ -1,34 +1,67 @@
 {
-"sc": [
-"Sudden breathlessness, hypotension and collapse at ROM → <b>Amniotic fluid embolism</b>",
-"Survivor of collapse now bleeding from every site → <b>DIC: FFP, cryoprecipitate</b>",
-"Cardiac arrest at 34 weeks, no output at 4 minutes → <b>Perimortem CS: baby out by 5 min</b>"
-],
+"lead": "Sudden <b>collapse</b> in labour, at delivery or soon after, when amniotic fluid and fetal cells enter the mother's blood. Rare (<b>1 in 8 000–30 000</b>), unpredictable, not preventable, often fatal. Timing: <b>70% in labour</b> around ROM · 19% at caesarean · 11% after delivery.",
 "f": [
 [
-"Facts",
-"1 : 8000–30 000 · <b>anaphylactoid</b> reaction · 70% in labour around ROM, 19% at CS"
+"Risk factors",
+"<b>Induction</b>, ARM, strong contractions (oxytocin) · <b>Caesarean</b>, instrumental delivery · Multiple pregnancy, polyhydramnios · Older mother, eclampsia · Placenta praevia, abruption · Cervical laceration, <b>uterine rupture</b>"
 ],
 [
-"Phases",
-"1: <b>cardiorespiratory collapse</b>, hypoxia, fits · 2: <b>DIC and haemorrhage</b> (within 4 h)"
+"Pathophysiology",
+"An <b>anaphylactoid</b> reaction, not a mechanical block · <b>Phase 1 (minutes):</b> pulmonary vasospasm, right heart failure, hypoxia, collapse · <b>Phase 2 (within 4 h):</b> <b>DIC</b> and massive bleeding · Only 12% have DIC at the start; almost all survivors develop it"
 ],
 [
-"Diagnosis",
-"<b>Clinical, by exclusion</b> · post-mortem: fetal squames in the lung · CXR: pulmonary oedema"
-],
-[
-"Treatment",
-"<b>ABC, CPR</b> (30 : 2) · left uterine displacement · O₂ · vasopressors · correct DIC: FFP 15 mL/kg, cryo if fibrinogen < 2 g/L, platelets < 50 · TXA 1 g"
-],
-[
-"Perimortem CS",
-"From <b>20 wk</b> (uterus compresses IVC) · start at 4 min, baby out by 5 min"
-],
-[
-"Differential",
-"PE (pleuritic pain) · eclampsia (MgSO₄ 4 g) · anaphylaxis (adrenaline 0.5 mg IM) · LA toxicity (<b>lipid 20% 1.5 mL/kg</b>) · haemorrhage"
+"Clinical features",
+"Warning: sudden breathlessness, chills, agitation, \"something is wrong\" · Severe dyspnoea, <b>cyanosis</b>, hypoxia → respiratory arrest · Hypotension, arrhythmia → cardiac arrest · <b>Convulsions</b>, coma · Fetal bradycardia · Then <b>bleeding</b> from uterus, wound, cannula sites: blood will not clot",
+{
+"sc": [
+"Breathless and cyanosed minutes after ARM on oxytocin, then a fit → <b>Amniotic fluid embolism</b>"
 ]
+}
 ],
-"trap": "Perimortem CS is done to <b>save the mother</b> · mortality 13–80% · no test confirms AFE in life"
+[
+"Investigations and diagnosis",
+"None proves AFE: send while resuscitating · ABG: hypoxia, acidosis · Clotting: PT, aPTT up, <b>fibrinogen down</b>, D-dimer up · Bedside <b>clot test</b>: no clot in 7–10 min · CXR: pulmonary oedema · ECG, echo: right heart strain · Diagnosis is <b>clinical, by exclusion</b> · Squames in PA blood: supportive only · <b>Definitive:</b> fetal squames in lung vessels at <b>post-mortem</b>",
+{
+"tr": [
+"Never wait for clotting results: use the clot test and give blood products"
+]
+}
+],
+[
+"Differential diagnosis",
+"<b>PE:</b> postnatal, pleuritic pain, swollen calf, no early DIC (CTPA, heparin) · <b>Eclampsia:</b> high BP, fit first, SpO₂ normal (MgSO₄ 4 g IV) · <b>Haemorrhage:</b> blood loss before shock · <b>Anaphylaxis:</b> after a drug, rash, wheeze (<b>adrenaline 0.5 mg IM</b>) · <b>Local anaesthetic toxicity:</b> after an epidural top-up (<b>lipid 20% 1.5 mL/kg</b>) · MI, septic shock, aspiration",
+{
+"sc": [
+"Day 5 after CS, pleuritic pain, swollen calf → <b>Pulmonary embolism</b>",
+"Collapse 10 min after IV ampicillin, urticaria, wheeze → <b>Adrenaline 0.5 mg IM</b>"
+]
+}
+],
+[
+"Management: the drill",
+"Save the mother first; <b>never wait to prove the diagnosis</b> · <b>Phase 1:</b> O₂ 15 L/min, intubate early · left tilt or push the uterus left · <b>fluids with care</b> (right heart failing) · low BP after fluids: <b>vasopressor</b> ± inotrope · CPR 30:2 · <b>Phase 2:</b> blood + <b>FFP 15 mL/kg</b> · <b>cryoprecipitate</b> if fibrinogen &lt; 2 g/L · platelets if &lt; 50 · <b>TXA 1 g IV</b> · atony: oxytocin infusion, carboprost 250 µg IM · still bleeding: hysterectomy",
+{
+"tr": [
+"Giving 3 L of fluid fast floods the lungs through the failing right heart"
+]
+}
+],
+[
+"Perimortem caesarean",
+"Cardiac arrest at <b>≥ 20 wk</b> (fundus at or above the umbilicus), no output after <b>4 min</b> of good CPR · Start at 4 min, <b>baby out by 5 min</b> · <b>Where she lies</b>: no transfer, no consent, CPR continues · Purpose: uterus off the IVC and aorta so CPR works: <b>mainly for the mother</b>",
+{
+"sc": [
+"Cardiac arrest at 36 wk, no output after 4 min of CPR → <b>Perimortem caesarean where she lies</b>",
+"Cardiac arrest at 16 wk → <b>CPR only, no perimortem caesarean</b>"
+],
+"tr": [
+"Moving her to theatre for the caesarean wastes minutes and stops CPR"
+]
+}
+],
+[
+"Prognosis",
+"Maternal death <b>13–80%</b> · up to 85% of survivors have hypoxic brain damage · High perinatal death · Recurrence rare; next delivery in a hospital with ICU · Report for maternal death review"
+]
+]
 }

@@ -59,7 +59,7 @@ def atoms_of(pages):
                     for ri, rh in enumerate(rows):
                         A.append(dict(b=b, h=rh + (kd['th'] + rest if ri == 0 else 0), kind='row', kid=ki, row=ri, th=kd['th'] + rest, nrows=len(rows)))
                 else:
-                    A.append(dict(b=b, h=kd['h'], kind='kid', kid=ki, fl=kd['fl'], tag=kd['tag']))
+                    A.append(dict(b=b, h=kd['h'], kind='kid', kid=ki, fl=kd['fl'], tag=kd['tag'], cls=kd.get('cls', '')))
     # where a page may break
     for i, a in enumerate(A):
         nx = A[i + 1] if i + 1 < len(A) else None
@@ -68,6 +68,7 @@ def atoms_of(pages):
         if a['kind'] == 'kid' and (a.get('fl') or a.get('tag') in ('h3', 'h4', 'h5')): ok = False
         if a['kind'] == 'row' and nx['kind'] == 'row' and nx['kid'] == a['kid'] and (a['row'] < 1 or a['row'] > a['nrows'] - (2 if EVEN else 3)): ok = False
         if a['kind'] == 'kid' and nx['kind'] == 'row' and False: ok = False
+        if nx['kind'] == 'kid' and 'loc' in (nx.get('cls') or '').split(): ok = False   # a Local practice note stays with the text it qualifies
         # owner (7 Nov 2026): a table is never broken into a small stub; each part keeps at least 4 rows and 35% of the table
         if a['kind'] == 'row' and nx['kind'] == 'row' and nx['kid'] == a['kid']:
             rb = a['row'] + 1; ra = a['nrows'] - rb

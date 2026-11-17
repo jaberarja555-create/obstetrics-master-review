@@ -2277,6 +2277,9 @@ section[data-file^="x9"] .frow .ans{background:none;color:#172e48;font-weight:75
 .page.nd figure.bf.frow .lbt { white-space:normal !important; width:max-content; max-width:min(96%, 160px); text-align:center; line-height:1.15 !important; }  /* owner, 16 Nov 2026: a label wider than a narrow picture was cut; it now wraps */
 .page.nd figure.bf .lbt { font-size:9.5pt !important; padding:2px 6px !important; white-space:normal !important; width:max-content; max-width:min(96%, 160px); text-align:center; line-height:1.15 !important; }
 .page.nd figure.bf.frow .fk { font-size:11pt !important; padding:3px 6px !important; }
+/* a picture row never shares a line with a table or box (owner, 17 Nov 2026: the breech manoeuvres table was squeezed beside its picture) */
+.page.nd .mc > .photos:has(> figure.frow){display:block !important}
+.page.nd .photos:has(> figure.frow) > * + *{margin-top:12px}
 /* Rapid Review as a short topic (owner, 16 Nov 2026: "like the main topic but short, as points; every exam point"): title tab, opening
    line, numbered section titles as in the rebuilt chapters, one fact per line at 12 pt, exam-scenario and exam-trap boxes inside the section.
    Units (tools/rapid_review/cards.py rq3) may run over the page; a section piece that continues has no title. */

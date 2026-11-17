@@ -681,3 +681,13 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   features delivered at 37 wk and BP target 135/85 (NICE NG133; local 38 wk); IPTp-SP as in chapter 1 (WHO; local two doses); obstetric
   cholestasis per RCOG 2022: bile acids ≥ 19 µmol/L random, birth by 40 wk (19–39), 38–39 wk (40–99), 35–36 wk (≥ 100), vitamin K only if
   the PT is prolonged or there is steatorrhoea (local: fasting > 10, 39/38 wk, vitamin K for all).
+- **Chapter 5 done (17 Nov 2026)** in the same design and flow (21 → 28 pages; Rapid Review cards cp ui afe sd as short topics).
+  Corrections, local way as a note: cord prolapse before the limit of viability is 24 wk (RCOG; local 26 wk; card and question mp
+  explanation updated); diabetes in 5.4: planned birth 37+0–38+6 wk pre-existing, by 40+6 wk gestational (NICE; local 38–39 wk);
+  cord arterial pH < 7.20 = acidaemia (was 7.25); volatile agent "sevoflurane or halothane"; "GA" in chapter 5 marked as general
+  anaesthesia (it showed "Gestational age"). Pictures that sat small beside a box in a `.photos` pair became picture rows under the box.
+- **Picture rows never share a line (owner, 17 Nov 2026, breech manoeuvres table squeezed beside its picture):** on `nd` pages a `.photos`
+  holding a `figure.frow` is stacked (CSS before "Rapid Review as a short topic"); topics eb ap pph mp br mal re-planned.
+- paginate.py: a page never starts with a Local practice note (`box loc`); it stays with the text it qualifies.
+- **Rapid Review cap removed (17 Nov 2026):** tools/rapid_review/cards.js stopped at 80 pages, so after chapter 4 the Rapid Review lost
+  chapters 5–7; the limit is now 300. Rapid Review = 98 pages.

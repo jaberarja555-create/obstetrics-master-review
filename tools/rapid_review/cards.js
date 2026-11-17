@@ -19,7 +19,7 @@ const out=await p.evaluate(({C,CH,KEEP,U,DR})=>{
  const band=c=>`<div class="rrc c${c}"><img src="${CH[c].img}" alt=""><div class="rcn"><small>Chapter</small>${c}</div><div class="rct">${CH[c].name}</div></div>`;
  const units=U?U.map(h=>({h,g:0})):[];let last=0;for(const c of C){c.units.forEach((u,k)=>units.push({h:(k==0&&c.ch!=last?band(c.ch):'')+u.h,g:u.g}));last=c.ch}
  const pages=[];let i=0;
- while(i<units.length&&pages.length<80){
+ while(i<units.length&&pages.length<300){
   main.innerHTML=(pages.length==0?h1:'')+'<div class="rqp"></div>';const w=main.querySelector('.rqp');let n=0;
   while(i<units.length){const u=document.createElement('div');u.className='rqu';u.innerHTML=units[i].h;w.appendChild(u);
    if(free(w)<0&&n>0){u.remove();break}n++;i++}

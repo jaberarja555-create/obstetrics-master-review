@@ -7927,7 +7927,7 @@
      "Classical caesarean section"
     ],
     "answer": 3,
-    "why": "Before 26 weeks, cord prolapse is managed as a miscarriage and delivery is vaginal. Caesarean section adds maternal risk when the baby has very little chance of survival.",
+    "why": "At the limit of viability (24 weeks), delivery is not hurried for the baby (RCOG): cord prolapse is managed as a miscarriage and delivery is vaginal. Caesarean section adds maternal risk when the baby has very little chance of survival. Many local units use 26 weeks as the limit.",
     "d": 3
    },
    {
@@ -8590,7 +8590,7 @@
      "Elective caesarean section at 41 weeks"
     ],
     "answer": 1,
-    "why": "With good control and an estimated fetal weight below 4.5 kg, caesarean section is not automatically indicated; she delivers at 38–39 weeks in hospital. Waiting beyond term increases fetal size and risk.",
+    "why": "With good control and an estimated fetal weight below 4.5 kg, caesarean section is not automatically indicated; she delivers at 38–39 weeks in hospital (NICE: no later than 40+6 weeks in gestational diabetes). Waiting beyond term increases fetal size and risk.",
     "d": 3
    },
    {
