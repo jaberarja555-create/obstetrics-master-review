@@ -1,34 +1,58 @@
 {
-"sc": [
-"Soft soft uterus with heavy bleeding after birth → <b>Call help, rub the uterus, oxytocin 10 IU</b>",
-"Fit at 36 weeks with BP 160/110 → <b>Eclampsia: MgSO₄ 4 g IV</b>",
-"Floppy, apnoeic newborn → <b>5 inflation breaths</b>"
-],
+"lead": "Emergency drill stations on a mannequin with a team: PPH, eclampsia, shoulder dystocia, cord prolapse and newborn resuscitation. The first words in every drill are \"call for help\".",
 "f": [
 [
 "PPH drill",
-"Help · ABC, O₂ 15 L/min · 2 × 14–16 G cannulae, cross-match 4–6 u · <b>oxytocin → ergometrine 0.5 mg → misoprostol 800 µg → carboprost 250 µg</b> · <b>TXA 1 g within 3 h</b> · bimanual, balloon, theatre"
+"Help, note the time · ABC, O₂ 15 L/min · 2 large cannulae, bloods, cross-match 4–6 units, warm fluids · <b>rub up the uterus</b> · find the 4 Ts (tone, trauma, tissue, thrombin) · catheter",
+{
+"sc": [
+"Soft uterus, heavy bleeding after birth → <b>Rub up the uterus and give oxytocin</b>"
+]
+}
+],
+[
+"PPH drugs",
+"<b>Oxytocin</b> 10 IU slow IV, then 40 IU in 500 mL over 4 h · <b>ergometrine 0.5 mg</b> IM (not in hypertension or heart disease) · <b>misoprostol 800 µg</b> sublingual · <b>carboprost 250 µg</b> deep IM every 15 min, max 8 (not in asthma) · <b>tranexamic acid 1 g IV within 3 h</b> · bimanual compression, balloon, theatre",
+{
+"tr": [
+"Ergometrine with BP 160/110"
+]
+}
 ],
 [
 "Eclampsia drill",
-"Help · left lateral, airway, O₂ · <b>MgSO₄ 4 g IV</b> over 5–15 min (8 mL of 50% + 12 mL saline) → <b>1 g/h for 24 h</b> · recurrent fit: 2 g · control BP · fluids ≤ 80 mL/h"
-],
-[
-"Mg toxicity",
-"<b>Lost knee jerk</b> → RR < 12 → stop, <b>calcium gluconate 10 mL of 10%</b>"
-],
-[
-"Shoulder dystocia",
-"Help · <b>McRoberts + suprapubic</b> (80%) · internal manoeuvres · posterior arm · all fours · <b>no fundal pressure</b>"
-],
-[
-"Cord prolapse",
-"Push the part up · knee–chest · fill bladder <b>500 mL</b> · Category 1 CS"
-],
-[
-"Newborn",
-"Dry, warm · airway · <b>5 inflation breaths</b> · HR < 60 after ventilation → <b>compressions 3 : 1</b>"
+"Help · left lateral, airway, O₂ · <b>MgSO₄ 4 g IV</b> over 5–15 min (8 mL of 50% diluted to 20 mL) → <b>1 g/h for 24 h</b> · recurrent fit: 2 g · control BP (labetalol, hydralazine) · fluids ≤ 80 mL/h · deliver once stable · no pump: 4 g IV + 10 g IM (5 g each buttock), then 5 g IM 4-hourly",
+{
+"sc": [
+"Fit at 36 wk, BP 170/112 → <b>Eclampsia: MgSO₄ 4 g IV</b>"
 ]
+}
 ],
-"trap": "First words in every drill: <b>\"call for help\"</b> · avoid ergometrine with <b>BP 160/110</b> · keep the clot test: no clot at 7–10 min = DIC"
+[
+"Magnesium toxicity",
+"Before each dose: <b>knee jerk</b> present, RR ≥ 12, urine ≥ 30 mL/h · order of signs: lost reflexes → respiratory depression → arrest · antidote <b>calcium gluconate 10 mL of 10%</b> IV over 10 min",
+{
+"sc": [
+"Reflexes absent, RR 16 → <b>Stop MgSO₄, check level</b>"
+]
+}
+],
+[
+"Shoulder dystocia drill (HELPERR)",
+"Help · evaluate episiotomy · <b>legs (McRoberts)</b> · <b>suprapubic pressure</b> from the baby's back (80% delivered) · enter (Rubin II, Woods screw) · <b>remove the posterior arm</b> · roll onto all fours · record each manoeuvre, its time and who did it · no fundal pressure"
+],
+[
+"Cord prolapse drill",
+"Push the presenting part up, keep it up · knee-chest or exaggerated left Sims · fill the bladder with <b>500 mL</b> · terbutaline 0.25 mg SC · <b>Category 1 CS</b> (instrumental if fully dilated)"
+],
+[
+"Newborn resuscitation",
+"Dry, warm, assess tone, breathing, heart rate · airway in neutral position · <b>5 inflation breaths</b>, then ventilate · HR &lt; 60 after 30 s of good ventilation → <b>compressions 3 : 1</b> · Apgar at 1, 5 min (then every 5 min if &lt; 7)",
+{
+"sc": [
+"Floppy, apnoeic newborn → <b>5 inflation breaths</b>"
+]
+}
+]
+]
 }

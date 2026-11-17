@@ -1,34 +1,58 @@
 {
-"sc": [
-"Head crowning, perineum about to tear → <b>Mediolateral episiotomy at 60°</b>",
-"Tight cord around the neck → <b>Clamp twice and cut</b>",
-"Tear through the anal sphincter, more than 50% of the external sphincter → <b>3b: repair in theatre</b>"
-],
+"lead": "Procedure station on a birthing model: conduct a normal delivery and the third stage, talking to the mother; often followed by an episiotomy and its repair.",
 "f": [
 [
-"Second stage",
-"Primi 2 h, multi 1 h · FHR every 5 min · flex the head, guard the perineum · <b>restitution</b>, then anterior shoulder <b>down</b>, posterior <b>up</b>"
+"The drill",
+"Crowning: keep the head <b>flexed</b>, guard the perineum · head out slowly between contractions · feel for <b>cord round the neck</b> · wait for <b>restitution</b> · anterior shoulder <b>down</b>, posterior <b>up</b> · baby onto the mother · AMTSL",
+{
+"sc": [
+"Tight cord around the neck → <b>Clamp twice and cut</b>",
+"Head retracts, no restitution → <b>Shoulder dystocia: HELPERR</b>"
+]
+}
 ],
 [
-"Third stage (AMTSL)",
-"<b>Oxytocin 10 IU IM</b> (exclude a second twin) · misoprostol 600 µg if none · clamp cord 1–3 min · controlled cord traction"
+"Preparation",
+"Consent, chaperone · empty bladder · wash, gown, sterile gloves · delivery set: 2 artery forceps, cord scissors, episiotomy scissors, cord clamps · <b>oxytocin 10 IU drawn up</b> · resuscitaire warm"
+],
+[
+"Second stage",
+"Primigravida up to 2 h, multipara 1 h of active pushing · FHR every 5 min · push only with contractions; pant at crowning"
 ],
 [
 "Baby",
-"Dry, warm, <b>Apgar 1 and 5 min</b> (≥ 7 normal) · golden minute · skin to skin, breastfeed in 1 h"
+"Dry, warm, skin to skin · <b>Apgar at 1 and 5 min</b> (≥ 7 normal) · golden minute: breathing by 60 s, else ventilate · breastfeed within 1 h"
+],
+[
+"Third stage (AMTSL)",
+"Exclude a second twin · <b>oxytocin 10 IU IM</b> (thigh) within 1 min · none: misoprostol 600 µg oral · delayed cord clamping <b>1–3 min</b> · controlled cord traction with counter-pressure · <b>uterine tone checks every 15 min</b>, rub up only if soft · check placenta and membranes complete",
+{
+"tr": [
+"Pulling the cord without a contraction or counter-pressure → inversion"
+]
+}
 ],
 [
 "Episiotomy",
-"<b>Mediolateral</b>, <b>60°</b> at crowning (45° after) · 3–4 cm · lidocaine 1% (max 3 mg/kg) · = 2nd-degree tear"
+"Only for a reason (not routine) · <b>mediolateral</b>, <b>60°</b> from the midline at crowning · lidocaine 1% fanned along the line (max 3 mg/kg) · two fingers protect the head · equals a 2nd-degree tear",
+{
+"sc": [
+"Head crowning, perineum about to tear badly → <b>Mediolateral episiotomy</b>"
+]
+}
 ],
 [
-"Tears",
-"1st skin · 2nd muscle · <b>3a < 50% EAS</b>, <b>3b > 50%</b>, 3c internal sphincter · <b>4th rectal mucosa</b>"
+"Degrees of perineal tear",
+"1st: skin · 2nd: perineal muscle · <b>3a</b>: &lt; 50% of external sphincter · <b>3b</b>: &gt; 50% · <b>3c</b>: internal sphincter · <b>4th</b>: rectal mucosa · 3rd and 4th repaired in theatre",
+{
+"sc": [
+"More than 50% of the external sphincter torn → <b>3b: repair in theatre</b>"
+]
+}
 ],
 [
 "Repair",
-"First stitch <b>1 cm above the apex</b> · rapid polyglactin 2-0 · <b>PR and swab count</b> after"
+"First stitch <b>1 cm above the apex</b> · vaginal lining continuous to the hymen · muscle · skin subcuticular · rapid polyglactin 2-0 · <b>PR and swab count</b> after"
 ]
-],
-"trap": "Check the placenta and <b>membranes complete</b> · PPH ≥ 500 mL · review OASI at 6–12 wk"
+]
 }

@@ -1,34 +1,39 @@
 {
-"sc": [
-"Cervical dilatation crosses the alert line → <b>Assess cause, ARM + oxytocin if needed</b>",
-"Good contractions, no descent, moulding +3 → <b>Obstructed labour: CS</b>",
-"FHR below 100 for more than 3 minutes → <b>Pathological CTG: act now</b>"
-],
+"lead": "Data stations: plot or read a labour partogram, and read a CTG aloud in a fixed order, then give the diagnosis and the plan.",
 "f": [
 [
-"Partogram",
-"Opened at <b>4 cm</b> · alert line 1 cm/h · action line <b>4 h</b> later · cervix <b>X</b>, descent <b>O</b> (fifths)"
+"The partogram",
+"Opened in the active phase at <b>4 cm</b>: the first X on the <b>alert line</b> · alert line rises 1 cm/h · <b>action line 4 h</b> to the right · the WHO Labour Care Guide (2020) starts the active phase at <b>5 cm</b> with no lines; local units and exams still use the partograph"
 ],
 [
-"Recording",
-"FHR, pulse, contractions <b>every 30 min</b> · VE every 4 h (2 h on oxytocin) · liquor C/M/B · moulding · BP, urine"
+"Symbols and recording",
+"Cervix <b>X</b> every 4 h · descent <b>O</b> in fifths palpable · FHR, pulse, contractions <b>every 30 min</b> · liquor I/C/M/B/A · moulding 0 to +3 · contractions as boxes per 10 min: dotted &lt; 20 s, hatched 20–40 s, <b>solid &gt; 40 s</b> · oxytocin and drugs · BP 4-hourly, temperature 2-hourly, urine"
 ],
 [
-"Contractions",
-"Boxes per 10 min · dotted < 20 s, hatched 20–40 s, <b>solid > 40 s</b> · target 3–4/10 min"
-],
-[
-"CTG reading (DR C BRAVADO)",
-"Risk · contractions · <b>baseline 110–160</b> · <b>variability 5–25</b> · accelerations (15 bpm × 15 s) · decelerations · overall"
-],
-[
-"Decelerations",
-"<b>Early</b>: head · <b>late</b>: placenta · <b>variable</b>: cord · prolonged > 3 min"
-],
-[
-"Augmentation",
-"Oxytocin <b>5 IU in 500 mL</b>, start 2 mU/min (4 drops/min), increase every 30 min"
+"Reading the partogram",
+"Who · fetus · progress (X against the lines, O, contractions) · mother · verdict and plan",
+{
+"sc": [
+"Crossing the alert line → <b>Assess the cause; ARM ± oxytocin</b>",
+"Good contractions, no descent, moulding +3 → <b>Obstructed labour: CS</b>"
 ]
+}
 ],
-"trap": "Head ≥ 3/5 palpable at full dilatation = <b>CPD</b> · reduced variability > 50 min is pathological · catheter 14 days after obstructed labour"
+[
+"The CTG: DR C BRAVADO",
+"<b>D</b>efine risk · <b>C</b>ontractions · <b>Ba</b>seline rate <b>110–160</b> · <b>V</b>ariability <b>5–25</b> · <b>A</b>ccelerations (15 bpm for 15 s) · <b>D</b>ecelerations · <b>O</b>verall"
+],
+[
+"Decelerations and categories",
+"<b>Early</b>: head compression, benign · <b>variable</b>: cord compression · <b>late</b>: placental insufficiency · <b>prolonged</b> &gt; 3 min · reduced variability &gt; 50 min is pathological · normal → continue; suspicious → correct causes; pathological → act, consider delivery",
+{
+"sc": [
+"FHR below 100 for more than 3 min → <b>Prolonged deceleration: act now</b>"
+],
+"tr": [
+"Head ≥ 3/5 palpable at full dilatation = <b>CPD</b>"
+]
+}
+]
+]
 }

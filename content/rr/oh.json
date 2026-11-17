@@ -1,34 +1,60 @@
 {
-"sc": [
-"Headache, flashing lights and BP 150/100 at 34 weeks → <b>Severe pre-eclampsia</b>",
-"Shoulder-tip pain and fainting at 7 weeks → <b>Ruptured ectopic</b>",
-"Painless bleeding with a previous CS → <b>Placenta praevia</b>"
-],
+"lead": "A focused history station: about 5 minutes with a simulated patient, then the examiner asks your diagnosis and plan. Use the full frame and go deep only where her complaint points.",
 "f": [
 [
-"Frame",
-"Personal details · <b>presenting complaint</b> · history of pregnancy · past obstetric · gynaecological · medical, surgical · drugs, allergy · family · social"
+"The frame",
+"Personal data · presenting complaint · history of the pregnancy · past obstetric · gynaecological · medical and surgical · drugs, allergy · family · social"
 ],
 [
-"Dating",
-"<b>LMP</b>, cycle, EDD (Naegele: +7 d −3 mo +1 yr) · early scan (CRL)"
+"Dates and parity",
+"<b>LMP</b>, cycle, pill or lactation · <b>EDD by Naegele</b>: + 7 days − 3 months + 1 year (cycle 35 d: add 7 days) · dating scan (CRL 8–13 wk) beats LMP · <b>Gravida</b> = all pregnancies · <b>para</b> = births ≥ 24 wk · twins count as one birth · grand multipara ≥ 5"
 ],
 [
-"Obstetric terms",
-"<b>Gravida</b> (pregnancies) · <b>para</b> (births ≥ 24 wk) · twins count as one · grand multipara ≥ 5"
+"Past obstetric history",
+"Mode of each birth · <b>previous CS: indication and type</b> (VBAC or repeat) · PPH: active 3rd stage and IV line · macrosomia, stillbirth: screen for diabetes · pre-eclampsia, preterm birth"
 ],
 [
-"Past pregnancies",
-"Mode, <b>previous CS indication and type</b> · PPH, PE, preterm birth, stillbirth, macrosomia (check glucose)"
+"Risk factors and systemic review",
+"Age &lt; 18 or &gt; 35 · consanguinity · occupation · past disease · always a short systemic review"
 ],
 [
-"Clinical pictures",
-"Vesicles + severe vomiting: <b>mole</b> · pain, hard uterus, dark blood: <b>abruption</b> · bleed at ROM, bradycardia: <b>vasa praevia</b> · pica: iron deficiency"
-],
-[
-"Local pictures",
-"Haematuria, canal water: <b>schistosomiasis</b> · fever, rigors, no bed net: <b>malaria</b>"
+"Hypertension and pre-eclampsia",
+"Headache, visual disturbance, epigastric pain, swelling · high BP at <b>10 wk</b> = chronic hypertension",
+{
+"sc": [
+"Headache, flashing lights, BP 150/100 at 34 wk → <b>Severe pre-eclampsia</b>"
 ]
+}
 ],
-"trap": "High BP at <b>10 weeks</b> = chronic hypertension · wet on coughing without pooling = stress incontinence · present a long history in 2–3 min"
+[
+"Bleeding in early pregnancy",
+"Amount, clots, tissue passed, pain, fainting · shoulder-tip pain = blood in the abdomen · vesicles + severe vomiting = <b>mole</b>",
+{
+"sc": [
+"Shoulder-tip pain and fainting at 7 wk → <b>Ruptured ectopic</b>"
+]
+}
+],
+[
+"Antepartum haemorrhage",
+"Painless bright red (praevia) vs pain, hard uterus, dark blood (<b>abruption</b>) · bleeding at ROM with fetal bradycardia = <b>vasa praevia</b> · <b>no digital VE</b> until the placenta is located",
+{
+"sc": [
+"Painless bleeding with a previous CS → <b>Placenta praevia</b>"
+]
+}
+],
+[
+"Anaemia, diabetes, fever and malaria",
+"Anaemia: diet, pica, short spacing, worms, stopped iron · diabetes: past GDM, macrosomia, family history · fever with rigors, no bed net, no IPTp → <b>malaria</b> · haematuria, canal water → schistosomiasis"
+],
+[
+"Reduced movements and leaking liquor",
+"Fewer movements: when, how long, risk factors → CTG and scan · leaking: gush or continuous, colour, smell, fever · wet on coughing without pooling = <b>stress incontinence</b>"
+],
+[
+"Presenting the history",
+"A long history in 2–3 min: summary, positives, relevant negatives, impression, plan"
+]
+]
 }

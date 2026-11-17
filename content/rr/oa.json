@@ -1,34 +1,48 @@
 {
-"sc": [
-"Entering any station → <b>Hand hygiene, introduce, check name and age, consent</b>",
-"Male student about to examine a woman → <b>Named female chaperone</b>",
-"Breaking bad news → <b>SPIKES with a warning shot</b>"
-],
+"lead": "An <b>OSCE</b> is a series of timed stations (about 5–8 min each) with a simulated patient, a model or data, marked on a fixed checklist. Every station has the same opening and closing, which carry easy marks.",
 "f": [
 [
-"Opening (30 s)",
-"Greet, introduce · confirm <b>identity</b> · explain and <b>consent</b> · privacy, chaperone"
+"Station types",
+"History · examination on a model or patient · procedure (delivery, VE, BP, dipstick) · data (partogram, CTG) · drills (PPH, eclampsia, shoulder dystocia, cord prolapse, newborn) · spotters · counselling"
+],
+[
+"The 5-minute plan",
+"Read the task twice: who, how many weeks, the verb (history, examine, counsel) · note what is given · run the checklist in your head: opening, task, closing"
+],
+[
+"Universal opening and closing",
+"<b>Hand hygiene</b> · greet, introduce · confirm name and age · explain and <b>consent</b> · privacy and a <b>female chaperone</b> · closing: summarise, safety-net (bleeding, leaking, fewer movements), thank, cover, wash hands",
+{
+"sc": [
+"Male student about to examine a woman → <b>Named female chaperone</b>"
+]
+}
 ],
 [
 "Communication",
-"<b>ICE</b> (ideas, concerns, expectations) · open then closed questions · <b>signposting</b> · facts in 2–3 chunks · <b>teach-back</b>"
+"<b>ICE</b>: ideas, concerns, expectations · open then closed questions · <b>signposting</b> · facts in 2–3 chunks · words she understands · <b>teach-back</b>"
 ],
 [
-"Bad news (SPIKES)",
-"Setting · perception · invitation · knowledge (<b>warning shot</b>) · emotions · strategy and summary"
-],
-[
-"Consent (BRAN)",
-"Benefits · risks · alternatives · nothing (doing nothing) · capacity: understand, retain, weigh, communicate"
-],
-[
-"Presenting",
-"< 1 min: who, why, positives, <b>relevant negatives</b>, impression, plan · one main differential"
-],
-[
-"Closing",
-"Summarise · safety-net (bleeding, leaking, fewer movements) · thank · wash hands"
+"Breaking bad news: SPIKES",
+"<b>S</b>etting · <b>P</b>erception · <b>I</b>nvitation · <b>K</b>nowledge with a <b>warning shot</b> · <b>E</b>motions · <b>S</b>trategy and summary",
+{
+"sc": [
+"Telling a mother her baby has died → <b>SPIKES with a warning shot</b>"
 ]
+}
 ],
-"trap": "The first words in an emergency viva are <b>\"call for help\"</b> · never leave a medical word unexplained · let her speak first for about a minute"
+[
+"Informed consent",
+"<b>BRAN</b>: benefits, risks, alternatives, nothing (doing nothing) · capacity: understand, retain, weigh, communicate"
+],
+[
+"Presenting and the viva",
+"Present in under 1 minute: who, why, positives, <b>relevant negatives</b>, impression, plan · one main differential · in any emergency viva the first words are <b>\"call for help\"</b>",
+{
+"tr": [
+"Never leave a medical word unexplained; let her speak first for about a minute"
+]
+}
+]
+]
 }

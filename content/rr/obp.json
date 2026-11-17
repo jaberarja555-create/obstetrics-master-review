@@ -1,34 +1,58 @@
 {
-"sc": [
-"Small cuff on a large arm → <b>Falsely high reading</b>",
-"Readings 145/95 twice, 4 hours apart at 30 weeks → <b>Hypertension: test urine for protein</b>",
-"Urine: nitrites and leucocytes positive → <b>UTI: send MSU for culture</b>"
-],
+"lead": "Two procedure stations: measuring blood pressure correctly in pregnancy, and testing urine with a dipstick (with explaining a midstream or 24-hour collection).",
 "f": [
 [
-"BP technique",
-"Rest <b>5 min</b>, sitting · cuff bladder covers <b>≥ 80%</b> of arm (large cuff if arm > 33 cm) · arm at heart level"
+"Blood pressure technique",
+"Rest <b>5 min</b>, sitting or semi-recumbent 45°, feet flat, arm at heart level · cuff bladder covers <b>≥ 80%</b> of the arm (large cuff if arm &gt; 33 cm) · palpate systolic, inflate 30 mmHg above · deflate <b>2 mmHg/s</b> · record to the nearest 2 mmHg"
 ],
 [
-"Korotkoff",
-"Inflate 30 mmHg above palpated systolic · deflate <b>2 mmHg/s</b> · systolic <b>K1</b> · diastolic <b>K5</b> (K4 if sounds go to zero)"
+"Korotkoff sounds",
+"Systolic = <b>K1</b> · diastolic = <b>K5</b> (disappearance) · use <b>K4</b> only if sounds go on to 0",
+{
+"sc": [
+"Silent gap from 150 to 130 → <b>Auscultatory gap: palpate systolic first</b>"
+]
+}
 ],
 [
-"Thresholds",
-"Hypertension <b>≥ 140/90</b> twice · severe <b>≥ 160/110</b> (treat now, re-check in 15 min)"
+"Errors that change the reading",
+"Small cuff on a large arm: <b>falsely high</b> · large cuff: low · arm hanging below the heart: high · lying flat: supine hypotension",
+{
+"sc": [
+"Obese arm, standard cuff, 150/100 → <b>Repeat with a large cuff</b>"
+]
+}
+],
+[
+"What the number means",
+"Hypertension <b>≥ 140/90</b> twice, 4 h apart · severe <b>≥ 160/110</b>: treat now, re-check in 15 min · one high reading is not pre-eclampsia",
+{
+"sc": [
+"145/95 twice, 4 h apart, at 30 wk → <b>Hypertension: test urine for protein</b>"
+]
+}
 ],
 [
 "Urine dipstick",
-"Midstream, dip ≈ 1 s · protein <b>1+ ≈ 0.3 g/L</b> · glucose 2+ → OGTT · ketones → hyperemesis"
+"Midstream (clean-catch) sample · check expiry · dip all pads about 1 s · read each pad at its own time against the chart"
 ],
 [
-"Proteinuria",
-"Significant: <b>PCR ≥ 30 mg/mmol</b> or <b>≥ 0.3 g/24 h</b> · severe > 5 g/24 h"
-],
-[
-"Bacteriuria",
-"2–10% of pregnant women · always treat"
+"Pad by pad",
+"Protein <b>1+ ≈ 0.3 g/L</b> → PCR · glucose 2+ → OGTT · ketones → hyperemesis, starvation · <b>nitrites + leucocytes</b> → MSU for culture (bacteriuria in 2–10%, always treat) · blood → infection, stones",
+{
+"sc": [
+"Nitrites and leucocytes positive → <b>UTI: send MSU for culture</b>"
 ]
+}
 ],
-"trap": "Record to the nearest <b>2 mmHg</b> · never round to 0 or 5 · read each pad at its own time"
+[
+"Measuring protein",
+"Significant proteinuria: <b>PCR ≥ 30 mg/mmol</b> or <b>≥ 0.3 g/24 h</b> · 24-hour urine: discard the first sample, collect all for 24 h including the next morning's first",
+{
+"tr": [
+"Never round the BP to 0 or 5"
+]
+}
+]
+]
 }

@@ -1,34 +1,61 @@
 {
-"sc": [
-"Prolonged 2nd stage, head 0/5 palpable, station +2, OA → <b>Outlet/low ventouse or forceps</b>",
-"Need for delivery at 32 weeks in the 2nd stage → <b>Forceps, not ventouse</b>",
-"Cord prolapse at 6 cm, live baby → <b>Category 1 CS within 30 minutes</b>"
-],
+"lead": "Operative delivery stations: ventouse and forceps on a model, and caesarean section (consent, preparation, post-operative orders, viva).",
 "f": [
 [
-"Prerequisites",
-"Fully dilated, ROM · head <b>≤ 1/5 palpable</b>, at or below the spines · position known · bladder empty · analgesia · consent"
+"Indications",
+"Prolonged 2nd stage · maternal exhaustion · fetal distress in the 2nd stage · conditions where pushing is unsafe (heart disease, severe PE)"
+],
+[
+"Conditions before use (FORCEPS)",
+"<b>Fully dilated</b>, membranes ruptured · head <b>≤ 1/5 palpable</b>, at or below the spines · position known · empty bladder · analgesia · consent · a place to go (theatre) if it fails",
+{
+"sc": [
+"Prolonged 2nd stage, head 0/5, station +2, OA → <b>Low ventouse or forceps</b>"
+]
+}
 ],
 [
 "Ventouse",
-"Cup on the <b>flexion point</b> (3 cm in front of the posterior fontanelle) · 0.8 kg/cm² · <b>max 3 pulls</b>, stop after 2 detachments · ≥ 34 wk"
+"Cup on the <b>flexion point</b> (3 cm in front of the posterior fontanelle, on the sagittal suture) · pull with contractions along the pelvic curve · <b>max 3 pulls</b>, stop after 2 detachments · <b>not before 32 wk</b>; care at 32–36 wk · not for a face",
+{
+"sc": [
+"Delivery needed in the 2nd stage at 30 wk → <b>Forceps, not ventouse</b>"
+]
+}
 ],
 [
 "Forceps",
-"<b>Left blade first</b> · Wrigley (outlet, at CS) · Neville-Barnes · <b>Kielland</b> (rotation) · Piper (aftercoming head)"
+"<b>Left blade first</b> (left hand, left side) · lock without force · Wrigley (outlet, at CS) · Neville-Barnes (low, mid-cavity) · <b>Kielland</b> (rotation, sliding lock) · Piper (aftercoming head)"
 ],
 [
-"CS urgency",
-"<b>Category 1 ≤ 30 min</b> · Category 2 ≤ 75 min · elective at 39 wk"
+"Ventouse vs forceps",
+"Ventouse: more failure, less maternal trauma; cephalhaematoma, chignon, retinal bleeds · forceps: more 3rd/4th degree tears; facial bruising, facial nerve palsy"
 ],
 [
-"CS care",
-"Cefuroxime 1.5 g <b>before incision</b> · oxytocin 5 IU slow IV · left tilt 15° · LMWH 10 d after emergency CS · catheter out 12 h"
-],
-[
-"Perimortem CS",
-"Start at 4 min of arrest, <b>baby out by 5 min</b>"
+"Caesarean section: urgency",
+"<b>Category 1</b>: threat to life, ≤ 30 min · category 2: compromise, ≤ 75 min · 3: needs early delivery · 4: elective at 39 wk",
+{
+"sc": [
+"Cord prolapse at 6 cm, live baby → <b>Category 1 CS</b>"
 ]
+}
 ],
-"trap": "Never ventouse <b>below 34 wk</b> or for a face · stop if no descent with each pull · classical scar ruptures in 2–9%"
+[
+"Consent and preparation",
+"Benefits, risks (bleeding, infection, VTE, bladder or bowel injury, future praevia and accreta) · fast, antacid · group and save · <b>cefuroxime 1.5 g before the incision</b> · spinal preferred · left tilt 15° · oxytocin 5 IU slow IV after the baby"
+],
+[
+"Lower segment vs classical",
+"Lower segment: less bleeding, scar ruptures in about 0.5% · classical: very preterm, transverse lie with back down, lower-segment fibroid, perimortem; rupture 2–9%, no labour next time"
+],
+[
+"Post-operative orders",
+"Observations · fluids until drinking · analgesia · <b>LMWH</b> for emergency CS or risk factors · catheter out at about 12 h · early walking, feeding",
+{
+"tr": [
+"Ergometrine in a hypertensive woman; no thromboprophylaxis"
+]
+}
+]
+]
 }

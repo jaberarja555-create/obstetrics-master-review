@@ -1,34 +1,48 @@
 {
-"sc": [
-"Bivalve self-retaining speculum → <b>Cusco speculum</b>",
-"Forceps with a sliding lock and no pelvic curve → <b>Kielland (rotational)</b>",
-"Uterine balloon filled with 300–500 mL → <b>Bakri balloon: PPH tamponade</b>"
-],
+"lead": "Spotter stations: a picture, instrument, drug or test is shown; name it, say its use, how it is used and one complication or precaution.",
 "f": [
 [
-"Specula",
-"<b>Cusco</b> (self-retaining) · <b>Sims</b> (duck-bill, held by assistant: VVF, prolapse)"
+"Examination instruments",
+"<b>Pinard</b> fetal stethoscope (from 24 wk) · hand-held Doppler · tape for SFH · <b>Cusco</b> (bivalve, self-retaining) · <b>Sims</b> (needs an assistant: VVF, prolapse) · sponge-holding forceps · swabs · nitrazine paper"
 ],
 [
-"Forceps",
-"<b>Wrigley</b> (outlet, CS) · Neville-Barnes (low) · <b>Kielland</b> (rotation, sliding lock) · Piper (aftercoming head)"
+"Labour and delivery",
+"Amniotomy hook · cord clamp · episiotomy scissors · needle holder · delivery set · CTG machine · partogram sheet · newborn bag-valve-mask"
 ],
 [
-"Other instruments",
-"<b>Pinard</b> (from 24 wk) · ventouse cup (flexion point) · <b>MVA syringe</b> 60 mL · amniohook · Foley (induction)"
+"Instrumental birth and evacuation",
+"Ventouse: Kiwi (hand pump), metal cups · forceps: <b>Wrigley</b> (outlet, CS), <b>Neville-Barnes</b> (low, mid), <b>Kielland</b> (rotation, sliding lock, little pelvic curve) · <b>MVA syringe</b> (60 mL) and Karman cannulae · curette, sound, Hegar dilators",
+{
+"sc": [
+"Forceps with a sliding lock and little pelvic curve → <b>Kielland (rotational)</b>"
+]
+}
+],
+[
+"Induction, PPH and contraception",
+"Foley catheter for induction · <b>Bakri balloon</b> (300–500 mL) and condom-catheter balloon for PPH tamponade · copper IUD (within 48 h or after 4 wk), implant, DMPA, combined pill",
+{
+"sc": [
+"Uterine balloon filled with 300–500 mL → <b>Bakri balloon: PPH tamponade</b>"
+]
+}
 ],
 [
 "Drugs",
-"<b>Ergometrine</b> (dark, fridge; not in HTN) · <b>oxytocin</b> (fridge) · <b>misoprostol 200 µg</b> tablets (no fridge) · MgSO₄ 50% ampoules · carboprost"
+"<b>Oxytocin</b> (fridge) · <b>ergometrine</b> (dark, fridge; not in hypertension) · <b>misoprostol 200 µg</b> (no fridge) · carboprost · TXA · <b>MgSO₄ 50%</b> and calcium gluconate 10% · labetalol, hydralazine, nifedipine, methyldopa · aspirin · steroids · anti-D · iron · terbutaline · lidocaine · vitamin K"
 ],
 [
-"Spotters",
-"Fern pattern: <b>liquor</b> · snowstorm scan: <b>mole</b> · no clot at 10 min: <b>DIC</b> · lambda sign: dichorionic"
+"Bedside, lab and scans",
+"Urine dipstick · <b>fern pattern</b>: liquor · <b>clot test</b>: no clot at 7–10 min = DIC · CTG strip · scans: sac with yolk sac, CRL, <b>snowstorm</b> (mole), empty uterus with adnexal mass (ectopic) · lambda sign: dichorionic"
 ],
 [
 "How to answer",
-"Name · <b>use</b> · how to use it · one complication or precaution"
+"Name · use · how to use it · one complication or precaution",
+{
+"tr": [
+"Always name the precaution with a drug"
 ]
-],
-"trap": "<b>Copper T</b> after birth: within 48 h or after 4 weeks · Sims needs an assistant · always name the precaution with a drug"
+}
+]
+]
 }

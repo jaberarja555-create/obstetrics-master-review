@@ -1,34 +1,58 @@
 {
-"sc": [
-"Fundus at the umbilicus → <b>About 20 weeks</b>",
-"Hard round ballotable mass in the fundus → <b>Breech</b>",
-"Fundus and pelvis empty → <b>Transverse lie</b>"
-],
+"lead": "Obstetric abdominal examination on a patient or model: prepare, general look, inspection, fundal height, Leopold grips, engagement, liquor and the fetal heart, then present eight points.",
 "f": [
 [
-"Preparation",
-"Empty bladder (adds ≈ 3 cm) · lying with <b>left tilt 15°</b> after 20 wk · expose from xiphisternum to symphysis · general: BP, pulse, oedema, pallor"
+"Equipment and preparation",
+"Doppler or Pinard, gel, tape, gloves · <b>empty bladder</b> (a full one adds about 3 cm) · lying with a pillow under her right hip (<b>left tilt 15°</b>) after 20 wk · expose from xiphisternum to symphysis",
+{
+"sc": [
+"Dizzy, pale and sweaty flat on her back → <b>Supine hypotension: tilt her left</b>"
+]
+}
+],
+[
+"General look and examination",
+"Well or distressed · pallor (eyelid, palms) · BP, pulse, temperature, urine · pitting oedema, varicose veins"
 ],
 [
 "Inspection",
-"Size, shape · <b>scars</b> (Pfannenstiel, midline) · striae, linea nigra · fetal movements"
+"Size, shape (oval = longitudinal, broad = transverse) · <b>scars</b>: Pfannenstiel (lower segment CS), midline (classical CS, laparotomy) · linea nigra, striae · fetal movements"
 ],
 [
 "Fundal height",
-"<b>12 wk</b> symphysis · 20 wk umbilicus · 36 wk xiphisternum · <b>SFH = weeks ± 2 cm</b> from 24 wk"
+"Centre the uterus, find the fundus with the side of the hand, then tape · <b>12 wk</b> symphysis · <b>20 wk</b> umbilicus · <b>36 wk</b> xiphisternum · <b>SFH = weeks ± 2 cm</b> from 24 wk · off dates by &gt; 2 cm → <b>growth scan</b>",
+{
+"sc": [
+"Fundus at the umbilicus → <b>About 20 weeks</b>"
+]
+}
 ],
 [
 "Leopold grips",
-"<b>Fundal</b> · lateral (back) · <b>Pawlik</b> (one hand above the pubis) · <b>pelvic</b> (facing her feet)"
-],
-[
-"Engagement",
-"Head in fifths: <b>≤ 2/5 palpable = engaged</b> · fingers converge = not engaged"
-],
-[
-"Auscultation",
-"Pinard/Doppler over the anterior shoulder · <b>110–160/min</b>, count 1 min · FH above umbilicus: breech"
+"<b>Fundal</b>: what is in the fundus · <b>lateral</b>: back or limbs · <b>Pawlik</b> (1st pelvic): what presents · <b>pelvic</b> (2nd, facing her feet): engagement",
+{
+"sc": [
+"Hard round ballotable mass in the fundus → <b>Breech</b>",
+"Fundus and pelvis empty, broad uterus → <b>Transverse lie</b>"
 ]
+}
 ],
-"trap": "Tense uterus with a <b>fluid thrill</b> = polyhydramnios · SFH > 2 cm off dates → <b>scan</b> · thank and cover the patient"
+[
+"Engagement and liquor",
+"Head in fifths: <b>≤ 2/5 palpable = engaged</b> · hands converge below the head = not engaged · tense uterus with a <b>fluid thrill</b> = polyhydramnios; parts felt too easily = oligohydramnios"
+],
+[
+"Fetal heart",
+"Pinard or Doppler over the <b>anterior shoulder</b> (back side) · count 1 min with her pulse · normal <b>110–160/min</b> · heard above the umbilicus = breech"
+],
+[
+"Closing and presenting",
+"Cover her, thank, wash hands · present: SFH, lie, presentation, engagement, position, liquor, fetal heart, impression",
+{
+"tr": [
+"Forgetting the tilt, the bladder or the chaperone loses easy marks"
+]
+}
+]
+]
 }

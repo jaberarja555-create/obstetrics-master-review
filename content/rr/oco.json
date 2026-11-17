@@ -1,34 +1,48 @@
 {
-"sc": [
-"Counselling after IUFD → <b>Explain options: induction most common; mifepristone then misoprostol</b>",
-"Woman on warfarin for a valve planning pregnancy → <b>Switch to LMWH before 6 weeks</b>",
-"Woman with epilepsy on valproate → <b>Change drug, folic acid 5 mg before conception</b>"
-],
+"lead": "Counselling stations: a simulated patient needs information and a decision. Use one frame for all of them and check her understanding.",
 "f": [
 [
-"Frame",
-"Introduce · establish <b>what she knows</b> · facts in 2–3 chunks · options · check understanding · <b>ICE</b> · plan · leaflets and follow-up"
+"The counselling frame",
+"Introduce · establish <b>what she knows</b> · facts in 2–3 chunks without jargon · options · <b>ICE</b> · check understanding (teach-back) · plan · leaflets and follow-up"
 ],
 [
-"IUFD",
-"Labour within 3 wk in 85% · DIC ≈ 30% after 3 wk · <b>mifepristone 200 mg</b>, then misoprostol · <b>cabergoline 1 mg</b> · investigations · 6-wk review"
+"Intrauterine fetal death",
+"Break the news (SPIKES) · labour starts within 3 wk in 85% · DIC in about 30% after 3–4 wk · <b>induction</b> preferred: <b>mifepristone 200 mg</b>, then misoprostol 36–48 h later · CS only for a usual obstetric reason · seeing and holding the baby, her choice · <b>cabergoline 1 mg</b> · anti-D if Rh-negative · investigations · review at 6 wk",
+{
+"sc": [
+"IUFD at 34 wk, well → <b>Induction with mifepristone then misoprostol</b>"
+]
+}
 ],
 [
-"Cardiac disease",
-"Cardiac output +40% · joint clinic · fetal echo 20–22 wk · <b>LMWH</b> · no ergometrine · <b>HDU ≥ 3 days</b>"
+"Heart disease",
+"Cardiac output rises about 40% · joint clinic · fetal echo at 20–22 wk · warfarin: LMWH in weeks 6–12 (and from 36 wk) · labour sitting up, epidural, short 2nd stage · <b>oxytocin slowly, no ergometrine</b> · HDU after birth",
+{
+"sc": [
+"Mitral stenosis, soft uterus after birth → <b>Avoid ergometrine</b>"
+]
+}
 ],
 [
 "Epilepsy",
-"Fit-free 2 years ideal · <b>avoid valproate</b> · <b>folic acid 5 mg</b> 3 months before · baby vitamin K 1 mg"
-],
-[
-"Contraception",
-"<b>LAM</b> 98% · IUD within 48 h or after 4 wk · no method needed before 21 d"
-],
-[
-"VBAC",
-"Success <b>72–75%</b> · rupture ≈ 0.5% · deliver in hospital with continuous CTG"
+"Fit-free 2 years ideal · <b>avoid valproate</b> (switch before pregnancy) · <b>folic acid 5 mg</b> from 3 months before · never stop drugs suddenly · baby vitamin K 1 mg",
+{
+"sc": [
+"On valproate, planning a pregnancy → <b>Switch drug; folic acid 5 mg first</b>"
 ]
+}
 ],
-"trap": "<b>Never leave a medical word unexplained</b> · check she understood (teach-back) · offer written information and a follow-up date"
+[
+"Postpartum contraception",
+"<b>LAM</b> 98% if all 3 rules · progestogen methods any time while breastfeeding · copper IUD within 48 h or after 4 wk · no method needed before day 21 · combined pill not before 6 months if breastfeeding"
+],
+[
+"Gestational diabetes and insulin",
+"Diet, glucose diary (fasting &lt; 5.3, 1 h after meals &lt; 7.8 mmol/L) · insulin into the abdomen or thigh, change the site · keep insulin cool · hypoglycaemia: oral glucose, recheck in 15 min"
+],
+[
+"Caesarean section and VBAC",
+"VBAC success <b>72–75%</b> · scar rupture about <b>0.5%</b> · deliver in hospital, continuous CTG · two or more previous CS: repeat CS at 39 wk"
+]
+]
 }

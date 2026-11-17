@@ -713,4 +713,11 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   Owner's replacements: assets/img/oh_wheel_real.jpg (7.2), ond_mechanism.jpg (8 stages of the mechanism of labour, 7.7 "Hand positions"),
   oem_mcr_suprapubic.jpg (7.9 manoeuvres). Not used: his TrialEx and "Health is Wealth" pictures (copyright marks / logo). Captions fixed:
   LMWH (no needle angle), breastfeeding attachment. Figures renumbered in reading order. "GA" before RSI = general anaesthesia.
+- **Chapter 7 checked and finished (17 Nov 2026):** corrections to match chapters 1–6: no anti-D before 12 wk (NICE 2025; local 250 IU from
+  10 wk), IPTp from 13 wk ≥ 3 doses (WHO), third stage uterine tone checks instead of routine massage (table, caption, drill diagram, Arabic
+  line), ventouse not before 32 wk (care 32–36), cord arterial pH < 7.20, caesarean "after viability" with no 28-wk number, a "Guideline note"
+  on the WHO Labour Care Guide (active phase from 5 cm, no alert/action lines) in the partogram station. Six questions had broken blood
+  pressures ("130/8 mmHg0 mmHg"): fixed in qbank.json. Spotter grids (7.10) cut into rows of four so pages can break between rows; the
+  owner's pregnancy wheel 215 px so 7.2's section fits its first page. Rapid Review cards of the 11 OSCE topics rewritten as short topics
+  (Rapid Review 125 pages).
 

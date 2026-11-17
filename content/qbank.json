@@ -5627,7 +5627,7 @@
     "id": "nl-6",
     "topic": "nl",
     "type": "sba",
-    "stem": "A 24-year-old primigravida with pre-eclampsia (blood pressure 160/10 mmHg5 mmHg on treatment) has just delivered a live baby vaginally. A single fetus was confirmed on scan.",
+    "stem": "A 24-year-old primigravida with pre-eclampsia (blood pressure 160/105 mmHg on treatment) has just delivered a live baby vaginally. A single fetus was confirmed on scan.",
     "q": "Which uterotonic should be given for the third stage?",
     "options": [
      "Ergometrine 0.5 mg IM",
@@ -5729,7 +5729,7 @@
     "id": "nl-12",
     "topic": "nl",
     "type": "sba",
-    "stem": "A 23-year-old primigravida delivers at home. The attendant pulls hard on the cord before any contraction. There is a sudden gush of blood, she becomes pale and sweaty with blood pressure 70/4 mmHg0 mmHg, and the fundus cannot be felt abdominally. A smooth mass is seen at the introitus with the placenta attached.",
+    "stem": "A 23-year-old primigravida delivers at home. The attendant pulls hard on the cord before any contraction. There is a sudden gush of blood, she becomes pale and sweaty with blood pressure 70/40 mmHg, and the fundus cannot be felt abdominally. A smooth mass is seen at the introitus with the placenta attached.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Uterine rupture",
@@ -10186,7 +10186,7 @@
     "id": "obp-4",
     "topic": "obp",
     "type": "sba",
-    "stem": "A primigravida at 35 weeks has blood pressure 152/10 mmHg0 mmHg twice, 4 hours apart. Urine dipstick shows protein 2+. She has no headache or visual symptoms.",
+    "stem": "A primigravida at 35 weeks has blood pressure 152/100 mmHg twice, 4 hours apart. Urine dipstick shows protein 2+. She has no headache or visual symptoms.",
     "q": "What is the most appropriate next test?",
     "options": [
      "24-hour urine for creatinine clearance",
@@ -10203,7 +10203,7 @@
     "id": "obp-5",
     "topic": "obp",
     "type": "sba",
-    "stem": "A woman at 28 weeks has no symptoms. Dipstick: protein 1+, nitrite positive, leucocytes 2+, glucose negative. Blood pressure 118/7 mmHg2 mmHg.",
+    "stem": "A woman at 28 weeks has no symptoms. Dipstick: protein 1+, nitrite positive, leucocytes 2+, glucose negative. Blood pressure 118/72 mmHg.",
     "q": "What is the most appropriate next step?",
     "options": [
      "PCR for pre-eclampsia",
@@ -10535,7 +10535,7 @@
     "id": "oe-6",
     "topic": "oe",
     "type": "sba",
-    "stem": "During an OSCE you measure the symphysis–fundal height at 30 cm in a woman at 34 weeks. She had a normal symphysis–fundal height at 30 weeks. Blood pressure 130/8 mmHg0 mmHg, urine clear.",
+    "stem": "During an OSCE you measure the symphysis–fundal height at 30 cm in a woman at 34 weeks. She had a normal symphysis–fundal height at 30 weeks. Blood pressure 130/80 mmHg, urine clear.",
     "q": "What is the best next step?",
     "options": [
      "Admit for bed rest",
@@ -10603,7 +10603,7 @@
     "id": "oem-2",
     "topic": "oem",
     "type": "sba",
-    "stem": "A primigravida at 36 weeks has PPH after delivery. She had blood pressure 158/10 mmHg4 mmHg in labour and received magnesium sulphate. The uterus stays soft despite massage and an oxytocin infusion.",
+    "stem": "A primigravida at 36 weeks has PPH after delivery. She had blood pressure 158/104 mmHg in labour and received magnesium sulphate. The uterus stays soft despite massage and an oxytocin infusion.",
     "q": "Which drug should be avoided next?",
     "options": [
      "Misoprostol 800 µg sublingual",
