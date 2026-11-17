@@ -1892,7 +1892,7 @@
      "Chloroquine"
     ],
     "answer": 1,
-    "why": "Uncomplicated malaria in any trimester, including the first, is treated with AL 20/120 (Sudan protocol 2023). DHA-piperaquine is second line in the 2nd and third trimesters; quinine is for when no ACT is available.",
+    "why": "Uncomplicated malaria in any trimester, including the first, is treated with AL 20/120 (national protocol 2023). DHA-piperaquine is second line in the 2nd and third trimesters; quinine is for when no ACT is available.",
     "d": 2
    },
    {
@@ -5213,7 +5213,7 @@
      "TORCH serology"
     ],
     "answer": 1,
-    "why": "Fever, rigors, anaemia and low platelets in Sudan point to malaria as the cause; a blood film is the test.",
+    "why": "Fever, rigors, anaemia and low platelets in a malaria area point to malaria as the cause; a blood film is the test.",
     "d": 1
    },
    {
@@ -9291,7 +9291,7 @@
      "Serum amylase"
     ],
     "answer": 2,
-    "why": "In Sudan every postnatal fever requires a malaria film or rapid diagnostic test, especially when no pelvic source is found. The Widal test is unreliable; blood culture is used for typhoid.",
+    "why": "In a malaria area every postnatal fever requires a malaria film or rapid diagnostic test, especially when no pelvic source is found. The Widal test is unreliable; blood culture is used for typhoid.",
     "d": 2
    },
    {

@@ -1080,8 +1080,8 @@
     "13rxu4g"
    ],
    [
-    "Sudan",
-    "Pale, febrile pregnant woman with big spleen in Sudan: first thought and drug?",
+    "Local practice",
+    "Pale, febrile pregnant woman with big spleen in a malaria area: first thought and drug?",
     "Malaria; treat per national protocol, artemether-lumefantrine first line.",
     2,
     "1ahafe0"
@@ -1426,8 +1426,8 @@
     "oq7is1"
    ],
    [
-    "Sudan",
-    "No OGTT available in Sudan: how do you test?",
+    "Local practice",
+    "No OGTT available: how do you test?",
     "Fasting plus 2 hours post-prandial glucose on a laboratory sample; not urine dipstick.",
     2,
     "sok6e9"
@@ -1545,7 +1545,7 @@
     "frg1qe"
    ],
    [
-    "Sudan",
+    "Local practice",
     "No syringe pump in labour: how is insulin given?",
     "Added to the dextrose bag, about 1 U per 5 g dextrose, with hourly glucose checks.",
     3,
@@ -1817,7 +1817,7 @@
    ],
    [
     "Eclampsia",
-    "Differentials for fits in pregnancy (Sudan)?",
+    "Differentials for fits in pregnancy in a malaria area?",
     "Cerebral malaria, epilepsy, meningitis, hypoglycaemia, cerebral venous thrombosis, intracranial bleed. Always test malaria and glucose.",
     2,
     "hg1zws"
@@ -2018,7 +2018,7 @@
    ],
    [
     "Drugs",
-    "First-line drug for uncomplicated malaria in the first trimester (Sudan)?",
+    "First-line drug for uncomplicated malaria in the first trimester (national protocol)?",
     "Artemether-lumefantrine (AL): first line in all trimesters.",
     2,
     "51qrhp"
@@ -2490,7 +2490,7 @@
    ],
    [
     "Differential",
-    "Fit with fever and normal blood pressure in Sudan?",
+    "Fit with fever and normal blood pressure in a malaria area?",
     "Cerebral malaria until proven otherwise: IV artesunate.",
     2,
     "1drswua"
@@ -3406,7 +3406,7 @@
    ],
    [
     "Feeding",
-    "Recommended infant feeding in Sudan for a mother on ART?",
+    "Recommended infant feeding for a mother on ART (WHO)?",
     "Exclusive breastfeeding for 6 months, then continue with foods to 12–24 months.",
     2,
     "gs43ld"
@@ -4605,7 +4605,7 @@
    ],
    [
     "Causes",
-    "In Sudan, what is the first test for the cause of intrauterine fetal death with fever and rigors?",
+    "In a malaria area, what is the first test for the cause of intrauterine fetal death with fever and rigors?",
     "A blood film for malaria.",
     1,
     "101dy6h"
@@ -7874,7 +7874,7 @@
    ],
    [
     "Breastfeeding",
-    "What feeding advice is given to an HIV-positive mother in Sudan?",
+    "What feeding advice is given to an HIV-positive mother (WHO)?",
     "Exclusive breastfeeding for 6 months while on antiretroviral therapy; mixed feeding is avoided.",
     2,
     "146fsoz"
@@ -8047,7 +8047,7 @@
    ],
    [
     "Investigations",
-    "Which test is essential in every postpartum fever in Sudan?",
+    "Which test is essential in every postpartum fever in a malaria area?",
     "A blood film or rapid diagnostic test for malaria.",
     1,
     "1okg0kd"
@@ -8075,7 +8075,7 @@
    ],
    [
     "Antibiotics",
-    "What is the first-line antibiotic regimen for endometritis in Sudan?",
+    "What is the first-line antibiotic regimen for endometritis in local practice?",
     "Ceftriaxone 1–2 g IV daily plus metronidazole 500 mg IV 8-hourly.",
     2,
     "1rha2th"
@@ -8921,7 +8921,7 @@
    ],
    [
     "Anaemia",
-    "Haematuria and canal-water contact in Sudan suggest?",
+    "Haematuria and canal-water contact in an endemic area suggest?",
     "Schistosomiasis.",
     3,
     "lfepm4"
@@ -10468,7 +10468,7 @@
    ],
    [
     "Eclampsia drill",
-    "Which other causes of convulsions must be excluded in Sudan?",
+    "Which other causes of convulsions must be excluded in a malaria area?",
     "Hypoglycaemia and cerebral malaria: check glucose and a malaria test.",
     2,
     "1e64bdf"

@@ -650,6 +650,10 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   local 2.5); induction for prolonged pregnancy from 41+0 wk (NICE 2021; local 41+3); third stage tone checks instead of routine massage (WHO);
   cerclage removal 36–37 wk; ventouse contraindicated before 32 wk, care at 32–36 wk (RCOG); misoprostol for a live term fetus also 25 µg oral
   2-hourly (WHO 2022 prefers oral); "in Sudan" → "locally". Matching flashcards and questions updated.
+- **"Sudan" wording (owner, 17 Nov 2026: "yes" to changing it across the book):** practice and protocol mentions became "local practice",
+  "national protocol" or "malaria area / endemic area" in pages, flashcards (section label "Sudan" → "Local practice"), questions, drugs.json and
+  meta. Facts about Sudan as a country stay (MMR 256, lifetime risk 1 in 91, leading causes of maternal death, P. falciparum, rheumatic heart
+  disease commonest, patients from rural Sudan, the Ministry of Health in the references).
 - **Rapid Review as a short topic (owner, 16 Nov 2026: "not as detailed as the topic, not as short as now; like a summary for someone who
   knows the topic and has an exam coming; every exam point, as points"):** chapters 1–3 cards are `content/rr/<topic>.json` = {"lead": html,
   "f": [[section title, "fact · fact · …", {"sc": [...], "tr": [...]}], ...]}: sections follow the topic's own headings, one fact per line,
