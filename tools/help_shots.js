@@ -8,6 +8,7 @@ const SHOTS = [['home', []], ['chapters', ['#v2nav [data-v=v2chapters]', '[data-
   const b = await pw.chromium.launch();
   for (const [name, steps] of SHOTS) {
     const p = await b.newPage({ viewport: { width: 390, height: 760 }, deviceScaleFactor: 1.5, isMobile: true, hasTouch: true });
+    await p.addInitScript(() => { try { localStorage.setItem('orr-btour', '1'); localStorage.setItem('orr-chz', '1') } catch (e) {} });   // no book guide or choices sheet over the screens
     await p.goto(URL); await p.waitForTimeout(2200); await p.click('#v2welGo'); await p.waitForTimeout(1300);
     for (const s of steps) { await p.evaluate(q => document.querySelector(q).click(), s); await p.waitForTimeout(600); }
     await p.screenshot({ path: path.join(OUT, 'help_' + name + '.jpg'), type: 'jpeg', quality: 72 }); await p.close();

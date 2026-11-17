@@ -2,7 +2,9 @@
 import json,re,glob,os,html as H
 def fpath(fid):
   f=[x for x in glob.glob('content/pages/*_'+fid+'.html')];assert len(f)==1,f;return f[0],int(os.path.basename(f[0]).split('_')[0])
-RRF,RRN=fpath('x900_rrcover');DRF,DRN=fpath('y00_drcover')
+RRF,RRN=fpath('x900_rrcover')
+HASDR=bool(glob.glob('content/pages/*_y00_drcover.html'))   # Obstetric drugs archived (owner, 17 Nov 2026): archive/house-officer-handbook/obstetric-drugs
+if HASDR: DRF,DRN=fpath('y00_drcover')
 m=json.load(open('content/meta.json'))
 def top():
   return ('<div class="cvtop"><img class="cvseal" src="img/logo3.webp" alt=""><div class="cvbook"><b>OBSTETRICS</b><span>Master Review</span></div>'
@@ -15,13 +17,14 @@ rr=(f'<section class="page chcov cx" id="p{RRN}" data-file="x900_rrcover" style=
  f'<div class="cvhead"><div class="cvno"><b>Rapid Review</b><span>{len(tops)} topic cards</span></div><h1 class="cvt">The exam recap of every topic</h1></div>'
  '<div class="cvimg own2"><img src="img/rrpic.jpg" alt=""></div>'
  f'<div class="cvin"><h3>Chapters in this section</h3><div class="cvg">{rows}</div></div>'+bot+'</section>\n')
-d=json.load(open('content/drugs.json'))
-grows=''.join(f'<div class="cvr"><i>{i+1}</i><div><b>{re.sub(r"<[^>]+>","",g["title"])}</b><span>{len(g["drugs"])} drugs</span></div><em></em></div>' for i,g in enumerate(d['groups']))
-n=sum(len(g['drugs']) for g in d['groups'])
-dr=(f'<section class="page chcov cx" id="p{DRN}" data-file="y00_drcover" style="{VARS}">'+top()+
- f'<div class="cvhead"><div class="cvno"><b>Obstetric Drugs</b><span>{n} drugs in {len(d["groups"])} groups</span></div><h1 class="cvt">Drugs used in pregnancy and labour</h1></div>'
- '<div class="cvimg own2"><img src="img/drpic.jpg" alt=""></div>'
- f'<div class="cvin"><h3>Drug groups</h3><div class="cvg">{grows}<div class="cvr"><i>+</i><div><b>Reference pages</b><span>Drugs by trimester · safe drugs · breastfeeding · drugs to avoid</span></div><em></em></div></div></div>'+bot+'</section>\n')
+if HASDR:
+ d=json.load(open('content/drugs.json'))
+ grows=''.join(f'<div class="cvr"><i>{i+1}</i><div><b>{re.sub(r"<[^>]+>","",g["title"])}</b><span>{len(g["drugs"])} drugs</span></div><em></em></div>' for i,g in enumerate(d['groups']))
+ n=sum(len(g['drugs']) for g in d['groups'])
+ dr=(f'<section class="page chcov cx" id="p{DRN}" data-file="y00_drcover" style="{VARS}">'+top()+
+  f'<div class="cvhead"><div class="cvno"><b>Obstetric Drugs</b><span>{n} drugs in {len(d["groups"])} groups</span></div><h1 class="cvt">Drugs used in pregnancy and labour</h1></div>'
+  '<div class="cvimg own2"><img src="img/drpic.jpg" alt=""></div>'
+  f'<div class="cvin"><h3>Drug groups</h3><div class="cvg">{grows}<div class="cvr"><i>+</i><div><b>Reference pages</b><span>Drugs by trimester · safe drugs · breastfeeding · drugs to avoid</span></div><em></em></div></div></div>'+bot+'</section>\n')
 open(RRF,'w').write(rr)
-open(DRF,'w').write(dr)
-print('ok',n,len(tops))
+if HASDR: open(DRF,'w').write(dr)
+print('ok',len(tops))

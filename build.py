@@ -148,7 +148,7 @@ def main():
 
     def fill(s, pg, dk, qb, inf):
         rrp = next(i + 1 for i, p in enumerate(meta['pages']) if p['f'].startswith('x9'))
-        drp = next(i + 1 for i, p in enumerate(meta['pages']) if p['f'].startswith('y0'))
+        drp = next((i + 1 for i, p in enumerate(meta['pages']) if p['f'].startswith('y0')), 0)   # 0 = drugs archived
         pill = f"{len(topics)} topics · {len(meta['pages'])} pages"
         s = s.replace('{{RRP}}', str(rrp)).replace('{{DRP}}', str(drp)).replace('{{PILL}}', pill)
         return (s.replace('{{PAGES}}', pg).replace('{{META}}', dump(meta)).replace('{{DECKS}}', dump(dk))

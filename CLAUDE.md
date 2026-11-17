@@ -696,4 +696,11 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   as the alternative and Local practice note (flashcard reworded, key kept); "In our hospitals" removed from the HIV feeding row (6.1) and the
   2.12 box title (now "Infant feeding (WHO)"); "GA" after anaesthesia fixed. The 6.2 day-of-onset chart is capped at 630 px wide so its
   section fits the opening page.
+- **Obstetric drugs archived (owner, 17 Nov 2026: "I am planning to shift them to the House Officer handbook; for now archive it as we did in
+  Surgery drugs"):** the 15 pages (y00_drcover … y14_dr14), content/drugs.json and the pictures drcover.jpg / drpic.jpg are in
+  `archive/house-officer-handbook/obstetric-drugs/` (README with the way back); the pages were removed with tools/delete_page.py (book 515 → 500
+  pages). The app hides everything about the drugs by itself while no `y0…` page exists: Resources row and help line (v2.js `idxOf(/^y0/)`),
+  search place (v2.search.js), contents rows (shell.html filters entries with no page), build.py `drp` 0, fix_contents.py and poster_pages.py
+  skip the drugs. tools/help_shots.js now sets orr-btour / orr-chz so the book guide does not cover the manual screenshots (pictures re-taken).
+  The owner's user-guide poster ug_4 (Resources) still shows the drugs: it is his picture.
 

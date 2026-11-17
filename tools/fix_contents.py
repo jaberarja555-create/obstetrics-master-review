@@ -11,7 +11,7 @@ P = {t['no']: first.get(t['id'], t['p']) for t in m['topics'] if t.get('no')}
 for t in m['topics']:
     if t['id'] in first: t['p'] = first[t['id']]
 json.dump(m, open(os.path.join(R, 'content/meta.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-P['RR'], P['Rx'] = first['x9'], first['y0']
+P['RR'], P['Rx'] = first['x9'], first.get('y0', 0)
 f = glob.glob(os.path.join(R, 'content/pages/*_a01_contents.html'))[0]; s = open(f, encoding='utf-8').read()
 s = re.sub(r'<div class="tc-t" data-p="\d+"><i>([^<]+)</i>(.*?)<em>\d+</em>', lambda x: f'<div class="tc-t" data-p="{P[x.group(1)]}"><i>{x.group(1)}</i>{x.group(2)}<em>{P[x.group(1)]}</em>', s)
 bands = list(re.finditer(r'<div class="tc-b" data-p="\d+"(.*?)<span class="mt">(\d+) topics · p \d+–\d+</span>', s))

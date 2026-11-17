@@ -9,6 +9,7 @@ var SPLACES=[['مراسلة الإدارة','message messages chat admin contact
  ['الاشتراك','subscription subscribe plans payment price trial bankak اشتراك دفع سعر تجربه خطه تفعيل','a:sub','crown'],['الملف الشخصي','profile name photo user number اسم صوره','v:v2profile','user'],['المظهر واللون واللغة','appearance theme colour color language night dark day arabic english لون ليلي لغه مظهر','v:v2settings','palette'],
  ['الإشعارات','notifications bell اشعار','v:v2notif','bell'],['دليل الاستخدام','user manual guide how to use شرح طريقه','v:v2help','book'],['المساعدة','help contact whatsapp telegram call phone support مساعده تواصل واتساب','v:v2contact','help'],
  ['عن الكتاب','about authors reviewers references edition copyright مؤلف مراجع حقوق','v:v2about','info'],['التنزيلات','downloads offline تنزيل','v:v2dl','dl'],['تقدّمي','progress statistics تقدم','a:prog','bars'],['الإعدادات','settings اعدادات','v:v2settings','gear']];
+if(!idxOf(/^y0/))SPLACES=SPLACES.filter(function(p){return p[2]!=='a:dr'});
 var STXT=null,SCARD=null,SQ=null;
 function sIndex(){if(typeof textReady==='function')textReady();if(STXT&&STXT.length===TEXT.length)return;STXT=TEXT.map(sn);SCARD=[];deckIds.forEach(function(id){DECKS[id].cards.forEach(function(c){SCARD.push({id:id,c:c,n:sn(c[1]+' '+c[2])})})});
   SQ=QS.map(function(q){return {q:q,n:sn((q.stem||'')+' '+(q.q||'')+' '+(q.theme||''))}})}
