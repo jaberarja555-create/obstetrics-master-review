@@ -1110,3 +1110,20 @@ body[data-area="control"]{--pri:#13305c;--pri2:#0c2246;--tint:rgba(201,154,46,.1
 .spcs>.spc:not(:first-child) .spt p{font-size:12.5px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 @media (max-width:1279px){.spcs{grid-template-columns:repeat(2,minmax(0,1fr))}.spcs>.spc:first-child{grid-column:1/-1;grid-row:auto;flex-direction:row}.spcs>.spc:first-child .spi{order:2;flex:0 0 46%;aspect-ratio:auto}}
 @media (max-width:640px){.spcs{grid-template-columns:1fr}}
+/* dashboards: boxes of different heights pack into balanced columns, so no holes appear beside short boxes (owner, 18 Nov 2026) */
+@media (min-width:761px){
+  .cgrid{display:block;columns:2;column-gap:16px}
+  .cgrid>.box{display:inline-block;width:100%;break-inside:avoid;margin:0 0 16px;vertical-align:top}
+  .cgrid>.box:has(.mtable,.table,.rtable,table){grid-column:auto}
+}
+@media (min-width:1700px){.cgrid{columns:3}}
+/* department performance: 6 cards in even rows (3 + 3, or 2 + 2 + 2) */
+.dperf{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:1100px){.dperf{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.dperf{grid-template-columns:1fr}}
+/* card rows fill completely: cards on a short last row grow to use the space (owner, 18 Nov 2026: "fix empty spaces throughout") */
+.badges,.tiles,.stp,.tools,.spadm,.rtiles,.ptiles,.kgrid,.rolecards,.qa,.sopts{display:flex!important;flex-wrap:wrap}
+.badges>*{flex:1 1 150px}.tiles>*{flex:1 1 170px}.stp>*{flex:1 1 250px}.tools>*{flex:1 1 110px}.spadm>*{flex:1 1 200px}
+.rtiles>*{flex:1 1 190px}.ptiles>*{flex:1 1 150px}.kgrid>*{flex:1 1 190px}.rolecards>*{flex:1 1 230px}.qa>*{flex:1 1 130px}.sopts>*{flex:1 1 110px}
+@media (min-width:761px){.setg{display:block;columns:2;column-gap:16px}.setg>.box{display:inline-block;width:100%;break-inside:avoid;margin:0 0 16px}}
+@media (min-width:761px) and (max-width:1279px){.grid.g2>:last-child:nth-child(odd){grid-column:1/-1}}
