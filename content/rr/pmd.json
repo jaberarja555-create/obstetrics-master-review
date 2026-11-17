@@ -1,34 +1,89 @@
 {
-"sc": [
-"Day 4, tearful, manages the baby → <b>Baby blues: reassure</b>",
-"Low mood for 4 weeks, EPDS 15 → <b>Postnatal depression: sertraline, psychology</b>",
-"Day 5, confused, delusions about the baby → <b>Puerperal psychosis: admit today</b>"
-],
+"lead": "Mood disorders that start in the puerperium or the months after birth, from a mild self-limited low mood to a psychiatric emergency: <b>baby blues</b> (50–80%), <b>postnatal depression</b> (10–15%), <b>puerperal psychosis</b> (1–2 per 1000).",
 "f": [
 [
+"The three compared",
+"<b>Blues</b>: day 3–10, peak day 4–5, gone by 2 wk; tearful, labile; still cares for the baby; insight full · <b>Depression</b>: usually by 3 months, lasts months; anhedonia, guilt, poor bonding; insight present · <b>Psychosis</b>: first 2 weeks, sudden; mania or mixed, <b>delusions</b>, confusion; <b>insight lost</b>; suicide and infanticide risk",
+{
+"sc": [
+"Day 4, cries easily, feeds the baby well → <b>Baby blues: reassure</b>",
+"Day 5, no sleep, says the baby is evil → <b>Puerperal psychosis</b>"
+]
+}
+],
+[
+"Aetiology",
+"Sudden fall of oestrogen and progesterone after the placenta, plus sleep loss, pain and stress · Psychosis is mostly a <b>bipolar</b> episode triggered by delivery"
+],
+[
 "Baby blues",
-"<b>50–80%</b> · peak day 4–5 · settles within 2 wk · still present at 2 wk → think depression"
+"Up to 80% · Explain, rest, family support · Review if it lasts <b>&gt; 2 weeks</b>: severe or long blues is a risk factor for depression",
+{
+"tr": [
+"Do not start an antidepressant for blues on day 4; still present at 3 weeks → screen for depression"
+]
+}
+],
+[
+"Physical illness that mimics a mood disorder",
+"<b>Sepsis delirium</b> and malaria · eclampsia, stroke · <b>cerebral vein thrombosis</b> (headache, fits, normal BP) · anaemia · <b>postpartum thyroiditis</b> (hypo phase at 4–8 months) · Sheehan syndrome · drugs, glucose, sodium",
+{
+"sc": [
+"Day 5, confused, temperature 39 °C → <b>Exclude sepsis and malaria first</b>",
+"5 months, low mood, cold, weight gain → <b>Postpartum thyroiditis</b>"
+]
+}
 ],
 [
 "Postnatal depression",
-"<b>10–15%</b> · within the first year · <b>EPDS ≥ 13</b> (question 10 = self-harm) · sertraline 50 mg (safe in breastfeeding)"
+"Within the first year, usually by 3 months · Risk factors: <b>past depression or PND</b>, depression in pregnancy, severe blues, poor support, marital conflict, sick baby or stillbirth · Features ≥ 2 weeks: low mood, anhedonia, insomnia even when the baby sleeps, guilt (\"bad mother\"), suicidal thoughts; mothers hide it"
+],
+[
+"Screening",
+"<b>EPDS</b>: 10 questions, 0–3 each, at booking and 6 wk · <b>≥ 13</b> = probable depression · <b>Any score on question 10</b> (self-harm) → same-day assessment · Check Hb and TSH",
+{
+"sc": [
+"EPDS 8 but question 10 scored 2 → <b>Same-day assessment</b>"
+]
+}
+],
+[
+"Management of depression",
+"Mild: support, CBT, review 2–4 wk · Moderate–severe: <b>sertraline 50 mg</b> daily (to 200 mg) + CBT; continue 6 months after recovery · Suicidal or psychotic: admit · <b>Keep breastfeeding</b>; avoid fluoxetine (builds up in the baby) · Effect on the infant: poor bonding, growth, later behaviour",
+{
+"sc": [
+"Breastfeeding mother, 7 wk, moderate depression → <b>Sertraline; continue breastfeeding</b>"
+]
+}
 ],
 [
 "Puerperal psychosis",
-"<b>1–2 per 1000</b> · onset in <b>2 wk</b> · risk: bipolar disorder, previous psychosis (50% recurrence)"
+"Onset within <b>2–4 weeks</b>, often after nights without sleep · Agitated, confused, rapidly changing mood, delusions about the baby, hallucinations; unaware she is ill · Risk factors: <b>previous puerperal psychosis, bipolar disorder</b>, family history, primigravida, stopping a mood stabiliser"
 ],
 [
-"Psychosis treatment",
-"<b>Mother and baby unit</b> / psychiatric admission · antipsychotics · <b>ECT</b> if severe"
+"Management of psychosis: an emergency",
+"<b>Never leave her alone with the baby</b> · Same-day psychiatry; admit, ideally a <b>mother-and-baby unit</b> · Exclude organic causes · <b>Olanzapine</b> or haloperidol; lithium for mania · <b>ECT</b> if life-threatening or not eating · Breastfeeding usually possible on antipsychotics; <b>not on lithium</b>",
+{
+"sc": [
+"Hears voices telling her the baby is the devil → <b>Do not leave her alone; urgent psychiatry, admit</b>"
 ],
-[
-"Risks",
-"Suicide, infanticide · PND recurrence ≈ 25%"
-],
-[
-"Drugs",
-"Avoid <b>fluoxetine</b> in newborn breastfeeding · <b>lithium</b>: bottle-feed"
+"tr": [
+"Psychosis is not \"severe blues\": never send her home with reassurance"
 ]
+}
 ],
-"trap": "Psychosis is a <b>psychiatric emergency</b> · ask EPDS question 10 the same day · screen at 6 wk"
+[
+"Drugs in pregnancy and breastfeeding",
+"<b>Sertraline</b>: SSRI of choice after birth · Paroxetine: fine in breastfeeding, avoid in early pregnancy (heart defects) · Fluoxetine: long half-life, not first choice · <b>Lithium</b>: Ebstein anomaly; high in milk → bottle-feed · <b>Valproate</b>: avoid in women who may conceive (neural tube defects, low IQ)"
+],
+[
+"Prevention and recurrence",
+"Ask every woman at booking about past depression, psychosis, bipolar, family history · Bipolar: switch valproate before pregnancy, shared plan, <b>prophylaxis right after birth</b> · Recurrence: PND about <b>25%</b> next birth · psychosis about <b>50%</b> · bipolar with past or family puerperal psychosis about 60%",
+{
+"sc": [
+"Postnatal depression last time → <b>About 1 in 4 recurrence</b>"
+]
+}
+]
+]
 }

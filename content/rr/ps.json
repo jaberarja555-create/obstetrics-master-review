@@ -1,34 +1,95 @@
 {
-"sc": [
-"Fever day 3 after CS, foul lochia, tender uterus → <b>Endometritis: ceftriaxone + metronidazole</b>",
-"Sudden toxic collapse after birth, child at home with a sore throat → <b>Group A streptococcal sepsis: add clindamycin</b>",
-"Spiking fever despite antibiotics, no collection → <b>Pelvic vein thrombophlebitis: heparin</b>"
-],
+"lead": "<b>Puerperal pyrexia</b> = temperature <b>≥ 38 °C</b> in the first <b>14 days</b> after birth. <b>Puerperal sepsis</b> = genital tract infection from ROM or labour to <b>day 42</b>. Sepsis is the leading cause of maternal death in Sudan; infection is usually polymicrobial and ascends to the placental site.",
 "f": [
 [
 "Definition",
-"Temperature <b>≥ 38 °C</b> in the first 14 days · sepsis up to <b>42 days</b> · leading direct killer"
+"Puerperal morbidity: ≥ 38 °C on any 2 of the first 10 days, not counting the first 24 h · Puerperal sepsis (WHO): ≥ 2 of pelvic pain, fever ≥ 38.5 °C, abnormal discharge, foul smell, slow involution · <b>Maternal sepsis</b> (WHO): organ dysfunction from infection in pregnancy, birth, after abortion or to day 42"
 ],
 [
-"Causes (sites)",
-"<b>Endometritis</b> commonest · wound · UTI · breast · chest (day 1 after GA: atelectasis, aspiration) · DVT"
+"Causes and day of onset",
+"<b>Endometritis</b> is the commonest cause · Order by day: <b>chest</b> (day 1 after GA) → urine and womb (day 2–5) → wound (day 5–7) → breast and legs · Also retained products, infected haematoma, cannula site, epidural abscess, drug fever, <b>malaria or typhoid</b> in endemic areas",
+{
+"sc": [
+"Day 1 after CS, crackles → <b>Atelectasis, aspiration</b>",
+"Day 3, both breasts hard, 37.9 °C → <b>Engorgement</b>"
+]
+}
+],
+[
+"Organisms",
+"<b>Group A strep</b>: most lethal; from a sore throat via hands; looks well, then sudden toxic shock · <b>Anaerobes</b> (Bacteroides): commonest in endometritis · E. coli, Klebsiella: UTI, endotoxic shock · <b>Staph. aureus</b>: mastitis, wound · Clostridium: after unsafe abortion"
 ],
 [
 "Risk factors",
-"<b>Caesarean section</b> (strongest) · ROM > 24 h · many VEs · retained products · anaemia, diabetes"
+"<b>Caesarean section</b> (5–20 times the risk) · Long labour, <b>ROM &gt; 24 h</b>, many VEs · Retained placenta, manual removal, PPH · Anaemia, diabetes, obesity, HIV · Sore throat in the family (GAS)"
 ],
 [
-"Assessment",
-"<b>MEOWS</b> (one red trigger → urgent review) · qSOFA (RR ≥ 25, SBP < 90, confusion) · lactate ≥ 4 = severe"
+"Clinical features",
+"Fever ≥ 38 °C <b>or &lt; 36 °C</b>, rigors, tachycardia · Severe: low BP, confusion, mottled skin, little urine, <b>pain out of proportion</b> (GAS, necrotising infection) · Endometritis: <b>foul lochia, tender bulky uterus</b> · Breast: red wedge · Urinary: loin pain, rigors · DVT: tender swollen calf",
+{
+"sc": [
+"Day 2, severe pain needing morphine, child with a sore throat → <b>Group A strep sepsis: antibiotics now</b>",
+"Loin pain, rigors, catheter in labour → <b>Pyelonephritis</b>"
+]
+}
 ],
 [
-"Sepsis Six (1 hour)",
-"<b>O₂</b> to 94–98% · <b>2 blood cultures</b> · <b>IV antibiotics</b> · <b>fluids</b> 20 mL/kg · <b>lactate</b> · <b>urine output</b> ≥ 30 mL/h"
+"Recognising sepsis early",
+"<b>MEOWS</b> chart: <b>1 red or 2 yellow</b> triggers → urgent review · Red: temperature &lt; 35 or ≥ 38 °C, systolic &lt; 90, pulse &gt; 120, RR &gt; 30, SpO₂ &lt; 95% · <b>Obstetric qSOFA ≥ 2</b>: RR ≥ 25, systolic &lt; 90, altered mental state · <b>Septic shock</b>: low BP despite fluids or <b>lactate ≥ 4</b> → ICU",
+{
+"tr": [
+"A normal temperature does not exclude sepsis: hypothermia and tachycardia are worse signs"
+]
+}
+],
+[
+"Investigations",
+"<b>Blood cultures before antibiotics</b> · high vaginal swab, MSU, wound and throat swabs · FBC, <b>lactate</b>, CRP, U&E, LFT, clotting · <b>Malaria film or RDT</b> in every fever · Pelvic ultrasound: retained products, collection · CT if fever persists"
+],
+[
+"Differential diagnosis",
+"Malaria · typhoid · pyelonephritis · appendicitis · PE · transfusion reaction · drug fever · meningitis after spinal",
+{
+"tr": [
+"Never wait for culture results or a \"second fever\" to treat a sick woman"
+]
+}
+],
+[
+"Sepsis Six: the first hour",
+"<b>Give</b>: oxygen, IV fluids, IV antibiotics · <b>Take</b>: blood cultures, lactate, urine output · Each hour of delay raises the risk of death · Call help, MEOWS every 15–30 min; septic shock → ICU, vasopressors"
+],
+[
+"Antibiotics",
+"Endometritis, sepsis: <b>clindamycin 900 mg IV 8-hourly + gentamicin 5 mg/kg IV daily</b> (WHO) · Alternatives: ceftriaxone + metronidazole; ampicillin + gentamicin + metronidazole (local units often start <b>ceftriaxone + metronidazole</b>) · Severe sepsis: piperacillin-tazobactam or meropenem <b>+ clindamycin</b> (stops GAS toxin) · Mastitis: <b>flucloxacillin</b>; keep feeding · Pyelonephritis: ceftriaxone IV · IV until <b>48 h fever-free</b>; no oral course after uncomplicated endometritis · Avoid tetracyclines and chloramphenicol",
+{
+"sc": [
+"Fever, foul lochia, tender uterus after CS → <b>Clindamycin + gentamicin</b>",
+"GAS toxic shock → <b>Add clindamycin</b>"
+]
+}
+],
+[
+"Supportive and surgical care",
+"Fluids, oxygen, <b>enoxaparin 40 mg</b> daily · Evacuate retained products <b>after antibiotics start</b> · Drain pus (breast, wound, pelvic abscess) · Debride necrotising fasciitis early · Hysterectomy if the uterus is necrotic",
+{
+"sc": [
+"Still febrile after 3 days of antibiotics, bulky uterus → <b>Ultrasound for retained products; evacuate</b>"
+]
+}
 ],
 [
 "Complications",
-"Pelvic abscess (swinging fever, tenesmus) · septic shock · thrombophlebitis"
+"Septic shock, MODS · DIC · <b>Pelvic abscess</b>: swinging fever, diarrhoea, tenesmus → drain · <b>Septic pelvic thrombophlebitis</b>: ovarian vein after CS, spiking fever on antibiotics, looks well → add <b>heparin</b> · Necrotising fasciitis · Secondary PPH · Late: tubal block, infertility",
+{
+"tr": [
+"Fever on antibiotics is rarely \"resistant bacteria\": look for pus, retained products, pelvic vein thrombosis, DVT, malaria"
 ]
+}
 ],
-"trap": "Antibiotics at CS go <b>before skin incision</b> · <b>hand washing</b> prevents most · stop IV after 48 h fever-free"
+[
+"Prevention",
+"Treat anaemia and bacteriuria · <b>Hand washing</b> before every examination, few VEs, partograph · CS prophylaxis <b>before skin incision</b>: cefuroxime 1.5 g or cefazolin 2 g IV (allergy: clindamycin); avoid co-amoxiclav before birth (NEC) · Check the placenta is complete · Peripheral unit: first IV dose before referral"
+]
+]
 }

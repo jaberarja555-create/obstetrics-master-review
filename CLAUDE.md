@@ -691,3 +691,9 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
 - paginate.py: a page never starts with a Local practice note (`box loc`); it stays with the text it qualifies.
 - **Rapid Review cap removed (17 Nov 2026):** tools/rapid_review/cards.js stopped at 80 pages, so after chapter 4 the Rapid Review lost
   chapters 5–7; the limit is now 300. Rapid Review = 98 pages.
+- **Chapter 6 done (17 Nov 2026)** in the same design and flow (28 → 34 pages; Rapid Review cards np ps pmd mm as short topics; Rapid
+  Review 109 pages). Corrections, local way as a note: endometritis first line clindamycin + gentamicin (WHO), ceftriaxone + metronidazole
+  as the alternative and Local practice note (flashcard reworded, key kept); "In our hospitals" removed from the HIV feeding row (6.1) and the
+  2.12 box title (now "Infant feeding (WHO)"); "GA" after anaesthesia fixed. The 6.2 day-of-onset chart is capped at 630 px wide so its
+  section fits the opening page.
+

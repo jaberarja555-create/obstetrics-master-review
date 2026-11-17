@@ -1,34 +1,90 @@
 {
-"sc": [
-"Day 4, tearful but caring for the baby → <b>Baby blues: reassure</b>",
-"Fundus still palpable at day 14 with heavy red lochia → <b>Subinvolution: scan for retained products, infection</b>",
-"Breastfeeding mother, red tender wedge on the breast, fever → <b>Mastitis: keep feeding, flucloxacillin</b>"
-],
+"lead": "The puerperium runs from delivery of the placenta until the genital organs return to the non-pregnant state: about <b>6 weeks (42 days)</b>. Immediate = first 24 h · early = to day 7 · remote = to 6 wk. Main dangers: <b>sepsis, haemorrhage, VTE, mood disorders</b>.",
 "f": [
 [
-"Involution",
-"Fundus falls <b>1 cm a day</b> · not palpable by day 10–14 · uterus 1000 g → 60–100 g at 6 wk"
+"Physiological changes: the genital tract",
+"<b>Fundus</b> at the umbilicus after birth, falls about <b>1 cm a day</b>, not palpable by <b>day 14</b> (still felt = subinvolution) · Uterus 1000 g → 60–100 g at 6 wk · Contraction closes the vessels (\"living ligatures\"); muscle shrinks by autolysis · New endometrium from the <b>basal layer</b> by day 10; placental site heals by 6 wk without a scar · Cervix 1 finger by day 10–14; os stays a transverse slit",
+{
+"sc": [
+"Day 7 after a normal delivery → <b>Fundus midway between umbilicus and pubis</b>"
+]
+}
 ],
 [
 "Lochia",
-"<b>Rubra</b> day 1–4 · <b>serosa</b> day 5–9 · <b>alba</b> day 10 to 6 wk · total ≈ 250 mL"
+"<b>Rubra</b> day 1–4: red · <b>Serosa</b> day 5–9: pink-brown · <b>Alba</b> day 10 to 3–6 wk: yellow-white · Total about <b>250 mL</b>; stale smell, never foul · Foul: infection · Red again or persistent rubra: <b>retained tissue</b>, subinvolution · None + fever: lochiometra",
+{
+"sc": [
+"Red lochia again at day 12, bulky uterus → <b>Retained tissue</b>"
+]
+}
+],
+[
+"Physiological changes: other systems",
+"<b>Cardiac output rises</b> straight after birth (autotransfusion): heart disease decompensates now · <b>WBC up to 20–25 × 10⁹/L</b> in the first days is normal · <b>Hypercoagulable for 6 wk</b> (VTE) · Diuresis day 2–5; <b>void within 6 h</b> (retention) · ≥ 38 °C is never normal · Blues in up to 80% on day 3–5",
+{
+"sc": [
+"Day 2, WBC 18 × 10⁹/L, afebrile and well → <b>Reassure: normal leucocytosis</b>"
+]
+}
+],
+[
+"Return of ovulation",
+"Not breastfeeding: ovulation from <b>day 25</b>, menses at 6–8 wk; start contraception by <b>day 21</b> · Breastfeeding: prolactin blocks GnRH; but <b>ovulation comes before the first period</b>"
 ],
 [
 "Lactation",
-"<b>Prolactin</b> makes milk · <b>oxytocin</b> for let-down and after-pains · start within 1 h, 8–12 feeds a day · exclusive 6 months"
+"<b>Prolactin</b> makes milk · <b>oxytocin</b>: let-down and after-pains · Progesterone fall lets milk come in (day 3–4) · <b>Colostrum</b> to day 3: IgA, protein, laxative · Mature milk from 2 wk, about 750–800 mL/day · <b>Cabergoline</b> stops lactation"
 ],
 [
 "Postnatal care",
-"Pass urine by 6 h · <b>anti-D 500 IU within 72 h</b> · MMR if rubella non-immune · iron 3 mo · WHO 4 postnatal contacts · check at 6 wk"
-],
-[
-"Contraception",
-"No method needed before <b>21 d</b> · <b>LAM</b> 98% if rules met · copper IUD ≤ 48 h or ≥ 4 wk · DMPA at 6 wk if breastfeeding"
-],
-[
-"Breastfeeding contraindications",
-"<b>Galactosaemia</b> · untreated active TB (first 2 wk) · some drugs"
+"Stay <b>≥ 24 h</b> after a vaginal birth · Visits: 48–72 h, day 7–14, <b>6 wk</b> (at least 4 contacts, WHO) · Check: vital signs, uterus and lochia, perineum or wound, breasts, bladder, legs, mood, baby",
+{
+"sc": [
+"Day 4 headache, BP 160/110 → <b>Postpartum pre-eclampsia</b>",
+"Pad soaked hourly on day 9 → <b>Secondary PPH</b>"
 ]
+}
 ],
-"trap": "Puerperium is <b>6 weeks (42 days)</b> · earliest ovulation in a non-breastfeeding woman is about <b>day 25</b> · avoid pregnancy for 1 month after MMR"
+[
+"Investigations and treatments",
+"Iron + folate for 3 months · <b>Anti-D 500 IU IM within 72 h</b>: RhD-negative, not sensitised, baby RhD-positive (+ Kleihauer) · Rubella non-immune: <b>MMR before discharge</b>; avoid pregnancy 1 month; breastfeeding fine · GDM: glucose test at 6 wk",
+{
+"sc": [
+"Rubella non-immune, breastfeeding → <b>MMR before discharge</b>"
+]
+}
+],
+[
+"Breastfeeding",
+"Start <b>within 1 hour</b>, skin to skin · <b>Exclusive for 6 months</b>, on demand, 8–12 feeds a day · Continue to 2 years · Good attachment: mouth wide, chin on the breast, lower lip out · Benefits: fewer infections, less PPH, LAM, less breast and ovarian cancer"
+],
+[
+"Contraindications to breastfeeding",
+"<b>Galactosaemia</b> (absolute) · Untreated active TB: treat, express, isoniazid to the baby · HIV: exclusive breastfeeding for 6 months <b>on ART</b>, no mixed feeding · Drugs: cytotoxics, radioactive iodine, <b>lithium</b>, amiodarone, ergots, tetracycline, chloramphenicol · Not contraindications: hepatitis B (vaccine + HBIG), mastitis, caesarean",
+{
+"tr": [
+"Mastitis is <b>not</b> a reason to stop: keep feeding from that breast"
+]
+}
+],
+[
+"Stopping lactation",
+"After stillbirth or neonatal death: supportive bra, cold packs, no expressing · <b>Cabergoline 1 mg</b> once within 24 h · Avoid in pre-eclampsia or hypertension · Bromocriptine no longer used"
+],
+[
+"Breastfeeding problems",
+"<b>Engorgement</b> day 3–5, both breasts: feed often, express · Cracked nipples: correct the latch · <b>Mastitis</b>: red wedge, fever, week 2–3, <b>S. aureus</b>: keep feeding, <b>flucloxacillin 500 mg 6-hourly × 10–14 d</b> · <b>Breast abscess</b>: fluctuant mass: ultrasound, aspiration or I&D"
+],
+[
+"Postnatal contraception",
+"<b>LAM</b>: no period + full breastfeeding + baby under 6 months → <b>98%</b> · Progestogen methods (POP, implant, DMPA, LNG-IUS): first choice while breastfeeding · <b>COC</b>: from day 21 if not breastfeeding; after <b>6 months</b> if breastfeeding · <b>IUD</b>: within 48 h or after <b>4 wk</b> · Tubal ligation: at CS or within 7 days, else after 6 wk",
+{
+"sc": [
+"Breastfeeding mother at 6 wk asks for the combined pill → <b>Avoid until 6 months; POP, implant or IUD</b>",
+"LAM user, baby 4 months, starts solids → <b>Start another method</b>"
+]
+}
+]
+]
 }

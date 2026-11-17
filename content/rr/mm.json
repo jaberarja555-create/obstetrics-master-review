@@ -1,34 +1,57 @@
 {
-"sc": [
-"Death from PPH 2 days after birth → <b>Direct maternal death</b>",
-"Death from malaria at 30 weeks → <b>Indirect maternal death</b>",
-"Woman who survived eclampsia with ICU care → <b>Maternal near miss</b>"
-],
+"lead": "<b>Maternal death</b> = death of a woman while pregnant or within <b>42 days</b> of the end of pregnancy, from any cause related to or aggravated by the pregnancy or its management, but not from accidental or incidental causes.",
 "f": [
 [
-"Definitions",
-"Death in pregnancy or within <b>42 days</b> of its end · late: 42 d to 1 year · coincidental: accident"
+"Classification",
+"<b>Direct</b>: obstetric complications or their treatment (PPH, eclampsia, sepsis, VTE, ectopic, AFE, anaesthesia) · <b>Indirect</b>: disease made worse by pregnancy (heart disease, anaemia, malaria, HIV) · <b>Late</b>: 42 days to 1 year · <b>Coincidental</b>: accident, violence; not counted · Pregnancy-related death: any cause to day 42",
+{
+"sc": [
+"Dies of PPH on day 1 → <b>Direct</b>",
+"Severe malaria kills a woman at 28 wk → <b>Indirect</b>",
+"Peripartum cardiomyopathy, dies at 4 months → <b>Late maternal death</b>"
+]
+}
 ],
 [
-"Direct vs indirect",
-"<b>Direct</b>: obstetric complications (PPH, PE, sepsis, ectopic) · <b>indirect</b>: disease worsened by pregnancy (malaria, heart disease, anaemia)"
+"Measurement",
+"<b>MMR</b> = maternal deaths ÷ <b>live births</b> × 100 000 · Maternal mortality rate: per 100 000 women aged 15–49 · <b>Lifetime risk</b>: Sudan about 1 in 91 · Sources: vital registration, surveys, sisterhood method, confidential enquiries; deaths are under-reported",
+{
+"tr": [
+"The MMR denominator is <b>live births</b>, per 100 000 (perinatal mortality is per 1000)"
+]
+}
 ],
 [
-"Measures",
-"<b>MMR per 100 000 live births</b> · maternal mortality rate per women 15–49 · lifetime risk"
+"Morbidity and the near miss",
+"For each death many women live with fistula, prolapse, anaemia, infertility, depression · <b>Near miss</b>: nearly died but survived a life-threatening complication; reviewed to improve care",
+{
+"sc": [
+"Survives eclampsia and an emergency hysterectomy → <b>Maternal near miss</b>"
+]
+}
 ],
 [
-"Figures (2023)",
-"Sudan MMR <b>256</b> · world 197 · sub-Saharan Africa 448 · SDG 3.1: <b>< 70</b> by 2030"
+"Sudan and the world (WHO 2023)",
+"Sudan MMR <b>256</b> (298 in 2015) · sub-Saharan Africa 448, about 70% of deaths · World <b>197</b>, about 260 000 deaths a year · <b>SDG 3.1</b>: under 70 by 2030"
 ],
 [
 "Causes",
-"World: <b>haemorrhage</b> · Sudan: puerperal sepsis, PPH, PE · UK: VTE"
+"Sudan: <b>sepsis</b>, haemorrhage, hypertensive disorders, VTE; obstructed labour, unsafe abortion, anaemia · World: <b>haemorrhage</b> (about 27%) · UK, USA: VTE leading direct cause, cardiac disease overall · First-trimester death: ectopic, abortion"
 ],
 [
-"Three delays",
-"1: <b>deciding</b> to seek care · 2: <b>reaching</b> care · 3: <b>receiving</b> care · comprehensive EmONC adds CS and transfusion"
+"The three delays",
+"<b>Delay 1</b>: deciding to seek care · <b>Delay 2</b>: reaching care · <b>Delay 3</b>: receiving care · Untreated, death in about 2 h with PPH, 1 day with rupture, 2 days with eclampsia, 6 days with sepsis",
+{
+"sc": [
+"Waits for her husband's permission → <b>Delay 1</b>",
+"Maternity waiting homes → <b>Delay 2</b>",
+"Reaches hospital, no blood for 3 h → <b>Delay 3</b>"
 ]
+}
 ],
-"trap": "A road accident is <b>coincidental</b>, not counted · MMR denominator is <b>live births</b>, not women · skilled attendance is the key intervention"
+[
+"Prevention",
+"Family planning, treat anaemia, girls' education · Antenatal care: 4–8 visits, IPTp and nets · <b>Skilled birth attendant</b>, partograph, AMTSL · <b>EmONC</b>: basic (antibiotics, oxytocics, MgSO₄, manual placenta, MVA, assisted birth, newborn resuscitation); comprehensive adds <b>caesarean and blood</b> · Postnatal checks · Post-abortion care · <b>MDSR</b>: every death reviewed with no blame"
+]
+]
 }
