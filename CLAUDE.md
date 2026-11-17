@@ -736,5 +736,5 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   one under another, leaving the right half of the page empty. Consecutive short lists (items ≤ ~80 characters) in chapter 7 are now ONE list
   `ul.g2` shown in two columns (CSS before "Rapid Review as a short topic"); 7.1's five lists became a table "Area | Marking points" with a
   label per group. A picture had landed inside the last step of a `.ladder` (7.2 kick chart beside the PPROM step): figures never go inside a
-  ladder step. Plain words (17 Nov 2026): "Marks hinge on", look-alikes, commoner, plateaus, undelivered, stale, jittery, errs, earns, floods,
+  ladder step; the same happened inside a «What to say» box in 7.9 (newborn pictures in the Arabic line): every page was checked with a script and no picture now sits inside a text line, table cell, list item, step or say-box. Plain words (17 Nov 2026): "Marks hinge on", look-alikes, commoner, plateaus, undelivered, stale, jittery, errs, earns, floods,
   perplexed, deluded, fooled, extras, bloods, tummy … replaced across pages, Rapid Review, cards and questions.
