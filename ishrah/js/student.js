@@ -60,7 +60,8 @@
     ['grid', 'اختر تخصصك وكورسك', 'Choose your speciality and course', 'تصفّح الكورسات حسب التخصص والمادة والمحاضر.', 'Browse by speciality, subject and lecturer.'],
     ['receipt', 'ادفع عبر بنكك', 'Pay with Bankak', 'حوّل المبلغ وارفع صورة الإيصال؛ يفتح الكورس بعد المراجعة.', 'Transfer, upload the receipt; the course opens after review.'],
     ['cert', 'تعلّم واحصل على شهادتك', 'Learn and earn your certificate', 'دروس، اختبارات، ملاحظات، ثم شهادة إتمام.', 'Lessons, quizzes and notes, then a certificate.']];
-  function steps() { return '<section class="sec"><header class="sh"><h2>' + ic('route') + IS.T('كيف تبدأ', 'How it works') + '</h2></header><ol class="steps4">' + STEPS.map(function (s, i) { return '<li><span class="stn">' + N(i + 1) + '</span>' + ic(s[0]) + '<b>' + IS.T(s[1], s[2]) + '</b><small>' + esc(A(s[3], s[4])) + '</small></li>'; }).join('') + '</ol></section>'; }
+  function steps() { return '<section class="hiw"><header><h2>' + IS.T('كيف تبدأ', 'How it works') + '</h2><p>' + esc(A('أربع خطوات بسيطة تفصلك عن أول كورس.', 'Four simple steps to your first course.')) + '</p></header><ol>' + STEPS.map(function (s, i) {
+    return '<li><span class="hn">' + ic(s[0]) + '<i>' + N(i + 1) + '</i></span><b lang="en">' + esc(s[2]) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(s[1]) + '</small>') + '<p>' + esc(A(s[3], s[4])) + '</p></li>'; }).join('') + '</ol></section>'; }
   IS.page('home', async function () {
     var r = await Promise.all([IS.pubCourses(), IS.lecMap(), IS.myEnroll(), DB.q('events', { eq: { status: 'published' }, order: ['starts'] }), DB.q('lecturers', { eq: { status: 'active' } })]);
     var cs = r[0], L = r[1], E = r[2], ev = r[3].filter(function (e) { return new Date(e.starts).getTime() > Date.now() - 3 * 3600e3; }), lecs = r[4], m = me();
@@ -71,7 +72,7 @@
       '<form class="hsearch" role="search" data-form="search"><span>' + ic('search') + '</span><input name="q" type="search" placeholder="' + esc(A('ابحث عن كورس، مادة، محاضر أو موضوع…', 'Search a course, subject, lecturer or topic…')) + '"><button class="btn pri">' + esc(A('بحث', 'Search')) + '</button></form>' +
       (m ? '' : '<div class="row hbtn"><button class="btn pri" data-act="register">' + ic('user') + esc(A('أنشئ حسابك مجانًا', 'Create your free account')) + '</button><button class="btn lt" data-act="register" data-k="lecturer">' + ic('studio') + esc(A('انضم كمحاضر', 'Teach on Ishrah Li')) + '</button></div>') +
       '</div><div class="hart" aria-hidden="true"></div></section>';
-    h += '<section class="sec"><header class="sh"><h2>' + ic('grid') + IS.T('التخصصات', 'Specialities') + '</h2><p class="shp">' + esc(A('استكشف التخصصات الصحية، وتعرّف على محتواها، وابدأ رحلتك العلمية معنا.', 'Explore the health specialities and start your learning journey.')) + '</p><a class="more" href="#specialties">' + esc(A('عرض جميع التخصصات', 'All specialities')) + ic('chev', 'fl') + '</a></header>' +
+    h += '<section class="sec"><header class="sh"><h2>' + ic('grid') + IS.T('التخصصات', 'Specialities') + '</h2><p class="shp">' + esc(A('اختر تخصصك لتجد كورساته ومراجعاته ومحاضريه في مكان واحد.', 'Choose your speciality to find its courses, reviews and lecturers in one place.')) + '</p><a class="more" href="#specialties">' + esc(A('عرض جميع التخصصات', 'All specialities')) + ic('chev', 'fl') + '</a></header>' +
       '<div class="spcs">' + IS.SPECS.map(function (s) { return specCard(s, cs); }).join('') + '</div></section>';
     h += feats();
     h += '<section class="sec"><header class="sh"><h2>' + ic('layers') + IS.T('الأقسام', 'Browse by section') + '</h2><a class="more" href="#courses">' + esc(A('كل الكورسات', 'All courses')) + ic('chev', 'fl') + '</a></header><div class="doors">' + IS.CATS.map(function (c) { var n = cs.filter(function (x) { return x.cat === c.id; }).length;
@@ -82,9 +83,17 @@
     h += steps();
     if (lecs.length) h += '<section class="sec"><header class="sh"><h2>' + ic('users') + IS.T('المحاضرون', 'Lecturers') + '</h2><a class="more" href="#lecturers">' + esc(A('الكل', 'All')) + ic('chev', 'fl') + '</a></header><div class="grid g4">' +
       lecs.slice(0, 4).map(function (l) { return lecCard(l, cs.filter(function (c) { return c.lecturer_id === l.id; }).length); }).join('') + '</div></section>';
-    h += '<section class="hboxes">' + eventsBox(ev.slice(0, 4)) + statsBox(cs, lecs) +
-      '<a class="box join" href="#community"><b>' + esc(A('انضم إلى مجتمع طلاب الكليات الصحية', 'Join the health students’ community')) + '</b><span>' + esc(A('ناقش، اسأل، وشارك ما تعرف.', 'Discuss, ask and share what you know.')) + '</span><em class="btn">' + ic('group') + esc(A('ادخل المجتمع', 'Open the community')) + '</em></a>' +
-      '<a class="box teach" href="#studio-apply"><img src="img/logo_gold.svg" alt="" width="54" height="47"><b>' + esc(A('علّم على اشرح لي', 'Teach on Ishrah Li')) + '</b><span>' + esc(A('أنشئ صفحتك، ارفع محاضراتك واحصل على نصيبك من كل التحاق.', 'Build your page, upload your lectures and earn a share of every enrolment.')) + '</span><em class="btn pri">' + ic('studio') + esc(A('قدّم طلبك', 'Apply now')) + '</em></a></section>';
+    var t = { l: 0, st: 0 }; cs.forEach(function (c) { t.l += +c.n_lessons || 0; t.st += +c.n_students || 0; });
+    function hb(cls, icon, ar, en, body, foot) { return '<section class="hb ' + cls + '"><header><span class="hbi">' + ic(icon) + '</span>' + '<h3>' + IS.T(ar, en) + '</h3></header><div class="hbb">' + body + '</div>' + (foot ? '<footer>' + foot + '</footer>' : '') + '</section>'; }
+    h += '<div class="hboxes">' +
+      hb('hev', 'cal', 'الفعاليات القادمة', 'Upcoming events', ev.length ? ev.slice(0, 3).map(evRow).join('') : '<div class="hbe">' + ic('cal') + '<b>' + esc(A('لا توجد فعاليات مجدولة الآن', 'No events scheduled now')) + '</b><span>' + esc(A('تظهر هنا الندوات والورش المباشرة فور إعلانها.', 'Live seminars and workshops appear here as soon as they are announced.')) + '</span></div>',
+        '<a class="btn gline" href="#events">' + esc(A('كل الفعاليات', 'All events')) + ic('chev', 'fl') + '</a>') +
+      hb('hst', 'chart', 'المنصة اليوم', 'The platform today', '<div class="hsn">' + [['layers', cs.length, 'كورس منشور', 'Courses'], ['users', lecs.length, 'محاضر', 'Lecturers'], ['video', t.l, 'درس', 'Lessons'], ['group', t.st, 'طالب ملتحق', 'Enrolments']].map(function (r) {
+        return '<span>' + ic(r[0]) + '<b>' + N(r[1]) + '</b><small lang="en">' + esc(r[3]) + '</small>' + (IS.lang === 'en' ? '' : '<small>' + esc(r[2]) + '</small>') + '</span>'; }).join('') + '</div>', '') +
+      hb('hcm', 'group', 'مجتمع الطلاب', 'Student community', '<p class="hbt">' + esc(A('انضم إلى مجتمع طلاب الكليات الصحية: ناقش، اسأل، وشارك ما تعرف.', 'Join the health students’ community: discuss, ask and share what you know.')) + '</p><ul class="hbl"><li>' + ic('chat') + esc(A('نقاشات حسب التخصص', 'Discussions by speciality')) + '</li><li>' + ic('help') + esc(A('اسأل زملاءك والمحاضرين', 'Ask classmates and lecturers')) + '</li><li>' + ic('share') + esc(A('شارك ملخصاتك وتجاربك', 'Share your notes and experience')) + '</li></ul>',
+        '<a class="btn gold" href="#community">' + ic('group') + esc(A('ادخل المجتمع', 'Open the community')) + '</a>') +
+      hb('htc', 'studio', 'علّم على اشرح لي', 'Teach on Ishrah Li', '<p class="hbt">' + esc(A('أنشئ صفحتك، ارفع محاضراتك واحصل على نصيبك من كل التحاق.', 'Build your page, upload your lectures and earn a share of every enrolment.')) + '</p><ul class="hbl"><li>' + ic('video') + esc(A('فيديو، دروس مكتوبة واختبارات', 'Video, written lessons and quizzes')) + '</li><li>' + ic('wallet') + esc(A('نسبتك من كل التحاق', 'Your share of every enrolment')) + '</li><li>' + ic('chart') + esc(A('لوحة لمتابعة طلابك وأرباحك', 'A dashboard for students and earnings')) + '</li></ul>',
+        '<a class="btn pri" href="#studio-apply">' + ic('studio') + esc(A('قدّم طلبك', 'Apply now')) + '</a>') + '</div>';
     return h;
   });
 

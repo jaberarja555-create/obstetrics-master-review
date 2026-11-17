@@ -78,3 +78,10 @@ on conflict (id) do update set cat = excluded.cat, ar = excluded.ar, en = exclud
 
 -- a picture for each subject card (owner, 18 Nov 2026)
 alter table subjects add column if not exists img text;
+
+-- speciality texts say what the platform offers (owner, 18 Nov 2026)
+update specialties set about_ar = 'كورسات ومراجعات لكل المواد من العلوم الأساسية حتى السنوات الإكلينيكية، مع تحضير للامتحانات المحلية والدولية.', about_en = 'Courses and reviews for every subject from basic sciences to the clinical years, with local and international exam preparation.' where id = 'medicine';
+update specialties set about_ar = 'شرح مبسّط للتحاليل وتفسير النتائج بالفيديو والصور، مع مراجعات وأسئلة لامتحاناتك.', about_en = 'Clear video lessons on laboratory tests and reading results, with reviews and questions for your exams.' where id = 'lab';
+update specialties set about_ar = 'دروس عملية في المهارات والرعاية التمريضية، ومراجعات وأسئلة تساعدك في الامتحانات والتدريب.', about_en = 'Practical lessons on nursing skills and care, with reviews and questions for exams and training.' where id = 'nursing';
+update specialties set about_ar = 'كورسات للمواد النظرية والسريرية بشرح مصوّر خطوة بخطوة، مع مراجعات قبل الامتحانات.', about_en = 'Courses for theory and clinical subjects with step-by-step visual teaching and pre-exam reviews.' where id = 'dentistry';
+update specialties set about_ar = 'شرح واضح للأدوية والمواد الصيدلانية، مع ملخصات ومراجعات وبنوك أسئلة لكل مادة.', about_en = 'Clear teaching of drugs and pharmaceutical subjects, with summaries, reviews and question banks for each subject.' where id = 'pharmacy';

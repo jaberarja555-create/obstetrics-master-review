@@ -42,11 +42,11 @@
       ['ph-pharmacology', 'basics', 'pharmacy', 'علم الأدوية', 'Pharmacology', 's_pharma'], ['clin-pharm', 'clinical', 'pharmacy', 'الصيدلة السريرية', 'Clinical Pharmacy', 'pill']
     ].map(function (r, i) { return { id: r[0], cat: r[1], spec: r[2], ar: r[3], en: r[4], icon: r[5], sort: 100 + i }; })),
     specialties: [
-      ['medicine', 'الطب البشري', 'Medicine', 'steth', 'يتناول تشخيص الأمراض وعلاجها لدى مختلف الفئات العمرية، مع التركيز على الرعاية الشاملة والوقاية.', 'Diagnosis and treatment of disease at every age, with whole-person care and prevention.'],
-      ['lab', 'علوم المختبرات الطبية', 'Laboratory Science', 'flask', 'يختص بإجراء التحاليل المخبرية وتشخيص الأمراض ومتابعة العلاج باستخدام أحدث التقنيات.', 'Laboratory tests that diagnose disease and follow treatment with modern techniques.'],
-      ['nursing', 'التمريض', 'Nursing', 'nurse', 'يُعنى بتقديم الرعاية الصحية الشاملة للمرضى ودعمهم خلال العلاج والوقاية وإعادة التأهيل.', 'Complete care of patients, supporting them through treatment, prevention and rehabilitation.'],
-      ['dentistry', 'طب وجراحة الأسنان', 'Dentistry', 'tooth', 'يركز على صحة الفم والأسنان وتشخيص اضطراباتها وعلاجها والوقاية منها.', 'Oral and dental health: diagnosis, treatment and prevention of their disorders.'],
-      ['pharmacy', 'الصيدلة', 'Pharmacy', 'pill', 'تهتم بدراسة الأدوية وآلية عملها وتحضيرها وضمان استخدامها الآمن والفعّال.', 'Medicines, how they work, how they are made, and their safe and effective use.']
+      ['medicine', 'الطب البشري', 'Medicine', 'steth', 'كورسات ومراجعات لكل المواد من العلوم الأساسية حتى السنوات الإكلينيكية، مع تحضير للامتحانات المحلية والدولية.', 'Courses and reviews for every subject from basic sciences to the clinical years, with local and international exam preparation.'],
+      ['lab', 'علوم المختبرات الطبية', 'Laboratory Science', 'flask', 'شرح مبسّط للتحاليل وتفسير النتائج بالفيديو والصور، مع مراجعات وأسئلة لامتحاناتك.', 'Clear video lessons on laboratory tests and reading results, with reviews and questions for your exams.'],
+      ['nursing', 'التمريض', 'Nursing', 'nurse', 'دروس عملية في المهارات والرعاية التمريضية، ومراجعات وأسئلة تساعدك في الامتحانات والتدريب.', 'Practical lessons on nursing skills and care, with reviews and questions for exams and training.'],
+      ['dentistry', 'طب وجراحة الأسنان', 'Dentistry', 'tooth', 'كورسات للمواد النظرية والسريرية بشرح مصوّر خطوة بخطوة، مع مراجعات قبل الامتحانات.', 'Courses for theory and clinical subjects with step-by-step visual teaching and pre-exam reviews.'],
+      ['pharmacy', 'الصيدلة', 'Pharmacy', 'pill', 'شرح واضح للأدوية والمواد الصيدلانية، مع ملخصات ومراجعات وبنوك أسئلة لكل مادة.', 'Clear teaching of drugs and pharmaceutical subjects, with summaries, reviews and question banks for each subject.']
     ].map(function (r, i) { return { id: r[0], ar: r[1], en: r[2], icon: r[3], about_ar: r[4], about_en: r[5], img: 'img/sp_' + r[0] + '.webp', sort: i }; }),
     settings: [
       { id: 'bankak_account', value: '4674587' }, { id: 'bankak_name', value: 'سعاد عبدالكريم' }, { id: 'whatsapp', value: '249116984258' },
@@ -57,8 +57,9 @@
   var Local = (function () {
     var K = 'ish-db', DB;
     function load() { try { DB = JSON.parse(localStorage.getItem(K) || 'null'); } catch (e) { DB = null; }
-      if (!DB) { DB = { _v: 5 }; Object.keys(SEED).forEach(function (t) { DB[t] = SEED[t].map(function (r) { return Object.assign({}, r); }); }); save(); return; }
+      if (!DB) { DB = { _v: 6 }; Object.keys(SEED).forEach(function (t) { DB[t] = SEED[t].map(function (r) { return Object.assign({}, r); }); }); save(); return; }
       /* an older preview store: add the specialities and their subjects (Nov 2026) */
+      if ((DB._v || 1) < 6 && DB.specialties) { /* speciality texts: what the platform offers (owner, 18 Nov 2026) */ DB.specialties.forEach(function (x) { var n = SEED.specialties.filter(function (y) { return y.id === x.id; })[0]; if (n) { x.about_ar = n.about_ar; x.about_en = n.about_en; } }); }
       if ((DB._v || 1) < 5) { /* international exams (owner, 18 Nov 2026) */ var hv = {}; (DB.subjects || []).forEach(function (x) { hv[x.id] = x; });
         SEED.subjects.filter(function (x) { return x.cat === 'special'; }).forEach(function (x) { if (hv[x.id]) Object.assign(hv[x.id], { ar: x.ar, en: x.en, sort: x.sort }); else DB.subjects.push(Object.assign({}, x)); }); }
       if ((DB._v || 1) < 4) { /* sections (owner, 18 Nov 2026): Basics, Clinical, International Exams, House Officer */
@@ -66,7 +67,7 @@
         DB.subjects.forEach(function (x) { var n = SEED.subjects.filter(function (y) { return y.id === x.id; })[0]; if (n && (x.id === 'smc' || x.id === 'ho-skills')) Object.assign(x, n); });
         (DB.courses || []).forEach(function (c) { if (c.cat === 'local') c.cat = 'house'; }); DB._v = 3.5; }
       if ((DB._v || 1) < 4) { if (!DB.specialties) DB.specialties = SEED.specialties.map(function (r) { return Object.assign({}, r); }); var have = {}; (DB.subjects || []).forEach(function (x) { have[x.id] = 1; if (!x.spec) x.spec = 'medicine'; });
-        SEED.subjects.forEach(function (x) { if (!have[x.id]) DB.subjects.push(Object.assign({}, x)); }); (DB.courses || []).forEach(function (c) { if (!c.spec) c.spec = 'medicine'; }); DB._v = 5; save(); } else if (DB._v < 5) { DB._v = 5; save(); } }
+        SEED.subjects.forEach(function (x) { if (!have[x.id]) DB.subjects.push(Object.assign({}, x)); }); (DB.courses || []).forEach(function (c) { if (!c.spec) c.spec = 'medicine'; }); DB._v = 6; save(); } else if (DB._v < 6) { DB._v = 6; save(); } }
     function save() { try { localStorage.setItem(K, JSON.stringify(DB)); } catch (e) { alert('مساحة المعاينة على هذا الجهاز امتلأت.'); } }
     load();
     function tb(t) { return DB[t] || (DB[t] = []); }
