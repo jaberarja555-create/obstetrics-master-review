@@ -703,4 +703,14 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   search place (v2.search.js), contents rows (shell.html filters entries with no page), build.py `drp` 0, fix_contents.py and poster_pages.py
   skip the drugs. tools/help_shots.js now sets orr-btour / orr-chz so the book guide does not cover the manual screenshots (pictures re-taken).
   The owner's user-guide poster ug_4 (Resources) still shows the drugs: it is his picture.
+- **Chapter 7 in the new design, pictures checked (17 Nov 2026; owner: "fix all mistakes, choose the best picture, delete any wrong picture"):**
+  class `nd`, numbered titles, nd_colours / nd_labels / nd_figs, re-planned (chapter 120 → about 145 pages). Every figure with 3 or more pictures
+  (or a labelled sequence) is a full-width row with the caption underneath (`figure.bf.frow.fwide`, pictures one height, ≤ 700 px; CSS before
+  "a picture row never shares a line"); the old strips ran off the page edge. Removed as wrong (AI pictures): the normal-delivery photos
+  (flexion, perineal guard, cord check, restitution, shoulders, body: the head came out above the pubis), oxytocin IM (injected the abdomen,
+  caption says thigh), placenta maternal surface (showed vessels), suprapubic pressure (CPR hands on the upper abdomen), all fours (baby already
+  born), the station panel of the VE figure (finger outside the body), the urine protein panel (wrong strip values), the AI pregnancy wheel.
+  Owner's replacements: assets/img/oh_wheel_real.jpg (7.2), ond_mechanism.jpg (8 stages of the mechanism of labour, 7.7 "Hand positions"),
+  oem_mcr_suprapubic.jpg (7.9 manoeuvres). Not used: his TrialEx and "Health is Wealth" pictures (copyright marks / logo). Captions fixed:
+  LMWH (no needle angle), breastfeeding attachment. Figures renumbered in reading order. "GA" before RSI = general anaesthesia.
 

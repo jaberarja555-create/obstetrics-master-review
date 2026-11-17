@@ -2277,6 +2277,10 @@ section[data-file^="x9"] .frow .ans{background:none;color:#172e48;font-weight:75
 .page.nd figure.bf.frow .lbt { white-space:normal !important; width:max-content; max-width:min(96%, 160px); text-align:center; line-height:1.15 !important; }  /* owner, 16 Nov 2026: a label wider than a narrow picture was cut; it now wraps */
 .page.nd figure.bf .lbt { font-size:9.5pt !important; padding:2px 6px !important; white-space:normal !important; width:max-content; max-width:min(96%, 160px); text-align:center; line-height:1.15 !important; }
 .page.nd figure.bf.frow .fk { font-size:11pt !important; padding:3px 6px !important; }
+/* wide picture rows: 3+ pictures or a labelled sequence take the full width, caption underneath (owner, 17 Nov 2026) */
+.page.nd figure.bf.frow.fwide{grid-template-columns:1fr !important;justify-items:center}
+.page.nd figure.bf.frow.fwide .fps{justify-content:center !important;flex-wrap:nowrap}
+.page.nd figure.bf.frow.fwide figcaption{max-width:none;width:100%}
 /* a picture row never shares a line with a table or box (owner, 17 Nov 2026: the breech manoeuvres table was squeezed beside its picture) */
 .page.nd .mc > .photos:has(> figure.frow){display:block !important}
 .page.nd .photos:has(> figure.frow) > * + *{margin-top:12px}
