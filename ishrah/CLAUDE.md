@@ -80,7 +80,7 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - Home has no side column: events, figures, community and "Teach" are one even row (`.hboxes`), so no empty space appears beside short content.
 - Subject card pictures: the owner makes them from `ishrah/pictures-needed.md` (14 prompts, 2×2 grids); cut with
   `python3 tools/ishrah/cut.py <picture> <id> <id> <id> <id>` → `img/sub_<id>.webp` + `js/subimg.js`. The team can also upload one per subject.
-- Owner's design (18 Nov 2026): student pages use a top menu on computers (`.tnav`; studio and control keep the side menu), hero = logo
+- Owner's design (18 Nov 2026): the side menu stays on every page (the owner rejected a top menu on 18 Nov 2026), hero = logo
   (`img/logo_hero.webp`) · title and four features · books picture; speciality cards are horizontal (photo on the left in Arabic), subject cards
   have the picture on top and a gold "Soon" label, House Officer subjects are wide cards, section cards have pictures `img/sec_<id>.webp`.
   Subject pictures come from the owner's designs and photos (46 of 54 done; no logos of OET/IELTS/IFOM used, they are trademarks).

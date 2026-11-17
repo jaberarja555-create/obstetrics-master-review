@@ -952,22 +952,8 @@ body[data-area="control"]{--pri:#13305c;--pri2:#0c2246;--tint:rgba(201,154,46,.1
 
 /* ---------- owner's design, 18 Nov 2026: top menu, hero, horizontal speciality cards, picture subject cards ---------- */
 .tnav{display:none}
-@media (min-width:1024px){
-  body[data-area="student"] #side{display:none}
-  body[data-area="student"] #top,body[data-area="student"] main{margin-inline-start:0}
-  body[data-area="student"] main{margin-inline:auto;max-width:1480px}
-  body[data-area="student"] .tsearch{display:none}
-  body[data-area="student"] .only-ph{display:inline-flex}
-  .tnav{display:flex;align-items:stretch;gap:2px;flex:1;justify-content:center;min-width:0}
-  .tnav>a,.tnav>button{display:flex;align-items:center;gap:7px;padding:8px 11px;border-radius:12px;color:#dfe5f0;border:0;background:none;cursor:pointer;white-space:nowrap}
-  .tnav .ico{width:19px;height:19px;color:var(--gold2)}
-  .tnav .nl b{font-size:13.5px}.tnav .nl small{font-size:10.5px;opacity:.7}
-  .tnav>a:hover,.tnav>button:hover{background:rgba(233,198,108,.12)}
-  .tnav>a.on{background:var(--goldg);color:#1a1405}.tnav>a.on .ico{color:#1a1405}
-  .tnav>a+a,.tnav>a+button{position:relative}
-}
-@media (min-width:1024px) and (max-width:1379px){.tnav .nl small{display:none}.tnav>a,.tnav>button{padding:8px 8px}body[data-area="student"] .brand small{display:none}}
-@media (min-width:1024px) and (max-width:1180px){.tnav>a .nl,.tnav>button .nl{display:none}.tnav>a.on .nl{display:flex}}
+/* the student pages keep the side menu (owner, 18 Nov 2026: the top menu was rejected) */
+.tnav{display:none!important}
 
 /* hero: logo · title and features · books picture */
 .hero.gold{display:flex;align-items:stretch;padding:0;min-height:300px;gap:0}
@@ -1106,3 +1092,7 @@ body[data-area="control"]{--pri:#13305c;--pri2:#0c2246;--tint:rgba(201,154,46,.1
   .hiw li>b,.hiw li>small,.hiw li>p{grid-column:2;margin:0;max-width:none;flex-basis:auto;padding:0}
   .hiw li>p{margin-top:2px}
 }
+.hero .hlogo img{-webkit-mask-image:none;mask-image:none;border-radius:18px}
+.hchk{flex-wrap:nowrap}
+.hchk li{padding:0 14px;white-space:nowrap}
+@media (max-width:1400px){.hchk li{padding:0 9px;font-size:12px}.hero .hlogo{flex-basis:20%}.hero .hart{flex-basis:28%}}
