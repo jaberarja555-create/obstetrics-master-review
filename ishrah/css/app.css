@@ -1098,3 +1098,15 @@ body[data-area="control"]{--pri:#13305c;--pri2:#0c2246;--tint:rgba(201,154,46,.1
 @media (max-width:1400px){.hchk li{padding:0 9px;font-size:12px}.hero .hlogo{flex-basis:20%}.hero .hart{flex-basis:28%}}
 @media (max-width:700px){.hchk{display:grid;grid-template-columns:1fr 1fr;row-gap:12px;width:100%}.hchk li{white-space:normal;padding:0 6px}.hchk li+li{border-inline-start:0}.hchk li:nth-child(even){border-inline-start:1px solid rgba(233,198,108,.35)}}
 .hero{overflow:hidden}
+/* specialities: Medicine large on one side, the other four in a 2 × 2 block beside it (owner, 18 Nov 2026: "no empty space") */
+.spcs{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);gap:16px}
+.spcs>.spc{flex:none;min-width:0;min-height:0}
+.spcs>.spc:first-child{grid-row:span 2;flex-direction:column}
+.spcs>.spc:first-child .spi{order:0;flex:0 0 auto;height:auto;aspect-ratio:16/9}
+.spcs>.spc:first-child .spt{padding:18px 20px 20px;gap:8px}
+.spcs>.spc:first-child .sph i{width:52px;height:52px}.spcs>.spc:first-child .sph b{font-size:24px}
+.spcs>.spc:first-child .spt p{font-size:14.5px}
+.spcs>.spc:not(:first-child) .spi{flex-basis:40%}
+.spcs>.spc:not(:first-child) .spt p{font-size:12.5px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+@media (max-width:1279px){.spcs{grid-template-columns:repeat(2,minmax(0,1fr))}.spcs>.spc:first-child{grid-column:1/-1;grid-row:auto;flex-direction:row}.spcs>.spc:first-child .spi{order:2;flex:0 0 46%;aspect-ratio:auto}}
+@media (max-width:640px){.spcs{grid-template-columns:1fr}}
