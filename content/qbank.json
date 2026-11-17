@@ -726,7 +726,7 @@
     "id": "hg-2",
     "topic": "hg",
     "type": "sba",
-    "stem": "A 25-year-old at 10 weeks has vomited everything for 8 days. Bloods: Na⁺ 129, K⁺ 2.8, Cl⁻ 84 mmol/L, bicarbonate 33 mmol/L, urea raised, urine ketones 3+.",
+    "stem": "A 25-year-old at 10 weeks has vomited everything for 8 days. Blood tests: Na⁺ 129, K⁺ 2.8, Cl⁻ 84 mmol/L, bicarbonate 33 mmol/L, urea raised, urine ketones 3+.",
     "q": "Which acid–base disturbance is most likely?",
     "options": [
      "Hypochloraemic hypokalaemic metabolic alkalosis",
@@ -1457,7 +1457,7 @@
     "id": "dm-9",
     "topic": "dm",
     "type": "sba",
-    "stem": "A 4.3 kg baby is born at 38 weeks to a mother with gestational diabetes on insulin. At 2 hours the baby is shaky (jittery) and sweaty and feeds poorly.",
+    "stem": "A 4.3 kg baby is born at 38 weeks to a mother with gestational diabetes on insulin. At 2 hours the baby is shaky and sweaty and feeds poorly.",
     "q": "Which investigation is most urgent?",
     "options": [
      "Serum calcium",
@@ -1627,7 +1627,7 @@
     "id": "ht-3",
     "topic": "ht",
     "type": "sba",
-    "stem": "A 27-year-old at 34 weeks, normotensive at booking, now has blood pressure 145/95 mmHg twice. Urine dipstick is negative and PCR 12 mg/mmol. Bloods are normal.",
+    "stem": "A 27-year-old at 34 weeks, normotensive at booking, now has blood pressure 145/95 mmHg twice. Urine dipstick is negative and PCR 12 mg/mmol. Blood tests are normal.",
     "q": "What is the most likely diagnosis?",
     "options": [
      "Chronic hypertension",
@@ -6681,7 +6681,7 @@
     "id": "pp-8",
     "topic": "pp",
     "type": "sba",
-    "stem": "A baby born at 42+2 weeks weighing 4.3 kg is 3 hours old. The midwife finds him shaky (jittery) and feeding poorly. Temperature is 36.6 °C and he is pink and well perfused.",
+    "stem": "A baby born at 42+2 weeks weighing 4.3 kg is 3 hours old. The midwife finds him shaky and feeding poorly. Temperature is 36.6 °C and he is pink and well perfused.",
     "q": "Which investigation should be done first?",
     "options": [
      "Serum calcium",
@@ -8056,7 +8056,7 @@
     "stem": "A para 2 woman has just delivered. She has severe pain and a blood pressure of 80/50 mmHg. No fundus is palpable abdominally and a purple mass lies at the introitus. The house officer wishes to arrange an ultrasound scan before any treatment.",
     "q": "What is the best advice?",
     "options": [
-     "No scan: replace the uterus now and send bloods at the same time",
+     "No scan: replace the uterus now and send blood tests at the same time",
      "Pelvic ultrasound before any manoeuvre",
      "CT abdomen to exclude rupture",
      "MRI pelvis to confirm the degree",
@@ -9417,7 +9417,7 @@
     "id": "pmd-5",
     "topic": "pmd",
     "type": "sba",
-    "stem": "A para 1 woman is seen on day 6 after delivery. She has not slept for 3 nights, is restless and perplexed, and says that voices are telling her the baby is the devil. Her temperature is 37 °C, blood pressure 115/75 mmHg and urinalysis normal.",
+    "stem": "A para 1 woman is seen on day 6 after delivery. She has not slept for 3 nights, is restless and confused, and says that voices are telling her the baby is the devil. Her temperature is 37 °C, blood pressure 115/75 mmHg and urinalysis normal.",
     "q": "What is the most appropriate next step?",
     "options": [
      "Reassure and review at the 6-week visit",
