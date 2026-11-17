@@ -720,4 +720,15 @@ https://srg.studentmasterreview.com and https://ped.studentmasterreview.com (Wor
   pressures ("130/8 mmHg0 mmHg"): fixed in qbank.json. Spotter grids (7.10) cut into rows of four so pages can break between rows; the
   owner's pregnancy wheel 215 px so 7.2's section fits its first page. Rapid Review cards of the 11 OSCE topics rewritten as short topics
   (Rapid Review 125 pages).
+- **Missing chapter 7 pictures solved without the owner (17 Nov 2026; owner: "solve the problem yourself"; image apps refused birth pictures):**
+  open-licence picture from Wikimedia Commons: thigh IM injection sites (BruceBlaus, CC BY-SA 4.0, credited in the caption) for oxytocin 10 IU IM
+  (assets/img/ond_im_site.jpg). Drawn diagrams (SVG in the chapter colours): placenta maternal surface (lobes and grooves, no vessels) in 7.7;
+  urine protein pad colour scale with the correct values (trace 0.15, 1+ 0.3, 2+ 1.0, 3+ 3.0, 4+ ≥ 20 g/L) in 7.4. Station on VE already has its
+  own diagram in 7.5. Delivery hand positions and all fours: no accurate open picture found; the mechanism picture and the step table cover them.
+  Commons hosts commons.wikimedia.org and upload.wikimedia.org were added to the environment; upload.wikimedia.org answers 429 to this shared
+  address most of the time (downloaded files are in the scratchpad only). Candidates found but not used: Mottet et al. 2017 simulator photos
+  (CC BY 4.0; their technique delivers the anterior arm, not the book's posterior arm step), Blausen crowning (shows the face first, i.e.
+  occipito-posterior). Picture groups made only of picture rows are unwrapped so pages can break between pictures; old small "solo" pictures in
+  chapter 7 became picture rows; any multi-picture figure wider than 430 px is a full-width row with the caption below (also 5 pages of ch 1–2,
+  where captions were cut off). Checked: no element of any page runs past the page edge (scratchpad ovf.js).
 
