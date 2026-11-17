@@ -29,7 +29,7 @@ const D = process.argv[2] || 'shots', W = +(process.argv[3] || 1440), H = W < 60
   await logout();
   // 2. lecturer applies
   await signup('محمد الصادق', '0922222222', 'lecturer'); await p.waitForTimeout(500); await shot('02-apply');
-  await fill('form[data-form=apply] [name=specialty]', 'الجراحة العامة'); await fill('form[data-form=apply] [name=title]', 'استشاري الجراحة العامة');
+  await p.selectOption('form[data-form=apply] [name=specialty]', '__o'); await fill('form[data-form=apply] [name=specialty__o]', 'General Surgery (Hepatobiliary)'); await p.selectOption('form[data-form=apply] [name=title]', 'Consultant');
   await fill('form[data-form=apply] [name=experience]', 'ثماني سنوات في تدريس الجراحة لطلبة الطب.'); await p.setInputFiles('form[data-form=apply] [name=cv]', S + '/receipt.png');
   await fill('form[data-form=apply] [name=sample]', 'https://youtube.com/watch?v=x'); await fill('form[data-form=apply] [name=plan_title]', 'Acute Abdomen'); await fill('form[data-form=apply] [name=plan]', 'التهاب الزائدة، الانسداد، والانثقاب.');
   await p.check('form[data-form=apply] input[type=checkbox]'); await submit('apply'); await shot('03-apply-sent');

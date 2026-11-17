@@ -9,6 +9,8 @@
   };
   IS.lang = LS.get('lang', 'ar');
   var A = IS.A = function (ar, en) { return IS.lang === 'en' ? (en == null ? ar : en) : ar; };
+  /* titles (owner, 18 Nov 2026): the big line is English, the Arabic sits under it in small text; English mode shows English only */
+  IS.T = function (ar, en) { if (en == null || en === ar) return IS.esc(ar); if (IS.lang === 'en') return IS.esc(en); return '<span class="tt"><b lang="en" dir="ltr">' + IS.esc(en) + '</b><small>' + IS.esc(ar) + '</small></span>'; };
   var esc = IS.esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   IS.N = function (x) { return '<bdi>' + (typeof x === 'number' ? x.toLocaleString('en-US') : esc(x)) + '</bdi>'; };
   IS.money = function (x) { return '<bdi>' + (+x || 0).toLocaleString('en-US') + '</bdi> ' + esc(IS.SET.currency === 'SDG' ? A('ج.س', 'SDG') : (IS.SET.currency || '')); };
@@ -56,7 +58,12 @@
     mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/>', eye: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
     money: '<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5v5M18 9.5v5"/>', wallet: '<path d="M4 7h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a1 1 0 0 1-1-1z"/><path d="M4 7l11-3v3M16 13.5h.01"/>',
     receipt: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>', studio: '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="m10 8 4 2-4 2z" fill="currentColor"/><path d="M8 20h8M12 16v4"/>',
-    briefcase: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 12h18"/>', org: '<rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/>', crown: '<path d="m3 8 4.5 4L12 5l4.5 7L21 8l-2 11H5z"/>', logout: '<path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 8l-4 4 4 4M6 12h10"/>',
+    briefcase: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 12h18"/>', org: '<rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/>', crown: '<path d="m3 8 4.5 4L12 5l4.5 7L21 8l-2 11H5z"/>', steth: '<path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M11 14v2a5 5 0 0 0 10 0v-3"/><circle cx="21" cy="11" r="2"/>', flask: '<path d="M9 3h6M10 3v6L4.5 18.5A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-2.5L14 9V3"/><path d="M7 15h10"/>',
+    nurse: '<path d="M4 11c0-4 3.6-7 8-7s8 3 8 7v2H4z"/><path d="M12 6.5v4M10 8.5h4M6 13v3a6 6 0 0 0 12 0v-3"/>', tooth: '<path d="M12 5.5C10 4 7 3.5 5.5 5S4 9 5 12c.8 2.3 1 5 1.6 7 .4 1.4 2 1.4 2.4 0l1.2-4a1.9 1.9 0 0 1 3.6 0l1.2 4c.4 1.4 2 1.4 2.4 0 .6-2 .8-4.7 1.6-7 1-3 1-5.5-.5-7S14 4 12 5.5z"/>',
+    pill: '<rect x="2.5" y="8" width="19" height="8" rx="4" transform="rotate(-40 12 12)"/><path d="m9 9 6 6"/>', leaf: '<path d="M5 20c0-9 5-15 15-16-1 10-7 15-15 16z"/><path d="M5 20 13 12"/>',
+    s_blood: '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>', s_xray: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 6v12M8 8.5c2 1 6 1 8 0M7.5 12c2.5 1 6.5 1 9 0M8 15.5c2 1 6 1 8 0"/>',
+    s_ear: '<path d="M7 9a5 5 0 0 1 10 0c0 3-3 4-3 7a3 3 0 0 1-6 .5"/><path d="M10 9a2 2 0 0 1 4 0c0 1.5-2 2-2 3.5"/>', s_mask: '<path d="M4 9h16v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6z"/><path d="M8 18v3h8v-3M2 9h2M20 9h2"/>',
+    s_skin: '<path d="M3 15c3-2 6-2 9 0s6 2 9 0M3 9c3-2 6-2 9 0s6 2 9 0"/><circle cx="8" cy="12" r=".6"/><circle cx="16" cy="12" r=".6"/>', logout: '<path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 8l-4 4 4 4M6 12h10"/>',
     user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>', image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-8 9"/>',
     globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.7 3 2.7 15 0 18M12 3c-2.7 3-2.7 15 0 18"/>', sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
     moon: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>', list: '<path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/>', live: '<circle cx="12" cy="12" r="2.5"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M4.9 4.9a10 10 0 0 0 0 14.2M19.1 4.9a10 10 0 0 1 0 14.2"/>',
@@ -81,7 +88,7 @@
   IS.U = function (p) { try { return esc(new URL(p, location.href).href); } catch (e) { return esc(p); } };
 
   /* ---------- signed-in user, lecturer record, team roles ---------- */
-  IS.ME = null; IS.LEC = null; IS.SET = {}; IS.CATS = []; IS.SUBJ = [];
+  IS.ME = null; IS.LEC = null; IS.SET = {}; IS.CATS = []; IS.SUBJ = []; IS.SPECS = [];
   /* the platform's administrative structure (owner's chart, 17 Nov 2026). Each role has, per section, the actions it may do:
      view · add · edit · delete · approve. The owner edits this matrix in the control app (the general manager for roles below him); the
      database applies the same matrix (supabase role_perms + ish_can), so hiding a button is never the only protection.
@@ -128,12 +135,13 @@
     }
   };
   IS.loadBase = async function () {
-    var r = await Promise.all([DB.q('settings'), DB.q('categories', { order: ['sort'] }), DB.q('subjects', { order: ['sort'] })]);
-    IS.SET = {}; r[0].forEach(function (s) { IS.SET[s.id] = s.value; }); IS.CATS = r[1]; IS.SUBJ = r[2];
+    var r = await Promise.all([DB.q('settings'), DB.q('categories', { order: ['sort'] }), DB.q('subjects', { order: ['sort'] }), DB.q('specialties', { order: ['sort'] }).catch(function () { return []; })]);
+    IS.SET = {}; r[0].forEach(function (s) { IS.SET[s.id] = s.value; }); IS.CATS = r[1]; IS.SUBJ = r[2].map(function (x) { if (!x.spec) x.spec = 'medicine'; return x; }); IS.SPECS = r[3];
     try { var rp = await DB.q('role_perms'), m = JSON.parse(JSON.stringify(IS.DEFRP)), seen = {}; rp.forEach(function (x) { if (!seen[x.role]) { seen[x.role] = 1; m[x.role] = {}; } if ((x.acts || ALL).length) m[x.role][x.perm] = x.acts || ALL.slice(); }); IS.RP = m; } catch (e) {}
   };
   IS.cat = function (id) { return IS.CATS.filter(function (c) { return c.id === id; })[0]; };
   IS.subj = function (id) { return IS.SUBJ.filter(function (c) { return c.id === id; })[0]; };
+  IS.spec = function (id) { return IS.SPECS.filter(function (c) { return c.id === id; })[0]; };
   IS.audit = function (action, target) { if (!IS.ME) return; DB.ins('audit', { user_id: IS.ME.id, name: IS.ME.name, action: action, target: target || '' }).catch(function () {}); };
   IS.notify = function (uid, title, body, link) { return DB.ins('notices', { user_id: uid || null, title: title, body: body || '', link: link || '' }).catch(function () {}); };
 
@@ -180,7 +188,13 @@
     rd.onload = function () { var im = new Image(); im.onload = function () { var k = Math.min(1, (max || 1400) / Math.max(im.width, im.height)), c = document.createElement('canvas'); c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
       c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); c.toBlob(function (b) { ok(b ? new File([b], (file.name || 'img').replace(/\.\w+$/, '') + '.jpg', { type: 'image/jpeg' }) : file); }, 'image/jpeg', q || 0.82); }; im.onerror = function () { ok(file); }; im.src = rd.result; };
     rd.readAsDataURL(file); }); };
-  IS.form = function (f) { var o = {}; new FormData(f).forEach(function (v, k) { if (v instanceof File) return; if (o[k] !== undefined) { if (!Array.isArray(o[k])) o[k] = [o[k]]; o[k].push(v); } else o[k] = typeof v === 'string' ? v.trim() : v; }); return o; };
+  IS.form = function (f) { var o = {}; new FormData(f).forEach(function (v, k) { if (v instanceof File) return; if (o[k] !== undefined) { if (!Array.isArray(o[k])) o[k] = [o[k]]; o[k].push(v); } else o[k] = typeof v === 'string' ? v.trim() : v; });
+    Object.keys(o).forEach(function (k) { if (o[k] === '__o') { o[k] = o[k + '__o'] || ''; } if (/__o$/.test(k)) delete o[k]; }); return o; };
+  /* a list to choose from, with "Other" that opens a box to type (owner, 18 Nov 2026) */
+  IS.pick = function (name, opts, v, req, ph) { v = v || ''; var known = opts.some(function (o) { return (o[0] || o) === v; }), other = v && !known;
+    return '<span class="pick"><select name="' + name + '" data-pick' + (req ? ' required' : '') + '><option value="">' + esc(A('اختر…', 'Choose…')) + '</option>' + opts.map(function (o) { var val = o[0] || o, lab = o[1] || o; return '<option value="' + esc(val) + '"' + (val === v ? ' selected' : '') + '>' + esc(lab) + '</option>'; }).join('') +
+      '<option value="__o"' + (other ? ' selected' : '') + '>' + esc(A('أخرى (اكتب)', 'Other (type it)')) + '</option></select><input name="' + name + '__o" class="pko"' + (other ? '' : ' hidden') + ' value="' + esc(other ? v : '') + '" placeholder="' + esc(ph || A('اكتب هنا', 'Type here')) + '"></span>'; };
+  document.addEventListener('change', function (e) { var s = e.target.closest && e.target.closest('select[data-pick]'); if (!s) return; var i = s.parentNode.querySelector('.pko'); if (!i) return; i.hidden = s.value !== '__o'; i.required = s.value === '__o'; if (!i.hidden) i.focus(); });
   IS.lines = function (s) { return String(s || '').split('\n').map(function (x) { return x.trim(); }).filter(Boolean); };
   /* rich text: only these tags survive (lecturers write formatted text; students never get scripts) */
   IS.clean = function (html) {
@@ -211,7 +225,7 @@
   IS.route = async function () {
     var h = decodeURIComponent(location.hash.slice(1)) || 'home', m = h.match(/^([a-z-]+?)(?:\/(.*))?$/), name = m ? m[1] : 'home', arg = m ? m[2] : '';
     var P = PAGES[name] || PAGES.home, o = P.o, my = ++SEQ, main = IS.$('#main');
-    IS.area = o.area || 'student'; document.body.setAttribute('data-area', IS.area); document.body.setAttribute('data-page', name);
+    IS.area = o.area === 'keep' ? (IS.area || 'student') : (o.area || 'student'); document.body.setAttribute('data-area', IS.area); document.body.setAttribute('data-page', name);
     IS.chrome(name);
     if (o.auth && !IS.ME) { main.innerHTML = authGate(); return; }
     if (IS.mfaGate) { var g = IS.mfaGate(); if (g) { main.innerHTML = g; return; } }
@@ -224,12 +238,12 @@
     main.innerHTML = '<div class="page">' + (html || IS.empty('search', A('غير موجود', 'Not found'), A('ربما حُذف أو لم يُنشر بعد.', 'It may have been removed or not published yet.'))) + '</div>';
     if (!IS.keepScroll) window.scrollTo(0, 0); IS.keepScroll = false;
     var h1 = main.querySelector('h1'); if (h1) try { h1.focus({ preventScroll: true }); } catch (e) {}
-    document.title = (h1 ? h1.textContent.trim() + ' · ' : '') + 'اشرح لي';
+    var tt = h1 && (h1.querySelector('.tt small') || h1); document.title = (tt ? tt.textContent.trim() + ' · ' : '') + 'اشرح لي';
     if (IS.after) try { await IS.after(main); } catch (e) { if (window.console) console.error(e); }
   };
   IS.refresh = function () { IS.keepScroll = true; return IS.route(); };
   function authGate() {
-    return '<div class="page"><div class="gate">' + ic('lock') + '<h1 tabindex="-1">' + esc(A('سجّل الدخول للمتابعة', 'Sign in to continue')) + '</h1><p>' + esc(A('أنشئ حسابًا مجانيًا خلال دقيقة، أو ادخل بحسابك.', 'Create a free account in a minute, or sign in.')) + '</p>' +
+    return '<div class="page"><div class="gate">' + ic('lock') + '<h1 tabindex="-1">' + IS.T('سجّل الدخول للمتابعة', 'Sign in to continue') + '</h1><p>' + esc(A('أنشئ حسابًا مجانيًا خلال دقيقة، أو ادخل بحسابك.', 'Create a free account in a minute, or sign in.')) + '</p>' +
       '<div class="row center"><button class="btn pri" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button><button class="btn ghost" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div></div></div>';
   }
   document.addEventListener('click', function (e) {
@@ -245,32 +259,32 @@
 
   /* ---------- shell ---------- */
   var NAV = {
-    student: [['home', 'home', 'الرئيسية', 'Home'], ['courses', 'layers', 'الكورسات', 'Courses'], ['learning', 'bookmark', 'تعلّمي', 'My learning'], ['events', 'cal', 'الفعاليات', 'Events'],
-      ['lecturers', 'users', 'المحاضرون', 'Lecturers'], ['community', 'group', 'المجتمع', 'Community'], ['library', 'open', 'مكتبتي', 'My Library'], ['paths', 'route', 'المسارات', 'Paths'], ['favorites', 'heart', 'المفضلة', 'Favourites'], ['achievements', 'trophy', 'الإنجازات', 'Achievements'], ['support', 'chat', 'الدعم والرسائل', 'Support & messages'], ['about', 'info', 'عن المنصة', 'About']],
+    student: [['home', 'home', 'الرئيسية', 'Home'], ['specialties', 'grid', 'التخصصات', 'Specialities'], ['courses', 'layers', 'الكورسات', 'Courses'], ['learning', 'bookmark', 'تعلّمي', 'My learning'], ['events', 'cal', 'الفعاليات', 'Events'],
+      ['lecturers', 'users', 'المحاضرون', 'Lecturers'], ['community', 'group', 'المجتمع', 'Community'], ['library', 'open', 'مكتبتي', 'My Library'], ['paths', 'route', 'المسارات', 'Paths'], ['favorites', 'heart', 'المفضلة', 'Favourites'], ['achievements', 'trophy', 'الإنجازات', 'Achievements'], ['support', 'chat', 'الدعم والرسائل', 'Support & messages'], ['about', 'info', 'عن المنصة', 'About'], ['settings', 'gear', 'الإعدادات', 'Settings']],
     studio: [['studio', 'chart', 'لوحة المحاضر', 'Dashboard'], ['studio-courses', 'layers', 'كورساتي', 'My courses'], ['studio-page', 'user', 'صفحتي', 'My page'], ['studio-events', 'cal', 'فعالياتي', 'My events'],
-      ['studio-students', 'users', 'طلابي', 'My students'], ['studio-qa', 'chat', 'الأسئلة', 'Questions'], ['studio-money', 'wallet', 'الأرباح', 'Earnings']],
+      ['studio-students', 'users', 'طلابي', 'My students'], ['studio-qa', 'chat', 'الأسئلة', 'Questions'], ['studio-money', 'wallet', 'الأرباح', 'Earnings'], ['settings', 'gear', 'الإعدادات', 'Settings']],
     control: [['control', 'chart', 'لوحة التحكم', 'Dashboard', 'dash'], ['control-pay', 'receipt', 'المدفوعات', 'Payments', 'pay'], ['control-review', 'eye', 'مراجعة الكورسات', 'Course review', 'review'], ['control-apps', 'user', 'طلبات المحاضرين', 'Lecturer requests', 'apps'],
       ['control-lecturers', 'users', 'المحاضرون', 'Lecturers', 'lecturers'], ['control-payouts', 'wallet', 'مستحقات المحاضرين', 'Payouts', 'payout'], ['control-students', 'group', 'الطلبة', 'Students', 'students'],
       ['control-community', 'flag', 'البلاغات والمجتمع', 'Community', 'community'], ['control-events', 'cal', 'الفعاليات', 'Events', 'events'], ['control-cats', 'grid', 'الأقسام والمواد', 'Categories', 'cats'],
       ['control-notify', 'bell', 'الإعلانات', 'Announcements', 'notify'], ['control-team', 'crown', 'فريق المنصة', 'Team', 'team'], ['control-settings', 'gear', 'الإعدادات', 'Settings', 'settings'], ['control-audit', 'clock', 'سجل العمليات', 'Activity log', 'audit']]
   };
   IS.NAV = NAV;
+  IS.navLbl = function (ar, en) { return '<span class="nl"><b lang="en">' + esc(en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(ar) + '</small>') + '</span>'; };
   function navItems(area) { if (area === 'control' && IS.ctrlItems) return IS.ctrlItems(); return NAV[area].filter(function (n) { return !n[4] || IS.can(n[4]); }); }
   IS.chrome = function (page) {
     var me = IS.ME, area = IS.area;
     var areaSw = '<div class="areas">' + [['student', 'home', A('المنصة', 'Platform'), true], ['studio', 'studio', A('استوديو المحاضر', 'Lecturer studio'), !!me], ['control', 'crown', A('التحكم', 'Control'), IS.team()]].filter(function (x) { return x[3]; }).map(function (x) {
       return '<a href="#' + (x[0] === 'student' ? 'home' : x[0]) + '" class="' + (area === x[0] ? 'on' : '') + '">' + ic(x[1]) + '<span>' + esc(x[2]) + '</span></a>'; }).join('') + '</div>';
-    IS.$('#top').innerHTML = '<div class="tin"><a class="brand" href="#home"><img src="img/logo.svg" alt="" width="44" height="37"><span><b>اشرح لي</b><small>' + esc(area === 'control' ? A('تطبيق التحكم', 'Control app') : area === 'studio' ? A('استوديو المحاضر', 'Lecturer studio') : A('منصة تعليمية لطلبة الطب في السودان', 'Learning platform for medical students in Sudan')) + '</small></span></a>' +
+    IS.$('#top').innerHTML = '<div class="tin"><a class="brand" href="#home"><img src="img/logo_gold.svg" alt="" width="46" height="40"><span><b>اشرح لي</b><small>' + esc(area === 'control' ? A('تطبيق التحكم', 'Control app') : area === 'studio' ? A('استوديو المحاضر', 'Lecturer studio') : A('منصة تعليمية متكاملة لطلاب الكليات الصحية', 'Learning platform for health sciences students')) + '</small></span></a>' +
       (area === 'student' ? '<form class="tsearch" role="search" data-form="search"><span>' + ic('search') + '</span><input name="q" type="search" autocomplete="off" placeholder="' + esc(A('ابحث عن كورس أو مادة أو محاضر…', 'Search courses, subjects, lecturers…')) + '" aria-label="' + esc(A('بحث', 'Search')) + '"></form>' : '<span class="tsp"></span>') +
-      '<div class="tbtn"><a class="ib only-ph" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + ic('search') + '</a><button class="ib" data-act="lang" aria-label="Language">' + ic('globe') + '<small>' + (IS.lang === 'ar' ? 'EN' : 'ع') + '</small></button>' +
-      '<button class="ib" data-act="theme" aria-label="' + esc(A('المظهر', 'Theme')) + '">' + ic(document.documentElement.getAttribute('data-theme') === 'dark' ? 'sun' : 'moon') + '</button>' +
+      '<div class="tbtn"><a class="ib only-ph" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + ic('search') + '</a><a class="ib" href="#settings" aria-label="' + esc(A('الإعدادات', 'Settings')) + '">' + ic('gear') + '</a>' +
       (me ? '<a class="ib bell" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + ic('bell') + '<i id="bellN" hidden></i></a><a class="me" href="#account">' + IS.av(me, 'sm') + '<span>' + esc(me.name || '') + '</span></a>' :
         '<button class="btn pri sm" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button>') + '</div></div>';
     var items = navItems(area);
-    IS.$('#side').innerHTML = areaSw + (area === 'control' && IS.ctrlSide ? '<nav class="cnav">' + IS.ctrlSide(page) + '</nav>' : '<nav>' + items.map(function (n) { return '<a href="#' + n[0] + '" class="' + (n[0] === page || (page.indexOf(n[0] + '-') === 0 && area === 'student') ? 'on' : '') + '">' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') + '</nav>');
-    var tabs = area === 'student' ? ['home', 'courses', 'learning', 'community'] : items.slice(0, 4).map(function (n) { return n[0]; });
-    IS.$('#tabs').innerHTML = tabs.map(function (k) { var n = items.filter(function (x) { return x[0] === k; })[0]; if (!n) return ''; return '<a href="#' + n[0] + '" class="' + (n[0] === page ? 'on' : '') + '">' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') +
-      '<a href="#more" data-act="more">' + ic('menu') + '<span>' + esc(A('المزيد', 'More')) + '</span></a>';
+    IS.$('#side').innerHTML = areaSw + (area === 'control' && IS.ctrlSide ? '<nav class="cnav">' + IS.ctrlSide(page) + '</nav>' : '<nav>' + items.map(function (n) { return '<a href="#' + n[0] + '" class="' + (n[0] === page || (page.indexOf(n[0] + '-') === 0 && area === 'student') ? 'on' : '') + '">' + ic(n[1]) + IS.navLbl(n[2], n[3]) + '</a>'; }).join('') + '</nav>');
+    var tabs = area === 'student' ? ['home', 'specialties', 'courses', 'learning'] : items.slice(0, 4).map(function (n) { return n[0]; });
+    IS.$('#tabs').innerHTML = tabs.map(function (k) { var n = items.filter(function (x) { return x[0] === k; })[0]; if (!n) return ''; return '<a href="#' + n[0] + '" class="' + (n[0] === page ? 'on' : '') + '">' + ic(n[1]) + '<span>' + esc(n[3]) + '</span></a>'; }).join('') +
+      '<a href="#more" data-act="more">' + ic('menu') + '<span>More</span></a>';
     if (me) IS.bell();
   };
   IS.bell = async function () {
@@ -278,16 +292,20 @@
       n = n.filter(function (x) { return (!x.user_id || x.user_id === IS.ME.id) && new Date(x.created_at).getTime() > seen; }); var b = IS.$('#bellN'); if (b) { b.hidden = !n.length; b.textContent = n.length > 9 ? '9+' : n.length; } } catch (e) {}
   };
   IS.ACT.more = function () {
-    var items = navItems(IS.area), extra = IS.area === 'student' ? [['notifications', 'bell', 'الإشعارات', 'Notifications'], ['account', 'user', 'حسابي', 'My account'], ['search', 'search', 'البحث', 'Search']] : [['security', 'shield', 'الأمان والتحقق', 'Security']];
+    var items = navItems(IS.area), extra = IS.area === 'student' ? [['notifications', 'bell', 'الإشعارات', 'Notifications'], ['account', 'user', 'حسابي', 'My account'], ['search', 'search', 'البحث', 'Search']] : [['security', 'shield', 'الأمان والتحقق', 'Security']].concat(IS.area === 'control' ? [['settings', 'gear', 'الإعدادات', 'Settings']] : []);
     var areas = [['home', 'home', 'المنصة', 'Platform', true], ['studio', 'studio', 'استوديو المحاضر', 'Lecturer studio', !!IS.ME], ['control', 'crown', 'التحكم', 'Control', IS.team()]].filter(function (x) { return x[4]; });
     IS.sheet(A('المزيد', 'More'), '<div class="mgrid">' + items.concat(extra).map(function (n) { return '<a href="#' + n[0] + '">' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') + '</div>' +
       (areas.length > 1 ? '<h3 class="sub">' + esc(A('الانتقال إلى', 'Switch to')) + '</h3><div class="mgrid">' + areas.map(function (n) { return '<a href="#' + n[0] + '" class="alt">' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') + '</div>' : ''), { nofocus: 1 });
   };
   IS.ACT.lang = function () { IS.lang = IS.lang === 'ar' ? 'en' : 'ar'; LS.set('lang', IS.lang); applyLang(); IS.route(); };
-  IS.ACT.theme = function () { var d = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; LS.set('theme', d); document.documentElement.setAttribute('data-theme', d); IS.chrome(document.body.getAttribute('data-page')); };
+  IS.setTheme = function (t) { LS.set('theme', t); applyTheme(); };
+  function applyTheme() { var t = LS.get('theme', 'light'); if (t === 'auto') t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-fs', LS.get('fs', 'n')); }
+  IS.applyTheme = applyTheme;
+  IS.ACT.theme = function () { IS.setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); IS.chrome(document.body.getAttribute('data-page')); };
   function applyLang() { document.documentElement.lang = IS.lang; document.documentElement.dir = IS.lang === 'ar' ? 'rtl' : 'ltr'; }
   applyLang();
-  document.documentElement.setAttribute('data-theme', LS.get('theme', 'light'));
+  applyTheme();
 
   /* ---------- sign in / register ---------- */
   IS.ACT.login = function () { authSheet('in'); };
