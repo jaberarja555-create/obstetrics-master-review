@@ -60,3 +60,18 @@ delete from categories where id = 'local';
 
 -- the lecturer's teaching sample may be an uploaded file (owner, 18 Nov 2026)
 alter table lecturer_apps add column if not exists sample_file text;
+
+-- international exams (owner, 18 Nov 2026)
+insert into subjects (id, cat, spec, ar, en, icon, sort) values
+  ('usmle', 'special', 'medicine', 'امتحان الترخيص الأمريكي', 'USMLE', 'world', 40),
+  ('plab', 'special', 'medicine', 'امتحان الترخيص البريطاني', 'PLAB', 'world', 41),
+  ('mrcp', 'special', 'medicine', 'عضوية الكلية الملكية للأطباء', 'MRCP', 'world', 42),
+  ('mrcs', 'special', 'medicine', 'عضوية الكلية الملكية للجراحين', 'MRCS', 'world', 43),
+  ('mrcog', 'special', 'medicine', 'عضوية الكلية الملكية لأطباء النساء والتوليد', 'MRCOG', 'world', 44),
+  ('mrcpch', 'special', 'medicine', 'عضوية الكلية الملكية لطب الأطفال', 'MRCPCH', 'world', 45),
+  ('ifom', 'special', 'medicine', 'امتحان IFOM الدولي', 'IFOM', 'world', 46),
+  ('canada', 'special', 'medicine', 'امتحانات كندا (MCCQE)', 'Canada exams (MCCQE)', 'world', 47),
+  ('australia', 'special', 'medicine', 'امتحانات أستراليا (AMC)', 'Australia exams (AMC)', 'world', 48),
+  ('oet', 'special', 'medicine', 'اختبار اللغة الإنجليزية المهني', 'OET', 'world', 49),
+  ('ielts', 'special', 'medicine', 'اختبار اللغة الإنجليزية', 'IELTS', 'world', 50)
+on conflict (id) do update set cat = excluded.cat, ar = excluded.ar, en = excluded.en, sort = excluded.sort;

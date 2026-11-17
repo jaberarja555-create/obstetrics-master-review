@@ -824,7 +824,7 @@ body[data-area="control"]{--pri:#13305c;--pri2:#0c2246;--tint:rgba(201,154,46,.1
 .feat>.ico{width:34px;height:34px;color:var(--gold);stroke-width:1.5;margin-bottom:4px}
 .feat b{font-size:15.5px;color:var(--deep)}.feat>small{font-size:12px;color:var(--sub)}
 :root[data-theme="dark"] .feat b{color:#fff}
-@media (max-width:900px){.feats{grid-template-columns:repeat(2,1fr)}.feat+.feat{border-inline-start:0}.feat{border-top:1px solid var(--bd)}.feat:first-child{grid-column:1/-1;border-top:0}}
+@media (max-width:760px){.feats{grid-template-columns:repeat(2,1fr)}.feat+.feat{border-inline-start:0}.feat{border-top:1px solid var(--bd)}.feat:first-child{grid-column:1/-1;border-top:0}}
 
 /* sections (doors) */
 .doors{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -910,3 +910,29 @@ body[data-area="control"]{--pri:#13305c;--pri2:#0c2246;--tint:rgba(201,154,46,.1
 .smp .fl>span .ico{width:17px;height:17px;color:var(--gold)}
 @media (max-width:700px){.smp{grid-template-columns:1fr}.smp .or{padding:0;text-align:center}}
 @media (max-width:700px){.hart{width:100%;opacity:.16;-webkit-mask-image:none;mask-image:none}.hero{padding:24px 18px}.spcs .spc:last-child:nth-child(odd){grid-column:1/-1}.spcs .spc:last-child:nth-child(odd) .spi{aspect-ratio:3.2/1}}
+
+/* ---------- responsive sizing pass (owner, 18 Nov 2026: "adjust the boxes so they fit better on PC, tablet and phone") ---------- */
+/* card rows that do not divide evenly centre their last row instead of leaving a hole */
+.spcs{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+.spcs>.spc{flex:0 1 calc((100% - 4 * 14px) / 5);min-width:0}
+@media (max-width:1279px){.spcs>.spc{flex-basis:calc((100% - 2 * 14px) / 3)}}
+@media (max-width:760px){.spcs{gap:10px}.spcs>.spc{flex-basis:calc((100% - 10px) / 2)}.spcs .spc:last-child:nth-child(odd){grid-column:auto}}
+@media (max-width:700px){.spcs .spc:last-child:nth-child(odd) .spi{aspect-ratio:2.1/1}}
+/* top bar: never wider than the screen */
+.tin{min-width:0}.tsearch{flex:1 1 160px;min-width:0}
+@media (min-width:1024px) and (max-width:1279px){#top .me span{display:none}#top .me{padding:3px}.brand small{display:none}}
+@media (max-width:1023px){.brand small{max-width:44vw;overflow:hidden;text-overflow:ellipsis}}
+/* five feature boxes: 5 in a row on wide screens, 3 + 2 on tablets and laptops, 2 + 2 + 1 on phones */
+@media (min-width:761px) and (max-width:1279px){.feats{grid-template-columns:repeat(6,minmax(0,1fr))}.feat{grid-column:span 2;border-top:0}.feat:nth-child(n+4){grid-column:span 3;border-top:1px solid var(--bd)}.feat:nth-child(4){border-inline-start:0}}
+@media (max-width:1100px){.steps4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:761px) and (max-width:1279px){.feats .feat:first-child{grid-column:span 2}.feats .feat+.feat{border-inline-start:1px solid var(--bd)}.feats .feat:nth-child(4){border-inline-start:0}}
+/* course page on tablets and phones: a shorter cover, and the price / enrol box right after the header */
+@media (max-width:800px){.chimg{width:100%;max-height:220px;aspect-ratio:auto;height:min(220px,42vw)}}
+@media (max-width:1179px){.cols:has(.box.buy)>.aside{order:-1}.cols:has(.box.buy){gap:14px}.box.buy{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-auto-flow:row dense;gap:4px 18px;align-items:start}.box.buy>*{grid-column:1}.box.buy>h3,.box.buy>h3~*{grid-column:2}}
+@media (max-width:640px){.box.buy{display:block}}
+.chero{background:linear-gradient(100deg,var(--deep2) 20%,color-mix(in srgb,var(--cc) 55%,transparent)),var(--ci,none) center/cover,var(--deep)}
+.qa{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:520px){.qa{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:1279px){.cgrid>.box:has(.mtable,.table,.rtable,table){grid-column:1/-1}}
+.tools{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
+@media (min-width:761px){.specbar{flex-wrap:wrap;overflow:visible}}

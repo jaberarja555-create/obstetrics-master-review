@@ -512,7 +512,7 @@
   IS.page('account', async function (tab) {
     var m = me(), s = await myStats(), apps = await DB.q('lecturer_apps', { eq: { user_id: m.id }, order: ['created_at', false] }), ap = apps[0];
     tab = tab || 'profile';
-    var h = IS.banner('<span>' + esc(A('صفحتي الشخصية', 'My profile')) + '</span> <small lang="en">My Profile</small>', '', 'user');
+    var h = IS.banner(IS.T('صفحتي الشخصية', 'My profile'), '', 'user');
     h += '<section class="prof"><label class="pav">' + IS.av(m, 'xl') + '<span class="cam">' + ic('image') + '</span><input type="file" accept="image/*" id="myPhoto" hidden></label><div class="pt"><h1 tabindex="-1">' + esc(m.name) + '</h1><p>' + esc([m.university, m.year].filter(Boolean).join(' – ') || A('طالب طب', 'Medical student')) + '</p>' +
       (m.city ? '<p class="mut">' + ic('pin') + esc(m.city) + '</p>' : '') + '<button class="btn ghost sm" data-act="editme">' + ic('pen') + esc(A('تعديل الملف', 'Edit profile')) + '</button></div>' +
       '<div class="pstats">' + [['layers', s.courses, A('كورس مسجل', 'courses')], ['chart', s.avg + '%', A('معدل التقدّم', 'average progress')], ['cert', s.done.length, A('شهادات', 'certificates')], ['star', s.points, A('نقطة تعلّم', 'points')]].map(function (r) { return '<span>' + ic(r[0]) + '<b>' + N(r[1]) + '</b><small>' + esc(r[2]) + '</small></span>'; }).join('') + '</div></section>';

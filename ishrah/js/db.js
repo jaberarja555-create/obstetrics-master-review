@@ -29,7 +29,7 @@
       ['radiology', 'clinical', 'الأشعة', 'Radiology', 's_xray'], ['ent', 'clinical', 'الأنف والأذن والحنجرة', 'ENT', 's_ear'], ['anaesthesia', 'clinical', 'التخدير', 'Anaesthesia', 's_mask'],
       ['ophthalmology', 'clinical', 'طب وجراحة العيون', 'Ophthalmology', 'eye'], ['dermatology', 'clinical', 'الأمراض الجلدية', 'Dermatology', 's_skin'],
       ['smc', 'house', 'الامتحانات المحلية', 'Local exam', 'sudan'], ['ho-intern', 'house', 'امتحان الامتياز', 'Internship exam', 'exam'],
-      ['usmle', 'special', 'USMLE', 'USMLE', 'world'], ['plab', 'special', 'PLAB', 'PLAB', 'world'], ['mrcp', 'special', 'MRCP / MRCS', 'MRCP / MRCS', 'world'],
+      ['usmle', 'special', 'امتحان الترخيص الأمريكي', 'USMLE', 'world'], ['plab', 'special', 'امتحان الترخيص البريطاني', 'PLAB', 'world'], ['mrcp', 'special', 'عضوية الكلية الملكية للأطباء', 'MRCP', 'world'], ['mrcs', 'special', 'عضوية الكلية الملكية للجراحين', 'MRCS', 'world'], ['mrcog', 'special', 'عضوية الكلية الملكية لأطباء النساء والتوليد', 'MRCOG', 'world'], ['mrcpch', 'special', 'عضوية الكلية الملكية لطب الأطفال', 'MRCPCH', 'world'], ['ifom', 'special', 'امتحان IFOM الدولي', 'IFOM', 'world'], ['canada', 'special', 'امتحانات كندا (MCCQE)', 'Canada exams (MCCQE)', 'world'], ['australia', 'special', 'امتحانات أستراليا (AMC)', 'Australia exams (AMC)', 'world'], ['oet', 'special', 'اختبار اللغة الإنجليزية المهني', 'OET', 'world'], ['ielts', 'special', 'اختبار اللغة الإنجليزية', 'IELTS', 'world'],
       ['ho-skills', 'house', 'العمل السريري', 'Clinical work', 'clinic']
     ].map(function (r, i) { return { id: r[0], cat: r[1], ar: r[2], en: r[3], icon: r[4], sort: i, spec: 'medicine' }; }).concat([
       ['haematology', 'clinical', 'lab', 'أمراض الدم', 'Haematology', 's_blood'], ['clin-chem', 'basics', 'lab', 'الكيمياء السريرية', 'Clinical Chemistry', 'flask'], ['med-micro', 'basics', 'lab', 'الأحياء الدقيقة الطبية', 'Medical Microbiology', 's_micro'],
@@ -57,14 +57,16 @@
   var Local = (function () {
     var K = 'ish-db', DB;
     function load() { try { DB = JSON.parse(localStorage.getItem(K) || 'null'); } catch (e) { DB = null; }
-      if (!DB) { DB = { _v: 4 }; Object.keys(SEED).forEach(function (t) { DB[t] = SEED[t].map(function (r) { return Object.assign({}, r); }); }); save(); return; }
+      if (!DB) { DB = { _v: 5 }; Object.keys(SEED).forEach(function (t) { DB[t] = SEED[t].map(function (r) { return Object.assign({}, r); }); }); save(); return; }
       /* an older preview store: add the specialities and their subjects (Nov 2026) */
+      if ((DB._v || 1) < 5) { /* international exams (owner, 18 Nov 2026) */ var hv = {}; (DB.subjects || []).forEach(function (x) { hv[x.id] = x; });
+        SEED.subjects.filter(function (x) { return x.cat === 'special'; }).forEach(function (x) { if (hv[x.id]) Object.assign(hv[x.id], { ar: x.ar, en: x.en, sort: x.sort }); else DB.subjects.push(Object.assign({}, x)); }); }
       if ((DB._v || 1) < 4) { /* sections (owner, 18 Nov 2026): Basics, Clinical, International Exams, House Officer */
         DB.categories = SEED.categories.map(function (r) { return Object.assign({}, r); }); DB.subjects = (DB.subjects || []).filter(function (x) { return x.id !== 'finals'; });
         DB.subjects.forEach(function (x) { var n = SEED.subjects.filter(function (y) { return y.id === x.id; })[0]; if (n && (x.id === 'smc' || x.id === 'ho-skills')) Object.assign(x, n); });
         (DB.courses || []).forEach(function (c) { if (c.cat === 'local') c.cat = 'house'; }); DB._v = 3.5; }
       if ((DB._v || 1) < 4) { if (!DB.specialties) DB.specialties = SEED.specialties.map(function (r) { return Object.assign({}, r); }); var have = {}; (DB.subjects || []).forEach(function (x) { have[x.id] = 1; if (!x.spec) x.spec = 'medicine'; });
-        SEED.subjects.forEach(function (x) { if (!have[x.id]) DB.subjects.push(Object.assign({}, x)); }); (DB.courses || []).forEach(function (c) { if (!c.spec) c.spec = 'medicine'; }); DB._v = 4; save(); } }
+        SEED.subjects.forEach(function (x) { if (!have[x.id]) DB.subjects.push(Object.assign({}, x)); }); (DB.courses || []).forEach(function (c) { if (!c.spec) c.spec = 'medicine'; }); DB._v = 5; save(); } else if (DB._v < 5) { DB._v = 5; save(); } }
     function save() { try { localStorage.setItem(K, JSON.stringify(DB)); } catch (e) { alert('مساحة المعاينة على هذا الجهاز امتلأت.'); } }
     load();
     function tb(t) { return DB[t] || (DB[t] = []); }

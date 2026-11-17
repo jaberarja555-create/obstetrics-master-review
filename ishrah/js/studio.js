@@ -4,7 +4,7 @@
   'use strict';
   var A = IS.A, esc = IS.esc, ic = IS.ic, N = IS.N, $ = IS.$;
   function L() { return IS.LEC; }
-  var COLORS = ['#0f7a73', '#1768b3', '#284b7d', '#6c55c4', '#b4235f', '#c2410c', '#a16207', '#2a8a57', '#334155'];
+  var COLORS = ['#13305c', '#b88a2b', '#1768b3', '#0f7a73', '#284b7d', '#6c55c4', '#b4235f', '#c2410c', '#a16207', '#2a8a57', '#334155'];
   var LEVELS = [['', '—'], ['مبتدئ', 'Beginner'], ['متوسط', 'Intermediate'], ['متقدم', 'Advanced'], ['مراجعة للامتحان', 'Exam review']];
   function sel(name, opts, v) { return '<select name="' + name + '">' + opts.map(function (o) { return '<option value="' + esc(o[0]) + '"' + (String(v || '') === String(o[0]) ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>'; }
   function swatches(name, v) { return '<div class="sw" role="radiogroup">' + COLORS.map(function (c) { return '<label style="--c:' + c + '"><input type="radio" name="' + name + '" value="' + c + '"' + ((v || COLORS[0]) === c ? ' checked' : '') + '><span></span></label>'; }).join('') + '</div>'; }

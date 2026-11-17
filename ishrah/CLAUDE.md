@@ -74,3 +74,6 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - Lecturer teaching sample: upload a file (≤ 50 MB, `sample_file`) or a link.
 - Home: hero, specialities, feature strip, sections, featured courses (or "first courses on their way"), How it works, events, teach card.
   Control dashboard: "Getting the platform ready" checklist for owner/GM.
+- International Exams subjects: USMLE, PLAB, MRCP, MRCS, MRCOG, MRCPCH, IFOM, Canada exams (MCCQE), Australia exams (AMC), OET, IELTS.
+- Responsive pass (18 Nov 2026): `node tools/ishrah/fit.js` (app served on :8820) visits every page at 390/768/1024/1440 and lists anything wider
+  than the screen; uneven card rows centre their last row; on tablets the course price box comes right after the header.
