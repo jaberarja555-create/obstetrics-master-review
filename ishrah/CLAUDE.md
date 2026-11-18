@@ -288,3 +288,9 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   `ISH_CONFIG.bunnyLibrary` is empty the upload box is replaced by a "coming soon" note. Tips shown: Unlisted not Private, age-restricted
   medical videos do not embed, Drive only for small groups; paid lessons (price > 0, not a free preview) get a warning that links can be shared.
   When Bunny is set up, uploading a file replaces the link lesson by lesson.
+- **Lecturer guide (owner, 18 Nov 2026: "the guide … and guidance about the type of video and lectures and our terms for acceptance, quality,
+  noise"):** page `#studio-guide` (js/guide.js, open to everyone): publishing in 6 steps, video standards (picture, sound, slides, length),
+  content standards, acceptance terms (what the review checks + not allowed + returned with notes), after publishing. Linked from the studio
+  menu, the dashboard quick actions, the apply page and the lesson editor. "Send for review" now needs the tick «I confirm the course meets the
+  standards… my own work… identifies no patient» (`#gdok`). Wording of the terms is mine; the owner may change it.
+

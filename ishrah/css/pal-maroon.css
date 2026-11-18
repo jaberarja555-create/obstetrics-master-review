@@ -1999,3 +1999,22 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 .vtips{margin:10px 0 0;padding-inline-start:18px;font-size:12.5px;line-height:1.6;color:var(--sub)}
 .vtips li{margin:3px 0}.vtips b{color:var(--tx)}
 .vlink .note{margin-top:10px}
+/* lecturer guide */
+.gdnav{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}.gdnav::-webkit-scrollbar{display:none}
+.gdnav a{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:999px;background:var(--sf);border:1px solid var(--bd2);font-weight:700;font-size:13.5px;color:var(--tx);text-decoration:none}
+.gdsteps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.gdsteps li{display:flex;gap:12px;padding:12px;border:1px solid var(--bd2);border-radius:14px;background:var(--sf)}
+.gdsteps i{flex:0 0 34px;height:34px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:800;background:linear-gradient(135deg,#e7c66a,#b88a2b);color:#1b1404}
+.gdsteps b{display:block;margin-bottom:3px}.gdsteps p{margin:0;font-size:13.5px;line-height:1.65;color:var(--sub)}
+.gdcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin:10px 0}
+.gdc{padding:14px;border-radius:14px;background:var(--tint2);border:1px solid var(--bd2)}
+.gdc>.ico{width:26px;height:26px;color:var(--pri)}.gdc>b{display:block;margin:6px 0 4px;font-size:15px}
+.gdc ul{margin:0;padding-inline-start:18px;font-size:13.5px;line-height:1.65}.gdc li{margin:3px 0}
+.gdlist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.gdlist li{padding:12px 14px;border-radius:14px;border:1px solid var(--bd2);border-inline-start:4px solid var(--pri)}
+.gdlist b{display:block;margin-bottom:3px}.gdlist span{font-size:13.5px;line-height:1.65;color:var(--sub)}
+.gdchk{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px 14px}
+.gdchk li{display:flex;gap:8px;align-items:flex-start;font-size:14px;line-height:1.6;padding:5px 0}
+.gdchk .ico{flex:0 0 20px;width:20px;height:20px;color:#1f9d55;margin-top:2px}.gdchk.no .ico{color:#c0392b}
+#gd-accept h3{display:flex;align-items:center;gap:6px;margin:16px 0 6px;font-size:15px}
+.gdok{margin:4px 0 10px}
