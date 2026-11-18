@@ -271,4 +271,13 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   derek / zainab .ns.cloudflare.com (waiting for Cloudflare "active"); DNSSEC off. Supabase project (Ireland): URL
   https://fglawgpusfbgkokpnoej.supabase.co, publishable key sb_publishable_kEhLRQjZuYzKNFyyMGKhPA_QGuC3q25 (public). **Do not put them in
   js/config.js until the database files are applied** (the app switches to live mode as soon as config.js has them). Functions accept the new
-  sb_secret_ server key (apikey header only). Next: ISHRAH_DB_URL secret + run the Ishrah workflow with "apply database".
+  sb_secret_ server key (apikey header only).
+- **LIVE (18 Nov 2026):** https://ishrahli.org and www (Cloudflare Pages custom domains on project ishrah) run on the real database.
+  Done: ISHRAH_DB_URL secret, database applied (workflow trims spaces/quotes around the secret), config.js filled, Supabase custom SMTP
+  (smtp.hostinger.com 465, no-reply@ishrahli.org), Magic Link + Confirm signup templates with {{ .Token }}, OTP length 6, "Confirm email" ON,
+  Site URL https://ishrahli.org + redirects (ishrahli.org, www, ishrah.pages.dev, *.ishrah.pages.dev), Cloudflare Pages vars SUPABASE_URL /
+  SUPABASE_ANON_KEY / SUPABASE_SERVICE_KEY (secret), Google OAuth (Google Cloud project "Ishrah Li", client 989457790089-fus9tth5n26bcpkhansb0539glvfummi,
+  in production, no logo so no verification). The owner registered first by email (Owner) and turned on 2FA; a Google sign-up works (student).
+  Fixes found live: ish_new_user no longer refuses accounts with a password (Supabase gives OTP sign-ups a random one: "Database error saving
+  new user"); #security is exempt from the speciality gate and keeps the area. Still to confirm: HTTP/3 off for ishrahli.org, email rate limit 100/h.
+  Videos: Bunny not set up yet (owner: later).
