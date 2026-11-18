@@ -3,6 +3,26 @@
 Copy each prompt into your picture app. Each gives one picture with 4 photos (2 × 2). Send me the pictures in any order;
 I cut them, name them `img/sub_<id>.webp` and place them on the subject cards. Positions are listed after each prompt.
 
+## STILL NEEDED (18 Nov 2026): 8 subjects, 2 pictures
+These 8 subject cards still show a plain icon. Make these two pictures and send them; I cut each into its 4 subject cards.
+
+### A. Laboratory and Dentistry
+```
+A square image divided into a 2×2 grid of four separate realistic photographs with thin white gaps between them. Same style in all four: professional medical-education photography, soft natural light, calm navy-blue and warm gold colour tones, shallow depth of field, clean modern setting, landscape framing (about 16:10) inside each panel. No text, no letters, no labels, no logos, no watermarks anywhere. Adults shown are African or Arab health professionals or students; faces may be out of frame. Top-left: a laboratory scientist placing a stained blood-smear slide under a microscope, slide box beside it. Top-right: a dental student studying a large anatomical model of the teeth and jaw with a magnifying lens. Bottom-left: a dental technician finishing a set of dentures on a plaster model. Bottom-right: a close-up of a smile with orthodontic braces and an orthodontist's instruments on a tray.
+```
+Top-left = Parasitology (`parasitology`) · Top-right = Oral Anatomy & Histology (`oral-anat`) · Bottom-left = Prosthodontics (`prostho`) · Bottom-right = Orthodontics (`ortho`)
+
+### B. Dentistry and Pharmacy
+```
+A square image divided into a 2×2 grid of four separate realistic photographs with thin white gaps between them. Same style in all four: professional medical-education photography, soft natural light, calm navy-blue and warm gold colour tones, shallow depth of field, clean modern setting, landscape framing (about 16:10) inside each panel. No text, no letters, no labels, no logos, no watermarks anywhere. Adults shown are African or Arab health professionals or students; faces may be out of frame. Top-left: a maxillofacial surgeon studying a panoramic jaw X-ray on a light screen before surgery. Top-right: a dentist measuring the gums with a periodontal probe, patient in the dental chair. Bottom-left: a chemist working with glassware under a fume hood in a pharmaceutical laboratory. Bottom-right: medicinal plants, dried herbs, seeds and small extract bottles arranged on a wooden table.
+```
+Top-left = Oral & Maxillofacial Surgery (`omfs`) · Top-right = Periodontics (`perio`) · Bottom-left = Pharmaceutical Chemistry (`pharm-chem`) · Bottom-right = Pharmacognosy (`pharmacognosy`)
+
+Cutting (Claude): `python3 tools/ishrah/cut.py <picture A> parasitology oral-anat prostho ortho` and
+`python3 tools/ishrah/cut.py <picture B> omfs perio pharm-chem pharmacognosy`.
+
+---
+
 ## 1. Medicine · Basic sciences 1
 ```
 A square image divided into a 2×2 grid of four separate realistic photographs with thin white gaps between them. Same style in all four: professional medical-education photography, soft natural light, calm navy-blue and warm gold colour tones, shallow depth of field, clean modern setting, landscape framing (about 16:10) inside each panel. No text, no letters, no labels, no logos, no watermarks anywhere. Adults shown are African or Arab health professionals or students; faces may be out of frame. Top-left: a medical student studying a detailed anatomical model of the human torso in a lab. Top-right: an ECG monitor trace and a stethoscope on a desk with lung-function charts, physiology lab. Bottom-left: coloured test tubes and a pipette over a laboratory bench with molecular model. Bottom-right: a pathologist looking through a microscope beside stained glass slides.
