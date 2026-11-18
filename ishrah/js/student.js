@@ -117,7 +117,7 @@
   /* ========== START PAGE: sign in and choose a speciality (owner, 18 Nov 2026) ========== */
   IS.page('pick', async function () {
     var m = me(), cur = IS.SPEC;
-    var h = '<div class="pick"><header class="pkh"><img src="' + IS.logo('hero') + '" alt="" class="pkl"><div><h1 tabindex="-1"><span class="gtx">اشرح لي</span></h1><p>' + esc(A('منصة تعليمية متكاملة لطلاب الكليات الصحية', 'A complete learning platform for health sciences students')) + '</p></div>' +
+    var h = '<div class="pick"><header class="pkh"><img src="' + IS.logo() + '" alt="" class="pkl"><div><h1 tabindex="-1"><span class="gtx">اشرح لي</span></h1><p>' + esc(A('منصة تعليمية متكاملة لطلاب الكليات الصحية', 'A complete learning platform for health sciences students')) + '</p></div>' +
       (m ? '<div class="pkme">' + IS.av(m, 'sm') + '<span>' + esc(A('مرحبًا د. ', 'Welcome, Dr. ')) + '<bdi>' + esc(String(m.name || '').replace(/^\s*(د\.|دكتور|Dr\.?)\s*/i, '').split(' ')[0]) + '</bdi></span></div>' :
         '<div class="pkin"><button class="btn gold" data-act="login">' + ic('user') + esc(A('تسجيل الدخول', 'Sign in')) + '</button><button class="btn lt" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div>') + '</header>' +
       '<section class="pkb"><h2>' + IS.T('اختر تخصصك', 'Choose your speciality') + '</h2><p class="mut">' + esc(A('ستجد بعدها كل ما يخص تخصصك فقط: المواد والكورسات والمحاضرين والمكتبة والمجتمع. يمكنك تغييره لاحقًا من الإعدادات.', 'You will then see only what belongs to your speciality: subjects, courses, lecturers, library and community. You can change it later in Settings.')) + '</p>' +

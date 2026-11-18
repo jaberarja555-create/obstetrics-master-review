@@ -1781,3 +1781,166 @@ body.isoff main{padding-top:58px!important}
 /* Lecturers list: cards of one size, centred (a few lecturers no longer sit on one side with an empty row) */
 body[data-page="lecturers"] .grid.g4{grid-template-columns:repeat(auto-fit,minmax(220px,260px));justify-content:center}
 @media (max-width:560px){body[data-page="lecturers"] .grid.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* lecturers speciality bar: count of lecturers on each button */
+.spb2 .spc0{font-style:normal;font-size:11.5px;font-weight:800;min-width:22px;height:22px;padding:0 6px;border-radius:999px;display:inline-grid;place-items:center;background:var(--tint);color:var(--pri)}
+.spb2.on .spc0{background:rgba(255,255,255,.2);color:#fff}
+
+/* ---------- start page and speciality space (owner, 18 Nov 2026) ---------- */
+body[data-page="pick"] #side,body[data-page="pick"] #tabs,body[data-page="pick"] #top{display:none!important}
+body[data-page="pick"] main{margin:0 auto!important;max-width:1240px;padding:22px 18px 40px}
+body[data-page="pick"]{background:radial-gradient(120% 80% at 50% 0,#75152d 0,#561021 38%,var(--bg) 38.1%)}
+.pick{display:flex;flex-direction:column;gap:22px;min-height:calc(100vh - 62px)}
+.pkh{display:flex;align-items:center;gap:16px;flex-wrap:wrap;color:#fff;padding:6px 4px}
+.pkl{width:96px;height:auto;border-radius:18px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35))}
+.pkh h1{font-size:clamp(34px,5vw,52px);line-height:1}.pkh p{color:#f8d2dc;font-size:15px;margin-top:4px}
+.pkh>div:first-of-type{flex:1;min-width:200px}
+.pkin{display:flex;gap:8px;flex-wrap:wrap}.pkme{display:flex;align-items:center;gap:8px;font-weight:800;background:rgba(255,255,255,.12);padding:6px 14px 6px 6px;border-radius:999px}
+.pkb{background:var(--sf);border:1px solid var(--bd);border-radius:26px;box-shadow:var(--lift);padding:26px 24px 28px;text-align:center}
+.pkb h2{display:flex;justify-content:center;font-size:28px}.pkb h2 .tt{align-items:center}
+.pkb>.mut{max-width:620px;margin:8px auto 22px;font-size:14px}
+.pks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+@media (max-width:1100px){.pks{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.pks{grid-template-columns:1fr 1fr;gap:10px}.pks .pk:last-child:nth-child(odd){grid-column:1/-1}}
+.pk{position:relative;display:flex;flex-direction:column;padding:0;border-radius:22px;border:2px solid var(--bd);background:var(--sf);overflow:hidden;cursor:pointer;color:var(--tx);text-align:center;transition:transform .15s,box-shadow .15s,border-color .15s}
+.pk:hover,.pk:focus-visible{transform:translateY(-4px);box-shadow:var(--lift);border-color:var(--sky,#ee2f7c)}
+.pk.on{border-color:var(--sky,#ee2f7c);box-shadow:0 0 0 4px var(--tint)}
+.pki{display:block;aspect-ratio:4/3;background:var(--sf2)}.pki img{width:100%;height:100%;object-fit:cover}
+.pkt{display:flex;flex-direction:column;align-items:center;gap:2px;padding:0 10px 16px}
+.pkt i{width:54px;height:54px;margin-top:-28px;border-radius:50%;display:grid;place-items:center;background:#75152d;color:#fff;border:3px solid var(--sf);box-shadow:0 6px 14px rgba(86,16,33,.3)}
+.pkt i .ico{width:26px;height:26px}
+.pkt b{font-family:var(--en);font-size:18px;margin-top:6px}.pkt small{font-size:13px;color:var(--sub);font-weight:700}.pkt em{font-style:normal;font-size:12px;color:var(--sky,#ee2f7c);font-weight:800;margin-top:4px}
+.pkc{position:absolute;top:10px;inset-inline-start:10px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#ee2f7c;color:#fff}
+.pkx{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}.pkf{text-align:center;color:var(--sub);font-size:13px;margin-top:auto}.pkf a,.pkf .link{color:var(--sub)}
+/* the chosen speciality at the top of the side menu and in Settings */
+.myspec{position:relative;display:flex;align-items:center;gap:10px;margin:0 0 12px;padding:12px;border-radius:16px;overflow:hidden;color:#fff;background:linear-gradient(90deg,rgba(57,10,20,.92),rgba(57,10,20,.55)),var(--sp,none) center/cover,#75152d;border:1px solid rgba(241,77,152,.4)}
+.myspec .msi{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.14)}
+.myspec .msn{flex:1;display:flex;flex-direction:column;line-height:1.2;min-width:0}.myspec b{font-family:var(--en);font-size:15.5px}.myspec small{font-size:11.5px;opacity:.8}
+.myspec em{font-style:normal;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.18)}
+.myspec.big{padding:18px;margin-bottom:8px}.myspec.big b{font-size:19px}
+@media (max-width:1023px){#side .myspec{display:none}}
+/* Home now continues with the speciality's own space: the welcome block no longer stretches to the screen height */
+.lh{min-height:0!important;grid-template-rows:auto auto!important;margin-bottom:20px}
+.lhq a{min-height:0}
+/* side menu: speciality box never squeezed */
+#side .myspec{flex:none;min-height:64px}
+#side>*{flex-shrink:0}
+/* start page: centred on tall screens; on phones the fifth card keeps the size of the others */
+.pick{justify-content:center}
+@media (max-width:640px){.pks .pk:last-child:nth-child(odd){grid-column:1/-1;justify-self:center;width:calc(50% - 5px)}}
+/* start page on phones (owner, 18 Nov 2026: "looks bad on the phone"): compact header, the five specialities as slim rows that fit one screen */
+@media (max-width:640px){
+  body[data-page="pick"]{background:linear-gradient(180deg,#561021 0,#75152d 210px,var(--bg) 210px)}
+  body[data-page="pick"] main{padding:14px 12px 20px}
+  .pick{gap:14px;min-height:0;justify-content:flex-start}
+  .pkh{display:grid;grid-template-columns:64px minmax(0,1fr);gap:4px 12px;align-items:center;padding:0}
+  .pkl{width:64px;border-radius:14px;grid-row:span 2}
+  .pkh h1{font-size:32px}.pkh p{font-size:12.5px;margin-top:2px;line-height:1.5}
+  .pkin,.pkme{grid-column:1/-1;margin-top:8px}
+  .pkin{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pkin .btn{min-height:42px;width:100%}
+  .pkb{padding:16px 12px 14px;border-radius:20px}
+  .pkb h2{font-size:21px}.pkb>.mut{font-size:12.5px;margin:4px auto 12px;line-height:1.6}
+  .pks{grid-template-columns:1fr!important;gap:8px}
+  .pks .pk:last-child:nth-child(odd){grid-column:auto;justify-self:stretch;width:auto}
+  .pk{flex-direction:row;align-items:center;border-radius:16px;border-width:1.5px;text-align:start;min-height:76px}
+  .pk:hover{transform:none}
+  .pki{flex:0 0 92px;width:92px;height:76px;aspect-ratio:auto;align-self:stretch}
+  .pkt{flex:1;flex-direction:row;flex-wrap:wrap;align-items:center;gap:0 10px;padding:8px 12px;min-width:0}
+  .pkt i{width:38px;height:38px;margin:0;border-width:0;box-shadow:none;grid-row:span 2}.pkt i .ico{width:20px;height:20px}
+  .pkt b{margin:0;font-size:16.5px;flex:1;min-width:0}
+  .pkt small{order:3;flex-basis:100%;padding-inline-start:48px;font-size:12px}
+  .pkt em{order:2;margin:0;font-size:11.5px;padding:2px 8px;border-radius:999px;background:var(--tint)}
+  .pk::after{content:"‹";font-size:26px;line-height:1;color:var(--sub);padding-inline-end:12px}
+  [dir="ltr"] .pk::after{content:"›"}
+  .pkc{top:6px;inset-inline-start:6px;width:24px;height:24px}
+  .pkf{margin-top:4px}
+}
+@media (max-width:640px){.pkt b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15.5px}.pkt em{flex:none}}
+/* speciality chip in the phone top bar (tap to change speciality) */
+.tspec{display:none}
+@media (max-width:1023px){.tspec{display:inline-flex;align-items:center;gap:4px;max-width:132px;padding:5px 8px;border-radius:999px;background:rgba(241,77,152,.18);border:1px solid rgba(241,77,152,.45);color:#fff;font-size:12px;font-weight:800;margin-inline-start:auto}
+  .tspec span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tspec .ico{width:15px;height:15px;flex:none}}
+@media (max-width:330px){.tspec span{display:none}}
+#sheet .myspec{margin-bottom:12px}
+/* start page rows on phones, second pass (owner: names were cut, text covered): photo · name on its own line · Arabic name and subjects under it */
+@media (max-width:640px){
+  .pk{min-height:84px;padding:0;gap:0}
+  .pk::after{content:none}
+  .pki{flex:0 0 96px;width:96px;height:auto;min-height:84px}
+  .pkt{display:grid!important;grid-template-columns:minmax(0,1fr);row-gap:3px;padding:10px 14px;align-content:center}
+  .pkt i{display:none}
+  .pkt b{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;font-size:17px;line-height:1.2;order:0}
+  .pkt small{order:1;padding:0!important;flex-basis:auto;font-size:13px;line-height:1.35}
+  .pkt em{order:2;justify-self:start;margin:2px 0 0;font-size:11.5px;padding:2px 10px}
+  .pkc{top:8px;inset-inline-start:auto;inset-inline-end:8px}
+}
+/* the preview label never covers the start page */
+body[data-page="pick"].preview::after{top:8px;bottom:auto;inset-inline-start:8px;font-size:10px;padding:2px 8px;opacity:.85}
+body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8px}
+/* phone top bar fits every width (owner, 18 Nov 2026: page shifted sideways after choosing a speciality) */
+#top .tin{min-width:0;overflow:hidden}
+@media (max-width:520px){
+  #top .tin{gap:6px;padding:0 10px}
+  .brand{min-width:0;flex-shrink:1}.brand img{width:34px;height:30px}.brand b{font-size:19px}
+  #top .tbtn{gap:2px;flex-shrink:0}#top .tbtn .ib{width:36px;height:36px}
+  #top .tbtn .btn.sm{padding:0 10px;min-height:34px;font-size:12.5px}
+  .tspec{max-width:118px;flex-shrink:1;min-width:0}
+}
+@media (max-width:400px){.brand span{display:none}.tspec{margin-inline-start:4px}}
+@media (max-width:340px){.tspec span{display:none}.tspec{padding:6px}}
+@media (min-width:341px) and (max-width:520px){.tspec{flex-shrink:0}}
+.tspec span{direction:ltr}
+@media (max-width:520px){.tspec{max-width:136px}}
+
+/* request types: six buttons in even rows (research writing added) */
+.rkinds{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+@media (max-width:1100px){.rkinds{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+.rk.k-research{--kc:#75152d}
+.rsx{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:12px;border-radius:14px;background:var(--tint2);border:1px dashed rgba(238,47,124,.4)}
+.rsx[hidden]{display:none}
+@media (max-width:640px){.rsx{grid-template-columns:1fr}}
+.rsx{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))!important}
+
+/* research request: what is needed, which analysis */
+.rfs{grid-column:1/-1;margin:0;padding:10px 12px 12px;border:1px solid var(--bd2);border-radius:12px;background:var(--sf)}
+.rfs legend{font-weight:800;font-size:13.5px;padding:0 6px}
+.rchk{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:2px 10px}
+.rchk .opt{padding:6px 4px;font-size:13px;align-items:flex-start}.rchk .opt span{line-height:1.45}
+.rsub{font-weight:800;font-size:13px;margin:10px 0 2px}
+.rfs .pko{margin-top:8px;width:100%}
+#ranal{border-color:rgba(238,47,124,.45);background:var(--tint2)}
+.rgrid:has(#rsx:not([hidden])){grid-template-columns:minmax(0,1fr)!important}
+.rgrid:has(#rsx:not([hidden]))>.box:not(.newreq){order:2}
+.rchk:has([name=rchap]){grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.rchk .opt span{display:flex;flex-direction:column;gap:1px}.rchk .opt b{font-weight:700;font-size:13px}.rchk .opt small{font-size:11.5px;color:var(--sub)}
+.newreq .fl>span b,.rfs legend b{font-weight:800}.newreq .fl>span small,.rfs legend small{font-weight:600;color:var(--sub);font-size:.85em}
+/* start page on laptops and tablets, redesigned (owner, 18 Nov 2026: "looks ugly on laptop"): a clean header band with the welcome photo,
+   the logo on its own (no dark square), then the speciality cards; follows the chosen app colour */
+@media (min-width:641px){
+  body[data-page="pick"]{background:var(--bg)!important}
+  body[data-page="pick"] main{padding:24px 24px 30px}
+  .pick{gap:18px;min-height:calc(100dvh - 54px);justify-content:center}
+  .pkh{position:relative;overflow:hidden;isolation:isolate;border-radius:26px;padding:26px 32px;min-height:178px;gap:18px 22px;
+    background:linear-gradient(90deg,var(--deep2),var(--deep));border:1px solid rgba(255,255,255,.08);box-shadow:var(--lift)}
+  .pkh::after{content:"";position:absolute;inset-block:0;inset-inline-end:0;width:46%;z-index:-1;background:url(../img/hero_gold.webp) center/cover;
+    -webkit-mask-image:linear-gradient(270deg,transparent 0,#000 45%);mask-image:linear-gradient(270deg,transparent 0,#000 45%);opacity:.95}
+  [dir="ltr"] .pkh::after{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 45%);mask-image:linear-gradient(90deg,transparent 0,#000 45%)}
+  .pkl{width:92px;height:auto;border-radius:0;filter:drop-shadow(0 8px 18px rgba(0,0,0,.35))}
+  .pkh h1{font-size:46px}
+  .pkh p{color:rgba(255,255,255,.82);font-size:15px}
+  .pkh>div:first-of-type{flex:0 1 auto;min-width:0}
+  .pkin,.pkme{margin-inline-start:auto;margin-inline-end:calc(46% - 40px);position:relative}
+  .pkin .btn{min-width:150px}
+  .pkme{color:#fff}
+  .pkb{padding:26px 26px 28px}
+  .pkb h2{font-size:30px}
+  .pks{gap:18px}
+  .pki{aspect-ratio:16/11}
+  .pkx{margin-top:-4px}
+}
+@media (min-width:641px) and (max-width:1100px){.pkin,.pkme{margin-inline-end:0}.pkh::after{width:40%;opacity:.45}}
+
+/* start page header on laptops: sign-in buttons under the name, clear of the photo */
+@media (min-width:641px){.pkin,.pkme{margin-inline-start:0;margin-inline-end:0;flex-basis:100%;justify-content:flex-start}.pkin .btn{flex:0 0 auto}.pkh{align-content:center}}
+/* tablets: five speciality cards as 3 + 2 centred (no hole) */
+@media (min-width:641px) and (max-width:1100px){.pks{display:flex!important;flex-wrap:wrap;justify-content:center}.pks>.pk{flex:0 1 calc((100% - 2 * 18px) / 3)}}

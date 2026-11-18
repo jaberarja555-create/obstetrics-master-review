@@ -1913,3 +1913,33 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 .rchk:has([name=rchap]){grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
 .rchk .opt span{display:flex;flex-direction:column;gap:1px}.rchk .opt b{font-weight:700;font-size:13px}.rchk .opt small{font-size:11.5px;color:var(--sub)}
 .newreq .fl>span b,.rfs legend b{font-weight:800}.newreq .fl>span small,.rfs legend small{font-weight:600;color:var(--sub);font-size:.85em}
+/* start page on laptops and tablets, redesigned (owner, 18 Nov 2026: "looks ugly on laptop"): a clean header band with the welcome photo,
+   the logo on its own (no dark square), then the speciality cards; follows the chosen app colour */
+@media (min-width:641px){
+  body[data-page="pick"]{background:var(--bg)!important}
+  body[data-page="pick"] main{padding:24px 24px 30px}
+  .pick{gap:18px;min-height:calc(100dvh - 54px);justify-content:center}
+  .pkh{position:relative;overflow:hidden;isolation:isolate;border-radius:26px;padding:26px 32px;min-height:178px;gap:18px 22px;
+    background:linear-gradient(90deg,var(--deep2),var(--deep));border:1px solid rgba(255,255,255,.08);box-shadow:var(--lift)}
+  .pkh::after{content:"";position:absolute;inset-block:0;inset-inline-end:0;width:46%;z-index:-1;background:url(../img/hero_gold.webp) center/cover;
+    -webkit-mask-image:linear-gradient(270deg,transparent 0,#000 45%);mask-image:linear-gradient(270deg,transparent 0,#000 45%);opacity:.95}
+  [dir="ltr"] .pkh::after{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 45%);mask-image:linear-gradient(90deg,transparent 0,#000 45%)}
+  .pkl{width:92px;height:auto;border-radius:0;filter:drop-shadow(0 8px 18px rgba(0,0,0,.35))}
+  .pkh h1{font-size:46px}
+  .pkh p{color:rgba(255,255,255,.82);font-size:15px}
+  .pkh>div:first-of-type{flex:0 1 auto;min-width:0}
+  .pkin,.pkme{margin-inline-start:auto;margin-inline-end:calc(46% - 40px);position:relative}
+  .pkin .btn{min-width:150px}
+  .pkme{color:#fff}
+  .pkb{padding:26px 26px 28px}
+  .pkb h2{font-size:30px}
+  .pks{gap:18px}
+  .pki{aspect-ratio:16/11}
+  .pkx{margin-top:-4px}
+}
+@media (min-width:641px) and (max-width:1100px){.pkin,.pkme{margin-inline-end:0}.pkh::after{width:40%;opacity:.45}}
+
+/* start page header on laptops: sign-in buttons under the name, clear of the photo */
+@media (min-width:641px){.pkin,.pkme{margin-inline-start:0;margin-inline-end:0;flex-basis:100%;justify-content:flex-start}.pkin .btn{flex:0 0 auto}.pkh{align-content:center}}
+/* tablets: five speciality cards as 3 + 2 centred (no hole) */
+@media (min-width:641px) and (max-width:1100px){.pks{display:flex!important;flex-wrap:wrap;justify-content:center}.pks>.pk{flex:0 1 calc((100% - 2 * 18px) / 3)}}

@@ -253,3 +253,8 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   references) and «Other services» (proposal, questionnaire, sample size, analysis only, data entry, editing, plagiarism, formatting, defence
   presentation, journal, other); no approvals to order (owner: «be smart»); Chapter 4 or Analysis only opens «Which analysis?» and the program; the form takes the full width while research is chosen; test tools/ishrah/research.js)
   and a Support message type «المساعدة في كتابة بحث» that reaches the academic team.
+- **Colour stylesheets (owner saw old designs on his laptop, 18 Nov 2026):** a chosen app colour loads `css/pal-<colour>.css` INSTEAD of
+  app.css, so every CSS change is invisible in those colours until `python3 tools/ishrah/palettes.py` is run. Run it before every commit
+  that touches css/app.css, and bump `?v=` in index.html.
+- Start page on laptops/tablets: header band (logo, name, sign-in buttons, books photo `hero_band.webp` fading in from the side), then the
+  five cards (one row on laptops, 3 + 2 centred on tablets). `hero_gold.webp` replaced by the clean `hero_band.webp` (it carried a cut word).
