@@ -1,6 +1,6 @@
 /* اشرح لي service worker: the app's own files open from the device and are renewed in the background.
    Database calls, videos and the site's /api functions always go to the internet (never cached here). */
-var C = 'ish-v35';
+var C = 'ish-v36';
 self.addEventListener('install', function () { self.skipWaiting(); });
 self.addEventListener('activate', function (e) { e.waitUntil(caches.keys().then(function (ks) { return Promise.all(ks.filter(function (k) { return /^ish-v/.test(k) && k !== C && k !== 'ish-cdn'; }).map(function (k) { return caches.delete(k); })); }).then(function () { return self.clients.claim(); })); });
 self.addEventListener('fetch', function (e) {

@@ -2017,3 +2017,14 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 .gdchk .ico{flex:0 0 20px;width:20px;height:20px;color:#1f9d55;margin-top:2px}.gdchk.no .ico{color:#c0392b}
 #gd-accept h3{display:flex;align-items:center;gap:6px;margin:16px 0 6px;font-size:15px}
 .gdok{margin:4px 0 10px}
+
+/* test switch for the Android scrolling smear (index.html ?safe=N) */
+:root[data-safe~="bars"] #top{position:relative!important}
+:root[data-safe~="bars"] body{padding-top:0!important}
+:root[data-safe~="bars"] #tabs{position:static!important}
+:root[data-safe~="bars"] #offbar{position:static!important}
+:root[data-safe~="fx"] *,:root[data-safe~="fx"] *::before,:root[data-safe~="fx"] *::after{box-shadow:none!important;text-shadow:none!important;animation:none!important;transition:none!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;mix-blend-mode:normal!important;filter:none!important}
+:root[data-safe~="pics"] .bph,:root[data-safe~="pics"] .ban::after,:root[data-safe~="pics"] .ban::before,:root[data-safe~="pics"] .cban::before,:root[data-safe~="pics"] .lhh::after{display:none!important}
+:root[data-safe~="pics"] .ban{background:var(--deep)!important}
+:root[data-safen]::before{content:"SAFE " attr(data-safen);position:absolute;top:4px;inset-inline-start:50%;z-index:95;background:#c0392b;color:#fff;font:800 11px/1 sans-serif;padding:5px 8px;border-radius:8px;pointer-events:none}

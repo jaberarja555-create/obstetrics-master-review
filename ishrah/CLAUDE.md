@@ -298,4 +298,7 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   settings, terms, pick, studio-guide) and any page still loading after 12 s shows "connection very weak" + Try again. Back online, that page
   reopens by itself. `IS.loadMe` keeps the account signed in offline from `ish-me` even when the session could not be renewed (sign-out clears it).
   Tested with the real supabase-js in Chromium (served locally), going offline mid-use and starting offline.
+- **Android smear test switch (owner, 18 Nov 2026: the friend still sees it after three passes):** `ishrahli.org/?safe=N` (kept on that device in
+  `ish-safe`, head script in index.html sets `html[data-safe]`, red "SAFE N" label at the top): 1 = all off, 2 = top/bottom bars not fixed,
+  3 = no shadows/animations/blur/blend, 4 = no banner pictures; `?safe=0` back to normal. Use the friend's answers to make the real fix.
 
