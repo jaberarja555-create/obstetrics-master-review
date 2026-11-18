@@ -20,7 +20,7 @@
 
   /* ======================= TICKETS (messages to the platform) ======================= */
   var KINDS = IS.TKINDS = [['general', 'استفسار عام', 'General question', 'support', 'help'], ['payment', 'مشكلة في الدفع أو الاشتراك', 'Payment or enrolment problem', 'finance', 'wallet'],
-    ['refund', 'طلب استرداد مبلغ', 'Refund request', 'finance', 'money'], ['course', 'طلب كورس أو مادة', 'Request a course or subject', 'academic', 'layers'],
+    ['refund', 'طلب استرداد مبلغ', 'Refund request', 'finance', 'money'], ['course', 'طلب كورس أو محاضرة', 'Request a course or lecture', 'academic', 'layers'],
     ['lecturer', 'اقتراح محاضر', 'Suggest a lecturer', 'academic', 'users'], ['content', 'ملاحظة على محتوى', 'Comment on content', 'academic', 'file'],
     ['event', 'اقتراح فعالية', 'Suggest an event', 'community', 'cal'], ['tech', 'مشكلة تقنية في التطبيق', 'Technical problem', 'tech', 'gear'],
     ['research', 'المساعدة في كتابة بحث', 'Research writing help', 'academic', 'pen'], ['special', 'طلب خاص', 'Special request', 'support', 'sparkle'], ['complaint', 'شكوى', 'Complaint', 'support', 'flag'], ['password', 'نسيت كلمة المرور', 'Forgot password', 'support', 'lock']];
@@ -28,28 +28,40 @@
   IS.tstatus = function (s) { var m = { open: ['جديدة', 'New', 'warn'], waiting: ['بانتظار ردك', 'Awaiting your reply', 'ok'], answered: ['تم الرد', 'Answered', 'ok'], closed: ['مغلقة', 'Closed', ''] }[s] || [s, s, ''];
     return IS.chip(esc(A(m[0], m[1])), 'st ' + m[2]); };
   /* new ticket form, used by students, lecturers and from the sign-in sheet (forgot password) */
-  IS.newTicket = function (k, extra) {
+  IS.newTicket = async function (k, extra) {
     extra = extra || {}; var signed = !!me();
-    IS.sheet(esc(A('رسالة إلى فريق المنصة', 'Message the platform team')), '<form class="form" data-form="ticket">' +
+    /* a course or lecture request can go to the platform in general (the team chooses the lecturer) or to one lecturer (owner, 18 Nov 2026) */
+    var ls = []; if (signed) { try { ls = (await DB.q('lecturers', { eq: { status: 'active' } })).filter(function (l) { return l.id !== me().id; }); } catch (e) { ls = []; } }
+    var cs0 = []; try { cs0 = await IS.pubCourses(true); } catch (e) {}
+    if (IS.SPEC && IS.lecSpecs) ls.sort(function (a, b) { return (IS.lecSpecs(b, cs0)[IS.SPEC] ? 1 : 0) - (IS.lecSpecs(a, cs0)[IS.SPEC] ? 1 : 0) || String(a.name).localeCompare(String(b.name)); });
+    var toBox = ls.length ? '<label class="fl" data-lecto' + (k === 'course' ? '' : ' hidden') + '><span>' + esc(A('إلى', 'To')) + '</span><select name="lec"><option value="">' + esc(A('عام: فريق المنصة يختار المحاضر المناسب', 'General: the platform team chooses the right lecturer')) + '</option>' +
+      ls.map(function (l) { return '<option value="' + l.id + '"' + (l.id === extra.lecturer ? ' selected' : '') + '>' + esc(l.name + (l.specialty ? ' · ' + l.specialty : '')) + '</option>'; }).join('') + '</select></label>' : '';
+    var toL = extra.lecturer && ls.filter(function (l) { return l.id === extra.lecturer; })[0];
+    IS.sheet(esc(toL ? A('طلب إلى ', 'Request to ') + toL.name : A('رسالة إلى فريق المنصة', 'Message the platform team')), '<form class="form" data-form="ticket">' +
       '<label class="fl"><span>' + esc(A('نوع الرسالة', 'Type')) + '</span><select name="kind">' + KINDS.filter(function (x) { return signed || x[0] === 'password'; }).map(function (x) { return '<option value="' + x[0] + '"' + (x[0] === k ? ' selected' : '') + '>' + esc(A(x[1], x[2])) + '</option>'; }).join('') + '</select></label>' +
       (signed ? '' : '<label class="fl"><span>' + esc(A('اسمك', 'Your name')) + ' *</span><input name="name" required></label><label class="fl"><span>' + esc(A('رقم الهاتف المسجّل', 'Registered phone number')) + ' *</span><input name="phone" required inputmode="tel" dir="ltr"></label>') +
+      toBox +
       '<label class="fl"><span>' + esc(A('الموضوع', 'Subject')) + ' *</span><input name="subject" required maxlength="140" value="' + esc(extra.subject || '') + '"></label>' +
       (extra.course ? '<input type="hidden" name="course" value="' + esc(extra.course) + '">' : '') +
       '<label class="fl"><span>' + esc(A('التفاصيل', 'Details')) + ' *</span><textarea name="body" rows="5" required maxlength="4000"></textarea></label>' +
       '<p class="note">' + ic('shield') + '<span>' + esc(A('تصل رسالتك إلى القسم المختص داخل المنصة، ويصلك الرد في «الدعم والرسائل» وفي الإشعارات.', 'Your message reaches the right department inside the platform; the answer arrives in “Support & messages” and in your notifications.')) + '</span></p>' +
       '<button class="btn pri wide">' + ic('send') + esc(A('إرسال', 'Send')) + '</button></form>');
+    var f = document.querySelector('form[data-form=ticket]'), box = f && f.querySelector('[data-lecto]');
+    if (f && box) f.kind.addEventListener('change', function () { box.hidden = f.kind.value !== 'course'; if (box.hidden) f.lec.value = ''; });
   };
   IS.SUB.ticket = async function (d) {
     var k = kind(d.kind), m = me(), now = new Date().toISOString();
     if (!m && DB.live) { await DB.sb.rpc('ish_reset_request', { p_name: d.name, p_phone: DB.digits(d.phone), p_subject: d.subject, p_body: d.body }).then(function (r) { if (r.error) throw new Error(r.error.message); });
       IS.closeSheet(); IS.toast(A('وصل طلبك. سيتواصل معك فريق الدعم على رقمك.', 'Request received. Support will contact you on your number.')); return; }
-    var t = await DB.ins('tickets', { user_id: m ? m.id : null, name: m ? m.name : d.name, phone: m ? (m.phone || '') : DB.digits(d.phone), kind: k[0], dept: k[3], subject: d.subject, course_id: d.course || null,
-      status: 'open', last_by: 'user', updated_at: now });
+    var lec = d.lec && k[0] === 'course' ? await DB.one('lecturers', d.lec) : null;
+    var t = await DB.ins('tickets', Object.assign({ user_id: m ? m.id : null, name: m ? m.name : d.name, phone: m ? (m.phone || '') : DB.digits(d.phone), kind: k[0], dept: k[3], subject: d.subject, course_id: d.course || null,
+      status: 'open', last_by: 'user', updated_at: now }, lec ? { lecturer_id: lec.id, lecturer_name: lec.name } : {}));
+    if (lec) IS.notify(lec.id, A('طلب جديد من طالب', 'New request from a student'), d.subject, '#lec-ticket/' + t.id);
     await DB.ins('ticket_msgs', { ticket_id: t.id, user_id: m ? m.id : null, name: m ? m.name : d.name, staff: false, body: d.body });
     IS.closeSheet(); IS.toast(m ? A('وصلت رسالتك. سيصلك الرد هنا.', 'Message sent. The answer will come here.') : A('وصل طلبك. سيتواصل معك فريق الدعم على رقمك.', 'Request received. Support will contact you on your number.'));
     if (m) IS.go('ticket/' + t.id);
   };
-  IS.ACT.ticket = function (b) { if (!me() && b.getAttribute('data-k') !== 'password') return IS.ACT.login(); IS.newTicket(b.getAttribute('data-k') || 'general', { subject: b.getAttribute('data-s') || '', course: b.getAttribute('data-c') || '' }); };
+  IS.ACT.ticket = function (b) { if (!me() && b.getAttribute('data-k') !== 'password') return IS.ACT.login(); IS.newTicket(b.getAttribute('data-k') || 'general', { subject: b.getAttribute('data-s') || '', course: b.getAttribute('data-c') || '', lecturer: b.getAttribute('data-l') || '' }); };
   IS.page('support', async function () {
     var ts = await DB.q('tickets', { eq: { user_id: uid() }, order: ['updated_at', false] });
     return IS.banner(IS.T('الدعم والرسائل', 'Support & messages'), esc(A('راسل فريق المنصة مباشرة: استفسار، مشكلة في الدفع، طلب كورس، أو أي ملاحظة.', 'Write to the platform team: a question, a payment problem, a course request or any comment.')) + '<br>' + IS.seen('team'), 'chat', '<button class="btn gold" data-act="ticket">' + ic('plus') + esc(A('رسالة جديدة', 'New message')) + '</button>') +
@@ -58,30 +70,52 @@
         return '<a class="li' + (t.status === 'waiting' ? ' new' : '') + '" href="#ticket/' + t.id + '">' + ic(k[4]) + '<span><b>' + esc(t.subject) + '</b><small>' + esc(A(k[1], k[2])) + ' · ' + esc(deptName(t.dept)) + '</small></span>' + IS.tstatus(t.status === 'waiting' ? 'answered' : t.status) + '<em>' + esc(IS.ago(t.updated_at || t.created_at)) + '</em></a>'; }).join('') + '</div>' :
         IS.empty('chat', A('لا توجد رسائل بعد', 'No messages yet'), A('اختر نوع رسالتك من الأعلى.', 'Choose the type of your message above.'))) + '</section>';
   }, { auth: true });
-  async function thread(id, staff) {
-    var t = await DB.one('tickets', id); if (!t) return null;
-    if (!staff && t.user_id !== uid()) return null;
+  async function thread(id, mode) {
+    var t = await DB.one('tickets', id); if (!t) return null; var lecv = mode === 'lec', staff = mode === true;
+    if (lecv ? t.lecturer_id !== uid() : !staff && t.user_id !== uid()) return null;
+    var lecs = staff && IS.can('tickets', 'edit') && t.kind !== 'password' ? await DB.q('lecturers', { eq: { status: 'active' } }) : [];
     var ms = await DB.q('ticket_msgs', { eq: { ticket_id: id }, order: ['created_at'] }), k = kind(t.kind), team = staff ? (await DB.q('profiles')).filter(function (u) { return (u.team || []).length && (top() || u.dept === t.dept || (u.team || []).indexOf(t.dept) >= 0); }) : [];
-    var h = '<nav class="crumb"><a href="#' + (staff ? 'control-tickets' : 'support') + '">' + esc(staff ? A('صندوق الرسائل', 'Inbox') : A('الدعم والرسائل', 'Support & messages')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(t.subject) + '</span></nav>' +
-      '<header class="fhead"><div><h1 tabindex="-1">' + esc(t.subject) + '</h1><p class="mut">' + ic(k[4]) + ' ' + esc(A(k[1], k[2])) + ' · ' + esc(deptName(t.dept)) + (staff ? ' · ' + esc(t.name || '') + (t.phone ? ' · <bdi>' + esc(t.phone) + '</bdi>' : '') : '') + (t.assigned_name ? ' · ' + esc(A('مسند إلى ', 'Assigned to ')) + esc(t.assigned_name) : '') + '</p>' + (staff ? (t.user_id ? IS.seen(t.user_id) : '') : IS.seen('team')) + '</div>' + IS.tstatus(t.status) + '</header>';
-    h += '<div class="chat">' + ms.map(function (m) { return '<div class="cmsg' + (m.staff ? ' st' : '') + '">' + IS.av({ name: m.name }, 'sm') + '<div><b>' + esc(m.staff ? (staff ? m.name : A('فريق اشرح لي', 'Ishrah Li team') + ' · ' + m.name) : m.name) + '</b><p class="pre">' + esc(m.body) + '</p><small>' + esc(IS.ago(m.created_at)) + '</small></div></div>'; }).join('') + '</div>';
-    if (t.status !== 'closed') h += '<form class="box form" data-form="treply"><input type="hidden" name="id" value="' + t.id + '"><input type="hidden" name="staff" value="' + (staff ? 1 : '') + '"><textarea name="body" rows="3" required maxlength="4000" placeholder="' + esc(A('اكتب ردك…', 'Write your reply…')) + '"></textarea>' +
-      '<div class="row sp"><div class="row">' + (staff && IS.can('tickets', 'edit') ? '<select class="sel" data-assign="' + t.id + '"><option value="">' + esc(A('إسناد إلى…', 'Assign to…')) + '</option>' + team.map(function (u) { return '<option value="' + u.id + '"' + (t.assigned_to === u.id ? ' selected' : '') + '>' + esc(u.name) + '</option>'; }).join('') + '</select>' : '') +
+    var h = '<nav class="crumb"><a href="#' + (lecv ? 'studio-requests' : staff ? 'control-tickets' : 'support') + '">' + esc(lecv ? A('طلبات الطلاب', 'Student requests') : staff ? A('صندوق الرسائل', 'Inbox') : A('الدعم والرسائل', 'Support & messages')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(t.subject) + '</span></nav>' +
+      '<header class="fhead"><div><h1 tabindex="-1">' + esc(t.subject) + '</h1><p class="mut">' + ic(k[4]) + ' ' + esc(A(k[1], k[2])) + ' · ' + esc(deptName(t.dept)) + (staff ? ' · ' + esc(t.name || '') + (t.phone ? ' · <bdi>' + esc(t.phone) + '</bdi>' : '') : lecv ? ' · ' + esc(A('من الطالب ', 'From ')) + esc(t.name || '') : '') + (t.lecturer_name && !lecv ? ' · ' + esc(A('إلى المحاضر ', 'To lecturer ')) + esc(t.lecturer_name) : '') + (t.assigned_name ? ' · ' + esc(A('مسند إلى ', 'Assigned to ')) + esc(t.assigned_name) : '') + '</p>' + (staff ? (t.user_id ? IS.seen(t.user_id) : '') : lecv ? '' : t.lecturer_id ? IS.seen(t.lecturer_id) : IS.seen('team')) + '</div>' + IS.tstatus(t.status) + '</header>';
+    h += '<div class="chat">' + ms.map(function (m) { var mine = lecv ? m.lec : m.staff || (staff && m.lec);
+      return '<div class="cmsg' + (m.staff || m.lec ? ' st' : '') + (m.lec ? ' lc' : '') + '">' + IS.av({ name: m.name }, 'sm', m.lec ? m.user_id : null) + '<div><b>' + esc(m.lec ? m.name + ' · ' + A('المحاضر', 'Lecturer') : m.staff ? (staff || lecv ? m.name : A('فريق اشرح لي', 'Ishrah Li team') + ' · ' + m.name) : m.name) + '</b><p class="pre">' + esc(m.body) + '</p><small>' + esc(IS.ago(m.created_at)) + '</small></div></div>'; }).join('') + '</div>';
+    if (t.status !== 'closed') h += '<form class="box form" data-form="treply"><input type="hidden" name="id" value="' + t.id + '"><input type="hidden" name="staff" value="' + (lecv ? 'lec' : staff ? 1 : '') + '"><textarea name="body" rows="3" required maxlength="4000" placeholder="' + esc(A('اكتب ردك…', 'Write your reply…')) + '"></textarea>' +
+      '<div class="row sp"><div class="row">' + (staff && IS.can('tickets', 'edit') ? '<select class="sel" data-assign="' + t.id + '"><option value="">' + esc(A('إسناد إلى…', 'Assign to…')) + '</option>' + '<optgroup label="' + esc(A('فريق المنصة', 'Platform team')) + '">' + team.map(function (u) { return '<option value="' + u.id + '"' + (t.assigned_to === u.id && !t.lecturer_id ? ' selected' : '') + '>' + esc(u.name) + '</option>'; }).join('') + '</optgroup>' +
+        (lecs.length ? '<optgroup label="' + esc(A('المحاضرون (تحويل الطلب إليهم)', 'Lecturers (forward the request)')) + '">' + lecs.map(function (l) { return '<option value="l:' + l.id + '"' + (t.lecturer_id === l.id ? ' selected' : '') + '>' + esc(l.name + (l.specialty ? ' · ' + l.specialty : '')) + '</option>'; }).join('') + '</optgroup>' : '') + '</select>' : '') +
       (staff && t.kind === 'refund' && t.course_id && IS.can('pay', 'approve') ? '<button type="button" class="btn ghost sm" data-act="refund" data-id="' + t.id + '">' + ic('money') + esc(A('اعتماد الاسترداد', 'Approve refund')) + '</button>' : '') +
       (staff && t.kind === 'password' && IS.can('students', 'edit') ? '<button type="button" class="btn ghost sm" data-act="tpass" data-id="' + t.id + '">' + ic('lock') + esc(A('تعيين كلمة مرور مؤقتة', 'Set a temporary password')) + '</button>' : '') +
       '<button type="button" class="btn ghost sm" data-act="tclose" data-id="' + t.id + '">' + ic('checkc') + esc(A('إغلاق المحادثة', 'Close')) + '</button></div><button class="btn pri">' + ic('send') + esc(A('إرسال', 'Send')) + '</button></div></form>';
     else h += '<p class="note">' + ic('checkc') + '<span>' + esc(A('أُغلقت هذه المحادثة. يمكنك فتح رسالة جديدة متى احتجت.', 'This conversation is closed. You can open a new message any time.')) + '</span></p>';
-    IS.after = function () { var s = $('[data-assign]'); if (s) s.onchange = async function () { if (!s.value) return; var u = team.filter(function (x) { return x.id === s.value; })[0];
+    IS.after = function () { var s = $('[data-assign]'); if (s) s.onchange = async function () { if (!s.value) return;
+      if (s.value.indexOf('l:') === 0) { var l = lecs.filter(function (x) { return 'l:' + x.id === s.value; })[0]; if (!l) return;
+        await DB.upd('tickets', t.id, { lecturer_id: l.id, lecturer_name: l.name, updated_at: new Date().toISOString() });
+        IS.notify(l.id, A('حُوّل إليك طلب طالب', 'A student request was forwarded to you'), t.subject, '#lec-ticket/' + t.id);
+        if (t.user_id) IS.notify(t.user_id, A('حُوّل طلبك إلى المحاضر ', 'Your request was forwarded to ') + l.name, t.subject, '#ticket/' + t.id);
+        IS.audit(A('تحويل طلب إلى محاضر', 'forward request to lecturer'), t.subject + ' → ' + l.name); IS.toast(A('حُوّل الطلب إلى ', 'Forwarded to ') + l.name); return IS.refresh(); }
+      var u = team.filter(function (x) { return x.id === s.value; })[0];
       await DB.upd('tickets', t.id, { assigned_to: u.id, assigned_name: u.name }); IS.notify(u.id, A('أُسندت إليك رسالة', 'A message was assigned to you'), t.subject, '#control-ticket/' + t.id); IS.audit(A('إسناد رسالة', 'assign ticket'), t.subject + ' → ' + u.name); IS.toast(A('أُسندت', 'Assigned')); }; };
     return h;
   }
   IS.page('ticket', function (id) { return thread(id, false); }, { auth: true });
   IS.page('control-ticket', function (id) { return thread(id, true); }, P('tickets'));
+  IS.page('lec-ticket', function (id) { return thread(id, 'lec'); }, { auth: true, area: 'studio', lec: true });
+  /* the lecturer's own list: requests students sent to them, or the team forwarded to them */
+  IS.page('studio-requests', async function () {
+    var all = []; try { all = await DB.q('tickets', { eq: { lecturer_id: uid() }, order: ['updated_at', false] }); } catch (e) { all = []; } var open = all.filter(function (t) { return t.status === 'open'; }), rest = all.filter(function (t) { return t.status !== 'open'; });
+    var row = function (t) { return '<a class="li' + (t.status === 'open' ? ' new' : '') + '" href="#lec-ticket/' + t.id + '">' + ic('layers') + '<span><b>' + esc(t.subject) + '</b><small>' + esc(t.name || '') + '</small></span>' + IS.tstatus(t.status === 'open' ? 'open' : t.status === 'waiting' ? 'answered' : t.status) + '<em>' + esc(IS.ago(t.updated_at || t.created_at)) + '</em></a>'; };
+    return IS.banner(IS.T('طلبات الطلاب', 'Student requests'), esc(A('طلبات الكورسات والمحاضرات التي أرسلها الطلاب إليك أو حوّلها إليك فريق المنصة.', 'Course and lecture requests that students sent to you or the platform team forwarded to you.')), 'mail') +
+      '<section class="sec"><header class="sh"><h2>' + IS.T('بانتظار ردك', 'Waiting for your answer') + ' (' + N(open.length) + ')</h2></header>' + (open.length ? '<div class="list">' + open.map(row).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد طلبات بانتظار ردك.', 'No requests are waiting for you.')) + '</p>') + '</section>' +
+      (rest.length ? '<section class="sec"><header class="sh"><h2>' + IS.T('طلبات سابقة', 'Earlier requests') + '</h2></header><div class="list">' + rest.map(row).join('') + '</div></section>' : '');
+  }, { auth: true, area: 'studio', lec: true });
   IS.SUB.treply = async function (d) {
+    if (d.staff === 'lec') { var lt = await DB.one('tickets', d.id); await DB.ins('ticket_msgs', { ticket_id: lt.id, user_id: uid(), name: me().name, staff: false, lec: true, body: d.body });
+      await DB.upd('tickets', lt.id, { status: 'waiting', last_by: 'lecturer', updated_at: new Date().toISOString() });
+      if (lt.user_id) IS.notify(lt.user_id, A('رد من المحاضر ', 'Reply from ') + me().name, lt.subject, '#ticket/' + lt.id); return IS.refresh(); }
     var t = await DB.one('tickets', d.id), staff = !!d.staff; await DB.ins('ticket_msgs', { ticket_id: t.id, user_id: uid(), name: me().name, staff: staff, body: d.body });
     await DB.upd('tickets', t.id, { status: staff ? 'waiting' : 'open', last_by: staff ? 'staff' : 'user', updated_at: new Date().toISOString(), assigned_to: t.assigned_to || (staff ? uid() : null), assigned_name: t.assigned_name || (staff ? me().name : '') });
     if (staff && t.user_id) IS.notify(t.user_id, A('رد من فريق اشرح لي', 'Reply from the Ishrah Li team'), t.subject, '#ticket/' + t.id);
     if (!staff && t.assigned_to) IS.notify(t.assigned_to, A('رد جديد من الطالب', 'New reply from the student'), t.subject, '#control-ticket/' + t.id);
+    if (!staff && t.lecturer_id) IS.notify(t.lecturer_id, A('رد جديد من الطالب', 'New reply from the student'), t.subject, '#lec-ticket/' + t.id);
     if (staff) IS.audit(A('رد على رسالة', 'reply to ticket'), t.subject); IS.refresh();
   };
   IS.ACT.tclose = async function (b) { var t = await DB.upd('tickets', b.getAttribute('data-id'), { status: 'closed', updated_at: new Date().toISOString() }); if (IS.area === 'control') IS.audit(A('إغلاق رسالة', 'close ticket'), t.subject); IS.refresh(); };

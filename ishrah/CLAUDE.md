@@ -371,3 +371,11 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   white search pill with its sign in a round button (laptops; Home's banner search is hidden there so the screen keeps one search), a
   day/night button (`data-act=theme`, sun/moon) in the gear's place (Settings stays in the side menu and «More»), bell, account.
   Fixed: on 1024–1279 px the account photo was hidden with the name.
+- **Course / lecture requests to lecturers (owner, 18 Nov 2026: "the request can't be forwarded to another lecturer; it should be able to
+  name a specific lecturer or be general"):** migration `011_lecturer_requests.sql` (tickets.lecturer_id / lecturer_name, ticket_msgs.lec;
+  the named lecturer may read and answer that request only, `ish_ticket_lec_guard` stops a lecturer changing anything but its state; tested
+  on a local Postgres). Ticket kind `course` = «طلب كورس أو محاضرة»; the message form has «إلى»: «عام: فريق المنصة يختار المحاضر المناسب» or a
+  lecturer (the student's speciality first); each lecturer page has «اطلب كورسًا أو محاضرة» (form opens on that lecturer). Team: «إسناد إلى…»
+  lists the platform team and the lecturers (forward = notification to the lecturer and the student). Lecturer: studio menu «طلبات الطلاب»
+  (`studio-requests`, conversation `lec-ticket/<id>`); answers show as «<name> · المحاضر». Test: scratchpad lreq.js journey (student →
+  lecturer page request, general request, lecturer answers, owner forwards, student reads).
