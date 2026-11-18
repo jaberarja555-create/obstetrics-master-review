@@ -260,3 +260,6 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   five cards (one row on laptops, 3 + 2 centred on tablets). `hero_gold.webp` replaced by the clean `hero_band.webp` (it carried a cut word).
 - Phones/tablets (Android smearing while scrolling, 18 Nov 2026): the top bar is `position:fixed` (body padding `--toph`, set by `topH()` in
   core.js), and on touch screens there are no mask-images, no CSS filters, no backdrop blur and no hover lifts. Keep it that way.
+- **Live address (owner, 18 Nov 2026):** every push to `ccr-38b3f943-ba1ode` is also published as the LIVE site of the Pages project `ishrah`
+  (https://ishrah.pages.dev, custom domain https://ishrahli.org once added in Cloudflare → Workers & Pages → ishrah → Custom domains).
+  Push to that branch (as well as the other account's) for a change to reach the domain. Still the preview store (no database yet).

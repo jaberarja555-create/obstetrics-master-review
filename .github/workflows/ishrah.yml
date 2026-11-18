@@ -1,5 +1,6 @@
 # اشرح لي (owner, 17 Nov 2026): the new learning platform in ishrah/ deploys to its OWN Cloudflare Pages project "ishrah".
-# Push to main → https://ishrah.pages.dev (add a custom domain in Cloudflare when ready). Any other branch → https://<branch>.ishrah.pages.dev (preview).
+# The working branch ccr-38b3f943-ba1ode is published as the live site (https://ishrah.pages.dev, domain ishrahli.org);
+# push to main → https://ishrah.pages.dev (add a custom domain in Cloudflare when ready). Any other branch → https://<branch>.ishrah.pages.dev (preview).
 # It does not touch the three books, Student Master Review or their database. Uses the same Cloudflare secrets as the other workflows.
 # The database (ishrah/supabase/*.sql) is applied only when started by hand (Actions → Ishrah → Run workflow → apply database),
 # with the GitHub secret ISHRAH_DB_URL = the Session-pooler connection string of the NEW Supabase project.
@@ -30,7 +31,17 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          for i in 1 2 3; do npx --yes wrangler@3 pages deploy . --project-name=ishrah --branch="${GITHUB_REF_NAME}" --commit-dirty=true && exit 0; sleep 20; done; exit 1
+          for i in 1 2 3; do npx --yes wrangler@3 pages deploy . --project-name=ishrah --branch="${GITHUB_REF_NAME}" --commit-dirty=true && break; [ $i = 3 ] && exit 1; sleep 20; done
+      # the working branch is also the LIVE site (owner, 18 Nov 2026: "put the app on the domain"): https://ishrah.pages.dev and the custom
+      # domain ishrahli.org show the newest version of this branch. The repository's main branch (the Obstetrics book) is not touched.
+      - name: Publish as the live site
+        if: github.ref_name == 'ccr-38b3f943-ba1ode'
+        working-directory: ishrah
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          for i in 1 2 3; do npx --yes wrangler@3 pages deploy . --project-name=ishrah --branch=main --commit-dirty=true && exit 0; sleep 20; done; exit 1
   database:
     if: github.event_name == 'workflow_dispatch' && inputs.database
     runs-on: ubuntu-latest
