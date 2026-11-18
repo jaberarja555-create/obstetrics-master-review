@@ -12,23 +12,18 @@
   /* the parts of the work the student needs (owner, 18 Nov 2026: "options for which analysis, proposal, all and the others") */
   /* what the student orders, the way a research is written (owner, 18 Nov 2026: "be smart … the research has chapters: literature review,
      methodology and others"; approvals are not something to order). Chapters, then separate services. */
-  var RCHAP = [['all', 'البحث كاملًا (كل الفصول)', 'Full research (all chapters)'], ['title', 'اختيار الموضوع وصياغة العنوان', 'Topic and title'],
-    ['intro', 'الفصل الأول: المقدمة، المشكلة، المبررات والأهداف', 'Chapter 1: Introduction, problem, justification and objectives'],
-    ['litrev', 'الفصل الثاني: مراجعة الأدبيات', 'Chapter 2: Literature review'],
-    ['method', 'الفصل الثالث: المنهجية (التصميم، العينة، أداة جمع البيانات)', 'Chapter 3: Methodology (design, sample, data collection tool)'],
-    ['results', 'الفصل الرابع: النتائج والتحليل الإحصائي', 'Chapter 4: Results and statistical analysis'],
-    ['discuss', 'الفصل الخامس: المناقشة', 'Chapter 5: Discussion'],
-    ['conclude', 'الخلاصة والتوصيات', 'Conclusion and recommendations'], ['abstract', 'الملخص (Abstract)', 'Abstract'], ['refs', 'المراجع والتوثيق', 'References and citation']];
-  var RSERV = [['proposal', 'المقترح (Proposal): المقدمة والأدبيات والمنهجية بصيغة المقترح', 'Proposal (introduction, literature and methodology as a proposal)'],
-    ['tool', 'تصميم الاستبيان أو أداة جمع البيانات', 'Questionnaire / data collection tool'], ['sample', 'حساب حجم العينة', 'Sample size calculation'],
-    ['analysis', 'التحليل الإحصائي فقط (البيانات جاهزة)', 'Statistical analysis only (data ready)'], ['entry', 'إدخال البيانات', 'Data entry'],
-    ['edit', 'التدقيق والمراجعة اللغوية', 'Editing and proofreading'], ['plag', 'فحص الاقتباس (Plagiarism) وتقليله', 'Plagiarism check and reduction'],
-    ['format', 'التنسيق حسب دليل الجامعة', 'Formatting to the university guide'], ['slides', 'العرض التقديمي أو الملصق العلمي', 'Defence presentation or poster'],
-    ['publish', 'تجهيزه للنشر في مجلة', 'Preparing it for a journal'], ['other', 'أخرى', 'Other']];
-  var RANAL = [['desc', 'إحصاء وصفي (تكرارات، نسب، متوسطات)', 'Descriptive statistics'], ['chi', 'اختبار مربع كاي / فيشر', 'Chi-square / Fisher’s exact'], ['ttest', 'اختبار t', 't-test'], ['anova', 'تحليل التباين ANOVA', 'ANOVA'],
-    ['nonpar', 'اختبارات لا معلمية (Mann-Whitney، Kruskal-Wallis)', 'Non-parametric tests'], ['corr', 'الارتباط (Pearson / Spearman)', 'Correlation'], ['linreg', 'الانحدار الخطي', 'Linear regression'],
-    ['logreg', 'الانحدار اللوجستي', 'Logistic regression'], ['surv', 'تحليل البقاء (Kaplan-Meier، Cox)', 'Survival analysis'], ['diag', 'دقة الاختبار التشخيصي (Sensitivity، ROC)', 'Diagnostic accuracy / ROC'],
-    ['meta', 'التحليل التجميعي (Meta-analysis)', 'Meta-analysis'], ['unsure', 'لست متأكدًا: انصحوني بالتحليل المناسب', 'Not sure: advise me']];
+  var RCHAP = [['all', 'البحث كاملًا: كل الفصول', 'Full research · all chapters'], ['title', 'اختيار الموضوع والعنوان', 'Topic and title'],
+    ['intro', 'الفصل 1: المقدمة والأهداف', 'Ch. 1 · Introduction & objectives'], ['litrev', 'الفصل 2: مراجعة الأدبيات', 'Ch. 2 · Literature review'],
+    ['method', 'الفصل 3: المنهجية', 'Ch. 3 · Methodology'], ['results', 'الفصل 4: النتائج والتحليل', 'Ch. 4 · Results & analysis'],
+    ['discuss', 'الفصل 5: المناقشة', 'Ch. 5 · Discussion'], ['conclude', 'الخلاصة والتوصيات', 'Conclusion & recommendations'],
+    ['abstract', 'الملخص', 'Abstract'], ['refs', 'المراجع والتوثيق', 'References & citation']];
+  var RSERV = [['proposal', 'المقترح البحثي', 'Research proposal'], ['tool', 'تصميم الاستبيان', 'Questionnaire / data tool'], ['sample', 'حساب حجم العينة', 'Sample size'],
+    ['analysis', 'التحليل الإحصائي فقط', 'Statistical analysis only'], ['entry', 'إدخال البيانات', 'Data entry'], ['edit', 'التدقيق اللغوي', 'Editing & proofreading'],
+    ['plag', 'فحص الاقتباس وتقليله', 'Plagiarism check'], ['format', 'التنسيق حسب دليل الجامعة', 'University formatting'], ['slides', 'عرض المناقشة أو الملصق', 'Defence slides or poster'],
+    ['publish', 'التجهيز للنشر في مجلة', 'Journal preparation'], ['other', 'أخرى', 'Other']];
+  var RANAL = [['desc', 'إحصاء وصفي', 'Descriptive statistics'], ['chi', 'مربع كاي / فيشر', 'Chi-square / Fisher'], ['ttest', 'اختبار t', 't-test'], ['anova', 'تحليل التباين', 'ANOVA'],
+    ['nonpar', 'اختبارات لا معلمية', 'Non-parametric tests'], ['corr', 'الارتباط', 'Correlation'], ['linreg', 'الانحدار الخطي', 'Linear regression'], ['logreg', 'الانحدار اللوجستي', 'Logistic regression'],
+    ['surv', 'تحليل البقاء', 'Survival analysis'], ['diag', 'دقة الاختبار التشخيصي / ROC', 'Diagnostic accuracy / ROC'], ['meta', 'التحليل التجميعي', 'Meta-analysis'], ['unsure', 'لست متأكدًا: انصحوني', 'Not sure · advise me']];
   var RSOFT = [['SPSS', 'SPSS'], ['R', 'R'], ['Stata', 'Stata'], ['Excel', 'Excel'], ['GraphPad', 'GraphPad Prism'], ['any', 'لا يهم', 'Any program']];
   function chks(name, list) { return '<div class="rchk">' + list.map(function (x) { return '<label class="opt"><input type="checkbox" name="' + name + '" value="' + esc(x[0]) + '"><span><b lang="en">' + esc(x[2] || x[1]) + '</b>' + (IS.lang === 'en' || !x[2] ? '' : '<small>' + esc(x[1]) + '</small>') + '</span></label>'; }).join('') + '</div>'; }
   function en(ar, e) { return '<b lang="en">' + esc(e) + '</b>' + (IS.lang === 'en' ? '' : ' <small>' + esc(ar) + '</small>'); }

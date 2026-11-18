@@ -1943,3 +1943,29 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 @media (min-width:641px){.pkin,.pkme{margin-inline-start:0;margin-inline-end:0;flex-basis:100%;justify-content:flex-start}.pkin .btn{flex:0 0 auto}.pkh{align-content:center}}
 /* tablets: five speciality cards as 3 + 2 centred (no hole) */
 @media (min-width:641px) and (max-width:1100px){.pks{display:flex!important;flex-wrap:wrap;justify-content:center}.pks>.pk{flex:0 1 calc((100% - 2 * 18px) / 3)}}
+/* research request as option tiles (owner, 18 Nov 2026: "the design looks bad") */
+.rsx{gap:14px!important;padding:16px!important;background:var(--sf2)!important}
+.rfs{border:0!important;padding:0!important;background:none!important;margin-top:4px!important}
+.rfs legend{display:flex;align-items:baseline;gap:8px;padding:0 0 10px!important;font-size:15px}
+.rfs legend small{font-size:12px}
+#ranal{padding:14px!important;border:1.5px solid rgba(30,155,255,.35)!important;border-radius:16px;background:var(--tint2)!important}
+.rchk{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))!important;gap:10px!important}
+.rchk .opt{position:relative;display:flex;align-items:center;gap:10px;margin:0;padding:11px 12px!important;min-height:58px;border:1.5px solid var(--bd2);border-radius:14px;background:var(--sf);cursor:pointer;transition:border-color .12s,background .12s,box-shadow .12s}
+.rchk .opt:hover{border-color:var(--pri)}
+.rchk .opt input{appearance:none;-webkit-appearance:none;flex:none;width:20px;height:20px;margin:0;border-radius:6px;border:2px solid var(--bd2);background:var(--sf);display:grid;place-items:center;cursor:pointer}
+.rchk .opt input:checked{background:var(--pri);border-color:var(--pri)}
+.rchk .opt input:checked::after{content:"";width:9px;height:5px;border:2.5px solid #fff;border-top:0;border-inline-end:0;transform:rotate(-45deg) translate(1px,-1px)}
+[dir="rtl"] .rchk .opt input:checked::after{border-inline-end:2.5px solid #fff;border-inline-start:0;transform:rotate(45deg) translate(-1px,-1px)}
+.rchk .opt:has(input:checked){border-color:var(--pri);background:var(--tint);box-shadow:0 0 0 3px var(--tint2)}
+.rchk .opt span{display:flex;flex-direction:column;gap:2px;line-height:1.3;min-width:0}
+.rchk .opt b{font-size:13.5px;font-weight:800;color:var(--tx)}
+.rchk .opt small{font-size:11.5px;color:var(--sub);font-weight:600}
+.rchk .opt:has([value=all]){grid-column:1/-1;min-height:52px;background:linear-gradient(90deg,var(--tint),var(--sf))}
+.rchk .opt:has([value=all]) b{font-size:14.5px}
+.rfs .pko{margin-top:10px}
+.rsub{font-size:14px!important;margin:14px 0 8px!important}
+@media (max-width:640px){.rchk{grid-template-columns:1fr 1fr!important;gap:8px!important}.rchk .opt{padding:9px 10px!important;min-height:54px}.rchk .opt b{font-size:12.5px}}
+.rchk .opt input:checked::after,[dir="rtl"] .rchk .opt input:checked::after{content:none}
+.rchk .opt input:checked{background:var(--pri) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/14px no-repeat}
+@media (min-width:900px){.rchk:has([name=rchap]){grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media (max-width:640px){.rchk,.rchk:has([name=rchap]){grid-template-columns:1fr!important;gap:6px!important}.rchk .opt{min-height:48px;padding:8px 12px!important}.rsx{padding:12px!important}}
