@@ -220,3 +220,7 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   (> 20 chars) / `tl3` (> 30) for smaller type and more text room, so long English titles keep to one line. Control → Specialities, sections
   and subjects: each speciality box lists its subjects section by section (heading with icon and count) as aligned tiles (picture, English,
   Arabic, pen); two tiles a row on phones.
+- **Photos keep their own colours** (owner, 18 Nov 2026: "the colours cover the image in a bad way; remove the effect of colours on photos"):
+  the duotone tint (palettes.py `TINT`, mix-blend luminosity) is removed; every banner photo shows as it is in every app colour. On phones the
+  banner photo is a clear strip across the top with the title under it (it was faded behind the text); the control dashboard banner too.
+  The thin curve beside banner photos uses `--sky2`, so it follows the colour.

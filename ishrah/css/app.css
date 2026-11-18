@@ -1733,3 +1733,18 @@ body.isoff main{padding-top:58px!important}
   .sjtile:last-child:nth-child(odd)>span{align-items:flex-start}
   .sjtile:last-child:nth-child(odd) b,[dir="rtl"] .sjtile:last-child:nth-child(odd) b{text-align:start}
 }
+
+/* photos keep their own colours in every app colour (owner, 18 Nov 2026: "remove the effect of colours on photos") */
+.lhh::after,.ban.bpic .bph,.cban::before{mix-blend-mode:normal!important}
+/* phones: the banner photo is a clear strip across the top, the title and text sit under it on the plain colour (it used to be faded behind the text) */
+@media (max-width:760px){
+  .ban.bpic{flex-direction:column;align-items:stretch;padding:132px 16px 16px;min-height:0}
+  .ban.bpic .bph{width:100%;height:118px;inset-block:0 auto;opacity:1!important;
+    -webkit-mask-image:linear-gradient(to bottom,#000 70%,transparent);mask-image:linear-gradient(to bottom,#000 70%,transparent)}
+  .ban.bpic .bt{max-width:none}
+  .ban.bpic .bi{width:48px;height:48px}.ban.bpic .bi .ico{width:24px;height:24px}
+  .ban.bpic>.row,.ban.bpic>.bnums,.ban.bpic>a,.ban.bpic>button{margin-inline-start:0;align-self:flex-start}
+  .cban{padding-top:132px!important}
+  .cban::before{width:100%!important;height:118px;inset-block:0 auto;opacity:1!important;-webkit-mask-image:linear-gradient(to bottom,#000 70%,transparent)!important;mask-image:linear-gradient(to bottom,#000 70%,transparent)!important}
+  .cban img{display:none}
+}

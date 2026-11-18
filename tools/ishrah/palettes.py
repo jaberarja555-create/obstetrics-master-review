@@ -56,15 +56,5 @@ print('logos written')
 
 
 
-# banner photos in a colour other than blue (owner, 18 Nov 2026: "the colours are not well suited with the banners" after the photos were
-# recoloured pixel by pixel, which turned bright blue into neon green): the ORIGINAL photo is shown with mix-blend-mode luminosity over the
-# banner's own colour, a soft duotone in the chosen colour. Royal blue keeps the photos as they are.
-TINT = """
-/* banner photos as a soft tint of this colour (tools/ishrah/palettes.py) */
-.ban.bpic .bph,.cban::before{mix-blend-mode:luminosity;opacity:.9}
-.lhh::after{mix-blend-mode:luminosity!important}
-"""
-for name in PALS:
-    f = os.path.join(ROOT, 'pal-%s.css' % name)
-    open(f, 'a', encoding='utf-8').write(TINT)
-print('banner tint added')
+# banner photos keep their own colours in every app colour (owner, 18 Nov 2026: "the colours cover the image in a bad way; remove the effect of colours on photos")
+
