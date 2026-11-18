@@ -1777,3 +1777,6 @@ body.isoff main{padding-top:58px!important}
   .tmg .tmc:last-child:nth-child(odd){grid-column:1/-1;display:grid;grid-template-columns:84px minmax(0,1fr);grid-template-rows:auto auto auto auto;column-gap:14px;row-gap:4px;text-align:start;justify-items:start;align-items:center}
   .tmg .tmc:last-child:nth-child(odd) .tmp{grid-row:1/span 4;margin:0}
   .tmg .tmc:last-child:nth-child(odd)>.btn{margin:0}}
+/* Lecturers list: cards of one size, centred (a few lecturers no longer sit on one side with an empty row) */
+body[data-page="lecturers"] .grid.g4{grid-template-columns:repeat(auto-fit,minmax(220px,260px));justify-content:center}
+@media (max-width:560px){body[data-page="lecturers"] .grid.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
