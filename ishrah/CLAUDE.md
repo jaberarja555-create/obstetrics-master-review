@@ -213,3 +213,10 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - Courses on laptops (owner, 18 Nov 2026: "empty space while you scroll"): no tall Filter column; from 1180 px the filter is a row of
   drop-down buttons (Subject · Lecturer · Price, one open at a time, a click outside closes it) placed in the same row as search, sort and
   view; results and Browse subjects take the full width.
+- Same day, more owner fixes: Support has «طلب خاص» / Special request (ticket kind `special`, Support department); About's Vision · Mission ·
+  Values fill their row (the grid kept an empty 4th slot); `.g2f` forms use auto-fit; the lecturer application's qualification is a grouped
+  list per speciality (`IS.QUALS`: Medicine, Dentistry, Pharmacy, Laboratory Science, Nursing, Higher degrees + Other) and `IS.pick` accepts
+  groups `{g, o}`; professional titles and specialty choices include the other specialities. Banner titles: `IS.banner` gives h1 `tl2`
+  (> 20 chars) / `tl3` (> 30) for smaller type and more text room, so long English titles keep to one line. Control → Specialities, sections
+  and subjects: each speciality box lists its subjects section by section (heading with icon and count) as aligned tiles (picture, English,
+  Arabic, pen); two tiles a row on phones.

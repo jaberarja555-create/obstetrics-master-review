@@ -168,7 +168,7 @@
     'control-pay': 'admin', 'control-payouts': 'admin', 'studio-money': 'admin', 'studio-students': 'community', 'studio-qa': 'support', 'studio-page': 'lecturers', studio: 'courses' };
   IS.banner = function (title, sub, icon, extra, cls) { var pg = document.body.getAttribute('data-page') || '', im = BANIMG[pg] || (/^control|^security/.test(pg) ? 'admin' : /^studio/.test(pg) ? 'lecturers' : 'learning');
     return '<section class="ban ' + (cls || '') + (im ? ' bpic' : '') + '"' + (im ? ' style="--bimg:url(' + IS.U('img/ban_' + im + '.webp') + ')"' : '') + '>' + (im ? '<span class="bph" aria-hidden="true"></span><svg class="bwave" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M60 0 C40 30 45 70 22 100 L0 100 L0 0Z" fill="currentColor"/><path d="M62 0 C42 30 47 70 24 100" fill="none" stroke="#3fb4ff" stroke-width="1.6"/></svg>' : '') +
-      '<div class="bt"><span class="bi">' + ic(icon) + '</span><div><h1 tabindex="-1">' + title + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div></div>' + (extra || '') + '</section>'; };
+      '<div class="bt"><span class="bi">' + ic(icon) + '</span><div><h1 tabindex="-1"' + (function () { var m = /<b[^>]*>([^<]*)<\/b>/.exec(title), n = (m ? m[1] : String(title).replace(/<[^>]+>/g, '')).length; return n > 30 ? ' class="tl3"' : n > 20 ? ' class="tl2"' : ''; })() + '>' + title + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div></div>' + (extra || '') + '</section>'; };
   IS.stars = function (v) { var h = ''; for (var i = 1; i <= 5; i++) h += ic('star', i <= Math.round(v) ? 'on' : ''); return '<span class="stars">' + h + '</span>'; };
   IS.status = function (s) {
     var m = { pending: ['قيد المراجعة', 'Pending', 'warn'], active: ['مفعّل', 'Active', 'ok'], approved: ['مقبول', 'Approved', 'ok'], rejected: ['مرفوض', 'Rejected', 'bad'], draft: ['مسودة', 'Draft', ''], review: ['قيد المراجعة', 'In review', 'warn'],
@@ -206,8 +206,11 @@
   IS.form = function (f) { var o = {}; new FormData(f).forEach(function (v, k) { if (v instanceof File) return; if (o[k] !== undefined) { if (!Array.isArray(o[k])) o[k] = [o[k]]; o[k].push(v); } else o[k] = typeof v === 'string' ? v.trim() : v; });
     Object.keys(o).forEach(function (k) { if (o[k] === '__o') { o[k] = o[k + '__o'] || ''; } if (/__o$/.test(k)) delete o[k]; }); return o; };
   /* a list to choose from, with "Other" that opens a box to type (owner, 18 Nov 2026) */
-  IS.pick = function (name, opts, v, req, ph) { v = v || ''; opts = opts.map(function (o) { return typeof o === 'string' ? [o, o] : o; }); var known = opts.some(function (o) { return o[0] === v; }), other = v && !known;
-    return '<span class="pick"><select name="' + name + '" data-pick' + (req ? ' required' : '') + '><option value="">' + esc(A('اختر…', 'Choose…')) + '</option>' + opts.map(function (o) { var val = o[0], lab = o[1]; return '<option value="' + esc(val) + '"' + (val === v ? ' selected' : '') + '>' + esc(lab) + '</option>'; }).join('') +
+  IS.pick = function (name, opts, v, req, ph) { v = v || ''; var norm = function (o) { return typeof o === 'string' ? [o, o] : o; };
+    opts = opts.map(function (o) { return o && o.g ? { g: o.g, o: o.o.map(norm) } : norm(o); });
+    var flat = []; opts.forEach(function (o) { if (o.g) flat = flat.concat(o.o); else flat.push(o); }); var known = flat.some(function (o) { return o[0] === v; }), other = v && !known;
+    var one = function (o) { return '<option value="' + esc(o[0]) + '"' + (o[0] === v ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; };
+    return '<span class="pick"><select name="' + name + '" data-pick' + (req ? ' required' : '') + '><option value="">' + esc(A('اختر…', 'Choose…')) + '</option>' + opts.map(function (o) { return o.g ? '<optgroup label="' + esc(o.g) + '">' + o.o.map(one).join('') + '</optgroup>' : one(o); }).join('') +
       '<option value="__o"' + (other ? ' selected' : '') + '>' + esc(A('أخرى (اكتب)', 'Other (type it)')) + '</option></select><input name="' + name + '__o" class="pko"' + (other ? '' : ' hidden') + ' value="' + esc(other ? v : '') + '" placeholder="' + esc(ph || A('اكتب هنا', 'Type here')) + '"></span>'; };
   document.addEventListener('change', function (e) { var s = e.target.closest && e.target.closest('select[data-pick]'); if (!s) return; var i = s.parentNode.querySelector('.pko'); if (!i) return; i.hidden = s.value !== '__o'; i.required = s.value === '__o'; if (!i.hidden) i.focus(); });
   IS.lines = function (s) { return String(s || '').split('\n').map(function (x) { return x.trim(); }).filter(Boolean); };

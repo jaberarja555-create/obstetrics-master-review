@@ -589,7 +589,7 @@
     return h;
   }, { auth: true });
   IS.lecReqs = function () {
-    return '<ul class="learn">' + [A('البيانات الأساسية (الاسم، البريد، الهاتف)', 'Basic details (name, email, phone)'), A('المؤهل العلمي (MBBS/MD أو أعلى)', 'Qualification (MBBS/MD or higher)'), A('التخصص والخبرة السريرية/الأكاديمية', 'Specialty and clinical/academic experience'),
+    return '<ul class="learn">' + [A('البيانات الأساسية (الاسم، البريد، الهاتف)', 'Basic details (name, email, phone)'), A('المؤهل العلمي في تخصصك (مثل MBBS، BDS، BPharm، BSc تمريض أو مختبرات، أو أعلى)', 'Qualification in your speciality (e.g. MBBS, BDS, BPharm, BSc Nursing or Laboratory Science, or higher)'), A('التخصص والخبرة السريرية/الأكاديمية', 'Specialty and clinical/academic experience'),
       A('السيرة الذاتية (CV)', 'Curriculum vitae (CV)'), A('الشهادات والدورات ذات الصلة (اختياري)', 'Relevant certificates and courses (optional)'), A('عينة من المحتوى التعليمي (محاضرة مسجلة أو عرض)', 'A sample of your teaching (a recorded lecture or slides)'), A('خطة الكورس المقترح (العنوان، الأهداف، المحتوى)', 'Plan of the proposed course (title, aims, content)')].map(function (x) { return '<li>' + ic('checkc') + esc(x) + '</li>'; }).join('') + '</ul>';
   };
   IS.appSteps = function (ap) {
