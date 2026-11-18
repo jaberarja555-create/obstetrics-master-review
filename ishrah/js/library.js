@@ -25,9 +25,9 @@
     ['nonpar', 'اختبارات لا معلمية', 'Non-parametric tests'], ['corr', 'الارتباط', 'Correlation'], ['linreg', 'الانحدار الخطي', 'Linear regression'], ['logreg', 'الانحدار اللوجستي', 'Logistic regression'],
     ['surv', 'تحليل البقاء', 'Survival analysis'], ['diag', 'دقة الاختبار التشخيصي / ROC', 'Diagnostic accuracy / ROC'], ['meta', 'التحليل التجميعي', 'Meta-analysis'], ['unsure', 'لست متأكدًا: انصحوني', 'Not sure · advise me']];
   var RSOFT = [['SPSS', 'SPSS'], ['R', 'R'], ['Stata', 'Stata'], ['Excel', 'Excel'], ['GraphPad', 'GraphPad Prism'], ['any', 'لا يهم', 'Any program']];
-  function chks(name, list) { return '<div class="rchk">' + list.map(function (x) { return '<label class="opt"><input type="checkbox" name="' + name + '" value="' + esc(x[0]) + '"><span><b lang="en">' + esc(x[2] || x[1]) + '</b>' + (IS.lang === 'en' || !x[2] ? '' : '<small>' + esc(x[1]) + '</small>') + '</span></label>'; }).join('') + '</div>'; }
-  function en(ar, e) { return '<b lang="en">' + esc(e) + '</b>' + (IS.lang === 'en' ? '' : ' <small>' + esc(ar) + '</small>'); }
-  function opt2(ar, e) { return esc(e) + (IS.lang === 'en' ? '' : ' · ' + ar); }
+  function chks(name, list) { return '<div class="rchk">' + list.map(function (x) { return '<label class="opt"><input type="checkbox" name="' + name + '" value="' + esc(x[0]) + '"><span>' + esc(A(x[1], x[2])) + '</span></label>'; }).join('') + '</div>'; }
+  function en(ar, e) { return '<b>' + esc(A(ar, e)) + '</b>'; }
+  function opt2(ar, e) { return esc(A(ar, e)); }
   function lbls(list, v) { v = [].concat(v || []); return list.filter(function (x) { return v.indexOf(x[0]) >= 0; }).map(function (x) { return x[2] || x[1]; }).join('، '); }
   var RSTAGES = [['لم أبدأ بعد', 'Not started'], ['اخترت الموضوع', 'Topic chosen'], ['جمعت البيانات', 'Data collected'], ['أكتب الفصول', 'Writing the chapters'], ['أحتاج مراجعة نهائية', 'Needs a final review']];
   function kind(k) { return KINDS.filter(function (x) { return x[0] === k; })[0] || KINDS[6]; }
@@ -39,9 +39,9 @@
   function fspec(f) { return IS.studyScope(f).spec; }
   function spName(id) { var x = IS.SPECS.filter(function (s) { return s.id === id; })[0]; return x ? x.en : ''; }
   function specBar() { return '<section class="specbar">' + [{ id: '', en: 'All specialities', ar: 'كل التخصصات', icon: 'grid' }].concat(IS.SPECS).map(function (x) {
-    return '<a class="spb2' + (x.id === T.sp ? ' on' : '') + '" href="#library/@' + (x.id || 'all') + '">' + ic(x.icon) + '<span><b lang="en">' + esc(x.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(x.ar) + '</small>') + '</span></a>'; }).join('') + '</section>'; }
+    return '<a class="spb2' + (x.id === T.sp ? ' on' : '') + '" href="#library/@' + (x.id || 'all') + '">' + ic(x.icon) + '<span><b lang="en">' + esc(x.id ? x.en : A(x.ar, x.en)) + '</b>' + '</span></a>'; }).join('') + '</section>'; }
   function subjOptions(cur, scoped) { var sp = cur ? (IS.subj(cur) || {}).spec : T.sp; return IS.SPECS.map(function (g) { var ss = IS.SUBJ.filter(function (x) { return x.spec === g.id && (!scoped || IS.inStudySpace(x)); }); if (!ss.length) return '';
-    return '<optgroup label="' + esc(g.en + (IS.lang === 'en' ? '' : ' · ' + g.ar)) + '">' + ss.map(function (x, i) { return '<option value="' + x.id + '"' + (cur ? (cur === x.id ? ' selected' : '') : (g.id === sp && i === 0 ? ' selected' : '')) + '>' + esc(x.en) + '</option>'; }).join('') + '</optgroup>'; }).join(''); }
+    return '<optgroup label="' + esc(g.en) + '">' + ss.map(function (x, i) { return '<option value="' + x.id + '"' + (cur ? (cur === x.id ? ' selected' : '') : (g.id === sp && i === 0 ? ' selected' : '')) + '>' + esc(x.en) + '</option>'; }).join('') + '</optgroup>'; }).join(''); }
 
   IS.page('library', async function (tab) {
     if (tab && tab.charAt(0) === '@') { T.sp = tab === '@all' ? '' : tab.slice(1); tab = T.k; } if (IS.SPEC) T.sp = IS.SPEC;
@@ -51,7 +51,7 @@
     var fs = (await DB.q('files', { eq: { status: 'published' }, order: ['created_at', false] })).filter(function (f) { return (!T.sp || fspec(f) === T.sp) && IS.inStudySpace(f); }), me = IS.ME;
     var reqs = me ? await DB.q('requests', { eq: { user_id: me.id }, order: ['created_at', false] }) : [];
     var h = IS.banner(IS.T('مكتبتي', 'My Library'), esc(A('كل كتبك وملفاتك الدراسية في مكان واحد', 'All your books and study files in one place')), 'open', '', 'libban') + (IS.SPEC ? '' : specBar());
-    h += '<section class="ltabs"><a href="#library/requests" class="lt req' + (T.k === 'requests' ? ' on' : '') + '">' + ic('receipt') + '<b lang="en">Requests</b>' + (IS.lang === 'en' ? '' : '<small>' + esc('الطلبات') + '</small>') + (reqs.filter(function (r) { return r.status === 'pending' || r.status === 'progress'; }).length ? '<i>' + N(reqs.filter(function (r) { return r.status === 'pending' || r.status === 'progress'; }).length) + '</i>' : '') + '</a>' +
+    h += '<section class="ltabs"><a href="#library/requests" class="lt req' + (T.k === 'requests' ? ' on' : '') + '">' + ic('receipt') + '<b>' + esc(A('الطلبات', 'Requests')) + '</b>' + (reqs.filter(function (r) { return r.status === 'pending' || r.status === 'progress'; }).length ? '<i>' + N(reqs.filter(function (r) { return r.status === 'pending' || r.status === 'progress'; }).length) + '</i>' : '') + '</a>' +
       '<a href="#library/all" class="lt' + (T.k === 'all' ? ' on' : '') + '">' + ic('grid') + '<b>' + esc(A('الكل', 'All Files')) + '</b><small>' + N(fs.length) + '</small></a>' +
       KINDS.map(function (k) { return '<a href="#library/' + k[0] + '" class="lt' + (T.k === k[0] ? ' on' : '') + '">' + ic(k[1]) + '<b>' + esc(A(k[2], k[3])) + '</b><small>' + N(fs.filter(function (f) { return f.kind === k[0]; }).length) + '</small></a>'; }).join('') + '</section>';
     if (T.k === 'requests') return h + requestsView(reqs, fs);
@@ -103,12 +103,12 @@
   function requestsView(reqs, fs) {
     var me = IS.ME, c = { all: reqs.length, prog: reqs.filter(function (r) { return r.status === 'pending' || r.status === 'progress'; }).length, done: reqs.filter(function (r) { return r.status === 'done'; }).length, rej: reqs.filter(function (r) { return r.status === 'rejected'; }).length };
     var h = '<header class="sh big"><h2>' + ic('receipt') + IS.T('طلبات المكتبة', 'Library requests') + '</h2><p class="mut">' + esc(A('اطلب ما تحتاجه من كتب أو ملفات أو شروحات وسنعمل على توفيره لك', 'Request the books, files or explanations you need and we will work on providing them')) + '</p></header>';
-    h += '<section class="rkinds">' + RKINDS.map(function (k) { return '<button class="rk k-' + k[0] + '" data-act="rkind" data-k="' + k[0] + '">' + ic(k[1]) + '<b lang="en">' + esc(k[3]) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(k[2]) + '</small>') + '</button>'; }).join('') + '</section>';
+    h += '<section class="rkinds">' + RKINDS.map(function (k) { return '<button class="rk k-' + k[0] + '" data-act="rkind" data-k="' + k[0] + '">' + ic(k[1]) + '<b>' + esc(A(k[2], k[3])) + '</b>' + '</button>'; }).join('') + '</section>';
     /* figures as one row of tiles, then the form and the list side by side at the same height (owner, 18 Nov 2026: "remove all the empty spaces") */
     h += '<section class="rstats">' + [['receipt', c.all, A('إجمالي الطلبات', 'Total requests')], ['clock', c.prog, A('قيد التنفيذ', 'In progress')], ['checkc', c.done, A('مكتملة', 'Done')], ['x', c.rej, A('مرفوضة', 'Rejected')]].map(function (x) {
       return '<span>' + ic(x[0]) + '<b>' + N(x[1]) + '</b><small>' + esc(x[2]) + '</small></span>'; }).join('') + '</section>';
     h += '<div class="rgrid"><section class="box newreq"><h2 class="bandh">' + ic('plus') + IS.T('إنشاء طلب جديد', 'New request') + '</h2>' + (me ? '<form class="form" data-form="request"><label class="fl"><span>' + en('نوع الطلب', 'Request type') + ' *</span><select name="kind" id="rkSel">' + RKINDS.map(function (k) { return '<option value="' + k[0] + '">' + opt2(k[2], k[3]) + '</option>'; }).join('') + '</select></label>' +
-      '<label class="fl"><span>' + en('التخصص', 'Speciality') + '</span><select name="spec">' + IS.SPECS.map(function (x) { return '<option value="' + x.id + '"' + (x.id === (T.sp || 'medicine') ? ' selected' : '') + '>' + esc(x.en + (IS.lang === 'en' ? '' : ' · ' + x.ar)) + '</option>'; }).join('') + '</select></label>' +
+      '<label class="fl"><span>' + en('التخصص', 'Speciality') + '</span><select name="spec">' + IS.SPECS.map(function (x) { return '<option value="' + x.id + '"' + (x.id === (T.sp || 'medicine') ? ' selected' : '') + '>' + esc(x.en) + '</option>'; }).join('') + '</select></label>' +
       '<div class="rsx" id="rsx" hidden><label class="fl"><span>' + en('نوع البحث', 'Kind of research') + '</span><select name="rtype">' + RTYPES.map(function (x) { return '<option value="' + esc(x[1]) + '">' + opt2(x[0], x[1]) + '</option>'; }).join('') + '</select></label>' +
       '<label class="fl"><span>' + en('المرحلة الحالية', 'Current stage') + '</span><select name="rstage">' + RSTAGES.map(function (x) { return '<option value="' + esc(x[1]) + '">' + opt2(x[0], x[1]) + '</option>'; }).join('') + '</select></label>' +
       '<label class="fl"><span>' + en('موعد التسليم', 'Deadline') + '</span><input name="rdue" type="date"></label>' +
@@ -116,7 +116,7 @@
       '<fieldset class="rfs"><legend>' + en('خدمات أخرى (اختياري)', 'Other services (optional)') + '</legend>' + chks('rserv', RSERV) + '<input name="rserv_o" class="pko" hidden placeholder="' + esc(A('اكتب ما تحتاجه', 'Type what you need')) + '"></fieldset>' +
       '<fieldset class="rfs" id="ranal" hidden><legend>' + en('أي تحليل إحصائي؟', 'Which statistical analysis?') + '</legend>' + chks('ranal', RANAL) +
       '<p class="rsub">' + en('البرنامج المفضّل', 'Preferred program') + '</p>' + chks('rsoft', RSOFT) + '</fieldset></div>' +
-      '<label class="fl"><span id="rtl">Title of the book or topic' + (IS.lang === 'en' ? '' : ' · عنوان الكتاب أو الموضوع') + ' *</span><input name="title" required maxlength="160" placeholder="' + esc(A('مثال: Oxford Obstetrics (4th ed.)', 'e.g. Oxford Obstetrics (4th ed.)')) + '"></label>' +
+      '<label class="fl"><span id="rtl">' + esc(A('عنوان الكتاب أو الموضوع', 'Title of the book or topic')) + ' *</span><input name="title" required maxlength="160" placeholder="' + esc(A('مثال: Oxford Obstetrics (4th ed.)', 'e.g. Oxford Obstetrics (4th ed.)')) + '"></label>' +
       '<label class="fl"><span>' + en('تفاصيل إضافية (اختياري)', 'More details (optional)') + '</span><textarea name="details" rows="3" maxlength="1000" placeholder="' + esc(A('حدد الطبعة، اللغة، أو أي ملاحظات أخرى…', 'Edition, language or any other notes…')) + '"></textarea></label>' +
       '<button class="btn pri wide">' + ic('send') + esc(A('إرسال الطلب', 'Send request')) + '</button></form>' : '<div class="rgate">' + ic('lock') + '<b>' + esc(A('سجّل الدخول لإرسال طلب', 'Sign in to send a request')) + '</b><span>' + esc(A('اطلب كتابًا أو ملفًا أو شرحًا وتابع حالته هنا.', 'Ask for a book, file or explanation and follow it here.')) + '</span><button class="btn pri wide" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button></div>') + '</section>';
     h += '<section class="box"><header class="sh"><h2>' + ic('clock') + IS.T('أحدث الطلبات', 'Latest requests') + '</h2></header>' + (reqs.length ? '<div class="rtable"><div class="rh"><span>' + esc(A('الطلب', 'Request')) + '</span><span>' + esc(A('النوع', 'Type')) + '</span><span>' + esc(A('الحالة', 'Status')) + '</span><span>' + esc(A('التاريخ', 'Date')) + '</span></div>' +
@@ -128,7 +128,7 @@
   }
   IS.ACT.rkind = function (b) { var s = $('#rkSel'); if (s) { s.value = b.getAttribute('data-k'); rsxShow(); var t = s.form.title; if (b.getAttribute('data-t') && !t.value) t.placeholder = b.getAttribute('data-t'); t.focus(); s.form.scrollIntoView({ behavior: 'smooth', block: 'center' }); } else if (!IS.ME) IS.ACT.login(); };
   function rsxShow() { var s = $('#rkSel'), x = $('#rsx'), t = $('#rtl'); if (!s || !x) return; var r = s.value === 'research'; x.hidden = !r;
-    if (t) t.textContent = (r ? 'Research title or idea' : 'Title of the book or topic') + (IS.lang === 'en' ? '' : ' · ' + (r ? 'عنوان البحث أو فكرته' : 'عنوان الكتاب أو الموضوع')) + ' *';
+    if (t) t.textContent = (r ? A('عنوان البحث أو فكرته', 'Research title or idea') : A('عنوان الكتاب أو الموضوع', 'Title of the book or topic')) + ' *';
     var ti = s.form.title; if (ti) ti.placeholder = r ? A('مثال: معدل فقر الدم لدى الحوامل في مستشفى ود مدني', 'e.g. Anaemia in pregnant women at Wad Medani Hospital') : A('مثال: Oxford Obstetrics (4th ed.)', 'e.g. Oxford Obstetrics (4th ed.)'); }
   document.addEventListener('change', function (e) { var t = e.target; if (!t) return; if (t.id === 'rkSel') rsxShow();
     if (t.name === 'rchap' || t.name === 'rserv') { var f = t.form;

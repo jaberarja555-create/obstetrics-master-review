@@ -2,8 +2,8 @@
 # The working branch ccr-38b3f943-ba1ode is published as the live site (https://ishrah.pages.dev, domain ishrahli.org);
 # push to main → https://ishrah.pages.dev (add a custom domain in Cloudflare when ready). Any other branch → https://<branch>.ishrah.pages.dev (preview).
 # It does not touch the three books, Student Master Review or their database. Uses the same Cloudflare secrets as the other workflows.
-# The database (ishrah/supabase/*.sql) is applied only when started by hand (Actions → Ishrah → Run workflow → apply database),
-# with the GitHub secret ISHRAH_DB_URL = the Session-pooler connection string of the NEW Supabase project.
+# The manual database job applies all numbered files. The course request migration also runs on the production
+# branch when its file changes, before deploying the app that needs it. Both use ISHRAH_DB_URL.
 name: Ishrah
 on:
   push:
@@ -20,6 +20,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Detect the course request migration
+        if: github.event_name == 'push' && github.ref_name == 'ccr-38b3f943-ba1ode'
+        id: request-schema
+        env:
+          PREVIOUS_COMMIT: ${{ github.event.before }}
+        run: |
+          if ! git cat-file -e "$PREVIOUS_COMMIT^{commit}" 2>/dev/null; then
+            git fetch --no-tags --depth=1 origin "$PREVIOUS_COMMIT"
+          fi
+          if ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- ishrah/supabase/013_course_requests.sql; then
+            echo 'apply=true' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Apply and verify the course request migration
+        if: steps.request-schema.outputs.apply == 'true'
+        env:
+          DB: ${{ secrets.ISHRAH_DB_URL }}
+        run: |
+          if ! command -v psql >/dev/null; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client >/dev/null
+          fi
+          DB=$(printf '%s' "$DB" | tr -d '\r\n\t `"'"'"'<>')
+          psql "$DB" -v ON_ERROR_STOP=1 -q -f ishrah/supabase/013_course_requests.sql
+          test "$(psql "$DB" -v ON_ERROR_STOP=1 -Atc "select to_regclass('public.course_requests') is not null and to_regprocedure('public.ish_course_request(text,uuid,jsonb)') is not null")" = t
       - name: Create the Pages project the first time (ignored when it exists)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

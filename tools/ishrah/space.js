@@ -43,6 +43,27 @@ async function checkSpaces(browser) {
   await onPage('pick-section');
   assert.deepEqual(await main.locator('[data-act=setsection]').evaluateAll(
     cards => cards.map(card => card.dataset.v)), sections.map(([id]) => id));
+  assert.equal(await page.locator('#top .tspec').innerText(), 'Medicine');
+  assert.equal(await main.locator('h1').innerText(), 'اختر قسمك');
+  assert.equal(await main.locator('a[href="#pick"]').count(), 0);
+  const initialSize = page.viewportSize();
+  for (const [w, h] of [[320, 568], [360, 640], [390, 740], [412, 915], [800, 480], [820, 1180], [1024, 600], [1440, 900]]) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForFunction(() => {
+      const cards = Array.from(document.querySelectorAll('.section-choice'));
+      const tabs = document.querySelector('#tabs');
+      const bottom = tabs.getClientRects().length ? tabs.getBoundingClientRect().top : innerHeight;
+      return cards.length === 4 && document.documentElement.scrollHeight <= innerHeight + 1 && cards.every(card => {
+        const bounds = card.getBoundingClientRect();
+        return bounds.top >= 0 && bounds.bottom <= bottom && card.querySelector('b').getBoundingClientRect().bottom <= bounds.bottom;
+      });
+    }, null, { timeout: 3000 }).catch(error => { throw new Error('Section picker does not fit at ' + w + '×' + h, { cause: error }); });
+  }
+  await page.setViewportSize(initialSize);
+  await page.locator('#top .tspec[href="#pick"]').click();
+  await onPage('pick');
+  await main.locator('[data-act=setspec][data-v=medicine]').click();
+  await onPage('pick-section');
 
   await page.evaluate(async sections => {
     if (DB.live) throw new Error('Run this journey with an empty preview config.');
@@ -61,12 +82,10 @@ async function checkSpaces(browser) {
     await DB.ins('courses', { id: 'draft-course', lecturer_id: 't-house', title: 'Fixture Draft Course', cat: 'basics', spec: 'medicine', status: 'draft' });
   }, sections);
 
-  for (const [id, subject, label] of sections) {
+  for (const [id, subject] of sections) {
     await go('pick-section');
     await chooseSection(id);
-    await visible(label, true);
-    assert.equal(await main.locator('a.subj[href="#courses/' + id + '/' + subject + '"]').count(), 1);
-    assert.equal(await main.locator('a.subj:not([href^="#courses/' + id + '/"])').count(), 0);
+    assert.equal(await main.locator('h1').innerText(), await page.evaluate(id => IS.cat(id).ar, id));
     await visible('Fixture Course ' + id, true);
     await visible('Fixture Dentistry Course', false);
 
@@ -75,6 +94,14 @@ async function checkSpaces(browser) {
       ['paths', 'Path'], ['community', 'Post'], ['search/Fixture', 'Course'],
     ]) {
       await go(route);
+      if (route === 'courses') {
+        assert.equal(await main.locator('[data-f=sub][value="' + subject + '"]').count(), 1);
+        if (id === 'basics') {
+          assert.equal(await main.locator('span[lang=en]').filter({ hasText: /^Physiology$/ }).count(), 1);
+          assert.equal(await main.locator('[data-f=sub][value="surgery"]').count(), 0);
+        }
+      }
+      if (route === 'lecturers') assert.equal(await main.locator('h1').innerText(), 'المحاضرون');
       await visible('Fixture ' + label + ' ' + id, true);
       for (const [other] of sections) {
         if (other !== id && !(route === 'lecturers' && id === 'clinical' && other === 'basics')) {
@@ -89,6 +116,11 @@ async function checkSpaces(browser) {
 
   await go('pick-section');
   await chooseSection('basics');
+  await page.evaluate(() => IS.ACT.lang());
+  await go('lecturers');
+  assert.equal(await main.locator('h1').innerText(), 'Lecturers');
+  await page.evaluate(() => IS.ACT.lang());
+  await go('home');
   await page.reload();
   await onPage('home');
   assert.equal(await page.evaluate(() => IS.mySection().id), 'basics');

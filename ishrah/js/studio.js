@@ -11,7 +11,7 @@
 
   /* ========== APPLY ========== */
   /* qualifications grouped by speciality (owner, 18 Nov 2026); "Other (type it)" covers anything else */
-  IS.QUALS = function () { var g = function (en, ar) { return en + (IS.lang === 'en' ? '' : ' · ' + ar); }; return [
+  IS.QUALS = function () { var g = function (en, ar) { return A(ar, en); }; return [
     { g: g('Medicine', 'الطب البشري'), o: ['MBBS', 'MD (Clinical MD, SMSB)', 'MMed', 'MRCP', 'MRCS', 'MRCOG', 'MRCPCH', 'FRCS', 'FRCP', 'Arab Board', 'Fellowship'] },
     { g: g('Dentistry', 'طب الأسنان'), o: ['BDS', 'MDS', 'MSc in Dentistry', 'MFDS', 'FDS', 'Clinical MD in Dentistry'] },
     { g: g('Pharmacy', 'الصيدلة'), o: ['BPharm', 'PharmD', 'MPharm', 'MSc in Pharmacy', 'Clinical Pharmacy Diploma'] },
@@ -121,7 +121,7 @@
     return '<form class="box form" data-form="course"><input type="hidden" name="id" value="' + esc(c.id || '') + '"><div class="g2f"><label class="fl"><span>' + esc(A('عنوان الكورس', 'Course title')) + ' *</span><input name="title" required maxlength="120" value="' + esc(c.title) + '"></label>' +
       '<label class="fl"><span>' + esc(A('عنوان فرعي قصير', 'Short subtitle')) + '</span><input name="subtitle" maxlength="160" value="' + esc(c.subtitle || '') + '"></label>' +
       '<label class="fl"><span>' + esc(A('التخصص', 'Speciality')) + '</span>' + sel('spec', IS.SPECS.map(function (k) { return [k.id, k.en]; }), scope.spec) + '</label>' +
-      '<label class="fl"><span>' + esc(A('القسم', 'Section')) + '</span>' + sel('cat', IS.CATS.map(function (k) { return [k.id, k.en]; }), scope.cat) + '</label>' +
+      '<label class="fl"><span>' + esc(A('القسم', 'Section')) + '</span>' + sel('cat', IS.CATS.map(function (k) { return [k.id, A(k.ar, k.en)]; }), scope.cat) + '</label>' +
       '<label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span><select name="subject">' + courseSubjects(scope.spec, scope.cat, c.subject) + '</select></label>' +
       '<label class="fl"><span>' + esc(A('المستوى', 'Level')) + '</span>' + sel('level', LEVELS.map(function (l) { return [l[0], A(l[0] || '—', l[1])]; }), c.level) + '</label>' +
       '<label class="fl"><span>' + esc(A('السعر', 'Price')) + ' (' + esc(IS.SET.currency || 'SDG') + ', ' + esc(A('0 = مجاني', '0 = free')) + ')</span><input name="price" type="number" min="0" step="500" value="' + esc(c.price || 0) + '" dir="ltr"></label></div>' +
@@ -264,14 +264,16 @@
   }, { auth: true, area: 'studio', lec: true });
   IS.ACT.evform = async function (b) {
     var e = b.getAttribute('data-id') ? await DB.one('events', b.getAttribute('data-id')) : { kind: 'live', minutes: 60 }, dt = e.starts ? new Date(new Date(e.starts).getTime() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 16) : '';
-    IS.sheet(esc(e.id ? A('تعديل الفعالية', 'Edit event') : A('فعالية جديدة', 'New event')), '<form class="form" data-form="event"><input type="hidden" name="id" value="' + esc(e.id || '') + '"><label class="fl"><span>' + esc(A('التخصص', 'Speciality')) + '</span><select name="spec">' + IS.SPECS.map(function (k) { return '<option value="' + k.id + '"' + ((e.spec || IS.SPEC || 'medicine') === k.id ? ' selected' : '') + '>' + esc(k.en) + '</option>'; }).join('') + '</select></label><label class="fl"><span>' + esc(A('العنوان', 'Title')) + ' *</span><input name="title" required value="' + esc(e.title || '') + '"></label>' +
+    IS.sheet(esc(e.id ? A('تعديل الفعالية', 'Edit event') : A('فعالية جديدة', 'New event')), '<form class="form" data-form="event"><input type="hidden" name="id" value="' + esc(e.id || '') + '"><label class="fl"><span>' + esc(A('التخصص', 'Speciality')) + '</span><select name="spec">' + IS.SPECS.map(function (k) { return '<option value="' + k.id + '"' + ((e.spec || IS.SPEC || 'medicine') === k.id ? ' selected' : '') + '>' + esc(k.en) + '</option>'; }).join('') + '</select></label><label class="fl"><span>' + esc(A('القسم', 'Section')) + '</span>' +
+      sel('cat', IS.CATS.map(function (cat) { return [cat.id, A(cat.ar, cat.en)]; }), e.cat || (IS.mySection() || {}).id) +
+      '</label><label class="fl"><span>' + esc(A('العنوان', 'Title')) + ' *</span><input name="title" required value="' + esc(e.title || '') + '"></label>' +
       '<div class="g2f"><label class="fl"><span>' + esc(A('النوع', 'Type')) + '</span>' + sel('kind', [['live', A('جلسة مباشرة', 'Live session')], ['workshop', A('ورشة عمل', 'Workshop')], ['seminar', A('ندوة', 'Seminar')]], e.kind) + '</label><label class="fl"><span>' + esc(A('المدة (دقيقة)', 'Length (min)')) + '</span><input name="minutes" type="number" min="15" value="' + esc(e.minutes || 60) + '"></label></div>' +
       '<label class="fl"><span>' + esc(A('الموعد', 'Date and time')) + ' *</span><input name="starts" type="datetime-local" required value="' + dt + '"></label><label class="fl"><span>' + esc(A('رابط الانضمام (Zoom / Meet)', 'Joining link (Zoom / Meet)')) + '</span><input name="link" dir="ltr" value="' + esc(e.link || '') + '"></label>' +
       '<label class="fl"><span>' + esc(A('عن الفعالية', 'About')) + '</span><textarea name="about" rows="3">' + esc((e.about || '').replace(/<[^>]+>/g, '')) + '</textarea></label><label class="fl file"><span>' + esc(A('صورة', 'Picture')) + '</span><input type="file" name="cover" accept="image/*"></label>' +
       '<div class="row sp">' + (e.id ? '<button type="button" class="btn ghost bad" data-act="delev" data-id="' + e.id + '">' + esc(A('حذف', 'Delete')) + '</button>' : '<span></span>') + '<button class="btn pri">' + esc(A('حفظ ونشر', 'Save and publish')) + '</button></div></form>');
   };
   IS.SUB.event = async function (d, f) {
-    var row = { title: d.title, spec: d.spec || 'medicine', kind: d.kind, minutes: +d.minutes || 60, starts: new Date(d.starts).toISOString(), link: d.link, about: esc(d.about).replace(/\n/g, '<br>') };
+    var row = { title: d.title, spec: d.spec || 'medicine', cat: d.cat || null, kind: d.kind, minutes: +d.minutes || 60, starts: new Date(d.starts).toISOString(), link: d.link, about: esc(d.about).replace(/\n/g, '<br>') };
     if (f.cover.files[0]) row.cover = await DB.upload('media', await IS.shrink(f.cover.files[0], 1200, 0.82));
     if (d.id) await DB.upd('events', d.id, row); else { row.lecturer_id = L().id; row.status = 'published'; await DB.ins('events', row); }
     IS.closeSheet(); IS.toast(A('حُفظت الفعالية', 'Event saved')); IS.refresh();

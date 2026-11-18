@@ -7,10 +7,12 @@
     get: function (k, d) { try { var v = localStorage.getItem('ish-' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
     set: function (k, v) { try { localStorage.setItem('ish-' + k, JSON.stringify(v)); } catch (e) {} }
   };
-  IS.lang = LS.get('lang', 'ar');
+  IS.lang = LS.get('lang', 'ar') === 'en' ? 'en' : 'ar';
   var A = IS.A = function (ar, en) { return IS.lang === 'en' ? (en == null ? ar : en) : ar; };
-  /* titles (owner, 18 Nov 2026): the big line is English, the Arabic sits under it in small text; English mode shows English only */
-  IS.T = function (ar, en) { if (en == null || en === ar) return IS.esc(ar); if (IS.lang === 'en') return IS.esc(en); return '<span class="tt"><b lang="en" dir="ltr">' + IS.esc(en) + '</b><small>' + IS.esc(ar) + '</small></span>'; };
+  /* Interface titles use the chosen language. Subject and speciality names use their catalogue names. */
+  IS.T = function (ar, en) { return '<span class="tt"><b lang="' + IS.lang + '">' + IS.esc(A(ar, en)) + '</b></span>'; };
+  IS.brandName = function () { return A('اشرح لي', 'Ishrah Li'); };
+  IS.noticeTitle = function (notice) { return A(notice.title, notice.title_en || notice.title); };
   var esc = IS.esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   IS.N = function (x) { return '<bdi>' + (typeof x === 'number' ? x.toLocaleString('en-US') : esc(x)) + '</bdi>'; };
   IS.money = function (x) { return '<bdi>' + (+x || 0).toLocaleString('en-US') + '</bdi> ' + esc(IS.SET.currency === 'SDG' ? A('ج.س', 'SDG') : (IS.SET.currency || '')); };
@@ -196,7 +198,7 @@
   IS.bar = function (v, c) { v = Math.max(0, Math.min(100, Math.round(v || 0))); return '<span class="bar' + (c ? ' ' + c : '') + '"><i style="width:' + v + '%"></i></span>'; };
   IS.empty = function (icon, t1, t2, act) { return '<div class="empty">' + ic(icon) + '<b>' + esc(t1) + '</b>' + (t2 ? '<span>' + esc(t2) + '</span>' : '') + (act || '') + '</div>'; };
   /* page banners with the owner's pictures (18 Nov 2026): text and icon on one side, the photo on the other, a bright blue wave between */
-  var BANIMG = { team: 'community', downloads: 'library', news: 'news', 'control-news': 'news', 'control-notify': 'news', courses: 'courses', specialties: 'specialties', 'pick-section': 'specialties', learning: 'learning', events: 'events', lecturers: 'lecturers', community: 'community', library: 'library', paths: 'paths', path: 'paths',
+  var BANIMG = { team: 'community', downloads: 'library', news: 'news', 'control-news': 'news', 'control-notify': 'news', courses: 'courses', 'course-requests': 'community', 'control-course-requests': 'community', specialties: 'specialties', 'pick-section': 'specialties', learning: 'learning', events: 'events', lecturers: 'lecturers', community: 'community', library: 'library', paths: 'paths', path: 'paths',
     support: 'support', ticket: 'support', achievements: 'achievements', cert: 'achievements', 'control-tickets': 'support', 'control-paths': 'paths', 'control-events': 'events', 'control-lecturers': 'lecturers',
     'control-community': 'community', 'control-library': 'library', 'control-review': 'courses', 'control-cats': 'specialties', 'control-apps': 'lecturers', 'studio-courses': 'courses', 'studio-events': 'events', 'studio-apply': 'lecturers',
     favorites: 'library', notifications: 'support', settings: 'support', account: 'learning', about: 'community', terms: 'library', search: 'courses', lecturer: 'lecturers', event: 'events', post: 'community',
@@ -306,11 +308,12 @@
     IS.OFFPAGE = false;
     try { html = await Promise.race([P.fn(arg), new Promise(function (ok, no) { setTimeout(function () { no(new Error('slow')); }, DB.live ? 12000 : 60000); })]); } catch (e) { if (e && e.message === 'slow') { if (my !== SEQ) return; IS.OFFPAGE = true; }  if (window.console) console.error(e); html = !navigator.onLine ? IS.offEmpty() : e && e.message === 'slow' ? IS.empty('offline', A('الاتصال ضعيف جدًا', 'The connection is very weak'), A('لم تكتمل الصفحة. تحقق من الإنترنت ثم أعد المحاولة.', 'The page did not finish loading. Check the internet and try again.'), '<button class="btn pri" data-act="retry">' + IS.ic('route') + IS.esc(A('أعد المحاولة', 'Try again')) + '</button> <a class="btn ghost" href="#downloads">' + IS.ic('download') + IS.esc(A('تنزيلاتي', 'My downloads')) + '</a>') : IS.empty('info', A('تعذّر فتح الصفحة', 'This page could not be opened'), String(e && e.message || '')); }
     if (my !== SEQ) return;
-    if (html && DB.live && IS.ME && !/^(dl|lesson|control|security|studio-lesson|pay|pick)/.test(name)) pageSave(copyKey, html);
+    if (html && DB.live && IS.ME && !/^(dl|lesson|control|security|studio-lesson|pay|pick|course-request|studio-course-request)/.test(name)) pageSave(copyKey, html);
     main.innerHTML = '<div class="page">' + (html || IS.empty('search', A('غير موجود', 'Not found'), A('ربما حُذف أو لم يُنشر بعد.', 'It may have been removed or not published yet.'))) + '</div>';
     if (!IS.keepScroll) window.scrollTo(0, 0); IS.keepScroll = false;
     var h1 = main.querySelector('h1'); if (h1) try { h1.focus({ preventScroll: true }); } catch (e) {}
-    var tt = h1 && (h1.querySelector('.tt small') || h1); document.title = (tt ? tt.textContent.trim() + ' · ' : '') + 'اشرح لي';
+    var pageTitle = h1 && h1.textContent.trim();
+    document.title = (pageTitle && pageTitle !== IS.brandName() ? pageTitle + ' · ' : '') + IS.brandName();
     if (IS.after) try { await IS.after(main); } catch (e) { if (window.console) console.error(e); }
     IS.balance(); IS.evenRows(); IS.fileUI(); IS.dedupe(); IS.sideLock(); IS.beat(); IS.hydrateSeen(); IS.trimScroll(); setTimeout(IS.trimScroll, 400);
   };
@@ -424,34 +427,38 @@
 
   /* ---------- shell ---------- */
   var NAV = {
-    student: [['home', 'home', 'الرئيسية', 'Home'], ['courses', 'layers', 'الكورسات', 'Courses'], ['learning', 'bookmark', 'تعلّمي', 'My learning'], ['events', 'cal', 'الفعاليات', 'Events'], ['news', 'news', 'الإعلانات والأخبار', 'News'], ['downloads', 'download', 'تنزيلاتي', 'Downloads'],
+    student: [['home', 'home', 'الرئيسية', 'Home'], ['courses', 'layers', 'الكورسات', 'Courses'], ['course-requests', 'chat', 'طلبات الكورسات', 'Course requests'], ['learning', 'bookmark', 'تعلّمي', 'My learning'], ['events', 'cal', 'الفعاليات', 'Events'], ['news', 'news', 'الإعلانات والأخبار', 'News'], ['downloads', 'download', 'تنزيلاتي', 'Downloads'],
       ['lecturers', 'users', 'المحاضرون', 'Lecturers'], ['community', 'group', 'المجتمع', 'Community'], ['library', 'open', 'مكتبتي', 'My Library'], ['paths', 'route', 'المسارات', 'Paths'], ['favorites', 'heart', 'المفضلة', 'Favourites'], ['achievements', 'trophy', 'الإنجازات', 'Achievements'], ['support', 'chat', 'الدعم والرسائل', 'Support & messages'], ['team', 'group', 'فريق المنصة', 'Our team'], ['about', 'info', 'عن المنصة', 'About'], ['settings', 'gear', 'الإعدادات', 'Settings']],
     studio: [['studio', 'chart', 'لوحة المحاضر', 'Dashboard'], ['studio-courses', 'layers', 'كورساتي', 'My courses'], ['studio-page', 'user', 'صفحتي', 'My page'], ['studio-events', 'cal', 'فعالياتي', 'My events'],
-      ['studio-students', 'users', 'طلابي', 'My students'], ['studio-qa', 'chat', 'الأسئلة', 'Questions'], ['studio-requests', 'mail', 'طلبات الطلاب', 'Student requests'], ['studio-money', 'wallet', 'الأرباح', 'Earnings'], ['studio-guide', 'book', 'دليل المحاضر', 'Lecturer guide'], ['settings', 'gear', 'الإعدادات', 'Settings']],
+      ['studio-students', 'users', 'طلابي', 'My students'], ['studio-qa', 'chat', 'الأسئلة', 'Questions'], ['studio-requests', 'mail', 'طلبات الطلاب', 'Student requests'], ['studio-course-requests', 'chat', 'فرص التدريس', 'Teaching opportunities'], ['studio-money', 'wallet', 'الأرباح', 'Earnings'], ['studio-guide', 'book', 'دليل المحاضر', 'Lecturer guide'], ['settings', 'gear', 'الإعدادات', 'Settings']],
     control: [['control', 'chart', 'لوحة التحكم', 'Dashboard', 'dash'], ['control-pay', 'receipt', 'المدفوعات', 'Payments', 'pay'], ['control-review', 'eye', 'مراجعة الكورسات', 'Course review', 'review'], ['control-apps', 'user', 'طلبات المحاضرين', 'Lecturer requests', 'apps'],
       ['control-lecturers', 'users', 'المحاضرون', 'Lecturers', 'lecturers'], ['control-payouts', 'wallet', 'مستحقات المحاضرين', 'Payouts', 'payout'], ['control-students', 'group', 'الطلبة', 'Students', 'students'],
       ['control-community', 'flag', 'البلاغات والمجتمع', 'Community', 'community'], ['control-events', 'cal', 'الفعاليات', 'Events', 'events'], ['control-cats', 'grid', 'الأقسام والمواد', 'Categories', 'cats'],
       ['control-notify', 'bell', 'الإعلانات', 'Announcements', 'notify'], ['control-team', 'crown', 'فريق المنصة', 'Team', 'team'], ['control-settings', 'gear', 'الإعدادات', 'Settings', 'settings'], ['control-audit', 'clock', 'سجل العمليات', 'Activity log', 'audit']]
   };
   IS.NAV = NAV;
-  IS.navLbl = function (ar, en) { return '<span class="nl"><b lang="en">' + esc(en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(ar) + '</small>') + '</span>'; };
+  IS.navLbl = function (ar, en) { return '<span class="nl"><b lang="' + IS.lang + '">' + esc(A(ar, en)) + '</b></span>'; };
   function navItems(area) { if (area === 'control' && IS.ctrlItems) return IS.ctrlItems(); return NAV[area].filter(function (n) { return !n[4] || IS.can(n[4]); }); }
   IS.chrome = function (page) {
     var me = IS.ME, area = IS.area;
     var areaSw = '<div class="areas">' + [['student', 'home', A('المنصة', 'Platform'), true], ['studio', 'studio', A('استوديو المحاضر', 'Lecturer studio'), !!IS.LEC], ['control', 'crown', A('التحكم', 'Control'), IS.team()]].filter(function (x) { return x[3]; }).map(function (x) {
       return '<a href="#' + (x[0] === 'student' ? 'home' : x[0]) + '" class="' + (area === x[0] ? 'on' : '') + '">' + ic(x[1]) + '<span>' + esc(x[2]) + '</span></a>'; }).join('') + '</div>';
     var studySpec = area === 'student' && IS.mySpec(), studySection = studySpec && IS.mySection();
-    IS.$('#top').innerHTML = '<div class="tin"><a class="brand" href="#home"><img src="' + IS.logo() + '" alt="" width="46" height="40"><span><b>اشرح لي</b><small>' + esc(area === 'control' ? A('تطبيق التحكم', 'Control app') : area === 'studio' ? A('استوديو المحاضر', 'Lecturer studio') : A('منصة تعليمية متكاملة لطلاب الكليات الصحية', 'Learning platform for health sciences students')) + '</small></span></a>' +
+    var choosingSection = page === 'pick-section';
+    var topScope = choosingSection ? studySpec : studySection || studySpec;
+    var topScopeName = topScope && (topScope === studySpec ? studySpec.en : A(studySection.ar, studySection.en));
+    var scopeLabel = choosingSection ? A('تغيير التخصص', 'Change speciality') : A('تغيير القسم', 'Change section');
+    IS.$('#top').innerHTML = '<div class="tin"><a class="brand" href="#home"><img src="' + IS.logo() + '" alt="" width="46" height="40"><span><b>' + esc(IS.brandName()) + '</b><small>' + esc(area === 'control' ? A('تطبيق التحكم', 'Control app') : area === 'studio' ? A('استوديو المحاضر', 'Lecturer studio') : A('منصة تعليمية متكاملة لطلاب الكليات الصحية', 'Learning platform for health sciences students')) + '</small></span></a>' +
       (area === 'student' ? '<form class="tsearch" role="search" data-form="search"><span>' + ic('search') + '</span><input name="q" type="search" autocomplete="off" placeholder="' + esc(A('ابحث عن كورس أو مادة أو محاضر…', 'Search courses, subjects, lecturers…')) + '" aria-label="' + esc(A('بحث', 'Search')) + '"></form>' : '<span class="tsp"></span>') +
-      (studySpec ? '<a class="tspec" href="#pick-section" aria-label="' + esc(A('تغيير القسم', 'Change section')) + '">' + ic(studySection ? studySection.icon : studySpec.icon) + '<span lang="en">' + esc(studySection ? studySection.en : A('اختر قسمًا', 'Choose section')) + '</span>' + ic('down') + '</a>' : '') + '<div class="tbtn"><a class="ib only-ph" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + ic('search') + '</a><button type="button" class="ib tmode" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night mode')) + '">' + ic(document.documentElement.getAttribute('data-theme') === 'dark' ? 'moon' : 'sun') + '</button>' +
+      (topScope ? '<a class="tspec" href="#' + (choosingSection ? 'pick' : 'pick-section') + '" aria-label="' + esc(scopeLabel + ' · ' + topScopeName) + '">' + ic(topScope.icon) + '<span dir="auto">' + esc(topScopeName) + '</span>' + ic('down') + '</a>' : '') + '<div class="tbtn"><a class="ib only-ph" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + ic('search') + '</a><button type="button" class="ib tmode" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night mode')) + '">' + ic(document.documentElement.getAttribute('data-theme') === 'dark' ? 'moon' : 'sun') + '</button>' +
       (me ? '<a class="ib bell" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + ic('bell') + '<i id="bellN" hidden></i></a><a class="me" href="#account">' + IS.av(me, 'sm') + '<span>' + esc(me.name || '') + '</span></a>' :
         '<button class="btn pri sm" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button>') + '</div></div>';
     var items = navItems(area);
-    var spBox = studySpec ? '<a class="myspec" href="#pick-section"' + (studySpec.img ? ' style="--sp:url(' + IS.U(studySpec.img) + ')"' : '') + '><span class="msi">' + ic(studySection ? studySection.icon : studySpec.icon) + '</span><span class="msn"><b lang="en">' + esc(studySection ? studySection.en : A('اختر قسمًا', 'Choose section')) + '</b><small lang="en">' + esc(studySpec.en) + '</small></span><em>' + esc(A('تغيير', 'Change')) + '</em></a>' : '';
+    var spBox = studySpec ? '<a class="myspec" href="#pick-section"' + (studySpec.img ? ' style="--sp:url(' + IS.U(studySpec.img) + ')"' : '') + '><span class="msi">' + ic(studySection ? studySection.icon : studySpec.icon) + '</span><span class="msn"><b lang="' + IS.lang + '">' + esc(studySection ? A(studySection.ar, studySection.en) : A('اختر قسمًا', 'Choose section')) + '</b><small lang="en">' + esc(studySpec.en) + '</small></span><em>' + esc(A('تغيير', 'Change')) + '</em></a>' : '';
     IS.$('#side').innerHTML = areaSw + spBox + (area === 'control' && IS.ctrlSide ? '<nav class="cnav">' + IS.ctrlSide(page) + '</nav>' : '<nav>' + items.map(function (n) { return '<a href="#' + n[0] + '" class="' + (n[0] === page || (page.indexOf(n[0] + '-') === 0 && area === 'student') ? 'on' : '') + '">' + ic(n[1]) + IS.navLbl(n[2], n[3]) + '</a>'; }).join('') + '</nav>');
     var tabs = area === 'student' ? ['home', 'courses', 'learning', 'library'] : items.slice(0, 4).map(function (n) { return n[0]; });
-    IS.$('#tabs').innerHTML = tabs.map(function (k) { var n = items.filter(function (x) { return x[0] === k; })[0]; if (!n) return ''; return '<a href="#' + n[0] + '" class="' + (n[0] === page ? 'on' : '') + '">' + ic(n[1]) + '<span>' + esc(n[3]) + '</span></a>'; }).join('') +
-      '<a href="#more" data-act="more">' + ic('menu') + '<span>More</span></a>';
+    IS.$('#tabs').innerHTML = tabs.map(function (k) { var n = items.filter(function (x) { return x[0] === k; })[0]; if (!n) return ''; return '<a href="#' + n[0] + '" class="' + (n[0] === page ? 'on' : '') + '">' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') +
+      '<a href="#more" data-act="more">' + ic('menu') + '<span>' + esc(A('المزيد', 'More')) + '</span></a>';
     if (me) IS.bell(); topH();
   };
   /* height of the fixed phone top bar, so the page starts below it */
@@ -459,7 +466,7 @@
   window.addEventListener('resize', topH); setTimeout(topH, 50);
   IS.bell = async function () {
     try { var seen = LS.get('seen-' + IS.ME.id, 0), n = await DB.q('notices', { order: ['created_at', false], limit: 40 });
-      n = n.filter(function (x) { return (!x.user_id || x.user_id === IS.ME.id) && new Date(x.created_at).getTime() > seen; }); var b = IS.$('#bellN'); if (b) { b.hidden = !n.length; b.textContent = n.length > 9 ? '9+' : n.length; } } catch (e) {}
+      n = n.filter(function (x) { return (x.user_id ? x.user_id === IS.ME.id : !IS.announcementInSection || IS.announcementInSection(x)) && new Date(x.created_at).getTime() > seen; }); var b = IS.$('#bellN'); if (b) { b.hidden = !n.length; b.textContent = n.length > 9 ? '9+' : n.length; } } catch (e) {}
   };
   /* what this account is (owner, 18 Nov 2026: "the app should identify someone as admin or lecturer or student, or 2 things"):
      every account is a student; an approved lecturer is also a lecturer; a team member also has his team role. Each role opens its space. */

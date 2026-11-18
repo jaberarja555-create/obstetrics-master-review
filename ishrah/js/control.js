@@ -12,7 +12,7 @@
     [['users', 'المستخدمون', 'Users'], [['control-students', 'user', 'الطلاب', 'Students', 'students'], ['control-lecturers', 'users', 'المحاضرون', 'Lecturers', 'lecturers'], ['control-apps', 'cert', 'طلبات المحاضرين', 'Lecturer requests', 'apps']]],
     [['layers', 'المحتوى التعليمي', 'Content'], [['control-review', 'eye', 'الكورسات والمراجعة', 'Courses & review', 'review'], ['control-library', 'open', 'الكتب والملفات', 'Books & files', 'library'], ['control-paths', 'route', 'المسارات التعليمية', 'Learning paths', 'paths']]],
     [['cal', 'الفعاليات', 'Events'], [['control-events', 'cal', 'إدارة الفعاليات', 'Manage events', 'events']]],
-    [['receipt', 'الطلبات', 'Requests'], [['control-requests', 'receipt', 'طلبات المكتبة', 'Library requests', 'requests']]],
+    [['receipt', 'الطلبات', 'Requests'], [['control-requests', 'receipt', 'طلبات المكتبة', 'Library requests', 'requests'], ['control-course-requests', 'chat', 'طلبات الكورسات', 'Course requests', 'review']]],
     [['group', 'المجتمع والتواصل', 'Community'], [['control-community', 'flag', 'البلاغات والنقاشات', 'Reports & posts', 'community'], ['control-news', 'news', 'الأخبار', 'News', 'notify'], ['control-notify', 'bell', 'الإعلانات والإشعارات', 'Announcements', 'notify']]],
     [['wallet', 'الاشتراكات والمدفوعات', 'Payments'], [['control-pay', 'receipt', 'مراجعة المدفوعات', 'Payment review', 'pay'], ['control-payouts', 'wallet', 'مستحقات المحاضرين', 'Lecturer payouts', 'payout']]],
     [['chart', 'التقارير والتحليلات', 'Reports'], [['control-reports', 'chart', 'التقارير', 'Reports', 'reports']]],
@@ -247,7 +247,7 @@
   function hasPerm(role, p) { var a = IS.PERMS[role] || []; return a.indexOf('*') >= 0 || a.indexOf(p) >= 0; }
   IS.page('control-structure', async function () {
     var us = (await DB.q('profiles')).filter(function (u) { return (u.team || []).length; }), cnt = function (r) { return us.filter(function (u) { return (u.team || []).indexOf(r) >= 0; }).length; };
-    function box(r, cls) { var x = roleOf(r); return '<div class="obox ' + (cls || '') + '"><span class="oi">' + ic(x[3]) + '</span><div><b>' + esc(x[1]) + ' <small lang="en">(' + esc(x[2]) + ')</small></b><p>' + esc(A(x[4], x[5])) + '</p><em>' + N(cnt(r)) + ' ' + esc(A('عضو', 'members')) + '</em></div></div>'; }
+    function box(r, cls) { var x = roleOf(r); return '<div class="obox ' + (cls || '') + '"><span class="oi">' + ic(x[3]) + '</span><div><b>' + esc(A(x[1], x[2])) + '</b><p>' + esc(A(x[4], x[5])) + '</p><em>' + N(cnt(r)) + ' ' + esc(A('عضو', 'members')) + '</em></div></div>'; }
     return IS.banner(IS.T('الهيكل الإداري للمنصة', 'Administrative structure'), esc(A('التنظيم الإداري والهرمي لصلاحيات وإدارة منصة اشرح لي', 'How Ishrah Li is organised and who controls what')), 'org') +
       '<div class="org">' + box('owner', 'top') + '<i class="oline"></i>' + box('gm', 'top') + '<i class="oline"></i><div class="ogrid">' + ['academic', 'finance', 'community', 'content', 'support', 'tech'].map(function (r) { return box(r); }).join('') + '</div><i class="oline"></i>' + box('staff', 'wide') + '</div>' +
       (IS.can('team') ? '<div class="row center"><a class="btn pri" href="#control-team">' + ic('shield') + esc(A('إدارة الأدوار والصلاحيات', 'Manage roles and permissions')) + '</a></div>' : '');
@@ -258,10 +258,10 @@
       '<div class="bfeat"><span>' + ic('user') + esc(A('دخول مخصص لكل دور', 'A dashboard per role')) + '</span><span>' + ic('shield') + esc(A('صلاحيات محددة وآمنة', 'Precise, safe permissions')) + '</span><span>' + ic('file') + esc(A('تسجيل كامل لجميع الإجراءات', 'Every action recorded')) + '</span></div>');
     h += '<header class="sh"><h2>' + ic('users') + IS.T('الأدوار الإدارية في المنصة', 'Administrative roles') + '</h2><div class="row"><a class="btn ghost sm" href="#control-audit">' + ic('list') + esc(A('سجل العمليات', 'Activity log')) + '</a><a class="btn ghost sm" href="#control-structure">' + ic('org') + esc(A('الهيكل الإداري', 'Structure')) + '</a><button class="btn pri sm" data-act="addteam">' + ic('plus') + esc(A('إضافة عضو', 'Add member')) + '</button></div></header>';
     h += '<div class="rolecards">' + IS.ROLES.filter(function (r) { return r[0] !== 'owner'; }).map(function (r, i) { var perms = SECTIONS.filter(function (s) { return hasPerm(r[0], s[0]); }).slice(0, 4);
-      return '<article class="rcard r' + i + '"><span class="chip ok">' + ic('check') + esc(A('مفعّل', 'Active')) + '</span><span class="ri">' + ic(r[3]) + '</span><h3>' + esc(r[1]) + '</h3><small lang="en">(' + esc(r[2]) + ')</small><p class="rc">' + ic('user') + N(cnt(r[0])) + ' ' + esc(A('عضو', 'members')) + '</p>' +
+      return '<article class="rcard r' + i + '"><span class="chip ok">' + ic('check') + esc(A('مفعّل', 'Active')) + '</span><span class="ri">' + ic(r[3]) + '</span><h3>' + esc(A(r[1], r[2])) + '</h3><p class="rc">' + ic('user') + N(cnt(r[0])) + ' ' + esc(A('عضو', 'members')) + '</p>' +
         '<b class="rp">' + esc(A('أهم الصلاحيات:', 'Main permissions:')) + '</b><ul>' + (r[0] === 'staff' ? '<li>' + ic('check') + esc(A('أقسام يحددها المدير لكل موظف', 'Sections chosen for each member')) + '</li>' : perms.map(function (s) { return '<li>' + ic('check') + esc(A(s[2], s[3])) + '</li>'; }).join('')) + '</ul>' +
         '<button class="btn ' + (i === 0 ? 'pri' : 'ghost') + ' wide" data-act="rolemembers" data-r="' + r[0] + '">' + esc(A('أعضاء الدور', 'Role members')) + '</button></article>'; }).join('') + '</div>';
-    h += '<div class="grid g2"><section class="box"><header class="sh"><h2>' + ic('clock') + IS.T('سجل العمليات', 'Activity log') + ' <small lang="en">(Audit Log)</small></h2><a class="more" href="#control-audit">' + esc(A('عرض الكل', 'All')) + '</a></header>' + (log.length ? '<div class="mtable"><div class="mh"><span>' + esc(A('المستخدم', 'User')) + '</span><span>' + esc(A('العملية', 'Action')) + '</span><span>' + esc(A('التفاصيل', 'Details')) + '</span><span>' + esc(A('التاريخ', 'Date')) + '</span></div>' +
+    h += '<div class="grid g2"><section class="box"><header class="sh"><h2>' + ic('clock') + IS.T('سجل العمليات', 'Activity log') + '</h2><a class="more" href="#control-audit">' + esc(A('عرض الكل', 'All')) + '</a></header>' + (log.length ? '<div class="mtable"><div class="mh"><span>' + esc(A('المستخدم', 'User')) + '</span><span>' + esc(A('العملية', 'Action')) + '</span><span>' + esc(A('التفاصيل', 'Details')) + '</span><span>' + esc(A('التاريخ', 'Date')) + '</span></div>' +
       log.map(function (x) { return '<div class="mr"><span><b>' + esc(x.name || '') + '</b></span><span>' + esc(x.action) + '</span><span class="mut">' + esc(x.target || '') + '</span><span class="mut" dir="ltr">' + esc(String(x.created_at).slice(0, 16).replace('T', ' ')) + '</span></div>'; }).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد عمليات بعد.', 'Nothing yet.')) + '</p>') + '</section>' +
       '<section class="box"><h2>' + ic('shield') + IS.T('مصفوفة الصلاحيات', 'Permission matrix') + '</h2><div class="matrix"><table><thead><tr><th>' + esc(A('الدور / الوحدة', 'Role / section')) + '</th>' + IS.ROLES.filter(function (r) { return r[0] !== 'owner' && r[0] !== 'staff'; }).map(function (r) { return '<th>' + esc(r[1]) + '</th>'; }).join('') + '</tr></thead><tbody>' +
       SECTIONS.map(function (s) { return '<tr><th>' + ic(s[1]) + esc(A(s[2], s[3])) + '</th>' + IS.ROLES.filter(function (r) { return r[0] !== 'owner' && r[0] !== 'staff'; }).map(function (r) { var y = hasPerm(r[0], s[0]); return '<td class="' + (y ? 'y' : 'n') + '">' + ic(y ? 'checkc' : 'x') + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>' +
@@ -343,13 +343,30 @@
   IS.ACT.evstat = async function (b) { var e = await DB.upd('events', b.getAttribute('data-id'), { status: b.getAttribute('data-s') }); IS.audit(e.status + ' event', e.title); IS.refresh(); };
 
   /* ========== ANNOUNCEMENTS ========== */
+  function audienceField() {
+    return '<label class="fl"><span>' + esc(A('الجمهور', 'Audience')) + '</span><select name="scope"><option value="">' +
+      esc(A('كل المنصة', 'Whole platform')) + '</option>' + IS.SPECS.map(function (spec) {
+        return '<optgroup label="' + esc(spec.en) + '">' + IS.CATS.map(function (cat) {
+          return '<option value="' + esc(spec.id + '/' + cat.id) + '">' + esc(A(cat.ar, cat.en)) + '</option>';
+        }).join('') + '</optgroup>';
+      }).join('') + '</select></label>';
+  }
+  function audience(value) {
+    var parts = (value || '').split('/');
+    return IS.spec(parts[0]) && IS.cat(parts[1]) ? { spec: parts[0], cat: parts[1] } : { spec: null, cat: null };
+  }
   IS.page('control-notify', async function () {
-    var n = (await DB.q('notices', { order: ['created_at', false], limit: 50 })).filter(function (x) { return !x.user_id; });
-    return IS.banner(IS.T('الإعلانات والإشعارات', 'Announcements'), esc(A('إعلان يصل إلى كل مستخدمي المنصة في الإشعارات.', 'An announcement reaches every user in their notifications.')), 'bell') +
-      '<form class="box form" data-form="broadcast"><label class="fl"><span>' + esc(A('العنوان', 'Title')) + '</span><input name="title" required maxlength="120"></label><label class="fl"><span>' + esc(A('النص', 'Text')) + '</span><textarea name="body" rows="3" maxlength="600"></textarea></label><label class="fl"><span>' + esc(A('رابط داخل المنصة (اختياري)', 'Link inside the platform (optional)')) + '</span><input name="link" dir="ltr" placeholder="#courses"></label><button class="btn pri">' + ic('send') + esc(A('إرسال للجميع', 'Send to everyone')) + '</button></form>' +
+    var n = await DB.q('notices', { eq: { user_id: null }, order: ['created_at', false], limit: 50 });
+    return IS.banner(IS.T('الإعلانات والإشعارات', 'Announcements'), esc(A('انشر إعلانًا عامًا أو خصصه لمساحة دراسية.', 'Publish to the whole platform or a study section.')), 'bell') +
+      '<form class="box form" data-form="broadcast"><label class="fl"><span>' + esc(A('العنوان', 'Title')) + '</span><input name="title" required maxlength="120"></label><label class="fl"><span>' + esc(A('النص', 'Text')) + '</span><textarea name="body" rows="2" maxlength="600"></textarea></label><label class="fl"><span>' + esc(A('رابط داخل المنصة (اختياري)', 'Link inside the platform (optional)')) + '</span><input name="link" dir="ltr" placeholder="#courses"></label>' + audienceField() + '<button class="btn pri">' +
+      ic('send') + esc(A('نشر الإعلان', 'Publish announcement')) + '</button></form>' +
       (n.length ? '<div class="list">' + n.map(function (x) { return '<div class="li">' + ic('sparkle') + '<span><b>' + esc(x.title) + '</b><small>' + esc(x.body) + '</small></span><em>' + esc(IS.ago(x.created_at)) + '</em><button class="ib sm" data-act="delnote" data-id="' + x.id + '" aria-label="delete">' + ic('trash') + '</button></div>'; }).join('') + '</div>' : '');
   }, P('notify'));
-  IS.SUB.broadcast = async function (d) { await IS.notify(null, d.title, d.body, d.link); IS.audit('announcement', d.title); IS.toast(A('أُرسل الإعلان', 'Announcement sent')); IS.refresh(); };
+  IS.SUB.broadcast = async function (d) {
+    if (d.link && d.link[0] !== '#') return IS.toast(A('أدخل رابطًا داخل المنصة يبدأ بـ #.', 'Enter a link inside the platform that starts with #.'), true);
+    await DB.ins('notices', Object.assign({ user_id: null, title: d.title, body: d.body, link: d.link }, audience(d.scope)));
+    IS.audit('announcement', d.title); IS.toast(A('نُشر الإعلان', 'Announcement published')); IS.refresh();
+  };
   IS.ACT.delnote = async function (b) { await DB.del('notices', b.getAttribute('data-id')); IS.refresh(); };
 
 
@@ -359,17 +376,18 @@
     return IS.banner(IS.T('الأخبار', 'News'), esc(A('أخبار بصورة تظهر في صفحة الإعلانات والأخبار.', 'News with a picture, shown on the Announcements & News page.')), 'news') +
       '<form class="box form" data-form="newsadd"><div class="g2f"><label class="fl"><span>' + esc(A('العنوان', 'Title')) + ' *</span><input name="title" required maxlength="140"></label>' +
       '<label class="fl"><span>' + esc(A('التصنيف', 'Tag')) + '</span><select name="tag">' + IS.NTAGS.map(function (t) { return '<option value="' + t[0] + '">' + esc(A(t[1], t[2])) + '</option>'; }).join('') + '</select></label></div>' +
-      '<label class="fl"><span>' + esc(A('النص', 'Text')) + '</span><textarea name="body" rows="4" maxlength="4000"></textarea></label>' +
+      audienceField() + '<label class="fl"><span>' + esc(A('النص', 'Text')) + '</span><textarea name="body" rows="4" maxlength="4000"></textarea></label>' +
       '<label class="fl file"><span>' + esc(A('الصورة', 'Picture')) + '</span><input type="file" name="cover" accept="image/*"></label>' +
-      '<label class="chk"><input type="checkbox" name="notify"><span>' + esc(A('أرسل إشعارًا لكل المستخدمين أيضًا', 'Also notify every user')) + '</span></label>' +
+      '<label class="chk"><input type="checkbox" name="notify"><span>' + esc(A('أرسل إشعارًا إلى الجمهور المحدد', 'Also notify the selected audience')) + '</span></label>' +
       '<button class="btn pri">' + ic('send') + esc(A('نشر الخبر', 'Publish')) + '</button></form>' +
       (ns.length ? '<div class="table">' + ns.map(function (x) { return '<div class="tr">' + ic('news') + '<span class="grow"><a href="#news/' + x.id + '"><b>' + esc(x.title) + '</b></a><small class="mut">' + esc(IS.date(x.created_at)) + '</small></span>' +
         '<button class="ib sm" data-act="newsdel" data-id="' + x.id + '" aria-label="' + esc(A('حذف', 'Delete')) + '">' + ic('trash') + '</button></div>'; }).join('') + '</div>' : IS.empty('news', A('لم تُنشر أخبار بعد', 'No news published yet')));
   }, P('notify'));
   IS.SUB.newsadd = async function (d, f) {
-    var row = { title: d.title, tag: d.tag || 'news', body: d.body || '', status: 'published', author_id: IS.ME.id }, c = f.cover.files[0];
+    var scope = audience(d.scope), row = Object.assign({ title: d.title, tag: d.tag || 'news', body: d.body || '', status: 'published', author_id: IS.ME.id }, scope), c = f.cover.files[0];
     if (c) row.cover = await DB.upload('media', await IS.shrink(c, 1200, 0.84));
-    var x = await DB.ins('news', row); if (d.notify) await IS.notify(null, d.title, A('خبر جديد في اشرح لي', 'New on Ishrah Li'), '#news/' + x.id);
+    var x = await DB.ins('news', row);
+    if (d.notify) await DB.ins('notices', Object.assign({ user_id: null, title: d.title, body: A('خبر جديد في اشرح لي', 'New on Ishrah Li'), link: '#news/' + x.id }, scope));
     IS.audit('publish news', d.title); IS.toast(A('نُشر الخبر', 'News published')); IS.refresh();
   };
   IS.ACT.newsdel = async function (b) { if (!(await IS.confirm(A('حذف هذا الخبر؟', 'Delete this news item?')))) return; await DB.del('news', b.getAttribute('data-id')); IS.refresh(); };
@@ -377,14 +395,14 @@
   /* ========== CATEGORIES & SUBJECTS ========== */
   IS.page('control-cats', async function () {
     return IS.banner(IS.T('التخصصات والأقسام والمواد', 'Specialities, sections and subjects'), esc(A('التخصصات والأقسام تظهر في الرئيسية وصفحة الكورسات؛ والمواد يختارها المحاضر لكل كورس.', 'Specialities and sections appear on Home and Courses; lecturers pick a subject for each course.')), 'grid', '<button class="btn gold" data-act="subjform">' + ic('plus') + esc(A('مادة جديدة', 'New subject')) + '</button>') +
-      '<section class="box"><header class="sh"><h2>' + ic('grid') + IS.T('التخصصات', 'Specialities') + '</h2></header><div class="spadm">' + IS.SPECS.map(function (k) { return '<button class="spa" data-act="specform" data-id="' + k.id + '">' + (k.img ? '<img src="' + IS.U(k.img) + '" alt="">' : '') + '<span><b lang="en">' + esc(k.en) + '</b><small>' + esc(k.ar) + '</small><em>' + N(IS.SUBJ.filter(function (x) { return x.spec === k.id; }).length) + ' ' + esc(A('مادة', 'subjects')) + '</em></span>' + ic('pen') + '</button>'; }).join('') + '</div></section>' +
+      '<section class="box"><header class="sh"><h2>' + ic('grid') + IS.T('التخصصات', 'Specialities') + '</h2></header><div class="spadm">' + IS.SPECS.map(function (k) { return '<button class="spa" data-act="specform" data-id="' + k.id + '">' + (k.img ? '<img src="' + IS.U(k.img) + '" alt="">' : '') + '<span><b lang="en">' + esc(k.en) + '</b><em>' + N(IS.SUBJ.filter(function (x) { return x.spec === k.id; }).length) + ' ' + esc(A('مادة', 'subjects')) + '</em></span>' + ic('pen') + '</button>'; }).join('') + '</div></section>' +
       /* subjects of each speciality, section by section, as aligned tiles (owner, 18 Nov 2026: "the text and order are not good enough") */
       IS.SPECS.map(function (k) { var ss = IS.SUBJ.filter(function (x) { return x.spec === k.id; });
         return '<section class="box sjadm"><header class="sh"><h2>' + ic(k.icon) + IS.T(k.ar, k.en) + '</h2><em class="sjn">' + IS.cnt(ss.length, 'sub') + '</em><button class="btn sm ghost" data-act="subjform" data-spec="' + k.id + '">' + ic('plus') + esc(A('مادة جديدة', 'New subject')) + '</button></header>' +
           IS.CATS.map(function (c) { var cs = ss.filter(function (x) { return x.cat === c.id; }); if (!cs.length) return '';
-            return '<div class="sjg"><h3>' + ic(c.icon) + '<b lang="en">' + esc(c.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(c.ar) + '</small>') + '<em>' + N(cs.length) + '</em></h3><div class="sjtiles">' +
-              cs.map(function (x) { return '<button class="sjtile" data-act="subjform" data-id="' + x.id + '">' + (x.img ? '<img src="' + IS.U(x.img) + '" alt="" loading="lazy">' : '<i>' + ic(x.icon || 'layers') + '</i>') + '<span><b lang="en" dir="ltr">' + esc(x.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(x.ar) + '</small>') + '</span>' + ic('pen', 'sjpen') + '</button>'; }).join('') + '</div></div>'; }).join('') + '</section>'; }).join('') +
-      '<section class="box sjadm"><header class="sh"><h2>' + ic('layers') + IS.T('الأقسام', 'Sections') + '</h2></header><div class="sjtiles">' + IS.CATS.map(function (c) { return '<button class="sjtile" data-act="catform" data-id="' + c.id + '"><i>' + ic(c.icon) + '</i><span><b lang="en">' + esc(c.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(c.ar) + '</small>') + '</span>' + ic('pen', 'sjpen') + '</button>'; }).join('') + '</div></section>';
+            return '<div class="sjg"><h3>' + ic(c.icon) + '<b>' + esc(A(c.ar, c.en)) + '</b>' + '<em>' + N(cs.length) + '</em></h3><div class="sjtiles">' +
+              cs.map(function (x) { return '<button class="sjtile" data-act="subjform" data-id="' + x.id + '">' + (x.img ? '<img src="' + IS.U(x.img) + '" alt="" loading="lazy">' : '<i>' + ic(x.icon || 'layers') + '</i>') + '<span><b lang="en" dir="ltr">' + esc(x.en) + '</b>' + '</span>' + ic('pen', 'sjpen') + '</button>'; }).join('') + '</div></div>'; }).join('') + '</section>'; }).join('') +
+      '<section class="box sjadm"><header class="sh"><h2>' + ic('layers') + IS.T('الأقسام', 'Sections') + '</h2></header><div class="sjtiles">' + IS.CATS.map(function (c) { return '<button class="sjtile" data-act="catform" data-id="' + c.id + '"><i>' + ic(c.icon) + '</i><span><b>' + esc(A(c.ar, c.en)) + '</b>' + '</span>' + ic('pen', 'sjpen') + '</button>'; }).join('') + '</div></section>';
   }, P('cats'));
   IS.ACT.specform = function (b) { var k = IS.spec(b.getAttribute('data-id'));
     IS.sheet(esc(k.en), '<form class="form" data-form="spec"><input type="hidden" name="id" value="' + k.id + '"><label class="fl"><span>English</span><input name="en" required value="' + esc(k.en) + '"></label><label class="fl"><span>العربية</span><input name="ar" required value="' + esc(k.ar) + '"></label>' +
@@ -446,7 +464,7 @@
   IS.ACT.pathform = async function (b) {
     var p = b.getAttribute('data-id') ? await DB.one('paths', b.getAttribute('data-id')) : { steps: [], status: 'published' }, cs = await DB.q('courses', { eq: { status: 'published' } });
     IS.sheet(esc(p.id ? p.title : A('مسار جديد', 'New path')), '<form class="form" data-form="path"><input type="hidden" name="id" value="' + esc(p.id || '') + '"><label class="fl"><span>' + esc(A('العنوان', 'Title')) + '</span><input name="title" required value="' + esc(p.title || '') + '"></label><label class="fl"><span>' + esc(A('الوصف', 'Description')) + '</span><textarea name="about" rows="2">' + esc(p.about || '') + '</textarea></label>' +
-      '<label class="fl"><span>' + esc(A('القسم', 'Category')) + '</span><select name="cat">' + IS.CATS.map(function (c) { return '<option value="' + c.id + '"' + (p.cat === c.id ? ' selected' : '') + '>' + esc(c.ar) + '</option>'; }).join('') + '</select></label><fieldset class="fl"><legend>' + esc(A('الكورسات (بالترتيب الذي تختاره به)', 'Courses (in the order you tick them)')) + '</legend>' +
+      '<label class="fl"><span>' + esc(A('القسم', 'Category')) + '</span><select name="cat">' + IS.CATS.map(function (c) { return '<option value="' + c.id + '"' + (p.cat === c.id ? ' selected' : '') + '>' + esc(A(c.ar, c.en)) + '</option>'; }).join('') + '</select></label><fieldset class="fl"><legend>' + esc(A('الكورسات (بالترتيب الذي تختاره به)', 'Courses (in the order you tick them)')) + '</legend>' +
       cs.map(function (c) { var i = (p.steps || []).indexOf(c.id); return '<label class="chk"><input type="checkbox" name="s" value="' + c.id + '"' + (i >= 0 ? ' checked data-o="' + i + '"' : '') + '><span>' + esc(c.title) + '</span></label>'; }).join('') + '</fieldset>' +
       '<label class="chk"><input type="checkbox" name="pub"' + (p.status !== 'hidden' ? ' checked' : '') + '><span>' + esc(A('منشور للطلبة', 'Published to students')) + '</span></label><div class="row sp">' + (p.id ? '<button type="button" class="btn ghost bad" data-act="delpath" data-id="' + p.id + '">' + esc(A('حذف', 'Delete')) + '</button>' : '<span></span>') + '<button class="btn pri">' + esc(A('حفظ', 'Save')) + '</button></div></form>');
     var seq = (p.steps || []).slice(); IS.$$('#sheet input[name=s]').forEach(function (i) { i.onchange = function () { var k = seq.indexOf(i.value); if (i.checked && k < 0) seq.push(i.value); if (!i.checked && k >= 0) seq.splice(k, 1); }; }); IS.PSEQ = function () { return seq; };
