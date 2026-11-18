@@ -1910,3 +1910,4 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 #ranal{border-color:rgba(30,155,255,.45);background:var(--tint2)}
 .rgrid:has(#rsx:not([hidden])){grid-template-columns:minmax(0,1fr)!important}
 .rgrid:has(#rsx:not([hidden]))>.box:not(.newreq){order:2}
+.rchk:has([name=rchap]){grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}

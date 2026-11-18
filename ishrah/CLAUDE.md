@@ -249,7 +249,7 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - Tests: `tools/ishrah/space.js` (start page, choice, filtered pages, change). Tests that start from an empty browser must set
   `localStorage['ish-spec']` first. `flow.js` / `flow2.js` still use the old phone sign-up form and need updating to the email form.
 - Research writing (owner, 18 Nov 2026, «كتابة بحث»): a request type in My Library → Requests (`research`: kind of research, stage, deadline added
-  to the details; «What do you need?» services to tick (Full research ticks all; proposal, ethics, literature review, questionnaire,
-  sample size, data entry, statistical analysis, results, references, editing, plagiarism check, poster, publishing, other); Statistical analysis
-  opens «Which analysis?» and the preferred program; the form takes the full width while research is chosen; test tools/ishrah/research.js)
+  to the details; «Chapters you need» (Full research ticks all; topic and title, Chapter 1 Introduction … Chapter 5 Discussion, conclusion, abstract,
+  references) and «Other services» (proposal, questionnaire, sample size, analysis only, data entry, editing, plagiarism, formatting, defence
+  presentation, journal, other); no approvals to order (owner: «be smart»); Chapter 4 or Analysis only opens «Which analysis?» and the program; the form takes the full width while research is chosen; test tools/ishrah/research.js)
   and a Support message type «المساعدة في كتابة بحث» that reaches the academic team.

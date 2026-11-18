@@ -8,13 +8,23 @@
     ['qbank', 'qb', 'بنوك الأسئلة', 'QBanks'], ['reference', 'link', 'المراجع', 'References'], ['other', 'folder', 'أخرى', 'Others']];
   var RKINDS = IS.RKINDS = [['book', 'layers', 'طلب كتاب', 'Request Book'], ['pdf', 'file', 'طلب ملف PDF', 'Request PDF'], ['printed', 'receipt', 'طلب نسخة مطبوعة', 'Printed Book'], ['explain', 'video', 'طلب شرح/محاضرة', 'Request Explanation'], ['research', 'pen', 'طلب كتابة بحث', 'Research Writing'], ['other', 'grid', 'طلبات أخرى', 'Other Requests']];
   /* research writing (owner, 18 Nov 2026: «كتابة بحث»): the kind of research, its stage and the deadline go with the request */
-  var RTYPES = [['مشروع تخرج', 'Graduation project'], ['مقترح بحث (Proposal)', 'Research proposal'], ['مقالة علمية', 'Scientific article'], ['مراجعة منهجية أو أدبية', 'Systematic / literature review'], ['رسالة ماجستير أو دكتوراه', 'Master’s or doctoral thesis'], ['تحليل إحصائي', 'Statistical analysis'], ['ملصق علمي (Poster)', 'Scientific poster'], ['تدقيق ومراجعة لغوية', 'Editing and proofreading']];
+  var RTYPES = [['مشروع تخرج (بكالوريوس)', 'Graduation project'], ['رسالة ماجستير', 'Master’s thesis'], ['أطروحة دكتوراه', 'Doctoral thesis'], ['مقالة علمية أصلية', 'Original research article'], ['مراجعة منهجية / تحليل تجميعي', 'Systematic review / meta-analysis'], ['تقرير حالة (Case report)', 'Case report'], ['بحث تدريب أو تخصص (Board / Fellowship)', 'Residency or board research']];
   /* the parts of the work the student needs (owner, 18 Nov 2026: "options for which analysis, proposal, all and the others") */
-  var RSERV = [['all', 'البحث كاملًا (كل المراحل)', 'Full research (all stages)'], ['topic', 'اختيار الموضوع والعنوان', 'Choosing the topic and title'], ['proposal', 'كتابة المقترح (Proposal)', 'Writing the proposal'],
-    ['ethics', 'طلب الموافقة الأخلاقية', 'Ethical approval application'], ['review', 'مراجعة الأدبيات', 'Literature review'], ['tool', 'تصميم الاستبيان أو أداة جمع البيانات', 'Questionnaire / data collection tool'],
-    ['sample', 'حساب حجم العينة', 'Sample size calculation'], ['entry', 'إدخال البيانات', 'Data entry'], ['analysis', 'التحليل الإحصائي', 'Statistical analysis'], ['results', 'كتابة النتائج والمناقشة', 'Writing results and discussion'],
-    ['refs', 'التوثيق وترتيب المراجع', 'References and citation'], ['edit', 'التدقيق والمراجعة اللغوية', 'Editing and proofreading'], ['plag', 'فحص الاقتباس (Plagiarism)', 'Plagiarism check'],
-    ['slides', 'العرض التقديمي أو الملصق', 'Presentation or poster'], ['publish', 'المساعدة في النشر في مجلة', 'Help publishing in a journal'], ['other', 'أخرى', 'Other']];
+  /* what the student orders, the way a research is written (owner, 18 Nov 2026: "be smart … the research has chapters: literature review,
+     methodology and others"; approvals are not something to order). Chapters, then separate services. */
+  var RCHAP = [['all', 'البحث كاملًا (كل الفصول)', 'Full research (all chapters)'], ['title', 'اختيار الموضوع وصياغة العنوان', 'Topic and title'],
+    ['intro', 'الفصل الأول: المقدمة، المشكلة، المبررات والأهداف', 'Chapter 1: Introduction, problem, justification and objectives'],
+    ['litrev', 'الفصل الثاني: مراجعة الأدبيات', 'Chapter 2: Literature review'],
+    ['method', 'الفصل الثالث: المنهجية (التصميم، العينة، أداة جمع البيانات)', 'Chapter 3: Methodology (design, sample, data collection tool)'],
+    ['results', 'الفصل الرابع: النتائج والتحليل الإحصائي', 'Chapter 4: Results and statistical analysis'],
+    ['discuss', 'الفصل الخامس: المناقشة', 'Chapter 5: Discussion'],
+    ['conclude', 'الخلاصة والتوصيات', 'Conclusion and recommendations'], ['abstract', 'الملخص (Abstract)', 'Abstract'], ['refs', 'المراجع والتوثيق', 'References and citation']];
+  var RSERV = [['proposal', 'المقترح (Proposal): المقدمة والأدبيات والمنهجية بصيغة المقترح', 'Proposal (introduction, literature and methodology as a proposal)'],
+    ['tool', 'تصميم الاستبيان أو أداة جمع البيانات', 'Questionnaire / data collection tool'], ['sample', 'حساب حجم العينة', 'Sample size calculation'],
+    ['analysis', 'التحليل الإحصائي فقط (البيانات جاهزة)', 'Statistical analysis only (data ready)'], ['entry', 'إدخال البيانات', 'Data entry'],
+    ['edit', 'التدقيق والمراجعة اللغوية', 'Editing and proofreading'], ['plag', 'فحص الاقتباس (Plagiarism) وتقليله', 'Plagiarism check and reduction'],
+    ['format', 'التنسيق حسب دليل الجامعة', 'Formatting to the university guide'], ['slides', 'العرض التقديمي أو الملصق العلمي', 'Defence presentation or poster'],
+    ['publish', 'تجهيزه للنشر في مجلة', 'Preparing it for a journal'], ['other', 'أخرى', 'Other']];
   var RANAL = [['desc', 'إحصاء وصفي (تكرارات، نسب، متوسطات)', 'Descriptive statistics'], ['chi', 'اختبار مربع كاي / فيشر', 'Chi-square / Fisher’s exact'], ['ttest', 'اختبار t', 't-test'], ['anova', 'تحليل التباين ANOVA', 'ANOVA'],
     ['nonpar', 'اختبارات لا معلمية (Mann-Whitney، Kruskal-Wallis)', 'Non-parametric tests'], ['corr', 'الارتباط (Pearson / Spearman)', 'Correlation'], ['linreg', 'الانحدار الخطي', 'Linear regression'],
     ['logreg', 'الانحدار اللوجستي', 'Logistic regression'], ['surv', 'تحليل البقاء (Kaplan-Meier، Cox)', 'Survival analysis'], ['diag', 'دقة الاختبار التشخيصي (Sensitivity، ROC)', 'Diagnostic accuracy / ROC'],
@@ -104,7 +114,8 @@
       '<div class="rsx" id="rsx" hidden><label class="fl"><span>' + esc(A('نوع البحث', 'Kind of research')) + '</span><select name="rtype">' + RTYPES.map(function (x) { return '<option value="' + esc(x[1]) + '">' + esc(A(x[0], x[1])) + '</option>'; }).join('') + '</select></label>' +
       '<label class="fl"><span>' + esc(A('المرحلة الحالية', 'Current stage')) + '</span><select name="rstage">' + RSTAGES.map(function (x) { return '<option value="' + esc(x[1]) + '">' + esc(A(x[0], x[1])) + '</option>'; }).join('') + '</select></label>' +
       '<label class="fl"><span>' + esc(A('موعد التسليم', 'Deadline')) + '</span><input name="rdue" type="date"></label>' +
-      '<fieldset class="rfs"><legend>' + esc(A('ما الذي تحتاجه؟ (اختر ما يناسبك)', 'What do you need? (choose any)')) + '</legend>' + chks('rserv', RSERV) + '<input name="rserv_o" class="pko" hidden placeholder="' + esc(A('اكتب ما تحتاجه', 'Type what you need')) + '"></fieldset>' +
+      '<fieldset class="rfs"><legend>' + esc(A('فصول البحث المطلوبة', 'Chapters you need')) + '</legend>' + chks('rchap', RCHAP) + '</fieldset>' +
+      '<fieldset class="rfs"><legend>' + esc(A('خدمات أخرى (اختياري)', 'Other services (optional)')) + '</legend>' + chks('rserv', RSERV) + '<input name="rserv_o" class="pko" hidden placeholder="' + esc(A('اكتب ما تحتاجه', 'Type what you need')) + '"></fieldset>' +
       '<fieldset class="rfs" id="ranal" hidden><legend>' + esc(A('أي تحليل إحصائي؟', 'Which statistical analysis?')) + '</legend>' + chks('ranal', RANAL) +
       '<p class="rsub">' + esc(A('البرنامج المفضّل', 'Preferred program')) + '</p>' + chks('rsoft', RSOFT) + '</fieldset></div>' +
       '<label class="fl"><span id="rtl">' + esc(A('عنوان الكتاب أو الموضوع', 'Title of the book or topic')) + ' *</span><input name="title" required maxlength="160" placeholder="' + esc(A('مثال: Oxford Obstetrics (4th ed.)', 'e.g. Oxford Obstetrics (4th ed.)')) + '"></label>' +
@@ -122,15 +133,16 @@
     if (t) t.textContent = (r ? A('عنوان البحث أو فكرته', 'Research title or idea') : A('عنوان الكتاب أو الموضوع', 'Title of the book or topic')) + ' *';
     var ti = s.form.title; if (ti) ti.placeholder = r ? A('مثال: معدل فقر الدم لدى الحوامل في مستشفى ود مدني', 'e.g. Anaemia in pregnant women at Wad Medani Hospital') : A('مثال: Oxford Obstetrics (4th ed.)', 'e.g. Oxford Obstetrics (4th ed.)'); }
   document.addEventListener('change', function (e) { var t = e.target; if (!t) return; if (t.id === 'rkSel') rsxShow();
-    if (t.name === 'rserv') { var f = t.form, all = t.value === 'all'; if (all) IS.$$('[name=rserv]', f).forEach(function (x) { if (x.value !== 'other') x.checked = t.checked; });
-      else if (!t.checked) { var a = f.querySelector('[name=rserv][value=all]'); if (a) a.checked = false; }
-      var an = f.querySelector('[name=rserv][value=analysis]'), box = $('#ranal'); if (box) box.hidden = !(an && an.checked);
-      var o = f.querySelector('[name=rserv][value=other]'), oi = f.querySelector('[name=rserv_o]'); if (oi) { oi.hidden = !(o && o.checked); if (!oi.hidden) oi.focus(); } } });
+    if (t.name === 'rchap' || t.name === 'rserv') { var f = t.form;
+      if (t.name === 'rchap') { if (t.value === 'all') IS.$$('[name=rchap]', f).forEach(function (x) { x.checked = t.checked; }); else if (!t.checked) { var a = f.querySelector('[name=rchap][value=all]'); if (a) a.checked = false; } }
+      var on = function (n, v) { var x = f.querySelector('[name=' + n + '][value=' + v + ']'); return x && x.checked; }, box = $('#ranal'); if (box) box.hidden = !(on('rchap', 'results') || on('rserv', 'analysis'));
+      var oi = f.querySelector('[name=rserv_o]'); if (oi) { oi.hidden = !on('rserv', 'other'); if (!oi.hidden && t.value === 'other') oi.focus(); } } });
   IS.SUB.request = async function (d) {
-    if (d.kind === 'research') { var sv = [].concat(d.rserv || []); if (!sv.length) { IS.toast(A('اختر ما تحتاجه في البحث.', 'Choose what you need for the research.')); return; }
-      var an = sv.indexOf('analysis') >= 0;
+    if (d.kind === 'research') { var sv = [].concat(d.rserv || []), ch = [].concat(d.rchap || []); if (!sv.length && !ch.length) { IS.toast(A('اختر الفصول أو الخدمات التي تحتاجها.', 'Choose the chapters or services you need.')); return; }
+      var an = sv.indexOf('analysis') >= 0 || ch.indexOf('results') >= 0;
       d.details = [A('نوع البحث: ', 'Kind: ') + d.rtype, A('المرحلة: ', 'Stage: ') + d.rstage, d.rdue ? A('موعد التسليم: ', 'Deadline: ') + d.rdue : '',
-        A('المطلوب: ', 'Needed: ') + lbls(RSERV, sv) + (sv.indexOf('other') >= 0 && d.rserv_o ? ' (' + d.rserv_o + ')' : ''),
+        ch.length ? A('الفصول: ', 'Chapters: ') + (ch.indexOf('all') >= 0 ? lbls(RCHAP, ['all']) : lbls(RCHAP, ch)) : '',
+        sv.length ? A('خدمات: ', 'Services: ') + lbls(RSERV, sv) + (sv.indexOf('other') >= 0 && d.rserv_o ? ' (' + d.rserv_o + ')' : '') : '',
         an && d.ranal ? A('التحليل: ', 'Analysis: ') + lbls(RANAL, d.ranal) : '', an && d.rsoft ? A('البرنامج: ', 'Program: ') + lbls(RSOFT, d.rsoft) : '', d.details || ''].filter(Boolean).join('\n'); }
     await DB.ins('requests', { user_id: IS.ME.id, name: IS.ME.name, phone: IS.ME.phone || '', kind: d.kind, spec: d.spec || IS.SPEC || 'medicine', title: d.title, details: d.details || '', status: 'pending', reply: '' }); IS.toast(A('أُرسل طلبك. سيصلك إشعار عند تنفيذه.', 'Request sent. You will be notified.')); IS.refresh(); };
   IS.ACT.viewreq = async function (b) { var r = await DB.one('requests', b.getAttribute('data-id')), k = rkind(r.kind);
