@@ -125,8 +125,15 @@
         return '<button type="button" class="pk' + (s.id === cur ? ' on' : '') + '" data-act="setspec" data-v="' + s.id + '"><span class="pki">' + (s.img ? '<img src="' + IS.U(s.img) + '" alt="" loading="lazy">' : '') + '</span><span class="pkt"><i>' + ic(s.icon) + '</i><b lang="en">' + esc(s.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(s.ar) + '</small>') + '<em>' + N(ns) + ' ' + esc(A('مادة', 'subjects')) + '</em></span>' + (s.id === cur ? '<span class="pkc">' + ic('check') + '</span>' : '') + '</button>'; }).join('') + '</div></section>' +
       (IS.team() || IS.LEC ? '<p class="pkx">' + (IS.LEC ? '<a class="link" href="#studio">' + ic('studio') + esc(A('استوديو المحاضر', 'Lecturer studio')) + '</a>' : '') + (IS.team() ? '<a class="link" href="#control">' + ic('crown') + esc(A('تطبيق التحكم', 'Control app')) + '</a>' : '') + '</p>' : '') +
       '<p class="pkf"><a href="#terms">' + esc(A('الشروط والخصوصية', 'Terms and privacy')) + '</a> · <button type="button" class="link" data-act="lang">' + (IS.lang === 'ar' ? 'English' : 'العربية') + '</button></p></div>';
+    /* the start page always fits the screen (owner, 18 Nov 2026: "not well organised, scrolling for nothing" on phone and tablet):
+       the page takes exactly the height left under the top of #main, and the speciality cards share it */
+    IS.after = function () { IS.fitPick(); };
     return h;
   });
+  IS.fitPick = function () { var p = document.querySelector('#main .pick'); if (!p) return;
+    var top = p.getBoundingClientRect().top + window.scrollY, pb = parseFloat(getComputedStyle(document.getElementById('main')).paddingBottom) || 0;
+    p.style.height = Math.max(420, window.innerHeight - top - Math.min(pb, 16)) + 'px'; };
+  window.addEventListener('resize', function () { if (document.body.getAttribute('data-page') === 'pick') IS.fitPick(); });
   IS.ACT.setspec = function (b) { IS.setSpec(b.getAttribute('data-v')); IS.toast(A('مرحبًا بك في ', 'Welcome to ') + IS.mySpec().en); IS.go('home'); };
 
   /* ========== SETTINGS ========== */

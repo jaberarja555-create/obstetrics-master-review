@@ -2062,3 +2062,73 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 .fui .fub{flex:none;pointer-events:none}.fui .fub .ico{width:16px;height:16px}
 .fui .fun{flex:1;min-width:0;font-size:13px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fui.has{border-style:solid;border-color:var(--sky)}.fui.has .fun{color:var(--tx);font-weight:700}
+
+/* ---------- start page on one screen (owner, 18 Nov 2026) ---------- */
+body[data-page="pick"] main{padding-bottom:10px!important}
+#main .pick{display:flex!important;flex-direction:column;gap:10px;min-height:0}
+#main .pick>.pkh{flex:none}
+#main .pick>.pkb{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;margin:0;padding:14px 16px 16px}
+#main .pick>.pkb>h2{flex:none;font-size:24px}
+#main .pick>.pkb>.mut{flex:none;margin:4px auto 12px;font-size:13px;line-height:1.55;max-width:640px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#main .pick .pks{flex:1 1 auto;min-height:0;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;grid-auto-rows:minmax(0,1fr);gap:14px}
+#main .pick .pk{display:flex!important;flex-direction:column!important;align-items:stretch!important;min-height:0!important;height:auto;padding:0!important;text-align:center;overflow:hidden;grid-column:auto!important;width:auto!important;justify-self:stretch!important}
+#main .pick .pk::after{content:none!important}
+#main .pick .pki{flex:1 1 auto!important;min-height:0!important;width:auto!important;height:auto!important;aspect-ratio:auto!important;align-self:stretch}
+#main .pick .pki img{width:100%;height:100%;object-fit:cover;display:block}
+#main .pick .pkt{flex:none!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:2px!important;padding:0 8px 12px!important}
+#main .pick .pkt i{display:grid!important;width:44px;height:44px;margin:-22px 0 0!important}
+#main .pick .pkt b{font-size:16px!important;margin-top:4px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:100%}
+#main .pick .pkt small{order:0!important;padding:0!important;font-size:12.5px!important;flex-basis:auto!important}
+#main .pick .pkt em{order:0!important;margin:2px 0 0!important;font-size:11.5px!important}
+#main .pick .pkf{flex:none;margin:0;font-size:12.5px}
+#main .pick .pkx{flex:none;margin:0}
+/* tablets standing up: 3 + 2 */
+@media (max-width:1099px) and (min-width:641px) and (orientation:portrait){
+  #main .pick .pks{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  #main .pick .pk{grid-column:span 2!important}
+  #main .pick .pk:nth-child(n+4){grid-column:span 3!important}
+}
+/* short laptop and tablet screens: slimmer header */
+@media (min-width:641px) and (max-height:820px){
+  #main .pick>.pkh{min-height:0!important;padding:14px 24px!important}
+  #main .pick .pkl{width:64px!important}
+  #main .pick .pkh h1{font-size:34px!important}
+  #main .pick>.pkb>h2{font-size:21px}
+}
+/* phones: Medicine across the top, the other four 2 by 2, all sharing the height */
+@media (max-width:640px){
+  #main .pick{gap:8px}
+  #main .pick>.pkb{padding:12px 10px 10px;border-radius:18px}
+  #main .pick>.pkb>h2{font-size:20px}
+  #main .pick>.pkb>.mut{font-size:12px;margin:2px auto 8px}
+  #main .pick .pks{grid-template-columns:1fr 1fr!important;grid-template-rows:repeat(3,minmax(0,1fr));gap:8px}
+  #main .pick .pk{border-radius:16px!important}
+  #main .pick .pk:first-child{grid-column:1/-1!important;flex-direction:row!important}
+  #main .pick .pk:first-child .pki{flex:0 0 46%!important}
+  #main .pick .pk:first-child .pkt{flex:1 1 auto!important;justify-content:center;padding:8px!important}
+  #main .pick .pk:first-child .pkt i{margin:0 0 4px!important}
+  #main .pick .pkt{padding:0 6px 8px!important}
+  #main .pick .pkt i{width:34px;height:34px;margin-top:-17px!important}#main .pick .pkt i .ico{width:18px;height:18px}
+  #main .pick .pkt b{font-size:14.5px!important}
+  #main .pick .pkt small{font-size:11.5px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  #main .pick .pkt em{font-size:10.5px!important;padding:1px 8px!important}
+  #main .pick .pkc{width:22px!important;height:22px!important;top:6px!important}
+}
+@media (max-width:640px) and (max-height:700px){#main .pick .pkt small{display:none}#main .pick>.pkb>.mut{-webkit-line-clamp:1}}
+#main .pick .pkt>*{margin-block:0!important}
+#main .pick .pkt i{margin-top:-22px!important}
+#main .pick .pkt b{margin-top:4px!important;white-space:normal!important;line-height:1.15;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+@media (max-width:640px){#main .pick .pk:first-child .pkt{justify-content:center!important;gap:3px!important}#main .pick .pk:first-child .pkt i{margin:0 0 4px!important}#main .pick .pkt i{margin-top:-17px!important}}
+@media (min-width:641px) and (max-width:1100px){#main .pick .pkt b{font-size:14.5px!important}}
+#main .pick .pkt>*{flex:none!important}
+
+/* Android tablets, fourth pass (owner, 18 Nov 2026: ghost copies of cards while scrolling, and the side menu moving with an empty strip
+   under it): the side menu is as tall as the LARGEST screen (lvh), so it never comes up short when the address bar hides; the fixed bars
+   get their own drawing layer; on touch screens cards have no shadows, transitions or animations to repaint while scrolling. */
+@media (hover:none){
+  #side{bottom:auto!important;height:100lvh!important;min-height:100vh}
+  #side,#top,#tabs,#offbar{transform:translateZ(0);will-change:transform;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+  #main *,#main *::before,#main *::after{transition:none!important;animation:none!important}
+  #main .box,#main .subj,#main .spc,#main .lsp,#main .lhq a,#main .ccard,#main .door,#main .pk,#main .tmc,#main .ncard,#main .lcard,#main .sjtile,#main .badge,#main .tile,#main .feat,#main .hb{box-shadow:none!important}
+  #main img{-webkit-backface-visibility:hidden;backface-visibility:hidden}
+}

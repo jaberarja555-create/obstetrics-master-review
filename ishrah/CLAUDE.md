@@ -329,3 +329,12 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - **No more preview branches (owner, 18 Nov 2026: "no need to work with branches, now the domain works"):** every finished change goes
   straight to the live site: push to `ccr-38b3f943-ba1ode` (it publishes https://ishrahli.org). Either account: fetch, continue from that
   branch, push back to it (and to the account's own session branch only if the session requires it). Test in a local preview copy first.
+- **Start page on one screen** (owner, 18 Nov 2026: "not well organised, scrolling for nothing" on phone and tablet): `IS.fitPick()` gives
+  `.pick` exactly the height left on the screen and the speciality cards share it (photo grows, names stay). Phones: Medicine across the
+  top, the other four 2 × 2; laptops and landscape tablets: five in a row; portrait tablets: 3 + 2. No scroll at 360×640 … 1440×900
+  (test: `PORT=8821 node tools/ishrah/pick.js "<sizes>" <shots dir>`).
+- **Android tablets, fourth pass** (ghost copies while scrolling, side menu leaving an empty strip at the bottom): on touch screens
+  (`hover:none`) the side menu is `100lvh` tall, the fixed bars are on their own layer (translateZ), and page cards have no shadows,
+  transitions or animations. If the owner still sees ghosts, ask him to try `?safe=1…4` and tell which number stops it.
+- The old phone sign-up in flow.js / flow2.js: they now set `ish-spec` and take `PORT`; flow.js stops at «publish course» (`[data-act=cpub]`)
+  in the review screen — still to update.
