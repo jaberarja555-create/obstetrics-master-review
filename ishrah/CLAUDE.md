@@ -279,5 +279,5 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   SUPABASE_ANON_KEY / SUPABASE_SERVICE_KEY (secret), Google OAuth (Google Cloud project "Ishrah Li", client 989457790089-fus9tth5n26bcpkhansb0539glvfummi,
   in production, no logo so no verification). The owner registered first by email (Owner) and turned on 2FA; a Google sign-up works (student).
   Fixes found live: ish_new_user no longer refuses accounts with a password (Supabase gives OTP sign-ups a random one: "Database error saving
-  new user"); #security is exempt from the speciality gate and keeps the area. Still to confirm: HTTP/3 off for ishrahli.org, email rate limit 100/h.
+  new user"); #security is exempt from the speciality gate and keeps the area. HTTP/3 off for ishrahli.org and Supabase email rate limit 100/h (owner confirmed).
   Videos: Bunny not set up yet (owner: later).
