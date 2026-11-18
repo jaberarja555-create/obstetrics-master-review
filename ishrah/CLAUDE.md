@@ -201,3 +201,5 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 4. **Go live** (steps 1–6 under "To go live"): Supabase project, `ISHRAH_DB_URL` + apply database (files 001–006), Bunny secrets,
    js/config.js, owner registers first and turns on 2FA, custom domain with HTTP/3 off.
 5. Subject pictures still missing (8 of 54, `ishrah/pictures-needed.md`).
+- Courses toolbar on phones and tablets (owner, 18 Nov 2026: "this empty space"): search across the full width, then Filter · Sort · view
+  in one even row; the speciality bar is one sliding row below 1180 px (on tablets it broke into two uneven lines).
