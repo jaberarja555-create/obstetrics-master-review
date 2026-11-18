@@ -139,3 +139,5 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
     speciality cards), it shows the drawn logo (`.lhl2`, IS.logo()) instead of the dark square picture, greeting and title centred beside it,
     search under them; `.gtx` has room below so the dots of «لي» are not cut. The signed-in picture in the phone top bar was hidden by
     `.me span{display:none}` (the avatar is a span too) and showed as a dot: fixed.
+  - Home never scrolls now on phones from 360 × 640 up (also 393 × 720, 390 × 844, 412 × 915), tablets and laptops: the space kept for the
+    bottom bar on Home matches its real height (70 px, was 84) and a slimmer tier applies at 680 px high or less.

@@ -1511,3 +1511,17 @@ html{background:var(--bg)}
 @media (max-width:640px) and (max-height:760px){.lhh{padding:10px 12px;row-gap:9px}.lhh .lhl2{width:46px;height:40px}.lht h1{font-size:23px}}
 #top .me,#top .me .av,.tbtn>*{flex:none}
 @media (max-width:520px){#top .me>.av{display:inline-grid}}
+/* Home on small phones (360 × 640) fits one screen too: the space kept for the bottom bar matches its real height (about 64 px, was 84),
+   and the welcome band and place buttons are a little slimmer on screens 680 px high or less */
+@media (max-width:1023px){
+  body[data-page="home"] main{padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}
+  .lh{min-height:calc((100dvh - 66px - 16px - 70px - env(safe-area-inset-bottom,0px)) / var(--z))}
+}
+@media (max-width:640px) and (max-height:680px){
+  body[data-page="home"] main{padding-top:10px}
+  .lh{gap:7px;min-height:calc((100dvh - 66px - 10px - 70px - env(safe-area-inset-bottom,0px)) / var(--z))}
+  .lhh{padding:8px 10px;row-gap:7px}.lhh .lhl2{width:40px;height:34px}.lht h1{font-size:21px}.lht p{font-size:11.5px}
+  .lhx .hsearch input{height:30px}
+  .lsp,.lsp:nth-child(-n+2){padding:5px}.lsi{width:48px;height:48px}
+  .lhq a{padding:5px 3px;gap:2px}.lhq i{width:28px;height:28px;border-radius:9px}
+}
