@@ -1855,3 +1855,9 @@ body[data-page="pick"]{background:radial-gradient(120% 80% at 50% 0,#0d3a7d 0,#0
   .pkf{margin-top:4px}
 }
 @media (max-width:640px){.pkt b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15.5px}.pkt em{flex:none}}
+/* speciality chip in the phone top bar (tap to change speciality) */
+.tspec{display:none}
+@media (max-width:1023px){.tspec{display:inline-flex;align-items:center;gap:4px;max-width:132px;padding:5px 8px;border-radius:999px;background:rgba(63,180,255,.18);border:1px solid rgba(63,180,255,.45);color:#fff;font-size:12px;font-weight:800;margin-inline-start:auto}
+  .tspec span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tspec .ico{width:15px;height:15px;flex:none}}
+@media (max-width:360px){.tspec span{display:none}}
+#sheet .myspec{margin-bottom:12px}
