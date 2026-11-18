@@ -248,3 +248,5 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - Studio and Control are not filtered (they manage every speciality). Database: `supabase/008_spec_spaces.sql`.
 - Tests: `tools/ishrah/space.js` (start page, choice, filtered pages, change). Tests that start from an empty browser must set
   `localStorage['ish-spec']` first. `flow.js` / `flow2.js` still use the old phone sign-up form and need updating to the email form.
+- Research writing (owner, 18 Nov 2026, «كتابة بحث»): a request type in My Library → Requests (`research`: kind of research, stage, deadline added
+  to the details) and a Support message type «المساعدة في كتابة بحث» that reaches the academic team.

@@ -1890,3 +1890,12 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 @media (min-width:341px) and (max-width:520px){.tspec{flex-shrink:0}}
 .tspec span{direction:ltr}
 @media (max-width:520px){.tspec{max-width:136px}}
+
+/* request types: six buttons in even rows (research writing added) */
+.rkinds{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+@media (max-width:1100px){.rkinds{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+.rk.k-research{--kc:#0d3a7d}
+.rsx{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:12px;border-radius:14px;background:var(--tint2);border:1px dashed rgba(30,155,255,.4)}
+.rsx[hidden]{display:none}
+@media (max-width:640px){.rsx{grid-template-columns:1fr}}
+.rsx{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))!important}

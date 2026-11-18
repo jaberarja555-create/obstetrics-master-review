@@ -23,7 +23,7 @@
     ['refund', 'طلب استرداد مبلغ', 'Refund request', 'finance', 'money'], ['course', 'طلب كورس أو مادة', 'Request a course or subject', 'academic', 'layers'],
     ['lecturer', 'اقتراح محاضر', 'Suggest a lecturer', 'academic', 'users'], ['content', 'ملاحظة على محتوى', 'Comment on content', 'academic', 'file'],
     ['event', 'اقتراح فعالية', 'Suggest an event', 'community', 'cal'], ['tech', 'مشكلة تقنية في التطبيق', 'Technical problem', 'tech', 'gear'],
-    ['special', 'طلب خاص', 'Special request', 'support', 'sparkle'], ['complaint', 'شكوى', 'Complaint', 'support', 'flag'], ['password', 'نسيت كلمة المرور', 'Forgot password', 'support', 'lock']];
+    ['research', 'المساعدة في كتابة بحث', 'Research writing help', 'academic', 'pen'], ['special', 'طلب خاص', 'Special request', 'support', 'sparkle'], ['complaint', 'شكوى', 'Complaint', 'support', 'flag'], ['password', 'نسيت كلمة المرور', 'Forgot password', 'support', 'lock']];
   function kind(k) { return KINDS.filter(function (x) { return x[0] === k; })[0] || KINDS[0]; }
   IS.tstatus = function (s) { var m = { open: ['جديدة', 'New', 'warn'], waiting: ['بانتظار ردك', 'Awaiting your reply', 'ok'], answered: ['تم الرد', 'Answered', 'ok'], closed: ['مغلقة', 'Closed', ''] }[s] || [s, s, ''];
     return IS.chip(esc(A(m[0], m[1])), 'st ' + m[2]); };
