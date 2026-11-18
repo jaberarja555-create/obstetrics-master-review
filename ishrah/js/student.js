@@ -76,7 +76,7 @@
       '<small>' + esc(A('منصة تعليمية متكاملة لطلاب الكليات الصحية', 'A complete learning platform for health sciences students')) + '</small></div>' +
       '<div class="lhx"><form class="hsearch" role="search" data-form="search"><span>' + ic('search') + '</span><input name="q" type="search" placeholder="' + esc(A('ابحث عن كورس، مادة، محاضر أو موضوع…', 'Search a course, subject, lecturer or topic…')) + '"><button class="btn pri">' + esc(A('بحث', 'Search')) + '</button></form>' +
       (m ? '' : '<div class="row"><button class="btn pri sm" data-act="register">' + ic('user') + esc(A('أنشئ حسابك مجانًا', 'Create your free account')) + '</button><button class="btn lt sm" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button></div>') + '</div></section>' +
-'<nav class="lhq" aria-label="' + esc(A('الأقسام', 'Places')) + '">' + QUICK.map(function (q) { return '<a href="#' + q[0] + '"><i>' + ic(q[1]) + '</i>' + IS.navLbl(q[2], q[3]) + '</a>'; }).join('') + '</nav></div>';
+'<nav class="lhq" aria-label="' + esc(A('الأقسام', 'Places')) + '">' + QUICK.map(function (q) { return q[0] === 'studio-apply' && IS.LEC ? ['studio', 'studio', 'استوديو المحاضر', 'My studio'] : q; }).map(function (q) { return '<a href="#' + q[0] + '"><i>' + ic(q[1]) + '</i>' + IS.navLbl(q[2], q[3]) + '</a>'; }).join('') + '</nav></div>';
     return h + (IS.SPEC ? await IS.specPage(IS.SPEC, true) : '');
   });
 
@@ -414,7 +414,8 @@
       IS.empty('users', A('لا يوجد محاضرون بعد', 'No lecturers yet'), A('المحاضرون الذين يقبلهم فريق المنصة يظهرون هنا.', 'Lecturers accepted by the platform team appear here.'), '<button class="btn pri" data-act="register" data-k="lecturer">' + ic('studio') + esc(A('انضم كمحاضر', 'Teach on Ishrah Li')) + '</button>'));
   });
   IS.ACT.lspec = function (b) { IS.LSPEC = b.getAttribute('data-v'); IS.refresh(); };
-  function joinCard() { return '<article class="lcard join"><span class="av lg"><b>' + ic('plus') + '</b></span><h3>' + esc(A('انضم كمحاضر', 'Teach on Ishrah Li')) + '</h3><p>' + esc(A('قدّم كورساتك وصمّم صفحتك واربح من كل طالب.', 'Teach your courses, design your page and earn from every student.')) + '</p><div class="row"><a class="btn sm pri" href="#studio-apply">' + esc(A('قدّم طلبك', 'Apply')) + '</a></div></article>'; }
+  function joinCard() { if (IS.LEC) return '<article class="lcard join"><span class="av lg"><b>' + ic('studio') + '</b></span><h3>' + esc(A('استوديو المحاضر', 'Lecturer studio')) + '</h3><p>' + esc(A('أنت محاضر في اشرح لي: أنشئ كورساتك وتابع طلابك.', 'You are a lecturer on Ishrah Li: create your courses and follow your students.')) + '</p><div class="row"><a class="btn sm gold" href="#studio">' + ic('studio') + esc(A('افتح الاستوديو', 'Open the studio')) + '</a></div></article>';
+    return '<article class="lcard join"><span class="av lg"><b>' + ic('plus') + '</b></span><h3>' + esc(A('انضم كمحاضر', 'Teach on Ishrah Li')) + '</h3><p>' + esc(A('قدّم كورساتك وصمّم صفحتك واربح من كل طالب.', 'Teach your courses, design your page and earn from every student.')) + '</p><div class="row"><a class="btn sm pri" href="#studio-apply">' + esc(A('قدّم طلبك', 'Apply')) + '</a></div></article>'; }
   IS.page('lecturer', async function (id) {
     var l = await DB.one('lecturers', id); if (!l || (l.status !== 'active' && !(IS.LEC && IS.LEC.id === id) && !IS.can('lecturers'))) return null;
     var r = await Promise.all([DB.q('courses', { eq: { lecturer_id: id, status: 'published' } }), DB.q('events', { eq: { lecturer_id: id, status: 'published' }, order: ['starts'] }), IS.myEnroll()]), cs = r[0], ev = r[1];
