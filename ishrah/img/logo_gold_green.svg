@@ -9,9 +9,9 @@
   <!-- cap body (shield) -->
   <path d="M40 30h40v22c0 9-9 15-20 18-11-3-20-9-20-18z" fill="url(#g2)"/>
   <!-- rod of Asclepius -->
-  <path d="M60 32v34" stroke="#0d3823" stroke-width="3" stroke-linecap="round"/>
-  <path d="M55 38c6 0 10 3 5 6s-10 4-5 8 10 3 5 7" fill="none" stroke="#0d3823" stroke-width="2.4" stroke-linecap="round"/>
-  <circle cx="60" cy="33" r="2.6" fill="#0d3823"/>
+  <path d="M60 32v34" stroke="#123323" stroke-width="3" stroke-linecap="round"/>
+  <path d="M55 38c6 0 10 3 5 6s-10 4-5 8 10 3 5 7" fill="none" stroke="#123323" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="60" cy="33" r="2.6" fill="#123323"/>
   <!-- mortarboard -->
   <path d="M60 8l42 15-42 15-42-15z" fill="url(#g)" stroke="#8a6420" stroke-width=".8" stroke-linejoin="round"/>
   <path d="M60 23l-30 3v13" fill="none" stroke="url(#g)" stroke-width="2.2" stroke-linecap="round"/>

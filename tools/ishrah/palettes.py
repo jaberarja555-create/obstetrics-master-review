@@ -5,7 +5,7 @@ keeping its lightness and saturation; gold, red and the other accents stay. The 
 import colorsys, os, re
 ROOT = os.path.join(os.path.dirname(__file__), '..', '..', 'ishrah', 'css')
 # name: (target hue in degrees or None, saturation factor)
-PALS = {'teal': (183, 1.0), 'green': (150, .9), 'purple': (262, .85), 'maroon': (345, .85), 'graphite': (None, .12)}
+PALS = {'teal': (183, 1.0), 'green': (150, .72), 'purple': (262, .85), 'maroon': (345, .85), 'graphite': (None, .12)}
 SRC = 216  # the blue the app was drawn in
 
 def shift(r, g, b, hue, sf):
@@ -55,27 +55,16 @@ for name, (hue, sf) in PALS.items():
 print('logos written')
 
 
-# the page-banner photos follow the colour too (owner, 18 Nov 2026: "the settings picture still shows the old colours"): every blue/navy
-# pixel of img/ban_*.webp, hero_gold.webp, hero.webp and banner.webp takes the colour's hue (numpy, same rule as above); the CSS of each colour
-# points at <name>_<colour>.webp and IS.banner() picks the file of the chosen colour (IS.pimg).
-import glob, numpy as np
-BANS = sorted(glob.glob(os.path.join(IMG, 'ban_*.webp'))) + [os.path.join(IMG, n) for n in ('hero_gold.webp', 'hero.webp', 'banner.webp')]
-BANS = [b for b in BANS if not re.search(r'_(%s)\.webp$' % '|'.join(PALS), b)]
-def recolour(path, hue, sf):
-    im = Image.open(path).convert('RGB'); hsv = np.array(im.convert('HSV')).astype(np.float32)
-    rgb = np.array(im).astype(np.float32) / 255; mx = rgb.max(2); mn = rgb.min(2); l = (mx + mn) / 2
-    s_hls = np.where(mx == mn, 0, (mx - mn) / np.maximum(1e-6, 1 - np.abs(2 * l - 1)))
-    h = hsv[..., 0] * 360 / 255; m = (h >= 190) & (h <= 245) & (s_hls >= .12)
-    if hue is not None: hsv[..., 0] = np.where(m, ((h + hue - SRC) % 360) * 255 / 360, hsv[..., 0])
-    hsv[..., 1] = np.where(m, np.minimum(255, hsv[..., 1] * sf), hsv[..., 1])
-    return Image.fromarray(hsv.astype(np.uint8), 'HSV').convert('RGB')
-for b in BANS:
-    base = b[:-5]
-    for name, (hue, sf) in PALS.items():
-        recolour(b, hue, sf).save('%s_%s.webp' % (base, name), quality=82)
-names = [os.path.basename(b)[:-5] for b in BANS]
+
+# banner photos in a colour other than blue (owner, 18 Nov 2026: "the colours are not well suited with the banners" after the photos were
+# recoloured pixel by pixel, which turned bright blue into neon green): the ORIGINAL photo is shown with mix-blend-mode luminosity over the
+# banner's own colour, a soft duotone in the chosen colour. Royal blue keeps the photos as they are.
+TINT = """
+/* banner photos as a soft tint of this colour (tools/ishrah/palettes.py) */
+.ban.bpic .bph,.cban::before{mix-blend-mode:luminosity;opacity:.9}
+.lhh::after{mix-blend-mode:luminosity}
+"""
 for name in PALS:
-    f = os.path.join(ROOT, 'pal-%s.css' % name); c = open(f, encoding='utf-8').read()
-    for n in names: c = c.replace('url(../img/%s.webp)' % n, 'url(../img/%s_%s.webp)' % (n, name))
-    open(f, 'w', encoding='utf-8').write(c)
-print('banners written:', len(BANS))
+    f = os.path.join(ROOT, 'pal-%s.css' % name)
+    open(f, 'a', encoding='utf-8').write(TINT)
+print('banner tint added')

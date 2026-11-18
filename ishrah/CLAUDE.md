@@ -141,8 +141,9 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
     `.me span{display:none}` (the avatar is a span too) and showed as a dot: fixed.
   - Home never scrolls now on phones from 360 × 640 up (also 393 × 720, 390 × 844, 412 × 915), tablets and laptops: the space kept for the
     bottom bar on Home matches its real height (70 px, was 84) and a slimmer tier applies at 680 px high or less.
-  - **Banner photos follow the colour** (owner, 18 Nov 2026: "the settings picture still shows the old colours"): palettes.py also writes
-    `img/<ban_*|hero_gold|hero|banner>_<colour>.webp` (blue/navy pixels moved to the colour's hue, numpy) and points each colour's CSS at them;
-    `IS.pimg(name)` gives the page banner of the chosen colour (IS.banner). The speciality and subject photos stay as they are (real subjects).
+  - **Banner photos in other colours** (owner, 18 Nov 2026: "the colours are not well suited with the banners"): recolouring the photos pixel
+    by pixel turned bright blue into neon green, so it was dropped (files removed). Now each colour's CSS shows the ORIGINAL photo with
+    `mix-blend-mode: luminosity` over the banner's own colour (a soft duotone; palettes.py `TINT`); Royal blue keeps the photos as they are.
+    On phones the control dashboard photo is a faint background (title readable). Green is less saturated (factor .72; icons were lime).
   - The Settings symbol (`gear` in core.js icons) is a real cog now (owner, 18 Nov 2026: it was drawn like a sun and read as a day/night
     button). The sun stays only for the Light option in Appearance.

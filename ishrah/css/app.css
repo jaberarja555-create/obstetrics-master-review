@@ -1171,7 +1171,7 @@ body[data-area="control"]{--pri:#13305c;--pri2:#0c2246;--tint:rgba(201,154,46,.1
 .ban.bpic h1 .tt>small{color:#dbeaff;opacity:1;font-size:.55em}
 .ban.bpic p{color:#cfe1fb}
 .ban.bpic>.row,.ban.bpic>.bnums{margin-inline-start:auto}
-@media (max-width:760px){.bph{width:100%;opacity:.28}.bwave{display:none}.ban.bpic .bt{max-width:none}}
+@media (max-width:760px){.bph{width:100%;opacity:.28!important}.bwave{display:none}.ban.bpic .bt{max-width:none}}
 /* control dashboard welcome uses the admin picture */
 .cban{position:relative;overflow:hidden;background:linear-gradient(270deg,#0d3a7d,#0a2a5c 55%,#071d42)!important;border-color:rgba(63,180,255,.35)!important}
 .cban::before{content:"";position:absolute;inset-block:0;inset-inline-end:0;width:45%;background:url(../img/ban_admin.webp) center/cover;-webkit-mask-image:linear-gradient(270deg,transparent,#000 35%);mask-image:linear-gradient(270deg,transparent,#000 35%)}
@@ -1525,3 +1525,5 @@ html{background:var(--bg)}
   .lsp,.lsp:nth-child(-n+2){padding:5px}.lsi{width:48px;height:48px}
   .lhq a{padding:5px 3px;gap:2px}.lhq i{width:28px;height:28px;border-radius:9px}
 }
+/* control dashboard banner on phones: the photo becomes a faint background, so the title is never written over its busy part */
+@media (max-width:760px){.cban::before{width:100%;opacity:.16!important;-webkit-mask-image:none;mask-image:none}.cban img{width:54px}.cban{padding:16px}.cban .role{margin-inline-start:0}}
