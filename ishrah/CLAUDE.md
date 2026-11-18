@@ -265,3 +265,4 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   Push to that branch (as well as the other account's) for a change to reach the domain. Still the preview store (no database yet).
 - Android scroll smearing, third pass: no `dvh` units (use `svh`, stable while the address bar hides), `overflow-x:clip` on html/body,
   CSS `zoom` on #main only when a text size other than Normal is chosen. Do not bring dvh back.
+- Preview Google button: asks the Gmail address and a 6-digit code (`IS.SUB.gpreview`, `PEND.google`); never signs in by the address alone. Live = real Google.

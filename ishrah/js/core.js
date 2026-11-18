@@ -404,14 +404,14 @@
       (note ? '<p class="pv">' + IS.ic('info') + esc(note) + '</p>' : '') +
       '<form class="form" data-form="ecode"><label class="fl"><span>' + ic('lock') + esc(A('رمز التأكيد', 'Confirmation code')) + ' *</span><input name="code" class="otpin" required inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" dir="ltr" placeholder="••••••"></label>' +
       (reset ? fld('pass', 'lock', A('كلمة المرور الجديدة', 'New password') + ' *', 'type="password" required minlength="8" autocomplete="new-password"') + fld('pass2', 'lock', A('تأكيد كلمة المرور', 'Confirm password') + ' *', 'type="password" required minlength="8" autocomplete="new-password"') : '') +
-      '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic('checkc') + '<span>' + esc(reset ? A('تأكيد وحفظ كلمة المرور', 'Confirm and save the password') : A('تأكيد وإنشاء الحساب', 'Confirm and create the account')) + '</span></button></form>' +
+      '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic('checkc') + '<span>' + esc(reset ? A('تأكيد وحفظ كلمة المرور', 'Confirm and save the password') : PEND.google ? A('تأكيد والدخول', 'Confirm and sign in') : A('تأكيد وإنشاء الحساب', 'Confirm and create the account')) + '</span></button></form>' +
       '<p class="alt"><button class="link" data-act="eresend" id="eresend">' + esc(A('إعادة إرسال الرمز', 'Send the code again')) + '</button> · <button class="link" data-act="' + (reset ? 'eforgot' : 'register') + '">' + esc(A('تغيير البريد', 'Change the email')) + '</button></p>');
     var b = IS.$('#eresend'), t = 60; if (b) { b.disabled = true; var iv = setInterval(function () { t--; if (!document.body.contains(b)) return clearInterval(iv); b.textContent = A('إعادة إرسال الرمز', 'Send the code again') + (t > 0 ? ' (' + t + ')' : ''); if (t <= 0) { b.disabled = false; clearInterval(iv); } }, 1000); }
     var c = IS.$('.otpin'); if (c) setTimeout(function () { try { c.focus(); } catch (e) {} }, 80);
   }
   function codeErr(e) { return e.message === 'exists' ? A('هذا البريد مسجّل من قبل: سجّل الدخول، أو استعمل «نسيت كلمة المرور؟».', 'This email is already registered: sign in, or use “Forgot your password?”.') :
     e.message === 'nouser' ? A('لا يوجد حساب بهذا البريد.', 'There is no account with this email.') : e.message === 'wait' ? A('انتظر دقيقة ثم أعد المحاولة.', 'Wait a minute, then try again.') : A('تعذّر إرسال الرمز: ', 'Could not send the code: ') + e.message; }
-  async function sendCode() { var r = await DB.emailCode({ email: PEND.email, name: PEND.name, create: !PEND.reset }); codeSheet(r && r.preview ? A('نسخة معاينة: لا تُرسل رسائل بريد. الرمز هو ', 'Preview copy: no email is sent. The code is ') + r.preview : ''); }
+  async function sendCode() { var r = await DB.emailCode({ email: PEND.email, name: PEND.name, create: !PEND.reset, any: !!PEND.google }); codeSheet(r && r.preview ? A('نسخة معاينة: لا تُرسل رسائل بريد. الرمز هو ', 'Preview copy: no email is sent. The code is ') + r.preview : ''); }
   IS.SUB.esignup = async function (d) {
     if ((d.pass || '').length < 8) return authMsg(A('كلمة المرور 8 أحرف على الأقل.', 'The password needs at least 8 characters.'));
     if (d.pass !== d.pass2) return authMsg(A('كلمتا المرور غير متطابقتين.', 'The passwords do not match.'));
@@ -428,7 +428,7 @@
   IS.SUB.ecode = async function (d) {
     if (!PEND) return; if (PEND.reset) { if ((d.pass || '').length < 8) return authMsg(A('كلمة المرور 8 أحرف على الأقل.', 'The password needs at least 8 characters.')); if (d.pass !== d.pass2) return authMsg(A('كلمتا المرور غير متطابقتين.', 'The passwords do not match.')); }
     try { await DB.emailVerify({ email: PEND.email, code: d.code }); } catch (e) { return authMsg(A('الرمز غير صحيح أو انتهت صلاحيته.', 'The code is wrong or has expired.')); }
-    try { await DB.setOwnPassword(PEND.reset ? d.pass : PEND.pass); } catch (e) { return authMsg(A('تعذّر حفظ كلمة المرور: ', 'Could not save the password: ') + e.message); }
+    if (!PEND.google) try { await DB.setOwnPassword(PEND.reset ? d.pass : PEND.pass); } catch (e) { return authMsg(A('تعذّر حفظ كلمة المرور: ', 'Could not save the password: ') + e.message); }
     var k = PEND.kind, reset = PEND.reset; PEND = null; IS.closeSheet(); await IS.loadMe();
     IS.toast(reset ? A('حُفظت كلمة المرور الجديدة', 'The new password is saved') : A('تم تأكيد بريدك. مرحبًا د. ', 'Your email is confirmed. Welcome, Dr. ') + (IS.ME && !reset ? IS.ME.name : ''));
     if (k === 'lecturer') IS.go('studio-apply'); else IS.route();
@@ -454,7 +454,14 @@
     IS.closeSheet(); await IS.loadMe(); if (IS.ME && IS.ME.status === 'blocked') { await DB.signOut(); IS.ME = null; IS.toast(A('هذا الحساب موقوف. تواصل مع الدعم.', 'This account is blocked. Contact support.'), true); }
     if (IS.mfaCheck) await IS.mfaCheck(); if (IS.team()) IS.go('control'); else IS.route();
   };
-  IS.ACT.google = async function () { if (IS.AUTHKIND === 'lecturer') LS.set('afterlogin', 'studio-apply'); await DB.google(); if (!DB.live) { IS.closeSheet(); await IS.loadMe(); var a = LS.get('afterlogin', ''); LS.set('afterlogin', ''); if (a) IS.go(a); else IS.route(); } };
+  /* preview copy (no real Google yet): the Google button asks for the Gmail address and proves it with a 6-digit code, never by the address
+     alone (owner, 18 Nov 2026). The live platform opens the real Google sign-in. */
+  IS.SUB.gpreview = async function (d) { PEND = { email: String(d.email).trim().toLowerCase(), name: '', google: true, kind: IS.AUTHKIND }; try { await sendCode(); } catch (e) { authMsg(codeErr(e)); } };
+  IS.ACT.google = async function () { if (!DB.live) {
+      IS.sheet(esc(A('الدخول بحساب Google', 'Sign in with Google')), '<p class="pv">' + IS.ic('info') + esc(A('نسخة معاينة: Google الحقيقي يعمل بعد ربط المنصة. هنا نتحقق من بريدك برمز من 6 أرقام.', 'Preview copy: real Google sign-in works once the platform is connected. Here your email is checked with a 6-digit code.')) + '</p>' +
+        '<form class="form" data-form="gpreview">' + fld('email', 'mail', A('بريد Gmail', 'Gmail address') + ' *', 'type="email" required autocomplete="email" dir="ltr" placeholder="name@gmail.com"') +
+        '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic('send') + '<span>' + esc(A('أرسل الرمز', 'Send the code')) + '</span></button></form>'); return; }
+    if (IS.AUTHKIND === 'lecturer') LS.set('afterlogin', 'studio-apply'); await DB.google(); if (!DB.live) { IS.closeSheet(); await IS.loadMe(); var a = LS.get('afterlogin', ''); LS.set('afterlogin', ''); if (a) IS.go(a); else IS.route(); } };
   IS.ACT.logout = async function () { await DB.signOut(); IS.ME = null; IS.LEC = null; IS.go('home'); };
   IS.SUB.search = function (d) { IS.go('search/' + encodeURIComponent(d.q || '')); };
 

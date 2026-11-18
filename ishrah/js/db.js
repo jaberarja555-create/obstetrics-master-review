@@ -119,7 +119,7 @@
       authKind: async function () { var id = localStorage.getItem('ish-session'), u = users().filter(function (x) { return x.id === id; })[0]; return u && u.phone ? 'phone' : 'email'; },
       emailCode: async function (o) {
         var em = String(o.email || '').trim().toLowerCase(), u = users().filter(function (x) { return x.email === em; })[0];
-        if (o.create && u && u.hash) throw new Error('exists'); if (!o.create && !u) throw new Error('nouser');
+        if (!o.any) { if (o.create && u && u.hash) throw new Error('exists'); if (!o.create && !u) throw new Error('nouser'); }
         var code = String(Math.floor(100000 + Math.random() * 900000)); localStorage.setItem('ish-otp', JSON.stringify({ e: em, c: code, n: o.name || '', t: Date.now() })); return { preview: code };
       },
       emailVerify: async function (o) {
