@@ -2157,3 +2157,20 @@ html,body{overflow-x:clip;overscroll-behavior-x:none}
 #main ul.gdlist{columns:260px auto;column-gap:10px}
 #main ul.learn>li,#main ul.gdlist>li{break-inside:avoid;margin-bottom:8px}
 #main ul.gdchk{display:block;columns:280px auto;column-gap:14px}#main ul.gdchk>li{break-inside:avoid}
+
+/* ---------- who is online (owner, 18 Nov 2026) ---------- */
+.seen{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--sub);line-height:1.4}
+.seen:empty{display:none}
+.seen>i{flex:none;width:8px;height:8px;border-radius:50%;background:#a5a6a7}
+.seen.on{color:#16803c}.seen.on>i{background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.22)}
+:root[data-theme="dark"] .seen.on{color:#4ade80}
+.av.on{box-shadow:0 0 0 2px var(--sf),0 0 0 4px #22c55e}
+.lhero .seen,.ban .seen{color:rgba(255,255,255,.85)}.lhero .seen.on,.ban .seen.on{color:#86efac}
+.seenrow{display:flex;justify-content:center;margin-top:4px}
+.seen{white-space:nowrap}
+.tr .grow>.seen,.chlec .seen,.lht>.seen,.tmc>.seen,.lcard>.seen{display:flex;width:max-content;max-width:100%;margin:3px 0 0}
+.lcard>.seen,.tmc>.seen{margin:2px auto 4px;font-size:12px}
+.lht>.seen{margin-top:6px}
+.chlec .seen{font-size:11.5px}
+.tr .grow>.seen{white-space:normal;width:auto;align-items:flex-start}.tr .grow>.seen>i{margin-top:5px}
+@media (max-width:640px){.tr>.grow{flex:1 1 calc(100% - 64px);min-width:0}.tr>.grow~*{margin-inline-start:0}}

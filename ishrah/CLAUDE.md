@@ -351,3 +351,13 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   - even rows: `IS.evenRows` covers more grids (`EVEN`), and when the count cannot divide evenly it tries cards up to 22 % narrower first.
   - one edit button on the profile («تعديل الملف»); the speciality banner counts accepted lecturers of that speciality (`IS.lecSpecs`, the
     same rule as the Lecturers bar), not only those with a published course.
+- **Who is online (owner, 18 Nov 2026: "indicators like who is online and who is not, or last activity time or date"):** migration
+  `010_presence.sql` (`hide_seen`, `ish_seen()` heartbeat, `ish_presence(ids)`, `ish_team_seen()`; tested on a local Postgres: a student gets
+  only lecturers and the team, never other students or anyone who hid it; the team gets everyone; a visitor only lecturers). App: `IS.beat()`
+  writes last_seen on opening, on every page and once a minute while the app is on the screen; a page puts `IS.seen(id)` (green «متصل الآن»
+  = active in the last 5 minutes, else «آخر نشاط قبل …») or `IS.av(o, cls, id)` (green ring) where a person is shown, and `IS.hydrateSeen()`
+  fills them after the page opens and every minute. Shown on: lecturer cards and page, the lecturer on course pages, Our team, community
+  authors (lecturers/team only), control students / lecturers / team lists, support page and conversations («فريق الدعم متصل الآن» for the
+  student, the student's last activity for the team). Settings → Account → «حالة الاتصال» (lecturers and team): shown / hidden.
+  `IS.ago` counts in standard Arabic (دقيقة · دقيقتين · 3 دقائق · 11 دقيقة; ساعة/ساعات; يوم/أيام/يومًا). On phones a list row's name
+  takes the first line (`.tr>.grow`).

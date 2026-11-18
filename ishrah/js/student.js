@@ -33,14 +33,14 @@
     return '<article class="ccard" style="--cc:' + esc(c.color || 'var(--pri)') + '"><a class="ccimg" href="#course/' + c.id + '">' + (c.cover ? '<img src="' + IS.U(c.cover) + '" alt="" loading="lazy">' : '<span class="ph">' + ic(sj ? sj.icon : 'layers') + '</span>') +
       '<span class="cctop">' + (cat ? IS.chip(esc(cat.en), 'lt') : '') + (c.n_students >= 50 ? IS.chip(ic('flame') + esc(A('الأكثر تسجيلًا', 'Popular')), 'hot') : '') + '</span></a>' + IS.favBtn('c:' + c.id, true) +
       '<div class="ccb"><h3><a href="#course/' + c.id + '">' + esc(c.title) + '</a></h3><p>' + esc(c.subtitle || '') + '</p>' +
-      (l ? '<a class="cclec" href="#lecturer/' + l.id + '">' + IS.av(l, 'xs') + '<span>' + esc(l.name) + '</span></a>' : '') +
+      (l ? '<a class="cclec" href="#lecturer/' + l.id + '">' + IS.av(l, 'xs', l.id) + '<span>' + esc(l.name) + '</span></a>' : '') +
       '<div class="ccst">' + (c.n_reviews ? '<span>' + ic('star', 'gold') + N(c.rating) + ' <small>(' + N(c.n_reviews) + ')</small></span>' : '') + '<span>' + ic('video') + N(c.n_lessons || 0) + ' ' + esc(A('درس', 'lessons')) + '</span>' +
       (c.minutes ? '<span>' + ic('clock') + hrs(c.minutes) + '</span>' : '') + (c.n_students ? '<span>' + ic('users') + N(c.n_students) + '</span>' : '') + '</div>' +
       '<div class="ccf"><span class="price">' + price(c) + '</span>' + (e && e.status === 'active' ? '<a class="btn sm pri" href="#course/' + c.id + '">' + ic('play') + esc(A('تابع', 'Continue')) + '</a>' : e && e.status === 'pending' ? IS.status('pending') : '<a class="btn sm pri" href="#course/' + c.id + '">' + esc(A('التحق بالكورس', 'Enrol')) + '</a>') + '</div></div></article>';
   };
   function lecCard(l, n) {
-    return '<article class="lcard" style="--cc:' + esc(l.color || 'var(--pri)') + '">' + IS.favBtn('t:' + l.id, true) + '<a href="#lecturer/' + l.id + '" class="lcav">' + IS.av(l, 'lg') + '</a><h3><a href="#lecturer/' + l.id + '">' + esc(l.name) + '</a> ' + ic('checkc', 'verified') + '</h3>' +
-      '<p>' + esc(l.title || l.specialty || '') + '</p><div class="tags">' + (l.tags || []).slice(0, 3).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' +
+    return '<article class="lcard" style="--cc:' + esc(l.color || 'var(--pri)') + '">' + IS.favBtn('t:' + l.id, true) + '<a href="#lecturer/' + l.id + '" class="lcav">' + IS.av(l, 'lg', l.id) + '</a><h3><a href="#lecturer/' + l.id + '">' + esc(l.name) + '</a> ' + ic('checkc', 'verified') + '</h3>' +
+      '<p>' + esc(l.title || l.specialty || '') + '</p>' + IS.seen(l.id) + '<div class="tags">' + (l.tags || []).slice(0, 3).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' +
       '<div class="lcst"><span>' + ic('layers') + N(n || 0) + ' ' + esc(A('كورس', 'courses')) + '</span>' + (l.n_students ? '<span>' + ic('users') + N(l.n_students) + '</span>' : '') + '</div>' +
       '<div class="row"><a class="btn sm pri" href="#lecturer/' + l.id + '">' + esc(A('عرض الملف', 'View profile')) + '</a></div></article>';
   }
@@ -151,12 +151,17 @@
       '<h3 class="sub">' + esc(A('لون التطبيق', 'App colour')) + '</h3><div class="pals" role="radiogroup">' + IS.PALS.map(function (p) { var on = p[0] === IS.LS.get('pal', 'blue');
         return '<button type="button" class="pal' + (on ? ' on' : '') + '" role="radio" aria-checked="' + on + '" data-act="setpal" data-v="' + p[0] + '" style="--pc:' + p[1] + '"><i></i><span>' + esc(A(p[2], p[3])) + '</span></button>'; }).join('') + '</div>' +
       '<h3 class="sub">' + esc(A('حجم النص', 'Text size')) + '</h3><div class="sopts">' + opt('setfs', 's', fs, 'h2', 'صغير', 'Small') + opt('setfs', 'n', fs, 'h2', 'عادي', 'Normal') + opt('setfs', 'l', fs, 'h2', 'كبير', 'Large') + '</div></section>' +
-      '</div><div class="setc"><section class="box"><h2>' + ic('user') + IS.T('الحساب', 'Account') + '</h2>' + (m ? '<div class="list">' + link('#account', 'user', 'الملف الشخصي', 'Profile', m.name) + link('#security', 'shield', 'الأمان والتحقق بخطوتين', 'Security and two-step login') + link('#notifications', 'bell', 'الإشعارات', 'Notifications') + link('#favorites', 'heart', 'المفضلة', 'Favourites') + '</div><button class="btn ghost bad wide" data-act="logout">' + ic('logout') + esc(A('تسجيل الخروج', 'Sign out')) + '</button>' :
+      '</div><div class="setc"><section class="box"><h2>' + ic('user') + IS.T('الحساب', 'Account') + '</h2>' + (m ? '<div class="list">' + link('#account', 'user', 'الملف الشخصي', 'Profile', m.name) + link('#security', 'shield', 'الأمان والتحقق بخطوتين', 'Security and two-step login') + link('#notifications', 'bell', 'الإشعارات', 'Notifications') + link('#favorites', 'heart', 'المفضلة', 'Favourites') + '</div>' +
+        /* lecturers and team members choose whether students see that they are online (owner, 18 Nov 2026) */
+        ((IS.LEC || (m.team || []).length) ? '<h3 class="sub">' + esc(A('حالة الاتصال', 'Online status')) + '</h3><div class="sopts">' + opt('setseen', 'show', m.hide_seen ? 'hide' : 'show', 'eye', 'ظاهرة للطلاب', 'Shown to students') + opt('setseen', 'hide', m.hide_seen ? 'hide' : 'show', 'lock', 'مخفية', 'Hidden') + '</div><p class="mut">' + esc(A('عند الإظهار يرى الطلاب «متصل الآن» أو وقت آخر نشاط لك. فريق المنصة يراها دائمًا.', 'When shown, students see “Online now” or when you were last active. The platform team always sees it.')) + '</p>' : '') +
+        '<button class="btn ghost bad wide" data-act="logout">' + ic('logout') + esc(A('تسجيل الخروج', 'Sign out')) + '</button>' :
         '<p class="mut">' + esc(A('سجّل الدخول لإدارة ملفك وأمانك وإشعاراتك.', 'Sign in to manage your profile, security and notifications.')) + '</p><div class="row"><button class="btn pri" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button><button class="btn ghost" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div>') + '</section>' +
       '<section class="box"><h2>' + ic('help') + IS.T('المساعدة', 'Help') + '</h2><div class="list">' + link('#support', 'chat', 'الدعم والرسائل', 'Support and messages') + link('#about', 'info', 'عن المنصة', 'About the platform') + link('#terms', 'file', 'الشروط والخصوصية', 'Terms and privacy') + '</div><p class="mut ver">اشرح لي · ' + esc(A('الإصدار', 'Version')) + ' 1.1</p></section></div></div>';
   }, { area: 'keep' });
   IS.ACT.setlang = function (b) { var v = b.getAttribute('data-v'); if (v === IS.lang) return; IS.ACT.lang(); };
   IS.ACT.settheme = function (b) { IS.setTheme(b.getAttribute('data-v')); IS.refresh(); };
+  IS.ACT.setseen = async function (b) { var h = b.getAttribute('data-v') === 'hide'; await DB.upd('profiles', me().id, { hide_seen: h }); IS.ME.hide_seen = h;
+    IS.toast(h ? A('حالتك مخفية عن الطلاب', 'Your status is hidden from students') : A('حالتك ظاهرة للطلاب', 'Your status is shown to students')); IS.refresh(); };
   IS.ACT.setpal = function (b) { IS.setPal(b.getAttribute('data-v')); IS.refresh(); };
   IS.ACT.setfs = function (b) { IS.LS.set('fs', b.getAttribute('data-v')); IS.applyTheme(); IS.refresh(); };
 
@@ -252,7 +257,7 @@
     var h = '<nav class="crumb"><a href="#courses">Courses</a>' + ic('chev', 'fl') + (cat ? '<a href="#courses/' + cat.id + '">' + esc(cat.en) + '</a>' + ic('chev', 'fl') : '') + '<span>' + esc(c.title) + '</span></nav>';
     if (c.status !== 'published') h += '<p class="note warn">' + ic('eye') + esc(A('معاينة: هذا الكورس غير منشور للطلبة بعد', 'Preview: this course is not published to students yet')) + ' · ' + IS.status(c.status) + '</p>';
     h += '<section class="chero" style="--cc:' + esc(c.color || 'var(--pri)') + (c.cover ? ';--ci:url(' + IS.U(c.cover) + ')' : '') + '"><div class="chin"><div class="cht"><span class="tags lt">' + (cat ? '<span>' + esc(cat.en) + '</span>' : '') + (sj ? '<span>' + esc(sj.en) + '</span>' : '') + (c.level ? '<span>' + esc(c.level) + '</span>' : '') + '</span>' +
-      '<h1 tabindex="-1">' + esc(c.title) + '</h1><p>' + esc(c.subtitle || '') + '</p><a class="chlec" href="#lecturer/' + l.id + '">' + IS.av(l, 'sm') + '<span><b>' + esc(l.name || '') + '</b><small>' + esc(l.title || '') + '</small></span></a>' +
+      '<h1 tabindex="-1">' + esc(c.title) + '</h1><p>' + esc(c.subtitle || '') + '</p><a class="chlec" href="#lecturer/' + l.id + '">' + IS.av(l, 'sm', l.id) + '<span><b>' + esc(l.name || '') + '</b><small>' + esc(l.title || '') + '</small>' + IS.seen(l.id) + '</span></a>' +
       '<div class="chst">' + (c.n_reviews ? '<span>' + IS.stars(c.rating) + ' <b>' + N(c.rating) + '</b> (' + N(c.n_reviews) + ')</span>' : '') + (c.n_students ? '<span>' + ic('users') + N(c.n_students) + ' ' + esc(A('طالب', 'students')) + '</span>' : '') +
       '<span>' + ic('video') + N(all.length) + ' ' + esc(A('درس', 'lessons')) + '</span>' + (c.minutes ? '<span>' + ic('clock') + hrs(c.minutes) + '</span>' : '') + '<span>' + ic('clock') + esc(A('آخر تحديث ', 'Updated ')) + esc(IS.date(c.updated_at || c.created_at)) + '</span></div></div>' +
       (c.cover ? '<img class="chimg" src="' + IS.U(c.cover) + '" alt="">' : '') + '</div></section>';
@@ -387,7 +392,7 @@
     IS.notify(d.lecturer, A('سؤال جديد في كورسك', 'New question in your course'), d.body.slice(0, 120), '#studio-qa'); IS.toast(A('نُشر سؤالك', 'Question posted')); IS.refresh();
   };
   function postRow(p) {
-    return '<a class="post" href="#post/' + p.id + '">' + IS.av({ name: p.name, photo: p.photo }, 'sm') + '<span class="pb"><b>' + esc(p.title || p.body.slice(0, 90)) + '</b><small>' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + (p.pinned ? ' · ' + esc(A('مثبّت', 'Pinned')) : '') + '</small></span><span class="pc">' + ic('chat') + N(p.n_replies || 0) + '</span></a>';
+    return '<a class="post" href="#post/' + p.id + '">' + IS.av({ name: p.name, photo: p.photo }, 'sm', p.user_id) + '<span class="pb"><b>' + esc(p.title || p.body.slice(0, 90)) + '</b><small>' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + (p.pinned ? ' · ' + esc(A('مثبّت', 'Pinned')) : '') + '</small></span><span class="pc">' + ic('chat') + N(p.n_replies || 0) + '</span></a>';
   }
   IS.postRow = postRow;
 
@@ -431,7 +436,7 @@
     var L = {}; L[id] = l; var st = cs.reduce(function (a, c) { return a + (+c.n_students || 0); }, 0), rv = cs.filter(function (c) { return c.n_reviews; }), rate = rv.length ? Math.round(rv.reduce(function (a, c) { return a + c.rating * c.n_reviews; }, 0) / rv.reduce(function (a, c) { return a + c.n_reviews; }, 0) * 10) / 10 : 0;
     var links = l.links || {};
     var h = '<nav class="crumb"><a href="#lecturers">' + esc(A('المحاضرون', 'Lecturers')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(l.name) + '</span></nav>' +
-      '<section class="lhero" style="--cc:' + esc(l.color || 'var(--pri)') + (l.cover ? ';--ci:url(' + IS.U(l.cover) + ')' : '') + '">' + IS.av(l, 'xl') + '<div class="lht"><h1 tabindex="-1">' + esc(l.name) + ' ' + ic('checkc', 'verified') + '</h1><p>' + esc(l.title || '') + '</p>' +
+      '<section class="lhero" style="--cc:' + esc(l.color || 'var(--pri)') + (l.cover ? ';--ci:url(' + IS.U(l.cover) + ')' : '') + '">' + IS.av(l, 'xl', id) + '<div class="lht"><h1 tabindex="-1">' + esc(l.name) + ' ' + ic('checkc', 'verified') + '</h1><p>' + esc(l.title || '') + '</p>' + IS.seen(id) +
       (l.specialty ? '<p class="mut2">' + esc(l.specialty) + '</p>' : '') + '<div class="tags lt">' + (l.tags || []).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div></div><div class="row">' + IS.favBtn('t:' + id) + '<button class="fav" data-act="share" data-h="lecturer/' + id + '" aria-label="share">' + ic('share') + '</button></div></section>';
     h += '<div class="cols"><div class="main">' + (l.bio ? '<section class="box"><h2>' + ic('user') + IS.T('نبذة عن المحاضر', 'About the lecturer') + '</h2><div class="rich">' + IS.clean(l.bio) + '</div></section>' : '') +
       ((l.quals || []).length ? '<section class="box"><h2>' + ic('cert') + IS.T('المؤهلات والخبرة', 'Qualifications and experience') + '</h2><ul class="learn">' + l.quals.map(function (q) { return '<li>' + ic('checkc') + esc(q) + '</li>'; }).join('') + '</ul></section>' : '') +
@@ -458,7 +463,7 @@
     return '<nav class="crumb"><a href="#events">' + esc(A('الفعاليات', 'Events')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(e.title) + '</span></nav>' +
       '<section class="chero"' + (e.cover ? ' style="--ci:url(' + IS.U(e.cover) + ')"' : '') + '><div class="chin"><div class="cht"><span class="tags lt"><span>' + esc(e.kind === 'live' ? A('جلسة مباشرة', 'Live session') : e.kind === 'workshop' ? A('ورشة عمل', 'Workshop') : A('ندوة', 'Seminar')) + '</span></span><h1 tabindex="-1">' + esc(e.title) + '</h1>' +
       '<div class="chst"><span>' + ic('cal') + esc(IS.date(e.starts, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })) + '</span><span>' + ic('clock') + N(e.minutes || 60) + ' ' + esc(A('دقيقة', 'min')) + '</span><span>' + ic('users') + N(regs.length) + ' ' + esc(A('مسجّل', 'registered')) + '</span></div>' +
-      '<a class="chlec" href="#lecturer/' + l.id + '">' + IS.av(l, 'sm') + '<span><b>' + esc(l.name || '') + '</b><small>' + esc(l.title || '') + '</small></span></a></div></div></section>' +
+      '<a class="chlec" href="#lecturer/' + l.id + '">' + IS.av(l, 'sm', l.id) + '<span><b>' + esc(l.name || '') + '</b><small>' + esc(l.title || '') + '</small>' + IS.seen(l.id) + '</span></a></div></div></section>' +
       '<div class="cols"><div class="main"><section class="box"><h2>' + IS.T('عن الفعالية', 'About the event') + '</h2><div class="rich">' + IS.clean(e.about || '') + '</div></section></div><aside class="aside"><section class="box buy">' +
       (mine ? '<p class="note ok">' + ic('checkc') + esc(A('أنت مسجّل في هذه الفعالية', 'You are registered')) + '</p>' + (e.link && live ? '<a class="btn pri wide" target="_blank" rel="noopener" href="' + esc(e.link) + '">' + ic('live') + esc(A('انضم الآن', 'Join now')) + '</a>' : '<p class="mut">' + esc(A('يظهر رابط الانضمام هنا قبل البدء بربع ساعة.', 'The joining link shows here 15 minutes before the start.')) + '</p>') +
         '<button class="btn ghost wide" data-act="unreg" data-id="' + id + '">' + esc(A('إلغاء التسجيل', 'Cancel registration')) + '</button>' : '<button class="btn pri wide" data-act="reg" data-id="' + id + '">' + ic('cal') + esc(A('سجّل في الفعالية', 'Register')) + '</button>') + '</section></aside></div>';
@@ -488,10 +493,10 @@
     var p = await DB.one('posts', id); if (!p || p.status === 'removed') return null; var rs = (await DB.q('replies', { eq: { post_id: id }, order: ['created_at'] })).filter(function (r) { return r.status !== 'removed'; });
     var lecs = await IS.lecMap(), mod = IS.can('community'), owner = IS.LEC && p.lecturer_id === IS.LEC.id;
     return '<nav class="crumb"><a href="#' + (p.room === 'qa' ? 'course/' + p.course_id : 'community') + '">' + esc(p.room === 'qa' ? A('الكورس', 'Course') : A('المجتمع', 'Community')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(p.title || A('سؤال', 'Question')) + '</span></nav>' +
-      '<article class="box thread">' + IS.av({ name: p.name, photo: p.photo }, 'md') + '<div><h1 tabindex="-1">' + esc(p.title || p.body.slice(0, 80)) + '</h1><small class="mut">' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + '</small><p class="pre">' + esc(p.body) + '</p>' +
+      '<article class="box thread">' + IS.av({ name: p.name, photo: p.photo }, 'md', p.user_id) + '<div><h1 tabindex="-1">' + esc(p.title || p.body.slice(0, 80)) + '</h1><small class="mut">' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + '</small><p class="pre">' + esc(p.body) + '</p>' +
       '<div class="row">' + (me() ? '<button class="btn ghost sm" data-act="report" data-kind="post" data-id="' + p.id + '">' + ic('flag') + esc(A('إبلاغ', 'Report')) + '</button>' : '') + (mod ? '<button class="btn ghost sm" data-act="pin" data-id="' + p.id + '">' + ic('pin') + esc(p.pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت', 'Pin')) + '</button><button class="btn ghost sm bad" data-act="rmpost" data-id="' + p.id + '">' + ic('trash') + esc(A('حذف', 'Remove')) + '</button>' : '') + '</div></div></article>' +
       '<h2 class="ph2">' + N(rs.length) + ' ' + esc(A('رد', 'replies')) + '</h2>' + rs.map(function (r) { var isLec = !!lecs[r.user_id];
-        return '<div class="box reply' + (isLec ? ' lec' : '') + '">' + IS.av({ name: r.name, photo: r.photo }, 'sm') + '<div><b>' + esc(r.name || '') + '</b>' + (isLec ? IS.chip(esc(A('محاضر', 'Lecturer')), 'ok') : '') + ' <small class="mut">' + esc(IS.ago(r.created_at)) + '</small><p class="pre">' + esc(r.body) + '</p>' +
+        return '<div class="box reply' + (isLec ? ' lec' : '') + '">' + IS.av({ name: r.name, photo: r.photo }, 'sm', r.user_id) + '<div><b>' + esc(r.name || '') + '</b>' + (isLec ? IS.chip(esc(A('محاضر', 'Lecturer')), 'ok') : '') + ' <small class="mut">' + esc(IS.ago(r.created_at)) + '</small><p class="pre">' + esc(r.body) + '</p>' +
           (mod ? '<button class="link bad" data-act="rmreply" data-id="' + r.id + '">' + esc(A('حذف', 'Remove')) + '</button>' : me() ? '<button class="link" data-act="report" data-kind="reply" data-id="' + r.id + '">' + esc(A('إبلاغ', 'Report')) + '</button>' : '') + '</div></div>'; }).join('') +
       (me() ? '<form class="box form" data-form="reply"><input type="hidden" name="post" value="' + p.id + '"><textarea name="body" rows="3" required maxlength="4000" placeholder="' + esc(owner ? A('أجب طالبك…', 'Answer your student…') : A('اكتب ردك…', 'Write your reply…')) + '"></textarea><div class="row end"><button class="btn pri sm">' + ic('send') + esc(A('رد', 'Reply')) + '</button></div></form>' : '');
   });
@@ -561,7 +566,7 @@
   function tcard(p, big) {
     var r = roleOf(p), d = deptOf(p), dn = IS.DEPTS.filter(function (x) { return x[0] === d; })[0], k = TMSG[(p.team || [])[0]] || TMSG[d] || 'general';
     return '<article class="tmc' + (big ? ' big' : '') + '"><div class="tmp">' + (p.photo ? '<img src="' + IS.U(p.photo) + '" alt="" loading="lazy">' : IS.av(p, 'xl')) + '</div>' +
-      '<h3 dir="auto">' + esc(p.name) + '</h3><p class="tmr">' + ic(r[3]) + '<span>' + esc(p.pub_title || A(r[1], r[2])) + '</span></p>' + (dn && !big ? '<p class="tmd">' + esc(A(dn[1], dn[2])) + '</p>' : '') +
+      '<h3 dir="auto">' + esc(p.name) + '</h3>' + IS.seen(p.id) + '<p class="tmr">' + ic(r[3]) + '<span>' + esc(p.pub_title || A(r[1], r[2])) + '</span></p>' + (dn && !big ? '<p class="tmd">' + esc(A(dn[1], dn[2])) + '</p>' : '') +
       (p.pub_bio ? '<p class="tmb">' + esc(p.pub_bio) + '</p>' : '') +
       '<button class="btn sm ghost" data-act="ticket" data-k="' + k + '" data-s="' + esc(A('رسالة إلى ', 'Message to ') + p.name) + '">' + ic('chat') + esc(A('راسل', 'Message')) + '</button></article>';
   }

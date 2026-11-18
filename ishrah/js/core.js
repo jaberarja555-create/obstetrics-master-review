@@ -18,8 +18,11 @@
   IS.$$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   IS.ago = function (ts) {
     var d = (Date.now() - new Date(ts).getTime()) / 1000; if (!(d >= 0)) return '';
-    if (d < 60) return A('الآن', 'now'); if (d < 3600) return A('قبل ' + Math.round(d / 60) + ' دقيقة', Math.round(d / 60) + ' min ago');
-    if (d < 86400) return A('قبل ' + Math.round(d / 3600) + ' ساعة', Math.round(d / 3600) + ' h ago'); if (d < 86400 * 30) return A('قبل ' + Math.round(d / 86400) + ' يوم', Math.round(d / 86400) + ' days ago');
+    /* standard Arabic counting: دقيقة · دقيقتين · 3 دقائق · 11 دقيقة */
+    var ar = function (n, one, two, few, many) { return 'قبل ' + (n === 1 ? one : n === 2 ? two : n <= 10 ? n + ' ' + few : n + ' ' + many); };
+    var m = Math.round(d / 60), hr = Math.round(d / 3600), dy = Math.round(d / 86400);
+    if (d < 60) return A('الآن', 'now'); if (d < 3600) return A(ar(m, 'دقيقة', 'دقيقتين', 'دقائق', 'دقيقة'), m + ' min ago');
+    if (d < 86400) return A(ar(hr, 'ساعة', 'ساعتين', 'ساعات', 'ساعة'), hr + ' h ago'); if (d < 86400 * 30) return A(ar(dy, 'يوم', 'يومين', 'أيام', 'يومًا'), dy === 1 ? '1 day ago' : dy + ' days ago');
     return IS.date(ts);
   };
   IS.date = function (ts, o) { try { return new Date(ts).toLocaleDateString(IS.lang === 'en' ? 'en-GB' : 'ar-SD', o || { day: 'numeric', month: 'short', year: 'numeric' }); } catch (e) { return ''; } };
@@ -173,9 +176,9 @@
   IS.notify = function (uid, title, body, link) { return DB.ins('notices', { user_id: uid || null, title: title, body: body || '', link: link || '' }).catch(function () {}); };
 
   /* ---------- small UI parts ---------- */
-  IS.av = function (o, cls) {
+  IS.av = function (o, cls, uid) {
     o = o || {}; var nm = String(o.name || '').replace(/^(د\.|Dr\.?)\s*/, '').trim().split(/\s+/), ini = (nm[0] || '؟')[0] + (nm.length > 1 ? nm[nm.length - 1][0] : '');
-    return '<span class="av ' + (cls || '') + '">' + (o.photo ? '<img src="' + IS.U(o.photo) + '" alt="" loading="lazy">' : '<b>' + esc(ini) + '</b>') + '</span>';
+    return '<span class="av ' + (cls || '') + (uid && IS.isOn(IS.SEEN[uid]) ? ' on' : '') + '"' + (uid ? ' data-uid="' + esc(uid) + '"' : '') + '>' + (o.photo ? '<img src="' + IS.U(o.photo) + '" alt="" loading="lazy">' : '<b>' + esc(ini) + '</b>') + '</span>';
   };
   IS.chip = function (t, c) { return '<span class="chip ' + (c || '') + '">' + t + '</span>'; };
   IS.bar = function (v, c) { v = Math.max(0, Math.min(100, Math.round(v || 0))); return '<span class="bar' + (c ? ' ' + c : '') + '"><i style="width:' + v + '%"></i></span>'; };
@@ -290,7 +293,7 @@
     var h1 = main.querySelector('h1'); if (h1) try { h1.focus({ preventScroll: true }); } catch (e) {}
     var tt = h1 && (h1.querySelector('.tt small') || h1); document.title = (tt ? tt.textContent.trim() + ' · ' : '') + 'اشرح لي';
     if (IS.after) try { await IS.after(main); } catch (e) { if (window.console) console.error(e); }
-    IS.balance(); IS.evenRows(); IS.fileUI(); IS.dedupe(); IS.sideLock(); IS.trimScroll(); setTimeout(IS.trimScroll, 400);
+    IS.balance(); IS.evenRows(); IS.fileUI(); IS.dedupe(); IS.sideLock(); IS.beat(); IS.hydrateSeen(); IS.trimScroll(); setTimeout(IS.trimScroll, 400);
   };
   /* a side column much shorter than its main column becomes a row of cards above it (owner, 18 Nov 2026: no empty spaces) */
   IS.balance = function () { if (window.innerWidth < 1180) return; IS.$$('#main .cols').forEach(function (c) {
@@ -334,6 +337,36 @@
     var pb = parseFloat(getComputedStyle(m).paddingBottom) || 0, tb = document.getElementById('tabs'), need = 8;
     if (tb && tb.getClientRects().length && getComputedStyle(tb).position === 'fixed') need = tb.offsetHeight + 8;
     if (pb - over >= need) m.style.paddingBottom = (pb - over) + 'px'; };
+  /* ---------- who is online (owner, 18 Nov 2026: "indicators of who is online and who is not, or the last activity time or date") ----------
+     every open app writes its account's last_seen about once a minute (ish_seen); a page puts IS.seen(id) or IS.av(o, cls, id) where a person
+     is shown, and IS.hydrateSeen fills them after the page opens and every minute. Students see lecturers and the team only (not other students,
+     not anyone who hid it in Settings); the team sees everyone. Online = active in the last 5 minutes. */
+  IS.SEEN = {};
+  IS.isOn = function (ts) { return !!ts && Date.now() - new Date(ts).getTime() < 5 * 60000; };
+  IS.seenTxt = function (ts, team) { if (!ts) return ''; var on = IS.isOn(ts);
+    return '<i></i>' + IS.esc(on ? (team ? A('فريق الدعم متصل الآن', 'The support team is online now') : A('متصل الآن', 'Online now')) :
+      (team ? A('آخر نشاط للفريق ', 'Team last active ') : A('آخر نشاط ', 'Last active ')) + IS.ago(ts)); };
+  IS.seen = function (uid, ts) { if (ts) IS.SEEN[uid] = ts; var t = IS.SEEN[uid];
+    return '<span class="seen' + (IS.isOn(t) ? ' on' : '') + '" data-seen="' + IS.esc(uid) + '">' + IS.seenTxt(t, uid === 'team') + '</span>'; };
+  IS.presence = async function (ids) {
+    if (DB.live) { var r = await DB.sb.rpc('ish_presence', { ids: ids }); if (r.error) throw r.error; return r.data || []; }
+    var ps = await DB.q('profiles'), ls = await DB.q('lecturers'), staff = IS.team && IS.team();
+    return ps.filter(function (p) { return ids.indexOf(p.id) >= 0 && p.last_seen && (staff || (IS.ME && p.id === IS.ME.id) || (!p.hide_seen && ((p.team || []).length || ls.some(function (l) { return l.id === p.id && l.status === 'active'; })))); })
+      .map(function (p) { return { id: p.id, seen: p.last_seen }; }); };
+  IS.teamSeen = async function () {
+    if (DB.live) { var r = await DB.sb.rpc('ish_team_seen'); if (r.error) throw r.error; return r.data; }
+    return (await DB.q('profiles')).filter(function (p) { return (p.team || []).length && p.last_seen; }).map(function (p) { return p.last_seen; }).sort().pop() || null; };
+  IS.hydrateSeen = async function () { var m = document.getElementById('main'); if (!m) return;
+    var els = IS.$$('[data-uid],[data-seen]', m); if (!els.length) return;
+    var ids = []; els.forEach(function (e) { var u = e.getAttribute('data-uid') || e.getAttribute('data-seen'); if (u && u !== 'team' && ids.indexOf(u) < 0) ids.push(u); });
+    try { if (ids.length) (await IS.presence(ids.slice(0, 300))).forEach(function (r) { IS.SEEN[r.id] = r.seen; });
+      if (els.some(function (e) { return e.getAttribute('data-seen') === 'team'; })) IS.SEEN.team = await IS.teamSeen(); } catch (e) { return; }
+    IS.$$('[data-uid]', m).forEach(function (e) { e.classList.toggle('on', IS.isOn(IS.SEEN[e.getAttribute('data-uid')])); });
+    IS.$$('[data-seen]', m).forEach(function (e) { var u = e.getAttribute('data-seen'), t = IS.SEEN[u]; e.classList.toggle('on', IS.isOn(t)); e.innerHTML = IS.seenTxt(t, u === 'team'); }); };
+  IS.beat = function () { if (!IS.ME || !navigator.onLine || Date.now() - (IS._beat || 0) < 50000) return; IS._beat = Date.now();
+    (DB.live ? DB.sb.rpc('ish_seen').then(function () {}) : DB.upd('profiles', IS.ME.id, { last_seen: new Date().toISOString() })).catch(function () { IS._beat = 0; }); };
+  setInterval(function () { if (document.visibilityState === 'visible') { IS.beat(); IS.hydrateSeen(); } }, 60000);
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') { IS.beat(); IS.hydrateSeen(); } });
   IS.dedupe = function () { var m = document.getElementById('main'); if (!m) return;
     var shown = function (sel) { return IS.$$(sel, m).some(function (e) { return e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden'; }); };
     document.body.classList.toggle('mq', shown('input[type=search],form[role=search]'));
@@ -579,7 +612,7 @@
     catch (e) { IS.SET = {}; try { var cb = JSON.parse(localStorage.getItem('ish-base') || 'null'); if (cb) { IS.SET = cb.SET || {}; IS.CATS = cb.CATS || []; IS.SUBJ = cb.SUBJ || []; IS.SPECS = cb.SPECS || []; } } catch (e3) {} }
     await IS.loadMe();
     if (IS.mfaCheck) await IS.mfaCheck();
-    if (IS.ME) DB.upd('profiles', IS.ME.id, { last_seen: new Date().toISOString() }).catch(function () {});
+    IS.beat();
     DB.onAuth(async function () { await IS.loadMe(); if (IS.mfaCheck) await IS.mfaCheck(); IS.route(); });
     IS.route();
     if (!DB.live) document.body.classList.add('preview');
