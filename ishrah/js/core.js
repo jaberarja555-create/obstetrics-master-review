@@ -16,6 +16,10 @@
   IS.money = function (x) { return '<bdi>' + (+x || 0).toLocaleString('en-US') + '</bdi> ' + esc(IS.SET.currency === 'SDG' ? A('ج.س', 'SDG') : (IS.SET.currency || '')); };
   IS.$ = function (s, r) { return (r || document).querySelector(s); };
   IS.$$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  /* counts in standard Arabic: 1 مادة · مادتان · 3–10 مواد · 11 مادة (owner's phone, 18 Nov 2026: «5 مادة») */
+  IS.cnt = function (n, w) { var F = { sub: ['مادة', 'مادتان', 'مواد', 'subject', 'subjects'], course: ['كورس', 'كورسان', 'كورسات', 'course', 'courses'] }[w];
+    n = +n || 0; if (IS.lang === 'en') return IS.N(n) + ' ' + (n === 1 ? F[3] : F[4]);
+    return n === 2 ? F[1] : IS.N(n) + ' ' + (n >= 3 && n <= 10 ? F[2] : F[0]); };
   IS.ago = function (ts) {
     var d = (Date.now() - new Date(ts).getTime()) / 1000; if (!(d >= 0)) return '';
     /* standard Arabic counting: دقيقة · دقيقتين · 3 دقائق · 11 دقيقة */

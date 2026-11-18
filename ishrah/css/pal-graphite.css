@@ -2174,3 +2174,20 @@ html,body{overflow-x:clip;overscroll-behavior-x:none}
 .chlec .seen{font-size:11.5px}
 .tr .grow>.seen{white-space:normal;width:auto;align-items:flex-start}.tr .grow>.seen>i{margin-top:5px}
 @media (max-width:640px){.tr>.grow{flex:1 1 calc(100% - 64px);min-width:0}.tr>.grow~*{margin-inline-start:0}}
+
+/* start page on phones (owner's phone, 18 Nov 2026: the round signs hid behind thin strips of picture): the four small cards drop the sign,
+   the count sits on the picture's corner, and the picture takes the room; signs always draw above pictures */
+#main .pick .pkt{position:relative;z-index:1}
+@media (max-width:640px){
+  #main .pick .pk:not(:first-child){position:relative}
+  #main .pick .pk:not(:first-child) .pkt{padding:6px 6px 8px!important;gap:0!important}
+  #main .pick .pk:not(:first-child) .pkt i{display:none!important}
+  #main .pick .pk:not(:first-child) .pkt b{margin-top:0!important}
+  #main .pick .pk:not(:first-child) .pkt em{position:absolute;top:7px;inset-inline-start:7px;margin:0!important;background:rgba(255,255,255,.94)!important;box-shadow:0 1px 5px rgba(0,0,0,.2);z-index:2}
+  #main .pick .pk:not(:first-child) .pkt small{display:block!important}
+}
+@media (max-width:640px){#main .pick .pk:not(:first-child) .pkt{position:static}}
+@media (max-width:640px){
+  #main .pick .pk:first-child{position:relative}#main .pick .pk:first-child .pkt{position:static}
+  #main .pick .pk:first-child .pkt em{position:absolute;top:8px;inset-inline-start:8px;margin:0!important;background:rgba(255,255,255,.94)!important;box-shadow:0 1px 5px rgba(0,0,0,.2);z-index:2}
+}

@@ -361,3 +361,6 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   student, the student's last activity for the team). Settings → Account → «حالة الاتصال» (lecturers and team): shown / hidden.
   `IS.ago` counts in standard Arabic (دقيقة · دقيقتين · 3 دقائق · 11 دقيقة; ساعة/ساعات; يوم/أيام/يومًا). On phones a list row's name
   takes the first line (`.tr>.grow`).
+- **Start page on phones (owner's phone, 18 Nov 2026: round signs hidden behind thin strips of picture):** the four small cards drop the
+  round sign, the subject count is a white label on the picture's corner (Medicine too), and the picture takes the room; signs always draw
+  above pictures (`.pkt` z-index). Counts use `IS.cnt(n, 'sub'|'course')`: 1 مادة · مادتان · 3–10 مواد · 11 مادة (كورس · كورسان · كورسات).
