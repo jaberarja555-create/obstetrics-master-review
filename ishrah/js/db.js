@@ -149,8 +149,8 @@
       upload: async function (bucket, file) { if (bucket === 'media') return await new Promise(function (ok) { var r = new FileReader(); r.onload = function () { ok(r.result); }; r.readAsDataURL(file); }); var k = bucket + '/' + uuid(); await fput(k, file); return k; },
       fileUrl: async function (bucket, path) { if (!path) return ''; if (/^(https?:|data:|blob:|img\/)/.test(path)) return path; if (URLS[path]) return URLS[path]; var b = await fget(path); return b ? (URLS[path] = URL.createObjectURL(b)) : ''; },
       videoUpload: async function (file, o) { var k = 'video/' + uuid(); if (o && o.onProgress) o.onProgress(30); await fput(k, file); if (o && o.onProgress) o.onProgress(100); return k; },
-      videoFile: async function (lesson) { var u = await this.fileUrl('video', lesson.video_id); if (!u) throw new Error('novideo'); return u; },
-      videoPlay: async function (lesson) { var u = await this.fileUrl('video', lesson.video_id); return u ? { kind: 'video', src: u } : null; },
+      videoFile: async function (lesson) { if (IS.extEmbed(lesson.video_id)) throw new Error('extlink'); var u = await this.fileUrl('video', lesson.video_id); if (!u) throw new Error('novideo'); return u; },
+      videoPlay: async function (lesson) { var e = IS.extEmbed(lesson.video_id); if (e) return e; var u = await this.fileUrl('video', lesson.video_id); return u ? { kind: 'video', src: u } : null; },
       reset: function () { localStorage.removeItem(K); localStorage.removeItem('ish-users'); localStorage.removeItem('ish-session'); indexedDB.deleteDatabase('ish-files'); }
     };
   })();
@@ -215,8 +215,8 @@
         });
         return j.videoId;
       },
-      videoFile: async function (lesson, q) { var r = await fetch('api/video?lesson=' + encodeURIComponent(lesson.id) + '&dl=' + (q || 480), { headers: { authorization: 'Bearer ' + await token() } }); if (!r.ok) throw new Error(r.status === 501 ? 'nodl' : r.status === 403 ? 'denied' : 'net'); return (await r.json()).src; },
-      videoPlay: async function (lesson) { var r = await fetch('api/video?lesson=' + encodeURIComponent(lesson.id), { headers: { authorization: 'Bearer ' + await token() } }); if (!r.ok) return null; return r.json(); },
+      videoFile: async function (lesson, q) { if (IS.extEmbed(lesson.video_id)) throw new Error('extlink'); var r = await fetch('api/video?lesson=' + encodeURIComponent(lesson.id) + '&dl=' + (q || 480), { headers: { authorization: 'Bearer ' + await token() } }); if (!r.ok) throw new Error(r.status === 501 ? 'nodl' : r.status === 403 ? 'denied' : 'net'); return (await r.json()).src; },
+      videoPlay: async function (lesson) { var e = IS.extEmbed(lesson.video_id); if (e) return e; var r = await fetch('api/video?lesson=' + encodeURIComponent(lesson.id), { headers: { authorization: 'Bearer ' + await token() } }); if (!r.ok) return null; return r.json(); },
       reset: function () {}
     };
   })() : null;

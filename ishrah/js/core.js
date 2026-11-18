@@ -90,6 +90,19 @@
   };
   IS.ic = function (n, c) { return '<svg class="ico' + (c ? ' ' + c : '') + '" viewBox="0 0 24 24" aria-hidden="true">' + (I[n] || I.layers) + '</svg>'; };
   var ic = IS.ic;
+  /* video from a link (owner, 18 Nov 2026, until Bunny): a lesson's video_id holds 'yt:<id>' (YouTube, unlisted) or 'gd:<id>' (Google Drive);
+     a Bunny upload is a plain GUID. The id is returned by ish_lesson only to students who may watch the lesson, like an uploaded video. */
+  IS.extVideo = function (u) {
+    u = String(u || '').trim(); var m;
+    if ((m = u.match(/(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/|v\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/))) return 'yt:' + m[1];
+    if ((m = u.match(/drive\.google\.com\/(?:file\/d\/|open\?(?:.*&)?id=|uc\?(?:.*&)?id=)([A-Za-z0-9_-]{20,})/)) || (m = u.match(/docs\.google\.com\/file\/d\/([A-Za-z0-9_-]{20,})/))) return 'gd:' + m[1];
+    return null;
+  };
+  IS.extEmbed = function (vid) {
+    var m = String(vid || '').match(/^(yt|gd):([A-Za-z0-9_-]+)$/); if (!m) return null;
+    return m[1] === 'yt' ? { kind: 'iframe', host: 'yt', src: 'https://www.youtube-nocookie.com/embed/' + m[2] + '?rel=0&modestbranding=1&playsinline=1' }
+      : { kind: 'iframe', host: 'gd', src: 'https://drive.google.com/file/d/' + m[2] + '/preview' };
+  };
   IS.U = function (p) { try { return esc(new URL(p, location.href).href); } catch (e) { return esc(p); } };
 
   /* ---------- signed-in user, lecturer record, team roles ---------- */

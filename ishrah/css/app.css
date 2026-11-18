@@ -1991,3 +1991,10 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 /* Android scroll smearing, third pass (18 Nov 2026): heights use the small viewport (svh) so they do not change while the address bar
    hides; the page is clipped sideways without becoming a scroll container (overflow-x:clip); CSS zoom only when a text size is chosen */
 :root:not([data-fs="s"]):not([data-fs="l"]):not([data-fs="x"]) #main{zoom:normal}
+/* video from a YouTube / Google Drive link (until Bunny) */
+.vlink{margin-top:12px;padding:12px 14px;border:1px solid var(--bd2);border-radius:14px;background:var(--sf)}
+.vlink>b{display:flex;align-items:center;gap:6px;font-size:14px;margin-bottom:8px}
+.vlink .row{display:flex;gap:8px;flex-wrap:wrap}.vlink .row input{flex:1 1 260px;min-width:0}
+.vtips{margin:10px 0 0;padding-inline-start:18px;font-size:12.5px;line-height:1.6;color:var(--sub)}
+.vtips li{margin:3px 0}.vtips b{color:var(--tx)}
+.vlink .note{margin-top:10px}

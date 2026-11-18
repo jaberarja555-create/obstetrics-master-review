@@ -281,3 +281,10 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   Fixes found live: ish_new_user no longer refuses accounts with a password (Supabase gives OTP sign-ups a random one: "Database error saving
   new user"); #security is exempt from the speciality gate and keeps the area. HTTP/3 off for ishrahli.org and Supabase email rate limit 100/h (owner confirmed).
   Videos: Bunny not set up yet (owner: later).
+- **Video from a link until Bunny (owner, 18 Nov 2026: "do all your recommendations"):** a video lesson can take a YouTube (unlisted) or Google
+  Drive link (studio lesson editor, `IS.ACT.vlink`); stored in `lessons.video_id` as `yt:<id>` / `gd:<id>` (`IS.extVideo` parses links, `IS.extEmbed`
+  gives the iframe: youtube-nocookie embed with rel=0, Drive /preview), so `ish_lesson` hides it from students who may not watch, like an upload.
+  `DB.videoPlay` returns the embed without calling api/video; link lessons cannot be downloaded (no button; `extlink` message). While
+  `ISH_CONFIG.bunnyLibrary` is empty the upload box is replaced by a "coming soon" note. Tips shown: Unlisted not Private, age-restricted
+  medical videos do not embed, Drive only for small groups; paid lessons (price > 0, not a free preview) get a warning that links can be shared.
+  When Bunny is set up, uploading a file replaces the link lesson by lesson.

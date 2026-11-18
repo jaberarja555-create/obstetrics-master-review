@@ -102,7 +102,7 @@
     });
   }
   function why(e) {
-    var m = e && e.message || ''; return m === 'denied' ? A('هذا الدرس للملتحقين بالكورس.', 'This lesson is for enrolled students.') : m === 'nodl' ? A('تنزيل الفيديوهات لم يُفعَّل بعد على المنصة.', 'Video downloads are not switched on yet.') :
+    var m = e && e.message || ''; return m === 'extlink' ? A('فيديو هذا الدرس من رابط YouTube أو Google Drive، فيُشاهد بالإنترنت فقط ولا يُنزّل.', 'This lesson plays from a YouTube or Google Drive link, so it needs the internet and cannot be downloaded.') : m === 'denied' ? A('هذا الدرس للملتحقين بالكورس.', 'This lesson is for enrolled students.') : m === 'nodl' ? A('تنزيل الفيديوهات لم يُفعَّل بعد على المنصة.', 'Video downloads are not switched on yet.') :
       /quota|space/i.test(m) ? A('لا توجد مساحة كافية على الجهاز.', 'Not enough space on the device.') : /abort/i.test(m) ? A('أُلغي التنزيل', 'Download cancelled') : A('تعذّر التنزيل. تحقق من الاتصال.', 'The download failed. Check the connection.');
   }
   async function lessonJob(lid, cid, q) {
