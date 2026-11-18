@@ -295,7 +295,7 @@
     var me = IS.ME, area = IS.area;
     var areaSw = '<div class="areas">' + [['student', 'home', A('المنصة', 'Platform'), true], ['studio', 'studio', A('استوديو المحاضر', 'Lecturer studio'), !!me], ['control', 'crown', A('التحكم', 'Control'), IS.team()]].filter(function (x) { return x[3]; }).map(function (x) {
       return '<a href="#' + (x[0] === 'student' ? 'home' : x[0]) + '" class="' + (area === x[0] ? 'on' : '') + '">' + ic(x[1]) + '<span>' + esc(x[2]) + '</span></a>'; }).join('') + '</div>';
-    IS.$('#top').innerHTML = '<div class="tin"><a class="brand" href="#home"><img src="img/logo_gold.svg" alt="" width="46" height="40"><span><b>اشرح لي</b><small>' + esc(area === 'control' ? A('تطبيق التحكم', 'Control app') : area === 'studio' ? A('استوديو المحاضر', 'Lecturer studio') : A('منصة تعليمية متكاملة لطلاب الكليات الصحية', 'Learning platform for health sciences students')) + '</small></span></a>' +
+    IS.$('#top').innerHTML = '<div class="tin"><a class="brand" href="#home"><img src="' + IS.logo() + '" alt="" width="46" height="40"><span><b>اشرح لي</b><small>' + esc(area === 'control' ? A('تطبيق التحكم', 'Control app') : area === 'studio' ? A('استوديو المحاضر', 'Lecturer studio') : A('منصة تعليمية متكاملة لطلاب الكليات الصحية', 'Learning platform for health sciences students')) + '</small></span></a>' +
       (area === 'student' ? '<form class="tsearch" role="search" data-form="search"><span>' + ic('search') + '</span><input name="q" type="search" autocomplete="off" placeholder="' + esc(A('ابحث عن كورس أو مادة أو محاضر…', 'Search courses, subjects, lecturers…')) + '" aria-label="' + esc(A('بحث', 'Search')) + '"></form>' : '<span class="tsp"></span>') +
       '<div class="tbtn"><a class="ib only-ph" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + ic('search') + '</a><a class="ib" href="#settings" aria-label="' + esc(A('الإعدادات', 'Settings')) + '">' + ic('gear') + '</a>' +
       (me ? '<a class="ib bell" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + ic('bell') + '<i id="bellN" hidden></i></a><a class="me" href="#account">' + IS.av(me, 'sm') + '<span>' + esc(me.name || '') + '</span></a>' :
@@ -325,6 +325,8 @@
   /* colour of the app (owner, 18 Nov 2026): one stylesheet per colour, made by tools/ishrah/palettes.py */
   IS.PALS = [['blue', '#0d3a7d', 'أزرق ملكي', 'Royal blue'], ['teal', '#0b5f63', 'فيروزي', 'Teal'], ['green', '#0f5a3a', 'أخضر', 'Green'],
     ['purple', '#3f2a7d', 'بنفسجي', 'Purple'], ['maroon', '#6e1d36', 'عنابي', 'Maroon'], ['graphite', '#2c3340', 'رمادي داكن', 'Graphite']];
+  /* the logo in the chosen colour (its navy parts; tools/ishrah/palettes.py makes the files) */
+  IS.logo = function (k) { var p = LS.get('pal', 'blue'), x = p === 'blue' ? '' : '_' + p; return k === 'hero' ? 'img/logo_hero' + x + '.webp' : 'img/logo_gold' + x + '.svg'; };
   IS.setPal = function (p) { LS.set('pal', p); var l = document.getElementById('ishcss'), v = (l && /v=(\d+)/.exec(l.getAttribute('href')) || [0, '25'])[1];
     if (l) l.setAttribute('href', 'css/' + (p === 'blue' ? 'app' : 'pal-' + p) + '.css?v=' + v);
     var m = document.querySelector('meta[name=theme-color]'), c = IS.PALS.filter(function (x) { return x[0] === p; })[0]; if (m && c) m.setAttribute('content', c[1]); };

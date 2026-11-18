@@ -116,3 +116,6 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
     .qa …`, map `EVEN` with each card's smallest width) a column count that makes rows even (8 badges = 4 + 4, never 7 + 1 stretched).
     About's "What the platform offers" is `.offers` (it shared the class `.feat` with the feature bar and collapsed into one column).
   - Test inputs for flow.js are now in the repository: tools/ishrah/receipt.png and clip.mp4.
+  - **The logo follows the colour** (owner, 18 Nov 2026): palettes.py also writes `img/logo_hero_<colour>.webp` and `img/logo_gold_<colour>.svg`
+    (navy background, rod and snake in the colour; gold kept); `IS.logo()` / `IS.logo('hero')` give the right file (top bar, Home, About,
+    certificate, control dashboard). Use `IS.logo()` for any new logo, never a fixed file name.
