@@ -1969,3 +1969,11 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 .rchk .opt input:checked{background:var(--pri) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/14px no-repeat}
 @media (min-width:900px){.rchk:has([name=rchap]){grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media (max-width:640px){.rchk,.rchk:has([name=rchap]){grid-template-columns:1fr!important;gap:6px!important}.rchk .opt{min-height:48px;padding:8px 12px!important}.rsx{padding:12px!important}}
+/* phones: no see-through blurred bars and no page fade (Android paint smearing while scrolling, reported 18 Nov 2026) */
+@media (hover:none),(max-width:1023px){
+  #top,#tabs,.ban.bpic>.bnums span,.ban.bpic>.row>*,.tbox,.lhq a,.ccard,.spc,.pk{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  #top{background:linear-gradient(90deg,var(--deep2),var(--deep))!important}
+  #tabs{background:var(--sf)!important}
+  .page{animation:none!important}
+  #top,#tabs{transform:translateZ(0)}
+}
