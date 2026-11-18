@@ -203,3 +203,8 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 5. ~~Subject pictures~~ done: all 54 subjects have a picture (18 Nov 2026).
 - Courses toolbar on phones and tablets (owner, 18 Nov 2026: "this empty space"): search across the full width, then Filter · Sort · view
   in one even row; the speciality bar is one sliding row below 1180 px (on tablets it broke into two uneven lines).
+- **Laptop welcome band, second design** (owner, 18 Nov 2026: "on laptop the main bar still looks bad"; on a 125 % laptop the band was tall with
+  the logo and title small in one corner, the search far away, an empty middle and a stray «ية» from text baked into hero_gold.webp): the
+  photo `img/hero_band.webp` (hero_gold without its text) shows whole on one side fading into the band; logo (112 px), greeting, title and
+  subtitle on the other side with the search right under them. Speciality cards give spare height to their photo (no white space under the
+  names on tall screens). Home does not scroll at 1920×1000, 1536×730, 1440×900, 1366×768, 1280×650, 1024×768, 768×1024, 390×844, 360×640.

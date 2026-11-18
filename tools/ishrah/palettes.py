@@ -62,7 +62,7 @@ print('logos written')
 TINT = """
 /* banner photos as a soft tint of this colour (tools/ishrah/palettes.py) */
 .ban.bpic .bph,.cban::before{mix-blend-mode:luminosity;opacity:.9}
-.lhh::after{mix-blend-mode:luminosity}
+.lhh::after{mix-blend-mode:luminosity!important}
 """
 for name in PALS:
     f = os.path.join(ROOT, 'pal-%s.css' % name)
