@@ -192,3 +192,12 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
       (e.g. vz-xxxx.b-cdn.net) and `BUNNY_CDN_KEY`. Until then the app says video downloads are not switched on (written lessons, quizzes and
       books download already).
     - Test: tools/ishrah/flow.js step 8b (download the course and a book, switch the connection off, open each from My downloads).
+
+## Owner's to-do list (kept for him; remind him when he asks, owner 18 Nov 2026: "remind me later … for now we build the app itself")
+1. **Video downloads:** Bunny Stream library → "MP4 Fallback" ON; its pull zone → Token authentication ON (copy the key) and `mp4` in the
+   CORS extensions; Cloudflare Pages `ishrah` secrets `BUNNY_CDN_HOST`, `BUNNY_CDN_KEY`; then try one video download on the live app.
+2. **Making the app on Claude** (owner's words; ask him what he means when the time comes).
+3. **Email sign-in:** Supabase Email Templates → "Magic Link" with the 6-digit code `{{ .Token }}`; SMTP Settings → a real sender.
+4. **Go live** (steps 1–6 under "To go live"): Supabase project, `ISHRAH_DB_URL` + apply database (files 001–006), Bunny secrets,
+   js/config.js, owner registers first and turns on 2FA, custom domain with HTTP/3 off.
+5. Subject pictures still missing (8 of 54, `ishrah/pictures-needed.md`).
