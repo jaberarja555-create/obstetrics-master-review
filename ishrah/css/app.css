@@ -1859,7 +1859,7 @@ body[data-page="pick"]{background:radial-gradient(120% 80% at 50% 0,#0d3a7d 0,#0
 .tspec{display:none}
 @media (max-width:1023px){.tspec{display:inline-flex;align-items:center;gap:4px;max-width:132px;padding:5px 8px;border-radius:999px;background:rgba(63,180,255,.18);border:1px solid rgba(63,180,255,.45);color:#fff;font-size:12px;font-weight:800;margin-inline-start:auto}
   .tspec span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tspec .ico{width:15px;height:15px;flex:none}}
-@media (max-width:360px){.tspec span{display:none}}
+@media (max-width:330px){.tspec span{display:none}}
 #sheet .myspec{margin-bottom:12px}
 /* start page rows on phones, second pass (owner: names were cut, text covered): photo · name on its own line · Arabic name and subjects under it */
 @media (max-width:640px){
@@ -1876,3 +1876,17 @@ body[data-page="pick"]{background:radial-gradient(120% 80% at 50% 0,#0d3a7d 0,#0
 /* the preview label never covers the start page */
 body[data-page="pick"].preview::after{top:8px;bottom:auto;inset-inline-start:8px;font-size:10px;padding:2px 8px;opacity:.85}
 body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8px}
+/* phone top bar fits every width (owner, 18 Nov 2026: page shifted sideways after choosing a speciality) */
+#top .tin{min-width:0;overflow:hidden}
+@media (max-width:520px){
+  #top .tin{gap:6px;padding:0 10px}
+  .brand{min-width:0;flex-shrink:1}.brand img{width:34px;height:30px}.brand b{font-size:19px}
+  #top .tbtn{gap:2px;flex-shrink:0}#top .tbtn .ib{width:36px;height:36px}
+  #top .tbtn .btn.sm{padding:0 10px;min-height:34px;font-size:12.5px}
+  .tspec{max-width:118px;flex-shrink:1;min-width:0}
+}
+@media (max-width:400px){.brand span{display:none}.tspec{margin-inline-start:4px}}
+@media (max-width:340px){.tspec span{display:none}.tspec{padding:6px}}
+@media (min-width:341px) and (max-width:520px){.tspec{flex-shrink:0}}
+.tspec span{direction:ltr}
+@media (max-width:520px){.tspec{max-width:136px}}
