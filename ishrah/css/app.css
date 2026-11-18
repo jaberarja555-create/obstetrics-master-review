@@ -1827,3 +1827,31 @@ body[data-page="pick"]{background:radial-gradient(120% 80% at 50% 0,#0d3a7d 0,#0
 /* start page: centred on tall screens; on phones the fifth card keeps the size of the others */
 .pick{justify-content:center}
 @media (max-width:640px){.pks .pk:last-child:nth-child(odd){grid-column:1/-1;justify-self:center;width:calc(50% - 5px)}}
+/* start page on phones (owner, 18 Nov 2026: "looks bad on the phone"): compact header, the five specialities as slim rows that fit one screen */
+@media (max-width:640px){
+  body[data-page="pick"]{background:linear-gradient(180deg,#0a2a5c 0,#0d3a7d 210px,var(--bg) 210px)}
+  body[data-page="pick"] main{padding:14px 12px 20px}
+  .pick{gap:14px;min-height:0;justify-content:flex-start}
+  .pkh{display:grid;grid-template-columns:64px minmax(0,1fr);gap:4px 12px;align-items:center;padding:0}
+  .pkl{width:64px;border-radius:14px;grid-row:span 2}
+  .pkh h1{font-size:32px}.pkh p{font-size:12.5px;margin-top:2px;line-height:1.5}
+  .pkin,.pkme{grid-column:1/-1;margin-top:8px}
+  .pkin{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pkin .btn{min-height:42px;width:100%}
+  .pkb{padding:16px 12px 14px;border-radius:20px}
+  .pkb h2{font-size:21px}.pkb>.mut{font-size:12.5px;margin:4px auto 12px;line-height:1.6}
+  .pks{grid-template-columns:1fr!important;gap:8px}
+  .pks .pk:last-child:nth-child(odd){grid-column:auto;justify-self:stretch;width:auto}
+  .pk{flex-direction:row;align-items:center;border-radius:16px;border-width:1.5px;text-align:start;min-height:76px}
+  .pk:hover{transform:none}
+  .pki{flex:0 0 92px;width:92px;height:76px;aspect-ratio:auto;align-self:stretch}
+  .pkt{flex:1;flex-direction:row;flex-wrap:wrap;align-items:center;gap:0 10px;padding:8px 12px;min-width:0}
+  .pkt i{width:38px;height:38px;margin:0;border-width:0;box-shadow:none;grid-row:span 2}.pkt i .ico{width:20px;height:20px}
+  .pkt b{margin:0;font-size:16.5px;flex:1;min-width:0}
+  .pkt small{order:3;flex-basis:100%;padding-inline-start:48px;font-size:12px}
+  .pkt em{order:2;margin:0;font-size:11.5px;padding:2px 8px;border-radius:999px;background:var(--tint)}
+  .pk::after{content:"‹";font-size:26px;line-height:1;color:var(--sub);padding-inline-end:12px}
+  [dir="ltr"] .pk::after{content:"›"}
+  .pkc{top:6px;inset-inline-start:6px;width:24px;height:24px}
+  .pkf{margin-top:4px}
+}
+@media (max-width:640px){.pkt b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15.5px}.pkt em{flex:none}}
