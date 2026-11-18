@@ -119,3 +119,7 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   - **The logo follows the colour** (owner, 18 Nov 2026): palettes.py also writes `img/logo_hero_<colour>.webp` and `img/logo_gold_<colour>.svg`
     (navy background, rod and snake in the colour; gold kept); `IS.logo()` / `IS.logo('hero')` give the right file (top bar, Home, About,
     certificate, control dashboard). Use `IS.logo()` for any new logo, never a fixed file name.
+  - **Home speciality buttons, second design** (owner, 18 Nov 2026: "text and pictures look distorted on the phone"): the 520 px photos were
+    stretched into wide strips (blurry, cut) with the names on top of them. Now each button is a plain card with the photo at its own shape
+    (`.lsi`, 6:5 on laptops; a square thumbnail beside the name on phones and portrait tablets) and the names on the card. Spare height on
+    tall laptop screens goes to the welcome band (bigger logo and title). The place button is "Teach" (it wrapped as "Teach with us").

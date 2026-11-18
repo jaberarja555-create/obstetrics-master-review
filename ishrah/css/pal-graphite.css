@@ -1387,3 +1387,52 @@ body[data-page="home"] main{padding-bottom:16px}
 .offers>.ft>.ico{flex:none;width:42px;height:42px;padding:10px;border-radius:12px;background:var(--tint);color:var(--pri)}
 .offers>.ft>b{font-size:14px;line-height:1.35}
 @media (max-width:640px){.offers>.ft{flex-direction:column;text-align:center;gap:6px;padding:12px 8px}.offers>.ft>b{font-size:13px}}
+
+/* ---------- Home speciality buttons, second design (owner, 18 Nov 2026: "the text and pictures look distorted on the phone"):
+   the photo keeps its own shape (no stretching into a strip, no text over it), the names sit on the plain card ---------- */
+.lh{grid-template-rows:minmax(auto,1fr) auto auto}
+.lhh{align-items:center}
+.lhh::after{mix-blend-mode:luminosity;opacity:.22}
+.lsp{flex-direction:column;justify-content:flex-start;padding:0;min-height:0;color:var(--tx);background:var(--sf);border:1px solid var(--bd)}
+.lsi{position:relative;display:block;aspect-ratio:6/5;overflow:hidden;background:var(--sf2)}
+.lsi img{width:100%;height:100%;object-fit:cover;display:block}
+.lsi>i{position:absolute;top:10px;inset-inline-start:10px;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--pri);color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.lsi>i .ico{width:20px;height:20px}
+.lsp>i{display:none}
+.lsp .lst{padding:10px 14px 12px}
+.lsp .lst b{color:var(--deep);font-size:17px}
+:root[data-theme="dark"] .lsp .lst b{color:#fff}
+.lsp .lst small{color:var(--sub)}
+.lsp .lst em{color:var(--pri)}
+.lsp .go{display:none}
+@media (max-width:900px) and (min-width:641px){.lsp,.lsp:nth-child(-n+2){min-height:0}}
+@media (max-width:640px){
+  .lhh::after{display:none}
+  .lhs{grid-template-columns:1fr 1fr;gap:10px}
+  .lsp,.lsp:nth-child(-n+2){grid-column:auto;flex-direction:row;align-items:center;gap:10px;padding:8px;border-radius:16px;min-height:0}
+  .lsp:first-child{grid-column:1/-1}
+  .lsi{flex:none;width:68px;height:68px;aspect-ratio:auto;border-radius:12px}
+  .lsi>i{display:none}
+  .lsp .lst{padding:0;min-width:0}
+  .lsp .lst b{font-size:15px;line-height:1.2}
+  .lsp .lst small{font-size:12px}
+  .lsp .lst em{display:none}
+  .lsp:first-child .lst em{display:block;font-size:12px;margin-top:3px}
+  .lhq .nl b{white-space:nowrap}
+}
+@media (max-width:640px) and (max-height:760px){.lsp,.lsp:nth-child(-n+2){padding:6px}.lsi{width:54px;height:54px;border-radius:10px}.lsp .lst b{font-size:14px}.lsp .lst small{font-size:11px}}
+/* tablets in portrait: the same tidy cards as phones, a little larger */
+@media (min-width:641px) and (max-width:900px){
+  .lhs{grid-template-columns:1fr 1fr;gap:12px}
+  .lsp,.lsp:nth-child(-n+2){grid-column:auto;flex-direction:row;align-items:center;gap:14px;padding:10px;border-radius:18px}
+  .lsp:first-child{grid-column:1/-1}
+  .lsi{flex:none;width:96px;height:96px;aspect-ratio:auto;border-radius:14px}.lsi>i{display:none}
+  .lsp .lst{padding:0}.lsp .lst b{font-size:18px}
+}
+/* laptops with height to spare: the welcome band becomes a full hero (larger logo and title) instead of empty colour */
+@media (min-width:1024px) and (min-height:820px){
+  .lhh{padding:24px 32px;gap:28px}
+  .lhl{width:150px;height:150px;border-radius:24px}
+  .lht p{font-size:16px}.lht h1{font-size:clamp(40px,4vw,56px)}.lht small{font-size:16px}
+  .lhh::after{width:46%;opacity:.3}
+}

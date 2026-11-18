@@ -66,7 +66,7 @@
      a slim welcome band with search, the five specialities as picture buttons, and buttons for every other place. Featured courses,
      How it works, events, figures, community and teaching now live on their own pages (Courses, About, Events, Community, Lecturers). */
   var QUICK = [['courses', 'layers', 'الكورسات', 'Courses'], ['learning', 'bookmark', 'تعلّمي', 'My learning'], ['events', 'cal', 'الفعاليات', 'Events'], ['lecturers', 'users', 'المحاضرون', 'Lecturers'],
-    ['community', 'group', 'المجتمع', 'Community'], ['library', 'open', 'مكتبتي', 'My Library'], ['paths', 'route', 'المسارات', 'Paths'], ['studio-apply', 'studio', 'علّم معنا', 'Teach with us']];
+    ['community', 'group', 'المجتمع', 'Community'], ['library', 'open', 'مكتبتي', 'My Library'], ['paths', 'route', 'المسارات', 'Paths'], ['studio-apply', 'studio', 'علّم معنا', 'Teach']];
   IS.page('home', async function () {
     var cs = await IS.pubCourses(), m = me();
     var who = m ? esc(A('مرحبًا د. ', 'Welcome, Dr. ')) + '<bdi>' + esc(String(m.name || '').replace(/^\s*(د\.|دكتور|Dr\.?)\s*/i, '').split(' ')[0]) + '</bdi> 👋' : esc(A('مرحبًا بك يا دكتور 👋', 'Welcome, Doctor 👋'));
@@ -77,7 +77,7 @@
       (m ? '' : '<div class="row"><button class="btn pri sm" data-act="register">' + ic('user') + esc(A('أنشئ حسابك مجانًا', 'Create your free account')) + '</button><button class="btn lt sm" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button></div>') + '</div></section>' +
       '<section class="lhs" aria-label="' + esc(A('التخصصات', 'Specialities')) + '">' + IS.SPECS.map(function (s) {
         var n = cs.filter(function (c) { return (c.spec || 'medicine') === s.id; }).length, ns = IS.SUBJ.filter(function (x) { return x.spec === s.id; }).length;
-        return '<a class="lsp" href="#spec/' + s.id + '"' + (s.img ? ' style="--im:url(' + IS.U(s.img) + ')"' : '') + '><i>' + ic(s.icon) + '</i><span class="lst"><b lang="en">' + esc(s.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(s.ar) + '</small>') +
+        return '<a class="lsp" href="#spec/' + s.id + '"><span class="lsi">' + (s.img ? '<img src="' + IS.U(s.img) + '" alt="" loading="lazy">' : '') + '<i>' + ic(s.icon) + '</i></span><span class="lst"><b lang="en">' + esc(s.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(s.ar) + '</small>') +
           '<em>' + N(ns) + ' ' + esc(A('مادة', 'subjects')) + (n ? ' · ' + N(n) + ' ' + esc(A('كورس', 'courses')) : '') + '</em></span>' + ic('chev', 'fl go') + '</a>'; }).join('') + '</section>' +
       '<nav class="lhq" aria-label="' + esc(A('الأقسام', 'Places')) + '">' + QUICK.map(function (q) { return '<a href="#' + q[0] + '"><i>' + ic(q[1]) + '</i>' + IS.navLbl(q[2], q[3]) + '</a>'; }).join('') + '</nav></div>';
     return h;
