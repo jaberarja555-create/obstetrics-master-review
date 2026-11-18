@@ -263,3 +263,5 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - **Live address (owner, 18 Nov 2026):** every push to `ccr-38b3f943-ba1ode` is also published as the LIVE site of the Pages project `ishrah`
   (https://ishrah.pages.dev, custom domain https://ishrahli.org once added in Cloudflare → Workers & Pages → ishrah → Custom domains).
   Push to that branch (as well as the other account's) for a change to reach the domain. Still the preview store (no database yet).
+- Android scroll smearing, third pass: no `dvh` units (use `svh`, stable while the address bar hides), `overflow-x:clip` on html/body,
+  CSS `zoom` on #main only when a text size other than Normal is chosen. Do not bring dvh back.

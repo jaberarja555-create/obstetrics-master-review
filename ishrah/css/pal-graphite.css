@@ -16,6 +16,7 @@ body[data-area="control"]{--pri:#5d6671;--pri2:#4c545d;--tint:rgba(93,102,113,.1
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0}
 body{background:var(--bg);color:var(--tx);font:15px/1.6 var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+@supports (overflow:clip){html,body{overflow-x:clip}}
 html[lang="en"] body{font-family:var(--en),var(--font)}
 [lang="en"],.en{font-family:var(--en),var(--font)}
 img{max-width:100%;display:block}
@@ -1292,8 +1293,8 @@ body[data-area="control"]{--deep:#2e3238;--deep2:#1e2125;--pri:#3e444c;--pri2:#3
 /* ---------- Home on one screen (owner, 18 Nov 2026): welcome band, five speciality picture buttons, buttons for every place ---------- */
 body[data-page="home"] main{padding-bottom:16px}
 @media (max-width:1023px){body[data-page="home"] main{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
-.lh{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:16px;min-height:calc(100dvh - 66px - 22px - 22px)}
-@media (max-width:1023px){.lh{gap:12px;min-height:calc(100dvh - 66px - 16px - 84px - env(safe-area-inset-bottom,0px))}}
+.lh{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:16px;min-height:calc(100svh - 66px - 22px - 22px)}
+@media (max-width:1023px){.lh{gap:12px;min-height:calc(100svh - 66px - 16px - 84px - env(safe-area-inset-bottom,0px))}}
 /* welcome band */
 .lhh{position:relative;overflow:hidden;display:flex;align-items:center;gap:18px;padding:16px 22px;border-radius:22px;color:#fff;
   background:radial-gradient(120% 160% at 85% 0,#3e444c 0,#2e3238 45%,#1e2125 100%);border:1px solid rgba(147,162,171,.4);box-shadow:var(--lift)}
@@ -1466,8 +1467,8 @@ body[data-page="home"] main{padding-bottom:16px}
 :root[data-fs="s"]{--z:.9}
 :root[data-fs="l"],:root[data-fs="x"]{--z:1.15}
 #main{zoom:var(--z)}
-.lh{min-height:calc((100dvh - 66px - 22px - 22px) / var(--z))}
-@media (max-width:1023px){.lh{min-height:calc((100dvh - 66px - 16px - 84px - env(safe-area-inset-bottom,0px)) / var(--z))}}
+.lh{min-height:calc((100svh - 66px - 22px - 22px) / var(--z))}
+@media (max-width:1023px){.lh{min-height:calc((100svh - 66px - 16px - 84px - env(safe-area-inset-bottom,0px)) / var(--z))}}
 /* Large text on phones: one speciality card per row, so long names ("Laboratory Science") are never cut */
 @media (max-width:640px){:root[data-fs="l"] .lhs,:root[data-fs="x"] .lhs{grid-template-columns:1fr}:root[data-fs="l"] .lsp .lst p,:root[data-fs="x"] .lsp .lst p{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;font-size:12px;color:var(--sub)}:root[data-fs="l"] .lsi,:root[data-fs="x"] .lsi{width:56px;height:56px}}
 html{background:var(--bg)}
@@ -1516,11 +1517,11 @@ html{background:var(--bg)}
    and the welcome band and place buttons are a little slimmer on screens 680 px high or less */
 @media (max-width:1023px){
   body[data-page="home"] main{padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}
-  .lh{min-height:calc((100dvh - 66px - 16px - 70px - env(safe-area-inset-bottom,0px)) / var(--z))}
+  .lh{min-height:calc((100svh - 66px - 16px - 70px - env(safe-area-inset-bottom,0px)) / var(--z))}
 }
 @media (max-width:640px) and (max-height:680px){
   body[data-page="home"] main{padding-top:10px}
-  .lh{gap:7px;min-height:calc((100dvh - 66px - 10px - 70px - env(safe-area-inset-bottom,0px)) / var(--z))}
+  .lh{gap:7px;min-height:calc((100svh - 66px - 10px - 70px - env(safe-area-inset-bottom,0px)) / var(--z))}
   .lhh{padding:8px 10px;row-gap:7px}.lhh .lhl2{width:40px;height:34px}.lht h1{font-size:21px}.lht p{font-size:11.5px}
   .lhx .hsearch input{height:30px}
   .lsp,.lsp:nth-child(-n+2){padding:5px}.lsi{width:48px;height:48px}
@@ -1919,7 +1920,7 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 @media (min-width:641px){
   body[data-page="pick"]{background:var(--bg)!important}
   body[data-page="pick"] main{padding:24px 24px 30px}
-  .pick{gap:18px;min-height:calc(100dvh - 54px);justify-content:center}
+  .pick{gap:18px;min-height:calc(100svh - 54px);justify-content:center}
   .pkh{position:relative;overflow:hidden;isolation:isolate;border-radius:26px;padding:26px 32px;min-height:178px;gap:18px 22px;
     background:linear-gradient(90deg,var(--deep2),var(--deep));border:1px solid rgba(255,255,255,.08);box-shadow:var(--lift)}
   .pkh::after{content:"";position:absolute;inset-block:0;inset-inline-end:0;width:46%;z-index:-1;background:url(../img/hero_gold.webp) center/cover;
@@ -1987,3 +1988,7 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
   body{padding-top:var(--toph,66px)}
   .lhq a:hover,.spc:hover,.pk:hover,.ccard:hover,.door:hover,.subj:hover{transform:none!important}
 }
+
+/* Android scroll smearing, third pass (18 Nov 2026): heights use the small viewport (svh) so they do not change while the address bar
+   hides; the page is clipped sideways without becoming a scroll container (overflow-x:clip); CSS zoom only when a text size is chosen */
+:root:not([data-fs="s"]):not([data-fs="l"]):not([data-fs="x"]) #main{zoom:normal}
