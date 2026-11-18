@@ -144,3 +144,5 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   - **Banner photos follow the colour** (owner, 18 Nov 2026: "the settings picture still shows the old colours"): palettes.py also writes
     `img/<ban_*|hero_gold|hero|banner>_<colour>.webp` (blue/navy pixels moved to the colour's hue, numpy) and points each colour's CSS at them;
     `IS.pimg(name)` gives the page banner of the chosen colour (IS.banner). The speciality and subject photos stay as they are (real subjects).
+  - The Settings symbol (`gear` in core.js icons) is a real cog now (owner, 18 Nov 2026: it was drawn like a sun and read as a day/night
+    button). The sun stays only for the Light option in Appearance.
