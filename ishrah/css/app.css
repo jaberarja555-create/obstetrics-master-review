@@ -1215,3 +1215,69 @@ body[data-area="control"]{--deep:#0a2a5c;--deep2:#061a3d;--pri:#0d3a7d;--pri2:#0
 .ban .bi{background:transparent;border:2px solid rgba(160,215,255,.85);color:#e8f4ff}
 .t-blue{--tc:#0d3a7d}.t-teal{--tc:#0d3a7d}.t-gold{--tc:#1366c9}.t-violet{--tc:#0a2a5c}.t-rose{--tc:#1e86e6}
 #side nav>a.on,#side .cnav a.on{box-shadow:inset -3px 0 0 var(--sky2)!important}[dir="ltr"] #side nav>a.on,[dir="ltr"] #side .cnav a.on{box-shadow:inset 3px 0 0 var(--sky2)!important}
+
+/* ---------- layout pass (owner, 18 Nov 2026: "some areas are disorganised and have empty spaces on laptops and phones") ---------- */
+/* speciality page: the subject sections share a row according to their number of cards (Basics 2 + Clinical 5 fill one row),
+   cards fill their section with even rows, every card the same shape (icon cards get the same picture box) */
+.sjgrid{display:flex;flex-wrap:wrap;column-gap:24px;align-items:stretch}
+.sjgrid>.sjsec{flex:var(--n) 1 calc(min(var(--n), 7) / 7 * 100% - 24px);min-width:0}
+.sjgrid>.sjsec.sjfull{flex-basis:100%}
+.sjsec:not(.sjfull) .subjs{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:12px}
+.sjsec:not(.sjfull) .subjs>.subj{flex:1 1 calc(100% / var(--c7) - 12px);min-width:0;max-width:none}
+@media (min-width:901px) and (max-width:1279px){
+  .sjgrid>.sjsec{flex-basis:calc(min(var(--n), 5) / 5 * 100% - 24px)}
+  .sjsec:not(.sjfull) .subjs>.subj{flex-basis:calc(100% / var(--c5) - 12px)}
+}
+@media (max-width:900px){
+  .sjgrid>.sjsec{flex-basis:100%}
+  .sjsec:not(.sjfull) .subjs{overflow:visible}
+  .sjsec:not(.sjfull) .subjs>.subj{flex-basis:calc(100% / 3 - 12px)}
+  .sjsec:not(.sjfull) .subjs>.subj:last-child:nth-child(3n+1){flex-basis:100%;flex-direction:row;text-align:start;align-items:center;gap:14px;padding:8px}
+}
+@media (max-width:520px){
+  .sjsec:not(.sjfull) .subjs{gap:10px}
+  .sjsec:not(.sjfull) .subjs>.subj{flex-basis:calc(50% - 10px)}
+  .sjsec:not(.sjfull) .subjs>.subj:last-child:nth-child(3n+1){flex-basis:calc(50% - 10px);flex-direction:column;text-align:center;padding:8px 8px 12px}
+  .sjsec:not(.sjfull) .subjs>.subj:last-child:nth-child(odd){flex-basis:100%;flex-direction:row;text-align:start;align-items:center;gap:12px;padding:8px}
+}
+.sjsec .subj:last-child .sjt{min-width:0}
+@media (max-width:900px){.sjsec .subj:last-child:nth-child(3n+1) .sjp,.sjsec .subj:last-child:nth-child(3n+1)>span:first-child{flex:0 0 42%}.sjsec .subj:last-child:nth-child(3n+1) .sjt{align-items:flex-start;flex:1}}
+@media (max-width:520px){.sjsec .subj:last-child:nth-child(3n+1) .sjp,.sjsec .subj:last-child:nth-child(3n+1)>span:first-child{flex:none}.sjsec .subj:last-child:nth-child(3n+1) .sjt{align-items:center}
+  .sjsec .subj:last-child:nth-child(odd) .sjp,.sjsec .subj:last-child:nth-child(odd)>span:first-child{flex:0 0 46%}.sjsec .subj:last-child:nth-child(odd) .sjt{align-items:flex-start;flex:1}}
+/* a card without a photo has the same picture box, filled with its icon on a soft tint */
+.subj:not(.pic){padding:8px 8px 12px;gap:6px}
+.subj:not(.pic)>span:first-child{width:100%;height:auto;aspect-ratio:16/9;border-radius:14px;display:grid;place-items:center;box-shadow:none;
+  background:radial-gradient(circle at 50% 40%,#fff 0,color-mix(in srgb,currentColor 14%,#fff) 75%)}
+:root[data-theme="dark"] .subj:not(.pic)>span:first-child{background:radial-gradient(circle at 50% 40%,#16305c 0,#0b1f42 80%)}
+.subj:not(.pic)>span:first-child .ico{width:46px;height:46px;stroke-width:1.5}
+/* label "Soon" sits at the foot, so cards of one row line up */
+.subj{justify-content:flex-start}.subj .sjt{flex:1;justify-content:flex-start}.subj .sjt em{margin-top:auto}
+.subj .sjt b{margin-top:2px}
+
+/* feature strip: the Arabic line under each title is centred like the title */
+.feat .tt{align-items:center;text-align:center}
+/* phones: the five features are one tidy list (icon beside the text), no odd tile on its own */
+@media (max-width:760px){
+  .feats{grid-template-columns:1fr!important}
+  .feats .feat,.feats .feat:first-child,.feats .feat:nth-child(n){grid-column:auto!important;display:grid;grid-template-columns:44px minmax(0,1fr);column-gap:14px;row-gap:2px;align-items:center;text-align:start;padding:12px 16px;border-top:1px solid var(--bd);border-inline-start:0!important}
+  .feats .feat:first-child{border-top:0}
+  .feat>.ico{grid-row:1 / span 2;width:44px;height:44px;padding:10px;margin:0;border-radius:12px;background:var(--tint)}
+  .feat>b,.feat>small{grid-column:2;min-width:0}
+  .feat .tt{flex-direction:row;flex-wrap:wrap;align-items:baseline;column-gap:8px;text-align:start}
+  .feat .tt>small{margin-top:0;font-size:12px}
+  .feat b{font-size:15px}.feat>small{font-size:12.5px}
+}
+
+/* speciality cards on phones: photo beside the text at one size for all five (Medicine was squeezed and its name cut) */
+@media (max-width:640px){
+  .spcs{grid-template-columns:1fr;gap:12px}
+  .spcs>.spc,.spcs>.spc:first-child{grid-column:auto;grid-row:auto;flex-direction:row;min-height:0}
+  .spcs>.spc .spi,.spcs>.spc:first-child .spi{order:2;flex:0 0 36%;height:auto;aspect-ratio:auto}
+  .spcs>.spc .spt,.spcs>.spc:first-child .spt{padding:12px 14px;gap:6px}
+  .spcs>.spc .sph i,.spcs>.spc:first-child .sph i{width:40px;height:40px;border-radius:11px}
+  .spcs>.spc .sph i .ico{width:22px;height:22px}
+  .spcs>.spc .sph b,.spcs>.spc:first-child .sph b{font-size:18px;line-height:1.15;overflow-wrap:anywhere}
+  .spcs>.spc .spt p,.spcs>.spc:first-child .spt p{font-size:12.5px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .spcs>.spc .spt .btn{min-height:32px;font-size:12.5px;padding:0 12px}
+}
+.subj .sjt{display:flex;flex-direction:column;align-items:center;gap:2px}

@@ -89,3 +89,12 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   and small highlights. Every page banner has a photo (`img/ban_<name>.webp`, map `BANIMG` in core.js, fallback by area); no page is left without one.
 - No empty space: `IS.balance()` turns a short side column into a row of cards; dashboards use balanced columns (`.cgrid`, `.cols.cflow`).
 - The service worker loads the newest files first when online (cache only offline).
+- Layout pass (owner, 18 Nov 2026: "areas disorganised, empty spaces on laptops and phones"; "make the Home page clean"):
+  - Home = hero · specialities · featured courses · How it works · four boxes. The feature bar (Complete content … Academic services) moved to
+    About (top), and "Browse by section" moved to the Specialities page (`sections(cs)` in student.js).
+  - Speciality page (`spec/<id>`): subject sections sit in `.sjgrid` and share a row by their number of cards (`--n`; Dentistry Basics 2 +
+    Clinical 5 = one row); cards fill their section in even rows (`--c7` at ≥ 1280 px, `--c5` at 901–1279, 3 then 2 a row on tablets/phones;
+    a last card alone on its row lies flat across the row). Subjects without a photo show their icon in the same 16:9 picture box.
+  - Phones: speciality cards all the same (photo 36 % beside the text; Medicine's name was cut), the feature bar is a list (icon beside text).
+  - Courses banner `img/ban_courses.webp` = the five speciality photos side by side (owner: "not only medicine"); his book-spines picture is
+    kept as `img/ban_books.webp`.
