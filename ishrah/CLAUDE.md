@@ -301,4 +301,8 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - **Android smear test switch (owner, 18 Nov 2026: the friend still sees it after three passes):** `ishrahli.org/?safe=N` (kept on that device in
   `ish-safe`, head script in index.html sets `html[data-safe]`, red "SAFE N" label at the top): 1 = all off, 2 = top/bottom bars not fixed,
   3 = no shadows/animations/blur/blend, 4 = no banner pictures; `?safe=0` back to normal. Use the friend's answers to make the real fix.
+- **Saved page copies offline (owner, 18 Nov 2026: offline card was not enough):** every page a signed-in account opens online (not dl, lesson,
+  control, security, studio-lesson, pay) is kept as its last HTML in localStorage (`ish-pg:<hash>`, index `ish-pgx`, 25 pages, 300 kB max each,
+  tied to the account id); without internet that copy shows under a note "last saved copy"; pages never opened show the offline card.
+  Sign-out clears them (`IS.clearCopies`).
 
