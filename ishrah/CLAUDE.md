@@ -326,3 +326,6 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   language (`IS.fileUI`, also for boxes added later; hidden pickers such as the profile photo are left alone). Test (preview copy with an
   empty config.js served on a port): `PORT=8821 node tools/ishrah/phone.js "<pages>" <shots dir>` lists text cut off, things wider than the
   screen and doubled greetings for each page.
+- **No more preview branches (owner, 18 Nov 2026: "no need to work with branches, now the domain works"):** every finished change goes
+  straight to the live site: push to `ccr-38b3f943-ba1ode` (it publishes https://ishrahli.org). Either account: fetch, continue from that
+  branch, push back to it (and to the account's own session branch only if the session requires it). Test in a local preview copy first.
