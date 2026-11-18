@@ -372,7 +372,7 @@
     if (!IS.ME) return []; var out = [], t = (IS.ME.team || []).filter(function (x) { return x.indexOf('p:') !== 0; })[0];
     if (t) { var r = IS.ROLES.filter(function (x) { return x[0] === t; })[0]; out.push(['control', 'crown', r ? r[1] : A('فريق المنصة', 'Platform team'), r ? String(r[2]).replace(/\s*\(.*\)\s*/, '') : 'Team', 'adm']); }
     if (IS.LEC) out.push(['studio', 'studio', 'محاضر', 'Lecturer', 'lec']);
-    out.push(['home', 'cert', 'طالب', 'Student', 'stu']);
+    if (!out.length) out.push(['home', 'cert', 'طالب', 'Student', 'stu']);   /* student only when not a lecturer or team member (owner, 18 Nov 2026) */
     return out;
   };
   IS.roleChips = function (cls) { var r = IS.myRoles(); if (!r.length) return '';

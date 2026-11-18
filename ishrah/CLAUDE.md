@@ -315,7 +315,7 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   the reviewer sees «Updated after you asked: …» and gets a notification). Migration 009_app_changes.sql: update policy allows status
   pending/changes; ish_guard lets the applicant move changes → pending only.
 - **Roles shown (owner, 18 Nov 2026: "identify someone as admin or lecturer or student, or 2 things"):** `IS.myRoles()` = team role (control),
-  Lecturer (studio, when approved), Student (everyone); `IS.roleChips()` shows them as coloured chips that open each space: on Home under the
+  Lecturer (studio, when approved), Student only when neither (owner: "if lecturer or admin don't put student"); `IS.roleChips()` shows them as coloured chips that open each space: on Home under the
   greeting when an account has 2+ roles, and at the top of the More sheet. The studio switch (side menu, More) appears only for approved
   lecturers. Approved lecturers see "Lecturer studio / Open the studio" instead of "Join as lecturer", and Home "Teach" becomes "My studio".
 
