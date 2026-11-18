@@ -78,7 +78,7 @@
       '<section class="lhs" aria-label="' + esc(A('التخصصات', 'Specialities')) + '">' + IS.SPECS.map(function (s) {
         var n = cs.filter(function (c) { return (c.spec || 'medicine') === s.id; }).length, ns = IS.SUBJ.filter(function (x) { return x.spec === s.id; }).length;
         return '<a class="lsp" href="#spec/' + s.id + '"><span class="lsi">' + (s.img ? '<img src="' + IS.U(s.img) + '" alt="" loading="lazy">' : '') + '<i>' + ic(s.icon) + '</i></span><span class="lst"><b lang="en">' + esc(s.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(s.ar) + '</small>') +
-          '<em>' + N(ns) + ' ' + esc(A('مادة', 'subjects')) + (n ? ' · ' + N(n) + ' ' + esc(A('كورس', 'courses')) : '') + '</em></span>' + ic('chev', 'fl go') + '</a>'; }).join('') + '</section>' +
+          '<p>' + esc(A(s.about_ar, s.about_en)) + '</p><em>' + N(ns) + ' ' + esc(A('مادة', 'subjects')) + (n ? ' · ' + N(n) + ' ' + esc(A('كورس', 'courses')) : '') + '</em></span>' + ic('chev', 'fl go') + '</a>'; }).join('') + '</section>' +
       '<nav class="lhq" aria-label="' + esc(A('الأقسام', 'Places')) + '">' + QUICK.map(function (q) { return '<a href="#' + q[0] + '"><i>' + ic(q[1]) + '</i>' + IS.navLbl(q[2], q[3]) + '</a>'; }).join('') + '</nav></div>';
     return h;
   });
@@ -123,7 +123,7 @@
     return IS.banner(IS.T('الإعدادات', 'Settings'), esc(A('اللغة والمظهر وحسابك في مكان واحد.', 'Language, appearance and your account in one place.')), 'gear', '', 'gold') +
       '<div class="setg"><section class="box"><h2>' + ic('globe') + IS.T('اللغة', 'Language') + '</h2><div class="sopts">' + opt('setlang', 'ar', IS.lang, 'globe', 'العربية', 'العربية', 'Arabic') + opt('setlang', 'en', IS.lang, 'globe', 'English', 'English', 'الإنجليزية') + '</div>' +
       '<p class="mut">' + esc(A('العناوين الرئيسية تظهر بالإنجليزية وتحتها العربية.', 'Main titles show in English with Arabic under them in Arabic mode.')) + '</p></section>' +
-      '<section class="box"><h2>' + ic('sun') + IS.T('المظهر', 'Appearance') + '</h2><div class="sopts">' + opt('settheme', 'light', th, 'sun', 'نهاري', 'Light') + opt('settheme', 'dark', th, 'moon', 'ليلي', 'Dark') + opt('settheme', 'auto', th, 'gear', 'تلقائي', 'Automatic', A('حسب إعدادات الجهاز', 'Follows the device')) + '</div>' +
+      '<section class="box"><h2>' + ic('sun') + IS.T('المظهر', 'Appearance') + '</h2><div class="sopts">' + opt('settheme', 'light', th, 'sun', 'نهاري', 'Light') + opt('settheme', 'dark', th, 'moon', 'ليلي', 'Dark') + opt('settheme', 'eye', th, 'eye', 'راحة العين', 'Eye comfort', A('ألوان دافئة تخفف الضوء الأزرق', 'Warm colours, less blue light')) + opt('settheme', 'auto', th, 'gear', 'تلقائي', 'Automatic', A('حسب إعدادات الجهاز', 'Follows the device')) + '</div>' +
       '<h3 class="sub">' + esc(A('لون التطبيق', 'App colour')) + '</h3><div class="pals" role="radiogroup">' + IS.PALS.map(function (p) { var on = p[0] === IS.LS.get('pal', 'blue');
         return '<button type="button" class="pal' + (on ? ' on' : '') + '" role="radio" aria-checked="' + on + '" data-act="setpal" data-v="' + p[0] + '" style="--pc:' + p[1] + '"><i></i><span>' + esc(A(p[2], p[3])) + '</span></button>'; }).join('') + '</div>' +
       '<h3 class="sub">' + esc(A('حجم النص', 'Text size')) + '</h3><div class="sopts">' + opt('setfs', 'n', fs, 'h2', 'عادي', 'Normal') + opt('setfs', 'l', fs, 'h2', 'كبير', 'Large') + opt('setfs', 'x', fs, 'h2', 'كبير جدًا', 'Extra large') + '</div></section>' +

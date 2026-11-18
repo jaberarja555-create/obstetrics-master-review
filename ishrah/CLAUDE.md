@@ -123,3 +123,6 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
     stretched into wide strips (blurry, cut) with the names on top of them. Now each button is a plain card with the photo at its own shape
     (`.lsi`, 6:5 on laptops; a square thumbnail beside the name on phones and portrait tablets) and the names on the card. Spare height on
     tall laptop screens goes to the welcome band (bigger logo and title). The place button is "Teach" (it wrapped as "Teach with us").
+  - The wide Medicine card on phones/tablets shows its description (2 lines) so its width is not empty space (hidden under 660 px high).
+  - **Eye comfort** (owner, 18 Nov 2026): Settings → Appearance has four choices (Light, Dark, Eye comfort, Automatic; 2 × 2). Eye comfort =
+    `data-theme="eye"` (light rules + warm paper colours + a soft warm filter over the whole screen, `:root[data-theme="eye"]::after`).
