@@ -282,8 +282,11 @@
 
   /* ========== STUDENTS, QUESTIONS, EARNINGS ========== */
   IS.page('studio-students', async function () {
-    var es = await DB.q('enrollments', { eq: { lecturer_id: L().id, status: 'active' }, order: ['decided_at', false] }), cs = await DB.q('courses', { eq: { lecturer_id: L().id } }), C = {}; cs.forEach(function (c) { C[c.id] = c; });
-    return IS.banner(IS.T('طلابي', 'My students'), N(es.length) + ' ' + esc(A('التحاق', 'enrolments')), 'users') + (es.length ? '<div class="table">' + es.map(function (e) { return '<div class="tr">' + IS.av({ name: e.payer }, 'sm') + '<span class="grow"><b>' + esc(e.payer || '') + '</b><small class="mut">' + esc((C[e.course_id] || {}).title || '') + '</small></span><span class="mut">' + esc(IS.date(e.decided_at || e.created_at)) + '</span><span>' + IS.money(e.price) + '</span></div>'; }).join('') + '</div>' : IS.empty('users', A('لا يوجد طلبة بعد', 'No students yet')));
+    var es = await DB.q('enrollments', { eq: { lecturer_id: L().id, status: 'active' }, order: ['decided_at', false] });
+    var ids = es.map(function (entry) { return entry.request_id; }).filter(Boolean);
+    var rows = await Promise.all([DB.q('courses', { eq: { lecturer_id: L().id } }), ids.length ? DB.q('course_requests', { in: { id: ids } }) : []]);
+    var titles = new Map(rows.flat().map(function (row) { return [row.id, row.title]; }));
+    return IS.banner(IS.T('طلابي', 'My students'), N(es.length) + ' ' + esc(A('التحاق', 'enrolments')), 'users') + (es.length ? '<div class="table">' + es.map(function (e) { return '<div class="tr">' + IS.av({ name: e.payer }, 'sm') + '<span class="grow"><b>' + esc(e.payer || '') + '</b><small class="mut">' + esc(titles.get(e.request_id || e.course_id) || '') + '</small></span><span class="mut">' + esc(IS.date(e.decided_at || e.created_at)) + '</span><span>' + IS.money(e.price) + '</span></div>'; }).join('') + '</div>' : IS.empty('users', A('لا يوجد طلبة بعد', 'No students yet')));
   }, { auth: true, area: 'studio', lec: true });
   IS.page('studio-qa', async function () {
     var ps = (await DB.q('posts', { eq: { room: 'qa', lecturer_id: L().id }, order: ['created_at', false] })).filter(function (p) { return p.status !== 'removed'; }), open = ps.filter(function (p) { return !p.n_replies; });
@@ -292,12 +295,21 @@
       '<section class="sec"><header class="sh"><h2>' + IS.T('تمت الإجابة', 'Answered') + '</h2></header><div class="posts">' + ps.filter(function (p) { return p.n_replies; }).map(IS.postRow).join('') + '</div></section>';
   }, { auth: true, area: 'studio', lec: true });
   IS.page('studio-money', async function () {
-    var mo = await money(), cs = await DB.q('courses', { eq: { lecturer_id: L().id } }), by = {}; mo.es.forEach(function (e) { by[e.course_id] = by[e.course_id] || { n: 0, s: 0 }; by[e.course_id].n++; by[e.course_id].s += (+e.price || 0) * (e.share != null ? +e.share : mo.share) / 100; });
-    var months = {}; mo.es.forEach(function (e) { var k = String(e.decided_at || e.created_at).slice(0, 7); months[k] = (months[k] || 0) + (+e.price || 0) * mo.share / 100; });
+    var mo = await money(), requestIds = mo.es.map(function (entry) { return entry.request_id; }).filter(Boolean);
+    var rows = await Promise.all([DB.q('courses', { eq: { lecturer_id: L().id } }), requestIds.length ? DB.q('course_requests', { in: { id: requestIds } }) : []]);
+    var by = {}, months = {};
+    mo.es.forEach(function (e) {
+      var id = e.request_id || e.course_id, month = String(e.decided_at || e.created_at).slice(0, 7);
+      var share = (+e.price || 0) * (e.share != null ? +e.share : mo.share) / 100;
+      var course = by[id] || (by[id] = { n: 0, s: 0 });
+      course.n++;
+      course.s += share;
+      months[month] = (months[month] || 0) + share;
+    });
     return IS.banner(IS.T('الأرباح', 'Earnings'), esc(A('نسبتك من كل التحاق: ', 'Your share of each enrolment: ')) + N(mo.share + '%'), 'wallet', mo.bal > 0 && !mo.req ? '<button class="btn gold" data-act="askpay" data-a="' + mo.bal + '">' + ic('send') + esc(A('طلب تحويل الرصيد', 'Request payout')) + '</button>' : '') +
       '<div class="tiles">' + [['wallet', IS.money(mo.earned), A('إجمالي الأرباح', 'Total earned')], ['checkc', IS.money(mo.paid), A('تم تحويله', 'Paid')], ['clock', IS.money(mo.req), A('طلبات قيد التحويل', 'Requested')], ['money', IS.money(mo.bal), A('الرصيد المستحق', 'Balance due')]].map(function (t) { return '<div class="tile">' + ic(t[0]) + '<b>' + t[1] + '</b><small>' + esc(t[2]) + '</small></div>'; }).join('') + '</div>' +
       '<div class="cols"><div class="main"><section class="box"><h2>' + ic('chart') + IS.T('الأرباح شهريًا', 'Earnings by month') + '</h2>' + IS.barChart(Object.keys(months).sort().slice(-12).map(function (k) { return [k.slice(5) + '/' + k.slice(2, 4), Math.round(months[k])]; })) + '</section>' +
-      '<section class="box"><h2>' + ic('layers') + IS.T('حسب الكورس', 'By course') + '</h2><div class="table">' + cs.map(function (c) { var b = by[c.id] || { n: 0, s: 0 }; return '<div class="tr"><span class="grow"><b>' + esc(c.title) + '</b></span><span>' + N(b.n) + ' ' + esc(A('التحاق', 'enrolments')) + '</span><b>' + IS.money(Math.round(b.s)) + '</b></div>'; }).join('') + '</div></section></div>' +
+      '<section class="box"><h2>' + ic('layers') + IS.T('حسب الكورس أو المجموعة', 'By course or group') + '</h2><div class="table">' + rows.flat().map(function (c) { var b = by[c.id] || { n: 0, s: 0 }; return '<div class="tr"><span class="grow"><b>' + esc(c.title) + '</b></span><span>' + N(b.n) + ' ' + esc(A('التحاق', 'enrolments')) + '</span><b>' + IS.money(Math.round(b.s)) + '</b></div>'; }).join('') + '</div></section></div>' +
       '<aside class="aside"><section class="box"><h2>' + ic('receipt') + IS.T('التحويلات', 'Payouts') + '</h2>' + (mo.ps.length ? '<div class="list">' + mo.ps.slice().reverse().map(function (p) { return '<div class="li">' + ic(p.status === 'paid' ? 'checkc' : 'clock') + '<span><b>' + IS.money(p.amount) + '</b><small>' + esc(IS.date(p.paid_at || p.created_at)) + (p.ref ? ' · ' + esc(p.ref) : '') + '</small></span>' + IS.status(p.status === 'paid' ? 'approved' : 'pending') + '</div>'; }).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد تحويلات بعد.', 'No payouts yet.')) + '</p>') +
       (!(L().pay || {}).account ? '<p class="note warn">' + ic('info') + '<span>' + esc(A('أضف رقم حساب بنكك في «صفحتي» لاستلام الأرباح.', 'Add your Bankak account in “My page” to receive payouts.')) + '</span></p>' : '') + '</section></aside></div>';
   }, { auth: true, area: 'studio', lec: true });

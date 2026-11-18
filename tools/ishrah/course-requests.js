@@ -6,6 +6,7 @@ const width = Number(process.argv[2] || 390);
 const accounts = { owner: '0910000201', author: '0910000202', reader: '0910000203', second: '0910000204', teacher: '0910000205' };
 const password = 'preview-pass';
 const course = 'Fixture group anatomy request';
+const image = require('node:path').join(__dirname, 'receipt.png');
 
 async function checkRequests(browser) {
   const page = await browser.newPage({ viewport: { width, height: 844 }, hasTouch: width < 600, isMobile: width < 600 });
@@ -70,16 +71,19 @@ async function checkRequests(browser) {
   await create.locator('[name=title]').fill(course);
   await create.locator('[name=details]').fill('Two sessions on anatomical terminology.');
   await create.locator('[name=lecturer]').selectOption({ label: 'Fixture Anatomy Lecturer' });
-  await create.locator('[name=min]').fill('100');
-  await create.locator('[name=max]').fill('200');
+  await create.locator('[name=price]').fill('125');
   await create.locator('[name=date]').fill('2026-12-07');
   await create.locator('[name=time]').fill('19:30');
   await create.locator('[name=rules]').fill('Please attend both sessions.');
   await create.locator('[name=goal]').fill('2');
   await create.locator('[name=auto_close]').check();
+  await create.locator('[name=attachments]').setInputFiles([
+    { name: 'Anatomy outline.txt', mimeType: 'text/plain', buffer: Buffer.from('Introduction to anatomy') }
+  ]);
   await submit('cr-create');
   await loaded('course-request');
   await visible('Awaiting approval');
+  await main.getByRole('link', { name: 'Anatomy outline.txt' }).waitFor();
   const id = await page.evaluate(() => location.hash.split('/')[1]);
 
   await signIn('reader');
@@ -101,14 +105,17 @@ async function checkRequests(browser) {
   await visible(course);
   await go('course-request/' + id);
   await visible('Please attend both sessions.');
-  await visible('100 – 200 SDG');
+  await main.getByRole('link', { name: 'Anatomy outline.txt' }).waitFor();
+  assert.deepEqual(await main.locator('.cr-facts dt').allTextContents(), ['Lecturer', 'Proposed price per person', 'Proposed date and time']);
+  await visible('125 SDG');
   await visible('Fixture Anatomy Lecturer');
   await submit('cr-comment', 'body', 'I can join both sessions.');
   await visible('I can join both sessions.');
-  const rating = main.locator('form[data-form="cr-rate"]');
-  await rating.locator('select').selectOption('5');
-  await rating.locator('button').click();
-  await visible('5 / 5 (1)');
+  await main.getByRole('link', { name: 'Comments (1)' }).click();
+  await page.waitForFunction(() => document.activeElement.matches('[data-post-comments]'));
+  await main.getByRole('button', { name: 'Like (0)', exact: true }).click();
+  await main.getByRole('img', { name: 'Positive reactions 100%' }).waitFor();
+  assert.equal(await main.locator('form[data-form="cr-rate"]').count(), 0);
   await action('join').click();
   await action('leave').waitFor();
   await visible('1 / 2 joined');
@@ -121,31 +128,31 @@ async function checkRequests(browser) {
   await main.locator('[data-act="open-study-space"]').click();
   await visible(course);
 
-  await signIn('second');
-  await go('course-request/' + id);
-  await action('join').click();
-  await visible('Joining closed');
-  await visible('2 / 2 joined');
-  await action('leave').click();
-  await visible('1 / 2 joined');
-  await visible('Joining closed');
-  assert.equal(await action('join').count(), 0);
-
   await signIn('teacher');
   await go('studio-course-requests');
   await main.getByRole('link', { name: course }).click();
   await loaded('studio-course-request');
-  await submit('cr-offer', 'terms', 'My private terms are 150 SDG per person.');
-  await visible('Private teaching offers');
-  const offerLink = await main.locator('a[href^="#studio-course-request/' + id + '/"]').getAttribute('href');
+  await main.locator('form[data-form="cr-offer"] [name=price]').fill('150');
+  await main.locator('form[data-form="cr-offer"] [name=date]').fill('2026-12-12');
+  await main.locator('form[data-form="cr-offer"] [name=time]').fill('17:00');
+  await submit('cr-offer', 'terms', 'Saturdays at 5 pm, online.');
+  await visible('Offer conversations');
+  await visible('Published teaching offers');
+  const offerLink = await main.locator('a.li[href^="#studio-course-request/' + id + '/"]').getAttribute('href');
   await signIn('reader');
+  await go('course-request/' + id);
+  await visible('Saturdays at 5 pm, online.');
+  await visible('150 SDG');
+  await visible('Published teaching offers');
+  await absent('Offer conversations');
   await go('course-request/' + id + '/' + offerLink.split('/').pop());
   await visible('Not found');
 
   await signIn('author');
   await go('course-request/' + id);
-  await main.locator('a[href^="#course-request/' + id + '/"]').click();
-  await visible('My private terms are 150 SDG per person.');
+  await main.locator('a.li[href^="#course-request/' + id + '/"]').click();
+  await visible('Saturdays at 5 pm, online.');
+  await visible('150 SDG');
   await submit('cr-message', 'body', 'Can we agree on a shorter first session?');
   await visible('Can we agree on a shorter first session?');
   await confirmAction('accept');
@@ -155,11 +162,60 @@ async function checkRequests(browser) {
   await visible('Accepted');
   await visible('Can we agree on a shorter first session?');
 
+  await signIn('second');
+  await go('course-request/' + id);
+  await visible('Teaching agreement');
+  await absent('125 SDG');
+  await visible('Saturdays at 5 pm, online.');
+  await visible('150 SDG');
+  await absent('Can we agree on a shorter first session?');
+  assert.deepEqual(await main.locator('.cr-facts dt').allTextContents(), ['Lecturer', 'Price per person', 'Teaching date and time']);
+  assert.match(await main.locator('.cr-facts dd').last().innerText(), /17:00/);
+  await visible('0 / 2 joined');
+  assert.equal(await action('join').count(), 0);
+
+  async function pay() {
+    const payment = page.locator('form[data-form=pay]');
+    await page.getByText('Transfer the amount with Bankak', { exact: true }).waitFor();
+    await payment.locator('[name=phone]').fill('0910000203');
+    await payment.locator('[name=ref]').fill('12345678');
+    await payment.locator('[name=receipt]').setInputFiles(image);
+    await payment.locator('button[type=submit],button:not([type])').click();
+    await payment.waitFor({ state: 'hidden' });
+  }
+  await main.getByRole('button', { name: 'Pay to join' }).click();
+  await pay();
+  await visible('Payment under review');
+  await visible('0 / 2 joined');
+  await signIn('owner');
+  await go('control-pay');
+  const paymentCard = main.locator('.payc').filter({ hasText: course });
+  await paymentCard.getByRole('button', { name: 'Confirm seat' }).click();
+  await paymentCard.waitFor({ state: 'hidden' });
+  await signIn('second');
+  await go('course-request/' + id);
+  await visible('Joined');
+  await visible('1 / 2 joined');
+  await signIn('reader');
+  await go('course-request/' + id);
+  await main.getByRole('button', { name: 'Pay to join' }).click();
+  await pay();
+  await visible('Payment under review');
+  await go('learning');
+  await visible('Teaching groups');
+  await main.getByRole('link', { name: new RegExp(course) }).waitFor();
+  await signIn('owner');
+  await go('control-pay');
+  await paymentCard.getByRole('button', { name: 'Confirm seat' }).click();
+  await paymentCard.waitFor({ state: 'hidden' });
+  await signIn('reader');
+  await go('course-request/' + id);
+  await visible('Joining closed');
+  await visible('2 / 2 joined');
+
   await signIn('author');
   await go('course-request/' + id);
-  await confirmAction('delete');
-  await loaded('course-requests');
-  await absent(course);
+  assert.equal(await action('delete').count(), 0);
   await go('course-requests/new');
   await create.locator('[name=title]').fill('Fixture general request to close immediately');
   await create.locator('[name=details]').fill('Any available lecturer may respond.');
@@ -183,10 +239,31 @@ async function checkRequests(browser) {
     await DB.ins('events', { title: 'Fixture Clinical event', status: 'published', spec: 'medicine', cat: 'clinical' });
     await DB.ins('posts', { title: 'Fixture popular discussion', body: 'Earlier discussion.', room: 'basics', status: 'open', spec: 'medicine', n_replies: 12, created_at: '2026-10-01T09:00:00Z' });
   });
-  await signIn('teacher');
-  await go('community');
+  await signIn('reader');
+  await go('community/new/announcement');
   const postForm = main.locator('form[data-form=post]');
+  assert.equal(await postForm.getByRole('link', { name: 'Announcement', exact: true }).count(), 0);
+  assert.equal(await postForm.getByRole('link', { name: 'Course preview', exact: true }).count(), 0);
+  await signIn('teacher');
+  await page.evaluate(async () => {
+    await DB.ins('courses', { title: 'Fixture paid anatomy course', lecturer_id: IS.ME.id, subject: 'anatomy', spec: 'medicine', cat: 'basics',
+      status: 'published', price: 250, published_at: new Date().toISOString() });
+  });
+  await go('community/new/announcement');
+  await postForm.getByLabel('Announcement title').fill('Fixture lecturer announcement');
+  await postForm.getByLabel('Announcement text').fill('An extra anatomy study session is available.');
+  await submit('post');
+  await visible('Fixture lecturer announcement');
+  await go('community');
+  await postForm.getByLabel('Discussion title').waitFor();
+  assert.equal(await postForm.locator('[name=preview_video]').count(), 0);
+  await postForm.getByRole('link', { name: 'Question', exact: true }).click();
+  await postForm.getByLabel('Your question').waitFor();
+  assert.equal(await postForm.locator('[name=preview_video]').count(), 0);
+  await postForm.getByRole('link', { name: 'Course preview', exact: true }).click();
+  await postForm.getByLabel('Course title').waitFor();
   await postForm.locator('[name=title]').fill('Fixture lecturer preview');
+  await postForm.locator('[name=course]').selectOption({ label: 'Fixture paid anatomy course · 250 SDG' });
   await postForm.locator('[name=body]').fill('See the material before you enrol.');
   await postForm.locator('[name=preview_video]').fill('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
   await postForm.locator('[name=preview_image]').setInputFiles(require('node:path').join(__dirname, 'receipt.png'));
@@ -208,8 +285,11 @@ async function checkRequests(browser) {
   await main.locator('#feed-sort').selectOption('popular');
   assert.equal(await main.locator('.feed-card h3').first().innerText(), 'Fixture popular discussion');
   await main.locator('#feed-sort').selectOption('new');
+  await main.locator('#feed-type').selectOption('course_preview');
   assert.equal(await main.locator('.feed-card h3').first().innerText(), 'Fixture lecturer preview');
-  const card = main.locator('.feed-discussion').filter({ hasText: 'Fixture lecturer preview' });
+  const card = main.locator('.feed-course_preview').filter({ hasText: 'Fixture lecturer preview' });
+  await card.getByRole('link', { name: 'Payment & enrolment' }).waitFor();
+  assert.match(await card.getByRole('button', { name: 'Like (0)', exact: true }).innerText(), /👍/);
   assert.equal(await card.locator('iframe').count(), 0);
   await page.route('https://www.youtube-nocookie.com/**', route => route.fulfill({ contentType: 'text/plain', body: 'Preview video' }));
   await card.locator('[data-act=post-video]').click();
@@ -222,14 +302,22 @@ async function checkRequests(browser) {
     const post = await DB.one('posts', id);
     return post.like_count === 0 && post.dislike_count === 1;
   }, postId);
-  await go(postPath);
-  const postRating = main.locator('form[data-form=post-rating]');
-  await postRating.locator('select[name=stars]').selectOption('4');
-  await postRating.locator('button').click();
-  await visible('4 / 5 (1)');
+  await card.getByRole('link', { name: 'Comments (0)' }).click();
+  await loaded('post');
+  await page.waitForFunction(() => document.activeElement.matches('[data-post-comments]'));
+  await main.getByRole('img', { name: 'Positive reactions 0%' }).waitFor();
+  assert.equal(await main.locator('form[data-form="post-rating"]').count(), 0);
   await main.locator('form[data-form=reply] textarea').fill('Will the preview slides be available?');
   await main.locator('form[data-form=reply] button').click();
   await visible('Will the preview slides be available?');
+  await go('community/new/question');
+  assert.equal(await postForm.getByRole('link', { name: 'Course preview', exact: true }).count(), 0);
+  await postForm.getByLabel('Your question').fill('How should I prepare for the review?');
+  await submit('post');
+  await loaded('post');
+  await go('home');
+  await main.locator('#feed-type').selectOption('question');
+  await visible('How should I prepare for the review?');
 
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
   assert.deepEqual(errors, []);

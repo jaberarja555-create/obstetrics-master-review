@@ -1,8 +1,8 @@
-/* Course requests, section previews and private lecturer offers. */
+/* Course requests, public teaching terms and private offer conversations. */
 (function () {
   'use strict';
   var A = IS.A, esc = IS.esc, ic = IS.ic, N = IS.N;
-  var REQUESTS = 'course_requests', MEMBERS = 'course_request_members', RATINGS = 'course_request_ratings';
+  var REQUESTS = 'course_requests', MEMBERS = 'course_request_members';
   var COMMENTS = 'course_request_comments', OFFERS = 'course_request_offers', MESSAGES = 'course_request_messages';
   var PUBLIC = ['open', 'closed'];
   var TITLES = ['طلبات الكورسات', 'Course requests'];
@@ -11,7 +11,7 @@
   function isPublic(row) { return PUBLIC.indexOf(row.status) >= 0; }
   function canOffer(row) { return activeLecturer() && row.user_id !== uid() && (!row.lecturer_id || row.lecturer_id === uid()) && !row.teacher_confirmed; }
   function scope() { return { spec: IS.SPEC, cat: (IS.mySection() || {}).id }; }
-  function scopeName(row) { var spec = IS.spec(row.spec), cat = IS.cat(row.cat); return [spec && spec.en, cat && A(cat.ar, cat.en)].filter(Boolean).join(' · '); }
+  function scopeName(row) { var spec = IS.spec(row.spec), cat = IS.cat(row.cat); return [spec && A(spec.ar, spec.en), cat && A(cat.ar, cat.en)].filter(Boolean).join(' · '); }
   function href(row, prefix, offer) { return '#' + (prefix || 'course-request') + '/' + row.id + (offer ? '/' + offer : ''); }
   function text(ar, en) { return esc(A(ar, en)); }
   function note(ar, en) { return '<p class="mut">' + text(ar, en) + '</p>'; }
@@ -22,26 +22,53 @@
     return IS.chip(text.apply(null, names[row.status]), row.status === 'open' ? 'ok' : row.status === 'pending' ? 'warn' : '');
   }
   function joined(row) {
-    return N(row.joined_count || 0) + (row.goal ? ' / ' + N(row.goal) : '') + ' ' + text('انضموا', 'joined');
+    return '<bdi dir="ltr">' + esc(((row.payment_required ? row.paid_count : row.joined_count) || 0) + (row.goal ? ' / ' + row.goal : '')) + '</bdi> ' + text('انضموا', 'joined');
   }
-  function average(row) {
-    return row.rating_count ? N(Math.round(row.rating_points / row.rating_count * 10) / 10) + ' / 5 (' + N(row.rating_count) + ')' : text('بلا تقييمات', 'No ratings');
+  function approval(row) {
+    var likes = Number(row.like_count) || 0, dislikes = Number(row.dislike_count) || 0;
+    return likes + dislikes ? Math.round(likes * 100 / (likes + dislikes)) + '%' : '—';
   }
-  function budget(row) {
-    var min = row.budget_min == null ? '' : Number(row.budget_min).toLocaleString('en-US');
-    var max = row.budget_max == null ? '' : Number(row.budget_max).toLocaleString('en-US');
-    if (!min && !max) return A('غير محددة', 'Flexible');
-    if (min === max) return min + ' SDG';
-    if (!min) return A('حتى ', 'Up to ') + max + ' SDG';
-    if (!max) return A('من ', 'From ') + min + ' SDG';
-    return min + ' – ' + max + ' SDG';
+  function priceText(value) {
+    if (value == null) return A('يُتفق عليه لاحقًا', 'To be agreed');
+    return Number(value) === 0 ? A('مجاني', 'Free') : Number(value).toLocaleString('en-US') + A(' ج.س', ' SDG');
   }
-  function date(row) {
-    if (!row.proposed_at) return A('موعد مرن', 'Flexible');
+  function requestedPrice(row) {
+    return row.budget_min != null && row.budget_max != null && Number(row.budget_min) === Number(row.budget_max) ?
+      priceText(row.budget_min) : priceText(null);
+  }
+  function priceField(ar, en, value, required) {
+    return '<label class="fl"><span>' + text(ar, en) + '</span><input name="price" type="number" min="0" max="9999999999.99" step=".01" dir="ltr" value="' +
+      esc(value == null ? '' : value) + '"' + (required ? ' required' : '') + '></label>';
+  }
+  function date(value) {
+    if (!value) return A('يُتفق عليه لاحقًا', 'To be agreed');
     return new Intl.DateTimeFormat(IS.lang === 'ar' ? 'ar' : 'en-GB', {
       dateStyle: 'medium', timeStyle: 'short', timeZone: 'Africa/Khartoum'
-    }).format(new Date(row.proposed_at)) + ' · ' + A('بتوقيت السودان', 'Sudan time');
+    }).format(new Date(value)) + ' · ' + A('بتوقيت السودان', 'Sudan time');
   }
+  function dateFields(value, proposed) {
+    var parts = value ? new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Africa/Khartoum', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+    }).formatToParts(new Date(value)).reduce(function (values, part) { values[part.type] = part.value; return values; }, {}) : null;
+    return '<div class="g2f"><label class="fl"><span>' + (proposed ? text('التاريخ المقترح', 'Proposed date') : text('تاريخ التدريس', 'Teaching date')) +
+      '</span><input type="date" name="date" min="2000-01-02" max="2199-12-31" value="' + (parts ? parts.year + '-' + parts.month + '-' + parts.day : '') + '"></label>' +
+      '<label class="fl"><span>' + text('الوقت (بتوقيت السودان)', 'Time (Sudan time)') + '</span><input type="time" name="time" value="' +
+      (parts ? parts.hour + ':' + parts.minute : '') + '"></label></div>';
+  }
+  function startAt(data) { return data.date ? data.date + 'T' + data.time + ':00+02:00' : null; }
+  function validDate(data) {
+    if (!!data.date === !!data.time) return true;
+    IS.toast(A('أدخل التاريخ والوقت معًا.', 'Enter both the date and the time.'), true);
+    return false;
+  }
+  var FILE_BUCKET = 'course-request-files';
+  var FILE_TYPES = {
+    jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif', pdf: 'application/pdf', txt: 'text/plain',
+    docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  };
+  function attachmentType(file) { return FILE_TYPES[file.name.split('.').pop().toLowerCase()]; }
   function commandButton(row, action, ar, en, cls, id) {
     return '<button type="button" class="btn sm ' + (cls || 'ghost') + '" data-act="cr-command" data-command="' + action +
       '" data-request="' + esc(row.id) + '"' + (id ? ' data-item="' + esc(id) + '"' : '') + '>' + text(ar, en) + '</button>';
@@ -54,8 +81,11 @@
     if (action === 'create') {
       target = data.lecturer_id && await DB.one('lecturers', data.lecturer_id);
       if (data.lecturer_id && (!target || target.status !== 'active' || target.id === actor)) throw new Error('request_lecturer');
-      row = await DB.ins(REQUESTS, Object.assign({}, data, { user_id: actor, author_name: IS.ME.name, lecturer_name: target ? target.name : null,
+      row = await DB.ins(REQUESTS, Object.assign({}, data, { budget_min: data.price, budget_max: data.price, user_id: actor, author_name: IS.ME.name, lecturer_name: target ? target.name : null,
         status: 'pending', teacher_confirmed: false, joined_count: 0, rating_count: 0, rating_points: 0 }));
+      for (var item of (data.attachments || [])) {
+        await DB.ins('course_request_files', Object.assign({ request_id: row.id }, item));
+      }
       return row.id;
     }
     row = await DB.one(REQUESTS, id);
@@ -72,35 +102,37 @@
     } else if (action === 'close' || action === 'delete') {
       if (action === 'close' && (!owner || row.status !== 'open')) throw new Error('request_permission');
       if (action === 'delete' && !owner && !IS.can('review', 'delete')) throw new Error('request_permission');
+      if (action === 'delete' && row.reserved_count) throw new Error('request_has_payments');
       await DB.upd(REQUESTS, id, { status: action === 'close' ? 'closed' : 'deleted' });
     } else {
       if (!isPublic(row)) throw new Error('request_unavailable');
-      if (['join', 'rate', 'comment'].indexOf(action) >= 0 && row.status !== 'open') throw new Error('request_closed');
-      if ((action === 'join' || action === 'rate') && owner) throw new Error('request_permission');
+      if (['join', 'comment'].indexOf(action) >= 0 && row.status !== 'open') throw new Error('request_closed');
+      if (action === 'join' && owner) throw new Error('request_permission');
       if (action === 'join' || action === 'leave') {
+        if (row.payment_required) throw new Error('request_payment_required');
         var member = (await DB.q(MEMBERS, { eq: { request_id: id, user_id: actor } }))[0];
         if (action === 'join' && !member) await DB.ins(MEMBERS, { request_id: id, user_id: actor });
         if (action === 'leave' && member) await DB.del(MEMBERS, member.id);
         var count = (await DB.q(MEMBERS, { eq: { request_id: id } })).length;
         await DB.upd(REQUESTS, id, { joined_count: count, status: row.auto_close && count >= row.goal ? 'closed' : row.status });
-      } else if (action === 'rate') {
-        var rating = (await DB.q(RATINGS, { eq: { request_id: id, user_id: actor } }))[0];
-        if (rating) await DB.upd(RATINGS, rating.id, { stars: data.stars });
-        else await DB.ins(RATINGS, { request_id: id, user_id: actor, stars: data.stars });
-        var ratings = await DB.q(RATINGS, { eq: { request_id: id } });
-        await DB.upd(REQUESTS, id, { rating_count: ratings.length, rating_points: ratings.reduce(function (sum, x) { return sum + x.stars; }, 0) });
       } else if (action === 'comment') {
         await DB.ins(COMMENTS, { request_id: id, user_id: actor, author_name: IS.ME.name, body: data.body });
+        await DB.upd(REQUESTS, id, { comment_count: (row.comment_count || 0) + 1 });
       } else if (action === 'remove_comment') {
         var comment = await DB.one(COMMENTS, data.id);
-        if (comment && comment.request_id === id && (comment.user_id === actor || IS.can('community', 'delete'))) await DB.del(COMMENTS, comment.id);
+        if (comment && comment.request_id === id && (comment.user_id === actor || IS.can('community', 'delete'))) {
+          await DB.del(COMMENTS, comment.id);
+          await DB.upd(REQUESTS, id, { comment_count: Math.max(0, (row.comment_count || 0) - 1) });
+        }
       } else {
         offers = await DB.q(OFFERS, { eq: { request_id: id } });
         if (action === 'offer') {
           if (!canOffer(row)) throw new Error('request_lecturer');
           offer = offers.find(function (o) { return o.lecturer_id === actor; });
-          if (offer) await DB.upd(OFFERS, offer.id, { terms: data.terms, status: 'offered' });
-          else offer = await DB.ins(OFFERS, { request_id: id, lecturer_id: actor, lecturer_name: IS.LEC.name, terms: data.terms, status: 'offered' });
+          if (offer && offer.terms_public && !data.public_terms) throw new Error('request_offer_public_required');
+          var terms = { terms: data.terms, status: 'offered', terms_public: data.public_terms === true, price: data.price, starts_at: data.starts_at };
+          if (offer) await DB.upd(OFFERS, offer.id, terms);
+          else offer = await DB.ins(OFFERS, Object.assign({ request_id: id, lecturer_id: actor, lecturer_name: IS.LEC.name }, terms));
           recipient = row.user_id;
           notice = A('عرض تدريس', 'A lecturer sent teaching terms');
         } else {
@@ -108,14 +140,20 @@
           if (!offer || (!owner && offer.lecturer_id !== actor)) throw new Error('request_permission');
           if (action === 'accept') {
             if (!owner || offer.status !== 'offered') throw new Error('request_permission');
+            if (!offer.terms_public) throw new Error('request_offer_private');
             for (var other of offers) await DB.upd(OFFERS, other.id, { status: other.id === offer.id ? 'accepted' : 'declined' });
-            await DB.upd(REQUESTS, id, { teacher_confirmed: true });
+            await DB.upd(REQUESTS, id, { teacher_confirmed: true, payment_required: +offer.price > 0,
+              status: +offer.price > 0 && row.auto_close && row.joined_count >= row.goal ? 'open' : row.status });
             recipient = offer.lecturer_id;
             notice = A('قُبل عرض التدريس', 'Your teaching offer was accepted');
           } else if (action === 'message') {
             await DB.ins(MESSAGES, { offer_id: offer.id, user_id: actor, body: data.body });
             recipient = owner ? offer.lecturer_id : row.user_id;
             notice = A('رسالة عن عرض تدريس', 'New teaching offer message');
+          } else if (action === 'publish_terms') {
+            if (offer.lecturer_id !== actor || !activeLecturer() || offer.status === 'declined') throw new Error('request_permission');
+            await DB.upd(OFFERS, offer.id, { terms_public: true, price: data.price, starts_at: data.starts_at });
+            if (offer.status === 'accepted' && +data.price > 0) await DB.upd(REQUESTS, id, { payment_required: true });
           }
         }
         if (offer) noticeLink = href(row, recipient === row.user_id ? 'course-request' : 'studio-course-request', offer.id);
@@ -137,6 +175,12 @@
         request_permission: ['لا يمكنك تنفيذ هذا الإجراء على الطلب.', 'Your account cannot perform this action on the request.'],
         request_lecturer: ['المحاضر غير متاح لهذا الطلب.', 'The lecturer is unavailable for this request.'],
         request_offer_decided: ['حُسم عرض التدريس بالفعل.', 'A teaching offer has already been decided.'],
+        request_offer_private: ['يمكن قبول العرض بعد أن ينشر المحاضر الشروط.', 'The lecturer must publish the terms before you can accept this offer.'],
+        request_offer_public_required: ['حدّث الصفحة لتعديل الشروط المنشورة.', 'Refresh the page to edit published terms.'],
+        request_offer_price_required: ['أدخل سعرًا محددًا للفرد.', 'Enter one fixed price per person.'],
+        request_attachment_invalid: ['أعد اختيار المرفقات وحاول مرة أخرى.', 'Choose your attachments again and retry.'],
+        request_payment_required: ['أرسل إيصال الدفع للانضمام بعد تأكيد التحويل.', 'Submit your receipt to join once payment is confirmed.'],
+        request_has_payments: ['يمكنك إغلاق الانضمام لهذا الطلب الذي يحوي مدفوعات.', 'You can close joining for this request with payments.'],
         request_sign_in: ['سجّل الدخول بحساب نشط للمتابعة.', 'Sign in with an active account to continue.']
       }[error.message];
       if (!message) throw error;
@@ -156,7 +200,7 @@
       '<h3><a dir="auto" href="' + href(row, prefix) + '">' + esc(row.title) + '</a></h3>' +
       '<p class="mut" dir="auto">' + esc(scopeName(row)) + ' · ' + esc(row.lecturer_name || A('طلب عام', 'General request')) + '</p>' +
       '<p class="cr-summary" dir="auto">' + esc(row.details) + '</p><div class="row cr-meta"><span>' + ic('users') + joined(row) +
-      '</span><span>' + ic('star') + average(row) + '</span></div></article>';
+      '</span><span>' + ic('star') + esc(approval(row)) + '</span></div></article>';
   }
   IS.sectionCourseRequests = function (limit) { return publicRows(scope(), limit); };
 
@@ -172,27 +216,43 @@
       '<label class="fl"><span>' + text('ماذا تريد أن يغطي الكورس؟', 'What should the course cover?') + '</span><textarea name="details" required rows="3" maxlength="4000"></textarea></label>' +
       '<label class="fl"><span>' + text('المحاضر', 'Lecturer') + '</span><select name="lecturer"><option value="">' + text('طلب عام لأي محاضر متاح', 'General request for any available lecturer') + '</option>' +
         lecturers.map(function (l) { return '<option value="' + esc(l.id) + '"' + (l.id === selected ? ' selected' : '') + '>' + esc(l.name) + '</option>'; }).join('') + '</select></label>' +
-      '<div class="g2f"><label class="fl"><span>' + text('أقل سعر للفرد (جنيه سوداني)', 'Minimum price per person (SDG)') + '</span><input name="min" type="number" min="0" max="9999999999" step=".01"></label>' +
-      '<label class="fl"><span>' + text('أعلى سعر للفرد (جنيه سوداني)', 'Maximum price per person (SDG)') + '</span><input name="max" type="number" min="0" max="9999999999" step=".01"></label>' +
-      '<label class="fl"><span>' + text('التاريخ المقترح', 'Proposed date') + '</span><input type="date" name="date" min="2000-01-02" max="2199-12-31"></label>' +
-      '<label class="fl"><span>' + text('الوقت المقترح (بتوقيت السودان)', 'Proposed time (Sudan time)') + '</span><input type="time" name="time"></label></div>' +
+      priceField('السعر المقترح للفرد (جنيه سوداني)', 'Proposed price per person (SDG)', null, false) +
+      dateFields(null, true) +
       '<label class="fl"><span>' + text('القواعد أو المتطلبات للمشاركين', 'Rules or requirements for participants') + '</span><textarea name="rules" rows="3" maxlength="2000"></textarea></label>' +
       '<label class="fl"><span>' + text('العدد المستهدف من المشاركين (اختياري)', 'Target number of participants (optional)') + '</span><input name="goal" type="number" min="1" max="10000"></label>' +
       '<label class="chk"><input type="checkbox" name="auto_close"><span>' + text('أغلق الانضمام تلقائيًا عند بلوغ العدد المستهدف', 'Close joining automatically at the target') + '</span></label>' +
+      '<label class="fl file"><span>' + text('صور أو ملفات (اختياري)', 'Pictures or files (optional)') +
+      '</span><input type="file" name="attachments" multiple accept="' + Object.keys(FILE_TYPES).map(function (ext) { return '.' + ext; }).join(',') + '"><small>' +
+      text('حتى 4 ملفات، 10 ميغابايت للملف. الصور وPDF وملفات Office وTXT.', 'Up to 4 files, 10 MB each. Images, PDF, Office and TXT.') + '</small></label>' +
       note('يُنشر الطلب بعد مراجعته. اترك بيانات الاتصال وروابط الاجتماعات خارج المنشور العام.', 'The request becomes public after review. Keep contact details and meeting links out of the public post.') +
       '<div class="row end">' + link('#course-requests', 'إلغاء', 'Cancel') + '<button class="btn pri"' + (section ? '' : ' disabled') + '>' +
       text('إرسال للموافقة', 'Send for approval') + '</button></div></form>';
   }
   IS.SUB['cr-create'] = async function (d, f) {
-    var minimum = d.min === '' ? null : Number(d.min), maximum = d.max === '' ? null : Number(d.max);
-    if (minimum != null && maximum != null && minimum > maximum) return IS.toast(A('الحد الأعلى أقل من الحد الأدنى.', 'The maximum price must be at least the minimum.'), true);
-    if (!!d.date !== !!d.time) return IS.toast(A('أدخل التاريخ والوقت معًا.', 'Enter both the date and the time.'), true);
+    if (!validDate(d)) return;
     var goal = d.goal ? Number(d.goal) : null, auto = f.elements.auto_close.checked;
     if (auto && !goal) return IS.toast(A('أدخل العدد المستهدف أولًا.', 'Enter a target number first.'), true);
-    var id = await change('create', null, Object.assign(scope(), {
-      title: d.title, details: d.details, rules: d.rules, lecturer_id: d.lecturer || null, budget_min: minimum, budget_max: maximum,
-      proposed_at: d.date ? d.date + 'T' + d.time + ':00+02:00' : null, goal: goal, auto_close: auto
-    }));
+    var files = Array.from(f.elements.attachments.files), attachments = [], id, submitted = false, finished = false;
+    if (files.length > 4 || files.some(function (file) { return !attachmentType(file) || !file.size || file.size > 10 * 1024 * 1024 || file.name.length > 240; })) {
+      return IS.toast(A('اختر حتى 4 ملفات مدعومة، بحجم 10 ميغابايت أو أقل للملف.', 'Choose up to 4 supported files, 10 MB or less each.'), true);
+    }
+    try {
+      for (var file of files) {
+        var mime = attachmentType(file);
+        var path = await DB.upload(FILE_BUCKET, file.type === mime ? file : new File([file], file.name, { type: mime }));
+        attachments.push({ path: path, name: file.name, mime: mime, position: attachments.length + 1 });
+      }
+      submitted = true;
+      id = await change('create', null, Object.assign(scope(), {
+        title: d.title, details: d.details, rules: d.rules, lecturer_id: d.lecturer || null, price: d.price === '' ? null : Number(d.price),
+        proposed_at: startAt(d), goal: goal, auto_close: auto, attachments: attachments
+      }));
+      finished = true;
+    } finally {
+      if (!id && (!submitted || finished) && DB.live && attachments.length) {
+        await DB.sb.storage.from(FILE_BUCKET).remove(attachments.map(function (item) { return item.path; }));
+      }
+    }
     if (id) {
       IS.toast(A('أُرسل الطلب للموافقة', 'Request sent for approval'));
       IS.go('course-request/' + id);
@@ -239,37 +299,74 @@
         IS.empty('eye', A('لا توجد طلبات بانتظار المراجعة', 'No requests awaiting review')));
   }, CONTROL);
 
-  function publicFacts(row) {
-    var list = [[A('المحاضر', 'Lecturer'), row.lecturer_name || A('طلب عام', 'General request')],
-      [A('السعر المقترح للفرد', 'Proposed price per person'), budget(row)], [A('الموعد المقترح', 'Proposed date and time'), date(row)]];
-    return '<ul class="kv">' + list.map(function (item) { return '<li><span>' + esc(item[0]) + '</span><b dir="auto">' + esc(item[1]) + '</b></li>'; }).join('') + '</ul>' +
-      (row.rules ? '<h3>' + text('قواعد الانضمام', 'Joining rules') + '</h3><p class="pre" dir="auto">' + esc(row.rules) + '</p>' : '') +
-      '<div class="row cr-meta"><span>' + ic('users') + joined(row) + '</span><span>' + ic('star') + average(row) + '</span></div>';
+  function publicFacts(row, agreement) {
+    var list = [[A('المحاضر', 'Lecturer'), agreement ? agreement.lecturer_name : row.lecturer_name || A('أي محاضر متاح', 'Any available lecturer')],
+      [agreement ? A('السعر للفرد', 'Price per person') : A('السعر المقترح للفرد', 'Proposed price per person'), agreement ? priceText(agreement.price) : requestedPrice(row)],
+      [agreement ? A('موعد التدريس', 'Teaching date and time') : A('الموعد المقترح', 'Proposed date and time'), date(agreement ? agreement.starts_at : row.proposed_at)]];
+    return '<dl class="cr-facts">' + list.map(function (item) {
+      return '<div><dt>' + esc(item[0]) + '</dt><dd><bdi>' + esc(item[1]) + '</bdi></dd></div>';
+    }).join('') + '</dl>';
   }
-  function contentForm(name, request, item, label, field, value, maxlength, submit) {
+  async function requestAttachments(id) {
+    var files = await DB.q('course_request_files', { eq: { request_id: id }, order: ['position'] });
+    var links = await Promise.all(files.map(async function (file) {
+      var url = await DB.fileUrl(FILE_BUCKET, file.path);
+      if (!url) return '';
+      return '<li><a href="' + IS.U(url) + '" target="_blank" rel="noopener noreferrer">' +
+        (file.mime.indexOf('image/') === 0 ? '<img src="' + IS.U(url) + '" loading="lazy" alt="">' : ic('file')) +
+        '<span dir="auto">' + esc(file.name) + '</span></a></li>';
+    }));
+    return links.some(Boolean) ? '<section class="cr-attachments"><h3>' + IS.T('المرفقات', 'Attachments') + '</h3><ul>' + links.join('') + '</ul></section>' : '';
+  }
+  function requestRules(row) {
+    return row.rules ? '<h3>' + text('قواعد الانضمام', 'Joining rules') + '</h3><p class="pre" dir="auto">' + esc(row.rules) + '</p>' : '';
+  }
+  function contentForm(name, request, item, label, field, value, maxlength, submit, extra) {
     return '<form class="form" data-form="' + name + '" data-request="' + esc(request) + '"' + (item ? ' data-item="' + esc(item) + '"' : '') + '>' +
-      '<label class="fl"><span>' + label + '</span><textarea name="' + field + '" required maxlength="' + maxlength + '" rows="3">' + esc(value || '') + '</textarea></label>' +
+      (extra || '') + '<label class="fl"><span>' + label + '</span><textarea name="' + field + '" required maxlength="' + maxlength + '" rows="' +
+      (name === 'cr-comment' ? 2 : 3) + '">' + esc(value || '') + '</textarea></label>' +
       '<div class="row end"><button class="btn pri sm">' + submit + '</button></div></form>';
   }
   function offerList(row, offers, prefix) {
     if (!offers.length) return '';
-    return '<section class="box"><h2>' + IS.T('عروض التدريس الخاصة', 'Private teaching offers') + '</h2><div class="list">' +
+    return '<section class="box"><h2>' + IS.T('محادثات عروض التدريس', 'Offer conversations') + '</h2><div class="list">' +
       offers.map(function (o) { return '<a class="li" href="' + href(row, prefix, o.id) + '">' + ic('mail') + '<span><b dir="auto">' + esc(o.lecturer_name) +
         '</b><small>' + offerStatus(o) + '</small></span>' + ic('chev', 'fl') + '</a>'; }).join('') + '</div></section>';
   }
   function offerStatus(o) {
     return o.status === 'accepted' ? text('مقبول', 'Accepted') : o.status === 'declined' ? text('اختير عرض آخر', 'Another offer was chosen') : text('بانتظار الرد', 'Awaiting decision');
   }
+  async function publishedOffers(id) {
+    if (DB.live) {
+      var result = await DB.sb.rpc('ish_public_course_terms', { request: id });
+      if (result.error) throw result.error;
+      return result.data || [];
+    }
+    return DB.q(OFFERS, { eq: { request_id: id, terms_public: true }, in: { status: ['offered', 'accepted'] }, order: ['created_at', false] });
+  }
+  function termsBlock(offer, agreed) {
+    return '<div class="cr-terms' + (agreed ? ' cr-agreement' : ' cr-proposal') + '">' +
+      (agreed ? '<h3>' + ic('checkc') + IS.T('اتفاق التدريس', 'Teaching agreement') + '</h3>' :
+        '<div class="cr-agreement-meta"><b dir="auto">' + esc(offer.lecturer_name) + '</b><span dir="auto">' + esc(priceText(offer.price)) +
+        '</span><span dir="auto">' + esc(date(offer.starts_at)) + '</span></div>') +
+      '<p class="pre" dir="auto">' + esc(offer.terms) + '</p></div>';
+  }
   async function offerPage(row, offer, prefix) {
     var messages = (await DB.q(MESSAGES, { eq: { offer_id: offer.id }, order: ['created_at', false], limit: 100 })).reverse();
     var owner = row.user_id === uid();
     return '<nav class="crumb">' + link(href(row, prefix), 'رجوع إلى الطلب', 'Back to request', 'link') + '</nav>' +
-      '<article class="box cr-detail"><h1 tabindex="-1">' + IS.T('عرض تدريس خاص', 'Private teaching offer') + '</h1><p class="mut" dir="auto">' +
+      '<article class="box cr-detail"><h1 tabindex="-1">' + IS.T('عرض التدريس', 'Teaching offer') + '</h1><p class="mut" dir="auto">' +
       esc(row.title) + ' · ' + esc(offer.lecturer_name) + '</p><div class="row">' + IS.chip(offerStatus(offer), offer.status === 'accepted' ? 'ok' : '') +
-      '</div><h2>' + IS.T('شروط المحاضر', 'Lecturer’s terms') +
+      '</div>' + (offer.terms_public ? '<p class="cr-agreement-price">' + text('السعر للفرد', 'Price per person') + ' <strong dir="auto">' +
+        esc(priceText(offer.price)) + '</strong> · ' + esc(date(offer.starts_at)) + '</p>' : '') + '<h2>' + (offer.terms_public ? IS.T('الشروط المنشورة', 'Published terms') : IS.T('شروط غير منشورة', 'Unpublished terms')) +
       '</h2><p class="pre" dir="auto">' + esc(offer.terms) + '</p>' +
-      (owner && offer.status === 'offered' ? commandButton(row, 'accept', 'اقبل العرض', 'Accept offer', 'pri', offer.id) : '') + '</article>' +
-      '<section class="box"><h2>' + IS.T('ناقش الشروط', 'Discuss the terms') + '</h2>' +
+      (offer.terms_public && owner && offer.status === 'offered' ? commandButton(row, 'accept', 'اقبل الشروط', 'Accept terms', 'pri', offer.id) : '') +
+      (!offer.terms_public && offer.status !== 'declined' ? (offer.lecturer_id === uid() && activeLecturer() ?
+        '<form class="form" data-form="cr-publish-terms" data-request="' + esc(row.id) + '" data-item="' + esc(offer.id) + '">' +
+        priceField('السعر للفرد (جنيه سوداني)', 'Price per person (SDG)', null, true) + dateFields(offer.starts_at) +
+        '<button class="btn pri sm">' + text('انشر السعر والشروط على الطلب', 'Publish price and terms') + '</button></form>' :
+        note('يمكن للمحاضر نشر الشروط على صفحة الطلب ليراها المشاركون.', 'The lecturer can publish these terms on the request for interested students.')) : '') + '</article>' +
+      '<section class="box"><h2>' + IS.T('محادثة خاصة', 'Private conversation') + '</h2>' +
       messages.map(function (m) { return '<article class="cr-message"><b dir="auto">' + esc(m.user_id === row.user_id ? row.author_name : offer.lecturer_name) +
         '</b> <small class="mut">' + esc(IS.ago(m.created_at)) + '</small><p class="pre" dir="auto">' + esc(m.body) + '</p></article>'; }).join('') +
       contentForm('cr-message', row.id, offer.id, text('رسالة خاصة', 'Private message'), 'body', '', 2000, text('إرسال', 'Send')) + '</section>';
@@ -288,59 +385,98 @@
       if (!owner) filters.lecturer_id = uid();
       offers = await DB.q(OFFERS, { eq: filters, order: ['created_at', false] });
     }
-    if (parts[1]) {
+    var showComments = parts[1] === 'comments';
+    if (parts[1] && !showComments) {
       var offer = offers.find(function (o) { return o.id === parts[1]; });
       return offer ? offerPage(row, offer, prefix) : null;
     }
     var board = prefix === 'studio-course-request' ? '#studio-course-requests' : admin ? '#control-course-requests' : '#course-requests';
+    var r = await Promise.all([
+      published && !admin ? DB.q(COMMENTS, { eq: { request_id: id }, order: ['created_at', false], limit: 100 }) : [],
+      published && uid() && !owner ? DB.q(MEMBERS, { eq: { request_id: id, user_id: uid() } }) : [],
+      published ? publishedOffers(id) : [],
+      requestAttachments(id),
+      published && row.payment_required && uid() ? DB.q('enrollments', { eq: { request_id: id, user_id: uid() }, order: ['created_at', false] }) : []
+    ]);
+    var agreement = r[2].find(function (o) { return o.status === 'accepted'; });
     var h = '<nav class="crumb">' + link(board, 'رجوع إلى الطلبات', 'Back to requests', 'link') + '</nav>' +
-      '<article class="box cr-detail"><div class="row">' + status(row) + (row.teacher_confirmed ? IS.chip(text('تأكد المحاضر', 'Lecturer confirmed'), 'ok') : '') +
-      '</div><h1 tabindex="-1" dir="auto">' + esc(row.title) + '</h1><p class="mut" dir="auto">' + esc(row.author_name) + ' · ' + esc(scopeName(row)) +
-      '</p><p class="pre" dir="auto">' + esc(row.details) + '</p>' + publicFacts(row);
+      '<article class="box cr-detail"><header class="cr-heading"><h1 tabindex="-1" dir="auto">' + esc(row.title) +
+      '</h1><div class="row"><span class="mut" dir="auto">' + esc(row.author_name) + ' · ' + esc(scopeName(row)) + '</span>' + status(row) +
+      '</div></header>' + publicFacts(row, agreement) + '<section class="cr-request-body"><h2>' + IS.T('تفاصيل الطلب', 'Request details') +
+      '</h2><p class="pre" dir="auto">' + esc(row.details) + '</p>' + (agreement ? termsBlock(agreement, true) : '') + requestRules(row) + r[3];
+    var proposals = r[2].filter(function (o) { return o.status === 'offered'; });
+    if (proposals.length) h += '<section class="cr-public-offers"><h3>' + IS.T('عروض التدريس المنشورة', 'Published teaching offers') + '</h3>' +
+      proposals.map(function (o) { return termsBlock(o, false); }).join('') + '</section>';
+    h += '</section>';
     if (admin || owner) {
       h += '<div class="row">' +
         (admin && row.status === 'pending' && IS.can('review', 'approve') ? commandButton(row, 'approve', 'وافق وانشر', 'Approve and publish', 'pri') + commandButton(row, 'reject', 'ارفض الطلب', 'Decline request', 'bad') : '') +
         (owner && open ? commandButton(row, 'close', 'أغلق الانضمام', 'Close joining') : '') +
-        (owner || (admin && IS.can('review', 'delete')) ? commandButton(row, 'delete', 'احذف الطلب', 'Delete request', 'bad') : '') + '</div>';
+        (!row.reserved_count && (owner || (admin && IS.can('review', 'delete'))) ? commandButton(row, 'delete', 'احذف الطلب', 'Delete request', 'bad') : '') + '</div>';
     }
     if (!published || admin) return h + '</article>';
 
-    var r = await Promise.all([
-      DB.q(COMMENTS, { eq: { request_id: id }, order: ['created_at', false], limit: 100 }),
-      uid() && !owner ? DB.q(MEMBERS, { eq: { request_id: id, user_id: uid() } }) : [],
-      uid() && !owner && open ? DB.q(RATINGS, { eq: { request_id: id, user_id: uid() } }) : []
-    ]);
-    if (!owner && (open || r[1].length)) {
-      h += '<div class="row">' + (uid() ? r[1].length ? commandButton(row, 'leave', 'ألغِ انضمامك', 'Leave request') :
-        commandButton(row, 'join', 'انضم إلى الطلب', 'Join request', 'pri') :
-        '<button class="btn pri sm" data-act="login">' + text('سجّل الدخول للانضمام', 'Sign in to join') + '</button>') + '</div>';
-      if (open) h += note('الانضمام يعني إبداء الاهتمام. الدفع والتسجيل في الكورس لاحقًا.', 'Joining registers interest. Course enrolment and payment come later.');
+    h += IS.feedVoteBar('request', row) + '<div class="cr-join"><span class="row cr-meta">' + ic('users') + joined(row) + '</span>';
+    if (row.payment_required && agreement) {
+      var payment = r[4].find(function (entry) { return entry.status === 'active' || entry.status === 'pending'; }), last = r[4][0];
+      var full = row.auto_close && row.reserved_count >= row.goal;
+      if (payment) h += IS.chip(payment.status === 'active' ? text('تم الانضمام', 'Joined') : text('الدفع قيد المراجعة', 'Payment under review'), payment.status === 'active' ? 'ok' : '');
+      else if (open && !full && !offers.some(function (offer) { return offer.status === 'accepted' && offer.lecturer_id === uid(); })) h += '<button type="button" class="btn pri sm" data-act="cr-pay" data-id="' + esc(id) + '">' + ic('wallet') + text('ادفع للانضمام', 'Pay to join') + '</button>';
+      else if (open && full) h += IS.chip(text('كل المقاعد محجوزة', 'All seats reserved'), '');
+      if (!payment && last && last.status === 'rejected') h += '<p class="mut">' + text('لم يُقبل إيصال الدفع.', 'The receipt was declined.') + ' ' + esc(last.note || '') + '</p>';
+    } else if (!row.payment_required && !owner && (open || r[1].length)) {
+      if (!uid()) h += '<button class="btn pri sm" data-act="login">' + text('سجّل الدخول للانضمام', 'Sign in to join') + '</button>';
+      else if (r[1].length) h += commandButton(row, 'leave', 'ألغِ انضمامك', 'Leave request');
+      else if (agreement) h += commandButton(row, 'join', 'انضم وفق هذه الشروط', 'Join under these terms', 'pri');
+      else h += commandButton(row, 'join', 'أبدِ اهتمامك', 'Register interest', 'pri');
     }
-    if (!owner && uid() && open) {
-      h += '<form class="form cr-rating" data-form="cr-rate" data-request="' + esc(id) + '"><label class="fl"><span>' + text('قيّم فكرة الكورس', 'Rate the course idea') +
-        '</span><select name="stars" required><option value="">' + text('اختر تقييمًا', 'Choose a rating') + '</option>' +
-        [5, 4, 3, 2, 1].map(function (n) { return '<option value="' + n + '"' + (r[2][0] && r[2][0].stars === n ? ' selected' : '') + '>' + N(n) + ' / 5</option>'; }).join('') +
-        '</select></label><button class="btn ghost sm">' + text('احفظ التقييم', 'Save rating') + '</button></form>';
-    }
-    h += IS.feedVoteBar('request', row, true) + '</article>';
-    if (canOffer(row)) {
-      h += '<section class="box"><h2>' + IS.T('أنا متاح للتدريس', 'I’m available to teach') + '</h2>' +
-        note('يرى صاحب الطلب وحده عرضك. اذكر السعر والموعد وطريقة التدريس وشروطك.', 'Only the requester can see your offer. Include your price, availability, teaching format, and terms.') +
-        contentForm('cr-offer', row.id, '', text('شروط التدريس', 'Teaching terms'), 'terms', offers[0] && offers[0].terms, 4000,
-          offers.length ? text('حدّث العرض', 'Update offer') : text('أرسل العرض', 'Send offer')) + '</section>';
-    }
-    h += offerList(row, offers, prefix);
-    return h + '<section class="box"><h2>' + IS.T('التعليقات', 'Comments') + '</h2>' +
-      (r[0].length ? r[0].reverse().map(function (c) {
+    h += '</div>';
+    if (open && row.payment_required) h += note('يتأكد انضمامك بعد مراجعة الإيصال.', 'Your seat is confirmed after the receipt is reviewed.');
+    if (open && !agreement) h += note('يمكنك إبداء الاهتمام الآن. يتحدد التسجيل بعد الاتفاق مع المحاضر.', 'You can register interest now. Enrolment opens once the teaching terms are agreed.');
+    h += '</article>';
+    if (showComments) IS.after = IS.focusPostComments;
+    h += '<section class="box post-comments"><h2 tabindex="-1" data-post-comments>' + IS.T('التعليقات', 'Comments') + '</h2>' +
+      (open && uid() ? contentForm('cr-comment', id, '', text('اكتب تعليقًا', 'Write a comment'), 'body', '', 2000, text('انشر التعليق', 'Post comment')) : '') +
+      r[0].reverse().map(function (c) {
         return '<article class="cr-message"><div class="row sp"><b dir="auto">' + esc(c.author_name) + '</b><small class="mut">' + esc(IS.ago(c.created_at)) +
           '</small></div><p class="pre" dir="auto">' + esc(c.body) + '</p>' +
           (c.user_id === uid() || IS.can('community', 'delete') ? commandButton(row, 'remove_comment', 'احذف التعليق', 'Delete comment', 'bad', c.id) : '') + '</article>';
-      }).join('') : note('لا توجد تعليقات بعد.', 'No comments yet.')) +
-      (open && uid() ? contentForm('cr-comment', id, '', text('تعليق عام', 'Public comment'), 'body', '', 2000, text('انشر التعليق', 'Post comment')) : '') + '</section>';
+      }).join('') + '</section>';
+    if (canOffer(row)) {
+      h += '<section class="box"><h2>' + IS.T('أنا متاح للتدريس', 'I’m available to teach') + '</h2>' +
+        note('تظهر هذه الشروط للجميع على الطلب. اذكر السعر والموعد وطريقة التدريس وقواعد المجموعة.', 'Everyone can see these terms on the request. Include your price, schedule, teaching format, and group rules.') +
+        contentForm('cr-offer', row.id, '', text('شروط التدريس', 'Teaching terms'), 'terms', offers[0] && offers[0].terms, 4000,
+          offers[0] && offers[0].terms_public ? text('حدّث العرض', 'Update offer') : text('انشر العرض', 'Publish offer'),
+          priceField('السعر للفرد (جنيه سوداني)', 'Price per person (SDG)', offers[0] && offers[0].price, true) + dateFields(offers[0] && offers[0].starts_at)) + '</section>';
+    }
+    return h + offerList(row, offers, prefix);
   }
   IS.page('course-request', function (arg) { return detail(arg, 'course-request'); });
   IS.page('studio-course-request', function (arg) { return detail(arg, 'studio-course-request'); }, STUDIO);
   IS.page('control-course-request', function (arg) { return detail(arg, 'control-course-request'); }, CONTROL);
+
+  IS.ACT['cr-pay'] = async function (button) {
+    if (!uid()) return IS.ACT.login();
+    var id = button.dataset.id, results = await Promise.all([DB.one(REQUESTS, id), IS.requestPaymentQuote(id)]);
+    var row = results[0], agreement = results[1];
+    if (!row || !agreement) return IS.refresh();
+    IS.paymentSheet({ request: id, title: row.title, price: agreement.price, scope: scopeName(row) });
+  };
+  IS.requestPaymentPreview = async function (id) {
+    if (DB.live || !id) return;
+    var row = await DB.one(REQUESTS, id), enrolments = await DB.q('enrollments', { eq: { request_id: id } });
+    var paid = enrolments.filter(function (entry) { return entry.status === 'active'; }).length;
+    var reserved = enrolments.filter(function (entry) { return entry.status === 'active' || entry.status === 'pending'; }).length;
+    await DB.upd(REQUESTS, id, { paid_count: paid, reserved_count: reserved, status: row.auto_close && paid >= row.goal ? 'closed' : row.status });
+  };
+  IS.requestPaymentQuote = async function (id) {
+    var row = await DB.one(REQUESTS, id);
+    if (!row || !IS.inStudySpace(row) || row.status !== 'open' || !row.payment_required || (row.auto_close && row.reserved_count >= row.goal)) return null;
+    var offer = (await publishedOffers(id)).find(function (o) { return o.status === 'accepted' && +o.price > 0; });
+    if (!offer) return null;
+    if (!DB.live && offer.lecturer_id === uid()) return null;
+    return offer;
+  };
 
   IS.ACT['cr-command'] = async function (button) {
     var action = button.dataset.command, id = button.dataset.request;
@@ -348,7 +484,7 @@
       close: ['هل تريد إغلاق الانضمام إلى هذا الطلب؟', 'Close joining for this request?'],
       delete: ['هل تريد حذف الطلب؟', 'Delete this request?'],
       reject: ['هل تريد رفض نشر الطلب؟', 'Decline publication of this request?'],
-      accept: ['هل تريد قبول عرض هذا المحاضر؟', 'Accept this lecturer’s offer?'],
+      accept: ['هل تريد اعتماد هذه الشروط لتظهر كاتفاق التدريس على الطلب؟', 'Accept these terms as the teaching agreement on the request?'],
       remove_comment: ['هل تريد حذف التعليق؟', 'Delete this comment?']
     }[action];
     button.disabled = true;
@@ -360,60 +496,71 @@
       else IS.refresh();
     } finally { button.disabled = false; }
   };
-  [['cr-rate', 'rate'], ['cr-comment', 'comment'], ['cr-offer', 'offer'], ['cr-message', 'message']].forEach(function (entry) {
+  [['cr-comment', 'comment'], ['cr-offer', 'offer'], ['cr-message', 'message'], ['cr-publish-terms', 'publish_terms']].forEach(function (entry) {
     IS.SUB[entry[0]] = async function (data, form) {
       data.id = form.dataset.item;
-      if (data.stars) data.stars = Number(data.stars);
+      if (data.price !== undefined) {
+        if (!validDate(data)) return;
+        data.price = data.price === '' ? null : Number(data.price);
+        data.starts_at = startAt(data);
+      }
+      if (entry[1] === 'offer') data.public_terms = true;
       if (await change(entry[1], form.dataset.request, data)) IS.refresh();
     };
   });
 
-  IS.feedVoteBar = function (kind, row, detail) {
-    function vote(value, ar, en, icon, count) {
-      var label = text(ar, en);
-      var contents = ic(icon) + '<span>' + label + '</span>' + N(count || 0);
-      return uid() ? '<button type="button" class="btn ghost sm" data-act="feed-vote" data-kind="' + kind + '" data-id="' + esc(row.id) +
-        '" data-value="' + value + '">' + contents + '</button>' : '<span class="feed-vote-count">' + contents + '</span>';
-    }
-    var result = '<div class="feed-votes"><div class="row">' + vote(1, 'أعجبني', 'Like', 'check', row.like_count) +
-      vote(-1, 'لم يعجبني', 'Dislike', 'x', row.dislike_count) +
-      (detail && kind === 'request' ? '' : '<span class="feed-vote-count">' + ic('star') + average(row) + '</span>');
-    if (!detail) result += link('#' + (kind === 'post' ? 'post/' : 'course-request/') + row.id, 'التعليقات والتقييم', 'Comments and rating', 'link');
-    result += '</div>';
-    if (detail && kind === 'post' && uid() && uid() !== row.user_id) {
-      result += '<form class="form cr-rating" data-form="post-rating" data-id="' + esc(row.id) + '"><label class="fl"><span>' + text('قيّم المنشور', 'Rate this post') +
-        '</span><select name="stars" required><option value="">' + text('اختر تقييمًا', 'Choose a rating') + '</option>' +
-        [5, 4, 3, 2, 1].map(function (n) { return '<option value="' + n + '">' + n + ' / 5</option>'; }).join('') +
-        '</select></label><button class="btn ghost sm">' + text('احفظ التقييم', 'Save rating') + '</button></form>';
-    }
-    return result + '</div>';
+  IS.focusPostComments = function (main) {
+    var heading = main.querySelector('[data-post-comments]');
+    if (!heading) return;
+    heading.focus({ preventScroll: true });
+    heading.scrollIntoView({ block: 'start' });
   };
-  async function feedVote(kind, id, action, value) {
+
+  IS.feedVoteBar = function (kind, row) {
+    function emoji(symbol, count) { return '<span class="feed-emoji-icon" aria-hidden="true">' + symbol + '</span>' + N(count); }
+    function vote(value, ar, en, symbol, count) {
+      count = count || 0;
+      var label = text(ar, en) + ' (' + count + ')', contents = emoji(symbol, count);
+      var style = value === 1 ? ' feed-like' : ' feed-dislike';
+      return uid() ? '<button type="button" class="feed-emoji' + style + '" data-act="feed-vote" data-kind="' + kind + '" data-id="' + esc(row.id) +
+        '" data-value="' + value + '" aria-label="' + label + '" title="' + label + '">' + contents + '</button>' :
+        '<span class="feed-emoji' + style + '" role="img" aria-label="' + label + '" title="' + label + '">' + contents + '</span>';
+    }
+    var count = (kind === 'post' ? row.n_replies : row.comment_count) || 0;
+    var commentRoute = kind === 'request' ? href(row, IS.area === 'studio' ? 'studio-course-request' : 'course-request', 'comments') : '#post/' + row.id + '/comments';
+    var commentLabel = text('التعليقات', 'Comments') + ' (' + count + ')';
+    var comment = '<a class="feed-emoji feed-comment" href="' + esc(commentRoute) + '" aria-label="' + commentLabel + '" title="' + commentLabel + '">' + emoji('💬', count) + '</a>';
+    var score = approval(row);
+    var title = score === '—' ? text('لا توجد تفاعلات بعد', 'No reactions yet') :
+      text('نسبة الإعجاب', 'Positive reactions') + ' ' + score;
+    var rating = '<span class="feed-vote-count" role="img" aria-label="' + title + '" title="' + title + '"><span class="feed-emoji-icon" aria-hidden="true">⭐</span><bdi dir="ltr">' +
+      esc(score) + '</bdi></span>';
+    return '<div class="feed-votes"><div class="row">' + vote(1, 'أعجبني', 'Like', '👍', row.like_count) +
+      vote(-1, 'لم يعجبني', 'Dislike', '👎', row.dislike_count) + comment + rating + '</div></div>';
+  };
+  async function feedVote(kind, id, value) {
     if (!uid()) return IS.ACT.login();
     if (DB.live) {
-      var answer = await DB.sb.rpc('ish_feed_vote', { kind: kind, target: id, action: action, value: value });
+      var answer = await DB.sb.rpc('ish_feed_vote', { kind: kind, target: id, action: 'react', value: value });
       if (answer.error) throw answer.error;
     } else {
       var parent = kind === 'post' ? 'posts' : REQUESTS;
       var fields = kind === 'post' ? { post_id: id } : { request_id: id };
       var row = (await DB.q('feed_feedback', { eq: Object.assign({ user_id: uid() }, fields) }))[0];
-      var update = action === 'react' ? { reaction: row && row.reaction === value ? null : value } : { stars: value };
+      var update = { reaction: row && row.reaction === value ? null : value };
       if (row) await DB.upd('feed_feedback', row.id, update);
       else await DB.ins('feed_feedback', Object.assign({ user_id: uid() }, fields, update));
       var votes = await DB.q('feed_feedback', { eq: fields });
-      var stats = { like_count: votes.filter(function (v) { return v.reaction === 1; }).length, dislike_count: votes.filter(function (v) { return v.reaction === -1; }).length };
-      if (kind === 'post') {
-        stats.rating_count = votes.filter(function (v) { return v.stars; }).length;
-        stats.rating_points = votes.reduce(function (total, v) { return total + (v.stars || 0); }, 0);
-      }
-      await DB.upd(parent, id, stats);
+      await DB.upd(parent, id, {
+        like_count: votes.filter(function (v) { return v.reaction === 1; }).length,
+        dislike_count: votes.filter(function (v) { return v.reaction === -1; }).length
+      });
     }
     IS.refresh();
   }
   IS.ACT['feed-vote'] = async function (button) {
     button.disabled = true;
-    try { await feedVote(button.dataset.kind, button.dataset.id, 'react', Number(button.dataset.value)); }
+    try { await feedVote(button.dataset.kind, button.dataset.id, Number(button.dataset.value)); }
     finally { button.disabled = false; }
   };
-  IS.SUB['post-rating'] = function (data, form) { return feedVote('post', form.dataset.id, 'rate', Number(data.stars)); };
 })();
