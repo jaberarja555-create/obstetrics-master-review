@@ -53,6 +53,9 @@
     if (sf && sf.size > 50 * 1048576) { IS.toast(A('الملف أكبر من 50 ميغابايت؛ ضع رابطًا بدلًا منه.', 'The file is over 50 MB; add a link instead.')); return; }
     if (sf) row.sample_file = await DB.upload('apps', sf);
     if (f.cv.files[0]) row.cv = await DB.upload('apps', f.cv.files[0]); if (f.certs.files[0]) row.certs = await DB.upload('apps', f.certs.files[0]);
+    /* one open request per person (owner, 18 Nov 2026: a request sent from two devices stayed waiting after the other was approved):
+       a form opened before another copy was sent updates that copy instead of adding a second one */
+    if (!d.id) { var open = (await DB.q('lecturer_apps', { eq: { user_id: IS.ME.id } })).filter(function (x) { return x.status === 'pending' || x.status === 'changes'; })[0]; if (open) d.id = open.id; }
     var was = d.id ? await DB.one('lecturer_apps', d.id).catch(function () { return null; }) : null;
     if (d.id) await DB.upd('lecturer_apps', d.id, row); else await DB.ins('lecturer_apps', row);
     if (was && was.status === 'changes' && was.decided_by) IS.notify(was.decided_by, A('عدّل المحاضر طلبه', 'An applicant updated their request'), row.name, '#control-apps');

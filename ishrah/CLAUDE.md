@@ -379,3 +379,10 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   lists the platform team and the lecturers (forward = notification to the lecturer and the student). Lecturer: studio menu «طلبات الطلاب»
   (`studio-requests`, conversation `lec-ticket/<id>`); answers show as «<name> · المحاضر». Test: scratchpad lreq.js journey (student →
   lecturer page request, general request, lecturer answers, owner forwards, student reads).
+- **One lecturer request per person (owner, 18 Nov 2026: "I accepted a request as lecturer, then found it duplicated: waiting and the lecturer
+  accepted"):** the form sent from two devices made two rows; approving one left the other waiting. Now: the apply form updates an open request
+  instead of adding one; approving closes the person's other open requests; Lecturer requests, the control dashboard and the academic dashboard
+  count waiting requests with `IS.cleanApps` (not someone already a lecturer, one per person) and the requests page closes a stray waiting
+  request of an active lecturer. Migration `012_one_lecturer_request.sql`: tidies existing duplicates (newest kept, older ones «Duplicate
+  request»), a unique index allows one open request per person, a trigger closes open requests when a lecturer becomes active (tested on a local
+  Postgres). **Owner still has to run Actions → Ishrah → apply database for 010, 011 and 012.**

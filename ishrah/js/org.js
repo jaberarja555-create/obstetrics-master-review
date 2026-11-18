@@ -230,7 +230,7 @@
   }
   async function academic() {
     var r = await Promise.all([DB.q('lecturers'), DB.q('courses'), DB.q('lecturer_apps', { order: ['created_at', false] }), DB.q('reports', { eq: { status: 'open' } }), myTickets(), DB.q('audit', { order: ['created_at', false], limit: 40 })]), cs = r[1];
-    var rev = cs.filter(function (c) { return c.status === 'review'; }), ap = r[2].filter(function (a) { return a.status === 'pending'; }), rated = cs.filter(function (c) { return c.n_reviews; }), avg = rated.length ? (rated.reduce(function (a, c) { return a + c.rating; }, 0) / rated.length).toFixed(1) : '—';
+    var rev = cs.filter(function (c) { return c.status === 'review'; }), ap = IS.cleanApps(r[2], r[0]).filter(function (a) { return a.status === 'pending'; }), rated = cs.filter(function (c) { return c.n_reviews; }), avg = rated.length ? (rated.reduce(function (a, c) { return a + c.rating; }, 0) / rated.length).toFixed(1) : '—';
     var h = head('academic', A('لوحة المدير الأكاديمي', 'Academic dashboard'), A('المحاضرون والكورسات وجودة المحتوى العلمي', 'Lecturers, courses and the quality of academic content'));
     h += '<div class="rtiles">' + tile('users', N(r[0].filter(function (l) { return l.status === 'active'; }).length), A('محاضر معتمد', 'Approved lecturers'), 'c1') + tile('layers', N(cs.filter(function (c) { return c.status === 'published'; }).length), A('كورس منشور', 'Published courses'), 'c2') +
       tile('eye', N(rev.length), A('كورسات بانتظار المراجعة', 'Courses awaiting review'), 'c4', '#control-review') + tile('cert', N(ap.length), A('طلبات محاضرين', 'Lecturer requests'), 'c5', '#control-apps') + tile('star', esc(avg), A('متوسط تقييم الكورسات', 'Average course rating'), 'c3') + '</div>';
@@ -273,7 +273,8 @@
   }
   /* owner / GM: the full overview (control.js) + department performance */
   async function deptPerf() {
-    var r = await Promise.all([DB.q('tickets'), DB.q('tasks'), DB.q('enrollments', { eq: { status: 'pending' } }), DB.q('courses', { eq: { status: 'review' } }), DB.q('lecturer_apps', { eq: { status: 'pending' } }), DB.q('reports', { eq: { status: 'open' } }), DB.q('files', { eq: { status: 'pending' } }), DB.q('profiles')]);
+    var r = await Promise.all([DB.q('tickets'), DB.q('tasks'), DB.q('enrollments', { eq: { status: 'pending' } }), DB.q('courses', { eq: { status: 'review' } }), DB.q('lecturer_apps', { eq: { status: 'pending' } }), DB.q('reports', { eq: { status: 'open' } }), DB.q('files', { eq: { status: 'pending' } }), DB.q('profiles'), DB.q('lecturers')]);
+    r[4] = IS.cleanApps(r[4], r[8]);
     var open = function (d) { return r[0].filter(function (t) { return t.dept === d && t.status === 'open'; }).length; }, tasks = function (d) { return r[1].filter(function (t) { return t.dept === d && t.status !== 'done'; }).length; }, people = function (d) { return r[7].filter(function (u) { return (u.team || []).indexOf(d) >= 0 || u.dept === d; }).length; };
     var extra = { finance: [r[2].length, A('مدفوعات معلقة', 'pending payments')], academic: [r[3].length + r[4].length, A('كورسات وطلبات محاضرين', 'courses & lecturer requests')], content: [r[6].length, A('ملفات للمراجعة', 'files to review')], community: [r[5].length, A('بلاغات', 'reports')], support: [open('support'), A('رسائل', 'messages')], tech: [open('tech'), A('بلاغات تقنية', 'technical issues')] };
     return '<section class="sec"><header class="sh"><h2>' + ic('org') + IS.T('أداء الأقسام', 'Department performance') + '</h2><a class="more" href="#control-structure">' + esc(A('الهيكل الإداري', 'Structure')) + '</a></header><div class="dperf">' + IS.DEPTS.map(function (d) { var x = role(d[0]), e = extra[d[0]];

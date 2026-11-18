@@ -52,7 +52,7 @@
   IS.ctrlOverview = async function () {
     var r = await Promise.all([DB.q('profiles'), DB.q('lecturers'), DB.q('courses'), DB.q('lessons'), DB.q('files'), DB.q('events'), DB.q('requests', { order: ['created_at', false] }), DB.q('lecturer_apps', { order: ['created_at', false] }),
       DB.q('enrollments'), DB.q('progress'), DB.q('posts'), DB.q('event_regs'), DB.q('reports', { eq: { status: 'open' } }), DB.q('audit', { order: ['created_at', false], limit: 6 })]);
-    var us = r[0], lec = r[1], cs = r[2], ls = r[3], fs = r[4], ev = r[5], rq = r[6], ap = r[7], en = r[8], pr = r[9], po = r[10], er = r[11], rp = r[12];
+    var us = r[0], lec = r[1], cs = r[2], ls = r[3], fs = r[4], ev = r[5], rq = r[6], ap = IS.cleanApps(r[7], r[1]), en = r[8], pr = r[9], po = r[10], er = r[11], rp = r[12];
     var lecIds = {}; lec.forEach(function (l) { lecIds[l.id] = 1; }); var students = us.filter(function (u) { return !lecIds[u.id] && !(u.team || []).length; });
     var now = new Date(), mk = now.toISOString().slice(0, 7), ms = months(6);
     var act = en.filter(function (e) { return e.status === 'active'; }), rev = act.filter(function (e) { return String(e.decided_at || '').slice(0, 7) === mk; }).reduce(function (a, e) { return a + (+e.price || 0); }, 0);
@@ -137,7 +137,13 @@
 
   /* ========== LECTURER APPLICATIONS ========== */
   IS.page('control-apps', async function (tab) {
-    tab = tab || 'pending'; var ap = await DB.q('lecturer_apps', { order: ['created_at', false] }), list = ap.filter(function (a) { return a.status === tab; });
+    tab = tab || 'pending'; var ap = await DB.q('lecturer_apps', { order: ['created_at', false] }), lecs = {};
+    (await DB.q('lecturers')).forEach(function (l) { if (l.status === 'active') lecs[l.id] = 1; });
+    /* a waiting request of someone who is already a lecturer is closed, and a person with several open requests shows once (the newest) */
+    var seenU = {}; ap = ap.filter(function (a) { var open = a.status === 'pending' || a.status === 'changes'; if (!open) return true;
+      if (lecs[a.user_id]) { DB.upd('lecturer_apps', a.id, { status: 'approved', decided_at: a.decided_at || new Date().toISOString() }).catch(function () {}); a.status = 'approved'; return true; }
+      if (seenU[a.user_id]) return false; seenU[a.user_id] = 1; return true; });
+    var list = ap.filter(function (a) { return a.status === tab; });
     return IS.banner(IS.T('طلبات المحاضرين', 'Lecturer requests'), esc(A('راجع المؤهل والسيرة والعينة وخطة الكورس قبل الاعتماد.', 'Check the qualification, CV, sample and course plan before approving.')), 'cert') +
       tabsBar('control-apps', tab, [['pending', A('بانتظار المراجعة', 'Waiting'), ap.filter(function (a) { return a.status === 'pending'; }).length], ['changes', A('مطلوب تعديل', 'Changes asked'), ap.filter(function (a) { return a.status === 'changes'; }).length], ['approved', A('معتمد', 'Approved')], ['rejected', A('مرفوض', 'Rejected')]]) +
       (list.length ? list.map(function (a) { return '<article class="box app"><header class="sh"><h2>' + IS.av(a, 'sm') + esc(a.name) + '</h2>' + IS.status(a.status) + '</header><ul class="kv sm"><li><span>' + esc(A('المؤهل', 'Qualification')) + '</span><b dir="ltr">' + esc(a.qual) + '</b></li><li><span>' + esc(A('التخصص', 'Specialty')) + '</span><b>' + esc(a.specialty) + '</b></li><li><span>' + esc(A('اللقب', 'Title')) + '</span><b>' + esc(a.title || '—') + '</b></li><li><span>' + esc(A('الهاتف', 'Phone')) + '</span><b dir="ltr">' + esc(a.phone) + '</b></li><li><span>' + esc(A('البريد', 'Email')) + '</span><b dir="ltr">' + esc(a.email || '—') + '</b></li></ul>' +
@@ -152,6 +158,9 @@
     var row = { id: a.user_id, name: a.name, title: a.title || '', specialty: a.specialty, bio: esc(a.experience).replace(/\n/g, '<br>'), quals: [a.qual + ' — ' + a.specialty], tags: [a.specialty], color: '#0f7a73', share: share, status: 'active', links: { whatsapp: a.phone }, pay: {}, n_students: 0 };
     if (ex) await DB.upd('lecturers', a.user_id, { status: 'active' }); else await DB.upsert('lecturers', row);
     await DB.upd('lecturer_apps', a.id, { status: 'approved', decided_at: new Date().toISOString(), decided_by: uid() });
+    /* any other open copy of this person's request closes with it */
+    var others = (await DB.q('lecturer_apps', { eq: { user_id: a.user_id } })).filter(function (x) { return x.id !== a.id && (x.status === 'pending' || x.status === 'changes'); });
+    for (var i = 0; i < others.length; i++) await DB.upd('lecturer_apps', others[i].id, { status: 'approved', decided_at: new Date().toISOString(), decided_by: uid() }).catch(function () {});
     if (a.user_id === uid()) IS.LEC = await DB.one('lecturers', a.user_id).catch(function () { return null; });
     IS.notify(a.user_id, A('مبروك! تم اعتمادك محاضرًا', 'Congratulations! You are approved as a lecturer'), A('افتح استوديو المحاضر لتصميم صفحتك وإنشاء أول كورس.', 'Open the lecturer studio to design your page and create your first course.'), '#studio'); IS.audit('approve lecturer', a.name); IS.refresh();
   };
