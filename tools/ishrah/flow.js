@@ -85,6 +85,17 @@ const D = process.argv[2] || 'shots', W = +(process.argv[3] || 1440), H = W < 60
   await go('lesson/' + cid + '/' + lessons[0], 1500); await shot('23-lesson-video');
   for (const l of lessons) { await go('lesson/' + cid + '/' + l, 900); const q = await p.$('[data-act=quizcheck]'); if (q) { await p.check('.qq input[value="0"]'); await q.click(); await p.waitForTimeout(800); } else { const d = await p.$('[data-act=done]'); if (d) { await d.click(); await p.waitForTimeout(800); } } }
   await go('lesson/' + cid + '/' + lessons[2], 900); await shot('24-lesson-quiz');
+  // 8b. downloads inside the platform, then without internet (owner, 18 Nov 2026)
+  await go('lesson/' + cid + '/' + lessons[0], 900); await p.click('[data-act=dlcourse]'); await p.waitForSelector('[data-q="480"]'); await p.click('[data-q="480"]');
+  await p.waitForFunction(() => document.querySelector('[data-dlid]') && document.querySelector('[data-dlid]').classList.contains('have'), null, { timeout: 20000 }); await p.waitForTimeout(1500);
+  const fid = await p.evaluate(async () => (await DB.q('files', {}))[0].id); await go('file/' + fid, 900); await p.click('[data-act=dl]'); await p.waitForTimeout(1500);
+  await ctx.setOffline(true); await p.waitForTimeout(300); await go('downloads', 900); await shot('24b-downloads-offline');
+  const dl = await p.evaluate(() => ({ bar: !document.getElementById('offbar').hidden, rows: document.querySelectorAll('.dlr').length }));
+  if (!dl.bar || dl.rows < 4) errs.push('downloads: bar ' + dl.bar + ', rows ' + dl.rows);
+  const ids = await p.$$eval('.dlr a.grow', a => a.map(x => x.getAttribute('href').slice(1)));
+  for (const h of ids) { await go(h, 1500); const r = await p.evaluate(() => { const v = document.querySelector('#dlview video'); return { v: !!v, ready: v ? v.readyState : -1, text: (document.querySelector('.rich') || {}).textContent || '', quiz: document.querySelectorAll('.qq').length, img: !!document.querySelector('#dlview img'), err: !!document.querySelector('#dlview .empty') }; });
+    if (r.err || !(r.v || r.text || r.quiz || r.img)) errs.push('offline open failed ' + h + ' ' + JSON.stringify(r)); if (r.v) await shot('24c-offline-video'); }
+  await go('courses', 900); await shot('24d-offline-courses'); await ctx.setOffline(false); await p.waitForTimeout(500);
   await go('achievements', 800); await shot('25-achievements'); await go('cert/' + cid, 700); await shot('26-cert');
   await go('lecturers', 700); await shot('27-lecturers'); await go('about', 700); await shot('28-about');
   await logout();

@@ -67,6 +67,8 @@
     user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>', image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-8 9"/>',
     globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.7 3 2.7 15 0 18M12 3c-2.7 3-2.7 15 0 18"/>', sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
     moon: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>', list: '<path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/>', live: '<circle cx="12" cy="12" r="2.5"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M4.9 4.9a10 10 0 0 0 0 14.2M19.1 4.9a10 10 0 0 1 0 14.2"/>',
+    download: '<path d="M12 3.5v11.5M7 10.5l5 5 5-5"/><path d="M4.5 17v2.5h15V17"/>',
+    offline: '<path d="M2 8.8a15 15 0 0 1 4.2-2.6M9.6 5.2A15 15 0 0 1 22 8.8M5 12.3a10 10 0 0 1 3.4-2.1M14 10.4a10 10 0 0 1 5 1.9M8.6 15.6a5 5 0 0 1 6.8 0"/><circle cx="12" cy="19.2" r=".9" fill="currentColor"/><path d="M3 3l18 18"/>',
     news: '<rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M7 8.5h10M7 12h4M7 15.5h4"/><rect x="13" y="11.5" width="4" height="4" rx=".8"/>',
     mega: '<path d="M3.5 10v4a1 1 0 0 0 1 1H7l6 4V5L7 9H4.5a1 1 0 0 0-1 1z"/><path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11"/>',
     pinned: '<path d="M9 3h6l-1 6 3 3H7l3-3z"/><path d="M12 12v9"/>',
@@ -135,6 +137,8 @@
       IS.ME = await DB.one('profiles', uid).catch(function () { return null; });
       if (!IS.ME && DB.live) { await new Promise(function (r) { setTimeout(r, 900); }); IS.ME = await DB.one('profiles', uid).catch(function () { return null; }); }
       if (IS.ME) IS.LEC = await DB.one('lecturers', uid).catch(function () { return null; });
+      /* without internet the last known profile of this account is used (owner, 18 Nov 2026: offline use) */
+      try { if (IS.ME) localStorage.setItem('ish-me', JSON.stringify({ uid: uid, me: IS.ME, lec: IS.LEC })); else { var c = JSON.parse(localStorage.getItem('ish-me') || 'null'); if (c && c.uid === uid && !navigator.onLine) { IS.ME = c.me; IS.LEC = c.lec; IS.OFFME = true; } } } catch (e) {}
     }
   };
   IS.loadBase = async function () {
@@ -157,7 +161,7 @@
   IS.bar = function (v, c) { v = Math.max(0, Math.min(100, Math.round(v || 0))); return '<span class="bar' + (c ? ' ' + c : '') + '"><i style="width:' + v + '%"></i></span>'; };
   IS.empty = function (icon, t1, t2, act) { return '<div class="empty">' + ic(icon) + '<b>' + esc(t1) + '</b>' + (t2 ? '<span>' + esc(t2) + '</span>' : '') + (act || '') + '</div>'; };
   /* page banners with the owner's pictures (18 Nov 2026): text and icon on one side, the photo on the other, a bright blue wave between */
-  var BANIMG = { news: 'news', 'control-news': 'news', 'control-notify': 'news', courses: 'courses', specialties: 'specialties', learning: 'learning', events: 'events', lecturers: 'lecturers', community: 'community', library: 'library', paths: 'paths', path: 'paths',
+  var BANIMG = { downloads: 'library', news: 'news', 'control-news': 'news', 'control-notify': 'news', courses: 'courses', specialties: 'specialties', learning: 'learning', events: 'events', lecturers: 'lecturers', community: 'community', library: 'library', paths: 'paths', path: 'paths',
     support: 'support', ticket: 'support', achievements: 'achievements', cert: 'achievements', 'control-tickets': 'support', 'control-paths': 'paths', 'control-events': 'events', 'control-lecturers': 'lecturers',
     'control-community': 'community', 'control-library': 'library', 'control-review': 'courses', 'control-cats': 'specialties', 'control-apps': 'lecturers', 'studio-courses': 'courses', 'studio-events': 'events', 'studio-apply': 'lecturers',
     favorites: 'library', notifications: 'support', settings: 'support', account: 'learning', about: 'community', terms: 'library', search: 'courses', lecturer: 'lecturers', event: 'events', post: 'community',
@@ -244,7 +248,7 @@
     if (o.lec && !IS.LEC) { IS.go('studio-apply'); return; }
     main.innerHTML = '<div class="loading"><span class="spin"></span></div>';
     var html; IS.after = null;
-    try { html = await P.fn(arg); } catch (e) { if (window.console) console.error(e); html = IS.empty('info', A('تعذّر فتح الصفحة', 'This page could not be opened'), String(e && e.message || '')); }
+    try { html = await P.fn(arg); } catch (e) { if (window.console) console.error(e); html = !navigator.onLine ? IS.offEmpty() : IS.empty('info', A('تعذّر فتح الصفحة', 'This page could not be opened'), String(e && e.message || '')); }
     if (my !== SEQ) return;
     main.innerHTML = '<div class="page">' + (html || IS.empty('search', A('غير موجود', 'Not found'), A('ربما حُذف أو لم يُنشر بعد.', 'It may have been removed or not published yet.'))) + '</div>';
     if (!IS.keepScroll) window.scrollTo(0, 0); IS.keepScroll = false;
@@ -264,6 +268,7 @@
     var cols = Math.min(n, max), rows = Math.ceil(n / cols); cols = Math.ceil(n / rows);
     c.style.setProperty('display', 'grid', 'important'); c.style.gridTemplateColumns = 'repeat(' + cols + ',minmax(0,1fr))'; }); }); };
   window.addEventListener('resize', function () { clearTimeout(IS._bt); IS._bt = setTimeout(function () { IS.balance(); IS.evenRows(); }, 200); });
+  IS.offEmpty = function () { return IS.empty('offline', A('لا يوجد اتصال بالإنترنت', 'No internet connection'), A('هذه الصفحة تحتاج إلى الإنترنت. ما نزّلته داخل المنصة يعمل دون اتصال.', 'This page needs the internet. What you downloaded inside the platform works offline.'), '<a class="btn pri" href="#downloads">' + IS.ic('download') + IS.esc(A('افتح تنزيلاتي', 'Open my downloads')) + '</a>'); };
   IS.refresh = function () { IS.keepScroll = true; return IS.route(); };
   function authGate() {
     return '<div class="page"><div class="gate">' + ic('lock') + '<h1 tabindex="-1">' + IS.T('سجّل الدخول للمتابعة', 'Sign in to continue') + '</h1><p>' + esc(A('أنشئ حسابًا مجانيًا خلال دقيقة، أو ادخل بحسابك.', 'Create a free account in a minute, or sign in.')) + '</p>' +
@@ -282,7 +287,7 @@
 
   /* ---------- shell ---------- */
   var NAV = {
-    student: [['home', 'home', 'الرئيسية', 'Home'], ['specialties', 'grid', 'التخصصات', 'Specialities'], ['courses', 'layers', 'الكورسات', 'Courses'], ['learning', 'bookmark', 'تعلّمي', 'My learning'], ['events', 'cal', 'الفعاليات', 'Events'], ['news', 'news', 'الإعلانات والأخبار', 'News'],
+    student: [['home', 'home', 'الرئيسية', 'Home'], ['specialties', 'grid', 'التخصصات', 'Specialities'], ['courses', 'layers', 'الكورسات', 'Courses'], ['learning', 'bookmark', 'تعلّمي', 'My learning'], ['events', 'cal', 'الفعاليات', 'Events'], ['news', 'news', 'الإعلانات والأخبار', 'News'], ['downloads', 'download', 'تنزيلاتي', 'Downloads'],
       ['lecturers', 'users', 'المحاضرون', 'Lecturers'], ['community', 'group', 'المجتمع', 'Community'], ['library', 'open', 'مكتبتي', 'My Library'], ['paths', 'route', 'المسارات', 'Paths'], ['favorites', 'heart', 'المفضلة', 'Favourites'], ['achievements', 'trophy', 'الإنجازات', 'Achievements'], ['support', 'chat', 'الدعم والرسائل', 'Support & messages'], ['about', 'info', 'عن المنصة', 'About'], ['settings', 'gear', 'الإعدادات', 'Settings']],
     studio: [['studio', 'chart', 'لوحة المحاضر', 'Dashboard'], ['studio-courses', 'layers', 'كورساتي', 'My courses'], ['studio-page', 'user', 'صفحتي', 'My page'], ['studio-events', 'cal', 'فعالياتي', 'My events'],
       ['studio-students', 'users', 'طلابي', 'My students'], ['studio-qa', 'chat', 'الأسئلة', 'Questions'], ['studio-money', 'wallet', 'الأرباح', 'Earnings'], ['settings', 'gear', 'الإعدادات', 'Settings']],
@@ -441,7 +446,8 @@
   /* ---------- start ---------- */
   IS.start = async function () {
     if (DB.ready) await DB.ready;
-    try { await IS.loadBase(); } catch (e) { IS.SET = {}; }
+    try { await IS.loadBase(); try { localStorage.setItem('ish-base', JSON.stringify({ SET: IS.SET, CATS: IS.CATS, SUBJ: IS.SUBJ, SPECS: IS.SPECS })); } catch (e2) {} }
+    catch (e) { IS.SET = {}; try { var cb = JSON.parse(localStorage.getItem('ish-base') || 'null'); if (cb) { IS.SET = cb.SET || {}; IS.CATS = cb.CATS || []; IS.SUBJ = cb.SUBJ || []; IS.SPECS = cb.SPECS || []; } } catch (e3) {} }
     await IS.loadMe();
     if (IS.mfaCheck) await IS.mfaCheck();
     if (IS.ME) DB.upd('profiles', IS.ME.id, { last_seen: new Date().toISOString() }).catch(function () {});

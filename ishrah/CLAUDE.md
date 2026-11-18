@@ -169,5 +169,26 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
     (`supabase/006_news.sql`, read by all, written with the 'notify' permission); the team writes them in Control → Community → News
     (`control-news`: title, tag Events / Achievements / Initiatives / News / Academic, text, picture, optional notification to everyone).
     Phones: news cards are compact (square picture beside the title). Test: `node tools/ishrah/news.js <shots dir>`.
-  - **Offline:** only the app's own screens and pictures open without internet (sw.js keeps the last copy); courses, videos, library files,
-    news and accounts come from the database and need the internet. Nothing is downloadable by design.
+  - **Offline and downloads inside the platform** (owner, 18 Nov 2026: "nobody can download to the phone, but things can be downloaded in the
+    platform and watched without internet: videos, lectures, books and others"): `js/offline.js`.
+    - Offline bar `#offbar` under the top bar (grey: offline + «تنزيلاتي»; green for 3 s when back online). The app starts offline: sw.js keeps
+      the app files and the two CDN libraries (supabase-js, pdf.js; cache `ish-cdn`, saved copy first); core.js remembers the categories
+      (`ish-base`) and the signed-in profile (`ish-me`, used only while offline, `IS.OFFME`); a page that needs the internet shows
+      `IS.offEmpty()` with a button to the downloads.
+    - Download buttons (`IS.dlBtn`): every lesson (video 360/480/720p chosen in a sheet, `ish-dlq`; written; quiz) in its lesson bar,
+      «تنزيل الكورس كاملًا» in the lesson side card (enrolled), and library files (PDF, pictures) on the file page.
+    - Store: IndexedDB `ish-offline` (items, chunks, keys). Media are fetched and saved in 4 MB pieces, each AES-GCM encrypted with a
+      NON-EXPORTABLE key per account; the lesson text / quiz / file details are encrypted too (`#m`). Not in the phone's files or gallery,
+      no download link, another account on the phone cannot list or open them. Honest limit: a determined technical person could still
+      record the screen; nothing in a web app can stop that.
+    - 30 days, renewed online at most once a day per item (`renew`: lesson still open to the account / file still published; refused →
+      deleted). Expired offline → «اتصل بالإنترنت ليتجدد».
+    - `#downloads`: counts, space used (navigator.storage.estimate), a list per course and for books, open / delete / delete all, downloads
+      in progress with cancel. `#dl/<id>`: the offline viewer (video player without download controls, written lesson, quiz checked on the
+      device, PDF pages drawn by pdf.js, pictures).
+    - Videos for download come from `GET /api/video?lesson=<id>&dl=480` (signed-in, same permission as watching): a 1-hour signed address of
+      the Bunny MP4 file. **Owner's steps:** Bunny Stream library → enable "MP4 Fallback"; its pull zone → Security → Token authentication ON
+      and copy its key; pull zone → Headers → add `mp4` to the CORS extension list; Cloudflare Pages `ishrah` secrets `BUNNY_CDN_HOST`
+      (e.g. vz-xxxx.b-cdn.net) and `BUNNY_CDN_KEY`. Until then the app says video downloads are not switched on (written lessons, quizzes and
+      books download already).
+    - Test: tools/ishrah/flow.js step 8b (download the course and a book, switch the connection off, open each from My downloads).
