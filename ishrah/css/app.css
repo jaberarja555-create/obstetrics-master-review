@@ -726,8 +726,6 @@ a.rtile:hover{border-color:var(--pri)}
 body[data-area="control"]{--pri:#13305c;--pri2:#0c2246;--tint:rgba(201,154,46,.14);--tint2:rgba(201,154,46,.07);--deep:#0b1d3a;--deep2:#050f22;--bg:#f2f1ec}
 :root[data-theme="dark"]{--bg:#070f1e;--sf:#0f1b31;--sf2:#14223c;--tx:#eef1f7;--sub:#aab3c4;--mut:#7e889a;--pri:#e3bd63;--pri2:#f0cf7d;--tint:rgba(227,189,99,.14);--tint2:rgba(227,189,99,.07)}
 :root[data-theme="dark"] body[data-area="control"]{--bg:#060d1a;--pri:#e3bd63;--pri2:#f0cf7d}
-:root[data-fs="l"]{font-size:17px}:root[data-fs="l"] body{font-size:16.5px}
-:root[data-fs="x"]{font-size:19px}:root[data-fs="x"] body{font-size:18px}
 .gtx{background:var(--goldg);-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* titles: English big, Arabic small under it */
@@ -1460,3 +1458,15 @@ body[data-page="home"] main{padding-bottom:16px}
 #cres .subjs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 #cres .subjs>.subj{min-width:0}
 @media (max-width:640px){#cres .subjs{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+
+/* text size (owner, 18 Nov 2026: "text size is not working; it should be normal, small and large"): the app's sizes are set in px, so the
+   setting scales the page content with zoom (Small 90 %, Large 115 %); the top bar, side menu and bottom bar keep their size */
+:root{--z:1}
+:root[data-fs="s"]{--z:.9}
+:root[data-fs="l"],:root[data-fs="x"]{--z:1.15}
+#main{zoom:var(--z)}
+.lh{min-height:calc((100dvh - 66px - 22px - 22px) / var(--z))}
+@media (max-width:1023px){.lh{min-height:calc((100dvh - 66px - 16px - 84px - env(safe-area-inset-bottom,0px)) / var(--z))}}
+/* Large text on phones: one speciality card per row, so long names ("Laboratory Science") are never cut */
+@media (max-width:640px){:root[data-fs="l"] .lhs,:root[data-fs="x"] .lhs{grid-template-columns:1fr}:root[data-fs="l"] .lsp .lst p,:root[data-fs="x"] .lsp .lst p{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;font-size:12px;color:var(--sub)}:root[data-fs="l"] .lsi,:root[data-fs="x"] .lsi{width:56px;height:56px}}
+html{background:var(--bg)}

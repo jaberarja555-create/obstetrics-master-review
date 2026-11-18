@@ -128,3 +128,7 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
     `data-theme="eye"` (light rules + warm paper colours + a soft warm filter over the whole screen, `:root[data-theme="eye"]::after`).
   - Courses → **Browse subjects is grouped by speciality** (owner, 18 Nov 2026: it showed only Medicine, the first 12 subjects): four subjects of
     each speciality under its own heading with «كل المواد (N)» to the speciality page; with one speciality chosen, up to 12 of it (`browseSubj`).
+  - **Text size works** (owner, 18 Nov 2026: "text size is not working; it should be normal, small and large"): sizes in app.css are px, so the
+    old root font-size did nothing. Settings → Text size = Small / Normal / Large (`ish-fs` s / n / l; an old "x" counts as Large), applied as
+    `zoom` on `#main` (`--z` .9 / 1 / 1.15; the bars keep their size), set in the head script too. Home's one-screen height divides by `--z`.
+    With Large text on phones the speciality cards are one per row (names never cut). Checked: no text cut in any page at Large on a phone.
