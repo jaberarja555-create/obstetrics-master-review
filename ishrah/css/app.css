@@ -1861,3 +1861,18 @@ body[data-page="pick"]{background:radial-gradient(120% 80% at 50% 0,#0d3a7d 0,#0
   .tspec span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tspec .ico{width:15px;height:15px;flex:none}}
 @media (max-width:360px){.tspec span{display:none}}
 #sheet .myspec{margin-bottom:12px}
+/* start page rows on phones, second pass (owner: names were cut, text covered): photo · name on its own line · Arabic name and subjects under it */
+@media (max-width:640px){
+  .pk{min-height:84px;padding:0;gap:0}
+  .pk::after{content:none}
+  .pki{flex:0 0 96px;width:96px;height:auto;min-height:84px}
+  .pkt{display:grid!important;grid-template-columns:minmax(0,1fr);row-gap:3px;padding:10px 14px;align-content:center}
+  .pkt i{display:none}
+  .pkt b{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;font-size:17px;line-height:1.2;order:0}
+  .pkt small{order:1;padding:0!important;flex-basis:auto;font-size:13px;line-height:1.35}
+  .pkt em{order:2;justify-self:start;margin:2px 0 0;font-size:11.5px;padding:2px 10px}
+  .pkc{top:8px;inset-inline-start:auto;inset-inline-end:8px}
+}
+/* the preview label never covers the start page */
+body[data-page="pick"].preview::after{top:8px;bottom:auto;inset-inline-start:8px;font-size:10px;padding:2px 8px;opacity:.85}
+body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8px}
