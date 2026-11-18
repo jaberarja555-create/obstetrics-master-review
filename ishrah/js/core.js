@@ -337,34 +337,92 @@
 
   /* ---------- sign in / register ---------- */
   IS.ACT.login = function () { authSheet('in'); };
+  /* sign in / create account (owner, 18 Nov 2026: "the email must be a real connection with the email, with a password"): Google, or
+     EMAIL + password (a 6-digit code sent to the inbox proves the email before the account opens; forgotten password = a new code),
+     or PHONE + password. IS.AUTHTAB = 'email' | 'phone'. */
+  var GSVG = '<svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z" stroke="none"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z" stroke="none"/><path fill="#FBBC05" d="M6.4 14c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V7.4H3.1a10 10 0 0 0 0 9.2z" stroke="none"/><path fill="#EA4335" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 3.1 7.4L6.4 10C7.2 7.8 9.4 6 12 6z" stroke="none"/></svg>';
+  function fld(name, icon, label, attrs) { return '<label class="fl"><span>' + ic(icon) + esc(label) + '</span><input name="' + name + '" ' + attrs + '></label>'; }
   function authSheet(mode, kind) {
-    var up = mode === 'up'; kind = kind || IS.AUTHKIND || 'student';
+    var up = mode === 'up', tab = IS.AUTHTAB || 'email'; kind = kind || IS.AUTHKIND || 'student'; IS.AUTHMODE = mode;
+    var pw = fld('pass', 'lock', A('كلمة المرور', 'Password') + ' *', 'type="password" required minlength="8" autocomplete="' + (up ? 'new-password' : 'current-password') + '"' + (up ? ' placeholder="' + esc(A('8 أحرف على الأقل', 'At least 8 characters')) + '"' : ''));
+    var pw2 = up ? fld('pass2', 'lock', A('تأكيد كلمة المرور', 'Confirm password') + ' *', 'type="password" required minlength="8" autocomplete="new-password"') : '';
+    var terms = up ? '<label class="chk"><input type="checkbox" name="terms" required><span>' + esc(A('أوافق على ', 'I agree to the ')) + '<a href="#terms" class="link" data-close>' + esc(A('شروط الاستخدام وسياسة الخصوصية', 'terms of use and privacy policy')) + '</a></span></label>' : '';
+    var form = tab === 'email' ?
+      '<form class="form" data-form="' + (up ? 'esignup' : 'esignin') + '"><input type="hidden" name="kind" value="' + kind + '">' +
+        (up ? fld('name', 'user', A('الاسم الكامل', 'Full name') + ' *', 'required maxlength="60" autocomplete="name"') : '') +
+        fld('email', 'mail', A('البريد الإلكتروني', 'Email') + ' *', 'type="email" required autocomplete="email" dir="ltr" placeholder="name@example.com"') + pw + pw2 + terms +
+        (up ? '<p class="note">' + ic('shield') + '<span>' + esc(A('سنرسل رمزًا من 6 أرقام إلى بريدك للتأكد منه قبل فتح الحساب.', 'We will send a 6-digit code to your email to confirm it before the account opens.')) + '</span></p>' : '') +
+        '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic(up ? 'send' : 'logout') + '<span>' + esc(up ? A('أرسل رمز التأكيد', 'Send the confirmation code') : A('دخول', 'Sign in')) + '</span></button></form>' :
+      '<form class="form" data-form="' + (up ? 'signup' : 'signin') + '"><input type="hidden" name="kind" value="' + kind + '">' +
+        (up ? fld('name', 'user', A('الاسم الكامل', 'Full name') + ' *', 'required maxlength="60" autocomplete="name"') : '') +
+        '<label class="fl"><span>' + ic('phone') + esc(A('رقم الهاتف', 'Phone number')) + ' *</span><span class="pre" dir="ltr"><em>🇸🇩 +249</em><input name="phone" required inputmode="tel" autocomplete="tel" placeholder="9xxxxxxxx" dir="ltr"></span></label>' + pw + pw2 + terms +
+        '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic(up ? 'user' : 'logout') + '<span>' + esc(up ? A('إنشاء الحساب', 'Create account') : A('دخول', 'Sign in')) + '</span></button></form>';
     IS.sheet(esc(up ? A('إنشاء حساب جديد', 'Create a new account') : A('تسجيل الدخول', 'Sign in')),
       (up ? '<p class="lead center">' + esc(A('انضم إلى مجتمع اشرح لي', 'Join the Ishrah Li community')) + '</p><h3 class="sub center">' + esc(A('اختر نوع حسابك', 'Choose your account type')) + '</h3><div class="kinds" role="radiogroup">' +
         [['student', 'cert', 'طالب', 'Student', 'للوصول إلى الكورسات والمحتوى التعليمي', 'To reach the courses and learning content'], ['lecturer', 'studio', 'محاضر', 'Lecturer', 'لتقديم الكورسات والمحاضرات', 'To teach courses and lectures']].map(function (k) {
           return '<button type="button" class="kind' + (kind === k[0] ? ' on' : '') + '" role="radio" aria-checked="' + (kind === k[0]) + '" data-act="kind" data-k="' + k[0] + '">' + ic(k[1]) + '<b>' + esc(A(k[2], k[3])) + '</b><small>' + esc(A(k[4], k[5])) + '</small></button>'; }).join('') + '</div>' : '') +
-      '<button class="btn google wide" data-act="google"><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z" stroke="none"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z" stroke="none"/><path fill="#FBBC05" d="M6.4 14c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V7.4H3.1a10 10 0 0 0 0 9.2z" stroke="none"/><path fill="#EA4335" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 3.1 7.4L6.4 10C7.2 7.8 9.4 6 12 6z" stroke="none"/></svg><span>' + esc(A('المتابعة بحساب Google', 'Continue with Google')) + '</span></button>' +
-      '<p class="or"><span>' + esc(up ? A('أو أنشئ الحساب برقم الهاتف', 'or create it with your phone number') : A('أو برقم الهاتف', 'or with your phone number')) + '</span></p>' +
-      '<form class="form" data-form="' + (up ? 'signup' : 'signin') + '"><input type="hidden" name="kind" value="' + kind + '">' +
-      (up ? '<h3 class="sub">' + esc(A('البيانات الأساسية', 'Basic details')) + '</h3><label class="fl">' + '<span>' + ic('user') + esc(A('الاسم الكامل', 'Full name')) + ' *</span><input name="name" required maxlength="60" autocomplete="name"></label>' +
-        '<label class="fl"><span>' + ic('mail') + esc(A('البريد الإلكتروني', 'Email')) + '</span><input name="email" type="email" autocomplete="email" dir="ltr"></label>' : '') +
-      '<label class="fl"><span>' + ic('phone') + esc(A('رقم الهاتف', 'Phone number')) + ' *</span><span class="pre" dir="ltr"><em>🇸🇩 +249</em><input name="phone" required inputmode="tel" autocomplete="tel" placeholder="9xxxxxxxx" dir="ltr"></span></label>' +
-      '<label class="fl"><span>' + ic('lock') + esc(A('كلمة المرور', 'Password')) + ' *</span><input name="pass" type="password" required minlength="6" autocomplete="' + (up ? 'new-password' : 'current-password') + '"></label>' +
-      (up ? '<label class="fl"><span>' + ic('lock') + esc(A('تأكيد كلمة المرور', 'Confirm password')) + ' *</span><input name="pass2" type="password" required minlength="6" autocomplete="new-password"></label>' +
-        '<label class="chk"><input type="checkbox" name="terms" required><span>' + esc(A('أوافق على ', 'I agree to the ')) + '<a href="#terms" class="link" data-close>' + esc(A('شروط الاستخدام وسياسة الخصوصية', 'terms of use and privacy policy')) + '</a></span></label>' : '') +
-      '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic(up ? 'user' : 'logout') + '<span>' + esc(up ? A('إنشاء الحساب', 'Create account') : A('دخول', 'Sign in')) + '</span></button></form>' +
+      '<button class="btn google wide" data-act="google">' + GSVG + '<span>' + esc(A('المتابعة بحساب Google', 'Continue with Google')) + '</span></button>' +
+      '<p class="or"><span>' + esc(A('أو', 'or')) + '</span></p>' +
+      '<div class="atabs" role="tablist">' + [['email', 'mail', 'البريد الإلكتروني', 'Email'], ['phone', 'phone', 'رقم الهاتف', 'Phone']].map(function (t) {
+        return '<button type="button" role="tab" aria-selected="' + (tab === t[0]) + '" class="' + (tab === t[0] ? 'on' : '') + '" data-act="authtab" data-t="' + t[0] + '">' + ic(t[1]) + '<span>' + esc(A(t[2], t[3])) + '</span></button>'; }).join('') + '</div>' + form +
       '<p class="alt">' + (up ? esc(A('لديك حساب بالفعل؟', 'Already have an account?')) + ' <button class="link" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button>' :
-        esc(A('ليس لديك حساب؟', 'No account?')) + ' <button class="link" data-act="register">' + esc(A('أنشئ حسابًا', 'Create one')) + '</button><br><button class="link" data-act="ticket" data-k="password">' + esc(A('نسيت كلمة المرور؟', 'Forgot your password?')) + '</button>') + '</p>' +
-      (DB.live ? '' : '<p class="pv">' + IS.ic('info') + esc(A('نسخة معاينة: الحسابات والبيانات محفوظة على هذا الجهاز فقط. أول حساب يُنشأ هو مالك المنصة.', 'Preview copy: accounts and data stay on this device only. The first account created is the platform owner.')) + '</p>'));
+        esc(A('ليس لديك حساب؟', 'No account?')) + ' <button class="link" data-act="register">' + esc(A('أنشئ حسابًا', 'Create one')) + '</button><br>' +
+        (tab === 'email' ? '<button class="link" data-act="eforgot">' : '<button class="link" data-act="ticket" data-k="password">') + esc(A('نسيت كلمة المرور؟', 'Forgot your password?')) + '</button>') + '</p>' +
+      (DB.live ? '' : '<p class="pv">' + IS.ic('info') + esc(A('نسخة معاينة: الحسابات والبيانات محفوظة على هذا الجهاز فقط ولا تُرسل رسائل بريد؛ يظهر رمز التأكيد على الشاشة. أول حساب يُنشأ هو مالك المنصة.', 'Preview copy: accounts and data stay on this device only and no email is sent; the confirmation code is shown on the screen. The first account created is the platform owner.')) + '</p>'));
     IS.AUTHKIND = kind;
   }
+  IS.ACT.authtab = function (b) { IS.AUTHTAB = b.getAttribute('data-t'); authSheet(IS.AUTHMODE || 'in', IS.AUTHKIND); };
+  /* the code step: shared by creating an account and by a forgotten password */
+  var PEND = null;
+  function codeSheet(note) {
+    var em = PEND.email, reset = PEND.reset;
+    IS.sheet(esc(reset ? A('تعيين كلمة مرور جديدة', 'Set a new password') : A('تأكيد البريد الإلكتروني', 'Confirm your email')),
+      '<div class="otp">' + ic('mail') + '<p>' + esc(A('أرسلنا رمزًا من 6 أرقام إلى', 'We sent a 6-digit code to')) + '</p><b dir="ltr">' + esc(em) + '</b><small>' + esc(A('افتح بريدك (وتحقق من مجلد الرسائل غير المرغوبة) واكتب الرمز هنا.', 'Open your email (check the spam folder too) and type the code here.')) + '</small></div>' +
+      (note ? '<p class="pv">' + IS.ic('info') + esc(note) + '</p>' : '') +
+      '<form class="form" data-form="ecode"><label class="fl"><span>' + ic('lock') + esc(A('رمز التأكيد', 'Confirmation code')) + ' *</span><input name="code" class="otpin" required inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" dir="ltr" placeholder="••••••"></label>' +
+      (reset ? fld('pass', 'lock', A('كلمة المرور الجديدة', 'New password') + ' *', 'type="password" required minlength="8" autocomplete="new-password"') + fld('pass2', 'lock', A('تأكيد كلمة المرور', 'Confirm password') + ' *', 'type="password" required minlength="8" autocomplete="new-password"') : '') +
+      '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic('checkc') + '<span>' + esc(reset ? A('تأكيد وحفظ كلمة المرور', 'Confirm and save the password') : A('تأكيد وإنشاء الحساب', 'Confirm and create the account')) + '</span></button></form>' +
+      '<p class="alt"><button class="link" data-act="eresend" id="eresend">' + esc(A('إعادة إرسال الرمز', 'Send the code again')) + '</button> · <button class="link" data-act="' + (reset ? 'eforgot' : 'register') + '">' + esc(A('تغيير البريد', 'Change the email')) + '</button></p>');
+    var b = IS.$('#eresend'), t = 60; if (b) { b.disabled = true; var iv = setInterval(function () { t--; if (!document.body.contains(b)) return clearInterval(iv); b.textContent = A('إعادة إرسال الرمز', 'Send the code again') + (t > 0 ? ' (' + t + ')' : ''); if (t <= 0) { b.disabled = false; clearInterval(iv); } }, 1000); }
+    var c = IS.$('.otpin'); if (c) setTimeout(function () { try { c.focus(); } catch (e) {} }, 80);
+  }
+  function codeErr(e) { return e.message === 'exists' ? A('هذا البريد مسجّل من قبل: سجّل الدخول، أو استعمل «نسيت كلمة المرور؟».', 'This email is already registered: sign in, or use “Forgot your password?”.') :
+    e.message === 'nouser' ? A('لا يوجد حساب بهذا البريد.', 'There is no account with this email.') : e.message === 'wait' ? A('انتظر دقيقة ثم أعد المحاولة.', 'Wait a minute, then try again.') : A('تعذّر إرسال الرمز: ', 'Could not send the code: ') + e.message; }
+  async function sendCode() { var r = await DB.emailCode({ email: PEND.email, name: PEND.name, create: !PEND.reset }); codeSheet(r && r.preview ? A('نسخة معاينة: لا تُرسل رسائل بريد. الرمز هو ', 'Preview copy: no email is sent. The code is ') + r.preview : ''); }
+  IS.SUB.esignup = async function (d) {
+    if ((d.pass || '').length < 8) return authMsg(A('كلمة المرور 8 أحرف على الأقل.', 'The password needs at least 8 characters.'));
+    if (d.pass !== d.pass2) return authMsg(A('كلمتا المرور غير متطابقتين.', 'The passwords do not match.'));
+    PEND = { email: String(d.email).trim().toLowerCase(), name: d.name, pass: d.pass, kind: d.kind };
+    try { await sendCode(); } catch (e) { authMsg(codeErr(e)); }
+  };
+  IS.ACT.eforgot = function () {
+    IS.sheet(esc(A('نسيت كلمة المرور', 'Forgot your password')), '<p class="lead">' + esc(A('اكتب بريدك الإلكتروني وسنرسل إليه رمزًا لتعيين كلمة مرور جديدة.', 'Type your email and we will send it a code to set a new password.')) + '</p>' +
+      '<form class="form" data-form="eforgot">' + fld('email', 'mail', A('البريد الإلكتروني', 'Email') + ' *', 'type="email" required autocomplete="email" dir="ltr" placeholder="name@example.com"') +
+      '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic('send') + '<span>' + esc(A('أرسل الرمز', 'Send the code')) + '</span></button></form><p class="alt"><button class="link" data-act="login">' + esc(A('الرجوع إلى الدخول', 'Back to sign in')) + '</button></p>');
+  };
+  IS.SUB.eforgot = async function (d) { PEND = { email: String(d.email).trim().toLowerCase(), reset: true }; try { await sendCode(); } catch (e) { authMsg(codeErr(e)); } };
+  IS.ACT.eresend = async function () { if (!PEND) return; try { await sendCode(); IS.toast(A('أُرسل رمز جديد', 'A new code was sent')); } catch (e) { authMsg(codeErr(e)); } };
+  IS.SUB.ecode = async function (d) {
+    if (!PEND) return; if (PEND.reset) { if ((d.pass || '').length < 8) return authMsg(A('كلمة المرور 8 أحرف على الأقل.', 'The password needs at least 8 characters.')); if (d.pass !== d.pass2) return authMsg(A('كلمتا المرور غير متطابقتين.', 'The passwords do not match.')); }
+    try { await DB.emailVerify({ email: PEND.email, code: d.code }); } catch (e) { return authMsg(A('الرمز غير صحيح أو انتهت صلاحيته.', 'The code is wrong or has expired.')); }
+    try { await DB.setOwnPassword(PEND.reset ? d.pass : PEND.pass); } catch (e) { return authMsg(A('تعذّر حفظ كلمة المرور: ', 'Could not save the password: ') + e.message); }
+    var k = PEND.kind, reset = PEND.reset; PEND = null; IS.closeSheet(); await IS.loadMe();
+    IS.toast(reset ? A('حُفظت كلمة المرور الجديدة', 'The new password is saved') : A('تم تأكيد بريدك. مرحبًا د. ', 'Your email is confirmed. Welcome, Dr. ') + (IS.ME && !reset ? IS.ME.name : ''));
+    if (k === 'lecturer') IS.go('studio-apply'); else IS.route();
+  };
+  IS.SUB.esignin = async function (d) {
+    try { await DB.signInEmail({ email: d.email, pass: d.pass }); } catch (e) { return authMsg(e.message === 'unconfirmed' ? A('لم يُؤكَّد هذا البريد بعد: أنشئ الحساب مرة أخرى لتصلك رسالة التأكيد.', 'This email is not confirmed yet: create the account again to receive the code.') : A('البريد أو كلمة المرور غير صحيحة.', 'Wrong email or password.')); }
+    IS.closeSheet(); await IS.loadMe(); if (IS.ME && IS.ME.status === 'blocked') { await DB.signOut(); IS.ME = null; return IS.toast(A('هذا الحساب موقوف. تواصل مع الدعم.', 'This account is blocked. Contact support.')); }
+    IS.route();
+  };
   IS.ACT.kind = function (b) { IS.AUTHKIND = b.getAttribute('data-k'); IS.$$('.kind').forEach(function (x) { var on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-checked', on); }); var h = IS.$('[name=kind]'); if (h) h.value = IS.AUTHKIND; };
   IS.ACT.register = function (b) { authSheet('up', b && b.getAttribute('data-k')); };
   function authMsg(t) { var m = IS.$('#authMsg'); if (m) m.textContent = t; }
   IS.SUB.signup = async function (d) {
     if (DB.digits(d.phone).length < 9) return authMsg(A('اكتب رقم هاتف صحيح.', 'Enter a valid phone number.'));
     if (d.pass !== d.pass2) return authMsg(A('كلمتا المرور غير متطابقتين.', 'The passwords do not match.'));
-    try { await DB.signUp({ name: d.name, phone: d.phone, pass: d.pass, email: d.email }); } catch (e) { return authMsg(e.message === 'exists' ? A('هذا الرقم مسجّل من قبل: سجّل الدخول.', 'This number is already registered: sign in.') : A('تعذّر إنشاء الحساب: ', 'Could not create the account: ') + e.message); }
+    if ((d.pass || '').length < 8) return authMsg(A('كلمة المرور 8 أحرف على الأقل.', 'The password needs at least 8 characters.'));
+    try { await DB.signUp({ name: d.name, phone: d.phone, pass: d.pass, email: '' }); } catch (e) { return authMsg(e.message === 'exists' ? A('هذا الرقم مسجّل من قبل: سجّل الدخول.', 'This number is already registered: sign in.') : A('تعذّر إنشاء الحساب: ', 'Could not create the account: ') + e.message); }
     IS.closeSheet(); await IS.loadMe(); IS.toast(A('مرحبًا د. ', 'Welcome, Dr. ') + (IS.ME ? IS.ME.name : ''));
     if (d.kind === 'lecturer') IS.go('studio-apply'); else IS.route();
   };

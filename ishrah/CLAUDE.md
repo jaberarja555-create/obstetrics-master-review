@@ -18,7 +18,7 @@ Plain static app (HTML/CSS/JS, no build step) in this folder, with two Cloudflar
 - `index.html` shell · `css/app.css` look · `js/config.js` connection (Supabase URL + anon key, Bunny library id; empty = preview)
 - `js/db.js` data layer: the same calls for the preview store and Supabase (`DB.q/one/ins/upd/del/upload/fileUrl/videoUpload/videoPlay/lesson`)
 - `js/core.js` language, icons, router (`IS.page(name, render, {auth, perm, area, lec})`), permissions `IS.can(section, action)`, shell, sign-in
-  (Google or phone + password; phone accounts are stored as `<phone>@phone.ishrah.app`)
+  (Google, EMAIL + password confirmed by a 6-digit code, or phone + password; phone accounts are stored as `<phone>@phone.ishrah.app`)
 - `js/student.js` Home, courses, course page + Bankak payment, lesson player, my learning, lecturers, events, community, notifications,
   favourites, achievements, certificate, account (profile), about, terms
 - `js/library.js` My Library and library requests (kept, not developed further for now)
@@ -47,6 +47,9 @@ applied at sign-up, lesson content hidden from non-enrolled students, forgot-pas
 ## To go live (owner's steps; Claude cannot do these without his accounts)
 1. Supabase: create a NEW project «ishrah». Authentication → Providers: Email ON with "Confirm email" OFF (phone accounts use it), Google ON
    (Google Cloud OAuth client; redirect URL from Supabase). Authentication → Multi-factor: TOTP ON. URL configuration: add the site address.
+   **Email accounts:** Authentication → Email Templates → "Magic Link": put the code in the message, e.g. «رمز التأكيد / Your code: {{ .Token }}»
+   (the app asks for the 6-digit code, not a link). Authentication → SMTP Settings: connect a real sender (e.g. Resend, Brevo or Zoho with the
+   platform's own address); Supabase's built-in sender allows only a few emails an hour and is for testing.
 2. Database: GitHub secret `ISHRAH_DB_URL` (Session pooler string of the new project), then Actions → Ishrah → Run workflow → tick "apply database".
 3. Bunny Stream: create a library, turn on "Token authentication"; Cloudflare Pages project `ishrah` → Settings → Variables (secrets):
    SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_KEY, BUNNY_LIBRARY, BUNNY_API_KEY, BUNNY_TOKEN_KEY.
@@ -147,3 +150,16 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
     On phones the control dashboard photo is a faint background (title readable). Green is less saturated (factor .72; icons were lime).
   - The Settings symbol (`gear` in core.js icons) is a real cog now (owner, 18 Nov 2026: it was drawn like a sun and read as a day/night
     button). The sun stays only for the Light option in Appearance.
+  - **Real email accounts** (owner, 18 Nov 2026: "the email … must be a real connection with the email, with a password"): sign-in sheet =
+    Google · Email | Phone tabs (`IS.AUTHTAB`). Email sign-up: name, email, password (8+), terms → a 6-digit code is sent (`DB.emailCode` =
+    signInWithOtp, shouldCreateUser) → code screen (`codeSheet`: resend after 60 s, change email) → `DB.emailVerify` (verifyOtp) →
+    `DB.setOwnPassword` (updateUser) → signed in. Email sign-in = email + password (`DB.signInEmail`). «نسيت كلمة المرور؟» on the Email tab sends a
+    code and sets a new password (phone accounts keep the support request). The unchecked email box of the phone sign-up is gone; passwords 8+.
+    Preview (no database): no email is sent, the code is shown on the screen. `supabase/005_email_accounts.sql`: an email account created
+    with a password (not through the code) is refused; invitations by email and the first account becoming the owner wait for the email to be
+    confirmed (`ish_join`, trigger `ish_user_confirmed`). Tested on a local Postgres 16 with Supabase stubs (owner after the code, phone
+    account, refused password sign-up, invitation applied only after the code, Google invitation at once, unconfirmed stranger gets nothing,
+    file runs twice). Browser test: `node tools/ishrah/email.js <shots dir>` (sign-up, wrong code, right code, sign-in, wrong password, forgot password, used email).
+    Tests in tools/ishrah set `IS.AUTHTAB='phone'` before signing up by phone.
+  - **Edit profile** has the phone number (owner: "the profile shows a phone number but there is no place for it"): email and phone side by
+    side; the one used to sign in is locked (`DB.authKind()` = 'email' | 'phone'), the other can be added or changed.

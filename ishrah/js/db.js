@@ -115,6 +115,26 @@
       },
       signOut: async function () { localStorage.removeItem('ish-session'); try { Object.keys(sessionStorage).forEach(function (k) { if (/^ish-aal2-/.test(k)) sessionStorage.removeItem(k); }); } catch (e) {} fire(); },
       setPassword: async function (uid, pass) { var us = users(), u = us.filter(function (x) { return x.id === uid; })[0]; if (!u || !u.phone) throw new Error('nophone'); u.hash = await sha(u.phone + ':' + pass); setUsers(us); },
+      /* email accounts (owner, 18 Nov 2026): a 6-digit code proves the email; in this preview the code is shown on the screen */
+      authKind: async function () { var id = localStorage.getItem('ish-session'), u = users().filter(function (x) { return x.id === id; })[0]; return u && u.phone ? 'phone' : 'email'; },
+      emailCode: async function (o) {
+        var em = String(o.email || '').trim().toLowerCase(), u = users().filter(function (x) { return x.email === em; })[0];
+        if (o.create && u && u.hash) throw new Error('exists'); if (!o.create && !u) throw new Error('nouser');
+        var code = String(Math.floor(100000 + Math.random() * 900000)); localStorage.setItem('ish-otp', JSON.stringify({ e: em, c: code, n: o.name || '', t: Date.now() })); return { preview: code };
+      },
+      emailVerify: async function (o) {
+        var em = String(o.email || '').trim().toLowerCase(), p = JSON.parse(localStorage.getItem('ish-otp') || 'null');
+        if (!p || p.e !== em || p.c !== String(o.code).trim() || Date.now() - p.t > 3600e3) throw new Error('badcode'); localStorage.removeItem('ish-otp');
+        var u = users().filter(function (x) { return x.email === em; })[0];
+        if (!u) { u = { id: uuid(), email: em }; var us = users(); us.push(u); setUsers(us); mkProfile(u, p.n || em.split('@')[0], '', em); }
+        localStorage.setItem('ish-session', u.id); fire(); return u.id;
+      },
+      setOwnPassword: async function (pass) { var id = localStorage.getItem('ish-session'), us = users(), u = us.filter(function (x) { return x.id === id; })[0]; if (!u) throw new Error('nosession');
+        u.hash = await sha((u.email || u.phone) + ':' + pass); setUsers(us); },
+      signInEmail: async function (o) {
+        var em = String(o.email || '').trim().toLowerCase(), u = users().filter(function (x) { return x.email === em; })[0];
+        if (!u || !u.hash || u.hash !== await sha(em + ':' + o.pass)) throw new Error('bad'); localStorage.setItem('ish-session', u.id); fire(); return u.id;
+      },
       q: async function (t, f) {
         f = f || {}; var r = tb(t).filter(function (x) { return match(x, f); }).map(function (x) { return Object.assign({}, x); });
         if (f.order) { var c = f.order[0], asc = f.order[1] !== false; r.sort(function (a, b) { return (a[c] > b[c] ? 1 : a[c] < b[c] ? -1 : 0) * (asc ? 1 : -1); }); }
@@ -153,6 +173,14 @@
       signIn: async function (o) { var r = await sb.auth.signInWithPassword({ email: phoneMail(o.phone), password: o.pass }); if (r.error) throw new Error('bad'); return r.data.user.id; },
       google: async function () { await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } }); return null; },
       signOut: async function () { await sb.auth.signOut(); },
+      authKind: async function () { var u = (await sb.auth.getUser()).data.user; return u && /@phone\.ishrah\.app$/.test(u.email || '') ? 'phone' : 'email'; },
+      emailCode: async function (o) {
+        var r = await sb.auth.signInWithOtp({ email: String(o.email).trim().toLowerCase(), options: { shouldCreateUser: !!o.create, data: o.create ? { name: o.name || '' } : undefined } });
+        if (r.error) throw new Error(/signups not allowed|not found/i.test(r.error.message) ? 'nouser' : /rate|seconds/i.test(r.error.message) ? 'wait' : r.error.message); return {};
+      },
+      emailVerify: async function (o) { var r = await sb.auth.verifyOtp({ email: String(o.email).trim().toLowerCase(), token: String(o.code).trim(), type: 'email' }); if (r.error) throw new Error('badcode'); return r.data.user.id; },
+      setOwnPassword: async function (pass) { var r = await sb.auth.updateUser({ password: pass }); if (r.error) throw new Error(r.error.message); },
+      signInEmail: async function (o) { var r = await sb.auth.signInWithPassword({ email: String(o.email).trim().toLowerCase(), password: o.pass }); if (r.error) throw new Error(/confirm/i.test(r.error.message) ? 'unconfirmed' : 'bad'); return r.data.user.id; },
       setPassword: async function (uid, pass) { var r = await fetch('api/admin', { method: 'POST', headers: { 'content-type': 'application/json', authorization: 'Bearer ' + await token() }, body: JSON.stringify({ act: 'password', uid: uid, pass: pass }) }); if (!r.ok) throw new Error(await r.text()); },
       q: async function (t, f) {
         f = f || {}; var x = sb.from(t).select(f.select || cols(t));

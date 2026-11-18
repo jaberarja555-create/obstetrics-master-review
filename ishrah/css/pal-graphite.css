@@ -1529,6 +1529,17 @@ html{background:var(--bg)}
 /* control dashboard banner on phones: the photo becomes a faint background, so the title is never written over its busy part */
 @media (max-width:760px){.cban::before{width:100%;opacity:.16!important;-webkit-mask-image:none;mask-image:none}.cban img{width:54px}.cban{padding:16px}.cban .role{margin-inline-start:0}}
 
+/* sign in: Email / Phone switch and the code step */
+.atabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;margin:4px 0 14px;border-radius:14px;background:var(--sf2);border:1px solid var(--bd)}
+.atabs button{display:flex;align-items:center;justify-content:center;gap:8px;padding:9px 6px;border:0;border-radius:11px;background:none;color:var(--sub);font:700 14px/1.2 var(--font);cursor:pointer}
+.atabs button .ico{width:18px;height:18px}
+.atabs button.on{background:var(--sf);color:var(--pri);box-shadow:0 2px 8px rgba(46,50,56,.12)}
+.otp{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:6px 0 14px}
+.otp>.ico{width:54px;height:54px;padding:13px;border-radius:50%;background:var(--tint);color:var(--pri);margin-bottom:6px}
+.otp p{margin:0;color:var(--sub)}.otp b{font-size:16px}.otp small{color:var(--sub);font-size:12.5px;margin-top:4px}
+.otpin{text-align:center;font:800 26px/1.2 var(--en)!important;letter-spacing:.5em;padding-inline-start:.5em!important}
+.form input[readonly],.fl input[readonly]{background:var(--sf2)!important;color:var(--sub)!important;cursor:default}
+
 /* banner photos as a soft tint of this colour (tools/ishrah/palettes.py) */
 .ban.bpic .bph,.cban::before{mix-blend-mode:luminosity;opacity:.9}
 .lhh::after{mix-blend-mode:luminosity}

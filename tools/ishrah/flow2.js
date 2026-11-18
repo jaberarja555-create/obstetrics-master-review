@@ -13,9 +13,9 @@ function totp(secret) { const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'; let bits =
     const o = await p.evaluate(() => { const Wd = document.documentElement.clientWidth, out = []; document.querySelectorAll('main *').forEach(e => { const x = e.getBoundingClientRect(); if (x.width > 0 && (x.right > Wd + 1 || x.left < -1) && !e.closest('.tabs,.matrix,.rtiles,.catbar,.subjs,.ltabs,.doors')) out.push(e.tagName + '.' + String(e.className).slice(0, 25) + ' ' + Math.round(x.left) + '..' + Math.round(x.right)); }); return out.slice(0, 3); });
     if (o.length) console.log('OVERFLOW', n, o.join(' | ')); };
   const sub = async f => { await p.click(`form[data-form="${f}"] button:not([type=button]) >> nth=-1`); await p.waitForTimeout(900); };
-  const signup = async (name, phone) => { await go('home'); await p.evaluate(() => IS.ACT.register({ getAttribute: () => null })); await p.waitForTimeout(300);
+  const signup = async (name, phone) => { await go('home'); await p.evaluate(() => (IS.AUTHTAB='phone',IS.ACT.register)({ getAttribute: () => null })); await p.waitForTimeout(300);
     await p.fill('[data-form=signup] [name=name]', name); await p.fill('[data-form=signup] [name=phone]', phone); await p.fill('[data-form=signup] [name=pass]', 'secret12'); await p.fill('[data-form=signup] [name=pass2]', 'secret12'); await p.check('[data-form=signup] [name=terms]'); await sub('signup'); await p.waitForTimeout(500); };
-  const login = async phone => { await p.evaluate(() => IS.ACT.login()); await p.waitForTimeout(300); await p.fill('[data-form=signin] [name=phone]', phone); await p.fill('[data-form=signin] [name=pass]', 'secret12'); await sub('signin'); await p.waitForTimeout(800); };
+  const login = async phone => { await p.evaluate(() => (IS.AUTHTAB='phone',IS.ACT.login)()); await p.waitForTimeout(300); await p.fill('[data-form=signin] [name=phone]', phone); await p.fill('[data-form=signin] [name=pass]', 'secret12'); await sub('signin'); await p.waitForTimeout(800); };
   const logout = async () => { await p.evaluate(() => IS.ACT.logout()); await p.waitForTimeout(500); };
   await p.goto('http://localhost:8820/'); await p.evaluate(() => { localStorage.clear(); sessionStorage.clear(); indexedDB.deleteDatabase('ish-files'); }); await p.reload(); await p.waitForTimeout(800);
   // owner

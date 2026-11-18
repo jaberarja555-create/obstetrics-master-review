@@ -3,7 +3,7 @@ const { chromium } = require('playwright');
 (async()=>{const b=await chromium.launch();const p=await(await b.newContext({viewport:{width:1440,height:900}})).newPage();
 p.on('dialog',d=>d.accept());const errs=[];p.on('pageerror',e=>errs.push(e.message));
 await p.goto('http://localhost:8820/');await p.evaluate(()=>{localStorage.clear()});await p.reload();await p.waitForTimeout(800);
-await p.evaluate(()=>IS.ACT.register({getAttribute:()=>null}));await p.waitForTimeout(300);
+await p.evaluate(()=>(IS.AUTHTAB='phone',IS.ACT.register)({getAttribute:()=>null}));await p.waitForTimeout(300);
 for(const [k,v] of [['name','د. عبدالجليل ارجا'],['phone','0911111111'],['pass','secret12'],['pass2','secret12']])await p.fill(`[data-form=signup] [name=${k}]`,v);
 await p.check('[data-form=signup] [name=terms]');await p.click('form[data-form="signup"] button:not([type=button]) >> nth=-1');await p.waitForTimeout(1200);
 const pages=['home','specialties','spec/medicine','courses','courses/@lab','learning','events','lecturers','community','library','library/requests','paths','favorites','achievements','support','about','settings','account','notifications','search/heart',

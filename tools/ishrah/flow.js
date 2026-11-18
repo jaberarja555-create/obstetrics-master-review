@@ -13,7 +13,7 @@ const D = process.argv[2] || 'shots', W = +(process.argv[3] || 1440), H = W < 60
   const fill = async (sel, v) => { await p.fill(sel, v); };
   const submit = async (form) => { await p.click(`form[data-form="${form}"] button:not([type=button]) >> nth=-1`); await p.waitForTimeout(900); };
   const signup = async (name, phone, kind) => {
-    await go('home'); await p.evaluate(() => IS.ACT.register({ getAttribute: () => null })); await p.waitForTimeout(300);
+    await go('home'); await p.evaluate(() => (IS.AUTHTAB='phone',IS.ACT.register)({ getAttribute: () => null })); await p.waitForTimeout(300);
     if (kind === 'lecturer') await p.click('.kind[data-k=lecturer]');
     await fill('form[data-form=signup] [name=name]', name); await fill('form[data-form=signup] [name=phone]', phone);
     await fill('form[data-form=signup] [name=pass]', 'secret12'); await fill('form[data-form=signup] [name=pass2]', 'secret12'); await p.check('form[data-form=signup] [name=terms]');
@@ -21,7 +21,7 @@ const D = process.argv[2] || 'shots', W = +(process.argv[3] || 1440), H = W < 60
     await submit('signup'); await p.waitForTimeout(600);
   };
   const logout = async () => { await p.evaluate(() => IS.ACT.logout()); await p.waitForTimeout(500); };
-  const login = async (phone) => { await p.evaluate(() => IS.ACT.login()); await p.waitForTimeout(300); await fill('form[data-form=signin] [name=phone]', phone); await fill('form[data-form=signin] [name=pass]', 'secret12'); await submit('signin'); await p.waitForTimeout(600); };
+  const login = async (phone) => { await p.evaluate(() => (IS.AUTHTAB='phone',IS.ACT.login)()); await p.waitForTimeout(300); await fill('form[data-form=signin] [name=phone]', phone); await fill('form[data-form=signin] [name=pass]', 'secret12'); await submit('signin'); await p.waitForTimeout(600); };
 
   await p.goto('http://localhost:8820/'); await p.evaluate(() => { localStorage.clear(); indexedDB.deleteDatabase('ish-files'); }); await p.reload(); await p.waitForTimeout(800);
   // 1. owner
