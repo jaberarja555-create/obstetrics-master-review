@@ -258,3 +258,5 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   that touches css/app.css, and bump `?v=` in index.html.
 - Start page on laptops/tablets: header band (logo, name, sign-in buttons, books photo `hero_band.webp` fading in from the side), then the
   five cards (one row on laptops, 3 + 2 centred on tablets). `hero_gold.webp` replaced by the clean `hero_band.webp` (it carried a cut word).
+- Phones/tablets (Android smearing while scrolling, 18 Nov 2026): the top bar is `position:fixed` (body padding `--toph`, set by `topH()` in
+  core.js), and on touch screens there are no mask-images, no CSS filters, no backdrop blur and no hover lifts. Keep it that way.

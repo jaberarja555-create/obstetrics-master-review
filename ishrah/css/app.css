@@ -1975,5 +1975,14 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
   #top{background:linear-gradient(90deg,var(--deep2),var(--deep))!important}
   #tabs{background:var(--sf)!important}
   .page{animation:none!important}
-  #top,#tabs{transform:translateZ(0)}
+}
+
+/* phones, second pass (owner's friend still saw copies of the shortcut buttons while scrolling, 18 Nov 2026): Android Chrome smears content
+   under a sticky header when the page has masked or drop-shadow-filtered layers. On touch screens: header fixed (not sticky), no image masks,
+   no filter shadows, no hover lifts. */
+@media (hover:none),(max-width:1023px){
+  *,*::before,*::after{-webkit-mask-image:none!important;mask-image:none!important;filter:none!important}
+  #top{position:fixed!important;top:0;left:0;right:0;z-index:40}
+  body{padding-top:var(--toph,66px)}
+  .lhq a:hover,.spc:hover,.pk:hover,.ccard:hover,.door:hover,.subj:hover{transform:none!important}
 }

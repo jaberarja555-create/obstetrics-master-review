@@ -324,8 +324,11 @@
     var tabs = area === 'student' ? ['home', 'courses', 'learning', 'library'] : items.slice(0, 4).map(function (n) { return n[0]; });
     IS.$('#tabs').innerHTML = tabs.map(function (k) { var n = items.filter(function (x) { return x[0] === k; })[0]; if (!n) return ''; return '<a href="#' + n[0] + '" class="' + (n[0] === page ? 'on' : '') + '">' + ic(n[1]) + '<span>' + esc(n[3]) + '</span></a>'; }).join('') +
       '<a href="#more" data-act="more">' + ic('menu') + '<span>More</span></a>';
-    if (me) IS.bell();
+    if (me) IS.bell(); topH();
   };
+  /* height of the fixed phone top bar, so the page starts below it */
+  function topH() { var t = document.getElementById('top'); if (t) document.documentElement.style.setProperty('--toph', t.offsetHeight + 'px'); }
+  window.addEventListener('resize', topH); setTimeout(topH, 50);
   IS.bell = async function () {
     try { var seen = LS.get('seen-' + IS.ME.id, 0), n = await DB.q('notices', { order: ['created_at', false], limit: 40 });
       n = n.filter(function (x) { return (!x.user_id || x.user_id === IS.ME.id) && new Date(x.created_at).getTime() > seen; }); var b = IS.$('#bellN'); if (b) { b.hidden = !n.length; b.textContent = n.length > 9 ? '9+' : n.length; } } catch (e) {}
