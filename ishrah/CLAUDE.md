@@ -135,3 +135,7 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   - **Profile and Settings without gaps** (owner, 18 Nov 2026): Settings = two columns `.setc` (Language + Appearance | Account + Help) of
     the same height, the boxes share the spare height (lists spread, version line at the foot); Profile = Personal information and the
     About me + Achievements pair are the same height, the three lecturer boxes too (buttons at the foot).
+  - **Phone welcome band** (owner, 18 Nov 2026: "this part looks poor"): on phones the band no longer stretches (the spare height goes to the
+    speciality cards), it shows the drawn logo (`.lhl2`, IS.logo()) instead of the dark square picture, greeting and title centred beside it,
+    search under them; `.gtx` has room below so the dots of «لي» are not cut. The signed-in picture in the phone top bar was hidden by
+    `.me span{display:none}` (the avatar is a span too) and showed as a dot: fixed.

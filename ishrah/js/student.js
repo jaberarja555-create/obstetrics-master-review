@@ -71,7 +71,7 @@
     var cs = await IS.pubCourses(), m = me();
     var who = m ? esc(A('مرحبًا د. ', 'Welcome, Dr. ')) + '<bdi>' + esc(String(m.name || '').replace(/^\s*(د\.|دكتور|Dr\.?)\s*/i, '').split(' ')[0]) + '</bdi> 👋' : esc(A('مرحبًا بك يا دكتور 👋', 'Welcome, Doctor 👋'));
     var h = '<div class="lh">' +
-      '<section class="lhh"><img class="lhl" src="' + IS.logo('hero') + '" alt=""><div class="lht"><p>' + who + '</p><h1 tabindex="-1"><span>' + esc(A('منصة', 'Platform')) + '</span> <span class="gtx">اشرح لي</span></h1>' +
+      '<section class="lhh"><img class="lhl" src="' + IS.logo('hero') + '" alt=""><img class="lhl2" src="' + IS.logo() + '" alt=""><div class="lht"><p>' + who + '</p><h1 tabindex="-1"><span>' + esc(A('منصة', 'Platform')) + '</span> <span class="gtx">اشرح لي</span></h1>' +
       '<small>' + esc(A('منصة تعليمية متكاملة لطلاب الكليات الصحية', 'A complete learning platform for health sciences students')) + '</small></div>' +
       '<div class="lhx"><form class="hsearch" role="search" data-form="search"><span>' + ic('search') + '</span><input name="q" type="search" placeholder="' + esc(A('ابحث عن كورس، مادة، محاضر أو موضوع…', 'Search a course, subject, lecturer or topic…')) + '"><button class="btn pri">' + esc(A('بحث', 'Search')) + '</button></form>' +
       (m ? '' : '<div class="row"><button class="btn pri sm" data-act="register">' + ic('user') + esc(A('أنشئ حسابك مجانًا', 'Create your free account')) + '</button><button class="btn lt sm" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button></div>') + '</div></section>' +
