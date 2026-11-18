@@ -1648,6 +1648,13 @@ body.isoff main{padding-top:58px!important}
   .lsp .lst{flex:none}
 }
 @media (min-width:1024px) and (max-height:680px){.lhh{padding:14px 24px;padding-inline-end:calc(40% + 20px);row-gap:10px}.lhh .lhl{width:68px;height:68px}.lht h1{font-size:30px}.lht p{font-size:13px}.lht small{display:none}.lhq a{padding:7px 6px;gap:3px}.lhq i{width:34px;height:34px}.lsp .lsi{min-height:90px}}
+/* speciality bar on laptops (owner, 18 Nov 2026: "empty space behind Pharmacy"): one even row of six chips across the width */
+@media (min-width:1180px){
+  .specbar{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;overflow:visible!important}
+  .specbar>.spb2{justify-content:center;min-width:0;padding:8px 10px}
+  .specbar>.spb2 span{min-width:0}.specbar>.spb2 b,.specbar>.spb2 small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+@media (min-width:1180px) and (max-width:1439px){.specbar>.spb2 b{font-size:12.5px;white-space:normal;line-height:1.15;text-overflow:clip}.specbar>.spb2 small{font-size:10.5px}.specbar>.spb2 .ico{width:16px;height:16px}}
 
 /* banner photos as a soft tint of this colour (tools/ishrah/palettes.py) */
 .ban.bpic .bph,.cban::before{mix-blend-mode:luminosity;opacity:.9}
