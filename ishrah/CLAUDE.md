@@ -132,3 +132,6 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
     old root font-size did nothing. Settings → Text size = Small / Normal / Large (`ish-fs` s / n / l; an old "x" counts as Large), applied as
     `zoom` on `#main` (`--z` .9 / 1 / 1.15; the bars keep their size), set in the head script too. Home's one-screen height divides by `--z`.
     With Large text on phones the speciality cards are one per row (names never cut). Checked: no text cut in any page at Large on a phone.
+  - **Profile and Settings without gaps** (owner, 18 Nov 2026): Settings = two columns `.setc` (Language + Appearance | Account + Help) of
+    the same height, the boxes share the spare height (lists spread, version line at the foot); Profile = Personal information and the
+    About me + Achievements pair are the same height, the three lecturer boxes too (buttons at the foot).

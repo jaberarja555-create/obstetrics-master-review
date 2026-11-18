@@ -1471,3 +1471,24 @@ body[data-page="home"] main{padding-bottom:16px}
 /* Large text on phones: one speciality card per row, so long names ("Laboratory Science") are never cut */
 @media (max-width:640px){:root[data-fs="l"] .lhs,:root[data-fs="x"] .lhs{grid-template-columns:1fr}:root[data-fs="l"] .lsp .lst p,:root[data-fs="x"] .lsp .lst p{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;font-size:12px;color:var(--sub)}:root[data-fs="l"] .lsi,:root[data-fs="x"] .lsi{width:56px;height:56px}}
 html{background:var(--bg)}
+
+/* ---------- Profile and Settings without gaps (owner, 18 Nov 2026) ---------- */
+/* Settings: two columns (Language + Appearance | Account + Help) of the same height; the boxes share the spare height */
+
+.setg{display:grid!important;columns:auto!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:stretch}
+.setc{display:flex;flex-direction:column;gap:16px;min-width:0}
+.setc>.box{display:flex!important;flex-direction:column;flex:1 1 auto;margin:0!important;width:auto}
+.setc>.box>.list{flex:1;display:flex;flex-direction:column;justify-content:space-around}
+.setc>.box>.ver{margin-top:auto}
+@media (max-width:900px){.setg{grid-template-columns:1fr}}
+/* Profile: Personal information and the About me + Achievements pair are the same height; the three lecturer boxes too */
+.cols.rev>.main>.grid.g2{align-items:stretch}
+.cols.rev>.main>.grid.g2>div{display:flex;flex-direction:column;gap:16px;min-width:0}
+.cols.rev>.main>.grid.g2>div>.box{margin:0;flex:1 1 auto}
+.cols.rev>.main>.grid.g2>.box{margin:0}
+.cols.rev>.main>.grid.g2>.box>.kv{display:flex;flex-direction:column;justify-content:space-between}
+.lecrow{align-items:stretch}.lecrow>.box{margin:0;display:flex;flex-direction:column}
+.lecrow>.box.lecjoin{justify-content:center}
+.lecrow>.box>.btn{margin-top:auto}
+.cols.rev>.main{display:flex;flex-direction:column;gap:16px}
+.cols.rev>.main>.grid{margin:0}
