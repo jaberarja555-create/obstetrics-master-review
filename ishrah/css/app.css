@@ -1911,3 +1911,5 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 .rgrid:has(#rsx:not([hidden])){grid-template-columns:minmax(0,1fr)!important}
 .rgrid:has(#rsx:not([hidden]))>.box:not(.newreq){order:2}
 .rchk:has([name=rchap]){grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.rchk .opt span{display:flex;flex-direction:column;gap:1px}.rchk .opt b{font-weight:700;font-size:13px}.rchk .opt small{font-size:11.5px;color:var(--sub)}
+.newreq .fl>span b,.rfs legend b{font-weight:800}.newreq .fl>span small,.rfs legend small{font-weight:600;color:var(--sub);font-size:.85em}
