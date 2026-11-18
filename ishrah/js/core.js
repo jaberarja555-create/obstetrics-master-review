@@ -145,7 +145,8 @@
   IS.manager = function () { var t = (IS.ME && IS.ME.team) || []; return t.some(function (r) { return r !== 'staff' && r.indexOf('p:') !== 0; }); };
   IS.team = function () { return !!(IS.ME && (IS.ME.team || []).length); };
   IS.loadMe = async function () {
-    var uid = DB.uid(); IS.ME = null; IS.LEC = null;
+    var uid = DB.uid(); IS.ME = null; IS.LEC = null; IS.OFFME = false;
+    if (!uid && !navigator.onLine) { try { var oc = JSON.parse(localStorage.getItem('ish-me') || 'null'); if (oc && oc.uid) { IS.ME = oc.me; IS.LEC = oc.lec; IS.OFFME = true; return; } } catch (e) {} }
     if (uid) {
       IS.ME = await DB.one('profiles', uid).catch(function () { return null; });
       if (!IS.ME && DB.live) { await new Promise(function (r) { setTimeout(r, 900); }); IS.ME = await DB.one('profiles', uid).catch(function () { return null; }); }
@@ -271,7 +272,12 @@
     if (o.lec && !IS.LEC) { IS.go('studio-apply'); return; }
     main.innerHTML = '<div class="loading"><span class="spin"></span></div>';
     var html; IS.after = null;
-    try { html = await P.fn(arg); } catch (e) { if (window.console) console.error(e); html = !navigator.onLine ? IS.offEmpty() : IS.empty('info', A('تعذّر فتح الصفحة', 'This page could not be opened'), String(e && e.message || '')); }
+    /* without internet (owner, 18 Nov 2026: the home page kept spinning): pages that need the internet say so at once; downloads, settings and
+       the guide still open. Any page that takes more than 12 s while the connection is gone or very weak shows the offline card instead. */
+    var OFFOK = { downloads: 1, dl: 1, settings: 1, terms: 1, pick: 1, 'studio-guide': 1 };
+    if (!navigator.onLine && DB.live && !OFFOK[name]) { IS.OFFPAGE = true; main.innerHTML = '<div class="page">' + IS.offEmpty() + '</div>'; return; }
+    IS.OFFPAGE = false;
+    try { html = await Promise.race([P.fn(arg), new Promise(function (ok, no) { setTimeout(function () { no(new Error('slow')); }, DB.live ? 12000 : 60000); })]); } catch (e) { if (e && e.message === 'slow') { if (my !== SEQ) return; IS.OFFPAGE = true; }  if (window.console) console.error(e); html = !navigator.onLine ? IS.offEmpty() : e && e.message === 'slow' ? IS.empty('offline', A('الاتصال ضعيف جدًا', 'The connection is very weak'), A('لم تكتمل الصفحة. تحقق من الإنترنت ثم أعد المحاولة.', 'The page did not finish loading. Check the internet and try again.'), '<button class="btn pri" data-act="retry">' + IS.ic('route') + IS.esc(A('أعد المحاولة', 'Try again')) + '</button> <a class="btn ghost" href="#downloads">' + IS.ic('download') + IS.esc(A('تنزيلاتي', 'My downloads')) + '</a>') : IS.empty('info', A('تعذّر فتح الصفحة', 'This page could not be opened'), String(e && e.message || '')); }
     if (my !== SEQ) return;
     main.innerHTML = '<div class="page">' + (html || IS.empty('search', A('غير موجود', 'Not found'), A('ربما حُذف أو لم يُنشر بعد.', 'It may have been removed or not published yet.'))) + '</div>';
     if (!IS.keepScroll) window.scrollTo(0, 0); IS.keepScroll = false;
@@ -291,6 +297,9 @@
     var cols = Math.min(n, max), rows = Math.ceil(n / cols); cols = Math.ceil(n / rows);
     c.style.setProperty('display', 'grid', 'important'); c.style.gridTemplateColumns = 'repeat(' + cols + ',minmax(0,1fr))'; }); }); };
   window.addEventListener('resize', function () { clearTimeout(IS._bt); IS._bt = setTimeout(function () { IS.balance(); IS.evenRows(); }, 200); });
+  IS.ACT = IS.ACT || {}; IS.ACT.retry = function () { IS.route(); };
+  /* back online: the page that could not open opens by itself */
+  window.addEventListener('online', function () { if (IS.OFFPAGE) setTimeout(function () { IS.loadMe().then(function () { IS.route(); }); }, 800); });
   IS.offEmpty = function () { return IS.empty('offline', A('لا يوجد اتصال بالإنترنت', 'No internet connection'), A('هذه الصفحة تحتاج إلى الإنترنت. ما نزّلته داخل المنصة يعمل دون اتصال.', 'This page needs the internet. What you downloaded inside the platform works offline.'), '<a class="btn pri" href="#downloads">' + IS.ic('download') + IS.esc(A('افتح تنزيلاتي', 'Open my downloads')) + '</a>'); };
   IS.refresh = function () { IS.keepScroll = true; return IS.route(); };
   function authGate() {
@@ -475,7 +484,7 @@
         '<form class="form" data-form="gpreview">' + fld('email', 'mail', A('بريد Gmail', 'Gmail address') + ' *', 'type="email" required autocomplete="email" dir="ltr" placeholder="name@gmail.com"') +
         '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic('send') + '<span>' + esc(A('أرسل الرمز', 'Send the code')) + '</span></button></form>'); return; }
     if (IS.AUTHKIND === 'lecturer') LS.set('afterlogin', 'studio-apply'); await DB.google(); if (!DB.live) { IS.closeSheet(); await IS.loadMe(); var a = LS.get('afterlogin', ''); LS.set('afterlogin', ''); if (a) IS.go(a); else IS.route(); } };
-  IS.ACT.logout = async function () { await DB.signOut(); IS.ME = null; IS.LEC = null; IS.go('home'); };
+  IS.ACT.logout = async function () { await DB.signOut(); try { localStorage.removeItem('ish-me'); } catch (e) {} IS.ME = null; IS.LEC = null; IS.go('home'); };
   IS.SUB.search = function (d) { IS.go('search/' + encodeURIComponent(d.q || '')); };
 
   /* ---------- start ---------- */

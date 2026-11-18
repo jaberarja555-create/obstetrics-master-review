@@ -293,4 +293,9 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   content standards, acceptance terms (what the review checks + not allowed + returned with notes), after publishing. Linked from the studio
   menu, the dashboard quick actions, the apply page and the lesson editor. "Send for review" now needs the tick «I confirm the course meets the
   standards… my own work… identifies no patient» (`#gdok`). Wording of the terms is mine; the owner may change it.
+- **No internet on the live site (owner, 18 Nov 2026: the home page kept spinning offline):** supabase-js waits for a session refresh that never
+  comes, so `IS.route` now shows the offline card at once when `navigator.onLine` is false (pages in `OFFOK` still open: downloads, dl,
+  settings, terms, pick, studio-guide) and any page still loading after 12 s shows "connection very weak" + Try again. Back online, that page
+  reopens by itself. `IS.loadMe` keeps the account signed in offline from `ish-me` even when the session could not be renewed (sign-out clears it).
+  Tested with the real supabase-js in Chromium (served locally), going offline mid-use and starting offline.
 
