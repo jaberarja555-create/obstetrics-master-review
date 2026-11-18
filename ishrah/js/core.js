@@ -249,7 +249,7 @@
   IS.route = async function () {
     var h = decodeURIComponent(location.hash.slice(1)) || 'home', m = h.match(/^([a-z-]+?)(?:\/(.*))?$/), name = m ? m[1] : 'home', arg = m ? m[2] : '';
     var P = PAGES[name] || PAGES.home, o = P.o, my = ++SEQ, main = IS.$('#main');
-    if ((!o.area || o.area === 'student') && name !== 'pick' && name !== 'terms' && (!IS.SPEC || !IS.spec(IS.SPEC)) && IS.SPECS.length) { name = 'pick'; P = PAGES.pick; o = P.o; }
+    if ((!o.area || o.area === 'student' || (o.area === 'keep' && IS.area === 'student')) && name !== 'pick' && name !== 'terms' && (!IS.SPEC || !IS.spec(IS.SPEC)) && IS.SPECS.length) { name = 'pick'; P = PAGES.pick; o = P.o; }
     IS.area = o.area === 'keep' ? (IS.area || 'student') : (o.area || 'student'); document.body.setAttribute('data-area', IS.area); document.body.setAttribute('data-page', name);
     IS.chrome(name);
     if (o.auth && !IS.ME) { main.innerHTML = authGate(); return; }

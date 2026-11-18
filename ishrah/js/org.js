@@ -376,5 +376,5 @@
     var s = IS.team() ? await MFA.state().catch(function () { return {}; }) : {};
     return IS.banner(IS.T('الأمان', 'Security'), '', 'shield') + (IS.team() ? (s.on ? '<section class="box">' + ic('checkc') + ' <b>' + esc(A('المصادقة الثنائية مفعّلة على حسابك.', 'Two-factor login is on for your account.')) + '</b></section>' : mfaSetup(false)) :
       IS.empty('shield', A('المصادقة الثنائية للحسابات الإدارية', 'Two-factor login is for admin accounts'), A('حسابك محمي بكلمة المرور أو بحساب Google.', 'Your account is protected by its password or Google account.')));
-  }, { auth: true });
+  }, { auth: true, area: 'keep' });
 })();
