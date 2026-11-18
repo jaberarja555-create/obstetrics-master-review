@@ -152,6 +152,7 @@
     var row = { id: a.user_id, name: a.name, title: a.title || '', specialty: a.specialty, bio: esc(a.experience).replace(/\n/g, '<br>'), quals: [a.qual + ' — ' + a.specialty], tags: [a.specialty], color: '#0f7a73', share: share, status: 'active', links: { whatsapp: a.phone }, pay: {}, n_students: 0 };
     if (ex) await DB.upd('lecturers', a.user_id, { status: 'active' }); else await DB.upsert('lecturers', row);
     await DB.upd('lecturer_apps', a.id, { status: 'approved', decided_at: new Date().toISOString(), decided_by: uid() });
+    if (a.user_id === uid()) IS.LEC = await DB.one('lecturers', a.user_id).catch(function () { return null; });
     IS.notify(a.user_id, A('مبروك! تم اعتمادك محاضرًا', 'Congratulations! You are approved as a lecturer'), A('افتح استوديو المحاضر لتصميم صفحتك وإنشاء أول كورس.', 'Open the lecturer studio to design your page and create your first course.'), '#studio'); IS.audit('approve lecturer', a.name); IS.refresh();
   };
   IS.ACT.appchg = async function (b) {

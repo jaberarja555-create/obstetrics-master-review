@@ -21,6 +21,7 @@
   IS.page('studio-apply', async function () {
     if (L()) { IS.go('studio'); return ''; }
     var apps = await DB.q('lecturer_apps', { eq: { user_id: IS.ME.id }, order: ['created_at', false] }), ap = apps[0], m = IS.ME;
+    if (ap && ap.status === 'approved') { IS.LEC = await DB.one('lecturers', IS.ME.id).catch(function () { return null; }); if (IS.LEC) { IS.go('studio'); return ''; } }
     var h = IS.banner(IS.T('التسجيل كمحاضر', 'Become a lecturer'), esc(A('قدّم طلبك للانضمام إلى فريق المحاضرين في اشرح لي', 'Apply to join the lecturers of Ishrah Li')), 'studio');
     h += '<p class="note">' + ic('book') + '<span>' + esc(A('قبل التقديم اقرأ معايير الفيديو والمحتوى وشروط القبول.', 'Before you apply, read the video and content standards and the acceptance terms.')) + ' <a class="link" href="#studio-guide">' + esc(A('دليل المحاضر', 'Lecturer guide')) + '</a></span></p>';
     h += '<div class="cols"><div class="main">';

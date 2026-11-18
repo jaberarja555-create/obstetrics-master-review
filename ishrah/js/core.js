@@ -269,6 +269,8 @@
     if (o.auth && !IS.ME) { main.innerHTML = authGate(); return; }
     if (IS.mfaGate) { var g = IS.mfaGate(); if (g) { main.innerHTML = g; return; } }
     if (o.perm && !IS.can(o.perm)) { main.innerHTML = IS.empty('lock', A('لا تملك صلاحية هذه الصفحة', 'You do not have access to this page'), A('اطلب الصلاحية من مالك المنصة.', 'Ask the platform owner for access.')); return; }
+    /* a lecturer approved after this page loaded (owner, 18 Nov 2026: "all the buttons go back to this page"): look again before sending to Apply */
+    if (o.lec && !IS.LEC && IS.ME && Date.now() - (IS.LECT || 0) > 15000) { IS.LECT = Date.now(); IS.LEC = await DB.one('lecturers', IS.ME.id).catch(function () { return null; }); if (my !== SEQ) return; }
     if (o.lec && !IS.LEC) { IS.go('studio-apply'); return; }
     main.innerHTML = '<div class="loading"><span class="spin"></span></div>';
     var html; IS.after = null;
