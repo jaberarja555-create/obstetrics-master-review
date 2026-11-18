@@ -1,3 +1,5 @@
+/* the server key: new Supabase secret keys (sb_secret_…) go in the apikey header only; older service_role JWTs also as Bearer */
+function svc(env) { const k = env.SUPABASE_SERVICE_KEY || ''; return /^sb_/.test(k) ? { apikey: k } : { apikey: k, authorization: 'Bearer ' + k }; }
 /* اشرح لي: protected lesson videos on Bunny Stream (Cloudflare Pages Function, /api/video).
    POST {act:'create', lesson, title}: a lecturer (owner of the lesson's course) or the content team gets a one-time upload permission;
      the browser then uploads the file straight to Bunny (TUS), so large videos never pass through this server.
@@ -17,7 +19,7 @@ async function user(req, env) {
   return r.ok ? r.json() : null;
 }
 async function sb(env, path) {   // service-role read (server side only)
-  const r = await fetch(env.SUPABASE_URL + '/rest/v1/' + path, { headers: { apikey: env.SUPABASE_SERVICE_KEY, authorization: 'Bearer ' + env.SUPABASE_SERVICE_KEY } });
+  const r = await fetch(env.SUPABASE_URL + '/rest/v1/' + path, { headers: svc(env) });
   if (!r.ok) throw new Error('db ' + r.status); return r.json();
 }
 async function canReview(env, uid) {

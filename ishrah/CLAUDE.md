@@ -266,3 +266,9 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - Android scroll smearing, third pass: no `dvh` units (use `svh`, stable while the address bar hides), `overflow-x:clip` on html/body,
   CSS `zoom` on #main only when a text size other than Normal is chosen. Do not bring dvh back.
 - Preview Google button: asks the Gmail address and a 6-digit code (`IS.SUB.gpreview`, `PEND.google`); never signs in by the address alone. Live = real Google.
+- **Going live (18 Nov 2026), progress:** Hostinger mailboxes no-reply@ and support@ishrahli.org made; 9 Hostinger email DNS records copied to
+  Cloudflare (MX mx1/mx2, SPF, DMARC, DKIM a/b/c CNAMEs, autodiscover, autoconfig, CNAMEs DNS only); Hostinger nameservers changed to
+  derek / zainab .ns.cloudflare.com (waiting for Cloudflare "active"); DNSSEC off. Supabase project (Ireland): URL
+  https://fglawgpusfbgkokpnoej.supabase.co, publishable key sb_publishable_kEhLRQjZuYzKNFyyMGKhPA_QGuC3q25 (public). **Do not put them in
+  js/config.js until the database files are applied** (the app switches to live mode as soon as config.js has them). Functions accept the new
+  sb_secret_ server key (apikey header only). Next: ISHRAH_DB_URL secret + run the Ishrah workflow with "apply database".
