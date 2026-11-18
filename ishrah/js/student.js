@@ -200,8 +200,15 @@
       IS.empty('layers', A('لا توجد كورسات هنا بعد', 'No courses here yet'), A('عند نشر كورسات في هذا القسم ستظهر هنا. يمكنك طلب كورس تحتاجه.', 'Courses published in this section will appear here. You can request a course you need.'), '<button class="btn ghost" data-act="ticket" data-k="course">' + ic('plus') + esc(A('اطلب كورسًا', 'Request a course')) + '</button>') + browseSubj());
   }
   IS.ACT.fspec = function (b) { F.spec = b.getAttribute('data-v'); F.sub = {}; IS.refresh(); };
-  function browseSubj() { var ss = IS.SUBJ.filter(function (x) { return (!F.cat || x.cat === F.cat) && (!F.spec || x.spec === F.spec); }).slice(0, 12); if (!ss.length) return '';
-    return '<h3 class="ph2">' + IS.T('تصفّح المواد', 'Browse subjects') + '</h3><div class="subjs">' + ss.map(function (x, i) { return '<a class="subj s' + (i % 7) + (x.img ? ' pic' : '') + '" href="#courses/' + x.cat + '/' + x.id + '">' + (x.img ? '<span class="sjp"><img src="' + IS.U(x.img) + '" alt="" loading="lazy"></span>' : '<span>' + ic(x.icon) + '</span>') + '<span class="sjt"><b lang="en">' + esc(x.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(x.ar) + '</small>') + '<em>' + esc(A('قريبًا', 'Soon')) + '</em></span></a>'; }).join('') + '</div>'; }
+  /* Browse subjects: grouped by speciality (owner, 18 Nov 2026: it showed only Medicine, the first 12 subjects); four of each speciality with
+     a link to all of them, or up to 12 of the chosen speciality */
+  function browseSubj() {
+    var specs = IS.SPECS.filter(function (sp) { return !F.spec || sp.id === F.spec; }), per = F.spec ? 12 : 4;
+    var out = specs.map(function (sp) { var all = IS.SUBJ.filter(function (x) { return x.spec === sp.id && (!F.cat || x.cat === F.cat); }); if (!all.length) return '';
+      return '<div class="bsh"><span class="bshi">' + ic(sp.icon) + '</span><span class="bsht"><b lang="en">' + esc(sp.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(sp.ar) + '</small>') + '</span>' +
+        (all.length > per || !F.spec ? '<a class="more" href="#spec/' + sp.id + '">' + esc(A('كل المواد', 'All subjects')) + ' (' + N(all.length) + ')' + ic('chev', 'fl') + '</a>' : '') + '</div>' +
+        '<div class="subjs">' + all.slice(0, per).map(function (x, i) { return '<a class="subj s' + (i % 7) + (x.img ? ' pic' : '') + '" href="#courses/' + x.cat + '/' + x.id + '">' + (x.img ? '<span class="sjp"><img src="' + IS.U(x.img) + '" alt="" loading="lazy"></span>' : '<span>' + ic(x.icon) + '</span>') + '<span class="sjt"><b lang="en">' + esc(x.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(x.ar) + '</small>') + '<em>' + esc(A('قريبًا', 'Soon')) + '</em></span></a>'; }).join('') + '</div>'; }).join('');
+    return out ? '<h3 class="ph2">' + IS.T('تصفّح المواد', 'Browse subjects') + '</h3>' + out : ''; }
   IS.ACT.fclear = function () { F.spec = ''; F.sub = {}; F.lec = {}; F.price = 'all'; F.q = ''; IS.refresh(); };
   IS.ACT.ftog = function () { $('#filt').classList.toggle('show'); };
 

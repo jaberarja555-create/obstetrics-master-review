@@ -1452,3 +1452,12 @@ body[data-page="home"] main{padding-bottom:16px}
 :root[data-theme="eye"]::after{content:"";position:fixed;inset:0;z-index:2147483000;pointer-events:none;background:rgba(255,160,60,.10);mix-blend-mode:multiply}
 :root[data-theme="eye"] #tabs{background:rgba(251,245,232,.96)}
 :root[data-theme="eye"] .hsearch,:root[data-theme="eye"] .tsearch{background:#fffaf0}
+/* Courses → Browse subjects: one group per speciality */
+.bsh{display:flex;align-items:center;gap:10px;margin:18px 0 10px}
+.bshi{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--pri);color:#fff}.bshi .ico{width:19px;height:19px}
+.bsht{display:flex;flex-direction:column;line-height:1.15}.bsht b{font:800 16px/1.2 var(--en);color:var(--deep)}.bsht small{font-size:12px;color:var(--sub);font-weight:700}
+:root[data-theme="dark"] .bsht b{color:#fff}
+.bsh .more{margin-inline-start:auto}
+#cres .subjs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+#cres .subjs>.subj{min-width:0}
+@media (max-width:640px){#cres .subjs{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}

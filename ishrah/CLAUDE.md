@@ -126,3 +126,5 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   - The wide Medicine card on phones/tablets shows its description (2 lines) so its width is not empty space (hidden under 660 px high).
   - **Eye comfort** (owner, 18 Nov 2026): Settings → Appearance has four choices (Light, Dark, Eye comfort, Automatic; 2 × 2). Eye comfort =
     `data-theme="eye"` (light rules + warm paper colours + a soft warm filter over the whole screen, `:root[data-theme="eye"]::after`).
+  - Courses → **Browse subjects is grouped by speciality** (owner, 18 Nov 2026: it showed only Medicine, the first 12 subjects): four subjects of
+    each speciality under its own heading with «كل المواد (N)» to the speciality page; with one speciality chosen, up to 12 of it (`browseSubj`).
