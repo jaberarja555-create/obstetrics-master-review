@@ -152,7 +152,7 @@
 
   /* ---------- My downloads ---------- */
   function size(b) { return '<bdi dir="ltr">' + size0(b) + '</bdi>'; }
-  function size0(b) { return b > 1073741824 ? (b / 1073741824).toFixed(1) + ' GB' : b > 1048576 ? Math.round(b / 1048576) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB'; }
+  function size0(b) { return b > 1073741824 ? (b / 1073741824).toFixed(1) + ' GB' : b > 1048576 ? Math.round(b / 1048576) + ' MB' : (b ? Math.max(1, Math.round(b / 1024)) : 0) + ' KB'; }
   function runList() { var ks = Object.keys(RUN); return ks.length ? '<section class="box"><h2>' + ic('download') + IS.T('جارٍ التنزيل', 'Downloading now') + '</h2>' + ks.map(function (k) { return '<div class="dlr"><span class="grow"><b>' + esc(RUN[k].t) + '</b><i class="dlbar" style="--p:' + RUN[k].p + '%"></i></span><em>' + N(RUN[k].p + '%') + '</em><button class="ib sm" data-act="dlstop" data-id="' + esc(k) + '" aria-label="' + esc(A('إلغاء', 'Cancel')) + '">' + ic('x') + '</button></div>'; }).join('') + '</section>' : ''; }
   IS.ACT.dlstop = function (b) { var r = RUN[b.getAttribute('data-id')]; if (r) r.ctl.abort(); };
   function row(it) {
@@ -170,7 +170,7 @@
     les.forEach(function (x) { (byC[x.sub || ''] = byC[x.sub || ''] || []).push(x); });
     var h = IS.banner(IS.T('تنزيلاتي', 'My downloads'), esc(A('دروس وكتب نزّلتها داخل المنصة لتعمل دون إنترنت.', 'Lessons and books you downloaded inside the platform to use without internet.')), 'download') +
       '<section class="dlhead"><div class="dlst">' + [['video', les.length, A('درس', 'lessons')], ['open', fil.length, A('ملف', 'files')], ['layers', size(used), A('مستخدمة', 'used')]].map(function (t) { return '<span>' + ic(t[0]) + '<b>' + (typeof t[1] === 'number' ? N(t[1]) : t[1]) + '</b><small>' + esc(t[2]) + '</small></span>'; }).join('') + '</div>' +
-      (est && est.quota ? '<div class="dlq2"><small>' + esc(A('مساحة المنصة على هذا الجهاز', 'Platform space on this device')) + ': ' + size(est.usage || 0) + ' / ' + size(est.quota) + '</small>' + IS.bar(Math.round((est.usage || 0) / est.quota * 100)) + '</div>' : '') +
+      (est && est.quota ? '<div class="dlq2"><small>' + esc(A('مساحة المنصة على هذا الجهاز', 'Platform space on this device')) + ': <bdi dir="ltr">' + size0(est.usage || 0) + ' / ' + size0(est.quota) + '</bdi>' + '</small>' + IS.bar(Math.round((est.usage || 0) / est.quota * 100)) + '</div>' : '') +
       '<p class="note">' + ic('shield') + '<span>' + esc(A('التنزيلات محفوظة ومشفّرة داخل المنصة فقط: لا تظهر في ملفات الهاتف ولا يمكن نسخها. تبقى ' + DAYS + ' يومًا وتتجدد تلقائيًا عند الاتصال بالإنترنت.', 'Downloads are kept encrypted inside the platform only: they do not appear in the phone’s files and cannot be copied. They last ' + DAYS + ' days and renew by themselves when you are online.')) + '</span></p></section>' +
       '<div id="dlrun">' + runList() + '</div>';
     if (!l.length) return h + IS.empty('download', A('لا توجد تنزيلات بعد', 'No downloads yet'), A('افتح درسًا أو كتابًا واضغط «تنزيل للمشاهدة دون إنترنت».', 'Open a lesson or a book and press “Download for offline”.'), '<a class="btn pri" href="#learning">' + ic('layers') + esc(A('كورساتي', 'My courses')) + '</a>');

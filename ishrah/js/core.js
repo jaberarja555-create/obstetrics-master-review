@@ -290,18 +290,25 @@
     var h1 = main.querySelector('h1'); if (h1) try { h1.focus({ preventScroll: true }); } catch (e) {}
     var tt = h1 && (h1.querySelector('.tt small') || h1); document.title = (tt ? tt.textContent.trim() + ' · ' : '') + 'اشرح لي';
     if (IS.after) try { await IS.after(main); } catch (e) { if (window.console) console.error(e); }
-    IS.balance(); IS.evenRows();
+    IS.balance(); IS.evenRows(); IS.fileUI();
   };
   /* a side column much shorter than its main column becomes a row of cards above it (owner, 18 Nov 2026: no empty spaces) */
   IS.balance = function () { if (window.innerWidth < 1180) return; IS.$$('#main .cols').forEach(function (c) {
     if (c.classList.contains('cflow')) return; var a = c.querySelector(':scope>.aside'), m = c.querySelector(':scope>.main'); if (!a || !m || c.querySelector(':scope>.filt')) return;
     c.classList.toggle('flat', m.offsetHeight - a.offsetHeight > 240); }); };
   /* rows of cards are always even: 8 badges are 4 + 4, never 7 + 1 with the last card stretched across the row (owner, 18 Nov 2026) */
-  var EVEN = { '.badges': 150, '.tiles': 170, '.stp': 250, '.tools': 110, '.spadm': 200, '.rtiles': 190, '.ptiles': 150, '.kgrid': 190, '.rolecards': 230, '.qa': 130, '.sopts': 92, '.offers': 190, '.rkinds': 150, '.hsn': 120 };
+  var EVEN = { '.badges': 150, '.tiles': 170, '.stp': 250, '.tools': 110, '.spadm': 200, '.rtiles': 190, '.ptiles': 150, '.kgrid': 150, '.rolecards': 230, '.qa': 130, '.sopts': 92, '.offers': 190, '.rkinds': 150, '.hsn': 120 };
   IS.evenRows = function () { Object.keys(EVEN).forEach(function (sel) { Array.prototype.forEach.call(document.querySelectorAll('#main ' + sel), function (c) {
     var n = c.children.length, W = c.clientWidth; if (!n || !W) return; var g = parseFloat(getComputedStyle(c).columnGap) || 12, max = Math.max(1, Math.floor((W + g) / (EVEN[sel] + g)));
     var cols = Math.min(n, max), rows = Math.ceil(n / cols); cols = Math.ceil(n / rows);
     c.style.setProperty('display', 'grid', 'important'); c.style.gridTemplateColumns = 'repeat(' + cols + ',minmax(0,1fr))'; }); }); };
+  /* file boxes in the app's language (owner, 18 Nov 2026 page review: the browser wrote "Choose File · No file chosen" in English) */
+  IS.fileUI = function (root) { IS.$$('input[type=file]:not([data-fui]):not([hidden])', root || document).forEach(function (i) {
+    i.setAttribute('data-fui', '1'); var w = document.createElement('span'); w.className = 'fui';
+    w.innerHTML = '<span class="btn sm pri fub">' + IS.ic('upload') + IS.esc(i.multiple ? A('اختر ملفات', 'Choose files') : A('اختر ملفًا', 'Choose a file')) + '</span><span class="fun">' + IS.esc(A('لم يُختر ملف بعد', 'No file chosen yet')) + '</span>';
+    i.parentNode.insertBefore(w, i); w.appendChild(i);
+    i.addEventListener('change', function () { var n = w.querySelector('.fun'), f = i.files; n.textContent = f && f.length ? (f.length > 1 ? f.length + ' ' + A('ملفات', 'files') : f[0].name) : A('لم يُختر ملف بعد', 'No file chosen yet'); w.classList.toggle('has', !!(f && f.length)); }); }); };
+  new MutationObserver(function () { if (document.querySelector('input[type=file]:not([data-fui]):not([hidden])')) IS.fileUI(); }).observe(document.body, { childList: true, subtree: true });
   window.addEventListener('resize', function () { clearTimeout(IS._bt); IS._bt = setTimeout(function () { IS.balance(); IS.evenRows(); }, 200); });
   /* last copy of each page this account opened (up to 25 pages, ~2.5 MB), shown without internet; cleared on sign-out */
   function pageSave(key, html) { if (html.length > 300000) return; try { var ix = JSON.parse(localStorage.getItem('ish-pgx') || '[]').filter(function (k) { return k !== key; }); ix.unshift(key);
@@ -311,6 +318,8 @@
   IS.ACT = IS.ACT || {}; IS.ACT.retry = function () { IS.route(); };
   /* back online: the page that could not open opens by itself */
   window.addEventListener('online', function () { if (IS.OFFPAGE) setTimeout(function () { IS.loadMe().then(function () { IS.route(); }); }, 800); });
+  /* a name without its own title, so «د.» / Dr. is never written twice */
+  IS.drName = function (n) { return String(n || '').replace(/^\s*(د\.|دكتور|دكتورة|Dr\.?)\s*/i, ''); };
   IS.offEmpty = function () { return IS.empty('offline', A('لا يوجد اتصال بالإنترنت', 'No internet connection'), A('هذه الصفحة تحتاج إلى الإنترنت. ما نزّلته داخل المنصة يعمل دون اتصال.', 'This page needs the internet. What you downloaded inside the platform works offline.'), '<a class="btn pri" href="#downloads">' + IS.ic('download') + IS.esc(A('افتح تنزيلاتي', 'Open my downloads')) + '</a>'); };
   IS.refresh = function () { IS.keepScroll = true; return IS.route(); };
   function authGate() {
@@ -474,7 +483,7 @@
     try { await DB.emailVerify({ email: PEND.email, code: d.code }); } catch (e) { return authMsg(A('الرمز غير صحيح أو انتهت صلاحيته.', 'The code is wrong or has expired.')); }
     if (!PEND.google) try { await DB.setOwnPassword(PEND.reset ? d.pass : PEND.pass); } catch (e) { return authMsg(A('تعذّر حفظ كلمة المرور: ', 'Could not save the password: ') + e.message); }
     var k = PEND.kind, reset = PEND.reset; PEND = null; IS.closeSheet(); await IS.loadMe();
-    IS.toast(reset ? A('حُفظت كلمة المرور الجديدة', 'The new password is saved') : A('تم تأكيد بريدك. مرحبًا د. ', 'Your email is confirmed. Welcome, Dr. ') + (IS.ME && !reset ? IS.ME.name : ''));
+    IS.toast(reset ? A('حُفظت كلمة المرور الجديدة', 'The new password is saved') : A('تم تأكيد بريدك. مرحبًا د. ', 'Your email is confirmed. Welcome, Dr. ') + (IS.ME && !reset ? IS.drName(IS.ME.name) : ''));
     if (k === 'lecturer') IS.go('studio-apply'); else IS.route();
   };
   IS.SUB.esignin = async function (d) {
@@ -490,7 +499,7 @@
     if (d.pass !== d.pass2) return authMsg(A('كلمتا المرور غير متطابقتين.', 'The passwords do not match.'));
     if ((d.pass || '').length < 8) return authMsg(A('كلمة المرور 8 أحرف على الأقل.', 'The password needs at least 8 characters.'));
     try { await DB.signUp({ name: d.name, phone: d.phone, pass: d.pass, email: '' }); } catch (e) { return authMsg(e.message === 'exists' ? A('هذا الرقم مسجّل من قبل: سجّل الدخول.', 'This number is already registered: sign in.') : A('تعذّر إنشاء الحساب: ', 'Could not create the account: ') + e.message); }
-    IS.closeSheet(); await IS.loadMe(); IS.toast(A('مرحبًا د. ', 'Welcome, Dr. ') + (IS.ME ? IS.ME.name : ''));
+    IS.closeSheet(); await IS.loadMe(); IS.toast(A('مرحبًا د. ', 'Welcome, Dr. ') + (IS.ME ? IS.drName(IS.ME.name) : ''));
     if (d.kind === 'lecturer') IS.go('studio-apply'); else IS.route();
   };
   IS.SUB.signin = async function (d) {

@@ -319,3 +319,10 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   greeting when an account has 2+ roles, and at the top of the More sheet. The studio switch (side menu, More) appears only for approved
   lecturers. Approved lecturers see "Lecturer studio / Open the studio" instead of "Join as lecturer", and Home "Teach" becomes "My studio".
 
+- **Phone page review, continued (18 Nov 2026, after the other account hit its limit mid-review):** welcome message no longer writes «د.»
+  twice (`IS.drName` strips a title already in the name); My Library title is English-big like every page and its tabs are a 3-a-row grid on
+  phones; Profile shows the real role (e.g. مالك المنصة) instead of «طالب طب»; Support request types 2 a row on phones; My downloads
+  storage line reads the right way round in Arabic and an empty list shows 0 KB; every visible file box uses the app's own button and
+  language (`IS.fileUI`, also for boxes added later; hidden pickers such as the profile photo are left alone). Test (preview copy with an
+  empty config.js served on a port): `PORT=8821 node tools/ishrah/phone.js "<pages>" <shots dir>` lists text cut off, things wider than the
+  screen and doubled greetings for each page.

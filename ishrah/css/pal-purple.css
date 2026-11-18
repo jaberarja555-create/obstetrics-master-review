@@ -2054,3 +2054,12 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 /* "Apply" button on the dark join card: gold, never dark text on blue */
 .join .btn,.join .btn.pri{background:linear-gradient(180deg,#ecc86e,#d4a63a)!important;color:#1a1405!important;border-color:#d4a63a!important}
 @media (max-width:640px){.lhh .roles{flex-wrap:nowrap;gap:4px;grid-column:1/-1}.lhh .roles .rl{font-size:11px;padding:3px 8px;gap:3px}.lhh .roles .rl .ico{width:13px;height:13px}}
+/* My Library tabs on phones: an even grid of 3 a row (they ran off the side) */
+@media (max-width:640px){.ltabs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;overflow:visible!important}.ltabs .lt{min-width:0!important;padding:10px 4px}.ltabs .lt b{font-size:13px}}
+
+/* file boxes: the app's own button and the chosen file's name */
+.fui{position:relative;display:flex;align-items:center;gap:10px;min-width:0;padding:8px;border:1.5px dashed var(--bd2);border-radius:14px;background:var(--sf2)}
+.fui>input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;margin:0;padding:0;border:0}
+.fui .fub{flex:none;pointer-events:none}.fui .fub .ico{width:16px;height:16px}
+.fui .fun{flex:1;min-width:0;font-size:13px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fui.has{border-style:solid;border-color:var(--sky)}.fui.has .fun{color:var(--tx);font-weight:700}
