@@ -663,9 +663,9 @@
       A('السيرة الذاتية (CV)', 'Curriculum vitae (CV)'), A('الشهادات والدورات ذات الصلة (اختياري)', 'Relevant certificates and courses (optional)'), A('عينة من المحتوى التعليمي (محاضرة مسجلة أو عرض)', 'A sample of your teaching (a recorded lecture or slides)'), A('خطة الكورس المقترح (العنوان، الأهداف، المحتوى)', 'Plan of the proposed course (title, aims, content)')].map(function (x) { return '<li>' + ic('checkc') + esc(x) + '</li>'; }).join('') + '</ul>';
   };
   IS.appSteps = function (ap) {
-    var st = !ap ? 0 : ap.status === 'pending' ? 1 : ap.status === 'approved' ? 3 : 2;
+    var st = !ap ? 0 : ap.status === 'pending' || ap.status === 'changes' ? 1 : ap.status === 'approved' ? 3 : 2;
     var steps = [[A('تقديم الطلب', 'Request sent'), ap ? A('تم إرسال الطلب بنجاح', 'Your request was sent') + ' · ' + IS.date(ap.created_at) : A('لم تقدّم طلبًا بعد', 'Not sent yet')],
-      [A('قيد المراجعة', 'Under review'), A('مراجعة من قبل فريق المنصة', 'Reviewed by the platform team')],
+      ap && ap.status === 'changes' ? [A('مطلوب تعديل', 'Changes requested'), ap.note || A('عدّل طلبك وأرسله مرة أخرى.', 'Update your request and send it again.')] : [A('قيد المراجعة', 'Under review'), A('مراجعة من قبل فريق المنصة', 'Reviewed by the platform team')],
       [ap && ap.status === 'rejected' ? A('لم يُقبل الطلب', 'Not accepted') : A('الموافقة', 'Approval'), ap && ap.status === 'rejected' ? (ap.note || A('يمكنك التقديم مرة أخرى.', 'You can apply again.')) : A('سيصلك إشعار بالنتيجة', 'You will be notified of the result')]];
     return '<ol class="tl">' + steps.map(function (s, i) { var cls = i < st ? 'ok' : i === st ? 'cur' : ''; if (i === 2 && ap && ap.status === 'rejected') cls = 'bad'; return '<li class="' + cls + '"><span>' + ic(cls === 'ok' ? 'check' : cls === 'bad' ? 'x' : cls === 'cur' ? 'clock' : 'chev') + '</span><div><b>' + esc(s[0]) + '</b><small>' + esc(s[1]) + '</small></div></li>'; }).join('') + '</ol>';
   };

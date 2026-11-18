@@ -2029,3 +2029,4 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 :root[data-safe~="pics"] .ban{background:var(--deep)!important}
 :root[data-safen]::before{content:"SAFE " attr(data-safen);position:absolute;top:4px;inset-inline-start:50%;z-index:95;background:#c0392b;color:#fff;font:800 11px/1 sans-serif;padding:5px 8px;border-radius:8px;pointer-events:none}
 .offcopy{margin:0 0 12px}
+.gsib{display:flex;justify-content:center;min-height:44px;margin-bottom:2px}.gsib iframe{margin:0 auto!important}

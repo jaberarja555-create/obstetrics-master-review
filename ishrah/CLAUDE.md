@@ -305,4 +305,13 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   control, security, studio-lesson, pay) is kept as its last HTML in localStorage (`ish-pg:<hash>`, index `ish-pgx`, 25 pages, 300 kB max each,
   tied to the account id); without internet that copy shows under a note "last saved copy"; pages never opened show the offline card.
   Sign-out clears them (`IS.clearCopies`).
+- **Google's own button (owner, 18 Nov 2026: students saw "Sign in to fglawgpusfbgkokpnoej.supabase.co"):** with `ISH_CONFIG.googleClientId`
+  the sign-in sheet loads https://accounts.google.com/gsi/client and renders Google's button (`IS.gsiMount`, popup, FedCM); its ID token goes to
+  `sb.auth.signInWithIdToken` (`DB.googleToken`, raw nonce to Supabase, SHA-256 nonce to Google), so Google names ishrahli.org. If the script
+  fails, our button and the old redirect stay. Google Cloud client needs every site address as an Authorized JavaScript origin
+  (https://ishrahli.org, https://www.ishrahli.org, https://ishrah.pages.dev for previews).
+- **Request changes on a lecturer application (owner, 18 Nov 2026):** status `changes` + note (control-apps «Request changes», `IS.ACT.appchg`,
+  notification to the applicant); the applicant sees the notes on #studio-apply, edits and sends again («Send the updated request» → pending;
+  the reviewer sees «Updated after you asked: …» and gets a notification). Migration 009_app_changes.sql: update policy allows status
+  pending/changes; ish_guard lets the applicant move changes → pending only.
 

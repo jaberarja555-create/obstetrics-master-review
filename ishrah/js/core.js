@@ -191,7 +191,7 @@
       '<div class="bt"><span class="bi">' + ic(icon) + '</span><div><h1 tabindex="-1"' + (function () { var m = /<b[^>]*>([^<]*)<\/b>/.exec(title), n = (m ? m[1] : String(title).replace(/<[^>]+>/g, '')).length; return n > 30 ? ' class="tl3"' : n > 20 ? ' class="tl2"' : ''; })() + '>' + title + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div></div>' + (extra || '') + '</section>'; };
   IS.stars = function (v) { var h = ''; for (var i = 1; i <= 5; i++) h += ic('star', i <= Math.round(v) ? 'on' : ''); return '<span class="stars">' + h + '</span>'; };
   IS.status = function (s) {
-    var m = { pending: ['قيد المراجعة', 'Pending', 'warn'], active: ['مفعّل', 'Active', 'ok'], approved: ['مقبول', 'Approved', 'ok'], rejected: ['مرفوض', 'Rejected', 'bad'], draft: ['مسودة', 'Draft', ''], review: ['قيد المراجعة', 'In review', 'warn'],
+    var m = { pending: ['قيد المراجعة', 'Pending', 'warn'], active: ['مفعّل', 'Active', 'ok'], approved: ['مقبول', 'Approved', 'ok'], rejected: ['مرفوض', 'Rejected', 'bad'], changes: ['مطلوب تعديل', 'Changes requested', 'warn'], draft: ['مسودة', 'Draft', ''], review: ['قيد المراجعة', 'In review', 'warn'],
       published: ['منشور', 'Published', 'ok'], hidden: ['مخفي', 'Hidden', 'bad'], blocked: ['موقوف', 'Blocked', 'bad'], open: ['مفتوح', 'Open', 'warn'], resolved: ['تمت المعالجة', 'Resolved', 'ok'], removed: ['محذوف', 'Removed', 'bad'] }[s] || [s, s, ''];
     return IS.chip(esc(A(m[0], m[1])), 'st ' + m[2]);
   };
@@ -207,7 +207,7 @@
     opt = opt || {}; var d = IS.$('#sheet'); if (!d) { d = document.createElement('div'); d.id = 'sheet'; document.body.appendChild(d);
       d.addEventListener('click', function (e) { if (e.target === d || e.target.closest('[data-close]')) IS.closeSheet(); }); }
     d.innerHTML = '<div class="dlg' + (opt.wide ? ' wide' : '') + '" role="dialog" aria-modal="true" aria-label="' + esc(title.replace(/<[^>]+>/g, '')) + '"><header><h2>' + title + '</h2><button type="button" class="ib" data-close aria-label="' + esc(A('إغلاق', 'Close')) + '">' + ic('x') + '</button></header><div class="shb">' + body + '</div></div>';
-    d.hidden = false; document.body.classList.add('noscroll'); var f = d.querySelector('input:not([type=hidden]),textarea,select'); if (f && !opt.nofocus) setTimeout(function () { try { f.focus(); } catch (e) {} }, 60);
+    d.hidden = false; document.body.classList.add('noscroll'); if (IS.gsiMount && d.querySelector('[data-act=google]')) IS.gsiMount(d); var f = d.querySelector('input:not([type=hidden]),textarea,select'); if (f && !opt.nofocus) setTimeout(function () { try { f.focus(); } catch (e) {} }, 60);
     return d.querySelector('.dlg');
   };
   IS.closeSheet = function () { var d = IS.$('#sheet'); if (d) { d.hidden = true; d.innerHTML = ''; } document.body.classList.remove('noscroll'); };
@@ -493,6 +493,30 @@
         '<form class="form" data-form="gpreview">' + fld('email', 'mail', A('بريد Gmail', 'Gmail address') + ' *', 'type="email" required autocomplete="email" dir="ltr" placeholder="name@gmail.com"') +
         '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic('send') + '<span>' + esc(A('أرسل الرمز', 'Send the code')) + '</span></button></form>'); return; }
     if (IS.AUTHKIND === 'lecturer') LS.set('afterlogin', 'studio-apply'); await DB.google(); if (!DB.live) { IS.closeSheet(); await IS.loadMe(); var a = LS.get('afterlogin', ''); LS.set('afterlogin', ''); if (a) IS.go(a); else IS.route(); } };
+  /* Google's own "Sign in with Google" button (owner, 18 Nov 2026: students saw the strange address fglawgpusfbgkokpnoej.supabase.co on
+     Google's page). The button runs on ishrahli.org, so Google names this site; its ID token goes to Supabase (signInWithIdToken).
+     If Google's script does not load, our button and the old redirect stay. */
+  var GSI = null;
+  IS.gsiMount = function (d) {
+    var cid = (window.ISH_CONFIG || {}).googleClientId; if (!DB.live || !cid || !DB.googleToken) return;
+    var b = d.querySelector('[data-act=google]'), box = document.createElement('div'); box.className = 'gsib'; b.parentNode.insertBefore(box, b);
+    function go() {
+      if (!window.google || !google.accounts || !google.accounts.id) return;
+      var raw = Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(16)), function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
+      crypto.subtle.digest('SHA-256', new TextEncoder().encode(raw)).then(function (hb) {
+        var hashed = Array.prototype.map.call(new Uint8Array(hb), function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
+        google.accounts.id.initialize({ client_id: cid, nonce: hashed, ux_mode: 'popup', itp_support: true, use_fedcm_for_button: true, callback: async function (resp) {
+          try { await DB.googleToken(resp.credential, raw); IS.closeSheet(); await IS.loadMe(); if (IS.mfaCheck) await IS.mfaCheck();
+            if (IS.AUTHKIND === 'lecturer' && !IS.LEC) IS.go('studio-apply'); else if (IS.team()) IS.go('control'); else IS.route(); }
+          catch (e) { var m = d.querySelector('#authMsg'); if (m) m.textContent = A('تعذّر الدخول بحساب Google: ', 'Google sign-in failed: ') + (e.message || ''); b.hidden = false; box.remove(); } } });
+        google.accounts.id.renderButton(box, { type: 'standard', theme: 'outline', size: 'large', shape: 'pill', text: 'continue_with', logo_alignment: 'center', locale: IS.lang === 'en' ? 'en' : 'ar', width: Math.min(400, Math.max(220, b.offsetWidth || 320)) });
+        setTimeout(function () { if (box.querySelector('iframe, div[role=button]')) b.hidden = true; else box.remove(); }, 1500);
+      });
+    }
+    if (window.google && window.google.accounts) return go();
+    if (!GSI) GSI = new Promise(function (ok, no) { var s = document.createElement('script'); s.src = 'https://accounts.google.com/gsi/client'; s.async = true; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
+    GSI.then(go, function () { GSI = null; box.remove(); });
+  };
   IS.ACT.logout = async function () { await DB.signOut(); try { localStorage.removeItem('ish-me'); IS.clearCopies(); } catch (e) {} IS.ME = null; IS.LEC = null; IS.go('home'); };
   IS.SUB.search = function (d) { IS.go('search/' + encodeURIComponent(d.q || '')); };
 

@@ -172,6 +172,7 @@
       onAuth: function (f) { listeners.push(f); },
       signUp: async function (o) { var r = await sb.auth.signUp({ email: phoneMail(o.phone), password: o.pass, options: { data: { name: o.name, phone: digits(o.phone), contact_email: o.email || '' } } }); if (r.error) throw new Error(/registered/i.test(r.error.message) ? 'exists' : r.error.message); return r.data.user && r.data.user.id; },
       signIn: async function (o) { var r = await sb.auth.signInWithPassword({ email: phoneMail(o.phone), password: o.pass }); if (r.error) throw new Error('bad'); return r.data.user.id; },
+      googleToken: async function (token, nonce) { var r = await sb.auth.signInWithIdToken({ provider: 'google', token: token, nonce: nonce }); if (r.error) throw r.error; UID = r.data.user.id; return UID; },
       google: async function () { await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } }); return null; },
       signOut: async function () { await sb.auth.signOut(); },
       authKind: async function () { var u = (await sb.auth.getUser()).data.user; return u && /@phone\.ishrah\.app$/.test(u.email || '') ? 'phone' : 'email'; },

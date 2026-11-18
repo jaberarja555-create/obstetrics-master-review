@@ -24,8 +24,9 @@
     var h = IS.banner(IS.T('التسجيل كمحاضر', 'Become a lecturer'), esc(A('قدّم طلبك للانضمام إلى فريق المحاضرين في اشرح لي', 'Apply to join the lecturers of Ishrah Li')), 'studio');
     h += '<p class="note">' + ic('book') + '<span>' + esc(A('قبل التقديم اقرأ معايير الفيديو والمحتوى وشروط القبول.', 'Before you apply, read the video and content standards and the acceptance terms.')) + ' <a class="link" href="#studio-guide">' + esc(A('دليل المحاضر', 'Lecturer guide')) + '</a></span></p>';
     h += '<div class="cols"><div class="main">';
+    if (ap && ap.status === 'changes') h += '<section class="box apchg"><h2>' + ic('pen') + IS.T('طلبك يحتاج إلى تعديل', 'Your request needs changes') + '</h2><p class="note warn">' + ic('chat') + '<span><b>' + esc(A('ملاحظات فريق المنصة: ', 'Notes from the platform team: ')) + '</b>' + esc(ap.note || '') + '</span></p><p>' + esc(A('عدّل ما طُلب في النموذج أدناه، ثم اضغط «إرسال الطلب بعد التعديل».', 'Change what was asked in the form below, then tap “Send the updated request”.')) + '</p></section>';
     if (ap && ap.status === 'pending') h += '<section class="box"><h2>' + ic('clock') + IS.T('طلبك قيد المراجعة', 'Your request is under review') + '</h2><p>' + esc(A('سيصلك إشعار عند صدور القرار. يمكنك تعديل الطلب أدناه حتى ذلك الحين.', 'You will be notified of the decision. You can edit the request below until then.')) + '</p></section>';
-    h += '<form class="box form" data-form="apply"><input type="hidden" name="id" value="' + esc(ap && ap.status === 'pending' ? ap.id : '') + '"><h2>' + ic('user') + IS.T('البيانات الأساسية', 'Basic details') + '</h2><div class="g2f">' +
+    h += '<form class="box form" data-form="apply"><input type="hidden" name="id" value="' + esc(ap && (ap.status === 'pending' || ap.status === 'changes') ? ap.id : '') + '"><h2>' + ic('user') + IS.T('البيانات الأساسية', 'Basic details') + '</h2><div class="g2f">' +
       '<label class="fl"><span>' + esc(A('الاسم كما يظهر للطلبة', 'Name shown to students')) + ' *</span><input name="name" required value="' + esc((ap && ap.name) || ('د. ' + (m.name || '').replace(/^د\.\s*/, ''))) + '"></label>' +
       '<label class="fl"><span>' + esc(A('رقم الهاتف', 'Phone')) + ' *</span><input name="phone" required dir="ltr" value="' + esc((ap && ap.phone) || m.phone || '') + '"></label>' +
       '<label class="fl"><span>' + esc(A('البريد الإلكتروني', 'Email')) + '</span><input name="email" type="email" dir="ltr" value="' + esc((ap && ap.email) || m.email || '') + '"></label>' +
@@ -40,7 +41,7 @@
       '<h2>' + ic('layers') + IS.T('خطة الكورس المقترح', 'Plan of the proposed course') + '</h2><label class="fl"><span>' + esc(A('العنوان', 'Title')) + ' *</span><input name="plan_title" required value="' + esc((ap && ap.plan_title) || '') + '"></label>' +
       '<label class="fl"><span>' + esc(A('الأهداف والمحتوى', 'Aims and content')) + ' *</span><textarea name="plan" rows="4" required>' + esc((ap && ap.plan) || '') + '</textarea></label>' +
       '<label class="chk"><input type="checkbox" required><span>' + esc(A('أتعهد بصحة المحتوى العلمي وبامتلاكي حقوق ما أنشره، وأوافق على شروط المنصة.', 'I confirm the accuracy of my content and my right to publish it, and accept the platform terms.')) + '</span></label>' +
-      '<button class="btn pri">' + ic('send') + esc(ap && ap.status === 'pending' ? A('تحديث الطلب', 'Update request') : A('تقديم طلب محاضر', 'Send lecturer request')) + '</button></form></div>' +
+      '<button class="btn pri">' + ic('send') + esc(ap && ap.status === 'changes' ? A('إرسال الطلب بعد التعديل', 'Send the updated request') : ap && ap.status === 'pending' ? A('تحديث الطلب', 'Update request') : A('تقديم طلب محاضر', 'Send lecturer request')) + '</button></form></div>' +
       '<aside class="aside"><section class="box"><h2>' + ic('cert') + IS.T('حالة طلب المحاضر', 'Request status') + '</h2>' + IS.appSteps(ap) + '</section><section class="box"><h2>' + ic('file') + IS.T('متطلبات التسجيل كمحاضر', 'Requirements') + '</h2>' + IS.lecReqs() + '</section>' +
       '<section class="box"><h2>' + ic('wallet') + IS.T('كيف تربح؟', 'How you earn') + '</h2><p>' + esc(A('تحصل على نسبة من سعر كل التحاق بكورساتك (النسبة الافتراضية ', 'You receive a share of every enrolment in your courses (default share ')) + N((IS.SET.default_share || 70) + '%') + esc(A(')، وترى رصيدك في الاستوديو ويحوّل لك فريق المالية.', '); you see your balance in the studio and the finance team pays you.')) + '</p></section></aside></div>';
     return h;
@@ -51,7 +52,9 @@
     if (sf && sf.size > 50 * 1048576) { IS.toast(A('الملف أكبر من 50 ميغابايت؛ ضع رابطًا بدلًا منه.', 'The file is over 50 MB; add a link instead.')); return; }
     if (sf) row.sample_file = await DB.upload('apps', sf);
     if (f.cv.files[0]) row.cv = await DB.upload('apps', f.cv.files[0]); if (f.certs.files[0]) row.certs = await DB.upload('apps', f.certs.files[0]);
+    var was = d.id ? await DB.one('lecturer_apps', d.id).catch(function () { return null; }) : null;
     if (d.id) await DB.upd('lecturer_apps', d.id, row); else await DB.ins('lecturer_apps', row);
+    if (was && was.status === 'changes' && was.decided_by) IS.notify(was.decided_by, A('عدّل المحاضر طلبه', 'An applicant updated their request'), row.name, '#control-apps');
     IS.toast(A('أُرسل طلبك إلى فريق المنصة', 'Your request was sent to the platform team')); IS.refresh();
   };
 
