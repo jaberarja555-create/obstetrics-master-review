@@ -344,7 +344,7 @@
   function navItems(area) { if (area === 'control' && IS.ctrlItems) return IS.ctrlItems(); return NAV[area].filter(function (n) { return !n[4] || IS.can(n[4]); }); }
   IS.chrome = function (page) {
     var me = IS.ME, area = IS.area;
-    var areaSw = '<div class="areas">' + [['student', 'home', A('المنصة', 'Platform'), true], ['studio', 'studio', A('استوديو المحاضر', 'Lecturer studio'), !!me], ['control', 'crown', A('التحكم', 'Control'), IS.team()]].filter(function (x) { return x[3]; }).map(function (x) {
+    var areaSw = '<div class="areas">' + [['student', 'home', A('المنصة', 'Platform'), true], ['studio', 'studio', A('استوديو المحاضر', 'Lecturer studio'), !!IS.LEC], ['control', 'crown', A('التحكم', 'Control'), IS.team()]].filter(function (x) { return x[3]; }).map(function (x) {
       return '<a href="#' + (x[0] === 'student' ? 'home' : x[0]) + '" class="' + (area === x[0] ? 'on' : '') + '">' + ic(x[1]) + '<span>' + esc(x[2]) + '</span></a>'; }).join('') + '</div>';
     IS.$('#top').innerHTML = '<div class="tin"><a class="brand" href="#home"><img src="' + IS.logo() + '" alt="" width="46" height="40"><span><b>اشرح لي</b><small>' + esc(area === 'control' ? A('تطبيق التحكم', 'Control app') : area === 'studio' ? A('استوديو المحاضر', 'Lecturer studio') : A('منصة تعليمية متكاملة لطلاب الكليات الصحية', 'Learning platform for health sciences students')) + '</small></span></a>' +
       (area === 'student' ? '<form class="tsearch" role="search" data-form="search"><span>' + ic('search') + '</span><input name="q" type="search" autocomplete="off" placeholder="' + esc(A('ابحث عن كورس أو مادة أو محاضر…', 'Search courses, subjects, lecturers…')) + '" aria-label="' + esc(A('بحث', 'Search')) + '"></form>' : '<span class="tsp"></span>') +
@@ -366,11 +366,22 @@
     try { var seen = LS.get('seen-' + IS.ME.id, 0), n = await DB.q('notices', { order: ['created_at', false], limit: 40 });
       n = n.filter(function (x) { return (!x.user_id || x.user_id === IS.ME.id) && new Date(x.created_at).getTime() > seen; }); var b = IS.$('#bellN'); if (b) { b.hidden = !n.length; b.textContent = n.length > 9 ? '9+' : n.length; } } catch (e) {}
   };
+  /* what this account is (owner, 18 Nov 2026: "the app should identify someone as admin or lecturer or student, or 2 things"):
+     every account is a student; an approved lecturer is also a lecturer; a team member also has his team role. Each role opens its space. */
+  IS.myRoles = function () {
+    if (!IS.ME) return []; var out = [], t = (IS.ME.team || []).filter(function (x) { return x.indexOf('p:') !== 0; })[0];
+    if (t) { var r = IS.ROLES.filter(function (x) { return x[0] === t; })[0]; out.push(['control', 'crown', r ? r[1] : A('فريق المنصة', 'Platform team'), r ? String(r[2]).replace(/\s*\(.*\)\s*/, '') : 'Team', 'adm']); }
+    if (IS.LEC) out.push(['studio', 'studio', 'محاضر', 'Lecturer', 'lec']);
+    out.push(['home', 'cert', 'طالب', 'Student', 'stu']);
+    return out;
+  };
+  IS.roleChips = function (cls) { var r = IS.myRoles(); if (!r.length) return '';
+    return '<div class="roles' + (cls ? ' ' + cls : '') + '">' + r.map(function (x) { var on = (x[0] === 'home' ? 'student' : x[0]) === IS.area; return '<a href="#' + x[0] + '" class="rl ' + x[4] + (on ? ' on' : '') + '">' + ic(x[1]) + '<span>' + esc(A(x[2], x[3])) + '</span></a>'; }).join('') + '</div>'; };
   IS.ACT.more = function () {
     var items = navItems(IS.area), extra = IS.area === 'student' ? [['pick', 'grid', 'تغيير التخصص', 'Change speciality'], ['notifications', 'bell', 'الإشعارات', 'Notifications'], ['account', 'user', 'حسابي', 'My account'], ['search', 'search', 'البحث', 'Search']] : [['security', 'shield', 'الأمان والتحقق', 'Security']].concat(IS.area === 'control' ? [['settings', 'gear', 'الإعدادات', 'Settings']] : []);
-    var areas = [['home', 'home', 'المنصة', 'Platform', true], ['studio', 'studio', 'استوديو المحاضر', 'Lecturer studio', !!IS.ME], ['control', 'crown', 'التحكم', 'Control', IS.team()]].filter(function (x) { return x[4]; });
+    var areas = [['home', 'home', 'المنصة', 'Platform', true], ['studio', 'studio', 'استوديو المحاضر', 'Lecturer studio', !!IS.LEC], ['control', 'crown', 'التحكم', 'Control', IS.team()]].filter(function (x) { return x[4]; });
     var ms = IS.area === 'student' && IS.mySpec();
-    IS.sheet(A('المزيد', 'More'), (ms ? '<a class="myspec big" href="#pick"' + (ms.img ? ' style="--sp:url(' + IS.U(ms.img) + ')"' : '') + '><span class="msi">' + ic(ms.icon) + '</span><span class="msn"><b lang="en">' + esc(ms.en) + '</b><small>' + esc(A('تخصصك', 'Your speciality')) + '</small></span><em>' + esc(A('تغيير', 'Change')) + '</em></a>' : '') + '<div class="mgrid">' + items.concat(extra).map(function (n) { return '<a href="#' + n[0] + '">' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') + '</div>' +
+    IS.sheet(A('المزيد', 'More'), (IS.ME ? '<div class="mrole"><small>' + esc(A('حسابك:', 'Your account:')) + '</small>' + IS.roleChips() + '</div>' : '') + (ms ? '<a class="myspec big" href="#pick"' + (ms.img ? ' style="--sp:url(' + IS.U(ms.img) + ')"' : '') + '><span class="msi">' + ic(ms.icon) + '</span><span class="msn"><b lang="en">' + esc(ms.en) + '</b><small>' + esc(A('تخصصك', 'Your speciality')) + '</small></span><em>' + esc(A('تغيير', 'Change')) + '</em></a>' : '') + '<div class="mgrid">' + items.concat(extra).map(function (n) { return '<a href="#' + n[0] + '">' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') + '</div>' +
       (areas.length > 1 ? '<h3 class="sub">' + esc(A('الانتقال إلى', 'Switch to')) + '</h3><div class="mgrid">' + areas.map(function (n) { return '<a href="#' + n[0] + '" class="alt">' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') + '</div>' : ''), { nofocus: 1 });
   };
   IS.ACT.lang = function () { IS.lang = IS.lang === 'ar' ? 'en' : 'ar'; LS.set('lang', IS.lang); applyLang(); IS.route(); };
