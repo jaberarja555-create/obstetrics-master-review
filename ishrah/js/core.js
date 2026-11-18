@@ -248,13 +248,19 @@
     var h1 = main.querySelector('h1'); if (h1) try { h1.focus({ preventScroll: true }); } catch (e) {}
     var tt = h1 && (h1.querySelector('.tt small') || h1); document.title = (tt ? tt.textContent.trim() + ' · ' : '') + 'اشرح لي';
     if (IS.after) try { await IS.after(main); } catch (e) { if (window.console) console.error(e); }
-    IS.balance();
+    IS.balance(); IS.evenRows();
   };
   /* a side column much shorter than its main column becomes a row of cards above it (owner, 18 Nov 2026: no empty spaces) */
   IS.balance = function () { if (window.innerWidth < 1180) return; IS.$$('#main .cols').forEach(function (c) {
     if (c.classList.contains('cflow')) return; var a = c.querySelector(':scope>.aside'), m = c.querySelector(':scope>.main'); if (!a || !m || c.querySelector(':scope>.filt')) return;
     c.classList.toggle('flat', m.offsetHeight - a.offsetHeight > 240); }); };
-  window.addEventListener('resize', function () { clearTimeout(IS._bt); IS._bt = setTimeout(IS.balance, 200); });
+  /* rows of cards are always even: 8 badges are 4 + 4, never 7 + 1 with the last card stretched across the row (owner, 18 Nov 2026) */
+  var EVEN = { '.badges': 150, '.tiles': 170, '.stp': 250, '.tools': 110, '.spadm': 200, '.rtiles': 190, '.ptiles': 150, '.kgrid': 190, '.rolecards': 230, '.qa': 130, '.sopts': 92, '.offers': 190, '.rkinds': 150, '.hsn': 120 };
+  IS.evenRows = function () { Object.keys(EVEN).forEach(function (sel) { Array.prototype.forEach.call(document.querySelectorAll('#main ' + sel), function (c) {
+    var n = c.children.length, W = c.clientWidth; if (!n || !W) return; var g = parseFloat(getComputedStyle(c).columnGap) || 12, max = Math.max(1, Math.floor((W + g) / (EVEN[sel] + g)));
+    var cols = Math.min(n, max), rows = Math.ceil(n / cols); cols = Math.ceil(n / rows);
+    c.style.setProperty('display', 'grid', 'important'); c.style.gridTemplateColumns = 'repeat(' + cols + ',minmax(0,1fr))'; }); }); };
+  window.addEventListener('resize', function () { clearTimeout(IS._bt); IS._bt = setTimeout(function () { IS.balance(); IS.evenRows(); }, 200); });
   IS.refresh = function () { IS.keepScroll = true; return IS.route(); };
   function authGate() {
     return '<div class="page"><div class="gate">' + ic('lock') + '<h1 tabindex="-1">' + IS.T('سجّل الدخول للمتابعة', 'Sign in to continue') + '</h1><p>' + esc(A('أنشئ حسابًا مجانيًا خلال دقيقة، أو ادخل بحسابك.', 'Create a free account in a minute, or sign in.')) + '</p>' +
@@ -316,6 +322,12 @@
   function applyTheme() { var t = LS.get('theme', 'light'); if (t === 'auto') t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t);
     document.documentElement.setAttribute('data-fs', LS.get('fs', 'n')); }
   IS.applyTheme = applyTheme;
+  /* colour of the app (owner, 18 Nov 2026): one stylesheet per colour, made by tools/ishrah/palettes.py */
+  IS.PALS = [['blue', '#0d3a7d', 'أزرق ملكي', 'Royal blue'], ['teal', '#0b5f63', 'فيروزي', 'Teal'], ['green', '#0f5a3a', 'أخضر', 'Green'],
+    ['purple', '#3f2a7d', 'بنفسجي', 'Purple'], ['maroon', '#6e1d36', 'عنابي', 'Maroon'], ['graphite', '#2c3340', 'رمادي داكن', 'Graphite']];
+  IS.setPal = function (p) { LS.set('pal', p); var l = document.getElementById('ishcss'), v = (l && /v=(\d+)/.exec(l.getAttribute('href')) || [0, '25'])[1];
+    if (l) l.setAttribute('href', 'css/' + (p === 'blue' ? 'app' : 'pal-' + p) + '.css?v=' + v);
+    var m = document.querySelector('meta[name=theme-color]'), c = IS.PALS.filter(function (x) { return x[0] === p; })[0]; if (m && c) m.setAttribute('content', c[1]); };
   IS.ACT.theme = function () { IS.setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); IS.chrome(document.body.getAttribute('data-page')); };
   function applyLang() { document.documentElement.lang = IS.lang; document.documentElement.dir = IS.lang === 'ar' ? 'rtl' : 'ltr'; }
   applyLang();

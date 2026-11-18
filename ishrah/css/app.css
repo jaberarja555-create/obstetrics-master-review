@@ -1281,3 +1281,108 @@ body[data-area="control"]{--deep:#0a2a5c;--deep2:#061a3d;--pri:#0d3a7d;--pri2:#0
   .spcs>.spc .spt .btn{min-height:32px;font-size:12.5px;padding:0 12px}
 }
 .subj .sjt{display:flex;flex-direction:column;align-items:center;gap:2px}
+
+/* colour choices in Settings (owner, 18 Nov 2026) */
+.pals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.pal{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1.5px solid var(--bd2);background:var(--sf);color:var(--tx);cursor:pointer;font:700 13.5px/1.2 var(--font);text-align:start}
+.pal i{flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--pc),color-mix(in srgb,var(--pc) 55%,#fff));box-shadow:inset 0 0 0 2px rgba(255,255,255,.6),0 0 0 1px var(--bd2)}
+.pal.on{border-color:var(--pri);box-shadow:0 0 0 3px var(--tint)}
+.pal.on i::after{content:"";display:block;width:9px;height:15px;margin:5px auto 0;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
+@media (max-width:520px){.pals{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ---------- Home on one screen (owner, 18 Nov 2026): welcome band, five speciality picture buttons, buttons for every place ---------- */
+body[data-page="home"] main{padding-bottom:16px}
+@media (max-width:1023px){body[data-page="home"] main{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+.lh{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:16px;min-height:calc(100dvh - 66px - 22px - 22px)}
+@media (max-width:1023px){.lh{gap:12px;min-height:calc(100dvh - 66px - 16px - 84px - env(safe-area-inset-bottom,0px))}}
+/* welcome band */
+.lhh{position:relative;overflow:hidden;display:flex;align-items:center;gap:18px;padding:16px 22px;border-radius:22px;color:#fff;
+  background:radial-gradient(120% 160% at 85% 0,#0d3a7d 0,#0a2a5c 45%,#061a3d 100%);border:1px solid rgba(63,180,255,.4);box-shadow:var(--lift)}
+.lhh::after{content:"";position:absolute;inset-block:0;inset-inline-end:0;width:38%;background:url(../img/hero_gold.webp) center/cover;opacity:.32;
+  -webkit-mask-image:linear-gradient(270deg,#000 30%,transparent);mask-image:linear-gradient(270deg,#000 30%,transparent);pointer-events:none}
+[dir="ltr"] .lhh::after{-webkit-mask-image:linear-gradient(90deg,#000 30%,transparent);mask-image:linear-gradient(90deg,#000 30%,transparent)}
+.lhh>*{position:relative;z-index:1}
+.lhl{flex:none;width:96px;height:96px;object-fit:contain;border-radius:18px;filter:drop-shadow(0 6px 16px rgba(0,0,0,.4))}
+.lht{flex:0 1 auto;min-width:0}
+.lht p{font-size:14px;color:#ffe7a6;font-weight:700}
+.lht h1{font-size:clamp(28px,3.2vw,42px);font-weight:900;line-height:1.1;color:#fff;margin:2px 0}
+.lht small{display:block;font-size:13.5px;color:#cfe1fb;font-weight:600}
+.lhx{flex:1;display:flex;flex-direction:column;align-items:stretch;gap:10px;max-width:520px;margin-inline-start:auto}
+.lhx .hsearch{margin:0;max-width:none;width:100%}
+.lhx .row{gap:8px;justify-content:flex-start}
+.lhx .btn.lt{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35)}
+/* five specialities: picture buttons that share the free height */
+.lhs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;min-height:0}
+.lsp{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;min-height:170px;padding:14px;border-radius:20px;color:#fff;
+  background:linear-gradient(180deg,rgba(6,26,61,0) 25%,rgba(6,26,61,.55) 55%,rgba(6,26,61,.92) 100%),var(--im) center/cover,var(--deep);
+  border:1px solid rgba(63,180,255,.35);box-shadow:var(--card);transition:transform .15s,box-shadow .15s}
+.lsp:hover{transform:translateY(-3px);box-shadow:var(--lift)}
+.lsp>i{position:absolute;top:12px;inset-inline-start:12px;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:#0d3a7d;color:#fff;border:1.5px solid #3fb4ff}
+.lsp>i .ico{width:22px;height:22px}
+.lst{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+.lst b{font-family:var(--en);font-size:19px;font-weight:800;color:#fff}
+.lst small{font-size:12.5px;font-weight:700;color:#dbeaff;margin-top:2px}
+.lst em{font-style:normal;font-size:12px;font-weight:700;color:#ffe7a6;margin-top:6px}
+.lsp .go{position:absolute;bottom:14px;inset-inline-end:14px;width:30px;height:30px;padding:6px;border-radius:50%;background:rgba(255,255,255,.18);color:#fff}
+/* buttons for every place */
+.lhq{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:12px}
+.lhq a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:14px 6px;border-radius:18px;background:var(--sf);border:1px solid var(--bd);box-shadow:var(--card);text-align:center;color:var(--tx);transition:transform .15s,box-shadow .15s,border-color .15s}
+.lhq a:hover{transform:translateY(-2px);box-shadow:var(--lift);border-color:var(--sky)}
+.lhq i{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--tint);color:var(--pri)}
+.lhq i .ico{width:24px;height:24px}
+.lhq .nl{align-items:center}.lhq .nl b{font-size:14px;color:var(--deep)}.lhq .nl small{font-size:11.5px;color:var(--sub);opacity:1}
+:root[data-theme="dark"] .lhq .nl b{color:#fff}
+/* tablets */
+@media (max-width:1100px){.lhq{grid-template-columns:repeat(4,minmax(0,1fr))}.lhq a{flex-direction:row;justify-content:flex-start;padding:10px 12px;text-align:start}.lhq .nl{align-items:flex-start}.lhq i{flex:none;width:40px;height:40px}}
+@media (max-width:900px){.lhs{grid-template-columns:repeat(6,minmax(0,1fr))}.lsp{grid-column:span 2;min-height:120px}.lsp:nth-child(-n+2){grid-column:span 3}.lhl{width:72px;height:72px}.lhh{flex-wrap:wrap}.lhx{flex-basis:100%;max-width:none}}
+/* phones */
+@media (max-width:640px){
+  .lhh{padding:12px 14px;gap:10px 12px;border-radius:18px}
+  .lhl{width:52px;height:52px;border-radius:12px}
+  .lht p{font-size:12.5px}.lht h1{font-size:26px}.lht small{display:none}
+  .lhx .row{display:none}
+  .lhx .hsearch input{height:38px}
+  .lhs{grid-template-columns:1fr 1fr;gap:10px}
+  .lsp,.lsp:nth-child(-n+2){grid-column:auto;min-height:76px;padding:10px 12px;border-radius:16px}
+  .lsp:first-child{grid-column:1/-1}
+  .lsp>i{top:8px;inset-inline-start:8px;width:32px;height:32px;border-radius:9px}.lsp>i .ico{width:18px;height:18px}
+  .lst b{font-size:16px}.lst small{font-size:11.5px}.lst em{display:none}
+  .lsp .go{display:none}
+  .lhq{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+  .lhq a{flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:5px;padding:9px 4px;border-radius:14px}
+  .lhq .nl{align-items:center}
+  .lhq i{width:36px;height:36px;border-radius:11px}.lhq i .ico{width:20px;height:20px}
+  .lhq .nl b{font-size:12px;line-height:1.15}.lhq .nl small{font-size:10.5px}
+}
+/* short laptop screens (768 px high or less): the band and buttons get slimmer so nothing needs scrolling */
+@media (min-width:1024px) and (max-height:780px){.lhh{padding:10px 18px}.lhl{width:70px;height:70px}.lht h1{font-size:32px}.lhq a{padding:9px 6px;gap:5px}.lhq i{width:38px;height:38px}.lsp{min-height:130px}}
+/* small or short phones: slimmer still, so Home stays on one screen */
+@media (max-width:640px) and (max-height:760px){
+  .lh{gap:8px}
+  .lhh{padding:10px 12px}.lhl{width:40px;height:40px}.lht h1{font-size:22px}.lht p{font-size:12px}
+  .lhx .hsearch{padding:3px;padding-inline-start:12px}.lhx .hsearch input{height:34px}
+  .lsp,.lsp:nth-child(-n+2){min-height:60px;padding:8px 10px}
+  .lsp>i{width:28px;height:28px}.lst b{font-size:15px}.lst small{font-size:11px}
+  .lhq{gap:6px}.lhq a{padding:7px 3px;gap:3px}.lhq i{width:30px;height:30px}.lhq i .ico{width:18px;height:18px}.lhq .nl small{display:none}
+}
+
+/* ---------- library: speciality bar, requests page organised (owner, 18 Nov 2026) ---------- */
+.libban+.specbar,.ban+.specbar{margin-top:-4px}
+.rstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.rstats>span{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:12px;align-items:center;padding:12px 16px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;box-shadow:var(--card)}
+.rstats .ico{grid-row:1/span 2;width:42px;height:42px;padding:10px;border-radius:12px;background:var(--tint);color:var(--pri)}
+.rstats b{font:800 22px/1.1 var(--en);color:var(--deep)}:root[data-theme="dark"] .rstats b{color:#fff}
+.rstats small{font-size:12.5px;color:var(--sub);font-weight:700}
+.rgrid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:16px;align-items:stretch;margin-bottom:16px}
+.rgrid>.box{margin:0;display:flex;flex-direction:column}
+.rgrid>.box>.empty,.rgrid>.box>.rgate{flex:1}
+.rgate{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:18px;border-radius:16px;background:var(--sf2);border:1px dashed var(--bd2)}
+.rgate>.ico{width:48px;height:48px;padding:12px;border-radius:50%;background:var(--deep);color:#fff}
+.rgate b{font-size:16px}.rgate span{font-size:13.5px;color:var(--sub)}.rgate .btn{max-width:280px;margin-top:6px}
+@media (max-width:900px){.rgrid{grid-template-columns:1fr}.rstats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.rstats>span{padding:10px 12px}}
+/* About: what the platform offers, an even grid of small cards (it had collapsed into one narrow column) */
+.offers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.offers>.ft{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;box-shadow:var(--card);text-align:start}
+.offers>.ft>.ico{flex:none;width:42px;height:42px;padding:10px;border-radius:12px;background:var(--tint);color:var(--pri)}
+.offers>.ft>b{font-size:14px;line-height:1.35}
+@media (max-width:640px){.offers>.ft{flex-direction:column;text-align:center;gap:6px;padding:12px 8px}.offers>.ft>b{font-size:13px}}

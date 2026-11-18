@@ -98,3 +98,21 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   - Phones: speciality cards all the same (photo 36 % beside the text; Medicine's name was cut), the feature bar is a list (icon beside text).
   - Courses banner `img/ban_courses.webp` = the five speciality photos side by side (owner: "not only medicine"); his book-spines picture is
     kept as `img/ban_books.webp`.
+- Second pass, same day (owner: "colour options in Settings"; "Home not scrolling … clickable buttons as much as we can"; "the library must include
+  the other specialities"; "remove all the empty spaces and organise the boxes"):
+  - **Colours:** Settings → App colour: Royal blue (default), Teal, Green, Purple, Maroon, Graphite (`ish-pal`, `IS.PALS`, `IS.setPal`). Each colour
+    is a whole stylesheet `css/pal-<name>.css` made from css/app.css by `python3 tools/ishrah/palettes.py` (every blue/navy moved to the
+    colour's hue, gold and red kept); the head script of index.html loads the chosen one. **Run palettes.py after every change to app.css.**
+    Banner photos stay as they are (they are pictures).
+  - **Home on one screen** (`.lh`): welcome band with search · five speciality picture buttons · eight place buttons (Courses, My learning,
+    Events, Lecturers, Community, My Library, Paths, Teach with us). No scrolling at 1440×900, 1366×768, 1280×720, 1024×768, 768×1024,
+    390×844, 412×780 and 390×700 (a 360×640 phone scrolls about 30 px). How it works moved to About.
+  - **Library by speciality:** a speciality bar (`#library/@<id>`, `@all`), files carry `spec` (from their subject; `supabase/004_library_specs.sql`
+    adds `files.spec` and `requests.spec`), the upload form lists subjects grouped by speciality, the filter is Section + the speciality's subjects,
+    cards and the file page name the speciality, requests have a Speciality field.
+  - **Requests page:** request-type buttons, figures as one row of tiles, then the form and the student's list side by side at the same height;
+    the "Quick suggestions" box was removed (it repeated the request-type buttons).
+  - **Even rows everywhere:** `IS.evenRows()` (core.js, after every page and on resize) gives card rows (`.badges .tiles .rkinds .offers .sopts
+    .qa …`, map `EVEN` with each card's smallest width) a column count that makes rows even (8 badges = 4 + 4, never 7 + 1 stretched).
+    About's "What the platform offers" is `.offers` (it shared the class `.feat` with the feature bar and collapsed into one column).
+  - Test inputs for flow.js are now in the repository: tools/ishrah/receipt.png and clip.mp4.
