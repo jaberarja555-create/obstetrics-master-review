@@ -1899,3 +1899,14 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 .rsx[hidden]{display:none}
 @media (max-width:640px){.rsx{grid-template-columns:1fr}}
 .rsx{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))!important}
+
+/* research request: what is needed, which analysis */
+.rfs{grid-column:1/-1;margin:0;padding:10px 12px 12px;border:1px solid var(--bd2);border-radius:12px;background:var(--sf)}
+.rfs legend{font-weight:800;font-size:13.5px;padding:0 6px}
+.rchk{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:2px 10px}
+.rchk .opt{padding:6px 4px;font-size:13px;align-items:flex-start}.rchk .opt span{line-height:1.45}
+.rsub{font-weight:800;font-size:13px;margin:10px 0 2px}
+.rfs .pko{margin-top:8px;width:100%}
+#ranal{border-color:rgba(30,155,255,.45);background:var(--tint2)}
+.rgrid:has(#rsx:not([hidden])){grid-template-columns:minmax(0,1fr)!important}
+.rgrid:has(#rsx:not([hidden]))>.box:not(.newreq){order:2}

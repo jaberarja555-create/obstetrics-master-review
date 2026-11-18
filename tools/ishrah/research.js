@@ -1,0 +1,12 @@
+const { chromium } = require('playwright');
+(async()=>{const b=await chromium.launch();for(const w of [1366,390]){const p=await(await b.newContext({viewport:{width:w,height:1000}})).newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.goto('http://localhost:8820/');await p.evaluate(()=>{localStorage.clear();localStorage.setItem('ish-spec','"medicine"')});await p.reload();await p.waitForTimeout(900);
+await p.evaluate(()=>{IS.ME={id:'u1',name:'أحمد',role:'student',team:[]};location.hash='library/requests'});await p.waitForTimeout(900);
+await p.click('.rk.k-research');await p.waitForTimeout(300);
+await p.check('[name=rserv][value=all]');const allOn=await p.$$eval('[name=rserv]:checked',x=>x.length);const anal=await p.evaluate(()=>!document.getElementById('ranal').hidden);
+await p.uncheck('[name=rserv][value=all]');await p.check('[name=rserv][value=proposal]');await p.check('[name=rserv][value=analysis]');await p.check('[name=rserv][value=other]');await p.fill('[name=rserv_o]','Translation of abstract');
+await p.check('[name=ranal][value=chi]');await p.check('[name=ranal][value=logreg]');await p.check('[name=rsoft][value=SPSS]');
+await p.fill('[data-form=request] [name=title]','Anaemia in pregnant women');await p.$eval('#rsx',e=>e.scrollIntoView());await p.screenshot({path:`shots/res2-${w}.png`,fullPage:true});
+await p.click('[data-form=request] button.pri');await p.waitForTimeout(900);
+const saved=await p.evaluate(async()=>{const r=(await DB.q('requests')).pop();return r&&r.details.replace(/\n/g,' / ')});
+console.log(w,'"all" ticks:',allOn,'| analysis list opened:',anal,'| wide:',await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),'\n  saved:',saved,'\n ',errs.join('|')||'no errors');}await b.close();})();
