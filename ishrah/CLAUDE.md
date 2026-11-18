@@ -210,3 +210,6 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   names on tall screens). Home does not scroll at 1920×1000, 1536×730, 1440×900, 1366×768, 1280×650, 1024×768, 768×1024, 390×844, 360×640.
 - Speciality bar on laptops (owner, 18 Nov 2026: "empty space behind Pharmacy"): from 1180 px one even row of six chips across the width
   (Courses and My Library); below 1440 px long names wrap inside their chip instead of being cut. Phones/tablets keep the sliding row.
+- Courses on laptops (owner, 18 Nov 2026: "empty space while you scroll"): no tall Filter column; from 1180 px the filter is a row of
+  drop-down buttons (Subject · Lecturer · Price, one open at a time, a click outside closes it) placed in the same row as search, sort and
+  view; results and Browse subjects take the full width.

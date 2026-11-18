@@ -181,6 +181,10 @@
       '<select class="sel" id="csort">' + [['new', A('الأحدث', 'Newest')], ['pop', A('الأكثر تسجيلًا', 'Most enrolled')], ['top', A('الأعلى تقييمًا', 'Top rated')], ['low', A('الأقل سعرًا', 'Lowest price')]].map(function (o) { return '<option value="' + o[0] + '"' + (F.sort === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>' +
       '<span class="seg"><button data-act="cview" data-v="grid" aria-pressed="' + (F.view === 'grid') + '" aria-label="grid">' + ic('grid') + '</button><button data-act="cview" data-v="list" aria-pressed="' + (F.view === 'list') + '" aria-label="list">' + ic('list') + '</button></span></div><div id="cres"></div></div></div>';
     IS.after = function () { var fill = function () { fillCourses(cs, L, E); }; fill();
+      /* laptops: the filter is a row of drop-down buttons above the results (owner, 18 Nov 2026: "empty space while you scroll") */
+      if (window.innerWidth >= 1180) { var tl = IS.$('.cols.rev .main>.tool'), fl = IS.$('#filt'); if (tl && fl) tl.insertBefore(fl, tl.firstChild); var ds = IS.$$('#filt details.fg'); ds.forEach(function (d) { d.open = false; d.addEventListener('toggle', function () { if (d.open) ds.forEach(function (o) { if (o !== d) o.open = false; }); }); });
+        var shut = function (e) { if (!document.getElementById('filt')) { document.removeEventListener('click', shut); return; } if (!e.target.closest('#filt')) ds.forEach(function (d) { d.open = false; }); };
+        document.addEventListener('click', shut); }
       $('#cq').oninput = function () { F.q = this.value; fill(); }; $('#csort').onchange = function () { F.sort = this.value; fill(); };
       IS.$$('#filt input').forEach(function (i) { i.onchange = function () { var f = i.getAttribute('data-f'); if (f === 'price') F.price = i.value; else F[f][i.value] = i.checked; fill(); }; });
       IS.ACT.cview = function (b) { F.view = b.getAttribute('data-v'); IS.LS.set('cview', F.view); IS.$$('[data-act=cview]').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); fill(); }; };

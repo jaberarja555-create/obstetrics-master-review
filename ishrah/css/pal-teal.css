@@ -1656,6 +1656,28 @@ body.isoff main{padding-top:58px!important}
 }
 @media (min-width:1180px) and (max-width:1439px){.specbar>.spb2 b{font-size:12.5px;white-space:normal;line-height:1.15;text-overflow:clip}.specbar>.spb2 small{font-size:10.5px}.specbar>.spb2 .ico{width:16px;height:16px}}
 
+/* Courses on laptops: no tall filter column; the filter is one slim row of drop-down buttons above the results, which take the full width */
+@media (min-width:1180px){
+  body[data-page="courses"] .cols.rev{grid-template-columns:minmax(0,1fr)!important;align-items:start}
+  body[data-page="courses"] .filt{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 12px;position:relative;z-index:6}
+  body[data-page="courses"] .filt>header{border:0;padding:0;margin-inline-end:6px;gap:14px}
+  body[data-page="courses"] .filt>header h2{font-size:14.5px}
+  body[data-page="courses"] .filt .fg{position:relative;border:0;padding:0}
+  body[data-page="courses"] .filt .fg>summary{gap:10px;padding:8px 14px;border:1.5px solid var(--bd2);border-radius:999px;background:var(--sf2);font-size:13.5px}
+  body[data-page="courses"] .filt .fg>summary .tt{flex-direction:row;align-items:baseline;gap:6px;font-size:14px}
+  body[data-page="courses"] .filt .fg>summary .tt>small{margin:0}
+  body[data-page="courses"] .filt .fg[open]>summary{border-color:var(--pri);background:var(--tint)}
+  body[data-page="courses"] .filt .fg>div{position:absolute;top:calc(100% + 8px);inset-inline-start:0;width:320px;max-height:380px;padding:10px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;box-shadow:var(--lift);z-index:20}
+  body[data-page="courses"] #cres{min-height:0}
+}
+
+@media (min-width:1180px){
+  body[data-page="courses"] .tool{flex-wrap:nowrap}
+  body[data-page="courses"] .tool>.filt{flex:none;box-shadow:none;padding:4px 8px;flex-wrap:nowrap}
+  body[data-page="courses"] .tool>.field{flex:1;min-width:200px}
+  body[data-page="courses"] .tool>.filt>header .link{white-space:nowrap}
+}
+
 /* banner photos as a soft tint of this colour (tools/ishrah/palettes.py) */
 .ban.bpic .bph,.cban::before{mix-blend-mode:luminosity;opacity:.9}
 .lhh::after{mix-blend-mode:luminosity!important}
