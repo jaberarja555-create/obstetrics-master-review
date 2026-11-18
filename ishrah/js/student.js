@@ -512,6 +512,53 @@
       (an.length > 3 ? '<footer><a class="btn ghost" href="#news/ann">' + esc(A('عرض جميع الإعلانات', 'All announcements')) + ic('chev', 'fl') + '</a></footer>' : '') + '</section></div>';
   });
 
+
+  /* ========== OUR TEAM (owner, 18 Nov 2026): the people who run the platform, with photos, so students know them and can reach them ==========
+     only staff marked "show on the team page" (profiles.pub_show); students and visitors get the public card only (ish_team_public): no phone or email.
+     "Message" opens a platform message to that person's department. */
+  var TMSG = { owner: 'special', gm: 'special', academic: 'content', finance: 'payment', content: 'content', community: 'event', support: 'general', tech: 'tech' };
+  async function teamList() {
+    if (DB.live) { var r = await DB.sb.rpc('ish_team_public'); if (r.error) throw r.error; return r.data || []; }
+    return (await DB.q('profiles')).filter(function (p) { return (p.team || []).length && p.pub_show && (p.team_status || 'active') === 'active' && p.status !== 'blocked'; })
+      .map(function (p) { return { id: p.id, name: p.name, photo: p.photo, team: (p.team || []).filter(function (t) { return t.indexOf('p:') !== 0; }), dept: p.dept || '', pub_title: p.pub_title || '', pub_bio: p.pub_bio || '', pub_order: p.pub_order || 100 }; })
+      .sort(function (a, b) { return a.pub_order - b.pub_order || String(a.name).localeCompare(String(b.name)); });
+  }
+  function roleOf(p) { var r = (p.team || [])[0]; return IS.ROLES.filter(function (x) { return x[0] === r; })[0] || IS.ROLES[IS.ROLES.length - 1]; }
+  function deptOf(p) { var d = p.dept || ((p.team || []).filter(function (t) { return IS.DEPTS.some(function (x) { return x[0] === t; }); })[0]) || ''; return d; }
+  function tcard(p, big) {
+    var r = roleOf(p), d = deptOf(p), dn = IS.DEPTS.filter(function (x) { return x[0] === d; })[0], k = TMSG[(p.team || [])[0]] || TMSG[d] || 'general';
+    return '<article class="tmc' + (big ? ' big' : '') + '"><div class="tmp">' + (p.photo ? '<img src="' + IS.U(p.photo) + '" alt="" loading="lazy">' : IS.av(p, 'xl')) + '</div>' +
+      '<h3 dir="auto">' + esc(p.name) + '</h3><p class="tmr">' + ic(r[3]) + '<span>' + esc(p.pub_title || A(r[1], r[2])) + '</span></p>' + (dn && !big ? '<p class="tmd">' + esc(A(dn[1], dn[2])) + '</p>' : '') +
+      (p.pub_bio ? '<p class="tmb">' + esc(p.pub_bio) + '</p>' : '') +
+      '<button class="btn sm ghost" data-act="ticket" data-k="' + k + '" data-s="' + esc(A('رسالة إلى ', 'Message to ') + p.name) + '">' + ic('chat') + esc(A('راسل', 'Message')) + '</button></article>';
+  }
+  IS.page('team', async function () {
+    var all = []; try { all = await teamList(); } catch (e) { if (!navigator.onLine) throw e; }
+    var h = IS.banner(IS.T('فريق المنصة', 'Our team'), esc(A('تعرّف على الفريق الذي يدير اشرح لي، وراسل أي قسم مباشرة من داخل المنصة.', 'Meet the people who run Ishrah Li, and message any department directly inside the platform.')), 'group');
+    if (!all.length) return h + IS.empty('group', A('يظهر فريق المنصة هنا قريبًا', 'The platform team appears here soon'), A('يمكنك مراسلة الفريق الآن من «الدعم والرسائل».', 'You can message the team now from “Support & messages”.'), '<a class="btn pri" href="#support">' + ic('chat') + esc(A('الدعم والرسائل', 'Support & messages')) + '</a>');
+    var lead = all.filter(function (p) { return ['owner', 'gm'].indexOf((p.team || [])[0]) >= 0; }), rest = all.filter(function (p) { return lead.indexOf(p) < 0; });
+    if (lead.length) h += '<section class="sec"><header class="sh"><h2>' + ic('crown') + IS.T('قيادة المنصة', 'Leadership') + '</h2></header><div class="tmg lead">' + lead.map(function (p) { return tcard(p, true); }).join('') + '</div></section>';
+    /* departments: one grid of fixed-size cards (department named on each card), and a row of buttons to message each department */
+    var order = IS.DEPTS.map(function (d) { return d[0]; }), rk = function (p) { var i = order.indexOf(deptOf(p)); return (i < 0 ? 99 : i) * 10 + (roleOf(p)[0] === 'staff' ? 1 : 0); };
+    rest.sort(function (a, b) { return rk(a) - rk(b) || (a.pub_order - b.pub_order); });
+    var ds = IS.DEPTS.filter(function (d) { return rest.some(function (p) { return deptOf(p) === d[0]; }); });
+    if (rest.length) h += '<section class="sec"><header class="sh"><h2>' + ic('group') + IS.T('الأقسام والفريق', 'Departments and team') + '</h2></header>' +
+      (ds.length ? '<div class="tmdep">' + ds.map(function (d) { return '<button class="btn sm ghost" data-act="ticket" data-k="' + (TMSG[d[0]] || 'general') + '">' + ic('chat') + '<span>' + esc(A('راسل ', 'Message ')) + esc(A(d[1], d[2])) + '</span></button>'; }).join('') + '</div>' : '') +
+      '<div class="tmg">' + rest.map(function (p) { return tcard(p); }).join('') + '</div></section>';
+    return h;
+  });
+  /* the staff member's own card on the team page (also editable by managers in Users & permissions) */
+  IS.pubFields = function (u) {
+    return '<fieldset class="pubf"><legend>' + ic('group') + esc(A('بطاقتي في صفحة «فريق المنصة»', 'Card on the “Our team” page')) + '</legend>' +
+      '<label class="chk sw2"><input type="checkbox" name="pub_show"' + (u.pub_show ? ' checked' : '') + '><span><b>' + esc(A('اعرض في صفحة فريق المنصة', 'Show on the Our team page')) + '</b><small>' + esc(A('تظهر الصورة والاسم والمسمى والنبذة فقط؛ لا يظهر الهاتف ولا البريد.', 'Only the photo, name, title and bio are shown; never the phone or email.')) + '</small></span></label>' +
+      '<div class="g2f"><label class="fl"><span>' + esc(A('المسمى الظاهر (اختياري)', 'Title shown (optional)')) + '</span><input name="pub_title" maxlength="80" value="' + esc(u.pub_title || '') + '" placeholder="' + esc(A('مثال: استشاري الجراحة، المدير الأكاديمي', 'e.g. Consultant surgeon, Academic Director')) + '"></label>' +
+      '<label class="fl"><span>' + esc(A('الترتيب في الصفحة', 'Order on the page')) + '</span><input name="pub_order" type="number" min="1" max="999" value="' + esc(u.pub_order || 100) + '"></label></div>' +
+      '<label class="fl"><span>' + esc(A('نبذة قصيرة', 'Short bio')) + '</span><textarea name="pub_bio" rows="3" maxlength="600">' + esc(u.pub_bio || '') + '</textarea></label></fieldset>';
+  };
+  IS.pubRow = function (d, f) { return { pub_show: !!(f.pub_show && f.pub_show.checked), pub_title: (d.pub_title || '').trim(), pub_bio: (d.pub_bio || '').trim(), pub_order: Math.max(1, Math.min(999, parseInt(d.pub_order, 10) || 100)) }; };
+  IS.ACT.mycard = function () { var m = me(); IS.sheet(esc(A('بطاقتي في فريق المنصة', 'My card on Our team')), '<form class="form" data-form="mycard">' + IS.pubFields(m) + '<p class="note">' + ic('image') + '<span>' + esc(A('الصورة هي صورة ملفك الشخصي.', 'The photo is your profile photo.')) + '</span></p><button class="btn pri wide">' + esc(A('حفظ', 'Save')) + '</button></form>'); };
+  IS.SUB.mycard = async function (d, f) { await DB.upd('profiles', me().id, IS.pubRow(d, f)); await IS.loadMe(); IS.closeSheet(); IS.toast(A('حُفظت بطاقتك', 'Your card is saved')); IS.refresh(); };
+
   /* ========== FAVOURITES ========== */
   IS.page('favorites', async function () {
     var f = favs(), ks = Object.keys(f).sort(function (a, b) { return f[b] - f[a]; }), cids = ks.filter(function (k) { return /^c:/.test(k); }).map(function (k) { return k.slice(2); }), tids = ks.filter(function (k) { return /^t:/.test(k); }).map(function (k) { return k.slice(2); });
@@ -565,7 +612,7 @@
     tab = tab || 'profile';
     var h = IS.banner(IS.T('صفحتي الشخصية', 'My profile'), '', 'user');
     h += '<section class="prof"><label class="pav">' + IS.av(m, 'xl') + '<span class="cam">' + ic('image') + '</span><input type="file" accept="image/*" id="myPhoto" hidden></label><div class="pt"><h1 tabindex="-1">' + esc(m.name) + '</h1><p>' + esc([m.university, m.year].filter(Boolean).join(' – ') || A('طالب طب', 'Medical student')) + '</p>' +
-      (m.city ? '<p class="mut">' + ic('pin') + esc(m.city) + '</p>' : '') + '<button class="btn ghost sm" data-act="editme">' + ic('pen') + esc(A('تعديل الملف', 'Edit profile')) + '</button></div>' +
+      (m.city ? '<p class="mut">' + ic('pin') + esc(m.city) + '</p>' : '') + '<button class="btn ghost sm" data-act="editme">' + ic('pen') + esc(A('تعديل الملف', 'Edit profile')) + '</button>' + ((m.team || []).length ? ' <button class="btn ghost sm" data-act="mycard">' + ic('group') + esc(A('بطاقتي في فريق المنصة', 'My card on Our team')) + '</button>' : '') + '</div>' +
       '<div class="pstats">' + [['layers', s.courses, A('كورس مسجل', 'courses')], ['chart', s.avg + '%', A('معدل التقدّم', 'average progress')], ['cert', s.done.length, A('شهادات', 'certificates')], ['star', s.points, A('نقطة تعلّم', 'points')]].map(function (r) { return '<span>' + ic(r[0]) + '<b>' + N(r[1]) + '</b><small>' + esc(r[2]) + '</small></span>'; }).join('') + '</div></section>';
     h += '<div class="cols rev"><aside class="filt show"><nav class="rooms">' + [['profile', 'user', 'الملف الشخصي', 'Profile'], ['learning', 'layers', 'كورساتي', 'My courses', 1], ['achievements', 'cert', 'شهاداتي وإنجازاتي', 'Certificates', 1], ['favorites', 'heart', 'مفضلاتي', 'Favourites', 1], ['notifications', 'bell', 'الإشعارات', 'Notifications', 1], ['settings', 'gear', 'إعدادات الحساب', 'Account settings'], ['support', 'chat', 'الدعم والرسائل', 'Support & messages', 1], ['security', 'shield', 'الأمان', 'Security', 1]].map(function (x) {
       return '<a href="#' + (x[4] ? x[0] : 'account/' + x[0]) + '" class="' + (tab === x[0] ? 'on' : '') + '">' + ic(x[1]) + '<span>' + esc(A(x[2], x[3])) + '</span></a>'; }).join('') + '<button class="logout" data-act="logout">' + ic('logout') + '<span>' + esc(A('تسجيل الخروج', 'Sign out')) + '</span></button></nav></aside><div class="main">';

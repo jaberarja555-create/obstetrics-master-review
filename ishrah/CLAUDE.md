@@ -224,3 +224,11 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   the duotone tint (palettes.py `TINT`, mix-blend luminosity) is removed; every banner photo shows as it is in every app colour. On phones the
   banner photo is a clear strip across the top with the title under it (it was faded behind the text); the control dashboard banner too.
   The thin curve beside banner photos uses `--sky2`, so it follows the colour.
+- **Our team page** (owner, 18 Nov 2026: "a nice place for the admins and other staff with their photos, so people know them and can reach
+  them"): `#team` (side menu "Our team", banner ban_community), Leadership (owner, GM; bigger cards) then Departments and team (one centred
+  grid, department chip on each card, «راسل …» buttons per department). A card = photo (profile photo, else initials), name, title shown
+  (or the role name), short bio, «راسل» = a platform message to that person's department (ticket kinds via `TMSG`). Only staff who switch
+  on «اعرض في صفحة فريق المنصة» appear: their own Profile → «بطاقتي في فريق المنصة», or a manager in Users & permissions (same fields,
+  `IS.pubFields` / `IS.pubRow`). `supabase/007_team_page.sql`: profiles.pub_show / pub_title / pub_bio / pub_order and RPC
+  `ish_team_public()` (anon + signed-in) returning ONLY the public card fields of shown, active staff; no phone or email ever. Tested on
+  the local Postgres (hidden member absent, visitor cannot read profiles). Test: `node tools/ishrah/team.js <shots dir>`.

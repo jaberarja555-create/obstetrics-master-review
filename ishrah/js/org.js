@@ -293,6 +293,7 @@
       '<label class="fl"><span>' + ic('shield') + esc(A('مستوى الاعتماد', 'Approval level')) + '</span><select name="approval">' + APPROVAL.map(function (x) { return '<option value="' + x[0] + '"' + ((u.approval || 'dept') === x[0] ? ' selected' : '') + '>' + esc(A(x[1], x[2])) + '</option>'; }).join('') + '</select></label>' +
       '<label class="fl"><span>' + esc(A('حالة الحساب', 'Account status')) + '</span><select name="tstatus"><option value="active">' + esc(A('مفعل', 'Active')) + '</option><option value="suspended"' + (u.team_status === 'suspended' ? ' selected' : '') + '>' + esc(A('معلق', 'Suspended')) + '</option></select></label></div>' +
       '<label class="chk sw2"><input type="checkbox" name="mfa"' + (u.mfa_required !== false ? ' checked' : '') + '><span><b>' + esc(A('المصادقة الثنائية (2FA) إلزامية', 'Two-factor authentication (2FA) required')) + '</b><small>' + esc(A('لا يفتح الحساب لوحة التحكم إلا برمز من تطبيق المصادقة على هاتفه.', 'The account opens the control app only with a code from an authenticator app on its phone.')) + '</small></span></label>' +
+      (u.id ? IS.pubFields(u) : '') +
       '<details class="fg"><summary>' + esc(A('أقسام إضافية لهذا الشخص', 'Extra sections for this person')) + ic('down') + '</summary><div class="g2f">' + SECTIONS.filter(function (s) { return s[0] !== 'team'; }).map(function (s) { return '<label class="chk"><input type="checkbox" name="x" value="p:' + s[0] + '"' + (extras.indexOf('p:' + s[0]) >= 0 ? ' checked' : '') + '><span>' + esc(A(s[2], s[3])) + '</span></label>'; }).join('') + '</div></details>' +
       '<div class="row sp">' + (u.id && u.id !== uid() ? '<button type="button" class="btn ghost bad" data-act="rmteam" data-id="' + u.id + '">' + esc(A('إزالة من الفريق', 'Remove from team')) + '</button>' : '<span></span>') + '<button class="btn pri">' + ic('user') + esc(u.id ? A('حفظ', 'Save') : A('إنشاء الحساب', 'Create account')) + '</button></div></form>';
   }
@@ -301,7 +302,7 @@
     IS.sheet(esc(u.id ? u.name : A('حساب إداري جديد', 'New staff account')), staffForm(u, team), { wide: 1 }); };
   IS.SUB.staff = async function (d, f) {
     if (!canGrant(d.role)) return IS.toast(A('لا تملك صلاحية منح هذا الدور.', 'You may not grant this role.'), true);
-    var x = IS.$$('input[name=x]:checked', f).map(function (i) { return i.value; }), team = [d.role].concat(x), row = { dept: d.dept || '', manager_id: d.manager || null, approval: d.approval, mfa_required: !!f.mfa.checked, team_status: d.tstatus };
+    var x = IS.$$('input[name=x]:checked', f).map(function (i) { return i.value; }), team = [d.role].concat(x), row = { dept: d.dept || '', manager_id: d.manager || null, approval: d.approval, mfa_required: !!f.mfa.checked, team_status: d.tstatus }; if (d.id && f.pub_show) Object.assign(row, IS.pubRow(d, f));
     var u = d.id ? await DB.one('profiles', d.id) : null;
     if (!u) { var dg = DB.digits(d.phone || ''), us = await DB.q('profiles'); u = us.filter(function (p) { return (dg.length > 6 && DB.digits(p.phone) === dg) || (d.email && p.email && p.email.toLowerCase() === d.email.toLowerCase()); })[0]; }
     if (u) { if ((u.team || []).indexOf('owner') >= 0 && team.indexOf('owner') < 0) team.push('owner');
