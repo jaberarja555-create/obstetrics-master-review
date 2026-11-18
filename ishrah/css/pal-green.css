@@ -2133,3 +2133,27 @@ body[data-page="pick"] main{padding-bottom:10px!important}
   #main .box,#main .subj,#main .spc,#main .lsp,#main .lhq a,#main .ccard,#main .door,#main .pk,#main .tmc,#main .ncard,#main .lcard,#main .sjtile,#main .badge,#main .tile,#main .feat,#main .hb{box-shadow:none!important}
   #main img{-webkit-backface-visibility:hidden;backface-visibility:hidden}
 }
+
+/* ---------- one search and one sign-in per screen (owner, 18 Nov 2026) ---------- */
+body.mq #top .tsearch,body.mq #top .only-ph[href="#search"]{display:none!important}
+body.mq #top .tin>.tbtn{margin-inline-start:auto}
+body.min #top .tbtn>[data-act=login]{display:none!important}
+
+/* ---------- side menu and page scroll separately; the page never slides sideways (owner, 18 Nov 2026) ---------- */
+#side{overscroll-behavior:contain}
+html,body{overflow-x:clip;overscroll-behavior-x:none}
+
+/* Courses on tablets lying sideways and small laptops: the filter buttons take their own row, search · sort · view under them (the row ran off the screen at 1180 px) */
+@media (min-width:1180px) and (max-width:1439px){
+  body[data-page="courses"] .tool{flex-wrap:wrap}
+  body[data-page="courses"] .tool>.filt{flex:1 1 100%}
+}
+
+/* two-column groups with an odd number of boxes: the last box takes the whole row instead of leaving half of it empty (whole-app check, 18 Nov 2026) */
+@media (min-width:901px){.setg>:last-child:nth-child(odd):not(:first-child){grid-column:1/-1}}
+
+/* bullet lists flow down balanced columns instead of a grid with a lonely last line (whole-app check, 18 Nov 2026) */
+#main ul.learn,#main ul.gdlist{display:block!important;columns:220px auto;column-gap:18px}
+#main ul.gdlist{columns:260px auto;column-gap:10px}
+#main ul.learn>li,#main ul.gdlist>li{break-inside:avoid;margin-bottom:8px}
+#main ul.gdchk{display:block;columns:280px auto;column-gap:14px}#main ul.gdchk>li{break-inside:avoid}

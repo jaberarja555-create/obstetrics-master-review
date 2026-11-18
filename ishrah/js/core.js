@@ -290,18 +290,30 @@
     var h1 = main.querySelector('h1'); if (h1) try { h1.focus({ preventScroll: true }); } catch (e) {}
     var tt = h1 && (h1.querySelector('.tt small') || h1); document.title = (tt ? tt.textContent.trim() + ' · ' : '') + 'اشرح لي';
     if (IS.after) try { await IS.after(main); } catch (e) { if (window.console) console.error(e); }
-    IS.balance(); IS.evenRows(); IS.fileUI();
+    IS.balance(); IS.evenRows(); IS.fileUI(); IS.dedupe(); IS.sideLock(); IS.trimScroll(); setTimeout(IS.trimScroll, 400);
   };
   /* a side column much shorter than its main column becomes a row of cards above it (owner, 18 Nov 2026: no empty spaces) */
   IS.balance = function () { if (window.innerWidth < 1180) return; IS.$$('#main .cols').forEach(function (c) {
     if (c.classList.contains('cflow')) return; var a = c.querySelector(':scope>.aside'), m = c.querySelector(':scope>.main'); if (!a || !m || c.querySelector(':scope>.filt')) return;
     c.classList.toggle('flat', m.offsetHeight - a.offsetHeight > 240); }); };
   /* rows of cards are always even: 8 badges are 4 + 4, never 7 + 1 with the last card stretched across the row (owner, 18 Nov 2026) */
-  var EVEN = { '.badges': 150, '.tiles': 170, '.stp': 250, '.tools': 110, '.spadm': 200, '.rtiles': 190, '.ptiles': 150, '.kgrid': 150, '.rolecards': 230, '.qa': 130, '.sopts': 92, '.offers': 190, '.rkinds': 150, '.hsn': 120 };
+  var EVEN = { '.badges': 150, '.tiles': 170, '.stp': 250, '.tools': 110, '.spadm': 200, '.rtiles': 190, '.ptiles': 150, '.kgrid': 150, '.rolecards': 230, '.qa': 130, '.sopts': 92, '.offers': 190, '.rkinds': 150, '.hsn': 120, '.sjtiles': 230, '.gdcards': 220, '.lecrow': 240, '.g2f': 240, '.grid.g2': 320, '.box.about + .grid.g3': 240 };
   IS.evenRows = function () { Object.keys(EVEN).forEach(function (sel) { Array.prototype.forEach.call(document.querySelectorAll('#main ' + sel), function (c) {
-    var n = c.children.length, W = c.clientWidth; if (!n || !W) return; var g = parseFloat(getComputedStyle(c).columnGap) || 12, max = Math.max(1, Math.floor((W + g) / (EVEN[sel] + g)));
+    var n = c.children.length, W = c.clientWidth; if (!n || !W || getComputedStyle(c).display === 'contents' || c.closest('.cflow')) return;
+    var g = parseFloat(getComputedStyle(c).columnGap) || 12, mn = EVEN[sel], max = Math.max(1, Math.floor((W + g) / (mn + g)));
     var cols = Math.min(n, max), rows = Math.ceil(n / cols); cols = Math.ceil(n / rows);
-    c.style.setProperty('display', 'grid', 'important'); c.style.gridTemplateColumns = 'repeat(' + cols + ',minmax(0,1fr))'; }); }); };
+    /* counts that cannot be even (7, 11 …): the fewest empty places with cards up to 30 % narrower (22 % on phones): 7 = 4 + 3, not 3 + 3 + 1
+       (whole-app check, 18 Nov 2026) */
+    var empty = function (k) { return Math.ceil(n / k) * k - n; };
+    if (empty(cols)) { var max2 = Math.max(1, Math.floor((W + g) / (mn * (window.innerWidth < 600 ? 0.78 : 0.7) + g))), lo = Math.max(2, Math.ceil(max * 0.6)), best = cols;
+      for (var k = Math.min(n, max2); k >= lo; k--) if (empty(k) < empty(best) || (empty(k) === empty(best) && Math.abs(k - max) < Math.abs(best - max))) best = k;
+      cols = best; }
+    c.style.setProperty('display', 'grid', 'important');
+    var kids = Array.prototype.slice.call(c.children), r = n % cols; kids.forEach(function (x) { x.style.gridColumn = ''; });
+    if (!r || cols < 2) { c.style.gridTemplateColumns = 'repeat(' + cols + ',minmax(0,1fr))'; return; }
+    /* a last row that is still short sits in the middle, not against one side */
+    c.style.gridTemplateColumns = 'repeat(' + (2 * cols) + ',minmax(0,1fr))'; kids.forEach(function (x) { x.style.gridColumn = 'span 2'; });
+    kids[n - r].style.gridColumn = (cols - r + 1) + ' / span 2'; }); }); };
   /* file boxes in the app's language (owner, 18 Nov 2026 page review: the browser wrote "Choose File · No file chosen" in English) */
   IS.fileUI = function (root) { IS.$$('input[type=file]:not([data-fui]):not([hidden])', root || document).forEach(function (i) {
     i.setAttribute('data-fui', '1'); var w = document.createElement('span'); w.className = 'fui';
@@ -309,7 +321,25 @@
     i.parentNode.insertBefore(w, i); w.appendChild(i);
     i.addEventListener('change', function () { var n = w.querySelector('.fun'), f = i.files; n.textContent = f && f.length ? (f.length > 1 ? f.length + ' ' + A('ملفات', 'files') : f[0].name) : A('لم يُختر ملف بعد', 'No file chosen yet'); w.classList.toggle('has', !!(f && f.length)); }); }); };
   new MutationObserver(function () { if (document.querySelector('input[type=file]:not([data-fui]):not([hidden])')) IS.fileUI(); }).observe(document.body, { childList: true, subtree: true });
-  window.addEventListener('resize', function () { clearTimeout(IS._bt); IS._bt = setTimeout(function () { IS.balance(); IS.evenRows(); }, 200); });
+  /* one search and one sign-in per screen (owner, 18 Nov 2026: "2 search places and the sign in is duplicated; I don't want such problems all
+     around the app"): when the page itself shows a search box or a sign-in button, the top bar hides its own copy */
+  /* the side menu and the page scroll on their own (owner, 18 Nov 2026 on a tablet: "when I scroll the side bar the other side also moves
+     and vice versa"): a side menu that has nothing to scroll does not take the finger at all */
+  IS.sideLock = function () { var sd = document.getElementById('side'); if (!sd) return;
+    sd.style.touchAction = sd.scrollHeight > sd.clientHeight + 2 ? 'pan-y' : 'none'; };
+  /* no scrolling for a few pixels (whole-app check, 18 Nov 2026: pages that scrolled 20–30 px for nothing): when the page is only a little
+     taller than the screen, the space under the content shrinks to fit, never under what the bottom bar needs */
+  IS.trimScroll = function () { var m = document.getElementById('main'); if (!m) return; m.style.paddingBottom = '';
+    var over = document.documentElement.scrollHeight - window.innerHeight; if (over <= 0 || over > 44) return;
+    var pb = parseFloat(getComputedStyle(m).paddingBottom) || 0, tb = document.getElementById('tabs'), need = 8;
+    if (tb && tb.getClientRects().length && getComputedStyle(tb).position === 'fixed') need = tb.offsetHeight + 8;
+    if (pb - over >= need) m.style.paddingBottom = (pb - over) + 'px'; };
+  IS.dedupe = function () { var m = document.getElementById('main'); if (!m) return;
+    var shown = function (sel) { return IS.$$(sel, m).some(function (e) { return e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden'; }); };
+    document.body.classList.toggle('mq', shown('input[type=search],form[role=search]'));
+    document.body.classList.toggle('min', shown('[data-act=login]')); };
+  new MutationObserver(function () { clearTimeout(IS._dd); IS._dd = setTimeout(IS.dedupe, 60); }).observe(document.getElementById('main') || document.body, { childList: true, subtree: true });
+  window.addEventListener('resize', function () { clearTimeout(IS._bt); IS._bt = setTimeout(function () { IS.balance(); IS.evenRows(); IS.dedupe(); IS.sideLock(); IS.trimScroll(); }, 200); });
   /* last copy of each page this account opened (up to 25 pages, ~2.5 MB), shown without internet; cleared on sign-out */
   function pageSave(key, html) { if (html.length > 300000) return; try { var ix = JSON.parse(localStorage.getItem('ish-pgx') || '[]').filter(function (k) { return k !== key; }); ix.unshift(key);
     while (ix.length > 25) localStorage.removeItem('ish-pg:' + ix.pop()); localStorage.setItem('ish-pg:' + key, JSON.stringify({ u: IS.ME.id, h: html })); localStorage.setItem('ish-pgx', JSON.stringify(ix)); } catch (e) {} }

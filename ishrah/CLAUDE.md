@@ -338,3 +338,16 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   transitions or animations. If the owner still sees ghosts, ask him to try `?safe=1…4` and tell which number stops it.
 - The old phone sign-up in flow.js / flow2.js: they now set `ish-spec` and take `PORT`; flow.js stops at «publish course» (`[data-act=cpub]`)
   in the review screen — still to update.
+- **Whole-app check (owner, 18 Nov 2026: "2 search places and the sign-in duplicated … I don't want to search such issues and tell you one by
+  one"):** `node tools/ishrah/audit.js [ph,tp,tl,tx,ts,lp] [pages]` (PORT = a preview copy with an empty config.js; shots in au/) opens every
+  page at phone 390, tablet 820×1180 / 1180×820 / 1280×800 / 1024×600 (touch) and laptop 1440, signed out and signed in (+ one detail page of
+  each list) and reports DUP-SEARCH, DUP-AUTH, DUP-BTN (same text and same target), WIDE/OFF, CUT, ROW (grid last row under 62 % filled),
+  SCROLL (page scrolls only a few px), TEXT (undefined/null/NaN…), OVER (texts drawn on each other), UNDER (end of the page under the bottom
+  bar). **Run it after every layout change and fix what it reports before pushing.** Rules that came out of it:
+  - one search and one sign-in per screen: `IS.dedupe()` marks body `mq` (the page shows its own search box) and `min` (it shows a sign-in
+    button); the top bar then hides its search (field and phone icon) or its «دخول».
+  - side menu and page scroll separately: `#side{overscroll-behavior:contain}`, `IS.sideLock()` (a side menu with nothing to scroll does not
+    take the finger), `html,body{overflow-x:clip}` (the page never slides sideways).
+  - even rows: `IS.evenRows` covers more grids (`EVEN`), and when the count cannot divide evenly it tries cards up to 22 % narrower first.
+  - one edit button on the profile («تعديل الملف»); the speciality banner counts accepted lecturers of that speciality (`IS.lecSpecs`, the
+    same rule as the Lecturers bar), not only those with a published course.

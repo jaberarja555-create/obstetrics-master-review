@@ -93,10 +93,13 @@
       '<div class="spcs big">' + IS.SPECS.map(function (s) { return specCard(s, cs); }).join('') + '</div>' + sections(cs);
   });
   IS.page('spec', async function (id) { if (id && id !== IS.SPEC && IS.spec(id)) IS.setSpec(id); IS.go('home'); return ''; });
+  /* the specialities of a lecturer: those of their courses, or the one their speciality text names (Lecturers page and the speciality banner) */
+  IS.lecSpecs = function (l, cs) { var o = {}; cs.forEach(function (c) { if (c.lecturer_id === l.id) o[c.spec || 'medicine'] = 1; }); var t = IS.norm([l.specialty, l.title, (l.tags || []).join(' ')].join(' '));
+    IS.SPECS.forEach(function (k) { if (t.indexOf(IS.norm(k.en)) >= 0 || t.indexOf(IS.norm(k.ar)) >= 0) o[k.id] = 1; }); if (!Object.keys(o).length) o.medicine = 1; return o; };
   IS.specPage = async function (id, onHome) {
     var s = IS.spec(id); if (!s) return '';
     var r = await Promise.all([IS.pubCourses(), IS.lecMap(), IS.myEnroll()]), cs = r[0].filter(function (c) { return (c.spec || 'medicine') === s.id; }), L = r[1], E = r[2];
-    var lids = {}; cs.forEach(function (c) { lids[c.lecturer_id] = 1; }); var sub = IS.SUBJ.filter(function (x) { return x.spec === s.id; });
+    var allc = r[0], lids = {}; Object.keys(L).forEach(function (k) { var l = L[k]; if (l.status === 'active' && IS.lecSpecs(l, allc)[s.id]) lids[k] = 1; }); var sub = IS.SUBJ.filter(function (x) { return x.spec === s.id; });
     var h = '<section class="ban gold spb"' + (s.img ? ' style="--spimg:url(' + IS.U(s.img) + ')"' : '') + '><div class="bt"><span class="bi">' + ic(s.icon) + '</span><div><p class="crumbw"><a href="#pick">' + esc(A('تغيير التخصص', 'Change speciality')) + ' ›</a></p><h1 tabindex="-1">' + IS.T(s.ar, s.en) + '</h1><p>' + esc(A(s.about_ar, s.about_en)) + '</p></div></div>' +
       '<div class="bnums">' + [[cs.length, A('كورس', 'courses')], [sub.length, A('مادة', 'subjects')], [Object.keys(lids).length, A('محاضر', 'lecturers')]].map(function (x) { return '<span><b>' + N(x[0]) + '</b><small>' + esc(x[1]) + '</small></span>'; }).join('') + '</div></section>';
     /* sections pack side by side, each as wide as its number of cards, so a section of two cards never sits alone in an empty row
@@ -410,8 +413,7 @@
     var h = IS.banner(IS.T('المحاضرون', 'Lecturers'), esc(A('تعرّف على الأطباء والأكاديميين الذين يقدّمون الكورسات في اشرح لي.', 'Meet the doctors and academics who teach on Ishrah Li.')), 'users',
       '<div class="bnums"><span><b>' + N(ls.length) + '</b>' + esc(A('محاضر', 'lecturers')) + '</span><span><b>' + N(cs.length) + '</b>' + esc(A('كورس', 'courses')) + '</span></div>');
     /* speciality bar (owner, 18 Nov 2026): a lecturer belongs to the specialities of their courses, or the one their speciality text names */
-    function lspecs(l) { var o = {}; cs.forEach(function (c) { if (c.lecturer_id === l.id) o[c.spec || 'medicine'] = 1; }); var t = IS.norm([l.specialty, l.title, (l.tags || []).join(' ')].join(' '));
-      IS.SPECS.forEach(function (k) { if (t.indexOf(IS.norm(k.en)) >= 0 || t.indexOf(IS.norm(k.ar)) >= 0) o[k.id] = 1; }); if (!Object.keys(o).length) o.medicine = 1; return o; }
+    function lspecs(l) { return IS.lecSpecs(l, cs); }
     var cur = IS.SPEC || IS.LSPEC || '', shown = cur ? ls.filter(function (l) { return lspecs(l)[cur]; }) : ls;
     if (!IS.SPEC) h += '<section class="specbar">' + [{ id: '', en: 'All specialities', ar: 'كل التخصصات', icon: 'grid' }].concat(IS.SPECS).map(function (x) { var n = x.id ? ls.filter(function (l) { return lspecs(l)[x.id]; }).length : ls.length;
       return '<button type="button" class="spb2' + (x.id === cur ? ' on' : '') + '" data-act="lspec" data-v="' + x.id + '">' + ic(x.icon) + '<span><b lang="en">' + esc(x.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(x.ar) + '</small>') + '</span><em class="spc0">' + N(n) + '</em></button>'; }).join('') + '</section>';
@@ -651,10 +653,10 @@
       h += '<section class="box"><h2>' + ic('gear') + IS.T('إعدادات الحساب', 'Account settings') + '</h2><ul class="kv"><li><span>' + esc(A('طريقة الدخول', 'Sign-in')) + '</span><b>' + esc(m.phone ? A('رقم الهاتف', 'Phone') + ' ' + m.phone : 'Google') + '</b></li><li><span>' + esc(A('اللغة', 'Language')) + '</span><b><button class="link" data-act="lang">' + (IS.lang === 'ar' ? 'English' : 'العربية') + '</button></b></li></ul>' +
         '<p class="mut">' + esc(A('لتغيير كلمة المرور أو رقم الهاتف راسل دعم المنصة.', 'To change your password or phone number, message platform support.')) + '</p><button class="btn ghost" data-act="ticket" data-k="general" data-s="' + esc(A('مساعدة في حسابي', 'Help with my account')) + '">' + ic('chat') + esc(A('راسل الدعم', 'Message support')) + '</button> <a class="btn ghost" href="#security">' + ic('shield') + esc(A('الأمان', 'Security')) + '</a></section>';
     } else {
-      h += '<div class="grid g2"><section class="box"><header class="sh"><h2>' + ic('user') + IS.T('المعلومات الشخصية', 'Personal information') + '</h2><button class="link" data-act="editme">' + ic('pen') + esc(A('تعديل', 'Edit')) + '</button></header><ul class="kv">' +
+      h += '<div class="grid g2"><section class="box"><header class="sh"><h2>' + ic('user') + IS.T('المعلومات الشخصية', 'Personal information') + '</h2></header><ul class="kv">' +
         [[A('الاسم الكامل', 'Full name'), m.name], [A('البريد الإلكتروني', 'Email'), m.email], [A('رقم الهاتف', 'Phone'), m.phone], [A('الجامعة', 'University'), m.university], [A('السنة الدراسية', 'Year'), m.year]].map(function (r) { return '<li><span>' + esc(r[0]) + '</span><b dir="auto">' + esc(r[1] || '—') + '</b></li>'; }).join('') +
         '<li><span>' + esc(A('الاهتمامات', 'Interests')) + '</span><span class="tags">' + (m.interests || []).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</span></li></ul></section>' +
-        '<div><section class="box"><header class="sh"><h2>' + ic('user') + IS.T('نبذة عني', 'About me') + '</h2><button class="link" data-act="editme">' + ic('pen') + esc(A('تعديل', 'Edit')) + '</button></header><p class="pre">' + esc(m.bio || A('اكتب نبذة قصيرة عنك.', 'Write a short note about yourself.')) + '</p></section>' +
+        '<div><section class="box"><header class="sh"><h2>' + ic('user') + IS.T('نبذة عني', 'About me') + '</h2></header><p class="pre">' + esc(m.bio || A('اكتب نبذة قصيرة عنك.', 'Write a short note about yourself.')) + '</p></section>' +
         '<section class="box"><h2>' + ic('trophy') + IS.T('الإنجازات', 'Achievements') + '</h2><ul class="learn">' + (s.done.length ? s.done.slice(0, 3).map(function (c) { return '<li>' + ic('checkc') + esc(A('إتمام كورس ', 'Completed ')) + esc(c.title) + '</li>'; }).join('') : '') +
         (s.events ? '<li>' + ic('checkc') + esc(A('التسجيل في ', 'Registered for ')) + N(s.events) + ' ' + esc(A('فعاليات', 'events')) + '</li>' : '') + (s.lessons ? '<li>' + ic('checkc') + esc(A('إنهاء ', 'Finished ')) + N(s.lessons) + ' ' + esc(A('درس', 'lessons')) + '</li>' : '<li class="mut">' + esc(A('تظهر إنجازاتك هنا عندما تبدأ التعلّم.', 'Your achievements appear here once you start learning.')) + '</li>') + '</ul></section></div></div>';
       h += '<div class="grid g3 lecrow">' + (IS.LEC ? '<section class="box lecjoin">' + ic('studio') + '<h2>' + IS.T('أنت محاضر في اشرح لي', 'You are a lecturer on Ishrah Li') + '</h2><a class="btn pri" href="#studio">' + esc(A('افتح استوديو المحاضر', 'Open the lecturer studio')) + '</a></section>' :
