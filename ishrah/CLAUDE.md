@@ -364,3 +364,10 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - **Start page on phones (owner's phone, 18 Nov 2026: round signs hidden behind thin strips of picture):** the four small cards drop the
   round sign, the subject count is a white label on the picture's corner (Medicine too), and the picture takes the room; signs always draw
   above pictures (`.pkt` z-index). Counts use `IS.cnt(n, 'sub'|'course')`: 1 مادة · مادتان · 3–10 مواد · 11 مادة (كورس · كورسان · كورسات).
+- **New emblem and top bar (owner's design picture, 18 Nov 2026: "the logo and the search bar place and design"):** the emblem is an open
+  book, a heartbeat line and a stethoscope, drawn as SVG in `img/logo_gold.svg` (file name kept so `IS.logo()` and palettes.py's colour
+  copies work; it follows the app colour), on the Home banner without a tile, start page, certificates, control banner; app icons
+  (icon-512/192, apple-touch-icon, favicon) rendered from it on navy. Top bar: «اشرح لي» in white after the emblem (no small line), a wide
+  white search pill with its sign in a round button (laptops; Home's banner search is hidden there so the screen keeps one search), a
+  day/night button (`data-act=theme`, sun/moon) in the gear's place (Settings stays in the side menu and «More»), bell, account.
+  Fixed: on 1024–1279 px the account photo was hidden with the name.
