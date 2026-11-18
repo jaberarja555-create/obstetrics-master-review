@@ -86,7 +86,7 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - Owner's design (18 Nov 2026): the side menu stays on every page (the owner rejected a top menu on 18 Nov 2026), hero = logo
   (`img/logo_hero.webp`) · title and four features · books picture; speciality cards are horizontal (photo on the left in Arabic), subject cards
   have the picture on top and a gold "Soon" label, House Officer subjects are wide cards, section cards have pictures `img/sec_<id>.webp`.
-  Subject pictures come from the owner's designs and photos (46 of 54 done; no logos of OET/IELTS/IFOM used, they are trademarks).
+  Subject pictures come from the owner's designs and photos (all 54 done; no logos of OET/IELTS/IFOM used, they are trademarks).
   Boxes never follow the scroll (no sticky side columns).
 - Colours (owner, 18 Nov 2026, from his banner pictures): royal blue `#0a2a5c` / `#0d3a7d` with bright blue `#1e9bff` / `#3fb4ff`; gold only in the logo
   and small highlights. Every page banner has a photo (`img/ban_<name>.webp`, map `BANIMG` in core.js, fallback by area); no page is left without one.
@@ -200,6 +200,6 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 3. **Email sign-in:** Supabase Email Templates → "Magic Link" with the 6-digit code `{{ .Token }}`; SMTP Settings → a real sender.
 4. **Go live** (steps 1–6 under "To go live"): Supabase project, `ISHRAH_DB_URL` + apply database (files 001–006), Bunny secrets,
    js/config.js, owner registers first and turns on 2FA, custom domain with HTTP/3 off.
-5. Subject pictures still missing (8 of 54, `ishrah/pictures-needed.md`).
+5. ~~Subject pictures~~ done: all 54 subjects have a picture (18 Nov 2026).
 - Courses toolbar on phones and tablets (owner, 18 Nov 2026: "this empty space"): search across the full width, then Filter · Sort · view
   in one even row; the speciality bar is one sliding row below 1180 px (on tablets it broke into two uneven lines).

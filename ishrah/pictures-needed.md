@@ -3,20 +3,8 @@
 Copy each prompt into your picture app. Each gives one picture with 4 photos (2 × 2). Send me the pictures in any order;
 I cut them, name them `img/sub_<id>.webp` and place them on the subject cards. Positions are listed after each prompt.
 
-## STILL NEEDED (18 Nov 2026): 2 subjects, one picture each
-Done from the owner's photos: Parasitology, Oral Anatomy & Histology, Prosthodontics, Orthodontics, Oral & Maxillofacial Surgery,
-Periodontics. Still an icon: Pharmaceutical Chemistry (`pharm-chem`) and Pharmacognosy (`pharmacognosy`).
-
-### Pharmaceutical Chemistry
-```
-A realistic, wide (16:9) photograph of a modern pharmaceutical chemistry laboratory: a chemist's gloved hands working with glass flasks and a burette under a fume hood, a molecular model and white capsules on the bench, soft blue light, shallow depth of field. No text, no letters, no labels, no logos, no watermarks, no decorative frames or waves.
-```
-
-### Pharmacognosy
-```
-A realistic, wide (16:9) photograph for pharmacognosy (medicines from plants): fresh green medicinal leaves, dried herbs, seeds and roots with a white mortar and pestle and small amber extract bottles on a laboratory bench, soft blue light, shallow depth of field. No text, no letters, no labels, no logos, no watermarks, no decorative frames or waves.
-```
-Placing (Claude): crop each to 16:10 (720 × 450) as `img/sub_<id>.webp` and add the id to `js/subimg.js`.
+## All 54 subjects have a picture (18 Nov 2026)
+The last eight came from the owner's own photos (cropped to 720 × 450).
 
 ---
 
