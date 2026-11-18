@@ -23,7 +23,7 @@ const D = process.argv[2] || 'shots', W = +(process.argv[3] || 1440), H = W < 60
   const logout = async () => { await p.evaluate(() => IS.ACT.logout()); await p.waitForTimeout(500); };
   const login = async (phone) => { await p.evaluate(() => (IS.AUTHTAB='phone',IS.ACT.login)()); await p.waitForTimeout(300); await fill('form[data-form=signin] [name=phone]', phone); await fill('form[data-form=signin] [name=pass]', 'secret12'); await submit('signin'); await p.waitForTimeout(600); };
 
-  await p.goto('http://localhost:' + (process.env.PORT || 8820) + '/'); await p.evaluate(() => { localStorage.clear(); localStorage.setItem('ish-spec', '"medicine"'); indexedDB.deleteDatabase('ish-files'); }); await p.reload(); await p.waitForTimeout(800);
+  await p.goto('http://localhost:' + (process.env.PORT || 8820) + '/'); await p.evaluate(() => { localStorage.clear(); localStorage.setItem('ish-spec', '"medicine"'); localStorage.setItem('ish-study-sections', '{"medicine":"clinical"}'); indexedDB.deleteDatabase('ish-files'); }); await p.reload(); await p.waitForTimeout(800);
   // 1. owner
   await signup('المالك عبدالجليل ارجا', '0911111111'); await go('control', 1000); await shot('01-control-dash');
   await logout();

@@ -454,13 +454,20 @@
   IS.SUB.path = async function (d, f) { var row = { title: d.title, about: d.about, cat: d.cat, steps: IS.PSEQ ? IS.PSEQ() : [], status: f.pub.checked ? 'published' : 'hidden' }; if (d.id) await DB.upd('paths', d.id, row); else { row.sort = (await DB.q('paths')).length; await DB.ins('paths', row); } IS.audit('path', d.title); IS.closeSheet(); IS.refresh(); };
   IS.ACT.delpath = async function (b) { await DB.del('paths', b.getAttribute('data-id')); IS.closeSheet(); IS.refresh(); };
   /* student pages for paths */
+  function pathInStudySpace(path, courses) {
+    var section = IS.mySection(), steps = path.steps || [];
+    return IS.inSpec(path) && (!section || !path.cat || path.cat === section.id) &&
+      (steps.length ? steps.every(function (id) { return courses.some(function (c) { return c.id === id; }); }) : path.cat === (section && section.id));
+  }
   IS.page('paths', async function () {
-    var cs = await IS.pubCourses(), ps = (await DB.q('paths', { eq: { status: 'published' }, order: ['sort'] })).filter(function (p) { return p.spec ? IS.inSpec(p) : !(p.steps || []).length || (p.steps || []).some(function (x) { return cs.some(function (c) { return c.id === x; }); }); });
+    var cs = await IS.pubCourses(), ps = (await DB.q('paths', { eq: { status: 'published' }, order: ['sort'] })).filter(function (p) { return pathInStudySpace(p, cs); });
     return IS.banner(IS.T('المسارات التعليمية', 'Learning paths'), esc(A('مسارات منظمة ومتكاملة من الأساسيات وحتى المراجعة النهائية', 'Organised paths from the basics to the final review')), 'route') + (ps.length ? '<div class="grid g3">' + ps.map(function (p) { var st = (p.steps || []).filter(function (id) { return cs.some(function (c) { return c.id === id; }); });
       return '<a class="pcard" href="#path/' + p.id + '"><span class="pi">' + ic('route') + '</span><b>' + esc(p.title) + '</b><small>' + esc(p.about || '') + '</small><em>' + N(st.length) + ' ' + esc(A('كورس', 'courses')) + '</em></a>'; }).join('') + '</div>' : IS.empty('route', A('لا توجد مسارات بعد', 'No paths yet'), A('يضيف فريق المنصة المسارات عند توفر الكورسات.', 'The platform team adds paths as courses become available.')));
   });
   IS.page('path', async function (id) {
-    var p = await DB.one('paths', id); if (!p) return null; var cs = await IS.pubCourses(), L = await IS.lecMap(), E = await IS.myEnroll(), steps = (p.steps || []).map(function (s) { return cs.filter(function (c) { return c.id === s; })[0]; }).filter(Boolean);
+    var p = await DB.one('paths', id); if (!p || p.status !== 'published') return null;
+    var cs = await IS.pubCourses(); if (!pathInStudySpace(p, cs)) return IS.outsideStudySpace({ spec: p.spec || IS.SPEC, cat: p.cat });
+    var L = await IS.lecMap(), E = await IS.myEnroll(), steps = (p.steps || []).map(function (s) { return cs.find(function (c) { return c.id === s; }); });
     var prog = IS.ME ? await DB.q('progress', { eq: { user_id: IS.ME.id } }) : [];
     return '<nav class="crumb"><a href="#paths">' + esc(A('المسارات', 'Paths')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(p.title) + '</span></nav>' + IS.banner(esc(p.title), esc(p.about || ''), 'route') + '<ol class="psteps">' + steps.map(function (c, i) { var n = prog.filter(function (x) { return x.course_id === c.id; }).length, pc = c.n_lessons ? Math.min(100, Math.round(n / c.n_lessons * 100)) : 0;
       return '<li class="' + (pc >= 100 ? 'ok' : '') + '"><span class="sn">' + (pc >= 100 ? ic('check') : N(i + 1)) + '</span>' + IS.courseCard(c, L, E) + '<div class="prog">' + IS.bar(pc) + '<em>' + N(pc + '%') + '</em></div></li>'; }).join('') + '</ol>';

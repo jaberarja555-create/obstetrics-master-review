@@ -32,8 +32,9 @@
     extra = extra || {}; var signed = !!me();
     /* a course or lecture request can go to the platform in general (the team chooses the lecturer) or to one lecturer (owner, 18 Nov 2026) */
     var ls = []; if (signed) { try { ls = (await DB.q('lecturers', { eq: { status: 'active' } })).filter(function (l) { return l.id !== me().id; }); } catch (e) { ls = []; } }
-    var cs0 = []; try { cs0 = await IS.pubCourses(true); } catch (e) {}
-    if (IS.SPEC && IS.lecSpecs) ls.sort(function (a, b) { return (IS.lecSpecs(b, cs0)[IS.SPEC] ? 1 : 0) - (IS.lecSpecs(a, cs0)[IS.SPEC] ? 1 : 0) || String(a.name).localeCompare(String(b.name)); });
+    var section = IS.area === 'student' && IS.mySection();
+    if (section && ls.length) ls = IS.studyLecturers(ls, await IS.pubCourses().catch(function () { return []; }));
+    ls.sort(function (a, b) { return String(a.name).localeCompare(String(b.name)); });
     var toBox = ls.length ? '<label class="fl" data-lecto' + (k === 'course' ? '' : ' hidden') + '><span>' + esc(A('إلى', 'To')) + '</span><select name="lec"><option value="">' + esc(A('عام: فريق المنصة يختار المحاضر المناسب', 'General: the platform team chooses the right lecturer')) + '</option>' +
       ls.map(function (l) { return '<option value="' + l.id + '"' + (l.id === extra.lecturer ? ' selected' : '') + '>' + esc(l.name + (l.specialty ? ' · ' + l.specialty : '')) + '</option>'; }).join('') + '</select></label>' : '';
     var toL = extra.lecturer && ls.filter(function (l) { return l.id === extra.lecturer; })[0];

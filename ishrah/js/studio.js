@@ -98,17 +98,31 @@
     var tabs = [['details', A('بيانات الكورس', 'Details'), 'info'], ['cur', A('المحتوى والدروس', 'Curriculum'), 'video'], ['publish', A('النشر', 'Publishing'), 'send']];
     var h = '<nav class="crumb"><a href="#studio-courses">' + esc(A('كورساتي', 'My courses')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(c.title || A('كورس جديد', 'New course')) + '</span></nav><header class="fhead"><div><h1 tabindex="-1">' + esc(c.title || A('كورس جديد', 'New course')) + '</h1>' + (c.id ? IS.status(c.status) : '') + '</div>' + (c.id ? '<a class="btn ghost sm" href="#course/' + c.id + '">' + ic('eye') + esc(A('معاينة كما يراه الطالب', 'Preview as a student')) + '</a>' : '') + '</header>';
     h += '<div class="steps3">' + tabs.map(function (t, i) { return c.id || i === 0 ? '<a href="#studio-course/' + (c.id || 'new') + '/' + t[0] + '" class="' + (tab === t[0] ? 'on' : '') + '"><span>' + N(i + 1) + '</span>' + ic(t[2]) + esc(t[1]) + '</a>' : '<span class="off"><span>' + N(i + 1) + '</span>' + esc(t[1]) + '</span>'; }).join('') + '</div>';
-    if (tab === 'details' || !c.id) h += detailsForm(c);
+    if (tab === 'details' || !c.id) {
+      h += detailsForm(c);
+      IS.after = function (main) {
+        var form = main.querySelector('form[data-form=course]');
+        function updateSubjects() { form.subject.innerHTML = courseSubjects(form.spec.value, form.cat.value, form.subject.value); }
+        form.spec.onchange = updateSubjects;
+        form.cat.onchange = updateSubjects;
+      };
+    }
     else if (tab === 'cur') h += await curEditor(c);
     else h += await publishBox(c);
     return h;
   }, { auth: true, area: 'studio', lec: true });
+  function courseSubjects(spec, cat, current) {
+    return '<option value="">—</option>' + IS.SUBJ.filter(function (s) { return s.spec === spec && s.cat === cat; }).map(function (s) {
+      return '<option value="' + esc(s.id) + '"' + (s.id === current ? ' selected' : '') + '>' + esc(s.en) + '</option>';
+    }).join('');
+  }
   function detailsForm(c) {
+    var scope = IS.studyScope(c);
     return '<form class="box form" data-form="course"><input type="hidden" name="id" value="' + esc(c.id || '') + '"><div class="g2f"><label class="fl"><span>' + esc(A('عنوان الكورس', 'Course title')) + ' *</span><input name="title" required maxlength="120" value="' + esc(c.title) + '"></label>' +
       '<label class="fl"><span>' + esc(A('عنوان فرعي قصير', 'Short subtitle')) + '</span><input name="subtitle" maxlength="160" value="' + esc(c.subtitle || '') + '"></label>' +
-      '<label class="fl"><span>' + esc(A('التخصص', 'Speciality')) + '</span>' + sel('spec', IS.SPECS.map(function (k) { return [k.id, k.en]; }), c.spec || 'medicine') + '</label>' +
-      '<label class="fl"><span>' + esc(A('القسم', 'Category')) + '</span>' + sel('cat', IS.CATS.map(function (k) { return [k.id, k.en]; }), c.cat) + '</label>' +
-      '<label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span>' + '<select name="subject"><option value="">—</option>' + IS.SPECS.map(function (k) { return '<optgroup label="' + esc(k.en) + '">' + IS.SUBJ.filter(function (x) { return x.spec === k.id; }).map(function (x) { return '<option value="' + x.id + '"' + (c.subject === x.id ? ' selected' : '') + '>' + esc(x.en) + '</option>'; }).join('') + '</optgroup>'; }).join('') + '</select>' + '</label>' +
+      '<label class="fl"><span>' + esc(A('التخصص', 'Speciality')) + '</span>' + sel('spec', IS.SPECS.map(function (k) { return [k.id, k.en]; }), scope.spec) + '</label>' +
+      '<label class="fl"><span>' + esc(A('القسم', 'Section')) + '</span>' + sel('cat', IS.CATS.map(function (k) { return [k.id, k.en]; }), scope.cat) + '</label>' +
+      '<label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span><select name="subject">' + courseSubjects(scope.spec, scope.cat, c.subject) + '</select></label>' +
       '<label class="fl"><span>' + esc(A('المستوى', 'Level')) + '</span>' + sel('level', LEVELS.map(function (l) { return [l[0], A(l[0] || '—', l[1])]; }), c.level) + '</label>' +
       '<label class="fl"><span>' + esc(A('السعر', 'Price')) + ' (' + esc(IS.SET.currency || 'SDG') + ', ' + esc(A('0 = مجاني', '0 = free')) + ')</span><input name="price" type="number" min="0" step="500" value="' + esc(c.price || 0) + '" dir="ltr"></label></div>' +
       '<label class="fl"><span>' + esc(A('لون الكورس', 'Course colour')) + '</span>' + swatches('color', c.color) + '</label>' +
@@ -119,7 +133,7 @@
       '<div class="row end"><button class="btn pri">' + ic('check') + esc(c.id ? A('حفظ', 'Save') : A('إنشاء الكورس والمتابعة', 'Create and continue')) + '</button></div></form>';
   }
   IS.SUB.course = async function (d, f) {
-    var sj = IS.subj(d.subject), row = { title: d.title, subtitle: d.subtitle, spec: sj ? sj.spec : (d.spec || 'medicine'), cat: d.cat, subject: d.subject, level: d.level, price: +d.price || 0, color: d.color, about: IS.edVal(f, 'about'), learn: IS.lines(d.learn), reqs: IS.lines(d.reqs), updated_at: new Date().toISOString() };
+    var scope = IS.studyScope(d), row = { title: d.title, subtitle: d.subtitle, spec: scope.spec, cat: scope.cat, subject: d.subject, level: d.level, price: +d.price || 0, color: d.color, about: IS.edVal(f, 'about'), learn: IS.lines(d.learn), reqs: IS.lines(d.reqs), updated_at: new Date().toISOString() };
     if (f.cover.files[0]) row.cover = await DB.upload('media', await IS.shrink(f.cover.files[0], 1280, 0.82));
     var c; if (d.id) { var old = await DB.one('courses', d.id); if (old.status === 'published' && (+old.price !== row.price)) row.status = old.status; c = await DB.upd('courses', d.id, row); }
     else { row.lecturer_id = L().id; row.status = 'draft'; row.n_lessons = 0; row.minutes = 0; row.n_students = 0; row.rating = 0; row.n_reviews = 0; c = await DB.ins('courses', row); }

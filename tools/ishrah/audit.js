@@ -11,7 +11,7 @@ const { chromium } = require('playwright');
 const PORT = process.env.PORT || 8821, BASE = 'http://localhost:' + PORT + '/';
 const SIZES = { ph: [390, 844, true], tp: [820, 1180, true], tl: [1180, 820, true], tx: [1280, 800, true], ts: [1024, 600, true], lp: [1440, 900, false] };
 const pick = (process.argv[2] || 'ph,tp,tl,lp').split(',');
-const PUB = 'home,pick,search?q=anatomy,courses,specialties,spec/medicine,lecturers,events,news,community,library,paths,team,about,terms,support,settings,studio-apply,studio-guide'.split(',');
+const PUB = 'home,pick,pick-section,search?q=anatomy,courses,specialties,lecturers,events,news,community,library,paths,team,about,terms,support,settings,studio-apply,studio-guide'.split(',');
 const MINE = 'learning,favorites,achievements,downloads,account,notifications,security,library/requests,studio,studio-courses,studio-events,studio-students,studio-qa,studio-money,control,control-team,control-cats,control-review,control-apps,control-lecturers,control-students,control-library,control-requests,control-community,control-events,control-notify,control-news,control-settings,control-audit,control-reports,control-paths,control-structure,control-tickets,control-tasks,control-pay,control-payouts'.split(',');
 const DETAIL = [['courses', 'course/'], ['lecturers', 'lecturer/'], ['events', 'event/'], ['community', 'post/'], ['paths', 'path/'], ['news', 'news/']];
 const only = process.argv[3] ? process.argv[3].split(',') : null;
@@ -80,7 +80,7 @@ async function signIn(p) {
     for (const signed of [false, true]) {
       const ctx = await b.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 1, hasTouch: touch, isMobile: sz === 'ph' }); const p = await ctx.newPage();
       const errs = new Set(); p.on('pageerror', e => errs.add(e.message.slice(0, 120))); p.on('dialog', d => d.accept());
-      await p.goto(BASE); await p.evaluate(() => { localStorage.clear(); localStorage.setItem('ish-spec', '"medicine"'); }); await p.reload(); await p.waitForTimeout(1200);
+      await p.goto(BASE); await p.evaluate(() => { localStorage.clear(); localStorage.setItem('ish-spec', '"medicine"'); localStorage.setItem('ish-study-sections', '{"medicine":"clinical"}'); }); await p.reload(); await p.waitForTimeout(1200);
       if (signed) await signIn(p);
       let pages = signed ? PUB.concat(MINE) : PUB;
       for (const [list, pre] of DETAIL) { await p.evaluate(x => { location.hash = x; }, list); await p.waitForTimeout(700);

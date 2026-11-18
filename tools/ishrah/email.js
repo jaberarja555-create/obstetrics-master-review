@@ -2,7 +2,7 @@
 const { chromium } = require('playwright');
 (async()=>{const b=await chromium.launch();const p=await(await b.newContext({viewport:{width:390,height:844}})).newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
 const shot=n=>p.screenshot({path:(process.argv[2]||'.')+'/em-'+n+'.png'});
-await p.goto('http://localhost:8820/');await p.evaluate(()=>(localStorage.clear(),localStorage.setItem('ish-spec','"medicine"')));await p.reload();await p.waitForTimeout(800);
+await p.goto('http://localhost:8820/');await p.evaluate(()=>(localStorage.clear(),localStorage.setItem('ish-spec','"medicine"'), localStorage.setItem('ish-study-sections', '{"medicine":"clinical"}')));await p.reload();await p.waitForTimeout(800);
 await p.evaluate(()=>IS.ACT.register({getAttribute:()=>null}));await p.waitForTimeout(400);await shot('1-signup');
 await p.fill('[data-form=esignup] [name=name]','د. سارة أحمد');await p.fill('[data-form=esignup] [name=email]','Sara@Example.com');
 await p.fill('[data-form=esignup] [name=pass]','short');await p.fill('[data-form=esignup] [name=pass2]','short');await p.check('[data-form=esignup] [name=terms]');

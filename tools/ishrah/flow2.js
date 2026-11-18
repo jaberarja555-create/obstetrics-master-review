@@ -17,7 +17,7 @@ function totp(secret) { const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'; let bits =
     await p.fill('[data-form=signup] [name=name]', name); await p.fill('[data-form=signup] [name=phone]', phone); await p.fill('[data-form=signup] [name=pass]', 'secret12'); await p.fill('[data-form=signup] [name=pass2]', 'secret12'); await p.check('[data-form=signup] [name=terms]'); await sub('signup'); await p.waitForTimeout(500); };
   const login = async phone => { await p.evaluate(() => (IS.AUTHTAB='phone',IS.ACT.login)()); await p.waitForTimeout(300); await p.fill('[data-form=signin] [name=phone]', phone); await p.fill('[data-form=signin] [name=pass]', 'secret12'); await sub('signin'); await p.waitForTimeout(800); };
   const logout = async () => { await p.evaluate(() => IS.ACT.logout()); await p.waitForTimeout(500); };
-  await p.goto('http://localhost:' + (process.env.PORT || 8820) + '/'); await p.evaluate(() => { localStorage.clear(); localStorage.setItem('ish-spec', '"medicine"'); sessionStorage.clear(); indexedDB.deleteDatabase('ish-files'); }); await p.reload(); await p.waitForTimeout(800);
+  await p.goto('http://localhost:' + (process.env.PORT || 8820) + '/'); await p.evaluate(() => { localStorage.clear(); localStorage.setItem('ish-spec', '"medicine"'); localStorage.setItem('ish-study-sections', '{"medicine":"clinical"}'); sessionStorage.clear(); indexedDB.deleteDatabase('ish-files'); }); await p.reload(); await p.waitForTimeout(800);
   // owner
   await signup('د. عبدالجليل ارجا', '0911111111'); await go('control', 1200); await shot('01-owner-dash');
   await go('control-team', 1000); await shot('02-team');

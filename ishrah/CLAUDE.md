@@ -386,3 +386,10 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   request of an active lecturer. Migration `012_one_lecturer_request.sql`: tidies existing duplicates (newest kept, older ones «Duplicate
   request»), a unique index allows one open request per person, a trigger closes open requests when a lecturer becomes active (tested on a local
   Postgres). **Owner still has to run Actions → Ishrah → apply database for 010, 011 and 012.**
+
+## Study sections (owner, 18 Nov 2026)
+
+- Students choose a speciality at `#pick`, then a section at `#pick-section` in this order: Basics, Clinical, International Exams, House Officer. The current section appears on Home and in the sidebar or mobile header. The section chooser links back to the speciality chooser. Each speciality remembers its last section on this device (`ish-study-sections`).
+- `IS.studyScope` uses a known subject's speciality and section, with the saved course or file fields as a fallback. The Studio course form offers only subjects in the chosen speciality and section. Each student space shows its own subjects, published courses, lecturers, library files, community discussions and learning paths. A lecturer appears in each section where they have a published course. Lecturer profiles, search, course requests, My Learning, favourites and the certificate list follow the current space.
+- Cross-section links to a course, lesson, lecturer, library file or thread offer to switch spaces before showing the content. Studio and Control can still preview the material they manage. The events calendar is organised by speciality. Account tools and saved offline downloads are available across sections, and cached study pages are keyed by speciality and section.
+- This change uses the existing data fields, with no new migration. `PORT=8821 node tools/ishrah/space.js <width>` exercises all four Medicine sections, a second speciality, direct links, persistence and Studio subject selection in a local preview. `PORT=8821 node tools/ishrah/audit.js ph,tp,tl,tx,ts,lp` includes the new section chooser.

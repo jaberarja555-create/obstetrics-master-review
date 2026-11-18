@@ -1,6 +1,6 @@
 const { chromium } = require('playwright');
 (async()=>{const b=await chromium.launch();for(const w of [1366,390]){const p=await(await b.newContext({viewport:{width:w,height:1000}})).newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
-await p.goto('http://localhost:8820/');await p.evaluate(()=>{localStorage.clear();localStorage.setItem('ish-spec','"medicine"')});await p.reload();await p.waitForTimeout(900);
+await p.goto('http://localhost:8820/');await p.evaluate(()=>{localStorage.clear();localStorage.setItem('ish-spec','"medicine"'); localStorage.setItem('ish-study-sections', '{"medicine":"clinical"}')});await p.reload();await p.waitForTimeout(900);
 await p.evaluate(()=>{IS.ME={id:'u1',name:'أحمد',role:'student',team:[]};location.hash='library/requests'});await p.waitForTimeout(900);
 await p.click('.rk.k-research');await p.waitForTimeout(300);
 await p.check('[name=rchap][value=all]');const allOn=await p.$$eval('[name=rchap]:checked',x=>x.length);const anal=await p.evaluate(()=>!document.getElementById('ranal').hidden);

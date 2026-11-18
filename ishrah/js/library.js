@@ -36,17 +36,19 @@
     return IS.chip(ic(s === 'done' ? 'checkc' : s === 'rejected' ? 'x' : 'clock') + esc(A(m[0], m[1])), 'st ' + m[2]); };
   var T = { k: 'all', q: '', sub: '', sp: '' };
   /* specialities in the library (owner, 18 Nov 2026: "update the library so it includes the other specialities") */
-  function fspec(f) { return f.spec || (IS.subj(f.subject) || {}).spec || 'medicine'; }
+  function fspec(f) { return IS.studyScope(f).spec; }
   function spName(id) { var x = IS.SPECS.filter(function (s) { return s.id === id; })[0]; return x ? x.en : ''; }
   function specBar() { return '<section class="specbar">' + [{ id: '', en: 'All specialities', ar: 'كل التخصصات', icon: 'grid' }].concat(IS.SPECS).map(function (x) {
     return '<a class="spb2' + (x.id === T.sp ? ' on' : '') + '" href="#library/@' + (x.id || 'all') + '">' + ic(x.icon) + '<span><b lang="en">' + esc(x.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(x.ar) + '</small>') + '</span></a>'; }).join('') + '</section>'; }
-  function subjOptions(cur) { var sp = cur ? (IS.subj(cur) || {}).spec : T.sp; return IS.SPECS.map(function (g) { var ss = IS.SUBJ.filter(function (x) { return x.spec === g.id; }); if (!ss.length) return '';
+  function subjOptions(cur, scoped) { var sp = cur ? (IS.subj(cur) || {}).spec : T.sp; return IS.SPECS.map(function (g) { var ss = IS.SUBJ.filter(function (x) { return x.spec === g.id && (!scoped || IS.inStudySpace(x)); }); if (!ss.length) return '';
     return '<optgroup label="' + esc(g.en + (IS.lang === 'en' ? '' : ' · ' + g.ar)) + '">' + ss.map(function (x, i) { return '<option value="' + x.id + '"' + (cur ? (cur === x.id ? ' selected' : '') : (g.id === sp && i === 0 ? ' selected' : '')) + '>' + esc(x.en) + '</option>'; }).join('') + '</optgroup>'; }).join(''); }
 
   IS.page('library', async function (tab) {
     if (tab && tab.charAt(0) === '@') { T.sp = tab === '@all' ? '' : tab.slice(1); tab = T.k; } if (IS.SPEC) T.sp = IS.SPEC;
+    var scope = IS.SPEC + '/' + ((IS.mySection() || {}).id || '');
+    if (T.scope !== scope) { T.scope = scope; T.k = 'all'; IS.LCOLL = null; }
     T.k = tab || T.k || 'all';
-    var fs = (await DB.q('files', { eq: { status: 'published' }, order: ['created_at', false] })).filter(function (f) { return !T.sp || fspec(f) === T.sp; }), me = IS.ME;
+    var fs = (await DB.q('files', { eq: { status: 'published' }, order: ['created_at', false] })).filter(function (f) { return (!T.sp || fspec(f) === T.sp) && IS.inStudySpace(f); }), me = IS.ME;
     var reqs = me ? await DB.q('requests', { eq: { user_id: me.id }, order: ['created_at', false] }) : [];
     var h = IS.banner(IS.T('مكتبتي', 'My Library'), esc(A('كل كتبك وملفاتك الدراسية في مكان واحد', 'All your books and study files in one place')), 'open', '', 'libban') + (IS.SPEC ? '' : specBar());
     h += '<section class="ltabs"><a href="#library/requests" class="lt req' + (T.k === 'requests' ? ' on' : '') + '">' + ic('receipt') + '<b lang="en">Requests</b>' + (IS.lang === 'en' ? '' : '<small>' + esc('الطلبات') + '</small>') + (reqs.filter(function (r) { return r.status === 'pending' || r.status === 'progress'; }).length ? '<i>' + N(reqs.filter(function (r) { return r.status === 'pending' || r.status === 'progress'; }).length) + '</i>' : '') + '</a>' +
@@ -54,23 +56,22 @@
       KINDS.map(function (k) { return '<a href="#library/' + k[0] + '" class="lt' + (T.k === k[0] ? ' on' : '') + '">' + ic(k[1]) + '<b>' + esc(A(k[2], k[3])) + '</b><small>' + N(fs.filter(function (f) { return f.kind === k[0]; }).length) + '</small></a>'; }).join('') + '</section>';
     if (T.k === 'requests') return h + requestsView(reqs, fs);
     var list = fs.filter(function (f) { return T.k === 'all' || f.kind === T.k; });
-    var subjects = IS.SUBJ.filter(function (s) { return T.sp ? s.spec === T.sp : fs.some(function (f) { return f.subject === s.id; }); });
+    var subjects = IS.SUBJ.filter(IS.inStudySpace);
     h += '<div class="cols rev"><aside class="filt" id="filt"><header><h2>' + ic('filter') + IS.T('تصفية المكتبة', 'Filter the library') + '</h2></header>' +
-      '<details class="fg" open><summary>' + esc(A('القسم', 'Section')) + ic('down') + '</summary><div>' + IS.CATS.map(function (c) { var n = fs.filter(function (f) { return f.cat === c.id; }).length; return '<label class="opt"><input type="checkbox" data-lf="cat" value="' + c.id + '"><span>' + esc(c.en) + '</span><em>' + N(n) + '</em></label>'; }).join('') + '</div></details>' +
       (subjects.length ? '<details class="fg" open><summary>' + esc(A('المادة', 'Subject')) + ic('down') + '</summary><div>' + subjects.map(function (s) { return '<label class="opt"><input type="checkbox" data-lf="sub" value="' + s.id + '"><span>' + esc(s.en) + '</span><em>' + N(fs.filter(function (f) { return f.subject === s.id; }).length) + '</em></label>'; }).join('') + '</div></details>' : '') + '</aside>' +
       '<div class="main"><div class="tool"><label class="field">' + ic('search') + '<input id="lq" type="search" placeholder="' + esc(A('ابحث في مكتبتي…', 'Search the library…')) + '"></label><button class="btn ghost only-ph" data-act="ftog">' + ic('filter') + esc(A('تصفية', 'Filter')) + '</button>' +
       (me ? '<button class="btn pri" data-act="share-file">' + ic('upload') + esc(A('شارك ملفًا', 'Share a file')) + '</button>' : '') + '</div><div id="lres"></div></div>' +
       '<aside class="aside">' + (me ? collBox() : '') + '<section class="box upl">' + ic('upload') + '<b>' + esc(A('هل لديك كتاب أو ملف مفيد؟', 'Have a useful book or file?')) + '</b><span>' + esc(A('شاركه مع زملائك في المكتبة بعد مراجعته من فريق المحتوى.', 'Share it with your classmates after the content team reviews it.')) + '</span><button class="btn pri sm" data-act="share-file">' + esc(A('رفع ملف للمكتبة', 'Upload to the library')) + '</button></section></aside></div>';
     IS.after = function () {
-      var sel = { cat: {}, sub: {} }, fill = function () {
-        var w = IS.norm(($('#lq') || {}).value || '').split(' ').filter(Boolean), cats = Object.keys(sel.cat).filter(function (k) { return sel.cat[k]; }), subs = Object.keys(sel.sub).filter(function (k) { return sel.sub[k]; }), coll = IS.LCOLL;
-        var r = list.filter(function (f) { if (cats.length && cats.indexOf(f.cat) < 0) return false; if (subs.length && subs.indexOf(f.subject) < 0) return false; if (coll && (coll.items || []).indexOf(f.id) < 0) return false;
+      var sel = {}, fill = function () {
+        var w = IS.norm(($('#lq') || {}).value || '').split(' ').filter(Boolean), subs = Object.keys(sel).filter(function (k) { return sel[k]; }), coll = IS.LCOLL;
+        var r = list.filter(function (f) { if (subs.length && subs.indexOf(f.subject) < 0) return false; if (coll && (coll.items || []).indexOf(f.id) < 0) return false;
           if (w.length) { var hay = IS.norm([f.title, f.about, f.author].join(' ')); if (!w.every(function (x) { return hay.indexOf(x) >= 0; })) return false; } return true; });
         $('#lres').innerHTML = (coll ? '<p class="count">' + ic('folder') + esc(coll.n) + ' <button class="link" data-act="lcoll" data-i="-1">' + esc(A('عرض الكل', 'Show all')) + '</button></p>' : '') + (r.length ? '<div class="grid g4 files">' + r.map(fileCard).join('') + '</div>' :
           IS.empty(kind(T.k === 'all' ? 'other' : T.k)[1], A('لا توجد ملفات هنا بعد', 'No files here yet'), A('لم تجد ما تبحث عنه؟ اطلبه من المكتبة.', 'Can’t find it? Request it from the library.'), '<a class="btn pri" href="#library/requests">' + ic('plus') + esc(A('اطلبه الآن', 'Request it')) + '</a>'));
       };
       IS.libFill = fill; fill(); $('#lq').oninput = fill;
-      IS.$$('[data-lf]').forEach(function (i) { i.onchange = function () { sel[i.getAttribute('data-lf')][i.value] = i.checked; fill(); }; });
+      IS.$$('[data-lf]').forEach(function (i) { i.onchange = function () { sel[i.value] = i.checked; fill(); }; });
     };
     return h;
   });
@@ -149,18 +150,18 @@
   /* ---------- sharing a file (student or lecturer); published after review ---------- */
   IS.ACT['share-file'] = function () {
     if (!IS.ME) return IS.ACT.login();
-    IS.sheet(esc(A('رفع ملف للمكتبة', 'Upload a file to the library')), '<form class="form" data-form="sharefile">' + fileFields({}) + '<p class="note">' + ic('shield') + '<span>' + esc(A('يراجع فريق المحتوى الملف قبل نشره. ارفع فقط ما تملك حق مشاركته.', 'The content team reviews the file before publishing. Upload only what you have the right to share.')) + '</span></p><button class="btn pri wide">' + ic('upload') + esc(A('رفع', 'Upload')) + '</button></form>');
+    IS.sheet(esc(A('رفع ملف للمكتبة', 'Upload a file to the library')), '<form class="form" data-form="sharefile">' + fileFields({}, true) + '<p class="note">' + ic('shield') + '<span>' + esc(A('يراجع فريق المحتوى الملف قبل نشره. ارفع فقط ما تملك حق مشاركته.', 'The content team reviews the file before publishing. Upload only what you have the right to share.')) + '</span></p><button class="btn pri wide">' + ic('upload') + esc(A('رفع', 'Upload')) + '</button></form>');
   };
-  function fileFields(f) {
+  function fileFields(f, scoped) {
     return '<label class="fl"><span>' + esc(A('العنوان', 'Title')) + ' *</span><input name="title" required maxlength="160" value="' + esc(f.title || '') + '"></label><div class="g2f"><label class="fl"><span>' + esc(A('النوع', 'Type')) + '</span><select name="kind">' + KINDS.map(function (k) { return '<option value="' + k[0] + '"' + (f.kind === k[0] ? ' selected' : '') + '>' + esc(A(k[2], k[3])) + '</option>'; }).join('') + '</select></label>' +
-      '<label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span><select name="subject">' + subjOptions(f.subject) + '</select></label></div>' +
+      '<label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span><select name="subject">' + subjOptions(f.subject, scoped) + '</select></label></div>' +
       '<label class="fl"><span>' + esc(A('المؤلف أو المصدر', 'Author or source')) + '</span><input name="author" maxlength="120" value="' + esc(f.author || '') + '"></label><label class="fl"><span>' + esc(A('وصف قصير', 'Short description')) + '</span><textarea name="about" rows="2" maxlength="600">' + esc(f.about || '') + '</textarea></label>' +
       '<label class="fl file"><span>' + esc(A('الملف (PDF أو صورة، حتى 50 MB)', 'File (PDF or picture, up to 50 MB)')) + (f.id ? '' : ' *') + '</span><input type="file" name="file" accept="application/pdf,image/*"' + (f.id ? '' : ' required') + '></label>' +
       '<label class="fl file"><span>' + esc(A('صورة الغلاف (اختياري)', 'Cover picture (optional)')) + '</span><input type="file" name="cover" accept="image/*"></label>';
   }
   IS.fileFields = fileFields;
   IS.saveFile = async function (d, f, extra) {
-    var file = f.file.files[0], cover = f.cover.files[0], row = { title: d.title, kind: d.kind, subject: d.subject, cat: (IS.subj(d.subject) || {}).cat || '', spec: (IS.subj(d.subject) || {}).spec || 'medicine', author: d.author || '', about: d.about || '' };
+    var file = f.file.files[0], cover = f.cover.files[0], row = { title: d.title, kind: d.kind, subject: d.subject, cat: (IS.subj(d.subject) || {}).cat || (IS.area === 'student' && IS.mySection() ? IS.mySection().id : ''), spec: (IS.subj(d.subject) || {}).spec || (IS.area === 'student' && IS.SPEC) || 'medicine', author: d.author || '', about: d.about || '' };
     if (file) { if (file.size > 50 * 1048576) throw new Error(A('الملف أكبر من 50 MB', 'File larger than 50 MB')); row.path = await DB.upload('library', /^image\//.test(file.type) ? await IS.shrink(file, 2000, 0.85) : file); row.mime = file.type; row.size = file.size; if (/pdf/.test(file.type)) row.pages = await pdfPages(file).catch(function () { return 0; }); }
     if (cover) row.cover = await DB.upload('media', await IS.shrink(cover, 600, 0.82));
     Object.assign(row, extra || {}); return row;
@@ -173,6 +174,7 @@
   async function pdfPages(file) { var lib = await pdfLib(), doc = await lib.getDocument({ data: await file.arrayBuffer() }).promise; return doc.numPages; }
   IS.page('file', async function (id) {
     var f = await DB.one('files', id); if (!f) return null; if (f.status !== 'published' && !(IS.ME && (f.owner_id === IS.ME.id || IS.can('library')))) return null;
+    if (!IS.can('library') && !IS.inStudySpace(f)) return IS.outsideStudySpace(f);
     var k = kind(f.kind), sj = IS.subj(f.subject);
     var h = '<nav class="crumb"><a href="#library">' + esc(A('مكتبتي', 'My Library')) + '</a>' + ic('chev', 'fl') + '<a href="#library/' + f.kind + '">' + esc(A(k[2], k[3])) + '</a>' + ic('chev', 'fl') + '<span>' + esc(f.title) + '</span></nav>' +
       '<header class="fhead"><div><h1 tabindex="-1">' + esc(f.title) + '</h1><p class="mut">' + [A(k[2], k[3]), spName(fspec(f)), sj ? sj.en : '', f.author, f.pages ? f.pages + ' ' + A('صفحة', 'pages') : ''].filter(Boolean).map(esc).join(' · ') + '</p></div><div class="row">' + IS.favBtn('f:' + id) + (IS.ME && f.status === 'published' ? IS.dlBtn('file', id) : '') + (IS.ME ? '<button class="fav" data-act="addcoll" data-id="' + id + '" aria-label="collection">' + ic('folder') + '</button>' : '') + '</div></header>' +

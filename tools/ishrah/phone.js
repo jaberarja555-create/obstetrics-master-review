@@ -5,7 +5,7 @@ const PAGES = (process.argv[2] || 'home,courses,lecturers,events,news,community,
 (async () => {
   const b = await chromium.launch(); const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1, hasTouch: true, isMobile: true }); const p = await ctx.newPage();
   const errs = []; p.on('pageerror', e => errs.push(e.message)); p.on('dialog', d => d.accept());
-  await p.goto('http://localhost:' + (process.env.PORT || 8820) + '/'); await p.evaluate(() => { localStorage.clear(); localStorage.setItem('ish-spec', '"medicine"'); }); await p.reload(); await p.waitForTimeout(1200);
+  await p.goto('http://localhost:' + (process.env.PORT || 8820) + '/'); await p.evaluate(() => { localStorage.clear(); localStorage.setItem('ish-spec', '"medicine"'); localStorage.setItem('ish-study-sections', '{"medicine":"clinical"}'); }); await p.reload(); await p.waitForTimeout(1200);
   await p.evaluate(() => IS.ACT.register({ getAttribute: () => null })); await p.waitForTimeout(400);
   await p.fill('[data-form=esignup] [name=name]', 'د. عبدالجليل ارجا'); await p.fill('[data-form=esignup] [name=email]', 'owner@example.com');
   await p.fill('[data-form=esignup] [name=pass]', 'goodpass1'); await p.fill('[data-form=esignup] [name=pass2]', 'goodpass1'); await p.check('[data-form=esignup] [name=terms]');

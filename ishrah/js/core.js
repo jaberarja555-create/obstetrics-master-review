@@ -168,6 +168,14 @@
   IS.setSpec = function (id) { IS.SPEC = id || ''; LS.set('spec', IS.SPEC); if (IS.ME && IS.ME.spec !== IS.SPEC) { IS.ME.spec = IS.SPEC; DB.upd('profiles', IS.ME.id, { spec: IS.SPEC }).catch(function () {}); }
     IS.LSPEC = ''; document.dispatchEvent(new Event('ish-spec')); };
   IS.mySpec = function () { return IS.spec(IS.SPEC); };
+  var studySections = LS.get('study-sections', {});
+  IS.mySection = function () { return IS.cat(studySections[IS.SPEC]); };
+  IS.setSection = function (id) {
+    if (!IS.mySpec() || !IS.cat(id)) return false;
+    studySections[IS.SPEC] = id;
+    LS.set('study-sections', studySections);
+    return true;
+  };
   IS.loadBase = async function () {
     var r = await Promise.all([DB.q('settings'), DB.q('categories', { order: ['sort'] }), DB.q('subjects', { order: ['sort'] }), DB.q('specialties', { order: ['sort'] }).catch(function () { return []; })]);
     IS.SET = {}; r[0].forEach(function (s) { IS.SET[s.id] = s.value; }); IS.CATS = r[1]; IS.SUBJ = r[2].map(function (x) { if (!x.spec) x.spec = 'medicine'; if (!x.img && (window.ISH_SUBIMG || []).indexOf(x.id) >= 0) x.img = 'img/sub_' + x.id + '.webp'; return x; }); IS.SPECS = r[3];
@@ -188,7 +196,7 @@
   IS.bar = function (v, c) { v = Math.max(0, Math.min(100, Math.round(v || 0))); return '<span class="bar' + (c ? ' ' + c : '') + '"><i style="width:' + v + '%"></i></span>'; };
   IS.empty = function (icon, t1, t2, act) { return '<div class="empty">' + ic(icon) + '<b>' + esc(t1) + '</b>' + (t2 ? '<span>' + esc(t2) + '</span>' : '') + (act || '') + '</div>'; };
   /* page banners with the owner's pictures (18 Nov 2026): text and icon on one side, the photo on the other, a bright blue wave between */
-  var BANIMG = { team: 'community', downloads: 'library', news: 'news', 'control-news': 'news', 'control-notify': 'news', courses: 'courses', specialties: 'specialties', learning: 'learning', events: 'events', lecturers: 'lecturers', community: 'community', library: 'library', paths: 'paths', path: 'paths',
+  var BANIMG = { team: 'community', downloads: 'library', news: 'news', 'control-news': 'news', 'control-notify': 'news', courses: 'courses', specialties: 'specialties', 'pick-section': 'specialties', learning: 'learning', events: 'events', lecturers: 'lecturers', community: 'community', library: 'library', paths: 'paths', path: 'paths',
     support: 'support', ticket: 'support', achievements: 'achievements', cert: 'achievements', 'control-tickets': 'support', 'control-paths': 'paths', 'control-events': 'events', 'control-lecturers': 'lecturers',
     'control-community': 'community', 'control-library': 'library', 'control-review': 'courses', 'control-cats': 'specialties', 'control-apps': 'lecturers', 'studio-courses': 'courses', 'studio-events': 'events', 'studio-apply': 'lecturers',
     favorites: 'library', notifications: 'support', settings: 'support', account: 'learning', about: 'community', terms: 'library', search: 'courses', lecturer: 'lecturers', event: 'events', post: 'community',
@@ -270,7 +278,13 @@
   IS.route = async function () {
     var h = decodeURIComponent(location.hash.slice(1)) || 'home', m = h.match(/^([a-z-]+?)(?:\/(.*))?$/), name = m ? m[1] : 'home', arg = m ? m[2] : '';
     var P = PAGES[name] || PAGES.home, o = P.o, my = ++SEQ, main = IS.$('#main');
-    if ((!o.area || o.area === 'student' || (o.area === 'keep' && IS.area === 'student')) && name !== 'pick' && name !== 'terms' && name !== 'security' && (!IS.SPEC || !IS.spec(IS.SPEC)) && IS.SPECS.length) { name = 'pick'; P = PAGES.pick; o = P.o; }
+    var student = !o.area || o.area === 'student' || (o.area === 'keep' && IS.area === 'student');
+    if (student && IS.SPECS.length && !/^(pick|terms|security)$/.test(name) && !IS.mySpec()) {
+      name = 'pick'; P = PAGES.pick; o = P.o;
+    } else if (student && IS.mySpec() && IS.CATS.length && !IS.mySection() && !/^(pick|pick-section|terms|security|settings|downloads|dl|spec|specialties)$/.test(name) &&
+      !((IS.team() || IS.LEC) && /^(course|lesson|lecturer|file|post)$/.test(name))) {
+      name = 'pick-section'; P = PAGES[name]; o = P.o;
+    }
     IS.area = o.area === 'keep' ? (IS.area || 'student') : (o.area || 'student'); document.body.setAttribute('data-area', IS.area); document.body.setAttribute('data-page', name);
     IS.chrome(name);
     if (o.auth && !IS.ME) { main.innerHTML = authGate(); return; }
@@ -283,15 +297,16 @@
     var html; IS.after = null;
     /* without internet (owner, 18 Nov 2026: the home page kept spinning): pages that need the internet say so at once; downloads, settings and
        the guide still open. Any page that takes more than 12 s while the connection is gone or very weak shows the offline card instead. */
-    var OFFOK = { downloads: 1, dl: 1, settings: 1, terms: 1, pick: 1, 'studio-guide': 1 };
-    if (!navigator.onLine && DB.live && !OFFOK[name]) { IS.OFFPAGE = true; var kept = pageCopy(h);
+    var OFFOK = { downloads: 1, dl: 1, settings: 1, terms: 1, pick: 1, 'pick-section': 1, 'studio-guide': 1 };
+    var section = IS.mySection(), copyKey = IS.area === 'student' ? ['study', IS.SPEC, section ? section.id : '', IS.lang, h].join(':') : h;
+    if (!navigator.onLine && DB.live && !OFFOK[name]) { IS.OFFPAGE = true; var kept = pageCopy(copyKey);
       /* without internet a page opened before shows its last saved copy (owner, 18 Nov 2026: "still the internet problem after switching off") */
       main.innerHTML = '<div class="page">' + (kept ? '<p class="note offcopy">' + IS.ic('offline') + '<span>' + esc(A('أنت دون إنترنت: هذه آخر نسخة محفوظة من الصفحة. تتحدّث عند عودة الاتصال.', 'You are offline: this is the last saved copy of the page. It updates when you are back online.')) + '</span></p>' + kept : IS.offEmpty()) + '</div>';
       if (kept) { IS.balance(); IS.evenRows(); } return; }
     IS.OFFPAGE = false;
     try { html = await Promise.race([P.fn(arg), new Promise(function (ok, no) { setTimeout(function () { no(new Error('slow')); }, DB.live ? 12000 : 60000); })]); } catch (e) { if (e && e.message === 'slow') { if (my !== SEQ) return; IS.OFFPAGE = true; }  if (window.console) console.error(e); html = !navigator.onLine ? IS.offEmpty() : e && e.message === 'slow' ? IS.empty('offline', A('الاتصال ضعيف جدًا', 'The connection is very weak'), A('لم تكتمل الصفحة. تحقق من الإنترنت ثم أعد المحاولة.', 'The page did not finish loading. Check the internet and try again.'), '<button class="btn pri" data-act="retry">' + IS.ic('route') + IS.esc(A('أعد المحاولة', 'Try again')) + '</button> <a class="btn ghost" href="#downloads">' + IS.ic('download') + IS.esc(A('تنزيلاتي', 'My downloads')) + '</a>') : IS.empty('info', A('تعذّر فتح الصفحة', 'This page could not be opened'), String(e && e.message || '')); }
     if (my !== SEQ) return;
-    if (html && DB.live && IS.ME && !/^(dl|lesson|control|security|studio-lesson|pay)/.test(name)) pageSave(h, html);
+    if (html && DB.live && IS.ME && !/^(dl|lesson|control|security|studio-lesson|pay|pick)/.test(name)) pageSave(copyKey, html);
     main.innerHTML = '<div class="page">' + (html || IS.empty('search', A('غير موجود', 'Not found'), A('ربما حُذف أو لم يُنشر بعد.', 'It may have been removed or not published yet.'))) + '</div>';
     if (!IS.keepScroll) window.scrollTo(0, 0); IS.keepScroll = false;
     var h1 = main.querySelector('h1'); if (h1) try { h1.focus({ preventScroll: true }); } catch (e) {}
@@ -304,7 +319,7 @@
     if (c.classList.contains('cflow')) return; var a = c.querySelector(':scope>.aside'), m = c.querySelector(':scope>.main'); if (!a || !m || c.querySelector(':scope>.filt')) return;
     c.classList.toggle('flat', m.offsetHeight - a.offsetHeight > 240); }); };
   /* rows of cards are always even: 8 badges are 4 + 4, never 7 + 1 with the last card stretched across the row (owner, 18 Nov 2026) */
-  var EVEN = { '.badges': 150, '.tiles': 170, '.stp': 250, '.tools': 110, '.spadm': 200, '.rtiles': 190, '.ptiles': 150, '.kgrid': 150, '.rolecards': 230, '.qa': 130, '.sopts': 92, '.offers': 190, '.rkinds': 150, '.hsn': 120, '.sjtiles': 230, '.gdcards': 220, '.lecrow': 240, '.g2f': 240, '.grid.g2': 320, '.box.about + .grid.g3': 240 };
+  var EVEN = { '.badges': 150, '.tiles': 170, '.stp': 250, '.tools': 110, '.spadm': 200, '.rtiles': 190, '.ptiles': 150, '.kgrid': 150, '.rolecards': 230, '.qa': 130, '.sopts': 92, '.offers': 190, '.rkinds': 150, '.hsn': 120, '.sjtiles': 230, '#cres .subjs': 172, '.gdcards': 220, '.lecrow': 240, '.g2f': 240, '.grid.g2': 320, '.box.about + .grid.g3': 240 };
   IS.evenRows = function () { Object.keys(EVEN).forEach(function (sel) { Array.prototype.forEach.call(document.querySelectorAll('#main ' + sel), function (c) {
     var n = c.children.length, W = c.clientWidth; if (!n || !W || getComputedStyle(c).display === 'contents' || c.closest('.cflow')) return;
     var g = parseFloat(getComputedStyle(c).columnGap) || 12, mn = EVEN[sel], max = Math.max(1, Math.floor((W + g) / (mn + g)));
@@ -425,13 +440,14 @@
     var me = IS.ME, area = IS.area;
     var areaSw = '<div class="areas">' + [['student', 'home', A('المنصة', 'Platform'), true], ['studio', 'studio', A('استوديو المحاضر', 'Lecturer studio'), !!IS.LEC], ['control', 'crown', A('التحكم', 'Control'), IS.team()]].filter(function (x) { return x[3]; }).map(function (x) {
       return '<a href="#' + (x[0] === 'student' ? 'home' : x[0]) + '" class="' + (area === x[0] ? 'on' : '') + '">' + ic(x[1]) + '<span>' + esc(x[2]) + '</span></a>'; }).join('') + '</div>';
+    var studySpec = area === 'student' && IS.mySpec(), studySection = studySpec && IS.mySection();
     IS.$('#top').innerHTML = '<div class="tin"><a class="brand" href="#home"><img src="' + IS.logo() + '" alt="" width="46" height="40"><span><b>اشرح لي</b><small>' + esc(area === 'control' ? A('تطبيق التحكم', 'Control app') : area === 'studio' ? A('استوديو المحاضر', 'Lecturer studio') : A('منصة تعليمية متكاملة لطلاب الكليات الصحية', 'Learning platform for health sciences students')) + '</small></span></a>' +
       (area === 'student' ? '<form class="tsearch" role="search" data-form="search"><span>' + ic('search') + '</span><input name="q" type="search" autocomplete="off" placeholder="' + esc(A('ابحث عن كورس أو مادة أو محاضر…', 'Search courses, subjects, lecturers…')) + '" aria-label="' + esc(A('بحث', 'Search')) + '"></form>' : '<span class="tsp"></span>') +
-      (area === 'student' && IS.mySpec() ? '<a class="tspec" href="#pick" aria-label="' + esc(A('تغيير التخصص', 'Change speciality')) + '">' + ic(IS.mySpec().icon) + '<span lang="en">' + esc(IS.mySpec().en.replace('Laboratory Science', 'Lab Science')) + '</span>' + ic('down') + '</a>' : '') + '<div class="tbtn"><a class="ib only-ph" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + ic('search') + '</a><button type="button" class="ib tmode" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night mode')) + '">' + ic(document.documentElement.getAttribute('data-theme') === 'dark' ? 'moon' : 'sun') + '</button>' +
+      (studySpec ? '<a class="tspec" href="#pick-section" aria-label="' + esc(A('تغيير القسم', 'Change section')) + '">' + ic(studySection ? studySection.icon : studySpec.icon) + '<span lang="en">' + esc(studySection ? studySection.en : A('اختر قسمًا', 'Choose section')) + '</span>' + ic('down') + '</a>' : '') + '<div class="tbtn"><a class="ib only-ph" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + ic('search') + '</a><button type="button" class="ib tmode" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night mode')) + '">' + ic(document.documentElement.getAttribute('data-theme') === 'dark' ? 'moon' : 'sun') + '</button>' +
       (me ? '<a class="ib bell" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + ic('bell') + '<i id="bellN" hidden></i></a><a class="me" href="#account">' + IS.av(me, 'sm') + '<span>' + esc(me.name || '') + '</span></a>' :
         '<button class="btn pri sm" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button>') + '</div></div>';
     var items = navItems(area);
-    var mys = area === 'student' && IS.mySpec(), spBox = mys ? '<a class="myspec" href="#pick"' + (mys.img ? ' style="--sp:url(' + IS.U(mys.img) + ')"' : '') + '><span class="msi">' + ic(mys.icon) + '</span><span class="msn"><b lang="en">' + esc(mys.en) + '</b><small>' + esc(A(mys.ar, 'Your speciality')) + '</small></span><em>' + esc(A('تغيير', 'Change')) + '</em></a>' : '';
+    var spBox = studySpec ? '<a class="myspec" href="#pick-section"' + (studySpec.img ? ' style="--sp:url(' + IS.U(studySpec.img) + ')"' : '') + '><span class="msi">' + ic(studySection ? studySection.icon : studySpec.icon) + '</span><span class="msn"><b lang="en">' + esc(studySection ? studySection.en : A('اختر قسمًا', 'Choose section')) + '</b><small lang="en">' + esc(studySpec.en) + '</small></span><em>' + esc(A('تغيير', 'Change')) + '</em></a>' : '';
     IS.$('#side').innerHTML = areaSw + spBox + (area === 'control' && IS.ctrlSide ? '<nav class="cnav">' + IS.ctrlSide(page) + '</nav>' : '<nav>' + items.map(function (n) { return '<a href="#' + n[0] + '" class="' + (n[0] === page || (page.indexOf(n[0] + '-') === 0 && area === 'student') ? 'on' : '') + '">' + ic(n[1]) + IS.navLbl(n[2], n[3]) + '</a>'; }).join('') + '</nav>');
     var tabs = area === 'student' ? ['home', 'courses', 'learning', 'library'] : items.slice(0, 4).map(function (n) { return n[0]; });
     IS.$('#tabs').innerHTML = tabs.map(function (k) { var n = items.filter(function (x) { return x[0] === k; })[0]; if (!n) return ''; return '<a href="#' + n[0] + '" class="' + (n[0] === page ? 'on' : '') + '">' + ic(n[1]) + '<span>' + esc(n[3]) + '</span></a>'; }).join('') +
@@ -457,7 +473,7 @@
   IS.roleChips = function (cls) { var r = IS.myRoles(); if (!r.length) return '';
     return '<div class="roles' + (cls ? ' ' + cls : '') + '">' + r.map(function (x) { var on = (x[0] === 'home' ? 'student' : x[0]) === IS.area; return '<a href="#' + x[0] + '" class="rl ' + x[4] + (on ? ' on' : '') + '">' + ic(x[1]) + '<span>' + esc(A(x[2], x[3])) + '</span></a>'; }).join('') + '</div>'; };
   IS.ACT.more = function () {
-    var items = navItems(IS.area), extra = IS.area === 'student' ? [['pick', 'grid', 'تغيير التخصص', 'Change speciality'], ['notifications', 'bell', 'الإشعارات', 'Notifications'], ['account', 'user', 'حسابي', 'My account'], ['search', 'search', 'البحث', 'Search']] : [['security', 'shield', 'الأمان والتحقق', 'Security']].concat(IS.area === 'control' ? [['settings', 'gear', 'الإعدادات', 'Settings']] : []);
+    var items = navItems(IS.area), extra = IS.area === 'student' ? [['pick-section', 'layers', 'تغيير القسم', 'Change section'], ['notifications', 'bell', 'الإشعارات', 'Notifications'], ['account', 'user', 'حسابي', 'My account'], ['search', 'search', 'البحث', 'Search']] : [['security', 'shield', 'الأمان والتحقق', 'Security']].concat(IS.area === 'control' ? [['settings', 'gear', 'الإعدادات', 'Settings']] : []);
     var areas = [['home', 'home', 'المنصة', 'Platform', true], ['studio', 'studio', 'استوديو المحاضر', 'Lecturer studio', !!IS.LEC], ['control', 'crown', 'التحكم', 'Control', IS.team()]].filter(function (x) { return x[4]; });
     var ms = IS.area === 'student' && IS.mySpec();
     IS.sheet(A('المزيد', 'More'), (IS.ME ? '<div class="mrole"><small>' + esc(A('حسابك:', 'Your account:')) + '</small>' + IS.roleChips() + '</div>' : '') + (ms ? '<a class="myspec big" href="#pick"' + (ms.img ? ' style="--sp:url(' + IS.U(ms.img) + ')"' : '') + '><span class="msi">' + ic(ms.icon) + '</span><span class="msn"><b lang="en">' + esc(ms.en) + '</b><small>' + esc(A('تخصصك', 'Your speciality')) + '</small></span><em>' + esc(A('تغيير', 'Change')) + '</em></a>' : '') + '<div class="mgrid">' + items.concat(extra).map(function (n) { return '<a href="#' + n[0] + '">' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') + '</div>' +
