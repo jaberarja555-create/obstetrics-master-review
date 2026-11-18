@@ -21,11 +21,11 @@
     return '<optgroup label="' + esc(g.en + (IS.lang === 'en' ? '' : ' · ' + g.ar)) + '">' + ss.map(function (x, i) { return '<option value="' + x.id + '"' + (cur ? (cur === x.id ? ' selected' : '') : (g.id === sp && i === 0 ? ' selected' : '')) + '>' + esc(x.en) + '</option>'; }).join('') + '</optgroup>'; }).join(''); }
 
   IS.page('library', async function (tab) {
-    if (tab && tab.charAt(0) === '@') { T.sp = tab === '@all' ? '' : tab.slice(1); tab = T.k; }
+    if (tab && tab.charAt(0) === '@') { T.sp = tab === '@all' ? '' : tab.slice(1); tab = T.k; } if (IS.SPEC) T.sp = IS.SPEC;
     T.k = tab || T.k || 'all';
     var fs = (await DB.q('files', { eq: { status: 'published' }, order: ['created_at', false] })).filter(function (f) { return !T.sp || fspec(f) === T.sp; }), me = IS.ME;
     var reqs = me ? await DB.q('requests', { eq: { user_id: me.id }, order: ['created_at', false] }) : [];
-    var h = IS.banner('<span>' + esc(A('مكتبتي', 'My Library')) + '</span> <small lang="en">My Library</small>', esc(A('كل كتبك وملفاتك الدراسية في مكان واحد', 'All your books and study files in one place')), 'open', '', 'libban') + specBar();
+    var h = IS.banner('<span>' + esc(A('مكتبتي', 'My Library')) + '</span> <small lang="en">My Library</small>', esc(A('كل كتبك وملفاتك الدراسية في مكان واحد', 'All your books and study files in one place')), 'open', '', 'libban') + (IS.SPEC ? '' : specBar());
     h += '<section class="ltabs"><a href="#library/requests" class="lt req' + (T.k === 'requests' ? ' on' : '') + '">' + ic('receipt') + '<b lang="en">Requests</b>' + (IS.lang === 'en' ? '' : '<small>' + esc('الطلبات') + '</small>') + (reqs.filter(function (r) { return r.status === 'pending' || r.status === 'progress'; }).length ? '<i>' + N(reqs.filter(function (r) { return r.status === 'pending' || r.status === 'progress'; }).length) + '</i>' : '') + '</a>' +
       '<a href="#library/all" class="lt' + (T.k === 'all' ? ' on' : '') + '">' + ic('grid') + '<b>' + esc(A('الكل', 'All Files')) + '</b><small>' + N(fs.length) + '</small></a>' +
       KINDS.map(function (k) { return '<a href="#library/' + k[0] + '" class="lt' + (T.k === k[0] ? ' on' : '') + '">' + ic(k[1]) + '<b>' + esc(A(k[2], k[3])) + '</b><small>' + N(fs.filter(function (f) { return f.kind === k[0]; }).length) + '</small></a>'; }).join('') + '</section>';

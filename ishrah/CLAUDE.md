@@ -237,3 +237,14 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - **Branches of the two accounts (18 Nov 2026):** each account's session pushes to its own `ccr-…` branch. Before working, fetch both and
   continue from the newest (`git fetch origin && git log --oneline -3 origin/ccr-38b3f943-ba1ode origin/ccr-67fd949c-z3vfp5`), merge, and push
   to BOTH so the two previews stay the same.
+
+## Speciality spaces (owner, 18 Nov 2026: "all specialities in one place is confusing … the student must choose and then be in a place for that speciality only")
+- The app opens on the start page `#pick` (logo, sign in / create account, five speciality cards); every student page leads there until a speciality
+  is chosen (gate in `IS.route`). The choice is `IS.SPEC` (device `ish-spec` + `profiles.spec`; a signed-in account's saved speciality wins).
+- After the choice the student area shows that speciality only: `IS.pubCourses()` returns its courses, Home = welcome band, shortcuts and the
+  speciality's own space (`IS.specPage`: subjects by section, its courses), Courses / Library / Lecturers have no speciality bar, Events,
+  Community posts and Learning paths are filtered with `IS.inSpec` (items without a speciality are for everyone; new posts get the speciality;
+  lecturers choose an event's speciality). Change: the speciality box at the top of the side menu, Settings → Your speciality, or `#pick`.
+- Studio and Control are not filtered (they manage every speciality). Database: `supabase/008_spec_spaces.sql`.
+- Tests: `tools/ishrah/space.js` (start page, choice, filtered pages, change). Tests that start from an empty browser must set
+  `localStorage['ish-spec']` first. `flow.js` / `flow2.js` still use the old phone sign-up form and need updating to the email form.

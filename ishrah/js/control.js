@@ -439,7 +439,7 @@
   IS.ACT.delpath = async function (b) { await DB.del('paths', b.getAttribute('data-id')); IS.closeSheet(); IS.refresh(); };
   /* student pages for paths */
   IS.page('paths', async function () {
-    var ps = await DB.q('paths', { eq: { status: 'published' }, order: ['sort'] }), cs = await IS.pubCourses();
+    var cs = await IS.pubCourses(), ps = (await DB.q('paths', { eq: { status: 'published' }, order: ['sort'] })).filter(function (p) { return p.spec ? IS.inSpec(p) : !(p.steps || []).length || (p.steps || []).some(function (x) { return cs.some(function (c) { return c.id === x; }); }); });
     return IS.banner(IS.T('المسارات التعليمية', 'Learning paths'), esc(A('مسارات منظمة ومتكاملة من الأساسيات وحتى المراجعة النهائية', 'Organised paths from the basics to the final review')), 'route') + (ps.length ? '<div class="grid g3">' + ps.map(function (p) { var st = (p.steps || []).filter(function (id) { return cs.some(function (c) { return c.id === id; }); });
       return '<a class="pcard" href="#path/' + p.id + '"><span class="pi">' + ic('route') + '</span><b>' + esc(p.title) + '</b><small>' + esc(p.about || '') + '</small><em>' + N(st.length) + ' ' + esc(A('كورس', 'courses')) + '</em></a>'; }).join('') + '</div>' : IS.empty('route', A('لا توجد مسارات بعد', 'No paths yet'), A('يضيف فريق المنصة المسارات عند توفر الكورسات.', 'The platform team adds paths as courses become available.')));
   });

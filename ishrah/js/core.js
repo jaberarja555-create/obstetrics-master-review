@@ -93,7 +93,7 @@
   IS.U = function (p) { try { return esc(new URL(p, location.href).href); } catch (e) { return esc(p); } };
 
   /* ---------- signed-in user, lecturer record, team roles ---------- */
-  IS.ME = null; IS.LEC = null; IS.SET = {}; IS.CATS = []; IS.SUBJ = []; IS.SPECS = [];
+  IS.ME = null; IS.LEC = null; IS.SET = {}; IS.CATS = []; IS.SUBJ = []; IS.SPECS = []; IS.SPEC = LS.get('spec', '');
   /* the platform's administrative structure (owner's chart, 17 Nov 2026). Each role has, per section, the actions it may do:
      view · add · edit · delete · approve. The owner edits this matrix in the control app (the general manager for roles below him); the
      database applies the same matrix (supabase role_perms + ish_can), so hiding a button is never the only protection.
@@ -137,10 +137,16 @@
       IS.ME = await DB.one('profiles', uid).catch(function () { return null; });
       if (!IS.ME && DB.live) { await new Promise(function (r) { setTimeout(r, 900); }); IS.ME = await DB.one('profiles', uid).catch(function () { return null; }); }
       if (IS.ME) IS.LEC = await DB.one('lecturers', uid).catch(function () { return null; });
+      if (IS.ME && IS.ME.spec && IS.ME.spec !== IS.SPEC) { IS.SPEC = IS.ME.spec; LS.set('spec', IS.SPEC); }
+      else if (IS.ME && IS.SPEC && !IS.ME.spec) { IS.ME.spec = IS.SPEC; DB.upd('profiles', IS.ME.id, { spec: IS.SPEC }).catch(function () {}); }
       /* without internet the last known profile of this account is used (owner, 18 Nov 2026: offline use) */
       try { if (IS.ME) localStorage.setItem('ish-me', JSON.stringify({ uid: uid, me: IS.ME, lec: IS.LEC })); else { var c = JSON.parse(localStorage.getItem('ish-me') || 'null'); if (c && c.uid === uid && !navigator.onLine) { IS.ME = c.me; IS.LEC = c.lec; IS.OFFME = true; } } } catch (e) {}
     }
   };
+  /* the student's speciality space: kept on the device and in the profile, so it follows the account to every device */
+  IS.setSpec = function (id) { IS.SPEC = id || ''; LS.set('spec', IS.SPEC); if (IS.ME && IS.ME.spec !== IS.SPEC) { IS.ME.spec = IS.SPEC; DB.upd('profiles', IS.ME.id, { spec: IS.SPEC }).catch(function () {}); }
+    IS.LSPEC = ''; document.dispatchEvent(new Event('ish-spec')); };
+  IS.mySpec = function () { return IS.spec(IS.SPEC); };
   IS.loadBase = async function () {
     var r = await Promise.all([DB.q('settings'), DB.q('categories', { order: ['sort'] }), DB.q('subjects', { order: ['sort'] }), DB.q('specialties', { order: ['sort'] }).catch(function () { return []; })]);
     IS.SET = {}; r[0].forEach(function (s) { IS.SET[s.id] = s.value; }); IS.CATS = r[1]; IS.SUBJ = r[2].map(function (x) { if (!x.spec) x.spec = 'medicine'; if (!x.img && (window.ISH_SUBIMG || []).indexOf(x.id) >= 0) x.img = 'img/sub_' + x.id + '.webp'; return x; }); IS.SPECS = r[3];
@@ -243,6 +249,7 @@
   IS.route = async function () {
     var h = decodeURIComponent(location.hash.slice(1)) || 'home', m = h.match(/^([a-z-]+?)(?:\/(.*))?$/), name = m ? m[1] : 'home', arg = m ? m[2] : '';
     var P = PAGES[name] || PAGES.home, o = P.o, my = ++SEQ, main = IS.$('#main');
+    if ((!o.area || o.area === 'student') && name !== 'pick' && name !== 'terms' && (!IS.SPEC || !IS.spec(IS.SPEC)) && IS.SPECS.length) { name = 'pick'; P = PAGES.pick; o = P.o; }
     IS.area = o.area === 'keep' ? (IS.area || 'student') : (o.area || 'student'); document.body.setAttribute('data-area', IS.area); document.body.setAttribute('data-page', name);
     IS.chrome(name);
     if (o.auth && !IS.ME) { main.innerHTML = authGate(); return; }
@@ -290,7 +297,7 @@
 
   /* ---------- shell ---------- */
   var NAV = {
-    student: [['home', 'home', 'الرئيسية', 'Home'], ['specialties', 'grid', 'التخصصات', 'Specialities'], ['courses', 'layers', 'الكورسات', 'Courses'], ['learning', 'bookmark', 'تعلّمي', 'My learning'], ['events', 'cal', 'الفعاليات', 'Events'], ['news', 'news', 'الإعلانات والأخبار', 'News'], ['downloads', 'download', 'تنزيلاتي', 'Downloads'],
+    student: [['home', 'home', 'الرئيسية', 'Home'], ['courses', 'layers', 'الكورسات', 'Courses'], ['learning', 'bookmark', 'تعلّمي', 'My learning'], ['events', 'cal', 'الفعاليات', 'Events'], ['news', 'news', 'الإعلانات والأخبار', 'News'], ['downloads', 'download', 'تنزيلاتي', 'Downloads'],
       ['lecturers', 'users', 'المحاضرون', 'Lecturers'], ['community', 'group', 'المجتمع', 'Community'], ['library', 'open', 'مكتبتي', 'My Library'], ['paths', 'route', 'المسارات', 'Paths'], ['favorites', 'heart', 'المفضلة', 'Favourites'], ['achievements', 'trophy', 'الإنجازات', 'Achievements'], ['support', 'chat', 'الدعم والرسائل', 'Support & messages'], ['team', 'group', 'فريق المنصة', 'Our team'], ['about', 'info', 'عن المنصة', 'About'], ['settings', 'gear', 'الإعدادات', 'Settings']],
     studio: [['studio', 'chart', 'لوحة المحاضر', 'Dashboard'], ['studio-courses', 'layers', 'كورساتي', 'My courses'], ['studio-page', 'user', 'صفحتي', 'My page'], ['studio-events', 'cal', 'فعالياتي', 'My events'],
       ['studio-students', 'users', 'طلابي', 'My students'], ['studio-qa', 'chat', 'الأسئلة', 'Questions'], ['studio-money', 'wallet', 'الأرباح', 'Earnings'], ['settings', 'gear', 'الإعدادات', 'Settings']],
@@ -312,8 +319,9 @@
       (me ? '<a class="ib bell" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + ic('bell') + '<i id="bellN" hidden></i></a><a class="me" href="#account">' + IS.av(me, 'sm') + '<span>' + esc(me.name || '') + '</span></a>' :
         '<button class="btn pri sm" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button>') + '</div></div>';
     var items = navItems(area);
-    IS.$('#side').innerHTML = areaSw + (area === 'control' && IS.ctrlSide ? '<nav class="cnav">' + IS.ctrlSide(page) + '</nav>' : '<nav>' + items.map(function (n) { return '<a href="#' + n[0] + '" class="' + (n[0] === page || (page.indexOf(n[0] + '-') === 0 && area === 'student') ? 'on' : '') + '">' + ic(n[1]) + IS.navLbl(n[2], n[3]) + '</a>'; }).join('') + '</nav>');
-    var tabs = area === 'student' ? ['home', 'specialties', 'courses', 'learning'] : items.slice(0, 4).map(function (n) { return n[0]; });
+    var mys = area === 'student' && IS.mySpec(), spBox = mys ? '<a class="myspec" href="#pick"' + (mys.img ? ' style="--sp:url(' + IS.U(mys.img) + ')"' : '') + '><span class="msi">' + ic(mys.icon) + '</span><span class="msn"><b lang="en">' + esc(mys.en) + '</b><small>' + esc(A(mys.ar, 'Your speciality')) + '</small></span><em>' + esc(A('تغيير', 'Change')) + '</em></a>' : '';
+    IS.$('#side').innerHTML = areaSw + spBox + (area === 'control' && IS.ctrlSide ? '<nav class="cnav">' + IS.ctrlSide(page) + '</nav>' : '<nav>' + items.map(function (n) { return '<a href="#' + n[0] + '" class="' + (n[0] === page || (page.indexOf(n[0] + '-') === 0 && area === 'student') ? 'on' : '') + '">' + ic(n[1]) + IS.navLbl(n[2], n[3]) + '</a>'; }).join('') + '</nav>');
+    var tabs = area === 'student' ? ['home', 'courses', 'learning', 'library'] : items.slice(0, 4).map(function (n) { return n[0]; });
     IS.$('#tabs').innerHTML = tabs.map(function (k) { var n = items.filter(function (x) { return x[0] === k; })[0]; if (!n) return ''; return '<a href="#' + n[0] + '" class="' + (n[0] === page ? 'on' : '') + '">' + ic(n[1]) + '<span>' + esc(n[3]) + '</span></a>'; }).join('') +
       '<a href="#more" data-act="more">' + ic('menu') + '<span>More</span></a>';
     if (me) IS.bell();

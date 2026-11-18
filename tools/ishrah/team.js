@@ -1,7 +1,7 @@
 // owner shows his card, a support manager (made in the preview store) too; then a signed-out visitor sees the team page
 const { chromium } = require('playwright');
 (async()=>{const b=await chromium.launch();const p=await(await b.newContext({viewport:{width:1440,height:900}})).newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));p.on('dialog',d=>d.accept());
-await p.goto('http://localhost:8820/');await p.evaluate(()=>localStorage.clear());await p.reload();await p.waitForTimeout(700);
+await p.goto('http://localhost:8820/');await p.evaluate(()=>(localStorage.clear(),localStorage.setItem('ish-spec','"medicine"')));await p.reload();await p.waitForTimeout(700);
 await p.evaluate(()=>{IS.AUTHTAB='phone';IS.ACT.register({getAttribute:()=>null})});await p.waitForTimeout(300);
 for(const [k,v] of [['name','د. عبدالجليل ارجا'],['phone','0911111111'],['pass','secret123'],['pass2','secret123']])await p.fill(`[data-form=signup] [name=${k}]`,v);
 await p.check('[data-form=signup] [name=terms]');await p.click('form[data-form="signup"] button:not([type=button]) >> nth=-1');await p.waitForTimeout(1200);
