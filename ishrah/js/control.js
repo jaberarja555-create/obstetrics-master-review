@@ -13,7 +13,7 @@
     [['layers', 'المحتوى التعليمي', 'Content'], [['control-review', 'eye', 'الكورسات والمراجعة', 'Courses & review', 'review'], ['control-library', 'open', 'الكتب والملفات', 'Books & files', 'library'], ['control-paths', 'route', 'المسارات التعليمية', 'Learning paths', 'paths']]],
     [['cal', 'الفعاليات', 'Events'], [['control-events', 'cal', 'إدارة الفعاليات', 'Manage events', 'events']]],
     [['receipt', 'الطلبات', 'Requests'], [['control-requests', 'receipt', 'طلبات المكتبة', 'Library requests', 'requests']]],
-    [['group', 'المجتمع والتواصل', 'Community'], [['control-community', 'flag', 'البلاغات والنقاشات', 'Reports & posts', 'community'], ['control-notify', 'bell', 'الإعلانات والإشعارات', 'Announcements', 'notify']]],
+    [['group', 'المجتمع والتواصل', 'Community'], [['control-community', 'flag', 'البلاغات والنقاشات', 'Reports & posts', 'community'], ['control-news', 'news', 'الأخبار', 'News', 'notify'], ['control-notify', 'bell', 'الإعلانات والإشعارات', 'Announcements', 'notify']]],
     [['wallet', 'الاشتراكات والمدفوعات', 'Payments'], [['control-pay', 'receipt', 'مراجعة المدفوعات', 'Payment review', 'pay'], ['control-payouts', 'wallet', 'مستحقات المحاضرين', 'Lecturer payouts', 'payout']]],
     [['chart', 'التقارير والتحليلات', 'Reports'], [['control-reports', 'chart', 'التقارير', 'Reports', 'reports']]],
     [['shield', 'إدارة الصلاحيات', 'Permissions'], [['control-structure', 'org', 'الهيكل الإداري', 'Administrative structure', 'dash'], ['control-team', 'shield', 'المستخدمون والصلاحيات', 'Users & permissions', 'team']]],
@@ -335,6 +335,28 @@
   }, P('notify'));
   IS.SUB.broadcast = async function (d) { await IS.notify(null, d.title, d.body, d.link); IS.audit('announcement', d.title); IS.toast(A('أُرسل الإعلان', 'Announcement sent')); IS.refresh(); };
   IS.ACT.delnote = async function (b) { await DB.del('notices', b.getAttribute('data-id')); IS.refresh(); };
+
+
+  /* ========== NEWS (Announcements & News page) ========== */
+  IS.page('control-news', async function () {
+    var ns = []; try { ns = await DB.q('news', { order: ['created_at', false], limit: 100 }); } catch (e) {}
+    return IS.banner(IS.T('الأخبار', 'News'), esc(A('أخبار بصورة تظهر في صفحة الإعلانات والأخبار.', 'News with a picture, shown on the Announcements & News page.')), 'news') +
+      '<form class="box form" data-form="newsadd"><div class="g2f"><label class="fl"><span>' + esc(A('العنوان', 'Title')) + ' *</span><input name="title" required maxlength="140"></label>' +
+      '<label class="fl"><span>' + esc(A('التصنيف', 'Tag')) + '</span><select name="tag">' + IS.NTAGS.map(function (t) { return '<option value="' + t[0] + '">' + esc(A(t[1], t[2])) + '</option>'; }).join('') + '</select></label></div>' +
+      '<label class="fl"><span>' + esc(A('النص', 'Text')) + '</span><textarea name="body" rows="4" maxlength="4000"></textarea></label>' +
+      '<label class="fl file"><span>' + esc(A('الصورة', 'Picture')) + '</span><input type="file" name="cover" accept="image/*"></label>' +
+      '<label class="chk"><input type="checkbox" name="notify"><span>' + esc(A('أرسل إشعارًا لكل المستخدمين أيضًا', 'Also notify every user')) + '</span></label>' +
+      '<button class="btn pri">' + ic('send') + esc(A('نشر الخبر', 'Publish')) + '</button></form>' +
+      (ns.length ? '<div class="table">' + ns.map(function (x) { return '<div class="tr">' + ic('news') + '<span class="grow"><a href="#news/' + x.id + '"><b>' + esc(x.title) + '</b></a><small class="mut">' + esc(IS.date(x.created_at)) + '</small></span>' +
+        '<button class="ib sm" data-act="newsdel" data-id="' + x.id + '" aria-label="' + esc(A('حذف', 'Delete')) + '">' + ic('trash') + '</button></div>'; }).join('') + '</div>' : IS.empty('news', A('لم تُنشر أخبار بعد', 'No news published yet')));
+  }, P('notify'));
+  IS.SUB.newsadd = async function (d, f) {
+    var row = { title: d.title, tag: d.tag || 'news', body: d.body || '', status: 'published', author_id: IS.ME.id }, c = f.cover.files[0];
+    if (c) row.cover = await DB.upload('media', await IS.shrink(c, 1200, 0.84));
+    var x = await DB.ins('news', row); if (d.notify) await IS.notify(null, d.title, A('خبر جديد في اشرح لي', 'New on Ishrah Li'), '#news/' + x.id);
+    IS.audit('publish news', d.title); IS.toast(A('نُشر الخبر', 'News published')); IS.refresh();
+  };
+  IS.ACT.newsdel = async function (b) { if (!(await IS.confirm(A('حذف هذا الخبر؟', 'Delete this news item?')))) return; await DB.del('news', b.getAttribute('data-id')); IS.refresh(); };
 
   /* ========== CATEGORIES & SUBJECTS ========== */
   IS.page('control-cats', async function () {

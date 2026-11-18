@@ -478,6 +478,36 @@
       IS.empty('bell', A('لا توجد إشعارات', 'No notifications'), A('تصلك هنا موافقات الدفع والردود والإعلانات.', 'Payment approvals, replies and announcements arrive here.')));
   }, { auth: true });
 
+
+  /* ========== ANNOUNCEMENTS & NEWS (owner's design, 18 Nov 2026) ==========
+     announcements = public notices (Control → Announcements); news = table news (Control → News), each with a picture, a tag and a date */
+  var NTAGS = [['news', 'أخبار', 'News'], ['events', 'فعاليات', 'Events'], ['achievements', 'إنجازات', 'Achievements'], ['initiatives', 'مبادرات', 'Initiatives'], ['academic', 'أكاديمي', 'Academic']];
+  IS.NTAGS = NTAGS;
+  function ntag(t) { var x = NTAGS.filter(function (k) { return k[0] === t; })[0] || NTAGS[0]; return A(x[1], x[2]); }
+  async function annList() { try { return (await DB.q('notices', { order: ['created_at', false], limit: 60 })).filter(function (x) { return !x.user_id; }); } catch (e) { return []; } }
+  async function newsList() { try { return (await DB.q('news', { order: ['created_at', false], limit: 120 })).filter(function (x) { return x.status !== 'draft'; }); } catch (e) { return []; } }
+  function annRow(x) { return '<a class="annr" href="' + esc(x.link || '#news/ann') + '"><span class="anni">' + ic('mega') + '</span><span class="annt"><b>' + esc(x.title) + '</b>' + (x.body ? '<small>' + esc(x.body) + '</small>' : '') + '<em>' + ic('cal') + esc(IS.date(x.created_at)) + '</em></span>' + ic('pinned', 'annp') + '</a>'; }
+  function newsCard(x) { return '<a class="ncard" href="#news/' + x.id + '"><span class="ncv">' + (x.cover ? '<img src="' + IS.U(x.cover) + '" alt="" loading="lazy">' : '<i>' + ic('news') + '</i>') + '<em class="ntag">' + esc(ntag(x.tag)) + '</em></span><b>' + esc(x.title) + '</b><small>' + ic('cal') + esc(IS.date(x.created_at)) + '</small></a>'; }
+  IS.page('news', async function (arg) {
+    var r = await Promise.all([annList(), newsList()]), an = r[0], ns = r[1];
+    var ban = IS.banner(IS.T('الإعلانات والأخبار', 'Announcements & News'), esc(A('تابع آخر الإعلانات والأخبار والتحديثات الهامة.', 'Follow the latest announcements, news and important updates.')), 'news');
+    if (arg && arg !== 'ann' && arg !== 'all') {
+      var x = ns.filter(function (n) { return n.id === arg; })[0]; if (!x) return null;
+      return '<nav class="crumb"><a href="#news">' + esc(A('الإعلانات والأخبار', 'Announcements & News')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(x.title) + '</span></nav>' +
+        '<article class="box narticle">' + (x.cover ? '<img class="nhero" src="' + IS.U(x.cover) + '" alt="">' : '') + '<em class="ntag">' + esc(ntag(x.tag)) + '</em><h1 tabindex="-1">' + esc(x.title) + '</h1><p class="mut">' + ic('cal') + esc(IS.date(x.created_at)) + '</p><div class="pre">' + esc(x.body || '') + '</div></article>' +
+        (ns.length > 1 ? '<section class="sec"><header class="sh"><h2>' + ic('news') + IS.T('أخبار أخرى', 'More news') + '</h2></header><div class="ngrid">' + ns.filter(function (n) { return n.id !== x.id; }).slice(0, 3).map(newsCard).join('') + '</div></section>' : '');
+    }
+    var noAnn = IS.empty('mega', A('لا توجد إعلانات الآن', 'No announcements now'), A('تظهر هنا إعلانات فريق المنصة فور نشرها.', 'The platform team’s announcements appear here as soon as they are published.'));
+    var noNews = IS.empty('news', A('لا توجد أخبار بعد', 'No news yet'), A('تظهر هنا أخبار المنصة والفعاليات والإنجازات.', 'Platform news, events and achievements appear here.'));
+    if (arg === 'ann') return ban + '<section class="box"><header class="sh"><h2>' + ic('mega') + IS.T('كل الإعلانات', 'All announcements') + '</h2><a class="more" href="#news">' + esc(A('رجوع', 'Back')) + ic('chev', 'fl') + '</a></header>' + (an.length ? '<div class="annl">' + an.map(annRow).join('') + '</div>' : noAnn) + '</section>';
+    if (arg === 'all') return ban + '<section class="sec"><header class="sh"><h2>' + ic('news') + IS.T('كل الأخبار', 'All news') + '</h2><a class="more" href="#news">' + esc(A('رجوع', 'Back')) + ic('chev', 'fl') + '</a></header>' + (ns.length ? '<div class="ngrid">' + ns.map(newsCard).join('') + '</div>' : noNews) + '</section>';
+    return ban + '<div class="nlay"><section class="box nmain"><header class="sh"><h2>' + ic('news') + IS.T('آخر الأخبار', 'Latest news') + '</h2></header>' +
+      (ns.length ? '<div class="ngrid">' + ns.slice(0, 3).map(newsCard).join('') + '</div>' : noNews) +
+      (ns.length > 3 ? '<footer><a class="btn pri" href="#news/all">' + esc(A('عرض جميع الأخبار', 'All news')) + ic('chev', 'fl') + '</a></footer>' : '') + '</section>' +
+      '<section class="box nside"><header class="sh"><h2>' + ic('mega') + IS.T('أهم الإعلانات', 'Top announcements') + '</h2></header>' + (an.length ? '<div class="annl">' + an.slice(0, 3).map(annRow).join('') + '</div>' : noAnn) +
+      (an.length > 3 ? '<footer><a class="btn ghost" href="#news/ann">' + esc(A('عرض جميع الإعلانات', 'All announcements')) + ic('chev', 'fl') + '</a></footer>' : '') + '</section></div>';
+  });
+
   /* ========== FAVOURITES ========== */
   IS.page('favorites', async function () {
     var f = favs(), ks = Object.keys(f).sort(function (a, b) { return f[b] - f[a]; }), cids = ks.filter(function (k) { return /^c:/.test(k); }).map(function (k) { return k.slice(2); }), tids = ks.filter(function (k) { return /^t:/.test(k); }).map(function (k) { return k.slice(2); });

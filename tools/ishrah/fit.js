@@ -6,7 +6,7 @@ await p.goto('http://localhost:8820/');await p.evaluate(()=>{localStorage.clear(
 await p.evaluate(()=>(IS.AUTHTAB='phone',IS.ACT.register)({getAttribute:()=>null}));await p.waitForTimeout(300);
 for(const [k,v] of [['name','د. عبدالجليل ارجا'],['phone','0911111111'],['pass','secret12'],['pass2','secret12']])await p.fill(`[data-form=signup] [name=${k}]`,v);
 await p.check('[data-form=signup] [name=terms]');await p.click('form[data-form="signup"] button:not([type=button]) >> nth=-1');await p.waitForTimeout(1200);
-const pages=['home','specialties','spec/medicine','courses','courses/@lab','learning','events','lecturers','community','library','library/requests','paths','favorites','achievements','support','about','settings','account','notifications','search/heart',
+const pages=['home','specialties','spec/medicine','courses','courses/@lab','learning','events','news','news/all','news/ann','control-news','lecturers','community','library','library/requests','paths','favorites','achievements','support','about','settings','account','notifications','search/heart',
  'studio-apply','studio','control','control-tickets','control-tasks','control-pay','control-review','control-apps','control-lecturers','control-payouts','control-students','control-library','control-requests','control-community','control-events','control-notify','control-cats','control-settings','control-audit','control-reports','control-team','control-structure','security'];
 for(const W of [390,768,1024,1440]){await p.setViewportSize({width:W,height:900});
  for(const h of pages){await p.evaluate(x=>{location.hash=x},h);await p.waitForTimeout(450);

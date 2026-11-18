@@ -163,3 +163,11 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
     Tests in tools/ishrah set `IS.AUTHTAB='phone'` before signing up by phone.
   - **Edit profile** has the phone number (owner: "the profile shows a phone number but there is no place for it"): email and phone side by
     side; the one used to sign in is locked (`DB.authKind()` = 'email' | 'phone'), the other can be added or changed.
+  - **Announcements & News page** (owner, 18 Nov 2026, from his design picture): `#news` (side menu "News"), banner `img/ban_news.webp` cut from
+    his picture; "Latest news" (3 cards: picture, tag chip, title, date; «عرض جميع الأخبار» → `#news/all`) beside "Top announcements" (latest 3
+    public notices with a pin, «عرض جميع الإعلانات» → `#news/ann`); `#news/<id>` = the news item. News are table `news`
+    (`supabase/006_news.sql`, read by all, written with the 'notify' permission); the team writes them in Control → Community → News
+    (`control-news`: title, tag Events / Achievements / Initiatives / News / Academic, text, picture, optional notification to everyone).
+    Phones: news cards are compact (square picture beside the title). Test: `node tools/ishrah/news.js <shots dir>`.
+  - **Offline:** only the app's own screens and pictures open without internet (sw.js keeps the last copy); courses, videos, library files,
+    news and accounts come from the database and need the internet. Nothing is downloadable by design.
