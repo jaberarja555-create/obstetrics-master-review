@@ -388,9 +388,18 @@
     var r = await Promise.all([DB.q('lecturers', { eq: { status: 'active' } }), IS.pubCourses()]), ls = r[0], cs = r[1];
     var h = IS.banner(IS.T('المحاضرون', 'Lecturers'), esc(A('تعرّف على الأطباء والأكاديميين الذين يقدّمون الكورسات في اشرح لي.', 'Meet the doctors and academics who teach on Ishrah Li.')), 'users',
       '<div class="bnums"><span><b>' + N(ls.length) + '</b>' + esc(A('محاضر', 'lecturers')) + '</span><span><b>' + N(cs.length) + '</b>' + esc(A('كورس', 'courses')) + '</span></div>');
+    /* speciality bar (owner, 18 Nov 2026): a lecturer belongs to the specialities of their courses, or the one their speciality text names */
+    function lspecs(l) { var o = {}; cs.forEach(function (c) { if (c.lecturer_id === l.id) o[c.spec || 'medicine'] = 1; }); var t = IS.norm([l.specialty, l.title, (l.tags || []).join(' ')].join(' '));
+      IS.SPECS.forEach(function (k) { if (t.indexOf(IS.norm(k.en)) >= 0 || t.indexOf(IS.norm(k.ar)) >= 0) o[k.id] = 1; }); if (!Object.keys(o).length) o.medicine = 1; return o; }
+    var cur = IS.LSPEC || '', shown = cur ? ls.filter(function (l) { return lspecs(l)[cur]; }) : ls;
+    h += '<section class="specbar">' + [{ id: '', en: 'All specialities', ar: 'كل التخصصات', icon: 'grid' }].concat(IS.SPECS).map(function (x) { var n = x.id ? ls.filter(function (l) { return lspecs(l)[x.id]; }).length : ls.length;
+      return '<button type="button" class="spb2' + (x.id === cur ? ' on' : '') + '" data-act="lspec" data-v="' + x.id + '">' + ic(x.icon) + '<span><b lang="en">' + esc(x.en) + '</b>' + (IS.lang === 'en' ? '' : '<small>' + esc(x.ar) + '</small>') + '</span><em class="spc0">' + N(n) + '</em></button>'; }).join('') + '</section>';
+    if (ls.length && !shown.length) return h + IS.empty('users', A('لا يوجد محاضرون في هذا التخصص بعد', 'No lecturers in this speciality yet'), A('يظهر هنا محاضرو التخصص عند قبولهم. هل أنت محاضر في هذا التخصص؟', 'Lecturers of this speciality appear here once accepted. Do you teach this speciality?'), '<button class="btn pri" data-act="register" data-k="lecturer">' + ic('studio') + esc(A('انضم كمحاضر', 'Teach on Ishrah Li')) + '</button>');
+    ls = shown;
     return h + (ls.length ? '<div class="grid g4">' + ls.map(function (l) { return lecCard(l, cs.filter(function (c) { return c.lecturer_id === l.id; }).length); }).join('') + joinCard() + '</div>' :
       IS.empty('users', A('لا يوجد محاضرون بعد', 'No lecturers yet'), A('المحاضرون الذين يقبلهم فريق المنصة يظهرون هنا.', 'Lecturers accepted by the platform team appear here.'), '<button class="btn pri" data-act="register" data-k="lecturer">' + ic('studio') + esc(A('انضم كمحاضر', 'Teach on Ishrah Li')) + '</button>'));
   });
+  IS.ACT.lspec = function (b) { IS.LSPEC = b.getAttribute('data-v'); IS.refresh(); };
   function joinCard() { return '<article class="lcard join"><span class="av lg"><b>' + ic('plus') + '</b></span><h3>' + esc(A('انضم كمحاضر', 'Teach on Ishrah Li')) + '</h3><p>' + esc(A('قدّم كورساتك وصمّم صفحتك واربح من كل طالب.', 'Teach your courses, design your page and earn from every student.')) + '</p><div class="row"><a class="btn sm pri" href="#studio-apply">' + esc(A('قدّم طلبك', 'Apply')) + '</a></div></article>'; }
   IS.page('lecturer', async function (id) {
     var l = await DB.one('lecturers', id); if (!l || (l.status !== 'active' && !(IS.LEC && IS.LEC.id === id) && !IS.can('lecturers'))) return null;

@@ -1780,3 +1780,7 @@ body.isoff main{padding-top:58px!important}
 /* Lecturers list: cards of one size, centred (a few lecturers no longer sit on one side with an empty row) */
 body[data-page="lecturers"] .grid.g4{grid-template-columns:repeat(auto-fit,minmax(220px,260px));justify-content:center}
 @media (max-width:560px){body[data-page="lecturers"] .grid.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* lecturers speciality bar: count of lecturers on each button */
+.spb2 .spc0{font-style:normal;font-size:11.5px;font-weight:800;min-width:22px;height:22px;padding:0 6px;border-radius:999px;display:inline-grid;place-items:center;background:var(--tint);color:var(--pri)}
+.spb2.on .spc0{background:rgba(255,255,255,.2);color:#fff}

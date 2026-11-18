@@ -232,3 +232,8 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   `IS.pubFields` / `IS.pubRow`). `supabase/007_team_page.sql`: profiles.pub_show / pub_title / pub_bio / pub_order and RPC
   `ish_team_public()` (anon + signed-in) returning ONLY the public card fields of shown, active staff; no phone or email ever. Tested on
   the local Postgres (hidden member absent, visitor cannot read profiles). Test: `node tools/ishrah/team.js <shots dir>`.
+- Lecturers page has a speciality bar (`IS.LSPEC`, `IS.ACT.lspec`): a lecturer counts under the specialities of their courses, or the one
+  their speciality / title / tags names (Medicine when nothing matches); each button shows how many lecturers it has.
+- **Branches of the two accounts (18 Nov 2026):** each account's session pushes to its own `ccr-…` branch. Before working, fetch both and
+  continue from the newest (`git fetch origin && git log --oneline -3 origin/ccr-38b3f943-ba1ode origin/ccr-67fd949c-z3vfp5`), merge, and push
+  to BOTH so the two previews stay the same.
