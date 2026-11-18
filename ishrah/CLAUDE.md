@@ -141,3 +141,6 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
     `.me span{display:none}` (the avatar is a span too) and showed as a dot: fixed.
   - Home never scrolls now on phones from 360 × 640 up (also 393 × 720, 390 × 844, 412 × 915), tablets and laptops: the space kept for the
     bottom bar on Home matches its real height (70 px, was 84) and a slimmer tier applies at 680 px high or less.
+  - **Banner photos follow the colour** (owner, 18 Nov 2026: "the settings picture still shows the old colours"): palettes.py also writes
+    `img/<ban_*|hero_gold|hero|banner>_<colour>.webp` (blue/navy pixels moved to the colour's hue, numpy) and points each colour's CSS at them;
+    `IS.pimg(name)` gives the page banner of the chosen colour (IS.banner). The speciality and subject photos stay as they are (real subjects).

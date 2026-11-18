@@ -160,7 +160,7 @@
     favorites: 'library', notifications: 'support', settings: 'support', account: 'learning', about: 'community', terms: 'library', search: 'courses', lecturer: 'lecturers', event: 'events', post: 'community',
     'control-pay': 'admin', 'control-payouts': 'admin', 'studio-money': 'admin', 'studio-students': 'community', 'studio-qa': 'support', 'studio-page': 'lecturers', studio: 'courses' };
   IS.banner = function (title, sub, icon, extra, cls) { var pg = document.body.getAttribute('data-page') || '', im = BANIMG[pg] || (/^control|^security/.test(pg) ? 'admin' : /^studio/.test(pg) ? 'lecturers' : 'learning');
-    return '<section class="ban ' + (cls || '') + (im ? ' bpic' : '') + '"' + (im ? ' style="--bimg:url(' + IS.U('img/ban_' + im + '.webp') + ')"' : '') + '>' + (im ? '<span class="bph" aria-hidden="true"></span><svg class="bwave" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M60 0 C40 30 45 70 22 100 L0 100 L0 0Z" fill="currentColor"/><path d="M62 0 C42 30 47 70 24 100" fill="none" stroke="#3fb4ff" stroke-width="1.6"/></svg>' : '') +
+    return '<section class="ban ' + (cls || '') + (im ? ' bpic' : '') + '"' + (im ? ' style="--bimg:url(' + IS.U(IS.pimg('ban_' + im)) + ')"' : '') + '>' + (im ? '<span class="bph" aria-hidden="true"></span><svg class="bwave" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M60 0 C40 30 45 70 22 100 L0 100 L0 0Z" fill="currentColor"/><path d="M62 0 C42 30 47 70 24 100" fill="none" stroke="#3fb4ff" stroke-width="1.6"/></svg>' : '') +
       '<div class="bt"><span class="bi">' + ic(icon) + '</span><div><h1 tabindex="-1">' + title + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div></div>' + (extra || '') + '</section>'; };
   IS.stars = function (v) { var h = ''; for (var i = 1; i <= 5; i++) h += ic('star', i <= Math.round(v) ? 'on' : ''); return '<span class="stars">' + h + '</span>'; };
   IS.status = function (s) {
@@ -327,6 +327,7 @@
     ['purple', '#3f2a7d', 'بنفسجي', 'Purple'], ['maroon', '#6e1d36', 'عنابي', 'Maroon'], ['graphite', '#2c3340', 'رمادي داكن', 'Graphite']];
   /* the logo in the chosen colour (its navy parts; tools/ishrah/palettes.py makes the files) */
   IS.logo = function (k) { var p = LS.get('pal', 'blue'), x = p === 'blue' ? '' : '_' + p; return k === 'hero' ? 'img/logo_hero' + x + '.webp' : 'img/logo_gold' + x + '.svg'; };
+  IS.pimg = function (n) { var p = LS.get('pal', 'blue'); return 'img/' + n + (p === 'blue' ? '' : '_' + p) + '.webp'; };
   IS.setPal = function (p) { LS.set('pal', p); var l = document.getElementById('ishcss'), v = (l && /v=(\d+)/.exec(l.getAttribute('href')) || [0, '25'])[1];
     if (l) l.setAttribute('href', 'css/' + (p === 'blue' ? 'app' : 'pal-' + p) + '.css?v=' + v);
     var m = document.querySelector('meta[name=theme-color]'), c = IS.PALS.filter(function (x) { return x[0] === p; })[0]; if (m && c) m.setAttribute('content', c[1]); };

@@ -53,3 +53,29 @@ for name, (hue, sf) in PALS.items():
     im.save(os.path.join(IMG, 'logo_hero_%s.webp' % name), quality=90)
     open(os.path.join(IMG, 'logo_gold_%s.svg' % name), 'w', encoding='utf-8').write(conv(svg, hue, sf))
 print('logos written')
+
+
+# the page-banner photos follow the colour too (owner, 18 Nov 2026: "the settings picture still shows the old colours"): every blue/navy
+# pixel of img/ban_*.webp, hero_gold.webp, hero.webp and banner.webp takes the colour's hue (numpy, same rule as above); the CSS of each colour
+# points at <name>_<colour>.webp and IS.banner() picks the file of the chosen colour (IS.pimg).
+import glob, numpy as np
+BANS = sorted(glob.glob(os.path.join(IMG, 'ban_*.webp'))) + [os.path.join(IMG, n) for n in ('hero_gold.webp', 'hero.webp', 'banner.webp')]
+BANS = [b for b in BANS if not re.search(r'_(%s)\.webp$' % '|'.join(PALS), b)]
+def recolour(path, hue, sf):
+    im = Image.open(path).convert('RGB'); hsv = np.array(im.convert('HSV')).astype(np.float32)
+    rgb = np.array(im).astype(np.float32) / 255; mx = rgb.max(2); mn = rgb.min(2); l = (mx + mn) / 2
+    s_hls = np.where(mx == mn, 0, (mx - mn) / np.maximum(1e-6, 1 - np.abs(2 * l - 1)))
+    h = hsv[..., 0] * 360 / 255; m = (h >= 190) & (h <= 245) & (s_hls >= .12)
+    if hue is not None: hsv[..., 0] = np.where(m, ((h + hue - SRC) % 360) * 255 / 360, hsv[..., 0])
+    hsv[..., 1] = np.where(m, np.minimum(255, hsv[..., 1] * sf), hsv[..., 1])
+    return Image.fromarray(hsv.astype(np.uint8), 'HSV').convert('RGB')
+for b in BANS:
+    base = b[:-5]
+    for name, (hue, sf) in PALS.items():
+        recolour(b, hue, sf).save('%s_%s.webp' % (base, name), quality=82)
+names = [os.path.basename(b)[:-5] for b in BANS]
+for name in PALS:
+    f = os.path.join(ROOT, 'pal-%s.css' % name); c = open(f, encoding='utf-8').read()
+    for n in names: c = c.replace('url(../img/%s.webp)' % n, 'url(../img/%s_%s.webp)' % (n, name))
+    open(f, 'w', encoding='utf-8').write(c)
+print('banners written:', len(BANS))
