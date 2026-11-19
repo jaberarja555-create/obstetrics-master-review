@@ -3000,3 +3000,12 @@ button.feed-grade:hover{border-color:#e0a800;background:#fff8e1}
   .lh .lhh .roles .rl{font-size:11.5px!important;padding:4px 10px!important}
 }
 @media (max-width:640px) and (max-height:700px){.lh .lhh{padding:12px 14px!important;row-gap:10px!important}.lh .lhh .lhl2{width:78px!important;height:78px!important;padding:13px}.lh .lhh .lht h1{font-size:27px!important}}
+/* space figures sit in their own row under the banner, never on the picture (owner, 19 Nov 2026) */
+.spacebox{display:flex!important;flex-direction:row!important;flex-wrap:wrap;align-items:center!important;gap:10px 14px!important;margin:-6px 0 16px!important;max-width:none!important;width:100%;
+  background:var(--sf);border:1px solid var(--bd);border-radius:var(--r,16px);padding:12px 14px;box-shadow:var(--card)}
+.spacebox .bnums.sp4{flex:1 1 420px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px}
+.spacebox .bnums span{background:var(--tint)!important;border:0!important;color:var(--sub)!important;border-radius:12px;padding:8px 6px!important;font-weight:700}
+.spacebox .bnums b{color:var(--tx)!important;display:block}
+.spacebox .spjoin{background:#e7f5ec!important;border:0!important;color:#17663a!important;font-weight:700}
+.spacebox .spjoin .ico{color:#17663a!important}
+@media (max-width:700px){.spacebox .bnums.sp4{grid-template-columns:repeat(2,minmax(0,1fr))!important;flex-basis:100%}.spacebox{margin-top:-4px!important}}

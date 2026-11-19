@@ -555,7 +555,7 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   lecturers"): `031_space_members.sql` — table `space_members` (user, spec, joined_at, last_seen), `ish_space_join(spec)` (a signed-in
   account that opens a space joins it; `IS.beat` renews it every minute via `IS.spaceJoin`), `ish_space_stats(spec)` (counts only, visitors
   too): members (non-lecturers), online in the last 5 minutes, lecturers (active, teaching that speciality or members of it), lecturers online.
-  Community banner (`IS.spaceBox`, filled by `IS.onRoute`, refreshed every minute): 4 figures + «أنت عضو في مساحة Medicine» or «سجّل الدخول
+  A row under the Community banner, never on its picture (`IS.spaceBox`, filled by `IS.onRoute`, refreshed every minute): 4 figures + «أنت عضو في مساحة Medicine» or «سجّل الدخول
   لتنضم…»; the subtitle names the speciality. manage.js `IS.onRoute` now chains the previous hook.
 - **Home welcome band on phones/tablets** ("organise that blue bar"): logo at the start, greeting / section / speciality beside it, role
   chips under the text, search across the full width (CSS block at the end of app.css). Asset version 155, shell cache ish-v55.
