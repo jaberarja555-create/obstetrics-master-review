@@ -1,6 +1,6 @@
 /* the server key: new Supabase secret keys (sb_secret_…) go in the apikey header only; older service_role JWTs also as Bearer */
 function svc(env) { const k = env.SUPABASE_SERVICE_KEY || ''; return /^sb_/.test(k) ? { apikey: k } : { apikey: k, authorization: 'Bearer ' + k }; }
-/* Medical Nerds: account actions that need the database's service key (Cloudflare Pages Function, /api/admin).
+/* اشرح لي: account actions that need the database's service key (Cloudflare Pages Function, /api/admin).
    POST {act:'password', uid, pass}: student support (or the owner / general manager) sets a new password for a phone account
    that forgot it; the action is written to the activity log. The service key never leaves the server. */
 const J = (o, s) => new Response(JSON.stringify(o), { status: s || 200, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });

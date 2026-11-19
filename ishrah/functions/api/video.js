@@ -1,6 +1,6 @@
 /* the server key: new Supabase secret keys (sb_secret_…) go in the apikey header only; older service_role JWTs also as Bearer */
 function svc(env) { const k = env.SUPABASE_SERVICE_KEY || ''; return /^sb_/.test(k) ? { apikey: k } : { apikey: k, authorization: 'Bearer ' + k }; }
-/* Medical Nerds: protected lesson videos on Bunny Stream (Cloudflare Pages Function, /api/video).
+/* اشرح لي: protected lesson videos on Bunny Stream (Cloudflare Pages Function, /api/video).
    POST {act:'create', lesson, title}: a lecturer (owner of the lesson's course) or the content team gets a one-time upload permission;
      the browser then uploads the file straight to Bunny (TUS), so large videos never pass through this server.
    GET ?lesson=<id>: a student who may watch the lesson (free preview, active enrolment, its lecturer, the review team) gets a signed

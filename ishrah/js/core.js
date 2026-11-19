@@ -1,4 +1,4 @@
-/* Medical Nerds: shared core: language, icons, router, signed-in user and team roles, sheets, toasts, forms, shell (top bar, side menu, tabs).
+/* اشرح لي: shared core: language, icons, router, signed-in user and team roles, sheets, toasts, forms, shell (top bar, side menu, tabs).
    Pages register themselves with IS.page(name, render, opts) in student.js, studio.js and control.js. */
 (function () {
   'use strict';
@@ -11,7 +11,7 @@
   var A = IS.A = function (ar, en) { return IS.lang === 'en' ? (en == null ? ar : en) : ar; };
   /* Interface titles use the chosen language. Subject and speciality names use their catalogue names. */
   IS.T = function (ar, en) { return '<span class="tt"><b lang="' + IS.lang + '">' + IS.esc(A(ar, en)) + '</b></span>'; };
-  IS.brandName = function () { return A('Medical Nerds', 'Medical Nerds'); };
+  IS.brandName = function () { return A('اشرح لي', 'Ishrah Li'); };
   IS.noticeTitle = function (notice) { return A(notice.title, notice.title_en || notice.title); };
   var esc = IS.esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   IS.N = function (x) { return '<bdi>' + (typeof x === 'number' ? x.toLocaleString('en-US') : esc(x)) + '</bdi>'; };
@@ -694,15 +694,15 @@
         '<label class="fl"><span>' + ic('phone') + esc(A('رقم الهاتف', 'Phone number')) + ' *</span><span class="pre" dir="ltr"><em>🇸🇩 +249</em><input name="phone" required inputmode="tel" autocomplete="tel" placeholder="9xxxxxxxx" dir="ltr"></span></label>' + pw + pw2 + terms +
         '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic(up ? 'user' : 'logout') + '<span>' + esc(up ? A('إنشاء الحساب', 'Create account') : A('دخول', 'Sign in')) + '</span></button></form>';
     IS.sheet(esc(up ? A('إنشاء حساب جديد', 'Create a new account') : A('تسجيل الدخول', 'Sign in')),
-      (up ? '<p class="lead center">' + esc(A('انضم إلى مجتمع Medical Nerds', 'Join the Medical Nerds community')) + '</p><h3 class="sub center">' + esc(A('اختر نوع حسابك', 'Choose your account type')) + '</h3><div class="kinds" role="radiogroup">' +
+      (up ? '<p class="lead center">' + esc(A('انضم إلى مجتمع اشرح لي', 'Join the Ishrah Li community')) + '</p><h3 class="sub center">' + esc(A('اختر نوع حسابك', 'Choose your account type')) + '</h3><div class="kinds" role="radiogroup">' +
         [['student', 'cert', 'طالب', 'Student', 'للوصول إلى الكورسات والمحتوى التعليمي', 'To reach the courses and learning content'], ['lecturer', 'studio', 'محاضر', 'Lecturer', 'لتقديم الكورسات والمحاضرات', 'To teach courses and lectures']].map(function (k) {
           return '<button type="button" class="kind' + (kind === k[0] ? ' on' : '') + '" role="radio" aria-checked="' + (kind === k[0]) + '" data-act="kind" data-k="' + k[0] + '">' + ic(k[1]) + '<b>' + esc(A(k[2], k[3])) + '</b><small>' + esc(A(k[4], k[5])) + '</small></button>'; }).join('') + '</div>' : '') +
       '<button type="button" class="btn google wide" data-act="google" data-google-primary>' + GSVG + '<span>' + esc(A('المتابعة بحساب Google', 'Continue with Google')) + '</span></button>' +
       (DB.live ? '<div class="google-options"><p class="msg" data-google-status role="alert" hidden></p><button type="button" class="link" data-act="google" data-google-chooser hidden>' +
         esc(A('اختر حساب Google', 'Choose a Google account')) + '</button><details data-google-help><summary>' +
         esc(A('مساعدة في تسجيل الدخول عبر Google', 'Google sign-in help')) + '</summary><p>' +
-        esc(A('إذا أخبرك Google بأنك بلغت الحد الأقصى للحسابات، افتح هذا الموقع في علامة تبويب للتصفّح المتخفّي في Chrome وسجّل الدخول بحساب Google المرتبط بحسابك هنا. يمكنك أيضًا استخدام بريدك الإلكتروني أو رقم هاتفك إذا سبق أن استخدمته للدخول.',
-          'If Google says you’ve reached its account limit, open this site in an Incognito tab in Chrome and use the Google account you normally use here. You can also sign in with email or phone if you’ve used it before.')) +
+        esc(A('إذا أخبرك Google بأنك بلغت الحد الأقصى للحسابات، افتح ishrahli.org في علامة تبويب للتصفّح المتخفّي في Chrome وسجّل الدخول بحساب Google المرتبط بحسابك هنا. يمكنك أيضًا استخدام بريدك الإلكتروني أو رقم هاتفك إذا سبق أن استخدمته للدخول.',
+          'If Google says you’ve reached its account limit, open ishrahli.org in an Incognito tab in Chrome and use the Google account you normally use here. You can also sign in with email or phone if you’ve used it before.')) +
         '</p></details></div>' : '') +
       '<p class="or"><span>' + esc(A('أو', 'or')) + '</span></p>' +
       '<div class="atabs" role="tablist">' + [['email', 'mail', 'البريد الإلكتروني', 'Email'], ['phone', 'phone', 'رقم الهاتف', 'Phone']].map(function (t) {

@@ -1,4 +1,4 @@
-/* Medical Nerds: My Library (owner's design, 17 Nov 2026): books, sheets, summaries, slides, question banks, references and other files,
+/* اشرح لي: My Library (owner's design, 17 Nov 2026): books, sheets, summaries, slides, question banks, references and other files,
    viewed inside the app only (PDF pages drawn on the screen, no download link); student requests (book, PDF, printed copy, explanation, other)
    with their status; students can share a useful file, which the content team reviews before it is published. */
 (function () {

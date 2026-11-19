@@ -1,4 +1,4 @@
-/* Medical Nerds: free or paid library files with tags, sold by anyone who shares them (owner, 19 Nov 2026: "the upload file should also appear as
+/* اشرح لي: free or paid library files with tags, sold by anyone who shares them (owner, 19 Nov 2026: "the upload file should also appear as
    paid or free and has tag; even students can share paid files or free; publishing goes through admin; students can gain money according to
    their selling"). Database: supabase/023_paid_library.sql (files.price, files.tags, file_buys, seller_accounts, seller_payouts).
    - Upload (one file or a series): Free / Paid + price in SDG + up to 8 tags. Student uploads wait for the team's review (as before).

@@ -1,4 +1,4 @@
-/* Medical Nerds: the book reader (owner, 19 Nov 2026: "books must open perfectly, as if you are using a real PDF reader inside: highlight,
+/* اشرح لي: the book reader (owner, 19 Nov 2026: "books must open perfectly, as if you are using a real PDF reader inside: highlight,
    copy, full page …"). A full-screen layer over the app: sharp pages drawn for the screen's pixel density, real selectable text (pdf.js
    text layer) for copying and highlighting, zoom (buttons, pinch, Ctrl + wheel), page jump, search inside the book, highlights in four
    colours kept on this device per book, full screen and a tap that hides the bars, and the last page reopens. Only pages near the screen

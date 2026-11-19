@@ -1,4 +1,4 @@
-/* Medical Nerds: the data layer. One small set of calls used by every page, with two backends:
+/* اشرح لي: the data layer. One small set of calls used by every page, with two backends:
    - PREVIEW (no config): tables in localStorage, files and videos in IndexedDB, accounts on this device. Lets the owner try every page and
      every flow (register, enrol, pay, approve, upload a video, publish, pay a doctor) before the database exists.
    - SUPABASE (config filled): the same calls go to the real database; its row-level rules (supabase/001_schema.sql) decide who may
