@@ -2604,3 +2604,14 @@ a.library-rating:hover{text-decoration:underline}
 .studio-updates>.box{min-width:0;margin:0}
 body[data-page="studio"] .qa a{padding:9px 7px;justify-content:center}
 body[data-page="studio"] .qa a .ico{width:22px;height:22px}
+
+.pk-account{display:flex;flex:1 1 100%;grid-column:1/-1;min-width:0}
+.pk-account .pkme{flex:0 1 auto;margin:0;min-width:0;overflow-wrap:anywhere}
+.pick-footer{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 14px}
+#main .pick-footer .pkf,#main .pick-footer .pkx{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;flex:0 1 auto;max-width:100%}
+#main .pick-footer .btn{min-height:38px;color:var(--pri);white-space:normal}
+#main .pick-footer .btn:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
+@media (min-width:1100px){
+  #main .pick{max-height:clamp(590px,calc(25vw + 230px),650px)}
+  #main .pick>.pkh{min-height:0;padding-block:16px;row-gap:10px}
+}

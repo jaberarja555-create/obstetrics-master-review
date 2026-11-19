@@ -277,14 +277,20 @@
   /* ========== START PAGE: sign in and choose a speciality (owner, 18 Nov 2026) ========== */
   IS.page('pick', async function () {
     var m = me(), cur = IS.SPEC;
+    var language = IS.lang === 'ar' ? '<span lang="en">English</span>' : '<span lang="ar">العربية</span>';
     var h = '<div class="pick"><header class="pkh"><img src="' + IS.logo() + '" alt="" class="pkl"><div><h1 tabindex="-1"><span class="gtx">' + esc(IS.brandName()) + '</span></h1><p>' + esc(A('منصة تعليمية متكاملة لطلاب الكليات الصحية', 'A complete learning platform for health sciences students')) + '</p></div>' +
-      (m ? '<div class="pkme">' + IS.av(m, 'sm') + '<span>' + esc(A('مرحبًا ', 'Welcome, ')) + IS.greetingName(m.name, true) + '</span></div>' :
+      (m ? '<div class="pk-account"><div class="pkme">' + IS.av(m, 'sm') + '<span>' + esc(A('مرحبًا ', 'Welcome, ')) + IS.greetingName(m.name, true) + '</span></div></div>' :
         '<div class="pkin"><button class="btn gold" data-act="login">' + ic('user') + esc(A('تسجيل الدخول', 'Sign in')) + '</button><button class="btn lt" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div>') + '</header>' +
       '<section class="pkb"><h2>' + IS.T('اختر تخصصك', 'Choose your speciality') + '</h2><p class="mut">' + esc(A('بعد اختيار التخصص، اختر القسم الذي تريد الدراسة فيه.', 'After choosing your speciality, choose the section you want to study in.')) + '</p>' +
       '<div class="pks">' + IS.SPECS.map(function (s) { var ns = IS.SUBJ.filter(function (x) { return x.spec === s.id; }).length;
         return '<button type="button" class="pk' + (s.id === cur ? ' on' : '') + '" data-act="setspec" data-v="' + s.id + '"><span class="pki">' + (s.img ? '<img src="' + IS.U(s.img) + '" alt="" loading="lazy">' : '') + '</span><span class="pkt"><i>' + ic(s.icon) + '</i><b lang="en">' + esc(s.en) + '</b><em>' + IS.cnt(ns, 'sub') + '</em></span>' + (s.id === cur ? '<span class="pkc">' + ic('check') + '</span>' : '') + '</button>'; }).join('') + '</div></section>' +
-      (IS.team() || IS.LEC ? '<p class="pkx">' + (IS.LEC ? '<a class="link" href="#studio">' + ic('studio') + esc(A('استوديو المحاضر', 'Lecturer studio')) + '</a>' : '') + (IS.team() ? '<a class="link" href="#control">' + ic('crown') + esc(A('تطبيق التحكم', 'Control app')) + '</a>' : '') + '</p>' : '') +
-      '<p class="pkf"><a href="#terms">' + esc(A('الشروط والخصوصية', 'Terms and privacy')) + '</a> · <button type="button" class="link" data-act="lang">' + (IS.lang === 'ar' ? 'English' : 'العربية') + '</button></p></div>';
+      '<footer class="pick-footer">' +
+      (IS.team() || IS.LEC ? '<nav class="pkx" aria-label="' + esc(A('مساحات العمل', 'Workspaces')) + '">' +
+        (IS.LEC ? '<a class="btn ghost sm" href="#studio">' + ic('studio') + esc(A('استوديو المحاضر', 'Lecturer studio')) + '</a>' : '') +
+        (IS.team() ? '<a class="btn ghost sm" href="#control">' + ic('crown') + esc(A('تطبيق التحكم', 'Control app')) + '</a>' : '') + '</nav>' : '') +
+      '<div class="pkf"><button type="button" class="btn ghost sm" data-act="lang" aria-label="' +
+        esc(A('غيّر اللغة إلى الإنجليزية', 'Switch language to Arabic')) + '">' + ic('globe') + language + '</button>' +
+      '<a class="btn ghost sm" href="#terms">' + ic('shield') + esc(A('الشروط والخصوصية', 'Terms and privacy')) + '</a></div></footer></div>';
     /* the start page always fits the screen (owner, 18 Nov 2026: "not well organised, scrolling for nothing" on phone and tablet):
        the page takes exactly the height left under the top of #main, and the speciality cards share it */
     IS.after = function () { IS.fitPick(); };
