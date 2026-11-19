@@ -3009,3 +3009,26 @@ button.feed-grade:hover{border-color:#e0a800;background:#fff8e1}
 .spacebox .spjoin{background:#e7f5ec!important;border:0!important;color:#17663a!important;font-weight:700}
 .spacebox .spjoin .ico{color:#17663a!important}
 @media (max-width:700px){.spacebox .bnums.sp4{grid-template-columns:repeat(2,minmax(0,1fr))!important;flex-basis:100%}.spacebox{margin-top:-4px!important}}
+
+/* reader: contents and bookmarks panel, quick bookmark, smooth zoom (owner, 19 Nov 2026) */
+#rdr .rdr-scroll{touch-action:pan-x pan-y}
+#rdr .rp canvas{width:100%!important;height:100%!important}
+#rdr .rdr-pages .loading{flex-direction:column;color:#fff}
+#rdr .rdr-prog{font-size:22px;font-weight:800;min-height:28px}
+#rdr .rdr-bmq.on,#rdr [data-r=bookmarks][aria-expanded=true]{background:#f0c45a;color:#2b1f05}
+#rdr .rdr-bmq.on .ico{fill:currentColor}
+#rdr .rp.bm::before{content:"";position:absolute;top:0;inset-inline-end:14px;z-index:3;width:18px;height:28px;background:#e0a92a;clip-path:polygon(0 0,100% 0,100% 100%,50% 75%,0 100%)}
+#rdr .rdr-bookmarks{max-height:min(62vh,520px);display:flex;flex-direction:column;gap:10px}
+#rdr .rdr-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:4px;border-radius:12px;background:rgba(255,255,255,.1);flex:none}
+#rdr .rdr-tabs button{display:flex;align-items:center;justify-content:center;gap:6px;height:38px;border:0;border-radius:9px;background:transparent;color:#ddfaeb;font:700 13.5px inherit;cursor:pointer}
+#rdr .rdr-tabs button .ico{width:17px;height:17px}
+#rdr .rdr-tabs button.on{background:#fff;color:#155134}
+#rdr .rdr-tabs .rdr-bmn{font-style:normal;background:#f0c45a;color:#2b1f05;border-radius:999px;padding:0 7px;font-size:12px}
+#rdr .rdr-tabs .rdr-bmn:empty{display:none}
+#rdr .rdr-tab{overflow:auto;display:flex;flex-direction:column;gap:6px;min-height:0}
+#rdr .rdr-tab[hidden]{display:none}
+#rdr .rdr-outline-item{padding-inline-start:calc(12px + var(--lv,0) * 16px)!important}
+#rdr .rdr-pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px}
+#rdr .rdr-pgrid button{height:40px;border:0;border-radius:10px;background:#fff;color:#155134;font:700 14px inherit;cursor:pointer}
+#rdr .rdr-bmsave{align-self:flex-start}
+@media (max-width:420px){#rdr .rdr-top{gap:4px;padding-inline:6px}#rdr .rib{min-width:36px;height:38px;padding:0 6px}}

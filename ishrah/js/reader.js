@@ -17,14 +17,18 @@
       '<b class="rdr-title" dir="auto">' + esc(o.title || '') + '</b>' +
       '<button type="button" class="rib" data-r="search" disabled aria-label="' + esc(A('البحث في الكتاب', 'Search the book')) + '">' + ic('search') + '</button>' +
       '<button type="button" class="rib" data-r="bookmarks" disabled aria-expanded="false" aria-controls="rdr-bookmark-panel" aria-label="' +
-        esc(A('الإشارات المرجعية', 'Bookmarks')) + '">' + ic('bookmark') + '</button>' +
+        esc(A('المحتويات والإشارات', 'Contents and bookmarks')) + '">' + ic('list') + '</button>' +
+      '<button type="button" class="rib rdr-bmq" data-r="save-bookmark" disabled aria-pressed="false" aria-label="' + esc(A('إشارة لهذه الصفحة', 'Bookmark this page')) + '">' + ic('bookmark') + '</button>' +
       '<button type="button" class="rib" data-r="marks" disabled aria-label="' + esc(A('تظليلاتي', 'My highlights')) + '">' + ic('pen') + '</button>' +
-      '<button type="button" class="rib" data-r="full" aria-label="' + esc(A('ملء الشاشة', 'Full screen')) + '">' + ic('open') + '</button></header>' +
+      '<button type="button" class="rib" data-r="full" aria-label="' + esc(A('ملء الشاشة', 'Full screen')) + '">' + ic('expand') + '</button></header>' +
       '<div class="rdr-find" hidden><input type="search" dir="auto" placeholder="' + esc(A('ابحث عن كلمة في الكتاب…', 'Find a word in the book…')) + '"><button type="button" class="btn sm pri" data-r="go">' + esc(A('بحث', 'Find')) + '</button><div class="rdr-hits"></div></div>' +
-      '<section class="rdr-bookmarks" id="rdr-bookmark-panel" aria-label="' + esc(A('الإشارات المرجعية', 'Bookmarks')) + '" hidden>' +
-        '<div class="row"><button type="button" class="btn sm pri" data-r="save-bookmark"></button></div><div class="rdr-bookmark-list"></div><div class="rdr-outline"></div></section>' +
-      '<div class="rdr-scroll" tabindex="0"><div class="rdr-pages"><div class="loading" role="status"><span class="spin"></span>' +
-      esc(A('جارٍ فتح الكتاب…', 'Opening the book…')) + '</div></div></div>' +
+      '<section class="rdr-bookmarks" id="rdr-bookmark-panel" aria-label="' + esc(A('المحتويات والإشارات', 'Contents and bookmarks')) + '" hidden>' +
+        '<div class="rdr-tabs" role="tablist"><button type="button" class="on" data-r="tab" data-t="toc">' + ic('list') + esc(A('المحتويات', 'Contents')) + '</button>' +
+        '<button type="button" data-r="tab" data-t="bm">' + ic('bookmark') + esc(A('إشاراتي', 'My bookmarks')) + ' <i class="rdr-bmn"></i></button></div>' +
+        '<div class="rdr-tab" data-t="toc"><div class="rdr-outline"></div></div>' +
+        '<div class="rdr-tab" data-t="bm" hidden><button type="button" class="btn sm pri rdr-bmsave" data-r="save-bookmark"></button><div class="rdr-bookmark-list"></div></div></section>' +
+      '<div class="rdr-scroll" tabindex="0"><div class="rdr-pages"><div class="loading" role="status"><span class="spin"></span><span>' +
+      esc(A('جارٍ فتح الكتاب…', 'Opening the book…')) + '</span><b class="rdr-prog"></b></div></div></div>' +
       '<footer class="rdr-bot"><button type="button" class="rib" data-r="out" aria-label="' + esc(A('تصغير', 'Zoom out')) + '">−</button>' +
       '<button type="button" class="rdr-pg" data-r="jump"><bdi dir="ltr"><span class="rdr-cur">1</span> / <span class="rdr-n">…</span></bdi></button>' +
       '<button type="button" class="rib" data-r="in" aria-label="' + esc(A('تكبير', 'Zoom in')) + '">+</button>' +
@@ -35,7 +39,7 @@
     try { history.pushState({ rdr: 1 }, ''); } catch (e) {}
     var id = o.id || 'x', account = (IS.ME || {}).id || 'local';
     var bookmarksKey = 'ish-rbm:' + account + '/' + id;
-    var reader = R = { el: el, id: id, zoom: store('ish-rz', 1), pages: [], marks: store('ish-hl:' + id, []),
+    var reader = R = { el: el, id: id, zoom: store('ish-rz:' + id, 1), pages: [], marks: store('ish-hl:' + id, []),
       bookmarksKey: bookmarksKey, bookmarks: store(bookmarksKey, []), cur: 1 };
     el.addEventListener('click', onClick);
     var sc = el.querySelector('.rdr-scroll');
@@ -53,7 +57,11 @@
       var src = o.blob ? { data: ready[1] } : { url: ready[1] };
       var base = new URL('pdfjs/', document.baseURI).href;
       reader.loadingTask = ready[0].getDocument(Object.assign(src, { isEvalSupported: false, cMapUrl: base + 'cmaps/', cMapPacked: true,
-        standardFontDataUrl: base + 'standard_fonts/', useSystemFonts: false }));
+        standardFontDataUrl: base + 'standard_fonts/', useSystemFonts: false, disableAutoFetch: true, disableStream: true, rangeChunkSize: 262144 }));
+      reader.loadingTask.onProgress = function (pr) {
+        var out = el.querySelector('.rdr-prog'); if (!out || !pr.total) return;
+        out.textContent = Math.min(99, Math.round(pr.loaded / pr.total * 100)) + '%';
+      };
       reader.doc = await reader.loadingTask.promise;
       if (R !== reader) return;
       reader.n = reader.doc.numPages;
@@ -107,7 +115,7 @@
       if (!R || R.pages[n - 1] !== p) return;
       p.base = base.width; p.ratio = base.height / base.width;
       p.el.style.height = Math.round(w * p.ratio) + 'px';
-      var scale = w / base.width, dpr = Math.min(window.devicePixelRatio || 1, 2.5), vp = page.getViewport({ scale: scale });
+      var scale = w / base.width, dpr = Math.min(window.devicePixelRatio || 1, matchMedia('(pointer:coarse)').matches ? 2 : 2.5), vp = page.getViewport({ scale: scale });
       var cv = p.el.querySelector('canvas'), ctx = cv.getContext('2d', { alpha: false });
       cv.width = Math.floor(vp.width * dpr); cv.height = Math.floor(vp.height * dpr);
       cv.style.width = vp.width + 'px'; cv.style.height = vp.height + 'px';
@@ -135,10 +143,23 @@
     });
   }
   function redrawNear() { R.pages.forEach(function (p) { p.drawn = 0; }); for (var i = Math.max(1, R.cur - 1); i <= Math.min(R.n, R.cur + 2); i++) draw(i); }
-  function zoomTo(z) {
-    if (!R || !R.n) return; z = Math.max(0.6, Math.min(4, z)); if (Math.abs(z - R.zoom) < 0.01) return;
-    var sc = R.el.querySelector('.rdr-scroll'), rel = sc.scrollTop / Math.max(1, sc.scrollHeight);
-    R.zoom = z; keep('ish-rz', z); sizeAll(); sc.scrollTop = rel * sc.scrollHeight; redrawNear();
+  /* the page and the spot on it under (x, y) */
+  function anchorAt(x, y) {
+    var best = null, bd = 1e9;
+    R.pages.forEach(function (p) { var r = p.el.getBoundingClientRect(), d = y < r.top ? r.top - y : y > r.bottom ? y - r.bottom : 0; if (d < bd) { bd = d; best = { p: p, r: r }; } });
+    if (!best) return null;
+    return { p: best.p, fx: (x - best.r.left) / best.r.width, fy: (y - best.r.top) / best.r.height };
+  }
+  /* new zoom; the anchored spot ends at screen point (x, y) */
+  function zoomTo(z, x, y, anchor) {
+    if (!R || !R.n) return; z = Math.max(0.6, Math.min(5, z));
+    var sc = R.el.querySelector('.rdr-scroll'), box = sc.getBoundingClientRect();
+    if (x == null) { x = box.left + box.width / 2; y = box.top + box.height / 2; }
+    anchor = anchor || anchorAt(x, y);
+    if (Math.abs(z - R.zoom) < 0.01 && !anchor) return;
+    R.zoom = z; keep('ish-rz:' + R.id, z); sizeAll();
+    if (anchor) { var r = anchor.p.el.getBoundingClientRect(); sc.scrollLeft += r.left + anchor.fx * r.width - x; sc.scrollTop += r.top + anchor.fy * r.height - y; }
+    clearTimeout(R.zt); R.zt = setTimeout(redrawNear, 60);
   }
   function goPage(n) {
     if (!R || !R.n) return;
@@ -157,13 +178,45 @@
       if (cur !== R.cur) showPageNumber(cur);
     });
   }
-  /* two-finger pinch: the pages scale while the fingers move, and are drawn sharp again at the new size when they lift */
+  /* two fingers: the pages grow or shrink around the fingers and follow them; when the fingers lift, the pages are laid out at the new size
+     with the same spot under the fingers, then drawn sharp. Double tap: 2× at that spot, again to fit the width. */
   function pinch(sc) {
-    var d0 = 0, z0 = 1;
-    function dist(t) { var x = t[0].clientX - t[1].clientX, y = t[0].clientY - t[1].clientY; return Math.sqrt(x * x + y * y); }
-    sc.addEventListener('touchstart', function (e) { if (e.touches.length === 2) { d0 = dist(e.touches); z0 = R.zoom; } }, { passive: true });
-    sc.addEventListener('touchmove', function (e) { if (e.touches.length === 2 && d0) { e.preventDefault(); var f = dist(e.touches) / d0; R.el.querySelector('.rdr-pages').style.transform = 'scale(' + Math.max(0.6 / z0, Math.min(4 / z0, f)) + ')'; } }, { passive: false });
-    sc.addEventListener('touchend', function (e) { if (d0 && e.touches.length < 2) { var t = R.el.querySelector('.rdr-pages'), m = /scale\(([\d.]+)\)/.exec(t.style.transform); t.style.transform = ''; d0 = 0; if (m) zoomTo(z0 * +m[1]); } });
+    var g = null, lastTap = 0, tapXY = null, moved = false;
+    function mid(t) { return { x: (t[0].clientX + t[1].clientX) / 2, y: (t[0].clientY + t[1].clientY) / 2 }; }
+    function dist(t) { var x = t[0].clientX - t[1].clientX, y = t[0].clientY - t[1].clientY; return Math.sqrt(x * x + y * y) || 1; }
+    sc.addEventListener('touchstart', function (e) {
+      moved = false;
+      if (e.touches.length === 2 && R && R.n) {
+        var m = mid(e.touches), pages = R.el.querySelector('.rdr-pages'), pr = pages.getBoundingClientRect();
+        g = { d: dist(e.touches), m: m, z: R.zoom, f: 1, mx: m.x, my: m.y, anchor: anchorAt(m.x, m.y), pages: pages };
+        pages.style.transformOrigin = (m.x - pr.left) + 'px ' + (m.y - pr.top) + 'px';
+        pages.style.willChange = 'transform';
+      }
+    }, { passive: true });
+    sc.addEventListener('touchmove', function (e) {
+      moved = true;
+      if (!g || e.touches.length !== 2) return;
+      e.preventDefault();
+      var m = mid(e.touches);
+      g.f = Math.max(0.6 / g.z, Math.min(5 / g.z, dist(e.touches) / g.d)); g.mx = m.x; g.my = m.y;
+      g.pages.style.transform = 'translate(' + (m.x - g.m.x) + 'px,' + (m.y - g.m.y) + 'px) scale(' + g.f + ')';
+    }, { passive: false });
+    sc.addEventListener('touchend', function (e) {
+      if (g && e.touches.length < 2) {
+        var done = g; g = null;
+        done.pages.style.transform = ''; done.pages.style.willChange = '';
+        zoomTo(done.z * done.f, done.mx, done.my, done.anchor);
+        lastTap = 0; return;
+      }
+      if (e.touches.length || e.changedTouches.length !== 1 || moved) return;
+      var t = e.changedTouches[0], now = Date.now();
+      if (now - lastTap < 320 && tapXY && Math.abs(tapXY.x - t.clientX) < 30 && Math.abs(tapXY.y - t.clientY) < 30) {
+        lastTap = 0; R.el.classList.toggle('bare');   // undo the single-tap bar toggle of the first tap
+        zoomTo(R.zoom > 1.3 ? 1 : 2, t.clientX, t.clientY);
+        return;
+      }
+      lastTap = now; tapXY = { x: t.clientX, y: t.clientY };
+    });
   }
 
   /* ---- selection: highlight in four colours, copy ---- */
@@ -223,10 +276,11 @@
   }
   function syncBookmark() {
     var active = R.bookmarks.includes(R.cur);
-    var action = R.el.querySelector('[data-r=save-bookmark]');
-    action.innerHTML = ic('bookmark') + esc(active ? A('أزل إشارة هذه الصفحة', 'Remove this page bookmark') : A('احفظ هذه الصفحة', 'Bookmark this page'));
-    action.setAttribute('aria-pressed', active);
-    R.el.querySelector('[data-r=bookmarks]').classList.toggle('on', active);
+    var save = R.el.querySelector('.rdr-bmsave');
+    save.innerHTML = ic('bookmark') + esc(active ? A('أزل إشارة الصفحة ', 'Remove bookmark of page ') : A('أضف إشارة للصفحة ', 'Bookmark page ')) + R.cur;
+    IS.$$('[data-r=save-bookmark]', R.el).forEach(function (b) { b.setAttribute('aria-pressed', active); b.classList.toggle('on', active); });
+    var n = R.el.querySelector('.rdr-bmn'); if (n) n.textContent = R.bookmarks.length ? R.bookmarks.length : '';
+    R.pages.forEach(function (p, i) { p.el.classList.toggle('bm', R.bookmarks.includes(i + 1)); });
   }
   function paintBookmarks() {
     syncBookmark();
@@ -245,6 +299,7 @@
     else if (!remove) R.bookmarks.push(page);
     keep(R.bookmarksKey, R.bookmarks);
     paintBookmarks();
+    if (!remove) IS.toast(R.bookmarks.includes(page) ? A('أُضيفت إشارة للصفحة ', 'Bookmarked page ') + page : A('أُزيلت إشارة الصفحة ', 'Bookmark removed from page ') + page);
   }
   function toggleBookmarks(open) {
     var panel = R.el.querySelector('.rdr-bookmarks');
@@ -256,21 +311,25 @@
     var reader = R, out = panel.querySelector('.rdr-outline');
     if (reader.outline) return;
     reader.outline = [];
+    function pageList() {
+      out.innerHTML = '<p>' + esc(A('لا يحتوي هذا الكتاب على فهرس. اختر صفحة:', 'This book has no contents list. Choose a page:')) + '</p><div class="rdr-pgrid">' +
+        Array.from({ length: reader.n }, function (_, i) { return '<button type="button" data-r="bookmark-page" data-p="' + (i + 1) + '">' + (i + 1) + '</button>'; }).join('') + '</div>';
+    }
+    out.innerHTML = '<p><span class="spin"></span></p>';
     reader.doc.getOutline().then(function (outline) {
-      if (R !== reader || !outline || !outline.length) return;
-      function items(entries) {
+      if (R !== reader) return;
+      function items(entries, level) {
         entries.forEach(function (item) {
-          if (item.dest) reader.outline.push({ title: item.title, dest: item.dest });
-          if (item.items && item.items.length) items(item.items);
+          if (item.dest) reader.outline.push({ title: item.title, dest: item.dest, level: level });
+          if (item.items && item.items.length) items(item.items, level + 1);
         });
       }
-      items(outline);
-      if (!reader.outline.length) return;
-      out.innerHTML = '<h3>' + esc(A('فهرس الكتاب', 'Contents')) + '</h3>' +
-        reader.outline.map(function (item, index) {
-          return '<button class="rdr-outline-item" data-r="outline-page" data-i="' + index + '" dir="auto">' + esc(item.title) + '</button>';
-        }).join('');
-    }).catch(function () {});
+      if (outline) items(outline, 0);
+      if (!reader.outline.length) return pageList();
+      out.innerHTML = reader.outline.map(function (item, index) {
+        return '<button class="rdr-outline-item" style="--lv:' + Math.min(item.level, 3) + '" data-r="outline-page" data-i="' + index + '" dir="auto">' + esc(item.title) + '</button>';
+      }).join('');
+    }).catch(function () { if (R === reader) pageList(); });
   }
   async function openOutline(index) {
     var reader = R, entry = reader.outline[index];
@@ -387,6 +446,7 @@
       }
       else if (a === 'bookmarks') toggleBookmarks(R.el.querySelector('.rdr-bookmarks').hidden);
       else if (a === 'save-bookmark') changeBookmark(R.cur);
+      else if (a === 'tab') { IS.$$('.rdr-tabs [data-r=tab]', R.el).forEach(function (x) { x.classList.toggle('on', x === b); }); IS.$$('.rdr-tab', R.el).forEach(function (x) { x.hidden = x.dataset.t !== b.dataset.t; }); }
       else if (a === 'remove-bookmark') changeBookmark(+b.dataset.p, true);
       else if (a === 'bookmark-page') { toggleBookmarks(false); goPage(+b.dataset.p); }
       else if (a === 'outline-page') openOutline(+b.dataset.i);
@@ -425,5 +485,5 @@
     if (/^(INPUT|TEXTAREA)$/.test((document.activeElement || {}).tagName || '')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown') goPage(R.cur + 1); if (e.key === 'ArrowLeft' || e.key === 'PageUp') goPage(R.cur - 1);
   });
-  window.addEventListener('resize', function () { if (R && R.n) { sizeAll(); redrawNear(); } });
+  window.addEventListener('resize', function () { if (R && R.n) { var a = anchorAt(innerWidth / 2, innerHeight / 2); sizeAll(); if (a) zoomTo(R.zoom, null, null, a); else redrawNear(); } });
 })();

@@ -564,3 +564,12 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   the bottom (laptops keep the top-bar search). **The glass-circle logo is the app's logo look** (owner: "depend the logo like this in the
   app"): `.glogo` style also on the top bar logo and the start page. CSS block at the end of app.css (overrides the earlier band rules).
   Asset version 156, shell cache ish-v56.
+- **Reader on phones, second pass** (owner, 19 Nov 2026: "opening a book is very slow; no bookmark or contents list; zoom on the phone moves
+  in a disorganised way"): (1) pdf.js asks only for the pieces it needs (`disableAutoFetch`, `disableStream`, 256 KB ranges; the first page
+  shows before the whole book is downloaded when the file server allows range requests) and the opening screen shows the download %. (2) Top
+  bar: Contents (list icon) and a quick bookmark button for the page in view (gold when saved; a gold ribbon on bookmarked pages). The panel has
+  two tabs: «المحتويات» (the book's own outline with levels, or a grid of page numbers when it has none) and «إشاراتي» (count, add/remove,
+  jump). (3) Zoom keeps the spot under the fingers in place: pinch scales around the fingers and follows them, then lays the pages out at the
+  new size with that spot under the fingers (`anchorAt`, `zoomTo(z, x, y, anchor)`); buttons zoom around the screen centre; double tap = 2×
+  at that spot / back to fit; zoom is kept per book (`ish-rz:<id>`); the browser's own page zoom is off inside the reader (`touch-action`).
+  Test: scratchpad rdr2.js (201-page PDF at 390 px: spot on the page before/after a pinch identical). Asset version 158, shell cache ish-v58.
