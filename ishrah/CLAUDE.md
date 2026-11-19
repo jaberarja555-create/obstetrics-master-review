@@ -602,3 +602,10 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   30-day renewal; marked `auto`). A copy is used only for the same file version (`pth` = path). Test: scratchpad fast.js.
 - **The rating breakdown is for the team only** (owner: "this should not be seen by students except admins"): «كيف حُسب التقييم؟» and the
   sheet open only for team accounts (`IS.team()`); students see the stars and can rate. Asset version 168, shell cache ish-v68.
+- **Control → Usage** (`control-usage`, menu Site & app, perm `settings`; owner, 19 Nov 2026): file storage per kind (library, pictures,
+  receipts, payout receipts, application files, request attachments) with sizes and counts, database size, counts of accounts / posts /
+  comments / files / courses / lessons / enrolments / purchases / notifications, the 10 largest files, against the plan limits (settings
+  `plan_name` free|pro, `plan_storage_gb` 1|100, `plan_db_mb` 500|8192, editable there); bars orange at 70 %, red at 90 %, with advice
+  (upgrade to Pro or move library files to Cloudflare R2). Download traffic is only on Supabase's page (link to the project). Migration
+  `034_usage.sql` (`ish_usage()`, settings/dash viewers only). Library sales is now in the grouped Control menu too (Payments group).
+  Asset version 169, shell cache ish-v69.

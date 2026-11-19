@@ -14,10 +14,10 @@
     [['cal', 'الفعاليات', 'Events'], [['control-events', 'cal', 'إدارة الفعاليات', 'Manage events', 'events']]],
     [['receipt', 'الطلبات', 'Requests'], [['control-requests', 'receipt', 'طلبات المكتبة', 'Library requests', 'requests'], ['control-course-requests', 'chat', 'طلبات الكورسات', 'Course requests', 'review'], ['control-questions', 'help', 'مراجعة الأسئلة', 'Question review', 'review']]],
     [['group', 'المجتمع والتواصل', 'Community'], [['control-community', 'flag', 'البلاغات والنقاشات', 'Reports & posts', 'community'], ['control-news', 'news', 'الأخبار', 'News', 'notify'], ['control-notify', 'bell', 'الإعلانات والإشعارات', 'Announcements', 'notify']]],
-    [['wallet', 'الاشتراكات والمدفوعات', 'Payments'], [['control-pay', 'receipt', 'مراجعة المدفوعات', 'Payment review', 'pay'], ['control-payouts', 'wallet', 'مستحقات المحاضرين', 'Lecturer payouts', 'payout']]],
+    [['wallet', 'الاشتراكات والمدفوعات', 'Payments'], [['control-pay', 'receipt', 'مراجعة المدفوعات', 'Payment review', 'pay'], ['control-payouts', 'wallet', 'مستحقات المحاضرين', 'Lecturer payouts', 'payout'], ['control-sales', 'cart', 'مبيعات المكتبة', 'Library sales', 'pay']]],
     [['chart', 'التقارير والتحليلات', 'Reports'], [['control-reports', 'chart', 'التقارير', 'Reports', 'reports']]],
     [['shield', 'إدارة الصلاحيات', 'Permissions'], [['control-structure', 'org', 'الهيكل الإداري', 'Administrative structure', 'dash'], ['control-team', 'shield', 'المستخدمون والصلاحيات', 'Users & permissions', 'team']]],
-    [['gear', 'إدارة الموقع والتطبيق', 'Site & app'], [['control-cats', 'grid', 'الأقسام والمواد', 'Categories & subjects', 'cats'], ['control-settings', 'gear', 'الإعدادات العامة', 'General settings', 'settings'], ['control-audit', 'clock', 'سجل العمليات', 'Activity log', 'audit'], ['settings', 'globe', 'اللغة والمظهر', 'Language & appearance', 'dash']]]];
+    [['gear', 'إدارة الموقع والتطبيق', 'Site & app'], [['control-cats', 'grid', 'الأقسام والمواد', 'Categories & subjects', 'cats'], ['control-settings', 'gear', 'الإعدادات العامة', 'General settings', 'settings'], ['control-usage', 'chart', 'الاستهلاك والسعة', 'Usage', 'settings'], ['control-audit', 'clock', 'سجل العمليات', 'Activity log', 'audit'], ['settings', 'globe', 'اللغة والمظهر', 'Language & appearance', 'dash']]]];
   IS.ctrlSide = function (page) {
     return IS.CTRL.map(function (g) {
       var it = g[1].filter(function (n) { return IS.can(n[4]); }); if (!it.length) return '';
@@ -809,4 +809,60 @@
     return '<nav class="crumb"><a href="#paths">' + esc(A('المسارات', 'Paths')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(p.title) + '</span></nav>' + IS.banner(esc(p.title), esc(p.about || ''), 'route') + '<ol class="psteps">' + steps.map(function (c, i) { var n = prog.filter(function (x) { return x.course_id === c.id; }).length, pc = c.n_lessons ? Math.min(100, Math.round(n / c.n_lessons * 100)) : 0;
       return '<li class="' + (pc >= 100 ? 'ok' : '') + '"><span class="sn">' + (pc >= 100 ? ic('check') : N(i + 1)) + '</span>' + IS.courseCard(c, L, E) + '<div class="prog">' + IS.bar(pc) + '<em>' + N(pc + '%') + '</em></div></li>'; }).join('') + '</ol>';
   });
+})();
+
+/* Usage (owner, 19 Nov 2026: "how much can this free account hold, and when do I pay"): storage per kind of file, database size, counts,
+   the largest files, against the plan's limits (settings plan_storage_gb, plan_db_mb, plan_name); download traffic only on Supabase's page */
+(function () {
+  var A = IS.A, esc = IS.esc, ic = IS.ic, N = IS.N;
+  var NAMES = { library: ['الكتب والملفات', 'Books and files'], media: ['الصور العامة', 'Public pictures'], receipts: ['إيصالات الدفع', 'Payment receipts'],
+    'payout-receipts': ['إيصالات التحويل', 'Payout receipts'], apps: ['ملفات طلبات المحاضرين', 'Lecturer application files'], 'course-request-files': ['مرفقات طلبات الكورسات', 'Course request attachments'] };
+  function size(b) { b = +b || 0; return b >= 1073741824 ? (b / 1073741824).toFixed(2) + ' GB' : b >= 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.max(0, Math.round(b / 1024)) + ' KB'; }
+  function bar(used, limit) {
+    var pc = limit ? Math.min(100, used / limit * 100) : 0, cls = pc >= 90 ? 'bad' : pc >= 70 ? 'warn' : 'ok';
+    return '<div class="ubar ' + cls + '"><i style="width:' + pc.toFixed(1) + '%"></i></div><p class="ufig"><b dir="ltr">' + size(used) + '</b> ' + esc(A('من', 'of')) + ' <b dir="ltr">' + size(limit) + '</b> · <b>' + Math.round(pc) + '%</b></p>';
+  }
+  async function data() {
+    if (DB.live) { var r = await DB.sb.rpc('ish_usage'); if (r.error) throw r.error; return r.data; }
+    var tables = ['profiles', 'posts', 'replies', 'files', 'courses', 'lessons', 'enrollments', 'file_buys', 'notices'], counts = {};
+    for (var i = 0; i < tables.length; i++) counts[tables[i]] = (await DB.q(tables[i])).length;
+    var raw = 0; try { raw = (localStorage.getItem('ish-db') || '').length; } catch (e) {}
+    var files = await DB.q('files'), lib = files.reduce(function (a, f) { return a + (+f.size || 0); }, 0);
+    return { db_bytes: raw, buckets: [{ id: 'library', files: files.length, bytes: lib }], counts: counts, largest: files.slice().sort(function (a, b) { return (+b.size || 0) - (+a.size || 0); }).slice(0, 10).map(function (f) { return { bucket: 'library', name: f.title, bytes: +f.size || 0, at: f.created_at }; }), at: new Date().toISOString() };
+  }
+  IS.page('control-usage', async function () {
+    var u; try { u = await data(); } catch (e) { return IS.banner(IS.T('الاستهلاك والسعة', 'Usage'), '', 'chart') + IS.empty('info', A('تعذّر قراءة الاستهلاك', 'Usage could not be read'), e.message); }
+    var S = IS.SET, plan = S.plan_name || 'free', sLimit = (+S.plan_storage_gb || (plan === 'pro' ? 100 : 1)) * 1073741824, dLimit = (+S.plan_db_mb || (plan === 'pro' ? 8192 : 500)) * 1048576;
+    var used = (u.buckets || []).reduce(function (a, b) { return a + (+b.bytes || 0); }, 0), pc = used / sLimit * 100, dpc = (+u.db_bytes || 0) / dLimit * 100;
+    var advice = Math.max(pc, dpc) >= 90 ? ['bad', A('اقتربت من الحد. رقِّ الخطة إلى Pro (حوالي 25 دولارًا شهريًا) أو انقل ملفات المكتبة إلى Cloudflare R2 قبل أن تتوقف الرفوع.', 'You are close to the limit. Upgrade to Pro (about $25 a month) or move the library files to Cloudflare R2 before uploads stop.')] :
+      Math.max(pc, dpc) >= 70 ? ['warn', A('تجاوزت ٧٠٪. خطّط للترقية إلى Pro أو لنقل ملفات المكتبة إلى Cloudflare R2 قريبًا.', 'Over 70%. Plan to upgrade to Pro or move the library files to Cloudflare R2 soon.')] :
+        ['ok', A('الاستهلاك ضمن الحدود. لا حاجة للدفع الآن.', 'Usage is within the limits. No need to pay yet.')];
+    var h = IS.banner(IS.T('الاستهلاك والسعة', 'Usage'), esc(A('كم تستهلك المنصة من مساحة الملفات وقاعدة البيانات مقارنةً بحدود خطتك.', 'How much file storage and database the platform uses against your plan.')), 'chart');
+    h += '<div class="note ' + advice[0] + ' unote">' + ic(advice[0] === 'ok' ? 'check' : 'info') + '<span>' + esc(advice[1]) + '</span></div>';
+    h += '<div class="grid g2 ugrid"><section class="box"><h2>' + ic('upload') + IS.T('مساحة الملفات', 'File storage') + ' <span class="chip">' + esc(plan === 'pro' ? 'Pro' : A('مجانية', 'Free')) + '</span></h2>' + bar(used, sLimit) +
+      '<div class="table">' + (u.buckets || []).map(function (b) { var n = NAMES[b.id] || [b.id, b.id];
+        return '<div class="tr"><span class="grow"><b>' + esc(A(n[0], n[1])) + '</b><small class="mut">' + N(b.files) + ' ' + esc(A('ملف', 'files')) + '</small></span><b dir="ltr">' + size(b.bytes) + '</b></div>'; }).join('') + '</div></section>' +
+      '<section class="box"><h2>' + ic('layers') + IS.T('قاعدة البيانات', 'Database') + '</h2>' + bar(u.db_bytes, dLimit) +
+      '<div class="table">' + [['profiles', 'الحسابات', 'Accounts'], ['posts', 'المنشورات', 'Posts'], ['replies', 'التعليقات والردود', 'Comments and replies'], ['files', 'ملفات المكتبة', 'Library files'],
+        ['courses', 'الكورسات', 'Courses'], ['lessons', 'الدروس', 'Lessons'], ['enrollments', 'الالتحاقات', 'Enrolments'], ['file_buys', 'مشتريات المكتبة', 'Library purchases'], ['notices', 'الإشعارات', 'Notifications']].map(function (t) {
+        return '<div class="tr"><span class="grow">' + esc(A(t[1], t[2])) + '</span><b>' + N((u.counts || {})[t[0]] || 0) + '</b></div>'; }).join('') + '</div></section></div>';
+    h += '<section class="box"><h2>' + ic('file') + IS.T('أكبر الملفات', 'Largest files') + '</h2>' + ((u.largest || []).length ? '<div class="table">' + u.largest.map(function (f) { var n = NAMES[f.bucket] || [f.bucket, f.bucket];
+      return '<div class="tr"><span class="grow"><b dir="auto" class="uname">' + esc(String(f.name || '').split('/').pop()) + '</b><small class="mut">' + esc(A(n[0], n[1])) + (f.at ? ' · ' + esc(IS.date(f.at)) : '') + '</small></span><b dir="ltr">' + size(f.bytes) + '</b></div>'; }).join('') + '</div>' :
+      IS.empty('file', A('لا توجد ملفات بعد', 'No files yet'))) + '</section>';
+    h += '<section class="box"><h2>' + ic('download') + IS.T('حركة التنزيل', 'Download traffic') + '</h2><p>' + esc(A('حركة التنزيل (فتح الكتب والصور وتنزيلها) تظهر فقط في لوحة Supabase: المؤسسة ← Usage ← Egress. الخطة المجانية تسمح بحوالي 5 GB شهريًا، وPro بحوالي 250 GB. الكتب التي فُتحت مرة تُفتح بعدها من الجهاز فلا تُحسب مرة أخرى.',
+      'Download traffic (opening and downloading books and pictures) is shown only in Supabase: Organization → Usage → Egress. Free allows about 5 GB a month, Pro about 250 GB. A book opened once then opens from the phone, so it is not counted again.')) + '</p>' +
+      '<a class="btn ghost" href="' + esc('https://supabase.com/dashboard/project/' + ((/https:\/\/([a-z0-9]+)\.supabase\.co/.exec((window.ISH_CONFIG || {}).supabaseUrl || '') || [])[1] || '')) + '" target="_blank" rel="noopener">' + ic('link') + esc(A('افتح صفحة الاستهلاك في Supabase', 'Open the usage page in Supabase')) + '</a></section>';
+    h += '<section class="box"><h2>' + ic('gear') + IS.T('حدود خطتك', 'Your plan limits') + '</h2><form class="form" data-form="planlimits"><div class="g2f">' +
+      '<label class="fl"><span>' + esc(A('الخطة', 'Plan')) + '</span><select name="plan_name"><option value="free"' + (plan === 'free' ? ' selected' : '') + '>' + esc(A('مجانية', 'Free')) + '</option><option value="pro"' + (plan === 'pro' ? ' selected' : '') + '>Pro</option></select></label>' +
+      '<label class="fl"><span>' + esc(A('مساحة الملفات (GB)', 'File storage (GB)')) + '</span><input name="plan_storage_gb" type="number" min="1" step="1" dir="ltr" value="' + esc(String(sLimit / 1073741824)) + '"></label>' +
+      '<label class="fl"><span>' + esc(A('قاعدة البيانات (MB)', 'Database (MB)')) + '</span><input name="plan_db_mb" type="number" min="100" step="100" dir="ltr" value="' + esc(String(dLimit / 1048576)) + '"></label></div>' +
+      '<button class="btn pri">' + ic('check') + esc(A('حفظ', 'Save')) + '</button></form><small class="mut">' + esc(A('آخر تحديث: ', 'Updated: ')) + esc(IS.date(u.at, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })) + '</small></section>';
+    return h;
+  }, { area: 'control', auth: true, perm: 'settings' });
+  IS.SUB.planlimits = async function (d) {
+    if (!IS.can('settings', 'edit')) return IS.toast(A('لا تملك صلاحية تعديل الإعدادات.', 'You cannot edit settings.'), true);
+    if (d.plan_name !== (IS.SET.plan_name || '') && d.plan_storage_gb === String((+IS.SET.plan_storage_gb || 1))) { d.plan_storage_gb = d.plan_name === 'pro' ? '100' : '1'; d.plan_db_mb = d.plan_name === 'pro' ? '8192' : '500'; }
+    for (var k of ['plan_name', 'plan_storage_gb', 'plan_db_mb']) { await DB.upsert('settings', { id: k, value: String(d[k]) }); IS.SET[k] = String(d[k]); }
+    IS.toast(A('حُفظت الحدود', 'Limits saved')); IS.refresh();
+  };
 })();

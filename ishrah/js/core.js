@@ -221,7 +221,7 @@
     support: 'support', ticket: 'support', achievements: 'achievements', cert: 'achievements', 'control-tickets': 'support', 'control-paths': 'paths', 'control-events': 'events', 'control-lecturers': 'lecturers',
     'control-community': 'community', 'control-library': 'library', 'control-review': 'course_catalogue', 'control-cats': 'specialties', 'control-apps': 'lecturers', 'studio-courses': 'course_catalogue', 'studio-events': 'events', 'studio-apply': 'lecturers',
     favorites: 'library', notifications: 'support', settings: 'support', account: 'learning', about: 'community', terms: 'library', search: 'course_catalogue', lecturer: 'lecturers', event: 'events', post: 'community',
-    'control-pay': 'admin', 'control-sales': 'admin', sales: 'library', 'control-payouts': 'admin', 'studio-money': 'admin', 'studio-students': 'community', 'studio-qa': 'support', 'studio-page': 'lecturers', studio: 'studio_recording' };
+    'control-pay': 'admin', 'control-sales': 'admin', 'control-usage': 'admin', sales: 'library', 'control-payouts': 'admin', 'studio-money': 'admin', 'studio-students': 'community', 'studio-qa': 'support', 'studio-page': 'lecturers', studio: 'studio_recording' };
   IS.banner = function (title, sub, icon, extra, cls, picture) { var pg = document.body.getAttribute('data-page') || '', im = BANIMG[pg] || (/^control|^security/.test(pg) ? 'admin' : /^studio/.test(pg) ? 'lecturers' : 'learning');
     var src = picture || ('img/ban_' + im + '.webp');
     return '<section class="ban ' + (cls || '') + (im ? ' bpic' : '') + '"' + (im ? ' style="--bimg:url(' + IS.U(src) + ')"' : '') + '>' + (im ? '<span class="bph" aria-hidden="true"></span><svg class="bwave" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M60 0 C40 30 45 70 22 100 L0 100 L0 0Z" fill="currentColor"/><path d="M62 0 C42 30 47 70 24 100" fill="none" style="stroke:var(--sky2)" stroke-width="1.6"/></svg>' : '') +
@@ -600,7 +600,7 @@
     control: [['control', 'chart', 'لوحة التحكم', 'Dashboard', 'dash'], ['control-pay', 'receipt', 'المدفوعات', 'Payments', 'pay'], ['control-sales', 'cart', 'مبيعات المكتبة', 'Library sales', 'pay'], ['control-review', 'eye', 'مراجعة الكورسات', 'Course review', 'review'], ['control-apps', 'user', 'طلبات المحاضرين', 'Lecturer requests', 'apps'],
       ['control-lecturers', 'users', 'المحاضرون', 'Lecturers', 'lecturers'], ['control-payouts', 'wallet', 'مستحقات المحاضرين', 'Payouts', 'payout'], ['control-students', 'group', 'الطلبة', 'Students', 'students'],
       ['control-community', 'flag', 'البلاغات والمجتمع', 'Community', 'community'], ['control-events', 'cal', 'الفعاليات', 'Events', 'events'], ['control-cats', 'grid', 'الأقسام والمواد', 'Categories', 'cats'],
-      ['control-notify', 'bell', 'الإعلانات', 'Announcements', 'notify'], ['control-team', 'crown', 'فريق المنصة', 'Team', 'team'], ['control-settings', 'gear', 'الإعدادات', 'Settings', 'settings'], ['control-audit', 'clock', 'سجل العمليات', 'Activity log', 'audit']]
+      ['control-notify', 'bell', 'الإعلانات', 'Announcements', 'notify'], ['control-team', 'crown', 'فريق المنصة', 'Team', 'team'], ['control-usage', 'chart', 'الاستهلاك والسعة', 'Usage', 'settings'], ['control-settings', 'gear', 'الإعدادات', 'Settings', 'settings'], ['control-audit', 'clock', 'سجل العمليات', 'Activity log', 'audit']]
   };
   IS.NAV = NAV;
   IS.navLbl = function (ar, en) { return '<span class="nl"><b lang="' + IS.lang + '">' + esc(A(ar, en)) + '</b></span>'; };
