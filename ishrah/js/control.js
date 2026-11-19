@@ -103,19 +103,54 @@
   };
 
   /* ========== PAYMENTS ========== */
+  function canMessagePayment() { return IS.can('pay') && (IS.can('pay', 'edit') || IS.can('pay', 'approve')); }
   IS.page('control-pay', async function (tab) {
     tab = tab || 'pending';
     var tables = await Promise.all([DB.q('enrollments', { order: ['created_at', false] }), DB.q('courses'), DB.q('course_requests')]);
     var en = tables[0], targets = new Map(tables[1].concat(tables[2]).map(function (row) { return [row.id, row]; }));
     var list = en.filter(function (e) { return e.status === tab && +e.price > 0; });
-    var h = IS.banner(IS.T('مراجعة المدفوعات', 'Payment review'), esc(A('طابق المبلغ ورقم العملية في إشعار بنكك ثم أكد انضمام الطالب.', 'Match the amount and transaction number with the Bankak notice, then confirm the student’s place.')), 'receipt') +
-      tabsBar('control-pay', tab, [['pending', A('بانتظار التأكيد', 'Waiting'), en.filter(function (e) { return e.status === 'pending'; }).length], ['active', A('مؤكدة', 'Approved')], ['rejected', A('مرفوضة', 'Rejected')]]);
-    h += list.length ? '<div class="paylist">' + list.map(function (e) { var c = targets.get(e.request_id || e.course_id) || {};
-      return '<article class="box payc"><button class="rimg" data-act="receipt" data-p="' + esc(e.receipt || '') + '">' + ic('receipt') + '<span>' + esc(A('عرض الإيصال', 'View receipt')) + '</span></button><div class="grow"><b>' + esc(c.title || '') + '</b><ul class="kv sm"><li><span>' + esc(A('الطالب', 'Student')) + '</span><b>' + esc(e.payer || '') + '</b></li><li><span>' + esc(A('الهاتف', 'Phone')) + '</span><b dir="ltr">' + esc(e.phone || '') + '</b></li>' +
-        '<li><span>' + esc(A('المبلغ', 'Amount')) + '</span><b>' + IS.money(e.price) + '</b></li><li><span>' + esc(A('رقم العملية', 'Transaction')) + '</span><b dir="ltr">' + esc(e.ref || '—') + '</b></li><li><span>' + esc(A('التاريخ', 'Date')) + '</span><b>' + esc(IS.date(e.created_at, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })) + '</b></li></ul>' + (e.note ? '<small class="mut">' + esc(e.note) + '</small>' : '') + '</div>' +
-        (tab === 'pending' ? '<div class="col"><button class="btn pri" data-act="payok" data-id="' + e.id + '">' + ic('check') + esc(e.request_id ? A('أكّد الانضمام', 'Confirm seat') : A('تأكيد وفتح الكورس', 'Approve and open')) + '</button><button class="btn ghost bad" data-act="payno" data-id="' + e.id + '">' + ic('x') + esc(A('رفض', 'Reject')) + '</button></div>' : IS.status(e.status)) + '</article>'; }).join('') + '</div>' : IS.empty('receipt', A('لا توجد مدفوعات هنا', 'Nothing here'));
+    var approve = IS.can('pay', 'approve'), send = canMessagePayment();
+    var h = IS.banner(IS.T('مراجعة المدفوعات', 'Payment review'),
+      esc(A('راجع الإيصال وطابق المبلغ في بنكك، ثم اقبل الدفع أو ارفضه.', 'Check the receipt and match the amount in Bankak, then approve or reject the payment.')), 'receipt') +
+      tabsBar('control-pay', tab, [['pending', A('قيد المراجعة', 'Under review'), en.filter(function (e) { return e.status === 'pending' && +e.price > 0; }).length],
+        ['active', A('مقبولة', 'Approved')], ['rejected', A('مرفوضة', 'Rejected')]]);
+    h += list.length ? '<div class="paylist">' + list.map(function (e) {
+      var target = targets.get(e.request_id || e.course_id);
+      return '<article class="box payc"><button class="rimg" data-act="receipt" data-p="' + esc(e.receipt || '') + '">' + ic('receipt') +
+        '<span>' + esc(A('عرض الإيصال', 'View receipt')) + '</span></button><div class="grow"><b>' + esc(target ? target.title : '') +
+        '</b><ul class="kv sm"><li><span>' + esc(A('الاسم', 'Name')) + '</span><b dir="auto">' + esc(e.payer || '') +
+        '</b></li><li><span>' + esc(A('الهاتف', 'Phone')) + '</span><b dir="ltr">' + esc(e.phone || '') +
+        '</b></li><li><span>' + esc(A('المبلغ', 'Amount')) + '</span><b>' + IS.money(e.price) +
+        '</b></li><li><span>' + esc(A('تاريخ الإرسال', 'Submitted on')) + '</span><b>' +
+        esc(IS.date(e.created_at, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })) + '</b></li></ul>' +
+        (e.note ? '<small class="mut" dir="auto">' + esc(e.note) + '</small>' : '') + '</div><div class="col">' +
+        (tab === 'pending' && approve ? '<button class="btn pri" data-act="payok" data-id="' + e.id + '">' + ic('check') +
+          esc(e.request_id ? A('أكّد الانضمام', 'Confirm seat') : A('تأكيد وفتح الكورس', 'Approve and open')) +
+          '</button><button class="btn ghost bad" data-act="payno" data-id="' + e.id + '">' + ic('x') + esc(A('رفض', 'Reject')) + '</button>' : IS.paymentStatus(e.status)) +
+        (send && e.user_id ? '<button class="btn ghost" data-act="paymsg" data-id="' + e.id + '">' + ic('mail') + esc(A('راسل الطالب', 'Message student')) + '</button>' : '') +
+        '</div></article>';
+    }).join('') + '</div>' : IS.empty('receipt', A('لا توجد مدفوعات هنا', 'Nothing here'));
     return h;
   }, P('pay'));
+  IS.ACT.paymsg = async function (button) {
+    if (!canMessagePayment()) return;
+    var entry = await DB.one('enrollments', button.dataset.id);
+    if (!entry || !entry.user_id || !(+entry.price > 0)) return;
+    var messages = await DB.q('payment_messages', { eq: { enrollment_id: entry.id }, order: ['created_at', false], limit: 50 });
+    IS.sheet(esc(A('راسل الطالب', 'Message student')), '<form class="form" data-form="paymsg"><input type="hidden" name="id" value="' +
+      esc(entry.id) + '"><label class="fl"><span>' + esc(A('الرسالة إلى ', 'Message to ')) + '<bdi>' + esc(entry.payer) + '</bdi>' +
+      '</span><textarea name="body" rows="3" required maxlength="2000"></textarea></label><button class="btn pri">' +
+      ic('send') + esc(A('أرسل الرسالة', 'Send message')) + '</button></form>' + IS.paymentMessages(messages));
+  };
+  IS.SUB.paymsg = async function (data) {
+    if (!canMessagePayment() || !data.body) return;
+    var entry = await DB.one('enrollments', data.id);
+    if (!entry || !entry.user_id || !(+entry.price > 0)) return;
+    await DB.ins('payment_messages', { enrollment_id: entry.id, body: data.body });
+    if (!DB.live) await IS.notify(entry.user_id, A('رسالة من فريق المدفوعات', 'Message from the payments team'), '', '#payment/' + entry.id);
+    IS.closeSheet();
+    IS.toast(A('أُرسلت الرسالة إلى الطالب.', 'Message sent to the student.'));
+  };
   IS.ACT.receipt = async function (b) { var p = b.getAttribute('data-p'); if (!p) return IS.toast(A('لا يوجد إيصال', 'No receipt'), true); var u = await DB.fileUrl('receipts', p); IS.sheet(esc(A('الإيصال', 'Receipt')), '<img class="rcpt" src="' + esc(u) + '" alt="">', { wide: 1, nofocus: 1 }); };
   IS.ACT.payok = async function (b) {
     var entry = await DB.one('enrollments', b.dataset.id);
@@ -128,20 +163,21 @@
     var share = (targets[1] && +targets[1].share) || +IS.SET.default_share || 70;
     var e = await DB.upd('enrollments', entry.id, { status: 'active', share: share, decided_at: new Date().toISOString(), decided_by: uid() });
     if (e.request_id) await IS.requestPaymentPreview(e.request_id); else await IS.recount(e.course_id);
-    var page = e.request_id ? '#course-request/' + e.request_id : '#course/' + e.course_id;
+    var page = '#payment/' + e.id;
     IS.notify(e.user_id, A('تم تأكيد دفعك', 'Your payment is confirmed'),
       (e.request_id ? A('تأكد مقعدك في ', 'Your seat is confirmed for ') : A('فُتح لك كورس ', 'You can now study ')) + title, page);
     if (e.lecturer_id && title) IS.notify(e.lecturer_id, A('طالب جديد في كورسك', 'New student in your course'), title, '#studio-students');
     IS.audit('approve payment', title + ' · ' + e.payer); IS.toast(A('تم التأكيد', 'Approved')); IS.refresh();
   };
   IS.ACT.payno = async function (b) {
-    var why = await IS.ask(A('سبب الرفض', 'Reason'), A('يظهر للطالب', 'Shown to the student'),
-      A('لم نجد التحويل. تأكد من الرقم والمبلغ وأرسل الإيصال مرة أخرى.', 'We could not find the transfer. Check the number and amount and send the receipt again.'),
+    var entry = await DB.one('enrollments', b.dataset.id);
+    if (!entry || entry.status !== 'pending') return IS.refresh();
+    var why = await IS.ask(A('سبب الرفض', 'Reason for rejection'), A('يظهر للطالب', 'Shown to the student'), '',
       { area: 1, ok: A('رفض', 'Reject') });
     if (!why) return;
     var e = await DB.upd('enrollments', b.dataset.id, { status: 'rejected', note: why, decided_at: new Date().toISOString(), decided_by: uid() });
     if (e.request_id) await IS.requestPaymentPreview(e.request_id);
-    IS.notify(e.user_id, A('لم يُقبل طلب الالتحاق', 'Enrolment not accepted'), why, e.request_id ? '#course-request/' + e.request_id : '#course/' + e.course_id);
+    IS.notify(e.user_id, A('رُفض إيصال الدفع', 'Payment receipt rejected'), '', '#payment/' + e.id);
     IS.audit('reject payment', e.payer); IS.refresh();
   };
 

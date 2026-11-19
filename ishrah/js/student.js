@@ -33,7 +33,14 @@
   };
   IS.inSpec = function (x) { return !IS.SPEC || !x || !x.spec || x.spec === IS.SPEC; };
   IS.lecMap = async function () { var l = await DB.q('lecturers'); var m = {}; l.forEach(function (x) { m[x.id] = x; }); return m; };
-  IS.myEnroll = async function () { if (!uid()) return {}; var e = await DB.q('enrollments', { eq: { user_id: uid() } }); var m = {}; e.forEach(function (x) { if (!m[x.course_id] || x.status === 'active') m[x.course_id] = x; }); return m; };
+  IS.myEnroll = async function () {
+    if (!uid()) return {};
+    var rows = await DB.q('enrollments', { eq: { user_id: uid() }, order: ['created_at', false] }), latest = {};
+    rows.forEach(function (e) {
+      if (e.course_id && (!latest[e.course_id] || (e.status === 'active' && latest[e.course_id].status !== 'active'))) latest[e.course_id] = e;
+    });
+    return latest;
+  };
   IS.courseLessons = async function (cid) { var r = await Promise.all([DB.q('sections', { eq: { course_id: cid }, order: ['sort'] }), DB.q('lessons', { eq: { course_id: cid }, order: ['sort'] })]);
     return r[0].map(function (s) { s.lessons = r[1].filter(function (l) { return l.section_id === s.id; }); return s; }); };
   IS.myProgress = async function (cid) { if (!uid()) return {}; var p = await DB.q('progress', { eq: { user_id: uid(), course_id: cid } }); var m = {}; p.forEach(function (x) { m[x.lesson_id] = x; }); return m; };
@@ -378,9 +385,11 @@
       (rv.length ? rv.map(function (x) { return '<div class="revw">' + IS.av({ name: x.name }, 'sm') + '<div><b>' + esc(x.name || '') + '</b> ' + IS.stars(x.stars) + '<small>' + esc(IS.ago(x.created_at)) + '</small><p>' + esc(x.body || '') + '</p></div><button class="ib" data-act="report" data-kind="review" data-id="' + x.id + '" aria-label="' + esc(A('إبلاغ', 'Report')) + '">' + ic('flag') + '</button></div>'; }).join('') :
         IS.empty('star', A('لا توجد تقييمات بعد', 'No reviews yet'), A('يقيّم الكورس الطلبة الملتحقون به.', 'Enrolled students rate the course.'))) + '</div>';
     h += '</div><aside class="aside"><section class="box buy">' + (c.promo ? '' : '') + '<div class="bp">' + price(c) + '</div>' +
+      (e && +e.price > 0 ? '<div class="row">' + IS.paymentStatus(e.status) + IS.paymentLink(e) + '</div>' : '') +
       (act ? (all.length ? '<a class="btn pri wide" href="#lesson/' + id + '/' + next.id + '">' + ic('play') + esc(done ? A('تابع التعلّم', 'Continue learning') : A('ابدأ الكورس', 'Start the course')) + '</a>' : '') + (e && e.status === 'active' ? '<div class="prog">' + IS.bar(pct) + '<em>' + N(pct + '%') + '</em></div>' : '') :
-        e && e.status === 'pending' ? '<div class="note warn">' + ic('clock') + '<span>' + esc(A('طلب التحاقك قيد المراجعة. سيُفتح الكورس تلقائيًا عند تأكيد الدفع.', 'Your enrolment is being reviewed. The course opens by itself once the payment is confirmed.')) + '</span></div>' :
-        (e && e.status === 'rejected' ? '<div class="note bad">' + ic('x') + '<span>' + esc(A('رُفض طلبك السابق', 'Your previous request was rejected')) + (e.note ? ': ' + esc(e.note) : '') + '</span></div>' : '') + '<button class="btn pri wide" data-act="enrol" data-id="' + id + '">' + ic('wallet') + esc(+c.price ? A('ادفع للالتحاق', 'Pay to enrol') : A('التحق مجانًا', 'Enrol for free')) + '</button>') +
+        e && e.status === 'pending' ? '<p class="mut">' + esc(A('يُفتح الكورس بعد تأكيد الدفع.', 'The course opens after payment is confirmed.')) + '</p>' :
+        '<button class="btn pri wide" data-act="enrol" data-id="' + id + '">' + ic('wallet') +
+        esc(+c.price ? (e && e.status === 'rejected' ? A('أرسل إيصالًا جديدًا', 'Submit a new receipt') : A('ادفع للالتحاق', 'Pay to enrol')) : A('التحق مجانًا', 'Enrol for free')) + '</button>') +
       '<div class="row">' + IS.favBtn('c:' + id) + '<button class="fav" data-act="share" data-h="course/' + id + '" aria-label="share">' + ic('share') + '</button></div>' +
       '<h3 class="sub">' + esc(A('يتضمن هذا الكورس', 'This course includes')) + '</h3><ul class="inc"><li>' + ic('video') + N(all.filter(function (x) { return x.kind === 'video'; }).length) + ' ' + esc(A('درس فيديو', 'video lessons')) + '</li>' +
       '<li>' + ic('file') + N(all.filter(function (x) { return x.kind === 'text'; }).length) + ' ' + esc(A('درس مكتوب', 'written lessons')) + '</li><li>' + ic('qb') + N(all.filter(function (x) { return x.kind === 'quiz'; }).length) + ' ' + esc(A('اختبار', 'quizzes')) + '</li>' +
@@ -419,6 +428,43 @@
     var section = IS.studyScope(c), specialty = IS.spec(section.spec), category = IS.cat(section.cat);
     IS.paymentSheet({ course: c.id, title: c.title, price: c.price, scope: [specialty, category].filter(Boolean).map(function (item) { return A(item.ar, item.en); }).join(' · ') });
   };
+  IS.paymentStatus = function (status) {
+    if (status === 'pending') return IS.chip(esc(A('قيد المراجعة', 'Under review')), 'st warn');
+    if (status === 'active') return IS.chip(esc(A('مقبول', 'Approved')), 'st ok');
+    return IS.status(status);
+  };
+  IS.paymentLink = function (entry) {
+    return '<a class="link" href="#payment/' + esc(entry.id) + '">' + esc(A('حالة الدفع', 'Payment status')) + '</a>';
+  };
+  IS.paymentMessages = function (messages) {
+    return messages.map(function (message) {
+      return '<article class="cr-message"><div class="row sp"><b>' + esc(A('فريق المدفوعات', 'Payments team')) +
+        '</b><small class="mut">' + esc(IS.ago(message.created_at)) + '</small></div><p class="pre" dir="auto">' + esc(message.body) + '</p></article>';
+    }).join('');
+  };
+  IS.page('payment', async function (id) {
+    var entry = await DB.one('enrollments', id);
+    if (!entry || entry.user_id !== uid() || !(+entry.price > 0)) return null;
+    var data = await Promise.all([
+      DB.one(entry.request_id ? 'course_requests' : 'courses', entry.request_id || entry.course_id),
+      DB.q('payment_messages', { eq: { enrollment_id: entry.id }, order: ['created_at', false], limit: 50 })
+    ]);
+    var target = data[0], paymentMessages = data[1], targetUrl = target && '#' + (entry.request_id ? 'course-request/' : 'course/') + esc(target.id);
+    var detail = entry.status === 'active' ?
+      (entry.request_id ? A('تم تأكيد الدفع وحجز مقعدك.', 'Payment confirmed. Your seat is booked.') : A('تم تأكيد الدفع ويمكنك بدء الكورس.', 'Payment confirmed. You can start the course.')) :
+      entry.status === 'rejected' ? (entry.request_id ?
+        A('رُفض الإيصال. يمكنك إرسال إيصال جديد من صفحة الطلب.', 'The receipt was rejected. You can submit a new one from the request page.') :
+        A('رُفض الإيصال. يمكنك إرسال إيصال جديد من صفحة الكورس.', 'The receipt was rejected. You can submit a new one from the course page.')) :
+        A('تم إرسال الإيصال. سيصلك إشعار بعد مراجعته.', 'Receipt submitted. You’ll receive a notification after review.');
+    return '<nav class="crumb"><a href="#learning">' + esc(A('تعلّمي', 'My learning')) + '</a></nav>' +
+      IS.banner(IS.T('حالة الدفع', 'Payment status'), target ? esc(target.title) : '', 'receipt') +
+      '<section class="box"><div class="row sp">' + IS.paymentStatus(entry.status) + '<strong>' + IS.money(entry.price) + '</strong></div><p>' + esc(detail) + '</p>' +
+      (entry.status === 'rejected' && entry.note ? '<div class="note bad"><div><b>' + esc(A('سبب الرفض', 'Reason for rejection')) +
+        '</b><p class="pre" dir="auto">' + esc(entry.note) + '</p></div></div>' : '') +
+      (targetUrl ? '<a class="btn ghost sm" href="' + targetUrl + '">' + esc(entry.request_id ? A('افتح الطلب', 'Open request') : A('افتح الكورس', 'Open course')) + '</a>' : '') +
+      '</section>' + (paymentMessages.length ? '<section class="box"><h2>' + IS.T('رسائل فريق المدفوعات', 'Messages from the payments team') + '</h2>' +
+        IS.paymentMessages(paymentMessages) + '</section>' : '');
+  }, { auth: true });
   IS.paymentSheet = function (quote) {
     if (!IS.SET.bankak_account || !IS.SET.bankak_name) {
       return IS.toast(A('بيانات بنكك غير متوفرة الآن.', 'Bankak details are currently unavailable.'), true);
@@ -428,9 +474,8 @@
       '<ol class="steps"><li><b>' + esc(A('حوّل المبلغ عبر بنكك', 'Transfer the amount with Bankak')) + '</b><div class="acct"><span>' + esc(A('رقم الحساب', 'Account number')) + '</span><b dir="ltr">' + esc(IS.SET.bankak_account) + '</b><button type="button" class="ib" data-act="copy" data-c="' + esc(IS.SET.bankak_account) + '" aria-label="' + esc(A('انسخ رقم الحساب', 'Copy account number')) + '">' + ic('file') + '</button></div>' +
       '<div class="acct"><span>' + esc(A('اسم الحساب', 'Account name')) + '</span><b dir="auto">' + esc(IS.SET.bankak_name) + '</b></div><div class="acct"><span>' + esc(A('المبلغ', 'Amount')) + '</span><b>' + IS.money(quote.price) + '</b></div></li>' +
       '<li><b>' + esc(A('أرسل بيانات التحويل', 'Send the transfer details')) + '</b><form class="form" data-form="pay"><input type="hidden" name="' + (quote.request ? 'request' : 'course') + '" value="' + esc(quote.request || quote.course) + '">' +
-      '<label class="fl"><span>' + esc(A('اسم صاحب الحساب المحوِّل', 'Name on the sending account')) + ' *</span><input name="payer" required value="' + esc(me().name) + '"></label>' +
+      '<label class="fl"><span>' + esc(A('الاسم', 'Name')) + ' *</span><input name="payer" required value="' + esc(me().name) + '"></label>' +
       '<label class="fl"><span>' + esc(A('رقم الهاتف', 'Phone number')) + ' *</span><input name="phone" required inputmode="tel" dir="ltr" value="' + esc(me().phone || '') + '"></label>' +
-      '<label class="fl"><span>' + esc(A('رقم العملية (من إشعار بنكك)', 'Transaction number (from the Bankak notice)')) + ' *</span><input name="ref" dir="ltr" required></label>' +
       '<label class="fl file"><span>' + esc(A('صورة الإيصال', 'Receipt picture')) + ' *</span><input type="file" name="receipt" accept="image/*" required></label>' +
       '<button class="btn pri wide">' + ic('send') + esc(A('أرسل الإيصال للمراجعة', 'Send receipt for review')) + '</button></form></li>' +
       '<li><b>' + esc(A('انتظر تأكيد الدفع', 'Wait for payment confirmation')) + '</b><p class="mut">' + esc(A('يصلك إشعار بعد مراجعة التحويل وتأكيد انضمامك.', 'You’ll receive a notification once the transfer is verified and your enrolment is confirmed.')) + '</p></li></ol>');
@@ -438,6 +483,7 @@
   IS.ACT.copy = function (b) { try { navigator.clipboard.writeText(b.getAttribute('data-c')); IS.toast(A('نُسخ', 'Copied')); } catch (e) {} };
   IS.SUB.pay = async function (d, f) {
     if (!me()) return IS.ACT.login();
+    if (!d.payer || !d.phone) return IS.toast(A('أدخل اسمك ورقم هاتفك.', 'Enter your name and phone number.'), true);
     var file = f.receipt.files[0];
     if (!file || !/^image\//.test(file.type) || file.size > 10 * 1024 * 1024) return IS.toast(A('أرفق صورة للإيصال بحجم 10 ميغابايت أو أقل.', 'Attach a receipt image of 10 MB or less.'), true);
     var quote = d.request ? await IS.requestPaymentQuote(d.request) : await DB.one('courses', d.course);
@@ -447,10 +493,11 @@
       return IS.refresh();
     }
     var path = await DB.upload('receipts', await IS.shrink(file, 1400, 0.8));
+    var entry;
     try {
-      await DB.ins('enrollments', {
+      entry = await DB.ins('enrollments', {
         course_id: d.course || null, request_id: d.request || null, user_id: uid(), lecturer_id: quote.lecturer_id,
-        status: 'pending', price: +quote.price, payer: d.payer, phone: d.phone, ref: d.ref, receipt: path
+        status: 'pending', price: +quote.price, payer: d.payer, phone: d.phone, receipt: path
       });
     } catch (error) {
       if (!['request_closed', 'request_no_seats'].includes(error.message) && error.code !== '23505') throw error;
@@ -460,8 +507,7 @@
     }
     if (d.request) await IS.requestPaymentPreview(d.request);
     IS.closeSheet();
-    IS.toast(A('أُرسل الإيصال. سيصلك إشعار عند التأكيد.', 'Receipt sent. You will be notified when it is confirmed.'));
-    IS.refresh();
+    IS.go('payment/' + entry.id);
   };
 
   /* ========== LESSON PLAYER ========== */
@@ -551,14 +597,14 @@
         '<span class="mut">' + esc((L[c.lecturer_id] || {}).name || '') + '</span><div class="prog">' + IS.bar(pc) + '<em>' + N(pc + '%') + '</em></div><div class="row"><a class="btn pri sm" href="#course/' + c.id + '">' + ic('play') + esc(pc ? A('تابع', 'Continue') : A('ابدأ', 'Start')) + '</a>' + (pc >= 100 ? '<a class="btn gold sm" href="#cert/' + c.id + '">' + ic('cert') + esc(A('الشهادة', 'Certificate')) + '</a>' : '') + '</div></div></article>'; }).join('') + '</div>' :
       IS.empty('bookmark', A('لم تلتحق بأي كورس بعد', 'You have not enrolled in a course yet'), A('تصفح الكورسات والتحق بما تحتاجه.', 'Browse the courses and enrol in what you need.'), '<a class="btn pri" href="#courses">' + ic('layers') + esc(A('تصفح الكورسات', 'Browse courses')) + '</a>');
     if (pend.length) h += '<section class="sec"><header class="sh"><h2>' + ic('receipt') + IS.T('طلبات الالتحاق', 'Enrolment requests') + '</h2></header><div class="table">' + pend.map(function (e) { var c = C[e.course_id];
-      return '<div class="tr"><a href="#course/' + c.id + '"><b>' + esc(c.title) + '</b></a><span>' + IS.money(e.price) + '</span><span>' + esc(IS.date(e.created_at)) + '</span>' + IS.status(e.status) + (e.note ? '<small class="mut">' + esc(e.note) + '</small>' : '') + '</div>'; }).join('') + '</div></section>';
+      return '<div class="tr"><a href="#course/' + c.id + '"><b>' + esc(c.title) + '</b></a><span>' + IS.money(e.price) + '</span><span>' + esc(IS.date(e.created_at)) + '</span>' + (+e.price > 0 ? IS.paymentStatus(e.status) + IS.paymentLink(e) : IS.status(e.status)) + '</div>'; }).join('') + '</div></section>';
     var requestIds = Array.from(new Set(es.map(function (entry) { return entry.request_id; }).filter(Boolean)));
     if (requestIds.length) {
       var groups = (await DB.q('course_requests', { in: { id: requestIds } })).filter(IS.inStudySpace);
       if (groups.length) h += '<section class="box"><h2>' + IS.T('مجموعات التدريس', 'Teaching groups') + '</h2><div class="list">' + groups.map(function (group) {
         var entry = es.find(function (payment) { return payment.request_id === group.id; });
-        return '<a class="li" href="#course-request/' + esc(group.id) + '">' + ic('users') + '<span><b dir="auto">' +
-          esc(group.title) + '</b></span>' + IS.status(entry.status) + '</a>';
+        return '<a class="li" href="#payment/' + esc(entry.id) + '">' + ic('users') + '<span><b dir="auto">' +
+          esc(group.title) + '</b></span>' + IS.paymentStatus(entry.status) + '</a>';
       }).join('') + '</div></section>';
     }
     return h;
@@ -807,7 +853,7 @@
     var n = (await DB.q('notices', { order: ['created_at', false], limit: 80 })).filter(function (x) { return x.user_id ? x.user_id === uid() : IS.announcementInSection(x); });
     var seen = IS.LS.get('seen-' + uid(), 0); IS.LS.set('seen-' + uid(), Date.now()); setTimeout(IS.bell, 50);
     return IS.banner(IS.T('الإشعارات', 'Notifications'), '', 'bell') + (n.length ? '<div class="list">' + n.map(function (x) {
-      return '<a class="li' + (new Date(x.created_at).getTime() > seen ? ' new' : '') + '" href="' + esc(x.link || '#notifications') + '">' + ic(x.user_id ? 'bell' : 'sparkle') + '<span><b>' + esc(IS.noticeTitle(x)) + '</b><small>' + esc(x.body || '') + '</small></span><em>' + esc(IS.ago(x.created_at)) + '</em></a>'; }).join('') + '</div>' :
+      return '<a class="li' + (new Date(x.created_at).getTime() > seen ? ' new' : '') + '" href="' + esc(x.link || '#notifications') + '">' + ic(x.user_id ? 'bell' : 'sparkle') + '<span><b>' + esc(IS.noticeTitle(x)) + '</b>' + (x.body ? '<small>' + esc(x.body) + '</small>' : '') + '</span><em>' + esc(IS.ago(x.created_at)) + '</em></a>'; }).join('') + '</div>' :
       IS.empty('bell', A('لا توجد إشعارات', 'No notifications'), A('تصلك هنا موافقات الدفع والردود والإعلانات.', 'Payment approvals, replies and announcements arrive here.')));
   }, { auth: true });
 

@@ -70,7 +70,7 @@ const D = process.argv[2] || 'shots', W = +(process.argv[3] || 1440), H = W < 60
   // 6. student enrols and pays
   await signup('أحمد الطالب', '0933333333'); await go('home', 1000); await shot('13-home');
   await go('courses', 900); await shot('14-courses'); await go('course/' + cid, 900); await shot('15-course');
-  await p.click('[data-act=enrol]'); await p.waitForTimeout(400); await fill('form[data-form=pay] [name=ref]', '99887766'); await p.setInputFiles('form[data-form=pay] [name=receipt]', S + '/receipt.png'); await shot('16-pay');
+  await p.click('[data-act=enrol]'); await p.waitForTimeout(400); await p.setInputFiles('form[data-form=pay] [name=receipt]', S + '/receipt.png'); await shot('16-pay');
   await submit('pay'); await p.waitForTimeout(600); await go('learning', 700); await shot('17-learning');
   await go('library/requests', 800); await fill('form[data-form=request] [name=title]', 'Oxford Handbook of Clinical Surgery (5th ed)'); await submit('request'); await shot('18-requests');
   await go('library', 800); await shot('19-library');

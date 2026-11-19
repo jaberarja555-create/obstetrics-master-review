@@ -420,10 +420,11 @@
     if (row.payment_required && agreement) {
       var payment = r[4].find(function (entry) { return entry.status === 'active' || entry.status === 'pending'; }), last = r[4][0];
       var full = row.auto_close && row.reserved_count >= row.goal;
-      if (payment) h += IS.chip(payment.status === 'active' ? text('تم الانضمام', 'Joined') : text('الدفع قيد المراجعة', 'Payment under review'), payment.status === 'active' ? 'ok' : '');
-      else if (open && !full && !offers.some(function (offer) { return offer.status === 'accepted' && offer.lecturer_id === uid(); })) h += '<button type="button" class="btn pri sm" data-act="cr-pay" data-id="' + esc(id) + '">' + ic('wallet') + text('ادفع للانضمام', 'Pay to join') + '</button>';
-      else if (open && full) h += IS.chip(text('كل المقاعد محجوزة', 'All seats reserved'), '');
-      if (!payment && last && last.status === 'rejected') h += '<p class="mut">' + text('لم يُقبل إيصال الدفع.', 'The receipt was declined.') + ' ' + esc(last.note || '') + '</p>';
+      if (payment || last) h += '<span class="row">' + IS.paymentStatus((payment || last).status) + IS.paymentLink(payment || last) + '</span>';
+      if (!payment && open && !full && !offers.some(function (offer) { return offer.status === 'accepted' && offer.lecturer_id === uid(); })) {
+        h += '<button type="button" class="btn pri sm" data-act="cr-pay" data-id="' + esc(id) + '">' + ic('wallet') +
+          (last && last.status === 'rejected' ? text('أرسل إيصالًا جديدًا', 'Submit a new receipt') : text('ادفع للانضمام', 'Pay to join')) + '</button>';
+      } else if (!payment && open && full) h += IS.chip(text('كل المقاعد محجوزة', 'All seats reserved'), '');
     } else if (!row.payment_required && !owner && (open || r[1].length)) {
       if (!uid()) h += '<button class="btn pri sm" data-act="login">' + text('سجّل الدخول للانضمام', 'Sign in to join') + '</button>';
       else if (r[1].length) h += commandButton(row, 'leave', 'ألغِ انضمامك', 'Leave request');

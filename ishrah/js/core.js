@@ -281,9 +281,9 @@
     var h = decodeURIComponent(location.hash.slice(1)) || 'home', m = h.match(/^([a-z-]+?)(?:\/(.*))?$/), name = m ? m[1] : 'home', arg = m ? m[2] : '';
     var P = PAGES[name] || PAGES.home, o = P.o, my = ++SEQ, main = IS.$('#main');
     var student = !o.area || o.area === 'student' || (o.area === 'keep' && IS.area === 'student');
-    if (student && IS.SPECS.length && !/^(pick|terms|security)$/.test(name) && !IS.mySpec()) {
+    if (student && IS.SPECS.length && !/^(pick|terms|security|payment)$/.test(name) && !IS.mySpec()) {
       name = 'pick'; P = PAGES.pick; o = P.o;
-    } else if (student && IS.mySpec() && IS.CATS.length && !IS.mySection() && !/^(pick|pick-section|terms|security|settings|downloads|dl|spec|specialties)$/.test(name) &&
+    } else if (student && IS.mySpec() && IS.CATS.length && !IS.mySection() && !/^(pick|pick-section|terms|security|settings|downloads|dl|spec|specialties|payment)$/.test(name) &&
       !((IS.team() || IS.LEC) && /^(course|lesson|lecturer|file|post)$/.test(name))) {
       name = 'pick-section'; P = PAGES[name]; o = P.o;
     }
