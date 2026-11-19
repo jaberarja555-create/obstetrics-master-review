@@ -538,3 +538,7 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 
 - `029_discussion_publishing.sql` makes the shared staff check resolve `public.ish_team()` from within the post-publishing trigger. Discussion publishing keeps the existing student and lecturer permissions. The deploy workflow verifies that the staff check runs with an empty search path before publishing the app.
 - The Community rules panel in both languages asks members to respect others, post useful and relevant material, check and cite sources, avoid duplicates and spam, and report violations. Student script version `153`.
+
+## Study section names
+
+- Basics, Clinical, International Exams and House Officer keep their English names in the Arabic and English interfaces. The header, sidebar, section chooser, study page titles and course and upload forms use the English category names. Actions and page labels such as «تغيير» and «اختر قسمك» still follow the selected language. Updated scripts use asset version `154`.

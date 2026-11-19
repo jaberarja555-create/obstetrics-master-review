@@ -43,6 +43,8 @@ async function checkSpaces(browser) {
   await onPage('pick-section');
   assert.deepEqual(await main.locator('[data-act=setsection]').evaluateAll(
     cards => cards.map(card => card.dataset.v)), sections.map(([id]) => id));
+  assert.deepEqual(await main.locator('.section-choice-label b[lang="en"]').allTextContents(),
+    sections.map(([, , title]) => title));
   assert.equal(await page.locator('#top .tspec').innerText(), 'Medicine');
   assert.equal(await main.locator('h1').innerText(), 'اختر قسمك');
   assert.equal(await main.locator('a[href="#pick"]').count(), 0);
@@ -82,10 +84,13 @@ async function checkSpaces(browser) {
     await DB.ins('courses', { id: 'draft-course', lecturer_id: 't-house', title: 'Fixture Draft Course', cat: 'basics', spec: 'medicine', status: 'draft' });
   }, sections);
 
-  for (const [id, subject] of sections) {
+  for (const [id, subject, title] of sections) {
     await go('pick-section');
     await chooseSection(id);
-    assert.equal(await main.locator('h1').innerText(), await page.evaluate(id => IS.cat(id).ar, id));
+    assert.equal(await main.locator('h1 [lang="en"]').textContent(), title);
+    assert.equal(await page.locator('#top .tspec span[lang="en"]').textContent(), title);
+    assert.equal(await page.locator('#side .myspec b[lang="en"]').textContent(), title);
+    assert.equal(await page.locator('#side .myspec em').textContent(), 'تغيير');
     await visible('Fixture Course ' + id, true);
     await visible('Fixture Dentistry Course', false);
 

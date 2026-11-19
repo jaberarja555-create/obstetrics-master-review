@@ -20,7 +20,7 @@
         esc(A('أقسام ', 'Sections in ') + A(spec.ar, spec.en)) + '</legend><div class="g2f">' + IS.CATS.map(function (category) {
           var key = spec.id + '/' + category.id;
           return '<label class="chk"><input type="checkbox" name="teaching_spaces" value="' + esc(key) + '"' + (spaces.includes(key) ? ' checked' : '') +
-            '><span>' + esc(A(category.ar, category.en)) + '</span></label>';
+            '><span>' + esc(category.en) + '</span></label>';
         }).join('') + '</div></fieldset>';
     }).join('');
     return '<fieldset class="fl post-extras"><legend>' + IS.T('التخصصات والأقسام التي تدرّس فيها', 'Teaching specialities and sections') +
@@ -195,7 +195,7 @@
     return '<form class="box form" data-form="course"><input type="hidden" name="id" value="' + esc(c.id || '') + '"><div class="g2f"><label class="fl"><span>' + esc(A('عنوان الكورس', 'Course title')) + ' *</span><input name="title" required maxlength="120" value="' + esc(c.title) + '"></label>' +
       '<label class="fl"><span>' + esc(A('عنوان فرعي قصير', 'Short subtitle')) + '</span><input name="subtitle" maxlength="160" value="' + esc(c.subtitle || '') + '"></label>' +
       '<label class="fl"><span>' + esc(A('التخصص', 'Speciality')) + '</span>' + sel('spec', IS.SPECS.map(function (k) { return [k.id, k.en]; }), scope.spec) + '</label>' +
-      '<label class="fl"><span>' + esc(A('القسم', 'Section')) + '</span>' + sel('cat', IS.CATS.map(function (k) { return [k.id, A(k.ar, k.en)]; }), scope.cat) + '</label>' +
+      '<label class="fl"><span>' + esc(A('القسم', 'Section')) + '</span>' + sel('cat', IS.CATS.map(function (k) { return [k.id, k.en]; }), scope.cat) + '</label>' +
       '<label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span><select name="subject">' + courseSubjects(scope.spec, scope.cat, c.subject) + '</select></label>' +
       '<label class="fl"><span>' + esc(A('المستوى', 'Level')) + '</span>' + sel('level', LEVELS.map(function (l) { return [l[0], A(l[0] || '—', l[1])]; }), c.level) + '</label></div>' + coursePricing(c) +
       '<label class="fl"><span>' + esc(A('تفاصيل الكورس', 'Course details')) + '</span>' + IS.editor('about', c.about, A('صف الكورس ولمن يناسب…', 'Describe the course and who it is for…')) + '</label>' +
@@ -380,7 +380,7 @@
   IS.ACT.evform = async function (b) {
     var e = b.getAttribute('data-id') ? await DB.one('events', b.getAttribute('data-id')) : { kind: 'live', minutes: 60 }, dt = IS.sudanTimeInput(e.starts);
     IS.sheet(esc(e.id ? A('تعديل الفعالية', 'Edit event') : A('فعالية جديدة', 'New event')), '<form class="form" data-form="event"><input type="hidden" name="id" value="' + esc(e.id || '') + '"><label class="fl"><span>' + esc(A('التخصص', 'Speciality')) + '</span><select name="spec">' + IS.SPECS.map(function (k) { return '<option value="' + k.id + '"' + ((e.spec || IS.SPEC || 'medicine') === k.id ? ' selected' : '') + '>' + esc(k.en) + '</option>'; }).join('') + '</select></label><label class="fl"><span>' + esc(A('القسم', 'Section')) + '</span>' +
-      sel('cat', IS.CATS.map(function (cat) { return [cat.id, A(cat.ar, cat.en)]; }), e.cat || (IS.mySection() || {}).id) +
+      sel('cat', IS.CATS.map(function (cat) { return [cat.id, cat.en]; }), e.cat || (IS.mySection() || {}).id) +
       '</label><label class="fl"><span>' + esc(A('العنوان', 'Title')) + ' *</span><input name="title" required value="' + esc(e.title || '') + '"></label>' +
       '<div class="g2f"><label class="fl"><span>' + esc(A('النوع', 'Type')) + '</span>' + sel('kind', [['live', A('جلسة مباشرة', 'Live session')], ['workshop', A('ورشة عمل', 'Workshop')], ['seminar', A('ندوة', 'Seminar')]], e.kind) + '</label><label class="fl"><span>' + esc(A('المدة (دقيقة)', 'Length (min)')) + '</span><input name="minutes" type="number" min="15" value="' + esc(e.minutes || 60) + '"></label></div>' +
       '<label class="fl"><span>' + esc(A('الموعد (بتوقيت السودان)', 'Date and time (Sudan time)')) + ' *</span><input name="starts" type="datetime-local" required value="' + dt + '"></label><label class="fl"><span>' + esc(A('رابط الانضمام (Zoom / Meet)', 'Joining link (Zoom / Meet)')) + '</span><input name="link" dir="ltr" value="' + esc(e.link || '') + '"></label>' +

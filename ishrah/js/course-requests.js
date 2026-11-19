@@ -11,7 +11,7 @@
   function isPublic(row) { return PUBLIC.indexOf(row.status) >= 0; }
   function canOffer(row) { return activeLecturer() && row.user_id !== uid() && (!row.lecturer_id || row.lecturer_id === uid()) && !row.teacher_confirmed; }
   function scope() { return { spec: IS.SPEC, cat: (IS.mySection() || {}).id }; }
-  function scopeName(row) { var spec = IS.spec(row.spec), cat = IS.cat(row.cat); return [spec && A(spec.ar, spec.en), cat && A(cat.ar, cat.en)].filter(Boolean).join(' · '); }
+  function scopeName(row) { var spec = IS.spec(row.spec), cat = IS.cat(row.cat); return [spec && A(spec.ar, spec.en), cat && cat.en].filter(Boolean).join(' · '); }
   function href(row, prefix, offer) { return '#' + (prefix || 'course-request') + '/' + row.id + (offer ? '/' + offer : ''); }
   function text(ar, en) { return esc(A(ar, en)); }
   function note(ar, en) { return '<p class="mut">' + text(ar, en) + '</p>'; }

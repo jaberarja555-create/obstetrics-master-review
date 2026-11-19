@@ -79,7 +79,7 @@
       '<summary><span data-subject-summary data-placeholder="' + esc(caption) + '">' + esc(IS.librarySubjectNames(file).join(' · ') || caption) + '</span>' + ic('down') + '</summary>' +
       '<div class="library-subject-options">' + Array.from(groups.entries()).map(function (entry) {
         var list = entry[1], section = IS.cat(list[0].cat);
-        var heading = groups.size > 1 ? '<b>' + esc(spName(list[0].spec) + (section ? ' · ' + A(section.ar, section.en) : '')) + '</b>' : '';
+        var heading = groups.size > 1 ? '<b>' + esc(spName(list[0].spec) + (section ? ' · ' + section.en : '')) + '</b>' : '';
         return '<div>' + heading + list.map(function (subject) {
           return '<label class="opt"><input type="checkbox" name="subjects" value="' + esc(subject.id) + '" data-subject-space="' + esc(entry[0]) +
             '"' + (saved.includes(subject.id) ? ' checked' : '') + '><span lang="en" dir="ltr">' + esc(subject.en) + '</span></label>';

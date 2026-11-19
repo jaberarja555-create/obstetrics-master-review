@@ -16,7 +16,7 @@
   IS.outsideStudySpace = function (item) {
     var scope = IS.studyScope(item), spec = IS.spec(scope.spec), section = IS.cat(scope.cat);
     var action = spec && section && !IS.inStudySpace(item) ? '<button class="btn pri" data-act="open-study-space" data-spec="' + esc(spec.id) + '" data-v="' + esc(section.id) + '">' +
-      esc(A('انتقل إلى ', 'Switch to ') + spec.en + ' · ' + A(section.ar, section.en)) + '</button>' : '';
+      esc(A('انتقل إلى ', 'Switch to ') + spec.en + ' · ' + section.en) + '</button>' : '';
     return IS.empty('layers', A('هذا المحتوى خارج القسم الحالي', 'This content is outside your current section'), '', action);
   };
   IS.ACT['open-study-space'] = function (b) {
@@ -87,7 +87,7 @@
   IS.courseCard = function (c, L, E) {
     var l = L && L[c.lecturer_id], e = E && E[c.id], cat = IS.cat(IS.studyScope(c).cat), sj = IS.subj(c.subject);
     return '<article class="ccard" style="--cc:' + esc(c.color || 'var(--pri)') + '"><a class="ccimg" href="#course/' + c.id + '">' + (c.cover ? '<img src="' + IS.U(c.cover) + '" alt="" loading="lazy">' : '<span class="ph">' + ic(sj ? sj.icon : 'layers') + '</span>') +
-      '<span class="cctop">' + (cat ? IS.chip(esc(A(cat.ar, cat.en)), 'lt') : '') + (c.n_students >= 50 ? IS.chip(ic('flame') + esc(A('الأكثر تسجيلًا', 'Popular')), 'hot') : '') + '</span></a>' + IS.favBtn('c:' + c.id, true) +
+      '<span class="cctop">' + (cat ? IS.chip('<bdi lang="en">' + esc(cat.en) + '</bdi>', 'lt') : '') + (c.n_students >= 50 ? IS.chip(ic('flame') + esc(A('الأكثر تسجيلًا', 'Popular')), 'hot') : '') + '</span></a>' + IS.favBtn('c:' + c.id, true) +
       '<div class="ccb"><h3><a href="#course/' + c.id + '">' + esc(c.title) + '</a></h3><p>' + esc(c.subtitle || '') + '</p>' +
       (l ? '<a class="cclec" href="#lecturer/' + l.id + '">' + IS.av(l, 'xs', l.id) + '<span>' + esc(l.name) + '</span></a>' : '') +
       '<div class="ccst">' + '<span class="feed-grade sm" title="' + esc(IS.gradeLabel(c, 'course')) + '">' + IS.gradeInner(c, 'course') + '</span>' + '<span>' + ic('video') + N(c.n_lessons || 0) + ' ' + esc(A('درس', 'lessons')) + '</span>' +
@@ -131,7 +131,7 @@
     var name = m && IS.greetingName(m.name, true);
     var who = name ? esc(A('مرحبًا ', 'Welcome, ')) + name + ' 👋' : esc(A('مرحبًا بك 👋', 'Welcome 👋'));
     var h = '<div class="lh">' +
-      '<section class="lhh"><img class="lhl" src="' + IS.logo() + '" alt=""><img class="lhl2" src="' + IS.logo() + '" alt=""><div class="lht"><p>' + who + '</p><h1 tabindex="-1">' + (section ? IS.T(section.ar, section.en) : '<span class="gtx">' + esc(IS.brandName()) + '</span>') + '</h1>' +
+      '<section class="lhh"><img class="lhl" src="' + IS.logo() + '" alt=""><img class="lhl2" src="' + IS.logo() + '" alt=""><div class="lht"><p>' + who + '</p><h1 tabindex="-1">' + (section ? '<bdi lang="en">' + esc(section.en) + '</bdi>' : '<span class="gtx">' + esc(IS.brandName()) + '</span>') + '</h1>' +
       (spec ? '<small lang="en">' + esc(spec.en) + '</small>' : '') + (m && IS.myRoles().length > 1 ? IS.roleChips('hr') : '') + '</div>' +
       '<div class="lhx"><form class="hsearch" role="search" data-form="search"><span>' + ic('search') + '</span><input name="q" type="search" placeholder="' + esc(A('ابحث عن كورس، مادة، محاضر أو موضوع…', 'Search a course, subject, lecturer or topic…')) + '"><button class="btn pri">' + esc(A('بحث', 'Search')) + '</button></form>' +
       (m ? '' : '<div class="row"><button class="btn pri sm" data-act="register">' + ic('user') + esc(A('أنشئ حسابك مجانًا', 'Create your free account')) + '</button><button class="btn lt sm" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button></div>') + '</div></section>' +
@@ -156,7 +156,7 @@
       var selected = current && current.id === c.id;
       return '<a class="section-choice" href="#home" data-act="setsection" data-v="' + esc(c.id) + '"' + (selected ? ' aria-current="true"' : '') + '>' +
         '<span class="section-choice-art' + (poster ? ' section-choice-poster' : '') + '">' + (img ? '<img src="' + IS.U(img) + '" alt="">' : ic(c.icon)) + '</span>' +
-        '<span class="section-choice-label">' + IS.navLbl(c.ar, c.en) + '</span>' +
+        '<span class="section-choice-label"><b lang="en" dir="ltr">' + esc(c.en) + '</b></span>' +
         (selected ? '<span class="section-choice-current" title="' + esc(A('قسمك الحالي', 'Current section')) + '">' + ic('check') + '</span>' : '') + '</a>';
     }).join('') + '</nav></div>';
   });
@@ -394,7 +394,7 @@
     F.sub = {}; if (subject) F.sub[subject.id] = true;
     var r = await Promise.all([IS.pubCourses(), IS.lecMap(), IS.myEnroll()]), cs = r[0], L = r[1], E = r[2];
     var speciality = IS.mySpec();
-    var context = [speciality && A(speciality.ar, speciality.en), section && A(section.ar, section.en), subject && subject.en].filter(Boolean).join(' · ');
+    var context = [speciality && A(speciality.ar, speciality.en), section && section.en, subject && subject.en].filter(Boolean).join(' · ');
     var picture = (subject && subject.img) || 'img/ban_course_catalogue.webp';
     var h = IS.banner(IS.T('الكورسات', 'Courses'), esc(context), 'layers', '', 'gold course-catalogue-banner', picture);
     var lecIds = Object.keys(L).filter(function (id) { return cs.some(function (c) { return c.lecturer_id === id; }); });
@@ -500,9 +500,9 @@
     var secs = r[0], l = r[1] || {}, e = r[2][id], P = r[3], rv = r[4], seats = r[5], all = []; secs.forEach(function (s) { all = all.concat(s.lessons); });
     var act = (e && e.status === 'active') || mine || staff, done = all.filter(function (x) { return P[x.id]; }).length, pct = all.length ? Math.round(done / all.length * 100) : 0;
     var next = all.filter(function (x) { return !P[x.id]; })[0] || all[0], cat = IS.cat(IS.studyScope(c).cat), sj = IS.subj(c.subject);
-    var h = '<nav class="crumb"><a href="#courses">' + esc(A('الكورسات', 'Courses')) + '</a>' + ic('chev', 'fl') + (cat ? '<a href="#courses/' + cat.id + '">' + esc(A(cat.ar, cat.en)) + '</a>' + ic('chev', 'fl') : '') + '<span>' + esc(c.title) + '</span></nav>';
+    var h = '<nav class="crumb"><a href="#courses">' + esc(A('الكورسات', 'Courses')) + '</a>' + ic('chev', 'fl') + (cat ? '<a href="#courses/' + cat.id + '">' + esc(cat.en) + '</a>' + ic('chev', 'fl') : '') + '<span>' + esc(c.title) + '</span></nav>';
     if (c.status !== 'published') h += '<p class="note warn">' + ic('eye') + esc(A('معاينة: هذا الكورس غير منشور للطلبة بعد', 'Preview: this course is not published to students yet')) + ' · ' + IS.status(c.status) + '</p>';
-    h += '<section class="chero" style="--cc:' + esc(c.color || 'var(--pri)') + (c.cover ? ';--ci:url(' + IS.U(c.cover) + ')' : '') + '"><div class="chin"><div class="cht"><span class="tags lt">' + (cat ? '<span>' + esc(A(cat.ar, cat.en)) + '</span>' : '') + (sj ? '<span>' + esc(sj.en) + '</span>' : '') + (c.level ? '<span>' + esc(c.level) + '</span>' : '') + '</span>' +
+    h += '<section class="chero" style="--cc:' + esc(c.color || 'var(--pri)') + (c.cover ? ';--ci:url(' + IS.U(c.cover) + ')' : '') + '"><div class="chin"><div class="cht"><span class="tags lt">' + (cat ? '<span>' + esc(cat.en) + '</span>' : '') + (sj ? '<span>' + esc(sj.en) + '</span>' : '') + (c.level ? '<span>' + esc(c.level) + '</span>' : '') + '</span>' +
       '<h1 tabindex="-1">' + esc(c.title) + '</h1>' + (c.subtitle ? '<p>' + esc(c.subtitle) + '</p>' : '') + '<a class="chlec" href="#lecturer/' + l.id + '">' + IS.av(l, 'sm', l.id) + '<span><b>' + esc(l.name || '') + '</b><small>' + esc(l.title || '') + '</small>' + IS.seen(l.id) + '</span></a>' +
       '<div class="chst">' + '<span class="feed-grade" title="' + esc(IS.gradeLabel(c, 'course')) + '">' + IS.gradeInner(c, 'course') + '</span>' + (c.n_students ? '<span>' + ic('users') + N(c.n_students) + ' ' + esc(A('طالب', 'students')) + '</span>' : '') +
       '<span>' + ic('video') + N(all.length) + ' ' + esc(A('درس', 'lessons')) + '</span>' + (c.minutes ? '<span>' + ic('clock') + hrs(c.minutes) + '</span>' : '') + '<span>' + ic('clock') + esc(A('آخر تحديث ', 'Updated ')) + esc(IS.date(c.updated_at || c.created_at)) + '</span></div></div>' +
@@ -580,7 +580,7 @@
       return IS.refresh();
     }
     var section = IS.studyScope(c), specialty = IS.spec(section.spec), category = IS.cat(section.cat);
-    IS.paymentSheet({ course: c.id, title: c.title, price: c.price, scope: [specialty, category].filter(Boolean).map(function (item) { return A(item.ar, item.en); }).join(' · ') });
+    IS.paymentSheet({ course: c.id, title: c.title, price: c.price, scope: [specialty && A(specialty.ar, specialty.en), category && category.en].filter(Boolean).join(' · ') });
   };
   IS.paymentStatus = function (status) {
     if (status === 'pending') return IS.chip(esc(A('قيد المراجعة', 'Under review')), 'st warn');
@@ -867,7 +867,7 @@
   IS.page('lecturers', async function () {
     var r = await Promise.all([DB.q('lecturers', { eq: { status: 'active' } }), IS.pubCourses(true)]), cs = r[1].filter(IS.inStudySpace), ls = IS.studyLecturers(r[0], r[1]);
     var section = IS.mySection();
-    var h = IS.banner(IS.T('المحاضرون', 'Lecturers'), section ? IS.navLbl(section.ar, section.en) : '', 'users',
+    var h = IS.banner(IS.T('المحاضرون', 'Lecturers'), section ? '<bdi lang="en">' + esc(section.en) + '</bdi>' : '', 'users',
       '<div class="bnums"><span><b>' + N(ls.length) + '</b>' + esc(A('محاضر', 'lecturers')) + '</span><span><b>' + N(cs.length) + '</b>' + esc(A('كورس', 'courses')) + '</span></div>');
     return h + (ls.length ? '<div class="grid g4">' + ls.map(function (l) { return lecCard(l, cs.filter(function (c) { return c.lecturer_id === l.id; }).length); }).join('') + joinCard() + '</div>' :
       IS.empty('users', A('لا يوجد محاضرون في هذا القسم بعد', 'No lecturers in this section yet'),
@@ -975,7 +975,7 @@
   IS.publicPost = function (row) { return row.status !== 'removed' && !privateQuestion(row); };
   function postChoices(section) {
     var spec = IS.spec(IS.SPEC);
-    var context = [spec && A(spec.ar, spec.en), section && A(section.ar, section.en)].filter(Boolean).join(' · ');
+    var context = [spec && A(spec.ar, spec.en), section && section.en].filter(Boolean).join(' · ');
     var choices = [
       ['course-requests/new', 'receipt', 'اطلب كورسًا', 'Request a course', 'اختر محاضرًا أو اترك الطلب مفتوحًا. يُنشر بعد المراجعة.', 'Name a lecturer or leave the request open. It’s published after review.'],
       ['community/new/question', 'help', 'اسأل سؤالًا', 'Ask a question', 'شارك سؤالك مع هذا القسم.', 'Share your question with this section.'],
