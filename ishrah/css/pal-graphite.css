@@ -2672,7 +2672,9 @@ button.library-rating[aria-expanded="true"]{border-color:var(--pri)}
 #rdr .textLayer br::selection{background:transparent}
 #rdr .rdr-find{flex:none;display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;background:#3e444c}
 #rdr .rdr-find[hidden]{display:none}
-#rdr .rdr-find input{flex:1;min-width:0;height:40px;border-radius:12px;border:0;padding:0 12px;font:15px inherit}
+#rdr .rdr-find input{flex:1;min-width:0;height:40px;border-radius:12px;border:0;padding:0 12px;font:inherit;font-size:16px;color:#252729;background:#fff;caret-color:#252729}
+#rdr .rdr-find input::placeholder{color:#67696c;opacity:1}
+#rdr .rdr-find input:focus-visible{outline:2px solid #bac2c8;outline-offset:2px}
 #rdr .rdr-hits{flex-basis:100%;max-height:40vh;overflow:auto;display:flex;flex-direction:column;gap:4px}
 #rdr .rdr-hits button{text-align:start;border:0;border-radius:10px;background:#fff;color:#252729;padding:8px 10px;cursor:pointer;display:flex;flex-direction:column;gap:2px;font:13px/1.4 inherit}
 #rdr .rdr-hits .mut{color:#e7e9ed;margin:4px 0}
@@ -2692,6 +2694,37 @@ button.library-rating[aria-expanded="true"]{border-color:var(--pri)}
 .rmk span{font-size:13px;color:var(--sub)}
 #rdr .rdr-pages{direction:ltr;width:max-content;min-width:100%;box-sizing:border-box}
 #rdr .rp{margin-left:auto;margin-right:auto;align-self:center}
+#rdr .rfindhl{position:absolute;inset:0;z-index:1;pointer-events:none}
+#rdr .rfindhl i{position:absolute;border-radius:2px;background:rgba(255,190,0,.47);outline:1px solid #ae6800}
+#rdr .rdr-bookmarks{flex:none;max-height:min(52vh,420px);overflow:auto;background:#3e444c;padding:10px 12px;display:grid;gap:8px}
+#rdr.bare .rdr-bookmarks{display:none}
+#rdr [data-r=bookmarks].on{background:#e9ebed;color:#2e3238}
+#rdr .rdr-bookmark-list,#rdr .rdr-outline{display:grid;gap:5px}
+#rdr .rdr-outline:empty{display:none}
+#rdr .rdr-bookmarks p,#rdr .rdr-outline h3{margin:3px 0;font-size:14px;color:#f5f6f8}
+#rdr .rdr-bookmark-row{display:flex;align-items:center;gap:6px}
+#rdr .rdr-bookmark-row button:first-child,#rdr .rdr-outline-item{
+  flex:1;min-height:40px;padding:6px 10px;display:flex;align-items:center;gap:8px;border:0;border-radius:10px;
+  background:#fff;color:#252729;text-align:start;cursor:pointer
+}
+#rdr [data-r]:disabled{opacity:.55;cursor:wait}
+#rdr .rdr-pages .loading{display:flex;align-items:center;gap:10px}
+
+.library-subject-field{min-width:0;margin:0;padding:0;border:0}
+.library-subject-field legend{padding:0;margin-block-end:5px;font-weight:700;color:var(--sub);font-size:14px}
+.library-subject-field>small{display:block;margin-block-start:4px;color:var(--sub)}
+.library-subjects{border:1px solid var(--bd2);border-radius:12px;background:var(--sf)}
+.library-subjects>summary{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;padding:6px 12px;cursor:pointer
+}
+.library-subjects>summary::-webkit-details-marker{display:none}
+.library-subjects>summary>.ico{flex:none;width:18px;height:18px}
+.library-subjects[open]>summary>.ico{transform:rotate(180deg)}
+.library-subject-options{max-height:min(34vh,260px);overflow:auto;border-block-start:1px solid var(--bd);padding:4px 8px;overscroll-behavior:contain}
+.library-subject-options>div>b{display:block;padding:8px 5px 2px;color:var(--sub);font-size:13px}
+.library-subject-options label{min-height:42px;border-radius:8px}
+.library-subject-options label:hover{background:var(--tint)}
+.library-subject-options label:has(input:disabled){opacity:.48}
 /* round pictures never stretch in list rows (owner, 19 Nov 2026: Latest enrolments showed a long oval) */
 .li>.av,.tr>.av,.row>.av{flex:none!important;display:grid;place-items:center;aspect-ratio:1}
 /* the USMLE poster fills its card (owner, 19 Nov 2026: "the USMLE picture did not fit well"): no side bars, title and face kept at the top */

@@ -496,19 +496,20 @@
     while (ix.length > 25) localStorage.removeItem('ish-pg:' + ix.pop()); localStorage.setItem('ish-pg:' + key, JSON.stringify({ u: IS.ME ? IS.ME.id : null, h: html })); localStorage.setItem('ish-pgx', JSON.stringify(ix)); } catch (e) {} }
   function pageCopy(key) { try { var c = JSON.parse(localStorage.getItem('ish-pg:' + key) || 'null'); return c && c.u === (IS.ME ? IS.ME.id : null) ? c.h : ''; } catch (e) { return ''; } }
   IS.clearCopies = function () { try { JSON.parse(localStorage.getItem('ish-pgx') || '[]').forEach(function (k) { localStorage.removeItem('ish-pg:' + k); }); localStorage.removeItem('ish-pgx'); } catch (e) {} };
-  /* one score for every post, course, event, news item and book (owner, 19 Nov 2026: "the rating should depend on the number of likes and
-     dislikes, with a grade title as we grade books; the stars also come from what people give"): every like counts as 5 stars, every dislike
-     as 1 star, and every star rating given to a book as itself. Score = average out of 5, shown as stars + number + grade + number of votes. */
+  /* Start with one neutral score, then count each member's strongest signal once. */
   var GRADES = [[4.5, 'ممتاز', 'Excellent', 'g5'], [3.75, 'جيد جدًا', 'Very good', 'g4'], [3, 'جيد', 'Good', 'g3'], [2, 'مقبول', 'Fair', 'g2'], [0, 'ضعيف', 'Weak', 'g1']];
   IS.grade = function (row, kind) {
     /* courses are graded only by students who joined, free or paid (owner, 19 Nov 2026): their reviews, never likes */
     row = row || {}; var course = kind === 'course', likes = course ? 0 : Math.max(0, +row.like_count || 0), dislikes = course ? 0 : Math.max(0, +row.dislike_count || 0);
-    var rc = Math.max(0, +(row.rating_count == null ? row.n_reviews : row.rating_count) || 0);
+    var includeStars = !kind || course || kind === 'file' || kind === 'series';
+    var rc = includeStars ? Math.max(0, +(row.rating_count == null ? row.n_reviews : row.rating_count) || 0) : 0;
     var rp = +row.rating_points || (rc ? (+(row.average_rating == null ? row.rating : row.average_rating) || 0) * rc : 0);
-    var n = likes + dislikes + rc;
-    var base = rc ? rp / rc : 3;
-    var score = n ? Math.max(1, Math.min(5, base + (likes - dislikes) / n)) : 0;
-    var g = n ? GRADES.filter(function (x) { return score >= x[0]; })[0] : null;
+    var onlyLikes = Math.max(0, likes - (+row.rated_like_count || 0));
+    var onlyDislikes = Math.max(0, dislikes - (+row.rated_dislike_count || 0));
+    var n = onlyLikes + onlyDislikes + rc;
+    var score = n ? Math.max(1, Math.min(5, (3 + 5 * onlyLikes + onlyDislikes + rp) / (n + 1))) : 0;
+    var rounded = Number(score.toFixed(1));
+    var g = n ? GRADES.find(function (grade) { return rounded >= grade[0]; }) : null;
     return { n: n, score: score, likes: likes, dislikes: dislikes, rc: rc, rp: rp, title: g ? A(g[1], g[2]) : A('لم يُقيَّم بعد', 'Not rated yet'), cls: g ? g[3] : 'g0' };
   };
   IS.gradeInner = function (row, kind) {

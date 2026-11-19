@@ -260,7 +260,7 @@
   }
   function feedRatingSort(first, second, order) {
     function grade(item) {
-      return IS.grade(item.row._parts ? IS.seriesScore(item.row.series_id) : item.row, item.type === 'course' ? 'course' : '');
+      return item.row._parts ? IS.grade(IS.seriesScore(item.row.series_id), 'series') : IS.grade(item.row, feedTarget(item));
     }
     var a = grade(first), b = grade(second), byCount = b.n - a.n, byAverage = b.score - a.score;
     return order === 'best' ? byAverage || byCount : byCount || byAverage;
@@ -280,9 +280,8 @@
     var title = type === 'announcement' && !isPost ? IS.noticeTitle(row) : row.title || A('نقاش', 'Discussion');
     var media = row.preview_image || row.cover;
     var libraryKind = library && IS.libraryKind(row.kind);
-    var librarySubject = library && IS.subj(row.subject);
     var details = type === 'event' && row.starts ? esc(IS.date(row.starts, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Khartoum' })) :
-      library ? [A(libraryKind[2], libraryKind[3]), librarySubject && librarySubject.en, row.author || row.owner_name].filter(Boolean).map(esc).join(' · ') :
+      library ? [A(libraryKind[2], libraryKind[3])].concat(IS.librarySubjectNames(row), row.author || row.owner_name).filter(Boolean).map(esc).join(' · ') :
       isPost ? esc(row.name || '') + (row.linked_price != null ? ' · ' + (+row.linked_price ? IS.money(row.linked_price) : esc(A('مجاني', 'Free'))) : '') :
       type === 'request' ? '<bdi dir="ltr">' + esc(((row.payment_required ? row.paid_count : row.joined_count) || 0) + (row.goal ? ' / ' + row.goal : '')) + '</bdi> ' + esc(A('منضمّون', 'joined')) :
       type === 'course' ? [courseFormat(row), +row.price ? IS.money(row.price) : esc(A('مجاني', 'Free')), row.starts_at && courseSchedule(row)].filter(Boolean).join(' · ') : '';

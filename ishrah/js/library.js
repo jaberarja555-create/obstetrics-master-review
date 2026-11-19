@@ -46,8 +46,66 @@
   function spName(id) { var x = IS.SPECS.filter(function (s) { return s.id === id; })[0]; return x ? x.en : ''; }
   function specBar() { return '<section class="specbar">' + [{ id: '', en: 'All specialities', ar: 'كل التخصصات', icon: 'grid' }].concat(IS.SPECS).map(function (x) {
     return '<a class="spb2' + (x.id === T.sp ? ' on' : '') + '" href="#library/@' + (x.id || 'all') + '">' + ic(x.icon) + '<span><b lang="en">' + esc(x.id ? x.en : A(x.ar, x.en)) + '</b>' + '</span></a>'; }).join('') + '</section>'; }
-  function subjOptions(cur, scoped) { var sp = cur ? (IS.subj(cur) || {}).spec : T.sp; return IS.SPECS.map(function (g) { var ss = IS.SUBJ.filter(function (x) { return x.spec === g.id && (!scoped || IS.inStudySpace(x)); }); if (!ss.length) return '';
-    return '<optgroup label="' + esc(g.en) + '">' + ss.map(function (x, i) { return '<option value="' + x.id + '"' + (cur ? (cur === x.id ? ' selected' : '') : (g.id === sp && i === 0 ? ' selected' : '')) + '>' + esc(x.en) + '</option>'; }).join('') + '</optgroup>'; }).join(''); }
+  function fileSubjects(file) {
+    return Array.isArray(file.subjects) ? file.subjects : file.subject ? [file.subject] : [];
+  }
+  IS.librarySubjectNames = function (file) {
+    var ids = (file._parts || [file]).flatMap(fileSubjects);
+    return Array.from(new Set(ids)).map(function (id) { return (IS.subj(id) || {}).en; }).filter(Boolean);
+  };
+  function libraryKindField(file) {
+    return '<label class="fl"><span>' + esc(A('النوع', 'Type')) + '</span><select name="kind">' +
+      TABS.concat(file.kind === 'book' || file.kind === 'slides' ? [file.kind] : []).map(function (id) {
+        var k = kind(id);
+        return '<option value="' + esc(k[0]) + '"' + (file.kind === k[0] ? ' selected' : '') + '>' + esc(A(k[2], k[3])) + '</option>';
+      }).join('') + '</select></label>';
+  }
+  IS.libraryKindField = libraryKindField;
+  function librarySubjectField(file, scoped) {
+    var saved = fileSubjects(file), scope = file.id ? IS.studyScope(file) : null;
+    var subjects = IS.SUBJ.filter(function (subject) {
+      return scope ? subject.spec === scope.spec && subject.cat === scope.cat : !scoped || IS.inStudySpace(subject);
+    });
+    var caption = A('اختر مادة أو أكثر', 'Choose one or more subjects');
+    if (!subjects.length) return '<p class="mut">' + esc(A('لا توجد مواد مدرجة لهذا القسم.', 'This section has no listed subjects.')) + '</p>';
+    var title = esc(A('المواد', 'Subjects'));
+    var groups = new Map();
+    subjects.forEach(function (subject) {
+      var key = subject.spec + '/' + subject.cat;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(subject);
+    });
+    return '<fieldset class="library-subject-field"><legend>' + title + '</legend><details class="library-subjects" data-library-subjects>' +
+      '<summary><span data-subject-summary data-placeholder="' + esc(caption) + '">' + esc(IS.librarySubjectNames(file).join(' · ') || caption) + '</span>' + ic('down') + '</summary>' +
+      '<div class="library-subject-options">' + Array.from(groups.entries()).map(function (entry) {
+        var list = entry[1], section = IS.cat(list[0].cat);
+        var heading = groups.size > 1 ? '<b>' + esc(spName(list[0].spec) + (section ? ' · ' + A(section.ar, section.en) : '')) + '</b>' : '';
+        return '<div>' + heading + list.map(function (subject) {
+          return '<label class="opt"><input type="checkbox" name="subjects" value="' + esc(subject.id) + '" data-subject-space="' + esc(entry[0]) +
+            '"' + (saved.includes(subject.id) ? ' checked' : '') + '><span lang="en" dir="ltr">' + esc(subject.en) + '</span></label>';
+        }).join('') + '</div>';
+      }).join('') + '</div></details>' + (!scoped && !file.id ? '<small>' +
+        esc(A('اختر مواد من القسم نفسه.', 'Choose subjects from the same study section.')) + '</small>' : '') + '</fieldset>';
+  }
+  IS.librarySubjectField = librarySubjectField;
+  IS.librarySubjectMetadata = function (value, file) {
+    var ids = Array.from(new Set([].concat(value || []))), section = IS.mySection();
+    var first = IS.subj(ids[0]);
+    var scope = file ? IS.studyScope(file) : first || { spec: IS.SPEC || 'medicine', cat: section ? section.id : '' };
+    if (ids.some(function (id) {
+      var subject = IS.subj(id);
+      return !subject || subject.spec !== scope.spec || subject.cat !== scope.cat;
+    })) throw new Error(A('اختر مواد من القسم نفسه.', 'Choose subjects from the same study section.'));
+    return { subject: ids[0] || null, subjects: ids, spec: scope.spec, cat: scope.cat };
+  };
+  document.addEventListener('change', function (event) {
+    if (!event.target.matches('input[data-subject-space]')) return;
+    var picker = event.target.closest('[data-library-subjects]');
+    var selected = IS.$$('input:checked', picker), space = selected.length && selected[0].dataset.subjectSpace;
+    IS.$$('input:not(:checked)', picker).forEach(function (input) { input.disabled = !!space && input.dataset.subjectSpace !== space; });
+    var summary = picker.querySelector('[data-subject-summary]');
+    summary.textContent = selected.map(function (input) { return (IS.subj(input.value) || {}).en; }).filter(Boolean).join(' · ') || summary.dataset.placeholder;
+  });
 
   IS.libraryKind = kind;
   function inKind(file, tab) { return tab === 'all' || file.kind === tab || (tab === 'reference' && file.kind === 'book'); }
@@ -70,26 +128,32 @@
     return { rating_count: starsCount(file), rating_points: Number(file.rating_points) || Math.round(starsAverage(file) * starsCount(file)),
       average_rating: starsAverage(file) };
   }
+  IS.libraryRatingRow = function (button) {
+    var data = button.dataset;
+    return { like_count: Number(data.likes) || 0, dislike_count: Number(data.dislikes) || 0, rating_count: Number(data.count) || 0,
+      rating_points: Number(data.points) || 0, rated_like_count: Number(data.ratedLike) || 0, rated_dislike_count: Number(data.ratedDislike) || 0 };
+  };
   IS.libraryRating = function (file, interactive, feedbackKind) {
     file = Object.assign({ feedback_kind: feedbackKind || 'file' }, file);
     var rating = ratingData(file);
     var attributes = ' class="library-rating" data-library-file="' + esc(file.id) + '" data-library-kind="' + file.feedback_kind + '" aria-label="' + esc(ratingLabel(file)) + '"';
     return interactive ? '<button type="button"' + attributes + ' data-act="rate-library-file" aria-expanded="false" data-owner="' + esc(file.owner_id || '') +
-      '" data-likes="' + (Number(file.like_count) || 0) + '" data-dislikes="' + (Number(file.dislike_count) || 0) + '" data-own-stars="' + (file.my_stars == null ? '' : Number(file.my_stars)) + '" data-count="' + rating.rating_count + '" data-points="' + rating.rating_points + '">' +
+      '" data-likes="' + (Number(file.like_count) || 0) + '" data-dislikes="' + (Number(file.dislike_count) || 0) + '" data-rated-like="' + (Number(file.rated_like_count) || 0) + '" data-rated-dislike="' + (Number(file.rated_dislike_count) || 0) + '" data-own-stars="' + (file.my_stars == null ? '' : Number(file.my_stars)) + '" data-count="' + rating.rating_count + '" data-points="' + rating.rating_points + '">' +
       ratingContents(file) + '</button>' : '<span' + attributes + ' role="img">' + ratingContents(file) + '</span>';
   };
   function updateRating(id, file, feedbackKind) {
     feedbackKind = feedbackKind || 'file';
     if (feedbackKind === 'series') IS.keepSeriesScore(id, file);
     IS.$$('[data-library-file]').filter(function (el) { return el.dataset.libraryFile === id && el.dataset.libraryKind === feedbackKind; }).forEach(function (el) {
-      file = Object.assign({ like_count: Number(el.dataset.likes) || 0, dislike_count: Number(el.dataset.dislikes) || 0,
-        feedback_kind: feedbackKind }, file);
+      file = Object.assign(IS.libraryRatingRow(el), { feedback_kind: feedbackKind }, file);
       el.innerHTML = ratingContents(file);
       el.setAttribute('aria-label', ratingLabel(file));
       el.dataset.count = starsCount(file);
       el.dataset.points = Number(file.rating_points) || 0;
       el.dataset.likes = Number(file.like_count) || 0;
       el.dataset.dislikes = Number(file.dislike_count) || 0;
+      el.dataset.ratedLike = Number(file.rated_like_count) || 0;
+      el.dataset.ratedDislike = Number(file.rated_dislike_count) || 0;
       if (file.my_stars != null) el.dataset.ownStars = file.my_stars;
     });
     if (IS.regradeBars) IS.regradeBars(feedbackKind + '/' + id, file);
@@ -119,15 +183,15 @@
       panel.id = 'rate-file-' + d.libraryFile;
       panel.setAttribute('aria-label', series ? A('تقييم السلسلة', 'Series rating') : A('تقييم الملف', 'File rating'));
       button.setAttribute('aria-controls', panel.id);
-      panel.innerHTML = '<strong>' + esc(own ? A('تقييمات القرّاء', 'Reader ratings') : A('تقييمك', 'Your rating')) + '</strong>' +
+      panel.innerHTML = (own ? '' : '<strong>' + esc(A('تقييمك', 'Your rating')) + '</strong>') +
         (myId && !own ? '<div class="library-rate-stars" role="group" aria-label="' + esc(A('اختر عدد النجوم', 'Choose your stars')) + '">' +
           [1, 2, 3, 4, 5].map(function (star) {
             return '<button type="button" data-act="save-library-stars" data-stars="' + star + '" aria-pressed="false" aria-label="' +
               esc(A(star + ' من 5', star + ' out of 5')) + '">' + ic('star') + '</button>';
-          }).join('') + '</div>' : own ? IS.libraryRating({ id: d.libraryFile, rating_count: Number(d.count),
-          average_rating: Number(d.count) ? Number(d.points) / Number(d.count) : 0 }, false) :
+          }).join('') + '</div>' : own ? '' :
           '<button type="button" class="btn ghost sm" data-act="login">' + esc(A('سجّل الدخول للتقييم', 'Sign in to rate')) + '</button>') +
-        '<span class="mut" data-rating-result role="status"></span>';
+        '<button type="button" class="link" data-act="grade-info" data-kind="' + d.libraryKind + '">' +
+        esc(A('كيف حُسب التقييم؟', 'How is the rating calculated?')) + '</button><span class="mut" data-rating-result role="status"></span>';
       button.closest('.feed-action-row, .ff').after(panel);
       panel.ratingButton = button;
       panel.addEventListener('keydown', function (event) {
@@ -161,17 +225,13 @@
     var account = IS.ME && IS.ME.id;
     if (panel.saving || !account) return;
     var value = Number(button.dataset.stars), previous = panel.myStars;
-    var id = opener.dataset.libraryFile, feedbackKind = opener.dataset.libraryKind, count = Number(opener.dataset.count), points = Number(opener.dataset.points);
+    var id = opener.dataset.libraryFile, feedbackKind = opener.dataset.libraryKind;
     var status = panel.querySelector('[data-rating-result]');
     var controls = IS.$$('[data-act=save-library-stars]', panel);
     panel.saving = panel.touched = true;
     controls.forEach(function (control) { control.disabled = true; });
     syncStars(panel, value);
     status.textContent = A('جارٍ حفظ التقييم…', 'Saving rating…');
-    if (previous != null) {
-      var total = count + Number(previous === 0), nextPoints = points + value - previous;
-      updateRating(id, { rating_count: total, rating_points: nextPoints, average_rating: nextPoints / total }, feedbackKind);
-    }
     try {
       var saved = await IS.feedVote(feedbackKind, id, value, 'rate');
       if (!saved) throw new Error('rating_unavailable');
@@ -184,7 +244,6 @@
       status.textContent = A('حُفظ تقييمك', 'Rating saved');
     } catch (error) {
       if ((IS.ME || {}).id !== account) return;
-      if (previous != null) updateRating(id, { rating_count: count, rating_points: points, average_rating: count ? points / count : 0 }, feedbackKind);
       panel.myStars = previous == null ? await panel.ownRating : previous;
       syncStars(panel, panel.myStars || 0);
       status.textContent = A('تعذّر الحفظ. اختر التقييم مرة أخرى.', 'Could not save. Choose a star to retry.');
@@ -259,9 +318,15 @@
         (rows.length ? '<div class="grid g4 files">' + rows.map(function (f) { return f._parts ? IS.seriesCard(f) : fileCard(f); }).join('') + '</div>' :
           IS.empty(kind(T.k)[1], A('لا توجد ملفات هنا بعد', 'No files here yet'), A('لم تجد ما تبحث عنه؟ اطلبه من المكتبة.', 'Can’t find it? Request it from the library.'), '<a class="btn pri" href="#library/requests">' + ic('plus') + esc(A('اطلبه الآن', 'Request it')) + '</a>'));
     }
-    var subjects = IS.SUBJ.filter(IS.inStudySpace);
+    var subjects = IS.SUBJ.filter(IS.inStudySpace), subjectListings = new Map();
+    fs.forEach(function (file) {
+      fileSubjects(file).forEach(function (id) {
+        if (!subjectListings.has(id)) subjectListings.set(id, new Set());
+        subjectListings.get(id).add(file.series_id || file.id);
+      });
+    });
     h += '<div class="tool library-tools"><label class="field">' + ic('search') + '<input id="lq" type="search" placeholder="' + esc(A('ابحث في مكتبتي…', 'Search the library…')) + '"></label>' +
-      (subjects.length ? '<details class="fg"><summary>' + ic('filter') + esc(A('المادة', 'Subject')) + ic('down') + '</summary><div>' + subjects.map(function (s) { return '<label class="opt"><input type="checkbox" data-lf="sub" value="' + s.id + '"><span>' + esc(s.en) + '</span><em>' + N(fs.filter(function (f) { return f.subject === s.id; }).length) + '</em></label>'; }).join('') + '</div></details>' : '') +
+      (subjects.length ? '<details class="fg"><summary>' + ic('filter') + esc(A('المواد', 'Subjects')) + ic('down') + '</summary><div>' + subjects.map(function (s) { return '<label class="opt"><input type="checkbox" data-lf="sub" value="' + s.id + '"><span>' + esc(s.en) + '</span><em>' + N((subjectListings.get(s.id) || new Set()).size) + '</em></label>'; }).join('') + '</div></details>' : '') +
       '<select class="sel" id="library-sort" aria-label="' + esc(A('ترتيب الملفات', 'Sort library files')) + '">' +
       [['new', 'الأحدث', 'Newest'], ['best', 'الأعلى تقييمًا', 'Best rated'], ['most-rated', 'الأكثر تقييمًا', 'Most rated']].map(function (item) {
         return '<option value="' + item[0] + '"' + (T.sort === item[0] ? ' selected' : '') + '>' + esc(A(item[1], item[2])) + '</option>';
@@ -273,8 +338,8 @@
     IS.after = function () {
       var sel = {}, fill = function () {
         var w = IS.norm(($('#lq') || {}).value || '').split(' ').filter(Boolean), subs = Object.keys(sel).filter(function (k) { return sel[k]; }), coll = IS.LCOLL;
-        var r = list.filter(function (f) { if (subs.length && subs.indexOf(f.subject) < 0) return false; if (coll && (coll.items || []).indexOf(f.id) < 0) return false;
-          if (w.length) { var hay = IS.norm([f.title, f.about, f.author, f.series_title].concat(f.tags || [], kind(f.kind).slice(2), +f.price > 0 ? ['paid', 'مدفوع'] : ['free', 'مجاني']).join(' ')); if (!w.every(function (x) { return hay.indexOf(x) >= 0; })) return false; } return true; });
+        var r = list.filter(function (f) { if (subs.length && !fileSubjects(f).some(function (id) { return subs.includes(id); })) return false; if (coll && (coll.items || []).indexOf(f.id) < 0) return false;
+          if (w.length) { var hay = IS.norm([f.title, f.about, f.author, f.series_title].concat(IS.librarySubjectNames(f), f.tags || [], kind(f.kind).slice(2), +f.price > 0 ? ['paid', 'مدفوع'] : ['free', 'مجاني']).join(' ')); if (!w.every(function (x) { return hay.indexOf(x) >= 0; })) return false; } return true; });
         $('#lres').innerHTML = renderFiles(r, coll);
         IS.hydrateLibraryCovers($('#lres')).catch(function () {});
         if (IS.hydrateFeedReactions) IS.hydrateFeedReactions($('#lres'));
@@ -395,9 +460,7 @@
 
   function fileFields(f, scoped) {
     return '<label class="fl"><span>' + esc(A('العنوان', 'Title')) + ' *</span><input name="title" required maxlength="160" value="' + esc(f.title || '') +
-      '"></label>' + (f.id ? '' : '<div class="g2f"><label class="fl"><span>' + esc(A('النوع', 'Type')) + '</span><select name="kind">' +
-      TABS.concat(f.kind === 'book' || f.kind === 'slides' ? [f.kind] : []).map(function (id) { var k = kind(id); return '<option value="' + k[0] + '"' + (f.kind === k[0] ? ' selected' : '') + '>' + esc(A(k[2], k[3])) + '</option>'; }).join('') + '</select></label>' +
-      '<label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span><select name="subject">' + subjOptions(f.subject, scoped) + '</select></label></div>') +
+      '"></label>' + (f.id ? '' : libraryKindField(f)) + librarySubjectField(f, scoped) +
       '<label class="fl"><span>' + esc(A('المؤلف أو المصدر', 'Author or source')) + '</span><input name="author" maxlength="120" value="' + esc(f.author || '') +
       '"></label><label class="fl"><span>' + esc(A('وصف قصير', 'Short description')) + '</span><textarea name="about" rows="2" maxlength="600">' + esc(f.about || '') + '</textarea></label>' +
       '<label class="fl file"><span>' + esc(A('الملف (حتى 50 ميغابايت)', 'File (up to 50 MB)')) + (f.id ? '' : ' *') +
@@ -422,10 +485,8 @@
   IS.fileFields = fileFields;
   IS.saveFile = async function (data, form, extra) {
     var original = form.elements.file.files[0], cover = form.elements.cover.files[0];
-    var subject = IS.subj(data.subject), scope = IS.mySection();
-    var row = Object.assign({ title: data.title, kind: data.kind, subject: data.subject,
-      cat: (subject || {}).cat || (scope ? scope.id : ''), spec: (subject || {}).spec || IS.SPEC || 'medicine',
-      author: data.author || '', about: data.about || '' }, IS.readSell ? IS.readSell(data) : {}, extra);
+    var row = Object.assign({ title: data.title, kind: data.kind, author: data.author || '', about: data.about || '' },
+      IS.librarySubjectMetadata(data.subjects), IS.readSell ? IS.readSell(data) : {}, extra);
     await IS.attachLibraryFiles(row, original, form.elements.reading.files[0], cover);
     if (!DB.live && row.status === 'published') row.published_at = new Date().toISOString();
     return row;
@@ -484,6 +545,7 @@
     });
     return pdfLoading;
   }
+  IS.loadPdfLibrary = pdfLib;
   IS.pdfMeta = function (file, needsCover) { return pdfMetadata(file, needsCover); };
   async function pdfMetadata(file, needsCover) {
     var lib = await pdfLib();
@@ -575,17 +637,31 @@
   };
 
   /* «Open the book»: PDFs go straight to the full-screen reader; pictures and text files open in a sheet */
+  IS.warmLibraryReader = function (file) {
+    if (!IS.ME || !IS.fileOpenable(file) || IS.libraryDocument(file).mime !== 'application/pdf' || (navigator.connection || {}).saveData) return;
+    IS.loadPdfLibrary().catch(function () {});
+  };
   IS.ACT.readbook = async function (b) {
     var file = IS.FILEOPEN && IS.FILEOPEN.id === b.dataset.id ? IS.FILEOPEN : await DB.one('files', b.dataset.id);
     if (!file) return;
     if (!IS.fileOpenable(file)) { b.dataset.id = file.id; return IS.ACT.buyfile(b); }
-    var html = b.innerHTML; b.disabled = true; b.innerHTML = '<span class="spin"></span>' + esc(A('جارٍ الفتح…', 'Opening…'));
+    return IS.openLibraryBook(file, b);
+  };
+  IS.openLibraryBook = async function (file, button, options) {
+    options = options || {};
+    var title = options.title || file.title, media = IS.libraryDocument(file);
+    var getUrl = function () { return DB.fileUrl('library', media.path); };
+    if (media.mime === 'application/pdf' && IS.openReader) return IS.openReader({
+      id: file.id, title: title, getUrl: getUrl, next: options.next
+    });
+    var html = button && button.innerHTML;
+    if (button) { button.disabled = true; button.innerHTML = '<span class="spin"></span>' + esc(A('جارٍ الفتح…', 'Opening…')); }
     try {
-      var media = IS.libraryDocument(file), url = await DB.fileUrl('library', media.path); if (!url) throw new Error('missing file');
-      if (media.mime === 'application/pdf' && IS.openReader) IS.openReader({ id: file.id, title: file.title, url: url });
-      else { var box = IS.sheet(esc(file.title || ''), '<div class="viewer" id="sheetview"></div>', { wide: 1 }); await IS.renderLibraryDocument(box.querySelector('#sheetview'), media.mime, url, null, { id: file.id, title: file.title }); }
+      var url = await getUrl(); if (!url) throw new Error('missing file');
+      var box = IS.sheet(esc(title || ''), '<div class="viewer" id="sheetview"></div>', { wide: 1 });
+      await IS.renderLibraryDocument(box.querySelector('#sheetview'), media.mime, url, null, { id: file.id, title: title });
     } catch (e) { IS.toast(navigator.onLine ? A('تعذّر فتح الملف. أعد المحاولة.', 'The file could not be opened. Try again.') : A('لا يوجد إنترنت: افتح نسخته المنزّلة من «تنزيلاتي».', 'No internet: open its downloaded copy from My downloads.')); }
-    finally { b.disabled = false; b.innerHTML = html; }
+    finally { if (button) { button.disabled = false; button.innerHTML = html; } }
   };
   function canRemoveComment(comment) {
     return IS.ME && (IS.ME.id === comment.user_id || IS.can('library', 'approve') || IS.can('community', 'delete'));
@@ -638,9 +714,22 @@
       '<button type="button" class="btn ghost sm" data-act="edit-library-upload" data-id="' + esc(file.id) + '">' +
       ic('pen') + esc(A('تعديل الملف', 'Edit upload')) + '</button>' : '';
   }
-  async function fileRevision(id) {
-    var rows = await DB.q('library_file_revisions', { eq: { file_id: id }, limit: 1 });
-    return rows[0];
+  IS.editLibraryFileButton = editFileButton;
+  async function fileRevision(id, series) {
+    var rows = await DB.q('library_file_revisions', { eq: { file_id: id } });
+    return rows.find(function (row) { return Boolean(row.for_series) === !!series; });
+  }
+  async function saveUploadRevision(file, proposed, old, series) {
+    if (DB.live) {
+      var result = await DB.sb.rpc('ish_submit_library_revision', { target: file.id, revised: proposed });
+      if (result.error) throw result.error;
+    } else {
+      if (old) await DB.del('library_file_revisions', old.id);
+      await DB.ins('library_file_revisions', { file_id: file.id, owner_id: file.owner_id, for_series: !!series, changes: proposed, status: 'pending' });
+    }
+    IS.closeSheet();
+    IS.toast(A('أُرسل التعديل للمراجعة', 'Edit sent for review'));
+    IS.refresh();
   }
   IS.ACT['edit-library-upload'] = async function (button) {
     var file = await DB.one('files', button.dataset.id);
@@ -663,18 +752,38 @@
     var sale = IS.readSell(Object.assign({}, data, { sale: +file.price ? 'paid' : 'free', price: file.price }));
     delete sale.price;
     var proposed = Object.assign({}, previous, sale, { title: data.title, author: data.author || '', about: data.about || '' });
+    var metadata = IS.librarySubjectMetadata(data.subjects, file);
+    var knownSubjects = fileSubjects(file).filter(IS.subj);
+    if (JSON.stringify(metadata.subjects) !== JSON.stringify(knownSubjects)) proposed.subjects = metadata.subjects;
+    else delete proposed.subjects;
     await IS.attachLibraryFiles(proposed, form.elements.file.files[0], form.elements.reading.files[0], form.elements.cover.files[0]);
     if (form.elements.file.files[0] && !proposed.cover) proposed.cover = null;
-    if (DB.live) {
-      var result = await DB.sb.rpc('ish_submit_library_revision', { target: file.id, revised: proposed });
-      if (result.error) throw result.error;
-    } else {
-      if (old) await DB.del('library_file_revisions', old.id);
-      await DB.ins('library_file_revisions', { file_id: file.id, owner_id: file.owner_id, changes: proposed, status: 'pending' });
-    }
-    IS.closeSheet();
-    IS.toast(A('أُرسل التعديل للمراجعة', 'Edit sent for review'));
-    IS.refresh();
+    await saveUploadRevision(file, proposed, old);
+  };
+  IS.ACT['edit-library-series'] = async function (button) {
+    var file = await DB.one('files', button.dataset.id);
+    if (!file || !file.series_id || !editFileButton(file)) return;
+    var revision = await fileRevision(file.id, true);
+    var fields = Object.assign({}, file, revision && revision.status !== 'approved' ? revision.changes : {});
+    IS.sheet(esc(A('تعديل السلسلة', 'Edit series')), '<form class="form" data-form="revise-library-series">' +
+      '<input type="hidden" name="id" value="' + esc(file.id) + '">' +
+      (revision && revision.status !== 'approved' ? '<p class="mut">' + IS.status(revision.status) +
+        (revision.review_note ? ' ' + esc(revision.review_note) : '') + '</p>' : '') +
+      '<label class="fl"><span>' + esc(A('اسم السلسلة', 'Series name')) + '</span><input name="series_title" required maxlength="160" dir="auto" value="' +
+        esc(fields.series_title || fields.title) + '"></label>' + librarySubjectField(fields, true) +
+      '<label class="fl"><span>' + esc(A('المؤلف أو المصدر', 'Author or source')) + '</span><input name="author" maxlength="120" value="' + esc(fields.author || '') + '"></label>' +
+      '<label class="fl"><span>' + esc(A('وصف قصير', 'Short description')) + '</span><textarea name="about" rows="2" maxlength="600">' +
+        esc(fields.about || '') + '</textarea></label><p class="note">' + esc(A('تُطبّق هذه التعديلات على أجزاء السلسلة بعد المراجعة.',
+          'These changes apply to the series after review.')) + '</p><button class="btn pri">' + ic('send') +
+        esc(A('إرسال التعديل للمراجعة', 'Send edit for review')) + '</button></form>');
+  };
+  IS.SUB['revise-library-series'] = async function (data) {
+    var file = await DB.one('files', data.id);
+    if (!file || !file.series_id || !editFileButton(file)) return;
+    if (!data.series_title) throw new Error(A('أدخل اسم السلسلة.', 'Enter a series name.'));
+    var subjects = IS.librarySubjectMetadata(data.subjects, file).subjects;
+    var proposed = { title: data.series_title, series_title: data.series_title, subjects: subjects, author: data.author || '', about: data.about || '' };
+    await saveUploadRevision(file, proposed, await fileRevision(file.id, true), true);
   };
   IS.page('file', async function (arg) {
     var parts = String(arg || '').split('/'), id = parts[0];
@@ -684,7 +793,7 @@
     if (!IS.can('library') && !IS.inStudySpace(file)) return IS.outsideStudySpace(file);
     var uploader = editFileButton(file);
     var revision = uploader ? await fileRevision(file.id) : null;
-    var published = file.status === 'published', genre = kind(file.kind), subject = IS.subj(file.subject);
+    var published = file.status === 'published', genre = kind(file.kind);
     var browseKind = file.kind === 'book' ? kind('reference') : genre;
     var data = published ? await Promise.all([
       DB.q('library_comments', { eq: { file_id: id }, order: ['created_at', false], limit: 60 }),
@@ -696,7 +805,7 @@
     var h = '<nav class="crumb"><a href="#library">' + esc(A('مكتبتي', 'My Library')) + '</a>' +
       (genre[0] === 'slides' ? '' : ic('chev', 'fl') + '<a href="#library/' + esc(browseKind[0]) + '">' + esc(A(browseKind[2], browseKind[3])) + '</a>') + '</nav><article class="box library-detail">' +
       IS.libraryCover(file) + '<div><h1 tabindex="-1"><bdi>' + esc(file.title) + '</bdi></h1><p class="mut">' +
-      [A(genre[2], genre[3]), spName(fspec(file)), subject && subject.en, file.author].filter(Boolean).map(esc).join(' · ') + '</p>' +
+      [A(genre[2], genre[3]), spName(fspec(file))].concat(IS.librarySubjectNames(file), file.author).filter(Boolean).map(esc).join(' · ') + '</p>' +
       '<div class="row fprice">' + IS.priceTag(file) + IS.tagChips(file) + '</div>' +
       (file.about ? '<p class="pre" dir="auto">' + esc(file.about) + '</p>' : '') +
       (file.reading_path ? '<p class="mut">' + esc(A('متاح للقراءة بصيغة PDF.', 'Available to read as a PDF.')) + '</p>' : '') +
@@ -718,6 +827,7 @@
     if (published) h += fileComments(file, data[0].reverse());
     IS.after = function (main) {
       IS.hydrateLibraryCovers(main).catch(function () {});
+      IS.warmLibraryReader(file);
       if (parts[1] === 'comments') IS.focusPostComments(main);
       else if (parts[1] === 'rating') {
         var rating = main.querySelector('[data-act=rate-library-file]');

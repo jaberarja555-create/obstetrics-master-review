@@ -21,6 +21,8 @@
       dislike_count: rows.filter(function (row) { return row.reaction === -1; }).length,
       rating_count: rows.filter(function (row) { return row.stars; }).length,
       rating_points: rows.reduce(function (sum, row) { return sum + (row.stars || 0); }, 0),
+      rated_like_count: rows.filter(function (row) { return row.stars && row.reaction === 1; }).length,
+      rated_dislike_count: rows.filter(function (row) { return row.stars && row.reaction === -1; }).length,
       my_reaction: own.reaction || 0, my_stars: own.stars || 0 };
   }
   IS.fetchSeriesScores = async function (ids) {
@@ -28,7 +30,7 @@
       var rows = await DB.q('series_feedback', { in: { series_id: ids } });
       return ids.map(function (id) { return seriesTotals(rows.filter(function (row) { return row.series_id === id; }), id, viewer()); });
     }
-    var response = await DB.sb.rpc('ish_series_scores', { targets: ids });
+    var response = await DB.sb.rpc('ish_series_rating_scores', { targets: ids });
     if (response.error) throw response.error;
     return response.data;
   };
@@ -91,21 +93,25 @@
   IS.page('series', async function (id) {
     await IS.loadBuys();
     var parts = (await DB.q('files', { eq: { series_id: id } })).filter(function (f) { return f.status === 'published' || (IS.ME && (f.owner_id === IS.ME.id || IS.can('library', 'approve'))); })
-      .sort(function (a, b) { return (a.series_no || 0) - (b.series_no || 0); });
+      .sort(function (a, b) { return (a.series_no || 9999) - (b.series_no || 9999) || a.id.localeCompare(b.id); });
     if (!parts.length) return null;
-    var first = parts[0], k = IS.libraryKind(first.kind), subj = IS.subj(first.subject), title = first.series_title || first.title;
+    var first = parts[0], k = IS.libraryKind(first.kind), title = first.series_title || first.title;
+    if (!IS.can('library') && !IS.inStudySpace(first)) return IS.outsideStudySpace(first);
+    var own = parts.find(function (part) { return !!IS.editLibraryFileButton(part); });
     var pages = parts.reduce(function (a, p) { return a + (+p.pages || 0); }, 0), lastRead = 0;
     parts.forEach(function (p, i) { try { if (+JSON.parse(localStorage.getItem('ish-rpg:' + p.id) || '0') > 0) lastRead = i; } catch (e) {} });
     var h = '<nav class="crumb"><a href="#library">' + esc(A('مكتبتي', 'My Library')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(title) + '</span></nav>';
     h += '<article class="box shead"><div class="sstack big">' + IS.libraryCover(first) + '<span class="scount">' + ic('layers') + N(parts.length) + '</span></div><div class="sinfo">' +
       '<span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + ' · ' + esc(A('سلسلة', 'Series')) + '</span><h1 tabindex="-1" dir="auto">' + esc(title) + '</h1>' +
-      '<p class="mut">' + [subj && subj.en, first.author].filter(Boolean).map(esc).join(' · ') + '</p>' +
+      '<p class="mut">' + IS.librarySubjectNames({ _parts: parts }).concat(first.author).filter(Boolean).map(esc).join(' · ') + '</p>' +
       '<div class="sfacts"><span>' + ic('layers') + N(parts.length) + ' ' + esc(A('أجزاء', 'parts')) + '</span>' + (pages ? '<span>' + ic('file') + N(pages) + ' ' + esc(A('صفحة', 'pages')) + '</span>' : '') + '</div>' +
       '<div class="row fprice">' + IS.priceTag(first) + IS.tagChips(first) + '</div>' +
       (first.about ? '<p class="pre" dir="auto">' + esc(first.about) + '</p>' : '') +
-      (first.status === 'published' && !IS.fileOpenable(first) ? IS.buyBtn(first) : IS.ME ? '<button type="button" class="btn pri" data-act="sread" data-id="' + esc(parts[lastRead].id) + '">' + ic('open') +
+      '<div class="row">' + (first.status === 'published' && !IS.fileOpenable(first) ? IS.buyBtn(first) : IS.ME ? '<button type="button" class="btn pri" data-act="sread" data-id="' + esc(parts[lastRead].id) + '">' + ic('open') +
         esc(lastRead ? A('تابع: الجزء ', 'Continue: part ') + (lastRead + 1) : A('ابدأ من الجزء الأول', 'Start with part 1')) + '</button>' :
-        '<button type="button" class="btn pri" data-act="login">' + ic('lock') + esc(A('سجّل الدخول للقراءة', 'Sign in to read')) + '</button>') + '</div></article>';
+        '<button type="button" class="btn pri" data-act="login">' + ic('lock') + esc(A('سجّل الدخول للقراءة', 'Sign in to read')) + '</button>') +
+      (own ? '<button type="button" class="btn ghost" data-act="edit-library-series" data-id="' + esc(own.id) + '">' + ic('pen') + esc(A('تعديل السلسلة', 'Edit series')) + '</button>' : '') +
+      '</div></div></article>';
     if (parts.some(function (part) { return part.status === 'published'; })) {
       h += '<section class="box series-feedback">' + seriesFeedback(id, first) + '</section>';
     }
@@ -117,11 +123,12 @@
         '<a class="spart-cover" href="#file/' + esc(p.id) + '" aria-label="' + esc(p.title) + '"' + (fallback ? ' data-part-preview="' + esc(p.id) + '"' : '') +
         '>' + IS.libraryCover(p) + '</a><div class="sp-b"><a href="#file/' + esc(p.id) + '" dir="auto"><b>' + esc(p.title) + '</b></a>' +
         '<small>' + [p.pages ? p.pages + ' ' + A('صفحة', 'pages') : '', pg > 1 ? A('توقفت عند ص ', 'stopped at p. ') + pg : '', p.status !== 'published' ? A('بانتظار المراجعة', 'awaiting review') : ''].filter(Boolean).map(esc).join(' · ') + '</small></div>' +
-        '<div class="sp-a">' + (!IS.fileOpenable(p) ? '<span class="chip">' + ic('lock') + esc(A('بعد الشراء', 'After purchase')) + '</span>' : IS.ME ? '<button type="button" class="btn ghost sm" data-act="sread" data-id="' + esc(p.id) + '">' + ic('open') + esc(A('افتح', 'Open')) + '</button>' + IS.dlBtn('file', p.id) : '') + '</div></li>';
+        '<div class="sp-a">' + (!IS.fileOpenable(p) ? '<span class="chip">' + ic('lock') + esc(A('بعد الشراء', 'After purchase')) + '</span>' : IS.ME ? '<button type="button" class="btn ghost sm" data-act="sread" data-id="' + esc(p.id) + '">' + ic('open') + esc(A('افتح', 'Open')) + '</button>' + IS.dlBtn('file', p.id) : '') + IS.editLibraryFileButton(p) + '</div></li>';
     }).join('') + '</ol></section>';
     IS.SERIES = parts;
     IS.after = function (main) {
       IS.hydrateLibraryCovers(main).catch(function () {});
+      IS.warmLibraryReader(parts[lastRead]);
       showMissingCovers(main, parts);
     };
     return h;
@@ -160,27 +167,25 @@
   /* open a part; the reader shows «next part» at the end of it */
   IS.ACT.sread = async function (b) {
     var parts = IS.SERIES || [], i = parts.findIndex(function (p) { return p.id === b.dataset.id; }); if (i < 0) return;
-    openPart(parts, i, b);
+    return openPart(parts, i, b);
   };
-  async function openPart(parts, i, b) {
-    var p = parts[i], html = b && b.innerHTML;
-    if (!IS.fileOpenable(p)) { var t = document.createElement('button'); t.dataset.id = p.id; t.dataset.series = p.series_id || ''; return IS.ACT.buyfile(t); } if (b) { b.disabled = true; b.innerHTML = '<span class="spin"></span>'; }
-    try {
-      var media = IS.libraryDocument(p), url = await DB.fileUrl('library', media.path); if (!url) throw new Error('missing');
-      var next = parts[i + 1] ? { title: A('الجزء ', 'Part ') + (i + 2) + ': ' + parts[i + 1].title, open: function () { openPart(parts, i + 1); } } : null;
-      if (media.mime === 'application/pdf') IS.openReader({ id: p.id, title: (p.series_title ? p.series_title + ' · ' : '') + p.title, url: url, next: next });
-      else { var box = IS.sheet(esc(p.title), '<div class="viewer" id="sheetview"></div>', { wide: 1 }); await IS.renderLibraryDocument(box.querySelector('#sheetview'), media.mime, url, null, { id: p.id, title: p.title }); }
-    } catch (e) { IS.toast(A('تعذّر فتح الجزء. أعد المحاولة.', 'The part could not be opened. Try again.')); }
-    finally { if (b) { b.disabled = false; b.innerHTML = html; } }
+  function openPart(parts, i, button) {
+    var part = parts[i];
+    if (!IS.fileOpenable(part)) {
+      var buy = document.createElement('button');
+      buy.dataset.id = part.id;
+      buy.dataset.series = part.series_id || '';
+      return IS.ACT.buyfile(buy);
+    }
+    var next = parts[i + 1] ? { title: A('الجزء ', 'Part ') + (i + 2) + ' · ' + parts[i + 1].title, open: function () { openPart(parts, i + 1); } } : null;
+    return IS.openLibraryBook(part, button, { title: (part.series_title ? part.series_title + ' · ' : '') + part.title, next: next });
   }
 
   /* ---- uploading a group ---- */
   IS.seriesForm = function () {
-    var subj = (IS.fileFields({}, true).match(/<select name="subject">[\s\S]*?<\/select>/) || [''])[0];
-    var kinds = (IS.fileFields({}, true).match(/<select name="kind">[\s\S]*?<\/select>/) || [''])[0];
     return '<form class="form" data-form="shareseries"><label class="fl"><span>' + esc(A('اسم السلسلة أو المجموعة', 'Series or group name')) + ' *</span><input name="series_title" required maxlength="160" placeholder="' +
       esc(A('مثال: شيتات الباطنية – أمراض القلب', 'e.g. Internal medicine sheets – Cardiology')) + '"></label>' +
-      '<div class="g2f"><label class="fl"><span>' + esc(A('النوع', 'Type')) + '</span>' + kinds + '</label><label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span>' + subj + '</label></div>' +
+      IS.libraryKindField({}) + IS.librarySubjectField({}, true) +
       '<label class="fl"><span>' + esc(A('المؤلف أو المصدر', 'Author or source')) + '</span><input name="author" maxlength="120"></label>' +
       '<label class="fl"><span>' + esc(A('وصف قصير', 'Short description')) + '</span><textarea name="about" rows="2" maxlength="600"></textarea></label>' +
       '<label class="fl file"><span>' + esc(A('الملفات (كل ملف حتى 50 ميغابايت)', 'Files (up to 50 MB each)')) + ' *</span><input type="file" name="files" multiple data-series-files accept="' + IS.libraryFileAccept + '"><small>' +
@@ -267,11 +272,11 @@
     if (!form.seriesId) {
       var sale;
       try { sale = IS.readSell(data); } catch (error) { return IS.toast(error.message, true); }
-      var subject = IS.subj(data.subject), scope = IS.mySection(), status = IS.can('library', 'approve') ? 'published' : 'pending';
+      var metadata = IS.librarySubjectMetadata(data.subjects);
+      var status = IS.can('library', 'approve') ? 'published' : 'pending';
       form.seriesId = uuid();
-      form.seriesMetadata = Object.assign({ kind: data.kind, subject: data.subject, cat: (subject || {}).cat || (scope ? scope.id : ''),
-        spec: (subject || {}).spec || IS.SPEC || 'medicine', author: data.author || '', about: data.about || '', owner_id: IS.ME.id,
-        owner_name: IS.ME.name, status: status, series_id: form.seriesId, series_title: data.series_title }, sale);
+      form.seriesMetadata = Object.assign({ kind: data.kind, author: data.author || '', about: data.about || '', owner_id: IS.ME.id,
+        owner_name: IS.ME.name, status: status, series_id: form.seriesId, series_title: data.series_title }, metadata, sale);
       form.querySelectorAll('input, select, textarea').forEach(function (field) {
         if (!field.closest('#sorder')) field.disabled = true;
       });

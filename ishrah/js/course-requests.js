@@ -556,6 +556,7 @@
     var rcount = Number(row.rating_count == null ? row.n_reviews : row.rating_count) || 0;
     var counts = ' data-like="' + (Number(row.like_count) || 0) + '" data-dislike="' + (Number(row.dislike_count) || 0) + '" data-rc="' + rcount +
       '" data-rp="' + (Number(row.rating_points) || Math.round((Number(row.average_rating == null ? row.rating : row.average_rating) || 0) * rcount)) + '"';
+    counts += ' data-rated-like="' + (Number(row.rated_like_count) || 0) + '" data-rated-dislike="' + (Number(row.rated_dislike_count) || 0) + '"';
     return '<div class="feed-votes" data-feedback="' + esc(key) + '" data-reaction="' + reaction + '"' + counts +
       (row.status === 'closed' ? ' data-comments-closed' : '') + '><div class="row feed-action-row">' +
       buttons + (kind === 'series' ? '' : comment) + (shareRoute ? IS.shareButton(shareRoute, true) : '') + '<span class="feed-grow"></span>' + rating + (kind === 'series' ? '' : IS.reportButton(kind, row.id, true)) + '</div>' +
@@ -564,11 +565,20 @@
 
   IS.ACT['focus-feed-comments'] = function () { IS.focusPostComments(IS.$('#main')); };
 
-  /* the score badge follows every like, dislike and star at once */
+  var scoreFields = { like: 'like_count', dislike: 'dislike_count', rc: 'rating_count', rp: 'rating_points',
+    ratedLike: 'rated_like_count', ratedDislike: 'rated_dislike_count' };
+  function scoreRow(data) {
+    var row = {};
+    Object.keys(scoreFields).forEach(function (key) { row[scoreFields[key]] = Number(data[key]) || 0; });
+    return row;
+  }
+  /* the score badge follows every like, dislike and star */
   function regrade(bar, values) {
-    ['like_count', 'dislike_count', 'rating_count', 'rating_points'].forEach(function (k, i) { if (values[k] != null) bar.dataset[['like', 'dislike', 'rc', 'rp'][i]] = Number(values[k]) || 0; });
-    var row = { like_count: +bar.dataset.like || 0, dislike_count: +bar.dataset.dislike || 0, rating_count: +bar.dataset.rc || 0, rating_points: +bar.dataset.rp || 0 };
-    var kind = String(bar.dataset.feedback || '').split('/')[0];
+    Object.keys(scoreFields).forEach(function (key) {
+      var value = values[scoreFields[key]];
+      if (value != null) bar.dataset[key] = Number(value) || 0;
+    });
+    var row = scoreRow(bar.dataset), kind = bar.dataset.feedback.split('/')[0];
     IS.$$('.feed-grade, .library-rating', bar).forEach(function (b) {
       b.innerHTML = IS.gradeInner(row, kind); b.setAttribute('aria-label', IS.gradeLabel(row, kind)); b.title = IS.gradeLabel(row, kind);
       if (b.matches('.library-rating')) {
@@ -576,22 +586,26 @@
         b.dataset.dislikes = row.dislike_count;
         b.dataset.count = row.rating_count;
         b.dataset.points = row.rating_points;
+        b.dataset.ratedLike = row.rated_like_count;
+        b.dataset.ratedDislike = row.rated_dislike_count;
       }
     });
   }
-  /* what the score is made of (owner, 19 Nov 2026: "why 5 stars when there is no like or dislike?" — a course review counted) */
   IS.ACT['grade-info'] = function (button) {
-    var bar = button.closest('.feed-votes'), d = bar ? bar.dataset : {}, row = { like_count: +d.like || 0, dislike_count: +d.dislike || 0, rating_count: +d.rc || 0, rating_points: +d.rp || 0 };
-    var course = button.dataset.kind === 'course', g = IS.grade(row, button.dataset.kind);
+    var bar = button.closest('[data-feedback]'), panel = button.closest('.library-rate-panel');
+    var row = bar ? scoreRow(bar.dataset) : panel ? IS.libraryRatingRow(panel.ratingButton) : {};
+    var kind = button.dataset.kind, course = kind === 'course', books = kind === 'file' || kind === 'series';
+    var g = IS.grade(row, kind);
     var line = function (icon, label, value) { return '<li><span class="gi">' + icon + '</span><span>' + esc(label) + '</span><b>' + value + '</b></li>'; };
-    IS.sheet(A('كيف حُسب التقييم', 'How this rating is made'), '<div class="ginfo"><div class="feed-grade big">' + IS.gradeInner(row, button.dataset.kind) + '</div><ul>' +
-      (course ? '' : line('👍', A('إعجابات', 'Likes'), N(g.likes)) +
-      line('👎', A('عدم إعجاب', 'Dislikes'), N(g.dislikes))) +
-      line('⭐', course ? A('تقييمات الطلاب الملتحقين بالكورس', 'Reviews by enrolled students') : A('تقييمات بالنجوم', 'Star ratings'),
-        N(g.rc) + (g.rc ? ' · ' + (g.rp / g.rc).toFixed(1) + ' ★' : '')) + '</ul>' +
-      (!course ? '<p class="mut">' + esc(A('الإعجاب وعدم الإعجاب لهما وزن متساوٍ ومتعاكس. عند تساويهما يبقى متوسط النجوم كما هو. يبدأ التقييم من 3 دون تقييمات بالنجوم.', 'Likes and dislikes have equal, opposite weight. Equal counts leave the star average unchanged. With no star ratings, reactions start from a neutral 3.')) + '</p>' : '') +
-      (course ? '<p class="note">' + IS.ic('lock') + '<span>' + esc(A('يقيّم الكورس فقط الطلبة الملتحقون به (مجانًا أو بالدفع)، من صفحة الكورس بعد الالتحاق.', 'Only students who joined the course (free or paid) can rate it, from the course page after joining.')) + '</span></p>' : '') +
-      '<p class="mut">' + esc(A('الدرجة: ممتاز من 4.5 · جيد جدًا من 3.75 · جيد من 3 · مقبول من 2 · وأقل من ذلك ضعيف.', 'Grades: Excellent from 4.5 · Very good from 3.75 · Good from 3 · Fair from 2 · below that Weak.')) + '</p></div>');
+    IS.sheet(A('كيف حُسب التقييم', 'How the rating is calculated'), '<div class="ginfo"><div class="feed-grade big">' + IS.gradeInner(row, kind) + '</div><ul>' +
+      (course ? '' : line('👍', A('إعجابات', 'Likes'), N(g.likes)) + line('👎', A('عدم إعجاب', 'Dislikes'), N(g.dislikes))) +
+      (course || books ? line('⭐', course ? A('تقييمات الطلاب الملتحقين بالكورس', 'Reviews by enrolled students') : A('تقييمات بالنجوم', 'Star ratings'),
+        N(g.rc) + (g.rc ? ' · ' + (g.rp / g.rc).toFixed(1) + ' ★' : '')) : '') + '</ul>' +
+      '<p class="mut">' + esc(A('يبدأ الحساب من درجة محايدة (٣ من ٥) لتقليل أثر أول تقييم. كلما زاد عدد التقييمات قلّ أثر هذه الدرجة.',
+        'The calculation starts with a neutral 3 out of 5 to limit the effect of the first vote. Its influence fades as more people vote.')) + '</p>' +
+      (course ? '<p class="note">' + IS.ic('lock') + '<span>' + esc(A('التقييم متاح للطلاب الملتحقين بالكورس من صفحته.', 'Students who joined can rate the course from its page.')) + '</span></p>' :
+        '<p class="mut">' + esc(A('الإعجاب يعادل ٥ نجوم، وعدم الإعجاب يعادل نجمة واحدة.', 'A like counts as 5 stars and a dislike counts as 1 star.') +
+          (books ? ' ' + A('إذا قيّم القارئ بالنجوم يُحسب تقييمه بالنجوم مرة واحدة بدل التفاعل.', 'If a reader gives stars, their star rating replaces their reaction in the score.') : '')) + '</p>') + '</div>');
   };
   IS.regradeBars = function (key, values) { IS.$$('[data-feedback]').filter(function (bar) { return bar.dataset.feedback === key; }).forEach(function (bar) { regrade(bar, values); }); };
   function patchFeed(kind, id, values, saving) {
@@ -612,7 +626,8 @@
             button.disabled = saving;
           }
         });
-        regrade(bar, values);
+        // Star votes may replace a reaction. Keep the saved score until that account's change returns.
+        if (!saving || kind !== 'file' && kind !== 'series') regrade(bar, values);
       }
       var field = kind === 'post' ? 'n_replies' : 'comment_count';
       if (field in values) {
@@ -681,10 +696,11 @@
       counts.rating_count = votes.filter(function (vote) { return vote.stars; }).length;
       counts.rating_points = votes.reduce(function (total, vote) { return total + (vote.stars || 0); }, 0);
       counts.average_rating = counts.rating_count ? counts.rating_points / counts.rating_count : null;
+      counts.rated_like_count = votes.filter(function (vote) { return vote.stars && vote.reaction === 1; }).length;
+      counts.rated_dislike_count = votes.filter(function (vote) { return vote.stars && vote.reaction === -1; }).length;
     }
     await DB.upd(FEEDBACK[kind], id, counts);
-    return rating ? { rating_count: counts.rating_count, rating_points: counts.rating_points, average_rating: counts.average_rating } :
-      { like_count: counts.like_count, dislike_count: counts.dislike_count, my_reaction: picked };
+    return rating ? counts : Object.assign({ my_reaction: picked }, counts);
   };
 
   IS.ACT['feed-vote'] = async function (button) {

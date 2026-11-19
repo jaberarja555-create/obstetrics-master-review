@@ -5,32 +5,26 @@
    are drawn; far pages are released, so a 900-page book stays light. Works offline with a downloaded book (blob). */
 (function () {
   var A = IS.A, esc = IS.esc, ic = IS.ic, N = IS.N, $ = IS.$;
-  var PDFJS = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js', loading = null;
   var COLORS = [['y', '#ffe066'], ['g', '#8ce99a'], ['b', '#74c0fc'], ['p', '#f783ac']];
-  function lib() {
-    if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
-    if (!loading) loading = new Promise(function (ok, no) {
-      var s = document.createElement('script'); s.src = PDFJS;
-      s.onload = function () { window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS.replace('pdf.min.js', 'pdf.worker.min.js'); ok(window.pdfjsLib); };
-      s.onerror = function (e) { loading = null; s.remove(); no(e); };
-      document.head.appendChild(s);
-    });
-    return loading;
-  }
   function store(key, def) { try { var v = JSON.parse(localStorage.getItem(key) || 'null'); return v == null ? def : v; } catch (e) { return def; } }
   function keep(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) {} }
 
   var R = null;   // the open reader
   IS.openReader = async function (o) {
-    if (R) close(true);
+    if (R) close();
     var el = document.createElement('div'); el.id = 'rdr'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
     el.innerHTML = '<header class="rdr-top"><button type="button" class="rib" data-r="close" aria-label="' + esc(A('إغلاق', 'Close')) + '">' + ic('chev', 'fr') + '</button>' +
       '<b class="rdr-title" dir="auto">' + esc(o.title || '') + '</b>' +
-      '<button type="button" class="rib" data-r="search" aria-label="' + esc(A('البحث في الكتاب', 'Search the book')) + '">' + ic('search') + '</button>' +
-      '<button type="button" class="rib" data-r="marks" aria-label="' + esc(A('تظليلاتي', 'My highlights')) + '">' + ic('bookmark') + '</button>' +
+      '<button type="button" class="rib" data-r="search" disabled aria-label="' + esc(A('البحث في الكتاب', 'Search the book')) + '">' + ic('search') + '</button>' +
+      '<button type="button" class="rib" data-r="bookmarks" disabled aria-expanded="false" aria-controls="rdr-bookmark-panel" aria-label="' +
+        esc(A('الإشارات المرجعية', 'Bookmarks')) + '">' + ic('bookmark') + '</button>' +
+      '<button type="button" class="rib" data-r="marks" disabled aria-label="' + esc(A('تظليلاتي', 'My highlights')) + '">' + ic('pen') + '</button>' +
       '<button type="button" class="rib" data-r="full" aria-label="' + esc(A('ملء الشاشة', 'Full screen')) + '">' + ic('open') + '</button></header>' +
       '<div class="rdr-find" hidden><input type="search" dir="auto" placeholder="' + esc(A('ابحث عن كلمة في الكتاب…', 'Find a word in the book…')) + '"><button type="button" class="btn sm pri" data-r="go">' + esc(A('بحث', 'Find')) + '</button><div class="rdr-hits"></div></div>' +
-      '<div class="rdr-scroll" tabindex="0"><div class="rdr-pages"><div class="loading"><span class="spin"></span></div></div></div>' +
+      '<section class="rdr-bookmarks" id="rdr-bookmark-panel" aria-label="' + esc(A('الإشارات المرجعية', 'Bookmarks')) + '" hidden>' +
+        '<div class="row"><button type="button" class="btn sm pri" data-r="save-bookmark"></button></div><div class="rdr-bookmark-list"></div><div class="rdr-outline"></div></section>' +
+      '<div class="rdr-scroll" tabindex="0"><div class="rdr-pages"><div class="loading" role="status"><span class="spin"></span>' +
+      esc(A('جارٍ فتح الكتاب…', 'Opening the book…')) + '</div></div></div>' +
       '<footer class="rdr-bot"><button type="button" class="rib" data-r="out" aria-label="' + esc(A('تصغير', 'Zoom out')) + '">−</button>' +
       '<button type="button" class="rdr-pg" data-r="jump"><bdi dir="ltr"><span class="rdr-cur">1</span> / <span class="rdr-n">…</span></bdi></button>' +
       '<button type="button" class="rib" data-r="in" aria-label="' + esc(A('تكبير', 'Zoom in')) + '">+</button>' +
@@ -39,7 +33,10 @@
       '<button type="button" class="rdr-copy" data-r="copy">' + esc(A('نسخ', 'Copy')) + '</button><button type="button" class="rdr-del" data-r="unmark" hidden>' + esc(A('إزالة التظليل', 'Remove highlight')) + '</button></div>';
     document.body.appendChild(el); document.body.classList.add('noscroll');
     try { history.pushState({ rdr: 1 }, ''); } catch (e) {}
-    R = { el: el, o: o, id: o.id || 'x', zoom: store('ish-rz', 1), pages: [], marks: store('ish-hl:' + (o.id || 'x'), []), cur: 1 };
+    var id = o.id || 'x', account = (IS.ME || {}).id || 'local';
+    var bookmarksKey = 'ish-rbm:' + account + '/' + id;
+    var reader = R = { el: el, id: id, zoom: store('ish-rz', 1), pages: [], marks: store('ish-hl:' + id, []),
+      bookmarksKey: bookmarksKey, bookmarks: store(bookmarksKey, []), cur: 1 };
     el.addEventListener('click', onClick);
     var sc = el.querySelector('.rdr-scroll');
     sc.addEventListener('scroll', onScroll, { passive: true });
@@ -47,34 +44,53 @@
     pinch(sc);
     document.addEventListener('selectionchange', onSel);
     el.querySelector('.rdr-find input').addEventListener('keydown', function (e) { if (e.key === 'Enter') find(); });
+    var box = el.querySelector('.rdr-pages'), first, last;
     try {
-      var pdf = await lib(), src = o.blob ? { data: await o.blob.arrayBuffer() } : { url: o.url };
-      /* the standard PDF fonts and character maps: without them books that do not embed their fonts draw with wrong letter widths
-         (owner, 19 Nov 2026: "the text looks very distorted") */
-      var base = new URL('pdfjs/', location.href).href;   // our own copy: works offline too (sw.js keeps it)
-      R.doc = await pdf.getDocument(Object.assign(src, { isEvalSupported: false, cMapUrl: base + 'cmaps/', cMapPacked: true, standardFontDataUrl: base + 'standard_fonts/', useSystemFonts: false })).promise;
-    } catch (e) {
-      if (R && R.el === el) el.querySelector('.rdr-pages').innerHTML = IS.empty('info', A('تعذّر فتح الكتاب', 'The book could not be opened'), navigator.onLine ? '' : A('تحقق من الإنترنت أو نزّل الكتاب للقراءة دون اتصال.', 'Check the internet, or download the book to read offline.'));
+      var source = o.blob ? o.blob.arrayBuffer() : o.getUrl ? Promise.resolve().then(o.getUrl) : o.url;
+      var ready = await Promise.all([IS.loadPdfLibrary(), source]);
+      if (R !== reader) return;
+      if (!ready[1]) throw new Error('missing file');
+      var src = o.blob ? { data: ready[1] } : { url: ready[1] };
+      var base = new URL('pdfjs/', document.baseURI).href;
+      reader.loadingTask = ready[0].getDocument(Object.assign(src, { isEvalSupported: false, cMapUrl: base + 'cmaps/', cMapPacked: true,
+        standardFontDataUrl: base + 'standard_fonts/', useSystemFonts: false }));
+      reader.doc = await reader.loadingTask.promise;
+      if (R !== reader) return;
+      reader.n = reader.doc.numPages;
+      last = Math.max(1, Math.min(reader.n, Number(o.page || store('ish-rpg:' + reader.id, 1)) || 1));
+      first = await reader.doc.getPage(last);
+    } catch (error) {
+      if (R === reader) box.innerHTML = IS.empty('info', A('تعذّر فتح الكتاب', 'The book could not be opened'), navigator.onLine ?
+        A('أغلق القارئ وأعد فتحه للمحاولة مجددًا.', 'Close and reopen the reader to try again.') :
+        A('افتح النسخة المحفوظة من تنزيلاتي.', 'Open the saved copy from My downloads.'));
       return;
     }
-    if (!R || R.el !== el) return;
-    var first = await R.doc.getPage(1), v = first.getViewport({ scale: 1 });
-    R.ratio = v.height / v.width; R.n = R.doc.numPages;
-    el.querySelector('.rdr-n').textContent = R.n;
-    var box = el.querySelector('.rdr-pages'); box.innerHTML = '';
-    for (var i = 1; i <= R.n; i++) {
+    if (R !== reader) return;
+    var v = first.getViewport({ scale: 1 });
+    reader.ratio = v.height / v.width;
+    el.querySelector('.rdr-n').textContent = reader.n;
+    var pages = document.createDocumentFragment();
+    for (var i = 1; i <= reader.n; i++) {
       var d = document.createElement('div'); d.className = 'rp'; d.dataset.p = i;
-      d.innerHTML = '<canvas width="0" height="0"></canvas><div class="rhl"></div><div class="textLayer"></div><span class="rpn">' + i + '</span>';
-      box.appendChild(d); R.pages.push({ el: d, ratio: R.ratio, drawn: 0 });
+      d.innerHTML = '<canvas width="0" height="0"></canvas><div class="rhl"></div><div class="rfindhl" aria-hidden="true"></div><div class="textLayer"></div><span class="rpn">' + i + '</span>';
+      pages.appendChild(d); reader.pages.push({ el: d, ratio: reader.ratio, drawn: 0 });
     }
-    if (o.next) { var nx = document.createElement('div'); nx.className = 'rdr-next';
+    if (o.next) {
+      var nx = document.createElement('div'); nx.className = 'rdr-next';
       nx.innerHTML = '<span>' + esc(A('انتهى هذا الجزء', 'End of this part')) + '</span><button type="button" class="btn pri">' + esc(o.next.title) + ic('chev', 'fl') + '</button>';
-      nx.querySelector('button').onclick = function () { var go = o.next.open; history.back(); setTimeout(go, 150); }; box.appendChild(nx); }
+      nx.querySelector('button').onclick = function () { history.back(); setTimeout(o.next.open, 150); };
+      pages.appendChild(nx);
+    }
+    box.replaceChildren(pages);
     sizeAll();
-    R.io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) draw(+e.target.dataset.p); }); }, { root: sc, rootMargin: '120% 0px' });
-    R.pages.forEach(function (p) { R.io.observe(p.el); });
-    var last = store('ish-rpg:' + R.id, 1); if (o.page) last = o.page;
-    if (last > 1 && last <= R.n) requestAnimationFrame(function () { goPage(last, true); });
+    await goPage(last);
+    if (R !== reader) return;
+    IS.$$('[data-r]:disabled', el).forEach(function (button) { button.disabled = false; });
+    reader.io = new IntersectionObserver(function (entries) {
+      if (R !== reader) return;
+      entries.forEach(function (entry) { if (entry.isIntersecting) draw(+entry.target.dataset.p); });
+    }, { root: sc, rootMargin: '120% 0px' });
+    reader.pages.forEach(function (p) { reader.io.observe(p.el); });
   };
 
   function width() { var sc = R.el.querySelector('.rdr-scroll'); return Math.max(240, Math.min(sc.clientWidth - 16, 1000)) * R.zoom; }
@@ -99,17 +115,23 @@
       p.task = page.render({ canvasContext: ctx, viewport: vp, transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null });
       await p.task.promise;
       var tl = p.el.querySelector('.textLayer'); tl.innerHTML = ''; tl.style.setProperty('--scale-factor', scale);
-      var task = window.pdfjsLib.renderTextLayer({ textContentSource: page.streamTextContent(), container: tl, viewport: vp, textDivs: [] });
+      var textDivs = [];
+      var task = window.pdfjsLib.renderTextLayer({ textContentSource: page.streamTextContent(), container: tl, viewport: vp, textDivs: textDivs });
       await task.promise;
-      p.drawn = want; paintMarks(n);
+      if (R && R.pages[n - 1] === p) { p.drawn = want; p.textDivs = textDivs; paintMarks(n); paintSearch(n); }
     } catch (e) { if (!/cancel/i.test(String(e && e.name || e))) p.drawn = 0; }
     finally { if (p) p.busy = false; }
-    release();
+    if (R && R.pages[n - 1] === p) release();
   }
   /* pages far from the screen give back their memory */
   function release() {
     R.pages.forEach(function (p, i) {
-      if (p.drawn && Math.abs(i + 1 - R.cur) > 8) { var cv = p.el.querySelector('canvas'); cv.width = 0; cv.height = 0; p.el.querySelector('.textLayer').innerHTML = ''; p.drawn = 0; }
+      if (p.drawn && Math.abs(i + 1 - R.cur) > 8) {
+        var cv = p.el.querySelector('canvas'); cv.width = 0; cv.height = 0;
+        p.el.querySelector('.textLayer').replaceChildren();
+        p.el.querySelector('.rfindhl').replaceChildren();
+        p.textDivs = null; p.drawn = 0;
+      }
     });
   }
   function redrawNear() { R.pages.forEach(function (p) { p.drawn = 0; }); for (var i = Math.max(1, R.cur - 1); i <= Math.min(R.n, R.cur + 2); i++) draw(i); }
@@ -118,16 +140,21 @@
     var sc = R.el.querySelector('.rdr-scroll'), rel = sc.scrollTop / Math.max(1, sc.scrollHeight);
     R.zoom = z; keep('ish-rz', z); sizeAll(); sc.scrollTop = rel * sc.scrollHeight; redrawNear();
   }
-  function goPage(n, now) {
+  function goPage(n) {
+    if (!R || !R.n) return;
     n = Math.max(1, Math.min(R.n, n)); var p = R.pages[n - 1]; if (!p) return;
-    var sc = R.el.querySelector('.rdr-scroll'); sc.scrollTop = p.el.offsetTop - 8; R.cur = n; R.el.querySelector('.rdr-cur').textContent = n; keep('ish-rpg:' + R.id, n); draw(n);
+    var sc = R.el.querySelector('.rdr-scroll'); sc.scrollTop = p.el.offsetTop - 8;
+    showPageNumber(n);
+    return draw(n);
   }
   var st = 0;
   function onScroll() {
     if (st) return; st = requestAnimationFrame(function () {
-      st = 0; if (!R || !R.n) return; var sc = R.el.querySelector('.rdr-scroll'), mid = sc.scrollTop + Math.min(sc.clientHeight * 0.35, 160), cur = 1;
-      for (var i = 0; i < R.pages.length; i++) { if (R.pages[i].el.offsetTop <= mid) cur = i + 1; else break; }
-      if (cur !== R.cur) { R.cur = cur; R.el.querySelector('.rdr-cur').textContent = cur; keep('ish-rpg:' + R.id, cur); }
+      st = 0; if (!R || !R.n) return;
+      var sc = R.el.querySelector('.rdr-scroll'), mid = sc.scrollTop + Math.min(sc.clientHeight * 0.35, 160), cur = 1;
+      if (sc.scrollTop > 0 && sc.scrollHeight - sc.clientHeight - sc.scrollTop <= 2) cur = R.n;
+      else for (var i = 0; i < R.pages.length; i++) { if (R.pages[i].el.offsetTop <= mid) cur = i + 1; else break; }
+      if (cur !== R.cur) showPageNumber(cur);
     });
   }
   /* two-finger pinch: the pages scale while the fingers move, and are drawn sharp again at the new size when they lift */
@@ -188,19 +215,148 @@
     return R.marks.filter(function (m) { return m.p === n && m.r.some(function (r) { return fx >= r[0] && fx <= r[0] + r[2] && fy >= r[1] && fy <= r[1] + r[3]; }); })[0] || null;
   }
 
+  function showPageNumber(page) {
+    R.cur = page;
+    R.el.querySelector('.rdr-cur').textContent = page;
+    keep('ish-rpg:' + R.id, page);
+    syncBookmark();
+  }
+  function syncBookmark() {
+    var active = R.bookmarks.includes(R.cur);
+    var action = R.el.querySelector('[data-r=save-bookmark]');
+    action.innerHTML = ic('bookmark') + esc(active ? A('أزل إشارة هذه الصفحة', 'Remove this page bookmark') : A('احفظ هذه الصفحة', 'Bookmark this page'));
+    action.setAttribute('aria-pressed', active);
+    R.el.querySelector('[data-r=bookmarks]').classList.toggle('on', active);
+  }
+  function paintBookmarks() {
+    syncBookmark();
+    var out = R.el.querySelector('.rdr-bookmark-list');
+    var pages = R.bookmarks.filter(function (page) { return page >= 1 && page <= R.n; }).slice().sort(function (a,b) { return a - b; });
+    out.innerHTML = pages.length ? pages.map(function (page) {
+      var name = esc(A('صفحة ', 'Page ') + N(page));
+      return '<div class="rdr-bookmark-row"><button data-r="bookmark-page" data-p="' + page + '">' + ic('bookmark') + name +
+        '</button><button class="rib" data-r="remove-bookmark" data-p="' + page + '" aria-label="' +
+        esc(A('إزالة إشارة الصفحة ', 'Remove bookmark for page ') + N(page)) + '">' + ic('trash') + '</button></div>';
+    }).join('') : '<p>' + esc(A('لا توجد صفحات محفوظة بعد.', 'No bookmarked pages yet.')) + '</p>';
+  }
+  function changeBookmark(page, remove) {
+    var index = R.bookmarks.indexOf(page);
+    if (index >= 0) R.bookmarks.splice(index, 1);
+    else if (!remove) R.bookmarks.push(page);
+    keep(R.bookmarksKey, R.bookmarks);
+    paintBookmarks();
+  }
+  function toggleBookmarks(open) {
+    var panel = R.el.querySelector('.rdr-bookmarks');
+    panel.hidden = !open;
+    R.el.querySelector('[data-r=bookmarks]').setAttribute('aria-expanded', open);
+    if (!open) return;
+    R.el.querySelector('.rdr-find').hidden = true;
+    paintBookmarks();
+    var reader = R, out = panel.querySelector('.rdr-outline');
+    if (reader.outline) return;
+    reader.outline = [];
+    reader.doc.getOutline().then(function (outline) {
+      if (R !== reader || !outline || !outline.length) return;
+      function items(entries) {
+        entries.forEach(function (item) {
+          if (item.dest) reader.outline.push({ title: item.title, dest: item.dest });
+          if (item.items && item.items.length) items(item.items);
+        });
+      }
+      items(outline);
+      if (!reader.outline.length) return;
+      out.innerHTML = '<h3>' + esc(A('فهرس الكتاب', 'Contents')) + '</h3>' +
+        reader.outline.map(function (item, index) {
+          return '<button class="rdr-outline-item" data-r="outline-page" data-i="' + index + '" dir="auto">' + esc(item.title) + '</button>';
+        }).join('');
+    }).catch(function () {});
+  }
+  async function openOutline(index) {
+    var reader = R, entry = reader.outline[index];
+    if (!entry) return;
+    try {
+      var dest = typeof entry.dest === 'string' ? await reader.doc.getDestination(entry.dest) : entry.dest;
+      if (!dest || dest[0] == null) return;
+      var page = Number.isInteger(dest[0]) ? dest[0] : await reader.doc.getPageIndex(dest[0]);
+      if (R === reader) { toggleBookmarks(false); goPage(page + 1); }
+    } catch (error) {}
+  }
+
   /* ---- search inside the book ---- */
-  async function find() {
-    var q = R.el.querySelector('.rdr-find input').value.trim().toLowerCase(), out = R.el.querySelector('.rdr-hits'); if (q.length < 2) return;
-    out.innerHTML = '<span class="spin"></span>'; var hits = [], token = R.findT = Date.now();
-    for (var i = 1; i <= R.n && hits.length < 60; i++) {
-      if (R.findT !== token) return;
-      if (!R.text) R.text = {};
-      if (R.text[i] == null) { var tc = await (await R.doc.getPage(i)).getTextContent(); R.text[i] = tc.items.map(function (x) { return x.str; }).join(' '); }
-      var tx = R.text[i], k = tx.toLowerCase().indexOf(q);
-      if (k >= 0) hits.push([i, tx.slice(Math.max(0, k - 40), k + q.length + 50)]);
+  function searchPattern(query) {
+    return new RegExp(query.split(/\s+/).map(function (word) {
+      return word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }).join('\\s+'), 'giu');
+  }
+  function paintSearch(page) {
+    var p = R.pages[page - 1], layer = p.el.querySelector('.rfindhl');
+    layer.replaceChildren();
+    if (!R.searchQuery || !p.textDivs) return;
+    var spans = [], whole = '';
+    p.textDivs.forEach(function (span) {
+      var node = span.firstChild;
+      if (!node || node.nodeType !== Node.TEXT_NODE || !span.isConnected) return;
+      spans.push({ node: node, start: whole.length });
+      whole += node.textContent + ' ';
+    });
+    var pattern = searchPattern(R.searchQuery), match;
+    var box = p.el.getBoundingClientRect(), fragment = document.createDocumentFragment(), first;
+    for (var i = 0; i < 200 && (match = pattern.exec(whole)); i++) {
+      var start = match.index, end = start + match[0].length;
+      spans.forEach(function (span) {
+        var from = Math.max(0, start - span.start), to = Math.min(span.node.length, end - span.start);
+        if (from >= to) return;
+        var range = document.createRange();
+        range.setStart(span.node, from);
+        range.setEnd(span.node, to);
+        Array.from(range.getClientRects()).forEach(function (rect) {
+          if (!rect.width || !rect.height) return;
+          if (!first) first = rect;
+          var mark = document.createElement('i');
+          Object.assign(mark.style, { left: (rect.left - box.left) + 'px', top: (rect.top - box.top) + 'px',
+            width: rect.width + 'px', height: rect.height + 'px' });
+          fragment.appendChild(mark);
+        });
+      });
     }
-    out.innerHTML = hits.length ? hits.map(function (h) { return '<button type="button" data-r="hit" data-p="' + h[0] + '"><b>' + esc(A('صفحة ', 'Page ')) + h[0] + '</b><span dir="auto">' + esc(h[1]) + '</span></button>'; }).join('') :
-      '<p class="mut">' + esc(A('لا توجد نتائج', 'No results')) + '</p>';
+    layer.appendChild(fragment);
+    if (first && R.searchJump === page) {
+      R.searchJump = null;
+      var scroll = R.el.querySelector('.rdr-scroll'), view = scroll.getBoundingClientRect();
+      if (first.top < view.top + 8 || first.bottom > view.bottom - 8) scroll.scrollTop += first.top - view.top - 52;
+    }
+  }
+  async function find() {
+    var reader = R, q = reader.el.querySelector('.rdr-find input').value.trim(), out = reader.el.querySelector('.rdr-hits');
+    var token = reader.findT = (reader.findT || 0) + 1;
+    reader.searchQuery = q.length >= 2 ? q : '';
+    reader.searchJump = null;
+    reader.pages.forEach(function (page, index) { if (page.drawn) paintSearch(index + 1); });
+    if (!reader.doc || q.length < 2) { out.replaceChildren(); return; }
+    out.innerHTML = '<span class="spin"></span>'; var hits = [];
+    var pattern = searchPattern(q);
+    if (!reader.text) reader.text = {};
+    try {
+      for (var i = 1; i <= reader.n && hits.length < 60; i++) {
+        if (R !== reader || reader.findT !== token) return;
+        if (reader.text[i] == null) {
+          var tc = await (await reader.doc.getPage(i)).getTextContent();
+          reader.text[i] = tc.items.map(function (x) { return x.str; }).join(' ');
+        }
+        var tx = reader.text[i];
+        pattern.lastIndex = 0;
+        var match = pattern.exec(tx);
+        if (match) hits.push([i, tx.slice(Math.max(0, match.index - 40), match.index + match[0].length + 50)]);
+      }
+      if (R !== reader || reader.findT !== token) return;
+      out.innerHTML = hits.length ? hits.map(function (h) {
+        return '<button type="button" data-r="hit" data-p="' + h[0] + '"><b>' + esc(A('صفحة ', 'Page ')) + h[0] +
+          '</b><span dir="auto">' + esc(h[1]) + '</span></button>';
+      }).join('') : '<p class="mut">' + esc(A('لا توجد نتائج', 'No results')) + '</p>';
+    } catch (error) {
+      if (R === reader && reader.findT === token) out.innerHTML = '<p class="mut">' + esc(A('تعذّر البحث في الكتاب.', 'Could not search the book.')) + '</p>';
+    }
   }
   function marksSheet() {
     var list = R.marks.slice().sort(function (a, b) { return a.p - b.p; });
@@ -225,9 +381,23 @@
       if (a === 'in') zoomTo(R.zoom * 1.25); else if (a === 'out') zoomTo(R.zoom / 1.25); else if (a === 'fit') zoomTo(1);
       else if (a === 'copy') copySel();
       else if (a === 'unmark' && tapped) { var m = tapped; R.marks = R.marks.filter(function (k) { return k !== m; }); keep('ish-hl:' + R.id, R.marks); paintMarks(m.p); tapped = null; R.el.querySelector('.rdr-sel').hidden = true; }
-      else if (a === 'search') { var f = R.el.querySelector('.rdr-find'); f.hidden = !f.hidden; if (!f.hidden) f.querySelector('input').focus(); }
+      else if (a === 'search') {
+        var f = R.el.querySelector('.rdr-find'); f.hidden = !f.hidden;
+        if (!f.hidden) { toggleBookmarks(false); f.querySelector('input').focus(); }
+      }
+      else if (a === 'bookmarks') toggleBookmarks(R.el.querySelector('.rdr-bookmarks').hidden);
+      else if (a === 'save-bookmark') changeBookmark(R.cur);
+      else if (a === 'remove-bookmark') changeBookmark(+b.dataset.p, true);
+      else if (a === 'bookmark-page') { toggleBookmarks(false); goPage(+b.dataset.p); }
+      else if (a === 'outline-page') openOutline(+b.dataset.i);
       else if (a === 'go') find();
-      else if (a === 'hit') { goPage(+b.dataset.p); R.el.querySelector('.rdr-find').hidden = true; }
+      else if (a === 'hit') {
+        var page = +b.dataset.p;
+        R.el.querySelector('.rdr-find').hidden = true;
+        R.searchJump = page;
+        goPage(page);
+        if (R.pages[page - 1].drawn) paintSearch(page);
+      }
       else if (a === 'marks') marksSheet();
       else if (a === 'full') { var fs = document.fullscreenElement; if (fs) document.exitFullscreen().catch(function () {}); else if (R.el.requestFullscreen) R.el.requestFullscreen().catch(function () {}); R.el.classList.toggle('bare', !fs); }
       else if (a === 'jump') IS.ask(A('اذهب إلى الصفحة', 'Go to page'), '1 – ' + R.n, String(R.cur)).then(function (v) { var n = parseInt(v, 10); if (n) goPage(n); });
@@ -241,9 +411,10 @@
       R.el.classList.toggle('bare');   // a tap shows or hides the bars: the whole screen for the page
     }
   }
-  function close(silent) {
+  function close() {
     if (!R) return;
-    try { if (R.io) R.io.disconnect(); if (R.doc) R.doc.destroy(); } catch (e) {}
+    if (R.io) R.io.disconnect();
+    if (R.loadingTask) R.loadingTask.destroy().catch(function () {});
     if (document.fullscreenElement) document.exitFullscreen().catch(function () {});
     document.removeEventListener('selectionchange', onSel);
     R.el.remove(); R = null; document.body.classList.remove('noscroll');
