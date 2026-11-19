@@ -82,10 +82,12 @@
       target = data.lecturer_id && await DB.one('lecturers', data.lecturer_id);
       if (data.lecturer_id && (!target || target.status !== 'active' || target.id === actor)) throw new Error('request_lecturer');
       row = await DB.ins(REQUESTS, Object.assign({}, data, { budget_min: data.price, budget_max: data.price, user_id: actor, author_name: IS.ME.name, lecturer_name: target ? target.name : null,
-        status: 'pending', teacher_confirmed: false, joined_count: 0, rating_count: 0, rating_points: 0 }));
+        status: 'open', published_at: new Date().toISOString(), teacher_confirmed: false, joined_count: 0, rating_count: 0, rating_points: 0 }));
       for (var item of (data.attachments || [])) {
         await DB.ins('course_request_files', Object.assign({ request_id: row.id }, item));
       }
+      if (target) await DB.ins('notices', { user_id: target.id, title: 'طلب تدريس موجّه إليك',
+        title_en: 'A course request names you', body: row.title, link: '#studio-course-request/' + row.id });
       return row.id;
     }
     row = await DB.one(REQUESTS, id);
@@ -224,7 +226,7 @@
       text('حتى 4 ملفات، 10 ميغابايت للملف. الصور وPDF وملفات Office وTXT.', 'Up to 4 files, 10 MB each. Images, PDF, Office and TXT.') + '</small></label>' +
       note('يُنشر الطلب بعد مراجعته. اترك بيانات الاتصال وروابط الاجتماعات خارج المنشور العام.', 'The request becomes public after review. Keep contact details and meeting links out of the public post.') +
       '<div class="row end">' + link('#course-requests', 'إلغاء', 'Cancel') + '<button class="btn pri"' + (section ? '' : ' disabled') + '>' +
-      text('إرسال للموافقة', 'Send for approval') + '</button></div></form>';
+      text('انشر الطلب', 'Publish request') + '</button></div></form>';
   }
   IS.SUB['cr-create'] = async function (d, f) {
     if (!validDate(d)) return;
@@ -252,7 +254,7 @@
       }
     }
     if (id) {
-      IS.toast(A('أُرسل الطلب للموافقة', 'Request sent for approval'));
+      IS.toast(A('نُشر الطلب', 'Request published'));
       IS.go('course-request/' + id);
     }
   };
@@ -292,7 +294,7 @@
   var CONTROL = { area: 'control', auth: true, perm: 'review' };
   IS.page('control-course-requests', async function () {
     var rows = await DB.q(REQUESTS, { eq: { status: 'pending' }, order: ['created_at', true], limit: 100 });
-    return IS.banner(IS.T('مراجعة طلبات الكورسات', 'Course request review'), esc(A('تظهر الطلبات للطلاب بعد الموافقة عليها.', 'Requests appear to students after approval.')), 'eye') +
+    return IS.banner(IS.T('مراجعة طلبات الكورسات', 'Course request review'), esc(A('راجع الطلبات القديمة التي ما زالت قيد الانتظار.', 'Review older requests still awaiting a decision.')), 'eye') +
       '<div class="row">' + link('#control-questions', 'مراجعة الأسئلة', 'Review questions') + '</div>' +
       (rows.length ? '<div class="grid g3 cr-grid">' + rows.map(function (r) { return requestCard(r, 'control-course-request'); }).join('') + '</div>' :
         IS.empty('eye', A('لا توجد طلبات بانتظار المراجعة', 'No requests awaiting review')));
@@ -415,7 +417,7 @@
     }
     if (!published || admin) return h + '</article>';
 
-    h += IS.feedVoteBar('request', row) + '<div class="cr-join"><span class="row cr-meta">' + ic('users') + joined(row) + '</span>';
+    h += IS.feedVoteBar('request', row) + IS.postActions('request', row.id, 'course-request/' + row.id) + '<div class="cr-join"><span class="row cr-meta">' + ic('users') + joined(row) + '</span>';
     if (row.payment_required && agreement) {
       var payment = r[4].find(function (entry) { return entry.status === 'active' || entry.status === 'pending'; }), last = r[4][0];
       var full = row.auto_close && row.reserved_count >= row.goal;
@@ -440,7 +442,7 @@
       r[0].reverse().map(function (c) {
         return '<article class="cr-message"><div class="row sp"><b dir="auto">' + esc(c.author_name) + '</b><small class="mut">' + esc(IS.ago(c.created_at)) +
           '</small></div><p class="pre" dir="auto">' + esc(c.body) + '</p>' +
-          (c.user_id === uid() || IS.can('community', 'delete') ? commandButton(row, 'remove_comment', 'احذف التعليق', 'Delete comment', 'bad', c.id) : '') + '</article>';
+          IS.reportButton('request_comment', c.id) + (c.user_id === uid() || IS.can('community', 'delete') ? commandButton(row, 'remove_comment', 'احذف التعليق', 'Delete comment', 'bad', c.id) : '') + '</article>';
       }).join('') + '</section>';
     if (canOffer(row)) {
       h += '<section class="box"><h2>' + IS.T('أنا متاح للتدريس', 'I’m available to teach') + '</h2>' +

@@ -271,7 +271,8 @@
       (details ? '<p class="feed-detail">' + details + '</p>' : '') + '</div></div>' +
       (isPost ? postPreview(row, true) + IS.feedVoteBar('post', row) : type === 'request' ? IS.feedVoteBar('request', row) : library ?
         '<div class="row library-feed-actions"><a class="btn ghost sm" href="#file/' + esc(row.id) + '/read">' + ic('open') +
-        esc(A('اقرأ داخل التطبيق', 'Read in the app')) + '</a>' + IS.dlBtn('file', row.id) + '</div>' + IS.feedVoteBar('file', row) : '') + '</article>';
+        esc(A('اقرأ داخل التطبيق', 'Read in the app')) + '</a>' + IS.dlBtn('file', row.id) + '</div>' + IS.feedVoteBar('file', row) : '') +
+      (isPost || ['request', 'news', 'announcement'].includes(type) ? IS.postActions(isPost ? 'post' : type, row.id, target + row.id) : '') + '</article>';
   }
 
   /* ========== START PAGE: sign in and choose a speciality (owner, 18 Nov 2026) ========== */
@@ -488,7 +489,7 @@
         e && e.status === 'pending' ? '<p class="mut">' + esc(A('يُفتح الكورس بعد تأكيد الدفع.', 'The course opens after payment is confirmed.')) + '</p>' :
         seats === 0 ? '' : '<button class="btn pri" data-act="enrol" data-id="' + id + '">' + ic('wallet') +
         esc(+c.price ? (e && e.status === 'rejected' ? A('أرسل إيصالًا جديدًا', 'Submit a new receipt') : A('ادفع للالتحاق', 'Pay to enrol')) : A('التحق مجانًا', 'Enrol for free')) + '</button>') +
-      '<div class="row buy-tools">' + IS.favBtn('c:' + id) + '<button class="fav" data-act="share" data-h="course/' + id + '" aria-label="share">' + ic('share') + '</button></div>' +
+      '<div class="row buy-tools">' + IS.favBtn('c:' + id) + '<button class="fav" data-act="share-link" data-h="course/' + id + '" aria-label="share">' + ic('share') + '</button></div>' +
       '</div><div class="buy-includes"><h2 class="sub">' + esc(A('يتضمن هذا الكورس', 'This course includes')) + '</h2><ul class="inc">' +
       [['video', 'video', 'درس فيديو', 'video lessons'], ['text', 'file', 'درس مكتوب', 'written lessons'], ['quiz', 'qb', 'اختبار', 'quizzes']].map(function (kind) {
         var count = all.filter(function (lesson) { return lesson.kind === kind[0]; }).length;
@@ -530,7 +531,7 @@
   }
   IS.ACT.tab = function (b) { var bar = b.parentNode; bar.querySelectorAll('[data-act=tab]').forEach(function (x) { x.setAttribute('aria-selected', x === b); });
     IS.$$(':scope > .pane', bar.parentNode).forEach(function (p) { p.hidden = p.getAttribute('data-p') !== b.getAttribute('data-t'); }); };
-  IS.ACT.share = function (b) { var u = location.origin + location.pathname + '#' + b.getAttribute('data-h'); if (navigator.share) navigator.share({ title: 'اشرح لي', url: u }).catch(function () {}); else { try { navigator.clipboard.writeText(u); IS.toast(A('نُسخ الرابط', 'Link copied')); } catch (e) {} } };
+  IS.ACT["share-link"] = function (b) { var u = location.origin + location.pathname + '#' + b.getAttribute('data-h'); if (navigator.share) navigator.share({ title: 'اشرح لي', url: u }).catch(function () {}); else { try { navigator.clipboard.writeText(u); IS.toast(A('نُسخ الرابط', 'Link copied')); } catch (e) {} } };
   IS.SUB.review = async function (d) {
     var c = await DB.one('courses', d.course); await DB.ins('reviews', { course_id: d.course, user_id: uid(), name: me().name, stars: +d.stars, body: d.body || '' });
     await IS.recount(d.course); IS.toast(A('شكرًا على تقييمك', 'Thank you for your review')); if (c) IS.notify(c.lecturer_id, A('تقييم جديد لكورسك', 'New review of your course'), c.title + ' · ' + d.stars + '★', '#course/' + c.id); IS.refresh();
@@ -801,16 +802,16 @@
   async function qaBox(c, x, box) {
     var ps = await DB.q('posts', { eq: { room: 'qa', lesson_id: x.id }, order: ['created_at', false] });
     ps = ps.filter(function (p) { return IS.publicPost(p) || (privateQuestion(p) && p.user_id === uid()); });
-    box.innerHTML = '<form class="box form" data-form="ask"><input type="hidden" name="course" value="' + c.id + '"><input type="hidden" name="lesson" value="' + x.id + '"><input type="hidden" name="lecturer" value="' + c.lecturer_id + '"><label class="fl"><span>' + esc(A('اسأل المحاضر أو زملاءك عن هذا الدرس', 'Ask the lecturer or your classmates about this lesson')) + '</span><textarea name="body" rows="3" required maxlength="2000"></textarea></label><button class="btn pri sm">' + ic('send') + esc(A('أرسل للمراجعة', 'Send for review')) + '</button></form>' +
+    box.innerHTML = '<form class="box form" data-form="ask"><input type="hidden" name="course" value="' + c.id + '"><input type="hidden" name="lesson" value="' + x.id + '"><input type="hidden" name="lecturer" value="' + c.lecturer_id + '"><label class="fl"><span>' + esc(A('اسأل المحاضر أو زملاءك عن هذا الدرس', 'Ask the lecturer or your classmates about this lesson')) + '</span><textarea name="body" rows="3" required maxlength="2000"></textarea></label><button class="btn pri sm">' + ic('send') + esc(A('انشر السؤال', 'Post question')) + '</button></form>' +
       (ps.length ? ps.map(postRow).join('') : '<p class="mut center">' + esc(A('لا توجد أسئلة بعد. كن أول من يسأل.', 'No questions yet. Be the first to ask.')) + '</p>');
   }
   IS.SUB.ask = async function (d) {
     var post = await DB.ins('posts', { room: 'qa', course_id: d.course, lesson_id: d.lesson, lecturer_id: d.lecturer,
-      user_id: uid(), name: me().name, photo: me().photo || '', title: '', body: d.body, status: 'pending', n_replies: 0 });
+      user_id: uid(), name: me().name, photo: me().photo || '', title: '', body: d.body, status: 'open', n_replies: 0 });
     IS.go('post/' + post.id);
   };
   function postRow(p) {
-    return '<a class="post" href="#post/' + p.id + '">' + IS.av({ name: p.name, photo: p.photo }, 'sm', p.user_id) + '<span class="pb"><b>' + esc(p.title || p.body.slice(0, 90)) + '</b><small>' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + (p.pinned ? ' · ' + esc(A('مثبّت', 'Pinned')) : '') + '</small></span>' + (privateQuestion(p) ? IS.status(p.status) : '<span class="pc">' + ic('chat') + N(p.n_replies || 0) + '</span>') + '</a>';
+    return '<div><a class="post" href="#post/' + p.id + '">' + IS.av({ name: p.name, photo: p.photo }, 'sm', p.user_id) + '<span class="pb"><b>' + esc(p.title || p.body.slice(0, 90)) + '</b><small>' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + (p.pinned ? ' · ' + esc(A('مثبّت', 'Pinned')) : '') + '</small></span>' + (privateQuestion(p) ? IS.status(p.status) : '<span class="pc">' + ic('chat') + N(p.n_replies || 0) + '</span>') + '</a>' + (privateQuestion(p) ? '' : IS.postActions('post', p.id, 'post/' + p.id)) + '</div>';
   }
   IS.postRow = postRow;
 
@@ -871,7 +872,7 @@
     var links = l.links || {};
     var h = '<nav class="crumb"><a href="#lecturers">' + esc(A('المحاضرون', 'Lecturers')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(l.name) + '</span></nav>' +
       '<section class="lhero" style="--cc:' + esc(l.color || 'var(--pri)') + (l.cover ? ';--ci:url(' + IS.U(l.cover) + ')' : '') + '">' + IS.av(l, 'xl', id) + '<div class="lht"><h1 tabindex="-1">' + esc(l.name) + ' ' + ic('checkc', 'verified') + '</h1><p>' + esc(l.title || '') + '</p>' + IS.seen(id) +
-      (l.specialty ? '<p class="mut2">' + esc(l.specialty) + '</p>' : '') + '<div class="tags lt">' + (l.tags || []).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div></div><div class="row">' + (!(me() && me().id === id) ? '<a class="btn sm gold" href="#course-requests/new/' + esc(id) + '">' + ic('mail') + esc(A('اطلب كورسًا أو محاضرة', 'Request a course or lecture')) + '</a>' : '') + IS.favBtn('t:' + id) + '<button class="fav" data-act="share" data-h="lecturer/' + id + '" aria-label="share">' + ic('share') + '</button></div></section>';
+      (l.specialty ? '<p class="mut2">' + esc(l.specialty) + '</p>' : '') + '<div class="tags lt">' + (l.tags || []).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div></div><div class="row">' + (!(me() && me().id === id) ? '<a class="btn sm gold" href="#course-requests/new/' + esc(id) + '">' + ic('mail') + esc(A('اطلب كورسًا أو محاضرة', 'Request a course or lecture')) + '</a>' : '') + IS.favBtn('t:' + id) + '<button class="fav" data-act="share-link" data-h="lecturer/' + id + '" aria-label="share">' + ic('share') + '</button></div></section>';
     h += '<div class="cols"><div class="main">' + (l.bio ? '<section class="box"><h2>' + ic('user') + IS.T('نبذة عن المحاضر', 'About the lecturer') + '</h2><div class="rich">' + IS.clean(l.bio) + '</div></section>' : '') +
       ((l.quals || []).length ? '<section class="box"><h2>' + ic('cert') + IS.T('المؤهلات والخبرة', 'Qualifications and experience') + '</h2><ul class="learn">' + l.quals.map(function (q) { return '<li>' + ic('checkc') + esc(q) + '</li>'; }).join('') + '</ul></section>' : '') +
       '<section class="sec"><header class="sh"><h2>' + ic('layers') + IS.T('الكورسات', 'Courses') + ' (' + N(cs.length) + ')</h2></header>' + (cs.length ? '<div class="grid g3">' + cs.map(function (c) { return IS.courseCard(c, L, r[1]); }).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد كورسات منشورة بعد.', 'No published courses yet.')) + '</p>') + '</section>' +
@@ -951,7 +952,7 @@
     var context = [spec && A(spec.ar, spec.en), section && A(section.ar, section.en)].filter(Boolean).join(' · ');
     var choices = [
       ['course-requests/new', 'receipt', 'اطلب كورسًا', 'Request a course', 'اختر محاضرًا أو اترك الطلب مفتوحًا. يُنشر بعد المراجعة.', 'Name a lecturer or leave the request open. It’s published after review.'],
-      ['community/new/question', 'help', 'اسأل سؤالًا', 'Ask a question', 'يُنشر السؤال بعد مراجعة الإدارة.', 'An admin reviews the question before it appears.'],
+      ['community/new/question', 'help', 'اسأل سؤالًا', 'Ask a question', 'شارك سؤالك مع هذا القسم.', 'Share your question with this section.'],
       ['community/new/discussion', 'chat', 'ابدأ نقاشًا', 'Start a discussion', 'شارك موضوعًا للنقاش مع طلاب هذا القسم.', 'Start a conversation with students in this section.']
     ];
     if (IS.LEC && IS.LEC.status === 'active') choices.unshift(
@@ -975,7 +976,6 @@
       '<label class="fl"><span>' + esc(A.apply(null, spec.body)) + '</span><textarea name="body" rows="3" maxlength="5000"' +
       (kind === 'discussion' || kind === 'announcement' ? ' required' : '') + ' placeholder="' + esc(A.apply(null, spec.hint)) + '"></textarea></label>' +
       (preview ? await lecturerPostFields() : '') +
-      (kind === 'question' ? '<p class="mut">' + esc(A('يظهر السؤال للطلاب بعد موافقة الإدارة.', 'Students see your question after admin approval.')) + '</p>' : '') +
       '<div class="row end"><button class="btn pri sm">' + ic('send') + esc(A.apply(null, spec.submit)) + '</button></div></form>';
   }
   async function lecturerPostFields() {
@@ -1041,7 +1041,7 @@
     if (!me() || !section) return;
     var kind = Object.prototype.hasOwnProperty.call(POST_KINDS, d.kind) ? d.kind : 'discussion';
     if (['course_preview', 'announcement'].includes(kind) && !teacherPostAllowed()) return;
-    var row = { room: section.id, post_kind: kind, spec: IS.SPEC, user_id: uid(), name: me().name, photo: me().photo || '', title: d.title, body: d.body || '', status: kind === 'question' ? 'pending' : 'open', n_replies: 0, pinned: false };
+    var row = { room: section.id, post_kind: kind, spec: IS.SPEC, user_id: uid(), name: me().name, photo: me().photo || '', title: d.title, body: d.body || '', status: 'open', n_replies: 0, pinned: false };
     if (kind === 'course_preview') {
       var picture = form.elements.preview_image && form.elements.preview_image.files[0];
       var video = d.preview_video && IS.extVideo(d.preview_video), highlights = IS.lines(d.highlights);
@@ -1097,11 +1097,11 @@
       '<div class="row end"><button class="btn pri sm">' + ic('send') + esc(p.room === 'qa' ? A('أرسل الرد', 'Send reply') : A('انشر التعليق', 'Post comment')) + '</button></div></form>' : '';
     return '<nav class="crumb"><a href="#' + (p.room === 'qa' ? 'course/' + p.course_id : 'community') + '">' + esc(p.room === 'qa' ? A('الكورس', 'Course') : A('المجتمع', 'Community')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(p.title || A('سؤال', 'Question')) + '</span></nav>' +
       '<article class="box thread">' + IS.av({ name: p.name, photo: p.photo }, 'md', p.user_id) + '<div><h1 tabindex="-1">' + esc(p.title || p.body.slice(0, 80)) + '</h1><small class="mut">' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + '</small><p class="pre">' + esc(p.body) + '</p>' + (p.room !== 'qa' ? postPreview(p, false) + IS.feedVoteBar('post', p) : '') +
-      '<div class="row">' + (me() ? '<button class="btn ghost sm" data-act="report" data-kind="post" data-id="' + p.id + '">' + ic('flag') + esc(A('إبلاغ', 'Report')) + '</button>' : '') + (mod ? '<button class="btn ghost sm" data-act="pin" data-id="' + p.id + '">' + ic('pin') + esc(p.pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت', 'Pin')) + '</button><button class="btn ghost sm bad" data-act="rmpost" data-id="' + p.id + '">' + ic('trash') + esc(A('حذف', 'Remove')) + '</button>' : '') + '</div></div></article>' +
+      '<div class="row">' + IS.postActions('post', p.id, 'post/' + p.id) + (mod ? '<button class="btn ghost sm" data-act="pin" data-id="' + p.id + '">' + ic('pin') + esc(p.pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت', 'Pin')) + '</button><button class="btn ghost sm bad" data-act="rmpost" data-id="' + p.id + '">' + ic('trash') + esc(A('حذف', 'Remove')) + '</button>' : '') + '</div></div></article>' +
       '<section class="box post-comments"><h2 tabindex="-1" data-post-comments>' +
       (p.room === 'qa' ? IS.T('الردود', 'Replies') : IS.T('التعليقات', 'Comments')) + '</h2>' + composer + rs.map(function (r) { var isLec = !!lecs[r.user_id];
         return '<div class="box reply' + (isLec ? ' lec' : '') + '">' + IS.av({ name: r.name, photo: r.photo }, 'sm', r.user_id) + '<div><b>' + esc(r.name || '') + '</b>' + (isLec ? IS.chip(esc(A('محاضر', 'Lecturer')), 'ok') : '') + ' <small class="mut">' + esc(IS.ago(r.created_at)) + '</small><p class="pre">' + esc(r.body) + '</p>' +
-          (mod ? '<button class="link bad" data-act="rmreply" data-id="' + r.id + '">' + esc(A('حذف', 'Remove')) + '</button>' : me() ? '<button class="link" data-act="report" data-kind="reply" data-id="' + r.id + '">' + esc(A('إبلاغ', 'Report')) + '</button>' : '') + '</div></div>'; }).join('') +
+          (mod && IS.can('community', 'edit') ? '<button class="link bad" data-act="rmreply" data-id="' + r.id + '">' + esc(A('حذف', 'Remove')) + '</button>' : '') + (me() ? '<button class="link" data-act="report" data-kind="reply" data-id="' + r.id + '">' + esc(A('إبلاغ', 'Report')) + '</button>' : '') + '</div></div>'; }).join('') +
       '</section>';
   });
   IS.SUB.reply = async function (d) {
@@ -1111,8 +1111,25 @@
     if (!DB.live) await DB.upd('posts', d.post, { n_replies: (p.n_replies || 0) + 1 });
     if (p.user_id !== uid()) IS.notify(p.user_id, A('رد جديد على مشاركتك', 'New reply to your post'), d.body.slice(0, 120), '#post/' + p.id); IS.refresh();
   };
-  IS.ACT.report = async function (b) { if (!me()) return IS.ACT.login(); var why = await IS.ask(A('إبلاغ المشرفين', 'Report to moderators'), A('سبب الإبلاغ', 'Reason'), '', { area: 1, ok: A('إرسال', 'Send') }); if (!why) return;
-    await DB.ins('reports', { kind: b.getAttribute('data-kind'), target: b.getAttribute('data-id'), user_id: uid(), reason: why, status: 'open' }); IS.toast(A('شكرًا، سيراجعه المشرفون', 'Thank you, moderators will review it')); };
+  IS.reportButton = function (kind, id) {
+    return me() ? '<button type="button" class="btn ghost sm" data-act="report" data-kind="' + esc(kind) + '" data-id="' + esc(id) + '">' +
+      ic('flag') + esc(A('إبلاغ', 'Report')) + '</button>' : '';
+  };
+  IS.postActions = function (kind, id, route) {
+    return '<div class="row post-actions"><button type="button" class="btn ghost sm" data-act="share-link" data-h="' + esc(route) + '">' +
+      ic('share') + esc(A('مشاركة', 'Share')) + '</button>' + IS.reportButton(kind, id) + '</div>';
+  };
+  IS.ACT.report = async function (b) {
+    if (!me()) return IS.ACT.login();
+    var why = await IS.ask(A('إبلاغ المشرفين', 'Report to moderators'), A('سبب الإبلاغ', 'Reason'), '', { area: 1, ok: A('إرسال', 'Send') });
+    if (!why || !why.trim()) return;
+    var report = { kind: b.dataset.kind, target: b.dataset.id, user_id: uid(), reason: why.trim().slice(0, 2000), status: 'open' };
+    if (DB.live) {
+      var result = await DB.sb.from('reports').insert(report);
+      if (result.error) throw result.error;
+    } else await DB.ins('reports', report);
+    IS.toast(A('شكرًا، سيراجعه المشرفون', 'Thank you, moderators will review it'));
+  };
   IS.ACT.pin = async function (b) { var p = await DB.one('posts', b.getAttribute('data-id')); await DB.upd('posts', p.id, { pinned: !p.pinned }); IS.audit(p.pinned ? 'unpin post' : 'pin post', p.title); IS.refresh(); };
   IS.ACT.rmpost = async function (b) { if (!(await IS.confirm(A('حذف هذه المشاركة؟', 'Remove this post?')))) return; await DB.upd('posts', b.getAttribute('data-id'), { status: 'removed' }); IS.audit('remove post', b.getAttribute('data-id')); IS.go('community'); };
   IS.ACT.rmreply = async function (b) { await DB.upd('replies', b.getAttribute('data-id'), { status: 'removed' }); IS.audit('remove reply', b.getAttribute('data-id')); IS.refresh(); };
@@ -1146,7 +1163,7 @@
   }
   function annList(limit) { return sharedFeedRows('notices', { user_id: null }, limit || 60); }
   function newsList(limit) { return sharedFeedRows('news', { status: 'published' }, limit || 120); }
-  function annRow(x) { return '<a class="annr" href="' + esc(x.link && x.link[0] === '#' ? x.link : '#news/ann') + '"><span class="anni">' + ic('mega') + '</span><span class="annt"><b>' + esc(IS.noticeTitle(x)) + '</b>' + (x.body ? '<small>' + esc(x.body) + '</small>' : '') + '<em>' + ic('cal') + esc(IS.date(x.created_at)) + '</em></span>' + ic('pinned', 'annp') + '</a>'; }
+  function annRow(x) { return '<a class="annr" href="' + esc('#news/ann/' + x.id) + '"><span class="anni">' + ic('mega') + '</span><span class="annt"><b>' + esc(IS.noticeTitle(x)) + '</b>' + (x.body ? '<small>' + esc(x.body) + '</small>' : '') + '<em>' + ic('cal') + esc(IS.date(x.created_at)) + '</em></span>' + ic('pinned', 'annp') + '</a>'; }
   function newsCard(x) { return '<a class="ncard" href="#news/' + x.id + '"><span class="ncv">' + (x.cover ? '<img src="' + IS.U(x.cover) + '" alt="" loading="lazy">' : '<i>' + ic('news') + '</i>') + '<em class="ntag">' + esc(ntag(x.tag)) + '</em></span><b>' + esc(x.title) + '</b><small>' + ic('cal') + esc(IS.date(x.created_at)) + '</small></a>'; }
   IS.page('news', async function (arg) {
     var r = await Promise.all([annList(), newsList()]), an = r[0], ns = r[1];
@@ -1157,12 +1174,12 @@
       return '<article class="box narticle"><h1 tabindex="-1" dir="auto">' + esc(IS.noticeTitle(announcement)) + '</h1><p class="mut">' +
         esc(IS.date(announcement.created_at)) + '</p><p class="pre" dir="auto">' + esc(announcement.body || '') + '</p>' +
         (announcement.link && announcement.link[0] === '#' && announcement.link !== '#news/ann' ?
-          '<a class="btn pri" href="' + esc(announcement.link) + '">' + esc(A('افتح الرابط', 'Open link')) + '</a>' : '') + '</article>';
+          '<a class="btn pri" href="' + esc(announcement.link) + '">' + esc(A('افتح الرابط', 'Open link')) + '</a>' : '') + IS.postActions('announcement', announcement.id, 'news/ann/' + announcement.id) + '</article>';
     }
     if (arg && arg !== 'ann' && arg !== 'all') {
       var x = await DB.one('news', arg); if (!x || x.status !== 'published' || !IS.announcementInSection(x)) return null;
       return '<nav class="crumb"><a href="#news">' + esc(A('الإعلانات والأخبار', 'Announcements & News')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(x.title) + '</span></nav>' +
-        '<article class="box narticle">' + (x.cover ? '<img class="nhero" src="' + IS.U(x.cover) + '" alt="">' : '') + '<em class="ntag">' + esc(ntag(x.tag)) + '</em><h1 tabindex="-1">' + esc(x.title) + '</h1><p class="mut">' + ic('cal') + esc(IS.date(x.created_at)) + '</p><div class="pre">' + esc(x.body || '') + '</div></article>' +
+        '<article class="box narticle">' + (x.cover ? '<img class="nhero" src="' + IS.U(x.cover) + '" alt="">' : '') + '<em class="ntag">' + esc(ntag(x.tag)) + '</em><h1 tabindex="-1">' + esc(x.title) + '</h1><p class="mut">' + ic('cal') + esc(IS.date(x.created_at)) + '</p><div class="pre">' + esc(x.body || '') + '</div>' + IS.postActions('news', x.id, 'news/' + x.id) + '</article>' +
         (ns.length > 1 ? '<section class="sec"><header class="sh"><h2>' + ic('news') + IS.T('أخبار أخرى', 'More news') + '</h2></header><div class="ngrid">' + ns.filter(function (n) { return n.id !== x.id; }).slice(0, 3).map(newsCard).join('') + '</div></section>' : '');
     }
     var noAnn = IS.empty('mega', A('لا توجد إعلانات الآن', 'No announcements now'), A('تظهر هنا إعلانات فريق المنصة فور نشرها.', 'The platform team’s announcements appear here as soon as they are published.'));

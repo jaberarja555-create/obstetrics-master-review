@@ -62,6 +62,20 @@ jobs:
             psql "$DB" -v ON_ERROR_STOP=1 -q -f "$migration"
           done
           test "$(psql "$DB" -v ON_ERROR_STOP=1 -Atc "select to_regclass('public.lecturer_payout_accounts') is not null and to_regprocedure('public.ish_lecturer_payout(text,uuid,uuid,uuid,numeric,uuid,text,text,text)') is not null and not exists (select 1 from public.lecturers where pay is distinct from '{}'::jsonb) and exists (select 1 from storage.buckets where id = 'payout-receipts' and not public) and to_regclass('public.library_comments') is not null and to_regprocedure('public.ish_library_comment(uuid,text,uuid)') is not null and to_regprocedure('public.ish_review_question(uuid,boolean,text)') is not null and to_regclass('public.course_live_links') is not null and to_regclass('public.payment_messages') is not null and to_regclass('public.course_request_files') is not null and to_regprocedure('public.ish_course_request(text,uuid,jsonb)') is not null and to_regprocedure('public.ish_public_course_terms(uuid)') is not null and exists (select 1 from storage.buckets where id = 'course-request-files' and not public)")" = t
+      - name: Apply report-based moderation
+        if: github.event_name == 'push' && github.ref_name == 'ccr-38b3f943-ba1ode'
+        env:
+          DB: ${{ secrets.ISHRAH_DB_URL }}
+          PREVIOUS_COMMIT: ${{ github.event.before }}
+        run: |
+          migration=ishrah/supabase/019_report_moderation.sql
+          if git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$migration"; then exit 0; fi
+          if ! command -v psql >/dev/null; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
+          fi
+          DB=$(printf '%s' "$DB" | tr -d '\r\n\t `"'"'"'<>')
+          psql "$DB" --single-transaction -v ON_ERROR_STOP=1 -f "$migration"
+          test "$(psql "$DB" -v ON_ERROR_STOP=1 -Atc "select to_regprocedure('public.ish_moderate_feed_report(uuid,boolean)') is not null")" = t
       - name: Create the Pages project the first time (ignored when it exists)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

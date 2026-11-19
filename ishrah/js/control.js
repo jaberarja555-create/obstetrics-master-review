@@ -481,18 +481,59 @@
   };
 
   /* ========== COMMUNITY MODERATION ========== */
+  var reportSources = { post: 'posts', reply: 'replies', review: 'reviews', request: 'course_requests', request_comment: 'course_request_comments', news: 'news', announcement: 'notices' };
   IS.page('control-community', async function () {
-    var rp = await DB.q('reports', { order: ['created_at', false] }), open = rp.filter(function (r) { return r.status === 'open'; });
-    var h = IS.banner(IS.T('البلاغات والنقاشات', 'Reports and discussions'), esc(A('راجع البلاغات: احذف المخالف أو أغلق البلاغ.', 'Review reports: remove what breaks the rules or close the report.')), 'flag');
-    if (!open.length) return h + IS.empty('shield', A('لا توجد بلاغات مفتوحة', 'No open reports')) + '<a class="btn ghost" href="#community">' + ic('group') + esc(A('فتح المجتمع', 'Open the community')) + '</a>';
-    var rows = await Promise.all(open.map(async function (r) { var t = await DB.one(r.kind === 'reply' ? 'replies' : r.kind === 'review' ? 'reviews' : 'posts', r.target).catch(function () { return null; }); return [r, t]; }));
-    return h + rows.map(function (x) { var r = x[0], t = x[1] || {}; return '<article class="box"><header class="sh"><h2>' + ic('flag') + esc({ post: A('مشاركة', 'Post'), reply: A('رد', 'Reply'), review: A('تقييم', 'Review') }[r.kind] || r.kind) + '</h2><small class="mut">' + esc(IS.ago(r.created_at)) + '</small></header><p><b>' + esc(A('السبب: ', 'Reason: ')) + '</b>' + esc(r.reason) + '</p>' +
-      '<blockquote class="pre">' + esc((t.title ? t.title + '\n' : '') + (t.body || A('(محذوف)', '(deleted)'))) + '</blockquote><small class="mut">' + esc(t.name || '') + '</small><div class="row end">' + (r.kind !== 'review' && t.id ? '<a class="btn sm ghost" href="#post/' + (r.kind === 'post' ? t.id : t.post_id) + '">' + esc(A('فتح', 'Open')) + '</a>' : '') +
-      '<button class="btn sm ghost" data-act="repok" data-id="' + r.id + '">' + esc(A('لا مخالفة', 'No violation')) + '</button><button class="btn sm pri bad" data-act="repdel" data-id="' + r.id + '">' + ic('trash') + esc(A('حذف المحتوى', 'Remove content')) + '</button></div></article>'; }).join('');
+    var reports = await DB.q('reports', { eq: { status: 'open' }, order: ['created_at', false] });
+    var h = IS.banner(IS.T('البلاغات والنقاشات', 'Reports and discussions'), esc(A('راجع البلاغات واتخذ الإجراء المناسب.', 'Review reports and take action.')), 'flag');
+    if (!reports.length) return h + IS.empty('shield', A('لا توجد بلاغات مفتوحة', 'No open reports'));
+    var labels = { post: A('مشاركة', 'Post'), reply: A('تعليق', 'Comment'), review: A('تقييم', 'Review'),
+      request: A('طلب كورس', 'Course request'), request_comment: A('تعليق على طلب كورس', 'Course request comment'), news: A('خبر', 'News'), announcement: A('إعلان', 'Announcement') };
+    var edit = IS.can('community', 'edit');
+    var cards = await Promise.all(reports.map(async function (r) {
+      var source = Object.prototype.hasOwnProperty.call(reportSources, r.kind) && reportSources[r.kind];
+      var t = source && await DB.one(source, r.target);
+      var routes = t ? { post: 'post/' + t.id, reply: 'post/' + t.post_id + '/comments', review: 'course/' + t.course_id,
+        request: 'course-request/' + t.id, request_comment: 'course-request/' + t.request_id + '/comments', news: 'news/' + t.id, announcement: 'news/ann/' + t.id } : {};
+      return '<article class="box"><header class="sh"><h2>' + ic('flag') + esc(labels[r.kind] || r.kind) +
+        '</h2><small class="mut">' + esc(IS.ago(r.created_at)) + '</small></header><p><b>' + esc(A('سبب البلاغ', 'Report reason')) +
+        '</b> ' + esc(r.reason) + '</p><blockquote class="pre">' + esc(t ? [t.title, t.body || t.details].filter(Boolean).join('\n') :
+          A('المحتوى غير متاح', 'Content unavailable')) + '</blockquote><div class="row">' +
+        (routes[r.kind] ? '<a class="btn sm ghost" href="#' + esc(routes[r.kind]) + '">' + esc(A('فتح', 'Open')) + '</a>' : '') +
+        (edit ? '<button class="btn sm ghost" data-act="repok" data-id="' + esc(r.id) + '">' + esc(A('إغلاق البلاغ', 'Close report')) + '</button>' : '') +
+        (edit && t && !(r.kind === 'request' && t.reserved_count) ? '<button class="btn sm bad ghost" data-act="repdel" data-id="' + esc(r.id) +
+          '">' + ic('trash') + esc(A('حذف المحتوى', 'Remove content')) + '</button>' : '') + '</div></article>';
+    }));
+    return h + cards.join('');
   }, P('community'));
-  IS.ACT.repok = async function (b) { await DB.upd('reports', b.getAttribute('data-id'), { status: 'resolved', handled_by: uid() }); IS.refresh(); };
-  IS.ACT.repdel = async function (b) { var r = await DB.one('reports', b.getAttribute('data-id')); if (r.kind === 'review') { var v = await DB.one('reviews', r.target); await DB.del('reviews', r.target); if (v) await IS.recount(v.course_id); } else await DB.upd(r.kind === 'reply' ? 'replies' : 'posts', r.target, { status: 'removed' });
-    await DB.upd('reports', r.id, { status: 'resolved', handled_by: uid() }); IS.audit('remove reported ' + r.kind, r.reason); IS.refresh(); };
+  async function moderateReport(button, remove) {
+    if (!IS.can('community', 'edit')) return;
+    var entry = await DB.one('reports', button.dataset.id);
+    if (!entry || entry.status !== 'open') return;
+    if (remove && !(await IS.confirm(A('حذف المحتوى المُبلّغ عنه؟', 'Remove the reported content?')))) return;
+    if (DB.live && !(remove && entry.kind === 'review')) {
+      var result = await DB.sb.rpc('ish_moderate_feed_report', { report_id: entry.id, remove_content: remove });
+      if (result.error) throw result.error;
+    } else {
+      if (remove && entry.kind === 'review') {
+        var review = await DB.one('reviews', entry.target);
+        if (review) { await DB.del('reviews', review.id); await IS.recount(review.course_id); }
+      } else if (remove) {
+        var source = Object.prototype.hasOwnProperty.call(reportSources, entry.kind) && reportSources[entry.kind];
+        if (!source) return;
+        var target = await DB.one(source, entry.target);
+        if (target) {
+          if (entry.kind === 'request' && target.reserved_count) throw new Error('request_has_payments');
+          if (['announcement', 'request_comment'].includes(entry.kind)) await DB.del(source, target.id);
+          else await DB.upd(source, target.id, { status: entry.kind === 'request' ? 'deleted' : 'removed' });
+        }
+        IS.audit('remove reported ' + entry.kind, entry.target);
+      }
+      await DB.upd('reports', entry.id, { status: 'resolved', handled_by: uid() });
+    }
+    IS.refresh();
+  }
+  IS.ACT.repok = function (button) { return moderateReport(button, false); };
+  IS.ACT.repdel = function (button) { return moderateReport(button, true); };
 
   /* ========== EVENTS ========== */
   IS.page('control-events', async function () {
