@@ -12,11 +12,11 @@
   /* the parts of the work the student needs (owner, 18 Nov 2026: "options for which analysis, proposal, all and the others") */
   /* what the student orders, the way a research is written (owner, 18 Nov 2026: "be smart … the research has chapters: literature review,
      methodology and others"; approvals are not something to order). Chapters, then separate services. */
-  var RCHAP = [['all', 'البحث كاملًا: كل الفصول', 'Full research · all chapters'], ['title', 'اختيار الموضوع والعنوان', 'Topic and title'],
-    ['intro', 'الفصل 1: المقدمة والأهداف', 'Ch. 1 · Introduction & objectives'], ['litrev', 'الفصل 2: مراجعة الأدبيات', 'Ch. 2 · Literature review'],
-    ['method', 'الفصل 3: المنهجية', 'Ch. 3 · Methodology'], ['results', 'الفصل 4: النتائج والتحليل', 'Ch. 4 · Results & analysis'],
-    ['discuss', 'الفصل 5: المناقشة', 'Ch. 5 · Discussion'], ['conclude', 'الخلاصة والتوصيات', 'Conclusion & recommendations'],
-    ['abstract', 'الملخص', 'Abstract'], ['refs', 'المراجع والتوثيق', 'References & citation']];
+  var RCHAP = [['all', 'البحث كاملًا: كل الفصول', 'Full research · all chapters'], ['title', '', 'Topic and Title Selection'],
+    ['intro', '', 'Chapter 1: Introduction and Objectives'], ['litrev', '', 'Chapter 2: Literature Review'],
+    ['method', '', 'Chapter 3: Methodology'], ['results', '', 'Chapter 4: Results and Analysis'],
+    ['discuss', '', 'Chapter 5: Discussion'], ['conclude', '', 'Conclusion and Recommendations'],
+    ['abstract', '', 'Abstract'], ['refs', '', 'References and Citations']];
   var RSERV = [['proposal', 'المقترح البحثي', 'Research proposal'], ['tool', 'تصميم الاستبيان', 'Questionnaire / data tool'], ['sample', 'حساب حجم العينة', 'Sample size'],
     ['analysis', 'التحليل الإحصائي فقط', 'Statistical analysis only'], ['entry', 'إدخال البيانات', 'Data entry'], ['edit', 'التدقيق اللغوي', 'Editing & proofreading'],
     ['plag', 'فحص الاقتباس وتقليله', 'Plagiarism check'], ['format', 'التنسيق حسب دليل الجامعة', 'University formatting'], ['slides', 'عرض المناقشة أو الملصق', 'Defence slides or poster'],
@@ -25,7 +25,11 @@
     ['nonpar', 'اختبارات لا معلمية', 'Non-parametric tests'], ['corr', 'الارتباط', 'Correlation'], ['linreg', 'الانحدار الخطي', 'Linear regression'], ['logreg', 'الانحدار اللوجستي', 'Logistic regression'],
     ['surv', 'تحليل البقاء', 'Survival analysis'], ['diag', 'دقة الاختبار التشخيصي / ROC', 'Diagnostic accuracy / ROC'], ['meta', 'التحليل التجميعي', 'Meta-analysis'], ['unsure', 'لست متأكدًا: انصحوني', 'Not sure · advise me']];
   var RSOFT = [['SPSS', 'SPSS'], ['R', 'R'], ['Stata', 'Stata'], ['Excel', 'Excel'], ['GraphPad', 'GraphPad Prism'], ['any', 'لا يهم', 'Any program']];
-  function chks(name, list) { return '<div class="rchk">' + list.map(function (x) { return '<label class="opt"><input type="checkbox" name="' + name + '" value="' + esc(x[0]) + '"><span>' + esc(A(x[1], x[2])) + '</span></label>'; }).join('') + '</div>'; }
+  function chks(name, list) { return '<div class="rchk">' + list.map(function (x) {
+    var academicTitle = name === 'rchap' && x[0] !== 'all';
+    return '<label class="opt"><input type="checkbox" name="' + name + '" value="' + esc(x[0]) + '"><span' +
+      (academicTitle ? ' lang="en" dir="ltr"' : '') + '>' + esc(academicTitle ? x[2] : A(x[1], x[2])) + '</span></label>';
+  }).join('') + '</div>'; }
   function en(ar, e) { return '<b>' + esc(A(ar, e)) + '</b>'; }
   function opt2(ar, e) { return esc(A(ar, e)); }
   function lbls(list, v) { v = [].concat(v || []); return list.filter(function (x) { return v.indexOf(x[0]) >= 0; }).map(function (x) { return x[2] || x[1]; }).join('، '); }

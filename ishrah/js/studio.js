@@ -9,6 +9,47 @@
   function sel(name, opts, v) { return '<select name="' + name + '">' + opts.map(function (o) { return '<option value="' + esc(o[0]) + '"' + (String(v || '') === String(o[0]) ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>'; }
   function swatches(name, v) { return '<div class="sw" role="radiogroup">' + COLORS.map(function (c) { return '<label style="--c:' + c + '"><input type="radio" name="' + name + '" value="' + c + '"' + ((v || COLORS[0]) === c ? ' checked' : '') + '><span></span></label>'; }).join('') + '</div>'; }
 
+  function teachingChoices(selected, spaces, isApplication) {
+    var specialities = IS.SPECS.map(function (spec) {
+      return '<label class="chk"><input type="checkbox" name="teaching_specs" value="' + esc(spec.id) + '"' +
+        (selected.includes(spec.id) ? ' checked' : '') + '><span>' + esc(A(spec.ar, spec.en)) + '</span></label>';
+    }).join('');
+    var sections = IS.SPECS.map(function (spec) {
+      var visible = selected.includes(spec.id);
+      return '<fieldset class="fl post-extras" data-teaching-sections="' + esc(spec.id) + '"' + (visible ? '' : ' hidden disabled') + '><legend>' +
+        esc(A('أقسام ', 'Sections in ') + A(spec.ar, spec.en)) + '</legend><div class="g2f">' + IS.CATS.map(function (category) {
+          var key = spec.id + '/' + category.id;
+          return '<label class="chk"><input type="checkbox" name="teaching_spaces" value="' + esc(key) + '"' + (spaces.includes(key) ? ' checked' : '') +
+            '><span>' + esc(A(category.ar, category.en)) + '</span></label>';
+        }).join('') + '</div></fieldset>';
+    }).join('');
+    return '<fieldset class="fl post-extras"><legend>' + IS.T('التخصصات والأقسام التي تدرّس فيها', 'Teaching specialities and sections') +
+      '</legend><p class="mut">' + esc(isApplication ?
+        A('اختر تخصصًا واحدًا أو أكثر، ثم حدّد الأقسام في كل تخصص. يظهر ملفك فيها بعد الموافقة.', 'Select one or more specialities, then choose the sections in each. Your profile appears there after approval.') :
+        A('يظهر ملفك في التخصصات والأقسام التي تختارها.', 'Your profile appears in the specialities and sections you select.')) +
+      '</p><div class="g2f">' + specialities + '</div>' + sections + '</fieldset>';
+  }
+  document.addEventListener('change', function (event) {
+    var input = event.target;
+    if (input.name !== 'teaching_specs' || !input.form) return;
+    var sections = Array.from(input.form.querySelectorAll('[data-teaching-sections]')).find(function (group) {
+      return group.dataset.teachingSections === input.value;
+    });
+    if (sections) sections.disabled = sections.hidden = !input.checked;
+  });
+  function selectedTeachingSpaces(data) {
+    var specs = [].concat(data.teaching_specs || []).filter(function (id) { return IS.spec(id); });
+    var spaces = [].concat(data.teaching_spaces || []).filter(function (scope) {
+      var parts = scope.split('/');
+      return specs.includes(parts[0]) && !!IS.cat(parts[1]);
+    });
+    if (specs.length && specs.every(function (id) { return spaces.some(function (scope) { return scope.startsWith(id + '/'); }); })) {
+      return { teaching_specs: specs, teaching_spaces: spaces };
+    }
+    IS.toast(A('اختر تخصصًا واحدًا على الأقل وقسمًا واحدًا في كل تخصص اخترته.', 'Select at least one speciality and at least one section in each selection.'), true);
+    return null;
+  }
+
   /* ========== APPLY ========== */
   /* qualifications grouped by speciality (owner, 18 Nov 2026); "Other (type it)" covers anything else */
   IS.QUALS = function () { var g = function (en, ar) { return A(ar, en); }; return [
@@ -32,8 +73,9 @@
       '<label class="fl"><span>' + esc(A('رقم الهاتف', 'Phone')) + ' *</span><input name="phone" required dir="ltr" value="' + esc((ap && ap.phone) || m.phone || '') + '"></label>' +
       '<label class="fl"><span>' + esc(A('البريد الإلكتروني', 'Email')) + '</span><input name="email" type="email" dir="ltr" value="' + esc((ap && ap.email) || m.email || '') + '"></label>' +
       '<label class="fl"><span>' + esc(A('المؤهل العلمي', 'Qualification')) + ' *</span>' + IS.pick('qual', IS.QUALS(), ap && ap.qual, true) + '</label>' +
-      '<label class="fl"><span>' + esc(A('التخصص', 'Specialty')) + ' *</span>' + IS.pick('specialty', IS.SPECS.map(function (k) { return k.en; }).concat(['Internal Medicine', 'General Surgery', 'Paediatrics', 'Obstetrics & Gynaecology', 'Psychiatry', 'Radiology', 'ENT', 'Anaesthesia', 'Ophthalmology', 'Dermatology', 'Orthopaedics', 'Community Medicine', 'Anatomy', 'Physiology', 'Biochemistry', 'Pathology', 'Microbiology', 'Pharmacology', 'Haematology', 'Clinical Chemistry', 'Medical Microbiology', 'Histopathology', 'Parasitology', 'Clinical Pharmacy', 'Pharmaceutics', 'Pharmacognosy', 'Operative Dentistry', 'Prosthodontics', 'Orthodontics', 'Periodontics', 'Oral & Maxillofacial Surgery', 'Medical-Surgical Nursing', 'Maternity Nursing', 'Paediatric Nursing', 'Community Health Nursing']), ap && ap.specialty, true) + '</label>' +
+      '<label class="fl"><span>' + esc(A('التخصص المهني', 'Professional specialty')) + ' *</span>' + IS.pick('specialty', IS.SPECS.map(function (k) { return k.en; }).concat(['Internal Medicine', 'General Surgery', 'Paediatrics', 'Obstetrics & Gynaecology', 'Psychiatry', 'Radiology', 'ENT', 'Anaesthesia', 'Ophthalmology', 'Dermatology', 'Orthopaedics', 'Community Medicine', 'Anatomy', 'Physiology', 'Biochemistry', 'Pathology', 'Microbiology', 'Pharmacology', 'Haematology', 'Clinical Chemistry', 'Medical Microbiology', 'Histopathology', 'Parasitology', 'Clinical Pharmacy', 'Pharmaceutics', 'Pharmacognosy', 'Operative Dentistry', 'Prosthodontics', 'Orthodontics', 'Periodontics', 'Oral & Maxillofacial Surgery', 'Medical-Surgical Nursing', 'Maternity Nursing', 'Paediatric Nursing', 'Community Health Nursing']), ap && ap.specialty, true) + '</label>' +
       '<label class="fl"><span>' + esc(A('اللقب المهني', 'Professional title')) + '</span>' + IS.pick('title', [['طبيب امتياز', 'House officer'], ['طبيب عمومي', 'Medical officer'], ['نائب اختصاصي', 'Registrar'], ['اختصاصي', 'Specialist'], ['استشاري', 'Consultant'], ['محاضر', 'Lecturer'], ['أستاذ مساعد', 'Assistant professor'], ['أستاذ مشارك', 'Associate professor'], ['أستاذ', 'Professor'], ['صيدلي', 'Pharmacist'], ['صيدلي سريري', 'Clinical pharmacist'], ['أخصائي مختبرات', 'Laboratory specialist'], ['اختصاصي علم الأمراض', 'Pathologist'], ['ممرض / ممرضة', 'Nurse'], ['ممرض أول / مشرف تمريض', 'Senior nurse / Nursing supervisor'], ['قابلة', 'Midwife'], ['طبيب أسنان', 'Dentist'], ['اختصاصي أسنان', 'Dental specialist'], ['جراح الفم والوجه والفكين', 'Oral & maxillofacial surgeon']].map(function (t) { return [t[1], t[1] + (IS.lang === 'en' ? '' : ' · ' + t[0])]; }), ap && ap.title, false, A('مثال: استشاري الجراحة العامة', 'e.g. Consultant general surgeon')) + '</label></div>' +
+      teachingChoices(ap && (ap.teaching_specs || []).length ? ap.teaching_specs : [IS.SPEC || 'medicine'], (ap && ap.teaching_spaces) || [], true) +
       '<label class="fl"><span>' + esc(A('الخبرة السريرية والأكاديمية', 'Clinical and academic experience')) + ' *</span><textarea name="experience" rows="3" required>' + esc((ap && ap.experience) || '') + '</textarea></label>' +
       '<h2>' + ic('file') + IS.T('الملفات', 'Documents') + '</h2><label class="fl file"><span>' + esc(A('السيرة الذاتية (CV، PDF)', 'Curriculum vitae (CV, PDF)')) + (ap && ap.cv ? ' ✓' : ' *') + '</span><input type="file" name="cv" accept="application/pdf,image/*"' + (ap && ap.cv ? '' : ' required') + '></label>' +
       '<label class="fl file"><span>' + esc(A('الشهادات والدورات (اختياري)', 'Certificates and courses (optional)')) + '</span><input type="file" name="certs" accept="application/pdf,image/*"></label>' +
@@ -48,7 +90,9 @@
     return h;
   }, { auth: true, area: 'studio' });
   IS.SUB.apply = async function (d, f) {
-    var row = { user_id: IS.ME.id, name: d.name, phone: d.phone, email: d.email, qual: d.qual, specialty: d.specialty, title: d.title, experience: d.experience, sample: d.sample, plan_title: d.plan_title, plan: d.plan, status: 'pending' };
+    var teaching = selectedTeachingSpaces(d);
+    if (!teaching) return;
+    var row = Object.assign(teaching, { user_id: IS.ME.id, name: d.name, phone: d.phone, email: d.email, qual: d.qual, specialty: d.specialty, title: d.title, experience: d.experience, sample: d.sample, plan_title: d.plan_title, plan: d.plan, status: 'pending' });
     var sf = f.sample_file.files[0]; if (!sf && !d.sample && !(d.id && (await DB.one('lecturer_apps', d.id).catch(function () { return {}; }) || {}).sample_file)) { IS.toast(A('أضف عينة: ارفع ملفًا أو ضع رابطًا.', 'Add a sample: upload a file or add a link.')); return; }
     if (sf && sf.size > 50 * 1048576) { IS.toast(A('الملف أكبر من 50 ميغابايت؛ ضع رابطًا بدلًا منه.', 'The file is over 50 MB; add a link instead.')); return; }
     if (sf) row.sample_file = await DB.upload('apps', sf);
@@ -69,9 +113,9 @@
     return { es: es, ps: ps, share: share, earned: Math.round(earned), paid: paid, req: req, bal: Math.round(earned - paid) };
   }
   IS.page('studio', async function () {
-    var r = await Promise.all([DB.q('courses', { eq: { lecturer_id: L().id } }), money(), DB.q('posts', { eq: { room: 'qa', lecturer_id: L().id } }), DB.q('events', { eq: { lecturer_id: L().id } })]), cs = r[0], mo = r[1], qa = r[2].filter(function (p) { return !p.n_replies && p.status !== 'removed'; });
+    var r = await Promise.all([DB.q('courses', { eq: { lecturer_id: L().id } }), money(), DB.q('posts', { eq: { room: 'qa', lecturer_id: L().id } }), DB.q('events', { eq: { lecturer_id: L().id } })]), cs = r[0], mo = r[1], qa = r[2].filter(function (p) { return !p.n_replies && IS.publicPost(p); });
     var st = cs.reduce(function (a, c) { return a + (+c.n_students || 0); }, 0);
-    var h = IS.banner((function () { var nm = String(L().name || '').replace(/^\s*(د\.|دكتور|Dr\.?)\s*/i, ''); return IS.T('أهلًا د. ' + nm, 'Welcome, Dr. ' + nm); })(), esc(A('استوديو المحاضر: كورساتك وطلابك وأرباحك.', 'Lecturer studio: your courses, students and earnings.')), 'studio', '<div class="row"><a class="btn gold" href="#studio-course/new">' + ic('plus') + esc(A('كورس جديد', 'New course')) + '</a><a class="btn lt" href="#lecturer/' + L().id + '">' + ic('eye') + esc(A('صفحتي العامة', 'My public page')) + '</a></div>');
+    var h = IS.banner(esc(A('أهلًا ', 'Welcome, ')) + IS.greetingName(L().name), esc(A('استوديو المحاضر: كورساتك وطلابك وأرباحك.', 'Lecturer studio: your courses, students and earnings.')), 'studio', '<div class="row"><a class="btn gold" href="#studio-course/new">' + ic('plus') + esc(A('كورس جديد', 'New course')) + '</a><a class="btn lt" href="#lecturer/' + L().id + '">' + ic('eye') + esc(A('صفحتي العامة', 'My public page')) + '</a></div>');
     h += '<div class="tiles">' + [['layers', cs.filter(function (c) { return c.status === 'published'; }).length, A('كورس منشور', 'published courses')], ['eye', cs.filter(function (c) { return c.status === 'review'; }).length, A('قيد المراجعة', 'in review')], ['users', st, A('طالب ملتحق', 'enrolments')],
       ['wallet', IS.money(mo.earned), A('إجمالي الأرباح', 'total earned')], ['money', IS.money(mo.bal), A('الرصيد المستحق', 'balance due')], ['chat', qa.length, A('سؤال بلا رد', 'unanswered questions')]].map(function (t) { return '<div class="tile">' + ic(t[0]) + '<b>' + (typeof t[1] === 'number' ? N(t[1]) : t[1]) + '</b><small>' + esc(t[2]) + '</small></div>'; }).join('') + '</div>';
     h += '<div class="cols"><div class="main"><section class="box"><header class="sh"><h2>' + ic('layers') + IS.T('كورساتي', 'My courses') + '</h2><a class="more" href="#studio-courses">' + esc(A('الكل', 'All')) + '</a></header>' + (cs.length ? courseRows(cs.slice(0, 5)) : IS.empty('layers', A('لم تنشئ كورسًا بعد', 'No course yet'), A('ابدأ أول كورس لك الآن.', 'Start your first course now.'), '<a class="btn pri" href="#studio-course/new">' + ic('plus') + esc(A('كورس جديد', 'New course')) + '</a>')) + '</section>' +
@@ -93,18 +137,26 @@
   /* ========== COURSE BUILDER ========== */
   IS.page('studio-course', async function (arg) {
     var p = String(arg || 'new').split('/'), id = p[0], tab = p[1] || 'details', c;
-    if (id === 'new') c = { title: '', subtitle: '', spec: 'medicine', cat: 'clinical', subject: '', price: 0, color: COLORS[0], learn: [], reqs: [], status: 'draft' };
+    if (id === 'new') c = { title: '', subtitle: '', spec: IS.SPEC || 'medicine', cat: (IS.mySection() || {}).id || 'clinical', subject: '', price: 0, color: COLORS[0], learn: [], reqs: [], status: 'draft' };
     else { c = await DB.one('courses', id); if (!c || (c.lecturer_id !== L().id && !IS.can('review'))) return null; }
     var tabs = [['details', A('بيانات الكورس', 'Details'), 'info'], ['cur', A('المحتوى والدروس', 'Curriculum'), 'video'], ['publish', A('النشر', 'Publishing'), 'send']];
     var h = '<nav class="crumb"><a href="#studio-courses">' + esc(A('كورساتي', 'My courses')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(c.title || A('كورس جديد', 'New course')) + '</span></nav><header class="fhead"><div><h1 tabindex="-1">' + esc(c.title || A('كورس جديد', 'New course')) + '</h1>' + (c.id ? IS.status(c.status) : '') + '</div>' + (c.id ? '<a class="btn ghost sm" href="#course/' + c.id + '">' + ic('eye') + esc(A('معاينة كما يراه الطالب', 'Preview as a student')) + '</a>' : '') + '</header>';
     h += '<div class="steps3">' + tabs.map(function (t, i) { return c.id || i === 0 ? '<a href="#studio-course/' + (c.id || 'new') + '/' + t[0] + '" class="' + (tab === t[0] ? 'on' : '') + '"><span>' + N(i + 1) + '</span>' + ic(t[2]) + esc(t[1]) + '</a>' : '<span class="off"><span>' + N(i + 1) + '</span>' + esc(t[1]) + '</span>'; }).join('') + '</div>';
     if (tab === 'details' || !c.id) {
-      h += detailsForm(c);
+      h += detailsForm(c, c.id ? await IS.courseLiveLink(c.id) : '');
       IS.after = function (main) {
         var form = main.querySelector('form[data-form=course]');
         function updateSubjects() { form.subject.innerHTML = courseSubjects(form.spec.value, form.cat.value, form.subject.value); }
         form.spec.onchange = updateSubjects;
         form.cat.onchange = updateSubjects;
+        function updateDelivery() {
+          var live = form.delivery.value !== 'recorded';
+          form.starts_at.required = live;
+          form.live_link.disabled = !live;
+          form.live_link.closest('label').hidden = !live;
+        }
+        form.delivery.onchange = updateDelivery;
+        updateDelivery();
       };
     }
     else if (tab === 'cur') h += await curEditor(c);
@@ -116,7 +168,7 @@
       return '<option value="' + esc(s.id) + '"' + (s.id === current ? ' selected' : '') + '>' + esc(s.en) + '</option>';
     }).join('');
   }
-  function detailsForm(c) {
+  function detailsForm(c, liveLink) {
     var scope = IS.studyScope(c);
     return '<form class="box form" data-form="course"><input type="hidden" name="id" value="' + esc(c.id || '') + '"><div class="g2f"><label class="fl"><span>' + esc(A('عنوان الكورس', 'Course title')) + ' *</span><input name="title" required maxlength="120" value="' + esc(c.title) + '"></label>' +
       '<label class="fl"><span>' + esc(A('عنوان فرعي قصير', 'Short subtitle')) + '</span><input name="subtitle" maxlength="160" value="' + esc(c.subtitle || '') + '"></label>' +
@@ -124,19 +176,49 @@
       '<label class="fl"><span>' + esc(A('القسم', 'Section')) + '</span>' + sel('cat', IS.CATS.map(function (k) { return [k.id, A(k.ar, k.en)]; }), scope.cat) + '</label>' +
       '<label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span><select name="subject">' + courseSubjects(scope.spec, scope.cat, c.subject) + '</select></label>' +
       '<label class="fl"><span>' + esc(A('المستوى', 'Level')) + '</span>' + sel('level', LEVELS.map(function (l) { return [l[0], A(l[0] || '—', l[1])]; }), c.level) + '</label>' +
-      '<label class="fl"><span>' + esc(A('السعر', 'Price')) + ' (' + esc(IS.SET.currency || 'SDG') + ', ' + esc(A('0 = مجاني', '0 = free')) + ')</span><input name="price" type="number" min="0" step="500" value="' + esc(c.price || 0) + '" dir="ltr"></label></div>' +
-      '<label class="fl"><span>' + esc(A('لون الكورس', 'Course colour')) + '</span>' + swatches('color', c.color) + '</label>' +
+      '<label class="fl"><span>' + esc(A('رسوم الكورس', 'Course fee')) + ' (' + esc(IS.SET.currency || 'SDG') + ', ' + esc(A('0 = مجاني', '0 = free')) + ')</span><input name="price" type="number" min="0" max="9999999999.99" step="0.01" required value="' + esc(c.price || 0) + '" dir="ltr"></label></div>' +
+      '<label class="fl"><span>' + esc(A('تفاصيل الكورس', 'Course details')) + '</span>' + IS.editor('about', c.about, A('صف الكورس ولمن يناسب…', 'Describe the course and who it is for…')) + '</label>' +
+      '<fieldset class="fl post-extras"><legend>' + IS.T('الموعد وطريقة التدريس', 'Schedule and teaching') + '</legend><div class="g2f">' +
+      '<label class="fl"><span>' + esc(A('نوع الكورس', 'Course format')) + '</span>' + sel('delivery', IS.courseFormats(), c.delivery || 'recorded') + '</label>' +
+      '<label class="fl"><span>' + esc(A('تاريخ ووقت البدء (بتوقيت السودان)', 'Start date and time (Sudan time)')) + '</span><input name="starts_at" type="datetime-local" value="' + esc(IS.sudanTimeInput(c.starts_at)) + '"></label>' +
+      '<label class="fl"><span>' + esc(A('الحد الأقصى للطلاب', 'Maximum students')) + '</span><input name="seat_limit" type="number" min="1" max="10000" value="' + esc(c.seat_limit || '') + '" placeholder="' + esc(A('بلا حد', 'Unlimited')) + '"></label></div>' +
+      '<label class="fl"><span>' + esc(A('رابط الجلسة للطلاب الملتحقين', 'Session link for enrolled students')) + '</span><input name="live_link" type="url" dir="ltr" maxlength="1000" placeholder="https://" value="' + esc(liveLink) + '"></label>' +
+      '<label class="fl"><span>' + esc(A('طريقة التدريس', 'Teaching method')) + '</span><textarea name="teaching_method" rows="2" maxlength="2000" placeholder="' + esc(A('مثل شرح الحالات والأسئلة والتطبيق العملي', 'For example, case reviews, Q&A and practical exercises')) + '">' + esc(c.teaching_method || '') + '</textarea></label></fieldset>' +
+      '<fieldset class="fl post-extras"><legend>' + IS.T('معاينة الكورس', 'Course preview') + '</legend>' +
       '<label class="fl file"><span>' + esc(A('صورة الغلاف (16:9)', 'Cover picture (16:9)')) + '</span>' + (c.cover ? '<img class="thumb" src="' + IS.U(c.cover) + '" alt="">' : '') + '<input type="file" name="cover" accept="image/*"></label>' +
-      '<label class="fl"><span>' + esc(A('عن الكورس', 'About the course')) + '</span>' + IS.editor('about', c.about, A('صف الكورس ولمن يناسب…', 'Describe the course and who it is for…')) + '</label>' +
+      '<label class="fl"><span>' + esc(A('رابط فيديو المعاينة (اختياري)', 'Preview video link (optional)')) + '</span><input name="promo" type="url" dir="ltr" placeholder="YouTube / Google Drive" value="' + esc(IS.previewVideoUrl(c.promo)) + '"></label></fieldset>' +
+      '<label class="fl"><span>' + esc(A('لون الكورس', 'Course colour')) + '</span>' + swatches('color', c.color) + '</label>' +
       '<label class="fl"><span>' + esc(A('ماذا سيتعلم الطالب (سطر لكل نقطة)', 'What students will learn (one point per line)')) + '</span><textarea name="learn" rows="4">' + esc((c.learn || []).join('\n')) + '</textarea></label>' +
       '<label class="fl"><span>' + esc(A('المتطلبات (سطر لكل نقطة)', 'Requirements (one per line)')) + '</span><textarea name="reqs" rows="2">' + esc((c.reqs || []).join('\n')) + '</textarea></label>' +
       '<div class="row end"><button class="btn pri">' + ic('check') + esc(c.id ? A('حفظ', 'Save') : A('إنشاء الكورس والمتابعة', 'Create and continue')) + '</button></div></form>';
   }
   IS.SUB.course = async function (d, f) {
-    var scope = IS.studyScope(d), row = { title: d.title, subtitle: d.subtitle, spec: scope.spec, cat: scope.cat, subject: d.subject, level: d.level, price: +d.price || 0, color: d.color, about: IS.edVal(f, 'about'), learn: IS.lines(d.learn), reqs: IS.lines(d.reqs), updated_at: new Date().toISOString() };
+    if (!L() || L().status !== 'active') return;
+    var promo = d.promo && IS.extVideo(d.promo);
+    if (d.promo && !promo) return IS.toast(A('استخدم رابط يوتيوب أو Google Drive صالحًا.', 'Use a valid YouTube or Google Drive link.'), true);
+    var liveLink = d.delivery === 'recorded' ? '' : d.live_link || '';
+    if (liveLink && !/^https:\/\/[^\s]+$/i.test(liveLink)) return IS.toast(A('أدخل رابط جلسة يبدأ بـ https://.', 'Enter a session link starting with https://.'), true);
+    if (d.delivery !== 'recorded' && !d.starts_at) return IS.toast(A('حدّد موعد بدء الكورس المباشر.', 'Set a start time for the live course.'), true);
+    var scope = IS.studyScope(d), row = { title: d.title, subtitle: d.subtitle, spec: scope.spec, cat: scope.cat, subject: d.subject, level: d.level, price: +d.price || 0,
+      delivery: d.delivery, starts_at: d.starts_at ? d.starts_at + ':00+02:00' : null, seat_limit: d.seat_limit ? +d.seat_limit : null, teaching_method: d.teaching_method,
+      color: d.color, promo: promo || '', about: IS.edVal(f, 'about'), learn: IS.lines(d.learn), reqs: IS.lines(d.reqs), updated_at: new Date().toISOString() };
     if (f.cover.files[0]) row.cover = await DB.upload('media', await IS.shrink(f.cover.files[0], 1280, 0.82));
-    var c; if (d.id) { var old = await DB.one('courses', d.id); if (old.status === 'published' && (+old.price !== row.price)) row.status = old.status; c = await DB.upd('courses', d.id, row); }
-    else { row.lecturer_id = L().id; row.status = 'draft'; row.n_lessons = 0; row.minutes = 0; row.n_students = 0; row.rating = 0; row.n_reviews = 0; c = await DB.ins('courses', row); }
+    var c;
+    if (d.id) c = await DB.upd('courses', d.id, row);
+    else {
+      Object.assign(row, { lecturer_id: L().id, status: 'draft', n_lessons: 0, minutes: 0, n_students: 0, rating: 0, n_reviews: 0 });
+      c = await DB.ins('courses', row);
+    }
+    if (liveLink || d.id) {
+      var link = { course_id: c.id, url: liveLink };
+      if (!DB.live) link.id = c.id;
+      try {
+        await DB.upsert('course_live_links', link);
+      } catch (error) {
+        IS.go('studio-course/' + c.id + '/details');
+        throw error;
+      }
+    }
     IS.toast(A('حُفظ', 'Saved')); IS.go('studio-course/' + c.id + '/' + (d.id ? 'details' : 'cur'));
   };
   async function curEditor(c) {
@@ -168,8 +250,11 @@
   async function courseTotals(cid) { var ls = await DB.q('lessons', { eq: { course_id: cid } }); await DB.upd('courses', cid, { n_lessons: ls.length, minutes: ls.reduce(function (a, l) { return a + (+l.minutes || 0); }, 0), updated_at: new Date().toISOString() }); }
   async function publishBox(c) {
     var ls = await DB.q('lessons', { eq: { course_id: c.id } }), missing = ls.filter(function (x) { return x.kind === 'video' && !(x.video_id || x.has_video); }), full = await Promise.all(ls.filter(function (x) { return x.kind === 'quiz'; }).map(function (x) { return DB.lesson(x.id); })), qz = full.filter(function (x) { return !(x.quiz || []).length; });
+    var live = c.delivery === 'live' || c.delivery === 'hybrid';
     var checks = [[!!c.title, A('عنوان الكورس', 'Course title')], [!!c.cover, A('صورة الغلاف', 'Cover picture')], [!!(c.about || '').replace(/<[^>]+>/g, '').trim(), A('وصف الكورس', 'Course description')], [(c.learn || []).length > 0, A('ماذا سيتعلم الطالب', 'What students will learn')],
-      [ls.length >= 1, A('درس واحد على الأقل', 'At least one lesson')], [!missing.length, A('إضافة كل فيديوهات الدروس', 'Every lesson video added') + (missing.length ? ' (' + missing.length + ')' : '')], [!qz.length, A('أسئلة لكل اختبار', 'Questions in every quiz')], [ls.some(function (x) { return x.free; }), A('درس معاينة مجاني (يُنصح به)', 'A free preview lesson (recommended)'), true]];
+      [!missing.length, A('إضافة كل فيديوهات الدروس', 'Every lesson video added') + (missing.length ? ' (' + missing.length + ')' : '')], [!qz.length, A('أسئلة لكل اختبار', 'Questions in every quiz')], [ls.some(function (x) { return x.free; }), A('درس معاينة مجاني (يُنصح به)', 'A free preview lesson (recommended)'), true]];
+    if (live) checks.splice(4, 0, [!!c.starts_at && !!await IS.courseLiveLink(c.id), A('موعد ورابط الجلسة المباشرة', 'Live session date and link')]);
+    if (c.delivery !== 'live') checks.splice(4, 0, [ls.length >= 1, A('درس واحد على الأقل', 'At least one lesson')]);
     var ok = checks.every(function (x) { return x[0] || x[2]; });
     var h = '<section class="box"><h2>' + ic('send') + IS.T('جاهزية الكورس للنشر', 'Ready to publish?') + '</h2><ul class="checks">' + checks.map(function (x) { return '<li class="' + (x[0] ? 'ok' : x[2] ? 'opt' : 'no') + '">' + ic(x[0] ? 'checkc' : x[2] ? 'info' : 'x') + esc(x[1]) + '</li>'; }).join('') + '</ul>';
     if (c.status === 'review') h += '<p class="note warn">' + ic('clock') + '<span>' + esc(A('الكورس عند فريق المراجعة. سيصلك إشعار بالقرار.', 'The course is with the review team. You will be notified.')) + '</span></p><button class="btn ghost" data-act="unsubmit" data-id="' + c.id + '">' + esc(A('سحب من المراجعة للتعديل', 'Withdraw to edit')) + '</button>';
@@ -241,6 +326,7 @@
       '<form class="box form" data-form="lecpage"><div class="g2f"><label class="fl file"><span>' + esc(A('الصورة الشخصية', 'Photo')) + '</span>' + IS.av(l, 'lg') + '<input type="file" name="photo" accept="image/*"></label><label class="fl file"><span>' + esc(A('صورة الغلاف', 'Cover picture')) + '</span>' + (l.cover ? '<img class="thumb" src="' + IS.U(l.cover) + '" alt="">' : '') + '<input type="file" name="cover" accept="image/*"></label>' +
       '<label class="fl"><span>' + esc(A('الاسم', 'Name')) + '</span><input name="name" required value="' + esc(l.name) + '"></label><label class="fl"><span>' + esc(A('اللقب المهني', 'Professional title')) + '</span>' + IS.pick('title', [['طبيب امتياز', 'House officer'], ['طبيب عمومي', 'Medical officer'], ['نائب اختصاصي', 'Registrar'], ['اختصاصي', 'Specialist'], ['استشاري', 'Consultant'], ['محاضر', 'Lecturer'], ['أستاذ مساعد', 'Assistant professor'], ['أستاذ مشارك', 'Associate professor'], ['أستاذ', 'Professor'], ['صيدلي', 'Pharmacist'], ['صيدلي سريري', 'Clinical pharmacist'], ['أخصائي مختبرات', 'Laboratory specialist'], ['اختصاصي علم الأمراض', 'Pathologist'], ['ممرض / ممرضة', 'Nurse'], ['ممرض أول / مشرف تمريض', 'Senior nurse / Nursing supervisor'], ['قابلة', 'Midwife'], ['طبيب أسنان', 'Dentist'], ['اختصاصي أسنان', 'Dental specialist'], ['جراح الفم والوجه والفكين', 'Oral & maxillofacial surgeon']].map(function (t) { return [t[1], t[1] + (IS.lang === 'en' ? '' : ' · ' + t[0])]; }), l.title) + '</label>' +
       '<label class="fl"><span>' + esc(A('التخصص', 'Specialty')) + '</span>' + IS.pick('specialty', IS.SPECS.map(function (k) { return k.en; }).concat(['Internal Medicine', 'General Surgery', 'Paediatrics', 'Obstetrics & Gynaecology', 'Psychiatry', 'Radiology', 'ENT', 'Anaesthesia', 'Ophthalmology', 'Dermatology', 'Orthopaedics', 'Community Medicine', 'Anatomy', 'Physiology', 'Biochemistry', 'Pathology', 'Microbiology', 'Pharmacology', 'Haematology', 'Clinical Chemistry', 'Medical Microbiology', 'Histopathology', 'Parasitology', 'Clinical Pharmacy', 'Pharmaceutics', 'Pharmacognosy', 'Operative Dentistry', 'Prosthodontics', 'Orthodontics', 'Periodontics', 'Oral & Maxillofacial Surgery', 'Medical-Surgical Nursing', 'Maternity Nursing', 'Paediatric Nursing', 'Community Health Nursing']), l.specialty) + '</label><label class="fl"><span>' + esc(A('الوسوم (افصل بفاصلة)', 'Tags (comma separated)')) + '</span><input name="tags" value="' + esc((l.tags || []).join('، ')) + '"></label></div>' +
+      teachingChoices((l.teaching_specs || []).length ? l.teaching_specs : [IS.legacyTeachingSpec(l)], l.teaching_spaces || [], false) +
       '<label class="fl"><span>' + esc(A('لون الصفحة', 'Page colour')) + '</span>' + swatches('color', l.color) + '</label><label class="fl"><span>' + esc(A('نبذة عنك', 'About you')) + '</span>' + IS.editor('bio', l.bio, '') + '</label>' +
       '<label class="fl"><span>' + esc(A('المؤهلات والخبرة (سطر لكل بند)', 'Qualifications and experience (one per line)')) + '</span><textarea name="quals" rows="4">' + esc((l.quals || []).join('\n')) + '</textarea></label>' +
       '<h2>' + ic('link') + IS.T('روابط التواصل (تظهر للطلبة)', 'Contact links (shown to students)') + '</h2><div class="g2f">' + [['whatsapp', 'WhatsApp'], ['telegram', 'Telegram'], ['youtube', 'YouTube'], ['x', 'X (Twitter)'], ['linkedin', 'LinkedIn'], ['email', A('البريد', 'Email')]].map(function (r) { return '<label class="fl"><span>' + esc(r[1]) + '</span><input name="l_' + r[0] + '" dir="ltr" value="' + esc(k[r[0]] || '') + '"></label>'; }).join('') + '</div>' +
@@ -248,35 +334,38 @@
       '<div class="row end"><button class="btn pri">' + ic('check') + esc(A('حفظ الصفحة', 'Save page')) + '</button></div></form>';
   }, { auth: true, area: 'studio', lec: true });
   IS.SUB.lecpage = async function (d, f) {
-    var row = { name: d.name, title: d.title, specialty: d.specialty, color: d.color, bio: IS.edVal(f, 'bio'), quals: IS.lines(d.quals), tags: d.tags.split(/[،,]/).map(function (x) { return x.trim(); }).filter(Boolean),
-      links: { whatsapp: d.l_whatsapp, telegram: d.l_telegram, youtube: d.l_youtube, x: d.l_x, linkedin: d.l_linkedin, email: d.l_email }, pay: { account: d.p_account, name: d.p_name } };
+    var teaching = selectedTeachingSpaces(d);
+    if (!teaching) return;
+    var row = Object.assign(teaching, { name: d.name, title: d.title, specialty: d.specialty, color: d.color, bio: IS.edVal(f, 'bio'), quals: IS.lines(d.quals), tags: d.tags.split(/[،,]/).map(function (x) { return x.trim(); }).filter(Boolean),
+      links: { whatsapp: d.l_whatsapp, telegram: d.l_telegram, youtube: d.l_youtube, x: d.l_x, linkedin: d.l_linkedin, email: d.l_email }, pay: { account: d.p_account, name: d.p_name } });
     if (f.photo.files[0]) row.photo = await DB.upload('media', await IS.shrink(f.photo.files[0], 480, 0.85));
     if (f.cover.files[0]) row.cover = await DB.upload('media', await IS.shrink(f.cover.files[0], 1600, 0.8));
     await DB.upd('lecturers', L().id, row); await IS.loadMe(); IS.toast(A('حُفظت صفحتك', 'Your page is saved')); IS.refresh();
   };
 
   /* ========== EVENTS ========== */
-  IS.page('studio-events', async function () {
+  IS.page('studio-events', async function (tab) {
+    if (tab === 'new') IS.after = function () { IS.ACT.evform(document.querySelector('[data-act=evform]')); };
     var ev = await DB.q('events', { eq: { lecturer_id: L().id }, order: ['starts', false] }), regs = await DB.q('event_regs');
     return IS.banner(IS.T('فعالياتي', 'My events'), esc(A('جلسات مباشرة وورش عمل يسجل فيها الطلبة ويصلهم رابط الانضمام.', 'Live sessions and workshops students register for and receive the joining link.')), 'cal', '<button class="btn gold" data-act="evform">' + ic('plus') + esc(A('فعالية جديدة', 'New event')) + '</button>') +
       (ev.length ? '<div class="table">' + ev.map(function (e) { return '<div class="tr"><span class="grow"><b>' + esc(e.title) + '</b><small class="mut">' + esc(IS.date(e.starts, { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })) + ' · ' + N(regs.filter(function (r) { return r.event_id === e.id; }).length) + ' ' + esc(A('مسجّل', 'registered')) + '</small></span>' + IS.status(e.status) +
         '<button class="btn sm ghost" data-act="evform" data-id="' + e.id + '">' + ic('pen') + esc(A('تعديل', 'Edit')) + '</button></div>'; }).join('') + '</div>' : IS.empty('cal', A('لا توجد فعاليات', 'No events'), '', '<button class="btn pri" data-act="evform">' + ic('plus') + esc(A('فعالية جديدة', 'New event')) + '</button>'));
   }, { auth: true, area: 'studio', lec: true });
   IS.ACT.evform = async function (b) {
-    var e = b.getAttribute('data-id') ? await DB.one('events', b.getAttribute('data-id')) : { kind: 'live', minutes: 60 }, dt = e.starts ? new Date(new Date(e.starts).getTime() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 16) : '';
+    var e = b.getAttribute('data-id') ? await DB.one('events', b.getAttribute('data-id')) : { kind: 'live', minutes: 60 }, dt = IS.sudanTimeInput(e.starts);
     IS.sheet(esc(e.id ? A('تعديل الفعالية', 'Edit event') : A('فعالية جديدة', 'New event')), '<form class="form" data-form="event"><input type="hidden" name="id" value="' + esc(e.id || '') + '"><label class="fl"><span>' + esc(A('التخصص', 'Speciality')) + '</span><select name="spec">' + IS.SPECS.map(function (k) { return '<option value="' + k.id + '"' + ((e.spec || IS.SPEC || 'medicine') === k.id ? ' selected' : '') + '>' + esc(k.en) + '</option>'; }).join('') + '</select></label><label class="fl"><span>' + esc(A('القسم', 'Section')) + '</span>' +
       sel('cat', IS.CATS.map(function (cat) { return [cat.id, A(cat.ar, cat.en)]; }), e.cat || (IS.mySection() || {}).id) +
       '</label><label class="fl"><span>' + esc(A('العنوان', 'Title')) + ' *</span><input name="title" required value="' + esc(e.title || '') + '"></label>' +
       '<div class="g2f"><label class="fl"><span>' + esc(A('النوع', 'Type')) + '</span>' + sel('kind', [['live', A('جلسة مباشرة', 'Live session')], ['workshop', A('ورشة عمل', 'Workshop')], ['seminar', A('ندوة', 'Seminar')]], e.kind) + '</label><label class="fl"><span>' + esc(A('المدة (دقيقة)', 'Length (min)')) + '</span><input name="minutes" type="number" min="15" value="' + esc(e.minutes || 60) + '"></label></div>' +
-      '<label class="fl"><span>' + esc(A('الموعد', 'Date and time')) + ' *</span><input name="starts" type="datetime-local" required value="' + dt + '"></label><label class="fl"><span>' + esc(A('رابط الانضمام (Zoom / Meet)', 'Joining link (Zoom / Meet)')) + '</span><input name="link" dir="ltr" value="' + esc(e.link || '') + '"></label>' +
+      '<label class="fl"><span>' + esc(A('الموعد (بتوقيت السودان)', 'Date and time (Sudan time)')) + ' *</span><input name="starts" type="datetime-local" required value="' + dt + '"></label><label class="fl"><span>' + esc(A('رابط الانضمام (Zoom / Meet)', 'Joining link (Zoom / Meet)')) + '</span><input name="link" dir="ltr" value="' + esc(e.link || '') + '"></label>' +
       '<label class="fl"><span>' + esc(A('عن الفعالية', 'About')) + '</span><textarea name="about" rows="3">' + esc((e.about || '').replace(/<[^>]+>/g, '')) + '</textarea></label><label class="fl file"><span>' + esc(A('صورة', 'Picture')) + '</span><input type="file" name="cover" accept="image/*"></label>' +
       '<div class="row sp">' + (e.id ? '<button type="button" class="btn ghost bad" data-act="delev" data-id="' + e.id + '">' + esc(A('حذف', 'Delete')) + '</button>' : '<span></span>') + '<button class="btn pri">' + esc(A('حفظ ونشر', 'Save and publish')) + '</button></div></form>');
   };
   IS.SUB.event = async function (d, f) {
-    var row = { title: d.title, spec: d.spec || 'medicine', cat: d.cat || null, kind: d.kind, minutes: +d.minutes || 60, starts: new Date(d.starts).toISOString(), link: d.link, about: esc(d.about).replace(/\n/g, '<br>') };
+    var row = { title: d.title, spec: d.spec || 'medicine', cat: d.cat || null, kind: d.kind, minutes: +d.minutes || 60, starts: d.starts + ':00+02:00', link: d.link, about: esc(d.about).replace(/\n/g, '<br>') };
     if (f.cover.files[0]) row.cover = await DB.upload('media', await IS.shrink(f.cover.files[0], 1200, 0.82));
     if (d.id) await DB.upd('events', d.id, row); else { row.lecturer_id = L().id; row.status = 'published'; await DB.ins('events', row); }
-    IS.closeSheet(); IS.toast(A('حُفظت الفعالية', 'Event saved')); IS.refresh();
+    IS.closeSheet(); IS.toast(A('حُفظت الفعالية', 'Event saved')); IS.go('studio-events');
   };
   IS.ACT.delev = async function (b) { if (!(await IS.confirm(A('حذف الفعالية؟', 'Delete the event?')))) return; await DB.del('events', b.getAttribute('data-id')); IS.closeSheet(); IS.refresh(); };
 
@@ -289,7 +378,7 @@
     return IS.banner(IS.T('طلابي', 'My students'), N(es.length) + ' ' + esc(A('التحاق', 'enrolments')), 'users') + (es.length ? '<div class="table">' + es.map(function (e) { return '<div class="tr">' + IS.av({ name: e.payer }, 'sm') + '<span class="grow"><b>' + esc(e.payer || '') + '</b><small class="mut">' + esc(titles.get(e.request_id || e.course_id) || '') + '</small></span><span class="mut">' + esc(IS.date(e.decided_at || e.created_at)) + '</span><span>' + IS.money(e.price) + '</span></div>'; }).join('') + '</div>' : IS.empty('users', A('لا يوجد طلبة بعد', 'No students yet')));
   }, { auth: true, area: 'studio', lec: true });
   IS.page('studio-qa', async function () {
-    var ps = (await DB.q('posts', { eq: { room: 'qa', lecturer_id: L().id }, order: ['created_at', false] })).filter(function (p) { return p.status !== 'removed'; }), open = ps.filter(function (p) { return !p.n_replies; });
+    var ps = (await DB.q('posts', { eq: { room: 'qa', lecturer_id: L().id }, order: ['created_at', false] })).filter(IS.publicPost), open = ps.filter(function (p) { return !p.n_replies; });
     return IS.banner(IS.T('أسئلة الطلبة', 'Student questions'), esc(A('أسئلة الطلبة تحت دروسك. الرد السريع يرفع تقييم كورسك.', 'Questions under your lessons. Quick answers raise your course rating.')), 'chat') +
       '<section class="sec"><header class="sh"><h2>' + IS.T('بانتظار ردك', 'Waiting for your answer') + ' (' + N(open.length) + ')</h2></header>' + (open.length ? '<div class="posts">' + open.map(IS.postRow).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد أسئلة بلا رد.', 'No unanswered questions.')) + '</p>') + '</section>' +
       '<section class="sec"><header class="sh"><h2>' + IS.T('تمت الإجابة', 'Answered') + '</h2></header><div class="posts">' + ps.filter(function (p) { return p.n_replies; }).map(IS.postRow).join('') + '</div></section>';

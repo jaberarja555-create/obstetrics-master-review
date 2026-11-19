@@ -1960,6 +1960,7 @@ body[data-page="pick"].preview::after{inset-inline-start:auto;inset-inline-end:8
 [dir="rtl"] .rchk .opt input:checked::after{border-inline-end:2.5px solid #fff;border-inline-start:0;transform:rotate(45deg) translate(-1px,-1px)}
 .rchk .opt:has(input:checked){border-color:var(--pri);background:var(--tint);box-shadow:0 0 0 3px var(--tint2)}
 .rchk .opt span{display:flex;flex-direction:column;gap:2px;line-height:1.3;min-width:0}
+.rchk .opt>span[lang="en"]{flex:1;text-align:left}
 .rchk .opt b{font-size:13.5px;font-weight:800;color:var(--tx)}
 .rchk .opt small{font-size:11.5px;color:var(--sub);font-weight:600}
 .rchk .opt:has([value=all]){grid-column:1/-1;min-height:52px;background:linear-gradient(90deg,var(--tint),var(--sf))}

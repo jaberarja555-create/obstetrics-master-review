@@ -189,6 +189,42 @@ async function checkSpaces(browser) {
   assert.equal(await subjects.locator('option[value=anatomy]').count(), 0);
   assert.equal(await subjects.inputValue(), '');
 
+  await page.evaluate(async () => {
+    await DB.ins('lecturers', { id: 'scope-lecturer', name: 'Fixture Selected Specialities', status: 'active', teaching_specs: ['medicine', 'nursing'], teaching_spaces: ['medicine/clinical', 'nursing/clinical'] });
+    await DB.ins('lecturers', { id: 'old-lecturer', name: 'Fixture Existing Pharmacist', status: 'active', specialty: 'Clinical Pharmacy' });
+    IS.setSpec('medicine'); IS.setSection('clinical');
+  });
+  await go('lecturers');
+  await visible('Fixture Selected Specialities', true);
+  await visible('Fixture Existing Pharmacist', false);
+  await page.evaluate(() => { IS.setSection('basics'); });
+  await go('lecturers');
+  await visible('Fixture Selected Specialities', false);
+  await page.evaluate(() => { IS.setSpec('nursing'); IS.setSection('clinical'); });
+  await go('lecturers');
+  await visible('Fixture Selected Specialities', true);
+  await go('lecturer/scope-lecturer');
+  await visible('Fixture Selected Specialities', true);
+  await go('courses');
+  assert.match(await main.locator('.ban').getAttribute('style'), /sub_nurs-medsurg/);
+  await page.evaluate(() => { IS.setSpec('pharmacy'); IS.setSection('basics'); });
+  await go('lecturers');
+  await visible('Fixture Existing Pharmacist', true);
+  await visible('Fixture Selected Specialities', false);
+  await go('courses');
+  assert.match(await main.locator('.ban').getAttribute('style'), /sub_pharmaceutics/);
+
+  for (const [name, expected, direction] of [['د. Arja Adam', 'Dr. Arja', 'ltr'], ['Dr. أحمد محمد', 'د. أحمد', 'rtl']]) {
+    await page.evaluate(async name => {
+      await DB.upd('profiles', DB.uid(), { name });
+      await IS.loadMe();
+    }, name);
+    await go('home');
+    const greeting = main.locator('.lhh .lht > p bdi');
+    assert.equal(await greeting.textContent(), expected);
+    assert.equal(await greeting.getAttribute('dir'), direction);
+  }
+
   assert.deepEqual(errors, []);
   console.log('Study sections OK at ' + width + 'px');
 }

@@ -207,9 +207,7 @@
   async function form(selected) {
     var section = IS.mySection();
     var results = await Promise.all([DB.q('lecturers', { eq: { status: 'active' }, order: ['name'] }), IS.pubCourses(true)]);
-    var teaching = new Set(results[1].map(function (c) { return c.lecturer_id; }));
-    var inSection = new Set(results[1].filter(IS.inStudySpace).map(function (c) { return c.lecturer_id; }));
-    var lecturers = results[0].filter(function (l) { return l.id !== uid() && (!teaching.has(l.id) || inSection.has(l.id)); });
+    var lecturers = IS.studyLecturers(results[0], results[1]).filter(function (lecturer) { return lecturer.id !== uid(); });
     return IS.banner(IS.T('اطلب كورسًا', 'Request a course'), esc(scopeName(scope())), 'chat') +
       '<form class="box form" data-form="cr-create">' +
       '<label class="fl"><span>' + text('عنوان الكورس', 'Course title') + '</span><input name="title" required maxlength="140"></label>' +
@@ -295,6 +293,7 @@
   IS.page('control-course-requests', async function () {
     var rows = await DB.q(REQUESTS, { eq: { status: 'pending' }, order: ['created_at', true], limit: 100 });
     return IS.banner(IS.T('مراجعة طلبات الكورسات', 'Course request review'), esc(A('تظهر الطلبات للطلاب بعد الموافقة عليها.', 'Requests appear to students after approval.')), 'eye') +
+      '<div class="row">' + link('#control-questions', 'مراجعة الأسئلة', 'Review questions') + '</div>' +
       (rows.length ? '<div class="grid g3 cr-grid">' + rows.map(function (r) { return requestCard(r, 'control-course-request'); }).join('') + '</div>' :
         IS.empty('eye', A('لا توجد طلبات بانتظار المراجعة', 'No requests awaiting review')));
   }, CONTROL);

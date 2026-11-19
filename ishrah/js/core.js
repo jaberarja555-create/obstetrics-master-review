@@ -155,16 +155,27 @@
   IS.team = function () { return !!(IS.ME && (IS.ME.team || []).length); };
   IS.loadMe = async function () {
     var uid = DB.uid(); IS.ME = null; IS.LEC = null; IS.OFFME = false;
-    if (!uid && !navigator.onLine) { try { var oc = JSON.parse(localStorage.getItem('ish-me') || 'null'); if (oc && oc.uid) { IS.ME = oc.me; IS.LEC = oc.lec; IS.OFFME = true; return; } } catch (e) {} }
-    if (uid) {
-      IS.ME = await DB.one('profiles', uid).catch(function () { return null; });
-      if (!IS.ME && DB.live) { await new Promise(function (r) { setTimeout(r, 900); }); IS.ME = await DB.one('profiles', uid).catch(function () { return null; }); }
-      if (IS.ME) IS.LEC = await DB.one('lecturers', uid).catch(function () { return null; });
-      if (IS.ME && IS.ME.spec && IS.ME.spec !== IS.SPEC) { IS.SPEC = IS.ME.spec; LS.set('spec', IS.SPEC); }
-      else if (IS.ME && IS.SPEC && !IS.ME.spec) { IS.ME.spec = IS.SPEC; DB.upd('profiles', IS.ME.id, { spec: IS.SPEC }).catch(function () {}); }
-      /* without internet the last known profile of this account is used (owner, 18 Nov 2026: offline use) */
-      try { if (IS.ME) localStorage.setItem('ish-me', JSON.stringify({ uid: uid, me: IS.ME, lec: IS.LEC })); else { var c = JSON.parse(localStorage.getItem('ish-me') || 'null'); if (c && c.uid === uid && !navigator.onLine) { IS.ME = c.me; IS.LEC = c.lec; IS.OFFME = true; } } } catch (e) {}
+    if (DB.live && !navigator.onLine) {
+      try {
+        var cached = JSON.parse(localStorage.getItem('ish-me') || 'null');
+        if (cached && cached.uid && (!uid || cached.uid === uid)) {
+          IS.ME = cached.me; IS.LEC = cached.lec; IS.OFFME = true;
+        }
+      } catch (e) {}
+      return;
     }
+    if (!uid) return;
+    var records = await Promise.all([DB.one('profiles', uid).catch(function () { return null; }), DB.one('lecturers', uid).catch(function () { return null; })]);
+    IS.ME = records[0];
+    if (!IS.ME && DB.live) {
+      await new Promise(function (resolve) { setTimeout(resolve, 900); });
+      IS.ME = await DB.one('profiles', uid).catch(function () { return null; });
+    }
+    if (!IS.ME) return;
+    IS.LEC = records[1];
+    if (IS.ME.spec && IS.ME.spec !== IS.SPEC) { IS.SPEC = IS.ME.spec; LS.set('spec', IS.SPEC); }
+    else if (IS.SPEC && !IS.ME.spec) { IS.ME.spec = IS.SPEC; DB.upd('profiles', IS.ME.id, { spec: IS.SPEC }).catch(function () {}); }
+    try { localStorage.setItem('ish-me', JSON.stringify({ uid: uid, me: IS.ME, lec: IS.LEC })); } catch (e) {}
   };
   /* the student's speciality space: kept on the device and in the profile, so it follows the account to every device */
   IS.setSpec = function (id) { IS.SPEC = id || ''; LS.set('spec', IS.SPEC); if (IS.ME && IS.ME.spec !== IS.SPEC) { IS.ME.spec = IS.SPEC; DB.upd('profiles', IS.ME.id, { spec: IS.SPEC }).catch(function () {}); }
@@ -179,9 +190,15 @@
     return true;
   };
   IS.loadBase = async function () {
-    var r = await Promise.all([DB.q('settings'), DB.q('categories', { order: ['sort'] }), DB.q('subjects', { order: ['sort'] }), DB.q('specialties', { order: ['sort'] }).catch(function () { return []; })]);
+    var r = await Promise.all([DB.q('settings'), DB.q('categories', { order: ['sort'] }), DB.q('subjects', { order: ['sort'] }),
+      DB.q('specialties', { order: ['sort'] }).catch(function () { return []; }), DB.q('role_perms').catch(function () { return null; })]);
     IS.SET = {}; r[0].forEach(function (s) { IS.SET[s.id] = s.value; }); IS.CATS = r[1]; IS.SUBJ = r[2].map(function (x) { if (!x.spec) x.spec = 'medicine'; if (!x.img && (window.ISH_SUBIMG || []).indexOf(x.id) >= 0) x.img = 'img/sub_' + x.id + '.webp'; return x; }); IS.SPECS = r[3];
-    try { var rp = await DB.q('role_perms'), m = JSON.parse(JSON.stringify(IS.DEFRP)), seen = {}; rp.forEach(function (x) { if (!seen[x.role]) { seen[x.role] = 1; m[x.role] = {}; } if ((x.acts || ALL).length) m[x.role][x.perm] = x.acts || ALL.slice(); }); IS.RP = m; } catch (e) {}
+    if (r[4]) {
+      var m = JSON.parse(JSON.stringify(IS.DEFRP)), seen = {};
+      r[4].forEach(function (x) { if (!seen[x.role]) { seen[x.role] = 1; m[x.role] = {}; } if ((x.acts || ALL).length) m[x.role][x.perm] = x.acts || ALL.slice(); });
+      IS.RP = m;
+    }
+    try { localStorage.setItem('ish-base', JSON.stringify({ SET: IS.SET, CATS: IS.CATS, SUBJ: IS.SUBJ, SPECS: IS.SPECS })); } catch (e) {}
   };
   IS.cat = function (id) { return IS.CATS.filter(function (c) { return c.id === id; })[0]; };
   IS.subj = function (id) { return IS.SUBJ.filter(function (c) { return c.id === id; })[0]; };
@@ -203,8 +220,9 @@
     'control-community': 'community', 'control-library': 'library', 'control-review': 'courses', 'control-cats': 'specialties', 'control-apps': 'lecturers', 'studio-courses': 'courses', 'studio-events': 'events', 'studio-apply': 'lecturers',
     favorites: 'library', notifications: 'support', settings: 'support', account: 'learning', about: 'community', terms: 'library', search: 'courses', lecturer: 'lecturers', event: 'events', post: 'community',
     'control-pay': 'admin', 'control-payouts': 'admin', 'studio-money': 'admin', 'studio-students': 'community', 'studio-qa': 'support', 'studio-page': 'lecturers', studio: 'courses' };
-  IS.banner = function (title, sub, icon, extra, cls) { var pg = document.body.getAttribute('data-page') || '', im = BANIMG[pg] || (/^control|^security/.test(pg) ? 'admin' : /^studio/.test(pg) ? 'lecturers' : 'learning');
-    return '<section class="ban ' + (cls || '') + (im ? ' bpic' : '') + '"' + (im ? ' style="--bimg:url(' + IS.U('img/ban_' + im + '.webp') + ')"' : '') + '>' + (im ? '<span class="bph" aria-hidden="true"></span><svg class="bwave" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M60 0 C40 30 45 70 22 100 L0 100 L0 0Z" fill="currentColor"/><path d="M62 0 C42 30 47 70 24 100" fill="none" style="stroke:var(--sky2)" stroke-width="1.6"/></svg>' : '') +
+  IS.banner = function (title, sub, icon, extra, cls, picture) { var pg = document.body.getAttribute('data-page') || '', im = BANIMG[pg] || (/^control|^security/.test(pg) ? 'admin' : /^studio/.test(pg) ? 'lecturers' : 'learning');
+    var src = picture || ('img/ban_' + im + '.webp');
+    return '<section class="ban ' + (cls || '') + (im ? ' bpic' : '') + '"' + (im ? ' style="--bimg:url(' + IS.U(src) + ')"' : '') + '>' + (im ? '<span class="bph" aria-hidden="true"></span><svg class="bwave" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M60 0 C40 30 45 70 22 100 L0 100 L0 0Z" fill="currentColor"/><path d="M62 0 C42 30 47 70 24 100" fill="none" style="stroke:var(--sky2)" stroke-width="1.6"/></svg>' : '') +
       '<div class="bt"><span class="bi">' + ic(icon) + '</span><div><h1 tabindex="-1"' + (function () { var m = /<b[^>]*>([^<]*)<\/b>/.exec(title), n = (m ? m[1] : String(title).replace(/<[^>]+>/g, '')).length; return n > 30 ? ' class="tl3"' : n > 20 ? ' class="tl2"' : ''; })() + '>' + title + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div></div>' + (extra || '') + '</section>'; };
   IS.stars = function (v) { var h = ''; for (var i = 1; i <= 5; i++) h += ic('star', i <= Math.round(v) ? 'on' : ''); return '<span class="stars">' + h + '</span>'; };
   IS.status = function (s) {
@@ -277,11 +295,24 @@
   IS.SUB = {};   // data-form submit handlers
   IS.after = null;
   var SEQ = 0;
+  var OFFLINE_PAGES = /^(downloads|dl|settings|terms|pick|pick-section|studio-guide)$/;
+  var READABLE_COPY = /^(home|courses|course|learning|lecturers|lecturer|events|event|news|library|file|paths|path|about|favorites|community)$/;
+  var QUICK_COPY = /^(home|courses|lecturers|events|news|paths|about)$/;
+  function showSavedPage(main, html, offline) {
+    var note = offline ? '<p class="note offcopy">' + ic('offline') + '<span>' +
+      esc(A('هذه آخر نسخة محفوظة من الصفحة.', 'This is your last saved copy.')) + '</span></p>' : '';
+    main.innerHTML = '<div class="page" data-saved-page>' + note + html + '</div>';
+    IS.$$('form, select, input, button, [data-live-course]', main).forEach(function (control) {
+      if (control.matches('[data-live-course]')) control.remove();
+      else if ('disabled' in control) control.disabled = true;
+    });
+    IS.balance(); IS.evenRows(); IS.dedupe(); IS.sideLock();
+  }
   IS.route = async function () {
     var h = decodeURIComponent(location.hash.slice(1)) || 'home', m = h.match(/^([a-z-]+?)(?:\/(.*))?$/), name = m ? m[1] : 'home', arg = m ? m[2] : '';
     var P = PAGES[name] || PAGES.home, o = P.o, my = ++SEQ, main = IS.$('#main');
     var student = !o.area || o.area === 'student' || (o.area === 'keep' && IS.area === 'student');
-    if (student && IS.SPECS.length && !/^(pick|terms|security|payment)$/.test(name) && !IS.mySpec()) {
+    if (student && IS.SPECS.length && !/^(pick|terms|security|payment|downloads|dl|settings)$/.test(name) && !IS.mySpec()) {
       name = 'pick'; P = PAGES.pick; o = P.o;
     } else if (student && IS.mySpec() && IS.CATS.length && !IS.mySection() && !/^(pick|pick-section|terms|security|settings|downloads|dl|spec|specialties|payment)$/.test(name) &&
       !((IS.team() || IS.LEC) && /^(course|lesson|lecturer|file|post)$/.test(name))) {
@@ -292,25 +323,57 @@
     if (o.auth && !IS.ME) { main.innerHTML = authGate(); return; }
     if (IS.mfaGate) { var g = IS.mfaGate(); if (g) { main.innerHTML = g; return; } }
     if (o.perm && !IS.can(o.perm)) { main.innerHTML = IS.empty('lock', A('لا تملك صلاحية هذه الصفحة', 'You do not have access to this page'), A('اطلب الصلاحية من مالك المنصة.', 'Ask the platform owner for access.')); return; }
-    /* a lecturer approved after this page loaded (owner, 18 Nov 2026: "all the buttons go back to this page"): look again before sending to Apply */
-    if (o.lec && !IS.LEC && IS.ME && Date.now() - (IS.LECT || 0) > 15000) { IS.LECT = Date.now(); IS.LEC = await DB.one('lecturers', IS.ME.id).catch(function () { return null; }); if (my !== SEQ) return; }
-    if (o.lec && !IS.LEC) { IS.go('studio-apply'); return; }
-    main.innerHTML = '<div class="loading"><span class="spin"></span></div>';
-    var html; IS.after = null;
-    /* without internet (owner, 18 Nov 2026: the home page kept spinning): pages that need the internet say so at once; downloads, settings and
-       the guide still open. Any page that takes more than 12 s while the connection is gone or very weak shows the offline card instead. */
-    var OFFOK = { downloads: 1, dl: 1, settings: 1, terms: 1, pick: 1, 'pick-section': 1, 'studio-guide': 1 };
-    var section = IS.mySection(), copyKey = IS.area === 'student' ? ['study', IS.SPEC, section ? section.id : '', IS.lang, h].join(':') : h;
-    if (!navigator.onLine && DB.live && !OFFOK[name]) { IS.OFFPAGE = true; var kept = pageCopy(copyKey);
-      /* without internet a page opened before shows its last saved copy (owner, 18 Nov 2026: "still the internet problem after switching off") */
-      main.innerHTML = '<div class="page">' + (kept ? '<p class="note offcopy">' + IS.ic('offline') + '<span>' + esc(A('أنت دون إنترنت: هذه آخر نسخة محفوظة من الصفحة. تتحدّث عند عودة الاتصال.', 'You are offline: this is the last saved copy of the page. It updates when you are back online.')) + '</span></p>' + kept : IS.offEmpty()) + '</div>';
-      if (kept) { IS.balance(); IS.evenRows(); } return; }
+    var offline = DB.live && !navigator.onLine;
+    /* A newly approved lecturer may reach Studio from a tab with an older profile. */
+    if (o.lec && !IS.LEC && IS.ME && !offline && Date.now() - (IS.LECT || 0) > 15000) {
+      IS.LECT = Date.now();
+      IS.LEC = await DB.one('lecturers', IS.ME.id).catch(function () { return null; });
+      if (my !== SEQ) return;
+    }
+    if (o.lec && !IS.LEC && !offline) { IS.go('studio-apply'); return; }
+    var html, timer, failed = false;
+    IS.after = null;
+    var section = IS.mySection(), copyKey = ['study', IS.SPEC, section ? section.id : '', IS.lang, h].join(':');
+    var canSave = DB.live && IS.area === 'student' && !IS.team() && READABLE_COPY.test(name) && !(name === 'community' && arg);
+    var kept = canSave ? pageCopy(copyKey) : '';
+    if (offline && !OFFLINE_PAGES.test(name)) {
+      IS.OFFPAGE = true;
+      if (kept) showSavedPage(main, kept, true);
+      else main.innerHTML = '<div class="page">' + IS.offEmpty() + '</div>';
+      if (!IS.keepScroll) window.scrollTo(0, 0);
+      IS.keepScroll = false;
+      return;
+    }
+    var quick = kept && QUICK_COPY.test(name) && !IS.keepScroll;
+    if (quick) { showSavedPage(main, kept, false); window.scrollTo(0, 0); }
+    else main.innerHTML = '<div class="loading"><span class="spin"></span></div>';
     IS.OFFPAGE = false;
-    try { html = await Promise.race([P.fn(arg), new Promise(function (ok, no) { setTimeout(function () { no(new Error('slow')); }, DB.live ? 12000 : 60000); })]); } catch (e) { if (e && e.message === 'slow') { if (my !== SEQ) return; IS.OFFPAGE = true; }  if (window.console) console.error(e); html = !navigator.onLine ? IS.offEmpty() : e && e.message === 'slow' ? IS.empty('offline', A('الاتصال ضعيف جدًا', 'The connection is very weak'), A('لم تكتمل الصفحة. تحقق من الإنترنت ثم أعد المحاولة.', 'The page did not finish loading. Check the internet and try again.'), '<button class="btn pri" data-act="retry">' + IS.ic('route') + IS.esc(A('أعد المحاولة', 'Try again')) + '</button> <a class="btn ghost" href="#downloads">' + IS.ic('download') + IS.esc(A('تنزيلاتي', 'My downloads')) + '</a>') : IS.empty('info', A('تعذّر فتح الصفحة', 'This page could not be opened'), String(e && e.message || '')); }
+    try {
+      html = await Promise.race([P.fn(arg), new Promise(function (resolve, reject) {
+        timer = setTimeout(function () { reject(new Error('slow')); }, DB.live ? 8500 : 60000);
+      })]);
+    } catch (error) {
+      failed = true;
+      if (my !== SEQ) return;
+      if (window.console) console.error(error);
+      IS.OFFPAGE = !navigator.onLine || error.message === 'slow';
+      if (kept) {
+        showSavedPage(main, kept, true);
+        IS.keepScroll = false;
+        return;
+      }
+      html = !navigator.onLine ? IS.offEmpty() : error.message === 'slow' ?
+        IS.empty('offline', A('الاتصال ضعيف جدًا', 'The connection is very weak'), A('حاول فتح الصفحة مرة أخرى.', 'Try opening the page again.'),
+          '<button class="btn pri" data-act="retry">' + ic('route') + esc(A('أعد المحاولة', 'Try again')) + '</button>') :
+        IS.empty('info', A('تعذّر فتح الصفحة', 'This page could not be opened'), String(error.message || ''));
+    } finally { clearTimeout(timer); }
     if (my !== SEQ) return;
-    if (html && DB.live && IS.ME && !/^(dl|lesson|control|security|studio-lesson|pay|pick|course-request|studio-course-request)/.test(name)) pageSave(copyKey, html);
+    if (html && canSave && !failed) pageSave(copyKey, html);
+    var savedScroll = quick ? window.scrollY : null;
     main.innerHTML = '<div class="page">' + (html || IS.empty('search', A('غير موجود', 'Not found'), A('ربما حُذف أو لم يُنشر بعد.', 'It may have been removed or not published yet.'))) + '</div>';
-    if (!IS.keepScroll) window.scrollTo(0, 0); IS.keepScroll = false;
+    if (savedScroll !== null) window.scrollTo(0, savedScroll);
+    else if (!IS.keepScroll) window.scrollTo(0, 0);
+    IS.keepScroll = false;
     var h1 = main.querySelector('h1'); if (h1) try { h1.focus({ preventScroll: true }); } catch (e) {}
     var pageTitle = h1 && h1.textContent.trim();
     document.title = (pageTitle && pageTitle !== IS.brandName() ? pageTitle + ' · ' : '') + IS.brandName();
@@ -399,15 +462,55 @@
   new MutationObserver(function () { clearTimeout(IS._dd); IS._dd = setTimeout(IS.dedupe, 60); }).observe(document.getElementById('main') || document.body, { childList: true, subtree: true });
   window.addEventListener('resize', function () { clearTimeout(IS._bt); IS._bt = setTimeout(function () { IS.balance(); IS.evenRows(); IS.dedupe(); IS.sideLock(); IS.trimScroll(); }, 200); });
   /* last copy of each page this account opened (up to 25 pages, ~2.5 MB), shown without internet; cleared on sign-out */
-  function pageSave(key, html) { if (html.length > 300000) return; try { var ix = JSON.parse(localStorage.getItem('ish-pgx') || '[]').filter(function (k) { return k !== key; }); ix.unshift(key);
-    while (ix.length > 25) localStorage.removeItem('ish-pg:' + ix.pop()); localStorage.setItem('ish-pg:' + key, JSON.stringify({ u: IS.ME.id, h: html })); localStorage.setItem('ish-pgx', JSON.stringify(ix)); } catch (e) {} }
-  function pageCopy(key) { try { var c = JSON.parse(localStorage.getItem('ish-pg:' + key) || 'null'); return c && IS.ME && c.u === IS.ME.id ? c.h : ''; } catch (e) { return ''; } }
+  function pageSave(key, html) {
+    if (html.length > 300000) return;
+    if (html.includes('data-live-course')) {
+      var fragment = document.createElement('template'); fragment.innerHTML = html;
+      fragment.content.querySelectorAll('[data-live-course]').forEach(function (link) { link.remove(); });
+      html = fragment.innerHTML;
+    }
+    try { var ix = JSON.parse(localStorage.getItem('ish-pgx') || '[]').filter(function (k) { return k !== key; }); ix.unshift(key);
+    while (ix.length > 25) localStorage.removeItem('ish-pg:' + ix.pop()); localStorage.setItem('ish-pg:' + key, JSON.stringify({ u: IS.ME ? IS.ME.id : null, h: html })); localStorage.setItem('ish-pgx', JSON.stringify(ix)); } catch (e) {} }
+  function pageCopy(key) { try { var c = JSON.parse(localStorage.getItem('ish-pg:' + key) || 'null'); return c && c.u === (IS.ME ? IS.ME.id : null) ? c.h : ''; } catch (e) { return ''; } }
   IS.clearCopies = function () { try { JSON.parse(localStorage.getItem('ish-pgx') || '[]').forEach(function (k) { localStorage.removeItem('ish-pg:' + k); }); localStorage.removeItem('ish-pgx'); } catch (e) {} };
   IS.ACT = IS.ACT || {}; IS.ACT.retry = function () { IS.route(); };
   /* back online: the page that could not open opens by itself */
-  window.addEventListener('online', function () { if (IS.OFFPAGE) setTimeout(function () { IS.loadMe().then(function () { IS.route(); }); }, 800); });
-  /* a name without its own title, so «د.» / Dr. is never written twice */
-  IS.drName = function (n) { return String(n || '').replace(/^\s*(د\.|دكتور|دكتورة|Dr\.?)\s*/i, ''); };
+  function restoreBase() {
+    try {
+      var cache = JSON.parse(localStorage.getItem('ish-base') || 'null');
+      if (cache) { IS.SET = cache.SET || {}; IS.CATS = cache.CATS || []; IS.SUBJ = cache.SUBJ || []; IS.SPECS = cache.SPECS || []; }
+    } catch (e) {}
+  }
+  async function loadAccount() {
+    await IS.loadMe();
+    if (navigator.onLine && IS.mfaCheck) await IS.mfaCheck();
+  }
+  var resumedOnline;
+  window.addEventListener('online', function () {
+    if (!DB.live || (!IS.OFFPAGE && !IS.OFFME && !resumedOnline)) return;
+    resumedOnline = false;
+    Promise.all([IS.loadBase().catch(restoreBase), loadAccount()]).then(function () { return IS.route(); });
+  });
+  IS.drName = function (name) {
+    return String(name || '').trim().replace(/^(?:(?:د\s*\.|دكتور(?:ة)?(?=\s|$)|dr(?:\.|(?=\s|$)))\s*)+/iu, '');
+  };
+  function titledName(name, firstOnly) {
+    var bare = IS.drName(name);
+    if (firstOnly) bare = bare.split(/\s+/)[0];
+    if (!bare) return null;
+    var letter = bare.match(/\p{Letter}/u), arabic = letter && /\p{Script=Arabic}/u.test(letter[0]);
+    return { text: (arabic ? 'د. ' : 'Dr. ') + bare, arabic: arabic };
+  }
+  IS.greetingName = function (name, firstOnly) {
+    var person = titledName(name, firstOnly);
+    if (!person) return '';
+    var language = person.arabic ? 'ar' : 'en', direction = person.arabic ? 'rtl' : 'ltr';
+    return '<bdi lang="' + language + '" dir="' + direction + '">' + esc(person.text) + '</bdi>';
+  };
+  function greetingText(name) {
+    var person = titledName(name);
+    return person ? (person.arabic ? '\u2067' : '\u2066') + person.text + '\u2069' : '';
+  }
   IS.offEmpty = function () { return IS.empty('offline', A('لا يوجد اتصال بالإنترنت', 'No internet connection'), A('هذه الصفحة تحتاج إلى الإنترنت. ما نزّلته داخل المنصة يعمل دون اتصال.', 'This page needs the internet. What you downloaded inside the platform works offline.'), '<a class="btn pri" href="#downloads">' + IS.ic('download') + IS.esc(A('افتح تنزيلاتي', 'Open my downloads')) + '</a>'); };
   IS.refresh = function () { IS.keepScroll = true; return IS.route(); };
   function authGate() {
@@ -415,11 +518,13 @@
       '<div class="row center"><button class="btn pri" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button><button class="btn ghost" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div></div></div>';
   }
   document.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-act]'); if (!b || b.disabled) return; var f = IS.ACT[b.getAttribute('data-act')]; if (!f) return; e.preventDefault();
+    var b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
+    if (b.closest('[data-saved-page]')) { e.preventDefault(); return; } var f = IS.ACT[b.getAttribute('data-act')]; if (!f) return; e.preventDefault();
     Promise.resolve(f(b, e)).catch(IS.fail);
   });
   document.addEventListener('submit', function (e) {
-    var f = e.target.closest('[data-form]'); if (!f) return; var h = IS.SUB[f.getAttribute('data-form')]; if (!h) return; e.preventDefault();
+    var f = e.target.closest('[data-form]'); if (!f) return;
+    if (f.closest('[data-saved-page]')) { e.preventDefault(); return; } var h = IS.SUB[f.getAttribute('data-form')]; if (!h) return; e.preventDefault();
     var btn = f.querySelector('button:not([type=button])'); if (btn) { if (btn.disabled) return; btn.disabled = true; btn.classList.add('busy'); }
     Promise.resolve(h(IS.form(f), f)).catch(IS.fail).then(function () { if (btn) { btn.disabled = false; btn.classList.remove('busy'); } });
   });
@@ -465,6 +570,7 @@
   function topH() { var t = document.getElementById('top'); if (t) document.documentElement.style.setProperty('--toph', t.offsetHeight + 'px'); }
   window.addEventListener('resize', topH); setTimeout(topH, 50);
   IS.bell = async function () {
+    if (!IS.ME || (DB.live && !navigator.onLine)) return;
     try { var seen = LS.get('seen-' + IS.ME.id, 0), n = await DB.q('notices', { order: ['created_at', false], limit: 40 });
       n = n.filter(function (x) { return (x.user_id ? x.user_id === IS.ME.id : !IS.announcementInSection || IS.announcementInSection(x)) && new Date(x.created_at).getTime() > seen; }); var b = IS.$('#bellN'); if (b) { b.hidden = !n.length; b.textContent = n.length > 9 ? '9+' : n.length; } } catch (e) {}
   };
@@ -576,7 +682,7 @@
     try { await DB.emailVerify({ email: PEND.email, code: d.code }); } catch (e) { return authMsg(A('الرمز غير صحيح أو انتهت صلاحيته.', 'The code is wrong or has expired.')); }
     if (!PEND.google) try { await DB.setOwnPassword(PEND.reset ? d.pass : PEND.pass); } catch (e) { return authMsg(A('تعذّر حفظ كلمة المرور: ', 'Could not save the password: ') + e.message); }
     var k = PEND.kind, reset = PEND.reset; PEND = null; IS.closeSheet(); await IS.loadMe();
-    IS.toast(reset ? A('حُفظت كلمة المرور الجديدة', 'The new password is saved') : A('تم تأكيد بريدك. مرحبًا د. ', 'Your email is confirmed. Welcome, Dr. ') + (IS.ME && !reset ? IS.drName(IS.ME.name) : ''));
+    IS.toast(reset ? A('حُفظت كلمة المرور الجديدة', 'The new password is saved') : A('تم تأكيد بريدك. مرحبًا ', 'Your email is confirmed. Welcome, ') + greetingText(IS.ME && IS.ME.name));
     if (k === 'lecturer') IS.go('studio-apply'); else IS.route();
   };
   IS.SUB.esignin = async function (d) {
@@ -592,7 +698,7 @@
     if (d.pass !== d.pass2) return authMsg(A('كلمتا المرور غير متطابقتين.', 'The passwords do not match.'));
     if ((d.pass || '').length < 8) return authMsg(A('كلمة المرور 8 أحرف على الأقل.', 'The password needs at least 8 characters.'));
     try { await DB.signUp({ name: d.name, phone: d.phone, pass: d.pass, email: '' }); } catch (e) { return authMsg(e.message === 'exists' ? A('هذا الرقم مسجّل من قبل: سجّل الدخول.', 'This number is already registered: sign in.') : A('تعذّر إنشاء الحساب: ', 'Could not create the account: ') + e.message); }
-    IS.closeSheet(); await IS.loadMe(); IS.toast(A('مرحبًا د. ', 'Welcome, Dr. ') + (IS.ME ? IS.drName(IS.ME.name) : ''));
+    IS.closeSheet(); await IS.loadMe(); IS.toast(A('مرحبًا ', 'Welcome, ') + greetingText(IS.ME && IS.ME.name));
     if (d.kind === 'lecturer') IS.go('studio-apply'); else IS.route();
   };
   IS.SUB.signin = async function (d) {
@@ -637,13 +743,16 @@
 
   /* ---------- start ---------- */
   IS.start = async function () {
-    if (DB.ready) await DB.ready;
-    try { await IS.loadBase(); try { localStorage.setItem('ish-base', JSON.stringify({ SET: IS.SET, CATS: IS.CATS, SUBJ: IS.SUBJ, SPECS: IS.SPECS })); } catch (e2) {} }
-    catch (e) { IS.SET = {}; try { var cb = JSON.parse(localStorage.getItem('ish-base') || 'null'); if (cb) { IS.SET = cb.SET || {}; IS.CATS = cb.CATS || []; IS.SUBJ = cb.SUBJ || []; IS.SPECS = cb.SPECS || []; } } catch (e3) {} }
-    await IS.loadMe();
-    if (IS.mfaCheck) await IS.mfaCheck();
+    if (DB.live && !navigator.onLine) {
+      resumedOnline = true;
+      restoreBase();
+      await IS.loadMe();
+    } else {
+      if (DB.ready) await DB.ready;
+      await Promise.all([IS.loadBase().catch(restoreBase), loadAccount()]);
+    }
     IS.beat();
-    DB.onAuth(async function () { await IS.loadMe(); if (IS.mfaCheck) await IS.mfaCheck(); IS.route(); });
+    DB.onAuth(async function () { if (!navigator.onLine && DB.live) return; await loadAccount(); IS.route(); });
     IS.route();
     if (!DB.live) document.body.classList.add('preview');
   };

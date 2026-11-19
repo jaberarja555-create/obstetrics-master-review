@@ -2,7 +2,7 @@
 # The working branch ccr-38b3f943-ba1ode is published as the live site (https://ishrah.pages.dev, domain ishrahli.org);
 # push to main → https://ishrah.pages.dev (add a custom domain in Cloudflare when ready). Any other branch → https://<branch>.ishrah.pages.dev (preview).
 # It does not touch the three books, Student Master Review or their database. Uses the same Cloudflare secrets as the other workflows.
-# The manual database job applies all numbered files. The course request and payment migrations also run on the production
+# The manual database job applies all numbered files. The section, course request and payment migrations also run on the production
 # branch when their files change, before deploying the app that needs them. Both use ISHRAH_DB_URL.
 name: Ishrah
 on:
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Detect the course request and payment migrations
+      - name: Detect the section, course request and payment migrations
         if: github.event_name == 'push' && github.ref_name == 'ccr-38b3f943-ba1ode'
         id: request-schema
         env:
@@ -32,14 +32,17 @@ jobs:
           base=ishrah/supabase/013_course_requests.sql
           terms=ishrah/supabase/014_public_course_terms.sql
           payments=ishrah/supabase/015_payment_receipts.sql
+          section=ishrah/supabase/016_section_publishing.sql
           if ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$base"; then
-            echo "files=$base $terms $payments" >> "$GITHUB_OUTPUT"
+            echo "files=$base $terms $payments $section" >> "$GITHUB_OUTPUT"
           elif ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$terms"; then
-            echo "files=$terms $payments" >> "$GITHUB_OUTPUT"
+            echo "files=$terms $payments $section" >> "$GITHUB_OUTPUT"
           elif ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$payments"; then
-            echo "files=$payments" >> "$GITHUB_OUTPUT"
+            echo "files=$payments $section" >> "$GITHUB_OUTPUT"
+          elif ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$section"; then
+            echo "files=$section" >> "$GITHUB_OUTPUT"
           fi
-      - name: Apply and verify the course request and payment migrations
+      - name: Apply and verify the section, course request and payment migrations
         if: steps.request-schema.outputs.files != ''
         env:
           DB: ${{ secrets.ISHRAH_DB_URL }}
@@ -52,7 +55,7 @@ jobs:
           for migration in $MIGRATIONS; do
             psql "$DB" -v ON_ERROR_STOP=1 -q -f "$migration"
           done
-          test "$(psql "$DB" -v ON_ERROR_STOP=1 -Atc "select to_regclass('public.payment_messages') is not null and to_regclass('public.course_request_files') is not null and to_regprocedure('public.ish_course_request(text,uuid,jsonb)') is not null and to_regprocedure('public.ish_public_course_terms(uuid)') is not null and exists (select 1 from storage.buckets where id = 'course-request-files' and not public)")" = t
+          test "$(psql "$DB" -v ON_ERROR_STOP=1 -Atc "select to_regprocedure('public.ish_review_question(uuid,boolean,text)') is not null and to_regclass('public.course_live_links') is not null and to_regclass('public.payment_messages') is not null and to_regclass('public.course_request_files') is not null and to_regprocedure('public.ish_course_request(text,uuid,jsonb)') is not null and to_regprocedure('public.ish_public_course_terms(uuid)') is not null and exists (select 1 from storage.buckets where id = 'course-request-files' and not public)")" = t
       - name: Create the Pages project the first time (ignored when it exists)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

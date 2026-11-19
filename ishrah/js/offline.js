@@ -21,7 +21,6 @@
     } else if (document.body.classList.contains('isoff')) {
       document.body.classList.remove('isoff'); b.className = 'on'; b.innerHTML = ic('checkc') + '<span>' + esc(A('عاد الاتصال بالإنترنت', 'You are back online')) + '</span>'; b.hidden = false;
       clearTimeout(bar.t); bar.t = setTimeout(function () { b.hidden = true; }, 3000);
-      if (IS.OFFME) { IS.OFFME = false; IS.loadMe().then(function () { IS.route(); }); }
     } else b.hidden = true;
   }
   IS.offBar = bar;

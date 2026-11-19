@@ -12,7 +12,7 @@
     [['users', 'المستخدمون', 'Users'], [['control-students', 'user', 'الطلاب', 'Students', 'students'], ['control-lecturers', 'users', 'المحاضرون', 'Lecturers', 'lecturers'], ['control-apps', 'cert', 'طلبات المحاضرين', 'Lecturer requests', 'apps']]],
     [['layers', 'المحتوى التعليمي', 'Content'], [['control-review', 'eye', 'الكورسات والمراجعة', 'Courses & review', 'review'], ['control-library', 'open', 'الكتب والملفات', 'Books & files', 'library'], ['control-paths', 'route', 'المسارات التعليمية', 'Learning paths', 'paths']]],
     [['cal', 'الفعاليات', 'Events'], [['control-events', 'cal', 'إدارة الفعاليات', 'Manage events', 'events']]],
-    [['receipt', 'الطلبات', 'Requests'], [['control-requests', 'receipt', 'طلبات المكتبة', 'Library requests', 'requests'], ['control-course-requests', 'chat', 'طلبات الكورسات', 'Course requests', 'review']]],
+    [['receipt', 'الطلبات', 'Requests'], [['control-requests', 'receipt', 'طلبات المكتبة', 'Library requests', 'requests'], ['control-course-requests', 'chat', 'طلبات الكورسات', 'Course requests', 'review'], ['control-questions', 'help', 'مراجعة الأسئلة', 'Question review', 'review']]],
     [['group', 'المجتمع والتواصل', 'Community'], [['control-community', 'flag', 'البلاغات والنقاشات', 'Reports & posts', 'community'], ['control-news', 'news', 'الأخبار', 'News', 'notify'], ['control-notify', 'bell', 'الإعلانات والإشعارات', 'Announcements', 'notify']]],
     [['wallet', 'الاشتراكات والمدفوعات', 'Payments'], [['control-pay', 'receipt', 'مراجعة المدفوعات', 'Payment review', 'pay'], ['control-payouts', 'wallet', 'مستحقات المحاضرين', 'Lecturer payouts', 'payout']]],
     [['chart', 'التقارير والتحليلات', 'Reports'], [['control-reports', 'chart', 'التقارير', 'Reports', 'reports']]],
@@ -205,7 +205,12 @@
     var list = ap.filter(function (a) { return a.status === tab; });
     return IS.banner(IS.T('طلبات المحاضرين', 'Lecturer requests'), esc(A('راجع المؤهل والسيرة والعينة وخطة الكورس قبل الاعتماد.', 'Check the qualification, CV, sample and course plan before approving.')), 'cert') +
       tabsBar('control-apps', tab, [['pending', A('بانتظار المراجعة', 'Waiting'), ap.filter(function (a) { return a.status === 'pending'; }).length], ['changes', A('مطلوب تعديل', 'Changes asked'), ap.filter(function (a) { return a.status === 'changes'; }).length], ['approved', A('معتمد', 'Approved')], ['rejected', A('مرفوض', 'Rejected')]]) +
-      (list.length ? list.map(function (a) { return '<article class="box app"><header class="sh"><h2>' + IS.av(a, 'sm') + esc(a.name) + '</h2>' + IS.status(a.status) + '</header><ul class="kv sm"><li><span>' + esc(A('المؤهل', 'Qualification')) + '</span><b dir="ltr">' + esc(a.qual) + '</b></li><li><span>' + esc(A('التخصص', 'Specialty')) + '</span><b>' + esc(a.specialty) + '</b></li><li><span>' + esc(A('اللقب', 'Title')) + '</span><b>' + esc(a.title || '—') + '</b></li><li><span>' + esc(A('الهاتف', 'Phone')) + '</span><b dir="ltr">' + esc(a.phone) + '</b></li><li><span>' + esc(A('البريد', 'Email')) + '</span><b dir="ltr">' + esc(a.email || '—') + '</b></li></ul>' +
+      (list.length ? list.map(function (a) { return '<article class="box app"><header class="sh"><h2>' + IS.av(a, 'sm') + esc(a.name) + '</h2>' + IS.status(a.status) + '</header><ul class="kv sm"><li><span>' + esc(A('المؤهل', 'Qualification')) + '</span><b dir="ltr">' + esc(a.qual) + '</b></li><li><span>' + esc(A('التخصص', 'Specialty')) + '</span><b>' + esc(a.specialty) + '</b></li>' +
+        ((a.teaching_spaces || []).length ? '<li><span>' + esc(A('التخصصات والأقسام', 'Teaching specialities and sections')) + '</span><b>' +
+          esc(a.teaching_spaces.map(function (space) {
+            var parts = space.split('/'), speciality = IS.spec(parts[0]), section = IS.cat(parts[1]);
+            return [speciality && A(speciality.ar, speciality.en), section && A(section.ar, section.en)].filter(Boolean).join(' · ');
+          }).join(' / ')) + '</b></li>' : '') + '<li><span>' + esc(A('اللقب', 'Title')) + '</span><b>' + esc(a.title || '—') + '</b></li><li><span>' + esc(A('الهاتف', 'Phone')) + '</span><b dir="ltr">' + esc(a.phone) + '</b></li><li><span>' + esc(A('البريد', 'Email')) + '</span><b dir="ltr">' + esc(a.email || '—') + '</b></li></ul>' +
         '<h3 class="sub">' + esc(A('الخبرة', 'Experience')) + '</h3><p class="pre">' + esc(a.experience) + '</p><h3 class="sub">' + esc(A('الكورس المقترح', 'Proposed course')) + ': ' + esc(a.plan_title) + '</h3><p class="pre">' + esc(a.plan) + '</p>' +
         '<div class="row">' + (a.cv ? '<button class="btn sm ghost" data-act="appfile" data-p="' + esc(a.cv) + '">' + ic('file') + esc(A('السيرة الذاتية', 'CV')) + '</button>' : '') + (a.certs ? '<button class="btn sm ghost" data-act="appfile" data-p="' + esc(a.certs) + '">' + ic('cert') + esc(A('الشهادات', 'Certificates')) + '</button>' : '') + (a.sample_file ? '<button class="btn sm ghost" data-act="appfile" data-p="' + esc(a.sample_file) + '">' + ic('video') + esc(A('ملف العينة', 'Sample file')) + '</button>' : '') + (a.sample ? '<a class="btn sm ghost" target="_blank" rel="noopener" href="' + esc(/^https?:/.test(a.sample) ? a.sample : 'https://' + a.sample) + '">' + ic('video') + esc(A('العينة', 'Sample')) + '</a>' : '') +
         '</div>' + (a.note && a.status !== 'rejected' ? '<p class="note' + (a.status === 'changes' ? ' warn' : '') + '">' + ic('chat') + '<span><b>' + esc(a.status === 'changes' ? A('التعديل المطلوب (بانتظار المحاضر): ', 'Changes asked (waiting for the applicant): ') : A('عُدّل الطلب بعد طلبكم: ', 'Updated after you asked: ')) + '</b>' + esc(a.note) + '</span></p>' : '') +
@@ -214,8 +219,9 @@
   IS.ACT.appfile = async function (b) { var u = await DB.fileUrl('apps', b.getAttribute('data-p')); if (u) window.open(u, '_blank', 'noopener'); };
   IS.ACT.appok = async function (b) {
     var a = await DB.one('lecturer_apps', b.getAttribute('data-id')), ex = await DB.one('lecturers', a.user_id), share = +IS.SET.default_share || 70;
-    var row = { id: a.user_id, name: a.name, title: a.title || '', specialty: a.specialty, bio: esc(a.experience).replace(/\n/g, '<br>'), quals: [a.qual + ' — ' + a.specialty], tags: [a.specialty], color: '#0f7a73', share: share, status: 'active', links: { whatsapp: a.phone }, pay: {}, n_students: 0 };
-    if (ex) await DB.upd('lecturers', a.user_id, { status: 'active' }); else await DB.upsert('lecturers', row);
+    var row = { id: a.user_id, name: a.name, title: a.title || '', specialty: a.specialty, teaching_specs: a.teaching_specs || [], teaching_spaces: a.teaching_spaces || [], bio: esc(a.experience).replace(/\n/g, '<br>'), quals: [a.qual + ' — ' + a.specialty], tags: [a.specialty], color: '#0f7a73', share: share, status: 'active', links: { whatsapp: a.phone }, pay: {}, n_students: 0 };
+    if (ex) await DB.upd('lecturers', a.user_id, { status: 'active', teaching_specs: row.teaching_specs.length ? row.teaching_specs : ex.teaching_specs || [],
+      teaching_spaces: row.teaching_spaces.length ? row.teaching_spaces : ex.teaching_spaces || [] }); else await DB.upsert('lecturers', row);
     await DB.upd('lecturer_apps', a.id, { status: 'approved', decided_at: new Date().toISOString(), decided_by: uid() });
     /* any other open copy of this person's request closes with it */
     var others = (await DB.q('lecturer_apps', { eq: { user_id: a.user_id } })).filter(function (x) { return x.id !== a.id && (x.status === 'pending' || x.status === 'changes'); });
@@ -378,6 +384,47 @@
       '<label class="fl"><span>' + esc(A('ربط بملف في المكتبة (اختياري)', 'Link to a library file (optional)')) + '</span><select name="file"><option value="">—</option>' + fs.map(function (f) { return '<option value="' + f.id + '"' + (r.file_id === f.id ? ' selected' : '') + '>' + esc(f.title) + '</option>'; }).join('') + '</select></label>' +
       '<label class="fl"><span>' + esc(A('رد للطالب', 'Reply to the student')) + '</span><textarea name="reply" rows="3">' + esc(r.reply || '') + '</textarea></label><button class="btn pri wide">' + esc(A('حفظ وإشعار الطالب', 'Save and notify')) + '</button></form>'); };
   IS.SUB.rq = async function (d) { var r = await DB.upd('requests', d.id, { status: d.status, reply: d.reply, file_id: d.file || '' }); IS.notify(r.user_id, A('تحديث على طلبك', 'Update on your request'), r.title + (d.reply ? ': ' + d.reply : ''), d.file ? '#file/' + d.file : '#library/requests'); IS.audit('request ' + d.status, r.title); IS.closeSheet(); IS.refresh(); };
+
+  IS.page('control-questions', async function () {
+    var rows = await DB.q('posts', { eq: { status: 'pending' }, order: ['created_at'], limit: 100 });
+    var courses = Array.from(new Set(rows.filter(function (question) { return question.room === 'qa'; }).map(function (question) { return question.course_id; })));
+    var courseRows = courses.length ? await DB.q('courses', { in: { id: courses } }) : [];
+    var titles = new Map(courseRows.map(function (course) { return [course.id, course.title]; }));
+    return IS.banner(IS.T('مراجعة الأسئلة', 'Question review'), esc(A('راجع أسئلة الأقسام والدروس قبل نشرها.', 'Review section and lesson questions before publication.')), 'eye') +
+      '<div class="row"><a class="btn ghost sm" href="#control-course-requests">' + esc(A('مراجعة طلبات الكورسات', 'Review course requests')) + '</a></div>' +
+      (rows.length ? rows.map(function (question) {
+        var section = IS.cat(question.room), speciality = IS.spec(question.spec);
+        var context = question.room === 'qa' ? [A('سؤال في درس', 'Lesson question'), titles.get(question.course_id)] :
+          [speciality && A(speciality.ar, speciality.en), section && A(section.ar, section.en)];
+        return '<article class="box"><div class="row sp"><h2 dir="auto">' + esc(question.title || A('سؤال في درس', 'Lesson question')) +
+          '</h2>' + IS.status('pending') + '</div><p class="mut" dir="auto">' + esc([question.name].concat(context).filter(Boolean).join(' · ')) +
+          '</p><p class="pre" dir="auto">' + esc(question.body) + '</p>' + (IS.can('review', 'approve') ?
+            '<div class="row end"><button class="btn ghost bad sm" data-act="review-question" data-id="' + esc(question.id) + '">' +
+            esc(A('ارفض السؤال', 'Decline question')) + '</button><button class="btn pri sm" data-act="review-question" data-publish="1" data-id="' + esc(question.id) + '">' +
+            esc(A('وافق وانشر', 'Approve and publish')) + '</button></div>' : '') + '</article>';
+      }).join('') : IS.empty('help', A('لا توجد أسئلة بانتظار المراجعة', 'No questions awaiting review')));
+  }, P('review'));
+  IS.ACT['review-question'] = async function (button) {
+    if (!IS.can('review', 'approve')) return;
+    var publish = button.dataset.publish === '1', note = '';
+    if (!publish) {
+      note = await IS.ask(A('سبب الرفض', 'Reason for declining'), A('يظهر لصاحب السؤال', 'Shown to the author'), '', { area: 1, ok: A('ارفض السؤال', 'Decline question') });
+      if (!note || note.length > 2000) return;
+    }
+    if (DB.live) {
+      var result = await DB.sb.rpc('ish_review_question', { question: button.dataset.id, publish: publish, note: note });
+      if (result.error) throw result.error;
+    } else {
+      var p = await DB.one('posts', button.dataset.id);
+      if (!p || p.status !== 'pending') return IS.refresh();
+      await DB.upd('posts', p.id, { status: publish ? 'open' : 'rejected', review_note: note });
+      await IS.notify(p.user_id, publish ? A('نُشر سؤالك', 'Your question was published') : A('لم يُنشر سؤالك', 'Your question was declined'), p.title, '#post/' + p.id);
+      if (publish && p.room === 'qa' && p.user_id !== p.lecturer_id) await IS.notify(p.lecturer_id,
+        A('سؤال جديد في كورسك', 'New question in your course'), '', '#studio-qa');
+      IS.audit(publish ? 'approve question' : 'reject question', p.id);
+    }
+    IS.refresh();
+  };
 
   /* ========== COMMUNITY MODERATION ========== */
   IS.page('control-community', async function () {

@@ -27,9 +27,32 @@
     IS.route();
   };
   IS.pubCourses = function (all) { return DB.q('courses', { eq: { status: 'published' }, order: ['published_at', false] }).then(function (cs) { return !all && IS.area === 'student' ? cs.filter(IS.inStudySpace) : cs; }); };
+  IS.legacyTeachingSpec = function (lecturer) {
+    var field = IS.norm(lecturer.specialty || '');
+    var exact = IS.SPECS.find(function (spec) { return field && [spec.id, spec.en, spec.ar].some(function (name) { return field === IS.norm(name); }); });
+    if (exact) return exact.id;
+    var subject = IS.SUBJ.find(function (row) { return field && (field === IS.norm(row.en) || field === IS.norm(row.ar)); });
+    if (subject) return subject.spec;
+    var inferred = [
+      ['dentistry', /dent|orthodont|prosthodont|endodont|periodont|اسنان|الاسنان|الفم/],
+      ['nursing', /nurs|midwi|تمريض|قابله/],
+      ['pharmacy', /pharm|صيدل/],
+      ['lab', /laborator|lab science|medical microbiology|blood bank|haematolog|hematolog|مختبر/]
+    ].find(function (item) { return item[1].test(field); });
+    return inferred ? inferred[0] : 'medicine';
+  };
   IS.studyLecturers = function (lecturers, courses) {
-    var ids = new Set(courses.map(function (c) { return c.lecturer_id; }));
-    return lecturers.filter(function (l) { return l.status === 'active' && ids.has(l.id); });
+    var listed = new Set(courses.map(function (c) { return c.lecturer_id; }));
+    var current = new Set(courses.filter(IS.inStudySpace).map(function (c) { return c.lecturer_id; }));
+    return lecturers.filter(function (lecturer) {
+      if (lecturer.status !== 'active') return false;
+      if ((lecturer.teaching_spaces || []).length) {
+        var section = IS.mySection();
+        return !IS.SPEC || (section ? lecturer.teaching_spaces.includes(IS.SPEC + '/' + section.id) : lecturer.teaching_specs.includes(IS.SPEC));
+      }
+      if (listed.has(lecturer.id)) return current.has(lecturer.id);
+      return !IS.SPEC || IS.legacyTeachingSpec(lecturer) === IS.SPEC;
+    });
   };
   IS.inSpec = function (x) { return !IS.SPEC || !x || !x.spec || x.spec === IS.SPEC; };
   IS.lecMap = async function () { var l = await DB.q('lecturers'); var m = {}; l.forEach(function (x) { m[x.id] = x; }); return m; };
@@ -78,7 +101,17 @@
   }
 
   /* ========== HOME (navy and gold design, owner 18 Nov 2026) ========== */
-  var SECIMG = { basics: 'img/sec_basics.webp', clinical: 'img/sec_clinical.webp', special: 'img/sec_special.webp', house: 'img/sec_house.webp' };
+  var SECTION_PICTURES = {
+    medicine: { basics: 'sec_basics', clinical: 'sec_clinical', special: 'sec_special', house: 'sec_house' },
+    lab: { basics: 'sub_clin-chem', clinical: 'sub_histopath', special: 'sub_haematology', house: 'sub_blood-bank' },
+    dentistry: { basics: 'sub_oral-anat', clinical: 'sub_operative', special: 'sub_ortho', house: 'sub_omfs' },
+    nursing: { basics: 'sub_nurs-fund', clinical: 'sub_nurs-medsurg', special: 'sub_nurs-comm', house: 'sub_nurs-mat' },
+    pharmacy: { basics: 'sub_pharmaceutics', clinical: 'sub_clin-pharm', special: 'sub_ph-pharmacology', house: 'sub_pharm-chem' }
+  };
+  function sectionPicture(speciality, section) {
+    var image = ((SECTION_PICTURES[speciality.id] || {})[section]);
+    return image ? 'img/' + image + '.webp' : speciality.img;
+  }
   var FEATS = [['layers', 'محتوى متكامل', 'Complete content', 'لكل التخصصات الصحية', 'For every health speciality'], ['play', 'كورسات وندوات', 'Courses & seminars', 'شرح ومراجعات متخصصة', 'Lessons and focused reviews'],
     ['open', 'مكتبة رقمية', 'Digital library', 'كتب ومراجع وملخصات', 'Books, references and summaries'], ['group', 'مجتمع طلابي', 'Student community', 'تواصل وتبادل الخبرات', 'Connect and share experience'], ['help', 'خدمات أكاديمية', 'Academic services', 'دعم وإرشاد ومساعدة بحثية', 'Support, guidance and research help']];
   function feats() { return '<section class="feats">' + FEATS.map(function (f) { return '<div class="feat">' + ic(f[0]) + '<b>' + IS.T(f[1], f[2]) + '</b><small>' + esc(A(f[3], f[4])) + '</small></div>'; }).join('') + '</section>'; }
@@ -94,13 +127,14 @@
     ['course-requests', 'chat', 'الطلبات', 'Requests'], ['library', 'open', 'مكتبتي', 'My Library'], ['community', 'group', 'المجتمع', 'Community'], ['studio-apply', 'studio', 'علّم معنا', 'Teach']];
   IS.page('home', async function () {
     var m = me(), spec = IS.mySpec(), section = IS.mySection();
-    var who = m ? esc(A('مرحبًا د. ', 'Welcome, Dr. ')) + '<bdi>' + esc(String(m.name || '').replace(/^\s*(د\.|دكتور|Dr\.?)\s*/i, '').split(' ')[0]) + '</bdi> 👋' : esc(A('مرحبًا بك يا دكتور 👋', 'Welcome, Doctor 👋'));
+    var name = m && IS.greetingName(m.name, true);
+    var who = name ? esc(A('مرحبًا ', 'Welcome, ')) + name + ' 👋' : esc(A('مرحبًا بك 👋', 'Welcome 👋'));
     var h = '<div class="lh">' +
       '<section class="lhh"><img class="lhl" src="' + IS.logo() + '" alt=""><img class="lhl2" src="' + IS.logo() + '" alt=""><div class="lht"><p>' + who + '</p><h1 tabindex="-1">' + (section ? IS.T(section.ar, section.en) : '<span class="gtx">' + esc(IS.brandName()) + '</span>') + '</h1>' +
       (spec ? '<small lang="en">' + esc(spec.en) + '</small>' : '') + (m && IS.myRoles().length > 1 ? IS.roleChips('hr') : '') + '</div>' +
       '<div class="lhx"><form class="hsearch" role="search" data-form="search"><span>' + ic('search') + '</span><input name="q" type="search" placeholder="' + esc(A('ابحث عن كورس، مادة، محاضر أو موضوع…', 'Search a course, subject, lecturer or topic…')) + '"><button class="btn pri">' + esc(A('بحث', 'Search')) + '</button></form>' +
       (m ? '' : '<div class="row"><button class="btn pri sm" data-act="register">' + ic('user') + esc(A('أنشئ حسابك مجانًا', 'Create your free account')) + '</button><button class="btn lt sm" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button></div>') + '</div></section>' +
-'<nav class="lhq" aria-label="' + esc(A('الأقسام', 'Places')) + '">' + QUICK.map(function (q) { return q[0] === 'studio-apply' && IS.LEC ? ['studio', 'studio', 'استوديو المحاضر', 'My studio'] : q; }).map(function (q) { return '<a href="#' + q[0] + '"><i>' + ic(q[1]) + '</i>' + IS.navLbl(q[2], q[3]) + '</a>'; }).join('') + '</nav></div>';
+'<nav class="lhq" aria-label="' + esc(A('الأقسام', 'Places')) + '">' + QUICK.map(function (q) { return q[0] === 'studio-apply' && IS.LEC ? ['studio', 'studio', 'الاستوديو', 'My studio'] : q; }).map(function (q) { return '<a href="#' + q[0] + '"><i>' + ic(q[1]) + '</i>' + IS.navLbl(q[2], q[3]) + '</a>'; }).join('') + '</nav></div>';
     return h + (section ? await sectionHome(section) : '');
   });
 
@@ -117,7 +151,7 @@
     IS.after = fitSectionPicker;
     return '<div class="section-picker"><header class="section-picker-heading">' + ic('layers') + '<h1 tabindex="-1">' +
       IS.T('اختر قسمك', 'Choose your section') + '</h1></header><nav class="section-picker-grid" aria-label="' + esc(A('أقسام التخصص', 'Study sections')) + '">' + IS.CATS.map(function (c) {
-      var img = SECIMG[c.id], selected = current && current.id === c.id;
+      var img = sectionPicture(spec, c.id), selected = current && current.id === c.id;
       return '<a class="section-choice" href="#home" data-act="setsection" data-v="' + esc(c.id) + '"' + (selected ? ' aria-current="true"' : '') + '>' +
         '<span class="section-choice-art">' + (img ? '<img src="' + img + '" alt="">' : ic(c.icon)) + '</span>' +
         '<span class="section-choice-label">' + IS.navLbl(c.ar, c.en) + '</span>' +
@@ -155,7 +189,7 @@
     var query = { spec: IS.SPEC, cat: section.id }, key = IS.SPEC + '/' + section.id;
     var results = await Promise.all([IS.pubCourses(), annList(40), IS.sectionCourseRequests(40),
       DB.q('events', { eq: Object.assign({ status: 'published' }, query), order: ['created_at', false], limit: 40 }),
-      newsList(40), DB.q('posts', { eq: { room: section.id, spec: IS.SPEC }, neq: { status: 'removed' }, order: ['created_at', false], limit: 40 })]);
+      newsList(40), DB.q('posts', { eq: { room: section.id, spec: IS.SPEC, status: 'open' }, order: ['created_at', false], limit: 40 })]);
     var coursesById = new Map(results[0].map(function (course) { return [course.id, course]; }));
     results[5].forEach(function (post) {
       var linked = coursesById.get(post.course_id);
@@ -216,7 +250,7 @@
     var details = type === 'event' && row.starts ? esc(IS.date(row.starts, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Khartoum' })) :
       isPost ? esc(row.name || '') + (row.linked_price != null ? ' · ' + (+row.linked_price ? IS.money(row.linked_price) : esc(A('مجاني', 'Free'))) : '') :
       type === 'request' ? '<bdi dir="ltr">' + esc(((row.payment_required ? row.paid_count : row.joined_count) || 0) + (row.goal ? ' / ' + row.goal : '')) + '</bdi> ' + esc(A('منضمّون', 'joined')) :
-      type === 'course' && row.n_students ? N(row.n_students) + ' ' + esc(A('ملتحقون', 'enrolled')) : '';
+      type === 'course' ? [courseFormat(row), +row.price ? IS.money(row.price) : esc(A('مجاني', 'Free')), row.starts_at && courseSchedule(row)].filter(Boolean).join(' · ') : '';
     return '<article class="box feed-card feed-' + type + (isPost ? ' feed-post' : '') + '" data-kind="' + type + '"><header class="feed-card-header"><span>' + ic(label[2]) +
       esc(A(label[0], label[1])) + '</span>' + (when ? '<time datetime="' + esc(when) + '">' + esc(IS.ago(when)) + '</time>' : '') + '</header>' +
       '<div class="feed-card-content">' + (media ? '<a class="feed-image" href="#' + target + esc(row.id) + '" aria-label="' + esc(title) + '"><img loading="lazy" src="' + IS.U(media) + '" alt=""></a>' : '') +
@@ -230,7 +264,7 @@
   IS.page('pick', async function () {
     var m = me(), cur = IS.SPEC;
     var h = '<div class="pick"><header class="pkh"><img src="' + IS.logo() + '" alt="" class="pkl"><div><h1 tabindex="-1"><span class="gtx">' + esc(IS.brandName()) + '</span></h1><p>' + esc(A('منصة تعليمية متكاملة لطلاب الكليات الصحية', 'A complete learning platform for health sciences students')) + '</p></div>' +
-      (m ? '<div class="pkme">' + IS.av(m, 'sm') + '<span>' + esc(A('مرحبًا د. ', 'Welcome, Dr. ')) + '<bdi>' + esc(String(m.name || '').replace(/^\s*(د\.|دكتور|Dr\.?)\s*/i, '').split(' ')[0]) + '</bdi></span></div>' :
+      (m ? '<div class="pkme">' + IS.av(m, 'sm') + '<span>' + esc(A('مرحبًا ', 'Welcome, ')) + IS.greetingName(m.name, true) + '</span></div>' :
         '<div class="pkin"><button class="btn gold" data-act="login">' + ic('user') + esc(A('تسجيل الدخول', 'Sign in')) + '</button><button class="btn lt" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div>') + '</header>' +
       '<section class="pkb"><h2>' + IS.T('اختر تخصصك', 'Choose your speciality') + '</h2><p class="mut">' + esc(A('بعد اختيار التخصص، اختر القسم الذي تريد الدراسة فيه.', 'After choosing your speciality, choose the section you want to study in.')) + '</p>' +
       '<div class="pks">' + IS.SPECS.map(function (s) { var ns = IS.SUBJ.filter(function (x) { return x.spec === s.id; }).length;
@@ -292,14 +326,15 @@
 
   /* ========== SEARCH ========== */
   IS.page('search', async function (q) {
-    q = decodeURIComponent(q || ''); var r = await Promise.all([IS.pubCourses(), DB.q('lecturers', { eq: { status: 'active' } }), IS.lecMap()]);
+    q = decodeURIComponent(q || ''); var r = await Promise.all([IS.pubCourses(true), DB.q('lecturers', { eq: { status: 'active' } })]);
+    var courseLecturers = Object.fromEntries(r[1].map(function (lecturer) { return [lecturer.id, lecturer]; }));
     var w = IS.norm(q).split(' ').filter(Boolean), hit = function (s) { s = IS.norm(s); return w.every(function (x) { return s.indexOf(x) >= 0; }); };
-    var cs = w.length ? r[0].filter(function (c) { var s = IS.subj(c.subject), k = IS.cat(c.cat); return hit([c.title, c.subtitle, c.about, (c.learn || []).join(' '), s && s.ar, s && s.en, k && k.ar, k && k.en, (r[2][c.lecturer_id] || {}).name].join(' ')); }) : [];
+    var cs = w.length ? r[0].filter(IS.inStudySpace).filter(function (c) { var s = IS.subj(c.subject), k = IS.cat(c.cat); return hit([c.title, c.subtitle, c.about, (c.learn || []).join(' '), s && s.ar, s && s.en, k && k.ar, k && k.en, (courseLecturers[c.lecturer_id] || {}).name].join(' ')); }) : [];
     var ls = w.length ? IS.studyLecturers(r[1], r[0]).filter(function (l) { return hit([l.name, l.title, l.specialty, (l.tags || []).join(' ')].join(' ')); }) : [];
     return '<form class="bigsearch" role="search" data-form="search"><span>' + ic('search') + '</span><input name="q" type="search" value="' + esc(q) + '" placeholder="' + esc(A('ابحث…', 'Search…')) + '" autofocus><button class="btn pri">' + esc(A('بحث', 'Search')) + '</button></form>' +
       '<h1 class="ph1" tabindex="-1">' + IS.T('نتائج البحث', 'Search results') + (q ? ': <bdi>' + esc(q) + '</bdi>' : '') + '</h1>' +
-      (ls.length ? '<section class="sec"><header class="sh"><h2>' + IS.T('المحاضرون', 'Lecturers') + '</h2></header><div class="grid g4">' + ls.map(function (l) { return lecCard(l, r[0].filter(function (c) { return c.lecturer_id === l.id; }).length); }).join('') + '</div></section>' : '') +
-      '<section class="sec"><header class="sh"><h2>' + IS.T('الكورسات', 'Courses') + ' (' + N(cs.length) + ')</h2></header>' + (cs.length ? '<div class="grid g3">' + cs.map(function (c) { return IS.courseCard(c, r[2], {}); }).join('') + '</div>' : IS.empty('search', w.length ? A('لا توجد نتائج', 'No results') : A('اكتب ما تبحث عنه', 'Type what you are looking for'), w.length ? A('جرّب كلمة أخرى.', 'Try another word.') : '')) + '</section>';
+      (ls.length ? '<section class="sec"><header class="sh"><h2>' + IS.T('المحاضرون', 'Lecturers') + '</h2></header><div class="grid g4">' + ls.map(function (l) { return lecCard(l, r[0].filter(IS.inStudySpace).filter(function (c) { return c.lecturer_id === l.id; }).length); }).join('') + '</div></section>' : '') +
+      '<section class="sec"><header class="sh"><h2>' + IS.T('الكورسات', 'Courses') + ' (' + N(cs.length) + ')</h2></header>' + (cs.length ? '<div class="grid g3">' + cs.map(function (c) { return IS.courseCard(c, courseLecturers, {}); }).join('') + '</div>' : IS.empty('search', w.length ? A('لا توجد نتائج', 'No results') : A('اكتب ما تبحث عنه', 'Type what you are looking for'), w.length ? A('جرّب كلمة أخرى.', 'Try another word.') : '')) + '</section>';
   });
 
   /* ========== COURSES CATALOGUE ========== */
@@ -314,8 +349,9 @@
     if (F.scope !== scope) { F.scope = scope; F.lec = {}; F.price = 'all'; F.q = ''; }
     F.sub = {}; if (subject) F.sub[subject.id] = true;
     var r = await Promise.all([IS.pubCourses(), IS.lecMap(), IS.myEnroll()]), cs = r[0], L = r[1], E = r[2];
-    var sectionName = section ? IS.navLbl(section.ar, section.en) : '';
-    var h = IS.banner(IS.T('الكورسات', 'Courses'), sectionName, 'layers', '', 'gold');
+    var speciality = IS.mySpec();
+    var context = [speciality && A(speciality.ar, speciality.en), section && A(section.ar, section.en)].filter(Boolean).join(' · ');
+    var h = IS.banner(IS.T('الكورسات', 'Courses'), esc(context), 'layers', '', 'gold', speciality && section && sectionPicture(speciality, section.id));
     var lecIds = Object.keys(L).filter(function (id) { return cs.some(function (c) { return c.lecturer_id === id; }); });
     h += '<div class="cols rev"><aside class="filt" id="filt"><header><h2>' + ic('filter') + IS.T('تصفية النتائج', 'Filter') + '</h2><button type="button" class="link" data-act="fclear">' + esc(A('مسح الكل', 'Clear')) + '</button></header>' +
       fg(IS.T('المادة', 'Subject'), IS.SUBJ.filter(function (s) { return IS.inStudySpace(s); }).map(function (s) { var n = cs.filter(function (c) { return c.subject === s.id; }).length; return '<label class="opt"><input type="checkbox" data-f="sub" value="' + s.id + '"' + (F.sub[s.id] ? ' checked' : '') + '><span lang="en">' + esc(s.en) + '</span><em>' + N(n) + '</em></label>'; }).join('')) +
@@ -355,14 +391,66 @@
   IS.ACT.fclear = function () { F.lec = {}; F.price = 'all'; F.q = ''; IS.go('courses'); };
   IS.ACT.ftog = function () { $('#filt').classList.toggle('show'); };
 
+  IS.courseFormats = function () {
+    return [['recorded', A('دروس مسجّلة', 'Recorded lessons')], ['live', A('مباشر عبر الإنترنت', 'Live online')],
+      ['hybrid', A('دروس مسجّلة وجلسات مباشرة', 'Recorded + live')]];
+  };
+  IS.sudanTimeInput = function (value) {
+    if (!value) return '';
+    var parts = {};
+    new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Khartoum', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+      .formatToParts(new Date(value)).forEach(function (part) { parts[part.type] = part.value; });
+    return parts.year + '-' + parts.month + '-' + parts.day + 'T' + parts.hour + ':' + parts.minute;
+  };
+  IS.previewVideoUrl = function (value) {
+    var video = IS.extEmbed(value);
+    return video ? video.src : value || '';
+  };
+  IS.courseLiveLink = async function (id) {
+    var row = (await DB.q('course_live_links', { eq: { course_id: id }, limit: 1 }))[0];
+    return row && /^https:\/\//.test(row.url) ? row.url : '';
+  };
+  async function availableSeats(course) {
+    if (!course.seat_limit || course.status !== 'published') return null;
+    if (DB.live) {
+      var result = await DB.sb.rpc('ish_available_course_seats', { course: course.id });
+      if (result.error) throw result.error;
+      return result.data;
+    }
+    var reserved = await DB.q('enrollments', { eq: { course_id: course.id }, in: { status: ['pending', 'active'] } });
+    return Math.max(0, course.seat_limit - new Set(reserved.map(function (e) { return e.user_id; })).size);
+  }
+  function courseFormat(course) {
+    var format = IS.courseFormats().find(function (item) { return item[0] === course.delivery; });
+    return format ? esc(format[1]) : '';
+  }
+  function courseSchedule(course) {
+    return esc(IS.date(course.starts_at, { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Khartoum' })) +
+      ' · ' + esc(A('بتوقيت السودان', 'Sudan time'));
+  }
+  function courseInfo(course, link) {
+    if (!course.delivery && !course.starts_at && !course.teaching_method && !course.seat_limit) return '';
+    var facts = [
+      [A('نوع الكورس', 'Format'), courseFormat(course)],
+      [A('موعد البدء', 'Start date'), course.starts_at && courseSchedule(course)],
+      [A('الحد الأقصى للطلاب', 'Maximum students'), course.seat_limit && N(course.seat_limit)]
+    ].filter(function (item) { return item[1]; });
+    return '<section class="box"><h2>' + IS.T('الموعد وطريقة التدريس', 'Schedule and teaching') + '</h2>' +
+      (facts.length ? '<ul class="kv">' + facts.map(function (item) { return '<li><span>' + esc(item[0]) + '</span><b>' + item[1] + '</b></li>'; }).join('') + '</ul>' : '') +
+      (course.teaching_method ? '<p class="pre" dir="auto">' + esc(course.teaching_method) + '</p>' : '') +
+      (link ? '<a class="btn pri sm" data-live-course href="' + IS.U(link) + '" target="_blank" rel="noopener noreferrer">' +
+        ic('video') + esc(A('انضم للجلسة المباشرة', 'Join the live session')) + '</a>' : '') + '</section>';
+  }
+
   /* ========== COURSE PAGE ========== */
   IS.page('course', async function (id) {
     var c = await DB.one('courses', id); if (!c) return null;
     var mine = IS.LEC && c.lecturer_id === IS.LEC.id, staff = IS.can('review');
     if (c.status !== 'published' && !mine && !staff) return null;
     if (!mine && !staff && !IS.inStudySpace(c)) return IS.outsideStudySpace(c);
-    var r = await Promise.all([IS.courseLessons(id), DB.one('lecturers', c.lecturer_id), IS.myEnroll(), IS.myProgress(id), DB.q('reviews', { eq: { course_id: id }, order: ['created_at', false] })]);
-    var secs = r[0], l = r[1] || {}, e = r[2][id], P = r[3], rv = r[4], all = []; secs.forEach(function (s) { all = all.concat(s.lessons); });
+    var r = await Promise.all([IS.courseLessons(id), DB.one('lecturers', c.lecturer_id), IS.myEnroll(), IS.myProgress(id), DB.q('reviews', { eq: { course_id: id }, order: ['created_at', false] }), availableSeats(c),
+      uid() && (c.delivery === 'live' || c.delivery === 'hybrid') ? IS.courseLiveLink(c.id) : '']);
+    var secs = r[0], l = r[1] || {}, e = r[2][id], P = r[3], rv = r[4], seats = r[5], all = []; secs.forEach(function (s) { all = all.concat(s.lessons); });
     var act = (e && e.status === 'active') || mine || staff, done = all.filter(function (x) { return P[x.id]; }).length, pct = all.length ? Math.round(done / all.length * 100) : 0;
     var next = all.filter(function (x) { return !P[x.id]; })[0] || all[0], cat = IS.cat(IS.studyScope(c).cat), sj = IS.subj(c.subject);
     var h = '<nav class="crumb"><a href="#courses">' + esc(A('الكورسات', 'Courses')) + '</a>' + ic('chev', 'fl') + (cat ? '<a href="#courses/' + cat.id + '">' + esc(A(cat.ar, cat.en)) + '</a>' + ic('chev', 'fl') : '') + '<span>' + esc(c.title) + '</span></nav>';
@@ -374,7 +462,10 @@
       (c.cover ? '<img class="chimg" src="' + IS.U(c.cover) + '" alt="">' : '') + '</div></section>';
     h += '<div class="cols"><div class="main"><div class="tabs" role="tablist">' + [['about', A('نظرة عامة', 'Overview')], ['cur', A('محتوى الكورس', 'Curriculum')], ['lec', A('المحاضر', 'Lecturer')], ['rev', A('التقييمات', 'Reviews') + (rv.length ? ' (' + rv.length + ')' : '')]].map(function (t, i) {
       return '<button role="tab" data-act="tab" data-t="' + t[0] + '" aria-selected="' + (i === 0) + '">' + esc(t[1]) + '</button>'; }).join('') + '</div>';
-    h += '<div class="pane" data-p="about">' + ((c.learn || []).length ? '<section class="box"><h2>' + IS.T('ماذا ستتعلم', 'What you’ll learn') + '</h2><ul class="learn">' + c.learn.map(function (x) { return '<li>' + ic('check') + esc(x) + '</li>'; }).join('') + '</ul></section>' : '') +
+    var promo = IS.extEmbed(c.promo) ? c.promo : IS.extVideo(c.promo);
+    var liveLink = act ? r[6] : '';
+    h += '<div class="pane" data-p="about">' + (promo ? '<section class="box"><h2>' + IS.T('معاينة الكورس', 'Course preview') + '</h2>' + postPreview({ preview_video: promo }) + '</section>' : '') +
+      courseInfo(c, liveLink) + ((c.learn || []).length ? '<section class="box"><h2>' + IS.T('ماذا ستتعلم', 'What you’ll learn') + '</h2><ul class="learn">' + c.learn.map(function (x) { return '<li>' + ic('check') + esc(x) + '</li>'; }).join('') + '</ul></section>' : '') +
       (c.about ? '<section class="box"><h2>' + IS.T('عن الكورس', 'About this course') + '</h2><div class="rich">' + IS.clean(c.about) + '</div></section>' : '') +
       ((c.reqs || []).length ? '<section class="box"><h2>' + IS.T('المتطلبات', 'Requirements') + '</h2><ul class="learn dot">' + c.reqs.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></section>' : '') + '</div>';
     h += '<div class="pane" data-p="cur" hidden>' + curriculum(c, secs, P, null, act) + '</div>';
@@ -384,11 +475,12 @@
       '<textarea name="body" rows="3" placeholder="' + esc(A('اكتب رأيك بإيجاز (اختياري)', 'A short comment (optional)')) + '"></textarea><button class="btn pri">' + esc(A('إرسال التقييم', 'Submit review')) + '</button></form>' : '') +
       (rv.length ? rv.map(function (x) { return '<div class="revw">' + IS.av({ name: x.name }, 'sm') + '<div><b>' + esc(x.name || '') + '</b> ' + IS.stars(x.stars) + '<small>' + esc(IS.ago(x.created_at)) + '</small><p>' + esc(x.body || '') + '</p></div><button class="ib" data-act="report" data-kind="review" data-id="' + x.id + '" aria-label="' + esc(A('إبلاغ', 'Report')) + '">' + ic('flag') + '</button></div>'; }).join('') :
         IS.empty('star', A('لا توجد تقييمات بعد', 'No reviews yet'), A('يقيّم الكورس الطلبة الملتحقون به.', 'Enrolled students rate the course.'))) + '</div>';
-    h += '</div><aside class="aside"><section class="box buy">' + (c.promo ? '' : '') + '<div class="bp">' + price(c) + '</div>' +
+    h += '</div><aside class="aside"><section class="box buy">' + '<div class="bp">' + price(c) + '</div>' +
+      (seats !== null && !act ? '<p class="mut">' + (seats ? esc(A('المقاعد المتاحة', 'Seats available')) + ' · ' + N(seats) : esc(A('اكتملت المقاعد', 'Course is full'))) + '</p>' : '') +
       (e && +e.price > 0 ? '<div class="row">' + IS.paymentStatus(e.status) + IS.paymentLink(e) + '</div>' : '') +
       (act ? (all.length ? '<a class="btn pri wide" href="#lesson/' + id + '/' + next.id + '">' + ic('play') + esc(done ? A('تابع التعلّم', 'Continue learning') : A('ابدأ الكورس', 'Start the course')) + '</a>' : '') + (e && e.status === 'active' ? '<div class="prog">' + IS.bar(pct) + '<em>' + N(pct + '%') + '</em></div>' : '') :
         e && e.status === 'pending' ? '<p class="mut">' + esc(A('يُفتح الكورس بعد تأكيد الدفع.', 'The course opens after payment is confirmed.')) + '</p>' :
-        '<button class="btn pri wide" data-act="enrol" data-id="' + id + '">' + ic('wallet') +
+        seats === 0 ? '' : '<button class="btn pri wide" data-act="enrol" data-id="' + id + '">' + ic('wallet') +
         esc(+c.price ? (e && e.status === 'rejected' ? A('أرسل إيصالًا جديدًا', 'Submit a new receipt') : A('ادفع للالتحاق', 'Pay to enrol')) : A('التحق مجانًا', 'Enrol for free')) + '</button>') +
       '<div class="row">' + IS.favBtn('c:' + id) + '<button class="fav" data-act="share" data-h="course/' + id + '" aria-label="share">' + ic('share') + '</button></div>' +
       '<h3 class="sub">' + esc(A('يتضمن هذا الكورس', 'This course includes')) + '</h3><ul class="inc"><li>' + ic('video') + N(all.filter(function (x) { return x.kind === 'video'; }).length) + ' ' + esc(A('درس فيديو', 'video lessons')) + '</li>' +
@@ -419,8 +511,14 @@
     if (!me()) return IS.ACT.login();
     var c = await DB.one('courses', b.dataset.id);
     if (!c || c.status !== 'published' || !IS.inStudySpace(c)) return IS.refresh();
+    if (await availableSeats(c) === 0) return IS.refresh();
     if (!+c.price) {
-      await DB.ins('enrollments', { course_id: c.id, user_id: uid(), lecturer_id: c.lecturer_id, status: 'active', price: 0, payer: me().name, phone: me().phone || '', decided_at: new Date().toISOString() });
+      try {
+        await DB.ins('enrollments', { course_id: c.id, user_id: uid(), lecturer_id: c.lecturer_id, status: 'active', price: 0, payer: me().name, phone: me().phone || '', decided_at: new Date().toISOString() });
+      } catch (error) {
+        if (!['course_no_seats', 'course_already_enrolled'].includes(error.message)) throw error;
+        return IS.refresh();
+      }
       await IS.recount(c.id);
       IS.toast(A('تم التحاقك بالكورس', 'You are enrolled'));
       return IS.refresh();
@@ -487,7 +585,7 @@
     var file = f.receipt.files[0];
     if (!file || !/^image\//.test(file.type) || file.size > 10 * 1024 * 1024) return IS.toast(A('أرفق صورة للإيصال بحجم 10 ميغابايت أو أقل.', 'Attach a receipt image of 10 MB or less.'), true);
     var quote = d.request ? await IS.requestPaymentQuote(d.request) : await DB.one('courses', d.course);
-    if (!quote || +quote.price <= 0 || (!d.request && (quote.status !== 'published' || !IS.inStudySpace(quote)))) {
+    if (!quote || +quote.price <= 0 || (!d.request && (quote.status !== 'published' || !IS.inStudySpace(quote) || await availableSeats(quote) === 0))) {
       IS.closeSheet();
       IS.toast(A('التسجيل غير متاح الآن.', 'Enrolment is currently unavailable.'), true);
       return IS.refresh();
@@ -500,7 +598,7 @@
         status: 'pending', price: +quote.price, payer: d.payer, phone: d.phone, receipt: path
       });
     } catch (error) {
-      if (!['request_closed', 'request_no_seats'].includes(error.message) && error.code !== '23505') throw error;
+      if (!['request_closed', 'request_no_seats', 'course_no_seats', 'course_already_enrolled'].includes(error.message) && error.code !== '23505') throw error;
       IS.closeSheet();
       IS.toast(A('تغيّر توفر المقاعد. راجع حالة التسجيل في الصفحة.', 'Seat availability changed. Check your enrolment status on the page.'), true);
       return IS.refresh();
@@ -572,16 +670,20 @@
     var r = id ? await DB.upd('notes', id, row) : await DB.ins('notes', row); b.setAttribute('data-id', r.id); $('#nst').textContent = A('حُفظت', 'Saved'); IS.toast(A('حُفظت الملاحظات', 'Notes saved'));
   };
   async function qaBox(c, x) {
-    var box = $('#qaBox'); if (!box) return; var ps = await DB.q('posts', { eq: { room: 'qa', lesson_id: x.id }, order: ['created_at', false] }); ps = ps.filter(function (p) { return p.status !== 'removed' && IS.inSpec(p); }); box.className = '';
-    box.innerHTML = '<form class="box form" data-form="ask"><input type="hidden" name="course" value="' + c.id + '"><input type="hidden" name="lesson" value="' + x.id + '"><input type="hidden" name="lecturer" value="' + c.lecturer_id + '"><label class="fl"><span>' + esc(A('اسأل المحاضر أو زملاءك عن هذا الدرس', 'Ask the lecturer or your classmates about this lesson')) + '</span><textarea name="body" rows="3" required maxlength="2000"></textarea></label><button class="btn pri sm">' + ic('send') + esc(A('نشر السؤال', 'Post question')) + '</button></form>' +
+    var box = $('#qaBox'); if (!box) return;
+    var ps = await DB.q('posts', { eq: { room: 'qa', lesson_id: x.id }, order: ['created_at', false] });
+    ps = ps.filter(function (p) { return IS.publicPost(p) || (privateQuestion(p) && p.user_id === uid()); });
+    box.className = '';
+    box.innerHTML = '<form class="box form" data-form="ask"><input type="hidden" name="course" value="' + c.id + '"><input type="hidden" name="lesson" value="' + x.id + '"><input type="hidden" name="lecturer" value="' + c.lecturer_id + '"><label class="fl"><span>' + esc(A('اسأل المحاضر أو زملاءك عن هذا الدرس', 'Ask the lecturer or your classmates about this lesson')) + '</span><textarea name="body" rows="3" required maxlength="2000"></textarea></label><button class="btn pri sm">' + ic('send') + esc(A('أرسل للمراجعة', 'Send for review')) + '</button></form>' +
       (ps.length ? ps.map(postRow).join('') : '<p class="mut center">' + esc(A('لا توجد أسئلة بعد. كن أول من يسأل.', 'No questions yet. Be the first to ask.')) + '</p>');
   }
   IS.SUB.ask = async function (d) {
-    await DB.ins('posts', { room: 'qa', course_id: d.course, lesson_id: d.lesson, lecturer_id: d.lecturer, user_id: uid(), name: me().name, photo: me().photo || '', title: '', body: d.body, status: 'open', n_replies: 0 });
-    IS.notify(d.lecturer, A('سؤال جديد في كورسك', 'New question in your course'), d.body.slice(0, 120), '#studio-qa'); IS.toast(A('نُشر سؤالك', 'Question posted')); IS.refresh();
+    var post = await DB.ins('posts', { room: 'qa', course_id: d.course, lesson_id: d.lesson, lecturer_id: d.lecturer,
+      user_id: uid(), name: me().name, photo: me().photo || '', title: '', body: d.body, status: 'pending', n_replies: 0 });
+    IS.go('post/' + post.id);
   };
   function postRow(p) {
-    return '<a class="post" href="#post/' + p.id + '">' + IS.av({ name: p.name, photo: p.photo }, 'sm', p.user_id) + '<span class="pb"><b>' + esc(p.title || p.body.slice(0, 90)) + '</b><small>' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + (p.pinned ? ' · ' + esc(A('مثبّت', 'Pinned')) : '') + '</small></span><span class="pc">' + ic('chat') + N(p.n_replies || 0) + '</span></a>';
+    return '<a class="post" href="#post/' + p.id + '">' + IS.av({ name: p.name, photo: p.photo }, 'sm', p.user_id) + '<span class="pb"><b>' + esc(p.title || p.body.slice(0, 90)) + '</b><small>' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + (p.pinned ? ' · ' + esc(A('مثبّت', 'Pinned')) : '') + '</small></span>' + (privateQuestion(p) ? IS.status(p.status) : '<span class="pc">' + ic('chat') + N(p.n_replies || 0) + '</span>') + '</a>';
   }
   IS.postRow = postRow;
 
@@ -612,13 +714,13 @@
 
   /* ========== LECTURERS ========== */
   IS.page('lecturers', async function () {
-    var r = await Promise.all([DB.q('lecturers', { eq: { status: 'active' } }), IS.pubCourses()]), cs = r[1], ls = IS.studyLecturers(r[0], cs);
+    var r = await Promise.all([DB.q('lecturers', { eq: { status: 'active' } }), IS.pubCourses(true)]), cs = r[1].filter(IS.inStudySpace), ls = IS.studyLecturers(r[0], r[1]);
     var section = IS.mySection();
     var h = IS.banner(IS.T('المحاضرون', 'Lecturers'), section ? IS.navLbl(section.ar, section.en) : '', 'users',
       '<div class="bnums"><span><b>' + N(ls.length) + '</b>' + esc(A('محاضر', 'lecturers')) + '</span><span><b>' + N(cs.length) + '</b>' + esc(A('كورس', 'courses')) + '</span></div>');
     return h + (ls.length ? '<div class="grid g4">' + ls.map(function (l) { return lecCard(l, cs.filter(function (c) { return c.lecturer_id === l.id; }).length); }).join('') + joinCard() + '</div>' :
       IS.empty('users', A('لا يوجد محاضرون في هذا القسم بعد', 'No lecturers in this section yet'),
-        A('يظهر المحاضر هنا عندما يُنشر له كورس في هذا القسم.', 'Lecturers appear here when they have a published course in this section.'),
+        A('تظهر هنا ملفات المحاضرين المعتمدين في هذا التخصص.', 'Approved lecturers teaching in this speciality appear here.'),
         '<a class="btn pri" href="#' + (IS.LEC ? 'studio' : 'studio-apply') + '">' + ic('studio') + esc(IS.LEC ? A('افتح الاستوديو', 'Open the studio') : A('انضم كمحاضر', 'Teach on Ishrah Li')) + '</a>'));
   });
   function joinCard() { if (IS.LEC) return '<article class="lcard join"><span class="av lg"><b>' + ic('studio') + '</b></span><h3>' + esc(A('استوديو المحاضر', 'Lecturer studio')) + '</h3><p>' + esc(A('أنت محاضر في اشرح لي: أنشئ كورساتك وتابع طلابك.', 'You are a lecturer on Ishrah Li: create your courses and follow your students.')) + '</p><div class="row"><a class="btn sm gold" href="#studio">' + ic('studio') + esc(A('افتح الاستوديو', 'Open the studio')) + '</a></div></article>';
@@ -627,9 +729,13 @@
     var l = await DB.one('lecturers', id); if (!l || (l.status !== 'active' && !(IS.LEC && IS.LEC.id === id) && !IS.can('lecturers'))) return null;
     var courses = await DB.q('courses', { eq: { lecturer_id: id, status: 'published' }, order: ['published_at', false] });
     var cs = courses.filter(IS.inStudySpace), preview = (IS.LEC && IS.LEC.id === id) || IS.can('lecturers');
-    if (!cs.length && !preview) {
-      var other = courses.find(function (c) { return IS.studyScope(c).spec === IS.SPEC; }) || courses[0];
-      return other ? IS.outsideStudySpace(other) : null;
+    if (!preview && !IS.studyLecturers([l], courses).length) {
+      var selected = (l.teaching_spaces || []).find(function (space) { return space.startsWith(IS.SPEC + '/'); }) || (l.teaching_spaces || [])[0];
+      var parts = selected && selected.split('/');
+      var other = parts ? { spec: parts[0], cat: parts[1] } :
+        courses.find(function (c) { return IS.studyScope(c).spec === IS.SPEC; }) || courses[0] ||
+        { spec: IS.legacyTeachingSpec(l), cat: (IS.mySection() || IS.CATS[0] || {}).id };
+      return IS.outsideStudySpace(other);
     }
     if (preview && !IS.mySection()) cs = courses;
     var r = await Promise.all([DB.q('events', { eq: { lecturer_id: id, status: 'published' }, order: ['starts'] }), IS.myEnroll()]);
@@ -694,7 +800,7 @@
     },
     question: {
       name: ['سؤال', 'Question'], title: ['سؤالك', 'Your question'], body: ['تفاصيل السؤال (اختياري)', 'Question details (optional)'],
-      hint: ['أضف ما يساعد الآخرين على الإجابة.', 'Add any context that will help people answer.'], submit: ['انشر السؤال', 'Post question']
+      hint: ['أضف ما يساعد الآخرين على الإجابة.', 'Add any context that will help people answer.'], submit: ['أرسل للمراجعة', 'Send for review']
     },
     announcement: {
       name: ['إعلان', 'Announcement'], title: ['عنوان الإعلان', 'Announcement title'], body: ['نص الإعلان', 'Announcement text'],
@@ -710,19 +816,38 @@
     return row.course_id || row.preview_video || row.preview_image || (row.highlights || []).length ? 'course_preview' : 'discussion';
   }
   function teacherPostAllowed() { return (IS.LEC && IS.LEC.status === 'active') || IS.can('notify', 'add'); }
+  function privateQuestion(row) { return row.status === 'pending' || row.status === 'rejected'; }
+  IS.publicPost = function (row) { return row.status !== 'removed' && !privateQuestion(row); };
+  function postChoices(section) {
+    var spec = IS.spec(IS.SPEC);
+    var context = [spec && A(spec.ar, spec.en), section && A(section.ar, section.en)].filter(Boolean).join(' · ');
+    var choices = [
+      ['course-requests/new', 'receipt', 'اطلب كورسًا', 'Request a course', 'اختر محاضرًا أو اترك الطلب مفتوحًا. يُنشر بعد المراجعة.', 'Name a lecturer or leave the request open. It’s published after review.'],
+      ['community/new/question', 'help', 'اسأل سؤالًا', 'Ask a question', 'يُنشر السؤال بعد مراجعة الإدارة.', 'An admin reviews the question before it appears.'],
+      ['community/new/discussion', 'chat', 'ابدأ نقاشًا', 'Start a discussion', 'شارك موضوعًا للنقاش مع طلاب هذا القسم.', 'Start a conversation with students in this section.']
+    ];
+    if (IS.LEC && IS.LEC.status === 'active') choices.unshift(
+      ['studio-course/new', 'layers', 'أنشئ كورسًا', 'Create a course', 'أضف الرسوم والموعد وطريقة التدريس والمعاينة.', 'Set the fee, schedule, teaching format and preview.'],
+      ['studio-events/new', 'cal', 'أنشئ فعالية', 'Create an event', 'أعلن عن ورشة أو ندوة أو جلسة مباشرة.', 'Announce a workshop, seminar or live session.']);
+    if (teacherPostAllowed()) choices.push(
+      ['community/new/course_preview', 'video', 'معاينة كورس', 'Course preview', 'شارك صورة أو فيديو أو اربط كورسًا منشورًا.', 'Share a picture or video, or link a published course.'],
+      ['community/new/announcement', 'mega', 'اكتب إعلانًا', 'Write an announcement', 'شارك تحديثًا في هذا القسم.', 'Share an update with this section.']);
+    return '<section class="box post-composer"><h2 tabindex="-1" data-post-composer>' + IS.T('اختر ما تريد نشره', 'Choose what to post') + '</h2>' +
+      '<p class="mut">' + esc(context) + '</p><div class="list">' + choices.map(function (choice) {
+        return '<a class="li" href="#' + choice[0] + '">' + ic(choice[1]) + '<span><b>' + esc(A(choice[2], choice[3])) +
+          '</b><small>' + esc(A(choice[4], choice[5])) + '</small></span>' + ic('chev', 'fl') + '</a>';
+      }).join('') + '</div></section>';
+  }
   async function postComposer(kind) {
     var spec = POST_KINDS[kind], preview = kind === 'course_preview';
-    var choices = teacherPostAllowed() ? ['discussion', 'question', 'course_preview', 'announcement'] : ['discussion', 'question'];
-    var picker = '<nav class="post-types" aria-label="' + esc(A('نوع المنشور', 'Post type')) + '">' + choices.map(function (type) {
-      return '<a class="btn sm ' + (type === kind ? 'pri' : 'ghost') + '" href="#community/new/' + type +
-        '"' + (type === kind ? ' aria-current="page"' : '') + '>' + esc(A.apply(null, POST_KINDS[type].name)) + '</a>';
-    }).join('') + '</nav>';
-    return '<form class="box form post-composer" data-form="post"><input type="hidden" name="kind" value="' + kind + '">' + picker +
-      '<h2 tabindex="-1" data-post-composer>' + IS.T.apply(null, spec.name) + '</h2>' +
+    return '<form class="box form post-composer" data-form="post"><input type="hidden" name="kind" value="' + kind + '">' +
+      '<div class="row sp"><h2 tabindex="-1" data-post-composer>' + IS.T.apply(null, spec.name) + '</h2><a class="link" href="#community/new">' +
+      esc(A('خيارات النشر', 'Post options')) + '</a></div>' +
       '<label class="fl"><span>' + esc(A.apply(null, spec.title)) + '</span><input name="title" required maxlength="140"></label>' +
       '<label class="fl"><span>' + esc(A.apply(null, spec.body)) + '</span><textarea name="body" rows="3" maxlength="5000"' +
       (kind === 'discussion' || kind === 'announcement' ? ' required' : '') + ' placeholder="' + esc(A.apply(null, spec.hint)) + '"></textarea></label>' +
       (preview ? await lecturerPostFields() : '') +
+      (kind === 'question' ? '<p class="mut">' + esc(A('يظهر السؤال للطلاب بعد موافقة الإدارة.', 'Students see your question after admin approval.')) + '</p>' : '') +
       '<div class="row end"><button class="btn pri sm">' + ic('send') + esc(A.apply(null, spec.submit)) + '</button></div></form>';
   }
   async function lecturerPostFields() {
@@ -758,11 +883,14 @@
   IS.page('community', async function (room) {
     var section = IS.mySection(), cur = section ? section.id : 'general';
     var parts = String(room || '').split('/'), writing = parts[0] === 'new';
-    var kind = writing && (parts[1] === 'question' || (['course_preview', 'announcement'].includes(parts[1]) && teacherPostAllowed())) ? parts[1] : 'discussion';
+    var kind = ['question', 'discussion'].includes(parts[1]) || (['course_preview', 'announcement'].includes(parts[1]) && teacherPostAllowed()) ? parts[1] : '';
     if (section && IS.cat(room) && room !== section.id) return IS.outsideStudySpace({ spec: IS.SPEC, cat: room });
     var ps = await DB.q('posts', { eq: { room: cur }, order: ['created_at', false], limit: 200 });
-    ps = ps.filter(function (p) { return p.status !== 'removed' && IS.inSpec(p); });
-    var composer = me() ? await postComposer(kind) : '';
+    ps = ps.filter(function (p) { return IS.inSpec(p) && (IS.publicPost(p) || (privateQuestion(p) && p.user_id === uid())); });
+    var own = ps.filter(privateQuestion);
+    ps = ps.filter(IS.publicPost);
+    var composer = me() && writing ? (kind ? await postComposer(kind) : postChoices(section)) :
+      me() ? '<a class="btn pri" href="#community/new">' + ic('pen') + esc(A('اكتب منشورًا', 'Create a post')) + '</a>' : '';
     if (writing && composer) IS.after = function (main) {
       var heading = main.querySelector('[data-post-composer]');
       if (!heading) return;
@@ -777,6 +905,7 @@
       '<section class="rules"><h3>' + ic('shield') + esc(A('قواعد المجتمع', 'Community rules')) + '</h3><ul>' + [A('الاحترام أولًا: لا إساءة ولا تنمّر.', 'Respect first: no insults or bullying.'), A('لا تنشر محتوى الكورسات المدفوعة.', 'Do not post paid course content.'), A('لا نصائح علاجية لمرضى حقيقيين.', 'No treatment advice for real patients.'), A('أبلغ عن المخالفات ليراجعها المشرفون.', 'Report violations to the moderators.')].map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></section></aside>' +
       '<div class="main">' + (me() ? composer :
         '<div class="box center">' + esc(A('سجّل الدخول لتشارك في النقاش.', 'Sign in to join the discussion.')) + ' <button class="btn pri sm" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button></div>') +
+      (own.length ? '<section class="box"><h2>' + IS.T('حالة أسئلتي', 'My question status') + '</h2><div class="posts">' + own.map(postRow).join('') + '</div></section>' : '') +
       (list.length ? '<div class="posts">' + list.map(postRow).join('') + '</div>' : IS.empty('chat', A('لا توجد نقاشات هنا بعد', 'No discussions here yet'), A('ابدأ أول نقاش.', 'Start the first one.'))) + '</div></div>';
     return h;
   });
@@ -785,7 +914,7 @@
     if (!me() || !section) return;
     var kind = Object.prototype.hasOwnProperty.call(POST_KINDS, d.kind) ? d.kind : 'discussion';
     if (['course_preview', 'announcement'].includes(kind) && !teacherPostAllowed()) return;
-    var row = { room: section.id, post_kind: kind, spec: IS.SPEC, user_id: uid(), name: me().name, photo: me().photo || '', title: d.title, body: d.body || '', status: 'open', n_replies: 0, pinned: false };
+    var row = { room: section.id, post_kind: kind, spec: IS.SPEC, user_id: uid(), name: me().name, photo: me().photo || '', title: d.title, body: d.body || '', status: kind === 'question' ? 'pending' : 'open', n_replies: 0, pinned: false };
     if (kind === 'course_preview') {
       var picture = form.elements.preview_image && form.elements.preview_image.files[0];
       var video = d.preview_video && IS.extVideo(d.preview_video), highlights = IS.lines(d.highlights);
@@ -800,12 +929,23 @@
       if (picture) row.preview_image = await DB.upload('media', await IS.shrink(picture, 1280, 0.84));
     }
     var post = await DB.ins('posts', row);
-    IS.toast(A('نُشر', 'Posted'));
+    if (kind !== 'question') IS.toast(A('نُشر', 'Posted'));
     IS.go('post/' + post.id);
   };
   IS.page('post', async function (arg) {
     var parts = String(arg || '').split('/'), id = parts[0];
     var p = await DB.one('posts', id); if (!p || p.status === 'removed') return null;
+    if (privateQuestion(p)) {
+      if (p.user_id !== uid() && !IS.can('review')) return null;
+      var back = p.room === 'qa' ? '#lesson/' + p.course_id + '/' + p.lesson_id : '#community';
+      var pending = p.status === 'pending';
+      return '<nav class="crumb"><a href="' + esc(back) + '">' + esc(p.room === 'qa' ? A('الدرس', 'Lesson') : A('المجتمع', 'Community')) +
+        '</a></nav><article class="box thread"><div><h1 tabindex="-1" dir="auto">' + esc(p.title || A('سؤالك', 'Your question')) + '</h1>' +
+        IS.status(p.status) + '<p class="pre" dir="auto">' + esc(p.body) + '</p><p class="mut">' +
+        esc(pending ? A('سيصلك إشعار بقرار الإدارة.', 'You’ll receive a notification with the review decision.') :
+          A('لم يُنشر السؤال.', 'This question was declined.')) + '</p>' +
+        (p.review_note ? '<p class="note bad pre" dir="auto">' + esc(p.review_note) + '</p>' : '') + '</div></article>';
+    }
     var mod = IS.can('community'), owner = IS.LEC && p.lecturer_id === IS.LEC.id;
     if (!mod && !owner) {
       if (p.room === 'qa') {
@@ -838,7 +978,9 @@
       '</section>';
   });
   IS.SUB.reply = async function (d) {
-    var p = await DB.one('posts', d.post); await DB.ins('replies', { post_id: d.post, user_id: uid(), name: me().name, photo: me().photo || '', body: d.body, status: 'open' });
+    var p = await DB.one('posts', d.post);
+    if (!p || !IS.publicPost(p)) return;
+    await DB.ins('replies', { post_id: d.post, user_id: uid(), name: me().name, photo: me().photo || '', body: d.body, status: 'open' });
     if (!DB.live) await DB.upd('posts', d.post, { n_replies: (p.n_replies || 0) + 1 });
     if (p.user_id !== uid()) IS.notify(p.user_id, A('رد جديد على مشاركتك', 'New reply to your post'), d.body.slice(0, 120), '#post/' + p.id); IS.refresh();
   };
@@ -957,7 +1099,7 @@
   /* ========== FAVOURITES ========== */
   IS.page('favorites', async function () {
     var f = favs(), ks = Object.keys(f).sort(function (a, b) { return f[b] - f[a]; }), cids = ks.filter(function (k) { return /^c:/.test(k); }).map(function (k) { return k.slice(2); }), tids = ks.filter(function (k) { return /^t:/.test(k); }).map(function (k) { return k.slice(2); });
-    var r = await Promise.all([cids.length ? DB.q('courses', { in: { id: cids } }) : [], tids.length ? DB.q('lecturers', { in: { id: tids } }) : [], IS.lecMap(), IS.myEnroll(), tids.length ? IS.pubCourses() : []]);
+    var r = await Promise.all([cids.length ? DB.q('courses', { in: { id: cids } }) : [], tids.length ? DB.q('lecturers', { in: { id: tids } }) : [], IS.lecMap(), IS.myEnroll(), tids.length ? IS.pubCourses(true) : []]);
     r[0] = r[0].filter(IS.inStudySpace); r[1] = IS.studyLecturers(r[1], r[4]);
     var h = IS.banner(IS.T('المفضلة', 'Favourites'), '', 'heart');
     if (!r[0].length && !r[1].length) return h + IS.empty('heart', A('لا توجد عناصر في المفضلة', 'No favourites yet'), A('اضغط ♡ على أي كورس أو محاضر.', 'Tap ♡ on any course or lecturer.'));
