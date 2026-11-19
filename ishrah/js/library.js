@@ -476,9 +476,19 @@
     if (IS.openReader) {
       meta = meta || {};
       var open = function () { IS.openReader({ id: meta.id, title: meta.title, url: url, blob: blob }); };
-      target.innerHTML = '<div class="rdr-open">' + ic('open') + '<b>' + esc(meta.title || A('الكتاب', 'The book')) + '</b><p class="mut">' +
-        esc(A('يفتح الكتاب في قارئ كامل الشاشة: تكبير، بحث، نسخ وتظليل.', 'The book opens in a full-screen reader: zoom, search, copy and highlight.')) + '</p><button type="button" class="btn pri">' + ic('open') + esc(A('افتح الكتاب', 'Open the book')) + '</button></div>';
-      target.querySelector('button').onclick = open;
+      /* a light book card (owner, 19 Nov 2026: the dark box under «اقرأ داخل التطبيق» looked bad): cover, title, where the reader stopped,
+         the reader's tools and one big button */
+      var last = 0, marks = 0;
+      try { last = +JSON.parse(localStorage.getItem('ish-rpg:' + meta.id) || '0') || 0; marks = (JSON.parse(localStorage.getItem('ish-hl:' + meta.id) || '[]') || []).length; } catch (e) {}
+      target.classList.add('viewer-card');
+      target.innerHTML = '<div class="rdr-open">' + (meta.cover ? '<div class="rdr-cover">' + meta.cover + '</div>' : '<div class="rdr-cover rdr-nocover">' + ic('open') + '</div>') +
+        '<div class="rdr-info"><b dir="auto">' + esc(meta.title || A('الكتاب', 'The book')) + '</b>' +
+        (last > 1 ? '<span class="rdr-last">' + ic('bookmark') + esc(A('توقفت عند الصفحة ', 'You stopped at page ')) + '<bdi>' + last + '</bdi></span>' : '') +
+        '<ul class="rdr-feats">' + [['search', A('بحث في الكتاب', 'Search the book')], ['pen', A('تظليل ونسخ', 'Highlight and copy')], ['open', A('ملء الشاشة وتكبير', 'Full screen and zoom')]].map(function (f) {
+          return '<li>' + ic(f[0]) + '<span>' + esc(f[1]) + '</span></li>'; }).join('') + '</ul>' +
+        '<button type="button" class="btn pri rdr-go">' + ic('open') + esc(last > 1 ? A('تابع القراءة', 'Continue reading') : A('افتح الكتاب', 'Open the book')) + '</button>' +
+        (marks ? '<small class="mut">' + esc(A('تظليلاتك: ', 'Your highlights: ')) + '<bdi>' + marks + '</bdi></small>' : '') + '</div></div>';
+      target.querySelector('.rdr-go').onclick = open; if (IS.hydrateLibraryCovers) IS.hydrateLibraryCovers(target).catch(function () {});
       if (meta.auto !== false) open();
       return;
     }
@@ -604,7 +614,7 @@
         try {
           var media = IS.libraryDocument(file), url = await DB.fileUrl('library', media.path);
           if (!url) throw new Error('missing file');
-          await IS.renderLibraryDocument(viewer, media.mime, url, null, { id: file.id, title: file.title });
+          await IS.renderLibraryDocument(viewer, media.mime, url, null, { id: file.id, title: file.title, cover: IS.libraryCover ? IS.libraryCover(file) : '' });
         } catch (error) {
           started = false;
           viewer.innerHTML = IS.empty('file', A('تعذّر عرض الملف', 'The file could not be shown'),

@@ -541,8 +541,8 @@
         '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</button>' :
       '<a class="feed-emoji feed-comment" data-act="focus-feed-comments" href="' + esc(commentRoute) + '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</a>';
     var score = voteScore(row);
-    var rating = kind === 'file' ? IS.libraryRating(row, true) : '<span class="feed-grade" role="img" aria-label="' + esc(IS.gradeLabel(row)) +
-      '" title="' + esc(IS.gradeLabel(row)) + '">' + IS.gradeInner(row) + '</span>';
+    var rating = kind === 'file' ? IS.libraryRating(row, true) : '<button type="button" class="feed-grade" data-act="grade-info" data-kind="' + esc(kind) + '" aria-label="' + esc(IS.gradeLabel(row)) +
+      '" title="' + esc(IS.gradeLabel(row)) + '">' + IS.gradeInner(row) + '</button>';
     var reaction = row.my_reaction === undefined ? '' : String(Number(row.my_reaction) || 0);
     var key = kind + '/' + row.id;
     var buttons = REACTIONS.map(function (item) {
@@ -570,6 +570,18 @@
     var row = { like_count: +bar.dataset.like || 0, dislike_count: +bar.dataset.dislike || 0, rating_count: +bar.dataset.rc || 0, rating_points: +bar.dataset.rp || 0 };
     IS.$$('.feed-grade, .library-rating', bar).forEach(function (b) { b.innerHTML = IS.gradeInner(row); b.setAttribute('aria-label', IS.gradeLabel(row)); b.title = IS.gradeLabel(row); });
   }
+  /* what the score is made of (owner, 19 Nov 2026: "why 5 stars when there is no like or dislike?" — a course review counted) */
+  IS.ACT['grade-info'] = function (button) {
+    var bar = button.closest('.feed-votes'), d = bar ? bar.dataset : {}, row = { like_count: +d.like || 0, dislike_count: +d.dislike || 0, rating_count: +d.rc || 0, rating_points: +d.rp || 0 };
+    var g = IS.grade(row), course = button.dataset.kind === 'course';
+    var line = function (icon, label, value) { return '<li><span class="gi">' + icon + '</span><span>' + esc(label) + '</span><b>' + value + '</b></li>'; };
+    IS.sheet(A('كيف حُسب التقييم', 'How this rating is made'), '<div class="ginfo"><div class="feed-grade big">' + IS.gradeInner(row) + '</div><ul>' +
+      line('👍', A('إعجاب (كل إعجاب = 5 نجوم)', 'Likes (each like = 5 stars)'), N(g.likes)) +
+      line('👎', A('عدم إعجاب (كل واحد = نجمة واحدة)', 'Dislikes (each = 1 star)'), N(g.dislikes)) +
+      line('⭐', course ? A('تقييمات الطلاب الملتحقين بالكورس', 'Reviews by enrolled students') : A('تقييمات بالنجوم', 'Star ratings'),
+        N(g.rc) + (g.rc ? ' · ' + (g.rp / g.rc).toFixed(1) + ' ★' : '')) + '</ul>' +
+      '<p class="mut">' + esc(A('الدرجة: ممتاز من 4.5 · جيد جدًا من 3.75 · جيد من 3 · مقبول من 2 · وأقل من ذلك ضعيف.', 'Grades: Excellent from 4.5 · Very good from 3.75 · Good from 3 · Fair from 2 · below that Weak.')) + '</p></div>');
+  };
   IS.regradeBars = function (key, values) { IS.$$('[data-feedback]').filter(function (bar) { return bar.dataset.feedback === key; }).forEach(function (bar) { regrade(bar, values); }); };
   function patchFeed(kind, id, values, saving) {
     var key = kind + '/' + id;

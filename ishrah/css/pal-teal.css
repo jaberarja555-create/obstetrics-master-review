@@ -2741,3 +2741,30 @@ button.library-rating:hover{border-color:#e0a800;background:#fff8e1}
   .feed-action-row .feed-report{order:4!important}
   .feed-action-row .feed-grade,.feed-action-row .library-rating{order:9!important;flex:1 1 100%!important;justify-content:center}
 }
+
+/* the book card under «اقرأ داخل التطبيق» (light, not the old dark viewer frame) */
+.viewer.viewer-card{background:var(--tint2,#eefdfd);border:1px solid var(--bd2);user-select:auto;-webkit-user-select:auto;padding:16px}
+.rdr-open{display:flex;align-items:center;gap:20px;width:100%;max-width:760px;text-align:start;padding:4px}
+.rdr-cover{flex:none;width:130px;aspect-ratio:3/4;border-radius:10px;overflow:hidden;box-shadow:0 6px 18px rgba(10,87,92,.22);background:#fff}
+.rdr-cover img,.rdr-cover>*{width:100%!important;height:100%!important;object-fit:cover;display:block}
+.rdr-nocover{display:grid;place-items:center;color:var(--pri)}.rdr-nocover .ico{width:46px!important;height:46px!important}
+.rdr-info{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.rdr-info>b{font-size:19px;color:var(--tx);line-height:1.3}
+.rdr-last{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#fff6e0;color:#7a5600;font-size:13px;font-weight:700}
+.rdr-last .ico{width:15px;height:15px}
+.rdr-feats{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.rdr-feats li{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;background:var(--sf);border:1px solid var(--bd2);font-size:12.5px;color:var(--sub)}
+.rdr-feats .ico{width:14px;height:14px;color:var(--pri)}
+.rdr-info .rdr-go{min-width:200px;justify-content:center}
+.rdr-info .mut{color:var(--sub)}
+@media (max-width:560px){.rdr-open{flex-direction:column;text-align:center}.rdr-info{align-items:center}.rdr-cover{width:120px}.rdr-feats{justify-content:center}.rdr-info .rdr-go{width:100%}}
+
+button.feed-grade{cursor:pointer;font:inherit;font-size:13px;font-weight:700}
+button.feed-grade:hover{border-color:#e0a800;background:#fff8e1}
+.ginfo{display:flex;flex-direction:column;gap:12px}
+.ginfo .feed-grade.big{align-self:center;font-size:15px;padding:8px 16px}.ginfo .feed-grade.big .gstars i{font-size:22px}
+.ginfo ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.ginfo li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--sf2,#f3fafa)}
+.ginfo li .gi{font-size:20px}.ginfo li span:nth-child(2){flex:1}.ginfo li b{font-size:15px}
+.viewer-card .rdr-open{flex-direction:row;align-items:center;text-align:start;margin-inline:auto}
+@media (max-width:560px){.viewer-card .rdr-open{flex-direction:column;text-align:center}}
