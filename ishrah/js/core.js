@@ -486,21 +486,22 @@
      dislikes, with a grade title as we grade books; the stars also come from what people give"): every like counts as 5 stars, every dislike
      as 1 star, and every star rating given to a book as itself. Score = average out of 5, shown as stars + number + grade + number of votes. */
   var GRADES = [[4.5, 'ممتاز', 'Excellent', 'g5'], [3.75, 'جيد جدًا', 'Very good', 'g4'], [3, 'جيد', 'Good', 'g3'], [2, 'مقبول', 'Fair', 'g2'], [0, 'ضعيف', 'Weak', 'g1']];
-  IS.grade = function (row) {
-    row = row || {}; var likes = Math.max(0, +row.like_count || 0), dislikes = Math.max(0, +row.dislike_count || 0);
+  IS.grade = function (row, kind) {
+    /* courses are graded only by students who joined, free or paid (owner, 19 Nov 2026): their reviews, never likes */
+    row = row || {}; var course = kind === 'course', likes = course ? 0 : Math.max(0, +row.like_count || 0), dislikes = course ? 0 : Math.max(0, +row.dislike_count || 0);
     var rc = Math.max(0, +(row.rating_count == null ? row.n_reviews : row.rating_count) || 0);
     var rp = +row.rating_points || (rc ? (+(row.average_rating == null ? row.rating : row.average_rating) || 0) * rc : 0);
     var n = likes + dislikes + rc, score = n ? (likes * 5 + dislikes + rp) / n : 0;
     var g = n ? GRADES.filter(function (x) { return score >= x[0]; })[0] : null;
     return { n: n, score: score, likes: likes, dislikes: dislikes, rc: rc, rp: rp, title: g ? A(g[1], g[2]) : A('لم يُقيَّم بعد', 'Not rated yet'), cls: g ? g[3] : 'g0' };
   };
-  IS.gradeInner = function (row) {
-    var g = IS.grade(row), stars = '';
+  IS.gradeInner = function (row, kind) {
+    var g = IS.grade(row, kind), stars = '';
     for (var i = 1; i <= 5; i++) { var f = Math.max(0, Math.min(1, g.score - (i - 1))); stars += '<i style="--f:' + Math.round(f * 100) + '%">★</i>'; }
     return '<span class="gstars" aria-hidden="true">' + stars + '</span>' + (g.n ? '<bdi dir="ltr" class="gnum">' + g.score.toFixed(1) + '</bdi>' : '') +
       '<b class="gtitle ' + g.cls + '">' + esc(g.title) + '</b>' + (g.n ? '<small class="gcount">(' + IS.N(g.n) + ')</small>' : '');
   };
-  IS.gradeLabel = function (row) { var g = IS.grade(row); return g.n ? A('التقييم ', 'Rating ') + g.score.toFixed(1) + ' / 5 · ' + g.title + ' · ' + g.n + A(' صوت', ' votes') : g.title; };
+  IS.gradeLabel = function (row, kind) { var g = IS.grade(row, kind); return g.n ? A('التقييم ', 'Rating ') + g.score.toFixed(1) + ' / 5 · ' + g.title + ' · ' + g.n + A(' صوت', ' votes') : g.title; };
   IS.ACT = IS.ACT || {}; IS.ACT.retry = function () { IS.route(); };
   /* back online: the page that could not open opens by itself */
   function restoreBase() {
