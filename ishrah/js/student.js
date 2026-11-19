@@ -1435,7 +1435,8 @@
     return '<div class="spacebox" data-space="' + esc(IS.SPEC || '') + '"><div class="bnums sp4">' +
       [['members', 'عضو', 'members'], ['online', 'متصل الآن', 'online now'], ['lecturers', 'محاضر', 'lecturers'], ['lecturers_online', 'محاضر متصل', 'lecturers online']].map(function (x, i) {
         var tag = staff() ? 'button type="button" data-act="spacepeople" data-k="' + x[0] + '"' : 'span';
-        return '<' + tag + ' class="' + (i % 2 ? 'on' : '') + '"><b data-n="' + x[0] + '">–</b>' + esc(A(x[1], x[2])) + (staff() ? '<small class="spsee">' + esc(A('عرض الأسماء', 'See who')) + '</small>' : '') +
+        return '<' + tag + ' class="spt' + (i % 2 ? ' on' : '') + '"><i class="spi">' + ic(i < 2 ? 'users' : 'studio') + '</i><b data-n="' + x[0] + '">–</b><span class="spl2">' + esc(A(x[1], x[2])) + '</span>' +
+          (staff() ? '<small class="spsee">' + esc(A('عرض الأسماء', 'See who')) + '</small>' : '') +
           '</' + tag.split(' ')[0] + '>'; }).join('') + '</div>' +
       (IS.ME ? '<small class="spjoin">' + ic('check') + esc(A('أنت عضو في مساحة ', 'You are a member of the ')) + '<bdi lang="en">' + esc(name) + '</bdi>' + esc(A('', ' space')) + '</small>' :
         '<button type="button" class="btn gold sm" data-act="login">' + ic('user') + esc(A('سجّل الدخول لتنضم إلى مساحة ', 'Sign in to join the ')) + '<bdi lang="en">' + esc(name) + '</bdi>' + esc(A('', ' space')) + '</button>') + '</div>';

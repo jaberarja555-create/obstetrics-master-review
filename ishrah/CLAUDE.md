@@ -591,3 +591,4 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   `033_space_people.sql`: `ish_space_people(spec, kind)` refuses anyone without that permission; students and visitors keep only the counts.
   Asset version 162, shell cache ish-v62.
 - Welcome band, third pass (owner: "use the bar's space, not one place with empty space"): greeting, section (larger) and speciality are centred in the space beside the logo, chips centred under them.
+- Space figure tiles are cards (owner: "design the button place in a better way"): icon, number, label; for the team a «عرض الأسماء» pill (green on the online tiles) opens the list. Asset version 163, shell cache ish-v63.
