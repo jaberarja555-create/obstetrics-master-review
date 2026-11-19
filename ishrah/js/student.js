@@ -1182,7 +1182,7 @@
 
   /* ========== NOTIFICATIONS ========== */
   IS.page('notifications', async function () {
-    var n = (await DB.q('notices', { order: ['created_at', false], limit: 80 })).filter(function (x) { return x.user_id ? x.user_id === uid() : IS.announcementInSection(x); });
+    var n = (await DB.q('notices', { order: ['created_at', false], limit: 80 })).filter(function (x) { return x.actor !== uid() && (x.user_id ? x.user_id === uid() : IS.announcementInSection(x)); });
     var seen = IS.LS.get('seen-' + uid(), 0); IS.LS.set('seen-' + uid(), Date.now()); setTimeout(IS.bell, 50);
     return IS.banner(IS.T('الإشعارات', 'Notifications'), '', 'bell') + (n.length ? '<div class="list">' + n.map(function (x) {
       return '<a class="li' + (new Date(x.created_at).getTime() > seen ? ' new' : '') + '" href="' + esc(x.link || '#notifications') + '">' + ic(x.user_id ? 'bell' : 'sparkle') + '<span><b>' + esc(IS.noticeTitle(x)) + '</b>' + (x.body ? '<small>' + esc(x.body) + '</small>' : '') + '</span><em>' + esc(IS.ago(x.created_at)) + '</em></a>'; }).join('') + '</div>' :

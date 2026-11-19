@@ -618,3 +618,22 @@ storage (10 GB free). Plan: owner creates an R2 bucket in his Cloudflare account
 serves library files after checking the reader may open them (same rule as `ish_file_open`: published and free, owner, library staff, or an
 approved purchase) with short-lived signed links; uploads go to R2 through the same function; a one-time copy moves existing `library`
 objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts and the database stay in Supabase. Remind the owner before launch.
+- **Alerts** (owner, 19 Nov 2026: "notifications for every post; admins get a sound for every user request, better on the phone"):
+  `035_alerts.sql` + `js/alerts.js` + `functions/api/push.js` + push handlers in sw.js.
+  - Every published post (discussion, question, course request, event, library file or first part of a series, course) → a notice for its
+    speciality and section (`notices` user_id null + spec/cat, `actor` = author, `kind` 'post'; the author never sees their own).
+  - Every user request → a personal notice for each team member whose role covers it (`ishrah_private.staff_for(perm)`, `kind` 'team'):
+    payments (pay), library purchases (pay), lecturer applications (apps), files and file edits waiting (library), questions waiting, courses
+    sent for review, course requests (review), support messages and replies from students (tickets), reports (community), library requests
+    (requests), lecturer and seller payout requests (payout). One trigger function `on_activity` on all these tables; an error in it never
+    stops the user's action.
+  - In the app: every 20 s for the team (40 s for others) and at once on a push, new notices play a sound + vibration (stronger 3-note sound
+    for team requests) and show a message; Settings → Alerts: phone alerts on/off, mute, test sound.
+  - Phones (Web Push): Home and Control ask once («فعّل التنبيهات», later = 1 day for the team, 3 days for others; iPhone needs the app on the
+    Home Screen). Each device = `push_subs` (endpoint, speciality, section, team; `ish_push_save`). A new notice → trigger `push_out` →
+    pg_net POST /api/push {id, secret} → `ish_push_targets` (checks the secret in `push_cfg`, picks the phones, stores the text) → empty
+    pushes signed with VAPID (keys made once and kept in `push_cfg`, readable only with the server key) → the phone asks /api/push?peek for
+    the text and shows it; a tap opens the page. Phones that left are removed (404/410). Needs the pg_net extension (the migration enables it)
+    and the existing Pages secrets SUPABASE_URL / SUPABASE_SERVICE_KEY; `settings.push_url` = https://ishrahli.org/api/push.
+  - Tests: local Postgres (who gets which notice), scratchpad pushfn.mjs (function with fake services: valid ES256 VAPID, wrong secret 403,
+    gone phone deleted), alert.js (team sound once, own post excluded, Settings box). Asset version 171, shell cache ish-v71.

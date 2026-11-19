@@ -1,5 +1,5 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v70', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v71', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
@@ -109,5 +109,29 @@ self.addEventListener('fetch', function (event) {
       }
       return Response.error();
     }
+  }));
+});
+
+/* phone notifications (owner, 19 Nov 2026): the push carries no data; the phone asks /api/push for the text of its latest notification,
+   shows it with sound and vibration, and a tap opens that page in the app */
+self.addEventListener('push', function (event) {
+  event.waitUntil((async function () {
+    var d = { title: 'اشرح لي', body: '', link: '#notifications' };
+    try {
+      var sub = await self.registration.pushManager.getSubscription();
+      if (sub) { var r = await fetch('/api/push?peek=' + encodeURIComponent(sub.endpoint), { cache: 'no-store' }); if (r.ok) d = Object.assign(d, await r.json()); }
+    } catch (e) {}
+    var open = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    open.forEach(function (c) { c.postMessage({ ishPush: d }); });
+    await self.registration.showNotification(d.title, { body: d.body, icon: 'icon-192.png', badge: 'icon-192.png', lang: 'ar', dir: 'auto',
+      data: { link: d.link }, tag: 'ish-' + Date.now(), renotify: true, vibrate: [180, 90, 180] });
+  })());
+});
+self.addEventListener('notificationclick', function (event) {
+  event.notification.close();
+  var link = (event.notification.data && event.notification.data.link) || '#notifications', url = new URL('./' + link, self.registration.scope).href;
+  event.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (list) {
+    for (var i = 0; i < list.length; i++) { var c = list[i]; if ('focus' in c) { c.postMessage({ ishGo: link }); return c.focus(); } }
+    return self.clients.openWindow(url);
   }));
 });
