@@ -541,8 +541,8 @@
         '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</button>' :
       '<a class="feed-emoji feed-comment" data-act="focus-feed-comments" href="' + esc(commentRoute) + '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</a>';
     var score = voteScore(row);
-    var rating = kind === 'file' ? IS.libraryRating(row, true) : '<span class="feed-vote-count" role="img" aria-label="' + esc(score.label) +
-      '" title="' + esc(score.label) + '"><span aria-hidden="true">' + text('نسبة الإعجاب', 'Approval') + '</span><bdi dir="ltr">' + esc(score.value) + '</bdi></span>';
+    var rating = kind === 'file' ? IS.libraryRating(row, true) : '<span class="feed-grade" role="img" aria-label="' + esc(IS.gradeLabel(row)) +
+      '" title="' + esc(IS.gradeLabel(row)) + '">' + IS.gradeInner(row) + '</span>';
     var reaction = row.my_reaction === undefined ? '' : String(Number(row.my_reaction) || 0);
     var key = kind + '/' + row.id;
     var buttons = REACTIONS.map(function (item) {
@@ -553,14 +553,24 @@
         (savingVotes.has(uid() + '/' + key) ? ' disabled' : '') + '>' + emoji(item[1], total) + '</button>' :
         '<span' + attributes + ' role="img">' + emoji(item[1], total) + '</span>';
     }).join('');
-    return '<div class="feed-votes" data-feedback="' + esc(key) + '" data-reaction="' + reaction + '"' +
+    var rcount = Number(row.rating_count == null ? row.n_reviews : row.rating_count) || 0;
+    var counts = ' data-like="' + (Number(row.like_count) || 0) + '" data-dislike="' + (Number(row.dislike_count) || 0) + '" data-rc="' + rcount +
+      '" data-rp="' + (Number(row.rating_points) || Math.round((Number(row.average_rating == null ? row.rating : row.average_rating) || 0) * rcount)) + '"';
+    return '<div class="feed-votes" data-feedback="' + esc(key) + '" data-reaction="' + reaction + '"' + counts +
       (row.status === 'closed' ? ' data-comments-closed' : '') + '><div class="row feed-action-row">' +
-      buttons + comment + IS.reportButton(kind, row.id, true) + rating + (shareRoute ? IS.shareButton(shareRoute, true) : '') + '</div>' +
+      buttons + comment + (shareRoute ? IS.shareButton(shareRoute, true) : '') + '<span class="feed-grow"></span>' + rating + IS.reportButton(kind, row.id, true) + '</div>' +
       (inline ? '<div class="feed-comment-panel" id="' + panelId + '" hidden></div>' : '') + '</div>';
   };
 
   IS.ACT['focus-feed-comments'] = function () { IS.focusPostComments(IS.$('#main')); };
 
+  /* the score badge follows every like, dislike and star at once */
+  function regrade(bar, values) {
+    ['like_count', 'dislike_count', 'rating_count', 'rating_points'].forEach(function (k, i) { if (values[k] != null) bar.dataset[['like', 'dislike', 'rc', 'rp'][i]] = Number(values[k]) || 0; });
+    var row = { like_count: +bar.dataset.like || 0, dislike_count: +bar.dataset.dislike || 0, rating_count: +bar.dataset.rc || 0, rating_points: +bar.dataset.rp || 0 };
+    IS.$$('.feed-grade, .library-rating', bar).forEach(function (b) { b.innerHTML = IS.gradeInner(row); b.setAttribute('aria-label', IS.gradeLabel(row)); b.title = IS.gradeLabel(row); });
+  }
+  IS.regradeBars = function (key, values) { IS.$$('[data-feedback]').filter(function (bar) { return bar.dataset.feedback === key; }).forEach(function (bar) { regrade(bar, values); }); };
   function patchFeed(kind, id, values, saving) {
     var key = kind + '/' + id;
     IS.$$('[data-feedback]').filter(function (bar) { return bar.dataset.feedback === key; }).forEach(function (bar) {
@@ -578,13 +588,7 @@
             button.disabled = saving;
           }
         });
-        var badge = bar.querySelector('.feed-vote-count');
-        if (badge) {
-          var score = voteScore(values);
-          badge.querySelector('bdi').textContent = score.value;
-          badge.setAttribute('aria-label', score.label);
-          badge.title = score.label;
-        }
+        regrade(bar, values);
       }
       var field = kind === 'post' ? 'n_replies' : 'comment_count';
       if (field in values) {

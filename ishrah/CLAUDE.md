@@ -466,3 +466,30 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - Home puts Like, Dislike, Comment and Report in one row on every card, including courses, events and news. Likes and dislikes update immediately. Comments open inside the card. Announcements have no Share button. Every regular post's approval is its percentage of positive reactions. The feed uses that percentage for Best rated and reaction count for Most rated. Enrolled learners' course reviews continue to appear on the course.
 - Library cards, the feed and the file page open the same five-star picker in place. The selected star highlights immediately and the shared rating updates on save. Readers can change their rating. Uploaders can see the rating their file received. Reports for course listings, events and library files go to Control → Community for review, with publication managed in the relevant Control area.
 - `021_feed_interactions.sql` extends the existing feedback, replies and reports to courses, events and news, and supports reporting library files and comments. It keeps reactions and comments restricted to published activity. GitHub Actions applies it before publishing the browser update. Asset version `140`.
+
+## Speed, book reader, one score (owner, 19 Nov 2026)
+
+- **Speed** ("very slow moving between places, pictures appear slowly"): `DB.q` / `DB.one` (Supabase) keep each read for 45 s and send a read
+  asked twice at once only once; any insert, update, delete, upsert, `sb.rpc` or sign-in change empties the store. Signed file addresses are
+  reused for 50 minutes (`createSignedUrl` 3600 s, kept in `ish-signed`), so the browser keeps covers and photos in its cache. sw.js: the app's
+  own pictures, fonts and `pdfjs/` come from the phone first and refresh in the background; uploaded pictures (Supabase storage, image
+  requests) are kept by file path in cache `ish-media`; the app page itself waits at most 250 ms for the network before the saved copy
+  opens. Saved page copies now open at once on every student page (`QUICK_COPY` = `READABLE_COPY`), also for team members.
+- **Book reader** (`js/reader.js`, "books must open perfectly, as in a real PDF reader"): `IS.openReader({id, title, url | blob, page})` opens a
+  full-screen layer over the app (Back closes it). Pages drawn at the screen's pixel density only near the screen (IntersectionObserver),
+  far pages released; real text layer (copy, select); highlight in 4 colours (`ish-hl:<id>`, tap a highlight to recolour or remove; list in
+  «تظليلاتي»); search the whole book; zoom − / + / Fit, pinch and Ctrl + wheel (`ish-rz`); page number tap = go to page; last page reopens
+  (`ish-rpg:<id>`); a tap hides the bars; full-screen button; keyboard arrows. `IS.renderLibraryDocument` hands every PDF to it (file page and
+  My downloads offline). **Fonts:** pdf.js gets `cMapUrl` and `standardFontDataUrl` from our own copy `ishrah/pdfjs/` (cmaps + standard_fonts of
+  pdfjs-dist 3.11.174) and `useSystemFonts: false`: books that do not embed Times/Arial were drawn with wrong letter widths on phones (the
+  "distorted text" the owner saw). Test: scratchpad rdr.js with a 201-page PDF (first page with text < 1 s, select, highlight, zoom, search
+  48 hits, jump, Back).
+- **One score everywhere** ("the rating should depend on likes and dislikes, with a grade title as we grade books"): `IS.grade(row)` = every
+  like 5 stars, every dislike 1 star, every book star rating itself; average out of 5 → `IS.gradeInner` shows stars (text ★ with a gradient fill:
+  phones have masks switched off), the number, a coloured grade (ممتاز ≥ 4.5 · جيد جدًا ≥ 3.75 · جيد ≥ 3 · مقبول ≥ 2 · ضعيف; «لم يُقيَّم بعد»
+  with no votes) and the number of votes. Feed rows = Like · Dislike · Comment (· Share) … score · Report; phones put the score on its own
+  line. The bar keeps its counts in data attributes and `regrade()` updates the score after every like, dislike or star (`IS.regradeBars`).
+  Books: the score badge is the button that opens the star picker.
+- Medicine → International Exams uses `img/choice_usmle_wide.webp` (the poster with blurred sides, 16:9) so it fills its card; on phones the
+  four sections are wide cards one under another with the name on the picture. Studio → My page has a live preview of the page colour.
+  Round avatars never stretch in list rows (`.li>.av`). Asset version 141, shell cache ish-v46.

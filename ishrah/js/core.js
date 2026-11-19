@@ -297,7 +297,7 @@
   var SEQ = 0;
   var OFFLINE_PAGES = /^(downloads|dl|settings|terms|pick|pick-section|studio-guide)$/;
   var READABLE_COPY = /^(home|courses|course|learning|lecturers|lecturer|events|event|news|library|file|paths|path|about|favorites|community)$/;
-  var QUICK_COPY = /^(home|courses|lecturers|events|news|paths|about)$/;
+  var QUICK_COPY = /^(home|courses|course|learning|lecturers|lecturer|events|event|news|library|file|paths|path|about|favorites|community)$/;
   function showSavedPage(main, html, offline) {
     var note = offline ? '<p class="note offcopy">' + ic('offline') + '<span>' +
       esc(A('هذه آخر نسخة محفوظة من الصفحة.', 'This is your last saved copy.')) + '</span></p>' : '';
@@ -334,7 +334,7 @@
     var html, timer, failed = false;
     IS.after = null;
     var section = IS.mySection(), copyKey = ['study', IS.SPEC, section ? section.id : '', IS.lang, h].join(':');
-    var canSave = DB.live && IS.area === 'student' && !IS.team() && READABLE_COPY.test(name) && !(name === 'community' && arg);
+    var canSave = DB.live && IS.area === 'student' && READABLE_COPY.test(name) && !(name === 'community' && arg);
     var kept = canSave ? pageCopy(copyKey) : '';
     if (offline && !OFFLINE_PAGES.test(name)) {
       IS.OFFPAGE = true;
@@ -481,6 +481,25 @@
     while (ix.length > 25) localStorage.removeItem('ish-pg:' + ix.pop()); localStorage.setItem('ish-pg:' + key, JSON.stringify({ u: IS.ME ? IS.ME.id : null, h: html })); localStorage.setItem('ish-pgx', JSON.stringify(ix)); } catch (e) {} }
   function pageCopy(key) { try { var c = JSON.parse(localStorage.getItem('ish-pg:' + key) || 'null'); return c && c.u === (IS.ME ? IS.ME.id : null) ? c.h : ''; } catch (e) { return ''; } }
   IS.clearCopies = function () { try { JSON.parse(localStorage.getItem('ish-pgx') || '[]').forEach(function (k) { localStorage.removeItem('ish-pg:' + k); }); localStorage.removeItem('ish-pgx'); } catch (e) {} };
+  /* one score for every post, course, event, news item and book (owner, 19 Nov 2026: "the rating should depend on the number of likes and
+     dislikes, with a grade title as we grade books; the stars also come from what people give"): every like counts as 5 stars, every dislike
+     as 1 star, and every star rating given to a book as itself. Score = average out of 5, shown as stars + number + grade + number of votes. */
+  var GRADES = [[4.5, 'ممتاز', 'Excellent', 'g5'], [3.75, 'جيد جدًا', 'Very good', 'g4'], [3, 'جيد', 'Good', 'g3'], [2, 'مقبول', 'Fair', 'g2'], [0, 'ضعيف', 'Weak', 'g1']];
+  IS.grade = function (row) {
+    row = row || {}; var likes = Math.max(0, +row.like_count || 0), dislikes = Math.max(0, +row.dislike_count || 0);
+    var rc = Math.max(0, +(row.rating_count == null ? row.n_reviews : row.rating_count) || 0);
+    var rp = +row.rating_points || (rc ? (+(row.average_rating == null ? row.rating : row.average_rating) || 0) * rc : 0);
+    var n = likes + dislikes + rc, score = n ? (likes * 5 + dislikes + rp) / n : 0;
+    var g = n ? GRADES.filter(function (x) { return score >= x[0]; })[0] : null;
+    return { n: n, score: score, likes: likes, dislikes: dislikes, rc: rc, rp: rp, title: g ? A(g[1], g[2]) : A('لم يُقيَّم بعد', 'Not rated yet'), cls: g ? g[3] : 'g0' };
+  };
+  IS.gradeInner = function (row) {
+    var g = IS.grade(row), stars = '';
+    for (var i = 1; i <= 5; i++) { var f = Math.max(0, Math.min(1, g.score - (i - 1))); stars += '<i style="--f:' + Math.round(f * 100) + '%">★</i>'; }
+    return '<span class="gstars" aria-hidden="true">' + stars + '</span>' + (g.n ? '<bdi dir="ltr" class="gnum">' + g.score.toFixed(1) + '</bdi>' : '') +
+      '<b class="gtitle ' + g.cls + '">' + esc(g.title) + '</b>' + (g.n ? '<small class="gcount">(' + IS.N(g.n) + ')</small>' : '');
+  };
+  IS.gradeLabel = function (row) { var g = IS.grade(row); return g.n ? A('التقييم ', 'Rating ') + g.score.toFixed(1) + ' / 5 · ' + g.title + ' · ' + g.n + A(' صوت', ' votes') : g.title; };
   IS.ACT = IS.ACT || {}; IS.ACT.retry = function () { IS.route(); };
   /* back online: the page that could not open opens by itself */
   function restoreBase() {

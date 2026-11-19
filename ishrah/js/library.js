@@ -58,10 +58,7 @@
     var byCount = starsCount(second) - starsCount(first), byAverage = starsAverage(second) - starsAverage(first);
     return order === 'best' ? byAverage || byCount : byCount || byAverage;
   };
-  function ratingContents(file) {
-    var count = starsCount(file), average = count ? starsAverage(file).toFixed(1) : null;
-    return '<span aria-hidden="true">⭐</span><bdi dir="ltr">' + (average || '—') + '</bdi>' + (count ? '<small>(' + N(count) + ')</small>' : '');
-  }
+  function ratingContents(file) { return IS.gradeInner(file); }
   function ratingLabel(file) {
     var label = A('قيّم الملف', 'Rate this file');
     return starsCount(file) ? label + ' · ' + starsAverage(file).toFixed(1) + ' / 5 (' + N(starsCount(file)) + ')' : label;
@@ -84,6 +81,7 @@
       el.dataset.count = starsCount(file);
       el.dataset.points = Number(file.rating_points) || 0;
     });
+    if (IS.regradeBars) IS.regradeBars('file/' + id, file);
     var home = IS.$('.section-feed'), library = IS.$('#lres');
     if (home) home.dispatchEvent(new CustomEvent('feed-feedback', { detail: { key: 'file/' + id, values: file } }));
     if (library) library.dispatchEvent(new CustomEvent('library-feedback', { detail: { id: id, values: file } }));
@@ -459,7 +457,7 @@
     var mime = file.reading_path || /\.pdf(?:$|[?#])/i.test(path) ? 'application/pdf' : file.mime || 'application/pdf';
     return { path: path, mime: mime };
   };
-  IS.renderLibraryDocument = async function (target, media, url, blob) {
+  IS.renderLibraryDocument = async function (target, media, url, blob, meta) {
     if (/^image\//.test(media)) {
       target.innerHTML = '<img src="' + esc(url) + '" alt="" draggable="false">';
       return;
@@ -474,6 +472,16 @@
       return;
     }
     if (media !== 'application/pdf') throw new Error('unsupported');
+    /* PDFs open in the full-screen reader (js/reader.js): sharp pages, copy, highlight, zoom, search, full screen */
+    if (IS.openReader) {
+      meta = meta || {};
+      var open = function () { IS.openReader({ id: meta.id, title: meta.title, url: url, blob: blob }); };
+      target.innerHTML = '<div class="rdr-open">' + ic('open') + '<b>' + esc(meta.title || A('الكتاب', 'The book')) + '</b><p class="mut">' +
+        esc(A('يفتح الكتاب في قارئ كامل الشاشة: تكبير، بحث، نسخ وتظليل.', 'The book opens in a full-screen reader: zoom, search, copy and highlight.')) + '</p><button type="button" class="btn pri">' + ic('open') + esc(A('افتح الكتاب', 'Open the book')) + '</button></div>';
+      target.querySelector('button').onclick = open;
+      if (meta.auto !== false) open();
+      return;
+    }
     var lib = await pdfLib();
     var opts = blob ? { data: await blob.arrayBuffer() } : { url: url };
     var doc = await lib.getDocument(Object.assign(opts, { isEvalSupported: false })).promise;
@@ -596,7 +604,7 @@
         try {
           var media = IS.libraryDocument(file), url = await DB.fileUrl('library', media.path);
           if (!url) throw new Error('missing file');
-          await IS.renderLibraryDocument(viewer, media.mime, url);
+          await IS.renderLibraryDocument(viewer, media.mime, url, null, { id: file.id, title: file.title });
         } catch (error) {
           started = false;
           viewer.innerHTML = IS.empty('file', A('تعذّر عرض الملف', 'The file could not be shown'),

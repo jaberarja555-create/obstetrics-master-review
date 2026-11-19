@@ -164,8 +164,22 @@
     var LCOLS = 'id,course_id,section_id,title,kind,minutes,free,sort,created_at,has_video';
     function cols(t) { return t === 'lessons' ? LCOLS : '*'; }
     function chk(r) { if (r.error) throw new Error(r.error.message); return r.data; }
+    /* reads are kept for 45 s (and the same read asked twice at once is sent once), so moving between pages does not wait for the
+       database again (owner, 19 Nov 2026: "very slow when changing from one place to another"); any change empties it */
+    var READS = new Map(), SIGNED = {};
+    try { SIGNED = JSON.parse(localStorage.getItem('ish-signed') || '{}'); Object.keys(SIGNED).forEach(function (k) { if (!(SIGNED[k].t > Date.now())) delete SIGNED[k]; }); } catch (e) { SIGNED = {}; }
+    function forget() { READS.clear(); }
+    function cached(key, run) {
+      var k = JSON.stringify(key), hit = READS.get(k);
+      function copy(v) { return Array.isArray(v) ? v.map(function (x) { return x && typeof x === 'object' ? Object.assign({}, x) : x; }) : v && typeof v === 'object' ? Object.assign({}, v) : v; }
+      if (hit && Date.now() - hit.t < 45000) return hit.p.then(copy);
+      var p = run(); READS.set(k, { t: Date.now(), p: p }); p.catch(function () { READS.delete(k); }); return p.then(copy);
+    }
+    function rawQ(t, f) { return api._q(t, f); }
+    var rpc0 = sb.rpc.bind(sb); sb.rpc = function () { forget(); return rpc0.apply(null, arguments); };
+    sb.auth.onAuthStateChange(function () { forget(); });
     async function token() { var s = (await sb.auth.getSession()).data.session; return s ? s.access_token : ''; }
-    return {
+    var api = {
       live: true, sb: sb,
       uid: function () { return UID; },
       ready: sb.auth.getSession(),
@@ -188,7 +202,9 @@
       setOwnPassword: async function (pass) { var r = await sb.auth.updateUser({ password: pass }); if (r.error) throw new Error(r.error.message); },
       signInEmail: async function (o) { var r = await sb.auth.signInWithPassword({ email: String(o.email).trim().toLowerCase(), password: o.pass }); if (r.error) throw new Error(/confirm/i.test(r.error.message) ? 'unconfirmed' : 'bad'); return r.data.user.id; },
       setPassword: async function (uid, pass) { var r = await fetch('api/admin', { method: 'POST', headers: { 'content-type': 'application/json', authorization: 'Bearer ' + await token() }, body: JSON.stringify({ act: 'password', uid: uid, pass: pass }) }); if (!r.ok) throw new Error(await r.text()); },
-      q: async function (t, f) {
+      q: async function (t, f) { return cached(['q', t, f || {}], function () { return rawQ(t, f); }); },
+      one: async function (t, id) { return cached(['one', t, id], async function () { return chk(await sb.from(t).select(cols(t)).eq('id', id).maybeSingle()); }); },
+      _q: async function (t, f) {
         f = f || {}; var x = sb.from(t).select(f.select || cols(t));
         if (f.eq) Object.keys(f.eq).forEach(function (k) { if (f.eq[k] !== undefined) x = f.eq[k] === null ? x.is(k, null) : x.eq(k, f.eq[k]); });
         if (f.in) Object.keys(f.in).forEach(function (k) { x = x.in(k, f.in[k]); });
@@ -197,17 +213,20 @@
         if (f.limit) x = x.limit(f.limit);
         return chk(await x) || [];
       },
-      one: async function (t, id) { return chk(await sb.from(t).select(cols(t)).eq('id', id).maybeSingle()); },
       lesson: async function (id) { return chk(await sb.rpc('ish_lesson', { p_id: id })); },
-      ins: async function (t, row) { return chk(await sb.from(t).insert(row).select(cols(t)).single()); },
-      upsert: async function (t, row) { return chk(await sb.from(t).upsert(row).select(cols(t)).single()); },
-      upd: async function (t, id, p) { return chk(await sb.from(t).update(p).eq('id', id).select(cols(t)).single()); },
-      del: async function (t, id) { chk(await sb.from(t).delete().eq('id', id)); },
+      ins: async function (t, row) { forget(); return chk(await sb.from(t).insert(row).select(cols(t)).single()); },
+      upsert: async function (t, row) { forget(); return chk(await sb.from(t).upsert(row).select(cols(t)).single()); },
+      upd: async function (t, id, p) { forget(); return chk(await sb.from(t).update(p).eq('id', id).select(cols(t)).single()); },
+      del: async function (t, id) { forget(); chk(await sb.from(t).delete().eq('id', id)); },
       upload: async function (bucket, file) {
         var ext = (file.name || '').split('.').pop() || 'jpg', path = UID + '/' + uuid() + '.' + ext.toLowerCase();
         chk(await sb.storage.from(bucket).upload(path, file, { upsert: false, contentType: file.type || undefined })); return bucket === 'media' ? sb.storage.from('media').getPublicUrl(path).data.publicUrl : path;
       },
-      fileUrl: async function (bucket, path) { if (!path) return ''; if (/^(https?:|data:|blob:|img\/)/.test(path)) return path; var r = await sb.storage.from(bucket).createSignedUrl(path, 600); return r.data ? r.data.signedUrl : ''; },
+      /* the same address for the same file for 50 minutes, so the phone keeps the picture in its cache instead of downloading it again on every page */
+      fileUrl: async function (bucket, path) { if (!path) return ''; if (/^(https?:|data:|blob:|img\/)/.test(path)) return path;
+        var key = bucket + '/' + path, hit = SIGNED[key]; if (hit && hit.t > Date.now()) return hit.u;
+        var r = await sb.storage.from(bucket).createSignedUrl(path, 3600); if (!r.data) return '';
+        SIGNED[key] = { u: r.data.signedUrl, t: Date.now() + 50 * 60000 }; try { localStorage.setItem('ish-signed', JSON.stringify(SIGNED)); } catch (e) {} return r.data.signedUrl; },
       videoUpload: async function (file, o) {
         var r = await fetch('api/video', { method: 'POST', headers: { 'content-type': 'application/json', authorization: 'Bearer ' + await token() }, body: JSON.stringify({ act: 'create', lesson: o.lesson, title: o.title || file.name }) });
         if (!r.ok) throw new Error(await r.text()); var j = await r.json();
@@ -224,6 +243,7 @@
       videoPlay: async function (lesson) { var e = IS.extEmbed(lesson.video_id); if (e) return e; var r = await fetch('api/video?lesson=' + encodeURIComponent(lesson.id), { headers: { authorization: 'Bearer ' + await token() } }); if (!r.ok) return null; return r.json(); },
       reset: function () {}
     };
+    return api;
   })() : null;
 
   window.DB = Remote || Local;

@@ -1,5 +1,6 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v44', CDN = 'ish-cdn';
+var SHELL = 'ish-v46', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
 
@@ -48,7 +49,29 @@ self.addEventListener('fetch', function (event) {
     }));
     return;
   }
+  /* pictures uploaded to the platform (covers, photos): kept on the phone by their file path (signed addresses change), shown at once */
+  if (/\.supabase\.co$/.test(url.hostname) && /^\/storage\/v1\/object\/(public|sign)\//.test(url.pathname) && request.destination === 'image') {
+    var key = url.origin + url.pathname.replace('/object/sign/', '/object/public/');
+    event.respondWith(caches.open(MEDIA).then(async function (cache) {
+      var saved = await cache.match(key);
+      if (saved) return saved;
+      var response = await fetch(request);
+      if (response.ok) cache.put(key, response.clone()).catch(function () {});
+      return response;
+    }));
+    return;
+  }
   if (url.origin !== self.location.origin || /^\/api\//.test(url.pathname)) return;
+  /* the app's own pictures and fonts: from the phone at once, refreshed in the background (owner, 19 Nov 2026: "pictures appear slowly") */
+  if (STATIC.test(url.pathname)) {
+    event.respondWith(caches.open(SHELL).then(async function (cache) {
+      var saved = await cache.match(request);
+      var fresh = fetch(request).then(function (response) { return store(cache, request, response); });
+      if (saved) { event.waitUntil(fresh.catch(function () {})); return saved; }
+      return fresh;
+    }));
+    return;
+  }
 
   if (request.mode === 'navigate' && ['/', '/index.html'].includes(url.pathname)) {
     var cached = caches.open(SHELL);
@@ -65,8 +88,9 @@ self.addEventListener('fetch', function (event) {
       if (!saved) return update;
       var timer;
       try {
+        /* the saved app opens at once; the newer copy is saved in the background for the next opening */
         return await Promise.race([update.catch(function () { return saved; }),
-          new Promise(function (resolve) { timer = setTimeout(function () { resolve(saved); }, 1500); })]);
+          new Promise(function (resolve) { timer = setTimeout(function () { resolve(saved); }, 250); })]);
       } finally { clearTimeout(timer); }
     }));
     return;

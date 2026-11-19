@@ -103,7 +103,7 @@
 
   /* ========== HOME (navy and gold design, owner 18 Nov 2026) ========== */
   var SECTION_PICTURES = {
-    medicine: { basics: 'sec_basics', clinical: 'choice_clinical', special: 'choice_usmle', house: 'choice_house' },
+    medicine: { basics: 'sec_basics', clinical: 'choice_clinical', special: 'choice_usmle_wide', house: 'choice_house' },
     lab: { basics: 'sub_clin-chem', clinical: 'sub_histopath', special: 'sub_haematology', house: 'sub_blood-bank' },
     dentistry: { basics: 'sub_oral-anat', clinical: 'sub_operative', special: 'sub_ortho', house: 'sub_omfs' },
     nursing: { basics: 'sub_nurs-fund', clinical: 'sub_nurs-medsurg', special: 'sub_nurs-comm', house: 'sub_nurs-mat' },

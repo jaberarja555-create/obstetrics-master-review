@@ -216,7 +216,7 @@
       try {
         var blob = await readBlob(it); URLNOW = URL.createObjectURL(blob);
         if (it.kind === 'lesson') { v.innerHTML = '<video controls controlsList="nodownload noremoteplayback" disablePictureInPicture playsinline oncontextmenu="return false" src="' + URLNOW + '"></video>'; return; }
-        await IS.renderLibraryDocument(v, it.mime || 'application/pdf', URLNOW, blob);
+        await IS.renderLibraryDocument(v, it.mime || 'application/pdf', URLNOW, blob, { id: it.ref || it.id, title: it.title });
       } catch (e) { v.innerHTML = IS.empty('file', A('تعذّر فتح التنزيل', 'The download could not be opened'), A('احذفه ونزّله مرة أخرى عند الاتصال.', 'Delete it and download it again when online.')); }
     };
     return h;

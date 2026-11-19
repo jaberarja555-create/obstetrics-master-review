@@ -2648,3 +2648,96 @@ button.library-rating[aria-expanded="true"]{border-color:var(--pri)}
 .library-rate-stars [aria-pressed="true"]{box-shadow:inset 0 0 0 1px #d39b31}
 .library-detail:dir(rtl) .pre[dir="auto"]{text-align:right}
 .library-detail:dir(ltr) .pre[dir="auto"]{text-align:left}
+/* ===== book reader (js/reader.js) ===== */
+#rdr{position:fixed;inset:0;z-index:1200;background:#525659;display:flex;flex-direction:column;color:#fff}
+#rdr .rdr-top,#rdr .rdr-bot{flex:none;display:flex;align-items:center;gap:6px;padding:8px 10px;background:#2a1056;transition:margin .2s}
+#rdr .rdr-top{padding-top:calc(8px + env(safe-area-inset-top,0px))}
+#rdr .rdr-bot{justify-content:center;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))}
+#rdr .rdr-title{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px}
+#rdr .rib{flex:none;min-width:40px;height:40px;border-radius:12px;border:0;background:rgba(255,255,255,.12);color:#fff;font:700 20px/1 inherit;display:grid;place-items:center;padding:0 10px;cursor:pointer}
+#rdr .rib .ico{width:20px;height:20px}
+#rdr .rdr-fit{font-size:13px}
+#rdr .rdr-pg{height:40px;min-width:96px;border-radius:12px;border:0;background:#fff;color:#2a1056;font:800 15px/1 inherit;cursor:pointer;padding:0 14px}
+#rdr .rdr-scroll{position:relative;flex:1;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;outline:0}
+#rdr .rdr-pages{display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px 8px 24px;min-width:min-content;transform-origin:50% 0}
+#rdr .rp{position:relative;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.35);flex:none}
+#rdr .rp canvas{display:block;position:absolute;inset:0}
+#rdr .rpn{position:absolute;bottom:-1px;inset-inline-end:6px;font:600 10px/1 sans-serif;color:#999}
+#rdr .rhl{position:absolute;inset:0;z-index:1;pointer-events:none}
+#rdr .rhl i{position:absolute;opacity:.42;border-radius:2px}
+#rdr .textLayer{position:absolute;inset:0;overflow:hidden;line-height:1;z-index:2;text-align:initial;-webkit-text-size-adjust:none;text-size-adjust:none;forced-color-adjust:none;transform-origin:0 0}
+#rdr .textLayer span,#rdr .textLayer br{color:transparent;position:absolute;white-space:pre;cursor:text;transform-origin:0 0}
+#rdr .textLayer span.markedContent{top:0;height:0}
+#rdr .textLayer ::selection{background:rgba(87,47,238,.35)}
+#rdr .textLayer br::selection{background:transparent}
+#rdr .rdr-find{flex:none;display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;background:#381575}
+#rdr .rdr-find[hidden]{display:none}
+#rdr .rdr-find input{flex:1;min-width:0;height:40px;border-radius:12px;border:0;padding:0 12px;font:15px inherit}
+#rdr .rdr-hits{flex-basis:100%;max-height:40vh;overflow:auto;display:flex;flex-direction:column;gap:4px}
+#rdr .rdr-hits button{text-align:start;border:0;border-radius:10px;background:#fff;color:#231737;padding:8px 10px;cursor:pointer;display:flex;flex-direction:column;gap:2px;font:13px/1.4 inherit}
+#rdr .rdr-hits .mut{color:#e7d8fc;margin:4px 0}
+#rdr .rdr-sel{position:fixed;z-index:1250;display:flex;align-items:center;gap:6px;padding:6px;border-radius:14px;background:#231737;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+#rdr .rdr-sel[hidden]{display:none}
+#rdr .rdr-sel [data-hl]{width:30px;height:30px;border-radius:50%;border:2px solid #fff;cursor:pointer}
+#rdr .rdr-sel [hidden]{display:none}
+#rdr .rdr-sel .rdr-copy,#rdr .rdr-sel .rdr-del{height:32px;border:0;border-radius:10px;padding:0 12px;font:700 13px inherit;cursor:pointer;background:#fff;color:#231737}
+#rdr .rdr-sel .rdr-del{background:#ffe3e3;color:#a61e1e}
+#rdr.bare .rdr-top{margin-top:-80px}#rdr.bare .rdr-bot{margin-bottom:-80px}#rdr.bare .rdr-find{display:none}
+#rdr .loading{padding:60px}
+.rdr-open{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:24px 12px}
+.rdr-open>.ico{width:44px;height:44px;color:var(--pri)}
+.rmarks{display:flex;flex-direction:column;gap:8px}
+.rmk{display:flex;align-items:stretch;gap:6px;border-inline-start:6px solid var(--hc);border-radius:10px;background:var(--sf2,#f7f5fa)}
+.rmk>button:first-child{flex:1;text-align:start;border:0;background:none;padding:10px;display:flex;flex-direction:column;gap:3px;cursor:pointer;color:inherit;font:inherit}
+.rmk span{font-size:13px;color:var(--sub)}
+#rdr .rdr-pages{direction:ltr;width:max-content;min-width:100%;box-sizing:border-box}
+#rdr .rp{margin-left:auto;margin-right:auto;align-self:center}
+/* round pictures never stretch in list rows (owner, 19 Nov 2026: Latest enrolments showed a long oval) */
+.li>.av,.tr>.av,.row>.av{flex:none!important;display:grid;place-items:center;aspect-ratio:1}
+/* the USMLE poster fills its card (owner, 19 Nov 2026: "the USMLE picture did not fit well"): no side bars, title and face kept at the top */
+.section-choice-poster img,.section-choice-art img[src$="/choice_usmle_wide.webp"]{object-fit:cover!important;object-position:50% 30%!important}
+.lhero.pgprev{padding:14px 16px;margin:6px 0 10px;border-radius:16px;gap:12px}.lhero.pgprev b{display:block;font-size:16px}.lhero.pgprev small{opacity:.85;font-size:12.5px}
+/* phones and portrait tablets: the four section cards fill the screen like on the laptop (owner, 19 Nov 2026) */
+@media (max-width:900px) and (orientation:portrait){.section-picker{max-height:none}}
+/* phones: four wide cards one under another, the name on the picture (wide like the laptop cards, so text in the pictures is not cut) */
+@media (max-width:640px) and (orientation:portrait){
+  .section-picker-grid{grid-template-columns:1fr!important;grid-template-rows:repeat(4,minmax(0,1fr))!important;gap:8px!important}
+  .section-choice{position:relative}
+  .section-choice-art{position:absolute!important;inset:0}
+  .section-choice-label{position:absolute;inset:auto 0 0 0;min-height:0!important;padding:18px 12px 8px!important;background:linear-gradient(transparent,rgba(21,8,42,.82))!important;color:#fff;justify-items:start}
+  .section-choice-label b{color:#fff;font-size:16px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+  .section-choice-art img[src$="/sec_basics.webp"]{object-position:center 35%}
+}
+#top .brand b,#top .brand span{white-space:nowrap}
+/* ===== interaction row, one design for every card (owner, 19 Nov 2026: "make the interactions as perfect as you can") =====
+   Like · Dislike · Comment on one side, the score (stars + number + grade + votes) and Report on the other. */
+.feed-action-row{display:flex!important;align-items:center;flex-wrap:wrap;gap:6px!important;row-gap:8px!important}
+.feed-action-row .feed-grow{flex:1 1 0;min-width:0}
+.feed-action-row .feed-emoji{min-width:52px;min-height:40px;padding:4px 10px;border-radius:999px;border:1px solid var(--bd2);background:var(--sf);opacity:1!important;font-weight:800;font-size:14px;color:var(--tx)}
+.feed-action-row .feed-like[aria-pressed="true"]{background:#e7f5ec;border-color:#3aa76d;box-shadow:none;color:#17663a}
+.feed-action-row .feed-dislike[aria-pressed="true"]{background:#fdecec;border-color:#d9534f;box-shadow:none;color:#a61e1e}
+.feed-action-row .feed-emoji-icon{font-size:17px}
+.feed-action-row .feed-report{min-width:40px;width:40px;padding:0;color:var(--sub);border-color:transparent;background:transparent}
+.feed-action-row .feed-report:hover{color:#c0392b;background:#fdecec}
+.feed-action-row .feed-report .ico{width:17px;height:17px}
+.feed-grade,.feed-action-row .library-rating,.library-rating{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:4px 12px;border-radius:999px;
+  background:var(--sf2,#f6f4f9);border:1px solid var(--bd2);color:var(--tx);font-size:13px;font-weight:700;white-space:nowrap}
+button.library-rating:hover{border-color:#e0a800;background:#fff8e1}
+.gstars{display:inline-flex;gap:1px;direction:ltr}
+.gstars i{font-style:normal;font-size:16px;line-height:1;background:linear-gradient(90deg,#f5b301 var(--f),#d5d0de var(--f));-webkit-background-clip:text;background-clip:text;color:transparent}
+.gnum{font-weight:900;font-size:14px}
+.gtitle{font-size:12.5px;padding:2px 8px;border-radius:999px;background:#f1eff6;color:#635977}
+.gcount{color:var(--sub);font-weight:600;font-size:12px}
+:root[data-theme="dark"] .feed-grade,:root[data-theme="dark"] .library-rating{background:#291e3d}
+/* on phones the score takes its own line under the buttons, report stays at the end */
+@media (max-width:520px){
+  .feed-action-row .feed-grow{display:none}
+  .feed-action-row .feed-grade,.feed-action-row .library-rating{order:5;flex:1 1 auto;justify-content:center}
+  .feed-action-row .feed-report{order:6}
+  .feed-action-row .feed-emoji{flex:1 1 0;min-width:0}
+}
+.gtitle.g5{background:#1f8a4c;color:#fff}.gtitle.g4{background:#2b8a8a;color:#fff}.gtitle.g3{background:#612ccb;color:#fff}.gtitle.g2{background:#e08a00;color:#fff}.gtitle.g1{background:#c0392b;color:#fff}
+@media (max-width:520px){
+  .feed-action-row .feed-report{order:4!important}
+  .feed-action-row .feed-grade,.feed-action-row .library-rating{order:9!important;flex:1 1 100%!important;justify-content:center}
+}
