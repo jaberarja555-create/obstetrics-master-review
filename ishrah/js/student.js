@@ -1430,16 +1430,19 @@
 /* the speciality space in figures (owner, 19 Nov 2026): members, members online now, lecturers, lecturers online now */
 (function () {
   var A = IS.A, esc = IS.esc, ic = IS.ic, N = IS.N;
+  /* two blocks, Members and Lecturers: the total big, «● N متصل الآن» under it (owner, 19 Nov 2026: tiles "big, ugly, disorganised");
+     for the team the total opens everyone and the green line opens those online */
   IS.spaceBox = function () {
-    var spec = IS.mySpec && IS.mySpec(), name = spec ? spec.en : '';
-    return '<div class="spacebox" data-space="' + esc(IS.SPEC || '') + '"><div class="bnums sp4">' +
-      [['members', 'عضو', 'members'], ['online', 'متصل الآن', 'online now'], ['lecturers', 'محاضر', 'lecturers'], ['lecturers_online', 'محاضر متصل', 'lecturers online']].map(function (x, i) {
-        var tag = staff() ? 'button type="button" data-act="spacepeople" data-k="' + x[0] + '"' : 'span';
-        return '<' + tag + ' class="spt' + (i % 2 ? ' on' : '') + '"><i class="spi">' + ic(i < 2 ? 'users' : 'studio') + '</i><b data-n="' + x[0] + '">–</b><span class="spl2">' + esc(A(x[1], x[2])) + '</span>' +
-          (staff() ? '<small class="spsee">' + esc(A('عرض', 'View')) + '</small>' : '') +
-          '</' + tag.split(' ')[0] + '>'; }).join('') + '</div>' +
-      (IS.ME ? '<small class="spjoin">' + ic('check') + esc(A('أنت عضو في ', 'You are a member of ')) + '<bdi lang="en">' + esc(name) + '</bdi>' + '</small>' :
-        '<button type="button" class="btn gold sm" data-act="login">' + ic('user') + esc(A('سجّل الدخول لتنضم إلى ', 'Sign in to join ')) + '<bdi lang="en">' + esc(name) + '</bdi>' + '</button>') + '</div>';
+    var spec = IS.mySpec && IS.mySpec(), name = spec ? spec.en : '', st = staff();
+    function part(tag, k, cls, inner) { return st ? '<button type="button" class="' + cls + '" data-act="spacepeople" data-k="' + k + '">' + inner + '</button>' : '<' + tag + ' class="' + cls + '">' + inner + '</' + tag + '>'; }
+    function group(k, icon, ar, en) {
+      return '<div class="spg">' + part('div', k, 'spg-top', '<i class="spi">' + ic(icon) + '</i><span class="spg-t"><small>' + esc(A(ar, en)) + '</small><b data-n="' + k + '">–</b></span>' +
+          (st ? '<span class="spg-v" aria-hidden="true">' + ic('chev') + '</span>' : '')) +
+        part('div', k === 'members' ? 'online' : 'lecturers_online', 'spg-on', '<i class="spdot"></i><b data-n="' + (k === 'members' ? 'online' : 'lecturers_online') + '">–</b> ' + esc(A('متصل الآن', 'online now'))) + '</div>';
+    }
+    return '<div class="spacebox sp2" data-space="' + esc(IS.SPEC || '') + '"><div class="spgs">' + group('members', 'users', 'الأعضاء', 'Members') + group('lecturers', 'studio', 'المحاضرون', 'Lecturers') + '</div>' +
+      (IS.ME ? '<small class="spjoin">' + ic('check') + esc(A('أنت عضو في ', 'You are a member of ')) + '<bdi lang="en">' + esc(name) + '</bdi></small>' :
+        '<button type="button" class="btn gold sm" data-act="login">' + ic('user') + esc(A('سجّل الدخول لتنضم إلى ', 'Sign in to join ')) + '<bdi lang="en">' + esc(name) + '</bdi></button>') + '</div>';
   };
   function staff() { return !!(IS.ME && (IS.can('students') || IS.can('dash'))); }
   /* the team sees who: members, online now, lecturers, lecturers online (owner, 19 Nov 2026) */
