@@ -4,15 +4,17 @@ Owner: Dr. Abdaljalil Abdalkareem Arja. Separate from the three books and from S
 "forget about my books and the library for now; the main concern is to build the app and every page ready").
 Plain static app (HTML/CSS/JS, no build step) in this folder, with two Cloudflare Pages Functions and a Supabase database.
 
-## Working from either of the owner's Claude accounts
-- Code lives in `obstetrics-master-review/ishrah/` (GitHub jaberarja555-create/obstetrics-master-review). Both accounts can work on it as long
-  as their GitHub connection reaches that repository. Branch for this work: `ccr-38b3f943-ba1ode` (preview) until the owner approves; then
-  merge to `main` (live). Before starting: `git fetch origin && git checkout ccr-38b3f943-ba1ode && git pull`, read this file and
-  `git log --oneline -15 -- ishrah`. Push back to the same branch. Never put keys or passwords in the repository (it is public).
-- Preview deploy: every push touching `ishrah/` runs `.github/workflows/ishrah.yml` → Cloudflare Pages project `ishrah`
-  (branch preview https://ccr-38b3f943-ba1ode.ishrah.pages.dev, main → https://ishrah.pages.dev).
-- The app without a database (js/config.js empty) is a PREVIEW: all data stays in that browser (localStorage + IndexedDB), the first
-  account created is the owner. Good for showing every page; not for real students.
+## Continue from ChatGPT or Claude
+
+- Repository: [jaberarja555-create/obstetrics-master-review](https://github.com/jaberarja555-create/obstetrics-master-review). The Ishrah Li app is in `ishrah/`. The shared working branch is `ccr-38b3f943-ba1ode`. Fetch it, check it out, and fast-forward before editing. Use `git log --oneline -15 -- ishrah` to confirm the latest work. Any account with repository read access can pick up here. Publishing changes requires GitHub write access.
+- A push that touches `ishrah/` on the shared branch runs the [Ishrah workflow](https://github.com/jaberarja555-create/obstetrics-master-review/actions/workflows/ishrah.yml). It publishes the branch to Cloudflare Pages and to the live site at [ishrahli.org](https://ishrahli.org/). GitHub’s `main` branch serves the Obstetrics book project and is separate from this deployment.
+- Review any branch that contains additional Ishrah commits before integrating it. Use an empty `js/config.js` in an isolated local copy for preview data. Production data lives in Supabase, and deployment credentials live in the connected services. Keep credentials out of GitHub files and chats.
+
+## Latest verified handoff
+
+- As of 19 November 2026, the live application is at `b164b78` (asset version `149`). The [deployment run](https://github.com/jaberarja555-create/obstetrics-master-review/actions/runs/44580635473) applied the latest migrations and published successfully. The live page references `js/sell.js?v=149`.
+- The last feature is paid and free library uploads by students or lecturers, with searchable tags, ordered file series, library staff publication, Bankak receipt review by Finance, and seller earnings and payouts. See the detailed library notes at the end of this file.
+- Community posts and course requests publish inside their study space. Reports go to Control → Community. Library uploads still go through publication review. Latest database migration: `023_paid_library.sql`.
 
 ## Files
 - `index.html` shell · `css/app.css` look · `js/config.js` connection (Supabase URL + anon key, Bunny library id; empty = preview)
@@ -234,9 +236,7 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   the local Postgres (hidden member absent, visitor cannot read profiles). Test: `node tools/ishrah/team.js <shots dir>`.
 - Lecturers page has a speciality bar (`IS.LSPEC`, `IS.ACT.lspec`): a lecturer counts under the specialities of their courses, or the one
   their speciality / title / tags names (Medicine when nothing matches); each button shows how many lecturers it has.
-- **Branches of the two accounts (18 Nov 2026):** each account's session pushes to its own `ccr-…` branch. Before working, fetch both and
-  continue from the newest (`git fetch origin && git log --oneline -3 origin/ccr-38b3f943-ba1ode origin/ccr-67fd949c-z3vfp5`), merge, and push
-  to BOTH so the two previews stay the same.
+- Use the shared branch described under “Continue from ChatGPT or Claude” at the top of this file.
 
 ## Speciality spaces (owner, 18 Nov 2026: "all specialities in one place is confusing … the student must choose and then be in a place for that speciality only")
 - The app opens on the start page `#pick` (logo, sign in / create account, five speciality cards); every student page leads there until a speciality
