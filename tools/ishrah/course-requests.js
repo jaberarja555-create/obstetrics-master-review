@@ -288,6 +288,7 @@ async function checkRequests(browser) {
   assert.equal(await courseForm.locator('[name=cat]').inputValue(), 'basics');
   await courseForm.getByLabel('Course title').fill('Fixture paid anatomy course');
   await courseForm.locator('[name=subject]').selectOption('anatomy');
+  await courseForm.locator('[name=pricing][value=paid]').check();
   await courseForm.locator('[name=price]').fill('250');
   await courseForm.locator('[name=delivery]').selectOption('live');
   await courseForm.locator('[name=starts_at]').fill('2026-12-12T17:00');

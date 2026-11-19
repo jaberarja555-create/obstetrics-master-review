@@ -636,7 +636,13 @@
       (up ? '<p class="lead center">' + esc(A('انضم إلى مجتمع اشرح لي', 'Join the Ishrah Li community')) + '</p><h3 class="sub center">' + esc(A('اختر نوع حسابك', 'Choose your account type')) + '</h3><div class="kinds" role="radiogroup">' +
         [['student', 'cert', 'طالب', 'Student', 'للوصول إلى الكورسات والمحتوى التعليمي', 'To reach the courses and learning content'], ['lecturer', 'studio', 'محاضر', 'Lecturer', 'لتقديم الكورسات والمحاضرات', 'To teach courses and lectures']].map(function (k) {
           return '<button type="button" class="kind' + (kind === k[0] ? ' on' : '') + '" role="radio" aria-checked="' + (kind === k[0]) + '" data-act="kind" data-k="' + k[0] + '">' + ic(k[1]) + '<b>' + esc(A(k[2], k[3])) + '</b><small>' + esc(A(k[4], k[5])) + '</small></button>'; }).join('') + '</div>' : '') +
-      '<button class="btn google wide" data-act="google">' + GSVG + '<span>' + esc(A('المتابعة بحساب Google', 'Continue with Google')) + '</span></button>' +
+      '<button type="button" class="btn google wide" data-act="google" data-google-primary>' + GSVG + '<span>' + esc(A('المتابعة بحساب Google', 'Continue with Google')) + '</span></button>' +
+      (DB.live ? '<div class="google-options"><p class="msg" data-google-status role="alert" hidden></p><button type="button" class="link" data-act="google" data-google-chooser hidden>' +
+        esc(A('اختر حساب Google', 'Choose a Google account')) + '</button><details data-google-help><summary>' +
+        esc(A('مساعدة في تسجيل الدخول عبر Google', 'Google sign-in help')) + '</summary><p>' +
+        esc(A('إذا أخبرك Google بأنك بلغت الحد الأقصى للحسابات، افتح ishrahli.org في علامة تبويب للتصفّح المتخفّي في Chrome وسجّل الدخول بحساب Google المرتبط بحسابك هنا. يمكنك أيضًا استخدام بريدك الإلكتروني أو رقم هاتفك إذا سبق أن استخدمته للدخول.',
+          'If Google says you’ve reached its account limit, open ishrahli.org in an Incognito tab in Chrome and use the Google account you normally use here. You can also sign in with email or phone if you’ve used it before.')) +
+        '</p></details></div>' : '') +
       '<p class="or"><span>' + esc(A('أو', 'or')) + '</span></p>' +
       '<div class="atabs" role="tablist">' + [['email', 'mail', 'البريد الإلكتروني', 'Email'], ['phone', 'phone', 'رقم الهاتف', 'Phone']].map(function (t) {
         return '<button type="button" role="tab" aria-selected="' + (tab === t[0]) + '" class="' + (tab === t[0] ? 'on' : '') + '" data-act="authtab" data-t="' + t[0] + '">' + ic(t[1]) + '<span>' + esc(A(t[2], t[3])) + '</span></button>'; }).join('') + '</div>' + form +
@@ -709,30 +715,67 @@
   /* preview copy (no real Google yet): the Google button asks for the Gmail address and proves it with a 6-digit code, never by the address
      alone (owner, 18 Nov 2026). The live platform opens the real Google sign-in. */
   IS.SUB.gpreview = async function (d) { PEND = { email: String(d.email).trim().toLowerCase(), name: '', google: true, kind: IS.AUTHKIND }; try { await sendCode(); } catch (e) { authMsg(codeErr(e)); } };
-  IS.ACT.google = async function () { if (!DB.live) {
+  IS.ACT.google = async function (button) { if (!DB.live) {
       IS.sheet(esc(A('الدخول بحساب Google', 'Sign in with Google')), '<p class="pv">' + IS.ic('info') + esc(A('نسخة معاينة: Google الحقيقي يعمل بعد ربط المنصة. هنا نتحقق من بريدك برمز من 6 أرقام.', 'Preview copy: real Google sign-in works once the platform is connected. Here your email is checked with a 6-digit code.')) + '</p>' +
         '<form class="form" data-form="gpreview">' + fld('email', 'mail', A('بريد Gmail', 'Gmail address') + ' *', 'type="email" required autocomplete="email" dir="ltr" placeholder="name@gmail.com"') +
         '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic('send') + '<span>' + esc(A('أرسل الرمز', 'Send the code')) + '</span></button></form>'); return; }
-    if (IS.AUTHKIND === 'lecturer') LS.set('afterlogin', 'studio-apply'); await DB.google(); if (!DB.live) { IS.closeSheet(); await IS.loadMe(); var a = LS.get('afterlogin', ''); LS.set('afterlogin', ''); if (a) IS.go(a); else IS.route(); } };
+    var dialog = button.closest('.dlg');
+    try {
+      sessionStorage.setItem('ish-google-sign-in', IS.AUTHKIND === 'lecturer' ? 'lecturer' : 'student');
+      button.disabled = true;
+      await DB.google();
+    } catch (error) {
+      sessionStorage.removeItem('ish-google-sign-in');
+      showGoogleError(dialog);
+    } finally { button.disabled = false; }
+  };
+  function showGoogleError(dialog) {
+    var message = dialog && dialog.querySelector('[data-google-status]');
+    if (!message) return;
+    message.textContent = A('تعذّر تسجيل الدخول عبر Google. جرّب حسابك من جديد أو استخدم البريد أو الهاتف.',
+      'Google sign-in did not finish. Try your account again or use email or phone.');
+    message.hidden = false;
+    dialog.querySelector('[data-google-help]').open = true;
+  }
+  function googleRedirectResult() {
+    var kind = sessionStorage.getItem('ish-google-sign-in');
+    if (!kind) return null;
+    sessionStorage.removeItem('ish-google-sign-in');
+    var url = new URL(location.href), hash = new URLSearchParams(url.hash.slice(1));
+    var authError = function (params) { return params.has('error') || params.has('error_code'); };
+    var failed = authError(url.searchParams) || authError(hash);
+    if (failed) {
+      if (authError(hash)) url.hash = '';
+      ['error','error_code','error_description'].forEach(function (key) { url.searchParams.delete(key); });
+      history.replaceState(history.state, '', url);
+    }
+    return { kind: kind, failed: failed };
+  }
   /* Google's own "Sign in with Google" button (owner, 18 Nov 2026: students saw the strange address fglawgpusfbgkokpnoej.supabase.co on
      Google's page). The button runs on ishrahli.org, so Google names this site; its ID token goes to Supabase (signInWithIdToken).
      If Google's script does not load, our button and the old redirect stay. */
   var GSI = null;
   IS.gsiMount = function (d) {
     var cid = (window.ISH_CONFIG || {}).googleClientId; if (!DB.live || !cid || !DB.googleToken) return;
-    var b = d.querySelector('[data-act=google]'), box = document.createElement('div'); box.className = 'gsib'; b.parentNode.insertBefore(box, b);
+    var b = d.querySelector('[data-google-primary]'), chooser = d.querySelector('[data-google-chooser]');
+    var box = document.createElement('div'); box.className = 'gsib'; box.hidden = true; b.before(box);
     function go() {
-      if (!window.google || !google.accounts || !google.accounts.id) return;
+      if (!b.isConnected) return;
+      if (!window.google || !google.accounts || !google.accounts.id || !window.crypto || !crypto.subtle) { box.remove(); return; }
       var raw = Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(16)), function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
       crypto.subtle.digest('SHA-256', new TextEncoder().encode(raw)).then(function (hb) {
+        if (!b.isConnected) return;
         var hashed = Array.prototype.map.call(new Uint8Array(hb), function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
         google.accounts.id.initialize({ client_id: cid, nonce: hashed, ux_mode: 'popup', itp_support: true, use_fedcm_for_button: true, callback: async function (resp) {
           try { await DB.googleToken(resp.credential, raw); IS.closeSheet(); await IS.loadMe(); if (IS.mfaCheck) await IS.mfaCheck();
             if (IS.AUTHKIND === 'lecturer' && !IS.LEC) IS.go('studio-apply'); else if (IS.team()) IS.go('control'); else IS.route(); }
-          catch (e) { var m = d.querySelector('#authMsg'); if (m) m.textContent = A('تعذّر الدخول بحساب Google: ', 'Google sign-in failed: ') + (e.message || ''); b.hidden = false; box.remove(); } } });
+          catch (e) { showGoogleError(b.closest('.dlg')); b.hidden = false; chooser.hidden = true; box.remove(); } } });
         google.accounts.id.renderButton(box, { type: 'standard', theme: 'outline', size: 'large', shape: 'pill', text: 'continue_with', logo_alignment: 'center', locale: IS.lang === 'en' ? 'en' : 'ar', width: Math.min(400, Math.max(220, b.offsetWidth || 320)) });
-        setTimeout(function () { if (box.querySelector('iframe, div[role=button]')) b.hidden = true; else box.remove(); }, 1500);
-      });
+        setTimeout(function () {
+          if (!box.querySelector('iframe, div[role=button]')) { box.remove(); return; }
+          box.hidden = false; b.hidden = true; chooser.hidden = false;
+        }, 1500);
+      }).catch(function () { box.remove(); });
     }
     if (window.google && window.google.accounts) return go();
     if (!GSI) GSI = new Promise(function (ok, no) { var s = document.createElement('script'); s.src = 'https://accounts.google.com/gsi/client'; s.async = true; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
@@ -743,6 +786,7 @@
 
   /* ---------- start ---------- */
   IS.start = async function () {
+    var googleReturn = DB.live ? googleRedirectResult() : null;
     if (DB.live && !navigator.onLine) {
       resumedOnline = true;
       restoreBase();
@@ -753,7 +797,13 @@
     }
     IS.beat();
     DB.onAuth(async function () { if (!navigator.onLine && DB.live) return; await loadAccount(); IS.route(); });
-    IS.route();
+    if (googleReturn && !googleReturn.failed && IS.ME && IS.team()) IS.go('control');
+    else if (googleReturn && !googleReturn.failed && IS.ME && googleReturn.kind === 'lecturer' && !IS.LEC) IS.go('studio-apply');
+    else IS.route();
+    if (googleReturn && googleReturn.failed) {
+      authSheet('in', googleReturn.kind);
+      showGoogleError(IS.$('#sheet .dlg'));
+    }
     if (!DB.live) document.body.classList.add('preview');
   };
 })();

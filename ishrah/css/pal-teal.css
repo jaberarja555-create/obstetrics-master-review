@@ -406,28 +406,18 @@ main{padding:16px 18px 100px;max-width:1500px}
 .ct{display:flex;flex-direction:column;flex:1;min-width:0}.ct small{color:var(--sub);font-size:12px}
 .csec ol{list-style:none;margin:0;padding:6px}
 .les{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px}
-.les:hover{background:var(--tint2)}.les.cur{background:var(--tint);box-shadow:inset 3px 0 0 var(--pri)}
-[dir="rtl"] .les.cur{box-shadow:inset -3px 0 0 var(--pri)}.les.locked{opacity:.65}
+.les:hover{background:var(--tint2)}.les[aria-current="page"]{background:var(--tint);box-shadow:inset 3px 0 0 var(--pri)}
+[dir="rtl"] .les[aria-current="page"]{box-shadow:inset -3px 0 0 var(--pri)}.les.locked{opacity:.65}
 .ls{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;border:1.5px solid var(--bd2);color:var(--sub)}.ls .ico{width:14px;height:14px}.ls.ok{background:var(--ok);border-color:var(--ok);color:#fff}
 .ltt{display:flex;flex-direction:column;min-width:0;flex:1}.ltt b{font-size:13.5px;font-weight:700}.ltt small{color:var(--sub);font-size:11.5px}
 
 /* ---------- lesson ---------- */
-.lesson{display:grid;gap:18px;align-items:start}
-@media (min-width:1280px){.lesson{grid-template-columns:300px minmax(0,1fr) 290px}}
-@media (min-width:900px) and (max-width:1279px){.lesson{grid-template-columns:290px minmax(0,1fr)}.lside{grid-column:2}}
-.lcur{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:12px;box-shadow:var(--card)}
-@media (min-width:900px){.lcur{position:sticky;top:84px;max-height:calc(100vh - 100px);overflow:auto}}
-@media (max-width:899px){.lcur{order:3}}
-.lcur header{display:flex;flex-direction:column;gap:6px;padding:4px 4px 12px}.lcur h2{font-size:16px}
-.lmain{min-width:0}
 .player{border-radius:20px;overflow:hidden;background:#051a14;box-shadow:var(--lift);aspect-ratio:16/9;display:grid;place-items:center}
 .player video,.player iframe{width:100%;height:100%;border:0;display:block;background:#000}
 .player .empty{background:none;border:0;color:#cfe}
 .player.lockd{background:linear-gradient(rgba(5,26,20,.85),rgba(5,26,20,.92)),var(--ci,none) center/cover;color:#fff;text-align:center}
-.player.lockd>div{display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px}.player.lockd .ico{width:44px;height:44px}.player.lockd h1{color:#fff;font-size:22px}
+.player.lockd>div{display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px}.player.lockd .ico{width:44px;height:44px}.player.lockd h2{color:#fff;font-size:22px}
 @media (max-width:600px){.player.lockd{aspect-ratio:auto;min-height:260px}}
-.lbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px}
-.lbar small{color:var(--sub)}.lbar h2{font-size:20px;font-weight:900}
 .article h1,.quiz h1{font-size:22px;font-weight:900;display:flex;gap:8px;align-items:center;margin-bottom:10px}
 .qq{border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin:0 0 12px}.qq legend{font-weight:800;padding:0 6px}
 .qo{display:flex;gap:9px;align-items:center;padding:9px 10px;border-radius:10px;cursor:pointer;border:1px solid transparent}
@@ -436,15 +426,7 @@ main{padding:16px 18px 100px;max-width:1500px}
 .qe{display:flex;gap:6px;color:var(--sub);font-size:13.5px;margin-top:6px}.qe .ico{color:var(--pri);flex:none}
 .qs{font-size:20px;font-weight:900;color:var(--pri)}
 .notes .row.sp{margin-top:10px}
-.lside{display:flex;flex-direction:column;gap:14px}
-@media (min-width:1280px){.lside{position:sticky;top:84px}}
-.lc{padding:0;overflow:hidden}
-.lci{display:flex;flex-direction:column;gap:4px;padding:16px;color:#fff;min-height:120px;justify-content:flex-end;background:linear-gradient(180deg,rgba(6,38,28,.25),rgba(6,38,28,.92)),var(--ci,linear-gradient(135deg,var(--deep),var(--pri))) center/cover}
-.lci b{font-size:16px}.lci span{font-size:13px;opacity:.9}
 .who{display:flex;align-items:center;gap:10px;padding:8px;border-radius:12px}.who:hover{background:var(--tint2)}.who>span:last-child{display:flex;flex-direction:column;min-width:0}.who small{color:var(--sub);font-size:12px}
-.lc .who{margin:8px}
-.lcs{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--bd)}
-.lcs span{display:flex;flex-direction:column;align-items:center;padding:10px 4px;font-size:11.5px;color:var(--sub)}.lcs span+span{border-inline-start:1px solid var(--bd)}.lcs b{font-size:16px;color:var(--tx)}.lcs .ico{color:var(--pri);width:18px;height:18px}
 
 /* ---------- community ---------- */
 .rooms{display:flex;flex-direction:column;gap:2px;margin-top:8px}
@@ -1013,7 +995,7 @@ body[data-area="control"]{--pri:#13585c;--pri2:#0c4246;--tint:rgba(201,154,46,.1
 .subjs.wide .subj b{font-size:18px}
 @media (max-width:900px){.subjs.wide>.subj{flex-basis:100%}}
 /* boxes never follow the scroll (owner, 18 Nov 2026: "I do not like this box moving up and down") */
-.aside,.lcur,.lside{position:static!important;max-height:none!important}
+.aside{position:static!important;max-height:none!important}
 .spc .spi{order:2}
 .hero .hlogo img{-webkit-mask-image:radial-gradient(closest-side,#000 78%,transparent 100%);mask-image:radial-gradient(closest-side,#000 78%,transparent 100%)}
 /* subject cards with a real picture */
@@ -2434,3 +2416,74 @@ a.library-rating:hover{text-decoration:underline}
 .payout-bank dd{margin:3px 0 0;text-align:start;font-weight:700;overflow-wrap:anywhere}
 .payout-note{white-space:pre-wrap;overflow-wrap:anywhere;margin-block:0 16px}
 @media(max-width:480px){.payout-head{flex-wrap:wrap}}
+
+/* Lesson workspace */
+.lesson-layout{display:grid;grid-template-areas:"heading" "media" "outline" "study";gap:16px;max-width:1280px;margin-inline:auto;align-items:start}
+.lesson-layout>*{min-width:0}
+.lesson-heading{grid-area:heading;display:grid;justify-items:start;gap:6px}
+.lesson-heading h1{margin:0;font-size:clamp(24px,2.9vw,38px);line-height:1.25;overflow-wrap:anywhere}
+.lesson-course-link{display:inline-flex;align-items:center;gap:6px;max-width:100%;min-height:32px;color:var(--pri);font-size:14px;font-weight:750;overflow-wrap:anywhere}
+.lesson-course-link .ico{width:15px;height:15px;flex:none}
+.lesson-course-link:hover{text-decoration:underline}
+.lesson-meta{display:flex;flex-wrap:wrap;gap:2px 9px;margin:0;color:var(--sub);font-size:13px}
+.lesson-meta span+span::before{content:"·";margin-inline-end:9px}
+.lesson-media{grid-area:media}
+.lesson-media .player{border-radius:var(--r);box-shadow:var(--card)}
+.lesson-media .player video{object-fit:contain}
+.lesson-media .box{margin:0}
+.lesson-reading .rich{overflow-wrap:anywhere}
+.lesson-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px}
+.lesson-actions .btn{min-height:42px}
+.lesson-utilities,.lesson-nav{gap:6px}
+.lesson-nav{margin-inline-start:auto}
+.lesson-outline{grid-area:outline;border:1px solid var(--bd);border-radius:var(--r);background:var(--sf);box-shadow:var(--card);overflow:hidden}
+.lesson-outline-toggle>summary{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;list-style:none;cursor:pointer;padding:13px 14px}
+.lesson-outline-toggle>summary::-webkit-details-marker{display:none}
+.lesson-outline-toggle>summary:hover{background:var(--tint2)}
+.lesson-outline-toggle>summary:focus-visible{outline-offset:-3px}
+.lesson-outline-icon{display:grid;place-items:center;width:38px;height:38px;background:var(--tint);border-radius:11px;color:var(--pri)}
+.lesson-outline-icon .ico{width:20px;height:20px}
+.lesson-outline-toggle>summary b,.lesson-outline-toggle>summary small{display:block}
+.lesson-outline-toggle>summary b{font-size:15px}
+.lesson-outline-toggle>summary small{color:var(--sub);font-size:12px;margin-top:2px}
+.lesson-outline-toggle>summary>.ico{width:18px;height:18px;color:var(--sub)}
+.lesson-outline-toggle[open]>summary>.ico{transform:rotate(180deg)}
+.lesson-outline-body{padding:0 12px 12px}
+.lesson-progress{margin:0 3px 10px}
+.lesson-progress em{min-width:2.5em;text-align:end}
+.lesson-outline .ct,.lesson-outline .ltt{overflow-wrap:anywhere}
+.lesson-outline .csec>summary{padding:8px 9px}
+.lesson-outline .les{min-height:46px;padding:8px}
+.lesson-outline .csec ol{padding:4px}
+.lesson-outline-actions{display:grid;gap:6px;margin-top:10px}
+.lesson-study{grid-area:study}
+.lesson-tabs.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0 0 8px;}
+.lesson-tabs button{min-width:0;min-height:40px;padding:5px;white-space:normal;line-height:1.25}
+.lesson-tabs button .ico{width:16px;height:16px}
+.lesson-notes,.lesson-info{margin:0}
+.lesson-info .who{width:fit-content;margin-top:10px}
+.lesson-info .rich{margin-top:12px}
+@media (min-width:960px){
+  .lesson-layout{gap:16px 22px;grid-template-columns:minmax(0,1fr) clamp(220px,23vw,312px);grid-template-areas:"heading heading" "media outline" "study outline"}
+  .lesson-outline-toggle>summary{padding:14px}
+}
+@media (max-width:480px){
+  .lesson-layout{gap:12px}
+  .lesson-actions{gap:7px}
+  .lesson-utilities .dlb{font-size:12px}
+  .lesson-tabs button{gap:4px;font-size:12px}
+}
+/* Explicit enrolment choice in the course editor */
+.course-pricing{padding:10px 12px 12px;border:1px solid var(--bd);border-radius:var(--r);min-width:0;gap:10px}
+.course-pricing-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.course-pricing-option{display:flex;align-items:center;gap:8px;min-height:48px;padding:8px 12px;border:1px solid var(--bd);border-radius:12px;cursor:pointer}
+.course-pricing-option input{accent-color:var(--pri);flex:none}
+.course-pricing-option .ico{color:var(--pri);width:18px;height:18px;flex:none}
+.course-pricing-option:has(input:checked){color:var(--pri);background:var(--tint);border-color:var(--pri)}
+.course-price-type{display:block;color:var(--sub);font-size:11px;font-weight:700;line-height:1.2}
+
+.google-options{display:grid;justify-items:center;gap:5px;margin-block:6px}
+.google-options details{color:var(--sub);font-size:13px}
+.google-options summary{text-align:center;cursor:pointer}
+.google-options details p{margin:7px 0 0;padding:8px 10px;border-radius:8px;background:var(--tint2)}
+.google-options .msg{margin:0}

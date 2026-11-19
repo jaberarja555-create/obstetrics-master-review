@@ -79,7 +79,8 @@
   IS.ACT.fav = function (b) { if (!me()) return IS.ACT.login(); var f = favs(), k = b.getAttribute('data-k'); if (f[k]) delete f[k]; else f[k] = Date.now(); IS.LS.set('fav-' + uid(), f);
     IS.$$('[data-act=fav][data-k="' + k + '"]').forEach(function (x) { x.setAttribute('aria-pressed', !!f[k]); }); IS.toast(f[k] ? A('أضيف إلى المفضلة', 'Added to favourites') : A('أزيل من المفضلة', 'Removed')); };
   function hrs(m) { m = +m || 0; return m >= 60 ? N(Math.round(m / 6) / 10) + ' ' + A('ساعة', 'h') : N(m) + ' ' + A('دقيقة', 'min'); }
-  function price(c) { return +c.price ? IS.money(c.price) : '<b class="free">' + esc(A('مجاني', 'Free')) + '</b>'; }
+  function price(c) { return +c.price > 0 ? '<small class="course-price-type">' + esc(A('مدفوع', 'Paid')) + '</small>' + IS.money(c.price) :
+    '<b class="free">' + esc(A('مجاني', 'Free')) + '</b>'; }
   function lecName(l) { return l ? l.name : ''; }
 
   /* ---------- course card ---------- */
@@ -501,14 +502,17 @@
       '<li>' + ic('shield') + esc(A('مشاهدة داخل التطبيق فقط (دون تنزيل)', 'Watched inside the app only (no download)')) + '</li><li>' + ic('cert') + esc(A('شهادة إتمام', 'Certificate of completion')) + '</li></ul></section></aside></div>';
     return h;
   });
+  function lessonKind(kind) {
+    return { video: A('فيديو', 'Video'), text: A('درس مكتوب', 'Reading'), quiz: A('اختبار', 'Quiz') }[kind] || '';
+  }
   function curriculum(c, secs, P, cur, act) {
     if (!secs.length) return IS.empty('layers', A('لم تُضف دروس بعد', 'No lessons yet'));
     return '<div class="cur">' + secs.map(function (s, si) {
       var nd = s.lessons.filter(function (x) { return P[x.id]; }).length, open = cur ? s.lessons.some(function (x) { return x.id === cur; }) : si === 0;
-      return '<details class="csec"' + (open ? ' open' : '') + '><summary><span class="cn' + (nd && nd === s.lessons.length ? ' ok' : '') + '">' + (nd && nd === s.lessons.length ? ic('check') : N(si + 1)) + '</span><span class="ct"><b>' + esc(s.title) + '</b><small>' + N(s.lessons.length) + ' ' + esc(A('دروس', 'lessons')) + (nd ? ' · ' + N(nd) + ' ' + esc(A('منتهٍ', 'done')) : '') + '</small></span>' + ic('down') + '</summary><ol>' +
+      return '<details class="csec"' + (open ? ' open' : '') + '><summary><span class="cn' + (nd && nd === s.lessons.length ? ' ok' : '') + '">' + (nd && nd === s.lessons.length ? ic('check') : N(si + 1)) + '</span><span class="ct"><b><bdi>' + esc(s.title) + '</bdi></b><small>' + N(s.lessons.length) + ' ' + A('دروس', s.lessons.length === 1 ? 'lesson' : 'lessons') + (nd ? ' · ' + N(nd) + ' ' + esc(A('منتهٍ', 'done')) : '') + '</small></span>' + ic('down') + '</summary><ol>' +
         s.lessons.map(function (x) { var open2 = act || x.free;
-          return '<li><a class="les' + (x.id === cur ? ' cur' : '') + (open2 ? '' : ' locked') + '" href="#lesson/' + c.id + '/' + x.id + '"><span class="ls ' + (P[x.id] ? 'ok' : '') + '">' + ic(P[x.id] ? 'check' : !open2 ? 'lock' : x.kind === 'quiz' ? 'qb' : x.kind === 'text' ? 'file' : 'play') + '</span><span class="ltt"><b>' + esc(x.title) + '</b><small>' +
-            esc({ video: A('فيديو', 'Video'), text: A('درس مكتوب', 'Reading'), quiz: A('اختبار', 'Quiz') }[x.kind] || '') + (x.minutes ? ' · ' + N(x.minutes) + ' ' + esc(A('د', 'min')) : '') + '</small></span>' + (x.free && !act ? IS.chip(esc(A('معاينة مجانية', 'Free preview')), 'free') : '') + '</a></li>'; }).join('') + '</ol></details>';
+          return '<li><a class="les' + (open2 ? '' : ' locked') + '"' + (x.id === cur ? ' aria-current="page"' : '') + ' href="#lesson/' + c.id + '/' + x.id + '"><span class="ls ' + (P[x.id] ? 'ok' : '') + '">' + ic(P[x.id] ? 'check' : !open2 ? 'lock' : x.kind === 'quiz' ? 'qb' : x.kind === 'text' ? 'file' : 'play') + '</span><span class="ltt"><b><bdi>' + esc(x.title) + '</bdi></b><small>' +
+            esc(lessonKind(x.kind)) + (x.minutes ? ' · ' + N(x.minutes) + ' ' + esc(A('د', 'min')) : '') + '</small></span>' + (x.free && !act ? IS.chip(esc(A('معاينة مجانية', 'Free preview')), 'free') : '') + '</a></li>'; }).join('') + '</ol></details>';
     }).join('') + '</div>';
   }
   IS.ACT.tab = function (b) { var bar = b.parentNode; bar.querySelectorAll('[data-act=tab]').forEach(function (x) { x.setAttribute('aria-selected', x === b); });
@@ -623,42 +627,135 @@
 
   /* ========== LESSON PLAYER ========== */
   IS.page('lesson', async function (arg) {
-    var p = String(arg || '').split('/'), cid = p[0], lid = p[1]; var c = await DB.one('courses', cid); if (!c) return null;
+    var ids = String(arg || '').split('/'), cid = ids[0], c = await DB.one('courses', cid);
+    if (!c) return null;
     var mine = IS.LEC && c.lecturer_id === IS.LEC.id, staff = IS.can('review');
     if (c.status !== 'published' && !mine && !staff) return null;
     if (!mine && !staff && !IS.inStudySpace(c)) return IS.outsideStudySpace(c);
     var r = await Promise.all([IS.courseLessons(cid), IS.myEnroll(), IS.myProgress(cid), DB.one('lecturers', c.lecturer_id)]);
-    var secs = r[0], e = r[1][cid], P = r[2], l = r[3] || {}, all = []; secs.forEach(function (s) { all = all.concat(s.lessons); });
-    var x = all.filter(function (y) { return y.id === lid; })[0] || all[0]; if (!x) return null; x = Object.assign({}, x, (await DB.lesson(x.id)) || {});
-    var act = (e && e.status === 'active') || mine || staff, ok = act || x.free;
-    var i = all.indexOf(x), prev = all[i - 1], next = all[i + 1], done = !!P[x.id], pct = all.length ? Math.round(Object.keys(P).length / all.length * 100) : 0;
-    var sec = secs.filter(function (s) { return s.id === x.section_id; })[0];
-    var h = '<nav class="crumb"><a href="#courses">' + esc(A('الكورسات', 'Courses')) + '</a>' + ic('chev', 'fl') + '<a href="#course/' + cid + '">' + esc(c.title) + '</a>' + ic('chev', 'fl') + '<span>' + esc(sec ? sec.title : '') + '</span>' + ic('chev', 'fl') + '<span>' + esc(x.title) + '</span></nav>';
-    h += '<div class="lesson"><aside class="lcur"><header><a class="link" href="#course/' + cid + '">' + ic('chev', 'fr') + esc(A('عودة للكورس', 'Back to course')) + '</a><h2>' + IS.T('محتوى الكورس', 'Course content') + '</h2>' + (act ? '<div class="prog">' + IS.bar(pct) + '<em>' + N(pct + '%') + '</em></div>' : '') + '</header>' + curriculum(c, secs, P, x.id, act) + '</aside><div class="lmain">';
-    if (!ok) h += '<div class="player lockd" style="' + (c.cover ? '--ci:url(' + IS.U(c.cover) + ')' : '') + '"><div>' + ic('lock') + '<h1 tabindex="-1">' + esc(x.title) + '</h1><p>' + esc(A('هذا الدرس للملتحقين بالكورس.', 'This lesson is for students enrolled in the course.')) + '</p><a class="btn gold" href="#course/' + cid + '">' + esc(A('التحق بالكورس', 'Enrol in the course')) + '</a></div></div>';
-    else if (x.kind === 'video') h += '<div class="player" id="player"><div class="loading"><span class="spin"></span></div></div>';
-    else if (x.kind === 'quiz') h += '<div class="box quiz" id="quiz"><h1 tabindex="-1">' + ic('qb') + esc(x.title) + '</h1>' + (x.quiz || []).map(function (q, k) { return '<fieldset class="qq" data-a="' + q.a + '"><legend>' + N(k + 1) + '. ' + esc(q.q) + '</legend>' + (q.o || []).map(function (o, j) { return '<label class="qo"><input type="radio" name="q' + k + '" value="' + j + '"><span>' + esc(o) + '</span></label>'; }).join('') + (q.e ? '<p class="qe" hidden>' + ic('info') + esc(q.e) + '</p>' : '') + '</fieldset>'; }).join('') +
-      '<div class="row"><button class="btn pri" data-act="quizcheck" data-l="' + x.id + '" data-c="' + cid + '">' + esc(A('تحقق من الإجابات', 'Check answers')) + '</button><span id="qscore" class="qs"></span></div></div>';
-    else h += '<article class="box article"><h1 tabindex="-1">' + esc(x.title) + '</h1><div class="rich">' + IS.clean(x.body || '') + '</div></article>';
-    h += '<div class="lbar"><div><small>' + esc(sec ? sec.title : '') + '</small><h2>' + esc(x.title) + '</h2></div><div class="row">' + (ok && me() && !IS.extEmbed(x.video_id) ? IS.dlBtn('lesson', x.id, ' data-c="' + cid + '" data-v="' + esc(x.kind || 'video') + '"') : '') + (prev ? '<a class="btn ghost sm" href="#lesson/' + cid + '/' + prev.id + '">' + ic('chev', 'fr') + esc(A('السابق', 'Previous')) + '</a>' : '') +
-      (act ? '<button class="btn sm ' + (done ? 'ok' : 'pri') + '" data-act="done" data-l="' + x.id + '" data-c="' + cid + '">' + ic(done ? 'checkc' : 'check') + esc(done ? A('أنهيت الدرس', 'Completed') : A('أنهيت الدرس؟ علّمه', 'Mark as done')) + '</button>' : '') +
-      (next ? '<a class="btn ghost sm" href="#lesson/' + cid + '/' + next.id + '">' + esc(A('التالي', 'Next')) + ic('chev', 'fl') + '</a>' : '') + '</div></div>';
-    if (ok && me()) {
-      h += '<div class="tabs" role="tablist">' + [['notes', ic('note') + esc(A('ملاحظاتي', 'My notes'))], ['qa', ic('chat') + esc(A('الأسئلة والنقاش', 'Q&A'))], ['info', ic('info') + esc(A('الوصف', 'Description'))]].map(function (t, k) { return '<button role="tab" data-act="tab" data-t="' + t[0] + '" aria-selected="' + (k === 0) + '">' + t[1] + '</button>'; }).join('') + '</div>' +
-        '<div class="pane" data-p="notes"><div id="notesBox" class="loading"><span class="spin"></span></div></div><div class="pane" data-p="qa" hidden><div id="qaBox" class="loading"><span class="spin"></span></div></div>' +
-        '<div class="pane" data-p="info" hidden><section class="box"><p>' + esc(A('من كورس', 'From the course')) + ' <a class="link" href="#course/' + cid + '">' + esc(c.title) + '</a> ' + esc(A('للمحاضر', 'by')) + ' <a class="link" href="#lecturer/' + l.id + '">' + esc(l.name || '') + '</a></p></section></div>';
+    var secs = r[0], enrolment = r[1][cid], progress = r[2], lecturer = r[3];
+    var all = secs.flatMap(function (section) { return section.lessons; });
+    if (!all.length) return null;
+    var idx = Math.max(0, all.findIndex(function (lesson) { return lesson.id === ids[1]; }));
+    var x = Object.assign({}, all[idx], (await DB.lesson(all[idx].id)) || {});
+    var active = !!((enrolment && enrolment.status === 'active') || mine || staff);
+    var allowed = active || x.free, canStudy = allowed && !!me(), done = !!progress[x.id];
+    var prev = all[idx - 1], next = all[idx + 1];
+    var completed = all.filter(function (lesson) { return progress[lesson.id]; }).length;
+    var pct = Math.round(completed / all.length * 100);
+    var section = secs.find(function (item) { return item.id === x.section_id; });
+    var position = A('الدرس ' + N(idx + 1) + ' من ' + N(all.length), 'Lesson ' + N(idx + 1) + ' of ' + N(all.length));
+    var metadata = [position, section && secs.length > 1 ? '<bdi>' + esc(section.title) + '</bdi>' : '', esc(lessonKind(x.kind)),
+      x.minutes ? N(x.minutes) + ' ' + A('د', 'min') : ''].filter(Boolean);
+    var courseUrl = '#course/' + esc(cid), heading = A('محتوى الكورس', 'Course content');
+    var h = '<div class="lesson-layout"><header class="lesson-heading"><a class="lesson-course-link" href="' + courseUrl +
+      '">' + ic('chev', 'fr') + '<bdi>' + esc(c.title) + '</bdi></a><h1 tabindex="-1"><bdi>' + esc(x.title) +
+      '</bdi></h1><p class="lesson-meta">' + metadata.map(function (item) { return '<span>' + item + '</span>'; }).join('') + '</p></header>';
+    h += '<div class="lesson-media">';
+    if (!allowed) h += '<section class="player lockd" style="' + (c.cover ? '--ci:url(' + IS.U(c.cover) + ')' : '') + '"><div>' + ic('lock') +
+      '<h2>' + esc(A('هذا الدرس للملتحقين بالكورس', 'This lesson is for enrolled students')) +
+      '</h2><a class="btn gold" href="' + courseUrl + '">' + esc(A('التحق بالكورس', 'Enrol in the course')) + '</a></div></section>';
+    else if (x.kind === 'video') h += '<div class="player" id="player" aria-label="' + esc(A('فيديو الدرس', 'Lesson video')) +
+      '"><div class="loading"><span class="spin"></span></div></div>';
+    else if (x.kind === 'quiz') h += '<section class="box quiz" id="quiz" aria-label="' + esc(A('أسئلة الاختبار', 'Quiz questions')) + '">' +
+      (x.quiz || []).map(function (q, k) { return '<fieldset class="qq" data-a="' + q.a + '"><legend>' + N(k + 1) + '. ' + esc(q.q) +
+        '</legend>' + (q.o || []).map(function (o, j) { return '<label class="qo"><input type="radio" name="q' + k + '" value="' + j +
+          '"><span>' + esc(o) + '</span></label>'; }).join('') + (q.e ? '<p class="qe" hidden>' + ic('info') + esc(q.e) + '</p>' : '') +
+        '</fieldset>'; }).join('') + '<div class="row"><button class="btn pri" data-act="quizcheck" data-l="' + esc(x.id) + '" data-c="' +
+      esc(cid) + '">' + esc(A('تحقق من الإجابات', 'Check answers')) + '</button><span id="qscore" class="qs" aria-live="polite"></span></div></section>';
+    else h += '<article class="box lesson-reading"><div class="rich">' + IS.clean(x.body || '') + '</div></article>';
+
+    var download = canStudy && !IS.extEmbed(x.video_id) ? IS.dlBtn('lesson', x.id, ' data-c="' + esc(cid) + '" data-v="' + esc(x.kind || 'video') + '"', true) : '';
+    var mark = active ? '<button class="btn sm ' + (done ? 'ok' : 'pri') + '" data-act="done" data-l="' + esc(x.id) + '" data-c="' +
+      esc(cid) + '" aria-pressed="' + done + '">' + ic(done ? 'checkc' : 'check') + esc(done ? A('أنهيت الدرس', 'Completed') : A('إتمام الدرس', 'Mark as done')) + '</button>' : '';
+    function adjacent(lesson, before) {
+      if (!lesson) return '';
+      var label = before ? A('السابق', 'Previous') : A('التالي', 'Next');
+      var arrow = ic('chev', before ? 'fr' : 'fl');
+      return '<a class="btn ghost sm" rel="' + (before ? 'prev' : 'next') + '" href="#lesson/' + esc(cid) + '/' + esc(lesson.id) + '">' +
+        (before ? arrow : '') + esc(label) + (before ? '' : arrow) + '</a>';
     }
-    h += '</div><aside class="lside"><section class="box lc"><div class="lci"' + (c.cover ? ' style="--ci:url(' + IS.U(c.cover) + ')"' : '') + '><b>' + esc(c.title) + '</b><span>' + esc(sec ? sec.title : '') + '</span></div><a class="who" href="#lecturer/' + l.id + '">' + IS.av(l, 'sm') + '<span><b>' + esc(l.name || '') + '</b><small>' + esc(l.title || '') + '</small></span></a>' +
-      '<div class="lcs"><span>' + ic('video') + '<b>' + N(all.length) + '</b>' + esc(A('درس', 'lessons')) + '</span><span>' + ic('checkc') + '<b>' + N(Object.keys(P).length) + '</b>' + esc(A('منتهٍ', 'done')) + '</span><span>' + ic('chart') + '<b>' + N(pct + '%') + '</b>' + esc(A('التقدّم', 'progress')) + '</span></div>' + (act && me() ? '<button class="btn ghost wide dlc" data-act="dlcourse" data-c="' + cid + '">' + ic('download') + esc(A('تنزيل الكورس كاملًا للمشاهدة دون إنترنت', 'Download the whole course for offline')) + '</button>' : '') + '</section>' +
-      (pct >= 100 ? '<a class="btn gold wide" href="#cert/' + cid + '">' + ic('cert') + esc(A('شهادة الإتمام', 'Certificate')) + '</a>' : '') + '</aside></div>';
-    IS.after = async function () {
-      if (ok && x.kind === 'video') { var pl = $('#player'); try { var v = await DB.videoPlay(x); pl.innerHTML = !v ? IS.empty('video', A('لم يُرفع فيديو هذا الدرس بعد', 'The video of this lesson is not uploaded yet')) :
-        v.kind === 'iframe' ? '<iframe src="' + esc(v.src) + '" allow="accelerometer; gyroscope; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy" title="' + esc(x.title) + '"></iframe>' :
-        '<video controls controlsList="nodownload noremoteplayback" disablePictureInPicture playsinline oncontextmenu="return false" src="' + esc(v.src) + '"></video>'; } catch (er) { pl.innerHTML = IS.empty('video', A('تعذّر تشغيل الفيديو', 'The video could not be played'), A('تحقق من الاتصال.', 'Check the connection.')); } }
-      if (ok && me()) { notesBox(x); qaBox(c, x); }
+    if (mark || download || prev || next) h += '<div class="lesson-actions">' +
+      (mark || download ? '<div class="row lesson-utilities">' + mark + download + '</div>' : '') +
+      (prev || next ? '<nav class="row lesson-nav" aria-label="' + esc(A('التنقّل بين الدروس', 'Lesson navigation')) + '">' +
+        adjacent(prev, true) + adjacent(next, false) + '</nav>' : '') + '</div>';
+    h += '</div>';
+
+    var progressLabel = A(N(completed) + ' من ' + N(all.length) + ' مكتمل', N(completed) + ' of ' + N(all.length) + ' complete');
+    h += '<aside class="lesson-outline" aria-label="' + esc(heading) + '"><details class="lesson-outline-toggle"' +
+      (window.matchMedia('(min-width: 960px)').matches ? ' open' : '') + '><summary><span class="lesson-outline-icon">' + ic('layers') +
+      '</span><span><b>' + esc(heading) + '</b><small>' + (active ? progressLabel : N(all.length) + ' ' + A('دروس', all.length === 1 ? 'lesson' : 'lessons')) +
+      '</small></span>' + ic('down') + '</summary><div class="lesson-outline-body">' +
+      (active ? '<div class="prog lesson-progress" role="progressbar" aria-label="' + esc(A('التقدّم في الكورس', 'Course progress')) +
+        '" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '">' + IS.bar(pct) + '<em>' + N(pct + '%') + '</em></div>' : '') +
+      curriculum(c, secs, progress, x.id, active) + ((active && me()) || completed === all.length ?
+        '<div class="lesson-outline-actions">' + (active && me() ?
+          '<button class="btn ghost wide dlc" data-act="dlcourse" data-c="' + esc(cid) + '">' + ic('download') +
+          esc(A('تنزيل الكورس', 'Download course')) + '</button>' : '') +
+        (completed === all.length ? '<a class="btn gold wide" href="#cert/' + esc(cid) + '">' + ic('cert') +
+          esc(A('شهادة الإتمام', 'Certificate')) + '</a>' : '') + '</div>' : '') + '</div></details></aside>';
+
+    var tabs = [['notes', 'note', A('ملاحظاتي', 'My notes')], ['qa', 'chat', A('الأسئلة', 'Q&A')], ['info', 'info', A('الوصف', 'Description')]];
+    if (canStudy) h += '<section class="lesson-study"><div class="tabs lesson-tabs" role="tablist" aria-label="' +
+      esc(A('الملاحظات والأسئلة والوصف', 'Notes, questions and description')) + '">' + tabs.map(function (tab, k) {
+        return '<button type="button" role="tab" id="lesson-tab-' + tab[0] + '" aria-controls="lesson-pane-' + tab[0] +
+          '" tabindex="' + (k ? '-1' : '0') + '" data-act="tab" data-t="' + tab[0] + '" aria-selected="' + (k === 0) + '">' +
+          ic(tab[1]) + esc(tab[2]) + '</button>';
+      }).join('') + '</div>' +
+      '<div class="pane" id="lesson-pane-notes" role="tabpanel" aria-labelledby="lesson-tab-notes" data-p="notes"><div class="box lesson-notes" id="notesBox"><div class="loading"><span class="spin"></span></div></div></div>' +
+      '<div class="pane" id="lesson-pane-qa" role="tabpanel" aria-labelledby="lesson-tab-qa" data-p="qa" hidden><div id="qaBox"><div class="loading"><span class="spin"></span></div></div></div>' +
+      '<div class="pane" id="lesson-pane-info" role="tabpanel" aria-labelledby="lesson-tab-info" data-p="info" hidden><section class="box lesson-info"><h2>' +
+      esc(A('عن الكورس', 'About the course')) + '</h2><a class="link" href="' + courseUrl + '"><bdi>' + esc(c.title) + '</bdi></a>' +
+      (lecturer ? '<a class="who" href="#lecturer/' + esc(lecturer.id) + '">' + IS.av(lecturer, 'sm') + '<span><b><bdi>' +
+        esc(lecturer.name || '') + '</bdi></b><small><bdi>' + esc(lecturer.title || '') + '</bdi></small></span></a>' : '') +
+      (c.about ? '<div class="rich">' + IS.clean(c.about) + '</div>' : '') + '</section></div></section>';
+
+    IS.after = function (main) {
+      var player = main.querySelector('#player');
+      if (player) playLesson(player, x);
+      var tabs = main.querySelector('.lesson-tabs');
+      if (tabs) initLessonStudy(main, tabs, c, x);
     };
-    return h;
+    return h + '</div>';
   });
+
+  async function playLesson(player, lesson) {
+    try {
+      var video = await DB.videoPlay(lesson);
+      if (!video) player.innerHTML = IS.empty('video', A('لم يُرفع فيديو هذا الدرس بعد', 'The video of this lesson is not uploaded yet'));
+      else if (video.kind === 'iframe') player.innerHTML = '<iframe src="' + esc(video.src) +
+        '" allow="accelerometer; gyroscope; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="' + esc(lesson.title) + '"></iframe>';
+      else player.innerHTML = '<video controls controlsList="nodownload noremoteplayback" disablePictureInPicture playsinline oncontextmenu="return false" src="' +
+        esc(video.src) + '"></video>';
+    } catch (error) {
+      player.innerHTML = IS.empty('video', A('تعذّر تشغيل الفيديو', 'The video could not be played'), A('تحقق من الاتصال.', 'Check the connection.'));
+    }
+  }
+
+  function initLessonStudy(main, bar, course, lesson) {
+    var buttons = Array.from(bar.querySelectorAll('[role=tab]'));
+    var notes = main.querySelector('#notesBox'), questions = main.querySelector('#qaBox');
+    function failed(box) {
+      box.innerHTML = '<p class="mut">' + esc(A('تعذّر التحميل. أعد فتح الدرس للمحاولة مرة أخرى.', 'Could not load this. Reopen the lesson to try again.')) + '</p>';
+    }
+    notesBox(lesson, notes).catch(function () { failed(notes); });
+    bar.addEventListener('click', function (event) {
+      var button = event.target.closest('[role=tab]');
+      if (button) buttons.forEach(function (tab) { tab.tabIndex = tab === button ? 0 : -1; });
+    });
+    buttons[1].addEventListener('click', function () {
+      qaBox(course, lesson, questions).catch(function () { failed(questions); });
+    }, { once: true });
+    bar.addEventListener('keydown', function (event) {
+      if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+      event.preventDefault();
+      var direction = (event.key === 'ArrowRight' ? 1 : -1) * (document.documentElement.dir === 'rtl' ? -1 : 1);
+      var index = event.key === 'Home' ? 0 : event.key === 'End' ? buttons.length - 1 :
+        (buttons.indexOf(event.target) + direction + buttons.length) % buttons.length;
+      buttons[index].focus();
+      buttons[index].click();
+    });
+  }
   IS.ACT.done = async function (b) {
     var lid = b.getAttribute('data-l'), cid = b.getAttribute('data-c'), P = await IS.myProgress(cid);
     if (P[lid]) await DB.del('progress', P[lid].id); else { await DB.ins('progress', { user_id: uid(), course_id: cid, lesson_id: lid, done_at: new Date().toISOString() }); IS.toast(A('أحسنت! أنهيت هذا الدرس', 'Well done! Lesson completed')); }
@@ -671,8 +768,8 @@
     var P = await IS.myProgress(b.getAttribute('data-c')), lid = b.getAttribute('data-l');
     if (!P[lid] && right === qs.length) { await DB.ins('progress', { user_id: uid(), course_id: b.getAttribute('data-c'), lesson_id: lid, done_at: new Date().toISOString(), score: right }); IS.toast(A('ممتاز! اجتزت الاختبار', 'Excellent! Quiz passed')); }
   };
-  async function notesBox(x) {
-    var n = (await DB.q('notes', { eq: { user_id: uid(), lesson_id: x.id } }))[0], box = $('#notesBox'); if (!box) return; box.className = '';
+  async function notesBox(x, box) {
+    var n = (await DB.q('notes', { eq: { user_id: uid(), lesson_id: x.id } }))[0];
     box.innerHTML = '<div class="notes">' + IS.editor('note', n ? n.body : '', A('اكتب ملاحظاتك عن هذا الدرس… تُحفظ في حسابك.', 'Write your notes about this lesson… saved to your account.')) +
       '<div class="tags qt">' + [['التشخيص', 'Diagnosis'], ['التشخيص التفريقي', 'Differential'], ['العلاج', 'Treatment'], ['المضاعفات', 'Complications'], ['فخ امتحاني', 'Exam trap']].map(function (q) { return '<button type="button" data-act="qtag" data-t="' + esc(A(q[0], q[1])) + '">' + esc(A(q[0], q[1])) + '</button>'; }).join('') + '</div>' +
       '<div class="row sp"><span class="mut" id="nst">' + (n ? esc(A('آخر حفظ ', 'Saved ')) + esc(IS.ago(n.updated_at || n.created_at)) : '') + '</span><button class="btn pri sm" data-act="nsave" data-l="' + x.id + '" data-c="' + x.course_id + '" data-id="' + (n ? n.id : '') + '">' + ic('cloud') + esc(A('حفظ الملاحظات', 'Save notes')) + '</button></div></div>';
@@ -682,11 +779,9 @@
     var body = IS.edVal(document, 'note'), id = b.getAttribute('data-id'), row = { user_id: uid(), lesson_id: b.getAttribute('data-l'), course_id: b.getAttribute('data-c'), body: body, updated_at: new Date().toISOString() };
     var r = id ? await DB.upd('notes', id, row) : await DB.ins('notes', row); b.setAttribute('data-id', r.id); $('#nst').textContent = A('حُفظت', 'Saved'); IS.toast(A('حُفظت الملاحظات', 'Notes saved'));
   };
-  async function qaBox(c, x) {
-    var box = $('#qaBox'); if (!box) return;
+  async function qaBox(c, x, box) {
     var ps = await DB.q('posts', { eq: { room: 'qa', lesson_id: x.id }, order: ['created_at', false] });
     ps = ps.filter(function (p) { return IS.publicPost(p) || (privateQuestion(p) && p.user_id === uid()); });
-    box.className = '';
     box.innerHTML = '<form class="box form" data-form="ask"><input type="hidden" name="course" value="' + c.id + '"><input type="hidden" name="lesson" value="' + x.id + '"><input type="hidden" name="lecturer" value="' + c.lecturer_id + '"><label class="fl"><span>' + esc(A('اسأل المحاضر أو زملاءك عن هذا الدرس', 'Ask the lecturer or your classmates about this lesson')) + '</span><textarea name="body" rows="3" required maxlength="2000"></textarea></label><button class="btn pri sm">' + ic('send') + esc(A('أرسل للمراجعة', 'Send for review')) + '</button></form>' +
       (ps.length ? ps.map(postRow).join('') : '<p class="mut center">' + esc(A('لا توجد أسئلة بعد. كن أول من يسأل.', 'No questions yet. Be the first to ask.')) + '</p>');
   }

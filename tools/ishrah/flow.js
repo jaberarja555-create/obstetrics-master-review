@@ -44,7 +44,7 @@ const D = process.argv[2] || 'shots', W = +(process.argv[3] || 1440), H = W < 60
   await go('studio-page', 800); await fill('form[data-form=lecpage] [name=tags]', 'Surgery، GI Surgery، Trauma'); await fill('form[data-form=lecpage] [name=quals]', 'MBBS – جامعة الخرطوم\nMMed – General Surgery\nاستشاري الجراحة العامة');
   await fill('form[data-form=lecpage] [name=p_account]', '1234567'); await fill('form[data-form=lecpage] [name=p_name]', 'محمد الصادق'); await submit('lecpage'); await shot('09-studio-page');
   await go('studio-course/new', 800); await fill('form[data-form=course] [name=title]', 'Acute Abdomen'); await fill('form[data-form=course] [name=subtitle]', 'مراجعة شاملة للتشخيص والتدبير');
-  await p.selectOption('form[data-form=course] [name=subject]', 'surgery'); await fill('form[data-form=course] [name=price]', '15000');
+  await p.selectOption('form[data-form=course] [name=subject]', 'surgery'); await p.check('form[data-form=course] [name=pricing][value=paid]'); await fill('form[data-form=course] [name=price]', '15000');
   await p.setInputFiles('form[data-form=course] [name=cover]', S + '/receipt.png');
   await p.click('[data-ed=about]'); await p.keyboard.type('كورس يشرح البطن الحاد خطوة بخطوة.');
   await fill('form[data-form=course] [name=learn]', 'التشخيص السريري\nالتشخيص التفريقي\nمؤشرات الجراحة'); await submit('course'); await p.waitForTimeout(800);

@@ -157,6 +157,13 @@
         }
         form.delivery.onchange = updateDelivery;
         updateDelivery();
+        form.querySelector('[data-course-pricing]').addEventListener('change', function (event) {
+          if (event.target.name !== 'pricing') return;
+          var paid = form.elements.pricing.value === 'paid', fee = form.elements.price;
+          fee.disabled = !paid;
+          fee.required = paid;
+          fee.closest('label').hidden = !paid;
+        });
       };
     }
     else if (tab === 'cur') h += await curEditor(c);
@@ -168,6 +175,16 @@
       return '<option value="' + esc(s.id) + '"' + (s.id === current ? ' selected' : '') + '>' + esc(s.en) + '</option>';
     }).join('');
   }
+  function coursePricing(c) {
+    var paid = Number(c.price) > 0;
+    return '<fieldset class="fl course-pricing" data-course-pricing><legend>' + IS.T('الالتحاق بالكورس', 'Course enrolment') + '</legend>' +
+      '<div class="course-pricing-choices">' + [['free', 'open', A('مجاني', 'Free')], ['paid', 'wallet', A('مدفوع', 'Paid')]].map(function (choice) {
+        return '<label class="course-pricing-option"><input type="radio" name="pricing" value="' + choice[0] + '"' +
+          ((choice[0] === 'paid') === paid ? ' checked' : '') + ' required>' + ic(choice[1]) + '<b>' + esc(choice[2]) + '</b></label>';
+      }).join('') + '</div><label class="fl"' + (paid ? '' : ' hidden') + '><span>' + esc(A('رسوم الالتحاق', 'Enrolment fee')) +
+      ' (' + esc(IS.SET.currency || 'SDG') + ')</span><input name="price" type="number" min="0.01" max="9999999999.99" step="0.01" dir="ltr"' +
+      (paid ? ' required value="' + esc(c.price) + '"' : ' disabled') + '></label></fieldset>';
+  }
   function detailsForm(c, liveLink) {
     var scope = IS.studyScope(c);
     return '<form class="box form" data-form="course"><input type="hidden" name="id" value="' + esc(c.id || '') + '"><div class="g2f"><label class="fl"><span>' + esc(A('عنوان الكورس', 'Course title')) + ' *</span><input name="title" required maxlength="120" value="' + esc(c.title) + '"></label>' +
@@ -175,8 +192,7 @@
       '<label class="fl"><span>' + esc(A('التخصص', 'Speciality')) + '</span>' + sel('spec', IS.SPECS.map(function (k) { return [k.id, k.en]; }), scope.spec) + '</label>' +
       '<label class="fl"><span>' + esc(A('القسم', 'Section')) + '</span>' + sel('cat', IS.CATS.map(function (k) { return [k.id, A(k.ar, k.en)]; }), scope.cat) + '</label>' +
       '<label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span><select name="subject">' + courseSubjects(scope.spec, scope.cat, c.subject) + '</select></label>' +
-      '<label class="fl"><span>' + esc(A('المستوى', 'Level')) + '</span>' + sel('level', LEVELS.map(function (l) { return [l[0], A(l[0] || '—', l[1])]; }), c.level) + '</label>' +
-      '<label class="fl"><span>' + esc(A('رسوم الكورس', 'Course fee')) + ' (' + esc(IS.SET.currency || 'SDG') + ', ' + esc(A('0 = مجاني', '0 = free')) + ')</span><input name="price" type="number" min="0" max="9999999999.99" step="0.01" required value="' + esc(c.price || 0) + '" dir="ltr"></label></div>' +
+      '<label class="fl"><span>' + esc(A('المستوى', 'Level')) + '</span>' + sel('level', LEVELS.map(function (l) { return [l[0], A(l[0] || '—', l[1])]; }), c.level) + '</label></div>' + coursePricing(c) +
       '<label class="fl"><span>' + esc(A('تفاصيل الكورس', 'Course details')) + '</span>' + IS.editor('about', c.about, A('صف الكورس ولمن يناسب…', 'Describe the course and who it is for…')) + '</label>' +
       '<fieldset class="fl post-extras"><legend>' + IS.T('الموعد وطريقة التدريس', 'Schedule and teaching') + '</legend><div class="g2f">' +
       '<label class="fl"><span>' + esc(A('نوع الكورس', 'Course format')) + '</span>' + sel('delivery', IS.courseFormats(), c.delivery || 'recorded') + '</label>' +
@@ -194,12 +210,17 @@
   }
   IS.SUB.course = async function (d, f) {
     if (!L() || L().status !== 'active') return;
+    var fee = d.pricing === 'paid' ? Number(d.price) : 0;
+    var validFee = Number.isFinite(fee) && fee >= 0.01 && fee <= 9999999999.99 && Math.round(fee * 100) / 100 === fee;
+    if (d.pricing !== 'free' && (d.pricing !== 'paid' || !validFee)) {
+      return IS.toast(A('حدّد رسومًا صحيحة للكورس المدفوع.', 'Enter a valid fee for the paid course.'), true);
+    }
     var promo = d.promo && IS.extVideo(d.promo);
     if (d.promo && !promo) return IS.toast(A('استخدم رابط يوتيوب أو Google Drive صالحًا.', 'Use a valid YouTube or Google Drive link.'), true);
     var liveLink = d.delivery === 'recorded' ? '' : d.live_link || '';
     if (liveLink && !/^https:\/\/[^\s]+$/i.test(liveLink)) return IS.toast(A('أدخل رابط جلسة يبدأ بـ https://.', 'Enter a session link starting with https://.'), true);
     if (d.delivery !== 'recorded' && !d.starts_at) return IS.toast(A('حدّد موعد بدء الكورس المباشر.', 'Set a start time for the live course.'), true);
-    var scope = IS.studyScope(d), row = { title: d.title, subtitle: d.subtitle, spec: scope.spec, cat: scope.cat, subject: d.subject, level: d.level, price: +d.price || 0,
+    var scope = IS.studyScope(d), row = { title: d.title, subtitle: d.subtitle, spec: scope.spec, cat: scope.cat, subject: d.subject, level: d.level, price: fee,
       delivery: d.delivery, starts_at: d.starts_at ? d.starts_at + ':00+02:00' : null, seat_limit: d.seat_limit ? +d.seat_limit : null, teaching_method: d.teaching_method,
       color: d.color, promo: promo || '', about: IS.edVal(f, 'about'), learn: IS.lines(d.learn), reqs: IS.lines(d.reqs), updated_at: new Date().toISOString() };
     if (f.cover.files[0]) row.cover = await DB.upload('media', await IS.shrink(f.cover.files[0], 1280, 0.82));

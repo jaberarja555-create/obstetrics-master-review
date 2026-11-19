@@ -83,13 +83,18 @@
   async function readBlob(it) { var k = await key(), parts = []; for (var i = 0; i < it.n; i++) parts.push(await open1(k, it.id, i)); return new Blob(parts, { type: it.mime || 'application/octet-stream' }); }
 
   /* ---------- buttons on lessons and files ---------- */
-  function inner(id) {
+  function inner(id, compact) {
     if (RUN[id]) return ic('download') + '<span>' + esc(A('جارٍ التنزيل', 'Downloading')) + ' ' + N(RUN[id].p + '%') + '</span><i class="dlbar" style="--p:' + RUN[id].p + '%"></i>';
-    if (HAVE[id]) return ic('checkc') + '<span>' + esc(A('متاح دون إنترنت', 'Available offline')) + '</span>';
-    return ic('download') + '<span>' + esc(A('تنزيل للمشاهدة دون إنترنت', 'Download for offline')) + '</span>';
+    if (HAVE[id]) return ic('checkc') + '<span>' + esc(A('متاح دون إنترنت', compact ? 'Saved offline' : 'Available offline')) + '</span>';
+    return ic('download') + '<span>' + esc(compact ? A('تنزيل', 'Download') : A('تنزيل للمشاهدة دون إنترنت', 'Download for offline')) + '</span>';
   }
-  function show(id) { IS.$$('[data-dlid="' + id + '"]').forEach(function (b) { b.innerHTML = inner(id); b.classList.toggle('have', !!HAVE[id]); b.classList.toggle('run', !!RUN[id]); }); var l = $('#dlrun'); if (l) l.innerHTML = runList(); }
-  IS.dlBtn = function (kind, id, extra) { if (!uid()) return ''; var d = did(kind, id); return '<button type="button" class="btn ghost sm dlb' + (HAVE[d] ? ' have' : '') + '" data-act="dl" data-k="' + kind + '" data-id="' + id + '"' + (extra || '') + ' data-dlid="' + d + '">' + inner(d) + '</button>'; };
+  function show(id) { IS.$$('[data-dlid="' + id + '"]').forEach(function (b) { b.innerHTML = inner(id, b.hasAttribute('data-dl-compact')); b.classList.toggle('have', !!HAVE[id]); b.classList.toggle('run', !!RUN[id]); }); var l = $('#dlrun'); if (l) l.innerHTML = runList(); }
+  IS.dlBtn = function (kind, id, extra, compact) {
+    if (!uid()) return '';
+    var d = did(kind, id);
+    return '<button type="button" class="btn ghost sm dlb' + (HAVE[d] ? ' have' : '') + '" data-act="dl" data-k="' + kind + '" data-id="' +
+      id + '"' + (extra || '') + (compact ? ' data-dl-compact' : '') + ' data-dlid="' + d + '">' + inner(d, compact) + '</button>';
+  };
 
   function quality() {
     return new Promise(function (ok) {
@@ -143,9 +148,14 @@
     var cid = b.getAttribute('data-c'), secs = await IS.courseLessons(cid), all = []; secs.forEach(function (s) { all = all.concat(s.lessons); });
     var todo = all.filter(function (x) { return !HAVE[did('lesson', x.id)]; }); if (!todo.length) return IS.toast(A('كل دروس الكورس منزّلة.', 'Every lesson of the course is downloaded.'));
     var q = todo.some(function (x) { return (x.kind || 'video') === 'video'; }) ? await quality() : '480'; if (!q) return;
-    IS.toast(A('بدأ تنزيل ', 'Downloading ') + N(todo.length) + A(' درسًا…', ' lessons…')); var okN = 0;
-    for (var i = 0; i < todo.length; i++) { try { await lessonJob(todo[i].id, cid, q); okN++; } catch (e) { if (/abort/i.test(e.message || '')) break; } }
-    IS.toast(A('نُزّل ', 'Downloaded ') + N(okN) + ' / ' + N(todo.length) + A(' من الدروس', ' lessons'));
+    IS.toast(A('بدأ تنزيل ', 'Downloading ') + todo.length + A(' درسًا…', ' lessons…'));
+    var saved = 0, lastError;
+    for (var i = 0; i < todo.length; i++) {
+      try { await lessonJob(todo[i].id, cid, q); saved++; }
+      catch (error) { lastError = error; if (/abort/i.test(error.message || '')) break; }
+    }
+    if (!saved && lastError) return IS.toast(why(lastError), true);
+    IS.toast(A('نُزّل ', 'Downloaded ') + saved + ' / ' + todo.length + A(' من الدروس', ' lessons'));
   };
 
   /* ---------- renew: still enrolled / still published (online, at most once a day per item) ---------- */
