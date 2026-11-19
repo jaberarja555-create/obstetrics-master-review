@@ -523,11 +523,12 @@
       var label = text(ar, en) + ' (' + count + ')', contents = emoji(symbol, count);
       var style = value === 1 ? ' feed-like' : ' feed-dislike';
       return uid() ? '<button type="button" class="feed-emoji' + style + '" data-act="feed-vote" data-kind="' + kind + '" data-id="' + esc(row.id) +
-        '" data-value="' + value + '" aria-label="' + label + '" title="' + label + '">' + contents + '</button>' :
+        '" data-value="' + value + '"' + (kind === 'file' && row.my_reaction !== undefined ? ' aria-pressed="' + (row.my_reaction === value) + '"' : '') + ' aria-label="' + label + '" title="' + label + '">' + contents + '</button>' :
         '<span class="feed-emoji' + style + '" role="img" aria-label="' + label + '" title="' + label + '">' + contents + '</span>';
     }
     var count = (kind === 'post' ? row.n_replies : row.comment_count) || 0;
-    var commentRoute = kind === 'request' ? href(row, IS.area === 'studio' ? 'studio-course-request' : 'course-request', 'comments') : '#post/' + row.id + '/comments';
+    var commentRoute = kind === 'request' ? href(row, IS.area === 'studio' ? 'studio-course-request' : 'course-request', 'comments') :
+      '#' + (kind === 'file' ? 'file/' : 'post/') + row.id + '/comments';
     var commentLabel = text('التعليقات', 'Comments') + ' (' + count + ')';
     var comment = '<a class="feed-emoji feed-comment" href="' + esc(commentRoute) + '" aria-label="' + commentLabel + '" title="' + commentLabel + '">' + emoji('💬', count) + '</a>';
     var score = approval(row);
@@ -536,31 +537,38 @@
     var rating = '<span class="feed-vote-count" role="img" aria-label="' + title + '" title="' + title + '"><span class="feed-emoji-icon" aria-hidden="true">⭐</span><bdi dir="ltr">' +
       esc(score) + '</bdi></span>';
     return '<div class="feed-votes"><div class="row">' + vote(1, 'أعجبني', 'Like', '👍', row.like_count) +
-      vote(-1, 'لم يعجبني', 'Dislike', '👎', row.dislike_count) + comment + rating + '</div></div>';
+      vote(-1, 'لم يعجبني', 'Dislike', '👎', row.dislike_count) + comment + (kind === 'file' ? IS.libraryRating(row, true) : rating) + '</div></div>';
   };
-  async function feedVote(kind, id, value) {
+  IS.feedVote = async function (kind, id, value, action) {
     if (!uid()) return IS.ACT.login();
+    var rating = action === 'rate';
     if (DB.live) {
-      var answer = await DB.sb.rpc('ish_feed_vote', { kind: kind, target: id, action: 'react', value: value });
+      var answer = await DB.sb.rpc('ish_feed_vote', { kind: kind, target: id, action: rating ? 'rate' : 'react', value: value });
       if (answer.error) throw answer.error;
     } else {
-      var parent = kind === 'post' ? 'posts' : REQUESTS;
-      var fields = kind === 'post' ? { post_id: id } : { request_id: id };
+      var parent = { post: 'posts', request: REQUESTS, file: 'files' }[kind];
+      var fields = {};
+      fields[kind + '_id'] = id;
       var row = (await DB.q('feed_feedback', { eq: Object.assign({ user_id: uid() }, fields) }))[0];
-      var update = { reaction: row && row.reaction === value ? null : value };
+      var update = rating ? { stars: value } : { reaction: row && row.reaction === value ? null : value };
       if (row) await DB.upd('feed_feedback', row.id, update);
       else await DB.ins('feed_feedback', Object.assign({ user_id: uid() }, fields, update));
       var votes = await DB.q('feed_feedback', { eq: fields });
-      await DB.upd(parent, id, {
+      var counts = {
         like_count: votes.filter(function (v) { return v.reaction === 1; }).length,
         dislike_count: votes.filter(function (v) { return v.reaction === -1; }).length
-      });
+      };
+      if (kind === 'file') {
+        counts.rating_count = votes.filter(function (vote) { return vote.stars; }).length;
+        counts.rating_points = votes.reduce(function (total, vote) { return total + (vote.stars || 0); }, 0);
+        counts.average_rating = counts.rating_count ? counts.rating_points / counts.rating_count : null;
+      }
+      await DB.upd(parent, id, counts);
     }
-    IS.refresh();
-  }
+  };
   IS.ACT['feed-vote'] = async function (button) {
     button.disabled = true;
-    try { await feedVote(button.dataset.kind, button.dataset.id, Number(button.dataset.value)); }
+    try { await IS.feedVote(button.dataset.kind, button.dataset.id, Number(button.dataset.value)); IS.refresh(); }
     finally { button.disabled = false; }
   };
 })();

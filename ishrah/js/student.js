@@ -182,14 +182,16 @@
     course: ['الكورسات', 'Courses', 'layers'], announcement: ['الإعلانات', 'Announcements', 'mega'],
     request: ['الطلبات', 'Requests', 'chat'], event: ['الفعاليات', 'Events', 'cal'],
     news: ['الأخبار', 'News', 'news'], discussion: ['النقاشات', 'Discussions', 'group'],
-    question: ['الأسئلة', 'Questions', 'help'], course_preview: ['معاينات الكورسات', 'Course previews', 'video']
+    question: ['الأسئلة', 'Questions', 'help'], course_preview: ['معاينات الكورسات', 'Course previews', 'video'],
+    library: ['المكتبة', 'Library', 'open']
   };
   var feedSettings = {};
   async function sectionHome(section) {
     var query = { spec: IS.SPEC, cat: section.id }, key = IS.SPEC + '/' + section.id;
     var results = await Promise.all([IS.pubCourses(), annList(40), IS.sectionCourseRequests(40),
       DB.q('events', { eq: Object.assign({ status: 'published' }, query), order: ['created_at', false], limit: 40 }),
-      newsList(40), DB.q('posts', { eq: { room: section.id, spec: IS.SPEC, status: 'open' }, order: ['created_at', false], limit: 40 })]);
+      newsList(40), DB.q('posts', { eq: { room: section.id, spec: IS.SPEC, status: 'open' }, order: ['created_at', false], limit: 40 }),
+      IS.sectionLibraryFiles(IS.SPEC, section.id)]);
     var coursesById = new Map(results[0].map(function (course) { return [course.id, course]; }));
     results[5].forEach(function (post) {
       var linked = coursesById.get(post.course_id);
@@ -199,14 +201,15 @@
     var items = [
       ['course', results[0].slice(0, 80)],
       ['announcement', results[1].filter(function (row) { return !newsLinks.has(row.link); })],
-      ['request', results[2]], ['event', results[3]], ['news', results[4]], ['discussion', results[5]]
+      ['request', results[2]], ['event', results[3]], ['news', results[4]], ['discussion', results[5]], ['library', results[6]]
     ].flatMap(function (group) { return group[1].map(function (row) { return { type: group[0] === 'discussion' ? postKind(row) : group[0], row: row }; }); });
     var preferences = feedSettings[key] || (feedSettings[key] = { sort: 'new', type: 'all' });
     var limit = 12;
     function list() {
       var filtered = items.filter(function (item) { return preferences.type === 'all' || item.type === preferences.type; });
       filtered.sort(function (a, b) {
-        var difference = preferences.sort === 'popular' ? feedScore(b) - feedScore(a) : 0;
+        var difference = preferences.sort === 'popular' ? feedScore(b) - feedScore(a) :
+          preferences.sort === 'new' ? 0 : IS.ratingSort(a.row, b.row, preferences.sort);
         return difference || String(b.row.published_at || b.row.created_at || '').localeCompare(String(a.row.published_at || a.row.created_at || ''));
       });
       return filtered.length ? filtered.slice(0, limit).map(feedCard).join('') +
@@ -219,18 +222,21 @@
     IS.after = function (main) {
       var stream = main.querySelector('.section-feed'); if (!stream) return;
       var content = stream.querySelector('.feed-items');
+      function covers() { IS.hydrateLibraryCovers(content).catch(function () {}); }
+      covers();
       stream.querySelectorAll('select[data-feed]').forEach(function (field) {
-        field.onchange = function () { preferences[field.dataset.feed] = field.value; limit = 12; content.innerHTML = list(); };
+        field.onchange = function () { preferences[field.dataset.feed] = field.value; limit = 12; content.innerHTML = list(); covers(); };
       });
       content.onclick = function (event) {
-        if (event.target.closest('.feed-more')) { limit += 12; content.innerHTML = list(); }
+        if (event.target.closest('.feed-more')) { limit += 12; content.innerHTML = list(); covers(); }
       };
     };
     return '<section class="section-feed"><header class="feed-toolbar"><h2>' + IS.T('آخر المستجدات', 'Section feed') + '</h2><div class="row">' +
       '<a class="btn pri sm" href="#course-requests/new">' + ic('plus') + esc(A('اطلب كورسًا', 'Request a course')) + '</a>' +
       '<a class="btn ghost sm" href="#community/new">' + ic('pen') + esc(A('اكتب منشورًا', 'Create a post')) + '</a></div>' +
       '<div class="feed-filters"><label><span>' + esc(A('الترتيب', 'Sort by')) + '</span><select class="sel" id="feed-sort" data-feed="sort">' +
-      options('sort', [['new', 'الأحدث', 'Newest'], ['popular', 'الأكثر تفاعلًا', 'Popular']]) + '</select></label>' +
+      options('sort', [['new', 'الأحدث', 'Newest'], ['popular', 'الأكثر تفاعلًا', 'Popular'],
+        ['best', 'الأعلى تقييمًا', 'Best rated'], ['most-rated', 'الأكثر تقييمًا', 'Most rated']]) + '</select></label>' +
       '<label><span>' + esc(A('نوع المنشور', 'Post type')) + '</span><select class="sel" id="feed-type" data-feed="type">' +
       options('type', [['all', 'الكل', 'All posts']].concat(Object.keys(FEED_TYPES).map(function (type) { return [type].concat(FEED_TYPES[type]); }))) +
       '</select></label></div></header><div class="feed-items">' + list() + '</div></section>';
@@ -238,26 +244,33 @@
   function feedScore(item) {
     var r = item.row;
     return (Number(r.n_students) || 0) + (Number(r.joined_count) || 0) +
-      (Number(r.registered_count) || 0) + (Number(r.n_replies) || 0) + (Number(r.like_count) || 0);
+      (Number(r.registered_count) || 0) + (Number(r.n_replies) || 0) + (Number(r.like_count) || 0) +
+      (item.type === 'library' ? (Number(r.comment_count) || 0) + (Number(r.rating_count) || 0) : 0);
   }
   function feedCard(item) {
     var row = item.row, type = item.type, label = FEED_TYPES[type], when = row.published_at || row.created_at;
-    var isPost = !!row.room && Object.prototype.hasOwnProperty.call(POST_KINDS, type);
-    var target = isPost ? 'post/' : { course: 'course/', announcement: 'news/ann/', request: 'course-request/', event: 'event/', news: 'news/' }[type];
+    var isPost = !!row.room && Object.prototype.hasOwnProperty.call(POST_KINDS, type), library = type === 'library';
+    var target = isPost ? 'post/' : { course: 'course/', announcement: 'news/ann/', request: 'course-request/', event: 'event/', news: 'news/', library: 'file/' }[type];
     var summary = row.subtitle || row.details || row.body || (row.about || '').replace(/<br\s*\/?\s*>/g, '\n');
     var title = type === 'announcement' && !isPost ? IS.noticeTitle(row) : row.title || A('نقاش', 'Discussion');
     var media = row.preview_image || row.cover;
+    var libraryKind = library && IS.libraryKind(row.kind);
+    var librarySubject = library && IS.subj(row.subject);
     var details = type === 'event' && row.starts ? esc(IS.date(row.starts, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Khartoum' })) :
+      library ? [A(libraryKind[2], libraryKind[3]), librarySubject && librarySubject.en, row.author || row.owner_name].filter(Boolean).map(esc).join(' · ') :
       isPost ? esc(row.name || '') + (row.linked_price != null ? ' · ' + (+row.linked_price ? IS.money(row.linked_price) : esc(A('مجاني', 'Free'))) : '') :
       type === 'request' ? '<bdi dir="ltr">' + esc(((row.payment_required ? row.paid_count : row.joined_count) || 0) + (row.goal ? ' / ' + row.goal : '')) + '</bdi> ' + esc(A('منضمّون', 'joined')) :
       type === 'course' ? [courseFormat(row), +row.price ? IS.money(row.price) : esc(A('مجاني', 'Free')), row.starts_at && courseSchedule(row)].filter(Boolean).join(' · ') : '';
     return '<article class="box feed-card feed-' + type + (isPost ? ' feed-post' : '') + '" data-kind="' + type + '"><header class="feed-card-header"><span>' + ic(label[2]) +
       esc(A(label[0], label[1])) + '</span>' + (when ? '<time datetime="' + esc(when) + '">' + esc(IS.ago(when)) + '</time>' : '') + '</header>' +
-      '<div class="feed-card-content">' + (media ? '<a class="feed-image" href="#' + target + esc(row.id) + '" aria-label="' + esc(title) + '"><img loading="lazy" src="' + IS.U(media) + '" alt=""></a>' : '') +
+      '<div class="feed-card-content">' + (library || media ? '<a class="feed-image" href="#' + target + esc(row.id) + '" aria-label="' + esc(title) + '">' +
+        (library ? IS.libraryCover(row) : '<img loading="lazy" src="' + IS.U(media) + '" alt="">') + '</a>' : '') +
       '<div><h3 dir="auto"><a href="#' + target + esc(row.id) + '">' + esc(title) + '</a></h3>' +
       (summary ? '<p class="feed-summary" dir="auto">' + esc(summary.slice(0, 280)) + '</p>' : '') +
       (details ? '<p class="feed-detail">' + details + '</p>' : '') + '</div></div>' +
-      (isPost ? postPreview(row, true) + IS.feedVoteBar('post', row) : type === 'request' ? IS.feedVoteBar('request', row) : '') + '</article>';
+      (isPost ? postPreview(row, true) + IS.feedVoteBar('post', row) : type === 'request' ? IS.feedVoteBar('request', row) : library ?
+        '<div class="row library-feed-actions"><a class="btn ghost sm" href="#file/' + esc(row.id) + '/read">' + ic('open') +
+        esc(A('اقرأ داخل التطبيق', 'Read in the app')) + '</a>' + IS.dlBtn('file', row.id) + '</div>' + IS.feedVoteBar('file', row) : '') + '</article>';
   }
 
   /* ========== START PAGE: sign in and choose a speciality (owner, 18 Nov 2026) ========== */

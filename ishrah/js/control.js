@@ -80,8 +80,8 @@
     h += '<div class="cgrid"><section class="box"><header class="sh"><h2>' + ic('chart') + IS.T('نمو المستخدمين', 'User growth') + '</h2><span class="chip">' + esc(A('آخر 6 أشهر', 'Last 6 months')) + '</span></header>' + area(growth, ms.map(function (m) { return new Date(m + '-01').toLocaleDateString('en-GB', { month: 'short' }); })) + '</section>' +
       '<section class="box"><h2>' + ic('target') + IS.T('التفاعل', 'Engagement') + '</h2><div class="dwrap">' + donut([[started, 0, '#c99a2e'], [Math.max(0, act.length - started), 0, '#e6e2d6']].map(function (x) { return [x[2] === '#c99a2e' ? 'a' : 'b', x[0], x[2]]; }), N(pc(started, act.length) + '%'), A('بدأوا التعلّم', 'started')) +
       '<ul class="dleg">' + [[A('إكمال الكورسات', 'Course completion'), pc(completed, act.length), 'cert'], [A('حضور الفعاليات', 'Event registration'), pc(Object.keys(regsU).length, us.length), 'cal'], [A('التفاعل في النقاشات', 'Community participation'), pc(Object.keys(posters).length, us.length), 'chat'], [A('الالتحاق بكورس', 'Enrolled in a course'), pc(Object.keys(act.reduce(function (a, e) { a[e.user_id] = 1; return a; }, {})).length, students.length || 1), 'layers']].map(function (x) { return '<li>' + ic(x[2]) + '<span>' + esc(x[0]) + '</span><b>' + N(x[1] + '%') + '</b></li>'; }).join('') + '</ul></div></section>' +
-      '<section class="box"><h2>' + ic('file') + IS.T('توزيع المحتوى', 'Content distribution') + '</h2><div class="dwrap">' + donut(IS.FKINDS.map(function (k, i) { return [k[0], fs.filter(function (f) { return f.kind === k[0]; }).length, PAL[i]]; }), N(fs.length), A('ملف', 'files')) +
-      '<ul class="dleg">' + IS.FKINDS.map(function (k, i) { var n = fs.filter(function (f) { return f.kind === k[0]; }).length; return '<li><i style="background:' + PAL[i] + '"></i><span>' + esc(A(k[2], k[3])) + '</span><b>' + N(pc(n, fs.length) + '%') + '</b></li>'; }).join('') + '</ul></div></section>' +
+      '<section class="box"><h2>' + ic('file') + IS.T('توزيع المحتوى', 'Content distribution') + '</h2><div class="dwrap">' + donut(IS.FKINDS.map(function (k, i) { return [k[0], fs.filter(function (f) { return f.kind === k[0]; }).length, PAL[i % PAL.length]]; }), N(fs.length), A('ملف', 'files')) +
+      '<ul class="dleg">' + IS.FKINDS.map(function (k, i) { var n = fs.filter(function (f) { return f.kind === k[0]; }).length; return '<li><i style="background:' + PAL[i % PAL.length] + '"></i><span>' + esc(A(k[2], k[3])) + '</span><b>' + N(pc(n, fs.length) + '%') + '</b></li>'; }).join('') + '</ul></div></section>' +
       '<section class="box"><h2>' + ic('live') + IS.T('حالة المنصة', 'Platform status') + '</h2><p class="chip ' + (DB.live ? 'ok' : 'warn') + ' big">' + esc(DB.live ? A('تعمل بشكل طبيعي · قاعدة البيانات متصلة', 'Running normally · database connected') : A('نسخة معاينة على هذا الجهاز', 'Preview copy on this device')) + '</p>' +
       '<h3 class="sub">' + ic('chart') + esc(A('إحصاءات سريعة', 'Quick figures')) + '</h3><ul class="kv"><li><span>' + esc(A('الاشتراكات الفعالة', 'Active enrolments')) + '</span><b>' + N(act.length) + '</b></li><li><span>' + esc(A('إيرادات الشهر الحالي', 'Revenue this month')) + '</span><b>' + IS.money(rev) + '</b></li><li><span>' + esc(A('متوسط تقييم الكورسات', 'Average course rating')) + '</span><b>' + esc(avg) + (avg !== '—' ? ' / 5' : '') + '</b></li></ul></section></div>';
     var QA = [['control-students', 'users', A('إدارة المستخدمين', 'Manage users'), 0, 'students'], ['control-apps', 'cert', A('اعتماد المحاضرين', 'Approve lecturers'), pend.apps, 'apps'], ['control-review', 'layers', A('مراجعة الكورسات', 'Review courses'), pend.rev, 'review'], ['control-library', 'folder', A('إدارة الملفات', 'Manage files'), pend.files, 'library'],
@@ -239,42 +239,94 @@
 
   /* ========== LECTURERS (shares, status, balances) ========== */
   async function balances() {
-    var r = await Promise.all([DB.q('lecturers'), DB.q('enrollments', { eq: { status: 'active' } }), DB.q('payouts'), DB.q('courses')]), def = +IS.SET.default_share || 70;
+    var r = await Promise.all([DB.q('lecturers'), DB.q('enrollments', { eq: { status: 'active' } }), IS.can('payout', 'approve') ? DB.q('payouts') : [], DB.q('courses')]);
     return r[0].map(function (l) { var es = r[1].filter(function (e) { return e.lecturer_id === l.id; }), ps = r[2].filter(function (p) { return p.lecturer_id === l.id; });
-      var gross = es.reduce(function (a, e) { return a + (+e.price || 0); }, 0), earned = es.reduce(function (a, e) { return a + (+e.price || 0) * (e.share != null ? +e.share : (+l.share || def)) / 100; }, 0), paid = ps.filter(function (p) { return p.status === 'paid'; }).reduce(function (a, p) { return a + (+p.amount || 0); }, 0);
-      return { l: l, n: es.length, gross: gross, earned: Math.round(earned), paid: paid, bal: Math.round(earned - paid), req: ps.filter(function (p) { return p.status === 'requested'; }), courses: r[3].filter(function (c) { return c.lecturer_id === l.id; }).length }; });
+      var gross = es.reduce(function (a, e) { return a + (+e.price || 0); }, 0), earned = es.reduce(function (a, e) { return a + IS.earnedShare(e, l.share == null ? 70 : +l.share); }, 0), paid = ps.filter(function (p) { return p.status === 'paid'; }).reduce(function (a, p) { return a + (+p.amount || 0); }, 0);
+      return { l: l, n: es.length, gross: gross, earned: earned, paid: paid, bal: Math.max(0, earned - paid), courses: r[3].filter(function (c) { return c.lecturer_id === l.id; }).length }; });
   }
   IS.page('control-lecturers', async function () {
     var b = await balances();
     return IS.banner(IS.T('المحاضرون', 'Lecturers'), esc(A('نسبة كل محاضر من المبيعات، حالته، ورصيده.', 'Each lecturer’s share of sales, status and balance.')), 'users') + (b.length ? '<div class="table">' + b.map(function (x) { var l = x.l;
       return '<div class="tr">' + IS.av(l, 'sm', l.id) + '<span class="grow"><a href="#lecturer/' + l.id + '"><b>' + esc(l.name) + '</b></a> ' + IS.seen(l.id) + '<small class="mut">' + esc(l.specialty || '') + ' · ' + N(x.courses) + ' ' + esc(A('كورس', 'courses')) + ' · ' + N(x.n) + ' ' + esc(A('التحاق', 'enrolments')) + '</small></span>' +
-        '<span class="cell"><small>' + esc(A('النسبة', 'Share')) + '</small><b>' + N((l.share || IS.SET.default_share || 70) + '%') + '</b></span><span class="cell"><small>' + esc(A('الرصيد', 'Balance')) + '</small><b>' + IS.money(x.bal) + '</b></span>' + IS.status(l.status) +
-        (IS.can('payout') ? '<button class="btn sm ghost" data-act="share" data-id="' + l.id + '" data-v="' + (l.share || IS.SET.default_share || 70) + '">' + ic('pen') + esc(A('النسبة', 'Share')) + '</button>' : '') + (IS.can('review') ? '<button class="btn sm ghost' + (l.status === 'active' ? ' bad' : '') + '" data-act="lstat" data-id="' + l.id + '" data-s="' + (l.status === 'active' ? 'hidden' : 'active') + '">' + esc(l.status === 'active' ? A('إيقاف', 'Suspend') : A('تفعيل', 'Activate')) + '</button>' : '') + '</div>'; }).join('') + '</div>' : IS.empty('users', A('لا يوجد محاضرون بعد', 'No lecturers yet')));
+        '<span class="cell"><small>' + esc(A('النسبة', 'Share')) + '</small><b>' + N((l.share == null ? 70 : l.share) + '%') + '</b></span>' + (IS.can('payout', 'approve') ? '<span class="cell"><small>' + esc(A('الرصيد', 'Balance')) + '</small><b>' + IS.money(x.bal) + '</b></span>' : '') + IS.status(l.status) +
+        (IS.can('payout') ? '<button class="btn sm ghost" data-act="share" data-id="' + l.id + '" data-v="' + (l.share == null ? 70 : l.share) + '">' + ic('pen') + esc(A('النسبة', 'Share')) + '</button>' : '') + (IS.can('review') ? '<button class="btn sm ghost' + (l.status === 'active' ? ' bad' : '') + '" data-act="lstat" data-id="' + l.id + '" data-s="' + (l.status === 'active' ? 'hidden' : 'active') + '">' + esc(l.status === 'active' ? A('إيقاف', 'Suspend') : A('تفعيل', 'Activate')) + '</button>' : '') + '</div>'; }).join('') + '</div>' : IS.empty('users', A('لا يوجد محاضرون بعد', 'No lecturers yet')));
   }, P('lecturers'));
   IS.ACT.share = async function (b) { var v = await IS.ask(A('نسبة المحاضر من كل التحاق', 'Lecturer share of each enrolment'), '%', b.getAttribute('data-v'), { type: 'number' }); if (v === '' || v == null) return; v = Math.max(0, Math.min(100, +v)); var l = await DB.upd('lecturers', b.getAttribute('data-id'), { share: v }); IS.audit('set share ' + v + '%', l.name); IS.refresh(); };
   IS.ACT.lstat = async function (b) { var l = await DB.upd('lecturers', b.getAttribute('data-id'), { status: b.getAttribute('data-s') }); IS.audit((l.status === 'active' ? 'activate' : 'suspend') + ' lecturer', l.name); IS.refresh(); };
 
   /* ========== PAYOUTS ========== */
   IS.page('control-payouts', async function () {
+    if (!IS.can('payout', 'approve')) return IS.empty('lock', A('يلزم إذن اعتماد تحويل الأرباح', 'Payout approval permission required'));
     var b = await balances(), ps = await DB.q('payouts', { order: ['created_at', false] });
-    var tot = b.reduce(function (a, x) { a.g += x.gross; a.e += x.earned; a.p += x.paid; a.b += x.bal; return a; }, { g: 0, e: 0, p: 0, b: 0 });
-    return IS.banner(IS.T('مستحقات المحاضرين', 'Lecturer payouts'), esc(A('حوّل للمحاضر عبر بنكك ثم سجّل التحويل هنا ليُخصم من رصيده ويصله إشعار.', 'Transfer to the lecturer with Bankak, then record it here: it is deducted from the balance and the lecturer is notified.')), 'wallet') +
-      '<div class="tiles">' + [['money', IS.money(tot.g), A('إجمالي المبيعات', 'Total sales')], ['wallet', IS.money(tot.e), A('حصة المحاضرين', 'Lecturers’ share')], ['shield', IS.money(tot.g - tot.e), A('حصة المنصة', 'Platform share')], ['checkc', IS.money(tot.p), A('تم تحويله', 'Paid out')], ['clock', IS.money(tot.b), A('مستحق للمحاضرين', 'Owed to lecturers')]].map(function (t) { return '<div class="tile">' + ic(t[0]) + '<b>' + t[1] + '</b><small>' + esc(t[2]) + '</small></div>'; }).join('') + '</div>' +
-      '<section class="box"><h2>' + ic('users') + IS.T('الأرصدة', 'Balances') + '</h2><div class="table">' + b.map(function (x) { var pay = x.l.pay || {};
-        return '<div class="tr">' + IS.av(x.l, 'sm') + '<span class="grow"><b>' + esc(x.l.name) + '</b><small class="mut" dir="auto">' + esc(pay.account ? A('بنكك ', 'Bankak ') + pay.account + ' · ' + (pay.name || '') : A('لم يضف حسابًا بعد', 'No account added')) + '</small></span><span class="cell"><small>' + esc(A('مكتسب', 'Earned')) + '</small><b>' + IS.money(x.earned) + '</b></span><span class="cell"><small>' + esc(A('محوّل', 'Paid')) + '</small><b>' + IS.money(x.paid) + '</b></span><span class="cell"><small>' + esc(A('الرصيد', 'Balance')) + '</small><b>' + IS.money(x.bal) + '</b></span>' +
-          (x.req.length ? IS.chip(ic('clock') + esc(A('طلب تحويل', 'Payout requested')), 'warn') : '') + (x.bal > 0 ? '<button class="btn sm pri" data-act="payout" data-id="' + x.l.id + '" data-a="' + x.bal + '">' + ic('send') + esc(A('تسجيل تحويل', 'Record payout')) + '</button>' : '') + '</div>'; }).join('') + '</div></section>' +
-      '<section class="box"><h2>' + ic('receipt') + IS.T('سجل التحويلات', 'Payout history') + '</h2>' + (ps.length ? '<div class="table">' + ps.map(function (p) { return '<div class="tr"><span class="grow"><b>' + esc(p.name || '') + '</b><small class="mut">' + esc(IS.date(p.paid_at || p.created_at)) + (p.ref ? ' · ' + esc(p.ref) : '') + '</small></span><b>' + IS.money(p.amount) + '</b>' + IS.status(p.status === 'paid' ? 'approved' : 'pending') + '</div>'; }).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد تحويلات.', 'No payouts.')) + '</p>') + '</section>';
+    var open = ps.filter(function (p) { return p.status === 'requested'; });
+    var history = ps.filter(function (p) { return p.status !== 'requested'; });
+    var tot = b.reduce(function (a, x) { a.e += x.earned; a.p += x.paid; a.b += x.bal; return a; }, { e: 0, p: 0, b: 0 });
+    var due = b.filter(function (x) { return x.bal > 0; });
+    return IS.banner(IS.T('مستحقات المحاضرين', 'Lecturer payouts'), esc(A('حوّل عبر بنكك ثم سجّل التحويل مع إيصال الكورس.', 'Transfer with Bankak, then record the payment and attach the receipt to its course.')), 'wallet') +
+      '<div class="tiles">' + [['wallet', IS.money(tot.e), A('حصة المحاضرين', 'Lecturers’ share')], ['checkc', IS.money(tot.p), A('تم تحويله', 'Paid out')], ['clock', IS.money(tot.b), A('مستحق للمحاضرين', 'Owed to lecturers')]].map(function (t) { return '<div class="tile">' + ic(t[0]) + '<b>' + t[1] + '</b><small>' + esc(t[2]) + '</small></div>'; }).join('') + '</div>' +
+      (open.length ? '<section class="box"><h2>' + ic('clock') + IS.T('طلبات قيد التحويل', 'Pending payout requests') + '</h2><div class="table">' + open.map(function (p) {
+        return '<div class="tr"><span class="grow"><b dir="auto">' + esc(p.name || '') + '</b><small class="mut" dir="auto">' +
+          esc(p.course_title || A('حدد الكورس عند التسجيل', 'Select a course when recording')) + '</small></span><b>' + IS.money(p.amount) +
+          '</b><button class="btn sm pri" data-act="payout" data-id="' + esc(p.lecturer_id) + '" data-pending="' + esc(p.id) + '">' +
+          ic('send') + esc(A('سجّل تحويل الطلب', 'Record requested payout')) + '</button></div>';
+      }).join('') + '</div></section>' : '') +
+      '<section class="box"><h2>' + ic('users') + IS.T('الأرصدة المستحقة', 'Outstanding balances') + '</h2>' +
+      (due.length ? '<div class="table">' + due.map(function (x) {
+        return '<div class="tr">' + IS.av(x.l, 'sm') + '<span class="grow"><b dir="auto">' + esc(x.l.name) + '</b></span><b>' + IS.money(x.bal) +
+          '</b><button class="btn sm ghost" data-act="payout" data-id="' + esc(x.l.id) + '">' +
+          ic('send') + esc(A('سجّل تحويلًا', 'Record payout')) + '</button></div>';
+      }).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد أرصدة مستحقة.', 'No outstanding balances.')) + '</p>') + '</section>' +
+      '<section class="box"><h2>' + ic('receipt') + IS.T('سجل التحويلات', 'Payout history') + '</h2>' +
+      (history.length ? '<div class="list">' + history.map(function (p) {
+        return '<a class="li" href="#control-payout/' + esc(p.id) + '">' + ic('receipt') + '<span><b dir="auto">' + esc(p.name || '') +
+          '</b><small dir="auto">' + esc([p.course_title, IS.date(p.paid_at || p.created_at)].filter(Boolean).join(' · ')) + '</small></span><b>' +
+          IS.money(p.amount) + '</b>' + IS.payoutStatus(p) + '</a>';
+      }).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد تحويلات.', 'No payouts.')) + '</p>') + '</section>';
   }, P('payout'));
-  IS.ACT.payout = async function (b) {
-    var l = await DB.one('lecturers', b.getAttribute('data-id')), a = +b.getAttribute('data-a');
-    IS.sheet(esc(A('تسجيل تحويل لـ ', 'Record a payout to ')) + esc(l.name), '<form class="form" data-form="payout"><input type="hidden" name="id" value="' + l.id + '"><p class="mut">' + esc(A('حساب بنكك: ', 'Bankak: ')) + '<b dir="ltr">' + esc((l.pay || {}).account || '—') + '</b> ' + esc((l.pay || {}).name || '') + '</p><label class="fl"><span>' + esc(A('المبلغ المحوّل', 'Amount paid')) + '</span><input name="amount" type="number" min="1" max="' + a + '" value="' + a + '" required dir="ltr"></label>' +
-      '<label class="fl"><span>' + esc(A('رقم العملية', 'Transaction number')) + '</span><input name="ref" dir="ltr" required></label><label class="fl"><span>' + esc(A('ملاحظة', 'Note')) + '</span><input name="note"></label><button class="btn pri wide">' + esc(A('تسجيل', 'Record')) + '</button></form>');
+  IS.page('control-payout', async function (id) {
+    if (!IS.can('payout', 'approve')) return null;
+    var row = await DB.one('payouts', id);
+    return row ? IS.payoutDetail(row, 'control-payouts') : null;
+  }, P('payout'));
+  IS.ACT.payout = async function (button) {
+    if (!IS.can('payout', 'approve')) return;
+    var id = button.dataset.id;
+    var data = await Promise.all([
+      DB.one('lecturers', id), DB.one('lecturer_payout_accounts', id),
+      DB.q('enrollments', { eq: { lecturer_id: id, status: 'active' } }), DB.q('payouts', { eq: { lecturer_id: id } })
+    ]);
+    var lecturer = data[0], bank = data[1];
+    if (!lecturer) return;
+    if (!bank) return IS.toast(A('لم يضف المحاضر حساب بنكك بعد.', 'The lecturer has yet to add a Bankak account.'), true);
+    var pending = data[3].find(function (row) { return row.id === button.dataset.pending && row.status === 'requested'; });
+    if (button.dataset.pending && !pending) return IS.refresh();
+    var fields = IS.payoutSelect(await IS.payoutOptions(lecturer, data[2], data[3]), pending);
+    if (!fields) return IS.toast(A('لا يوجد رصيد متاح للكورس أو المجموعة.', 'No balance is available for this course or group.'), true);
+    var sheet = IS.sheet(esc(A('تسجيل تحويل أرباح', 'Record a payout')), '<form class="form" data-form="payout">' +
+      '<input type="hidden" name="id" value="' + esc(id) + '"><input type="hidden" name="pending" value="' + esc(pending ? pending.id : '') + '">' +
+      '<section class="payout-recipient"><h3>' + ic('lock') + esc(A('حساب بنكك للمحاضر', 'Lecturer’s Bankak account')) + '</h3>' +
+      '<dl class="payout-bank"><div><dt>' + esc(A('اسم صاحب الحساب', 'Account holder')) + '</dt><dd dir="auto">' + esc(bank.account_name) +
+      '</dd></div><div><dt>' + esc(A('رقم الحساب', 'Account number')) + '</dt><dd dir="ltr">' + esc(bank.account) + '</dd></div></dl></section>' + fields +
+      '<label class="fl file"><span>' + esc(A('إيصال التحويل', 'Transfer receipt')) + '</span><input name="receipt" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" required></label>' +
+      '<label class="fl"><span>' + esc(A('ملاحظة للمحاضر', 'Note to the lecturer')) + '</span><textarea rows="3" name="note" maxlength="2000" dir="auto"></textarea></label>' +
+      '<label class="fl"><span>' + esc(A('مرجع التحويل (اختياري)', 'Transfer reference (optional)')) + '</span><input name="ref" maxlength="150" dir="auto"></label>' +
+      '<button class="btn pri wide">' + ic('check') + esc(A('حفظ التحويل وإشعار المحاضر', 'Save payout and notify lecturer')) + '</button></form>');
+    IS.bindPayoutAmount(sheet.querySelector('form'));
   };
-  IS.SUB.payout = async function (d) {
-    var l = await DB.one('lecturers', d.id), req = await DB.q('payouts', { eq: { lecturer_id: d.id, status: 'requested' } }), row = { status: 'paid', amount: +d.amount, ref: d.ref, note: d.note || '', paid_at: new Date().toISOString(), paid_by: uid() };
-    if (req[0]) await DB.upd('payouts', req[0].id, row); else await DB.ins('payouts', Object.assign({ lecturer_id: d.id, name: l.name }, row));
-    for (var i = 1; i < req.length; i++) await DB.del('payouts', req[i].id);
-    IS.notify(d.id, A('وصلك تحويل أرباح', 'A payout was sent to you'), (+d.amount).toLocaleString('en-US') + ' · ' + d.ref, '#studio-money'); IS.audit('payout ' + d.amount, l.name); IS.closeSheet(); IS.refresh();
+  IS.SUB.payout = async function (d, form) {
+    if (!IS.can('payout', 'approve')) return;
+    var file = form.elements.receipt.files[0];
+    if (!file || file.size > 8 * 1024 * 1024 || !['image/jpeg', 'image/png', 'image/webp', 'application/pdf'].includes(file.type)) {
+      return IS.toast(A('اختر صورة أو PDF للإيصال بحجم لا يزيد عن 8 ميغابايت.', 'Choose an image or PDF receipt up to 8 MB.'), true);
+    }
+    if (form.payoutFile !== file) {
+      form.payoutPath = await DB.upload('payout-receipts', file);
+      form.payoutFile = file;
+    }
+    var id = await IS.savePayout(d, 'record', form.payoutPath);
+    IS.closeSheet();
+    IS.toast(A('حُفظ التحويل وأُشعر المحاضر.', 'Payout saved and lecturer notified.'));
+    IS.go('control-payout/' + id);
   };
 
   /* ========== STUDENTS ========== */
@@ -360,13 +412,15 @@
     tab = tab || 'pending'; var fs = await DB.q('files', { order: ['created_at', false] }), list = fs.filter(function (f) { return tab === 'all' || f.status === tab; });
     return IS.banner(IS.T('الكتب والملفات', 'Books and files'), esc(A('ارفع ملفات المكتبة، وراجع ما يشاركه الطلبة والمحاضرون قبل نشره.', 'Upload library files and review what students and lecturers share before publishing.')), 'open', '<button class="btn gold" data-act="addfile">' + ic('upload') + esc(A('رفع ملف', 'Upload file')) + '</button>') +
       tabsBar('control-library', tab, [['pending', A('بانتظار المراجعة', 'Waiting'), fs.filter(function (f) { return f.status === 'pending'; }).length], ['published', A('منشورة', 'Published')], ['rejected', A('مرفوضة', 'Rejected')], ['all', A('الكل', 'All')]]) +
-      (list.length ? '<div class="table">' + list.map(function (f) { var k = IS.FKINDS.filter(function (x) { return x[0] === f.kind; })[0] || IS.FKINDS[6];
+      (list.length ? '<div class="table">' + list.map(function (f) { var k = IS.FKINDS.filter(function (x) { return x[0] === f.kind; })[0] || IS.libraryKind('other');
         return '<div class="tr">' + ic(k[1]) + '<span class="grow"><a href="#file/' + f.id + '"><b>' + esc(f.title) + '</b></a><small class="mut">' + esc(A(k[2], k[3])) + (f.owner_name ? ' · ' + esc(A('من ', 'by ')) + esc(f.owner_name) : '') + (f.pages ? ' · ' + N(f.pages) + ' ' + esc(A('صفحة', 'pages')) : '') + '</small></span>' + IS.status(f.status) +
           (f.status !== 'published' ? '<button class="btn sm pri" data-act="fpub" data-id="' + f.id + '">' + esc(A('نشر', 'Publish')) + '</button>' : '') + (f.status !== 'rejected' ? '<button class="btn sm ghost bad" data-act="frej" data-id="' + f.id + '">' + esc(f.status === 'published' ? A('إزالة', 'Remove') : A('رفض', 'Reject')) + '</button>' : '') + '</div>'; }).join('') + '</div>' : IS.empty('open', A('لا توجد ملفات هنا', 'No files here')));
   }, P('library'));
   IS.ACT.addfile = function () { IS.sheet(esc(A('رفع ملف للمكتبة', 'Upload a library file')), '<form class="form" data-form="cfile">' + IS.fileFields({}) + '<button class="btn pri wide">' + ic('upload') + esc(A('رفع ونشر', 'Upload and publish')) + '</button></form>'); };
   IS.SUB.cfile = async function (d, f) { var row = await IS.saveFile(d, f, { owner_id: uid(), owner_name: A('مكتبة اشرح لي', 'Ishrah Li library'), status: 'published' }); await DB.ins('files', row); IS.audit('add file', d.title); IS.closeSheet(); IS.refresh(); };
-  IS.ACT.fpub = async function (b) { var f = await DB.upd('files', b.getAttribute('data-id'), { status: 'published' }); if (f.owner_id && f.owner_id !== uid()) IS.notify(f.owner_id, A('نُشر الملف الذي شاركته', 'The file you shared is published'), f.title, '#file/' + f.id); IS.audit('publish file', f.title); IS.refresh(); };
+  IS.ACT.fpub = async function (b) { var change = { status: 'published' };
+    if (!DB.live) change.published_at = new Date().toISOString();
+    var f = await DB.upd('files', b.getAttribute('data-id'), change); if (f.owner_id && f.owner_id !== uid()) IS.notify(f.owner_id, A('نُشر الملف الذي شاركته', 'The file you shared is published'), f.title, '#file/' + f.id); IS.audit('publish file', f.title); IS.refresh(); };
   IS.ACT.frej = async function (b) { var f = await DB.upd('files', b.getAttribute('data-id'), { status: 'rejected' }); IS.audit('reject file', f.title); IS.refresh(); };
 
   /* ========== LIBRARY REQUESTS ========== */

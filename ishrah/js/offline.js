@@ -123,8 +123,17 @@
         await lessonJob(rid, b.getAttribute('data-c'), q);
       } else {
         var f = await DB.one('files', rid); if (!f) throw new Error('missing');
-        if (/pdf/.test(f.mime || '')) fetch(PDFJS).then(function () { return fetch(PDFJS.replace('pdf.min.js', 'pdf.worker.min.js')); }).catch(function () {});
-        await save({ id: id, kind: 'file', title: f.title, sub: f.author || '', ref: rid, mime: f.mime || '' }, { title: f.title, author: f.author || '', pages: f.pages || 0, about: f.about || '' }, await DB.fileUrl('library', f.path));
+        if (f.status !== 'published' || !IS.inStudySpace(f)) throw new Error('denied');
+        var document = IS.libraryDocument(f);
+        if (document.mime === 'application/pdf') {
+          await Promise.all([PDFJS, PDFJS.replace('pdf.min.js', 'pdf.worker.min.js')].map(async function (asset) {
+            if (!(await fetch(asset)).ok) throw new Error('PDF reader unavailable');
+          }));
+        }
+        var source = await DB.fileUrl('library', document.path);
+        if (!source) throw new Error('missing library file');
+        await save({ id: id, kind: 'file', title: f.title, sub: f.author || '', ref: rid, mime: document.mime },
+          { title: f.title, author: f.author || '', pages: f.pages || 0, about: f.about || '' }, source);
       }
       IS.toast(A('نُزّل داخل المنصة. يعمل دون إنترنت من «تنزيلاتي».', 'Downloaded inside the platform. Open it offline from “My downloads”.'));
     } catch (e) { IS.toast(why(e)); }
@@ -182,7 +191,6 @@
 
   /* ---------- offline viewer ---------- */
   var URLNOW = null;
-  function pdfLib() { return window.pdfjsLib ? Promise.resolve(window.pdfjsLib) : new Promise(function (ok, no) { var s = document.createElement('script'); s.src = PDFJS; s.onload = function () { window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS.replace('pdf.min.js', 'pdf.worker.min.js'); ok(window.pdfjsLib); }; s.onerror = no; document.head.appendChild(s); }); }
   IS.page('dl', async function (id) {
     var it = HAVE[id] || await get('items', id); if (!it || it.u !== uid()) return null;
     if (it.exp < Date.now()) { var ok = false; if (navigator.onLine) { try { ok = await renew(it); } catch (e) {} } if (!ok) return IS.empty('lock', A('انتهت مدة هذا التنزيل', 'This download has expired'), navigator.onLine ? A('لم يعد هذا المحتوى متاحًا لحسابك.', 'This content is no longer available to your account.') : A('اتصل بالإنترنت ليتجدد تلقائيًا.', 'Connect to the internet and it renews by itself.'), '<a class="btn pri" href="#downloads">' + esc(A('تنزيلاتي', 'My downloads')) + '</a>'); }
@@ -198,12 +206,7 @@
       try {
         var blob = await readBlob(it); URLNOW = URL.createObjectURL(blob);
         if (it.kind === 'lesson') { v.innerHTML = '<video controls controlsList="nodownload noremoteplayback" disablePictureInPicture playsinline oncontextmenu="return false" src="' + URLNOW + '"></video>'; return; }
-        if (/^image\//.test(it.mime || '')) { v.innerHTML = '<img src="' + URLNOW + '" alt="" draggable="false">'; return; }
-        var lib = await pdfLib(), doc = await lib.getDocument({ data: await blob.arrayBuffer() }).promise, W = Math.min(v.clientWidth - 8, 980), shown = 0;
-        v.innerHTML = '<p class="mut center">' + N(doc.numPages) + ' ' + esc(A('صفحة', 'pages')) + '</p>';
-        var more = async function () { var to = Math.min(doc.numPages, shown + 6); for (var i = shown + 1; i <= to; i++) { var pg = await doc.getPage(i), vp0 = pg.getViewport({ scale: 1 }), sc = W / vp0.width * (window.devicePixelRatio || 1), vp = pg.getViewport({ scale: sc }), cv = document.createElement('canvas'); cv.width = vp.width; cv.height = vp.height; cv.style.width = W + 'px'; v.appendChild(cv); await pg.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise; } shown = to;
-          var old = v.querySelector('.morepg'); if (old) old.remove(); if (shown < doc.numPages) { var b = document.createElement('button'); b.className = 'btn ghost wide morepg'; b.textContent = A('عرض الصفحات التالية', 'Show the next pages') + ' (' + shown + ' / ' + doc.numPages + ')'; b.onclick = more; v.appendChild(b); } };
-        await more();
+        await IS.renderLibraryDocument(v, it.mime || 'application/pdf', URLNOW, blob);
       } catch (e) { v.innerHTML = IS.empty('file', A('تعذّر فتح التنزيل', 'The download could not be opened'), A('احذفه ونزّله مرة أخرى عند الاتصال.', 'Delete it and download it again when online.')); }
     };
     return h;

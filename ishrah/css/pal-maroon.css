@@ -2379,3 +2379,58 @@ button.feed-emoji:hover,a.feed-emoji:hover{border-color:var(--pri);background:va
   .feed-toolbar h2{width:100%}
   .feed-card-content{gap:9px}
 }
+
+/* Library activity shares one cover and score across the feed, cards and reader. */
+.library-cover{position:relative;display:block;width:100%;height:100%;overflow:hidden;background:var(--tint);color:var(--pri)}
+.library-cover-placeholder{position:absolute;inset:0;display:grid;align-content:center;justify-items:center;gap:6px;padding:9px;text-align:center;overflow:hidden}
+.library-cover-placeholder .ico{width:30px;height:30px}
+.library-cover-placeholder b{font-size:12px;line-height:1.3;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.library-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:var(--tint)}
+.library-cover img:not([src]){visibility:hidden}
+.feed-library .feed-image{aspect-ratio:3/4;flex-basis:clamp(72px,18vw,124px)}
+.feed-library .library-cover img,.fcard .library-cover img{object-fit:contain}
+.fcard{min-width:0}
+.fcard .ff{flex-wrap:wrap}
+.fcard .library-rating{margin-inline-end:auto}
+.library-download{padding:0 12px 12px}
+.library-download .dlb{width:100%;justify-content:center}
+.library-rating{display:inline-flex;align-items:center;gap:5px;min-height:40px;padding:4px 8px;border-radius:10px;background:var(--tint);color:var(--pri);font-size:14px;font-weight:700;white-space:nowrap}
+a.library-rating:hover{text-decoration:underline}
+.library-rating small{font-weight:500}
+.library-feed-actions{margin-top:3px}
+.library-detail{display:grid;grid-template-columns:minmax(76px,150px) minmax(0,1fr);align-items:start;gap:12px}
+.library-detail>.library-cover{height:auto;aspect-ratio:3/4;border-radius:12px}
+.library-detail h1{margin:0;overflow-wrap:anywhere}
+.library-detail .feed-votes{margin-block:8px}
+.library-reader>summary{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:750;min-height:40px}
+.library-reader>summary .ico:last-child{margin-inline-start:auto}
+.library-reader[open]>summary .ico:last-child{transform:rotate(180deg)}
+.library-reader[open]>.viewer{margin-top:10px}
+.library-text{width:100%;padding:12px;white-space:pre-wrap;overflow-wrap:anywhere;background:var(--sf);color:var(--tx);text-align:start}
+[data-library-rating]{scroll-margin-block-start:calc(var(--toph,66px) + 12px)}
+.library-rate-form{margin-top:8px;align-items:start}
+.library-stars{gap:5px}
+.library-star{display:inline-flex;gap:4px;align-items:center;padding:5px 7px;border:1px solid var(--bd);border-radius:10px;min-height:40px;cursor:pointer}
+.library-star span{display:inline-flex;align-items:center;gap:3px}
+.library-star .ico{width:15px;height:15px}
+.library-star:has(input:checked),.feed-votes [aria-pressed="true"]{border-color:var(--pri);background:var(--tint);color:var(--pri)}
+@media(max-width:480px){
+  .library-detail{grid-template-columns:76px minmax(0,1fr)}
+  .library-detail .feed-votes .row{gap:3px}
+  .library-detail .feed-emoji,.library-detail .library-rating{padding-inline:6px}
+}
+
+/* Private lecturer payout settings and receipts. */
+.payout-detail{max-width:740px;margin-inline:auto}
+.payout-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0}
+.payout-head h1{margin-block:8px 4px;overflow-wrap:anywhere}
+.payout-head p{margin:0}
+.payout-head>strong{color:var(--pri);white-space:nowrap;font-size:clamp(18px,3vw,27px)}
+.payout-recipient{padding:12px 14px;border:1px solid var(--bd);border-radius:12px;background:var(--tint)}
+.payout-recipient h3{display:flex;align-items:center;gap:7px;margin:0;color:var(--pri);font-size:15px}
+.payout-bank{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(185px,100%),1fr));gap:8px 14px;margin-block:12px}
+.payout-bank div{min-width:0}
+.payout-bank dt{color:var(--sub);font-size:13px}
+.payout-bank dd{margin:3px 0 0;text-align:start;font-weight:700;overflow-wrap:anywhere}
+.payout-note{white-space:pre-wrap;overflow-wrap:anywhere;margin-block:0 16px}
+@media(max-width:480px){.payout-head{flex-wrap:wrap}}

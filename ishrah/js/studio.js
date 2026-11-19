@@ -108,9 +108,9 @@
 
   /* ========== DASHBOARD ========== */
   async function money() {
-    var es = await DB.q('enrollments', { eq: { lecturer_id: L().id, status: 'active' } }), ps = await DB.q('payouts', { eq: { lecturer_id: L().id } }), share = +L().share || +IS.SET.default_share || 70;
-    var earned = es.reduce(function (a, e) { return a + (+e.price || 0) * (e.share != null ? +e.share : share) / 100; }, 0), paid = ps.filter(function (p) { return p.status === 'paid'; }).reduce(function (a, p) { return a + (+p.amount || 0); }, 0), req = ps.filter(function (p) { return p.status === 'requested'; }).reduce(function (a, p) { return a + (+p.amount || 0); }, 0);
-    return { es: es, ps: ps, share: share, earned: Math.round(earned), paid: paid, req: req, bal: Math.round(earned - paid) };
+    var es = await DB.q('enrollments', { eq: { lecturer_id: L().id, status: 'active' } }), ps = await DB.q('payouts', { eq: { lecturer_id: L().id } }), share = L().share == null ? 70 : +L().share;
+    var earned = es.reduce(function (a, e) { return a + IS.earnedShare(e, share); }, 0), paid = ps.filter(function (p) { return p.status === 'paid'; }).reduce(function (a, p) { return a + (+p.amount || 0); }, 0), req = ps.filter(function (p) { return p.status === 'requested'; }).reduce(function (a, p) { return a + (+p.amount || 0); }, 0);
+    return { es: es, ps: ps, share: share, earned: cents(earned), paid: paid, req: req, bal: cents(earned - paid) };
   }
   IS.page('studio', async function () {
     var r = await Promise.all([DB.q('courses', { eq: { lecturer_id: L().id } }), money(), DB.q('posts', { eq: { room: 'qa', lecturer_id: L().id } }), DB.q('events', { eq: { lecturer_id: L().id } })]), cs = r[0], mo = r[1], qa = r[2].filter(function (p) { return !p.n_replies && IS.publicPost(p); });
@@ -321,7 +321,7 @@
 
   /* ========== MY PAGE (design) ========== */
   IS.page('studio-page', async function () {
-    var l = L(), k = l.links || {}, pay = l.pay || {};
+    var l = L(), k = l.links || {};
     return IS.banner(IS.T('صفحتي', 'My page'), esc(A('صمّم صفحتك كما يراها الطلبة: الصورة، الغلاف، اللون، النبذة والمؤهلات.', 'Design your page as students see it: photo, cover, colour, bio and qualifications.')), 'user', '<a class="btn lt" href="#lecturer/' + l.id + '">' + ic('eye') + esc(A('معاينة الصفحة', 'Preview the page')) + '</a>') +
       '<form class="box form" data-form="lecpage"><div class="g2f"><label class="fl file"><span>' + esc(A('الصورة الشخصية', 'Photo')) + '</span>' + IS.av(l, 'lg') + '<input type="file" name="photo" accept="image/*"></label><label class="fl file"><span>' + esc(A('صورة الغلاف', 'Cover picture')) + '</span>' + (l.cover ? '<img class="thumb" src="' + IS.U(l.cover) + '" alt="">' : '') + '<input type="file" name="cover" accept="image/*"></label>' +
       '<label class="fl"><span>' + esc(A('الاسم', 'Name')) + '</span><input name="name" required value="' + esc(l.name) + '"></label><label class="fl"><span>' + esc(A('اللقب المهني', 'Professional title')) + '</span>' + IS.pick('title', [['طبيب امتياز', 'House officer'], ['طبيب عمومي', 'Medical officer'], ['نائب اختصاصي', 'Registrar'], ['اختصاصي', 'Specialist'], ['استشاري', 'Consultant'], ['محاضر', 'Lecturer'], ['أستاذ مساعد', 'Assistant professor'], ['أستاذ مشارك', 'Associate professor'], ['أستاذ', 'Professor'], ['صيدلي', 'Pharmacist'], ['صيدلي سريري', 'Clinical pharmacist'], ['أخصائي مختبرات', 'Laboratory specialist'], ['اختصاصي علم الأمراض', 'Pathologist'], ['ممرض / ممرضة', 'Nurse'], ['ممرض أول / مشرف تمريض', 'Senior nurse / Nursing supervisor'], ['قابلة', 'Midwife'], ['طبيب أسنان', 'Dentist'], ['اختصاصي أسنان', 'Dental specialist'], ['جراح الفم والوجه والفكين', 'Oral & maxillofacial surgeon']].map(function (t) { return [t[1], t[1] + (IS.lang === 'en' ? '' : ' · ' + t[0])]; }), l.title) + '</label>' +
@@ -330,14 +330,14 @@
       '<label class="fl"><span>' + esc(A('لون الصفحة', 'Page colour')) + '</span>' + swatches('color', l.color) + '</label><label class="fl"><span>' + esc(A('نبذة عنك', 'About you')) + '</span>' + IS.editor('bio', l.bio, '') + '</label>' +
       '<label class="fl"><span>' + esc(A('المؤهلات والخبرة (سطر لكل بند)', 'Qualifications and experience (one per line)')) + '</span><textarea name="quals" rows="4">' + esc((l.quals || []).join('\n')) + '</textarea></label>' +
       '<h2>' + ic('link') + IS.T('روابط التواصل (تظهر للطلبة)', 'Contact links (shown to students)') + '</h2><div class="g2f">' + [['whatsapp', 'WhatsApp'], ['telegram', 'Telegram'], ['youtube', 'YouTube'], ['x', 'X (Twitter)'], ['linkedin', 'LinkedIn'], ['email', A('البريد', 'Email')]].map(function (r) { return '<label class="fl"><span>' + esc(r[1]) + '</span><input name="l_' + r[0] + '" dir="ltr" value="' + esc(k[r[0]] || '') + '"></label>'; }).join('') + '</div>' +
-      '<h2>' + ic('wallet') + IS.T('بيانات استلام الأرباح (لا تظهر للطلبة)', 'Payout details (not shown to students)') + '</h2><div class="g2f"><label class="fl"><span>' + esc(A('رقم حساب بنكك', 'Bankak account number')) + '</span><input name="p_account" dir="ltr" value="' + esc(pay.account || '') + '"></label><label class="fl"><span>' + esc(A('اسم صاحب الحساب', 'Account name')) + '</span><input name="p_name" value="' + esc(pay.name || '') + '"></label></div>' +
+      '<a class="btn ghost" href="#studio-bank">' + ic('lock') + esc(A('حساب استلام الأرباح', 'Payout account')) + '</a>' +
       '<div class="row end"><button class="btn pri">' + ic('check') + esc(A('حفظ الصفحة', 'Save page')) + '</button></div></form>';
   }, { auth: true, area: 'studio', lec: true });
   IS.SUB.lecpage = async function (d, f) {
     var teaching = selectedTeachingSpaces(d);
     if (!teaching) return;
     var row = Object.assign(teaching, { name: d.name, title: d.title, specialty: d.specialty, color: d.color, bio: IS.edVal(f, 'bio'), quals: IS.lines(d.quals), tags: d.tags.split(/[،,]/).map(function (x) { return x.trim(); }).filter(Boolean),
-      links: { whatsapp: d.l_whatsapp, telegram: d.l_telegram, youtube: d.l_youtube, x: d.l_x, linkedin: d.l_linkedin, email: d.l_email }, pay: { account: d.p_account, name: d.p_name } });
+      links: { whatsapp: d.l_whatsapp, telegram: d.l_telegram, youtube: d.l_youtube, x: d.l_x, linkedin: d.l_linkedin, email: d.l_email } });
     if (f.photo.files[0]) row.photo = await DB.upload('media', await IS.shrink(f.photo.files[0], 480, 0.85));
     if (f.cover.files[0]) row.cover = await DB.upload('media', await IS.shrink(f.cover.files[0], 1600, 0.8));
     await DB.upd('lecturers', L().id, row); await IS.loadMe(); IS.toast(A('حُفظت صفحتك', 'Your page is saved')); IS.refresh();
@@ -383,27 +383,170 @@
       '<section class="sec"><header class="sh"><h2>' + IS.T('بانتظار ردك', 'Waiting for your answer') + ' (' + N(open.length) + ')</h2></header>' + (open.length ? '<div class="posts">' + open.map(IS.postRow).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد أسئلة بلا رد.', 'No unanswered questions.')) + '</p>') + '</section>' +
       '<section class="sec"><header class="sh"><h2>' + IS.T('تمت الإجابة', 'Answered') + '</h2></header><div class="posts">' + ps.filter(function (p) { return p.n_replies; }).map(IS.postRow).join('') + '</div></section>';
   }, { auth: true, area: 'studio', lec: true });
+  /* ========== LECTURER PAYOUTS ========== */
+  IS.earnedShare = function (entry, share) { return (+entry.price || 0) * Number(entry.share == null ? share : entry.share) / 100; };
+  function cents(value) { return Math.floor(Math.max(0, value) * 100 + 1e-7) / 100; }
+  IS.payoutOptions = async function (lecturer, es, ps) {
+    var courseIds = Array.from(new Set(es.map(function (e) { return e.course_id; }).filter(Boolean)));
+    var requestIds = Array.from(new Set(es.map(function (e) { return e.request_id; }).filter(Boolean)));
+    var rows = await Promise.all([
+      courseIds.length ? DB.q('courses', { in: { id: courseIds }, eq: { lecturer_id: lecturer.id } }) : [],
+      requestIds.length ? DB.q('course_requests', { in: { id: requestIds } }) : []
+    ]);
+    var share = lecturer.share == null ? 70 : +lecturer.share;
+    var paid = ps.filter(function (p) { return p.status === 'paid'; });
+    var paidTotal = paid.reduce(function (sum, p) { return sum + (+p.amount || 0); }, 0);
+    var balance = es.reduce(function (sum, e) { return sum + IS.earnedShare(e, share); }, 0) - paidTotal;
+    return rows.flatMap(function (list, i) {
+      var key = i ? 'request_id' : 'course_id';
+      return list.map(function (item) {
+        var money = es.filter(function (e) { return e[key] === item.id; }).reduce(function (sum, e) { return sum + IS.earnedShare(e, share); }, 0);
+        var sent = paid.filter(function (p) { return p[key] === item.id; }).reduce(function (sum, p) { return sum + (+p.amount || 0); }, 0);
+        return { id: item.id, key: key, title: item.title, available: cents(Math.min(balance, money - sent)) };
+      });
+    }).filter(function (item) { return item.available > 0; });
+  };
+  IS.payoutSelect = function (choices, pending) {
+    var paidFor = pending && (pending.course_id || pending.request_id);
+    if (paidFor) choices = choices.filter(function (item) { return item.id === paidFor && pending[item.key]; });
+    if (!choices.length) return '';
+    return '<label class="fl"><span>' + esc(A('الكورس أو المجموعة', 'Course or group')) + '</span><select name="target" required>' +
+      choices.map(function (item) {
+        var possible = pending ? Math.min(item.available, +pending.amount) : item.available;
+        return '<option value="' + item.key + '/' + esc(item.id) + '" data-max="' + item.available + '" data-amount="' + possible + '">' +
+          esc(item.title) + ' · ' + N(item.available) + ' ' + esc(A('ج.س', 'SDG')) + '</option>';
+      }).join('') + '</select></label><label class="fl"><span>' + esc(A('المبلغ بالجنيه السوداني', 'Amount in SDG')) + '</span>' +
+      '<input name="amount" type="number" dir="ltr" min="0.01" step="0.01" required></label>';
+  };
+  IS.bindPayoutAmount = function (form) {
+    var target = form.elements.target, amount = form.elements.amount;
+    function update() {
+      var option = target.selectedOptions[0];
+      amount.max = option.dataset.max;
+      amount.value = option.dataset.amount;
+    }
+    target.onchange = update;
+    update();
+  };
+  IS.savePayout = async function (d, action, path) {
+    var target = d.target.split('/'), isCourse = target[0] === 'course_id';
+    var payload = { action: action, lecturer: d.id, course: isCourse ? target[1] : null, teaching_group: isCourse ? null : target[1],
+      amount: +d.amount, pending: d.pending || null, receipt_path: path || null, transfer_note: d.note || null, reference: d.ref || null };
+    if (DB.live) {
+      var result = await DB.sb.rpc('ish_lecturer_payout', payload);
+      var errors = {
+        payout_account: ['يجب حفظ حساب بنكك أولًا.', 'A Bankak account must be saved first.'],
+        payout_balance: ['تغيّر الرصيد المستحق. افتح النموذج مرة أخرى وتحقّق من المبلغ.', 'The balance changed. Reopen the form and check the amount.'],
+        payout_request_closed: ['تم التعامل مع طلب التحويل بالفعل.', 'This payout request has already been handled.'],
+        payout_request_pending: ['لديك طلب تحويل قيد المراجعة.', 'You already have a payout request under review.'],
+        payout_amount: ['تحقّق من المبلغ والكورس المحدد.', 'Check the amount and selected course.'],
+        payout_receipt: ['تعذّر التحقق من الإيصال. اختر الملف مرة أخرى.', 'The receipt could not be verified. Choose the file again.']
+      };
+      if (result.error) {
+        var message = errors[result.error.message];
+        throw new Error(message ? A(message[0], message[1]) : result.error.message);
+      }
+      return result.data;
+    }
+    var lec = await DB.one('lecturers', d.id), targetRow = await DB.one(isCourse ? 'courses' : 'course_requests', target[1]);
+    var row = { lecturer_id: d.id, name: lec.name, status: action === 'record' ? 'paid' : 'requested',
+      amount: payload.amount, course_id: payload.course, request_id: payload.teaching_group, course_title: targetRow.title };
+    if (action === 'record') Object.assign(row, { receipt: path, note: d.note, ref: d.ref, paid_at: new Date().toISOString(), paid_by: IS.ME.id });
+    var entry = d.pending ? await DB.upd('payouts', d.pending, row) : await DB.ins('payouts', row);
+    if (action === 'record') {
+      await DB.ins('notices', { user_id: d.id, title: 'وصلك تحويل أرباح', title_en: 'Your payout was sent', body: row.course_title, link: '#studio-payout/' + entry.id });
+      IS.audit('record lecturer payout', entry.id);
+    }
+    return entry.id;
+  };
+  IS.payoutStatus = function (row) {
+    if (row.status === 'paid') return IS.chip(ic('checkc') + esc(A('تم التحويل', 'Paid')), 'ok');
+    return IS.status(row.status === 'requested' ? 'pending' : row.status);
+  };
+  IS.payoutDetail = function (row, back) {
+    var date = row.paid_at || row.created_at;
+    return '<a class="backlink" href="#' + back + '">' + ic('chev') + esc(A('العودة إلى التحويلات', 'Back to payouts')) + '</a>' +
+      '<section class="box payout-detail"><header class="payout-head"><div>' + IS.payoutStatus(row) + '<h1 dir="auto">' +
+      esc(row.course_title || A('تحويل أرباح', 'Payout')) + '</h1><p class="mut" dir="auto">' + esc(row.name || '') + '</p></div><strong>' + IS.money(row.amount) + '</strong></header>' +
+      '<dl class="payout-bank"><div><dt>' + esc(A('التاريخ', 'Date')) + '</dt><dd>' + esc(IS.date(date)) + '</dd></div>' +
+      (row.ref ? '<div><dt>' + esc(A('مرجع التحويل', 'Transfer reference')) + '</dt><dd dir="auto">' + esc(row.ref) + '</dd></div>' : '') + '</dl>' +
+      (row.note ? '<h2>' + esc(A('ملاحظة من فريق المالية', 'Note from finance')) + '</h2><p class="payout-note" dir="auto">' + esc(row.note) + '</p>' : '') +
+      (row.receipt ? '<button class="btn pri" data-act="payout-receipt" data-id="' + esc(row.id) + '">' + ic('receipt') + esc(A('عرض إيصال التحويل', 'View transfer receipt')) + '</button>' : '') +
+      '</section>';
+  };
+  IS.ACT['payout-receipt'] = async function (button) {
+    var row = await DB.one('payouts', button.dataset.id);
+    if (!row || !row.receipt || (row.lecturer_id !== IS.ME.id && !IS.can('payout', 'approve'))) return;
+    var url = await DB.fileUrl('payout-receipts', row.receipt);
+    if (!url) return IS.toast(A('تعذّر فتح الإيصال', 'Could not open the receipt'), true);
+    var heading = A('إيصال التحويل', 'Transfer receipt');
+    var viewer = /\.pdf$/i.test(row.receipt) || /^blob:/.test(url) ?
+      '<a class="btn pri" href="' + IS.U(url) + '" target="_blank" rel="noopener noreferrer">' + ic('open') + esc(A('فتح الإيصال', 'Open receipt')) + '</a>' :
+      '<img class="rcpt" src="' + IS.U(url) + '" referrerpolicy="no-referrer" alt="' + esc(heading) + '">';
+    IS.sheet(esc(heading), viewer, { wide: 1, nofocus: 1 });
+  };
+  IS.page('studio-bank', async function () {
+    var bank = await DB.one('lecturer_payout_accounts', L().id) || {};
+    return IS.banner(IS.T('حساب استلام الأرباح', 'Payout account'), esc(A('بيانات بنكك متاحة لك ولمن لديه صلاحية تحويل الأرباح فقط.', 'You and staff authorised to approve payouts can see these Bankak details.')), 'wallet') +
+      '<form class="box form payout-detail" data-form="payout-bank" autocomplete="off"><div class="g2f"><label class="fl"><span>' +
+      esc(A('رقم حساب بنكك', 'Bankak account number')) + '</span><input name="account" dir="ltr" maxlength="80" required value="' + esc(bank.account || '') + '"></label><label class="fl"><span>' +
+      esc(A('اسم صاحب الحساب', 'Account holder')) + '</span><input name="account_name" dir="auto" maxlength="150" required value="' + esc(bank.account_name || '') + '"></label></div>' +
+      '<div class="row end"><button class="btn pri">' + ic('check') + esc(A('حفظ الحساب', 'Save account')) + '</button><a class="btn ghost" href="#studio-money">' +
+      esc(A('الأرباح', 'Earnings')) + '</a></div></form>';
+  }, { auth: true, area: 'studio', lec: true });
+  IS.SUB['payout-bank'] = async function (d) {
+    var account = d.account.trim(), name = d.account_name.trim();
+    if (!account || !name) return IS.toast(A('أدخل رقم الحساب واسم صاحبه.', 'Enter the account number and holder’s name.'), true);
+    await DB.upsert('lecturer_payout_accounts', { id: L().id, account: account, account_name: name });
+    IS.toast(A('حُفظ حساب استلام الأرباح', 'Payout account saved'));
+    IS.go('studio-money');
+  };
+  IS.page('studio-payout', async function (id) {
+    var row = await DB.one('payouts', id);
+    return row && row.lecturer_id === L().id ? IS.payoutDetail(row, 'studio-money') : null;
+  }, { auth: true, area: 'studio', lec: true });
+
   IS.page('studio-money', async function () {
-    var mo = await money(), requestIds = mo.es.map(function (entry) { return entry.request_id; }).filter(Boolean);
+    var data = await Promise.all([money(), DB.one('lecturer_payout_accounts', L().id)]), mo = data[0], bank = data[1];
+    var requestIds = mo.es.map(function (entry) { return entry.request_id; }).filter(Boolean);
     var rows = await Promise.all([DB.q('courses', { eq: { lecturer_id: L().id } }), requestIds.length ? DB.q('course_requests', { in: { id: requestIds } }) : []]);
     var by = {}, months = {};
     mo.es.forEach(function (e) {
       var id = e.request_id || e.course_id, month = String(e.decided_at || e.created_at).slice(0, 7);
-      var share = (+e.price || 0) * (e.share != null ? +e.share : mo.share) / 100;
+      var share = IS.earnedShare(e, mo.share);
       var course = by[id] || (by[id] = { n: 0, s: 0 });
       course.n++;
       course.s += share;
       months[month] = (months[month] || 0) + share;
     });
-    return IS.banner(IS.T('الأرباح', 'Earnings'), esc(A('نسبتك من كل التحاق: ', 'Your share of each enrolment: ')) + N(mo.share + '%'), 'wallet', mo.bal > 0 && !mo.req ? '<button class="btn gold" data-act="askpay" data-a="' + mo.bal + '">' + ic('send') + esc(A('طلب تحويل الرصيد', 'Request payout')) + '</button>' : '') +
+    return IS.banner(IS.T('الأرباح', 'Earnings'), esc(A('نسبتك من كل التحاق: ', 'Your share of each enrolment: ')) + N(mo.share + '%'), 'wallet', '<div class="row">' +
+      (mo.bal > 0 && !mo.req && bank ? '<button class="btn gold" data-act="askpay">' + ic('send') + esc(A('طلب تحويل', 'Request payout')) + '</button>' : '') +
+      '<a class="btn lt" href="#studio-bank">' + ic('lock') + esc(A('حساب بنكك', 'Bankak account')) + '</a></div>') +
       '<div class="tiles">' + [['wallet', IS.money(mo.earned), A('إجمالي الأرباح', 'Total earned')], ['checkc', IS.money(mo.paid), A('تم تحويله', 'Paid')], ['clock', IS.money(mo.req), A('طلبات قيد التحويل', 'Requested')], ['money', IS.money(mo.bal), A('الرصيد المستحق', 'Balance due')]].map(function (t) { return '<div class="tile">' + ic(t[0]) + '<b>' + t[1] + '</b><small>' + esc(t[2]) + '</small></div>'; }).join('') + '</div>' +
       '<div class="cols"><div class="main"><section class="box"><h2>' + ic('chart') + IS.T('الأرباح شهريًا', 'Earnings by month') + '</h2>' + IS.barChart(Object.keys(months).sort().slice(-12).map(function (k) { return [k.slice(5) + '/' + k.slice(2, 4), Math.round(months[k])]; })) + '</section>' +
       '<section class="box"><h2>' + ic('layers') + IS.T('حسب الكورس أو المجموعة', 'By course or group') + '</h2><div class="table">' + rows.flat().map(function (c) { var b = by[c.id] || { n: 0, s: 0 }; return '<div class="tr"><span class="grow"><b>' + esc(c.title) + '</b></span><span>' + N(b.n) + ' ' + esc(A('التحاق', 'enrolments')) + '</span><b>' + IS.money(Math.round(b.s)) + '</b></div>'; }).join('') + '</div></section></div>' +
-      '<aside class="aside"><section class="box"><h2>' + ic('receipt') + IS.T('التحويلات', 'Payouts') + '</h2>' + (mo.ps.length ? '<div class="list">' + mo.ps.slice().reverse().map(function (p) { return '<div class="li">' + ic(p.status === 'paid' ? 'checkc' : 'clock') + '<span><b>' + IS.money(p.amount) + '</b><small>' + esc(IS.date(p.paid_at || p.created_at)) + (p.ref ? ' · ' + esc(p.ref) : '') + '</small></span>' + IS.status(p.status === 'paid' ? 'approved' : 'pending') + '</div>'; }).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد تحويلات بعد.', 'No payouts yet.')) + '</p>') +
-      (!(L().pay || {}).account ? '<p class="note warn">' + ic('info') + '<span>' + esc(A('أضف رقم حساب بنكك في «صفحتي» لاستلام الأرباح.', 'Add your Bankak account in “My page” to receive payouts.')) + '</span></p>' : '') + '</section></aside></div>';
+      '<aside class="aside"><section class="box"><h2>' + ic('receipt') + IS.T('التحويلات', 'Payouts') + '</h2>' +
+      (mo.ps.length ? '<div class="list">' + mo.ps.slice().reverse().map(function (p) {
+        return '<a class="li" href="#studio-payout/' + esc(p.id) + '">' + ic(p.status === 'paid' ? 'checkc' : 'clock') + '<span><b>' +
+          IS.money(p.amount) + '</b><small dir="auto">' + esc(p.course_title || IS.date(p.paid_at || p.created_at)) + '</small></span>' + IS.payoutStatus(p) + '</a>';
+      }).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد تحويلات بعد.', 'No payouts yet.')) + '</p>') +
+      (!bank ? '<p class="note warn">' + ic('info') + '<span>' + esc(A('أضف حساب بنكك لاستلام الأرباح.', 'Add your Bankak account to receive payouts.')) + '</span></p>' : '') +
+      '</section></aside></div>';
   }, { auth: true, area: 'studio', lec: true });
-  IS.ACT.askpay = async function (b) { var a = +b.getAttribute('data-a'); if (!(await IS.confirm(A('طلب تحويل ', 'Request a payout of ') + a.toLocaleString('en-US') + ' ' + (IS.SET.currency || '') + '؟'))) return;
-    await DB.ins('payouts', { lecturer_id: L().id, name: L().name, amount: a, status: 'requested', account: (L().pay || {}).account || '', account_name: (L().pay || {}).name || '' }); IS.toast(A('أُرسل الطلب لفريق المالية', 'Sent to the finance team')); IS.refresh(); };
+  IS.ACT.askpay = async function () {
+    var mo = await money(), fields = IS.payoutSelect(await IS.payoutOptions(L(), mo.es, mo.ps));
+    if (!fields) return IS.toast(A('لا يوجد كورس برصيد متاح للتحويل.', 'No course has a balance available for payout.'), true);
+    var sheet = IS.sheet(esc(A('طلب تحويل الأرباح', 'Request payout')), '<form class="form" data-form="askpay">' + fields +
+      '<input type="hidden" name="id" value="' + esc(L().id) + '"><button class="btn pri wide">' + ic('send') +
+      esc(A('إرسال الطلب', 'Send request')) + '</button></form>');
+    IS.bindPayoutAmount(sheet.querySelector('form'));
+  };
+  IS.SUB.askpay = async function (d) {
+    await IS.savePayout(d, 'request');
+    IS.closeSheet();
+    IS.toast(A('أُرسل الطلب لفريق المالية', 'Sent to the finance team'));
+    IS.refresh();
+  };
 
   /* simple bar chart (SVG) */
   IS.barChart = function (rows, h) {

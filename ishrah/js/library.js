@@ -5,7 +5,9 @@
   'use strict';
   var A = IS.A, esc = IS.esc, ic = IS.ic, N = IS.N, $ = IS.$;
   var KINDS = IS.FKINDS = [['book', 'open', 'الكتب', 'Books'], ['sheet', 'layers', 'الشيتات', 'Sheets'], ['summary', 'file', 'الملخصات', 'Summaries'], ['slides', 'studio', 'العروض التقديمية', 'Slides (PPT)'],
-    ['qbank', 'qb', 'بنوك الأسئلة', 'QBanks'], ['reference', 'link', 'المراجع', 'References'], ['other', 'folder', 'أخرى', 'Others']];
+    ['qbank', 'qb', 'بنوك الأسئلة', 'QBanks'], ['reference', 'link', 'المراجع', 'References'], ['other', 'folder', 'أخرى', 'Others'],
+    ['exam', 'receipt', 'Exams', 'Exams'], ['mcq', 'checkc', 'MCQs', 'MCQs']];
+  var TABS = ['exam', 'sheet', 'summary', 'mcq', 'qbank', 'reference', 'other'];
   var RKINDS = IS.RKINDS = [['book', 'layers', 'طلب كتاب', 'Request Book'], ['pdf', 'file', 'طلب ملف PDF', 'Request PDF'], ['printed', 'receipt', 'طلب نسخة مطبوعة', 'Printed Book'], ['explain', 'video', 'طلب شرح/محاضرة', 'Request Explanation'], ['research', 'pen', 'طلب كتابة بحث', 'Research Writing'], ['other', 'grid', 'طلبات أخرى', 'Other Requests']];
   /* research writing (owner, 18 Nov 2026: «كتابة بحث»): the kind of research, its stage and the deadline go with the request */
   var RTYPES = [['مشروع تخرج (بكالوريوس)', 'Graduation project'], ['رسالة ماجستير', 'Master’s thesis'], ['أطروحة دكتوراه', 'Doctoral thesis'], ['مقالة علمية أصلية', 'Original research article'], ['مراجعة منهجية / تحليل تجميعي', 'Systematic review / meta-analysis'], ['تقرير حالة (Case report)', 'Case report'], ['بحث تدريب أو تخصص (Board / Fellowship)', 'Residency or board research']];
@@ -34,7 +36,7 @@
   function opt2(ar, e) { return esc(A(ar, e)); }
   function lbls(list, v) { v = [].concat(v || []); return list.filter(function (x) { return v.indexOf(x[0]) >= 0; }).map(function (x) { return x[2] || x[1]; }).join('، '); }
   var RSTAGES = [['لم أبدأ بعد', 'Not started'], ['اخترت الموضوع', 'Topic chosen'], ['جمعت البيانات', 'Data collected'], ['أكتب الفصول', 'Writing the chapters'], ['أحتاج مراجعة نهائية', 'Needs a final review']];
-  function kind(k) { return KINDS.filter(function (x) { return x[0] === k; })[0] || KINDS[6]; }
+  function kind(k) { return KINDS.filter(function (x) { return x[0] === k; })[0] || KINDS.find(function (x) { return x[0] === 'other'; }); }
   function rkind(k) { return RKINDS.filter(function (x) { return x[0] === k; })[0] || RKINDS[RKINDS.length - 1]; }
   IS.rstatus = function (s) { var m = { pending: ['جديد', 'New', 'warn'], progress: ['قيد التنفيذ', 'In progress', 'warn'], done: ['مكتمل', 'Done', 'ok'], rejected: ['مرفوض', 'Rejected', 'bad'] }[s] || [s, s, ''];
     return IS.chip(ic(s === 'done' ? 'checkc' : s === 'rejected' ? 'x' : 'clock') + esc(A(m[0], m[1])), 'st ' + m[2]); };
@@ -47,43 +49,105 @@
   function subjOptions(cur, scoped) { var sp = cur ? (IS.subj(cur) || {}).spec : T.sp; return IS.SPECS.map(function (g) { var ss = IS.SUBJ.filter(function (x) { return x.spec === g.id && (!scoped || IS.inStudySpace(x)); }); if (!ss.length) return '';
     return '<optgroup label="' + esc(g.en) + '">' + ss.map(function (x, i) { return '<option value="' + x.id + '"' + (cur ? (cur === x.id ? ' selected' : '') : (g.id === sp && i === 0 ? ' selected' : '')) + '>' + esc(x.en) + '</option>'; }).join('') + '</optgroup>'; }).join(''); }
 
+  IS.libraryKind = kind;
+  function inKind(file, tab) { return tab === 'all' || file.kind === tab || (tab === 'reference' && file.kind === 'book'); }
+  function publishedTime(file) { return file.published_at || file.created_at || ''; }
+  function starsCount(file) { return Number(file.rating_count == null ? file.n_reviews : file.rating_count) || 0; }
+  function starsAverage(file) { return Number(file.average_rating == null ? file.rating : file.average_rating) || 0; }
+  IS.ratingSort = function (first, second, order) {
+    var byCount = starsCount(second) - starsCount(first), byAverage = starsAverage(second) - starsAverage(first);
+    return order === 'best' ? byAverage || byCount : byCount || byAverage;
+  };
+  IS.libraryRating = function (file, link) {
+    var count = starsCount(file), average = count ? starsAverage(file).toFixed(1) : null;
+    var label = average ? A('تقييم الملف ', 'File rating ') + average + ' / 5' : A('قيّم الملف', 'Rate this file');
+    var body = '<span aria-hidden="true">⭐</span><bdi dir="ltr">' + (average || '—') + '</bdi>' +
+      (count ? '<small>(' + N(count) + ')</small>' : '');
+    return link ? '<a class="library-rating" href="#file/' + esc(file.id) + '/rating" aria-label="' + esc(label) + '">' + body + '</a>' :
+      '<span class="library-rating" role="img" aria-label="' + esc(label) + '">' + body + '</span>';
+  };
+  IS.sectionLibraryFiles = async function (spec, cat) {
+    var scope = { status: 'published', spec: spec, cat: cat };
+    var groups = await Promise.all([
+      DB.q('files', { eq: scope, order: ['published_at', false], limit: 40 }),
+      DB.q('files', { eq: scope, neq: { rating_count: 0 }, order: ['average_rating', false], limit: 40 }),
+      DB.q('files', { eq: scope, neq: { rating_count: 0 }, order: ['rating_count', false], limit: 40 })
+    ]);
+    return Array.from(new Map(groups.flat().filter(IS.inStudySpace).map(function (file) { return [file.id, file]; })).values());
+  };
+  IS.libraryCover = function (file) {
+    var genre = kind(file.kind);
+    var shortTitle = String(file.title || '').slice(0, 54);
+    var cover = file.cover || '', publicCover = /^(https:\/\/|img\/|data:image\/)/.test(cover);
+    return '<span class="library-cover k-' + esc(genre[0]) + '"><span class="library-cover-placeholder" aria-hidden="true">' + ic(genre[1]) +
+      '<b dir="auto">' + esc(shortTitle) + '</b></span>' + (cover ? '<img loading="lazy" alt=""' +
+        (publicCover ? ' src="' + IS.U(cover) + '"' : ' data-library-cover="' + esc(cover) + '"') + '>' : '') + '</span>';
+  };
+  IS.hydrateLibraryCovers = async function (root) {
+    var photos = IS.$$('img[data-library-cover]', root).filter(function (photo) { return !photo.getAttribute('src'); });
+    if (!photos.length) return;
+    var paths = Array.from(new Set(photos.map(function (photo) { return photo.dataset.libraryCover; })));
+    var urls = new Map();
+    if (DB.live) {
+      var result = await DB.sb.storage.from('library').createSignedUrls(paths, 900);
+      (result.data || []).forEach(function (item) { if (item.signedUrl) urls.set(item.path, item.signedUrl); });
+    } else {
+      await Promise.all(paths.map(async function (path) { urls.set(path, await DB.fileUrl('library', path)); }));
+    }
+    photos.forEach(function (photo) { var url = urls.get(photo.dataset.libraryCover); if (url && photo.isConnected) photo.src = url; });
+  };
+
   IS.page('library', async function (tab) {
     if (tab && tab.charAt(0) === '@') { T.sp = tab === '@all' ? '' : tab.slice(1); tab = T.k; } if (IS.SPEC) T.sp = IS.SPEC;
     var scope = IS.SPEC + '/' + ((IS.mySection() || {}).id || '');
-    if (T.scope !== scope) { T.scope = scope; T.k = 'all'; IS.LCOLL = null; }
+    if (T.scope !== scope) { T.scope = scope; T.k = 'all'; T.sort = 'new'; IS.LCOLL = null; }
     T.k = tab || T.k || 'all';
-    var fs = (await DB.q('files', { eq: { status: 'published' }, order: ['created_at', false] })).filter(function (f) { return (!T.sp || fspec(f) === T.sp) && IS.inStudySpace(f); }), me = IS.ME;
+    var fs = (await DB.q('files', { eq: { status: 'published' }, order: ['published_at', false] })).filter(function (f) { return (!T.sp || fspec(f) === T.sp) && IS.inStudySpace(f); }), me = IS.ME;
     var reqs = me ? await DB.q('requests', { eq: { user_id: me.id }, order: ['created_at', false] }) : [];
     var h = IS.banner(IS.T('مكتبتي', 'My Library'), esc(A('كل كتبك وملفاتك الدراسية في مكان واحد', 'All your books and study files in one place')), 'open', '', 'libban') + (IS.SPEC ? '' : specBar());
     h += '<section class="ltabs"><a href="#library/requests" class="lt req' + (T.k === 'requests' ? ' on' : '') + '">' + ic('receipt') + '<b>' + esc(A('الطلبات', 'Requests')) + '</b>' + (reqs.filter(function (r) { return r.status === 'pending' || r.status === 'progress'; }).length ? '<i>' + N(reqs.filter(function (r) { return r.status === 'pending' || r.status === 'progress'; }).length) + '</i>' : '') + '</a>' +
       '<a href="#library/all" class="lt' + (T.k === 'all' ? ' on' : '') + '">' + ic('grid') + '<b>' + esc(A('الكل', 'All Files')) + '</b><small>' + N(fs.length) + '</small></a>' +
-      KINDS.map(function (k) { return '<a href="#library/' + k[0] + '" class="lt' + (T.k === k[0] ? ' on' : '') + '">' + ic(k[1]) + '<b>' + esc(A(k[2], k[3])) + '</b><small>' + N(fs.filter(function (f) { return f.kind === k[0]; }).length) + '</small></a>'; }).join('') + '</section>';
+      TABS.map(function (id) { var k = kind(id); return '<a href="#library/' + k[0] + '" class="lt' + (T.k === k[0] ? ' on' : '') + '">' + ic(k[1]) + '<b>' + esc(A(k[2], k[3])) + '</b><small>' + N(fs.filter(function (f) { return inKind(f, k[0]); }).length) + '</small></a>'; }).join('') + '</section>';
     if (T.k === 'requests') return h + requestsView(reqs, fs);
-    var list = fs.filter(function (f) { return T.k === 'all' || f.kind === T.k; });
+    var list = fs.filter(function (f) { return inKind(f, T.k); });
+    function renderFiles(rows, coll) {
+      rows.sort(function (a, b) { return (T.sort === 'new' ? 0 : IS.ratingSort(a, b, T.sort)) || publishedTime(b).localeCompare(publishedTime(a)); });
+      return (coll ? '<p class="count">' + ic('folder') + esc(coll.n) + ' <button class="link" data-act="lcoll" data-i="-1">' + esc(A('عرض الكل', 'Show all')) + '</button></p>' : '') +
+        (rows.length ? '<div class="grid g4 files">' + rows.map(fileCard).join('') + '</div>' :
+          IS.empty(kind(T.k)[1], A('لا توجد ملفات هنا بعد', 'No files here yet'), A('لم تجد ما تبحث عنه؟ اطلبه من المكتبة.', 'Can’t find it? Request it from the library.'), '<a class="btn pri" href="#library/requests">' + ic('plus') + esc(A('اطلبه الآن', 'Request it')) + '</a>'));
+    }
     var subjects = IS.SUBJ.filter(IS.inStudySpace);
     h += '<div class="cols rev"><aside class="filt" id="filt"><header><h2>' + ic('filter') + IS.T('تصفية المكتبة', 'Filter the library') + '</h2></header>' +
       (subjects.length ? '<details class="fg" open><summary>' + esc(A('المادة', 'Subject')) + ic('down') + '</summary><div>' + subjects.map(function (s) { return '<label class="opt"><input type="checkbox" data-lf="sub" value="' + s.id + '"><span>' + esc(s.en) + '</span><em>' + N(fs.filter(function (f) { return f.subject === s.id; }).length) + '</em></label>'; }).join('') + '</div></details>' : '') + '</aside>' +
       '<div class="main"><div class="tool"><label class="field">' + ic('search') + '<input id="lq" type="search" placeholder="' + esc(A('ابحث في مكتبتي…', 'Search the library…')) + '"></label><button class="btn ghost only-ph" data-act="ftog">' + ic('filter') + esc(A('تصفية', 'Filter')) + '</button>' +
-      (me ? '<button class="btn pri" data-act="share-file">' + ic('upload') + esc(A('شارك ملفًا', 'Share a file')) + '</button>' : '') + '</div><div id="lres"></div></div>' +
+      '<select class="sel" id="library-sort" aria-label="' + esc(A('ترتيب الملفات', 'Sort library files')) + '">' +
+      [['new', 'الأحدث', 'Newest'], ['best', 'الأعلى تقييمًا', 'Best rated'], ['most-rated', 'الأكثر تقييمًا', 'Most rated']].map(function (item) {
+        return '<option value="' + item[0] + '"' + (T.sort === item[0] ? ' selected' : '') + '>' + esc(A(item[1], item[2])) + '</option>';
+      }).join('') + '</select>' +
+      (me ? '<button class="btn pri" data-act="share-file">' + ic('upload') + esc(A('شارك ملفًا', 'Share a file')) + '</button>' : '') + '</div><div id="lres">' + renderFiles(list.slice()) + '</div></div>' +
       '<aside class="aside">' + (me ? collBox() : '') + '<section class="box upl">' + ic('upload') + '<b>' + esc(A('هل لديك كتاب أو ملف مفيد؟', 'Have a useful book or file?')) + '</b><span>' + esc(A('شاركه مع زملائك في المكتبة بعد مراجعته من فريق المحتوى.', 'Share it with your classmates after the content team reviews it.')) + '</span><button class="btn pri sm" data-act="share-file">' + esc(A('رفع ملف للمكتبة', 'Upload to the library')) + '</button></section></aside></div>';
     IS.after = function () {
       var sel = {}, fill = function () {
         var w = IS.norm(($('#lq') || {}).value || '').split(' ').filter(Boolean), subs = Object.keys(sel).filter(function (k) { return sel[k]; }), coll = IS.LCOLL;
         var r = list.filter(function (f) { if (subs.length && subs.indexOf(f.subject) < 0) return false; if (coll && (coll.items || []).indexOf(f.id) < 0) return false;
-          if (w.length) { var hay = IS.norm([f.title, f.about, f.author].join(' ')); if (!w.every(function (x) { return hay.indexOf(x) >= 0; })) return false; } return true; });
-        $('#lres').innerHTML = (coll ? '<p class="count">' + ic('folder') + esc(coll.n) + ' <button class="link" data-act="lcoll" data-i="-1">' + esc(A('عرض الكل', 'Show all')) + '</button></p>' : '') + (r.length ? '<div class="grid g4 files">' + r.map(fileCard).join('') + '</div>' :
-          IS.empty(kind(T.k === 'all' ? 'other' : T.k)[1], A('لا توجد ملفات هنا بعد', 'No files here yet'), A('لم تجد ما تبحث عنه؟ اطلبه من المكتبة.', 'Can’t find it? Request it from the library.'), '<a class="btn pri" href="#library/requests">' + ic('plus') + esc(A('اطلبه الآن', 'Request it')) + '</a>'));
+          if (w.length) { var hay = IS.norm([f.title, f.about, f.author].concat(kind(f.kind).slice(2)).join(' ')); if (!w.every(function (x) { return hay.indexOf(x) >= 0; })) return false; } return true; });
+        $('#lres').innerHTML = renderFiles(r, coll);
+        IS.hydrateLibraryCovers($('#lres')).catch(function () {});
       };
       IS.libFill = fill; fill(); $('#lq').oninput = fill;
+      $('#library-sort').onchange = function () { T.sort = this.value; fill(); };
       IS.$$('[data-lf]').forEach(function (i) { i.onchange = function () { sel[i.value] = i.checked; fill(); }; });
     };
     return h;
   });
   function fileCard(f) {
     var k = kind(f.kind);
-    return '<article class="fcard"><a class="fimg" href="#file/' + f.id + '">' + (f.cover ? '<img src="' + IS.U(f.cover) + '" alt="" loading="lazy">' : '<span class="fph k-' + f.kind + '">' + ic(k[1]) + '<b>' + esc(f.title.slice(0, 40)) + '</b></span>') + '</a>' +
-      '<div class="fb"><span class="ftype">' + ic(/pdf/.test(f.mime || '') ? 'file' : 'image') + esc(A(k[2], k[3])) + ' · ' + esc(spName(fspec(f))) + '</span><b><a href="#file/' + f.id + '">' + esc(f.title) + '</a></b>' + (f.author ? '<small>' + esc(f.author) + '</small>' : '') + '</div>' +
-      '<div class="ff"><span class="mut">' + (f.pages ? N(f.pages) + ' ' + esc(A('صفحة', 'pages')) : '') + '</span>' + IS.favBtn('f:' + f.id, true) + (IS.ME ? '<button class="fav sm" data-act="addcoll" data-id="' + f.id + '" aria-label="' + esc(A('أضف إلى مجموعة', 'Add to collection')) + '">' + ic('folder') + '</button>' : '') + '</div></article>';
+    return '<article class="fcard"><a class="fimg" href="#file/' + esc(f.id) + '" aria-label="' + esc(f.title) + '">' + IS.libraryCover(f) + '</a>' +
+      '<div class="fb"><span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + ' · ' + esc(spName(fspec(f))) + '</span><b><a href="#file/' + esc(f.id) + '">' + esc(f.title) +
+      '</a></b>' + (f.author ? '<small dir="auto">' + esc(f.author) + '</small>' : '') + '</div>' +
+      '<div class="ff">' + IS.libraryRating(f, true) + IS.favBtn('f:' + f.id, true) +
+      (IS.ME ? '<button class="fav sm" data-act="addcoll" data-id="' + esc(f.id) + '" aria-label="' + esc(A('أضف إلى مجموعة', 'Add to collection')) + '">' + ic('folder') + '</button>' : '') +
+      '</div>' + (IS.ME ? '<div class="library-download">' + IS.dlBtn('file', f.id) + '</div>' : '') + '</article>';
   }
   /* collections (folders) of the student, kept on the account's device list */
   function colls() { return IS.LS.get('coll-' + (IS.ME ? IS.ME.id : 'x'), []); }
@@ -156,42 +220,287 @@
     if (!IS.ME) return IS.ACT.login();
     IS.sheet(esc(A('رفع ملف للمكتبة', 'Upload a file to the library')), '<form class="form" data-form="sharefile">' + fileFields({}, true) + '<p class="note">' + ic('shield') + '<span>' + esc(A('يراجع فريق المحتوى الملف قبل نشره. ارفع فقط ما تملك حق مشاركته.', 'The content team reviews the file before publishing. Upload only what you have the right to share.')) + '</span></p><button class="btn pri wide">' + ic('upload') + esc(A('رفع', 'Upload')) + '</button></form>');
   };
-  function fileFields(f, scoped) {
-    return '<label class="fl"><span>' + esc(A('العنوان', 'Title')) + ' *</span><input name="title" required maxlength="160" value="' + esc(f.title || '') + '"></label><div class="g2f"><label class="fl"><span>' + esc(A('النوع', 'Type')) + '</span><select name="kind">' + KINDS.map(function (k) { return '<option value="' + k[0] + '"' + (f.kind === k[0] ? ' selected' : '') + '>' + esc(A(k[2], k[3])) + '</option>'; }).join('') + '</select></label>' +
-      '<label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span><select name="subject">' + subjOptions(f.subject, scoped) + '</select></label></div>' +
-      '<label class="fl"><span>' + esc(A('المؤلف أو المصدر', 'Author or source')) + '</span><input name="author" maxlength="120" value="' + esc(f.author || '') + '"></label><label class="fl"><span>' + esc(A('وصف قصير', 'Short description')) + '</span><textarea name="about" rows="2" maxlength="600">' + esc(f.about || '') + '</textarea></label>' +
-      '<label class="fl file"><span>' + esc(A('الملف (PDF أو صورة، حتى 50 MB)', 'File (PDF or picture, up to 50 MB)')) + (f.id ? '' : ' *') + '</span><input type="file" name="file" accept="application/pdf,image/*"' + (f.id ? '' : ' required') + '></label>' +
-      '<label class="fl file"><span>' + esc(A('صورة الغلاف (اختياري)', 'Cover picture (optional)')) + '</span><input type="file" name="cover" accept="image/*"></label>';
-  }
-  IS.fileFields = fileFields;
-  IS.saveFile = async function (d, f, extra) {
-    var file = f.file.files[0], cover = f.cover.files[0], row = { title: d.title, kind: d.kind, subject: d.subject, cat: (IS.subj(d.subject) || {}).cat || (IS.area === 'student' && IS.mySection() ? IS.mySection().id : ''), spec: (IS.subj(d.subject) || {}).spec || (IS.area === 'student' && IS.SPEC) || 'medicine', author: d.author || '', about: d.about || '' };
-    if (file) { if (file.size > 50 * 1048576) throw new Error(A('الملف أكبر من 50 MB', 'File larger than 50 MB')); row.path = await DB.upload('library', /^image\//.test(file.type) ? await IS.shrink(file, 2000, 0.85) : file); row.mime = file.type; row.size = file.size; if (/pdf/.test(file.type)) row.pages = await pdfPages(file).catch(function () { return 0; }); }
-    if (cover) row.cover = await DB.upload('media', await IS.shrink(cover, 600, 0.82));
-    Object.assign(row, extra || {}); return row;
+  var OFFICE_TYPES = {
+    ppt: 'application/vnd.ms-powerpoint', pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    doc: 'application/msword', docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    xls: 'application/vnd.ms-excel', xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    odp: 'application/vnd.oasis.opendocument.presentation', odt: 'application/vnd.oasis.opendocument.text',
+    ods: 'application/vnd.oasis.opendocument.spreadsheet'
   };
-  IS.SUB.sharefile = async function (d, f) { var row = await IS.saveFile(d, f, { owner_id: IS.ME.id, owner_name: IS.ME.name, status: IS.can('library') ? 'published' : 'pending' }); await DB.ins('files', row); IS.closeSheet(); IS.toast(row.status === 'published' ? A('نُشر الملف', 'File published') : A('شكرًا! سيُنشر بعد المراجعة.', 'Thank you! It will be published after review.')); IS.refresh(); };
+  var DOCUMENT_TYPES = Object.assign({
+    pdf: 'application/pdf', png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif', webp: 'image/webp',
+    txt: 'text/plain', md: 'text/plain', csv: 'text/plain'
+  }, OFFICE_TYPES);
+  function extension(file) { return file ? file.name.split('.').pop().toLowerCase() : ''; }
+  function typedFile(file, type) { return file.type === type ? file : new File([file], file.name, { type: type }); }
 
-  /* ---------- viewer: inside the app only ---------- */
-  var PDFJS = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-  function pdfLib() { return window.pdfjsLib ? Promise.resolve(window.pdfjsLib) : new Promise(function (ok, no) { var s = document.createElement('script'); s.src = PDFJS; s.onload = function () { window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS.replace('pdf.min.js', 'pdf.worker.min.js'); ok(window.pdfjsLib); }; s.onerror = no; document.head.appendChild(s); }); }
-  async function pdfPages(file) { var lib = await pdfLib(), doc = await lib.getDocument({ data: await file.arrayBuffer() }).promise; return doc.numPages; }
-  IS.page('file', async function (id) {
-    var f = await DB.one('files', id); if (!f) return null; if (f.status !== 'published' && !(IS.ME && (f.owner_id === IS.ME.id || IS.can('library')))) return null;
-    if (!IS.can('library') && !IS.inStudySpace(f)) return IS.outsideStudySpace(f);
-    var k = kind(f.kind), sj = IS.subj(f.subject);
-    var h = '<nav class="crumb"><a href="#library">' + esc(A('مكتبتي', 'My Library')) + '</a>' + ic('chev', 'fl') + '<a href="#library/' + f.kind + '">' + esc(A(k[2], k[3])) + '</a>' + ic('chev', 'fl') + '<span>' + esc(f.title) + '</span></nav>' +
-      '<header class="fhead"><div><h1 tabindex="-1">' + esc(f.title) + '</h1><p class="mut">' + [A(k[2], k[3]), spName(fspec(f)), sj ? sj.en : '', f.author, f.pages ? f.pages + ' ' + A('صفحة', 'pages') : ''].filter(Boolean).map(esc).join(' · ') + '</p></div><div class="row">' + IS.favBtn('f:' + id) + (IS.ME && f.status === 'published' ? IS.dlBtn('file', id) : '') + (IS.ME ? '<button class="fav" data-act="addcoll" data-id="' + id + '" aria-label="collection">' + ic('folder') + '</button>' : '') + '</div></header>' +
-      (f.about ? '<p>' + esc(f.about) + '</p>' : '') + (IS.ME ? '<div class="viewer" id="viewer" oncontextmenu="return false"><div class="loading"><span class="spin"></span></div></div>' : '<div class="gate">' + ic('lock') + '<p>' + esc(A('سجّل الدخول لعرض الملف.', 'Sign in to view the file.')) + '</p><button class="btn pri" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button></div>');
-    IS.after = async function () {
-      var v = $('#viewer'); if (!v) return; var url = await DB.fileUrl('library', f.path); if (!url) { v.innerHTML = IS.empty('file', A('الملف غير متاح', 'File not available')); return; }
-      if (/^image\//.test(f.mime || '')) { v.innerHTML = '<img src="' + esc(url) + '" alt="" draggable="false">'; return; }
-      try { var lib = await pdfLib(), doc = await lib.getDocument({ url: url }).promise; v.innerHTML = '<p class="mut center">' + N(doc.numPages) + ' ' + esc(A('صفحة', 'pages')) + '</p>';
-        var W = Math.min(v.clientWidth - 8, 980), shown = 0;
-        var more = async function () { var to = Math.min(doc.numPages, shown + 6); for (var i = shown + 1; i <= to; i++) { var pg = await doc.getPage(i), vp0 = pg.getViewport({ scale: 1 }), sc = W / vp0.width * (window.devicePixelRatio || 1), vp = pg.getViewport({ scale: sc }), cv = document.createElement('canvas'); cv.width = vp.width; cv.height = vp.height; cv.style.width = W + 'px'; v.appendChild(cv); await pg.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise; } shown = to;
-          var old = v.querySelector('.morepg'); if (old) old.remove(); if (shown < doc.numPages) { var b = document.createElement('button'); b.className = 'btn ghost wide morepg'; b.textContent = A('عرض الصفحات التالية', 'Show the next pages') + ' (' + shown + ' / ' + doc.numPages + ')'; b.onclick = more; v.appendChild(b); } };
-        await more();
-      } catch (e) { v.innerHTML = IS.empty('file', A('تعذّر عرض الملف', 'The file could not be shown'), A('تحقق من الاتصال.', 'Check the connection.')); }
+  function fileFields(f, scoped) {
+    return '<label class="fl"><span>' + esc(A('العنوان', 'Title')) + ' *</span><input name="title" required maxlength="160" value="' + esc(f.title || '') +
+      '"></label><div class="g2f"><label class="fl"><span>' + esc(A('النوع', 'Type')) + '</span><select name="kind">' +
+      TABS.concat(f.kind === 'book' || f.kind === 'slides' ? [f.kind] : []).map(function (id) { var k = kind(id); return '<option value="' + k[0] + '"' + (f.kind === k[0] ? ' selected' : '') + '>' + esc(A(k[2], k[3])) + '</option>'; }).join('') + '</select></label>' +
+      '<label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span><select name="subject">' + subjOptions(f.subject, scoped) + '</select></label></div>' +
+      '<label class="fl"><span>' + esc(A('المؤلف أو المصدر', 'Author or source')) + '</span><input name="author" maxlength="120" value="' + esc(f.author || '') +
+      '"></label><label class="fl"><span>' + esc(A('وصف قصير', 'Short description')) + '</span><textarea name="about" rows="2" maxlength="600">' + esc(f.about || '') + '</textarea></label>' +
+      '<label class="fl file"><span>' + esc(A('الملف (حتى 50 ميغابايت)', 'File (up to 50 MB)')) + (f.id ? '' : ' *') +
+      '</span><input type="file" name="file" data-library-upload accept="' + Object.keys(DOCUMENT_TYPES).map(function (key) { return '.' + key; }).join(',') +
+      '"' + (f.id ? '' : ' required') + '><small>' + esc(A('PDF أو صورة أو نص أو ملف Office.', 'PDF, image, text or Office file.')) + '</small></label>' +
+      '<label class="fl file" data-reading-upload hidden><span>' + esc(A('نسخة PDF للقراءة داخل التطبيق', 'PDF reading copy')) +
+      ' *</span><input type="file" name="reading" accept="application/pdf,.pdf" disabled><small>' +
+      esc(A('تُستخدم هذه النسخة لفتح المستند أو العرض داخل التطبيق وتنزيله للقراءة دون إنترنت.', 'This copy opens inside the app and can be saved for offline reading.')) + '</small></label>' +
+      '<label class="fl file"><span>' + esc(A('صورة الغلاف (اختياري)', 'Cover picture (optional)')) +
+      '</span><input type="file" name="cover" accept="image/jpeg,image/png,image/webp,image/gif"><small>' +
+      esc(A('يُستخدم غلاف الملف أو أول صفحة من PDF إذا لم ترفع صورة.', 'If you leave this blank, the app uses the image or first PDF page when available.')) + '</small></label>';
+  }
+  document.addEventListener('change', function (event) {
+    var upload = event.target;
+    if (!upload.matches('[data-library-upload]')) return;
+    var reading = upload.form.elements.reading;
+    var office = Object.hasOwn(OFFICE_TYPES, extension(upload.files[0]));
+    reading.closest('[data-reading-upload]').hidden = reading.disabled = !office;
+    reading.required = office;
+  });
+  IS.fileFields = fileFields;
+  IS.saveFile = async function (data, form, extra) {
+    var original = form.elements.file.files[0], cover = form.elements.cover.files[0];
+    var subject = IS.subj(data.subject), scope = IS.mySection();
+    var row = Object.assign({ title: data.title, kind: data.kind, subject: data.subject,
+      cat: (subject || {}).cat || (scope ? scope.id : ''), spec: (subject || {}).spec || IS.SPEC || 'medicine',
+      author: data.author || '', about: data.about || '' }, extra);
+    var reading, type, metadata;
+    if (original) {
+      var suffix = extension(original);
+      type = Object.hasOwn(DOCUMENT_TYPES, suffix) ? DOCUMENT_TYPES[suffix] : '';
+      if (!type) throw new Error(A('اختر ملفًا مدعومًا.', 'Choose a supported file.'));
+      if (Object.hasOwn(OFFICE_TYPES, suffix)) {
+        reading = form.elements.reading.files[0];
+        if (extension(reading) !== 'pdf') throw new Error(A('أرفق نسخة PDF للقراءة.', 'Add the PDF reading copy.'));
+      }
+      if ([original, reading].some(function (file) { return file && (!file.size || file.size > 50 * 1048576); })) {
+        throw new Error(A('اختر ملفات بحجم لا يتجاوز 50 ميغابايت لكل ملف.', 'Choose files up to 50 MB each.'));
+      }
+      if (reading || type === 'application/pdf') {
+        metadata = await pdfMetadata(reading || original, !cover).catch(function () { return null; });
+        if (reading && !metadata) throw new Error(A('تعذّر فتح نسخة PDF. اختر نسخة صالحة.', 'The reading copy could not be opened. Choose a valid PDF.'));
+      }
+      var file = typedFile(original, type);
+      row.path = await DB.upload('library', /^image\//.test(type) ? await IS.shrink(file, 2000, 0.85) : file);
+      row.mime = type;
+      row.size = original.size;
+      row.pages = metadata ? metadata.pages : 0;
+      row.reading_path = reading ? await DB.upload('library', typedFile(reading, 'application/pdf')) : null;
+      if (!cover) cover = metadata && metadata.cover || (/^image\//.test(type) ? file : null);
+    }
+    if (cover) row.cover = await DB.upload('library', await IS.shrink(cover, 600, 0.82));
+    if (!DB.live && row.status === 'published') row.published_at = new Date().toISOString();
+    return row;
+  };
+  IS.SUB.sharefile = async function (data, form) {
+    var row = await IS.saveFile(data, form, { owner_id: IS.ME.id, owner_name: IS.ME.name, status: IS.can('library', 'approve') ? 'published' : 'pending' });
+    await DB.ins('files', row);
+    IS.closeSheet();
+    IS.toast(row.status === 'published' ? A('نُشر الملف', 'File published') : A('شكرًا! سيُنشر بعد المراجعة.', 'Thank you! It will be published after review.'));
+    IS.refresh();
+  };
+
+  var PDFJS = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js', pdfLoading;
+  function pdfLib() {
+    if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+    if (!pdfLoading) pdfLoading = new Promise(function (resolve, reject) {
+      var script = document.createElement('script');
+      script.src = PDFJS;
+      script.onload = function () {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS.replace('pdf.min.js', 'pdf.worker.min.js');
+        resolve(window.pdfjsLib);
+      };
+      script.onerror = function (error) { pdfLoading = null; script.remove(); reject(error); };
+      document.head.appendChild(script);
+    });
+    return pdfLoading;
+  }
+  async function pdfMetadata(file, needsCover) {
+    var lib = await pdfLib();
+    var doc = await lib.getDocument({ data: await file.arrayBuffer(), isEvalSupported: false }).promise;
+    try {
+      if (!needsCover) return { pages: doc.numPages };
+      var cover = await (async function () {
+        var page = await doc.getPage(1), base = page.getViewport({ scale: 1 });
+        var viewport = page.getViewport({ scale: Math.min(600 / base.width, 760 / base.height) });
+        var canvas = document.createElement('canvas');
+        canvas.width = viewport.width; canvas.height = viewport.height;
+        await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+        var bytes = await new Promise(function (resolve) { canvas.toBlob(resolve, 'image/jpeg', 0.82); });
+        return bytes ? new File([bytes], 'cover.jpg', { type: 'image/jpeg' }) : null;
+      })().catch(function () { return null; });
+      return { pages: doc.numPages, cover: cover };
+    } finally { await doc.destroy(); }
+  }
+  IS.libraryDocument = function (file) {
+    var path = file.reading_path || file.path || '';
+    var mime = file.reading_path || /\.pdf(?:$|[?#])/i.test(path) ? 'application/pdf' : file.mime || 'application/pdf';
+    return { path: path, mime: mime };
+  };
+  IS.renderLibraryDocument = async function (target, media, url, blob) {
+    if (/^image\//.test(media)) {
+      target.innerHTML = '<img src="' + esc(url) + '" alt="" draggable="false">';
+      return;
+    }
+    if (media === 'text/plain' || media === 'text/csv') {
+      var textFile = blob || await fetch(url).then(function (response) {
+        if (!response.ok) throw new Error('file unavailable');
+        return response.blob();
+      });
+      target.innerHTML = '<pre class="library-text" dir="auto"></pre>';
+      target.firstChild.textContent = await textFile.text();
+      return;
+    }
+    if (media !== 'application/pdf') throw new Error('unsupported');
+    var lib = await pdfLib();
+    var opts = blob ? { data: await blob.arrayBuffer() } : { url: url };
+    var doc = await lib.getDocument(Object.assign(opts, { isEvalSupported: false })).promise;
+    var width = Math.min(target.clientWidth - 8, 980), shown = 0;
+    target.innerHTML = '<p class="mut center">' + N(doc.numPages) + ' ' + esc(A('صفحة', 'pages')) + '</p>';
+    async function more() {
+      var end = Math.min(doc.numPages, shown + 6);
+      for (var i = shown + 1; i <= end; i++) {
+        if (!target.isConnected) { await doc.destroy(); return; }
+        var page = await doc.getPage(i), base = page.getViewport({ scale: 1 });
+        var scale = width / base.width * Math.min(window.devicePixelRatio || 1, 2), viewport = page.getViewport({ scale: scale });
+        var canvas = document.createElement('canvas');
+        canvas.width = viewport.width; canvas.height = viewport.height; canvas.style.width = width + 'px';
+        target.appendChild(canvas);
+        await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+      }
+      shown = end;
+      if (shown === doc.numPages) { await doc.destroy(); return; }
+      var button = document.createElement('button');
+      button.type = 'button'; button.className = 'btn ghost wide morepg';
+      button.textContent = A('عرض الصفحات التالية', 'Show the next pages') + ' (' + shown + ' / ' + doc.numPages + ')';
+      button.onclick = function () { button.remove(); more().catch(function () { target.appendChild(button); }); };
+      target.appendChild(button);
+    }
+    await more();
+  };
+
+  function canRemoveComment(comment) {
+    return IS.ME && (IS.ME.id === comment.user_id || IS.can('library', 'approve') || IS.can('community', 'delete'));
+  }
+  async function libraryComment(id, message, remove) {
+    if (!IS.ME) return IS.ACT.login();
+    if (DB.live) {
+      var result = await DB.sb.rpc('ish_library_comment', { file: id, message: message || null, remove: remove || null });
+      if (result.error) throw result.error;
+    } else {
+      var file = await DB.one('files', id);
+      if (!file || file.status !== 'published') return;
+      if (remove) {
+        var comment = await DB.one('library_comments', remove);
+        if (!comment || comment.file_id !== id || !canRemoveComment(comment)) return;
+        await DB.del('library_comments', remove);
+      } else {
+        await DB.ins('library_comments', { file_id: id, user_id: IS.ME.id, author_name: IS.ME.name, body: message });
+      }
+      var comments = await DB.q('library_comments', { eq: { file_id: id } });
+      await DB.upd('files', id, { comment_count: comments.length });
+    }
+  }
+  IS.SUB['library-comment'] = async function (data) {
+    if (!data.body) return;
+    await libraryComment(data.file, data.body);
+    IS.refresh();
+  };
+  IS.ACT['remove-library-comment'] = async function (button) {
+    if (!await IS.confirm(A('احذف هذا التعليق؟', 'Delete this comment?'))) return;
+    await libraryComment(button.dataset.file, null, button.dataset.id);
+    IS.refresh();
+  };
+  IS.SUB['library-rate'] = async function (data) {
+    var value = Number(data.stars);
+    if (!Number.isInteger(value) || value < 1 || value > 5) return;
+    await IS.feedVote('file', data.file, value, 'rate');
+    IS.toast(A('حُفظ تقييمك', 'Rating saved'));
+    IS.refresh();
+  };
+
+  function feedback(file, comments, own) {
+    var signedIn = !!IS.ME;
+    var canRate = signedIn && file.owner_id !== IS.ME.id;
+    return '<section class="box library-feedback"><div class="row sp"><h2 tabindex="-1" data-library-rating>' + IS.T('تقييم الملف', 'File ratings') +
+      '</h2>' + IS.libraryRating(file, false) + '</div>' +
+      (canRate ? '<form class="form library-rate-form" data-form="library-rate"><input type="hidden" name="file" value="' + esc(file.id) +
+        '"><fieldset class="fl"><legend>' + esc(A('تقييمك من 5', 'Your rating out of 5')) + '</legend><div class="row library-stars">' +
+        [1,2,3,4,5].map(function (value) {
+          var label = String(value) + ' / 5';
+          return '<label class="library-star"><input type="radio" name="stars" value="' + value + '" aria-label="' + label + '"' +
+            (own.stars === value ? ' checked' : '') + ' required><span>' + ic('star') + value + '</span></label>';
+        }).join('') + '</div></fieldset><button class="btn pri sm">' + esc(A('احفظ التقييم', 'Save rating')) + '</button></form>' :
+        signedIn ? '' : '<button class="btn ghost sm" data-act="login">' + esc(A('سجّل الدخول للتقييم', 'Sign in to rate')) + '</button>') + '</section>' +
+      '<section class="box post-comments"><h2 tabindex="-1" data-post-comments>' + IS.T('التعليقات', 'Comments') + '</h2>' +
+      (signedIn ? '<form class="form" data-form="library-comment"><input type="hidden" name="file" value="' + esc(file.id) +
+        '"><label class="fl"><span>' + esc(A('اكتب تعليقًا', 'Write a comment')) + '</span><textarea name="body" required rows="2" maxlength="2000"></textarea></label>' +
+        '<div class="row end"><button class="btn pri sm">' + ic('send') + esc(A('انشر التعليق', 'Post comment')) + '</button></div></form>' :
+        '<p class="mut">' + esc(A('سجّل الدخول للمشاركة في التعليقات.', 'Sign in to join the conversation.')) + '</p>') +
+      comments.map(function (comment) {
+        return '<article class="cr-message"><div class="row sp"><b dir="auto">' + esc(comment.author_name) + '</b><small class="mut">' +
+          esc(IS.ago(comment.created_at)) + '</small></div><p class="pre" dir="auto">' + esc(comment.body) + '</p>' +
+          (canRemoveComment(comment) ? '<button class="link bad" data-act="remove-library-comment" data-id="' + esc(comment.id) +
+            '" data-file="' + esc(file.id) + '">' + esc(A('احذف التعليق', 'Delete comment')) + '</button>' : '') + '</article>';
+      }).join('') + '</section>';
+  }
+
+  IS.page('file', async function (arg) {
+    var parts = String(arg || '').split('/'), id = parts[0];
+    var file = await DB.one('files', id);
+    if (!file || (file.status !== 'published' && !(IS.ME && (file.owner_id === IS.ME.id || IS.can('library'))))) return null;
+    if (!IS.can('library') && !IS.inStudySpace(file)) return IS.outsideStudySpace(file);
+    var published = file.status === 'published', genre = kind(file.kind), subject = IS.subj(file.subject);
+    var browseKind = file.kind === 'book' ? kind('reference') : genre;
+    var data = published ? await Promise.all([
+      DB.q('library_comments', { eq: { file_id: id }, order: ['created_at', false], limit: 60 }),
+      IS.ME ? DB.q('feed_feedback', { eq: { file_id: id, user_id: IS.ME.id }, limit: 1 }) : []
+    ]) : [[], []];
+    var own = data[1][0] || {};
+    file.my_reaction = own.reaction || null;
+    var h = '<nav class="crumb"><a href="#library">' + esc(A('مكتبتي', 'My Library')) + '</a>' +
+      (genre[0] === 'slides' ? '' : ic('chev', 'fl') + '<a href="#library/' + esc(browseKind[0]) + '">' + esc(A(browseKind[2], browseKind[3])) + '</a>') + '</nav><article class="box library-detail">' +
+      IS.libraryCover(file) + '<div><h1 tabindex="-1" dir="auto">' + esc(file.title) + '</h1><p class="mut">' +
+      [A(genre[2], genre[3]), spName(fspec(file)), subject && subject.en, file.author].filter(Boolean).map(esc).join(' · ') + '</p>' +
+      (file.about ? '<p class="pre" dir="auto">' + esc(file.about) + '</p>' : '') +
+      (file.reading_path ? '<p class="mut">' + esc(A('متاح للقراءة بصيغة PDF.', 'Available to read as a PDF.')) + '</p>' : '') +
+      (published ? IS.feedVoteBar('file', file) : IS.status(file.status)) +
+      '<div class="row">' + IS.favBtn('f:' + id) + (IS.ME && published ? IS.dlBtn('file', id) : '') +
+      (IS.ME ? '<button class="fav" data-act="addcoll" data-id="' + esc(id) + '" aria-label="' + esc(A('أضف إلى مجموعة', 'Add to collection')) + '">' +
+        ic('folder') + '</button>' : '') + '</div></div></article>';
+    h += IS.ME ? '<details class="box library-reader"' + (parts[1] === 'read' ? ' open' : '') + '><summary>' + ic('open') +
+      esc(A('اقرأ داخل التطبيق', 'Read in the app')) + ic('down') + '</summary><div class="viewer" id="viewer" oncontextmenu="return false"></div></details>' :
+      '<div class="gate">' + ic('lock') + '<p>' + esc(A('سجّل الدخول لعرض الملف.', 'Sign in to view the file.')) +
+      '</p><button class="btn pri" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button></div>';
+    if (published) h += feedback(file, data[0].reverse(), own);
+    IS.after = function (main) {
+      IS.hydrateLibraryCovers(main).catch(function () {});
+      if (parts[1] === 'comments') IS.focusPostComments(main);
+      else if (parts[1] === 'rating') {
+        var rating = main.querySelector('[data-library-rating]');
+        if (rating) { rating.focus({ preventScroll: true }); rating.scrollIntoView({ block: 'start' }); }
+      }
+      var viewer = main.querySelector('#viewer');
+      if (!viewer) return;
+      var reader = viewer.closest('details'), started = false;
+      async function open() {
+        if (started || !reader.open) return;
+        started = true;
+        viewer.innerHTML = '<div class="loading"><span class="spin"></span></div>';
+        try {
+          var media = IS.libraryDocument(file), url = await DB.fileUrl('library', media.path);
+          if (!url) throw new Error('missing file');
+          await IS.renderLibraryDocument(viewer, media.mime, url);
+        } catch (error) {
+          started = false;
+          viewer.innerHTML = IS.empty('file', A('تعذّر عرض الملف', 'The file could not be shown'),
+            A('تأكد من الاتصال ثم أعد فتح القارئ.', 'Check the connection and reopen the reader.'));
+        }
+      }
+      reader.ontoggle = open;
+      open();
     };
     return h;
   });
