@@ -380,10 +380,17 @@
     if (IS.after) try { await IS.after(main); } catch (e) { if (window.console) console.error(e); }
     IS.balance(); IS.evenRows(); IS.fileUI(); IS.dedupe(); IS.sideLock(); IS.beat(); IS.hydrateSeen(); IS.trimScroll(); setTimeout(IS.trimScroll, 400);
   };
-  /* a side column much shorter than its main column becomes a row of cards above it (owner, 18 Nov 2026: no empty spaces) */
-  IS.balance = function () { if (window.innerWidth < 1180) return; IS.$$('#main .cols').forEach(function (c) {
-    if (c.classList.contains('cflow')) return; var a = c.querySelector(':scope>.aside'), m = c.querySelector(':scope>.main'); if (!a || !m || c.querySelector(':scope>.filt')) return;
-    c.classList.toggle('flat', m.offsetHeight - a.offsetHeight > 240); }); };
+  /* Compare both columns in their side-by-side layout before moving secondary cards. */
+  IS.balance = function () {
+    if (window.innerWidth < 1180) return;
+    IS.$$('#main .cols:not(.cflow)').forEach(function (layout) {
+      var aside = layout.querySelector(':scope > .aside');
+      var main = layout.querySelector(':scope > .main');
+      if (!aside || !main || layout.querySelector(':scope > .filt')) return;
+      layout.classList.remove('flat');
+      layout.classList.toggle('flat', Math.abs(main.offsetHeight - aside.offsetHeight) > 240);
+    });
+  };
   /* rows of cards are always even: 8 badges are 4 + 4, never 7 + 1 with the last card stretched across the row (owner, 18 Nov 2026) */
   var EVEN = { '.badges': 150, '.tiles': 170, '.stp': 250, '.tools': 110, '.spadm': 200, '.rtiles': 190, '.ptiles': 150, '.kgrid': 150, '.rolecards': 230, '.qa': 130, '.sopts': 92, '.offers': 190, '.rkinds': 150, '.hsn': 120, '.sjtiles': 230, '#cres .subjs': 172, '.gdcards': 220, '.lecrow': 240, '.g2f': 240, '.grid.g2': 320, '.box.about + .grid.g3': 240 };
   IS.evenRows = function () { Object.keys(EVEN).forEach(function (sel) { Array.prototype.forEach.call(document.querySelectorAll('#main ' + sel), function (c) {

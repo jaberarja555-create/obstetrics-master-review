@@ -270,7 +270,7 @@
           '</b><button class="btn sm pri" data-act="payout" data-id="' + esc(p.lecturer_id) + '" data-pending="' + esc(p.id) + '">' +
           ic('send') + esc(A('سجّل تحويل الطلب', 'Record requested payout')) + '</button></div>';
       }).join('') + '</div></section>' : '') +
-      '<section class="box"><h2>' + ic('users') + IS.T('الأرصدة المستحقة', 'Outstanding balances') + '</h2>' +
+      '<div class="payout-lists"><section class="box"><h2>' + ic('users') + IS.T('الأرصدة المستحقة', 'Outstanding balances') + '</h2>' +
       (due.length ? '<div class="table">' + due.map(function (x) {
         return '<div class="tr">' + IS.av(x.l, 'sm') + '<span class="grow"><b dir="auto">' + esc(x.l.name) + '</b></span><b>' + IS.money(x.bal) +
           '</b><button class="btn sm ghost" data-act="payout" data-id="' + esc(x.l.id) + '">' +
@@ -281,7 +281,7 @@
         return '<a class="li" href="#control-payout/' + esc(p.id) + '">' + ic('receipt') + '<span><b dir="auto">' + esc(p.name || '') +
           '</b><small dir="auto">' + esc([p.course_title, IS.date(p.paid_at || p.created_at)].filter(Boolean).join(' · ')) + '</small></span><b>' +
           IS.money(p.amount) + '</b>' + IS.payoutStatus(p) + '</a>';
-      }).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد تحويلات.', 'No payouts.')) + '</p>') + '</section>';
+      }).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد تحويلات.', 'No payouts.')) + '</p>') + '</section></div>';
   }, P('payout'));
   IS.page('control-payout', async function (id) {
     if (!IS.can('payout', 'approve')) return null;
@@ -429,9 +429,9 @@
     var top = {}; rq.forEach(function (r) { var k = IS.norm(r.title); top[k] = top[k] || { t: r.title, n: 0 }; top[k].n++; });
     return IS.banner(IS.T('طلبات المكتبة', 'Library requests'), esc(A('ما يطلبه الطلبة من كتب وملفات وشروحات.', 'What students ask for: books, files and explanations.')), 'receipt') +
       tabsBar('control-requests', tab, [['open', A('مفتوحة', 'Open'), rq.filter(function (r) { return r.status === 'pending' || r.status === 'progress'; }).length], ['done', A('مكتملة', 'Done')], ['rejected', A('مرفوضة', 'Rejected')]]) +
-      '<div class="cols"><div class="main">' + (list.length ? '<div class="table">' + list.map(function (r) { var k = IS.RKINDS.filter(function (x) { return x[0] === r.kind; })[0] || IS.RKINDS[4];
-        return '<div class="tr">' + ic(k[1]) + '<span class="grow"><b>' + esc(r.title) + '</b><small class="mut">' + esc(A(k[2], k[3])) + ' · ' + esc(r.name || '') + ' · ' + esc(IS.date(r.created_at)) + '</small>' + (r.details ? '<small>' + esc(r.details) + '</small>' : '') + '</span>' + IS.rstatus(r.status) + '<button class="btn sm ghost" data-act="rq" data-id="' + r.id + '">' + ic('pen') + esc(A('معالجة', 'Handle')) + '</button></div>'; }).join('') + '</div>' : IS.empty('receipt', A('لا توجد طلبات هنا', 'Nothing here'))) + '</div>' +
-      '<aside class="aside"><section class="box"><h2>' + ic('flame') + IS.T('أكثر الطلبات طلبًا', 'Most requested') + '</h2><div class="tags">' + Object.keys(top).sort(function (a, b) { return top[b].n - top[a].n; }).slice(0, 10).map(function (k) { return '<span>' + esc(top[k].t) + ' (' + top[k].n + ')</span>'; }).join('') + '</div></section></aside></div>';
+      (Object.keys(top).length ? '<section class="box"><h2>' + ic('flame') + IS.T('أكثر الطلبات طلبًا', 'Most requested') + '</h2><div class="tags">' + Object.keys(top).sort(function (a, b) { return top[b].n - top[a].n; }).slice(0, 10).map(function (k) { return '<span>' + esc(top[k].t) + ' (' + top[k].n + ')</span>'; }).join('') + '</div></section>' : '') +
+      (list.length ? '<div class="table">' + list.map(function (r) { var k = IS.RKINDS.filter(function (x) { return x[0] === r.kind; })[0] || IS.RKINDS[4];
+        return '<div class="tr">' + ic(k[1]) + '<span class="grow"><b>' + esc(r.title) + '</b><small class="mut">' + esc(A(k[2], k[3])) + ' · ' + esc(r.name || '') + ' · ' + esc(IS.date(r.created_at)) + '</small>' + (r.details ? '<small>' + esc(r.details) + '</small>' : '') + '</span>' + IS.rstatus(r.status) + '<button class="btn sm ghost" data-act="rq" data-id="' + r.id + '">' + ic('pen') + esc(A('معالجة', 'Handle')) + '</button></div>'; }).join('') + '</div>' : IS.empty('receipt', A('لا توجد طلبات هنا', 'Nothing here')));
   }, P('requests'));
   IS.ACT.rq = async function (b) { var r = await DB.one('requests', b.getAttribute('data-id')), fs = await DB.q('files', { eq: { status: 'published' } });
     IS.sheet(esc(r.title), '<form class="form" data-form="rq"><input type="hidden" name="id" value="' + r.id + '"><p class="pre">' + esc(r.details || '') + '</p><label class="fl"><span>' + esc(A('الحالة', 'Status')) + '</span><select name="status">' + [['pending', A('جديد', 'New')], ['progress', A('قيد التنفيذ', 'In progress')], ['done', A('مكتمل', 'Done')], ['rejected', A('مرفوض', 'Rejected')]].map(function (o) { return '<option value="' + o[0] + '"' + (r.status === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>' +
@@ -605,7 +605,8 @@
     var en = r[0], cs = r[1], us = r[2], pr = r[3], ev = r[4], rg = r[5], L = r[6], ms = months(12), act = en.filter(function (e) { return e.status === 'active'; });
     var h = IS.banner(IS.T('التقارير والتحليلات', 'Reports and analytics'), '', 'chart') + tabsBar('control-reports', tab, [['revenue', A('الإيرادات', 'Revenue')], ['courses', A('الكورسات', 'Courses')], ['users', A('المستخدمون', 'Users')], ['engagement', A('التفاعل', 'Engagement')], ['events', A('الفعاليات', 'Events')]]);
     if (tab === 'revenue') { var m = ms.map(function (k) { return [k.slice(5) + '/' + k.slice(2, 4), act.filter(function (e) { return String(e.decided_at || '').slice(0, 7) === k; }).reduce(function (a, e) { return a + (+e.price || 0); }, 0)]; });
-      h += '<section class="box"><h2>' + IS.T('الإيرادات الشهرية', 'Monthly revenue') + '</h2>' + IS.barChart(m) + '</section><button class="btn ghost" data-act="csvrev">' + ic('file') + esc(A('تصدير CSV', 'Export CSV')) + '</button>';
+      h += '<section class="box"><header class="sh"><h2>' + IS.T('الإيرادات الشهرية', 'Monthly revenue') + '</h2><button class="btn ghost sm" data-act="csvrev">' +
+        ic('file') + esc(A('تصدير CSV', 'Export CSV')) + '</button></header>' + IS.barChart(m) + '</section>';
       IS.ACT.csvrev = function () { csv('ishrah-revenue', [['date', 'course', 'student', 'phone', 'amount', 'ref', 'lecturer', 'share %']].concat(act.map(function (e) { var c = cs.filter(function (x) { return x.id === e.course_id; })[0] || {}; return [String(e.decided_at || '').slice(0, 10), c.title, e.payer, e.phone, e.price, e.ref, (L[e.lecturer_id] || {}).name, e.share]; }))); }; }
     if (tab === 'courses') h += '<div class="table">' + cs.slice().sort(function (a, b) { return (b.n_students || 0) - (a.n_students || 0); }).map(function (c) { var rev = act.filter(function (e) { return e.course_id === c.id; }).reduce(function (a, e) { return a + (+e.price || 0); }, 0);
       return '<div class="tr"><span class="grow"><b>' + esc(c.title) + '</b><small class="mut">' + esc((L[c.lecturer_id] || {}).name || '') + '</small></span>' + IS.status(c.status) + '<span class="cell"><small>' + esc(A('طلبة', 'Students')) + '</small><b>' + N(c.n_students || 0) + '</b></span><span class="cell"><small>' + esc(A('تقييم', 'Rating')) + '</small><b>' + (c.n_reviews ? N(c.rating) : '—') + '</b></span><span class="cell"><small>' + esc(A('إيراد', 'Revenue')) + '</small><b>' + IS.money(rev) + '</b></span></div>'; }).join('') + '</div>';
