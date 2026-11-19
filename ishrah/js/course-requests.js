@@ -541,7 +541,7 @@
         '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</button>' :
       '<a class="feed-emoji feed-comment" data-act="focus-feed-comments" href="' + esc(commentRoute) + '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</a>';
     var score = voteScore(row);
-    var rating = kind !== 'course' ? IS.libraryRating(row, true, kind) : '<button type="button" class="feed-grade" data-act="grade-info" data-kind="' + esc(kind) + '" aria-label="' + esc(IS.gradeLabel(row, kind)) +
+    var rating = kind !== 'course' ? IS.libraryRating(row, true, kind) : (!(IS.team && IS.team())) ? '<span class="feed-grade">' + IS.gradeInner(row, kind) + '</span>' : '<button type="button" class="feed-grade" data-act="grade-info" data-kind="' + esc(kind) + '" aria-label="' + esc(IS.gradeLabel(row, kind)) +
       '" title="' + esc(IS.gradeLabel(row, kind)) + '">' + IS.gradeInner(row, kind) + '</button>';
     var reaction = row.my_reaction === undefined ? '' : String(Number(row.my_reaction) || 0);
     var key = kind + '/' + row.id;
@@ -592,6 +592,7 @@
     });
   }
   IS.ACT['grade-info'] = function (button) {
+    if (!IS.team || !IS.team()) return;
     var bar = button.closest('[data-feedback]'), panel = button.closest('.library-rate-panel');
     var row = bar ? scoreRow(bar.dataset) : panel ? IS.libraryRatingRow(panel.ratingButton) : {};
     var kind = button.dataset.kind, course = kind === 'course', books = kind === 'file' || kind === 'series';

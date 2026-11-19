@@ -190,8 +190,8 @@
               esc(A(star + ' من 5', star + ' out of 5')) + '">' + ic('star') + '</button>';
           }).join('') + '</div>' : own ? '' :
           '<button type="button" class="btn ghost sm" data-act="login">' + esc(A('سجّل الدخول للتقييم', 'Sign in to rate')) + '</button>') +
-        '<button type="button" class="link" data-act="grade-info" data-kind="' + d.libraryKind + '">' +
-        esc(A('كيف حُسب التقييم؟', 'How is the rating calculated?')) + '</button><span class="mut" data-rating-result role="status"></span>';
+        (!(IS.team && IS.team()) ? '' : '<button type="button" class="link" data-act="grade-info" data-kind="' + d.libraryKind + '">' +
+        esc(A('كيف حُسب التقييم؟', 'How is the rating calculated?')) + '</button>') + '<span class="mut" data-rating-result role="status"></span>';
       button.closest('.feed-action-row, .ff').after(panel);
       panel.ratingButton = button;
       panel.addEventListener('keydown', function (event) {
@@ -651,9 +651,12 @@
     options = options || {};
     var title = options.title || file.title, media = IS.libraryDocument(file);
     var getUrl = function () { return DB.fileUrl('library', media.path); };
-    if (media.mime === 'application/pdf' && IS.openReader) return IS.openReader({
-      id: file.id, title: title, getUrl: getUrl, next: options.next
-    });
+    if (media.mime === 'application/pdf' && IS.openReader) {
+      var local = IS.bookBlob ? await IS.bookBlob(file, media.path) : null;
+      if (local) return IS.openReader({ id: file.id, title: title, blob: local, next: options.next });
+      return IS.openReader({ id: file.id, title: title, getUrl: getUrl, next: options.next,
+        onFirst: function () { if (IS.bookKeep) IS.bookKeep(file, media.path, media.mime); } });
+    }
     var html = button && button.innerHTML;
     if (button) { button.disabled = true; button.innerHTML = '<span class="spin"></span>' + esc(A('جارٍ الفتح…', 'Opening…')); }
     try {

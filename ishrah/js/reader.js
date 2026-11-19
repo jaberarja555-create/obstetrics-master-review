@@ -98,7 +98,7 @@
       var src = o.blob ? { data: ready[1] } : { url: ready[1] };
       var base = new URL('pdfjs/', document.baseURI).href;
       reader.loadingTask = ready[0].getDocument(Object.assign(src, { isEvalSupported: false, cMapUrl: base + 'cmaps/', cMapPacked: true,
-        standardFontDataUrl: base + 'standard_fonts/', useSystemFonts: false, disableAutoFetch: true, disableStream: true, rangeChunkSize: 262144 }));
+        standardFontDataUrl: base + 'standard_fonts/', useSystemFonts: false, disableAutoFetch: true, disableStream: true, rangeChunkSize: 1048576 }));
       reader.loadingTask.onProgress = function (pr) {
         var out = el.querySelector('.rdr-prog'); if (!out || !pr.total) return;
         out.textContent = Math.min(99, Math.round(pr.loaded / pr.total * 100)) + '%';
@@ -135,6 +135,7 @@
     await goPage(last);
     if (R !== reader) return;
     IS.$$('[data-r]:disabled', el).forEach(function (button) { button.disabled = false; });
+    if (o.onFirst) setTimeout(function () { if (R === reader) o.onFirst(); }, 2500);
     if (reader.remotePage !== undefined && reader.remotePage !== null) applyRemote(reader);
     updateZoomLabel();
     reader.io = new IntersectionObserver(function (entries) {

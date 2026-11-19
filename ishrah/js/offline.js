@@ -82,6 +82,30 @@
   async function readInfo(it) { return JSON.parse(new TextDecoder().decode(await open1(await key(), it.id, 'm'))); }
   async function readBlob(it) { var k = await key(), parts = []; for (var i = 0; i < it.n; i++) parts.push(await open1(k, it.id, i)); return new Blob(parts, { type: it.mime || 'application/octet-stream' }); }
 
+  /* a book already on this device (downloaded, or kept after it was opened) opens from here, not from the internet
+     (owner, 19 Nov 2026: "opening a book is still slow"); the copy must be for the same file version */
+  IS.bookBlob = async function (file, path) {
+    try {
+      if (!uid()) return null; if (!Object.keys(HAVE).length) await loadHave();
+      var it = HAVE[did('file', file.id)]; if (!it || it.u !== uid()) return null;
+      if (it.pth && path && it.pth !== path) return null;
+      if (it.exp < Date.now() && !(navigator.onLine && await renew(it).catch(function () { return false; }))) return null;
+      return await readBlob(it);
+    } catch (e) { return null; }
+  };
+  /* after a book opened from the internet, keep it on the device in the background (encrypted, like a download; up to 80 MB; not on
+     data-saver connections), so the next opening is instant */
+  IS.bookKeep = async function (file, path, mime) {
+    try {
+      var id = did('file', file.id);
+      if (!uid() || HAVE[id] || RUN[id] || !navigator.onLine || (navigator.connection || {}).saveData) return;
+      if (+file.size > 80 * 1048576) return;
+      var source = await DB.fileUrl('library', path); if (!source) return;
+      await save({ id: id, kind: 'file', title: file.title, sub: file.author || '', ref: file.id, mime: mime || 'application/pdf', pth: path, auto: 1 },
+        { title: file.title, author: file.author || '', pages: file.pages || 0, about: file.about || '' }, source);
+    } catch (e) {}
+  };
+
   /* ---------- buttons on lessons and files ---------- */
   function inner(id, compact) {
     if (RUN[id]) return ic('download') + '<span>' + esc(A('جارٍ التنزيل', 'Downloading')) + ' ' + N(RUN[id].p + '%') + '</span><i class="dlbar" style="--p:' + RUN[id].p + '%"></i>';
@@ -137,7 +161,7 @@
         }
         var source = await DB.fileUrl('library', document.path);
         if (!source) throw new Error('missing library file');
-        await save({ id: id, kind: 'file', title: f.title, sub: f.author || '', ref: rid, mime: document.mime },
+        await save({ id: id, kind: 'file', title: f.title, sub: f.author || '', ref: rid, mime: document.mime, pth: document.path },
           { title: f.title, author: f.author || '', pages: f.pages || 0, about: f.about || '' }, source);
       }
       IS.toast(A('نُزّل داخل المنصة. يعمل دون إنترنت من «تنزيلاتي».', 'Downloaded inside the platform. Open it offline from “My downloads”.'));

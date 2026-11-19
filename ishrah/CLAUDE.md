@@ -595,3 +595,10 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - Space tiles compact (owner: "why are they big and ugly"): one short row each (icon, number over label, small «عرض» tag for the team). Asset version 165, shell cache ish-v65.
 - Space figures, final design (owner: "still bad and disorganised"): two blocks, Members and Lecturers (icon, title, total; a green «● N متصل الآن» line under each). For the team the total opens everyone (small arrow) and the green line opens those online. Asset version 166, shell cache ish-v66.
 - Space figures in the owner's own design (his picture, 19 Nov 2026; supersedes the two-block version): four tiles, totals blue and «online now» green, icon in a rounded square, number over label, divider, «عرض →» pill (team only), soft corner waves; membership pill with ✓, stethoscope and a heartbeat line. On phones the pill goes under the number. Asset version 167, shell cache ish-v67.
+- **Books open from the phone after the first time** (owner, 19 Nov 2026: "opening a book is still slow"; the file server is in Ireland, so
+  every opening paid many slow round trips): `IS.openLibraryBook` first asks `IS.bookBlob(file, path)` (offline.js) for a copy on this device
+  (a manual download, or one kept automatically) and opens it with no internet; otherwise it opens online (1 MB range pieces) and, 2.5 s
+  after the first page shows, `IS.bookKeep` saves the whole file in the same encrypted store as downloads (≤ 80 MB, not on data-saver, same
+  30-day renewal; marked `auto`). A copy is used only for the same file version (`pth` = path). Test: scratchpad fast.js.
+- **The rating breakdown is for the team only** (owner: "this should not be seen by students except admins"): «كيف حُسب التقييم؟» and the
+  sheet open only for team accounts (`IS.team()`); students see the stars and can rate. Asset version 168, shell cache ish-v68.
