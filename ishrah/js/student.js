@@ -364,8 +364,9 @@
     F.sub = {}; if (subject) F.sub[subject.id] = true;
     var r = await Promise.all([IS.pubCourses(), IS.lecMap(), IS.myEnroll()]), cs = r[0], L = r[1], E = r[2];
     var speciality = IS.mySpec();
-    var context = [speciality && A(speciality.ar, speciality.en), section && A(section.ar, section.en)].filter(Boolean).join(' · ');
-    var h = IS.banner(IS.T('الكورسات', 'Courses'), esc(context), 'layers', '', 'gold', speciality && section && sectionPicture(speciality, section.id));
+    var context = [speciality && A(speciality.ar, speciality.en), section && A(section.ar, section.en), subject && subject.en].filter(Boolean).join(' · ');
+    var picture = (subject && subject.img) || 'img/ban_course_catalogue.webp';
+    var h = IS.banner(IS.T('الكورسات', 'Courses'), esc(context), 'layers', '', 'gold course-catalogue-banner', picture);
     var lecIds = Object.keys(L).filter(function (id) { return cs.some(function (c) { return c.lecturer_id === id; }); });
     h += '<div class="cols rev"><aside class="filt" id="filt"><header><h2>' + ic('filter') + IS.T('تصفية النتائج', 'Filter') + '</h2><button type="button" class="link" data-act="fclear">' + esc(A('مسح الكل', 'Clear')) + '</button></header>' +
       fg(IS.T('المادة', 'Subject'), IS.SUBJ.filter(function (s) { return IS.inStudySpace(s); }).map(function (s) { var n = cs.filter(function (c) { return c.subject === s.id; }).length; return '<label class="opt"><input type="checkbox" data-f="sub" value="' + s.id + '"' + (F.sub[s.id] ? ' checked' : '') + '><span lang="en">' + esc(s.en) + '</span><em>' + N(n) + '</em></label>'; }).join('')) +
@@ -654,7 +655,8 @@
     var metadata = [position, section && secs.length > 1 ? '<bdi>' + esc(section.title) + '</bdi>' : '', esc(lessonKind(x.kind)),
       x.minutes ? N(x.minutes) + ' ' + A('د', 'min') : ''].filter(Boolean);
     var courseUrl = '#course/' + esc(cid), heading = A('محتوى الكورس', 'Course content');
-    var h = '<div class="lesson-layout"><header class="lesson-heading"><a class="lesson-course-link" href="' + courseUrl +
+    var sideOutline = allowed && x.kind === 'video';
+    var h = '<div class="lesson-layout' + (sideOutline ? ' lesson-layout-video' : '') + '"><header class="lesson-heading"><a class="lesson-course-link" href="' + courseUrl +
       '">' + ic('chev', 'fr') + '<bdi>' + esc(c.title) + '</bdi></a><h1 tabindex="-1"><bdi>' + esc(x.title) +
       '</bdi></h1><p class="lesson-meta">' + metadata.map(function (item) { return '<span>' + item + '</span>'; }).join('') + '</p></header>';
     h += '<div class="lesson-media">';
@@ -689,7 +691,7 @@
 
     var progressLabel = A(N(completed) + ' من ' + N(all.length) + ' مكتمل', N(completed) + ' of ' + N(all.length) + ' complete');
     h += '<aside class="lesson-outline" aria-label="' + esc(heading) + '"><details class="lesson-outline-toggle"' +
-      (window.matchMedia('(min-width: 960px)').matches ? ' open' : '') + '><summary><span class="lesson-outline-icon">' + ic('layers') +
+      (sideOutline && window.matchMedia('(min-width: 960px)').matches ? ' open' : '') + '><summary><span class="lesson-outline-icon">' + ic('layers') +
       '</span><span><b>' + esc(heading) + '</b><small>' + (active ? progressLabel : N(all.length) + ' ' + A('دروس', all.length === 1 ? 'lesson' : 'lessons')) +
       '</small></span>' + ic('down') + '</summary><div class="lesson-outline-body">' +
       (active ? '<div class="prog lesson-progress" role="progressbar" aria-label="' + esc(A('التقدّم في الكورس', 'Course progress')) +
@@ -726,15 +728,20 @@
   });
 
   async function playLesson(player, lesson) {
+    function showUnavailable(title, message) {
+      player.classList.add('player-unavailable');
+      player.closest('.lesson-layout').querySelector('.lesson-outline-toggle').open = false;
+      player.innerHTML = IS.empty('video', title, message);
+    }
     try {
       var video = await DB.videoPlay(lesson);
-      if (!video) player.innerHTML = IS.empty('video', A('لم يُرفع فيديو هذا الدرس بعد', 'The video of this lesson is not uploaded yet'));
+      if (!video) showUnavailable(A('لم يُرفع فيديو هذا الدرس بعد', 'The video of this lesson is not uploaded yet'));
       else if (video.kind === 'iframe') player.innerHTML = '<iframe src="' + esc(video.src) +
         '" allow="accelerometer; gyroscope; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="' + esc(lesson.title) + '"></iframe>';
       else player.innerHTML = '<video controls controlsList="nodownload noremoteplayback" disablePictureInPicture playsinline oncontextmenu="return false" src="' +
         esc(video.src) + '"></video>';
     } catch (error) {
-      player.innerHTML = IS.empty('video', A('تعذّر تشغيل الفيديو', 'The video could not be played'), A('تحقق من الاتصال.', 'Check the connection.'));
+      showUnavailable(A('تعذّر تشغيل الفيديو', 'The video could not be played'), A('تحقق من الاتصال.', 'Check the connection.'));
     }
   }
 
