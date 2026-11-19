@@ -2568,3 +2568,24 @@ a.library-rating:hover{text-decoration:underline}
 }
 .payout-lists{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px}
 .payout-lists>.box{min-width:0;margin:0}
+
+/* Lecturer Studio keeps its actions together with the welcome text. */
+.studio-hero.ban.bpic{
+  --studio-photo-width:42%;--studio-icon-size:46px;--studio-title-gap:14px;
+  flex-direction:column;align-items:flex-start;justify-content:center;gap:12px;
+  padding:18px 22px;padding-inline-end:calc(var(--studio-photo-width) + 22px)
+}
+.studio-hero.ban.bpic .bph{inset-inline:auto 0;width:var(--studio-photo-width)}
+.studio-hero .bwave{display:none}
+.studio-hero.ban.bpic .bt{max-width:none;gap:var(--studio-title-gap);min-width:0}
+.studio-hero.ban.bpic .bt>div{min-width:0;padding:0;border:0}
+.studio-hero.ban.bpic .bi{width:var(--studio-icon-size);height:var(--studio-icon-size);border-radius:13px}
+.studio-hero.ban.bpic .bi .ico{width:24px;height:24px}
+.studio-hero h1{font-size:clamp(22px,2.6vw,32px);line-height:1.2;overflow-wrap:anywhere}
+.studio-hero p{font-size:14px;margin-block-start:3px}
+.studio-hero.ban.bpic>.row{margin-inline-start:calc(var(--studio-icon-size) + var(--studio-title-gap));gap:8px}
+.studio-hero>.row .btn{white-space:normal}
+@media (max-width:760px){
+  .studio-hero.ban.bpic{--studio-photo-width:100%;padding:103px 14px 14px}
+  .studio-hero.ban.bpic>.row{margin-inline-start:0}
+}

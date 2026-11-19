@@ -115,7 +115,12 @@
   IS.page('studio', async function () {
     var r = await Promise.all([DB.q('courses', { eq: { lecturer_id: L().id } }), money(), DB.q('posts', { eq: { room: 'qa', lecturer_id: L().id } }), DB.q('events', { eq: { lecturer_id: L().id } })]), cs = r[0], mo = r[1], qa = r[2].filter(function (p) { return !p.n_replies && IS.publicPost(p); });
     var st = cs.reduce(function (a, c) { return a + (+c.n_students || 0); }, 0);
-    var h = IS.banner(esc(A('أهلًا ', 'Welcome, ')) + IS.greetingName(L().name), esc(A('استوديو المحاضر: كورساتك وطلابك وأرباحك.', 'Lecturer studio: your courses, students and earnings.')), 'studio', '<div class="row"><a class="btn gold" href="#studio-course/new">' + ic('plus') + esc(A('كورس جديد', 'New course')) + '</a><a class="btn lt" href="#lecturer/' + L().id + '">' + ic('eye') + esc(A('صفحتي العامة', 'My public page')) + '</a></div>');
+    var actions = '<div class="row"><a class="btn gold" href="#studio-course/new">' + ic('plus') +
+      esc(A('كورس جديد', 'New course')) + '</a><a class="btn lt" href="#lecturer/' + L().id + '">' + ic('eye') +
+      esc(A('صفحتي العامة', 'My public page')) + '</a></div>';
+    var h = IS.banner(esc(A('أهلًا ', 'Welcome, ')) + IS.greetingName(L().name),
+      esc(A('استوديو المحاضر: كورساتك وطلابك وأرباحك.', 'Lecturer studio: your courses, students and earnings.')),
+      'studio', actions, 'studio-hero');
     h += '<div class="tiles">' + [['layers', cs.filter(function (c) { return c.status === 'published'; }).length, A('كورس منشور', 'published courses')], ['eye', cs.filter(function (c) { return c.status === 'review'; }).length, A('قيد المراجعة', 'in review')], ['users', st, A('طالب ملتحق', 'enrolments')],
       ['wallet', IS.money(mo.earned), A('إجمالي الأرباح', 'total earned')], ['money', IS.money(mo.bal), A('الرصيد المستحق', 'balance due')], ['chat', qa.length, A('سؤال بلا رد', 'unanswered questions')]].map(function (t) { return '<div class="tile">' + ic(t[0]) + '<b>' + (typeof t[1] === 'number' ? N(t[1]) : t[1]) + '</b><small>' + esc(t[2]) + '</small></div>'; }).join('') + '</div>';
     h += '<div class="cols cflow"><div class="main"><section class="box"><header class="sh"><h2>' + ic('layers') + IS.T('كورساتي', 'My courses') + '</h2><a class="more" href="#studio-courses">' + esc(A('الكل', 'All')) + '</a></header>' + (cs.length ? courseRows(cs.slice(0, 5)) : IS.empty('layers', A('لم تنشئ كورسًا بعد', 'No course yet'), A('ابدأ أول كورس لك الآن.', 'Start your first course now.'), '<a class="btn pri" href="#studio-course/new">' + ic('plus') + esc(A('كورس جديد', 'New course')) + '</a>')) + '</section>' +
