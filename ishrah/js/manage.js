@@ -57,7 +57,9 @@
     } catch (e) { IS.toast(A('تعذّر الحذف: ', 'Could not delete: ') + (e.message || '')); }
   };
   var PAGEKIND = { post: 'post', file: 'file', course: 'course', event: 'event', news: 'news' };
+  var prevRoute = IS.onRoute;
   IS.onRoute = function (name, arg, main) {
+    if (prevRoute) try { prevRoute(name, arg, main); } catch (e) {}
     var kind = PAGEKIND[name], parts = String(arg || '').split('/'), id = parts[0];
     if (name === 'news' && parts[0] === 'ann') { kind = 'notice'; id = parts[1]; }
     if (!kind || !id || /^(all|ann)$/.test(id)) return;

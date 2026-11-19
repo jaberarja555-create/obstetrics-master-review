@@ -246,7 +246,7 @@
       '<a class="btn pri sm" href="#course-requests/new">' + ic('plus') + esc(A('اطلب كورسًا', 'Request a course')) + '</a>' +
       '<a class="btn ghost sm" href="#community/new">' + ic('pen') + esc(A('اكتب منشورًا', 'Create a post')) + '</a></div>' +
       '<div class="feed-filters"><label><span>' + esc(A('الترتيب', 'Sort by')) + '</span><select class="sel" id="feed-sort" data-feed="sort">' +
-      options('sort', [['new', 'الأحدث', 'Newest'], ['popular', 'الأكثر تفاعلًا', 'Popular'],
+      options('sort', [['new', 'الأحدث', 'Newest'], ['popular', 'الأكثر شعبية', 'Most popular'],
         ['best', 'الأعلى تقييمًا', 'Best rated'], ['most-rated', 'الأكثر تقييمًا', 'Most rated']]) + '</select></label>' +
       '<label><span>' + esc(A('نوع المنشور', 'Post type')) + '</span><select class="sel" id="feed-type" data-feed="type">' +
       options('type', [['all', 'الكل', 'All posts']].concat(Object.keys(FEED_TYPES).map(function (type) { return [type].concat(FEED_TYPES[type]); }))) +
@@ -254,9 +254,8 @@
   }
   function feedScore(item) {
     var r = item.row._parts ? IS.seriesScore(item.row.series_id) : item.row;
-    return (Number(r.n_students) || 0) + (Number(r.joined_count) || 0) +
-      (Number(r.registered_count) || 0) + (Number(r.n_replies) || 0) + (Number(r.like_count) || 0) + (Number(r.dislike_count) || 0) +
-      (Number(r.comment_count) || 0) + (item.type === 'library' ? (Number(r.rating_count) || 0) : 0);
+    /* owner, 19 Nov 2026: most popular = most reactions (likes + dislikes); comments only break ties */
+    return (Number(r.like_count) || 0) + (Number(r.dislike_count) || 0) + ((Number(r.n_replies) || 0) + (Number(r.comment_count) || 0)) / 1000;
   }
   function feedRatingSort(first, second, order) {
     function grade(item) {
@@ -1053,8 +1052,8 @@
     };
     var list = ps.slice().sort(function (a, b) { return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0); });
     var users = {}; ps.forEach(function (p) { users[p.user_id] = 1; });
-    var h = IS.banner(IS.T('مجتمع الطلبة', 'Student Community'), esc(A('مساحة تفاعلية لطلبة الطب في السودان: ناقش، اسأل، شارك المعرفة، واطلب ما تحتاجه.', 'A space for medical students in Sudan: discuss, ask, share and request what you need.')), 'group',
-      '<div class="bnums"><span><b>' + N(ps.length) + '</b>' + esc(A('نقاش', 'discussions')) + '</span><span><b>' + N(Object.keys(users).length) + '</b>' + esc(A('مشارك', 'members')) + '</span></div>');
+    var h = IS.banner(IS.T('مجتمع الطلبة', 'Student Community'), esc(A('مساحة ', 'The ')) + '<bdi lang="en">' + esc((IS.mySpec() || {}).en || '') + '</bdi>' + esc(A(' التفاعلية: ناقش، اسأل، شارك المعرفة، واطلب ما تحتاجه.', ' space: discuss, ask, share and request what you need.')), 'group',
+      IS.spaceBox());
     h += '<details class="rules community-rules"><summary>' + ic('shield') + esc(A('قواعد المجتمع', 'Community rules')) + ic('down') + '</summary><ul>' + [
       A('تعامل مع الآخرين باحترام. تجنّب الإساءة والتنمر.', 'Treat others with respect. Avoid insults and bullying.'),
       A('انشر محتوى هادفًا يخدم التعلّم والتزم بموضوع النقاش.', 'Share useful learning content and stay on topic.'),
@@ -1426,4 +1425,29 @@
       [A('الخصوصية', 'Privacy'), A('نجمع الاسم والهاتف والبريد وبيانات التعلّم لتشغيل خدمتك فقط، ولا نبيعها لأي جهة. إيصالات الدفع يطّلع عليها فريق المالية فقط.', 'We collect your name, phone, email and learning data only to run the service, and never sell them. Payment receipts are seen by the finance team only.')],
       [A('المحاضرون', 'Lecturers'), A('يلتزم المحاضر بصحة المحتوى العلمي وبحقوق الملكية. تراجع المنصة كل كورس قبل نشره، وتُحتسب أرباح المحاضر بنسبته المتفق عليها.', 'Lecturers are responsible for accurate content and for rights. The platform reviews each course before publishing; earnings are paid at the agreed share.')]].map(function (s) { return '<h3>' + esc(s[0]) + '</h3><p>' + esc(s[1]) + '</p>'; }).join('') + '</section>';
   });
+})();
+
+/* the speciality space in figures (owner, 19 Nov 2026): members, members online now, lecturers, lecturers online now */
+(function () {
+  var A = IS.A, esc = IS.esc, ic = IS.ic, N = IS.N;
+  IS.spaceBox = function () {
+    var spec = IS.mySpec && IS.mySpec(), name = spec ? spec.en : '';
+    return '<div class="spacebox" data-space="' + esc(IS.SPEC || '') + '"><div class="bnums sp4">' +
+      [['members', 'عضو', 'members'], ['online', 'متصل الآن', 'online now'], ['lecturers', 'محاضر', 'lecturers'], ['lecturers_online', 'محاضر متصل', 'lecturers online']].map(function (x, i) {
+        return '<span class="' + (i % 2 ? 'on' : '') + '"><b data-n="' + x[0] + '">–</b>' + esc(A(x[1], x[2])) + '</span>'; }).join('') + '</div>' +
+      (IS.ME ? '<small class="spjoin">' + ic('check') + esc(A('أنت عضو في مساحة ', 'You are a member of the ')) + '<bdi lang="en">' + esc(name) + '</bdi>' + esc(A('', ' space')) + '</small>' :
+        '<button type="button" class="btn gold sm" data-act="login">' + ic('user') + esc(A('سجّل الدخول لتنضم إلى مساحة ', 'Sign in to join the ')) + '<bdi lang="en">' + esc(name) + '</bdi>' + esc(A('', ' space')) + '</button>') + '</div>';
+  };
+  async function fill(main) {
+    var box = main.querySelector('.spacebox'); if (!box || !IS.SPEC) return;
+    var st = (IS.ME ? await IS.spaceJoin(true) : null) || await IS.spaceStats(IS.SPEC);
+    if (!st || !box.isConnected) return;
+    IS.$$('[data-n]', box).forEach(function (b) { b.innerHTML = N(+st[b.dataset.n] || 0); });
+  }
+  var prev = IS.onRoute;
+  IS.onRoute = function (name, arg, main) {
+    if (prev) prev(name, arg, main);
+    clearInterval(IS._spt);
+    if (main && main.querySelector('.spacebox')) { fill(main); IS._spt = setInterval(function () { if (document.visibilityState === 'visible') fill(main); }, 60000); }
+  };
 })();

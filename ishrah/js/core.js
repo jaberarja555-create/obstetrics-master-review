@@ -472,7 +472,25 @@
     IS.$$('[data-uid]', m).forEach(function (e) { e.classList.toggle('on', IS.isOn(IS.SEEN[e.getAttribute('data-uid')])); });
     IS.$$('[data-seen]', m).forEach(function (e) { var u = e.getAttribute('data-seen'), t = IS.SEEN[u]; e.classList.toggle('on', IS.isOn(t)); e.innerHTML = IS.seenTxt(t, u === 'team'); }); };
   IS.beat = function () { if (!IS.ME || !navigator.onLine || Date.now() - (IS._beat || 0) < 50000) return; IS._beat = Date.now();
-    (DB.live ? DB.sb.rpc('ish_seen').then(function () {}) : DB.upd('profiles', IS.ME.id, { last_seen: new Date().toISOString() })).catch(function () { IS._beat = 0; }); };
+    (DB.live ? DB.sb.rpc('ish_seen').then(function () {}) : DB.upd('profiles', IS.ME.id, { last_seen: new Date().toISOString() })).catch(function () { IS._beat = 0; });
+    if (IS.spaceJoin) IS.spaceJoin(); };
+  /* members of each speciality space (owner, 19 Nov 2026): a signed-in account that opens a space joins it; last activity once a minute */
+  IS.spaceJoin = function (force) {
+    var spec = IS.SPEC; if (!IS.ME || !spec || !navigator.onLine) return Promise.resolve(null);
+    var key = IS.ME.id + '/' + spec; if (!force && IS._sj === key && Date.now() - (IS._sjt || 0) < 50000) return Promise.resolve(null);
+    IS._sj = key; IS._sjt = Date.now();
+    if (DB.live) return DB.sb.rpc('ish_space_join', { p_spec: spec }).then(function (r) { return r.error ? null : r.data; }, function () { return null; });
+    return DB.upsert('space_members', { id: key, user_id: IS.ME.id, spec: spec, last_seen: new Date().toISOString() }).then(function () { return IS.spaceStats(spec); });
+  };
+  IS.spaceStats = async function (spec) {
+    if (DB.live) { var r = await DB.sb.rpc('ish_space_stats', { p_spec: spec }); return r.error ? null : r.data; }
+    var t = await Promise.all([DB.q('space_members', { eq: { spec: spec } }), DB.q('lecturers'), DB.q('profiles')]), on = Date.now() - 5 * 60000;
+    var lec = {}; t[1].forEach(function (l) { if (l.status === 'active' && ((l.teaching_specs || []).indexOf(spec) >= 0 || t[0].some(function (m) { return m.user_id === l.id; }))) lec[l.id] = 1; });
+    var seen = {}; t[2].forEach(function (p) { seen[p.id] = p.last_seen; });
+    var mem = t[0].filter(function (m) { return !lec[m.user_id]; });
+    return { members: mem.length, online: mem.filter(function (m) { return Date.parse(m.last_seen) > on; }).length, lecturers: Object.keys(lec).length,
+      lecturers_online: Object.keys(lec).filter(function (id) { return Date.parse(seen[id] || 0) > on; }).length };
+  };
   setInterval(function () { if (document.visibilityState === 'visible') { IS.beat(); IS.hydrateSeen(); } }, 60000);
   document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') { IS.beat(); IS.hydrateSeen(); } });
   /* waiting lecturer requests counted the same way everywhere: not those of someone already a lecturer, one per person (owner, 18 Nov 2026) */
@@ -499,18 +517,15 @@
   /* Start with one neutral score, then count each member's strongest signal once. */
   var GRADES = [[4.5, 'ممتاز', 'Excellent', 'g5'], [3.75, 'جيد جدًا', 'Very good', 'g4'], [3, 'جيد', 'Good', 'g3'], [2, 'مقبول', 'Fair', 'g2'], [0, 'ضعيف', 'Weak', 'g1']];
   IS.grade = function (row, kind) {
-    /* courses are graded only by students who joined, free or paid (owner, 19 Nov 2026): their reviews, never likes */
-    row = row || {}; var course = kind === 'course', likes = course ? 0 : Math.max(0, +row.like_count || 0), dislikes = course ? 0 : Math.max(0, +row.dislike_count || 0);
-    var includeStars = !kind || course || kind === 'file' || kind === 'series';
-    var rc = includeStars ? Math.max(0, +(row.rating_count == null ? row.n_reviews : row.rating_count) || 0) : 0;
+    /* owner, 19 Nov 2026: stars are the rating (plain average: 1, 3 and 5 stars = 3.0); likes and dislikes only make a post popular.
+       Courses are rated only by students who joined (their reviews). */
+    row = row || {};
+    var likes = Math.max(0, +row.like_count || 0), dislikes = Math.max(0, +row.dislike_count || 0);
+    var rc = Math.max(0, +(row.rating_count == null ? row.n_reviews : row.rating_count) || 0);
     var rp = +row.rating_points || (rc ? (+(row.average_rating == null ? row.rating : row.average_rating) || 0) * rc : 0);
-    var onlyLikes = Math.max(0, likes - (+row.rated_like_count || 0));
-    var onlyDislikes = Math.max(0, dislikes - (+row.rated_dislike_count || 0));
-    var n = onlyLikes + onlyDislikes + rc;
-    var score = n ? Math.max(1, Math.min(5, (3 + 5 * onlyLikes + onlyDislikes + rp) / (n + 1))) : 0;
-    var rounded = Number(score.toFixed(1));
-    var g = n ? GRADES.find(function (grade) { return rounded >= grade[0]; }) : null;
-    return { n: n, score: score, likes: likes, dislikes: dislikes, rc: rc, rp: rp, title: g ? A(g[1], g[2]) : A('لم يُقيَّم بعد', 'Not rated yet'), cls: g ? g[3] : 'g0' };
+    var score = rc ? Math.max(1, Math.min(5, rp / rc)) : 0, rounded = Number(score.toFixed(1));
+    var g = rc ? GRADES.find(function (grade) { return rounded >= grade[0]; }) : null;
+    return { n: rc, score: score, likes: likes, dislikes: dislikes, rc: rc, rp: rp, title: g ? A(g[1], g[2]) : A('لم يُقيَّم بعد', 'Not rated yet'), cls: g ? g[3] : 'g0' };
   };
   IS.gradeInner = function (row, kind) {
     var g = IS.grade(row, kind), stars = '';
@@ -518,7 +533,7 @@
     return '<span class="gstars" aria-hidden="true">' + stars + '</span>' + (g.n ? '<bdi dir="ltr" class="gnum">' + g.score.toFixed(1) + '</bdi>' : '') +
       '<b class="gtitle ' + g.cls + '">' + esc(g.title) + '</b>' + (g.n ? '<small class="gcount">(' + IS.N(g.n) + ')</small>' : '');
   };
-  IS.gradeLabel = function (row, kind) { var g = IS.grade(row, kind); return g.n ? A('التقييم ', 'Rating ') + g.score.toFixed(1) + ' / 5 · ' + g.title + ' · ' + g.n + A(' صوت', ' votes') : g.title; };
+  IS.gradeLabel = function (row, kind) { var g = IS.grade(row, kind); return g.n ? A('التقييم ', 'Rating ') + g.score.toFixed(1) + ' / 5 · ' + g.title + ' · ' + g.n + A(' تقييم', ' ratings') : g.title; };
   IS.ACT = IS.ACT || {}; IS.ACT.retry = function () { IS.route(); };
   /* back online: the page that could not open opens by itself */
   function restoreBase() {

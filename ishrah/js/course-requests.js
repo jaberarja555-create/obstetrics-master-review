@@ -541,7 +541,7 @@
         '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</button>' :
       '<a class="feed-emoji feed-comment" data-act="focus-feed-comments" href="' + esc(commentRoute) + '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</a>';
     var score = voteScore(row);
-    var rating = kind === 'file' || kind === 'series' ? IS.libraryRating(row, true, kind) : '<button type="button" class="feed-grade" data-act="grade-info" data-kind="' + esc(kind) + '" aria-label="' + esc(IS.gradeLabel(row, kind)) +
+    var rating = kind !== 'course' ? IS.libraryRating(row, true, kind) : '<button type="button" class="feed-grade" data-act="grade-info" data-kind="' + esc(kind) + '" aria-label="' + esc(IS.gradeLabel(row, kind)) +
       '" title="' + esc(IS.gradeLabel(row, kind)) + '">' + IS.gradeInner(row, kind) + '</button>';
     var reaction = row.my_reaction === undefined ? '' : String(Number(row.my_reaction) || 0);
     var key = kind + '/' + row.id;
@@ -599,13 +599,13 @@
     var line = function (icon, label, value) { return '<li><span class="gi">' + icon + '</span><span>' + esc(label) + '</span><b>' + value + '</b></li>'; };
     IS.sheet(A('كيف حُسب التقييم', 'How the rating is calculated'), '<div class="ginfo"><div class="feed-grade big">' + IS.gradeInner(row, kind) + '</div><ul>' +
       (course ? '' : line('👍', A('إعجابات', 'Likes'), N(g.likes)) + line('👎', A('عدم إعجاب', 'Dislikes'), N(g.dislikes))) +
-      (course || books ? line('⭐', course ? A('تقييمات الطلاب الملتحقين بالكورس', 'Reviews by enrolled students') : A('تقييمات بالنجوم', 'Star ratings'),
-        N(g.rc) + (g.rc ? ' · ' + (g.rp / g.rc).toFixed(1) + ' ★' : '')) : '') + '</ul>' +
-      '<p class="mut">' + esc(A('يبدأ الحساب من درجة محايدة (٣ من ٥) لتقليل أثر أول تقييم. كلما زاد عدد التقييمات قلّ أثر هذه الدرجة.',
-        'The calculation starts with a neutral 3 out of 5 to limit the effect of the first vote. Its influence fades as more people vote.')) + '</p>' +
+      line('⭐', course ? A('تقييمات الطلاب الملتحقين بالكورس', 'Reviews by enrolled students') : A('تقييمات بالنجوم', 'Star ratings'),
+        N(g.rc) + (g.rc ? ' · ' + (g.rp / g.rc).toFixed(1) + ' ★' : '')) + '</ul>' +
+      '<p class="mut">' + esc(A('التقييم هو متوسط النجوم التي أعطاها الأعضاء: مثلًا نجمة و٣ نجوم و٥ نجوم = ٣ من ٥.',
+        'The rating is the average of the stars members gave: for example 1, 3 and 5 stars = 3 out of 5.')) + '</p>' +
       (course ? '<p class="note">' + IS.ic('lock') + '<span>' + esc(A('التقييم متاح للطلاب الملتحقين بالكورس من صفحته.', 'Students who joined can rate the course from its page.')) + '</span></p>' :
-        '<p class="mut">' + esc(A('الإعجاب يعادل ٥ نجوم، وعدم الإعجاب يعادل نجمة واحدة.', 'A like counts as 5 stars and a dislike counts as 1 star.') +
-          (books ? ' ' + A('إذا قيّم القارئ بالنجوم يُحسب تقييمه بالنجوم مرة واحدة بدل التفاعل.', 'If a reader gives stars, their star rating replaces their reaction in the score.') : '')) + '</p>') + '</div>');
+        '<p class="mut">' + esc(A('الإعجاب وعدم الإعجاب لا يغيّران التقييم؛ يحددان شعبية المنشور (الأكثر شعبية = الأكثر تفاعلًا).',
+          'Likes and dislikes do not change the rating; they decide how popular a post is (Most popular = most reactions).')) + '</p>') + '</div>');
   };
   IS.regradeBars = function (key, values) { IS.$$('[data-feedback]').filter(function (bar) { return bar.dataset.feedback === key; }).forEach(function (bar) { regrade(bar, values); }); };
   function patchFeed(kind, id, values, saving) {
@@ -676,8 +676,8 @@
     if (kind === 'series') return IS.seriesVote(id, value, rating);
     if (DB.live) {
       var payload = { kind: kind, target: id, value: value };
-      var answer = await DB.sb.rpc(rating ? 'ish_rate_file' : 'ish_feed_react',
-        rating ? { file: id, stars: value } : payload);
+      var answer = await DB.sb.rpc(rating ? 'ish_feed_rate' : 'ish_feed_react',
+        rating ? { kind: kind, target: id, stars: value } : payload);
       if (answer.error) throw answer.error;
       return answer.data;
     }
@@ -692,7 +692,7 @@
       like_count: votes.filter(function (vote) { return vote.reaction === 1; }).length,
       dislike_count: votes.filter(function (vote) { return vote.reaction === -1; }).length
     };
-    if (kind === 'file') {
+    {
       counts.rating_count = votes.filter(function (vote) { return vote.stars; }).length;
       counts.rating_points = votes.reduce(function (total, vote) { return total + (vote.stars || 0); }, 0);
       counts.average_rating = counts.rating_count ? counts.rating_points / counts.rating_count : null;

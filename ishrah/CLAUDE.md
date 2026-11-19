@@ -542,3 +542,20 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 ## Study section names
 
 - Basics, Clinical, International Exams and House Officer keep their English names in the Arabic and English interfaces. The header, sidebar, section chooser, study page titles and course and upload forms use the English category names. Actions and page labels such as «تغيير» and «اختر قسمك» still follow the selected language. Updated scripts use asset version `154`.
+
+## Stars are the rating, reactions are popularity; space members; welcome band (owner, 19 Nov 2026)
+- **Rating = stars only** ("like, dislike just make the post popular … rating as stars; 1, 3 and 5 stars ≈ 3"): `IS.grade` is the plain
+  average of the star ratings (no neutral 3, likes/dislikes not counted). Every feed item (post, course request, announcement, event, news,
+  file, series) has the star picker (`IS.libraryRating(row, true, kind)`, saved by `ish_feed_rate(kind, target, stars)`; authors cannot rate
+  their own). Courses keep enrolled students' reviews. Feed sort «الأكثر شعبية / Most popular» = likes + dislikes (comments only break ties);
+  Best rated / Most rated use the stars. Migration `030_star_ratings.sql` (rating_count / rating_points on notices, events, news,
+  course_requests; counter trigger; stars allowed on every kind except courses). Supersedes "Series covers and balanced feedback" and the
+  neutral-score note in "Multiple library subjects". Test: scratchpad stars.js (1 + 5 stars = 3.0; a like leaves the score).
+- **Members of each speciality space** ("each speciality has its own sign-in; show how many doctors or nurses and how many online, also
+  lecturers"): `031_space_members.sql` — table `space_members` (user, spec, joined_at, last_seen), `ish_space_join(spec)` (a signed-in
+  account that opens a space joins it; `IS.beat` renews it every minute via `IS.spaceJoin`), `ish_space_stats(spec)` (counts only, visitors
+  too): members (non-lecturers), online in the last 5 minutes, lecturers (active, teaching that speciality or members of it), lecturers online.
+  Community banner (`IS.spaceBox`, filled by `IS.onRoute`, refreshed every minute): 4 figures + «أنت عضو في مساحة Medicine» or «سجّل الدخول
+  لتنضم…»; the subtitle names the speciality. manage.js `IS.onRoute` now chains the previous hook.
+- **Home welcome band on phones/tablets** ("organise that blue bar"): logo at the start, greeting / section / speciality beside it, role
+  chips under the text, search across the full width (CSS block at the end of app.css). Asset version 155, shell cache ish-v55.

@@ -121,7 +121,7 @@
   function ratingContents(file) { return IS.gradeInner(file); }
   function ratingLabel(file) {
     var series = file.feedback_kind === 'series', grade = IS.grade(file);
-    var label = series ? A('قيّم السلسلة', 'Rate this series') : A('قيّم الملف', 'Rate this file');
+    var label = series ? A('قيّم السلسلة', 'Rate this series') : file.feedback_kind === 'file' ? A('قيّم الملف', 'Rate this file') : A('قيّم بالنجوم', 'Rate with stars');
     return grade.n ? label + ' · ' + grade.score.toFixed(1) + ' / 5 (' + N(grade.n) + ')' : label;
   }
   function ratingData(file) {
@@ -137,7 +137,7 @@
     file = Object.assign({ feedback_kind: feedbackKind || 'file' }, file);
     var rating = ratingData(file);
     var attributes = ' class="library-rating" data-library-file="' + esc(file.id) + '" data-library-kind="' + file.feedback_kind + '" aria-label="' + esc(ratingLabel(file)) + '"';
-    return interactive ? '<button type="button"' + attributes + ' data-act="rate-library-file" aria-expanded="false" data-owner="' + esc(file.owner_id || '') +
+    return interactive ? '<button type="button"' + attributes + ' data-act="rate-library-file" aria-expanded="false" data-owner="' + esc(file.owner_id || (file.feedback_kind === 'event' ? file.lecturer_id : file.feedback_kind === 'file' ? '' : file.user_id) || '') +
       '" data-likes="' + (Number(file.like_count) || 0) + '" data-dislikes="' + (Number(file.dislike_count) || 0) + '" data-rated-like="' + (Number(file.rated_like_count) || 0) + '" data-rated-dislike="' + (Number(file.rated_dislike_count) || 0) + '" data-own-stars="' + (file.my_stars == null ? '' : Number(file.my_stars)) + '" data-count="' + rating.rating_count + '" data-points="' + rating.rating_points + '">' +
       ratingContents(file) + '</button>' : '<span' + attributes + ' role="img">' + ratingContents(file) + '</span>';
   };
@@ -204,7 +204,7 @@
           panel.myStars = Number(d.ownStars);
           syncStars(panel, panel.myStars);
         } else {
-          var starsQuery = { eq: { file_id: d.libraryFile, user_id: myId }, select: 'stars', limit: 1 };
+          var starsQuery = { eq: { [(d.libraryKind || 'file') + '_id']: d.libraryFile, user_id: myId }, select: 'stars', limit: 1 };
           panel.ownRating = (series ? IS.fetchSeriesScores([d.libraryFile]) : DB.q('feed_feedback', starsQuery)).then(function (rows) {
             var stars = Number(rows[0] && (series ? rows[0].my_stars : rows[0].stars)) || 0;
             if (panel.isConnected && !panel.touched) {
