@@ -1,0 +1,16 @@
+{
+  "name": "اشرح لي · Ishrah Li",
+  "short_name": "اشرح لي",
+  "description": "اشرح لي: منصة تعليمية متكاملة لطلبة الكليات الصحية في السودان: كورسات، محاضرات، مكتبة، فعاليات ومجتمع.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "dir": "rtl",
+  "lang": "ar",
+  "background_color": "#0a2a5c",
+  "theme_color": "#0a2a5c",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
