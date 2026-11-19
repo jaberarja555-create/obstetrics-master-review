@@ -3032,3 +3032,36 @@ button.feed-grade:hover{border-color:#e0a800;background:#fff8e1}
 #rdr .rdr-pgrid button{height:40px;border:0;border-radius:10px;background:#fff;color:#2a1056;font:700 14px inherit;cursor:pointer}
 #rdr .rdr-bmsave{align-self:flex-start}
 @media (max-width:420px){#rdr .rdr-top{gap:4px;padding-inline:6px}#rdr .rib{min-width:36px;height:38px;padding:0 6px}}
+/* reader on phones, third pass: the contents/bookmarks panel opens over the pages (they no longer jump down); bookmark rows show the page's
+   first words; the Fit button shows the zoom % */
+#rdr{--rtop:56px}
+#rdr .rdr-bookmarks{position:absolute;top:var(--rtop);left:0;right:0;z-index:20;max-height:min(70vh,560px);
+  border-radius:0 0 18px 18px;box-shadow:0 14px 34px rgba(0,0,0,.45)}
+#rdr .rdr-bookmark-row button:first-child{display:flex!important;align-items:center;gap:10px;text-align:start;min-height:52px}
+#rdr .rdr-bookmark-row .rbn{flex:none;min-width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:#f0c45a;color:#2b1f05;font-weight:800}
+#rdr .rdr-bookmark-row .rbt{display:flex;flex-direction:column;min-width:0;gap:2px}
+#rdr .rdr-bookmark-row .rbt small{font-weight:800;font-size:12.5px}
+#rdr .rdr-bookmark-row .rbt em{font-style:normal;font-size:12.5px;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+#rdr .rdr-bookmark-row .rib{flex:none}
+#rdr .rdr-fit.on{background:#f0c45a;color:#2b1f05;min-width:58px}
+#rdr .rdr-bot .rib{min-width:46px;height:44px;font-size:22px}
+/* welcome band spacing on phones (owner, 19 Nov 2026: "Dr Arja, Clinical, Medicine must be distributed nicely, not congested"):
+   the three lines are centred beside the logo with room between them; the heartbeat line runs only on the logo side; chips and search
+   follow with even gaps */
+@media (max-width:1023px){
+  .lh .lhh{padding:22px 20px!important;row-gap:18px!important;column-gap:16px!important;align-items:center!important}
+  .lh .lhh .lht{align-self:center!important;gap:8px!important}
+  .lh .lhh .lht p{line-height:1.3!important}
+  .lh .lhh .lht h1{line-height:1.1!important;margin:2px 0!important}
+  .lh .lhh .lht small{line-height:1.3!important}
+  .lh .lhh .roles{margin-top:10px!important;gap:10px!important}
+  .lh .lhh .lhl2{align-self:center!important;width:104px!important;height:104px!important;padding:18px}
+  .lh .lhh::after{inset:0 auto auto 0!important;width:48%!important;height:var(--ecgh,150px)!important;background-size:100% 70%!important;background-position:center!important}
+  [dir="rtl"] .lh .lhh::after{inset:0 0 auto auto!important}
+}
+@media (max-width:640px){
+  .lh .lhh{padding:20px 16px!important}
+  .lh .lhh .lhl2{width:92px!important;height:92px!important;padding:15px}
+  .lh .lhh .lht h1{font-size:34px!important}
+}
+@media (max-width:640px) and (max-height:700px){.lh .lhh{padding:14px!important;row-gap:12px!important}.lh .lhh .lhl2{width:76px!important;height:76px!important}.lh .lhh .lht{gap:5px!important}.lh .lhh .lht h1{font-size:28px!important}}

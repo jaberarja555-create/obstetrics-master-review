@@ -573,3 +573,15 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   new size with that spot under the fingers (`anchorAt`, `zoomTo(z, x, y, anchor)`); buttons zoom around the screen centre; double tap = 2×
   at that spot / back to fit; zoom is kept per book (`ish-rz:<id>`); the browser's own page zoom is off inside the reader (`touch-action`).
   Test: scratchpad rdr2.js (201-page PDF at 390 px: spot on the page before/after a pinch identical). Asset version 158, shell cache ish-v58.
+
+- **Reader on phones, third pass** (owner, 19 Nov 2026: "make the zoom and bookmarks work better on phone"): each page canvas stays under a
+  pixel budget (5 MP on touch screens, 12 MP otherwise; phones refuse bigger canvases, so deep zoom used to give blank or flickering pages);
+  zoom 60–400 %, the Fit button shows the zoom % (gold) and returns to page width; iPhone Safari's own screen zoom is blocked inside the reader
+  (`gesturestart`). The Contents/Bookmarks panel opens OVER the pages (they no longer jump down; top measured from the bar); each bookmark row
+  shows the page number and the page's first words. **Bookmarks, highlights and the last page follow the account** (`032_reader_state.sql`,
+  table `reader_state`, own rows only): every change is saved locally with its time and sent ~1 s later (page changes 4 s, and when the reader
+  closes); on opening, the newer side wins, and the remote last page is used unless the reader already moved. Test: scratchpad rdr3.js
+  (panel does not move the pages, rows with text, 400 % canvas within budget, bookmarks and page restored on a second device).
+- **Welcome band spacing on phones** (owner: "Dr Arja, Clinical, Medicine distributed nicely, not congested"): the three lines are centred
+  beside the logo with 8 px between them, the heartbeat line runs only on the logo side, chips and search follow with even gaps.
+  Asset version 161, shell cache ish-v61.

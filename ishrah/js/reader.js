@@ -7,7 +7,45 @@
   var A = IS.A, esc = IS.esc, ic = IS.ic, N = IS.N, $ = IS.$;
   var COLORS = [['y', '#ffe066'], ['g', '#8ce99a'], ['b', '#74c0fc'], ['p', '#f783ac']];
   function store(key, def) { try { var v = JSON.parse(localStorage.getItem(key) || 'null'); return v == null ? def : v; } catch (e) { return def; } }
-  function keep(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) {} }
+  function keep(key, v) {
+    try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) {}
+    if (R && (key === R.bookmarksKey || key === 'ish-hl:' + R.id || key === 'ish-rpg:' + R.id)) dirty(key === 'ish-rpg:' + R.id ? 4000 : 1200);
+  }
+  /* bookmarks, highlights and last page follow the account (table reader_state, supabase/032_reader_state.sql): the newest change wins */
+  function stateKey(r) { return 'ish-rst:' + r.account + '/' + r.id; }
+  function dirty(wait) {
+    var r = R; if (!r || !IS.ME) return;
+    try { localStorage.setItem(stateKey(r), String(Date.now())); } catch (e) {}
+    clearTimeout(r.pushT); r.pushT = setTimeout(function () { push(r); }, wait);
+  }
+  function push(r) {
+    if (!IS.ME || !navigator.onLine) return;
+    var row = { user_id: IS.ME.id, book: String(r.id).slice(0, 80), bookmarks: r.bookmarks.slice(0, 500), marks: r.marks.slice(-3000),
+      last_page: store('ish-rpg:' + r.id, 1), updated_at: new Date(+store(stateKey(r), Date.now())).toISOString() };
+    if (!DB.live) row.id = row.user_id + '/' + row.book;
+    return DB.upsert('reader_state', row).catch(function () {});
+  }
+  async function pull(r) {
+    if (!IS.ME || !navigator.onLine) return;
+    try {
+      var rows = await DB.q('reader_state', { eq: { user_id: IS.ME.id, book: String(r.id).slice(0, 80) }, limit: 1 }), row = rows[0];
+      var mine = +store(stateKey(r), 0);
+      if (!row) { if (mine || r.bookmarks.length || r.marks.length) push(r); return; }
+      if (mine && mine > Date.parse(row.updated_at)) return push(r);
+      if (R !== r) return;
+      r.bookmarks = Array.isArray(row.bookmarks) ? row.bookmarks : []; r.marks = Array.isArray(row.marks) ? row.marks : [];
+      try { localStorage.setItem(r.bookmarksKey, JSON.stringify(r.bookmarks)); localStorage.setItem('ish-hl:' + r.id, JSON.stringify(r.marks));
+        localStorage.setItem(stateKey(r), String(Date.parse(row.updated_at))); } catch (e) {}
+      r.remotePage = row.last_page;
+      if (r.n) applyRemote(r);
+    } catch (e) {}
+  }
+  function applyRemote(r) {
+    r.pages.forEach(function (p, i) { if (p.drawn) paintMarks(i + 1); });
+    paintBookmarks();
+    if (r.remotePage && !r.moved && r.remotePage !== r.cur && r.remotePage <= r.n) goPage(r.remotePage);
+    r.remotePage = null;
+  }
 
   var R = null;   // the open reader
   IS.openReader = async function (o) {
@@ -39,9 +77,12 @@
     try { history.pushState({ rdr: 1 }, ''); } catch (e) {}
     var id = o.id || 'x', account = (IS.ME || {}).id || 'local';
     var bookmarksKey = 'ish-rbm:' + account + '/' + id;
-    var reader = R = { el: el, id: id, zoom: store('ish-rz:' + id, 1), pages: [], marks: store('ish-hl:' + id, []),
+    var reader = R = { el: el, id: id, account: account, zoom: store('ish-rz:' + id, 1), pages: [], marks: store('ish-hl:' + id, []),
       bookmarksKey: bookmarksKey, bookmarks: store(bookmarksKey, []), cur: 1 };
     el.addEventListener('click', onClick);
+    reader.pulled = pull(reader);
+    /* iPhone Safari: the reader zooms the book itself, never the whole screen */
+    ['gesturestart', 'gesturechange'].forEach(function (t) { el.addEventListener(t, function (e) { e.preventDefault(); }); });
     var sc = el.querySelector('.rdr-scroll');
     sc.addEventListener('scroll', onScroll, { passive: true });
     sc.addEventListener('wheel', function (e) { if (e.ctrlKey) { e.preventDefault(); zoomTo(R.zoom * (e.deltaY < 0 ? 1.1 : 0.9)); } }, { passive: false });
@@ -94,6 +135,8 @@
     await goPage(last);
     if (R !== reader) return;
     IS.$$('[data-r]:disabled', el).forEach(function (button) { button.disabled = false; });
+    if (reader.remotePage !== undefined && reader.remotePage !== null) applyRemote(reader);
+    updateZoomLabel();
     reader.io = new IntersectionObserver(function (entries) {
       if (R !== reader) return;
       entries.forEach(function (entry) { if (entry.isIntersecting) draw(+entry.target.dataset.p); });
@@ -115,7 +158,9 @@
       if (!R || R.pages[n - 1] !== p) return;
       p.base = base.width; p.ratio = base.height / base.width;
       p.el.style.height = Math.round(w * p.ratio) + 'px';
-      var scale = w / base.width, dpr = Math.min(window.devicePixelRatio || 1, matchMedia('(pointer:coarse)').matches ? 2 : 2.5), vp = page.getViewport({ scale: scale });
+      var scale = w / base.width, coarse = matchMedia('(pointer:coarse)').matches, vp = page.getViewport({ scale: scale });
+      var dpr = Math.min(window.devicePixelRatio || 1, coarse ? 2 : 2.5, Math.sqrt((coarse ? 5e6 : 12e6) / Math.max(1, vp.width * vp.height)));
+      dpr = Math.max(0.75, dpr);
       var cv = p.el.querySelector('canvas'), ctx = cv.getContext('2d', { alpha: false });
       cv.width = Math.floor(vp.width * dpr); cv.height = Math.floor(vp.height * dpr);
       cv.style.width = vp.width + 'px'; cv.style.height = vp.height + 'px';
@@ -151,13 +196,18 @@
     return { p: best.p, fx: (x - best.r.left) / best.r.width, fy: (y - best.r.top) / best.r.height };
   }
   /* new zoom; the anchored spot ends at screen point (x, y) */
+  function updateZoomLabel() {
+    var b = R && R.el.querySelector('.rdr-fit'); if (!b) return;
+    var fit = Math.abs(R.zoom - 1) < 0.02; b.textContent = fit ? A('ملاءمة', 'Fit') : Math.round(R.zoom * 100) + '%';
+    b.classList.toggle('on', !fit); b.setAttribute('aria-label', fit ? A('ملاءمة عرض الصفحة', 'Fit page width') : A('رجوع لعرض الصفحة', 'Back to page width'));
+  }
   function zoomTo(z, x, y, anchor) {
-    if (!R || !R.n) return; z = Math.max(0.6, Math.min(5, z));
+    if (!R || !R.n) return; z = Math.max(0.6, Math.min(4, z));
     var sc = R.el.querySelector('.rdr-scroll'), box = sc.getBoundingClientRect();
     if (x == null) { x = box.left + box.width / 2; y = box.top + box.height / 2; }
     anchor = anchor || anchorAt(x, y);
     if (Math.abs(z - R.zoom) < 0.01 && !anchor) return;
-    R.zoom = z; keep('ish-rz:' + R.id, z); sizeAll();
+    R.zoom = z; keep('ish-rz:' + R.id, z); sizeAll(); updateZoomLabel();
     if (anchor) { var r = anchor.p.el.getBoundingClientRect(); sc.scrollLeft += r.left + anchor.fx * r.width - x; sc.scrollTop += r.top + anchor.fy * r.height - y; }
     clearTimeout(R.zt); R.zt = setTimeout(redrawNear, 60);
   }
@@ -198,7 +248,7 @@
       if (!g || e.touches.length !== 2) return;
       e.preventDefault();
       var m = mid(e.touches);
-      g.f = Math.max(0.6 / g.z, Math.min(5 / g.z, dist(e.touches) / g.d)); g.mx = m.x; g.my = m.y;
+      g.f = Math.max(0.6 / g.z, Math.min(4 / g.z, dist(e.touches) / g.d)); g.mx = m.x; g.my = m.y;
       g.pages.style.transform = 'translate(' + (m.x - g.m.x) + 'px,' + (m.y - g.m.y) + 'px) scale(' + g.f + ')';
     }, { passive: false });
     sc.addEventListener('touchend', function (e) {
@@ -269,6 +319,8 @@
   }
 
   function showPageNumber(page) {
+    if (R.n && R.cur && page !== R.cur && R.shown) R.moved = true;
+    R.shown = true;
     R.cur = page;
     R.el.querySelector('.rdr-cur').textContent = page;
     keep('ish-rpg:' + R.id, page);
@@ -287,11 +339,21 @@
     var out = R.el.querySelector('.rdr-bookmark-list');
     var pages = R.bookmarks.filter(function (page) { return page >= 1 && page <= R.n; }).slice().sort(function (a,b) { return a - b; });
     out.innerHTML = pages.length ? pages.map(function (page) {
-      var name = esc(A('صفحة ', 'Page ')) + N(page);
-      return '<div class="rdr-bookmark-row"><button data-r="bookmark-page" data-p="' + page + '">' + ic('bookmark') + name +
+      var name = '<b class="rbn">' + N(page) + '</b><span class="rbt"><small>' + esc(A('صفحة ', 'Page ')) + page + '</small><em data-snip="' + page + '" dir="auto">' + esc(snippet(page) || '') + '</em></span>';
+      return '<div class="rdr-bookmark-row"><button data-r="bookmark-page" data-p="' + page + '">' + name +
         '</button><button class="rib" data-r="remove-bookmark" data-p="' + page + '" aria-label="' +
         esc(A('إزالة إشارة الصفحة ', 'Remove bookmark for page ') + page) + '">' + ic('trash') + '</button></div>';
     }).join('') : '<p>' + esc(A('لا توجد صفحات محفوظة بعد.', 'No bookmarked pages yet.')) + '</p>';
+  }
+  function snippet(page) {
+    var t = R.text && R.text[page];
+    if (t != null) return t.replace(/\s+/g, ' ').trim().slice(0, 90);
+    var r = R; r.text = r.text || {};
+    r.doc.getPage(page).then(function (p) { return p.getTextContent(); }).then(function (tc) {
+      r.text[page] = tc.items.map(function (x) { return x.str; }).join(' ');
+      var el = r.el.querySelector('[data-snip="' + page + '"]'); if (el) el.textContent = r.text[page].replace(/\s+/g, ' ').trim().slice(0, 90);
+    }).catch(function () {});
+    return '';
   }
   function changeBookmark(page, remove) {
     var index = R.bookmarks.indexOf(page);
@@ -304,6 +366,7 @@
   function toggleBookmarks(open) {
     var panel = R.el.querySelector('.rdr-bookmarks');
     panel.hidden = !open;
+    R.el.style.setProperty('--rtop', R.el.querySelector('.rdr-top').offsetHeight + 'px');
     R.el.querySelector('[data-r=bookmarks]').setAttribute('aria-expanded', open);
     if (!open) return;
     R.el.querySelector('.rdr-find').hidden = true;
@@ -473,6 +536,7 @@
   }
   function close() {
     if (!R) return;
+    if (R.pushT) { clearTimeout(R.pushT); push(R); }
     if (R.io) R.io.disconnect();
     if (R.loadingTask) R.loadingTask.destroy().catch(function () {});
     if (document.fullscreenElement) document.exitFullscreen().catch(function () {});
