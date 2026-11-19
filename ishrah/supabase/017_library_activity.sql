@@ -82,10 +82,17 @@ create policy ish_read on storage.objects for select to anon, authenticated usin
 alter table public.feed_feedback add column if not exists file_id uuid references public.files on delete cascade;
 alter table public.feed_feedback drop constraint if exists feed_feedback_check;
 alter table public.feed_feedback drop constraint if exists feed_feedback_check1;
-alter table public.feed_feedback drop constraint if exists feed_feedback_one_target;
-alter table public.feed_feedback drop constraint if exists feed_feedback_star_target;
-alter table public.feed_feedback add constraint feed_feedback_one_target check (num_nonnulls(post_id,request_id,file_id) = 1);
-alter table public.feed_feedback add constraint feed_feedback_star_target check (request_id is null or stars is null);
+-- A newer migration owns the target constraints after it has added its columns.
+do $$
+begin
+  if not exists (select 1 from pg_attribute where attrelid = 'public.feed_feedback'::regclass
+      and attname = 'announcement_id' and not attisdropped) then
+    alter table public.feed_feedback drop constraint if exists feed_feedback_one_target;
+    alter table public.feed_feedback drop constraint if exists feed_feedback_star_target;
+    alter table public.feed_feedback add constraint feed_feedback_one_target check (num_nonnulls(post_id,request_id,file_id) = 1);
+    alter table public.feed_feedback add constraint feed_feedback_star_target check (request_id is null or stars is null);
+  end if;
+end $$;
 create unique index if not exists feed_feedback_file_user on public.feed_feedback (file_id,user_id) where file_id is not null;
 
 drop policy if exists own_feedback on public.feed_feedback;

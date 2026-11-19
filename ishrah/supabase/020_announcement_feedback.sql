@@ -21,12 +21,19 @@ create trigger ish_guard_announcement_counts before insert or update on public.n
   for each row execute function ishrah_private.guard_announcement_counts();
 
 alter table public.feed_feedback add column if not exists announcement_id uuid references public.notices on delete cascade;
-alter table public.feed_feedback drop constraint if exists feed_feedback_one_target;
-alter table public.feed_feedback drop constraint if exists feed_feedback_star_target;
-alter table public.feed_feedback add constraint feed_feedback_one_target
-  check (num_nonnulls(post_id,request_id,file_id,announcement_id) = 1);
-alter table public.feed_feedback add constraint feed_feedback_star_target
-  check (stars is null or (request_id is null and announcement_id is null));
+-- A newer migration owns the target constraints after it has added its columns.
+do $$
+begin
+  if not exists (select 1 from pg_attribute where attrelid = 'public.feed_feedback'::regclass
+      and attname = 'course_id' and not attisdropped) then
+    alter table public.feed_feedback drop constraint if exists feed_feedback_one_target;
+    alter table public.feed_feedback drop constraint if exists feed_feedback_star_target;
+    alter table public.feed_feedback add constraint feed_feedback_one_target
+      check (num_nonnulls(post_id,request_id,file_id,announcement_id) = 1);
+    alter table public.feed_feedback add constraint feed_feedback_star_target
+      check (stars is null or (request_id is null and announcement_id is null));
+  end if;
+end $$;
 create unique index if not exists feed_feedback_announcement_user
   on public.feed_feedback (announcement_id,user_id) where announcement_id is not null;
 

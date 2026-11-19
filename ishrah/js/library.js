@@ -63,7 +63,8 @@
     return '<span aria-hidden="true">⭐</span><bdi dir="ltr">' + (average || '—') + '</bdi>' + (count ? '<small>(' + N(count) + ')</small>' : '');
   }
   function ratingLabel(file) {
-    return starsCount(file) ? A('تقييم الملف ', 'File rating ') + starsAverage(file).toFixed(1) + ' / 5' : A('قيّم الملف', 'Rate this file');
+    var label = A('قيّم الملف', 'Rate this file');
+    return starsCount(file) ? label + ' · ' + starsAverage(file).toFixed(1) + ' / 5 (' + N(starsCount(file)) + ')' : label;
   }
   function ratingData(file) {
     return { rating_count: starsCount(file), rating_points: Number(file.rating_points) || Math.round(starsAverage(file) * starsCount(file)),
@@ -72,8 +73,8 @@
   IS.libraryRating = function (file, interactive) {
     var rating = ratingData(file);
     var attributes = ' class="library-rating" data-library-file="' + esc(file.id) + '" aria-label="' + esc(ratingLabel(file)) + '"';
-    return interactive ? '<button type="button"' + attributes + ' data-act="rate-library-file" aria-haspopup="dialog" data-owner="' + esc(file.owner_id || '') +
-      '" data-name="' + esc(file.title || '') + '" data-count="' + rating.rating_count + '" data-points="' + rating.rating_points + '">' +
+    return interactive ? '<button type="button"' + attributes + ' data-act="rate-library-file" aria-expanded="false" data-owner="' + esc(file.owner_id || '') +
+      '" data-own-stars="' + (file.my_stars == null ? '' : Number(file.my_stars)) + '" data-count="' + rating.rating_count + '" data-points="' + rating.rating_points + '">' +
       ratingContents(file) + '</button>' : '<span' + attributes + ' role="img">' + ratingContents(file) + '</span>';
   };
   function updateRating(id, file) {
@@ -87,60 +88,100 @@
     if (home) home.dispatchEvent(new CustomEvent('feed-feedback', { detail: { key: 'file/' + id, values: file } }));
     if (library) library.dispatchEvent(new CustomEvent('library-feedback', { detail: { id: id, values: file } }));
   }
-  function syncStars(dialog, value) {
-    dialog.dataset.stars = value || 0;
-    IS.$$('[data-act=save-library-stars]', dialog).forEach(function (button) {
+  function syncStars(panel, value) {
+    IS.$$('[data-act=save-library-stars]', panel).forEach(function (button) {
       var stars = Number(button.dataset.stars);
       button.classList.toggle('on', stars <= value);
       button.setAttribute('aria-pressed', stars === value);
     });
   }
+  function closeRating(button) {
+    button.ratingPanel.hidden = true;
+    button.setAttribute('aria-expanded', 'false');
+  }
   IS.ACT['rate-library-file'] = function (button) {
-    var d = button.dataset, myId = IS.ME && IS.ME.id, own = myId && myId === d.owner;
-    var starButtons = myId && !own ? '<div class="library-rate-stars" role="group" aria-label="' + esc(A('اختر عدد النجوم', 'Choose your stars')) + '">' +
-      [1, 2, 3, 4, 5].map(function (star) {
-        return '<button type="button" data-act="save-library-stars" data-stars="' + star + '" aria-pressed="false" aria-label="' +
-          esc(A(star + ' من 5', star + ' out of 5')) + '">' + ic('star') + '<span>' + star + '</span></button>';
-      }).join('') + '</div>' : myId ? '' : '<button type="button" class="btn pri" data-act="login">' +
-      esc(A('سجّل الدخول للتقييم', 'Sign in to rate')) + '</button>';
-    var file = { id: d.libraryFile, rating_count: Number(d.count), rating_points: Number(d.points) };
-    file.average_rating = file.rating_count ? file.rating_points / file.rating_count : 0;
-    var dialog = IS.sheet(esc(A('تقييم الملف', 'Rate this file')), '<section class="library-rate-dialog"><div class="library-rate-summary"><strong dir="auto">' +
-      esc(d.name) + '</strong>' + IS.libraryRating(file, false) + '</div>' + starButtons +
-      '<p class="mut" data-rating-result role="status">' + esc(own ? A('تقييمات القرّاء', 'Reader ratings') : '') + '</p></section>', { nofocus: 1 });
-    Object.assign(dialog.dataset, { file: file.id, count: file.rating_count, points: file.rating_points });
-    var first = dialog.querySelector('[data-act=save-library-stars]') || dialog.querySelector('[data-close]');
-    first.focus();
-    dialog.addEventListener('keydown', function (event) {
-      if (event.key !== 'Escape') return;
-      IS.closeSheet();
-      button.focus();
-    });
-    if (myId && !own) {
-      var starsQuery = { eq: { file_id: file.id, user_id: myId }, select: 'stars', limit: 1 };
-      dialog.ownRating = DB.q('feed_feedback', starsQuery).then(function (rows) {
-        var stars = Number(rows[0] && rows[0].stars) || 0;
-        if (dialog.isConnected && !dialog.dataset.touched) syncStars(dialog, stars);
-        return stars;
-      }).catch(function () { return 0; });
+    var panel = button.ratingPanel, d = button.dataset;
+    if (panel && !panel.hidden) return closeRating(button);
+    if (!panel) {
+      var myId = IS.ME && IS.ME.id, own = myId && myId === d.owner;
+      panel = button.ratingPanel = document.createElement('section');
+      panel.className = 'library-rate-panel';
+      panel.id = 'rate-file-' + d.libraryFile;
+      panel.setAttribute('aria-label', A('تقييم الملف', 'File rating'));
+      button.setAttribute('aria-controls', panel.id);
+      panel.innerHTML = '<strong>' + esc(own ? A('تقييمات القرّاء', 'Reader ratings') : A('تقييمك للملف', 'Your rating')) + '</strong>' +
+        (myId && !own ? '<div class="library-rate-stars" role="group" aria-label="' + esc(A('اختر عدد النجوم', 'Choose your stars')) + '">' +
+          [1, 2, 3, 4, 5].map(function (star) {
+            return '<button type="button" data-act="save-library-stars" data-stars="' + star + '" aria-pressed="false" aria-label="' +
+              esc(A(star + ' من 5', star + ' out of 5')) + '">' + ic('star') + '</button>';
+          }).join('') + '</div>' : own ? IS.libraryRating({ id: d.libraryFile, rating_count: Number(d.count),
+          average_rating: Number(d.count) ? Number(d.points) / Number(d.count) : 0 }, false) :
+          '<button type="button" class="btn ghost sm" data-act="login">' + esc(A('سجّل الدخول للتقييم', 'Sign in to rate')) + '</button>') +
+        '<span class="mut" data-rating-result role="status"></span>';
+      button.closest('.feed-action-row, .ff').after(panel);
+      panel.ratingButton = button;
+      panel.addEventListener('keydown', function (event) {
+        if (event.key !== 'Escape') return;
+        closeRating(button);
+        button.focus();
+      });
+      if (myId && !own) {
+        if (d.ownStars !== '') {
+          panel.myStars = Number(d.ownStars);
+          syncStars(panel, panel.myStars);
+        } else {
+          var starsQuery = { eq: { file_id: d.libraryFile, user_id: myId }, select: 'stars', limit: 1 };
+          panel.ownRating = DB.q('feed_feedback', starsQuery).then(function (rows) {
+            var stars = Number(rows[0] && rows[0].stars) || 0;
+            if (panel.isConnected && !panel.touched) {
+              panel.myStars = stars;
+              button.dataset.ownStars = stars;
+              syncStars(panel, stars);
+            }
+            return stars;
+          }).catch(function () {});
+        }
+      }
     }
+    panel.hidden = false;
+    button.setAttribute('aria-expanded', 'true');
   };
   IS.ACT['save-library-stars'] = async function (button) {
-    var dialog = button.closest('.dlg'), d = dialog.dataset;
-    if (d.saving || !IS.ME) return;
-    var value = Number(button.dataset.stars), previous = Number(d.stars) || 0;
-    d.saving = d.touched = 'true';
-    syncStars(dialog, value);
-    var status = dialog.querySelector('[data-rating-result]');
+    var panel = button.closest('.library-rate-panel'), opener = panel.ratingButton;
+    var account = IS.ME && IS.ME.id;
+    if (panel.saving || !account) return;
+    var value = Number(button.dataset.stars), previous = panel.myStars;
+    var id = opener.dataset.libraryFile, count = Number(opener.dataset.count), points = Number(opener.dataset.points);
+    var status = panel.querySelector('[data-rating-result]');
+    var controls = IS.$$('[data-act=save-library-stars]', panel);
+    panel.saving = panel.touched = true;
+    controls.forEach(function (control) { control.disabled = true; });
+    syncStars(panel, value);
     status.textContent = A('جارٍ حفظ التقييم…', 'Saving rating…');
+    if (previous != null) {
+      var total = count + Number(previous === 0), nextPoints = points + value - previous;
+      updateRating(id, { rating_count: total, rating_points: nextPoints, average_rating: nextPoints / total });
+    }
     try {
-      var saved = await IS.feedVote('file', d.file, value, 'rate');
-      if (saved) updateRating(d.file, saved);
+      var saved = await IS.feedVote('file', id, value, 'rate');
+      if (!saved) throw new Error('rating_unavailable');
+      if ((IS.ME || {}).id !== account) return;
+      panel.myStars = value;
+      updateRating(id, saved);
+      IS.$$('[data-act=rate-library-file]').filter(function (el) { return el.dataset.libraryFile === id; }).forEach(function (el) {
+        el.dataset.ownStars = value;
+      });
       status.textContent = A('حُفظ تقييمك', 'Rating saved');
     } catch (error) {
-      syncStars(dialog, previous || await dialog.ownRating);
+      if ((IS.ME || {}).id !== account) return;
+      if (previous != null) updateRating(id, { rating_count: count, rating_points: points, average_rating: count ? points / count : 0 });
+      panel.myStars = previous == null ? await panel.ownRating : previous;
+      syncStars(panel, panel.myStars || 0);
       status.textContent = A('تعذّر الحفظ. اختر التقييم مرة أخرى.', 'Could not save. Choose a star to retry.');
-    } finally { delete d.saving; }
+    } finally {
+      panel.saving = false;
+      controls.forEach(function (control) { control.disabled = false; });
+    }
   };
   IS.sectionLibraryFiles = async function (spec, cat) {
     var scope = { status: 'published', spec: spec, cat: cat };
@@ -503,6 +544,7 @@
       comments.map(function (comment) {
         return '<article class="cr-message"><div class="row sp"><b dir="auto">' + esc(comment.author_name) + '</b><small class="mut">' +
           esc(IS.ago(comment.created_at)) + '</small></div><p class="pre" dir="auto">' + esc(comment.body) + '</p>' +
+          IS.reportButton('file_comment', comment.id) +
           (canRemoveComment(comment) ? '<button class="link bad" data-act="remove-library-comment" data-id="' + esc(comment.id) +
             '" data-file="' + esc(file.id) + '">' + esc(A('احذف التعليق', 'Delete comment')) + '</button>' : '') + '</article>';
       }).join('') + '</section>';
@@ -521,6 +563,7 @@
     ]) : [[], []];
     var own = data[1][0] || {};
     file.my_reaction = own.reaction || null;
+    file.my_stars = Number(own.stars) || 0;
     var h = '<nav class="crumb"><a href="#library">' + esc(A('مكتبتي', 'My Library')) + '</a>' +
       (genre[0] === 'slides' ? '' : ic('chev', 'fl') + '<a href="#library/' + esc(browseKind[0]) + '">' + esc(A(browseKind[2], browseKind[3])) + '</a>') + '</nav><article class="box library-detail">' +
       IS.libraryCover(file) + '<div><h1 tabindex="-1"><bdi>' + esc(file.title) + '</bdi></h1><p class="mut">' +

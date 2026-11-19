@@ -417,7 +417,7 @@
     }
     if (!published || admin) return h + '</article>';
 
-    h += IS.feedVoteBar('request', row) + IS.postActions('request', row.id, 'course-request/' + row.id) + '<div class="cr-join"><span class="row cr-meta">' + ic('users') + joined(row) + '</span>';
+    h += IS.feedVoteBar('request', row, false, 'course-request/' + row.id) + '<div class="cr-join"><span class="row cr-meta">' + ic('users') + joined(row) + '</span>';
     if (row.payment_required && agreement) {
       var payment = r[4].find(function (entry) { return entry.status === 'active' || entry.status === 'pending'; }), last = r[4][0];
       var full = row.auto_close && row.reserved_count >= row.goal;
@@ -518,7 +518,7 @@
     heading.scrollIntoView({ block: 'start' });
   };
 
-  var FEEDBACK = { post: 'posts', request: REQUESTS, file: 'files', announcement: 'notices' };
+  var FEEDBACK = { post: 'posts', request: REQUESTS, file: 'files', announcement: 'notices', course: 'courses', event: 'events', news: 'news' };
   var REACTIONS = [[1, '👍', 'أعجبني', 'Like', 'like'], [-1, '👎', 'لم يعجبني', 'Dislike', 'dislike']];
   var savingVotes = new Set();
 
@@ -526,12 +526,12 @@
   function commentLabel(count) { return A('التعليقات', 'Comments') + ' (' + count + ')'; }
   function voteScore(row) {
     var score = approval(row);
-    return { value: score, label: score === '—' ? A('لا توجد تفاعلات بعد', 'No reactions yet') : A('نسبة الإعجاب', 'Positive reactions') + ' ' + score };
+    return { value: score, label: score === '—' ? A('لا توجد تفاعلات بعد', 'No reactions yet') : A('نسبة الإعجاب', 'Approval') + ' ' + score };
   }
   function emoji(symbol, count) {
     return '<span class="feed-emoji-icon" aria-hidden="true">' + symbol + '</span><bdi data-feedback-count>' + count + '</bdi>';
   }
-  IS.feedVoteBar = function (kind, row, inline) {
+  IS.feedVoteBar = function (kind, row, inline, shareRoute) {
     var id = esc(row.id), count = Number(row[kind === 'post' ? 'n_replies' : 'comment_count']) || 0;
     var label = esc(commentLabel(count)), panelId = 'comments-' + kind + '-' + id;
     var commentRoute = kind === 'request' ? href(row, IS.area === 'studio' ? 'studio-course-request' : 'course-request', 'comments') :
@@ -542,7 +542,7 @@
       '<a class="feed-emoji feed-comment" data-act="focus-feed-comments" href="' + esc(commentRoute) + '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</a>';
     var score = voteScore(row);
     var rating = kind === 'file' ? IS.libraryRating(row, true) : '<span class="feed-vote-count" role="img" aria-label="' + esc(score.label) +
-      '" title="' + esc(score.label) + '"><span class="feed-emoji-icon" aria-hidden="true">⭐</span><bdi dir="ltr">' + esc(score.value) + '</bdi></span>';
+      '" title="' + esc(score.label) + '"><span aria-hidden="true">' + text('نسبة الإعجاب', 'Approval') + '</span><bdi dir="ltr">' + esc(score.value) + '</bdi></span>';
     var reaction = row.my_reaction === undefined ? '' : String(Number(row.my_reaction) || 0);
     var key = kind + '/' + row.id;
     var buttons = REACTIONS.map(function (item) {
@@ -554,7 +554,8 @@
         '<span' + attributes + ' role="img">' + emoji(item[1], total) + '</span>';
     }).join('');
     return '<div class="feed-votes" data-feedback="' + esc(key) + '" data-reaction="' + reaction + '"' +
-      (row.status === 'closed' ? ' data-comments-closed' : '') + '><div class="row">' + buttons + comment + rating + '</div>' +
+      (row.status === 'closed' ? ' data-comments-closed' : '') + '><div class="row feed-action-row">' +
+      buttons + comment + IS.reportButton(kind, row.id, true) + rating + (shareRoute ? IS.shareButton(shareRoute, true) : '') + '</div>' +
       (inline ? '<div class="feed-comment-panel" id="' + panelId + '" hidden></div>' : '') + '</div>';
   };
 
@@ -680,7 +681,7 @@
   };
 
   function commentMarkup(row, kind) {
-    var report = kind === 'request' ? 'request_comment' : kind === 'file' ? '' : 'reply';
+    var report = kind === 'request' ? 'request_comment' : kind === 'file' ? 'file_comment' : 'reply';
     return '<article class="feed-reply"><div class="row sp"><b dir="auto">' + esc(row.author_name || row.name) + '</b>' +
       '<small class="mut">' + (row.created_at ? esc(IS.ago(row.created_at)) : text('الآن', 'Now')) + '</small></div><p dir="auto" class="pre">' +
       esc(row.body) + '</p>' + (report && row.id ? IS.reportButton(report, row.id) : '') + '</article>';
@@ -727,6 +728,13 @@
       loadComments(panel, kind, id).finally(function () { delete panel.dataset.loading; });
     }
   };
+  IS.openFeedComments = function (main) {
+    var button = main.querySelector('[data-act="feed-comments"][aria-expanded="false"]');
+    if (!button) return;
+    IS.ACT['feed-comments'](button);
+    button.focus({ preventScroll: true });
+    button.scrollIntoView({ block: 'center' });
+  };
 
   IS.ACT['earlier-feed-comments'] = async function (button) {
     var panel = button.closest('.feed-comment-panel'), [kind,id] = panel.closest('[data-feedback]').dataset.feedback.split('/');
@@ -761,10 +769,11 @@
           if (result.error) throw result.error;
         } else await previewCommand('comment', id, { body: body });
       } else {
-        await DB.ins('replies', { announcement_id: id, user_id: uid(), status: 'open', name: IS.ME.name, body: body });
+        var target = { [kind + '_id']: id };
+        await DB.ins('replies', Object.assign({ user_id: uid(), status: 'open', name: IS.ME.name, body: body }, target));
         if (!DB.live) {
-          var rows = await DB.q('replies', { eq: { announcement_id: id, status: 'open' } });
-          await DB.upd('notices', id, { comment_count: rows.length });
+          var rows = await DB.q('replies', { eq: Object.assign({ status: 'open' }, target) });
+          await DB.upd(FEEDBACK[kind], id, { comment_count: rows.length });
         }
       }
       if (form.elements.body.value.trim() === body) form.elements.body.value = '';

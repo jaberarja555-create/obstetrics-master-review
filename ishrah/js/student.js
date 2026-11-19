@@ -103,7 +103,7 @@
 
   /* ========== HOME (navy and gold design, owner 18 Nov 2026) ========== */
   var SECTION_PICTURES = {
-    medicine: { basics: 'sec_basics', clinical: 'sec_clinical', special: 'sec_special', house: 'sec_house' },
+    medicine: { basics: 'sec_basics', clinical: 'choice_clinical', special: 'choice_usmle', house: 'choice_house' },
     lab: { basics: 'sub_clin-chem', clinical: 'sub_histopath', special: 'sub_haematology', house: 'sub_blood-bank' },
     dentistry: { basics: 'sub_oral-anat', clinical: 'sub_operative', special: 'sub_ortho', house: 'sub_omfs' },
     nursing: { basics: 'sub_nurs-fund', clinical: 'sub_nurs-medsurg', special: 'sub_nurs-comm', house: 'sub_nurs-mat' },
@@ -152,11 +152,10 @@
     IS.after = fitSectionPicker;
     return '<div class="section-picker"><header class="section-picker-heading">' + ic('layers') + '<h1 tabindex="-1">' +
       IS.T('اختر قسمك', 'Choose your section') + '</h1></header><nav class="section-picker-grid" aria-label="' + esc(A('أقسام التخصص', 'Study sections')) + '">' + IS.CATS.map(function (c) {
-      var img = spec.id === 'medicine' && SECTION_PICTURES.medicine[c.id] ?
-        'img/choice_' + c.id + '.webp' : sectionPicture(spec, c.id);
+      var img = sectionPicture(spec, c.id), poster = spec.id === 'medicine' && c.id === 'special';
       var selected = current && current.id === c.id;
       return '<a class="section-choice" href="#home" data-act="setsection" data-v="' + esc(c.id) + '"' + (selected ? ' aria-current="true"' : '') + '>' +
-        '<span class="section-choice-art">' + (img ? '<img src="' + img + '" alt="">' : ic(c.icon)) + '</span>' +
+        '<span class="section-choice-art' + (poster ? ' section-choice-poster' : '') + '">' + (img ? '<img src="' + IS.U(img) + '" alt="">' : ic(c.icon)) + '</span>' +
         '<span class="section-choice-label">' + IS.navLbl(c.ar, c.en) + '</span>' +
         (selected ? '<span class="section-choice-current" title="' + esc(A('قسمك الحالي', 'Current section')) + '">' + ic('check') + '</span>' : '') + '</a>';
     }).join('') + '</nav></div>';
@@ -212,7 +211,7 @@
       var filtered = items.filter(function (item) { return preferences.type === 'all' || item.type === preferences.type; });
       filtered.sort(function (a, b) {
         var difference = preferences.sort === 'popular' ? feedScore(b) - feedScore(a) :
-          preferences.sort === 'new' ? 0 : IS.ratingSort(a.row, b.row, preferences.sort);
+          preferences.sort === 'new' ? 0 : feedRatingSort(a, b, preferences.sort);
         return difference || String(b.row.published_at || b.row.created_at || '').localeCompare(String(a.row.published_at || a.row.created_at || ''));
       });
       return filtered.length ? filtered.slice(0, limit).map(feedCard).join('') +
@@ -256,18 +255,28 @@
   function feedScore(item) {
     var r = item.row;
     return (Number(r.n_students) || 0) + (Number(r.joined_count) || 0) +
-      (Number(r.registered_count) || 0) + (Number(r.n_replies) || 0) + (Number(r.like_count) || 0) +
+      (Number(r.registered_count) || 0) + (Number(r.n_replies) || 0) + (Number(r.like_count) || 0) + (Number(r.dislike_count) || 0) +
       (Number(r.comment_count) || 0) + (item.type === 'library' ? (Number(r.rating_count) || 0) : 0);
+  }
+  function feedRatingSort(first, second, order) {
+    function rating(item) {
+      var row = item.row;
+      if (item.type === 'library') return row;
+      var likes = Number(row.like_count) || 0, count = likes + (Number(row.dislike_count) || 0);
+      return { rating_count: count, average_rating: count ? 5 * likes / count : 0 };
+    }
+    return IS.ratingSort(rating(first), rating(second), order);
   }
   function feedTarget(item) {
     if (item.row.room && Object.prototype.hasOwnProperty.call(POST_KINDS, item.type)) return 'post';
-    return { library: 'file', request: 'request', announcement: 'announcement' }[item.type];
+    return item.type === 'library' ? 'file' : item.type;
   }
   function feedCard(item) {
     var row = item.row, type = item.type, label = FEED_TYPES[type], when = row.published_at || row.created_at;
     var isPost = !!row.room && Object.prototype.hasOwnProperty.call(POST_KINDS, type), library = type === 'library';
     var feedback = feedTarget(item);
     var target = isPost ? 'post/' : { course: 'course/', announcement: 'news/ann/', request: 'course-request/', event: 'event/', news: 'news/', library: 'file/' }[type];
+    var shareRoute = (isPost && type !== 'announcement') || type === 'request' || type === 'news' ? target + row.id : '';
     var summary = row.subtitle || row.details || row.body || (row.about || '').replace(/<br\s*\/?\s*>/g, '\n');
     var title = type === 'announcement' && !isPost ? IS.noticeTitle(row) : row.title || A('نقاش', 'Discussion');
     var media = row.preview_image || row.cover;
@@ -287,8 +296,7 @@
       (details ? '<p class="feed-detail">' + details + '</p>' : '') +
       (library ? '<div class="row library-feed-actions"><a class="btn ghost sm" href="#file/' + esc(row.id) + '/read">' + ic('open') +
         esc(A('اقرأ داخل التطبيق', 'Read in the app')) + '</a>' + IS.dlBtn('file', row.id, '', true) + '</div>' : '') + '</div></div>' +
-      (isPost ? postPreview(row, true) : '') + (feedback ? IS.feedVoteBar(feedback, row, true) : '') +
-      (isPost || ['request', 'news', 'announcement'].includes(type) ? IS.postActions(isPost ? 'post' : type, row.id, target + row.id, type !== 'announcement') : '') + '</article>';
+      (isPost ? postPreview(row, true) : '') + IS.feedVoteBar(feedback, row, true, shareRoute) + '</article>';
   }
 
   /* ========== START PAGE: sign in and choose a speciality (owner, 18 Nov 2026) ========== */
@@ -481,11 +489,13 @@
   }
 
   /* ========== COURSE PAGE ========== */
-  IS.page('course', async function (id) {
+  IS.page('course', async function (arg) {
+    var parts = String(arg || '').split('/'), id = parts[0];
     var c = await DB.one('courses', id); if (!c) return null;
     var mine = IS.LEC && c.lecturer_id === IS.LEC.id, staff = IS.can('review');
     if (c.status !== 'published' && !mine && !staff) return null;
     if (!mine && !staff && !IS.inStudySpace(c)) return IS.outsideStudySpace(c);
+    if (parts[1] === 'comments') IS.after = IS.openFeedComments;
     var r = await Promise.all([IS.courseLessons(id), DB.one('lecturers', c.lecturer_id), IS.myEnroll(), IS.myProgress(id), DB.q('reviews', { eq: { course_id: id }, order: ['created_at', false] }), availableSeats(c),
       uid() && (c.delivery === 'live' || c.delivery === 'hybrid') ? IS.courseLiveLink(c.id) : '']);
     var secs = r[0], l = r[1] || {}, e = r[2][id], P = r[3], rv = r[4], seats = r[5], all = []; secs.forEach(function (s) { all = all.concat(s.lessons); });
@@ -530,7 +540,7 @@
       '<textarea name="body" rows="3" placeholder="' + esc(A('اكتب رأيك بإيجاز (اختياري)', 'A short comment (optional)')) + '"></textarea><button class="btn pri">' + esc(A('إرسال التقييم', 'Submit review')) + '</button></form>' : '') +
       (rv.length ? rv.map(function (x) { return '<div class="revw">' + IS.av({ name: x.name }, 'sm') + '<div><b>' + esc(x.name || '') + '</b> ' + IS.stars(x.stars) + '<small>' + esc(IS.ago(x.created_at)) + '</small><p>' + esc(x.body || '') + '</p></div><button class="ib" data-act="report" data-kind="review" data-id="' + x.id + '" aria-label="' + esc(A('إبلاغ', 'Report')) + '">' + ic('flag') + '</button></div>'; }).join('') :
         IS.empty('star', A('لا توجد تقييمات بعد', 'No reviews yet'), A('يقيّم الكورس الطلبة الملتحقون به.', 'Enrolled students rate the course.'))) + '</div>';
-    return h + '</div>';
+    return h + '</div>' + (c.status === 'published' ? '<section class="box feedback-detail">' + IS.feedVoteBar('course', c, true) + '</section>' : '');
   });
   function lessonKind(kind) {
     return { video: A('فيديو', 'Video'), text: A('درس مكتوب', 'Reading'), quiz: A('اختبار', 'Quiz') }[kind] || '';
@@ -906,8 +916,10 @@
       '<section class="sec"><header class="sh"><h2>' + IS.T('القادمة', 'Upcoming') + '</h2></header>' + (up.length ? '<div class="box">' + up.map(evRow).join('') + '</div>' : IS.empty('cal', A('لا توجد فعاليات قادمة الآن', 'No upcoming events yet'), A('يعلن المحاضرون عن جلساتهم هنا.', 'Lecturers announce their sessions here.'))) + '</section>' +
       (past.length ? '<section class="sec"><header class="sh"><h2>' + IS.T('السابقة', 'Past') + '</h2></header><div class="box">' + past.map(evRow).join('') + '</div></section>' : '');
   });
-  IS.page('event', async function (id) {
+  IS.page('event', async function (arg) {
+    var parts = String(arg || '').split('/'), id = parts[0];
     var e = await DB.one('events', id); if (!e || e.status !== 'published') return null; if (!IS.announcementInSection(e) && !IS.can('events') && !(IS.LEC && IS.LEC.id === e.lecturer_id)) return IS.outsideStudySpace(e); var l = await DB.one('lecturers', e.lecturer_id) || {}, regs = await DB.q('event_regs', { eq: { event_id: id } }), mine = me() && regs.some(function (x) { return x.user_id === uid(); });
+    if (parts[1] === 'comments') IS.after = IS.openFeedComments;
     var live = Date.now() > new Date(e.starts).getTime() - 15 * 6e4;
     return '<nav class="crumb"><a href="#events">' + esc(A('الفعاليات', 'Events')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(e.title) + '</span></nav>' +
       '<section class="chero"' + (e.cover ? ' style="--ci:url(' + IS.U(e.cover) + ')"' : '') + '><div class="chin"><div class="cht"><span class="tags lt"><span>' + esc(e.kind === 'live' ? A('جلسة مباشرة', 'Live session') : e.kind === 'workshop' ? A('ورشة عمل', 'Workshop') : A('ندوة', 'Seminar')) + '</span></span><h1 tabindex="-1">' + esc(e.title) + '</h1>' +
@@ -916,7 +928,8 @@
       '<section class="box buy event-registration">' +
       (mine ? '<p class="note ok">' + ic('checkc') + esc(A('أنت مسجّل في هذه الفعالية', 'You are registered')) + '</p>' + (e.link && live ? '<a class="btn pri" target="_blank" rel="noopener" href="' + esc(e.link) + '">' + ic('live') + esc(A('انضم الآن', 'Join now')) + '</a>' : '<p class="mut">' + esc(A('يظهر رابط الانضمام هنا قبل البدء بربع ساعة.', 'The joining link shows here 15 minutes before the start.')) + '</p>') +
         '<button class="btn ghost" data-act="unreg" data-id="' + id + '">' + esc(A('إلغاء التسجيل', 'Cancel registration')) + '</button>' : '<button class="btn pri" data-act="reg" data-id="' + id + '">' + ic('cal') + esc(A('سجّل في الفعالية', 'Register')) + '</button>') + '</section>' +
-      (e.about ? '<section class="box"><h2>' + IS.T('عن الفعالية', 'About the event') + '</h2><div class="rich">' + IS.clean(e.about) + '</div></section>' : '');
+      (e.about ? '<section class="box"><h2>' + IS.T('عن الفعالية', 'About the event') + '</h2><div class="rich">' + IS.clean(e.about) + '</div></section>' : '') +
+      '<section class="box feedback-detail">' + IS.feedVoteBar('event', e, true) + '</section>';
   });
   async function eventCount(id) {
     if (DB.live) return;
@@ -1110,8 +1123,8 @@
       '</span><textarea name="body" rows="2" required maxlength="4000"></textarea></label>' +
       '<div class="row end"><button class="btn pri sm">' + ic('send') + esc(p.room === 'qa' ? A('أرسل الرد', 'Send reply') : A('انشر التعليق', 'Post comment')) + '</button></div></form>' : '';
     return '<nav class="crumb"><a href="#' + (p.room === 'qa' ? 'course/' + p.course_id : 'community') + '">' + esc(p.room === 'qa' ? A('الكورس', 'Course') : A('المجتمع', 'Community')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(p.title || A('سؤال', 'Question')) + '</span></nav>' +
-      '<article class="box thread">' + IS.av({ name: p.name, photo: p.photo }, 'md', p.user_id) + '<div><h1 tabindex="-1">' + esc(p.title || p.body.slice(0, 80)) + '</h1><small class="mut">' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + '</small><p class="pre">' + esc(p.body) + '</p>' + (p.room !== 'qa' ? postPreview(p, false) + IS.feedVoteBar('post', p) : '') +
-      '<div class="row">' + IS.postActions('post', p.id, 'post/' + p.id) + (mod ? '<button class="btn ghost sm" data-act="pin" data-id="' + p.id + '">' + ic('pin') + esc(p.pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت', 'Pin')) + '</button><button class="btn ghost sm bad" data-act="rmpost" data-id="' + p.id + '">' + ic('trash') + esc(A('حذف', 'Remove')) + '</button>' : '') + '</div></div></article>' +
+      '<article class="box thread">' + IS.av({ name: p.name, photo: p.photo }, 'md', p.user_id) + '<div><h1 tabindex="-1">' + esc(p.title || p.body.slice(0, 80)) + '</h1><small class="mut">' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + '</small><p class="pre">' + esc(p.body) + '</p>' + (p.room !== 'qa' ? postPreview(p, false) + IS.feedVoteBar('post', p, false, postKind(p) === 'announcement' ? '' : 'post/' + p.id) : '') +
+      '<div class="row">' + (p.room === 'qa' ? IS.postActions('post', p.id, 'post/' + p.id) : '') + (mod ? '<button class="btn ghost sm" data-act="pin" data-id="' + p.id + '">' + ic('pin') + esc(p.pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت', 'Pin')) + '</button><button class="btn ghost sm bad" data-act="rmpost" data-id="' + p.id + '">' + ic('trash') + esc(A('حذف', 'Remove')) + '</button>' : '') + '</div></div></article>' +
       '<section class="box post-comments"><h2 tabindex="-1" data-post-comments>' +
       (p.room === 'qa' ? IS.T('الردود', 'Replies') : IS.T('التعليقات', 'Comments')) + '</h2>' + composer + rs.map(function (r) { var isLec = !!lecs[r.user_id];
         return '<div class="box reply' + (isLec ? ' lec' : '') + '">' + IS.av({ name: r.name, photo: r.photo }, 'sm', r.user_id) + '<div><b>' + esc(r.name || '') + '</b>' + (isLec ? IS.chip(esc(A('محاضر', 'Lecturer')), 'ok') : '') + ' <small class="mut">' + esc(IS.ago(r.created_at)) + '</small><p class="pre">' + esc(r.body) + '</p>' +
@@ -1126,15 +1139,21 @@
     if (p.user_id !== uid()) IS.notify(p.user_id, A('رد جديد على مشاركتك', 'New reply to your post'), body.slice(0, 120), '#post/' + id);
   };
   IS.SUB.reply = async function (d) { await IS.savePostReply(d.post, d.body); IS.refresh(); };
-  IS.reportButton = function (kind, id) {
-    return me() ? '<button type="button" class="btn ghost sm" data-act="report" data-kind="' + esc(kind) + '" data-id="' + esc(id) + '">' +
-      ic('flag') + esc(A('إبلاغ', 'Report')) + '</button>' : '';
+  IS.reportButton = function (kind, id, compact) {
+    var label = esc(A('إبلاغ', 'Report'));
+    return me() ? '<button type="button" class="' + (compact ? 'feed-emoji feed-report' : 'btn ghost sm') + '" data-act="report" data-kind="' +
+      esc(kind) + '" data-id="' + esc(id) + '"' + (compact ? ' aria-label="' + label + '" title="' + label + '"' : '') + '>' +
+      ic('flag') + (compact ? '' : label) + '</button>' : '';
   };
   IS.postActions = function (kind, id, route, shareable) {
-    var share = shareable === false ? '' : '<button type="button" class="btn ghost sm" data-act="share-link" data-h="' +
-      esc(route) + '">' + ic('share') + esc(A('مشاركة', 'Share')) + '</button>';
+    var share = shareable === false ? '' : IS.shareButton(route);
     var report = IS.reportButton(kind, id);
     return share || report ? '<div class="row post-actions">' + share + report + '</div>' : '';
+  };
+  IS.shareButton = function (route, compact) {
+    var label = esc(A('مشاركة', 'Share'));
+    return '<button type="button" class="' + (compact ? 'feed-emoji feed-share' : 'btn ghost sm') + '" data-act="share-link" data-h="' + esc(route) +
+      '"' + (compact ? ' aria-label="' + label + '" title="' + label + '"' : '') + '>' + ic('share') + (compact ? '' : label) + '</button>';
   };
   IS.ACT.report = async function (b) {
     if (!me()) return IS.ACT.login();
@@ -1183,6 +1202,11 @@
   function annRow(x) { return '<a class="annr" href="' + esc('#news/ann/' + x.id) + '"><span class="anni">' + ic('mega') + '</span><span class="annt"><b>' + esc(IS.noticeTitle(x)) + '</b>' + (x.body ? '<small>' + esc(x.body) + '</small>' : '') + '<em>' + ic('cal') + esc(IS.date(x.created_at)) + '</em></span>' + ic('pinned', 'annp') + '</a>'; }
   function newsCard(x) { return '<a class="ncard" href="#news/' + x.id + '"><span class="ncv">' + (x.cover ? '<img src="' + IS.U(x.cover) + '" alt="" loading="lazy">' : '<i>' + ic('news') + '</i>') + '<em class="ntag">' + esc(ntag(x.tag)) + '</em></span><b>' + esc(x.title) + '</b><small>' + ic('cal') + esc(IS.date(x.created_at)) + '</small></a>'; }
   IS.page('news', async function (arg) {
+    var parts = String(arg || '').split('/');
+    if (parts[parts.length - 1] === 'comments') {
+      arg = parts.slice(0, -1).join('/');
+      IS.after = IS.openFeedComments;
+    }
     var r = await Promise.all([annList(), newsList()]), an = r[0], ns = r[1];
     var ban = IS.banner(IS.T('الإعلانات والأخبار', 'Announcements & News'), esc(A('تابع آخر الإعلانات والأخبار والتحديثات الهامة.', 'Follow the latest announcements, news and important updates.')), 'news');
     if (arg && arg.indexOf('ann/') === 0) {
@@ -1191,12 +1215,12 @@
       return '<article class="box narticle"><h1 tabindex="-1" dir="auto">' + esc(IS.noticeTitle(announcement)) + '</h1><p class="mut">' +
         esc(IS.date(announcement.created_at)) + '</p><p class="pre" dir="auto">' + esc(announcement.body || '') + '</p>' +
         (announcement.link && announcement.link[0] === '#' && announcement.link !== '#news/ann' ?
-          '<a class="btn pri" href="' + esc(announcement.link) + '">' + esc(A('افتح الرابط', 'Open link')) + '</a>' : '') + IS.feedVoteBar('announcement', announcement, true) + IS.postActions('announcement', announcement.id, '', false) + '</article>';
+          '<a class="btn pri" href="' + esc(announcement.link) + '">' + esc(A('افتح الرابط', 'Open link')) + '</a>' : '') + IS.feedVoteBar('announcement', announcement, true) + '</article>';
     }
     if (arg && arg !== 'ann' && arg !== 'all') {
       var x = await DB.one('news', arg); if (!x || x.status !== 'published' || !IS.announcementInSection(x)) return null;
       return '<nav class="crumb"><a href="#news">' + esc(A('الإعلانات والأخبار', 'Announcements & News')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(x.title) + '</span></nav>' +
-        '<article class="box narticle">' + (x.cover ? '<img class="nhero" src="' + IS.U(x.cover) + '" alt="">' : '') + '<em class="ntag">' + esc(ntag(x.tag)) + '</em><h1 tabindex="-1">' + esc(x.title) + '</h1><p class="mut">' + ic('cal') + esc(IS.date(x.created_at)) + '</p><div class="pre">' + esc(x.body || '') + '</div>' + IS.postActions('news', x.id, 'news/' + x.id) + '</article>' +
+        '<article class="box narticle">' + (x.cover ? '<img class="nhero" src="' + IS.U(x.cover) + '" alt="">' : '') + '<em class="ntag">' + esc(ntag(x.tag)) + '</em><h1 tabindex="-1">' + esc(x.title) + '</h1><p class="mut">' + ic('cal') + esc(IS.date(x.created_at)) + '</p><div class="pre">' + esc(x.body || '') + '</div>' + IS.feedVoteBar('news', x, true, 'news/' + x.id) + '</article>' +
         (ns.length > 1 ? '<section class="sec"><header class="sh"><h2>' + ic('news') + IS.T('أخبار أخرى', 'More news') + '</h2></header><div class="ngrid">' + ns.filter(function (n) { return n.id !== x.id; }).slice(0, 3).map(newsCard).join('') + '</div></section>' : '');
     }
     var noAnn = IS.empty('mega', A('لا توجد إعلانات الآن', 'No announcements now'), A('تظهر هنا إعلانات فريق المنصة فور نشرها.', 'The platform team’s announcements appear here as soon as they are published.'));

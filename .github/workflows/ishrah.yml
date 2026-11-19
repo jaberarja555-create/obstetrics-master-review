@@ -37,23 +37,14 @@ jobs:
           payouts=ishrah/supabase/018_lecturer_payouts.sql
           moderation=ishrah/supabase/019_report_moderation.sql
           feedback=ishrah/supabase/020_announcement_feedback.sql
-          if ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$base"; then
-            echo "files=$base $terms $payments $section $library $payouts $moderation $feedback" >> "$GITHUB_OUTPUT"
-          elif ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$terms"; then
-            echo "files=$terms $payments $section $library $payouts $moderation $feedback" >> "$GITHUB_OUTPUT"
-          elif ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$payments"; then
-            echo "files=$payments $section $library $payouts $moderation $feedback" >> "$GITHUB_OUTPUT"
-          elif ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$section"; then
-            echo "files=$section $library $payouts $moderation $feedback" >> "$GITHUB_OUTPUT"
-          elif ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$library"; then
-            echo "files=$library $payouts $moderation $feedback" >> "$GITHUB_OUTPUT"
-          elif ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$payouts"; then
-            echo "files=$payouts $moderation $feedback" >> "$GITHUB_OUTPUT"
-          elif ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$moderation"; then
-            echo "files=$moderation $feedback" >> "$GITHUB_OUTPUT"
-          elif ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$feedback"; then
-            echo "files=$feedback" >> "$GITHUB_OUTPUT"
-          fi
+          interactions=ishrah/supabase/021_feed_interactions.sql
+          pending=""
+          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions"; do
+            if [ -n "$pending" ] || ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$migration"; then
+              pending="${pending:+$pending }$migration"
+            fi
+          done
+          echo "files=$pending" >> "$GITHUB_OUTPUT"
       - name: Apply and verify database migrations
         if: steps.request-schema.outputs.files != ''
         env:
@@ -67,7 +58,7 @@ jobs:
           for migration in $MIGRATIONS; do
             psql "$DB" -v ON_ERROR_STOP=1 -q -f "$migration"
           done
-          test "$(psql "$DB" -v ON_ERROR_STOP=1 -Atc "select to_regprocedure('public.ish_feed_react(text,uuid,integer)') is not null and to_regprocedure('public.ish_rate_file(uuid,integer)') is not null and to_regprocedure('public.ish_moderate_feed_report(uuid,boolean)') is not null and to_regclass('public.lecturer_payout_accounts') is not null and to_regprocedure('public.ish_lecturer_payout(text,uuid,uuid,uuid,numeric,uuid,text,text,text)') is not null and not exists (select 1 from public.lecturers where pay is distinct from '{}'::jsonb) and exists (select 1 from storage.buckets where id = 'payout-receipts' and not public) and to_regclass('public.library_comments') is not null and to_regprocedure('public.ish_library_comment(uuid,text,uuid)') is not null and to_regprocedure('public.ish_review_question(uuid,boolean,text)') is not null and to_regclass('public.course_live_links') is not null and to_regclass('public.payment_messages') is not null and to_regclass('public.course_request_files') is not null and to_regprocedure('public.ish_course_request(text,uuid,jsonb)') is not null and to_regprocedure('public.ish_public_course_terms(uuid)') is not null and exists (select 1 from storage.buckets where id = 'course-request-files' and not public)")" = t
+          test "$(psql "$DB" -v ON_ERROR_STOP=1 -Atc "select exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'feed_feedback' and column_name = 'course_id') and to_regprocedure('public.ish_feed_react(text,uuid,integer)') is not null and to_regprocedure('public.ish_rate_file(uuid,integer)') is not null and to_regprocedure('public.ish_moderate_feed_report(uuid,boolean)') is not null and to_regclass('public.lecturer_payout_accounts') is not null and to_regprocedure('public.ish_lecturer_payout(text,uuid,uuid,uuid,numeric,uuid,text,text,text)') is not null and not exists (select 1 from public.lecturers where pay is distinct from '{}'::jsonb) and exists (select 1 from storage.buckets where id = 'payout-receipts' and not public) and to_regclass('public.library_comments') is not null and to_regprocedure('public.ish_library_comment(uuid,text,uuid)') is not null and to_regprocedure('public.ish_review_question(uuid,boolean,text)') is not null and to_regclass('public.course_live_links') is not null and to_regclass('public.payment_messages') is not null and to_regclass('public.course_request_files') is not null and to_regprocedure('public.ish_course_request(text,uuid,jsonb)') is not null and to_regprocedure('public.ish_public_course_terms(uuid)') is not null and exists (select 1 from storage.buckets where id = 'course-request-files' and not public)")" = t
       - name: Create the Pages project the first time (ignored when it exists)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
