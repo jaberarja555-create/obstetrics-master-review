@@ -609,3 +609,12 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   (upgrade to Pro or move library files to Cloudflare R2). Download traffic is only on Supabase's page (link to the project). Migration
   `034_usage.sql` (`ish_usage()`, settings/dash viewers only). Library sales is now in the grouped Control menu too (Payments group).
   Asset version 169, shell cache ish-v69.
+- **Books are kept on the phone only after 2 minutes of reading** (owner agreed, 19 Nov 2026): a quick look no longer downloads the whole
+  book (first download is Supabase traffic); `o.onFirst` runs 120 s after the first page, only if the reader is still open. Asset version 170.
+
+## Before the public launch: move library files to Cloudflare R2 (owner, 19 Nov 2026: "when I want to publish all, we move to R2")
+Supabase charges download traffic (free ≈ 5 GB/month, Pro ≈ 250 GB then ≈ $0.09/GB); Cloudflare R2 has free downloads and ≈ $0.015/GB-month
+storage (10 GB free). Plan: owner creates an R2 bucket in his Cloudflare account and gives the Pages project a binding; a Pages Function
+serves library files after checking the reader may open them (same rule as `ish_file_open`: published and free, owner, library staff, or an
+approved purchase) with short-lived signed links; uploads go to R2 through the same function; a one-time copy moves existing `library`
+objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts and the database stay in Supabase. Remind the owner before launch.
