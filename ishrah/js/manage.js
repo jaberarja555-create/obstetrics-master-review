@@ -1,4 +1,4 @@
-/* اشرح لي: one «Manage» menu for the team on every card, book and post (owner, 19 Nov 2026: "an admin should be able to delete or edit
+/* Medical Nerds: one «Manage» menu for the team on every card, book and post (owner, 19 Nov 2026: "an admin should be able to delete or edit
    any post or book"). The ⋯ button shows only to team members whose role allows the action; the database checks the same permissions
    (posts: community edit · files: library approve · news: notify edit/delete · notices: notify delete · events: events edit/delete ·
    courses: review approve). Deleting a post or a file hides it (status «removed»), so a mistake can be undone from Control. */

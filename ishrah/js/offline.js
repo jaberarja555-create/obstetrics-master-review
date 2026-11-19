@@ -1,4 +1,4 @@
-/* اشرح لي: offline use (owner, 18 Nov 2026: "add the offline bar; nobody can download to the phone, but things can be downloaded IN the platform
+/* Medical Nerds: offline use (owner, 18 Nov 2026: "add the offline bar; nobody can download to the phone, but things can be downloaded IN the platform
    and watched without internet: videos, lectures, books and others").
    • Offline bar under the top bar while there is no connection, with a link to My downloads.
    • Downloads are kept INSIDE the platform only: IndexedDB `ish-offline`, every piece encrypted (AES-GCM) with a key that cannot be exported

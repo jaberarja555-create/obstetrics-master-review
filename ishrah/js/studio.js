@@ -1,4 +1,4 @@
-/* اشرح لي: the lecturer studio. A lecturer applies, is approved by the content team, designs a personal page, builds courses
+/* Medical Nerds: the lecturer studio. A lecturer applies, is approved by the content team, designs a personal page, builds courses
    (sections, video / written / quiz lessons, free previews), sends them for review, runs events, answers questions and follows earnings. */
 (function () {
   'use strict';
@@ -63,7 +63,7 @@
     if (L()) { IS.go('studio'); return ''; }
     var apps = await DB.q('lecturer_apps', { eq: { user_id: IS.ME.id }, order: ['created_at', false] }), ap = apps[0], m = IS.ME;
     if (ap && ap.status === 'approved') { IS.LEC = await DB.one('lecturers', IS.ME.id).catch(function () { return null; }); if (IS.LEC) { IS.go('studio'); return ''; } }
-    var h = IS.banner(IS.T('التسجيل كمحاضر', 'Become a lecturer'), esc(A('قدّم طلبك للانضمام إلى فريق المحاضرين في اشرح لي', 'Apply to join the lecturers of Ishrah Li')), 'studio');
+    var h = IS.banner(IS.T('التسجيل كمحاضر', 'Become a lecturer'), esc(A('قدّم طلبك للانضمام إلى فريق المحاضرين في Medical Nerds', 'Apply to join the lecturers of Medical Nerds')), 'studio');
     h += '<p class="note">' + ic('book') + '<span>' + esc(A('قبل التقديم اقرأ معايير الفيديو والمحتوى وشروط القبول.', 'Before you apply, read the video and content standards and the acceptance terms.')) + ' <a class="link" href="#studio-guide">' + esc(A('دليل المحاضر', 'Lecturer guide')) + '</a></span></p>';
     h += '<div class="cols"><div class="main">';
     if (ap && ap.status === 'changes') h += '<section class="box apchg"><h2>' + ic('pen') + IS.T('طلبك يحتاج إلى تعديل', 'Your request needs changes') + '</h2><p class="note warn">' + ic('chat') + '<span><b>' + esc(A('ملاحظات فريق المنصة: ', 'Notes from the platform team: ')) + '</b>' + esc(ap.note || '') + '</span></p><p>' + esc(A('عدّل ما طُلب في النموذج أدناه، ثم اضغط «إرسال الطلب بعد التعديل».', 'Change what was asked in the form below, then tap “Send the updated request”.')) + '</p></section>';

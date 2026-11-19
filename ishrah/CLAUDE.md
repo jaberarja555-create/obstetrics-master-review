@@ -1,4 +1,4 @@
-# اشرح لي (Ishrah Li): learning platform for medical students in Sudan
+# Medical Nerds (formerly «اشرح لي» / Ishrah Li): learning platform for health-sciences students in Sudan
 
 Owner: Dr. Abdaljalil Abdalkareem Arja. Separate from the three books and from Student Master Review (owner, 17 Nov 2026:
 "forget about my books and the library for now; the main concern is to build the app and every page ready").
@@ -573,3 +573,11 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   new size with that spot under the fingers (`anchorAt`, `zoomTo(z, x, y, anchor)`); buttons zoom around the screen centre; double tap = 2×
   at that spot / back to fit; zoom is kept per book (`ish-rz:<id>`); the browser's own page zoom is off inside the reader (`touch-action`).
   Test: scratchpad rdr2.js (201-page PDF at 390 px: spot on the page before/after a pinch identical). Asset version 158, shell cache ish-v58.
+
+## New name: Medical Nerds (owner, 19 Nov 2026: "changing the app name to Medical Nerds everywhere")
+- Every name students see is "Medical Nerds" (English in both languages): `IS.brandName()`, page title, top bar, start page, certificates,
+  notifications, About, team, lecturer pages, the share sheet, the emblem SVG comment, `manifest.webmanifest` (it was empty; now name,
+  icons, colours) and the iPhone home-screen title. Internal names stay (folder `ishrah/`, `IS`, `ish-*` storage keys, `ish_*` database
+  functions, Pages project `ishrah`, Supabase project): renaming them would sign everyone out and lose saved notes, highlights and downloads.
+- Still on the old name until the owner changes them (his accounts): the domain ishrahli.org, the sender no-reply@ishrahli.org and the
+  Supabase email templates, the Google sign-in app name ("Ishrah Li" project in Google Cloud), the Supabase project name.

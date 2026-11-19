@@ -1,4 +1,4 @@
-"""Colour choices for اشرح لي (owner, 18 Nov 2026: "there must be colour options in Settings").
+"""Colour choices for Medical Nerds (owner, 18 Nov 2026: "there must be colour options in Settings").
 Writes ishrah/css/pal-<name>.css from ishrah/css/app.css: every blue / navy colour (hue 190-245) is moved to the palette's hue,
 keeping its lightness and saturation; gold, red and the other accents stay. The app loads one of these files instead of app.css
 (index.html head script, `ish-pal`). Run after every change to css/app.css:  python3 tools/ishrah/palettes.py"""

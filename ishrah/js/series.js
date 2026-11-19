@@ -1,4 +1,4 @@
-/* اشرح لي: library series (owner, 19 Nov 2026: "when a student uploads he should be able to upload multiple files and put them as a group,
+/* Medical Nerds: library series (owner, 19 Nov 2026: "when a student uploads he should be able to upload multiple files and put them as a group,
    like sheets; a group opens nicely as a book series or sheets, ordered, so he can choose and open from an organised place").
    Each part is a normal file row (review, rating, comments, download, reader); parts share series_id / series_title / series_no
    (supabase/022_file_series.sql). The library and the Home feed show one card per series; #series/<id> lists the parts in order;
