@@ -541,7 +541,7 @@
         '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</button>' :
       '<a class="feed-emoji feed-comment" data-act="focus-feed-comments" href="' + esc(commentRoute) + '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</a>';
     var score = voteScore(row);
-    var rating = kind === 'file' ? IS.libraryRating(row, true) : '<button type="button" class="feed-grade" data-act="grade-info" data-kind="' + esc(kind) + '" aria-label="' + esc(IS.gradeLabel(row, kind)) +
+    var rating = kind === 'file' || kind === 'series' ? IS.libraryRating(row, true, kind) : '<button type="button" class="feed-grade" data-act="grade-info" data-kind="' + esc(kind) + '" aria-label="' + esc(IS.gradeLabel(row, kind)) +
       '" title="' + esc(IS.gradeLabel(row, kind)) + '">' + IS.gradeInner(row, kind) + '</button>';
     var reaction = row.my_reaction === undefined ? '' : String(Number(row.my_reaction) || 0);
     var key = kind + '/' + row.id;
@@ -558,7 +558,7 @@
       '" data-rp="' + (Number(row.rating_points) || Math.round((Number(row.average_rating == null ? row.rating : row.average_rating) || 0) * rcount)) + '"';
     return '<div class="feed-votes" data-feedback="' + esc(key) + '" data-reaction="' + reaction + '"' + counts +
       (row.status === 'closed' ? ' data-comments-closed' : '') + '><div class="row feed-action-row">' +
-      buttons + comment + (shareRoute ? IS.shareButton(shareRoute, true) : '') + '<span class="feed-grow"></span>' + rating + IS.reportButton(kind, row.id, true) + '</div>' +
+      buttons + (kind === 'series' ? '' : comment) + (shareRoute ? IS.shareButton(shareRoute, true) : '') + '<span class="feed-grow"></span>' + rating + (kind === 'series' ? '' : IS.reportButton(kind, row.id, true)) + '</div>' +
       (inline ? '<div class="feed-comment-panel" id="' + panelId + '" hidden></div>' : '') + '</div>';
   };
 
@@ -569,7 +569,15 @@
     ['like_count', 'dislike_count', 'rating_count', 'rating_points'].forEach(function (k, i) { if (values[k] != null) bar.dataset[['like', 'dislike', 'rc', 'rp'][i]] = Number(values[k]) || 0; });
     var row = { like_count: +bar.dataset.like || 0, dislike_count: +bar.dataset.dislike || 0, rating_count: +bar.dataset.rc || 0, rating_points: +bar.dataset.rp || 0 };
     var kind = String(bar.dataset.feedback || '').split('/')[0];
-    IS.$$('.feed-grade, .library-rating', bar).forEach(function (b) { b.innerHTML = IS.gradeInner(row, kind); b.setAttribute('aria-label', IS.gradeLabel(row, kind)); b.title = IS.gradeLabel(row, kind); });
+    IS.$$('.feed-grade, .library-rating', bar).forEach(function (b) {
+      b.innerHTML = IS.gradeInner(row, kind); b.setAttribute('aria-label', IS.gradeLabel(row, kind)); b.title = IS.gradeLabel(row, kind);
+      if (b.matches('.library-rating')) {
+        b.dataset.likes = row.like_count;
+        b.dataset.dislikes = row.dislike_count;
+        b.dataset.count = row.rating_count;
+        b.dataset.points = row.rating_points;
+      }
+    });
   }
   /* what the score is made of (owner, 19 Nov 2026: "why 5 stars when there is no like or dislike?" — a course review counted) */
   IS.ACT['grade-info'] = function (button) {
@@ -577,15 +585,17 @@
     var course = button.dataset.kind === 'course', g = IS.grade(row, button.dataset.kind);
     var line = function (icon, label, value) { return '<li><span class="gi">' + icon + '</span><span>' + esc(label) + '</span><b>' + value + '</b></li>'; };
     IS.sheet(A('كيف حُسب التقييم', 'How this rating is made'), '<div class="ginfo"><div class="feed-grade big">' + IS.gradeInner(row, button.dataset.kind) + '</div><ul>' +
-      (course ? '' : line('👍', A('إعجاب (كل إعجاب = 5 نجوم)', 'Likes (each like = 5 stars)'), N(g.likes)) +
-      line('👎', A('عدم إعجاب (كل واحد = نجمة واحدة)', 'Dislikes (each = 1 star)'), N(g.dislikes))) +
+      (course ? '' : line('👍', A('إعجابات', 'Likes'), N(g.likes)) +
+      line('👎', A('عدم إعجاب', 'Dislikes'), N(g.dislikes))) +
       line('⭐', course ? A('تقييمات الطلاب الملتحقين بالكورس', 'Reviews by enrolled students') : A('تقييمات بالنجوم', 'Star ratings'),
         N(g.rc) + (g.rc ? ' · ' + (g.rp / g.rc).toFixed(1) + ' ★' : '')) + '</ul>' +
+      (!course ? '<p class="mut">' + esc(A('الإعجاب وعدم الإعجاب لهما وزن متساوٍ ومتعاكس. عند تساويهما يبقى متوسط النجوم كما هو. يبدأ التقييم من 3 دون تقييمات بالنجوم.', 'Likes and dislikes have equal, opposite weight. Equal counts leave the star average unchanged. With no star ratings, reactions start from a neutral 3.')) + '</p>' : '') +
       (course ? '<p class="note">' + IS.ic('lock') + '<span>' + esc(A('يقيّم الكورس فقط الطلبة الملتحقون به (مجانًا أو بالدفع)، من صفحة الكورس بعد الالتحاق.', 'Only students who joined the course (free or paid) can rate it, from the course page after joining.')) + '</span></p>' : '') +
       '<p class="mut">' + esc(A('الدرجة: ممتاز من 4.5 · جيد جدًا من 3.75 · جيد من 3 · مقبول من 2 · وأقل من ذلك ضعيف.', 'Grades: Excellent from 4.5 · Very good from 3.75 · Good from 3 · Fair from 2 · below that Weak.')) + '</p></div>');
   };
   IS.regradeBars = function (key, values) { IS.$$('[data-feedback]').filter(function (bar) { return bar.dataset.feedback === key; }).forEach(function (bar) { regrade(bar, values); }); };
   function patchFeed(kind, id, values, saving) {
+    if (kind === 'series' && IS.keepSeriesScore) IS.keepSeriesScore(id, values);
     var key = kind + '/' + id;
     IS.$$('[data-feedback]').filter(function (bar) { return bar.dataset.feedback === key; }).forEach(function (bar) {
       if ('my_reaction' in values) {
@@ -616,7 +626,12 @@
     if (feed) feed.dispatchEvent(new CustomEvent('feed-feedback', { detail: { key: key, values: values } }));
   }
 
+  IS.applySeriesScore = function (row) {
+    patchFeed('series', row.series_id, row, false);
+    if (IS.updateLibraryRating) IS.updateLibraryRating(row.series_id, row, 'series');
+  };
   IS.hydrateFeedReactions = function (root) {
+    if (IS.hydrateSeriesScores) IS.hydrateSeriesScores(root);
     var user = uid();
     if (!user || IS.OFFPAGE) return;
     var bars = IS.$$('[data-feedback][data-reaction=""]', root);
@@ -643,6 +658,7 @@
   IS.feedVote = async function (kind, id, value, action) {
     if (!uid()) return IS.ACT.login();
     var rating = action === 'rate';
+    if (kind === 'series') return IS.seriesVote(id, value, rating);
     if (DB.live) {
       var payload = { kind: kind, target: id, value: value };
       var answer = await DB.sb.rpc(rating ? 'ish_rate_file' : 'ish_feed_react',

@@ -11,8 +11,8 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script>/* colour chosen in Settings (ish-pal): its stylesheet replaces app.css */
 (function(){var P={teal:1,green:1,purple:1,maroon:1,graphite:1},p='blue';try{p=JSON.parse(localStorage.getItem('ish-pal')||'"blue"')}catch(e){}
-document.write('<link id="ishcss" rel="stylesheet" href="css/'+(P[p]?'pal-'+p:'app')+'.css?v=149">');})();</script>
-<noscript><link rel="stylesheet" href="css/app.css?v=149"></noscript>
+document.write('<link id="ishcss" rel="stylesheet" href="css/'+(P[p]?'pal-'+p:'app')+'.css?v=150">');})();</script>
+<noscript><link rel="stylesheet" href="css/app.css?v=150"></noscript>
 <script>/* test switch for the Android scrolling smear (owner, 18 Nov 2026): ishrahli.org/?safe=1 … 4 turns parts of the design off on this
    device so the cause can be found; ?safe=0 turns it off again. 1 = all, 2 = bars not fixed, 3 = no shadows/animations, 4 = no banner pictures */
 (function(){try{var m=location.search.match(/[?&]safe=(\d)/);if(m){if(m[1]==='0')localStorage.removeItem('ish-safe');else localStorage.setItem('ish-safe',m[1]);}
@@ -31,17 +31,17 @@ document.documentElement.setAttribute('data-theme',JSON.parse(localStorage.getIt
 /* the database and video libraries are loaded only when the platform is connected (js/config.js) */
 (function(){var c=window.ISH_CONFIG||{};if(c.supabaseUrl&&c.supabaseAnonKey){document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js"><\/script><script src="https://cdn.jsdelivr.net/npm/tus-js-client@4.1.0/dist/tus.min.js"><\/script>');}})();
 </script>
-<script src="js/db.js?v=149"></script>
-<script src="js/core.js?v=149"></script>
-<script src="js/student.js?v=149"></script>
-<script src="js/library.js?v=149"></script>
+<script src="js/db.js?v=150"></script>
+<script src="js/core.js?v=150"></script>
+<script src="js/student.js?v=150"></script>
+<script src="js/library.js?v=150"></script>
 <script src="js/sell.js?v=149"></script>
-<script src="js/series.js?v=149"></script>
+<script src="js/series.js?v=150"></script>
 <script src="js/reader.js?v=149"></script>
 <script src="js/studio.js?v=149"></script>
 <script src="js/control.js?v=149"></script>
 <script src="js/org.js?v=149"></script>
-<script src="js/course-requests.js?v=149"></script>
+<script src="js/course-requests.js?v=150"></script>
 <script src="js/manage.js?v=149"></script>
 <script src="js/guide.js?v=149"></script>
 <script src="js/offline.js?v=149"></script>

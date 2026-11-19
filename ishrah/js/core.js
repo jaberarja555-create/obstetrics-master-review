@@ -298,8 +298,8 @@
   IS.after = null;
   var SEQ = 0;
   var OFFLINE_PAGES = /^(downloads|dl|settings|terms|pick|pick-section|studio-guide)$/;
-  var READABLE_COPY = /^(home|courses|course|learning|lecturers|lecturer|events|event|news|library|file|paths|path|about|favorites|community)$/;
-  var QUICK_COPY = /^(home|courses|course|learning|lecturers|lecturer|events|event|news|library|file|paths|path|about|favorites|community)$/;
+  var READABLE_COPY = /^(home|courses|course|learning|lecturers|lecturer|events|event|news|library|file|series|paths|path|about|favorites|community)$/;
+  var QUICK_COPY = /^(home|courses|course|learning|lecturers|lecturer|events|event|news|library|file|series|paths|path|about|favorites|community)$/;
   function showSavedPage(main, html, offline) {
     var note = offline ? '<p class="note offcopy">' + ic('offline') + '<span>' +
       esc(A('هذه آخر نسخة محفوظة من الصفحة.', 'This is your last saved copy.')) + '</span></p>' : '';
@@ -308,6 +308,7 @@
       if (control.matches('[data-live-course]')) control.remove();
       else if ('disabled' in control) control.disabled = true;
     });
+    if (!offline && IS.hydrateLibraryCovers) IS.hydrateLibraryCovers(main).catch(function () {});
     IS.balance(); IS.evenRows(); IS.dedupe(); IS.sideLock();
   }
   IS.route = async function () {
@@ -493,7 +494,9 @@
     row = row || {}; var course = kind === 'course', likes = course ? 0 : Math.max(0, +row.like_count || 0), dislikes = course ? 0 : Math.max(0, +row.dislike_count || 0);
     var rc = Math.max(0, +(row.rating_count == null ? row.n_reviews : row.rating_count) || 0);
     var rp = +row.rating_points || (rc ? (+(row.average_rating == null ? row.rating : row.average_rating) || 0) * rc : 0);
-    var n = likes + dislikes + rc, score = n ? (likes * 5 + dislikes + rp) / n : 0;
+    var n = likes + dislikes + rc;
+    var base = rc ? rp / rc : 3;
+    var score = n ? Math.max(1, Math.min(5, base + (likes - dislikes) / n)) : 0;
     var g = n ? GRADES.filter(function (x) { return score >= x[0]; })[0] : null;
     return { n: n, score: score, likes: likes, dislikes: dislikes, rc: rc, rp: rp, title: g ? A(g[1], g[2]) : A('لم يُقيَّم بعد', 'Not rated yet'), cls: g ? g[3] : 'g0' };
   };

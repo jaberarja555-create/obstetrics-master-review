@@ -253,17 +253,17 @@
       '</select></label></div></header><div class="feed-items">' + list() + '</div></section>';
   }
   function feedScore(item) {
-    var r = item.row;
+    var r = item.row._parts ? IS.seriesScore(item.row.series_id) : item.row;
     return (Number(r.n_students) || 0) + (Number(r.joined_count) || 0) +
       (Number(r.registered_count) || 0) + (Number(r.n_replies) || 0) + (Number(r.like_count) || 0) + (Number(r.dislike_count) || 0) +
       (Number(r.comment_count) || 0) + (item.type === 'library' ? (Number(r.rating_count) || 0) : 0);
   }
   function feedRatingSort(first, second, order) {
-    function rating(item) {
-      var g = IS.grade(item.row, item.type === 'course' ? 'course' : '');   /* the same score the cards show */
-      return { rating_count: g.n, average_rating: g.score };
+    function grade(item) {
+      return IS.grade(item.row._parts ? IS.seriesScore(item.row.series_id) : item.row, item.type === 'course' ? 'course' : '');
     }
-    return IS.ratingSort(rating(first), rating(second), order);
+    var a = grade(first), b = grade(second), byCount = b.n - a.n, byAverage = b.score - a.score;
+    return order === 'best' ? byAverage || byCount : byCount || byAverage;
   }
   function feedTarget(item) {
     if (item.row.room && Object.prototype.hasOwnProperty.call(POST_KINDS, item.type)) return 'post';

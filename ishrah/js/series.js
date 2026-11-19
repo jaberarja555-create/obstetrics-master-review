@@ -5,10 +5,65 @@
    the reader offers «next part» at the end of each part. */
 (function () {
   var A = IS.A, esc = IS.esc, ic = IS.ic, N = IS.N, $ = IS.$;
-  var TYPES = { pdf: 'application/pdf', png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp', txt: 'text/plain' };
-  function ext(f) { return f ? f.name.split('.').pop().toLowerCase() : ''; }
   function partName(f) { return f.name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' ').trim(); }
   function uuid() { return (crypto.randomUUID && crypto.randomUUID()) || 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) { var r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); }); }
+
+  var scores = new Map(), scoreRequests = new Map();
+  function viewer() { return (IS.ME && IS.ME.id) || 'visitor'; }
+  IS.keepSeriesScore = function (id, values) {
+    var key = viewer() + '/' + id;
+    scores.set(key, Object.assign({}, scores.get(key), values));
+  };
+  IS.seriesScore = function (id) { return scores.get(viewer() + '/' + id) || {}; };
+  function seriesTotals(rows, id, account) {
+    var own = rows.find(function (row) { return row.user_id === account; }) || {};
+    return { series_id: id, like_count: rows.filter(function (row) { return row.reaction === 1; }).length,
+      dislike_count: rows.filter(function (row) { return row.reaction === -1; }).length,
+      rating_count: rows.filter(function (row) { return row.stars; }).length,
+      rating_points: rows.reduce(function (sum, row) { return sum + (row.stars || 0); }, 0),
+      my_reaction: own.reaction || 0, my_stars: own.stars || 0 };
+  }
+  IS.fetchSeriesScores = async function (ids) {
+    if (!DB.live) {
+      var rows = await DB.q('series_feedback', { in: { series_id: ids } });
+      return ids.map(function (id) { return seriesTotals(rows.filter(function (row) { return row.series_id === id; }), id, viewer()); });
+    }
+    var response = await DB.sb.rpc('ish_series_scores', { targets: ids });
+    if (response.error) throw response.error;
+    return response.data;
+  };
+  IS.hydrateSeriesScores = function (root) {
+    var account = viewer();
+    var ids = Array.from(new Set(IS.$$('[data-feedback^="series/"][data-reaction=""]', root).map(function (bar) {
+      return bar.dataset.feedback.split('/')[1];
+    }))).filter(function (id) { return !scoreRequests.has(account + '/' + id); });
+    if (!ids.length) return;
+    ids.forEach(function (id) { scoreRequests.set(account + '/' + id, true); });
+    IS.fetchSeriesScores(ids).then(function (items) {
+      if (viewer() !== account) return;
+      items.forEach(function (item) {
+        if (IS.seriesScore(item.series_id).my_reaction == null) IS.applySeriesScore(item);
+      });
+    }).catch(function () {}).finally(function () {
+      ids.forEach(function (id) { scoreRequests.delete(account + '/' + id); });
+    });
+  };
+  IS.seriesVote = async function (id, value, rating) {
+    if (DB.live) {
+      var result = await DB.sb.rpc('ish_series_vote', { target: id, action: rating ? 'rate' : 'react', value: value });
+      if (result.error) throw result.error;
+      return result.data;
+    }
+    var account = viewer(), fields = { series_id: id, user_id: account };
+    var current = (await DB.q('series_feedback', { eq: fields }))[0];
+    var change = rating ? { stars: value } : { reaction: current && current.reaction === value ? null : value };
+    if (current) await DB.upd('series_feedback', current.id, change);
+    else await DB.ins('series_feedback', Object.assign({}, fields, change));
+    return seriesTotals(await DB.q('series_feedback', { eq: { series_id: id } }), id, account);
+  };
+  function seriesFeedback(id, first) {
+    return IS.feedVoteBar('series', Object.assign({ id: id, owner_id: first.owner_id }, IS.seriesScore(id)), false);
+  }
 
   /* one card per series: the first part stands for it, with all parts in order */
   IS.seriesCollapse = function (rows) {
@@ -28,7 +83,7 @@
       '<a class="fimg sstack" href="#series/' + esc(s.series_id) + '" aria-label="' + esc(s.series_title || first.title) + '">' + IS.libraryCover(first) + IS.priceTag(first, 'oncov') + '<span class="scount">' + ic('layers') + N(s._parts.length) + '</span></a>' +
       '<div class="fb"><span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + ' · ' + esc(A('سلسلة', 'Series')) + '</span><b><a href="#series/' + esc(s.series_id) + '" dir="auto">' + esc(s.series_title || first.title) + '</a></b>' +
       '<small>' + esc(s._parts.length + ' ' + A('أجزاء', 'parts') + (pages ? ' · ' + pages + ' ' + A('صفحة', 'pages') : '')) + (first.author ? ' · ' + esc(first.author) : '') + '</small>' +
-      '<a class="btn pri sm sopen" href="#series/' + esc(s.series_id) + '">' + ic('open') + esc(A('افتح السلسلة', 'Open the series')) + '</a></div></article>';
+      '<a class="btn pri sm sopen" href="#series/' + esc(s.series_id) + '">' + ic('open') + esc(A('افتح السلسلة', 'Open the series')) + '</a></div>' + seriesFeedback(s.series_id, first) + '</article>';
   };
 
   /* ---- the series page: the parts in order ---- */
@@ -50,17 +105,57 @@
       (first.status === 'published' && !IS.fileOpenable(first) ? IS.buyBtn(first) : IS.ME ? '<button type="button" class="btn pri" data-act="sread" data-id="' + esc(parts[lastRead].id) + '">' + ic('open') +
         esc(lastRead ? A('تابع: الجزء ', 'Continue: part ') + (lastRead + 1) : A('ابدأ من الجزء الأول', 'Start with part 1')) + '</button>' :
         '<button type="button" class="btn pri" data-act="login">' + ic('lock') + esc(A('سجّل الدخول للقراءة', 'Sign in to read')) + '</button>') + '</div></article>';
+    if (parts.some(function (part) { return part.status === 'published'; })) {
+      h += '<section class="box series-feedback">' + seriesFeedback(id, first) + '</section>';
+    }
     h += '<section class="box"><h2>' + ic('list') + IS.T('أجزاء السلسلة', 'Parts') + '</h2><ol class="sparts">' + parts.map(function (p, i) {
       var pg = 0; try { pg = +JSON.parse(localStorage.getItem('ish-rpg:' + p.id) || '0') || 0; } catch (e) {}
       var done = pg && p.pages && pg >= p.pages;
-      return '<li class="spart' + (done ? ' done' : '') + '"><span class="sno">' + (done ? ic('check') : N(i + 1)) + '</span><div class="sp-b"><a href="#file/' + esc(p.id) + '" dir="auto"><b>' + esc(p.title) + '</b></a>' +
+      var fallback = !p.cover && IS.fileOpenable(p) && IS.libraryDocument(p).path;
+      return '<li class="spart' + (done ? ' done' : '') + '"><span class="sno">' + (done ? ic('check') : N(i + 1)) + '</span>' +
+        '<a class="spart-cover" href="#file/' + esc(p.id) + '" aria-label="' + esc(p.title) + '"' + (fallback ? ' data-part-preview="' + esc(p.id) + '"' : '') +
+        '>' + IS.libraryCover(p) + '</a><div class="sp-b"><a href="#file/' + esc(p.id) + '" dir="auto"><b>' + esc(p.title) + '</b></a>' +
         '<small>' + [p.pages ? p.pages + ' ' + A('صفحة', 'pages') : '', pg > 1 ? A('توقفت عند ص ', 'stopped at p. ') + pg : '', p.status !== 'published' ? A('بانتظار المراجعة', 'awaiting review') : ''].filter(Boolean).map(esc).join(' · ') + '</small></div>' +
         '<div class="sp-a">' + (!IS.fileOpenable(p) ? '<span class="chip">' + ic('lock') + esc(A('بعد الشراء', 'After purchase')) + '</span>' : IS.ME ? '<button type="button" class="btn ghost sm" data-act="sread" data-id="' + esc(p.id) + '">' + ic('open') + esc(A('افتح', 'Open')) + '</button>' + IS.dlBtn('file', p.id) : '') + '</div></li>';
     }).join('') + '</ol></section>';
     IS.SERIES = parts;
-    IS.after = function (main) { IS.hydrateLibraryCovers(main).catch(function () {}); };
+    IS.after = function (main) {
+      IS.hydrateLibraryCovers(main).catch(function () {});
+      showMissingCovers(main, parts);
+    };
     return h;
   });
+  function showMissingCovers(main, parts) {
+    if (!window.IntersectionObserver) return;
+    var queue = Promise.resolve();
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        queue = queue.then(async function () {
+          var target = entry.target;
+          if (!target.isConnected) return;
+          var part = parts.find(function (item) { return item.id === target.dataset.partPreview; });
+          if (!part || !IS.fileOpenable(part)) return;
+          var media = IS.libraryDocument(part), isPdf = media.mime === 'application/pdf';
+          if (!isPdf && !media.mime.startsWith('image/')) return;
+          var url = await DB.fileUrl('library', media.path);
+          if (!url || !target.isConnected) return;
+          var img = document.createElement('img');
+          img.alt = '';
+          if (isPdf) {
+            var metadata = await IS.pdfMeta(url, true);
+            if (!metadata.cover || !target.isConnected) return;
+            url = URL.createObjectURL(metadata.cover);
+            img.onload = img.onerror = function () { URL.revokeObjectURL(url); };
+          }
+          img.src = url;
+          target.querySelector('.library-cover').append(img);
+        }).catch(function () {});
+      });
+    }, { rootMargin: '100px' });
+    IS.$$('[data-part-preview]', main).forEach(function (target) { observer.observe(target); });
+  }
   /* open a part; the reader shows «next part» at the end of it */
   IS.ACT.sread = async function (b) {
     var parts = IS.SERIES || [], i = parts.findIndex(function (p) { return p.id === b.dataset.id; }); if (i < 0) return;
@@ -87,57 +182,135 @@
       '<div class="g2f"><label class="fl"><span>' + esc(A('النوع', 'Type')) + '</span>' + kinds + '</label><label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span>' + subj + '</label></div>' +
       '<label class="fl"><span>' + esc(A('المؤلف أو المصدر', 'Author or source')) + '</span><input name="author" maxlength="120"></label>' +
       '<label class="fl"><span>' + esc(A('وصف قصير', 'Short description')) + '</span><textarea name="about" rows="2" maxlength="600"></textarea></label>' +
-      '<label class="fl file"><span>' + esc(A('الملفات (كل ملف حتى 50 ميغابايت)', 'Files (up to 50 MB each)')) + ' *</span><input type="file" name="files" multiple data-series-files accept=".pdf,.png,.jpg,.jpeg,.webp,.txt"><small>' +
-      esc(A('اختر عدة ملفات معًا (PDF أو صور). رتّبها وسمِّ كل جزء أدناه.', 'Choose several files at once (PDF or pictures). Order them and name each part below.')) + '</small></label>' +
+      '<label class="fl file"><span>' + esc(A('الملفات (كل ملف حتى 50 ميغابايت)', 'Files (up to 50 MB each)')) + ' *</span><input type="file" name="files" multiple data-series-files accept="' + IS.libraryFileAccept + '"><small>' +
+      esc(A('رتّب الأجزاء واختر صورة غلاف لكل جزء، أو استخدم أول صفحة أو شريحة. أرفق نسخة PDF لكل ملف Office.', 'Arrange the parts and choose a cover for each one, or use its first page or slide. Add a PDF copy for each Office file.')) + '</small></label>' +
       IS.sellFields({}, true) + '<ol class="sorder" id="sorder"></ol><p class="sprog mut" id="sprog" hidden></p>' +
       '<p class="note">' + ic('shield') + '<span>' + esc(A('يراجع فريق المحتوى الملفات قبل نشرها. ارفع فقط ما تملك حق مشاركته.', 'The content team reviews the files before publishing. Upload only what you have the right to share.')) + '</span></p>' +
       '<button class="btn pri wide">' + ic('upload') + esc(A('رفع المجموعة', 'Upload the group')) + '</button></form>';
   };
   var PICKED = [];
-  function drawOrder() {
-    var ol = $('#sorder'); if (!ol) return;
-    ol.innerHTML = PICKED.map(function (x, i) {
-      return '<li><span class="sno">' + (i + 1) + '</span><input class="spn" data-i="' + i + '" value="' + esc(x.title) + '" dir="auto" maxlength="160" aria-label="' + esc(A('اسم الجزء', 'Part name')) + '">' +
-        '<button type="button" class="ib sm" data-act="smove" data-i="' + i + '" data-d="-1"' + (i ? '' : ' disabled') + ' aria-label="' + esc(A('أعلى', 'Up')) + '">' + ic('up') + '</button>' +
-        '<button type="button" class="ib sm" data-act="smove" data-i="' + i + '" data-d="1"' + (i < PICKED.length - 1 ? '' : ' disabled') + ' aria-label="' + esc(A('أسفل', 'Down')) + '">' + ic('down') + '</button>' +
-        '<button type="button" class="ib sm" data-act="sdrop" data-i="' + i + '" aria-label="' + esc(A('إزالة', 'Remove')) + '">' + ic('x') + '</button></li>';
+  function setCover(part, file) {
+    if (part.coverUrl) URL.revokeObjectURL(part.coverUrl);
+    part.cover = file;
+    part.coverUrl = file ? URL.createObjectURL(file) : '';
+  }
+  function drawOrder(form) {
+    var locked = !!form.seriesId;
+    form.querySelector('#sorder').innerHTML = PICKED.map(function (part, i) {
+      var disabled = locked ? ' disabled' : '', finished = part.saved ? ' disabled' : '';
+      return '<li><div class="sorder-main"><span class="sno">' + (i + 1) + '</span><input class="spn" data-i="' + i + '" value="' +
+        esc(part.title) + '" dir="auto" maxlength="160" aria-label="' + esc(A('اسم الجزء', 'Part name')) + '"' + disabled + '>' +
+        '<button type="button" class="ib sm" data-act="smove" data-i="' + i + '" data-d="-1"' + (i ? disabled : ' disabled') + ' aria-label="' + esc(A('أعلى', 'Up')) + '">' + ic('up') + '</button>' +
+        '<button type="button" class="ib sm" data-act="smove" data-i="' + i + '" data-d="1"' + (i < PICKED.length - 1 ? disabled : ' disabled') + ' aria-label="' + esc(A('أسفل', 'Down')) + '">' + ic('down') + '</button>' +
+        '<button type="button" class="ib sm" data-act="sdrop" data-i="' + i + '"' + disabled + ' aria-label="' + esc(A('إزالة', 'Remove')) + '">' + ic('x') + '</button></div>' +
+        '<div class="sorder-extras">' + (part.coverUrl ? '<img class="sorder-thumb" src="' + esc(part.coverUrl) + '" alt="">' : '') +
+        '<label class="fl"><span>' + esc(A('صورة الغلاف (اختياري)', 'Cover picture (optional)')) + '</span>' +
+        '<input type="file" data-series-cover="' + i + '" accept="image/jpeg,image/png,image/webp,image/gif"' + finished + '>' +
+        (part.cover ? '<small dir="auto">' + esc(part.cover.name) + '</small>' : '') + '</label>' +
+        (part.cover && !part.saved ? '<button type="button" class="btn ghost sm" data-act="scoverclear" data-i="' + i + '">' +
+          esc(A('استخدم غلافًا تلقائيًا', 'Use automatic cover')) + '</button>' : '') +
+        (IS.libraryNeedsReadingCopy(part.file) ? '<label class="fl"><span>' + esc(A('نسخة PDF للقراءة', 'PDF reading copy')) +
+          '</span><input type="file" data-series-reading="' + i + '" accept="application/pdf,.pdf"' + finished + '>' +
+          (part.reading ? '<small dir="auto">' + esc(part.reading.name) + '</small>' : '') + '</label>' : '') + '</div></li>';
     }).join('');
   }
-  document.addEventListener('change', function (e) {
-    var t = e.target; if (!t.matches || !t.matches('[data-series-files]')) return;
-    Array.from(t.files || []).forEach(function (f) { PICKED.push({ file: f, title: partName(f) }); });
-    PICKED.sort(function (a, b) { return a.file.name.localeCompare(b.file.name, undefined, { numeric: true }); });
-    t.value = ''; drawOrder();
+  document.addEventListener('change', function (event) {
+    var input = event.target, form = input.form;
+    if (!form || form.dataset.form !== 'shareseries') return;
+    var file = input.files && input.files[0];
+    if (input.matches('[data-series-files]')) {
+      if (form.seriesId) return;
+      Array.from(input.files || []).forEach(function (item) { PICKED.push({ file: item, title: partName(item) }); });
+      PICKED.sort(function (a, b) { return a.file.name.localeCompare(b.file.name, undefined, { numeric: true }); });
+      input.value = '';
+    } else if (file && input.matches('[data-series-cover]')) {
+      var part = PICKED[+input.dataset.seriesCover];
+      if (!/^image\/(jpeg|png|webp|gif)$/.test(file.type) || !file.size || file.size > 50 * 1048576) {
+        IS.toast(A('اختر صورة غلاف مدعومة بحجم 50 ميغابايت أو أقل.', 'Choose a JPEG, PNG, WebP or GIF cover up to 50 MB.'), true);
+      } else { setCover(part, file); part.uploaded = null; }
+    } else if (file && input.matches('[data-series-reading]')) {
+      PICKED[+input.dataset.seriesReading].reading = file;
+      PICKED[+input.dataset.seriesReading].uploaded = null;
+    } else return;
+    drawOrder(form);
   });
-  document.addEventListener('input', function (e) { var t = e.target; if (t.classList && t.classList.contains('spn')) PICKED[+t.dataset.i].title = t.value; });
-  IS.ACT.smove = function (b) { var i = +b.dataset.i, j = i + +b.dataset.d; var x = PICKED[i]; PICKED[i] = PICKED[j]; PICKED[j] = x; drawOrder(); };
-  IS.ACT.sdrop = function (b) { PICKED.splice(+b.dataset.i, 1); drawOrder(); };
-  IS.SUB.shareseries = async function (d, form) {
-    if (PICKED.length < 2) return IS.toast(A('اختر ملفين أو أكثر للمجموعة.', 'Choose two or more files for the group.'));
-    var bad = PICKED.filter(function (x) { return !TYPES[ext(x.file)] || !x.file.size || x.file.size > 50 * 1048576; });
-    if (bad.length) return IS.toast(A('ملف غير مدعوم أو أكبر من 50 ميغابايت: ', 'Unsupported or over 50 MB: ') + bad[0].file.name);
-    var sale; try { sale = IS.readSell(d); } catch (e) { return IS.toast(e.message, true); }
-    var sid = uuid(), subject = IS.subj(d.subject), scope = IS.mySection(), status = IS.can('library', 'approve') ? 'published' : 'pending';
-    var prog = $('#sprog'), btn = form.querySelector('button.pri'); btn.disabled = true; prog.hidden = false;
-    try {
-      for (var i = 0; i < PICKED.length; i++) {
-        prog.textContent = A('جارٍ رفع الجزء ', 'Uploading part ') + (i + 1) + ' / ' + PICKED.length + '…';
-        var f = PICKED[i].file, type = TYPES[ext(f)], file = f.type === type ? f : new File([f], f.name, { type: type }), meta = null, cover = null;
-        if (type === 'application/pdf' && IS.pdfMeta) meta = await IS.pdfMeta(file, true).catch(function () { return null; });
-        if (meta && meta.cover) cover = meta.cover; else if (/^image\//.test(type)) cover = file;
-        var row = { title: (PICKED[i].title || partName(f)).slice(0, 160), kind: d.kind, subject: d.subject, cat: (subject || {}).cat || (scope ? scope.id : ''),
-          spec: (subject || {}).spec || IS.SPEC || 'medicine', author: d.author || '', about: d.about || '', owner_id: IS.ME.id, owner_name: IS.ME.name, status: status,
-          series_id: sid, series_title: d.series_title, series_no: i + 1, price: sale.price, tags: sale.tags, mime: type, size: f.size, pages: meta ? meta.pages : 0,
-          path: await DB.upload('library', /^image\//.test(type) ? await IS.shrink(file, 2000, 0.85) : file) };
-        if (cover) row.cover = await DB.upload('library', await IS.shrink(cover, 600, 0.82));
-        if (!DB.live && status === 'published') row.published_at = new Date().toISOString();
-        await DB.ins('files', row);
-      }
-      PICKED = []; IS.closeSheet();
-      IS.toast(status === 'published' ? A('نُشرت المجموعة', 'The group is published') : A('شكرًا! ستُنشر المجموعة بعد المراجعة.', 'Thank you! The group will be published after review.'));
-      IS.go('series/' + sid);
-    } catch (e) { IS.toast(A('توقف الرفع: ', 'Upload stopped: ') + (e.message || '')); }
-    finally { btn.disabled = false; prog.hidden = true; }
+  document.addEventListener('input', function (event) {
+    var input = event.target;
+    if (input.matches('.sorder .spn')) PICKED[+input.dataset.i].title = input.value;
+  });
+  IS.ACT.smove = function (button) {
+    if (button.form.seriesId) return;
+    var i = +button.dataset.i, j = i + +button.dataset.d, part = PICKED[i];
+    PICKED[i] = PICKED[j]; PICKED[j] = part;
+    drawOrder(button.form);
   };
-  IS.resetSeries = function () { PICKED = []; };
+  IS.ACT.sdrop = function (button) {
+    if (button.form.seriesId) return;
+    setCover(PICKED.splice(+button.dataset.i, 1)[0], null);
+    drawOrder(button.form);
+  };
+  IS.ACT.scoverclear = function (button) {
+    var part = PICKED[+button.dataset.i];
+    setCover(part, null);
+    part.uploaded = null;
+    drawOrder(button.form);
+  };
+  IS.SUB.shareseries = async function (data, form) {
+    if (form.inert) return;
+    var parts = PICKED.slice();
+    if (parts.length < 2) return IS.toast(A('اختر ملفين أو أكثر للمجموعة.', 'Choose two or more files for the group.'));
+    for (var candidate of parts) {
+      try { IS.validateLibraryFiles(candidate.file, candidate.reading, candidate.cover); }
+      catch (error) { return IS.toast(candidate.file.name + ' · ' + error.message, true); }
+    }
+    if (!form.seriesId) {
+      var sale;
+      try { sale = IS.readSell(data); } catch (error) { return IS.toast(error.message, true); }
+      var subject = IS.subj(data.subject), scope = IS.mySection(), status = IS.can('library', 'approve') ? 'published' : 'pending';
+      form.seriesId = uuid();
+      form.seriesMetadata = Object.assign({ kind: data.kind, subject: data.subject, cat: (subject || {}).cat || (scope ? scope.id : ''),
+        spec: (subject || {}).spec || IS.SPEC || 'medicine', author: data.author || '', about: data.about || '', owner_id: IS.ME.id,
+        owner_name: IS.ME.name, status: status, series_id: form.seriesId, series_title: data.series_title }, sale);
+      form.querySelectorAll('input, select, textarea').forEach(function (field) {
+        if (!field.closest('#sorder')) field.disabled = true;
+      });
+    }
+    var prog = form.querySelector('#sprog'), btn = form.querySelector('button.pri');
+    form.inert = btn.disabled = true;
+    prog.hidden = false;
+    try {
+      for (var i = 0; i < parts.length; i++) {
+        var part = parts[i];
+        if (part.saved) continue;
+        prog.textContent = A('جارٍ رفع الجزء ', 'Uploading part ') + (i + 1) + ' / ' + parts.length + '…';
+        part.id = part.id || uuid();
+        var row = part.uploaded;
+        if (!row) {
+          row = Object.assign({ id: part.id, title: (part.title.trim() || partName(part.file)).slice(0, 160), series_no: i + 1 }, form.seriesMetadata);
+          await IS.attachLibraryFiles(row, part.file, part.reading, part.cover);
+          if (!DB.live && row.status === 'published') row.published_at = new Date().toISOString();
+          part.uploaded = row;
+        }
+        try { await DB.ins('files', row); } catch (error) {
+          if (!await DB.one('files', row.id).catch(function () { return null; })) throw error;
+        }
+        part.saved = true;
+      }
+      if (!form.isConnected) return;
+      IS.resetSeries();
+      IS.closeSheet();
+      IS.toast(form.seriesMetadata.status === 'published' ? A('نُشرت المجموعة', 'The group is published') :
+        A('شكرًا! ستُنشر المجموعة بعد المراجعة.', 'Thank you! The group will be published after review.'));
+      IS.go('series/' + form.seriesId);
+    } catch (error) {
+      if (form.isConnected) {
+        drawOrder(form);
+        IS.toast(A('توقف الرفع: ', 'Upload stopped: ') + (error.message || ''), true);
+      }
+    } finally { form.inert = btn.disabled = false; prog.hidden = true; }
+  };
+  IS.resetSeries = function () {
+    PICKED.forEach(function (part) { if (part.coverUrl) URL.revokeObjectURL(part.coverUrl); });
+    PICKED = [];
+  };
 })();

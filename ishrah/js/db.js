@@ -168,6 +168,39 @@
        database again (owner, 19 Nov 2026: "very slow when changing from one place to another"); any change empties it */
     var READS = new Map(), SIGNED = {};
     try { SIGNED = JSON.parse(localStorage.getItem('ish-signed') || '{}'); Object.keys(SIGNED).forEach(function (k) { if (!(SIGNED[k].t > Date.now())) delete SIGNED[k]; }); } catch (e) { SIGNED = {}; }
+    var COVER_CACHE = 'ish-library-covers', covers = {}, coverRequests = new Map();
+    try { covers = JSON.parse(localStorage.getItem(COVER_CACHE) || '{}') || {}; } catch (error) {}
+    function coverKey(account, path) { return account + '/' + path; }
+    function cachedCover(account, path) {
+      var entry = covers[coverKey(account, path)];
+      return entry && entry.expires > Date.now() ? entry.url : '';
+    }
+    function keepCovers() {
+      var entries = Object.entries(covers).filter(function (entry) { return entry[1].expires > Date.now(); });
+      entries.sort(function (a, b) { return b[1].expires - a[1].expires; });
+      covers = Object.fromEntries(entries.slice(0, 350));
+      try { localStorage.setItem(COVER_CACHE, JSON.stringify(covers)); } catch (error) {}
+    }
+    async function libraryCoverUrls(paths) {
+      var account = UID || 'visitor';
+      var unique = Array.from(new Set(paths));
+      var missing = unique.filter(function (path) { return !cachedCover(account, path) && !coverRequests.has(coverKey(account, path)); });
+      if (missing.length) {
+        var batch = (async function () {
+          var result = await sb.storage.from('library').createSignedUrls(missing, 3600);
+          (result.data || []).forEach(function (item) {
+            if (item.signedUrl) covers[coverKey(account, item.path)] = { url: item.signedUrl, expires: Date.now() + 50 * 60000 };
+          });
+          if (result.data) keepCovers();
+        })().finally(function () {
+          missing.forEach(function (path) { coverRequests.delete(coverKey(account, path)); });
+        });
+        missing.forEach(function (path) { coverRequests.set(coverKey(account, path), batch); });
+      }
+      var pending = new Set(unique.map(function (path) { return coverRequests.get(coverKey(account, path)); }).filter(Boolean));
+      await Promise.all(pending);
+      return new Map(unique.map(function (path) { return [path, (UID || 'visitor') === account ? cachedCover(account, path) : '']; }));
+    }
     function forget() { READS.clear(); }
     function cached(key, run) {
       var k = JSON.stringify(key), hit = READS.get(k);
@@ -181,6 +214,8 @@
     async function token() { var s = (await sb.auth.getSession()).data.session; return s ? s.access_token : ''; }
     var api = {
       live: true, sb: sb,
+      cachedLibraryCover: function (path) { return cachedCover(UID || 'visitor', path); },
+      libraryCoverUrls: libraryCoverUrls,
       uid: function () { return UID; },
       ready: sb.auth.getSession(),
       onAuth: function (f) { listeners.push(f); },

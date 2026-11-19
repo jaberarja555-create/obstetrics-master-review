@@ -55,37 +55,49 @@
   function starsCount(file) { return Number(file.rating_count == null ? file.n_reviews : file.rating_count) || 0; }
   function starsAverage(file) { return Number(file.average_rating == null ? file.rating : file.average_rating) || 0; }
   IS.ratingSort = function (first, second, order) {
-    var byCount = starsCount(second) - starsCount(first), byAverage = starsAverage(second) - starsAverage(first);
+    var a = IS.grade(first._parts ? IS.seriesScore(first.series_id) : first);
+    var b = IS.grade(second._parts ? IS.seriesScore(second.series_id) : second);
+    var byCount = b.n - a.n, byAverage = b.score - a.score;
     return order === 'best' ? byAverage || byCount : byCount || byAverage;
   };
   function ratingContents(file) { return IS.gradeInner(file); }
   function ratingLabel(file) {
-    var label = A('قيّم الملف', 'Rate this file');
-    return starsCount(file) ? label + ' · ' + starsAverage(file).toFixed(1) + ' / 5 (' + N(starsCount(file)) + ')' : label;
+    var series = file.feedback_kind === 'series', grade = IS.grade(file);
+    var label = series ? A('قيّم السلسلة', 'Rate this series') : A('قيّم الملف', 'Rate this file');
+    return grade.n ? label + ' · ' + grade.score.toFixed(1) + ' / 5 (' + N(grade.n) + ')' : label;
   }
   function ratingData(file) {
     return { rating_count: starsCount(file), rating_points: Number(file.rating_points) || Math.round(starsAverage(file) * starsCount(file)),
       average_rating: starsAverage(file) };
   }
-  IS.libraryRating = function (file, interactive) {
+  IS.libraryRating = function (file, interactive, feedbackKind) {
+    file = Object.assign({ feedback_kind: feedbackKind || 'file' }, file);
     var rating = ratingData(file);
-    var attributes = ' class="library-rating" data-library-file="' + esc(file.id) + '" aria-label="' + esc(ratingLabel(file)) + '"';
+    var attributes = ' class="library-rating" data-library-file="' + esc(file.id) + '" data-library-kind="' + file.feedback_kind + '" aria-label="' + esc(ratingLabel(file)) + '"';
     return interactive ? '<button type="button"' + attributes + ' data-act="rate-library-file" aria-expanded="false" data-owner="' + esc(file.owner_id || '') +
-      '" data-own-stars="' + (file.my_stars == null ? '' : Number(file.my_stars)) + '" data-count="' + rating.rating_count + '" data-points="' + rating.rating_points + '">' +
+      '" data-likes="' + (Number(file.like_count) || 0) + '" data-dislikes="' + (Number(file.dislike_count) || 0) + '" data-own-stars="' + (file.my_stars == null ? '' : Number(file.my_stars)) + '" data-count="' + rating.rating_count + '" data-points="' + rating.rating_points + '">' +
       ratingContents(file) + '</button>' : '<span' + attributes + ' role="img">' + ratingContents(file) + '</span>';
   };
-  function updateRating(id, file) {
-    IS.$$('[data-library-file]').filter(function (el) { return el.dataset.libraryFile === id; }).forEach(function (el) {
+  function updateRating(id, file, feedbackKind) {
+    feedbackKind = feedbackKind || 'file';
+    if (feedbackKind === 'series') IS.keepSeriesScore(id, file);
+    IS.$$('[data-library-file]').filter(function (el) { return el.dataset.libraryFile === id && el.dataset.libraryKind === feedbackKind; }).forEach(function (el) {
+      file = Object.assign({ like_count: Number(el.dataset.likes) || 0, dislike_count: Number(el.dataset.dislikes) || 0,
+        feedback_kind: feedbackKind }, file);
       el.innerHTML = ratingContents(file);
       el.setAttribute('aria-label', ratingLabel(file));
       el.dataset.count = starsCount(file);
       el.dataset.points = Number(file.rating_points) || 0;
+      el.dataset.likes = Number(file.like_count) || 0;
+      el.dataset.dislikes = Number(file.dislike_count) || 0;
+      if (file.my_stars != null) el.dataset.ownStars = file.my_stars;
     });
-    if (IS.regradeBars) IS.regradeBars('file/' + id, file);
+    if (IS.regradeBars) IS.regradeBars(feedbackKind + '/' + id, file);
     var home = IS.$('.section-feed'), library = IS.$('#lres');
-    if (home) home.dispatchEvent(new CustomEvent('feed-feedback', { detail: { key: 'file/' + id, values: file } }));
-    if (library) library.dispatchEvent(new CustomEvent('library-feedback', { detail: { id: id, values: file } }));
+    if (home) home.dispatchEvent(new CustomEvent('feed-feedback', { detail: { key: feedbackKind + '/' + id, values: file } }));
+    if (library && feedbackKind === 'file') library.dispatchEvent(new CustomEvent('library-feedback', { detail: { id: id, values: file } }));
   }
+  IS.updateLibraryRating = updateRating;
   function syncStars(panel, value) {
     IS.$$('[data-act=save-library-stars]', panel).forEach(function (button) {
       var stars = Number(button.dataset.stars);
@@ -98,16 +110,16 @@
     button.setAttribute('aria-expanded', 'false');
   }
   IS.ACT['rate-library-file'] = function (button) {
-    var panel = button.ratingPanel, d = button.dataset;
+    var panel = button.ratingPanel, d = button.dataset, series = d.libraryKind === 'series';
     if (panel && !panel.hidden) return closeRating(button);
     if (!panel) {
       var myId = IS.ME && IS.ME.id, own = myId && myId === d.owner;
       panel = button.ratingPanel = document.createElement('section');
       panel.className = 'library-rate-panel';
       panel.id = 'rate-file-' + d.libraryFile;
-      panel.setAttribute('aria-label', A('تقييم الملف', 'File rating'));
+      panel.setAttribute('aria-label', series ? A('تقييم السلسلة', 'Series rating') : A('تقييم الملف', 'File rating'));
       button.setAttribute('aria-controls', panel.id);
-      panel.innerHTML = '<strong>' + esc(own ? A('تقييمات القرّاء', 'Reader ratings') : A('تقييمك للملف', 'Your rating')) + '</strong>' +
+      panel.innerHTML = '<strong>' + esc(own ? A('تقييمات القرّاء', 'Reader ratings') : A('تقييمك', 'Your rating')) + '</strong>' +
         (myId && !own ? '<div class="library-rate-stars" role="group" aria-label="' + esc(A('اختر عدد النجوم', 'Choose your stars')) + '">' +
           [1, 2, 3, 4, 5].map(function (star) {
             return '<button type="button" data-act="save-library-stars" data-stars="' + star + '" aria-pressed="false" aria-label="' +
@@ -129,8 +141,8 @@
           syncStars(panel, panel.myStars);
         } else {
           var starsQuery = { eq: { file_id: d.libraryFile, user_id: myId }, select: 'stars', limit: 1 };
-          panel.ownRating = DB.q('feed_feedback', starsQuery).then(function (rows) {
-            var stars = Number(rows[0] && rows[0].stars) || 0;
+          panel.ownRating = (series ? IS.fetchSeriesScores([d.libraryFile]) : DB.q('feed_feedback', starsQuery)).then(function (rows) {
+            var stars = Number(rows[0] && (series ? rows[0].my_stars : rows[0].stars)) || 0;
             if (panel.isConnected && !panel.touched) {
               panel.myStars = stars;
               button.dataset.ownStars = stars;
@@ -149,7 +161,7 @@
     var account = IS.ME && IS.ME.id;
     if (panel.saving || !account) return;
     var value = Number(button.dataset.stars), previous = panel.myStars;
-    var id = opener.dataset.libraryFile, count = Number(opener.dataset.count), points = Number(opener.dataset.points);
+    var id = opener.dataset.libraryFile, feedbackKind = opener.dataset.libraryKind, count = Number(opener.dataset.count), points = Number(opener.dataset.points);
     var status = panel.querySelector('[data-rating-result]');
     var controls = IS.$$('[data-act=save-library-stars]', panel);
     panel.saving = panel.touched = true;
@@ -158,21 +170,21 @@
     status.textContent = A('جارٍ حفظ التقييم…', 'Saving rating…');
     if (previous != null) {
       var total = count + Number(previous === 0), nextPoints = points + value - previous;
-      updateRating(id, { rating_count: total, rating_points: nextPoints, average_rating: nextPoints / total });
+      updateRating(id, { rating_count: total, rating_points: nextPoints, average_rating: nextPoints / total }, feedbackKind);
     }
     try {
-      var saved = await IS.feedVote('file', id, value, 'rate');
+      var saved = await IS.feedVote(feedbackKind, id, value, 'rate');
       if (!saved) throw new Error('rating_unavailable');
       if ((IS.ME || {}).id !== account) return;
       panel.myStars = value;
-      updateRating(id, saved);
-      IS.$$('[data-act=rate-library-file]').filter(function (el) { return el.dataset.libraryFile === id; }).forEach(function (el) {
+      updateRating(id, saved, feedbackKind);
+      IS.$$('[data-act=rate-library-file]').filter(function (el) { return el.dataset.libraryFile === id && el.dataset.libraryKind === feedbackKind; }).forEach(function (el) {
         el.dataset.ownStars = value;
       });
       status.textContent = A('حُفظ تقييمك', 'Rating saved');
     } catch (error) {
       if ((IS.ME || {}).id !== account) return;
-      if (previous != null) updateRating(id, { rating_count: count, rating_points: points, average_rating: count ? points / count : 0 });
+      if (previous != null) updateRating(id, { rating_count: count, rating_points: points, average_rating: count ? points / count : 0 }, feedbackKind);
       panel.myStars = previous == null ? await panel.ownRating : previous;
       syncStars(panel, panel.myStars || 0);
       status.textContent = A('تعذّر الحفظ. اختر التقييم مرة أخرى.', 'Could not save. Choose a star to retry.');
@@ -196,18 +208,21 @@
     var genre = kind(file.kind);
     var shortTitle = String(file.title || '').slice(0, 54);
     var cover = file.cover || '', publicCover = /^(https:\/\/|img\/|data:image\/)/.test(cover);
+    var src = publicCover ? IS.U(cover) : esc(cover && DB.cachedLibraryCover ? DB.cachedLibraryCover(cover) : '');
     return '<span class="library-cover k-' + esc(genre[0]) + '"><span class="library-cover-placeholder" aria-hidden="true">' + ic(genre[1]) +
       '<b dir="auto">' + esc(shortTitle) + '</b></span>' + (cover ? '<img loading="lazy" alt=""' +
-        (publicCover ? ' src="' + IS.U(cover) + '"' : ' data-library-cover="' + esc(cover) + '"') + '>' : '') + '</span>';
+        (src ? ' src="' + src + '"' : '') + (!publicCover ? ' data-library-cover="' + esc(cover) + '"' : '') + '>' : '') + '</span>';
   };
   IS.hydrateLibraryCovers = async function (root) {
-    var photos = IS.$$('img[data-library-cover]', root).filter(function (photo) { return !photo.getAttribute('src'); });
+    var photos = IS.$$('img[data-library-cover]', root).filter(function (photo) {
+      var src = photo.getAttribute('src');
+      return !src || (DB.live && src !== DB.cachedLibraryCover(photo.dataset.libraryCover));
+    });
     if (!photos.length) return;
     var paths = Array.from(new Set(photos.map(function (photo) { return photo.dataset.libraryCover; })));
     var urls = new Map();
     if (DB.live) {
-      var result = await DB.sb.storage.from('library').createSignedUrls(paths, 900);
-      (result.data || []).forEach(function (item) { if (item.signedUrl) urls.set(item.path, item.signedUrl); });
+      urls = await DB.libraryCoverUrls(paths);
     } else {
       await Promise.all(paths.map(async function (path) { urls.set(path, await DB.fileUrl('library', path)); }));
     }
@@ -229,9 +244,10 @@
     if (T.k === 'requests') return h + requestsView(reqs, fs);
     var list = fs.filter(function (f) { return inKind(f, T.k); });
     function renderFiles(rows, coll) {
+      if (IS.seriesCollapse) rows = IS.seriesCollapse(rows);
       rows.sort(function (a, b) { return (T.sort === 'new' ? 0 : IS.ratingSort(a, b, T.sort)) || publishedTime(b).localeCompare(publishedTime(a)); });
       return (coll ? '<p class="count">' + ic('folder') + esc(coll.n) + ' <button class="link" data-act="lcoll" data-i="-1">' + esc(A('عرض الكل', 'Show all')) + '</button></p>' : '') +
-        (rows.length ? '<div class="grid g4 files">' + (IS.seriesCollapse ? IS.seriesCollapse(rows) : rows).map(function (f) { return f._parts ? IS.seriesCard(f) : fileCard(f); }).join('') + '</div>' :
+        (rows.length ? '<div class="grid g4 files">' + rows.map(function (f) { return f._parts ? IS.seriesCard(f) : fileCard(f); }).join('') + '</div>' :
           IS.empty(kind(T.k)[1], A('لا توجد ملفات هنا بعد', 'No files here yet'), A('لم تجد ما تبحث عنه؟ اطلبه من المكتبة.', 'Can’t find it? Request it from the library.'), '<a class="btn pri" href="#library/requests">' + ic('plus') + esc(A('اطلبه الآن', 'Request it')) + '</a>'));
     }
     var subjects = IS.SUBJ.filter(IS.inStudySpace);
@@ -251,6 +267,7 @@
           if (w.length) { var hay = IS.norm([f.title, f.about, f.author, f.series_title].concat(f.tags || [], kind(f.kind).slice(2), +f.price > 0 ? ['paid', 'مدفوع'] : ['free', 'مجاني']).join(' ')); if (!w.every(function (x) { return hay.indexOf(x) >= 0; })) return false; } return true; });
         $('#lres').innerHTML = renderFiles(r, coll);
         IS.hydrateLibraryCovers($('#lres')).catch(function () {});
+        if (IS.hydrateFeedReactions) IS.hydrateFeedReactions($('#lres'));
       };
       $('#lres').addEventListener('library-feedback', function (event) {
         var file = fs.find(function (row) { return row.id === event.detail.id; });
@@ -361,6 +378,8 @@
     pdf: 'application/pdf', png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif', webp: 'image/webp',
     txt: 'text/plain', md: 'text/plain', csv: 'text/plain'
   }, OFFICE_TYPES);
+  IS.libraryFileAccept = Object.keys(DOCUMENT_TYPES).map(function (key) { return '.' + key; }).join(',');
+  IS.libraryNeedsReadingCopy = function (file) { return Object.hasOwn(OFFICE_TYPES, extension(file)); };
   function extension(file) { return file ? file.name.split('.').pop().toLowerCase() : ''; }
   function typedFile(file, type) { return file.type === type ? file : new File([file], file.name, { type: type }); }
 
@@ -372,7 +391,7 @@
       '<label class="fl"><span>' + esc(A('المؤلف أو المصدر', 'Author or source')) + '</span><input name="author" maxlength="120" value="' + esc(f.author || '') +
       '"></label><label class="fl"><span>' + esc(A('وصف قصير', 'Short description')) + '</span><textarea name="about" rows="2" maxlength="600">' + esc(f.about || '') + '</textarea></label>' +
       '<label class="fl file"><span>' + esc(A('الملف (حتى 50 ميغابايت)', 'File (up to 50 MB)')) + (f.id ? '' : ' *') +
-      '</span><input type="file" name="file" data-library-upload accept="' + Object.keys(DOCUMENT_TYPES).map(function (key) { return '.' + key; }).join(',') +
+      '</span><input type="file" name="file" data-library-upload accept="' + IS.libraryFileAccept +
       '"' + (f.id ? '' : ' required') + '><small>' + esc(A('PDF أو صورة أو نص أو ملف Office.', 'PDF, image, text or Office file.')) + '</small></label>' +
       '<label class="fl file" data-reading-upload hidden><span>' + esc(A('نسخة PDF للقراءة داخل التطبيق', 'PDF reading copy')) +
       ' *</span><input type="file" name="reading" accept="application/pdf,.pdf" disabled><small>' +
@@ -397,18 +416,27 @@
     var row = Object.assign({ title: data.title, kind: data.kind, subject: data.subject,
       cat: (subject || {}).cat || (scope ? scope.id : ''), spec: (subject || {}).spec || IS.SPEC || 'medicine',
       author: data.author || '', about: data.about || '' }, IS.readSell ? IS.readSell(data) : {}, extra);
-    var reading, type, metadata;
+    await IS.attachLibraryFiles(row, original, form.elements.reading.files[0], cover);
+    if (!DB.live && row.status === 'published') row.published_at = new Date().toISOString();
+    return row;
+  };
+  IS.validateLibraryFiles = function (original, reading, cover) {
+    var suffix = extension(original), type = DOCUMENT_TYPES[suffix];
+    if (original && !Object.hasOwn(DOCUMENT_TYPES, suffix)) throw new Error(A('اختر ملفًا مدعومًا.', 'Choose a supported file.'));
+    if (IS.libraryNeedsReadingCopy(original) && extension(reading) !== 'pdf') {
+      throw new Error(A('أرفق نسخة PDF للقراءة.', 'Add the PDF reading copy.'));
+    }
+    if ([original, reading].some(function (file) { return file && (!file.size || file.size > 50 * 1048576); })) {
+      throw new Error(A('اختر ملفات بحجم لا يتجاوز 50 ميغابايت لكل ملف.', 'Choose files up to 50 MB each.'));
+    }
+    if (cover && (!/^image\/(jpeg|png|webp|gif)$/.test(cover.type) || !cover.size || cover.size > 50 * 1048576)) {
+      throw new Error(A('اختر صورة غلاف مدعومة بحجم 50 ميغابايت أو أقل.', 'Choose a JPEG, PNG, WebP or GIF cover up to 50 MB.'));
+    }
+    return type;
+  };
+  IS.attachLibraryFiles = async function (row, original, reading, cover) {
+    var type = IS.validateLibraryFiles(original, reading, cover), metadata;
     if (original) {
-      var suffix = extension(original);
-      type = Object.hasOwn(DOCUMENT_TYPES, suffix) ? DOCUMENT_TYPES[suffix] : '';
-      if (!type) throw new Error(A('اختر ملفًا مدعومًا.', 'Choose a supported file.'));
-      if (Object.hasOwn(OFFICE_TYPES, suffix)) {
-        reading = form.elements.reading.files[0];
-        if (extension(reading) !== 'pdf') throw new Error(A('أرفق نسخة PDF للقراءة.', 'Add the PDF reading copy.'));
-      }
-      if ([original, reading].some(function (file) { return file && (!file.size || file.size > 50 * 1048576); })) {
-        throw new Error(A('اختر ملفات بحجم لا يتجاوز 50 ميغابايت لكل ملف.', 'Choose files up to 50 MB each.'));
-      }
       if (reading || type === 'application/pdf') {
         metadata = await pdfMetadata(reading || original, !cover).catch(function () { return null; });
         if (reading && !metadata) throw new Error(A('تعذّر فتح نسخة PDF. اختر نسخة صالحة.', 'The reading copy could not be opened. Choose a valid PDF.'));
@@ -422,8 +450,6 @@
       if (!cover) cover = metadata && metadata.cover || (/^image\//.test(type) ? file : null);
     }
     if (cover) row.cover = await DB.upload('library', await IS.shrink(cover, 600, 0.82));
-    if (!DB.live && row.status === 'published') row.published_at = new Date().toISOString();
-    return row;
   };
   IS.SUB.sharefile = async function (data, form) {
     var row = await IS.saveFile(data, form, { owner_id: IS.ME.id, owner_name: IS.ME.name, status: IS.can('library', 'approve') ? 'published' : 'pending' });
@@ -451,7 +477,12 @@
   IS.pdfMeta = function (file, needsCover) { return pdfMetadata(file, needsCover); };
   async function pdfMetadata(file, needsCover) {
     var lib = await pdfLib();
-    var doc = await lib.getDocument({ data: await file.arrayBuffer(), isEvalSupported: false }).promise;
+    var source = typeof file === 'string' ? { url: file, disableAutoFetch: true, disableStream: true } : { data: await file.arrayBuffer() };
+    var assets = new URL('pdfjs/', document.baseURI).href;
+    var task = lib.getDocument(Object.assign(source, { isEvalSupported: false,
+      cMapUrl: assets + 'cmaps/', cMapPacked: true, standardFontDataUrl: assets + 'standard_fonts/' }));
+    var doc;
+    try { doc = await task.promise; } catch (error) { await task.destroy(); throw error; }
     try {
       if (!needsCover) return { pages: doc.numPages };
       var cover = await (async function () {

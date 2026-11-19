@@ -511,3 +511,11 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   Finance records transfers in Control → Library sales → Sellers to pay (`ish_seller_payout`, checks the balance). Tags are searchable
   and tapping one searches the library. Tested on a local Postgres (access before/after approval, series, own file, duplicate, payouts over
   balance) and in the browser (scratchpad sell.js: seller → publish → buy → approve → open → payout) at 390 and 1440.
+
+
+## Series covers and balanced feedback
+
+- Group uploads let each part have its own optional cover. The uploader can reorder parts while keeping each cover and PDF reading copy attached to its file. PDFs use the first page and images use the uploaded image when no cover is chosen. Office files use the first page or slide from their PDF reading copy. A failed upload can resume in the same open form.
+- Series pages show a thumbnail for each part. Older parts without a saved cover lazily render a first-page preview when the current reader can open their document. Library cover links use an account-scoped cache and a single batched lookup for uncached covers. Previously visited series pages can show their saved layout while refreshing.
+- Series reactions and star ratings belong to the series itself. The Home feed, My Library, and the series page share the controls. Migration `024_series_feedback.sql` stores the votes and is applied by the deployment workflow.
+- Likes and dislikes have equal and opposite weight. The score uses the submitted star average as the base, or 3 when there are only reactions. The adjustment is (likes − dislikes) divided by the total number of reactions and submitted ratings. Scores stay between 1 and 5. Course scores continue to use enrolled students' reviews.
