@@ -82,7 +82,7 @@
       target = data.lecturer_id && await DB.one('lecturers', data.lecturer_id);
       if (data.lecturer_id && (!target || target.status !== 'active' || target.id === actor)) throw new Error('request_lecturer');
       row = await DB.ins(REQUESTS, Object.assign({}, data, { budget_min: data.price, budget_max: data.price, user_id: actor, author_name: IS.ME.name, lecturer_name: target ? target.name : null,
-        status: 'open', published_at: new Date().toISOString(), teacher_confirmed: false, joined_count: 0, rating_count: 0, rating_points: 0 }));
+        status: IS.can('review', 'approve') ? 'open' : 'pending', published_at: IS.can('review', 'approve') ? new Date().toISOString() : null, teacher_confirmed: false, joined_count: 0, rating_count: 0, rating_points: 0 }));
       for (var item of (data.attachments || [])) {
         await DB.ins('course_request_files', Object.assign({ request_id: row.id }, item));
       }
@@ -254,7 +254,7 @@
       }
     }
     if (id) {
-      IS.toast(A('نُشر الطلب', 'Request published'));
+      IS.toast(IS.can('review', 'approve') ? A('نُشر الطلب', 'Request published') : A('أُرسل طلبك للمراجعة. سيُنشر بعد موافقة الإدارة ويصلك إشعار.', 'Your request was sent for review. It will be published after the team approves it, and you will be notified.'));
       IS.go('course-request/' + id);
     }
   };
@@ -402,7 +402,9 @@
     var agreement = r[2].find(function (o) { return o.status === 'accepted'; });
     var h = '<nav class="crumb">' + link(board, 'رجوع إلى الطلبات', 'Back to requests', 'link') + '</nav>' +
       '<article class="box cr-detail"><header class="cr-heading"><h1 tabindex="-1" dir="auto">' + esc(row.title) +
-      '</h1><div class="row"><span class="mut" dir="auto">' + esc(row.author_name) + ' · ' + esc(scopeName(row)) + '</span>' + status(row) +
+      '</h1><div class="crmeta">' + '<span class="crm">' + IS.ic('user') + '<small>' + text('صاحب الطلب', 'Requested by') + '</small><bdi dir="auto">' + esc(row.author_name || '') + '</bdi></span>' +
+      (function () { var sp = IS.spec(row.spec), ct = IS.cat(row.cat); return (sp ? '<span class="crm">' + IS.ic('layers') + '<bdi>' + esc(A(sp.ar, sp.en)) + '</bdi></span>' : '') +
+        (ct ? '<span class="crm">' + IS.ic('grid') + '<bdi lang="en">' + esc(ct.en) + '</bdi></span>' : ''); })() + status(row) +
       '</div></header>' + publicFacts(row, agreement) + '<section class="cr-request-body"><h2>' + IS.T('تفاصيل الطلب', 'Request details') +
       '</h2><p class="pre" dir="auto">' + esc(row.details) + '</p>' + (agreement ? termsBlock(agreement, true) : '') + requestRules(row) + r[3];
     var proposals = r[2].filter(function (o) { return o.status === 'offered'; });

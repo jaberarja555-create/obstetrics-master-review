@@ -642,3 +642,9 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   only the assigned person once assigned (+ owner/GM); assigning a message alerts the new person. Other requests go by role permission
   (`staff_for`). The activity trigger reads `status` through `to_jsonb(new)` (ticket_msgs has no status column; reading it directly made
   student replies fail — fixed before it reached students).
+- **Course requests wait for approval again** (owner, 19 Nov 2026: "a student made this course request; it did not go through admin";
+  `037_course_request_review.sql`): a new request from anyone without review approval is saved «pending» (trigger
+  `course_request_waits`; 019 had made them public at once); the team is alerted «طلب كورس جديد بانتظار موافقتك» (link to Control → Course
+  requests); approving notifies the student and the named lecturer (existing RPC) and alerts the speciality/section. The student is told
+  «أُرسل طلبك للمراجعة…». The request page header shows the requester, speciality and section as separate tags. The deploy log has a
+  "Phone alerts check" step (pg_net installed, number of registered phones, delivery results; counts only). Asset version 172.

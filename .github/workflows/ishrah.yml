@@ -53,8 +53,9 @@ jobs:
           usage=ishrah/supabase/034_usage.sql
           alerts=ishrah/supabase/035_alerts.sql
           routing=ishrah/supabase/036_alert_routing.sql
+          review_wait=ishrah/supabase/037_course_request_review.sql
           pending=""
-          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing"; do
+          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait"; do
             if [ -n "$pending" ] || ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$migration"; then
               pending="${pending:+$pending }$migration"
             fi
@@ -75,6 +76,16 @@ jobs:
           done
           test "$(psql "$DB" -v ON_ERROR_STOP=1 -qAtc "set search_path = ''; select not public.ish_staff()")" = t
           test "$(psql "$DB" -v ON_ERROR_STOP=1 -Atc "select exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'feed_feedback' and column_name = 'course_id') and to_regprocedure('public.ish_feed_react(text,uuid,integer)') is not null and to_regprocedure('public.ish_rate_file(uuid,integer)') is not null and to_regprocedure('public.ish_moderate_feed_report(uuid,boolean)') is not null and to_regclass('public.lecturer_payout_accounts') is not null and to_regprocedure('public.ish_lecturer_payout(text,uuid,uuid,uuid,numeric,uuid,text,text,text)') is not null and not exists (select 1 from public.lecturers where pay is distinct from '{}'::jsonb) and exists (select 1 from storage.buckets where id = 'payout-receipts' and not public) and to_regclass('public.library_comments') is not null and to_regprocedure('public.ish_library_comment(uuid,text,uuid)') is not null and to_regprocedure('public.ish_review_question(uuid,boolean,text)') is not null and to_regclass('public.course_live_links') is not null and to_regclass('public.payment_messages') is not null and to_regclass('public.course_request_files') is not null and to_regprocedure('public.ish_course_request(text,uuid,jsonb)') is not null and to_regprocedure('public.ish_public_course_terms(uuid)') is not null and exists (select 1 from storage.buckets where id = 'course-request-files' and not public) and to_regprocedure('ishrah_private.guard_library_subjects()') is not null and to_regprocedure('public.ish_review_library_revision(uuid,boolean,text)') is not null and to_regprocedure('ishrah_private.guard_library_upload_rights()') is not null and to_regprocedure('public.ish_series_rating_scores(uuid[])') is not null and to_regprocedure('public.ish_series_vote(uuid,text,integer)') is not null and to_regclass('public.file_buys') is not null and to_regprocedure('public.ish_seller_payout(text,uuid,numeric,uuid,text,text,text)') is not null")" = t
+      - name: Phone alerts check (counts only, no personal data)
+        if: always()
+        env:
+          DB: ${{ secrets.ISHRAH_DB_URL }}
+        run: |
+          if ! command -v psql >/dev/null; then sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client >/dev/null; fi
+          DB=$(printf '%s' "$DB" | tr -d '\r\n\t `"'"'"'<>')
+          psql "$DB" -Atc "select 'pg_net installed: ' || exists (select 1 from pg_extension where extname = 'pg_net')" || true
+          psql "$DB" -Atc "select 'phones registered for alerts: ' || count(*) || ' (team: ' || count(*) filter (where team) || ')' from public.push_subs" || true
+          psql "$DB" -Atc "select 'alert deliveries in the last day by result: ' || coalesce(string_agg(coalesce(status_code::text, 'error') || ' x' || n, ', '), 'none') from (select status_code, count(*) n from net._http_response where created > now() - interval '1 day' group by 1) t" || true
       - name: Create the Pages project the first time (ignored when it exists)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

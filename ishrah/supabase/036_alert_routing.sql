@@ -79,9 +79,8 @@ begin
       perform ishrah_private.alert_space(new.spec, new.cat, 'كورس جديد', 'New course', new.title, '#course/' || new.id, new.lecturer_id); end if;
   elsif tbl = 'course_requests' then
     if became = 'pending' then
-      perform ishrah_private.alert_team('review', 'طلب كورس بانتظار المراجعة', 'Course request to review', new.title, '#control-course-requests', new.user_id);
+      perform ishrah_private.alert_team('review', 'طلب كورس جديد بانتظار موافقتك', 'New course request to approve', new.title, '#control-course-requests', new.user_id);
     elsif became = 'open' then
-      perform ishrah_private.alert_team('review', 'طلب كورس جديد', 'New course request', new.title, '#course-request/' || new.id, new.user_id);
       perform ishrah_private.alert_space(new.spec, new.cat, 'طلب كورس جديد', 'New course request', new.title, '#course-request/' || new.id, new.user_id); end if;
   elsif tbl = 'events' then
     if became = 'published' then

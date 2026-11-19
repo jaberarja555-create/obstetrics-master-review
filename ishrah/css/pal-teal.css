@@ -3202,3 +3202,10 @@ button.feed-grade:hover{border-color:#e0a800;background:#fff8e1}
 :root[data-theme="dark"] .pushask{background:#2b2410;color:#f6e4b4;border-color:#8a6d22}
 .pushset .li{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.pushset .li>span{flex:1 1 220px;display:flex;flex-direction:column;gap:2px}
 .pushset .li small{color:var(--sub)}
+
+/* course request header: who asked, speciality and section as separate tags, then the status (owner, 19 Nov 2026: "the text looks disorganised") */
+.cr-heading .crmeta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:8px}
+.cr-heading .crm{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:var(--tint);color:var(--tx);font-size:13.5px;font-weight:700;max-width:100%}
+.cr-heading .crm .ico{width:15px;height:15px;color:var(--pri);flex:none}
+.cr-heading .crm small{color:var(--sub);font-weight:600;font-size:12px}
+.cr-heading .crm bdi{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
