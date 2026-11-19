@@ -1052,7 +1052,7 @@
     };
     var list = ps.slice().sort(function (a, b) { return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0); });
     var users = {}; ps.forEach(function (p) { users[p.user_id] = 1; });
-    var h = IS.banner(IS.T('مجتمع الطلبة', 'Student Community'), esc(A('مساحة ', 'The ')) + '<bdi lang="en">' + esc((IS.mySpec() || {}).en || '') + '</bdi>' + esc(A(' التفاعلية: ناقش، اسأل، شارك المعرفة، واطلب ما تحتاجه.', ' space: discuss, ask, share and request what you need.')), 'group',
+    var h = IS.banner(IS.T('مجتمع الطلبة', 'Student Community'), '<bdi lang="en">' + esc((IS.mySpec() || {}).en || '') + '</bdi>' + esc(A(': ناقش، اسأل، شارك المعرفة، واطلب ما تحتاجه.', ': discuss, ask, share and request what you need.')), 'group',
       '') + IS.spaceBox();
     h += '<details class="rules community-rules"><summary>' + ic('shield') + esc(A('قواعد المجتمع', 'Community rules')) + ic('down') + '</summary><ul>' + [
       A('تعامل مع الآخرين باحترام. تجنّب الإساءة والتنمر.', 'Treat others with respect. Avoid insults and bullying.'),
@@ -1438,12 +1438,12 @@
         return '<' + tag + ' class="spt' + (i % 2 ? ' on' : '') + '"><i class="spi">' + ic(i < 2 ? 'users' : 'studio') + '</i><b data-n="' + x[0] + '">–</b><span class="spl2">' + esc(A(x[1], x[2])) + '</span>' +
           (staff() ? '<small class="spsee">' + esc(A('عرض الأسماء', 'See who')) + '</small>' : '') +
           '</' + tag.split(' ')[0] + '>'; }).join('') + '</div>' +
-      (IS.ME ? '<small class="spjoin">' + ic('check') + esc(A('أنت عضو في مساحة ', 'You are a member of the ')) + '<bdi lang="en">' + esc(name) + '</bdi>' + esc(A('', ' space')) + '</small>' :
-        '<button type="button" class="btn gold sm" data-act="login">' + ic('user') + esc(A('سجّل الدخول لتنضم إلى مساحة ', 'Sign in to join the ')) + '<bdi lang="en">' + esc(name) + '</bdi>' + esc(A('', ' space')) + '</button>') + '</div>';
+      (IS.ME ? '<small class="spjoin">' + ic('check') + esc(A('أنت عضو في ', 'You are a member of ')) + '<bdi lang="en">' + esc(name) + '</bdi>' + '</small>' :
+        '<button type="button" class="btn gold sm" data-act="login">' + ic('user') + esc(A('سجّل الدخول لتنضم إلى ', 'Sign in to join ')) + '<bdi lang="en">' + esc(name) + '</bdi>' + '</button>') + '</div>';
   };
   function staff() { return !!(IS.ME && (IS.can('students') || IS.can('dash'))); }
   /* the team sees who: members, online now, lecturers, lecturers online (owner, 19 Nov 2026) */
-  var TITLES = { members: ['أعضاء المساحة', 'Members of the space'], online: ['المتصلون الآن', 'Online now'], lecturers: ['محاضرو المساحة', 'Lecturers of the space'], lecturers_online: ['المحاضرون المتصلون الآن', 'Lecturers online now'] };
+  var TITLES = { members: ['الأعضاء', 'Members'], online: ['المتصلون الآن', 'Online now'], lecturers: ['المحاضرون', 'Lecturers'], lecturers_online: ['المحاضرون المتصلون الآن', 'Lecturers online now'] };
   IS.ACT.spacepeople = async function (b) {
     if (!staff() || !IS.SPEC) return;
     var k = b.dataset.k, spec = IS.mySpec(), t = TITLES[k], rows;
