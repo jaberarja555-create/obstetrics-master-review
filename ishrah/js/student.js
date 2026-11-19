@@ -1434,9 +1434,41 @@
     var spec = IS.mySpec && IS.mySpec(), name = spec ? spec.en : '';
     return '<div class="spacebox" data-space="' + esc(IS.SPEC || '') + '"><div class="bnums sp4">' +
       [['members', 'عضو', 'members'], ['online', 'متصل الآن', 'online now'], ['lecturers', 'محاضر', 'lecturers'], ['lecturers_online', 'محاضر متصل', 'lecturers online']].map(function (x, i) {
-        return '<span class="' + (i % 2 ? 'on' : '') + '"><b data-n="' + x[0] + '">–</b>' + esc(A(x[1], x[2])) + '</span>'; }).join('') + '</div>' +
+        var tag = staff() ? 'button type="button" data-act="spacepeople" data-k="' + x[0] + '"' : 'span';
+        return '<' + tag + ' class="' + (i % 2 ? 'on' : '') + '"><b data-n="' + x[0] + '">–</b>' + esc(A(x[1], x[2])) + (staff() ? '<small class="spsee">' + esc(A('عرض الأسماء', 'See who')) + '</small>' : '') +
+          '</' + tag.split(' ')[0] + '>'; }).join('') + '</div>' +
       (IS.ME ? '<small class="spjoin">' + ic('check') + esc(A('أنت عضو في مساحة ', 'You are a member of the ')) + '<bdi lang="en">' + esc(name) + '</bdi>' + esc(A('', ' space')) + '</small>' :
         '<button type="button" class="btn gold sm" data-act="login">' + ic('user') + esc(A('سجّل الدخول لتنضم إلى مساحة ', 'Sign in to join the ')) + '<bdi lang="en">' + esc(name) + '</bdi>' + esc(A('', ' space')) + '</button>') + '</div>';
+  };
+  function staff() { return !!(IS.ME && (IS.can('students') || IS.can('dash'))); }
+  /* the team sees who: members, online now, lecturers, lecturers online (owner, 19 Nov 2026) */
+  var TITLES = { members: ['أعضاء المساحة', 'Members of the space'], online: ['المتصلون الآن', 'Online now'], lecturers: ['محاضرو المساحة', 'Lecturers of the space'], lecturers_online: ['المحاضرون المتصلون الآن', 'Lecturers online now'] };
+  IS.ACT.spacepeople = async function (b) {
+    if (!staff() || !IS.SPEC) return;
+    var k = b.dataset.k, spec = IS.mySpec(), t = TITLES[k], rows;
+    var box = IS.sheet(esc(A(t[0], t[1])) + ' · <bdi lang="en">' + esc(spec ? spec.en : '') + '</bdi>', '<div class="sppl"><p class="loading"><span class="spin"></span></p></div>');
+    try {
+      if (DB.live) { var r = await DB.sb.rpc('ish_space_people', { p_spec: IS.SPEC, p_kind: k }); if (r.error) throw r.error; rows = r.data || []; }
+      else {
+        var tb = await Promise.all([DB.q('space_members', { eq: { spec: IS.SPEC } }), DB.q('lecturers'), DB.q('profiles')]), on = Date.now() - 5 * 60000;
+        var prof = {}; tb[2].forEach(function (p) { prof[p.id] = p; });
+        var lec = {}; tb[1].forEach(function (l) { if (l.status === 'active' && ((l.teaching_specs || []).indexOf(IS.SPEC) >= 0 || tb[0].some(function (m) { return m.user_id === l.id; }))) lec[l.id] = 1; });
+        var mem = {}; tb[0].forEach(function (m) { mem[m.user_id] = m; });
+        var ids = /lecturers/.test(k) ? Object.keys(lec) : tb[0].map(function (m) { return m.user_id; }).filter(function (id) { return !lec[id]; });
+        rows = ids.map(function (id) { var p = prof[id] || {}, m = mem[id] || {}, seen = [m.last_seen, p.last_seen].filter(Boolean).sort().pop();
+          return { id: id, name: p.name, photo: p.photo, last_seen: seen, joined_at: m.joined_at || m.created_at, lecturer: !!lec[id], online: Date.parse(seen || 0) > on }; })
+          .filter(function (x) { return !/online/.test(k) || x.online; })
+          .sort(function (a, b) { return (b.online - a.online) || String(b.last_seen || '').localeCompare(String(a.last_seen || '')); });
+      }
+    } catch (e) { box.querySelector('.sppl').innerHTML = IS.empty('info', A('تعذّر تحميل القائمة', 'The list could not be loaded')); return; }
+    var q = '<label class="field">' + ic('search') + '<input type="search" data-sppq placeholder="' + esc(A('ابحث بالاسم…', 'Search by name…')) + '"></label>';
+    box.querySelector('.sppl').innerHTML = (rows.length ? '<p class="mut">' + N(rows.length) + ' ' + esc(A('شخص', 'people')) + '</p>' + (rows.length > 8 ? q : '') + '<div class="table spl">' + rows.map(function (x) {
+      return '<div class="tr" data-n="' + esc(String(x.name || '').toLowerCase()) + '">' + IS.av({ name: x.name, photo: x.photo }, 'sm') + '<span class="grow"><b dir="auto">' + esc(x.name || A('بدون اسم', 'No name')) + '</b><small class="mut">' +
+        esc(x.lecturer ? A('محاضر', 'Lecturer') : A('عضو', 'Member')) + (x.joined_at ? ' · ' + esc(A('انضم ', 'joined ')) + esc(IS.date(x.joined_at)) : '') + '</small></span>' +
+        (x.online ? IS.chip('<i class="spdot"></i>' + esc(A('متصل الآن', 'Online now')), 'st ok') : '<small class="mut">' + esc(x.last_seen ? A('آخر نشاط ', 'Active ') + IS.ago(x.last_seen) : A('لم يظهر بعد', 'Not seen yet')) + '</small>') + '</div>';
+    }).join('') + '</div>' : IS.empty('users', A('لا يوجد أحد هنا الآن', 'Nobody here right now')));
+    var input = box.querySelector('[data-sppq]');
+    if (input) input.oninput = function () { var w = input.value.trim().toLowerCase(); IS.$$('.spl .tr', box).forEach(function (r) { r.hidden = w && r.dataset.n.indexOf(w) < 0; }); };
   };
   async function fill(main) {
     var box = main.querySelector('.spacebox'); if (!box || !IS.SPEC) return;

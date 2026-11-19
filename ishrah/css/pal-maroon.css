@@ -3065,3 +3065,23 @@ button.feed-grade:hover{border-color:#e0a800;background:#fff8e1}
   .lh .lhh .lht h1{font-size:34px!important}
 }
 @media (max-width:640px) and (max-height:700px){.lh .lhh{padding:14px!important;row-gap:12px!important}.lh .lhh .lhl2{width:76px!important;height:76px!important}.lh .lhh .lht{gap:5px!important}.lh .lhh .lht h1{font-size:28px!important}}
+
+/* the team opens each figure to see who (Community space figures) */
+.spacebox button[data-act=spacepeople]{cursor:pointer;font:inherit;display:flex;flex-direction:column;align-items:center;gap:2px}
+.spacebox button[data-act=spacepeople]:hover{outline:2px solid var(--pri)}
+.spacebox .spsee{font-size:11px;font-weight:700;color:var(--pri);text-decoration:underline}
+.sppl .spl{max-height:60vh;overflow:auto}
+.sppl .spdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#2fd36b;margin-inline-end:4px}
+.sppl .field{margin:8px 0}
+/* welcome band on phones/tablets, third pass (owner, 19 Nov 2026: "the texts should use the bar's space, not sit in one place with empty
+   space"): greeting, section and speciality centred in the space beside the logo, the section name larger, chips centred under them */
+@media (max-width:1023px){
+  .lh .lhh .lht{justify-items:center!important;text-align:center!important}
+  .lh .lhh .lht h1{font-size:42px!important;letter-spacing:.5px}
+  .lh .lhh .lht p{font-size:15px!important}
+  .lh .lhh .lht small{font-size:17px!important}
+  .lh .lhh .roles{justify-content:center!important}
+}
+@media (max-width:640px){.lh .lhh .lht h1{font-size:38px!important}}
+@media (max-width:380px){.lh .lhh .lht h1{font-size:32px!important}.lh .lhh .lht small{font-size:15px!important}}
+@media (max-width:640px) and (max-height:700px){.lh .lhh .lht h1{font-size:30px!important}}

@@ -585,3 +585,9 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - **Welcome band spacing on phones** (owner: "Dr Arja, Clinical, Medicine distributed nicely, not congested"): the three lines are centred
   beside the logo with 8 px between them, the heartbeat line runs only on the logo side, chips and search follow with even gaps.
   Asset version 161, shell cache ish-v61.
+- **The team sees who is in a space** (owner, 19 Nov 2026: "an admin should know specifically who is online and who is registered there"):
+  for accounts with the students or dash permission, the four Community figures are buttons («عرض الأسماء») that open a sheet with the
+  people (photo, name, member or lecturer, join date, «متصل الآن» or the last activity; online first; name search over 8 people).
+  `033_space_people.sql`: `ish_space_people(spec, kind)` refuses anyone without that permission; students and visitors keep only the counts.
+  Asset version 162, shell cache ish-v62.
+- Welcome band, third pass (owner: "use the bar's space, not one place with empty space"): greeting, section (larger) and speciality are centred in the space beside the logo, chips centred under them.
