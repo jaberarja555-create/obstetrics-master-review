@@ -233,10 +233,10 @@
     var out = R.el.querySelector('.rdr-bookmark-list');
     var pages = R.bookmarks.filter(function (page) { return page >= 1 && page <= R.n; }).slice().sort(function (a,b) { return a - b; });
     out.innerHTML = pages.length ? pages.map(function (page) {
-      var name = esc(A('صفحة ', 'Page ') + N(page));
+      var name = esc(A('صفحة ', 'Page ')) + N(page);
       return '<div class="rdr-bookmark-row"><button data-r="bookmark-page" data-p="' + page + '">' + ic('bookmark') + name +
         '</button><button class="rib" data-r="remove-bookmark" data-p="' + page + '" aria-label="' +
-        esc(A('إزالة إشارة الصفحة ', 'Remove bookmark for page ') + N(page)) + '">' + ic('trash') + '</button></div>';
+        esc(A('إزالة إشارة الصفحة ', 'Remove bookmark for page ') + page) + '">' + ic('trash') + '</button></div>';
     }).join('') : '<p>' + esc(A('لا توجد صفحات محفوظة بعد.', 'No bookmarked pages yet.')) + '</p>';
   }
   function changeBookmark(page, remove) {

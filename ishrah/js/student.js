@@ -1055,7 +1055,13 @@
     var users = {}; ps.forEach(function (p) { users[p.user_id] = 1; });
     var h = IS.banner(IS.T('مجتمع الطلبة', 'Student Community'), esc(A('مساحة تفاعلية لطلبة الطب في السودان: ناقش، اسأل، شارك المعرفة، واطلب ما تحتاجه.', 'A space for medical students in Sudan: discuss, ask, share and request what you need.')), 'group',
       '<div class="bnums"><span><b>' + N(ps.length) + '</b>' + esc(A('نقاش', 'discussions')) + '</span><span><b>' + N(Object.keys(users).length) + '</b>' + esc(A('مشارك', 'members')) + '</span></div>');
-    h += '<details class="rules community-rules"><summary>' + ic('shield') + esc(A('قواعد المجتمع', 'Community rules')) + ic('down') + '</summary><ul>' + [A('الاحترام أولًا: لا إساءة ولا تنمّر.', 'Respect first: no insults or bullying.'), A('لا تنشر محتوى الكورسات المدفوعة.', 'Do not post paid course content.'), A('لا نصائح علاجية لمرضى حقيقيين.', 'No treatment advice for real patients.'), A('أبلغ عن المخالفات ليراجعها المشرفون.', 'Report violations to the moderators.')].map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></details>' +
+    h += '<details class="rules community-rules"><summary>' + ic('shield') + esc(A('قواعد المجتمع', 'Community rules')) + ic('down') + '</summary><ul>' + [
+      A('تعامل مع الآخرين باحترام. تجنّب الإساءة والتنمر.', 'Treat others with respect. Avoid insults and bullying.'),
+      A('انشر محتوى هادفًا يخدم التعلّم والتزم بموضوع النقاش.', 'Share useful learning content and stay on topic.'),
+      A('تحقّق من المعلومات واذكر مصدرها عند نقلها.', 'Check information and cite the source when sharing it.'),
+      A('تجنّب تكرار المنشورات والإعلانات المزعجة.', 'Avoid duplicate posts and spam.'),
+      A('أبلغ عن المخالفات ليراجعها المشرفون.', 'Report violations to the moderators.')
+    ].map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></details>' +
       (me() ? composer :
         '<div class="box center">' + esc(A('سجّل الدخول لتشارك في النقاش.', 'Sign in to join the discussion.')) + ' <button class="btn pri sm" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button></div>') +
       (own.length ? '<section class="box"><h2>' + IS.T('حالة أسئلتي', 'My question status') + '</h2><div class="posts">' + own.map(postRow).join('') + '</div></section>' : '') +
