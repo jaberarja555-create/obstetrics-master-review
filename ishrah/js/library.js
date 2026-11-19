@@ -242,6 +242,15 @@
       '<a href="#library/all" class="lt' + (T.k === 'all' ? ' on' : '') + '">' + ic('grid') + '<b>' + esc(A('الكل', 'All Files')) + '</b><small>' + N(fs.length) + '</small></a>' +
       TABS.map(function (id) { var k = kind(id); return '<a href="#library/' + k[0] + '" class="lt' + (T.k === k[0] ? ' on' : '') + '">' + ic(k[1]) + '<b>' + esc(A(k[2], k[3])) + '</b><small>' + N(fs.filter(function (f) { return inKind(f, k[0]); }).length) + '</small></a>'; }).join('') + '</section>';
     if (T.k === 'requests') return h + requestsView(reqs, fs);
+    if (T.k === 'uploads') {
+      if (!me) return h + IS.empty('lock', A('سجّل الدخول لعرض ملفاتك', 'Sign in to view your uploads'));
+      var uploads = await DB.q('files', { eq: { owner_id: me.id }, order: ['created_at', false] });
+      return h + '<section class="box"><h2>' + ic('upload') + IS.T('ملفاتي المرفوعة', 'My uploads') + '</h2>' +
+        (uploads.length ? '<div class="table">' + uploads.map(function (file) {
+          return '<div class="tr"><a class="grow" href="#file/' + esc(file.id) + '"><b dir="auto">' + esc(file.title) + '</b></a>' +
+            IS.status(file.status) + editFileButton(file) + '</div>';
+        }).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد ملفات مرفوعة بعد.', 'You have no uploads yet.')) + '</p>') + '</section>';
+    }
     var list = fs.filter(function (f) { return inKind(f, T.k); });
     function renderFiles(rows, coll) {
       if (IS.seriesCollapse) rows = IS.seriesCollapse(rows);
@@ -258,7 +267,8 @@
         return '<option value="' + item[0] + '"' + (T.sort === item[0] ? ' selected' : '') + '>' + esc(A(item[1], item[2])) + '</option>';
       }).join('') + '</select>' +
       '<button class="btn pri" data-act="share-file">' + ic('upload') + esc(A('شارك ملفًا', 'Share a file')) + '</button>' +
-      (me ? '<a class="btn ghost" href="#sales">' + ic('cart') + esc(A('مبيعاتي', 'My sales')) + '</a>' : '') + '</div><div id="lres">' + renderFiles(list.slice()) + '</div>' +
+      (me ? '<a class="btn ghost" href="#library/uploads">' + ic('upload') + esc(A('ملفاتي المرفوعة', 'My uploads')) +
+        '</a><a class="btn ghost" href="#sales">' + ic('cart') + esc(A('مبيعاتي', 'My sales')) + '</a>' : '') + '</div><div id="lres">' + renderFiles(list.slice()) + '</div>' +
       (me ? '<div class="library-extra">' + collBox() + '</div>' : '');
     IS.after = function () {
       var sel = {}, fill = function () {
@@ -385,9 +395,9 @@
 
   function fileFields(f, scoped) {
     return '<label class="fl"><span>' + esc(A('العنوان', 'Title')) + ' *</span><input name="title" required maxlength="160" value="' + esc(f.title || '') +
-      '"></label><div class="g2f"><label class="fl"><span>' + esc(A('النوع', 'Type')) + '</span><select name="kind">' +
+      '"></label>' + (f.id ? '' : '<div class="g2f"><label class="fl"><span>' + esc(A('النوع', 'Type')) + '</span><select name="kind">' +
       TABS.concat(f.kind === 'book' || f.kind === 'slides' ? [f.kind] : []).map(function (id) { var k = kind(id); return '<option value="' + k[0] + '"' + (f.kind === k[0] ? ' selected' : '') + '>' + esc(A(k[2], k[3])) + '</option>'; }).join('') + '</select></label>' +
-      '<label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span><select name="subject">' + subjOptions(f.subject, scoped) + '</select></label></div>' +
+      '<label class="fl"><span>' + esc(A('المادة', 'Subject')) + '</span><select name="subject">' + subjOptions(f.subject, scoped) + '</select></label></div>') +
       '<label class="fl"><span>' + esc(A('المؤلف أو المصدر', 'Author or source')) + '</span><input name="author" maxlength="120" value="' + esc(f.author || '') +
       '"></label><label class="fl"><span>' + esc(A('وصف قصير', 'Short description')) + '</span><textarea name="about" rows="2" maxlength="600">' + esc(f.about || '') + '</textarea></label>' +
       '<label class="fl file"><span>' + esc(A('الملف (حتى 50 ميغابايت)', 'File (up to 50 MB)')) + (f.id ? '' : ' *') +
@@ -399,7 +409,7 @@
       '<label class="fl file"><span>' + esc(A('صورة الغلاف (اختياري)', 'Cover picture (optional)')) +
       '</span><input type="file" name="cover" accept="image/jpeg,image/png,image/webp,image/gif"><small>' +
       esc(A('يُستخدم غلاف الملف أو أول صفحة من PDF إذا لم ترفع صورة.', 'If you leave this blank, the app uses the image or first PDF page when available.')) + '</small></label>' +
-      (IS.sellFields ? IS.sellFields(f) : '');
+      (IS.sellFields ? IS.sellFields(f, !!f.series_id, !!f.id) : '');
   }
   document.addEventListener('change', function (event) {
     var upload = event.target;
@@ -623,12 +633,57 @@
       }).join('') + '</section>';
   }
 
+  function editFileButton(file) {
+    return IS.ME && file.owner_id === IS.ME.id && ['pending', 'published', 'rejected', 'removed'].includes(file.status) ?
+      '<button type="button" class="btn ghost sm" data-act="edit-library-upload" data-id="' + esc(file.id) + '">' +
+      ic('pen') + esc(A('تعديل الملف', 'Edit upload')) + '</button>' : '';
+  }
+  async function fileRevision(id) {
+    var rows = await DB.q('library_file_revisions', { eq: { file_id: id }, limit: 1 });
+    return rows[0];
+  }
+  IS.ACT['edit-library-upload'] = async function (button) {
+    var file = await DB.one('files', button.dataset.id);
+    if (!file || !editFileButton(file)) return;
+    var revision = await fileRevision(file.id);
+    var changes = revision && revision.status !== 'approved' ? revision.changes : {};
+    var formFile = Object.assign({}, file, changes);
+    IS.sheet(esc(A('تعديل الملف', 'Edit upload')), '<form class="form" data-form="revise-library-file">' +
+      '<input type="hidden" name="id" value="' + esc(file.id) + '">' +
+      '<p class="note">' + esc(A('ترسل التعديلات إلى فريق المحتوى. تبقى النسخة المنشورة متاحة حتى اعتماد التعديل.',
+        'Your changes go to the content team. The published version stays available until the edit is approved.')) + '</p>' +
+      '<div class="row">' + IS.priceTag(file) + '</div>' + fileFields(formFile, true) +
+      '<button class="btn pri">' + ic('send') + esc(A('إرسال التعديل للمراجعة', 'Send edit for review')) + '</button></form>');
+  };
+  IS.SUB['revise-library-file'] = async function (data, form) {
+    var file = await DB.one('files', data.id);
+    if (!file || !editFileButton(file)) return;
+    var old = await fileRevision(file.id);
+    var previous = old && old.status !== 'approved' ? old.changes : {};
+    var sale = IS.readSell(Object.assign({}, data, { sale: +file.price ? 'paid' : 'free', price: file.price }));
+    delete sale.price;
+    var proposed = Object.assign({}, previous, sale, { title: data.title, author: data.author || '', about: data.about || '' });
+    await IS.attachLibraryFiles(proposed, form.elements.file.files[0], form.elements.reading.files[0], form.elements.cover.files[0]);
+    if (form.elements.file.files[0] && !proposed.cover) proposed.cover = null;
+    if (DB.live) {
+      var result = await DB.sb.rpc('ish_submit_library_revision', { target: file.id, revised: proposed });
+      if (result.error) throw result.error;
+    } else {
+      if (old) await DB.del('library_file_revisions', old.id);
+      await DB.ins('library_file_revisions', { file_id: file.id, owner_id: file.owner_id, changes: proposed, status: 'pending' });
+    }
+    IS.closeSheet();
+    IS.toast(A('أُرسل التعديل للمراجعة', 'Edit sent for review'));
+    IS.refresh();
+  };
   IS.page('file', async function (arg) {
     var parts = String(arg || '').split('/'), id = parts[0];
     var file = await DB.one('files', id);
     if (IS.loadBuys) await IS.loadBuys();
     if (!file || (file.status !== 'published' && !(IS.ME && (file.owner_id === IS.ME.id || IS.can('library'))))) return null;
     if (!IS.can('library') && !IS.inStudySpace(file)) return IS.outsideStudySpace(file);
+    var uploader = editFileButton(file);
+    var revision = uploader ? await fileRevision(file.id) : null;
     var published = file.status === 'published', genre = kind(file.kind), subject = IS.subj(file.subject);
     var browseKind = file.kind === 'book' ? kind('reference') : genre;
     var data = published ? await Promise.all([
@@ -646,6 +701,9 @@
       (file.about ? '<p class="pre" dir="auto">' + esc(file.about) + '</p>' : '') +
       (file.reading_path ? '<p class="mut">' + esc(A('متاح للقراءة بصيغة PDF.', 'Available to read as a PDF.')) + '</p>' : '') +
       (published ? IS.feedVoteBar('file', file) : IS.status(file.status)) +
+      (revision && revision.status === 'pending' ? '<p class="mut">' + esc(A('التعديل قيد المراجعة', 'Edit awaiting review')) + '</p>' :
+        revision && revision.status === 'rejected' ? '<p class="note bad">' + esc(A('لم يُعتمد التعديل', 'Edit declined')) +
+          (revision.review_note ? ' · ' + esc(revision.review_note) : '') + '</p>' : '') +
       (file.series_id ? '<a class="schip" href="#series/' + esc(file.series_id) + '">' + ic('layers') + esc(A('الجزء ', 'Part ') + (file.series_no || 1) + A(' من سلسلة: ', ' of the series: ')) + '<b dir="auto">' + esc(file.series_title || '') + '</b>' + ic('chev', 'fl') + '</a>' : '') +
       '<div class="row file-actions">' + (function () {
         var last = 0; try { last = +JSON.parse(localStorage.getItem('ish-rpg:' + id) || '0') || 0; } catch (e) {}
@@ -653,7 +711,7 @@
         return IS.ME ? '<button type="button" class="btn pri file-open" data-act="readbook" data-id="' + esc(id) + '">' + ic('open') +
           esc(last > 1 ? A('تابع القراءة · ص ', 'Continue reading · p. ') + last : A('افتح الكتاب', 'Open the book')) + '</button>' :
           '<button type="button" class="btn pri file-open" data-act="login">' + ic('lock') + esc(A('سجّل الدخول لفتح الكتاب', 'Sign in to open the book')) + '</button>';
-      })() + IS.favBtn('f:' + id) + (IS.ME && published && IS.fileOpenable(file) ? IS.dlBtn('file', id) : '') +
+      })() + uploader + IS.favBtn('f:' + id) + (IS.ME && published && IS.fileOpenable(file) ? IS.dlBtn('file', id) : '') +
       (IS.ME ? '<button class="fav" data-act="addcoll" data-id="' + esc(id) + '" aria-label="' + esc(A('أضف إلى مجموعة', 'Add to collection')) + '">' +
         ic('folder') + '</button>' : '') + '</div></div></article>';
     IS.FILEOPEN = file;

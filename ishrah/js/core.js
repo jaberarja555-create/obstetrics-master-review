@@ -314,6 +314,8 @@
   IS.route = async function () {
     var h = decodeURIComponent(location.hash.slice(1)) || 'home', m = h.match(/^([a-z-]+?)(?:\/(.*))?$/), name = m ? m[1] : 'home', arg = m ? m[2] : '';
     var P = PAGES[name] || PAGES.home, o = P.o, my = ++SEQ, main = IS.$('#main');
+    var previous = main.querySelector(':scope > .page'), account = IS.ME ? IS.ME.id : '';
+    main.removeAttribute('aria-busy');
     var student = !o.area || o.area === 'student' || (o.area === 'keep' && IS.area === 'student');
     if (student && IS.SPECS.length && !/^(pick|terms|security|payment|downloads|dl|settings)$/.test(name) && !IS.mySpec()) {
       name = 'pick'; P = PAGES.pick; o = P.o;
@@ -349,7 +351,12 @@
     }
     var quick = kept && QUICK_COPY.test(name) && !IS.keepScroll;
     if (quick) { showSavedPage(main, kept, false); window.scrollTo(0, 0); }
-    else main.innerHTML = '<div class="loading"><span class="spin"></span></div>';
+    else if (previous && main.dataset.pageAccount === account && main.dataset.pageArea === IS.area) {
+      previous.inert = true;
+    } else if (!main.querySelector(':scope > .loading')) {
+      main.innerHTML = '<div class="loading"><span class="spin"></span></div>';
+    }
+    main.setAttribute('aria-busy', 'true');
     IS.OFFPAGE = false;
     try {
       html = await Promise.race([P.fn(arg), new Promise(function (resolve, reject) {
@@ -361,6 +368,7 @@
       if (window.console) console.error(error);
       IS.OFFPAGE = !navigator.onLine || error.message === 'slow';
       if (kept) {
+        main.removeAttribute('aria-busy');
         showSavedPage(main, kept, true);
         IS.keepScroll = false;
         return;
@@ -371,6 +379,9 @@
         IS.empty('info', A('تعذّر فتح الصفحة', 'This page could not be opened'), String(error.message || ''));
     } finally { clearTimeout(timer); }
     if (my !== SEQ) return;
+    main.removeAttribute('aria-busy');
+    main.dataset.pageAccount = account;
+    main.dataset.pageArea = IS.area;
     if (html && canSave && !failed) pageSave(copyKey, html);
     var savedScroll = quick ? window.scrollY : null;
     main.innerHTML = '<div class="page">' + (html || IS.empty('search', A('غير موجود', 'Not found'), A('ربما حُذف أو لم يُنشر بعد.', 'It may have been removed or not published yet.'))) + '</div>';

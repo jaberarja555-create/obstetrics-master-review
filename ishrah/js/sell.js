@@ -49,29 +49,66 @@
   };
 
   /* ---- upload form: Free / Paid, price and tags ---- */
-  IS.sellFields = function (f, series) {
+  function sharingRules(series) {
+    return '<fieldset class="sellf"><legend>' + esc(A('قواعد مشاركة الملفات', 'File sharing rules')) + '</legend>' +
+      '<ul class="library-sharing-rules"><li>' + esc(A('يمكنك بيع عملك الأصلي فقط، إذا لم يكن متاحًا مجانًا من قبل.',
+        'Sell only original work you created that is not already freely available.')) + '</li><li>' +
+      esc(A('شارك أعمال الآخرين والمواد المجانية دون مقابل فقط إذا كان ترخيصها أو إذن صاحبها يسمح بإعادة نشرها. اذكر المصدر.',
+        'Share third-party or freely available material for free only if its licence or creator allows redistribution. Credit the source.')) +
+      '</li>' + (series ? '<li>' + esc(A('إذا احتوت السلسلة على أي مادة لا يجوز بيعها، شارك السلسلة كاملة مجانًا.',
+        'If any part cannot be sold, share the whole series for free.')) + '</li>' : '') + '</ul><label class="fl"><span>' + esc(A('مصدر المحتوى', 'Content origin')) + '</span><select name="rights_origin" required>' +
+      '<option value="">' + esc(A('اختر مصدر المحتوى', 'Choose the content origin')) + '</option>' +
+      '<option value="original">' + esc(A('عمل أصلي من تأليفي وغير متاح مجانًا', 'My original work, not already freely available')) + '</option>' +
+      '<option value="free_source">' + esc(A('محتوى مجاني يسمح ترخيصه بإعادة النشر', 'Free material licensed for redistribution')) + '</option>' +
+      '<option value="permission">' + esc(A('لدي إذن بمشاركة عمل شخص آخر مجانًا', 'I have permission to share someone else’s work for free')) + '</option>' +
+      '</select></label><label class="fl" data-rights-source hidden><span>' + esc(A('المؤلف ورابط المصدر أو مرجع الإذن العلني', 'Creator and source link or public permission reference')) +
+      '</span><textarea name="rights_source" rows="2" maxlength="500" disabled></textarea></label>' +
+      '<label class="chk"><input type="checkbox" name="rights_confirmed" value="yes" required><span>' +
+      esc(A('أؤكد أنني أملك حق مشاركة جميع الملفات والصور في هذا الرفع وأنني اتبعت القواعد أعلاه.',
+        'I confirm I have the right to share every file and image in this upload and have followed the rules above.')) + '</span></label></fieldset>';
+  }
+  IS.sellFields = function (f, series, fixedPrice) {
     f = f || {}; var isPaid = paid(f);
-    return '<fieldset class="sellf"><legend>' + esc(series ? A('سعر السلسلة', 'Price of the series') : A('السعر', 'Price')) + '</legend>' +
+    return sharingRules(series) + (fixedPrice ? '' : '<fieldset class="sellf"><legend>' + esc(series ? A('سعر السلسلة', 'Price of the series') : A('السعر', 'Price')) + '</legend>' +
       '<div class="seg2" role="radiogroup"><label><input type="radio" name="sale" value="free"' + (isPaid ? '' : ' checked') + '><span>' + ic('open') + esc(A('مجاني', 'Free')) + '</span></label>' +
-      '<label><input type="radio" name="sale" value="paid"' + (isPaid ? ' checked' : '') + '><span>' + ic('tag') + esc(A('مدفوع', 'Paid')) + '</span></label></div>' +
-      '<div class="sellp"' + (isPaid ? '' : ' hidden') + '><label class="fl"><span>' + esc(A('السعر بالجنيه السوداني', 'Price in SDG')) + ' *</span><input name="price" type="number" inputmode="decimal" dir="ltr" min="1" step="1" max="9999999" value="' +
+      '<label><input type="radio" name="sale" value="paid" disabled' + (isPaid ? ' checked' : '') + '><span>' + ic('tag') + esc(A('مدفوع', 'Paid')) + '</span></label></div>' +
+      '<div class="sellp"' + (isPaid ? '' : ' hidden') + '><label class="fl"><span>' + esc(A('السعر بالجنيه السوداني', 'Price in SDG')) + ' *</span><input name="price" type="number" inputmode="decimal" dir="ltr" min="1" step="1" max="9999999" disabled value="' +
       esc(isPaid ? String(+f.price) : '') + '"></label><p class="note">' + ic('money') + '<span>' + esc(A('تحصل على ', 'You receive ') + share() + A('٪ من كل عملية بيع بعد تأكيد الدفع، وتطلب تحويل أرباحك إلى حسابك في بنكك من «مبيعاتي».',
         '% of every sale once the payment is confirmed, and you can ask for your earnings to be sent to your Bankak account from “My sales”.')) +
-      (series ? esc(A(' يشتري الطالب السلسلة كاملة بهذا السعر.', ' A student buys the whole series for this price.')) : '') + '</span></p></div></fieldset>' +
+      (series ? esc(A(' يشتري الطالب السلسلة كاملة بهذا السعر.', ' A student buys the whole series for this price.')) : '') + '</span></p></div></fieldset>') +
       '<label class="fl"><span>' + esc(A('الوسوم (حتى 8، افصل بينها بفاصلة)', 'Tags (up to 8, separated by commas)')) + '</span><input name="tags" maxlength="200" dir="auto" value="' +
       esc((f.tags || []).join('، ')) + '" placeholder="' + esc(A('مثال: قلب، ملخص، أسئلة', 'e.g. cardiology, summary, MCQs')) + '"></label>';
   };
-  document.addEventListener('change', function (e) {
-    var t = e.target; if (!t.matches || !t.matches('input[name=sale]')) return;
-    var box = t.form && t.form.querySelector('.sellp'); if (!box) return;
-    box.hidden = t.value !== 'paid'; var p = box.querySelector('[name=price]'); p.required = t.value === 'paid'; if (!box.hidden) p.focus();
+  document.addEventListener('change', function (event) {
+    var target = event.target, form = target.form;
+    if (!form || !target.matches('[name=rights_origin], [name=sale]')) return;
+    var origin = form.elements.rights_origin.value;
+    var source = form.elements.rights_source, hasSource = !!origin && origin !== 'original';
+    source.closest('[data-rights-source]').hidden = source.disabled = !hasSource;
+    source.required = hasSource;
+    var paidOption = form.querySelector('[name=sale][value=paid]');
+    if (!paidOption) return;
+    paidOption.disabled = origin !== 'original';
+    if (paidOption.disabled) form.querySelector('[name=sale][value=free]').checked = true;
+    var price = form.elements.price, isPaid = paidOption.checked && !paidOption.disabled;
+    price.closest('.sellp').hidden = price.disabled = !isPaid;
+    price.required = isPaid;
+    if (isPaid && target.name === 'sale') price.focus();
   });
   IS.readSell = function (d) {
+    var origin = d.rights_origin, source = String(d.rights_source || '').trim();
+    if (d.rights_confirmed !== 'yes' || !['original', 'free_source', 'permission'].includes(origin)) {
+      throw new Error(A('اختر مصدر المحتوى وأكد حقك في مشاركته.', 'Choose the content origin and confirm your right to share it.'));
+    }
+    if (d.sale === 'paid' && origin !== 'original') {
+      throw new Error(A('يمكنك بيع عملك الأصلي فقط.', 'Only your original work can be sold.'));
+    }
+    if (origin !== 'original' && !source) throw new Error(A('اذكر مصدر المحتوى أو تفاصيل الإذن.', 'Add the source or permission details.'));
     var price = d.sale === 'paid' ? Math.round(+d.price || 0) : 0;
     if (d.sale === 'paid' && !(price >= 1)) throw new Error(A('اكتب سعرًا صحيحًا أو اختر «مجاني».', 'Enter a valid price or choose Free.'));
     var tags = String(d.tags || '').split(/[,،;\n]+/).map(function (x) { return x.replace(/^#/, '').trim().slice(0, 30); }).filter(Boolean);
     tags = tags.filter(function (x, i) { return tags.map(function (y) { return y.toLowerCase(); }).indexOf(x.toLowerCase()) === i; }).slice(0, 8);
-    return { price: price, tags: tags };
+    return { price: price, tags: tags, rights_origin: origin, rights_source: origin === 'original' ? null : source.slice(0, 500), rights_confirmed: true };
   };
 
   /* ---- buying ---- */

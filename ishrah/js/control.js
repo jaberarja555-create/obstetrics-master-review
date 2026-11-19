@@ -409,19 +409,110 @@
 
   /* ========== LIBRARY FILES ========== */
   IS.page('control-library', async function (tab) {
+    var origins = { original: A('عمل أصلي حسب إقرار الرافع', 'Uploader declares original work'),
+      free_source: A('مجاني بترخيص يسمح بالمشاركة', 'Free with redistribution licence'),
+      permission: A('مجاني بإذن من صاحب العمل', 'Free with creator permission') };
     tab = tab || 'pending'; var fs = await DB.q('files', { order: ['created_at', false] }), list = fs.filter(function (f) { return tab === 'all' || f.status === tab; });
+    var revisions = IS.can('library', 'approve') ? await DB.q('library_file_revisions', { eq: { status: 'pending' }, order: ['created_at', false] }) : [];
+    var edits = new Set(revisions.map(function (revision) { return revision.file_id; }));
+    var editQueue = (tab === 'pending' || tab === 'all') && revisions.length ? '<section class="box"><h2>' + ic('pen') +
+      IS.T('تعديلات بانتظار المراجعة', 'Edits awaiting review') + '</h2><div class="table">' + revisions.map(function (revision) {
+        return '<div class="tr"><b class="grow" dir="auto">' + esc(revision.changes.title) + '</b>' +
+          '<button class="btn sm ghost" data-act="review-library-edit" data-id="' + esc(revision.id) + '">' +
+          ic('eye') + esc(A('مراجعة التعديل', 'Review edit')) + '</button></div>';
+      }).join('') + '</div></section>' : '';
     return IS.banner(IS.T('الكتب والملفات', 'Books and files'), esc(A('ارفع ملفات المكتبة، وراجع ما يشاركه الطلبة والمحاضرون قبل نشره.', 'Upload library files and review what students and lecturers share before publishing.')), 'open', '<button class="btn gold" data-act="addfile">' + ic('upload') + esc(A('رفع ملف', 'Upload file')) + '</button>') +
       tabsBar('control-library', tab, [['pending', A('بانتظار المراجعة', 'Waiting'), fs.filter(function (f) { return f.status === 'pending'; }).length], ['published', A('منشورة', 'Published')], ['rejected', A('مرفوضة', 'Rejected')], ['all', A('الكل', 'All')]]) +
-      (list.length ? '<div class="table">' + list.map(function (f) { var k = IS.FKINDS.filter(function (x) { return x[0] === f.kind; })[0] || IS.libraryKind('other');
-        return '<div class="tr">' + ic(k[1]) + '<span class="grow"><a href="#file/' + f.id + '"><b>' + esc(f.title) + '</b></a><small class="mut">' + esc(A(k[2], k[3])) + (f.owner_name ? ' · ' + esc(A('من ', 'by ')) + esc(f.owner_name) : '') + ' · ' + (+f.price > 0 ? IS.money(f.price) : esc(A('مجاني', 'Free'))) + ((f.tags || []).length ? ' · #' + f.tags.map(esc).join(' #') : '') + (f.pages ? ' · ' + N(f.pages) + ' ' + esc(A('صفحة', 'pages')) : '') + '</small></span>' + IS.status(f.status) +
-          (f.status !== 'published' ? '<button class="btn sm pri" data-act="fpub" data-id="' + f.id + '">' + esc(A('نشر', 'Publish')) + '</button>' : '') + (f.status !== 'rejected' ? '<button class="btn sm ghost bad" data-act="frej" data-id="' + f.id + '">' + esc(f.status === 'published' ? A('إزالة', 'Remove') : A('رفض', 'Reject')) + '</button>' : '') + '</div>'; }).join('') + '</div>' : IS.empty('open', A('لا توجد ملفات هنا', 'No files here')));
+      editQueue + (list.length ? '<div class="table">' + list.map(function (f) { var k = IS.FKINDS.filter(function (x) { return x[0] === f.kind; })[0] || IS.libraryKind('other');
+        return '<div class="tr">' + ic(k[1]) + '<span class="grow"><a href="#file/' + f.id + '"><b>' + esc(f.title) + '</b></a><small class="mut">' + esc(A(k[2], k[3])) + (f.owner_name ? ' · ' + esc(A('من ', 'by ')) + esc(f.owner_name) : '') + ' · ' + (+f.price > 0 ? IS.money(f.price) : esc(A('مجاني', 'Free'))) + ((f.tags || []).length ? ' · #' + f.tags.map(esc).join(' #') : '') + (f.pages ? ' · ' + N(f.pages) + ' ' + esc(A('صفحة', 'pages')) : '') + '</small>' +
+          (f.rights_origin ? '<small class="mut" dir="auto">' + esc(origins[f.rights_origin] || '') +
+            (f.rights_source ? ' · ' + esc(f.rights_source) : '') + '</small>' : '') + '</span>' + IS.status(f.status) +
+          (f.status !== 'published' && !edits.has(f.id) ? '<button class="btn sm pri" data-act="fpub" data-id="' + f.id + '">' + esc(A('نشر', 'Publish')) + '</button>' : '') + (f.status !== 'rejected' ? '<button class="btn sm ghost bad" data-act="frej" data-id="' + f.id + '">' + esc(f.status === 'published' ? A('إزالة', 'Remove') : A('رفض', 'Reject')) + '</button>' : '') +
+          (IS.can('library', 'approve') && f.owner_id ? fileReturnButton(f.id) : '') + '</div>'; }).join('') + '</div>' : IS.empty('open', A('لا توجد ملفات هنا', 'No files here')));
   }, P('library'));
   IS.ACT.addfile = function () { IS.sheet(esc(A('رفع ملف للمكتبة', 'Upload a library file')), '<form class="form" data-form="cfile">' + IS.fileFields({}) + '<button class="btn pri wide">' + ic('upload') + esc(A('رفع ونشر', 'Upload and publish')) + '</button></form>'); };
   IS.SUB.cfile = async function (d, f) { var row = await IS.saveFile(d, f, { owner_id: uid(), owner_name: A('مكتبة اشرح لي', 'Ishrah Li library'), status: 'published' }); await DB.ins('files', row); IS.audit('add file', d.title); IS.closeSheet(); IS.refresh(); };
-  IS.ACT.fpub = async function (b) { var change = { status: 'published' };
+  IS.ACT.fpub = async function (b) {
+    var file = await DB.one('files', b.dataset.id);
+    if (!file) return;
+    if (+file.price > 0 && !(await IS.confirm(A('هل تحققت من أن هذا المحتوى عمل أصلي للرافع وغير متاح مجانًا؟',
+      'Have you verified this is the uploader’s original work and is not already freely available?')))) return;
+    var change = { status: 'published' };
     if (!DB.live) change.published_at = new Date().toISOString();
     var f = await DB.upd('files', b.getAttribute('data-id'), change); if (f.owner_id && f.owner_id !== uid()) IS.notify(f.owner_id, A('نُشر الملف الذي شاركته', 'The file you shared is published'), f.title, '#file/' + f.id); IS.audit('publish file', f.title); IS.refresh(); };
   IS.ACT.frej = async function (b) { var f = await DB.upd('files', b.getAttribute('data-id'), { status: 'rejected' }); IS.audit('reject file', f.title); IS.refresh(); };
+  function fileReturnButton(id) {
+    return '<button type="button" class="btn ghost sm" data-act="return-library-file" data-id="' + esc(id) + '">' +
+      ic('chat') + esc(A('اطلب تعديلًا من المالك', 'Ask uploader to edit')) + '</button>';
+  }
+  IS.libraryReturnButton = fileReturnButton;
+  IS.ACT['return-library-file'] = async function (button) {
+    if (!IS.can('library', 'approve')) return;
+    var file = await DB.one('files', button.dataset.id);
+    if (!file || !file.owner_id) return;
+    var note = await IS.ask(A('اطلب تعديلًا من المالك', 'Ask uploader to edit'),
+      A('ما الذي يحتاج إلى تعديل؟', 'What needs to change?'), '', { area: 1 });
+    if (!note || !note.trim()) return;
+    note = note.trim().slice(0, 1000);
+    if (DB.live) {
+      var result = await DB.sb.rpc('ish_return_library_file', { target: file.id, note: note });
+      if (result.error) throw result.error;
+    } else {
+      IS.notify(file.owner_id, A('طلب تعديل ملفك', 'Please edit your upload'), note, '#file/' + file.id);
+      IS.audit('request library edit', file.id);
+    }
+    IS.toast(A('أُرسل الطلب إلى المالك', 'Edit request sent to the uploader'));
+  };
+  IS.ACT['review-library-edit'] = async function (button) {
+    if (!IS.can('library', 'approve')) return;
+    var revision = await DB.one('library_file_revisions', button.dataset.id);
+    if (!revision || revision.status !== 'pending') return;
+    var file = await DB.one('files', revision.file_id), changes = revision.changes;
+    if (!file) return;
+    var attachments = await Promise.all([[changes.path, A('الملف المعدّل', 'Proposed file')],
+      [changes.reading_path, A('نسخة القراءة', 'Reading copy')], [changes.cover, A('الغلاف المعدّل', 'Proposed cover')]]
+      .filter(function (entry) { return !!entry[0]; }).map(async function (entry) {
+        var url = await DB.fileUrl('library', entry[0]);
+        return url ? '<a class="btn ghost sm" href="' + IS.U(url) + '" target="_blank" rel="noopener noreferrer">' +
+          esc(entry[1]) + '</a>' : '<span class="mut">' + esc(entry[1] + ' · ' + A('غير متاح', 'Unavailable')) + '</span>';
+      }));
+    IS.sheet(esc(A('مراجعة تعديل الملف', 'Review file edit')), '<h2 dir="auto">' + esc(changes.title) + '</h2><p dir="auto">' +
+      esc(changes.author) + '</p><p class="pre" dir="auto">' + esc(changes.about) + '</p><p dir="auto">' +
+      esc((changes.tags || []).join(' · ')) + '</p><p class="mut" dir="auto">' + esc(changes.rights_origin === 'original' ?
+        A('عمل أصلي حسب إقرار الرافع', 'Uploader declares original work') : changes.rights_source || '') +
+      '</p><div class="row">' + attachments.join('') + '</div><div class="row">' +
+      '<button class="btn pri" data-act="decide-library-edit" data-id="' + esc(revision.id) + '" data-publish="1">' +
+      esc(A('اعتمد التعديل', 'Approve edit')) + '</button><button class="btn ghost bad" data-act="decide-library-edit" data-id="' +
+      esc(revision.id) + '" data-publish="0">' + esc(A('أعد التعديل إلى المالك', 'Return edit to uploader')) + '</button></div>');
+  };
+  IS.ACT['decide-library-edit'] = async function (button) {
+    if (!IS.can('library', 'approve')) return;
+    var revision = await DB.one('library_file_revisions', button.dataset.id);
+    if (!revision || revision.status !== 'pending') return;
+    var file = await DB.one('files', revision.file_id), publish = button.dataset.publish === '1', note = '';
+    if (!file) return;
+    if (publish && +file.price > 0 && !(await IS.confirm(A('هل تحققت من أن التعديل يحافظ على قواعد النشر المدفوع؟',
+      'Have you verified that the edit follows the paid-content rules?')))) return;
+    if (!publish) {
+      note = await IS.ask(A('أعد التعديل إلى المالك', 'Return edit to uploader'), A('اذكر المطلوب تعديله', 'Explain what needs to change'), '', { area: 1 });
+      if (!note || !note.trim()) return;
+      note = note.trim().slice(0, 1000);
+    }
+    if (DB.live) {
+      var result = await DB.sb.rpc('ish_review_library_revision', { target: revision.id, publish: publish, note: note });
+      if (result.error) throw result.error;
+    } else {
+      if (publish) await DB.upd('files', file.id, Object.assign({}, revision.changes, {
+        status: 'published', published_at: file.published_at || new Date().toISOString()
+      }));
+      await DB.upd('library_file_revisions', revision.id, { status: publish ? 'approved' : 'rejected', review_note: note });
+      IS.notify(file.owner_id, A('مراجعة تعديل ملفك', 'Your file edit was reviewed'), note, '#file/' + file.id);
+    }
+    IS.closeSheet();
+    IS.toast(publish ? A('تم اعتماد التعديل', 'Edit approved') : A('أُعيد التعديل إلى المالك', 'Edit returned to the uploader'));
+    IS.refresh();
+  };
+
 
   /* ========== LIBRARY REQUESTS ========== */
   IS.page('control-requests', async function (tab) {

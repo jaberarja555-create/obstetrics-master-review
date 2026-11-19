@@ -6,7 +6,7 @@
   var A = IS.A, esc = IS.esc, ic = IS.ic;
   var RULES = {
     post: { edit: ['community', 'edit'], del: ['community', 'edit'] },
-    file: { edit: ['library', 'approve'], del: ['library', 'approve'] },
+    file: { del: ['library', 'approve'] },
     news: { edit: ['notify', 'edit'], del: ['notify', 'delete'] },
     notice: { del: ['notify', 'delete'] },
     event: { edit: ['events', 'edit'], del: ['events', 'delete'] },
@@ -24,7 +24,6 @@
     var title = row.title || A('بدون عنوان', 'Untitled'), edit = '';
     if (may(kind, 'edit')) {
       if (kind === 'post') edit = field('title', A('العنوان', 'Title'), row.title) + area('body', A('النص', 'Text'), row.body);
-      else if (kind === 'file') edit = field('title', A('العنوان', 'Title'), row.title) + field('author', A('المؤلف', 'Author'), row.author) + area('about', A('الوصف', 'Description'), row.about);
       else if (kind === 'news') edit = field('title', A('العنوان', 'Title'), row.title) + area('body', A('النص', 'Text'), row.body);
       else if (kind === 'event') edit = field('title', A('العنوان', 'Title'), row.title) + area('about', A('الوصف', 'Description'), row.about);
       else if (kind === 'course') edit = field('title', A('العنوان', 'Title'), row.title) + field('subtitle', A('الوصف المختصر', 'Short description'), row.subtitle);
@@ -32,13 +31,16 @@
     IS.sheet(A('إدارة: ', 'Manage: ') + esc(title), '<p class="mut">' + esc(A('هذه الأدوات تظهر لفريق المنصة فقط.', 'These tools are shown to the platform team only.')) + '</p>' +
       (edit ? '<form class="form" data-form="manage-save"><input type="hidden" name="k" value="' + esc(kind) + '"><input type="hidden" name="id" value="' + esc(id) + '">' + edit +
         '<button class="btn pri wide">' + ic('check') + esc(A('حفظ التعديل', 'Save changes')) + '</button></form>' : '') +
+      (kind === 'file' && row.owner_id && IS.libraryReturnButton ? IS.libraryReturnButton(id) : '') +
       (may(kind, 'del') ? '<div class="mng-del"><button type="button" class="btn ghost bad wide" data-act="manage-del" data-k="' + esc(kind) + '" data-id="' + esc(id) + '">' + ic('trash') +
         esc(kind === 'course' ? A('إخفاء الكورس عن الطلبة', 'Hide the course from students') : A('حذف', 'Delete')) + '</button></div>' : ''));
   };
   function field(n, label, v) { return '<label class="fl"><span>' + esc(label) + '</span><input name="' + n + '" dir="auto" value="' + esc(v || '') + '"></label>'; }
   function area(n, label, v) { return '<label class="fl"><span>' + esc(label) + '</span><textarea name="' + n + '" rows="5" dir="auto">' + esc(String(v || '').replace(/<br\s*\/?>/g, '\n')) + '</textarea></label>'; }
   IS.SUB['manage-save'] = async function (d) {
-    var kind = d.k, patch = {}; ['title', 'body', 'author', 'about', 'subtitle'].forEach(function (k) { if (d[k] != null) patch[k] = d[k]; });
+    var kind = d.k;
+    if (!may(kind, 'edit')) return;
+    var patch = {}; ['title', 'body', 'author', 'about', 'subtitle'].forEach(function (k) { if (d[k] != null) patch[k] = d[k]; });
     if (patch.title != null && !String(patch.title).trim()) return IS.toast(A('العنوان مطلوب', 'A title is needed'));
     try { await DB.upd(TABLE[kind], d.id, patch); IS.audit('edit ' + kind, patch.title || d.id); IS.closeSheet(); IS.toast(A('حُفظ التعديل', 'Changes saved')); IS.refresh(); }
     catch (e) { IS.toast(A('تعذّر الحفظ: ', 'Could not save: ') + (e.message || '')); }
@@ -61,7 +63,7 @@
     if (!kind || !id || /^(all|ann)$/.test(id)) return;
     var btn = IS.manageBtn(kind, id), page = main.querySelector('.page'); if (!btn || !page || page.querySelector('.mngbar')) return;
     var bar = document.createElement('div'); bar.className = 'mngbar';
-    bar.innerHTML = '<span>' + ic('shield') + esc(A('أدوات الفريق: تعديل أو حذف', 'Team tools: edit or delete')) + '</span>' + btn;
+    bar.innerHTML = '<span>' + ic('shield') + esc(kind === 'file' ? A('أدوات مراجعة الملف', 'File moderation tools') : A('أدوات الفريق', 'Team tools')) + '</span>' + btn;
     page.insertBefore(bar, page.firstChild);
   };
 })();

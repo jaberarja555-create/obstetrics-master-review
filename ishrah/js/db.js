@@ -206,10 +206,22 @@
       var k = JSON.stringify(key), hit = READS.get(k);
       function copy(v) { return Array.isArray(v) ? v.map(function (x) { return x && typeof x === 'object' ? Object.assign({}, x) : x; }) : v && typeof v === 'object' ? Object.assign({}, v) : v; }
       if (hit && Date.now() - hit.t < 45000) return hit.p.then(copy);
-      var p = run(); READS.set(k, { t: Date.now(), p: p }); p.catch(function () { READS.delete(k); }); return p.then(copy);
+      var p = run();
+      var entry = { t: Date.now(), p: p };
+      READS.delete(k);
+      READS.set(k, entry);
+      if (READS.size > 300) READS.delete(READS.keys().next().value);
+      p.catch(function () { if (READS.get(k) === entry) READS.delete(k); });
+      return p.then(copy);
     }
     function rawQ(t, f) { return api._q(t, f); }
-    var rpc0 = sb.rpc.bind(sb); sb.rpc = function () { forget(); return rpc0.apply(null, arguments); };
+    var rpc0 = sb.rpc.bind(sb);
+    var readOnlyRpc = new Set(['ish_lesson', 'ish_presence', 'ish_team_seen',
+      'ish_public_course_terms', 'ish_series_scores', 'ish_available_course_seats', 'ish_team_public']);
+    sb.rpc = function (name) {
+      if (!readOnlyRpc.has(name) && name !== 'ish_seen') forget();
+      return rpc0.apply(null, arguments);
+    };
     sb.auth.onAuthStateChange(function () { forget(); });
     async function token() { var s = (await sb.auth.getSession()).data.session; return s ? s.access_token : ''; }
     var api = {
