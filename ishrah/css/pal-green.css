@@ -2777,3 +2777,14 @@ button.feed-grade:hover{border-color:#e0a800;background:#fff8e1}
 .feed-grade.sm{min-height:0;padding:2px 8px;font-size:12px;gap:4px}.feed-grade.sm .gstars i{font-size:13px}.feed-grade.sm .gtitle{font-size:11px;padding:1px 6px}
 .ccst{flex-wrap:wrap;row-gap:6px}
 .chst .feed-grade{background:rgba(255,255,255,.95)}
+
+/* team ⋯ menu (js/manage.js) */
+.mng{flex:none;width:34px;height:34px;border-radius:50%;border:1px solid var(--bd2);background:var(--sf);color:var(--sub);display:grid;place-items:center;cursor:pointer;margin-inline-start:6px}
+.mng:hover{color:var(--pri);border-color:var(--pri)}.mng .ico{width:18px;height:18px}
+.feed-card-header{display:flex;align-items:center;gap:8px}.feed-card-header time{margin-inline-start:auto}
+.mngbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px;padding:6px 6px 6px 14px;border-radius:12px;background:#fff6e0;border:1px solid #f0d58a;color:#7a5600;font-size:13px;font-weight:700}
+[dir="rtl"] .mngbar{padding:6px 14px 6px 6px}
+.mngbar>span{display:inline-flex;align-items:center;gap:6px}.mngbar .ico{width:16px;height:16px}
+.mng-del{margin-top:14px;padding-top:12px;border-top:1px solid var(--bd2)}
+@media (max-width:560px){.file-actions{display:grid!important;grid-template-columns:auto 1fr auto;gap:8px}.file-actions .file-open{grid-column:1/-1}.file-actions .dlb,.file-actions [data-act=dl]{width:100%;justify-content:center}}
+@media (max-width:560px){.file-actions .dlb,.file-actions [data-act=dl]{white-space:normal;font-size:12.5px;line-height:1.25;min-height:44px;padding:4px 8px;text-align:center}}
