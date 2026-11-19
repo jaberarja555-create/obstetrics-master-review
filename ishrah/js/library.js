@@ -182,6 +182,7 @@
     }
   };
   IS.sectionLibraryFiles = async function (spec, cat) {
+    if (IS.loadBuys) await IS.loadBuys();
     var scope = { status: 'published', spec: spec, cat: cat };
     var groups = await Promise.all([
       DB.q('files', { eq: scope, order: ['published_at', false], limit: 40 }),
@@ -218,6 +219,7 @@
     var scope = IS.SPEC + '/' + ((IS.mySection() || {}).id || '');
     if (T.scope !== scope) { T.scope = scope; T.k = 'all'; T.sort = 'new'; IS.LCOLL = null; }
     T.k = tab || T.k || 'all';
+    if (IS.loadBuys) await IS.loadBuys();
     var fs = (await DB.q('files', { eq: { status: 'published' }, order: ['published_at', false] })).filter(function (f) { return (!T.sp || fspec(f) === T.sp) && IS.inStudySpace(f); }), me = IS.ME;
     var reqs = me ? await DB.q('requests', { eq: { user_id: me.id }, order: ['created_at', false] }) : [];
     var h = IS.banner(IS.T('مكتبتي', 'My Library'), esc(A('كل كتبك وملفاتك الدراسية في مكان واحد', 'All your books and study files in one place')), 'open', '', 'libban') + (IS.SPEC ? '' : specBar());
@@ -239,13 +241,14 @@
       [['new', 'الأحدث', 'Newest'], ['best', 'الأعلى تقييمًا', 'Best rated'], ['most-rated', 'الأكثر تقييمًا', 'Most rated']].map(function (item) {
         return '<option value="' + item[0] + '"' + (T.sort === item[0] ? ' selected' : '') + '>' + esc(A(item[1], item[2])) + '</option>';
       }).join('') + '</select>' +
-      '<button class="btn pri" data-act="share-file">' + ic('upload') + esc(A('شارك ملفًا', 'Share a file')) + '</button></div><div id="lres">' + renderFiles(list.slice()) + '</div>' +
+      '<button class="btn pri" data-act="share-file">' + ic('upload') + esc(A('شارك ملفًا', 'Share a file')) + '</button>' +
+      (me ? '<a class="btn ghost" href="#sales">' + ic('cart') + esc(A('مبيعاتي', 'My sales')) + '</a>' : '') + '</div><div id="lres">' + renderFiles(list.slice()) + '</div>' +
       (me ? '<div class="library-extra">' + collBox() + '</div>' : '');
     IS.after = function () {
       var sel = {}, fill = function () {
         var w = IS.norm(($('#lq') || {}).value || '').split(' ').filter(Boolean), subs = Object.keys(sel).filter(function (k) { return sel[k]; }), coll = IS.LCOLL;
         var r = list.filter(function (f) { if (subs.length && subs.indexOf(f.subject) < 0) return false; if (coll && (coll.items || []).indexOf(f.id) < 0) return false;
-          if (w.length) { var hay = IS.norm([f.title, f.about, f.author].concat(kind(f.kind).slice(2)).join(' ')); if (!w.every(function (x) { return hay.indexOf(x) >= 0; })) return false; } return true; });
+          if (w.length) { var hay = IS.norm([f.title, f.about, f.author, f.series_title].concat(f.tags || [], kind(f.kind).slice(2), +f.price > 0 ? ['paid', 'مدفوع'] : ['free', 'مجاني']).join(' ')); if (!w.every(function (x) { return hay.indexOf(x) >= 0; })) return false; } return true; });
         $('#lres').innerHTML = renderFiles(r, coll);
         IS.hydrateLibraryCovers($('#lres')).catch(function () {});
       };
@@ -253,6 +256,7 @@
         var file = fs.find(function (row) { return row.id === event.detail.id; });
         if (file) Object.assign(file, event.detail.values);
       });
+      if (IS.LTAG) { $('#lq').value = IS.LTAG; IS.LTAG = ''; }
       IS.libFill = fill; fill(); $('#lq').oninput = fill;
       $('#library-sort').onchange = function () { T.sort = this.value; fill(); };
       IS.$$('[data-lf]').forEach(function (i) { i.onchange = function () { sel[i.value] = i.checked; fill(); }; });
@@ -261,12 +265,13 @@
   });
   function fileCard(f) {
     var k = kind(f.kind);
-    return '<article class="fcard"><a class="fimg" href="#file/' + esc(f.id) + '" aria-label="' + esc(f.title) + '">' + IS.libraryCover(f) + '</a>' +
+    var open = !IS.fileOpenable || IS.fileOpenable(f);
+    return '<article class="fcard"><a class="fimg" href="#file/' + esc(f.id) + '" aria-label="' + esc(f.title) + '">' + IS.libraryCover(f) + (IS.priceTag ? IS.priceTag(f, 'oncov') : '') + '</a>' +
       '<div class="fb"><span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + ' · ' + esc(spName(fspec(f))) + '</span><b><a href="#file/' + esc(f.id) + '">' + esc(f.title) +
-      '</a></b>' + (f.author ? '<small dir="auto">' + esc(f.author) + '</small>' : '') + '</div>' +
+      '</a></b>' + (f.author ? '<small dir="auto">' + esc(f.author) + '</small>' : '') + (IS.tagChips ? IS.tagChips(f, 3) : '') + '</div>' +
       '<div class="ff">' + IS.libraryRating(f, true) + IS.favBtn('f:' + f.id, true) +
       (IS.ME ? '<button class="fav sm" data-act="addcoll" data-id="' + esc(f.id) + '" aria-label="' + esc(A('أضف إلى مجموعة', 'Add to collection')) + '">' + ic('folder') + '</button>' : '') +
-      '</div>' + (IS.ME ? '<div class="library-download">' + IS.dlBtn('file', f.id) + '</div>' : '') + '</article>';
+      '</div>' + (!open ? '<div class="library-download">' + IS.buyBtn(f, true, false) + '</div>' : IS.ME ? '<div class="library-download">' + IS.dlBtn('file', f.id) + '</div>' : '') + '</article>';
   }
   /* collections (folders) of the student, kept on the account's device list */
   function colls() { return IS.LS.get('coll-' + (IS.ME ? IS.ME.id : 'x'), []); }
@@ -374,7 +379,8 @@
       esc(A('تُستخدم هذه النسخة لفتح المستند أو العرض داخل التطبيق وتنزيله للقراءة دون إنترنت.', 'This copy opens inside the app and can be saved for offline reading.')) + '</small></label>' +
       '<label class="fl file"><span>' + esc(A('صورة الغلاف (اختياري)', 'Cover picture (optional)')) +
       '</span><input type="file" name="cover" accept="image/jpeg,image/png,image/webp,image/gif"><small>' +
-      esc(A('يُستخدم غلاف الملف أو أول صفحة من PDF إذا لم ترفع صورة.', 'If you leave this blank, the app uses the image or first PDF page when available.')) + '</small></label>';
+      esc(A('يُستخدم غلاف الملف أو أول صفحة من PDF إذا لم ترفع صورة.', 'If you leave this blank, the app uses the image or first PDF page when available.')) + '</small></label>' +
+      (IS.sellFields ? IS.sellFields(f) : '');
   }
   document.addEventListener('change', function (event) {
     var upload = event.target;
@@ -390,7 +396,7 @@
     var subject = IS.subj(data.subject), scope = IS.mySection();
     var row = Object.assign({ title: data.title, kind: data.kind, subject: data.subject,
       cat: (subject || {}).cat || (scope ? scope.id : ''), spec: (subject || {}).spec || IS.SPEC || 'medicine',
-      author: data.author || '', about: data.about || '' }, extra);
+      author: data.author || '', about: data.about || '' }, IS.readSell ? IS.readSell(data) : {}, extra);
     var reading, type, metadata;
     if (original) {
       var suffix = extension(original);
@@ -530,7 +536,9 @@
   /* «Open the book»: PDFs go straight to the full-screen reader; pictures and text files open in a sheet */
   IS.ACT.readbook = async function (b) {
     var file = IS.FILEOPEN && IS.FILEOPEN.id === b.dataset.id ? IS.FILEOPEN : await DB.one('files', b.dataset.id);
-    if (!file) return; var html = b.innerHTML; b.disabled = true; b.innerHTML = '<span class="spin"></span>' + esc(A('جارٍ الفتح…', 'Opening…'));
+    if (!file) return;
+    if (!IS.fileOpenable(file)) { b.dataset.id = file.id; return IS.ACT.buyfile(b); }
+    var html = b.innerHTML; b.disabled = true; b.innerHTML = '<span class="spin"></span>' + esc(A('جارٍ الفتح…', 'Opening…'));
     try {
       var media = IS.libraryDocument(file), url = await DB.fileUrl('library', media.path); if (!url) throw new Error('missing file');
       if (media.mime === 'application/pdf' && IS.openReader) IS.openReader({ id: file.id, title: file.title, url: url });
@@ -587,6 +595,7 @@
   IS.page('file', async function (arg) {
     var parts = String(arg || '').split('/'), id = parts[0];
     var file = await DB.one('files', id);
+    if (IS.loadBuys) await IS.loadBuys();
     if (!file || (file.status !== 'published' && !(IS.ME && (file.owner_id === IS.ME.id || IS.can('library'))))) return null;
     if (!IS.can('library') && !IS.inStudySpace(file)) return IS.outsideStudySpace(file);
     var published = file.status === 'published', genre = kind(file.kind), subject = IS.subj(file.subject);
@@ -602,16 +611,18 @@
       (genre[0] === 'slides' ? '' : ic('chev', 'fl') + '<a href="#library/' + esc(browseKind[0]) + '">' + esc(A(browseKind[2], browseKind[3])) + '</a>') + '</nav><article class="box library-detail">' +
       IS.libraryCover(file) + '<div><h1 tabindex="-1"><bdi>' + esc(file.title) + '</bdi></h1><p class="mut">' +
       [A(genre[2], genre[3]), spName(fspec(file)), subject && subject.en, file.author].filter(Boolean).map(esc).join(' · ') + '</p>' +
+      '<div class="row fprice">' + IS.priceTag(file) + IS.tagChips(file) + '</div>' +
       (file.about ? '<p class="pre" dir="auto">' + esc(file.about) + '</p>' : '') +
       (file.reading_path ? '<p class="mut">' + esc(A('متاح للقراءة بصيغة PDF.', 'Available to read as a PDF.')) + '</p>' : '') +
       (published ? IS.feedVoteBar('file', file) : IS.status(file.status)) +
       (file.series_id ? '<a class="schip" href="#series/' + esc(file.series_id) + '">' + ic('layers') + esc(A('الجزء ', 'Part ') + (file.series_no || 1) + A(' من سلسلة: ', ' of the series: ')) + '<b dir="auto">' + esc(file.series_title || '') + '</b>' + ic('chev', 'fl') + '</a>' : '') +
       '<div class="row file-actions">' + (function () {
         var last = 0; try { last = +JSON.parse(localStorage.getItem('ish-rpg:' + id) || '0') || 0; } catch (e) {}
+        if (published && !IS.fileOpenable(file)) return IS.buyBtn(file, false, !!file.series_id);
         return IS.ME ? '<button type="button" class="btn pri file-open" data-act="readbook" data-id="' + esc(id) + '">' + ic('open') +
           esc(last > 1 ? A('تابع القراءة · ص ', 'Continue reading · p. ') + last : A('افتح الكتاب', 'Open the book')) + '</button>' :
           '<button type="button" class="btn pri file-open" data-act="login">' + ic('lock') + esc(A('سجّل الدخول لفتح الكتاب', 'Sign in to open the book')) + '</button>';
-      })() + IS.favBtn('f:' + id) + (IS.ME && published ? IS.dlBtn('file', id) : '') +
+      })() + IS.favBtn('f:' + id) + (IS.ME && published && IS.fileOpenable(file) ? IS.dlBtn('file', id) : '') +
       (IS.ME ? '<button class="fav" data-act="addcoll" data-id="' + esc(id) + '" aria-label="' + esc(A('أضف إلى مجموعة', 'Add to collection')) + '">' +
         ic('folder') + '</button>' : '') + '</div></div></article>';
     IS.FILEOPEN = file;

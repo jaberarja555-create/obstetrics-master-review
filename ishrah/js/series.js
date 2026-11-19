@@ -25,7 +25,7 @@
     var first = s._parts[0], k = IS.libraryKind(first.kind), pages = s._parts.reduce(function (a, p) { return a + (+p.pages || 0); }, 0);
     return '<article class="' + (feed ? 'box feed-card feed-series' : 'fcard scard') + '">' +
       (feed ? '<header class="feed-card-header"><span>' + ic('layers') + esc(A('سلسلة في المكتبة', 'Library series')) + '</span>' + (first.published_at ? '<time>' + esc(IS.ago(first.published_at)) + '</time>' : '') + '</header>' : '') +
-      '<a class="fimg sstack" href="#series/' + esc(s.series_id) + '" aria-label="' + esc(s.series_title || first.title) + '">' + IS.libraryCover(first) + '<span class="scount">' + ic('layers') + N(s._parts.length) + '</span></a>' +
+      '<a class="fimg sstack" href="#series/' + esc(s.series_id) + '" aria-label="' + esc(s.series_title || first.title) + '">' + IS.libraryCover(first) + IS.priceTag(first, 'oncov') + '<span class="scount">' + ic('layers') + N(s._parts.length) + '</span></a>' +
       '<div class="fb"><span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + ' · ' + esc(A('سلسلة', 'Series')) + '</span><b><a href="#series/' + esc(s.series_id) + '" dir="auto">' + esc(s.series_title || first.title) + '</a></b>' +
       '<small>' + esc(s._parts.length + ' ' + A('أجزاء', 'parts') + (pages ? ' · ' + pages + ' ' + A('صفحة', 'pages') : '')) + (first.author ? ' · ' + esc(first.author) : '') + '</small>' +
       '<a class="btn pri sm sopen" href="#series/' + esc(s.series_id) + '">' + ic('open') + esc(A('افتح السلسلة', 'Open the series')) + '</a></div></article>';
@@ -33,6 +33,7 @@
 
   /* ---- the series page: the parts in order ---- */
   IS.page('series', async function (id) {
+    await IS.loadBuys();
     var parts = (await DB.q('files', { eq: { series_id: id } })).filter(function (f) { return f.status === 'published' || (IS.ME && (f.owner_id === IS.ME.id || IS.can('library', 'approve'))); })
       .sort(function (a, b) { return (a.series_no || 0) - (b.series_no || 0); });
     if (!parts.length) return null;
@@ -44,8 +45,9 @@
       '<span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + ' · ' + esc(A('سلسلة', 'Series')) + '</span><h1 tabindex="-1" dir="auto">' + esc(title) + '</h1>' +
       '<p class="mut">' + [subj && subj.en, first.author].filter(Boolean).map(esc).join(' · ') + '</p>' +
       '<div class="sfacts"><span>' + ic('layers') + N(parts.length) + ' ' + esc(A('أجزاء', 'parts')) + '</span>' + (pages ? '<span>' + ic('file') + N(pages) + ' ' + esc(A('صفحة', 'pages')) + '</span>' : '') + '</div>' +
+      '<div class="row fprice">' + IS.priceTag(first) + IS.tagChips(first) + '</div>' +
       (first.about ? '<p class="pre" dir="auto">' + esc(first.about) + '</p>' : '') +
-      (IS.ME ? '<button type="button" class="btn pri" data-act="sread" data-id="' + esc(parts[lastRead].id) + '">' + ic('open') +
+      (first.status === 'published' && !IS.fileOpenable(first) ? IS.buyBtn(first) : IS.ME ? '<button type="button" class="btn pri" data-act="sread" data-id="' + esc(parts[lastRead].id) + '">' + ic('open') +
         esc(lastRead ? A('تابع: الجزء ', 'Continue: part ') + (lastRead + 1) : A('ابدأ من الجزء الأول', 'Start with part 1')) + '</button>' :
         '<button type="button" class="btn pri" data-act="login">' + ic('lock') + esc(A('سجّل الدخول للقراءة', 'Sign in to read')) + '</button>') + '</div></article>';
     h += '<section class="box"><h2>' + ic('list') + IS.T('أجزاء السلسلة', 'Parts') + '</h2><ol class="sparts">' + parts.map(function (p, i) {
@@ -53,7 +55,7 @@
       var done = pg && p.pages && pg >= p.pages;
       return '<li class="spart' + (done ? ' done' : '') + '"><span class="sno">' + (done ? ic('check') : N(i + 1)) + '</span><div class="sp-b"><a href="#file/' + esc(p.id) + '" dir="auto"><b>' + esc(p.title) + '</b></a>' +
         '<small>' + [p.pages ? p.pages + ' ' + A('صفحة', 'pages') : '', pg > 1 ? A('توقفت عند ص ', 'stopped at p. ') + pg : '', p.status !== 'published' ? A('بانتظار المراجعة', 'awaiting review') : ''].filter(Boolean).map(esc).join(' · ') + '</small></div>' +
-        '<div class="sp-a">' + (IS.ME ? '<button type="button" class="btn ghost sm" data-act="sread" data-id="' + esc(p.id) + '">' + ic('open') + esc(A('افتح', 'Open')) + '</button>' + IS.dlBtn('file', p.id) : '') + '</div></li>';
+        '<div class="sp-a">' + (!IS.fileOpenable(p) ? '<span class="chip">' + ic('lock') + esc(A('بعد الشراء', 'After purchase')) + '</span>' : IS.ME ? '<button type="button" class="btn ghost sm" data-act="sread" data-id="' + esc(p.id) + '">' + ic('open') + esc(A('افتح', 'Open')) + '</button>' + IS.dlBtn('file', p.id) : '') + '</div></li>';
     }).join('') + '</ol></section>';
     IS.SERIES = parts;
     IS.after = function (main) { IS.hydrateLibraryCovers(main).catch(function () {}); };
@@ -65,7 +67,8 @@
     openPart(parts, i, b);
   };
   async function openPart(parts, i, b) {
-    var p = parts[i], html = b && b.innerHTML; if (b) { b.disabled = true; b.innerHTML = '<span class="spin"></span>'; }
+    var p = parts[i], html = b && b.innerHTML;
+    if (!IS.fileOpenable(p)) { var t = document.createElement('button'); t.dataset.id = p.id; t.dataset.series = p.series_id || ''; return IS.ACT.buyfile(t); } if (b) { b.disabled = true; b.innerHTML = '<span class="spin"></span>'; }
     try {
       var media = IS.libraryDocument(p), url = await DB.fileUrl('library', media.path); if (!url) throw new Error('missing');
       var next = parts[i + 1] ? { title: A('الجزء ', 'Part ') + (i + 2) + ': ' + parts[i + 1].title, open: function () { openPart(parts, i + 1); } } : null;
@@ -86,7 +89,7 @@
       '<label class="fl"><span>' + esc(A('وصف قصير', 'Short description')) + '</span><textarea name="about" rows="2" maxlength="600"></textarea></label>' +
       '<label class="fl file"><span>' + esc(A('الملفات (كل ملف حتى 50 ميغابايت)', 'Files (up to 50 MB each)')) + ' *</span><input type="file" name="files" multiple data-series-files accept=".pdf,.png,.jpg,.jpeg,.webp,.txt"><small>' +
       esc(A('اختر عدة ملفات معًا (PDF أو صور). رتّبها وسمِّ كل جزء أدناه.', 'Choose several files at once (PDF or pictures). Order them and name each part below.')) + '</small></label>' +
-      '<ol class="sorder" id="sorder"></ol><p class="sprog mut" id="sprog" hidden></p>' +
+      IS.sellFields({}, true) + '<ol class="sorder" id="sorder"></ol><p class="sprog mut" id="sprog" hidden></p>' +
       '<p class="note">' + ic('shield') + '<span>' + esc(A('يراجع فريق المحتوى الملفات قبل نشرها. ارفع فقط ما تملك حق مشاركته.', 'The content team reviews the files before publishing. Upload only what you have the right to share.')) + '</span></p>' +
       '<button class="btn pri wide">' + ic('upload') + esc(A('رفع المجموعة', 'Upload the group')) + '</button></form>';
   };
@@ -113,6 +116,7 @@
     if (PICKED.length < 2) return IS.toast(A('اختر ملفين أو أكثر للمجموعة.', 'Choose two or more files for the group.'));
     var bad = PICKED.filter(function (x) { return !TYPES[ext(x.file)] || !x.file.size || x.file.size > 50 * 1048576; });
     if (bad.length) return IS.toast(A('ملف غير مدعوم أو أكبر من 50 ميغابايت: ', 'Unsupported or over 50 MB: ') + bad[0].file.name);
+    var sale; try { sale = IS.readSell(d); } catch (e) { return IS.toast(e.message, true); }
     var sid = uuid(), subject = IS.subj(d.subject), scope = IS.mySection(), status = IS.can('library', 'approve') ? 'published' : 'pending';
     var prog = $('#sprog'), btn = form.querySelector('button.pri'); btn.disabled = true; prog.hidden = false;
     try {
@@ -123,7 +127,7 @@
         if (meta && meta.cover) cover = meta.cover; else if (/^image\//.test(type)) cover = file;
         var row = { title: (PICKED[i].title || partName(f)).slice(0, 160), kind: d.kind, subject: d.subject, cat: (subject || {}).cat || (scope ? scope.id : ''),
           spec: (subject || {}).spec || IS.SPEC || 'medicine', author: d.author || '', about: d.about || '', owner_id: IS.ME.id, owner_name: IS.ME.name, status: status,
-          series_id: sid, series_title: d.series_title, series_no: i + 1, mime: type, size: f.size, pages: meta ? meta.pages : 0,
+          series_id: sid, series_title: d.series_title, series_no: i + 1, price: sale.price, tags: sale.tags, mime: type, size: f.size, pages: meta ? meta.pages : 0,
           path: await DB.upload('library', /^image\//.test(type) ? await IS.shrink(file, 2000, 0.85) : file) };
         if (cover) row.cover = await DB.upload('library', await IS.shrink(cover, 600, 0.82));
         if (!DB.live && status === 'published') row.published_at = new Date().toISOString();

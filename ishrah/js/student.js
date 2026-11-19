@@ -294,8 +294,8 @@
       '<div><h3 dir="auto"><a href="#' + target + esc(row.id) + '">' + esc(title) + '</a></h3>' +
       (summary ? '<p class="feed-summary" dir="auto">' + esc(summary.slice(0, 280)) + '</p>' : '') +
       (details ? '<p class="feed-detail">' + details + '</p>' : '') +
-      (library ? '<div class="row library-feed-actions"><a class="btn ghost sm" href="#file/' + esc(row.id) + '/read">' + ic('open') +
-        esc(A('اقرأ داخل التطبيق', 'Read in the app')) + '</a>' + IS.dlBtn('file', row.id, '', true) + '</div>' : '') + '</div></div>' +
+      (library ? '<div class="row library-feed-actions">' + IS.priceTag(row) + (IS.fileOpenable(row) ? '<a class="btn ghost sm" href="#file/' + esc(row.id) + '/read">' + ic('open') +
+        esc(A('افتح الكتاب', 'Open the book')) + '</a>' + IS.dlBtn('file', row.id, '', true) : IS.buyBtn(row, true, false)) + '</div>' : '') + '</div></div>' +
       (isPost ? postPreview(row, true) : '') + IS.feedVoteBar(feedback, row, true, shareRoute) + '</article>';
   }
 
