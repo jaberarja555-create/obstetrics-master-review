@@ -270,6 +270,7 @@
     return item.type === 'library' ? 'file' : item.type;
   }
   function feedCard(item) {
+    if (item.type === 'library' && item.row._parts && IS.seriesCard) return IS.seriesCard(item.row, true);
     var row = item.row, type = item.type, label = FEED_TYPES[type], when = row.published_at || row.created_at;
     var isPost = !!row.room && Object.prototype.hasOwnProperty.call(POST_KINDS, type), library = type === 'library';
     var feedback = feedTarget(item);

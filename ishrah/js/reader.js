@@ -67,6 +67,9 @@
       d.innerHTML = '<canvas width="0" height="0"></canvas><div class="rhl"></div><div class="textLayer"></div><span class="rpn">' + i + '</span>';
       box.appendChild(d); R.pages.push({ el: d, ratio: R.ratio, drawn: 0 });
     }
+    if (o.next) { var nx = document.createElement('div'); nx.className = 'rdr-next';
+      nx.innerHTML = '<span>' + esc(A('انتهى هذا الجزء', 'End of this part')) + '</span><button type="button" class="btn pri">' + esc(o.next.title) + ic('chev', 'fl') + '</button>';
+      nx.querySelector('button').onclick = function () { var go = o.next.open; history.back(); setTimeout(go, 150); }; box.appendChild(nx); }
     sizeAll();
     R.io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) draw(+e.target.dataset.p); }); }, { root: sc, rootMargin: '120% 0px' });
     R.pages.forEach(function (p) { R.io.observe(p.el); });

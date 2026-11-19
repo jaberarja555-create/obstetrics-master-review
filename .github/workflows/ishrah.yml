@@ -38,8 +38,9 @@ jobs:
           moderation=ishrah/supabase/019_report_moderation.sql
           feedback=ishrah/supabase/020_announcement_feedback.sql
           interactions=ishrah/supabase/021_feed_interactions.sql
+          series=ishrah/supabase/022_file_series.sql
           pending=""
-          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions"; do
+          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series"; do
             if [ -n "$pending" ] || ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$migration"; then
               pending="${pending:+$pending }$migration"
             fi

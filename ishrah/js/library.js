@@ -188,7 +188,8 @@
       DB.q('files', { eq: scope, neq: { rating_count: 0 }, order: ['average_rating', false], limit: 40 }),
       DB.q('files', { eq: scope, neq: { rating_count: 0 }, order: ['rating_count', false], limit: 40 })
     ]);
-    return Array.from(new Map(groups.flat().filter(IS.inStudySpace).map(function (file) { return [file.id, file]; })).values());
+    var files = Array.from(new Map(groups.flat().filter(IS.inStudySpace).map(function (file) { return [file.id, file]; })).values());
+    return IS.seriesCollapse ? IS.seriesCollapse(files) : files;
   };
   IS.libraryCover = function (file) {
     var genre = kind(file.kind);
@@ -228,7 +229,7 @@
     function renderFiles(rows, coll) {
       rows.sort(function (a, b) { return (T.sort === 'new' ? 0 : IS.ratingSort(a, b, T.sort)) || publishedTime(b).localeCompare(publishedTime(a)); });
       return (coll ? '<p class="count">' + ic('folder') + esc(coll.n) + ' <button class="link" data-act="lcoll" data-i="-1">' + esc(A('عرض الكل', 'Show all')) + '</button></p>' : '') +
-        (rows.length ? '<div class="grid g4 files">' + rows.map(fileCard).join('') + '</div>' :
+        (rows.length ? '<div class="grid g4 files">' + (IS.seriesCollapse ? IS.seriesCollapse(rows) : rows).map(function (f) { return f._parts ? IS.seriesCard(f) : fileCard(f); }).join('') + '</div>' :
           IS.empty(kind(T.k)[1], A('لا توجد ملفات هنا بعد', 'No files here yet'), A('لم تجد ما تبحث عنه؟ اطلبه من المكتبة.', 'Can’t find it? Request it from the library.'), '<a class="btn pri" href="#library/requests">' + ic('plus') + esc(A('اطلبه الآن', 'Request it')) + '</a>'));
     }
     var subjects = IS.SUBJ.filter(IS.inStudySpace);
@@ -336,8 +337,14 @@
   /* ---------- sharing a file (student or lecturer); published after review ---------- */
   IS.ACT['share-file'] = function () {
     if (!IS.ME) return IS.ACT.login();
-    IS.sheet(esc(A('رفع ملف للمكتبة', 'Upload a file to the library')), '<form class="form" data-form="sharefile">' + fileFields({}, true) + '<p class="note">' + ic('shield') + '<span>' + esc(A('يراجع فريق المحتوى الملف قبل نشره. ارفع فقط ما تملك حق مشاركته.', 'The content team reviews the file before publishing. Upload only what you have the right to share.')) + '</span></p><button class="btn pri wide">' + ic('upload') + esc(A('رفع', 'Upload')) + '</button></form>');
+    if (IS.resetSeries) IS.resetSeries();
+    IS.sheet(esc(A('رفع ملف للمكتبة', 'Upload a file to the library')), '<div class="upmode" role="tablist"><button type="button" class="on" data-act="upmode" data-m="one">' + ic('file') + esc(A('ملف واحد', 'One file')) + '</button>' +
+      '<button type="button" data-act="upmode" data-m="many">' + ic('layers') + esc(A('مجموعة ملفات (شيتات أو سلسلة)', 'A group of files (sheets or a series)')) + '</button></div>' +
+      '<div data-up="many" hidden>' + (IS.seriesForm ? IS.seriesForm() : '') + '</div>' +
+      '<div data-up="one"><form class="form" data-form="sharefile">' + fileFields({}, true) + '<p class="note">' + ic('shield') + '<span>' + esc(A('يراجع فريق المحتوى الملف قبل نشره. ارفع فقط ما تملك حق مشاركته.', 'The content team reviews the file before publishing. Upload only what you have the right to share.')) + '</span></p><button class="btn pri wide">' + ic('upload') + esc(A('رفع', 'Upload')) + '</button></form></div>');
   };
+  IS.ACT.upmode = function (b) { var d = b.closest('.dlg'); IS.$$('[data-act=upmode]', d).forEach(function (x) { x.classList.toggle('on', x === b); });
+    IS.$$('[data-up]', d).forEach(function (x) { x.hidden = x.dataset.up !== b.dataset.m; }); };
   var OFFICE_TYPES = {
     ppt: 'application/vnd.ms-powerpoint', pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
     doc: 'application/msword', docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -435,6 +442,7 @@
     });
     return pdfLoading;
   }
+  IS.pdfMeta = function (file, needsCover) { return pdfMetadata(file, needsCover); };
   async function pdfMetadata(file, needsCover) {
     var lib = await pdfLib();
     var doc = await lib.getDocument({ data: await file.arrayBuffer(), isEvalSupported: false }).promise;
@@ -597,6 +605,7 @@
       (file.about ? '<p class="pre" dir="auto">' + esc(file.about) + '</p>' : '') +
       (file.reading_path ? '<p class="mut">' + esc(A('متاح للقراءة بصيغة PDF.', 'Available to read as a PDF.')) + '</p>' : '') +
       (published ? IS.feedVoteBar('file', file) : IS.status(file.status)) +
+      (file.series_id ? '<a class="schip" href="#series/' + esc(file.series_id) + '">' + ic('layers') + esc(A('الجزء ', 'Part ') + (file.series_no || 1) + A(' من سلسلة: ', ' of the series: ')) + '<b dir="auto">' + esc(file.series_title || '') + '</b>' + ic('chev', 'fl') + '</a>' : '') +
       '<div class="row file-actions">' + (function () {
         var last = 0; try { last = +JSON.parse(localStorage.getItem('ish-rpg:' + id) || '0') || 0; } catch (e) {}
         return IS.ME ? '<button type="button" class="btn pri file-open" data-act="readbook" data-id="' + esc(id) + '">' + ic('open') +
