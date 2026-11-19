@@ -38,9 +38,12 @@ revoke all on function ishrah_private.alert_space(text,text,text,text,text,text,
 create or replace function ishrah_private.on_activity() returns trigger
 language plpgsql security definer set search_path = '' as $$
 declare
-  became text := case when tg_op = 'INSERT' then new.status else case when new.status is distinct from old.status then new.status end end;
+  became text;
   tbl text := tg_table_name;
 begin
+  -- read the status through JSON: some tables (ticket_msgs) have no status column, and a direct new.status would fail the user's action
+  became := case when tg_op = 'INSERT' then to_jsonb(new)->>'status'
+    when (to_jsonb(new)->>'status') is distinct from (to_jsonb(old)->>'status') then to_jsonb(new)->>'status' end;
   if tbl = 'enrollments' then
     if became = 'pending' and coalesce(new.price, 0) > 0 then
       perform ishrah_private.alert_team('pay', 'دفع جديد بانتظار المراجعة', 'New payment to review', new.payer, '#control-pay', new.user_id); end if;

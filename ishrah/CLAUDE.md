@@ -637,3 +637,8 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
     and the existing Pages secrets SUPABASE_URL / SUPABASE_SERVICE_KEY; `settings.push_url` = https://ishrahli.org/api/push.
   - Tests: local Postgres (who gets which notice), scratchpad pushfn.mjs (function with fake services: valid ES256 VAPID, wrong secret 403,
     gone phone deleted), alert.js (team sound once, own post excluded, Settings box). Asset version 171, shell cache ish-v71.
+- **Message alerts follow the department** (owner: "which admin receives which notification, so he does his work"; `036_alert_routing.sql`):
+  a support message alerts the owner, the general manager and the staff of its department (`profiles.dept` or their department role), or
+  only the assigned person once assigned (+ owner/GM); assigning a message alerts the new person. Other requests go by role permission
+  (`staff_for`). The activity trigger reads `status` through `to_jsonb(new)` (ticket_msgs has no status column; reading it directly made
+  student replies fail — fixed before it reached students).
