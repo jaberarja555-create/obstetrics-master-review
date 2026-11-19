@@ -493,3 +493,4 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
 - Medicine → International Exams uses `img/choice_usmle_wide.webp` (the poster with blurred sides, 16:9) so it fills its card; on phones the
   four sections are wide cards one under another with the name on the picture. Studio → My page has a live preview of the page colour.
   Round avatars never stretch in list rows (`.li>.av`). Asset version 141, shell cache ish-v46.
+- File page: the «Read in the app» section is gone; the main button beside the book is «Open the book» / «Continue reading · p. N» (`IS.ACT.readbook`: PDFs open the full-screen reader, pictures and text files a sheet; `#file/<id>/read` opens it at once). Course cards and the course page show the same score (`IS.gradeInner`) instead of the old course-review star; tapping a feed score opens «How this rating is made» (likes, dislikes, enrolled students' reviews or book stars).

@@ -519,6 +519,17 @@
     await more();
   };
 
+  /* «Open the book»: PDFs go straight to the full-screen reader; pictures and text files open in a sheet */
+  IS.ACT.readbook = async function (b) {
+    var file = IS.FILEOPEN && IS.FILEOPEN.id === b.dataset.id ? IS.FILEOPEN : await DB.one('files', b.dataset.id);
+    if (!file) return; var html = b.innerHTML; b.disabled = true; b.innerHTML = '<span class="spin"></span>' + esc(A('جارٍ الفتح…', 'Opening…'));
+    try {
+      var media = IS.libraryDocument(file), url = await DB.fileUrl('library', media.path); if (!url) throw new Error('missing file');
+      if (media.mime === 'application/pdf' && IS.openReader) IS.openReader({ id: file.id, title: file.title, url: url });
+      else { var box = IS.sheet(esc(file.title || ''), '<div class="viewer" id="sheetview"></div>', { wide: 1 }); await IS.renderLibraryDocument(box.querySelector('#sheetview'), media.mime, url, null, { id: file.id, title: file.title }); }
+    } catch (e) { IS.toast(navigator.onLine ? A('تعذّر فتح الملف. أعد المحاولة.', 'The file could not be opened. Try again.') : A('لا يوجد إنترنت: افتح نسخته المنزّلة من «تنزيلاتي».', 'No internet: open its downloaded copy from My downloads.')); }
+    finally { b.disabled = false; b.innerHTML = html; }
+  };
   function canRemoveComment(comment) {
     return IS.ME && (IS.ME.id === comment.user_id || IS.can('library', 'approve') || IS.can('community', 'delete'));
   }
@@ -589,13 +600,15 @@
       (file.about ? '<p class="pre" dir="auto">' + esc(file.about) + '</p>' : '') +
       (file.reading_path ? '<p class="mut">' + esc(A('متاح للقراءة بصيغة PDF.', 'Available to read as a PDF.')) + '</p>' : '') +
       (published ? IS.feedVoteBar('file', file) : IS.status(file.status)) +
-      '<div class="row">' + IS.favBtn('f:' + id) + (IS.ME && published ? IS.dlBtn('file', id) : '') +
+      '<div class="row file-actions">' + (function () {
+        var last = 0; try { last = +JSON.parse(localStorage.getItem('ish-rpg:' + id) || '0') || 0; } catch (e) {}
+        return IS.ME ? '<button type="button" class="btn pri file-open" data-act="readbook" data-id="' + esc(id) + '">' + ic('open') +
+          esc(last > 1 ? A('تابع القراءة · ص ', 'Continue reading · p. ') + last : A('افتح الكتاب', 'Open the book')) + '</button>' :
+          '<button type="button" class="btn pri file-open" data-act="login">' + ic('lock') + esc(A('سجّل الدخول لفتح الكتاب', 'Sign in to open the book')) + '</button>';
+      })() + IS.favBtn('f:' + id) + (IS.ME && published ? IS.dlBtn('file', id) : '') +
       (IS.ME ? '<button class="fav" data-act="addcoll" data-id="' + esc(id) + '" aria-label="' + esc(A('أضف إلى مجموعة', 'Add to collection')) + '">' +
         ic('folder') + '</button>' : '') + '</div></div></article>';
-    h += IS.ME ? '<details class="box library-reader"' + (parts[1] === 'read' ? ' open' : '') + '><summary>' + ic('open') +
-      esc(A('اقرأ داخل التطبيق', 'Read in the app')) + ic('down') + '</summary><div class="viewer" id="viewer" oncontextmenu="return false"></div></details>' :
-      '<div class="gate">' + ic('lock') + '<p>' + esc(A('سجّل الدخول لعرض الملف.', 'Sign in to view the file.')) +
-      '</p><button class="btn pri" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button></div>';
+    IS.FILEOPEN = file;
     if (published) h += fileComments(file, data[0].reverse());
     IS.after = function (main) {
       IS.hydrateLibraryCovers(main).catch(function () {});
@@ -604,25 +617,7 @@
         var rating = main.querySelector('[data-act=rate-library-file]');
         if (rating) IS.ACT['rate-library-file'](rating);
       }
-      var viewer = main.querySelector('#viewer');
-      if (!viewer) return;
-      var reader = viewer.closest('details'), started = false;
-      async function open() {
-        if (started || !reader.open) return;
-        started = true;
-        viewer.innerHTML = '<div class="loading"><span class="spin"></span></div>';
-        try {
-          var media = IS.libraryDocument(file), url = await DB.fileUrl('library', media.path);
-          if (!url) throw new Error('missing file');
-          await IS.renderLibraryDocument(viewer, media.mime, url, null, { id: file.id, title: file.title, cover: IS.libraryCover ? IS.libraryCover(file) : '' });
-        } catch (error) {
-          started = false;
-          viewer.innerHTML = IS.empty('file', A('تعذّر عرض الملف', 'The file could not be shown'),
-            A('تأكد من الاتصال ثم أعد فتح القارئ.', 'Check the connection and reopen the reader.'));
-        }
-      }
-      reader.ontoggle = open;
-      open();
+      if (parts[1] === 'read' && IS.ME) { var b = main.querySelector('[data-act=readbook]'); if (b) IS.ACT.readbook(b); }
     };
     return h;
   });

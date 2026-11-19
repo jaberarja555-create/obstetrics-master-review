@@ -2768,3 +2768,12 @@ button.feed-grade:hover{border-color:#e0a800;background:#fff8e1}
 .ginfo li .gi{font-size:20px}.ginfo li span:nth-child(2){flex:1}.ginfo li b{font-size:15px}
 .viewer-card .rdr-open{flex-direction:row;align-items:center;text-align:start;margin-inline:auto}
 @media (max-width:560px){.viewer-card .rdr-open{flex-direction:column;text-align:center}}
+
+/* «Open the book» beside the book, the main action of the file page */
+.file-actions{flex-wrap:wrap;gap:8px;align-items:center}
+.file-actions .file-open{min-height:44px;padding:0 20px;font-size:15px;font-weight:800;gap:8px}
+@media (max-width:560px){.file-actions .file-open{flex:1 1 100%;justify-content:center}}
+
+.feed-grade.sm{min-height:0;padding:2px 8px;font-size:12px;gap:4px}.feed-grade.sm .gstars i{font-size:13px}.feed-grade.sm .gtitle{font-size:11px;padding:1px 6px}
+.ccst{flex-wrap:wrap;row-gap:6px}
+.chst .feed-grade{background:rgba(255,255,255,.95)}

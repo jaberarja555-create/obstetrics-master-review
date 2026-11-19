@@ -90,7 +90,7 @@
       '<span class="cctop">' + (cat ? IS.chip(esc(A(cat.ar, cat.en)), 'lt') : '') + (c.n_students >= 50 ? IS.chip(ic('flame') + esc(A('الأكثر تسجيلًا', 'Popular')), 'hot') : '') + '</span></a>' + IS.favBtn('c:' + c.id, true) +
       '<div class="ccb"><h3><a href="#course/' + c.id + '">' + esc(c.title) + '</a></h3><p>' + esc(c.subtitle || '') + '</p>' +
       (l ? '<a class="cclec" href="#lecturer/' + l.id + '">' + IS.av(l, 'xs', l.id) + '<span>' + esc(l.name) + '</span></a>' : '') +
-      '<div class="ccst">' + (c.n_reviews ? '<span>' + ic('star', 'gold') + N(c.rating) + ' <small>(' + N(c.n_reviews) + ')</small></span>' : '') + '<span>' + ic('video') + N(c.n_lessons || 0) + ' ' + esc(A('درس', 'lessons')) + '</span>' +
+      '<div class="ccst">' + '<span class="feed-grade sm" title="' + esc(IS.gradeLabel(c)) + '">' + IS.gradeInner(c) + '</span>' + '<span>' + ic('video') + N(c.n_lessons || 0) + ' ' + esc(A('درس', 'lessons')) + '</span>' +
       (c.minutes ? '<span>' + ic('clock') + hrs(c.minutes) + '</span>' : '') + (c.n_students ? '<span>' + ic('users') + N(c.n_students) + '</span>' : '') + '</div>' +
       '<div class="ccf"><span class="price">' + price(c) + '</span>' + (e && e.status === 'active' ? '<a class="btn sm pri" href="#course/' + c.id + '">' + ic('play') + esc(A('تابع', 'Continue')) + '</a>' : e && e.status === 'pending' ? IS.status('pending') : '<a class="btn sm pri" href="#course/' + c.id + '">' + esc(A('التحق بالكورس', 'Enrol')) + '</a>') + '</div></div></article>';
   };
@@ -505,7 +505,7 @@
     if (c.status !== 'published') h += '<p class="note warn">' + ic('eye') + esc(A('معاينة: هذا الكورس غير منشور للطلبة بعد', 'Preview: this course is not published to students yet')) + ' · ' + IS.status(c.status) + '</p>';
     h += '<section class="chero" style="--cc:' + esc(c.color || 'var(--pri)') + (c.cover ? ';--ci:url(' + IS.U(c.cover) + ')' : '') + '"><div class="chin"><div class="cht"><span class="tags lt">' + (cat ? '<span>' + esc(A(cat.ar, cat.en)) + '</span>' : '') + (sj ? '<span>' + esc(sj.en) + '</span>' : '') + (c.level ? '<span>' + esc(c.level) + '</span>' : '') + '</span>' +
       '<h1 tabindex="-1">' + esc(c.title) + '</h1>' + (c.subtitle ? '<p>' + esc(c.subtitle) + '</p>' : '') + '<a class="chlec" href="#lecturer/' + l.id + '">' + IS.av(l, 'sm', l.id) + '<span><b>' + esc(l.name || '') + '</b><small>' + esc(l.title || '') + '</small>' + IS.seen(l.id) + '</span></a>' +
-      '<div class="chst">' + (c.n_reviews ? '<span>' + IS.stars(c.rating) + ' <b>' + N(c.rating) + '</b> (' + N(c.n_reviews) + ')</span>' : '') + (c.n_students ? '<span>' + ic('users') + N(c.n_students) + ' ' + esc(A('طالب', 'students')) + '</span>' : '') +
+      '<div class="chst">' + '<span class="feed-grade" title="' + esc(IS.gradeLabel(c)) + '">' + IS.gradeInner(c) + '</span>' + (c.n_students ? '<span>' + ic('users') + N(c.n_students) + ' ' + esc(A('طالب', 'students')) + '</span>' : '') +
       '<span>' + ic('video') + N(all.length) + ' ' + esc(A('درس', 'lessons')) + '</span>' + (c.minutes ? '<span>' + ic('clock') + hrs(c.minutes) + '</span>' : '') + '<span>' + ic('clock') + esc(A('آخر تحديث ', 'Updated ')) + esc(IS.date(c.updated_at || c.created_at)) + '</span></div></div>' +
       (c.cover ? '<img class="chimg" src="' + IS.U(c.cover) + '" alt="">' : '') + '</div></section>';
     h += '<section class="box buy"><div class="buy-actions"><div class="bp">' + price(c) + '</div>' +
