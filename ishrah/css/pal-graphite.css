@@ -3142,3 +3142,42 @@ button.feed-grade:hover{border-color:#e0a800;background:#fff8e1}
 .spacebox.sp2 .spjoin{align-self:flex-start}
 .spacebox.sp2 .spg-v{background:none!important;padding:0!important;color:var(--sub)!important}.spacebox.sp2 .spg-v .ico{width:18px;height:18px}
 .spacebox.sp2 button.spg-top:focus:not(:focus-visible){background:none}
+
+/* space figures in the owner's design (sp3) */
+.spacebox.sp3{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:14px!important;padding:16px!important;border-radius:22px!important}
+.spacebox.sp3 .sts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.spacebox.sp3 .stt{all:unset;box-sizing:border-box;position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;padding:16px 14px;border-radius:18px;min-width:0;
+  --c:#545a63;--cl:#eaebed;--bg:linear-gradient(180deg,#f8f9fa,#f0f1f3);--bd:#c9cdd2;background:var(--bg);border:1.5px solid var(--bd);color:#2e3238}
+.spacebox.sp3 .stt.g{--c:#17763a;--cl:#d6f2df;--bg:linear-gradient(180deg,#f2fbf5,#e3f5ea);--bd:#a8dcb9}
+.spacebox.sp3 .stt::before,.spacebox.sp3 .stt::after{content:"";position:absolute;pointer-events:none;border-radius:50%}
+.spacebox.sp3 .stt::before{width:120px;height:60px;top:-34px;inset-inline-end:-30px;background:radial-gradient(closest-side,color-mix(in srgb,var(--c) 40%,transparent),transparent);opacity:.55}
+.spacebox.sp3 .stt::after{width:150px;height:70px;bottom:-40px;inset-inline-start:-34px;background:radial-gradient(closest-side,color-mix(in srgb,var(--c) 30%,transparent),transparent);opacity:.5}
+.spacebox.sp3 .stt>*{position:relative;z-index:1}
+.spacebox.sp3 .sti{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:16px;background:var(--cl);color:var(--c)}
+.spacebox.sp3 .sti .ico{width:28px;height:28px;stroke-width:2}
+.spacebox.sp3 .stx{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;line-height:1.1;padding-inline-end:12px;border-inline-end:1.5px solid color-mix(in srgb,var(--c) 18%,transparent)}
+.spacebox.sp3 .stx b{font-size:32px;font-weight:900;color:#2e3238}
+.spacebox.sp3 .stx small{font-size:14px;font-weight:800;color:#2e3238;margin-top:4px;line-height:1.25}
+.spacebox.sp3 .stv{flex:none;display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:999px;background:var(--c);color:#fff;font-size:13px;font-weight:800}
+.spacebox.sp3 .stv .ico{width:15px;height:15px;stroke-width:2.4}
+.spacebox.sp3 button.stt{cursor:pointer}
+.spacebox.sp3 button.stt:hover,.spacebox.sp3 button.stt:focus-visible{border-color:var(--c);box-shadow:0 4px 14px color-mix(in srgb,var(--c) 22%,transparent)}
+.spacebox.sp3 div.stt .stx{border-inline-end:0;padding-inline-end:0}
+.spacebox.sp3 .stm{display:flex;align-items:center;justify-content:center;gap:8px}
+.spacebox.sp3 .stecg{flex:0 1 80px;height:24px;fill:none;stroke:#8fd3a6;stroke-width:1.6;order:2}
+.spacebox.sp3 .stmp{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border-radius:999px;background:linear-gradient(180deg,#f3fbf6,#e2f5e9);border:1.5px solid #9fd8b0;color:#17663a;font-weight:800;font-size:14px}
+.spacebox.sp3 .stok{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#2bb05a;color:#fff}
+.spacebox.sp3 .stok .ico{width:15px;height:15px;stroke-width:3}
+.spacebox.sp3 .stsep{width:1.5px;height:20px;background:#9fd8b0}
+.spacebox.sp3 .stst svg{width:22px;height:22px;fill:none;stroke:#17663a;stroke-width:2;display:block}
+@media (max-width:560px){
+  .spacebox.sp3{padding:12px!important;gap:12px!important}
+  .spacebox.sp3 .sts{gap:10px}
+  .spacebox.sp3 .stt{flex-wrap:wrap;justify-content:center;gap:8px 10px;padding:12px 10px}
+  .spacebox.sp3 .sti{width:42px;height:42px;border-radius:13px}.spacebox.sp3 .sti .ico{width:23px;height:23px}
+  .spacebox.sp3 .stx{flex:0 1 auto;border:0!important;padding:0!important}
+  .spacebox.sp3 .stx b{font-size:26px}.spacebox.sp3 .stx small{font-size:12.5px}
+  .spacebox.sp3 .stv{flex-basis:100%;justify-content:center;padding:6px 10px;font-size:12.5px}
+  .spacebox.sp3 .stmp{font-size:13px;padding:7px 12px}
+  .spacebox.sp3 .stecg{display:none}
+}

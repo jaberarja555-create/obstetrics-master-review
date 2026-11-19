@@ -1430,18 +1430,22 @@
 /* the speciality space in figures (owner, 19 Nov 2026): members, members online now, lecturers, lecturers online now */
 (function () {
   var A = IS.A, esc = IS.esc, ic = IS.ic, N = IS.N;
-  /* two blocks, Members and Lecturers: the total big, «● N متصل الآن» under it (owner, 19 Nov 2026: tiles "big, ugly, disorganised");
-     for the team the total opens everyone and the green line opens those online */
+  /* owner's design (19 Nov 2026, his picture): four tiles, totals blue on the start side and «online now» green beside them; each tile =
+     icon in a rounded square · number over label · thin divider · «عرض →» pill (team only); soft waves in the corners; under them the
+     membership pill with a heartbeat line and a stethoscope */
   IS.spaceBox = function () {
     var spec = IS.mySpec && IS.mySpec(), name = spec ? spec.en : '', st = staff();
-    function part(tag, k, cls, inner) { return st ? '<button type="button" class="' + cls + '" data-act="spacepeople" data-k="' + k + '">' + inner + '</button>' : '<' + tag + ' class="' + cls + '">' + inner + '</' + tag + '>'; }
-    function group(k, icon, ar, en) {
-      return '<div class="spg">' + part('div', k, 'spg-top', '<i class="spi">' + ic(icon) + '</i><span class="spg-t"><small>' + esc(A(ar, en)) + '</small><b data-n="' + k + '">–</b></span>' +
-          (st ? '<span class="spg-v" aria-hidden="true">' + ic('chev') + '</span>' : '')) +
-        part('div', k === 'members' ? 'online' : 'lecturers_online', 'spg-on', '<i class="spdot"></i><b data-n="' + (k === 'members' ? 'online' : 'lecturers_online') + '">–</b> ' + esc(A('متصل الآن', 'online now'))) + '</div>';
-    }
-    return '<div class="spacebox sp2" data-space="' + esc(IS.SPEC || '') + '"><div class="spgs">' + group('members', 'users', 'الأعضاء', 'Members') + group('lecturers', 'studio', 'المحاضرون', 'Lecturers') + '</div>' +
-      (IS.ME ? '<small class="spjoin">' + ic('check') + esc(A('أنت عضو في ', 'You are a member of ')) + '<bdi lang="en">' + esc(name) + '</bdi></small>' :
+    var ARROW = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+    var STETH = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3v6a5 5 0 0 0 10 0V3M11 14v2a4 4 0 0 0 8 0v-1"/><circle cx="19" cy="13" r="2"/></svg>';
+    var tiles = [['members', 'users', 'عضو', 'members', 'b'], ['online', 'users', 'متصل الآن', 'online now', 'g'], ['lecturers', 'studio', 'محاضر', 'lecturers', 'b'],
+      ['lecturers_online', 'studio', 'محاضر متصل', 'lecturers online', 'g']].map(function (x) {
+      var inner = '<i class="sti">' + ic(x[1]) + '</i><span class="stx"><b data-n="' + x[0] + '">–</b><small>' + esc(A(x[2], x[3])) + '</small></span>' +
+        (st ? '<span class="stv">' + esc(A('عرض', 'View')) + ARROW + '</span>' : '');
+      return st ? '<button type="button" class="stt ' + x[4] + '" data-act="spacepeople" data-k="' + x[0] + '">' + inner + '</button>' : '<div class="stt ' + x[4] + '">' + inner + '</div>';
+    }).join('');
+    return '<div class="spacebox sp3" data-space="' + esc(IS.SPEC || '') + '"><div class="sts">' + tiles + '</div>' +
+      (IS.ME ? '<div class="stm"><svg class="stecg" viewBox="0 0 80 24" aria-hidden="true"><path d="M0 14h26l5-10 6 18 5-12 3 4h35"/></svg><span class="stmp">' +
+          '<i class="stok">' + ic('check') + '</i><span>' + esc(A('أنت عضو في ', 'You are a member of ')) + '<bdi lang="en">' + esc(name) + '</bdi></span><i class="stsep"></i><i class="stst">' + STETH + '</i></span></div>' :
         '<button type="button" class="btn gold sm" data-act="login">' + ic('user') + esc(A('سجّل الدخول لتنضم إلى ', 'Sign in to join ')) + '<bdi lang="en">' + esc(name) + '</bdi></button>') + '</div>';
   };
   function staff() { return !!(IS.ME && (IS.can('students') || IS.can('dash'))); }
