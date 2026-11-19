@@ -1127,7 +1127,7 @@
       '<section class="box post-comments"><h2 tabindex="-1" data-post-comments>' +
       (p.room === 'qa' ? IS.T('الردود', 'Replies') : IS.T('التعليقات', 'Comments')) + '</h2>' + composer + rs.map(function (r) { var isLec = !!lecs[r.user_id];
         return '<div class="box reply' + (isLec ? ' lec' : '') + '">' + IS.av({ name: r.name, photo: r.photo }, 'sm', r.user_id) + '<div><b>' + esc(r.name || '') + '</b>' + (isLec ? IS.chip(esc(A('محاضر', 'Lecturer')), 'ok') : '') + ' <small class="mut">' + esc(IS.ago(r.created_at)) + '</small><p class="pre">' + esc(r.body) + '</p>' +
-          (mod && IS.can('community', 'edit') ? '<button class="link bad" data-act="rmreply" data-id="' + r.id + '">' + esc(A('حذف', 'Remove')) + '</button>' : '') + (me() ? '<button class="link" data-act="report" data-kind="reply" data-id="' + r.id + '">' + esc(A('إبلاغ', 'Report')) + '</button>' : '') + '</div></div>'; }).join('') +
+          (me() ? '<div class="cmt-a"><button type="button" class="cact" data-act="report" data-kind="reply" data-id="' + r.id + '">' + ic('flag') + esc(A('إبلاغ', 'Report')) + '</button>' + (mod && IS.can('community', 'edit') ? '<button type="button" class="cact bad" data-act="rmreply" data-id="' + r.id + '">' + ic('trash') + esc(A('حذف', 'Delete')) + '</button>' : '') + '</div>' : '') + '</div></div>'; }).join('') +
       '</section>';
   });
   IS.savePostReply = async function (id, body) {
@@ -1143,6 +1143,12 @@
     return me() ? '<button type="button" class="' + (compact ? 'feed-emoji feed-report' : 'btn ghost sm') + '" data-act="report" data-kind="' +
       esc(kind) + '" data-id="' + esc(id) + '"' + (compact ? ' aria-label="' + label + '" title="' + label + '"' : '') + '>' +
       ic('flag') + (compact ? '' : label) + '</button>' : '';
+  };
+  IS.commentItem = function (o) {
+    var acts = (o.report ? '<button type="button" class="cact" data-act="report" data-kind="' + esc(o.report[0]) + '" data-id="' + esc(o.report[1]) + '">' + ic('flag') + esc(A('إبلاغ', 'Report')) + '</button>' : '') +
+      (o.del || '');
+    return '<article class="cmt">' + IS.av({ name: o.name, photo: o.photo }, 'sm') + '<div class="cmt-b"><div class="cmt-h"><b dir="auto">' + esc(o.name || '') + '</b><small>' + esc(o.when || '') + '</small></div>' +
+      '<p class="pre" dir="auto">' + esc(o.body || '') + '</p>' + (acts && IS.ME ? '<div class="cmt-a">' + acts + '</div>' : '') + '</div></article>';
   };
   IS.postActions = function (kind, id, route, shareable) {
     var share = shareable === false ? '' : IS.shareButton(route);

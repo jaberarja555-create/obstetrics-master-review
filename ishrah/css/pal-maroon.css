@@ -2788,3 +2788,16 @@ button.feed-grade:hover{border-color:#e0a800;background:#fff8e1}
 .mng-del{margin-top:14px;padding-top:12px;border-top:1px solid var(--bd2)}
 @media (max-width:560px){.file-actions{display:grid!important;grid-template-columns:auto 1fr auto;gap:8px}.file-actions .file-open{grid-column:1/-1}.file-actions .dlb,.file-actions [data-act=dl]{width:100%;justify-content:center}}
 @media (max-width:560px){.file-actions .dlb,.file-actions [data-act=dl]{white-space:normal;font-size:12.5px;line-height:1.25;min-height:44px;padding:4px 8px;text-align:center}}
+
+/* comments: one design everywhere (book page, feed, posts) */
+.cmt{display:flex;gap:10px;padding:12px 0;border-top:1px solid var(--bd)}
+.cmt:first-of-type{border-top:0}
+.cmt>.av{flex:none}
+.cmt-b{flex:1;min-width:0}
+.cmt-h{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.cmt-h b{font-size:14px}.cmt-h small{color:var(--sub);font-size:12px}
+.cmt-b>p{margin:4px 0 0;font-size:14.5px;line-height:1.6;color:var(--tx)}
+.cmt-a{display:flex;gap:6px;margin-top:6px}
+.cact{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 10px;border-radius:999px;border:1px solid var(--bd2);background:var(--sf);color:var(--sub);font:600 12px inherit;cursor:pointer}
+.cact .ico{width:13px;height:13px}
+.cact:hover{color:var(--pri);border-color:var(--pri)}
+.cact.bad{color:#b4231f}.cact.bad:hover{background:#fdecec;border-color:#e3a1a1}

@@ -571,11 +571,8 @@
         '<div class="row end"><button class="btn pri sm">' + ic('send') + esc(A('انشر التعليق', 'Post comment')) + '</button></div></form>' :
         '<p class="mut">' + esc(A('سجّل الدخول للمشاركة في التعليقات.', 'Sign in to join the conversation.')) + '</p>') +
       comments.map(function (comment) {
-        return '<article class="cr-message"><div class="row sp"><b dir="auto">' + esc(comment.author_name) + '</b><small class="mut">' +
-          esc(IS.ago(comment.created_at)) + '</small></div><p class="pre" dir="auto">' + esc(comment.body) + '</p>' +
-          IS.reportButton('file_comment', comment.id) +
-          (canRemoveComment(comment) ? '<button class="link bad" data-act="remove-library-comment" data-id="' + esc(comment.id) +
-            '" data-file="' + esc(file.id) + '">' + esc(A('احذف التعليق', 'Delete comment')) + '</button>' : '') + '</article>';
+        return IS.commentItem({ name: comment.author_name, photo: comment.author_photo, when: IS.ago(comment.created_at), body: comment.body, report: ['file_comment', comment.id],
+          del: canRemoveComment(comment) ? '<button type="button" class="cact bad" data-act="remove-library-comment" data-id="' + esc(comment.id) + '" data-file="' + esc(file.id) + '">' + ic('trash') + esc(A('حذف', 'Delete')) + '</button>' : '' });
       }).join('') + '</section>';
   }
 

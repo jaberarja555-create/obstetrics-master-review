@@ -700,9 +700,8 @@
 
   function commentMarkup(row, kind) {
     var report = kind === 'request' ? 'request_comment' : kind === 'file' ? 'file_comment' : 'reply';
-    return '<article class="feed-reply"><div class="row sp"><b dir="auto">' + esc(row.author_name || row.name) + '</b>' +
-      '<small class="mut">' + (row.created_at ? esc(IS.ago(row.created_at)) : text('الآن', 'Now')) + '</small></div><p dir="auto" class="pre">' +
-      esc(row.body) + '</p>' + (report && row.id ? IS.reportButton(report, row.id) : '') + '</article>';
+    return IS.commentItem({ name: row.author_name || row.name, photo: row.author_photo || row.photo, when: row.created_at ? IS.ago(row.created_at) : A('الآن', 'Now'), body: row.body,
+      report: report && row.id ? [report, row.id] : null });
   }
 
   async function loadComments(panel, kind, id) {
