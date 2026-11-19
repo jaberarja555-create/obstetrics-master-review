@@ -378,6 +378,7 @@
     var pageTitle = h1 && h1.textContent.trim();
     document.title = (pageTitle && pageTitle !== IS.brandName() ? pageTitle + ' · ' : '') + IS.brandName();
     if (IS.after) try { await IS.after(main); } catch (e) { if (window.console) console.error(e); }
+    if (my === SEQ && IS.hydrateFeedReactions) IS.hydrateFeedReactions(main);
     IS.balance(); IS.evenRows(); IS.fileUI(); IS.dedupe(); IS.sideLock(); IS.beat(); IS.hydrateSeen(); IS.trimScroll(); setTimeout(IS.trimScroll, 400);
   };
   /* Compare both columns in their side-by-side layout before moving secondary cards. */

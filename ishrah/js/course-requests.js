@@ -518,59 +518,266 @@
     heading.scrollIntoView({ block: 'start' });
   };
 
-  IS.feedVoteBar = function (kind, row) {
-    function emoji(symbol, count) { return '<span class="feed-emoji-icon" aria-hidden="true">' + symbol + '</span>' + N(count); }
-    function vote(value, ar, en, symbol, count) {
-      count = count || 0;
-      var label = text(ar, en) + ' (' + count + ')', contents = emoji(symbol, count);
-      var style = value === 1 ? ' feed-like' : ' feed-dislike';
-      return uid() ? '<button type="button" class="feed-emoji' + style + '" data-act="feed-vote" data-kind="' + kind + '" data-id="' + esc(row.id) +
-        '" data-value="' + value + '"' + (kind === 'file' && row.my_reaction !== undefined ? ' aria-pressed="' + (row.my_reaction === value) + '"' : '') + ' aria-label="' + label + '" title="' + label + '">' + contents + '</button>' :
-        '<span class="feed-emoji' + style + '" role="img" aria-label="' + label + '" title="' + label + '">' + contents + '</span>';
-    }
-    var count = (kind === 'post' ? row.n_replies : row.comment_count) || 0;
-    var commentRoute = kind === 'request' ? href(row, IS.area === 'studio' ? 'studio-course-request' : 'course-request', 'comments') :
-      '#' + (kind === 'file' ? 'file/' : 'post/') + row.id + '/comments';
-    var commentLabel = text('التعليقات', 'Comments') + ' (' + count + ')';
-    var comment = '<a class="feed-emoji feed-comment" href="' + esc(commentRoute) + '" aria-label="' + commentLabel + '" title="' + commentLabel + '">' + emoji('💬', count) + '</a>';
+  var FEEDBACK = { post: 'posts', request: REQUESTS, file: 'files', announcement: 'notices' };
+  var REACTIONS = [[1, '👍', 'أعجبني', 'Like', 'like'], [-1, '👎', 'لم يعجبني', 'Dislike', 'dislike']];
+  var savingVotes = new Set();
+
+  function voteLabel(reaction, count) { return A(reaction[2], reaction[3]) + ' (' + count + ')'; }
+  function commentLabel(count) { return A('التعليقات', 'Comments') + ' (' + count + ')'; }
+  function voteScore(row) {
     var score = approval(row);
-    var title = score === '—' ? text('لا توجد تفاعلات بعد', 'No reactions yet') :
-      text('نسبة الإعجاب', 'Positive reactions') + ' ' + score;
-    var rating = '<span class="feed-vote-count" role="img" aria-label="' + title + '" title="' + title + '"><span class="feed-emoji-icon" aria-hidden="true">⭐</span><bdi dir="ltr">' +
-      esc(score) + '</bdi></span>';
-    return '<div class="feed-votes"><div class="row">' + vote(1, 'أعجبني', 'Like', '👍', row.like_count) +
-      vote(-1, 'لم يعجبني', 'Dislike', '👎', row.dislike_count) + comment + (kind === 'file' ? IS.libraryRating(row, true) : rating) + '</div></div>';
+    return { value: score, label: score === '—' ? A('لا توجد تفاعلات بعد', 'No reactions yet') : A('نسبة الإعجاب', 'Positive reactions') + ' ' + score };
+  }
+  function emoji(symbol, count) {
+    return '<span class="feed-emoji-icon" aria-hidden="true">' + symbol + '</span><bdi data-feedback-count>' + count + '</bdi>';
+  }
+  IS.feedVoteBar = function (kind, row, inline) {
+    var id = esc(row.id), count = Number(row[kind === 'post' ? 'n_replies' : 'comment_count']) || 0;
+    var label = esc(commentLabel(count)), panelId = 'comments-' + kind + '-' + id;
+    var commentRoute = kind === 'request' ? href(row, IS.area === 'studio' ? 'studio-course-request' : 'course-request', 'comments') :
+      '#' + (kind === 'file' ? 'file/' : 'post/') + id + '/comments';
+    var comment = inline ?
+      '<button type="button" class="feed-emoji feed-comment" data-act="feed-comments" aria-expanded="false" aria-controls="' + panelId +
+        '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</button>' :
+      '<a class="feed-emoji feed-comment" data-act="focus-feed-comments" href="' + esc(commentRoute) + '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</a>';
+    var score = voteScore(row);
+    var rating = kind === 'file' ? IS.libraryRating(row, true) : '<span class="feed-vote-count" role="img" aria-label="' + esc(score.label) +
+      '" title="' + esc(score.label) + '"><span class="feed-emoji-icon" aria-hidden="true">⭐</span><bdi dir="ltr">' + esc(score.value) + '</bdi></span>';
+    var reaction = row.my_reaction === undefined ? '' : String(Number(row.my_reaction) || 0);
+    var key = kind + '/' + row.id;
+    var buttons = REACTIONS.map(function (item) {
+      var total = Number(row[item[4] + '_count']) || 0, name = esc(voteLabel(item, total));
+      var attributes = ' class="feed-emoji feed-' + item[4] + '" aria-label="' + name + '" title="' + name + '"';
+      return uid() ? '<button type="button"' + attributes + ' data-act="feed-vote" data-kind="' + kind + '" data-id="' + id +
+        '" data-value="' + item[0] + '" aria-pressed="' + (Number(reaction) === item[0]) + '"' +
+        (savingVotes.has(uid() + '/' + key) ? ' disabled' : '') + '>' + emoji(item[1], total) + '</button>' :
+        '<span' + attributes + ' role="img">' + emoji(item[1], total) + '</span>';
+    }).join('');
+    return '<div class="feed-votes" data-feedback="' + esc(key) + '" data-reaction="' + reaction + '"' +
+      (row.status === 'closed' ? ' data-comments-closed' : '') + '><div class="row">' + buttons + comment + rating + '</div>' +
+      (inline ? '<div class="feed-comment-panel" id="' + panelId + '" hidden></div>' : '') + '</div>';
   };
+
+  IS.ACT['focus-feed-comments'] = function () { IS.focusPostComments(IS.$('#main')); };
+
+  function patchFeed(kind, id, values, saving) {
+    var key = kind + '/' + id;
+    IS.$$('[data-feedback]').filter(function (bar) { return bar.dataset.feedback === key; }).forEach(function (bar) {
+      if ('my_reaction' in values) {
+        bar.dataset.reaction = Number(values.my_reaction) || 0;
+        REACTIONS.forEach(function (item) {
+          var button = bar.querySelector('.feed-' + item[4]);
+          var total = Math.max(0, Number(values[item[4] + '_count']) || 0);
+          var label = voteLabel(item, total);
+          button.querySelector('[data-feedback-count]').textContent = total;
+          button.setAttribute('aria-label', label);
+          button.title = label;
+          if (button.matches('button')) {
+            button.setAttribute('aria-pressed', Number(values.my_reaction) === item[0]);
+            button.disabled = saving;
+          }
+        });
+        var badge = bar.querySelector('.feed-vote-count');
+        if (badge) {
+          var score = voteScore(values);
+          badge.querySelector('bdi').textContent = score.value;
+          badge.setAttribute('aria-label', score.label);
+          badge.title = score.label;
+        }
+      }
+      var field = kind === 'post' ? 'n_replies' : 'comment_count';
+      if (field in values) {
+        var comment = bar.querySelector('.feed-comment'), label = commentLabel(values[field]);
+        comment.querySelector('[data-feedback-count]').textContent = values[field];
+        comment.setAttribute('aria-label', label);
+        comment.title = label;
+      }
+    });
+    var feed = document.querySelector('.section-feed');
+    if (feed) feed.dispatchEvent(new CustomEvent('feed-feedback', { detail: { key: key, values: values } }));
+  }
+
+  IS.hydrateFeedReactions = function (root) {
+    var user = uid();
+    if (!user || IS.OFFPAGE) return;
+    var bars = IS.$$('[data-feedback][data-reaction=""]', root);
+    Object.keys(FEEDBACK).forEach(function (kind) {
+      var matches = bars.filter(function (bar) { return bar.dataset.feedback.startsWith(kind + '/'); });
+      if (!matches.length) return;
+      var ids = Array.from(new Set(matches.map(function (bar) { return bar.dataset.feedback.split('/')[1]; })));
+      var field = kind + '_id';
+      DB.q('feed_feedback', { eq: { user_id: user }, in: { [field]: ids }, select: field + ',reaction' }).then(function (rows) {
+        if (uid() !== user) return;
+        var own = new Map(rows.map(function (item) { return [item[field], Number(item.reaction) || 0]; }));
+        matches.forEach(function (bar) {
+          if (!bar.isConnected || bar.dataset.reaction !== '') return;
+          var id = bar.dataset.feedback.split('/')[1];
+          bar.dataset.reaction = own.get(id) || 0;
+          IS.$$('[data-act="feed-vote"]', bar).forEach(function (button) {
+            button.setAttribute('aria-pressed', Number(button.dataset.value) === Number(bar.dataset.reaction));
+          });
+        });
+      }).catch(function () {});
+    });
+  };
+
   IS.feedVote = async function (kind, id, value, action) {
     if (!uid()) return IS.ACT.login();
     var rating = action === 'rate';
     if (DB.live) {
-      var answer = await DB.sb.rpc('ish_feed_vote', { kind: kind, target: id, action: rating ? 'rate' : 'react', value: value });
+      var payload = { kind: kind, target: id, value: value };
+      var answer = await DB.sb.rpc(rating ? 'ish_rate_file' : 'ish_feed_react',
+        rating ? { file: id, stars: value } : payload);
       if (answer.error) throw answer.error;
-    } else {
-      var parent = { post: 'posts', request: REQUESTS, file: 'files' }[kind];
-      var fields = {};
-      fields[kind + '_id'] = id;
-      var row = (await DB.q('feed_feedback', { eq: Object.assign({ user_id: uid() }, fields) }))[0];
-      var update = rating ? { stars: value } : { reaction: row && row.reaction === value ? null : value };
-      if (row) await DB.upd('feed_feedback', row.id, update);
-      else await DB.ins('feed_feedback', Object.assign({ user_id: uid() }, fields, update));
-      var votes = await DB.q('feed_feedback', { eq: fields });
-      var counts = {
-        like_count: votes.filter(function (v) { return v.reaction === 1; }).length,
-        dislike_count: votes.filter(function (v) { return v.reaction === -1; }).length
-      };
-      if (kind === 'file') {
-        counts.rating_count = votes.filter(function (vote) { return vote.stars; }).length;
-        counts.rating_points = votes.reduce(function (total, vote) { return total + (vote.stars || 0); }, 0);
-        counts.average_rating = counts.rating_count ? counts.rating_points / counts.rating_count : null;
-      }
-      await DB.upd(parent, id, counts);
+      return answer.data;
+    }
+    var fields = { [kind + '_id']: id };
+    var row = (await DB.q('feed_feedback', { eq: Object.assign({ user_id: uid() }, fields) }))[0];
+    var picked = row && Number(row.reaction) === value ? null : value;
+    var update = rating ? { stars: value } : { reaction: picked };
+    if (row) await DB.upd('feed_feedback', row.id, update);
+    else await DB.ins('feed_feedback', Object.assign({ user_id: uid() }, fields, update));
+    var votes = await DB.q('feed_feedback', { eq: fields });
+    var counts = {
+      like_count: votes.filter(function (vote) { return vote.reaction === 1; }).length,
+      dislike_count: votes.filter(function (vote) { return vote.reaction === -1; }).length
+    };
+    if (kind === 'file') {
+      counts.rating_count = votes.filter(function (vote) { return vote.stars; }).length;
+      counts.rating_points = votes.reduce(function (total, vote) { return total + (vote.stars || 0); }, 0);
+      counts.average_rating = counts.rating_count ? counts.rating_points / counts.rating_count : null;
+    }
+    await DB.upd(FEEDBACK[kind], id, counts);
+    return rating ? { rating_count: counts.rating_count, rating_points: counts.rating_points, average_rating: counts.average_rating } :
+      { like_count: counts.like_count, dislike_count: counts.dislike_count, my_reaction: picked };
+  };
+
+  IS.ACT['feed-vote'] = async function (button) {
+    var kind = button.dataset.kind, id = button.dataset.id, actor = uid();
+    if (!actor) return IS.ACT.login();
+    var bar = button.closest('[data-feedback]'), key = actor + '/' + bar.dataset.feedback, value = Number(button.dataset.value);
+    if (savingVotes.has(key)) return;
+    var previous = {
+      my_reaction: Number(bar.dataset.reaction) || 0,
+      like_count: Number(bar.querySelector('.feed-like [data-feedback-count]').textContent),
+      dislike_count: Number(bar.querySelector('.feed-dislike [data-feedback-count]').textContent)
+    };
+    var next = previous.my_reaction === value ? 0 : value;
+    var optimistic = { my_reaction: next };
+    REACTIONS.forEach(function (item) {
+      var field = item[4] + '_count';
+      optimistic[field] = Math.max(0, previous[field] + Number(next === item[0]) - Number(previous.my_reaction === item[0]));
+    });
+    savingVotes.add(key);
+    patchFeed(kind, id, optimistic, true);
+    var saved;
+    try { saved = await IS.feedVote(kind, id, value); }
+    catch (error) { if (uid() === actor) IS.toast(A('تعذّر حفظ التفاعل. حاول مرة أخرى.', 'Could not save your reaction. Try again.'), true); }
+    finally {
+      savingVotes.delete(key);
+      if (uid() === actor) patchFeed(kind, id, saved || previous, false);
     }
   };
-  IS.ACT['feed-vote'] = async function (button) {
+
+  function commentMarkup(row, kind) {
+    var report = kind === 'request' ? 'request_comment' : kind === 'file' ? '' : 'reply';
+    return '<article class="feed-reply"><div class="row sp"><b dir="auto">' + esc(row.author_name || row.name) + '</b>' +
+      '<small class="mut">' + (row.created_at ? esc(IS.ago(row.created_at)) : text('الآن', 'Now')) + '</small></div><p dir="auto" class="pre">' +
+      esc(row.body) + '</p>' + (report && row.id ? IS.reportButton(report, row.id) : '') + '</article>';
+  }
+
+  async function loadComments(panel, kind, id) {
+    var entries = panel.querySelector('[data-feed-entries]');
+    var table = kind === 'request' ? COMMENTS : kind === 'file' ? 'library_comments' : 'replies';
+    var revision = panel.commentRevision = (panel.commentRevision || 0) + 1;
+    var limit = Number(panel.dataset.commentLimit) || 30;
+    try {
+      var rows = await DB.q(table, { eq: { [kind + '_id']: id }, neq: table === 'replies' ? { status: 'removed' } : null,
+        order: ['created_at', false], limit: limit });
+      if (revision !== panel.commentRevision) return true;
+      var earlier = rows.length === limit && limit < 1000 ? '<button type="button" class="link" data-act="earlier-feed-comments">' +
+        text('عرض التعليقات السابقة', 'Show earlier comments') + '</button>' : '';
+      entries.innerHTML = rows.length ? earlier + rows.reverse().map(function (row) { return commentMarkup(row, kind); }).join('') :
+        '<p class="mut">' + text('لا توجد تعليقات بعد.', 'No comments yet.') + '</p>';
+      panel.dataset.loaded = 'true';
+      return true;
+    } catch (error) {
+      if (revision === panel.commentRevision && !entries.querySelector('.feed-reply')) entries.innerHTML = '<p class="mut">' +
+        text('تعذّر تحميل التعليقات. أغلقها وافتحها للمحاولة مجددًا.', 'Could not load comments. Close and reopen them to retry.') + '</p>';
+      return false;
+    }
+  }
+
+  IS.ACT['feed-comments'] = function (button) {
+    var bar = button.closest('[data-feedback]'), [kind,id] = bar.dataset.feedback.split('/');
+    var panel = bar.querySelector('.feed-comment-panel');
+    panel.hidden = !panel.hidden;
+    button.setAttribute('aria-expanded', !panel.hidden);
+    if (panel.hidden) return;
+    if (!panel.firstChild) {
+      var form = uid() && !bar.hasAttribute('data-comments-closed') ?
+        '<form class="form feed-comment-form" data-form="feed-comment"><label class="fl"><textarea name="body" rows="2" maxlength="2000" required aria-label="' +
+        text('اكتب تعليقًا', 'Write a comment') + '" placeholder="' + text('اكتب تعليقًا…', 'Write a comment…') + '"></textarea></label><button class="btn pri sm">' + ic('send') + text('انشر', 'Post') + '</button></form>' :
+        uid() ? '' : '<button type="button" class="btn ghost sm" data-act="login">' + text('سجّل الدخول للتعليق', 'Sign in to comment') + '</button>';
+      panel.innerHTML = '<div data-feed-entries aria-live="polite"><p class="mut">' + text('جارٍ تحميل التعليقات…', 'Loading comments…') + '</p></div>' +
+        '<p class="msg" data-feed-comment-error role="alert" hidden></p>' + form;
+    }
+    if (!panel.dataset.loaded && !panel.dataset.loading) {
+      panel.dataset.loading = 'true';
+      loadComments(panel, kind, id).finally(function () { delete panel.dataset.loading; });
+    }
+  };
+
+  IS.ACT['earlier-feed-comments'] = async function (button) {
+    var panel = button.closest('.feed-comment-panel'), [kind,id] = panel.closest('[data-feedback]').dataset.feedback.split('/');
+    var previous = Number(panel.dataset.commentLimit) || 30;
+    panel.dataset.commentLimit = Math.min(previous + 30, 1000);
     button.disabled = true;
-    try { await IS.feedVote(button.dataset.kind, button.dataset.id, Number(button.dataset.value)); IS.refresh(); }
-    finally { button.disabled = false; }
+    try {
+      if (!await loadComments(panel, kind, id)) {
+        panel.dataset.commentLimit = previous;
+        IS.toast(A('تعذّر تحميل التعليقات السابقة.', 'Could not load earlier comments.'), true);
+      }
+    } finally { button.disabled = false; }
+  };
+
+  IS.SUB['feed-comment'] = async function (data, form) {
+    if (!uid()) return IS.ACT.login();
+    var body = data.body.trim();
+    if (!body) return;
+    var bar = form.closest('[data-feedback]'), [kind,id] = bar.dataset.feedback.split('/');
+    var panel = form.closest('.feed-comment-panel'), area = panel.querySelector('[data-feed-entries]');
+    var error = panel.querySelector('[data-feed-comment-error]'), pending = document.createElement('div');
+    error.hidden = true;
+    pending.className = 'feed-reply-pending';
+    pending.innerHTML = commentMarkup({ name: IS.ME.name, body: body }, kind);
+    area.after(pending);
+    try {
+      if (kind === 'file') await IS.commentOnLibraryFile(id, body);
+      else if (kind === 'post') await IS.savePostReply(id, body);
+      else if (kind === 'request') {
+        if (DB.live) {
+          var result = await DB.sb.rpc('ish_course_request', { action: 'comment', request: id, payload: { body: body } });
+          if (result.error) throw result.error;
+        } else await previewCommand('comment', id, { body: body });
+      } else {
+        await DB.ins('replies', { announcement_id: id, user_id: uid(), status: 'open', name: IS.ME.name, body: body });
+        if (!DB.live) {
+          var rows = await DB.q('replies', { eq: { announcement_id: id, status: 'open' } });
+          await DB.upd('notices', id, { comment_count: rows.length });
+        }
+      }
+      if (form.elements.body.value.trim() === body) form.elements.body.value = '';
+      var count = Number(bar.querySelector('.feed-comment [data-feedback-count]').textContent) + 1;
+      patchFeed(kind, id, { [kind === 'post' ? 'n_replies' : 'comment_count']: count }, false);
+      if (!await loadComments(panel, kind, id)) area.append(pending);
+    } catch (err) {
+      error.textContent = err.message === 'request_closed' ? A('هذا الطلب مغلق للتعليقات.', 'This request is closed to comments.') :
+        A('تعذّر نشر التعليق. يمكنك المحاولة مرة أخرى.', 'Could not post your comment. Try again.');
+      error.hidden = false;
+    } finally {
+      if (pending.parentNode !== area) pending.remove();
+      else pending.classList.remove('feed-reply-pending');
+    }
   };
 })();

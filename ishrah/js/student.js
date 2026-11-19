@@ -152,7 +152,9 @@
     IS.after = fitSectionPicker;
     return '<div class="section-picker"><header class="section-picker-heading">' + ic('layers') + '<h1 tabindex="-1">' +
       IS.T('اختر قسمك', 'Choose your section') + '</h1></header><nav class="section-picker-grid" aria-label="' + esc(A('أقسام التخصص', 'Study sections')) + '">' + IS.CATS.map(function (c) {
-      var img = sectionPicture(spec, c.id), selected = current && current.id === c.id;
+      var img = spec.id === 'medicine' && SECTION_PICTURES.medicine[c.id] ?
+        'img/choice_' + c.id + '.webp' : sectionPicture(spec, c.id);
+      var selected = current && current.id === c.id;
       return '<a class="section-choice" href="#home" data-act="setsection" data-v="' + esc(c.id) + '"' + (selected ? ' aria-current="true"' : '') + '>' +
         '<span class="section-choice-art">' + (img ? '<img src="' + img + '" alt="">' : ic(c.icon)) + '</span>' +
         '<span class="section-choice-label">' + IS.navLbl(c.ar, c.en) + '</span>' +
@@ -224,12 +226,21 @@
       var stream = main.querySelector('.section-feed'); if (!stream) return;
       var content = stream.querySelector('.feed-items');
       function covers() { IS.hydrateLibraryCovers(content).catch(function () {}); }
+      function redraw() {
+        content.innerHTML = list();
+        covers();
+        IS.hydrateFeedReactions(content);
+      }
       covers();
+      stream.addEventListener('feed-feedback', function (event) {
+        var detail = event.detail, item = items.find(function (entry) { return feedTarget(entry) + '/' + entry.row.id === detail.key; });
+        if (item) Object.assign(item.row, detail.values);
+      });
       stream.querySelectorAll('select[data-feed]').forEach(function (field) {
-        field.onchange = function () { preferences[field.dataset.feed] = field.value; limit = 12; content.innerHTML = list(); covers(); };
+        field.onchange = function () { preferences[field.dataset.feed] = field.value; limit = 12; redraw(); };
       });
       content.onclick = function (event) {
-        if (event.target.closest('.feed-more')) { limit += 12; content.innerHTML = list(); covers(); }
+        if (event.target.closest('.feed-more')) { limit += 12; redraw(); }
       };
     };
     return '<section class="section-feed"><header class="feed-toolbar"><h2>' + IS.T('آخر المستجدات', 'Section feed') + '</h2><div class="row">' +
@@ -246,11 +257,16 @@
     var r = item.row;
     return (Number(r.n_students) || 0) + (Number(r.joined_count) || 0) +
       (Number(r.registered_count) || 0) + (Number(r.n_replies) || 0) + (Number(r.like_count) || 0) +
-      (item.type === 'library' ? (Number(r.comment_count) || 0) + (Number(r.rating_count) || 0) : 0);
+      (Number(r.comment_count) || 0) + (item.type === 'library' ? (Number(r.rating_count) || 0) : 0);
+  }
+  function feedTarget(item) {
+    if (item.row.room && Object.prototype.hasOwnProperty.call(POST_KINDS, item.type)) return 'post';
+    return { library: 'file', request: 'request', announcement: 'announcement' }[item.type];
   }
   function feedCard(item) {
     var row = item.row, type = item.type, label = FEED_TYPES[type], when = row.published_at || row.created_at;
     var isPost = !!row.room && Object.prototype.hasOwnProperty.call(POST_KINDS, type), library = type === 'library';
+    var feedback = feedTarget(item);
     var target = isPost ? 'post/' : { course: 'course/', announcement: 'news/ann/', request: 'course-request/', event: 'event/', news: 'news/', library: 'file/' }[type];
     var summary = row.subtitle || row.details || row.body || (row.about || '').replace(/<br\s*\/?\s*>/g, '\n');
     var title = type === 'announcement' && !isPost ? IS.noticeTitle(row) : row.title || A('نقاش', 'Discussion');
@@ -268,11 +284,11 @@
         (library ? IS.libraryCover(row) : '<img loading="lazy" src="' + IS.U(media) + '" alt="">') + '</a>' : '') +
       '<div><h3 dir="auto"><a href="#' + target + esc(row.id) + '">' + esc(title) + '</a></h3>' +
       (summary ? '<p class="feed-summary" dir="auto">' + esc(summary.slice(0, 280)) + '</p>' : '') +
-      (details ? '<p class="feed-detail">' + details + '</p>' : '') + '</div></div>' +
-      (isPost ? postPreview(row, true) + IS.feedVoteBar('post', row) : type === 'request' ? IS.feedVoteBar('request', row) : library ?
-        '<div class="row library-feed-actions"><a class="btn ghost sm" href="#file/' + esc(row.id) + '/read">' + ic('open') +
-        esc(A('اقرأ داخل التطبيق', 'Read in the app')) + '</a>' + IS.dlBtn('file', row.id) + '</div>' + IS.feedVoteBar('file', row) : '') +
-      (isPost || ['request', 'news', 'announcement'].includes(type) ? IS.postActions(isPost ? 'post' : type, row.id, target + row.id) : '') + '</article>';
+      (details ? '<p class="feed-detail">' + details + '</p>' : '') +
+      (library ? '<div class="row library-feed-actions"><a class="btn ghost sm" href="#file/' + esc(row.id) + '/read">' + ic('open') +
+        esc(A('اقرأ داخل التطبيق', 'Read in the app')) + '</a>' + IS.dlBtn('file', row.id, '', true) + '</div>' : '') + '</div></div>' +
+      (isPost ? postPreview(row, true) : '') + (feedback ? IS.feedVoteBar(feedback, row, true) : '') +
+      (isPost || ['request', 'news', 'announcement'].includes(type) ? IS.postActions(isPost ? 'post' : type, row.id, target + row.id, type !== 'announcement') : '') + '</article>';
   }
 
   /* ========== START PAGE: sign in and choose a speciality (owner, 18 Nov 2026) ========== */
@@ -662,8 +678,7 @@
     var metadata = [position, section && secs.length > 1 ? '<bdi>' + esc(section.title) + '</bdi>' : '', esc(lessonKind(x.kind)),
       x.minutes ? N(x.minutes) + ' ' + A('د', 'min') : ''].filter(Boolean);
     var courseUrl = '#course/' + esc(cid), heading = A('محتوى الكورس', 'Course content');
-    var sideOutline = allowed && x.kind === 'video';
-    var h = '<div class="lesson-layout' + (sideOutline ? ' lesson-layout-video' : '') + '"><header class="lesson-heading"><a class="lesson-course-link" href="' + courseUrl +
+    var h = '<div class="lesson-layout"><header class="lesson-heading"><a class="lesson-course-link" href="' + courseUrl +
       '">' + ic('chev', 'fr') + '<bdi>' + esc(c.title) + '</bdi></a><h1 tabindex="-1"><bdi>' + esc(x.title) +
       '</bdi></h1><p class="lesson-meta">' + metadata.map(function (item) { return '<span>' + item + '</span>'; }).join('') + '</p></header>';
     h += '<div class="lesson-media">';
@@ -697,8 +712,7 @@
     h += '</div>';
 
     var progressLabel = A(N(completed) + ' من ' + N(all.length) + ' مكتمل', N(completed) + ' of ' + N(all.length) + ' complete');
-    h += '<aside class="lesson-outline" aria-label="' + esc(heading) + '"><details class="lesson-outline-toggle"' +
-      (sideOutline && window.matchMedia('(min-width: 960px)').matches ? ' open' : '') + '><summary><span class="lesson-outline-icon">' + ic('layers') +
+    h += '<aside class="lesson-outline" aria-label="' + esc(heading) + '"><details class="lesson-outline-toggle"><summary><span class="lesson-outline-icon">' + ic('layers') +
       '</span><span><b>' + esc(heading) + '</b><small>' + (active ? progressLabel : N(all.length) + ' ' + A('دروس', all.length === 1 ? 'lesson' : 'lessons')) +
       '</small></span>' + ic('down') + '</summary><div class="lesson-outline-body">' +
       (active ? '<div class="prog lesson-progress" role="progressbar" aria-label="' + esc(A('التقدّم في الكورس', 'Course progress')) +
@@ -811,7 +825,7 @@
     IS.go('post/' + post.id);
   };
   function postRow(p) {
-    return '<div><a class="post" href="#post/' + p.id + '">' + IS.av({ name: p.name, photo: p.photo }, 'sm', p.user_id) + '<span class="pb"><b>' + esc(p.title || p.body.slice(0, 90)) + '</b><small>' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + (p.pinned ? ' · ' + esc(A('مثبّت', 'Pinned')) : '') + '</small></span>' + (privateQuestion(p) ? IS.status(p.status) : '<span class="pc">' + ic('chat') + N(p.n_replies || 0) + '</span>') + '</a>' + (privateQuestion(p) ? '' : IS.postActions('post', p.id, 'post/' + p.id)) + '</div>';
+    return '<div><a class="post" href="#post/' + p.id + '">' + IS.av({ name: p.name, photo: p.photo }, 'sm', p.user_id) + '<span class="pb"><b>' + esc(p.title || p.body.slice(0, 90)) + '</b><small>' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + (p.pinned ? ' · ' + esc(A('مثبّت', 'Pinned')) : '') + '</small></span>' + (privateQuestion(p) ? IS.status(p.status) : '<span class="pc">' + ic('chat') + N(p.n_replies || 0) + '</span>') + '</a>' + (privateQuestion(p) ? '' : IS.postActions('post', p.id, 'post/' + p.id, postKind(p) !== 'announcement')) + '</div>';
   }
   IS.postRow = postRow;
 
@@ -1104,20 +1118,23 @@
           (mod && IS.can('community', 'edit') ? '<button class="link bad" data-act="rmreply" data-id="' + r.id + '">' + esc(A('حذف', 'Remove')) + '</button>' : '') + (me() ? '<button class="link" data-act="report" data-kind="reply" data-id="' + r.id + '">' + esc(A('إبلاغ', 'Report')) + '</button>' : '') + '</div></div>'; }).join('') +
       '</section>';
   });
-  IS.SUB.reply = async function (d) {
-    var p = await DB.one('posts', d.post);
-    if (!p || !IS.publicPost(p)) return;
-    await DB.ins('replies', { post_id: d.post, user_id: uid(), name: me().name, photo: me().photo || '', body: d.body, status: 'open' });
-    if (!DB.live) await DB.upd('posts', d.post, { n_replies: (p.n_replies || 0) + 1 });
-    if (p.user_id !== uid()) IS.notify(p.user_id, A('رد جديد على مشاركتك', 'New reply to your post'), d.body.slice(0, 120), '#post/' + p.id); IS.refresh();
+  IS.savePostReply = async function (id, body) {
+    var p = await DB.one('posts', id);
+    if (!p || !IS.publicPost(p)) throw new Error('post_unavailable');
+    await DB.ins('replies', { post_id: id, user_id: uid(), name: me().name, photo: me().photo || '', body: body, status: 'open' });
+    if (!DB.live) await DB.upd('posts', id, { n_replies: (p.n_replies || 0) + 1 });
+    if (p.user_id !== uid()) IS.notify(p.user_id, A('رد جديد على مشاركتك', 'New reply to your post'), body.slice(0, 120), '#post/' + id);
   };
+  IS.SUB.reply = async function (d) { await IS.savePostReply(d.post, d.body); IS.refresh(); };
   IS.reportButton = function (kind, id) {
     return me() ? '<button type="button" class="btn ghost sm" data-act="report" data-kind="' + esc(kind) + '" data-id="' + esc(id) + '">' +
       ic('flag') + esc(A('إبلاغ', 'Report')) + '</button>' : '';
   };
-  IS.postActions = function (kind, id, route) {
-    return '<div class="row post-actions"><button type="button" class="btn ghost sm" data-act="share-link" data-h="' + esc(route) + '">' +
-      ic('share') + esc(A('مشاركة', 'Share')) + '</button>' + IS.reportButton(kind, id) + '</div>';
+  IS.postActions = function (kind, id, route, shareable) {
+    var share = shareable === false ? '' : '<button type="button" class="btn ghost sm" data-act="share-link" data-h="' +
+      esc(route) + '">' + ic('share') + esc(A('مشاركة', 'Share')) + '</button>';
+    var report = IS.reportButton(kind, id);
+    return share || report ? '<div class="row post-actions">' + share + report + '</div>' : '';
   };
   IS.ACT.report = async function (b) {
     if (!me()) return IS.ACT.login();
@@ -1174,7 +1191,7 @@
       return '<article class="box narticle"><h1 tabindex="-1" dir="auto">' + esc(IS.noticeTitle(announcement)) + '</h1><p class="mut">' +
         esc(IS.date(announcement.created_at)) + '</p><p class="pre" dir="auto">' + esc(announcement.body || '') + '</p>' +
         (announcement.link && announcement.link[0] === '#' && announcement.link !== '#news/ann' ?
-          '<a class="btn pri" href="' + esc(announcement.link) + '">' + esc(A('افتح الرابط', 'Open link')) + '</a>' : '') + IS.postActions('announcement', announcement.id, 'news/ann/' + announcement.id) + '</article>';
+          '<a class="btn pri" href="' + esc(announcement.link) + '">' + esc(A('افتح الرابط', 'Open link')) + '</a>' : '') + IS.feedVoteBar('announcement', announcement, true) + IS.postActions('announcement', announcement.id, '', false) + '</article>';
     }
     if (arg && arg !== 'ann' && arg !== 'all') {
       var x = await DB.one('news', arg); if (!x || x.status !== 'published' || !IS.announcementInSection(x)) return null;
