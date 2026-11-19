@@ -3107,3 +3107,15 @@ button.feed-grade:hover{border-color:#e0a800;background:#fff8e1}
 .spacebox .bnums.sp4>.spt.on .spsee{background:#17663a}
 @media (hover:none){.spacebox .bnums.sp4>button.spt{transition:none}}
 .spacebox .bnums.sp4>.spt .spl2{background:none!important;padding:0!important;border:0!important;border-radius:0!important;display:block}
+/* compact space tiles (owner, 19 Nov 2026: "why are they big and ugly"): one short row each, icon at the side, number over label, a small
+   «عرض» tag at the end for the team */
+.spacebox{padding:10px!important;gap:8px!important}
+.spacebox .bnums.sp4{gap:8px!important}
+.spacebox .bnums.sp4>.spt{display:grid!important;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"icon num see" "icon lab see";
+  align-items:center;justify-items:start;column-gap:10px;row-gap:0;min-height:0!important;padding:9px 10px!important;text-align:start;border-radius:14px!important;background:var(--tint)!important}
+.spacebox .bnums.sp4>.spt .spi{grid-area:icon;width:34px;height:34px;box-shadow:none}
+.spacebox .bnums.sp4>.spt b{grid-area:num;font-size:20px!important;line-height:1.1}
+.spacebox .bnums.sp4>.spt .spl2{grid-area:lab;font-size:12px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.spacebox .bnums.sp4>.spt .spsee{grid-area:see;margin:0!important;padding:3px 8px!important;font-size:11px!important}
+.spacebox .spjoin{font-size:12px!important;padding:3px 10px!important}
+.spacebox .bnums.sp4>.spt .spl2{white-space:normal!important;overflow:visible!important;line-height:1.25}
