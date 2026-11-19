@@ -2960,3 +2960,43 @@ button.feed-grade:hover{border-color:#e0a800;background:#fff8e1}
 .ban.bpic>.spacebox{position:relative;z-index:2}
 @media (min-width:701px){.ban.bpic>.spacebox{max-width:440px}}
 .spacebox .spjoin{background:rgba(31,11,62,.78);border:1px solid rgba(182,167,248,.3);border-radius:999px;padding:4px 12px;color:#fff}
+
+/* Home welcome band, owner's design (19 Nov 2026): gold greeting, big section name, speciality, role chips on one side; the logo in a
+   glowing glass circle on the other; a faint heartbeat line behind; the search across the bottom. The glass-circle logo is the app's logo
+   look (also top bar and start page). */
+.glogo,.lh .lhh .lhl,.lh .lhh .lhl2,.pick .pkl,#top .brand img{border-radius:50%!important;object-fit:contain!important;box-sizing:border-box;
+  background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.28),rgba(159,130,245,.10) 45%,rgba(42,16,86,.55) 100%)!important;
+  border:1.5px solid rgba(207,195,250,.55)!important;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 0 22px rgba(103,77,241,.45),0 0 46px rgba(240,196,90,.18),inset 0 0 18px rgba(255,255,255,.18)!important;filter:none!important}
+#top .brand img{width:42px!important;height:42px!important;padding:5px}
+.pick .pkl{padding:12%}
+.lh .lhh{position:relative;overflow:hidden;display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;grid-template-rows:auto auto!important;
+  align-items:center!important;column-gap:20px!important;row-gap:18px!important;text-align:left!important;
+  background:radial-gradient(circle at 18% 40%,rgba(103,77,241,.22),transparent 38%),linear-gradient(135deg,#2a1056,#29104b 55%,#1e0b39)!important}
+[dir="rtl"] .lh .lhh{background:radial-gradient(circle at 82% 40%,rgba(103,77,241,.22),transparent 38%),linear-gradient(225deg,#2a1056,#29104b 55%,#1e0b39)!important}
+.lh .lhh::after{content:""!important;display:block!important;position:absolute;inset:0;width:auto!important;opacity:.35!important;pointer-events:none;z-index:0;-webkit-mask-image:none!important;mask-image:none!important;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 120' preserveAspectRatio='none'%3E%3Cpath d='M0 70 H170 l12 -10 l10 10 H250 l10 -48 l14 86 l12 -54 l8 16 H380 l10 -8 l10 8 H600' fill='none' stroke='%237cc4ff' stroke-width='2'/%3E%3C/svg%3E") center 42%/100% 46% no-repeat!important}
+.lh .lhh>*{position:relative;z-index:1}
+.lh .lhh .lhl{display:none!important}
+.lh .lhh .lhl2{display:block!important;grid-row:1;grid-column:1;width:118px!important;height:118px!important;padding:20px;margin:0;justify-self:center}
+.lh .lhh .lht{grid-row:1;grid-column:2;display:grid!important;gap:4px!important;justify-items:left!important;text-align:left!important;min-width:0}
+[dir="ltr"] .lh .lhh .lhl2{grid-column:2}[dir="ltr"] .lh .lhh .lht{grid-column:1}
+[dir="ltr"] .lh .lhh{grid-template-columns:minmax(0,1fr) auto!important}
+.lh .lhh .lht p{color:#f0c45a!important;font-weight:800!important;font-size:16px!important;margin:0!important}
+.lh .lhh .lht h1{color:#fff!important;font-size:40px!important;font-weight:900!important;line-height:1.05!important;margin:0!important}
+.lh .lhh .lht small{display:block!important;color:#cbbdee!important;font-size:18px!important;font-weight:500!important}
+.lh .lhh .roles{display:flex!important;flex-wrap:wrap!important;justify-content:flex-start!important;gap:8px!important;margin:8px 0 0!important}
+.lh .lhh .lhx{grid-row:2;grid-column:1/-1!important;width:100%;min-width:0}
+.lh .lhh .hsearch{width:100%!important;max-width:none!important;margin:0!important;border-radius:999px}
+@media (min-width:1024px){
+  .lh .lhh{padding:26px 34px!important;column-gap:40px!important}
+  .lh .lhh .lhl2{width:150px!important;height:150px!important;padding:26px}
+  .lh .lhh .lht h1{font-size:52px!important}
+  .lh .lhh .lhx{max-width:760px;justify-self:center}
+}
+@media (max-width:640px){
+  .lh .lhh{padding:18px 16px!important;column-gap:12px!important;row-gap:14px!important}
+  .lh .lhh .lhl2{width:96px!important;height:96px!important;padding:16px}
+  .lh .lhh .lht p{font-size:14px!important}.lh .lhh .lht h1{font-size:32px!important}.lh .lhh .lht small{font-size:15px!important}
+  .lh .lhh .roles .rl{font-size:11.5px!important;padding:4px 10px!important}
+}
+@media (max-width:640px) and (max-height:700px){.lh .lhh{padding:12px 14px!important;row-gap:10px!important}.lh .lhh .lhl2{width:78px!important;height:78px!important;padding:13px}.lh .lhh .lht h1{font-size:27px!important}}

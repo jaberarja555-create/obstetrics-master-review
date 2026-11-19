@@ -559,3 +559,8 @@ Browser journeys (preview mode): serve `ishrah/` on port 8820 (`python3 -m http.
   لتنضم…»; the subtitle names the speciality. manage.js `IS.onRoute` now chains the previous hook.
 - **Home welcome band on phones/tablets** ("organise that blue bar"): logo at the start, greeting / section / speciality beside it, role
   chips under the text, search across the full width (CSS block at the end of app.css). Asset version 155, shell cache ish-v55.
+- **Welcome band, owner's own design** (19 Nov 2026, from his picture): gold greeting, big white section name, speciality in light blue, role
+  chips; the logo in a glowing glass circle on the other side; a faint heartbeat line across the band (inline SVG, no photo); search across
+  the bottom (laptops keep the top-bar search). **The glass-circle logo is the app's logo look** (owner: "depend the logo like this in the
+  app"): `.glogo` style also on the top bar logo and the start page. CSS block at the end of app.css (overrides the earlier band rules).
+  Asset version 156, shell cache ish-v56.
