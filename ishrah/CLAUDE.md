@@ -698,3 +698,9 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - Refreshed the five speciality images and the Clinical Home, Courses and My Library artwork. Uploaded and custom artwork still takes precedence. Light, dark and eye-comfort settings remain available.
 - The Home header, navigation and search render before the section feed. A feed error or timeout offers retry in the feed area. The offline copy is refreshed after the feed loads successfully.
 - Asset version 179 and shell cache `ish-v79`. No database migration is required.
+
+## Fit the opening picker to the reference · 20 Nov 2026
+
+- The five-card specialty picker keeps Medicine full-width and places each clinical photo on the right. The teal hero, diagonal cards, outlined footer buttons and illustrated campus follow the provided reference. Short landscape screens use a compact three-column grid.
+- The standard picker fits the dynamic viewport, including the signed-in Studio and Control buttons. Larger in-app text, custom specialty counts and extra-short viewports can use normal page scrolling so their content remains reachable.
+- Asset version 180 and shell cache `ish-v80`. No database migration is required.

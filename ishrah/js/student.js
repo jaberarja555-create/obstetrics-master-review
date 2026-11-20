@@ -336,7 +336,8 @@
   IS.page('pick', async function () {
     var m = me(), cur = IS.SPEC;
     var language = IS.lang === 'ar' ? '<span lang="en">English</span>' : '<span lang="ar">العربية</span>';
-    var h = '<div class="entry"><header class="entry-hero"><div class="entry-intro"><img src="' + IS.logo() + '" alt="" class="entry-mark" width="52" height="52">' +
+    var fits = IS.SPECS.length === 5 && IS.SPECS.some(function (spec) { return spec.id === 'medicine'; });
+    var h = '<div class="entry' + (fits ? ' entry-fits' : '') + '"><header class="entry-hero"><div class="entry-intro"><img src="' + IS.logo() + '" alt="" class="entry-mark" width="52" height="52">' +
       '<div><h1 tabindex="-1">' + esc(IS.brandName()) + '</h1><p>' +
       esc(A('منصة لطلاب الكليات الصحية في السودان', 'A platform for health sciences students in Sudan')) + '</p></div></div>' +
       '<div class="entry-photo"><img src="img/collection/platform.webp" alt="" fetchpriority="high" width="1120" height="747"></div></header>' +
