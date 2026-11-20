@@ -1,0 +1,114 @@
+/* Master Review: the speciality screen (#pick) and the section screen (#pick-section) in the owner's green and gold design
+   (20 Nov 2026, his pictures). They replace the older versions of these two pages in student.js (registered again here, so this file
+   loads after student.js). Styles: css/mr.css. No app top bar, side menu or bottom tabs here: the «Features» button opens every place. */
+(function () {
+  var A = IS.A, esc = IS.esc, ic = IS.ic;
+  var G = 'url(#mrg)', CR = 'url(#mrcr)';
+  function svg(vb, body, extra) { return '<svg class="ic" viewBox="' + vb + '" aria-hidden="true"' + (extra || '') + '>' + body + '</svg>'; }
+  var DEFS = '<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>' +
+    '<linearGradient id="mrg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff4c8"/><stop offset=".5" stop-color="#ecc56b"/><stop offset="1" stop-color="#b8862b"/></linearGradient>' +
+    '<linearGradient id="mrcr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff8e6"/><stop offset="1" stop-color="#ecd9a6"/></linearGradient>' +
+    '<linearGradient id="mrbl" x1="0" x2="1"><stop offset="0" stop-color="#3dff8a" stop-opacity="0"/><stop offset=".5" stop-color="#4dff96"/><stop offset="1" stop-color="#3dff8a" stop-opacity="0"/></linearGradient></defs></svg>';
+  var I = {
+    home: svg('0 0 24 24', '<path d="M12 3 2 11.5h3V21h5.2v-6h3.6v6H19v-9.5h3z"/>', ' fill="' + G + '"'),
+    person: svg('0 0 24 24', '<circle cx="12" cy="7.5" r="4"/><path d="M4 22c0-5 3.6-8 8-8s8 3 8 8z"/><path d="M9.2 14.6 12 18l2.8-3.4" fill="#f6ecd0"/>', ' fill="#0d5a3c"'),
+    bell: svg('0 0 24 24', '<path d="M6 16V11a6 6 0 1 1 12 0v5l1.6 2H4.4z"/><path d="M10 20.5a2.2 2.2 0 0 0 4 0"/>', ' fill="none" stroke="' + G + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'),
+    sun: '<svg class="ic sun" viewBox="0 0 24 24" fill="' + G + '"><circle cx="12" cy="12" r="4.6"/><g stroke="' + G + '" stroke-width="2" stroke-linecap="round"><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/></g></svg>',
+    moon: '<svg class="ic moon" viewBox="0 0 24 24" fill="' + G + '"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>',
+    gear: svg('0 0 24 24', '<path d="M10.3 2h3.4l.5 2.7a7.6 7.6 0 0 1 1.9 1.1l2.6-.9 1.7 2.9-2.1 1.8a7.4 7.4 0 0 1 0 2.2l2.1 1.8-1.7 2.9-2.6-.9a7.6 7.6 0 0 1-1.9 1.1l-.5 2.7h-3.4l-.5-2.7a7.6 7.6 0 0 1-1.9-1.1l-2.6.9-1.7-2.9 2.1-1.8a7.4 7.4 0 0 1 0-2.2L3.6 7.8l1.7-2.9 2.6.9a7.6 7.6 0 0 1 1.9-1.1zM12 8.6a3.4 3.4 0 1 0 0 6.8 3.4 3.4 0 0 0 0-6.8z" fill-rule="evenodd"/>', ' fill="' + G + '"'),
+    globe: svg('0 0 24 24', '<circle cx="12" cy="12" r="9.4"/><path d="M2.6 12h18.8M12 2.6c3 3 3.8 6 3.8 9.4s-.8 6.4-3.8 9.4M12 2.6c-3 3-3.8 6-3.8 9.4s.8 6.4 3.8 9.4M4.2 7h15.6M4.2 17h15.6"/>', ' fill="none" stroke="' + G + '" stroke-width="1.8"'),
+    studio: svg('0 0 24 24', '<rect x="7" y="3.5" width="15" height="10.5" rx="1.6" fill="none" stroke="' + G + '" stroke-width="1.8"/><path d="M13 6.6v5l4-2.5z" fill="' + G + '"/><circle cx="4.6" cy="9.6" r="2.4" fill="' + G + '"/><path d="M1 20c0-3.6 1.6-6 3.6-6s3.6 2.4 3.6 6z" fill="' + G + '"/><path d="M9 20.5h14" stroke="' + G + '" stroke-width="1.8" stroke-linecap="round"/>'),
+    admin: svg('0 0 24 24', '<circle cx="9" cy="7" r="3.2"/><path d="M2.5 19c0-4 2.9-6.5 6.5-6.5 1.6 0 3 .5 4.1 1.3a6 6 0 0 0-1.1 5.2z"/><circle cx="16.6" cy="6" r="2.4" opacity=".85"/><path d="M19.3 13.4l.4 1.3 1.3.4v1.4l-1.3.4-.4 1.3 1 .9-1 1-1-.6-1.2.6-.4 1.3h-1.4l-.4-1.3-1.2-.6-1 .6-1-1 .6-1.1-.6-1.2-1.3-.4v-1.4l1.3-.4.6-1.2-.6-1 1-1 1 .6 1.2-.6.4-1.3h1.4l.4 1.3 1.2.6 1-.6 1 1zM16.8 15a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6z" fill-rule="evenodd"/>', ' fill="' + G + '"'),
+    terms: svg('0 0 24 24', '<path d="M14.5 2.5H5.6a1.6 1.6 0 0 0-1.6 1.6v15.8a1.6 1.6 0 0 0 1.6 1.6h8.2M14.5 2.5 19 7v5"/><path d="M14.5 2.5V7H19M7.6 10h7.8M7.6 13.4h7.8M7.6 16.8h4"/><path d="m15 19 2.2 2.2 4.4-4.6"/>', ' fill="none" stroke="' + G + '" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"'),
+    star: svg('0 0 24 24', '<path d="M12 2.5l2.9 6.2 6.6.7-5 4.5 1.4 6.6L12 17.2l-5.9 3.3 1.4-6.6-5-4.5 6.6-.7z"/>', ' fill="' + G + '"'),
+    steth: svg('0 0 24 24', '<path d="M6 3v5a5 5 0 0 0 10 0V3"/><path d="M11 13v2a5 5 0 0 0 10 0v-1"/><circle cx="21" cy="12" r="2"/>', ' fill="none" stroke="' + G + '" stroke-width="2" stroke-linecap="round"'),
+    laurel: '<g fill="' + G + '"><path d="M30 78C12 66 6 44 14 18" fill="none" stroke="' + G + '" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="22" cy="18" rx="3.4" ry="8" transform="rotate(30 22 18)"/><ellipse cx="18" cy="30" rx="3.4" ry="8" transform="rotate(45 18 30)"/><ellipse cx="17" cy="43" rx="3.4" ry="8" transform="rotate(58 17 43)"/><ellipse cx="19" cy="56" rx="3.4" ry="8" transform="rotate(70 19 56)"/><ellipse cx="7" cy="25" rx="3" ry="7" transform="rotate(-20 7 25)"/><ellipse cx="5" cy="39" rx="3" ry="7" transform="rotate(-10 5 39)"/><ellipse cx="7" cy="53" rx="3" ry="7" transform="rotate(5 7 53)"/></g>',
+    // section signs (dark green on the cream pill)
+    layers: svg('0 0 24 24', '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/><path d="m3 17.5 9 4.5 9-4.5"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"'),
+    kit: svg('0 0 24 24', '<rect x="2.5" y="7" width="19" height="13.5" rx="2.4"/><path d="M8.5 7V5a1.5 1.5 0 0 1 1.5-1.5h4A1.5 1.5 0 0 1 15.5 5v2M12 10.5v6M9 13.5h6"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"'),
+    world: svg('0 0 24 24', '<circle cx="12" cy="12" r="9.4"/><path d="M2.6 12h18.8M12 2.6c3 3 3.8 6 3.8 9.4s-.8 6.4-3.8 9.4M12 2.6c-3 3-3.8 6-3.8 9.4s.8 6.4 3.8 9.4"/>', ' fill="none" stroke="currentColor" stroke-width="1.9"'),
+    doc: svg('0 0 24 24', '<circle cx="12" cy="7" r="3.8"/><path d="M4.5 21c0-4.4 3.4-7.4 7.5-7.4s7.5 3 7.5 7.4z"/><path d="M10 14l2 3 2-3"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"')
+  };
+  /* speciality signs drawn in gold (64 × 64) */
+  var SPIC = {
+    medicine: svg('0 0 64 64', '<path d="M22 6v14a10 10 0 0 0 20 0V6"/><circle cx="22" cy="6" r="2" fill="' + G + '"/><circle cx="42" cy="6" r="2" fill="' + G + '"/><path d="M32 30v8a8 8 0 0 0 16 0v-4"/><circle cx="48" cy="29" r="5"/><path d="M6 48c9-4 18-4 26 2 8-6 17-6 26-2v10c-9-4-18-4-26 2-8-6-17-6-26-2z" fill="' + G + '" stroke="none"/><path d="M32 50v10" stroke="#0a4630" stroke-width="1.6"/>', ' fill="none" stroke="' + G + '" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"'),
+    lab: svg('0 0 64 64', '<path d="M14 8h14M17 8v16L6 50a4 4 0 0 0 4 6h22"/><path d="M10 46h16l3 6H8z" fill="' + G + '" stroke="none" opacity=".9"/><rect x="34" y="20" width="8" height="34" rx="4"/><rect x="46" y="16" width="8" height="38" rx="4"/><path d="M35 40h6v10a3 3 0 0 1-6 0zM47 34h6v16a3 3 0 0 1-6 0z" fill="' + G + '" stroke="none"/><circle cx="34" cy="9" r="2" fill="' + G + '" stroke="none"/><circle cx="41" cy="5" r="1.6" fill="' + G + '" stroke="none"/><circle cx="46" cy="10" r="1.4" fill="' + G + '" stroke="none"/>', ' fill="none" stroke="' + G + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"'),
+    nursing: svg('0 0 64 64', '<path d="M8 34c2-14 12-22 24-22s22 8 24 22c-8 4-16 6-24 6S16 38 8 34z" fill="' + G + '"/><path d="M10 38c7 3 14 4 22 4s15-1 22-4l-2 10c-6 2-13 3-20 3s-14-1-20-3z" fill="' + G + '" opacity=".85"/><path d="M29 18h6v6h6v6h-6v6h-6v-6h-6v-6h6z" fill="#0a4630"/>'),
+    dentistry: svg('0 0 64 64', '<path d="M20 10c-7 0-11 6-11 13 0 8 3 12 5 20 2 9 4 15 8 15 5 0 4-14 10-14s5 14 10 14c4 0 6-6 8-15 2-8 5-12 5-20 0-7-4-13-11-13-5 0-7 3-12 3s-7-3-12-3z" fill="' + G + '"/><ellipse cx="32" cy="34" rx="28" ry="9" fill="none" stroke="' + G + '" stroke-width="2.6" transform="rotate(-14 32 34)"/><path d="M54 4l1.6 5 5 1.6-5 1.6L54 17l-1.6-4.8-5-1.6 5-1.6z" fill="' + G + '"/>'),
+    pharmacy: svg('0 0 64 64', '<path d="M40 30 56 6a3.5 3.5 0 0 1 5 4L46 32z" fill="' + G + '"/><path d="M14 22c4-6 12-6 16-2-6 1-10 3-16 2z" fill="#3ca35a"/><path d="M4 30h56c0 13-10 22-24 23v4h8v5H20v-5h8v-4C14 52 4 43 4 30z" fill="' + G + '"/><path d="M29 34h6v5h5v6h-5v5h-6v-5h-5v-6h5z" fill="#0a4630"/>')
+  };
+  var SHORT = { lab: 'Laboratory' };
+  var SECIC = { basics: 'layers', clinical: 'kit', special: 'world', house: 'doc' };
+  var SECORDER = ['basics', 'clinical', 'special', 'house'];
+  var WAVE = '<svg class="wave" viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34C40 6 90 6 120 22s60 22 80 0V100H0z" fill="' + CR + '"/></svg>';
+
+  function top(homeHref) {
+    var m = IS.ME;
+    var me = m ? '<a class="mr-me" href="#account"><span class="mr-av">' + (m.photo ? '<img src="' + IS.U(m.photo) + '" alt="">' : I.person) + '</span><b>' + IS.greetingName(m.name, true) + '</b></a>' :
+      '<button type="button" class="mr-me" data-act="login"><span class="mr-av">' + I.person + '</span><b>' + esc(A('تسجيل الدخول', 'Sign in')) + '</b></button>';
+    return '<header class="mr-top"><div class="mr-tl"><a class="mr-rb" href="' + homeHref + '" aria-label="' + esc(A('الرئيسية', 'Home')) + '">' + I.home + '</a><span class="mr-sep"></span>' + me + '</div>' +
+      '<a class="mr-brand" href="#pick"><img src="' + IS.U('img/mr/logo-gold.webp') + '" alt="" width="520" height="507"><b>' + esc(IS.brandName()) + '</b>' +
+      '<svg class="sw" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M4 9C60 1 140 1 196 7" fill="none" stroke="' + G + '" stroke-width="3" stroke-linecap="round"/></svg></a>' +
+      '<div class="mr-tr"><a class="mr-rb" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + I.bell + '<i class="mr-dot" hidden></i></a>' +
+      '<button type="button" class="mr-rb mr-theme" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night')) + '">' + I.sun + I.moon + '</button>' +
+      '<a class="mr-rb" href="#settings" aria-label="' + esc(A('الإعدادات', 'Settings')) + '">' + I.gear + '</a></div></header>';
+  }
+  function hello() {
+    var m = IS.ME, t = m ? esc(A('مرحبًا ', 'Welcome ')) + IS.greetingName(m.name, true) : esc(A('مرحبًا بك يا دكتور', 'Welcome Doctor'));
+    var l = '<svg class="mr-laurel" viewBox="0 0 40 80" aria-hidden="true">' + I.laurel + '</svg>';
+    return '<div class="mr-hello">' + l + '<h1 tabindex="-1">' + t + '</h1>' + l.replace('mr-laurel', 'mr-laurel r') + '</div>' +
+      '<svg class="mr-beat" viewBox="0 0 520 30" preserveAspectRatio="none" aria-hidden="true"><path d="M0 16h228l8-10 10 22 10-26 9 20 6-6h249" fill="none" stroke="url(#mrbl)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #4dff96)"/></svg>';
+  }
+  function choose(ar, en) { return '<div class="mr-choose"><i></i><h2>' + I.steth + '<span>' + esc(A(ar, en)) + '</span></h2><i></i></div>'; }
+  function dock(features) {
+    var b = [['lang', I.globe, A('اللغة', 'Language')],
+      ['#' + (IS.LEC ? 'studio' : 'studio-apply'), I.studio, A('الاستوديو', 'Studio')],
+      ['#terms', I.terms, A('الشروط', 'Terms')],
+      IS.team && IS.team() ? ['#control', I.admin, A('الإدارة', 'Admin')] : null,
+      features ? ['mrfeat', I.star, A('المزايا', 'Features')] : null].filter(Boolean);
+    return '<nav class="mr-dock" aria-label="' + esc(A('أزرار', 'Actions')) + '">' + b.map(function (x) {
+      return x[0].charAt(0) === '#' ? '<a class="mr-act" href="' + x[0] + '">' + x[1] + '<span>' + esc(x[2]) + '</span></a>' :
+        '<button type="button" class="mr-act" data-act="' + x[0] + '">' + x[1] + '<span>' + esc(x[2]) + '</span></button>';
+    }).join('') + '</nav>';
+  }
+  function after() {
+    /* the red dot follows the top bar's notification count (IS.bell fills #bellN) */
+    var tick = function () { var n = document.getElementById('bellN'), d = document.querySelector('.mr-dot'); if (d) d.hidden = !(n && !n.hidden); };
+    tick(); setTimeout(tick, 1500); setTimeout(tick, 4000);
+  }
+
+  /* ---------- the speciality screen ---------- */
+  IS.page('pick', async function () {
+    var cur = IS.SPEC, specs = IS.SPECS;
+    IS.after = after;
+    return '<div class="mrx"><div class="mr-bg" aria-hidden="true"></div>' + DEFS + '<div class="mr-page">' +
+      top(cur && IS.mySection && IS.mySection() ? '#home' : '#pick') + hello() + choose('اختر تخصصك', 'Choose your speciality') +
+      '<nav class="mr-specs n' + specs.length + '" aria-label="' + esc(A('التخصصات', 'Specialities')) + '">' + specs.map(function (s) {
+        return '<button type="button" class="mr-spec" data-act="setspec" data-v="' + esc(s.id) + '" aria-pressed="' + (s.id === cur) + '"><span class="art">' + (SPIC[s.id] || ic(s.icon)) + '</span>' +
+          '<span class="lab">' + WAVE + '<b lang="en" dir="ltr">' + esc(SHORT[s.id] || s.en) + '</b></span></button>';
+      }).join('') + '</nav>' + dock(false) + '</div></div>';
+  });
+
+  /* ---------- the section screen ---------- */
+  IS.page('pick-section', async function () {
+    var spec = IS.mySpec(), current = IS.mySection();
+    if (!spec) { IS.go('pick'); return ''; }
+    var cats = IS.CATS.slice().sort(function (a, b) { var x = SECORDER.indexOf(a.id), y = SECORDER.indexOf(b.id); return (x < 0 ? 99 : x) - (y < 0 ? 99 : y); });
+    IS.after = after;
+    return '<div class="mrx sec"><div class="mr-bg" aria-hidden="true"></div>' + DEFS + '<div class="mr-page">' +
+      top('#pick') + hello() + choose('اختر قسمك', 'Choose your section') +
+      '<nav class="mr-secs" aria-label="' + esc(A('الأقسام', 'Sections')) + '">' + cats.map(function (c) {
+        var img = spec.id === 'medicine' && SECORDER.indexOf(c.id) >= 0 ? 'img/mr/sec-medicine-' + c.id + '.webp' : (IS.studyArtwork(spec.id, c.id) || spec.img || '');
+        return '<a class="mr-sec" href="#home" data-act="setsection" data-v="' + esc(c.id) + '"' + (current && current.id === c.id ? ' aria-current="true"' : '') + '>' +
+          '<span class="pic">' + (img ? '<img src="' + IS.U(img) + '" alt="">' : '') + '</span>' +
+          '<span class="pill">' + (I[SECIC[c.id]] || ic(c.icon)) + '<b lang="en" dir="ltr">' + esc(c.en) + '</b></span></a>';
+      }).join('') + '</nav>' + dock(true) + '</div></div>';
+  });
+
+  /* ---------- Features: every place of the platform (what the side menu held) ---------- */
+  IS.ACT.mrfeat = function () {
+    var links = IS.$$('#side nav a, #side .cnav a').map(function (a) {
+      return '<a href="' + a.getAttribute('href') + '" class="' + (a.classList.contains('on') ? 'on' : '') + '">' + a.innerHTML + '</a>'; });
+    IS.sheet(esc(A('المزايا', 'Features')), '<div class="mr-feat">' + links.join('') + '</div>');
+  };
+})();

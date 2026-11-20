@@ -992,3 +992,15 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   banner count tiles white. Empty states = glass card, big teal sign, teal button. Courses: filters, search, sort and view in one row from
   1280 px; one or two results are wide cards (picture beside the details). Lecturers: the join card is teal with the studio photo and a cream
   button; an approved lecturer sees «استوديو المحاضر · افتح الاستوديو» there. Asset version 210, cache ish-v110.
+
+## Master Review design, page by page (owner, 20 Nov 2026: "we are going to name the platform Master Review"; "start from the main screen")
+- Name: `IS.brandName()` = Master Review / ماستر الطبي. Green and gold look from the owner's pictures; built one page at a time, each shown to
+  him before the next. Preview of the first screen alone: `ishrah/mr/` (ishrahli.org/mr/).
+- **Speciality screen `#pick` and section screen `#pick-section`** are re-registered in `js/mr.js` (loads after student.js) with `css/mr.css`
+  (root class `.mrx`; `.mr` is already an app class). No app top bar, side menu or bottom tabs there. Top: Home, profile chip (or Sign in),
+  logo `img/mr/logo-gold.webp` + name, bell (red dot follows #bellN), ONE day/night button (`data-act=theme`), Settings. Welcome with laurels,
+  «Choose your speciality / section» pill, cards, glass dock: Language · Studio (studio or studio-apply) · Terms · Admin (team only) ·
+  Features (section screen: `IS.ACT.mrfeat` opens every side-menu place as gold tiles; the owner: "we are not going to show the side bar
+  anymore"). Backgrounds `img/mr/bg-wide.webp` (landscape) and `bg-tall.webp` (portrait). Section circles: Medicine uses the owner's pictures
+  `img/mr/sec-medicine-<basics|clinical|special|house>.webp`; other specialities use their existing section artwork until he sends theirs.
+  Fits one screen with no scroll at 1672×941, 1366×660, 820×1180, 390×844, 360×640 (scratchpad app2.js). Fonts: Poppins in `fonts/`.

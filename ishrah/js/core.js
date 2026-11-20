@@ -11,7 +11,7 @@
   var A = IS.A = function (ar, en) { return IS.lang === 'en' ? (en == null ? ar : en) : ar; };
   /* Interface titles use the chosen language. Subject and speciality names use their catalogue names. */
   IS.T = function (ar, en) { return '<span class="tt"><b lang="' + IS.lang + '">' + IS.esc(A(ar, en)) + '</b></span>'; };
-  IS.brandName = function () { return A('اشرح لي', 'Ishrah Li'); };
+  IS.brandName = function () { return A('ماستر الطبي', 'Master Review'); };  /* owner, 20 Nov 2026: the platform is Master Review */
   IS.noticeTitle = function (notice) { return A(notice.title, notice.title_en || notice.title); };
   var esc = IS.esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   IS.N = function (x) { return '<bdi>' + (typeof x === 'number' ? x.toLocaleString('en-US') : esc(x)) + '</bdi>'; };
