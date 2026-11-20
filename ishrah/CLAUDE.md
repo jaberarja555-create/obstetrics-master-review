@@ -1016,3 +1016,10 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - **Bottom bar on the new pages** (owner, 20 Nov 2026): Library · Courses · Community · Lecturers · My learning (`bnav` in mr.js, `.mh-nav`,
   fixed at the bottom, the current page in teal). **Roles (Platform owner, Lecturer …) are shown only inside the profile** (`#account` wrapper
   in mr.js puts `IS.roleChips` under the name; removed from the More sheet).
+- **Profiles in the owner's design** (20 Nov 2026, his two pictures): `#account` (mine) and `#person/<id>` (anyone; names in feed posts and
+  comments link there). Cover, picture in a gold ring (camera on mine), name + verified sign (team or active lecturer), title/year, roles (mine
+  only), bio, chips (speciality, university, city), Posts · Followers · Following, Follow / Following button (others) or Edit + ⋮ menu (mine:
+  courses, certificates, favourites, notifications, account settings, settings, support, security, studio or apply, team card, sign out),
+  tabs Posts · Files · Saved (mine). `#account/settings` keeps the older page. Migration `049_follows.sql`: table `follows` (own rows
+  only), `ish_profile_card(uid)` (public card, never phone or email; counts and `me_follow`), a notice to the person followed. Tested on the
+  local Postgres. The bottom bar is full width and attached to the page edge (owner: "not separated").

@@ -48,7 +48,7 @@
       (o.del ? '<span class="cmt-del">' + String(o.del) + '</span>' : '');
     var to = row.reply_to_name && !o.hideTo ? '<b class="cmt-to" dir="auto">' + esc(row.reply_to_name) + '</b> ' : '';
     return '<article class="cmt' + (row.parent_id ? ' kid' : '') + '"' + (id ? ' data-cid="' + esc(id) + '"' : '') + (lk ? ' data-lk="' + lk + '"' : '') + '>' + IS.av({ name: o.name, photo: o.photo }, row.parent_id ? 'xs' : 'sm', row.user_id) +
-      '<div class="cmt-b"><div class="cmt-row"><div class="cmt-bub"><div class="cmt-h"><b dir="auto">' + esc(o.name || '') + '</b>' + (o.badge || '') + '</div>' +
+      '<div class="cmt-b"><div class="cmt-row"><div class="cmt-bub"><div class="cmt-h">' + (row.user_id ? '<a class="cmt-n" href="#person/' + esc(row.user_id) + '"><b dir="auto">' + esc(o.name || '') + '</b></a>' : '<b dir="auto">' + esc(o.name || '') + '</b>') + (o.badge || '') + '</div>' +
       '<p class="pre" dir="auto">' + to + esc(o.body || '') + '</p></div></div>' +
       '<div class="cmt-a">' + acts.join('') + badge(counts(row)) +
       (menu ? '<span class="cmt-tools">' + menu + '</span>' : '') +

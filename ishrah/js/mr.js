@@ -2,7 +2,7 @@
    (20 Nov 2026, his pictures). They replace the older versions of these two pages in student.js (registered again here, so this file
    loads after student.js). Styles: css/mr.css. No app top bar, side menu or bottom tabs here: the «Features» button opens every place. */
 (function () {
-  var A = IS.A, esc = IS.esc, ic = IS.ic;
+  var A = IS.A, esc = IS.esc, ic = IS.ic, N = IS.N;
   var G = 'url(#mrg)', CR = 'url(#mrcr)';
   function svg(vb, body, extra) { return '<svg class="ic" viewBox="' + vb + '" aria-hidden="true"' + (extra || '') + '>' + body + '</svg>'; }
   var DEFS = '<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>' +
@@ -232,19 +232,136 @@
       ptitle(A('محتوى المكتبة', 'Library content')) + tool + '<div class="mh-feed mh-lib">' + inner + '</div></div>' + bnav('library') + '</div>';
   }, lib0.o);
 
-  /* ---------- the roles (Platform owner, Lecturer …) are shown inside the profile (owner, 20 Nov 2026) ---------- */
+  /* ---------- profiles in the owner's design (20 Nov 2026, his two pictures): my profile (#account) and another person's (#person/<id>):
+     cover, picture, name with the verified sign, year · speciality, bio, chips, posts · followers · following, Follow (others) or
+     Edit + ⋮ (mine), tabs Posts · Files · Saved, the latest posts as picture cards and the latest files as tiles. Roles only here. ---------- */
+  var PI = {
+    check: '<svg class="ic pf-ok" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#0d6b5c"/><path d="m7.5 12.3 3 3 6-6.3" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    cam: svg('0 0 24 24', '<path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2.2l1.5-2h5.6l1.5 2h2.2A1.5 1.5 0 0 1 20 8.5v9A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="12.8" r="3.4"/>', ' fill="none" stroke="currentColor" stroke-width="2"'),
+    pen: svg('0 0 24 24', '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"'),
+    dots: svg('0 0 24 24', '<circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/>', ' fill="currentColor"'),
+    users: svg('0 0 24 24', '<circle cx="9" cy="8" r="3.4"/><path d="M2.5 20c0-3.8 2.9-6.2 6.5-6.2s6.5 2.4 6.5 6.2"/><circle cx="17" cy="9" r="2.6"/><path d="M16 14c3.4-.4 5.5 1.8 5.5 5"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"'),
+    group: svg('0 0 24 24', '<circle cx="12" cy="7.5" r="3"/><circle cx="5.5" cy="9.5" r="2.3"/><circle cx="18.5" cy="9.5" r="2.3"/><path d="M6.5 20c0-3.4 2.4-5.6 5.5-5.6s5.5 2.2 5.5 5.6M1.5 18.5c0-2.5 1.6-4 4-4M22.5 18.5c0-2.5-1.6-4-4-4"/>', ' fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"'),
+    posts: svg('0 0 24 24', '<rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8 8h8M8 12h8M8 16h5"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"'),
+    bm: svg('0 0 24 24', '<path d="M6 3.5h12v17l-6-4.2-6 4.2z"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"'),
+    pin: svg('0 0 24 24', '<path d="M12 21s-6.5-6.4-6.5-11.2a6.5 6.5 0 0 1 13 0C18.5 14.6 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.4"/>', ' fill="none" stroke="currentColor" stroke-width="1.9"'),
+    cap: svg('0 0 24 24', '<path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11v5c3 2.6 9 2.6 12 0v-5M22 9v6"/>', ' fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"'),
+    kit: svg('0 0 24 24', '<rect x="3" y="7" width="18" height="13" rx="2.4"/><path d="M9 7V5.2A1.2 1.2 0 0 1 10.2 4h3.6A1.2 1.2 0 0 1 15 5.2V7M12 10.5v6M9 13.5h6"/>', ' fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"'),
+    tick: svg('0 0 24 24', '<path d="m5 12.5 4.5 4.5L19 7.5"/>', ' fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"'),
+    plus: svg('0 0 24 24', '<path d="M12 5v14M5 12h14"/>', ' fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"'),
+    heart: '<svg class="ic" viewBox="0 0 24 24"><path d="M12 20.5S3 14.8 3 8.8A4.6 4.6 0 0 1 12 7a4.6 4.6 0 0 1 9 1.8c0 6-9 11.7-9 11.7z" fill="#e5383b"/></svg>',
+    chat: svg('0 0 24 24', '<path d="M4 5.5h16v10H9.5L5 19.5v-4H4z"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"'),
+    caduceus: '<svg class="pf-cad" viewBox="0 0 120 120" aria-hidden="true"><g fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2.4" stroke-linecap="round"><path d="M60 14v96"/><path d="M60 28c-30-10-42 2-50-6 10 14 26 10 50 14M60 28c30-10 42 2 50-6-10 14-26 10-50 14"/><path d="M48 46c0 10 24 10 24 20s-24 10-24 20 24 10 24 18M72 46c0 10-24 10-24 20s24 10 24 20-24 10-24 18"/></g><circle cx="60" cy="12" r="5" fill="rgba(255,255,255,.55)"/></svg>'
+  };
+  async function pcard(id) {
+    if (DB.live) { var r = await DB.sb.rpc('ish_profile_card', { p_user: id }); if (r.error) throw r.error; return r.data; }
+    var p = await DB.one('profiles', id).catch(function () { return null; }); if (!p) return null;
+    var fl = await DB.q('follows').catch(function () { return []; }), lec = await DB.one('lecturers', id).catch(function () { return null; });
+    var po = (await DB.q('posts', { eq: { user_id: id } })).filter(function (x) { return x.status === 'open'; }).length;
+    var fi = (await DB.q('files', { eq: { owner_id: id, status: 'published' } })).length;
+    return { id: p.id, name: p.name, photo: p.photo, university: p.university, year: p.year, city: p.city, bio: p.bio, spec: p.spec,
+      verified: (p.team || []).length > 0 || !!(lec && lec.status === 'active'), title: lec && lec.status === 'active' ? lec.title : '',
+      followers: fl.filter(function (f) { return f.followee === id; }).length, following: fl.filter(function (f) { return f.follower === id; }).length,
+      posts: po, files: fi, me_follow: !!(IS.ME && fl.some(function (f) { return f.follower === IS.ME.id && f.followee === id; })) };
+  }
+  function nfmt(n) { n = +n || 0; return n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'K' : n >= 1000 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : String(n); }
+  var PKIND = { discussion: ['مناقشة', 'Discussion', 'chat'], question: ['سؤال', 'Question', 'help'], announcement: ['إعلان', 'Announcement', 'mega'], course_preview: ['معاينة كورس', 'Course preview', 'video'] };
+  function postTile(x) {
+    var k = PKIND[x.kind] || PKIND.discussion, pic = x.preview_image || x.cover || 'img/collection/' + (x.kind === 'announcement' ? 'notifications' : x.kind === 'question' ? 'support' : 'community') + '.webp';
+    var rx = (+x.like_count || 0) + (+x.love_count || 0) + (+x.angry_count || 0) + (+x.dislike_count || 0);
+    return '<a class="pf-post" href="#post/' + esc(x.id) + '"><span class="pp">' + IS.poster(pic) + '<em>' + ic(k[2]) + esc(A(k[0], k[1])) + '</em></span>' +
+      '<b dir="auto">' + esc(x.title || A('نقاش', 'Discussion')) + '</b><span class="pm"><span>' + PI.heart + N(rx) + '</span><span>' + PI.chat + N(+x.n_replies || 0) + '</span></span></a>';
+  }
+  function ftype(f) {
+    var e = String(f.path || f.mime || '').toLowerCase(), t = /pptx?|presentation/.test(e) ? ['PPT', 'ppt'] : /docx?|word/.test(e) ? ['DOC', 'doc'] : /png|jpe?g|webp|image/.test(e) ? ['IMG', 'img'] : /txt|text/.test(e) ? ['TXT', 'doc'] : ['PDF', 'pdf'];
+    return '<span class="pf-ft ' + t[1] + '"><svg viewBox="0 0 40 48" aria-hidden="true"><path d="M4 2h22l10 10v32a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#fff" stroke="currentColor" stroke-width="2"/><path d="M26 2v10h10" fill="none" stroke="currentColor" stroke-width="2"/></svg><i>' + t[0] + '</i></span>';
+  }
+  function fileTile(f) {
+    var mb = f.size ? (f.size / 1048576).toFixed(f.size > 1048576 * 10 ? 0 : 1) + ' MB' : f.pages ? f.pages + ' ' + A('صفحة', 'pages') : '';
+    return '<a class="pf-file" href="#' + (f.series_id ? 'series/' + esc(f.series_id) : 'file/' + esc(f.id)) + '">' + ftype(f) + '<b dir="auto">' + esc(f.series_title || f.title) + '</b><small><bdi dir="ltr">' + esc(mb) + '</bdi></small></a>';
+  }
+  function pbox(title, icon, more, body) {
+    return '<section class="pf-box"><header><h2>' + icon + '<span>' + esc(title) + '</span></h2>' + (more ? '<a href="' + more + '">' + esc(A('عرض الكل', 'View all')) + ' ‹</a>' : '') + '</header>' + body + '</section>';
+  }
+  async function profilePage(id, tab, own) {
+    var c = await pcard(id);
+    if (!c) return null;
+    var m = IS.ME, base = own ? '#account' : '#person/' + id;
+    var sp = c.spec && IS.spec ? IS.spec(c.spec) : null, spName = sp ? sp.en : (own && IS.mySpec() ? IS.mySpec().en : '');
+    var chips = [[PI.kit, spName], [PI.cap, c.university], [PI.pin, c.city]].filter(function (x) { return x[1]; });
+    var res = await Promise.all([DB.q('posts', { eq: { user_id: id }, order: ['created_at', false], limit: 60 }).catch(function () { return []; }),
+      DB.q('files', { eq: { owner_id: id, status: 'published' }, order: ['published_at', false] }).catch(function () { return []; })]);
+    var posts = res[0].filter(function (x) { return x.status === 'open'; }), files = IS.seriesCollapse ? IS.seriesCollapse(res[1].slice()) : res[1];
+    files = files.map(function (f) { return f._parts ? Object.assign({}, f._parts[0], { series_id: f.series_id, series_title: f.series_title }) : f; });
+    var h = '<div class="mrx mrh mrp"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() +
+      '<section class="pf-hero"><div class="pf-cover"><img src="' + IS.U('img/collection/about.webp') + '" alt="">' + PI.caduceus +
+      '<svg class="pf-beat" viewBox="0 0 300 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40h150l10-22 12 36 12-44 10 30 8-8h98" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="2.4" stroke-linejoin="round"/></svg></div>' +
+      '<div class="pf-body">' + (own ? '<button type="button" class="pf-edit" data-act="editme">' + PI.pen + '<span>' + esc(A('تعديل الملف', 'Edit profile')) + '</span></button>' +
+        '<button type="button" class="pf-more" data-act="pfmenu" aria-label="' + esc(A('المزيد', 'More')) + '">' + PI.dots + '</button>' : '') +
+      (own ? '<label class="pf-av">' + IS.av(c, 'xl') + '<span class="cam">' + PI.cam + '</span><input type="file" accept="image/*" id="myPhoto" hidden></label>' : '<span class="pf-av">' + IS.av(c, 'xl', c.id) + '</span>') +
+      '<h1 tabindex="-1" dir="auto">' + esc(c.name || '') + (c.verified ? PI.check : '') + '</h1>' +
+      ([c.title, c.year].filter(Boolean).length ? '<p class="pf-sub">' + [c.title, c.year].filter(Boolean).map(esc).join(' <i>•</i> ') + '</p>' : '') +
+      (own && IS.roleChips ? '<div class="prole-row">' + IS.roleChips('prole') + '</div>' : '') +
+      (c.bio ? '<p class="pf-bio" dir="auto">' + esc(c.bio) + '</p>' : own ? '<p class="pf-bio mut"><button type="button" class="link" data-act="editme">' + esc(A('أضف نبذة قصيرة عنك', 'Add a short note about yourself')) + '</button></p>' : '') +
+      (chips.length ? '<div class="pf-chips">' + chips.map(function (x) { return '<span>' + x[0] + '<b dir="auto">' + esc(x[1]) + '</b></span>'; }).join('') + '</div>' : '') +
+      '<div class="pf-srow"><div class="pf-stats"><span>' + PI.posts + '<b>' + nfmt(c.posts) + '</b><small>' + esc(A('المنشورات', 'Posts')) + '</small></span>' +
+      '<span>' + PI.group + '<b>' + nfmt(c.followers) + '</b><small>' + esc(A('المتابعون', 'Followers')) + '</small></span>' +
+      '<span>' + PI.users + '<b>' + nfmt(c.following) + '</b><small>' + esc(A('أتابع', 'Following')) + '</small></span></div>' +
+      (own ? '' : '<button type="button" class="pf-follow' + (c.me_follow ? ' on' : '') + '" data-act="pffollow" data-id="' + esc(id) + '">' + (c.me_follow ? PI.tick : PI.plus) + '<span>' + esc(c.me_follow ? A('متابَع', 'Following') : A('متابعة', 'Follow')) + '</span></button>') + '</div></div></section>' +
+      '<nav class="pf-tabs">' + [['posts', PI.posts, A('المنشورات', 'Posts')], ['files', HI.folder, A('الملفات', 'Files')]].concat(own ? [['saved', PI.bm, A('المحفوظات', 'Saved')]] : []).map(function (t) {
+        return '<a href="' + base + (t[0] === 'posts' ? '' : '/' + t[0]) + '"' + (tab === t[0] ? ' class="on" aria-current="page"' : '') + '>' + t[1] + '<span>' + esc(t[2]) + '</span></a>'; }).join('') + '</nav>';
+    if (tab === 'files') {
+      h += pbox(A('الملفات', 'Files'), HI.folder, '', files.length ? '<div class="pf-files">' + files.map(fileTile).join('') + '</div>' : '<p class="pf-empty">' + esc(A('لا توجد ملفات منشورة بعد.', 'No published files yet.')) + '</p>');
+    } else if (tab === 'saved' && own) {
+      var f = IS.LS.get('fav-' + id, {}), ks = Object.keys(f).sort(function (a, b) { return f[b] - f[a]; });
+      var cid = ks.filter(function (k) { return /^c:/.test(k); }).map(function (k) { return k.slice(2); }), fid = ks.filter(function (k) { return /^f:/.test(k); }).map(function (k) { return k.slice(2); });
+      var got = await Promise.all([cid.length ? DB.q('courses', { in: { id: cid } }) : [], fid.length ? DB.q('files', { in: { id: fid } }) : []]);
+      var tiles = got[0].map(function (x) { return '<a class="pf-post" href="#course/' + esc(x.id) + '"><span class="pp">' + IS.poster(x.cover || 'img/collection/courses.webp') + '<em>' + ic('layers') + esc(A('كورس', 'Course')) + '</em></span><b dir="auto">' + esc(x.title) + '</b></a>'; });
+      h += pbox(A('المحفوظات', 'Saved'), PI.bm, '#favorites', (tiles.length ? '<div class="pf-posts">' + tiles.join('') + '</div>' : '') + (got[1].length ? '<div class="pf-files">' + got[1].map(fileTile).join('') + '</div>' : '') +
+        (!tiles.length && !got[1].length ? '<p class="pf-empty">' + esc(A('اضغط ♡ على أي كورس أو ملف لتحفظه هنا.', 'Tap ♡ on any course or file to save it here.')) + '</p>' : ''));
+    } else {
+      h += pbox(A('أحدث المنشورات', 'Latest posts'), PI.posts, '', posts.length ? '<div class="pf-posts">' + posts.slice(0, 30).map(postTile).join('') + '</div>' :
+        '<p class="pf-empty">' + esc(own ? A('لم تنشر شيئًا بعد.', 'You have not posted yet.') : A('لا توجد منشورات بعد.', 'No posts yet.')) + '</p>');
+      if (files.length) h += pbox(A('أحدث الملفات', 'Latest files'), HI.folder, base + '/files', '<div class="pf-files">' + files.slice(0, 4).map(fileTile).join('') + '</div>');
+    }
+    h += '</div>' + bnav(own ? '' : '') + '</div>';
+    IS.after = function (main) {
+      after();
+      var fi = main.querySelector('#myPhoto');
+      if (fi) fi.onchange = async function () { if (!fi.files[0]) return; var u = await DB.upload('media', await IS.shrink(fi.files[0], 480, 0.85)); await DB.upd('profiles', m.id, { photo: u }); await IS.loadMe(); IS.toast(A('تم تحديث الصورة', 'Photo updated')); IS.refresh(); };
+    };
+    return h;
+  }
   var acc0 = IS.pageOf && IS.pageOf('account');
   if (acc0) IS.page('account', async function (tab) {
-    var inner = await acc0.fn(tab);
-    if (typeof inner !== 'string' || !IS.roleChips) return inner;
-    var chips = IS.roleChips('prole'); if (!chips) return inner;
-    var t = document.createElement('template'); t.innerHTML = inner;
-    var h1 = t.content.querySelector('.prof .pt h1'); if (!h1) return inner;
-    var names = IS.myRoles().map(function (r) { return A(r[2], r[3]); });
-    var p = h1.nextElementSibling; if (p && p.tagName === 'P' && names.indexOf(p.textContent.trim()) >= 0) p.remove();
-    h1.insertAdjacentHTML('afterend', '<div class="prole-row">' + chips + '</div>');
-    return t.innerHTML;
+    tab = !tab || tab === 'profile' ? 'posts' : tab;
+    if (!/^(posts|files|saved)$/.test(tab)) return acc0.fn(tab);   /* account settings keep the older page */
+    return profilePage(IS.ME.id, tab, true);
   }, acc0.o);
+  IS.page('person', async function (arg) {
+    var p = String(arg || '').split('/'), id = p[0];
+    if (!id) { IS.go('home'); return ''; }
+    if (IS.ME && id === IS.ME.id) { IS.go('account' + (p[1] ? '/' + p[1] : '')); return ''; }
+    return profilePage(id, p[1] === 'files' ? 'files' : 'posts', false);
+  });
+  IS.ACT.pffollow = async function (b) {
+    if (!IS.ME) return IS.ACT.login();
+    var id = b.getAttribute('data-id'), on = b.classList.contains('on');
+    b.disabled = true;
+    try {
+      if (on) { var rows = await DB.q('follows', { eq: { follower: IS.ME.id, followee: id } }); for (var i = 0; i < rows.length; i++) await DB.del('follows', rows[i].id); }
+      else await DB.ins('follows', { follower: IS.ME.id, followee: id });
+      if (DB.forget) DB.forget(); IS.keepScroll = true; IS.refresh();
+    } catch (e) { b.disabled = false; IS.toast(A('تعذّر الحفظ، حاول مرة أخرى.', 'Could not save, try again.')); }
+  };
+  IS.ACT.pfmenu = function () {
+    var L = [['learning', 'layers', 'كورساتي', 'My courses'], ['achievements', 'cert', 'شهاداتي وإنجازاتي', 'Certificates'], ['favorites', 'heart', 'مفضلاتي', 'Favourites'],
+      ['notifications', 'bell', 'الإشعارات', 'Notifications'], ['account/settings', 'gear', 'إعدادات الحساب', 'Account settings'], ['settings', 'gear', 'الإعدادات', 'Settings'],
+      ['support', 'chat', 'الدعم والرسائل', 'Support & messages'], ['security', 'shield', 'الأمان', 'Security'], [IS.LEC ? 'studio' : 'studio-apply', 'studio', IS.LEC ? 'الاستوديو' : 'التسجيل كمحاضر', IS.LEC ? 'Studio' : 'Become a lecturer']];
+    IS.sheet(esc(A('المزيد', 'More')), '<div class="mr-feat">' + L.map(function (x) { return '<a href="#' + x[0] + '">' + ic(x[1]) + '<span>' + esc(A(x[2], x[3])) + '</span></a>'; }).join('') +
+      ((IS.ME.team || []).length ? '<a href="#account" data-act="mycard">' + ic('group') + '<span>' + esc(A('بطاقتي في فريق المنصة', 'My card on Our team')) + '</span></a>' : '') +
+      '<a href="#account" data-act="logout">' + ic('logout') + '<span>' + esc(A('تسجيل الخروج', 'Sign out')) + '</span></a></div>');
+  };
 
   /* ---------- sign in, sign up, the email code and Features open in the same green and gold look (owner, 20 Nov 2026) ---------- */
   var sheet0 = IS.sheet;
