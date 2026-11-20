@@ -101,7 +101,7 @@
         var img = spec.id === 'medicine' && SECORDER.indexOf(c.id) >= 0 ? 'img/mr/sec-medicine-' + c.id + '.webp' : (IS.studyArtwork(spec.id, c.id) || spec.img || '');
         return '<a class="mr-sec" href="#home" data-act="setsection" data-v="' + esc(c.id) + '"' + (current && current.id === c.id ? ' aria-current="true"' : '') + '>' +
           '<span class="pic">' + (img ? '<img src="' + IS.U(img) + '" alt="">' : '') + '</span>' +
-          '<span class="pill">' + (I[SECIC[c.id]] || ic(c.icon)) + '<b lang="en" dir="ltr">' + esc(c.en) + '</b></span></a>';
+          '<span class="pill">' + (I[SECIC[c.id]] || ic(c.icon)) + '<b lang="en" dir="ltr">' + esc(c.id === 'special' ? 'International' : c.en) + '</b></span></a>';
       }).join('') + '</nav>' + dock(true) + '</div></div>';
   });
 
