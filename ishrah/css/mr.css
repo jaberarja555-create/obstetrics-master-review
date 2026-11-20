@@ -735,3 +735,9 @@ html body .mrh .feed-votes>.fv-stats>.fv-grow{display:none!important}
 html body .mrh .feed-votes>.fv-rate{grid-column:2;grid-row:1;border:0!important;justify-content:flex-end!important;padding-block:8px!important;margin:0!important}
 html body .mrh .feed-votes>:not(.fv-stats):not(.fv-rate){grid-column:1/-1}
 html body .mrh .feed-votes>.fv-acts{border-top:1px solid var(--line)!important}
+/* «مجاني» / price at the start (right in Arabic), reactions after it, the stars at the far end (owner, 20 Nov 2026) */
+html body .mrh .feed-votes{grid-template-columns:auto minmax(0,1fr) auto!important}
+html body .mrh .feed-votes>.fv-rate{display:contents!important}
+html body .mrh .feed-votes>.fv-rate>.ptag{grid-column:1;grid-row:1;justify-self:start;margin-block:8px}
+html body .mrh .feed-votes>.fv-rate>:not(.ptag){grid-column:3;grid-row:1;justify-self:end;margin-block:8px}
+html body .mrh .feed-votes>.fv-stats{grid-column:2!important}
