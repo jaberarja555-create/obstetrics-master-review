@@ -11,7 +11,7 @@
   var A = IS.A = function (ar, en) { return IS.lang === 'en' ? (en == null ? ar : en) : ar; };
   /* Interface titles use the chosen language. Subject and speciality names use their catalogue names. */
   IS.T = function (ar, en) { return '<span class="tt"><b lang="' + IS.lang + '">' + IS.esc(A(ar, en)) + '</b></span>'; };
-  IS.brandName = function () { return A('ماستر الطبي', 'Master Review'); };  /* owner, 20 Nov 2026: the platform is Master Review */
+  IS.brandName = function () { return 'Sudan Master Review Academy'; };  /* owner, 20 Nov 2026: Sudan Master Review Academy (SMRA); inside the app the logo carries the name */
   IS.noticeTitle = function (notice) { return A(notice.title, notice.title_en || notice.title); };
   var esc = IS.esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   IS.N = function (x) { return '<bdi>' + (typeof x === 'number' ? x.toLocaleString('en-US') : esc(x)) + '</bdi>'; };
@@ -337,6 +337,7 @@
   /* ---------- router ---------- */
   var PAGES = {};
   IS.page = function (name, fn, opt) { PAGES[name] = { fn: fn, o: opt || {} }; };
+  IS.pageOf = function (name) { return PAGES[name]; };
   IS.go = function (h) { if (location.hash.slice(1) === h) IS.route(); else location.hash = h; };
   IS.ACT = {};   // data-act handlers
   IS.SUB = {};   // data-form submit handlers
@@ -787,7 +788,7 @@
         '<label class="fl"><span>' + ic('phone') + esc(A('رقم الهاتف', 'Phone number')) + ' *</span><span class="pre" dir="ltr"><em>🇸🇩 +249</em><input name="phone" required inputmode="tel" autocomplete="tel" placeholder="9xxxxxxxx" dir="ltr"></span></label>' + pw + pw2 + terms +
         '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic(up ? 'user' : 'logout') + '<span>' + esc(up ? A('إنشاء الحساب', 'Create account') : A('دخول', 'Sign in')) + '</span></button></form>';
     IS.sheet(esc(up ? A('إنشاء حساب جديد', 'Create a new account') : A('تسجيل الدخول', 'Sign in')),
-      (up ? '<p class="lead center">' + esc(A('انضم إلى مجتمع ماستر الطبي', 'Join the Master Review community')) + '</p><h3 class="sub center">' + esc(A('اختر نوع حسابك', 'Choose your account type')) + '</h3><div class="kinds" role="radiogroup">' +
+      (up ? '<p class="lead center">' + esc(A('انضم إلى مجتمع Sudan Master Review Academy', 'Join the Sudan Master Review Academy community')) + '</p><h3 class="sub center">' + esc(A('اختر نوع حسابك', 'Choose your account type')) + '</h3><div class="kinds" role="radiogroup">' +
         [['student', 'cert', 'طالب', 'Student', 'للوصول إلى الكورسات والمحتوى التعليمي', 'To reach the courses and learning content'], ['lecturer', 'studio', 'محاضر', 'Lecturer', 'لتقديم الكورسات والمحاضرات', 'To teach courses and lectures']].map(function (k) {
           return '<button type="button" class="kind' + (kind === k[0] ? ' on' : '') + '" role="radio" aria-checked="' + (kind === k[0]) + '" data-act="kind" data-k="' + k[0] + '">' + ic(k[1]) + '<b>' + esc(A(k[2], k[3])) + '</b><small>' + esc(A(k[4], k[5])) + '</small></button>'; }).join('') + '</div>' : '') +
       '<button type="button" class="btn google wide" data-act="google" data-google-primary>' + GSVG + '<span>' + esc(A('المتابعة بحساب Google', 'Continue with Google')) + '</span></button>' +

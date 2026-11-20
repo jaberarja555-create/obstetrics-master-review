@@ -57,8 +57,7 @@
     var me = m ? '<a class="mr-me" href="#account"><span class="mr-av">' + (m.photo ? '<img src="' + IS.U(m.photo) + '" alt="">' : I.person) + '</span><b>' + IS.greetingName(m.name, true) + '</b></a>' :
       '<button type="button" class="mr-me out" data-act="login"><span class="mr-av">' + I.person + '</span><b>' + esc(A('تسجيل الدخول', 'Sign in')) + '</b></button>';
     return '<header class="mr-top"><div class="mr-tl"><a class="mr-rb" href="' + homeHref + '" aria-label="' + esc(A('الرئيسية', 'Home')) + '">' + I.home + '</a><span class="mr-sep"></span>' + me + '</div>' +
-      '<a class="mr-brand" href="#pick"><img src="' + IS.U('img/mr/logo-gold.webp') + '" alt="" width="520" height="507"><b>' + esc(IS.brandName()) + '</b>' +
-      '<svg class="sw" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M4 9C60 1 140 1 196 7" fill="none" stroke="' + G + '" stroke-width="3" stroke-linecap="round"/></svg></a>' +
+      '<a class="mr-brand" href="#pick" aria-label="' + esc(IS.brandName()) + '"><img src="' + IS.U('img/mr/logo-smra.webp') + '" alt="' + esc(IS.brandName()) + '" width="1000" height="359"></a>' +
       '<div class="mr-tr">' + (m ? '<a class="mr-rb" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + I.bell + '<i class="mr-dot" hidden></i></a>' : '') +
       '<button type="button" class="mr-rb mr-theme" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night')) + '">' + I.sun + I.moon + '</button>' +
       '<a class="mr-rb" href="#settings" aria-label="' + esc(A('الإعدادات', 'Settings')) + '">' + I.gear + '</a></div></header>';
@@ -115,11 +114,69 @@
       }).join('') + '</nav>' + dock(true) + '</div></div>';
   });
 
+  /* ---------- the section's own page (#home): owner's picture, 20 Nov 2026 — banner, «محتوى …» title, Sort · Post type · Publish, the posts.
+     The old welcome band, search and the row of place buttons are gone from here: every place is inside Features. ---------- */
+  var HI = {
+    search: svg('0 0 24 24', '<circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/>', ' fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"'),
+    grid: svg('0 0 24 24', '<rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="3.75"/>', ' fill="currentColor"'),
+    home: svg('0 0 24 24', '<path d="M12 3 2 11.5h3V21h5.2v-6h3.6v6H19v-9.5h3z"/>', ' fill="currentColor"'),
+    bell: svg('0 0 24 24', '<path d="M6 16V11a6 6 0 1 1 12 0v5l1.6 2H4.4z"/><path d="M10 20.5a2.2 2.2 0 0 0 4 0"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'),
+    sort: svg('0 0 24 24', '<path d="M4 7h16M7 12h10M10 17h4"/>', ' fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"'),
+    doc: svg('0 0 24 24', '<path d="M14 3H6.5A1.5 1.5 0 0 0 5 4.5v15A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V8z"/><path d="M14 3v5h5M8.5 12.5h7M8.5 16h7"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"'),
+    plus: svg('0 0 24 24', '<path d="M12 5v14M5 12h14"/>', ' fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"'),
+    layers: svg('0 0 24 24', '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/><path d="m3 17.5 9 4.5 9-4.5"/>', ' fill="none" stroke="' + G + '" stroke-width="1.9" stroke-linejoin="round"')
+  };
+  var SECAR = { basics: 'الأساسيات', clinical: 'الكلينكال', special: 'الامتحانات الدولية', house: 'الامتياز' };
+  function htop() {
+    var m = IS.ME;
+    var me = m ? '<a class="mh-av" href="#account" aria-label="' + esc(A('حسابي', 'My account')) + '">' + (m.photo ? '<img src="' + IS.U(m.photo) + '" alt="">' : I.person) + '</a>' :
+      '<button type="button" class="mh-in" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button>';
+    return '<header class="mh-top"><div class="mh-side">' +
+      '<a class="mh-b" href="#pick-section" aria-label="' + esc(A('الأقسام', 'Sections')) + '">' + HI.home + '</a>' +
+      '<a class="mh-b ghost" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + HI.search + '</a>' +
+      '<button type="button" class="mh-b ghost" data-act="mrfeat" aria-label="' + esc(A('المزايا', 'Features')) + '">' + HI.grid + '</button></div>' +
+      '<a class="mh-logo" href="#pick-section"><img src="' + IS.U('img/mr/logo-smra.webp') + '" alt="' + esc(IS.brandName()) + '" width="1000" height="359"></a>' +
+      '<div class="mh-side end"><button type="button" class="mh-tog" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night')) + '"><i>' + I.sun + '</i><i>' + I.moon + '</i></button>' +
+      (m ? '<a class="mh-b" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + HI.bell + '<i class="mr-dot" hidden></i></a>' : '') + me + '</div></header>';
+  }
+  function hban(spec, section) {
+    var img = spec.id === 'medicine' ? 'img/collection/medicine-' + section.id + '.webp' : (IS.studyArtwork(spec.id, section.id) || spec.img || '');
+    var name = section.id === 'special' ? 'International' : IS.secName(spec.id, section).en;
+    return '<section class="mh-ban"><div class="ph">' + (img ? '<img src="' + IS.U(img) + '" alt="">' : '') + '</div>' +
+      '<div class="pn"><svg class="cv" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M30 0C14 30 22 70 0 100H100V0z" fill="url(#mhpn)"/><path d="M30 0C14 30 22 70 0 100" fill="none" stroke="' + G + '" stroke-width="1.4" vector-effect="non-scaling-stroke"/>' +
+      '<defs><linearGradient id="mhpn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d6b5c"/><stop offset="1" stop-color="#063f36"/></linearGradient></defs></svg>' +
+      '<div class="tx"><svg class="mhb" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12h80l5-7 6 13 6-15 5 11 4-2h94" fill="none" stroke="#7fffe0" stroke-width="1.6" stroke-linejoin="round" style="filter:drop-shadow(0 0 3px #4dffd2)"/></svg>' +
+      '<h1 tabindex="-1" lang="en" dir="ltr">' + I.steth + '<span>' + esc(name) + '</span></h1><p lang="en" dir="ltr">' + esc(spec.en) + ' <i>•</i> Study <i>•</i> Review <i>•</i> Practice</p></div></div></section>';
+  }
+  function htitle(spec, section) {
+    var n = IS.secName(spec.id, section), ar = (SECNAME[spec.id] || {})[section.id] ? n.ar : (SECAR[section.id] || n.ar);
+    return '<div class="mh-title"><i></i><h2>' + HI.layers + '<span>' + esc(A('محتوى ' + ar, (section.id === 'special' ? 'International' : n.en) + ' content')) + '</span></h2><i></i></div>';
+  }
+  function tidyFeed(main) {
+    var slot = main.querySelector('[data-home-feed]'); if (!slot) return;
+    function fix() {
+      var f = slot.querySelector('.feed-filters'); if (!f || f.dataset.mh) return; f.dataset.mh = '1';
+      var ls = f.querySelectorAll('label');
+      if (ls[0]) ls[0].insertAdjacentHTML('afterbegin', HI.sort);
+      if (ls[1]) ls[1].insertAdjacentHTML('afterbegin', HI.doc);
+      f.insertAdjacentHTML('beforeend', '<i class="mh-sep"></i><a class="mh-pub" href="#community/new">' + HI.plus + '<span>' + esc(A('انشر', 'Publish')) + '</span></a>');
+    }
+    fix(); new MutationObserver(fix).observe(slot, { childList: true, subtree: true });
+  }
+  var home0 = IS.pageOf && IS.pageOf('home');
+  if (home0) IS.page('home', async function (arg) {
+    var inner = await home0.fn(arg), spec = IS.mySpec(), section = IS.mySection();
+    if (!spec || !section) return inner;
+    var a0 = IS.after;
+    IS.after = function (main, remember) { after(); tidyFeed(main); return a0 ? a0(main, remember) : undefined; };
+    return '<div class="mrx mrh"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() + hban(spec, section) + htitle(spec, section) + '<div class="mh-feed">' + inner + '</div></div></div>';
+  }, home0.o);
+
   /* ---------- sign in, sign up, the email code and Features open in the same green and gold look (owner, 20 Nov 2026) ---------- */
   var sheet0 = IS.sheet;
   IS.sheet = function () { var d = sheet0.apply(this, arguments);
     if (d && d.querySelector('form[data-form=esignin],form[data-form=esignup],form[data-form=signin],form[data-form=signup],form[data-form=ecode],form[data-form=eforgot],form[data-form=gpreview],[data-act=google],.mr-feat')) {
-      d.classList.add('mrdlg'); var h = d.querySelector('header'); if (h && !h.querySelector('.mrdlg-logo')) h.insertAdjacentHTML('afterbegin', '<img class="mrdlg-logo" src="' + IS.U('img/mr/logo-gold.webp') + '" alt="">'); }
+      d.classList.add('mrdlg'); var h = d.querySelector('header'); if (h && !h.querySelector('.mrdlg-logo')) h.insertAdjacentHTML('afterbegin', '<img class="mrdlg-logo" src="' + IS.U('img/mr/smra-mark.webp') + '" alt="">'); }
     return d; };
   /* ---------- Features: every place of the platform (what the side menu held) ---------- */
   IS.ACT.mrfeat = function () {
