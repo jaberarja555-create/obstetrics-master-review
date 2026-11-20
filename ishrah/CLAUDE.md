@@ -847,3 +847,7 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   reaction forgets only its own tables and the counts of what it is on (`NEAR`); every other write still forgets all saved reads. The
   client no longer sends a second reply notification when live (the 039 trigger does it). Measured with a 300 ms delay per call: comment
   visible 2.2 s → 0.1 s, post page 1.6 s → 1.25 s. Asset version 194, cache ish-v94.
+- **Courses have reactions too** (owner, 20 Nov 2026: "why the course still has no interactions; I told you for all posts"): course cards
+  in the feed and the course page show the same reactions pill and «أعجبني» picker as every post (`feedVoteBar` no longer leaves them out;
+  the server already accepted course reactions in 040, and comments were working). Stars on courses stay enrolled students' reviews.
+  Asset version 195, cache ish-v95.

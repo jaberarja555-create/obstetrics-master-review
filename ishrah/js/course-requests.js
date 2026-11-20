@@ -768,7 +768,7 @@
       '" title="' + esc(IS.gradeLabel(row, kind)) + '">' + IS.gradeInner(row, kind) + '</button>';
     var reaction = row.my_reaction === undefined ? '' : String(Number(row.my_reaction) || 0);
     var key = kind + '/' + row.id;
-    var buttons = kind === 'course' ? '' : uid() ?
+    var buttons = uid() ?
       '<span class="rx-wrap"><button type="button" class="fv-btn feed-react" data-act="rx-open" aria-haspopup="true" aria-expanded="false"' +
         (savingVotes.has(uid() + '/' + key) ? ' disabled' : '') + '></button><span class="rx-pick" role="menu" hidden>' +
         REACTIONS.map(function (item) {
@@ -783,8 +783,8 @@
     counts += ' data-rated-like="' + (Number(row.rated_like_count) || 0) + '" data-rated-dislike="' + (Number(row.rated_dislike_count) || 0) + '"';
     return '<div class="feed-votes" data-feedback="' + esc(key) + '" data-reaction="' + reaction + '"' + counts +
       (row.status === 'closed' ? ' data-comments-closed' : '') + '>' + '<div class="fv-rate">' + (row._price != null && IS.priceTag ? IS.priceTag({ price: row._price }, 'sm') : '') + rating + '</div>' +
-      '<div class="fv-stats">' + (kind === 'course' ? '' : '<button type="button" class="rx-sum" data-act="rx-who" hidden></button>') + '<span class="fv-grow"></span>' + comment + '</div>' +
-      '<div class="fv-acts' + (kind === 'course' ? ' nore' : '') + '">' + buttons + commentBtn + shareBtn + (kind === 'series' ? '' : IS.reportButton(kind, row.id, true)) + '</div>' +
+      '<div class="fv-stats">' + '<button type="button" class="rx-sum" data-act="rx-who" hidden></button>' + '<span class="fv-grow"></span>' + comment + '</div>' +
+      '<div class="fv-acts">' + buttons + commentBtn + shareBtn + (kind === 'series' ? '' : IS.reportButton(kind, row.id, true)) + '</div>' +
       (inline ? '<div class="feed-comment-panel" id="' + panelId + '" hidden></div>' : '') + '</div>';
   };
 
