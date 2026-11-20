@@ -184,8 +184,10 @@
     }
     if (!IS.ME) return;
     IS.LEC = records[1];
-    if (IS.ME.spec && IS.ME.spec !== IS.SPEC) { IS.SPEC = IS.ME.spec; LS.set('spec', IS.SPEC); }
-    else if (IS.SPEC && !IS.ME.spec) { IS.ME.spec = IS.SPEC; DB.upd('profiles', IS.ME.id, { spec: IS.SPEC }).catch(function () {}); }
+    /* the speciality chosen on this device wins (owner, 20 Nov 2026: "all the specialities lead to the same area of Medicine": a saved or
+       late profile read with the old speciality used to pull the student back); the account's speciality is used only on a new device */
+    if (!IS.SPEC && IS.ME.spec) { IS.SPEC = IS.ME.spec; LS.set('spec', IS.SPEC); }
+    else if (IS.SPEC && IS.ME.spec !== IS.SPEC) { IS.ME.spec = IS.SPEC; DB.upd('profiles', IS.ME.id, { spec: IS.SPEC }).catch(function () {}); }
     try { localStorage.setItem('ish-me', JSON.stringify({ uid: uid, me: IS.ME, lec: IS.LEC })); } catch (e) {}
   };
   /* the student's speciality space: kept on the device and in the profile, so it follows the account to every device */
