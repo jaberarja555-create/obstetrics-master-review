@@ -260,6 +260,105 @@
     if (opts) query.eq = opts;
     return DB.q(REQUESTS, query);
   }
+  /* ========== ask the named lecturer before publishing (owner, 20 Nov 2026) ========== */
+  function askChip(row) {
+    var m = { asked: ['⏳ بانتظار رد المحاضر', '⏳ Waiting for the lecturer', 'warn'], available: ['✅ المحاضر متاح', '✅ Lecturer available', 'ok'],
+      unavailable: ['❌ المحاضر غير متاح', '❌ Lecturer not available', 'bad'], details: ['💬 المحاضر يحتاج تفاصيل', '💬 Lecturer needs details', 'warn'] }[row.ask_status];
+    return m ? IS.chip(esc(A(m[0], m[1])), m[2]) : '';
+  }
+  function checkButton(row, mode, ar, en, cls) {
+    return '<button type="button" class="btn sm ' + (cls || 'ghost') + '" data-act="cr-check" data-mode="' + mode + '" data-request="' + esc(row.id) + '">' + esc(A(ar, en)) + '</button>';
+  }
+  function checkPanel(row) {
+    var can = IS.can('review', 'approve'), st = row.ask_status, h = '<section class="cr-check"><div class="cr-check-h">' + ic('user') + '<b dir="auto">' +
+      esc(A('المحاضر المطلوب: ', 'Requested lecturer: ') + (row.lecturer_name || '')) + '</b>' + askChip(row) + '</div>';
+    if (!st) h += '<p class="mut">' + esc(A('اسأل المحاضر أولًا: يصله إشعار ويرد بأنه متاح مع شروطه (عدد الطلاب، السعر لكل طالب، الموعد) أو غير متاح.',
+      'Ask the lecturer first: they are notified and reply available with their terms (students, price per student, date) or not available.')) + '</p>';
+    if (st === 'available') h += '<dl class="cr-terms">' +
+      '<dt>' + esc(A('السعر لكل طالب', 'Price per student')) + '</dt><dd>' + IS.priceTag({ price: row.ask_price }) + '</dd>' +
+      (row.ask_seats ? '<dt>' + esc(A('عدد الطلاب', 'Students')) + '</dt><dd>' + esc(row.ask_seats) + '</dd>' : '') +
+      (row.ask_starts ? '<dt>' + esc(A('الموعد', 'Date')) + '</dt><dd>' + esc(date(row.ask_starts)) + '</dd>' : '') +
+      (row.ask_terms ? '<dt>' + esc(A('الشروط', 'Conditions')) + '</dt><dd class="pre" dir="auto">' + esc(row.ask_terms) + '</dd>' : '') + '</dl>';
+    if (row.ask_note) h += '<p class="cr-note" dir="auto">' + ic('chat') + esc(row.ask_note) + '</p>';
+    if (can) {
+      h += '<div class="cr-check-b">';
+      if (!st || st === 'details' || st === 'asked') h += checkButton(row, 'ask', st ? 'اسأل المحاضر مرة أخرى' : 'اسأل المحاضر', st ? 'Ask again' : 'Ask the lecturer', st ? 'ghost' : 'pri');
+      if (st === 'available') h += checkButton(row, 'announce', 'انشر كإعلان كورس بشروطه', 'Publish as a course announcement', 'pri') + checkButton(row, 'request', 'انشر كطلب كورس فقط', 'Publish as a course request only');
+      if (st === 'unavailable' || st === 'details') h += checkButton(row, 'general', 'حوّله لطلب عام لأي محاضر', 'Make it a general request');
+      h += '</div>';
+    }
+    return h + '</section>';
+  }
+  function answerForm(row) {
+    return '<section class="cr-check"><div class="cr-check-h">' + ic('help') + '<b>' + esc(A('هل أنت متاح لهذا الكورس؟', 'Are you available for this course?')) + '</b>' + askChip(row) + '</div>' +
+      '<p class="mut">' + esc(A('طلبه أحد الطلاب باسمك. ردّك يصل للإدارة قبل نشر الطلب، وشروطك تظهر للطلاب إذا نُشر كإعلان كورس.',
+        'A student asked for you. Your answer reaches the team before the request is published; your terms are shown to students if it is published as a course announcement.')) + '</p>' +
+      '<form class="form" data-form="cr-answer" data-request="' + esc(row.id) + '"><div class="seg3" role="radiogroup">' +
+      [['available', '✅ متاح', '✅ Available'], ['unavailable', '❌ غير متاح', '❌ Not available'], ['details', '💬 أحتاج تفاصيل', '💬 Need details']].map(function (x, i) {
+        return '<label><input type="radio" name="answer" value="' + x[0] + '"' + ((row.ask_status === x[0] || (!i && ['available', 'unavailable', 'details'].indexOf(row.ask_status) < 0)) ? ' checked' : '') + '><span>' + esc(A(x[1], x[2])) + '</span></label>';
+      }).join('') + '</div><div class="cr-av">' +
+      priceField('السعر لكل طالب (جنيه سوداني، 0 = مجاني)', 'Price per student (SDG, 0 = free)', row.ask_price, false) +
+      '<label class="fl"><span>' + text('عدد الطلاب', 'Number of students') + '</span><input name="seats" type="number" min="1" max="10000" value="' + esc(row.ask_seats || row.goal || '') + '"></label>' +
+      dateFields(row.ask_starts || row.proposed_at) +
+      '<label class="fl"><span>' + text('شروطك (طريقة التدريس، عدد المحاضرات، المتطلبات…)', 'Your conditions (format, number of sessions, requirements…)') + '</span><textarea name="terms" rows="3" maxlength="4000" dir="auto">' + esc(row.ask_terms || '') + '</textarea></label></div>' +
+      '<label class="fl"><span>' + text('ملاحظة للإدارة (اختياري)', 'Note to the team (optional)') + '</span><textarea name="note" rows="2" maxlength="2000" dir="auto">' + esc(row.ask_note || '') + '</textarea></label>' +
+      '<button class="btn pri wide">' + ic('send') + text('أرسل ردّي', 'Send my answer') + '</button></form></section>';
+  }
+  document.addEventListener('change', function (e) {
+    var f = e.target.form; if (!f || f.dataset.form !== 'cr-answer' || e.target.name !== 'answer') return;
+    f.querySelector('.cr-av').hidden = e.target.value !== 'available';
+  });
+  async function check(action, id, payload) {
+    if (DB.live) { var r = await DB.sb.rpc('ish_request_check', { request: id, action: action, payload: payload || {} }); if (r.error) throw r.error; return r.data; }
+    var row = await DB.one(REQUESTS, id); if (!row || row.status !== 'pending') throw new Error('request_unavailable');
+    if (action === 'ask') { await DB.upd(REQUESTS, id, { ask_status: 'asked', ask_at: new Date().toISOString() }); await IS.notify(row.lecturer_id, 'طالب يطلب كورسًا منك: هل أنت متاح؟', row.title, '#studio-course-request/' + id); }
+    else if (action === 'answer') {
+      var av = payload.answer === 'available';
+      await DB.upd(REQUESTS, id, { ask_status: payload.answer, ask_note: payload.note || null, ask_seats: av ? payload.seats : null, ask_price: av ? payload.price : null, ask_starts: av ? payload.starts_at : null, ask_terms: av ? payload.terms || null : null, answered_at: new Date().toISOString() });
+      if (av) {
+        var old = (await DB.q(OFFERS, { eq: { request_id: id, lecturer_id: uid() } }))[0], o = { terms: payload.terms || 'متاح للتدريس', price: payload.price, starts_at: payload.starts_at, status: 'offered', terms_public: false };
+        if (old) await DB.upd(OFFERS, old.id, o); else await DB.ins(OFFERS, Object.assign({ request_id: id, lecturer_id: uid(), lecturer_name: IS.LEC ? IS.LEC.name : IS.ME.name }, o));
+      }
+    } else if (action === 'publish') {
+      var mode = payload.mode, now = new Date().toISOString();
+      if (mode === 'announce') {
+        var offer = (await DB.q(OFFERS, { eq: { request_id: id, lecturer_id: row.lecturer_id } }))[0]; if (!offer) throw new Error('request_offer_private');
+        await DB.upd(OFFERS, offer.id, { status: 'accepted', terms_public: true });
+        await DB.upd(REQUESTS, id, { status: 'open', published_at: now, teacher_confirmed: true, payment_required: +offer.price > 0, budget_min: offer.price, budget_max: offer.price,
+          proposed_at: offer.starts_at || row.proposed_at, goal: row.ask_seats || row.goal, auto_close: !!(row.ask_seats || row.goal) || row.auto_close });
+      } else if (mode === 'general') await DB.upd(REQUESTS, id, { status: 'open', published_at: now, lecturer_id: null, lecturer_name: null });
+      else await DB.upd(REQUESTS, id, { status: 'open', published_at: now });
+      await IS.notify(row.user_id, mode === 'announce' ? 'نُشر طلبك كإعلان كورس' : 'نُشر طلبك', row.title, '#course-request/' + id);
+    }
+    return true;
+  }
+  var CHECK_ERR = { request_offer_price_required: ['اكتب السعر لكل طالب (0 = مجاني).', 'Enter the price per student (0 = free).'], request_permission: ['لا يمكنك تنفيذ هذا الإجراء.', 'You cannot do this.'],
+    request_unavailable: ['هذا الطلب لم يعد بانتظار الموافقة.', 'This request is no longer waiting.'], request_offer_private: ['لا يوجد ردّ متاح من المحاضر بعد.', 'The lecturer has not answered available yet.'] };
+  function checkFail(e) { var m = CHECK_ERR[e && e.message]; IS.toast(m ? A(m[0], m[1]) : A('تعذّر الحفظ: ', 'Could not save: ') + ((e && e.message) || ''), true); }
+  IS.ACT['cr-check'] = async function (b) {
+    var mode = b.dataset.mode, id = b.dataset.request;
+    var ask = { announce: ['نشر الطلب كإعلان كورس بشروط المحاضر؟ سيستطيع الطلاب الانضمام أو الدفع مباشرة.', 'Publish as a course announcement with the lecturer’s terms? Students can join or pay directly.'],
+      request: ['نشر الطلب كطلب كورس فقط؟ يبدي الطلاب اهتمامهم ثم يُتفق على الشروط.', 'Publish as a course request only? Students show interest, then terms are agreed.'],
+      general: ['إزالة اسم المحاضر ونشر الطلب لأي محاضر متاح؟', 'Remove the lecturer and publish for any available lecturer?'] }[mode];
+    if (ask && !(await IS.confirm(A(ask[0], ask[1])))) return;
+    b.disabled = true;
+    try {
+      await check(mode === 'ask' ? 'ask' : 'publish', id, { mode: mode });
+      IS.toast(mode === 'ask' ? A('أُرسل السؤال للمحاضر. سيصلك ردّه.', 'The lecturer was asked. You will get the answer.') : A('نُشر الطلب', 'The request is published'));
+      if (mode === 'ask') IS.refresh(); else IS.go('control-course-requests');
+    } catch (e) { checkFail(e); } finally { b.disabled = false; }
+  };
+  IS.SUB['cr-answer'] = async function (d, f) {
+    var p = { answer: d.answer, note: d.note || '' };
+    if (d.answer === 'available') {
+      if (d.price === '' || !(+d.price >= 0)) return IS.toast(A('اكتب السعر لكل طالب (0 = مجاني).', 'Enter the price per student (0 = free).'), true);
+      if (!validDate(d)) return;
+      Object.assign(p, { price: Number(d.price), seats: d.seats ? Number(d.seats) : null, starts_at: startAt(d), terms: d.terms || '' });
+    }
+    try { await check('answer', f.dataset.request, p); IS.toast(A('وصل ردّك للإدارة. شكرًا!', 'Your answer reached the team. Thank you!')); IS.refresh(); }
+    catch (e) { checkFail(e); }
+  };
+
   /* request card, new design (owner, 20 Nov 2026: «Request appears badly, the star down, people who join and organisation of text and
      design»): cover with the status on it, who asked and when, title, speciality · section · lecturer, two lines of details, then one line of
      facts (joined · price · date); in Control the decision buttons sit on the card */
@@ -275,8 +374,11 @@
       '<p class="cr2-scope">' + esc(scopeName(row)) + ' · ' + ic('user') + '<span dir="auto">' + esc(row.lecturer_name || A('أي محاضر', 'Any lecturer')) + '</span>' +
         (row.teacher_confirmed ? ' ' + IS.chip(text('تأكد المحاضر', 'Lecturer confirmed'), 'ok') : '') + '</p>' +
       (row.details ? '<p class="cr2-sum" dir="auto">' + esc(row.details) + '</p>' : '') +
+      (!decide && row.status === 'pending' && row.ask_status ? '<div class="cr2-ask">' + askChip(row) + '</div>' : '') +
       '<div class="cr2-facts"><span>' + ic('users') + joined(row) + '</span>' + (when ? '<span>' + ic('cal') + '<bdi>' + esc(when) + '</bdi></span>' : '') + price + '</div>' +
-      (decide ? '<div class="cr2-dec">' + commandButton(row, 'approve', 'وافق وانشر', 'Approve and publish', 'pri') + commandButton(row, 'reject', 'ارفض', 'Decline', 'bad') + '</div>' : '') +
+      (decide && row.lecturer_id ? '<div class="cr2-ask">' + (row.ask_status ? askChip(row) : '') + checkButton(row, row.ask_status ? 'ask' : 'ask', row.ask_status ? 'اسأل مرة أخرى' : 'اسأل المحاضر', row.ask_status ? 'Ask again' : 'Ask the lecturer', row.ask_status ? 'ghost' : 'pri') +
+        (row.ask_status === 'available' ? checkButton(row, 'announce', 'انشر كإعلان كورس', 'Publish as course announcement', 'pri') : '') + '</div>' : '') +
+      (decide ? '<div class="cr2-dec">' + commandButton(row, 'approve', 'انشر كطلب', 'Publish as a request', row.lecturer_id ? 'ghost' : 'pri') + commandButton(row, 'reject', 'ارفض', 'Decline', 'bad') + '</div>' : '') +
       '</div></article>';
   }
   IS.sectionCourseRequests = function (limit) { return publicRows(scope(), limit); };
@@ -360,8 +462,10 @@
       var ids = (await DB.q(OFFERS, { eq: { lecturer_id: uid() } })).map(function (o) { return o.request_id; });
       rows = ids.length ? await DB.q(REQUESTS, { in: { id: ids, status: PUBLIC }, order: ['published_at', false], limit: 100 }) : [];
     } else {
-      var sets = await Promise.all([publicRows({ lecturer_id: null, teacher_confirmed: false }, 100), publicRows({ lecturer_id: uid(), teacher_confirmed: false }, 100)]);
-      rows = sets[1].concat(sets[0]).filter(function (r) { return r.user_id !== uid(); });
+      var sets = await Promise.all([publicRows({ lecturer_id: null, teacher_confirmed: false }, 100), publicRows({ lecturer_id: uid(), teacher_confirmed: false }, 100),
+        DB.q(REQUESTS, { eq: { status: 'pending', lecturer_id: uid() }, order: ['created_at', false], limit: 50 }).catch(function () { return []; })]);
+      /* requests the team asked this lecturer about come first (they wait for an answer) */
+      rows = sets[2].filter(function (r) { return r.ask_status; }).concat(sets[1], sets[0]).filter(function (r) { return r.user_id !== uid(); });
     }
     return IS.banner(IS.T('فرص التدريس', 'Teaching opportunities'), esc(A('راجع طلبات الطلاب وقدّم شروطك للطلبات التي تستطيع تدريسها.', 'Review student requests and send your terms for courses you can teach.')), 'studio') +
       '<div class="row">' + link('#studio-course-requests', 'فرص التدريس', 'Opportunities') + link('#studio-course-requests/offers', 'عروضي', 'My offers') + '</div>' +
@@ -456,7 +560,8 @@
     if (!/^[\da-f-]{36}$/i.test(id)) return null;
     var row = await DB.one(REQUESTS, id);
     var admin = prefix === 'control-course-request' && IS.can('review');
-    if (!row || row.status === 'deleted' || (!isPublic(row) && !admin && row.user_id !== uid())) return null;
+    var askedMe = row && row.status === 'pending' && row.ask_status && row.lecturer_id === uid();
+    if (!row || row.status === 'deleted' || (!isPublic(row) && !admin && row.user_id !== uid() && !askedMe)) return null;
     if (prefix === 'course-request' && !IS.inStudySpace(row)) return IS.outsideStudySpace(row);
     var owner = row.user_id === uid(), open = row.status === 'open', published = isPublic(row), offers = [];
     if (published && !admin && (owner || activeLecturer())) {
@@ -492,6 +597,8 @@
     if (proposals.length) h += '<section class="cr-public-offers"><h3>' + IS.T('عروض التدريس المنشورة', 'Published teaching offers') + '</h3>' +
       proposals.map(function (o) { return termsBlock(o, false); }).join('') + '</section>';
     h += '</section>';
+    if (admin && row.status === 'pending' && row.lecturer_id) h += checkPanel(row);
+    if (askedMe && prefix === 'studio-course-request') h += answerForm(row);
     if (admin || owner || canEdit(row)) {
       h += '<div class="row">' +
         (canEdit(row) ? '<button type="button" class="btn sm ' + (owner && row.status === 'rejected' ? 'pri' : 'ghost') + '" data-act="cr-edit" data-request="' + esc(row.id) + '">' + ic('pen') +

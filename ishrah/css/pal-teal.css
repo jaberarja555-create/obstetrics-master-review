@@ -3921,3 +3921,24 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 .cr2-facts .ptag{height:22px;padding:0 9px;font-size:12px;margin-inline-start:auto}
 .cr2-dec{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .cr2-dec .btn{width:100%;justify-content:center;min-height:40px}
+
+/* ask the lecturer before publishing (owner, 20 Nov 2026) */
+.cr-check{margin:12px 0;padding:12px 14px;border:1px solid var(--bd2);border-radius:14px;background:color-mix(in srgb,var(--pri) 5%,var(--sf));display:flex;flex-direction:column;gap:10px}
+.cr-check-h{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.cr-check-h .ico{width:18px;height:18px;color:var(--pri)}
+.cr-check-h b{font-size:14.5px}
+.cr-check p{margin:0}
+.cr-check-b{display:flex;flex-wrap:wrap;gap:8px}
+.cr-check-b .btn{flex:1 1 180px;justify-content:center;min-height:40px}
+.cr-terms{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:0;font-size:14px}
+.cr-terms dt{color:var(--sub);font-weight:600}
+.cr-terms dd{margin:0}
+.cr-note{display:flex;gap:6px;align-items:flex-start;padding:8px 10px;border-radius:10px;background:var(--sf);font-size:14px}
+.cr-note .ico{width:16px;height:16px;flex:none;margin-top:2px}
+.seg3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.seg3 label{display:block}
+.seg3 input{position:absolute;opacity:0;pointer-events:none}
+.seg3 span{display:flex;align-items:center;justify-content:center;min-height:42px;padding:4px 6px;border:1px solid var(--bd2);border-radius:12px;background:var(--sf);font-weight:700;font-size:13px;text-align:center;cursor:pointer}
+.seg3 input:checked+span{border-color:var(--pri);background:var(--tint);color:var(--pri)}
+.cr2-ask{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.cr2-ask .btn{flex:1 1 140px;justify-content:center;min-height:38px}

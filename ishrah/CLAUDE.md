@@ -822,3 +822,17 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   = cover with the status on it (or the status beside the name when there is no cover) · requester and time · title · speciality · section ·
   lecturer · two lines of details · facts line (joined · date · price badge); no approval star; in Control «وافق وانشر» / «ارفض» on the card.
 - Asset version 191, shell cache ish-v91.
+
+## Ask the named lecturer before publishing a request; notification badge · 20 Nov 2026
+- Owner: «إذا جاء طلب من طالب يطلب محاضرًا معينًا، كيف تبلغه الإدارة قبل الموافقة»; «المحاضر يضع شروطًا (عدد الطلاب، السعر لكل طالب، الزمن)،
+  والأدمن يحوّل الطلب إلى إعلان كورس أو يبقيه طلبًا والناس تبدي اهتمامها». `043_lecturer_check.sql` + course-requests.js:
+  - `ish_request_check(request, action, payload)`: ask (team) → the lecturer is notified («طالب يطلب كورسًا منك: هل أنت متاح؟») and may read the
+    waiting request; answer (the named lecturer: available + price per student, students, date and time, conditions / unavailable / needs details +
+    note; kept on the request `ask_*` and, when available, as the lecturer's private offer) → team alert; publish (team): announce = open with
+    the lecturer's terms as the accepted public agreement (price → payment, students → target with automatic closing, date) · request = open as a
+    plain request (people register interest; lecturer told) · general = lecturer removed, open for anyone.
+  - Control card: ask status chip, «اسأل المحاضر» / «انشر كإعلان كورس», «انشر كطلب» / «ارفض»; Control request page: panel with the lecturer's
+    terms and the three publish choices. Studio → Teaching opportunities lists asked requests first; the request page has the answer form.
+- Push notifications use `badge-96.png` (white logo on transparent; the full-colour icon showed as a white square in the Android status bar).
+  «ألغِ اشتراكي» under a website notification is added by Chrome on Android and cannot be removed by a site.
+- Asset version 192, shell cache ish-v92.
