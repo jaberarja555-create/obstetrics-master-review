@@ -710,3 +710,20 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - The section picker uses the opening screen's diagonal picture cards, teal outlines, ice-blue surfaces and paired icon and title. It fits between the toolbar and bottom navigation at standard phone sizes. The opening screen layout remains as approved.
 - Replaced the built-in pictures for all 20 specialty sections and the Community, Events, Learning and Studio banners with fresh medical scenes. Shared navigation, panels, course and library surfaces use the opening screen's visual styling.
 - Bundled collection images use the current asset version in their URLs, including CSS backgrounds. The service worker gives versioned images a separate cache key, so older green artwork cannot appear under the new URL. Asset version 181 and shell cache `ish-v81`. No database migration is required.
+
+## Comments like Facebook; tidy library card buttons · 20 Nov 2026
+- Owner: "make people interactions in post like in Facebook; now people can't reply to each other". `039_comment_threads.sql` + `js/threads.js`.
+  - Every comment (discussion, course, event, news and announcement comments in `replies`; `course_request_comments`; `library_comments`)
+    can be answered and liked. A reply joins its top comment's thread (`parent_id` = top comment, one level like Facebook) and names the person
+    answered (`reply_to`, `reply_to_name`, shown in blue before the text). `ish_comment_reply(kind, parent, body)` and
+    `ish_comment_like(kind, comment)` (kinds 'reply' · 'request' · 'file'; table `comment_likes`, `like_count` on the comment). A guard trigger
+    stops people setting these fields directly.
+  - Notifications (`kind 'social'`): the person answered «ردّ … على تعليقك», the top comment's writer «ردّ … في نقاش تعليقك», and the owner of
+    the post, request, file, course or event «علّق … على …». Never to yourself.
+  - Look: bubble with name and text, likes badge on the bubble, small actions under it (time · أعجبني · رد · إبلاغ/حذف), replies indented
+    under a line; threads with more than 2 replies fold into «عرض الردود السابقة (N)»; reply box inline with «الرد على <name>», Enter sends on
+    computers. `IS.commentItem` (now in threads.js), `IS.thread(rows, kind, item, opts)`, `IS.withThreads` (adds the replies of the comments
+    shown and this account's likes). Used on the post page, the comment panel of every feed card, the course request page and the file page.
+- Library cards in the feed (owner: «تنزيل، افتح الكتاب، مجاني … aligned well»): the price label on its own line, then the buttons side by
+  side with the same height and width (one button takes the whole width).
+- Asset version 182, shell cache ish-v82.

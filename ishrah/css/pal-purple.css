@@ -3612,3 +3612,45 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn.ghost,.feed-toolbar .btn.ghost):hover{
   border-color:var(--pri);background:var(--sf2);
 }
+
+/* comments like Facebook (owner, 20 Nov 2026): bubble, small actions under it, replies indented under their comment */
+.cthreads{display:flex;flex-direction:column;gap:12px;margin-top:10px}
+.feed-comment-panel [data-feed-entries]{display:flex;flex-direction:column;gap:12px}
+.cth{display:flex;flex-direction:column;gap:8px}
+.cmt,.cth .cmt{display:flex;gap:8px;padding:0;border:0;align-items:flex-start}
+.cmt>.av{flex:none;margin-top:2px}
+.cmt-b{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+.cmt-bub{position:relative;max-width:100%;padding:8px 12px 9px;border-radius:18px;background:var(--tint);color:var(--tx)}
+.cmt-bub .cmt-h{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.cmt-bub .cmt-h b{font-size:13.5px}
+.cmt-bub>p{margin:2px 0 0;font-size:14.5px;line-height:1.55;overflow-wrap:anywhere}
+.cmt-to{color:var(--pri);font-weight:700}
+.cmt-lk{position:absolute;inset-block-end:-10px;inset-inline-end:-6px;display:inline-flex;align-items:center;gap:2px;padding:1px 6px;border-radius:999px;background:var(--sf);box-shadow:0 1px 3px rgba(0,0,0,.18);font-size:11.5px;font-weight:700;color:var(--sub);white-space:nowrap}
+.cmt-a{display:flex;align-items:center;flex-wrap:wrap;gap:2px 2px;margin:6px 10px 0;font-size:12.5px;color:var(--sub)}
+.cmt-a>i{font-style:normal;opacity:.5;padding:0 2px}
+.cmt-a .cmt-t{font-size:12px;color:var(--sub)}
+.cmt-a .cl{border:0;background:none;padding:2px 4px;margin:0;font:700 12.5px inherit;color:var(--sub);cursor:pointer;min-height:28px;border-radius:6px}
+.cmt-a .cl:hover{color:var(--pri);text-decoration:underline}
+.cmt-a .cl.on{color:var(--pri)}
+.cmt-a .cl.bad:hover{color:#c0392b}
+.cmt-a .cact{border:0;background:none;padding:2px 4px;height:auto;font:700 12.5px inherit;color:var(--sub)}
+.cmt-kids{display:flex;flex-direction:column;gap:8px;margin-inline-start:40px;padding-inline-start:10px;border-inline-start:2px solid var(--bd)}
+.cmt.kid .cmt-bub{padding:6px 11px 7px}
+.cmt-more{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:2px 0;font:700 13px inherit;color:var(--pri);cursor:pointer}
+.cmt-more .ico{width:15px;height:15px}
+.cmt-rf{display:flex;gap:8px;align-items:flex-start}
+.cmt-rbox{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:flex-end;gap:4px;padding:6px 6px 6px 12px;border-radius:18px;background:var(--tint);border:1px solid var(--bd2)}
+[dir="rtl"] .cmt-rbox{padding:6px 12px 6px 6px}
+.cmt-rto{flex-basis:100%;font-size:11.5px;color:var(--sub)}.cmt-rto b{color:var(--pri)}
+.cmt-rbox textarea{flex:1;min-width:0;min-height:34px;max-height:160px;resize:none;border:0;background:transparent;padding:6px 0;font:inherit;font-size:14.5px;color:var(--tx);outline:none;box-shadow:none}
+.cmt-send{flex:none;width:34px;height:34px;border-radius:50%;border:0;background:var(--pri);color:#fff;display:grid;place-items:center;cursor:pointer}
+.cmt-send .ico{width:16px;height:16px}[dir="rtl"] .cmt-send .ico{transform:scaleX(-1)}
+.cmt-send:disabled{opacity:.5}
+
+/* library card buttons in order (owner, 20 Nov 2026: «تنزيل، افتح الكتاب، مجاني … aligned well»): price label on its own line, then the
+   buttons side by side with the same height and width; one button takes the whole width */
+.library-feed-actions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px!important;align-items:stretch;margin-block-start:10px!important;width:100%}
+.library-feed-actions>.ptag{grid-column:1/-1;justify-self:start;margin:0}
+.library-feed-actions>.btn{width:100%;min-width:0;min-height:40px;margin:0;justify-content:center;white-space:nowrap}
+.library-feed-actions>.btn:last-child:nth-child(even){grid-column:1/-1}
+.feed-library .feed-card-content>div:last-child,.feed-series .feed-card-content>div:last-child{min-width:0;flex:1}
+.cmt-a{justify-content:flex-start!important}.cmt-a>*{flex:none!important;width:auto!important;min-width:0!important}

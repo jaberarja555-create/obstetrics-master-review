@@ -55,8 +55,9 @@ jobs:
           routing=ishrah/supabase/036_alert_routing.sql
           review_wait=ishrah/supabase/037_course_request_review.sql
           edits=ishrah/supabase/038_course_request_edit.sql
+          threads=ishrah/supabase/039_comment_threads.sql
           pending=""
-          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits"; do
+          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads"; do
             if [ -n "$pending" ] || ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$migration"; then
               pending="${pending:+$pending }$migration"
             fi

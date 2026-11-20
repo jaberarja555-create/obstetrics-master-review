@@ -459,7 +459,7 @@
     }
     var board = prefix === 'studio-course-request' ? '#studio-course-requests' : admin ? '#control-course-requests' : '#course-requests';
     var r = await Promise.all([
-      published && !admin ? DB.q(COMMENTS, { eq: { request_id: id }, order: ['created_at', false], limit: 100 }) : [],
+      published && !admin ? DB.q(COMMENTS, { eq: { request_id: id }, order: ['created_at', false], limit: 100 }).then(function (rows) { return IS.withThreads('request', rows, { request_id: id }); }) : [],
       published && uid() && !owner ? DB.q(MEMBERS, { eq: { request_id: id, user_id: uid() } }) : [],
       published ? publishedOffers(id) : [],
       requestAttachments(id),
@@ -512,11 +512,10 @@
     if (showComments) IS.after = IS.focusPostComments;
     h += '<section class="box post-comments"><h2 tabindex="-1" data-post-comments>' + IS.T('التعليقات', 'Comments') + '</h2>' +
       (open && uid() ? contentForm('cr-comment', id, '', text('اكتب تعليقًا', 'Write a comment'), 'body', '', 2000, text('انشر التعليق', 'Post comment')) : '') +
-      r[0].reverse().map(function (c) {
-        return '<article class="cr-message"><div class="row sp"><b dir="auto">' + esc(c.author_name) + '</b><small class="mut">' + esc(IS.ago(c.created_at)) +
-          '</small></div><p class="pre" dir="auto">' + esc(c.body) + '</p>' +
-          IS.reportButton('request_comment', c.id) + (c.user_id === uid() || IS.can('community', 'delete') ? commandButton(row, 'remove_comment', 'احذف التعليق', 'Delete comment', 'bad', c.id) : '') + '</article>';
-      }).join('') + '</section>';
+      '<div class="cthreads">' + IS.thread(r[0], 'request', function (c) {
+        return { name: c.author_name, photo: c.author_photo, when: IS.ago(c.created_at), body: c.body, report: c.user_id !== uid() ? ['request_comment', c.id] : null,
+          del: c.user_id === uid() || IS.can('community', 'delete') ? commandButton(row, 'remove_comment', 'حذف', 'Delete', 'bad', c.id) : '' };
+      }, { reply: open, empty: '<p class="mut">' + text('لا توجد تعليقات بعد.', 'No comments yet.') + '</p>' }) + '</div></section>';
     if (canOffer(row)) {
       h += '<section class="box"><h2>' + IS.T('أنا متاح للتدريس', 'I’m available to teach') + '</h2>' +
         note('تظهر هذه الشروط للجميع على الطلب. اذكر السعر والموعد وطريقة التدريس وقواعد المجموعة.', 'Everyone can see these terms on the request. Include your price, schedule, teaching format, and group rules.') +
@@ -805,10 +804,12 @@
     }
   };
 
-  function commentMarkup(row, kind) {
+  function commentMarkup(row, kind) { return IS.commentItem(commentOpts(row, kind)); }
+  function commentKind(kind) { return kind === 'request' ? 'request' : kind === 'file' ? 'file' : 'reply'; }
+  function commentOpts(row, kind) {
     var report = kind === 'request' ? 'request_comment' : kind === 'file' ? 'file_comment' : 'reply';
-    return IS.commentItem({ name: row.author_name || row.name, photo: row.author_photo || row.photo, when: row.created_at ? IS.ago(row.created_at) : A('الآن', 'Now'), body: row.body,
-      report: report && row.id ? [report, row.id] : null });
+    return { name: row.author_name || row.name, photo: row.author_photo || row.photo, when: row.created_at ? IS.ago(row.created_at) : A('الآن', 'Now'), body: row.body,
+      report: report && row.id && row.user_id !== uid() ? [report, row.id] : null };
   }
 
   async function loadComments(panel, kind, id) {
@@ -819,10 +820,11 @@
     try {
       var rows = await DB.q(table, { eq: { [kind + '_id']: id }, neq: table === 'replies' ? { status: 'removed' } : null,
         order: ['created_at', false], limit: limit });
+      rows = await IS.withThreads(commentKind(kind), rows, { [kind + '_id']: id });
       if (revision !== panel.commentRevision) return true;
       var earlier = rows.length === limit && limit < 1000 ? '<button type="button" class="link" data-act="earlier-feed-comments">' +
         text('عرض التعليقات السابقة', 'Show earlier comments') + '</button>' : '';
-      entries.innerHTML = rows.length ? earlier + rows.reverse().map(function (row) { return commentMarkup(row, kind); }).join('') :
+      entries.innerHTML = rows.length ? earlier + IS.thread(rows, commentKind(kind), function (row) { return commentOpts(row, kind); }, { openId: panel.dataset.openThread, reply: !panel.closest('[data-comments-closed]') }) :
         '<p class="mut">' + text('لا توجد تعليقات بعد.', 'No comments yet.') + '</p>';
       panel.dataset.loaded = 'true';
       return true;
@@ -833,6 +835,11 @@
     }
   }
 
+  IS.reloadFeedComments = function (panel, openId) {
+    var [kind,id] = panel.closest('[data-feedback]').dataset.feedback.split('/');
+    if (openId) panel.dataset.openThread = openId;
+    return loadComments(panel, kind, id);
+  };
   IS.ACT['feed-comments'] = function (button) {
     var bar = button.closest('[data-feedback]'), [kind,id] = bar.dataset.feedback.split('/');
     var panel = bar.querySelector('.feed-comment-panel');

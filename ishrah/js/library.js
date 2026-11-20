@@ -706,10 +706,10 @@
         '"><label class="fl"><span>' + esc(A('اكتب تعليقًا', 'Write a comment')) + '</span><textarea name="body" required rows="2" maxlength="2000"></textarea></label>' +
         '<div class="row end"><button class="btn pri sm">' + ic('send') + esc(A('انشر التعليق', 'Post comment')) + '</button></div></form>' :
         '<p class="mut">' + esc(A('سجّل الدخول للمشاركة في التعليقات.', 'Sign in to join the conversation.')) + '</p>') +
-      comments.map(function (comment) {
-        return IS.commentItem({ name: comment.author_name, photo: comment.author_photo, when: IS.ago(comment.created_at), body: comment.body, report: ['file_comment', comment.id],
-          del: canRemoveComment(comment) ? '<button type="button" class="cact bad" data-act="remove-library-comment" data-id="' + esc(comment.id) + '" data-file="' + esc(file.id) + '">' + ic('trash') + esc(A('حذف', 'Delete')) + '</button>' : '' });
-      }).join('') + '</section>';
+      '<div class="cthreads">' + IS.thread(comments, 'file', function (comment) {
+        return { name: comment.author_name, photo: comment.author_photo, when: IS.ago(comment.created_at), body: comment.body, report: IS.ME && comment.user_id !== IS.ME.id ? ['file_comment', comment.id] : null,
+          del: canRemoveComment(comment) ? '<button type="button" class="cact bad" data-act="remove-library-comment" data-id="' + esc(comment.id) + '" data-file="' + esc(file.id) + '">' + esc(A('حذف', 'Delete')) + '</button>' : '' };
+      }, { reply: signedIn }) + '</div></section>';
   }
 
   function editFileButton(file) {
@@ -799,7 +799,7 @@
     var published = file.status === 'published', genre = kind(file.kind);
     var browseKind = file.kind === 'book' ? kind('reference') : genre;
     var data = published ? await Promise.all([
-      DB.q('library_comments', { eq: { file_id: id }, order: ['created_at', false], limit: 60 }),
+      DB.q('library_comments', { eq: { file_id: id }, order: ['created_at', false], limit: 60 }).then(function (rows) { return IS.withThreads('file', rows, { file_id: id }); }),
       IS.ME ? DB.q('feed_feedback', { eq: { file_id: id, user_id: IS.ME.id }, limit: 1 }) : []
     ]) : [[], []];
     var own = data[1][0] || {};

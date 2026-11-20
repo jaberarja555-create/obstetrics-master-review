@@ -1183,6 +1183,7 @@
       else p.course_id = null;
     }
     var rs = (await DB.q('replies', { eq: { post_id: id }, order: ['created_at'] })).filter(function (r) { return r.status !== 'removed'; });
+    await IS.loadCommentLikes('reply', rs);
     var lecs = await IS.lecMap();
     if (parts[1] === 'comments') IS.after = IS.focusPostComments;
     var composer = me() ? '<form class="form" data-form="reply"><input type="hidden" name="post" value="' + p.id + '">' +
@@ -1194,9 +1195,11 @@
       '<div class="row">' + (p.room === 'qa' ? IS.postActions('post', p.id, 'post/' + p.id) : '') +
         (p.user_id === uid() ? '<button type="button" class="btn ghost sm" data-act="post-edit" data-id="' + esc(p.id) + '">' + ic('pen') + esc(A('عدّل المنشور', 'Edit post')) + '</button>' : '') + (mod ? '<button class="btn ghost sm" data-act="pin" data-id="' + p.id + '">' + ic('pin') + esc(p.pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت', 'Pin')) + '</button><button class="btn ghost sm bad" data-act="rmpost" data-id="' + p.id + '">' + ic('trash') + esc(A('حذف', 'Remove')) + '</button>' : '') + '</div></div></article>' +
       '<section class="box post-comments"><h2 tabindex="-1" data-post-comments>' +
-      (p.room === 'qa' ? IS.T('الردود', 'Replies') : IS.T('التعليقات', 'Comments')) + '</h2>' + composer + rs.map(function (r) { var isLec = !!lecs[r.user_id];
-        return '<div class="box reply' + (isLec ? ' lec' : '') + '">' + IS.av({ name: r.name, photo: r.photo }, 'sm', r.user_id) + '<div><b>' + esc(r.name || '') + '</b>' + (isLec ? IS.chip(esc(A('محاضر', 'Lecturer')), 'ok') : '') + ' <small class="mut">' + esc(IS.ago(r.created_at)) + '</small><p class="pre">' + esc(r.body) + '</p>' +
-          (me() ? '<div class="cmt-a"><button type="button" class="cact" data-act="report" data-kind="reply" data-id="' + r.id + '">' + ic('flag') + esc(A('إبلاغ', 'Report')) + '</button>' + (mod && IS.can('community', 'edit') ? '<button type="button" class="cact bad" data-act="rmreply" data-id="' + r.id + '">' + ic('trash') + esc(A('حذف', 'Delete')) + '</button>' : '') + '</div>' : '') + '</div></div>'; }).join('') +
+      (p.room === 'qa' ? IS.T('الردود', 'Replies') : IS.T('التعليقات', 'Comments')) + '</h2>' + composer + '<div class="cthreads">' + IS.thread(rs, 'reply', function (r) { var isLec = !!lecs[r.user_id];
+        return { name: r.name, photo: r.photo, when: IS.ago(r.created_at), body: r.body, badge: isLec ? IS.chip(esc(A('محاضر', 'Lecturer')), 'ok') : '',
+          report: me() && r.user_id !== uid() ? ['reply', r.id] : null,
+          del: mod && IS.can('community', 'edit') ? '<button type="button" class="cact bad" data-act="rmreply" data-id="' + r.id + '">' + esc(A('حذف', 'Delete')) + '</button>' : '' };
+      }, { reply: !!me(), empty: '<p class="mut">' + esc(A('لا توجد تعليقات بعد. كن أول من يعلّق.', 'No comments yet. Be the first to comment.')) + '</p>' }) + '</div>' +
       '</section>';
   });
   IS.savePostReply = async function (id, body) {
