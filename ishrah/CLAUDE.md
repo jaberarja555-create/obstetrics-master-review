@@ -798,3 +798,5 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   grid on phones. Check used before publishing: scratchpad pages.js (file, series, course, post, request, event, news, library, home at
   360/390/820/1440: wider than the screen, off screen, squeezed buttons, words broken into a column).
 - Asset version 188, shell cache ish-v88.
+- Edit buttons are a round pen only (`.btn.iconly`); series parts show 📄 pages · 📖 page reached · ✅ finished · ⏳ awaiting review and a thin
+  reading-progress line; series show only the number of parts (`IS.partsCount`), not pages. Asset version 189, shell cache ish-v89.

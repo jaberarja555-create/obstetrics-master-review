@@ -3859,3 +3859,10 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 #lres .bcard .fb{grid-column:2}
 /* course page tabs fit the phone (the 4th tab was cut off) */
 @media (max-width:600px){.course-details .tabs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;overflow:visible}.course-details .tabs>*{min-width:0;padding:8px 4px!important;font-size:12.5px!important;line-height:1.25;white-space:normal!important;text-align:center;justify-content:center}}
+/* icon-only edit (owner: «تعديل الملف ممكن يكون فقط علامة قلم») and small signs */
+.btn.iconly{flex:none!important;width:40px;min-width:40px!important;height:40px;padding:0!important;justify-content:center;border-radius:50%!important}
+.btn.iconly .ico{width:17px;height:17px;margin:0}
+.sp-a>.iconly{flex:none!important}
+.sp-b small{display:flex;flex-wrap:wrap;gap:4px 10px}
+.sp-prog{display:block;height:4px;margin-top:6px;border-radius:4px;background:linear-gradient(90deg,var(--pri) var(--p),var(--bd) var(--p))}
+[dir="rtl"] .sp-prog{background:linear-gradient(270deg,var(--pri) var(--p),var(--bd) var(--p))}

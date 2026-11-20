@@ -81,13 +81,18 @@
     out.forEach(function (r) { if (r._parts) r._parts.sort(function (a, b) { return (a.series_no || 0) - (b.series_no || 0); }); });
     return out;
   };
+  /* a series shows how many books it holds, not pages (owner, 20 Nov 2026: each part is a separate book or sheet) */
+  IS.partsCount = function (n) {
+    if (IS.lang !== 'ar') return n + (n === 1 ? ' part' : ' parts');
+    return n === 1 ? 'جزء واحد' : n === 2 ? 'جزآن' : n <= 10 ? n + ' أجزاء' : n + ' جزءًا';
+  };
   IS.seriesCard = function (s, feed) {
     var first = s._parts[0], k = IS.libraryKind(first.kind), pages = s._parts.reduce(function (a, p) { return a + (+p.pages || 0); }, 0);
     return '<article class="' + (feed ? 'box feed-card feed-series' : 'fcard scard') + '">' +
       (feed ? '<header class="feed-card-header"><span>' + ic('layers') + esc(A('سلسلة في المكتبة', 'Library series')) + '</span>' + (first.published_at ? '<time>' + esc(IS.ago(first.published_at)) + '</time>' : '') + '</header>' : '') +
       '<a class="fimg sstack" href="#series/' + esc(s.series_id) + '" aria-label="' + esc(s.series_title || first.title) + '">' + IS.libraryCover(first) + '<span class="scount">' + ic('layers') + N(s._parts.length) + '</span></a>' +
       '<div class="fb"><span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + ' · ' + esc(A('سلسلة', 'Series')) + '</span><b><a href="#series/' + esc(s.series_id) + '" dir="auto">' + esc(s.series_title || first.title) + '</a></b>' +
-      '<small>' + esc(s._parts.length + ' ' + A('أجزاء', 'parts') + (pages ? ' · ' + pages + ' ' + A('صفحة', 'pages') : '')) + (first.author ? ' · ' + esc(first.author) : '') + '</small>' +
+      '<small>' + esc(IS.partsCount(s._parts.length)) + (first.author ? ' · ' + esc(first.author) : '') + '</small>' +
       '<div class="row library-feed-actions"><a class="btn ghost sm" href="#series/' + esc(s.series_id) +
       '">' + ic('open') + esc(A('افتح السلسلة', 'Open the series')) + '</a></div></div>' + seriesFeedback(s.series_id, first) + '</article>';
   };
@@ -108,13 +113,13 @@
     h += '<article class="box shead"><div class="sstack big">' + IS.libraryCover(first) + '<span class="scount">' + ic('layers') + N(parts.length) + '</span></div><div class="sinfo">' +
       '<span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + ' · ' + esc(A('سلسلة', 'Series')) + '</span><h1 tabindex="-1" dir="auto">' + esc(title) + '</h1>' +
       '<p class="mut">' + IS.librarySubjectNames({ _parts: parts }).concat(first.author).filter(Boolean).map(esc).join(' · ') + '</p>' +
-      '<div class="sfacts"><span>' + ic('layers') + N(parts.length) + ' ' + esc(A('أجزاء', 'parts')) + '</span>' + (pages ? '<span>' + ic('file') + N(pages) + ' ' + esc(A('صفحة', 'pages')) + '</span>' : '') + '</div>' +
+      '<div class="sfacts"><span>' + ic('layers') + esc(IS.partsCount(parts.length)) + '</span>' + '' + '</div>' +
       '<div class="row fprice">' + IS.priceTag(first) + IS.tagChips(first) + '</div>' +
       (first.about ? '<p class="pre" dir="auto">' + esc(first.about) + '</p>' : '') +
       '<div class="row">' + (first.status === 'published' && !IS.fileOpenable(first) ? IS.buyBtn(first) : IS.ME ? '<button type="button" class="btn pri" data-act="sread" data-id="' + esc(parts[lastRead].id) + '">' + ic('open') +
         esc(lastRead ? A('تابع: الجزء ', 'Continue: part ') + (lastRead + 1) : A('ابدأ من الجزء الأول', 'Start with part 1')) + '</button>' :
         '<button type="button" class="btn pri" data-act="login">' + ic('lock') + esc(A('سجّل الدخول للقراءة', 'Sign in to read')) + '</button>') +
-      (own ? '<button type="button" class="btn ghost" data-act="edit-library-series" data-id="' + esc(own.id) + '">' + ic('pen') + esc(A('تعديل السلسلة', 'Edit series')) + '</button>' : '') +
+      (own ? '<button type="button" class="btn ghost iconly" data-act="edit-library-series" data-id="' + esc(own.id) + '" aria-label="' + esc(A('تعديل السلسلة', 'Edit series')) + '" title="' + esc(A('تعديل السلسلة', 'Edit series')) + '">' + ic('pen') + '</button>' : '') +
       '</div></div></article>';
     if (parts.some(function (part) { return part.status === 'published'; })) {
       h += '<section class="box series-feedback">' + seriesFeedback(id, first) + '</section>';
@@ -126,7 +131,8 @@
       return '<li class="spart' + (done ? ' done' : '') + '"><span class="sno">' + (done ? ic('check') : N(i + 1)) + '</span>' +
         '<a class="spart-cover" href="#file/' + esc(p.id) + '" aria-label="' + esc(p.title) + '"' + (fallback ? ' data-part-preview="' + esc(p.id) + '"' : '') +
         '>' + IS.libraryCover(p) + '</a><div class="sp-b"><a href="#file/' + esc(p.id) + '" dir="auto"><b>' + esc(p.title) + '</b></a>' +
-        '<small>' + [p.pages ? p.pages + ' ' + A('صفحة', 'pages') : '', pg > 1 ? A('توقفت عند ص ', 'stopped at p. ') + pg : '', p.status !== 'published' ? A('بانتظار المراجعة', 'awaiting review') : ''].filter(Boolean).map(esc).join(' · ') + '</small></div>' +
+        '<small>' + [p.pages ? '📄 ' + p.pages + ' ' + A('صفحة', 'pages') : '', done ? '✅ ' + A('أنهيته', 'Finished') : pg > 1 ? '📖 ' + A('وصلت ص ', 'at p. ') + pg : '', p.status !== 'published' ? '⏳ ' + A('بانتظار المراجعة', 'awaiting review') : ''].filter(Boolean).map(esc).join('  ') + '</small>' +
+          (pg > 1 && p.pages ? '<i class="sp-prog" style="--p:' + Math.min(100, Math.round(pg / p.pages * 100)) + '%" title="' + Math.min(100, Math.round(pg / p.pages * 100)) + '%"></i>' : '') + '</div>' +
         '<div class="sp-a">' + (!IS.fileOpenable(p) ? '<span class="chip">' + ic('lock') + esc(A('بعد الشراء', 'After purchase')) + '</span>' : IS.ME ? '<button type="button" class="btn ghost sm" data-act="sread" data-id="' + esc(p.id) + '">' + ic('open') + esc(A('افتح', 'Open')) + '</button>' + IS.dlBtn('file', p.id, '', true) : '') + IS.editLibraryFileButton(p) + '</div>' +
         (p.status === 'published' && IS.feedVoteBar ? '<div class="sp-fb">' + IS.feedVoteBar('file', p, true) + '</div>' : '') + '</li>';
     }).join('') + '</ol></section>';

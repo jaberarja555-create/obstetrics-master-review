@@ -715,8 +715,8 @@
 
   function editFileButton(file) {
     return IS.ME && file.owner_id === IS.ME.id && ['pending', 'published', 'rejected', 'removed'].includes(file.status) ?
-      '<button type="button" class="btn ghost sm" data-act="edit-library-upload" data-id="' + esc(file.id) + '">' +
-      ic('pen') + esc(A('تعديل الملف', 'Edit upload')) + '</button>' : '';
+      '<button type="button" class="btn ghost sm iconly" data-act="edit-library-upload" data-id="' + esc(file.id) + '" aria-label="' + esc(A('تعديل الملف', 'Edit upload')) +
+      '" title="' + esc(A('تعديل الملف', 'Edit upload')) + '">' + ic('pen') + '</button>' : '';
   }
   IS.editLibraryFileButton = editFileButton;
   async function fileRevision(id, series) {
