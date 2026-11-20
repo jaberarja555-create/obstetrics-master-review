@@ -462,6 +462,54 @@
     move(); if (page) { var mo = new MutationObserver(move); mo.observe(page, { childList: true }); setTimeout(function () { mo.disconnect(); }, 8000); }
   };
 
+  /* ---------- lecturer page in the owner's picture (20 Nov 2026): a teal card with the cover and a gold wave, the picture in a gold ring with
+     the verified sign, the name in a gold-edged pill, title, last activity, section and speciality, Follow (gold) · Add to favourites ·
+     Request a course or lecture; then courses · followers, qualifications · rating and «member since». The rest (about, courses, events,
+     links) follows as before. ---------- */
+  HI.brief = svg('0 0 24 24', '<rect x="3" y="7" width="18" height="13" rx="2.4"/><path d="M9 7V5.2A1.2 1.2 0 0 1 10.2 4h3.6A1.2 1.2 0 0 1 15 5.2V7M3 12.5h18"/>', ' fill="none" stroke="currentColor" stroke-width="1.8"');
+  HI.userPlus = svg('0 0 24 24', '<circle cx="10" cy="8" r="4"/><path d="M3 21c0-4 3.1-7 7-7 1.6 0 3 .4 4.2 1.2M18 14v6M15 17h6"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"');
+  HI.trophy = svg('0 0 24 24', '<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M10 14.5V18h4v-3.5M8 21h8"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"');
+  HI.cal = svg('0 0 24 24', '<rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>', ' fill="none" stroke="currentColor" stroke-width="1.9"');
+  HI.star = svg('0 0 24 24', '<path d="M12 3l2.8 5.8 6.2.9-4.5 4.4 1.1 6.2L12 17.4l-5.6 2.9 1.1-6.2L3 9.7l6.2-.9z"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"');
+  var lec0 = IS.pageOf && IS.pageOf('lecturer');
+  if (lec0) IS.page('lecturer', async function (id) {
+    var inner = await lec0.fn(id);
+    if (typeof inner !== 'string' || inner.indexOf('class="lhero') < 0) return inner;
+    var r = await Promise.all([DB.one('lecturers', id).catch(function () { return null; }), pcard(id).catch(function () { return null; }),
+      DB.q('courses', { eq: { lecturer_id: id, status: 'published' } }).catch(function () { return []; })]);
+    var l = r[0], c = r[1] || {}, courses = r[2] || [];
+    if (!l) return inner;
+    var t = document.createElement('template'); t.innerHTML = inner;
+    [].slice.call(t.content.children).forEach(function (x) { if (x.matches('.crumb, .lhero')) x.remove(); });
+    var quick = t.content.querySelector('.aside > .box'); if (quick && /kv/.test(quick.innerHTML)) quick.remove();
+    var spec = IS.mySpec(), section = IS.mySection(), mine = IS.ME && IS.ME.id === id;
+    var rv = courses.filter(function (x) { return x.n_reviews; }), n = rv.reduce(function (a, x) { return a + (+x.n_reviews || 0); }, 0);
+    var rate = n ? Math.round(rv.reduce(function (a, x) { return a + (+x.rating || 0) * x.n_reviews; }, 0) / n * 10) / 10 : 0;
+    var fav = IS.ME && !!(IS.LS.get('fav-' + IS.ME.id, {})['t:' + id]);
+    var quals = (l.quals || []).slice(0, 2).join(', ');
+    var hero = '<section class="lp-hero"><div class="lp-cover" style="--lc:url(' + IS.U(l.cover || 'img/hero_band.webp') + ')"></div>' +
+      '<svg class="lp-wave" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40C80 20 130 10 200 10s120 10 200 30V60H0z" fill="#0b5a4c"/><path d="M0 40C80 20 130 10 200 10s120 10 200 30" fill="none" stroke="#e9c46a" stroke-width="3"/></svg>' +
+      '<div class="lp-body"><span class="lp-av">' + IS.av(l, 'xl', id) + '<i class="lp-ok">' + PI.check + '</i></span>' +
+      '<h1 tabindex="-1" class="lp-name" dir="auto">' + IS.lecName(l.name) + '</h1>' +
+      (l.title ? '<span class="lp-title">' + HI.brief + '<b dir="auto">' + esc(l.title) + '</b></span>' : '') +
+      '<span class="lp-seen">' + IS.seen(id) + '</span>' +
+      '<span class="lp-chips">' + (section ? '<b lang="en">' + esc(section.id === 'special' ? 'International' : section.en) + '</b>' : '') + (spec ? '<b lang="en">' + esc(spec.en) + '</b>' : '') + '</span>' +
+      (mine ? '<div class="lp-acts"><a class="lp-btn gold" href="#studio-page">' + PI.pen + '<span>' + esc(A('تعديل صفحتي', 'Edit my page')) + '</span></a><a class="lp-btn" href="#studio">' + HI.layers + '<span>' + esc(A('الاستوديو', 'Studio')) + '</span></a></div>' :
+        '<div class="lp-acts"><button type="button" class="lp-btn gold' + (c.me_follow ? ' on' : '') + '" data-act="pffollow" data-id="' + esc(id) + '">' + (c.me_follow ? PI.tick : HI.userPlus) + '<span>' + esc(c.me_follow ? A('متابَع', 'Following') : A('متابعة', 'Follow')) + '</span></button>' +
+        '<button type="button" class="lp-btn" data-act="fav" data-k="t:' + esc(id) + '" aria-pressed="' + fav + '">' + PI.bm + '<span>' + esc(A('إضافة للمفضلة', 'Add to favourites')) + '</span></button>' +
+        '<a class="lp-btn wide" href="#course-requests/new/' + esc(id) + '">' + HI.cap.replace(G, 'currentColor') + '<span>' + esc(A('اطلب كورس أو محاضرة', 'Request a course or lecture')) + '</span></a></div>') +
+      '</div></section>' +
+      '<section class="lp-stats"><div class="lp-two"><span>' + HI.layers.replace(G, 'currentColor') + '<b>' + N(courses.length) + '</b><small>' + esc(A('كورسات', 'Courses')) + '</small></span>' +
+        '<span>' + PI.group + '<b>' + nfmt(c.followers || 0) + '</b><small>' + esc(A('متابعين', 'Followers')) + '</small></span></div>' +
+      '<div class="lp-tiles"><a class="lp-tile" role="button" data-act="lp-go" data-t="lp-quals"><i>' + HI.cap.replace(G, '#c99a3e') + '</i><b>' + esc(A('المؤهلات', 'Qualifications')) + '</b><small dir="auto">' + esc(quals || A('لم تُضف بعد', 'Not added yet')) + '</small><em>‹</em></a>' +
+        '<a class="lp-tile" role="button" data-act="lp-go" data-t="lp-courses"><i>' + HI.star.replace('currentColor', '#c99a3e') + '</i><b>' + esc(A('التقييم', 'Rating')) + '</b><small>' + (n ? rate.toFixed(1) + ' / 5 · ' + N(n) + ' ' + esc(A('تقييم', 'ratings')) : esc(A('لم يُقيَّم بعد', 'Not rated yet'))) + '</small><em>‹</em></a></div>' +
+      '<div class="lp-row">' + HI.cal + '<b>' + esc(A('تاريخ التسجيل كعضو', 'Member since')) + '</b><span>' + esc(IS.date(l.created_at)) + '</span></div></section>';
+    var qbox = [].filter.call(t.content.querySelectorAll('.box'), function (b) { return /learn/.test(b.innerHTML) && b.querySelector('ul.learn'); })[0]; if (qbox) qbox.id = 'lp-quals';
+    var csec = t.content.querySelector('.sec'); if (csec) csec.id = 'lp-courses';
+    return hero + t.innerHTML;
+  }, lec0.o);
+  IS.ACT['lp-go'] = function (b) { var e = document.getElementById(b.getAttribute('data-t')); if (e) e.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+
   /* ---------- sign in, sign up, the email code and Features open in the same green and gold look (owner, 20 Nov 2026) ---------- */
   var sheet0 = IS.sheet;
   IS.sheet = function () { var d = sheet0.apply(this, arguments);

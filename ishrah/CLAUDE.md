@@ -1039,3 +1039,7 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   «إدارة» is there. Not framed: cert, pick, pick-section; studio and control keep their own look.
 - **Section page opens at once** (owner: "I keep feeling this delay"): the last loaded posts of each section are kept on the phone
   (`localStorage mr-feed:<account>:<spec>/<section>:<lang>`) and shown immediately; the fresh feed replaces them when it arrives.
+- **Lecturer page in the owner's picture** (20 Nov 2026): mr.js wraps `#lecturer/<id>`: teal card (cover photo, gold wave, picture in a
+  gold ring with a blue verified sign, name in a gold-edged pill, title chip, last activity, section | speciality, «متابعة» gold (follows,
+  migration 049) · «إضافة للمفضلة» · «اطلب كورس أو محاضرة»; the lecturer sees «تعديل صفحتي» and «الاستوديو»), then courses · followers,
+  Qualifications and Rating tiles (tap scrolls to them) and «تاريخ التسجيل كعضو». About, qualifications, courses, events and links follow.
