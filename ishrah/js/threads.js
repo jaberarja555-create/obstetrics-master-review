@@ -45,9 +45,10 @@
     var to = row.reply_to_name && !o.hideTo ? '<b class="cmt-to" dir="auto">' + esc(row.reply_to_name) + '</b> ' : '';
     return '<article class="cmt' + (row.parent_id ? ' kid' : '') + '"' + (id ? ' data-cid="' + esc(id) + '"' : '') + (lk ? ' data-lk="' + lk + '"' : '') + '>' + IS.av({ name: o.name, photo: o.photo }, row.parent_id ? 'xs' : 'sm', row.user_id) +
       '<div class="cmt-b"><div class="cmt-row"><div class="cmt-bub"><div class="cmt-h"><b dir="auto">' + esc(o.name || '') + '</b>' + (o.badge || '') + '</div>' +
-      '<p class="pre" dir="auto">' + to + esc(o.body || '') + '</p></div>' +
-      (menu ? '<span class="cmt-mw"><button type="button" class="cmt-dots" data-act="cmt-menu" aria-label="' + esc(A('خيارات', 'Options')) + '">' + ic('more') + '</button><span class="cmt-menu" hidden>' + menu + '</span></span>' : '') + '</div>' +
-      '<div class="cmt-a">' + acts.join('') + badge(counts(row)) + '</div></div></article>';
+      '<p class="pre" dir="auto">' + to + esc(o.body || '') + '</p></div></div>' +
+      '<div class="cmt-a">' + acts.join('') + badge(counts(row)) +
+      (menu ? '<span class="cmt-mw"><button type="button" class="cmt-dots" data-act="cmt-menu" aria-label="' + esc(A('خيارات', 'Options')) + '">' + ic('more') + '</button><span class="cmt-menu" hidden>' + menu + '</span></span>' : '') +
+      '</div></div></article>';
   };
 
   /* comments and their replies: rows = every comment of one page (tops and replies, any order); item(row) → commentItem options */

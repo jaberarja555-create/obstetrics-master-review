@@ -3961,3 +3961,40 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 .cmt-lk .cmt-es i{font-style:normal;font-size:14px;line-height:1;display:inline-block}
 .cmt-bub .cmt-h b{max-width:min(calc(100vw - 150px),520px)}
 .cmt.kid .cmt-bub .cmt-h b{max-width:min(calc(100vw - 190px),480px)}
+
+/* comments, closer to Facebook (owner, 20 Nov 2026: "still very bad"):
+   full names in one line at 12.5 px semibold (cut only if wider than the whole bubble width), the bubble may use the full width,
+   the reaction count sits right after «رد» instead of far away, the chosen reaction emoji is the size of the text,
+   and the comment box stays inside the card */
+.cmt-bub .cmt-h b{font-size:12.5px!important;font-weight:600!important;letter-spacing:0;max-width:min(calc(100vw - 118px),560px)!important}
+.cmt.kid .cmt-bub .cmt-h b{max-width:min(calc(100vw - 150px),520px)!important}
+.cmt-row{max-width:100%!important}
+.cmt-bub{max-width:calc(100% - 34px)!important}
+.cmt-bub>p{font-size:14px!important;line-height:1.45!important}
+.cmt-a{gap:14px!important;justify-content:flex-start}
+.cmt-a .cmt-lk{margin-inline-start:0!important;gap:3px}
+.cmt-a .cl .cmt-rxm{font-size:14px!important}
+.cmt-lk .cmt-es i{font-size:13px}
+.cmt-compose{width:100%;max-width:100%;box-sizing:border-box;min-width:0}
+.cmt-compose .cmt-rbox{flex:1 1 auto;min-width:0;max-width:100%;box-sizing:border-box;display:flex;align-items:flex-end;gap:6px}
+.cmt-compose .cmt-send{flex:none}
+/* the comments section's grid column never grows past the card (a long one-line name made the box, its ⋯ menu and the comment field
+   run off the left edge) */
+.post-comments,.feed-comment-panel{grid-template-columns:minmax(0,1fr)!important;min-width:0}
+.post-comments>*,.feed-comment-panel>*,.cthreads,.cth,.cmt,.cmt-compose{min-width:0;max-width:100%}
+/* on phones the share button is an icon, so it takes an icon's width and «أعجبني» / «تعليق» get the room */
+@media (max-width:420px){.fv-acts>.fv-btn[data-act="share-link"]{flex:none!important;width:40px!important}}
+.fv-acts .rx-l,.fv-acts .fv-btn span{white-space:nowrap}
+/* ⋯ sits in the line under the comment, so the bubble and the name use the full width (owner, 20 Nov 2026) */
+.cmt-bub{max-width:100%!important}
+.cmt-a .cmt-mw{display:inline-flex;align-items:center}
+.cmt-a .cmt-dots{width:26px;height:24px;border-radius:8px;opacity:.75}
+.cmt-a .cmt-dots .ico{width:15px;height:15px}
+.cmt-bub .cmt-h b{max-width:min(calc(100vw - 96px),600px)!important}
+.cmt.kid .cmt-bub .cmt-h b{max-width:min(calc(100vw - 132px),560px)!important}
+@media (max-width:520px){
+  .cmt>.av,.cmt>.av.sm{width:32px!important;height:32px!important}
+  .cmt{gap:7px!important}
+  .post-comments{padding-inline:12px!important}
+}
+@media (max-width:380px){.cmt-bub .cmt-h b{font-size:12px!important}.post-comments{padding-inline:10px!important}.cmt-bub{padding-inline:11px!important}}

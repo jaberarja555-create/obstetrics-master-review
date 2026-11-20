@@ -896,3 +896,9 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   bubble never wraps (13 px, semibold); a name longer than the screen allows is cut with … (max width min(100vw − 150 px, 520 px); replies
   40 px less). The small reaction emojis on a comment are separate (`.cmt-es i`), so 👎 no longer sits on ❤️. Test: scratchpad nm.js.
   Asset version 200, cache ish-v100.
+- **Comments, second pass** (owner, 20 Nov 2026: "still very bad", with a screenshot): the comments box is a grid whose column grew to the
+  longest one-line name, so the bubble, its ⋯ and the comment field ran past the card's left edge; columns are now `minmax(0,1fr)`. The ⋯ menu
+  moved into the line under the comment (time · أعجبني · رد · count · ⋯, like Facebook), so the bubble and name use the full width; names
+  12.5 px semibold (12 px under 380 px), avatars 32 px on phones; the reaction count follows «رد» instead of sitting far away; the chosen
+  reaction emoji is text-sized. «AHMED MOHAMMED HAMID DWALBYT» fits on one line at 360 and 390 px; only names longer than the screen get ….
+  On phones the share button is icon-wide so «أعجبني» is never cut. Test: scratchpad nm.js. Asset version 201, cache ish-v101.
