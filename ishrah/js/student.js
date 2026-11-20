@@ -119,9 +119,9 @@
     var m = me(), spec = IS.mySpec(), section = IS.mySection();
     var name = m && IS.greetingName(m.name, true);
     var who = name ? esc(A('مرحبًا ', 'Welcome, ')) + name + ' 👋' : esc(A('مرحبًا بك 👋', 'Welcome 👋'));
+    var art = section && spec && IS.studyArtwork(spec.id, section.id);
     var h = '<div class="lh">' +
-      '<section class="lhh"' + (section && spec && (spec.id !== 'medicine' || section.id !== 'clinical') && IS.studyArtwork(spec.id, section.id) ?
-        ' style="--home-art:url(' + IS.U(IS.studyArtwork(spec.id, section.id)) + ')"' : '') + '><div class="lht">' +
+      '<section class="lhh"' + (art ? ' style="--home-art:url(' + IS.U(art) + ')"' : '') + '><div class="lht">' +
       (spec ? '<small lang="en">' + esc(spec.en) + '</small>' : '') +
       '<h1 tabindex="-1">' + (section ? '<bdi lang="en">' + esc(section.en) + '</bdi>' : '<span class="gtx">' + esc(IS.brandName()) + '</span>') + '</h1><p>' + who + '</p>' +
       (section ? '<div class="row home-actions"><a class="btn pri" href="#courses">' + esc(A('تصفّح الكورسات', 'Browse courses')) + ic('chev', 'fl') +
@@ -298,9 +298,11 @@
   IS.page('pick', async function () {
     var m = me(), cur = IS.SPEC;
     var language = IS.lang === 'ar' ? '<span lang="en">English</span>' : '<span lang="ar">العربية</span>';
-    var h = '<div class="pick"><header class="pkh"><img src="' + IS.logo() + '" alt="" class="pkl"><div><h1 tabindex="-1"><span class="gtx">' + esc(IS.brandName()) + '</span></h1><p>' + esc(A('منصة تعليمية متكاملة لطلاب الكليات الصحية', 'A complete learning platform for health sciences students')) + '</p></div>' +
-      (m ? '<div class="pk-account"><div class="pkme">' + IS.av(m, 'sm') + '<span>' + esc(A('مرحبًا ', 'Welcome, ')) + IS.greetingName(m.name, true) + '</span></div></div>' :
-        '<div class="pkin"><button class="btn gold" data-act="login">' + ic('user') + esc(A('تسجيل الدخول', 'Sign in')) + '</button><button class="btn lt" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div>') + '</header>' +
+    var h = '<div class="pick"><header class="pkh"><div class="pk-intro"><div class="pk-brand"><img src="' + IS.logo() + '" alt="" class="pkl">' +
+      '<h1 tabindex="-1">' + esc(IS.brandName()) + '</h1></div><p>' + esc(A('منصة لطلاب الكليات الصحية في السودان', 'A platform for health sciences students in Sudan')) + '</p></div>' +
+      '<span class="pk-hero"><img src="img/collection/platform.webp" alt="" fetchpriority="high"></span>' +
+      (m ? '<div class="pkme">' + IS.av(m, 'sm') + '<span>' + esc(A('مرحبًا ', 'Welcome, ')) + IS.greetingName(m.name, true) + '</span></div>' :
+        '<div class="pkin"><button class="btn pri" data-act="login">' + ic('user') + esc(A('تسجيل الدخول', 'Sign in')) + '</button><button class="btn ghost" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div>') + '</header>' +
       '<section class="pkb"><h2>' + IS.T('اختر تخصصك', 'Choose your speciality') + '</h2><p class="mut">' + esc(A('بعد اختيار التخصص، اختر القسم الذي تريد الدراسة فيه.', 'After choosing your speciality, choose the section you want to study in.')) + '</p>' +
       '<div class="pks">' + IS.SPECS.map(function (s) { var ns = IS.SUBJ.filter(function (x) { return x.spec === s.id; }).length;
         return '<button type="button" class="pk' + (s.id === cur ? ' on' : '') + '" data-act="setspec" data-v="' + s.id + '"><span class="pki">' + (s.img ? '<img src="' + IS.U(s.img) + '" alt="" loading="lazy">' : '') + '</span><span class="pkt"><i>' + ic(s.icon) + '</i><b lang="en">' + esc(s.en) + '</b><em>' + IS.cnt(ns, 'sub') + '</em></span>' + (s.id === cur ? '<span class="pkc">' + ic('check') + '</span>' : '') + '</button>'; }).join('') + '</div></section>' +
