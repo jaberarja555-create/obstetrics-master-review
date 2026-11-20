@@ -4027,3 +4027,21 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 .rep-r{width:20px;height:20px;border-radius:50%;border:2px solid var(--bd2,#9fc2be);flex:none;display:grid;place-items:center}
 .rep-o.on .rep-r{border-color:var(--pri)}
 .rep-o.on .rep-r::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--pri)}
+
+/* the team's «إدارة» button: a clear pill with a shield on every card and page (owner, 20 Nov 2026: "admin control should show a nice
+   button in all posts; book series don't have it") */
+.mng{width:auto!important;height:32px!important;padding:0 12px 0 10px!important;border-radius:999px!important;display:inline-flex!important;align-items:center;gap:5px;
+  border:1px solid color-mix(in srgb,#b8862b 55%,transparent)!important;background:color-mix(in srgb,#f3c969 22%,var(--sf))!important;color:#7a5410!important;font:inherit;font-size:12.5px;font-weight:700;white-space:nowrap}
+.mng .ico{width:15px!important;height:15px!important}
+.mng:hover{background:color-mix(in srgb,#f3c969 38%,var(--sf))!important}
+:root[data-theme="dark"] .mng{color:#f3d48c!important;background:color-mix(in srgb,#b8862b 26%,var(--sf))!important}
+.fcard{position:relative}
+.mng.onc{position:absolute;z-index:3;inset-block-start:8px;inset-inline-start:8px;box-shadow:0 2px 6px rgba(0,0,0,.18)}
+/* comments: ⚑ report and delete sit in the line under the comment (no ⋯ menu) */
+.cmt-tools{display:inline-flex;align-items:center;gap:6px}
+.cmt-rep{border:0;background:none;padding:2px 4px;color:var(--sub);cursor:pointer;display:inline-grid;place-items:center;border-radius:6px;opacity:.8}
+.cmt-rep .ico{width:15px;height:15px}
+.cmt-rep:hover{color:#c0392b;opacity:1}
+.cmt-del button{border:0!important;background:none!important;padding:0 2px!important;min-height:0!important;font-size:12.5px!important;font-weight:700;color:#c0392b!important;box-shadow:none!important}
+.cmt-del button .ico{width:14px;height:14px}
+.mng span,.feed-card-header .mng span{padding:0!important;background:none!important;color:inherit!important;border-radius:0!important;font-weight:700}

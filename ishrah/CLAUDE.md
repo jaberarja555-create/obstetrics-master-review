@@ -908,3 +908,8 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   «أرسل البلاغ» enabled once a reason is chosen, then a confirmation in the same sheet (the author is not told who reported). The saved reason
   is "<reason>: <details>", so Control → Community shows it as before. The same account reporting the same item again on this device sees
   «أبلغت عن هذا من قبل». Test: scratchpad rep.js. Asset version 202, cache ish-v102.
+- **⚑ instead of ⋯ on comments; «إدارة» on every card** (owner, 20 Nov 2026): the line under a comment shows ⚑ (report, opens the report
+  sheet) and «حذف» in red when allowed (`.cmt-tools`); no ⋯ menu. The team's manage button is a gold pill with a shield and «إدارة»
+  (`IS.manageBtn`) in every feed card header, on library cards (corner of the cover, `.mng.onc`), series cards and the series page team bar.
+  New kind `series` (library approve): rename the series for every part, open its page, or hide the whole series (all parts «removed»,
+  undo from Control). Test: scratchpad mng.js. Asset version 203, cache ish-v103.

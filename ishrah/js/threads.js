@@ -40,14 +40,15 @@
         }).join('') + '</span></span>');
       if (o.reply !== false) acts.push('<button type="button" class="cl" data-act="cmt-reply" data-k="' + lk + '" data-id="' + esc(id) + '" data-name="' + esc(o.name || name(row)) + '">' + esc(A('رد', 'Reply')) + '</button>');
     }
-    var menu = (o.report && IS.ME ? '<button type="button" data-act="report" data-kind="' + esc(o.report[0]) + '" data-id="' + esc(o.report[1]) + '">' + ic('flag') + esc(A('إبلاغ', 'Report')) + '</button>' : '') +
-      (o.del ? String(o.del).replace(/class="cact( bad)?"/, 'class="bad"') : '');
+    var menu = (o.report && IS.ME ? '<button type="button" class="cmt-rep" data-act="report" data-kind="' + esc(o.report[0]) + '" data-id="' + esc(o.report[1]) + '" aria-label="' +
+        esc(A('إبلاغ', 'Report')) + '" title="' + esc(A('إبلاغ', 'Report')) + '">' + ic('flag') + '</button>' : '') +
+      (o.del ? '<span class="cmt-del">' + String(o.del) + '</span>' : '');
     var to = row.reply_to_name && !o.hideTo ? '<b class="cmt-to" dir="auto">' + esc(row.reply_to_name) + '</b> ' : '';
     return '<article class="cmt' + (row.parent_id ? ' kid' : '') + '"' + (id ? ' data-cid="' + esc(id) + '"' : '') + (lk ? ' data-lk="' + lk + '"' : '') + '>' + IS.av({ name: o.name, photo: o.photo }, row.parent_id ? 'xs' : 'sm', row.user_id) +
       '<div class="cmt-b"><div class="cmt-row"><div class="cmt-bub"><div class="cmt-h"><b dir="auto">' + esc(o.name || '') + '</b>' + (o.badge || '') + '</div>' +
       '<p class="pre" dir="auto">' + to + esc(o.body || '') + '</p></div></div>' +
       '<div class="cmt-a">' + acts.join('') + badge(counts(row)) +
-      (menu ? '<span class="cmt-mw"><button type="button" class="cmt-dots" data-act="cmt-menu" aria-label="' + esc(A('خيارات', 'Options')) + '">' + ic('more') + '</button><span class="cmt-menu" hidden>' + menu + '</span></span>' : '') +
+      (menu ? '<span class="cmt-tools">' + menu + '</span>' : '') +
       '</div></div></article>';
   };
 

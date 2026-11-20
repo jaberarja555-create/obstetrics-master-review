@@ -362,7 +362,7 @@
     /* one book = the same card as a series (owner, 20 Nov 2026: "the single book has no comment area nor reactions") */
     var actions = !open ? IS.buyBtn(f, true, false) : IS.ME ? '<a class="btn ghost sm" href="#file/' + esc(f.id) + '/read">' + ic('open') + esc(A('افتح الكتاب', 'Open the book')) + '</a>' + IS.dlBtn('file', f.id, '', true) :
       '<a class="btn ghost sm" href="#file/' + esc(f.id) + '">' + ic('open') + esc(A('عرض الكتاب', 'View the book')) + '</a>';
-    return '<article class="fcard bcard"><a class="fimg" href="#file/' + esc(f.id) + '" aria-label="' + esc(f.title) + '">' + IS.libraryCover(f) + '</a>' +
+    return '<article class="fcard bcard">' + (IS.manageBtn ? IS.manageBtn('file', f.id).replace('class="mng"', 'class="mng onc"') : '') + '<a class="fimg" href="#file/' + esc(f.id) + '" aria-label="' + esc(f.title) + '">' + IS.libraryCover(f) + '</a>' +
       '<div class="fb"><span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + ' · ' + esc(spName(fspec(f))) + '</span><b><a href="#file/' + esc(f.id) + '">' + esc(f.title) +
       '</a></b>' + (f.author ? '<small dir="auto">' + esc(f.author) + '</small>' : '') + (IS.tagChips ? IS.tagChips(f, 3) : '') +
       '<div class="row library-feed-actions">' + actions + '</div>' +
