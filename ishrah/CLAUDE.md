@@ -704,3 +704,9 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - The five-card specialty picker keeps Medicine full-width and places each clinical photo on the right. The teal hero, diagonal cards, outlined footer buttons and illustrated campus follow the provided reference. Short landscape screens use a compact three-column grid.
 - The standard picker fits the dynamic viewport, including the signed-in Studio and Control buttons. Larger in-app text, custom specialty counts and extra-short viewports can use normal page scrolling so their content remains reachable.
 - Asset version 180 and shell cache `ish-v80`. No database migration is required.
+
+## Shared clinical design and artwork refresh · 20 Nov 2026
+
+- The section picker uses the opening screen's diagonal picture cards, teal outlines, ice-blue surfaces and paired icon and title. It fits between the toolbar and bottom navigation at standard phone sizes. The opening screen layout remains as approved.
+- Replaced the built-in pictures for all 20 specialty sections and the Community, Events, Learning and Studio banners with fresh medical scenes. Shared navigation, panels, course and library surfaces use the opening screen's visual styling.
+- Bundled collection images use the current asset version in their URLs, including CSS backgrounds. The service worker gives versioned images a separate cache key, so older green artwork cannot appear under the new URL. Asset version 181 and shell cache `ish-v81`. No database migration is required.

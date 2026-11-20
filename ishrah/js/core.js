@@ -114,7 +114,16 @@
     return m[1] === 'yt' ? { kind: 'iframe', host: 'yt', src: 'https://www.youtube-nocookie.com/embed/' + m[2] + '?rel=0&modestbranding=1&playsinline=1' }
       : { kind: 'iframe', host: 'gd', src: 'https://drive.google.com/file/d/' + m[2] + '/preview' };
   };
-  IS.U = function (p) { try { return esc(new URL(p, location.href).href); } catch (e) { return esc(p); } };
+  var artworkVersion = document.currentScript && new URL(document.currentScript.src, location.href).searchParams.get('v');
+  IS.U = function (path) {
+    try {
+      var url = new URL(path, location.href);
+      if (artworkVersion && url.origin === location.origin && url.pathname.startsWith('/img/collection/')) {
+        url.searchParams.set('v', artworkVersion);
+      }
+      return esc(url.href);
+    } catch (e) { return esc(path); }
+  };
 
   /* ---------- signed-in user, lecturer record, team roles ---------- */
   IS.ME = null; IS.LEC = null; IS.SET = {}; IS.CATS = []; IS.SUBJ = []; IS.SPECS = []; IS.SPEC = LS.get('spec', '');
@@ -704,7 +713,7 @@
     ['purple', '#3f2a7d', 'بنفسجي', 'Purple'], ['maroon', '#6e1d36', 'عنابي', 'Maroon'], ['graphite', '#2c3340', 'رمادي داكن', 'Graphite']];
   IS.logo = function () {
     var palette = LS.get('pal', 'blue');
-    return 'img/collection/brand' + (palette !== 'blue' && IS.PALS.some(function (p) { return p[0] === palette; }) ? '-' + palette : '') + '.webp';
+    return IS.U('img/collection/brand' + (palette !== 'blue' && IS.PALS.some(function (p) { return p[0] === palette; }) ? '-' + palette : '') + '.webp');
   };
   IS.setPal = function (p) { LS.set('pal', p); var l = document.getElementById('ishcss'), v = (l && /v=(\d+)/.exec(l.getAttribute('href')) || [0, '25'])[1];
     if (l) l.setAttribute('href', 'css/' + (p === 'blue' ? 'app' : 'pal-' + p) + '.css?v=' + v);

@@ -180,24 +180,24 @@
   IS.page('pick-section', async function () {
     var spec = IS.mySpec(), current = IS.mySection();
     if (!spec) return IS.empty('grid', A('اختر تخصصك أولًا', 'Choose your speciality first'), '', '<a class="btn pri" href="#pick">' + esc(A('التخصصات', 'Specialities')) + '</a>');
-    IS.after = fitSectionPicker;
-    return '<div class="section-picker"><header class="section-picker-heading">' + ic('layers') + '<h1 tabindex="-1">' +
+    if (IS.CATS.length === 4) IS.after = fitSectionPicker;
+    return '<div class="section-picker' + (IS.CATS.length === 4 ? ' section-picker-standard' : '') + '"><header class="section-picker-heading">' + ic('layers') + '<h1 tabindex="-1">' +
       IS.T('اختر قسمك', 'Choose your section') + '</h1></header><nav class="section-picker-grid" aria-label="' + esc(A('أقسام التخصص', 'Study sections')) + '">' + IS.CATS.map(function (c) {
       var img = IS.studyArtwork(spec.id, c.id) || spec.img;
       var selected = current && current.id === c.id;
       var artwork = img ? '<img src="' + IS.U(img) + '" alt="">' : ic(c.icon);
       return '<a class="section-choice" href="#home" data-act="setsection" data-v="' + esc(c.id) + '"' + (selected ? ' aria-current="true"' : '') + '>' +
         '<span class="section-choice-art">' + artwork + '</span>' +
-        '<span class="section-choice-label"><b lang="en" dir="ltr">' + esc(c.en) + '</b></span>' +
+        '<span class="section-choice-label">' + ic(c.icon) + '<b lang="en" dir="ltr">' + esc(c.en) + '</b></span>' +
         (selected ? '<span class="section-choice-current" title="' + esc(A('قسمك الحالي', 'Current section')) + '">' + ic('check') + '</span>' : '') + '</a>';
     }).join('') + '</nav></div>';
   });
   function fitSectionPicker() {
-    var picker = IS.$('#main .section-picker'); if (!picker) return;
+    var picker = IS.$('#main .section-picker-standard'); if (!picker) return;
     var main = IS.$('#main'), tabs = IS.$('#tabs'), bottom = window.innerHeight;
     if (tabs.getClientRects().length && getComputedStyle(tabs).position === 'fixed') bottom = Math.min(bottom, tabs.getBoundingClientRect().top);
     var zoom = parseFloat(getComputedStyle(main).zoom) || 1;
-    picker.style.setProperty('--section-height', Math.floor((bottom - (picker.getBoundingClientRect().top + window.scrollY) - 10) / zoom) + 'px');
+    picker.style.setProperty('--section-height', Math.floor((bottom - (picker.getBoundingClientRect().top + window.scrollY) - 12) / zoom) + 'px');
   }
   window.addEventListener('resize', fitSectionPicker);
   IS.ACT.setsection = function (b) {
@@ -340,7 +340,7 @@
     var h = '<div class="entry' + (fits ? ' entry-fits' : '') + '"><header class="entry-hero"><div class="entry-intro"><img src="' + IS.logo() + '" alt="" class="entry-mark" width="52" height="52">' +
       '<div><h1 tabindex="-1">' + esc(IS.brandName()) + '</h1><p>' +
       esc(A('منصة لطلاب الكليات الصحية في السودان', 'A platform for health sciences students in Sudan')) + '</p></div></div>' +
-      '<div class="entry-photo"><img src="img/collection/platform.webp" alt="" fetchpriority="high" width="1120" height="747"></div></header>' +
+      '<div class="entry-photo"><img src="' + IS.U('img/collection/platform.webp') + '" alt="" fetchpriority="high" width="1120" height="747"></div></header>' +
       (m ? '<div class="entry-account"><a href="#account">' + IS.av(m, 'sm') + '<span>' + esc(A('مرحبًا ', 'Welcome, ')) + IS.greetingName(m.name, true) + '</span></a>' +
         '<div class="entry-account-tools"><a class="ib" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + ic('bell') + '</a></div></div>' :
         '<div class="entry-account"><button class="btn pri" data-act="login">' + ic('user') + esc(A('تسجيل الدخول', 'Sign in')) +

@@ -1,5 +1,5 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v80', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v81', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
@@ -66,6 +66,7 @@ self.addEventListener('fetch', function (event) {
   if (STATIC.test(url.pathname)) {
     event.respondWith(caches.open(SHELL).then(async function (cache) {
       var saved = await cache.match(request);
+      if (saved && url.pathname.startsWith('/img/collection/') && /^\d+$/.test(url.searchParams.get('v') || '')) return saved;
       var fresh = fetch(request).then(function (response) { return store(cache, request, response); });
       if (saved) { event.waitUntil(fresh.catch(function () {})); return saved; }
       return fresh;
