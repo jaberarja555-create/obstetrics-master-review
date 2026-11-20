@@ -3942,3 +3942,7 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 .seg3 input:checked+span{border-color:var(--pri);background:var(--tint);color:var(--pri)}
 .cr2-ask{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .cr2-ask .btn{flex:1 1 140px;justify-content:center;min-height:38px}
+
+/* a comment shows the moment it is sent; it is a little faint until the server has it (owner, 20 Nov 2026) */
+.cth.sending .cmt, .cmt-k.sending .cmt { opacity: .62; }
+.cth.sending .cmt-t, .cmt-k.sending .cmt-t { font-style: italic; }

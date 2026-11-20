@@ -109,6 +109,19 @@
     var t = e.target; if (!t.matches || !t.matches('.cmt-rbox textarea') || e.key !== 'Enter' || e.shiftKey || matchMedia('(hover:none)').matches) return;
     e.preventDefault(); if (t.value.trim()) t.form.requestSubmit();
   });
+  /* a comment appears the moment it is sent (owner, 20 Nov 2026: "making a post or editing … should not feel slow, like Facebook") */
+  IS.instantComment = function (form, body) {
+    var list = form.parentNode.querySelector('.cthreads') || form.closest('.post-comments, .feed-comment-panel, section') && (form.closest('.post-comments, .feed-comment-panel, section').querySelector('.cthreads, [data-feed-entries]'));
+    if (!list) return null;
+    var empty = list.querySelector(':scope > p.mut'); if (empty) empty.remove();
+    var el = document.createElement('div'); el.className = 'cth sending';
+    el.innerHTML = IS.commentItem({ name: IS.ME ? IS.ME.name : '', photo: IS.ME && IS.ME.photo, when: A('جارٍ الإرسال…', 'Sending…'), body: body });
+    list.appendChild(el);
+    var t = form.querySelector('textarea'); if (t) { t.value = ''; t.style.height = ''; }
+    return { done: function () { el.classList.remove('sending'); var w = el.querySelector('.cmt-t'); if (w) w.textContent = A('الآن', 'Now'); },
+      fail: function () { el.remove(); if (t) t.value = body; IS.toast(A('لم يُرسل التعليق. تحقق من الاتصال وحاول مرة أخرى.', 'The comment was not sent. Check the connection and try again.'), true); } };
+  };
+  IS.quietRefresh = function () { IS.keepScroll = true; IS.refresh(); };
   IS.ACT['cmt-menu'] = function (b) {
     var m = b.parentNode.querySelector('.cmt-menu'), open = m.hidden;
     IS.$$('.cmt-menu:not([hidden])').forEach(function (x) { x.hidden = true; });
@@ -176,6 +189,9 @@
   IS.SUB['cmt-reply'] = async function (d, f) {
     var body = String(d.body || '').trim(); if (!body) return;
     var lk = d.k, parent = d.parent, btn = f.querySelector('.cmt-send'); btn.disabled = true;
+    var kids = f.closest('.cmt-kids'), pend = document.createElement('div'); pend.className = 'cmt-k sending';
+    pend.innerHTML = IS.commentItem({ row: { parent_id: parent, reply_to_name: (f.querySelector('.cmt-rto b') || {}).textContent }, name: IS.ME.name, photo: IS.ME.photo, when: A('جارٍ الإرسال…', 'Sending…'), body: body });
+    if (kids) kids.insertBefore(pend, f); f.elements.body.value = '';
     try {
       if (DB.live) { var x = await DB.sb.rpc('ish_comment_reply', { kind: lk, parent: parent, body: body }); if (x.error) throw x.error; }
       else {
@@ -192,9 +208,11 @@
       }
       var panel = f.closest('.feed-comment-panel');
       var top = f.closest('.cth') && f.closest('.cth').dataset.top;
+      pend.classList.remove('sending'); var tm = pend.querySelector('.cmt-t'); if (tm) tm.textContent = A('الآن', 'Now');
       if (panel && IS.reloadFeedComments) { f.remove(); IS.reloadFeedComments(panel, top); }
-      else IS.refresh();
+      else IS.quietRefresh();
     } catch (e) {
+      pend.remove(); f.elements.body.value = body;
       btn.disabled = false;
       IS.toast(e && /closed/.test(e.message || '') ? A('أُغلقت التعليقات هنا.', 'Comments are closed here.') : A('تعذّر نشر الرد. حاول مرة أخرى.', 'Could not post your reply. Try again.'), true);
     }

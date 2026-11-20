@@ -692,10 +692,11 @@
     }
   }
   IS.commentOnLibraryFile = libraryComment;
-  IS.SUB['library-comment'] = async function (data) {
+  IS.SUB['library-comment'] = async function (data, form) {
     if (!data.body) return;
-    await libraryComment(data.file, data.body);
-    IS.refresh();
+    var shown = IS.instantComment ? IS.instantComment(form, data.body) : null;
+    try { await libraryComment(data.file, data.body); if (shown) shown.done(); IS.quietRefresh ? IS.quietRefresh() : IS.refresh(); }
+    catch (e) { if (shown) shown.fail(); else throw e; }
   };
   IS.ACT['remove-library-comment'] = async function (button) {
     if (!await IS.confirm(A('احذف هذا التعليق؟', 'Delete this comment?'))) return;

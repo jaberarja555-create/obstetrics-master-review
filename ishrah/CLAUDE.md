@@ -840,3 +840,10 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   مدفوعة مؤكدة في الكورسات» (active enrolments with price > 0) and «تسجيلات في كورسات مجانية» apart; revenue this month = confirmed paid
   enrolments decided this month; the average rating reads «4.5 / 5». The «طلبات المحاضرين (للاعتماد)» box lists only waiting requests; a person
   with several decided applications shows once (`IS.cleanApps`, control-apps). Asset version 193, shell cache ish-v93.
+- **Fast like Facebook (owner, 20 Nov 2026: "making a post or editing or opening … should not feel slow"):** a comment or reply shows the
+  moment it is sent (threads.js `IS.instantComment`, faint `.sending` until saved, then a quiet redraw with `IS.quietRefresh`; on failure the
+  text goes back into the box with a message) on posts, books and requests (requests now use the pill box `IS.cmtBox`). The post page asks
+  the server for its course, comments and lecturers together (`Promise.all`). db.js `forgetFor`: a comment, comment reaction or post
+  reaction forgets only its own tables and the counts of what it is on (`NEAR`); every other write still forgets all saved reads. The
+  client no longer sends a second reply notification when live (the 039 trigger does it). Measured with a 300 ms delay per call: comment
+  visible 2.2 s → 0.1 s, post page 1.6 s → 1.25 s. Asset version 194, cache ish-v94.

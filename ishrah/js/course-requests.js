@@ -630,7 +630,7 @@
     h += '</article>';
     if (showComments) IS.after = IS.focusPostComments;
     h += '<section class="box post-comments"><h2 tabindex="-1" data-post-comments>' + IS.T('التعليقات', 'Comments') + '</h2>' +
-      (open && uid() ? contentForm('cr-comment', id, '', text('اكتب تعليقًا', 'Write a comment'), 'body', '', 2000, text('انشر التعليق', 'Post comment')) : '') +
+      (open && uid() ? IS.cmtBox('cr-comment').replace('<form ', '<form data-request="' + esc(id) + '" ') : '') +
       '<div class="cthreads">' + IS.thread(r[0], 'request', function (c) {
         return { name: c.author_name, photo: c.author_photo, when: IS.ago(c.created_at), body: c.body, report: c.user_id !== uid() ? ['request_comment', c.id] : null,
           del: c.user_id === uid() || IS.can('community', 'delete') ? commandButton(row, 'remove_comment', 'حذف', 'Delete', 'bad', c.id) : '' };
@@ -699,7 +699,9 @@
         data.starts_at = startAt(data);
       }
       if (entry[1] === 'offer') data.public_terms = true;
-      if (await change(entry[1], form.dataset.request, data)) IS.refresh();
+      var shown = entry[1] === 'comment' && IS.instantComment ? IS.instantComment(form, data.body) : null;
+      var ok = await change(entry[1], form.dataset.request, data).catch(function (e) { if (shown) shown.fail(); throw e; });
+      if (ok) { if (shown) shown.done(); IS.quietRefresh ? IS.quietRefresh() : IS.refresh(); } else if (shown) shown.fail();
     };
   });
 

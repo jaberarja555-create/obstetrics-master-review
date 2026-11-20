@@ -1178,14 +1178,13 @@
         return IS.outsideStudySpace({ spec: p.spec || IS.SPEC, cat: p.room });
       } else if (!IS.inSpec(p)) return null;
     }
-    if (p.room !== 'qa' && p.course_id) {
-      var linked = await DB.one('courses', p.course_id);
-      if (linked && linked.status === 'published') p.linked_price = linked.price;
-      else p.course_id = null;
-    }
-    var rs = (await DB.q('replies', { eq: { post_id: id }, order: ['created_at'] })).filter(function (r) { return r.status !== 'removed'; });
-    await IS.loadCommentLikes('reply', rs);
-    var lecs = await IS.lecMap();
+    var got = await Promise.all([
+      p.room !== 'qa' && p.course_id ? DB.one('courses', p.course_id).catch(function () { return null; }) : null,
+      DB.q('replies', { eq: { post_id: id }, order: ['created_at'] }).then(function (rows) { rows = rows.filter(function (r) { return r.status !== 'removed'; }); return IS.loadCommentLikes('reply', rows).then(function () { return rows; }); }),
+      IS.lecMap()
+    ]);
+    if (p.room !== 'qa' && p.course_id) { var linked = got[0]; if (linked && linked.status === 'published') p.linked_price = linked.price; else p.course_id = null; }
+    var rs = got[1], lecs = got[2];
     if (parts[1] === 'comments') IS.after = IS.focusPostComments;
     var composer = me() ? IS.cmtBox('reply', '<input type="hidden" name="post" value="' + p.id + '">', p.room === 'qa' ? A('اكتب ردًا…', 'Write a reply…') : '') : '';
     return '<nav class="crumb"><a href="#' + (p.room === 'qa' ? 'course/' + p.course_id : 'community') + '">' + esc(p.room === 'qa' ? A('الكورس', 'Course') : A('المجتمع', 'Community')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(p.title || A('سؤال', 'Question')) + '</span></nav>' +
@@ -1205,9 +1204,14 @@
     if (!p || !IS.publicPost(p)) throw new Error('post_unavailable');
     await DB.ins('replies', { post_id: id, user_id: uid(), name: me().name, photo: me().photo || '', body: body, status: 'open' });
     if (!DB.live) await DB.upd('posts', id, { n_replies: (p.n_replies || 0) + 1 });
-    if (p.user_id !== uid()) IS.notify(p.user_id, A('رد جديد على مشاركتك', 'New reply to your post'), body.slice(0, 120), '#post/' + id);
+    if (!DB.live && p.user_id !== uid()) IS.notify(p.user_id, A('رد جديد على مشاركتك', 'New reply to your post'), body.slice(0, 120), '#post/' + id);
   };
-  IS.SUB.reply = async function (d) { await IS.savePostReply(d.post, d.body); IS.refresh(); };
+  IS.SUB.reply = async function (d, f) {
+    var body = String(d.body || '').trim(); if (!body) return;
+    var shown = IS.instantComment ? IS.instantComment(f, body) : null;
+    try { await IS.savePostReply(d.post, body); if (shown) shown.done(); IS.quietRefresh ? IS.quietRefresh() : IS.refresh(); }
+    catch (e) { if (shown) shown.fail(); else throw e; }
+  };
   IS.reportButton = function (kind, id, compact) {
     var label = esc(A('إبلاغ', 'Report'));
     return me() ? '<button type="button" class="' + (compact ? 'feed-emoji feed-report' : 'btn ghost sm') + '" data-act="report" data-kind="' +

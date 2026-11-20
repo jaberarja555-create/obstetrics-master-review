@@ -202,6 +202,18 @@
       return new Map(unique.map(function (path) { return [path, (UID || 'visitor') === account ? cachedCover(account, path) : '']; }));
     }
     function forget() { READS.clear(); }
+    /* a comment or a reaction changes only its own tables and the counts of what it is on, so the rest of the
+       saved reads stay and the next page opens at once (owner, 20 Nov 2026: "should not feel slow, like Facebook").
+       Any other write still forgets everything. */
+    var FEED = ['posts', 'files', 'courses', 'course_requests', 'events', 'news', 'notices', 'feed_feedback'];
+    var CMT = ['replies', 'library_comments', 'course_request_comments', 'comment_likes', 'posts', 'files', 'course_requests', 'notifications'];
+    var NEAR = { replies: CMT, library_comments: CMT, course_request_comments: CMT, comment_likes: CMT, feed_feedback: FEED,
+      ish_comment_react: CMT, ish_comment_reply: CMT, ish_library_comment: CMT, ish_series_comment: CMT,
+      ish_feed_react: FEED, ish_feed_rate: FEED, ish_series_vote: FEED };
+    function forgetFor(name) {
+      var near = NEAR[name]; if (!near) return forget();
+      READS.forEach(function (v, k) { var t = JSON.parse(k)[1]; if (name === t || near.indexOf(t) >= 0) READS.delete(k); });
+    }
     function cached(key, run) {
       var k = JSON.stringify(key), hit = READS.get(k);
       function copy(v) { return Array.isArray(v) ? v.map(function (x) { return x && typeof x === 'object' ? Object.assign({}, x) : x; }) : v && typeof v === 'object' ? Object.assign({}, v) : v; }
@@ -219,7 +231,7 @@
     var readOnlyRpc = new Set(['ish_lesson', 'ish_presence', 'ish_team_seen',
       'ish_public_course_terms', 'ish_series_scores', 'ish_available_course_seats', 'ish_team_public']);
     sb.rpc = function (name) {
-      if (!readOnlyRpc.has(name) && name !== 'ish_seen') forget();
+      if (!readOnlyRpc.has(name) && name !== 'ish_seen') forgetFor(name);
       return rpc0.apply(null, arguments);
     };
     sb.auth.onAuthStateChange(function () { forget(); });
@@ -262,10 +274,10 @@
         return chk(await x) || [];
       },
       lesson: async function (id) { return chk(await sb.rpc('ish_lesson', { p_id: id })); },
-      ins: async function (t, row) { forget(); return chk(await sb.from(t).insert(row).select(cols(t)).single()); },
-      upsert: async function (t, row) { forget(); return chk(await sb.from(t).upsert(row).select(cols(t)).single()); },
-      upd: async function (t, id, p) { forget(); return chk(await sb.from(t).update(p).eq('id', id).select(cols(t)).single()); },
-      del: async function (t, id) { forget(); chk(await sb.from(t).delete().eq('id', id)); },
+      ins: async function (t, row) { forgetFor(t); return chk(await sb.from(t).insert(row).select(cols(t)).single()); },
+      upsert: async function (t, row) { forgetFor(t); return chk(await sb.from(t).upsert(row).select(cols(t)).single()); },
+      upd: async function (t, id, p) { forgetFor(t); return chk(await sb.from(t).update(p).eq('id', id).select(cols(t)).single()); },
+      del: async function (t, id) { forgetFor(t); chk(await sb.from(t).delete().eq('id', id)); },
       upload: async function (bucket, file) {
         var ext = (file.name || '').split('.').pop() || 'jpg', path = UID + '/' + uuid() + '.' + ext.toLowerCase();
         /* the upload reports its progress (owner, 20 Nov 2026: "it takes a long time to upload a file or make or edit a post"): the button of the
