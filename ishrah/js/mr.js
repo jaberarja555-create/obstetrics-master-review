@@ -421,7 +421,7 @@
       return r;
     };
     return '<div class="mrx mrh mrc"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() +
-      pban('img/collection/courses.webp', HI.layersW, A('الكورسات', 'Courses'), sub, IS.lang !== 'ar').replace('class="mh-ban', 'class="mh-ban hs') +
+      pban('img/hero_band.webp', HI.layersW, A('الكورسات', 'Courses'), sub, IS.lang !== 'ar').replace('class="mh-ban', 'class="mh-ban hs') +
       ptitle(A('محتوى الكورسات', 'Courses content')).replace(HI.layers, HI.cap) + tool + '<div class="mh-feed mh-crs">' + inner + '</div></div>' + bnav('courses') + '</div>';
   }, crs0.o);
 

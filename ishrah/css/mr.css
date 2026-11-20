@@ -689,3 +689,18 @@ html body .mrc .mc-btn.ghost{color:#06463b!important}
 }
 html body .mrc #cres#cres>.grid.grid.grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr))!important;gap:clamp(12px,1.6vw,18px)!important}
 html body .mrc #cres>.grid>.mc-card{width:auto!important;max-width:none!important;grid-column:auto!important}
+/* a book series in the section feed looks like every other post: cover beside the text (owner, 20 Nov 2026: "why this looks distorted") */
+html body .mrh .feed-items>.feed-card.feed-series{display:grid!important;grid-template-columns:minmax(96px,34%) minmax(0,1fr);grid-template-rows:auto auto auto;column-gap:14px;align-items:start}
+html body .mrh .feed-card.feed-series>.feed-card-header{grid-column:1/-1;grid-row:1}
+html body .mrh .feed-card.feed-series>.fimg{grid-column:1;grid-row:2;display:block;width:100%!important;max-width:none!important;aspect-ratio:3/4;height:auto!important;margin:0!important;border-radius:14px!important;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,.12)}
+html body .mrh .feed-card.feed-series>.fimg :is(img,.lcov){width:100%!important;height:100%!important;object-fit:cover}
+html body .mrh .feed-card.feed-series>.fb{grid-column:2;grid-row:2;display:flex!important;flex-direction:column;align-items:flex-start;gap:4px;padding:0!important;min-width:0;text-align:start}
+html body .mrh .feed-card.feed-series>:not(.feed-card-header):not(.fimg):not(.fb){grid-column:1/-1;grid-row:3}
+html body .mrh .feed-card.feed-series .ftype{color:#0d6b5c!important;font-weight:700;font-size:13.5px}
+html body .mrh .feed-card.feed-series .fb>b{font-size:clamp(16px,1.6vw,19px)!important;font-weight:800!important;line-height:1.3}
+html body .mrh .feed-card.feed-series .fb>b a{color:var(--ink)!important}
+html body .mrh .feed-card.feed-series .fb>small{color:var(--mut)!important;font-size:13.5px}
+html body .mrh .feed-card.feed-series .library-feed-actions{width:100%;margin-top:6px!important}
+html body .mrh .feed-card.feed-series .library-feed-actions .btn{width:100%;justify-content:center;border-radius:999px!important;border:1.5px solid #b9d3cd!important;background:#fff!important;color:#06463b!important}
+html body .mrh .feed-card :is(.ftype){color:#0d6b5c!important}
+@media (max-width:420px){html body .mrh .feed-items>.feed-card.feed-series{grid-template-columns:minmax(84px,32%) minmax(0,1fr);column-gap:10px}}
