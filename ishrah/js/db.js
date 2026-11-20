@@ -249,6 +249,7 @@
       setOwnPassword: async function (pass) { var r = await sb.auth.updateUser({ password: pass }); if (r.error) throw new Error(r.error.message); },
       signInEmail: async function (o) { var r = await sb.auth.signInWithPassword({ email: String(o.email).trim().toLowerCase(), password: o.pass }); if (r.error) throw new Error(/confirm/i.test(r.error.message) ? 'unconfirmed' : 'bad'); return r.data.user.id; },
       setPassword: async function (uid, pass) { var r = await fetch('api/admin', { method: 'POST', headers: { 'content-type': 'application/json', authorization: 'Bearer ' + await token() }, body: JSON.stringify({ act: 'password', uid: uid, pass: pass }) }); if (!r.ok) throw new Error(await r.text()); },
+      forget: function () { forget(); },   /* live updates (js/live.js): read fresh after another account changed something */
       q: async function (t, f) { return cached(['q', t, f || {}], function () { return rawQ(t, f); }); },
       one: async function (t, id) { return cached(['one', t, id], async function () { return chk(await sb.from(t).select(cols(t)).eq('id', id).maybeSingle()); }); },
       _q: async function (t, f) {

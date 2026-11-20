@@ -742,3 +742,19 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
     through the same thread functions; notifications go to the series owner). Comments open inside the series card and on the series page
     (`#series/<id>/comments` opens them).
 - Asset version 183, shell cache ish-v83.
+
+## Live reactions and comments; who reacted; emoji only · 20 Nov 2026
+- Owner: "comments and reactions don't appear instantly like Facebook unless you leave the page; I tried with 2 accounts"; "the text
+  (لم يعجبني) is distorted, just depend on the emoji"; "the numbers of reactions look bad, you don't know what 3 means"; "press the
+  reactions to know how many of each type". `041_live_feedback.sql` + `js/live.js`.
+  - `live_pulse` (key 'post/<id>', 'series/<id>', … + time; readable by all; in the `supabase_realtime` publication): triggers on feed_feedback,
+    series_feedback, comment_likes, replies, course_request_comments and library_comments touch the item's key. The app listens with Supabase
+    Realtime (and checks `live_pulse` every 15 s when the live connection is not open); for an item on the screen it empties the read cache
+    (`DB.forget`), re-reads the counts (`IS.patchFeed`), reloads an open comment panel (skipped while the person is typing or choosing a
+    reaction), and redraws a post / request / file page in place (`IS.keepScroll`). `IS.livePulse(key)` can be called directly (tests).
+  - `ish_reactors(kind, target)` (kinds post · request · file · announcement · course · event · news · series · c:reply · c:request · c:file):
+    names, photos and reactions. The summary pill under each post (`.rx-sum`, emojis + «3 تفاعلات» via `IS.rxCount`) and the badge on each
+    comment open the sheet «التفاعلات»: tabs All · 👍 n · ❤️ n · 😡 n · 👎 n and the people, each with their emoji on the picture.
+  - Emoji only: the React button shows just the emoji (grey 👍 until you react), the picker has no words, and a comment shows only the chosen
+    emoji instead of «أعجبني» once reacted.
+- Asset version 184, shell cache ish-v84.

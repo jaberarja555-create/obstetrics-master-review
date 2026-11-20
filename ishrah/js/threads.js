@@ -20,10 +20,10 @@
   function badge(c) {
     var list = RX.map(function (r) { return [r, Number(c[r[0]]) || 0]; }).filter(function (x) { return x[1]; }).sort(function (a, b) { return b[1] - a[1]; });
     var total = list.reduce(function (t, x) { return t + x[1]; }, 0);
-    return total ? '<span class="cmt-lk" data-rx="' + esc(JSON.stringify(c)) + '" title="' + esc(list.map(function (x) { return A(x[0][2], x[0][3]) + ' ' + x[1]; }).join(' · ')) + '">' +
-      list.slice(0, 3).map(function (x) { return x[0][1]; }).join('') + ' <bdi>' + total + '</bdi></span>' : '';
+    return total ? '<button type="button" class="cmt-lk" data-act="rx-who" data-rx="' + esc(JSON.stringify(c)) + '" aria-label="' + esc(A('من تفاعل؟ ', 'Who reacted? ') + list.map(function (x) { return x[0][1] + ' ' + x[1]; }).join(' · ')) + '">' +
+      '<span dir="ltr">' + list.slice(0, 3).map(function (x) { return x[0][1]; }).join('') + '</span><b>' + total + '</b></button>' : '';
   }
-  function rxLabel(v) { var r = rxOf(v); return r ? '<span class="cmt-rxm">' + r[1] + '</span> ' + esc(A(r[2], r[3])) : esc(A('أعجبني', 'Like')); }
+  function rxLabel(v) { var r = rxOf(v); return r ? '<span class="cmt-rxm" title="' + esc(A(r[2], r[3])) + '">' + r[1] + '</span>' : esc(A('أعجبني', 'Like')); }
   function uid() { return IS.ME && IS.ME.id; }
   function name(row) { return row.name || row.author_name || ''; }
 
@@ -36,14 +36,14 @@
       acts.push('<span class="rx-wrap cmt-rxw"><button type="button" class="cl' + (cur ? ' on rx-v-' + cur[4] : '') + '" data-act="cmt-rx-open" aria-haspopup="true" aria-expanded="false">' + rxLabel(my) + '</button>' +
         '<span class="rx-pick" role="menu" hidden>' + RX.map(function (r) {
           return '<button type="button" role="menuitem" data-act="cmt-react" data-k="' + lk + '" data-id="' + esc(id) + '" data-value="' + r[0] + '" aria-pressed="' + (my === r[0]) +
-            '" aria-label="' + esc(A(r[2], r[3])) + '" title="' + esc(A(r[2], r[3])) + '"><span>' + r[1] + '</span><small>' + esc(A(r[2], r[3])) + '</small></button>';
+            '" aria-label="' + esc(A(r[2], r[3])) + '" title="' + esc(A(r[2], r[3])) + '"><span>' + r[1] + '</span></button>';
         }).join('') + '</span></span>');
       if (o.reply !== false) acts.push('<button type="button" class="cl" data-act="cmt-reply" data-k="' + lk + '" data-id="' + esc(id) + '" data-name="' + esc(o.name || name(row)) + '">' + esc(A('رد', 'Reply')) + '</button>');
     }
     if (o.report && IS.ME) acts.push('<button type="button" class="cl" data-act="report" data-kind="' + esc(o.report[0]) + '" data-id="' + esc(o.report[1]) + '">' + esc(A('إبلاغ', 'Report')) + '</button>');
     if (o.del) acts.push(String(o.del).replace(/class="cact( bad)?"/, 'class="cl bad"').replace(/<svg[\s\S]*?<\/svg>/, ''));
     var to = row.reply_to_name ? '<b class="cmt-to" dir="auto">' + esc(row.reply_to_name) + '</b> ' : '';
-    return '<article class="cmt' + (row.parent_id ? ' kid' : '') + '"' + (id ? ' data-cid="' + esc(id) + '"' : '') + '>' + IS.av({ name: o.name, photo: o.photo }, row.parent_id ? 'xs' : 'sm', row.user_id) +
+    return '<article class="cmt' + (row.parent_id ? ' kid' : '') + '"' + (id ? ' data-cid="' + esc(id) + '"' : '') + (lk ? ' data-lk="' + lk + '"' : '') + '>' + IS.av({ name: o.name, photo: o.photo }, row.parent_id ? 'xs' : 'sm', row.user_id) +
       '<div class="cmt-b"><div class="cmt-bub"><div class="cmt-h"><b dir="auto">' + esc(o.name || '') + '</b>' + (o.badge || '') + '</div>' +
       '<p class="pre" dir="auto">' + to + esc(o.body || '') + '</p>' +
       badge(counts(row)) + '</div>' +

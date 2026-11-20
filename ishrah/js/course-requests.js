@@ -603,15 +603,16 @@
     var sum = bar.querySelector('.rx-sum');
     if (sum) {
       sum.hidden = !total;
-      sum.innerHTML = list.filter(function (x) { return x[1]; }).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 3)
-        .map(function (x) { return '<span class="rx-e" title="' + esc(A(x[0][2], x[0][3]) + ' · ' + x[1]) + '">' + x[0][1] + '</span>'; }).join('') +
-        '<bdi>' + total + '</bdi>';
+      sum.innerHTML = '<span class="rx-es" dir="ltr">' + list.filter(function (x) { return x[1]; }).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 3)
+        .map(function (x) { return '<span class="rx-e">' + x[0][1] + '</span>'; }).join('') + '</span><b class="rx-n">' + IS.rxCount(total) + '</b>';
+      sum.setAttribute('aria-label', A('من تفاعل؟ ', 'Who reacted? ') + list.filter(function (x) { return x[1]; }).map(function (x) { return x[0][1] + ' ' + x[1]; }).join(' · '));
     }
     var main = bar.querySelector('.feed-react'), cur = rxOf(mine);
     if (main && main.dataset.act === 'rx-open') {
       main.classList.toggle('on', !!cur);
       REACTIONS.forEach(function (r) { main.classList.toggle('rx-v-' + r[4], !!cur && cur === r); });
-      main.innerHTML = '<span class="feed-emoji-icon" aria-hidden="true">' + (cur ? cur[1] : '👍') + '</span><span class="rx-l">' + esc(cur ? A(cur[2], cur[3]) : A('تفاعل', 'React')) + '</span>';
+      main.innerHTML = '<span class="feed-emoji-icon" aria-hidden="true">' + (cur ? cur[1] : '👍') + '</span>';
+      main.title = cur ? A(cur[2], cur[3]) : A('تفاعل', 'React');
       main.setAttribute('aria-label', cur ? A('تفاعلك: ', 'Your reaction: ') + A(cur[2], cur[3]) : A('تفاعل', 'React'));
     }
     IS.$$('.rx-pick [data-act="feed-vote"]', bar).forEach(function (b) { b.setAttribute('aria-pressed', Number(b.dataset.value) === mine); });
@@ -647,16 +648,16 @@
         (savingVotes.has(uid() + '/' + key) ? ' disabled' : '') + '></button><span class="rx-pick" role="menu" hidden>' +
         REACTIONS.map(function (item) {
           return '<button type="button" role="menuitem" data-act="feed-vote" data-kind="' + kind + '" data-id="' + id + '" data-value="' + item[0] +
-            '" aria-label="' + esc(A(item[2], item[3])) + '" title="' + esc(A(item[2], item[3])) + '"><span>' + item[1] + '</span><small>' + esc(A(item[2], item[3])) + '</small></button>';
+            '" aria-label="' + esc(A(item[2], item[3])) + '" title="' + esc(A(item[2], item[3])) + '"><span>' + item[1] + '</span></button>';
         }).join('') + '</span></span>' :
-      '<button type="button" class="feed-emoji feed-react" data-act="login"><span class="feed-emoji-icon" aria-hidden="true">👍</span><span class="rx-l">' + esc(A('تفاعل', 'React')) + '</span></button>';
+      '<button type="button" class="feed-emoji feed-react" data-act="login" aria-label="' + esc(A('تفاعل', 'React')) + '"><span class="feed-emoji-icon" aria-hidden="true">👍</span></button>';
     var rcount = Number(row.rating_count == null ? row.n_reviews : row.rating_count) || 0;
     var counts = ' data-like="' + (Number(row.like_count) || 0) + '" data-dislike="' + (Number(row.dislike_count) || 0) + '" data-love="' + (Number(row.love_count) || 0) +
       '" data-angry="' + (Number(row.angry_count) || 0) + '" data-rc="' + rcount +
       '" data-rp="' + (Number(row.rating_points) || Math.round((Number(row.average_rating == null ? row.rating : row.average_rating) || 0) * rcount)) + '"';
     counts += ' data-rated-like="' + (Number(row.rated_like_count) || 0) + '" data-rated-dislike="' + (Number(row.rated_dislike_count) || 0) + '"';
     return '<div class="feed-votes" data-feedback="' + esc(key) + '" data-reaction="' + reaction + '"' + counts +
-      (row.status === 'closed' ? ' data-comments-closed' : '') + '>' + (kind === 'course' ? '' : '<div class="rx-sum" hidden></div>') + '<div class="row feed-action-row">' +
+      (row.status === 'closed' ? ' data-comments-closed' : '') + '>' + (kind === 'course' ? '' : '<button type="button" class="rx-sum" data-act="rx-who" hidden></button>') + '<div class="row feed-action-row">' +
       buttons + comment + (shareRoute ? IS.shareButton(shareRoute, true) : '') + '<span class="feed-grow"></span>' + rating + (kind === 'series' ? '' : IS.reportButton(kind, row.id, true)) + '</div>' +
       (inline ? '<div class="feed-comment-panel" id="' + panelId + '" hidden></div>' : '') + '</div>';
   };
@@ -731,6 +732,8 @@
     if (feed) feed.dispatchEvent(new CustomEvent('feed-feedback', { detail: { key: key, values: values } }));
   }
 
+  IS.patchFeed = function (kind, id, values) { patchFeed(kind, id, values, false); };
+  IS.voteSaving = function (key) { return !!uid() && savingVotes.has(uid() + '/' + key); };
   IS.applySeriesScore = function (row) {
     patchFeed('series', row.series_id, row, false);
     if (IS.updateLibraryRating) IS.updateLibraryRating(row.series_id, row, 'series');

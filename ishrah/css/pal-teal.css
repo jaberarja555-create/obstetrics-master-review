@@ -3681,3 +3681,34 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 .cmt-rxm{font-size:13px}
 .cmt-lk{gap:1px}
 .cmt-a .cl{display:inline-flex!important;align-items:center;gap:3px;white-space:nowrap}.cmt-a .rx-wrap{display:inline-flex}
+
+/* reactions, second pass (owner, 20 Nov 2026: emoji only, numbers that read well, tap to see who reacted) */
+.rx-sum{display:inline-flex;align-items:center;gap:8px;margin:0 0 10px;padding:4px 12px 4px 6px;min-height:34px;border-radius:999px;border:1px solid var(--bd2);background:var(--sf);color:var(--tx);font:inherit;cursor:pointer}
+[dir="rtl"] .rx-sum{padding:4px 6px 4px 12px}
+.rx-sum[hidden]{display:none!important}
+.rx-sum .rx-es{display:inline-flex;align-items:center}
+.rx-sum .rx-e{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--sf);box-shadow:0 0 0 2px var(--sf),0 1px 3px rgba(0,0,0,.18);font-size:14px;line-height:1;margin-right:-6px}
+.rx-sum .rx-e:last-child{margin-right:0}
+.rx-sum .rx-n{font-size:13.5px;font-weight:700;color:var(--sub);white-space:nowrap}
+.rx-sum:hover .rx-n{color:var(--pri);text-decoration:underline}
+.feed-action-row .feed-react{min-width:52px!important;justify-content:center;padding:4px 12px!important}
+.feed-react:not(.on) .feed-emoji-icon{filter:grayscale(1);opacity:.75}
+.feed-react .feed-emoji-icon{font-size:20px!important}
+.rx-pick button{min-width:0;padding:6px}
+.rx-pick button span{font-size:30px}
+.cmt-rxw .rx-pick button span{font-size:26px}
+.cmt-lk{border:0;cursor:pointer;font:inherit;display:inline-flex;align-items:center;gap:4px;padding:2px 7px}
+.cmt-lk b{font-size:11.5px;color:var(--sub)}
+.cmt-a .cl .cmt-rxm{font-size:17px;line-height:1}
+/* who reacted */
+.rxw-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:6px;border-bottom:1px solid var(--bd);scrollbar-width:none}
+.rxw-tabs button{flex:none;display:inline-flex;align-items:center;gap:5px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--bd2);background:var(--sf);color:var(--sub);font:600 13.5px inherit;cursor:pointer}
+.rxw-tabs button span{font-size:18px;line-height:1}
+.rxw-tabs button.on{background:var(--pri);border-color:var(--pri);color:#fff}
+.rxw-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.rxw-list li{display:flex;align-items:center;gap:12px;padding:9px 2px;border-bottom:1px solid var(--bd)}
+.rxw-list li[hidden]{display:none}
+.rxw-list li:last-child{border-bottom:0}
+.rxw-list li b{flex:1;min-width:0;font-size:14.5px}
+.rxw-av{position:relative;flex:none}
+.rxw-av i{position:absolute;inset-block-end:-4px;inset-inline-end:-6px;font-style:normal;font-size:15px;line-height:1;background:var(--sf);border-radius:50%;padding:1px}
