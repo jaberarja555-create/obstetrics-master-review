@@ -407,7 +407,7 @@
       '<label>' + HI.tag + '<span>' + esc(A('التصنيف', 'Category')) + '</span><select id="mh-ccat"><option value="">' + esc(A('الكل', 'All')) + '</option>' +
         subs.map(function (x) { return '<option value="' + esc(x.id) + '"' + (x.id === cur ? ' selected' : '') + '>' + esc(x.en) + '</option>'; }).join('') + '</select></label>' +
       '<button type="button" class="mh-ib" id="mh-cflt" aria-label="' + esc(A('تصفية', 'Filter')) + '">' + HI.filter + '</button><i class="mh-sep"></i>' +
-      (IS.LEC ? '<a class="mh-pub" href="#studio-course/new">' + HI.plus + '<span>' + esc(A('إنشاء كورس', 'Create a course')) + '</span></a>' :
+      (IS.LEC ? '<a class="mh-pub" href="#studio-course/new">' + HI.plus + '<span>' + esc(A('كورس جديد', 'New course')) + '</span></a>' :
         '<a class="mh-pub" href="#course-requests/new">' + HI.plus + '<span>' + esc(A('اطلب كورسًا', 'Request a course')) + '</span></a>') + '</div>';
     var sub = [spec && spec.en, section && (section.id === 'special' ? 'International' : section.en), IS.subj(cur) && IS.subj(cur).en].filter(Boolean).join(' <i>•</i> ');
     var a0 = IS.after;
