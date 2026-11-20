@@ -3950,3 +3950,14 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 .rx-sum .rx-e,.fv-stats .rx-sum .rx-e{width:auto;height:auto;margin:0!important;background:none;box-shadow:none;border-radius:0;font-size:17px;line-height:1.1}
 .rx-sum .rx-es{gap:3px}
 .cmt-lk .rx-e,.cmt-lk i,.cmt-lk span:not(.rx-n){margin:0!important;box-shadow:none}
+
+/* comment names on one line like Facebook: a long name is cut with … instead of breaking into two lines (owner, 20 Nov 2026) */
+.cmt-bub{min-width:0;max-width:100%}
+.cmt-bub .cmt-h{flex-wrap:nowrap!important;min-width:0}
+.cmt-bub .cmt-h b{display:block;min-width:0;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px!important;font-weight:650}
+.cmt-row{min-width:0}.cmt-b{min-width:0}
+/* the small reaction emojis on a comment sit side by side */
+.cmt-lk .cmt-es{display:inline-flex;align-items:center;gap:1px}
+.cmt-lk .cmt-es i{font-style:normal;font-size:14px;line-height:1;display:inline-block}
+.cmt-bub .cmt-h b{max-width:min(calc(100vw - 150px),520px)}
+.cmt.kid .cmt-bub .cmt-h b{max-width:min(calc(100vw - 190px),480px)}

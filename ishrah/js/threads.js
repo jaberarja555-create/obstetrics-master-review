@@ -21,7 +21,7 @@
     var list = RX.map(function (r) { return [r, Number(c[r[0]]) || 0]; }).filter(function (x) { return x[1]; }).sort(function (a, b) { return b[1] - a[1]; });
     var total = list.reduce(function (t, x) { return t + x[1]; }, 0);
     return total ? '<button type="button" class="cmt-lk" data-act="rx-who" data-rx="' + esc(JSON.stringify(c)) + '" aria-label="' + esc(A('من تفاعل؟ ', 'Who reacted? ') + list.map(function (x) { return x[0][1] + ' ' + x[1]; }).join(' · ')) + '">' +
-      '<span dir="ltr">' + list.slice(0, 3).map(function (x) { return x[0][1]; }).join('') + '</span><b>' + total + '</b></button>' : '';
+      '<span class="cmt-es" dir="ltr">' + list.slice(0, 3).map(function (x) { return '<i>' + x[0][1] + '</i>'; }).join('') + '</span><b>' + total + '</b></button>' : '';
   }
   function rxLabel(v) { var r = rxOf(v); return r ? '<span class="cmt-rxm" title="' + esc(A(r[2], r[3])) + '">' + r[1] + '</span>' : esc(A('أعجبني', 'Like')); }
   function uid() { return IS.ME && IS.ME.id; }

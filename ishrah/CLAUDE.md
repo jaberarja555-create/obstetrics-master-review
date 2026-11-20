@@ -892,3 +892,7 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   backups). (3) The deploy log prints whether `live_pulse` is in the `supabase_realtime` publication and how many pulses came in the last
   hour. Test: scratchpad rate3.js (two windows, 300 ms per server call: the second window shows the new rating 0.9 s after the first presses).
   Asset version 199, cache ish-v99.
+- **Comment names on one line like Facebook** (owner, 20 Nov 2026: "AHMED MOHAMMED HAMID DWALBYT appears in 2 lines"): the name in a comment
+  bubble never wraps (13 px, semibold); a name longer than the screen allows is cut with … (max width min(100vw − 150 px, 520 px); replies
+  40 px less). The small reaction emojis on a comment are separate (`.cmt-es i`), so 👎 no longer sits on ❤️. Test: scratchpad nm.js.
+  Asset version 200, cache ish-v100.
