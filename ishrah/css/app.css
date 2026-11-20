@@ -4044,3 +4044,7 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 .cmt-del button{border:0!important;background:none!important;padding:0 2px!important;min-height:0!important;font-size:12.5px!important;font-weight:700;color:#c0392b!important;box-shadow:none!important}
 .cmt-del button .ico{width:14px;height:14px}
 .mng span,.feed-card-header .mng span{padding:0!important;background:none!important;color:inherit!important;border-radius:0!important;font-weight:700}
+/* the React button: a line icon and a word (not an emoji), grey until you react, then in the reaction's colour */
+.fv-btn.feed-react .rxi{width:20px;height:20px;flex:none}
+.fv-btn.feed-react:not(.on){color:var(--sub)!important}
+.fv-btn.feed-react .feed-emoji-icon{display:none}

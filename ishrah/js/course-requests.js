@@ -718,6 +718,16 @@
   IS.REACTIONS = REACTIONS;
   function rxOf(value) { return REACTIONS.find(function (r) { return r[0] === Number(value); }); }
   /* summary (top emojis + total) and the main button, from the bar's data attributes */
+  /* the React button is a line icon and a word, never the emoji (owner, 20 Nov 2026: "the reaction button should be different from the
+     reactions; it shows the last reacted emoji and looks confusing"); the colourful emojis are only in the count of reactions */
+  var RXI = {
+    none: '<path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h3zm0 0 4-7a2 2 0 0 1 3 1.7V9h5a2 2 0 0 1 2 2.3l-1.2 7.5A2.5 2.5 0 0 1 16.3 21H7"/>',
+    like: '<path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h3zm0 0 4-7a2 2 0 0 1 3 1.7V9h5a2 2 0 0 1 2 2.3l-1.2 7.5A2.5 2.5 0 0 1 16.3 21H7" fill="currentColor" fill-opacity=".18"/>',
+    love: '<path d="M12 20s-7.5-4.6-9-9.3C1.9 7.3 4.2 4 7.6 4c2 0 3.4 1.1 4.4 2.6C13 5.1 14.4 4 16.4 4c3.4 0 5.7 3.3 4.6 6.7C19.5 15.4 12 20 12 20z" fill="currentColor" fill-opacity=".18"/>',
+    angry: '<circle cx="12" cy="12" r="9" fill="currentColor" fill-opacity=".14"/><path d="M8 9.5l2.5 1.2M16 9.5l-2.5 1.2M8.5 16.5c2-1.8 5-1.8 7 0"/>',
+    dislike: '<path d="M17 14V3h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-3zm0 0-4 7a2 2 0 0 1-3-1.7V15H5a2 2 0 0 1-2-2.3l1.2-7.5A2.5 2.5 0 0 1 7.7 3H17" fill="currentColor" fill-opacity=".18"/>'
+  };
+  IS.rxIcon = function (key) { return '<svg class="rxi" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (RXI[key] || RXI.none) + '</svg>'; };
   function paintReact(bar) {
     var d = bar.dataset, mine = Number(d.reaction) || 0, list = REACTIONS.map(function (r) { return [r, Number(d[r[4]]) || 0]; });
     var total = list.reduce(function (t, x) { return t + x[1]; }, 0);
@@ -732,7 +742,7 @@
     if (main && main.dataset.act === 'rx-open') {
       main.classList.toggle('on', !!cur);
       REACTIONS.forEach(function (r) { main.classList.toggle('rx-v-' + r[4], !!cur && cur === r); });
-      main.innerHTML = '<span class="feed-emoji-icon" aria-hidden="true">' + (cur ? cur[1] : '👍') + '</span><span class="rx-l">' + esc(cur ? A(cur[2], cur[3]) : A('أعجبني', 'Like')) + '</span>';
+      main.innerHTML = IS.rxIcon(cur ? cur[4] : 'none') + '<span class="rx-l">' + esc(cur ? A(cur[2], cur[3]) : A('أعجبني', 'Like')) + '</span>';
       main.title = cur ? A(cur[2], cur[3]) : A('تفاعل', 'React');
       main.setAttribute('aria-label', cur ? A('تفاعلك: ', 'Your reaction: ') + A(cur[2], cur[3]) : A('تفاعل', 'React'));
     }
@@ -777,7 +787,7 @@
           return '<button type="button" role="menuitem" data-act="feed-vote" data-kind="' + kind + '" data-id="' + id + '" data-value="' + item[0] +
             '" aria-label="' + esc(A(item[2], item[3])) + '" title="' + esc(A(item[2], item[3])) + '"><span>' + item[1] + '</span></button>';
         }).join('') + '</span></span>' :
-      '<button type="button" class="fv-btn feed-react" data-act="login"><span class="feed-emoji-icon" aria-hidden="true">👍</span><span class="rx-l">' + esc(A('أعجبني', 'Like')) + '</span></button>';
+      '<button type="button" class="fv-btn feed-react" data-act="login">' + IS.rxIcon('none') + '<span class="rx-l">' + esc(A('أعجبني', 'Like')) + '</span></button>';
     var rcount = Number(row.rating_count == null ? row.n_reviews : row.rating_count) || 0;
     var counts = ' data-like="' + (Number(row.like_count) || 0) + '" data-dislike="' + (Number(row.dislike_count) || 0) + '" data-love="' + (Number(row.love_count) || 0) +
       '" data-angry="' + (Number(row.angry_count) || 0) + '" data-rc="' + rcount +

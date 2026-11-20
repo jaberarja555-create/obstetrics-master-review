@@ -23,7 +23,8 @@
     return total ? '<button type="button" class="cmt-lk" data-act="rx-who" data-rx="' + esc(JSON.stringify(c)) + '" aria-label="' + esc(A('من تفاعل؟ ', 'Who reacted? ') + list.map(function (x) { return x[0][1] + ' ' + x[1]; }).join(' · ')) + '">' +
       '<span class="cmt-es" dir="ltr">' + list.slice(0, 3).map(function (x) { return '<i>' + x[0][1] + '</i>'; }).join('') + '</span><b>' + total + '</b></button>' : '';
   }
-  function rxLabel(v) { var r = rxOf(v); return r ? '<span class="cmt-rxm" title="' + esc(A(r[2], r[3])) + '">' + r[1] + '</span>' : esc(A('أعجبني', 'Like')); }
+  /* under a comment the chosen reaction is its word in its colour, not the emoji (the emojis are only in the count) */
+  function rxLabel(v) { var r = rxOf(v); return r ? esc(A(r[2], r[3])) : esc(A('أعجبني', 'Like')); }
   function uid() { return IS.ME && IS.ME.id; }
   function name(row) { return row.name || row.author_name || ''; }
 

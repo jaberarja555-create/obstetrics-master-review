@@ -920,3 +920,8 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   under another name); `profile_sync` (AFTER UPDATE OF name, photo ON profiles) rewrites them on everything the person wrote; existing rows
   filled once. threads.js `IS.commentItem` shows the signed-in person's current picture and name on their own comments at once. Tested on
   the local Postgres (file twice; a FAKE name replaced by the profile name; a profile change reaches posts and replies). Asset 204, ish-v104.
+- **The React button is not an emoji** (owner, 20 Nov 2026: "the reaction area emoji should be different from the reactions; it shows the last
+  reacted emoji and looks confusing"): `IS.rxIcon(key)` (course-requests.js) draws a line icon: grey outline thumb + «أعجبني» before reacting,
+  then the chosen reaction's own line icon (thumb up, heart, frowning face, thumb down) and word in its colour (blue / red / orange / dark red).
+  Under comments the chosen reaction is its word in its colour (no emoji). Colourful emojis appear only in the reaction counts and the
+  picker. Test: scratchpad rxb.js. Asset version 205, cache ish-v105.
