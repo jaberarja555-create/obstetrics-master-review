@@ -1004,3 +1004,12 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   anymore"). Backgrounds `img/mr/bg-wide.webp` (landscape) and `bg-tall.webp` (portrait). Section circles: Medicine uses the owner's pictures
   `img/mr/sec-medicine-<basics|clinical|special|house>.webp`; other specialities use their existing section artwork until he sends theirs.
   Fits one screen with no scroll at 1672×941, 1366×660, 820×1180, 390×844, 360×640 (scratchpad app2.js). Fonts: Poppins in `fonts/`.
+- **Sudan Master Review Academy (SMRA), owner 20 Nov 2026:** `IS.brandName()` = Sudan Master Review Academy; inside the app the LOGO carries
+  the name (no written name beside it): `img/mr/logo-smra.webp` (owner's logo with the Arabic and English names; the checkerboard baked into
+  his PNG was removed, scratchpad logo/cut.py) and `img/mr/smra-mark.webp` (emblem only, sign-in windows).
+- **Section page `#home` and My Library `#library` in the owner's pictures** (mr.js wraps the original pages through `IS.pageOf(name)`, so all
+  data and actions stay): small top bar (Home → section chooser, Search, Features grid · SMRA logo · day/night/eye button, bell, account),
+  banner = photo + teal panel with a gold curve (`pban`), title pill «محتوى …» (`ptitle`), filter bar (Sort · Post type / Content type ·
+  Publish or Share; Library adds a subjects filter button), Library: «ملفاتي» and «مبيعاتي», white cards with the picture or cover at the side.
+  The old welcome band, search box and place buttons are hidden there (every place is in Features). Light mint page; dark theme dark green.
+- **One theme button cycles Day → Night → Eye comfort** (`IS.ACT.theme` in mr.js; owner: "one press gives day, night, eye protection").

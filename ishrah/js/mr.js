@@ -59,7 +59,7 @@
     return '<header class="mr-top"><div class="mr-tl"><a class="mr-rb" href="' + homeHref + '" aria-label="' + esc(A('الرئيسية', 'Home')) + '">' + I.home + '</a><span class="mr-sep"></span>' + me + '</div>' +
       '<a class="mr-brand" href="#pick" aria-label="' + esc(IS.brandName()) + '"><img src="' + IS.U('img/mr/logo-smra.webp') + '" alt="' + esc(IS.brandName()) + '" width="1000" height="359"></a>' +
       '<div class="mr-tr">' + (m ? '<a class="mr-rb" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + I.bell + '<i class="mr-dot" hidden></i></a>' : '') +
-      '<button type="button" class="mr-rb mr-theme" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night')) + '">' + I.sun + I.moon + '</button>' +
+      '<button type="button" class="mr-rb mr-theme" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night')) + '">' + I.sun + I.moon + I.eye + '</button>' +
       '<a class="mr-rb" href="#settings" aria-label="' + esc(A('الإعدادات', 'Settings')) + '">' + I.gear + '</a></div></header>';
   }
   function hello() {
@@ -136,21 +136,25 @@
       '<a class="mh-b ghost" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + HI.search + '</a>' +
       '<button type="button" class="mh-b ghost" data-act="mrfeat" aria-label="' + esc(A('المزايا', 'Features')) + '">' + HI.grid + '</button></div>' +
       '<a class="mh-logo" href="#pick-section"><img src="' + IS.U('img/mr/logo-smra.webp') + '" alt="' + esc(IS.brandName()) + '" width="1000" height="359"></a>' +
-      '<div class="mh-side end"><button type="button" class="mh-tog" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night')) + '"><i>' + I.sun + '</i><i>' + I.moon + '</i></button>' +
+      '<div class="mh-side end"><button type="button" class="mh-tog" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night')) + '"><i class="t-l">' + I.sun + '</i><i class="t-d">' + I.moon + '</i><i class="t-e">' + I.eye + '</i></button>' +
       (m ? '<a class="mh-b" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + HI.bell + '<i class="mr-dot" hidden></i></a>' : '') + me + '</div></header>';
+  }
+  function pban(img, icon, title, sub, latin) {
+    return '<section class="mh-ban' + (latin ? '' : ' ar') + '"><div class="ph">' + (img ? '<img src="' + IS.U(img) + '" alt="">' : '') + '</div>' +
+      '<div class="pn"><svg class="cv" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M30 0C14 30 22 70 0 100H100V0z" fill="url(#mhpn)"/><path d="M30 0C14 30 22 70 0 100" fill="none" stroke="' + G + '" stroke-width="1.4" vector-effect="non-scaling-stroke"/>' +
+      '<defs><linearGradient id="mhpn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d6b5c"/><stop offset="1" stop-color="#063f36"/></linearGradient></defs></svg>' +
+      '<div class="tx"><svg class="mhb" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12h80l5-7 6 13 6-15 5 11 4-2h94" fill="none" stroke="#7fffe0" stroke-width="1.6" stroke-linejoin="round" style="filter:drop-shadow(0 0 3px #4dffd2)"/></svg>' +
+      '<h1 tabindex="-1"' + (latin ? ' lang="en" dir="ltr"' : ' dir="auto"') + '>' + icon + '<span>' + esc(title) + '</span></h1><p' + (latin ? ' lang="en" dir="ltr"' : ' dir="auto"') + '>' + sub + '</p></div></div></section>';
   }
   function hban(spec, section) {
     var img = spec.id === 'medicine' ? 'img/collection/medicine-' + section.id + '.webp' : (IS.studyArtwork(spec.id, section.id) || spec.img || '');
     var name = section.id === 'special' ? 'International' : IS.secName(spec.id, section).en;
-    return '<section class="mh-ban"><div class="ph">' + (img ? '<img src="' + IS.U(img) + '" alt="">' : '') + '</div>' +
-      '<div class="pn"><svg class="cv" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M30 0C14 30 22 70 0 100H100V0z" fill="url(#mhpn)"/><path d="M30 0C14 30 22 70 0 100" fill="none" stroke="' + G + '" stroke-width="1.4" vector-effect="non-scaling-stroke"/>' +
-      '<defs><linearGradient id="mhpn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d6b5c"/><stop offset="1" stop-color="#063f36"/></linearGradient></defs></svg>' +
-      '<div class="tx"><svg class="mhb" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12h80l5-7 6 13 6-15 5 11 4-2h94" fill="none" stroke="#7fffe0" stroke-width="1.6" stroke-linejoin="round" style="filter:drop-shadow(0 0 3px #4dffd2)"/></svg>' +
-      '<h1 tabindex="-1" lang="en" dir="ltr">' + I.steth + '<span>' + esc(name) + '</span></h1><p lang="en" dir="ltr">' + esc(spec.en) + ' <i>•</i> Study <i>•</i> Review <i>•</i> Practice</p></div></div></section>';
+    return pban(img, I.steth, name, esc(spec.en) + ' <i>•</i> Study <i>•</i> Review <i>•</i> Practice', true);
   }
+  function ptitle(text) { return '<div class="mh-title"><i></i><h2>' + HI.layers + '<span>' + esc(text) + '</span></h2><i></i></div>'; }
   function htitle(spec, section) {
     var n = IS.secName(spec.id, section), ar = (SECNAME[spec.id] || {})[section.id] ? n.ar : (SECAR[section.id] || n.ar);
-    return '<div class="mh-title"><i></i><h2>' + HI.layers + '<span>' + esc(A('محتوى ' + ar, (section.id === 'special' ? 'International' : n.en) + ' content')) + '</span></h2><i></i></div>';
+    return ptitle(A('محتوى ' + ar, (section.id === 'special' ? 'International' : n.en) + ' content'));
   }
   function tidyFeed(main) {
     var slot = main.querySelector('[data-home-feed]'); if (!slot) return;
@@ -171,6 +175,53 @@
     IS.after = function (main, remember) { after(); tidyFeed(main); return a0 ? a0(main, remember) : undefined; };
     return '<div class="mrx mrh"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() + hban(spec, section) + htitle(spec, section) + '<div class="mh-feed">' + inner + '</div></div></div>';
   }, home0.o);
+
+  /* ---------- one day/night button: each press = Day → Night → Eye comfort (owner, 20 Nov 2026) ---------- */
+  I.eye = '<svg class="ic eye" viewBox="0 0 24 24" fill="none" stroke="' + G + '" stroke-width="2" stroke-linecap="round"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3.2" fill="' + G + '"/></svg>';
+  var THEMES = ['light', 'dark', 'eye'];
+  IS.ACT.theme = function () {
+    var c = document.documentElement.getAttribute('data-theme'), n = THEMES[(THEMES.indexOf(c) + 1) % 3];
+    IS.setTheme(n); IS.chrome(document.body.getAttribute('data-page'));
+    if (IS.toast) IS.toast(n === 'dark' ? A('الوضع الليلي', 'Night') : n === 'eye' ? A('راحة العين', 'Eye comfort') : A('الوضع النهاري', 'Day'));
+  };
+
+  /* ---------- My Library in the same design (owner's picture, 20 Nov 2026): banner, «محتوى المكتبة», Sort · Content type · Share,
+     My files and My sales, then the books as white cards ---------- */
+  HI.book = svg('0 0 24 24', '<path d="M12 6.5C10 5 7 4.5 3 4.8v13.4c4-.3 7 .2 9 1.8 2-1.6 5-2.1 9-1.8V4.8c-4-.3-7 .2-9 1.7zM12 6.5V20"/>', ' fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"');
+  HI.share = svg('0 0 24 24', '<circle cx="18" cy="5.5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="18.5" r="2.6"/><path d="m8.3 10.8 7.4-4M8.3 13.2l7.4 4"/>', ' fill="none" stroke="currentColor" stroke-width="2"');
+  HI.folder = svg('0 0 24 24', '<path d="M3 7a2 2 0 0 1 2-2h4.2l2 2.2H19a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"');
+  HI.cart = svg('0 0 24 24', '<path d="M2.5 4h2.6l2.2 10.2h10.6L20.5 7H6.2"/><circle cx="9" cy="18.6" r="1.6"/><circle cx="17" cy="18.6" r="1.6"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"');
+  HI.filter = svg('0 0 24 24', '<path d="M4 5h16l-6.2 7.4V19l-3.6-1.8v-4.8z"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"');
+  var lib0 = IS.pageOf && IS.pageOf('library');
+  if (lib0) IS.page('library', async function (tab) {
+    var inner = await lib0.fn(tab);
+    if (typeof inner !== 'string') return inner;
+    var t = document.createElement('template'); t.innerHTML = inner;
+    var cur = (tab || 'all').split('/')[0];
+    var kinds = IS.$$ ? [].slice.call(t.content.querySelectorAll('.ltabs a')).map(function (a) { return [a.getAttribute('href').replace('#library/', ''), (a.querySelector('b') || a).textContent, (a.querySelector('small,i') || {}).textContent || '']; }) : [];
+    var sortSel = t.content.querySelector('#library-sort');
+    var sorts = sortSel ? [].slice.call(sortSel.options).map(function (o) { return '<option value="' + esc(o.value) + '"' + (o.selected ? ' selected' : '') + '>' + esc(o.textContent) + '</option>'; }).join('') : '';
+    var subj = t.content.querySelector('.library-tools details.fg');
+    var tool = '<div class="feed-filters mh-ltool">' + (sorts ? '<label>' + HI.sort + '<span>' + esc(A('الترتيب', 'Sort')) + '</span><select id="mh-lsort" aria-label="' + esc(A('الترتيب', 'Sort')) + '">' + sorts + '</select></label>' : '') +
+      '<label>' + HI.doc + '<span>' + esc(A('نوع المحتوى', 'Content type')) + '</span><select id="mh-ltype" aria-label="' + esc(A('نوع المحتوى', 'Content type')) + '">' + kinds.map(function (k) {
+        return '<option value="' + esc(k[0]) + '"' + (k[0] === cur ? ' selected' : '') + '>' + esc(k[1]) + '</option>'; }).join('') + '</select></label>' +
+      (subj ? '<button type="button" class="mh-ib" id="mh-lsub" aria-label="' + esc(A('المواد', 'Subjects')) + '">' + HI.filter + '</button>' : '') +
+      '<i class="mh-sep"></i><button type="button" class="mh-pub" data-act="share-file">' + HI.share + '<span>' + esc(A('شارك', 'Share')) + '</span></button></div>' +
+      (IS.ME ? '<div class="mh-two"><a class="mh-big' + (cur === 'uploads' ? ' on' : '') + '" href="#library/uploads">' + HI.folder + '<span>' + esc(A('ملفاتي', 'My files')) + '</span></a>' +
+        '<a class="mh-big pri" href="#sales">' + HI.cart + '<span>' + esc(A('مبيعاتي', 'My sales')) + '</span></a></div>' : '');
+    var a0 = IS.after;
+    IS.after = function (main, remember) {
+      after();
+      var ls = main.querySelector('#mh-lsort'), lt = main.querySelector('#mh-ltype'), sb = main.querySelector('#mh-lsub');
+      if (ls) ls.onchange = function () { var o = main.querySelector('#library-sort'); if (o) { o.value = ls.value; o.dispatchEvent(new Event('change')); } };
+      if (lt) lt.onchange = function () { location.hash = 'library/' + lt.value; };
+      if (sb) sb.onclick = function () { var d = main.querySelector('.library-tools details.fg'); if (d) { d.classList.add('mh-open'); d.open = !d.open; sb.classList.toggle('on', d.open); } };
+      return a0 ? a0(main, remember) : undefined;
+    };
+    return '<div class="mrx mrh mrl"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() +
+      pban('img/collection/library.webp', HI.book, A('مكتبتي', 'My Library'), esc(A('كل كتبك وملفاتك الدراسية في مكان واحد', 'All your books and study files in one place')), IS.lang !== 'ar') +
+      ptitle(A('محتوى المكتبة', 'Library content')) + tool + '<div class="mh-feed mh-lib">' + inner + '</div></div></div>';
+  }, lib0.o);
 
   /* ---------- sign in, sign up, the email code and Features open in the same green and gold look (owner, 20 Nov 2026) ---------- */
   var sheet0 = IS.sheet;
