@@ -183,7 +183,8 @@
       panel.id = 'rate-file-' + d.libraryFile;
       panel.setAttribute('aria-label', series ? A('تقييم السلسلة', 'Series rating') : A('تقييم الملف', 'File rating'));
       button.setAttribute('aria-controls', panel.id);
-      panel.innerHTML = (own ? '' : '<strong>' + esc(A('تقييمك', 'Your rating')) + '</strong>') +
+      panel.innerHTML = (own ? '<p class="mut">' + esc(A('هذا منشورك؛ يقيّمه الآخرون ولا يمكنك تقييمه بنفسك.', 'This is your own post: others rate it, you cannot rate it yourself.')) + '</p>' :
+        '<strong>' + esc(A('تقييمك', 'Your rating')) + '</strong>') +
         (myId && !own ? '<div class="library-rate-stars" role="group" aria-label="' + esc(A('اختر عدد النجوم', 'Choose your stars')) + '">' +
           [1, 2, 3, 4, 5].map(function (star) {
             return '<button type="button" data-act="save-library-stars" data-stars="' + star + '" aria-pressed="false" aria-label="' +
@@ -192,7 +193,7 @@
           '<button type="button" class="btn ghost sm" data-act="login">' + esc(A('سجّل الدخول للتقييم', 'Sign in to rate')) + '</button>') +
         (!(IS.team && IS.team()) ? '' : '<button type="button" class="link" data-act="grade-info" data-kind="' + d.libraryKind + '">' +
         esc(A('كيف حُسب التقييم؟', 'How is the rating calculated?')) + '</button>') + '<span class="mut" data-rating-result role="status"></span>';
-      button.closest('.feed-action-row, .ff').after(panel);
+      (button.closest('.fv-rate, .feed-action-row, .ff') || button).after(panel);
       panel.ratingButton = button;
       panel.addEventListener('keydown', function (event) {
         if (event.key !== 'Escape') return;

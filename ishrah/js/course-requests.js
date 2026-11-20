@@ -762,9 +762,11 @@
     var commentBtn = inline ?
       '<button type="button" class="fv-btn" data-act="feed-comments" aria-expanded="false" aria-controls="' + panelId + '">' + ic('chat') + '<span>' + esc(A('تعليق', 'Comment')) + '</span></button>' :
       '<a class="fv-btn" data-act="focus-feed-comments" href="' + esc(commentRoute) + '">' + ic('chat') + '<span>' + esc(A('تعليق', 'Comment')) + '</span></a>';
+    shareRoute = shareRoute || { file: 'file/', series: 'series/', course: 'course/', event: 'event/', news: 'news/', request: 'course-request/', post: 'post/' }[kind] + row.id;
+    if (kind === 'announcement') shareRoute = 'news/ann';
     var shareBtn = shareRoute ? '<button type="button" class="fv-btn" data-act="share-link" data-h="' + esc(shareRoute) + '">' + ic('share') + '<span>' + esc(A('مشاركة', 'Share')) + '</span></button>' : '';
     var score = voteScore(row);
-    var rating = kind !== 'course' ? IS.libraryRating(row, true, kind) : (!(IS.team && IS.team())) ? '<span class="feed-grade">' + IS.gradeInner(row, kind) + '</span>' : '<button type="button" class="feed-grade" data-act="grade-info" data-kind="' + esc(kind) + '" aria-label="' + esc(IS.gradeLabel(row, kind)) +
+    var rating = kind !== 'course' ? IS.libraryRating(row, true, kind) : (!(IS.team && IS.team())) ? '<button type="button" class="feed-grade" data-act="course-rate" data-id="' + id + '">' + IS.gradeInner(row, kind) + '</button>' : '<button type="button" class="feed-grade" data-act="grade-info" data-kind="' + esc(kind) + '" aria-label="' + esc(IS.gradeLabel(row, kind)) +
       '" title="' + esc(IS.gradeLabel(row, kind)) + '">' + IS.gradeInner(row, kind) + '</button>';
     var reaction = row.my_reaction === undefined ? '' : String(Number(row.my_reaction) || 0);
     var key = kind + '/' + row.id;
@@ -784,10 +786,14 @@
     return '<div class="feed-votes" data-feedback="' + esc(key) + '" data-reaction="' + reaction + '"' + counts +
       (row.status === 'closed' ? ' data-comments-closed' : '') + '>' + '<div class="fv-rate">' + (row._price != null && IS.priceTag ? IS.priceTag({ price: row._price }, 'sm') : '') + rating + '</div>' +
       '<div class="fv-stats">' + '<button type="button" class="rx-sum" data-act="rx-who" hidden></button>' + '<span class="fv-grow"></span>' + comment + '</div>' +
-      '<div class="fv-acts">' + buttons + commentBtn + shareBtn + (kind === 'series' ? '' : IS.reportButton(kind, row.id, true)) + '</div>' +
+      '<div class="fv-acts">' + buttons + commentBtn + shareBtn + (kind === 'series' ? (row._part ? IS.reportButton('file', row._part, true) : '') : IS.reportButton(kind, row.id, true)) + '</div>' +
       (inline ? '<div class="feed-comment-panel" id="' + panelId + '" hidden></div>' : '') + '</div>';
   };
 
+  IS.ACT['course-rate'] = function (b) {
+    IS.toast(A('يقيّم الكورس الطلاب الملتحقون به من صفحة الكورس، في تبويب التقييمات.', 'Students who joined the course rate it on the course page, under Reviews.'));
+    if (!location.hash.startsWith('#course/')) IS.go('course/' + b.dataset.id);
+  };
   IS.ACT['focus-feed-comments'] = function () { IS.focusPostComments(IS.$('#main')); };
 
   var scoreFields = { like: 'like_count', dislike: 'dislike_count', rc: 'rating_count', rp: 'rating_points',

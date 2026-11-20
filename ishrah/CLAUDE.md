@@ -871,3 +871,9 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
     again, 36 ms after reopening the app; a comment added on the server appears by itself; offline home and post pages work; offline comment and
     course reaction kept and sent when back online.
 - Asset version 196, shell cache ish-v96.
+- **Same buttons on every post; rating works again** (owner, 20 Nov 2026: "all posts have the same reactions and buttons like share, comment,
+  reaction; some posts miss buttons; people can't rate while it shows stars"): the star panel looked for the old footer (`.feed-action-row`)
+  and failed silently since the Facebook-style footer, so no post could be rated; it now opens under the stars line (`.fv-rate`). Your own
+  post says «هذا منشورك؛ يقيّمه الآخرون». `feedVoteBar` gives every kind the same row: reaction · comment · share · report (share route by kind
+  when the caller gives none; announcements share #news/ann; a series reports its first part). Course stars are a button that explains
+  enrolled students rate on the course page and opens it. Test: scratchpad same.js. Asset version 197, cache ish-v97.

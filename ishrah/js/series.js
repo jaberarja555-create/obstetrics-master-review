@@ -67,7 +67,7 @@
     return seriesTotals(await DB.q('series_feedback', { eq: { series_id: id } }), id, account);
   };
   function seriesFeedback(id, first) {
-    return IS.feedVoteBar('series', Object.assign({ id: id, owner_id: first.owner_id, _price: Number(first.price) || 0 }, IS.seriesScore(id)), true);
+    return IS.feedVoteBar('series', Object.assign({ id: id, owner_id: first.owner_id, _part: first.id, _price: Number(first.price) || 0 }, IS.seriesScore(id)), true);
   }
 
   /* one card per series: the first part stands for it, with all parts in order */
