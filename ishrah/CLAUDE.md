@@ -778,3 +778,5 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   from detail lines and button rows; «عرض الكورس», «افتح الكتاب» + «تنزيل» and «افتح السلسلة» are the same equal buttons (`.library-feed-actions`);
   the share label is hidden on phones under 420 px so the action row never cuts a word.
 - Asset version 186, shell cache ish-v86.
+- Totals split (owner: «Distortion», the comments count ran off the card): `.fv-rate` = price badge + stars (raters only) on their own
+  line; `.fv-stats` = reactions pill · comments count (wraps, hidden when both are empty). Asset version 187, shell cache ish-v87.

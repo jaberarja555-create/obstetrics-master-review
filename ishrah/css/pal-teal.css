@@ -3811,3 +3811,18 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 .fv-btn{gap:5px;font-size:13px!important;padding:0 2px!important}
 .fv-acts .feed-report{width:34px!important;min-width:34px!important}
 @media (max-width:420px){.fv-btn[data-act="share-link"] span{display:none}}
+
+/* owner, 20 Nov 2026 («Distortion»: the comments count ran off the card): price + stars on their own small line, then reactions on one side
+   and the comments count on the other; nothing in these lines can be wider than the card */
+.fv-rate{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 2px 6px;min-height:24px}
+.fv-rate .ptag{height:22px;padding:0 9px;font-size:12px;font-weight:700}
+.fv-rate .ptag .ico{width:12px;height:12px}
+.fv-rate .library-rating,.fv-rate .feed-grade{border:0!important;background:none!important;padding:0!important;min-height:0!important;box-shadow:none!important;display:inline-flex;align-items:center;gap:4px;font-size:12.5px;width:auto!important}
+.fv-rate .gstars{font-size:14px!important;letter-spacing:0}
+.fv-rate .gnum,.fv-rate .gtitle{display:none!important}
+.fv-rate .gcount{font-size:12px!important;color:var(--sub)}
+.fv-stats{flex-wrap:wrap;row-gap:4px;min-width:0}
+.fv-stats>*{min-width:0}
+.fv-stats .rx-sum .rx-n,.fv-stats .feed-comment{white-space:nowrap}
+.fv-stats:not(:has(.rx-sum:not([hidden]))):not(:has(.feed-comment:not(.zero))){display:none}
+.feed-votes,.fv-acts,.fv-stats,.fv-rate{max-width:100%;overflow:visible}
