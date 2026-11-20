@@ -191,8 +191,8 @@
               esc(A(star + ' من 5', star + ' out of 5')) + '">' + ic('star') + '</button>';
           }).join('') + '</div>' : own ? '' :
           '<button type="button" class="btn ghost sm" data-act="login">' + esc(A('سجّل الدخول للتقييم', 'Sign in to rate')) + '</button>') +
-        (!(IS.team && IS.team()) ? '' : '<button type="button" class="link" data-act="grade-info" data-kind="' + d.libraryKind + '">' +
-        esc(A('كيف حُسب التقييم؟', 'How is the rating calculated?')) + '</button>') + '<span class="mut" data-rating-result role="status"></span>';
+        /* no «How is the rating calculated?» link under the stars (owner, 20 Nov 2026) */
+        '<span class="mut" data-rating-result role="status"></span>';
       (button.closest('.fv-rate, .feed-action-row, .ff') || button).after(panel);
       panel.ratingButton = button;
       panel.addEventListener('keydown', function (event) {
