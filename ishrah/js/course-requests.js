@@ -592,7 +592,31 @@
   };
 
   var FEEDBACK = { post: 'posts', request: REQUESTS, file: 'files', announcement: 'notices', course: 'courses', event: 'events', news: 'news' };
-  var REACTIONS = [[1, '👍', 'أعجبني', 'Like', 'like'], [-1, '👎', 'لم يعجبني', 'Dislike', 'dislike']];
+  /* Facebook reactions (owner, 20 Nov 2026): one reaction per person; the button opens the picker, the same reaction again removes it */
+  var REACTIONS = [[1, '👍', 'أعجبني', 'Like', 'like'], [2, '❤️', 'أحببته', 'Love', 'love'], [3, '😡', 'أغضبني', 'Angry', 'angry'], [-1, '👎', 'لم يعجبني', 'Dislike', 'dislike']];
+  IS.REACTIONS = REACTIONS;
+  function rxOf(value) { return REACTIONS.find(function (r) { return r[0] === Number(value); }); }
+  /* summary (top emojis + total) and the main button, from the bar's data attributes */
+  function paintReact(bar) {
+    var d = bar.dataset, mine = Number(d.reaction) || 0, list = REACTIONS.map(function (r) { return [r, Number(d[r[4]]) || 0]; });
+    var total = list.reduce(function (t, x) { return t + x[1]; }, 0);
+    var sum = bar.querySelector('.rx-sum');
+    if (sum) {
+      sum.hidden = !total;
+      sum.innerHTML = list.filter(function (x) { return x[1]; }).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 3)
+        .map(function (x) { return '<span class="rx-e" title="' + esc(A(x[0][2], x[0][3]) + ' · ' + x[1]) + '">' + x[0][1] + '</span>'; }).join('') +
+        '<bdi>' + total + '</bdi>';
+    }
+    var main = bar.querySelector('.feed-react'), cur = rxOf(mine);
+    if (main && main.dataset.act === 'rx-open') {
+      main.classList.toggle('on', !!cur);
+      REACTIONS.forEach(function (r) { main.classList.toggle('rx-v-' + r[4], !!cur && cur === r); });
+      main.innerHTML = '<span class="feed-emoji-icon" aria-hidden="true">' + (cur ? cur[1] : '👍') + '</span><span class="rx-l">' + esc(cur ? A(cur[2], cur[3]) : A('تفاعل', 'React')) + '</span>';
+      main.setAttribute('aria-label', cur ? A('تفاعلك: ', 'Your reaction: ') + A(cur[2], cur[3]) : A('تفاعل', 'React'));
+    }
+    IS.$$('.rx-pick [data-act="feed-vote"]', bar).forEach(function (b) { b.setAttribute('aria-pressed', Number(b.dataset.value) === mine); });
+  }
+  IS.paintReact = paintReact;
   var savingVotes = new Set();
 
   function voteLabel(reaction, count) { return A(reaction[2], reaction[3]) + ' (' + count + ')'; }
@@ -608,7 +632,7 @@
     var id = esc(row.id), count = Number(row[kind === 'post' ? 'n_replies' : 'comment_count']) || 0;
     var label = esc(commentLabel(count)), panelId = 'comments-' + kind + '-' + id;
     var commentRoute = kind === 'request' ? href(row, IS.area === 'studio' ? 'studio-course-request' : 'course-request', 'comments') :
-      '#' + (kind === 'file' ? 'file/' : 'post/') + id + '/comments';
+      '#' + (kind === 'file' ? 'file/' : kind === 'series' ? 'series/' : 'post/') + id + '/comments';
     var comment = inline ?
       '<button type="button" class="feed-emoji feed-comment" data-act="feed-comments" aria-expanded="false" aria-controls="' + panelId +
         '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</button>' :
@@ -618,21 +642,22 @@
       '" title="' + esc(IS.gradeLabel(row, kind)) + '">' + IS.gradeInner(row, kind) + '</button>';
     var reaction = row.my_reaction === undefined ? '' : String(Number(row.my_reaction) || 0);
     var key = kind + '/' + row.id;
-    var buttons = kind === 'course' ? '' : REACTIONS.map(function (item) {
-      var total = Number(row[item[4] + '_count']) || 0, name = esc(voteLabel(item, total));
-      var attributes = ' class="feed-emoji feed-' + item[4] + '" aria-label="' + name + '" title="' + name + '"';
-      return uid() ? '<button type="button"' + attributes + ' data-act="feed-vote" data-kind="' + kind + '" data-id="' + id +
-        '" data-value="' + item[0] + '" aria-pressed="' + (Number(reaction) === item[0]) + '"' +
-        (savingVotes.has(uid() + '/' + key) ? ' disabled' : '') + '>' + emoji(item[1], total) + '</button>' :
-        '<span' + attributes + ' role="img">' + emoji(item[1], total) + '</span>';
-    }).join('');
+    var buttons = kind === 'course' ? '' : uid() ?
+      '<span class="rx-wrap"><button type="button" class="feed-emoji feed-react" data-act="rx-open" aria-haspopup="true" aria-expanded="false"' +
+        (savingVotes.has(uid() + '/' + key) ? ' disabled' : '') + '></button><span class="rx-pick" role="menu" hidden>' +
+        REACTIONS.map(function (item) {
+          return '<button type="button" role="menuitem" data-act="feed-vote" data-kind="' + kind + '" data-id="' + id + '" data-value="' + item[0] +
+            '" aria-label="' + esc(A(item[2], item[3])) + '" title="' + esc(A(item[2], item[3])) + '"><span>' + item[1] + '</span><small>' + esc(A(item[2], item[3])) + '</small></button>';
+        }).join('') + '</span></span>' :
+      '<button type="button" class="feed-emoji feed-react" data-act="login"><span class="feed-emoji-icon" aria-hidden="true">👍</span><span class="rx-l">' + esc(A('تفاعل', 'React')) + '</span></button>';
     var rcount = Number(row.rating_count == null ? row.n_reviews : row.rating_count) || 0;
-    var counts = ' data-like="' + (Number(row.like_count) || 0) + '" data-dislike="' + (Number(row.dislike_count) || 0) + '" data-rc="' + rcount +
+    var counts = ' data-like="' + (Number(row.like_count) || 0) + '" data-dislike="' + (Number(row.dislike_count) || 0) + '" data-love="' + (Number(row.love_count) || 0) +
+      '" data-angry="' + (Number(row.angry_count) || 0) + '" data-rc="' + rcount +
       '" data-rp="' + (Number(row.rating_points) || Math.round((Number(row.average_rating == null ? row.rating : row.average_rating) || 0) * rcount)) + '"';
     counts += ' data-rated-like="' + (Number(row.rated_like_count) || 0) + '" data-rated-dislike="' + (Number(row.rated_dislike_count) || 0) + '"';
     return '<div class="feed-votes" data-feedback="' + esc(key) + '" data-reaction="' + reaction + '"' + counts +
-      (row.status === 'closed' ? ' data-comments-closed' : '') + '><div class="row feed-action-row">' +
-      buttons + (kind === 'series' ? '' : comment) + (shareRoute ? IS.shareButton(shareRoute, true) : '') + '<span class="feed-grow"></span>' + rating + (kind === 'series' ? '' : IS.reportButton(kind, row.id, true)) + '</div>' +
+      (row.status === 'closed' ? ' data-comments-closed' : '') + '>' + (kind === 'course' ? '' : '<div class="rx-sum" hidden></div>') + '<div class="row feed-action-row">' +
+      buttons + comment + (shareRoute ? IS.shareButton(shareRoute, true) : '') + '<span class="feed-grow"></span>' + rating + (kind === 'series' ? '' : IS.reportButton(kind, row.id, true)) + '</div>' +
       (inline ? '<div class="feed-comment-panel" id="' + panelId + '" hidden></div>' : '') + '</div>';
   };
 
@@ -688,18 +713,9 @@
     IS.$$('[data-feedback]').filter(function (bar) { return bar.dataset.feedback === key; }).forEach(function (bar) {
       if ('my_reaction' in values) {
         bar.dataset.reaction = Number(values.my_reaction) || 0;
-        REACTIONS.forEach(function (item) {
-          var button = bar.querySelector('.feed-' + item[4]);
-          var total = Math.max(0, Number(values[item[4] + '_count']) || 0);
-          var label = voteLabel(item, total);
-          button.querySelector('[data-feedback-count]').textContent = total;
-          button.setAttribute('aria-label', label);
-          button.title = label;
-          if (button.matches('button')) {
-            button.setAttribute('aria-pressed', Number(values.my_reaction) === item[0]);
-            button.disabled = saving;
-          }
-        });
+        REACTIONS.forEach(function (item) { if ((item[4] + '_count') in values) bar.dataset[item[4]] = Math.max(0, Number(values[item[4] + '_count']) || 0); });
+        paintReact(bar);
+        var main = bar.querySelector('button.feed-react'); if (main) main.disabled = saving;
         // Star votes may replace a reaction. Keep the saved score until that account's change returns.
         if (!saving || kind !== 'file' && kind !== 'series') regrade(bar, values);
       }
@@ -720,6 +736,7 @@
     if (IS.updateLibraryRating) IS.updateLibraryRating(row.series_id, row, 'series');
   };
   IS.hydrateFeedReactions = function (root) {
+    IS.$$('[data-feedback]', root).forEach(paintReact);
     if (IS.hydrateSeriesScores) IS.hydrateSeriesScores(root);
     var user = uid();
     if (!user || IS.OFFPAGE) return;
@@ -736,9 +753,7 @@
           if (!bar.isConnected || bar.dataset.reaction !== '') return;
           var id = bar.dataset.feedback.split('/')[1];
           bar.dataset.reaction = own.get(id) || 0;
-          IS.$$('[data-act="feed-vote"]', bar).forEach(function (button) {
-            button.setAttribute('aria-pressed', Number(button.dataset.value) === Number(bar.dataset.reaction));
-          });
+          paintReact(bar);
         });
       }).catch(function () {});
     });
@@ -762,10 +777,8 @@
     if (row) await DB.upd('feed_feedback', row.id, update);
     else await DB.ins('feed_feedback', Object.assign({ user_id: uid() }, fields, update));
     var votes = await DB.q('feed_feedback', { eq: fields });
-    var counts = {
-      like_count: votes.filter(function (vote) { return vote.reaction === 1; }).length,
-      dislike_count: votes.filter(function (vote) { return vote.reaction === -1; }).length
-    };
+    var counts = {};
+    REACTIONS.forEach(function (item) { counts[item[4] + '_count'] = votes.filter(function (vote) { return vote.reaction === item[0]; }).length; });
     {
       counts.rating_count = votes.filter(function (vote) { return vote.stars; }).length;
       counts.rating_points = votes.reduce(function (total, vote) { return total + (vote.stars || 0); }, 0);
@@ -777,16 +790,24 @@
     return rating ? counts : Object.assign({ my_reaction: picked }, counts);
   };
 
+  function closePickers(except) {
+    IS.$$('.rx-pick:not([hidden])').forEach(function (p) { if (p !== except) { p.hidden = true; var m = p.parentNode.querySelector('.feed-react'); if (m) m.setAttribute('aria-expanded', 'false'); } });
+  }
+  IS.ACT['rx-open'] = function (button) {
+    var pick = button.parentNode.querySelector('.rx-pick'), open = pick.hidden;
+    closePickers(pick); pick.hidden = !open; button.setAttribute('aria-expanded', open);
+    if (open) { var f = pick.querySelector('[aria-pressed="true"]') || pick.querySelector('button'); if (f) f.focus({ preventScroll: true }); }
+  };
+  document.addEventListener('click', function (e) { if (!e.target.closest || !e.target.closest('.rx-wrap')) closePickers(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePickers(); });
   IS.ACT['feed-vote'] = async function (button) {
     var kind = button.dataset.kind, id = button.dataset.id, actor = uid();
     if (!actor) return IS.ACT.login();
     var bar = button.closest('[data-feedback]'), key = actor + '/' + bar.dataset.feedback, value = Number(button.dataset.value);
     if (savingVotes.has(key)) return;
-    var previous = {
-      my_reaction: Number(bar.dataset.reaction) || 0,
-      like_count: Number(bar.querySelector('.feed-like [data-feedback-count]').textContent),
-      dislike_count: Number(bar.querySelector('.feed-dislike [data-feedback-count]').textContent)
-    };
+    if (button.closest('.rx-pick')) closePickers();
+    var previous = { my_reaction: Number(bar.dataset.reaction) || 0 };
+    REACTIONS.forEach(function (item) { previous[item[4] + '_count'] = Number(bar.dataset[item[4]]) || 0; });
     var next = previous.my_reaction === value ? 0 : value;
     var optimistic = { my_reaction: next };
     REACTIONS.forEach(function (item) {
@@ -805,16 +826,16 @@
   };
 
   function commentMarkup(row, kind) { return IS.commentItem(commentOpts(row, kind)); }
-  function commentKind(kind) { return kind === 'request' ? 'request' : kind === 'file' ? 'file' : 'reply'; }
+  function commentKind(kind) { return kind === 'request' ? 'request' : kind === 'file' || kind === 'series' ? 'file' : 'reply'; }
   function commentOpts(row, kind) {
-    var report = kind === 'request' ? 'request_comment' : kind === 'file' ? 'file_comment' : 'reply';
+    var report = kind === 'request' ? 'request_comment' : kind === 'file' || kind === 'series' ? 'file_comment' : 'reply';
     return { name: row.author_name || row.name, photo: row.author_photo || row.photo, when: row.created_at ? IS.ago(row.created_at) : A('الآن', 'Now'), body: row.body,
       report: report && row.id && row.user_id !== uid() ? [report, row.id] : null };
   }
 
   async function loadComments(panel, kind, id) {
     var entries = panel.querySelector('[data-feed-entries]');
-    var table = kind === 'request' ? COMMENTS : kind === 'file' ? 'library_comments' : 'replies';
+    var table = kind === 'request' ? COMMENTS : kind === 'file' || kind === 'series' ? 'library_comments' : 'replies';
     var revision = panel.commentRevision = (panel.commentRevision || 0) + 1;
     var limit = Number(panel.dataset.commentLimit) || 30;
     try {
@@ -893,6 +914,10 @@
     area.after(pending);
     try {
       if (kind === 'file') await IS.commentOnLibraryFile(id, body);
+      else if (kind === 'series') {
+        if (DB.live) { var sc = await DB.sb.rpc('ish_series_comment', { series: id, message: body }); if (sc.error) throw sc.error; }
+        else await DB.ins('library_comments', { series_id: id, user_id: uid(), author_name: IS.ME.name, body: body });
+      }
       else if (kind === 'post') await IS.savePostReply(id, body);
       else if (kind === 'request') {
         if (DB.live) {

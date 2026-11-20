@@ -288,7 +288,7 @@
   function feedScore(item) {
     var r = item.row._parts ? IS.seriesScore(item.row.series_id) : item.row;
     /* owner, 19 Nov 2026: most popular = most reactions (likes + dislikes); comments only break ties */
-    return (Number(r.like_count) || 0) + (Number(r.dislike_count) || 0) + ((Number(r.n_replies) || 0) + (Number(r.comment_count) || 0)) / 1000;
+    return (Number(r.like_count) || 0) + (Number(r.dislike_count) || 0) + (Number(r.love_count) || 0) + (Number(r.angry_count) || 0) + ((Number(r.n_replies) || 0) + (Number(r.comment_count) || 0)) / 1000;
   }
   function feedRatingSort(first, second, order) {
     function grade(item) {

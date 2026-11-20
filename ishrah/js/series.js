@@ -23,12 +23,15 @@
       rating_points: rows.reduce(function (sum, row) { return sum + (row.stars || 0); }, 0),
       rated_like_count: rows.filter(function (row) { return row.stars && row.reaction === 1; }).length,
       rated_dislike_count: rows.filter(function (row) { return row.stars && row.reaction === -1; }).length,
+      love_count: rows.filter(function (row) { return row.reaction === 2; }).length,
+      angry_count: rows.filter(function (row) { return row.reaction === 3; }).length,
       my_reaction: own.reaction || 0, my_stars: own.stars || 0 };
   }
   IS.fetchSeriesScores = async function (ids) {
     if (!DB.live) {
-      var rows = await DB.q('series_feedback', { in: { series_id: ids } });
-      return ids.map(function (id) { return seriesTotals(rows.filter(function (row) { return row.series_id === id; }), id, viewer()); });
+      var rows = await DB.q('series_feedback', { in: { series_id: ids } }), cm = await DB.q('library_comments', { in: { series_id: ids } });
+      return ids.map(function (id) { return Object.assign(seriesTotals(rows.filter(function (row) { return row.series_id === id; }), id, viewer()),
+        { comment_count: cm.filter(function (c) { return c.series_id === id; }).length }); });
     }
     var response = await DB.sb.rpc('ish_series_rating_scores', { targets: ids });
     if (response.error) throw response.error;
@@ -64,7 +67,7 @@
     return seriesTotals(await DB.q('series_feedback', { eq: { series_id: id } }), id, account);
   };
   function seriesFeedback(id, first) {
-    return IS.feedVoteBar('series', Object.assign({ id: id, owner_id: first.owner_id }, IS.seriesScore(id)), false);
+    return IS.feedVoteBar('series', Object.assign({ id: id, owner_id: first.owner_id }, IS.seriesScore(id)), true);
   }
 
   /* one card per series: the first part stands for it, with all parts in order */
@@ -90,7 +93,8 @@
   };
 
   /* ---- the series page: the parts in order ---- */
-  IS.page('series', async function (id) {
+  IS.page('series', async function (arg) {
+    var id = String(arg || '').split('/')[0];
     await IS.loadBuys();
     var parts = (await DB.q('files', { eq: { series_id: id } })).filter(function (f) { return f.status === 'published' || (IS.ME && (f.owner_id === IS.ME.id || IS.can('library', 'approve'))); })
       .sort(function (a, b) { return (a.series_no || 9999) - (b.series_no || 9999) || a.id.localeCompare(b.id); });
@@ -130,6 +134,7 @@
       IS.hydrateLibraryCovers(main).catch(function () {});
       IS.warmLibraryReader(parts[lastRead]);
       showMissingCovers(main, parts);
+      if (String(arg || '').split('/')[1] === 'comments') IS.openFeedComments(main);
     };
     return h;
   });

@@ -3654,3 +3654,30 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 .library-feed-actions>.btn:last-child:nth-child(even){grid-column:1/-1}
 .feed-library .feed-card-content>div:last-child,.feed-series .feed-card-content>div:last-child{min-width:0;flex:1}
 .cmt-a{justify-content:flex-start!important}.cmt-a>*{flex:none!important;width:auto!important;min-width:0!important}
+
+/* Facebook reactions (owner, 20 Nov 2026): summary of reactions, the React button and its picker of 👍 ❤️ 😡 👎 */
+.rx-sum{display:flex;align-items:center;gap:2px;margin:0 0 8px;font-size:13px;font-weight:700;color:var(--sub)}
+.rx-sum .rx-e{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--sf);box-shadow:0 0 0 2px var(--sf),0 1px 2px rgba(0,0,0,.15);font-size:13px;margin-inline-end:-5px}
+.rx-sum bdi{margin-inline-start:10px}
+.rx-wrap{position:relative;display:inline-flex}
+.feed-action-row .feed-react{display:inline-flex;align-items:center;gap:6px;min-width:0!important;padding:4px 14px!important}
+.feed-react .rx-l{font-size:13.5px;font-weight:700}
+.feed-react.rx-v-like{color:#6628e2!important;border-color:#6628e2!important;background:#f0e9fc!important}
+.feed-react.rx-v-love{color:#e0245e!important;border-color:#e0245e!important;background:#fde8ef!important}
+.feed-react.rx-v-angry{color:#d4570b!important;border-color:#e8711c!important;background:#fdf0e5!important}
+.feed-react.rx-v-dislike{color:#a61e1e!important;border-color:#d9534f!important;background:#fdecec!important}
+.rx-pick{position:absolute;z-index:30;inset-block-end:calc(100% + 8px);inset-inline-start:0;display:flex;gap:4px;padding:6px 8px;border-radius:999px;background:var(--sf);border:1px solid var(--bd2);box-shadow:0 8px 24px rgba(29,14,56,.22);animation:rxin .16s ease-out}
+.rx-pick[hidden]{display:none!important}
+.rx-pick button{display:flex;flex-direction:column;align-items:center;gap:1px;min-width:52px;padding:4px 4px 3px;border:0;border-radius:14px;background:none;cursor:pointer;color:var(--sub)}
+.rx-pick button span{font-size:28px;line-height:1;transition:transform .12s}
+.rx-pick button small{font-size:10.5px;font-weight:700;white-space:nowrap}
+.rx-pick button:hover span,.rx-pick button:focus-visible span{transform:scale(1.25) translateY(-3px)}
+.rx-pick button[aria-pressed="true"]{background:var(--tint);color:var(--pri)}
+@keyframes rxin{from{opacity:0;transform:translateY(6px) scale(.9)}to{opacity:1;transform:none}}
+@media (hover:none){.rx-pick{animation:none}.rx-pick button:hover span{transform:none}}
+.cmt-rxw .rx-pick{inset-block-end:calc(100% + 4px)}
+.cmt-rxw .rx-pick button{min-width:46px}.cmt-rxw .rx-pick button span{font-size:24px}
+.cmt-a .cl.rx-v-like{color:#6628e2}.cmt-a .cl.rx-v-love{color:#e0245e}.cmt-a .cl.rx-v-angry{color:#d4570b}.cmt-a .cl.rx-v-dislike{color:#a61e1e}
+.cmt-rxm{font-size:13px}
+.cmt-lk{gap:1px}
+.cmt-a .cl{display:inline-flex!important;align-items:center;gap:3px;white-space:nowrap}.cmt-a .rx-wrap{display:inline-flex}

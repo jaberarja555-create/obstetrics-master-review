@@ -727,3 +727,18 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - Library cards in the feed (owner: «تنزيل، افتح الكتاب، مجاني … aligned well»): the price label on its own line, then the buttons side by
   side with the same height and width (one button takes the whole width).
 - Asset version 182, shell cache ish-v82.
+
+## Facebook reactions on posts and comments; comments on book series · 20 Nov 2026
+- Owner: "people should be able to react to other comments; book series don't have comments or reactions; like, dislike, angry and heart".
+  `040_reactions.sql`. Reactions: 1 👍 like · 2 ❤️ love · 3 😡 angry · -1 👎 dislike (one per person; the same again removes it).
+  - Feed items: `feed_feedback.reaction` and `series_feedback.reaction` accept the four; `love_count` / `angry_count` added beside like/dislike
+    on posts, files, notices, courses, events, news, course_requests (trigger `feed_feedback_count`); `ish_feed_react` / `ish_series_vote`
+    return all four counts. Bar = summary of the top emojis and the total (`.rx-sum`) + one «تفاعل» button that opens the picker (`.rx-pick`;
+    the button then shows the chosen reaction in its colour) + comment + share + stars + report (`IS.paintReact`). Most popular = all
+    reactions together.
+  - Comments: `comment_likes.reaction`, counts in the comment's `rx` jsonb ({"1":n,"2":n,…}), `like_count` = total; `ish_comment_react(kind,
+    comment, value)`; the bubble badge shows the top emojis and total; «أعجبني» under each comment opens the same four reactions.
+  - Book series: reactions in the same picker and their own comments (`library_comments.series_id`, `ish_series_comment`; replies and reactions
+    through the same thread functions; notifications go to the series owner). Comments open inside the series card and on the series page
+    (`#series/<id>/comments` opens them).
+- Asset version 183, shell cache ish-v83.

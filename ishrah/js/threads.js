@@ -8,17 +8,36 @@
 (function () {
   var A = IS.A, esc = IS.esc, ic = IS.ic;
   var TABLE = { reply: 'replies', request: 'course_request_comments', file: 'library_comments' };
-  var MINE = {};   // kind → Set of comment ids this account liked
+  var MINE = {};   // kind → Map comment id → this account's reaction (1 like · 2 love · 3 angry · -1 dislike)
+  var RX = [[1, '👍', 'أعجبني', 'Like', 'like'], [2, '❤️', 'أحببته', 'Love', 'love'], [3, '😡', 'أغضبني', 'Angry', 'angry'], [-1, '👎', 'لم يعجبني', 'Dislike', 'dislike']];
+  function rxOf(v) { return RX.find(function (r) { return r[0] === Number(v); }); }
+  function mine(lk, id) { return (MINE[lk] && MINE[lk].get(id)) || 0; }
+  function counts(row) {
+    var c = row.rx && typeof row.rx === 'object' ? row.rx : {};
+    if (!Object.keys(c).length && Number(row.like_count)) c = { 1: Number(row.like_count) };
+    return c;
+  }
+  function badge(c) {
+    var list = RX.map(function (r) { return [r, Number(c[r[0]]) || 0]; }).filter(function (x) { return x[1]; }).sort(function (a, b) { return b[1] - a[1]; });
+    var total = list.reduce(function (t, x) { return t + x[1]; }, 0);
+    return total ? '<span class="cmt-lk" data-rx="' + esc(JSON.stringify(c)) + '" title="' + esc(list.map(function (x) { return A(x[0][2], x[0][3]) + ' ' + x[1]; }).join(' · ')) + '">' +
+      list.slice(0, 3).map(function (x) { return x[0][1]; }).join('') + ' <bdi>' + total + '</bdi></span>' : '';
+  }
+  function rxLabel(v) { var r = rxOf(v); return r ? '<span class="cmt-rxm">' + r[1] + '</span> ' + esc(A(r[2], r[3])) : esc(A('أعجبني', 'Like')); }
   function uid() { return IS.ME && IS.ME.id; }
   function name(row) { return row.name || row.author_name || ''; }
 
   /* one comment: o = { row, lk (kind), name, photo, when, body, report, del, badge, reply (bool) } (old callers pass only name/when/body/…) */
   IS.commentItem = function (o) {
-    var row = o.row || {}, id = row.id, lk = o.lk, likes = Number(row.like_count) || 0, liked = !!(id && lk && MINE[lk] && MINE[lk].has(id));
+    var row = o.row || {}, id = row.id, lk = o.lk, my = id && lk ? mine(lk, id) : 0, cur = rxOf(my);
     var acts = [];
     acts.push('<small class="cmt-t">' + esc(o.when || '') + '</small>');
     if (id && lk && uid()) {
-      acts.push('<button type="button" class="cl' + (liked ? ' on' : '') + '" data-act="cmt-like" data-k="' + lk + '" data-id="' + esc(id) + '" aria-pressed="' + liked + '">' + esc(A('أعجبني', 'Like')) + '</button>');
+      acts.push('<span class="rx-wrap cmt-rxw"><button type="button" class="cl' + (cur ? ' on rx-v-' + cur[4] : '') + '" data-act="cmt-rx-open" aria-haspopup="true" aria-expanded="false">' + rxLabel(my) + '</button>' +
+        '<span class="rx-pick" role="menu" hidden>' + RX.map(function (r) {
+          return '<button type="button" role="menuitem" data-act="cmt-react" data-k="' + lk + '" data-id="' + esc(id) + '" data-value="' + r[0] + '" aria-pressed="' + (my === r[0]) +
+            '" aria-label="' + esc(A(r[2], r[3])) + '" title="' + esc(A(r[2], r[3])) + '"><span>' + r[1] + '</span><small>' + esc(A(r[2], r[3])) + '</small></button>';
+        }).join('') + '</span></span>');
       if (o.reply !== false) acts.push('<button type="button" class="cl" data-act="cmt-reply" data-k="' + lk + '" data-id="' + esc(id) + '" data-name="' + esc(o.name || name(row)) + '">' + esc(A('رد', 'Reply')) + '</button>');
     }
     if (o.report && IS.ME) acts.push('<button type="button" class="cl" data-act="report" data-kind="' + esc(o.report[0]) + '" data-id="' + esc(o.report[1]) + '">' + esc(A('إبلاغ', 'Report')) + '</button>');
@@ -27,7 +46,7 @@
     return '<article class="cmt' + (row.parent_id ? ' kid' : '') + '"' + (id ? ' data-cid="' + esc(id) + '"' : '') + '>' + IS.av({ name: o.name, photo: o.photo }, row.parent_id ? 'xs' : 'sm', row.user_id) +
       '<div class="cmt-b"><div class="cmt-bub"><div class="cmt-h"><b dir="auto">' + esc(o.name || '') + '</b>' + (o.badge || '') + '</div>' +
       '<p class="pre" dir="auto">' + to + esc(o.body || '') + '</p>' +
-      (likes ? '<span class="cmt-lk" title="' + esc(A('إعجابات', 'Likes')) + '">👍 <bdi>' + likes + '</bdi></span>' : '') + '</div>' +
+      badge(counts(row)) + '</div>' +
       '<div class="cmt-a">' + acts.join('<i>·</i>') + '</div></div></article>';
   };
 
@@ -56,7 +75,7 @@
     if (!uid() || !rows.length) return;
     try {
       var got = await DB.q('comment_likes', { eq: { kind: lk, user_id: uid() }, in: { comment_id: rows.map(function (r) { return r.id; }) } });
-      var s = MINE[lk] = MINE[lk] || new Set(); got.forEach(function (x) { s.add(x.comment_id); });
+      var m = MINE[lk] = MINE[lk] || new Map(); got.forEach(function (x) { m.set(x.comment_id, Number(x.reaction) || 1); });
     } catch (e) {}
   };
   /* comments of a page plus the replies of the comments shown and the comments that shown replies answer */
@@ -78,31 +97,45 @@
     var box = b.closest('.cmt-kids'); IS.$$('.cmt-k', box).forEach(function (k) { k.hidden = false; }); b.remove();
   };
 
-  IS.ACT['cmt-like'] = async function (b) {
+  IS.ACT['cmt-rx-open'] = function (b) {
+    var pick = b.parentNode.querySelector('.rx-pick'), open = pick.hidden;
+    IS.$$('.rx-pick:not([hidden])').forEach(function (p) { if (p !== pick) p.hidden = true; });
+    pick.hidden = !open; b.setAttribute('aria-expanded', open);
+  };
+  IS.ACT['cmt-react'] = async function (b) {
     if (!uid()) return IS.ACT.login();
-    var lk = b.dataset.k, id = b.dataset.id, s = MINE[lk] = MINE[lk] || new Set(), was = s.has(id);
-    var art = b.closest('.cmt'), bub = art.querySelector('.cmt-bub'), cnt = bub.querySelector('.cmt-lk bdi'), n = cnt ? Number(cnt.textContent) : 0;
-    function show(liked, count) {
-      if (liked) s.add(id); else s.delete(id);
-      b.classList.toggle('on', liked); b.setAttribute('aria-pressed', liked);
-      var el = bub.querySelector('.cmt-lk');
-      if (count > 0) { if (!el) { el = document.createElement('span'); el.className = 'cmt-lk'; bub.appendChild(el); } el.innerHTML = '👍 <bdi>' + count + '</bdi>'; }
-      else if (el) el.remove();
+    var lk = b.dataset.k, id = b.dataset.id, value = Number(b.dataset.value), m = MINE[lk] = MINE[lk] || new Map();
+    var wrap = b.closest('.rx-wrap'), pick = wrap.querySelector('.rx-pick'), main = wrap.querySelector('[data-act="cmt-rx-open"]');
+    var art = b.closest('.cmt'), bub = art.querySelector('.cmt-bub');
+    var before = m.get(id) || 0, beforeCounts = JSON.parse(art.dataset.rx || 'null') || {};
+    if (!art.dataset.rx) { var el0 = bub.querySelector('.cmt-lk'); beforeCounts = el0 ? JSON.parse(el0.dataset.rx || '{}') : {}; }
+    function show(my, c) {
+      if (my) m.set(id, my); else m.delete(id);
+      var cur = rxOf(my);
+      main.className = 'cl' + (cur ? ' on rx-v-' + cur[4] : ''); main.innerHTML = rxLabel(my); main.setAttribute('aria-expanded', 'false');
+      IS.$$('[data-act="cmt-react"]', pick).forEach(function (x) { x.setAttribute('aria-pressed', Number(x.dataset.value) === my); });
+      var old = bub.querySelector('.cmt-lk'); if (old) old.remove();
+      bub.insertAdjacentHTML('beforeend', badge(c)); art.dataset.rx = JSON.stringify(c);
     }
-    show(!was, Math.max(0, n + (was ? -1 : 1)));
-    b.disabled = true;
+    var next = before === value ? 0 : value, guess = Object.assign({}, beforeCounts);
+    if (before) guess[before] = Math.max(0, (Number(guess[before]) || 0) - 1);
+    if (next) guess[next] = (Number(guess[next]) || 0) + 1;
+    pick.hidden = true; show(next, guess);
     try {
       var r;
-      if (DB.live) { var x = await DB.sb.rpc('ish_comment_like', { kind: lk, comment: id }); if (x.error) throw x.error; r = x.data; }
+      if (DB.live) { var x = await DB.sb.rpc('ish_comment_react', { kind: lk, comment: id, value: value }); if (x.error) throw x.error; r = x.data; }
       else {
-        var mine = (await DB.q('comment_likes', { eq: { kind: lk, comment_id: id, user_id: uid() } }))[0];
-        if (mine) await DB.del('comment_likes', mine.id); else await DB.ins('comment_likes', { kind: lk, comment_id: id, user_id: uid() });
-        var count = (await DB.q('comment_likes', { eq: { kind: lk, comment_id: id } })).length;
-        await DB.upd(TABLE[lk], id, { like_count: count }); r = { liked: !mine, count: count };
+        var own = (await DB.q('comment_likes', { eq: { kind: lk, comment_id: id, user_id: uid() } }))[0];
+        if (own && Number(own.reaction) === value) await DB.del('comment_likes', own.id);
+        else if (own) await DB.upd('comment_likes', own.id, { reaction: value });
+        else await DB.ins('comment_likes', { kind: lk, comment_id: id, user_id: uid(), reaction: value });
+        var all = await DB.q('comment_likes', { eq: { kind: lk, comment_id: id } }), c = {};
+        all.forEach(function (l) { c[l.reaction] = (c[l.reaction] || 0) + 1; });
+        await DB.upd(TABLE[lk], id, { like_count: all.length, rx: c });
+        r = { mine: own && Number(own.reaction) === value ? null : value, rx: c };
       }
-      show(r.liked, r.count);
-    } catch (e) { show(was, n); IS.toast(A('تعذّر حفظ الإعجاب.', 'Could not save the like.'), true); }
-    finally { b.disabled = false; }
+      show(Number(r.mine) || 0, r.rx || {});
+    } catch (e) { show(before, beforeCounts); IS.toast(A('تعذّر حفظ التفاعل.', 'Could not save your reaction.'), true); }
   };
 
   IS.ACT['cmt-reply'] = function (b) {
