@@ -973,3 +973,15 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   diagonal edge, round arrow on the photo corner), and white pill buttons under them (English/العربية, Lecturer studio for lecturers, Terms
   and privacy, Control app for the team; one row of small buttons on phones). Side menu kept on laptops (his second picture). CSS block
   "Section chooser in the owner's design". Asset version 208, cache ish-v108. Next pages follow the owner's coming pictures.
+- **Teal glass design across the app (owner, 20 Nov 2026, his Clinical Home picture: "match the colors"; his photo of #pick: "bad background,
+  buttons not fit"):** CSS block "Owner's teal glass design" at the end of app.css (light theme only; dark keeps its colours). One deep teal
+  (`--tealg` #0a5562 → #127886) for active menu items, primary buttons, banners, the speciality chip and the search button; white glass
+  (`--glass`) for the top bar (a floating rounded bar on laptops), the side menu (a floating rounded panel with the emblem and «اشرح لي» at its
+  top, `.sbrand`; the top bar hides its own name there), boxes and cards; page background = a blurred hospital ward on the page root
+  (`body::before`, `img/collection/bg-ward.webp` made from events.webp; the plain colour sits on `:root`, never on body, or it hides the picture).
+  Section chooser: no dark wash, teal title, all four cards teal with big signs. Speciality chooser (#pick): same light ward (the pale sky and
+  campus strip are gone), teal cards with a round arrow, the buttons under the cards in ONE row across the full width (2 rows were squeezed).
+- **Home feed on laptops (owner, 20 Nov 2026: "on the phone good … on the laptop this mess"):** from 1024 px cards sit side by side
+  (`auto-fill, minmax(300px,1fr)`: three on a 1366 laptop), every card in a row the same height, each card = label and time · title · a wide
+  16:9 picture · stars and buttons at its foot; no lone last card across the row; a card without a picture puts its text in a soft panel.
+  Card labels and times never break inside a word. Asset version 209, cache ish-v109.

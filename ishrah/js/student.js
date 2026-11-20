@@ -386,7 +386,7 @@
           '" data-act="setspec" data-v="' + esc(spec.id) + '" aria-pressed="' + (spec.id === cur) + '">' +
           '<span class="entry-card-info"><i>' + ic(spec.icon) + '</i><b dir="auto" lang="en">' + esc(spec.en) + '</b></span>' +
           '<span class="entry-card-photo">' + (spec.img ? '<img src="' + IS.U(spec.img) + '" alt="">' : '') + '</span>' +
-          '<span class="entry-count">' + IS.cnt(n, 'sub') + '</span>' +
+          '<span class="entry-count">' + IS.cnt(n, 'sub') + '</span><span class="section-choice-go" aria-hidden="true">' + ic('chev') + '</span>' +
           (spec.id === cur ? '<span class="entry-current" aria-hidden="true">' + ic('check') + '</span>' : '') + '</button>';
       }).join('') + '</div></section>' +
       '<footer class="entry-footer">' +
