@@ -761,3 +761,52 @@ html body .mrh .feed-votes{column-gap:6px!important}
 @media (max-width:380px){html body .mrh .feed-votes .rx-sum,html body .mrh .feed-votes .feed-comment{padding:0 8px!important;font-size:12px!important}html body .mrh .feed-votes>.fv-rate>:not(.ptag){font-size:11.5px}}
 :root[data-theme="dark"] .mrh .feed-votes .rx-sum,:root[data-theme="dark"] .mrh .feed-votes .feed-comment{background:#0b2721!important;border-color:#21463c!important;color:#cfe3dd!important}
 html body .mrh .feed-votes .feed-comment::before{content:"💬"!important;background:none!important;-webkit-mask:none!important;mask:none!important;width:auto!important;height:auto!important;font-size:14px;line-height:1}
+/* ===== posts in the owner's picture (20 Nov 2026): clock before the time, author line, filled «افتح الكتاب», a line of
+   [مجاني | 💬 6 تعليقات | 👍👎 3 تفاعلات … ★★★★★ (1)] and outlined pill buttons ===== */
+html body .mrh .feed-card-header>time{display:inline-flex;align-items:center;gap:5px}
+html body .mrh .feed-card-header>time::before{content:"";width:16px;height:16px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235d7570' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E") center/contain no-repeat}
+html body .mrh .feed-detail .fsep{font-style:normal;color:#9db3ad;margin:0 .25em}
+html body .mrh .feed-author{display:flex;align-items:center;gap:6px;margin:4px 0 0!important;color:var(--mut)!important;font-size:13.5px!important}
+html body .mrh .feed-author::before{content:"";width:17px;height:17px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235d7570' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21c0-4 3.6-7 8-7s8 3 8 7'/%3E%3C/svg%3E") center/contain no-repeat}
+/* the first button is the main one */
+html body .mrh .feed-card .library-feed-actions>.btn:first-child{background:linear-gradient(180deg,#14806d,#06463b)!important;color:#fff!important;border-color:transparent!important;box-shadow:0 5px 12px rgba(6,70,59,.25)}
+html body .mrh .feed-card .library-feed-actions>.btn:first-child *{color:#fff!important}
+/* the stats line: words back, thin separators, stars in a soft pill */
+html body .mrh .feed-votes .rx-sum,html body .mrh .feed-votes .feed-comment{background:none!important;border:0!important;border-radius:0!important;padding:0 0 0 0!important;height:auto!important;font-weight:600}
+html body .mrh .feed-votes .rx-sum .rx-n,html body .mrh .feed-votes .feed-comment .fv-cw{display:inline!important}
+html body .mrh .feed-votes .rx-sum .rx-k{display:none!important}
+html body .mrh .feed-votes .feed-comment bdi{font-weight:800}
+html body .mrh .feed-votes .feed-comment::before{content:""!important;width:17px!important;height:17px!important;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232d4943' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M4 5.5h16v10H9.5L5 19.5v-4H4z'/%3E%3Cpath d='M8 9.5h8M8 12.5h5'/%3E%3C/svg%3E") center/contain no-repeat!important;font-size:0}
+html body .mrh .feed-votes>.fv-stats{gap:0!important}
+html body .mrh .feed-votes>.fv-stats>.feed-comment{order:1}
+html body .mrh .feed-votes>.fv-stats>.rx-sum{order:2}
+html body .mrh .feed-votes>.fv-stats>:not([hidden]):not(.zero):not(.fv-grow){padding-inline:10px!important;border-inline-start:1.5px solid #dbe7e4!important}
+html body .mrh .feed-votes>.fv-rate>.ptag{border:1.5px solid #bfe6cc!important;background:#eefaf2!important;gap:5px}
+html body .mrh .feed-votes>.fv-rate>.ptag.free::before{content:"";width:16px;height:16px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f8a4c' stroke-width='2' stroke-linejoin='round'%3E%3Crect x='3.5' y='8' width='17' height='4' rx='1'/%3E%3Cpath d='M5 12v8h14v-8M12 8v12M12 8c-1.5-3-5-3.5-5-1.2C7 8 9.5 8 12 8zm0 0c1.5-3 5-3.5 5-1.2C17 8 14.5 8 12 8z'/%3E%3C/svg%3E") center/contain no-repeat}
+html body .mrh .feed-votes>.fv-rate>.ptag.paid{border-color:#f1d49a!important;background:#fff6e3!important}
+html body .mrh .feed-votes>.fv-rate>:not(.ptag){padding:4px 10px!important;border-radius:999px!important;background:#eef3f2!important}
+/* the buttons under a post: outlined pills, Like in light blue, ⋮ for report */
+html body .mrh .feed-votes>.fv-acts{display:grid!important;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) auto auto;gap:8px!important;padding-top:10px!important;align-items:center}
+html body .mrh .feed-votes>.fv-acts>*{margin:0!important}
+html body .mrh .feed-votes>.fv-acts :is(.fv-btn,.feed-report){display:inline-flex!important;align-items:center;justify-content:center;gap:6px;height:42px;padding:0 14px!important;border-radius:999px!important;
+  border:1.5px solid #cfdcd9!important;background:#f7faf9!important;color:#2d4943!important;font-weight:700;font-size:14px;width:100%}
+html body .mrh .feed-votes>.fv-acts>.rx-wrap{display:block;min-width:0}
+html body .mrh .feed-votes>.fv-acts .feed-react{border-color:#a9c9ef!important;background:linear-gradient(180deg,#f5f9ff,#e8f1fd)!important;color:#1b5fb3!important}
+html body .mrh .feed-votes>.fv-acts .feed-react.on:not(.rx-v-like){background:#fff!important}
+html body .mrh .feed-votes>.fv-acts>[data-act="share-link"]{width:46px;padding:0!important}
+html body .mrh .feed-votes>.fv-acts>[data-act="share-link"] span{display:none}
+html body .mrh .feed-votes>.fv-acts>.feed-report{width:42px;padding:0!important;border-radius:14px!important}
+html body .mrh .feed-votes>.fv-acts>.feed-report>*{display:none!important}
+html body .mrh .feed-votes>.fv-acts>.feed-report::before{content:"⋮";font-size:22px;font-weight:900;line-height:1;color:#2d4943}
+@media (max-width:400px){
+  html body .mrh .feed-votes .rx-sum,html body .mrh .feed-votes .feed-comment{font-size:12px!important}
+  html body .mrh .feed-votes>.fv-stats>:not([hidden]):not(.zero):not(.fv-grow){padding-inline:7px!important}
+  html body .mrh .feed-votes>.fv-rate>.ptag{padding:0 9px!important;font-size:12px!important}
+  html body .mrh .feed-votes>.fv-rate>:not(.ptag){padding:3px 7px!important;font-size:11px!important}
+  html body .mrh .feed-votes>.fv-acts :is(.fv-btn,.feed-report){height:40px;font-size:13px;padding:0 10px!important}
+}
+@media (max-width:440px){html body .mrh .feed-votes .feed-comment .fv-cw,html body .mrh .feed-votes .rx-sum .rx-n{display:none!important}html body .mrh .feed-votes .rx-sum .rx-k{display:inline!important}}
+:root[data-theme="dark"] .mrh .feed-votes>.fv-acts :is(.fv-btn,.feed-report){background:#0b2721!important;border-color:#2a5a4e!important;color:#cfe3dd!important}
+:root[data-theme="dark"] .mrh .feed-votes>.fv-rate>:not(.ptag){background:#0b2721!important}
+html body .mrh .feed-votes.feed-votes:not(:has(.ptag))>.fv-stats.fv-stats>.feed-comment.feed-comment,html body .mrh .feed-votes.feed-votes:not(:has(.ptag))>.fv-stats.fv-stats:has(>.feed-comment.zero)>.rx-sum.rx-sum{border-inline-start:0!important;padding-inline-start:0!important}
+html body .mrh .feed-votes>.fv-stats{overflow:hidden}

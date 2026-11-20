@@ -1028,3 +1028,7 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   screen `IS.courseCard` draws `mrCourseCard` (`.mc-card`: «كورس» label, title, subtitle, lecturer, stars and grade, picture with the
   section and ♡, then price · time · students · lessons · Enrol / Continue / View details); elsewhere the older card stays.
   Bottom bar now starts with «الرئيسية» (the section page); the top 🏠 opens the section page, or the section chooser when already there.
+- **Post layout in the owner's picture** (20 Nov 2026, all feed and library cards): header label · 🕒 time · «إدارة» (✏️ 🗑️ hidden when
+  «إدارة» is there), title, subtitle, «subject • kind», 👤 author line, «افتح الكتاب» filled + «تنزيل» outlined; a stats line
+  [🎁 مجاني | 💬 6 تعليقات | 👍👎 3 تفاعلات … ★★★★★ (1) in a grey pill] (words hidden under 440 px, numbers stay); buttons as outlined
+  pills: أعجبني (light blue) · تعليق · share · ⋮ (= report). CSS at the end of css/mr.css (`.mrh .feed-votes`).

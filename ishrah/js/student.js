@@ -344,7 +344,8 @@
     var media = row.preview_image || row.cover || (!isPost && defaultArt[type] ? 'img/collection/' + defaultArt[type] + '.webp' : '');
     var libraryKind = library && IS.libraryKind(row.kind);
     var details = type === 'event' && row.starts ? esc(IS.date(row.starts, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Khartoum' })) :
-      library ? [A(libraryKind[2], libraryKind[3])].concat(IS.librarySubjectNames(row), row.author || row.owner_name).filter(Boolean).map(esc).join(' · ') :
+      library ? IS.librarySubjectNames(row).concat(A(libraryKind[2], libraryKind[3])).filter(Boolean).map(esc).join(' <i class="fsep">•</i> ') +
+        ((row.author || row.owner_name) ? '</p><p class="feed-author" dir="auto">' + esc(row.author || row.owner_name) : '') :
       isPost ? (row.user_id ? '<a class="pname" href="#person/' + esc(row.user_id) + '">' + esc(row.name || '') + '</a>' : esc(row.name || '')) :
       type === 'request' ? '<bdi dir="ltr">' + esc(((row.payment_required ? row.paid_count : row.joined_count) || 0) + (row.goal ? ' / ' + row.goal : '')) + '</bdi> ' + esc(A('منضمّون', 'joined')) :
       type === 'course' ? [courseFormat(row), row.starts_at && courseSchedule(row)].filter(Boolean).join(' · ') : '';
