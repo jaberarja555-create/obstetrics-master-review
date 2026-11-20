@@ -475,3 +475,14 @@ html body .mrh .mh-nav a{font-family:inherit}
 .prole-row{margin:6px 0 4px}
 .prole-row .roles{display:flex;flex-wrap:wrap;gap:6px}
 .mh-ban.hs p{white-space:nowrap;max-width:none;font-size:clamp(11px,3vw,20px)}
+/* phones: a smaller logo so it never touches the buttons beside it (owner, 20 Nov 2026) */
+@media (max-width:560px){
+  .mh-top{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);column-gap:8px}
+  .mh-logo img{height:36px!important;max-height:none;width:auto;max-width:calc(100vw - 268px)!important}
+}
+@media (max-width:370px){.mh-logo img{height:32px!important;max-width:calc(100vw - 230px)!important}}
+@media (orientation:portrait),(max-width:760px){
+  .mr-top{column-gap:8px}
+  .mr-brand img{height:clamp(32px,9.5vw,90px)!important;max-width:calc(100vw - 260px)!important}
+}
+@media (max-width:370px){.mr-brand img{max-width:calc(100vw - 236px)!important}}
