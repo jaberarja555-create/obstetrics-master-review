@@ -877,3 +877,10 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   post says «هذا منشورك؛ يقيّمه الآخرون». `feedVoteBar` gives every kind the same row: reaction · comment · share · report (share route by kind
   when the caller gives none; announcements share #news/ann; a series reports its first part). Course stars are a button that explains
   enrolled students rate on the course page and opens it. Test: scratchpad same.js. Asset version 197, cache ish-v97.
+- **Other accounts see ratings and reactions quickly** (owner, 20 Nov 2026: "I rated a post, then from another account it didn't appear even
+  after updating the page"): (1) the quiet redraw never ran on Home: `busyNow` (core.js) took the feed's sort/type drop-downs as edited
+  (a select has no defaultValue); drop-downs now count only when their choice changed, and the feed toolbar never blocks. (2) live.js
+  `refreshItem` updates the stars too (`IS.updateLibraryRating` with rating_count / rating_points), not only reaction counts. (3) The backup
+  check of `live_pulse` runs every 5 s while the live connection is down (every 20 s while it is up), and a dropped live connection is opened
+  again after 10 s. Test: scratchpad rate2.js (fake Supabase: stars appear by themselves; after a reload the newer figures show in 0.7 s).
+- Reaction emojis in the summary sit side by side (no overlapping circles; heart and angry looked inside each other). Asset version 198, cache ish-v98.

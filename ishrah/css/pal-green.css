@@ -3946,3 +3946,8 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 /* a comment shows the moment it is sent; it is a little faint until the server has it (owner, 20 Nov 2026) */
 .cth.sending .cmt, .cmt-k.sending .cmt { opacity: .62; }
 .cth.sending .cmt-t, .cmt-k.sending .cmt-t { font-style: italic; }
+
+/* reaction emojis side by side, never on top of each other (owner, 20 Nov 2026: heart and angry looked inside each other) */
+.rx-sum .rx-e,.fv-stats .rx-sum .rx-e{width:auto;height:auto;margin:0!important;background:none;box-shadow:none;border-radius:0;font-size:17px;line-height:1.1}
+.rx-sum .rx-es{gap:3px}
+.cmt-lk .rx-e,.cmt-lk i,.cmt-lk span:not(.rx-n){margin:0!important;box-shadow:none}

@@ -636,6 +636,7 @@
     if (IS.$('.rx-pick:not([hidden]), .cmt-menu:not([hidden]), .feed-comment-panel:not([hidden]), button.busy')) return true;
     if (document.body.classList.contains('noscroll')) return true;
     return IS.$$('#main input, #main textarea, #main select').some(function (el) {
+      if (el.tagName === 'SELECT') return Array.prototype.some.call(el.options, function (o) { return o.selected !== o.defaultSelected; }) && !el.closest('.feed-toolbar');
       return el.type === 'checkbox' || el.type === 'radio' ? el.checked !== el.defaultChecked : el.type !== 'file' && el.type !== 'hidden' && el.value !== el.defaultValue;
     });
   }

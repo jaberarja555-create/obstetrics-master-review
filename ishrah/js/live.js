@@ -79,6 +79,11 @@
             v[kind === 'post' ? 'n_replies' : 'comment_count'] = kind === 'post' ? row.n_replies : row.comment_count;
             IS.patchFeed(kind, id, v);
           }
+          if (row && IS.updateLibraryRating && row.rating_count != null) {
+            var stars = IS.$$('[data-library-file]').filter(function (el) { return el.dataset.libraryFile === id && el.dataset.libraryKind === kind; })[0];
+            if (!stars || Number(stars.dataset.count) !== Number(row.rating_count) || Number(stars.dataset.points) !== Number(row.rating_points))
+              IS.updateLibraryRating(id, { rating_count: Number(row.rating_count) || 0, rating_points: Number(row.rating_points) || 0 }, kind);
+          }
         }
       } catch (e) {}
       bars.forEach(function (bar) {
@@ -103,8 +108,9 @@
     }, wait);
   };
   function onScreen(key) { return IS.$$('[data-feedback]').some(function (b) { return b.dataset.feedback === key; }) || location.hash.indexOf(key.split('/')[1]) >= 0; }
-  async function poll() {
-    if (!DB.live || live || document.hidden || !navigator.onLine) return;
+  function pollAny() { return poll(true); }
+  async function poll(any) {
+    if (!DB.live || (live && !any) || document.hidden || !navigator.onLine) return;
     try {
       var r = await DB.sb.from('live_pulse').select('key,at').gt('at', lastAt).order('at', { ascending: false }).limit(50);
       if (r.error || !r.data) return;
@@ -119,10 +125,15 @@
         var row = p.new && p.new.key ? p.new : p.old; if (!row || !row.key) return;
         if (row.at && row.at > lastAt) lastAt = row.at;
         if (onScreen(row.key)) IS.livePulse(row.key);
-      }).subscribe(function (status) { live = status === 'SUBSCRIBED'; });
+      }).subscribe(function (status) {
+        live = status === 'SUBSCRIBED';
+        /* a dropped live connection is opened again (the 5 s check covers the gap) */
+        if (/ERROR|TIMED_OUT|CLOSED/.test(String(status))) { try { DB.sb.removeChannel(channel); } catch (e) {} channel = null; setTimeout(connect, 10000); }
+      });
     } catch (e) { channel = null; }
   }
-  setInterval(poll, 15000);
+  var polled = 0;
+  setInterval(function () { if (!live || Date.now() - polled > 20000) { polled = Date.now(); pollAny(); } }, 5000);
   document.addEventListener('visibilitychange', function () { if (!document.hidden) { poll(); if (!channel) connect(); } });
   window.addEventListener('online', function () { poll(); });
   setTimeout(connect, 1500);
