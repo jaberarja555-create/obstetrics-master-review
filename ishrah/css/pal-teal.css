@@ -4328,3 +4328,79 @@ body[data-page="pick-section"] #main{
 /* card labels and times never break inside a word, on any screen */
 .feed-card>.feed-card-header{flex-wrap:wrap;row-gap:6px}
 .feed-card>.feed-card-header>*,.feed-card>.feed-card-header :is(span,em,small,time,a,button){white-space:nowrap}
+
+/* ===== Page banners, empty states and Courses in the owner's design (20 Nov 2026, his Courses and Events pictures) =====
+   banner: deep teal panel with the title in white beside a bright teal icon tile and a heartbeat line; the photo on the other side with a
+   slanted bright edge. Empty states: a glass card with a big teal sign and a teal button. Courses: one row of filters; one or two results
+   are wide cards (picture beside the details). */
+:root:not([data-theme="dark"]) body[data-page] #main :is(.ban.bpic,.cban),:root:not([data-theme="dark"]) #main .ban.bpic{background:linear-gradient(270deg,#0d6773,#0a4f5b 60%,#083f49)!important;color:#fff!important;
+  border:1px solid rgba(255,255,255,.65)!important;box-shadow:0 12px 30px rgba(9,70,82,.2)!important}
+:root[dir="ltr"]:not([data-theme="dark"]) #main .ban.bpic{background:linear-gradient(90deg,#0d6773,#0a4f5b 60%,#083f49)!important}
+:root:not([data-theme="dark"]) #main .ban.bpic h1,:root:not([data-theme="dark"]) #main .ban.bpic h1 *,:root:not([data-theme="dark"]) #main .ban.bpic .tt>b{color:#fff!important;-webkit-text-fill-color:#fff}
+:root:not([data-theme="dark"]) #main .ban.bpic p,:root:not([data-theme="dark"]) #main .ban.bpic .tt>small{color:rgba(235,250,252,.9)!important}
+:root:not([data-theme="dark"]) #main .ban.bpic .bt>div{border-inline-start-color:rgba(255,255,255,.3)!important}
+:root:not([data-theme="dark"]) #main .ban.bpic .bi{background:linear-gradient(150deg,#1fb3c0,#0d7f8c)!important;color:#fff!important;border:0!important;border-radius:16px!important;
+  box-shadow:0 6px 16px rgba(0,0,0,.22)!important}
+:root:not([data-theme="dark"]) #main .ban.bpic>.bnums span,:root:not([data-theme="dark"]) #main .ban.bpic>.row>:not(.btn){background:rgba(255,255,255,.14)!important;color:#fff!important;border-color:rgba(255,255,255,.3)!important}
+@media (min-width:761px){
+  :root:not([data-theme="dark"]) #main .ban.bpic{min-height:150px}
+  :root:not([data-theme="dark"]) #main .ban.bpic .bph::after{background:none!important}
+  :root[dir="rtl"]:not([data-theme="dark"]) #main .ban.bpic .bph{clip-path:polygon(0 0,100% 0,82% 100%,0 100%)}
+  :root[dir="ltr"]:not([data-theme="dark"]) #main .ban.bpic .bph{clip-path:polygon(0 0,100% 0,100% 100%,18% 100%)}
+  :root:not([data-theme="dark"]) #main .ban.bpic .bwave{display:none!important}
+  :root:not([data-theme="dark"]) #main .ban.bpic::after{content:"";position:absolute;z-index:1;inset-block:0;width:10px;pointer-events:none;
+    background:linear-gradient(180deg,#5ee3ea,#1fb3c0);opacity:.95}
+  :root[dir="rtl"]:not([data-theme="dark"]) #main .ban.bpic::after{left:calc(52% - 9.4% - 4px);transform:skewX(-10.2deg);transform-origin:top}
+  :root[dir="ltr"]:not([data-theme="dark"]) #main .ban.bpic::after{right:calc(52% - 9.4% - 4px);transform:skewX(10.2deg);transform-origin:top}
+  :root:not([data-theme="dark"]) #main .ban.bpic .bt::after{content:"";flex:none;width:110px;height:38px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Cpath d='M2 22h34l6-10 7 20 8-28 7 26 5-8h49' fill='none' stroke='%2350d6e0' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.95}
+}
+@media (max-width:760px){:root:not([data-theme="dark"]) #main .ban.bpic .bph{opacity:1!important}:root:not([data-theme="dark"]) #main .ban.bpic .bph::after{background:linear-gradient(0deg,#0a4f5b,transparent 45%)!important}}
+
+/* empty states: a glass card, big teal sign, teal button */
+:root:not([data-theme="dark"]) #main .empty{background:var(--glass)!important;border:1px solid var(--glass-bd)!important;box-shadow:var(--glass-sh);border-radius:24px;padding:clamp(22px,4vw,44px) 18px!important;gap:10px}
+:root:not([data-theme="dark"]) #main .empty>.ico{width:86px!important;height:86px!important;padding:20px!important;border-radius:26px!important;background:linear-gradient(150deg,#e3f3f6,#cbe7ec)!important;color:var(--teal)!important}
+:root:not([data-theme="dark"]) #main .empty b{font-size:clamp(17px,2vw,22px);color:var(--tx)}
+:root:not([data-theme="dark"]) #main .empty span{font-size:14.5px;color:var(--sub)}
+:root:not([data-theme="dark"]) #main .empty .btn{background:var(--tealg)!important;color:#fff!important;border:0!important;border-radius:999px!important;padding-inline:22px}
+
+/* Courses: the filters, search, sort and view in one row on laptops */
+@media (min-width:1280px){
+  body[data-page="courses"] .tool{flex-wrap:nowrap!important}
+  body[data-page="courses"] .tool>.filt{flex:none!important}
+  body[data-page="courses"] .tool>.field{flex:1 1 220px!important;min-width:180px!important}
+}
+:root:not([data-theme="dark"]) body[data-page="courses"] .tool :is(.field,.sel,.seg,.filt){background:var(--glass)!important;border-color:var(--glass-bd)!important;border-radius:999px}
+:root:not([data-theme="dark"]) body[data-page="courses"] .filt .fg>summary{background:#fff!important}
+:root:not([data-theme="dark"]) body[data-page="courses"] .seg [aria-pressed="true"]{background:var(--tealg)!important;color:#fff!important}
+/* one or two courses: wide cards, picture beside the details */
+@media (min-width:900px){
+  #cres .grid.g3:not(:has(>:nth-child(3))){grid-template-columns:minmax(0,1fr)!important}
+  #cres .grid.g3:not(:has(>:nth-child(3)))>.ccard{display:grid!important;grid-template-columns:minmax(260px,32%) minmax(0,1fr);align-items:stretch}
+  #cres .grid.g3:not(:has(>:nth-child(3)))>.ccard>.ccimg{grid-row:1/3;height:100%!important;min-height:210px;aspect-ratio:auto!important}
+  #cres .grid.g3:not(:has(>:nth-child(3)))>.ccard>.ccb{padding:18px 22px!important;display:flex;flex-direction:column;gap:10px}
+  #cres .grid.g3:not(:has(>:nth-child(3)))>.ccard h3{font-size:22px!important}
+  #cres .grid.g3:not(:has(>:nth-child(3)))>.ccard .ccf{margin-top:auto;padding-top:12px;border-top:1px solid var(--bd)}
+}
+:root:not([data-theme="dark"]) #cres .ccard{background:var(--glass)!important;border-color:var(--glass-bd)!important}
+:root:not([data-theme="dark"]) #cres .ccard .ccst .feed-grade{background:#fff;border:1px solid var(--bd);border-radius:999px;padding:3px 10px}
+/* banner: the bright line follows the photo's slanted edge exactly (drawn over the photo's own box, 10 px wider) */
+@media (min-width:761px){
+  :root:not([data-theme="dark"]) #main .ban.bpic::after{display:none!important}
+  :root:not([data-theme="dark"]) #main .ban.bpic:not(.studio-hero):not(:has(h1.tl2,h1.tl3)) .bph{overflow:visible}
+  :root[dir="rtl"]:not([data-theme="dark"]) #main .ban.bpic:not(.studio-hero):not(:has(h1.tl2,h1.tl3))::before{content:"";display:block!important;position:absolute;z-index:1;inset-block:0;left:0;right:auto;width:calc(52% + 10px);pointer-events:none;
+    background:linear-gradient(180deg,#6ae8ee,#1fb3c0);clip-path:polygon(calc(100% - 10px) 0,100% 0,calc(82% + 1.8px) 100%,calc(82% - 8.2px) 100%)}
+  :root[dir="ltr"]:not([data-theme="dark"]) #main .ban.bpic:not(.studio-hero):not(:has(h1.tl2,h1.tl3))::before{content:"";display:block!important;position:absolute;z-index:1;inset-block:0;right:0;left:auto;width:calc(52% + 10px);pointer-events:none;
+    background:linear-gradient(180deg,#6ae8ee,#1fb3c0);clip-path:polygon(0 0,10px 0,calc(18% + 8.2px) 100%,calc(18% - 1.8px) 100%)}
+  :root:not([data-theme="dark"]) #main .ban.bpic .bt::after{width:84px;height:30px}
+  :root:not([data-theme="dark"]) #main .ban.bpic h1{white-space:nowrap}
+}
+/* Lecturers page (owner's picture, 20 Nov 2026): white count tiles on the banner; the studio card teal with the studio photo and a cream button */
+:root:not([data-theme="dark"]) #main .ban.bpic>.bnums span{background:rgba(255,255,255,.94)!important;color:#0b382a!important;border:0!important;box-shadow:0 6px 16px rgba(0,0,0,.18)}
+:root:not([data-theme="dark"]) #main .ban.bpic>.bnums span :is(b,small){color:#0b382a!important}
+#main .lcard.join{background:linear-gradient(180deg,#0b5763 0%,#0e6a77 52%,rgba(14,106,119,.2) 78%),var(--jimg) center bottom/cover no-repeat!important;color:#fff!important;border:2px solid rgba(255,255,255,.7)!important;
+  border-style:solid!important;justify-content:flex-start}
+#main .lcard.join .av.lg{background:linear-gradient(150deg,#1fb3c0,#0d7f8c)!important;border-color:rgba(255,255,255,.5)!important;color:#fff!important}
+#main .lcard.join .av.lg .ico{width:38px;height:38px;color:#fff}
+#main .lcard.join h3,#main .lcard.join h3 a{color:#fff!important;font-size:21px}
+#main .lcard.join .row{margin-top:auto}
+#main .lcard.join .jbtn{background:#fff4dc!important;color:#0b382a!important;border:0!important;border-radius:999px;padding:10px 22px;font-weight:800;box-shadow:0 6px 16px rgba(0,0,0,.25)}

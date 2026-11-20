@@ -985,3 +985,10 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   (`auto-fill, minmax(300px,1fr)`: three on a 1366 laptop), every card in a row the same height, each card = label and time · title · a wide
   16:9 picture · stars and buttons at its foot; no lone last card across the row; a card without a picture puts its text in a soft panel.
   Card labels and times never break inside a word. Asset version 209, cache ish-v109.
+- **Pages from the owner's design pictures (20 Nov 2026: Courses, Events, News, Lecturers, Community):** CSS block "Page banners, empty
+  states and Courses in the owner's design" + following blocks. Every page banner (`.ban.bpic`, light theme): deep teal panel, white title,
+  bright teal icon tile, a small heartbeat line after the title (`.bt::after`, SVG), the photo on the other side with a slanted edge
+  (clip-path) and a bright teal line along that edge (`.ban.bpic::before`, drawn over the photo's own box; skipped for studio and long titles);
+  banner count tiles white. Empty states = glass card, big teal sign, teal button. Courses: filters, search, sort and view in one row from
+  1280 px; one or two results are wide cards (picture beside the details). Lecturers: the join card is teal with the studio photo and a cream
+  button; an approved lecturer sees «استوديو المحاضر · افتح الاستوديو» there. Asset version 210, cache ish-v110.
