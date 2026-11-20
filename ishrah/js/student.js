@@ -193,16 +193,34 @@
     var spec = IS.mySpec(), current = IS.mySection();
     if (!spec) return IS.empty('grid', A('اختر تخصصك أولًا', 'Choose your speciality first'), '', '<a class="btn pri" href="#pick">' + esc(A('التخصصات', 'Specialities')) + '</a>');
     if (IS.CATS.length === 4) IS.after = fitSectionPicker;
-    return '<div class="section-picker' + (IS.CATS.length === 4 ? ' section-picker-standard' : '') + '"><header class="section-picker-heading">' + ic('layers') + '<h1 tabindex="-1">' +
-      IS.T('اختر قسمك', 'Choose your section') + '</h1></header><nav class="section-picker-grid" aria-label="' + esc(A('أقسام التخصص', 'Study sections')) + '">' + IS.CATS.map(function (c) {
+    /* the owner's design (20 Nov 2026, his two pictures): blurred hospital background, a welcome bar, «اختر قسمك» in white with a stethoscope
+       and a heartbeat line, each section in its own colour with a diagonal photo and a round arrow, and a row of white buttons under it */
+    var beat = '<svg class="sp-beat" viewBox="0 0 220 40" aria-hidden="true"><path d="M0 20h80l8-14 10 28 10-34 9 30 7-10h96" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var me = IS.ME, links = [
+      ['lang', 'globe', IS.lang === 'ar' ? 'English' : 'العربية', ''],
+      IS.LEC ? ['go', 'studio', A('استوديو المحاضر', 'Lecturer studio'), '#studio'] : null,
+      ['go', 'shield', A('الشروط والخصوصية', 'Terms and privacy'), '#terms'],
+      me && IS.team && IS.team() ? ['go', 'crown', A('تطبيق التحكم', 'Control app'), '#control'] : null
+    ].filter(Boolean);
+    return '<div class="section-picker sp2' + (IS.CATS.length === 4 ? ' section-picker-standard' : '') + '">' +
+      (me ? '<div class="sp-welcome">' + IS.av(me, 'sm') + '<span>' + esc(A('مرحبًا بك ', 'Welcome, ')) + (IS.greetingName ? IS.greetingName(me.name) : esc(me.name || '')) + '</span>' +
+        '<a class="sp-bell" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + ic('bell') + '</a></div>' : '') +
+      '<header class="section-picker-heading">' + beat + '<span class="sp-ttl">' + ic('steth') + '<h1 tabindex="-1">' + esc(A('اختر قسمك', 'Choose your section')) + '</h1></span>' + beat +
+      '<p>' + esc(A('ابدأ الآن باختيار القسم الذي تريد الدراسة فيه', 'Start by choosing the section you want to study')) + ' · <bdi lang="en">' + esc(spec.en || '') + '</bdi></p></header>' +
+      '<nav class="section-picker-grid" aria-label="' + esc(A('أقسام التخصص', 'Study sections')) + '">' + IS.CATS.map(function (c) {
       var img = IS.studyArtwork(spec.id, c.id) || spec.img;
       var selected = current && current.id === c.id;
       var artwork = img ? '<img src="' + IS.U(img) + '" alt="">' : ic(c.icon);
-      return '<a class="section-choice" href="#home" data-act="setsection" data-v="' + esc(c.id) + '"' + (selected ? ' aria-current="true"' : '') + '>' +
+      return '<a class="section-choice sc-' + esc(c.id) + '" href="#home" data-act="setsection" data-v="' + esc(c.id) + '"' + (selected ? ' aria-current="true"' : '') + '>' +
         '<span class="section-choice-art">' + artwork + '</span>' +
         '<span class="section-choice-label">' + ic(c.icon) + '<b lang="en" dir="ltr">' + esc(c.en) + '</b></span>' +
+        '<span class="section-choice-go" aria-hidden="true">' + ic('chev') + '</span>' +
         (selected ? '<span class="section-choice-current" title="' + esc(A('قسمك الحالي', 'Current section')) + '">' + ic('check') + '</span>' : '') + '</a>';
-    }).join('') + '</nav></div>';
+    }).join('') + '</nav>' +
+      '<div class="sp-links">' + links.map(function (l) {
+        return l[0] === 'lang' ? '<button type="button" class="sp-link" data-act="lang">' + ic(l[1]) + '<span>' + esc(l[2]) + '</span></button>' :
+          '<a class="sp-link" href="' + l[3] + '">' + ic(l[1]) + '<span>' + esc(l[2]) + '</span></a>';
+      }).join('') + '</div></div>';
   });
   function fitSectionPicker() {
     var picker = IS.$('#main .section-picker-standard'); if (!picker) return;

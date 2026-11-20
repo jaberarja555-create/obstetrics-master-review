@@ -963,3 +963,13 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
     hides a free course (runs that one checked update as the server, since the course guard only lets lecturers move to draft/review).
   - Course page on phones: tabs on one line («التقييمات 1»), reviews = picture · name and time on one row · stars · text.
   Test: scratchpad own.js, cpage.js, local Postgres t48.sql. Asset version 207, cache ish-v107.
+
+## New design level, page by page (owner, 20 Nov 2026: "I am taking the design of the app to this level … I am going to send other pictures
+## and try to match all the app")
+- **Section chooser** (`#pick-section`, his two pictures): blurred hospital background with a navy overlay (`img/collection/bg-hospital.webp`,
+  made from medicine-clinical.webp, blur 14; not fixed on touch screens), white welcome bar (picture, «مرحبًا بك Dr. Arja», bell), white title
+  «اختر قسمك» with a stethoscope and two glowing heartbeat lines, subtitle with the speciality, cards in each section's colour (`--sc`:
+  Clinical blue #1f6fd6, Basics green #12a37c, House Officer purple #6c4bd6, International Exams orange #e5801f; tinted label side, coloured
+  diagonal edge, round arrow on the photo corner), and white pill buttons under them (English/العربية, Lecturer studio for lecturers, Terms
+  and privacy, Control app for the team; one row of small buttons on phones). Side menu kept on laptops (his second picture). CSS block
+  "Section chooser in the owner's design". Asset version 208, cache ish-v108. Next pages follow the owner's coming pictures.
