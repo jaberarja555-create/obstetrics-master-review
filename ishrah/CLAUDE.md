@@ -664,3 +664,10 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   - Covers are shown whole (`IS.poster(src)`: the picture with `object-fit:contain` over a soft enlarged copy; no blur on touch screens):
     course cards, feed pictures, request covers. In the feed, request and course covers are a wide 16:9 picture above the text.
   Asset version 173, shell cache ish-v73.
+
+## Medical library redesign
+
+- The shared design uses warm ivory surfaces, teal actions, ink headings and soft gold details. The start screen and section home use original medical-library artwork in `img/hero_medical_library.webp`. Banner photos still follow each page's subject.
+- The palette is shared by the student app, Lecturer Studio, Control and the PDF reader. English headings use a serif display face and Arabic headings keep Cairo. The darker theme uses deep green surfaces. Settings still offers accent choices.
+- Mobile study-section and Library cards put artwork beside the title. International Exams uses the original USMLE artwork for the taller mobile frame. The redesign starts from the branch containing Claude's request review, editing and alert changes.
+- Asset version 174 and shell cache `ish-v74`. Regenerate colour variants with `python3 tools/ishrah/palettes.py` when editing the shared stylesheet.

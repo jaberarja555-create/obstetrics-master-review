@@ -154,8 +154,10 @@
       IS.T('اختر قسمك', 'Choose your section') + '</h1></header><nav class="section-picker-grid" aria-label="' + esc(A('أقسام التخصص', 'Study sections')) + '">' + IS.CATS.map(function (c) {
       var img = sectionPicture(spec, c.id), poster = spec.id === 'medicine' && c.id === 'special';
       var selected = current && current.id === c.id;
+      var artwork = img ? '<img src="' + IS.U(img) + '" alt="">' : ic(c.icon);
+      if (poster) artwork = '<picture><source media="(max-width:640px) and (orientation:portrait)" srcset="img/choice_usmle.webp">' + artwork + '</picture>';
       return '<a class="section-choice" href="#home" data-act="setsection" data-v="' + esc(c.id) + '"' + (selected ? ' aria-current="true"' : '') + '>' +
-        '<span class="section-choice-art' + (poster ? ' section-choice-poster' : '') + '">' + (img ? '<img src="' + IS.U(img) + '" alt="">' : ic(c.icon)) + '</span>' +
+        '<span class="section-choice-art' + (poster ? ' section-choice-poster' : '') + '">' + artwork + '</span>' +
         '<span class="section-choice-label"><b lang="en" dir="ltr">' + esc(c.en) + '</b></span>' +
         (selected ? '<span class="section-choice-current" title="' + esc(A('قسمك الحالي', 'Current section')) + '">' + ic('check') + '</span>' : '') + '</a>';
     }).join('') + '</nav></div>';

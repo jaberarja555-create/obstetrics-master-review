@@ -670,7 +670,7 @@
     document.documentElement.setAttribute('data-fs', LS.get('fs', 'n')); }
   IS.applyTheme = applyTheme;
   /* colour of the app (owner, 18 Nov 2026): one stylesheet per colour, made by tools/ishrah/palettes.py */
-  IS.PALS = [['blue', '#0d3a7d', 'أزرق ملكي', 'Royal blue'], ['teal', '#0b5f63', 'فيروزي', 'Teal'], ['green', '#0f5a3a', 'أخضر', 'Green'],
+  IS.PALS = [['blue', '#fffdf8', 'المكتبة الطبية', 'Medical library'], ['teal', '#0b5f63', 'فيروزي', 'Teal'], ['green', '#0f5a3a', 'أخضر', 'Green'],
     ['purple', '#3f2a7d', 'بنفسجي', 'Purple'], ['maroon', '#6e1d36', 'عنابي', 'Maroon'], ['graphite', '#2c3340', 'رمادي داكن', 'Graphite']];
   /* the logo in the chosen colour (its navy parts; tools/ishrah/palettes.py makes the files) */
   IS.logo = function (k) { var p = LS.get('pal', 'blue'), x = p === 'blue' ? '' : '_' + p; return k === 'hero' ? 'img/logo_hero' + x + '.webp' : 'img/logo_gold' + x + '.svg'; };
