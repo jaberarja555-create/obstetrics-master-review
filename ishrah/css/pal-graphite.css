@@ -3712,3 +3712,86 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 .rxw-list li b{flex:1;min-width:0;font-size:14.5px}
 .rxw-av{position:relative;flex:none}
 .rxw-av i{position:absolute;inset-block-end:-4px;inset-inline-end:-6px;font-style:normal;font-size:15px;line-height:1;background:var(--sf);border-radius:50%;padding:1px}
+
+/* comments in Facebook's proportions (owner, 20 Nov 2026, with a Facebook screenshot: "see the difference … text, names, size and everything") */
+.cthreads,.feed-comment-panel [data-feed-entries]{gap:14px}
+.cmt>.av,.cmt>.av.sm{width:36px!important;height:36px!important;flex:none}
+.cmt>.av b{font-size:12.5px}
+.cmt.kid>.av,.cmt.kid>.av.xs{width:28px!important;height:28px!important}
+.cmt-row{display:flex;align-items:center;gap:4px;max-width:100%}
+.cmt-bub{padding:7px 12px 8px!important;border-radius:18px;background:color-mix(in srgb,var(--tx) 6%,var(--sf))!important}
+.cmt-bub .cmt-h b{font-size:13px!important;font-weight:700;line-height:1.3;text-transform:none}
+.cmt-bub>p{font-size:14.5px!important;line-height:1.45!important;margin-top:1px!important}
+.cmt-to{font-weight:600}
+.cmt-a{gap:16px!important;margin:4px 12px 0!important;font-size:12.5px;align-self:stretch}
+.cmt-a>i{display:none}
+.cmt-a .cmt-t{font-size:12.5px;font-weight:500}
+.cmt-a .cl{padding:0!important;min-height:24px;font-size:12.5px!important;font-weight:700!important}
+.cmt-a .cmt-lk{position:static!important;margin-inline-start:auto;box-shadow:none!important;background:none!important;padding:0!important;gap:4px;font-size:13px}
+.cmt-a .cmt-lk b{font-size:12.5px;font-weight:600;color:var(--sub)}
+.cmt-mw{position:relative;flex:none}
+.cmt-dots{width:30px;height:30px;border-radius:50%;border:0;background:none;color:var(--sub);display:grid;place-items:center;cursor:pointer;opacity:.7}
+.cmt-dots:hover{background:var(--tint);opacity:1}
+.cmt-dots .ico{width:16px;height:16px}
+.cmt-menu{position:absolute;z-index:25;inset-block-start:calc(100% + 2px);inset-inline-end:0;display:flex;flex-direction:column;min-width:130px;padding:4px;border-radius:12px;background:var(--sf);border:1px solid var(--bd2);box-shadow:0 8px 22px rgba(32,34,38,.18)}
+.cmt-menu[hidden]{display:none}
+.cmt-menu button{display:flex;align-items:center;gap:8px;padding:9px 10px;border:0;border-radius:8px;background:none;color:var(--tx);font:600 13.5px inherit;cursor:pointer;text-align:start}
+.cmt-menu button:hover{background:var(--tint)}
+.cmt-menu button.bad{color:#c0392b}
+.cmt-menu .ico{width:15px;height:15px}
+.cmt-kids{margin-inline-start:44px!important;padding-inline-start:0!important;border-inline-start:0!important;gap:10px!important}
+.cmt-prev{display:flex;align-items:center;gap:8px;width:100%;padding:0;border:0;background:none;cursor:pointer;text-align:start;color:var(--tx);min-width:0}
+.cmt-prev .av{width:24px!important;height:24px!important;flex:none}
+.cmt-prev>span{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:13.5px}
+.cmt-prev b{font-weight:700}
+.cmt-prev bdi{color:var(--sub)}
+.cmt-more{font-size:13px!important;padding:0!important}
+/* the comment box: a slim rounded field with a send button, like Facebook */
+.cmt-compose{display:flex;align-items:flex-end;gap:8px;margin-top:12px}
+.cmt-compose>.av{width:32px!important;height:32px!important;flex:none;margin-bottom:3px}
+.cmt-compose .cmt-rbox,.cmt-rf .cmt-rbox{border-radius:22px;padding:4px 5px 4px 14px;background:color-mix(in srgb,var(--tx) 6%,var(--sf));border:1px solid transparent}
+[dir="rtl"] .cmt-compose .cmt-rbox,[dir="rtl"] .cmt-rf .cmt-rbox{padding:4px 14px 4px 5px}
+.cmt-compose .cmt-rbox:focus-within,.cmt-rf .cmt-rbox:focus-within{border-color:var(--pri);background:var(--sf)}
+.cmt-compose textarea{flex:1;min-width:0;min-height:36px;max-height:160px;resize:none;border:0!important;background:transparent!important;padding:7px 0!important;font:inherit;font-size:14.5px;color:var(--tx);outline:none;box-shadow:none!important}
+.cmt-compose .cmt-send,.cmt-rf .cmt-send{width:34px;height:34px}
+.post-comments>.cmt-compose{margin:4px 0 14px}
+
+/* post footer like Facebook (owner, 20 Nov 2026: "still you didn't organise the buttons, and the size of things and text"):
+   one small stats line (reactions · rating · comments), a thin line, then one row of equal flat buttons */
+.feed-votes{padding-block-start:8px!important}
+.fv-stats{display:flex;align-items:center;gap:10px;min-height:28px;margin:0 2px 6px;font-size:13px;color:var(--sub)}
+.fv-grow{flex:1}
+.fv-stats .rx-sum{margin:0!important;padding:0!important;min-height:0;border:0!important;background:none!important;gap:6px}
+.fv-stats .rx-sum .rx-e{width:20px;height:20px;font-size:12px;margin-right:-5px}
+.fv-stats .rx-sum .rx-n{font-size:13px;font-weight:500}
+.fv-stats .library-rating,.fv-stats .feed-grade{border:0!important;background:none!important;padding:0!important;min-height:0!important;box-shadow:none!important;display:inline-flex;align-items:center;gap:4px;font-size:12.5px;width:auto!important}
+.fv-stats .gstars{font-size:13px!important;letter-spacing:0}
+.fv-stats .gnum{font-size:12.5px!important}
+.fv-stats .gtitle{display:none!important}
+.fv-stats .gcount{font-size:12px!important}
+.fv-stats .feed-comment{border:0;background:none;padding:0;color:var(--sub);font:500 13px inherit;cursor:pointer;white-space:nowrap;text-decoration:none}
+.fv-stats .feed-comment:hover{text-decoration:underline;color:var(--pri)}
+.fv-stats .feed-comment.zero{display:none}
+.fv-acts{display:flex;align-items:stretch;gap:4px;padding-top:4px;border-top:1px solid var(--bd)}
+.fv-acts>.rx-wrap,.fv-acts>.fv-btn{flex:1 1 0;min-width:0}
+.fv-btn{display:flex!important;align-items:center;justify-content:center;gap:6px;width:100%;min-height:40px!important;padding:0 6px!important;border:0!important;border-radius:8px!important;background:none!important;color:var(--sub)!important;font:700 13.5px inherit!important;cursor:pointer;text-decoration:none;white-space:nowrap;box-shadow:none!important}
+.fv-btn:hover{background:var(--tint)!important}
+.fv-btn .ico{width:18px;height:18px}
+.fv-btn span{overflow:hidden;text-overflow:ellipsis}
+.fv-btn .feed-emoji-icon{font-size:18px!important;line-height:1}
+.fv-btn.feed-react:not(.on) .feed-emoji-icon{filter:grayscale(1);opacity:.7}
+.fv-btn.feed-react.rx-v-like{color:#788392!important}
+.fv-btn.feed-react.rx-v-love{color:#e0245e!important}
+.fv-btn.feed-react.rx-v-angry{color:#d4570b!important}
+.fv-btn.feed-react.rx-v-dislike{color:#a61e1e!important}
+.fv-acts .feed-report{flex:none;width:40px!important;min-width:40px!important;min-height:40px;border:0!important;background:none!important;color:var(--sub)}
+.fv-acts .rx-wrap{display:flex}
+.fv-acts .rx-pick{inset-inline-start:0}
+.fv-acts.nore{border-top:0}
+/* card text in comfortable phone sizes */
+.feed-card h3{font-size:16.5px!important;line-height:1.35}
+.feed-summary{font-size:14px;line-height:1.5}
+.feed-detail{font-size:12.5px}
+.feed-card-header{font-size:12.5px}
+.fv-btn.feed-react[class*="rx-v-"]{background:none!important;border:0!important}.fv-btn.feed-react[class*="rx-v-"]:hover{background:var(--tint)!important}
+.cmt-a .cmt-rxw{min-width:0!important;width:auto!important;flex:none!important}.cmt-a .cmt-rxw>.cl{min-width:0!important;width:auto!important;flex:none!important}

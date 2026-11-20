@@ -40,14 +40,14 @@
         }).join('') + '</span></span>');
       if (o.reply !== false) acts.push('<button type="button" class="cl" data-act="cmt-reply" data-k="' + lk + '" data-id="' + esc(id) + '" data-name="' + esc(o.name || name(row)) + '">' + esc(A('رد', 'Reply')) + '</button>');
     }
-    if (o.report && IS.ME) acts.push('<button type="button" class="cl" data-act="report" data-kind="' + esc(o.report[0]) + '" data-id="' + esc(o.report[1]) + '">' + esc(A('إبلاغ', 'Report')) + '</button>');
-    if (o.del) acts.push(String(o.del).replace(/class="cact( bad)?"/, 'class="cl bad"').replace(/<svg[\s\S]*?<\/svg>/, ''));
-    var to = row.reply_to_name ? '<b class="cmt-to" dir="auto">' + esc(row.reply_to_name) + '</b> ' : '';
+    var menu = (o.report && IS.ME ? '<button type="button" data-act="report" data-kind="' + esc(o.report[0]) + '" data-id="' + esc(o.report[1]) + '">' + ic('flag') + esc(A('إبلاغ', 'Report')) + '</button>' : '') +
+      (o.del ? String(o.del).replace(/class="cact( bad)?"/, 'class="bad"') : '');
+    var to = row.reply_to_name && !o.hideTo ? '<b class="cmt-to" dir="auto">' + esc(row.reply_to_name) + '</b> ' : '';
     return '<article class="cmt' + (row.parent_id ? ' kid' : '') + '"' + (id ? ' data-cid="' + esc(id) + '"' : '') + (lk ? ' data-lk="' + lk + '"' : '') + '>' + IS.av({ name: o.name, photo: o.photo }, row.parent_id ? 'xs' : 'sm', row.user_id) +
-      '<div class="cmt-b"><div class="cmt-bub"><div class="cmt-h"><b dir="auto">' + esc(o.name || '') + '</b>' + (o.badge || '') + '</div>' +
-      '<p class="pre" dir="auto">' + to + esc(o.body || '') + '</p>' +
-      badge(counts(row)) + '</div>' +
-      '<div class="cmt-a">' + acts.join('<i>·</i>') + '</div></div></article>';
+      '<div class="cmt-b"><div class="cmt-row"><div class="cmt-bub"><div class="cmt-h"><b dir="auto">' + esc(o.name || '') + '</b>' + (o.badge || '') + '</div>' +
+      '<p class="pre" dir="auto">' + to + esc(o.body || '') + '</p></div>' +
+      (menu ? '<span class="cmt-mw"><button type="button" class="cmt-dots" data-act="cmt-menu" aria-label="' + esc(A('خيارات', 'Options')) + '">' + ic('more') + '</button><span class="cmt-menu" hidden>' + menu + '</span></span>' : '') + '</div>' +
+      '<div class="cmt-a">' + acts.join('') + badge(counts(row)) + '</div></div></article>';
   };
 
   /* comments and their replies: rows = every comment of one page (tops and replies, any order); item(row) → commentItem options */
@@ -62,12 +62,14 @@
     tops.sort(opts.newest ? function (a, b) { return by(b, a); } : by);
     if (!tops.length) return opts.empty || '';
     return tops.map(function (t) {
-      var ks = (kids[t.id] || []).sort(by), open = opts.openId === t.id || ks.length <= 2;
-      var one = function (r) { return IS.commentItem(Object.assign({ row: r, lk: lk, reply: opts.reply !== false }, item(r))); };
+      var ks = (kids[t.id] || []).sort(by), open = opts.openId === t.id;
+      var one = function (r) { return IS.commentItem(Object.assign({ row: r, lk: lk, reply: opts.reply !== false, hideTo: r.parent_id && r.reply_to === t.user_id }, item(r))); };
+      var prev = function (r) { var x = item(r);
+        return '<button type="button" class="cmt-prev" data-act="cmt-more">' + IS.av({ name: x.name, photo: x.photo }, 'xs', r.user_id) + '<span><b dir="auto">' + esc(x.name || '') + '</b> <bdi>' + esc(String(x.body || '').slice(0, 120)) + '</bdi></span></button>'; };
       return '<div class="cth" data-top="' + esc(t.id) + '">' + one(t) +
-        (ks.length ? '<div class="cmt-kids">' + (open ? '' : '<button type="button" class="cmt-more" data-act="cmt-more">' + ic('chat') +
-          esc(A('عرض الردود السابقة (' + (ks.length - 1) + ')', 'View ' + (ks.length - 1) + ' more ' + (ks.length - 1 === 1 ? 'reply' : 'replies'))) + '</button>') +
-          ks.map(function (r, i) { return '<div class="cmt-k"' + (open || i === ks.length - 1 ? '' : ' hidden') + '>' + one(r) + '</div>'; }).join('') + '</div>' : '') + '</div>';
+        (ks.length ? '<div class="cmt-kids">' + (open ? '' : ks.slice(-2).map(prev).join('') + (ks.length > 2 ? '<button type="button" class="cmt-more" data-act="cmt-more">' +
+          esc(A('عرض كل الردود (' + ks.length + ')', 'View all ' + ks.length + ' replies')) + '</button>' : '')) +
+          ks.map(function (r) { return '<div class="cmt-k"' + (open ? '' : ' hidden') + '>' + one(r) + '</div>'; }).join('') + '</div>' : '') + '</div>';
     }).join('');
   };
   /* this account's likes for the comments about to be shown (call before IS.thread) */
@@ -94,9 +96,25 @@
   };
 
   IS.ACT['cmt-more'] = function (b) {
-    var box = b.closest('.cmt-kids'); IS.$$('.cmt-k', box).forEach(function (k) { k.hidden = false; }); b.remove();
+    var box = b.closest('.cmt-kids'); IS.$$('.cmt-k', box).forEach(function (k) { k.hidden = false; }); IS.$$('.cmt-prev, .cmt-more', box).forEach(function (x) { x.remove(); });
   };
 
+  /* the comment boxes grow with the text; Enter sends on computers (Shift+Enter = new line) */
+  IS.cmtBox = function (form, hidden, label) {
+    return '<form class="cmt-compose" data-form="' + form + '">' + (hidden || '') + (IS.ME ? IS.av(IS.ME, 'xs') : '') + '<div class="cmt-rbox"><textarea name="body" rows="1" maxlength="2000" required dir="auto" placeholder="' +
+      esc(label || A('اكتب تعليقًا…', 'Write a comment…')) + '" aria-label="' + esc(label || A('اكتب تعليقًا', 'Write a comment')) + '"></textarea><button class="cmt-send" aria-label="' + esc(A('أرسل', 'Send')) + '">' + ic('send') + '</button></div></form>';
+  };
+  document.addEventListener('input', function (e) { var t = e.target; if (t.matches && t.matches('.cmt-rbox textarea')) { t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight, 160) + 'px'; } });
+  document.addEventListener('keydown', function (e) {
+    var t = e.target; if (!t.matches || !t.matches('.cmt-rbox textarea') || e.key !== 'Enter' || e.shiftKey || matchMedia('(hover:none)').matches) return;
+    e.preventDefault(); if (t.value.trim()) t.form.requestSubmit();
+  });
+  IS.ACT['cmt-menu'] = function (b) {
+    var m = b.parentNode.querySelector('.cmt-menu'), open = m.hidden;
+    IS.$$('.cmt-menu:not([hidden])').forEach(function (x) { x.hidden = true; });
+    m.hidden = !open;
+  };
+  document.addEventListener('click', function (e) { if (e.target.closest && !e.target.closest('.cmt-mw')) IS.$$('.cmt-menu:not([hidden])').forEach(function (x) { x.hidden = true; }); });
   IS.ACT['cmt-rx-open'] = function (b) {
     var pick = b.parentNode.querySelector('.rx-pick'), open = pick.hidden;
     IS.$$('.rx-pick:not([hidden])').forEach(function (p) { if (p !== pick) p.hidden = true; });
@@ -108,14 +126,14 @@
     var wrap = b.closest('.rx-wrap'), pick = wrap.querySelector('.rx-pick'), main = wrap.querySelector('[data-act="cmt-rx-open"]');
     var art = b.closest('.cmt'), bub = art.querySelector('.cmt-bub');
     var before = m.get(id) || 0, beforeCounts = JSON.parse(art.dataset.rx || 'null') || {};
-    if (!art.dataset.rx) { var el0 = bub.querySelector('.cmt-lk'); beforeCounts = el0 ? JSON.parse(el0.dataset.rx || '{}') : {}; }
+    if (!art.dataset.rx) { var el0 = art.querySelector('.cmt-a .cmt-lk'); beforeCounts = el0 ? JSON.parse(el0.dataset.rx || '{}') : {}; }
     function show(my, c) {
       if (my) m.set(id, my); else m.delete(id);
       var cur = rxOf(my);
       main.className = 'cl' + (cur ? ' on rx-v-' + cur[4] : ''); main.innerHTML = rxLabel(my); main.setAttribute('aria-expanded', 'false');
       IS.$$('[data-act="cmt-react"]', pick).forEach(function (x) { x.setAttribute('aria-pressed', Number(x.dataset.value) === my); });
-      var old = bub.querySelector('.cmt-lk'); if (old) old.remove();
-      bub.insertAdjacentHTML('beforeend', badge(c)); art.dataset.rx = JSON.stringify(c);
+      var line = art.querySelector('.cmt-a'), old = line.querySelector('.cmt-lk'); if (old) old.remove();
+      line.insertAdjacentHTML('beforeend', badge(c)); art.dataset.rx = JSON.stringify(c);
     }
     var next = before === value ? 0 : value, guess = Object.assign({}, beforeCounts);
     if (before) guess[before] = Math.max(0, (Number(guess[before]) || 0) - 1);
@@ -142,16 +160,13 @@
     if (!uid()) return IS.ACT.login();
     var th = b.closest('.cth'), kids = th.querySelector('.cmt-kids');
     if (!kids) { kids = document.createElement('div'); kids.className = 'cmt-kids'; th.appendChild(kids); }
-    IS.$$('.cmt-k[hidden]', kids).forEach(function (k) { k.hidden = false; }); var more = kids.querySelector('.cmt-more'); if (more) more.remove();
+    IS.$$('.cmt-k[hidden]', kids).forEach(function (k) { k.hidden = false; }); IS.$$('.cmt-prev, .cmt-more', kids).forEach(function (x) { x.remove(); });
     var f = kids.querySelector('form.cmt-rf');
     if (!f) {
       f = document.createElement('form'); f.className = 'cmt-rf'; f.dataset.form = 'cmt-reply';
       f.innerHTML = IS.av(IS.ME, 'xs') + '<div class="cmt-rbox"><span class="cmt-rto"></span><textarea name="body" rows="1" maxlength="2000" required dir="auto"></textarea>' +
         '<button class="cmt-send" aria-label="' + esc(A('أرسل الرد', 'Send reply')) + '">' + ic('send') + '</button></div><input type="hidden" name="k"><input type="hidden" name="parent">';
       kids.appendChild(f);
-      var ta = f.querySelector('textarea');
-      ta.addEventListener('input', function () { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 160) + 'px'; });
-      ta.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey && !('ontouchstart' in window)) { e.preventDefault(); f.requestSubmit(); } });
     }
     f.elements.k.value = b.dataset.k; f.elements.parent.value = b.dataset.id;
     f.querySelector('.cmt-rto').innerHTML = esc(A('الرد على ', 'Replying to ')) + '<b dir="auto">' + esc(b.dataset.name || '') + '</b>';

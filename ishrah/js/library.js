@@ -702,9 +702,7 @@
   function fileComments(file, comments) {
     var signedIn = !!IS.ME;
     return '<section class="box post-comments"><h2 tabindex="-1" data-post-comments>' + IS.T('التعليقات', 'Comments') + '</h2>' +
-      (signedIn ? '<form class="form" data-form="library-comment"><input type="hidden" name="file" value="' + esc(file.id) +
-        '"><label class="fl"><span>' + esc(A('اكتب تعليقًا', 'Write a comment')) + '</span><textarea name="body" required rows="2" maxlength="2000"></textarea></label>' +
-        '<div class="row end"><button class="btn pri sm">' + ic('send') + esc(A('انشر التعليق', 'Post comment')) + '</button></div></form>' :
+      (signedIn ? IS.cmtBox('library-comment', '<input type="hidden" name="file" value="' + esc(file.id) + '">') :
         '<p class="mut">' + esc(A('سجّل الدخول للمشاركة في التعليقات.', 'Sign in to join the conversation.')) + '</p>') +
       '<div class="cthreads">' + IS.thread(comments, 'file', function (comment) {
         return { name: comment.author_name, photo: comment.author_photo, when: IS.ago(comment.created_at), body: comment.body, report: IS.ME && comment.user_id !== IS.ME.id ? ['file_comment', comment.id] : null,

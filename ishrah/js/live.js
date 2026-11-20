@@ -16,6 +16,12 @@
     return n === 1 ? 'تفاعل واحد' : n === 2 ? 'تفاعلان' : n <= 10 ? n + ' تفاعلات' : n + ' تفاعلًا';
   };
 
+  /* «تعليق» · «تعليقان» · «3 تعليقات» (the number is shown beside it) */
+  IS.cmCount = function (n) {
+    n = Number(n) || 0;
+    if (IS.lang !== 'ar') return n === 1 ? 'comment' : 'comments';
+    return n === 1 ? 'تعليق' : n === 2 ? 'تعليقان' : n <= 10 ? 'تعليقات' : 'تعليقًا';
+  };
   /* ---------- who reacted ---------- */
   async function reactors(kind, id) {
     if (DB.live) { var r = await DB.sb.rpc('ish_reactors', { kind: kind, target: id }); if (r.error) throw r.error; return r.data || []; }

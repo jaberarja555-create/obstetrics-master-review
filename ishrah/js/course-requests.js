@@ -611,7 +611,7 @@
     if (main && main.dataset.act === 'rx-open') {
       main.classList.toggle('on', !!cur);
       REACTIONS.forEach(function (r) { main.classList.toggle('rx-v-' + r[4], !!cur && cur === r); });
-      main.innerHTML = '<span class="feed-emoji-icon" aria-hidden="true">' + (cur ? cur[1] : '👍') + '</span>';
+      main.innerHTML = '<span class="feed-emoji-icon" aria-hidden="true">' + (cur ? cur[1] : '👍') + '</span><span class="rx-l">' + esc(cur ? A(cur[2], cur[3]) : A('أعجبني', 'Like')) + '</span>';
       main.title = cur ? A(cur[2], cur[3]) : A('تفاعل', 'React');
       main.setAttribute('aria-label', cur ? A('تفاعلك: ', 'Your reaction: ') + A(cur[2], cur[3]) : A('تفاعل', 'React'));
     }
@@ -634,31 +634,35 @@
     var label = esc(commentLabel(count)), panelId = 'comments-' + kind + '-' + id;
     var commentRoute = kind === 'request' ? href(row, IS.area === 'studio' ? 'studio-course-request' : 'course-request', 'comments') :
       '#' + (kind === 'file' ? 'file/' : kind === 'series' ? 'series/' : 'post/') + id + '/comments';
+    var cword = '<bdi data-feedback-count>' + count + '</bdi> <span class="fv-cw">' + esc(IS.cmCount(count)) + '</span>';
     var comment = inline ?
-      '<button type="button" class="feed-emoji feed-comment" data-act="feed-comments" aria-expanded="false" aria-controls="' + panelId +
-        '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</button>' :
-      '<a class="feed-emoji feed-comment" data-act="focus-feed-comments" href="' + esc(commentRoute) + '" aria-label="' + label + '" title="' + label + '">' + emoji('💬', count) + '</a>';
+      '<button type="button" class="feed-comment' + (count ? '' : ' zero') + '" data-act="feed-comments" aria-expanded="false" aria-controls="' + panelId + '" aria-label="' + label + '">' + cword + '</button>' :
+      '<a class="feed-comment' + (count ? '' : ' zero') + '" data-act="focus-feed-comments" href="' + esc(commentRoute) + '" aria-label="' + label + '">' + cword + '</a>';
+    var commentBtn = inline ?
+      '<button type="button" class="fv-btn" data-act="feed-comments" aria-expanded="false" aria-controls="' + panelId + '">' + ic('chat') + '<span>' + esc(A('تعليق', 'Comment')) + '</span></button>' :
+      '<a class="fv-btn" data-act="focus-feed-comments" href="' + esc(commentRoute) + '">' + ic('chat') + '<span>' + esc(A('تعليق', 'Comment')) + '</span></a>';
+    var shareBtn = shareRoute ? '<button type="button" class="fv-btn" data-act="share-link" data-h="' + esc(shareRoute) + '">' + ic('share') + '<span>' + esc(A('مشاركة', 'Share')) + '</span></button>' : '';
     var score = voteScore(row);
     var rating = kind !== 'course' ? IS.libraryRating(row, true, kind) : (!(IS.team && IS.team())) ? '<span class="feed-grade">' + IS.gradeInner(row, kind) + '</span>' : '<button type="button" class="feed-grade" data-act="grade-info" data-kind="' + esc(kind) + '" aria-label="' + esc(IS.gradeLabel(row, kind)) +
       '" title="' + esc(IS.gradeLabel(row, kind)) + '">' + IS.gradeInner(row, kind) + '</button>';
     var reaction = row.my_reaction === undefined ? '' : String(Number(row.my_reaction) || 0);
     var key = kind + '/' + row.id;
     var buttons = kind === 'course' ? '' : uid() ?
-      '<span class="rx-wrap"><button type="button" class="feed-emoji feed-react" data-act="rx-open" aria-haspopup="true" aria-expanded="false"' +
+      '<span class="rx-wrap"><button type="button" class="fv-btn feed-react" data-act="rx-open" aria-haspopup="true" aria-expanded="false"' +
         (savingVotes.has(uid() + '/' + key) ? ' disabled' : '') + '></button><span class="rx-pick" role="menu" hidden>' +
         REACTIONS.map(function (item) {
           return '<button type="button" role="menuitem" data-act="feed-vote" data-kind="' + kind + '" data-id="' + id + '" data-value="' + item[0] +
             '" aria-label="' + esc(A(item[2], item[3])) + '" title="' + esc(A(item[2], item[3])) + '"><span>' + item[1] + '</span></button>';
         }).join('') + '</span></span>' :
-      '<button type="button" class="feed-emoji feed-react" data-act="login" aria-label="' + esc(A('تفاعل', 'React')) + '"><span class="feed-emoji-icon" aria-hidden="true">👍</span></button>';
+      '<button type="button" class="fv-btn feed-react" data-act="login"><span class="feed-emoji-icon" aria-hidden="true">👍</span><span class="rx-l">' + esc(A('أعجبني', 'Like')) + '</span></button>';
     var rcount = Number(row.rating_count == null ? row.n_reviews : row.rating_count) || 0;
     var counts = ' data-like="' + (Number(row.like_count) || 0) + '" data-dislike="' + (Number(row.dislike_count) || 0) + '" data-love="' + (Number(row.love_count) || 0) +
       '" data-angry="' + (Number(row.angry_count) || 0) + '" data-rc="' + rcount +
       '" data-rp="' + (Number(row.rating_points) || Math.round((Number(row.average_rating == null ? row.rating : row.average_rating) || 0) * rcount)) + '"';
     counts += ' data-rated-like="' + (Number(row.rated_like_count) || 0) + '" data-rated-dislike="' + (Number(row.rated_dislike_count) || 0) + '"';
     return '<div class="feed-votes" data-feedback="' + esc(key) + '" data-reaction="' + reaction + '"' + counts +
-      (row.status === 'closed' ? ' data-comments-closed' : '') + '>' + (kind === 'course' ? '' : '<button type="button" class="rx-sum" data-act="rx-who" hidden></button>') + '<div class="row feed-action-row">' +
-      buttons + comment + (shareRoute ? IS.shareButton(shareRoute, true) : '') + '<span class="feed-grow"></span>' + rating + (kind === 'series' ? '' : IS.reportButton(kind, row.id, true)) + '</div>' +
+      (row.status === 'closed' ? ' data-comments-closed' : '') + '>' + '<div class="fv-stats">' + (kind === 'course' ? '' : '<button type="button" class="rx-sum" data-act="rx-who" hidden></button>') + '<span class="fv-grow"></span>' + rating + comment + '</div>' +
+      '<div class="fv-acts' + (kind === 'course' ? ' nore' : '') + '">' + buttons + commentBtn + shareBtn + (kind === 'series' ? '' : IS.reportButton(kind, row.id, true)) + '</div>' +
       (inline ? '<div class="feed-comment-panel" id="' + panelId + '" hidden></div>' : '') + '</div>';
   };
 
@@ -724,6 +728,8 @@
       if (field in values) {
         var comment = bar.querySelector('.feed-comment'), label = commentLabel(values[field]);
         comment.querySelector('[data-feedback-count]').textContent = values[field];
+        comment.classList.toggle('zero', !Number(values[field]));
+        var cw = comment.querySelector('.fv-cw'); if (cw) cw.textContent = IS.cmCount(values[field]);
         comment.setAttribute('aria-label', label);
         comment.title = label;
       }
@@ -872,8 +878,7 @@
     if (panel.hidden) return;
     if (!panel.firstChild) {
       var form = uid() && !bar.hasAttribute('data-comments-closed') ?
-        '<form class="form feed-comment-form" data-form="feed-comment"><label class="fl"><textarea name="body" rows="2" maxlength="2000" required aria-label="' +
-        text('اكتب تعليقًا', 'Write a comment') + '" placeholder="' + text('اكتب تعليقًا…', 'Write a comment…') + '"></textarea></label><button class="btn pri sm">' + ic('send') + text('انشر', 'Post') + '</button></form>' :
+        IS.cmtBox('feed-comment') :
         uid() ? '' : '<button type="button" class="btn ghost sm" data-act="login">' + text('سجّل الدخول للتعليق', 'Sign in to comment') + '</button>';
       panel.innerHTML = '<div data-feed-entries aria-live="polite"><p class="mut">' + text('جارٍ تحميل التعليقات…', 'Loading comments…') + '</p></div>' +
         '<p class="msg" data-feed-comment-error role="alert" hidden></p>' + form;

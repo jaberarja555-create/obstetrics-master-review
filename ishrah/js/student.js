@@ -1186,10 +1186,7 @@
     await IS.loadCommentLikes('reply', rs);
     var lecs = await IS.lecMap();
     if (parts[1] === 'comments') IS.after = IS.focusPostComments;
-    var composer = me() ? '<form class="form" data-form="reply"><input type="hidden" name="post" value="' + p.id + '">' +
-      '<label class="fl"><span>' + esc(p.room === 'qa' ? A('اكتب ردًا', 'Write a reply') : A('اكتب تعليقًا', 'Write a comment')) +
-      '</span><textarea name="body" rows="2" required maxlength="4000"></textarea></label>' +
-      '<div class="row end"><button class="btn pri sm">' + ic('send') + esc(p.room === 'qa' ? A('أرسل الرد', 'Send reply') : A('انشر التعليق', 'Post comment')) + '</button></div></form>' : '';
+    var composer = me() ? IS.cmtBox('reply', '<input type="hidden" name="post" value="' + p.id + '">', p.room === 'qa' ? A('اكتب ردًا…', 'Write a reply…') : '') : '';
     return '<nav class="crumb"><a href="#' + (p.room === 'qa' ? 'course/' + p.course_id : 'community') + '">' + esc(p.room === 'qa' ? A('الكورس', 'Course') : A('المجتمع', 'Community')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(p.title || A('سؤال', 'Question')) + '</span></nav>' +
       '<article class="box thread">' + IS.av({ name: p.name, photo: p.photo }, 'md', p.user_id) + '<div><h1 tabindex="-1">' + esc(p.title || p.body.slice(0, 80)) + '</h1><small class="mut">' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + '</small><p class="pre">' + esc(p.body) + '</p>' + (p.room !== 'qa' ? postPreview(p, false) + IS.feedVoteBar('post', p, false, postKind(p) === 'announcement' ? '' : 'post/' + p.id) : '') +
       '<div class="row">' + (p.room === 'qa' ? IS.postActions('post', p.id, 'post/' + p.id) : '') +

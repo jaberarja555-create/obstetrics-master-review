@@ -758,3 +758,15 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   - Emoji only: the React button shows just the emoji (grey 👍 until you react), the picker has no words, and a comment shows only the chosen
     emoji instead of «أعجبني» once reacted.
 - Asset version 184, shell cache ish-v84.
+
+## Facebook-style post footer and comments · 20 Nov 2026
+- Owner (with a Facebook screenshot): "see the difference between Facebook's comments and the app: text, names, size and everything";
+  "still you didn't organise the buttons, and the size of things and text".
+  - Post footer (`IS.feedVoteBar`): one small stats line (`.fv-stats`: reactions pill «👍❤️ 3 تفاعلات» that opens who reacted · compact stars ·
+    «5 تعليقات», hidden at 0) and, under a thin line, one row of equal flat buttons (`.fv-acts`): «👍 أعجبني» (shows the chosen reaction and its
+    colour; opens the emoji picker) · «تعليق» · «مشاركة» · ⚑. Card title 16.5 px, summary 14 px. `IS.cmCount` = تعليق · تعليقان · تعليقات.
+  - Comments: 36 px pictures (28 px for replies), grey bubble with 13 px name and 14.5 px text, one action line «time · أعجبني · رد» with the
+    reaction count at its end, report/delete in a ⋯ menu beside the bubble; replies folded as one-line previews (picture, name, text) until
+    tapped; the name of the person answered shows only when answering a reply. Comment boxes are slim rounded fields with a round send button
+    (`IS.cmtBox`), growing with the text; Enter sends on computers.
+- Asset version 185, shell cache ish-v85.
