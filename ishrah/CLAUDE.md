@@ -913,3 +913,10 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   (`IS.manageBtn`) in every feed card header, on library cards (corner of the cover, `.mng.onc`), series cards and the series page team bar.
   New kind `series` (library approve): rename the series for every part, open its page, or hide the whole series (all parts «removed»,
   undo from Control). Test: scratchpad mng.js. Asset version 203, cache ish-v103.
+- **Your current picture and name on everything you wrote** (owner, 20 Nov 2026: "I changed my profile picture but it didn't appear in the
+  comment area"): comments and posts keep a copy of the writer's name and picture (book and request comments had no picture at all).
+  `044_profile_sync.sql`: `author_photo` on course_request_comments and library_comments; a BEFORE INSERT trigger `fill_author` takes the name
+  and picture from the writer's profile for posts, replies, request comments, library comments and course requests (also stops posting
+  under another name); `profile_sync` (AFTER UPDATE OF name, photo ON profiles) rewrites them on everything the person wrote; existing rows
+  filled once. threads.js `IS.commentItem` shows the signed-in person's current picture and name on their own comments at once. Tested on
+  the local Postgres (file twice; a FAKE name replaced by the profile name; a profile change reaches posts and replies). Asset 204, ish-v104.

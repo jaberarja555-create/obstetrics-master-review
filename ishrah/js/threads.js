@@ -30,6 +30,8 @@
   /* one comment: o = { row, lk (kind), name, photo, when, body, report, del, badge, reply (bool) } (old callers pass only name/when/body/…) */
   IS.commentItem = function (o) {
     var row = o.row || {}, id = row._queued ? null : row.id, lk = o.lk, my = id && lk ? mine(lk, id) : 0, cur = rxOf(my);
+    /* your own comments always show your current picture and name (owner, 20 Nov 2026: "I changed my profile picture but it didn't appear") */
+    if (IS.ME && row.user_id && row.user_id === IS.ME.id) { o = Object.assign({}, o, { name: IS.ME.name || o.name, photo: IS.ME.photo || o.photo }); }
     var acts = [];
     acts.push('<small class="cmt-t">' + esc(row._queued ? A('⏳ يُرسل عند عودة الاتصال', '⏳ Sends when you are back online') : o.when || '') + '</small>');
     if (id && lk && uid()) {
