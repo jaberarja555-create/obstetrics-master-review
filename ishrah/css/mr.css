@@ -716,3 +716,9 @@ html body .mrh .feed-card-header>.mng{flex:none;margin-top:0!important;order:0}
   html body .mrh .feed-card-header>span:first-child{padding:5px 10px;font-size:12.5px;white-space:nowrap}
   html body .mrh .feed-card-header>time{font-size:12px}
 }
+.mc-side{grid-area:pic;position:relative;display:flex;flex-direction:column;gap:8px;min-width:0}
+.mc-side .mc-pic{grid-area:auto}
+.mc-side .mc-fav{top:8px!important;inset-inline-end:8px!important}
+.mc-side .mc-lec{justify-content:center;padding:4px 6px}
+@media (max-width:560px){.mc-side .mc-fav{top:6px!important;inset-inline-end:6px!important}.mc-side .mc-lec{font-size:13px;gap:6px}.mc-side .mc-lec .av{width:30px!important;height:30px!important}}
+.mc-side .mc-pic{align-self:stretch!important;width:100%}
