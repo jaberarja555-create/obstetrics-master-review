@@ -615,6 +615,8 @@
     var letter = bare.match(/\p{Letter}/u), arabic = letter && /\p{Script=Arabic}/u.test(letter[0]);
     return { text: (arabic ? 'د. ' : 'Dr. ') + bare, arabic: arabic };
   }
+  /* a lecturer's name: a title written in it («د.», «Dr», «دكتور») follows the script of the name (Dr. Arja · د. عبدالجليل), never «د. Arja» */
+  IS.lecName = function (name) { var n = String(name || '').trim(); if (IS.drName(n) === n) return '<bdi dir="auto">' + IS.esc(n) + '</bdi>'; return IS.greetingName(n) || IS.esc(n); };
   IS.greetingName = function (name, firstOnly) {
     var person = titledName(name, firstOnly);
     if (!person) return '';

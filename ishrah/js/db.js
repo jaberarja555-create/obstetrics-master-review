@@ -244,7 +244,8 @@
     var FRESH = 0;
     function fresh() { clearTimeout(FRESH); FRESH = setTimeout(function () { window.dispatchEvent(new CustomEvent('ish-fresh')); }, 350); }
     function same(a, b) { try { return JSON.stringify(a) === JSON.stringify(b); } catch (e) { return false; } }
-    function forget() { READS.clear(); PERS.forEach(function (_v, k) { PDIRTY.add(k); }); }
+    var WSEQ = 0;   /* changes made by this person; a read that started before one is out of date when it answers */
+    function forget() { WSEQ++; READS.clear(); PERS.forEach(function (_v, k) { PDIRTY.add(k); }); }
     /* a comment or a reaction changes only its own tables and the counts of what it is on, so the rest of the
        saved reads stay and the next page opens at once (owner, 20 Nov 2026: "should not feel slow, like Facebook").
        Any other write still forgets everything. */
@@ -255,6 +256,7 @@
       ish_feed_react: FEED, ish_feed_rate: FEED, ish_series_vote: FEED, reader_state: ['reader_state'], push_subs: ['push_subs'] };
     function forgetFor(name) {
       var near = NEAR[name]; if (!near) return forget();
+      WSEQ++;
       READS.forEach(function (v, k) { var t = JSON.parse(k)[1]; if (name === t || near.indexOf(t) >= 0) READS.delete(k); });
       PERS.forEach(function (v, pk) { var t; try { t = JSON.parse(pk.slice(pk.indexOf('|') + 1))[1]; } catch (e) {} if (name === t || near.indexOf(t) >= 0) PDIRTY.add(pk); });
     }
@@ -265,7 +267,9 @@
         /* shown at once; a read older than 1.5 s is checked with the server in the background (the page redraws if it changed) */
         if (Date.now() - hit.t > 1500 && navigator.onLine && !hit.bg) {
           hit.bg = true;
+          var bseq = WSEQ;
           Promise.all([hit.p, run()]).then(function (two) {
+            if (bseq !== WSEQ) { hit.bg = false; return; }
             READS.set(k, { t: Date.now(), p: Promise.resolve(two[1]) }); pput(pkey(k), two[1]);
             if (!same(two[0], two[1])) fresh();
           }).catch(function () { hit.bg = false; });
@@ -276,12 +280,13 @@
       var pk = pkey(k), saved = PERS.get(pk);
       if (saved && !navigator.onLine) return copy(saved.v);
       if (!navigator.onLine) throw new Error('offline');
-      var p = run();
+      var p = run(), seq = WSEQ;
       var entry = { t: Date.now(), p: p };
       READS.delete(k);
       READS.set(k, entry);
       if (READS.size > 300) READS.delete(READS.keys().next().value);
       p.then(function (v) {
+        if (seq !== WSEQ) { if (READS.get(k) === entry) READS.delete(k); PDIRTY.add(pk); return; }   /* answered from before a change */
         var before = PERS.get(pk); pput(pk, v);
         if (before && entry.shown && !same(before.v, v)) fresh();
       }, function () { if (READS.get(k) === entry) READS.delete(k); });
@@ -368,7 +373,8 @@
         if (q && !navigator.onLine) return Promise.resolve(enqueue('rpc', name, args));
         forgetFor(name);
         var call = Promise.resolve(rpc0.apply(null, arguments));   /* run the request once: a supabase builder sends it again on every then() */
-        if (NEAR[name]) Promise.resolve(call).then(function (r) { if (r && !r.error) window.dispatchEvent(new CustomEvent('ish-sent', { detail: { name: name, args: args } })); }, function () {});
+        call.then(function () { forgetFor(name); }, function () {});
+        if (NEAR[name]) call.then(function (r) { if (r && !r.error) window.dispatchEvent(new CustomEvent('ish-sent', { detail: { name: name, args: args } })); }, function () {});
         if (!q) return call;
         return Promise.resolve(call).then(function (r) { return r && r.error && netErr(r.error) ? enqueue('rpc', name, args) : r; },
           function (e) { if (netErr(e)) return enqueue('rpc', name, args); throw e; });

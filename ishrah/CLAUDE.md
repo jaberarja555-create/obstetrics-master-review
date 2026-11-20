@@ -947,3 +947,19 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   doubled, a reaction toggled on and off). The call is now made into one promise first. `047_duplicate_comments.sql` removes copies (same
   writer, place and text within 10 s). The fake Supabase in scratchpad rate4.js now behaves like a builder (counts requests: 1 per rating).
   Asset version 206, cache ish-v106.
+- **Reactions that seemed to vanish; lecturer ratings; author tools on detail pages; paid items through the team** (owner, 20 Nov 2026):
+  - db.js `WSEQ`: every change made by this person counts up; a read that started before a change and answers after it is neither shown nor
+    saved (marked dirty instead), and writes forget again once the server has them. The vanishing reaction itself was the double request
+    fixed in 206 (the second toggled it off); rx5.js (builder-like fake Supabase, react while a background refresh runs) stays correct.
+  - Every lecturer has a rating (`IS.lecRating` / `IS.lecStars`): the reviews of their published courses, weighted by the number of reviews,
+    on lecturer cards and the lecturer page; «☆ لم يُقيَّم بعد» when none.
+  - Names: `IS.lecName` writes a title only if the lecturer wrote one, in the name's script («Dr. Arja», «د. عبدالجليل»; never «د. Arja»), on
+    cards, the lecturer page and the course page.
+  - Course page lecturer block (`.chlec`): medium picture centred, name, title and online status in one column; the lecturer picture
+    follows the profile picture (`048_own_paid.sql` trigger `lecturer_photo_sync`, backfill of empty lecturer pictures).
+  - Authors see «كورسك / فعاليتك / ملفك / طلبك» with ✏️ 🗑️ at the top of their own course, event, upload, series or request page (`.ownbar`,
+    manage.js onRoute). Paid course, book or series: ✏️ / 🗑️ open a message to the team (`own-ask` → `IS.newTicket('content')`, subject
+    «طلب تعديل/حذف: …») and the bar says «مدفوع: التعديل والحذف عبر الإدارة»; `ish_own_delete` refuses paid items (`own_delete_paid`) and now
+    hides a free course (runs that one checked update as the server, since the course guard only lets lecturers move to draft/review).
+  - Course page on phones: tabs on one line («التقييمات 1»), reviews = picture · name and time on one row · stars · text.
+  Test: scratchpad own.js, cpage.js, local Postgres t48.sql. Asset version 207, cache ish-v107.

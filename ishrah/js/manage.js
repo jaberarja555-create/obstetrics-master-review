@@ -76,7 +76,8 @@
   }
   function errText(e) {
     var m = String((e && e.message) || e || '');
-    return /permission/.test(m) ? A('دورك لا يسمح بهذا الإجراء.', 'Your role does not allow this.') : /payments/.test(m) ? A('في هذا الطلب دفعات؛ لا يمكن حذفه.', 'This request has payments and cannot be deleted.') :
+    return /own_delete_paid/.test(m) ? A('هذا محتوى مدفوع؛ اطلب حذفه من الإدارة.', 'This is paid content; ask the team to delete it.') :
+      /permission/.test(m) ? A('دورك لا يسمح بهذا الإجراء.', 'Your role does not allow this.') : /payments/.test(m) ? A('في هذا الطلب دفعات؛ لا يمكن حذفه.', 'This request has payments and cannot be deleted.') :
       navigator.onLine ? A('تعذّر التنفيذ: ', 'Could not do it: ') + m : A('هذا يحتاج إلى الإنترنت.', 'This needs the internet.');
   }
   function after(msg, leave) {
@@ -135,16 +136,29 @@
     else if (kind === 'event') edit = 'data-act="evform" data-id="' + id + '"';
     else if (kind === 'course') edit = 'data-go="#studio-course/' + id + '/details" data-act="own-go"';
     if (!edit) return '';
+    var paid = /^(course|file|series)$/.test(kind) && +row.price > 0;
+    if (paid) return '<span class="own"><button type="button" class="own-b" data-act="own-ask" data-what="edit" data-k="' + esc(kind) + '" data-id="' + id + '" data-t="' + esc(row.series_title || row.title || '') +
+      '" aria-label="' + esc(A('طلب تعديل من الإدارة', 'Ask the team to edit')) + '" title="' + esc(A('تعديل (عبر الإدارة لأنه مدفوع)', 'Edit (through the team: paid)')) + '">✏️</button>' +
+      '<button type="button" class="own-b" data-act="own-ask" data-what="delete" data-k="' + esc(kind) + '" data-id="' + id + '" data-t="' + esc(row.series_title || row.title || '') +
+      '" aria-label="' + esc(A('طلب حذف من الإدارة', 'Ask the team to delete')) + '" title="' + esc(A('حذف (عبر الإدارة لأنه مدفوع)', 'Delete (through the team: paid)')) + '">🗑️</button></span>';
     return '<span class="own"><button type="button" class="own-b" ' + edit + ' aria-label="' + esc(A('تعديل منشورك', 'Edit your post')) + '" title="' + esc(A('تعديل', 'Edit')) + '">✏️</button>' +
-      (kind === 'course' ? '' : '<button type="button" class="own-b" data-act="own-del" data-k="' + esc(kind) + '" data-id="' + id + '" aria-label="' + esc(A('حذف منشورك', 'Delete your post')) + '" title="' + esc(A('حذف', 'Delete')) + '">🗑️</button>') + '</span>';
+      ('<button type="button" class="own-b" data-act="own-del" data-k="' + esc(kind) + '" data-id="' + id + '" aria-label="' + esc(A('حذف منشورك', 'Delete your post')) + '" title="' + esc(A('حذف', 'Delete')) + '">🗑️</button>') + '</span>';
   };
   IS.ACT['own-go'] = function (b) { location.hash = b.dataset.go; };
+  /* a paid item: the author asks the team (students have paid for it) */
+  IS.ACT['own-ask'] = function (b) {
+    var del = b.dataset.what === 'delete', kind = b.dataset.k, t = b.dataset.t || '';
+    if (!IS.newTicket) return IS.toast(A('راسل فريق المنصة من «الدعم والرسائل».', 'Message the platform team from Support.'));
+    IS.newTicket('content', { subject: (del ? A('طلب حذف: ', 'Delete request: ') : A('طلب تعديل: ', 'Edit request: ')) + t + ' (' + kind + ')', course: kind === 'course' ? b.dataset.id : '' });
+    setTimeout(function () { var n = document.querySelector('#sheet form[data-form=ticket] .note span'); if (n) n.textContent = A('هذا محتوى مدفوع، لذلك يمر التعديل أو الحذف عبر فريق المنصة حفاظًا على حقوق الطلاب الذين دفعوا. اكتب ما تريد تغييره.', 'This is paid content, so editing or deleting goes through the platform team to protect students who paid. Write what you want changed.'); }, 60);
+  };
   IS.ACT['own-del'] = async function (b) {
     var kind = b.dataset.k, id = b.dataset.id;
     if (!(await IS.confirm(A('حذف منشورك؟ لن يراه أحد بعد الآن.', 'Delete your post? Nobody will see it any more.'), A('احذف', 'Delete')))) return;
     try {
       if (DB.live) { var r = await DB.sb.rpc('ish_own_delete', { kind: kind, target: id }); if (r.error) throw r.error; }
       else if (kind === 'event') await DB.del('events', id);
+      else if (kind === 'course') await DB.upd('courses', id, { status: 'hidden' });
       else if (kind === 'series') { var ps = await DB.q('files', { eq: { series_id: id } }); for (var i = 0; i < ps.length; i++) await DB.upd('files', ps[i].id, { status: 'removed' }); }
       else await DB.upd(TABLE[kind], id, { status: kind === 'request' ? 'deleted' : 'removed' });
       after(A('🗑️ حُذف منشورك', '🗑️ Your post was deleted'), true);
@@ -158,6 +172,14 @@
     var kind = PAGEKIND[name], parts = String(arg || '').split('/'), id = parts[0];
     if (name === 'news' && parts[0] === 'ann') { kind = 'notice'; id = parts[1]; }
     if (!kind || !id || /^(all|ann)$/.test(id)) return;
+    if (IS.ME && /^(course|event|file|series|request)$/.test(kind) && !/^(control|studio)-/.test(name)) load(kind, id).then(function (row) {
+      var page = main.querySelector('.page'), own = row && IS.ownBtns(kind, row, row._parts && row._parts[0] && row._parts[0].id);
+      if (!own || !page || page.querySelector('.ownbar')) return;
+      var bar = document.createElement('div'); bar.className = 'ownbar';
+      bar.innerHTML = '<span>' + esc(kind === 'course' ? A('كورسك', 'Your course') : kind === 'event' ? A('فعاليتك', 'Your event') : kind === 'request' ? A('طلبك', 'Your request') : A('ملفك', 'Your upload')) +
+        (/^(course|file|series)$/.test(kind) && +row.price > 0 ? ' · ' + esc(A('مدفوع: التعديل والحذف عبر الإدارة', 'paid: edit and delete through the team')) : '') + '</span>' + own;
+      page.insertBefore(bar, page.firstChild);
+    }).catch(function () {});
     var btn = IS.manageBtn(kind, id), page = main.querySelector('.page'); if (!btn || !page || page.querySelector('.mngbar')) return;
     var bar = document.createElement('div'); bar.className = 'mngbar';
     bar.innerHTML = '<span>🛡️ ' + esc(A('أدوات الفريق', 'Team tools')) + '</span>' + btn;

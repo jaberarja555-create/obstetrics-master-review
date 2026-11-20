@@ -26,7 +26,19 @@
     IS.setSection(section.id);
     IS.route();
   };
-  IS.pubCourses = function (all) { return DB.q('courses', { eq: { status: 'published' }, order: ['published_at', false] }).then(function (cs) { return !all && IS.area === 'student' ? cs.filter(IS.inStudySpace) : cs; }); };
+  /* every lecturer has a rating (owner, 20 Nov 2026: «كل محاضر يكون عندو تصنيف»): the reviews students who joined left on that lecturer's
+     published courses, weighted by how many reviews each course has */
+  IS.lecRating = function (id, list) {
+    var cs = (list || IS._pubCs || []).filter(function (c) { return c.lecturer_id === id && c.status === 'published'; });
+    var n = 0, pts = 0; cs.forEach(function (c) { var k = +c.n_reviews || 0; n += k; pts += k * (+c.rating || 0); });
+    return { rating_count: n, rating_points: pts };
+  };
+  IS.lecStars = function (id, list) {
+    var r = IS.lecRating(id, list);
+    if (!r.rating_count) return '<span class="lrate none">☆ ' + esc(A('لم يُقيَّم بعد', 'Not rated yet')) + '</span>';
+    return '<span class="lrate" title="' + esc(A('تقييم الطلاب لكورسات المحاضر', 'Students\' rating of the lecturer\'s courses')) + '">' + IS.gradeInner(r, 'course') + '</span>';
+  };
+  IS.pubCourses = function (all) { return DB.q('courses', { eq: { status: 'published' }, order: ['published_at', false] }).then(function (cs) { IS._pubCs = cs; return !all && IS.area === 'student' ? cs.filter(IS.inStudySpace) : cs; }); };
   IS.legacyTeachingSpec = function (lecturer) {
     var field = IS.norm(lecturer.specialty || '');
     var exact = IS.SPECS.find(function (spec) { return field && [spec.id, spec.en, spec.ar].some(function (name) { return field === IS.norm(name); }); });
@@ -95,8 +107,8 @@
       '<div class="ccf"><span class="price">' + price(c) + '</span>' + (e && e.status === 'active' ? '<a class="btn sm pri" href="#course/' + c.id + '">' + ic('play') + esc(A('تابع', 'Continue')) + '</a>' : e && e.status === 'pending' ? IS.status('pending') : '<a class="btn sm pri" href="#course/' + c.id + '">' + esc(A('التحق بالكورس', 'Enrol')) + '</a>') + '</div></div></article>';
   };
   function lecCard(l, n) {
-    return '<article class="lcard" style="--cc:' + esc(l.color || 'var(--pri)') + '">' + IS.favBtn('t:' + l.id, true) + '<a href="#lecturer/' + l.id + '" class="lcav">' + IS.av(l, 'lg', l.id) + '</a><h3><a href="#lecturer/' + l.id + '">' + esc(l.name) + '</a> ' + ic('checkc', 'verified') + '</h3>' +
-      '<p>' + esc(l.title || l.specialty || '') + '</p>' + IS.seen(l.id) + '<div class="tags">' + (l.tags || []).slice(0, 3).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' +
+    return '<article class="lcard" style="--cc:' + esc(l.color || 'var(--pri)') + '">' + IS.favBtn('t:' + l.id, true) + '<a href="#lecturer/' + l.id + '" class="lcav">' + IS.av(l, 'lg', l.id) + '</a><h3><a href="#lecturer/' + l.id + '">' + IS.lecName(l.name) + '</a> ' + ic('checkc', 'verified') + '</h3>' +
+      '<p>' + esc(l.title || l.specialty || '') + '</p>' + IS.lecStars(l.id) + IS.seen(l.id) + '<div class="tags">' + (l.tags || []).slice(0, 3).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' +
       '<div class="lcst"><span>' + ic('layers') + N(n || 0) + ' ' + esc(A('كورس', 'courses')) + '</span>' + (l.n_students ? '<span>' + ic('users') + N(l.n_students) + '</span>' : '') + '</div>' +
       '<div class="row"><a class="btn sm pri" href="#lecturer/' + l.id + '">' + esc(A('عرض الملف', 'View profile')) + '</a></div></article>';
   }
@@ -547,7 +559,7 @@
     var h = '<nav class="crumb"><a href="#courses">' + esc(A('الكورسات', 'Courses')) + '</a>' + ic('chev', 'fl') + (cat ? '<a href="#courses/' + cat.id + '">' + esc(cat.en) + '</a>' + ic('chev', 'fl') : '') + '<span>' + esc(c.title) + '</span></nav>';
     if (c.status !== 'published') h += '<p class="note warn">' + ic('eye') + esc(A('معاينة: هذا الكورس غير منشور للطلبة بعد', 'Preview: this course is not published to students yet')) + ' · ' + IS.status(c.status) + '</p>';
     h += '<section class="chero" style="--cc:' + esc(c.color || 'var(--pri)') + (c.cover ? ';--ci:url(' + IS.U(c.cover) + ')' : '') + '"><div class="chin"><div class="cht"><span class="tags lt">' + (cat ? '<span>' + esc(cat.en) + '</span>' : '') + (sj ? '<span>' + esc(sj.en) + '</span>' : '') + (c.level ? '<span>' + esc(c.level) + '</span>' : '') + '</span>' +
-      '<h1 tabindex="-1">' + esc(c.title) + '</h1>' + (c.subtitle ? '<p>' + esc(c.subtitle) + '</p>' : '') + '<a class="chlec" href="#lecturer/' + l.id + '">' + IS.av(l, 'sm', l.id) + '<span><b>' + esc(l.name || '') + '</b><small>' + esc(l.title || '') + '</small>' + IS.seen(l.id) + '</span></a>' +
+      '<h1 tabindex="-1">' + esc(c.title) + '</h1>' + (c.subtitle ? '<p>' + esc(c.subtitle) + '</p>' : '') + '<a class="chlec" href="#lecturer/' + l.id + '">' + IS.av(l, 'md', l.id) + '<span><b>' + IS.lecName(l.name) + '</b><small>' + esc(l.title || '') + '</small>' + IS.seen(l.id) + '</span></a>' +
       '<div class="chst">' + '<span class="feed-grade" title="' + esc(IS.gradeLabel(c, 'course')) + '">' + IS.gradeInner(c, 'course') + '</span>' + (c.n_students ? '<span>' + ic('users') + N(c.n_students) + ' ' + esc(A('طالب', 'students')) + '</span>' : '') +
       '<span>' + ic('video') + N(all.length) + ' ' + esc(A('درس', 'lessons')) + '</span>' + (c.minutes ? '<span>' + ic('clock') + hrs(c.minutes) + '</span>' : '') + '<span>' + ic('clock') + esc(A('آخر تحديث ', 'Updated ')) + esc(IS.date(c.updated_at || c.created_at)) + '</span></div></div>' +
       (c.cover ? '<img class="chimg" src="' + IS.U(c.cover) + '" alt="">' : '') + '</div></section>';
@@ -565,7 +577,7 @@
         return count ? '<li>' + ic(kind[1]) + N(count) + ' ' + esc(A(kind[2], kind[3])) + '</li>' : '';
       }).join('') +
       '<li>' + ic('shield') + esc(A('مشاهدة داخل التطبيق فقط (دون تنزيل)', 'Watched inside the app only (no download)')) + '</li><li>' + ic('cert') + esc(A('شهادة إتمام', 'Certificate of completion')) + '</li></ul></div></section>';
-    h += '<div class="course-details"><div class="tabs" role="tablist">' + [['about', A('نظرة عامة', 'Overview')], ['cur', A('محتوى الكورس', 'Curriculum')], ['lec', A('المحاضر', 'Lecturer')], ['rev', A('التقييمات', 'Reviews') + (rv.length ? ' (' + rv.length + ')' : '')]].map(function (t, i) {
+    h += '<div class="course-details"><div class="tabs" role="tablist">' + [['about', A('نظرة عامة', 'Overview')], ['cur', A('محتوى الكورس', 'Curriculum')], ['lec', A('المحاضر', 'Lecturer')], ['rev', A('التقييمات', 'Reviews') + (rv.length ? ' ' + rv.length : '')]].map(function (t, i) {
       return '<button role="tab" data-act="tab" data-t="' + t[0] + '" aria-selected="' + (i === 0) + '">' + esc(t[1]) + '</button>'; }).join('') + '</div>';
     var promo = IS.extEmbed(c.promo) ? c.promo : IS.extVideo(c.promo);
     var liveLink = act ? r[6] : '';
@@ -581,7 +593,7 @@
     var canRev = e && e.status === 'active' && !rv.some(function (x) { return x.user_id === uid(); });
     h += '<div class="pane" data-p="rev" hidden>' + (canRev ? '<form class="box form" data-form="review"><input type="hidden" name="course" value="' + id + '"><h2>' + IS.T('قيّم الكورس', 'Rate this course') + '</h2><div class="rate">' + [5, 4, 3, 2, 1].map(function (n) { return '<input type="radio" name="stars" id="st' + n + '" value="' + n + '" required><label for="st' + n + '" aria-label="' + n + '">' + ic('star') + '</label>'; }).join('') + '</div>' +
       '<textarea name="body" rows="3" placeholder="' + esc(A('اكتب رأيك بإيجاز (اختياري)', 'A short comment (optional)')) + '"></textarea><button class="btn pri">' + esc(A('إرسال التقييم', 'Submit review')) + '</button></form>' : '') +
-      (rv.length ? rv.map(function (x) { return '<div class="revw">' + IS.av({ name: x.name }, 'sm') + '<div><b>' + esc(x.name || '') + '</b> ' + IS.stars(x.stars) + '<small>' + esc(IS.ago(x.created_at)) + '</small><p>' + esc(x.body || '') + '</p></div><button class="ib" data-act="report" data-kind="review" data-id="' + x.id + '" aria-label="' + esc(A('إبلاغ', 'Report')) + '">' + ic('flag') + '</button></div>'; }).join('') :
+      (rv.length ? rv.map(function (x) { return '<div class="revw">' + IS.av({ name: x.name, photo: x.photo }, 'sm') + '<div class="revb"><div class="revh"><b dir="auto">' + esc(x.name || '') + '</b><small>' + esc(IS.ago(x.created_at)) + '</small></div>' + IS.stars(x.stars) + '<p dir="auto">' + esc(x.body || '') + '</p></div><button class="ib" data-act="report" data-kind="review" data-id="' + x.id + '" aria-label="' + esc(A('إبلاغ', 'Report')) + '">' + ic('flag') + '</button></div>'; }).join('') :
         IS.empty('star', A('لا توجد تقييمات بعد', 'No reviews yet'), A('يقيّم الكورس الطلبة الملتحقون به.', 'Enrolled students rate the course.'))) + '</div>';
     return h + '</div>' + (c.status === 'published' ? '<section class="box feedback-detail">' + IS.feedVoteBar('course', c, true) + '</section>' : '');
   });
@@ -938,7 +950,7 @@
     var L = {}; L[id] = l; var st = cs.reduce(function (a, c) { return a + (+c.n_students || 0); }, 0), rv = cs.filter(function (c) { return c.n_reviews; }), rate = rv.length ? Math.round(rv.reduce(function (a, c) { return a + c.rating * c.n_reviews; }, 0) / rv.reduce(function (a, c) { return a + c.n_reviews; }, 0) * 10) / 10 : 0;
     var links = l.links || {};
     var h = '<nav class="crumb"><a href="#lecturers">' + esc(A('المحاضرون', 'Lecturers')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(l.name) + '</span></nav>' +
-      '<section class="lhero" style="--cc:' + esc(l.color || 'var(--pri)') + (l.cover ? ';--ci:url(' + IS.U(l.cover) + ')' : '') + '">' + IS.av(l, 'xl', id) + '<div class="lht"><h1 tabindex="-1">' + esc(l.name) + ' ' + ic('checkc', 'verified') + '</h1><p>' + esc(l.title || '') + '</p>' + IS.seen(id) +
+      '<section class="lhero" style="--cc:' + esc(l.color || 'var(--pri)') + (l.cover ? ';--ci:url(' + IS.U(l.cover) + ')' : '') + '">' + IS.av(l, 'xl', id) + '<div class="lht"><h1 tabindex="-1">' + IS.lecName(l.name) + ' ' + ic('checkc', 'verified') + '</h1>' + IS.lecStars(id, courses) + '<p>' + esc(l.title || '') + '</p>' + IS.seen(id) +
       (l.specialty ? '<p class="mut2">' + esc(l.specialty) + '</p>' : '') + '<div class="tags lt">' + (l.tags || []).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div></div><div class="row">' + (!(me() && me().id === id) ? '<a class="btn sm gold" href="#course-requests/new/' + esc(id) + '">' + ic('mail') + esc(A('اطلب كورسًا أو محاضرة', 'Request a course or lecture')) + '</a>' : '') + IS.favBtn('t:' + id) + '<button class="fav" data-act="share-link" data-h="lecturer/' + id + '" aria-label="share">' + ic('share') + '</button></div></section>';
     h += '<div class="cols"><div class="main">' + (l.bio ? '<section class="box"><h2>' + ic('user') + IS.T('نبذة عن المحاضر', 'About the lecturer') + '</h2><div class="rich">' + IS.clean(l.bio) + '</div></section>' : '') +
       ((l.quals || []).length ? '<section class="box"><h2>' + ic('cert') + IS.T('المؤهلات والخبرة', 'Qualifications and experience') + '</h2><ul class="learn">' + l.quals.map(function (q) { return '<li>' + ic('checkc') + esc(q) + '</li>'; }).join('') + '</ul></section>' : '') +
@@ -967,7 +979,7 @@
     return '<nav class="crumb"><a href="#events">' + esc(A('الفعاليات', 'Events')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(e.title) + '</span></nav>' +
       '<section class="chero"' + (e.cover ? ' style="--ci:url(' + IS.U(e.cover) + ')"' : '') + '><div class="chin"><div class="cht"><span class="tags lt"><span>' + esc(e.kind === 'live' ? A('جلسة مباشرة', 'Live session') : e.kind === 'workshop' ? A('ورشة عمل', 'Workshop') : A('ندوة', 'Seminar')) + '</span></span><h1 tabindex="-1">' + esc(e.title) + '</h1>' +
       '<div class="chst"><span>' + ic('cal') + esc(IS.date(e.starts, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })) + '</span><span>' + ic('clock') + N(e.minutes || 60) + ' ' + esc(A('دقيقة', 'min')) + '</span><span>' + ic('users') + N(DB.live ? e.registered_count || 0 : regs.length) + ' ' + esc(A('مسجّل', 'registered')) + '</span></div>' +
-      '<a class="chlec" href="#lecturer/' + l.id + '">' + IS.av(l, 'sm', l.id) + '<span><b>' + esc(l.name || '') + '</b><small>' + esc(l.title || '') + '</small>' + IS.seen(l.id) + '</span></a></div></div></section>' +
+      '<a class="chlec" href="#lecturer/' + l.id + '">' + IS.av(l, 'md', l.id) + '<span><b>' + IS.lecName(l.name) + '</b><small>' + esc(l.title || '') + '</small>' + IS.seen(l.id) + '</span></a></div></div></section>' +
       '<section class="box buy event-registration">' +
       (mine ? '<p class="note ok">' + ic('checkc') + esc(A('أنت مسجّل في هذه الفعالية', 'You are registered')) + '</p>' + (e.link && live ? '<a class="btn pri" target="_blank" rel="noopener" href="' + esc(e.link) + '">' + ic('live') + esc(A('انضم الآن', 'Join now')) + '</a>' : '<p class="mut">' + esc(A('يظهر رابط الانضمام هنا قبل البدء بربع ساعة.', 'The joining link shows here 15 minutes before the start.')) + '</p>') +
         '<button class="btn ghost" data-act="unreg" data-id="' + id + '">' + esc(A('إلغاء التسجيل', 'Cancel registration')) + '</button>' : '<button class="btn pri" data-act="reg" data-id="' + id + '">' + ic('cal') + esc(A('سجّل في الفعالية', 'Register')) + '</button>') + '</section>' +
