@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-theme="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Master Review</title>
+<meta name="theme-color" content="#0b3f2c">
+<link rel="icon" href="img/logo-gold.png">
+<style>
+@font-face{font-family:Pop;font-weight:600;font-display:swap;src:url(fonts/poppins-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:Pop;font-weight:700;font-display:swap;src:url(fonts/poppins-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:Pop;font-weight:800;font-display:swap;src:url(fonts/poppins-latin-800-normal.woff2) format("woff2")}
+@font-face{font-family:Cairo;font-weight:600;font-display:swap;src:url(fonts/cairo-arabic-600-normal.woff2) format("woff2")}
+@font-face{font-family:Cairo;font-weight:700;font-display:swap;src:url(fonts/cairo-arabic-700-normal.woff2) format("woff2")}
+:root{
+  --gold1:#fff1c2;--gold2:#e9c46a;--gold3:#b8862b;--gold:linear-gradient(180deg,#fff3c4 0%,#ecc56b 45%,#b8862b 100%);
+  --green:#0d5a3c;--green2:#0a4630;--green3:#06301f;--cream:#fbf2d8;--cream2:#ead7a2;--ink:#123a26;
+  --font:Pop,Cairo,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:var(--font);color:#fff;background:#0b4a33;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+[dir="rtl"] body{font-family:Cairo,Pop,system-ui,sans-serif}
+button,a{font:inherit;color:inherit}
+svg.ic{width:1em;height:1em;display:block}
+
+/* ---------- background: the owner's room picture, sharp; a soft green veil in the middle so the content reads ---------- */
+.bg{position:fixed;inset:0;z-index:-2;background:url(img/bg-wide.webp) center/cover no-repeat}
+.bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 52% 60% at 50% 46%,rgba(8,64,42,.55),rgba(8,64,42,.15) 70%,rgba(8,64,42,0) 100%)}
+@media (orientation:portrait){.bg{background-image:url(img/bg-tall.webp)}.bg::after{background:linear-gradient(180deg,rgba(8,64,42,.10),rgba(8,64,42,.35) 30%,rgba(8,64,42,.35) 75%,rgba(8,64,42,.05))}}
+html[data-theme="night"] .bg::after{background:linear-gradient(180deg,rgba(2,20,13,.72),rgba(2,20,13,.6))}
+
+/* ---------- page: one screen ---------- */
+.page{min-height:100svh;display:flex;flex-direction:column;align-items:center;padding:clamp(10px,2.2vh,26px) clamp(12px,3vw,48px) clamp(12px,2.6vh,30px);gap:clamp(6px,1.6vh,18px)}
+
+/* ---------- top bar ---------- */
+.top{width:min(100%,1320px);display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:12px}
+.tl,.tr{display:flex;align-items:center;gap:clamp(8px,1.2vw,16px);padding-top:clamp(4px,1.4vh,18px)}
+.tr{justify-content:flex-end}
+.rb{width:var(--rb);height:var(--rb);--rb:clamp(40px,4.6vh,58px);flex:none;display:grid;place-items:center;border-radius:50%;cursor:pointer;
+  background:radial-gradient(circle at 50% 30%,#13704c,#0a4630 70%);border:2px solid transparent;
+  background:radial-gradient(circle at 50% 30%,#13704c,#0a4630 70%) padding-box,var(--gold) border-box;
+  box-shadow:0 6px 14px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.25);color:var(--gold2);font-size:calc(var(--rb)*.46);text-decoration:none;transition:transform .15s}
+.rb:hover{transform:translateY(-2px)}.rb:active{transform:translateY(1px)}
+.rb .dot{position:absolute;margin:-22% 0 0 34%;width:9px;height:9px;border-radius:50%;background:#ff3b3b;box-shadow:0 0 0 2px #0a4630}
+.bell{position:relative}
+.theme .sun{display:block}.theme .moon{display:none}
+html[data-theme="night"] .theme .sun{display:none}html[data-theme="night"] .theme .moon{display:block}
+.me{display:flex;align-items:center;gap:10px;height:var(--rb);--rb:clamp(40px,4.6vh,58px);padding:3px 18px 3px 3px;border-radius:999px;text-decoration:none;
+  background:radial-gradient(circle at 50% 0,#13704c,#0a4630 80%) padding-box,var(--gold) border-box;border:2px solid transparent;box-shadow:0 6px 14px rgba(0,0,0,.35)}
+[dir="rtl"] .me{padding:3px 3px 3px 18px}
+.me .av{width:calc(var(--rb) - 10px);height:calc(var(--rb) - 10px);border-radius:50%;display:grid;place-items:center;background:#f6ecd0;color:#0d5a3c;font-size:calc(var(--rb)*.5);box-shadow:0 0 0 2px var(--gold2)}
+.me b{font-weight:700;font-size:clamp(14px,1.8vh,20px);white-space:nowrap}
+.sep{width:2px;height:calc(var(--rb,48px) * .9);--rb:clamp(40px,4.6vh,58px);background:linear-gradient(180deg,transparent,var(--gold2),transparent);opacity:.8}
+
+/* logo + name */
+.brand{display:flex;flex-direction:column;align-items:center;text-decoration:none}
+.brand img{height:clamp(56px,11vh,120px);width:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
+.brand b{margin-top:-2px;font-weight:800;font-size:clamp(20px,3.6vh,38px);line-height:1.1;letter-spacing:.2px;white-space:nowrap;
+  background:var(--gold);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 3px rgba(0,0,0,.45))}
+.brand .sw{width:clamp(120px,15vh,190px);height:12px;margin-top:2px;color:var(--gold2)}
+
+/* ---------- welcome ---------- */
+.hello{display:flex;align-items:center;gap:clamp(10px,2vw,26px)}
+.hello h1{margin:0;font-weight:800;font-size:clamp(26px,5.4vh,58px);line-height:1.1;text-align:center;
+  background:linear-gradient(180deg,#fffaf0,#f3dfa9);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 6px rgba(0,0,0,.45))}
+.laurel{width:clamp(30px,5.5vh,62px);height:auto;color:var(--gold2);filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+.laurel.r{transform:scaleX(-1)}
+.beat{width:min(70vw,520px);height:clamp(18px,3vh,30px);margin-top:calc(clamp(6px,1.6vh,18px) * -0.6)}
+
+/* ---------- "choose" pill with lines ---------- */
+.choose{width:min(100%,1180px);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:clamp(10px,2vw,30px)}
+.choose i{height:2px;background:linear-gradient(90deg,transparent,var(--gold2))}.choose i:last-child{transform:scaleX(-1)}
+.choose h2{margin:0;padding:clamp(6px,1.1vh,12px) clamp(22px,3.4vw,62px);border-radius:999px;font-weight:700;font-size:clamp(17px,3.2vh,34px);white-space:nowrap;
+  color:#fbf1d6;background:linear-gradient(180deg,#126647,#0a4630) padding-box,var(--gold) border-box;border:2px solid transparent;
+  box-shadow:0 0 18px rgba(233,196,106,.35),0 8px 18px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.25);text-shadow:0 2px 4px rgba(0,0,0,.4)}
+
+/* ---------- speciality cards (3D: glossy green, gold rim, cream label band with a wave) ---------- */
+.specs{width:min(100%,1220px);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(10px,1.6vw,24px);
+  --cardh:clamp(150px,30vh,270px)}
+.spec{position:relative;height:var(--cardh);border-radius:clamp(20px,2.6vh,30px);cursor:pointer;text-decoration:none;color:var(--ink);overflow:hidden;isolation:isolate;
+  background:linear-gradient(170deg,#18805a 0%,#0e5f40 45%,#094a31 100%) padding-box,var(--gold) border-box;border:2.5px solid transparent;
+  box-shadow:0 0 0 1px rgba(255,236,170,.25),0 0 22px rgba(233,196,106,.28),0 14px 26px rgba(0,0,0,.42),inset 0 2px 0 rgba(255,255,255,.28),inset 0 -6px 12px rgba(0,0,0,.25);
+  transition:transform .18s ease,box-shadow .18s ease}
+.spec::before{content:"";position:absolute;inset:0 0 auto;height:45%;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0));pointer-events:none}
+.spec:hover{transform:translateY(-5px);box-shadow:0 0 0 1px rgba(255,236,170,.4),0 0 30px rgba(233,196,106,.45),0 20px 32px rgba(0,0,0,.45),inset 0 2px 0 rgba(255,255,255,.3)}
+.spec:active{transform:translateY(2px) scale(.985)}
+.spec .art{position:absolute;inset:0 0 34% 0;display:grid;place-items:center;font-size:calc(var(--cardh)*.42);filter:drop-shadow(0 4px 6px rgba(0,0,0,.4))}
+.spec .lab{position:absolute;inset:auto 0 0 0;height:42%;display:grid;place-items:end center;padding-bottom:calc(var(--cardh)*.085)}
+.spec .lab svg.wave{position:absolute;inset:0;width:100%;height:100%;z-index:-1;filter:drop-shadow(0 -3px 4px rgba(0,0,0,.18))}
+.spec .lab b{font-weight:700;font-size:clamp(14px,calc(var(--cardh)*.115),28px);white-space:nowrap}
+
+/* ---------- glass panel with the four buttons ---------- */
+.dock{width:min(100%,1080px);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,2.4vw,40px);position:relative;
+  padding:clamp(10px,1.8vh,22px) clamp(12px,2.2vw,30px);border-radius:clamp(22px,3vh,34px);
+  background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.05)) padding-box,linear-gradient(180deg,rgba(255,236,170,.9),rgba(184,134,43,.35)) border-box;border:1.5px solid transparent;
+  box-shadow:0 0 24px rgba(233,196,106,.2),0 16px 30px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+@media (hover:hover){.dock{-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}}
+.dock a+a::before{content:"";position:absolute;left:calc(-1 * clamp(5px,1.2vw,20px) - 1px);top:12%;bottom:12%;width:2px;background:linear-gradient(180deg,transparent,var(--gold2),transparent);opacity:.75}
+[dir="rtl"] .dock a+a::before{left:auto;right:calc(-1 * clamp(5px,1.2vw,20px) - 1px)}
+.act{position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(8px,1vw,16px);min-height:clamp(54px,8.6vh,92px);padding:6px 10px;border-radius:clamp(16px,2.2vh,24px);text-decoration:none;cursor:pointer;
+  background:linear-gradient(180deg,#147050,#0b4a33) padding-box,var(--gold) border-box;border:1.5px solid transparent;color:#fff;
+  box-shadow:0 8px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.28),inset 0 -4px 8px rgba(0,0,0,.22);transition:transform .15s}
+.act:hover{transform:translateY(-3px)}.act:active{transform:translateY(1px)}
+.act .ic{font-size:clamp(26px,4.4vh,46px);color:var(--gold2);flex:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.4))}
+.act span{font-weight:700;font-size:clamp(14px,2.1vh,20px);line-height:1.15;text-align:center}
+
+/* ---------- portrait phones and tablets: like the owner's phone picture ---------- */
+@media (orientation:portrait),(max-width:760px){
+  .page{gap:clamp(8px,1.5vh,18px);padding-top:clamp(8px,1.6vh,22px)}
+  .top{grid-template-columns:1fr auto 1fr;gap:6px}
+  .tl,.tr{gap:clamp(5px,1.6vw,12px);padding-top:0}
+  .rb,.me,.sep{--rb:clamp(34px,8.6vw,58px)}
+  .me{padding-inline-end:12px}.me b{font-size:clamp(12px,3.2vw,18px)}
+  .sep{display:none}
+  .brand img{height:clamp(64px,17vw,130px)}
+  .brand b{font-size:clamp(18px,5.4vw,36px)}
+  .brand .sw{width:clamp(100px,30vw,200px)}
+  .hello h1{font-size:clamp(24px,7.4vw,52px)}
+  .laurel{width:clamp(26px,7vw,56px)}
+  .choose h2{font-size:clamp(16px,4.6vw,32px);padding:8px clamp(18px,5vw,40px)}
+  .choose{gap:10px}
+  .specs{grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(8px,2.6vw,20px);width:min(100%,760px);--cardh:clamp(120px,min(30vw,19vh),250px)}
+  .spec{grid-column:span 2}
+  .spec:nth-child(4){grid-column:2/span 2}
+  .spec .lab b{font-size:clamp(12px,3.6vw,24px)}
+  .dock{width:min(100%,760px);gap:clamp(6px,2.4vw,18px);padding:clamp(8px,2.4vw,18px)}
+  .dock a+a::before{left:calc(-1 * clamp(3px,1.2vw,9px) - 1px)}
+  [dir="rtl"] .dock a+a::before{right:calc(-1 * clamp(3px,1.2vw,9px) - 1px)}
+  .act{flex-direction:column;gap:4px;min-height:clamp(66px,19vw,120px);padding:6px 4px}
+  .act .ic{font-size:clamp(24px,7.6vw,46px)}
+  .act span{font-size:clamp(11px,3.1vw,18px)}
+}
+/* very small phones: the name in the chip hides (the picture stays) */
+@media (max-width:370px){.me b{display:none}.me{padding:3px}}
+/* short landscape screens: the logo and title give room to the cards */
+@media (orientation:landscape) and (max-height:560px){.brand img{height:48px}.brand b{font-size:18px}.hello h1{font-size:24px}.laurel{width:26px}.beat{display:none}}
+
+/* fixes after the first screenshots: larger top buttons and logo on laptops; phones fill the height, the top bar always fits */
+.rb,.me,.sep{--rb:clamp(42px,6.2vh,66px)!important}
+.brand img{height:clamp(60px,13vh,140px)}
+.brand b{font-size:clamp(20px,4vh,42px)}
+@media (orientation:portrait),(max-width:760px){
+  .page{justify-content:space-evenly;gap:clamp(6px,1.2vh,16px)}
+  .rb,.me,.sep{--rb:clamp(32px,8.4vw,58px)!important}
+  .tl,.tr{gap:clamp(4px,1.4vw,12px)}
+  .top{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}
+  .specs{--cardh:clamp(110px,min(34vw,17.5vh),260px)}
+  .choose h2{font-size:clamp(15px,4.4vw,32px)}
+}
+@media (max-width:430px){.me b{display:none}.me{padding:3px!important}}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+
+<!-- shared gold gradient for the drawn signs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff4c8"/><stop offset=".5" stop-color="#ecc56b"/><stop offset="1" stop-color="#b8862b"/></linearGradient>
+  <linearGradient id="cr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff8e6"/><stop offset="1" stop-color="#ecd9a6"/></linearGradient>
+</defs></svg>
+
+<div class="page">
+  <header class="top">
+    <div class="tl">
+      <a class="rb" href="#home" aria-label="Home" data-l="Home|الرئيسية"><svg class="ic" viewBox="0 0 24 24" fill="url(#g)"><path d="M12 3 2 11.5h3V21h5.2v-6h3.6v6H19v-9.5h3z"/></svg></a>
+      <span class="sep"></span>
+      <a class="me" href="#account"><span class="av"><svg class="ic" viewBox="0 0 24 24" fill="#0d5a3c"><circle cx="12" cy="7.5" r="4"/><path d="M4 22c0-5 3.6-8 8-8s8 3 8 8z"/><path d="M9.2 14.6 12 18l2.8-3.4" fill="#f6ecd0"/></svg></span><b>Dr. Arja</b></a>
+    </div>
+    <a class="brand" href="#home">
+      <img src="img/logo-gold.png" alt="">
+      <b data-l="Master Review|ماستر الطبي">Master Review</b>
+      <svg class="sw" viewBox="0 0 200 12" preserveAspectRatio="none"><path d="M4 9C60 1 140 1 196 7" fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/></svg>
+    </a>
+    <div class="tr">
+      <a class="rb bell" href="#notifications" aria-label="Notifications"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.6 2H4.4z"/><path d="M10 20.5a2.2 2.2 0 0 0 4 0"/></svg><i class="dot"></i></a>
+      <button class="rb theme" type="button" aria-label="Day or night"><svg class="ic sun" viewBox="0 0 24 24" fill="url(#g)"><circle cx="12" cy="12" r="4.6"/><g stroke="url(#g)" stroke-width="2" stroke-linecap="round"><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/></g></svg><svg class="ic moon" viewBox="0 0 24 24" fill="url(#g)"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg></button>
+      <a class="rb" href="#settings" aria-label="Settings"><svg class="ic" viewBox="0 0 24 24" fill="url(#g)"><path d="M10.3 2h3.4l.5 2.7a7.6 7.6 0 0 1 1.9 1.1l2.6-.9 1.7 2.9-2.1 1.8a7.4 7.4 0 0 1 0 2.2l2.1 1.8-1.7 2.9-2.6-.9a7.6 7.6 0 0 1-1.9 1.1l-.5 2.7h-3.4l-.5-2.7a7.6 7.6 0 0 1-1.9-1.1l-2.6.9-1.7-2.9 2.1-1.8a7.4 7.4 0 0 1 0-2.2L3.6 7.8l1.7-2.9 2.6.9a7.6 7.6 0 0 1 1.9-1.1zM12 8.6a3.4 3.4 0 1 0 0 6.8 3.4 3.4 0 0 0 0-6.8z" fill-rule="evenodd"/></svg></a>
+    </div>
+  </header>
+
+  <div class="hello">
+    <svg class="laurel" viewBox="0 0 40 80"><g fill="url(#g)"><path d="M30 78C12 66 6 44 14 18" fill="none" stroke="url(#g)" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="22" cy="18" rx="3.4" ry="8" transform="rotate(30 22 18)"/><ellipse cx="18" cy="30" rx="3.4" ry="8" transform="rotate(45 18 30)"/><ellipse cx="17" cy="43" rx="3.4" ry="8" transform="rotate(58 17 43)"/><ellipse cx="19" cy="56" rx="3.4" ry="8" transform="rotate(70 19 56)"/><ellipse cx="7" cy="25" rx="3" ry="7" transform="rotate(-20 7 25)"/><ellipse cx="5" cy="39" rx="3" ry="7" transform="rotate(-10 5 39)"/><ellipse cx="7" cy="53" rx="3" ry="7" transform="rotate(5 7 53)"/></g></svg>
+    <h1 data-l="Welcome Dr. Arja|مرحبًا د. Arja">Welcome Dr. Arja</h1>
+    <svg class="laurel r" viewBox="0 0 40 80"><use href="#none"/><g fill="url(#g)"><path d="M30 78C12 66 6 44 14 18" fill="none" stroke="url(#g)" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="22" cy="18" rx="3.4" ry="8" transform="rotate(30 22 18)"/><ellipse cx="18" cy="30" rx="3.4" ry="8" transform="rotate(45 18 30)"/><ellipse cx="17" cy="43" rx="3.4" ry="8" transform="rotate(58 17 43)"/><ellipse cx="19" cy="56" rx="3.4" ry="8" transform="rotate(70 19 56)"/><ellipse cx="7" cy="25" rx="3" ry="7" transform="rotate(-20 7 25)"/><ellipse cx="5" cy="39" rx="3" ry="7" transform="rotate(-10 5 39)"/><ellipse cx="7" cy="53" rx="3" ry="7" transform="rotate(5 7 53)"/></g></svg>
+  </div>
+  <svg class="beat" viewBox="0 0 520 30" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="bl" x1="0" x2="1"><stop offset="0" stop-color="#3dff8a" stop-opacity="0"/><stop offset=".5" stop-color="#4dff96"/><stop offset="1" stop-color="#3dff8a" stop-opacity="0"/></linearGradient></defs><path d="M0 16h228l8-10 10 22 10-26 9 20 6-6h249" fill="none" stroke="url(#bl)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #4dff96)"/></svg>
+
+  <div class="choose"><i></i><h2 data-l="Choose your speciality|اختر تخصصك">Choose your speciality</h2><i></i></div>
+
+  <nav class="specs" aria-label="Specialities">
+    <a class="spec" href="#medicine"><span class="art"><svg class="ic" viewBox="0 0 64 64" fill="none" stroke="url(#g)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6v14a10 10 0 0 0 20 0V6"/><circle cx="22" cy="6" r="2" fill="url(#g)"/><circle cx="42" cy="6" r="2" fill="url(#g)"/><path d="M32 30v8a8 8 0 0 0 16 0v-4"/><circle cx="48" cy="29" r="5"/><path d="M6 48c9-4 18-4 26 2 8-6 17-6 26-2v10c-9-4-18-4-26 2-8-6-17-6-26-2z" fill="url(#g)" stroke="none"/><path d="M32 50v10" stroke="#0a4630" stroke-width="1.6"/></svg></span><span class="lab"><svg class="wave" viewBox="0 0 200 100" preserveAspectRatio="none"><path d="M0 34C40 6 90 6 120 22s60 22 80 0V100H0z" fill="url(#cr)"/></svg><b data-l="Medicine|الطب">Medicine</b></span></a>
+    <a class="spec" href="#lab"><span class="art"><svg class="ic" viewBox="0 0 64 64" fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M14 8h14M17 8v16L6 50a4 4 0 0 0 4 6h22"/><path d="M8 44c6-3 12 3 18 0" /><path d="M10 46h16l3 6H8z" fill="url(#g)" stroke="none" opacity=".9"/><rect x="34" y="20" width="8" height="34" rx="4"/><rect x="46" y="16" width="8" height="38" rx="4"/><path d="M35 40h6v10a3 3 0 0 1-6 0zM47 34h6v16a3 3 0 0 1-6 0z" fill="url(#g)" stroke="none"/><circle cx="34" cy="9" r="2" fill="url(#g)" stroke="none"/><circle cx="41" cy="5" r="1.6" fill="url(#g)" stroke="none"/><circle cx="46" cy="10" r="1.4" fill="url(#g)" stroke="none"/></svg></span><span class="lab"><svg class="wave" viewBox="0 0 200 100" preserveAspectRatio="none"><path d="M0 34C40 6 90 6 120 22s60 22 80 0V100H0z" fill="url(#cr)"/></svg><b data-l="Laboratory|المختبرات">Laboratory</b></span></a>
+    <a class="spec" href="#nursing"><span class="art"><svg class="ic" viewBox="0 0 64 64"><path d="M8 34c2-14 12-22 24-22s22 8 24 22c-8 4-16 6-24 6S16 38 8 34z" fill="url(#g)"/><path d="M10 38c7 3 14 4 22 4s15-1 22-4l-2 10c-6 2-13 3-20 3s-14-1-20-3z" fill="url(#g)" opacity=".85"/><path d="M29 18h6v6h6v6h-6v6h-6v-6h-6v-6h6z" fill="#0a4630"/></svg></span><span class="lab"><svg class="wave" viewBox="0 0 200 100" preserveAspectRatio="none"><path d="M0 34C40 6 90 6 120 22s60 22 80 0V100H0z" fill="url(#cr)"/></svg><b data-l="Nursing|التمريض">Nursing</b></span></a>
+    <a class="spec" href="#dentistry"><span class="art"><svg class="ic" viewBox="0 0 64 64"><path d="M20 10c-7 0-11 6-11 13 0 8 3 12 5 20 2 9 4 15 8 15 5 0 4-14 10-14s5 14 10 14c4 0 6-6 8-15 2-8 5-12 5-20 0-7-4-13-11-13-5 0-7 3-12 3s-7-3-12-3z" fill="url(#g)"/><ellipse cx="32" cy="34" rx="28" ry="9" fill="none" stroke="url(#g)" stroke-width="2.6" transform="rotate(-14 32 34)"/><path d="M54 4l1.6 5 5 1.6-5 1.6L54 17l-1.6-4.8-5-1.6 5-1.6z" fill="url(#g)"/></svg></span><span class="lab"><svg class="wave" viewBox="0 0 200 100" preserveAspectRatio="none"><path d="M0 34C40 6 90 6 120 22s60 22 80 0V100H0z" fill="url(#cr)"/></svg><b data-l="Dentistry|طب الأسنان">Dentistry</b></span></a>
+    <a class="spec" href="#pharmacy"><span class="art"><svg class="ic" viewBox="0 0 64 64"><path d="M40 30 56 6a3.5 3.5 0 0 1 5 4L46 32z" fill="url(#g)"/><path d="M14 22c4-6 12-6 16-2-6 1-10 3-16 2z" fill="#3ca35a"/><path d="M4 30h56c0 13-10 22-24 23v4h8v5H20v-5h8v-4C14 52 4 43 4 30z" fill="url(#g)"/><path d="M29 34h6v5h5v6h-5v5h-6v-5h-5v-6h5z" fill="#0a4630"/></svg></span><span class="lab"><svg class="wave" viewBox="0 0 200 100" preserveAspectRatio="none"><path d="M0 34C40 6 90 6 120 22s60 22 80 0V100H0z" fill="url(#cr)"/></svg><b data-l="Pharmacy|الصيدلة">Pharmacy</b></span></a>
+  </nav>
+
+  <nav class="dock" aria-label="More">
+    <a class="act lang" href="#lang"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#g)" stroke-width="1.8"><circle cx="12" cy="12" r="9.4"/><path d="M2.6 12h18.8M12 2.6c3 3 3.8 6 3.8 9.4s-.8 6.4-3.8 9.4M12 2.6c-3 3-3.8 6-3.8 9.4s.8 6.4 3.8 9.4M4.2 7h15.6M4.2 17h15.6"/></svg><span data-l="Language|اللغة">Language</span></a>
+    <a class="act" href="#studio"><svg class="ic" viewBox="0 0 24 24"><rect x="7" y="3.5" width="15" height="10.5" rx="1.6" fill="none" stroke="url(#g)" stroke-width="1.8"/><path d="M13 6.6v5l4-2.5z" fill="url(#g)"/><circle cx="4.6" cy="9.6" r="2.4" fill="url(#g)"/><path d="M1 20c0-3.6 1.6-6 3.6-6s3.6 2.4 3.6 6z" fill="url(#g)"/><path d="M9 20.5h14" stroke="url(#g)" stroke-width="1.8" stroke-linecap="round"/></svg><span data-l="Lecturer<br>Studio|استوديو<br>المحاضر">Lecturer<br>Studio</span></a>
+    <a class="act" href="#admin"><svg class="ic" viewBox="0 0 24 24" fill="url(#g)"><circle cx="9" cy="7" r="3.2"/><path d="M2.5 19c0-4 2.9-6.5 6.5-6.5 1.6 0 3 .5 4.1 1.3a6 6 0 0 0-1.1 5.2z"/><circle cx="16.6" cy="6" r="2.4" opacity=".85"/><path d="M19.3 13.4l.4 1.3 1.3.4v1.4l-1.3.4-.4 1.3 1 .9-1 1-1-.6-1.2.6-.4 1.3h-1.4l-.4-1.3-1.2-.6-1 .6-1-1 .6-1.1-.6-1.2-1.3-.4v-1.4l1.3-.4.6-1.2-.6-1 1-1 1 .6 1.2-.6.4-1.3h1.4l.4 1.3 1.2.6 1-.6 1 1zM16.8 15a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6z" fill-rule="evenodd"/></svg><span data-l="Admin|الإدارة">Admin</span></a>
+    <a class="act" href="#terms"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#g)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2.5H5.6a1.6 1.6 0 0 0-1.6 1.6v15.8a1.6 1.6 0 0 0 1.6 1.6h8.2M14.5 2.5 19 7v5"/><path d="M14.5 2.5V7H19M7.6 10h7.8M7.6 13.4h7.8M7.6 16.8h4"/><path d="m15 19 2.2 2.2 4.4-4.6"/></svg><span data-l="Terms|الشروط">Terms</span></a>
+  </nav>
+</div>
+
+<script>
+/* one day/night button; the Language button switches English ⇄ Arabic (preview only) */
+(function(){
+  var h=document.documentElement;
+  try{ if(localStorage.getItem('mr-theme')==='night') h.setAttribute('data-theme','night'); if(localStorage.getItem('mr-lang')==='ar') setLang('ar'); }catch(e){}
+  document.querySelector('.theme').onclick=function(){ var n=h.getAttribute('data-theme')==='night'?'day':'night'; h.setAttribute('data-theme',n); try{localStorage.setItem('mr-theme',n)}catch(e){} };
+  document.querySelector('.lang').onclick=function(e){ e.preventDefault(); setLang(h.lang==='ar'?'en':'ar'); };
+  function setLang(l){ h.lang=l; h.dir=l==='ar'?'rtl':'ltr';
+    document.querySelectorAll('[data-l]').forEach(function(el){ var p=el.getAttribute('data-l').split('|'); if(el.tagName==='A'&&el.classList.contains('rb')){el.setAttribute('aria-label',p[l==='ar'?1:0]);return;} el.innerHTML=p[l==='ar'?1:0]; });
+    try{localStorage.setItem('mr-lang',l)}catch(e){} }
+})();
+</script>
+</body>
+</html>
