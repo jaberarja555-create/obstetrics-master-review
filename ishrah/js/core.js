@@ -428,6 +428,8 @@
     main.removeAttribute('aria-busy');
     main.dataset.pageAccount = account;
     main.dataset.pageArea = IS.area;
+    /* every student page in the new frame (mr.js: top bar, bottom bar, the owner's look) */
+    if (html && typeof html === 'string' && IS.pageFrame) html = IS.pageFrame(name, html, arg);
     if (html && canSave && !failed && (name !== 'home' || !kept)) pageSave(copyKey, html);
     var savedScroll = quick ? window.scrollY : null;
     main.innerHTML = '<div class="page">' + (html || IS.empty('search', A('غير موجود', 'Not found'), A('ربما حُذف أو لم يُنشر بعد.', 'It may have been removed or not published yet.'))) + '</div>';

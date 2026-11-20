@@ -810,3 +810,82 @@ html body .mrh .feed-votes>.fv-acts>.feed-report::before{content:"⋮";font-size
 :root[data-theme="dark"] .mrh .feed-votes>.fv-rate>:not(.ptag){background:#0b2721!important}
 html body .mrh .feed-votes.feed-votes:not(:has(.ptag))>.fv-stats.fv-stats>.feed-comment.feed-comment,html body .mrh .feed-votes.feed-votes:not(:has(.ptag))>.fv-stats.fv-stats:has(>.feed-comment.zero)>.rx-sum.rx-sum{border-inline-start:0!important;padding-inline-start:0!important}
 html body .mrh .feed-votes>.fv-stats{overflow:hidden}
+
+
+/* ===== every other student page in the new frame (.mra) ===== */
+body:has(.mra){padding:0!important;background:#e6f2ef!important;overflow-x:hidden}
+body:has(.mra)::before,body:has(.mra)::after{display:none!important}
+:root:has(.mra){background:#e6f2ef!important}
+body:has(.mra) :is(#top,#side,#tabs){display:none!important}
+html body:has(.mra) main,html body:has(.mra) #main{margin:0!important;max-width:none!important;padding:0!important;background:none!important;min-height:0!important;zoom:1!important}
+html body:has(.mra) #main>.page{padding:0!important;margin:0!important;max-width:none!important;gap:0!important;display:block!important}
+:root[data-theme="dark"]:has(.mra),:root[data-theme="dark"] body:has(.mra){background:#071f19!important}
+.mra .mh-old{display:flex;flex-direction:column;gap:clamp(12px,1.8vw,18px);min-width:0;color:var(--ink)}
+.mra .mh-old>*{margin-inline:0!important;max-width:100%!important}
+/* team / yours bar under the top bar */
+.mra .mh-tools:not(.has){display:none}
+.mra .mh-tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.mra .mh-tools:has(.mngbar) .ownbar{display:none!important}
+.mra .mh-tools :is(.ownbar,.mngbar){display:flex!important;align-items:center;gap:10px;margin:0!important;padding:6px 6px 6px 14px!important;border-radius:999px!important;background:#fff!important;
+  border:1px solid #e1ece9!important;box-shadow:0 4px 12px rgba(6,70,59,.08)!important;font-size:13.5px;color:#38544e}
+[dir="rtl"] .mra .mh-tools :is(.ownbar,.mngbar){padding:6px 14px 6px 6px!important}
+.mra .mh-tools .mngbar>span{display:none}
+.mra .mh-tools .mngbar{padding:4px!important;background:none!important;border:0!important;box-shadow:none!important}
+/* banners: photo on one side, the teal panel with a gold curve on the other, white title */
+html body .mra .mh-old .ban{position:relative!important;display:grid!important;grid-template-columns:42% minmax(0,1fr)!important;align-items:center!important;direction:ltr;
+  min-height:clamp(140px,22vw,230px)!important;height:auto!important;padding:0!important;margin:0!important;border-radius:26px!important;overflow:hidden!important;
+  background:linear-gradient(115deg,#0d6b5c,#063f36)!important;border:1.5px solid rgba(233,196,106,.6)!important;box-shadow:0 10px 26px rgba(6,70,59,.22)!important;color:#fff!important}
+html body .mra .mh-old .ban::before{content:""!important;display:block!important;position:absolute!important;inset:0 auto 0 0!important;width:47%!important;height:100%!important;background:linear-gradient(180deg,#f6dc8e,#c99a3e)!important;
+  clip-path:ellipse(100% 140% at 0% 50%)!important;z-index:0;opacity:1!important;border:0!important;transform:none!important}
+html body .mra .mh-old .ban>.bph{display:block!important;position:absolute!important;inset:0 auto 0 0!important;width:46.4%!important;height:100%!important;background:var(--bimg) center/cover no-repeat!important;
+  clip-path:ellipse(100% 140% at 0% 50%)!important;z-index:1;opacity:1!important;-webkit-mask:none!important;mask:none!important;filter:none!important;transform:none!important}
+html body .mra .mh-old .ban>.bph::after,html body .mra .mh-old .ban::after{display:none!important}
+html body .mra .mh-old .ban>.bt{grid-column:2;position:relative;z-index:2;display:flex!important;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;padding:16px 4% 16px 2%!important;margin:0!important;background:none!important}
+[dir="rtl"] html body .mra .mh-old .ban>.bt{direction:rtl}
+html body .mra .mh-old .ban>.bt>div{display:flex;flex-direction:column;align-items:center;gap:4px}
+html body .mra .mh-old .ban>.bt::after{display:none!important}
+html body .mra .mh-old .ban .bi{display:grid!important;place-items:center;width:auto!important;height:auto!important;background:none!important;border:0!important;box-shadow:none!important;color:#f6dc8e!important;margin:0!important}
+html body .mra .mh-old .ban .bi .ico{width:clamp(26px,3.6vw,40px)!important;height:clamp(26px,3.6vw,40px)!important;color:#f6dc8e!important}
+html body .mra .mh-old .ban h1{margin:0!important;color:#fff!important;-webkit-text-fill-color:#fff;font-weight:800!important;font-size:clamp(22px,4.6vw,46px)!important;line-height:1.25!important;text-shadow:0 3px 8px rgba(0,0,0,.35);background:none!important}
+html body .mra .mh-old .ban h1 *{color:#fff!important;-webkit-text-fill-color:#fff}
+html body .mra .mh-old .ban h1 small,html body .mra .mh-old .ban h1 :is(.ar,.sm){font-size:.45em!important;opacity:.85}
+html body .mra .mh-old .ban p{margin:0!important;color:#e3f3ef!important;font-size:clamp(12px,1.6vw,16px)!important;line-height:1.5;max-width:520px}
+html body .mra .mh-old .ban>:not(.bph):not(.bt){grid-column:2;position:relative;z-index:2;justify-self:center;margin:0 12px 14px!important;max-width:calc(100% - 24px)}
+html body .mra .mh-old .ban :is(.btn){background:#fff!important;color:#06463b!important;border:0!important}
+/* boxes and cards: white, rounded, soft shadow */
+html body .mra .mh-old :is(.box,.card,.sec>.box,.lcard,.ccard,.ecard,.ncard,.tcard,.pcard,.qcard,.thr,.post,.list>.li){background:var(--card)!important;border:1px solid #e1ece9!important;border-radius:22px!important;box-shadow:0 8px 22px rgba(6,70,59,.08)!important}
+html body .mra .mh-old .box{padding:clamp(14px,2vw,22px)!important}
+html body .mra .mh-old :is(h2,h3){color:var(--ink)}
+html body .mra .mh-old h2 .ico{color:#0d6b5c}
+/* buttons: teal pills and outlined pills */
+html body .mra .mh-old .btn.pri{background:linear-gradient(180deg,#14806d,#06463b)!important;color:#fff!important;border:0!important;border-radius:999px!important;box-shadow:0 5px 12px rgba(6,70,59,.25)!important}
+html body .mra .mh-old .btn.pri *{color:#fff!important}
+html body .mra .mh-old .btn:is(.ghost,.lt){background:#fff!important;color:#06463b!important;border:1.5px solid #b9d3cd!important;border-radius:999px!important;box-shadow:none!important}
+html body .mra .mh-old .btn:is(.ghost,.lt) .ico{color:#0d6b5c!important}
+/* tabs and chips */
+html body .mra .mh-old .rooms{display:flex!important;flex-wrap:wrap;gap:6px!important;padding:6px!important;border-radius:22px!important;background:#fff!important;border:0!important;box-shadow:0 4px 14px rgba(6,70,59,.08)!important}
+html body .mra .mh-old .rooms>:is(a,button){border-radius:16px!important;border:0!important;background:none!important;color:#2d4943!important;font-weight:700}
+html body .mra .mh-old .rooms>:is(a,button).on,html body .mra .mh-old .rooms>[aria-current]{background:linear-gradient(180deg,#14806d,#06463b)!important;color:#fff!important}
+html body .mra .mh-old .rooms>:is(a,button).on *{color:#fff!important}
+/* the old breadcrumb is not needed under the new top bar */
+html body .mra .mh-old .crumbs{font-size:14px;color:var(--mut)}
+/* fields */
+html body .mra .mh-old :is(input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea){border-radius:14px!important;border:1.5px solid #cfdcd9!important;background:#fff!important}
+html body .mra .mh-old :is(input,select,textarea):focus{outline:2px solid #14806d;outline-offset:1px}
+/* dark theme */
+:root[data-theme="dark"] .mra .mh-old :is(.box,.card,.lcard,.ccard){background:#0f2f27!important;border-color:#21463c!important}
+:root[data-theme="dark"] .mra .mh-old .btn:is(.ghost,.lt),:root[data-theme="dark"] .mra .mh-old .rooms,:root[data-theme="dark"] .mra .mh-tools :is(.ownbar,.mngbar){background:#0b2721!important;border-color:#2a5a4e!important;color:#e9c46a!important}
+:root[data-theme="dark"] .mra .mh-old :is(input:not([type=checkbox]):not([type=radio]),select,textarea){background:#0b2721!important;border-color:#2a5a4e!important;color:#eaf5f1!important}
+@media (max-width:560px){
+  html body .mra .mh-old .ban{grid-template-columns:40% minmax(0,1fr)!important;border-radius:20px!important;min-height:130px!important}
+  html body .mra .mh-old .ban::before{width:45%!important}html body .mra .mh-old .ban>.bph{width:44.4%!important}
+  html body .mra .mh-old .ban>.bt{padding:12px 3% 12px 2%!important}
+}
+/* «إدارة» sits at the end of the page's path line («مكتبتي ‹ …») instead of its own line */
+html body .mra .mh-old .crumb{display:flex!important;align-items:center;flex-wrap:wrap;gap:6px;margin:0!important;font-size:14px}
+html body .mra .mh-old .crumb>:is(.mngbar,.ownbar){margin-inline-start:auto!important}
+html body .mra .mh-old .crumb>.mngbar{display:flex;padding:0!important;background:none!important;border:0!important;box-shadow:none!important}
+html body .mra .mh-old .crumb>.mngbar>span{display:none}
+html body .mra .mh-old .crumb>.ownbar{display:flex;align-items:center;gap:6px;padding:4px 10px!important;border-radius:999px!important;background:#fff!important;border:1px solid #e1ece9!important;font-size:12.5px}
+html body .mra :has(>.mngbar)>.ownbar{display:none!important}
+html body .mra .mh-old .ftype{color:#0d6b5c!important}

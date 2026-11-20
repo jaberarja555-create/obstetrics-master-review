@@ -1032,3 +1032,10 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   «إدارة» is there), title, subtitle, «subject • kind», 👤 author line, «افتح الكتاب» filled + «تنزيل» outlined; a stats line
   [🎁 مجاني | 💬 6 تعليقات | 👍👎 3 تفاعلات … ★★★★★ (1) in a grey pill] (words hidden under 440 px, numbers stay); buttons as outlined
   pills: أعجبني (light blue) · تعليق · share · ⋮ (= report). CSS at the end of css/mr.css (`.mrh .feed-votes`).
+- **Every other student page in the new frame** (owner, 20 Nov 2026: "organise the remaining pages"): core.js calls `IS.pageFrame(name, html)`
+  (mr.js) for every student page that is not already a `.mrx` page: new top bar, light page, bottom bar (active item by `NAVOF`), the page
+  inside `.mh-old`; CSS `.mra` restyles the shared parts (banners → photo + teal panel with a gold curve, boxes, pill buttons, tabs,
+  fields). manage.js's «yours» / «team tools» bars move into the page's path line (`.crumb`) or under the top bar; ✏️ 🗑️ hidden when
+  «إدارة» is there. Not framed: cert, pick, pick-section; studio and control keep their own look.
+- **Section page opens at once** (owner: "I keep feeling this delay"): the last loaded posts of each section are kept on the phone
+  (`localStorage mr-feed:<account>:<spec>/<section>:<lang>`) and shown immediately; the fresh feed replaces them when it arrives.

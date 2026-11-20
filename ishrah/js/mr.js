@@ -183,7 +183,20 @@
     var inner = await home0.fn(arg), spec = IS.mySpec(), section = IS.mySection();
     if (!spec || !section) return inner;
     var a0 = IS.after;
-    IS.after = function (main, remember) { after(); tidyFeed(main); return a0 ? a0(main, remember) : undefined; };
+    var fkey = 'mr-feed:' + (IS.ME ? IS.ME.id : 'x') + ':' + spec.id + '/' + section.id + ':' + IS.lang;
+    IS.after = function (main, remember) {
+      after();
+      var r = a0 ? a0(main, remember) : undefined, slot = main.querySelector('[data-home-feed]');
+      /* no waiting (owner, 20 Nov 2026: "I keep feeling this delay"): the last posts of this section show at once from the phone, and the
+         fresh ones replace them quietly when they arrive */
+      try { var kept = localStorage.getItem(fkey); if (kept && slot && slot.querySelector('.home-feed-status')) slot.innerHTML = '<div data-stale>' + kept + '</div>'; } catch (e) {}
+      tidyFeed(main);
+      if (slot) { var tm; new MutationObserver(function () { clearTimeout(tm); tm = setTimeout(function () {
+        if (slot.isConnected && slot.getAttribute('aria-busy') !== 'true' && !slot.querySelector('[data-stale]') && slot.querySelector('.section-feed .feed-items'))
+          try { localStorage.setItem(fkey, slot.innerHTML.slice(0, 350000)); } catch (e) {}
+      }, 900); }).observe(slot, { childList: true, subtree: true }); }
+      return r;
+    };
     return '<div class="mrx mrh"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() + hban(spec, section) + htitle(spec, section) + '<div class="mh-feed">' + inner + '</div></div>' + bnav('home') + '</div>';
   }, home0.o);
 
@@ -425,6 +438,29 @@
       pban('img/hero_band.webp', HI.layersW, A('الكورسات', 'Courses'), sub, IS.lang !== 'ar').replace('class="mh-ban', 'class="mh-ban hs') +
       ptitle(A('محتوى الكورسات', 'Courses content')).replace(HI.layers, HI.cap) + tool + '<div class="mh-feed mh-crs">' + inner + '</div></div>' + bnav('courses') + '</div>';
   }, crs0.o);
+
+  /* ---------- every other student page in the new frame (owner, 20 Nov 2026: "organise the other pages in the new design; work on all remaining
+     pages"): the same top bar, light page and bottom bar; css/mr.css (.mra) gives their banners, boxes, buttons and tabs the new look ---------- */
+  var NAVOF = { course: 'courses', lesson: 'courses', 'course-requests': 'courses', 'course-request': 'courses', payment: 'courses', file: 'library', series: 'library',
+    sales: 'library', purchase: 'library', downloads: 'library', dl: 'library', post: 'community', community: 'community', lecturer: 'lecturers', lecturers: 'lecturers',
+    learning: 'learning', achievements: 'learning', favorites: 'learning', paths: 'learning', path: 'learning' };
+  IS.pageFrame = function (name, html) {
+    if (IS.area !== 'student' || /class="mrx/.test(html) || /^(cert|pick|pick-section)$/.test(name)) return html;
+    return '<div class="mrx mrh mra" data-pg="' + esc(name) + '"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() +
+      '<div class="mh-tools"></div><div class="mh-old">' + html + '</div></div>' + bnav(NAVOF[name] || '') + '</div>';
+  };
+  /* the «yours» and «team tools» bars that manage.js puts at the top of a page go under the new top bar, in one neat row;
+     when «إدارة» is there the ✏️ 🗑️ bar is not shown (it already edits and deletes) */
+  var route1 = IS.onRoute;
+  IS.onRoute = function (name, arg, main) {
+    if (route1) try { route1(name, arg, main); } catch (e) {}
+    var fr = main && main.querySelector('.mra'); if (!fr) return;
+    var slot = fr.querySelector('.mh-tools'), page = main.querySelector('.page');
+    function move() { if (!page || !slot) return; var crumb = fr.querySelector('.mh-old .crumb'), to = crumb || slot;
+      page.querySelectorAll(':scope > .ownbar, :scope > .mngbar').forEach(function (b) { to.appendChild(b); });
+      if (crumb) crumb.classList.toggle('mh-has', !!crumb.querySelector('.mngbar,.ownbar')); slot.classList.toggle('has', !!slot.children.length); }
+    move(); if (page) { var mo = new MutationObserver(move); mo.observe(page, { childList: true }); setTimeout(function () { mo.disconnect(); }, 8000); }
+  };
 
   /* ---------- sign in, sign up, the email code and Features open in the same green and gold look (owner, 20 Nov 2026) ---------- */
   var sheet0 = IS.sheet;
