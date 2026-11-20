@@ -724,3 +724,7 @@ html body .mrh .feed-card-header>.mng{flex:none;margin-top:0!important;order:0}
 @media (max-width:560px){.mc-side .mc-fav{top:6px!important;inset-inline-end:6px!important}.mc-side .mc-lec{font-size:13px;gap:6px}.mc-side .mc-lec .av{width:30px!important;height:30px!important}}
 .mc-side .mc-pic{align-self:stretch!important;width:100%}
 html body .mrh .feed-card-header>time{flex:0 1 auto!important;min-width:0;overflow:hidden;text-overflow:ellipsis}
+/* when «إدارة» is there it already holds edit and delete, so ✏️ 🗑️ are not shown beside it (owner, 20 Nov 2026) */
+.feed-card-header:has(>.mng)>.own{display:none!important}
+html body .mrh .feed-card-header:has(>.mng)>.mng{margin-inline-start:auto!important}
+html body .mrh .feed-card-header{justify-content:flex-start!important}
