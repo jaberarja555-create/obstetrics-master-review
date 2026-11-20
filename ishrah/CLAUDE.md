@@ -678,4 +678,4 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - Original assets are in `img/collection/`. The open book and stethoscope mark is shared by the app, certificates, browser icon and installed app. Run `python3 tools/ishrah/palettes.py` to regenerate the colour stylesheets and logo variants.
 - The five built-in specialities each have four section illustrations. The Medicine Clinical home and speciality picker use the panoramic gallery. Page artwork matches the topic, including Courses, Library, Community, Events, finance and administration. Custom speciality artwork, uploaded covers and existing subject illustrations take precedence where supplied.
 - The section Home links to the course catalogue and section picker. Feed cards use side-by-side covers and text and a wider screen shows two cards per row. Comments, reports, ratings and other actions use the existing workflows.
-- Asset version 175 and shell cache `ish-v75`. This release needs no database migration.
+- Asset version 176 and shell cache `ish-v76`. Opening comments keeps the active card in its desktop column. This release needs no database migration.

@@ -3402,8 +3402,7 @@ html[lang="en"] .fcard .fb>b{font-family:var(--display);font-size:18px}
 
 @media(min-width:1280px){
   .feed-items{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
-  .feed-items>:is(.empty,.feed-more),.feed-card:last-child:nth-child(odd),
-  .feed-card:has(.feed-comment-panel:not([hidden])){grid-column:1/-1}
+  .feed-items>:is(.empty,.feed-more),.feed-card:last-child:nth-child(odd){grid-column:1/-1}
 }
 .feed-request .feed-card-content:has(.feed-image),.feed-course .feed-card-content:has(.feed-image){
   display:grid;grid-template-columns:minmax(82px,35%) minmax(0,1fr);align-items:center;gap:12px;
