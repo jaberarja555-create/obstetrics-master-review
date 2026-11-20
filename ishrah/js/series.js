@@ -92,10 +92,10 @@
   IS.seriesCard = function (s, feed) {
     var first = s._parts[0], k = IS.libraryKind(first.kind), pages = s._parts.reduce(function (a, p) { return a + (+p.pages || 0); }, 0);
     return '<article class="' + (feed ? 'box feed-card feed-series' : 'fcard scard') + '">' +
-      (feed ? '<header class="feed-card-header"><span>' + ic('layers') + esc(A('سلسلة في المكتبة', 'Library series')) + '</span>' + (first.published_at ? '<time>' + esc(IS.ago(first.published_at)) + '</time>' : '') +
-        (IS.manageBtn ? IS.manageBtn('series', s.series_id) : '') + '</header>' : (IS.manageBtn ? IS.manageBtn('series', s.series_id).replace('class="mng"', 'class="mng onc"') : '')) +
+      (feed ? '<header class="feed-card-header"><span>' + ic('open') + esc(A('المكتبة', 'Library')) + '</span>' + (first.published_at ? '<time>' + esc(IS.ago(first.published_at)) + '</time>' : '') +
+        (IS.ownBtns ? IS.ownBtns('series', first, first.id) : '') + (IS.manageBtn ? IS.manageBtn('series', s.series_id) : '') + '</header>' : (IS.manageBtn ? IS.manageBtn('series', s.series_id).replace('class="mng"', 'class="mng onc"') : '')) +
       '<a class="fimg sstack" href="#series/' + esc(s.series_id) + '" aria-label="' + esc(s.series_title || first.title) + '">' + IS.libraryCover(seriesFace(first)) + '<span class="scount">' + ic('layers') + N(s._parts.length) + '</span></a>' +
-      '<div class="fb"><span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + ' · ' + esc(A('سلسلة', 'Series')) + '</span><b><a href="#series/' + esc(s.series_id) + '" dir="auto">' + esc(s.series_title || first.title) + '</a></b>' +
+      '<div class="fb"><span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + '</span><b><a href="#series/' + esc(s.series_id) + '" dir="auto">' + esc(s.series_title || first.title) + '</a></b>' +
       '<small>' + esc(IS.partsCount(s._parts.length)) + (first.author ? ' · ' + esc(first.author) : '') + '</small>' +
       '<div class="row library-feed-actions"><a class="btn ghost sm" href="#series/' + esc(s.series_id) +
       '">' + ic('open') + esc(A('افتح السلسلة', 'Open the series')) + '</a></div></div>' + seriesFeedback(s.series_id, first) + '</article>';

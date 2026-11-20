@@ -367,7 +367,7 @@
         var q = queueable(name, args);
         if (q && !navigator.onLine) return Promise.resolve(enqueue('rpc', name, args));
         forgetFor(name);
-        var call = rpc0.apply(null, arguments);
+        var call = Promise.resolve(rpc0.apply(null, arguments));   /* run the request once: a supabase builder sends it again on every then() */
         if (NEAR[name]) Promise.resolve(call).then(function (r) { if (r && !r.error) window.dispatchEvent(new CustomEvent('ish-sent', { detail: { name: name, args: args } })); }, function () {});
         if (!q) return call;
         return Promise.resolve(call).then(function (r) { return r && r.error && netErr(r.error) ? enqueue('rpc', name, args) : r; },

@@ -61,8 +61,11 @@ jobs:
           series_edit=ishrah/supabase/042_series_full_edit.sql
           lecturer_check=ishrah/supabase/043_lecturer_check.sql
           profile_sync=ishrah/supabase/044_profile_sync.sql
+          team_tools=ishrah/supabase/045_team_tools.sql
+          presence=ishrah/supabase/046_presence.sql
+          dup_comments=ishrah/supabase/047_duplicate_comments.sql
           pending=""
-          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads" "$reactions" "$live" "$series_edit" "$lecturer_check" "$profile_sync"; do
+          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads" "$reactions" "$live" "$series_edit" "$lecturer_check" "$profile_sync" "$team_tools" "$presence" "$dup_comments"; do
             if [ -n "$pending" ] || ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$migration"; then
               pending="${pending:+$pending }$migration"
             fi
@@ -93,6 +96,7 @@ jobs:
           psql "$DB" -Atc "select 'pg_net installed: ' || exists (select 1 from pg_extension where extname = 'pg_net')" || true
           psql "$DB" -Atc "select 'live feed: live_pulse in supabase_realtime publication: ' || exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'live_pulse')" || true
           psql "$DB" -Atc "select 'live feed: pulses in the last hour: ' || count(*) from public.live_pulse where at > now() - interval '1 hour'" || true
+          psql "$DB" -Atc "select 'online status: ish_presence installed: ' || exists (select 1 from pg_proc where proname = 'ish_presence') || ', accounts active in the last 10 minutes: ' || count(*) filter (where last_seen > now() - interval '10 minutes') || ', lecturers ever seen: ' || count(*) filter (where last_seen is not null and exists (select 1 from public.lecturers l where l.id = profiles.id)) from public.profiles" || true
           psql "$DB" -Atc "select 'phones registered for alerts: ' || count(*) || ' (team: ' || count(*) filter (where team) || ')' from public.push_subs" || true
           psql "$DB" -Atc "select 'alert deliveries in the last day by result: ' || coalesce(string_agg(coalesce(status_code::text, 'error') || ' x' || n, ', '), 'none') from (select status_code, count(*) n from net._http_response where created > now() - interval '1 day' group by 1) t" || true
       - name: Create the Pages project the first time (ignored when it exists)

@@ -321,6 +321,7 @@
     row._price = library || type === 'course' ? Number(row.price) || 0 : isPost && row.linked_price != null ? Number(row.linked_price) || 0 : null;
     return '<article class="box feed-card feed-' + type + (isPost ? ' feed-post' : '') + '" data-kind="' + type + '" data-go="#' + target + esc(row.id) + '"><header class="feed-card-header"><span>' + ic(label[2]) +
       esc(A(label[0], label[1])) + '</span>' + (when ? '<time datetime="' + esc(when) + '">' + esc(IS.ago(when)) + '</time>' : '') +
+      (IS.ownBtns ? IS.ownBtns(isPost ? 'post' : library ? 'file' : type === 'announcement' ? 'notice' : type, row) : '') +
       (IS.manageBtn ? IS.manageBtn(isPost ? 'post' : library ? 'file' : type === 'announcement' ? 'notice' : type, row.id) : '') + '</header>' +
       '<div class="feed-card-content">' + (library || media ? '<a class="feed-image" href="#' + target + esc(row.id) + '" aria-label="' + esc(title) + '">' +
         (library ? IS.libraryCover(row) : IS.poster(media)) + '</a>' : '') +
@@ -1326,7 +1327,8 @@
     if (IS.SPEC && section) sets.push(query({ spec: IS.SPEC, cat: section.id }));
     return (await Promise.all(sets)).flat().sort(function (a, b) { return String(b.created_at).localeCompare(String(a.created_at)); }).slice(0, limit);
   }
-  function annList(limit) { return sharedFeedRows('notices', { user_id: null }, limit || 60); }
+  /* a suspended announcement is hidden from students (045_team_tools.sql) */
+  function annList(limit) { return sharedFeedRows('notices', { user_id: null }, limit || 60).then(function (rows) { return rows.filter(function (x) { return x.status !== 'suspended' || IS.can('notify', 'edit'); }); }); }
   function newsList(limit) { return sharedFeedRows('news', { status: 'published' }, limit || 120); }
   function annRow(x) { return '<a class="annr" href="' + esc('#news/ann/' + x.id) + '"><span class="anni">' + ic('mega') + '</span><span class="annt"><b>' + esc(IS.noticeTitle(x)) + '</b>' + (x.body ? '<small>' + esc(x.body) + '</small>' : '') + '<em>' + ic('cal') + esc(IS.date(x.created_at)) + '</em></span>' + ic('pinned', 'annp') + '</a>'; }
   function newsCard(x) { return '<a class="ncard" href="#news/' + x.id + '"><span class="ncv">' + (x.cover ? '<img src="' + IS.U(x.cover) + '" alt="" loading="lazy">' : '<i>' + ic('news') + '</i>') + '<em class="ntag">' + esc(ntag(x.tag)) + '</em></span><b>' + esc(x.title) + '</b><small>' + ic('cal') + esc(IS.date(x.created_at)) + '</small></a>'; }

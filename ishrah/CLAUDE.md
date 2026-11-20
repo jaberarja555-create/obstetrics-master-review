@@ -925,3 +925,25 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   then the chosen reaction's own line icon (thumb up, heart, frowning face, thumb down) and word in its colour (blue / red / orange / dark red).
   Under comments the chosen reaction is its word in its colour (no emoji). Colourful emojis appear only in the reaction counts and the
   picker. Test: scratchpad rxb.js. Asset version 205, cache ish-v105.
+- **Same team tools on every post; authors' ✏️ 🗑️** (owner, 20 Nov 2026: "admin control should be the same in all posts: delete, suspend,
+  send to the owner to adjust; nice emoji instead of words; owners have edit and delete on their posts"): `045_team_tools.sql`:
+  `ish_team_act(kind, target, action, note, data)` (kinds post · file · series · course · event · news · notice · request; actions edit ·
+  suspend · resume · return · delete; definer, so team edits of library text pass the library edit guard; same permissions as before; every
+  action in the activity log; return = a notice to the author, optionally suspended until fixed; suspended = status 'suspended', a request
+  goes back to 'pending'; notices got a `status` column) and `ish_own_delete(kind, target)` (own post, file, series, event or request; a
+  request with payments stays). manage.js rewritten: «🛡️ إدارة» opens emoji tiles ✏️ تعديل · ⏸️ إيقاف مؤقت / ▶️ أعد النشر · 📨 أرسل للمالك ليعدّل
+  · 🗑️ حذف (requests waiting: ✅ وافق وانشر · 🚫 ارفض), with the item's state; `IS.ownBtns(kind, row)` puts ✏️ 🗑️ in the header of the author's
+  own feed cards (post edit, library upload edit, series editor, request edit, event form, course → studio). Suspended announcements are
+  hidden from students. The series rename of 203 went through DB.upd and would have been refused live by the library guard; it now uses
+  ish_team_act. Tested on the local Postgres (suspend, return with note, resume, file and series edit, finance refused, own delete, other's
+  post refused) and in the browser (scratchpad mng3.js).
+- Library series cards are labelled «المكتبة» like single books (owner: «ما محتاج تكتب سلسلة في المكتبة»); the type line no longer adds «· سلسلة».
+- **Lecturers: who is online** (owner: «في مكان المحاضرون مفروض أعرف منو أونلاين»): green dot on the picture, «● متصل الآن» in green or
+  «آخر نشاط قبل …» on each card. `046_presence.sql` re-applies 010 (it had been applied by hand only); the deploy log prints whether
+  ish_presence exists and how many accounts were active in the last 10 minutes. Lecturer cards (owner: «الأسماء الطويلة مفروض ما تأثر على شكل
+  العرض»): names up to two lines with room for two in every card, one-line titles, the same rows in every card and the button at the bottom.
+- **Comments saved twice, reactions undone** (owner: "I put a comment and it came duplicated"): db.js wrapped a supabase rpc builder with
+  `Promise.resolve(call)` twice; a builder sends its request again on every then(), so since asset 194 social rpcs ran twice (comments
+  doubled, a reaction toggled on and off). The call is now made into one promise first. `047_duplicate_comments.sql` removes copies (same
+  writer, place and text within 10 s). The fake Supabase in scratchpad rate4.js now behaves like a builder (counts requests: 1 per rating).
+  Asset version 206, cache ish-v106.
