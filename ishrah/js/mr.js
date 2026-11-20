@@ -132,7 +132,9 @@
     var me = m ? '<a class="mh-av" href="#account" aria-label="' + esc(A('حسابي', 'My account')) + '">' + (m.photo ? '<img src="' + IS.U(m.photo) + '" alt="">' : I.person) + '</a>' :
       '<button type="button" class="mh-in" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button>';
     return '<header class="mh-top"><div class="mh-side">' +
-      '<a class="mh-b" href="#pick-section" aria-label="' + esc(A('الأقسام', 'Sections')) + '">' + HI.home + '</a>' +
+      /* Home = the section's page; on that page it goes up to the section chooser (owner, 20 Nov 2026: "from the library how do I go back to Clinical") */
+      (function () { var onHome = document.body.getAttribute('data-page') === 'home' || /^#?home$/.test(location.hash.replace(/^#/, '') || 'home');
+        return '<a class="mh-b" href="#' + (onHome ? 'pick-section' : 'home') + '" aria-label="' + esc(onHome ? A('الأقسام', 'Sections') : A('الرئيسية', 'Home')) + '">' + HI.home + '</a>'; })() +
       '<a class="mh-b ghost" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + HI.search + '</a>' +
       '<button type="button" class="mh-b ghost" data-act="mrfeat" aria-label="' + esc(A('المزايا', 'Features')) + '">' + HI.grid + '</button></div>' +
       '<a class="mh-logo" href="#pick-section"><img src="' + IS.U('img/mr/logo-smra.webp') + '" alt="' + esc(IS.brandName()) + '" width="1000" height="359"></a>' +
@@ -170,7 +172,7 @@
 
   /* ---------- bottom bar on the new pages (owner, 20 Nov 2026: "don't forget the buttons at the bottom: Library, Courses, Community,
      Lecturers and My learning") ---------- */
-  var NAV = [['library', 'open', 'مكتبتي', 'Library'], ['courses', 'layers', 'الكورسات', 'Courses'], ['community', 'group', 'المجتمع', 'Community'],
+  var NAV = [['home', 'home', 'الرئيسية', 'Home'], ['library', 'open', 'مكتبتي', 'Library'], ['courses', 'layers', 'الكورسات', 'Courses'], ['community', 'group', 'المجتمع', 'Community'],
     ['lecturers', 'users', 'المحاضرون', 'Lecturers'], ['learning', 'bookmark', 'تعلّمي', 'My learning']];
   function bnav(cur) {
     return '<nav class="mh-nav" aria-label="' + esc(A('التنقل', 'Navigation')) + '">' + NAV.map(function (n) {
