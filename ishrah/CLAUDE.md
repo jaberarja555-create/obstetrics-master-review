@@ -836,3 +836,7 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - Push notifications use `badge-96.png` (white logo on transparent; the full-colour icon showed as a white square in the Android status bar).
   «ألغِ اشتراكي» under a website notification is added by Chrome on Android and cannot be removed by a site.
 - Asset version 192, shell cache ish-v92.
+- Control dashboard (owner: «احمد كمحاضر مكرر؛ الاشتراكات الفعالة مقصود بيها شنو، لو عن الكورسات ما يحسب المجاني»): quick figures = «اشتراكات
+  مدفوعة مؤكدة في الكورسات» (active enrolments with price > 0) and «تسجيلات في كورسات مجانية» apart; revenue this month = confirmed paid
+  enrolments decided this month; the average rating reads «4.5 / 5». The «طلبات المحاضرين (للاعتماد)» box lists only waiting requests; a person
+  with several decided applications shows once (`IS.cleanApps`, control-apps). Asset version 193, shell cache ish-v93.

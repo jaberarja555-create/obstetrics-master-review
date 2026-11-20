@@ -544,7 +544,11 @@
   document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') { IS.beat(); IS.hydrateSeen(); } });
   /* waiting lecturer requests counted the same way everywhere: not those of someone already a lecturer, one per person (owner, 18 Nov 2026) */
   IS.cleanApps = function (ap, lecs) { var L = {}, seen = {}; (lecs || []).forEach(function (l) { if (l.status === 'active') L[l.id] = 1; });
-    return (ap || []).filter(function (a) { if (a.status !== 'pending' && a.status !== 'changes') return true; if (L[a.user_id] || seen[a.user_id]) return false; seen[a.user_id] = 1; return true; }); };
+    /* one row per person: a decided request shows once (owner, 20 Nov 2026: «احمد كمحاضر مكرر»), the newest first */
+    var done = {};
+    return (ap || []).slice().sort(function (x, y) { return String(y.created_at || '').localeCompare(String(x.created_at || '')); }).filter(function (a) {
+      if (a.status !== 'pending' && a.status !== 'changes') { if (done[a.user_id]) return false; done[a.user_id] = 1; return true; }
+      if (L[a.user_id] || seen[a.user_id]) return false; seen[a.user_id] = 1; return true; }); };
   IS.dedupe = function () { var m = document.getElementById('main'); if (!m) return;
     var shown = function (sel) { return IS.$$(sel, m).some(function (e) { return e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden'; }); };
     document.body.classList.toggle('mq', shown('input[type=search],form[role=search]'));
