@@ -780,3 +780,11 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - Asset version 186, shell cache ish-v86.
 - Totals split (owner: «Distortion», the comments count ran off the card): `.fv-rate` = price badge + stars (raters only) on their own
   line; `.fv-stats` = reactions pill · comments count (wraps, hidden when both are empty). Asset version 187, shell cache ish-v87.
+
+## Video hosting decision (owner, 20 Nov 2026)
+- «نخلي اليوتيوب للمحاضرات المجانية، و Bunny لقدام للمدفوعة»: YouTube (unlisted) links for free lessons and free previews; paid recorded
+  lessons move to Bunny Stream once the owner sets it up (to-do item 1). Reasons given to the owner: YouTube/Drive links leak and download
+  easily, YouTube terms do not allow charging for access, age limits and copyright claims, ads; Drive blocks a file after many views and
+  plays badly on weak networks. When Bunny is live: Studio should require an uploaded video (not a link) for lessons with price > 0 that are
+  not free previews; until then the existing warning on paid link lessons stays. Live sessions: owner asked about costs (Daily, LiveKit,
+  JaaS, protected Zoom/Meet links); not decided yet.
