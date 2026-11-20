@@ -270,15 +270,15 @@
     var k = PKIND[x.kind] || PKIND.discussion, pic = x.preview_image || x.cover || 'img/collection/' + (x.kind === 'announcement' ? 'notifications' : x.kind === 'question' ? 'support' : 'community') + '.webp';
     var rx = (+x.like_count || 0) + (+x.love_count || 0) + (+x.angry_count || 0) + (+x.dislike_count || 0);
     return '<a class="pf-post" href="#post/' + esc(x.id) + '"><span class="pp">' + IS.poster(pic) + '<em>' + ic(k[2]) + esc(A(k[0], k[1])) + '</em></span>' +
-      '<b dir="auto">' + esc(x.title || A('نقاش', 'Discussion')) + '</b><span class="pm"><span>' + PI.heart + N(rx) + '</span><span>' + PI.chat + N(+x.n_replies || 0) + '</span></span></a>';
+      '<b dir="auto">' + esc(x.title || A('نقاش', 'Discussion')) + '</b><span class="pm"><span>' + PI.heart + N(rx) + '</span><span>' + PI.chat + N(+x.n_replies || 0) + '</span><i class="pd">' + PI.dots + '</i></span></a>';
   }
   function ftype(f) {
     var e = String(f.path || f.mime || '').toLowerCase(), t = /pptx?|presentation/.test(e) ? ['PPT', 'ppt'] : /docx?|word/.test(e) ? ['DOC', 'doc'] : /png|jpe?g|webp|image/.test(e) ? ['IMG', 'img'] : /txt|text/.test(e) ? ['TXT', 'doc'] : ['PDF', 'pdf'];
-    return '<span class="pf-ft ' + t[1] + '"><svg viewBox="0 0 40 48" aria-hidden="true"><path d="M4 2h22l10 10v32a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#fff" stroke="currentColor" stroke-width="2"/><path d="M26 2v10h10" fill="none" stroke="currentColor" stroke-width="2"/></svg><i>' + t[0] + '</i></span>';
+    return '<span class="pf-ft ' + t[1] + '"><svg viewBox="0 0 40 48" aria-hidden="true"><path d="M4 2h22l10 10v32a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#fff" stroke="currentColor" stroke-width="2"/><path d="M26 2v10h10" fill="none" stroke="currentColor" stroke-width="2"/></svg><b class="pf-ftl">' + t[0] + '</b></span>';
   }
   function fileTile(f) {
     var mb = f.size ? (f.size / 1048576).toFixed(f.size > 1048576 * 10 ? 0 : 1) + ' MB' : f.pages ? f.pages + ' ' + A('صفحة', 'pages') : '';
-    return '<a class="pf-file" href="#' + (f.series_id ? 'series/' + esc(f.series_id) : 'file/' + esc(f.id)) + '">' + ftype(f) + '<b dir="auto">' + esc(f.series_title || f.title) + '</b><small><bdi dir="ltr">' + esc(mb) + '</bdi></small></a>';
+    return '<a class="pf-file" href="#' + (f.series_id ? 'series/' + esc(f.series_id) : 'file/' + esc(f.id)) + '">' + ftype(f) + '<b dir="auto">' + esc(f.series_title || f.title) + '</b><small><bdi dir="ltr">' + esc(mb) + '</bdi></small><i class="pd">' + PI.dots + '</i></a>';
   }
   function pbox(title, icon, more, body) {
     return '<section class="pf-box"><header><h2>' + icon + '<span>' + esc(title) + '</span></h2>' + (more ? '<a href="' + more + '">' + esc(A('عرض الكل', 'View all')) + ' ‹</a>' : '') + '</header>' + body + '</section>';
@@ -303,13 +303,13 @@
       ([c.title, c.year].filter(Boolean).length ? '<p class="pf-sub">' + [c.title, c.year].filter(Boolean).map(esc).join(' <i>•</i> ') + '</p>' : '') +
       (own && IS.roleChips ? '<div class="prole-row">' + IS.roleChips('prole') + '</div>' : '') +
       (c.bio ? '<p class="pf-bio" dir="auto">' + esc(c.bio) + '</p>' : own ? '<p class="pf-bio mut"><button type="button" class="link" data-act="editme">' + esc(A('أضف نبذة قصيرة عنك', 'Add a short note about yourself')) + '</button></p>' : '') +
-      (chips.length ? '<div class="pf-chips">' + chips.map(function (x) { return '<span>' + x[0] + '<b dir="auto">' + esc(x[1]) + '</b></span>'; }).join('') + '</div>' : '') +
+      (chips.length ? '<div class="pf-chips">' + chips.map(function (x) { return '<span>' + x[0] + '<b dir="auto">' + esc(x[1]) + '</b></span>'; }).join('<i class="pf-sep"></i>') + '</div>' : '') +
       '<div class="pf-srow"><div class="pf-stats"><span>' + PI.posts + '<b>' + nfmt(c.posts) + '</b><small>' + esc(A('المنشورات', 'Posts')) + '</small></span>' +
       '<span>' + PI.group + '<b>' + nfmt(c.followers) + '</b><small>' + esc(A('المتابعون', 'Followers')) + '</small></span>' +
       '<span>' + PI.users + '<b>' + nfmt(c.following) + '</b><small>' + esc(A('أتابع', 'Following')) + '</small></span></div>' +
       (own ? '' : '<button type="button" class="pf-follow' + (c.me_follow ? ' on' : '') + '" data-act="pffollow" data-id="' + esc(id) + '">' + (c.me_follow ? PI.tick : PI.plus) + '<span>' + esc(c.me_follow ? A('متابَع', 'Following') : A('متابعة', 'Follow')) + '</span></button>') + '</div></div></section>' +
       '<nav class="pf-tabs">' + [['posts', PI.posts, A('المنشورات', 'Posts')], ['files', HI.folder, A('الملفات', 'Files')]].concat(own ? [['saved', PI.bm, A('المحفوظات', 'Saved')]] : []).map(function (t) {
-        return '<a href="' + base + (t[0] === 'posts' ? '' : '/' + t[0]) + '"' + (tab === t[0] ? ' class="on" aria-current="page"' : '') + '>' + t[1] + '<span>' + esc(t[2]) + '</span></a>'; }).join('') + '</nav>';
+        return '<a href="' + base + (t[0] === 'posts' ? '' : '/' + t[0]) + '"' + (tab === t[0] || (tab === 'all' && t[0] === 'posts') ? ' class="on" aria-current="page"' : '') + '>' + t[1] + '<span>' + esc(t[2]) + '</span></a>'; }).join('') + '</nav>';
     if (tab === 'files') {
       h += pbox(A('الملفات', 'Files'), HI.folder, '', files.length ? '<div class="pf-files">' + files.map(fileTile).join('') + '</div>' : '<p class="pf-empty">' + esc(A('لا توجد ملفات منشورة بعد.', 'No published files yet.')) + '</p>');
     } else if (tab === 'saved' && own) {
@@ -320,9 +320,10 @@
       h += pbox(A('المحفوظات', 'Saved'), PI.bm, '#favorites', (tiles.length ? '<div class="pf-posts">' + tiles.join('') + '</div>' : '') + (got[1].length ? '<div class="pf-files">' + got[1].map(fileTile).join('') + '</div>' : '') +
         (!tiles.length && !got[1].length ? '<p class="pf-empty">' + esc(A('اضغط ♡ على أي كورس أو ملف لتحفظه هنا.', 'Tap ♡ on any course or file to save it here.')) + '</p>' : ''));
     } else {
-      h += pbox(A('أحدث المنشورات', 'Latest posts'), PI.posts, '', posts.length ? '<div class="pf-posts">' + posts.slice(0, 30).map(postTile).join('') + '</div>' :
+      var all = tab === 'all', lim = all ? 60 : 6;
+      h += pbox(all ? A('كل المنشورات', 'All posts') : A('أحدث المنشورات', 'Latest posts'), PI.posts, !all && posts.length > lim ? base + '/all' : '', posts.length ? '<div class="pf-posts">' + posts.slice(0, lim).map(postTile).join('') + '</div>' :
         '<p class="pf-empty">' + esc(own ? A('لم تنشر شيئًا بعد.', 'You have not posted yet.') : A('لا توجد منشورات بعد.', 'No posts yet.')) + '</p>');
-      if (files.length) h += pbox(A('أحدث الملفات', 'Latest files'), HI.folder, base + '/files', '<div class="pf-files">' + files.slice(0, 4).map(fileTile).join('') + '</div>');
+      if (files.length && !all) h += pbox(A('أحدث الملفات', 'Latest files'), HI.folder, base + '/files', '<div class="pf-files">' + files.slice(0, 4).map(fileTile).join('') + '</div>');
     }
     h += '</div>' + bnav(own ? '' : '') + '</div>';
     IS.after = function (main) {
@@ -335,14 +336,14 @@
   var acc0 = IS.pageOf && IS.pageOf('account');
   if (acc0) IS.page('account', async function (tab) {
     tab = !tab || tab === 'profile' ? 'posts' : tab;
-    if (!/^(posts|files|saved)$/.test(tab)) return acc0.fn(tab);   /* account settings keep the older page */
+    if (!/^(posts|files|saved|all)$/.test(tab)) return acc0.fn(tab);   /* account settings keep the older page */
     return profilePage(IS.ME.id, tab, true);
   }, acc0.o);
   IS.page('person', async function (arg) {
     var p = String(arg || '').split('/'), id = p[0];
     if (!id) { IS.go('home'); return ''; }
     if (IS.ME && id === IS.ME.id) { IS.go('account' + (p[1] ? '/' + p[1] : '')); return ''; }
-    return profilePage(id, p[1] === 'files' ? 'files' : 'posts', false);
+    return profilePage(id, p[1] === 'files' || p[1] === 'all' ? p[1] : 'posts', false);
   });
   IS.ACT.pffollow = async function (b) {
     if (!IS.ME) return IS.ACT.login();
