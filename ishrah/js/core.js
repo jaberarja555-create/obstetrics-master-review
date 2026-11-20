@@ -191,10 +191,23 @@
     LS.set('study-sections', studySections);
     return true;
   };
+  var ART_SPECIALITIES = ['medicine', 'dentistry', 'pharmacy', 'lab', 'nursing'];
+  var ART_SECTIONS = ['basics', 'clinical', 'special', 'house'];
+  function specialityArtwork(spec) {
+    var original = 'img/sp_' + spec.id + '.webp';
+    if (ART_SPECIALITIES.includes(spec.id) && (!spec.img || spec.img === original || spec.img.endsWith('/' + original))) {
+      spec.img = 'img/collection/' + spec.id + '.webp';
+    }
+    return spec;
+  }
+  IS.studyArtwork = function (spec, section) {
+    return ART_SPECIALITIES.includes(spec) && ART_SECTIONS.includes(section) ?
+      'img/collection/' + spec + '-' + section + '.webp' : '';
+  };
   IS.loadBase = async function () {
     var r = await Promise.all([DB.q('settings'), DB.q('categories', { order: ['sort'] }), DB.q('subjects', { order: ['sort'] }),
       DB.q('specialties', { order: ['sort'] }).catch(function () { return []; }), DB.q('role_perms').catch(function () { return null; })]);
-    IS.SET = {}; r[0].forEach(function (s) { IS.SET[s.id] = s.value; }); IS.CATS = r[1]; IS.SUBJ = r[2].map(function (x) { if (!x.spec) x.spec = 'medicine'; if (!x.img && (window.ISH_SUBIMG || []).indexOf(x.id) >= 0) x.img = 'img/sub_' + x.id + '.webp'; return x; }); IS.SPECS = r[3];
+    IS.SET = {}; r[0].forEach(function (s) { IS.SET[s.id] = s.value; }); IS.CATS = r[1]; IS.SUBJ = r[2].map(function (x) { if (!x.spec) x.spec = 'medicine'; if (!x.img && (window.ISH_SUBIMG || []).indexOf(x.id) >= 0) x.img = 'img/sub_' + x.id + '.webp'; return x; }); IS.SPECS = r[3].map(specialityArtwork);
     if (r[4]) {
       var m = JSON.parse(JSON.stringify(IS.DEFRP)), seen = {};
       r[4].forEach(function (x) { if (!seen[x.role]) { seen[x.role] = 1; m[x.role] = {}; } if ((x.acts || ALL).length) m[x.role][x.perm] = x.acts || ALL.slice(); });
@@ -216,15 +229,25 @@
   IS.chip = function (t, c) { return '<span class="chip ' + (c || '') + '">' + t + '</span>'; };
   IS.bar = function (v, c) { v = Math.max(0, Math.min(100, Math.round(v || 0))); return '<span class="bar' + (c ? ' ' + c : '') + '"><i style="width:' + v + '%"></i></span>'; };
   IS.empty = function (icon, t1, t2, act) { return '<div class="empty">' + ic(icon) + '<b>' + esc(t1) + '</b>' + (t2 ? '<span>' + esc(t2) + '</span>' : '') + (act || '') + '</div>'; };
-  /* page banners with the owner's pictures (18 Nov 2026): text and icon on one side, the photo on the other, a bright blue wave between */
-  var BANIMG = { team: 'community', downloads: 'library', news: 'news', 'control-news': 'news', 'control-notify': 'news', courses: 'course_catalogue', 'course-requests': 'community', 'control-course-requests': 'community', specialties: 'specialties', 'pick-section': 'specialties', learning: 'learning', events: 'events', lecturers: 'lecturers', community: 'community', library: 'library', paths: 'paths', path: 'paths',
-    support: 'support', ticket: 'support', achievements: 'achievements', cert: 'achievements', 'control-tickets': 'support', 'control-paths': 'paths', 'control-events': 'events', 'control-lecturers': 'lecturers',
-    'control-community': 'community', 'control-library': 'library', 'control-review': 'course_catalogue', 'control-cats': 'specialties', 'control-apps': 'lecturers', 'studio-courses': 'course_catalogue', 'studio-events': 'events', 'studio-apply': 'lecturers',
-    favorites: 'library', notifications: 'support', settings: 'support', account: 'learning', about: 'community', terms: 'library', search: 'course_catalogue', lecturer: 'lecturers', event: 'events', post: 'community',
-    'control-pay': 'admin', 'control-sales': 'admin', 'control-usage': 'admin', sales: 'library', 'control-payouts': 'admin', 'studio-money': 'admin', 'studio-students': 'community', 'studio-qa': 'support', 'studio-page': 'lecturers', studio: 'studio_recording' };
-  IS.banner = function (title, sub, icon, extra, cls, picture) { var pg = document.body.getAttribute('data-page') || '', im = BANIMG[pg] || (/^control|^security/.test(pg) ? 'admin' : /^studio/.test(pg) ? 'lecturers' : 'learning');
-    var src = picture || ('img/ban_' + im + '.webp');
-    return '<section class="ban ' + (cls || '') + (im ? ' bpic' : '') + '"' + (im ? ' style="--bimg:url(' + IS.U(src) + ')"' : '') + '>' + (im ? '<span class="bph" aria-hidden="true"></span><svg class="bwave" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M60 0 C40 30 45 70 22 100 L0 100 L0 0Z" fill="currentColor"/><path d="M62 0 C42 30 47 70 24 100" fill="none" style="stroke:var(--sky2)" stroke-width="1.6"/></svg>' : '') +
+  var BANIMG = {
+    team:'community', community:'community', post:'community', about:'about', terms:'terms',
+    downloads:'downloads', library:'library', series:'library', file:'library', favorites:'library',
+    courses:'courses', course:'courses', search:'courses', 'course-requests':'requests', 'course-request':'requests',
+    events:'events', event:'events', news:'news', learning:'learning', account:'learning', settings:'settings',
+    lecturers:'lecturers', lecturer:'lecturers', notifications:'notifications', support:'support', ticket:'support',
+    specialties:'medicine', 'pick-section':'medicine', paths:'paths', path:'paths', achievements:'achievements', cert:'achievements',
+    'control-news':'news', 'control-notify':'notifications', 'control-course-requests':'requests', 'control-tickets':'support',
+    'control-paths':'paths', 'control-events':'events', 'control-lecturers':'lecturers', 'control-community':'community',
+    'control-library':'library', 'control-review':'courses', 'control-cats':'medicine', 'control-apps':'lecturers',
+    'control-pay':'finance', 'control-sales':'finance', 'control-payouts':'finance', sales:'finance',
+    'studio-money':'finance', 'studio-courses':'courses', 'studio-events':'events', 'studio-apply':'lecturers',
+    'studio-students':'community', 'studio-qa':'support', 'studio-page':'lecturers',
+  };
+  IS.banner = function (title, sub, icon, extra, cls, picture) {
+    var pg = document.body.getAttribute('data-page') || '';
+    var im = BANIMG[pg] || (/^control|^security/.test(pg) ? 'admin' : /^studio/.test(pg) ? 'studio' : 'learning');
+    var src = picture || ('img/collection/' + im + '.webp');
+    return '<section class="ban ' + (cls || '') + ' bpic" style="--bimg:url(' + IS.U(src) + ')">' + '<span class="bph" aria-hidden="true"></span>' +
       '<div class="bt"><span class="bi">' + ic(icon) + '</span><div><h1 tabindex="-1"' + (function () { var m = /<b[^>]*>([^<]*)<\/b>/.exec(title), n = (m ? m[1] : String(title).replace(/<[^>]+>/g, '')).length; return n > 30 ? ' class="tl3"' : n > 20 ? ' class="tl2"' : ''; })() + '>' + title + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div></div>' + (extra || '') + '</section>'; };
   IS.stars = function (v) { var h = ''; for (var i = 1; i <= 5; i++) h += ic('star', i <= Math.round(v) ? 'on' : ''); return '<span class="stars">' + h + '</span>'; };
   IS.status = function (s) {
@@ -550,7 +573,7 @@
   function restoreBase() {
     try {
       var cache = JSON.parse(localStorage.getItem('ish-base') || 'null');
-      if (cache) { IS.SET = cache.SET || {}; IS.CATS = cache.CATS || []; IS.SUBJ = cache.SUBJ || []; IS.SPECS = cache.SPECS || []; }
+      if (cache) { IS.SET = cache.SET || {}; IS.CATS = cache.CATS || []; IS.SUBJ = cache.SUBJ || []; IS.SPECS = (cache.SPECS || []).map(specialityArtwork); }
     } catch (e) {}
   }
   async function loadAccount() {
@@ -631,7 +654,8 @@
       (me ? '<a class="ib bell" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + ic('bell') + '<i id="bellN" hidden></i></a><a class="me" href="#account">' + IS.av(me, 'sm') + '<span>' + esc(me.name || '') + '</span></a>' :
         '<button class="btn pri sm" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button>') + '</div></div>';
     var items = navItems(area);
-    var spBox = studySpec ? '<a class="myspec" href="#pick-section"' + (studySpec.img ? ' style="--sp:url(' + IS.U(studySpec.img) + ')"' : '') + '><span class="msi">' + ic(studySection ? studySection.icon : studySpec.icon) + '</span><span class="msn"><b lang="' + (studySection ? 'en' : IS.lang) + '">' + esc(studySection ? studySection.en : A('اختر قسمًا', 'Choose section')) + '</b><small lang="en">' + esc(studySpec.en) + '</small></span><em>' + esc(A('تغيير', 'Change')) + '</em></a>' : '';
+    var scopeArt = studySpec && (studySection && IS.studyArtwork(studySpec.id, studySection.id) || studySpec.img);
+    var spBox = studySpec ? '<a class="myspec" href="#pick-section"' + (scopeArt ? ' style="--sp:url(' + IS.U(scopeArt) + ')"' : '') + '><span class="msi">' + ic(studySection ? studySection.icon : studySpec.icon) + '</span><span class="msn"><b lang="' + (studySection ? 'en' : IS.lang) + '">' + esc(studySection ? studySection.en : A('اختر قسمًا', 'Choose section')) + '</b><small lang="en">' + esc(studySpec.en) + '</small></span><em>' + esc(A('تغيير', 'Change')) + '</em></a>' : '';
     IS.$('#side').innerHTML = areaSw + spBox + (area === 'control' && IS.ctrlSide ? '<nav class="cnav">' + IS.ctrlSide(page) + '</nav>' : '<nav>' + items.map(function (n) { return '<a href="#' + n[0] + '" class="' + (n[0] === page || (page.indexOf(n[0] + '-') === 0 && area === 'student') ? 'on' : '') + '">' + ic(n[1]) + IS.navLbl(n[2], n[3]) + '</a>'; }).join('') + '</nav>');
     var tabs = area === 'student' ? ['home', 'courses', 'learning', 'library'] : items.slice(0, 4).map(function (n) { return n[0]; });
     IS.$('#tabs').innerHTML = tabs.map(function (k) { var n = items.filter(function (x) { return x[0] === k; })[0]; if (!n) return ''; return '<a href="#' + n[0] + '" class="' + (n[0] === page ? 'on' : '') + '">' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') +
@@ -670,10 +694,12 @@
     document.documentElement.setAttribute('data-fs', LS.get('fs', 'n')); }
   IS.applyTheme = applyTheme;
   /* colour of the app (owner, 18 Nov 2026): one stylesheet per colour, made by tools/ishrah/palettes.py */
-  IS.PALS = [['blue', '#fffdf8', 'المكتبة الطبية', 'Medical library'], ['teal', '#0b5f63', 'فيروزي', 'Teal'], ['green', '#0f5a3a', 'أخضر', 'Green'],
+  IS.PALS = [['blue', '#007e69', 'المكتبة الطبية', 'Medical library'], ['teal', '#0b5f63', 'فيروزي', 'Teal'], ['green', '#0f5a3a', 'أخضر', 'Green'],
     ['purple', '#3f2a7d', 'بنفسجي', 'Purple'], ['maroon', '#6e1d36', 'عنابي', 'Maroon'], ['graphite', '#2c3340', 'رمادي داكن', 'Graphite']];
-  /* the logo in the chosen colour (its navy parts; tools/ishrah/palettes.py makes the files) */
-  IS.logo = function (k) { var p = LS.get('pal', 'blue'), x = p === 'blue' ? '' : '_' + p; return k === 'hero' ? 'img/logo_hero' + x + '.webp' : 'img/logo_gold' + x + '.svg'; };
+  IS.logo = function () {
+    var palette = LS.get('pal', 'blue');
+    return 'img/collection/brand' + (palette !== 'blue' && IS.PALS.some(function (p) { return p[0] === palette; }) ? '-' + palette : '') + '.webp';
+  };
   IS.setPal = function (p) { LS.set('pal', p); var l = document.getElementById('ishcss'), v = (l && /v=(\d+)/.exec(l.getAttribute('href')) || [0, '25'])[1];
     if (l) l.setAttribute('href', 'css/' + (p === 'blue' ? 'app' : 'pal-' + p) + '.css?v=' + v);
     var m = document.querySelector('meta[name=theme-color]'), c = IS.PALS.filter(function (x) { return x[0] === p; })[0]; if (m && c) m.setAttribute('content', c[1]); };

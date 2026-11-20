@@ -211,17 +211,17 @@ async function checkSpaces(browser) {
   await go('lecturer/scope-lecturer');
   await visible('Fixture Selected Specialities', true);
   await go('courses');
-  assert.match(await main.locator('.ban').getAttribute('style'), /ban_course_catalogue/);
+  assert.match(await main.locator('.ban').getAttribute('style'), /collection\/courses\.webp/);
   await go('pick-section');
-  assert.match(await main.locator('.section-choice[data-v="clinical"] img').getAttribute('src'), /sub_nurs-medsurg/);
+  assert.match(await main.locator('.section-choice[data-v="clinical"] img').getAttribute('src'), /collection\/nursing-clinical\.webp/);
   await page.evaluate(() => { IS.setSpec('pharmacy'); IS.setSection('basics'); });
   await go('lecturers');
   await visible('Fixture Existing Pharmacist', true);
   await visible('Fixture Selected Specialities', false);
   await go('courses');
-  assert.match(await main.locator('.ban').getAttribute('style'), /ban_course_catalogue/);
+  assert.match(await main.locator('.ban').getAttribute('style'), /collection\/courses\.webp/);
   await go('pick-section');
-  assert.match(await main.locator('.section-choice[data-v="basics"] img').getAttribute('src'), /sub_pharmaceutics/);
+  assert.match(await main.locator('.section-choice[data-v="basics"] img').getAttribute('src'), /collection\/pharmacy-basics\.webp/);
 
   for (const [name, expected, direction] of [['د. Arja Adam', 'Dr. Arja', 'ltr'], ['Dr. أحمد محمد', 'د. أحمد', 'rtl']]) {
     await page.evaluate(async name => {

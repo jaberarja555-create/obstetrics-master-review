@@ -671,3 +671,11 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - The palette is shared by the student app, Lecturer Studio, Control and the PDF reader. English headings use a serif display face and Arabic headings keep Cairo. The darker theme uses deep green surfaces. Settings still offers accent choices.
 - Mobile study-section and Library cards put artwork beside the title. International Exams uses the original USMLE artwork for the taller mobile frame. The redesign starts from the branch containing Claude's request review, editing and alert changes.
 - Asset version 174 and shell cache `ish-v74`. Regenerate colour variants with `python3 tools/ishrah/palettes.py` when editing the shared stylesheet.
+
+## Approved emerald redesign · 20 Nov 2026
+
+- The student app, Lecturer Studio, Control and PDF reader share the new medical-library design. The surfaces are mint and ivory, with emerald actions, ink text and gold accents. English display headings use Georgia and Arabic headings keep Cairo. Dark mode and the optional accent palettes remain available.
+- Original assets are in `img/collection/`. The open book and stethoscope mark is shared by the app, certificates, browser icon and installed app. Run `python3 tools/ishrah/palettes.py` to regenerate the colour stylesheets and logo variants.
+- The five built-in specialities each have four section illustrations. The Medicine Clinical home and speciality picker use the panoramic gallery. Page artwork matches the topic, including Courses, Library, Community, Events, finance and administration. Custom speciality artwork, uploaded covers and existing subject illustrations take precedence where supplied.
+- The section Home links to the course catalogue and section picker. Feed cards use side-by-side covers and text and a wider screen shows two cards per row. Comments, reports, ratings and other actions use the existing workflows.
+- Asset version 175 and shell cache `ish-v75`. This release needs no database migration.

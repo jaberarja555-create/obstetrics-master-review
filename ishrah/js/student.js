@@ -101,18 +101,7 @@
       '<div class="row"><a class="btn sm pri" href="#lecturer/' + l.id + '">' + esc(A('عرض الملف', 'View profile')) + '</a></div></article>';
   }
 
-  /* ========== HOME (navy and gold design, owner 18 Nov 2026) ========== */
-  var SECTION_PICTURES = {
-    medicine: { basics: 'sec_basics', clinical: 'choice_clinical', special: 'choice_usmle_wide', house: 'choice_house' },
-    lab: { basics: 'sub_clin-chem', clinical: 'sub_histopath', special: 'sub_haematology', house: 'sub_blood-bank' },
-    dentistry: { basics: 'sub_oral-anat', clinical: 'sub_operative', special: 'sub_ortho', house: 'sub_omfs' },
-    nursing: { basics: 'sub_nurs-fund', clinical: 'sub_nurs-medsurg', special: 'sub_nurs-comm', house: 'sub_nurs-mat' },
-    pharmacy: { basics: 'sub_pharmaceutics', clinical: 'sub_clin-pharm', special: 'sub_ph-pharmacology', house: 'sub_pharm-chem' }
-  };
-  function sectionPicture(speciality, section) {
-    var image = ((SECTION_PICTURES[speciality.id] || {})[section]);
-    return image ? 'img/' + image + '.webp' : speciality.img;
-  }
+  /* Student home and study-section navigation. */
   var FEATS = [['layers', 'محتوى متكامل', 'Complete content', 'لكل التخصصات الصحية', 'For every health speciality'], ['play', 'كورسات وندوات', 'Courses & seminars', 'شرح ومراجعات متخصصة', 'Lessons and focused reviews'],
     ['open', 'مكتبة رقمية', 'Digital library', 'كتب ومراجع وملخصات', 'Books, references and summaries'], ['group', 'مجتمع طلابي', 'Student community', 'تواصل وتبادل الخبرات', 'Connect and share experience'], ['help', 'خدمات أكاديمية', 'Academic services', 'دعم وإرشاد ومساعدة بحثية', 'Support, guidance and research help']];
   function feats() { return '<section class="feats">' + FEATS.map(function (f) { return '<div class="feat">' + ic(f[0]) + '<b>' + IS.T(f[1], f[2]) + '</b><small>' + esc(A(f[3], f[4])) + '</small></div>'; }).join('') + '</section>'; }
@@ -131,8 +120,13 @@
     var name = m && IS.greetingName(m.name, true);
     var who = name ? esc(A('مرحبًا ', 'Welcome, ')) + name + ' 👋' : esc(A('مرحبًا بك 👋', 'Welcome 👋'));
     var h = '<div class="lh">' +
-      '<section class="lhh"><img class="lhl" src="' + IS.logo() + '" alt=""><img class="lhl2" src="' + IS.logo() + '" alt=""><div class="lht"><p>' + who + '</p><h1 tabindex="-1">' + (section ? '<bdi lang="en">' + esc(section.en) + '</bdi>' : '<span class="gtx">' + esc(IS.brandName()) + '</span>') + '</h1>' +
-      (spec ? '<small lang="en">' + esc(spec.en) + '</small>' : '') + (m && IS.myRoles().length > 1 ? IS.roleChips('hr') : '') + '</div>' +
+      '<section class="lhh"' + (section && spec && (spec.id !== 'medicine' || section.id !== 'clinical') && IS.studyArtwork(spec.id, section.id) ?
+        ' style="--home-art:url(' + IS.U(IS.studyArtwork(spec.id, section.id)) + ')"' : '') + '><div class="lht">' +
+      (spec ? '<small lang="en">' + esc(spec.en) + '</small>' : '') +
+      '<h1 tabindex="-1">' + (section ? '<bdi lang="en">' + esc(section.en) + '</bdi>' : '<span class="gtx">' + esc(IS.brandName()) + '</span>') + '</h1><p>' + who + '</p>' +
+      (section ? '<div class="row home-actions"><a class="btn pri" href="#courses">' + esc(A('تصفّح الكورسات', 'Browse courses')) + ic('chev', 'fl') +
+        '</a><a class="btn ghost" href="#pick-section">' + esc(A('تغيير القسم', 'Switch section')) + ic('down') + '</a></div>' : '') +
+      (m && IS.myRoles().length > 1 ? IS.roleChips('hr') : '') + '</div>' +
       '<div class="lhx"><form class="hsearch" role="search" data-form="search"><span>' + ic('search') + '</span><input name="q" type="search" placeholder="' + esc(A('ابحث عن كورس، مادة، محاضر أو موضوع…', 'Search a course, subject, lecturer or topic…')) + '"><button class="btn pri">' + esc(A('بحث', 'Search')) + '</button></form>' +
       (m ? '' : '<div class="row"><button class="btn pri sm" data-act="register">' + ic('user') + esc(A('أنشئ حسابك مجانًا', 'Create your free account')) + '</button><button class="btn lt sm" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button></div>') + '</div></section>' +
 '<nav class="lhq" aria-label="' + esc(A('الأقسام', 'Places')) + '">' + QUICK.map(function (q) { return q[0] === 'studio-apply' && IS.LEC ? ['studio', 'studio', 'الاستوديو', 'My studio'] : q; }).map(function (q) { return '<a href="#' + q[0] + '"><i>' + ic(q[1]) + '</i>' + IS.navLbl(q[2], q[3]) + '</a>'; }).join('') + '</nav></div>';
@@ -152,12 +146,11 @@
     IS.after = fitSectionPicker;
     return '<div class="section-picker"><header class="section-picker-heading">' + ic('layers') + '<h1 tabindex="-1">' +
       IS.T('اختر قسمك', 'Choose your section') + '</h1></header><nav class="section-picker-grid" aria-label="' + esc(A('أقسام التخصص', 'Study sections')) + '">' + IS.CATS.map(function (c) {
-      var img = sectionPicture(spec, c.id), poster = spec.id === 'medicine' && c.id === 'special';
+      var img = IS.studyArtwork(spec.id, c.id) || spec.img;
       var selected = current && current.id === c.id;
       var artwork = img ? '<img src="' + IS.U(img) + '" alt="">' : ic(c.icon);
-      if (poster) artwork = '<picture><source media="(max-width:640px) and (orientation:portrait)" srcset="img/choice_usmle.webp">' + artwork + '</picture>';
       return '<a class="section-choice" href="#home" data-act="setsection" data-v="' + esc(c.id) + '"' + (selected ? ' aria-current="true"' : '') + '>' +
-        '<span class="section-choice-art' + (poster ? ' section-choice-poster' : '') + '">' + artwork + '</span>' +
+        '<span class="section-choice-art">' + artwork + '</span>' +
         '<span class="section-choice-label"><b lang="en" dir="ltr">' + esc(c.en) + '</b></span>' +
         (selected ? '<span class="section-choice-current" title="' + esc(A('قسمك الحالي', 'Current section')) + '">' + ic('check') + '</span>' : '') + '</a>';
     }).join('') + '</nav></div>';
@@ -244,7 +237,7 @@
         if (event.target.closest('.feed-more')) { limit += 12; redraw(); }
       };
     };
-    return '<section class="section-feed"><header class="feed-toolbar"><h2>' + IS.T('آخر المستجدات', 'Section feed') + '</h2><div class="row">' +
+    return '<section class="section-feed"><header class="feed-toolbar"><h2>' + (esc(A('آخر المستجدات في ', 'Latest in ')) + '<bdi lang="en">' + esc(section.en) + '</bdi>') + '</h2><div class="row">' +
       '<a class="btn pri sm" href="#course-requests/new">' + ic('plus') + esc(A('اطلب كورسًا', 'Request a course')) + '</a>' +
       '<a class="btn ghost sm" href="#community/new">' + ic('pen') + esc(A('اكتب منشورًا', 'Create a post')) + '</a></div>' +
       '<div class="feed-filters"><label><span>' + esc(A('الترتيب', 'Sort by')) + '</span><select class="sel" id="feed-sort" data-feed="sort">' +
@@ -279,7 +272,8 @@
     var shareRoute = (isPost && type !== 'announcement') || type === 'request' || type === 'news' ? target + row.id : '';
     var summary = row.subtitle || row.details || row.body || (row.about || '').replace(/<br\s*\/?\s*>/g, '\n');
     var title = type === 'announcement' && !isPost ? IS.noticeTitle(row) : row.title || A('نقاش', 'Discussion');
-    var media = row.preview_image || row.cover;
+    var defaultArt = { course: 'courses', event: 'events', news: 'news', request: 'requests', announcement: 'notifications' };
+    var media = row.preview_image || row.cover || (!isPost && defaultArt[type] ? 'img/collection/' + defaultArt[type] + '.webp' : '');
     var libraryKind = library && IS.libraryKind(row.kind);
     var details = type === 'event' && row.starts ? esc(IS.date(row.starts, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Khartoum' })) :
       library ? [A(libraryKind[2], libraryKind[3])].concat(IS.librarySubjectNames(row), row.author || row.owner_name).filter(Boolean).map(esc).join(' · ') :
@@ -294,6 +288,7 @@
       '<div><h3 dir="auto"><a href="#' + target + esc(row.id) + '">' + esc(title) + '</a></h3>' +
       (summary ? '<p class="feed-summary" dir="auto">' + esc(summary.slice(0, 280)) + '</p>' : '') +
       (details ? '<p class="feed-detail">' + details + '</p>' : '') +
+      (type === 'course' ? '<a class="btn pri sm feed-open" href="#' + target + esc(row.id) + '">' + esc(A('عرض الكورس', 'View course')) + ic('chev', 'fl') + '</a>' : '') +
       (library ? '<div class="row library-feed-actions">' + IS.priceTag(row) + (IS.fileOpenable(row) ? '<a class="btn ghost sm" href="#file/' + esc(row.id) + '/read">' + ic('open') +
         esc(A('افتح الكتاب', 'Open the book')) + '</a>' + IS.dlBtn('file', row.id, '', true) : IS.buyBtn(row, true, false)) + '</div>' : '') + '</div></div>' +
       (isPost ? postPreview(row, true) : '') + IS.feedVoteBar(feedback, row, true, shareRoute) + '</article>';
@@ -396,7 +391,7 @@
     var r = await Promise.all([IS.pubCourses(), IS.lecMap(), IS.myEnroll()]), cs = r[0], L = r[1], E = r[2];
     var speciality = IS.mySpec();
     var context = [speciality && A(speciality.ar, speciality.en), section && section.en, subject && subject.en].filter(Boolean).join(' · ');
-    var picture = (subject && subject.img) || 'img/ban_course_catalogue.webp';
+    var picture = (subject && subject.img) || 'img/collection/courses.webp';
     var h = IS.banner(IS.T('الكورسات', 'Courses'), esc(context), 'layers', '', 'gold course-catalogue-banner', picture);
     var lecIds = Object.keys(L).filter(function (id) { return cs.some(function (c) { return c.lecturer_id === id; }); });
     h += '<div class="cols rev"><aside class="filt" id="filt"><header><h2>' + ic('filter') + IS.T('تصفية النتائج', 'Filter') + '</h2><button type="button" class="link" data-act="fclear">' + esc(A('مسح الكل', 'Clear')) + '</button></header>' +
