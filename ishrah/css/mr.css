@@ -741,3 +741,23 @@ html body .mrh .feed-votes>.fv-rate{display:contents!important}
 html body .mrh .feed-votes>.fv-rate>.ptag{grid-column:1;grid-row:1;justify-self:start;margin-block:8px}
 html body .mrh .feed-votes>.fv-rate>:not(.ptag){grid-column:3;grid-row:1;justify-self:end;margin-block:8px}
 html body .mrh .feed-votes>.fv-stats{grid-column:2!important}
+/* one tidy line under each post: [مجاني] [👍❤️ 3] [💬 6] …… [★★★★☆ (1)] — small soft chips (owner, 20 Nov 2026: "a nicer way to show the reactions") */
+.rx-k{display:none}
+html body .mrh .feed-votes>.fv-stats{gap:6px!important;flex-wrap:nowrap!important}
+html body .mrh .feed-votes .rx-sum,html body .mrh .feed-votes .feed-comment{display:inline-flex!important;align-items:center;gap:5px;height:30px;padding:0 10px!important;border-radius:999px!important;
+  background:#f1f6f5!important;border:1px solid #e1ece9!important;color:#2d4943!important;font-size:13px!important;font-weight:700;white-space:nowrap;margin:0!important}
+html body .mrh .feed-votes .rx-sum[hidden],html body .mrh .feed-votes .feed-comment.zero{display:none!important}
+html body .mrh .feed-votes .rx-sum .rx-n,html body .mrh .feed-votes .feed-comment .fv-cw{display:none!important}
+html body .mrh .feed-votes .rx-sum .rx-k{display:inline!important;font-weight:800}
+html body .mrh .feed-votes .rx-sum .rx-es{display:inline-flex;gap:1px}
+html body .mrh .feed-votes .rx-sum .rx-e{font-size:15px;line-height:1}
+html body .mrh .feed-votes .feed-comment::before{content:"";width:16px;height:16px;flex:none;background:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M4 5.5h16v10H9.5L5 19.5v-4H4z'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M4 5.5h16v10H9.5L5 19.5v-4H4z'/%3E%3C/svg%3E") center/contain no-repeat}
+html body .mrh .feed-votes .feed-comment bdi{font-weight:800}
+html body .mrh .feed-votes>.fv-rate>.ptag{height:30px;display:inline-flex!important;align-items:center;padding:0 12px!important;font-size:13px!important;border-radius:999px!important}
+html body .mrh .feed-votes>.fv-rate>:not(.ptag){font-size:13px}
+html body .mrh .feed-votes{column-gap:6px!important}
+@media (max-width:380px){html body .mrh .feed-votes .rx-sum,html body .mrh .feed-votes .feed-comment{padding:0 8px!important;font-size:12px!important}html body .mrh .feed-votes>.fv-rate>:not(.ptag){font-size:11.5px}}
+:root[data-theme="dark"] .mrh .feed-votes .rx-sum,:root[data-theme="dark"] .mrh .feed-votes .feed-comment{background:#0b2721!important;border-color:#21463c!important;color:#cfe3dd!important}
+html body .mrh .feed-votes .feed-comment::before{content:"💬"!important;background:none!important;-webkit-mask:none!important;mask:none!important;width:auto!important;height:auto!important;font-size:14px;line-height:1}

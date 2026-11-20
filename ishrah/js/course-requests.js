@@ -735,7 +735,7 @@
     if (sum) {
       sum.hidden = !total;
       sum.innerHTML = '<span class="rx-es" dir="ltr">' + list.filter(function (x) { return x[1]; }).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 3)
-        .map(function (x) { return '<span class="rx-e">' + x[0][1] + '</span>'; }).join('') + '</span><b class="rx-n">' + IS.rxCount(total) + '</b>';
+        .map(function (x) { return '<span class="rx-e">' + x[0][1] + '</span>'; }).join('') + '</span><b class="rx-n">' + IS.rxCount(total) + '</b><b class="rx-k">' + total + '</b>';
       sum.setAttribute('aria-label', A('من تفاعل؟ ', 'Who reacted? ') + list.filter(function (x) { return x[1]; }).map(function (x) { return x[0][1] + ' ' + x[1]; }).join(' · '));
     }
     var main = bar.querySelector('.feed-react'), cur = rxOf(mine);
