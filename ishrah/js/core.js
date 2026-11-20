@@ -254,6 +254,17 @@
     var s = IS.sheet(title, '<form class="form" id="askf"><label class="fl"><span>' + esc(label) + '</span>' + (opt.area ? '<textarea name="v" rows="4">' + esc(val || '') + '</textarea>' : '<input name="v" value="' + esc(val || '') + '"' + (opt.type ? ' type="' + opt.type + '"' : '') + '>') + '</label><div class="row end"><button type="button" class="btn ghost" data-close>' + esc(A('إلغاء', 'Cancel')) + '</button><button class="btn pri">' + esc(opt.ok || A('حفظ', 'Save')) + '</button></div></form>');
     s.querySelector('#askf').onsubmit = function (e) { e.preventDefault(); var v = this.v.value.trim(); IS.closeSheet(); ok(v); }; }); };
 
+  /* a cover picture shown whole (owner, 19 Nov 2026: "the course preview image is bad on tablet"): the picture is never cut; the space
+     around a poster of another shape is filled by a soft enlarged copy of the same picture */
+  IS.poster = function (src, alt) { var u = IS.U(src); return '<span class="pst"><img class="pstb" src="' + u + '" alt="" aria-hidden="true" loading="lazy"><img class="pstf" src="' + u + '" alt="' + esc(alt || '') + '" loading="lazy"></span>'; };
+  /* the whole card opens its page (owner, 19 Nov 2026: "all the course request place should be clickable, not only the name"), except
+     clicks on its own buttons, links, forms and text being selected */
+  document.addEventListener('click', function (e) {
+    var card = e.target.closest && e.target.closest('[data-go]'); if (!card) return;
+    if (e.target.closest('a,button,input,textarea,select,label,form,summary,details,[data-act],.feed-votes,.feed-comment-panel,.post-preview,video,iframe')) return;
+    var sel = window.getSelection && String(window.getSelection()); if (sel && sel.length > 2) return;
+    location.hash = card.dataset.go;
+  });
   /* image picked by a user → resized JPEG file (covers, photos, receipts) */
   IS.shrink = function (file, max, q) { return new Promise(function (ok) {
     if (!file || !/^image\//.test(file.type)) return ok(file); var rd = new FileReader();

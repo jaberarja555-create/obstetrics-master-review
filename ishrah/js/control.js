@@ -12,7 +12,7 @@
     [['users', 'المستخدمون', 'Users'], [['control-students', 'user', 'الطلاب', 'Students', 'students'], ['control-lecturers', 'users', 'المحاضرون', 'Lecturers', 'lecturers'], ['control-apps', 'cert', 'طلبات المحاضرين', 'Lecturer requests', 'apps']]],
     [['layers', 'المحتوى التعليمي', 'Content'], [['control-review', 'eye', 'الكورسات والمراجعة', 'Courses & review', 'review'], ['control-library', 'open', 'الكتب والملفات', 'Books & files', 'library'], ['control-paths', 'route', 'المسارات التعليمية', 'Learning paths', 'paths']]],
     [['cal', 'الفعاليات', 'Events'], [['control-events', 'cal', 'إدارة الفعاليات', 'Manage events', 'events']]],
-    [['receipt', 'الطلبات', 'Requests'], [['control-requests', 'receipt', 'طلبات المكتبة', 'Library requests', 'requests'], ['control-course-requests', 'chat', 'طلبات الكورسات', 'Course requests', 'review'], ['control-questions', 'help', 'مراجعة الأسئلة', 'Question review', 'review']]],
+    [['receipt', 'الطلبات', 'Requests'], [['control-requests', 'receipt', 'طلبات المكتبة', 'Library requests', 'requests'], ['control-course-requests', 'chat', 'طلبات الكورسات', 'Course requests', 'review'], ['control-questions', 'help', 'مراجعة المنشورات والأسئلة', 'Posts and questions review', 'review']]],
     [['group', 'المجتمع والتواصل', 'Community'], [['control-community', 'flag', 'البلاغات والنقاشات', 'Reports & posts', 'community'], ['control-news', 'news', 'الأخبار', 'News', 'notify'], ['control-notify', 'bell', 'الإعلانات والإشعارات', 'Announcements', 'notify']]],
     [['wallet', 'الاشتراكات والمدفوعات', 'Payments'], [['control-pay', 'receipt', 'مراجعة المدفوعات', 'Payment review', 'pay'], ['control-payouts', 'wallet', 'مستحقات المحاضرين', 'Lecturer payouts', 'payout'], ['control-sales', 'cart', 'مبيعات المكتبة', 'Library sales', 'pay']]],
     [['chart', 'التقارير والتحليلات', 'Reports'], [['control-reports', 'chart', 'التقارير', 'Reports', 'reports']]],
@@ -550,19 +550,21 @@
     var courses = Array.from(new Set(rows.filter(function (question) { return question.room === 'qa'; }).map(function (question) { return question.course_id; })));
     var courseRows = courses.length ? await DB.q('courses', { in: { id: courses } }) : [];
     var titles = new Map(courseRows.map(function (course) { return [course.id, course.title]; }));
-    return IS.banner(IS.T('مراجعة الأسئلة', 'Question review'), esc(A('راجع أسئلة الأقسام والدروس قبل نشرها.', 'Review section and lesson questions before publication.')), 'eye') +
+    return IS.banner(IS.T('مراجعة المنشورات والأسئلة', 'Posts and questions review'), esc(A('راجع الأسئلة والمنشورات المعدّلة قبل نشرها.', 'Review questions and edited posts before publication.')), 'eye') +
       '<div class="row"><a class="btn ghost sm" href="#control-course-requests">' + esc(A('مراجعة طلبات الكورسات', 'Review course requests')) + '</a></div>' +
       (rows.length ? rows.map(function (question) {
         var section = IS.cat(question.room), speciality = IS.spec(question.spec);
         var context = question.room === 'qa' ? [A('سؤال في درس', 'Lesson question'), titles.get(question.course_id)] :
           [speciality && A(speciality.ar, speciality.en), section && A(section.ar, section.en)];
-        return '<article class="box"><div class="row sp"><h2 dir="auto">' + esc(question.title || A('سؤال في درس', 'Lesson question')) +
+        var edited = question.post_kind !== 'question' && question.room !== 'qa';
+        return '<article class="box"><div class="row sp"><h2 dir="auto">' + esc(question.title || (edited ? A('منشور', 'Post') : A('سؤال في درس', 'Lesson question'))) +
+          (edited ? ' ' + IS.chip(esc(A('منشور معدّل', 'Edited post')), 'lt') : '') +
           '</h2>' + IS.status('pending') + '</div><p class="mut" dir="auto">' + esc([question.name].concat(context).filter(Boolean).join(' · ')) +
           '</p><p class="pre" dir="auto">' + esc(question.body) + '</p>' + (IS.can('review', 'approve') ?
             '<div class="row end"><button class="btn ghost bad sm" data-act="review-question" data-id="' + esc(question.id) + '">' +
-            esc(A('ارفض السؤال', 'Decline question')) + '</button><button class="btn pri sm" data-act="review-question" data-publish="1" data-id="' + esc(question.id) + '">' +
+            esc(A('ارفض', 'Decline')) + '</button><button class="btn pri sm" data-act="review-question" data-publish="1" data-id="' + esc(question.id) + '">' +
             esc(A('وافق وانشر', 'Approve and publish')) + '</button></div>' : '') + '</article>';
-      }).join('') : IS.empty('help', A('لا توجد أسئلة بانتظار المراجعة', 'No questions awaiting review')));
+      }).join('') : IS.empty('help', A('لا يوجد شيء بانتظار المراجعة', 'Nothing awaiting review')));
   }, P('review'));
   IS.ACT['review-question'] = async function (button) {
     if (!IS.can('review', 'approve')) return;

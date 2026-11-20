@@ -86,7 +86,7 @@
   /* ---------- course card ---------- */
   IS.courseCard = function (c, L, E) {
     var l = L && L[c.lecturer_id], e = E && E[c.id], cat = IS.cat(IS.studyScope(c).cat), sj = IS.subj(c.subject);
-    return '<article class="ccard" style="--cc:' + esc(c.color || 'var(--pri)') + '"><a class="ccimg" href="#course/' + c.id + '">' + (c.cover ? '<img src="' + IS.U(c.cover) + '" alt="" loading="lazy">' : '<span class="ph">' + ic(sj ? sj.icon : 'layers') + '</span>') +
+    return '<article class="ccard" data-go="#course/' + esc(c.id) + '" style="--cc:' + esc(c.color || 'var(--pri)') + '"><a class="ccimg" href="#course/' + c.id + '">' + (c.cover ? IS.poster(c.cover) : '<span class="ph">' + ic(sj ? sj.icon : 'layers') + '</span>') +
       '<span class="cctop">' + (cat ? IS.chip('<bdi lang="en">' + esc(cat.en) + '</bdi>', 'lt') : '') + (c.n_students >= 50 ? IS.chip(ic('flame') + esc(A('الأكثر تسجيلًا', 'Popular')), 'hot') : '') + '</span></a>' + IS.favBtn('c:' + c.id, true) +
       '<div class="ccb"><h3><a href="#course/' + c.id + '">' + esc(c.title) + '</a></h3><p>' + esc(c.subtitle || '') + '</p>' +
       (l ? '<a class="cclec" href="#lecturer/' + l.id + '">' + IS.av(l, 'xs', l.id) + '<span>' + esc(l.name) + '</span></a>' : '') +
@@ -284,11 +284,11 @@
       isPost ? esc(row.name || '') + (row.linked_price != null ? ' · ' + (+row.linked_price ? IS.money(row.linked_price) : esc(A('مجاني', 'Free'))) : '') :
       type === 'request' ? '<bdi dir="ltr">' + esc(((row.payment_required ? row.paid_count : row.joined_count) || 0) + (row.goal ? ' / ' + row.goal : '')) + '</bdi> ' + esc(A('منضمّون', 'joined')) :
       type === 'course' ? [courseFormat(row), +row.price ? IS.money(row.price) : esc(A('مجاني', 'Free')), row.starts_at && courseSchedule(row)].filter(Boolean).join(' · ') : '';
-    return '<article class="box feed-card feed-' + type + (isPost ? ' feed-post' : '') + '" data-kind="' + type + '"><header class="feed-card-header"><span>' + ic(label[2]) +
+    return '<article class="box feed-card feed-' + type + (isPost ? ' feed-post' : '') + '" data-kind="' + type + '" data-go="#' + target + esc(row.id) + '"><header class="feed-card-header"><span>' + ic(label[2]) +
       esc(A(label[0], label[1])) + '</span>' + (when ? '<time datetime="' + esc(when) + '">' + esc(IS.ago(when)) + '</time>' : '') +
       (IS.manageBtn ? IS.manageBtn(isPost ? 'post' : library ? 'file' : type === 'announcement' ? 'notice' : type, row.id) : '') + '</header>' +
       '<div class="feed-card-content">' + (library || media ? '<a class="feed-image" href="#' + target + esc(row.id) + '" aria-label="' + esc(title) + '">' +
-        (library ? IS.libraryCover(row) : '<img loading="lazy" src="' + IS.U(media) + '" alt="">') + '</a>' : '') +
+        (library ? IS.libraryCover(row) : IS.poster(media)) + '</a>' : '') +
       '<div><h3 dir="auto"><a href="#' + target + esc(row.id) + '">' + esc(title) + '</a></h3>' +
       (summary ? '<p class="feed-summary" dir="auto">' + esc(summary.slice(0, 280)) + '</p>' : '') +
       (details ? '<p class="feed-detail">' + details + '</p>' : '') +
@@ -1090,6 +1090,24 @@
     if (kind !== 'question') IS.toast(A('نُشر', 'Posted'));
     IS.go('post/' + post.id);
   };
+  /* the author edits a post; it goes back to the team for approval, then is published again (owner, 19 Nov 2026) */
+  IS.ACT['post-edit'] = async function (b) {
+    var p = await DB.one('posts', b.dataset.id); if (!p || p.user_id !== uid()) return;
+    var direct = IS.can('community', 'edit');
+    IS.sheet(A('تعديل المنشور', 'Edit post'), (direct ? '' : '<p class="mut">' + esc(A('بعد الحفظ يُخفى المنشور حتى توافق الإدارة على التعديل، ثم يُنشر من جديد ويصلك إشعار.', 'After saving, the post is hidden until the team approves the change; then it is published again and you are notified.')) + '</p>') +
+      '<form class="form" data-form="post-edit"><input type="hidden" name="id" value="' + esc(p.id) + '">' +
+      '<label class="fl"><span>' + esc(A('العنوان', 'Title')) + '</span><input name="title" maxlength="200" dir="auto" value="' + esc(p.title || '') + '"></label>' +
+      '<label class="fl"><span>' + esc(A('النص', 'Text')) + '</span><textarea name="body" rows="6" required maxlength="8000" dir="auto">' + esc(p.body || '') + '</textarea></label>' +
+      '<button class="btn pri wide">' + ic('check') + esc(direct ? A('احفظ التعديل', 'Save changes') : A('احفظ وأرسل للمراجعة', 'Save and send for review')) + '</button></form>');
+  };
+  IS.SUB['post-edit'] = async function (d) {
+    var r;
+    if (DB.live) { var x = await DB.sb.rpc('ish_post_edit', { post: d.id, title: d.title, body: d.body }); if (x.error) return IS.toast(A('تعذّر الحفظ', 'Could not save'), true); r = x.data; }
+    else { var direct = IS.can('community', 'edit'); await DB.upd('posts', d.id, Object.assign({ title: d.title, body: d.body }, direct ? {} : { status: 'pending', review_note: null })); r = { status: direct ? 'open' : 'pending' }; }
+    IS.closeSheet();
+    IS.toast(r && r.status === 'pending' ? A('أُرسل التعديل للمراجعة. سيُنشر بعد موافقة الإدارة ويصلك إشعار.', 'Your changes were sent for review. The post is published again once the team approves it.') : A('حُفظ التعديل', 'Changes saved'));
+    IS.refresh();
+  };
   IS.page('post', async function (arg) {
     var parts = String(arg || '').split('/'), id = parts[0];
     var p = await DB.one('posts', id); if (!p || p.status === 'removed') return null;
@@ -1102,7 +1120,9 @@
         IS.status(p.status) + '<p class="pre" dir="auto">' + esc(p.body) + '</p><p class="mut">' +
         esc(pending ? A('سيصلك إشعار بقرار الإدارة.', 'You’ll receive a notification with the review decision.') :
           A('لم يُنشر السؤال.', 'This question was declined.')) + '</p>' +
-        (p.review_note ? '<p class="note bad pre" dir="auto">' + esc(p.review_note) + '</p>' : '') + '</div></article>';
+        (p.review_note ? '<p class="note bad pre" dir="auto">' + esc(p.review_note) + '</p>' : '') +
+        (p.user_id === uid() ? '<div class="row"><button type="button" class="btn ' + (pending ? 'ghost' : 'pri') + ' sm" data-act="post-edit" data-id="' + esc(p.id) + '">' + ic('pen') +
+          esc(pending ? A('عدّل قبل النشر', 'Edit before publication') : A('عدّل وأعد الإرسال', 'Edit and send again')) + '</button></div>' : '') + '</div></article>';
     }
     var mod = IS.can('community'), owner = IS.LEC && p.lecturer_id === IS.LEC.id;
     if (!mod && !owner) {
@@ -1128,7 +1148,8 @@
       '<div class="row end"><button class="btn pri sm">' + ic('send') + esc(p.room === 'qa' ? A('أرسل الرد', 'Send reply') : A('انشر التعليق', 'Post comment')) + '</button></div></form>' : '';
     return '<nav class="crumb"><a href="#' + (p.room === 'qa' ? 'course/' + p.course_id : 'community') + '">' + esc(p.room === 'qa' ? A('الكورس', 'Course') : A('المجتمع', 'Community')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(p.title || A('سؤال', 'Question')) + '</span></nav>' +
       '<article class="box thread">' + IS.av({ name: p.name, photo: p.photo }, 'md', p.user_id) + '<div><h1 tabindex="-1">' + esc(p.title || p.body.slice(0, 80)) + '</h1><small class="mut">' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + '</small><p class="pre">' + esc(p.body) + '</p>' + (p.room !== 'qa' ? postPreview(p, false) + IS.feedVoteBar('post', p, false, postKind(p) === 'announcement' ? '' : 'post/' + p.id) : '') +
-      '<div class="row">' + (p.room === 'qa' ? IS.postActions('post', p.id, 'post/' + p.id) : '') + (mod ? '<button class="btn ghost sm" data-act="pin" data-id="' + p.id + '">' + ic('pin') + esc(p.pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت', 'Pin')) + '</button><button class="btn ghost sm bad" data-act="rmpost" data-id="' + p.id + '">' + ic('trash') + esc(A('حذف', 'Remove')) + '</button>' : '') + '</div></div></article>' +
+      '<div class="row">' + (p.room === 'qa' ? IS.postActions('post', p.id, 'post/' + p.id) : '') +
+        (p.user_id === uid() ? '<button type="button" class="btn ghost sm" data-act="post-edit" data-id="' + esc(p.id) + '">' + ic('pen') + esc(A('عدّل المنشور', 'Edit post')) + '</button>' : '') + (mod ? '<button class="btn ghost sm" data-act="pin" data-id="' + p.id + '">' + ic('pin') + esc(p.pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت', 'Pin')) + '</button><button class="btn ghost sm bad" data-act="rmpost" data-id="' + p.id + '">' + ic('trash') + esc(A('حذف', 'Remove')) + '</button>' : '') + '</div></div></article>' +
       '<section class="box post-comments"><h2 tabindex="-1" data-post-comments>' +
       (p.room === 'qa' ? IS.T('الردود', 'Replies') : IS.T('التعليقات', 'Comments')) + '</h2>' + composer + rs.map(function (r) { var isLec = !!lecs[r.user_id];
         return '<div class="box reply' + (isLec ? ' lec' : '') + '">' + IS.av({ name: r.name, photo: r.photo }, 'sm', r.user_id) + '<div><b>' + esc(r.name || '') + '</b>' + (isLec ? IS.chip(esc(A('محاضر', 'Lecturer')), 'ok') : '') + ' <small class="mut">' + esc(IS.ago(r.created_at)) + '</small><p class="pre">' + esc(r.body) + '</p>' +

@@ -3209,3 +3209,22 @@ button.feed-grade:hover{border-color:#e0a800;background:#fff8e1}
 .cr-heading .crm .ico{width:15px;height:15px;color:var(--pri);flex:none}
 .cr-heading .crm small{color:var(--sub);font-weight:600;font-size:12px}
 .cr-heading .crm bdi{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* covers shown whole (owner, 19 Nov 2026: course poster cut on a tablet): .pst = soft enlarged copy behind + the whole picture on top */
+.pst{position:absolute;inset:0;display:block;overflow:hidden;background:var(--tint)}
+.pst img{position:absolute;inset:0;width:100%;height:100%}
+.ccimg .pst img,.feed-image .pst img{position:absolute;inset:0;width:100%;height:100%}
+.pst .pstb{object-fit:cover;transform:scale(1.15);filter:blur(14px) saturate(1.1);opacity:.75}
+.pst .pstf{object-fit:contain}
+@media (hover:none){.pst .pstb{filter:none;opacity:.28;transform:none}}
+.feed-image{position:relative}
+[data-go]{cursor:pointer}
+[data-go] :is(a,button,input,textarea,select,label){cursor:revert}
+/* course request cover */
+.cr-cover{position:relative;display:block;aspect-ratio:16/9;max-height:340px;border-radius:14px;overflow:hidden;margin:0 0 14px}
+.cr-card .cr-cover{max-height:200px;margin:0}
+.cr-cover-pick{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.cr-cover-pick .cr-cover{width:160px;margin:0}
+.cr-edit-hint{margin:0 0 10px}
+.feed-request .feed-card-content:has(.feed-image),.feed-course .feed-card-content:has(.feed-image){flex-direction:column;gap:10px}
+.feed-request .feed-image,.feed-course .feed-image{flex:none;width:100%;aspect-ratio:16/9;max-height:340px}

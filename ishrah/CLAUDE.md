@@ -648,3 +648,19 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   requests); approving notifies the student and the named lecturer (existing RPC) and alerts the speciality/section. The student is told
   «أُرسل طلبك للمراجعة…». The request page header shows the requester, speciality and section as separate tags. The deploy log has a
   "Phone alerts check" step (pg_net installed, number of registered phones, delivery results; counts only). Asset version 172.
+- **Edit and send again; cover pictures; team tools on requests; whole cards open** (owner, 19 Nov 2026; `038_course_request_edit.sql`):
+  - Course requests have `cover` (a picture in the public `media` bucket, checked by a constraint). The requester adds it in the request form
+    or later; the team can change it. `ish_course_request_edit(request, payload)`: the author edits title, details, cover, price, date, rules,
+    target and automatic closing; the request goes back to «pending» (team alert «طلب كورس معدّل بانتظار موافقتك») unless the author can
+    approve reviews. A request with payments cannot be edited by its author. Team (review edit/approve) edits keep the status (logged).
+    Request page: «عدّل الطلب وأعد إرساله» for the author, notes while pending or declined.
+  - Posts: `ish_post_edit(post, title, body)`: the author's edit hides the post («pending») until Control → «مراجعة المنشورات والأسئلة»
+    (control-questions, now every waiting post) approves it; approving an edit notifies the author and does not alert the space again.
+    Community editors' own edits stay published. Button «عدّل المنشور» on the post page.
+  - «أدوات الفريق» (manage.js) covers course requests too (kind `request`: edit with the full form, approve/decline while pending, delete),
+    on feed cards, request cards and request pages (also the control and studio request pages).
+  - Feed cards, course cards and request cards open their page from anywhere on the card (`data-go`, core.js; buttons, links, votes and the
+    comment panel keep their own action).
+  - Covers are shown whole (`IS.poster(src)`: the picture with `object-fit:contain` over a soft enlarged copy; no blur on touch screens):
+    course cards, feed pictures, request covers. In the feed, request and course covers are a wide 16:9 picture above the text.
+  Asset version 173, shell cache ish-v73.

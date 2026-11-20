@@ -12,6 +12,55 @@
   function canOffer(row) { return activeLecturer() && row.user_id !== uid() && (!row.lecturer_id || row.lecturer_id === uid()) && !row.teacher_confirmed; }
   function scope() { return { spec: IS.SPEC, cat: (IS.mySection() || {}).id }; }
   function scopeName(row) { var spec = IS.spec(row.spec), cat = IS.cat(row.cat); return [spec && A(spec.ar, spec.en), cat && cat.en].filter(Boolean).join(' · '); }
+  function canManage() { return IS.can('review', 'edit') || IS.can('review', 'approve'); }
+  function canEdit(row) { return !!uid() && (canManage() || (row.user_id === uid() && !row.reserved_count)); }
+  /* cover picture of a request (owner, 19 Nov 2026): chosen by the requester or the team, shown on the card and the request page */
+  function coverField(value) {
+    return '<div class="fl"><span>' + text('صورة الغلاف (اختياري)', 'Cover picture (optional)') + '</span><div class="cr-cover-pick">' +
+      (value ? '<span class="cr-cover">' + IS.poster(value) + '</span>' : '') +
+      '<input type="file" name="cover" accept="image/*">' +
+      (value ? '<label class="chk"><input type="checkbox" name="cover_remove"><span>' + text('احذف الصورة', 'Remove the picture') + '</span></label>' : '') +
+      '</div><small class="mut">' + text('تظهر فوق الطلب في الصفحة الرئيسية. اختر صورة واضحة بدون بيانات اتصال.', 'Shown above the request in the feed. Choose a clear picture without contact details.') + '</small></div>';
+  }
+  async function coverUpload(f) {
+    var file = f.elements.cover && f.elements.cover.files[0];
+    if (!file) return null;
+    if (!/^image\//.test(file.type) || file.size > 15 * 1024 * 1024) { IS.toast(A('اختر صورة بحجم أقل من 15 ميغابايت.', 'Choose a picture under 15 MB.'), true); throw new Error('cover'); }
+    return DB.upload('media', await IS.shrink(file, 1400, 0.82));
+  }
+  IS.ACT['cr-edit'] = async function (button) {
+    var row = await DB.one(REQUESTS, button.dataset.request || button.dataset.id);
+    if (!row || !canEdit(row)) return IS.toast(A('لا يمكنك تعديل هذا الطلب.', 'You cannot edit this request.'), true);
+    var staff = canManage() && row.user_id !== uid(), price = row.budget_min != null && Number(row.budget_min) === Number(row.budget_max) ? row.budget_min : null;
+    IS.sheet(A('تعديل الطلب', 'Edit request'),
+      (staff ? '' : note('بعد الحفظ يعود الطلب إلى المراجعة، ويُنشر من جديد بعد موافقة الإدارة.', 'After saving, the request goes back to review and is published again once the team approves it.')) +
+      '<form class="form" data-form="cr-edit" data-request="' + esc(row.id) + '">' +
+      '<label class="fl"><span>' + text('عنوان الكورس', 'Course title') + '</span><input name="title" required maxlength="140" dir="auto" value="' + esc(row.title) + '"></label>' +
+      '<label class="fl"><span>' + text('ماذا تريد أن يغطي الكورس؟', 'What should the course cover?') + '</span><textarea name="details" required rows="4" maxlength="4000" dir="auto">' + esc(row.details || '') + '</textarea></label>' +
+      coverField(row.cover) +
+      priceField('السعر المقترح للفرد (جنيه سوداني)', 'Proposed price per person (SDG)', price, false) +
+      dateFields(row.proposed_at, true) +
+      '<label class="fl"><span>' + text('القواعد أو المتطلبات للمشاركين', 'Rules or requirements for participants') + '</span><textarea name="rules" rows="3" maxlength="2000" dir="auto">' + esc(row.rules || '') + '</textarea></label>' +
+      '<label class="fl"><span>' + text('العدد المستهدف من المشاركين (اختياري)', 'Target number of participants (optional)') + '</span><input name="goal" type="number" min="1" max="10000" value="' + esc(row.goal || '') + '"></label>' +
+      '<label class="chk"><input type="checkbox" name="auto_close"' + (row.auto_close ? ' checked' : '') + '><span>' + text('أغلق الانضمام تلقائيًا عند بلوغ العدد المستهدف', 'Close joining automatically at the target') + '</span></label>' +
+      '<button class="btn pri wide">' + ic('check') + (staff ? text('احفظ التعديل', 'Save changes') : text('احفظ وأعد الإرسال للمراجعة', 'Save and send for review')) + '</button></form>');
+  };
+  IS.crEdit = function (id) { return IS.ACT['cr-edit']({ dataset: { request: id } }); };
+  IS.SUB['cr-edit'] = async function (d, f) {
+    if (!validDate(d)) return;
+    var goal = d.goal ? Number(d.goal) : null, auto = f.elements.auto_close.checked;
+    if (auto && !goal) return IS.toast(A('أدخل العدد المستهدف أولًا.', 'Enter a target number first.'), true);
+    var id = f.dataset.request, before = await DB.one(REQUESTS, id), cover;
+    try { cover = await coverUpload(f); } catch (e) { return; }
+    var payload = { title: d.title, details: d.details, rules: d.rules, price: d.price === '' ? null : Number(d.price), proposed_at: startAt(d), goal: goal, auto_close: auto };
+    if (cover) payload.cover = cover; else if (f.elements.cover_remove && f.elements.cover_remove.checked) payload.cover = '';
+    var result = await change('edit', id, payload);
+    if (!result) return;
+    IS.closeSheet();
+    var waits = (result.status || '') === 'pending' && before && before.status !== 'pending';
+    IS.toast(waits || (result.status === 'pending' && before.user_id === uid()) ? A('أُرسل التعديل للمراجعة. سيُنشر بعد موافقة الإدارة ويصلك إشعار.', 'Your changes were sent for review. The request is published again once the team approves it.') : A('حُفظ التعديل', 'Changes saved'));
+    IS.refresh();
+  };
   function href(row, prefix, offer) { return '#' + (prefix || 'course-request') + '/' + row.id + (offer ? '/' + offer : ''); }
   function text(ar, en) { return esc(A(ar, en)); }
   function note(ar, en) { return '<p class="mut">' + text(ar, en) + '</p>'; }
@@ -93,6 +142,17 @@
     row = await DB.one(REQUESTS, id);
     if (!row || row.status === 'deleted') throw new Error('request_unavailable');
     var owner = row.user_id === actor, noticeLink = href(row);
+    if (action === 'edit') {
+      var staff = canManage();
+      if (!owner && !staff) throw new Error('request_permission');
+      if (!staff && row.reserved_count) throw new Error('request_has_payments');
+      var patch = {};
+      ['title', 'details', 'rules', 'proposed_at', 'goal', 'auto_close', 'cover'].forEach(function (k) { if (k in data) patch[k] = data[k]; });
+      if ('price' in data) { patch.budget_min = data.price; patch.budget_max = data.price; }
+      if (!staff && row.status !== 'pending') { patch.status = 'pending'; patch.published_at = null; }
+      await DB.upd(REQUESTS, id, patch);
+      return { id: id, status: patch.status || row.status };
+    }
     if (action === 'approve' || action === 'reject') {
       if (!IS.can('review', 'approve') || row.status !== 'pending') throw new Error('request_permission');
       await DB.upd(REQUESTS, id, { status: action === 'approve' ? 'open' : 'rejected', published_at: action === 'approve' ? new Date().toISOString() : null });
@@ -167,7 +227,8 @@
   async function change(action, id, payload) {
     try {
       if (!DB.live) return await previewCommand(action, id, payload || {});
-      var result = await DB.sb.rpc('ish_course_request', { action: action, request: id || null, payload: payload || {} });
+      var result = action === 'edit' ? await DB.sb.rpc('ish_course_request_edit', { request: id, payload: payload || {} }) :
+        await DB.sb.rpc('ish_course_request', { action: action, request: id || null, payload: payload || {} });
       if (result.error) throw result.error;
       return result.data;
     } catch (error) {
@@ -182,8 +243,10 @@
         request_offer_price_required: ['أدخل سعرًا محددًا للفرد.', 'Enter one fixed price per person.'],
         request_attachment_invalid: ['أعد اختيار المرفقات وحاول مرة أخرى.', 'Choose your attachments again and retry.'],
         request_payment_required: ['أرسل إيصال الدفع للانضمام بعد تأكيد التحويل.', 'Submit your receipt to join once payment is confirmed.'],
-        request_has_payments: ['يمكنك إغلاق الانضمام لهذا الطلب الذي يحوي مدفوعات.', 'You can close joining for this request with payments.'],
-        request_sign_in: ['سجّل الدخول بحساب نشط للمتابعة.', 'Sign in with an active account to continue.']
+        request_has_payments: [action === 'edit' ? 'لا يمكن تعديل طلب دفع فيه طلاب. راسل الإدارة لأي تغيير.' : 'يمكنك إغلاق الانضمام لهذا الطلب الذي يحوي مدفوعات.',
+          action === 'edit' ? 'A request with payments cannot be edited. Message the team for any change.' : 'You can close joining for this request with payments.'],
+        request_sign_in: ['سجّل الدخول بحساب نشط للمتابعة.', 'Sign in with an active account to continue.'],
+        request_fields: ['العنوان والتفاصيل مطلوبان.', 'The title and the details are needed.']
       }[error.message];
       if (!message) throw error;
       IS.toast(A.apply(null, message), true);
@@ -198,7 +261,7 @@
     return DB.q(REQUESTS, query);
   }
   function requestCard(row, prefix) {
-    return '<article class="box cr-card"><div class="row">' + status(row) + (row.teacher_confirmed ? IS.chip(text('تأكد المحاضر', 'Lecturer confirmed'), 'ok') : '') + '</div>' +
+    return '<article class="box cr-card" data-go="' + esc(href(row, prefix)) + '">' + (row.cover ? '<span class="cr-cover">' + IS.poster(row.cover) + '</span>' : '') + '<div class="row">' + status(row) + (row.teacher_confirmed ? IS.chip(text('تأكد المحاضر', 'Lecturer confirmed'), 'ok') : '') + '<span class="grow"></span>' + (IS.manageBtn ? IS.manageBtn('request', row.id) : '') + '</div>' +
       '<h3><a dir="auto" href="' + href(row, prefix) + '">' + esc(row.title) + '</a></h3>' +
       '<p class="mut" dir="auto">' + esc(scopeName(row)) + ' · ' + esc(row.lecturer_name || A('طلب عام', 'General request')) + '</p>' +
       '<p class="cr-summary" dir="auto">' + esc(row.details) + '</p><div class="row cr-meta"><span>' + ic('users') + joined(row) +
@@ -221,6 +284,7 @@
       '<label class="fl"><span>' + text('القواعد أو المتطلبات للمشاركين', 'Rules or requirements for participants') + '</span><textarea name="rules" rows="3" maxlength="2000"></textarea></label>' +
       '<label class="fl"><span>' + text('العدد المستهدف من المشاركين (اختياري)', 'Target number of participants (optional)') + '</span><input name="goal" type="number" min="1" max="10000"></label>' +
       '<label class="chk"><input type="checkbox" name="auto_close"><span>' + text('أغلق الانضمام تلقائيًا عند بلوغ العدد المستهدف', 'Close joining automatically at the target') + '</span></label>' +
+      coverField(null) +
       '<label class="fl file"><span>' + text('صور أو ملفات (اختياري)', 'Pictures or files (optional)') +
       '</span><input type="file" name="attachments" multiple accept="' + Object.keys(FILE_TYPES).map(function (ext) { return '.' + ext; }).join(',') + '"><small>' +
       text('حتى 4 ملفات، 10 ميغابايت للملف. الصور وPDF وملفات Office وTXT.', 'Up to 4 files, 10 MB each. Images, PDF, Office and TXT.') + '</small></label>' +
@@ -243,11 +307,13 @@
         attachments.push({ path: path, name: file.name, mime: mime, position: attachments.length + 1 });
       }
       submitted = true;
+      var cover = await coverUpload(f);
       id = await change('create', null, Object.assign(scope(), {
         title: d.title, details: d.details, rules: d.rules, lecturer_id: d.lecturer || null, price: d.price === '' ? null : Number(d.price),
         proposed_at: startAt(d), goal: goal, auto_close: auto, attachments: attachments
       }));
       finished = true;
+      if (id && cover) await change('edit', id, { cover: cover });
     } finally {
       if (!id && (!submitted || finished) && DB.live && attachments.length) {
         await DB.sb.storage.from(FILE_BUCKET).remove(attachments.map(function (item) { return item.path; }));
@@ -401,7 +467,10 @@
     ]);
     var agreement = r[2].find(function (o) { return o.status === 'accepted'; });
     var h = '<nav class="crumb">' + link(board, 'رجوع إلى الطلبات', 'Back to requests', 'link') + '</nav>' +
-      '<article class="box cr-detail"><header class="cr-heading"><h1 tabindex="-1" dir="auto">' + esc(row.title) +
+      '<article class="box cr-detail">' + (row.cover ? '<span class="cr-cover">' + IS.poster(row.cover, row.title) + '</span>' : '') +
+      (owner && row.status === 'rejected' ? note('رُفض نشر هذا الطلب. عدّله ثم أعد إرساله للمراجعة.', 'This request was declined. Edit it, then send it again for review.') : '') +
+      (owner && row.status === 'pending' ? note('طلبك بانتظار موافقة الإدارة. يمكنك تعديله قبل النشر.', 'Your request is waiting for the team’s approval. You can edit it before it is published.') : '') +
+      '<header class="cr-heading"><h1 tabindex="-1" dir="auto">' + esc(row.title) +
       '</h1><div class="crmeta">' + '<span class="crm">' + IS.ic('user') + '<small>' + text('صاحب الطلب', 'Requested by') + '</small><bdi dir="auto">' + esc(row.author_name || '') + '</bdi></span>' +
       (function () { var sp = IS.spec(row.spec), ct = IS.cat(row.cat); return (sp ? '<span class="crm">' + IS.ic('layers') + '<bdi>' + esc(A(sp.ar, sp.en)) + '</bdi></span>' : '') +
         (ct ? '<span class="crm">' + IS.ic('grid') + '<bdi lang="en">' + esc(ct.en) + '</bdi></span>' : ''); })() + status(row) +
@@ -411,8 +480,10 @@
     if (proposals.length) h += '<section class="cr-public-offers"><h3>' + IS.T('عروض التدريس المنشورة', 'Published teaching offers') + '</h3>' +
       proposals.map(function (o) { return termsBlock(o, false); }).join('') + '</section>';
     h += '</section>';
-    if (admin || owner) {
+    if (admin || owner || canEdit(row)) {
       h += '<div class="row">' +
+        (canEdit(row) ? '<button type="button" class="btn sm ' + (owner && row.status === 'rejected' ? 'pri' : 'ghost') + '" data-act="cr-edit" data-request="' + esc(row.id) + '">' + ic('pen') +
+          (owner && !canManage() ? text('عدّل الطلب وأعد إرساله', 'Edit and send again') : text('عدّل الطلب', 'Edit request')) + '</button>' : '') +
         (admin && row.status === 'pending' && IS.can('review', 'approve') ? commandButton(row, 'approve', 'وافق وانشر', 'Approve and publish', 'pri') + commandButton(row, 'reject', 'ارفض الطلب', 'Decline request', 'bad') : '') +
         (owner && open ? commandButton(row, 'close', 'أغلق الانضمام', 'Close joining') : '') +
         (!row.reserved_count && (owner || (admin && IS.can('review', 'delete'))) ? commandButton(row, 'delete', 'احذف الطلب', 'Delete request', 'bad') : '') + '</div>';
@@ -484,6 +555,7 @@
 
   IS.ACT['cr-command'] = async function (button) {
     var action = button.dataset.command, id = button.dataset.request;
+    if (button.closest('#sheet')) IS.closeSheet();
     var confirm = {
       close: ['هل تريد إغلاق الانضمام إلى هذا الطلب؟', 'Close joining for this request?'],
       delete: ['هل تريد حذف الطلب؟', 'Delete this request?'],

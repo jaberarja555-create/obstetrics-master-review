@@ -10,18 +10,27 @@
     news: { edit: ['notify', 'edit'], del: ['notify', 'delete'] },
     notice: { del: ['notify', 'delete'] },
     event: { edit: ['events', 'edit'], del: ['events', 'delete'] },
-    course: { edit: ['review', 'approve'], del: ['review', 'approve'] }
+    course: { edit: ['review', 'approve'], del: ['review', 'approve'] },
+    request: { edit: ['review', 'approve'], del: ['review', 'delete'] }
   };
-  function may(kind, what) { var r = RULES[kind] && RULES[kind][what]; return !!(r && IS.can(r[0], r[1])); }
+  function may(kind, what) { var r = RULES[kind] && RULES[kind][what]; return !!(r && (IS.can(r[0], r[1]) || (kind === 'request' && what === 'edit' && IS.can('review', 'edit')))); }
   IS.manageBtn = function (kind, id) {
     if (!IS.ME || !(may(kind, 'edit') || may(kind, 'del'))) return '';
     return '<button type="button" class="mng" data-act="manage" data-k="' + esc(kind) + '" data-id="' + esc(id) + '" aria-label="' + esc(A('إدارة', 'Manage')) + '" title="' + esc(A('إدارة (للفريق)', 'Manage (team)')) + '">' + ic('more') + '</button>';
   };
-  var TABLE = { post: 'posts', file: 'files', news: 'news', notice: 'notices', event: 'events', course: 'courses' };
+  var TABLE = { post: 'posts', file: 'files', news: 'news', notice: 'notices', event: 'events', course: 'courses', request: 'course_requests' };
   IS.ACT.manage = async function (b) {
     var kind = b.dataset.k, id = b.dataset.id, row = await DB.one(TABLE[kind], id).catch(function () { return null; });
     if (!row) return IS.toast(A('لم يُعثر عليه', 'Not found'));
     var title = row.title || A('بدون عنوان', 'Untitled'), edit = '';
+    if (kind === 'request') {   /* course requests: the full edit form (cover, price, date …) and delete through the request commands */
+      var st = { pending: A('بانتظار الموافقة', 'Waiting for approval'), open: A('منشور', 'Published'), rejected: A('مرفوض', 'Declined'), closed: A('مغلق', 'Closed') }[row.status] || row.status;
+      return IS.sheet(A('إدارة: ', 'Manage: ') + esc(title), '<p class="mut">' + esc(A('هذه الأدوات تظهر لفريق المنصة فقط.', 'These tools are shown to the platform team only.')) + ' · ' + esc(st) + '</p>' +
+        '<div class="mng-list">' + (may(kind, 'edit') ? '<button type="button" class="btn ghost wide" data-act="cr-edit" data-request="' + esc(id) + '">' + ic('pen') + esc(A('عدّل الطلب والصورة', 'Edit the request and picture')) + '</button>' : '') +
+        (row.status === 'pending' && IS.can('review', 'approve') ? '<button type="button" class="btn pri wide" data-act="cr-command" data-command="approve" data-request="' + esc(id) + '">' + ic('check') + esc(A('وافق وانشر', 'Approve and publish')) + '</button>' +
+          '<button type="button" class="btn ghost bad wide" data-act="cr-command" data-command="reject" data-request="' + esc(id) + '">' + esc(A('ارفض الطلب', 'Decline request')) + '</button>' : '') +
+        (may(kind, 'del') && !row.reserved_count ? '<button type="button" class="btn ghost bad wide" data-act="cr-command" data-command="delete" data-request="' + esc(id) + '">' + ic('trash') + esc(A('احذف الطلب', 'Delete request')) + '</button>' : '') + '</div>');
+    }
     if (may(kind, 'edit')) {
       if (kind === 'post') edit = field('title', A('العنوان', 'Title'), row.title) + area('body', A('النص', 'Text'), row.body);
       else if (kind === 'news') edit = field('title', A('العنوان', 'Title'), row.title) + area('body', A('النص', 'Text'), row.body);
@@ -56,7 +65,7 @@
       if (/^(post|file|news|event|course)$/.test((location.hash.slice(1).split('/')[0]) || '')) IS.go('home'); else IS.refresh();
     } catch (e) { IS.toast(A('تعذّر الحذف: ', 'Could not delete: ') + (e.message || '')); }
   };
-  var PAGEKIND = { post: 'post', file: 'file', course: 'course', event: 'event', news: 'news' };
+  var PAGEKIND = { post: 'post', file: 'file', course: 'course', event: 'event', news: 'news', 'course-request': 'request', 'control-course-request': 'request', 'studio-course-request': 'request' };
   var prevRoute = IS.onRoute;
   IS.onRoute = function (name, arg, main) {
     if (prevRoute) try { prevRoute(name, arg, main); } catch (e) {}
