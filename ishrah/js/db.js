@@ -268,7 +268,26 @@
       del: async function (t, id) { forget(); chk(await sb.from(t).delete().eq('id', id)); },
       upload: async function (bucket, file) {
         var ext = (file.name || '').split('.').pop() || 'jpg', path = UID + '/' + uuid() + '.' + ext.toLowerCase();
-        chk(await sb.storage.from(bucket).upload(path, file, { upsert: false, contentType: file.type || undefined })); return bucket === 'media' ? sb.storage.from('media').getPublicUrl(path).data.publicUrl : path;
+        /* the upload reports its progress (owner, 20 Nov 2026: "it takes a long time to upload a file or make or edit a post"): the button of the
+           form shows «جارٍ الرفع 45٪» (event ish-upload); if this way fails, the normal upload is used */
+        var sent = false;
+        try {
+          var tk = await token();
+          await new Promise(function (ok, no) {
+            var x = new XMLHttpRequest();
+            x.open('POST', CFG.supabaseUrl + '/storage/v1/object/' + bucket + '/' + path.split('/').map(encodeURIComponent).join('/'));
+            x.setRequestHeader('authorization', 'Bearer ' + (tk || CFG.supabaseAnonKey));
+            x.setRequestHeader('apikey', CFG.supabaseAnonKey);
+            x.setRequestHeader('x-upsert', 'false');
+            if (file.type) x.setRequestHeader('content-type', file.type);
+            x.upload.onprogress = function (e) { if (e.lengthComputable) window.dispatchEvent(new CustomEvent('ish-upload', { detail: { loaded: e.loaded, total: e.total } })); };
+            x.onload = function () { if (x.status >= 200 && x.status < 300) { sent = true; ok(); } else no(new Error(x.responseText || ('upload ' + x.status))); };
+            x.onerror = function () { no(new Error('network')); };
+            x.send(file);
+          });
+        } catch (e) { if (/already exists|Duplicate/i.test(e.message || '')) sent = true; }
+        if (!sent) chk(await sb.storage.from(bucket).upload(path, file, { upsert: false, contentType: file.type || undefined }));
+        window.dispatchEvent(new CustomEvent('ish-upload', { detail: { done: true } })); return bucket === 'media' ? sb.storage.from('media').getPublicUrl(path).data.publicUrl : path;
       },
       /* the same address for the same file for 50 minutes, so the phone keeps the picture in its cache instead of downloading it again on every page */
       fileUrl: async function (bucket, path) { if (!path) return ''; if (/^(https?:|data:|blob:|img\/)/.test(path)) return path;

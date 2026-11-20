@@ -478,7 +478,18 @@
         return url ? '<a class="btn ghost sm" href="' + IS.U(url) + '" target="_blank" rel="noopener noreferrer">' +
           esc(entry[1]) + '</a>' : '<span class="mut">' + esc(entry[1] + ' · ' + A('غير متاح', 'Unavailable')) + '</span>';
       }));
-    IS.sheet(esc(A('مراجعة تعديل الملف', 'Review file edit')), '<h2 dir="auto">' + esc(changes.title) + '</h2><p dir="auto">' +
+    var seriesInfo = '';
+    if (revision.for_series && changes.full) {   // whole-series edit: cover, type, price, tags and the parts in their new order
+      var parts = (await DB.q('files', { eq: { series_id: file.series_id, owner_id: file.owner_id } })).filter(function (p) { return p.status !== 'removed'; });
+      var byId = {}; parts.forEach(function (p) { byId[p.id] = p; });
+      var k = IS.libraryKind(changes.kind);
+      seriesInfo = (changes.series_cover ? '<img class="rev-cover" src="' + IS.U(changes.series_cover) + '" alt="">' : '') +
+        '<p>' + IS.priceTag({ price: changes.price }) + ' · ' + esc(A(k[2], k[3])) + '</p>' +
+        '<ol class="rev-parts">' + (changes.order || []).map(function (id) { var p = byId[id] || {}, t = (changes.titles || {})[id];
+          return '<li dir="auto">' + esc(t || p.title || '') + (t ? ' <small class="mut">(' + esc(A('كان: ', 'was: ') + (p.title || '')) + ')</small>' : '') + '</li>'; }).join('') + '</ol>' +
+        ((changes.remove || []).length ? '<p class="note bad">' + esc(A('أجزاء ستُزال: ', 'Parts to remove: ')) + (changes.remove || []).map(function (id) { return esc((byId[id] || {}).title || id); }).join(' · ') + '</p>' : '');
+    }
+    IS.sheet(esc(A('مراجعة تعديل الملف', 'Review file edit')), '<h2 dir="auto">' + esc(changes.title) + '</h2>' + seriesInfo + '<p dir="auto">' +
       esc(changes.author) + '</p><p class="pre" dir="auto">' + esc(changes.about) + '</p><p dir="auto">' +
       esc((changes.tags || []).join(' · ')) + '</p>' + (changes.subjects ? '<p><strong>' + esc(A('المواد المقترحة', 'Proposed subjects')) +
         '</strong> · <bdi lang="en">' + esc(IS.librarySubjectNames(changes).join(' · ') || '—') + '</bdi></p>' : '') +
@@ -510,8 +521,15 @@
         var proposed = revision.changes;
         var parts = await DB.q('files', { eq: { series_id: file.series_id, owner_id: file.owner_id, spec: file.spec, cat: file.cat } });
         await Promise.all(parts.map(function (part) {
-          return DB.upd('files', part.id, { series_title: proposed.series_title, author: proposed.author, about: proposed.about,
-            subjects: proposed.subjects, subject: proposed.subjects[0] || null });
+          var change = { series_title: proposed.series_title, author: proposed.author, about: proposed.about, subjects: proposed.subjects, subject: proposed.subjects[0] || null };
+          if (proposed.full) {
+            Object.assign(change, { kind: proposed.kind, tags: proposed.tags, price: proposed.price, rights_origin: proposed.rights_origin, rights_source: proposed.rights_source,
+              series_cover: proposed.series_cover || null });
+            var at = (proposed.order || []).indexOf(part.id); if (at >= 0) change.series_no = at + 1;
+            if (proposed.titles && proposed.titles[part.id]) change.title = proposed.titles[part.id];
+            if ((proposed.remove || []).indexOf(part.id) >= 0) change.status = 'removed';
+          }
+          return DB.upd('files', part.id, change);
         }));
       } else if (publish) {
         var changes = revision.changes;

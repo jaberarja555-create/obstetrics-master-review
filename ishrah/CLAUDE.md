@@ -800,3 +800,19 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - Asset version 188, shell cache ish-v88.
 - Edit buttons are a round pen only (`.btn.iconly`); series parts show 📄 pages · 📖 page reached · ✅ finished · ⏳ awaiting review and a thin
   reading-progress line; series show only the number of parts (`IS.partsCount`), not pages. Asset version 189, shell cache ish-v89.
+
+## Full series editor, series cover, saving feedback · 20 Nov 2026
+- Owner: «edit book series should be for everything like you are doing it from start, and also can put cover picture for the series»;
+  «مجاني مكرر، ومكان التعليق والتفاعل ممكن يكون فوق مع السلسلة»; «it takes long time to upload a file or make or edit a post».
+  - `042_series_full_edit.sql`: `files.series_cover` (public media picture); `ish_submit_series_revision(target, revised)` = name, type, subjects,
+    author, description, tags, free/paid + price with the rights declaration, series cover, order of parts, new part names, parts to remove
+    (at least one stays); stored as the series revision (`changes.full`); approving (`review_library_revision`) applies it to every part
+    (series_no from the order, titles, removed parts status removed). New parts = ordinary uploads into the series (pending); an insert guard
+    stops anyone adding a part to another owner's series and copies the series cover. Editor = series.js `IS.ACT[edit-library-series]`
+    (cover, fields, sale fields, parts list with rename / up / down / remove, «أضف أجزاء جديدة»); Control review shows cover, price, type,
+    the new order with old names and the parts to remove. Cards and the series page use `IS.seriesFace` (series cover first).
+  - Series page: the feedback bar is inside the series box (`.shead-fb`); no second price badge; removed parts never shown.
+  - Every form button shows a spinner and «جارٍ الحفظ…» at once, and «جارٍ الرفع 45%» while a file uploads (db.js live upload sends with
+    XMLHttpRequest and reports progress through the `ish-upload` event; falls back to supabase-js). Real speed is limited by the network and
+    the Ireland server (R2 move before launch).
+- Asset version 190, shell cache ish-v90.

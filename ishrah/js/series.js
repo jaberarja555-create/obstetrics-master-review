@@ -82,6 +82,9 @@
     return out;
   };
   /* a series shows how many books it holds, not pages (owner, 20 Nov 2026: each part is a separate book or sheet) */
+  /* the series' own cover when it has one, else the first part's */
+  function seriesFace(first) { return first.series_cover ? Object.assign({}, first, { cover: first.series_cover }) : first; }
+  IS.seriesFace = seriesFace;
   IS.partsCount = function (n) {
     if (IS.lang !== 'ar') return n + (n === 1 ? ' part' : ' parts');
     return n === 1 ? 'جزء واحد' : n === 2 ? 'جزآن' : n <= 10 ? n + ' أجزاء' : n + ' جزءًا';
@@ -90,7 +93,7 @@
     var first = s._parts[0], k = IS.libraryKind(first.kind), pages = s._parts.reduce(function (a, p) { return a + (+p.pages || 0); }, 0);
     return '<article class="' + (feed ? 'box feed-card feed-series' : 'fcard scard') + '">' +
       (feed ? '<header class="feed-card-header"><span>' + ic('layers') + esc(A('سلسلة في المكتبة', 'Library series')) + '</span>' + (first.published_at ? '<time>' + esc(IS.ago(first.published_at)) + '</time>' : '') + '</header>' : '') +
-      '<a class="fimg sstack" href="#series/' + esc(s.series_id) + '" aria-label="' + esc(s.series_title || first.title) + '">' + IS.libraryCover(first) + '<span class="scount">' + ic('layers') + N(s._parts.length) + '</span></a>' +
+      '<a class="fimg sstack" href="#series/' + esc(s.series_id) + '" aria-label="' + esc(s.series_title || first.title) + '">' + IS.libraryCover(seriesFace(first)) + '<span class="scount">' + ic('layers') + N(s._parts.length) + '</span></a>' +
       '<div class="fb"><span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + ' · ' + esc(A('سلسلة', 'Series')) + '</span><b><a href="#series/' + esc(s.series_id) + '" dir="auto">' + esc(s.series_title || first.title) + '</a></b>' +
       '<small>' + esc(IS.partsCount(s._parts.length)) + (first.author ? ' · ' + esc(first.author) : '') + '</small>' +
       '<div class="row library-feed-actions"><a class="btn ghost sm" href="#series/' + esc(s.series_id) +
@@ -101,7 +104,7 @@
   IS.page('series', async function (arg) {
     var id = String(arg || '').split('/')[0];
     await IS.loadBuys();
-    var parts = (await DB.q('files', { eq: { series_id: id } })).filter(function (f) { return f.status === 'published' || (IS.ME && (f.owner_id === IS.ME.id || IS.can('library', 'approve'))); })
+    var parts = (await DB.q('files', { eq: { series_id: id } })).filter(function (f) { return f.status === 'published' || (f.status !== 'removed' && IS.ME && (f.owner_id === IS.ME.id || IS.can('library', 'approve'))); })
       .sort(function (a, b) { return (a.series_no || 9999) - (b.series_no || 9999) || a.id.localeCompare(b.id); });
     if (!parts.length) return null;
     var first = parts[0], k = IS.libraryKind(first.kind), title = first.series_title || first.title;
@@ -110,20 +113,17 @@
     var pages = parts.reduce(function (a, p) { return a + (+p.pages || 0); }, 0), lastRead = 0;
     parts.forEach(function (p, i) { try { if (+JSON.parse(localStorage.getItem('ish-rpg:' + p.id) || '0') > 0) lastRead = i; } catch (e) {} });
     var h = '<nav class="crumb"><a href="#library">' + esc(A('مكتبتي', 'My Library')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(title) + '</span></nav>';
-    h += '<article class="box shead"><div class="sstack big">' + IS.libraryCover(first) + '<span class="scount">' + ic('layers') + N(parts.length) + '</span></div><div class="sinfo">' +
+    h += '<article class="box shead"><div class="sstack big">' + IS.libraryCover(seriesFace(first)) + '<span class="scount">' + ic('layers') + N(parts.length) + '</span></div><div class="sinfo">' +
       '<span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + ' · ' + esc(A('سلسلة', 'Series')) + '</span><h1 tabindex="-1" dir="auto">' + esc(title) + '</h1>' +
       '<p class="mut">' + IS.librarySubjectNames({ _parts: parts }).concat(first.author).filter(Boolean).map(esc).join(' · ') + '</p>' +
       '<div class="sfacts"><span>' + ic('layers') + esc(IS.partsCount(parts.length)) + '</span>' + '' + '</div>' +
-      '<div class="row fprice">' + IS.priceTag(first) + IS.tagChips(first) + '</div>' +
+      (IS.tagChips(first) ? '<div class="row fprice">' + IS.tagChips(first) + '</div>' : '') +
       (first.about ? '<p class="pre" dir="auto">' + esc(first.about) + '</p>' : '') +
       '<div class="row">' + (first.status === 'published' && !IS.fileOpenable(first) ? IS.buyBtn(first) : IS.ME ? '<button type="button" class="btn pri" data-act="sread" data-id="' + esc(parts[lastRead].id) + '">' + ic('open') +
         esc(lastRead ? A('تابع: الجزء ', 'Continue: part ') + (lastRead + 1) : A('ابدأ من الجزء الأول', 'Start with part 1')) + '</button>' :
         '<button type="button" class="btn pri" data-act="login">' + ic('lock') + esc(A('سجّل الدخول للقراءة', 'Sign in to read')) + '</button>') +
       (own ? '<button type="button" class="btn ghost iconly" data-act="edit-library-series" data-id="' + esc(own.id) + '" aria-label="' + esc(A('تعديل السلسلة', 'Edit series')) + '" title="' + esc(A('تعديل السلسلة', 'Edit series')) + '">' + ic('pen') + '</button>' : '') +
-      '</div></div></article>';
-    if (parts.some(function (part) { return part.status === 'published'; })) {
-      h += '<section class="box series-feedback">' + seriesFeedback(id, first) + '</section>';
-    }
+      '</div></div>' + (parts.some(function (part) { return part.status === 'published'; }) ? '<div class="shead-fb">' + seriesFeedback(id, first) + '</div>' : '') + '</article>';
     h += '<section class="box"><h2>' + ic('list') + IS.T('أجزاء السلسلة', 'Parts') + '</h2><ol class="sparts">' + parts.map(function (p, i) {
       var pg = 0; try { pg = +JSON.parse(localStorage.getItem('ish-rpg:' + p.id) || '0') || 0; } catch (e) {}
       var done = pg && p.pages && pg >= p.pages;
@@ -325,6 +325,113 @@
         drawOrder(form);
         IS.toast(A('توقف الرفع: ', 'Upload stopped: ') + (error.message || ''), true);
       }
+    } finally { form.inert = btn.disabled = false; prog.hidden = true; }
+  };
+  /* ========== edit a whole series like uploading it (owner, 20 Nov 2026: «edit book series should be for everything like you are doing it
+     from start, and also can put cover picture for the series») ========== */
+  var ED = null;   // { lead, parts: [{ id, title, old, status, removed }], add: [File] }
+  function drawEditParts(form) {
+    var box = form.querySelector('#sedparts');
+    box.innerHTML = ED.parts.map(function (p, i) {
+      return '<li class="' + (p.removed ? 'gone' : '') + '"><span class="sno">' + (i + 1) + '</span>' +
+        '<input class="sedt" data-i="' + i + '" value="' + esc(p.title) + '" dir="auto" maxlength="160" aria-label="' + esc(A('اسم الجزء', 'Part name')) + '"' + (p.removed ? ' disabled' : '') + '>' +
+        (p.status !== 'published' ? '<small class="mut">' + esc(A('بانتظار النشر', 'Not published yet')) + '</small>' : '') +
+        '<span class="sed-b"><button type="button" class="ib sm" data-act="sedmove" data-i="' + i + '" data-d="-1"' + (i ? '' : ' disabled') + ' aria-label="' + esc(A('أعلى', 'Up')) + '">' + ic('up') + '</button>' +
+        '<button type="button" class="ib sm" data-act="sedmove" data-i="' + i + '" data-d="1"' + (i < ED.parts.length - 1 ? '' : ' disabled') + ' aria-label="' + esc(A('أسفل', 'Down')) + '">' + ic('down') + '</button>' +
+        '<button type="button" class="ib sm' + (p.removed ? ' on' : ' bad') + '" data-act="sedrm" data-i="' + i + '" aria-label="' + esc(p.removed ? A('إرجاع الجزء', 'Keep this part') : A('إزالة الجزء', 'Remove this part')) + '" title="' +
+          esc(p.removed ? A('إرجاع الجزء', 'Keep this part') : A('إزالة الجزء', 'Remove this part')) + '">' + ic(p.removed ? 'plus' : 'trash') + '</button></span></li>';
+    }).join('') + ED.add.map(function (f, i) {
+      return '<li class="new"><span class="sno">+</span><span class="grow" dir="auto">' + esc(partName(f)) + '</span><small class="mut">' + esc(A('جزء جديد', 'New part')) + '</small>' +
+        '<span class="sed-b"><button type="button" class="ib sm bad" data-act="sedaddrm" data-i="' + i + '" aria-label="' + esc(A('إلغاء', 'Cancel')) + '">' + ic('x') + '</button></span></li>';
+    }).join('');
+  }
+  IS.ACT['edit-library-series'] = async function (button) {
+    var file = await DB.one('files', button.dataset.id);
+    if (!file || !file.series_id || !IS.editLibraryFileButton(file)) return;
+    var all = (await DB.q('files', { eq: { series_id: file.series_id, owner_id: file.owner_id } })).filter(function (p) { return p.status !== 'removed'; })
+      .sort(function (a, b) { return (a.series_no || 9999) - (b.series_no || 9999) || a.id.localeCompare(b.id); });
+    var lead = all[0] || file;
+    var rev = (await DB.q('library_file_revisions', { eq: { file_id: lead.id } })).find(function (r) { return r.for_series; });
+    var waiting = rev && rev.status !== 'approved' ? rev.changes : {};
+    var f = Object.assign({}, lead, waiting, { title: waiting.series_title || lead.series_title || lead.title });
+    ED = { lead: lead, cover: f.series_cover || null, parts: all.map(function (p) {
+      var t = waiting.titles && waiting.titles[p.id];
+      return { id: p.id, title: t || p.title, old: p.title, status: p.status, removed: !!(waiting.remove && waiting.remove.indexOf(p.id) >= 0) };
+    }), add: [] };
+    if (waiting.order && waiting.order.length) ED.parts.sort(function (a, b) { var x = waiting.order.indexOf(a.id), y = waiting.order.indexOf(b.id); return (x < 0 ? 999 : x) - (y < 0 ? 999 : y); });
+    var face = IS.libraryCover(seriesFace(Object.assign({}, lead, { series_cover: ED.cover })));
+    var box = IS.sheet(esc(A('تعديل السلسلة', 'Edit series')), '<form class="form sedit" data-form="sedit">' +
+      (rev && rev.status !== 'approved' ? '<p class="note">' + IS.status(rev.status) + (rev.review_note ? ' ' + esc(rev.review_note) : '') + '</p>' : '') +
+      '<p class="note">' + ic('shield') + '<span>' + esc(A('تُرسل التعديلات إلى فريق المحتوى، وتبقى السلسلة الحالية ظاهرة حتى الموافقة.', 'Your changes go to the content team; the current series stays visible until they are approved.')) + '</span></p>' +
+      '<div class="sed-cover"><span class="sed-face" id="sedface">' + face + '</span><div><b>' + esc(A('غلاف السلسلة', 'Series cover')) + '</b>' +
+        '<small class="mut">' + esc(A('صورة واحدة للسلسلة كلها تظهر في المكتبة والصفحة الرئيسية.', 'One picture for the whole series, shown in the library and on Home.')) + '</small>' +
+        '<label class="btn ghost sm">' + ic('image') + esc(A('اختر صورة', 'Choose a picture')) + '<input type="file" name="scover" accept="image/jpeg,image/png,image/webp" hidden></label>' +
+        (ED.cover ? '<label class="chk"><input type="checkbox" name="scover_rm"><span>' + esc(A('استخدم غلاف الجزء الأول', 'Use the first part’s cover')) + '</span></label>' : '') + '</div></div>' +
+      '<label class="fl"><span>' + esc(A('اسم السلسلة', 'Series name')) + ' *</span><input name="series_title" required maxlength="160" dir="auto" value="' + esc(f.title) + '"></label>' +
+      IS.libraryKindField(f) + IS.librarySubjectField(f, true) +
+      '<label class="fl"><span>' + esc(A('المؤلف أو المصدر', 'Author or source')) + '</span><input name="author" maxlength="120" dir="auto" value="' + esc(f.author || '') + '"></label>' +
+      '<label class="fl"><span>' + esc(A('وصف قصير', 'Short description')) + '</span><textarea name="about" rows="2" maxlength="600" dir="auto">' + esc(f.about || '') + '</textarea></label>' +
+      IS.sellFields(f, true) +
+      '<fieldset class="sellf"><legend>' + esc(A('أجزاء السلسلة', 'Parts of the series')) + '</legend><small class="mut">' +
+        esc(A('غيّر الأسماء والترتيب، أزل جزءًا، أو أضف أجزاء جديدة.', 'Rename, reorder, remove a part or add new parts.')) + '</small><ol class="sedparts" id="sedparts"></ol>' +
+        '<label class="btn ghost sm wide">' + ic('upload') + esc(A('أضف أجزاء جديدة', 'Add new parts')) + '<input type="file" name="sadd" multiple accept="' + IS.libraryFileAccept + '" hidden></label></fieldset>' +
+      '<p class="sprog mut" id="sedprog" hidden></p><button class="btn pri wide">' + ic('send') + esc(A('إرسال التعديلات للمراجعة', 'Send the changes for review')) + '</button></form>');
+    drawEditParts(box.querySelector('form'));
+  };
+  document.addEventListener('input', function (e) { if (ED && e.target.matches('.sedt')) ED.parts[+e.target.dataset.i].title = e.target.value; });
+  document.addEventListener('change', function (e) {
+    var t = e.target, form = t.form; if (!ED || !form || form.dataset.form !== 'sedit') return;
+    if (t.name === 'sadd') { Array.from(t.files || []).forEach(function (x) { ED.add.push(x); }); ED.add.sort(function (a, b) { return a.name.localeCompare(b.name, undefined, { numeric: true }); }); t.value = ''; drawEditParts(form); }
+    else if (t.name === 'scover' && t.files[0]) {
+      if (!/^image\/(jpeg|png|webp)$/.test(t.files[0].type)) { t.value = ''; return IS.toast(A('اختر صورة JPG أو PNG أو WebP.', 'Choose a JPG, PNG or WebP picture.'), true); }
+      form.querySelector('#sedface').innerHTML = '<img src="' + esc(URL.createObjectURL(t.files[0])) + '" alt="">';
+    }
+  });
+  IS.ACT.sedmove = function (b) { var i = +b.dataset.i, j = i + +b.dataset.d, x = ED.parts[i]; ED.parts[i] = ED.parts[j]; ED.parts[j] = x; drawEditParts(b.form); };
+  IS.ACT.sedrm = function (b) {
+    var p = ED.parts[+b.dataset.i];
+    if (!p.removed && ED.parts.filter(function (x) { return !x.removed; }).length + ED.add.length <= 1) return IS.toast(A('يجب أن يبقى جزء واحد على الأقل.', 'At least one part must stay.'), true);
+    p.removed = !p.removed; drawEditParts(b.form);
+  };
+  IS.ACT.sedaddrm = function (b) { ED.add.splice(+b.dataset.i, 1); drawEditParts(b.form); };
+  IS.SUB.sedit = async function (data, form) {
+    if (!ED || form.inert) return;
+    var sale; try { sale = IS.readSell(data); } catch (error) { return IS.toast(error.message, true); }
+    for (var x of ED.add) { try { IS.validateLibraryFiles(x, null, null); } catch (error) { return IS.toast(x.name + ' · ' + error.message, true); } }
+    var lead = ED.lead, btn = form.querySelector('button.pri'), prog = form.querySelector('#sedprog');
+    form.inert = btn.disabled = true; prog.hidden = false; prog.textContent = A('جارٍ الحفظ…', 'Saving…');
+    try {
+      var cover = ED.cover, pick = form.elements.scover.files[0];
+      if (pick) cover = await DB.upload('media', await IS.shrink(pick, 1000, 0.85));
+      else if (form.elements.scover_rm && form.elements.scover_rm.checked) cover = null;
+      var subjects = IS.librarySubjectMetadata(data.subjects, lead).subjects, titles = {};
+      ED.parts.forEach(function (p) { var t = String(p.title || '').trim(); if (!p.removed && t && t !== p.old) titles[p.id] = t.slice(0, 160); });
+      var proposed = Object.assign({ series_title: data.series_title.trim(), title: data.series_title.trim(), kind: data.kind, subjects: subjects, author: data.author || '', about: data.about || '',
+        series_cover: cover || '', order: ED.parts.filter(function (p) { return !p.removed; }).map(function (p) { return p.id; }), titles: titles,
+        remove: ED.parts.filter(function (p) { return p.removed; }).map(function (p) { return p.id; }), full: true }, sale);
+      if (DB.live) { var r = await DB.sb.rpc('ish_submit_series_revision', { target: lead.id, revised: proposed }); if (r.error) throw r.error; }
+      else {
+        var old = (await DB.q('library_file_revisions', { eq: { file_id: lead.id } })).find(function (row) { return row.for_series; });
+        if (old) await DB.del('library_file_revisions', old.id);
+        await DB.ins('library_file_revisions', { file_id: lead.id, owner_id: lead.owner_id, for_series: true, changes: proposed, status: 'pending' });
+      }
+      // new parts are ordinary uploads into the series, reviewed before publishing
+      var next = ED.parts.filter(function (p) { return !p.removed; }).length;
+      for (var i = 0; i < ED.add.length; i++) {
+        prog.textContent = A('جارٍ رفع الجزء الجديد ', 'Uploading new part ') + (i + 1) + ' / ' + ED.add.length + '…';
+        var row = { id: uuid(), title: partName(ED.add[i]).slice(0, 160), series_id: lead.series_id, series_title: lead.series_title, series_no: next + i + 1,
+          kind: lead.kind, author: lead.author || '', about: lead.about || '', subject: lead.subject, subjects: lead.subjects, spec: lead.spec, cat: lead.cat,
+          price: lead.price || 0, tags: lead.tags || [], rights_origin: lead.rights_origin, rights_source: lead.rights_source, rights_confirmed: true,
+          owner_id: IS.ME.id, owner_name: IS.ME.name, status: IS.can('library', 'approve') ? 'published' : 'pending' };
+        await IS.attachLibraryFiles(row, ED.add[i], null, null);
+        if (!DB.live && row.status === 'published') row.published_at = new Date().toISOString();
+        await DB.ins('files', row);
+      }
+      ED = null; IS.closeSheet();
+      IS.toast(A('أُرسلت التعديلات للمراجعة. ستصلك رسالة عند اعتمادها.', 'Your changes were sent for review. You will be notified when they are approved.'));
+      IS.refresh();
+    } catch (error) {
+      IS.toast(A('تعذّر الحفظ: ', 'Could not save: ') + (error.message || ''), true);
     } finally { form.inert = btn.disabled = false; prog.hidden = true; }
   };
   IS.resetSeries = function () {

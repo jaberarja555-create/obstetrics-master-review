@@ -3867,3 +3867,30 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 .sp-b small{display:flex;flex-wrap:wrap;gap:4px 10px}
 .sp-prog{display:block;height:4px;margin-top:6px;border-radius:4px;background:linear-gradient(90deg,var(--pri) var(--p),var(--bd) var(--p))}
 [dir="rtl"] .sp-prog{background:linear-gradient(270deg,var(--pri) var(--p),var(--bd) var(--p))}
+
+/* series page: feedback inside the series box (owner: «مكان التعليق والتفاعل ممكن يكون فوق مع السلسلة»), the full series editor */
+.shead{flex-wrap:wrap}
+.shead-fb{flex:1 1 100%;min-width:0;margin-top:6px}
+.sed-cover{display:flex;align-items:center;gap:14px;padding:10px;border:1px dashed var(--bd2);border-radius:14px}
+.sed-face{flex:none;width:86px;aspect-ratio:3/4;border-radius:10px;overflow:hidden;background:var(--tint)}
+.sed-face>*{width:100%!important;height:100%!important;border-radius:0!important}
+.sed-face img{width:100%;height:100%;object-fit:cover}
+.sed-cover>div{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0}
+.sed-cover small{line-height:1.4}
+.sedparts{list-style:none;margin:8px 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.sedparts li{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:6px 8px;border:1px solid var(--bd);border-radius:12px;background:var(--sf)}
+.sedparts li .sno{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--tint);font-weight:700;font-size:12.5px}
+.sedparts .sedt{flex:1 1 140px;min-width:0;height:36px}
+.sedparts .grow{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sedparts .sed-b{display:flex;gap:4px;margin-inline-start:auto}
+.sedparts li.gone{opacity:.55}
+.sedparts li.gone .sedt{text-decoration:line-through}
+.sedparts li.new{border-style:dashed;border-color:var(--pri)}
+.rev-cover{width:110px;aspect-ratio:3/4;object-fit:cover;border-radius:10px;margin:6px 0}
+.rev-parts{margin:6px 0;padding-inline-start:20px}
+.shead>.shead-fb{grid-column:1 / -1}
+/* busy buttons: spinner + «جارٍ الحفظ…» / «جارٍ الرفع 45%» */
+.btn.busy{opacity:.85!important;pointer-events:none;justify-content:center}
+.btn .spin{display:inline-block;width:15px;height:15px;border-radius:50%;border:2px solid currentColor;border-inline-end-color:transparent;animation:ishspin .7s linear infinite;flex:none}
+@keyframes ishspin{to{transform:rotate(360deg)}}
+.cmt-send.busy .spin{width:14px;height:14px}.cmt-send.busy span{display:none}

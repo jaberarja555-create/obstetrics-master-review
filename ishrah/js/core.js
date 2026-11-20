@@ -635,8 +635,20 @@
   document.addEventListener('submit', function (e) {
     var f = e.target.closest('[data-form]'); if (!f) return;
     if (f.closest('[data-saved-page]')) { e.preventDefault(); return; } var h = IS.SUB[f.getAttribute('data-form')]; if (!h) return; e.preventDefault();
-    var btn = f.querySelector('button:not([type=button])'); if (btn) { if (btn.disabled) return; btn.disabled = true; btn.classList.add('busy'); }
-    Promise.resolve(h(IS.form(f), f)).catch(IS.fail).then(function () { if (btn) { btn.disabled = false; btn.classList.remove('busy'); } });
+    var btn = f.querySelector('button:not([type=button])'), was = '', upl = null;
+    if (btn) {
+      if (btn.disabled) return; btn.disabled = true; btn.classList.add('busy'); was = btn.innerHTML;
+      /* the button says what is happening at once, and the upload percentage while a file is sent (owner, 20 Nov 2026: saving felt stuck) */
+      btn.style.minWidth = btn.offsetWidth + 'px';
+      btn.innerHTML = '<i class="spin"></i><span>' + esc(A('جارٍ الحفظ…', 'Saving…')) + '</span>';
+      upl = function (e) { var d = e.detail || {}; if (!btn.isConnected || d.done || !d.total) return; var s = btn.querySelector('span');
+        if (s) s.textContent = A('جارٍ الرفع ', 'Uploading ') + Math.round(d.loaded / d.total * 100) + '%'; };
+      window.addEventListener('ish-upload', upl);
+    }
+    Promise.resolve(h(IS.form(f), f)).catch(IS.fail).then(function () {
+      if (upl) window.removeEventListener('ish-upload', upl);
+      if (btn) { btn.disabled = false; btn.classList.remove('busy'); if (btn.querySelector('.spin')) btn.innerHTML = was; btn.style.minWidth = ''; }
+    });
   });
   window.addEventListener('hashchange', function () { IS.closeSheet(); IS.route(); });
 
