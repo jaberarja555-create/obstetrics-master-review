@@ -788,3 +788,13 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   plays badly on weak networks. When Bunny is live: Studio should require an uploaded video (not a link) for lessons with price > 0 that are
   not free previews; until then the existing warning on paid link lessons stays. Live sessions: owner asked about costs (Daily, LiveKit,
   JaaS, protected Zoom/Meet links); not decided yet.
+
+## Book page, single books and series parts · 20 Nov 2026
+- Owner: «Distortion» on the book page on phones (details squeezed beside the cover, download button crushed); «the single book has no comment
+  area nor reactions»; «no comments or reactions for books inside a series». Book page on phones: cover centred on top, title 22 px, the rest
+  full width; `.file-actions` wraps (open = full row). My Library book card (`fileCard`, `.bcard`) = cover · type · title · author · tags ·
+  «افتح الكتاب» + «تنزيل» (or buy) · ♡ / folder · the same feedback bar as feed cards (price + stars, reactions, comments, actions). Each series
+  part has its own feedback bar (`.sp-fb`), and its buttons «افتح · تنزيل · تعديل الملف» stay on one row. Course page tabs are a 4-column
+  grid on phones. Check used before publishing: scratchpad pages.js (file, series, course, post, request, event, news, library, home at
+  360/390/820/1440: wider than the screen, off screen, squeezed buttons, words broken into a column).
+- Asset version 188, shell cache ish-v88.

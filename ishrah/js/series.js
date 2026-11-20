@@ -127,7 +127,8 @@
         '<a class="spart-cover" href="#file/' + esc(p.id) + '" aria-label="' + esc(p.title) + '"' + (fallback ? ' data-part-preview="' + esc(p.id) + '"' : '') +
         '>' + IS.libraryCover(p) + '</a><div class="sp-b"><a href="#file/' + esc(p.id) + '" dir="auto"><b>' + esc(p.title) + '</b></a>' +
         '<small>' + [p.pages ? p.pages + ' ' + A('صفحة', 'pages') : '', pg > 1 ? A('توقفت عند ص ', 'stopped at p. ') + pg : '', p.status !== 'published' ? A('بانتظار المراجعة', 'awaiting review') : ''].filter(Boolean).map(esc).join(' · ') + '</small></div>' +
-        '<div class="sp-a">' + (!IS.fileOpenable(p) ? '<span class="chip">' + ic('lock') + esc(A('بعد الشراء', 'After purchase')) + '</span>' : IS.ME ? '<button type="button" class="btn ghost sm" data-act="sread" data-id="' + esc(p.id) + '">' + ic('open') + esc(A('افتح', 'Open')) + '</button>' + IS.dlBtn('file', p.id) : '') + IS.editLibraryFileButton(p) + '</div></li>';
+        '<div class="sp-a">' + (!IS.fileOpenable(p) ? '<span class="chip">' + ic('lock') + esc(A('بعد الشراء', 'After purchase')) + '</span>' : IS.ME ? '<button type="button" class="btn ghost sm" data-act="sread" data-id="' + esc(p.id) + '">' + ic('open') + esc(A('افتح', 'Open')) + '</button>' + IS.dlBtn('file', p.id, '', true) : '') + IS.editLibraryFileButton(p) + '</div>' +
+        (p.status === 'published' && IS.feedVoteBar ? '<div class="sp-fb">' + IS.feedVoteBar('file', p, true) + '</div>' : '') + '</li>';
     }).join('') + '</ol></section>';
     IS.SERIES = parts;
     IS.after = function (main) {

@@ -358,12 +358,15 @@
   function fileCard(f) {
     var k = kind(f.kind);
     var open = !IS.fileOpenable || IS.fileOpenable(f);
-    return '<article class="fcard"><a class="fimg" href="#file/' + esc(f.id) + '" aria-label="' + esc(f.title) + '">' + IS.libraryCover(f) + (IS.priceTag ? IS.priceTag(f, 'oncov') : '') + '</a>' +
+    /* one book = the same card as a series (owner, 20 Nov 2026: "the single book has no comment area nor reactions") */
+    var actions = !open ? IS.buyBtn(f, true, false) : IS.ME ? '<a class="btn ghost sm" href="#file/' + esc(f.id) + '/read">' + ic('open') + esc(A('افتح الكتاب', 'Open the book')) + '</a>' + IS.dlBtn('file', f.id, '', true) :
+      '<a class="btn ghost sm" href="#file/' + esc(f.id) + '">' + ic('open') + esc(A('عرض الكتاب', 'View the book')) + '</a>';
+    return '<article class="fcard bcard"><a class="fimg" href="#file/' + esc(f.id) + '" aria-label="' + esc(f.title) + '">' + IS.libraryCover(f) + '</a>' +
       '<div class="fb"><span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + ' · ' + esc(spName(fspec(f))) + '</span><b><a href="#file/' + esc(f.id) + '">' + esc(f.title) +
-      '</a></b>' + (f.author ? '<small dir="auto">' + esc(f.author) + '</small>' : '') + (IS.tagChips ? IS.tagChips(f, 3) : '') + '</div>' +
-      '<div class="ff">' + IS.libraryRating(f, true) + IS.favBtn('f:' + f.id, true) +
-      (IS.ME ? '<button class="fav sm" data-act="addcoll" data-id="' + esc(f.id) + '" aria-label="' + esc(A('أضف إلى مجموعة', 'Add to collection')) + '">' + ic('folder') + '</button>' : '') +
-      '</div>' + (!open ? '<div class="library-download">' + IS.buyBtn(f, true, false) + '</div>' : IS.ME ? '<div class="library-download">' + IS.dlBtn('file', f.id) + '</div>' : '') + '</article>';
+      '</a></b>' + (f.author ? '<small dir="auto">' + esc(f.author) + '</small>' : '') + (IS.tagChips ? IS.tagChips(f, 3) : '') +
+      '<div class="row library-feed-actions">' + actions + '</div>' +
+      '<div class="fcard-tools">' + IS.favBtn('f:' + f.id, true) + (IS.ME ? '<button class="fav sm" data-act="addcoll" data-id="' + esc(f.id) + '" aria-label="' + esc(A('أضف إلى مجموعة', 'Add to collection')) + '">' + ic('folder') + '</button>' : '') + '</div></div>' +
+      (f.status === 'published' && IS.feedVoteBar ? IS.feedVoteBar('file', Object.assign({}, f, { _price: Number(f.price) || 0 }), true) : '') + '</article>';
   }
   /* collections (folders) of the student, kept on the account's device list */
   function colls() { return IS.LS.get('coll-' + (IS.ME ? IS.ME.id : 'x'), []); }
