@@ -728,3 +728,10 @@ html body .mrh .feed-card-header>time{flex:0 1 auto!important;min-width:0;overfl
 .feed-card-header:has(>.mng)>.own{display:none!important}
 html body .mrh .feed-card-header:has(>.mng)>.mng{margin-inline-start:auto!important}
 html body .mrh .feed-card-header{justify-content:flex-start!important}
+/* the stars sit at the far end of the reactions line, in the empty space (owner, 20 Nov 2026) */
+html body .mrh .feed-votes{display:grid!important;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:10px;row-gap:0}
+html body .mrh .feed-votes>.fv-stats{grid-column:1;grid-row:1;justify-content:flex-start!important;gap:14px!important;border:0!important;min-width:0}
+html body .mrh .feed-votes>.fv-stats>.fv-grow{display:none!important}
+html body .mrh .feed-votes>.fv-rate{grid-column:2;grid-row:1;border:0!important;justify-content:flex-end!important;padding-block:8px!important;margin:0!important}
+html body .mrh .feed-votes>:not(.fv-stats):not(.fv-rate){grid-column:1/-1}
+html body .mrh .feed-votes>.fv-acts{border-top:1px solid var(--line)!important}
