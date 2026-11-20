@@ -685,3 +685,9 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - Removed the older blue backgrounds from the speciality picker. The opening card pairs readable ivory or dark-mode content with a dedicated photograph of health sciences teaching in Sudan (`img/collection/platform.webp`). The photograph and controls have separate layout regions, including on phones.
 - Replaced the five built-in speciality illustrations and the Courses, Library, My Learning, Community, Events and Downloads banners with original scenes of students, teaching and simulation. Nursing Basics shows a student learning vital signs. The Clinical home uses its dedicated section photograph. Uploaded and custom artwork still takes precedence.
 - Asset version 177 and shell cache `ish-v77`. No database migration is needed.
+
+## Clinical blue design · 20 Nov 2026
+
+- Supersedes the emerald default. Shared surfaces use cool blue, white and deep navy. The landing card shows a health sciences teaching scene, with a separate account row and clear language and terms controls on phones. Home uses section-specific artwork and places mobile search below the hero.
+- Original photorealistic illustrations in `img/collection/` show relevant equipment, study spaces and materials. The built-in specialities and study sections each have their own artwork. Courses uses anatomy materials, My Library uses a library interior, and Studio uses a recording setup. Custom study artwork and uploaded course and library covers keep their existing precedence.
+- The color settings still offer the optional palettes and light, dark and eye-comfort modes. Regenerate variants with `python3 tools/ishrah/palettes.py`. Asset version 178 and shell cache `ish-v78`. No database migration is required. The branch already supports multiple subject tags in both library upload modes through migration 027.
