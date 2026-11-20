@@ -170,3 +170,52 @@ html body .mrx .mr-spec .lab b{color:#123a26!important;-webkit-text-fill-color:#
 html body .mrx .mr-rb>svg.ic{width:calc(var(--rb) * .5)!important;height:calc(var(--rb) * .5)!important}
 html body .mrx .mr-theme>svg.moon{display:none!important}
 :root[data-theme="dark"] body .mrx .mr-theme>svg.sun{display:none!important}:root[data-theme="dark"] body .mrx .mr-theme>svg.moon{display:block!important}
+
+/* ===== sign in / sign up / code / Features windows in the same design ===== */
+#sheet:has(.mrdlg){background:rgba(3,30,20,.62)}
+@media (hover:hover){#sheet:has(.mrdlg){-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}}
+#sheet .dlg.mrdlg{--gold:linear-gradient(180deg,#fff3c4 0%,#ecc56b 45%,#b8862b 100%);font-family:Pop,Cairo,system-ui,sans-serif;color:#fff;
+  background:linear-gradient(170deg,#0f5e40 0%,#0a4630 55%,#073624 100%) padding-box,var(--gold) border-box;border:2px solid transparent;
+  box-shadow:0 0 30px rgba(233,196,106,.3),0 24px 50px rgba(0,0,0,.5)}
+[dir="rtl"] #sheet .dlg.mrdlg{font-family:Cairo,Pop,system-ui,sans-serif}
+#sheet .mrdlg :is(h2,h3,b,span,button,a,label,small,p,input,em){font-family:inherit!important}
+#sheet .mrdlg header{border-bottom:1px solid rgba(233,196,106,.35);gap:12px;justify-content:flex-start}
+#sheet .mrdlg header h2{flex:1;font-weight:800;font-size:20px;background:var(--gold);-webkit-background-clip:text;background-clip:text;color:transparent}
+#sheet .mrdlg .mrdlg-logo{width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
+#sheet .mrdlg header .ib{color:#e9c46a;background:rgba(255,255,255,.08);border:1px solid rgba(233,196,106,.5);border-radius:50%}
+#sheet .mrdlg .shb{color:#f3ecd8}
+#sheet .mrdlg :is(.lead,.sub,.mut,.note,.alt,p){color:#efe6cc!important}
+#sheet .mrdlg .note{background:rgba(255,255,255,.07)!important;border:1px solid rgba(233,196,106,.3)!important;border-radius:14px}
+#sheet .mrdlg .note .ico{color:#e9c46a}
+#sheet .mrdlg .fl>span{color:#f6e7bd!important;font-weight:700}
+#sheet .mrdlg .fl>span .ico{color:#e9c46a}
+#sheet .mrdlg :is(input:not([type=checkbox]):not([type=radio]),select,textarea,.pre){background:#fffaf0!important;color:#123a26!important;border:1.5px solid #d9b25c!important;border-radius:14px!important;box-shadow:inset 0 1px 3px rgba(0,0,0,.12)}
+#sheet .mrdlg .pre input{border:0!important;box-shadow:none!important}
+#sheet .mrdlg .pre em{color:#0d5a3c}
+#sheet .mrdlg input:focus{outline:2px solid #ecc56b;outline-offset:1px}
+#sheet .mrdlg .btn.pri{background:linear-gradient(180deg,#fff0bd,#e9c46a 50%,#c7952f)!important;color:#0b3b27!important;border:0!important;font-weight:800;border-radius:16px!important;
+  box-shadow:0 6px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.7)!important}
+#sheet .mrdlg .btn.pri .ico{color:#0b3b27}
+#sheet .mrdlg .btn.google{background:#fff!important;color:#1f1f1f!important;border:1.5px solid #e9c46a!important;border-radius:16px!important}
+#sheet .mrdlg .btn.ghost,#sheet .mrdlg .btn:not(.pri):not(.google){background:rgba(255,255,255,.08)!important;color:#f6e7bd!important;border:1.5px solid rgba(233,196,106,.6)!important;border-radius:14px!important}
+#sheet .mrdlg .link,#sheet .mrdlg a.link,#sheet .mrdlg .alt button{color:#ffd978!important;font-weight:700}
+#sheet .mrdlg .or span{color:#e9c46a;background:#0b4b33}
+#sheet .mrdlg .or::before,#sheet .mrdlg .or::after{background:rgba(233,196,106,.4)!important}
+#sheet .mrdlg .atabs{background:rgba(0,0,0,.18)!important;border:1px solid rgba(233,196,106,.35)!important;border-radius:16px}
+#sheet .mrdlg .atabs button{color:#f6e7bd!important;background:none!important;border-radius:12px}
+#sheet .mrdlg .atabs button.on{background:linear-gradient(180deg,#fff0bd,#e9c46a)!important;color:#0b3b27!important}
+#sheet .mrdlg .kinds .kind{background:rgba(255,255,255,.06)!important;border:1.5px solid rgba(233,196,106,.45)!important;color:#fff!important;border-radius:16px}
+#sheet .mrdlg .kinds .kind .ico{color:#e9c46a}
+#sheet .mrdlg .kinds .kind small{color:#e6dcbd!important}
+#sheet .mrdlg .kinds .kind.on{background:linear-gradient(180deg,#147050,#0b4a33)!important;box-shadow:0 0 0 2px #ecc56b,0 0 16px rgba(233,196,106,.35)}
+#sheet .mrdlg .chk{color:#efe6cc}#sheet .mrdlg .chk input{accent-color:#d9a84a}
+#sheet .mrdlg .msg{color:#ffb4a8}
+#sheet .mrdlg details summary{color:#f6e7bd}
+#sheet .mrdlg .mr-feat a{min-height:96px}
+#sheet .mrdlg :is(.note,.warn,.box,.pv,.preview){background:rgba(255,255,255,.08)!important;border:1px solid rgba(233,196,106,.35)!important;color:#efe6cc!important;opacity:1!important}
+#sheet .mrdlg :is(.note,.warn,.box) *{color:#efe6cc!important;opacity:1!important}
+#sheet .mrdlg .shb *{opacity:1}
+#sheet .mrdlg .shb .ico{color:#e9c46a}
+#sheet .mrdlg .shb>.center>.ico,#sheet .mrdlg .shb .big .ico{width:48px;height:48px}
+@media (max-width:430px){html body .mrx .mr-me.out b{display:block!important}html body .mrx .mr-me.out{padding:3px 12px 3px 3px!important}[dir="rtl"] html body .mrx .mr-me.out{padding:3px 3px 3px 12px!important}}
+#sheet .mrdlg .shb small{color:#e6dcbd!important;opacity:1!important}

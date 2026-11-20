@@ -45,11 +45,11 @@
   function top(homeHref) {
     var m = IS.ME;
     var me = m ? '<a class="mr-me" href="#account"><span class="mr-av">' + (m.photo ? '<img src="' + IS.U(m.photo) + '" alt="">' : I.person) + '</span><b>' + IS.greetingName(m.name, true) + '</b></a>' :
-      '<button type="button" class="mr-me" data-act="login"><span class="mr-av">' + I.person + '</span><b>' + esc(A('تسجيل الدخول', 'Sign in')) + '</b></button>';
+      '<button type="button" class="mr-me out" data-act="login"><span class="mr-av">' + I.person + '</span><b>' + esc(A('تسجيل الدخول', 'Sign in')) + '</b></button>';
     return '<header class="mr-top"><div class="mr-tl"><a class="mr-rb" href="' + homeHref + '" aria-label="' + esc(A('الرئيسية', 'Home')) + '">' + I.home + '</a><span class="mr-sep"></span>' + me + '</div>' +
       '<a class="mr-brand" href="#pick"><img src="' + IS.U('img/mr/logo-gold.webp') + '" alt="" width="520" height="507"><b>' + esc(IS.brandName()) + '</b>' +
       '<svg class="sw" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M4 9C60 1 140 1 196 7" fill="none" stroke="' + G + '" stroke-width="3" stroke-linecap="round"/></svg></a>' +
-      '<div class="mr-tr"><a class="mr-rb" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + I.bell + '<i class="mr-dot" hidden></i></a>' +
+      '<div class="mr-tr">' + (m ? '<a class="mr-rb" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + I.bell + '<i class="mr-dot" hidden></i></a>' : '') +
       '<button type="button" class="mr-rb mr-theme" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night')) + '">' + I.sun + I.moon + '</button>' +
       '<a class="mr-rb" href="#settings" aria-label="' + esc(A('الإعدادات', 'Settings')) + '">' + I.gear + '</a></div></header>';
   }
@@ -105,6 +105,12 @@
       }).join('') + '</nav>' + dock(true) + '</div></div>';
   });
 
+  /* ---------- sign in, sign up, the email code and Features open in the same green and gold look (owner, 20 Nov 2026) ---------- */
+  var sheet0 = IS.sheet;
+  IS.sheet = function () { var d = sheet0.apply(this, arguments);
+    if (d && d.querySelector('form[data-form=esignin],form[data-form=esignup],form[data-form=signin],form[data-form=signup],form[data-form=ecode],form[data-form=eforgot],form[data-form=gpreview],[data-act=google],.mr-feat')) {
+      d.classList.add('mrdlg'); var h = d.querySelector('header'); if (h && !h.querySelector('.mrdlg-logo')) h.insertAdjacentHTML('afterbegin', '<img class="mrdlg-logo" src="' + IS.U('img/mr/logo-gold.webp') + '" alt="">'); }
+    return d; };
   /* ---------- Features: every place of the platform (what the side menu held) ---------- */
   IS.ACT.mrfeat = function () {
     var links = IS.$$('#side nav a, #side .cnav a').map(function (a) {
