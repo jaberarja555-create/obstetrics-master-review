@@ -3794,3 +3794,19 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
 .feed-card-header{font-size:12.5px}
 .fv-btn.feed-react[class*="rx-v-"]{background:none!important;border:0!important}.fv-btn.feed-react[class*="rx-v-"]:hover{background:var(--tint)!important}
 .cmt-a .cmt-rxw{min-width:0!important;width:auto!important;flex:none!important}.cmt-a .cmt-rxw>.cl{min-width:0!important;width:auto!important;flex:none!important}
+
+/* owner, 20 Nov 2026: price badge beside the stars (green free, orange paid), only the stars and the number of raters, open/download side by
+   side, «عرض الكورس» like the other buttons */
+.ptag.paid{background:#fff1e3!important;color:#b85a00!important;border:1px solid #f5c38f}
+.ptag.free{border:1px solid #bfe3cc}
+.fv-stats .ptag{height:22px;padding:0 9px;font-size:12px;font-weight:700}
+.fv-stats .ptag .ico{width:12px;height:12px}
+.fv-stats .gnum{display:none!important}
+.library-feed-actions>.ptag{display:none}
+.library-feed-actions>.btn:last-child:nth-child(odd){grid-column:1/-1}
+.library-feed-actions>.btn:last-child:nth-child(even){grid-column:auto}
+.library-feed-actions>.btn{min-height:40px!important;font-size:13.5px!important;font-weight:700;border-radius:12px!important}
+.feed-open{display:none}
+.fv-btn{gap:5px;font-size:13px!important;padding:0 2px!important}
+.fv-acts .feed-report{width:34px!important;min-width:34px!important}
+@media (max-width:420px){.fv-btn[data-act="share-link"] span{display:none}}

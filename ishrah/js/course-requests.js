@@ -661,7 +661,7 @@
       '" data-rp="' + (Number(row.rating_points) || Math.round((Number(row.average_rating == null ? row.rating : row.average_rating) || 0) * rcount)) + '"';
     counts += ' data-rated-like="' + (Number(row.rated_like_count) || 0) + '" data-rated-dislike="' + (Number(row.rated_dislike_count) || 0) + '"';
     return '<div class="feed-votes" data-feedback="' + esc(key) + '" data-reaction="' + reaction + '"' + counts +
-      (row.status === 'closed' ? ' data-comments-closed' : '') + '>' + '<div class="fv-stats">' + (kind === 'course' ? '' : '<button type="button" class="rx-sum" data-act="rx-who" hidden></button>') + '<span class="fv-grow"></span>' + rating + comment + '</div>' +
+      (row.status === 'closed' ? ' data-comments-closed' : '') + '>' + '<div class="fv-stats">' + (kind === 'course' ? '' : '<button type="button" class="rx-sum" data-act="rx-who" hidden></button>') + '<span class="fv-grow"></span>' + (row._price != null && IS.priceTag ? IS.priceTag({ price: row._price }, 'sm') : '') + rating + comment + '</div>' +
       '<div class="fv-acts' + (kind === 'course' ? ' nore' : '') + '">' + buttons + commentBtn + shareBtn + (kind === 'series' ? '' : IS.reportButton(kind, row.id, true)) + '</div>' +
       (inline ? '<div class="feed-comment-panel" id="' + panelId + '" hidden></div>' : '') + '</div>';
   };

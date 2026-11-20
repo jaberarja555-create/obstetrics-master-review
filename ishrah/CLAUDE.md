@@ -770,3 +770,11 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
     tapped; the name of the person answered shows only when answering a reply. Comment boxes are slim rounded fields with a round send button
     (`IS.cmtBox`), growing with the text; Enter sends on computers.
 - Asset version 185, shell cache ish-v85.
+
+## One layout for every feed card · 20 Nov 2026
+- Owner: «ضع مجاني والنجوم جنب بعض، فتح الكتاب أو السلسلة جنب تنزيل، عرض الكورس بحجم مناسب، أظهر النجوم وعدد المقيّمين فقط (بدون 4.0)، مجاني أخضر
+  والمدفوع برتقالي». The price badge (`IS.priceTag`: green free, orange paid) sits in the stats line beside the stars (feed cards set `row._price`;
+  series pass the first part's price); the stars show only the number of raters (`.gnum` hidden in the stats line); the price words are gone
+  from detail lines and button rows; «عرض الكورس», «افتح الكتاب» + «تنزيل» and «افتح السلسلة» are the same equal buttons (`.library-feed-actions`);
+  the share label is hidden on phones under 420 px so the action row never cuts a word.
+- Asset version 186, shell cache ish-v86.

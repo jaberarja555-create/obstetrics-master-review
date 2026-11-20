@@ -67,7 +67,7 @@
     return seriesTotals(await DB.q('series_feedback', { eq: { series_id: id } }), id, account);
   };
   function seriesFeedback(id, first) {
-    return IS.feedVoteBar('series', Object.assign({ id: id, owner_id: first.owner_id }, IS.seriesScore(id)), true);
+    return IS.feedVoteBar('series', Object.assign({ id: id, owner_id: first.owner_id, _price: Number(first.price) || 0 }, IS.seriesScore(id)), true);
   }
 
   /* one card per series: the first part stands for it, with all parts in order */
@@ -88,7 +88,7 @@
       '<a class="fimg sstack" href="#series/' + esc(s.series_id) + '" aria-label="' + esc(s.series_title || first.title) + '">' + IS.libraryCover(first) + '<span class="scount">' + ic('layers') + N(s._parts.length) + '</span></a>' +
       '<div class="fb"><span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + ' · ' + esc(A('سلسلة', 'Series')) + '</span><b><a href="#series/' + esc(s.series_id) + '" dir="auto">' + esc(s.series_title || first.title) + '</a></b>' +
       '<small>' + esc(s._parts.length + ' ' + A('أجزاء', 'parts') + (pages ? ' · ' + pages + ' ' + A('صفحة', 'pages') : '')) + (first.author ? ' · ' + esc(first.author) : '') + '</small>' +
-      '<div class="row library-feed-actions">' + IS.priceTag(first) + '<a class="btn ghost sm" href="#series/' + esc(s.series_id) +
+      '<div class="row library-feed-actions"><a class="btn ghost sm" href="#series/' + esc(s.series_id) +
       '">' + ic('open') + esc(A('افتح السلسلة', 'Open the series')) + '</a></div></div>' + seriesFeedback(s.series_id, first) + '</article>';
   };
 
