@@ -149,7 +149,7 @@
   function hban(spec, section) {
     var img = spec.id === 'medicine' ? 'img/collection/medicine-' + section.id + '.webp' : (IS.studyArtwork(spec.id, section.id) || spec.img || '');
     var name = section.id === 'special' ? 'International' : IS.secName(spec.id, section).en;
-    return pban(img, I.steth, name, esc(spec.en) + ' <i>•</i> Study <i>•</i> Review <i>•</i> Practice', true);
+    return pban(img, I.steth, name, esc(spec.en) + ' <i>•</i> Study <i>•</i> Review <i>•</i> Practice', true).replace('class="mh-ban"', 'class="mh-ban hs"');
   }
   function ptitle(text) { return '<div class="mh-title"><i></i><h2>' + HI.layers + '<span>' + esc(text) + '</span></h2><i></i></div>'; }
   function htitle(spec, section) {
@@ -167,13 +167,22 @@
     }
     fix(); new MutationObserver(fix).observe(slot, { childList: true, subtree: true });
   }
+
+  /* ---------- bottom bar on the new pages (owner, 20 Nov 2026: "don't forget the buttons at the bottom: Library, Courses, Community,
+     Lecturers and My learning") ---------- */
+  var NAV = [['library', 'open', 'مكتبتي', 'Library'], ['courses', 'layers', 'الكورسات', 'Courses'], ['community', 'group', 'المجتمع', 'Community'],
+    ['lecturers', 'users', 'المحاضرون', 'Lecturers'], ['learning', 'bookmark', 'تعلّمي', 'My learning']];
+  function bnav(cur) {
+    return '<nav class="mh-nav" aria-label="' + esc(A('التنقل', 'Navigation')) + '">' + NAV.map(function (n) {
+      return '<a href="#' + n[0] + '"' + (n[0] === cur ? ' class="on" aria-current="page"' : '') + '>' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') + '</nav>';
+  }
   var home0 = IS.pageOf && IS.pageOf('home');
   if (home0) IS.page('home', async function (arg) {
     var inner = await home0.fn(arg), spec = IS.mySpec(), section = IS.mySection();
     if (!spec || !section) return inner;
     var a0 = IS.after;
     IS.after = function (main, remember) { after(); tidyFeed(main); return a0 ? a0(main, remember) : undefined; };
-    return '<div class="mrx mrh"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() + hban(spec, section) + htitle(spec, section) + '<div class="mh-feed">' + inner + '</div></div></div>';
+    return '<div class="mrx mrh"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() + hban(spec, section) + htitle(spec, section) + '<div class="mh-feed">' + inner + '</div></div>' + bnav('home') + '</div>';
   }, home0.o);
 
   /* ---------- one day/night button: each press = Day → Night → Eye comfort (owner, 20 Nov 2026) ---------- */
@@ -220,8 +229,22 @@
     };
     return '<div class="mrx mrh mrl"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() +
       pban('img/collection/library.webp', HI.book, A('مكتبتي', 'My Library'), esc(A('كل كتبك وملفاتك الدراسية في مكان واحد', 'All your books and study files in one place')), IS.lang !== 'ar') +
-      ptitle(A('محتوى المكتبة', 'Library content')) + tool + '<div class="mh-feed mh-lib">' + inner + '</div></div></div>';
+      ptitle(A('محتوى المكتبة', 'Library content')) + tool + '<div class="mh-feed mh-lib">' + inner + '</div></div>' + bnav('library') + '</div>';
   }, lib0.o);
+
+  /* ---------- the roles (Platform owner, Lecturer …) are shown inside the profile (owner, 20 Nov 2026) ---------- */
+  var acc0 = IS.pageOf && IS.pageOf('account');
+  if (acc0) IS.page('account', async function (tab) {
+    var inner = await acc0.fn(tab);
+    if (typeof inner !== 'string' || !IS.roleChips) return inner;
+    var chips = IS.roleChips('prole'); if (!chips) return inner;
+    var t = document.createElement('template'); t.innerHTML = inner;
+    var h1 = t.content.querySelector('.prof .pt h1'); if (!h1) return inner;
+    var names = IS.myRoles().map(function (r) { return A(r[2], r[3]); });
+    var p = h1.nextElementSibling; if (p && p.tagName === 'P' && names.indexOf(p.textContent.trim()) >= 0) p.remove();
+    h1.insertAdjacentHTML('afterend', '<div class="prole-row">' + chips + '</div>');
+    return t.innerHTML;
+  }, acc0.o);
 
   /* ---------- sign in, sign up, the email code and Features open in the same green and gold look (owner, 20 Nov 2026) ---------- */
   var sheet0 = IS.sheet;

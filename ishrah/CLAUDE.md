@@ -1013,3 +1013,6 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   Publish or Share; Library adds a subjects filter button), Library: «ملفاتي» and «مبيعاتي», white cards with the picture or cover at the side.
   The old welcome band, search box and place buttons are hidden there (every place is in Features). Light mint page; dark theme dark green.
 - **One theme button cycles Day → Night → Eye comfort** (`IS.ACT.theme` in mr.js; owner: "one press gives day, night, eye protection").
+- **Bottom bar on the new pages** (owner, 20 Nov 2026): Library · Courses · Community · Lecturers · My learning (`bnav` in mr.js, `.mh-nav`,
+  fixed at the bottom, the current page in teal). **Roles (Platform owner, Lecturer …) are shown only inside the profile** (`#account` wrapper
+  in mr.js puts `IS.roleChips` under the name; removed from the More sheet).
