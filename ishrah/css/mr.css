@@ -704,3 +704,15 @@ html body .mrh .feed-card.feed-series .library-feed-actions{width:100%;margin-to
 html body .mrh .feed-card.feed-series .library-feed-actions .btn{width:100%;justify-content:center;border-radius:999px!important;border:1.5px solid #b9d3cd!important;background:#fff!important;color:#06463b!important}
 html body .mrh .feed-card :is(.ftype){color:#0d6b5c!important}
 @media (max-width:420px){html body .mrh .feed-items>.feed-card.feed-series{grid-template-columns:minmax(84px,32%) minmax(0,1fr);column-gap:10px}}
+/* post header in one line: label · time … your ✏️ 🗑️ and «إدارة» at the end (owner, 20 Nov 2026: "the Manage button sits in a bad place") */
+html body .mrh .feed-card-header{flex-wrap:nowrap!important;gap:8px!important;min-width:0}
+html body .mrh .feed-card-header>time{white-space:nowrap;flex:none}
+html body .mrh .feed-card-header>.own{margin-inline-start:auto!important;flex:none}
+html body .mrh .feed-card-header:not(:has(>.own))>.mng{margin-inline-start:auto!important}
+html body .mrh .feed-card-header>.mng{flex:none;margin-top:0!important;order:0}
+@media (max-width:560px){
+  html body .mrh .feed-card-header:has(>.own)>.mng>span{display:none}
+  html body .mrh .feed-card-header:has(>.own)>.mng{padding:0 10px!important;min-width:0}
+  html body .mrh .feed-card-header>span:first-child{padding:5px 10px;font-size:12.5px;white-space:nowrap}
+  html body .mrh .feed-card-header>time{font-size:12px}
+}
