@@ -29,9 +29,9 @@
 
   /* one comment: o = { row, lk (kind), name, photo, when, body, report, del, badge, reply (bool) } (old callers pass only name/when/body/…) */
   IS.commentItem = function (o) {
-    var row = o.row || {}, id = row.id, lk = o.lk, my = id && lk ? mine(lk, id) : 0, cur = rxOf(my);
+    var row = o.row || {}, id = row._queued ? null : row.id, lk = o.lk, my = id && lk ? mine(lk, id) : 0, cur = rxOf(my);
     var acts = [];
-    acts.push('<small class="cmt-t">' + esc(o.when || '') + '</small>');
+    acts.push('<small class="cmt-t">' + esc(row._queued ? A('⏳ يُرسل عند عودة الاتصال', '⏳ Sends when you are back online') : o.when || '') + '</small>');
     if (id && lk && uid()) {
       acts.push('<span class="rx-wrap cmt-rxw"><button type="button" class="cl' + (cur ? ' on rx-v-' + cur[4] : '') + '" data-act="cmt-rx-open" aria-haspopup="true" aria-expanded="false">' + rxLabel(my) + '</button>' +
         '<span class="rx-pick" role="menu" hidden>' + RX.map(function (r) {
@@ -118,10 +118,12 @@
     el.innerHTML = IS.commentItem({ name: IS.ME ? IS.ME.name : '', photo: IS.ME && IS.ME.photo, when: A('جارٍ الإرسال…', 'Sending…'), body: body });
     list.appendChild(el);
     var t = form.querySelector('textarea'); if (t) { t.value = ''; t.style.height = ''; }
-    return { done: function () { el.classList.remove('sending'); var w = el.querySelector('.cmt-t'); if (w) w.textContent = A('الآن', 'Now'); },
+    return { done: function () { var w = el.querySelector('.cmt-t');
+        if (DB.wasQueued && DB.wasQueued()) { if (w) w.textContent = A('⏳ يُرسل عند عودة الاتصال', '⏳ Sends when you are back online'); return; }
+        el.classList.remove('sending'); if (w) w.textContent = A('الآن', 'Now'); },
       fail: function () { el.remove(); if (t) t.value = body; IS.toast(A('لم يُرسل التعليق. تحقق من الاتصال وحاول مرة أخرى.', 'The comment was not sent. Check the connection and try again.'), true); } };
   };
-  IS.quietRefresh = function () { IS.keepScroll = true; IS.refresh(); };
+  IS.quietRefresh = function () { if (DB.wasQueued && DB.wasQueued()) return; IS.keepScroll = true; IS.refresh(); };
   IS.ACT['cmt-menu'] = function (b) {
     var m = b.parentNode.querySelector('.cmt-menu'), open = m.hidden;
     IS.$$('.cmt-menu:not([hidden])').forEach(function (x) { x.hidden = true; });
@@ -154,7 +156,7 @@
     pick.hidden = true; show(next, guess);
     try {
       var r;
-      if (DB.live) { var x = await DB.sb.rpc('ish_comment_react', { kind: lk, comment: id, value: value }); if (x.error) throw x.error; r = x.data; }
+      if (DB.live) { var x = await DB.sb.rpc('ish_comment_react', { kind: lk, comment: id, value: value }); if (x.error) throw x.error; r = x.queued ? { mine: next, rx: guess } : x.data; }
       else {
         var own = (await DB.q('comment_likes', { eq: { kind: lk, comment_id: id, user_id: uid() } }))[0];
         if (own && Number(own.reaction) === value) await DB.del('comment_likes', own.id);
@@ -208,7 +210,9 @@
       }
       var panel = f.closest('.feed-comment-panel');
       var top = f.closest('.cth') && f.closest('.cth').dataset.top;
-      pend.classList.remove('sending'); var tm = pend.querySelector('.cmt-t'); if (tm) tm.textContent = A('الآن', 'Now');
+      var tm = pend.querySelector('.cmt-t');
+      if (DB.wasQueued && DB.wasQueued()) { if (tm) tm.textContent = A('⏳ يُرسل عند عودة الاتصال', '⏳ Sends when you are back online'); f.remove(); btn.disabled = false; return; }
+      pend.classList.remove('sending'); if (tm) tm.textContent = A('الآن', 'Now');
       if (panel && IS.reloadFeedComments) { f.remove(); IS.reloadFeedComments(panel, top); }
       else IS.quietRefresh();
     } catch (e) {

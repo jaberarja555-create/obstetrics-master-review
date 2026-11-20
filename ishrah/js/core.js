@@ -384,7 +384,7 @@
     var section = IS.mySection(), copyKey = ['study', IS.SPEC, section ? section.id : '', IS.lang, h].join(':');
     var canSave = DB.live && IS.area === 'student' && READABLE_COPY.test(name) && !(name === 'community' && arg);
     var kept = canSave ? pageCopy(copyKey) : '';
-    if (offline && !OFFLINE_PAGES.test(name)) {
+    if (offline && !OFFLINE_PAGES.test(name) && !DB.outbox) {
       IS.OFFPAGE = true;
       if (kept) showSavedPage(main, kept, true);
       else main.innerHTML = '<div class="page">' + IS.offEmpty() + '</div>';
@@ -403,7 +403,7 @@
     IS.OFFPAGE = false;
     try {
       html = await Promise.race([P.fn(arg), new Promise(function (resolve, reject) {
-        timer = setTimeout(function () { reject(new Error('slow')); }, DB.live ? 8500 : 60000);
+        timer = setTimeout(function () { reject(new Error('slow')); }, DB.live ? (offline ? 2500 : 8500) : 60000);
       })]);
     } catch (error) {
       failed = true;
@@ -627,6 +627,26 @@
   }
   IS.offEmpty = function () { return IS.empty('offline', A('لا يوجد اتصال بالإنترنت', 'No internet connection'), A('هذه الصفحة تحتاج إلى الإنترنت. ما نزّلته داخل المنصة يعمل دون اتصال.', 'This page needs the internet. What you downloaded inside the platform works offline.'), '<a class="btn pri" href="#downloads">' + IS.ic('download') + IS.esc(A('افتح تنزيلاتي', 'Open my downloads')) + '</a>'); };
   IS.refresh = function () { IS.keepScroll = true; return IS.route(); };
+  /* the page was shown from the phone's saved data and the server has newer data: redraw in place, unless the person is busy with it
+     (typing, a sheet, an open comment panel or picker, the book reader, a button still saving) */
+  function busyNow() {
+    var a = document.activeElement;
+    if (a && /^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName) && a.type !== 'checkbox' && a.type !== 'radio') return true;
+    var sh = IS.$('#sheet'); if (sh && !sh.hidden) return true;
+    if (IS.$('.rx-pick:not([hidden]), .cmt-menu:not([hidden]), .feed-comment-panel:not([hidden]), button.busy')) return true;
+    if (document.body.classList.contains('noscroll')) return true;
+    return IS.$$('#main input, #main textarea, #main select').some(function (el) {
+      return el.type === 'checkbox' || el.type === 'radio' ? el.checked !== el.defaultChecked : el.type !== 'file' && el.type !== 'hidden' && el.value !== el.defaultValue;
+    });
+  }
+  var freshWait = 0;
+  function freshAgain(ms) { clearTimeout(freshWait); freshWait = setTimeout(function () { window.dispatchEvent(new CustomEvent('ish-fresh')); }, ms); }
+  window.addEventListener('ish-fresh', function () {
+    clearTimeout(freshWait);
+    if (document.hidden) return freshAgain(3000);
+    if (busyNow()) return freshAgain(4000);
+    IS.keepScroll = true; IS.route();
+  });
   function authGate() {
     return '<div class="page"><div class="gate">' + ic('lock') + '<h1 tabindex="-1">' + IS.T('سجّل الدخول للمتابعة', 'Sign in to continue') + '</h1><p>' + esc(A('أنشئ حسابًا مجانيًا خلال دقيقة، أو ادخل بحسابك.', 'Create a free account in a minute, or sign in.')) + '</p>' +
       '<div class="row center"><button class="btn pri" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button><button class="btn ghost" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div></div></div>';
@@ -910,7 +930,7 @@
     if (!GSI) GSI = new Promise(function (ok, no) { var s = document.createElement('script'); s.src = 'https://accounts.google.com/gsi/client'; s.async = true; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
     GSI.then(go, function () { GSI = null; box.remove(); });
   };
-  IS.ACT.logout = async function () { await DB.signOut(); try { localStorage.removeItem('ish-me'); IS.clearCopies(); } catch (e) {} IS.ME = null; IS.LEC = null; IS.go('home'); };
+  IS.ACT.logout = async function () { await DB.signOut(); try { localStorage.removeItem('ish-me'); IS.clearCopies(); if (DB.clearSaved) DB.clearSaved(); } catch (e) {} IS.ME = null; IS.LEC = null; IS.go('home'); };
   IS.SUB.search = function (d) { IS.go('search/' + encodeURIComponent(d.q || '')); };
 
   /* ---------- start ---------- */

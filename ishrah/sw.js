@@ -1,5 +1,5 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v95', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v96', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;

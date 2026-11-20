@@ -16,7 +16,7 @@
   function bar() {
     var b = document.getElementById('offbar'); if (!b) { b = document.createElement('div'); b.id = 'offbar'; b.setAttribute('role', 'status'); b.hidden = true; document.body.appendChild(b); }
     if (!navigator.onLine) {
-      b.className = 'off'; b.innerHTML = ic('offline') + '<span>' + esc(A('أنت غير متصل بالإنترنت. ما نزّلته داخل المنصة يعمل دون اتصال.', 'You are offline. What you downloaded inside the platform works without internet.')) + '</span><a href="#downloads">' + ic('download') + esc(A('تنزيلاتي', 'My downloads')) + '</a>';
+      b.className = 'off'; b.innerHTML = ic('offline') + '<span>' + esc(A('أنت غير متصل. الصفحات التي فتحتها من قبل تعمل، وتعليقاتك وتفاعلاتك تُرسل عند عودة الاتصال.', 'You are offline. Pages you opened before still work, and your comments and reactions are sent when you are back online.')) + (DB.outbox && DB.outbox() ? ' <b>' + esc(A('بانتظار الإرسال: ', 'Waiting to send: ')) + N(DB.outbox()) + '</b>' : '') + '</span><a href="#downloads">' + ic('download') + esc(A('تنزيلاتي', 'My downloads')) + '</a>';
       b.hidden = false; document.body.classList.add('isoff');
     } else if (document.body.classList.contains('isoff')) {
       document.body.classList.remove('isoff'); b.className = 'on'; b.innerHTML = ic('checkc') + '<span>' + esc(A('عاد الاتصال بالإنترنت', 'You are back online')) + '</span>'; b.hidden = false;
@@ -25,6 +25,7 @@
   }
   IS.offBar = bar;
   window.addEventListener('online', bar); window.addEventListener('offline', bar);
+  window.addEventListener('ish-outbox', function () { if (!navigator.onLine) bar(); });
   window.addEventListener('hashchange', function () { if (!navigator.onLine) bar(); });
 
   /* ---------- encrypted store ---------- */

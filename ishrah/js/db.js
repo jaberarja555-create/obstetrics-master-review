@@ -201,7 +201,50 @@
       await Promise.all(pending);
       return new Map(unique.map(function (path) { return [path, (UID || 'visitor') === account ? cachedCover(account, path) : '']; }));
     }
-    function forget() { READS.clear(); }
+    /* Saved data on the phone (owner, 20 Nov 2026: "make the user feel no delay and also it works offline"): every read is kept in
+       IndexedDB per account. Next time the same read is answered at once from the phone and checked with the server in the
+       background; when the server's answer differs the page is redrawn quietly (event ish-fresh). Without internet the saved answer is
+       used, so every page opened before works offline. After a change the saved answer is "dirty": the server is asked first and the saved
+       answer is used only if it does not reply within 1.5 s. */
+    var PERS = new Map(), PDB = null, PDIRTY = new Set(), PWRITE = new Map(), PTIMER = 0, PMAX = 900;
+    var PREADY = new Promise(function (done) {
+      try {
+        var open = indexedDB.open('ish-data', 1);
+        open.onupgradeneeded = function () { open.result.createObjectStore('r'); };
+        open.onerror = function () { done(); };
+        open.onsuccess = function () {
+          PDB = open.result;
+          try {
+            var all = [], cur = PDB.transaction('r').objectStore('r').openCursor();
+            cur.onsuccess = function () { var c = cur.result; if (c) { all.push([c.key, c.value]); c.continue(); return; }
+              all.sort(function (a, b) { return a[1].t - b[1].t; });
+              var drop = all.length > PMAX ? all.splice(0, all.length - PMAX) : [];
+              all.forEach(function (e) { PERS.set(e[0], e[1]); });
+              if (drop.length) try { var st = PDB.transaction('r', 'readwrite').objectStore('r'); drop.forEach(function (e) { st.delete(e[0]); }); } catch (e) {}
+              done(); };
+            cur.onerror = function () { done(); };
+          } catch (e) { done(); }
+        };
+      } catch (e) { done(); }
+      setTimeout(done, 1500);
+    });
+    function pkey(k) { return (UID || (window.IS && IS.ME && IS.ME.id) || 'visitor') + '|' + k; }
+    function pput(pk, v) {
+      var e = { t: Date.now(), v: v }; PERS.set(pk, e); PDIRTY.delete(pk); PWRITE.set(pk, e);
+      if (PERS.size > PMAX + 100) { var old = PERS.keys().next().value; PERS.delete(old); PWRITE.set(old, null); }
+      clearTimeout(PTIMER); PTIMER = setTimeout(pflush, 600);
+    }
+    function pflush() {
+      if (!PDB || !PWRITE.size) return;
+      try { var st = PDB.transaction('r', 'readwrite').objectStore('r');
+        PWRITE.forEach(function (e, k) { if (e) st.put(e, k); else st.delete(k); }); } catch (e) {}
+      PWRITE.clear();
+    }
+    window.addEventListener('pagehide', pflush);
+    var FRESH = 0;
+    function fresh() { clearTimeout(FRESH); FRESH = setTimeout(function () { window.dispatchEvent(new CustomEvent('ish-fresh')); }, 350); }
+    function same(a, b) { try { return JSON.stringify(a) === JSON.stringify(b); } catch (e) { return false; } }
+    function forget() { READS.clear(); PERS.forEach(function (_v, k) { PDIRTY.add(k); }); }
     /* a comment or a reaction changes only its own tables and the counts of what it is on, so the rest of the
        saved reads stay and the next page opens at once (owner, 20 Nov 2026: "should not feel slow, like Facebook").
        Any other write still forgets everything. */
@@ -209,32 +252,129 @@
     var CMT = ['replies', 'library_comments', 'course_request_comments', 'comment_likes', 'posts', 'files', 'course_requests', 'notifications'];
     var NEAR = { replies: CMT, library_comments: CMT, course_request_comments: CMT, comment_likes: CMT, feed_feedback: FEED,
       ish_comment_react: CMT, ish_comment_reply: CMT, ish_library_comment: CMT, ish_series_comment: CMT,
-      ish_feed_react: FEED, ish_feed_rate: FEED, ish_series_vote: FEED };
+      ish_feed_react: FEED, ish_feed_rate: FEED, ish_series_vote: FEED, reader_state: ['reader_state'], push_subs: ['push_subs'] };
     function forgetFor(name) {
       var near = NEAR[name]; if (!near) return forget();
       READS.forEach(function (v, k) { var t = JSON.parse(k)[1]; if (name === t || near.indexOf(t) >= 0) READS.delete(k); });
+      PERS.forEach(function (v, pk) { var t; try { t = JSON.parse(pk.slice(pk.indexOf('|') + 1))[1]; } catch (e) {} if (name === t || near.indexOf(t) >= 0) PDIRTY.add(pk); });
     }
-    function cached(key, run) {
+    function copy(v) { return Array.isArray(v) ? v.map(function (x) { return x && typeof x === 'object' ? Object.assign({}, x) : x; }) : v && typeof v === 'object' ? Object.assign({}, v) : v; }
+    async function cached(key, run) {
       var k = JSON.stringify(key), hit = READS.get(k);
-      function copy(v) { return Array.isArray(v) ? v.map(function (x) { return x && typeof x === 'object' ? Object.assign({}, x) : x; }) : v && typeof v === 'object' ? Object.assign({}, v) : v; }
-      if (hit && Date.now() - hit.t < 45000) return hit.p.then(copy);
+      if (hit && Date.now() - hit.t < 45000) {
+        /* shown at once; a read older than 1.5 s is checked with the server in the background (the page redraws if it changed) */
+        if (Date.now() - hit.t > 1500 && navigator.onLine && !hit.bg) {
+          hit.bg = true;
+          Promise.all([hit.p, run()]).then(function (two) {
+            READS.set(k, { t: Date.now(), p: Promise.resolve(two[1]) }); pput(pkey(k), two[1]);
+            if (!same(two[0], two[1])) fresh();
+          }).catch(function () { hit.bg = false; });
+        }
+        return hit.p.then(copy);
+      }
+      if (!PERS.size) await PREADY;
+      var pk = pkey(k), saved = PERS.get(pk);
+      if (saved && !navigator.onLine) return copy(saved.v);
+      if (!navigator.onLine) throw new Error('offline');
       var p = run();
       var entry = { t: Date.now(), p: p };
       READS.delete(k);
       READS.set(k, entry);
       if (READS.size > 300) READS.delete(READS.keys().next().value);
-      p.catch(function () { if (READS.get(k) === entry) READS.delete(k); });
-      return p.then(copy);
+      p.then(function (v) {
+        var before = PERS.get(pk); pput(pk, v);
+        if (before && entry.shown && !same(before.v, v)) fresh();
+      }, function () { if (READS.get(k) === entry) READS.delete(k); });
+      if (!saved) return p.then(copy);
+      if (!PDIRTY.has(pk)) { entry.shown = true; p.catch(function () {}); return copy(saved.v); }
+      /* changed lately: wait a little for the server, then show the saved answer and redraw when the server answers */
+      return Promise.race([p.then(copy), new Promise(function (ok) { setTimeout(function () { entry.shown = true; ok(copy(saved.v)); }, 1500); })])
+        .catch(function () { return copy(saved.v); });
     }
     function rawQ(t, f) { return api._q(t, f); }
     var rpc0 = sb.rpc.bind(sb);
+    /* comments and reactions made without internet wait in an outbox on the phone and are sent, in order, when it returns
+       (owner, 20 Nov 2026: "it works offline"). Other changes (payments, uploads, editing) still need the internet. */
+    var OUTK = 'ish-outbox', LASTQ = 0;
+    function outbox() { try { return JSON.parse(localStorage.getItem(OUTK) || '[]'); } catch (e) { return []; } }
+    function saveOut(list) { try { localStorage.setItem(OUTK, JSON.stringify(list)); } catch (e) {} window.dispatchEvent(new CustomEvent('ish-outbox', { detail: { n: list.length } })); }
+    function netErr(e) { var m = String((e && (e.message || e.details)) || e || ''); return !navigator.onLine || /Failed to fetch|NetworkError|Load failed|network|fetch/i.test(m); }
+    function queueable(name, a) {
+      a = a || {};
+      if (name === 'ish_comment_react' || name === 'ish_comment_reply' || name === 'ish_series_comment' || name === 'ish_feed_react') return true;
+      if (name === 'ish_library_comment') return !!a.message && !a.remove;
+      if (name === 'ish_series_vote') return a.action === 'react';
+      if (name === 'ish_course_request') return a.action === 'comment';
+      return name === 'ins:replies';
+    }
+    function enqueue(kind, name, args) {
+      var list = outbox(), id = 'q-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+      list.push({ id: id, u: UID, k: kind, n: name, a: args, t: new Date().toISOString() }); saveOut(list); LASTQ = Date.now();
+      if (kind === 'ins') return Object.assign({ id: id, created_at: new Date().toISOString(), user_id: UID, status: 'open', _queued: true }, args);
+      return { data: null, error: null, queued: true };
+    }
+    var SENDING = false;
+    async function sendOutbox() {
+      if (SENDING || !navigator.onLine || !UID) return;
+      var list = outbox().filter(function (x) { return x.u === UID; }); if (!list.length) return;
+      SENDING = true; var sent = 0;
+      try {
+        for (var i = 0; i < list.length; i++) {
+          var x = list[i], r;
+          try {
+            r = x.k === 'ins' ? await sb.from(x.n.slice(4)).insert(x.a) : await rpc0(x.n, x.a);
+            if (r && r.error && netErr(r.error)) break;
+          } catch (e) { if (netErr(e)) break; }
+          sent++; saveOut(outbox().filter(function (y) { return y.id !== x.id; }));
+        }
+      } finally { SENDING = false; }
+      if (sent) { forget(); fresh(); }
+    }
+    window.addEventListener('online', function () { setTimeout(sendOutbox, 800); });
+    setInterval(sendOutbox, 30000);
+    /* comments still waiting in the outbox are added to the comments read from the phone, so they stay in place */
+    var QTAB_ALL = { replies: 1, library_comments: 1, course_request_comments: 1 };
+    var QTAB = { 'ins:replies': 'replies', ish_library_comment: 'library_comments', ish_series_comment: 'library_comments', ish_course_request: 'course_request_comments' };
+    function pendingRows(t, f) {
+      var me = (window.IS && IS.ME) || {}, rows = [];
+      outbox().forEach(function (x) {
+        if (x.u !== UID) return;
+        var a = x.a || {}, row = null;
+        if (x.n === 'ins:replies' && t === 'replies') row = Object.assign({}, a);
+        else if (x.n === 'ish_library_comment' && t === 'library_comments') row = { file_id: a.file, body: a.message };
+        else if (x.n === 'ish_series_comment' && t === 'library_comments') row = { series_id: a.series, body: a.message };
+        else if (x.n === 'ish_course_request' && t === 'course_request_comments') row = { request_id: a.request, body: (a.payload || {}).body };
+        else if (x.n === 'ish_comment_reply') { var tb = { reply: 'replies', request: 'course_request_comments', file: 'library_comments' }[a.kind]; if (tb === t) row = { parent_id: a.parent, body: a.body }; }
+        if (!row) return;
+        row = Object.assign({ id: x.id, user_id: UID, name: me.name, author_name: me.name, photo: me.photo, author_photo: me.photo, status: 'open', created_at: x.t, _queued: true }, row);
+        var ok = true;
+        Object.keys((f && f.eq) || {}).forEach(function (k) { if (f.eq[k] !== undefined && f.eq[k] !== null && k !== 'status' && row[k] !== f.eq[k]) ok = false; });
+        Object.keys((f && f.in) || {}).forEach(function (k) { if (f.in[k].indexOf(row[k]) < 0) ok = false; });
+        if (ok) rows.push(row);
+      });
+      return rows;
+    }
     var readOnlyRpc = new Set(['ish_lesson', 'ish_presence', 'ish_team_seen',
-      'ish_public_course_terms', 'ish_series_scores', 'ish_available_course_seats', 'ish_team_public']);
-    sb.rpc = function (name) {
-      if (!readOnlyRpc.has(name) && name !== 'ish_seen') forgetFor(name);
+      'ish_public_course_terms', 'ish_series_scores', 'ish_available_course_seats', 'ish_team_public', 'ish_series_rating_scores', 'ish_reactors',
+      'ish_space_stats', 'ish_usage']);
+    var QUIET_RPC = new Set(['ish_seen', 'ish_space_join', 'ish_push_save', 'ish_reader_state']);   /* background calls that change nothing the pages show */
+    var SAVE_RPC = new Set(['ish_public_course_terms', 'ish_series_rating_scores', 'ish_team_public', 'ish_space_stats', 'ish_reactors', 'ish_available_course_seats']);
+    sb.rpc = function (name, args) {
+      if (SAVE_RPC.has(name)) return cached(['rpc', name, args || {}], function () {
+        return rpc0(name, args).then(function (r) { if (r.error) throw r.error; return { data: r.data, error: null }; });
+      }).catch(function (e) { return { data: null, error: e }; });
+      if (!readOnlyRpc.has(name) && !QUIET_RPC.has(name)) {
+        var q = queueable(name, args);
+        if (q && !navigator.onLine) return Promise.resolve(enqueue('rpc', name, args));
+        forgetFor(name);
+        var call = rpc0.apply(null, arguments);
+        if (!q) return call;
+        return Promise.resolve(call).then(function (r) { return r && r.error && netErr(r.error) ? enqueue('rpc', name, args) : r; },
+          function (e) { if (netErr(e)) return enqueue('rpc', name, args); throw e; });
+      }
       return rpc0.apply(null, arguments);
     };
-    sb.auth.onAuthStateChange(function () { forget(); });
+    sb.auth.onAuthStateChange(function (ev) { if (ev === 'TOKEN_REFRESHED') return; forget(); setTimeout(sendOutbox, 1500); });
     async function token() { var s = (await sb.auth.getSession()).data.session; return s ? s.access_token : ''; }
     var api = {
       live: true, sb: sb,
@@ -262,7 +402,15 @@
       signInEmail: async function (o) { var r = await sb.auth.signInWithPassword({ email: String(o.email).trim().toLowerCase(), password: o.pass }); if (r.error) throw new Error(/confirm/i.test(r.error.message) ? 'unconfirmed' : 'bad'); return r.data.user.id; },
       setPassword: async function (uid, pass) { var r = await fetch('api/admin', { method: 'POST', headers: { 'content-type': 'application/json', authorization: 'Bearer ' + await token() }, body: JSON.stringify({ act: 'password', uid: uid, pass: pass }) }); if (!r.ok) throw new Error(await r.text()); },
       forget: function () { forget(); },   /* live updates (js/live.js): read fresh after another account changed something */
-      q: async function (t, f) { return cached(['q', t, f || {}], function () { return rawQ(t, f); }); },
+      q: async function (t, f) {
+        var rows = await cached(['q', t, f || {}], function () { return rawQ(t, f); });
+        if (QTAB_ALL[t] && Array.isArray(rows)) { var more = pendingRows(t, f); if (more.length) rows = rows.concat(more); }
+        return rows;
+      },
+      outbox: function () { return outbox().filter(function (x) { return x.u === UID; }).length; },
+      sendOutbox: sendOutbox,
+      clearSaved: function () { READS.clear(); PERS.clear(); PWRITE.clear(); PDIRTY.clear(); try { if (PDB) PDB.transaction('r', 'readwrite').objectStore('r').clear(); } catch (e) {} },
+      wasQueued: function () { return Date.now() - LASTQ < 300; },
       one: async function (t, id) { return cached(['one', t, id], async function () { return chk(await sb.from(t).select(cols(t)).eq('id', id).maybeSingle()); }); },
       _q: async function (t, f) {
         f = f || {}; var x = sb.from(t).select(f.select || cols(t));
@@ -274,7 +422,12 @@
         return chk(await x) || [];
       },
       lesson: async function (id) { return chk(await sb.rpc('ish_lesson', { p_id: id })); },
-      ins: async function (t, row) { forgetFor(t); return chk(await sb.from(t).insert(row).select(cols(t)).single()); },
+      ins: async function (t, row) {
+        if (queueable('ins:' + t) && !navigator.onLine) return enqueue('ins', 'ins:' + t, row);
+        forgetFor(t);
+        try { return chk(await sb.from(t).insert(row).select(cols(t)).single()); }
+        catch (e) { if (queueable('ins:' + t) && netErr(e)) return enqueue('ins', 'ins:' + t, row); throw e; }
+      },
       upsert: async function (t, row) { forgetFor(t); return chk(await sb.from(t).upsert(row).select(cols(t)).single()); },
       upd: async function (t, id, p) { forgetFor(t); return chk(await sb.from(t).update(p).eq('id', id).select(cols(t)).single()); },
       del: async function (t, id) { forgetFor(t); chk(await sb.from(t).delete().eq('id', id)); },

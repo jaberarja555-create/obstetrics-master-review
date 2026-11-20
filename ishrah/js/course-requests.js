@@ -952,7 +952,7 @@
     catch (error) { if (uid() === actor) IS.toast(A('تعذّر حفظ التفاعل. حاول مرة أخرى.', 'Could not save your reaction. Try again.'), true); }
     finally {
       savingVotes.delete(key);
-      if (uid() === actor) patchFeed(kind, id, saved || previous, false);
+      if (uid() === actor) patchFeed(kind, id, saved || (DB.wasQueued && DB.wasQueued() ? optimistic : previous), false);
     }
   };
 

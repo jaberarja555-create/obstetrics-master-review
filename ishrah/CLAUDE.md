@@ -851,3 +851,23 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   in the feed and the course page show the same reactions pill and «أعجبني» picker as every post (`feedVoteBar` no longer leaves them out;
   the server already accepted course reactions in 040, and comments were working). Stars on courses stay enrolled students' reviews.
   Asset version 195, cache ish-v95.
+
+## No waiting, and the app works offline · 20 Nov 2026
+- Owner: "do what is needed to make the user feel no delay, and also it works offline". All in js/db.js (live mode), core.js and threads.js.
+  - **Saved data on the phone:** every database read (`DB.q`, `DB.one`, and the read-only rpcs in `SAVE_RPC`) is also kept in IndexedDB
+    `ish-data` (store `r`, key `<account id>|<read>`, newest 900). Opening a page answers from the phone at once and asks the server in the
+    background; when the server's answer differs, `ish-fresh` redraws the page in place (core.js, skipped while the person types, a sheet,
+    picker or comment panel is open or a button is saving; tried again 4 s later). A read held in memory and older than 1.5 s is checked the same way.
+    After the person's own change the related saved reads are "dirty" (`forgetFor` / `NEAR`): the server is asked first and the saved answer is
+    used only after 1.5 s without a reply. Background calls that change nothing on screen (`QUIET_RPC`: ish_seen, ish_space_join,
+    ish_push_save; tables reader_state, push_subs) no longer empty the saved reads. Sign-out deletes them (`DB.clearSaved`).
+  - **Offline:** pages are built from the saved data (fully working, not the read-only HTML copy; that copy and the offline card remain the
+    fallback when nothing was saved, router timeout 2.5 s offline). Comments (post, course, event, news, book, series, request, replies) and
+    reactions (posts, comments, series) made offline go to an outbox (`ish-outbox` in localStorage, per account), show at once with
+    «⏳ يُرسل عند عودة الاتصال», stay in place after moving between pages (`pendingRows` adds them to the comments read from the phone) and are
+    sent in order when the internet returns (also every 30 s and after sign-in). The offline bar says what works and how many are waiting.
+    Other changes (payments, uploads, editing, approvals) still need the internet.
+  - Test: scratchpad lf3.js = the app in live mode against a fake Supabase in the page (300 ms per call): post page 0.9 s first time → 16 ms
+    again, 36 ms after reopening the app; a comment added on the server appears by itself; offline home and post pages work; offline comment and
+    course reaction kept and sent when back online.
+- Asset version 196, shell cache ish-v96.
