@@ -902,3 +902,9 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   12.5 px semibold (12 px under 380 px), avatars 32 px on phones; the reaction count follows «رد» instead of sitting far away; the chosen
   reaction emoji is text-sized. «AHMED MOHAMMED HAMID DWALBYT» fits on one line at 360 and 390 px; only names longer than the screen get ….
   On phones the share button is icon-wide so «أعجبني» is never cut. Test: scratchpad nm.js. Asset version 201, cache ish-v101.
+- **Report like Facebook** (owner, 20 Nov 2026: "the report is bad"; it was one bare text box): `IS.ACT.report` (student.js) opens «الإبلاغ عن
+  منشور / تعليق / ملف …» with eight tappable reasons (wrong or misleading medical information, spam, abuse, inappropriate content, shared without
+  permission, scam, reveals a patient's details, something else) as a list with round select buttons, optional details (required for «سبب آخر»),
+  «أرسل البلاغ» enabled once a reason is chosen, then a confirmation in the same sheet (the author is not told who reported). The saved reason
+  is "<reason>: <details>", so Control → Community shows it as before. The same account reporting the same item again on this device sees
+  «أبلغت عن هذا من قبل». Test: scratchpad rep.js. Asset version 202, cache ish-v102.

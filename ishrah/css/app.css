@@ -3998,3 +3998,31 @@ body[data-page]:not([data-page="pick"]) #main :is(.box .btn.ghost,.ban.bpic .btn
   .post-comments{padding-inline:12px!important}
 }
 @media (max-width:380px){.cmt-bub .cmt-h b{font-size:12px!important}.post-comments{padding-inline:10px!important}.cmt-bub{padding-inline:11px!important}}
+
+/* report sheet like Facebook (owner, 20 Nov 2026: "the report is bad") */
+.rep-q{margin:0 0 2px;font-weight:700;font-size:15.5px}
+.rep-n{margin:0 0 12px;font-size:13px}
+.rep-list{display:flex;flex-direction:column;border:1px solid var(--bd);border-radius:14px;overflow:hidden}
+.rep-o{display:flex;align-items:center;gap:12px;padding:12px 14px;min-height:50px;cursor:pointer;border-top:1px solid var(--bd);background:var(--sf);transition:background .15s}
+.rep-o:first-child{border-top:0}
+.rep-o input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.rep-e{font-size:19px;width:28px;text-align:center;flex:none;line-height:1}
+.rep-t{flex:1;font-size:14.5px;font-weight:600;color:var(--tx)}
+.rep-c{width:16px;height:16px;color:var(--sub);flex:none;opacity:.6}
+[dir="rtl"] .rep-c{transform:scaleX(-1)}
+.rep-o:hover{background:var(--tint)}
+.rep-o.on{background:color-mix(in srgb,var(--pri) 10%,var(--sf));box-shadow:inset 3px 0 0 var(--pri)}
+[dir="rtl"] .rep-o.on{box-shadow:inset -3px 0 0 var(--pri)}
+.rep-o.on .rep-t{color:var(--pri)}
+.rep-o:focus-within{outline:2px solid var(--pri);outline-offset:-2px}
+.rep-more{margin-top:14px}
+.rep-more textarea{width:100%;min-height:80px}
+.rep-act{margin-top:14px}
+.rep-act .btn.pri[disabled]{opacity:.45;cursor:not-allowed}
+.rep-done{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:10px 6px 4px}
+.rep-done>.ico{width:52px;height:52px;color:#1f9d55}
+.rep-done b{font-size:17px}
+.rep-done p{margin:0 0 8px;max-width:340px}
+.rep-r{width:20px;height:20px;border-radius:50%;border:2px solid var(--bd2,#9fb3c2);flex:none;display:grid;place-items:center}
+.rep-o.on .rep-r{border-color:var(--pri)}
+.rep-o.on .rep-r::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--pri)}

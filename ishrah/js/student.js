@@ -1234,16 +1234,66 @@
     return '<button type="button" class="' + (compact ? 'feed-emoji feed-share' : 'btn ghost sm') + '" data-act="share-link" data-h="' + esc(route) +
       '"' + (compact ? ' aria-label="' + label + '" title="' + label + '"' : '') + '>' + ic('share') + (compact ? '' : label) + '</button>';
   };
-  IS.ACT.report = async function (b) {
+  /* report like Facebook (owner, 20 Nov 2026: "the report is bad"): a sheet with clear reasons to tap, optional details, then a
+     confirmation inside the sheet; the same account does not report the same thing twice from this device */
+  var REASONS = [
+    ['wrong', '🩺', 'معلومة طبية خاطئة أو مضللة', 'Wrong or misleading medical information'],
+    ['spam', '📢', 'إزعاج أو إعلان غير مرغوب', 'Spam or unwanted advertising'],
+    ['abuse', '🚫', 'إساءة أو تنمّر أو كراهية', 'Abuse, bullying or hate'],
+    ['inappropriate', '⚠️', 'محتوى غير لائق', 'Inappropriate content'],
+    ['copyright', '©️', 'نُشر دون إذن صاحبه', 'Shared without the owner’s permission'],
+    ['scam', '💸', 'احتيال أو طلب أموال', 'Scam or a request for money'],
+    ['privacy', '🔒', 'يكشف بيانات مريض أو شخص', 'Reveals a patient’s or a person’s details'],
+    ['other', '💬', 'سبب آخر', 'Something else']
+  ];
+  function reportWhat(kind) {
+    return /comment|^reply$/.test(kind) ? A('تعليق', 'comment') : kind === 'file' ? A('ملف', 'file') : kind === 'course' ? A('كورس', 'course') :
+      kind === 'event' ? A('فعالية', 'event') : kind === 'request' ? A('طلب', 'request') : A('منشور', 'post');
+  }
+  IS.ACT.report = function (b) {
     if (!me()) return IS.ACT.login();
-    var why = await IS.ask(A('إبلاغ المشرفين', 'Report to moderators'), A('سبب الإبلاغ', 'Reason'), '', { area: 1, ok: A('إرسال', 'Send') });
-    if (!why || !why.trim()) return;
-    var report = { kind: b.dataset.kind, target: b.dataset.id, user_id: uid(), reason: why.trim().slice(0, 2000), status: 'open' };
-    if (DB.live) {
-      var result = await DB.sb.from('reports').insert(report);
-      if (result.error) throw result.error;
-    } else await DB.ins('reports', report);
-    IS.toast(A('شكرًا، سيراجعه المشرفون', 'Thank you, moderators will review it'));
+    var kind = b.dataset.kind, target = b.dataset.id, key = 'ish-rep:' + uid() + ':' + kind + ':' + target, what = reportWhat(kind);
+    var done = false; try { done = !!localStorage.getItem(key); } catch (e) {}
+    if (done) {
+      IS.sheet(A('الإبلاغ عن ', 'Report this ') + what, '<div class="rep-done">' + ic('checkc') + '<b>' + esc(A('أبلغت عن هذا من قبل', 'You already reported this')) +
+        '</b><p class="mut">' + esc(A('بلاغك عند فريق المجتمع وسيُراجَع. شكرًا لك.', 'Your report is with the community team and will be reviewed. Thank you.')) +
+        '</p><button type="button" class="btn pri" data-close>' + esc(A('حسنًا', 'OK')) + '</button></div>', { nofocus: true });
+      return;
+    }
+    var dlg = IS.sheet(A('الإبلاغ عن ', 'Report this ') + what,
+      '<form class="rep" id="repf"><p class="rep-q">' + esc(A('ما المشكلة؟ اختر السبب الأقرب.', 'What is wrong? Choose the closest reason.')) + '</p>' +
+      '<p class="mut rep-n">' + esc(A('لن يعرف الناشر أنك أبلغت عنه.', 'The author will not know you reported it.')) + '</p>' +
+      '<div class="rep-list" role="radiogroup">' + REASONS.map(function (r) {
+        return '<label class="rep-o"><input type="radio" name="why" value="' + r[0] + '"><span class="rep-e" aria-hidden="true">' + r[1] + '</span><span class="rep-t">' + esc(A(r[2], r[3])) + '</span><span class="rep-r" aria-hidden="true"></span></label>';
+      }).join('') + '</div>' +
+      '<label class="fl rep-more" hidden><span>' + esc(A('أضف تفاصيل (اختياري)', 'Add details (optional)')) + '</span><textarea name="more" rows="3" maxlength="1500" dir="auto" placeholder="' +
+        esc(A('مثلًا: ما الخطأ، والمعلومة الصحيحة ومصدرها', 'For example: what is wrong, and the correct information with its source')) + '"></textarea></label>' +
+      '<div class="row end rep-act"><button type="button" class="btn ghost" data-close>' + esc(A('إلغاء', 'Cancel')) + '</button><button class="btn pri" disabled>' + ic('flag') +
+        esc(A('أرسل البلاغ', 'Send report')) + '</button></div></form>', { nofocus: true });
+    var f = dlg.querySelector('#repf'), send = f.querySelector('button.pri'), more = f.querySelector('.rep-more');
+    f.addEventListener('change', function () {
+      var v = f.querySelector('input[name=why]:checked'); send.disabled = !v; more.hidden = !v;
+      IS.$$('.rep-o', f).forEach(function (o) { o.classList.toggle('on', o.querySelector('input').checked); });
+      if (v && v.value === 'other') { var t = more.querySelector('textarea'); t.required = true; t.focus(); } else more.querySelector('textarea').required = false;
+    });
+    f.onsubmit = async function (e) {
+      e.preventDefault();
+      var v = f.querySelector('input[name=why]:checked'); if (!v) return;
+      var r = REASONS.filter(function (x) { return x[0] === v.value; })[0], extra = f.more.value.trim();
+      var report = { kind: kind, target: target, user_id: uid(), reason: (A(r[2], r[3]) + (extra ? ': ' + extra : '')).slice(0, 2000), status: 'open' };
+      send.disabled = true; send.classList.add('busy'); send.innerHTML = '<i class="spin"></i><span>' + esc(A('جارٍ الإرسال…', 'Sending…')) + '</span>';
+      try {
+        if (DB.live) { var result = await DB.sb.from('reports').insert(report); if (result.error) throw result.error; }
+        else await DB.ins('reports', report);
+        try { localStorage.setItem(key, '1'); } catch (x) {}
+        f.outerHTML = '<div class="rep-done">' + ic('checkc') + '<b>' + esc(A('شكرًا، وصل بلاغك', 'Thank you, your report was sent')) + '</b><p class="mut">' +
+          esc(A('سيراجعه فريق المجتمع ويتخذ الإجراء المناسب. لن يعرف الناشر أنك أبلغت عنه.', 'The community team will review it and act on it. The author will not know you reported it.')) +
+          '</p><button type="button" class="btn pri" data-close>' + esc(A('تم', 'Done')) + '</button></div>';
+      } catch (err) {
+        send.disabled = false; send.classList.remove('busy'); send.innerHTML = ic('flag') + esc(A('أرسل البلاغ', 'Send report'));
+        IS.toast(navigator.onLine ? A('تعذّر إرسال البلاغ. حاول مرة أخرى.', 'The report could not be sent. Try again.') : A('إرسال البلاغ يحتاج إلى الإنترنت.', 'Sending a report needs the internet.'), true);
+      }
+    };
   };
   IS.ACT.pin = async function (b) { var p = await DB.one('posts', b.getAttribute('data-id')); await DB.upd('posts', p.id, { pinned: !p.pinned }); IS.audit(p.pinned ? 'unpin post' : 'pin post', p.title); IS.refresh(); };
   IS.ACT.rmpost = async function (b) { if (!(await IS.confirm(A('حذف هذه المشاركة؟', 'Remove this post?')))) return; await DB.upd('posts', b.getAttribute('data-id'), { status: 'removed' }); IS.audit('remove post', b.getAttribute('data-id')); IS.go('community'); };
