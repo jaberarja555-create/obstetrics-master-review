@@ -119,11 +119,13 @@
       '<div class="sfacts"><span>' + ic('layers') + esc(IS.partsCount(parts.length)) + '</span>' + '' + '</div>' +
       (IS.tagChips(first) ? '<div class="row fprice">' + IS.tagChips(first) + '</div>' : '') +
       (first.about ? '<p class="pre" dir="auto">' + esc(first.about) + '</p>' : '') +
-      '<div class="row">' + (first.status === 'published' && !IS.fileOpenable(first) ? IS.buyBtn(first) : IS.ME ? '<button type="button" class="btn pri" data-act="sread" data-id="' + esc(parts[lastRead].id) + '">' + ic('open') +
-        esc(lastRead ? A('تابع: الجزء ', 'Continue: part ') + (lastRead + 1) : A('ابدأ من الجزء الأول', 'Start with part 1')) + '</button>' :
-        '<button type="button" class="btn pri" data-act="login">' + ic('lock') + esc(A('سجّل الدخول للقراءة', 'Sign in to read')) + '</button>') +
-      (own ? '<button type="button" class="btn ghost iconly" data-act="edit-library-series" data-id="' + esc(own.id) + '" aria-label="' + esc(A('تعديل السلسلة', 'Edit series')) + '" title="' + esc(A('تعديل السلسلة', 'Edit series')) + '">' + ic('pen') + '</button>' : '') +
-      '</div></div>' + (parts.some(function (part) { return part.status === 'published'; }) ? '<div class="shead-fb">' + seriesFeedback(id, first) + '</div>' : '') + '</article>';
+      /* owner, 20 Nov 2026: no «start with part 1» button (each part opens from its own row); «continue» only when a part was started;
+         the series edit is a small pen in the corner of the box, like the other edit buttons */
+      (first.status === 'published' && !IS.fileOpenable(first) ? '<div class="row">' + IS.buyBtn(first) + '</div>' :
+        IS.ME && lastRead > 0 ? '<div class="row"><button type="button" class="btn ghost sm" data-act="sread" data-id="' + esc(parts[lastRead].id) + '">' + ic('open') +
+          esc(A('تابع: الجزء ', 'Continue: part ') + (lastRead + 1)) + '</button></div>' : '') +
+      (own ? '<button type="button" class="btn ghost iconly shead-edit" data-act="edit-library-series" data-id="' + esc(own.id) + '" aria-label="' + esc(A('تعديل السلسلة', 'Edit series')) + '" title="' + esc(A('تعديل السلسلة', 'Edit series')) + '">' + ic('pen') + '</button>' : '') +
+      '</div>' + (parts.some(function (part) { return part.status === 'published'; }) ? '<div class="shead-fb">' + seriesFeedback(id, first) + '</div>' : '') + '</article>';
     h += '<section class="box"><h2>' + ic('list') + IS.T('أجزاء السلسلة', 'Parts') + '</h2><ol class="sparts">' + parts.map(function (p, i) {
       var pg = 0; try { pg = +JSON.parse(localStorage.getItem('ish-rpg:' + p.id) || '0') || 0; } catch (e) {}
       var done = pg && p.pages && pg >= p.pages;

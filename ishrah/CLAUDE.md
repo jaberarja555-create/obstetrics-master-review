@@ -816,3 +816,9 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
     XMLHttpRequest and reports progress through the `ish-upload` event; falls back to supabase-js). Real speed is limited by the network and
     the Ireland server (R2 move before launch).
 - Asset version 190, shell cache ish-v90.
+- Series page (owner: «nothing like open from start»; «تعديل السلسلة فقط قلم»): no «ابدأ من الجزء الأول» button (each part opens from its row;
+  «تابع: الجزء N» only after a part was started); the series edit is a small pen in the corner of the series box (`.shead-edit`).
+- Request cards, new design (owner: «Request appears badly, the star down, people who join and organisation of text and design»): `requestCard`
+  = cover with the status on it (or the status beside the name when there is no cover) · requester and time · title · speciality · section ·
+  lecturer · two lines of details · facts line (joined · date · price badge); no approval star; in Control «وافق وانشر» / «ارفض» on the card.
+- Asset version 191, shell cache ish-v91.

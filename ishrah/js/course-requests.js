@@ -260,12 +260,24 @@
     if (opts) query.eq = opts;
     return DB.q(REQUESTS, query);
   }
+  /* request card, new design (owner, 20 Nov 2026: «Request appears badly, the star down, people who join and organisation of text and
+     design»): cover with the status on it, who asked and when, title, speciality · section · lecturer, two lines of details, then one line of
+     facts (joined · price · date); in Control the decision buttons sit on the card */
   function requestCard(row, prefix) {
-    return '<article class="box cr-card" data-go="' + esc(href(row, prefix)) + '">' + (row.cover ? '<span class="cr-cover">' + IS.poster(row.cover) + '</span>' : '') + '<div class="row">' + status(row) + (row.teacher_confirmed ? IS.chip(text('تأكد المحاضر', 'Lecturer confirmed'), 'ok') : '') + '<span class="grow"></span>' + (IS.manageBtn ? IS.manageBtn('request', row.id) : '') + '</div>' +
+    var price = row.budget_min != null && Number(row.budget_min) === Number(row.budget_max) ? IS.priceTag({ price: row.budget_min }) : '';
+    var when = row.proposed_at ? new Intl.DateTimeFormat(IS.lang === 'ar' ? 'ar' : 'en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Khartoum' }).format(new Date(row.proposed_at)) : '';
+    var decide = prefix === 'control-course-request' && row.status === 'pending' && IS.can('review', 'approve');
+    return '<article class="box cr-card cr2" data-go="' + esc(href(row, prefix)) + '">' +
+      (row.cover ? '<span class="cr2-cover">' + IS.poster(row.cover) + '<span class="cr2-st">' + status(row) + '</span></span>' : '') +
+      '<div class="cr2-b"><div class="cr2-h"><span class="cr2-who">' + IS.av({ name: row.author_name }, 'xs', row.user_id) + '<b dir="auto">' + esc(row.author_name || '') + '</b>' +
+        (row.created_at ? '<small>' + esc(IS.ago(row.created_at)) + '</small>' : '') + '</span>' + (row.cover ? '' : status(row)) + (IS.manageBtn ? IS.manageBtn('request', row.id) : '') + '</div>' +
       '<h3><a dir="auto" href="' + href(row, prefix) + '">' + esc(row.title) + '</a></h3>' +
-      '<p class="mut" dir="auto">' + esc(scopeName(row)) + ' · ' + esc(row.lecturer_name || A('طلب عام', 'General request')) + '</p>' +
-      '<p class="cr-summary" dir="auto">' + esc(row.details) + '</p><div class="row cr-meta"><span>' + ic('users') + joined(row) +
-      '</span><span>' + ic('star') + esc(approval(row)) + '</span></div></article>';
+      '<p class="cr2-scope">' + esc(scopeName(row)) + ' · ' + ic('user') + '<span dir="auto">' + esc(row.lecturer_name || A('أي محاضر', 'Any lecturer')) + '</span>' +
+        (row.teacher_confirmed ? ' ' + IS.chip(text('تأكد المحاضر', 'Lecturer confirmed'), 'ok') : '') + '</p>' +
+      (row.details ? '<p class="cr2-sum" dir="auto">' + esc(row.details) + '</p>' : '') +
+      '<div class="cr2-facts"><span>' + ic('users') + joined(row) + '</span>' + (when ? '<span>' + ic('cal') + '<bdi>' + esc(when) + '</bdi></span>' : '') + price + '</div>' +
+      (decide ? '<div class="cr2-dec">' + commandButton(row, 'approve', 'وافق وانشر', 'Approve and publish', 'pri') + commandButton(row, 'reject', 'ارفض', 'Decline', 'bad') + '</div>' : '') +
+      '</div></article>';
   }
   IS.sectionCourseRequests = function (limit) { return publicRows(scope(), limit); };
 
@@ -360,7 +372,7 @@
   var CONTROL = { area: 'control', auth: true, perm: 'review' };
   IS.page('control-course-requests', async function () {
     var rows = await DB.q(REQUESTS, { eq: { status: 'pending' }, order: ['created_at', true], limit: 100 });
-    return IS.banner(IS.T('مراجعة طلبات الكورسات', 'Course request review'), esc(A('راجع الطلبات القديمة التي ما زالت قيد الانتظار.', 'Review older requests still awaiting a decision.')), 'eye') +
+    return IS.banner(IS.T('مراجعة طلبات الكورسات', 'Course request review'), esc(A('راجع طلبات الكورسات الجديدة والمعدّلة قبل نشرها.', 'Review new and edited course requests before they are published.')), 'eye') +
       '<div class="row">' + link('#control-questions', 'مراجعة الأسئلة', 'Review questions') + '</div>' +
       (rows.length ? '<div class="grid g3 cr-grid">' + rows.map(function (r) { return requestCard(r, 'control-course-request'); }).join('') + '</div>' :
         IS.empty('eye', A('لا توجد طلبات بانتظار المراجعة', 'No requests awaiting review')));
