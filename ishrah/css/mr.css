@@ -711,8 +711,9 @@ html body .mrh .feed-card-header>.own{margin-inline-start:auto!important;flex:no
 html body .mrh .feed-card-header:not(:has(>.own))>.mng{margin-inline-start:auto!important}
 html body .mrh .feed-card-header>.mng{flex:none;margin-top:0!important;order:0}
 @media (max-width:560px){
-  html body .mrh .feed-card-header:has(>.own)>.mng>span{display:none}
-  html body .mrh .feed-card-header:has(>.own)>.mng{padding:0 10px!important;min-width:0}
+  html body .mrh .feed-card-header>.mng{padding:0 9px!important;gap:3px!important;font-size:12.5px!important;height:32px!important}
+  html body .mrh .feed-card-header>.own{gap:0!important;padding:0 2px!important}
+  html body .mrh .feed-card-header>.own .own-b{width:30px!important;height:32px!important;font-size:14px!important;padding:0!important}
   html body .mrh .feed-card-header>span:first-child{padding:5px 10px;font-size:12.5px;white-space:nowrap}
   html body .mrh .feed-card-header>time{font-size:12px}
 }
@@ -722,3 +723,4 @@ html body .mrh .feed-card-header>.mng{flex:none;margin-top:0!important;order:0}
 .mc-side .mc-lec{justify-content:center;padding:4px 6px}
 @media (max-width:560px){.mc-side .mc-fav{top:6px!important;inset-inline-end:6px!important}.mc-side .mc-lec{font-size:13px;gap:6px}.mc-side .mc-lec .av{width:30px!important;height:30px!important}}
 .mc-side .mc-pic{align-self:stretch!important;width:100%}
+html body .mrh .feed-card-header>time{flex:0 1 auto!important;min-width:0;overflow:hidden;text-overflow:ellipsis}
