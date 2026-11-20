@@ -90,6 +90,8 @@ jobs:
           if ! command -v psql >/dev/null; then sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client >/dev/null; fi
           DB=$(printf '%s' "$DB" | tr -d '\r\n\t `"'"'"'<>')
           psql "$DB" -Atc "select 'pg_net installed: ' || exists (select 1 from pg_extension where extname = 'pg_net')" || true
+          psql "$DB" -Atc "select 'live feed: live_pulse in supabase_realtime publication: ' || exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'live_pulse')" || true
+          psql "$DB" -Atc "select 'live feed: pulses in the last hour: ' || count(*) from public.live_pulse where at > now() - interval '1 hour'" || true
           psql "$DB" -Atc "select 'phones registered for alerts: ' || count(*) || ' (team: ' || count(*) filter (where team) || ')' from public.push_subs" || true
           psql "$DB" -Atc "select 'alert deliveries in the last day by result: ' || coalesce(string_agg(coalesce(status_code::text, 'error') || ' x' || n, ', '), 'none') from (select status_code, count(*) n from net._http_response where created > now() - interval '1 day' group by 1) t" || true
       - name: Create the Pages project the first time (ignored when it exists)

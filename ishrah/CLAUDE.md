@@ -884,3 +884,11 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   check of `live_pulse` runs every 5 s while the live connection is down (every 20 s while it is up), and a dropped live connection is opened
   again after 10 s. Test: scratchpad rate2.js (fake Supabase: stars appear by themselves; after a reload the newer figures show in 0.7 s).
 - Reaction emojis in the summary sit side by side (no overlapping circles; heart and angry looked inside each other). Asset version 198, cache ish-v98.
+- **Ratings reach other accounts in about a second** (owner, 20 Nov 2026: "rating still takes longer to appear"): (1) the backup check
+  compared the server's change times with the PHONE's clock (`lastAt` started as the phone's time), so a phone whose clock runs ahead missed
+  every change until a reload; it now starts from the newest server time (first poll only reads it). (2) A direct message between open apps:
+  after a rating, reaction or comment is saved, db.js fires `ish-sent` and live.js sends a Realtime broadcast `pulse` {key} on channel
+  `ish-live`; the other apps redraw that item at once (does not depend on the database feed; the database feed and the 5 s check stay as
+  backups). (3) The deploy log prints whether `live_pulse` is in the `supabase_realtime` publication and how many pulses came in the last
+  hour. Test: scratchpad rate3.js (two windows, 300 ms per server call: the second window shows the new rating 0.9 s after the first presses).
+  Asset version 199, cache ish-v99.

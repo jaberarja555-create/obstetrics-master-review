@@ -58,7 +58,7 @@
   };
 
   /* ---------- live updates ---------- */
-  var timers = {}, lastTouch = 0, lastAt = new Date().toISOString(), channel = null, live = false;
+  var timers = {}, lastTouch = 0, lastAt = null, channel = null, live = false;
   document.addEventListener('pointerdown', function () { lastTouch = Date.now(); }, true);
   function typing(root) {
     var a = document.activeElement;
@@ -112,6 +112,11 @@
   async function poll(any) {
     if (!DB.live || (live && !any) || document.hidden || !navigator.onLine) return;
     try {
+      if (!lastAt) {
+        var first = await DB.sb.from('live_pulse').select('at').order('at', { ascending: false }).limit(1);
+        if (!first.error) lastAt = (first.data && first.data[0] && first.data[0].at) || '1970-01-01T00:00:00Z';
+        return;
+      }
       var r = await DB.sb.from('live_pulse').select('key,at').gt('at', lastAt).order('at', { ascending: false }).limit(50);
       if (r.error || !r.data) return;
       if (r.data[0]) lastAt = r.data[0].at;
@@ -123,8 +128,10 @@
     try {
       channel = DB.sb.channel('ish-live').on('postgres_changes', { event: '*', schema: 'public', table: 'live_pulse' }, function (p) {
         var row = p.new && p.new.key ? p.new : p.old; if (!row || !row.key) return;
-        if (row.at && row.at > lastAt) lastAt = row.at;
+        if (row.at && (!lastAt || row.at > lastAt)) lastAt = row.at;
         if (onScreen(row.key)) IS.livePulse(row.key);
+      }).on('broadcast', { event: 'pulse' }, function (m) {
+        var key = m && m.payload && m.payload.key; if (key && onScreen(key)) IS.livePulse(key);
       }).subscribe(function (status) {
         live = status === 'SUBSCRIBED';
         /* a dropped live connection is opened again (the 5 s check covers the gap) */
@@ -137,4 +144,17 @@
   document.addEventListener('visibilitychange', function () { if (!document.hidden) { poll(); if (!channel) connect(); } });
   window.addEventListener('online', function () { poll(); });
   setTimeout(connect, 1500);
+  var SENT = { ish_feed_react: 1, ish_feed_rate: 1, ish_series_vote: 1, ish_library_comment: 1, ish_series_comment: 1, ish_course_request: 1, ish_comment_react: 1, ish_comment_reply: 1 };
+  window.addEventListener('ish-sent', function (e) {
+    var d = e.detail || {}, a = d.args || {}, key = '';
+    if (d.name === 'ish_feed_react' || d.name === 'ish_feed_rate') key = a.kind + '/' + a.target;
+    else if (d.name === 'ish_series_vote') key = 'series/' + a.target;
+    else if (d.name === 'ish_library_comment') key = 'file/' + a.file;
+    else if (d.name === 'ish_series_comment') key = 'series/' + a.series;
+    else if (d.name === 'ish_course_request' && a.action === 'comment') key = 'request/' + a.request;
+    else if (d.name === 'ins:replies') key = ['post', 'course', 'event', 'news', 'announcement'].map(function (k) { return a[k + '_id'] ? k + '/' + a[k + '_id'] : ''; }).filter(Boolean)[0] || '';
+    else if (SENT[d.name] && d.key) key = d.key;
+    if (!key || !channel || !live) return;
+    try { channel.send({ type: 'broadcast', event: 'pulse', payload: { key: key } }); } catch (x) {}
+  });
 })();

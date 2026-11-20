@@ -368,6 +368,7 @@
         if (q && !navigator.onLine) return Promise.resolve(enqueue('rpc', name, args));
         forgetFor(name);
         var call = rpc0.apply(null, arguments);
+        if (NEAR[name]) Promise.resolve(call).then(function (r) { if (r && !r.error) window.dispatchEvent(new CustomEvent('ish-sent', { detail: { name: name, args: args } })); }, function () {});
         if (!q) return call;
         return Promise.resolve(call).then(function (r) { return r && r.error && netErr(r.error) ? enqueue('rpc', name, args) : r; },
           function (e) { if (netErr(e)) return enqueue('rpc', name, args); throw e; });
@@ -425,7 +426,9 @@
       ins: async function (t, row) {
         if (queueable('ins:' + t) && !navigator.onLine) return enqueue('ins', 'ins:' + t, row);
         forgetFor(t);
-        try { return chk(await sb.from(t).insert(row).select(cols(t)).single()); }
+        try { var made = chk(await sb.from(t).insert(row).select(cols(t)).single());
+          if (t === 'replies') window.dispatchEvent(new CustomEvent('ish-sent', { detail: { name: 'ins:replies', args: row } }));
+          return made; }
         catch (e) { if (queueable('ins:' + t) && netErr(e)) return enqueue('ins', 'ins:' + t, row); throw e; }
       },
       upsert: async function (t, row) { forgetFor(t); return chk(await sb.from(t).upsert(row).select(cols(t)).single()); },
