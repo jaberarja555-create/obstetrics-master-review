@@ -130,7 +130,44 @@
       '<div class="lhx"><form class="hsearch" role="search" data-form="search"><span>' + ic('search') + '</span><input name="q" type="search" placeholder="' + esc(A('ابحث عن كورس، مادة، محاضر أو موضوع…', 'Search a course, subject, lecturer or topic…')) + '"><button class="btn pri">' + esc(A('بحث', 'Search')) + '</button></form>' +
       (m ? '' : '<div class="row"><button class="btn pri sm" data-act="register">' + ic('user') + esc(A('أنشئ حسابك مجانًا', 'Create your free account')) + '</button><button class="btn lt sm" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button></div>') + '</div>' +
 '<nav class="lhq" aria-label="' + esc(A('الأقسام', 'Places')) + '">' + QUICK.map(function (q) { return q[0] === 'studio-apply' && IS.LEC ? ['studio', 'studio', 'الاستوديو', 'My studio'] : q; }).map(function (q) { return '<a href="#' + q[0] + '"><i>' + ic(q[1]) + '</i>' + IS.navLbl(q[2], q[3]) + '</a>'; }).join('') + '</nav></div>';
-    return h + (section ? await sectionHome(section) : '');
+    if (!section) return h;
+    var specId = spec.id;
+    IS.after = function (main, remember) {
+      var slot = main.querySelector('[data-home-feed]');
+      var busy = false;
+      async function load() {
+        if (busy || !slot.isConnected) return;
+        busy = true;
+        slot.setAttribute('aria-busy', 'true');
+        slot.innerHTML = '<p class="home-feed-status" role="status">' + esc(A('جارٍ تحميل المستجدات…', 'Loading latest updates…')) + '</p>';
+        var timer;
+        try {
+          var feed = await Promise.race([sectionHome(specId, section), new Promise(function (_, reject) {
+            timer = setTimeout(function () { reject(new Error('Home updates timed out')); }, 8500);
+          })]);
+          if (!slot.isConnected) return;
+          slot.innerHTML = feed.html;
+          feed.mount(slot);
+          slot.removeAttribute('aria-busy');
+          remember();
+          IS.hydrateFeedReactions(slot);
+          IS.hydrateSeen();
+        } catch (error) {
+          if (!slot.isConnected) return;
+          slot.innerHTML = '<div class="home-feed-status" role="status"><span>' +
+            esc(A('تعذّر تحميل المستجدات الآن.', 'Latest updates are temporarily unavailable.')) +
+            '</span><button type="button" class="btn ghost sm">' + ic('route') +
+            esc(A('حاول مرة أخرى', 'Try again')) + '</button></div>';
+          slot.querySelector('button').onclick = load;
+        } finally {
+          clearTimeout(timer);
+          busy = false;
+          slot.removeAttribute('aria-busy');
+        }
+      }
+      load();
+    };
+    return h + '<div data-home-feed></div>';
   });
 
   IS.page('specialties', async function () { IS.go('pick'); return ''; });
@@ -183,12 +220,12 @@
     library: ['المكتبة', 'Library', 'open']
   };
   var feedSettings = {};
-  async function sectionHome(section) {
-    var query = { spec: IS.SPEC, cat: section.id }, key = IS.SPEC + '/' + section.id;
+  async function sectionHome(spec, section) {
+    var query = { spec: spec, cat: section.id }, key = spec + '/' + section.id;
     var results = await Promise.all([IS.pubCourses(), annList(40), IS.sectionCourseRequests(40),
       DB.q('events', { eq: Object.assign({ status: 'published' }, query), order: ['created_at', false], limit: 40 }),
-      newsList(40), DB.q('posts', { eq: { room: section.id, spec: IS.SPEC, status: 'open' }, order: ['created_at', false], limit: 40 }),
-      IS.sectionLibraryFiles(IS.SPEC, section.id)]);
+      newsList(40), DB.q('posts', { eq: { room: section.id, spec: spec, status: 'open' }, order: ['created_at', false], limit: 40 }),
+      IS.sectionLibraryFiles(spec, section.id)]);
     var coursesById = new Map(results[0].map(function (course) { return [course.id, course]; }));
     results[5].forEach(function (post) {
       var linked = coursesById.get(post.course_id);
@@ -216,8 +253,8 @@
     function options(type, values) {
       return values.map(function (value) { return '<option value="' + value[0] + '"' + (preferences[type] === value[0] ? ' selected' : '') + '>' + esc(A(value[1], value[2])) + '</option>'; }).join('');
     }
-    IS.after = function (main) {
-      var stream = main.querySelector('.section-feed'); if (!stream) return;
+    function mount(slot) {
+      var stream = slot.querySelector('.section-feed'); if (!stream) return;
       var content = stream.querySelector('.feed-items');
       function covers() { IS.hydrateLibraryCovers(content).catch(function () {}); }
       function redraw() {
@@ -236,8 +273,8 @@
       content.onclick = function (event) {
         if (event.target.closest('.feed-more')) { limit += 12; redraw(); }
       };
-    };
-    return '<section class="section-feed"><header class="feed-toolbar"><h2>' + (esc(A('آخر المستجدات في ', 'Latest in ')) + '<bdi lang="en">' + esc(section.en) + '</bdi>') + '</h2><div class="row">' +
+    }
+    var html = '<section class="section-feed"><header class="feed-toolbar"><h2>' + (esc(A('آخر المستجدات في ', 'Latest in ')) + '<bdi lang="en">' + esc(section.en) + '</bdi>') + '</h2><div class="row">' +
       '<a class="btn pri sm" href="#course-requests/new">' + ic('plus') + esc(A('اطلب كورسًا', 'Request a course')) + '</a>' +
       '<a class="btn ghost sm" href="#community/new">' + ic('pen') + esc(A('اكتب منشورًا', 'Create a post')) + '</a></div>' +
       '<div class="feed-filters"><label><span>' + esc(A('الترتيب', 'Sort by')) + '</span><select class="sel" id="feed-sort" data-feed="sort">' +
@@ -246,6 +283,7 @@
       '<label><span>' + esc(A('نوع المنشور', 'Post type')) + '</span><select class="sel" id="feed-type" data-feed="type">' +
       options('type', [['all', 'الكل', 'All posts']].concat(Object.keys(FEED_TYPES).map(function (type) { return [type].concat(FEED_TYPES[type]); }))) +
       '</select></label></div></header><div class="feed-items">' + list() + '</div></section>';
+    return { html: html, mount: mount };
   }
   function feedScore(item) {
     var r = item.row._parts ? IS.seriesScore(item.row.series_id) : item.row;
@@ -294,34 +332,39 @@
       (isPost ? postPreview(row, true) : '') + IS.feedVoteBar(feedback, row, true, shareRoute) + '</article>';
   }
 
-  /* ========== START PAGE: sign in and choose a speciality (owner, 18 Nov 2026) ========== */
+  /* Platform entry and study-space selection. */
   IS.page('pick', async function () {
     var m = me(), cur = IS.SPEC;
     var language = IS.lang === 'ar' ? '<span lang="en">English</span>' : '<span lang="ar">العربية</span>';
-    var h = '<div class="pick"><header class="pkh"><div class="pk-intro"><div class="pk-brand"><img src="' + IS.logo() + '" alt="" class="pkl">' +
-      '<h1 tabindex="-1">' + esc(IS.brandName()) + '</h1></div><p>' + esc(A('منصة لطلاب الكليات الصحية في السودان', 'A platform for health sciences students in Sudan')) + '</p></div>' +
-      '<span class="pk-hero"><img src="img/collection/platform.webp" alt="" fetchpriority="high"></span>' +
-      (m ? '<div class="pkme">' + IS.av(m, 'sm') + '<span>' + esc(A('مرحبًا ', 'Welcome, ')) + IS.greetingName(m.name, true) + '</span></div>' :
-        '<div class="pkin"><button class="btn pri" data-act="login">' + ic('user') + esc(A('تسجيل الدخول', 'Sign in')) + '</button><button class="btn ghost" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div>') + '</header>' +
-      '<section class="pkb"><h2>' + IS.T('اختر تخصصك', 'Choose your speciality') + '</h2><p class="mut">' + esc(A('بعد اختيار التخصص، اختر القسم الذي تريد الدراسة فيه.', 'After choosing your speciality, choose the section you want to study in.')) + '</p>' +
-      '<div class="pks">' + IS.SPECS.map(function (s) { var ns = IS.SUBJ.filter(function (x) { return x.spec === s.id; }).length;
-        return '<button type="button" class="pk' + (s.id === cur ? ' on' : '') + '" data-act="setspec" data-v="' + s.id + '" aria-pressed="' + (s.id === cur) + '"><span class="pki">' + (s.img ? '<img src="' + IS.U(s.img) + '" alt="" loading="lazy">' : '') + '</span><span class="pkt"><i>' + ic(s.icon) + '</i><b lang="en">' + esc(s.en) + '</b><em>' + IS.cnt(ns, 'sub') + '</em></span>' + (s.id === cur ? '<span class="pkc">' + ic('check') + '</span>' : '') + '</button>'; }).join('') + '</div></section>' +
-      '<footer class="pick-footer">' +
-      (IS.team() || IS.LEC ? '<nav class="pkx" aria-label="' + esc(A('مساحات العمل', 'Workspaces')) + '">' +
-        (IS.LEC ? '<a class="btn ghost sm" href="#studio">' + ic('studio') + esc(A('استوديو المحاضر', 'Lecturer studio')) + '</a>' : '') +
-        (IS.team() ? '<a class="btn ghost sm" href="#control">' + ic('crown') + esc(A('تطبيق التحكم', 'Control app')) + '</a>' : '') + '</nav>' : '') +
-      '<div class="pkf"><button type="button" class="btn ghost sm" data-act="lang" aria-label="' +
+    var h = '<div class="entry"><header class="entry-hero"><div class="entry-intro"><img src="' + IS.logo() + '" alt="" class="entry-mark" width="52" height="52">' +
+      '<div><h1 tabindex="-1">' + esc(IS.brandName()) + '</h1><p>' +
+      esc(A('منصة لطلاب الكليات الصحية في السودان', 'A platform for health sciences students in Sudan')) + '</p></div></div>' +
+      '<div class="entry-photo"><img src="img/collection/platform.webp" alt="" fetchpriority="high" width="1120" height="747"></div></header>' +
+      (m ? '<div class="entry-account"><a href="#account">' + IS.av(m, 'sm') + '<span>' + esc(A('مرحبًا ', 'Welcome, ')) + IS.greetingName(m.name, true) + '</span></a>' +
+        '<div class="entry-account-tools"><a class="ib" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + ic('bell') + '</a></div></div>' :
+        '<div class="entry-account"><button class="btn pri" data-act="login">' + ic('user') + esc(A('تسجيل الدخول', 'Sign in')) +
+        '</button><button class="btn ghost" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div>') +
+      '<section class="entry-study" aria-labelledby="entry-study-title"><div class="entry-heading"><h2 id="entry-study-title">' + ic('steth') +
+      IS.T('اختر تخصصك', 'Choose your speciality') + '</h2><p>' +
+      esc(A('بعد اختيار التخصص، اختر القسم الذي تريد الدراسة فيه.', 'Choose a speciality, then the section you want to study in.')) + '</p></div>' +
+      '<div class="entry-grid">' + IS.SPECS.map(function (spec) {
+        var n = IS.SUBJ.filter(function (subject) { return subject.spec === spec.id; }).length;
+        return '<button type="button" class="entry-card' + (spec.id === 'medicine' ? ' entry-card-main' : '') +
+          '" data-act="setspec" data-v="' + esc(spec.id) + '" aria-pressed="' + (spec.id === cur) + '">' +
+          '<span class="entry-card-info"><i>' + ic(spec.icon) + '</i><b dir="auto" lang="en">' + esc(spec.en) + '</b></span>' +
+          '<span class="entry-card-photo">' + (spec.img ? '<img src="' + IS.U(spec.img) + '" alt="">' : '') + '</span>' +
+          '<span class="entry-count">' + IS.cnt(n, 'sub') + '</span>' +
+          (spec.id === cur ? '<span class="entry-current" aria-hidden="true">' + ic('check') + '</span>' : '') + '</button>';
+      }).join('') + '</div></section>' +
+      '<footer class="entry-footer">' +
+      (IS.team() || IS.LEC ? '<nav aria-label="' + esc(A('مساحات العمل', 'Workspaces')) + '">' +
+        (IS.LEC ? '<a class="btn ghost" href="#studio">' + ic('studio') + esc(A('استوديو المحاضر', 'Lecturer studio')) + '</a>' : '') +
+        (IS.team() ? '<a class="btn ghost" href="#control">' + ic('crown') + esc(A('تطبيق التحكم', 'Control app')) + '</a>' : '') + '</nav>' : '') +
+      '<div><button type="button" class="btn ghost" data-act="lang" aria-label="' +
         esc(A('غيّر اللغة إلى الإنجليزية', 'Switch language to Arabic')) + '">' + ic('globe') + language + '</button>' +
-      '<a class="btn ghost sm" href="#terms">' + ic('shield') + esc(A('الشروط والخصوصية', 'Terms and privacy')) + '</a></div></footer></div>';
-    /* the start page always fits the screen (owner, 18 Nov 2026: "not well organised, scrolling for nothing" on phone and tablet):
-       the page takes exactly the height left under the top of #main, and the speciality cards share it */
-    IS.after = function () { IS.fitPick(); };
+      '<a class="btn ghost" href="#terms">' + ic('shield') + esc(A('الشروط والخصوصية', 'Terms and privacy')) + '</a></div></footer></div>';
     return h;
   });
-  IS.fitPick = function () { var p = document.querySelector('#main .pick'); if (!p) return;
-    var top = p.getBoundingClientRect().top + window.scrollY, pb = parseFloat(getComputedStyle(document.getElementById('main')).paddingBottom) || 0;
-    p.style.height = Math.max(420, window.innerHeight - top - Math.min(pb, 16)) + 'px'; };
-  window.addEventListener('resize', function () { if (document.body.getAttribute('data-page') === 'pick') IS.fitPick(); });
   IS.ACT.setspec = function (b) { var spec = IS.spec(b.getAttribute('data-v')); if (!spec) return; IS.setSpec(spec.id); IS.go('pick-section'); };
 
   /* ========== SETTINGS ========== */

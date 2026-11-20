@@ -333,7 +333,7 @@
   var SEQ = 0;
   var OFFLINE_PAGES = /^(downloads|dl|settings|terms|pick|pick-section|studio-guide)$/;
   var READABLE_COPY = /^(home|courses|course|learning|lecturers|lecturer|events|event|news|library|file|series|paths|path|about|favorites|community)$/;
-  var QUICK_COPY = /^(home|courses|course|learning|lecturers|lecturer|events|event|news|library|file|series|paths|path|about|favorites|community)$/;
+  var QUICK_COPY = /^(courses|course|learning|lecturers|lecturer|events|event|news|library|file|series|paths|path|about|favorites|community)$/;
   function showSavedPage(main, html, offline) {
     var note = offline ? '<p class="note offcopy">' + ic('offline') + '<span>' +
       esc(A('هذه آخر نسخة محفوظة من الصفحة.', 'This is your last saved copy.')) + '</span></p>' : '';
@@ -416,7 +416,7 @@
     main.removeAttribute('aria-busy');
     main.dataset.pageAccount = account;
     main.dataset.pageArea = IS.area;
-    if (html && canSave && !failed) pageSave(copyKey, html);
+    if (html && canSave && !failed && (name !== 'home' || !kept)) pageSave(copyKey, html);
     var savedScroll = quick ? window.scrollY : null;
     main.innerHTML = '<div class="page">' + (html || IS.empty('search', A('غير موجود', 'Not found'), A('ربما حُذف أو لم يُنشر بعد.', 'It may have been removed or not published yet.'))) + '</div>';
     if (savedScroll !== null) window.scrollTo(0, savedScroll);
@@ -425,7 +425,13 @@
     var h1 = main.querySelector('h1'); if (h1) try { h1.focus({ preventScroll: true }); } catch (e) {}
     var pageTitle = h1 && h1.textContent.trim();
     document.title = (pageTitle && pageTitle !== IS.brandName() ? pageTitle + ' · ' : '') + IS.brandName();
-    if (IS.after) try { await IS.after(main); } catch (e) { if (window.console) console.error(e); }
+    if (IS.after) try {
+      await IS.after(main, function () {
+        if (my !== SEQ || !canSave || failed) return;
+        var page = main.querySelector(':scope > .page');
+        if (page) pageSave(copyKey, page.innerHTML);
+      });
+    } catch (e) { if (window.console) console.error(e); }
     if (IS.onRoute) try { IS.onRoute(name, arg, main); } catch (e) {}
     if (my === SEQ && IS.hydrateFeedReactions) IS.hydrateFeedReactions(main);
     IS.balance(); IS.evenRows(); IS.fileUI(); IS.dedupe(); IS.sideLock(); IS.beat(); IS.hydrateSeen(); IS.trimScroll(); setTimeout(IS.trimScroll, 400);

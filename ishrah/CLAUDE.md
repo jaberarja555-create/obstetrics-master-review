@@ -691,3 +691,10 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - Supersedes the emerald default. Shared surfaces use cool blue, white and deep navy. The landing card shows a health sciences teaching scene, with a separate account row and clear language and terms controls on phones. Home uses section-specific artwork and places mobile search below the hero.
 - Original photorealistic illustrations in `img/collection/` show relevant equipment, study spaces and materials. The built-in specialities and study sections each have their own artwork. Courses uses anatomy materials, My Library uses a library interior, and Studio uses a recording setup. Custom study artwork and uploaded course and library covers keep their existing precedence.
 - The color settings still offer the optional palettes and light, dark and eye-comfort modes. Regenerate variants with `python3 tools/ishrah/palettes.py`. Asset version 178 and shell cache `ish-v78`. No database migration is required. The branch already supports multiple subject tags in both library upload modes through migration 027.
+
+## Opening screen rebuild and resilient Home · 20 Nov 2026
+
+- The speciality picker uses a content-sized layout with a split student photograph and brand panel, a separate account row, two-column illustrated cards on phones and a visible campus backdrop. Each card identifies the speciality and its subject count. Language, terms and role-specific workspaces stay available beneath the cards.
+- Refreshed the five speciality images and the Clinical Home, Courses and My Library artwork. Uploaded and custom artwork still takes precedence. Light, dark and eye-comfort settings remain available.
+- The Home header, navigation and search render before the section feed. A feed error or timeout offers retry in the feed area. The offline copy is refreshed after the feed loads successfully.
+- Asset version 179 and shell cache `ish-v79`. No database migration is required.
