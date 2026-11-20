@@ -1023,3 +1023,8 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   tabs Posts · Files · Saved (mine). `#account/settings` keeps the older page. Migration `049_follows.sql`: table `follows` (own rows
   only), `ish_profile_card(uid)` (public card, never phone or email; counts and `me_follow`), a notice to the person followed. Tested on the
   local Postgres. The bottom bar is full width and attached to the page edge (owner: "not separated").
+- **Courses in the owner's picture** (20 Nov 2026): `#courses` wrapped in mr.js (banner, «محتوى الكورسات», Sort · Category (subject) ·
+  filter button (the older price/lecturer filter as a panel) · «إنشاء كورس» for lecturers / «اطلب كورسًا» for others). While that page is on
+  screen `IS.courseCard` draws `mrCourseCard` (`.mc-card`: «كورس» label, title, subtitle, lecturer, stars and grade, picture with the
+  section and ♡, then price · time · students · lessons · Enrol / Continue / View details); elsewhere the older card stays.
+  Bottom bar now starts with «الرئيسية» (the section page); the top 🏠 opens the section page, or the section chooser when already there.

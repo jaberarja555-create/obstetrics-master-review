@@ -366,6 +366,65 @@
       '<a href="#account" data-act="logout">' + ic('logout') + '<span>' + esc(A('تسجيل الخروج', 'Sign out')) + '</span></a></div>');
   };
 
+  /* ---------- Courses in the owner's picture (20 Nov 2026): banner, «محتوى الكورسات», Sort · Category · Create a course, and wide course cards
+     (picture with the section and ♡, «كورس» label, title, subtitle, lecturer, stars and grade, price · time · students · lessons, button) ---------- */
+  HI.cap = svg('0 0 24 24', '<path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11v5c3 2.6 9 2.6 12 0v-5M22 9v6"/>', ' fill="none" stroke="' + G + '" stroke-width="1.9" stroke-linejoin="round"');
+  HI.tag = svg('0 0 24 24', '<path d="M3 12.5V4h8.5L21 13.5 13.5 21z"/><circle cx="7.5" cy="8" r="1.6"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"');
+  HI.layersW = svg('0 0 24 24', '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/><path d="m3 17.5 9 4.5 9-4.5"/>', ' fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"');
+  HI.clock = svg('0 0 24 24', '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"');
+  HI.vid = svg('0 0 24 24', '<rect x="2.5" y="6" width="13" height="12" rx="2"/><path d="m15.5 10.5 6-3.5v10l-6-3.5z"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"');
+  HI.play = svg('0 0 24 24', '<circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l5.5-3.5z" fill="currentColor"/>', ' fill="none" stroke="currentColor" stroke-width="2"');
+  HI.lock = svg('0 0 24 24', '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>', ' fill="none" stroke="currentColor" stroke-width="2"');
+  function hmins(m) { m = +m || 0; return m >= 60 ? (Math.round(m / 6) / 10) + ' ' + A('ساعات', 'h') : m + ' ' + A('دقيقة', 'min'); }
+  function mrCourseCard(c, L, E) {
+    var l = L && L[c.lecturer_id], e = E && E[c.id], sc = IS.studyScope(c), cat = IS.cat(sc.cat), paid = +c.price > 0, on = e && e.status === 'active', wait = e && e.status === 'pending';
+    var href = '#course/' + esc(c.id), cover = c.cover ? IS.poster(c.cover) : IS.poster('img/collection/courses.webp');
+    return '<article class="mc-card" data-go="' + href + '"><div class="mc-txt"><span class="mc-chip">' + HI.layers + esc(A('كورس', 'Course')) + '</span>' +
+      '<h3 dir="auto"><a href="' + href + '">' + esc(c.title || '') + '</a></h3>' + (c.subtitle ? '<p class="mc-sub" dir="auto">' + esc(c.subtitle) + '</p>' : '') +
+      (l ? '<a class="mc-lec" href="#lecturer/' + esc(l.id) + '">' + IS.av(l, 'sm', l.id) + '<b dir="auto">' + IS.lecName(l.name) + '</b></a>' : '') +
+      '<span class="mc-rate feed-grade sm">' + IS.gradeInner(c, 'course') + '</span></div>' +
+      '<a class="mc-pic" href="' + href + '">' + cover + (cat ? '<em lang="en">' + esc(cat.id === 'special' ? 'International' : cat.en) + '</em>' : '') + '</a>' +
+      '<span class="mc-fav">' + IS.favBtn('c:' + c.id, true) + '</span>' +
+      '<div class="mc-foot"><span class="mc-price ' + (paid ? 'paid' : 'free') + '">' + (paid ? HI.lock + esc(A('مدفوع', 'Paid')) : esc(A('مجاني', 'Free'))) + '</span>' +
+      (c.minutes ? '<span class="mc-f">' + HI.clock + '<b>' + esc(hmins(c.minutes)) + '</b></span>' : '') +
+      '<span class="mc-f">' + PI.users + '<b>' + nfmt(c.n_students || 0) + '</b></span>' +
+      '<span class="mc-f">' + HI.vid + '<b>' + N(c.n_lessons || 0) + ' ' + esc(A('درس', 'lessons')) + '</b></span>' +
+      (wait ? '<span class="mc-btn ghost">' + esc(A('بانتظار التأكيد', 'Pending')) + '</span>' :
+        '<a class="mc-btn" href="' + href + '">' + (on ? HI.play + esc(A('تابع', 'Continue')) : paid ? esc(A('عرض التفاصيل', 'View details')) + ' ‹' : HI.play + esc(A('التحق بالكورس', 'Enrol'))) + '</a>') + '</div></article>';
+  }
+  var cc0 = IS.courseCard;
+  IS.courseCard = function (c, L, E) { return document.querySelector('.mrc #cres') ? mrCourseCard(c, L, E) : cc0.apply(this, arguments); };
+  var crs0 = IS.pageOf && IS.pageOf('courses');
+  if (crs0) IS.page('courses', async function (arg) {
+    var inner = await crs0.fn(arg);
+    if (typeof inner !== 'string' || inner.indexOf('id="cres"') < 0) return inner;
+    var spec = IS.mySpec(), section = IS.mySection(), parts = String(arg || '').split('/').filter(function (x) { return x[0] !== '@'; });
+    var t = document.createElement('template'); t.innerHTML = inner;
+    var sortSel = t.content.querySelector('#csort');
+    var sorts = sortSel ? [].slice.call(sortSel.options).map(function (o) { return '<option value="' + esc(o.value) + '"' + (o.selected ? ' selected' : '') + '>' + esc(o.textContent) + '</option>'; }).join('') : '';
+    var subs = IS.SUBJ.filter(IS.inStudySpace), cur = parts[1] || '';
+    var tool = '<div class="feed-filters mh-ltool"><label>' + HI.sort + '<span>' + esc(A('الترتيب', 'Sort')) + '</span><select id="mh-csort">' + sorts + '</select></label>' +
+      '<label>' + HI.tag + '<span>' + esc(A('التصنيف', 'Category')) + '</span><select id="mh-ccat"><option value="">' + esc(A('الكل', 'All')) + '</option>' +
+        subs.map(function (x) { return '<option value="' + esc(x.id) + '"' + (x.id === cur ? ' selected' : '') + '>' + esc(x.en) + '</option>'; }).join('') + '</select></label>' +
+      '<button type="button" class="mh-ib" id="mh-cflt" aria-label="' + esc(A('تصفية', 'Filter')) + '">' + HI.filter + '</button><i class="mh-sep"></i>' +
+      (IS.LEC ? '<a class="mh-pub" href="#studio-course/new">' + HI.plus + '<span>' + esc(A('إنشاء كورس', 'Create a course')) + '</span></a>' :
+        '<a class="mh-pub" href="#course-requests/new">' + HI.plus + '<span>' + esc(A('اطلب كورسًا', 'Request a course')) + '</span></a>') + '</div>';
+    var sub = [spec && spec.en, section && (section.id === 'special' ? 'International' : section.en), IS.subj(cur) && IS.subj(cur).en].filter(Boolean).join(' <i>•</i> ');
+    var a0 = IS.after;
+    IS.after = function (main, remember) {
+      after();
+      var r = a0 ? a0(main, remember) : undefined;
+      var ms = main.querySelector('#mh-csort'), mc = main.querySelector('#mh-ccat'), mf = main.querySelector('#mh-cflt');
+      if (ms) ms.onchange = function () { var o = main.querySelector('#csort'); if (o) { o.value = ms.value; o.dispatchEvent(new Event('change')); } };
+      if (mc) mc.onchange = function () { location.hash = 'courses' + (mc.value ? '/' + ((IS.subj(mc.value) || {}).cat || (section || {}).id) + '/' + mc.value : ''); };
+      if (mf) mf.onclick = function () { var f = main.querySelector('#filt'); if (f) { var o = !f.classList.contains('mh-open'); f.classList.toggle('mh-open', o); mf.classList.toggle('on', o); } };
+      return r;
+    };
+    return '<div class="mrx mrh mrc"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() +
+      pban('img/collection/courses.webp', HI.layersW, A('الكورسات', 'Courses'), sub, IS.lang !== 'ar').replace('class="mh-ban', 'class="mh-ban hs') +
+      ptitle(A('محتوى الكورسات', 'Courses content')).replace(HI.layers, HI.cap) + tool + '<div class="mh-feed mh-crs">' + inner + '</div></div>' + bnav('courses') + '</div>';
+  }, crs0.o);
+
   /* ---------- sign in, sign up, the email code and Features open in the same green and gold look (owner, 20 Nov 2026) ---------- */
   var sheet0 = IS.sheet;
   IS.sheet = function () { var d = sheet0.apply(this, arguments);
