@@ -38,6 +38,16 @@
     pharmacy: svg('0 0 64 64', '<path d="M40 30 56 6a3.5 3.5 0 0 1 5 4L46 32z" fill="' + G + '"/><path d="M14 22c4-6 12-6 16-2-6 1-10 3-16 2z" fill="#3ca35a"/><path d="M4 30h56c0 13-10 22-24 23v4h8v5H20v-5h8v-4C14 52 4 43 4 30z" fill="' + G + '"/><path d="M29 34h6v5h5v6h-5v5h-6v-5h-5v-6h5z" fill="#0a4630"/>')
   };
   var SHORT = { lab: 'Laboratory' };
+  /* section names of each speciality (owner, 20 Nov 2026: "name the different section of each speciality; medicine is ok") */
+  var SECNAME = {
+    lab: { clinical: ['التشخيص المخبري', 'Diagnostics'], house: ['فترة الامتياز', 'Internship'] },
+    nursing: { clinical: ['التمريض الإكلينيكي', 'Clinical Nursing'], house: ['فترة الامتياز', 'Internship'] },
+    dentistry: { clinical: ['طب الأسنان الإكلينيكي', 'Clinical Dentistry'], house: ['فترة الامتياز', 'Internship'] },
+    pharmacy: { clinical: ['الممارسة الصيدلانية', 'Pharmacy Practice'], house: ['فترة الامتياز', 'Internship'] }
+  };
+  IS.secName = function (spec, c) { var n = c && (SECNAME[spec] || {})[c.id]; return n ? Object.assign({}, c, { ar: n[0], en: n[1] }) : c; };
+  var mySection0 = IS.mySection;
+  IS.mySection = function () { return IS.secName(IS.SPEC, mySection0.apply(this, arguments)); };
   var SECIC = { basics: 'layers', clinical: 'kit', special: 'world', house: 'doc' };
   var SECORDER = ['basics', 'clinical', 'special', 'house'];
   var WAVE = '<svg class="wave" viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34C40 6 90 6 120 22s60 22 80 0V100H0z" fill="' + CR + '"/></svg>';
@@ -101,7 +111,7 @@
         var img = spec.id === 'medicine' && SECORDER.indexOf(c.id) >= 0 ? 'img/mr/sec-medicine-' + c.id + '.webp' : (IS.studyArtwork(spec.id, c.id) || spec.img || '');
         return '<a class="mr-sec" href="#home" data-act="setsection" data-v="' + esc(c.id) + '"' + (current && current.id === c.id ? ' aria-current="true"' : '') + '>' +
           '<span class="pic">' + (img ? '<img src="' + IS.U(img) + '" alt="">' : '') + '</span>' +
-          '<span class="pill">' + (I[SECIC[c.id]] || ic(c.icon)) + '<b lang="en" dir="ltr">' + esc(c.id === 'special' ? 'International' : c.en) + '</b></span></a>';
+          '<span class="pill">' + (I[SECIC[c.id]] || ic(c.icon)) + '<b lang="en" dir="ltr">' + esc(c.id === 'special' ? 'International' : IS.secName(spec.id, c).en) + '</b></span></a>';
       }).join('') + '</nav>' + dock(true) + '</div></div>';
   });
 

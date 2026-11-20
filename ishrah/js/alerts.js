@@ -38,10 +38,15 @@
     try {
       var read = DB._q || DB.q, rows = (await read('notices', { order: ['created_at', false], limit: 25 })).filter(mine);
       var top = rows[0];
-      if (last === null || last.u !== IS.ME.id) { last = { u: IS.ME.id, id: top ? top.id : '' }; return; }
+      /* switching speciality or section shows that space's older notices: they are not new, so start counting again without a sound
+         (owner, 20 Nov 2026: "each time I open any speciality there is a notification about a course") */
+      var space = (IS.SPEC || '') + '/' + ((IS.mySection && IS.mySection() || {}).id || '');
+      if (last === null || last.u !== IS.ME.id || last.k !== space) { last = { u: IS.ME.id, k: space, id: top ? top.id : '', at: top ? top.created_at : '' }; return; }
+      rows = rows.filter(function (x) { return !last.at || String(x.created_at) > String(last.at); });
+      top = rows[0] || top;
       if (!top || top.id === last.id) return;
       var fresh = []; for (var i = 0; i < rows.length && rows[i].id !== last.id; i++) fresh.push(rows[i]);
-      last.id = top.id;
+      last.id = top.id; if (fresh.length) last.at = fresh[0].created_at;
       if (!fresh.length) return;
       var forTeam = fresh.some(function (x) { return x.kind === 'team'; });
       IS.chime(forTeam);
