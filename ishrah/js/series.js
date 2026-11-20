@@ -95,10 +95,13 @@
       (feed ? '<header class="feed-card-header"><span>' + ic('open') + esc(A('المكتبة', 'Library')) + '</span>' + (first.published_at ? '<time>' + esc(IS.ago(first.published_at)) + '</time>' : '') +
         (IS.ownBtns ? IS.ownBtns('series', first, first.id) : '') + (IS.manageBtn ? IS.manageBtn('series', s.series_id) : '') + '</header>' : (IS.manageBtn ? IS.manageBtn('series', s.series_id).replace('class="mng"', 'class="mng onc"') : '')) +
       '<a class="fimg sstack" href="#series/' + esc(s.series_id) + '" aria-label="' + esc(s.series_title || first.title) + '">' + IS.libraryCover(seriesFace(first)) + '<span class="scount">' + ic('layers') + N(s._parts.length) + '</span></a>' +
-      '<div class="fb"><span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + '</span><b><a href="#series/' + esc(s.series_id) + '" dir="auto">' + esc(s.series_title || first.title) + '</a></b>' +
+      '<div class="fb"><span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + (function () { var sp = IS.spec && IS.studyScope && IS.spec(IS.studyScope(first).spec); return sp ? ' · ' + esc(sp.en) : ''; })() + '</span><b><a href="#series/' + esc(s.series_id) + '" dir="auto">' + esc(s.series_title || first.title) + '</a></b>' +
       '<small>' + esc(IS.partsCount(s._parts.length)) + (first.author ? ' · ' + esc(first.author) : '') + '</small>' +
       '<div class="row library-feed-actions"><a class="btn ghost sm" href="#series/' + esc(s.series_id) +
-      '">' + ic('open') + esc(A('افتح السلسلة', 'Open the series')) + '</a></div></div>' + seriesFeedback(s.series_id, first) + '</article>';
+      '">' + ic('open') + esc(A('افتح السلسلة', 'Open the series')) + '</a></div>' +
+      /* the same buttons as a single book (owner, 20 Nov 2026: "why don't the two look the same; the series misses features") */
+      (feed ? '' : '<div class="fcard-tools">' + IS.favBtn('f:' + first.id, true) + (IS.ME ? '<button class="fav sm" data-act="addcoll" data-id="' + esc(first.id) + '" aria-label="' + esc(A('أضف إلى مجموعة', 'Add to collection')) + '">' + ic('folder') + '</button>' : '') + '</div>') +
+      '</div>' + seriesFeedback(s.series_id, first) + '</article>';
   };
 
   /* ---- the series page: the parts in order ---- */
