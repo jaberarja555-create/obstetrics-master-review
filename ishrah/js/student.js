@@ -909,7 +909,7 @@
     IS.go('post/' + post.id);
   };
   function postRow(p) {
-    return '<div><a class="post" href="#post/' + p.id + '">' + IS.av({ name: p.name, photo: p.photo }, 'sm', p.user_id) + '<span class="pb"><b>' + esc(p.title || p.body.slice(0, 90)) + '</b><small>' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + (p.pinned ? ' · ' + esc(A('مثبّت', 'Pinned')) : '') + '</small></span>' + (privateQuestion(p) ? IS.status(p.status) : '<span class="pc">' + ic('chat') + N(p.n_replies || 0) + '</span>') + '</a>' + (privateQuestion(p) ? '' : IS.postActions('post', p.id, 'post/' + p.id, postKind(p) !== 'announcement')) + '</div>';
+    return '<div data-pk="' + postKind(p) + '"><a class="post" href="#post/' + p.id + '">' + IS.av({ name: p.name, photo: p.photo }, 'sm', p.user_id) + '<span class="pb"><b>' + esc(p.title || p.body.slice(0, 90)) + '</b><small>' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + (p.pinned ? ' · ' + esc(A('مثبّت', 'Pinned')) : '') + '</small></span>' + (privateQuestion(p) ? IS.status(p.status) : '<span class="pc">' + ic('chat') + N(p.n_replies || 0) + '</span>') + '</a>' + (privateQuestion(p) ? '' : IS.postActions('post', p.id, 'post/' + p.id, postKind(p) !== 'announcement')) + '</div>';
   }
   IS.postRow = postRow;
 

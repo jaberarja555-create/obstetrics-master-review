@@ -1400,3 +1400,54 @@ html body .mrx .gtitle.g0,html body .mrx .lp-rate>small,html body .mrx .lrate.no
 html body .mrx .mlx-rate:not(:has(u.on)),html body .mrx .mc-rate:has(.g0){background:none!important}
 /* stars only, no grade words (ممتاز، جيد جدًا…) (owner, 21 Nov 2026) */
 html body .mrx .gtitle{display:none!important}
+/* ===== Community page, compact (owner, 21 Nov 2026) ===== */
+html body .mra[data-pg="community"] .spacebox{padding:10px!important;border-radius:18px!important;gap:8px!important;background:var(--card)!important;border:1px solid #e1ece9!important;box-shadow:0 6px 16px rgba(6,70,59,.08)!important;margin:0!important}
+html body .mra[data-pg="community"] .spacebox .sts{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important}
+html body .mra[data-pg="community"] .spacebox .stt{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center;gap:2px!important;padding:8px 2px 7px!important;min-height:0!important;height:auto!important;
+  border-radius:14px!important;border:1px solid #e1ece9!important;background:#f5faf8!important;box-shadow:none!important;font:inherit;color:var(--ink)!important;text-align:center;cursor:pointer}
+html body .mra[data-pg="community"] .spacebox .stt.g{background:#eefaf2!important;border-color:#cdebd8!important}
+html body .mra[data-pg="community"] .spacebox .stt::before,html body .mra[data-pg="community"] .spacebox .stt::after{display:none!important}
+html body .mra[data-pg="community"] .spacebox .sti{width:auto!important;height:auto!important;background:none!important;border:0!important;box-shadow:none!important;margin:0!important;display:grid}
+html body .mra[data-pg="community"] .spacebox .sti .ico{width:20px!important;height:20px!important;color:#0d6b5c!important}
+html body .mra[data-pg="community"] .spacebox .stt.g .sti .ico{color:#1f8a4c!important}
+html body .mra[data-pg="community"] .spacebox .stx{display:flex!important;flex-direction:column;align-items:center;gap:0}
+html body .mra[data-pg="community"] .spacebox .stx b{font-size:16px!important;font-weight:800;line-height:1.15}
+html body .mra[data-pg="community"] .spacebox .stx small{font-size:10.5px!important;color:#38544e!important;white-space:normal;line-height:1.2}
+html body .mra[data-pg="community"] .spacebox .stv{display:none!important}
+html body .mra[data-pg="community"] .spacebox .stm{margin:0!important;display:flex;justify-content:center}
+html body .mra[data-pg="community"] .spacebox .stecg{display:none!important}
+html body .mra[data-pg="community"] .spacebox .stmp{padding:4px 12px!important;font-size:12.5px!important;gap:6px!important;border-radius:999px!important}
+html body .mra[data-pg="community"] .spacebox .stmp :is(.stok,.stst){width:20px!important;height:20px!important}
+html body .mra[data-pg="community"] .spacebox .stmp svg,html body .mra[data-pg="community"] .spacebox .stmp .ico{width:13px!important;height:13px!important}
+html body .mra[data-pg="community"] details{border-radius:16px!important;padding:0!important}
+html body .mra[data-pg="community"] details>summary{padding:10px 14px!important;font-size:14px!important}
+html body .mra[data-pg="community"] .mh-old>.btn.pri,html body .mra[data-pg="community"] .mh-old a.btn.pri{min-height:38px!important;font-size:14px!important}
+/* community posts: one white card each, buttons as small pills in the card (owner, 21 Nov 2026) */
+html body .mra[data-pg="community"] .posts{display:flex!important;flex-direction:column;gap:8px!important;background:none!important;border:0!important;box-shadow:none!important;padding:0!important}
+html body .mra[data-pg="community"] .posts>div{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:18px;background:var(--card);border:1px solid #e1ece9;box-shadow:0 6px 16px rgba(6,70,59,.07)}
+html body .mra[data-pg="community"] .posts>div>a.post{display:flex!important;align-items:center;gap:10px;padding:0!important;margin:0!important;border:0!important;background:none!important;box-shadow:none!important;color:var(--ink)!important;text-decoration:none}
+html body .mra[data-pg="community"] .posts .post .av{width:40px!important;height:40px!important;flex:none}
+html body .mra[data-pg="community"] .posts .post .pb{display:flex;flex-direction:column;min-width:0;flex:1}
+html body .mra[data-pg="community"] .posts .post .pb b{font-size:14.5px!important;font-weight:800;line-height:1.35}
+html body .mra[data-pg="community"] .posts .post .pb small{font-size:12px!important;color:#5d7570!important}
+html body .mra[data-pg="community"] .posts .post .pc{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:999px;background:#f1f6f5;border:1px solid #e1ece9;font-size:12px;color:#2d4943;flex:none}
+html body .mra[data-pg="community"] .posts .post .pc .ico{width:14px;height:14px}
+html body .mra[data-pg="community"] .posts>div>:not(a.post){display:flex!important;justify-content:flex-start;gap:6px;margin:0!important;padding:6px 0 0!important;border-top:1px solid var(--line)!important;background:none!important}
+html body .mra[data-pg="community"] .posts>div>:not(a.post) :is(button,a){height:30px!important;min-height:0!important;padding:0 12px!important;border-radius:999px!important;font-size:12px!important;border:1.5px solid #cfdcd9!important;background:#f5faf8!important;color:#2d4943!important;box-shadow:none!important}
+html body .mra[data-pg="community"] .posts>div>:not(a.post) .ico{width:14px!important;height:14px!important}
+:root[data-theme="dark"] .mra[data-pg="community"] .posts>div{background:#0f2f27;border-color:#21463c}
+
+/* community, owner's picture: figures in one strip, then the four kind buttons */
+html body .mra[data-pg="community"] .spacebox .sts{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:0!important;padding:4px 0 10px!important;border-bottom:1px solid var(--line)}
+html body .mra[data-pg="community"] .spacebox .stt{background:none!important;border:0!important;border-radius:0!important;padding:2px!important}
+html body .mra[data-pg="community"] .spacebox .stt+.stt{border-inline-start:1.5px solid #dbe7e4!important}
+html body .mra[data-pg="community"] .spacebox .stt.g .stx small::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;margin-inline-start:4px;vertical-align:middle}
+.cm-kinds{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.cm-k{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;border-radius:14px;border:1px solid #e1ece9;background:#f5faf8;color:#14302a;font:inherit;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 3px 8px rgba(6,70,59,.06)}
+.cm-k svg.ic{width:22px!important;height:22px!important;color:#0d6b5c}
+.cm-k[aria-pressed="true"]{background:linear-gradient(180deg,#14806d,#06463b);color:#fff;border-color:transparent}
+.cm-k[aria-pressed="true"] svg.ic{color:#f6dc8e}
+.cm-empty{margin:4px 0;text-align:center;color:#5d7570;font-size:13px}
+:root[data-theme="dark"] .cm-k{background:#0b2721;border-color:#21463c;color:#eaf5f1}
+html body .mra[data-pg="community"] .spacebox .stt.g{background:none!important}
+html body .mra[data-pg="community"] .spacebox .stt.g .sti .ico{color:#0d6b5c!important}

@@ -1084,3 +1084,6 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   `python3 tools/ishrah/stamp.py`: each file in index.html gets `?v=<hash of its content>` (the colour stylesheets share one hash), so a
   phone downloads again only the files that changed. Still bump `SHELL` in sw.js; its install now copies everything the phone already has
   from the older cache (pictures, fonts, unchanged scripts) instead of starting empty. Collection pictures keep `artworkVersion` '181'.
+- **Community page, owner's picture** (21 Nov 2026): figures in one strip with thin separators (green dot beside «متصل الآن»), then four
+  buttons الإعلانات · الموارد (course previews) · الأسئلة · النقاشات that show only that kind of post (`IS.ACT['cm-kind']`, posts carry
+  `data-pk`); posts are white cards with small pill buttons.

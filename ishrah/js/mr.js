@@ -666,6 +666,32 @@
         '<p class="lp-empty">' + esc(A('لا توجد كورسات منشورة بعد.', 'No published courses yet.')) + '</p>') + '</div>');
   };
 
+  /* ---------- Community page, owner's picture (21 Nov 2026): figures in one strip with thin separators, then four buttons that
+     show only that kind of post: Announcements · Resources (course previews) · Questions · Discussions ---------- */
+  HI.mega = svg('0 0 24 24', '<path d="M3 10v4h3l7 4V6L6 10z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"');
+  HI.help = svg('0 0 24 24', '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.3a2.6 2.6 0 0 1 5 .9c0 1.8-2.5 2.2-2.5 3.8M12 17h.01"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"');
+  HI.chats = svg('0 0 24 24', '<path d="M3 5h12v8H8l-4 3v-3H3z"/><path d="M15 9h6v8h-1v3l-4-3h-5v-2"/>', ' fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"');
+  var CKINDS = [['announcement', HI.mega, 'الإعلانات', 'Announcements'], ['course_preview', HI.mark, 'الموارد', 'Resources'], ['question', HI.help, 'الأسئلة', 'Questions'], ['discussion', HI.chats, 'النقاشات', 'Discussions']];
+  var com0 = IS.pageOf && IS.pageOf('community');
+  if (com0) IS.page('community', async function (room) {
+    var inner = await com0.fn(room);
+    if (typeof inner !== 'string' || /^new/.test(String(room || '')) || inner.indexOf('class="spacebox') < 0) return inner;
+    var bar = '<nav class="cm-kinds" aria-label="' + esc(A('نوع المنشور', 'Post type')) + '">' + CKINDS.map(function (k) {
+      return '<button type="button" class="cm-k" data-act="cm-kind" data-k="' + k[0] + '" aria-pressed="false">' + k[1] + '<span>' + esc(A(k[2], k[3])) + '</span></button>'; }).join('') + '</nav>';
+    return inner.replace(/(<div class="spacebox[^"]*"[^>]*><div class="sts">[\s\S]*?<\/div>)/, '$1' + bar);
+  }, com0.o);
+  IS.ACT['cm-kind'] = function (b) {
+    var on = b.getAttribute('aria-pressed') !== 'true', k = b.getAttribute('data-k');
+    IS.$$('.cm-k').forEach(function (x) { x.setAttribute('aria-pressed', x === b && on); });
+    var rows = IS.$$('.mra[data-pg="community"] .posts > [data-pk]'), shown = 0;
+    rows.forEach(function (r) { var ok = !on || r.getAttribute('data-pk') === k; r.hidden = !ok; if (ok) shown++; });
+    var note = document.querySelector('.cm-empty'); if (note) note.hidden = true;
+    if (on && !shown) {
+      if (!note) { var list = document.querySelector('.mra[data-pg="community"] .posts'); if (list) { list.insertAdjacentHTML('afterend', '<p class="cm-empty"></p>'); note = document.querySelector('.cm-empty'); } }
+      if (note) { note.textContent = A('لا توجد منشورات من هذا النوع بعد.', 'No posts of this kind yet.'); note.hidden = false; }
+    }
+  };
+
   /* ---------- sign in, sign up, the email code and Features open in the same green and gold look (owner, 20 Nov 2026) ---------- */
   var sheet0 = IS.sheet;
   IS.sheet = function () { var d = sheet0.apply(this, arguments);
