@@ -1364,3 +1364,8 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   blue palette shows the original; banners_pal.py turns its blue (hue 172–255) to every other colour, maroon included.
 - Header band kept full height (owner, 21 Nov 2026: «don't remove the colour of the bar, I said put the buttons up in the white area»): the
   band is 44 / 52 / 58 px (phone / tablet / laptop) under the buttons, which sit on the white part. Supersedes "only a thin strip".
+- **Top bar like Facebook (owner, 21 Nov 2026: «with a lot of posts one must go back to the top for the buttons; the upper bar should act
+  like in Facebook»):** `js/stickybar.js`. At the top the full header shows; once it has scrolled away it becomes a floating slim bar
+  (`.mh-top.mhs`: seal + every button, white with the coloured edge) that hides while scrolling down and slides in on the first scroll up;
+  near the top the full header returns. The page's top padding holds the header's height, so nothing jumps. Phones show only the round
+  seal in the slim bar. Every .mrx page (student, studio, control). Test: scratchpad stk2.js (down / a little up / down / back to top).

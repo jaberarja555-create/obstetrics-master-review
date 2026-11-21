@@ -2298,3 +2298,22 @@ html body .mrx .mh-top{--bandh:44px}
 @media (min-width:700px){html body .mrx .mh-top{--bandh:52px}}
 @media (min-width:1240px){html body .mrx .mh-top{--bandh:58px}}
 html body .mrx .mh-top>.mh-side{padding:2px 0 calc(var(--bandh) + 10px)!important}
+/* ---------- the floating slim top bar (owner, 21 Nov 2026: "act like in Facebook"; js/stickybar.js) ---------- */
+html body .mrx .mh-top.mhs{position:fixed!important;top:0;left:0;right:0;z-index:45;margin:0 auto!important;
+  width:calc(min(100vw,1240px) - 2 * clamp(10px,2.6vw,28px));border-radius:0 0 18px 18px!important;
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;grid-template-areas:"s lg e"!important;row-gap:0!important;
+  padding:5px clamp(8px,1.6vw,16px) 9px!important;min-height:0!important;background:#fff!important;
+  border-bottom:4px solid #062246!important;box-shadow:0 2px 0 #e2b85a,0 8px 18px rgba(6,34,70,.18)!important;
+  transform:translateY(-130%);transition:transform .22s ease;will-change:transform}
+html body .mrx .mh-top.mhs.mhs-on{transform:none}
+html body .mrx .mh-top.mhs .mh-band,html body .mrx .mh-top.mhs .mh-wave,html body .mrx .mh-top.mhs .mh-names,html body .mrx .mh-top.mhs .mh-div{display:none!important}
+html body .mrx .mh-top.mhs>.mh-side{padding:0!important;min-height:0!important}
+html body .mrx .mh-top.mhs .mh-brand>img{height:clamp(30px,4.6vw,42px)!important}
+html body .mrx .mh-top.mhs .mh-b{--s:34px}
+:root[data-theme=dark] body .mrx .mh-top.mhs{background:#0c1926!important}
+@media (prefers-reduced-motion:reduce){html body .mrx .mh-top.mhs{transition:none}}
+@media (max-width:699px){
+  html body .mrx .mh-top.mhs .mh-brand>img{height:30px!important;width:30px!important;object-fit:cover;object-position:left center;border-radius:50%}
+  html body .mrx .mh-top.mhs{column-gap:6px!important}
+  html body .mrx .mh-top.mhs .mh-side{gap:5px!important}
+}
