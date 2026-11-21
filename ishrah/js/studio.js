@@ -142,6 +142,7 @@
   /* ========== COURSE BUILDER ========== */
   IS.page('studio-course', async function (arg) {
     var p = String(arg || 'new').split('/'), id = p[0], tab = p[1] || 'details', c;
+    if (id && id !== 'new') try { localStorage.setItem('ish-lastcourse', id); } catch (e) {}
     if (id === 'new') c = { title: '', subtitle: '', spec: IS.SPEC || 'medicine', cat: (IS.mySection() || {}).id || 'clinical', subject: '', price: 0, color: COLORS[0], learn: [], reqs: [], status: 'draft' };
     else { c = await DB.one('courses', id); if (!c || (c.lecturer_id !== L().id && !IS.can('review'))) return null; }
     var tabs = [['details', A('بيانات الكورس', 'Details'), 'info'], ['cur', A('المحتوى والدروس', 'Curriculum'), 'video'], ['publish', A('النشر', 'Publishing'), 'send']];
@@ -253,11 +254,11 @@
       '<p class="mut">' + esc(A('قسّم الكورس إلى أقسام (مثل الفصول)، وأضف لكل قسم دروسًا: فيديو أو درس مكتوب أو اختبار. علّم درسًا أو اثنين «معاينة مجانية» ليجرّبه الطلبة قبل الالتحاق.', 'Split the course into sections (like chapters) and add lessons to each: video, written or quiz. Mark one or two lessons as free previews.')) + '</p>';
     h += secs.length ? secs.map(function (s, i) {
       return '<div class="secb"><header><span class="cn">' + N(i + 1) + '</span><b>' + esc(s.title) + '</b><span class="row">' + (i ? '<button class="ib sm" data-act="mvsec" data-id="' + s.id + '" data-d="-1" aria-label="up">' + ic('up') + '</button>' : '') + (i < secs.length - 1 ? '<button class="ib sm" data-act="mvsec" data-id="' + s.id + '" data-d="1" aria-label="down">' + ic('down') + '</button>' : '') +
-        '<button class="ib sm" data-act="rensec" data-id="' + s.id + '" aria-label="rename">' + ic('pen') + '</button><button class="ib sm" data-act="delsec" data-id="' + s.id + '" aria-label="delete">' + ic('trash') + '</button></span></header>' +
+        '<button class="ib sm" data-act="rensec" data-id="' + s.id + '" aria-label="rename">' + ic('pen') + '</button><button class="ib sm" data-act="movesec" data-id="' + s.id + '" aria-label="move" title="' + esc(A('نقل القسم إلى كورس آخر', 'Move to another course')) + '">' + ic('route') + '</button><button class="ib sm" data-act="delsec" data-id="' + s.id + '" aria-label="delete">' + ic('trash') + '</button></span></header>' +
         '<ol>' + s.lessons.map(function (x, j) { return '<li><span class="lk">' + ic(x.kind === 'quiz' ? 'qb' : x.kind === 'text' ? 'file' : x.kind === 'audio' ? 'mic' : 'video') + '</span><a href="#studio-lesson/' + x.id + '"><b>' + esc(x.title) + '</b><small class="mut">' + esc({ video: A('فيديو', 'Video'), audio: A('صوتي', 'Audio'), text: A('مكتوب', 'Written'), quiz: A('اختبار', 'Quiz') }[x.kind]) +
           (x.kind === 'audio' ? ' · ' + (x.video_id || x.has_video ? esc(A('التسجيل جاهز', 'recording ready')) : '<span class="bad">' + esc(A('لم يُرفع تسجيل', 'no recording yet')) + '</span>') : '') +
           (x.kind === 'video' ? ' · ' + (x.video_id || x.has_video ? esc(/^yt:/.test(x.video_id || '') ? A('رابط YouTube', 'YouTube link') : /^gd:/.test(x.video_id || '') ? A('رابط Google Drive', 'Google Drive link') : A('الفيديو جاهز', 'video ready')) : '<span class="bad">' + esc(A('لم يُرفع فيديو', 'no video yet')) + '</span>') : '') + (x.minutes ? ' · ' + N(x.minutes) + ' ' + esc(A('د', 'min')) : '') + (x.free ? ' · ' + esc(A('معاينة مجانية', 'free preview')) : '') + '</small></a>' +
-          '<span class="row">' + (j ? '<button class="ib sm" data-act="mvles" data-id="' + x.id + '" data-d="-1" aria-label="up">' + ic('up') + '</button>' : '') + (j < s.lessons.length - 1 ? '<button class="ib sm" data-act="mvles" data-id="' + x.id + '" data-d="1" aria-label="down">' + ic('down') + '</button>' : '') + '<a class="ib sm" href="#studio-lesson/' + x.id + '" aria-label="edit">' + ic('pen') + '</a></span></li>'; }).join('') + '</ol>' +
+          '<span class="row">' + (j ? '<button class="ib sm" data-act="mvles" data-id="' + x.id + '" data-d="-1" aria-label="up">' + ic('up') + '</button>' : '') + (j < s.lessons.length - 1 ? '<button class="ib sm" data-act="mvles" data-id="' + x.id + '" data-d="1" aria-label="down">' + ic('down') + '</button>' : '') + '<button class="ib sm" data-act="moveles" data-id="' + x.id + '" aria-label="move" title="' + esc(A('نقل الدرس إلى كورس آخر', 'Move to another course')) + '">' + ic('route') + '</button><a class="ib sm" href="#studio-lesson/' + x.id + '" aria-label="edit">' + ic('pen') + '</a></span></li>'; }).join('') + '</ol>' +
         '<div class="row addl">' + [['video', 'video', A('درس فيديو', 'Video lesson')], ['audio', 'mic', A('درس صوتي', 'Audio lesson')], ['text', 'file', A('درس مكتوب', 'Written lesson')], ['quiz', 'qb', A('اختبار', 'Quiz')]].map(function (k) { return '<button class="btn ghost sm" data-act="addles" data-s="' + s.id + '" data-c="' + c.id + '" data-k="' + k[0] + '">' + ic(k[1]) + '+ ' + esc(k[2]) + '</button>'; }).join('') + '<button class="btn ghost sm" data-act="bulkaudio" data-s="' + s.id + '" data-c="' + c.id + '">' + ic('upload') + esc(A('ارفع عدة تسجيلات', 'Upload several recordings')) + '</button></div></div>';
     }).join('') : IS.empty('layers', A('ابدأ بإضافة أول قسم', 'Start by adding the first section'), '', '<button class="btn pri" data-act="addsec" data-c="' + c.id + '">' + ic('plus') + esc(A('قسم جديد', 'New section')) + '</button>');
     return h + '</section><div class="row end"><a class="btn pri" href="#studio-course/' + c.id + '/publish">' + esc(A('التالي: النشر', 'Next: publishing')) + ic('chev', 'fl') + '</a></div>';
@@ -265,6 +266,44 @@
   async function resort(table, list) { for (var i = 0; i < list.length; i++) if (list[i].sort !== i) await DB.upd(table, list[i].id, { sort: i }); }
   IS.ACT.addsec = async function (b) { var t = await IS.ask(A('قسم جديد', 'New section'), A('عنوان القسم', 'Section title')); if (!t) return; var n = (await DB.q('sections', { eq: { course_id: b.getAttribute('data-c') } })).length; await DB.ins('sections', { course_id: b.getAttribute('data-c'), title: t, sort: n }); IS.refresh(); };
   IS.ACT.rensec = async function (b) { var s = await DB.one('sections', b.getAttribute('data-id')), t = await IS.ask(A('تعديل القسم', 'Rename section'), A('عنوان القسم', 'Section title'), s.title); if (!t) return; await DB.upd('sections', s.id, { title: t }); IS.refresh(); };
+
+  /* move a section and its lessons to another of the lecturer's courses (owner, 21 Nov 2026) */
+  IS.ACT.movesec = async function (b) {
+    var s0 = await DB.one('sections', b.getAttribute('data-id')); if (!s0) return;
+    var cs = (await DB.q('courses', { eq: { lecturer_id: L().id } })).filter(function (c) { return c.status !== 'removed' && c.id !== s0.course_id; });
+    if (!cs.length) return IS.toast(A('لا يوجد كورس آخر لنقل القسم إليه.', 'There is no other course to move it to.'), true);
+    IS.sheet(esc(A('نقل القسم «' + (s0.title || '') + '»', 'Move «' + (s0.title || '') + '»')), '<div class="list">' + cs.map(function (c) {
+      return '<button class="li" data-act="movesec-to" data-s="' + esc(s0.id) + '" data-c="' + esc(c.id) + '">' + ic('layers') + '<span><b dir="auto">' + esc(c.title || A('كورس بلا عنوان', 'Untitled course')) + '</b><small>' + esc(c.status === 'published' ? A('منشور', 'Published') : A('مسودة', 'Draft')) + '</small></span></button>'; }).join('') + '</div>');
+  };
+  IS.ACT['movesec-to'] = async function (b) {
+    var sid = b.getAttribute('data-s'), to = b.getAttribute('data-c'), s0 = await DB.one('sections', sid), from = s0.course_id;
+    var n = (await DB.q('sections', { eq: { course_id: to } })).length, ls = await DB.q('lessons', { eq: { section_id: sid } });
+    await DB.upd('sections', sid, { course_id: to, sort: n });
+    for (var i = 0; i < ls.length; i++) await DB.upd('lessons', ls[i].id, { course_id: to });
+    await courseTotals(from); await courseTotals(to);
+    IS.closeSheet(); IS.toast(A('نُقل القسم ودروسه', 'Section and its lessons moved')); IS.go('studio-course/' + to + '/cur');
+  };
+
+  /* move one lesson to a section of another course */
+  IS.ACT.moveles = async function (b) {
+    var x = await DB.one('lessons', b.getAttribute('data-id')); if (!x) return;
+    var cs = (await DB.q('courses', { eq: { lecturer_id: L().id } })).filter(function (c) { return c.status !== 'removed' && c.id !== x.course_id; });
+    if (!cs.length) return IS.toast(A('لا يوجد كورس آخر لنقل الدرس إليه.', 'There is no other course to move it to.'), true);
+    var secs = await DB.q('sections', { in: { course_id: cs.map(function (c) { return c.id; }) } });
+    IS.sheet(esc(A('نقل الدرس «' + (x.title || '') + '»', 'Move «' + (x.title || '') + '»')), '<div class="list">' + cs.map(function (c) {
+      var ss = secs.filter(function (s) { return s.course_id === c.id; }).sort(function (a, b2) { return (a.sort || 0) - (b2.sort || 0); });
+      return '<p class="mut" style="margin:8px 0 4px"><b dir="auto">' + esc(c.title || A('كورس بلا عنوان', 'Untitled course')) + '</b> · ' + esc(c.status === 'published' ? A('منشور', 'Published') : A('مسودة', 'Draft')) + '</p>' +
+        (ss.length ? ss.map(function (s) { return '<button class="li" data-act="moveles-to" data-l="' + esc(x.id) + '" data-c="' + esc(c.id) + '" data-s="' + esc(s.id) + '">' + ic('layers') + '<span><b dir="auto">' + esc(s.title || '') + '</b></span></button>'; }).join('') :
+          '<button class="li" data-act="moveles-to" data-l="' + esc(x.id) + '" data-c="' + esc(c.id) + '" data-s="">' + ic('plus') + '<span><b>' + esc(A('قسم جديد في هذا الكورس', 'A new section in this course')) + '</b></span></button>'); }).join('') + '</div>');
+  };
+  IS.ACT['moveles-to'] = async function (b) {
+    var lid = b.getAttribute('data-l'), to = b.getAttribute('data-c'), sid = b.getAttribute('data-s'), x = await DB.one('lessons', lid), from = x.course_id;
+    if (!sid) sid = (await DB.ins('sections', { course_id: to, title: A('القسم الأول', 'Section 1'), sort: 0 })).id;
+    var n = (await DB.q('lessons', { eq: { section_id: sid } })).length;
+    await DB.upd('lessons', lid, { course_id: to, section_id: sid, sort: n });
+    await courseTotals(from); await courseTotals(to);
+    IS.closeSheet(); IS.toast(A('نُقل الدرس', 'Lesson moved')); IS.go('studio-course/' + to + '/cur');
+  };
   IS.ACT.delsec = async function (b) { var s = await DB.one('sections', b.getAttribute('data-id')), ls = await DB.q('lessons', { eq: { section_id: s.id } }); if (!(await IS.confirm(A('حذف القسم «' + s.title + '» و' + ls.length + ' دروس فيه؟', 'Delete “' + s.title + '” and its ' + ls.length + ' lessons?'), A('حذف', 'Delete')))) return;
     for (var i = 0; i < ls.length; i++) { if (ls[i].kind === 'audio') await DB.audioRemove(ls[i].id).catch(function () {}); await DB.del('lessons', ls[i].id); } await DB.del('sections', s.id); await courseTotals(s.course_id); IS.refresh(); };
   IS.ACT.mvsec = async function (b) { var s = await DB.one('sections', b.getAttribute('data-id')), all = await DB.q('sections', { eq: { course_id: s.course_id }, order: ['sort'] }), i = all.map(function (x) { return x.id; }).indexOf(s.id), j = i + +b.getAttribute('data-d'); var t = all[i]; all[i] = all[j]; all[j] = t; await resort('sections', all); IS.refresh(); };
@@ -406,11 +445,17 @@
     if (!items.length) return head + '<section class="box">' + IS.empty('mic', A('لا توجد تسجيلات للرفع', 'No recordings to upload'), parts[0] === 'none' ? A('لم يصل ملف صوتي من المشاركة.', 'No audio file arrived from the share.') : '') + '<h2>' + IS.T('المشاركة من تيليجرام', 'Sharing from Telegram') + '</h2>' + how + '</section>';
     var cs = (await DB.q('courses', { eq: { lecturer_id: L().id } })).filter(function (c) { return c.status !== 'removed'; });
     if (!cs.length) return head + '<section class="box">' + IS.empty('layers', A('أنشئ كورسًا أولًا', 'Create a course first'), A('التسجيلات تُضاف دروسًا داخل كورس. تبقى محفوظة هنا حتى تنشئ الكورس.', 'Recordings become lessons inside a course. They stay saved here until you create one.'), '<a class="btn pri" href="#studio-course/new">' + ic('plus') + esc(A('كورس جديد', 'New course')) + '</a>') + '</section>';
-    var cid = cs.some(function (c) { return c.id === parts[0]; }) ? parts[0] : cs[0].id;
+    /* a recording shared from Telegram does not know the course: use the course last opened in the studio, else the newest draft
+       (owner, 21 Nov 2026: "it went to the previous published course and my new section moved there") */
+    var last = ''; try { last = localStorage.getItem('ish-lastcourse') || ''; } catch (e) {}
+    cs.sort(function (a, b) { return String(b.created_at || '').localeCompare(String(a.created_at || '')); });
+    var cid = cs.some(function (c) { return c.id === parts[0]; }) ? parts[0] : cs.some(function (c) { return c.id === last; }) ? last :
+      ((cs.find(function (c) { return c.status !== 'published'; }) || cs[0]).id);
     var total = items.reduce(function (a, f) { return a + (f.size || 0); }, 0);
     var h = head + '<section class="box form share-up" id="shareup" data-mem="' + (mem ? 1 : 0) + '"><h1 tabindex="-1">' + ic('mic') + esc(A('رفع ' + items.length + ' تسجيل كدروس صوتية', 'Upload ' + items.length + ' recording' + (items.length > 1 ? 's' : '') + ' as audio lessons')) + '</h1>' +
       '<p class="mut">' + esc(A('كل ملف يصبح درسًا صوتيًا بالترتيب، باسم الملف (يمكنك تعديل الأسماء). الحجم الكلي ', 'Each file becomes an audio lesson, in order, named after the file (you can edit the names). Total size ')) + mb(total) + '.</p>' +
       '<div class="g2f"><label class="fl"><span>' + esc(A('الكورس', 'Course')) + '</span><select id="shc">' + cs.map(function (c) { return '<option value="' + esc(c.id) + '"' + (c.id === cid ? ' selected' : '') + '>' + esc(c.title || A('كورس بلا عنوان', 'Untitled course')) + '</option>'; }).join('') + '</select></label>' +
+      '<p class="note warn sh-check">' + ic('info') + esc(A('تأكد من اختيار الكورس والقسم الصحيحين قبل «ابدأ الرفع».', 'Check the course and section before «Start upload».')) + '</p>' +
       '<label class="fl"><span>' + esc(A('القسم', 'Section')) + '</span><select id="shs" data-want="' + esc(parts[1] || '') + '"></select></label></div>' +
       '<label class="fl" id="shnew" hidden><span>' + esc(A('اسم القسم الجديد', 'New section name')) + '</span><input id="shsn" maxlength="120" placeholder="' + esc(A('مثال: الجزء الأول', 'e.g. Part 1')) + '"></label>' +
       '<ol class="sh-list">' + items.map(function (f, i) {

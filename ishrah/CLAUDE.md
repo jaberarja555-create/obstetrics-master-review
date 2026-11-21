@@ -1217,3 +1217,7 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   app's name (manifest) and the share sheet say SMRA.
 - **Lecturer studio in the new frame** (owner, 21 Nov 2026): `IS.pageFrame` also wraps studio pages (`.mrs2`), top-bar 🏠 → #studio, bottom bar لوحتي · كورساتي · طلابي · أرباحي (studio-money) · المزيد; figures in one strip (3 a row on phones, 6 on laptops).
 - R2 for audio switched on by the owner (21 Nov 2026): bucket ishrah-media, binding MEDIA on the Pages project ishrah.
+- **Shared recordings go to the right course** (owner, 21 Nov 2026: "it went to the old published course"): opening a course in the studio
+  remembers it (`ish-lastcourse`); `#studio-share` with no course picks that one, else the newest draft (was: the first course in the list),
+  and shows «تأكد من اختيار الكورس والقسم الصحيحين». Curriculum: each section and each lesson has a move button (route icon) to move it to
+  another of the lecturer's courses (`movesec`, `moveles`; course totals updated on both sides).
