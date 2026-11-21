@@ -1101,3 +1101,7 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   the writer otherwise), then the title and the text full width, then stars (at the start) and the action row; the separate row of
   «عدّل المنشور · تثبيت · حذف» pills is gone. The comment field is one rounded field (no inner box: `#main .cmt-rbox textarea` beats the
   framed pages' input rule). CSS at the end of css/mr.css. Test: scratchpad post.js (390, 1440).
+- **Locked specialities in the owner's picture** (21 Nov 2026: "for all other than the owner, the other specialities like this"): for
+  everyone except the platform owner (`IS.specLocked`), Nursing · Laboratory · Pharmacy · Dentistry are muted grey-green cards with a faded
+  icon, a grey wave, a lock in a small circle at the corner (`.mr-lockb`) and a gold «قريبًا» ribbon (`.mr-soon`); the open speciality has a
+  gold glowing frame while others are locked. Plain colours only (the old grayscale filter is switched off; filters smear on touch screens).

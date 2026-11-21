@@ -107,7 +107,7 @@
       '<nav class="mr-specs n' + specs.length + '" aria-label="' + esc(A('التخصصات', 'Specialities')) + '">' + specs.map(function (s) {
         var locked = specLocked(s.id);
         return '<button type="button" class="mr-spec' + (locked ? ' locked' : '') + '" data-act="setspec" data-v="' + esc(s.id) + '" aria-pressed="' + (s.id === cur) + '"' + (locked ? ' aria-disabled="true"' : '') + '><span class="art">' + (SPIC[s.id] || ic(s.icon)) + '</span>' +
-          (locked ? '<span class="mr-lock">' + LOCK + '<b>' + esc(A('قريبًا', 'Coming soon')) + '</b></span>' : '') +
+          (locked ? '<span class="mr-lockb" aria-hidden="true">' + LOCK + '</span><span class="mr-soon">' + esc(A('قريبًا', 'Coming soon')) + '</span>' : '') +
           '<span class="lab">' + WAVE + '<b lang="en" dir="ltr">' + esc(SHORT[s.id] || s.en) + '</b></span></button>';
       }).join('') + '</nav>' + dock(false) + '</div></div>';
   });

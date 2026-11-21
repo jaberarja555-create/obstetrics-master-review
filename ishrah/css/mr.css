@@ -1515,3 +1515,17 @@ html body #main .cmt-compose .cmt-rbox textarea,html body #main .cmt-rf .cmt-rbo
 .pthread .pthn{align-items:flex-start;text-align:start}
 html body #main .pthread .feed-votes>.fv-rate{display:flex!important;justify-content:flex-start!important;grid-column:1/-1!important}
 html body #main .pthread .feed-votes>.fv-rate{padding-block:4px!important}
+
+/* locked specialities in the owner's picture (21 Nov 2026): muted card, faded icon, grey wave, a lock in the corner and a gold «قريبًا»
+   ribbon; the open speciality has a gold glowing frame. No CSS filters (touch screens smear with them). */
+html body .mrx .mr-spec.locked{filter:none!important;background:linear-gradient(180deg,#36504a,#253a34)!important;box-shadow:0 0 0 1.5px rgba(200,200,185,.45),0 10px 20px rgba(0,0,0,.35)!important}
+html body .mrx .mr-spec.locked .art{opacity:.5;filter:none}
+html body .mrx .mr-spec.locked .lab svg.wave path{fill:#b9b7a6}
+html body .mrx .mr-spec.locked .lab b{color:#2e3a33!important;-webkit-text-fill-color:#2e3a33}
+.mr-spec .mr-lockb{position:absolute;top:9px;inset-inline-end:9px;z-index:3;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;
+  background:rgba(10,30,24,.8);border:1.5px solid rgba(233,196,106,.7)}
+html body .mrx .mr-spec .mr-lockb svg.ic{width:14px!important;height:14px!important;color:#f6dc8e}
+.mr-spec .mr-soon{position:absolute;z-index:3;top:48%;left:50%;transform:translate(-50%,-50%) skewX(-8deg);padding:3px 16px;border-radius:7px;
+  background:linear-gradient(180deg,#f8dc85,#d9a93e);color:#3d2a05;font-weight:800;font-size:clamp(11px,1.7vh,15px);white-space:nowrap;
+  box-shadow:0 3px 8px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.6)}
+.mr-specs:has(.locked) .mr-spec:not(.locked){box-shadow:0 0 0 3px #f6dc8e,0 0 26px rgba(233,196,106,.6),0 14px 26px rgba(0,0,0,.42)!important}
