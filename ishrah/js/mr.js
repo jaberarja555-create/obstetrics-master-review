@@ -149,7 +149,8 @@
       /* Home = the section's page; on that page it goes up to the section chooser (owner, 20 Nov 2026: "from the library how do I go back to Clinical") */
       (function () { var onHome = document.body.getAttribute('data-page') === 'home' || /^#?home$/.test(location.hash.replace(/^#/, '') || 'home');
         return '<a class="mh-b" href="#' + (onHome ? 'pick-section' : 'home') + '" aria-label="' + esc(onHome ? A('الأقسام', 'Sections') : A('الرئيسية', 'Home')) + '">' + HI.home + '</a>'; })() +
-      '<a class="mh-b ghost" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + HI.search + '</a>' +
+      /* search is the students' search: not offered inside the studio and control (it took you out of them, owner 21 Nov 2026) */
+      (IS.area === 'control' || IS.area === 'studio' ? '' : '<a class="mh-b ghost" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + HI.search + '</a>') +
       '<button type="button" class="mh-b ghost" data-act="mrfeat" aria-label="' + esc(A('المزايا', 'Features')) + '">' + HI.grid + '</button></div>' +
       '<a class="mh-logo" href="#pick-section"><img src="' + IS.U('img/mr/logo-smra.webp') + '" alt="' + esc(IS.brandName()) + '" width="1000" height="359"></a>' +
       '<div class="mh-side end"><button type="button" class="mh-tog" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night')) + '"><i class="t-l">' + I.sun + '</i><i class="t-d">' + I.moon + '</i><i class="t-e">' + I.eye + '</i></button>' +
@@ -827,7 +828,10 @@
   IS.ACT.mrfeat = function () {
     var links = IS.$$('#side nav a, #side .cnav a').map(function (a) {
       return '<a href="' + a.getAttribute('href') + '" class="' + (a.classList.contains('on') ? 'on' : '') + '">' + a.innerHTML + '</a>'; });
-    IS.sheet(esc(A('المزايا', 'Features')), '<div class="mr-feat">' + links.join('') + '</div>');
+    /* lecturers and team members can move between the platform, the studio and control from here too (owner, 21 Nov 2026) */
+    var areas = [['home', 'home', 'المنصة', 'Platform', 'student', true], ['studio', 'studio', 'استوديو المحاضر', 'Lecturer studio', 'studio', !!IS.LEC], ['control', 'crown', 'التحكم', 'Control', 'control', IS.team && IS.team()]].filter(function (x) { return x[5] && x[4] !== IS.area; });
+    IS.sheet(esc(A('المزايا', 'Features')), (areas.length && (IS.LEC || (IS.team && IS.team())) ? '<div class="mr-areas">' + areas.map(function (x) { return '<a href="#' + x[0] + '">' + ic(x[1]) + '<span>' + esc(A('انتقل إلى ', 'Go to ') + A(x[2], x[3])) + '</span></a>'; }).join('') + '</div>' : '') +
+      '<div class="mr-feat">' + links.join('') + '</div>');
   };
 
   /* the bottom bar fits every screen (owner, 21 Nov 2026: "in every device it doesn't fit well"): one label size for all buttons, the

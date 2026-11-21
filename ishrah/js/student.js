@@ -1469,7 +1469,7 @@
     return IS.banner(IS.T('الإشعارات', 'Notifications'), '', 'bell') + (n.length ? '<div class="list">' + n.map(function (x) {
       return '<a class="li' + (new Date(x.created_at).getTime() > seen ? ' new' : '') + '" href="' + esc(x.link || '#notifications') + '">' + ic(x.user_id ? 'bell' : 'sparkle') + '<span><b>' + esc(IS.noticeTitle(x)) + '</b>' + (x.body ? '<small>' + esc(x.body) + '</small>' : '') + '</span><em>' + esc(IS.ago(x.created_at)) + '</em></a>'; }).join('') + '</div>' :
       IS.empty('bell', A('لا توجد إشعارات', 'No notifications'), A('تصلك هنا موافقات الدفع والردود والإعلانات.', 'Payment approvals, replies and announcements arrive here.')));
-  }, { auth: true });
+  }, { auth: true, area: 'keep' });
 
 
   /* ========== ANNOUNCEMENTS & NEWS (owner's design, 18 Nov 2026) ==========

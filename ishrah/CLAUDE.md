@@ -1278,3 +1278,9 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   open kept the account read before the appointment; core.js route now re-reads the account (and the 2FA state) once before showing «no
   access». (3) The role summary in the form lists what the role can open («صلاحيات هذا الدور (8): …», bold = can also add/edit/approve)
   with a link to change the role's permissions; «صلاحيات إضافية لهذا الشخص فقط» explains it adds sections on top of the role.
+- **Main menu buttons checked everywhere** (owner, 21 Nov 2026: «أزرار القائمة الرئيسية… مرات بتوديك لحتات غلط»): scratchpad nav2.js (every
+  link of the bottom bar, top bar, Features and More in the platform, studio and control, by address) and nav3.js (real clicks from six
+  start pages: page reached, area, sheet closed, bottom-bar highlight). All links reach existing pages; fixed what led out of place:
+  the top-bar search is not shown in the studio and control (it opened the students' search and left the area); notifications keep the
+  current area (`area: 'keep'`), so the bell no longer drops you into the student app; the Features sheet has «انتقل إلى …» buttons for
+  the other areas (lecturers and team); the More sheet no longer lists the current area or a second «الإعدادات».
