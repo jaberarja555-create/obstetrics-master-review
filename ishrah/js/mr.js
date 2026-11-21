@@ -518,7 +518,7 @@
       '<a href="#" data-act="more">' + ic('more') + '<span>' + esc(A('المزيد', 'More')) + '</span></a></nav>';
   }
   IS.pageFrame = function (name, html) {
-    if ((IS.area === 'control' || IS.area === 'studio') && !/class="mrx/.test(html) && !/^control-ticket/.test(name)) {
+    if ((IS.area === 'control' || IS.area === 'studio') && !/class="mrx/.test(html) && !/^control-ticket$/.test(name)) {
       var studio = IS.area === 'studio';
       return '<div class="mrx mrh mra mrc2' + (studio ? ' mrs2' : '') + '" data-pg="' + esc(name) + '"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop().replace('href="#pick-section"', 'href="#' + (studio ? 'studio' : 'control') + '"').replace('href="#home"', 'href="#' + (studio ? 'studio' : 'control') + '"') +
         '<div class="mh-tools"></div><div class="mh-old">' + html + '</div></div>' + (studio ? snav(name) : cnav(name)) + '</div>';

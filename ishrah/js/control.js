@@ -781,19 +781,60 @@
   }, P('audit'));
 
   /* ========== REPORTS ========== */
+  /* Reports, redesigned (owner, 21 Nov 2026: "these admin pages need design and fixes"): each tab opens with its key figures, then the
+     months as horizontal bars (newest first, the month written in full, its value at the end) so nothing overlaps on a phone and the
+     bars read the same way in Arabic and English; an empty period says so instead of a row of zeros. */
+  function rfig(list) { return '<div class="rp-figs">' + list.map(function (f) { return '<span class="rp-f' + (f[3] ? ' ' + f[3] : '') + '">' + ic(f[0]) + '<b>' + f[1] + '</b><small>' + esc(f[2]) + '</small></span>'; }).join('') + '</div>'; }
+  function hbars(rows, fmt, empty) {
+    var max = Math.max.apply(null, rows.map(function (r) { return r[1]; }).concat([0]));
+    if (!max) return '<p class="rp-empty">' + ic('chart') + esc(empty || A('لا توجد بيانات في آخر 12 شهرًا بعد.', 'No data in the last 12 months yet.')) + '</p>';
+    return '<div class="rp-bars">' + rows.slice().reverse().map(function (r) {
+      return '<div class="rp-bar' + (r[1] ? '' : ' z') + '"><span class="rp-m">' + esc(r[0]) + '</span><span class="rp-t"><i style="width:' + (r[1] ? Math.max(3, r[1] / max * 100) : 0) + '%"></i></span><b>' + (fmt ? fmt(r[1]) : N(r[1])) + '</b></div>'; }).join('') + '</div>';
+  }
+  function mlabel(k) { try { return new Date(k + '-15T12:00:00').toLocaleDateString(IS.lang === 'ar' ? 'ar-SD' : 'en-GB', { month: 'long', year: 'numeric' }); } catch (e) { return k; } }
   IS.page('control-reports', async function (tab) {
     tab = tab || 'revenue'; var r = await Promise.all([DB.q('enrollments'), DB.q('courses'), DB.q('profiles'), DB.q('progress'), DB.q('events'), DB.q('event_regs'), IS.lecMap()]);
     var en = r[0], cs = r[1], us = r[2], pr = r[3], ev = r[4], rg = r[5], L = r[6], ms = months(12), act = en.filter(function (e) { return e.status === 'active'; });
-    var h = IS.banner(IS.T('التقارير والتحليلات', 'Reports and analytics'), '', 'chart') + tabsBar('control-reports', tab, [['revenue', A('الإيرادات', 'Revenue')], ['courses', A('الكورسات', 'Courses')], ['users', A('المستخدمون', 'Users')], ['engagement', A('التفاعل', 'Engagement')], ['events', A('الفعاليات', 'Events')]]);
-    if (tab === 'revenue') { var m = ms.map(function (k) { return [k.slice(5) + '/' + k.slice(2, 4), act.filter(function (e) { return String(e.decided_at || '').slice(0, 7) === k; }).reduce(function (a, e) { return a + (+e.price || 0); }, 0)]; });
-      h += '<section class="box"><header class="sh"><h2>' + IS.T('الإيرادات الشهرية', 'Monthly revenue') + '</h2><button class="btn ghost sm" data-act="csvrev">' +
-        ic('file') + esc(A('تصدير CSV', 'Export CSV')) + '</button></header>' + IS.barChart(m) + '</section>';
-      IS.ACT.csvrev = function () { csv('ishrah-revenue', [['date', 'course', 'student', 'phone', 'amount', 'ref', 'lecturer', 'share %']].concat(act.map(function (e) { var c = cs.filter(function (x) { return x.id === e.course_id; })[0] || {}; return [String(e.decided_at || '').slice(0, 10), c.title, e.payer, e.phone, e.price, e.ref, (L[e.lecturer_id] || {}).name, e.share]; }))); }; }
-    if (tab === 'courses') h += '<div class="table">' + cs.slice().sort(function (a, b) { return (b.n_students || 0) - (a.n_students || 0); }).map(function (c) { var rev = act.filter(function (e) { return e.course_id === c.id; }).reduce(function (a, e) { return a + (+e.price || 0); }, 0);
-      return '<div class="tr"><span class="grow"><b>' + esc(c.title) + '</b><small class="mut">' + esc((L[c.lecturer_id] || {}).name || '') + '</small></span>' + IS.status(c.status) + '<span class="cell"><small>' + esc(A('طلبة', 'Students')) + '</small><b>' + N(c.n_students || 0) + '</b></span><span class="cell"><small>' + esc(A('تقييم', 'Rating')) + '</small><b>' + (c.n_reviews ? N(c.rating) : '—') + '</b></span><span class="cell"><small>' + esc(A('إيراد', 'Revenue')) + '</small><b>' + IS.money(rev) + '</b></span></div>'; }).join('') + '</div>';
-    if (tab === 'users') h += '<section class="box"><h2>' + IS.T('التسجيلات الشهرية', 'Monthly sign-ups') + '</h2>' + IS.barChart(ms.map(function (k) { return [k.slice(5) + '/' + k.slice(2, 4), us.filter(function (u) { return String(u.created_at).slice(0, 7) === k; }).length]; })) + '</section>';
-    if (tab === 'engagement') h += '<section class="box"><h2>' + IS.T('الدروس المنتهية شهريًا', 'Lessons completed per month') + '</h2>' + IS.barChart(ms.map(function (k) { return [k.slice(5) + '/' + k.slice(2, 4), pr.filter(function (p) { return String(p.done_at).slice(0, 7) === k; }).length]; })) + '</section>';
-    if (tab === 'events') h += '<div class="table">' + ev.map(function (e) { return '<div class="tr"><span class="grow"><b>' + esc(e.title) + '</b><small class="mut">' + esc(IS.date(e.starts)) + '</small></span><span class="cell"><small>' + esc(A('مسجّلون', 'Registered')) + '</small><b>' + N(rg.filter(function (x) { return x.event_id === e.id; }).length) + '</b></span></div>'; }).join('') + '</div>';
+    var thisM = ms[ms.length - 1], paid = act.filter(function (e) { return +e.price > 0; }), pend = en.filter(function (e) { return e.status === 'pending' && +e.price > 0; });
+    var sum = function (a) { return a.reduce(function (s, e) { return s + (+e.price || 0); }, 0); };
+    var h = IS.banner(IS.T('التقارير والتحليلات', 'Reports and analytics'), '', 'chart') +
+      '<nav class="rp-tabs">' + [['revenue', 'wallet', A('الإيرادات', 'Revenue')], ['courses', 'layers', A('الكورسات', 'Courses')], ['users', 'users', A('المستخدمون', 'Users')], ['engagement', 'chart', A('التفاعل', 'Engagement')], ['events', 'cal', A('الفعاليات', 'Events')]].map(function (t) {
+        return '<a href="#control-reports/' + t[0] + '"' + (t[0] === tab ? ' class="on" aria-current="page"' : '') + '>' + ic(t[1]) + '<span>' + esc(t[2]) + '</span></a>'; }).join('') + '</nav>';
+    if (tab === 'revenue') {
+      var byC = {}; paid.forEach(function (e) { byC[e.course_id] = (byC[e.course_id] || 0) + (+e.price || 0); });
+      var top5 = Object.keys(byC).sort(function (a, b) { return byC[b] - byC[a]; }).slice(0, 5);
+      h += rfig([['wallet', IS.money(sum(paid)), A('إجمالي الإيرادات المؤكدة', 'Confirmed revenue'), 'g'], ['cal', IS.money(sum(paid.filter(function (e) { return String(e.decided_at || '').slice(0, 7) === thisM; }))), A('إيرادات هذا الشهر', 'This month')],
+        ['check', N(paid.length), A('اشتراكات مدفوعة مؤكدة', 'Confirmed paid enrolments')], ['clock', N(pend.length) + ' · ' + IS.money(sum(pend)), A('بانتظار تأكيد الدفع', 'Waiting for payment check'), pend.length ? 'w' : '']]) +
+        '<section class="box rp-box"><header class="sh"><h2>' + IS.T('الإيرادات الشهرية', 'Monthly revenue') + '</h2><button class="btn ghost sm" data-act="csvrev">' + ic('file') + esc(A('تصدير CSV', 'Export CSV')) + '</button></header>' +
+        hbars(ms.map(function (k) { return [mlabel(k), sum(paid.filter(function (e) { return String(e.decided_at || '').slice(0, 7) === k; }))]; }), IS.money, A('لا توجد إيرادات مدفوعة مؤكدة بعد. تظهر هنا بعد تأكيد أول دفع.', 'No confirmed paid revenue yet. It appears here after the first payment is confirmed.')) + '</section>' +
+        (top5.length ? '<section class="box rp-box"><h2>' + IS.T('أعلى الكورسات إيرادًا', 'Top courses by revenue') + '</h2>' + hbars(top5.map(function (id) { var c = cs.filter(function (x) { return x.id === id; })[0] || {}; return [c.title || '—', byC[id]]; }).reverse(), IS.money) + '</section>' : '');
+      IS.ACT.csvrev = function () { csv('ishrah-revenue', [['date', 'course', 'student', 'phone', 'amount', 'ref', 'lecturer', 'share %']].concat(act.map(function (e) { var c = cs.filter(function (x) { return x.id === e.course_id; })[0] || {}; return [String(e.decided_at || '').slice(0, 10), c.title, e.payer, e.phone, e.price, e.ref, (L[e.lecturer_id] || {}).name, e.share]; }))); };
+    }
+    if (tab === 'courses') {
+      var cnt = function (s) { return cs.filter(function (c) { return c.status === s; }).length; };
+      h += rfig([['layers', N(cnt('published')), A('كورسات منشورة', 'Published'), 'g'], ['eye', N(cnt('review')), A('قيد المراجعة', 'In review'), cnt('review') ? 'w' : ''], ['file', N(cnt('draft')), A('مسودات', 'Drafts')], ['users', N(cs.reduce(function (a, c) { return a + (+c.n_students || 0); }, 0)), A('إجمالي الطلبة الملتحقين', 'Enrolled students')]]) +
+        (cs.length ? '<div class="rp-list">' + cs.slice().sort(function (a, b) { return (b.n_students || 0) - (a.n_students || 0); }).map(function (c) { var rev = sum(act.filter(function (e) { return e.course_id === c.id; }));
+          return '<a class="rp-c" href="#course/' + esc(c.id) + '"><span class="rp-ct"><b dir="auto">' + esc(c.title) + '</b><small>' + (IS.lecName ? IS.lecName((L[c.lecturer_id] || {}).name || '') : esc((L[c.lecturer_id] || {}).name || '')) + '</small></span>' + IS.status(c.status) +
+            '<span class="rp-cn"><span><small>' + esc(A('طلبة', 'Students')) + '</small><b>' + N(c.n_students || 0) + '</b></span><span><small>' + esc(A('تقييم', 'Rating')) + '</small><b>' + (c.n_reviews ? '★ ' + N(c.rating) : '—') + '</b></span><span><small>' + esc(A('إيراد', 'Revenue')) + '</small><b>' + IS.money(rev) + '</b></span></span></a>'; }).join('') + '</div>' : IS.empty('layers', A('لا توجد كورسات بعد', 'No courses yet')));
+    }
+    if (tab === 'users') {
+      var team = us.filter(function (u) { return (u.team || []).length; }).length, lec = Object.keys(L).length;
+      h += rfig([['users', N(us.length), A('إجمالي الحسابات', 'Accounts'), 'g'], ['plus', N(us.filter(function (u) { return String(u.created_at).slice(0, 7) === thisM; }).length), A('حسابات جديدة هذا الشهر', 'New this month')], ['cap', N(lec), A('محاضرون', 'Lecturers')], ['shield', N(team), A('فريق المنصة', 'Platform team')]]) +
+        '<section class="box rp-box"><h2>' + IS.T('التسجيلات الشهرية', 'Monthly sign-ups') + '</h2>' + hbars(ms.map(function (k) { return [mlabel(k), us.filter(function (u) { return String(u.created_at).slice(0, 7) === k; }).length]; })) + '</section>';
+    }
+    if (tab === 'engagement') {
+      var d30 = Date.now() - 30 * 864e5, activeL = {}; pr.forEach(function (p) { if (Date.parse(p.done_at) > d30) activeL[p.user_id] = 1; });
+      h += rfig([['check', N(pr.length), A('دروس أُنجزت (الكل)', 'Lessons completed'), 'g'], ['cal', N(pr.filter(function (p) { return String(p.done_at).slice(0, 7) === thisM; }).length), A('دروس أُنجزت هذا الشهر', 'Completed this month')],
+        ['users', N(Object.keys(activeL).length), A('طلبة نشطون (30 يومًا)', 'Active learners (30 days)')], ['cal', N(rg.length), A('تسجيلات في الفعاليات', 'Event registrations')]]) +
+        '<section class="box rp-box"><h2>' + IS.T('الدروس المنتهية شهريًا', 'Lessons completed per month') + '</h2>' + hbars(ms.map(function (k) { return [mlabel(k), pr.filter(function (p) { return String(p.done_at).slice(0, 7) === k; }).length]; }), null,
+          A('لم يُنهِ أي طالب درسًا بعد. يُحسب الدرس عندما يضغط الطالب «إتمام الدرس» أو ينجح في الاختبار.', 'No student has completed a lesson yet. A lesson counts when the student presses “Mark as done” or passes its quiz.')) + '</section>';
+    }
+    if (tab === 'events') {
+      var up = ev.filter(function (e) { return Date.parse(e.starts) > Date.now(); }).length;
+      h += rfig([['cal', N(ev.length), A('كل الفعاليات', 'All events'), 'g'], ['clock', N(up), A('قادمة', 'Upcoming')], ['users', N(rg.length), A('إجمالي المسجّلين', 'Registrations')], ['chart', ev.length ? N(Math.round(rg.length / ev.length * 10) / 10) : '0', A('متوسط المسجّلين للفعالية', 'Average per event')]]) +
+        (ev.length ? '<div class="rp-list">' + ev.slice().sort(function (a, b) { return Date.parse(b.starts) - Date.parse(a.starts); }).map(function (e) {
+          return '<a class="rp-c" href="#event/' + esc(e.id) + '"><span class="rp-ct"><b dir="auto">' + esc(e.title) + '</b><small>' + esc(IS.date(e.starts)) + '</small></span><span class="rp-cn"><span><small>' + esc(A('مسجّلون', 'Registered')) + '</small><b>' + N(rg.filter(function (x) { return x.event_id === e.id; }).length) + '</b></span></span></a>'; }).join('') + '</div>' : IS.empty('cal', A('لا توجد فعاليات بعد', 'No events yet')));
+    }
     return h;
   }, P('reports'));
 

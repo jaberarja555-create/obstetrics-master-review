@@ -1926,3 +1926,45 @@ html body .sf-x{font-size:13px;margin:12px 0 4px;color:#641427}
 /* a lecturer who is also in the platform team */
 .lp-team{display:inline-flex;align-items:center;gap:7px;margin-top:6px;padding:5px 14px;border-radius:999px;background:linear-gradient(180deg,#f8dc85,#d9a93e);color:#3d2a05;font-size:13.5px;box-shadow:0 3px 10px rgba(0,0,0,.18)}
 .lp-team b{font-weight:800}.lp-team small{font-size:11px;font-weight:700;opacity:.75;border-inline-start:1px solid rgba(61,42,5,.35);padding-inline-start:7px}
+/* Reports (21 Nov 2026): tabs, key figures, horizontal month bars, course/event rows */
+.rp-tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding:4px;border-radius:14px;background:#f4eef1;border:1px solid #ebe2e5;margin:0 0 12px}
+.rp-tabs a{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 2px;border-radius:10px;text-decoration:none;color:#583f46;font-weight:700;font-size:12px;text-align:center;min-width:0}
+.rp-tabs a svg{width:17px;height:17px}.rp-tabs a span{white-space:nowrap;overflow:hidden;text-overflow:clip;max-width:100%}
+.rp-tabs a.on{background:linear-gradient(180deg,#781c34,#410b19);color:#fff}
+@media (max-width:380px){.rp-tabs a{font-size:10.5px}}
+.rp-figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0 0 12px}
+@media (min-width:900px){.rp-figs{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.rp-f{display:flex;flex-direction:column;gap:3px;padding:12px;border-radius:16px;background:#fff;border:1px solid #ebe2e5;box-shadow:0 3px 10px rgba(65,11,25,.05);min-width:0}
+.rp-f svg{width:19px;height:19px;color:#641427}
+.rp-f b{font-size:19px;line-height:1.2;color:#390f1a;overflow-wrap:anywhere}.rp-f small{font-size:12px;color:#7f666e;line-height:1.35}
+.rp-f.g{background:linear-gradient(160deg,#781c34,#410b19);border-color:transparent}.rp-f.g svg{color:#f6dc8e}.rp-f.g b,.rp-f.g small{color:#fff}
+.rp-f.w{border-color:#f0c977;background:#fff8e8}
+.rp-bars{display:flex;flex-direction:column;gap:7px}
+.rp-bar{display:grid;grid-template-columns:minmax(92px,34%) 1fr auto;align-items:center;gap:8px;font-size:12.5px}
+.rp-bar .rp-m{color:#583f46;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rp-bar .rp-t{height:12px;border-radius:999px;background:#f4eef1;overflow:hidden}
+.rp-bar .rp-t i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#781c34,#ab415e)}
+[dir="rtl"] .rp-bar .rp-t i{background:linear-gradient(270deg,#781c34,#ab415e);margin-inline-start:0}
+.rp-bar b{font-size:12.5px;color:#390f1a;min-width:24px;text-align:end;white-space:nowrap}
+.rp-bar.z{opacity:.55}
+.rp-empty{display:flex;align-items:center;gap:8px;margin:4px 0;padding:14px;border-radius:12px;background:#f9f4f6;color:#604c53;font-size:13px;line-height:1.6}
+.rp-empty svg{width:22px;height:22px;flex:none;color:#641427}
+.rp-list{display:flex;flex-direction:column;gap:8px}
+.rp-c{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center;padding:12px 14px;border-radius:16px;background:#fff;border:1px solid #ebe2e5;text-decoration:none;color:inherit}
+.rp-c .rp-ct{min-width:0;display:flex;flex-direction:column}.rp-c .rp-ct b{font-size:14.5px}.rp-c .rp-ct small{font-size:12px;color:#7f666e}
+.rp-c .rp-cn{grid-column:1/-1;display:flex;gap:6px}
+.rp-c .rp-cn span{flex:1;display:flex;flex-direction:column;align-items:center;padding:6px;border-radius:10px;background:#f9f4f6}
+.rp-c .rp-cn small{font-size:11px;color:#7f666e}.rp-c .rp-cn b{font-size:13.5px}
+/* tab rows in the admin and studio wrap instead of running off the screen */
+@media (max-width:600px){html body .mra .tabs.pills{flex-wrap:wrap!important;overflow:visible!important;row-gap:6px}html body .mra .tabs.pills a{flex:1 1 auto;justify-content:center;text-align:center}}
+:root[data-theme="dark"] .rp-f,:root[data-theme="dark"] .rp-c{background:#250d14;border-color:#43242f}:root[data-theme="dark"] .rp-f b,:root[data-theme="dark"] .rp-bar b{color:#f5eff2}
+:root[data-theme="dark"] .rp-tabs{background:#37151f;border-color:#43242f}:root[data-theme="dark"] .rp-tabs a{color:#e2d0d7}
+:root[data-theme="dark"] .rp-c .rp-cn span,:root[data-theme="dark"] .rp-empty,:root[data-theme="dark"] .rp-bar .rp-t{background:#37151f}
+@media (max-width:430px){.rp-tabs a{font-size:10.8px;letter-spacing:-.2px}}
+@media (max-width:370px){.rp-tabs a{font-size:9.8px}}
+/* Control → specialities, sections and subjects: subject tiles stay compact rows with a small picture (the framed page's picture rule
+   had stretched every subject photo to the full width, ~13,000 px of scrolling on a phone) */
+html body .mra .sjtile{display:flex!important;flex-direction:row!important;align-items:center}
+html body .mra .sjtile>img{width:64px!important;height:44px!important;max-width:none!important;aspect-ratio:auto!important;object-fit:cover;border-radius:10px;flex:none}
+html body .mra .sjtiles{grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr))!important}
+@media (max-width:560px){html body .mra .sjtiles{grid-template-columns:repeat(2,minmax(0,1fr))!important}html body .mra .sjtile{flex-direction:column!important;align-items:stretch;text-align:center;gap:6px}html body .mra .sjtile>img{width:100%!important;height:70px!important}html body .mra .sjtile .sjpen{position:absolute;top:6px;inset-inline-end:6px}html body .mra .sjtile{position:relative}}

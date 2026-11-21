@@ -1259,3 +1259,16 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   reads `role` from the profile card (050) and shows a gold chip «🛡️ المدير الأكاديمي | فريق المنصة» under the title, and the first
   achievement «عضو فريق المنصة: …». An appointment takes effect at once (no acceptance step); the person gets a notice naming who
   appointed him, and needs 2FA to open Control if «المصادقة الثنائية إلزامية» is ticked. Test: scratchpad lt.js.
+- **Admin pass** (owner, 21 Nov 2026: «صفحات الإدارة عايزة تصميم وتعديل وإصلاح الأخطاء، اعمل مرور شامل»): scratchpad ca.js seeds sample data and
+  visits every control page (32 views) at 393 and 1366 px, checking sideways scroll, cut text, "undefined/NaN" and errors, with
+  screenshots (H=<height> env for whole pages). Fixed:
+  - **Reports** (`control-reports`, control.js): the bar chart's month labels ran opposite to the bars in Arabic and overlapped on phones.
+    Now: icon tabs in one row (`.rp-tabs`), key figures per tab (`rfig`: revenue total / this month / paid enrolments / waiting payment;
+    courses published / review / drafts / students; users total / new / lecturers / team; lessons done / this month / active learners /
+    event registrations; events), month bars as horizontal rows newest first with the month written out (`hbars`, `mlabel`), «top courses
+    by revenue», course and event rows as cards, and a sentence instead of a row of zeros when there is no data.
+  - **Inbox** (`control-tickets`) was left outside the new frame (the exclusion regex matched every name starting control-ticket); only the
+    conversation page `control-ticket` is excluded now.
+  - **Tab rows** in framed admin/studio pages wrap on phones instead of running off the screen.
+  - **Specialities and subjects** (`control-cats`): subject photos were stretched to full width by the framed page; tiles are compact again
+    (two a row on phones, ~13,000 → ~5,800 px).
