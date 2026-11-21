@@ -1880,3 +1880,6 @@ html body .mrs2 .mh-old .tiles .ico{display:block}
 :root[data-theme="dark"] .asg-t,:root[data-theme="dark"] .asg-who{background:#2d111a;border-color:#43242f}
 :root[data-theme="dark"] .asg-t small,:root[data-theme="dark"] .asg-who small{color:#c2abb3}
 @media (max-width:600px){.asg-g{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.asg-t{padding:8px 9px;gap:7px;align-items:flex-start}.asg-t b{font-size:12.5px;line-height:1.35}.asg-t small{font-size:10.5px;-webkit-line-clamp:2}.asg-t>.ico:first-child{width:18px;height:18px;margin-top:1px}}
+/* a short explanation under a form field */
+.fhint{display:block;margin-top:5px;font-size:12px;line-height:1.5;color:#7f666e;font-weight:500}
+:root[data-theme="dark"] .fhint{color:#c1abb3}

@@ -1237,3 +1237,8 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   `annList` as public announcements. annList (Home feed, #news/ann) and Control → Announcements now leave out kind 'post'; those notices stay
   in the bell and phone notifications only. annList reads 4× its limit before filtering so real announcements are not crowded out.
   Test: scratchpad dup.js.
+- **Staff form** (owner, 21 Nov 2026: "I can't write the number here"; "what do the order on the page and the direct manager mean"): in
+  Control → Users & permissions the phone is locked only for accounts that SIGN IN with their phone (phone set, no email); for email
+  accounts it is a contact number the manager can add or fix (saved with the rest, `row.phone`). Short hints (`.fhint`) under «المدير
+  المباشر» (who this person reports to; they see his tasks and requests on their dashboard) and «الترتيب في الصفحة» (card order on the Our
+  team page, smaller first, 100 = no preference). Test: scratchpad ph.js.
