@@ -1332,3 +1332,11 @@ html body .mra .mh-old .mlx-list{grid-template-columns:repeat(auto-fill,minmax(m
 .mlx-n{gap:2px!important}.mlx-n svg.ic{width:13px!important;height:13px!important}.mlx-n b{font-size:11px!important}.mlx-n small{font-size:10px!important}
 .mlx-sl{height:12px!important}
 @media (min-width:600px){.mlx-meta{gap:7px!important}.mlx-c{font-size:11px!important}.mlx-b{font-size:12.5px!important}}
+/* published teaching offers: the text was squeezed into a narrow column, one letter per line (owner, 21 Nov 2026) */
+html body div.cr-terms:is(.cr-proposal,.cr-agreement){display:block!important;padding:12px 14px;margin:8px 0 0!important;border-radius:16px;background:#f5faf8;border:1px solid #e1ece9;font-size:14px}
+html body div.cr-terms .cr-agreement-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px;margin-bottom:6px}
+html body div.cr-terms .cr-agreement-meta b{font-weight:800;color:#14302a}
+html body div.cr-terms .cr-agreement-meta span{padding:2px 10px;border-radius:999px;background:#fff;border:1px solid #dbe7e4;font-size:12.5px;color:#2d4943}
+html body div.cr-terms .cr-agreement-meta span:empty{display:none}
+html body div.cr-terms .pre{display:block;width:auto;max-width:100%;white-space:pre-wrap;word-break:normal;overflow-wrap:break-word;line-height:1.6;color:#2d4943}
+:root[data-theme="dark"] div.cr-terms:is(.cr-proposal,.cr-agreement){background:#0b2721;border-color:#21463c}
