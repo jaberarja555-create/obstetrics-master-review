@@ -87,14 +87,15 @@
   }
   IS.ACT.assist = open;
 
-  /* «مساعدة»: a small faded button that stays in place, never moving or hiding while scrolling (owner, 21 Nov 2026) */
+  /* «مساعدة»: on the main screen only, a tab half tucked into the screen edge that never moves; a tap opens the guide (owner, 21 Nov 2026:
+     «ضعه في الشاشة الرئيسية كالسابق لكن يكون مخفي شويه») */
   var ICON = '<svg viewBox="3 3.5 18 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12.5a7.5 7.5 0 0 1-11 6.6L4 20l1-4.2A7.5 7.5 0 1 1 20 12.5z"/><path d="M12.5 8.6l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" fill="currentColor" stroke-width="1"/></svg>';
   function fab() {
     var b = document.getElementById('asfab');
     if (!b) { b = document.createElement('button'); b.id = 'asfab'; b.type = 'button'; b.onclick = open; document.body.appendChild(b); }
     b.innerHTML = ICON + '<span>' + esc(A('مساعدة', 'Help')) + '</span>'; b.setAttribute('aria-label', A('مساعدة: مرشد المنصة', 'Help: platform guide'));
     var pg = document.body.getAttribute('data-page') || '';
-    b.hidden = !IS.ME || /^(lesson|reader|read|book|pick|pick-section|welcome)/.test(pg);
+    b.hidden = !IS.ME || pg !== 'home';   /* the main screen only (owner, 21 Nov 2026) */
   }
   var on0 = IS.onRoute;
   IS.onRoute = function (name, arg, main) { if (on0) try { on0(name, arg, main); } catch (e) {} setTimeout(fab, 60); };

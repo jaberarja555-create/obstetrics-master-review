@@ -2066,15 +2066,17 @@ h3.sub+.mgrid{margin-bottom:4px}
   html body .mrx .mh-top{padding-block:4px!important}
   html body .mrx .mh-logo img{height:clamp(82px,8.4vw,124px)!important;max-height:none!important;width:auto!important;max-width:min(46vw,440px)!important}
 }
-/* «مساعدة»: a small faded button on the page that stays in place (owner, 21 Nov 2026: not in the top bar; faded, named مساعدة) */
-#asfab{position:fixed;inset-inline-start:12px;bottom:96px;z-index:60;height:34px;padding:0 12px 0 10px;display:flex;align-items:center;gap:5px;border:0;border-radius:999px;cursor:pointer;
-  color:#fff;background:var(--pri,#641634);box-shadow:0 2px 8px rgba(0,0,0,.15);font:inherit;font-size:12.5px;font-weight:700;opacity:.5;transition:opacity .2s}
-#asfab svg{width:17px;height:17px;flex:none}
-#asfab:hover,#asfab:focus-visible,#asfab:active{opacity:1}
+/* «مساعدة»: on the main screen only, half tucked into the screen edge, still (owner, 21 Nov 2026) */
+#asfab{position:fixed;inset-inline-end:0;bottom:112px;z-index:60;height:38px;padding:0 12px 0 10px;display:flex;align-items:center;gap:5px;border:0;cursor:pointer;
+  border-start-start-radius:19px;border-end-start-radius:19px;color:#fff;background:linear-gradient(135deg,#641427,#410b19);box-shadow:0 2px 8px rgba(0,0,0,.15);
+  font:inherit;font-size:12.5px;font-weight:700;opacity:.8;transform:translateX(calc(100% - 34px));transition:transform .25s,opacity .25s}
+html[dir=rtl] #asfab{transform:translateX(calc(-100% + 34px))}
+#asfab svg{width:18px;height:18px;flex:none;color:#f6dc8e}
+#asfab:hover,#asfab:focus-visible,html[dir=rtl] #asfab:hover,html[dir=rtl] #asfab:focus-visible{transform:none;opacity:1}
 #asfab[hidden]{display:none}
-@media (min-width:761px){#asfab{bottom:84px;inset-inline-start:18px}}
+@media (min-width:761px){#asfab{bottom:96px}}
 /* ---------- wide brand header (owner's design, 21 Nov 2026) ---------- */
-.mh-brand,.mh-wave{display:none}
+@media (max-width:1239.98px){html body .mrx .mh-brand,html body .mrx .mh-wave,html body .mh-brand,html body .mh-wave{display:none!important}}
 @media (min-width:1240px){
   html body .mrx .mh-top{position:relative;overflow:hidden;min-height:120px;padding-block:6px!important}
   html body .mrx .mh-top>.mh-side{position:relative;z-index:2}
