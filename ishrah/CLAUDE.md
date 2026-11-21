@@ -1080,3 +1080,7 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   pill (green «متصل الآن», grey «آخر نشاط قبل …», never cut).
 - **Stars without numbers** (owner, 21 Nov 2026): ratings are still the average of everyone's stars, but the new pages show only the stars
   (no grade words either): `.gnum` / `.gcount` and the numbers in lecturer and profile ratings are hidden by CSS.
+- **Release step changed (21 Nov 2026, owner: slow loading on weak networks):** do NOT bump one `?v=` for every file any more. Run
+  `python3 tools/ishrah/stamp.py`: each file in index.html gets `?v=<hash of its content>` (the colour stylesheets share one hash), so a
+  phone downloads again only the files that changed. Still bump `SHELL` in sw.js; its install now copies everything the phone already has
+  from the older cache (pictures, fonts, unchanged scripts) instead of starting empty. Collection pictures keep `artworkVersion` '181'.

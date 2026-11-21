@@ -114,7 +114,7 @@
     return m[1] === 'yt' ? { kind: 'iframe', host: 'yt', src: 'https://www.youtube-nocookie.com/embed/' + m[2] + '?rel=0&modestbranding=1&playsinline=1' }
       : { kind: 'iframe', host: 'gd', src: 'https://drive.google.com/file/d/' + m[2] + '/preview' };
   };
-  var artworkVersion = document.currentScript && new URL(document.currentScript.src, location.href).searchParams.get('v');
+  var artworkVersion = '181';   /* the collection pictures keep one version (the scripts now have a version per file) */
   IS.U = function (path) {
     try {
       var url = new URL(path, location.href);

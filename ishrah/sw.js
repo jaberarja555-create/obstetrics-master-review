@@ -1,12 +1,12 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v158', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v159', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
 
 async function saveShell(cache, response) {
   var html = await response.clone().text();
-  var assets = Array.from(new Set(html.match(/(?:js|css)\/[\w-]+\.(?:js|css)\?v=\d+/g) || []));
+  var assets = Array.from(new Set(html.match(/(?:js|css)\/[\w-]+\.(?:js|css)\?v=\w+/g) || []));
   var missing = await Promise.all(assets.map(async function (path) {
     var key = '/' + path;
     return await cache.match(key) ? null : key;
@@ -20,7 +20,21 @@ self.addEventListener('install', function (event) {
   event.waitUntil((async function () {
     var response = await fetch('/', { cache: 'no-cache' });
     if (!response.ok) throw new Error('Could not save the app shell');
-    var html = await saveShell(await caches.open(SHELL), response);
+    var shell = await caches.open(SHELL);
+    /* keep what the phone already has (pictures, fonts, scripts that did not change): a new version downloads only what changed
+       (owner, 21 Nov 2026: slow loading on weak networks after each update) */
+    try {
+      var keys = (await caches.keys()).filter(function (k) { return /^ish-v/.test(k) && k !== SHELL; });
+      for (var i = 0; i < keys.length; i++) {
+        var old = await caches.open(keys[i]), reqs = await old.keys();
+        for (var j = 0; j < reqs.length; j++) {
+          var u = new URL(reqs[j].url);
+          if (u.pathname === '/' || u.pathname === '/index.html') continue;
+          if (!(await shell.match(reqs[j]))) { var r = await old.match(reqs[j]); if (r) await shell.put(reqs[j], r); }
+        }
+      }
+    } catch (e) {}
+    var html = await saveShell(shell, response);
     var cdn = await caches.open(CDN);
     var libraries = html.match(/https:\/\/cdn\.jsdelivr\.net\/[^"']+\/supabase\.js/g) || [];
     await Promise.all(libraries.map(function (url) {
