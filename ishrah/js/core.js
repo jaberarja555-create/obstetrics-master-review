@@ -376,6 +376,9 @@
     IS.chrome(name);
     if (o.auth && !IS.ME) { main.innerHTML = authGate(); return; }
     if (IS.mfaGate) { var g = IS.mfaGate(); if (g) { main.innerHTML = g; return; } }
+    /* a person just appointed still has the account read before the appointment: read it again once before saying «no access»
+       (owner, 21 Nov 2026: the appointed manager opened the notice and saw «you do not have access») */
+    if (o.perm && !IS.can(o.perm) && IS.ME && !IS._permReread) { IS._permReread = 1; try { await IS.loadMe(); if (IS.mfaCheck) await IS.mfaCheck(); } catch (e) {} setTimeout(function () { IS._permReread = 0; }, 30000); if (IS.mfaGate) { var g2 = IS.mfaGate(); if (g2) { main.innerHTML = g2; return; } } }
     if (o.perm && !IS.can(o.perm)) { main.innerHTML = IS.empty('lock', A('لا تملك صلاحية هذه الصفحة', 'You do not have access to this page'), A('اطلب الصلاحية من مالك المنصة.', 'Ask the platform owner for access.')); return; }
     var offline = DB.live && !navigator.onLine;
     /* A newly approved lecturer may reach Studio from a tab with an older profile. */

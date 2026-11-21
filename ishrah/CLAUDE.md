@@ -1272,3 +1272,9 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   - **Tab rows** in framed admin/studio pages wrap on phones instead of running off the screen.
   - **Specialities and subjects** (`control-cats`): subject photos were stretched to full width by the framed page; tiles are compact again
     (two a row on phones, ~13,000 → ~5,800 px).
+- **Appointed staff: access and 2FA** (owner, 21 Nov 2026: the appointed manager saw «لا تملك صلاحية» and a 2FA request the owner never
+  asked for): (1) the staff form ticked «2FA إلزامية» whenever the profile had no saved value (`mfa_required !== false`); it is now ticked
+  only when `mfa_required === true` and reads «اطلب منه المصادقة الثنائية (اختياري، مُطفأ عادةً)». (2) A person appointed while his app was
+  open kept the account read before the appointment; core.js route now re-reads the account (and the 2FA state) once before showing «no
+  access». (3) The role summary in the form lists what the role can open («صلاحيات هذا الدور (8): …», bold = can also add/edit/approve)
+  with a link to change the role's permissions; «صلاحيات إضافية لهذا الشخص فقط» explains it adds sections on top of the role.
