@@ -1116,3 +1116,16 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   post carry a picture or video link from anyone (formats still checked) but never a course link or highlights. Tested on the local Postgres
   (student post with picture + video saved; course link, course preview and discussion with a picture still refused; file runs twice) and in
   the browser (scratchpad fp.js, fp2.js at 360/390/1440).
+
+## Paid video plan, for when paid videos start (owner, 21 Nov 2026: "we will do this later when we publish and will have paid videos")
+Rate given by the owner: about 13,000 SDG per US dollar; courses sell for 20,000–30,000 SDG (about $1.5–2.3), so every cent of video
+delivery matters. Agreed approach: free videos stay on YouTube (unlisted); paid recorded lessons go to Bunny Stream (Volume network, token
+authentication). To build then:
+1. Lecturer guide + later a converter: slides lectures compressed to about 0.2 GB per hour; 480p by default on phones (720p by choice).
+2. Resume where the student stopped; offline download (already built) so re-watching costs nothing.
+3. Access period per paid course (6–12 months) and a device limit per enrolment.
+4. Minimum price for paid recorded courses (about 15,000–20,000 SDG); paid lessons must be Bunny uploads, links only for free lessons and previews.
+5. Storage allowance per lecturer and clean-up of unsold / rejected course videos; Bunny cost beside revenue in Control → Usage.
+6. Cloudflare R2 for video (free delivery, own HLS conversion and AES key protection) when the Bunny bill passes about $10–20 a month.
+Estimates given (Bunny Volume ≈ $0.005/GB): 20 h course watched once ≈ 260 SDG compressed, 455 SDG at 480p, 910 SDG at 720p.
+Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share); stay on the free plan as long as possible (library files to R2).
