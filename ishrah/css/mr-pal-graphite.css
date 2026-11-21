@@ -1833,3 +1833,9 @@ html body .mrc2 .mh-old .sh{margin-bottom:8px!important}
 @media (min-width:900px){html body .mrc2 .mh-old .ctiles{grid-template-columns:repeat(8,minmax(0,1fr))!important}html body .mrc2 .mh-old .ctile:not(:nth-child(4n+1)),html body .mrc2 .mh-old .ctile:nth-child(5){border-inline-start:1.5px solid #e0e2e1!important}html body .mrc2 .mh-old .ctile:nth-child(n+5){border-top:0!important}html body .mrc2 .mh-old .ctile:first-child{border-inline-start:0!important}}
 .cnavb{grid-template-columns:repeat(5,minmax(0,1fr))!important}
 :root[data-theme="dark"] .mrc2 .mh-old :is(.ctiles,.qa>a){background:#1d2120!important;border-color:#313635!important}
+
+.tg-hint{margin:8px 0;padding:8px 12px;border-radius:14px;background:#eef6fc;border:1px solid #cfe2f3}
+.tg-hint summary{cursor:pointer;display:flex;align-items:center;gap:6px;font-weight:800;font-size:13.5px;color:#1b5fb3}
+.tg-hint summary .ico{width:16px;height:16px}
+.tg-hint ol{margin:8px 0 4px;padding-inline-start:20px;font-size:13px;line-height:1.7}
+.tg-hint p{margin:0;font-size:12px}
