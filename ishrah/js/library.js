@@ -173,18 +173,28 @@
     button.ratingPanel.hidden = true;
     button.setAttribute('aria-expanded', 'false');
   }
+  /* the stars open as a small pop-up beside the rating, like the reactions picker (owner, 21 Nov 2026: "it should not open below") */
+  function placeRating(button, panel) {
+    var r = button.getBoundingClientRect(), w = panel.offsetWidth || 260, h = panel.offsetHeight || 60;
+    var left = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), innerWidth - w - 8), top = r.top - h - 10;
+    if (top < 70) top = r.bottom + 10;
+    panel.style.left = left + 'px'; panel.style.top = top + 'px';
+  }
+  function shutAll(except) { IS.$$('.library-rate-panel.pop').forEach(function (p) { if (p !== except && !p.hidden && p.ratingButton) closeRating(p.ratingButton); }); }
+  document.addEventListener('click', function (e) { if (!e.target.closest('.library-rate-panel.pop, [data-act=rate-library-file]')) shutAll(); }, true);
+  window.addEventListener('scroll', function () { shutAll(); }, { passive: true });
+  window.addEventListener('hashchange', function () { IS.$$('.library-rate-panel.pop').forEach(function (p) { p.hidden = true; if (p.parentNode) p.parentNode.removeChild(p); if (p.ratingButton) p.ratingButton.ratingPanel = null; }); });
   IS.ACT['rate-library-file'] = function (button) {
     var panel = button.ratingPanel, d = button.dataset, series = d.libraryKind === 'series';
     if (panel && !panel.hidden) return closeRating(button);
     if (!panel) {
       var myId = IS.ME && IS.ME.id, own = myId && myId === d.owner;
       panel = button.ratingPanel = document.createElement('section');
-      panel.className = 'library-rate-panel';
+      panel.className = 'library-rate-panel pop';
       panel.id = 'rate-file-' + d.libraryFile;
       panel.setAttribute('aria-label', series ? A('تقييم السلسلة', 'Series rating') : A('تقييم الملف', 'File rating'));
       button.setAttribute('aria-controls', panel.id);
-      panel.innerHTML = (own ? '<p class="mut">' + esc(A('هذا منشورك؛ يقيّمه الآخرون ولا يمكنك تقييمه بنفسك.', 'This is your own post: others rate it, you cannot rate it yourself.')) + '</p>' :
-        '<strong>' + esc(A('تقييمك', 'Your rating')) + '</strong>') +
+      panel.innerHTML = (own ? '<p class="mut">' + esc(A('هذا منشورك؛ يقيّمه الآخرون.', 'Your own post: others rate it.')) + '</p>' : '') +
         (myId && !own ? '<div class="library-rate-stars" role="group" aria-label="' + esc(A('اختر عدد النجوم', 'Choose your stars')) + '">' +
           [1, 2, 3, 4, 5].map(function (star) {
             return '<button type="button" data-act="save-library-stars" data-stars="' + star + '" aria-pressed="false" aria-label="' +
@@ -193,7 +203,7 @@
           '<button type="button" class="btn ghost sm" data-act="login">' + esc(A('سجّل الدخول للتقييم', 'Sign in to rate')) + '</button>') +
         /* no «How is the rating calculated?» link under the stars (owner, 20 Nov 2026) */
         '<span class="mut" data-rating-result role="status"></span>';
-      (button.closest('.fv-rate, .feed-action-row, .ff') || button).after(panel);
+      document.body.appendChild(panel);
       panel.ratingButton = button;
       panel.addEventListener('keydown', function (event) {
         if (event.key !== 'Escape') return;
@@ -218,7 +228,9 @@
         }
       }
     }
+    shutAll(panel);
     panel.hidden = false;
+    placeRating(button, panel);
     button.setAttribute('aria-expanded', 'true');
   };
   IS.ACT['save-library-stars'] = async function (button) {
@@ -242,7 +254,9 @@
       IS.$$('[data-act=rate-library-file]').filter(function (el) { return el.dataset.libraryFile === id && el.dataset.libraryKind === feedbackKind; }).forEach(function (el) {
         el.dataset.ownStars = value;
       });
-      status.textContent = A('حُفظ تقييمك', 'Rating saved');
+      status.textContent = '';
+      setTimeout(function () { if (opener.ratingPanel && !opener.ratingPanel.hidden) closeRating(opener); }, 350);
+      if (IS.toast) IS.toast(A('حُفظ تقييمك ', 'Rating saved ') + '★'.repeat(value));
     } catch (error) {
       if ((IS.ME || {}).id !== account) return;
       panel.myStars = previous == null ? await panel.ownRating : previous;
