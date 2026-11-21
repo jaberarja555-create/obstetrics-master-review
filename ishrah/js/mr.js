@@ -561,6 +561,7 @@
     [].slice.call(t.content.children).forEach(function (x) { if (x.matches('.crumb, .lhero')) x.remove(); });
     var quick = t.content.querySelector('.aside > .box'); if (quick && /kv/.test(quick.innerHTML)) quick.remove();
     var spec = IS.mySpec(), section = IS.mySection(), mine = IS.ME && IS.ME.id === id;
+    var teamRole = c.role && c.role !== 'staff' ? IS.ROLES.filter(function (r) { return r[0] === c.role; })[0] : c.role === 'staff' ? IS.ROLES.filter(function (r) { return r[0] === 'staff'; })[0] : null;
     var rv = courses.filter(function (x) { return x.n_reviews; }), n = rv.reduce(function (a, x) { return a + (+x.n_reviews || 0); }, 0);
     var rate = n ? Math.round(rv.reduce(function (a, x) { return a + (+x.rating || 0) * x.n_reviews; }, 0) / n * 10) / 10 : 0;
     var fav = IS.ME && !!(IS.LS.get('fav-' + IS.ME.id, {})['t:' + id]);
@@ -570,6 +571,9 @@
       '<div class="lp-body"><span class="lp-av">' + IS.av(l, 'xl', id) + '<i class="lp-ok">' + PI.check + '</i></span>' +
       '<h1 tabindex="-1" class="lp-name" dir="auto">' + IS.lecName(l.name) + '</h1>' +
       (l.title ? '<span class="lp-title">' + HI.brief + '<b dir="auto">' + esc(l.title) + '</b></span>' : '') +
+      /* a lecturer who is also in the platform team shows that role on his page (owner, 21 Nov 2026: "I appointed Ahmed academic director,
+         why does nothing show") */
+      (teamRole ? '<span class="lp-team">🛡️ <b>' + esc(A(teamRole[1], teamRole[2])) + '</b><small>' + esc(A('فريق المنصة', 'Platform team')) + '</small></span>' : '') +
       /* university and year, then the rating beside the last activity (owner, 21 Nov 2026: "add the missing ones like the university and the rating") */
       ((c.university || c.year) ? '<span class="lp-uni">' + (c.university ? '<b dir="auto">🏛️ ' + esc(c.university) + '</b>' : '') + (c.university && c.year ? '<i></i>' : '') +
         (c.year ? '<b dir="auto">🎓 ' + esc(c.year) + '</b>' : '') + '</span>' : '') +
@@ -593,6 +597,7 @@
     if (evs.length) ach.push(['📅', A('قدّم ' + evs.length + ' فعالية', 'Held ' + evs.length + ' event' + (evs.length === 1 ? '' : 's'))]);
     if ((c.followers || 0) >= 10) ach.push(['❤️', A(c.followers + ' متابعًا', c.followers + ' followers')]);
     if (l.status === 'active') ach.unshift(['✅', A('محاضر معتمد في المنصة', 'Approved lecturer on the platform')]);
+    if (teamRole) ach.unshift(['🛡️', A('عضو فريق المنصة: ' + teamRole[1], 'Platform team: ' + teamRole[2])]);
     LPDATA = { id: id, l: l, courses: courses, ach: ach, contacts: null };
     var k = l.links || {}, contacts = [];
     if (k.whatsapp) contacts.push(['wa', HI.phone, A('رقم التواصل', 'Contact number'), k.whatsapp, IS.wa ? IS.wa(k.whatsapp) : 'https://wa.me/' + String(k.whatsapp).replace(/\D/g, '')]);

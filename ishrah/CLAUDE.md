@@ -1255,3 +1255,7 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   A summary box (#sfauto: role description, department, reports to) updates on change (`sfSync`). Manual manager, approval level (with a
   hint) and extra sections are inside «إعدادات متقدمة (اختياري)». IS.SUB.staff saves the computed dept and manager_id unless a manager was
   picked by hand. Test: scratchpad sf2.js.
+- **Team role on the lecturer page** (owner, 21 Nov 2026: "I appointed Ahmed academic director, why does nothing show"): mr.js lecturer page
+  reads `role` from the profile card (050) and shows a gold chip «🛡️ المدير الأكاديمي | فريق المنصة» under the title, and the first
+  achievement «عضو فريق المنصة: …». An appointment takes effect at once (no acceptance step); the person gets a notice naming who
+  appointed him, and needs 2FA to open Control if «المصادقة الثنائية إلزامية» is ticked. Test: scratchpad lt.js.

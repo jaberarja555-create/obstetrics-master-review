@@ -1923,3 +1923,6 @@ button.tm-row:hover{background:#f4f9f8}
 .sf-auto span{display:flex;align-items:center;gap:6px}.sf-auto span svg{width:15px;height:15px;color:#0d5e6b;flex:none}
 html body .sf-x{font-size:13px;margin:12px 0 4px;color:#0d5e6b}
 :root[data-theme="dark"] .sf-auto{background:#12373a;border-color:#214546;color:#e6f1f1}
+/* a lecturer who is also in the platform team */
+.lp-team{display:inline-flex;align-items:center;gap:7px;margin-top:6px;padding:5px 14px;border-radius:999px;background:linear-gradient(180deg,#f8dc85,#d9a93e);color:#3d2a05;font-size:13.5px;box-shadow:0 3px 10px rgba(0,0,0,.18)}
+.lp-team b{font-weight:800}.lp-team small{font-size:11px;font-weight:700;opacity:.75;border-inline-start:1px solid rgba(61,42,5,.35);padding-inline-start:7px}
