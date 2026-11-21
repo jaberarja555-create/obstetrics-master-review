@@ -1225,9 +1225,22 @@
     if (parts[1] === 'comments') IS.after = IS.focusPostComments;
     var composer = me() ? IS.cmtBox('reply', '<input type="hidden" name="post" value="' + p.id + '">', p.room === 'qa' ? A('اكتب ردًا…', 'Write a reply…') : '') : '';
     return '<nav class="crumb"><a href="#' + (p.room === 'qa' ? 'course/' + p.course_id : 'community') + '">' + esc(p.room === 'qa' ? A('الكورس', 'Course') : A('المجتمع', 'Community')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(p.title || A('سؤال', 'Question')) + '</span></nav>' +
-      '<article class="box thread">' + IS.av({ name: p.name, photo: p.photo }, 'md', p.user_id) + '<div><h1 tabindex="-1">' + esc(p.title || p.body.slice(0, 80)) + '</h1><small class="mut">' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + '</small><p class="pre">' + esc(p.body) + '</p>' + (p.room !== 'qa' ? postPreview(p, false) + IS.feedVoteBar('post', p, false, postKind(p) === 'announcement' ? '' : 'post/' + p.id) : '') +
-      '<div class="row">' + (p.room === 'qa' ? IS.postActions('post', p.id, 'post/' + p.id) : '') +
-        (p.user_id === uid() ? '<button type="button" class="btn ghost sm" data-act="post-edit" data-id="' + esc(p.id) + '">' + ic('pen') + esc(A('عدّل المنشور', 'Edit post')) + '</button>' : '') + (mod ? '<button class="btn ghost sm" data-act="pin" data-id="' + p.id + '">' + ic('pin') + esc(p.pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت', 'Pin')) + '</button><button class="btn ghost sm bad" data-act="rmpost" data-id="' + p.id + '">' + ic('trash') + esc(A('حذف', 'Remove')) + '</button>' : '') + '</div></div></article>' +
+      /* a post reads like a post (owner, 21 Nov 2026: "the question and its description and all the other things are misplaced"):
+         picture · name · time · kind, the writer's / team's small tools at the end of that line, then the title, the text and the footer */
+      '<article class="box thread pthread">' +
+        '<header class="pth">' + IS.av({ name: p.name, photo: p.photo }, 'md', p.user_id) + '<div class="pthn"><b dir="auto">' + esc(p.name || '') + '</b><small>' + esc(IS.ago(p.created_at)) +
+          ((({ question: ['سؤال', 'Question'], discussion: ['نقاش', 'Discussion'], announcement: ['إعلان', 'Announcement'], course_preview: ['معاينة كورس', 'Course preview'] })[postKind(p)] || null) ?
+            ' · <span class="pthk">' + esc(A.apply(null, ({ question: ['سؤال', 'Question'], discussion: ['نقاش', 'Discussion'], announcement: ['إعلان', 'Announcement'], course_preview: ['معاينة كورس', 'Course preview'] })[postKind(p)])) + '</span>' : '') +
+          (p.pinned ? ' · 📌' : '') + '</small></div>' +
+          '<span class="ptht">' +
+            (p.user_id === uid() ? '<button type="button" class="own-b" data-act="post-edit" data-id="' + esc(p.id) + '" title="' + esc(A('عدّل المنشور', 'Edit post')) + '" aria-label="' + esc(A('عدّل المنشور', 'Edit post')) + '">✏️</button>' : '') +
+            (mod ? '<button type="button" class="own-b" data-act="pin" data-id="' + p.id + '" title="' + esc(p.pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت', 'Pin')) + '" aria-label="' + esc(p.pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت', 'Pin')) + '">📌</button>' +
+              '<button type="button" class="own-b" data-act="rmpost" data-id="' + p.id + '" title="' + esc(A('حذف', 'Remove')) + '" aria-label="' + esc(A('حذف', 'Remove')) + '">🗑️</button>' :
+              p.user_id === uid() ? '<button type="button" class="own-b" data-act="own-del" data-k="post" data-id="' + esc(p.id) + '" title="' + esc(A('حذف', 'Delete')) + '" aria-label="' + esc(A('حذف منشورك', 'Delete your post')) + '">🗑️</button>' : '') +
+          '</span></header>' +
+        '<h1 tabindex="-1" dir="auto">' + esc(p.title || p.body.slice(0, 80)) + '</h1>' + (p.title && p.body ? '<p class="pre" dir="auto">' + esc(p.body) + '</p>' : '') +
+        (p.room !== 'qa' ? postPreview(p, false) + IS.feedVoteBar('post', p, false, postKind(p) === 'announcement' ? '' : 'post/' + p.id) : '') +
+        (p.room === 'qa' ? '<div class="row">' + IS.postActions('post', p.id, 'post/' + p.id) + '</div>' : '') + '</article>' +
       '<section class="box post-comments"><h2 tabindex="-1" data-post-comments>' +
       (p.room === 'qa' ? IS.T('الردود', 'Replies') : IS.T('التعليقات', 'Comments')) + '</h2>' + composer + '<div class="cthreads">' + IS.thread(rs, 'reply', function (r) { var isLec = !!lecs[r.user_id];
         return { name: r.name, photo: r.photo, when: IS.ago(r.created_at), body: r.body, badge: isLec ? IS.chip(esc(A('محاضر', 'Lecturer')), 'ok') : '',

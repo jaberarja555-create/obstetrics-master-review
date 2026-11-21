@@ -1095,3 +1095,9 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - **Only Medicine is open** (owner, 21 Nov 2026): on `#pick` the other specialities show a lock and «قريبًا» and cannot be chosen
   (`IS.specLocked(id)` in mr.js; the platform owner, `team` has 'owner', can still open them). A device that had chosen a locked
   speciality is sent back to `#pick` (core.js route gate). To open a speciality later, change `specLocked`.
+- **Post page reads like a post** (owner, 21 Nov 2026: "the question and its description and all the other things are misplaced"):
+  student.js post page = `article.thread.pthread`: header (picture · name · «الآن · سؤال» kind in the app colour · 📌 when pinned) with the
+  writer's / team's small emoji tools at the end of that line (✏️ edit for the writer, 📌 pin and 🗑️ remove for moderators, 🗑️ own delete for
+  the writer otherwise), then the title and the text full width, then stars (at the start) and the action row; the separate row of
+  «عدّل المنشور · تثبيت · حذف» pills is gone. The comment field is one rounded field (no inner box: `#main .cmt-rbox textarea` beats the
+  framed pages' input rule). CSS at the end of css/mr.css. Test: scratchpad post.js (390, 1440).
