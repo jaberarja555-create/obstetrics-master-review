@@ -330,27 +330,49 @@
     if (tab === 'log') h += auditBox(log, A('سجل الأنشطة', 'Audit log'));
     return h;
   }, P('team'));
+  /* the role decides the rest (owner, 21 Nov 2026: "you choose the job, then again the department, the role and the direct manager: much
+     repetition"): a manager role IS its department and reports to the general manager (or the owner); «المشرفون والموظفون» choose a
+     department and report to its manager. The manager can still be set by hand under «إعدادات متقدمة». */
+  function sfDept(role, dept) { return IS.DEPTS.some(function (d) { return d[0] === role; }) ? role : role === 'staff' ? (dept || '') : ''; }
+  function sfManager(role, dept, team, self) {
+    var has = function (r) { return (team || []).filter(function (x) { return x.id !== self && (x.team || []).indexOf(r) >= 0; })[0]; };
+    if (role === 'owner') return null;
+    if (role === 'gm') return has('owner') || null;
+    if (role === 'staff' && dept) return has(dept) || has('gm') || has('owner') || null;
+    return has('gm') || has('owner') || null;
+  }
+  function sfSync(f, first) {
+    if (!f) return; var team = IS._sfTeam || [], rv = f.role.value, dsel = f.querySelector('.sf-dept'), id = f.id.value;
+    if (dsel) dsel.hidden = rv !== 'staff';
+    var dept = sfDept(rv, f.dept.value), m = sfManager(rv, dept, team, id), msel = f.manager, auto = $('#sfauto'), rr = role(rv);
+    if (first && msel && IS._sfU && IS._sfU.manager_id && (!m || IS._sfU.manager_id !== m.id)) msel.value = IS._sfU.manager_id;
+    var manual = msel && msel.value !== 'auto' ? team.filter(function (x) { return x.id === msel.value; })[0] : null, boss = manual || m;
+    if (auto) auto.innerHTML = (rr && rr[4] ? '<small>' + esc(A(rr[4], rr[5])) + '</small>' : '') +
+      '<span>' + ic('layers') + '<b>' + esc(A('القسم', 'Department')) + ':</b> ' + esc(dept ? deptName(dept) : rv === 'staff' ? A('اختر القسم أعلاه', 'choose the department above') : A('كل الأقسام', 'all departments')) + '</span>' +
+      '<span>' + ic('users') + '<b>' + esc(A('يتبع إلى', 'Reports to')) + ':</b> ' + esc(boss ? boss.name : rv === 'owner' ? A('لا أحد', 'nobody') : A('المالك', 'the owner')) + (manual ? ' (' + esc(A('اختيار يدوي', 'set by hand')) + ')' : '') + '</span>';
+  }
+  document.addEventListener('change', function (e) { var f = e.target.closest && e.target.closest('form[data-form=staff]'); if (f && /^(role|dept|manager)$/.test(e.target.name)) sfSync(f); });
   function staffForm(u, team) {
     var t = u.team || [], r = t.filter(function (x) { return x.indexOf('p:') !== 0; })[0] || 'staff', extras = t.filter(function (x) { return x.indexOf('p:') === 0; });
     return '<form class="form" data-form="staff"><input type="hidden" name="id" value="' + esc(u.id || '') + '"><div class="g2f"><label class="fl"><span>' + ic('user') + esc(A('الاسم الكامل', 'Full name')) + ' *</span><input name="name" required value="' + esc(u.name || '') + '"></label>' +
       '<label class="fl"><span>' + ic('mail') + esc(A('البريد الإلكتروني', 'Email')) + '</span><input name="email" type="email" dir="ltr" value="' + esc(u.email || '') + '"' + (u.id ? ' readonly' : '') + '></label>' +
       '<label class="fl"><span>' + ic('phone') + esc(A('رقم الهاتف', 'Phone')) + '</span><input name="phone" dir="ltr" inputmode="tel" value="' + esc(u.phone || '') + '"' + (u.id && u.phone && !u.email ? ' readonly' : '') + '></label>' +
       '<label class="fl"><span>' + ic('briefcase') + esc(A('الدور الوظيفي', 'Role')) + ' *</span><select name="role">' + IS.ROLES.filter(function (x) { return canGrant(x[0]); }).map(function (x) { return '<option value="' + x[0] + '"' + (x[0] === r ? ' selected' : '') + '>' + esc(x[1]) + '</option>'; }).join('') + '</select></label>' +
-      '<label class="fl"><span>' + ic('layers') + esc(A('القسم', 'Department')) + '</span><select name="dept"><option value="">—</option>' + IS.DEPTS.map(function (d) { return '<option value="' + d[0] + '"' + (u.dept === d[0] ? ' selected' : '') + '>' + esc(A(d[1], d[2])) + '</option>'; }).join('') + '</select></label>' +
-      '<label class="fl"><span>' + ic('users') + esc(A('المدير المباشر', 'Direct manager')) + '</span><select name="manager"><option value="">—</option>' + (team || []).filter(function (x) { return x.id !== u.id; }).map(function (x) { return '<option value="' + x.id + '"' + (u.manager_id === x.id ? ' selected' : '') + '>' + esc(x.name) + '</option>'; }).join('') + '</select><small class="fhint">' + esc(A('الشخص الذي يتبع له هذا الموظف: يرى مهامه وطلباته في لوحته ويتابع عمله. اتركه «—» إن كان يتبع المالك مباشرة.', 'The person this staff member reports to: they see his tasks and requests on their dashboard and follow his work. Leave «—» if he reports to the owner.')) + '</small></label>' +
-      '<label class="fl"><span>' + ic('shield') + esc(A('مستوى الاعتماد', 'Approval level')) + '</span><select name="approval">' + APPROVAL.map(function (x) { return '<option value="' + x[0] + '"' + ((u.approval || 'dept') === x[0] ? ' selected' : '') + '>' + esc(A(x[1], x[2])) + '</option>'; }).join('') + '</select></label>' +
+      '<label class="fl sf-dept"' + (r === 'staff' ? '' : ' hidden') + '><span>' + ic('layers') + esc(A('القسم', 'Department')) + '</span><select name="dept"><option value="">—</option>' + IS.DEPTS.map(function (d) { return '<option value="' + d[0] + '"' + (u.dept === d[0] ? ' selected' : '') + '>' + esc(A(d[1], d[2])) + '</option>'; }).join('') + '</select></label>' +
+      '<p class="sf-auto" id="sfauto"></p>' +
       '<label class="fl"><span>' + esc(A('حالة الحساب', 'Account status')) + '</span><select name="tstatus"><option value="active">' + esc(A('مفعل', 'Active')) + '</option><option value="suspended"' + (u.team_status === 'suspended' ? ' selected' : '') + '>' + esc(A('معلق', 'Suspended')) + '</option></select></label></div>' +
       '<label class="chk sw2"><input type="checkbox" name="mfa"' + (u.mfa_required !== false ? ' checked' : '') + '><span><b>' + esc(A('المصادقة الثنائية (2FA) إلزامية', 'Two-factor authentication (2FA) required')) + '</b><small>' + esc(A('لا يفتح الحساب لوحة التحكم إلا برمز من تطبيق المصادقة على هاتفه.', 'The account opens the control app only with a code from an authenticator app on its phone.')) + '</small></span></label>' +
       (u.id ? IS.pubFields(u) : '') +
-      '<details class="fg"><summary>' + esc(A('أقسام إضافية لهذا الشخص', 'Extra sections for this person')) + ic('down') + '</summary><div class="g2f">' + SECTIONS.filter(function (s) { return s[0] !== 'team'; }).map(function (s) { return '<label class="chk"><input type="checkbox" name="x" value="p:' + s[0] + '"' + (extras.indexOf('p:' + s[0]) >= 0 ? ' checked' : '') + '><span>' + esc(A(s[2], s[3])) + '</span></label>'; }).join('') + '</div></details>' +
+      '<details class="fg sf-adv"><summary>' + esc(A('إعدادات متقدمة (اختياري)', 'Advanced settings (optional)')) + ic('down') + '</summary><div class="g2f">' + '<label class="fl"><span>' + ic('users') + esc(A('المدير المباشر', 'Direct manager')) + '</span><select name="manager"><option value="auto">' + esc(A('تلقائي (حسب الدور والقسم)', 'Automatic (from role and department)')) + '</option>' + (team || []).filter(function (x) { return x.id !== u.id; }).map(function (x) { return '<option value="' + x.id + '"' + (u.manager_id === x.id && u.manager_auto === false ? ' selected' : '') + '>' + esc(x.name) + '</option>'; }).join('') + '</select></label>' + '<label class="fl"><span>' + ic('shield') + esc(A('مستوى الاعتماد', 'Approval level')) + '</span><select name="approval">' + APPROVAL.map(function (x) { return '<option value="' + x[0] + '"' + ((u.approval || 'dept') === x[0] ? ' selected' : '') + '>' + esc(A(x[1], x[2])) + '</option>'; }).join('') + '</select><small class="fhint">' + esc(A('بدون اعتماد: ينفّذ فقط · اعتماد قسم: يعتمد طلبات قسمه · اعتماد كامل: يعتمد في كل ما يملك صلاحيته.', 'None: carries out only · Department: approves his department’s requests · Full: approves in everything he has access to.')) + '</small></label>' + '</div>' +
+      '<h3 class="sf-x">' + esc(A('صلاحيات إضافية لهذا الشخص', 'Extra sections for this person')) + '</h3><div class="g2f">' + SECTIONS.filter(function (s) { return s[0] !== 'team'; }).map(function (s) { return '<label class="chk"><input type="checkbox" name="x" value="p:' + s[0] + '"' + (extras.indexOf('p:' + s[0]) >= 0 ? ' checked' : '') + '><span>' + esc(A(s[2], s[3])) + '</span></label>'; }).join('') + '</div></details>' +
       '<div class="row sp">' + (u.id && u.id !== uid() ? '<button type="button" class="btn ghost bad" data-act="rmteam" data-id="' + u.id + '">' + esc(A('إزالة من الفريق', 'Remove from team')) + '</button>' : '<span></span>') + '<button class="btn pri">' + ic('user') + esc(u.id ? A('حفظ', 'Save') : A('إنشاء الحساب', 'Create account')) + '</button></div></form>';
   }
   IS.ACT.staffform = async function (b) { var id = b.getAttribute && b.getAttribute('data-id'), u = id ? await DB.one('profiles', id) : {}, team = (await DB.q('profiles')).filter(function (x) { return (x.team || []).length; });
     if (u.id && !canGrant((u.team || [])[0])) return IS.toast(A('لا تملك صلاحية تعديل هذا الحساب.', 'You may not edit this account.'), true);
-    IS.sheet(esc(u.id ? u.name : A('حساب إداري جديد', 'New staff account')), staffForm(u, team), { wide: 1 }); };
+    IS._sfTeam = team; IS._sfU = u; IS.sheet(esc(u.id ? u.name : A('حساب إداري جديد', 'New staff account')), staffForm(u, team), { wide: 1 }); sfSync(document.querySelector('#sheet form[data-form=staff]'), true); };
   IS.SUB.staff = async function (d, f) {
     if (!canGrant(d.role)) return IS.toast(A('لا تملك صلاحية منح هذا الدور.', 'You may not grant this role.'), true);
-    var x = IS.$$('input[name=x]:checked', f).map(function (i) { return i.value; }), team = [d.role].concat(x), row = { dept: d.dept || '', manager_id: d.manager || null, approval: d.approval, mfa_required: !!f.mfa.checked, team_status: d.tstatus }; if (d.id && f.pub_show) Object.assign(row, IS.pubRow(d, f));
+    var x = IS.$$('input[name=x]:checked', f).map(function (i) { return i.value; }), team = [d.role].concat(x), all0 = (IS._sfTeam && IS._sfTeam.length ? IS._sfTeam : (await DB.q('profiles')).filter(function (p) { return (p.team || []).length; })), dept0 = sfDept(d.role, d.dept), boss0 = d.manager && d.manager !== 'auto' ? d.manager : ((sfManager(d.role, dept0, all0, d.id) || {}).id || null), row = { dept: dept0, manager_id: boss0, approval: d.approval, mfa_required: !!f.mfa.checked, team_status: d.tstatus }; if (d.id && f.pub_show) Object.assign(row, IS.pubRow(d, f));
     var u = d.id ? await DB.one('profiles', d.id) : null;
     if (!u) { var dg = DB.digits(d.phone || ''), us = await DB.q('profiles'); u = us.filter(function (p) { return (dg.length > 6 && DB.digits(p.phone) === dg) || (d.email && p.email && p.email.toLowerCase() === d.email.toLowerCase()); })[0]; }
     /* the phone is only locked for accounts that sign in with it; for email accounts it is a contact number the manager may add or fix

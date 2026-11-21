@@ -1249,3 +1249,9 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   permission table of that role, save / copy from another role) · **سجل الأنشطة** (`#control-team/log`, last 40). Removed the repeats: the
   add form that sat on the page (it opens only in its sheet) and the separate hierarchy list (merged into the grouped members). The
   permission table fits a phone with all five actions visible. The staff form legend reads «البطاقة في صفحة فريق المنصة». Test: scratchpad tm.js.
+- **Staff form: the role decides the rest** (owner, 21 Nov 2026: «تختار الوظيفة ثم القسم ثم الدور والمدير المباشر… تكرار كثير»): only the
+  role is chosen. `sfDept`: a manager role is its own department (role ids = IS.DEPTS ids); only «المشرفون والموظفون» choose a department.
+  `sfManager`: GM reports to the owner, managers to the GM (else the owner), staff to their department's manager (else GM, else owner).
+  A summary box (#sfauto: role description, department, reports to) updates on change (`sfSync`). Manual manager, approval level (with a
+  hint) and extra sections are inside «إعدادات متقدمة (اختياري)». IS.SUB.staff saves the computed dept and manager_id unless a manager was
+  picked by hand. Test: scratchpad sf2.js.

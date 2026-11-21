@@ -1917,3 +1917,9 @@ button.tm-row:hover{background:#f5f4f9}
   html body .mx .matrix th,html body .mx .matrix td{padding:7px 2px}
   html body .mx .matrix td input{width:18px;height:18px}
 }
+/* staff form: what the role decides, shown as a short summary */
+.sf-auto{display:flex;flex-direction:column;gap:4px;margin:-2px 0 10px;padding:10px 12px;border-radius:12px;background:#f3f1f7;border:1px solid #e5e2eb;font-size:13px;color:#20162e}
+.sf-auto small{color:#6f667f;font-size:12px;line-height:1.5}
+.sf-auto span{display:flex;align-items:center;gap:6px}.sf-auto span svg{width:15px;height:15px;color:#391464;flex:none}
+html body .sf-x{font-size:13px;margin:12px 0 4px;color:#391464}
+:root[data-theme="dark"] .sf-auto{background:#221537;border-color:#2f2443;color:#eae7f0}
