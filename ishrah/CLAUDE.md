@@ -1288,3 +1288,10 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   area the top bar (mr.js `htop`) has a gold «👑 الإدارة» button for team members (→ #control) or «الاستوديو» for lecturers (→ #studio);
   under 400 px only the crown shows. With it, the phone top bar becomes a row and the logo takes the room left (max 150 px), so nothing
   overlaps (checked at 360 / 393 / 412 / 1366, scratchpad adm.js). The Features sheet also has «انتقل إلى التحكم / الاستوديو».
+- **Course page: edit button, lesson order, certificate, tidy text** (owner, 21 Nov 2026): the ✏️ of the course page was hidden whenever
+  «إدارة» showed, so the owner-lecturer had no way to the editor; the course's lecturer now sees «✏️ تعديل الكورس وترتيب الدروس» (→ studio
+  curriculum) under the main button. The curriculum explains the ⌃ ⌄ order arrows and ⇄ move. **Certificate per course**: migration
+  `054_course_cert.sql` (courses.cert, default true); Studio → course details «شهادة إتمام» switch; the course page lists it only when on,
+  certificate links (lesson panel, My learning) and #cert respect it. Text: «3 دروس / درسان / 11 درسًا» (`IS.lessonsN`), mic icon for an
+  all-audio course, «داخل التطبيق فقط، مع تنزيل الدروس للمذاكرة دون إنترنت» instead of the wrong «دون تنزيل», calmer sizes on the course
+  page (CSS "course page: calmer type"). Test: scratchpad ce.js.

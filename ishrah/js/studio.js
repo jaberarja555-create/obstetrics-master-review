@@ -210,6 +210,7 @@
       '<label class="fl file"><span>' + esc(A('صورة الغلاف (16:9)', 'Cover picture (16:9)')) + '</span>' + (c.cover ? '<img class="thumb" src="' + IS.U(c.cover) + '" alt="">' : '') + '<input type="file" name="cover" accept="image/*"></label>' +
       '<label class="fl"><span>' + esc(A('رابط فيديو المعاينة (اختياري)', 'Preview video link (optional)')) + '</span><input name="promo" type="url" dir="ltr" placeholder="YouTube / Google Drive" value="' + esc(IS.previewVideoUrl(c.promo)) + '"></label></fieldset>' +
       '<label class="fl"><span>' + esc(A('لون الكورس', 'Course colour')) + '</span>' + swatches('color', c.color) + '</label>' +
+      '<label class="chk sw2"><input type="checkbox" name="cert"' + (c.cert === false ? '' : ' checked') + '><span><b>' + esc(A('شهادة إتمام', 'Certificate of completion')) + '</b><small>' + esc(A('يحصل الطالب على شهادة عند إنهاء كل الدروس. أزل العلامة إن لم ترد شهادة لهذا الكورس.', 'Students get a certificate when they finish every lesson. Untick if this course should not give one.')) + '</small></span></label>' +
       '<label class="fl"><span>' + esc(A('ماذا سيتعلم الطالب (سطر لكل نقطة)', 'What students will learn (one point per line)')) + '</span><textarea name="learn" rows="4">' + esc((c.learn || []).join('\n')) + '</textarea></label>' +
       '<label class="fl"><span>' + esc(A('المتطلبات (سطر لكل نقطة)', 'Requirements (one per line)')) + '</span><textarea name="reqs" rows="2">' + esc((c.reqs || []).join('\n')) + '</textarea></label>' +
       '<div class="row end"><button class="btn pri">' + ic('check') + esc(c.id ? A('حفظ', 'Save') : A('إنشاء الكورس والمتابعة', 'Create and continue')) + '</button></div></form>';
@@ -228,7 +229,7 @@
     if (d.delivery !== 'recorded' && !d.starts_at) return IS.toast(A('حدّد موعد بدء الكورس المباشر.', 'Set a start time for the live course.'), true);
     var scope = IS.studyScope(d), row = { title: d.title, subtitle: d.subtitle, spec: scope.spec, cat: scope.cat, subject: d.subject, level: d.level, price: fee,
       delivery: d.delivery, starts_at: d.starts_at ? d.starts_at + ':00+02:00' : null, seat_limit: d.seat_limit ? +d.seat_limit : null, teaching_method: d.teaching_method,
-      color: d.color, promo: promo || '', about: IS.edVal(f, 'about'), learn: IS.lines(d.learn), reqs: IS.lines(d.reqs), updated_at: new Date().toISOString() };
+      color: d.color, promo: promo || '', about: IS.edVal(f, 'about'), learn: IS.lines(d.learn), reqs: IS.lines(d.reqs), cert: !!(f.cert && f.cert.checked), updated_at: new Date().toISOString() };
     if (f.cover.files[0]) row.cover = await DB.upload('media', await IS.shrink(f.cover.files[0], 1280, 0.82));
     var c;
     if (d.id) c = await DB.upd('courses', d.id, row);
@@ -251,7 +252,8 @@
   async function curEditor(c) {
     var secs = await IS.courseLessons(c.id);
     var h = '<section class="box"><header class="sh"><h2>' + ic('video') + IS.T('الأقسام والدروس', 'Sections and lessons') + '</h2><button class="btn pri sm" data-act="addsec" data-c="' + c.id + '">' + ic('plus') + esc(A('قسم جديد', 'New section')) + '</button></header>' +
-      '<p class="mut">' + esc(A('قسّم الكورس إلى أقسام (مثل الفصول)، وأضف لكل قسم دروسًا: فيديو أو درس مكتوب أو اختبار. علّم درسًا أو اثنين «معاينة مجانية» ليجرّبه الطلبة قبل الالتحاق.', 'Split the course into sections (like chapters) and add lessons to each: video, written or quiz. Mark one or two lessons as free previews.')) + '</p>';
+      '<p class="mut">' + esc(A('قسّم الكورس إلى أقسام (مثل الفصول)، وأضف لكل قسم دروسًا: فيديو أو درس مكتوب أو اختبار. علّم درسًا أو اثنين «معاينة مجانية» ليجرّبه الطلبة قبل الالتحاق.', 'Split the course into sections (like chapters) and add lessons to each: video, written or quiz. Mark one or two lessons as free previews.')) + '</p>' +
+      '<p class="note">' + ic('info') + '<span>' + esc(A('لترتيب الدروس استخدم السهمين ⌃ ⌄ بجانب كل درس، وزر ⇄ لنقل درس أو قسم إلى قسم أو كورس آخر. اضغط اسم الدرس لتعديله.', 'To order the lessons use the ⌃ ⌄ arrows beside each lesson, and ⇄ to move a lesson or section to another section or course. Tap a lesson’s name to edit it.')) + '</span></p>';
     h += secs.length ? secs.map(function (s, i) {
       return '<div class="secb"><header><span class="cn">' + N(i + 1) + '</span><b>' + esc(s.title) + '</b><span class="row">' + (i ? '<button class="ib sm" data-act="mvsec" data-id="' + s.id + '" data-d="-1" aria-label="up">' + ic('up') + '</button>' : '') + (i < secs.length - 1 ? '<button class="ib sm" data-act="mvsec" data-id="' + s.id + '" data-d="1" aria-label="down">' + ic('down') + '</button>' : '') +
         '<button class="ib sm" data-act="rensec" data-id="' + s.id + '" aria-label="rename">' + ic('pen') + '</button><button class="ib sm" data-act="movesec" data-id="' + s.id + '" aria-label="move" title="' + esc(A('نقل القسم إلى كورس آخر', 'Move to another course')) + '">' + ic('route') + '</button><button class="ib sm" data-act="delsec" data-id="' + s.id + '" aria-label="delete">' + ic('trash') + '</button></span></header>' +

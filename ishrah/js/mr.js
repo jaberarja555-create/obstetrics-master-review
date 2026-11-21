@@ -464,7 +464,7 @@
       '<div class="mc-foot"><span class="mc-price ' + (paid ? 'paid' : 'free') + '">' + (paid ? HI.lock + esc(A('مدفوع', 'Paid')) : esc(A('مجاني', 'Free'))) + '</span>' +
       (c.minutes ? '<span class="mc-f">' + HI.clock + '<b>' + esc(hmins(c.minutes)) + '</b></span>' : '') +
       '<span class="mc-f">' + PI.users + '<b>' + nfmt(c.n_students || 0) + '</b></span>' +
-      '<span class="mc-f">' + HI.vid + '<b>' + N(c.n_lessons || 0) + ' ' + esc(A('درس', 'lessons')) + '</b></span>' +
+      '<span class="mc-f">' + HI.vid + '<b>' + (IS.lessonsN ? IS.lessonsN(c.n_lessons) : N(c.n_lessons || 0)) + '</b></span>' +
       (wait ? '<span class="mc-btn ghost">' + esc(A('بانتظار التأكيد', 'Pending')) + '</span>' :
         '<a class="mc-btn" href="' + href + '">' + (on ? HI.play + esc(A('تابع', 'Continue')) : paid ? esc(A('عرض التفاصيل', 'View details')) + ' ‹' : HI.play + esc(A('التحق بالكورس', 'Enrol'))) + '</a>') + '</div></article>';
   }
@@ -802,7 +802,7 @@
         (l ? '<span class="lr-lec">' + IS.av(l, 'sm', l.id) + '<b dir="auto">' + IS.lecName(l.name) + '</b></span>' : '') +
         '<span class="lr-bar"><i style="width:' + x.pc + '%"></i></span><small class="lr-n">' + N(x.n) + ' / ' + N(c.n_lessons || 0) + ' ' + esc(A('درس', 'lessons')) + '</small>' +
         '<div class="lr-acts"><a class="lr-b pri" href="' + href + '">' + HI.play + '<span>' + esc(x.pc >= 100 ? A('راجع', 'Review') : x.pc ? A('تابع', 'Continue') : A('ابدأ', 'Start')) + '</span></a>' +
-        (x.pc >= 100 ? '<a class="lr-b gold" href="#cert/' + esc(c.id) + '">' + HI.trophy3 + '<span>' + esc(A('الشهادة', 'Certificate')) + '</span></a>' : '') + '</div></div></article>';
+        (x.pc >= 100 && c.cert !== false ? '<a class="lr-b gold" href="#cert/' + esc(c.id) + '">' + HI.trophy3 + '<span>' + esc(A('الشهادة', 'Certificate')) + '</span></a>' : '') + '</div></div></article>';
     };
     var tabs = [['all', A('الكل', 'All'), rows.length], ['going', A('قيد التعلّم', 'In progress'), going.length], ['done', A('مكتملة', 'Completed'), done.length]];
     var h = '<div class="lr">' +

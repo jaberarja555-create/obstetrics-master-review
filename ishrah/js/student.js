@@ -102,7 +102,7 @@
       '<span class="cctop">' + (cat ? IS.chip('<bdi lang="en">' + esc(cat.en) + '</bdi>', 'lt') : '') + (c.n_students >= 50 ? IS.chip(ic('flame') + esc(A('الأكثر تسجيلًا', 'Popular')), 'hot') : '') + '</span></a>' + IS.favBtn('c:' + c.id, true) +
       '<div class="ccb"><h3><a href="#course/' + c.id + '">' + esc(c.title) + '</a></h3><p>' + esc(c.subtitle || '') + '</p>' +
       (l ? '<a class="cclec" href="#lecturer/' + l.id + '">' + IS.av(l, 'xs', l.id) + '<span>' + esc(l.name) + '</span></a>' : '') +
-      '<div class="ccst">' + '<span class="feed-grade sm" title="' + esc(IS.gradeLabel(c, 'course')) + '">' + IS.gradeInner(c, 'course') + '</span>' + '<span>' + ic('video') + N(c.n_lessons || 0) + ' ' + esc(A('درس', 'lessons')) + '</span>' +
+      '<div class="ccst">' + '<span class="feed-grade sm" title="' + esc(IS.gradeLabel(c, 'course')) + '">' + IS.gradeInner(c, 'course') + '</span>' + '<span>' + ic('layers') + IS.lessonsN(c.n_lessons) + '</span>' +
       (c.minutes ? '<span>' + ic('clock') + hrs(c.minutes) + '</span>' : '') + (c.n_students ? '<span>' + ic('users') + N(c.n_students) + '</span>' : '') + '</div>' +
       '<div class="ccf"><span class="price">' + price(c) + '</span>' + (e && e.status === 'active' ? '<a class="btn sm pri" href="#course/' + c.id + '">' + ic('play') + esc(A('تابع', 'Continue')) + '</a>' : e && e.status === 'pending' ? IS.status('pending') : '<a class="btn sm pri" href="#course/' + c.id + '">' + esc(A('التحق بالكورس', 'Enrol')) + '</a>') + '</div></div></article>';
   };
@@ -596,7 +596,7 @@
     h += '<section class="chero" style="--cc:' + esc(c.color || 'var(--pri)') + (c.cover ? ';--ci:url(' + IS.U(c.cover) + ')' : '') + '"><div class="chin"><div class="cht"><span class="tags lt">' + (cat ? '<span>' + esc(cat.en) + '</span>' : '') + (sj ? '<span>' + esc(sj.en) + '</span>' : '') + (c.level ? '<span>' + esc(c.level) + '</span>' : '') + '</span>' +
       '<h1 tabindex="-1">' + esc(c.title) + '</h1>' + (c.subtitle ? '<p>' + esc(c.subtitle) + '</p>' : '') + '<a class="chlec" href="#lecturer/' + l.id + '">' + IS.av(l, 'md', l.id) + '<span><b>' + IS.lecName(l.name) + '</b><small>' + esc(l.title || '') + '</small>' + IS.seen(l.id) + '</span></a>' +
       '<div class="chst">' + '<span class="feed-grade" title="' + esc(IS.gradeLabel(c, 'course')) + '">' + IS.gradeInner(c, 'course') + '</span>' + (c.n_students ? '<span>' + ic('users') + N(c.n_students) + ' ' + esc(A('طالب', 'students')) + '</span>' : '') +
-      '<span>' + ic('video') + N(all.length) + ' ' + esc(A('درس', 'lessons')) + '</span>' + (c.minutes ? '<span>' + ic('clock') + hrs(c.minutes) + '</span>' : '') + '<span>' + ic('clock') + esc(A('آخر تحديث ', 'Updated ')) + esc(IS.date(c.updated_at || c.created_at)) + '</span></div></div>' +
+      '<span>' + ic(all.length && all.every(function (x) { return x.kind === 'audio'; }) ? 'mic' : 'layers') + IS.lessonsN(all.length) + '</span>' + (c.minutes ? '<span>' + ic('clock') + hrs(c.minutes) + '</span>' : '') + '<span>' + ic('clock') + esc(A('آخر تحديث ', 'Updated ')) + esc(IS.date(c.updated_at || c.created_at)) + '</span></div></div>' +
       (c.cover ? '<img class="chimg" src="' + IS.U(c.cover) + '" alt="">' : '') + '</div></section>';
     h += '<section class="box buy"><div class="buy-actions"><div class="bp">' + price(c) + '</div>' +
       (seats !== null && !act ? '<p class="mut">' + (seats ? esc(A('المقاعد المتاحة', 'Seats available')) + ' · ' + N(seats) : esc(A('اكتملت المقاعد', 'Course is full'))) + '</p>' : '') +
@@ -605,13 +605,14 @@
         e && e.status === 'pending' ? '<p class="mut">' + esc(A('يُفتح الكورس بعد تأكيد الدفع.', 'The course opens after payment is confirmed.')) + '</p>' :
         seats === 0 ? '' : '<button class="btn pri" data-act="enrol" data-id="' + id + '">' + ic('wallet') +
         esc(+c.price ? (e && e.status === 'rejected' ? A('أرسل إيصالًا جديدًا', 'Submit a new receipt') : A('ادفع للالتحاق', 'Pay to enrol')) : A('التحق مجانًا', 'Enrol for free')) + '</button>') +
+      (IS.LEC && c.lecturer_id === uid() ? '<a class="btn ghost wide cedit" href="#studio-course/' + id + '/cur">' + ic('pen') + esc(A('تعديل الكورس وترتيب الدروس', 'Edit the course and order its lessons')) + '</a>' : '') +
       '<div class="row buy-tools">' + IS.favBtn('c:' + id) + '<button class="fav" data-act="share-link" data-h="course/' + id + '" aria-label="share">' + ic('share') + '</button></div>' +
       '</div><div class="buy-includes"><h2 class="sub">' + esc(A('يتضمن هذا الكورس', 'This course includes')) + '</h2><ul class="inc">' +
       [['video', 'video', 'درس فيديو', 'video lessons'], ['audio', 'mic', 'درس صوتي', 'audio lessons'], ['text', 'file', 'درس مكتوب', 'written lessons'], ['quiz', 'qb', 'اختبار', 'quizzes']].map(function (kind) {
         var count = all.filter(function (lesson) { return lesson.kind === kind[0]; }).length;
-        return count ? '<li>' + ic(kind[1]) + N(count) + ' ' + esc(A(kind[2], kind[3])) + '</li>' : '';
+        return count ? '<li>' + ic(kind[1]) + N(count) + ' ' + esc(A(count >= 3 && count <= 10 ? { video: 'دروس فيديو', audio: 'دروس صوتية', text: 'دروس مكتوبة', quiz: 'اختبارات' }[kind[0]] : kind[2], kind[3])) + '</li>' : '';
       }).join('') +
-      '<li>' + ic('shield') + esc(A('مشاهدة داخل التطبيق فقط (دون تنزيل)', 'Watched inside the app only (no download)')) + '</li><li>' + ic('cert') + esc(A('شهادة إتمام', 'Certificate of completion')) + '</li></ul></div></section>';
+      '<li>' + ic('shield') + esc(A('داخل التطبيق فقط، مع تنزيل الدروس للمذاكرة دون إنترنت', 'Inside the app only, with lessons downloadable for offline study')) + '</li>' + (c.cert === false ? '' : '<li>' + ic('cert') + esc(A('شهادة إتمام', 'Certificate of completion')) + '</li>') + '</li></ul></div></section>';
     h += '<div class="course-details"><div class="tabs" role="tablist">' + [['about', A('نظرة عامة', 'Overview')], ['cur', A('محتوى الكورس', 'Curriculum')], ['lec', A('المحاضر', 'Lecturer')], ['rev', A('التقييمات', 'Reviews') + (rv.length ? ' ' + rv.length : '')]].map(function (t, i) {
       return '<button role="tab" data-act="tab" data-t="' + t[0] + '" aria-selected="' + (i === 0) + '">' + esc(t[1]) + '</button>'; }).join('') + '</div>';
     var promo = IS.extEmbed(c.promo) ? c.promo : IS.extVideo(c.promo);
@@ -823,7 +824,7 @@
         '<div class="lesson-outline-actions">' + (active && me() ?
           '<button class="btn ghost wide dlc" data-act="dlcourse" data-c="' + esc(cid) + '">' + ic('download') +
           esc(A('تنزيل الكورس', 'Download course')) + '</button>' : '') +
-        (completed === all.length ? '<a class="btn gold wide" href="#cert/' + esc(cid) + '">' + ic('cert') +
+        (completed === all.length && c.cert !== false ? '<a class="btn gold wide" href="#cert/' + esc(cid) + '">' + ic('cert') +
           esc(A('شهادة الإتمام', 'Certificate')) + '</a>' : '') + '</div>' : '') + '</div></details></aside>';
 
     var tabs = [['notes', 'note', A('ملاحظاتي', 'My notes')], ['qa', 'chat', A('الأسئلة', 'Q&A')], ['info', 'info', A('الوصف', 'Description')]];
@@ -1613,8 +1614,11 @@
         return '<div class="badge' + (v >= 1 ? ' on' : '') + '"><span>' + ic(v >= 1 ? b[1] : 'lock') + '</span><b>' + esc(A(b[2], b[3])) + '</b><small>' + esc(A(b[4], b[5])) + '</small>' + (v < 1 ? IS.bar(v * 100) : '') + '</div>'; }).join('') + '</div></section>' +
       '<section class="sec"><header class="sh"><h2>' + IS.T('الشهادات', 'Certificates') + '</h2></header>' + (certificates.length ? '<div class="list">' + certificates.map(function (c) { return '<a class="li" href="#cert/' + c.id + '">' + ic('cert') + '<span><b>' + esc(c.title) + '</b></span></a>'; }).join('') + '</div>' : '<p class="mut">' + esc(A('أكمل كل دروس كورس لتحصل على شهادته.', 'Complete every lesson of a course to receive its certificate.')) + '</p>') + '</section>';
   }, { auth: true });
+  /* «6 دروس» not «6 درس» (owner, 21 Nov 2026) */
+  IS.lessonsN = function (n) { n = +n || 0; return N(n) + ' ' + A(n === 1 ? 'درس' : n === 2 ? 'درسان' : n >= 3 && n <= 10 ? 'دروس' : 'درسًا', n === 1 ? 'lesson' : 'lessons'); };
   IS.page('cert', async function (cid) {
     var c = await DB.one('courses', cid); if (!c) return null; if (!IS.inStudySpace(c)) return IS.outsideStudySpace(c); var P = await IS.myProgress(cid), n = Object.keys(P).length;
+    if (c.cert === false) return IS.empty('cert', A('لا توجد شهادة لهذا الكورس', 'This course has no certificate'), A('اختار المحاضر ألا تُمنح شهادة إتمام لهذا الكورس.', 'The lecturer chose not to give a certificate for this course.'), '<a class="btn pri" href="#course/' + cid + '">' + esc(A('العودة للكورس', 'Back to the course')) + '</a>');
     if (!c.n_lessons || n < c.n_lessons) return IS.empty('lock', A('لم يكتمل الكورس بعد', 'The course is not complete yet'), N(n) + ' / ' + N(c.n_lessons || 0), '<a class="btn pri" href="#course/' + cid + '">' + esc(A('تابع الكورس', 'Continue')) + '</a>');
     var l = await DB.one('lecturers', c.lecturer_id) || {}, dt = Object.keys(P).map(function (k) { return P[k].done_at; }).sort().pop();
     var code = (cid.slice(0, 4) + uid().slice(0, 4)).toUpperCase();

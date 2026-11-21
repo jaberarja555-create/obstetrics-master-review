@@ -1988,3 +1988,16 @@ html body .mra .sjtiles{grid-template-columns:repeat(auto-fill,minmax(min(100%,2
   html body .mh-top:has(.mh-area) .mh-logo{flex:1 1 auto;min-width:0;display:flex;justify-content:center}
   html body .mh-top:has(.mh-area) .mh-logo img{width:100%!important;max-width:150px!important;height:auto!important;max-height:40px}
 }
+/* course page: calmer type and spacing (owner, 21 Nov 2026: "some text appears bad, large and disorganised") */
+html body .mra .buy .bp{font-size:22px}
+html body .mra .buy-includes h2.sub{font-size:16px;margin:12px 0 6px}
+html body .mra .buy-includes .inc{display:flex;flex-direction:column;gap:6px;margin:0;padding:0}
+html body .mra .buy-includes .inc li{display:flex;align-items:center;gap:8px;font-size:14px;line-height:1.5;color:#452e35}
+html body .mra .buy-includes .inc li svg{width:17px;height:17px;flex:none;color:#641427}
+html body .mra .course-details .box h2{font-size:16.5px}
+html body .mra .course-details .box p,html body .mra .course-details .box li{font-size:14px;line-height:1.7}
+html body .mra .course-details dl,html body .mra .course-details .kv{font-size:13.5px}
+html body .mra .course-details .kv b,html body .mra .course-details dd{font-size:14px}
+html body .mra .course-details .tabs button{font-size:13.5px}
+html body .mra .chero .chst span{font-size:13.5px}
+.cedit{margin-top:8px;justify-content:center}
