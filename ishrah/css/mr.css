@@ -1529,3 +1529,8 @@ html body .mrx .mr-spec .mr-lockb svg.ic{width:14px!important;height:14px!import
   background:linear-gradient(180deg,#f8dc85,#d9a93e);color:#3d2a05;font-weight:800;font-size:clamp(11px,1.7vh,15px);white-space:nowrap;
   box-shadow:0 3px 8px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.6)}
 .mr-specs:has(.locked) .mr-spec:not(.locked){box-shadow:0 0 0 3px #f6dc8e,0 0 26px rgba(233,196,106,.6),0 14px 26px rgba(0,0,0,.42)!important}
+/* the icon stays whole above the ribbon (owner, 21 Nov 2026: "you covered the logo of the specialities, not like my image") */
+html body .mrx .mr-spec.locked .art{inset:4% 0 46% 0!important;opacity:.78;font-size:calc(var(--cardh)*.34)}
+.mr-spec .mr-soon{top:auto!important;bottom:45%;transform:translateX(-50%) skewX(-8deg)!important}
+html body .mrx .mr-spec.locked .art{inset:5% 0 58% 0!important;font-size:calc(var(--cardh)*.3)!important}
+.mr-spec .mr-soon{bottom:40%!important}

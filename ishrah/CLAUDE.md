@@ -1105,3 +1105,4 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   everyone except the platform owner (`IS.specLocked`), Nursing · Laboratory · Pharmacy · Dentistry are muted grey-green cards with a faded
   icon, a grey wave, a lock in a small circle at the corner (`.mr-lockb`) and a gold «قريبًا» ribbon (`.mr-soon`); the open speciality has a
   gold glowing frame while others are locked. Plain colours only (the old grayscale filter is switched off; filters smear on touch screens).
+  The icon stays whole: on locked cards it is smaller and higher (`.art` inset 5% 0 58%) and the ribbon sits just above the wave (bottom 40%).
