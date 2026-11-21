@@ -502,6 +502,14 @@
   var NAVOF = { course: 'courses', lesson: 'courses', 'course-requests': 'courses', 'course-request': 'courses', payment: 'courses', file: 'library', series: 'library',
     sales: 'library', purchase: 'library', downloads: 'library', dl: 'library', post: 'community', community: 'community', lecturer: 'lecturers', lecturers: 'lecturers',
     learning: 'learning', achievements: 'learning', favorites: 'learning', paths: 'learning', path: 'learning' };
+
+  /* the lecturer studio's bottom bar (owner, 21 Nov 2026: "work on the studio page") */
+  function snav(cur) {
+    var items = [['studio', 'chart', 'لوحتي', 'Dashboard'], ['studio-courses', 'layers', 'كورساتي', 'My courses'], ['studio-students', 'users', 'طلابي', 'Students'], ['studio-money', 'wallet', 'أرباحي', 'Earnings']];
+    return '<nav class="mh-nav cnavb" aria-label="' + esc(A('الاستوديو', 'Studio')) + '">' + items.map(function (n) {
+      return '<a href="#' + n[0] + '"' + (n[0] === cur || (n[0] !== 'studio' && cur.indexOf(n[0].replace(/s$/, '')) === 0) ? ' class="on" aria-current="page"' : '') + '>' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') +
+      '<a href="#" data-act="more">' + ic('more') + '<span>' + esc(A('المزيد', 'More')) + '</span></a></nav>';
+  }
   /* the control app in the same frame (owner, 21 Nov 2026: "work on the control panel"): its own bottom bar */
   function cnav(cur) {
     var items = (IS.ctrlItems ? IS.ctrlItems() : []).slice(0, 4);
@@ -510,9 +518,10 @@
       '<a href="#" data-act="more">' + ic('more') + '<span>' + esc(A('المزيد', 'More')) + '</span></a></nav>';
   }
   IS.pageFrame = function (name, html) {
-    if (IS.area === 'control' && !/class="mrx/.test(html) && !/^control-ticket/.test(name)) {
-      return '<div class="mrx mrh mra mrc2" data-pg="' + esc(name) + '"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop().replace('href="#pick-section"', 'href="#control"').replace('href="#home"', 'href="#control"') +
-        '<div class="mh-tools"></div><div class="mh-old">' + html + '</div></div>' + cnav(name) + '</div>';
+    if ((IS.area === 'control' || IS.area === 'studio') && !/class="mrx/.test(html) && !/^control-ticket/.test(name)) {
+      var studio = IS.area === 'studio';
+      return '<div class="mrx mrh mra mrc2' + (studio ? ' mrs2' : '') + '" data-pg="' + esc(name) + '"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop().replace('href="#pick-section"', 'href="#' + (studio ? 'studio' : 'control') + '"').replace('href="#home"', 'href="#' + (studio ? 'studio' : 'control') + '"') +
+        '<div class="mh-tools"></div><div class="mh-old">' + html + '</div></div>' + (studio ? snav(name) : cnav(name)) + '</div>';
     }
     if (IS.area !== 'student' || /class="mrx/.test(html) || /^(cert|pick|pick-section)$/.test(name)) return html;
     return '<div class="mrx mrh mra" data-pg="' + esc(name) + '"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() +

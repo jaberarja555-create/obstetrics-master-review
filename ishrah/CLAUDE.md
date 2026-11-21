@@ -1215,3 +1215,4 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   the role pill, figures in one strip (4 a row on phones, 8 on laptops), quick actions as small tiles.
 - The old name «اشرح لي / Ishrah Li» in visible texts became «أكاديمية السودان للمراجعة / Sudan Master Review Academy»; the installed
   app's name (manifest) and the share sheet say SMRA.
+- **Lecturer studio in the new frame** (owner, 21 Nov 2026): `IS.pageFrame` also wraps studio pages (`.mrs2`), top-bar 🏠 → #studio, bottom bar لوحتي · كورساتي · طلابي · أرباحي (studio-money) · المزيد; figures in one strip (3 a row on phones, 6 on laptops).
