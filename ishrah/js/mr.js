@@ -157,8 +157,6 @@
         IS.LEC ? '<a class="mh-area" href="#studio" aria-label="' + esc(A('استوديو المحاضر', 'Lecturer studio')) + '">' + ic('studio') + '<span>' + esc(A('الاستوديو', 'Studio')) + '</span></a>' : '') : '') + '</div>' +
       '<a class="mh-logo" href="#pick-section"><img src="' + IS.U('img/mr/logo-smra.webp') + '" alt="' + esc(IS.brandName()) + '" width="1000" height="359"></a>' +
       '<div class="mh-side end"><button type="button" class="mh-tog" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night')) + '"><i class="t-l">' + I.sun + '</i><i class="t-d">' + I.moon + '</i><i class="t-e">' + I.eye + '</i></button>' +
-      /* «مرشد المنصة» always in the same place (owner, 21 Nov 2026: not a floating button, and not hidden away in Settings) */
-      (m ? '<button type="button" class="mh-b ghost mh-ai" data-act="assist" aria-label="' + esc(A('مرشد المنصة', 'Platform guide')) + '" title="' + esc(A('مرشد المنصة', 'Platform guide')) + '"><svg class="ic" viewBox="3 3.5 18 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12.5a7.5 7.5 0 0 1-11 6.6L4 20l1-4.2A7.5 7.5 0 1 1 20 12.5z"/><path d="M12.5 8.6l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" fill="currentColor" stroke-width="1"/></svg></button>' : '') +
       (m ? '<a class="mh-b" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + HI.bell + '<i class="mr-dot" hidden></i></a>' : '') + me + '</div></header>';
   }
   function pban(img, icon, title, sub, latin) {
