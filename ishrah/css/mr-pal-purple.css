@@ -2342,3 +2342,11 @@ html body .mrh .library-feed-actions .btn{white-space:nowrap!important;padding-i
 @media (max-width:420px){html body .mrh .library-feed-actions .btn{font-size:12.5px!important}}
 @media (min-width:1024px){html body .mrh .feed-items>.feed-card>.feed-card-content:has(>.feed-image .library-cover){grid-template-columns:minmax(110px,30%) minmax(0,1fr)!important}
   html body .mrh .feed-items>.feed-card>.feed-card-content>.feed-image:has(.library-cover){aspect-ratio:3/4!important}}
+
+/* notifications: the team's switch and the place of each post (owner, 21 Nov 2026) */
+.nt-sw{display:flex;gap:6px;margin:10px 0;padding:4px;border-radius:14px;background:#fff;border:1px solid #e5e2eb;width:max-content;max-width:100%}
+.nt-sw button{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:7px 14px;border-radius:10px;font:inherit;font-size:13px;font-weight:700;color:#493f58;cursor:pointer}
+.nt-sw button .ico{width:16px;height:16px}
+.nt-sw button.on{background:#391464;color:#fff}
+.nt-pl{display:inline-block;margin-top:3px;padding:1px 8px;border-radius:999px;background:#f1eff5;color:#391464;font-style:normal;font-size:11px;font-weight:700;width:max-content}
+:root[data-theme=dark] .nt-sw{background:#1b112d;border-color:#2f2443}:root[data-theme=dark] .nt-sw button{color:#d6d0e2}:root[data-theme=dark] .nt-pl{background:#241937;color:#b7a4db}

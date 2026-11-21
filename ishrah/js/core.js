@@ -167,6 +167,14 @@
   IS.manager = function () { var t = (IS.ME && IS.ME.team) || []; return t.some(function (r) { return r !== 'staff' && r.indexOf('p:') !== 0; }); };
   /* the platform owner receives every notification, also about what he did himself (owner, 21 Nov 2026) */
   IS.isOwner = function () { return !!(IS.ME && (IS.ME.team || []).indexOf('owner') >= 0); };
+  /* which notices a person sees (owner, 21 Nov 2026: «نعم أنا والفريق»): personal ones; posts of the student's own speciality and section;
+     the owner and the team see the posts of every speciality and section (Notifications → «كل الأقسام», the default) or only the current one */
+  IS.noticeAll = function () { return !!(IS.team && IS.team()) && IS.LS.get('ntall', 'all') !== 'mine'; };
+  IS.noticeFor = function (x) {
+    if (!IS.ME || (x.actor === IS.ME.id && !IS.isOwner())) return false;
+    if (x.user_id) return x.user_id === IS.ME.id;
+    return IS.noticeAll() || !IS.announcementInSection || IS.announcementInSection(x);
+  };
   IS.team = function () { return !!(IS.ME && (IS.ME.team || []).length); };
   IS.loadMe = async function () {
     var uid = DB.uid(); IS.ME = null; IS.LEC = null; IS.OFFME = false;
@@ -735,7 +743,7 @@
   IS.bell = async function () {
     if (!IS.ME || (DB.live && !navigator.onLine)) return;
     try { var seen = LS.get('seen-' + IS.ME.id, 0), n = await DB.q('notices', { order: ['created_at', false], limit: 40 });
-      n = n.filter(function (x) { return (x.actor !== IS.ME.id || IS.isOwner()) && (x.user_id ? x.user_id === IS.ME.id : !IS.announcementInSection || IS.announcementInSection(x)) && new Date(x.created_at).getTime() > seen; }); var b = IS.$('#bellN'); if (b) { b.hidden = !n.length; b.textContent = n.length > 9 ? '9+' : n.length; } } catch (e) {}
+      n = n.filter(function (x) { return IS.noticeFor(x) && new Date(x.created_at).getTime() > seen; }); var b = IS.$('#bellN'); if (b) { b.hidden = !n.length; b.textContent = n.length > 9 ? '9+' : n.length; } } catch (e) {}
   };
   /* what this account is (owner, 18 Nov 2026: "the app should identify someone as admin or lecturer or student, or 2 things"):
      every account is a student; an approved lecturer is also a lecturer; a team member also has his team role. Each role opens its space. */

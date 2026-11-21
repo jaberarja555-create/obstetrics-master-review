@@ -70,6 +70,7 @@ jobs:
           followers=ishrah/supabase/051_followers_list.sql
           free_posts=ishrah/supabase/052_free_posts.sql
           owner_alerts=ishrah/supabase/053_owner_all_alerts.sql
+          team_spaces=ishrah/supabase/054_team_all_spaces.sql
           course_cert=ishrah/supabase/054_course_cert.sql
           assistant=ishrah/supabase/055_assistant.sql
           pending=""

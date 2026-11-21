@@ -1379,3 +1379,9 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
 - **Top Home button decides on the press (owner, 21 Nov 2026: «لمن اضغط زر الرئيسية ما بتمش أي حتة»):** htop() wrote the link while the page
   was drawn, when body data-page was still the previous page, so on the section page it pointed to #home and did nothing. A click handler in
   mr.js (`a.mh-home`) now goes to the section chooser when on Home, otherwise to Home (studio/control keep their own target). Test hb2.js.
+- **The owner and the team get the posts of every space (owner, 21 Nov 2026: «نعم أنا والفريق»):** `IS.noticeFor(x)` (core.js) decides for the
+  bell, the sound/alerts and the Notifications page: personal notices; space notices of the student's own speciality and section; for team
+  accounts every speciality and section (`IS.noticeAll()`, setting `ish-ntall` all | mine, switch «كل الأقسام / قسمي الحالي» on the
+  Notifications page, all by default), each space notice labelled with its place («Medicine · House Officer»). Phones: migration
+  `054_team_all_spaces.sql` (`ish_push_targets`): a team phone (push_subs.team) receives every space notice; the owner's phones also his own
+  actions; students unchanged. Tested on the local Postgres and in the preview (nt2.js).

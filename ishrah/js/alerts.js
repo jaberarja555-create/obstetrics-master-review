@@ -31,7 +31,7 @@
 
   /* ---------- new notifications while the app is open ---------- */
   var last = null, busy = false;
-  function mine(x) { return (x.actor !== IS.ME.id || IS.isOwner()) && (x.user_id ? x.user_id === IS.ME.id : (!IS.announcementInSection || IS.announcementInSection(x))); }
+  function mine(x) { return IS.noticeFor(x); }
   async function check() {
     if (!IS.ME || busy || document.visibilityState !== 'visible' || (DB.live && !navigator.onLine)) return;
     busy = true;

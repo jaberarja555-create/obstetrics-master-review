@@ -1465,13 +1465,23 @@
 
   /* ========== NOTIFICATIONS ========== */
   IS.page('notifications', async function () {
-    var n = (await DB.q('notices', { order: ['created_at', false], limit: 80 })).filter(function (x) { return (x.actor !== uid() || IS.isOwner()) && (x.user_id ? x.user_id === uid() : IS.announcementInSection(x)); });
+    var n = (await DB.q('notices', { order: ['created_at', false], limit: 120 })).filter(IS.noticeFor);
+    var team = IS.team && IS.team(), all = IS.noticeAll();
+    /* where a space notice belongs, shown on it for the team (owner, 21 Nov 2026) */
+    var SECN = { basics: 'Basics', clinical: 'Clinical', special: 'International', house: 'House Officer' };
+    function place(x) { if (x.user_id || (!x.spec && !x.cat)) return ''; var sp = x.spec && IS.spec ? IS.spec(x.spec) : null;
+      return [sp ? sp.en : x.spec, x.cat ? (SECN[x.cat] || x.cat) : ''].filter(Boolean).join(' · '); }
     var seen = IS.LS.get('seen-' + uid(), 0); IS.LS.set('seen-' + uid(), Date.now()); setTimeout(IS.bell, 50);
-    return IS.banner(IS.T('الإشعارات', 'Notifications'), '', 'bell') + (n.length ? '<div class="list">' + n.map(function (x) {
-      return '<a class="li' + (new Date(x.created_at).getTime() > seen ? ' new' : '') + '" href="' + esc(x.link || '#notifications') + '">' + ic(x.user_id ? 'bell' : 'sparkle') + '<span><b>' + esc(IS.noticeTitle(x)) + '</b>' + (x.body ? '<small>' + esc(x.body) + '</small>' : '') + '</span><em>' + esc(IS.ago(x.created_at)) + '</em></a>'; }).join('') + '</div>' :
+    return IS.banner(IS.T('الإشعارات', 'Notifications'), '', 'bell') +
+      (team ? '<div class="nt-sw" role="radiogroup" aria-label="' + esc(A('منشورات الأقسام', 'Section posts')) + '"><button type="button" role="radio" aria-checked="' + all + '" class="' + (all ? 'on' : '') + '" data-act="ntall" data-v="all">' + ic('layers') + esc(A('كل الأقسام', 'All sections')) + '</button>' +
+        '<button type="button" role="radio" aria-checked="' + !all + '" class="' + (all ? '' : 'on') + '" data-act="ntall" data-v="mine">' + ic('target') + esc(A('قسمي الحالي', 'My current section')) + '</button></div>' : '') +
+      (n.length ? '<div class="list">' + n.map(function (x) { var pl = team ? place(x) : '';
+      return '<a class="li' + (new Date(x.created_at).getTime() > seen ? ' new' : '') + '" href="' + esc(x.link || '#notifications') + '">' + ic(x.user_id ? 'bell' : 'sparkle') + '<span><b>' + esc(IS.noticeTitle(x)) + '</b>' + (x.body ? '<small>' + esc(x.body) + '</small>' : '') + (pl ? '<i class="nt-pl" lang="en" dir="ltr">' + esc(pl) + '</i>' : '') + '</span><em>' + esc(IS.ago(x.created_at)) + '</em></a>'; }).join('') + '</div>' :
       IS.empty('bell', A('لا توجد إشعارات', 'No notifications'), A('تصلك هنا موافقات الدفع والردود والإعلانات.', 'Payment approvals, replies and announcements arrive here.')));
   }, { auth: true, area: 'keep' });
 
+
+  IS.ACT.ntall = function (b) { IS.LS.set('ntall', b.getAttribute('data-v')); if (IS.bell) IS.bell(); IS.refresh(); };
 
   /* ========== ANNOUNCEMENTS & NEWS (owner's design, 18 Nov 2026) ==========
      announcements = public notices (Control → Announcements); news = table news (Control → News), each with a picture, a tag and a date */
