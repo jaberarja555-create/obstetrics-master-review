@@ -1054,3 +1054,10 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - **Rating as a pop-up** (owner, 21 Nov 2026: "like the reactions: the stars appear and you choose; not opening below"): library.js
   `rate-library-file` opens `.library-rate-panel.pop` (fixed, placed above the stars, else below), five big stars; a choice saves,
   closes it and shows «حُفظ تقييمك ★★★★»; a tap elsewhere, scrolling or leaving the page closes it.
+- **Lecturer page, owner's description** (21 Nov 2026): under the teal card, four small buttons — المتابعون · الكورسات · الإنجازات ·
+  المؤهلات — each opens its list in a sheet (`IS.ACT['lp-list']`: followers from `ish_followers` (migration 051, name and picture only),
+  courses, achievements made from real figures (approved lecturer, courses, students taught, rating, events, followers), qualifications);
+  then «التواصل» (WhatsApp number → wa.me, email → mailto, from the lecturer's own public links; the lecturer is invited to add them on
+  My page); then two small tiles «عن المحاضر» (opens the bio) and «تاريخ الانضمام». The long boxes below were removed; courses and events stay.
+- **Lecturers list**: compact horizontal cards (picture in a gold ring, name, title, rating, courses, «عرض الملف»), the studio / join card
+  teal with white text and a gold button.

@@ -949,7 +949,7 @@
         A('تظهر هنا ملفات المحاضرين المعتمدين في هذا التخصص.', 'Approved lecturers teaching in this speciality appear here.'),
         '<a class="btn pri" href="#' + (IS.LEC ? 'studio' : 'studio-apply') + '">' + ic('studio') + esc(IS.LEC ? A('افتح الاستوديو', 'Open the studio') : A('انضم كمحاضر', 'Teach on Ishrah Li')) + '</a>'));
   });
-  function joinCard() { if (IS.LEC) return '<article class="lcard join"><span class="av lg"><b>' + ic('studio') + '</b></span><h3>' + esc(A('استوديو المحاضر', 'Lecturer studio')) + '</h3><p>' + esc(A('أنت محاضر في اشرح لي: أنشئ كورساتك وتابع طلابك.', 'You are a lecturer on Ishrah Li: create your courses and follow your students.')) + '</p><div class="row"><a class="btn sm gold" href="#studio">' + ic('studio') + esc(A('افتح الاستوديو', 'Open the studio')) + '</a></div></article>';
+  function joinCard() { if (IS.LEC) return '<article class="lcard join"><span class="av lg"><b>' + ic('studio') + '</b></span><h3>' + esc(A('استوديو المحاضر', 'Lecturer studio')) + '</h3><p>' + esc(A('أنشئ كورساتك وتابع طلابك بسهولة.', 'You are a lecturer on Ishrah Li: create your courses and follow your students.')) + '</p><div class="row"><a class="btn sm gold" href="#studio">' + ic('studio') + esc(A('افتح الاستوديو', 'Open the studio')) + '</a></div></article>';
     /* owner's Lecturers picture (20 Nov 2026): a lecturer sees «استوديو المحاضر · افتح الاستوديو», everyone else «انضم كمحاضر · قدّم طلبك» */
     var L0 = !!IS.LEC;
     return '<article class="lcard join" style="--jimg:url(' + IS.U('img/collection/studio.webp') + ')"><span class="av lg"><b>' + ic(L0 ? 'studio' : 'plus') + '</b></span><h3>' + esc(L0 ? A('استوديو المحاضر', 'Lecturer studio') : A('انضم كمحاضر', 'Teach on Ishrah Li')) + '</h3><p>' +

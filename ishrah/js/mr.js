@@ -533,17 +533,61 @@
         '<button type="button" class="lp-btn" data-act="fav" data-k="t:' + esc(id) + '" aria-pressed="' + fav + '">' + PI.bm + '<span>' + esc(A('إضافة للمفضلة', 'Add to favourites')) + '</span></button>' +
         '<a class="lp-btn wide" href="#course-requests/new/' + esc(id) + '">' + HI.cap.replace(G, 'currentColor') + '<span>' + esc(A('اطلب كورس أو محاضرة', 'Request a course or lecture')) + '</span></a></div>') +
       '</div></section>' +
-      lpStats([[PI.group, nfmt(c.followers || 0), A('متابعين', 'Followers')], [HI.layers.replace(G, 'currentColor'), N(courses.length), A('كورسات', 'Courses'), '#lecturer/' + esc(id)],
-        [HI.star.replace('currentColor', '#d9a62e'), n ? rate.toFixed(1) : '—', A('التقييم', 'Rating')], [HI.cap.replace(G, 'currentColor'), esc(quals || '—'), A('المؤهلات', 'Qualifications')]],
-        (function () { var k = l.links || {}, out = [];
-          if (k.email) out.push([HI.mail, A('البريد الإلكتروني', 'Email'), k.email, 'mailto:' + k.email]);
-          if (k.whatsapp) out.push([HI.phone, A('رقم التواصل', 'Contact number'), k.whatsapp, IS.wa ? IS.wa(k.whatsapp) : 'tel:' + k.whatsapp]);
-          return out; })(), l.created_at);
-    var qbox = [].filter.call(t.content.querySelectorAll('.box'), function (b) { return /learn/.test(b.innerHTML) && b.querySelector('ul.learn'); })[0]; if (qbox) qbox.id = 'lp-quals';
-    var csec = t.content.querySelector('.sec'); if (csec) csec.id = 'lp-courses';
-    return hero + t.innerHTML;
+      '';
+    /* owner, 21 Nov 2026: four small buttons (followers, courses, achievements, qualifications) that open their list; then contact
+       (WhatsApp number and email, each opens WhatsApp or the mail app); then two small tiles: about the lecturer and the date he joined */
+    var evs = await DB.q('events', { eq: { lecturer_id: id, status: 'published' } }).catch(function () { return []; });
+    var students = courses.reduce(function (a, x) { return a + (+x.n_students || 0); }, 0);
+    var ach = [];
+    if (courses.length) ach.push(['🎓', A('نشر ' + courses.length + ' ' + (courses.length === 1 ? 'كورس' : courses.length === 2 ? 'كورسين' : 'كورسات'), 'Published ' + courses.length + ' course' + (courses.length === 1 ? '' : 's'))]);
+    if (students) ach.push(['👥', A('درّس ' + students + ' طالبًا', 'Taught ' + students + ' students')]);
+    if (n) ach.push(['⭐', A('تقييم ' + rate.toFixed(1) + ' من 5 (' + n + ' تقييم)', 'Rated ' + rate.toFixed(1) + ' / 5 (' + n + ' ratings)')]);
+    if (evs.length) ach.push(['📅', A('قدّم ' + evs.length + ' فعالية', 'Held ' + evs.length + ' event' + (evs.length === 1 ? '' : 's'))]);
+    if ((c.followers || 0) >= 10) ach.push(['❤️', A(c.followers + ' متابعًا', c.followers + ' followers')]);
+    if (l.status === 'active') ach.unshift(['✅', A('محاضر معتمد في المنصة', 'Approved lecturer on the platform')]);
+    LPDATA = { id: id, l: l, courses: courses, ach: ach };
+    var k = l.links || {}, contacts = [];
+    if (k.whatsapp) contacts.push(['wa', HI.phone, A('رقم التواصل', 'Contact number'), k.whatsapp, IS.wa ? IS.wa(k.whatsapp) : 'https://wa.me/' + String(k.whatsapp).replace(/\D/g, '')]);
+    if (k.email) contacts.push(['mail', HI.mail, A('البريد الإلكتروني', 'Email'), k.email, 'mailto:' + k.email]);
+    var btn = function (key, icon, num, label) { return '<button type="button" class="lp-q" data-act="lp-list" data-k="' + key + '">' + icon + '<b dir="auto">' + num + '</b><small>' + esc(label) + '</small></button>'; };
+    var body = '<section class="lp-qs">' + btn('followers', PI.group, nfmt(c.followers || 0), A('المتابعون', 'Followers')) +
+        btn('courses', HI.layers.replace(G, 'currentColor'), N(courses.length), A('الكورسات', 'Courses')) +
+        btn('ach', HI.trophy2, N(ach.length), A('الإنجازات', 'Achievements')) +
+        btn('quals', HI.cap.replace(G, 'currentColor'), N((l.quals || []).length), A('المؤهلات', 'Qualifications')) + '</section>' +
+      (contacts.length ? '<section class="lp-contact"><h2>' + HI.phone + '<span>' + esc(A('التواصل', 'Contact')) + '</span></h2><div class="lp-contacts">' + contacts.map(function (x) {
+          return '<a class="lp-ct ' + x[0] + '" href="' + esc(x[4]) + '"' + (x[0] === 'wa' ? ' target="_blank" rel="noopener"' : '') + '><i>' + x[1] + '</i><span><b>' + esc(x[2]) + '</b><small dir="ltr">' + esc(x[3]) + '</small></span><em>‹</em></a>'; }).join('') + '</div></section>' :
+        mine ? '<a class="lp-addc" href="#studio-page">' + HI.phone + '<span>' + esc(A('أضف رقم التواصل والبريد في صفحتي ليظهرا للطلاب', 'Add your contact number and email on My page so students see them')) + '</span></a>' : '') +
+      '<section class="lp-mini"><button type="button" class="lp-m" data-act="lp-list" data-k="about">' + PI.users + '<span><b>' + esc(A('عن المحاضر', 'About the lecturer')) + '</b><small>' + esc(l.bio ? A('اضغط للقراءة', 'Tap to read') : A('لم تُكتب بعد', 'Not written yet')) + '</small></span></button>' +
+        '<span class="lp-m">' + HI.cal + '<span><b>' + esc(A('تاريخ الانضمام', 'Joined')) + '</b><small>' + esc(IS.date(l.created_at)) + '</small></span></span></section>';
+    /* the long boxes (about, qualifications, quick facts, links) are now inside those buttons; courses and events stay below */
+    [].slice.call(t.content.querySelectorAll('.cols > .main > .box, .cols > .aside')).forEach(function (x) { x.parentNode.removeChild(x); });
+    return hero + body + t.innerHTML;
   }, lec0.o);
-  IS.ACT['lp-go'] = function (b) { var e = document.getElementById(b.getAttribute('data-t')); if (e) e.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  var LPDATA = null;
+  IS.ACT['lp-list'] = async function (b) {
+    var d = LPDATA, key = b.getAttribute('data-k'); if (!d) return;
+    var empty = function (t) { return '<p class="lp-empty">' + esc(t) + '</p>'; }, html = '', title = '';
+    if (key === 'followers') {
+      title = A('المتابعون', 'Followers');
+      var list = [];
+      try { if (DB.live) { var r = await DB.sb.rpc('ish_followers', { p_user: d.id }); list = r.data || []; }
+        else { var f = (await DB.q('follows')).filter(function (x) { return x.followee === d.id; }); for (var i = 0; i < f.length; i++) { var pp = await DB.one('profiles', f[i].follower).catch(function () { return null; }); if (pp) list.push({ id: pp.id, name: pp.name, photo: pp.photo }); } } } catch (e) {}
+      html = list.length ? '<div class="lp-list">' + list.map(function (x) { return '<a href="#person/' + esc(x.id) + '">' + IS.av(x, 'sm', x.id) + '<b dir="auto">' + esc(x.name || '') + '</b><em>‹</em></a>'; }).join('') + '</div>' : empty(A('لا يوجد متابعون بعد.', 'No followers yet.'));
+    } else if (key === 'courses') {
+      title = A('الكورسات', 'Courses');
+      html = d.courses.length ? '<div class="lp-list">' + d.courses.map(function (x) { return '<a href="#course/' + esc(x.id) + '"><span class="lp-th">' + IS.poster(x.cover || 'img/collection/courses.webp') + '</span><span class="lp-tx"><b dir="auto">' + esc(x.title || '') + '</b><small>' + esc(+x.price > 0 ? A('مدفوع', 'Paid') : A('مجاني', 'Free')) + ' · ' + N(x.n_lessons || 0) + ' ' + esc(A('درس', 'lessons')) + '</small></span><em>‹</em></a>'; }).join('') + '</div>' : empty(A('لا توجد كورسات منشورة بعد.', 'No published courses yet.'));
+    } else if (key === 'ach') {
+      title = A('الإنجازات', 'Achievements');
+      html = d.ach.length ? '<div class="lp-list">' + d.ach.map(function (x) { return '<span><i class="lp-emo">' + x[0] + '</i><b>' + esc(x[1]) + '</b></span>'; }).join('') + '</div>' : empty(A('لا توجد إنجازات بعد.', 'No achievements yet.'));
+    } else if (key === 'quals') {
+      title = A('المؤهلات', 'Qualifications');
+      html = (d.l.quals || []).length ? '<div class="lp-list">' + d.l.quals.map(function (q) { return '<span><i class="lp-emo">🎓</i><b dir="auto">' + esc(q) + '</b></span>'; }).join('') + '</div>' : empty(A('لم تُضف المؤهلات بعد.', 'No qualifications added yet.'));
+    } else if (key === 'about') {
+      title = A('عن المحاضر', 'About the lecturer');
+      html = d.l.bio ? '<div class="rich lp-about">' + IS.clean(d.l.bio) + '</div>' : empty(A('لم يكتب المحاضر نبذة بعد.', 'The lecturer has not written about himself yet.'));
+    }
+    IS.sheet(esc(title), '<div class="lp-sheet">' + html + '</div>');
+  };
 
   /* ---------- sign in, sign up, the email code and Features open in the same green and gold look (owner, 20 Nov 2026) ---------- */
   var sheet0 = IS.sheet;
