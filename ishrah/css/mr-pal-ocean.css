@@ -2292,3 +2292,9 @@ html body .mrx .mh-top{--bandh:14px}
 html body .mrx .mh-top>.mh-side{padding:2px 0 calc(var(--bandh) + 8px)!important;min-height:0!important;align-self:center}
 html body .mrx .mh-top .mh-side .mh-b.ghost{background:#fff!important;border:1px solid #d6dee6!important;box-shadow:0 2px 6px rgba(6,34,70,.12)!important}
 :root[data-theme=dark] body .mrx .mh-top .mh-side .mh-b.ghost{background:#0f202f!important;border-color:#213546!important}
+/* the coloured band keeps its full height (owner, 21 Nov 2026: «don't remove the colour of the bar, put the buttons up in the white area»):
+   brand row, the buttons on white, then the full band under them */
+html body .mrx .mh-top{--bandh:44px}
+@media (min-width:700px){html body .mrx .mh-top{--bandh:52px}}
+@media (min-width:1240px){html body .mrx .mh-top{--bandh:58px}}
+html body .mrx .mh-top>.mh-side{padding:2px 0 calc(var(--bandh) + 10px)!important}

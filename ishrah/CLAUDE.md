@@ -1362,3 +1362,5 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
 - **Clinical banner = the owner's picture (21 Nov 2026: «the clinical bar image is not like this»):** `img/mr/ban/clinical[-m].webp` from his
   blue stethoscope banner, shown on the Medicine → Clinical home (banners.js key `clinical`). It is blue (`NATIVE.clinical = 'ocean'`): the
   blue palette shows the original; banners_pal.py turns its blue (hue 172–255) to every other colour, maroon included.
+- Header band kept full height (owner, 21 Nov 2026: «don't remove the colour of the bar, I said put the buttons up in the white area»): the
+  band is 44 / 52 / 58 px (phone / tablet / laptop) under the buttons, which sit on the white part. Supersedes "only a thin strip".
