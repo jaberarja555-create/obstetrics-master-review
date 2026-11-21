@@ -1163,3 +1163,17 @@ button.lp-ct{width:100%;font:inherit;text-align:start;cursor:pointer}
 .lp-cf .lp-btn.gold{color:#06463b!important;text-decoration:none}
 .lp-cf .lp-btn.ghost{background:#f1f6f5;border:1.5px solid #cfdcd9;color:#2d4943!important;padding:0 18px}
 .lp-cfb{grid-template-columns:1fr!important}
+/* one contact button → list with «راسل» (owner, 21 Nov 2026) */
+.lp-cbtn{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border-radius:16px;border:1px solid #e1ece9;background:var(--card);box-shadow:0 4px 12px rgba(6,70,59,.06);font:inherit;color:var(--ink);cursor:pointer;text-align:start}
+.lp-cbtn>svg.ic{width:20px!important;height:20px!important;color:#0d6b5c;flex:none}
+.lp-cbtn>span{font-weight:800;font-size:14px;flex:1}
+.lp-cbtn>i{display:flex;gap:6px;color:#5d7570}.lp-cbtn>i svg.ic{width:17px!important;height:17px!important}
+.lp-cbtn>em{font-style:normal;font-size:18px;color:#06463b}
+.lp-sheet .lp-cr{display:flex;align-items:center;gap:12px}
+.lp-ci{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-style:normal}
+.lp-ci svg.ic{width:20px!important;height:20px!important}
+.lp-ci.wa{background:#e2f7ea;color:#1faa53}.lp-ci.mail{background:#e7f0fc;color:#2b6fd6}
+.lp-send{margin-inline-start:auto;flex:none;display:inline-flex;align-items:center;height:32px;padding:0 16px;border-radius:999px;font-weight:800;font-size:13px;text-decoration:none;color:#fff!important;background:linear-gradient(180deg,#14806d,#06463b)}
+.lp-send.wa{background:linear-gradient(180deg,#25c25f,#159a45)}
+.lp-send.mail{background:linear-gradient(180deg,#3b82e0,#2263c0)}
+:root[data-theme="dark"] .lp-cbtn{background:#0f2f27;border-color:#21463c;color:#eaf5f1}

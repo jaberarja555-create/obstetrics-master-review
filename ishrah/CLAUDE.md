@@ -1065,3 +1065,5 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   titles, posts, course and library cards, profile and lecturer cards, buttons and the bottom bar smaller. Keep new parts this size.
 - **Contact asks first** (owner, 21 Nov 2026): the WhatsApp / email tiles on the lecturer page open a small sheet («ستنتقل إلى واتساب لمراسلة
   …» with the number, «متابعة إلى واتساب» / «إلغاء»); only «متابعة» opens wa.me or mailto (`IS.ACT['lp-contact']`).
+- **Contact = one button** (owner, 21 Nov 2026, replaces the contact tiles and the confirm sheet): «التواصل مع المحاضر» opens a list of the
+  ways (WhatsApp number, email), each row with a small «راسل» (green for WhatsApp, blue for email) that opens wa.me / mailto.

@@ -545,17 +545,17 @@
     if (evs.length) ach.push(['📅', A('قدّم ' + evs.length + ' فعالية', 'Held ' + evs.length + ' event' + (evs.length === 1 ? '' : 's'))]);
     if ((c.followers || 0) >= 10) ach.push(['❤️', A(c.followers + ' متابعًا', c.followers + ' followers')]);
     if (l.status === 'active') ach.unshift(['✅', A('محاضر معتمد في المنصة', 'Approved lecturer on the platform')]);
-    LPDATA = { id: id, l: l, courses: courses, ach: ach };
+    LPDATA = { id: id, l: l, courses: courses, ach: ach, contacts: null };
     var k = l.links || {}, contacts = [];
     if (k.whatsapp) contacts.push(['wa', HI.phone, A('رقم التواصل', 'Contact number'), k.whatsapp, IS.wa ? IS.wa(k.whatsapp) : 'https://wa.me/' + String(k.whatsapp).replace(/\D/g, '')]);
     if (k.email) contacts.push(['mail', HI.mail, A('البريد الإلكتروني', 'Email'), k.email, 'mailto:' + k.email]);
+    LPDATA.contacts = contacts;
     var btn = function (key, icon, num, label) { return '<button type="button" class="lp-q" data-act="lp-list" data-k="' + key + '">' + icon + '<b dir="auto">' + num + '</b><small>' + esc(label) + '</small></button>'; };
     var body = '<section class="lp-qs">' + btn('followers', PI.group, nfmt(c.followers || 0), A('المتابعون', 'Followers')) +
         btn('courses', HI.layers.replace(G, 'currentColor'), N(courses.length), A('الكورسات', 'Courses')) +
         btn('ach', HI.trophy2, N(ach.length), A('الإنجازات', 'Achievements')) +
         btn('quals', HI.cap.replace(G, 'currentColor'), N((l.quals || []).length), A('المؤهلات', 'Qualifications')) + '</section>' +
-      (contacts.length ? '<section class="lp-contact"><h2>' + HI.phone + '<span>' + esc(A('التواصل', 'Contact')) + '</span></h2><div class="lp-contacts">' + contacts.map(function (x) {
-          return '<button type="button" class="lp-ct ' + x[0] + '" data-act="lp-contact" data-kind="' + x[0] + '" data-href="' + esc(x[4]) + '" data-v="' + esc(x[3]) + '"><i>' + x[1] + '</i><span><b>' + esc(x[2]) + '</b><small dir="ltr">' + esc(x[3]) + '</small></span><em>‹</em></button>'; }).join('') + '</div></section>' :
+      (contacts.length ? '<button type="button" class="lp-cbtn" data-act="lp-contacts">' + HI.phone + '<span>' + esc(A('التواصل مع المحاضر', 'Contact the lecturer')) + '</span><i>' + contacts.map(function (x) { return x[1]; }).join('') + '</i><em>‹</em></button>' :
         mine ? '<a class="lp-addc" href="#studio-page">' + HI.phone + '<span>' + esc(A('أضف رقم التواصل والبريد في صفحتي ليظهرا للطلاب', 'Add your contact number and email on My page so students see them')) + '</span></a>' : '') +
       '<section class="lp-mini"><button type="button" class="lp-m" data-act="lp-list" data-k="about">' + PI.users + '<span><b>' + esc(A('عن المحاضر', 'About the lecturer')) + '</b><small>' + esc(l.bio ? A('اضغط للقراءة', 'Tap to read') : A('لم تُكتب بعد', 'Not written yet')) + '</small></span></button>' +
         '<span class="lp-m">' + HI.cal + '<span><b>' + esc(A('تاريخ الانضمام', 'Joined')) + '</b><small>' + esc(IS.date(l.created_at)) + '</small></span></span></section>';
@@ -564,6 +564,14 @@
     return hero + body + t.innerHTML;
   }, lec0.o);
   var LPDATA = null;
+  /* one «التواصل» button: a list of the ways to reach the lecturer, each with a small «راسل» (owner, 21 Nov 2026) */
+  IS.ACT['lp-contacts'] = function () {
+    var d = LPDATA; if (!d || !d.contacts) return;
+    IS.sheet(esc(A('التواصل مع ', 'Contact ')) + IS.lecName(d.l.name), '<div class="lp-sheet"><div class="lp-list">' + d.contacts.map(function (x) {
+      return '<span class="lp-cr"><i class="lp-ci ' + x[0] + '">' + x[1] + '</i><span class="lp-tx"><b>' + esc(x[0] === 'wa' ? A('واتساب', 'WhatsApp') : A('البريد الإلكتروني', 'Email')) + '</b><small dir="ltr">' + esc(x[3]) + '</small></span>' +
+        '<a class="lp-send ' + x[0] + '" href="' + esc(x[4]) + '"' + (x[0] === 'wa' ? ' target="_blank" rel="noopener"' : '') + '>' + esc(A('راسل', 'Message')) + '</a></span>'; }).join('') + '</div></div>');
+  };
+  document.addEventListener('click', function (e) { if (e.target.closest('.lp-send')) setTimeout(function () { IS.closeSheet(); }, 250); });
   /* WhatsApp or email ask first (owner, 21 Nov 2026: "when you press WhatsApp or email it should confirm, then go") */
   IS.ACT['lp-contact'] = function (b) {
     var wa = b.getAttribute('data-kind') === 'wa', href = b.getAttribute('data-href'), v = b.getAttribute('data-v'), who = LPDATA && LPDATA.l ? LPDATA.l.name : '';
