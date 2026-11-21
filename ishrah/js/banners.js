@@ -7,11 +7,11 @@
   'use strict';
   var A = IS.A, esc = IS.esc;
   var TITLE = { settings: ['الإعدادات', 'Settings'], library: ['مكتبتي', 'My Library'], courses: ['الكورسات', 'Courses'], lecturers: ['المحاضرون', 'Lecturers'],
-    basics: ['الأساسيات', 'Basics'], apply: ['التسجيل كمحاضر', 'Become a lecturer'] };
+    basics: ['الأساسيات', 'Basics'], clinical: ['Clinical', 'Clinical'], apply: ['التسجيل كمحاضر', 'Become a lecturer'] };
   function keyOf(name) {
     if (name === 'settings' || name === 'library' || name === 'courses' || name === 'lecturers') return name;
     if (name === 'studio-apply') return 'apply';
-    if (name === 'home') { var sp = IS.SPEC, sec = IS.mySection && IS.mySection(); if (sp === 'medicine' && sec && sec.id === 'basics') return 'basics'; }
+    if (name === 'home') { var sp = IS.SPEC, sec = IS.mySection && IS.mySection(); if (sp === 'medicine' && sec && (sec.id === 'basics' || sec.id === 'clinical')) return sec.id; }
     return '';
   }
   function subOf(key) {
@@ -23,9 +23,12 @@
   }
   /* the picture in the app colour (owner, 21 Nov 2026: «match the bar for all color options»): maroon = his originals, the others made by
      tools/ishrah/banners_pal.py */
-  function palSuffix() { var p = IS.LS ? IS.LS.get('pal', 'blue') : 'blue'; return /^(blue|ocean|teal|purple|graphite)$/.test(p) ? '-' + p : ''; }
+  /* the colour each picture was made in (Clinical, owner 21 Nov 2026, is blue; the others maroon): that colour shows the original */
+  var NATIVE = { clinical: 'ocean' };
+  function palSuffix(key) { var p = IS.LS ? IS.LS.get('pal', 'blue') : 'blue', nat = NATIVE[key] || 'maroon';
+    if (!/^(blue|ocean|teal|purple|graphite|maroon)$/.test(p)) p = 'blue'; return p === nat ? '' : '-' + p; }
   IS.ownerBanner = function (key) {
-    var t = TITLE[key], sub = subOf(key), sf = palSuffix();
+    var t = TITLE[key], sub = subOf(key), sf = palSuffix(key);
     return '<section class="mh-ban ob-ban" data-k="' + key + '"><picture><source media="(max-width:699px)" srcset="' + IS.U('img/mr/ban/' + key + '-m' + sf + '.webp') + '">' +
       '<img src="' + IS.U('img/mr/ban/' + key + sf + '.webp') + '" alt="" width="1600" height="200" decoding="async"></picture>' +
       (sub ? '<span class="ob-sub" lang="en" dir="ltr">' + esc(sub) + '</span>' : '') +

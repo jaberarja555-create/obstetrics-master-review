@@ -1359,3 +1359,6 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
 - **Header buttons on white (owner, 21 Nov 2026: «put them above the coloured bar … better in the white area»):** brand row, then the buttons
   on the white part, then only a thin coloured strip with the gold edge (`--bandh` 14 px phones, 18 px from 700 px); white buttons have a thin
   border and shadow. Supersedes "every button on the dark band".
+- **Clinical banner = the owner's picture (21 Nov 2026: «the clinical bar image is not like this»):** `img/mr/ban/clinical[-m].webp` from his
+  blue stethoscope banner, shown on the Medicine → Clinical home (banners.js key `clinical`). It is blue (`NATIVE.clinical = 'ocean'`): the
+  blue palette shows the original; banners_pal.py turns its blue (hue 172–255) to every other colour, maroon included.

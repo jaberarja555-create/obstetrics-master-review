@@ -9,8 +9,10 @@ from PIL import Image
 
 D = os.path.join(os.path.dirname(__file__), '..', '..', 'ishrah', 'img', 'mr', 'ban')
 # target hue (degrees) and saturation factor, as palettes.py MR (green base 168) but starting from maroon 343
-PALS = {'blue': (168, 1.0), 'ocean': (212, 1.0), 'teal': (186, 1.0), 'purple': (265, 1.0), 'graphite': (None, .14)}
-SRC_HUE = 343
+PALS = {'blue': (168, 1.0), 'ocean': (212, 1.0), 'teal': (186, 1.0), 'purple': (265, 1.0), 'maroon': (343, .9), 'graphite': (None, .14)}
+# the colour each picture was made in: (palette, its hue, the hue range turned); the six page banners are maroon, Clinical is blue
+NATIVE = {'clinical': ('ocean', 212, (172, 255))}
+DEFAULT = ('maroon', 343, None)
 
 
 def rgb2hsv(a):
@@ -36,13 +38,13 @@ def hsv2rgb(h, s, v):
     return np.stack([r + m, g + m, b + m], -1)
 
 
-def convert(im, hue, sf):
+def convert(im, hue, sf, src=343, rng=None):
     a = np.asarray(im.convert('RGB')).astype(np.float64) / 255
     h, s, v = rgb2hsv(a)
     # wine / maroon / pinkish-red: hue 300..360 or 0..20, saturation > .18; a soft edge on saturation so no hard borders
-    redish = ((h >= 300) | (h <= 20))
+    redish = ((h >= 300) | (h <= 20)) if rng is None else ((h >= rng[0]) & (h <= rng[1]))
     w = np.clip((s - .14) / .12, 0, 1) * redish
-    nh = h if hue is None else (h + (hue - SRC_HUE)) % 360
+    nh = h if hue is None else (h + (hue - src)) % 360
     ns = s * sf
     out = hsv2rgb(nh, ns, v)
     res = a * (1 - w[..., None]) + out * w[..., None]
@@ -54,6 +56,8 @@ for f in sorted(glob.glob(os.path.join(D, '*.webp'))):
     if any(base.endswith('-' + p) for p in PALS):
         continue
     im = Image.open(f)
+    nat, src, rng = NATIVE.get(base.replace('-m', ''), DEFAULT)
     for p, (hue, sf) in PALS.items():
-        convert(im, hue, sf).save(os.path.join(D, '%s-%s.webp' % (base, p)), quality=84, method=6)
+        if p == nat: continue
+        convert(im, hue, sf, src, rng).save(os.path.join(D, '%s-%s.webp' % (base, p)), quality=84, method=6)
     print('done', base)
