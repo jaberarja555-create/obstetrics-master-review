@@ -1209,3 +1209,4 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   lessons done · certificates), tabs الكل / قيد التعلّم / مكتملة (`#learning/going`, `#learning/done`), course cards with picture and %,
   lecturer, progress bar, «تابع» / «ابدأ» / «راجع» and «الشهادة», enrolment requests as small rows, links to favourites, downloads, achievements.
 - Banner panels follow the app colour (`--pn1` / `--pn2` on `.mh-ban`); on phones the request / publish button in a filter bar is just «+».
+- English text (owner, 21 Nov 2026): ordinary English text uses the phone's regular font (Segoe UI / Roboto) at weight 400, Poppins only for titles, names and buttons, `font-size-adjust:.5` so English matches the Arabic size.

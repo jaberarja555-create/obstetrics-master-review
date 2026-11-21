@@ -1792,3 +1792,16 @@ html body .mra[data-pg="learning"] .mh-old>.lr{gap:10px}
 .mh-ban{--pn1:#391464;--pn2:#210a3b;background:#230b41}
 /* phones: the request / publish button shows only «+» so Sort and Type keep their words */
 @media (max-width:440px){html body .mrx .mh-ltool .mh-pub{width:40px!important;padding:0!important;justify-content:center}html body .mrx .mh-ltool .mh-pub span{display:none!important}}
+/* ===== English text (owner, 21 Nov 2026: "English text size problem in all the app") =====
+   Poppins is wide and only bold here (600–800), so English looked big and heavy. In English: ordinary text uses the phone's own
+   regular font; Poppins stays only for titles, names and buttons; and every English text is sized by its x-height so it matches the Arabic. */
+:root[lang="en"] body .mrx,:root[lang="en"] body .mrx :is(p,small,span,label,select,option,input,textarea,time,em,li,td,dd,.feed-summary,.feed-detail,.mc-sub,.mlx-bio,.lr-n,.pf-bio,.lp-bio,.cmt-bub p){
+  font-family:"Segoe UI",Roboto,"Helvetica Neue",system-ui,-apple-system,Arial,Cairo,sans-serif!important;font-weight:400}
+:root[lang="en"] body .mrx :is(h1,h2,h3,b,strong,a.mh-b,button,.btn,.mc-btn,.mlx-b,.lp-btn,.lr-b,.mh-pub,.mh-in,.mh-big,.mh-nav a,.mh-title h2,.feed-card h3,.mc-card h3,.mlx h3,.lr-tx h3,.lp-name,.mh-ban h1,.mc-chip,.ptag,.mlx-t,.mlx-c){
+  font-family:Pop,"Segoe UI",Roboto,system-ui,Cairo,sans-serif!important}
+:root[lang="en"] body .mrx,:root[lang="en"] body .mrx *{font-size-adjust:.5}
+:root[lang="en"] body .mrx :is(.mh-nav a,.mh-nav a span){font-weight:600}
+:root[lang="en"] body .mrx .feed-filters label>span{font-family:"Segoe UI",Roboto,system-ui,sans-serif!important;font-weight:600}
+:root[lang="en"] body .mrx :is(h1,h2,h3,button,.btn,.mc-btn,.mlx-b,.lp-btn,.lr-b,.mh-pub,.mh-in,.mh-big,.mh-nav a,.mc-chip,.ptag,.mlx-t) :is(span,b,small){font-family:inherit!important;font-weight:inherit!important}
+:root[lang="en"] body .mrx :is(.mh-title h2,.mh-ban h1){font-weight:800}
+:root[lang="en"] body .mrx :is(.fv-btn,.lr-b,.mlx-b,.mc-btn){font-weight:600}
