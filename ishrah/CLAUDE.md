@@ -1330,3 +1330,9 @@ the Arabic and English names (Cairo / Georgia) over a gold swoosh, and `.mh-wave
 corners (colours written as #06463b so palettes.py recolours them). Below 1240 px the single logo stays (the buttons need the room).
 His picture said «المنصة السودانية للمراجعة الطبية الأكاديمية / Sudanese Medical Review Academic Platform»; the header keeps the app's
 name «أكاديمية السودان للمراجعة الطبية / Sudan Master Review Academy» until he decides to rename.
+- **The wide brand header on phones and tablets too** (owner, 21 Nov 2026: "make the bar for tablet and phone like in the laptop", his phone
+  picture; the other account started it and stopped at its limit): below 1240 px the top bar has two rows — the brand (seal + SMRA, gold line,
+  Arabic and English names over the gold swoosh) centred across the top, the buttons under it (Home · search · Features · Admin | theme ·
+  bell · profile) over the colour waves at the two lower corners. Sizes: brand picture clamp(30px,9vw,50px) on phones, up to 74 px on
+  tablets; names 11–16 px on phones. The older «الإدارة» rule (`.mh-top:has(.mh-area) .mh-logo img` max 150 px) is overridden for the brand
+  picture. Checked at 360, 390, 412, 600, 820 and 1024 px: nothing past the bar's edge (scratchpad hdr.js / hdr2r.js).
