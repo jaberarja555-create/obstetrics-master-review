@@ -1391,3 +1391,7 @@ html body .mrx .mlx .mlx-id h3 a{white-space:normal!important}
 .mlx-sub .mlx-on .seen.on{background:#e3f6ea;border-color:#bfe6cc;color:#1f8a4c!important}
 .mlx-sub .mlx-on .seen:empty{display:none}
 .mlx-pic{min-width:0!important}
+/* stars only: the rating is still worked out from everyone's stars, but the numbers (5.0, (3)) are not shown (owner, 21 Nov 2026) */
+html body .mrx :is(.gnum,.gcount){display:none!important}
+html body .mrx .mlx-rate :is(b,small),html body .mrx .mlc-rate :is(b,small),html body .mrx .lp-rate>b,html body .mrx .lp-rate>small:first-child{display:none!important}
+html body .mrx .mlx-rate,html body .mrx .lp-rate{gap:0!important}
