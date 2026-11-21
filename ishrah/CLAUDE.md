@@ -1129,3 +1129,21 @@ authentication). To build then:
 6. Cloudflare R2 for video (free delivery, own HLS conversion and AES key protection) when the Bunny bill passes about $10–20 a month.
 Estimates given (Bunny Volume ≈ $0.005/GB): 20 h course watched once ≈ 260 SDG compressed, 455 SDG at 480p, 910 SDG at 720p.
 Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share); stay on the free plan as long as possible (library files to R2).
+
+## Audio lectures in Cloudflare R2 (owner, 21 Nov 2026: "let us move to R2, and also let us make the audio lecture feature")
+- Lessons have a fourth kind **audio** («درس صوتي»): Studio → course → Curriculum → «+ درس صوتي»; the editor takes MP3 / M4A / OGG / AAC / WAV
+  up to 95 MB, reads the length, warns when the file is over ~45 MB an hour (advice: MP3 Mono 48 kbps ≈ 20 MB an hour, Audacity steps),
+  shows a preview player and «احذف التسجيل». Free preview, notes under the recording, publish checklist and course totals work as for video.
+- Storage: `functions/api/audio.js` with the R2 binding **MEDIA** (Pages project ishrah → Settings → Bindings → R2 bucket `ishrah-media`,
+  variable MEDIA). PUT ?lesson= (the lesson's lecturer or review team; key lessons/<lesson>/<uuid>.<ext>; sets lessons.kind 'audio' and
+  video_id 'au:<key>' with the service key, so ish_lesson hides it like a video; the old file is deleted); DELETE ?lesson=; GET ?lesson= →
+  a signed address for 6 h (free preview of a published course, active enrolment, its lecturer, review team); GET ?f&e&s streams with range
+  requests (HMAC with MEDIA_SIGN_KEY or the service key). Without the binding every call answers 501 and the Studio says audio storage is
+  not switched on. Deleting a lesson or a course removes its recording first.
+- Student player (`IS.audioPlayer` / `IS.audioWire` in student.js, CSS "audio lectures" in mr.css): play/pause, ±15 s, seek line, speed
+  0.75–2× (`ish-arate`), continues where the student stopped (`ish-apos:<lesson>`, «تابع من 0:18»), lock-screen title (Media Session);
+  offline download into the encrypted store and the same player in #dl. Icon `mic` added to core.js.
+- Tests: scratchpad au.js (preview: add audio lesson, upload, listen, speed, resume, download, offline play at 390 and 1440) and the real
+  function under `wrangler pages dev --r2=MEDIA` with a fake Supabase (no sign-in / stranger refused, wrong type 415, enrolled plays, full
+  file identical, range 206, tampered link 403, replace deletes the old file, delete).
+- Still to do: library audio (single recordings or series like books) if the owner wants it; R2 for library files (same bucket).

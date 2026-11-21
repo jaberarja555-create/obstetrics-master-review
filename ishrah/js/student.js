@@ -593,7 +593,7 @@
         esc(+c.price ? (e && e.status === 'rejected' ? A('أرسل إيصالًا جديدًا', 'Submit a new receipt') : A('ادفع للالتحاق', 'Pay to enrol')) : A('التحق مجانًا', 'Enrol for free')) + '</button>') +
       '<div class="row buy-tools">' + IS.favBtn('c:' + id) + '<button class="fav" data-act="share-link" data-h="course/' + id + '" aria-label="share">' + ic('share') + '</button></div>' +
       '</div><div class="buy-includes"><h2 class="sub">' + esc(A('يتضمن هذا الكورس', 'This course includes')) + '</h2><ul class="inc">' +
-      [['video', 'video', 'درس فيديو', 'video lessons'], ['text', 'file', 'درس مكتوب', 'written lessons'], ['quiz', 'qb', 'اختبار', 'quizzes']].map(function (kind) {
+      [['video', 'video', 'درس فيديو', 'video lessons'], ['audio', 'mic', 'درس صوتي', 'audio lessons'], ['text', 'file', 'درس مكتوب', 'written lessons'], ['quiz', 'qb', 'اختبار', 'quizzes']].map(function (kind) {
         var count = all.filter(function (lesson) { return lesson.kind === kind[0]; }).length;
         return count ? '<li>' + ic(kind[1]) + N(count) + ' ' + esc(A(kind[2], kind[3])) + '</li>' : '';
       }).join('') +
@@ -619,7 +619,7 @@
     return h + '</div>' + (c.status === 'published' ? '<section class="box feedback-detail">' + IS.feedVoteBar('course', c, true) + '</section>' : '');
   });
   function lessonKind(kind) {
-    return { video: A('فيديو', 'Video'), text: A('درس مكتوب', 'Reading'), quiz: A('اختبار', 'Quiz') }[kind] || '';
+    return { video: A('فيديو', 'Video'), audio: A('تسجيل صوتي', 'Audio'), text: A('درس مكتوب', 'Reading'), quiz: A('اختبار', 'Quiz') }[kind] || '';
   }
   function curriculum(c, secs, P, cur, act) {
     if (!secs.length) return IS.empty('layers', A('لم تُضف دروس بعد', 'No lessons yet'));
@@ -627,7 +627,7 @@
       var nd = s.lessons.filter(function (x) { return P[x.id]; }).length, open = cur ? s.lessons.some(function (x) { return x.id === cur; }) : si === 0;
       return '<details class="csec"' + (open ? ' open' : '') + '><summary><span class="cn' + (nd && nd === s.lessons.length ? ' ok' : '') + '">' + (nd && nd === s.lessons.length ? ic('check') : N(si + 1)) + '</span><span class="ct"><b><bdi>' + esc(s.title) + '</bdi></b><small>' + N(s.lessons.length) + ' ' + A('دروس', s.lessons.length === 1 ? 'lesson' : 'lessons') + (nd ? ' · ' + N(nd) + ' ' + esc(A('منتهٍ', 'done')) : '') + '</small></span>' + ic('down') + '</summary><ol>' +
         s.lessons.map(function (x) { var open2 = act || x.free;
-          return '<li><a class="les' + (open2 ? '' : ' locked') + '"' + (x.id === cur ? ' aria-current="page"' : '') + ' href="#lesson/' + c.id + '/' + x.id + '"><span class="ls ' + (P[x.id] ? 'ok' : '') + '">' + ic(P[x.id] ? 'check' : !open2 ? 'lock' : x.kind === 'quiz' ? 'qb' : x.kind === 'text' ? 'file' : 'play') + '</span><span class="ltt"><b><bdi>' + esc(x.title) + '</bdi></b><small>' +
+          return '<li><a class="les' + (open2 ? '' : ' locked') + '"' + (x.id === cur ? ' aria-current="page"' : '') + ' href="#lesson/' + c.id + '/' + x.id + '"><span class="ls ' + (P[x.id] ? 'ok' : '') + '">' + ic(P[x.id] ? 'check' : !open2 ? 'lock' : x.kind === 'quiz' ? 'qb' : x.kind === 'text' ? 'file' : x.kind === 'audio' ? 'mic' : 'play') + '</span><span class="ltt"><b><bdi>' + esc(x.title) + '</bdi></b><small>' +
             esc(lessonKind(x.kind)) + (x.minutes ? ' · ' + N(x.minutes) + ' ' + esc(A('د', 'min')) : '') + '</small></span>' + (x.free && !act ? IS.chip(esc(A('معاينة مجانية', 'Free preview')), 'free') : '') + '</a></li>'; }).join('') + '</ol></details>';
     }).join('') + '</div>';
   }
@@ -773,6 +773,8 @@
       '</h2><a class="btn gold" href="' + courseUrl + '">' + esc(A('التحق بالكورس', 'Enrol in the course')) + '</a></div></section>';
     else if (x.kind === 'video') h += '<div class="player" id="player" aria-label="' + esc(A('فيديو الدرس', 'Lesson video')) +
       '"><div class="loading"><span class="spin"></span></div></div>';
+    else if (x.kind === 'audio') h += '<div class="aplayer-wrap" id="player" aria-label="' + esc(A('التسجيل الصوتي للدرس', 'Lesson recording')) +
+      '"><div class="loading"><span class="spin"></span></div></div>' + (x.body ? '<article class="box lesson-reading"><div class="rich">' + IS.clean(x.body) + '</div></article>' : '');
     else if (x.kind === 'quiz') h += '<section class="box quiz" id="quiz" aria-label="' + esc(A('أسئلة الاختبار', 'Quiz questions')) + '">' +
       (x.quiz || []).map(function (q, k) { return '<fieldset class="qq" data-a="' + q.a + '"><legend>' + N(k + 1) + '. ' + esc(q.q) +
         '</legend>' + (q.o || []).map(function (o, j) { return '<label class="qo"><input type="radio" name="q' + k + '" value="' + j +
@@ -840,6 +842,17 @@
       player.closest('.lesson-layout').querySelector('.lesson-outline-toggle').open = false;
       player.innerHTML = IS.empty('video', title, message);
     }
+    if (lesson.kind === 'audio') {
+      try {
+        var sound = await DB.audioPlay(lesson);
+        if (!sound) { player.innerHTML = IS.empty('mic', A('لم يُرفع تسجيل هذا الدرس بعد', 'The recording of this lesson is not uploaded yet'), ''); return; }
+        player.innerHTML = IS.audioPlayer(sound.src, { id: lesson.id, title: lesson.title, });
+        IS.audioWire(player, { id: lesson.id, title: lesson.title });
+      } catch (error) {
+        player.innerHTML = IS.empty('mic', A('تعذّر تشغيل التسجيل', 'The recording could not be played'), A('تحقق من الاتصال.', 'Check the connection.'));
+      }
+      return;
+    }
     try {
       var video = await DB.videoPlay(lesson);
       if (!video) showUnavailable(A('لم يُرفع فيديو هذا الدرس بعد', 'The video of this lesson is not uploaded yet'));
@@ -851,6 +864,55 @@
       showUnavailable(A('تعذّر تشغيل الفيديو', 'The video could not be played'), A('تحقق من الاتصال.', 'Check the connection.'));
     }
   }
+
+  /* audio lectures (owner, 21 Nov 2026): a listening card with play/pause, ±15 s, a seek line, speed 0.75–2× (kept per device),
+     it continues where the student stopped (ish-apos:<lesson>) and shows the lecture on the phone's lock screen */
+  function mmss(t) { t = Math.max(0, Math.floor(t || 0)); var h = Math.floor(t / 3600), m = Math.floor(t % 3600 / 60), s = t % 60; return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(s).padStart(2, '0'); }
+  IS.audioPlayer = function (src, o) {
+    o = o || {};
+    return '<section class="aplayer" dir="ltr" oncontextmenu="return false">' +
+      '<audio preload="metadata" controlsList="nodownload" src="' + esc(src) + '"></audio>' +
+      '<div class="ap-top"><span class="ap-ic">' + ic('mic') + '</span><span class="ap-tt" dir="auto"><b>' + esc(o.title || '') + '</b><small class="ap-resume" hidden></small></span></div>' +
+      '<div class="ap-line"><span class="ap-t ap-cur">0:00</span><input type="range" class="ap-seek" min="0" max="1000" value="0" step="1" aria-label="' + esc(A('موضع التشغيل', 'Position')) + '"><span class="ap-t ap-dur">–:––</span></div>' +
+      '<div class="ap-ctl"><button type="button" class="ap-b ap-back" aria-label="' + esc(A('رجوع 15 ثانية', 'Back 15 seconds')) + '">↺<small>15</small></button>' +
+        '<button type="button" class="ap-b ap-play" aria-label="' + esc(A('تشغيل', 'Play')) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="pl" d="M8 5.5v13l11-6.5z"/><path class="pa" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>' +
+        '<button type="button" class="ap-b ap-fwd" aria-label="' + esc(A('تقديم 15 ثانية', 'Forward 15 seconds')) + '">↻<small>15</small></button></div>' +
+      '<div class="ap-rates" role="group" aria-label="' + esc(A('سرعة التشغيل', 'Playback speed')) + '">' + [0.75, 1, 1.25, 1.5, 1.75, 2].map(function (r) { return '<button type="button" class="ap-r" data-r="' + r + '">' + r + '×</button>'; }).join('') + '</div></section>';
+  };
+  IS.audioWire = function (box, o) {
+    var a = box.querySelector('audio'); if (!a) return;
+    var seek = box.querySelector('.ap-seek'), cur = box.querySelector('.ap-cur'), dur = box.querySelector('.ap-dur'), playB = box.querySelector('.ap-play'), res = box.querySelector('.ap-resume');
+    var key = 'ish-apos:' + (o.id || ''), rate = 1, dragging = false, lastSave = 0;
+    try { rate = +localStorage.getItem('ish-arate') || 1; } catch (e) {}
+    function setRate(r) { rate = r; a.playbackRate = r; box.querySelectorAll('.ap-r').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-r') === r); }); try { localStorage.setItem('ish-arate', String(r)); } catch (e) {} }
+    setRate(rate);
+    function savePos(force) { if (!a.duration || (!force && Date.now() - lastSave < 4000)) return; lastSave = Date.now(); try { if (a.currentTime > a.duration - 15) localStorage.removeItem(key); else if (a.currentTime > 5) localStorage.setItem(key, String(Math.floor(a.currentTime))); } catch (e) {} }
+    a.addEventListener('loadedmetadata', function () {
+      dur.textContent = mmss(a.duration); a.playbackRate = rate;
+      var p = 0; try { p = +localStorage.getItem(key) || 0; } catch (e) {}
+      if (p > 10 && p < a.duration - 15) { a.currentTime = p; res.hidden = false; res.textContent = A('تابع من ' + mmss(p), 'Continuing from ' + mmss(p)); }
+    });
+    a.addEventListener('timeupdate', function () { if (!dragging && a.duration) seek.value = Math.round(a.currentTime / a.duration * 1000); cur.textContent = mmss(a.currentTime); savePos(false); });
+    a.addEventListener('play', function () { box.classList.add('playing'); playB.setAttribute('aria-label', A('إيقاف مؤقت', 'Pause')); a.playbackRate = rate; });
+    a.addEventListener('pause', function () { box.classList.remove('playing'); playB.setAttribute('aria-label', A('تشغيل', 'Play')); savePos(true); });
+    a.addEventListener('ended', function () { try { localStorage.removeItem(key); } catch (e) {} });
+    a.addEventListener('error', function () { box.classList.add('ap-err'); res.hidden = false; res.textContent = A('تعذّر تحميل التسجيل. تحقق من الاتصال.', 'The recording could not be loaded. Check the connection.'); });
+    playB.onclick = function () { if (a.paused) a.play().catch(function () {}); else a.pause(); };
+    box.querySelector('.ap-back').onclick = function () { a.currentTime = Math.max(0, a.currentTime - 15); };
+    box.querySelector('.ap-fwd').onclick = function () { a.currentTime = Math.min(a.duration || 0, a.currentTime + 15); };
+    seek.addEventListener('input', function () { dragging = true; if (a.duration) cur.textContent = mmss(seek.value / 1000 * a.duration); });
+    seek.addEventListener('change', function () { dragging = false; if (a.duration) a.currentTime = seek.value / 1000 * a.duration; });
+    box.querySelectorAll('.ap-r').forEach(function (b) { b.onclick = function () { setRate(+b.getAttribute('data-r')); }; });
+    if ('mediaSession' in navigator) try {
+      navigator.mediaSession.metadata = new MediaMetadata({ title: o.title || '', artist: IS.brandName ? IS.brandName() : '', artwork: [{ src: 'icon-512.png', sizes: '512x512', type: 'image/png' }] });
+      navigator.mediaSession.setActionHandler('seekbackward', function () { a.currentTime = Math.max(0, a.currentTime - 15); });
+      navigator.mediaSession.setActionHandler('seekforward', function () { a.currentTime = Math.min(a.duration || 0, a.currentTime + 15); });
+    } catch (e) {}
+    /* leaving the page stops the sound and keeps the position */
+    var onHash = function () { setTimeout(function () { if (!document.body.contains(box)) { savePos(true); a.pause(); window.removeEventListener('hashchange', onHash); } }, 0); };
+    window.addEventListener('hashchange', onHash);
+    window.addEventListener('pagehide', function () { savePos(true); });
+  };
 
   function initLessonStudy(main, bar, course, lesson) {
     var buttons = Array.from(bar.querySelectorAll('[role=tab]'));

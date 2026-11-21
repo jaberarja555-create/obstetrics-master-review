@@ -1561,3 +1561,30 @@ html body .feed-card.feed-fb .feed-card-content>div{width:100%}
 /* five kind buttons (Posts added, 21 Nov 2026) on one row */
 html body .cm-kinds{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:6px}
 @media (max-width:480px){html body .cm-k{font-size:11px;padding:7px 1px;letter-spacing:-.2px}html body .cm-k svg.ic{width:19px!important;height:19px!important}}
+/* audio lectures (21 Nov 2026): the listening card */
+.aplayer-wrap{margin:0 0 12px}
+.aplayer{position:relative;border-radius:18px;padding:16px 16px 14px;color:#fff;background:linear-gradient(150deg,#0d6b5c,#06463b 70%);box-shadow:0 10px 26px rgba(6,70,59,.22);overflow:hidden}
+.aplayer::after{content:"";position:absolute;inset:auto -40px -60px auto;width:220px;height:160px;border-radius:50%;background:radial-gradient(closest-side,rgba(246,220,142,.22),transparent);pointer-events:none}
+.aplayer audio{display:none}
+.aplayer .ap-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.aplayer .ap-ic{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.12);border:1px solid rgba(246,220,142,.45)}
+.aplayer .ap-ic svg.ic{width:24px!important;height:24px!important;color:#f6dc8e}
+.aplayer .ap-tt{min-width:0;display:flex;flex-direction:column;gap:2px}
+.aplayer .ap-tt b{font-size:15px;line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;color:#fff}
+.aplayer .ap-tt small{font-size:12px;color:#f6dc8e}
+.aplayer .ap-line{display:flex;align-items:center;gap:9px}
+.aplayer .ap-t{font-size:12px;font-variant-numeric:tabular-nums;min-width:38px;text-align:center;color:#d8ece7}
+.aplayer .ap-seek{flex:1;min-width:0;accent-color:#f6dc8e;height:22px;margin:0}
+.aplayer .ap-ctl{display:flex;justify-content:center;align-items:center;gap:22px;margin:8px 0 10px}
+.aplayer .ap-b{border:0;background:transparent;color:#fff;cursor:pointer;font:inherit}
+.aplayer .ap-back,.aplayer .ap-fwd{position:relative;width:46px;height:46px;border-radius:50%;font-size:26px;line-height:1;background:rgba(255,255,255,.08)}
+.aplayer .ap-back small,.aplayer .ap-fwd small{position:absolute;inset:0;display:grid;place-items:center;font-size:10px;font-weight:800;padding-top:2px}
+.aplayer .ap-play{width:64px;height:64px;border-radius:50%;background:linear-gradient(180deg,#f8dc85,#d9a93e);color:#3d2a05;box-shadow:0 6px 16px rgba(0,0,0,.25);display:grid;place-items:center}
+.aplayer .ap-play svg{width:28px;height:28px;fill:currentColor}
+.aplayer .ap-play .pa,.aplayer.playing .ap-play .pl{display:none}
+.aplayer.playing .ap-play .pa{display:inline}
+.aplayer .ap-rates{display:flex;justify-content:center;flex-wrap:wrap;gap:6px}
+.aplayer .ap-r{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;padding:4px 11px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+.aplayer .ap-r.on{background:#f6dc8e;border-color:#f6dc8e;color:#3d2a05}
+.aplayer.ap-err .ap-resume{color:#ffb4a8}
+.aup .aprev audio{width:100%;margin:6px 0 8px}

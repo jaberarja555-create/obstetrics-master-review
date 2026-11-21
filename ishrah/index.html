@@ -13,7 +13,7 @@
 (function(){var P={teal:1,green:1,purple:1,maroon:1,graphite:1},p='blue';try{p=JSON.parse(localStorage.getItem('ish-pal')||'"blue"')}catch(e){}
 document.write('<link id="ishcss" rel="stylesheet" href="css/'+(P[p]?'pal-'+p:'app')+'.css?v=0df779d3">');})();</script>
 <noscript><link rel="stylesheet" href="css/app.css?v=1b0c6572"></noscript>
-<link rel="stylesheet" href="css/mr.css?v=ad82d70f">
+<link rel="stylesheet" href="css/mr.css?v=3dbfb290">
 <script>/* test switch for the Android scrolling smear (owner, 18 Nov 2026): ishrahli.org/?safe=1 … 4 turns parts of the design off on this
    device so the cause can be found; ?safe=0 turns it off again. 1 = all, 2 = bars not fixed, 3 = no shadows/animations, 4 = no banner pictures */
 (function(){try{var m=location.search.match(/[?&]safe=(\d)/);if(m){if(m[1]==='0')localStorage.removeItem('ish-safe');else localStorage.setItem('ish-safe',m[1]);}
@@ -32,14 +32,14 @@ document.documentElement.setAttribute('data-theme',JSON.parse(localStorage.getIt
 /* the database and video libraries are loaded only when the platform is connected (js/config.js) */
 (function(){var c=window.ISH_CONFIG||{};if(c.supabaseUrl&&c.supabaseAnonKey){document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js"><\/script><script src="https://cdn.jsdelivr.net/npm/tus-js-client@4.1.0/dist/tus.min.js"><\/script>');}})();
 </script>
-<script src="js/db.js?v=0683ffee"></script>
-<script src="js/core.js?v=3d448ae1"></script>
-<script src="js/student.js?v=247d1ab7"></script>
+<script src="js/db.js?v=cd7a014d"></script>
+<script src="js/core.js?v=1564682d"></script>
+<script src="js/student.js?v=5d4fcb11"></script>
 <script src="js/library.js?v=adb5f8c0"></script>
 <script src="js/sell.js?v=827050f2"></script>
 <script src="js/series.js?v=ead1db87"></script>
 <script src="js/reader.js?v=48db9e75"></script>
-<script src="js/studio.js?v=70c019ff"></script>
+<script src="js/studio.js?v=b172cdb8"></script>
 <script src="js/control.js?v=f34148f7"></script>
 <script src="js/org.js?v=34498318"></script>
 <script src="js/course-requests.js?v=73b0027f"></script>
@@ -48,7 +48,7 @@ document.documentElement.setAttribute('data-theme',JSON.parse(localStorage.getIt
 <script src="js/manage.js?v=e1a9e6ec"></script>
 <script src="js/alerts.js?v=50b61ad8"></script>
 <script src="js/guide.js?v=5ec7e43f"></script>
-<script src="js/offline.js?v=c9059091"></script>
+<script src="js/offline.js?v=31d80490"></script>
 <script src="js/mr.js?v=aec379b6"></script>
 <script>IS.start();if('serviceWorker'in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(function(){});</script>
 </body>

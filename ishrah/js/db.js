@@ -151,6 +151,10 @@
       videoUpload: async function (file, o) { var k = 'video/' + uuid(); if (o && o.onProgress) o.onProgress(30); await fput(k, file); if (o && o.onProgress) o.onProgress(100); return k; },
       videoFile: async function (lesson) { if (IS.extEmbed(lesson.video_id)) throw new Error('extlink'); var u = await this.fileUrl('video', lesson.video_id); if (!u) throw new Error('novideo'); return u; },
       videoPlay: async function (lesson) { var e = IS.extEmbed(lesson.video_id); if (e) return e; var u = await this.fileUrl('video', lesson.video_id); return u ? { kind: 'video', src: u } : null; },
+      /* audio lectures (R2 when live; this device in the preview) */
+      audioUpload: async function (file, o) { var k = 'audio/' + uuid(); if (o && o.onProgress) o.onProgress(40); await fput(k, file); await this.upd('lessons', o.lesson, { kind: 'audio', video_id: 'au:' + k }); if (o && o.onProgress) o.onProgress(100); return 'au:' + k; },
+      audioPlay: async function (lesson) { if (!/^au:/.test(lesson.video_id || '')) return null; var u = await this.fileUrl('audio', lesson.video_id.slice(3)); return u ? { kind: 'audio', src: u } : null; },
+      audioRemove: async function (id) { var x = tb('lessons').filter(function (y) { return y.id === id; })[0]; if (x) { x.video_id = ''; save(); } },
       reset: function () { localStorage.removeItem(K); localStorage.removeItem('ish-users'); localStorage.removeItem('ish-session'); indexedDB.deleteDatabase('ish-files'); }
     };
   })();
@@ -482,6 +486,20 @@
       },
       videoFile: async function (lesson, q) { if (IS.extEmbed(lesson.video_id)) throw new Error('extlink'); var r = await fetch('api/video?lesson=' + encodeURIComponent(lesson.id) + '&dl=' + (q || 480), { headers: { authorization: 'Bearer ' + await token() } }); if (!r.ok) throw new Error(r.status === 501 ? 'nodl' : r.status === 403 ? 'denied' : 'net'); return (await r.json()).src; },
       videoPlay: async function (lesson) { var e = IS.extEmbed(lesson.video_id); if (e) return e; var r = await fetch('api/video?lesson=' + encodeURIComponent(lesson.id), { headers: { authorization: 'Bearer ' + await token() } }); if (!r.ok) return null; return r.json(); },
+      /* audio lectures in Cloudflare R2 (functions/api/audio.js): the file goes to our own function, which saves it and marks the lesson */
+      audioUpload: async function (file, o) {
+        var t = await token();
+        var j = await new Promise(function (ok, no) {
+          var x = new XMLHttpRequest(); x.open('PUT', 'api/audio?lesson=' + encodeURIComponent(o.lesson));
+          x.setRequestHeader('authorization', 'Bearer ' + t); x.setRequestHeader('content-type', file.type === 'audio/mp3' ? 'audio/mpeg' : file.type);
+          x.upload.onprogress = function (e) { if (e.lengthComputable && o.onProgress) o.onProgress(Math.min(99, Math.round(e.loaded / e.total * 100))); };
+          x.onload = function () { var r = {}; try { r = JSON.parse(x.responseText); } catch (e) {} if (x.status >= 200 && x.status < 300) ok(r); else no(new Error(x.status === 501 ? 'nostore' : x.status === 413 ? 'toobig' : x.status === 415 ? 'notaudio' : x.status === 403 ? 'denied' : 'net')); };
+          x.onerror = function () { no(new Error('net')); }; x.send(file);
+        });
+        DB.forget && DB.forget(); if (o.onProgress) o.onProgress(100); return j.ref;
+      },
+      audioPlay: async function (lesson) { if (!/^au:/.test(lesson.video_id || '') && !(lesson.kind === 'audio' && lesson.has_video)) return null; var r = await fetch('api/audio?lesson=' + encodeURIComponent(lesson.id), { headers: { authorization: 'Bearer ' + await token() } }); if (!r.ok) { if (r.status === 501) throw new Error('nostore'); return null; } return r.json(); },
+      audioRemove: async function (id) { var r = await fetch('api/audio?lesson=' + encodeURIComponent(id), { method: 'DELETE', headers: { authorization: 'Bearer ' + await token() } }); DB.forget && DB.forget(); return r.ok; },
       reset: function () {}
     };
     return api;
