@@ -758,6 +758,8 @@
   function applyTheme() { var t = LS.get('theme', 'light'); if (t === 'auto') t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t);
     document.documentElement.setAttribute('data-fs', LS.get('fs', 'n')); }
   IS.applyTheme = applyTheme;
+  /* Automatic follows the device while the app is open too (owner, 21 Nov 2026) */
+  try { window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { if (LS.get('theme', 'light') === 'auto') { applyTheme(); if (IS.chrome) IS.chrome(document.body.getAttribute('data-page')); } }); } catch (e) {}
   /* colour of the app (owner, 18 Nov 2026): one stylesheet per colour, made by tools/ishrah/palettes.py */
   /* the SMRA design (css/mr.css) is green: 'blue' (the old key) is that default; every other colour has css/mr-pal-<key>.css too */
   IS.PALS = [['blue', '#0d6b5c', 'أخضر SMRA', 'SMRA green'], ['ocean', '#1768b3', 'أزرق', 'Blue'], ['teal', '#0b6870', 'فيروزي', 'Teal'],
@@ -958,8 +960,10 @@
       restoreBase();
       await IS.loadMe();
     } else {
-      if (DB.ready) await DB.ready;
-      await Promise.all([IS.loadBase().catch(restoreBase), loadAccount()]);
+      /* never stay on the loading circle: after 8 s the app opens with what this device saved, and refreshes when the server answers */
+      var boot = (async function () { if (DB.ready) await DB.ready; await Promise.all([IS.loadBase().catch(restoreBase), loadAccount()]); })();
+      var slow = await Promise.race([boot.then(function () { return false; }, function () { return false; }), new Promise(function (ok) { setTimeout(function () { ok(true); }, 8000); })]);
+      if (slow) { try { restoreBase(); } catch (e) {} boot.then(function () { IS.route(); }).catch(function () {}); }
     }
     IS.beat();
     DB.onAuth(async function () { if (!navigator.onLine && DB.live) return; await loadAccount(); IS.route(); });

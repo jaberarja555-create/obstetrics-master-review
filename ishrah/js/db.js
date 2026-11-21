@@ -161,7 +161,17 @@
 
   /* ================= SUPABASE backend ================= */
   var Remote = LIVE ? (function () {
-    var sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
+    var sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true,
+      /* the sign-in lock is shared by every open tab of the site; a sleeping background tab could hold it and leave a new tab on the loading
+         circle for ever (owner's laptop, 21 Nov 2026). Wait for it at most 3 s, then go on. */
+      lock: function (name, wait, fn) {
+        if (!navigator.locks || !navigator.locks.request) return fn();
+        return new Promise(function (ok, no) {
+          var done = false, run = function () { if (done) return; done = true; clearTimeout(t); return Promise.resolve().then(fn).then(ok, no); };
+          var t = setTimeout(run, 3000);
+          navigator.locks.request(name, function () { return run(); }).catch(function () { run(); });
+        });
+      } } });
     var UID = null, listeners = [];
     sb.auth.getSession().then(function (r) { UID = r.data.session ? r.data.session.user.id : null; listeners.forEach(function (f) { f(); }); });
     sb.auth.onAuthStateChange(function (_e, s) { var n = s ? s.user.id : null; if (n !== UID) { UID = n; listeners.forEach(function (f) { f(); }); } });

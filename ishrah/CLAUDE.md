@@ -1183,3 +1183,14 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   (core.js flag `ish-theme-reset1`, also read by the head script so there is no dark flash); students can still choose Night / Eye /
   Automatic from the look menu or Settings. On the speciality and section screens (phones ≤ 600 px) the header is a row where the logo
   takes only the room between the buttons (max 170 px), so it never sits on «Sign in» (10–22 px gap at 320–393 px). Test: scratchpad pk.js.
+- **Never stuck on the loading circle** (owner's laptop, 21 Nov 2026: endless spinner on #home with many tabs open): (1) db.js gives
+  supabase-js its own auth `lock`: the cross-tab navigator lock is waited for at most 3 s, then the call runs (a sleeping tab holding the
+  lock used to freeze every new tab); (2) `IS.start` (core.js) waits at most 8 s for the base data and the account, then opens with what
+  the device saved (`restoreBase`) and routes again when the server answers. Tests: scratchpad lf3.js (live start unchanged) and hang.js
+  (server never answers → app shown after 8 s).
+- **Background matches the app colour** (owner, 21 Nov 2026): `python3 tools/ishrah/bgcolors.py` writes img/mr/bg-wide-<colour>.webp and
+  bg-tall-<colour>.webp (only the room's green/teal surfaces, hue 138–212, move to the colour; plants and objects keep theirs);
+  palettes.py points each css/mr-pal-<colour>.css at its own pictures.
+- **Automatic look follows the device live**: a prefers-color-scheme listener in core.js re-applies it while the app is open, and the
+  head script resolves 'auto' before the first paint. On Windows, Chrome follows "Settings → Personalisation → Colours → Choose your
+  default app mode", not the taskbar (Windows mode) setting. Test: scratchpad auto.js.

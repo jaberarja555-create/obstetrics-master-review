@@ -21,10 +21,10 @@ html body:is([data-page="pick"],[data-page="pick-section"]) #main{background:non
 .mrx .ico{width:1em;height:1em}
 
 /* background: the owner's room pictures, sharp; a soft green veil where the content sits */
-.mr-bg{position:fixed;inset:0;z-index:-1;background:url(../img/mr/bg-wide.webp) center/cover no-repeat}
+.mr-bg{position:fixed;inset:0;z-index:-1;background:url(../img/mr/bg-wide-ocean.webp) center/cover no-repeat}
 .mr-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 52% 60% at 50% 46%,rgba(8,45,64,.55),rgba(8,45,64,.15) 70%,rgba(8,45,64,0))}
 .mrx.sec .mr-bg::after{background:radial-gradient(ellipse 60% 64% at 50% 50%,rgba(6,28,52,.78),rgba(6,28,52,.45) 70%,rgba(6,28,52,.2))}
-@media (orientation:portrait){.mr-bg{background-image:url(../img/mr/bg-tall.webp)}
+@media (orientation:portrait){.mr-bg{background-image:url(../img/mr/bg-tall-ocean.webp)}
   .mr-bg::after,.mrx.sec .mr-bg::after{background:linear-gradient(180deg,rgba(8,45,64,.1),rgba(8,45,64,.38) 30%,rgba(8,45,64,.38) 75%,rgba(8,45,64,.05))}}
 :root[data-theme="dark"] .mr-bg::after{background:linear-gradient(180deg,rgba(2,14,20,.74),rgba(2,14,20,.62))!important}
 
