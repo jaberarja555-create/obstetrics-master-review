@@ -331,6 +331,7 @@
     if (item.row.room && Object.prototype.hasOwnProperty.call(POST_KINDS, item.type)) return 'post';
     return item.type === 'library' ? 'file' : item.type;
   }
+  IS.feedPostCard = function (row) { return feedCard({ type: postKind(row), row: row }); };
   function feedCard(item) {
     if (item.type === 'library' && item.row._parts && IS.seriesCard) return IS.seriesCard(item.row, true);
     var row = item.row, type = item.type, label = FEED_TYPES[type], when = row.published_at || row.created_at;
@@ -1144,7 +1145,7 @@
       (me() ? composer :
         '<div class="box center">' + esc(A('سجّل الدخول لتشارك في النقاش.', 'Sign in to join the discussion.')) + ' <button class="btn pri sm" data-act="login">' + esc(A('دخول', 'Sign in')) + '</button></div>') +
       (own.length ? '<section class="box"><h2>' + IS.T('حالة أسئلتي', 'My question status') + '</h2><div class="posts">' + own.map(postRow).join('') + '</div></section>' : '') +
-      (list.length ? '<div class="posts">' + list.map(postRow).join('') + '</div>' : IS.empty('chat', A('لا توجد نقاشات هنا بعد', 'No discussions here yet'), A('ابدأ أول نقاش.', 'Start the first one.')));
+      (list.length ? '<div class="feed-items cm-feed">' + list.map(function (p) { return '<div data-pk="' + postKind(p) + '">' + IS.feedPostCard(p) + '</div>'; }).join('') + '</div>' : IS.empty('chat', A('لا توجد نقاشات هنا بعد', 'No discussions here yet'), A('ابدأ أول نقاش.', 'Start the first one.')));
     return h;
   });
   IS.SUB.post = async function (d, form) {

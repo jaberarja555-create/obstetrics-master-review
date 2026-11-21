@@ -685,10 +685,11 @@
       CKINDS.map(function (k) { return '<option value="' + k[0] + '">' + esc(A(k[2], k[3])) + '</option>'; }).join('') + '</select></label>' +
       (IS.ME ? '<i class="mh-sep"></i><a class="mh-pub" href="#community/new">' + HI.plus + '<span>' + esc(A('انشر', 'Publish')) + '</span></a>' : '') + '</div>';
     inner = inner.replace(/<a class="btn pri" href="#community\/new">[\s\S]*?<\/a>/, '');
-    inner = inner.replace(/(<div class="posts">)(?![\s\S]*<div class="posts">)/, tools + '$1');
+    inner = inner.replace(/(<div class="feed-items cm-feed">)/, tools + '$1');
     var a0 = IS.after;
     IS.after = function (main, remember) {
       var r = a0 ? a0(main, remember) : undefined;
+      var fd = main.querySelector('.cm-feed'); if (fd && IS.hydrateFeedReactions) IS.hydrateFeedReactions(fd);
       var so = main.querySelector('#cm-sort'), ty = main.querySelector('#cm-type');
       if (so) so.onchange = function () { cmSort(so.value); };
       if (ty) ty.onchange = function () {
@@ -701,23 +702,23 @@
     return inner.replace(/(<div class="spacebox[^"]*"[^>]*><div class="sts">[\s\S]*?<\/div>)/, '$1' + bar);
   }, com0.o);
   function cmSort(how) {
-    var all = IS.$$('.mra[data-pg="community"] .posts'), list = all[all.length - 1]; if (!list) return;
+    var list = document.querySelector('.mra[data-pg="community"] .cm-feed'); if (!list) return;
     var rows = [].slice.call(list.children);
     var n = function (r, sel) { var e = r.querySelector(sel); return e ? Number(String(e.textContent).replace(/[^0-9]/g, '')) || 0 : 0; };
     if (!list._order) list._order = rows.slice();
     var sorted = how === 'new' ? list._order.slice() : rows.slice().sort(function (a, b) {
-      return how === 'talk' ? n(b, '.pc') - n(a, '.pc') : (n(b, '.rx-k') + n(b, '.pc')) - (n(a, '.rx-k') + n(a, '.pc')); });
+      return how === 'talk' ? n(b, '[data-feedback-count]') - n(a, '[data-feedback-count]') : (n(b, '.rx-k') + n(b, '[data-feedback-count]')) - (n(a, '.rx-k') + n(a, '[data-feedback-count]')); });
     sorted.forEach(function (r) { list.appendChild(r); });
   }
   IS.ACT['cm-kind'] = function (b) {
     var on = b.getAttribute('aria-pressed') !== 'true', k = b.getAttribute('data-k');
     IS.$$('.cm-k').forEach(function (x) { x.setAttribute('aria-pressed', x === b && on); });
     var tsel = document.getElementById('cm-type'); if (tsel) tsel.value = on ? k : '';
-    var rows = IS.$$('.mra[data-pg="community"] .posts > [data-pk]'), shown = 0;
+    var rows = IS.$$('.mra[data-pg="community"] .cm-feed > [data-pk]'), shown = 0;
     rows.forEach(function (r) { var ok = !on || r.getAttribute('data-pk') === k; r.hidden = !ok; if (ok) shown++; });
     var note = document.querySelector('.cm-empty'); if (note) note.hidden = true;
     if (on && !shown) {
-      if (!note) { var list = document.querySelector('.mra[data-pg="community"] .posts'); if (list) { list.insertAdjacentHTML('afterend', '<p class="cm-empty"></p>'); note = document.querySelector('.cm-empty'); } }
+      if (!note) { var list = document.querySelector('.mra[data-pg="community"] .cm-feed'); if (list) { list.insertAdjacentHTML('afterend', '<p class="cm-empty"></p>'); note = document.querySelector('.cm-empty'); } }
       if (note) { note.textContent = A('لا توجد منشورات من هذا النوع بعد.', 'No posts of this kind yet.'); note.hidden = false; }
     }
   };
