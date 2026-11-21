@@ -1091,3 +1091,4 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   page) · التصنيف (same as the four kind buttons, kept in step) · «انشر» (replaces the big «اكتب منشورًا» button).
 - Community posts use the section page's post card (`IS.feedPostCard(row)` in student.js = the Home `feedCard`): header, reactions,
   comments, share, ⋮, stars, «إدارة»; list `.cm-feed` (filters and sorting work on it).
+- Report is a red flag everywhere (owner, 21 Nov 2026), not ⋮.

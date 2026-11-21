@@ -1464,3 +1464,7 @@ html body .mra[data-pg="community"] .cm-feed>div[hidden]{display:none!important}
 html body .mra[data-pg="community"] .cm-feed{align-items:stretch!important}
 html body .mra[data-pg="community"] .cm-feed>div{width:100%!important;align-self:stretch!important}
 html body .mra[data-pg="community"] .cm-feed>div>.feed-card{width:100%!important}
+/* report = a flag, not ⋮ (owner, 21 Nov 2026) */
+html body .mrh .feed-votes>.fv-acts>.feed-report::before{content:none!important;display:none!important}
+html body .mrh .feed-votes>.fv-acts>.feed-report>*{display:block!important}
+html body .mrh .feed-votes>.fv-acts>.feed-report .ico{width:17px!important;height:17px!important;color:#b4443a!important}
