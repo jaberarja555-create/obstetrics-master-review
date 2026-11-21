@@ -1061,3 +1061,5 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   My page); then two small tiles «عن المحاضر» (opens the bio) and «تاريخ الانضمام». The long boxes below were removed; courses and events stay.
 - **Lecturers list**: compact horizontal cards (picture in a gold ring, name, title, rating, courses, «عرض الملف»), the studio / join card
   teal with white text and a gold button.
+- **Compact sizes** (owner, 21 Nov 2026: "things and text are big; one has to scroll"): a block at the end of css/mr.css makes banners,
+  titles, posts, course and library cards, profile and lecturer cards, buttons and the bottom bar smaller. Keep new parts this size.
