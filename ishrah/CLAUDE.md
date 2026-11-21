@@ -1222,3 +1222,6 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   and shows «تأكد من اختيار الكورس والقسم الصحيحين». Curriculum: each section and each lesson has a move button (route icon) to move it to
   another of the lecturer's courses (`movesec`, `moveles`; course totals updated on both sides).
 - **Size of an uploaded recording (owner, 21 Nov 2026: "how do I know the file size I uploaded"):** the studio's audio lesson editor shows «حجم الملف المرفوع: X MB» under the player (`#asz`): one byte is asked from the signed R2 address (`Range: bytes=0-0`) and the total is read from Content-Range (Content-Length when the server ignores Range). The size is not stored in the database.
+- **The platform owner gets every alert** (owner, 21 Nov 2026: «كمالك للمنصه مفروض يصلني كل شي»; he sent a course for review himself and was left
+  out because the one who acts is never alerted): `053_owner_all_alerts.sql` — `alert_team` and `alert_ticket` still skip the person who acted,
+  except an owner (`ishrah_private.is_owner_id`). Other staff are still not alerted about their own actions. Tested on the local Postgres.
