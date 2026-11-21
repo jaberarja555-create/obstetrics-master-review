@@ -217,10 +217,21 @@
   /* ---------- one day/night button: each press = Day → Night → Eye comfort (owner, 20 Nov 2026) ---------- */
   I.eye = '<svg class="ic eye" viewBox="0 0 24 24" fill="none" stroke="' + G + '" stroke-width="2" stroke-linecap="round"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3.2" fill="' + G + '"/></svg>';
   var THEMES = ['light', 'dark', 'eye'];
-  IS.ACT.theme = function () {
-    var c = document.documentElement.getAttribute('data-theme'), n = THEMES[(THEMES.indexOf(c) + 1) % 3];
-    IS.setTheme(n); IS.chrome(document.body.getAttribute('data-page'));
-    if (IS.toast) IS.toast(n === 'dark' ? A('الوضع الليلي', 'Night') : n === 'eye' ? A('راحة العين', 'Eye comfort') : A('الوضع النهاري', 'Day'));
+  /* the button opens a small menu of the looks; nothing changes until one is chosen (owner, 21 Nov 2026: "should show options to choose,
+     not change immediately") */
+  function closeLook() { var m = document.getElementById('lookmenu'); if (m) m.remove(); document.removeEventListener('pointerdown', outLook, true); window.removeEventListener('scroll', closeLook, true); window.removeEventListener('resize', closeLook); }
+  function outLook(e) { var m = document.getElementById('lookmenu'); if (m && !m.contains(e.target) && !e.target.closest('[data-act="theme"]')) closeLook(); }
+  IS.ACT.theme = function (b) {
+    if (document.getElementById('lookmenu')) return closeLook();
+    var cur = IS.LS.get('theme', 'light'), r = b.getBoundingClientRect(), m = document.createElement('div');
+    m.id = 'lookmenu'; m.className = 'lookmenu'; m.setAttribute('role', 'menu');
+    m.innerHTML = '<b class="lm-t">' + esc(A('مظهر التطبيق', 'App look')) + '</b>' + [['light', '☀️', 'نهاري', 'Day'], ['dark', '🌙', 'ليلي', 'Night'], ['eye', '👁️', 'راحة العين', 'Eye comfort'], ['auto', '⚙️', 'تلقائي (حسب الجهاز)', 'Automatic (device)']].map(function (o) {
+      return '<button type="button" role="menuitemradio" aria-checked="' + (o[0] === cur) + '" class="' + (o[0] === cur ? 'on' : '') + '" data-look="' + o[0] + '"><i>' + o[1] + '</i><span>' + esc(A(o[2], o[3])) + '</span>' + (o[0] === cur ? '<em>✓</em>' : '') + '</button>'; }).join('');
+    document.body.appendChild(m);
+    var w = m.offsetWidth, x = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), innerWidth - w - 8);
+    m.style.left = x + 'px'; m.style.top = (r.bottom + 8) + 'px';
+    m.querySelectorAll('[data-look]').forEach(function (o) { o.onclick = function () { var n = o.getAttribute('data-look'); closeLook(); IS.setTheme(n); IS.chrome(document.body.getAttribute('data-page')); if (document.body.getAttribute('data-page') === 'settings' && IS.refresh) IS.refresh(); }; });
+    setTimeout(function () { document.addEventListener('pointerdown', outLook, true); window.addEventListener('scroll', closeLook, true); window.addEventListener('resize', closeLook); }, 0);
   };
 
   /* ---------- My Library in the same design (owner's picture, 20 Nov 2026): banner, «محتوى المكتبة», Sort · Content type · Share,
@@ -750,4 +761,22 @@
       return '<a href="' + a.getAttribute('href') + '" class="' + (a.classList.contains('on') ? 'on' : '') + '">' + a.innerHTML + '</a>'; });
     IS.sheet(esc(A('المزايا', 'Features')), '<div class="mr-feat">' + links.join('') + '</div>');
   };
+
+  /* the bottom bar fits every screen (owner, 21 Nov 2026: "in every device it doesn't fit well"): one label size for all buttons, the
+     largest (12 px, 14 px on wide screens) at which every label fits its button, never below 8.5 px */
+  function fitNav() {
+    document.querySelectorAll('.mh-nav').forEach(function (nav) {
+      var spans = nav.querySelectorAll('a span'); if (!spans.length) return;
+      var size = innerWidth >= 900 ? 14 : 12; nav.style.setProperty('--navfs', size + 'px');
+      for (var k = 0; k < 14; k++) {
+        var over = false; spans.forEach(function (s) { if (s.scrollWidth > s.clientWidth + .5) over = true; });
+        if (!over || size <= 8) break; size -= .5; nav.style.setProperty('--navfs', size + 'px');
+      }
+    });
+  }
+  IS.fitNav = fitNav;
+  var route9 = IS.onRoute;
+  IS.onRoute = function (name, arg, main) { if (route9) try { route9(name, arg, main); } catch (e) {} requestAnimationFrame(fitNav); setTimeout(fitNav, 400); };
+  var fnT; window.addEventListener('resize', function () { clearTimeout(fnT); fnT = setTimeout(fitNav, 120); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitNav);
 })();

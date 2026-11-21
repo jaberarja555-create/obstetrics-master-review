@@ -1693,3 +1693,19 @@ html body .st2 .st-card h2{margin:0 0 6px;font-size:12.5px;font-weight:800;lette
 .st2 .pushset .li{background:none!important;border-radius:0!important;border-inline:0!important;border-bottom:0!important;box-shadow:none!important;padding-inline:0!important}
 .st2 .pushset .li .btn{font-size:12px;padding:5px 11px;min-height:0}
 @media (max-width:440px){:root[lang="en"] .mh-nav{gap:0!important}:root[lang="en"] .mh-nav a{font-size:9.4px;letter-spacing:-.35px}}
+/* bottom bar labels: one size chosen by IS.fitNav so every label fits on every screen (21 Nov 2026) */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html body .mh-nav a{min-width:0!important;font-size:var(--navfs,12px)!important;letter-spacing:0!important;padding-inline:1px!important}
+html body .mh-nav a span{display:block;width:100%;white-space:nowrap!important;overflow:hidden!important;text-overflow:clip!important;text-align:center}
+@media (min-width:900px){html body .mh-nav a span{width:auto}}
+/* the look menu of the day/night button */
+.lookmenu{position:fixed;z-index:1000;min-width:210px;padding:6px;border-radius:16px;background:#fff;border:1px solid #e5e2eb;box-shadow:0 14px 34px rgba(21,9,37,.22);display:flex;flex-direction:column;gap:2px}
+.lookmenu .lm-t{font-size:11.5px;color:#6f667f;padding:4px 10px 6px;font-weight:700}
+.lookmenu button{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;border-radius:11px;padding:9px 10px;font:inherit;font-size:14px;font-weight:600;color:#20162e;cursor:pointer;text-align:start}
+.lookmenu button i{font-style:normal;font-size:16px;width:22px;text-align:center}
+.lookmenu button span{flex:1}
+.lookmenu button em{font-style:normal;color:#391464;font-weight:900}
+.lookmenu button:hover{background:#f2f0f6}
+.lookmenu button.on{background:#ece9f2;color:#271045}
+:root[data-theme="dark"] .lookmenu{background:#1b1129;border-color:#2f2443}:root[data-theme="dark"] .lookmenu button{color:#eae7f0}:root[data-theme="dark"] .lookmenu button.on{background:#261a3a}
+@media (max-width:440px){html body .mh-nav a{font-weight:600!important}html body .mh-nav{padding-inline:3px!important;gap:0!important}}

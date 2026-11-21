@@ -1173,3 +1173,9 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
     or app.css**; stamp.py gives all app/pal/mr files one shared version.
   - **Text size works on the new pages:** mr.css forced `zoom:1` on framed pages; it is now `zoom:var(--z,1)` (Small 0.9, Large 1.15).
   Test: scratchpad st.js (colour change, text size, no sideways scroll) and en.js.
+- **Bottom bar fits every screen; the look button opens a menu** (owner, 21 Nov 2026: "even the buttons down … in every device it doesn't
+  fit well"; "pressing day/night/eye should show options, not change immediately"): mr.js `IS.fitNav` (after every page, on resize and when
+  the fonts load) gives all bottom-bar labels ONE size, the largest (12 px; 14 px from 900 px) at which every label fits its button, down to
+  8 px; labels are one line, clipped never with «…». Checked at 320–1440 px in Arabic and English: nothing cut. `text-size-adjust:100%`
+  on html. The top-bar look button (`IS.ACT.theme`, mr.js) opens `#lookmenu` under it: Day · Night · Eye comfort · Automatic, the current
+  one ticked; a choice applies and closes it; a tap outside, scrolling or resizing closes it. Test: scratchpad nav.js.
