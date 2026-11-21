@@ -39,7 +39,7 @@
     var p = document.getElementById('asst');
     if (!p) {
       p = document.createElement('div'); p.id = 'asst'; p.setAttribute('role', 'dialog'); p.setAttribute('aria-modal', 'true'); p.setAttribute('aria-label', A('مرشد المنصة', 'Platform guide'));
-      p.innerHTML = '<div class="aspan"><header><span class="asav">🤖</span><div><b>' + esc(A('مرشد المنصة', 'Platform guide')) + '</b><small class="asleft"></small></div>' +
+      p.innerHTML = '<div class="aspan"><header><span class="asav"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12.5a7.5 7.5 0 0 1-11 6.6L4 20l1-4.2A7.5 7.5 0 1 1 20 12.5z"/><path d="M12.5 8.6l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" fill="currentColor" stroke-width="1"/></svg></span><div><b>' + esc(A('مرشد المنصة', 'Platform guide')) + '</b><small class="asleft"></small></div>' +
         '<button type="button" class="ib asnew" title="' + esc(A('محادثة جديدة', 'New chat')) + '" aria-label="' + esc(A('محادثة جديدة', 'New chat')) + '">' + ic('plus') + '</button>' +
         '<button type="button" class="ib asx" aria-label="' + esc(A('إغلاق', 'Close')) + '">' + ic('x') + '</button></header>' +
         '<div class="aslog" aria-live="polite"></div><form class="asf"><textarea rows="1" maxlength="600" dir="auto" placeholder="' + esc(A('اكتب سؤالك عن التطبيق…', 'Ask about the app…')) + '"></textarea>' +
@@ -90,21 +90,24 @@
   /* the round button: signed-in accounts, not while reading a book, playing a lesson or inside a dialog-like page */
   function fab() {
     var b = document.getElementById('asfab');
-    if (!b) { b = document.createElement('button'); b.id = 'asfab'; b.type = 'button'; b.innerHTML = '<span aria-hidden="true">🤖</span>'; b.onclick = open; document.body.appendChild(b); }
+    if (!b) { b = document.createElement('button'); b.id = 'asfab'; b.type = 'button'; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12.5a7.5 7.5 0 0 1-11 6.6L4 20l1-4.2A7.5 7.5 0 1 1 20 12.5z"/><path d="M12.5 8.6l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" fill="currentColor" stroke-width="1"/></svg><span class="asfl">' + esc(A('اسأل', 'Ask')) + '</span>'; b.onclick = open; document.body.appendChild(b); }
+    var fl = b.querySelector('.asfl'); if (fl) fl.textContent = A('اسأل', 'Ask');
     b.setAttribute('aria-label', A('مرشد المنصة: اسأل عن استعمال التطبيق', 'Platform guide: ask about using the app')); b.title = A('مرشد المنصة', 'Platform guide');
     var pg = document.body.getAttribute('data-page') || '';
     b.hidden = !IS.ME || /^(lesson|reader|read|book|auth|pick|pick-section|welcome)/.test(pg) || !!document.querySelector('.rd-wrap,.reader-open');
     var lift = 0; document.querySelectorAll('.mh-nav').forEach(function (n) { var r = n.getBoundingClientRect();
       if (r.height > 0 && r.width > 0 && getComputedStyle(n).visibility !== 'hidden' && r.top > innerHeight / 2 && r.top < innerHeight) lift = Math.max(lift, innerHeight - r.top); });
-    b.style.bottom = (lift + 14) + 'px';
+    b.style.bottom = (lift + (innerWidth < 700 ? 96 : 18)) + 'px';
   }
   var on0 = IS.onRoute;
   IS.onRoute = function (name, arg, main) { if (on0) try { on0(name, arg, main); } catch (e) {} setTimeout(fab, 60); setTimeout(fab, 500); };
   window.addEventListener('resize', function () { clearTimeout(fab.t); fab.t = setTimeout(fab, 150); });
+  var tuckT; window.addEventListener('scroll', function () { var b = document.getElementById('asfab'); if (!b || b.hidden) return;
+    b.classList.add('tuck'); clearTimeout(tuckT); tuckT = setTimeout(function () { b.classList.remove('tuck'); }, 900); }, { passive: true, capture: true });
 
   /* also in the Features grid */
   var feat0 = IS.ACT.mrfeat;
   if (feat0) IS.ACT.mrfeat = function () { var r = feat0.apply(this, arguments); var g = document.querySelector('#sheet .mr-feat');
-    if (g && !g.querySelector('[data-act=assist]')) g.insertAdjacentHTML('afterbegin', '<a href="#" data-act="assist" onclick="return false">' + ic('chat') + '<span>' + esc(A('مرشد المنصة 🤖', 'Platform guide 🤖')) + '</span></a>');
+    if (g && !g.querySelector('[data-act=assist]')) g.insertAdjacentHTML('afterbegin', '<a href="#" data-act="assist" onclick="return false">' + ic('chat') + '<span>' + esc(A('مرشد المنصة', 'Platform guide')) + '</span></a>');
     return r; };
 })();

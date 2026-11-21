@@ -2003,8 +2003,18 @@ html body .mra .chero .chst span{font-size:13.5px}
 .cedit{margin-top:8px;justify-content:center}
 
 /* ---------- مرشد المنصة: the guide assistant (owner, 21 Nov 2026) ---------- */
-#asfab{position:fixed;inset-inline-end:14px;bottom:84px;z-index:60;width:52px;height:52px;border-radius:50%;border:2px solid #fff;background:linear-gradient(145deg,var(--pri,#37433f),var(--pri2,#28302e));box-shadow:0 6px 18px rgba(0,0,0,.22);display:grid;place-items:center;font-size:25px;cursor:pointer;padding:0;transition:transform .15s}
-#asfab:hover{transform:scale(1.06)}#asfab[hidden]{display:none}
+/* a slim tab on the screen edge (owner, 21 Nov 2026: the round robot looked bad and covered the page) */
+#asfab{position:fixed;inset-inline-end:0;bottom:96px;z-index:60;height:40px;padding:0 9px 0 11px;display:flex;align-items:center;gap:5px;border:0;cursor:pointer;
+  color:#fff;background:linear-gradient(135deg,var(--pri,#37433f),var(--pri2,#28302e));border-start-start-radius:20px;border-end-start-radius:20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.18),inset 0 0 0 1px rgba(255,255,255,.18);font:inherit;font-size:12.5px;font-weight:800;opacity:.94;
+  transition:transform .25s ease,opacity .25s ease}
+#asfab svg{flex:none;color:var(--gold2,#e9c66c)}
+#asfab .asfl{line-height:1}
+#asfab.tuck{transform:translateX(calc(100% - 7px));opacity:.55}
+html[dir=rtl] #asfab.tuck{transform:translateX(calc(-100% + 7px))}
+#asfab:hover,#asfab:focus-visible{opacity:1}
+#asfab[hidden]{display:none}
+@media (min-width:700px){#asfab{inset-inline-end:18px;border-radius:999px;height:42px;padding:0 15px 0 12px;font-size:13.5px}#asfab.tuck,html[dir=rtl] #asfab.tuck{transform:none;opacity:.94}}
 #asst{position:fixed;inset:0;z-index:80;background:rgba(6,20,26,.45);display:flex;align-items:flex-end;justify-content:center}
 #asst[hidden]{display:none}
 #asst .aspan{background:var(--sf,#fff);color:var(--tx,#1e2020);width:100%;max-width:520px;height:min(86vh,680px);border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 -8px 30px rgba(0,0,0,.18)}
@@ -2012,7 +2022,7 @@ html body .mra .chero .chst span{font-size:13.5px}
 #asst header{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--bd,#e7e8e8);background:linear-gradient(90deg,rgba(55,67,63,.08),transparent)}
 #asst header>div{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.3}
 #asst header b{font-size:16px}#asst header small{font-size:12px;color:var(--sub,#646667)}
-#asst .asav{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:21px;background:rgba(55,67,63,.12)}
+#asst .asav{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:21px;background:rgba(55,67,63,.12);color:var(--pri,#37433f)}
 #asst .aslog{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;overscroll-behavior:contain}
 #asst .asm{display:flex;padding:0;background:none;border-radius:0;gap:0}#asst .asm.asu{justify-content:flex-end}
 #asst .asm>div{max-width:86%;padding:10px 13px;border-radius:16px;font-size:14.5px;line-height:1.65;background:var(--sf2,#f3f3f3);word-wrap:break-word}
