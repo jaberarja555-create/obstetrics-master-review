@@ -19,3 +19,6 @@ pal = hashlib.md5(b''.join(open(os.path.join(root, 'css', f), 'rb').read() for f
 html = re.sub(r"(\.css\?v=)\w+(\">'\);)", r'\g<1>' + pal + r'\2', html)
 open(idx, 'w', encoding='utf-8').write(html)
 print('stamped')
+# the guide assistant learns the app's pages and menus at every release (tools/ishrah/guide.py)
+import subprocess, sys
+subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'guide.py')], check=False)

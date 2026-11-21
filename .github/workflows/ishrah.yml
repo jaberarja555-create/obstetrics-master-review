@@ -114,7 +114,9 @@ jobs:
         run: npx --yes wrangler@3 pages project create ishrah --production-branch=main || true
       - name: Install the packages of the functions (the guide assistant uses the Anthropic SDK)
         working-directory: ishrah
-        run: npm ci --no-audit --no-fund
+        run: |
+          npm ci --no-audit --no-fund
+          python3 ../tools/ishrah/guide.py   # the guide assistant learns the current pages and menus
       - name: Deploy ishrah/ (with its functions/)
         working-directory: ishrah
         env:

@@ -1304,7 +1304,14 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
 - Server: functions/api/assist.js (official SDK `@anthropic-ai/sdk`, package.json in ishrah/, `npm ci` step in the workflow; wrangler never
   uploads node_modules). Model `claude-haiku-5-5`, effort low, max_tokens 2048, the fixed app description `GUIDE` as a cached system prompt
   (the page and language go in the last user message so the cache holds). It answers only about using the app; medical questions are
-  declined. When a feature or page is added, add it to `GUIDE` (and its #route to the allowed list there).
+  declined.
+- **The guide follows the app by itself (owner, 21 Nov 2026: "we are still building the app … be sure the assistant will be updated"):**
+  `GUIDE` is generated into functions/api/_guide.js by tools/ishrah/guide.py = the hand-written description tools/ishrah/assistant_guide.md
+  + «PLACES IN THE APP», every menu entry of the code (route + Arabic / English name, grouped platform / studio / control). It runs from
+  stamp.py at every release and again in the deploy workflow, so new pages and renamed menu items reach the assistant with nothing to do.
+  It prints a WARNING naming any page that no menu names and the description does not mention. **Every change to how a feature works
+  (steps, buttons, prices, limits, rules) must also be written in tools/ishrah/assistant_guide.md in the same commit**; do not edit
+  _guide.js by hand. Detail pages opened with an id (one course, one lesson…) are in `DETAIL` in guide.py.
 - Limits and cost (055_assistant.sql): `ish_assist_take` counts messages per account per Khartoum day: 15, team 60 (env ASSIST_LIMIT /
   ASSIST_TEAM_LIMIT); `ish_assist_log` keeps the tokens; Control → Usage shows this month's messages, users and an estimated cost
   (Haiku 5.5: $0.10 / $0.50 per million input / output tokens, cache reads $0.01; dollar at 13,000 SDG).
