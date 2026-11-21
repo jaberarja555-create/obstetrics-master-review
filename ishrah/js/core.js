@@ -769,10 +769,23 @@
     var palette = LS.get('pal', 'blue');
     return IS.U('img/collection/brand' + (/^(teal|purple|maroon|graphite)$/.test(palette) ? '-' + palette : '') + '.webp');
   };
-  IS.setPal = function (p) { LS.set('pal', p); var l = document.getElementById('ishcss'), v = (l && /v=(\w+)/.exec(l.getAttribute('href')) || [0, '25'])[1];
-    if (l) l.setAttribute('href', 'css/' + (/^(teal|purple|maroon|graphite)$/.test(p) ? 'pal-' + p : 'app') + '.css?v=' + v);
-    var mr = document.getElementById('mrcss'); if (mr) mr.setAttribute('href', 'css/' + (/^(ocean|teal|purple|maroon|graphite)$/.test(p) ? 'mr-pal-' + p : 'mr') + '.css?v=' + ((/v=(\w+)/.exec(mr.getAttribute('href')) || [0, '1'])[1]));
-    var m = document.querySelector('meta[name=theme-color]'), c = IS.PALS.filter(function (x) { return x[0] === p; })[0]; if (m && c) m.setAttribute('content', c[1]); };
+  /* the new colour's stylesheets load next to the old ones and replace them only once loaded, so the page is never shown without styles
+     (owner, 21 Nov 2026: "when changing colour a big arrow comes") */
+  function swapCss(id, href) {
+    return new Promise(function (ok) {
+      var old = document.getElementById(id); if (!old) return ok();
+      if (old.getAttribute('href') === href) return ok();
+      var n = document.createElement('link'); n.rel = 'stylesheet'; n.href = href;
+      var done = function () { if (n._d) return; n._d = 1; if (old.parentNode) old.parentNode.removeChild(old); n.id = id; ok(); };
+      n.onload = done; n.onerror = function () { n.remove(); ok(); }; setTimeout(done, 8000);
+      old.parentNode.insertBefore(n, old.nextSibling);
+    });
+  }
+  IS.setPal = function (p) { LS.set('pal', p); var l = document.getElementById('ishcss'), mr = document.getElementById('mrcss');
+    var v = (l && /v=(\w+)/.exec(l.getAttribute('href')) || [0, '25'])[1], v2 = (mr && /v=(\w+)/.exec(mr.getAttribute('href')) || [0, '1'])[1];
+    var m = document.querySelector('meta[name=theme-color]'), c = IS.PALS.filter(function (x) { return x[0] === p; })[0]; if (m && c) m.setAttribute('content', c[1]);
+    return Promise.all([swapCss('ishcss', 'css/' + (/^(teal|purple|maroon|graphite)$/.test(p) ? 'pal-' + p : 'app') + '.css?v=' + v),
+      swapCss('mrcss', 'css/' + (/^(ocean|teal|purple|maroon|graphite)$/.test(p) ? 'mr-pal-' + p : 'mr') + '.css?v=' + v2)]); };
   IS.ACT.theme = function () { IS.setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); IS.chrome(document.body.getAttribute('data-page')); };
   function applyLang() { document.documentElement.lang = IS.lang; document.documentElement.dir = IS.lang === 'ar' ? 'rtl' : 'ltr'; }
   applyLang();

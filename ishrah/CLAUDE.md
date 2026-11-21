@@ -1194,3 +1194,6 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
 - **Automatic look follows the device live**: a prefers-color-scheme listener in core.js re-applies it while the app is open, and the
   head script resolves 'auto' before the first paint. On Windows, Chrome follows "Settings → Personalisation → Colours → Choose your
   default app mode", not the taskbar (Windows mode) setting. Test: scratchpad auto.js.
+- **No big arrow when the colour changes** (owner, 21 Nov 2026): `IS.setPal` used to change the href of #ishcss / #mrcss, so for a moment
+  the page had no styles and icons (the chevron) drew huge. Now `swapCss` loads the new stylesheet beside the old one and removes the old
+  only when the new one has loaded (8 s safety); `IS.setPal` returns a promise and Settings redraws after it. Test: scratchpad swap.js.

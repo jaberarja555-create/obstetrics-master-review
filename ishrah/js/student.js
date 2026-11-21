@@ -440,7 +440,7 @@
   IS.ACT.settheme = function (b) { IS.setTheme(b.getAttribute('data-v')); IS.refresh(); };
   IS.ACT.setseen = async function (b) { var h = b.getAttribute('data-v') === 'hide'; await DB.upd('profiles', me().id, { hide_seen: h }); IS.ME.hide_seen = h;
     IS.toast(h ? A('حالتك مخفية عن الطلاب', 'Your status is hidden from students') : A('حالتك ظاهرة للطلاب', 'Your status is shown to students')); IS.refresh(); };
-  IS.ACT.setpal = function (b) { IS.setPal(b.getAttribute('data-v')); IS.refresh(); };
+  IS.ACT.setpal = async function (b) { b.closest('.st-dots') && b.closest('.st-dots').querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); }); await IS.setPal(b.getAttribute('data-v')); IS.refresh(); };
   IS.ACT.setfs = function (b) { IS.LS.set('fs', b.getAttribute('data-v')); IS.applyTheme(); IS.refresh(); };
 
   function statsBox(cs, lecs) {
