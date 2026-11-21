@@ -299,9 +299,22 @@
   function pbox(title, icon, more, body) {
     return '<section class="pf-box"><header><h2>' + icon + '<span>' + esc(title) + '</span></h2>' + (more ? '<a href="' + more + '">' + esc(A('عرض الكل', 'View all')) + ' ‹</a>' : '') + '</header>' + body + '</section>';
   }
+
+  /* the stats card of every profile (owner's picture, 21 Nov 2026): four figures in one row, contact tiles, then «member since» */
+  HI.mail = svg('0 0 24 24', '<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"');
+  HI.phone = svg('0 0 24 24', '<path d="M6.6 3.5h3l1.5 4.5-2 1.4a12 12 0 0 0 5.5 5.5l1.4-2 4.5 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"');
+  HI.trophy2 = svg('0 0 24 24', '<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M10 14.5V18h4v-3.5M8 21h8"/>', ' fill="none" stroke="#d9a62e" stroke-width="1.9" stroke-linejoin="round"');
+  function lpStats(items, contacts, since, extra) {
+    return '<section class="lp-stats"><div class="lp-four">' + items.map(function (x) {
+        return '<' + (x[3] ? 'a href="' + x[3] + '"' : 'span') + ' class="lp-f">' + x[0] + '<b dir="auto"' + (String(x[1]).replace(/<[^>]+>/g, '').length > 5 ? ' class="lng"' : '') + '>' + x[1] + '</b><small>' + esc(x[2]) + '</small></' + (x[3] ? 'a' : 'span') + '>'; }).join('') + '</div>' +
+      (contacts.length ? '<div class="lp-contacts">' + contacts.map(function (x) {
+        return '<a class="lp-ct" href="' + esc(x[3]) + '"' + (/^https?:/.test(x[3]) ? ' target="_blank" rel="noopener"' : '') + '><i>' + x[0] + '</i><span><b>' + esc(x[1]) + '</b><small dir="ltr">' + esc(x[2]) + '</small></span></a>'; }).join('') + '</div>' : '') +
+      (extra || '') + (since ? '<div class="lp-row">' + HI.cal + '<b>' + esc(A('تاريخ التسجيل كعضو', 'Member since')) + '</b><span>' + esc(IS.date(since)) + '</span></div>' : '') + '</section>';
+  }
   async function profilePage(id, tab, own) {
     var c = await pcard(id);
     if (!c) return null;
+    var ach = 0; if (own && IS.myStats) try { var st = await IS.myStats(); ach = (st.done || []).length; } catch (e) {}
     var m = IS.ME, base = own ? '#account' : '#person/' + id;
     var sp = c.spec && IS.spec ? IS.spec(c.spec) : null, spName = sp ? sp.en : (own && IS.mySpec() ? IS.mySpec().en : '');
     var chips = [[PI.kit, spName], [PI.cap, c.university], [PI.pin, c.city]].filter(function (x) { return x[1]; });
@@ -321,6 +334,8 @@
         var tile1 = roleTxt ? [ic('shield'), A('الدور في المنصة', 'Role'), roleTxt + (isLec ? ' · ' + A('محاضر', 'Lecturer') : '')] :
           isLec ? [HI.cap.replace(G, '#c99a3e'), A('المحاضر', 'Lecturer'), c.title || A('محاضر معتمد', 'Approved lecturer')] :
           [HI.cap.replace(G, '#c99a3e'), A('الجامعة', 'University'), [c.university, c.year].filter(Boolean).join(' · ') || A('لم تُضف بعد', 'Not added yet')];
+        var fourth = roleTxt || (isLec ? c.title || A('محاضر', 'Lecturer') : c.university || c.year || '—');
+        if (tile1[1] === A('الجامعة', 'University')) tile1[1] = c.university ? A('الجامعة', 'University') : A('السنة', 'Year');
         var acts = own ? '<div class="lp-acts"><button type="button" class="lp-btn gold" data-act="editme">' + PI.pen + '<span>' + esc(A('تعديل الملف', 'Edit profile')) + '</span></button>' +
             '<button type="button" class="lp-btn" data-act="pfmenu">' + PI.dots + '<span>' + esc(A('المزيد', 'More')) + '</span></button></div>' :
           '<div class="lp-acts' + (roleTxt || isLec ? '' : ' one') + '"><button type="button" class="lp-btn gold' + (c.me_follow ? ' on' : '') + '" data-act="pffollow" data-id="' + esc(id) + '">' + (c.me_follow ? PI.tick : HI.userPlus) + '<span>' + esc(c.me_follow ? A('متابَع', 'Following') : A('متابعة', 'Follow')) + '</span></button>' +
@@ -335,15 +350,12 @@
           (own ? '' : '<span class="lp-seen">' + IS.seen(id) + '</span>') +
           ((section || spn) ? '<span class="lp-chips">' + (section ? '<b lang="en">' + esc(section.id === 'special' ? 'International' : section.en) + '</b>' : '') + (spn ? '<b lang="en">' + esc(spn) + '</b>' : '') + '</span>' : '') +
           (c.bio ? '<p class="lp-bio" dir="auto">' + esc(c.bio) + '</p>' : '') + acts + '</div></section>' +
-          '<section class="lp-stats"><div class="lp-two three"><span>' + PI.posts + '<b>' + nfmt(c.posts) + '</b><small>' + esc(A('المنشورات', 'Posts')) + '</small></span>' +
-            '<span>' + PI.group + '<b>' + nfmt(c.followers) + '</b><small>' + esc(A('المتابعون', 'Followers')) + '</small></span>' +
-            '<span>' + PI.users + '<b>' + nfmt(c.following) + '</b><small>' + esc(A('أتابع', 'Following')) + '</small></span></div>' +
-          '<div class="lp-tiles"><span class="lp-tile"><i>' + tile1[0] + '</i><b>' + esc(tile1[1]) + '</b><small dir="auto">' + esc(tile1[2]) + '</small></span>' +
-            '<a class="lp-tile" href="' + base + '/files"><i>' + HI.folder.replace('currentColor', '#c99a3e') + '</i><b>' + esc(A('الملفات', 'Files')) + '</b><small>' + N(c.files || 0) + ' ' + esc(A('ملف منشور', 'published')) + '</small><em>‹</em></a></div>' +
-          ((c.city || c.university) && !(tile1[1] === A('الجامعة', 'University')) ? '<div class="lp-row">' + PI.pin + '<b>' + esc(A('الجامعة والمدينة', 'University and city')) + '</b><span dir="auto">' + esc([c.university, c.city].filter(Boolean).join(' · ')) + '</span></div>' :
-            c.city ? '<div class="lp-row">' + PI.pin + '<b>' + esc(A('المدينة', 'City')) + '</b><span dir="auto">' + esc(c.city) + '</span></div>' : '') +
-          (c.created_at ? '<div class="lp-row">' + HI.cal + '<b>' + esc(A('تاريخ التسجيل كعضو', 'Member since')) + '</b><span>' + esc(IS.date(c.created_at)) + '</span></div>' : '') +
-          (own && IS.roleChips ? '<div class="prole-row">' + IS.roleChips('prole') + '</div>' : '') + '</section>';
+          lpStats([[PI.group, nfmt(c.followers), A('متابعين', 'Followers')], [PI.posts, nfmt(c.posts), A('المنشورات', 'Posts')],
+            own ? [HI.trophy2, N(ach), A('الإنجازات', 'Achievements'), '#achievements'] : [PI.users, nfmt(c.following), A('أتابع', 'Following')],
+            [tile1[0].replace('#c99a3e', 'currentColor'), esc(fourth), tile1[1]]],
+            own ? [m.email && [HI.mail, A('البريد الإلكتروني', 'Email'), m.email, 'mailto:' + m.email], m.phone && [HI.phone, A('رقم التواصل', 'Contact number'), m.phone, 'tel:' + m.phone]].filter(Boolean) : [],
+            c.created_at, c.city ? '<div class="lp-row">' + PI.pin + '<b>' + esc(A('المدينة', 'City')) + '</b><span dir="auto">' + esc(c.city) + '</span></div>' : '') +
+          '';
       })() +
       '<nav class="pf-tabs">' + [['posts', PI.posts, A('المنشورات', 'Posts')], ['files', HI.folder, A('الملفات', 'Files')]].concat(own ? [['saved', PI.bm, A('المحفوظات', 'Saved')]] : []).map(function (t) {
         return '<a href="' + base + (t[0] === 'posts' ? '' : '/' + t[0]) + '"' + (tab === t[0] || (tab === 'all' && t[0] === 'posts') ? ' class="on" aria-current="page"' : '') + '>' + t[1] + '<span>' + esc(t[2]) + '</span></a>'; }).join('') + '</nav>';
@@ -521,11 +533,12 @@
         '<button type="button" class="lp-btn" data-act="fav" data-k="t:' + esc(id) + '" aria-pressed="' + fav + '">' + PI.bm + '<span>' + esc(A('إضافة للمفضلة', 'Add to favourites')) + '</span></button>' +
         '<a class="lp-btn wide" href="#course-requests/new/' + esc(id) + '">' + HI.cap.replace(G, 'currentColor') + '<span>' + esc(A('اطلب كورس أو محاضرة', 'Request a course or lecture')) + '</span></a></div>') +
       '</div></section>' +
-      '<section class="lp-stats"><div class="lp-two"><span>' + HI.layers.replace(G, 'currentColor') + '<b>' + N(courses.length) + '</b><small>' + esc(A('كورسات', 'Courses')) + '</small></span>' +
-        '<span>' + PI.group + '<b>' + nfmt(c.followers || 0) + '</b><small>' + esc(A('متابعين', 'Followers')) + '</small></span></div>' +
-      '<div class="lp-tiles"><a class="lp-tile" role="button" data-act="lp-go" data-t="lp-quals"><i>' + HI.cap.replace(G, '#c99a3e') + '</i><b>' + esc(A('المؤهلات', 'Qualifications')) + '</b><small dir="auto">' + esc(quals || A('لم تُضف بعد', 'Not added yet')) + '</small><em>‹</em></a>' +
-        '<a class="lp-tile" role="button" data-act="lp-go" data-t="lp-courses"><i>' + HI.star.replace('currentColor', '#c99a3e') + '</i><b>' + esc(A('التقييم', 'Rating')) + '</b><small>' + (n ? rate.toFixed(1) + ' / 5 · ' + N(n) + ' ' + esc(A('تقييم', 'ratings')) : esc(A('لم يُقيَّم بعد', 'Not rated yet'))) + '</small><em>‹</em></a></div>' +
-      '<div class="lp-row">' + HI.cal + '<b>' + esc(A('تاريخ التسجيل كعضو', 'Member since')) + '</b><span>' + esc(IS.date(l.created_at)) + '</span></div></section>';
+      lpStats([[PI.group, nfmt(c.followers || 0), A('متابعين', 'Followers')], [HI.layers.replace(G, 'currentColor'), N(courses.length), A('كورسات', 'Courses'), '#lecturer/' + esc(id)],
+        [HI.star.replace('currentColor', '#d9a62e'), n ? rate.toFixed(1) : '—', A('التقييم', 'Rating')], [HI.cap.replace(G, 'currentColor'), esc(quals || '—'), A('المؤهلات', 'Qualifications')]],
+        (function () { var k = l.links || {}, out = [];
+          if (k.email) out.push([HI.mail, A('البريد الإلكتروني', 'Email'), k.email, 'mailto:' + k.email]);
+          if (k.whatsapp) out.push([HI.phone, A('رقم التواصل', 'Contact number'), k.whatsapp, IS.wa ? IS.wa(k.whatsapp) : 'tel:' + k.whatsapp]);
+          return out; })(), l.created_at);
     var qbox = [].filter.call(t.content.querySelectorAll('.box'), function (b) { return /learn/.test(b.innerHTML) && b.querySelector('ul.learn'); })[0]; if (qbox) qbox.id = 'lp-quals';
     var csec = t.content.querySelector('.sec'); if (csec) csec.id = 'lp-courses';
     return hero + t.innerHTML;

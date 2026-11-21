@@ -1047,3 +1047,7 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   admin = role chip («مالك المنصة», «المدير العام») + «راسل الفريق»; lecturer = title + «صفحة المحاضر»; student = year (or «طالب») and a
   University tile; then posts · followers · following, Role/University and Files tiles, city, «تاريخ التسجيل كعضو». Own profile: camera on
   the picture, «تعديل الملف» + «المزيد». Migration `050_profile_card_roles.sql` adds role (never p:*), lecturer and created_at to the card.
+- **Profiles, owner's second picture** (21 Nov 2026): plain big name, gold-edged title chip, one row of four figures (`lpStats`: lecturer =
+  followers · courses · rating · qualifications; person = followers · posts · achievements (own) / following (others) · role, title or
+  university), contact tiles (lecturer: the email / WhatsApp he put in his public links; own profile: own email and phone, seen only by
+  you; never another person's private contact), city, «تاريخ التسجيل كعضو».
