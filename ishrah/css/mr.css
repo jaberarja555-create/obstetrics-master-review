@@ -1395,3 +1395,6 @@ html body .mrx .mlx .mlx-id h3 a{white-space:normal!important}
 html body .mrx :is(.gnum,.gcount){display:none!important}
 html body .mrx .mlx-rate :is(b,small),html body .mrx .mlc-rate :is(b,small),html body .mrx .lp-rate>b,html body .mrx .lp-rate>small:first-child{display:none!important}
 html body .mrx .mlx-rate,html body .mrx .lp-rate{gap:0!important}
+/* no «لم يُقيَّم بعد»: unrated shows grey stars only (owner, 21 Nov 2026) */
+html body .mrx .gtitle.g0,html body .mrx .lp-rate>small,html body .mrx .lrate.none{display:none!important}
+html body .mrx .mlx-rate:not(:has(u.on)),html body .mrx .mc-rate:has(.g0){background:none!important}
