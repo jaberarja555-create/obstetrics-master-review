@@ -526,7 +526,11 @@
       '<div class="lp-body"><span class="lp-av">' + IS.av(l, 'xl', id) + '<i class="lp-ok">' + PI.check + '</i></span>' +
       '<h1 tabindex="-1" class="lp-name" dir="auto">' + IS.lecName(l.name) + '</h1>' +
       (l.title ? '<span class="lp-title">' + HI.brief + '<b dir="auto">' + esc(l.title) + '</b></span>' : '') +
-      '<span class="lp-seen">' + IS.seen(id) + '</span>' +
+      /* university and year, then the rating beside the last activity (owner, 21 Nov 2026: "add the missing ones like the university and the rating") */
+      ((c.university || c.year) ? '<span class="lp-uni">' + (c.university ? '<b dir="auto">🏛️ ' + esc(c.university) + '</b>' : '') + (c.university && c.year ? '<i></i>' : '') +
+        (c.year ? '<b dir="auto">🎓 ' + esc(c.year) + '</b>' : '') + '</span>' : '') +
+      '<span class="lp-rs"><span class="lp-rate">' + (n ? '<small>(' + N(n) + ')</small><b>' + rate.toFixed(1) + '</b>' : '') + '<em>' + [1, 2, 3, 4, 5].map(function (i) { return '<u class="' + (i <= Math.round(rate) ? 'on' : '') + '">★</u>'; }).join('') + '</em>' +
+        (n ? '' : '<small>' + esc(A('لم يُقيَّم بعد', 'Not rated yet')) + '</small>') + '</span><i class="lp-sep"></i>' + IS.seen(id) + '</span>' +
       '<span class="lp-chips">' + (section ? '<b lang="en">' + esc(section.id === 'special' ? 'International' : section.en) + '</b>' : '') + (spec ? '<b lang="en">' + esc(spec.en) + '</b>' : '') + '</span>' +
       (mine ? '<div class="lp-acts"><a class="lp-btn gold" href="#studio-page">' + PI.pen + '<span>' + esc(A('تعديل صفحتي', 'Edit my page')) + '</span></a><a class="lp-btn" href="#studio">' + HI.layers + '<span>' + esc(A('الاستوديو', 'Studio')) + '</span></a></div>' :
         '<div class="lp-acts"><button type="button" class="lp-btn gold' + (c.me_follow ? ' on' : '') + '" data-act="pffollow" data-id="' + esc(id) + '">' + (c.me_follow ? PI.tick : HI.userPlus) + '<span>' + esc(c.me_follow ? A('متابَع', 'Following') : A('متابعة', 'Follow')) + '</span></button>' +

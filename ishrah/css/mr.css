@@ -1177,3 +1177,16 @@ button.lp-ct{width:100%;font:inherit;text-align:start;cursor:pointer}
 .lp-send.wa{background:linear-gradient(180deg,#25c25f,#159a45)}
 .lp-send.mail{background:linear-gradient(180deg,#3b82e0,#2263c0)}
 :root[data-theme="dark"] .lp-cbtn{background:#0f2f27;border-color:#21463c;color:#eaf5f1}
+/* university · year and rating · last activity on the lecturer card */
+.lp-uni{display:inline-flex;align-items:center;gap:10px;padding:4px 14px;border-radius:999px;border:1.5px solid #e9c46a;background:rgba(0,0,0,.1);font-size:13px;max-width:100%}
+.lp-uni b{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.lp-uni i{width:1.5px;height:16px;background:rgba(255,255,255,.45);flex:none}
+.lp-rs{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.lp-rate{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;border:1.5px solid rgba(255,255,255,.4);font-size:12.5px}
+.lp-rate b{font-size:15px;font-weight:800}
+.lp-rate em{font-style:normal;letter-spacing:1px}.lp-rate u{text-decoration:none;color:rgba(255,255,255,.35);font-size:15px}.lp-rate u.on{color:#f6c343}
+.lp-rate small{color:#d8efe9}
+.lp-rs .lp-sep{width:1.5px;height:18px;background:rgba(255,255,255,.4)}
+.lp-rs .seen{color:#d8efe9!important;font-size:12.5px!important}
+.lp-rs .seen.on{color:#7dffc8!important}
+.lp-rs:has(.seen:empty) .lp-sep{display:none}
