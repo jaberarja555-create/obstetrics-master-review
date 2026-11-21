@@ -1376,3 +1376,6 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   «jpg.1000361462»). «I published a book but didn't get any notification»: the app hid notices whose actor is the reader; the platform owner
   now sees those too (`IS.isOwner()` in core.js bell, alerts.js, notifications page). «قالب الكتاب ما مناسب مع صورة الكتاب»: book covers in
   the feed sit in a 3 : 4 frame filled by the cover (object-fit cover), and the card's buttons never wrap.
+- **Top Home button decides on the press (owner, 21 Nov 2026: «لمن اضغط زر الرئيسية ما بتمش أي حتة»):** htop() wrote the link while the page
+  was drawn, when body data-page was still the previous page, so on the section page it pointed to #home and did nothing. A click handler in
+  mr.js (`a.mh-home`) now goes to the section chooser when on Home, otherwise to Home (studio/control keep their own target). Test hb2.js.

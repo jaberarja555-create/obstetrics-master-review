@@ -141,6 +141,16 @@
     layers: svg('0 0 24 24', '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/><path d="m3 17.5 9 4.5 9-4.5"/>', ' fill="none" stroke="' + G + '" stroke-width="1.9" stroke-linejoin="round"')
   };
   var SECAR = { basics: 'الأساسيات', clinical: 'الكلينكال', special: 'الامتحانات الدولية', house: 'الامتياز' };
+
+  /* the top Home button decides when it is pressed (owner, 21 Nov 2026: «لمن اضغط زر الرئيسية ما بتمش أي حتة»): the link was written while the
+     page was drawn, when the page name was still the previous one, so on Home it pointed to Home again and did nothing. On the section page
+     it opens the section chooser; in the studio and control it opens their own dashboard; elsewhere the section page. */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('.mh-top a.mh-home'); if (!a) return;
+    var cur = (location.hash.replace(/^#/, '') || 'home').split('/')[0], to = a.getAttribute('href').replace(/^#/, '');
+    if (to === 'studio' || to === 'control') { if (cur === to) { e.preventDefault(); scrollTo({ top: 0, behavior: 'smooth' }); } return; }
+    e.preventDefault(); IS.go(cur === 'home' ? 'pick-section' : 'home');
+  }, true);
   function htop() {
     var m = IS.ME;
     var me = m ? '<a class="mh-av" href="#account" aria-label="' + esc(A('حسابي', 'My account')) + '">' + (m.photo ? '<img src="' + IS.U(m.photo) + '" alt="">' : I.person) + '</a>' :
@@ -148,7 +158,7 @@
     return '<header class="mh-top"><div class="mh-side">' +
       /* Home = the section's page; on that page it goes up to the section chooser (owner, 20 Nov 2026: "from the library how do I go back to Clinical") */
       (function () { var onHome = document.body.getAttribute('data-page') === 'home' || /^#?home$/.test(location.hash.replace(/^#/, '') || 'home');
-        return '<a class="mh-b" href="#' + (onHome ? 'pick-section' : 'home') + '" aria-label="' + esc(onHome ? A('الأقسام', 'Sections') : A('الرئيسية', 'Home')) + '">' + HI.home + '</a>'; })() +
+        return '<a class="mh-b mh-home" href="#' + (onHome ? 'pick-section' : 'home') + '" aria-label="' + esc(onHome ? A('الأقسام', 'Sections') : A('الرئيسية', 'Home')) + '">' + HI.home + '</a>'; })() +
       /* search is the students' search: not offered inside the studio and control (it took you out of them, owner 21 Nov 2026) */
       (IS.area === 'control' || IS.area === 'studio' ? '' : '<a class="mh-b ghost" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + HI.search + '</a>') +
       '<button type="button" class="mh-b ghost" data-act="mrfeat" aria-label="' + esc(A('المزايا', 'Features')) + '">' + HI.grid + '</button>' +
