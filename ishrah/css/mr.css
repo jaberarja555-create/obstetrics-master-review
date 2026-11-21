@@ -1490,3 +1490,15 @@ html body .mra[data-pg="post"] article.thread .row .btn .ico{width:14px!importan
 html body .mra[data-pg="post"] .post-comments h2{font-size:16px!important;margin:0 0 8px!important}
 /* the «إدارة» pill sits at the end of the path line (moved there by mr.js), not on a line of its own */
 html body .mra .mh-old .crumb>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+/* the day / night / eye button is ONE round button on every screen (owner, 21 Nov 2026) */
+html body .mrx .mh-tog{width:38px!important;height:38px!important;padding:0!important;justify-content:center!important;border-radius:50%!important;
+  background:radial-gradient(circle at 50% 25%,#14806d,#06463b 75%)!important;border:2px solid #e2b85a!important;box-shadow:0 4px 10px rgba(6,70,59,.25)!important}
+html body .mrx .mh-tog i{display:none!important;background:none!important;box-shadow:none!important;opacity:1!important;width:auto!important;height:auto!important}
+:root:not([data-theme=dark]):not([data-theme=eye]) body .mrx .mh-tog i.t-l,:root[data-theme=dark] body .mrx .mh-tog i.t-d,:root[data-theme=eye] body .mrx .mh-tog i.t-e{display:grid!important}
+html body .mrx .mh-tog .ic{width:19px!important;height:19px!important}
+@media (max-width:560px){html body .mrx .mh-tog{width:32px!important;height:32px!important}html body .mrx .mh-tog .ic{width:17px!important;height:17px!important}}
+/* «Sign in» readable */
+html body .mrx .mh-in{color:#fff!important;-webkit-text-fill-color:#fff;background:linear-gradient(180deg,#14806d,#06463b)!important;border:2px solid #e2b85a!important;height:36px!important;padding:0 14px!important;font-weight:800}
+/* Arabic text in cards reads from the right even when the app is in English (owner, 21 Nov 2026) */
+html body .mrx .feed-card-content [dir="auto"],html body .mrx .feed-card [dir="auto"],html body .mrx .mlx [dir="auto"],html body .mrx .mc-card [dir="auto"],html body .mrx .fcard [dir="auto"]{text-align:start!important;unicode-bidi:plaintext}
+html body .mrx .feed-card-content>div{text-align:start}

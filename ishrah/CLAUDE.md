@@ -1095,3 +1095,5 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - **Only Medicine is open** (owner, 21 Nov 2026): on `#pick` the other specialities show a lock and «قريبًا» and cannot be chosen
   (`IS.specLocked(id)` in mr.js; the platform owner, `team` has 'owner', can still open them). A device that had chosen a locked
   speciality is sent back to `#pick` (core.js route gate). To open a speciality later, change `specLocked`.
+- The day / night / eye button is one round button on every screen (laptops too); «Sign in» on the new top bar is white on teal.
+  Arabic text in cards starts from the right even when the app is in English (`unicode-bidi:plaintext`, text-align start).
