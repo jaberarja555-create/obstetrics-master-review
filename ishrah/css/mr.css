@@ -1726,3 +1726,13 @@ html body .mrx :is(.mh-pub,.mh-in,.mlx-b.green:not(.on),.mlc-b.green:not(.on),.m
   .mh-nav{padding-inline:max(10px,calc((100% - 1100px) / 2))!important}
 }
 @media (min-width:1700px){.mh-page{padding-inline:clamp(40px,4vw,90px)!important}}
+/* laptops: shorter banners and course cards with more room for the text (owner, 21 Nov 2026) */
+@media (min-width:900px){
+  html body .mrx .mh-ban{height:clamp(120px,10.5vw,170px)!important}
+  html body .mrx .mh-ban h1{font-size:clamp(26px,2.6vw,40px)!important}
+  html body .mra .mh-old .ban{min-height:clamp(110px,10vw,160px)!important}
+  .mc-card{grid-template-columns:minmax(0,1fr) minmax(0,34%)!important;align-items:start}
+  .mc-card h3{font-size:16px!important}
+  .mc-sub{-webkit-line-clamp:3!important}
+  .mc-side .mc-pic{aspect-ratio:4/3!important}
+}

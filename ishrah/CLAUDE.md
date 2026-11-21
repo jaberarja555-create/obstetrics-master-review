@@ -1203,3 +1203,4 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
 - Filled buttons (top-bar Home, Publish, Follow, Enrol, active tabs…) keep white icons and text in every app colour (a page rule had
   turned the Home icon dark on purple / maroon / graphite). From 900 px the new pages use the whole width (no centred 1240 px column):
   cards in as many 440 px columns as fit (2 on a 1366 laptop, 3 on 1920). After mr.css changes run palettes.py (mr-pal-*).
+- Laptops: banners 120–170 px high; course cards give the picture 34 % (4:3) so the whole card shows on one screen.
