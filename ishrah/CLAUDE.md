@@ -1156,3 +1156,20 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   makes one audio lesson per file in that order (length from the file), uploads each (progress per row, screen kept awake, warning on
   leaving), removes uploaded files from the phone, keeps failed ones for «أعد محاولة الباقي»; without R2 it stops and keeps them.
   iPhone cannot show web apps in the share list: save from Telegram to Files, then «ارفع عدة تسجيلات». Test: scratchpad sh.js.
+- **English pages, Settings, colours and text size** (owner, 21 Nov 2026: "in English it appears bad, text big"; "Settings must be fully
+  reorganised with nice small buttons; app colours and text size are not working"; "the sign in up here does not appear well"):
+  - English typography on framed pages: body 14px / 1.6 (Poppins is wide; Arabic keeps its spacing), smaller headings and banner titles;
+    the Terms page is a list of cards (icon tile, title, text). Bottom bar English label «Learning» (was «My learning»), smaller type so
+    nothing is cut. Sign-in buttons: white text, one line («دخول» on the speciality/section screens, never cut).
+  - **Settings** (`IS.page('settings')` in student.js, CSS ".st2" at the end of mr.css): speciality card with «التخصص»/«القسم» pills;
+    «اللغة والمظهر» rows with small segmented switches (language; Light/Dark/Eye/Auto; colour dots; text size A/A/A); Account rows
+    (profile, security, notifications, favourites, downloads, online status for lecturers/team, sign out in red); the Alerts box of
+    alerts.js now fills the `.st-alerts` slot; Help rows; version 1.2. Narrow phones put each switch under its label.
+  - **App colour now reaches the SMRA design:** mr.css hard-coded its greens, so the colour choice changed nothing. palettes.py now also
+    writes `css/mr-pal-<ocean|teal|purple|maroon|graphite>.css` (every green/teal hue 135–195 moved to the colour); index.html loads
+    `#mrcss` by `ish-pal`, `IS.setPal` swaps both stylesheets. Choices (`IS.PALS`): SMRA green (key 'blue', default), Blue ('ocean'),
+    Teal, Purple, Maroon, Graphite; an old 'green' choice becomes the default. The teal banner rules of app.css are repeated at the end
+    of mr.css so they recolour too. Photos keep their own colours. **Run `python3 tools/ishrah/palettes.py` after every change to mr.css
+    or app.css**; stamp.py gives all app/pal/mr files one shared version.
+  - **Text size works on the new pages:** mr.css forced `zoom:1` on framed pages; it is now `zoom:var(--z,1)` (Small 0.9, Large 1.15).
+  Test: scratchpad st.js (colour change, text size, no sideways scroll) and en.js.

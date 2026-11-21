@@ -92,6 +92,7 @@
     s_anatomy: '<circle cx="12" cy="4.5" r="2.2"/><path d="M8 8.5h8l-1 6h-1.5l-.5 7h-2l-.5-7H9z"/><path d="M8 8.5 5 14M16 8.5l3 5.5"/>',
     s_physiology: '<path d="M12 20s-7.5-4.6-9.2-9.4C1.6 7 3.8 4 7 4c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.2 0 5.4 3 4.2 6.6"/><path d="M13 12h2.5l1.5-3 2 6 1.5-3h2"/>',
     s_pathology: '<path d="M9 3h5M11.5 3v3"/><path d="M8 6.5h7l-1.5 6h-4z"/><path d="M5 21h14M9 21c0-3 1.5-5 3.5-6M16.5 14a5 5 0 0 1-2.5 7"/>',
+    palette: '<path d="M12 3a9 9 0 1 0 0 18c1.3 0 2-.8 2-1.8 0-.5-.2-.9-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1 .8-1.6 1.8-1.6H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10" cy="7" r="1.2"/><circle cx="14.5" cy="7" r="1.2"/>',
     mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/>',
     s_micro: '<circle cx="12" cy="12" r="5"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4M5.3 5.3l2.8 2.8M15.9 15.9l2.8 2.8M5.3 18.7l2.8-2.8M15.9 8.1l2.8-2.8"/>',
     s_pharma: '<path d="m10.5 20.5-7-7a5 5 0 0 1 7-7l7 7a5 5 0 0 1-7 7z"/><path d="m7 10 7 7"/>', s_biochem: '<path d="M7 3c0 6 10 6 10 12s-10 6-10 6M17 3c0 6-10 6-10 12"/><path d="M8.5 7h7M9 12h6M8.5 17h7"/>',
@@ -755,14 +756,17 @@
     document.documentElement.setAttribute('data-fs', LS.get('fs', 'n')); }
   IS.applyTheme = applyTheme;
   /* colour of the app (owner, 18 Nov 2026): one stylesheet per colour, made by tools/ishrah/palettes.py */
-  IS.PALS = [['blue', '#086981', 'أزرق طبي', 'Clinical blue'], ['teal', '#0b5f63', 'فيروزي', 'Teal'], ['green', '#0f5a3a', 'أخضر', 'Green'],
-    ['purple', '#3f2a7d', 'بنفسجي', 'Purple'], ['maroon', '#6e1d36', 'عنابي', 'Maroon'], ['graphite', '#2c3340', 'رمادي داكن', 'Graphite']];
+  /* the SMRA design (css/mr.css) is green: 'blue' (the old key) is that default; every other colour has css/mr-pal-<key>.css too */
+  IS.PALS = [['blue', '#0d6b5c', 'أخضر SMRA', 'SMRA green'], ['ocean', '#1768b3', 'أزرق', 'Blue'], ['teal', '#0b6870', 'فيروزي', 'Teal'],
+    ['purple', '#5a3d8f', 'بنفسجي', 'Purple'], ['maroon', '#7d2843', 'عنابي', 'Maroon'], ['graphite', '#3a4450', 'رمادي داكن', 'Graphite']];
+  if (LS.get('pal', 'blue') === 'green') LS.set('pal', 'blue');
   IS.logo = function () {
     var palette = LS.get('pal', 'blue');
-    return IS.U('img/collection/brand' + (palette !== 'blue' && IS.PALS.some(function (p) { return p[0] === palette; }) ? '-' + palette : '') + '.webp');
+    return IS.U('img/collection/brand' + (/^(teal|purple|maroon|graphite)$/.test(palette) ? '-' + palette : '') + '.webp');
   };
-  IS.setPal = function (p) { LS.set('pal', p); var l = document.getElementById('ishcss'), v = (l && /v=(\d+)/.exec(l.getAttribute('href')) || [0, '25'])[1];
-    if (l) l.setAttribute('href', 'css/' + (p === 'blue' ? 'app' : 'pal-' + p) + '.css?v=' + v);
+  IS.setPal = function (p) { LS.set('pal', p); var l = document.getElementById('ishcss'), v = (l && /v=(\w+)/.exec(l.getAttribute('href')) || [0, '25'])[1];
+    if (l) l.setAttribute('href', 'css/' + (/^(teal|purple|maroon|graphite)$/.test(p) ? 'pal-' + p : 'app') + '.css?v=' + v);
+    var mr = document.getElementById('mrcss'); if (mr) mr.setAttribute('href', 'css/' + (/^(ocean|teal|purple|maroon|graphite)$/.test(p) ? 'mr-pal-' + p : 'mr') + '.css?v=' + ((/v=(\w+)/.exec(mr.getAttribute('href')) || [0, '1'])[1]));
     var m = document.querySelector('meta[name=theme-color]'), c = IS.PALS.filter(function (x) { return x[0] === p; })[0]; if (m && c) m.setAttribute('content', c[1]); };
   IS.ACT.theme = function () { IS.setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); IS.chrome(document.body.getAttribute('data-page')); };
   function applyLang() { document.documentElement.lang = IS.lang; document.documentElement.dir = IS.lang === 'ar' ? 'rtl' : 'ltr'; }

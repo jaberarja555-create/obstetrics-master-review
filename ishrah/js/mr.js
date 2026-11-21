@@ -55,7 +55,7 @@
   function top(homeHref) {
     var m = IS.ME;
     var me = m ? '<a class="mr-me" href="#account"><span class="mr-av">' + (m.photo ? '<img src="' + IS.U(m.photo) + '" alt="">' : I.person) + '</span><b>' + IS.greetingName(m.name, true) + '</b></a>' :
-      '<button type="button" class="mr-me out" data-act="login"><span class="mr-av">' + I.person + '</span><b>' + esc(A('تسجيل الدخول', 'Sign in')) + '</b></button>';
+      '<button type="button" class="mr-me out" data-act="login"><span class="mr-av">' + I.person + '</span><b>' + esc(A('دخول', 'Sign in')) + '</b></button>';
     return '<header class="mr-top"><div class="mr-tl"><a class="mr-rb" href="' + homeHref + '" aria-label="' + esc(A('الرئيسية', 'Home')) + '">' + I.home + '</a><span class="mr-sep"></span>' + me + '</div>' +
       '<a class="mr-brand" href="#pick" aria-label="' + esc(IS.brandName()) + '"><img src="' + IS.U('img/mr/logo-smra.webp') + '" alt="' + esc(IS.brandName()) + '" width="1000" height="359"></a>' +
       '<div class="mr-tr">' + (m ? '<a class="mr-rb" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + I.bell + '<i class="mr-dot" hidden></i></a>' : '') +
@@ -187,7 +187,7 @@
   /* ---------- bottom bar on the new pages (owner, 20 Nov 2026: "don't forget the buttons at the bottom: Library, Courses, Community,
      Lecturers and My learning") ---------- */
   var NAV = [['home', 'home', 'الرئيسية', 'Home'], ['library', 'open', 'مكتبتي', 'Library'], ['courses', 'layers', 'الكورسات', 'Courses'], ['community', 'group', 'المجتمع', 'Community'],
-    ['lecturers', 'users', 'المحاضرون', 'Lecturers'], ['learning', 'bookmark', 'تعلّمي', 'My learning']];
+    ['lecturers', 'users', 'المحاضرون', 'Lecturers'], ['learning', 'bookmark', 'تعلّمي', 'Learning']];
   function bnav(cur) {
     return '<nav class="mh-nav" aria-label="' + esc(A('التنقل', 'Navigation')) + '">' + NAV.map(function (n) {
       return '<a href="#' + n[0] + '"' + (n[0] === cur ? ' class="on" aria-current="page"' : '') + '>' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') + '</nav>';

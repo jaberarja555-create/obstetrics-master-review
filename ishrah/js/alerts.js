@@ -129,7 +129,7 @@
           (on ? '<button type="button" class="btn ghost sm" data-act="pushoff">' + esc(A('إيقاف', 'Turn off')) + '</button>' : st === 'default' || st === 'ios' || st === 'granted' ? '<button type="button" class="btn pri sm" data-act="pushon">' + esc(A('تفعيل', 'Turn on')) + '</button>' : '') + '</div>' +
         '<div class="li"><span><b>' + esc(A('صوت التنبيه داخل التطبيق', 'Alert sound in the app')) + '</b><small>' + esc(sound ? A('يعمل مع الاهتزاز عند وصول إشعار جديد.', 'Plays with a vibration when a new notification arrives.') : A('مكتوم.', 'Muted.')) + '</small></span>' +
           '<button type="button" class="btn ghost sm" data-act="soundtoggle">' + esc(sound ? A('كتم', 'Mute') : A('تشغيل', 'Turn on')) + '</button><button type="button" class="btn ghost sm" data-act="pushtest">' + ic('bell') + esc(A('جرّب', 'Test')) + '</button></div></div></section>';
-      if (!main.querySelector('.pushset')) main.insertAdjacentHTML('beforeend', box);
+      if (!main.querySelector('.pushset')) { var slot = main.querySelector('.st-alerts'); if (slot) slot.outerHTML = box.replace('class="box pushset"', 'class="st-card pushset"'); else main.insertAdjacentHTML('beforeend', box); }
     });
   };
 })();
