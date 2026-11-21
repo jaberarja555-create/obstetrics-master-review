@@ -1087,3 +1087,5 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - **Community page, owner's picture** (21 Nov 2026): figures in one strip with thin separators (green dot beside «متصل الآن»), then four
   buttons الإعلانات · الموارد (course previews) · الأسئلة · النقاشات that show only that kind of post (`IS.ACT['cm-kind']`, posts carry
   `data-pk`); posts are white cards with small pill buttons.
+- Community: above the posts the same bar as the section page — الترتيب (الأحدث · الأكثر تفاعلًا · الأكثر تعليقًا, reorders the list on the
+  page) · التصنيف (same as the four kind buttons, kept in step) · «انشر» (replaces the big «اكتب منشورًا» button).
