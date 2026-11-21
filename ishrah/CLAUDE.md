@@ -1043,3 +1043,7 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   gold ring with a blue verified sign, name in a gold-edged pill, title chip, last activity, section | speciality, «متابعة» gold (follows,
   migration 049) · «إضافة للمفضلة» · «اطلب كورس أو محاضرة»; the lecturer sees «تعديل صفحتي» and «الاستوديو»), then courses · followers,
   Qualifications and Rating tiles (tap scrolls to them) and «تاريخ التسجيل كعضو». About, qualifications, courses, events and links follow.
+- **Student and admin profiles in the lecturer design** (owner, 21 Nov 2026): `#account` and `#person/<id>` use the same teal card (`lp-*`):
+  admin = role chip («مالك المنصة», «المدير العام») + «راسل الفريق»; lecturer = title + «صفحة المحاضر»; student = year (or «طالب») and a
+  University tile; then posts · followers · following, Role/University and Files tiles, city, «تاريخ التسجيل كعضو». Own profile: camera on
+  the picture, «تعديل الملف» + «المزيد». Migration `050_profile_card_roles.sql` adds role (never p:*), lecturer and created_at to the card.

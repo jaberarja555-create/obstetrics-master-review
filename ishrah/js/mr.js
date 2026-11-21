@@ -276,6 +276,7 @@
     var fi = (await DB.q('files', { eq: { owner_id: id, status: 'published' } })).length;
     return { id: p.id, name: p.name, photo: p.photo, university: p.university, year: p.year, city: p.city, bio: p.bio, spec: p.spec,
       verified: (p.team || []).length > 0 || !!(lec && lec.status === 'active'), title: lec && lec.status === 'active' ? lec.title : '',
+      role: (p.team || []).filter(function (r) { return r.indexOf('p:') !== 0; })[0] || null, lecturer: !!(lec && lec.status === 'active'), created_at: p.created_at,
       followers: fl.filter(function (f) { return f.followee === id; }).length, following: fl.filter(function (f) { return f.follower === id; }).length,
       posts: po, files: fi, me_follow: !!(IS.ME && fl.some(function (f) { return f.follower === IS.ME.id && f.followee === id; })) };
   }
@@ -309,20 +310,41 @@
     var posts = res[0].filter(function (x) { return x.status === 'open'; }), files = IS.seriesCollapse ? IS.seriesCollapse(res[1].slice()) : res[1];
     files = files.map(function (f) { return f._parts ? Object.assign({}, f._parts[0], { series_id: f.series_id, series_title: f.series_title }) : f; });
     var h = '<div class="mrx mrh mrp"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() +
-      '<section class="pf-hero"><div class="pf-cover"><img src="' + IS.U('img/collection/about.webp') + '" alt="">' + PI.caduceus +
-      '<svg class="pf-beat" viewBox="0 0 300 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40h150l10-22 12 36 12-44 10 30 8-8h98" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="2.4" stroke-linejoin="round"/></svg></div>' +
-      '<div class="pf-body">' + (own ? '<button type="button" class="pf-edit" data-act="editme">' + PI.pen + '<span>' + esc(A('تعديل الملف', 'Edit profile')) + '</span></button>' +
-        '<button type="button" class="pf-more" data-act="pfmenu" aria-label="' + esc(A('المزيد', 'More')) + '">' + PI.dots + '</button>' : '') +
-      (own ? '<label class="pf-av">' + IS.av(c, 'xl') + '<span class="cam">' + PI.cam + '</span><input type="file" accept="image/*" id="myPhoto" hidden></label>' : '<span class="pf-av">' + IS.av(c, 'xl', c.id) + '</span>') +
-      '<h1 tabindex="-1" dir="auto">' + esc(c.name || '') + (c.verified ? PI.check : '') + '</h1>' +
-      ([c.title, c.year].filter(Boolean).length ? '<p class="pf-sub">' + [c.title, c.year].filter(Boolean).map(esc).join(' <i>•</i> ') + '</p>' : '') +
-      (own && IS.roleChips ? '<div class="prole-row">' + IS.roleChips('prole') + '</div>' : '') +
-      (c.bio ? '<p class="pf-bio" dir="auto">' + esc(c.bio) + '</p>' : own ? '<p class="pf-bio mut"><button type="button" class="link" data-act="editme">' + esc(A('أضف نبذة قصيرة عنك', 'Add a short note about yourself')) + '</button></p>' : '') +
-      (chips.length ? '<div class="pf-chips">' + chips.map(function (x) { return '<span>' + x[0] + '<b dir="auto">' + esc(x[1]) + '</b></span>'; }).join('<i class="pf-sep"></i>') + '</div>' : '') +
-      '<div class="pf-srow"><div class="pf-stats"><span>' + PI.posts + '<b>' + nfmt(c.posts) + '</b><small>' + esc(A('المنشورات', 'Posts')) + '</small></span>' +
-      '<span>' + PI.group + '<b>' + nfmt(c.followers) + '</b><small>' + esc(A('المتابعون', 'Followers')) + '</small></span>' +
-      '<span>' + PI.users + '<b>' + nfmt(c.following) + '</b><small>' + esc(A('أتابع', 'Following')) + '</small></span></div>' +
-      (own ? '' : '<button type="button" class="pf-follow' + (c.me_follow ? ' on' : '') + '" data-act="pffollow" data-id="' + esc(id) + '">' + (c.me_follow ? PI.tick : PI.plus) + '<span>' + esc(c.me_follow ? A('متابَع', 'Following') : A('متابعة', 'Follow')) + '</span></button>') + '</div></div></section>' +
+      /* the same design as the lecturer page (owner, 21 Nov 2026: "also for admins and students with relevant different info") */
+      (function () {
+        var role = c.role && (IS.ROLES || []).filter(function (x) { return x[0] === c.role; })[0], isLec = c.lecturer || !!c.title;
+        var roleTxt = role ? A(role[1], String(role[2]).replace(/\s*\(.*\)\s*/, '')) : '';
+        if (own && !roleTxt && IS.myRoles) { var mr = IS.myRoles().filter(function (r) { return r[4] === 'adm'; })[0]; if (mr) roleTxt = A(mr[2], mr[3]); }
+        var kindTxt = roleTxt || (isLec ? (c.title || A('محاضر', 'Lecturer')) : (c.year || A('طالب', 'Student')));
+        var kindIc = roleTxt ? ic('crown') : isLec ? HI.brief : HI.cap.replace(G, 'currentColor');
+        var section = own ? IS.mySection() : null, spn = spName;
+        var tile1 = roleTxt ? [ic('shield'), A('الدور في المنصة', 'Role'), roleTxt + (isLec ? ' · ' + A('محاضر', 'Lecturer') : '')] :
+          isLec ? [HI.cap.replace(G, '#c99a3e'), A('المحاضر', 'Lecturer'), c.title || A('محاضر معتمد', 'Approved lecturer')] :
+          [HI.cap.replace(G, '#c99a3e'), A('الجامعة', 'University'), [c.university, c.year].filter(Boolean).join(' · ') || A('لم تُضف بعد', 'Not added yet')];
+        var acts = own ? '<div class="lp-acts"><button type="button" class="lp-btn gold" data-act="editme">' + PI.pen + '<span>' + esc(A('تعديل الملف', 'Edit profile')) + '</span></button>' +
+            '<button type="button" class="lp-btn" data-act="pfmenu">' + PI.dots + '<span>' + esc(A('المزيد', 'More')) + '</span></button></div>' :
+          '<div class="lp-acts' + (roleTxt || isLec ? '' : ' one') + '"><button type="button" class="lp-btn gold' + (c.me_follow ? ' on' : '') + '" data-act="pffollow" data-id="' + esc(id) + '">' + (c.me_follow ? PI.tick : HI.userPlus) + '<span>' + esc(c.me_follow ? A('متابَع', 'Following') : A('متابعة', 'Follow')) + '</span></button>' +
+            (isLec ? '<a class="lp-btn" href="#lecturer/' + esc(id) + '">' + HI.layers.replace(G, 'currentColor') + '<span>' + esc(A('صفحة المحاضر', 'Lecturer page')) + '</span></a>' :
+             roleTxt ? '<a class="lp-btn" href="#support">' + PI.chat + '<span>' + esc(A('راسل الفريق', 'Message the team')) + '</span></a>' : '') + '</div>';
+        return '<section class="lp-hero"><div class="lp-cover" style="--lc:url(' + IS.U('img/hero_band.webp') + ')"></div>' +
+          '<svg class="lp-wave" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40C80 20 130 10 200 10s120 10 200 30V60H0z" fill="#0b5a4c"/><path d="M0 40C80 20 130 10 200 10s120 10 200 30" fill="none" stroke="#e9c46a" stroke-width="3"/></svg>' +
+          '<div class="lp-body">' + (own ? '<label class="lp-av">' + IS.av(c, 'xl') + '<span class="cam">' + PI.cam + '</span><input type="file" accept="image/*" id="myPhoto" hidden></label>' :
+            '<span class="lp-av">' + IS.av(c, 'xl', c.id) + (c.verified ? '<i class="lp-ok">' + PI.check + '</i>' : '') + '</span>') +
+          '<h1 tabindex="-1" class="lp-name" dir="auto">' + esc(c.name || '') + '</h1>' +
+          '<span class="lp-title">' + kindIc + '<b dir="auto">' + esc(kindTxt) + '</b></span>' +
+          (own ? '' : '<span class="lp-seen">' + IS.seen(id) + '</span>') +
+          ((section || spn) ? '<span class="lp-chips">' + (section ? '<b lang="en">' + esc(section.id === 'special' ? 'International' : section.en) + '</b>' : '') + (spn ? '<b lang="en">' + esc(spn) + '</b>' : '') + '</span>' : '') +
+          (c.bio ? '<p class="lp-bio" dir="auto">' + esc(c.bio) + '</p>' : '') + acts + '</div></section>' +
+          '<section class="lp-stats"><div class="lp-two three"><span>' + PI.posts + '<b>' + nfmt(c.posts) + '</b><small>' + esc(A('المنشورات', 'Posts')) + '</small></span>' +
+            '<span>' + PI.group + '<b>' + nfmt(c.followers) + '</b><small>' + esc(A('المتابعون', 'Followers')) + '</small></span>' +
+            '<span>' + PI.users + '<b>' + nfmt(c.following) + '</b><small>' + esc(A('أتابع', 'Following')) + '</small></span></div>' +
+          '<div class="lp-tiles"><span class="lp-tile"><i>' + tile1[0] + '</i><b>' + esc(tile1[1]) + '</b><small dir="auto">' + esc(tile1[2]) + '</small></span>' +
+            '<a class="lp-tile" href="' + base + '/files"><i>' + HI.folder.replace('currentColor', '#c99a3e') + '</i><b>' + esc(A('الملفات', 'Files')) + '</b><small>' + N(c.files || 0) + ' ' + esc(A('ملف منشور', 'published')) + '</small><em>‹</em></a></div>' +
+          ((c.city || c.university) && !(tile1[1] === A('الجامعة', 'University')) ? '<div class="lp-row">' + PI.pin + '<b>' + esc(A('الجامعة والمدينة', 'University and city')) + '</b><span dir="auto">' + esc([c.university, c.city].filter(Boolean).join(' · ')) + '</span></div>' :
+            c.city ? '<div class="lp-row">' + PI.pin + '<b>' + esc(A('المدينة', 'City')) + '</b><span dir="auto">' + esc(c.city) + '</span></div>' : '') +
+          (c.created_at ? '<div class="lp-row">' + HI.cal + '<b>' + esc(A('تاريخ التسجيل كعضو', 'Member since')) + '</b><span>' + esc(IS.date(c.created_at)) + '</span></div>' : '') +
+          (own && IS.roleChips ? '<div class="prole-row">' + IS.roleChips('prole') + '</div>' : '') + '</section>';
+      })() +
       '<nav class="pf-tabs">' + [['posts', PI.posts, A('المنشورات', 'Posts')], ['files', HI.folder, A('الملفات', 'Files')]].concat(own ? [['saved', PI.bm, A('المحفوظات', 'Saved')]] : []).map(function (t) {
         return '<a href="' + base + (t[0] === 'posts' ? '' : '/' + t[0]) + '"' + (tab === t[0] || (tab === 'all' && t[0] === 'posts') ? ' class="on" aria-current="page"' : '') + '>' + t[1] + '<span>' + esc(t[2]) + '</span></a>'; }).join('') + '</nav>';
     if (tab === 'files') {
