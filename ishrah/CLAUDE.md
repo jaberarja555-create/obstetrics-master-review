@@ -1394,3 +1394,7 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   a toast and scrolls into view (`invalid` listener, sell.js). A person who may approve library files (`library` approve) gets «حفظ التعديلات»:
   the change is submitted and approved at once through the same review step (`IS.applyOwnRevision`, control.js; `decide-library-edit` with
   `auto`), so every part of a series is updated; others still send for review. Test: scratchpad sed2.js.
+- **Saving an edit is two server calls (owner, 21 Nov 2026: «taking long time»):** live, `IS.saveRevisionNow(fn, target, revised)` (control.js)
+  sends the edit and, for library staff, approves it by the id the first call returns (`ish_review_library_revision`); no reading back in
+  between. `IS.rpcIn(name, args, ms)` stops after 30 s with «الاتصال بطيء جدًا…» instead of a spinner that never ends. The preview keeps the
+  local path (`IS.applyOwnRevision`). Test: scratchpad rv2.js (fake server, 1.5 s per call: 2 calls, 3 s; a hung call ends with the message).

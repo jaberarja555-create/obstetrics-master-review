@@ -740,15 +740,14 @@
     return rows.find(function (row) { return Boolean(row.for_series) === !!series; });
   }
   async function saveUploadRevision(file, proposed, old, series) {
-    if (DB.live) {
-      var result = await DB.sb.rpc('ish_submit_library_revision', { target: file.id, revised: proposed });
-      if (result.error) throw result.error;
-    } else {
+    var done = false;
+    if (DB.live) done = await IS.saveRevisionNow('ish_submit_library_revision', file.id, proposed);
+    else {
       if (old) await DB.del('library_file_revisions', old.id);
       await DB.ins('library_file_revisions', { file_id: file.id, owner_id: file.owner_id, for_series: !!series, changes: proposed, status: 'pending' });
     }
     if (DB.forget) DB.forget();
-    var done = IS.applyOwnRevision ? await IS.applyOwnRevision(file.id, series).catch(function () { return false; }) : false;
+    if (!DB.live) done = IS.applyOwnRevision ? await IS.applyOwnRevision(file.id, series).catch(function () { return false; }) : false;
     IS.closeSheet();
     IS.toast(done ? A('حُفظ التعديل ونُشر', 'Edit saved and published') : A('أُرسل التعديل للمراجعة', 'Edit sent for review'));
     IS.refresh();

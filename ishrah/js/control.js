@@ -504,6 +504,17 @@
       esc(revision.id) + '" data-publish="0">' + esc(A('أعد التعديل إلى المالك', 'Return edit to uploader')) + '</button></div>');
   };
   /* a library editor's own change is approved at once, through the same review step (applies every part of a series) */
+  /* live: one call to send the edit, one to approve it by its id (owner, 21 Nov 2026: «taking long time»); never waits forever */
+  IS.rpcIn = function (name, args, ms) {
+    return Promise.race([DB.sb.rpc(name, args), new Promise(function (_, no) { setTimeout(function () { no(new Error(A('الاتصال بطيء جدًا. تحقق من الإنترنت وحاول مرة أخرى.', 'The connection is very slow. Check the internet and try again.'))); }, ms || 30000); })])
+      .then(function (r) { if (r && r.error) throw r.error; return r ? r.data : null; });
+  };
+  IS.saveRevisionNow = async function (fn, target, revised) {
+    var id = await IS.rpcIn(fn, { target: target, revised: revised });
+    if (!IS.can('library', 'approve') || !id) return false;
+    await IS.rpcIn('ish_review_library_revision', { target: id, publish: true, note: '' });
+    return true;
+  };
   IS.applyOwnRevision = async function (fileId, series) {
     if (!IS.can('library', 'approve')) return false;
     var rev = (await DB.q('library_file_revisions', { eq: { file_id: fileId } })).find(function (r) { return Boolean(r.for_series) === !!series && r.status === 'pending'; });

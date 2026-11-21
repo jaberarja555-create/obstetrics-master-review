@@ -415,7 +415,8 @@
       var proposed = Object.assign({ series_title: data.series_title.trim(), title: data.series_title.trim(), kind: data.kind, subjects: subjects, author: data.author || '', about: data.about || '',
         series_cover: cover || '', order: ED.parts.filter(function (p) { return !p.removed; }).map(function (p) { return p.id; }), titles: titles,
         remove: ED.parts.filter(function (p) { return p.removed; }).map(function (p) { return p.id; }), full: true }, sale);
-      if (DB.live) { var r = await DB.sb.rpc('ish_submit_series_revision', { target: lead.id, revised: proposed }); if (r.error) throw r.error; }
+      var done = false;
+      if (DB.live) done = await IS.saveRevisionNow('ish_submit_series_revision', lead.id, proposed);
       else {
         var old = (await DB.q('library_file_revisions', { eq: { file_id: lead.id } })).find(function (row) { return row.for_series; });
         if (old) await DB.del('library_file_revisions', old.id);
@@ -434,7 +435,7 @@
         await DB.ins('files', row);
       }
       if (DB.forget) DB.forget();
-      var done = IS.applyOwnRevision ? await IS.applyOwnRevision(lead.id, true).catch(function (e) { console.warn(e); return false; }) : false;
+      if (!DB.live) done = IS.applyOwnRevision ? await IS.applyOwnRevision(lead.id, true).catch(function (e) { console.warn(e); return false; }) : false;
       ED = null; IS.closeSheet();
       IS.toast(done ? A('حُفظت التعديلات ونُشرت', 'Changes saved and published') : A('أُرسلت التعديلات للمراجعة. ستصلك رسالة عند اعتمادها.', 'Your changes were sent for review. You will be notified when they are approved.'));
       IS.refresh();
