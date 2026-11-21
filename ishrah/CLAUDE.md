@@ -1356,3 +1356,6 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   التطبيق حتى من البداية»: the «مساعدة» button (assist.js `fab`) shows on every screen, signed in or not, also the speciality/section choosers
   (lower when there is no bottom bar, `.nonav`), not over the book reader or the offline viewer; signed out, the guide opens with a welcome and
   «تسجيل الدخول / حساب جديد» (asking needs an account: the API counts messages per account).
+- **Header buttons on white (owner, 21 Nov 2026: «put them above the coloured bar … better in the white area»):** brand row, then the buttons
+  on the white part, then only a thin coloured strip with the gold edge (`--bandh` 14 px phones, 18 px from 700 px); white buttons have a thin
+  border and shadow. Supersedes "every button on the dark band".

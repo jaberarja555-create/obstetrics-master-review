@@ -2285,3 +2285,10 @@ html body .mrx .mh-old .ban.bpic h1.tl3{font-size:3.7cqw!important}
   :root[data-theme=dark] .mh-band .w1{fill:#280d15}
   html body .mrx .mh-brand>img{height:clamp(66px,5.4vw,86px)!important}
 }
+/* the header buttons in the white area (owner, 21 Nov 2026: «put them above the coloured bar, so they are better in the white area»):
+   brand row, then the buttons on white, then a thin coloured strip with the gold edge along the bottom (every screen size) */
+html body .mrx .mh-top{--bandh:14px}
+@media (min-width:700px){html body .mrx .mh-top{--bandh:18px}}
+html body .mrx .mh-top>.mh-side{padding:2px 0 calc(var(--bandh) + 8px)!important;min-height:0!important;align-self:center}
+html body .mrx .mh-top .mh-side .mh-b.ghost{background:#fff!important;border:1px solid #e5d7dc!important;box-shadow:0 2px 6px rgba(65,11,25,.12)!important}
+:root[data-theme=dark] body .mrx .mh-top .mh-side .mh-b.ghost{background:#2d111a!important;border-color:#43242f!important}
