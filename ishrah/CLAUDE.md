@@ -1073,3 +1073,6 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - **Lecturer card, owner's third picture** (21 Nov 2026; `.mlx`, replaces `.mlc`): picture in a gold ring with a small online / last-activity
   badge, name + verified with the title as a green pill, the bio beside them after a thin line; one line: rating · section · speciality ·
   courses · followers; buttons «عرض الملف» · «متابعة» · «طلب» (course or lecture request to this lecturer) · «مفضلة» (bookmark icon).
+- **Buttons and labels are never cut** (owner, 21 Nov 2026): on the new pages button text is smaller (clamp by screen width) and wraps to
+  a second line instead of «…» when a phone has a bigger system font; the lecturer-card buttons drop their icons when the card is narrow
+  (container query). Check new buttons at 360 px: `scrollWidth > clientWidth` must find nothing (scratchpad big.js).

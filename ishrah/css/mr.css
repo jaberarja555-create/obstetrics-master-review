@@ -1340,3 +1340,20 @@ html body div.cr-terms .cr-agreement-meta span{padding:2px 10px;border-radius:99
 html body div.cr-terms .cr-agreement-meta span:empty{display:none}
 html body div.cr-terms .pre{display:block;width:auto;max-width:100%;white-space:pre-wrap;word-break:normal;overflow-wrap:break-word;line-height:1.6;color:#2d4943}
 :root[data-theme="dark"] div.cr-terms:is(.cr-proposal,.cr-agreement){background:#0b2721;border-color:#21463c}
+/* ===== buttons and labels never cut (owner, 21 Nov 2026: "buttons should not be so big that they show incomplete, the text too") =====
+   smaller text in buttons; when a phone still has no room (bigger system font) the words wrap onto a second line instead of «…» */
+html body .mrx :is(.btn,.mlx-b,.lp-btn,.mlc-b,.mc-btn,.mh-pub,.mh-big,.fv-btn,.lp-q,.lp-m,.lp-cbtn,.mh-in,.lp-send){height:auto!important;min-height:32px;line-height:1.15!important;white-space:normal!important;text-align:center}
+html body .mrx :is(.btn,.mlx-b,.lp-btn,.mlc-b,.mc-btn,.mh-pub,.mh-big,.fv-btn,.lp-send) :is(span,b){white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:normal;word-break:keep-all}
+html body .mrx :is(.mlx-b,.mlc-b){font-size:clamp(10.5px,2.9vw,12.5px)!important;padding:4px 3px!important}
+html body .mrx .lp-btn{font-size:clamp(12px,3.3vw,14px)!important;padding:6px 8px!important;min-height:36px}
+html body .mrx .mc-btn{font-size:clamp(12px,3.3vw,13.5px)!important;min-height:36px;padding:6px 12px!important}
+html body .mrx .mh-old .btn{font-size:clamp(12px,3.3vw,14px)!important;min-height:34px;padding:6px 12px!important}
+html body .mrx .feed-votes>.fv-acts :is(.fv-btn){min-height:34px;font-size:clamp(11.5px,3.2vw,13px)!important}
+html body .mrx .feed-card .library-feed-actions .btn{min-height:32px;font-size:clamp(11.5px,3.2vw,13px)!important}
+/* labels and chips: shrink, never cut */
+html body .mrx :is(.mlx-c,.mlx-t b,.lp-title b,.lp-chips b,.mc-chip,.ptag){overflow:visible!important;text-overflow:clip!important}
+html body .mrx .mlx-meta{flex-wrap:wrap!important;overflow:visible!important;row-gap:4px!important}
+html body .mrx .mlx h3 a,html body .mrx .mlc h3 a{white-space:normal!important;overflow:visible!important}
+/* icons in the lecturer-card buttons go when the card is narrow, so the words keep their room */
+.mlx-acts{container-type:inline-size}
+@container (max-width:330px){.mlx-b svg.ic{display:none!important}}
