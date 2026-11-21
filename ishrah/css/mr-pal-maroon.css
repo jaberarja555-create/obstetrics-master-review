@@ -2073,3 +2073,29 @@ h3.sub+.mgrid{margin-bottom:4px}
 #asfab:hover,#asfab:focus-visible,#asfab:active{opacity:1}
 #asfab[hidden]{display:none}
 @media (min-width:761px){#asfab{bottom:84px;inset-inline-start:18px}}
+/* ---------- wide brand header (owner's design, 21 Nov 2026) ---------- */
+.mh-brand,.mh-wave{display:none}
+@media (min-width:1240px){
+  html body .mrx .mh-top{position:relative;overflow:hidden;min-height:120px;padding-block:6px!important}
+  html body .mrx .mh-top>.mh-side{position:relative;z-index:2}
+  html body .mrx .mh-logo{position:relative;z-index:1;display:flex;justify-content:center}
+  html body .mrx .mh-logo .mh-l1{display:none!important}
+  .mh-brand{display:flex;align-items:center;gap:18px;direction:ltr}
+  html body .mrx .mh-brand>img{height:clamp(76px,6.6vw,100px)!important;width:auto!important;max-width:none!important;filter:drop-shadow(0 2px 3px rgba(0,0,0,.18))}
+  .mh-div{width:2px;align-self:stretch;margin:10px 0;border-radius:2px;background:linear-gradient(180deg,transparent,#c9a24a,#8a6420,#c9a24a,transparent)}
+  .mh-names{display:flex;flex-direction:column;align-items:flex-start;gap:2px;line-height:1.25}
+  html body .mrx .mh-names b{font-family:Cairo,system-ui,sans-serif;font-weight:700;font-size:clamp(19px,1.65vw,26px);color:#410b19;white-space:nowrap}
+  html body .mrx .mh-names em{font-family:Georgia,'Times New Roman',serif!important;font-style:normal;font-weight:700;font-size:clamp(14px,1.2vw,18.5px);color:#410b19;letter-spacing:.2px;white-space:nowrap}
+  .mh-sw{width:92%;height:13px;margin-top:3px;align-self:center}
+  .mh-sw path{fill:#d1a646}
+  .mh-wave{display:block;position:absolute;bottom:0;width:min(30%,400px);height:100%;z-index:0;pointer-events:none}
+  .mh-wave svg{width:100%;height:100%;display:block}
+  .mh-wave .w1{fill:#410b19}
+  .mh-wave .w2{stroke:#e2b85a;stroke-width:3}
+  .mh-wave .w3{stroke:#f6dc8e;stroke-width:1.2;opacity:.7}
+  .mh-wave.s{left:0}
+  .mh-wave.e{right:0;transform:scaleX(-1)}
+  /* the buttons over the dark wave stay clear */
+  html body .mrx .mh-top .mh-side .mh-b.ghost{background:rgba(255,255,255,.92)}
+  :root[data-theme=dark] .mh-names b,:root[data-theme=dark] .mh-names em{color:#f3e2b0}
+}

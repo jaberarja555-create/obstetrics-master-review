@@ -1322,3 +1322,10 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   (no Supabase) says it works only on the published site.
 - Tested: wrangler pages dev with fake Supabase/Anthropic servers (sign-in check, limit → 429, cache_control, token log, bad request) and
   Chromium at 393 / 1366 px (button above the bar, answer rendering, unsafe text shown as text, limit message, history kept, Features entry).
+
+## Wide brand header on laptops (owner, 21 Nov 2026: "I am expecting this level of design", his picture)
+From 1240 px the top bar shows `.mh-brand`: img/mr/logo-wide.webp (the seal + the SMRA wordmark cut from logo-smra.webp), a thin gold line,
+the Arabic and English names (Cairo / Georgia) over a gold swoosh, and `.mh-wave` bands in the app colour with gold lines at both lower
+corners (colours written as #06463b so palettes.py recolours them). Below 1240 px the single logo stays (the buttons need the room).
+His picture said «المنصة السودانية للمراجعة الطبية الأكاديمية / Sudanese Medical Review Academic Platform»; the header keeps the app's
+name «أكاديمية السودان للمراجعة الطبية / Sudan Master Review Academy» until he decides to rename.
