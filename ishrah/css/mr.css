@@ -2065,3 +2065,8 @@ html body .mrx .mh-top .mh-ai svg{width:21px!important;height:21px!important}
   .mrx .mh-top:has(.mh-ai) .mh-tog,html body .mrx .mh-top:has(.mh-ai) .mh-tog{display:none!important}
   .mr-looks{display:flex}
 }
+/* laptops and tablets: the logo fills the top bar (owner, 21 Nov 2026) */
+@media (min-width:761px){
+  html body .mrx .mh-top{padding-block:4px!important}
+  html body .mrx .mh-logo img{height:clamp(82px,8.4vw,124px)!important;max-height:none!important;width:auto!important;max-width:min(46vw,440px)!important}
+}
