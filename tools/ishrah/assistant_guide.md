@@ -26,6 +26,7 @@ Settings: language (Arabic/English), look (Day, Night, Eye comfort, Automatic fo
 Account: your profile (picture, name, bio, university, year), posts, files, followers.
 Support: [الدعم والرسائل](#support) sends a message to the right team (payments, technical, academic…); the answer comes back there and in notifications. Our team page shows the platform staff.
 Terms of use and privacy: [الشروط](#terms) (accepted when signing up).
+This guide (you): opened from Features (⋮⋮), Settings → Help, or the Support page.
 Installing: on Android open the site in Chrome → menu → «Install app»; on iPhone open it in Safari → Share → «Add to Home Screen».
 Becoming a lecturer: [انضم كمحاضر](#studio-apply) → fill in your qualifications and a teaching sample → the academic team approves you. Lecturer studio: create a course (details, cover, free or paid price, certificate on/off, preview video), add sections and lessons (video, audio, written, quiz), order lessons with the ⌃ ⌄ arrows, «ارفع عدة تسجيلات» to upload many recordings at once, or share recordings from Telegram on Android (Share → «اشرح لي»); then send the course for review; after approval it is published. Earnings and payouts: [أرباحي](#studio-money); add or change the Bankak account that receives your money in [الحساب استلام الأرباح](#studio-bank). Guide for lecturers: [دليل المحاضر](#studio-guide).
 Team (admin): the gold «الإدارة» button opens the control panel: payments, course review, lecturers, students, library, community reports, events, announcements, reports, users and permissions.

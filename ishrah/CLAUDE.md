@@ -1297,8 +1297,9 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   page (CSS "course page: calmer type"). Test: scratchpad ce.js.
 
 ## مرشد المنصة: the guide assistant (owner, 21 Nov 2026: "personal guide like AI inside the app"; chose an app guide only, Claude Haiku 5.5)
-- App: js/assist.js. A round 🤖 button above the bottom bar (signed-in accounts; hidden while reading a book or playing a lesson), also in
-  Features and on the Support page (`data-act="assist"`). Chat panel `#asst` (bottom sheet on phones, corner window on computers),
+- App: js/assist.js. **No floating button** (owner, 21 Nov 2026: a button that appeared and disappeared was annoying and invited needless
+  questions). The guide opens only from fixed places (`data-act="assist"`): Features (⋮⋮) first tile, Settings → Help «مرشد المنصة», and
+  the Support page button «اسأل مرشد المنصة». Chat panel `#asst` (bottom sheet on phones, corner window on computers),
   suggested questions, «محادثة جديدة». The conversation stays in sessionStorage `ish-assist` of the tab; nothing is stored on the server.
   Answers are escaped; only **bold**, list lines and Markdown links to the app's own `#routes` become HTML (clicking one closes the panel).
 - Server: functions/api/assist.js (official SDK `@anthropic-ai/sdk`, package.json in ishrah/, `npm ci` step in the workflow; wrangler never

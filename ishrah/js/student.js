@@ -432,7 +432,7 @@
       '<button type="button" class="st-link st-out" data-act="logout"><span class="st-ic">' + ic('logout') + '</span><span class="st-lt"><b>' + esc(A('تسجيل الخروج', 'Sign out')) + '</b></span></button>' :
       '<p class="st-note">' + esc(A('سجّل الدخول لإدارة ملفك وأمانك وإشعاراتك.', 'Sign in to manage your profile, security and notifications.')) + '</p><div class="st-two st-auth"><button class="btn pri sm" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button><button class="btn ghost sm" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div>') + '</section>';
     h += '<div class="st-alerts"></div>';
-    h += '<section class="st-card"><h2>' + esc(A('المساعدة', 'Help')) + '</h2>' + link('#support', 'chat', 'الدعم والرسائل', 'Support and messages') + link('#about', 'info', 'عن المنصة', 'About the platform') + link('#terms', 'file', 'الشروط والخصوصية', 'Terms and privacy') + '</section>' +
+    h += '<section class="st-card"><h2>' + esc(A('المساعدة', 'Help')) + '</h2>' + link('#support', 'chat', 'الدعم والرسائل', 'Support and messages') + link('#settings', 'help', 'مرشد المنصة', 'Platform guide', A('اسأل عن طريقة استعمال التطبيق', 'Ask how to use the app')).replace('<a class="st-link"', '<a class="st-link" data-act="assist"') + link('#about', 'info', 'عن المنصة', 'About the platform') + link('#terms', 'file', 'الشروط والخصوصية', 'Terms and privacy') + '</section>' +
       '<p class="st-ver">' + esc(IS.brandName()) + ' · ' + esc(A('الإصدار', 'Version')) + ' 1.2</p></div>';
     return h;
   }, { area: 'keep' });
