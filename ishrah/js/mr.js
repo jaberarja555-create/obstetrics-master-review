@@ -86,6 +86,18 @@
     tick(); setTimeout(tick, 1500); setTimeout(tick, 4000);
   }
 
+
+  /* only Medicine is open for now; the other specialities show a lock and «قريبًا» for everyone except the platform owner (owner, 21 Nov 2026) */
+  var LOCK = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.2" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg>';
+  function isOwner() { return !!(IS.ME && (IS.ME.team || []).indexOf('owner') >= 0); }
+  function specLocked(id) { return id !== 'medicine' && !isOwner(); }
+  IS.specLocked = specLocked;
+  var setspec0 = IS.ACT.setspec;
+  IS.ACT.setspec = function (b) {
+    if (specLocked(b.getAttribute('data-v'))) { if (IS.toast) IS.toast(A('هذا التخصص قريبًا إن شاء الله', 'This speciality is coming soon')); return; }
+    return setspec0 ? setspec0(b) : undefined;
+  };
+
   /* ---------- the speciality screen ---------- */
   IS.page('pick', async function () {
     var cur = IS.SPEC, specs = IS.SPECS;
@@ -93,7 +105,9 @@
     return '<div class="mrx"><div class="mr-bg" aria-hidden="true"></div>' + DEFS + '<div class="mr-page">' +
       top(cur && IS.mySection && IS.mySection() ? '#home' : '#pick') + hello() + choose('اختر تخصصك', 'Choose your speciality') +
       '<nav class="mr-specs n' + specs.length + '" aria-label="' + esc(A('التخصصات', 'Specialities')) + '">' + specs.map(function (s) {
-        return '<button type="button" class="mr-spec" data-act="setspec" data-v="' + esc(s.id) + '" aria-pressed="' + (s.id === cur) + '"><span class="art">' + (SPIC[s.id] || ic(s.icon)) + '</span>' +
+        var locked = specLocked(s.id);
+        return '<button type="button" class="mr-spec' + (locked ? ' locked' : '') + '" data-act="setspec" data-v="' + esc(s.id) + '" aria-pressed="' + (s.id === cur) + '"' + (locked ? ' aria-disabled="true"' : '') + '><span class="art">' + (SPIC[s.id] || ic(s.icon)) + '</span>' +
+          (locked ? '<span class="mr-lock">' + LOCK + '<b>' + esc(A('قريبًا', 'Coming soon')) + '</b></span>' : '') +
           '<span class="lab">' + WAVE + '<b lang="en" dir="ltr">' + esc(SHORT[s.id] || s.en) + '</b></span></button>';
       }).join('') + '</nav>' + dock(false) + '</div></div>';
   });

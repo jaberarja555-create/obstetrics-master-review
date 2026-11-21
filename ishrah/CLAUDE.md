@@ -1092,3 +1092,6 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - Community posts use the section page's post card (`IS.feedPostCard(row)` in student.js = the Home `feedCard`): header, reactions,
   comments, share, ⋮, stars, «إدارة»; list `.cm-feed` (filters and sorting work on it).
 - Report is a red flag everywhere (owner, 21 Nov 2026), not ⋮.
+- **Only Medicine is open** (owner, 21 Nov 2026): on `#pick` the other specialities show a lock and «قريبًا» and cannot be chosen
+  (`IS.specLocked(id)` in mr.js; the platform owner, `team` has 'owner', can still open them). A device that had chosen a locked
+  speciality is sent back to `#pick` (core.js route gate). To open a speciality later, change `specLocked`.

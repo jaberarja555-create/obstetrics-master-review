@@ -1468,3 +1468,10 @@ html body .mra[data-pg="community"] .cm-feed>div>.feed-card{width:100%!important
 html body .mrh .feed-votes>.fv-acts>.feed-report::before{content:none!important;display:none!important}
 html body .mrh .feed-votes>.fv-acts>.feed-report>*{display:block!important}
 html body .mrh .feed-votes>.fv-acts>.feed-report .ico{width:17px!important;height:17px!important;color:#b4443a!important}
+
+/* locked specialities: grey, a lock and «قريبًا» (owner, 21 Nov 2026) */
+.mr-spec.locked{cursor:not-allowed;filter:grayscale(.85) brightness(.85)}
+.mr-spec.locked:hover{transform:none!important}
+.mr-spec .mr-lock{position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:3;display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;
+  background:rgba(6,40,30,.85);border:1.5px solid #e9c46a;color:#f6dc8e;font-weight:800;font-size:clamp(10px,1.6vh,13px);white-space:nowrap}
+html body .mrx .mr-spec .mr-lock svg.ic{width:13px!important;height:13px!important;color:#f6dc8e}
