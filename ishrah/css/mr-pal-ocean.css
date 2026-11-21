@@ -2357,3 +2357,20 @@ html body .pst{position:relative;display:block;overflow:hidden}
 html body .pst>.pstb{display:none!important}
 html body .pst>.pstf{position:absolute!important;inset:0;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;filter:none!important;transform:none!important}
 html body .mrh .feed-card .feed-image:not(:has(.library-cover)){background:#e7ebef}
+
+/* picture fields (owner, 21 Nov 2026): the picture large above its button, the new one shown at once */
+.fl.fimg{display:flex;flex-direction:column;gap:8px}
+.fl.fimg>img.thumb{display:block;width:100%;max-width:460px;aspect-ratio:16/9;height:auto;object-fit:cover;border-radius:14px;border:1px solid #dbe1e7;background:#eef2f4;margin:0;box-shadow:0 4px 12px rgba(6,34,70,.1)}
+.fl.fimg>img.thumb[hidden]{display:none}
+.fl.fimg-r>img.thumb{width:110px;height:110px;aspect-ratio:1;border-radius:50%}
+.fl.fimg .fui{align-self:stretch}
+
+/* people lists open the profile (owner, 21 Nov 2026) */
+a.tr.pplink{text-decoration:none;color:inherit;cursor:pointer;position:relative}
+a.tr.pplink:active{background:#eef2f6}
+@media (hover:hover){a.tr.pplink:hover{background:#f3f6f8}}
+a.tr.pplink .pparr{display:grid;place-items:center;color:#8a97a5;flex:none}
+a.tr.pplink .pparr .ico{width:16px;height:16px}
+[dir=rtl] a.tr.pplink .pparr .ico,:root:not([lang=en]) a.tr.pplink .pparr .ico{transform:scaleX(-1)}
+
+.rxw-list a.rxw-a{display:flex;align-items:center;gap:10px;flex:1;min-width:0;text-decoration:none;color:inherit}

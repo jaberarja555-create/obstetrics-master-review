@@ -1398,3 +1398,12 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   sends the edit and, for library staff, approves it by the id the first call returns (`ish_review_library_revision`); no reading back in
   between. `IS.rpcIn(name, args, ms)` stops after 30 s with «الاتصال بطيء جدًا…» instead of a spinner that never ends. The preview keeps the
   local path (`IS.applyOwnRevision`). Test: scratchpad rv2.js (fake server, 1.5 s per call: 2 calls, 3 s; a hung call ends with the message).
+- **Edit forms checked one by one (owner, 21 Nov 2026: «course edit brings the edit again after Save; changing the image is weird; look for any
+  other edit problems»):** studio course details now go on to the course content after «حفظ والانتقال إلى المحتوى» (it reloaded the same
+  form). Every single picture field (`input[type=file][accept=image]`, core.js `IS.fileUI`) shows the current picture large (16:9; profile
+  photos round) above «تغيير الصورة», and the new picture at once («صورة جديدة: تُحفظ عند الضغط على حفظ»). Lecturer page («صفحتي»): a teaching
+  speciality with no section saved could not be saved at all; it now starts with the current section (or all), and the message scrolls to
+  the choices. Checked by scratchpad edits.js (profile, course details, lesson, lecturer page, event, post, library file, course request, the
+  team's edits of post/course/event: each opens with its data, saves, closes or moves on, no empty required field).
+- **People lists open the profile (owner, 21 Nov 2026):** the Community members/lecturers sheet rows (`a.pplink`) and the «التفاعلات» list open
+  `#person/<id>` (lecturers `#lecturer/<id>`, yourself `#account`) and close the sheet; the followers list already did.

@@ -500,6 +500,17 @@
     i.setAttribute('data-fui', '1'); var w = document.createElement('span'); w.className = 'fui';
     w.innerHTML = '<span class="btn sm pri fub">' + IS.ic('upload') + IS.esc(i.multiple ? A('اختر ملفات', 'Choose files') : A('اختر ملفًا', 'Choose a file')) + '</span><span class="fun">' + IS.esc(A('لم يُختر ملف بعد', 'No file chosen yet')) + '</span>';
     i.parentNode.insertBefore(w, i); w.appendChild(i);
+    /* a picture field shows the picture itself, large, and the new one at once (owner, 21 Nov 2026: «changing the image of the course is weird») */
+    if (/^image/.test(i.getAttribute('accept') || '') && !i.multiple) {
+      var lab = i.closest('label') || w.parentNode, th = lab.querySelector('img.thumb'), round = /^(photo|avatar)$/.test(i.name);
+      if (!th) { th = document.createElement('img'); th.className = 'thumb'; th.alt = ''; th.hidden = true; lab.insertBefore(th, w); }
+      lab.classList.add('fimg'); if (round) lab.classList.add('fimg-r');
+      var has0 = th.getAttribute('src');
+      w.querySelector('.fub').lastChild.textContent = has0 ? A('تغيير الصورة', 'Change picture') : A('اختر صورة', 'Choose a picture');
+      w.querySelector('.fun').textContent = has0 ? A('الصورة الحالية', 'Current picture') : A('لم تُختر صورة بعد', 'No picture chosen yet');
+      i.addEventListener('change', function () { var f = i.files && i.files[0]; if (!f) return; th.src = URL.createObjectURL(f); th.hidden = false;
+        w.querySelector('.fun').textContent = A('صورة جديدة: تُحفظ عند الضغط على «حفظ»', 'New picture: saved when you press Save'); });
+    }
     i.addEventListener('change', function () { var n = w.querySelector('.fun'), f = i.files; n.setAttribute('dir', 'auto'); n.textContent = f && f.length ? (f.length > 1 ? f.length + ' ' + A('ملفات', 'files') : f[0].name) : A('لم يُختر ملف بعد', 'No file chosen yet'); w.classList.toggle('has', !!(f && f.length)); }); }); };
   new MutationObserver(function () { if (document.querySelector('input[type=file]:not([data-fui]):not([hidden])')) IS.fileUI(); }).observe(document.body, { childList: true, subtree: true });
   /* one search and one sign-in per screen (owner, 18 Nov 2026: "2 search places and the sign in is duplicated; I don't want such problems all

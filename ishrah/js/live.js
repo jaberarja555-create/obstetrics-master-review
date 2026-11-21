@@ -45,8 +45,8 @@
       counts.map(function (x) { return '<button type="button" role="tab" data-rxf="' + x[0][0] + '" title="' + esc(A(x[0][2], x[0][3])) + '"><span>' + x[0][1] + '</span> <b>' + x[1] + '</b></button>'; }).join('') + '</div>';
     var rows = list.map(function (x) {
       var r = RX.find(function (y) { return y[0] === Number(x.reaction); }) || RX[0];
-      return '<li data-rx="' + r[0] + '"><span class="rxw-av">' + IS.av({ name: x.name, photo: x.photo }, 'sm', x.user_id) + '<i>' + r[1] + '</i></span><b dir="auto">' + esc(x.name || A('عضو', 'Member')) + '</b>' +
-        (x.user_id === uid() ? '<small class="mut">' + esc(A('أنت', 'You')) + '</small>' : '') + '</li>';
+      return '<li data-rx="' + r[0] + '"><a class="pplink rxw-a" href="#' + (x.user_id === uid() ? 'account' : 'person/' + esc(x.user_id || '')) + '"><span class="rxw-av">' + IS.av({ name: x.name, photo: x.photo }, 'sm', x.user_id) + '<i>' + r[1] + '</i></span><b dir="auto">' + esc(x.name || A('عضو', 'Member')) + '</b>' +
+        (x.user_id === uid() ? '<small class="mut">' + esc(A('أنت', 'You')) + '</small>' : '') + '</a></li>';
     }).join('');
     box.querySelector('.mut').outerHTML = list.length ? tabs + '<ul class="rxw-list">' + rows + '</ul>' : '<p class="mut">' + esc(A('لا توجد تفاعلات بعد.', 'No reactions yet.')) + '</p>';
     IS.$$('[data-rxf]', box).forEach(function (t) {

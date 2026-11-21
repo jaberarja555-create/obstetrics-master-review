@@ -1463,6 +1463,8 @@
   IS.ACT.rmpost = async function (b) { if (!(await IS.confirm(A('حذف هذه المشاركة؟', 'Remove this post?')))) return; await DB.upd('posts', b.getAttribute('data-id'), { status: 'removed' }); IS.audit('remove post', b.getAttribute('data-id')); IS.go('community'); };
   IS.ACT.rmreply = async function (b) { await DB.upd('replies', b.getAttribute('data-id'), { status: 'removed' }); IS.audit('remove reply', b.getAttribute('data-id')); IS.refresh(); };
 
+  document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('#sheet a.pplink, #sheet .lp-list a')) IS.closeSheet(); });
+
   /* ========== NOTIFICATIONS ========== */
   IS.page('notifications', async function () {
     var n = (await DB.q('notices', { order: ['created_at', false], limit: 120 })).filter(IS.noticeFor);
@@ -1770,9 +1772,10 @@
     } catch (e) { box.querySelector('.sppl').innerHTML = IS.empty('info', A('تعذّر تحميل القائمة', 'The list could not be loaded')); return; }
     var q = '<label class="field">' + ic('search') + '<input type="search" data-sppq placeholder="' + esc(A('ابحث بالاسم…', 'Search by name…')) + '"></label>';
     box.querySelector('.sppl').innerHTML = (rows.length ? '<p class="mut">' + N(rows.length) + ' ' + esc(A('شخص', 'people')) + '</p>' + (rows.length > 8 ? q : '') + '<div class="table spl">' + rows.map(function (x) {
-      return '<div class="tr" data-n="' + esc(String(x.name || '').toLowerCase()) + '">' + IS.av({ name: x.name, photo: x.photo }, 'sm') + '<span class="grow"><b dir="auto">' + esc(x.name || A('بدون اسم', 'No name')) + '</b><small class="mut">' +
+      /* a tap opens the person's profile (owner, 21 Nov 2026: «لمن أضغط على بروفايل عضو أقدر أفتح الملف حقه») */
+      return '<a class="tr pplink" href="#' + (x.lecturer ? 'lecturer/' : 'person/') + esc(x.id) + '" data-n="' + esc(String(x.name || '').toLowerCase()) + '">' + IS.av({ name: x.name, photo: x.photo }, 'sm') + '<span class="grow"><b dir="auto">' + esc(x.name || A('بدون اسم', 'No name')) + '</b><small class="mut">' +
         esc(x.lecturer ? A('محاضر', 'Lecturer') : A('عضو', 'Member')) + (x.joined_at ? ' · ' + esc(A('انضم ', 'joined ')) + esc(IS.date(x.joined_at)) : '') + '</small></span>' +
-        (x.online ? IS.chip('<i class="spdot"></i>' + esc(A('متصل الآن', 'Online now')), 'st ok') : '<small class="mut">' + esc(x.last_seen ? A('آخر نشاط ', 'Active ') + IS.ago(x.last_seen) : A('لم يظهر بعد', 'Not seen yet')) + '</small>') + '</div>';
+        (x.online ? IS.chip('<i class="spdot"></i>' + esc(A('متصل الآن', 'Online now')), 'st ok') : '<small class="mut">' + esc(x.last_seen ? A('آخر نشاط ', 'Active ') + IS.ago(x.last_seen) : A('لم يظهر بعد', 'Not seen yet')) + '</small>') + '<i class="pparr" aria-hidden="true">' + ic('chev') + '</i></a>';
     }).join('') + '</div>' : IS.empty('users', A('لا يوجد أحد هنا الآن', 'Nobody here right now')));
     var input = box.querySelector('[data-sppq]');
     if (input) input.oninput = function () { var w = input.value.trim().toLowerCase(); IS.$$('.spl .tr', box).forEach(function (r) { r.hidden = w && r.dataset.n.indexOf(w) < 0; }); };

@@ -10,6 +10,12 @@
   function swatches(name, v) { return '<div class="sw" role="radiogroup">' + COLORS.map(function (c) { return '<label style="--c:' + c + '"><input type="radio" name="' + name + '" value="' + c + '"' + ((v || COLORS[0]) === c ? ' checked' : '') + '><span></span></label>'; }).join('') + '</div>'; }
 
   function teachingChoices(selected, spaces, isApplication) {
+    /* a teaching speciality with no section yet (older lecturer pages) starts with the section the lecturer is in now, or all of them, so
+       «حفظ» is not refused for a choice the page never showed (owner, 21 Nov 2026: «look for any other edit problems») */
+    if (!isApplication) { spaces = (spaces || []).slice(); selected.forEach(function (id) {
+      if (spaces.some(function (k) { return k.indexOf(id + '/') === 0; })) return;
+      var cur = id === IS.SPEC && IS.mySection && IS.mySection();
+      (cur ? [cur] : IS.CATS).forEach(function (c) { spaces.push(id + '/' + c.id); }); }); }
     var specialities = IS.SPECS.map(function (spec) {
       return '<label class="chk"><input type="checkbox" name="teaching_specs" value="' + esc(spec.id) + '"' +
         (selected.includes(spec.id) ? ' checked' : '') + '><span>' + esc(A(spec.ar, spec.en)) + '</span></label>';
@@ -47,6 +53,8 @@
       return { teaching_specs: specs, teaching_spaces: spaces };
     }
     IS.toast(A('اختر تخصصًا واحدًا على الأقل وقسمًا واحدًا في كل تخصص اخترته.', 'Select at least one speciality and at least one section in each selection.'), true);
+    var box = document.querySelector('[data-teaching-sections]:not([hidden])') || document.querySelector('[name=teaching_specs]');
+    if (box) (box.closest('fieldset') || box).scrollIntoView({ block: 'center', behavior: 'smooth' });
     return null;
   }
 
@@ -213,7 +221,7 @@
       '<label class="chk sw2"><input type="checkbox" name="cert"' + (c.cert === false ? '' : ' checked') + '><span><b>' + esc(A('شهادة إتمام', 'Certificate of completion')) + '</b><small>' + esc(A('يحصل الطالب على شهادة عند إنهاء كل الدروس. أزل العلامة إن لم ترد شهادة لهذا الكورس.', 'Students get a certificate when they finish every lesson. Untick if this course should not give one.')) + '</small></span></label>' +
       '<label class="fl"><span>' + esc(A('ماذا سيتعلم الطالب (سطر لكل نقطة)', 'What students will learn (one point per line)')) + '</span><textarea name="learn" rows="4">' + esc((c.learn || []).join('\n')) + '</textarea></label>' +
       '<label class="fl"><span>' + esc(A('المتطلبات (سطر لكل نقطة)', 'Requirements (one per line)')) + '</span><textarea name="reqs" rows="2">' + esc((c.reqs || []).join('\n')) + '</textarea></label>' +
-      '<div class="row end"><button class="btn pri">' + ic('check') + esc(c.id ? A('حفظ', 'Save') : A('إنشاء الكورس والمتابعة', 'Create and continue')) + '</button></div></form>';
+      '<div class="row end"><button class="btn pri">' + ic('check') + esc(c.id ? A('حفظ والانتقال إلى المحتوى', 'Save and go to the content') : A('إنشاء الكورس والمتابعة', 'Create and continue')) + '</button></div></form>';
   }
   IS.SUB.course = async function (d, f) {
     if (!L() || L().status !== 'active') return;
@@ -247,7 +255,7 @@
         throw error;
       }
     }
-    IS.toast(A('حُفظ', 'Saved')); IS.go('studio-course/' + c.id + '/' + (d.id ? 'details' : 'cur'));
+    IS.toast(d.id ? A('حُفظت بيانات الكورس ✓', 'Course details saved ✓') : A('أُنشئ الكورس. أضف الآن الأقسام والدروس.', 'Course created. Now add its sections and lessons.')); IS.go('studio-course/' + c.id + '/cur');
   };
   async function curEditor(c) {
     var secs = await IS.courseLessons(c.id);
