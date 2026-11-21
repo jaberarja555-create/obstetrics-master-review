@@ -1369,3 +1369,10 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   (`.mh-top.mhs`: seal + every button, white with the coloured edge) that hides while scrolling down and slides in on the first scroll up;
   near the top the full header returns. The page's top padding holds the header's height, so nothing jumps. Phones show only the round
   seal in the slim bar. Every .mrx page (student, studio, control). Test: scratchpad stk2.js (down / a little up / down / back to top).
+- **Library upload and book covers (owner, 21 Nov 2026):** «text written bad … put better option because someone may have his own work but
+  want to publish it for free»: the content origin is three tappable cards (`.rorg`, sell.js) — «عملي الخاص» (free or paid), «عمل شخص آخر
+  بإذنه» and «مادة مجانية مرخّصة» (free only, source required); the rules read «your own work: free, or for sale if not free elsewhere». The
+  values (original / permission / free_source) and the database checks are unchanged. The chosen file's name is `dir=auto` (it showed
+  «jpg.1000361462»). «I published a book but didn't get any notification»: the app hid notices whose actor is the reader; the platform owner
+  now sees those too (`IS.isOwner()` in core.js bell, alerts.js, notifications page). «قالب الكتاب ما مناسب مع صورة الكتاب»: book covers in
+  the feed sit in a 3 : 4 frame filled by the cover (object-fit cover), and the card's buttons never wrap.

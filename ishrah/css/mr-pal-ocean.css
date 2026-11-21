@@ -2317,3 +2317,28 @@ html body .mrx .mh-top.mhs .mh-b{--s:34px}
   html body .mrx .mh-top.mhs{column-gap:6px!important}
   html body .mrx .mh-top.mhs .mh-side{gap:5px!important}
 }
+
+/* content origin as cards (owner, 21 Nov 2026: «text written bad … put better option») */
+.rorg{display:flex;flex-direction:column;gap:7px;margin:10px 0}
+.rorg-h{font-size:14px}
+.rorg-o{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid #dbe1e7;border-radius:14px;background:#fff;cursor:pointer}
+.rorg-o input{position:absolute;opacity:0;pointer-events:none}
+.rorg-i{display:grid;place-items:center;width:34px;height:34px;flex:none;border-radius:10px;background:#eef2f6;color:#0d356b}
+.rorg-i .ico{width:18px;height:18px}
+.rorg-t{display:flex;flex-direction:column;gap:2px;min-width:0}
+.rorg-t b{font-size:14px;line-height:1.35}.rorg-t small{font-size:12.5px;color:#5d6875;line-height:1.45}
+.rorg-o:has(input:checked){border-color:#0d356b;background:#eef3f7;box-shadow:0 0 0 2px rgba(13,53,107,.15)}
+.rorg-o:has(input:checked) .rorg-i{background:#0d356b;color:#fff}
+.rorg-o:has(input:focus-visible){outline:2px solid #0d356b;outline-offset:2px}
+.library-sharing-rules{margin:0 0 4px;padding-inline-start:18px;font-size:13px;line-height:1.6}
+:root[data-theme=dark] .rorg-o{background:#0f202f;border-color:#213546}:root[data-theme=dark] .rorg-t small{color:#a9b7c4}
+/* book covers in the feed fit their frame (owner, 21 Nov 2026: «قالب الكتاب ما مناسب مع صورة الكتاب»): a book-shaped frame (3 : 4) and the
+   cover fills it, no band of colour around a portrait cover; the two buttons stay on one line each */
+html body .mrh .feed-card .feed-image:has(.library-cover){aspect-ratio:3/4!important;background:none!important;align-self:start}
+html body .mrh .feed-card-content:has(>.feed-image .library-cover){grid-template-columns:minmax(78px,27%) minmax(0,1fr)!important}
+html body .mrh .feed-card .feed-image .library-cover{background:#eef2f4}
+html body .mrh .feed-card .feed-image .library-cover img{object-fit:cover!important;background:none!important}
+html body .mrh .library-feed-actions .btn{white-space:nowrap!important;padding-inline:8px!important;gap:5px!important;min-width:0}
+@media (max-width:420px){html body .mrh .library-feed-actions .btn{font-size:12.5px!important}}
+@media (min-width:1024px){html body .mrh .feed-items>.feed-card>.feed-card-content:has(>.feed-image .library-cover){grid-template-columns:minmax(110px,30%) minmax(0,1fr)!important}
+  html body .mrh .feed-items>.feed-card>.feed-card-content>.feed-image:has(.library-cover){aspect-ratio:3/4!important}}

@@ -51,20 +51,20 @@
   /* ---- upload form: Free / Paid, price and tags ---- */
   function sharingRules(series) {
     return '<fieldset class="sellf"><legend>' + esc(A('قواعد مشاركة الملفات', 'File sharing rules')) + '</legend>' +
-      '<ul class="library-sharing-rules"><li>' + esc(A('يمكنك بيع عملك الأصلي فقط، إذا لم يكن متاحًا مجانًا من قبل.',
-        'Sell only original work you created that is not already freely available.')) + '</li><li>' +
-      esc(A('شارك أعمال الآخرين والمواد المجانية دون مقابل فقط إذا كان ترخيصها أو إذن صاحبها يسمح بإعادة نشرها. اذكر المصدر.',
-        'Share third-party or freely available material for free only if its licence or creator allows redistribution. Credit the source.')) +
+      '<ul class="library-sharing-rules"><li>' + esc(A('عملك الخاص: انشره مجانًا، أو بِعه إذا لم يكن متاحًا مجانًا في مكان آخر.',
+        'Your own work: share it for free, or sell it if it is not already free elsewhere.')) + '</li><li>' +
+      esc(A('أعمال الآخرين والمواد المجانية: تُنشر مجانًا فقط، بإذن صاحبها أو بترخيص يسمح بإعادة النشر، مع ذكر المصدر.',
+        'Other people\u2019s work and free material: free only, with the creator\u2019s permission or a licence that allows sharing, and the source credited.')) +
       '</li>' + (series ? '<li>' + esc(A('إذا احتوت السلسلة على أي مادة لا يجوز بيعها، شارك السلسلة كاملة مجانًا.',
-        'If any part cannot be sold, share the whole series for free.')) + '</li>' : '') + '</ul><label class="fl"><span>' + esc(A('مصدر المحتوى', 'Content origin')) + '</span><select name="rights_origin" required>' +
-      '<option value="">' + esc(A('اختر مصدر المحتوى', 'Choose the content origin')) + '</option>' +
-      '<option value="original">' + esc(A('عمل أصلي من تأليفي وغير متاح مجانًا', 'My original work, not already freely available')) + '</option>' +
-      '<option value="free_source">' + esc(A('محتوى مجاني يسمح ترخيصه بإعادة النشر', 'Free material licensed for redistribution')) + '</option>' +
-      '<option value="permission">' + esc(A('لدي إذن بمشاركة عمل شخص آخر مجانًا', 'I have permission to share someone else’s work for free')) + '</option>' +
-      '</select></label><label class="fl" data-rights-source hidden><span>' + esc(A('المؤلف ورابط المصدر أو مرجع الإذن العلني', 'Creator and source link or public permission reference')) +
+        'If any part cannot be sold, share the whole series for free.')) + '</li>' : '') + '</ul><div class="rorg" role="radiogroup" aria-label="' + esc(A('مصدر المحتوى', 'Content origin')) + '"><b class="rorg-h">' + esc(A('مصدر المحتوى', 'Content origin')) + '</b>' +
+      [['original', 'pen', A('عملي الخاص', 'My own work'), A('أنا مؤلفه. أنشره مجانًا أو أبيعه.', 'I created it. Free or for sale.')],
+       ['permission', 'users', A('عمل شخص آخر بإذنه', 'Someone else\u2019s work, with permission'), A('ينشر مجانًا مع ذكر صاحبه.', 'Shared free, crediting the creator.')],
+       ['free_source', 'open', A('مادة مجانية مرخّصة', 'Free licensed material'), A('ترخيصها يسمح بإعادة النشر. ينشر مجانًا مع ذكر المصدر.', 'Its licence allows sharing. Free, with the source.')]]
+        .map(function (o) { return '<label class="rorg-o"><input type="radio" name="rights_origin" value="' + o[0] + '" required><span class="rorg-i">' + ic(o[1]) + '</span><span class="rorg-t"><b>' + esc(o[2]) + '</b><small>' + esc(o[3]) + '</small></span></label>'; }).join('') +
+      '</div><label class="fl" data-rights-source hidden><span>' + esc(A('اسم صاحب العمل، ورابط المصدر أو تفاصيل الإذن', 'Creator\u2019s name, and the source link or the permission details')) +
       '</span><textarea name="rights_source" rows="2" maxlength="500" disabled></textarea></label>' +
       '<label class="chk"><input type="checkbox" name="rights_confirmed" value="yes" required><span>' +
-      esc(A('أؤكد أنني أملك حق مشاركة جميع الملفات والصور في هذا الرفع وأنني اتبعت القواعد أعلاه.',
+      esc(A('أؤكد أن لي حق مشاركة كل ما في هذا الرفع، وأنني اتبعت القواعد أعلاه.',
         'I confirm I have the right to share every file and image in this upload and have followed the rules above.')) + '</span></label></fieldset>';
   }
   IS.sellFields = function (f, series, fixedPrice) {

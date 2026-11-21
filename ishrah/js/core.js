@@ -165,6 +165,8 @@
   };
   IS.dept = function () { var me = IS.ME; if (!me) return ''; if (me.dept) return me.dept; var t = me.team || []; return (IS.DEPTS.filter(function (d) { return t.indexOf(d[0]) >= 0; })[0] || [''])[0]; };
   IS.manager = function () { var t = (IS.ME && IS.ME.team) || []; return t.some(function (r) { return r !== 'staff' && r.indexOf('p:') !== 0; }); };
+  /* the platform owner receives every notification, also about what he did himself (owner, 21 Nov 2026) */
+  IS.isOwner = function () { return !!(IS.ME && (IS.ME.team || []).indexOf('owner') >= 0); };
   IS.team = function () { return !!(IS.ME && (IS.ME.team || []).length); };
   IS.loadMe = async function () {
     var uid = DB.uid(); IS.ME = null; IS.LEC = null; IS.OFFME = false;
@@ -490,7 +492,7 @@
     i.setAttribute('data-fui', '1'); var w = document.createElement('span'); w.className = 'fui';
     w.innerHTML = '<span class="btn sm pri fub">' + IS.ic('upload') + IS.esc(i.multiple ? A('اختر ملفات', 'Choose files') : A('اختر ملفًا', 'Choose a file')) + '</span><span class="fun">' + IS.esc(A('لم يُختر ملف بعد', 'No file chosen yet')) + '</span>';
     i.parentNode.insertBefore(w, i); w.appendChild(i);
-    i.addEventListener('change', function () { var n = w.querySelector('.fun'), f = i.files; n.textContent = f && f.length ? (f.length > 1 ? f.length + ' ' + A('ملفات', 'files') : f[0].name) : A('لم يُختر ملف بعد', 'No file chosen yet'); w.classList.toggle('has', !!(f && f.length)); }); }); };
+    i.addEventListener('change', function () { var n = w.querySelector('.fun'), f = i.files; n.setAttribute('dir', 'auto'); n.textContent = f && f.length ? (f.length > 1 ? f.length + ' ' + A('ملفات', 'files') : f[0].name) : A('لم يُختر ملف بعد', 'No file chosen yet'); w.classList.toggle('has', !!(f && f.length)); }); }); };
   new MutationObserver(function () { if (document.querySelector('input[type=file]:not([data-fui]):not([hidden])')) IS.fileUI(); }).observe(document.body, { childList: true, subtree: true });
   /* one search and one sign-in per screen (owner, 18 Nov 2026: "2 search places and the sign in is duplicated; I don't want such problems all
      around the app"): when the page itself shows a search box or a sign-in button, the top bar hides its own copy */
@@ -733,7 +735,7 @@
   IS.bell = async function () {
     if (!IS.ME || (DB.live && !navigator.onLine)) return;
     try { var seen = LS.get('seen-' + IS.ME.id, 0), n = await DB.q('notices', { order: ['created_at', false], limit: 40 });
-      n = n.filter(function (x) { return x.actor !== IS.ME.id && (x.user_id ? x.user_id === IS.ME.id : !IS.announcementInSection || IS.announcementInSection(x)) && new Date(x.created_at).getTime() > seen; }); var b = IS.$('#bellN'); if (b) { b.hidden = !n.length; b.textContent = n.length > 9 ? '9+' : n.length; } } catch (e) {}
+      n = n.filter(function (x) { return (x.actor !== IS.ME.id || IS.isOwner()) && (x.user_id ? x.user_id === IS.ME.id : !IS.announcementInSection || IS.announcementInSection(x)) && new Date(x.created_at).getTime() > seen; }); var b = IS.$('#bellN'); if (b) { b.hidden = !n.length; b.textContent = n.length > 9 ? '9+' : n.length; } } catch (e) {}
   };
   /* what this account is (owner, 18 Nov 2026: "the app should identify someone as admin or lecturer or student, or 2 things"):
      every account is a student; an approved lecturer is also a lecturer; a team member also has his team role. Each role opens its space. */
