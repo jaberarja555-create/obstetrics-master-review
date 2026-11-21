@@ -157,6 +157,8 @@
         IS.LEC ? '<a class="mh-area" href="#studio" aria-label="' + esc(A('استوديو المحاضر', 'Lecturer studio')) + '">' + ic('studio') + '<span>' + esc(A('الاستوديو', 'Studio')) + '</span></a>' : '') : '') + '</div>' +
       '<a class="mh-logo" href="#pick-section"><img src="' + IS.U('img/mr/logo-smra.webp') + '" alt="' + esc(IS.brandName()) + '" width="1000" height="359"></a>' +
       '<div class="mh-side end"><button type="button" class="mh-tog" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night')) + '"><i class="t-l">' + I.sun + '</i><i class="t-d">' + I.moon + '</i><i class="t-e">' + I.eye + '</i></button>' +
+      /* «مرشد المنصة» always in the same place (owner, 21 Nov 2026: not a floating button, and not hidden away in Settings) */
+      (m ? '<button type="button" class="mh-b ghost mh-ai" data-act="assist" aria-label="' + esc(A('مرشد المنصة', 'Platform guide')) + '" title="' + esc(A('مرشد المنصة', 'Platform guide')) + '"><svg class="ic" viewBox="3 3.5 18 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12.5a7.5 7.5 0 0 1-11 6.6L4 20l1-4.2A7.5 7.5 0 1 1 20 12.5z"/><path d="M12.5 8.6l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" fill="currentColor" stroke-width="1"/></svg></button>' : '') +
       (m ? '<a class="mh-b" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + HI.bell + '<i class="mr-dot" hidden></i></a>' : '') + me + '</div></header>';
   }
   function pban(img, icon, title, sub, latin) {
@@ -850,6 +852,16 @@
     });
   }
   IS.fitNav = fitNav;
+  /* on small phones the look button lives in Features (⋮⋮), so the top bar has room for «مرشد المنصة» (owner, 21 Nov 2026) */
+  var feat9 = IS.ACT.mrfeat;
+  IS.ACT.mrfeat = function () { var r = feat9.apply(this, arguments), g = document.querySelector('#sheet .mr-feat');
+    if (g && !document.querySelector('#sheet .mr-looks')) {
+      var cur = IS.LS.get('theme', 'light'), L = [['light', '☀️', 'نهاري', 'Day'], ['dark', '🌙', 'ليلي', 'Night'], ['eye', '👁️', 'راحة العين', 'Eye comfort'], ['auto', '🌗', 'تلقائي', 'Automatic']];
+      g.insertAdjacentHTML('beforebegin', '<div class="mr-looks">' + L.map(function (x) { return '<button type="button" data-look="' + x[0] + '"' + (x[0] === cur ? ' class="on"' : '') + '><i>' + x[1] + '</i>' + esc(A(x[2], x[3])) + '</button>'; }).join('') + '</div>');
+      document.querySelectorAll('#sheet .mr-looks button').forEach(function (b) { b.onclick = function () { IS.setTheme(b.dataset.look); IS.chrome(document.body.getAttribute('data-page'));
+        document.querySelectorAll('#sheet .mr-looks button').forEach(function (x) { x.classList.toggle('on', x === b); }); }; });
+    }
+    return r; };
   var route9 = IS.onRoute;
   IS.onRoute = function (name, arg, main) { if (route9) try { route9(name, arg, main); } catch (e) {} requestAnimationFrame(fitNav); setTimeout(fitNav, 400); };
   var fnT; window.addEventListener('resize', function () { clearTimeout(fnT); fnT = setTimeout(fitNav, 120); });

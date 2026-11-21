@@ -1298,8 +1298,9 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
 
 ## مرشد المنصة: the guide assistant (owner, 21 Nov 2026: "personal guide like AI inside the app"; chose an app guide only, Claude Haiku 5.5)
 - App: js/assist.js. **No floating button** (owner, 21 Nov 2026: a button that appeared and disappeared was annoying and invited needless
-  questions). The guide opens only from fixed places (`data-act="assist"`): Features (⋮⋮) first tile, Settings → Help «مرشد المنصة», and
-  the Support page button «اسأل مرشد المنصة». Chat panel `#asst` (bottom sheet on phones, corner window on computers),
+  questions; then «too far» for Settings only). It is a fixed chat icon in the top bar (`.mh-ai`, signed-in accounts, every area) and also
+  Features (⋮⋮), Settings → Help and the Support page (`data-act="assist"`). On phones ≤ 430 px the look button leaves the top bar for
+  room; the four looks are chips at the top of Features (`.mr-looks`). Chat panel `#asst` (bottom sheet on phones, corner window on computers),
   suggested questions, «محادثة جديدة». The conversation stays in sessionStorage `ish-assist` of the tab; nothing is stored on the server.
   Answers are escaped; only **bold**, list lines and Markdown links to the app's own `#routes` become HTML (clicking one closes the panel).
 - Server: functions/api/assist.js (official SDK `@anthropic-ai/sdk`, package.json in ishrah/, `npm ci` step in the workflow; wrangler never
