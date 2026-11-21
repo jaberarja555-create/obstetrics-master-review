@@ -1475,3 +1475,18 @@ html body .mrh .feed-votes>.fv-acts>.feed-report .ico{width:17px!important;heigh
 .mr-spec .mr-lock{position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:3;display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;
   background:rgba(6,40,30,.85);border:1.5px solid #e9c46a;color:#f6dc8e;font-weight:800;font-size:clamp(10px,1.6vh,13px);white-space:nowrap}
 html body .mrx .mr-spec .mr-lock svg.ic{width:13px!important;height:13px!important;color:#f6dc8e}
+/* ===== single post page (owner, 21 Nov 2026: "distortion") ===== */
+html body .mra[data-pg="post"] article.thread{display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;grid-template-areas:"av head" "body body";column-gap:10px!important;row-gap:8px!important;padding:12px 14px!important}
+html body .mra[data-pg="post"] article.thread>.av{grid-area:av;width:46px!important;height:46px!important;align-self:start}
+html body .mra[data-pg="post"] article.thread>div{display:contents}
+html body .mra[data-pg="post"] article.thread>div>h1{grid-area:head;margin:0!important;font-size:17px!important;line-height:1.4!important;align-self:center}
+html body .mra[data-pg="post"] article.thread>div>h1+small{grid-column:1/-1;margin-top:-4px;font-size:12.5px}
+html body .mra[data-pg="post"] article.thread>div>:not(h1){grid-column:1/-1}
+html body .mra[data-pg="post"] article.thread>div>.pre{margin:0!important;font-size:14.5px!important;line-height:1.7}
+/* the author's and the team's buttons in one tidy row of small pills */
+html body .mra[data-pg="post"] article.thread .row{display:flex!important;flex-wrap:wrap;gap:6px!important;justify-content:flex-start}
+html body .mra[data-pg="post"] article.thread .row .btn{min-height:30px!important;height:30px!important;padding:0 12px!important;font-size:12.5px!important;flex:0 0 auto}
+html body .mra[data-pg="post"] article.thread .row .btn .ico{width:14px!important;height:14px!important}
+html body .mra[data-pg="post"] .post-comments h2{font-size:16px!important;margin:0 0 8px!important}
+/* the «إدارة» pill sits at the end of the path line (moved there by mr.js), not on a line of its own */
+html body .mra .mh-old .crumb>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
