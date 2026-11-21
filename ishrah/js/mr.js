@@ -629,7 +629,7 @@
       '<div class="mlx-pic"><a class="mlx-av" href="#lecturer/' + esc(l.id) + '">' + IS.av(l, 'xl', l.id) + '</a><span class="mlx-on">' + IS.seen(l.id) + '</span></div>' +
       '<div class="mlx-id"><h3 dir="auto"><a href="#lecturer/' + esc(l.id) + '">' + IS.lecName(l.name) + '</a>' + (l.status === 'active' ? PI.check : '') + '</h3>' +
         (l.title ? '<span class="mlx-t" dir="auto">' + HI.brief + '<b>' + esc(l.title) + '</b></span>' : '') + '</div>' +
-      (bio ? '<p class="mlx-bio" dir="auto">' + esc(bio.slice(0, 140)) + '</p>' : '') + '</div>' +
+      '</div>' +   /* no bio here: only the name with the title beside it (owner, 21 Nov 2026) */
       '<div class="mlx-meta"><span class="mlx-rate">' + (n ? '<small>(' + N(n) + ')</small>' : '') + '<em>' + [1, 2, 3, 4, 5].map(function (i) { return '<u class="' + (i <= Math.round(rate) ? 'on' : '') + '">★</u>'; }).join('') + '</em>' + (n ? '<b>' + rate.toFixed(1) + '</b>' : '') + '</span>' +
         (section ? '<b class="mlx-c s" lang="en">' + esc(section.id === 'special' ? 'International' : section.en) + '</b>' : '') + (spec ? '<i class="mlx-sl"></i><b class="mlx-c" lang="en">' + esc(spec.en) + '</b>' : '') +
         '<i class="mlx-sl"></i><span class="mlx-n">' + HI.layers.replace(G, 'currentColor') + '<b>' + N(nCourses) + '</b><small>' + esc(A('كورسات', 'courses')) + '</small></span>' +

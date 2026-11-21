@@ -1357,3 +1357,26 @@ html body .mrx .mlx h3 a,html body .mrx .mlc h3 a{white-space:normal!important;o
 /* icons in the lecturer-card buttons go when the card is narrow, so the words keep their room */
 .mlx-acts{container-type:inline-size}
 @container (max-width:330px){.mlx-b svg.ic{display:none!important}}
+/* lecturer card: the name with the title beside it, nothing else in that space (owner, 21 Nov 2026) */
+.mlx-id{flex-direction:row!important;align-items:center!important;flex-wrap:wrap;gap:6px 8px!important;flex:1 1 auto!important}
+.mlx-top{align-items:center!important}
+.mlx-pic{min-width:76px}
+.mlx-on{max-width:none!important}
+.mlx-on .seen{max-width:none!important;overflow:visible!important}
+html body .mra[data-pg="lecturers"] .lcard.join,html body .mra[data-pg="lecturers"] .lcard.join *{opacity:1!important}
+html body .mra[data-pg="lecturers"] .lcard.join :is(h3,h3 *){color:#fff!important;-webkit-text-fill-color:#fff!important}
+html body .mra[data-pg="lecturers"] .lcard.join p{color:#d8efe9!important;-webkit-text-fill-color:#d8efe9!important}
+/* the studio / join card stays teal with white text (it was white with faded text when the viewer is a lecturer) */
+html body #main .mra .lcard.join{background:linear-gradient(120deg,#0d6b5c,#06463b)!important;background-image:linear-gradient(120deg,#0d6b5c,#06463b)!important;color:#fff!important}
+html body #main .mra .lcard.join :is(h3,h3 *){color:#fff!important;-webkit-text-fill-color:#fff!important}
+html body #main .mra .lcard.join p{color:#d8efe9!important;-webkit-text-fill-color:#d8efe9!important}
+/* name and title stay on one row */
+.mlx-id{flex-wrap:nowrap!important;min-width:0}
+.mlx-id h3{flex:0 1 auto;min-width:0}
+.mlx-id h3 a{white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.mlx-t{flex:none;font-size:10.5px!important;padding:2px 8px!important}
+html body .mrx .mlx .mlx-id h3 a{white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;display:block}
+html body .mrx .mlx .mlx-id h3 a{text-overflow:clip!important;overflow:visible!important}
+.mlx-id h3{flex:none!important;font-size:14px!important}
+.mlx-id{flex-wrap:wrap!important;row-gap:4px!important}
+@media (max-width:400px){.mlx-t svg.ic{display:none!important}.mlx-t{padding:2px 7px!important;font-size:10px!important}.mlx-id{column-gap:5px!important}}
