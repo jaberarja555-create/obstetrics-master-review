@@ -1,0 +1,8 @@
+{
+  "name": "ishrah-functions",
+  "private": true,
+  "description": "Packages for the Pages Functions in functions/ (the site itself has no build step).",
+  "dependencies": {
+    "@anthropic-ai/sdk": "1.12.0"
+  }
+}

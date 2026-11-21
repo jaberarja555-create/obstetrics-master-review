@@ -375,7 +375,7 @@
     }
     var readOnlyRpc = new Set(['ish_lesson', 'ish_presence', 'ish_team_seen',
       'ish_public_course_terms', 'ish_series_scores', 'ish_available_course_seats', 'ish_team_public', 'ish_series_rating_scores', 'ish_reactors',
-      'ish_space_stats', 'ish_usage']);
+      'ish_space_stats', 'ish_usage', 'ish_assist_usage']);
     var QUIET_RPC = new Set(['ish_seen', 'ish_space_join', 'ish_push_save', 'ish_reader_state']);   /* background calls that change nothing the pages show */
     var SAVE_RPC = new Set(['ish_public_course_terms', 'ish_series_rating_scores', 'ish_team_public', 'ish_space_stats', 'ish_reactors', 'ish_available_course_seats']);
     sb.rpc = function (name, args) {

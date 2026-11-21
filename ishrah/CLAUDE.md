@@ -1295,3 +1295,21 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   certificate links (lesson panel, My learning) and #cert respect it. Text: «3 دروس / درسان / 11 درسًا» (`IS.lessonsN`), mic icon for an
   all-audio course, «داخل التطبيق فقط، مع تنزيل الدروس للمذاكرة دون إنترنت» instead of the wrong «دون تنزيل», calmer sizes on the course
   page (CSS "course page: calmer type"). Test: scratchpad ce.js.
+
+## مرشد المنصة: the guide assistant (owner, 21 Nov 2026: "personal guide like AI inside the app"; chose an app guide only, Claude Haiku 5.5)
+- App: js/assist.js. A round 🤖 button above the bottom bar (signed-in accounts; hidden while reading a book or playing a lesson), also in
+  Features and on the Support page (`data-act="assist"`). Chat panel `#asst` (bottom sheet on phones, corner window on computers),
+  suggested questions, «محادثة جديدة». The conversation stays in sessionStorage `ish-assist` of the tab; nothing is stored on the server.
+  Answers are escaped; only **bold**, list lines and Markdown links to the app's own `#routes` become HTML (clicking one closes the panel).
+- Server: functions/api/assist.js (official SDK `@anthropic-ai/sdk`, package.json in ishrah/, `npm ci` step in the workflow; wrangler never
+  uploads node_modules). Model `claude-haiku-5-5`, effort low, max_tokens 2048, the fixed app description `GUIDE` as a cached system prompt
+  (the page and language go in the last user message so the cache holds). It answers only about using the app; medical questions are
+  declined. When a feature or page is added, add it to `GUIDE` (and its #route to the allowed list there).
+- Limits and cost (055_assistant.sql): `ish_assist_take` counts messages per account per Khartoum day: 15, team 60 (env ASSIST_LIMIT /
+  ASSIST_TEAM_LIMIT); `ish_assist_log` keeps the tokens; Control → Usage shows this month's messages, users and an estimated cost
+  (Haiku 5.5: $0.10 / $0.50 per million input / output tokens, cache reads $0.01; dollar at 13,000 SDG).
+- Switching it on: the owner adds the secret ANTHROPIC_API_KEY himself (Cloudflare → Workers & Pages → ishrah → Settings → Variables and
+  Secrets, Production; never pasted in chat) and redeploys. Without it the panel says the guide is not switched on yet (501). Preview copy
+  (no Supabase) says it works only on the published site.
+- Tested: wrangler pages dev with fake Supabase/Anthropic servers (sign-in check, limit → 429, cache_control, token log, bad request) and
+  Chromium at 393 / 1366 px (button above the bar, answer rendering, unsafe text shown as text, limit message, history kept, Features entry).
