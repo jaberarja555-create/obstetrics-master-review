@@ -1736,3 +1736,14 @@ html body .mrx :is(.mh-pub,.mh-in,.mlx-b.green:not(.on),.mlc-b.green:not(.on),.m
   .mc-sub{-webkit-line-clamp:3!important}
   .mc-side .mc-pic{aspect-ratio:4/3!important}
 }
+
+/* lecturer beside the stars on laptops; under the picture on phones */
+.mc-rl{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.mc-lec2{display:none!important}
+@media (min-width:900px){
+  .mc-lec2{display:flex!important;padding:2px 10px 2px 2px;border-radius:999px;background:#f1f6f5;border:1px solid #e1ece9}
+  [dir="rtl"] .mc-lec2{padding:2px 2px 2px 10px}
+  .mc-lec2 .av{width:28px!important;height:28px!important}
+  .mc-lec2 b{font-size:13px}
+  .mc-side .mc-lec:not(.mc-lec2){display:none!important}
+}

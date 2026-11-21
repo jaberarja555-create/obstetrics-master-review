@@ -450,7 +450,9 @@
     var href = '#course/' + esc(c.id), cover = c.cover ? IS.poster(c.cover) : IS.poster('img/collection/courses.webp');
     return '<article class="mc-card" data-go="' + href + '"><div class="mc-txt"><span class="mc-chip">' + HI.layers + esc(A('كورس', 'Course')) + '</span>' +
       '<h3 dir="auto"><a href="' + href + '">' + esc(c.title || '') + '</a></h3>' + (c.subtitle ? '<p class="mc-sub" dir="auto">' + esc(c.subtitle) + '</p>' : '') +
-      '<span class="mc-rate feed-grade sm">' + IS.gradeInner(c, 'course') + '</span></div>' +
+      /* laptops: the lecturer beside the stars (owner, 21 Nov 2026); phones keep him under the picture */
+      '<span class="mc-rl"><span class="mc-rate feed-grade sm">' + IS.gradeInner(c, 'course') + '</span>' +
+        (l ? '<a class="mc-lec mc-lec2" href="#lecturer/' + esc(l.id) + '">' + IS.av(l, 'sm', l.id) + '<b dir="auto">' + IS.lecName(l.name) + '</b></a>' : '') + '</span></div>' +
       /* the lecturer sits under the course picture (owner, 20 Nov 2026) */
       '<div class="mc-side"><a class="mc-pic" href="' + href + '">' + cover + (cat ? '<em lang="en">' + esc(cat.id === 'special' ? 'International' : cat.en) + '</em>' : '') + '</a>' +
       '<span class="mc-fav">' + IS.favBtn('c:' + c.id, true) + '</span>' +

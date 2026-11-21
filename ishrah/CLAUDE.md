@@ -1204,3 +1204,4 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   turned the Home icon dark on purple / maroon / graphite). From 900 px the new pages use the whole width (no centred 1240 px column):
   cards in as many 440 px columns as fit (2 on a 1366 laptop, 3 on 1920). After mr.css changes run palettes.py (mr-pal-*).
 - Laptops: banners 120–170 px high; course cards give the picture 34 % (4:3) so the whole card shows on one screen.
+- Course cards on laptops: the lecturer (picture and name) sits beside the stars (`.mc-lec2`); phones keep him under the picture.
