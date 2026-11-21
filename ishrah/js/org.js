@@ -342,7 +342,10 @@
     var u = d.id ? await DB.one('profiles', d.id) : null;
     if (!u) { var dg = DB.digits(d.phone || ''), us = await DB.q('profiles'); u = us.filter(function (p) { return (dg.length > 6 && DB.digits(p.phone) === dg) || (d.email && p.email && p.email.toLowerCase() === d.email.toLowerCase()); })[0]; }
     if (u) { if ((u.team || []).indexOf('owner') >= 0 && team.indexOf('owner') < 0) team.push('owner');
-      await DB.upd('profiles', u.id, Object.assign({ team: team }, row)); IS.notify(u.id, A('أصبحت ضمن فريق أكاديمية السودان للمراجعة', 'You joined the Sudan Master Review Academy team'), A('افتح «التحكم» من القائمة. فعّل المصادقة الثنائية عند الطلب.', 'Open “Control” from the menu. Turn on two-factor login when asked.'), '#control'); IS.audit(A('تحديث حساب إداري', 'update staff account') + ' (' + team.join(', ') + ')', u.name); if (u.id === uid()) await IS.loadMe(); }
+      await DB.upd('profiles', u.id, Object.assign({ team: team }, row)); var rn = role(d.role), by = IS.assignerTitle ? IS.assignerTitle() : A('إدارة المنصة', 'the platform team'), was = (u.team || []).filter(function (x) { return x.indexOf('p:') !== 0; })[0];
+      /* the notice names the role and who appointed (owner, 21 Nov 2026) */
+      if (u.id !== uid()) IS.notify(u.id, was === d.role ? A('حُدّثت صلاحياتك في الفريق بواسطة ', 'Your team access was updated by ') + by : A('تم تعيينك ', 'You were appointed ') + (rn ? A(rn[1], String(rn[2]).replace(/\s*\(.*\)\s*/, '')) : '') + A(' بواسطة ', ' by ') + by,
+        A('افتح «التحكم» من القائمة. فعّل المصادقة الثنائية عند الطلب.', 'Open “Control” from the menu. Turn on two-factor login when asked.'), '#control'); IS.audit(A('تحديث حساب إداري', 'update staff account') + ' (' + team.join(', ') + ')', u.name); if (u.id === uid()) await IS.loadMe(); }
     else { if (!d.phone && !d.email) return IS.toast(A('اكتب الهاتف أو البريد.', 'Enter the phone or email.'), true);
       await DB.ins('invites', Object.assign({ name: d.name, phone: DB.digits(d.phone || ''), email: (d.email || '').toLowerCase(), role: d.role, extras: x, status: 'pending', by: uid() }, row)); IS.audit(A('دعوة حساب إداري', 'invite staff account'), d.name);
       IS.toast(A('أُنشئت الدعوة: يصبح الحساب إداريًا فور تسجيله بهذا الرقم أو البريد.', 'Invitation created: the account becomes staff as soon as it registers with this phone or email.')); }

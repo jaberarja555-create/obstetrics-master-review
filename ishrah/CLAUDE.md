@@ -1225,3 +1225,10 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
 - **The platform owner gets every alert** (owner, 21 Nov 2026: «كمالك للمنصه مفروض يصلني كل شي»; he sent a course for review himself and was left
   out because the one who acts is never alerted): `053_owner_all_alerts.sql` — `alert_team` and `alert_ticket` still skip the person who acted,
   except an owner (`ishrah_private.is_owner_id`). Other staff are still not alerted about their own actions. Tested on the local Postgres.
+- **Appointing people from inside the platform** (owner, 21 Nov 2026: «اقدر اعين ناس مباشره من داخل المنصه ويصلهم اشعار انو تم تعينهم بواسطة
+  مالك المنصه، مثلا كمحاضر او مدير شي معين»): `js/assign.js`. A gold «تعيين» button on a person's profile (`#person/<id>`), a lecturer page
+  and Control → Users (person sheet), for the owner and staff who may edit the team or approve lecturers. The sheet lists «محاضر» (makes the
+  lecturer row at once, studio opens; same RLS as approving an application) and every team role the signed-in person may grant
+  (owner/GM only by the owner); a role opens the existing staff form with that role chosen (department, approval level, 2FA). Notices:
+  «تم تعيينك محاضرًا بواسطة مالك المنصة», «تم تعيينك المدير المالي بواسطة مالك المنصة» (`IS.assignerTitle()` names the appointer's role),
+  «حُدّثت صلاحياتك في الفريق بواسطة …» when only the details change. Test: scratchpad asg2.js.
