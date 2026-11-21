@@ -1179,3 +1179,7 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   8 px; labels are one line, clipped never with «…». Checked at 320–1440 px in Arabic and English: nothing cut. `text-size-adjust:100%`
   on html. The top-bar look button (`IS.ACT.theme`, mr.js) opens `#lookmenu` under it: Day · Night · Eye comfort · Automatic, the current
   one ticked; a choice applies and closes it; a tap outside, scrolling or resizing closes it. Test: scratchpad nav.js.
+- **Light (white) look is the default; logo apart from «Sign in»** (owner, 21 Nov 2026): every device is put on the light look once
+  (core.js flag `ish-theme-reset1`, also read by the head script so there is no dark flash); students can still choose Night / Eye /
+  Automatic from the look menu or Settings. On the speciality and section screens (phones ≤ 600 px) the header is a row where the logo
+  takes only the room between the buttons (max 170 px), so it never sits on «Sign in» (10–22 px gap at 320–393 px). Test: scratchpad pk.js.

@@ -752,6 +752,9 @@
   };
   IS.ACT.lang = function () { IS.lang = IS.lang === 'ar' ? 'en' : 'ar'; LS.set('lang', IS.lang); applyLang(); IS.route(); };
   IS.setTheme = function (t) { LS.set('theme', t); applyTheme(); };
+  /* the light (white) look is the default (owner, 21 Nov 2026: "make the white colour the default for the app"): every device starts on it
+     once after this update; a student can still choose Night or Eye comfort afterwards */
+  if (!LS.get('theme-reset1', 0)) { LS.set('theme', 'light'); LS.set('theme-reset1', 1); }
   function applyTheme() { var t = LS.get('theme', 'light'); if (t === 'auto') t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t);
     document.documentElement.setAttribute('data-fs', LS.get('fs', 'n')); }
   IS.applyTheme = applyTheme;

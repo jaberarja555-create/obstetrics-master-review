@@ -1709,3 +1709,10 @@ html body .mh-nav a span{display:block;width:100%;white-space:nowrap!important;o
 .lookmenu button.on{background:#ece9f2;color:#271045}
 :root[data-theme="dark"] .lookmenu{background:#1b1129;border-color:#2f2443}:root[data-theme="dark"] .lookmenu button{color:#eae7f0}:root[data-theme="dark"] .lookmenu button.on{background:#261a3a}
 @media (max-width:440px){html body .mh-nav a{font-weight:600!important}html body .mh-nav{padding-inline:3px!important;gap:0!important}}
+/* speciality/section screens on phones: the logo takes only the room left between the buttons, so it never sits on «Sign in» (21 Nov 2026) */
+@media (max-width:600px){
+  html body .mrx .mr-top{display:flex!important;align-items:center;gap:8px!important}
+  html body .mrx .mr-tl,html body .mrx .mr-tr{flex:none;padding-top:0}
+  html body .mrx .mr-brand{flex:1 1 auto;min-width:0;display:flex;justify-content:center;margin-inline:2px}
+  html body .mrx .mr-brand img{width:100%!important;max-width:170px;height:auto!important;max-height:58px;object-fit:contain}
+}

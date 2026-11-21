@@ -11,15 +11,15 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=62c3c8f0">
 <script>/* colour chosen in Settings (ish-pal): its stylesheet replaces app.css */
 (function(){var P={teal:1,purple:1,maroon:1,graphite:1},M={ocean:1,teal:1,purple:1,maroon:1,graphite:1},p='blue';try{p=JSON.parse(localStorage.getItem('ish-pal')||'"blue"')}catch(e){}
-document.write('<link id="ishcss" rel="stylesheet" href="css/'+(P[p]?'pal-'+p:'app')+'.css?v=b18aefcb">');
-document.write('<link id="mrcss" rel="stylesheet" href="css/'+(M[p]?'mr-pal-'+p:'mr')+'.css?v=b18aefcb">');})();</script>
+document.write('<link id="ishcss" rel="stylesheet" href="css/'+(P[p]?'pal-'+p:'app')+'.css?v=ed0fd605">');
+document.write('<link id="mrcss" rel="stylesheet" href="css/'+(M[p]?'mr-pal-'+p:'mr')+'.css?v=ed0fd605">');})();</script>
 <noscript><link rel="stylesheet" href="css/app.css?v=1b0c6572"></noscript>
 <script>/* test switch for the Android scrolling smear (owner, 18 Nov 2026): ishrahli.org/?safe=1 … 4 turns parts of the design off on this
    device so the cause can be found; ?safe=0 turns it off again. 1 = all, 2 = bars not fixed, 3 = no shadows/animations, 4 = no banner pictures */
 (function(){try{var m=location.search.match(/[?&]safe=(\d)/);if(m){if(m[1]==='0')localStorage.removeItem('ish-safe');else localStorage.setItem('ish-safe',m[1]);}
 var v=localStorage.getItem('ish-safe');if(v){document.documentElement.setAttribute('data-safe',{1:'bars fx pics',2:'bars',3:'fx',4:'pics'}[v]||'');document.documentElement.setAttribute('data-safen',v);}}catch(e){}})();</script>
 <script>(function(){try{var l=JSON.parse(localStorage.getItem('ish-lang')||'"ar"');if(l==='en'){document.documentElement.lang='en';document.documentElement.dir='ltr';}
-document.documentElement.setAttribute('data-theme',JSON.parse(localStorage.getItem('ish-theme')||'"light"'));document.documentElement.setAttribute('data-fs',JSON.parse(localStorage.getItem('ish-fs')||'"n"'));}catch(e){}})();</script>
+document.documentElement.setAttribute('data-theme',localStorage.getItem('ish-theme-reset1')?JSON.parse(localStorage.getItem('ish-theme')||'"light"'):'light');document.documentElement.setAttribute('data-fs',JSON.parse(localStorage.getItem('ish-fs')||'"n"'));}catch(e){}})();</script>
 </head>
 <body>
 <header id="top"></header>
@@ -33,7 +33,7 @@ document.documentElement.setAttribute('data-theme',JSON.parse(localStorage.getIt
 (function(){var c=window.ISH_CONFIG||{};if(c.supabaseUrl&&c.supabaseAnonKey){document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js"><\/script><script src="https://cdn.jsdelivr.net/npm/tus-js-client@4.1.0/dist/tus.min.js"><\/script>');}})();
 </script>
 <script src="js/db.js?v=cd7a014d"></script>
-<script src="js/core.js?v=68a211cc"></script>
+<script src="js/core.js?v=2f76a7d3"></script>
 <script src="js/student.js?v=2bd27f62"></script>
 <script src="js/library.js?v=adb5f8c0"></script>
 <script src="js/sell.js?v=827050f2"></script>
