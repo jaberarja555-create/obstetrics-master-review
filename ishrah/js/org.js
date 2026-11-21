@@ -290,32 +290,44 @@
   /* ======================= USERS & PERMISSIONS ======================= */
   var APPROVAL = [['none', 'بدون اعتماد', 'No approval'], ['dept', 'اعتماد قسم', 'Department approval'], ['full', 'اعتماد كامل', 'Full approval']];
   function canGrant(r) { var t = me().team || []; if (t.indexOf('owner') >= 0) return true; return r !== 'owner' && r !== 'gm' && IS.can('team', 'edit'); }
-  IS.page('control-team', async function (rsel) {
-    var us = await DB.q('profiles'), team = us.filter(function (u) { return (u.team || []).length; }), inv = await DB.q('invites', { eq: { status: 'pending' } }), log = await DB.q('audit', { order: ['created_at', false], limit: 6 });
-    var cnt = function (r) { return team.filter(function (u) { return (u.team || []).indexOf(r) >= 0; }).length; };
-    rsel = rsel || 'finance';
-    var h = IS.banner(IS.T('إدارة المستخدمين والصلاحيات', 'Users & Permissions Management'), esc(A('إنشاء الحسابات الإدارية، تحديد الأدوار، توزيع الصلاحيات، ومتابعة الأنشطة', 'Create admin accounts, set roles, give permissions and follow activity')), 'shield');
-    h += '<div class="rtiles">' + tile('chart', esc(A('نظرة عامة', 'Overview')), '', 'c0') + tile('briefcase', N(IS.ROLES.length), A('الأدوار الوظيفية', 'System roles'), 'c1') + tile('layers', N(IS.DEPTS.length), A('الأقسام الإدارية', 'Departments'), 'c2') + tile('users', N(team.length), A('إجمالي الحسابات الإدارية', 'Admin accounts'), 'c3') + tile('clock', N(inv.length), A('دعوات بانتظار التسجيل', 'Pending invitations'), 'c4') + '</div>';
-    h += '<div class="tgrid">';
-    /* hierarchy */
-    h += '<section class="box"><h2>' + ic('org') + IS.T('الهيكل الإداري', 'Organizational Hierarchy') + '</h2><ul class="hier">' + IS.ROLES.map(function (r) { var ms = team.filter(function (u) { return (u.team || []).indexOf(r[0]) >= 0 || (r[0] === 'staff' && (u.team || []).some(function (x) { return x.indexOf('p:') === 0; }) && !(u.team || []).some(function (x) { return x.indexOf('p:') !== 0 && x !== 'staff'; })); });
-      return '<li class="' + (r[0] === 'owner' ? 'own' : '') + '"><details' + (r[0] === 'owner' ? ' open' : '') + '><summary>' + ic(r[3]) + '<span><b>' + esc(A(r[1], r[2])) + '</b></span><em>' + N(ms.length) + '</em></summary>' + (ms.length ? ms.map(function (u) { return '<button class="hm" data-act="staffform" data-id="' + u.id + '">' + IS.av(u, 'xs') + esc(u.name) + (u.team_status === 'suspended' ? ' · ' + esc(A('معلق', 'Suspended')) : '') + '</button>'; }).join('') : '<small class="mut">—</small>') + '</details></li>'; }).join('') + '</ul></section>';
-    /* create staff account */
-    h += '<section class="box"><h2>' + ic('user') + IS.T('إنشاء حساب إداري جديد', 'Create Staff Account') + '</h2>' + staffForm({}, team) + '</section>';
-    /* permission matrix */
-    var canEditMatrix = (me().team || []).indexOf('owner') >= 0 || (IS.can('team', 'edit') && rsel !== 'gm');
-    h += '<section class="box mx"><h2>' + ic('gear') + IS.T('إدارة الصلاحيات', 'Permissions Management') + '</h2><p class="mut">' + esc(A('حدّد صلاحيات كل دور على مستوى كل وحدة في النظام.', 'Set what each role may do in each section.')) + '</p>' +
-      '<label class="fl"><span>' + esc(A('الدور المعروض', 'Role shown')) + '</span><select id="rsel">' + IS.ROLES.filter(function (r) { return r[0] !== 'owner'; }).map(function (r) { return '<option value="' + r[0] + '"' + (r[0] === rsel ? ' selected' : '') + '>' + esc(r[1]) + '</option>'; }).join('') + '</select></label>' +
-      '<form data-form="matrix"><input type="hidden" name="role" value="' + rsel + '"><div class="matrix"><table><thead><tr><th>' + esc(A('الوحدة / الصلاحية', 'Section / action')) + '</th>' + IS.ACTS.map(function (a) { return '<th>' + esc(A(a[1], a[2])) + '</th>'; }).join('') + '</tr></thead><tbody>' +
-      SECTIONS.map(function (s) { var cur = (IS.RP[rsel] || {})[s[0]] || []; return '<tr><th>' + ic(s[1]) + esc(A(s[2], s[3])) + '</th>' + IS.ACTS.map(function (a) { return '<td><input type="checkbox" name="m" value="' + s[0] + ':' + a[0] + '"' + (cur.indexOf(a[0]) >= 0 ? ' checked' : '') + (canEditMatrix ? '' : ' disabled') + ' aria-label="' + esc(s[3] + ' ' + a[2]) + '"></td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>' +
-      (canEditMatrix ? '<div class="row sp"><button type="button" class="btn ghost sm" data-act="copyperms" data-r="' + rsel + '">' + ic('file') + esc(A('نسخ صلاحيات من دور آخر', 'Copy from another role')) + '</button><button class="btn pri">' + ic('check') + esc(A('حفظ الصلاحيات', 'Save permissions')) + '</button></div>' : '<p class="mut">' + esc(A('صلاحيات المدير العام يعدّلها مالك المنصة فقط.', 'Only the owner edits the general manager’s permissions.')) + '</p>') + '</form></section>';
-    h += '</div>';
-    /* accounts + audit */
-    h += '<div><section class="box"><header class="sh"><h2>' + ic('users') + IS.T('الحسابات الإدارية', 'Administrative Accounts') + '</h2><button class="btn ghost sm" data-act="staffform">' + ic('plus') + esc(A('إضافة مستخدم جديد', 'Add a user')) + '</button></header><div class="mtable acc"><div class="mh"><span>' + esc(A('الاسم', 'Name')) + '</span><span>' + esc(A('الدور', 'Role')) + '</span><span>' + esc(A('القسم', 'Department')) + '</span><span>' + esc(A('الحالة', 'Status')) + '</span><span>' + esc(A('آخر دخول', 'Last sign-in')) + '</span><span></span></div>' +
-      team.map(function (u) { var r = role((u.team || []).filter(function (x) { return x.indexOf('p:') !== 0; })[0] || 'staff'); return '<div class="mr"><span><b>' + esc(u.name) + '</b>' + (u.mfa_on ? '<small class="ok">' + ic('shield') + '2FA</small>' : '') + '</span><span>' + esc(r ? r[1] : '') + '</span><span>' + esc(deptName(u.dept || (u.team || [])[0])) + '</span>' + IS.chip(esc(u.team_status === 'suspended' ? A('معلق', 'Suspended') : A('مفعل', 'Active')), 'st ' + (u.team_status === 'suspended' ? 'warn' : 'ok')) +
-        '<span class="mut">' + (u.last_seen ? IS.seen(u.id, u.last_seen) : '—') + '</span><span class="row">' + (canGrant((u.team || [])[0]) ? '<button class="ib sm" data-act="staffform" data-id="' + u.id + '" aria-label="edit">' + ic('pen') + '</button>' : '') + '</span></div>'; }).join('') +
-      inv.map(function (v) { var r = role(v.role); return '<div class="mr"><span><b>' + esc(v.name) + '</b><small class="mut" dir="ltr">' + esc(v.phone || v.email || '') + '</small></span><span>' + esc(r ? r[1] : '') + '</span><span>' + esc(deptName(v.dept)) + '</span>' + IS.chip(esc(A('بانتظار التسجيل', 'Awaiting sign-up')), 'st warn') + '<span class="mut">—</span><span><button class="ib sm" data-act="delinv" data-id="' + v.id + '" aria-label="cancel">' + ic('x') + '</button></span></div>'; }).join('') + '</div></section>' + auditBox(log, A('سجل الأنشطة', 'Audit log')) + '</div>';
-    IS.after = function () { var s = $('#rsel'); if (s) s.onchange = function () { IS.go('control-team/' + s.value); }; };
+  /* Users & permissions in three tabs (owner, 21 Nov 2026: "this page needs organising, some parts are repeated"): Team (members grouped by
+     role, add, pending invitations) · Roles & permissions (role chips with counts, the matrix of the chosen role) · Activity log.
+     The add form lives only in its sheet (it used to be on the page as well), and the role list is shown once. */
+  IS.page('control-team', async function (arg) {
+    var parts = String(arg || '').split('/'), tab = ['team', 'roles', 'log'].indexOf(parts[0]) >= 0 ? parts[0] : (parts[0] ? 'roles' : 'team');
+    var rsel = tab === 'roles' ? (parts[0] === 'roles' ? parts[1] : parts[0]) || 'finance' : 'finance';
+    var us = await DB.q('profiles'), team = us.filter(function (u) { return (u.team || []).length; }), inv = await DB.q('invites', { eq: { status: 'pending' } });
+    var log = tab === 'log' ? await DB.q('audit', { order: ['created_at', false], limit: 40 }) : [];
+    var inRole = function (u, r) { var t = u.team || []; return t.indexOf(r) >= 0 || (r === 'staff' && !t.some(function (x) { return x.indexOf('p:') !== 0 && x !== 'staff'; })); };
+    var h = IS.banner(IS.T('إدارة المستخدمين والصلاحيات', 'Users & Permissions Management'), esc(A('الفريق والأدوار والصلاحيات وسجل الأنشطة', 'Team, roles, permissions and activity')), 'shield', '', 'gold');
+    h += '<div class="tm-stats">' + [[team.length, A('عضو في الفريق', 'team members')], [inv.length, A('دعوة بانتظار التسجيل', 'pending invitations')], [IS.ROLES.length, A('دور', 'roles')], [IS.DEPTS.length, A('قسم إداري', 'departments')]].map(function (x) {
+      return '<span><b>' + N(x[0]) + '</b><small>' + esc(x[1]) + '</small></span>'; }).join('') + '</div>';
+    h += '<nav class="tm-tabs" role="tablist">' + [['team', 'users', 'الفريق', 'Team'], ['roles', 'shield', 'الأدوار والصلاحيات', 'Roles & permissions'], ['log', 'clock', 'سجل الأنشطة', 'Activity log']].map(function (t) {
+      return '<a role="tab" href="#control-team/' + t[0] + '"' + (t[0] === tab ? ' class="on" aria-selected="true"' : '') + '>' + ic(t[1]) + '<span>' + esc(A(t[2], t[3])) + '</span></a>'; }).join('') + '</nav>';
+    if (tab === 'team') {
+      h += '<section class="box tm-team"><header class="sh"><h2>' + ic('users') + IS.T('أعضاء الفريق', 'Team members') + '</h2><button class="btn pri sm" data-act="staffform">' + ic('plus') + esc(A('إضافة عضو', 'Add a member')) + '</button></header>' +
+        IS.ROLES.map(function (r) {
+          var ms = team.filter(function (u) { return inRole(u, r[0]); }); if (!ms.length) return '';
+          return '<div class="tm-group"><h3>' + ic(r[3]) + '<span>' + esc(A(r[1], r[2])) + '</span><em>' + N(ms.length) + '</em></h3>' + ms.map(function (u) {
+            var edit = canGrant((u.team || [])[0]);
+            return '<' + (edit ? 'button type="button" data-act="staffform" data-id="' + u.id + '"' : 'div') + ' class="tm-row">' + IS.av(u, 'sm', u.id) + '<span class="tm-n"><b dir="auto">' + esc(u.name || '') + '</b><small>' +
+              esc([deptName(u.dept || (u.team || [])[0]), u.mfa_on ? '2FA ✓' : ''].filter(function (x) { return x && x !== '—'; }).join(' · ')) + '</small>' + (u.last_seen ? IS.seen(u.id, u.last_seen) : '') + '</span>' +
+              (u.team_status === 'suspended' ? IS.chip(esc(A('معلق', 'Suspended')), 'st warn') : '') + (edit ? ic('pen', 'tm-pen') : '') + '</' + (edit ? 'button' : 'div') + '>'; }).join('') + '</div>';
+        }).join('') + '</section>';
+      if (inv.length) h += '<section class="box tm-team"><h2>' + ic('mail') + IS.T('دعوات بانتظار التسجيل', 'Invitations waiting for sign-up') + '</h2><p class="mut">' + esc(A('يصبح الحساب عضوًا في الفريق فور تسجيله بهذا الرقم أو البريد.', 'The account joins the team as soon as it registers with this phone or email.')) + '</p>' +
+        inv.map(function (v) { var r = role(v.role); return '<div class="tm-row">' + IS.av({ name: v.name }, 'sm') + '<span class="tm-n"><b dir="auto">' + esc(v.name || '') + '</b><small><bdi dir="ltr">' + esc(v.phone || v.email || '') + '</bdi> · ' + esc(r ? A(r[1], r[2]) : '') + '</small></span>' +
+          '<button class="ib sm" data-act="delinv" data-id="' + v.id + '" aria-label="' + esc(A('إلغاء الدعوة', 'Cancel the invitation')) + '">' + ic('x') + '</button></div>'; }).join('') + '</section>';
+    }
+    if (tab === 'roles') {
+      var canEditMatrix = (me().team || []).indexOf('owner') >= 0 || (IS.can('team', 'edit') && rsel !== 'gm');
+      h += '<section class="box mx"><h2>' + ic('shield') + IS.T('صلاحيات الأدوار', 'Role permissions') + '</h2><p class="mut">' + esc(A('اختر دورًا لترى وتعدّل ما يستطيع فعله في كل وحدة. الرقم بجانب الدور = عدد أعضائه.', 'Choose a role to see and change what it may do in each section. The number beside a role is how many members it has.')) + '</p>' +
+        '<div class="tm-roles">' + IS.ROLES.filter(function (r) { return r[0] !== 'owner'; }).map(function (r) { var n = team.filter(function (u) { return inRole(u, r[0]); }).length;
+          return '<a href="#control-team/roles/' + r[0] + '"' + (r[0] === rsel ? ' class="on" aria-current="true"' : '') + '>' + ic(r[3]) + '<span>' + esc(A(r[1], r[2])) + '</span><em>' + N(n) + '</em></a>'; }).join('') + '</div>' +
+        '<form data-form="matrix"><input type="hidden" name="role" value="' + rsel + '"><div class="matrix"><table><thead><tr><th>' + esc(A('الوحدة / الصلاحية', 'Section / action')) + '</th>' + IS.ACTS.map(function (a) { return '<th>' + esc(A(a[1], a[2])) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+        SECTIONS.map(function (s) { var cur = (IS.RP[rsel] || {})[s[0]] || []; return '<tr><th>' + ic(s[1]) + esc(A(s[2], s[3])) + '</th>' + IS.ACTS.map(function (a) { return '<td><input type="checkbox" name="m" value="' + s[0] + ':' + a[0] + '"' + (cur.indexOf(a[0]) >= 0 ? ' checked' : '') + (canEditMatrix ? '' : ' disabled') + ' aria-label="' + esc(A(s[2], s[3]) + ' · ' + A(a[1], a[2])) + '"></td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>' +
+        (canEditMatrix ? '<div class="row sp"><button type="button" class="btn ghost sm" data-act="copyperms" data-r="' + rsel + '">' + ic('file') + esc(A('نسخ صلاحيات من دور آخر', 'Copy from another role')) + '</button><button class="btn pri">' + ic('check') + esc(A('حفظ الصلاحيات', 'Save permissions')) + '</button></div>' : '<p class="mut">' + esc(A('لا تملك صلاحية تعديل صلاحيات هذا الدور.', 'You may not change this role’s permissions.')) + '</p>') + '</form></section>';
+    }
+    if (tab === 'log') h += auditBox(log, A('سجل الأنشطة', 'Audit log'));
     return h;
   }, P('team'));
   function staffForm(u, team) {

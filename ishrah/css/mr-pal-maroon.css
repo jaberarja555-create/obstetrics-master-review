@@ -1883,3 +1883,37 @@ html body .mrs2 .mh-old .tiles .ico{display:block}
 /* a short explanation under a form field */
 .fhint{display:block;margin-top:5px;font-size:12px;line-height:1.5;color:#7f666e;font-weight:500}
 :root[data-theme="dark"] .fhint{color:#c1abb3}
+/* Users & permissions in tabs (21 Nov 2026) */
+.tm-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:0 0 10px}
+.tm-stats span{display:flex;flex-direction:column;align-items:center;padding:9px 4px;border-radius:14px;background:#fff;border:1px solid #ebe2e5;text-align:center}
+.tm-stats b{font-size:18px;color:#641427;line-height:1.1}.tm-stats small{font-size:11px;color:#7f666e;line-height:1.3}
+.tm-tabs{display:flex;gap:4px;padding:4px;border-radius:14px;background:#f4eef1;border:1px solid #ebe2e5;margin:0 0 12px;overflow-x:auto}
+.tm-tabs a{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 10px;border-radius:10px;text-decoration:none;color:#583f46;font-weight:700;font-size:13px;white-space:nowrap}
+.tm-tabs a svg{width:16px;height:16px}
+.tm-tabs a.on{background:linear-gradient(180deg,#781c34,#410b19);color:#fff}
+.tm-group{margin-top:8px}
+html body .tm-group h3{display:flex;align-items:center;gap:7px;margin:10px 0 4px;font-size:13px;color:#641427}
+.tm-group h3 svg{width:16px;height:16px}.tm-group h3 em{font-style:normal;font-size:11.5px;background:#f2e9ec;border-radius:999px;padding:1px 8px}
+.tm-row{display:flex;align-items:center;gap:10px;width:100%;padding:9px 6px;border:0;border-top:1px solid #f4eef1;background:none;font:inherit;color:inherit;text-align:start;cursor:pointer;border-radius:10px}
+button.tm-row:hover{background:#f9f4f6}
+.tm-row .tm-n{flex:1;min-width:0;display:flex;flex-direction:column}
+.tm-row .tm-n b{font-size:14px}.tm-row .tm-n small{font-size:11.5px;color:#7f666e}
+.tm-row .tm-pen{width:15px;height:15px;color:#b19fa5;flex:none}
+.tm-roles{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+.tm-roles a{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid #e7dde0;background:#fff;text-decoration:none;color:#2e161d;font-size:12.5px;font-weight:700}
+.tm-roles a svg{width:15px;height:15px;color:#641427}.tm-roles a em{font-style:normal;font-size:11px;background:#f4eef1;border-radius:999px;padding:0 7px;color:#641427}
+.tm-roles a.on{background:linear-gradient(180deg,#781c34,#410b19);color:#fff;border-color:transparent}.tm-roles a.on svg{color:#f6dc8e}.tm-roles a.on em{background:rgba(255,255,255,.2);color:#fff}
+@media (max-width:440px){.tm-tabs a span{font-size:12px}.tm-tabs a{padding:8px 6px}.tm-stats b{font-size:16px}}
+:root[data-theme="dark"] .tm-stats span,:root[data-theme="dark"] .tm-roles a{background:#250d14;border-color:#43242f;color:#f0e7ea}
+:root[data-theme="dark"] .tm-tabs{background:#37151f;border-color:#43242f}:root[data-theme="dark"] .tm-tabs a{color:#e2d0d7}
+:root[data-theme="dark"] .tm-row{border-color:#3b1f28}
+/* the permission table fits a phone: all five actions visible without sliding sideways */
+@media (max-width:560px){
+  html body .mx .matrix table{min-width:0!important;table-layout:fixed;font-size:11.5px}
+  html body .mx .matrix thead th:first-child,html body .mx .matrix tbody th{width:40%}
+  html body .mx .matrix tbody th{white-space:normal!important;line-height:1.3;font-size:12px}
+  html body .mx .matrix tbody th .ico{display:none}
+  html body .mx .matrix thead th{font-size:10.5px;padding:6px 1px;word-break:break-word}
+  html body .mx .matrix th,html body .mx .matrix td{padding:7px 2px}
+  html body .mx .matrix td input{width:18px;height:18px}
+}

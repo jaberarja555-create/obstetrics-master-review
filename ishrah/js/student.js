@@ -1566,7 +1566,7 @@
   });
   /* the staff member's own card on the team page (also editable by managers in Users & permissions) */
   IS.pubFields = function (u) {
-    return '<fieldset class="pubf"><legend>' + ic('group') + esc(A('بطاقتي في صفحة «فريق المنصة»', 'Card on the “Our team” page')) + '</legend>' +
+    return '<fieldset class="pubf"><legend>' + ic('group') + esc(A('البطاقة في صفحة «فريق المنصة»', 'Card on the “Our team” page')) + '</legend>' +
       '<label class="chk sw2"><input type="checkbox" name="pub_show"' + (u.pub_show ? ' checked' : '') + '><span><b>' + esc(A('اعرض في صفحة فريق المنصة', 'Show on the Our team page')) + '</b><small>' + esc(A('تظهر الصورة والاسم والمسمى والنبذة فقط؛ لا يظهر الهاتف ولا البريد.', 'Only the photo, name, title and bio are shown; never the phone or email.')) + '</small></span></label>' +
       '<div class="g2f"><label class="fl"><span>' + esc(A('المسمى الظاهر (اختياري)', 'Title shown (optional)')) + '</span><input name="pub_title" maxlength="80" value="' + esc(u.pub_title || '') + '" placeholder="' + esc(A('مثال: استشاري الجراحة، المدير الأكاديمي', 'e.g. Consultant surgeon, Academic Director')) + '"></label>' +
       '<label class="fl"><span>' + esc(A('الترتيب في الصفحة', 'Order on the page')) + '</span><input name="pub_order" type="number" min="1" max="999" value="' + esc(u.pub_order || 100) + '"><small class="fhint">' + esc(A('رقم ترتيب البطاقة بين بطاقات الفريق: الأصغر يظهر أولًا (1 أولًا، ثم 2…). اتركه 100 إن لم يهمّ الترتيب.', 'Position of the card among the team cards: smaller numbers come first (1, then 2…). Leave 100 if the order does not matter.')) + '</small></label></div>' +

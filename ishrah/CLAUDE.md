@@ -1242,3 +1242,10 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   accounts it is a contact number the manager can add or fix (saved with the rest, `row.phone`). Short hints (`.fhint`) under «المدير
   المباشر» (who this person reports to; they see his tasks and requests on their dashboard) and «الترتيب في الصفحة» (card order on the Our
   team page, smaller first, 100 = no preference). Test: scratchpad ph.js.
+- **Users & permissions reorganised** (owner, 21 Nov 2026: "this page needs organising, some parts are repeated"): `control-team` (org.js)
+  is a slim figures strip (members, pending invitations, roles, departments) and three tabs: **الفريق** (`#control-team`, members grouped
+  under their role with department, 2FA and online status, tap a row to edit; «إضافة عضو»; pending invitations with cancel) ·
+  **الأدوار والصلاحيات** (`#control-team/roles/<role>`; old `#control-team/<role>` links still open it; role chips with member counts, the
+  permission table of that role, save / copy from another role) · **سجل الأنشطة** (`#control-team/log`, last 40). Removed the repeats: the
+  add form that sat on the page (it opens only in its sheet) and the separate hierarchy list (merged into the grouped members). The
+  permission table fits a phone with all five actions visible. The staff form legend reads «البطاقة في صفحة فريق المنصة». Test: scratchpad tm.js.
