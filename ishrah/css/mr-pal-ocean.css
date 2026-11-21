@@ -2036,3 +2036,23 @@ html body .mra .chero .chst span{font-size:13.5px}
 html[dir=rtl] #asst .assend svg{transform:scaleX(-1)}
 html[data-theme=dark] #asst .asm.err>div{background:#3b2a10;color:#ffd99a}
 #asst .asm.asu.err>div{background:var(--pri,#0f446b);color:#fff;opacity:.6}
+
+/* «المزيد» sheets fill their last row (owner, 21 Nov 2026: "down is disorganized and empty space"): tiles share each row, a short last row
+   stretches across the width, a tile alone in its row becomes a wide row tile, and «الانتقال إلى» is one row of wide buttons */
+.mgrid{display:flex;flex-wrap:wrap;gap:8px;container-type:inline-size}
+.mgrid>a{flex:1 1 calc((100% - 16px)/3);min-width:0}
+.mgrid>a:last-child:nth-child(3n+1){flex-direction:row;justify-content:center;gap:10px;padding:14px 12px}
+@container (min-width:480px){
+  .mgrid>a{flex-basis:calc((100% - 24px)/4)}
+  .mgrid>a:last-child:nth-child(3n+1){flex-direction:column;gap:6px;padding:12px 4px}
+  .mgrid>a:last-child:nth-child(4n+1){flex-direction:row;justify-content:center;gap:10px;padding:14px 12px}
+}
+.mgrid>a.alt,.mgrid>a.alt:last-child:nth-child(n){flex:1 1 0;flex-direction:row;justify-content:center;gap:8px;padding:13px 10px}
+h3.sub+.mgrid{margin-bottom:4px}
+.mr-feat{display:flex;flex-wrap:wrap;gap:10px;container-type:inline-size}
+.mr-feat>a{flex:1 1 calc((100% - 10px)/2);min-width:0}
+@container (min-width:420px){.mr-feat>a{flex-basis:calc((100% - 20px)/3)}}
+@container (min-width:600px){.mr-feat>a{flex-basis:calc((100% - 30px)/4)}}
+.mr-feat>a:last-child:nth-child(2n+1){flex-direction:row;min-height:64px}
+@container (min-width:420px){.mr-feat>a:last-child:nth-child(2n+1){flex-direction:column;min-height:92px}.mr-feat>a:last-child:nth-child(3n+1){flex-direction:row;min-height:64px}}
+@container (min-width:600px){.mr-feat>a:last-child:nth-child(3n+1){flex-direction:column;min-height:92px}.mr-feat>a:last-child:nth-child(4n+1){flex-direction:row;min-height:64px}}
