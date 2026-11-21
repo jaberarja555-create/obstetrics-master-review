@@ -697,7 +697,7 @@
     return IS.spec(parts[0]) && IS.cat(parts[1]) ? { spec: parts[0], cat: parts[1] } : { spec: null, cat: null };
   }
   IS.page('control-notify', async function () {
-    var n = await DB.q('notices', { eq: { user_id: null }, order: ['created_at', false], limit: 50 });
+    var n = (await DB.q('notices', { eq: { user_id: null }, order: ['created_at', false], limit: 120 })).filter(function (x) { return x.kind !== 'post'; }).slice(0, 50);
     return IS.banner(IS.T('الإعلانات والإشعارات', 'Announcements'), esc(A('انشر إعلانًا عامًا أو خصصه لمساحة دراسية.', 'Publish to the whole platform or a study section.')), 'bell') +
       '<form class="box form" data-form="broadcast"><label class="fl"><span>' + esc(A('العنوان', 'Title')) + '</span><input name="title" required maxlength="120"></label><label class="fl"><span>' + esc(A('النص', 'Text')) + '</span><textarea name="body" rows="2" maxlength="600"></textarea></label><label class="fl"><span>' + esc(A('رابط داخل المنصة (اختياري)', 'Link inside the platform (optional)')) + '</span><input name="link" dir="ltr" placeholder="#courses"></label>' + audienceField() + '<button class="btn pri">' +
       ic('send') + esc(A('نشر الإعلان', 'Publish announcement')) + '</button></form>' +

@@ -1232,3 +1232,8 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   (owner/GM only by the owner); a role opens the existing staff form with that role chosen (department, approval level, 2FA). Notices:
   «تم تعيينك محاضرًا بواسطة مالك المنصة», «تم تعيينك المدير المالي بواسطة مالك المنصة» (`IS.assignerTitle()` names the appointer's role),
   «حُدّثت صلاحياتك في الفريق بواسطة …» when only the details change. Test: scratchpad asg2.js.
+- **A published course no longer appears twice** (owner, 21 Nov 2026: "when I publish a course it appears both as a published course and
+  an announcement"): the automatic section notices of 035 (`alert_space`, notices with `user_id` null and `kind` 'post') were read by
+  `annList` as public announcements. annList (Home feed, #news/ann) and Control → Announcements now leave out kind 'post'; those notices stay
+  in the bell and phone notifications only. annList reads 4× its limit before filtering so real announcements are not crowded out.
+  Test: scratchpad dup.js.

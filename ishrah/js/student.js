@@ -1490,7 +1490,9 @@
     return (await Promise.all(sets)).flat().sort(function (a, b) { return String(b.created_at).localeCompare(String(a.created_at)); }).slice(0, limit);
   }
   /* a suspended announcement is hidden from students (045_team_tools.sql) */
-  function annList(limit) { return sharedFeedRows('notices', { user_id: null }, limit || 60).then(function (rows) { return rows.filter(function (x) { return x.status !== 'suspended' || IS.can('notify', 'edit'); }); }); }
+  function annList(limit) { limit = limit || 60; return sharedFeedRows('notices', { user_id: null }, limit * 4).then(function (rows) { return rows.filter(function (x) { return x.kind !== 'post' && (x.status !== 'suspended' || IS.can('notify', 'edit')); }).slice(0, limit); }); }
+  /* notices with kind 'post' are the automatic «new course / new post in your section» notifications (035 alert_space): they belong in
+     the bell only, not in the feed or the announcements list, where they repeated the course or post itself (owner, 21 Nov 2026) */
   function newsList(limit) { return sharedFeedRows('news', { status: 'published' }, limit || 120); }
   function annRow(x) { return '<a class="annr" href="' + esc('#news/ann/' + x.id) + '"><span class="anni">' + ic('mega') + '</span><span class="annt"><b>' + esc(IS.noticeTitle(x)) + '</b>' + (x.body ? '<small>' + esc(x.body) + '</small>' : '') + '<em>' + ic('cal') + esc(IS.date(x.created_at)) + '</em></span>' + ic('pinned', 'annp') + '</a>'; }
   function newsCard(x) { return '<a class="ncard" href="#news/' + x.id + '"><span class="ncv">' + (x.cover ? '<img src="' + IS.U(x.cover) + '" alt="" loading="lazy">' : '<i>' + ic('news') + '</i>') + '<em class="ntag">' + esc(ntag(x.tag)) + '</em></span><b>' + esc(x.title) + '</b><small>' + ic('cal') + esc(IS.date(x.created_at)) + '</small></a>'; }
