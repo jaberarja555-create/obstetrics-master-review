@@ -624,8 +624,9 @@
       '<span class="mlc-on">' + IS.seen(l.id) + '</span>' +
       '<span class="mlc-rate">' + (n ? '<b>' + rate.toFixed(1) + '</b>' : '') + '<em>' + [1, 2, 3, 4, 5].map(function (i) { return '<u class="' + (i <= Math.round(rate) ? 'on' : '') + '">★</u>'; }).join('') + '</em>' + (n ? '<small>(' + N(n) + ')</small>' : '') + '</span>' +
       '<span class="mlc-cs">' + HI.layers.replace(G, 'currentColor') + '<b>' + N(nCourses) + '</b> ' + esc(A('كورسات', 'courses')) + '</span></div>' +
-      '<div class="mlc-main"><h3 dir="auto"><a href="#lecturer/' + esc(l.id) + '">' + IS.lecName(l.name) + '</a>' + (l.status === 'active' ? PI.check : '') + '</h3>' +
-      (l.title ? '<p class="mlc-t" dir="auto">' + esc(l.title) + '</p>' : '') +
+      /* name and title on one line (owner, 21 Nov 2026) */
+      '<div class="mlc-main"><div class="mlc-hd"><h3 dir="auto"><a href="#lecturer/' + esc(l.id) + '">' + IS.lecName(l.name) + '</a>' + (l.status === 'active' ? PI.check : '') + '</h3>' +
+      (l.title ? '<span class="mlc-t" dir="auto">' + HI.brief + esc(l.title) + '</span>' : '') + '</div>' +
       (bio ? '<p class="mlc-bio" dir="auto">' + esc(bio.slice(0, 160)) + '</p>' : '') +
       '<div class="mlc-meta"><span class="mlc-chips">' + (spec ? '<b lang="en">' + esc(spec.en) + '</b>' : '') + (section ? '<i></i><b class="s" lang="en">' + esc(section.id === 'special' ? 'International' : section.en) + '</b>' : '') + '</span>' +
         '<span class="mlc-fl">' + PI.users + '<span><b>' + nfmt(followers) + '</b><small>' + esc(A('متابعون', 'followers')) + '</small></span></span></div></div>' +

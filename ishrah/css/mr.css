@@ -1268,3 +1268,15 @@ html body .mra[data-pg="lecturers"] .lcard.join .btn{height:32px!important;font-
 .mlc-acts{grid-template-columns:1fr 1fr 34px!important}
 .mlc-acts>.mlc-b:nth-child(3){padding:0!important;width:34px}
 .mlc-acts>.mlc-b:nth-child(3) span{display:none}
+/* lecturer card, balanced (owner, 21 Nov 2026: name and title on one row, no empty spaces, balanced text) */
+.mlc{align-items:stretch!important}
+.mlc-side{width:88px!important;justify-content:center}
+.mlc-av{width:58px!important;height:58px!important}
+.mlc-main{gap:5px!important;justify-content:center!important}
+.mlc-hd{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.mlc h3{font-size:14.5px!important;gap:4px!important}
+.mlc-t{display:inline-flex!important;align-items:center;gap:4px;padding:1px 8px!important;border:0!important;border-radius:999px;background:#fbefcc;color:#7a5410!important;font-size:11px!important;font-weight:700;white-space:nowrap}
+.mlc-t svg.ic{width:12px!important;height:12px!important}
+.mlc-bio{font-size:12px!important;line-height:1.5!important;color:#38544e!important;margin:0!important}
+.mlc-meta{margin-top:0!important}
+.mlc-acts{margin-top:0!important}
