@@ -616,24 +616,29 @@
   HI.heart = svg('0 0 24 24', '<path d="M12 20s-7.5-4.6-9-9.3C1.9 7.3 4.2 4 7.6 4c2 0 3.4 1.1 4.4 2.6C13 5.1 14.4 4 16.4 4c3.4 0 5.7 3.3 4.6 6.7C19.5 15.4 12 20 12 20z"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"');
   HI.user = svg('0 0 24 24', '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"');
   var LECS = {};
+  HI.steth = svg('0 0 24 24', '<path d="M6 3v5a5 5 0 0 0 10 0V3"/><path d="M11 13v2a5 5 0 0 0 10 0v-1"/><circle cx="21" cy="12" r="2"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"');
+  HI.mark = svg('0 0 24 24', '<path d="M6 3.5h12v17l-6-4.2-6 4.2z"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"');
+  HI.send = svg('0 0 24 24', '<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"');
+  /* lecturer card, owner's picture (21 Nov 2026): picture with the online / last-activity badge; name, title pill; bio beside them;
+     a line of rating · section · speciality · courses · followers; buttons «عرض الملف» · «متابعة» · «طلب» · «مفضلة» */
   function mrLecCard(l, nCourses, followers, iFollow) {
     var r = IS.lecRating(l.id), n = r.rating_count, rate = n ? r.rating_points / n : 0, spec = IS.mySpec(), section = IS.mySection();
-    var fav = IS.ME && !!(IS.LS.get('fav-' + IS.ME.id, {})['t:' + l.id]);
+    var fav = IS.ME && !!(IS.LS.get('fav-' + IS.ME.id, {})['t:' + l.id]), mine = IS.ME && IS.ME.id === l.id;
     var bio = String(l.bio || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-    return '<article class="mlc" data-go="#lecturer/' + esc(l.id) + '"><div class="mlc-side"><a class="mlc-av" href="#lecturer/' + esc(l.id) + '">' + IS.av(l, 'xl', l.id) + '</a>' +
-      '<span class="mlc-on">' + IS.seen(l.id) + '</span>' +
-      '<span class="mlc-rate">' + (n ? '<b>' + rate.toFixed(1) + '</b>' : '') + '<em>' + [1, 2, 3, 4, 5].map(function (i) { return '<u class="' + (i <= Math.round(rate) ? 'on' : '') + '">★</u>'; }).join('') + '</em>' + (n ? '<small>(' + N(n) + ')</small>' : '') + '</span>' +
-      '<span class="mlc-cs">' + HI.layers.replace(G, 'currentColor') + '<b>' + N(nCourses) + '</b> ' + esc(A('كورسات', 'courses')) + '</span></div>' +
-      /* name and title on one line (owner, 21 Nov 2026) */
-      '<div class="mlc-main"><div class="mlc-hd"><h3 dir="auto"><a href="#lecturer/' + esc(l.id) + '">' + IS.lecName(l.name) + '</a>' + (l.status === 'active' ? PI.check : '') + '</h3>' +
-      (l.title ? '<span class="mlc-t" dir="auto">' + HI.brief + esc(l.title) + '</span>' : '') + '</div>' +
-      (bio ? '<p class="mlc-bio" dir="auto">' + esc(bio.slice(0, 160)) + '</p>' : '') +
-      '<div class="mlc-meta"><span class="mlc-chips">' + (spec ? '<b lang="en">' + esc(spec.en) + '</b>' : '') + (section ? '<i></i><b class="s" lang="en">' + esc(section.id === 'special' ? 'International' : section.en) + '</b>' : '') + '</span>' +
-        '<span class="mlc-fl">' + PI.users + '<span><b>' + nfmt(followers) + '</b><small>' + esc(A('متابعون', 'followers')) + '</small></span></span></div></div>' +
-      '<div class="mlc-acts"><a class="mlc-b gold" href="#lecturer/' + esc(l.id) + '">' + HI.user + '<span>' + esc(A('عرض الملف', 'View profile')) + '</span></a>' +
-        (IS.ME && IS.ME.id === l.id ? '<a class="mlc-b green" href="#studio">' + HI.layers.replace(G, 'currentColor') + '<span>' + esc(A('الاستوديو', 'Studio')) + '</span></a>' :
-          '<button type="button" class="mlc-b green' + (iFollow ? ' on' : '') + '" data-act="pffollow" data-id="' + esc(l.id) + '">' + (iFollow ? PI.tick : HI.userPlus) + '<span>' + esc(iFollow ? A('متابَع', 'Following') : A('متابعة', 'Follow')) + '</span></button>') +
-        '<button type="button" class="mlc-b" data-act="fav" data-k="t:' + esc(l.id) + '" aria-pressed="' + fav + '">' + HI.heart + '<span>' + esc(A('إعجاب', 'Like')) + '</span></button></div></article>';
+    return '<article class="mlx" data-go="#lecturer/' + esc(l.id) + '"><div class="mlx-top">' +
+      '<div class="mlx-pic"><a class="mlx-av" href="#lecturer/' + esc(l.id) + '">' + IS.av(l, 'xl', l.id) + '</a><span class="mlx-on">' + IS.seen(l.id) + '</span></div>' +
+      '<div class="mlx-id"><h3 dir="auto"><a href="#lecturer/' + esc(l.id) + '">' + IS.lecName(l.name) + '</a>' + (l.status === 'active' ? PI.check : '') + '</h3>' +
+        (l.title ? '<span class="mlx-t" dir="auto">' + HI.brief + '<b>' + esc(l.title) + '</b></span>' : '') + '</div>' +
+      (bio ? '<p class="mlx-bio" dir="auto">' + esc(bio.slice(0, 140)) + '</p>' : '') + '</div>' +
+      '<div class="mlx-meta"><span class="mlx-rate">' + (n ? '<small>(' + N(n) + ')</small>' : '') + '<em>' + [1, 2, 3, 4, 5].map(function (i) { return '<u class="' + (i <= Math.round(rate) ? 'on' : '') + '">★</u>'; }).join('') + '</em>' + (n ? '<b>' + rate.toFixed(1) + '</b>' : '') + '</span>' +
+        (section ? '<b class="mlx-c s" lang="en">' + esc(section.id === 'special' ? 'International' : section.en) + '</b>' : '') + (spec ? '<i class="mlx-sl"></i><b class="mlx-c" lang="en">' + esc(spec.en) + '</b>' : '') +
+        '<i class="mlx-sl"></i><span class="mlx-n">' + HI.layers.replace(G, 'currentColor') + '<b>' + N(nCourses) + '</b><small>' + esc(A('كورسات', 'courses')) + '</small></span>' +
+        '<i class="mlx-sl"></i><span class="mlx-n">' + PI.users + '<b>' + nfmt(followers) + '</b><small>' + esc(A('متابع', 'followers')) + '</small></span></div>' +
+      '<div class="mlx-acts"><a class="mlx-b gold" href="#lecturer/' + esc(l.id) + '">' + HI.user + '<span>' + esc(A('عرض الملف', 'View profile')) + '</span></a>' +
+        (mine ? '<a class="mlx-b green" href="#studio">' + HI.layers.replace(G, 'currentColor') + '<span>' + esc(A('الاستوديو', 'Studio')) + '</span></a>' :
+          '<button type="button" class="mlx-b green' + (iFollow ? ' on' : '') + '" data-act="pffollow" data-id="' + esc(l.id) + '">' + (iFollow ? PI.tick : HI.userPlus) + '<span>' + esc(iFollow ? A('متابَع', 'Following') : A('متابعة', 'Follow')) + '</span></button>') +
+        (mine ? '' : '<a class="mlx-b" href="#course-requests/new/' + esc(l.id) + '">' + HI.send + '<span>' + esc(A('طلب', 'Request')) + '</span></a>') +
+        '<button type="button" class="mlx-b fav" data-act="fav" data-k="t:' + esc(l.id) + '" aria-pressed="' + fav + '">' + HI.mark + '<span>' + esc(A('مفضلة', 'Saved')) + '</span></button></div></article>';
   }
   var lecs0 = IS.pageOf && IS.pageOf('lecturers');
   if (lecs0) IS.page('lecturers', async function (arg) {
@@ -649,7 +654,7 @@
     }).join('');
     var t = document.createElement('template'); t.innerHTML = inner;
     var g = t.content.querySelector('.grid.g4'), join = g && g.querySelector('.lcard.join');
-    if (g) { g.className = 'mlc-list'; g.innerHTML = cards + (join ? join.outerHTML : ''); }
+    if (g) { g.className = 'mlc-list mlx-list'; g.innerHTML = cards + (join ? join.outerHTML : ''); }
     return t.innerHTML;
   }, lecs0.o);
   /* lecturers are rated by the students of their courses: the button lists his courses to rate from */

@@ -1070,3 +1070,6 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - **Lecturers list in the owner's picture** (21 Nov 2026): mr.js wraps `#lecturers`: a `.mlc` card per lecturer — picture panel (gold ring,
   online badge, stars and rating count, courses) beside name + verified, title, two lines of bio, speciality | section, followers; buttons
   «عرض الملف» · «متابعة» (follows) · «إعجاب» (favourite).
+- **Lecturer card, owner's third picture** (21 Nov 2026; `.mlx`, replaces `.mlc`): picture in a gold ring with a small online / last-activity
+  badge, name + verified with the title as a green pill, the bio beside them after a thin line; one line: rating · section · speciality ·
+  courses · followers; buttons «عرض الملف» · «متابعة» · «طلب» (course or lecture request to this lecturer) · «مفضلة» (bookmark icon).
