@@ -49,7 +49,8 @@
   };
 
   /* ---- upload form: Free / Paid, price and tags ---- */
-  function sharingRules(series) {
+  function sharingRules(series, f) {
+    f = f || {}; var org = f.rights_origin || '';
     return '<fieldset class="sellf"><legend>' + esc(A('قواعد مشاركة الملفات', 'File sharing rules')) + '</legend>' +
       '<ul class="library-sharing-rules"><li>' + esc(A('عملك الخاص: انشره مجانًا، أو بِعه إذا لم يكن متاحًا مجانًا في مكان آخر.',
         'Your own work: share it for free, or sell it if it is not already free elsewhere.')) + '</li><li>' +
@@ -60,18 +61,18 @@
       [['original', 'pen', A('عملي الخاص', 'My own work'), A('أنا مؤلفه. أنشره مجانًا أو أبيعه.', 'I created it. Free or for sale.')],
        ['permission', 'users', A('عمل شخص آخر بإذنه', 'Someone else\u2019s work, with permission'), A('ينشر مجانًا مع ذكر صاحبه.', 'Shared free, crediting the creator.')],
        ['free_source', 'open', A('مادة مجانية مرخّصة', 'Free licensed material'), A('ترخيصها يسمح بإعادة النشر. ينشر مجانًا مع ذكر المصدر.', 'Its licence allows sharing. Free, with the source.')]]
-        .map(function (o) { return '<label class="rorg-o"><input type="radio" name="rights_origin" value="' + o[0] + '" required><span class="rorg-i">' + ic(o[1]) + '</span><span class="rorg-t"><b>' + esc(o[2]) + '</b><small>' + esc(o[3]) + '</small></span></label>'; }).join('') +
-      '</div><label class="fl" data-rights-source hidden><span>' + esc(A('اسم صاحب العمل، ورابط المصدر أو تفاصيل الإذن', 'Creator\u2019s name, and the source link or the permission details')) +
-      '</span><textarea name="rights_source" rows="2" maxlength="500" disabled></textarea></label>' +
-      '<label class="chk"><input type="checkbox" name="rights_confirmed" value="yes" required><span>' +
+        .map(function (o) { return '<label class="rorg-o"><input type="radio" name="rights_origin" value="' + o[0] + '" required' + (org === o[0] ? ' checked' : '') + '><span class="rorg-i">' + ic(o[1]) + '</span><span class="rorg-t"><b>' + esc(o[2]) + '</b><small>' + esc(o[3]) + '</small></span></label>'; }).join('') +
+      '</div><label class="fl" data-rights-source' + (org && org !== 'original' ? '' : ' hidden') + '><span>' + esc(A('اسم صاحب العمل، ورابط المصدر أو تفاصيل الإذن', 'Creator\u2019s name, and the source link or the permission details')) +
+      '</span><textarea name="rights_source" rows="2" maxlength="500"' + (org && org !== 'original' ? ' required' : ' disabled') + '>' + esc(f.rights_source || '') + '</textarea></label>' +
+      '<label class="chk"><input type="checkbox" name="rights_confirmed" value="yes" required' + (f.rights_confirmed ? ' checked' : '') + '><span>' +
       esc(A('أؤكد أن لي حق مشاركة كل ما في هذا الرفع، وأنني اتبعت القواعد أعلاه.',
         'I confirm I have the right to share every file and image in this upload and have followed the rules above.')) + '</span></label></fieldset>';
   }
   IS.sellFields = function (f, series, fixedPrice) {
     f = f || {}; var isPaid = paid(f);
-    return sharingRules(series) + (fixedPrice ? '' : '<fieldset class="sellf"><legend>' + esc(series ? A('سعر السلسلة', 'Price of the series') : A('السعر', 'Price')) + '</legend>' +
+    return sharingRules(series, f) + (fixedPrice ? '' : '<fieldset class="sellf"><legend>' + esc(series ? A('سعر السلسلة', 'Price of the series') : A('السعر', 'Price')) + '</legend>' +
       '<div class="seg2" role="radiogroup"><label><input type="radio" name="sale" value="free"' + (isPaid ? '' : ' checked') + '><span>' + ic('open') + esc(A('مجاني', 'Free')) + '</span></label>' +
-      '<label><input type="radio" name="sale" value="paid" disabled' + (isPaid ? ' checked' : '') + '><span>' + ic('tag') + esc(A('مدفوع', 'Paid')) + '</span></label></div>' +
+      '<label><input type="radio" name="sale" value="paid"' + (f.rights_origin === 'original' ? '' : ' disabled') + (isPaid ? ' checked' : '') + '><span>' + ic('tag') + esc(A('مدفوع', 'Paid')) + '</span></label></div>' +
       '<div class="sellp"' + (isPaid ? '' : ' hidden') + '><label class="fl"><span>' + esc(A('السعر بالجنيه السوداني', 'Price in SDG')) + ' *</span><input name="price" type="number" inputmode="decimal" dir="ltr" min="1" step="1" max="9999999" disabled value="' +
       esc(isPaid ? String(+f.price) : '') + '"></label><p class="note">' + ic('money') + '<span>' + esc(A('تحصل على ', 'You receive ') + share() + A('٪ من كل عملية بيع بعد تأكيد الدفع، وتطلب تحويل أرباحك إلى حسابك في بنكك من «مبيعاتي».',
         '% of every sale once the payment is confirmed, and you can ask for your earnings to be sent to your Bankak account from “My sales”.')) +
@@ -79,6 +80,14 @@
       '<label class="fl"><span>' + esc(A('الوسوم (حتى 8، افصل بينها بفاصلة)', 'Tags (up to 8, separated by commas)')) + '</span><input name="tags" maxlength="200" dir="auto" value="' +
       esc((f.tags || []).join('، ')) + '" placeholder="' + esc(A('مثال: قلب، ملخص، أسئلة', 'e.g. cardiology, summary, MCQs')) + '"></label>';
   };
+  /* a required field that is empty: say which one and bring it into view (the browser's own bubble is easy to miss inside a sheet) */
+  var lastInv = 0;
+  document.addEventListener('invalid', function (e) {
+    var el = e.target; if (Date.now() - lastInv < 800) return; lastInv = Date.now();
+    var lab = el.closest('.rorg') ? (el.closest('.rorg').querySelector('.rorg-h') || {}).textContent : (el.closest('label') ? el.closest('label').textContent : '');
+    IS.toast(A('أكمل هذا الحقل: ', 'Complete this field: ') + String(lab || '').replace(/\s+/g, ' ').trim().slice(0, 60), true);
+    setTimeout(function () { (el.closest('.rorg, label') || el).scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 50);
+  }, true);
   document.addEventListener('change', function (event) {
     var target = event.target, form = target.form;
     if (!form || !target.matches('[name=rights_origin], [name=sale]')) return;

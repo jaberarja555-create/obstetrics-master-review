@@ -747,8 +747,10 @@
       if (old) await DB.del('library_file_revisions', old.id);
       await DB.ins('library_file_revisions', { file_id: file.id, owner_id: file.owner_id, for_series: !!series, changes: proposed, status: 'pending' });
     }
+    if (DB.forget) DB.forget();
+    var done = IS.applyOwnRevision ? await IS.applyOwnRevision(file.id, series).catch(function () { return false; }) : false;
     IS.closeSheet();
-    IS.toast(A('أُرسل التعديل للمراجعة', 'Edit sent for review'));
+    IS.toast(done ? A('حُفظ التعديل ونُشر', 'Edit saved and published') : A('أُرسل التعديل للمراجعة', 'Edit sent for review'));
     IS.refresh();
   }
   IS.ACT['edit-library-upload'] = async function (button) {

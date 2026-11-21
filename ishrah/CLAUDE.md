@@ -1388,3 +1388,9 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
 - **Pictures fill their frames (owner, 21 Nov 2026: «خلّي الصور والخلفيات تكون مناسبة مع حجم الإطارات»):** `IS.poster` pictures (posts,
   course requests, courses, events, news; feed, cards and pages) now cover their box (`.pstf` object-fit cover); the blurred copy behind
   (`.pstb`) is hidden. Book covers keep their 3 : 4 book-shaped frame.
+- **Series/file edit button and direct edits for the team (owner, 21 Nov 2026: «زر التعديلات غير شغال، وخلّي الأدمن يقدر يعدّل من دون ما يرسل
+  للإدارة»):** the edit forms did not pre-fill the content origin and the rights confirmation (both required), so the browser silently refused
+  to send them; `sellFields(f)` now starts with the saved origin, source, confirmation and the Paid choice, and any empty required field shows
+  a toast and scrolls into view (`invalid` listener, sell.js). A person who may approve library files (`library` approve) gets «حفظ التعديلات»:
+  the change is submitted and approved at once through the same review step (`IS.applyOwnRevision`, control.js; `decide-library-edit` with
+  `auto`), so every part of a series is updated; others still send for review. Test: scratchpad sed2.js.

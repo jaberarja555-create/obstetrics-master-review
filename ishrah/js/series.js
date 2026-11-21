@@ -368,7 +368,7 @@
     var face = IS.libraryCover(seriesFace(Object.assign({}, lead, { series_cover: ED.cover })));
     var box = IS.sheet(esc(A('تعديل السلسلة', 'Edit series')), '<form class="form sedit" data-form="sedit">' +
       (rev && rev.status !== 'approved' ? '<p class="note">' + IS.status(rev.status) + (rev.review_note ? ' ' + esc(rev.review_note) : '') + '</p>' : '') +
-      '<p class="note">' + ic('shield') + '<span>' + esc(A('تُرسل التعديلات إلى فريق المحتوى، وتبقى السلسلة الحالية ظاهرة حتى الموافقة.', 'Your changes go to the content team; the current series stays visible until they are approved.')) + '</span></p>' +
+      (IS.can('library', 'approve') ? '' : '<p class="note">' + ic('shield') + '<span>' + esc(A('تُرسل التعديلات إلى فريق المحتوى، وتبقى السلسلة الحالية ظاهرة حتى الموافقة.', 'Your changes go to the content team; the current series stays visible until they are approved.')) + '</span></p>') +
       '<div class="sed-cover"><span class="sed-face" id="sedface">' + face + '</span><div><b>' + esc(A('غلاف السلسلة', 'Series cover')) + '</b>' +
         '<small class="mut">' + esc(A('صورة واحدة للسلسلة كلها تظهر في المكتبة والصفحة الرئيسية.', 'One picture for the whole series, shown in the library and on Home.')) + '</small>' +
         '<label class="btn ghost sm">' + ic('image') + esc(A('اختر صورة', 'Choose a picture')) + '<input type="file" name="scover" accept="image/jpeg,image/png,image/webp" hidden></label>' +
@@ -381,7 +381,7 @@
       '<fieldset class="sellf"><legend>' + esc(A('أجزاء السلسلة', 'Parts of the series')) + '</legend><small class="mut">' +
         esc(A('غيّر الأسماء والترتيب، أزل جزءًا، أو أضف أجزاء جديدة.', 'Rename, reorder, remove a part or add new parts.')) + '</small><ol class="sedparts" id="sedparts"></ol>' +
         '<label class="btn ghost sm wide">' + ic('upload') + esc(A('أضف أجزاء جديدة', 'Add new parts')) + '<input type="file" name="sadd" multiple accept="' + IS.libraryFileAccept + '" hidden></label></fieldset>' +
-      '<p class="sprog mut" id="sedprog" hidden></p><button class="btn pri wide">' + ic('send') + esc(A('إرسال التعديلات للمراجعة', 'Send the changes for review')) + '</button></form>');
+      '<p class="sprog mut" id="sedprog" hidden></p><button class="btn pri wide">' + (IS.can('library', 'approve') ? ic('check') + esc(A('حفظ التعديلات', 'Save the changes')) : ic('send') + esc(A('إرسال التعديلات للمراجعة', 'Send the changes for review'))) + '</button></form>');
     drawEditParts(box.querySelector('form'));
   };
   document.addEventListener('input', function (e) { if (ED && e.target.matches('.sedt')) ED.parts[+e.target.dataset.i].title = e.target.value; });
@@ -433,8 +433,10 @@
         if (!DB.live && row.status === 'published') row.published_at = new Date().toISOString();
         await DB.ins('files', row);
       }
+      if (DB.forget) DB.forget();
+      var done = IS.applyOwnRevision ? await IS.applyOwnRevision(lead.id, true).catch(function (e) { console.warn(e); return false; }) : false;
       ED = null; IS.closeSheet();
-      IS.toast(A('أُرسلت التعديلات للمراجعة. ستصلك رسالة عند اعتمادها.', 'Your changes were sent for review. You will be notified when they are approved.'));
+      IS.toast(done ? A('حُفظت التعديلات ونُشرت', 'Changes saved and published') : A('أُرسلت التعديلات للمراجعة. ستصلك رسالة عند اعتمادها.', 'Your changes were sent for review. You will be notified when they are approved.'));
       IS.refresh();
     } catch (error) {
       IS.toast(A('تعذّر الحفظ: ', 'Could not save: ') + (error.message || ''), true);

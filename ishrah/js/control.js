@@ -503,13 +503,21 @@
       esc(A('اعتمد التعديل', 'Approve edit')) + '</button><button class="btn ghost bad" data-act="decide-library-edit" data-id="' +
       esc(revision.id) + '" data-publish="0">' + esc(A('أعد التعديل إلى المالك', 'Return edit to uploader')) + '</button></div>');
   };
+  /* a library editor's own change is approved at once, through the same review step (applies every part of a series) */
+  IS.applyOwnRevision = async function (fileId, series) {
+    if (!IS.can('library', 'approve')) return false;
+    var rev = (await DB.q('library_file_revisions', { eq: { file_id: fileId } })).find(function (r) { return Boolean(r.for_series) === !!series && r.status === 'pending'; });
+    if (!rev) return false;
+    await IS.ACT['decide-library-edit']({ dataset: { id: rev.id, publish: '1', auto: '1' } });
+    return true;
+  };
   IS.ACT['decide-library-edit'] = async function (button) {
     if (!IS.can('library', 'approve')) return;
     var revision = await DB.one('library_file_revisions', button.dataset.id);
     if (!revision || revision.status !== 'pending') return;
     var file = await DB.one('files', revision.file_id), publish = button.dataset.publish === '1', note = '';
     if (!file) return;
-    if (publish && !revision.for_series && +file.price > 0 && !(await IS.confirm(A('هل تحققت من أن التعديل يحافظ على قواعد النشر المدفوع؟',
+    if (publish && !button.dataset.auto && !revision.for_series && +file.price > 0 && !(await IS.confirm(A('هل تحققت من أن التعديل يحافظ على قواعد النشر المدفوع؟',
       'Have you verified that the edit follows the paid-content rules?')))) return;
     if (!publish) {
       note = await IS.ask(A('أعد التعديل إلى المالك', 'Return edit to uploader'), A('اذكر المطلوب تعديله', 'Explain what needs to change'), '', { area: 1 });
