@@ -151,7 +151,10 @@
         return '<a class="mh-b" href="#' + (onHome ? 'pick-section' : 'home') + '" aria-label="' + esc(onHome ? A('الأقسام', 'Sections') : A('الرئيسية', 'Home')) + '">' + HI.home + '</a>'; })() +
       /* search is the students' search: not offered inside the studio and control (it took you out of them, owner 21 Nov 2026) */
       (IS.area === 'control' || IS.area === 'studio' ? '' : '<a class="mh-b ghost" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + HI.search + '</a>') +
-      '<button type="button" class="mh-b ghost" data-act="mrfeat" aria-label="' + esc(A('المزايا', 'Features')) + '">' + HI.grid + '</button></div>' +
+      '<button type="button" class="mh-b ghost" data-act="mrfeat" aria-label="' + esc(A('المزايا', 'Features')) + '">' + HI.grid + '</button>' +
+      /* one tap to the admin (owner, 21 Nov 2026: «لوحة التحكم لا تظهر… خلّي الوصول للتحكم ساهل»): team members see «الإدارة», lecturers «الاستوديو» */
+      (IS.area === 'student' && m ? (IS.team && IS.team() ? '<a class="mh-area" href="#control" aria-label="' + esc(A('لوحة التحكم', 'Control panel')) + '">' + ic('crown') + '<span>' + esc(A('الإدارة', 'Admin')) + '</span></a>' :
+        IS.LEC ? '<a class="mh-area" href="#studio" aria-label="' + esc(A('استوديو المحاضر', 'Lecturer studio')) + '">' + ic('studio') + '<span>' + esc(A('الاستوديو', 'Studio')) + '</span></a>' : '') : '') + '</div>' +
       '<a class="mh-logo" href="#pick-section"><img src="' + IS.U('img/mr/logo-smra.webp') + '" alt="' + esc(IS.brandName()) + '" width="1000" height="359"></a>' +
       '<div class="mh-side end"><button type="button" class="mh-tog" data-act="theme" aria-label="' + esc(A('الوضع النهاري أو الليلي', 'Day or night')) + '"><i class="t-l">' + I.sun + '</i><i class="t-d">' + I.moon + '</i><i class="t-e">' + I.eye + '</i></button>' +
       (m ? '<a class="mh-b" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + HI.bell + '<i class="mr-dot" hidden></i></a>' : '') + me + '</div></header>';

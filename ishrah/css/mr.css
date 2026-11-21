@@ -1976,3 +1976,14 @@ html body .mra .sjtiles{grid-template-columns:repeat(auto-fill,minmax(min(100%,2
 .mr-areas{display:flex;gap:8px;margin:0 0 12px;flex-wrap:wrap}
 .mr-areas a{flex:1 1 140px;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 12px;border-radius:14px;background:linear-gradient(180deg,#14806d,#06463b);color:#fff;text-decoration:none;font-weight:700;font-size:13.5px}
 .mr-areas a svg{width:18px;height:18px;color:#f6dc8e}
+/* top-bar shortcut to the admin / studio */
+.mh-area{display:inline-flex;align-items:center;gap:5px;height:34px;padding:0 11px;border-radius:999px;background:linear-gradient(180deg,#f8dc85,#d9a93e);color:#3d2a05;text-decoration:none;font-weight:800;font-size:12.5px;white-space:nowrap;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.mh-area svg{width:16px;height:16px}
+@media (max-width:400px){.mh-area{padding:0 9px;height:32px}.mh-area span{display:none}}
+/* with the admin/studio shortcut the phone top bar is a row and the logo takes only the room left between the buttons */
+@media (max-width:760px){
+  html body .mh-top:has(.mh-area){display:flex!important;align-items:center}
+  html body .mh-top:has(.mh-area) .mh-side{flex:none}
+  html body .mh-top:has(.mh-area) .mh-logo{flex:1 1 auto;min-width:0;display:flex;justify-content:center}
+  html body .mh-top:has(.mh-area) .mh-logo img{width:100%!important;max-width:150px!important;height:auto!important;max-height:40px}
+}

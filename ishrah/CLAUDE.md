@@ -1284,3 +1284,7 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   the top-bar search is not shown in the studio and control (it opened the students' search and left the area); notifications keep the
   current area (`area: 'keep'`), so the bell no longer drops you into the student app; the Features sheet has «انتقل إلى …» buttons for
   the other areas (lecturers and team); the More sheet no longer lists the current area or a second «الإعدادات».
+- **One tap to the admin** (owner, 21 Nov 2026: the manager could not find Control in «المزيد»; «خلّي الوصول للتحكم ساهل»): in the student
+  area the top bar (mr.js `htop`) has a gold «👑 الإدارة» button for team members (→ #control) or «الاستوديو» for lecturers (→ #studio);
+  under 400 px only the crown shows. With it, the phone top bar becomes a row and the logo takes the room left (max 150 px), so nothing
+  overlaps (checked at 360 / 393 / 412 / 1366, scratchpad adm.js). The Features sheet also has «انتقل إلى التحكم / الاستوديو».
