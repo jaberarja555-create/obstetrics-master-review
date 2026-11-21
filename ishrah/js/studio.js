@@ -394,7 +394,17 @@
           await DB.upd('lessons', x.id, { minutes: Math.round(secs / 60) || x.minutes || 0 }); await courseTotals(c.id); IS.toast(A('رُفع التسجيل', 'Recording uploaded')); IS.refresh(); }
         catch (e) { bar.hidden = true; IS.toast(e.message === 'nostore' ? A('تخزين التسجيلات لم يُفعَّل بعد على المنصة (Cloudflare R2).', 'Audio storage is not switched on yet (Cloudflare R2).') : e.message === 'toobig' ? A('الملف أكبر من 95 MB.', 'The file is over 95 MB.') : e.message === 'notaudio' ? A('نوع الملف غير مدعوم. استخدم MP3 أو M4A أو OGG.', 'This file type is not supported. Use MP3, M4A or OGG.') : A('تعذّر رفع التسجيل. تحقق من الاتصال وحاول مرة أخرى.', 'The recording could not be uploaded. Check the connection and try again.'), true); }
       }
-      var ap = $('#aprev'); if (ap) { var au = await DB.audioPlay(x).catch(function () { return null; }); if (au) ap.innerHTML = '<audio controls controlsList="nodownload" preload="metadata" src="' + esc(au.src) + '"></audio>'; }
+      var ap = $('#aprev'); if (ap) { var au = await DB.audioPlay(x).catch(function () { return null; }); if (au) {
+        ap.innerHTML = '<audio controls controlsList="nodownload" preload="metadata" src="' + esc(au.src) + '"></audio><p class="asz mut" id="asz"></p>';
+        /* the size of the uploaded file (owner, 21 Nov 2026: "how do I know the file size I uploaded"): one byte asked, the total read from Content-Range */
+        fetch(au.src, { headers: { Range: 'bytes=0-0' } }).then(function (r) {
+          var t = +((r.headers.get('content-range') || '').split('/')[1] || 0) || (r.status === 200 ? +r.headers.get('content-length') || 0 : 0);
+          try { r.body && r.body.cancel && r.body.cancel(); } catch (e) {}
+          var el = $('#asz'); if (!el || !t) return;
+          var mb = t / 1048576, sz = mb >= 1 ? (Math.round(mb * 10) / 10) + ' MB' : Math.max(1, Math.round(t / 1024)) + ' KB';
+          el.innerHTML = ic('file') + '<span>' + esc(A('حجم الملف المرفوع: ', 'Uploaded file size: ')) + '<b dir="ltr">' + sz + '</b></span>';
+        }).catch(function () {});
+      } }
       var pv = $('#vprev'); if (pv) { var v = await DB.videoPlay(x).catch(function () { return null; }); if (v) pv.innerHTML = v.kind === 'iframe' ? '<iframe src="' + esc(v.src) + '" allowfullscreen></iframe>' : '<video controls controlsList="nodownload" src="' + esc(v.src) + '"></video>'; else pv.remove(); }
     };
     return h;

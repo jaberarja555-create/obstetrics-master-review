@@ -1858,3 +1858,7 @@ html body .mrs2 .mh-old .tr.crow .btn{min-height:30px!important;padding:2px 12px
 html body .mrc2 .cnavb a span{white-space:nowrap;overflow:visible!important;text-overflow:clip!important;font-size:11px!important}
 html body .mrs2 .mh-old :is(.tiles,.ctiles)>:last-child:nth-child(3n+1){grid-column:1/-1}
 html body .mrs2 .mh-old .tiles .ico{display:block}
+
+.asz{display:flex;align-items:center;gap:6px;margin:6px 0 0;font-size:12.5px}
+.asz:empty{display:none}
+.asz .ico{width:15px;height:15px}

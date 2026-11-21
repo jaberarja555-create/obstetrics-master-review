@@ -1221,3 +1221,4 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   remembers it (`ish-lastcourse`); `#studio-share` with no course picks that one, else the newest draft (was: the first course in the list),
   and shows «تأكد من اختيار الكورس والقسم الصحيحين». Curriculum: each section and each lesson has a move button (route icon) to move it to
   another of the lecturer's courses (`movesec`, `moveles`; course totals updated on both sides).
+- **Size of an uploaded recording (owner, 21 Nov 2026: "how do I know the file size I uploaded"):** the studio's audio lesson editor shows «حجم الملف المرفوع: X MB» under the player (`#asz`): one byte is asked from the signed R2 address (`Range: bytes=0-0`) and the total is read from Content-Range (Content-Length when the server ignores Range). The size is not stored in the database.
