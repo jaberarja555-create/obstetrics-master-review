@@ -246,7 +246,7 @@
     course: ['الكورسات', 'Courses', 'layers'], announcement: ['الإعلانات', 'Announcements', 'mega'],
     request: ['الطلبات', 'Requests', 'chat'], event: ['الفعاليات', 'Events', 'cal'],
     news: ['الأخبار', 'News', 'news'], discussion: ['النقاشات', 'Discussions', 'group'],
-    question: ['الأسئلة', 'Questions', 'help'], course_preview: ['معاينات الكورسات', 'Course previews', 'video'],
+    question: ['الأسئلة', 'Questions', 'help'], post: ['منشور', 'Post', 'pen'], course_preview: ['معاينات الكورسات', 'Course previews', 'video'],
     library: ['المكتبة', 'Library', 'open']
   };
   var feedSettings = {};
@@ -340,7 +340,8 @@
     var target = isPost ? 'post/' : { course: 'course/', announcement: 'news/ann/', request: 'course-request/', event: 'event/', news: 'news/', library: 'file/' }[type];
     var shareRoute = (isPost && type !== 'announcement') || type === 'request' || type === 'news' ? target + row.id : '';
     var summary = row.subtitle || row.details || row.body || (row.about || '').replace(/<br\s*\/?\s*>/g, '\n');
-    var title = type === 'announcement' && !isPost ? IS.noticeTitle(row) : row.title || A('نقاش', 'Discussion');
+    var title = type === 'announcement' && !isPost ? IS.noticeTitle(row) : row.title || (type === 'post' ? '' : A('نقاش', 'Discussion'));
+    var plain = type === 'post' && !row.title;
     var defaultArt = { course: 'courses', event: 'events', news: 'news', request: 'requests', announcement: 'notifications' };
     var media = row.preview_image || row.cover || (!isPost && defaultArt[type] ? 'img/collection/' + defaultArt[type] + '.webp' : '');
     var libraryKind = library && IS.libraryKind(row.kind);
@@ -351,14 +352,14 @@
       type === 'request' ? '<bdi dir="ltr">' + esc(((row.payment_required ? row.paid_count : row.joined_count) || 0) + (row.goal ? ' / ' + row.goal : '')) + '</bdi> ' + esc(A('منضمّون', 'joined')) :
       type === 'course' ? [courseFormat(row), row.starts_at && courseSchedule(row)].filter(Boolean).join(' · ') : '';
     row._price = library || type === 'course' ? Number(row.price) || 0 : isPost && row.linked_price != null ? Number(row.linked_price) || 0 : null;
-    return '<article class="box feed-card feed-' + type + (isPost ? ' feed-post' : '') + '" data-kind="' + type + '" data-go="#' + target + esc(row.id) + '"><header class="feed-card-header"><span>' + ic(label[2]) +
+    return '<article class="box feed-card feed-' + type + (isPost ? ' feed-post' : '') + (type === 'post' ? ' feed-fb' : '') + '" data-kind="' + type + '" data-go="#' + target + esc(row.id) + '"><header class="feed-card-header"><span>' + ic(label[2]) +
       esc(A(label[0], label[1])) + '</span>' + (when ? '<time datetime="' + esc(when) + '">' + esc(IS.ago(when)) + '</time>' : '') +
       (IS.ownBtns ? IS.ownBtns(isPost ? 'post' : library ? 'file' : type === 'announcement' ? 'notice' : type, row) : '') +
       (IS.manageBtn ? IS.manageBtn(isPost ? 'post' : library ? 'file' : type === 'announcement' ? 'notice' : type, row.id) : '') + '</header>' +
       '<div class="feed-card-content">' + (library || media ? '<a class="feed-image" href="#' + target + esc(row.id) + '" aria-label="' + esc(title) + '">' +
         (library ? IS.libraryCover(row) : IS.poster(media)) + '</a>' : '') +
-      '<div><h3 dir="auto"><a href="#' + target + esc(row.id) + '">' + esc(title) + '</a></h3>' +
-      (summary ? '<p class="feed-summary" dir="auto">' + esc(summary.slice(0, 280)) + '</p>' : '') +
+      '<div>' + (plain ? '' : '<h3 dir="auto"><a href="#' + target + esc(row.id) + '">' + esc(title) + '</a></h3>') +
+      (summary ? '<p class="feed-summary' + (plain ? ' fbtext' : '') + '" dir="auto">' + esc(summary.slice(0, plain ? 600 : 280)) + (plain && summary.length > 600 ? '… <a class="fbmore" href="#' + target + esc(row.id) + '">' + esc(A('عرض المزيد', 'See more')) + '</a>' : '') + '</p>' : '') +
       (details ? '<p class="feed-detail">' + details + '</p>' : '') +
       (type === 'course' ? '<div class="row library-feed-actions"><a class="btn ghost sm" href="#' + target + esc(row.id) + '">' + ic('open') + esc(A('عرض الكورس', 'View course')) + '</a></div>' : '') +
       (library ? '<div class="row library-feed-actions">' + (IS.fileOpenable(row) ? '<a class="btn ghost sm" href="#file/' + esc(row.id) + '/read">' + ic('open') +
@@ -403,29 +404,43 @@
   IS.ACT.setspec = function (b) { var spec = IS.spec(b.getAttribute('data-v')); if (!spec) return; IS.setSpec(spec.id); IS.go('pick-section'); };
 
   /* ========== SETTINGS ========== */
+  /* Settings, compact design (owner, 21 Nov 2026: "fully reorganised with nice small buttons, text and colours"):
+     rows with a small icon and a segmented switch; colours as dots; account and help as short list rows */
   IS.page('settings', async function () {
-    var th = IS.LS.get('theme', 'light'), fs = IS.LS.get('fs', 'n') === 'x' ? 'l' : IS.LS.get('fs', 'n'), m = me();
-    function opt(act, v, cur, icon, ar, en, sub) { return '<button type="button" class="sopt' + (v === cur ? ' on' : '') + '" data-act="' + act + '" data-v="' + v + '" aria-pressed="' + (v === cur) + '">' + ic(icon) + '<b>' + esc(A(ar, en)) + '</b>' + (sub ? '<small>' + esc(sub) + '</small>' : '') + '</button>'; }
-    function link(href, icon, ar, en, sub) { return '<a class="li" href="' + href + '">' + ic(icon) + '<span><b>' + esc(A(ar, en)) + '</b>' + (sub ? '<small>' + esc(sub) + '</small>' : '') + '</span>' + ic('chev', 'fl') + '</a>'; }
-    return IS.banner(IS.T('الإعدادات', 'Settings'), esc(A('اللغة والمظهر وحسابك في مكان واحد.', 'Language, appearance and your account in one place.')), 'gear', '', 'gold') +
-      '<div class="setg">' + (IS.mySpec() ? '<section class="box"><h2>' + ic('grid') + IS.T('تخصصك', 'Your speciality') + '</h2><a class="myspec big" href="#pick"' + (IS.mySpec().img ? ' style="--sp:url(' + IS.U(IS.mySpec().img) + ')"' : '') + '><span class="msi">' + ic(IS.mySpec().icon) + '</span><span class="msn"><b lang="en">' + esc(IS.mySpec().en) + '</b></span><em>' + esc(A('تغيير التخصص', 'Change speciality')) + '</em></a><a class="link" href="#pick-section">' + ic('layers') + esc(A('تغيير القسم', 'Change section')) + '</a><p class="mut">' + esc(A('اختر تخصصك ثم القسم لعرض كورساته ومحاضريه.', 'Choose a speciality, then a section to see its courses and lecturers.')) + '</p></section>' : '') + '<div class="setc"><section class="box"><h2>' + ic('globe') + IS.T('اللغة', 'Language') + '</h2><div class="sopts">' + opt('setlang', 'ar', IS.lang, 'globe', 'العربية', 'العربية', 'Arabic') + opt('setlang', 'en', IS.lang, 'globe', 'English', 'English', 'الإنجليزية') + '</div>' +
-      '</section>' +
-      '<section class="box"><h2>' + ic('sun') + IS.T('المظهر', 'Appearance') + '</h2><div class="sopts">' + opt('settheme', 'light', th, 'sun', 'نهاري', 'Light') + opt('settheme', 'dark', th, 'moon', 'ليلي', 'Dark') + opt('settheme', 'eye', th, 'eye', 'راحة العين', 'Eye comfort', A('ألوان دافئة تخفف الضوء الأزرق', 'Warm colours, less blue light')) + opt('settheme', 'auto', th, 'gear', 'تلقائي', 'Automatic', A('حسب إعدادات الجهاز', 'Follows the device')) + '</div>' +
-      '<h3 class="sub">' + esc(A('لون التطبيق', 'App colour')) + '</h3><div class="pals" role="radiogroup">' + IS.PALS.map(function (p) { var on = p[0] === IS.LS.get('pal', 'blue');
-        return '<button type="button" class="pal' + (on ? ' on' : '') + '" role="radio" aria-checked="' + on + '" data-act="setpal" data-v="' + p[0] + '" style="--pc:' + p[1] + '"><i></i><span>' + esc(A(p[2], p[3])) + '</span></button>'; }).join('') + '</div>' +
-      '<h3 class="sub">' + esc(A('حجم النص', 'Text size')) + '</h3><div class="sopts">' + opt('setfs', 's', fs, 'h2', 'صغير', 'Small') + opt('setfs', 'n', fs, 'h2', 'عادي', 'Normal') + opt('setfs', 'l', fs, 'h2', 'كبير', 'Large') + '</div></section>' +
-      '</div><div class="setc"><section class="box"><h2>' + ic('user') + IS.T('الحساب', 'Account') + '</h2>' + (m ? '<div class="list">' + link('#account', 'user', 'الملف الشخصي', 'Profile', m.name) + link('#security', 'shield', 'الأمان والتحقق بخطوتين', 'Security and two-step login') + link('#notifications', 'bell', 'الإشعارات', 'Notifications') + link('#favorites', 'heart', 'المفضلة', 'Favourites') + '</div>' +
-        /* lecturers and team members choose whether students see that they are online (owner, 18 Nov 2026) */
-        ((IS.LEC || (m.team || []).length) ? '<h3 class="sub">' + esc(A('حالة الاتصال', 'Online status')) + '</h3><div class="sopts">' + opt('setseen', 'show', m.hide_seen ? 'hide' : 'show', 'eye', 'ظاهرة للطلاب', 'Shown to students') + opt('setseen', 'hide', m.hide_seen ? 'hide' : 'show', 'lock', 'مخفية', 'Hidden') + '</div><p class="mut">' + esc(A('عند الإظهار يرى الطلاب «متصل الآن» أو وقت آخر نشاط لك. فريق المنصة يراها دائمًا.', 'When shown, students see “Online now” or when you were last active. The platform team always sees it.')) + '</p>' : '') +
-        '<button class="btn ghost bad wide" data-act="logout">' + ic('logout') + esc(A('تسجيل الخروج', 'Sign out')) + '</button>' :
-        '<p class="mut">' + esc(A('سجّل الدخول لإدارة ملفك وأمانك وإشعاراتك.', 'Sign in to manage your profile, security and notifications.')) + '</p><div class="row"><button class="btn pri" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button><button class="btn ghost" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div>') + '</section>' +
-      '<section class="box"><h2>' + ic('help') + IS.T('المساعدة', 'Help') + '</h2><div class="list">' + link('#support', 'chat', 'الدعم والرسائل', 'Support and messages') + link('#about', 'info', 'عن المنصة', 'About the platform') + link('#terms', 'file', 'الشروط والخصوصية', 'Terms and privacy') + '</div><p class="mut ver">' + esc(IS.brandName()) + ' · ' + esc(A('الإصدار', 'Version')) + ' 1.1</p></section></div></div>';
+    var th = IS.LS.get('theme', 'light'), fs = IS.LS.get('fs', 'n') === 'x' ? 'l' : IS.LS.get('fs', 'n'), m = me(), pal = IS.LS.get('pal', 'blue');
+    if (!IS.PALS.some(function (p) { return p[0] === pal; })) pal = 'blue';
+    function seg(act, cur, items) { return '<div class="st-seg" role="radiogroup">' + items.map(function (it) { var on = it[0] === cur;
+      return '<button type="button" role="radio" aria-checked="' + on + '" class="' + (on ? 'on' : '') + '" data-act="' + act + '" data-v="' + it[0] + '">' + (it[2] ? '<i aria-hidden="true">' + it[2] + '</i>' : '') + '<span>' + esc(it[1]) + '</span></button>'; }).join('') + '</div>'; }
+    function row(icon, title, ctl, sub) { return '<div class="st-row"><div class="st-l"><span class="st-ic">' + ic(icon) + '</span><span><b>' + esc(title) + '</b>' + (sub ? '<small>' + sub + '</small>' : '') + '</span></div>' + ctl + '</div>'; }
+    function link(href, icon, ar, en, sub, cls) { return '<a class="st-link' + (cls ? ' ' + cls : '') + '" href="' + href + '"><span class="st-ic">' + ic(icon) + '</span><span class="st-lt"><b>' + esc(A(ar, en)) + '</b>' + (sub ? '<small dir="auto">' + esc(sub) + '</small>' : '') + '</span>' + ic('chev', 'fl') + '</a>'; }
+    var sp = IS.mySpec(), sec = IS.mySection && IS.mySection(), curPal = IS.PALS.filter(function (p) { return p[0] === pal; })[0];
+    var h = IS.banner(IS.T('الإعدادات', 'Settings'), esc(A('اللغة والمظهر وحسابك في مكان واحد.', 'Language, appearance and your account in one place.')), 'gear', '', 'gold') + '<div class="st2">';
+    if (sp) h += '<section class="st-card st-space"><span class="st-thumb"' + (sp.img ? ' style="background-image:url(' + IS.U(sp.img) + ')"' : '') + '>' + (sp.img ? '' : ic(sp.icon)) + '</span>' +
+      '<span class="st-sp"><small>' + esc(A('تخصصك وقسمك', 'Your speciality and section')) + '</small><b lang="en" dir="ltr">' + esc(sp.en) + (sec ? ' · ' + esc(sec.en) : '') + '</b></span>' +
+      '<span class="st-two"><a class="st-pill" href="#pick">' + esc(A('التخصص', 'Speciality')) + '</a><a class="st-pill" href="#pick-section">' + esc(A('القسم', 'Section')) + '</a></span></section>';
+    h += '<section class="st-card"><h2>' + esc(A('اللغة والمظهر', 'Language and look')) + '</h2>' +
+      row('globe', A('اللغة', 'Language'), seg('setlang', IS.lang, [['ar', 'العربية'], ['en', 'English']])) +
+      row('sun', A('المظهر', 'Appearance'), seg('settheme', th, [['light', A('نهاري', 'Light'), '☀️'], ['dark', A('ليلي', 'Dark'), '🌙'], ['eye', A('مريح', 'Eye'), '👁️'], ['auto', A('تلقائي', 'Auto'), '⚙️']]),
+        esc(th === 'eye' ? A('ألوان دافئة تخفف الضوء الأزرق', 'Warm colours, less blue light') : th === 'auto' ? A('يتبع إعدادات الجهاز', 'Follows the device') : '')) +
+      row('palette', A('لون التطبيق', 'App colour'), '<div class="st-dots" role="radiogroup">' + IS.PALS.map(function (p) { var on = p[0] === pal;
+        return '<button type="button" role="radio" aria-checked="' + on + '" aria-label="' + esc(A(p[2], p[3])) + '" title="' + esc(A(p[2], p[3])) + '" class="' + (on ? 'on' : '') + '" data-act="setpal" data-v="' + p[0] + '" style="--pc:' + p[1] + '"></button>'; }).join('') + '</div>', esc(curPal ? A(curPal[2], curPal[3]) : '')) +
+      row('h2', A('حجم النص', 'Text size'), seg('setfs', fs, [['s', A('صغير', 'Small'), '<em class="fa1">' + A('أ', 'A') + '</em>'], ['n', A('عادي', 'Normal'), '<em class="fa2">' + A('أ', 'A') + '</em>'], ['l', A('كبير', 'Large'), '<em class="fa3">' + A('أ', 'A') + '</em>']])) + '</section>';
+    h += '<section class="st-card"><h2>' + esc(A('الحساب', 'Account')) + '</h2>' + (m ?
+      link('#account', 'user', 'الملف الشخصي', 'Profile', m.name) + link('#security', 'shield', 'الأمان والتحقق بخطوتين', 'Security and two-step login') +
+      link('#notifications', 'bell', 'الإشعارات', 'Notifications') + link('#favorites', 'heart', 'المفضلة', 'Favourites') + link('#downloads', 'download', 'تنزيلاتي', 'My downloads') +
+      ((IS.LEC || (m.team || []).length) ? row('eye', A('حالة الاتصال', 'Online status'), seg('setseen', m.hide_seen ? 'hide' : 'show', [['show', A('ظاهرة', 'Shown')], ['hide', A('مخفية', 'Hidden')]]), esc(A('يرى الطلاب «متصل الآن» أو آخر نشاط لك', 'Students see “Online now” or your last activity'))) : '') +
+      '<button type="button" class="st-link st-out" data-act="logout"><span class="st-ic">' + ic('logout') + '</span><span class="st-lt"><b>' + esc(A('تسجيل الخروج', 'Sign out')) + '</b></span></button>' :
+      '<p class="st-note">' + esc(A('سجّل الدخول لإدارة ملفك وأمانك وإشعاراتك.', 'Sign in to manage your profile, security and notifications.')) + '</p><div class="st-two st-auth"><button class="btn pri sm" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button><button class="btn ghost sm" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div>') + '</section>';
+    h += '<div class="st-alerts"></div>';
+    h += '<section class="st-card"><h2>' + esc(A('المساعدة', 'Help')) + '</h2>' + link('#support', 'chat', 'الدعم والرسائل', 'Support and messages') + link('#about', 'info', 'عن المنصة', 'About the platform') + link('#terms', 'file', 'الشروط والخصوصية', 'Terms and privacy') + '</section>' +
+      '<p class="st-ver">' + esc(IS.brandName()) + ' · ' + esc(A('الإصدار', 'Version')) + ' 1.2</p></div>';
+    return h;
   }, { area: 'keep' });
   IS.ACT.setlang = function (b) { var v = b.getAttribute('data-v'); if (v === IS.lang) return; IS.ACT.lang(); };
   IS.ACT.settheme = function (b) { IS.setTheme(b.getAttribute('data-v')); IS.refresh(); };
   IS.ACT.setseen = async function (b) { var h = b.getAttribute('data-v') === 'hide'; await DB.upd('profiles', me().id, { hide_seen: h }); IS.ME.hide_seen = h;
     IS.toast(h ? A('حالتك مخفية عن الطلاب', 'Your status is hidden from students') : A('حالتك ظاهرة للطلاب', 'Your status is shown to students')); IS.refresh(); };
-  IS.ACT.setpal = function (b) { IS.setPal(b.getAttribute('data-v')); IS.refresh(); };
+  IS.ACT.setpal = async function (b) { b.closest('.st-dots') && b.closest('.st-dots').querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); }); await IS.setPal(b.getAttribute('data-v')); IS.refresh(); };
   IS.ACT.setfs = function (b) { IS.LS.set('fs', b.getAttribute('data-v')); IS.applyTheme(); IS.refresh(); };
 
   function statsBox(cs, lecs) {
@@ -592,7 +607,7 @@
         esc(+c.price ? (e && e.status === 'rejected' ? A('أرسل إيصالًا جديدًا', 'Submit a new receipt') : A('ادفع للالتحاق', 'Pay to enrol')) : A('التحق مجانًا', 'Enrol for free')) + '</button>') +
       '<div class="row buy-tools">' + IS.favBtn('c:' + id) + '<button class="fav" data-act="share-link" data-h="course/' + id + '" aria-label="share">' + ic('share') + '</button></div>' +
       '</div><div class="buy-includes"><h2 class="sub">' + esc(A('يتضمن هذا الكورس', 'This course includes')) + '</h2><ul class="inc">' +
-      [['video', 'video', 'درس فيديو', 'video lessons'], ['text', 'file', 'درس مكتوب', 'written lessons'], ['quiz', 'qb', 'اختبار', 'quizzes']].map(function (kind) {
+      [['video', 'video', 'درس فيديو', 'video lessons'], ['audio', 'mic', 'درس صوتي', 'audio lessons'], ['text', 'file', 'درس مكتوب', 'written lessons'], ['quiz', 'qb', 'اختبار', 'quizzes']].map(function (kind) {
         var count = all.filter(function (lesson) { return lesson.kind === kind[0]; }).length;
         return count ? '<li>' + ic(kind[1]) + N(count) + ' ' + esc(A(kind[2], kind[3])) + '</li>' : '';
       }).join('') +
@@ -618,7 +633,7 @@
     return h + '</div>' + (c.status === 'published' ? '<section class="box feedback-detail">' + IS.feedVoteBar('course', c, true) + '</section>' : '');
   });
   function lessonKind(kind) {
-    return { video: A('فيديو', 'Video'), text: A('درس مكتوب', 'Reading'), quiz: A('اختبار', 'Quiz') }[kind] || '';
+    return { video: A('فيديو', 'Video'), audio: A('تسجيل صوتي', 'Audio'), text: A('درس مكتوب', 'Reading'), quiz: A('اختبار', 'Quiz') }[kind] || '';
   }
   function curriculum(c, secs, P, cur, act) {
     if (!secs.length) return IS.empty('layers', A('لم تُضف دروس بعد', 'No lessons yet'));
@@ -626,7 +641,7 @@
       var nd = s.lessons.filter(function (x) { return P[x.id]; }).length, open = cur ? s.lessons.some(function (x) { return x.id === cur; }) : si === 0;
       return '<details class="csec"' + (open ? ' open' : '') + '><summary><span class="cn' + (nd && nd === s.lessons.length ? ' ok' : '') + '">' + (nd && nd === s.lessons.length ? ic('check') : N(si + 1)) + '</span><span class="ct"><b><bdi>' + esc(s.title) + '</bdi></b><small>' + N(s.lessons.length) + ' ' + A('دروس', s.lessons.length === 1 ? 'lesson' : 'lessons') + (nd ? ' · ' + N(nd) + ' ' + esc(A('منتهٍ', 'done')) : '') + '</small></span>' + ic('down') + '</summary><ol>' +
         s.lessons.map(function (x) { var open2 = act || x.free;
-          return '<li><a class="les' + (open2 ? '' : ' locked') + '"' + (x.id === cur ? ' aria-current="page"' : '') + ' href="#lesson/' + c.id + '/' + x.id + '"><span class="ls ' + (P[x.id] ? 'ok' : '') + '">' + ic(P[x.id] ? 'check' : !open2 ? 'lock' : x.kind === 'quiz' ? 'qb' : x.kind === 'text' ? 'file' : 'play') + '</span><span class="ltt"><b><bdi>' + esc(x.title) + '</bdi></b><small>' +
+          return '<li><a class="les' + (open2 ? '' : ' locked') + '"' + (x.id === cur ? ' aria-current="page"' : '') + ' href="#lesson/' + c.id + '/' + x.id + '"><span class="ls ' + (P[x.id] ? 'ok' : '') + '">' + ic(P[x.id] ? 'check' : !open2 ? 'lock' : x.kind === 'quiz' ? 'qb' : x.kind === 'text' ? 'file' : x.kind === 'audio' ? 'mic' : 'play') + '</span><span class="ltt"><b><bdi>' + esc(x.title) + '</bdi></b><small>' +
             esc(lessonKind(x.kind)) + (x.minutes ? ' · ' + N(x.minutes) + ' ' + esc(A('د', 'min')) : '') + '</small></span>' + (x.free && !act ? IS.chip(esc(A('معاينة مجانية', 'Free preview')), 'free') : '') + '</a></li>'; }).join('') + '</ol></details>';
     }).join('') + '</div>';
   }
@@ -772,6 +787,8 @@
       '</h2><a class="btn gold" href="' + courseUrl + '">' + esc(A('التحق بالكورس', 'Enrol in the course')) + '</a></div></section>';
     else if (x.kind === 'video') h += '<div class="player" id="player" aria-label="' + esc(A('فيديو الدرس', 'Lesson video')) +
       '"><div class="loading"><span class="spin"></span></div></div>';
+    else if (x.kind === 'audio') h += '<div class="aplayer-wrap" id="player" aria-label="' + esc(A('التسجيل الصوتي للدرس', 'Lesson recording')) +
+      '"><div class="loading"><span class="spin"></span></div></div>' + (x.body ? '<article class="box lesson-reading"><div class="rich">' + IS.clean(x.body) + '</div></article>' : '');
     else if (x.kind === 'quiz') h += '<section class="box quiz" id="quiz" aria-label="' + esc(A('أسئلة الاختبار', 'Quiz questions')) + '">' +
       (x.quiz || []).map(function (q, k) { return '<fieldset class="qq" data-a="' + q.a + '"><legend>' + N(k + 1) + '. ' + esc(q.q) +
         '</legend>' + (q.o || []).map(function (o, j) { return '<label class="qo"><input type="radio" name="q' + k + '" value="' + j +
@@ -839,6 +856,17 @@
       player.closest('.lesson-layout').querySelector('.lesson-outline-toggle').open = false;
       player.innerHTML = IS.empty('video', title, message);
     }
+    if (lesson.kind === 'audio') {
+      try {
+        var sound = await DB.audioPlay(lesson);
+        if (!sound) { player.innerHTML = IS.empty('mic', A('لم يُرفع تسجيل هذا الدرس بعد', 'The recording of this lesson is not uploaded yet'), ''); return; }
+        player.innerHTML = IS.audioPlayer(sound.src, { id: lesson.id, title: lesson.title, });
+        IS.audioWire(player, { id: lesson.id, title: lesson.title });
+      } catch (error) {
+        player.innerHTML = IS.empty('mic', A('تعذّر تشغيل التسجيل', 'The recording could not be played'), A('تحقق من الاتصال.', 'Check the connection.'));
+      }
+      return;
+    }
     try {
       var video = await DB.videoPlay(lesson);
       if (!video) showUnavailable(A('لم يُرفع فيديو هذا الدرس بعد', 'The video of this lesson is not uploaded yet'));
@@ -850,6 +878,55 @@
       showUnavailable(A('تعذّر تشغيل الفيديو', 'The video could not be played'), A('تحقق من الاتصال.', 'Check the connection.'));
     }
   }
+
+  /* audio lectures (owner, 21 Nov 2026): a listening card with play/pause, ±15 s, a seek line, speed 0.75–2× (kept per device),
+     it continues where the student stopped (ish-apos:<lesson>) and shows the lecture on the phone's lock screen */
+  function mmss(t) { t = Math.max(0, Math.floor(t || 0)); var h = Math.floor(t / 3600), m = Math.floor(t % 3600 / 60), s = t % 60; return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(s).padStart(2, '0'); }
+  IS.audioPlayer = function (src, o) {
+    o = o || {};
+    return '<section class="aplayer" dir="ltr" oncontextmenu="return false">' +
+      '<audio preload="metadata" controlsList="nodownload" src="' + esc(src) + '"></audio>' +
+      '<div class="ap-top"><span class="ap-ic">' + ic('mic') + '</span><span class="ap-tt" dir="auto"><b>' + esc(o.title || '') + '</b><small class="ap-resume" hidden></small></span></div>' +
+      '<div class="ap-line"><span class="ap-t ap-cur">0:00</span><input type="range" class="ap-seek" min="0" max="1000" value="0" step="1" aria-label="' + esc(A('موضع التشغيل', 'Position')) + '"><span class="ap-t ap-dur">–:––</span></div>' +
+      '<div class="ap-ctl"><button type="button" class="ap-b ap-back" aria-label="' + esc(A('رجوع 15 ثانية', 'Back 15 seconds')) + '">↺<small>15</small></button>' +
+        '<button type="button" class="ap-b ap-play" aria-label="' + esc(A('تشغيل', 'Play')) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="pl" d="M8 5.5v13l11-6.5z"/><path class="pa" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>' +
+        '<button type="button" class="ap-b ap-fwd" aria-label="' + esc(A('تقديم 15 ثانية', 'Forward 15 seconds')) + '">↻<small>15</small></button></div>' +
+      '<div class="ap-rates" role="group" aria-label="' + esc(A('سرعة التشغيل', 'Playback speed')) + '">' + [0.75, 1, 1.25, 1.5, 1.75, 2].map(function (r) { return '<button type="button" class="ap-r" data-r="' + r + '">' + r + '×</button>'; }).join('') + '</div></section>';
+  };
+  IS.audioWire = function (box, o) {
+    var a = box.querySelector('audio'); if (!a) return;
+    var seek = box.querySelector('.ap-seek'), cur = box.querySelector('.ap-cur'), dur = box.querySelector('.ap-dur'), playB = box.querySelector('.ap-play'), res = box.querySelector('.ap-resume');
+    var key = 'ish-apos:' + (o.id || ''), rate = 1, dragging = false, lastSave = 0;
+    try { rate = +localStorage.getItem('ish-arate') || 1; } catch (e) {}
+    function setRate(r) { rate = r; a.playbackRate = r; box.querySelectorAll('.ap-r').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-r') === r); }); try { localStorage.setItem('ish-arate', String(r)); } catch (e) {} }
+    setRate(rate);
+    function savePos(force) { if (!a.duration || (!force && Date.now() - lastSave < 4000)) return; lastSave = Date.now(); try { if (a.currentTime > a.duration - 15) localStorage.removeItem(key); else if (a.currentTime > 5) localStorage.setItem(key, String(Math.floor(a.currentTime))); } catch (e) {} }
+    a.addEventListener('loadedmetadata', function () {
+      dur.textContent = mmss(a.duration); a.playbackRate = rate;
+      var p = 0; try { p = +localStorage.getItem(key) || 0; } catch (e) {}
+      if (p > 10 && p < a.duration - 15) { a.currentTime = p; res.hidden = false; res.textContent = A('تابع من ' + mmss(p), 'Continuing from ' + mmss(p)); }
+    });
+    a.addEventListener('timeupdate', function () { if (!dragging && a.duration) seek.value = Math.round(a.currentTime / a.duration * 1000); cur.textContent = mmss(a.currentTime); savePos(false); });
+    a.addEventListener('play', function () { box.classList.add('playing'); playB.setAttribute('aria-label', A('إيقاف مؤقت', 'Pause')); a.playbackRate = rate; });
+    a.addEventListener('pause', function () { box.classList.remove('playing'); playB.setAttribute('aria-label', A('تشغيل', 'Play')); savePos(true); });
+    a.addEventListener('ended', function () { try { localStorage.removeItem(key); } catch (e) {} });
+    a.addEventListener('error', function () { box.classList.add('ap-err'); res.hidden = false; res.textContent = A('تعذّر تحميل التسجيل. تحقق من الاتصال.', 'The recording could not be loaded. Check the connection.'); });
+    playB.onclick = function () { if (a.paused) a.play().catch(function () {}); else a.pause(); };
+    box.querySelector('.ap-back').onclick = function () { a.currentTime = Math.max(0, a.currentTime - 15); };
+    box.querySelector('.ap-fwd').onclick = function () { a.currentTime = Math.min(a.duration || 0, a.currentTime + 15); };
+    seek.addEventListener('input', function () { dragging = true; if (a.duration) cur.textContent = mmss(seek.value / 1000 * a.duration); });
+    seek.addEventListener('change', function () { dragging = false; if (a.duration) a.currentTime = seek.value / 1000 * a.duration; });
+    box.querySelectorAll('.ap-r').forEach(function (b) { b.onclick = function () { setRate(+b.getAttribute('data-r')); }; });
+    if ('mediaSession' in navigator) try {
+      navigator.mediaSession.metadata = new MediaMetadata({ title: o.title || '', artist: IS.brandName ? IS.brandName() : '', artwork: [{ src: 'icon-512.png', sizes: '512x512', type: 'image/png' }] });
+      navigator.mediaSession.setActionHandler('seekbackward', function () { a.currentTime = Math.max(0, a.currentTime - 15); });
+      navigator.mediaSession.setActionHandler('seekforward', function () { a.currentTime = Math.min(a.duration || 0, a.currentTime + 15); });
+    } catch (e) {}
+    /* leaving the page stops the sound and keeps the position */
+    var onHash = function () { setTimeout(function () { if (!document.body.contains(box)) { savePos(true); a.pause(); window.removeEventListener('hashchange', onHash); } }, 0); };
+    window.addEventListener('hashchange', onHash);
+    window.addEventListener('pagehide', function () { savePos(true); });
+  };
 
   function initLessonStudy(main, bar, course, lesson) {
     var buttons = Array.from(bar.querySelectorAll('[role=tab]'));
@@ -1029,6 +1106,11 @@
 
   /* ========== COMMUNITY ========== */
   var POST_KINDS = {
+    /* a plain post like Facebook, open to everyone (owner, 21 Nov 2026): text, an optional picture or video link, no title needed */
+    post: {
+      name: ['منشور', 'Post'], title: ['عنوان (اختياري)', 'Title (optional)'], body: ['اكتب منشورك', 'Write your post'],
+      hint: ['بماذا تفكر؟ شارك معلومة أو تجربة أو صورة…', "What's on your mind? Share a tip, an experience or a picture…"], submit: ['انشر', 'Post']
+    },
     discussion: {
       name: ['نقاش', 'Discussion'], title: ['عنوان النقاش', 'Discussion title'], body: ['موضوع النقاش', 'Discussion topic'],
       hint: ['ما الذي ترغب في مناقشته؟', 'What would you like to discuss?'], submit: ['انشر النقاش', 'Publish discussion']
@@ -1057,6 +1139,7 @@
     var spec = IS.spec(IS.SPEC);
     var context = [spec && A(spec.ar, spec.en), section && section.en].filter(Boolean).join(' · ');
     var choices = [
+      ['community/new/post', 'pen', 'منشور', 'Post', 'اكتب ما تريد وأضف صورة أو فيديو، مثل منشورات فيسبوك.', 'Write anything and add a picture or video, like a Facebook post.'],
       ['course-requests/new', 'receipt', 'اطلب كورسًا', 'Request a course', 'اختر محاضرًا أو اترك الطلب مفتوحًا. يُنشر بعد المراجعة.', 'Name a lecturer or leave the request open. It’s published after review.'],
       ['community/new/question', 'help', 'اسأل سؤالًا', 'Ask a question', 'شارك سؤالك مع هذا القسم.', 'Share your question with this section.'],
       ['community/new/discussion', 'chat', 'ابدأ نقاشًا', 'Start a discussion', 'شارك موضوعًا للنقاش مع طلاب هذا القسم.', 'Start a conversation with students in this section.']
@@ -1065,7 +1148,6 @@
       ['studio-course/new', 'layers', 'أنشئ كورسًا', 'Create a course', 'أضف الرسوم والموعد وطريقة التدريس والمعاينة.', 'Set the fee, schedule, teaching format and preview.'],
       ['studio-events/new', 'cal', 'أنشئ فعالية', 'Create an event', 'أعلن عن ورشة أو ندوة أو جلسة مباشرة.', 'Announce a workshop, seminar or live session.']);
     if (teacherPostAllowed()) choices.push(
-      ['community/new/course_preview', 'video', 'معاينة كورس', 'Course preview', 'شارك صورة أو فيديو أو اربط كورسًا منشورًا.', 'Share a picture or video, or link a published course.'],
       ['community/new/announcement', 'mega', 'اكتب إعلانًا', 'Write an announcement', 'شارك تحديثًا في هذا القسم.', 'Share an update with this section.']);
     return '<section class="box post-composer"><h2 tabindex="-1" data-post-composer>' + IS.T('اختر ما تريد نشره', 'Choose what to post') + '</h2>' +
       '<p class="mut">' + esc(context) + '</p><div class="list">' + choices.map(function (choice) {
@@ -1075,6 +1157,19 @@
   }
   async function postComposer(kind) {
     var spec = POST_KINDS[kind], preview = kind === 'course_preview';
+    if (kind === 'post') return '<form class="box form post-composer fbpost" data-form="post"><input type="hidden" name="kind" value="post">' +
+      '<div class="row sp"><h2 tabindex="-1" data-post-composer>' + IS.T('إنشاء منشور', 'Create a post') + '</h2><a class="link" href="#community/new">' +
+      esc(A('خيارات النشر', 'Post options')) + '</a></div>' +
+      '<div class="fbp-who">' + IS.av(me() || {}, 'sm') + '<b dir="auto">' + esc((me() || {}).name || '') + '</b></div>' +
+      '<label class="fl fbp-body"><span class="sr">' + esc(A.apply(null, spec.body)) + '</span><textarea name="body" rows="5" required maxlength="5000" dir="auto" placeholder="' + esc(A.apply(null, spec.hint)) + '"></textarea></label>' +
+      '<div class="fbp-pic" hidden><img alt=""><button type="button" class="fbp-x" data-act="fbp-clear" aria-label="' + esc(A('أزل الصورة', 'Remove the picture')) + '">✕</button></div>' +
+      '<div class="fbp-add"><span>' + esc(A('أضف إلى منشورك', 'Add to your post')) + '</span>' +
+        '<label class="fbp-b" title="' + esc(A('صورة', 'Picture')) + '">🖼️<span>' + esc(A('صورة', 'Picture')) + '</span><input type="file" accept="image/*" name="preview_image" hidden data-fbpic></label>' +
+        '<button type="button" class="fbp-b" data-act="fbp-video">🎬<span>' + esc(A('فيديو', 'Video')) + '</span></button>' +
+        '<button type="button" class="fbp-b" data-act="fbp-title">🏷️<span>' + esc(A('عنوان', 'Title')) + '</span></button></div>' +
+      '<label class="fl fbp-video" hidden><span>' + esc(A('رابط فيديو يوتيوب أو Google Drive', 'YouTube or Google Drive video link')) + '</span><input type="url" name="preview_video" dir="ltr" placeholder="https://youtu.be/…"></label>' +
+      '<label class="fl fbp-title" hidden><span>' + esc(A.apply(null, spec.title)) + '</span><input name="title" maxlength="140" dir="auto"></label>' +
+      '<button class="btn pri wide">' + ic('send') + esc(A.apply(null, spec.submit)) + '</button></form>';
     return '<form class="box form post-composer" data-form="post"><input type="hidden" name="kind" value="' + kind + '">' +
       '<div class="row sp"><h2 tabindex="-1" data-post-composer>' + IS.T.apply(null, spec.name) + '</h2><a class="link" href="#community/new">' +
       esc(A('خيارات النشر', 'Post options')) + '</a></div>' +
@@ -1101,11 +1196,20 @@
       (!imageShown && row.preview_image ? '<img class="post-preview-photo" src="' + IS.U(row.preview_image) + '" alt="" loading="lazy">' : '') +
       (highlights.length ? '<ul class="post-highlights">' + highlights.map(function (feature) { return '<li dir="auto">' + esc(feature) + '</li>'; }).join('') + '</ul>' : '') +
       '<div class="row">' + (video ? '<button type="button" class="btn ghost sm" data-act="post-video" data-video="' + esc(row.preview_video) + '">' +
-        ic('play') + esc(A('شاهد المعاينة', 'Watch preview')) + '</button>' : '') +
+        ic('play') + esc(row.post_kind === 'post' ? A('شاهد الفيديو', 'Watch the video') : A('شاهد المعاينة', 'Watch preview')) + '</button>' : '') +
       (row.course_id ? '<a class="btn ' + (+row.linked_price ? 'pri' : 'ghost') + ' sm" href="#course/' + esc(row.course_id) + '">' +
         esc(+row.linked_price ? A('الدفع والالتحاق', 'Payment & enrolment') : A('عرض الكورس', 'View course')) + '</a>' : '') +
       '</div></div>';
   }
+  IS.ACT['fbp-video'] = function (b) { var f = b.closest('form').querySelector('.fbp-video'); f.hidden = !f.hidden; if (!f.hidden) f.querySelector('input').focus(); };
+  IS.ACT['fbp-title'] = function (b) { var f = b.closest('form').querySelector('.fbp-title'); f.hidden = !f.hidden; if (!f.hidden) f.querySelector('input').focus(); };
+  IS.ACT['fbp-clear'] = function (b) { var form = b.closest('form'), inp = form.querySelector('[data-fbpic]'); inp.value = ''; var box = form.querySelector('.fbp-pic'); box.hidden = true; box.querySelector('img').removeAttribute('src'); };
+  document.addEventListener('change', function (e) {
+    var inp = e.target; if (!inp.matches || !inp.matches('[data-fbpic]')) return;
+    var box = inp.closest('form').querySelector('.fbp-pic'), f = inp.files[0], img = box.querySelector('img');
+    if (img.src && img.src.indexOf('blob:') === 0) URL.revokeObjectURL(img.src);
+    if (f && /^image\//.test(f.type)) { img.src = URL.createObjectURL(f); box.hidden = false; } else { box.hidden = true; }
+  });
   IS.ACT['post-video'] = function (button) {
     var video = IS.extEmbed(button.dataset.video); if (!video) return;
     var player = document.createElement('div'); player.className = 'post-video';
@@ -1117,7 +1221,7 @@
   IS.page('community', async function (room) {
     var section = IS.mySection(), cur = section ? section.id : 'general';
     var parts = String(room || '').split('/'), writing = parts[0] === 'new';
-    var kind = ['question', 'discussion'].includes(parts[1]) || (['course_preview', 'announcement'].includes(parts[1]) && teacherPostAllowed()) ? parts[1] : '';
+    var kind = ['post', 'question', 'discussion'].includes(parts[1]) || (['course_preview', 'announcement'].includes(parts[1]) && teacherPostAllowed()) ? parts[1] : '';
     if (section && IS.cat(room) && room !== section.id) return IS.outsideStudySpace({ spec: IS.SPEC, cat: room });
     var ps = await DB.q('posts', { eq: { room: cur }, order: ['created_at', false], limit: 200 });
     ps = ps.filter(function (p) { return IS.inSpec(p) && (IS.publicPost(p) || (privateQuestion(p) && p.user_id === uid())); });
@@ -1154,6 +1258,14 @@
     var kind = Object.prototype.hasOwnProperty.call(POST_KINDS, d.kind) ? d.kind : 'discussion';
     if (['course_preview', 'announcement'].includes(kind) && !teacherPostAllowed()) return;
     var row = { room: section.id, post_kind: kind, spec: IS.SPEC, user_id: uid(), name: me().name, photo: me().photo || '', title: d.title, body: d.body || '', status: 'open', n_replies: 0, pinned: false };
+    if (kind === 'post') {
+      var pic = form.elements.preview_image && form.elements.preview_image.files[0];
+      var vid = d.preview_video && IS.extVideo(d.preview_video);
+      if (d.preview_video && !vid) return IS.toast(A('استخدم رابط يوتيوب أو Google Drive صالحًا.', 'Use a valid YouTube or Google Drive link.'), true);
+      if (pic && (!/^image\//.test(pic.type) || pic.size > 10 * 1024 * 1024)) return IS.toast(A('اختر صورة لا تتجاوز 10 ميغابايت.', 'Choose a picture under 10 MB.'), true);
+      row.title = (d.title || '').trim() || null; row.preview_video = vid || null;
+      if (pic) row.preview_image = await DB.upload('media', await IS.shrink(pic, 1280, 0.84));
+    }
     if (kind === 'course_preview') {
       var picture = form.elements.preview_image && form.elements.preview_image.files[0];
       var video = d.preview_video && IS.extVideo(d.preview_video), highlights = IS.lines(d.highlights);
@@ -1224,10 +1336,24 @@
     var rs = got[1], lecs = got[2];
     if (parts[1] === 'comments') IS.after = IS.focusPostComments;
     var composer = me() ? IS.cmtBox('reply', '<input type="hidden" name="post" value="' + p.id + '">', p.room === 'qa' ? A('اكتب ردًا…', 'Write a reply…') : '') : '';
-    return '<nav class="crumb"><a href="#' + (p.room === 'qa' ? 'course/' + p.course_id : 'community') + '">' + esc(p.room === 'qa' ? A('الكورس', 'Course') : A('المجتمع', 'Community')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(p.title || A('سؤال', 'Question')) + '</span></nav>' +
-      '<article class="box thread">' + IS.av({ name: p.name, photo: p.photo }, 'md', p.user_id) + '<div><h1 tabindex="-1">' + esc(p.title || p.body.slice(0, 80)) + '</h1><small class="mut">' + esc(p.name || '') + ' · ' + esc(IS.ago(p.created_at)) + '</small><p class="pre">' + esc(p.body) + '</p>' + (p.room !== 'qa' ? postPreview(p, false) + IS.feedVoteBar('post', p, false, postKind(p) === 'announcement' ? '' : 'post/' + p.id) : '') +
-      '<div class="row">' + (p.room === 'qa' ? IS.postActions('post', p.id, 'post/' + p.id) : '') +
-        (p.user_id === uid() ? '<button type="button" class="btn ghost sm" data-act="post-edit" data-id="' + esc(p.id) + '">' + ic('pen') + esc(A('عدّل المنشور', 'Edit post')) + '</button>' : '') + (mod ? '<button class="btn ghost sm" data-act="pin" data-id="' + p.id + '">' + ic('pin') + esc(p.pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت', 'Pin')) + '</button><button class="btn ghost sm bad" data-act="rmpost" data-id="' + p.id + '">' + ic('trash') + esc(A('حذف', 'Remove')) + '</button>' : '') + '</div></div></article>' +
+    return '<nav class="crumb"><a href="#' + (p.room === 'qa' ? 'course/' + p.course_id : 'community') + '">' + esc(p.room === 'qa' ? A('الكورس', 'Course') : A('المجتمع', 'Community')) + '</a>' + ic('chev', 'fl') + '<span dir="auto">' + esc(p.title || (postKind(p) === 'post' ? String(p.body || '').slice(0, 40) : A('سؤال', 'Question'))) + '</span></nav>' +
+      /* a post reads like a post (owner, 21 Nov 2026: "the question and its description and all the other things are misplaced"):
+         picture · name · time · kind, the writer's / team's small tools at the end of that line, then the title, the text and the footer */
+      '<article class="box thread pthread">' +
+        '<header class="pth">' + IS.av({ name: p.name, photo: p.photo }, 'md', p.user_id) + '<div class="pthn"><b dir="auto">' + esc(p.name || '') + '</b><small>' + esc(IS.ago(p.created_at)) +
+          ((({ post: ['منشور', 'Post'], question: ['سؤال', 'Question'], discussion: ['نقاش', 'Discussion'], announcement: ['إعلان', 'Announcement'], course_preview: ['معاينة كورس', 'Course preview'] })[postKind(p)] || null) ?
+            ' · <span class="pthk">' + esc(A.apply(null, ({ post: ['منشور', 'Post'], question: ['سؤال', 'Question'], discussion: ['نقاش', 'Discussion'], announcement: ['إعلان', 'Announcement'], course_preview: ['معاينة كورس', 'Course preview'] })[postKind(p)])) + '</span>' : '') +
+          (p.pinned ? ' · 📌' : '') + '</small></div>' +
+          '<span class="ptht">' +
+            (p.user_id === uid() ? '<button type="button" class="own-b" data-act="post-edit" data-id="' + esc(p.id) + '" title="' + esc(A('عدّل المنشور', 'Edit post')) + '" aria-label="' + esc(A('عدّل المنشور', 'Edit post')) + '">✏️</button>' : '') +
+            (mod ? '<button type="button" class="own-b" data-act="pin" data-id="' + p.id + '" title="' + esc(p.pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت', 'Pin')) + '" aria-label="' + esc(p.pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت', 'Pin')) + '">📌</button>' +
+              '<button type="button" class="own-b" data-act="rmpost" data-id="' + p.id + '" title="' + esc(A('حذف', 'Remove')) + '" aria-label="' + esc(A('حذف', 'Remove')) + '">🗑️</button>' :
+              p.user_id === uid() ? '<button type="button" class="own-b" data-act="own-del" data-k="post" data-id="' + esc(p.id) + '" title="' + esc(A('حذف', 'Delete')) + '" aria-label="' + esc(A('حذف منشورك', 'Delete your post')) + '">🗑️</button>' : '') +
+          '</span></header>' +
+        (postKind(p) === 'post' && !p.title ? '<h1 class="sr" tabindex="-1">' + esc(A('منشور', 'Post')) + ' · ' + esc(p.name || '') + '</h1><p class="pre ppost" dir="auto">' + esc(p.body || '') + '</p>' :
+        '<h1 tabindex="-1" dir="auto">' + esc(p.title || p.body.slice(0, 80)) + '</h1>' + (p.title && p.body ? '<p class="pre" dir="auto">' + esc(p.body) + '</p>' : '')) +
+        (p.room !== 'qa' ? postPreview(p, false) + IS.feedVoteBar('post', p, false, postKind(p) === 'announcement' ? '' : 'post/' + p.id) : '') +
+        (p.room === 'qa' ? '<div class="row">' + IS.postActions('post', p.id, 'post/' + p.id) + '</div>' : '') + '</article>' +
       '<section class="box post-comments"><h2 tabindex="-1" data-post-comments>' +
       (p.room === 'qa' ? IS.T('الردود', 'Replies') : IS.T('التعليقات', 'Comments')) + '</h2>' + composer + '<div class="cthreads">' + IS.thread(rs, 'reply', function (r) { var isLec = !!lecs[r.user_id];
         return { name: r.name, photo: r.photo, when: IS.ago(r.created_at), body: r.body, badge: isLec ? IS.chip(esc(A('محاضر', 'Lecturer')), 'ok') : '',
@@ -1574,13 +1700,13 @@
       steps() + '<div class="row center"><a class="btn pri" href="#courses">' + ic('play') + esc(A('استعرض الكورسات الآن', 'Browse the courses')) + '</a>' + (me() ? '' : '<button class="btn ghost" data-act="register">' + ic('user') + esc(A('انضم إلى المنصة', 'Join the platform')) + '</button>') + '</div>';
   });
   IS.page('terms', async function () {
-    return IS.banner(IS.T('شروط الاستخدام وسياسة الخصوصية', 'Terms of use and privacy policy'), '', 'shield') + '<section class="box rich">' + [
+    return IS.banner(IS.T('شروط الاستخدام وسياسة الخصوصية', 'Terms of use and privacy policy'), '', 'shield') + '<section class="terms-list">' + [
       [A('الحساب', 'Your account'), A('الحساب شخصي ولا يجوز مشاركته. أنت مسؤول عن صحة بياناتك وعن سرية كلمة المرور.', 'Your account is personal and may not be shared. You are responsible for your details and for keeping your password secret.')],
       [A('المحتوى', 'Content'), A('كل الكورسات والفيديوهات ملك لمحاضريها، وتُشاهد داخل المنصة فقط. يُمنع تسجيلها أو نسخها أو نشرها، ويؤدي ذلك إلى إيقاف الحساب.', 'Courses and videos belong to their lecturers and are watched inside the platform only. Recording, copying or sharing them is forbidden and leads to the account being blocked.')],
       [A('الدفع', 'Payment'), A('يُفتح الكورس بعد تأكيد التحويل. في حال رفض الطلب يُذكر السبب، ويمكن التواصل مع الدعم.', 'A course opens after the transfer is confirmed. If a request is rejected the reason is given, and you can contact support.')],
       [A('المجتمع', 'Community'), A('الاحترام واجب. يحق للمشرفين حذف أي مشاركة مخالفة وإيقاف من يكرر المخالفة. لا تُقدَّم نصائح علاجية لمرضى حقيقيين.', 'Respect is required. Moderators may remove breaking posts and block repeat offenders. No treatment advice for real patients.')],
       [A('الخصوصية', 'Privacy'), A('نجمع الاسم والهاتف والبريد وبيانات التعلّم لتشغيل خدمتك فقط، ولا نبيعها لأي جهة. إيصالات الدفع يطّلع عليها فريق المالية فقط.', 'We collect your name, phone, email and learning data only to run the service, and never sell them. Payment receipts are seen by the finance team only.')],
-      [A('المحاضرون', 'Lecturers'), A('يلتزم المحاضر بصحة المحتوى العلمي وبحقوق الملكية. تراجع المنصة كل كورس قبل نشره، وتُحتسب أرباح المحاضر بنسبته المتفق عليها.', 'Lecturers are responsible for accurate content and for rights. The platform reviews each course before publishing; earnings are paid at the agreed share.')]].map(function (s) { return '<h3>' + esc(s[0]) + '</h3><p>' + esc(s[1]) + '</p>'; }).join('') + '</section>';
+      [A('المحاضرون', 'Lecturers'), A('يلتزم المحاضر بصحة المحتوى العلمي وبحقوق الملكية. تراجع المنصة كل كورس قبل نشره، وتُحتسب أرباح المحاضر بنسبته المتفق عليها.', 'Lecturers are responsible for accurate content and for rights. The platform reviews each course before publishing; earnings are paid at the agreed share.')]].map(function (s, i) { return '<article class="tcard"><span class="tic">' + ic(['user', 'layers', 'wallet', 'group', 'lock', 'cap'][i] || 'shield') + '</span><div><h2>' + esc(s[0]) + '</h2><p>' + esc(s[1]) + '</p></div></article>'; }).join('') + '</section>';
   });
 })();
 

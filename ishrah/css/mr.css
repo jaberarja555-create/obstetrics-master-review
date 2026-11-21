@@ -230,7 +230,7 @@ body:is([data-page="home"],[data-page="library"],[data-page="account"],[data-pag
 body:is([data-page="home"],[data-page="library"],[data-page="account"],[data-page="person"],[data-page="courses"]):has(.mrh)::before,body:is([data-page="home"],[data-page="library"],[data-page="account"],[data-page="person"],[data-page="courses"]):has(.mrh)::after{display:none!important}
 :root:has(body:is([data-page="home"],[data-page="library"],[data-page="account"],[data-page="person"],[data-page="courses"]) .mrh){background:#e6f2ef!important}
 body:is([data-page="home"],[data-page="library"],[data-page="account"],[data-page="person"],[data-page="courses"]):has(.mrh) :is(#top,#side,#tabs,#offbar:not(.on)){display:none!important}
-html body:is([data-page="home"],[data-page="library"],[data-page="account"],[data-page="person"],[data-page="courses"]):has(.mrh) main,html body:is([data-page="home"],[data-page="library"],[data-page="account"],[data-page="person"],[data-page="courses"]):has(.mrh) #main{margin:0!important;max-width:none!important;padding:0!important;background:none!important;min-height:0!important;zoom:1!important}
+html body:is([data-page="home"],[data-page="library"],[data-page="account"],[data-page="person"],[data-page="courses"]):has(.mrh) main,html body:is([data-page="home"],[data-page="library"],[data-page="account"],[data-page="person"],[data-page="courses"]):has(.mrh) #main{margin:0!important;max-width:none!important;padding:0!important;background:none!important;min-height:0!important;zoom:var(--z,1)!important}
 html body:is([data-page="home"],[data-page="library"],[data-page="account"],[data-page="person"],[data-page="courses"]):has(.mrh) #main>.page{padding:0!important;margin:0!important;max-width:none!important;gap:0!important}
 .mrh{--t1:#0d6b5c;--t2:#06463b;--tl:#0f7a68;--ink:#14302a;--mut:#5d7570;--card:#fff;--line:#d7e7e3;color:var(--ink)}
 .mh-bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse 80% 50% at 85% 0,rgba(13,107,92,.10),transparent 70%),linear-gradient(180deg,#eef7f5,#e2efec)}
@@ -817,7 +817,7 @@ body:has(.mra){padding:0!important;background:#e6f2ef!important;overflow-x:hidde
 body:has(.mra)::before,body:has(.mra)::after{display:none!important}
 :root:has(.mra){background:#e6f2ef!important}
 body:has(.mra) :is(#top,#side,#tabs){display:none!important}
-html body:has(.mra) main,html body:has(.mra) #main{margin:0!important;max-width:none!important;padding:0!important;background:none!important;min-height:0!important;zoom:1!important}
+html body:has(.mra) main,html body:has(.mra) #main{margin:0!important;max-width:none!important;padding:0!important;background:none!important;min-height:0!important;zoom:var(--z,1)!important}
 html body:has(.mra) #main>.page{padding:0!important;margin:0!important;max-width:none!important;gap:0!important;display:block!important}
 :root[data-theme="dark"]:has(.mra),:root[data-theme="dark"] body:has(.mra){background:#071f19!important}
 .mra .mh-old{display:flex;flex-direction:column;gap:clamp(12px,1.8vw,18px);min-width:0;color:var(--ink)}
@@ -1475,21 +1475,233 @@ html body .mrh .feed-votes>.fv-acts>.feed-report .ico{width:17px!important;heigh
 .mr-spec .mr-lock{position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:3;display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;
   background:rgba(6,40,30,.85);border:1.5px solid #e9c46a;color:#f6dc8e;font-weight:800;font-size:clamp(10px,1.6vh,13px);white-space:nowrap}
 html body .mrx .mr-spec .mr-lock svg.ic{width:13px!important;height:13px!important;color:#f6dc8e}
-/* ===== single post page (owner, 21 Nov 2026: "distortion") ===== */
-html body .mra[data-pg="post"] article.thread{display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;grid-template-areas:"av head" "body body";column-gap:10px!important;row-gap:8px!important;padding:12px 14px!important}
-html body .mra[data-pg="post"] article.thread>.av{grid-area:av;width:46px!important;height:46px!important;align-self:start}
-html body .mra[data-pg="post"] article.thread>div{display:contents}
-html body .mra[data-pg="post"] article.thread>div>h1{grid-area:head;margin:0!important;font-size:17px!important;line-height:1.4!important;align-self:center}
-html body .mra[data-pg="post"] article.thread>div>h1+small{grid-column:1/-1;margin-top:-4px;font-size:12.5px}
-html body .mra[data-pg="post"] article.thread>div>:not(h1){grid-column:1/-1}
-html body .mra[data-pg="post"] article.thread>div>.pre{margin:0!important;font-size:14.5px!important;line-height:1.7}
-/* the author's and the team's buttons in one tidy row of small pills */
-html body .mra[data-pg="post"] article.thread .row{display:flex!important;flex-wrap:wrap;gap:6px!important;justify-content:flex-start}
-html body .mra[data-pg="post"] article.thread .row .btn{min-height:30px!important;height:30px!important;padding:0 12px!important;font-size:12.5px!important;flex:0 0 auto}
-html body .mra[data-pg="post"] article.thread .row .btn .ico{width:14px!important;height:14px!important}
-html body .mra[data-pg="post"] .post-comments h2{font-size:16px!important;margin:0 0 8px!important}
 /* the «إدارة» pill sits at the end of the path line (moved there by mr.js), not on a line of its own */
 html body .mra .mh-old .crumb>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+
+/* ===== Post page reads like a post (owner, 21 Nov 2026: "the question and its description and all the other things are misplaced") ===== */
+html body article.thread.pthread,html body .mra[data-pg="post"] article.thread.pthread{display:block!important;padding:14px 16px 10px!important}
+.pthread .pth{display:flex;align-items:center;gap:10px;margin:0 0 10px}
+.pthread .pth>.av{width:44px!important;height:44px!important;flex:none}
+.pthread .pthn{display:flex;flex-direction:column;min-width:0;flex:1}
+.pthread .pthn b{font-size:14.5px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pthread .pthn small{font-size:12px;color:var(--sub)}
+.pthread .pthk{color:var(--pri);font-weight:700}
+.pthread .ptht{display:inline-flex;align-items:center;gap:2px;flex:none}
+.pthread .ptht .own-b{font-size:17px;padding:6px;border-radius:10px;border:0;background:none;cursor:pointer;line-height:1}
+.pthread .ptht .own-b:hover{background:var(--tint)}
+html body .mra[data-pg="post"] article.thread.pthread>h1,article.thread.pthread>h1{margin:0 0 6px!important;font-size:18px!important;line-height:1.45!important;text-align:start}
+html body .mra[data-pg="post"] article.thread.pthread>.pre,article.thread.pthread>.pre{margin:0 0 10px!important;font-size:15px!important;line-height:1.75;text-align:start}
+.pthread .feed-votes{margin-top:6px}
+.pthread .fv-rate{justify-content:flex-start}
+.pthread>.row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+/* the comment field: one rounded field, no box inside the box */
+html body .post-comments .cmt-compose .cmt-rbox textarea,html body .feed-comment-panel .cmt-compose .cmt-rbox textarea,html body .cmt-rf .cmt-rbox textarea{
+  border:0!important;background:transparent!important;box-shadow:none!important;outline:none!important;border-radius:0!important;min-height:36px!important;padding:7px 0!important}
+html body .cmt-compose .cmt-rbox{border:1px solid var(--bd)!important}
+html body #main .cmt-compose .cmt-rbox textarea,html body #main .cmt-rf .cmt-rbox textarea{border:0!important;background:transparent!important;box-shadow:none!important;outline:none!important;border-radius:0!important}
+.pthread .pthn{align-items:flex-start;text-align:start}
+html body #main .pthread .feed-votes>.fv-rate{display:flex!important;justify-content:flex-start!important;grid-column:1/-1!important}
+html body #main .pthread .feed-votes>.fv-rate{padding-block:4px!important}
+
+/* locked specialities in the owner's picture (21 Nov 2026): muted card, faded icon, grey wave, a lock in the corner and a gold «قريبًا»
+   ribbon; the open speciality has a gold glowing frame. No CSS filters (touch screens smear with them). */
+html body .mrx .mr-spec.locked{filter:none!important;background:linear-gradient(180deg,#36504a,#253a34)!important;box-shadow:0 0 0 1.5px rgba(200,200,185,.45),0 10px 20px rgba(0,0,0,.35)!important}
+html body .mrx .mr-spec.locked .art{opacity:.5;filter:none}
+html body .mrx .mr-spec.locked .lab svg.wave path{fill:#b9b7a6}
+html body .mrx .mr-spec.locked .lab b{color:#2e3a33!important;-webkit-text-fill-color:#2e3a33}
+.mr-spec .mr-lockb{position:absolute;top:9px;inset-inline-end:9px;z-index:3;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;
+  background:rgba(10,30,24,.8);border:1.5px solid rgba(233,196,106,.7)}
+html body .mrx .mr-spec .mr-lockb svg.ic{width:14px!important;height:14px!important;color:#f6dc8e}
+.mr-spec .mr-soon{position:absolute;z-index:3;top:48%;left:50%;transform:translate(-50%,-50%) skewX(-8deg);padding:3px 16px;border-radius:7px;
+  background:linear-gradient(180deg,#f8dc85,#d9a93e);color:#3d2a05;font-weight:800;font-size:clamp(11px,1.7vh,15px);white-space:nowrap;
+  box-shadow:0 3px 8px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.6)}
+.mr-specs:has(.locked) .mr-spec:not(.locked){box-shadow:0 0 0 3px #f6dc8e,0 0 26px rgba(233,196,106,.6),0 14px 26px rgba(0,0,0,.42)!important}
+/* the icon stays whole above the ribbon (owner, 21 Nov 2026: "you covered the logo of the specialities, not like my image") */
+html body .mrx .mr-spec.locked .art{inset:4% 0 46% 0!important;opacity:.78;font-size:calc(var(--cardh)*.34)}
+.mr-spec .mr-soon{top:auto!important;bottom:45%;transform:translateX(-50%) skewX(-8deg)!important}
+html body .mrx .mr-spec.locked .art{inset:5% 0 58% 0!important;font-size:calc(var(--cardh)*.3)!important}
+.mr-spec .mr-soon{bottom:40%!important}
+/* «منشور»: a plain post like Facebook (owner, 21 Nov 2026) */
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0;margin:-1px}
+.fbpost .fbp-who{display:flex;align-items:center;gap:9px;margin:2px 0 6px}
+.fbpost .fbp-who b{font-size:14px}
+#main .fbpost .fbp-body textarea{border:0!important;background:transparent!important;box-shadow:none!important;font-size:17px;line-height:1.5;min-height:110px;padding:4px 2px;resize:vertical}
+.fbpost .fbp-pic{position:relative;border-radius:12px;overflow:hidden;background:#eef3f2;margin:4px 0 8px}
+.fbpost .fbp-pic img{display:block;width:100%;max-height:340px;object-fit:contain}
+.fbpost .fbp-x{position:absolute;top:8px;inset-inline-end:8px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:14px;cursor:pointer}
+.fbpost .fbp-add{display:flex;align-items:center;flex-wrap:wrap;gap:6px;border:1px solid #d9e3e1;border-radius:12px;padding:7px 10px;margin:6px 0 10px}
+.fbpost .fbp-add>span{flex:1 1 auto;font-weight:600;font-size:13.5px;color:#3c4b48}
+.fbpost .fbp-b{display:inline-flex;align-items:center;gap:5px;border:0;background:transparent;border-radius:9px;padding:6px 9px;font:inherit;font-size:13px;cursor:pointer;color:#2c3b38}
+.fbpost .fbp-b:hover{background:#eef4f3}
+.fbpost .fbp-b span{font-weight:600}
+@media (max-width:420px){.fbpost .fbp-add>span{flex-basis:100%}.fbpost .fbp-b{flex:1 1 0;justify-content:center}}
+.feed-summary.fbtext{font-size:15.5px;line-height:1.55;color:inherit;-webkit-line-clamp:unset;display:block;white-space:pre-line}
+.feed-post .feed-summary.fbtext{max-height:none}
+.fbmore{font-weight:700}
+.pthread .ppost{font-size:17px;line-height:1.6;margin:6px 0 10px;white-space:pre-line}
+:root[data-theme="dark"] .fbpost .fbp-add{border-color:#2b3c38}
+:root[data-theme="dark"] .fbpost .fbp-add>span,:root[data-theme="dark"] .fbpost .fbp-b{color:#d7e3e0}
+/* a plain post shows its text first and its picture across the card under it, like Facebook */
+html body .feed-card.feed-fb .feed-card-content{display:flex!important;flex-direction:column-reverse;gap:10px}
+html body .feed-card.feed-fb .feed-card-content>.feed-image{width:100%!important;max-width:none!important;height:auto!important;aspect-ratio:16/10;border-radius:12px;margin:0}
+html body .feed-card.feed-fb .feed-card-content>div{width:100%}
+/* five kind buttons (Posts added, 21 Nov 2026) on one row */
+html body .cm-kinds{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:6px}
+@media (max-width:480px){html body .cm-k{font-size:11px;padding:7px 1px;letter-spacing:-.2px}html body .cm-k svg.ic{width:19px!important;height:19px!important}}
+/* audio lectures (21 Nov 2026): the listening card */
+.aplayer-wrap{margin:0 0 12px}
+.aplayer{position:relative;border-radius:18px;padding:16px 16px 14px;color:#fff;background:linear-gradient(150deg,#0d6b5c,#06463b 70%);box-shadow:0 10px 26px rgba(6,70,59,.22);overflow:hidden}
+.aplayer::after{content:"";position:absolute;inset:auto -40px -60px auto;width:220px;height:160px;border-radius:50%;background:radial-gradient(closest-side,rgba(246,220,142,.22),transparent);pointer-events:none}
+.aplayer audio{display:none}
+.aplayer .ap-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.aplayer .ap-ic{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.12);border:1px solid rgba(246,220,142,.45)}
+.aplayer .ap-ic svg.ic{width:24px!important;height:24px!important;color:#f6dc8e}
+.aplayer .ap-tt{min-width:0;display:flex;flex-direction:column;gap:2px}
+.aplayer .ap-tt b{font-size:15px;line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;color:#fff}
+.aplayer .ap-tt small{font-size:12px;color:#f6dc8e}
+.aplayer .ap-line{display:flex;align-items:center;gap:9px}
+.aplayer .ap-t{font-size:12px;font-variant-numeric:tabular-nums;min-width:38px;text-align:center;color:#d8ece7}
+.aplayer .ap-seek{flex:1;min-width:0;accent-color:#f6dc8e;height:22px;margin:0}
+.aplayer .ap-ctl{display:flex;justify-content:center;align-items:center;gap:22px;margin:8px 0 10px}
+.aplayer .ap-b{border:0;background:transparent;color:#fff;cursor:pointer;font:inherit}
+.aplayer .ap-back,.aplayer .ap-fwd{position:relative;width:46px;height:46px;border-radius:50%;font-size:26px;line-height:1;background:rgba(255,255,255,.08)}
+.aplayer .ap-back small,.aplayer .ap-fwd small{position:absolute;inset:0;display:grid;place-items:center;font-size:10px;font-weight:800;padding-top:2px}
+.aplayer .ap-play{width:64px;height:64px;border-radius:50%;background:linear-gradient(180deg,#f8dc85,#d9a93e);color:#3d2a05;box-shadow:0 6px 16px rgba(0,0,0,.25);display:grid;place-items:center}
+.aplayer .ap-play svg{width:28px;height:28px;fill:currentColor}
+.aplayer .ap-play .pa,.aplayer.playing .ap-play .pl{display:none}
+.aplayer.playing .ap-play .pa{display:inline}
+.aplayer .ap-rates{display:flex;justify-content:center;flex-wrap:wrap;gap:6px}
+.aplayer .ap-r{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;padding:4px 11px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+.aplayer .ap-r.on{background:#f6dc8e;border-color:#f6dc8e;color:#3d2a05}
+.aplayer.ap-err .ap-resume{color:#ffb4a8}
+.aup .aprev audio{width:100%;margin:6px 0 8px}
+/* uploading many recordings / shared from Telegram (21 Nov 2026) */
+.share-up h1{display:flex;align-items:center;gap:8px;font-size:20px}
+.share-up .sh-list{list-style:none;margin:10px 0 12px;padding:0;display:flex;flex-direction:column;gap:7px}
+.share-up .sh-list li{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid #dce8e5;border-radius:12px;background:#fbfdfc}
+.share-up .sh-n{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#e4f1ee;color:#0d6b5c;font-weight:800;font-size:12px}
+.share-up .sh-list .grow{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}
+#main .share-up .sh-t{width:100%;border:0!important;background:transparent!important;box-shadow:none!important;padding:0!important;font-weight:700;font-size:14px;min-height:0}
+.share-up .sh-list small{font-size:11.5px;color:#5d7570;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.share-up .sh-bar{display:block;height:4px;border-radius:4px;background:#e6efed;overflow:hidden}
+.share-up .sh-bar b{display:block;height:100%;width:0;background:linear-gradient(90deg,#14806d,#d9a93e);transition:width .2s}
+.share-up .sh-st{flex:none;min-width:38px;text-align:center;font-style:normal;font-weight:800;font-size:12.5px;color:#0d6b5c}
+.share-up li.ok{border-color:#9fd8c4;background:#effaf5}.share-up li.ok .sh-bar b{width:100%}
+.share-up li.fail{border-color:#f0b3a8;background:#fff4f1}.share-up li.fail .sh-st{color:#b3261e}
+.share-up li.big{opacity:.6}
+.share-up li.now{border-color:#14806d;box-shadow:0 0 0 2px rgba(20,128,109,.15)}
+.share-up .sh-note{font-size:12px;margin-top:8px}
+.sh-how{margin:8px 0;padding-inline-start:20px;display:flex;flex-direction:column;gap:5px;font-size:14px}
+:root[data-theme="dark"] .share-up .sh-list li{background:#0b2721;border-color:#21463c}
+/* terms page as cards (owner, 21 Nov 2026: "in English it appears bad, not organised, text big") */
+.terms-list{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr))}
+.terms-list .tcard{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:16px;background:#fff;border:1px solid #e1ece9;box-shadow:0 3px 10px rgba(6,70,59,.05)}
+.terms-list .tic{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:11px;background:#e7f3ef;color:#0d6b5c}
+.terms-list .tic svg{width:20px;height:20px}
+html body .terms-list .tcard h2{margin:2px 0 4px;font-size:15.5px;line-height:1.3;color:#0b3d34}
+html body .terms-list .tcard p{margin:0;font-size:14px;line-height:1.65;color:#33463f}
+:root[data-theme="dark"] .terms-list .tcard{background:#0b2721;border-color:#21463c}:root[data-theme="dark"] .terms-list .tcard h2{color:#f0f6f3}:root[data-theme="dark"] .terms-list .tcard p{color:#cfe3dd}
+:root[data-theme="dark"] .terms-list .tic{background:#123a31;color:#e9c46a}
+/* English: Poppins is wide, so body text is smaller and line spacing tighter than for Arabic */
+:root[lang="en"] .mh-old p,:root[lang="en"] .mh-old li{font-size:14px;line-height:1.6}
+:root[lang="en"] .mh-old h2{font-size:17px;line-height:1.3}
+:root[lang="en"] .mh-old h3{font-size:15.5px;line-height:1.35}
+:root[lang="en"] .mra .ban h1,:root[lang="en"] .mra .ban .bt{font-size:clamp(17px,4.6vw,24px);line-height:1.2}
+/* sign-in button: one line, white text */
+html body .mh-in{white-space:nowrap;color:#fff!important;-webkit-text-fill-color:#fff;font-size:13.5px;padding:0 13px;flex:none}
+/* bottom bar labels never cut in English */
+@media (max-width:560px){:root[lang="en"] .mh-nav a{font-size:10.5px;letter-spacing:-.15px}:root[lang="en"] .mh-nav a span{overflow:visible;text-overflow:clip}}
+@media (max-width:370px){:root[lang="en"] .mh-nav a{font-size:9.5px}}
+html body .terms-list .tcard{display:flex!important;flex-direction:row!important}
+html body .terms-list .tcard>div{min-width:0;flex:1}
+@media (max-width:440px){:root[lang="en"] .mh-nav a{font-size:9.8px;letter-spacing:-.25px;padding:4px 0}}
+:root[lang="en"] .mra .ban h1,:root[lang="en"] .mra .ban .bt{font-size:clamp(16px,4.3vw,23px)}
+/* the sign-in chip on the speciality/section screens is never cut (owner, 21 Nov 2026: "Si…") */
+html body .mrx .mr-me.out{flex:none!important;max-width:none!important;width:auto!important}
+html body .mrx .mr-me.out b{overflow:visible!important;text-overflow:clip!important;font-size:clamp(12.5px,3.3vw,18px)!important}
+/* Settings, compact design (owner, 21 Nov 2026) */
+.st2{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.st2 .st-card{background:#fff;border:1px solid #e1ece9;border-radius:18px;padding:12px 14px;box-shadow:0 3px 12px rgba(6,70,59,.05)}
+html body .st2 .st-card h2{margin:0 0 6px;font-size:12.5px;font-weight:800;letter-spacing:.2px;color:#0d6b5c;text-transform:none}
+.st2 .st-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid #eef4f2}
+.st2 h2+.st-row{border-top:0}
+.st2 .st-l{display:flex;align-items:center;gap:10px;min-width:0}
+.st2 .st-l>span:last-child{display:flex;flex-direction:column;min-width:0}
+.st2 .st-l b,.st2 .st-lt b{font-size:14px;font-weight:700;color:#14302a;line-height:1.3}
+.st2 .st-l small,.st2 .st-lt small{font-size:11.5px;color:#64817a;line-height:1.35}
+.st2 .st-ic{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:#e8f3f0;color:#0d6b5c}
+.st2 .st-ic svg{width:17px!important;height:17px!important}
+.st2 .st-seg{display:inline-flex;flex:none;padding:3px;gap:2px;border-radius:12px;background:#eef4f2;border:1px solid #e1ece9}
+.st2 .st-seg button{display:inline-flex;align-items:center;gap:4px;border:0;background:transparent;border-radius:9px;padding:6px 10px;font:inherit;font-size:12.5px;font-weight:700;color:#3d5a54;cursor:pointer;white-space:nowrap}
+.st2 .st-seg button i{font-style:normal;font-size:13px}
+.st2 .st-seg button.on{background:linear-gradient(180deg,#14806d,#06463b);color:#fff;box-shadow:0 2px 6px rgba(6,70,59,.25)}
+.st2 .st-seg em{font-style:normal;font-weight:800;line-height:1}.st2 .fa1{font-size:11px}.st2 .fa2{font-size:14px}.st2 .fa3{font-size:17px}
+.st2 .st-dots{display:flex;flex-wrap:wrap;gap:7px;flex:none}
+.st2 .st-dots button{width:26px;height:26px;border-radius:50%;border:2px solid #fff;background:var(--pc);box-shadow:0 0 0 1px #d4e2de;cursor:pointer;position:relative;padding:0}
+.st2 .st-dots button.on{box-shadow:0 0 0 2px #d9a93e}
+.st2 .st-dots button.on::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:13px;font-weight:900}
+.st2 .st-link{display:flex;align-items:center;gap:10px;width:100%;padding:9px 0;border:0;border-top:1px solid #eef4f2;background:none;text-decoration:none;color:inherit;font:inherit;cursor:pointer;text-align:start}
+.st2 h2+.st-link{border-top:0}
+.st2 .st-lt{flex:1;min-width:0;display:flex;flex-direction:column}
+.st2 .st-lt small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st2 .st-link>svg:last-child{width:15px;height:15px;color:#9db3ad;flex:none}
+.st2 .st-out .st-ic{background:#fdeceb;color:#b3261e}.st2 .st-out b{color:#b3261e!important}
+.st2 .st-space{display:flex;align-items:center;gap:12px}
+.st2 .st-thumb{flex:none;width:46px;height:46px;border-radius:12px;background:#e8f3f0 center/cover;display:grid;place-items:center;color:#0d6b5c}
+.st2 .st-sp{flex:1;min-width:0;display:flex;flex-direction:column}.st2 .st-sp small{font-size:11.5px;color:#64817a}.st2 .st-sp b{font-size:15px;color:#14302a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st2 .st-two{display:flex;gap:6px;flex-wrap:wrap}
+.st2 .st-pill{padding:6px 12px;border-radius:999px;background:#e8f3f0;color:#0d6b5c;font-weight:700;font-size:12.5px;text-decoration:none;white-space:nowrap}
+.st2 .st-note{margin:2px 0 10px;font-size:13px;color:#4a625c}
+.st2 .st-ver{text-align:center;font-size:11.5px;color:#7d948e;margin:2px 0 8px}
+.st2 .pushset .list{display:flex;flex-direction:column}
+.st2 .pushset h2 svg{display:none}
+.st2 .pushset .li{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 0;border-top:1px solid #eef4f2;flex-wrap:wrap}
+.st2 .pushset .li:first-child{border-top:0}
+.st2 .pushset .li b{font-size:14px}.st2 .pushset .li small{display:block;font-size:11.5px;color:#64817a}
+/* narrow phones: the switch goes under its label, full width */
+@media (max-width:520px){
+  .st2 .st-row{flex-direction:column;align-items:stretch;gap:7px}
+  .st2 .st-seg{display:flex}.st2 .st-seg button{flex:1;justify-content:center;padding:7px 4px}
+  .st2 .st-dots{justify-content:space-between;padding-inline:2px}.st2 .st-dots button{width:30px;height:30px}
+  .st2 .st-space{flex-wrap:wrap}.st2 .st-two{width:100%}.st2 .st-two .st-pill{flex:1;text-align:center}
+}
+:root[data-theme="dark"] .st2 .st-card{background:#0b2721;border-color:#21463c}
+:root[data-theme="dark"] .st2 .st-l b,:root[data-theme="dark"] .st2 .st-lt b,:root[data-theme="dark"] .st2 .st-sp b{color:#eef6f3}
+:root[data-theme="dark"] .st2 .st-row,:root[data-theme="dark"] .st2 .st-link{border-color:#1d3d35}
+:root[data-theme="dark"] .st2 .st-seg{background:#123a31;border-color:#21463c}:root[data-theme="dark"] .st2 .st-seg button{color:#cfe3dd}
+:root[data-theme="dark"] .st2 .st-ic,:root[data-theme="dark"] .st2 .st-pill,:root[data-theme="dark"] .st2 .st-thumb{background:#123a31;color:#e9c46a}
+:root[data-theme="dark"] .st2 .st-card h2{color:#e9c46a}
+/* banners follow the app colour (21 Nov 2026): the teal banner rules of app.css repeated here so css/mr-pal-*.css recolour them */
+:root:not([data-theme="dark"]) body[data-page] #main :is(.ban.bpic,.cban),:root:not([data-theme="dark"]) #main .ban.bpic{background:linear-gradient(270deg,#0d6773,#0a4f5b 60%,#083f49)!important}
+:root[dir="ltr"]:not([data-theme="dark"]) #main .ban.bpic{background:linear-gradient(90deg,#0d6773,#0a4f5b 60%,#083f49)!important}
+:root:not([data-theme="dark"]) #main .ban.bpic .bi{background:linear-gradient(150deg,#1fb3c0,#0d7f8c)!important}
+.st2 .pushset .list{border:0!important;background:none!important;padding:0!important;box-shadow:none!important}
+.st2 .pushset .li{background:none!important;border-radius:0!important;border-inline:0!important;border-bottom:0!important;box-shadow:none!important;padding-inline:0!important}
+.st2 .pushset .li .btn{font-size:12px;padding:5px 11px;min-height:0}
+@media (max-width:440px){:root[lang="en"] .mh-nav{gap:0!important}:root[lang="en"] .mh-nav a{font-size:9.4px;letter-spacing:-.35px}}
+/* bottom bar labels: one size chosen by IS.fitNav so every label fits on every screen (21 Nov 2026) */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html body .mh-nav a{min-width:0!important;font-size:var(--navfs,12px)!important;letter-spacing:0!important;padding-inline:1px!important}
+html body .mh-nav a span{display:block;width:100%;white-space:nowrap!important;overflow:hidden!important;text-overflow:clip!important;text-align:center}
+@media (min-width:900px){html body .mh-nav a span{width:auto}}
+/* the look menu of the day/night button */
+.lookmenu{position:fixed;z-index:1000;min-width:210px;padding:6px;border-radius:16px;background:#fff;border:1px solid #e1ece9;box-shadow:0 14px 34px rgba(6,40,34,.22);display:flex;flex-direction:column;gap:2px}
+.lookmenu .lm-t{font-size:11.5px;color:#64817a;padding:4px 10px 6px;font-weight:700}
+.lookmenu button{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;border-radius:11px;padding:9px 10px;font:inherit;font-size:14px;font-weight:600;color:#14302a;cursor:pointer;text-align:start}
+.lookmenu button i{font-style:normal;font-size:16px;width:22px;text-align:center}
+.lookmenu button span{flex:1}
+.lookmenu button em{font-style:normal;color:#0d6b5c;font-weight:900}
+.lookmenu button:hover{background:#f0f6f4}
+.lookmenu button.on{background:#e8f3f0;color:#0b4a3f}
+:root[data-theme="dark"] .lookmenu{background:#0f2b25;border-color:#21463c}:root[data-theme="dark"] .lookmenu button{color:#e6f1ee}:root[data-theme="dark"] .lookmenu button.on{background:#173d34}
+@media (max-width:440px){html body .mh-nav a{font-weight:600!important}html body .mh-nav{padding-inline:3px!important;gap:0!important}}
+/* speciality/section screens on phones: the logo takes only the room left between the buttons, so it never sits on «Sign in» (21 Nov 2026) */
+@media (max-width:600px){
+  html body .mrx .mr-top{display:flex!important;align-items:center;gap:8px!important}
+  html body .mrx .mr-tl,html body .mrx .mr-tr{flex:none;padding-top:0}
+  html body .mrx .mr-brand{flex:1 1 auto;min-width:0;display:flex;justify-content:center;margin-inline:2px}
+  html body .mrx .mr-brand img{width:100%!important;max-width:170px;height:auto!important;max-height:58px;object-fit:contain}
+}
 /* the day / night / eye button is ONE round button on every screen (owner, 21 Nov 2026) */
 html body .mrx .mh-tog{width:38px!important;height:38px!important;padding:0!important;justify-content:center!important;border-radius:50%!important;
   background:radial-gradient(circle at 50% 25%,#14806d,#06463b 75%)!important;border:2px solid #e2b85a!important;box-shadow:0 4px 10px rgba(6,70,59,.25)!important}

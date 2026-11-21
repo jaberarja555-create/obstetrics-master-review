@@ -139,8 +139,9 @@
     var c = await DB.one('courses', cid), x = await DB.lesson(lid); if (!x) throw new Error('missing');
     var info = { kind: x.kind || 'video', title: x.title, body: x.body || '', quiz: x.quiz || [], course: c ? c.title : '', cid: cid }, url = null;
     if (info.kind === 'video') { if (!x.video_id && DB.live) throw new Error('denied'); url = await DB.videoFile(x, q); }
+    else if (info.kind === 'audio') { var au = await DB.audioPlay(x); if (!au) throw new Error('denied'); url = au.src; }
     else if (!info.body && !(info.quiz || []).length) throw new Error('denied');
-    await save({ id: id, kind: 'lesson', lk: info.kind, title: x.title, sub: info.course, cid: cid, ref: lid, mime: 'video/mp4' }, info, url);
+    await save({ id: id, kind: 'lesson', lk: info.kind, title: x.title, sub: info.course, cid: cid, ref: lid, mime: info.kind === 'audio' ? 'audio/mpeg' : 'video/mp4' }, info, url);
   }
   IS.ACT.dl = async function (b) {
     var kind = b.getAttribute('data-k'), rid = b.getAttribute('data-id'), id = did(kind, rid);
@@ -187,7 +188,7 @@
   async function renew(it) {
     var allowed;
     if (it.kind === 'file') { var f = await DB.one('files', it.ref); allowed = !!(f && f.status === 'published'); }
-    else { var x = await DB.lesson(it.ref); allowed = !!(x && (it.lk === 'video' ? (x.video_id || !DB.live) : (x.body || (x.quiz || []).length))); }
+    else { var x = await DB.lesson(it.ref); allowed = !!(x && (it.lk === 'video' || it.lk === 'audio' ? (x.video_id || !DB.live) : (x.body || (x.quiz || []).length))); }
     if (!allowed) { await drop(it.id); return false; }
     it.exp = Date.now() + DAYS * 864e5; it.chk = Date.now(); await put('items', it); HAVE[it.id] = it; return true;
   }
@@ -232,6 +233,7 @@
     var info = await readInfo(it), h = '<nav class="crumb"><a href="#downloads">' + esc(A('تنزيلاتي', 'My downloads')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(it.title) + '</span></nav>';
     var head = '<header class="dlvh"><span class="chip">' + ic('download') + esc(A('دون إنترنت', 'Offline')) + '</span><h1 tabindex="-1">' + esc(it.title) + '</h1><p class="mut">' + esc(it.sub || '') + '</p></header>';
     if (it.kind === 'lesson' && info.kind === 'video') h += head + '<div class="player" id="dlview"><div class="loading"><span class="spin"></span></div></div>';
+    else if (it.kind === 'lesson' && info.kind === 'audio') h += head + '<div class="aplayer-wrap" id="dlview"><div class="loading"><span class="spin"></span></div></div>' + (info.body ? '<article class="box lesson-reading"><div class="rich">' + IS.clean(info.body) + '</div></article>' : '');
     else if (it.kind === 'lesson' && info.kind === 'quiz') h += '<div class="box quiz" id="quiz">' + head + (info.quiz || []).map(function (q, k) { return '<fieldset class="qq" data-a="' + q.a + '"><legend>' + N(k + 1) + '. ' + esc(q.q) + '</legend>' + (q.o || []).map(function (o, j) { return '<label class="qo"><input type="radio" name="q' + k + '" value="' + j + '"><span>' + esc(o) + '</span></label>'; }).join('') + (q.e ? '<p class="qe" hidden>' + ic('info') + esc(q.e) + '</p>' : '') + '</fieldset>'; }).join('') +
       '<div class="row"><button class="btn pri" data-act="dlquiz">' + esc(A('تحقق من الإجابات', 'Check answers')) + '</button><span id="qscore" class="qs"></span></div></div>';
     else if (it.kind === 'lesson') h += '<article class="box article">' + head + '<div class="rich">' + IS.clean(info.body || '') + '</div></article>';
@@ -240,6 +242,7 @@
       var v = $('#dlview'); if (!v) return; if (URLNOW) { URL.revokeObjectURL(URLNOW); URLNOW = null; }
       try {
         var blob = await readBlob(it); URLNOW = URL.createObjectURL(blob);
+        if (it.kind === 'lesson' && info.kind === 'audio') { v.innerHTML = IS.audioPlayer(URLNOW, { title: it.title }); IS.audioWire(v, { id: it.ref, title: it.title }); return; }
         if (it.kind === 'lesson') { v.innerHTML = '<video controls controlsList="nodownload noremoteplayback" disablePictureInPicture playsinline oncontextmenu="return false" src="' + URLNOW + '"></video>'; return; }
         await IS.renderLibraryDocument(v, it.mime || 'application/pdf', URLNOW, blob, { id: it.ref || it.id, title: it.title });
       } catch (e) { v.innerHTML = IS.empty('file', A('تعذّر فتح التنزيل', 'The download could not be opened'), A('احذفه ونزّله مرة أخرى عند الاتصال.', 'Delete it and download it again when online.')); }

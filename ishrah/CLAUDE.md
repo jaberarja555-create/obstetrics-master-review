@@ -1095,5 +1095,107 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - **Only Medicine is open** (owner, 21 Nov 2026): on `#pick` the other specialities show a lock and «قريبًا» and cannot be chosen
   (`IS.specLocked(id)` in mr.js; the platform owner, `team` has 'owner', can still open them). A device that had chosen a locked
   speciality is sent back to `#pick` (core.js route gate). To open a speciality later, change `specLocked`.
+- **Post page reads like a post** (owner, 21 Nov 2026: "the question and its description and all the other things are misplaced"):
+  student.js post page = `article.thread.pthread`: header (picture · name · «الآن · سؤال» kind in the app colour · 📌 when pinned) with the
+  writer's / team's small emoji tools at the end of that line (✏️ edit for the writer, 📌 pin and 🗑️ remove for moderators, 🗑️ own delete for
+  the writer otherwise), then the title and the text full width, then stars (at the start) and the action row; the separate row of
+  «عدّل المنشور · تثبيت · حذف» pills is gone. The comment field is one rounded field (no inner box: `#main .cmt-rbox textarea` beats the
+  framed pages' input rule). CSS at the end of css/mr.css. Test: scratchpad post.js (390, 1440).
+- **Locked specialities in the owner's picture** (21 Nov 2026: "for all other than the owner, the other specialities like this"): for
+  everyone except the platform owner (`IS.specLocked`), Nursing · Laboratory · Pharmacy · Dentistry are muted grey-green cards with a faded
+  icon, a grey wave, a lock in a small circle at the corner (`.mr-lockb`) and a gold «قريبًا» ribbon (`.mr-soon`); the open speciality has a
+  gold glowing frame while others are locked. Plain colours only (the old grayscale filter is switched off; filters smear on touch screens).
+  The icon stays whole: on locked cards it is smaller and higher (`.art` inset 5% 0 58%) and the ribbon sits just above the wave (bottom 40%).
+- **«منشور»: a plain post like Facebook, for everyone** (owner, 21 Nov 2026: «بدل معاينة كورس أضف منشور، شخص يقدر يعمل منشور مثل حق
+  الفيسبوك»): the publish chooser (`#community/new`, `postChoices`) starts with «منشور» for every signed-in person; «معاينة كورس» is no longer
+  offered there (old course previews still show, and `#community/new/course_preview` still works for lecturers). `#community/new/post` =
+  writer's picture and name, one big text box («بماذا تفكر؟»), «أضف إلى منشورك»: 🖼️ picture (preview with ✕, shrunk to 1280 px, `media`
+  bucket) · 🎬 YouTube / Drive link · 🏷️ optional title. post_kind `post`; published at once like a discussion. Feed card and post page show
+  the text itself (no title line when there is none) with the picture across the card under it (`.feed-fb`); the Community page has a fifth
+  kind button «المنشورات». Migration `052_free_posts.sql`: post_kind 'post' allowed; `guard_lecturer_post` and `guard_post_kind` let a plain
+  post carry a picture or video link from anyone (formats still checked) but never a course link or highlights. Tested on the local Postgres
+  (student post with picture + video saved; course link, course preview and discussion with a picture still refused; file runs twice) and in
+  the browser (scratchpad fp.js, fp2.js at 360/390/1440).
+
+## Paid video plan, for when paid videos start (owner, 21 Nov 2026: "we will do this later when we publish and will have paid videos")
+Rate given by the owner: about 13,000 SDG per US dollar; courses sell for 20,000–30,000 SDG (about $1.5–2.3), so every cent of video
+delivery matters. Agreed approach: free videos stay on YouTube (unlisted); paid recorded lessons go to Bunny Stream (Volume network, token
+authentication). To build then:
+1. Lecturer guide + later a converter: slides lectures compressed to about 0.2 GB per hour; 480p by default on phones (720p by choice).
+2. Resume where the student stopped; offline download (already built) so re-watching costs nothing.
+3. Access period per paid course (6–12 months) and a device limit per enrolment.
+4. Minimum price for paid recorded courses (about 15,000–20,000 SDG); paid lessons must be Bunny uploads, links only for free lessons and previews.
+5. Storage allowance per lecturer and clean-up of unsold / rejected course videos; Bunny cost beside revenue in Control → Usage.
+6. Cloudflare R2 for video (free delivery, own HLS conversion and AES key protection) when the Bunny bill passes about $10–20 a month.
+Estimates given (Bunny Volume ≈ $0.005/GB): 20 h course watched once ≈ 260 SDG compressed, 455 SDG at 480p, 910 SDG at 720p.
+Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share); stay on the free plan as long as possible (library files to R2).
+
+## Audio lectures in Cloudflare R2 (owner, 21 Nov 2026: "let us move to R2, and also let us make the audio lecture feature")
+- Lessons have a fourth kind **audio** («درس صوتي»): Studio → course → Curriculum → «+ درس صوتي»; the editor takes MP3 / M4A / OGG / AAC / WAV
+  up to 95 MB, reads the length, warns when the file is over ~45 MB an hour (advice: MP3 Mono 48 kbps ≈ 20 MB an hour, Audacity steps),
+  shows a preview player and «احذف التسجيل». Free preview, notes under the recording, publish checklist and course totals work as for video.
+- Storage: `functions/api/audio.js` with the R2 binding **MEDIA** (Pages project ishrah → Settings → Bindings → R2 bucket `ishrah-media`,
+  variable MEDIA). PUT ?lesson= (the lesson's lecturer or review team; key lessons/<lesson>/<uuid>.<ext>; sets lessons.kind 'audio' and
+  video_id 'au:<key>' with the service key, so ish_lesson hides it like a video; the old file is deleted); DELETE ?lesson=; GET ?lesson= →
+  a signed address for 6 h (free preview of a published course, active enrolment, its lecturer, review team); GET ?f&e&s streams with range
+  requests (HMAC with MEDIA_SIGN_KEY or the service key). Without the binding every call answers 501 and the Studio says audio storage is
+  not switched on. Deleting a lesson or a course removes its recording first.
+- Student player (`IS.audioPlayer` / `IS.audioWire` in student.js, CSS "audio lectures" in mr.css): play/pause, ±15 s, seek line, speed
+  0.75–2× (`ish-arate`), continues where the student stopped (`ish-apos:<lesson>`, «تابع من 0:18»), lock-screen title (Media Session);
+  offline download into the encrypted store and the same player in #dl. Icon `mic` added to core.js.
+- Tests: scratchpad au.js (preview: add audio lesson, upload, listen, speed, resume, download, offline play at 390 and 1440) and the real
+  function under `wrangler pages dev --r2=MEDIA` with a fake Supabase (no sign-in / stranger refused, wrong type 415, enrolled plays, full
+  file identical, range 206, tampered link 403, replace deletes the old file, delete).
+- Still to do: library audio (single recordings or series like books) if the owner wants it; R2 for library files (same bucket).
+- **Recordings shared from Telegram, and many at once** (owner, 21 Nov 2026: "build for me the sharing from Telegram"):
+  `manifest.webmanifest` has a `share_target` (POST multipart to /share-target, files field `audio`, audio types and extensions), so on
+  Android the INSTALLED app appears in the share list (Telegram: long-press one or several recordings → Share → اشرح لي). sw.js keeps the
+  files in IndexedDB `ish-share` (store `f`) and opens `#studio-share`. Any device: «ارفع عدة تسجيلات» under each curriculum section picks many
+  files and opens the same page (`studio-share/<course>/<section>`, files in memory). The page (studio.js "RECORDINGS SHARED…"): course and
+  section (or «+ قسم جديد»), files in natural order by name (1, 2, 10) with editable titles, size, files over 95 MB skipped; «ابدأ الرفع»
+  makes one audio lesson per file in that order (length from the file), uploads each (progress per row, screen kept awake, warning on
+  leaving), removes uploaded files from the phone, keeps failed ones for «أعد محاولة الباقي»; without R2 it stops and keeps them.
+  iPhone cannot show web apps in the share list: save from Telegram to Files, then «ارفع عدة تسجيلات». Test: scratchpad sh.js.
+- **English pages, Settings, colours and text size** (owner, 21 Nov 2026: "in English it appears bad, text big"; "Settings must be fully
+  reorganised with nice small buttons; app colours and text size are not working"; "the sign in up here does not appear well"):
+  - English typography on framed pages: body 14px / 1.6 (Poppins is wide; Arabic keeps its spacing), smaller headings and banner titles;
+    the Terms page is a list of cards (icon tile, title, text). Bottom bar English label «Learning» (was «My learning»), smaller type so
+    nothing is cut. Sign-in buttons: white text, one line («دخول» on the speciality/section screens, never cut).
+  - **Settings** (`IS.page('settings')` in student.js, CSS ".st2" at the end of mr.css): speciality card with «التخصص»/«القسم» pills;
+    «اللغة والمظهر» rows with small segmented switches (language; Light/Dark/Eye/Auto; colour dots; text size A/A/A); Account rows
+    (profile, security, notifications, favourites, downloads, online status for lecturers/team, sign out in red); the Alerts box of
+    alerts.js now fills the `.st-alerts` slot; Help rows; version 1.2. Narrow phones put each switch under its label.
+  - **App colour now reaches the SMRA design:** mr.css hard-coded its greens, so the colour choice changed nothing. palettes.py now also
+    writes `css/mr-pal-<ocean|teal|purple|maroon|graphite>.css` (every green/teal hue 135–195 moved to the colour); index.html loads
+    `#mrcss` by `ish-pal`, `IS.setPal` swaps both stylesheets. Choices (`IS.PALS`): SMRA green (key 'blue', default), Blue ('ocean'),
+    Teal, Purple, Maroon, Graphite; an old 'green' choice becomes the default. The teal banner rules of app.css are repeated at the end
+    of mr.css so they recolour too. Photos keep their own colours. **Run `python3 tools/ishrah/palettes.py` after every change to mr.css
+    or app.css**; stamp.py gives all app/pal/mr files one shared version.
+  - **Text size works on the new pages:** mr.css forced `zoom:1` on framed pages; it is now `zoom:var(--z,1)` (Small 0.9, Large 1.15).
+  Test: scratchpad st.js (colour change, text size, no sideways scroll) and en.js.
+- **Bottom bar fits every screen; the look button opens a menu** (owner, 21 Nov 2026: "even the buttons down … in every device it doesn't
+  fit well"; "pressing day/night/eye should show options, not change immediately"): mr.js `IS.fitNav` (after every page, on resize and when
+  the fonts load) gives all bottom-bar labels ONE size, the largest (12 px; 14 px from 900 px) at which every label fits its button, down to
+  8 px; labels are one line, clipped never with «…». Checked at 320–1440 px in Arabic and English: nothing cut. `text-size-adjust:100%`
+  on html. The top-bar look button (`IS.ACT.theme`, mr.js) opens `#lookmenu` under it: Day · Night · Eye comfort · Automatic, the current
+  one ticked; a choice applies and closes it; a tap outside, scrolling or resizing closes it. Test: scratchpad nav.js.
+- **Light (white) look is the default; logo apart from «Sign in»** (owner, 21 Nov 2026): every device is put on the light look once
+  (core.js flag `ish-theme-reset1`, also read by the head script so there is no dark flash); students can still choose Night / Eye /
+  Automatic from the look menu or Settings. On the speciality and section screens (phones ≤ 600 px) the header is a row where the logo
+  takes only the room between the buttons (max 170 px), so it never sits on «Sign in» (10–22 px gap at 320–393 px). Test: scratchpad pk.js.
+- **Never stuck on the loading circle** (owner's laptop, 21 Nov 2026: endless spinner on #home with many tabs open): (1) db.js gives
+  supabase-js its own auth `lock`: the cross-tab navigator lock is waited for at most 3 s, then the call runs (a sleeping tab holding the
+  lock used to freeze every new tab); (2) `IS.start` (core.js) waits at most 8 s for the base data and the account, then opens with what
+  the device saved (`restoreBase`) and routes again when the server answers. Tests: scratchpad lf3.js (live start unchanged) and hang.js
+  (server never answers → app shown after 8 s).
+- **Background matches the app colour** (owner, 21 Nov 2026): `python3 tools/ishrah/bgcolors.py` writes img/mr/bg-wide-<colour>.webp and
+  bg-tall-<colour>.webp (only the room's green/teal surfaces, hue 138–212, move to the colour; plants and objects keep theirs);
+  palettes.py points each css/mr-pal-<colour>.css at its own pictures.
+- **Automatic look follows the device live**: a prefers-color-scheme listener in core.js re-applies it while the app is open, and the
+  head script resolves 'auto' before the first paint. On Windows, Chrome follows "Settings → Personalisation → Colours → Choose your
+  default app mode", not the taskbar (Windows mode) setting. Test: scratchpad auto.js.
+- **No big arrow when the colour changes** (owner, 21 Nov 2026): `IS.setPal` used to change the href of #ishcss / #mrcss, so for a moment
+  the page had no styles and icons (the chevron) drew huge. Now `swapCss` loads the new stylesheet beside the old one and removes the old
+  only when the new one has loaded (8 s safety); `IS.setPal` returns a promise and Settings redraws after it. Test: scratchpad swap.js.
 - The day / night / eye button is one round button on every screen (laptops too); «Sign in» on the new top bar is white on teal.
   Arabic text in cards starts from the right even when the app is in English (`unicode-bidi:plaintext`, text-align start).

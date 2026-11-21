@@ -55,7 +55,7 @@
   function top(homeHref) {
     var m = IS.ME;
     var me = m ? '<a class="mr-me" href="#account"><span class="mr-av">' + (m.photo ? '<img src="' + IS.U(m.photo) + '" alt="">' : I.person) + '</span><b>' + IS.greetingName(m.name, true) + '</b></a>' :
-      '<button type="button" class="mr-me out" data-act="login"><span class="mr-av">' + I.person + '</span><b>' + esc(A('تسجيل الدخول', 'Sign in')) + '</b></button>';
+      '<button type="button" class="mr-me out" data-act="login"><span class="mr-av">' + I.person + '</span><b>' + esc(A('دخول', 'Sign in')) + '</b></button>';
     return '<header class="mr-top"><div class="mr-tl"><a class="mr-rb" href="' + homeHref + '" aria-label="' + esc(A('الرئيسية', 'Home')) + '">' + I.home + '</a><span class="mr-sep"></span>' + me + '</div>' +
       '<a class="mr-brand" href="#pick" aria-label="' + esc(IS.brandName()) + '"><img src="' + IS.U('img/mr/logo-smra.webp') + '" alt="' + esc(IS.brandName()) + '" width="1000" height="359"></a>' +
       '<div class="mr-tr">' + (m ? '<a class="mr-rb" href="#notifications" aria-label="' + esc(A('الإشعارات', 'Notifications')) + '">' + I.bell + '<i class="mr-dot" hidden></i></a>' : '') +
@@ -107,7 +107,7 @@
       '<nav class="mr-specs n' + specs.length + '" aria-label="' + esc(A('التخصصات', 'Specialities')) + '">' + specs.map(function (s) {
         var locked = specLocked(s.id);
         return '<button type="button" class="mr-spec' + (locked ? ' locked' : '') + '" data-act="setspec" data-v="' + esc(s.id) + '" aria-pressed="' + (s.id === cur) + '"' + (locked ? ' aria-disabled="true"' : '') + '><span class="art">' + (SPIC[s.id] || ic(s.icon)) + '</span>' +
-          (locked ? '<span class="mr-lock">' + LOCK + '<b>' + esc(A('قريبًا', 'Coming soon')) + '</b></span>' : '') +
+          (locked ? '<span class="mr-lockb" aria-hidden="true">' + LOCK + '</span><span class="mr-soon">' + esc(A('قريبًا', 'Coming soon')) + '</span>' : '') +
           '<span class="lab">' + WAVE + '<b lang="en" dir="ltr">' + esc(SHORT[s.id] || s.en) + '</b></span></button>';
       }).join('') + '</nav>' + dock(false) + '</div></div>';
   });
@@ -187,7 +187,7 @@
   /* ---------- bottom bar on the new pages (owner, 20 Nov 2026: "don't forget the buttons at the bottom: Library, Courses, Community,
      Lecturers and My learning") ---------- */
   var NAV = [['home', 'home', 'الرئيسية', 'Home'], ['library', 'open', 'مكتبتي', 'Library'], ['courses', 'layers', 'الكورسات', 'Courses'], ['community', 'group', 'المجتمع', 'Community'],
-    ['lecturers', 'users', 'المحاضرون', 'Lecturers'], ['learning', 'bookmark', 'تعلّمي', 'My learning']];
+    ['lecturers', 'users', 'المحاضرون', 'Lecturers'], ['learning', 'bookmark', 'تعلّمي', 'Learning']];
   function bnav(cur) {
     return '<nav class="mh-nav" aria-label="' + esc(A('التنقل', 'Navigation')) + '">' + NAV.map(function (n) {
       return '<a href="#' + n[0] + '"' + (n[0] === cur ? ' class="on" aria-current="page"' : '') + '>' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') + '</nav>';
@@ -217,10 +217,21 @@
   /* ---------- one day/night button: each press = Day → Night → Eye comfort (owner, 20 Nov 2026) ---------- */
   I.eye = '<svg class="ic eye" viewBox="0 0 24 24" fill="none" stroke="' + G + '" stroke-width="2" stroke-linecap="round"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3.2" fill="' + G + '"/></svg>';
   var THEMES = ['light', 'dark', 'eye'];
-  IS.ACT.theme = function () {
-    var c = document.documentElement.getAttribute('data-theme'), n = THEMES[(THEMES.indexOf(c) + 1) % 3];
-    IS.setTheme(n); IS.chrome(document.body.getAttribute('data-page'));
-    if (IS.toast) IS.toast(n === 'dark' ? A('الوضع الليلي', 'Night') : n === 'eye' ? A('راحة العين', 'Eye comfort') : A('الوضع النهاري', 'Day'));
+  /* the button opens a small menu of the looks; nothing changes until one is chosen (owner, 21 Nov 2026: "should show options to choose,
+     not change immediately") */
+  function closeLook() { var m = document.getElementById('lookmenu'); if (m) m.remove(); document.removeEventListener('pointerdown', outLook, true); window.removeEventListener('scroll', closeLook, true); window.removeEventListener('resize', closeLook); }
+  function outLook(e) { var m = document.getElementById('lookmenu'); if (m && !m.contains(e.target) && !e.target.closest('[data-act="theme"]')) closeLook(); }
+  IS.ACT.theme = function (b) {
+    if (document.getElementById('lookmenu')) return closeLook();
+    var cur = IS.LS.get('theme', 'light'), r = b.getBoundingClientRect(), m = document.createElement('div');
+    m.id = 'lookmenu'; m.className = 'lookmenu'; m.setAttribute('role', 'menu');
+    m.innerHTML = '<b class="lm-t">' + esc(A('مظهر التطبيق', 'App look')) + '</b>' + [['light', '☀️', 'نهاري', 'Day'], ['dark', '🌙', 'ليلي', 'Night'], ['eye', '👁️', 'راحة العين', 'Eye comfort'], ['auto', '⚙️', 'تلقائي (حسب الجهاز)', 'Automatic (device)']].map(function (o) {
+      return '<button type="button" role="menuitemradio" aria-checked="' + (o[0] === cur) + '" class="' + (o[0] === cur ? 'on' : '') + '" data-look="' + o[0] + '"><i>' + o[1] + '</i><span>' + esc(A(o[2], o[3])) + '</span>' + (o[0] === cur ? '<em>✓</em>' : '') + '</button>'; }).join('');
+    document.body.appendChild(m);
+    var w = m.offsetWidth, x = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), innerWidth - w - 8);
+    m.style.left = x + 'px'; m.style.top = (r.bottom + 8) + 'px';
+    m.querySelectorAll('[data-look]').forEach(function (o) { o.onclick = function () { var n = o.getAttribute('data-look'); closeLook(); IS.setTheme(n); IS.chrome(document.body.getAttribute('data-page')); if (document.body.getAttribute('data-page') === 'settings' && IS.refresh) IS.refresh(); }; });
+    setTimeout(function () { document.addEventListener('pointerdown', outLook, true); window.addEventListener('scroll', closeLook, true); window.addEventListener('resize', closeLook); }, 0);
   };
 
   /* ---------- My Library in the same design (owner's picture, 20 Nov 2026): banner, «محتوى المكتبة», Sort · Content type · Share,
@@ -295,7 +306,7 @@
       posts: po, files: fi, me_follow: !!(IS.ME && fl.some(function (f) { return f.follower === IS.ME.id && f.followee === id; })) };
   }
   function nfmt(n) { n = +n || 0; return n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'K' : n >= 1000 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : String(n); }
-  var PKIND = { discussion: ['مناقشة', 'Discussion', 'chat'], question: ['سؤال', 'Question', 'help'], announcement: ['إعلان', 'Announcement', 'mega'], course_preview: ['معاينة كورس', 'Course preview', 'video'] };
+  var PKIND = { post: ['منشور', 'Post', 'pen'], discussion: ['مناقشة', 'Discussion', 'chat'], question: ['سؤال', 'Question', 'help'], announcement: ['إعلان', 'Announcement', 'mega'], course_preview: ['معاينة كورس', 'Course preview', 'video'] };
   function postTile(x) {
     var k = PKIND[x.kind] || PKIND.discussion, pic = x.preview_image || x.cover || 'img/collection/' + (x.kind === 'announcement' ? 'notifications' : x.kind === 'question' ? 'support' : 'community') + '.webp';
     var rx = (+x.like_count || 0) + (+x.love_count || 0) + (+x.angry_count || 0) + (+x.dislike_count || 0);
@@ -685,7 +696,8 @@
   HI.mega = svg('0 0 24 24', '<path d="M3 10v4h3l7 4V6L6 10z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"');
   HI.help = svg('0 0 24 24', '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.3a2.6 2.6 0 0 1 5 .9c0 1.8-2.5 2.2-2.5 3.8M12 17h.01"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"');
   HI.chats = svg('0 0 24 24', '<path d="M3 5h12v8H8l-4 3v-3H3z"/><path d="M15 9h6v8h-1v3l-4-3h-5v-2"/>', ' fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"');
-  var CKINDS = [['announcement', HI.mega, 'الإعلانات', 'Announcements'], ['course_preview', HI.mark, 'الموارد', 'Resources'], ['question', HI.help, 'الأسئلة', 'Questions'], ['discussion', HI.chats, 'النقاشات', 'Discussions']];
+  HI.pen = svg('0 0 24 24', '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"');
+  var CKINDS = [['post', HI.pen, 'المنشورات', 'Posts'], ['announcement', HI.mega, 'الإعلانات', 'Announcements'], ['course_preview', HI.mark, 'الموارد', 'Resources'], ['question', HI.help, 'الأسئلة', 'Questions'], ['discussion', HI.chats, 'النقاشات', 'Discussions']];
   var com0 = IS.pageOf && IS.pageOf('community');
   if (com0) IS.page('community', async function (room) {
     var inner = await com0.fn(room);
@@ -749,4 +761,22 @@
       return '<a href="' + a.getAttribute('href') + '" class="' + (a.classList.contains('on') ? 'on' : '') + '">' + a.innerHTML + '</a>'; });
     IS.sheet(esc(A('المزايا', 'Features')), '<div class="mr-feat">' + links.join('') + '</div>');
   };
+
+  /* the bottom bar fits every screen (owner, 21 Nov 2026: "in every device it doesn't fit well"): one label size for all buttons, the
+     largest (12 px, 14 px on wide screens) at which every label fits its button, never below 8.5 px */
+  function fitNav() {
+    document.querySelectorAll('.mh-nav').forEach(function (nav) {
+      var spans = nav.querySelectorAll('a span'); if (!spans.length) return;
+      var size = innerWidth >= 900 ? 14 : 12; nav.style.setProperty('--navfs', size + 'px');
+      for (var k = 0; k < 14; k++) {
+        var over = false; spans.forEach(function (s) { if (s.scrollWidth > s.clientWidth + .5) over = true; });
+        if (!over || size <= 8) break; size -= .5; nav.style.setProperty('--navfs', size + 'px');
+      }
+    });
+  }
+  IS.fitNav = fitNav;
+  var route9 = IS.onRoute;
+  IS.onRoute = function (name, arg, main) { if (route9) try { route9(name, arg, main); } catch (e) {} requestAnimationFrame(fitNav); setTimeout(fitNav, 400); };
+  var fnT; window.addEventListener('resize', function () { clearTimeout(fnT); fnT = setTimeout(fitNav, 120); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitNav);
 })();

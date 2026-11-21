@@ -254,10 +254,11 @@
     h += secs.length ? secs.map(function (s, i) {
       return '<div class="secb"><header><span class="cn">' + N(i + 1) + '</span><b>' + esc(s.title) + '</b><span class="row">' + (i ? '<button class="ib sm" data-act="mvsec" data-id="' + s.id + '" data-d="-1" aria-label="up">' + ic('up') + '</button>' : '') + (i < secs.length - 1 ? '<button class="ib sm" data-act="mvsec" data-id="' + s.id + '" data-d="1" aria-label="down">' + ic('down') + '</button>' : '') +
         '<button class="ib sm" data-act="rensec" data-id="' + s.id + '" aria-label="rename">' + ic('pen') + '</button><button class="ib sm" data-act="delsec" data-id="' + s.id + '" aria-label="delete">' + ic('trash') + '</button></span></header>' +
-        '<ol>' + s.lessons.map(function (x, j) { return '<li><span class="lk">' + ic(x.kind === 'quiz' ? 'qb' : x.kind === 'text' ? 'file' : 'video') + '</span><a href="#studio-lesson/' + x.id + '"><b>' + esc(x.title) + '</b><small class="mut">' + esc({ video: A('فيديو', 'Video'), text: A('مكتوب', 'Written'), quiz: A('اختبار', 'Quiz') }[x.kind]) +
+        '<ol>' + s.lessons.map(function (x, j) { return '<li><span class="lk">' + ic(x.kind === 'quiz' ? 'qb' : x.kind === 'text' ? 'file' : x.kind === 'audio' ? 'mic' : 'video') + '</span><a href="#studio-lesson/' + x.id + '"><b>' + esc(x.title) + '</b><small class="mut">' + esc({ video: A('فيديو', 'Video'), audio: A('صوتي', 'Audio'), text: A('مكتوب', 'Written'), quiz: A('اختبار', 'Quiz') }[x.kind]) +
+          (x.kind === 'audio' ? ' · ' + (x.video_id || x.has_video ? esc(A('التسجيل جاهز', 'recording ready')) : '<span class="bad">' + esc(A('لم يُرفع تسجيل', 'no recording yet')) + '</span>') : '') +
           (x.kind === 'video' ? ' · ' + (x.video_id || x.has_video ? esc(/^yt:/.test(x.video_id || '') ? A('رابط YouTube', 'YouTube link') : /^gd:/.test(x.video_id || '') ? A('رابط Google Drive', 'Google Drive link') : A('الفيديو جاهز', 'video ready')) : '<span class="bad">' + esc(A('لم يُرفع فيديو', 'no video yet')) + '</span>') : '') + (x.minutes ? ' · ' + N(x.minutes) + ' ' + esc(A('د', 'min')) : '') + (x.free ? ' · ' + esc(A('معاينة مجانية', 'free preview')) : '') + '</small></a>' +
           '<span class="row">' + (j ? '<button class="ib sm" data-act="mvles" data-id="' + x.id + '" data-d="-1" aria-label="up">' + ic('up') + '</button>' : '') + (j < s.lessons.length - 1 ? '<button class="ib sm" data-act="mvles" data-id="' + x.id + '" data-d="1" aria-label="down">' + ic('down') + '</button>' : '') + '<a class="ib sm" href="#studio-lesson/' + x.id + '" aria-label="edit">' + ic('pen') + '</a></span></li>'; }).join('') + '</ol>' +
-        '<div class="row addl">' + [['video', 'video', A('درس فيديو', 'Video lesson')], ['text', 'file', A('درس مكتوب', 'Written lesson')], ['quiz', 'qb', A('اختبار', 'Quiz')]].map(function (k) { return '<button class="btn ghost sm" data-act="addles" data-s="' + s.id + '" data-c="' + c.id + '" data-k="' + k[0] + '">' + ic(k[1]) + '+ ' + esc(k[2]) + '</button>'; }).join('') + '</div></div>';
+        '<div class="row addl">' + [['video', 'video', A('درس فيديو', 'Video lesson')], ['audio', 'mic', A('درس صوتي', 'Audio lesson')], ['text', 'file', A('درس مكتوب', 'Written lesson')], ['quiz', 'qb', A('اختبار', 'Quiz')]].map(function (k) { return '<button class="btn ghost sm" data-act="addles" data-s="' + s.id + '" data-c="' + c.id + '" data-k="' + k[0] + '">' + ic(k[1]) + '+ ' + esc(k[2]) + '</button>'; }).join('') + '<button class="btn ghost sm" data-act="bulkaudio" data-s="' + s.id + '" data-c="' + c.id + '">' + ic('upload') + esc(A('ارفع عدة تسجيلات', 'Upload several recordings')) + '</button></div></div>';
     }).join('') : IS.empty('layers', A('ابدأ بإضافة أول قسم', 'Start by adding the first section'), '', '<button class="btn pri" data-act="addsec" data-c="' + c.id + '">' + ic('plus') + esc(A('قسم جديد', 'New section')) + '</button>');
     return h + '</section><div class="row end"><a class="btn pri" href="#studio-course/' + c.id + '/publish">' + esc(A('التالي: النشر', 'Next: publishing')) + ic('chev', 'fl') + '</a></div>';
   }
@@ -265,7 +266,7 @@
   IS.ACT.addsec = async function (b) { var t = await IS.ask(A('قسم جديد', 'New section'), A('عنوان القسم', 'Section title')); if (!t) return; var n = (await DB.q('sections', { eq: { course_id: b.getAttribute('data-c') } })).length; await DB.ins('sections', { course_id: b.getAttribute('data-c'), title: t, sort: n }); IS.refresh(); };
   IS.ACT.rensec = async function (b) { var s = await DB.one('sections', b.getAttribute('data-id')), t = await IS.ask(A('تعديل القسم', 'Rename section'), A('عنوان القسم', 'Section title'), s.title); if (!t) return; await DB.upd('sections', s.id, { title: t }); IS.refresh(); };
   IS.ACT.delsec = async function (b) { var s = await DB.one('sections', b.getAttribute('data-id')), ls = await DB.q('lessons', { eq: { section_id: s.id } }); if (!(await IS.confirm(A('حذف القسم «' + s.title + '» و' + ls.length + ' دروس فيه؟', 'Delete “' + s.title + '” and its ' + ls.length + ' lessons?'), A('حذف', 'Delete')))) return;
-    for (var i = 0; i < ls.length; i++) await DB.del('lessons', ls[i].id); await DB.del('sections', s.id); await courseTotals(s.course_id); IS.refresh(); };
+    for (var i = 0; i < ls.length; i++) { if (ls[i].kind === 'audio') await DB.audioRemove(ls[i].id).catch(function () {}); await DB.del('lessons', ls[i].id); } await DB.del('sections', s.id); await courseTotals(s.course_id); IS.refresh(); };
   IS.ACT.mvsec = async function (b) { var s = await DB.one('sections', b.getAttribute('data-id')), all = await DB.q('sections', { eq: { course_id: s.course_id }, order: ['sort'] }), i = all.map(function (x) { return x.id; }).indexOf(s.id), j = i + +b.getAttribute('data-d'); var t = all[i]; all[i] = all[j]; all[j] = t; await resort('sections', all); IS.refresh(); };
   IS.ACT.mvles = async function (b) { var x = await DB.one('lessons', b.getAttribute('data-id')), all = await DB.q('lessons', { eq: { section_id: x.section_id }, order: ['sort'] }), i = all.map(function (y) { return y.id; }).indexOf(x.id), j = i + +b.getAttribute('data-d'); var t = all[i]; all[i] = all[j]; all[j] = t; await resort('lessons', all); IS.refresh(); };
   IS.ACT.addles = async function (b) {
@@ -275,10 +276,10 @@
   };
   async function courseTotals(cid) { var ls = await DB.q('lessons', { eq: { course_id: cid } }); await DB.upd('courses', cid, { n_lessons: ls.length, minutes: ls.reduce(function (a, l) { return a + (+l.minutes || 0); }, 0), updated_at: new Date().toISOString() }); }
   async function publishBox(c) {
-    var ls = await DB.q('lessons', { eq: { course_id: c.id } }), missing = ls.filter(function (x) { return x.kind === 'video' && !(x.video_id || x.has_video); }), full = await Promise.all(ls.filter(function (x) { return x.kind === 'quiz'; }).map(function (x) { return DB.lesson(x.id); })), qz = full.filter(function (x) { return !(x.quiz || []).length; });
+    var ls = await DB.q('lessons', { eq: { course_id: c.id } }), missing = ls.filter(function (x) { return (x.kind === 'video' || x.kind === 'audio') && !(x.video_id || x.has_video); }), full = await Promise.all(ls.filter(function (x) { return x.kind === 'quiz'; }).map(function (x) { return DB.lesson(x.id); })), qz = full.filter(function (x) { return !(x.quiz || []).length; });
     var live = c.delivery === 'live' || c.delivery === 'hybrid';
     var checks = [[!!c.title, A('عنوان الكورس', 'Course title')], [!!c.cover, A('صورة الغلاف', 'Cover picture')], [!!(c.about || '').replace(/<[^>]+>/g, '').trim(), A('وصف الكورس', 'Course description')], [(c.learn || []).length > 0, A('ماذا سيتعلم الطالب', 'What students will learn')],
-      [!missing.length, A('إضافة كل فيديوهات الدروس', 'Every lesson video added') + (missing.length ? ' (' + missing.length + ')' : '')], [!qz.length, A('أسئلة لكل اختبار', 'Questions in every quiz')], [ls.some(function (x) { return x.free; }), A('درس معاينة مجاني (يُنصح به)', 'A free preview lesson (recommended)'), true]];
+      [!missing.length, A('إضافة كل فيديوهات وتسجيلات الدروس', 'Every lesson video and recording added') + (missing.length ? ' (' + missing.length + ')' : '')], [!qz.length, A('أسئلة لكل اختبار', 'Questions in every quiz')], [ls.some(function (x) { return x.free; }), A('درس معاينة مجاني (يُنصح به)', 'A free preview lesson (recommended)'), true]];
     if (live) checks.splice(4, 0, [!!c.starts_at && !!await IS.courseLiveLink(c.id), A('موعد ورابط الجلسة المباشرة', 'Live session date and link')]);
     if (c.delivery !== 'live') checks.splice(4, 0, [ls.length >= 1, A('درس واحد على الأقل', 'At least one lesson')]);
     var ok = checks.every(function (x) { return x[0] || x[2]; });
@@ -304,7 +305,7 @@
   IS.page('studio-lesson', async function (id) {
     var x = await DB.lesson(id); if (!x) return null; var c = await DB.one('courses', x.course_id); if (c.lecturer_id !== L().id && !IS.can('review')) return null;
     var h = '<nav class="crumb"><a href="#studio-courses">' + esc(A('كورساتي', 'My courses')) + '</a>' + ic('chev', 'fl') + '<a href="#studio-course/' + c.id + '/cur">' + esc(c.title) + '</a>' + ic('chev', 'fl') + '<span>' + esc(x.title) + '</span></nav>';
-    h += '<form class="box form" data-form="lesson"><input type="hidden" name="id" value="' + x.id + '"><h1 tabindex="-1">' + ic(x.kind === 'quiz' ? 'qb' : x.kind === 'text' ? 'file' : 'video') + esc({ video: A('درس فيديو', 'Video lesson'), text: A('درس مكتوب', 'Written lesson'), quiz: A('اختبار', 'Quiz') }[x.kind]) + '</h1>' +
+    h += '<form class="box form" data-form="lesson"><input type="hidden" name="id" value="' + x.id + '"><h1 tabindex="-1">' + ic(x.kind === 'quiz' ? 'qb' : x.kind === 'text' ? 'file' : x.kind === 'audio' ? 'mic' : 'video') + esc({ video: A('درس فيديو', 'Video lesson'), audio: A('درس صوتي', 'Audio lesson'), text: A('درس مكتوب', 'Written lesson'), quiz: A('اختبار', 'Quiz') }[x.kind]) + '</h1>' +
       '<div class="g2f"><label class="fl"><span>' + esc(A('عنوان الدرس', 'Lesson title')) + ' *</span><input name="title" required value="' + esc(x.title) + '"></label><label class="fl"><span>' + esc(A('المدة بالدقائق', 'Length in minutes')) + '</span><input name="minutes" type="number" min="0" dir="ltr" value="' + esc(x.minutes || 0) + '"></label></div>' +
       '<label class="chk"><input type="checkbox" name="free"' + (x.free ? ' checked' : '') + '><span>' + esc(A('معاينة مجانية: يشاهده أي طالب قبل الالتحاق', 'Free preview: any student can watch it before enrolling')) + '</span></label>';
     if (x.kind === 'video') { var ext = IS.extEmbed(x.video_id), bunny = !!(window.ISH_CONFIG || {}).bunnyLibrary || !DB.live, paid = +c.price > 0 && !x.free;
@@ -319,6 +320,13 @@
         (paid ? '<p class="note warn">' + ic('lock') + '<span>' + esc(A('هذا درس في كورس مدفوع: رابط YouTube أو Drive يمكن نسخه ومشاركته مع غير المشتركين. للمحتوى المدفوع المهم يُفضّل انتظار رفع الفيديو إلى الخادم المحمي.', 'This lesson is in a paid course: a YouTube or Drive link can be copied and shared with people who did not pay. For important paid content, it is better to wait for uploads to the protected server.')) + '</span></p>' : '') +
       '</div></div>' +
       '<label class="fl"><span>' + esc(A('ملاحظات تحت الفيديو (اختياري)', 'Notes under the video (optional)')) + '</span>' + IS.editor('body', x.body, '') + '</label>'; }
+    if (x.kind === 'audio') h += '<div class="vup aup" id="aup">' + (x.video_id ? '<div class="note ok">' + ic('checkc') + '<span>' + esc(A('التسجيل مرفوع. يمكنك الاستماع إليه هنا أو استبداله برفع ملف جديد.', 'The recording is uploaded. Listen to it here, or upload a new file to replace it.')) + '</span></div><div class="aprev" id="aprev"></div>' +
+        '<button type="button" class="btn ghost sm bad" data-act="arm" data-id="' + x.id + '" data-c="' + c.id + '">' + ic('trash') + esc(A('احذف التسجيل', 'Remove the recording')) + '</button>' : '') +
+      '<label class="drop">' + ic('mic') + '<b>' + esc(A('اختر ملف التسجيل الصوتي أو اسحبه هنا', 'Choose the audio recording or drop it here')) + '</b><small>' + esc(A('MP3 أو M4A أو OGG حتى 95 MB. يُحفظ في خادم المنصة ويُسمع داخل المنصة فقط.', 'MP3, M4A or OGG up to 95 MB. Kept on the platform’s server and played inside the platform only.')) + '</small><input type="file" id="afile" accept="audio/*,.mp3,.m4a,.ogg,.opus,.aac,.wav" hidden></label><div class="upbar" id="upbar" hidden>' + IS.bar(0) + '<em>0%</em></div>' +
+      '<ul class="vtips"><li><b>' + esc(A('حجم صغير لبيانات الطلاب:', 'Small files save students’ data:')) + '</b> ' + esc(A('صدّر التسجيل MP3 «أحادي» (Mono) بجودة 48 kbps: الساعة نحو 20 MB والصوت واضح للمحاضرات. برنامج Audacity المجاني يفعل ذلك: File → Export → MP3، ثم Channel Mode: Mono وBit Rate: 48 kbps.', 'Export the recording as MP3, Mono, 48 kbps: about 20 MB an hour and clear for lectures. The free program Audacity does this: File → Export → MP3, Channel Mode: Mono, Bit Rate: 48 kbps.')) + '</li>' +
+        '<li>' + esc(A('سجّل في مكان هادئ وقرّب الميكروفون أو الهاتف من فمك. قسّم المحاضرة الطويلة إلى دروس أقصر (30–60 دقيقة).', 'Record in a quiet room with the microphone or phone close to you. Split a long lecture into shorter lessons (30–60 minutes).')) + '</li>' +
+        '<li>' + esc(A('ارفع الشرائح (PDF) في نص الدرس أو في المكتبة ليتابعها الطلاب أثناء الاستماع.', 'Put the slides (PDF) in the lesson notes or the library so students can follow while listening.')) + '</li></ul></div>' +
+      '<label class="fl"><span>' + esc(A('ملاحظات أو ملخص تحت التسجيل (اختياري)', 'Notes or a summary under the recording (optional)')) + '</span>' + IS.editor('body', x.body, '') + '</label>';
     if (x.kind === 'text') h += '<label class="fl"><span>' + esc(A('نص الدرس', 'Lesson text')) + '</span>' + IS.editor('body', x.body, A('اكتب الدرس هنا: عناوين، نقاط، وتمييز…', 'Write the lesson: headings, points, highlights…')) + '</label>';
     if (x.kind === 'quiz') h += '<div id="qed">' + (x.quiz || []).map(qBlock).join('') + '</div><button type="button" class="btn ghost" data-act="addq">' + ic('plus') + esc(A('سؤال جديد', 'New question')) + '</button>';
     h += '<div class="row sp"><button type="button" class="btn ghost bad" data-act="delles" data-id="' + x.id + '">' + ic('trash') + esc(A('حذف الدرس', 'Delete lesson')) + '</button><button class="btn pri">' + ic('check') + esc(A('حفظ الدرس', 'Save lesson')) + '</button></div></form>';
@@ -327,6 +335,20 @@
       async function up(file) { var bar = $('#upbar'); bar.hidden = false; try { var vid = await DB.videoUpload(file, { lesson: x.id, title: c.title + ' · ' + x.title, onProgress: function (p) { bar.querySelector('i').style.width = p + '%'; bar.querySelector('em').textContent = p + '%'; } });
         var mins = await new Promise(function (ok) { var v = document.createElement('video'); v.preload = 'metadata'; v.onloadedmetadata = function () { ok(Math.round(v.duration / 60) || 0); URL.revokeObjectURL(v.src); }; v.onerror = function () { ok(0); }; v.src = URL.createObjectURL(file); });
         await DB.upd('lessons', x.id, { video_id: vid, minutes: mins || x.minutes || 0 }); await courseTotals(c.id); IS.toast(A('رُفع الفيديو', 'Video uploaded')); IS.refresh(); } catch (e) { IS.fail(e); } }
+      var af = $('#afile'); if (af) { var adrop = af.closest('.drop'); ['dragover', 'drop'].forEach(function (ev) { adrop.addEventListener(ev, function (e) { e.preventDefault(); if (ev === 'drop' && e.dataTransfer.files[0]) aup(e.dataTransfer.files[0]); }); }); af.onchange = function () { if (af.files[0]) aup(af.files[0]); }; }
+      async function aup(file) {
+        if (!/^audio\//.test(file.type) && !/\.(mp3|m4a|ogg|opus|aac|wav)$/i.test(file.name)) return IS.toast(A('اختر ملفًا صوتيًا (MP3 أو M4A أو OGG).', 'Choose an audio file (MP3, M4A or OGG).'), true);
+        if (file.size > 95 * 1048576) return IS.toast(A('الملف أكبر من 95 MB. صدّره MP3 أحادي 48 kbps أو قسّمه إلى درسين.', 'The file is over 95 MB. Export it as MP3 Mono 48 kbps or split it into two lessons.'), true);
+        var secs = await new Promise(function (ok) { var a = document.createElement('audio'); a.preload = 'metadata'; a.onloadedmetadata = function () { ok(isFinite(a.duration) ? a.duration : 0); URL.revokeObjectURL(a.src); }; a.onerror = function () { ok(0); }; a.src = URL.createObjectURL(file); });
+        var perHour = secs ? file.size / 1048576 / (secs / 3600) : 0;
+        if (perHour > 45 && !(await IS.confirm(A('هذا التسجيل كبير لمدته (نحو ' + Math.round(perHour) + ' MB للساعة). التصدير MP3 أحادي 48 kbps يجعله نحو 20 MB للساعة ويوفّر بيانات الطلاب. أترفعه كما هو؟', 'This recording is large for its length (about ' + Math.round(perHour) + ' MB an hour). Exporting it as MP3 Mono 48 kbps makes it about 20 MB an hour and saves students’ data. Upload it as it is?'), A('ارفعه كما هو', 'Upload as it is')))) return;
+        var file2 = file.type ? file : new File([file], file.name, { type: { mp3: 'audio/mpeg', m4a: 'audio/mp4', ogg: 'audio/ogg', opus: 'audio/ogg', aac: 'audio/aac', wav: 'audio/wav' }[(file.name.split('.').pop() || '').toLowerCase()] || 'audio/mpeg' });
+        var bar = $('#upbar'); bar.hidden = false;
+        try { await DB.audioUpload(file2, { lesson: x.id, onProgress: function (p) { bar.querySelector('i').style.width = p + '%'; bar.querySelector('em').textContent = p + '%'; } });
+          await DB.upd('lessons', x.id, { minutes: Math.round(secs / 60) || x.minutes || 0 }); await courseTotals(c.id); IS.toast(A('رُفع التسجيل', 'Recording uploaded')); IS.refresh(); }
+        catch (e) { bar.hidden = true; IS.toast(e.message === 'nostore' ? A('تخزين التسجيلات لم يُفعَّل بعد على المنصة (Cloudflare R2).', 'Audio storage is not switched on yet (Cloudflare R2).') : e.message === 'toobig' ? A('الملف أكبر من 95 MB.', 'The file is over 95 MB.') : e.message === 'notaudio' ? A('نوع الملف غير مدعوم. استخدم MP3 أو M4A أو OGG.', 'This file type is not supported. Use MP3, M4A or OGG.') : A('تعذّر رفع التسجيل. تحقق من الاتصال وحاول مرة أخرى.', 'The recording could not be uploaded. Check the connection and try again.'), true); }
+      }
+      var ap = $('#aprev'); if (ap) { var au = await DB.audioPlay(x).catch(function () { return null; }); if (au) ap.innerHTML = '<audio controls controlsList="nodownload" preload="metadata" src="' + esc(au.src) + '"></audio>'; }
       var pv = $('#vprev'); if (pv) { var v = await DB.videoPlay(x).catch(function () { return null; }); if (v) pv.innerHTML = v.kind === 'iframe' ? '<iframe src="' + esc(v.src) + '" allowfullscreen></iframe>' : '<video controls controlsList="nodownload" src="' + esc(v.src) + '"></video>'; else pv.remove(); }
     };
     return h;
@@ -337,12 +359,116 @@
       '<input class="qe" value="' + esc(q.e || '') + '" placeholder="' + esc(A('الشرح (يظهر بعد الإجابة)', 'Explanation (shown after answering)')) + '"></fieldset>'; }
   IS.ACT.addq = function () { $('#qed').insertAdjacentHTML('beforeend', qBlock()); };
   IS.ACT.rmq = function (b) { b.closest('.qedit').remove(); };
-  IS.ACT.delles = async function (b) { if (!(await IS.confirm(A('حذف هذا الدرس؟', 'Delete this lesson?'), A('حذف', 'Delete')))) return; var x = await DB.one('lessons', b.getAttribute('data-id')); await DB.del('lessons', x.id); await courseTotals(x.course_id); IS.go('studio-course/' + x.course_id + '/cur'); };
+  IS.ACT.arm = async function (b) { if (!(await IS.confirm(A('حذف التسجيل الصوتي لهذا الدرس؟', 'Remove the audio recording of this lesson?'), A('حذف', 'Delete')))) return; await DB.audioRemove(b.getAttribute('data-id')); await courseTotals(b.getAttribute('data-c')); IS.toast(A('حُذف التسجيل', 'Recording removed')); IS.refresh(); };
+  IS.ACT.delles = async function (b) { if (!(await IS.confirm(A('حذف هذا الدرس؟', 'Delete this lesson?'), A('حذف', 'Delete')))) return; var x = await DB.one('lessons', b.getAttribute('data-id')); if (x.kind === 'audio') await DB.audioRemove(x.id).catch(function () {}); await DB.del('lessons', x.id); await courseTotals(x.course_id); IS.go('studio-course/' + x.course_id + '/cur'); };
   IS.SUB.lesson = async function (d, f) {
     var x = await DB.lesson(d.id), row = { title: d.title, minutes: +d.minutes || 0, free: !!f.free.checked };
     if (x.kind !== 'quiz') row.body = IS.edVal(f, 'body');
     else row.quiz = IS.$$('.qedit', f).map(function (q) { var o = IS.$$('.qo', q).map(function (i) { return i.value.trim(); }).filter(Boolean), a = q.querySelector('input[type=radio]:checked'); return { q: q.querySelector('.qq').value.trim(), o: o, a: a ? +a.value : 0, e: q.querySelector('.qe').value.trim() }; }).filter(function (q) { return q.q && q.o.length >= 2; });
     await DB.upd('lessons', x.id, row); await courseTotals(x.course_id); IS.toast(A('حُفظ الدرس', 'Lesson saved')); IS.go('studio-course/' + x.course_id + '/cur');
+  };
+
+  /* ========== RECORDINGS SHARED FROM TELEGRAM, OR MANY AT ONCE (owner, 21 Nov 2026: "build for me the sharing from telegram") ==========
+     Android: the installed app is in the share list (manifest share_target); sw.js keeps the shared files in IndexedDB 'ish-share' and opens
+     #studio-share. Any device: «ارفع عدة تسجيلات» under a section opens the same page with the chosen files. One audio lesson per file. */
+  var SHARED = null;
+  function shareDb() { return new Promise(function (ok, no) { var r = indexedDB.open('ish-share', 1); r.onupgradeneeded = function () { r.result.createObjectStore('f', { keyPath: 'id', autoIncrement: true }); }; r.onsuccess = function () { ok(r.result); }; r.onerror = function () { no(r.error); }; }); }
+  async function sharedFiles() { try { var db = await shareDb(); return await new Promise(function (ok) { var q = db.transaction('f').objectStore('f').getAll(); q.onsuccess = function () { ok(q.result || []); }; q.onerror = function () { ok([]); }; }); } catch (e) { return []; } }
+  async function sharedDrop(ids) { if (!ids.length) return; try { var db = await shareDb(); await new Promise(function (ok) { var t = db.transaction('f', 'readwrite'); ids.forEach(function (id) { t.objectStore('f').delete(id); }); t.oncomplete = ok; t.onerror = ok; }); } catch (e) {} }
+  var AEXT = { mp3: 'audio/mpeg', m4a: 'audio/mp4', aac: 'audio/aac', ogg: 'audio/ogg', oga: 'audio/ogg', opus: 'audio/ogg', wav: 'audio/wav' };
+  function extOf(n) { return (String(n || '').split('.').pop() || '').toLowerCase(); }
+  function isAudio(f) { return /^audio\//.test(f.type || '') || f.type === 'application/ogg' || !!AEXT[extOf(f.name)]; }
+  function asAudioFile(f) { var t = /^audio\//.test(f.type || '') ? f.type : AEXT[extOf(f.name)] || 'audio/mpeg'; return new File([f.blob || f], f.name || 'recording.mp3', { type: t === 'audio/mp3' ? 'audio/mpeg' : t }); }
+  function niceTitle(n) { return String(n || '').replace(/\.[a-z0-9]{2,5}$/i, '').replace(/[_]+/g, ' ').replace(/\s+/g, ' ').trim() || A('تسجيل', 'Recording'); }
+  function mb(b) { return '<bdi dir="ltr">' + (b / 1048576).toFixed(b > 10485760 ? 0 : 1) + ' MB</bdi>'; }
+  function durationOf(file) { return new Promise(function (ok) { var a = document.createElement('audio'), u = URL.createObjectURL(file), done = function (v) { URL.revokeObjectURL(u); ok(v); }; a.preload = 'metadata'; a.onloadedmetadata = function () { done(isFinite(a.duration) ? a.duration : 0); }; a.onerror = function () { done(0); }; setTimeout(function () { done(0); }, 8000); a.src = u; }); }
+  IS.ACT.bulkaudio = function (b) {
+    var inp = document.createElement('input'); inp.type = 'file'; inp.multiple = true; inp.accept = 'audio/*,.mp3,.m4a,.ogg,.oga,.opus,.aac,.wav';
+    inp.onchange = function () { SHARED = Array.prototype.slice.call(inp.files || []); if (SHARED.length) IS.go('studio-share/' + b.getAttribute('data-c') + '/' + b.getAttribute('data-s')); };
+    inp.click();
+  };
+  IS.page('studio-share', async function (arg) {
+    var parts = String(arg || '').split('/'), mem = !!(SHARED && SHARED.length && parts[0] && parts[0] !== 'none');
+    var items = (mem ? SHARED.map(function (f) { return { name: f.name, type: f.type, size: f.size, blob: f }; }) : await sharedFiles()).filter(isAudio);
+    items.sort(function (a, b) { return String(a.name).localeCompare(String(b.name), undefined, { numeric: true, sensitivity: 'base' }); });
+    var head = '<nav class="crumb"><a href="#studio-courses">' + esc(A('كورساتي', 'My courses')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(A('رفع تسجيلات', 'Upload recordings')) + '</span></nav>';
+    var how = '<ol class="steps sh-how"><li>' + esc(A('ثبّت التطبيق على الشاشة الرئيسية لهاتف أندرويد (من قائمة المتصفح: «تثبيت التطبيق»).', 'Install the app on the Home screen of an Android phone (browser menu → “Install app”).')) + '</li>' +
+      '<li>' + esc(A('في تيليجرام اضغط مطولًا على التسجيل (أو اختر عدة تسجيلات) ثم «مشاركة».', 'In Telegram, long-press the recording (or select several), then tap Share.')) + '</li>' +
+      '<li>' + esc(A('اختر «اشرح لي» من قائمة المشاركة، ثم اختر الكورس والقسم هنا.', 'Choose “اشرح لي” in the share list, then pick the course and section here.')) + '</li></ol>' +
+      '<p class="mut">' + esc(A('على آيفون والكمبيوتر: احفظ التسجيلات من تيليجرام أولًا، ثم استخدم «ارفع عدة تسجيلات» تحت أي قسم في منهج الكورس.', 'On iPhone and computers: save the recordings from Telegram first, then use “Upload several recordings” under any section of the course curriculum.')) + '</p>';
+    if (!items.length) return head + '<section class="box">' + IS.empty('mic', A('لا توجد تسجيلات للرفع', 'No recordings to upload'), parts[0] === 'none' ? A('لم يصل ملف صوتي من المشاركة.', 'No audio file arrived from the share.') : '') + '<h2>' + IS.T('المشاركة من تيليجرام', 'Sharing from Telegram') + '</h2>' + how + '</section>';
+    var cs = (await DB.q('courses', { eq: { lecturer_id: L().id } })).filter(function (c) { return c.status !== 'removed'; });
+    if (!cs.length) return head + '<section class="box">' + IS.empty('layers', A('أنشئ كورسًا أولًا', 'Create a course first'), A('التسجيلات تُضاف دروسًا داخل كورس. تبقى محفوظة هنا حتى تنشئ الكورس.', 'Recordings become lessons inside a course. They stay saved here until you create one.'), '<a class="btn pri" href="#studio-course/new">' + ic('plus') + esc(A('كورس جديد', 'New course')) + '</a>') + '</section>';
+    var cid = cs.some(function (c) { return c.id === parts[0]; }) ? parts[0] : cs[0].id;
+    var total = items.reduce(function (a, f) { return a + (f.size || 0); }, 0);
+    var h = head + '<section class="box form share-up" id="shareup" data-mem="' + (mem ? 1 : 0) + '"><h1 tabindex="-1">' + ic('mic') + esc(A('رفع ' + items.length + ' تسجيل كدروس صوتية', 'Upload ' + items.length + ' recording' + (items.length > 1 ? 's' : '') + ' as audio lessons')) + '</h1>' +
+      '<p class="mut">' + esc(A('كل ملف يصبح درسًا صوتيًا بالترتيب، باسم الملف (يمكنك تعديل الأسماء). الحجم الكلي ', 'Each file becomes an audio lesson, in order, named after the file (you can edit the names). Total size ')) + mb(total) + '.</p>' +
+      '<div class="g2f"><label class="fl"><span>' + esc(A('الكورس', 'Course')) + '</span><select id="shc">' + cs.map(function (c) { return '<option value="' + esc(c.id) + '"' + (c.id === cid ? ' selected' : '') + '>' + esc(c.title || A('كورس بلا عنوان', 'Untitled course')) + '</option>'; }).join('') + '</select></label>' +
+      '<label class="fl"><span>' + esc(A('القسم', 'Section')) + '</span><select id="shs" data-want="' + esc(parts[1] || '') + '"></select></label></div>' +
+      '<label class="fl" id="shnew" hidden><span>' + esc(A('اسم القسم الجديد', 'New section name')) + '</span><input id="shsn" maxlength="120" placeholder="' + esc(A('مثال: الجزء الأول', 'e.g. Part 1')) + '"></label>' +
+      '<ol class="sh-list">' + items.map(function (f, i) {
+        var big = f.size > 95 * 1048576;
+        return '<li data-i="' + i + '"' + (big ? ' class="big"' : '') + '><span class="sh-n">' + (i + 1) + '</span><span class="grow"><input class="sh-t" value="' + esc(niceTitle(f.name)) + '" maxlength="160" dir="auto"' + (big ? ' disabled' : '') + '><small><bdi dir="ltr">' + esc(f.name) + '</bdi> · ' + mb(f.size || 0) +
+          (big ? ' · <span class="bad">' + esc(A('أكبر من 95 MB: لن يُرفع', 'over 95 MB: will be skipped')) + '</span>' : '') + '</small><i class="sh-bar"><b></b></i></span><em class="sh-st"></em></li>';
+      }).join('') + '</ol>' +
+      '<div class="row sp"><button type="button" class="btn ghost" data-act="share-clear">' + ic('trash') + esc(A('تجاهل التسجيلات', 'Discard')) + '</button><button type="button" class="btn pri" data-act="share-go">' + ic('upload') + esc(A('ابدأ الرفع', 'Start uploading')) + '</button></div>' +
+      '<p class="mut sh-note">' + esc(A('أبقِ هذه الصفحة مفتوحة حتى ينتهي الرفع. التسجيلات المشاركة تبقى محفوظة على الهاتف حتى تُرفع.', 'Keep this page open until the upload finishes. Shared recordings stay saved on the phone until they are uploaded.')) + '</p></section>' +
+      '<details class="box"><summary>' + esc(A('طريقة المشاركة من تيليجرام', 'How to share from Telegram')) + '</summary>' + how + '</details>';
+    IS.after = function (main) {
+      var box = main.querySelector('#shareup'); if (!box) return; box._items = items;
+      var csel = box.querySelector('#shc'), ssel = box.querySelector('#shs'), nw = box.querySelector('#shnew');
+      async function loadSecs() {
+        var ss = (await DB.q('sections', { eq: { course_id: csel.value } })).sort(function (a, b) { return (a.sort || 0) - (b.sort || 0); }), want = ssel.getAttribute('data-want');
+        ssel.innerHTML = ss.map(function (s, i) { return '<option value="' + esc(s.id) + '"' + (s.id === want ? ' selected' : '') + '>' + (i + 1) + '. ' + esc(s.title || '') + '</option>'; }).join('') + '<option value="__new"' + (ss.length ? '' : ' selected') + '>+ ' + esc(A('قسم جديد', 'New section')) + '</option>';
+        nw.hidden = ssel.value !== '__new';
+      }
+      csel.onchange = function () { ssel.setAttribute('data-want', ''); loadSecs(); };
+      ssel.onchange = function () { nw.hidden = ssel.value !== '__new'; };
+      loadSecs();
+    };
+    return h;
+  }, { auth: true, area: 'studio', lec: true });
+  IS.ACT['share-clear'] = async function () {
+    var box = $('#shareup'); if (!box || !(await IS.confirm(A('تجاهل هذه التسجيلات وحذفها من الهاتف؟', 'Discard these recordings from the phone?'), A('تجاهل', 'Discard')))) return;
+    if (box.getAttribute('data-mem') === '1') SHARED = null; else await sharedDrop(box._items.map(function (f) { return f.id; }).filter(function (x) { return x != null; }));
+    IS.go('studio-courses');
+  };
+  IS.ACT['share-go'] = async function (b) {
+    var box = $('#shareup'); if (!box || box._busy) return; var items = box._items || [], csel = $('#shc'), ssel = $('#shs');
+    if (!navigator.onLine) return IS.toast(A('الرفع يحتاج إلى الإنترنت.', 'Uploading needs the internet.'), true);
+    var cid = csel.value, sid = ssel.value;
+    if (sid === '__new') {
+      var name = ($('#shsn').value || '').trim(); if (!name) { $('#shsn').focus(); return IS.toast(A('اكتب اسم القسم الجديد.', 'Write the new section name.'), true); }
+      var n0 = (await DB.q('sections', { eq: { course_id: cid } })).length; sid = (await DB.ins('sections', { course_id: cid, title: name, sort: n0 })).id;
+    }
+    box._busy = true; b.disabled = true; csel.disabled = ssel.disabled = true; box.querySelector('[data-act=share-clear]').disabled = true;
+    var lock = null; try { if (navigator.wakeLock) lock = await navigator.wakeLock.request('screen'); } catch (e) {}
+    var leave = function (e) { e.preventDefault(); e.returnValue = ''; }; window.addEventListener('beforeunload', leave);
+    var sort = (await DB.q('lessons', { eq: { section_id: sid } })).length, ok = 0, done = [], stop = '';
+    var rows = box.querySelectorAll('.sh-list li');
+    for (var i = 0; i < items.length && !stop; i++) {
+      var f = items[i], row = rows[i], st = row.querySelector('.sh-st'), bar = row.querySelector('.sh-bar b');
+      if (f.size > 95 * 1048576) { st.textContent = A('تُخطّي', 'skipped'); continue; }
+      row.classList.add('now'); st.textContent = '0%'; row.scrollIntoView({ block: 'nearest' });
+      var lesson = null;
+      try {
+        var file = asAudioFile(f), secs = await durationOf(file), title = (row.querySelector('.sh-t').value || '').trim() || niceTitle(f.name);
+        lesson = await DB.ins('lessons', { course_id: cid, section_id: sid, title: title, kind: 'audio', sort: sort, free: false, minutes: Math.round(secs / 60) || 0, body: '', quiz: [], video_id: '' });
+        await DB.audioUpload(file, { lesson: lesson.id, onProgress: function (p) { bar.style.width = p + '%'; st.textContent = p + '%'; } });
+        sort++; ok++; if (f.id != null) done.push(f.id); row.classList.remove('now'); row.classList.add('ok'); st.textContent = '✓';
+      } catch (e) {
+        row.classList.remove('now'); row.classList.add('fail'); st.textContent = '✕';
+        if (lesson) await DB.del('lessons', lesson.id).catch(function () {});
+        if (e.message === 'nostore' || e.message === 'denied') stop = e.message;
+      }
+    }
+    window.removeEventListener('beforeunload', leave); try { lock && lock.release(); } catch (e) {}
+    await sharedDrop(done); if (box.getAttribute('data-mem') === '1' && ok === items.length) SHARED = null;
+    await courseTotals(cid);
+    if (stop === 'nostore') { box._busy = false; return IS.toast(A('تخزين التسجيلات لم يُفعَّل بعد على المنصة (Cloudflare R2). التسجيلات باقية على الهاتف.', 'Audio storage is not switched on yet (Cloudflare R2). The recordings stay on the phone.'), true); }
+    IS.toast(A('رُفع ' + ok + ' من ' + items.length + ' تسجيل', 'Uploaded ' + ok + ' of ' + items.length + ' recordings'), ok < items.length);
+    if (ok === items.filter(function (f) { return f.size <= 95 * 1048576; }).length) IS.go('studio-course/' + cid + '/cur');
+    else { box._busy = false; b.disabled = false; b.innerHTML = ic('upload') + esc(A('أعد محاولة الباقي', 'Retry the rest')); box._items = items.filter(function (f, k) { return !rows[k].classList.contains('ok'); }); IS.refresh && setTimeout(function () { if (box._items.length) { if (box.getAttribute('data-mem') === '1') SHARED = box._items.map(function (x) { return x.blob; }); IS.refresh(); } }, 1500); }
   };
 
   /* ========== MY PAGE (design) ========== */
