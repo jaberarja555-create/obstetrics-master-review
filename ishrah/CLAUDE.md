@@ -1199,3 +1199,4 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   only when the new one has loaded (8 s safety); `IS.setPal` returns a promise and Settings redraws after it. Test: scratchpad swap.js.
 - The day / night / eye button is one round button on every screen (laptops too); «Sign in» on the new top bar is white on teal.
   Arabic text in cards starts from the right even when the app is in English (`unicode-bidi:plaintext`, text-align start).
+- The look button: one press switches Day → Night → Eye comfort (owner, 21 Nov 2026; replaces the menu). Automatic stays in Settings.
