@@ -1076,3 +1076,5 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - **Buttons and labels are never cut** (owner, 21 Nov 2026): on the new pages button text is smaller (clamp by screen width) and wraps to
   a second line instead of «…» when a phone has a bigger system font; the lecturer-card buttons drop their icons when the card is narrow
   (container query). Check new buttons at 360 px: `scrollWidth > clientWidth` must find nothing (scratchpad big.js).
+- Lecturer card (owner, 21 Nov 2026, latest): the picture alone; the name on its own line; under it the title pill and the last-activity
+  pill (green «متصل الآن», grey «آخر نشاط قبل …», never cut).

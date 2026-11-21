@@ -1380,3 +1380,14 @@ html body .mrx .mlx .mlx-id h3 a{text-overflow:clip!important;overflow:visible!i
 .mlx-id h3{flex:none!important;font-size:14px!important}
 .mlx-id{flex-wrap:wrap!important;row-gap:4px!important}
 @media (max-width:400px){.mlx-t svg.ic{display:none!important}.mlx-t{padding:2px 7px!important;font-size:10px!important}.mlx-id{column-gap:5px!important}}
+/* lecturer card: picture alone; name on its own line; title and last activity under it (owner, 21 Nov 2026) */
+.mlx-id{flex-direction:column!important;align-items:flex-start!important;flex-wrap:nowrap!important;gap:5px!important}
+.mlx-id h3{font-size:15px!important;flex:none!important;max-width:100%}
+html body .mrx .mlx .mlx-id h3 a{white-space:normal!important}
+.mlx-sub{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.mlx-sub .mlx-on{margin:0!important;max-width:none!important}
+.mlx-sub .mlx-on .seen{display:inline-flex!important;align-items:center;gap:4px;padding:2px 8px!important;font-size:10.5px!important;white-space:nowrap;max-width:none!important;overflow:visible!important;border-radius:999px;
+  background:#f1f4f4;border:1px solid #d9e2e0;color:#5d7570!important}
+.mlx-sub .mlx-on .seen.on{background:#e3f6ea;border-color:#bfe6cc;color:#1f8a4c!important}
+.mlx-sub .mlx-on .seen:empty{display:none}
+.mlx-pic{min-width:0!important}
