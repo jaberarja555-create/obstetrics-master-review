@@ -1336,3 +1336,15 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   bell · profile) over the colour waves at the two lower corners. Sizes: brand picture clamp(30px,9vw,50px) on phones, up to 74 px on
   tablets; names 11–16 px on phones. The older «الإدارة» rule (`.mh-top:has(.mh-area) .mh-logo img` max 150 px) is overridden for the brand
   picture. Checked at 360, 390, 412, 600, 820 and 1024 px: nothing past the bar's edge (scratchpad hdr.js / hdr2r.js).
+- **Owner's six banners and one banner shape (owner, 21 Nov 2026: "A lot of those bars appear bad … use these"; "size mismatch"; "don't make
+  me tell you each page or each device"):** `js/banners.js` (wraps `IS.pageFrame`). Settings, My Library, Courses, Lecturers, the Medicine →
+  Basics home and Lecturer registration (`studio-apply`) show his pictures `img/mr/ban/<key>.webp` (7.4 : 1, tablets/laptops) and
+  `<key>-m.webp` (4 : 1 text side, phones ≤ 699 px), made by scratchpad bancut.py from his zip (light frame trimmed; Courses' «Medicine -
+  Clinical» and Lecturers' «Clinical» painted out and written by the app from the current speciality/section, `.ob-sub`, sized in container
+  units to match his lettering). The page keeps a hidden h1. The pictures' words are Arabic in English mode too (his design). Every OTHER
+  banner (drawn `.ban.bpic` and mr.js `pban`) now has the same shape (4 : 1 phones, 7.4 : 1 from 700 px), its text over the full text side
+  (titles one line; long ones `tl2`/`tl3` smaller, at most 2 lines; subtitles 2 lines), and the buttons or figures it carried move into a
+  row under it (`.ban-x`). Header buttons on phones/tablets sit on one dark band with a gold arched edge (`.mh-band`, waves only on laptops).
+  Laptop bottom bar: each item a tile filling its share. Settings: each setting's buttons right after its name, two card columns on laptops,
+  alert rows the same way. Studio bottom bar «أرباحي» pointed to a page that does not exist (studio-earnings → studio-money; it showed the old
+  design). Checks: scratchpad shots.js (all student, studio and control pages at 390/1024/1440, contact sheets with sheet.py).

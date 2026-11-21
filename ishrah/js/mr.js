@@ -158,6 +158,8 @@
       /* laptops: a wide brand header (owner's design, 21 Nov 2026): mark + SMRA, a thin line, the Arabic and English names over a gold
          swoosh, and soft waves in the app colour at both lower corners; phones keep the single logo */
       '<span class="mh-wave s"><svg viewBox="0 0 320 110" preserveAspectRatio="none" aria-hidden="true"><path class="w1" d="M0 110V8C40 62 140 100 320 110z"/><path class="w2" d="M0 8C40 62 140 100 320 110" fill="none"/><path class="w3" d="M0 36C50 80 150 104 290 110" fill="none"/></svg></span><span class="mh-wave e"><svg viewBox="0 0 320 110" preserveAspectRatio="none" aria-hidden="true"><path class="w1" d="M0 110V8C40 62 140 100 320 110z"/><path class="w2" d="M0 8C40 62 140 100 320 110" fill="none"/><path class="w3" d="M0 36C50 80 150 104 290 110" fill="none"/></svg></span>' +
+      /* phones and tablets: the buttons sit on one dark band with a gold arched edge (owner, 21 Nov 2026: "the buttons can sit in better way") */
+      '<span class="mh-band" aria-hidden="true"><svg viewBox="0 0 400 60" preserveAspectRatio="none"><path class="w1" d="M0 16Q200-8 400 16V60H0z"/><path class="w2" d="M0 16Q200-8 400 16" fill="none"/><path class="w3" d="M0 22Q200 0 400 22" fill="none"/></svg></span>' +
       '<a class="mh-logo" href="#pick-section"><img class="mh-l1" src="' + IS.U('img/mr/logo-smra.webp') + '" alt="' + esc(IS.brandName()) + '" width="1000" height="359">' +
         '<span class="mh-brand"><img src="' + IS.U('img/mr/logo-wide.webp') + '" alt="" width="1052" height="320"><i class="mh-div" aria-hidden="true"></i>' +
         '<span class="mh-names"><b lang="ar" dir="rtl">أكاديمية السودان للمراجعة الطبية</b><em lang="en" dir="ltr">Sudan Master Review Academy</em>' +

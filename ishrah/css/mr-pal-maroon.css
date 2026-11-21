@@ -2138,3 +2138,124 @@ h3.sub+.mgrid{margin-bottom:4px}
 /* the older «الإدارة» rule fixed every top-bar logo at 150 px wide; the brand picture keeps its own size */
 @media (max-width:1239.98px){html body .mrx .mh-top:has(.mh-area) .mh-brand>img,html body .mrx .mh-top .mh-brand>img{width:auto!important;max-width:none!important;max-height:none!important;height:clamp(40px,8.4vw,74px)!important}}
 @media (max-width:600px){html body .mrx .mh-top:has(.mh-area) .mh-brand>img,html body .mrx .mh-top .mh-brand>img{height:clamp(30px,9vw,50px)!important}}
+
+/* ---------- header buttons on a band (owner, 21 Nov 2026: "the buttons can sit in better way") ----------
+   below 1240 px: brand row on the light top, then ONE dark band across the whole width with a gold arched edge; every button sits
+   fully on it, centred in its height (no button half on a wave). Laptops keep the one-row header with the corner waves. */
+.mh-band{display:none}
+@media (max-width:1239.98px){
+  html body .mrx .mh-top .mh-wave{display:none!important}
+  html body .mrx .mh-top{padding-bottom:0!important;row-gap:0!important}
+  html body .mrx .mh-top>.mh-side{align-self:center;padding:calc(var(--bandh) * .24) 0 calc(var(--bandh) * .12)}
+  html body .mrx .mh-top{--bandh:58px}
+  .mh-band{display:block;position:absolute;left:0;right:0;bottom:0;height:var(--bandh);z-index:0;pointer-events:none}
+  .mh-band svg{width:100%;height:100%;display:block}
+  .mh-band .w1{fill:#410b19}
+  .mh-band .w2{stroke:#e2b85a;stroke-width:2.4;vector-effect:non-scaling-stroke}
+  .mh-band .w3{stroke:#f6dc8e;stroke-width:1;opacity:.45;vector-effect:non-scaling-stroke}
+  html body .mrx .mh-top>.mh-side{min-height:calc(var(--bandh) * .64)}
+  html body .mrx .mh-top .mh-side .mh-b.ghost{background:rgba(255,255,255,.95);border-color:rgba(255,255,255,.6)}
+  :root[data-theme=dark] .mh-band .w1{fill:#280d15}
+}
+@media (max-width:600px){html body .mrx .mh-top{--bandh:50px}}
+
+/* ---------- the owner's picture banners (21 Nov 2026) ---------- */
+html body .mrx .ob-ban{display:block!important;position:relative;padding:0!important;margin:0!important;min-height:0!important;height:auto!important;
+  border-radius:clamp(14px,2vw,22px);overflow:hidden;background:#3d0f1c;border:1.5px solid rgba(201,162,74,.6);box-shadow:0 8px 20px rgba(40,8,18,.18);container-type:inline-size}
+html body .mrx .ob-ban picture,html body .mrx .ob-ban img{display:block;width:100%!important;height:auto!important;max-width:none!important;margin:0!important;border-radius:0!important;object-fit:fill}
+html body .mrx .ob-ban .ob-h{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0;padding:0}
+html body .mrx .ob-ban .ob-sub{position:absolute;transform:translate(-50%,-50%);color:#fff;font-family:Poppins,system-ui,sans-serif;font-weight:700;line-height:1;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,.35);letter-spacing:.2px}
+html body .mrx .ob-ban[data-k=courses] .ob-sub{left:72.9%;top:77.5%;font-size:1.78cqw}
+html body .mrx .ob-ban[data-k=lecturers] .ob-sub{left:71.3%;top:74.7%;font-size:1.59cqw}
+@media (max-width:699px){
+  html body .mrx .ob-ban[data-k=courses] .ob-sub{left:49.8%;font-size:3.26cqw}
+  html body .mrx .ob-ban[data-k=lecturers] .ob-sub{left:47%;font-size:2.92cqw}
+}
+html body .mrx .ob-extra .bnums{display:flex;justify-content:center;gap:8px;margin:8px 0 0}
+html body .mrx .ob-extra .bnums span{display:inline-flex;align-items:baseline;gap:5px;padding:5px 12px;border-radius:999px;background:var(--card,#fff);border:1px solid #ebe2e5;font-size:12.5px;color:inherit}
+html body .mrx .ob-extra .bnums b{font-size:14px}
+/* ---------- Settings, organised (owner, 21 Nov 2026: "how some places the text is disorganised") ----------
+   each setting's buttons sit right after its name (no empty middle); speciality label and value stacked together; the alert rows the same
+   way; laptops show the cards in two columns. */
+html body .mrx .st2{max-width:none!important;width:100%}
+html body .mrx .st2 .st-sp{align-items:flex-start;gap:2px}
+html body .mrx .st2 .st-sp small{font-size:12px!important}
+html body .mrx .st2 .st-sp b{font-size:15.5px!important}
+@media (min-width:700px){
+  html body .mrx .st2 .st-row{display:grid!important;grid-template-columns:minmax(150px,220px) auto;justify-content:start;align-items:center;column-gap:20px}
+  html body .mrx .st2 .st-row>.st-l{min-width:0}
+}
+html body .mrx .st2 .pushset .list{display:block;border:0;background:none;padding:0;gap:0}
+html body .mrx .st2 .pushset .li{display:grid!important;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;column-gap:8px;row-gap:8px;padding:10px 0!important;margin:0!important;border:0!important;border-top:1px solid #f4eef1!important;border-radius:0!important;background:none!important;box-shadow:none!important}
+html body .mrx .st2 .pushset .li:first-child{border-top:0!important}
+html body .mrx .st2 .pushset .li>span{display:flex;flex-direction:column;gap:2px;min-width:0}
+html body .mrx .st2 .pushset .li>span b{font-size:14px}
+html body .mrx .st2 .pushset .li>span small{font-size:12px;color:#7f666e;line-height:1.45}
+@media (max-width:699px){
+  html body .mrx .st2 .pushset .li{grid-template-columns:auto auto minmax(0,1fr)}
+  html body .mrx .st2 .pushset .li>span{grid-column:1/-1}
+}
+@media (min-width:1100px){
+  html body .mrx .st2{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:14px}
+  html body .mrx .st2>.st-space,html body .mrx .st2>.st-ver{grid-column:1/-1}
+}
+:root[data-theme="dark"] .st2 .pushset .li{border-color:#3b1f28!important}
+html body .mrx .st2 .st-lt{display:flex;flex-direction:column;align-items:flex-start;gap:1px}
+html body .mrx .st2 .st-lt small{text-align:start}
+@media (min-width:700px){html body .mrx .st2 .st-row{grid-template-columns:minmax(150px,270px) auto}}
+/* ---------- bottom bar (owner, 21 Nov 2026: "down buttons in laptop don't cover the down bar well") ----------
+   phones: the letter tails at the end of a label (ي ن) are no longer clipped. Laptops and tablets: every item is a tile that fills its share
+   of the bar (tinted, clear dark text and green icon), the current one filled; the bar holds them over the page width. */
+html body .mh-nav a span{overflow:visible!important;padding-inline:2px}
+@media (min-width:900px){
+  html body .mh-nav{display:grid!important;gap:10px!important;padding-block:8px calc(8px + env(safe-area-inset-bottom))!important;padding-inline:max(16px,calc((100% - 1160px) / 2))!important;background:rgba(255,255,255,.97)!important;box-shadow:0 -6px 18px rgba(65,11,25,.08)!important}
+  html body .mh-nav a{min-height:50px!important;padding:0 10px!important;background:#f7f1f4;border:1px solid #eadde2;border-radius:14px!important;color:#371a22!important;font-size:14.5px!important;font-weight:700!important;gap:8px!important;opacity:1!important}
+  html body .mh-nav a .ico{width:20px!important;height:20px!important;color:#641427!important;opacity:1!important}
+  html body .mh-nav a.on{background:linear-gradient(180deg,#781c34,#410b19)!important;border-color:#410b19!important;color:#fff!important}
+  html body .mh-nav a.on .ico{color:#f6dc8e!important}
+  @media (hover:hover){html body .mh-nav a:not(.on):hover{background:#f0e5e9;border-color:#d6bbc4}}
+  :root[data-theme="dark"] body .mh-nav{background:rgba(30,11,17,.97)!important}
+  :root[data-theme="dark"] body .mh-nav a:not(.on){background:#2d111a;border-color:#43242f;color:#f0e5e9!important}
+  :root[data-theme="dark"] body .mh-nav a:not(.on) .ico{color:#e9c46a!important}
+}
+html body .mrx .ob-extra .bnums span{display:inline-flex!important;flex-direction:row!important;align-items:baseline!important;width:auto!important;height:auto!important;min-width:0!important;border-radius:999px!important;padding:5px 14px!important;gap:6px!important;box-shadow:none!important;background:var(--card,#fff)!important;border:1px solid #eadde2!important;color:#371a22!important}
+html body .mrx .ob-extra .bnums :is(b,small){color:#371a22!important}
+/* no empty «last activity» pill while the time is not known */
+html body .mrx .mlx-on:has(.seen:empty),html body .mrx .lp-seen:has(.seen:empty){display:none!important}
+
+/* ---------- every page banner in one shape (owner, 21 Nov 2026: "size mismatch"; his banners are 4 : 1 on phones, 7.4 : 1 above) ---------- */
+html body .mrx .mh-old .ban.bpic,html body .mrx .mh-ban:not(.ob-ban){container-type:inline-size;aspect-ratio:4/1;min-height:0!important;height:auto!important}
+html body .mrx .mh-old .ban.bpic{grid-template-columns:40% minmax(0,1fr)!important;padding:0!important}
+html body .mrx .mh-old .ban.bpic::before{width:40.6%!important}html body .mrx .mh-old .ban.bpic>.bph{width:40%!important}
+html body .mrx .mh-old .ban.bpic>.bt{padding:4px 4% 4px 3%!important;gap:2px!important;min-width:0;height:100%;overflow:hidden}
+html body .mrx .mh-old .ban.bpic>.bt>div{gap:2px!important;min-width:0;max-width:100%}
+html body .mrx .mh-old .ban.bpic .bi .ico{width:5cqw!important;height:5cqw!important}
+html body .mrx .mh-old .ban.bpic h1{font-size:5.6cqw!important;line-height:1.2!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:100%}
+html body .mrx .mh-old .ban.bpic h1.tl2{font-size:4.8cqw!important}html body .mrx .mh-old .ban.bpic h1.tl3{font-size:4.2cqw!important}
+html body .mrx .mh-old .ban.bpic p{font-size:max(10px,2.9cqw)!important;line-height:1.35!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:100%!important}
+html body .mrx .mh-old .ban.bpic:has(h1.tl3) p{display:none!important}
+@media (min-width:700px){
+  html body .mrx .mh-old .ban.bpic,html body .mrx .mh-ban:not(.ob-ban){aspect-ratio:7.4/1}
+  html body .mrx .mh-old .ban.bpic{grid-template-columns:52% minmax(0,1fr)!important}
+  html body .mrx .mh-old .ban.bpic::before{width:52.6%!important}html body .mrx .mh-old .ban.bpic>.bph{width:52%!important}
+  html body .mrx .mh-old .ban.bpic .bi .ico{width:2.2cqw!important;height:2.2cqw!important}
+  html body .mrx .mh-old .ban.bpic h1{font-size:2.6cqw!important}
+  html body .mrx .mh-old .ban.bpic h1.tl2{font-size:2.3cqw!important}html body .mrx .mh-old .ban.bpic h1.tl3{font-size:2cqw!important}
+  html body .mrx .mh-old .ban.bpic p{font-size:max(11px,1.15cqw)!important}
+  html body .mrx .mh-old .ban.bpic:has(h1.tl3) p{display:-webkit-box!important}
+}
+/* the owner's pictures: the phone crop up to 699 px, as the drawn banners */
+html body .mrx .ban-x{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin:8px 0 0}
+html body .mrx .ban-x>*{margin:0!important}
+html body .mrx .ban-x .bnums{display:flex;gap:8px;margin:0!important}
+html body .mrx .ban-x .bnums span{display:inline-flex!important;flex-direction:row!important;align-items:baseline!important;width:auto!important;height:auto!important;min-width:0!important;border-radius:999px!important;padding:5px 14px!important;gap:6px!important;box-shadow:none!important;background:var(--card,#fff)!important;border:1px solid #eadde2!important;color:#371a22!important;font-size:12.5px!important}
+html body .mrx .ban-x .bnums :is(b,small){color:#371a22!important}
+html body .mrx .mh-old .ban.bpic>.bt{max-width:none!important;width:100%!important;justify-self:stretch!important;box-sizing:border-box}
+html body .mrx .mh-old .ban.bpic>.bt>div{padding:0!important;border:0!important;width:100%!important;align-items:center}
+html body .mrx .mh-old .ban.bpic>.bt>div::before,html body .mrx .mh-old .ban.bpic>.bt>div::after{display:none!important}
+html body .mrx .mh-old .ban.bpic h1{font-size:5.2cqw!important}
+html body .mrx .mh-old .ban.bpic h1.tl2{font-size:4.5cqw!important}html body .mrx .mh-old .ban.bpic h1.tl3{font-size:4cqw!important}
+@media (min-width:700px){html body .mrx .mh-old .ban.bpic h1{font-size:2.6cqw!important}html body .mrx .mh-old .ban.bpic h1.tl2{font-size:2.3cqw!important}html body .mrx .mh-old .ban.bpic h1.tl3{font-size:2.05cqw!important}}
+html body .mrx .mh-old .ban.bpic h1 :is(.tt,b,span){display:inline!important;font-size:inherit!important;line-height:inherit!important}
+html body .mrx .mh-old .ban.bpic h1.tl3{font-size:3.7cqw!important}
+@media (min-width:700px){html body .mrx .mh-old .ban.bpic h1.tl3{font-size:2.05cqw!important}}
