@@ -2350,3 +2350,10 @@ html body .mrh .library-feed-actions .btn{white-space:nowrap!important;padding-i
 .nt-sw button.on{background:#641427;color:#fff}
 .nt-pl{display:inline-block;margin-top:3px;padding:1px 8px;border-radius:999px;background:#f5eff1;color:#641427;font-style:normal;font-size:11px;font-weight:700;width:max-content}
 :root[data-theme=dark] .nt-sw{background:#2d111a;border-color:#43242f}:root[data-theme=dark] .nt-sw button{color:#e2d0d7}:root[data-theme=dark] .nt-pl{background:#371923;color:#dba4b7}
+
+/* every picture fills its frame (owner, 21 Nov 2026: «خلّي الصور والخلفيات تكون مناسبة مع حجم الإطارات»): posts, requests, courses, events and
+   news pictures cover their box (no small picture on a blurred band); book covers already sit in a book-shaped frame */
+html body .pst{position:relative;display:block;overflow:hidden}
+html body .pst>.pstb{display:none!important}
+html body .pst>.pstf{position:absolute!important;inset:0;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;filter:none!important;transform:none!important}
+html body .mrh .feed-card .feed-image:not(:has(.library-cover)){background:#eee8ea}

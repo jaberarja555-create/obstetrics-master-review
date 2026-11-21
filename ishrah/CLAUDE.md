@@ -1385,3 +1385,6 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   Notifications page, all by default), each space notice labelled with its place («Medicine · House Officer»). Phones: migration
   `054_team_all_spaces.sql` (`ish_push_targets`): a team phone (push_subs.team) receives every space notice; the owner's phones also his own
   actions; students unchanged. Tested on the local Postgres and in the preview (nt2.js).
+- **Pictures fill their frames (owner, 21 Nov 2026: «خلّي الصور والخلفيات تكون مناسبة مع حجم الإطارات»):** `IS.poster` pictures (posts,
+  course requests, courses, events, news; feed, cards and pages) now cover their box (`.pstf` object-fit cover); the blurred copy behind
+  (`.pstb`) is hidden. Book covers keep their 3 : 4 book-shaped frame.
