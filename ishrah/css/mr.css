@@ -1162,3 +1162,4 @@ button.lp-ct{width:100%;font:inherit;text-align:start;cursor:pointer}
 .lp-cfb{display:grid;grid-template-columns:1fr auto;gap:8px;width:100%;margin-top:6px}
 .lp-cf .lp-btn.gold{color:#06463b!important;text-decoration:none}
 .lp-cf .lp-btn.ghost{background:#f1f6f5;border:1.5px solid #cfdcd9;color:#2d4943!important;padding:0 18px}
+.lp-cfb{grid-template-columns:1fr!important}

@@ -570,8 +570,7 @@
     IS.sheet(esc(wa ? A('التواصل عبر واتساب', 'Contact on WhatsApp') : A('التواصل عبر البريد', 'Contact by email')),
       '<div class="lp-cf"><i class="' + (wa ? 'wa' : 'mail') + '">' + (wa ? HI.phone : HI.mail) + '</i><p>' + esc(wa ? A('ستنتقل إلى واتساب لمراسلة ', 'You will go to WhatsApp to message ') : A('سيُفتح بريدك لمراسلة ', 'Your mail app will open to write to ')) +
       '<b dir="auto">' + esc(who) + '</b></p><small dir="ltr">' + esc(v) + '</small><div class="lp-cfb"><a class="lp-btn gold" href="' + esc(href) + '"' + (wa ? ' target="_blank" rel="noopener"' : '') + '>' +
-      (wa ? HI.phone : HI.mail) + '<span>' + esc(wa ? A('متابعة إلى واتساب', 'Continue to WhatsApp') : A('متابعة إلى البريد', 'Continue to email')) + '</span></a>' +
-      '<button type="button" class="lp-btn ghost" data-act="lp-cf-no">' + esc(A('إلغاء', 'Cancel')) + '</button></div></div>');
+      (wa ? HI.phone : HI.mail) + '<span>' + esc(wa ? A('متابعة إلى واتساب', 'Continue to WhatsApp') : A('متابعة إلى البريد', 'Continue to email')) + '</span></a></div></div>');
   };
   document.addEventListener('click', function (e) { if (e.target.closest('.lp-cf a.lp-btn')) setTimeout(function () { IS.closeSheet(); }, 250); });
   IS.ACT['lp-cf-no'] = function () { IS.closeSheet(); };
