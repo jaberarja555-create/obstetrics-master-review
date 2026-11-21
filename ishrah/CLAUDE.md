@@ -1200,3 +1200,6 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
 - The day / night / eye button is one round button on every screen (laptops too); «Sign in» on the new top bar is white on teal.
   Arabic text in cards starts from the right even when the app is in English (`unicode-bidi:plaintext`, text-align start).
 - The look button: one press switches Day → Night → Eye comfort (owner, 21 Nov 2026; replaces the menu). Automatic stays in Settings.
+- Filled buttons (top-bar Home, Publish, Follow, Enrol, active tabs…) keep white icons and text in every app colour (a page rule had
+  turned the Home icon dark on purple / maroon / graphite). From 900 px the new pages use the whole width (no centred 1240 px column):
+  cards in as many 440 px columns as fit (2 on a 1366 laptop, 3 on 1920). After mr.css changes run palettes.py (mr-pal-*).

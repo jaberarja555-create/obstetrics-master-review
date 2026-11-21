@@ -1714,3 +1714,15 @@ html body .mrx .mh-in{color:#fff!important;-webkit-text-fill-color:#fff;backgrou
 /* Arabic text in cards reads from the right even when the app is in English (owner, 21 Nov 2026) */
 html body .mrx .feed-card-content [dir="auto"],html body .mrx .feed-card [dir="auto"],html body .mrx .mlx [dir="auto"],html body .mrx .mc-card [dir="auto"],html body .mrx .fcard [dir="auto"]{text-align:start!important;unicode-bidi:plaintext}
 html body .mrx .feed-card-content>div{text-align:start}
+/* filled buttons keep white (or gold) icons and text in every app colour (owner, 21 Nov 2026: "this button doesn't show in other colours") */
+html body .mrx a.mh-b:not(.ghost),html body .mrx button.mh-b:not(.ghost),html body .mrx .mh-b:not(.ghost) svg{color:#fff!important}
+html body .mrx :is(.mh-pub,.mh-in,.mlx-b.green:not(.on),.mlc-b.green:not(.on),.mc-btn:not(.ghost),.lp-send,.cm-k[aria-pressed="true"],.pf-tabs a.on,.mh-nav a.on){color:#fff!important}
+html body .mrx :is(.mh-pub,.mh-in,.mlx-b.green:not(.on),.mlc-b.green:not(.on),.mc-btn:not(.ghost),.lp-send,.pf-tabs a.on) :is(span,b,svg){color:#fff!important}
+/* laptops and big screens: the app uses the whole width (owner, 21 Nov 2026: "the app appears only in the middle") */
+@media (min-width:900px){
+  .mh-page{width:100%!important;max-width:none!important;padding-inline:clamp(16px,2.4vw,40px)!important}
+  html body .mrh .feed-items,html body .mrl .grid.files,html body .mrc #cres#cres>.grid.grid.grid,html body .mra .mh-old .mlx-list{grid-template-columns:repeat(auto-fill,minmax(min(100%,440px),1fr))!important}
+  .mh-ban{height:clamp(150px,16vw,240px)!important}
+  .mh-nav{padding-inline:max(10px,calc((100% - 1100px) / 2))!important}
+}
+@media (min-width:1700px){.mh-page{padding-inline:clamp(40px,4vw,90px)!important}}
