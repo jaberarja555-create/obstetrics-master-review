@@ -1079,4 +1079,4 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
 - Lecturer card (owner, 21 Nov 2026, latest): the picture alone; the name on its own line; under it the title pill and the last-activity
   pill (green «متصل الآن», grey «آخر نشاط قبل …», never cut).
 - **Stars without numbers** (owner, 21 Nov 2026): ratings are still the average of everyone's stars, but the new pages show only the stars
-  (and a grade word on course cards): `.gnum` / `.gcount` and the numbers in lecturer and profile ratings are hidden by CSS.
+  (no grade words either): `.gnum` / `.gcount` and the numbers in lecturer and profile ratings are hidden by CSS.
