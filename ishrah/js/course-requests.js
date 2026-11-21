@@ -839,15 +839,10 @@
     var kind = button.dataset.kind, course = kind === 'course', books = kind === 'file' || kind === 'series';
     var g = IS.grade(row, kind);
     var line = function (icon, label, value) { return '<li><span class="gi">' + icon + '</span><span>' + esc(label) + '</span><b>' + value + '</b></li>'; };
-    IS.sheet(A('كيف حُسب التقييم', 'How the rating is calculated'), '<div class="ginfo"><div class="feed-grade big">' + IS.gradeInner(row, kind) + '</div><ul>' +
+    /* only the figures (owner, 21 Nov 2026: «no need to put all these explanations») */
+    IS.sheet(A('التقييم', 'Rating'), '<div class="ginfo"><div class="feed-grade big">' + IS.gradeInner(row, kind) + '</div><ul>' +
       (course ? '' : line('👍', A('إعجابات', 'Likes'), N(g.likes)) + line('👎', A('عدم إعجاب', 'Dislikes'), N(g.dislikes))) +
-      line('⭐', course ? A('تقييمات الطلاب الملتحقين بالكورس', 'Reviews by enrolled students') : A('تقييمات بالنجوم', 'Star ratings'),
-        N(g.rc) + (g.rc ? ' · ' + (g.rp / g.rc).toFixed(1) + ' ★' : '')) + '</ul>' +
-      '<p class="mut">' + esc(A('التقييم هو متوسط النجوم التي أعطاها الأعضاء: مثلًا نجمة و٣ نجوم و٥ نجوم = ٣ من ٥.',
-        'The rating is the average of the stars members gave: for example 1, 3 and 5 stars = 3 out of 5.')) + '</p>' +
-      (course ? '<p class="note">' + IS.ic('lock') + '<span>' + esc(A('التقييم متاح للطلاب الملتحقين بالكورس من صفحته.', 'Students who joined can rate the course from its page.')) + '</span></p>' :
-        '<p class="mut">' + esc(A('الإعجاب وعدم الإعجاب لا يغيّران التقييم؛ يحددان شعبية المنشور (الأكثر شعبية = الأكثر تفاعلًا).',
-          'Likes and dislikes do not change the rating; they decide how popular a post is (Most popular = most reactions).')) + '</p>') + '</div>');
+      line('⭐', A('عدد التقييمات', 'Ratings'), N(g.rc) + (g.rc ? ' · ' + (g.rp / g.rc).toFixed(1) + ' ★' : '')) + '</ul></div>');
   };
   IS.regradeBars = function (key, values) { IS.$$('[data-feedback]').filter(function (bar) { return bar.dataset.feedback === key; }).forEach(function (bar) { regrade(bar, values); }); };
   function patchFeed(kind, id, values, saving) {
