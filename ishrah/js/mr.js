@@ -295,7 +295,7 @@
       posts: po, files: fi, me_follow: !!(IS.ME && fl.some(function (f) { return f.follower === IS.ME.id && f.followee === id; })) };
   }
   function nfmt(n) { n = +n || 0; return n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'K' : n >= 1000 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : String(n); }
-  var PKIND = { discussion: ['مناقشة', 'Discussion', 'chat'], question: ['سؤال', 'Question', 'help'], announcement: ['إعلان', 'Announcement', 'mega'], course_preview: ['معاينة كورس', 'Course preview', 'video'] };
+  var PKIND = { post: ['منشور', 'Post', 'pen'], discussion: ['مناقشة', 'Discussion', 'chat'], question: ['سؤال', 'Question', 'help'], announcement: ['إعلان', 'Announcement', 'mega'], course_preview: ['معاينة كورس', 'Course preview', 'video'] };
   function postTile(x) {
     var k = PKIND[x.kind] || PKIND.discussion, pic = x.preview_image || x.cover || 'img/collection/' + (x.kind === 'announcement' ? 'notifications' : x.kind === 'question' ? 'support' : 'community') + '.webp';
     var rx = (+x.like_count || 0) + (+x.love_count || 0) + (+x.angry_count || 0) + (+x.dislike_count || 0);
@@ -685,7 +685,8 @@
   HI.mega = svg('0 0 24 24', '<path d="M3 10v4h3l7 4V6L6 10z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"');
   HI.help = svg('0 0 24 24', '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.3a2.6 2.6 0 0 1 5 .9c0 1.8-2.5 2.2-2.5 3.8M12 17h.01"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"');
   HI.chats = svg('0 0 24 24', '<path d="M3 5h12v8H8l-4 3v-3H3z"/><path d="M15 9h6v8h-1v3l-4-3h-5v-2"/>', ' fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"');
-  var CKINDS = [['announcement', HI.mega, 'الإعلانات', 'Announcements'], ['course_preview', HI.mark, 'الموارد', 'Resources'], ['question', HI.help, 'الأسئلة', 'Questions'], ['discussion', HI.chats, 'النقاشات', 'Discussions']];
+  HI.pen = svg('0 0 24 24', '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"');
+  var CKINDS = [['post', HI.pen, 'المنشورات', 'Posts'], ['announcement', HI.mega, 'الإعلانات', 'Announcements'], ['course_preview', HI.mark, 'الموارد', 'Resources'], ['question', HI.help, 'الأسئلة', 'Questions'], ['discussion', HI.chats, 'النقاشات', 'Discussions']];
   var com0 = IS.pageOf && IS.pageOf('community');
   if (com0) IS.page('community', async function (room) {
     var inner = await com0.fn(room);

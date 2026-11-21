@@ -1106,3 +1106,13 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   icon, a grey wave, a lock in a small circle at the corner (`.mr-lockb`) and a gold «قريبًا» ribbon (`.mr-soon`); the open speciality has a
   gold glowing frame while others are locked. Plain colours only (the old grayscale filter is switched off; filters smear on touch screens).
   The icon stays whole: on locked cards it is smaller and higher (`.art` inset 5% 0 58%) and the ribbon sits just above the wave (bottom 40%).
+- **«منشور»: a plain post like Facebook, for everyone** (owner, 21 Nov 2026: «بدل معاينة كورس أضف منشور، شخص يقدر يعمل منشور مثل حق
+  الفيسبوك»): the publish chooser (`#community/new`, `postChoices`) starts with «منشور» for every signed-in person; «معاينة كورس» is no longer
+  offered there (old course previews still show, and `#community/new/course_preview` still works for lecturers). `#community/new/post` =
+  writer's picture and name, one big text box («بماذا تفكر؟»), «أضف إلى منشورك»: 🖼️ picture (preview with ✕, shrunk to 1280 px, `media`
+  bucket) · 🎬 YouTube / Drive link · 🏷️ optional title. post_kind `post`; published at once like a discussion. Feed card and post page show
+  the text itself (no title line when there is none) with the picture across the card under it (`.feed-fb`); the Community page has a fifth
+  kind button «المنشورات». Migration `052_free_posts.sql`: post_kind 'post' allowed; `guard_lecturer_post` and `guard_post_kind` let a plain
+  post carry a picture or video link from anyone (formats still checked) but never a course link or highlights. Tested on the local Postgres
+  (student post with picture + video saved; course link, course preview and discussion with a picture still refused; file runs twice) and in
+  the browser (scratchpad fp.js, fp2.js at 360/390/1440).

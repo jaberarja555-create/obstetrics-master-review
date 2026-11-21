@@ -246,7 +246,7 @@
     course: ['الكورسات', 'Courses', 'layers'], announcement: ['الإعلانات', 'Announcements', 'mega'],
     request: ['الطلبات', 'Requests', 'chat'], event: ['الفعاليات', 'Events', 'cal'],
     news: ['الأخبار', 'News', 'news'], discussion: ['النقاشات', 'Discussions', 'group'],
-    question: ['الأسئلة', 'Questions', 'help'], course_preview: ['معاينات الكورسات', 'Course previews', 'video'],
+    question: ['الأسئلة', 'Questions', 'help'], post: ['منشور', 'Post', 'pen'], course_preview: ['معاينات الكورسات', 'Course previews', 'video'],
     library: ['المكتبة', 'Library', 'open']
   };
   var feedSettings = {};
@@ -340,7 +340,8 @@
     var target = isPost ? 'post/' : { course: 'course/', announcement: 'news/ann/', request: 'course-request/', event: 'event/', news: 'news/', library: 'file/' }[type];
     var shareRoute = (isPost && type !== 'announcement') || type === 'request' || type === 'news' ? target + row.id : '';
     var summary = row.subtitle || row.details || row.body || (row.about || '').replace(/<br\s*\/?\s*>/g, '\n');
-    var title = type === 'announcement' && !isPost ? IS.noticeTitle(row) : row.title || A('نقاش', 'Discussion');
+    var title = type === 'announcement' && !isPost ? IS.noticeTitle(row) : row.title || (type === 'post' ? '' : A('نقاش', 'Discussion'));
+    var plain = type === 'post' && !row.title;
     var defaultArt = { course: 'courses', event: 'events', news: 'news', request: 'requests', announcement: 'notifications' };
     var media = row.preview_image || row.cover || (!isPost && defaultArt[type] ? 'img/collection/' + defaultArt[type] + '.webp' : '');
     var libraryKind = library && IS.libraryKind(row.kind);
@@ -351,14 +352,14 @@
       type === 'request' ? '<bdi dir="ltr">' + esc(((row.payment_required ? row.paid_count : row.joined_count) || 0) + (row.goal ? ' / ' + row.goal : '')) + '</bdi> ' + esc(A('منضمّون', 'joined')) :
       type === 'course' ? [courseFormat(row), row.starts_at && courseSchedule(row)].filter(Boolean).join(' · ') : '';
     row._price = library || type === 'course' ? Number(row.price) || 0 : isPost && row.linked_price != null ? Number(row.linked_price) || 0 : null;
-    return '<article class="box feed-card feed-' + type + (isPost ? ' feed-post' : '') + '" data-kind="' + type + '" data-go="#' + target + esc(row.id) + '"><header class="feed-card-header"><span>' + ic(label[2]) +
+    return '<article class="box feed-card feed-' + type + (isPost ? ' feed-post' : '') + (type === 'post' ? ' feed-fb' : '') + '" data-kind="' + type + '" data-go="#' + target + esc(row.id) + '"><header class="feed-card-header"><span>' + ic(label[2]) +
       esc(A(label[0], label[1])) + '</span>' + (when ? '<time datetime="' + esc(when) + '">' + esc(IS.ago(when)) + '</time>' : '') +
       (IS.ownBtns ? IS.ownBtns(isPost ? 'post' : library ? 'file' : type === 'announcement' ? 'notice' : type, row) : '') +
       (IS.manageBtn ? IS.manageBtn(isPost ? 'post' : library ? 'file' : type === 'announcement' ? 'notice' : type, row.id) : '') + '</header>' +
       '<div class="feed-card-content">' + (library || media ? '<a class="feed-image" href="#' + target + esc(row.id) + '" aria-label="' + esc(title) + '">' +
         (library ? IS.libraryCover(row) : IS.poster(media)) + '</a>' : '') +
-      '<div><h3 dir="auto"><a href="#' + target + esc(row.id) + '">' + esc(title) + '</a></h3>' +
-      (summary ? '<p class="feed-summary" dir="auto">' + esc(summary.slice(0, 280)) + '</p>' : '') +
+      '<div>' + (plain ? '' : '<h3 dir="auto"><a href="#' + target + esc(row.id) + '">' + esc(title) + '</a></h3>') +
+      (summary ? '<p class="feed-summary' + (plain ? ' fbtext' : '') + '" dir="auto">' + esc(summary.slice(0, plain ? 600 : 280)) + (plain && summary.length > 600 ? '… <a class="fbmore" href="#' + target + esc(row.id) + '">' + esc(A('عرض المزيد', 'See more')) + '</a>' : '') + '</p>' : '') +
       (details ? '<p class="feed-detail">' + details + '</p>' : '') +
       (type === 'course' ? '<div class="row library-feed-actions"><a class="btn ghost sm" href="#' + target + esc(row.id) + '">' + ic('open') + esc(A('عرض الكورس', 'View course')) + '</a></div>' : '') +
       (library ? '<div class="row library-feed-actions">' + (IS.fileOpenable(row) ? '<a class="btn ghost sm" href="#file/' + esc(row.id) + '/read">' + ic('open') +
@@ -1029,6 +1030,11 @@
 
   /* ========== COMMUNITY ========== */
   var POST_KINDS = {
+    /* a plain post like Facebook, open to everyone (owner, 21 Nov 2026): text, an optional picture or video link, no title needed */
+    post: {
+      name: ['منشور', 'Post'], title: ['عنوان (اختياري)', 'Title (optional)'], body: ['اكتب منشورك', 'Write your post'],
+      hint: ['بماذا تفكر؟ شارك معلومة أو تجربة أو صورة…', "What's on your mind? Share a tip, an experience or a picture…"], submit: ['انشر', 'Post']
+    },
     discussion: {
       name: ['نقاش', 'Discussion'], title: ['عنوان النقاش', 'Discussion title'], body: ['موضوع النقاش', 'Discussion topic'],
       hint: ['ما الذي ترغب في مناقشته؟', 'What would you like to discuss?'], submit: ['انشر النقاش', 'Publish discussion']
@@ -1057,6 +1063,7 @@
     var spec = IS.spec(IS.SPEC);
     var context = [spec && A(spec.ar, spec.en), section && section.en].filter(Boolean).join(' · ');
     var choices = [
+      ['community/new/post', 'pen', 'منشور', 'Post', 'اكتب ما تريد وأضف صورة أو فيديو، مثل منشورات فيسبوك.', 'Write anything and add a picture or video, like a Facebook post.'],
       ['course-requests/new', 'receipt', 'اطلب كورسًا', 'Request a course', 'اختر محاضرًا أو اترك الطلب مفتوحًا. يُنشر بعد المراجعة.', 'Name a lecturer or leave the request open. It’s published after review.'],
       ['community/new/question', 'help', 'اسأل سؤالًا', 'Ask a question', 'شارك سؤالك مع هذا القسم.', 'Share your question with this section.'],
       ['community/new/discussion', 'chat', 'ابدأ نقاشًا', 'Start a discussion', 'شارك موضوعًا للنقاش مع طلاب هذا القسم.', 'Start a conversation with students in this section.']
@@ -1065,7 +1072,6 @@
       ['studio-course/new', 'layers', 'أنشئ كورسًا', 'Create a course', 'أضف الرسوم والموعد وطريقة التدريس والمعاينة.', 'Set the fee, schedule, teaching format and preview.'],
       ['studio-events/new', 'cal', 'أنشئ فعالية', 'Create an event', 'أعلن عن ورشة أو ندوة أو جلسة مباشرة.', 'Announce a workshop, seminar or live session.']);
     if (teacherPostAllowed()) choices.push(
-      ['community/new/course_preview', 'video', 'معاينة كورس', 'Course preview', 'شارك صورة أو فيديو أو اربط كورسًا منشورًا.', 'Share a picture or video, or link a published course.'],
       ['community/new/announcement', 'mega', 'اكتب إعلانًا', 'Write an announcement', 'شارك تحديثًا في هذا القسم.', 'Share an update with this section.']);
     return '<section class="box post-composer"><h2 tabindex="-1" data-post-composer>' + IS.T('اختر ما تريد نشره', 'Choose what to post') + '</h2>' +
       '<p class="mut">' + esc(context) + '</p><div class="list">' + choices.map(function (choice) {
@@ -1075,6 +1081,19 @@
   }
   async function postComposer(kind) {
     var spec = POST_KINDS[kind], preview = kind === 'course_preview';
+    if (kind === 'post') return '<form class="box form post-composer fbpost" data-form="post"><input type="hidden" name="kind" value="post">' +
+      '<div class="row sp"><h2 tabindex="-1" data-post-composer>' + IS.T('إنشاء منشور', 'Create a post') + '</h2><a class="link" href="#community/new">' +
+      esc(A('خيارات النشر', 'Post options')) + '</a></div>' +
+      '<div class="fbp-who">' + IS.av(me() || {}, 'sm') + '<b dir="auto">' + esc((me() || {}).name || '') + '</b></div>' +
+      '<label class="fl fbp-body"><span class="sr">' + esc(A.apply(null, spec.body)) + '</span><textarea name="body" rows="5" required maxlength="5000" dir="auto" placeholder="' + esc(A.apply(null, spec.hint)) + '"></textarea></label>' +
+      '<div class="fbp-pic" hidden><img alt=""><button type="button" class="fbp-x" data-act="fbp-clear" aria-label="' + esc(A('أزل الصورة', 'Remove the picture')) + '">✕</button></div>' +
+      '<div class="fbp-add"><span>' + esc(A('أضف إلى منشورك', 'Add to your post')) + '</span>' +
+        '<label class="fbp-b" title="' + esc(A('صورة', 'Picture')) + '">🖼️<span>' + esc(A('صورة', 'Picture')) + '</span><input type="file" accept="image/*" name="preview_image" hidden data-fbpic></label>' +
+        '<button type="button" class="fbp-b" data-act="fbp-video">🎬<span>' + esc(A('فيديو', 'Video')) + '</span></button>' +
+        '<button type="button" class="fbp-b" data-act="fbp-title">🏷️<span>' + esc(A('عنوان', 'Title')) + '</span></button></div>' +
+      '<label class="fl fbp-video" hidden><span>' + esc(A('رابط فيديو يوتيوب أو Google Drive', 'YouTube or Google Drive video link')) + '</span><input type="url" name="preview_video" dir="ltr" placeholder="https://youtu.be/…"></label>' +
+      '<label class="fl fbp-title" hidden><span>' + esc(A.apply(null, spec.title)) + '</span><input name="title" maxlength="140" dir="auto"></label>' +
+      '<button class="btn pri wide">' + ic('send') + esc(A.apply(null, spec.submit)) + '</button></form>';
     return '<form class="box form post-composer" data-form="post"><input type="hidden" name="kind" value="' + kind + '">' +
       '<div class="row sp"><h2 tabindex="-1" data-post-composer>' + IS.T.apply(null, spec.name) + '</h2><a class="link" href="#community/new">' +
       esc(A('خيارات النشر', 'Post options')) + '</a></div>' +
@@ -1101,11 +1120,20 @@
       (!imageShown && row.preview_image ? '<img class="post-preview-photo" src="' + IS.U(row.preview_image) + '" alt="" loading="lazy">' : '') +
       (highlights.length ? '<ul class="post-highlights">' + highlights.map(function (feature) { return '<li dir="auto">' + esc(feature) + '</li>'; }).join('') + '</ul>' : '') +
       '<div class="row">' + (video ? '<button type="button" class="btn ghost sm" data-act="post-video" data-video="' + esc(row.preview_video) + '">' +
-        ic('play') + esc(A('شاهد المعاينة', 'Watch preview')) + '</button>' : '') +
+        ic('play') + esc(row.post_kind === 'post' ? A('شاهد الفيديو', 'Watch the video') : A('شاهد المعاينة', 'Watch preview')) + '</button>' : '') +
       (row.course_id ? '<a class="btn ' + (+row.linked_price ? 'pri' : 'ghost') + ' sm" href="#course/' + esc(row.course_id) + '">' +
         esc(+row.linked_price ? A('الدفع والالتحاق', 'Payment & enrolment') : A('عرض الكورس', 'View course')) + '</a>' : '') +
       '</div></div>';
   }
+  IS.ACT['fbp-video'] = function (b) { var f = b.closest('form').querySelector('.fbp-video'); f.hidden = !f.hidden; if (!f.hidden) f.querySelector('input').focus(); };
+  IS.ACT['fbp-title'] = function (b) { var f = b.closest('form').querySelector('.fbp-title'); f.hidden = !f.hidden; if (!f.hidden) f.querySelector('input').focus(); };
+  IS.ACT['fbp-clear'] = function (b) { var form = b.closest('form'), inp = form.querySelector('[data-fbpic]'); inp.value = ''; var box = form.querySelector('.fbp-pic'); box.hidden = true; box.querySelector('img').removeAttribute('src'); };
+  document.addEventListener('change', function (e) {
+    var inp = e.target; if (!inp.matches || !inp.matches('[data-fbpic]')) return;
+    var box = inp.closest('form').querySelector('.fbp-pic'), f = inp.files[0], img = box.querySelector('img');
+    if (img.src && img.src.indexOf('blob:') === 0) URL.revokeObjectURL(img.src);
+    if (f && /^image\//.test(f.type)) { img.src = URL.createObjectURL(f); box.hidden = false; } else { box.hidden = true; }
+  });
   IS.ACT['post-video'] = function (button) {
     var video = IS.extEmbed(button.dataset.video); if (!video) return;
     var player = document.createElement('div'); player.className = 'post-video';
@@ -1117,7 +1145,7 @@
   IS.page('community', async function (room) {
     var section = IS.mySection(), cur = section ? section.id : 'general';
     var parts = String(room || '').split('/'), writing = parts[0] === 'new';
-    var kind = ['question', 'discussion'].includes(parts[1]) || (['course_preview', 'announcement'].includes(parts[1]) && teacherPostAllowed()) ? parts[1] : '';
+    var kind = ['post', 'question', 'discussion'].includes(parts[1]) || (['course_preview', 'announcement'].includes(parts[1]) && teacherPostAllowed()) ? parts[1] : '';
     if (section && IS.cat(room) && room !== section.id) return IS.outsideStudySpace({ spec: IS.SPEC, cat: room });
     var ps = await DB.q('posts', { eq: { room: cur }, order: ['created_at', false], limit: 200 });
     ps = ps.filter(function (p) { return IS.inSpec(p) && (IS.publicPost(p) || (privateQuestion(p) && p.user_id === uid())); });
@@ -1154,6 +1182,14 @@
     var kind = Object.prototype.hasOwnProperty.call(POST_KINDS, d.kind) ? d.kind : 'discussion';
     if (['course_preview', 'announcement'].includes(kind) && !teacherPostAllowed()) return;
     var row = { room: section.id, post_kind: kind, spec: IS.SPEC, user_id: uid(), name: me().name, photo: me().photo || '', title: d.title, body: d.body || '', status: 'open', n_replies: 0, pinned: false };
+    if (kind === 'post') {
+      var pic = form.elements.preview_image && form.elements.preview_image.files[0];
+      var vid = d.preview_video && IS.extVideo(d.preview_video);
+      if (d.preview_video && !vid) return IS.toast(A('استخدم رابط يوتيوب أو Google Drive صالحًا.', 'Use a valid YouTube or Google Drive link.'), true);
+      if (pic && (!/^image\//.test(pic.type) || pic.size > 10 * 1024 * 1024)) return IS.toast(A('اختر صورة لا تتجاوز 10 ميغابايت.', 'Choose a picture under 10 MB.'), true);
+      row.title = (d.title || '').trim() || null; row.preview_video = vid || null;
+      if (pic) row.preview_image = await DB.upload('media', await IS.shrink(pic, 1280, 0.84));
+    }
     if (kind === 'course_preview') {
       var picture = form.elements.preview_image && form.elements.preview_image.files[0];
       var video = d.preview_video && IS.extVideo(d.preview_video), highlights = IS.lines(d.highlights);
@@ -1224,13 +1260,13 @@
     var rs = got[1], lecs = got[2];
     if (parts[1] === 'comments') IS.after = IS.focusPostComments;
     var composer = me() ? IS.cmtBox('reply', '<input type="hidden" name="post" value="' + p.id + '">', p.room === 'qa' ? A('اكتب ردًا…', 'Write a reply…') : '') : '';
-    return '<nav class="crumb"><a href="#' + (p.room === 'qa' ? 'course/' + p.course_id : 'community') + '">' + esc(p.room === 'qa' ? A('الكورس', 'Course') : A('المجتمع', 'Community')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(p.title || A('سؤال', 'Question')) + '</span></nav>' +
+    return '<nav class="crumb"><a href="#' + (p.room === 'qa' ? 'course/' + p.course_id : 'community') + '">' + esc(p.room === 'qa' ? A('الكورس', 'Course') : A('المجتمع', 'Community')) + '</a>' + ic('chev', 'fl') + '<span dir="auto">' + esc(p.title || (postKind(p) === 'post' ? String(p.body || '').slice(0, 40) : A('سؤال', 'Question'))) + '</span></nav>' +
       /* a post reads like a post (owner, 21 Nov 2026: "the question and its description and all the other things are misplaced"):
          picture · name · time · kind, the writer's / team's small tools at the end of that line, then the title, the text and the footer */
       '<article class="box thread pthread">' +
         '<header class="pth">' + IS.av({ name: p.name, photo: p.photo }, 'md', p.user_id) + '<div class="pthn"><b dir="auto">' + esc(p.name || '') + '</b><small>' + esc(IS.ago(p.created_at)) +
-          ((({ question: ['سؤال', 'Question'], discussion: ['نقاش', 'Discussion'], announcement: ['إعلان', 'Announcement'], course_preview: ['معاينة كورس', 'Course preview'] })[postKind(p)] || null) ?
-            ' · <span class="pthk">' + esc(A.apply(null, ({ question: ['سؤال', 'Question'], discussion: ['نقاش', 'Discussion'], announcement: ['إعلان', 'Announcement'], course_preview: ['معاينة كورس', 'Course preview'] })[postKind(p)])) + '</span>' : '') +
+          ((({ post: ['منشور', 'Post'], question: ['سؤال', 'Question'], discussion: ['نقاش', 'Discussion'], announcement: ['إعلان', 'Announcement'], course_preview: ['معاينة كورس', 'Course preview'] })[postKind(p)] || null) ?
+            ' · <span class="pthk">' + esc(A.apply(null, ({ post: ['منشور', 'Post'], question: ['سؤال', 'Question'], discussion: ['نقاش', 'Discussion'], announcement: ['إعلان', 'Announcement'], course_preview: ['معاينة كورس', 'Course preview'] })[postKind(p)])) + '</span>' : '') +
           (p.pinned ? ' · 📌' : '') + '</small></div>' +
           '<span class="ptht">' +
             (p.user_id === uid() ? '<button type="button" class="own-b" data-act="post-edit" data-id="' + esc(p.id) + '" title="' + esc(A('عدّل المنشور', 'Edit post')) + '" aria-label="' + esc(A('عدّل المنشور', 'Edit post')) + '">✏️</button>' : '') +
@@ -1238,7 +1274,8 @@
               '<button type="button" class="own-b" data-act="rmpost" data-id="' + p.id + '" title="' + esc(A('حذف', 'Remove')) + '" aria-label="' + esc(A('حذف', 'Remove')) + '">🗑️</button>' :
               p.user_id === uid() ? '<button type="button" class="own-b" data-act="own-del" data-k="post" data-id="' + esc(p.id) + '" title="' + esc(A('حذف', 'Delete')) + '" aria-label="' + esc(A('حذف منشورك', 'Delete your post')) + '">🗑️</button>' : '') +
           '</span></header>' +
-        '<h1 tabindex="-1" dir="auto">' + esc(p.title || p.body.slice(0, 80)) + '</h1>' + (p.title && p.body ? '<p class="pre" dir="auto">' + esc(p.body) + '</p>' : '') +
+        (postKind(p) === 'post' && !p.title ? '<h1 class="sr" tabindex="-1">' + esc(A('منشور', 'Post')) + ' · ' + esc(p.name || '') + '</h1><p class="pre ppost" dir="auto">' + esc(p.body || '') + '</p>' :
+        '<h1 tabindex="-1" dir="auto">' + esc(p.title || p.body.slice(0, 80)) + '</h1>' + (p.title && p.body ? '<p class="pre" dir="auto">' + esc(p.body) + '</p>' : '')) +
         (p.room !== 'qa' ? postPreview(p, false) + IS.feedVoteBar('post', p, false, postKind(p) === 'announcement' ? '' : 'post/' + p.id) : '') +
         (p.room === 'qa' ? '<div class="row">' + IS.postActions('post', p.id, 'post/' + p.id) + '</div>' : '') + '</article>' +
       '<section class="box post-comments"><h2 tabindex="-1" data-post-comments>' +
