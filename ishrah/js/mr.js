@@ -632,7 +632,6 @@
       '<div class="mlc-acts"><a class="mlc-b gold" href="#lecturer/' + esc(l.id) + '">' + HI.user + '<span>' + esc(A('عرض الملف', 'View profile')) + '</span></a>' +
         (IS.ME && IS.ME.id === l.id ? '<a class="mlc-b green" href="#studio">' + HI.layers.replace(G, 'currentColor') + '<span>' + esc(A('الاستوديو', 'Studio')) + '</span></a>' :
           '<button type="button" class="mlc-b green' + (iFollow ? ' on' : '') + '" data-act="pffollow" data-id="' + esc(l.id) + '">' + (iFollow ? PI.tick : HI.userPlus) + '<span>' + esc(iFollow ? A('متابَع', 'Following') : A('متابعة', 'Follow')) + '</span></button>') +
-        '<button type="button" class="mlc-b" data-act="mlc-rate" data-id="' + esc(l.id) + '">' + HI.star + '<span>' + esc(A('تقييم', 'Rate')) + '</span></button>' +
         '<button type="button" class="mlc-b" data-act="fav" data-k="t:' + esc(l.id) + '" aria-pressed="' + fav + '">' + HI.heart + '<span>' + esc(A('إعجاب', 'Like')) + '</span></button></div></article>';
   }
   var lecs0 = IS.pageOf && IS.pageOf('lecturers');

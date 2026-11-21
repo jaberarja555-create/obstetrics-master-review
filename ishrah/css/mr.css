@@ -1264,3 +1264,7 @@ html body .mra[data-pg="lecturers"] .lcard.join .av .ico{width:20px!important;he
 html body .mra[data-pg="lecturers"] .lcard.join h3{font-size:14px!important}
 html body .mra[data-pg="lecturers"] .lcard.join p{font-size:12px!important}
 html body .mra[data-pg="lecturers"] .lcard.join .btn{height:32px!important;font-size:12.5px!important}
+/* no «تقييم» button: lecturers are rated from inside their courses (owner, 21 Nov 2026) */
+.mlc-acts{grid-template-columns:1fr 1fr 34px!important}
+.mlc-acts>.mlc-b:nth-child(3){padding:0!important;width:34px}
+.mlc-acts>.mlc-b:nth-child(3) span{display:none}

@@ -1069,4 +1069,4 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   ways (WhatsApp number, email), each row with a small «راسل» (green for WhatsApp, blue for email) that opens wa.me / mailto.
 - **Lecturers list in the owner's picture** (21 Nov 2026): mr.js wraps `#lecturers`: a `.mlc` card per lecturer — picture panel (gold ring,
   online badge, stars and rating count, courses) beside name + verified, title, two lines of bio, speciality | section, followers; buttons
-  «عرض الملف» · «متابعة» (follows) · «تقييم» (lists his courses: students rate from the course they joined) · «إعجاب» (favourite).
+  «عرض الملف» · «متابعة» (follows) · «إعجاب» (favourite).
