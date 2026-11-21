@@ -685,7 +685,7 @@
       CKINDS.map(function (k) { return '<option value="' + k[0] + '">' + esc(A(k[2], k[3])) + '</option>'; }).join('') + '</select></label>' +
       (IS.ME ? '<i class="mh-sep"></i><a class="mh-pub" href="#community/new">' + HI.plus + '<span>' + esc(A('انشر', 'Publish')) + '</span></a>' : '') + '</div>';
     inner = inner.replace(/<a class="btn pri" href="#community\/new">[\s\S]*?<\/a>/, '');
-    inner = inner.replace(/(<div class="feed-items cm-feed">)/, tools + '$1');
+    inner = /<\/details>/.test(inner) ? inner.replace(/(<details class="rules community-rules">[\s\S]*?<\/details>)/, '$1' + tools) : inner.replace(/(<div class="feed-items cm-feed">)/, tools + '$1');
     var a0 = IS.after;
     IS.after = function (main, remember) {
       var r = a0 ? a0(main, remember) : undefined;
