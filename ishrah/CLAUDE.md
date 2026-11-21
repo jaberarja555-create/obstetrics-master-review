@@ -1063,3 +1063,5 @@ objects; `DB.fileUrl('library', …)` then returns the R2 link. Accounts, posts 
   teal with white text and a gold button.
 - **Compact sizes** (owner, 21 Nov 2026: "things and text are big; one has to scroll"): a block at the end of css/mr.css makes banners,
   titles, posts, course and library cards, profile and lecturer cards, buttons and the bottom bar smaller. Keep new parts this size.
+- **Contact asks first** (owner, 21 Nov 2026): the WhatsApp / email tiles on the lecturer page open a small sheet («ستنتقل إلى واتساب لمراسلة
+  …» with the number, «متابعة إلى واتساب» / «إلغاء»); only «متابعة» opens wa.me or mailto (`IS.ACT['lp-contact']`).

@@ -1153,3 +1153,12 @@ html body .mra .mh-old .ban .bnums span{padding:3px 10px!important;min-width:0!i
 html body .mra .mh-old .ban .bnums b{font-size:15px!important}
 html body .mra[data-pg="lecturers"] .lcard:not(.join){row-gap:1px!important}
 html body .mra[data-pg="lecturers"] .lcard .lcst{margin-top:4px!important;padding-top:6px!important}
+button.lp-ct{width:100%;font:inherit;text-align:start;cursor:pointer}
+.lp-cf{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:6px 0}
+.lp-cf>i{width:56px;height:56px;border-radius:50%;display:grid;place-items:center}
+.lp-cf>i.wa{background:#e2f7ea;color:#1faa53}.lp-cf>i.mail{background:#e7f0fc;color:#2b6fd6}
+.lp-cf>i svg.ic{width:28px!important;height:28px!important}
+.lp-cf p{margin:0;font-size:15px}.lp-cf small{color:#5d7570;font-size:14px}
+.lp-cfb{display:grid;grid-template-columns:1fr auto;gap:8px;width:100%;margin-top:6px}
+.lp-cf .lp-btn.gold{color:#06463b!important;text-decoration:none}
+.lp-cf .lp-btn.ghost{background:#f1f6f5;border:1.5px solid #cfdcd9;color:#2d4943!important;padding:0 18px}

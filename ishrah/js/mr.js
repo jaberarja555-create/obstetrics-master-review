@@ -555,7 +555,7 @@
         btn('ach', HI.trophy2, N(ach.length), A('الإنجازات', 'Achievements')) +
         btn('quals', HI.cap.replace(G, 'currentColor'), N((l.quals || []).length), A('المؤهلات', 'Qualifications')) + '</section>' +
       (contacts.length ? '<section class="lp-contact"><h2>' + HI.phone + '<span>' + esc(A('التواصل', 'Contact')) + '</span></h2><div class="lp-contacts">' + contacts.map(function (x) {
-          return '<a class="lp-ct ' + x[0] + '" href="' + esc(x[4]) + '"' + (x[0] === 'wa' ? ' target="_blank" rel="noopener"' : '') + '><i>' + x[1] + '</i><span><b>' + esc(x[2]) + '</b><small dir="ltr">' + esc(x[3]) + '</small></span><em>‹</em></a>'; }).join('') + '</div></section>' :
+          return '<button type="button" class="lp-ct ' + x[0] + '" data-act="lp-contact" data-kind="' + x[0] + '" data-href="' + esc(x[4]) + '" data-v="' + esc(x[3]) + '"><i>' + x[1] + '</i><span><b>' + esc(x[2]) + '</b><small dir="ltr">' + esc(x[3]) + '</small></span><em>‹</em></button>'; }).join('') + '</div></section>' :
         mine ? '<a class="lp-addc" href="#studio-page">' + HI.phone + '<span>' + esc(A('أضف رقم التواصل والبريد في صفحتي ليظهرا للطلاب', 'Add your contact number and email on My page so students see them')) + '</span></a>' : '') +
       '<section class="lp-mini"><button type="button" class="lp-m" data-act="lp-list" data-k="about">' + PI.users + '<span><b>' + esc(A('عن المحاضر', 'About the lecturer')) + '</b><small>' + esc(l.bio ? A('اضغط للقراءة', 'Tap to read') : A('لم تُكتب بعد', 'Not written yet')) + '</small></span></button>' +
         '<span class="lp-m">' + HI.cal + '<span><b>' + esc(A('تاريخ الانضمام', 'Joined')) + '</b><small>' + esc(IS.date(l.created_at)) + '</small></span></span></section>';
@@ -564,6 +564,17 @@
     return hero + body + t.innerHTML;
   }, lec0.o);
   var LPDATA = null;
+  /* WhatsApp or email ask first (owner, 21 Nov 2026: "when you press WhatsApp or email it should confirm, then go") */
+  IS.ACT['lp-contact'] = function (b) {
+    var wa = b.getAttribute('data-kind') === 'wa', href = b.getAttribute('data-href'), v = b.getAttribute('data-v'), who = LPDATA && LPDATA.l ? LPDATA.l.name : '';
+    IS.sheet(esc(wa ? A('التواصل عبر واتساب', 'Contact on WhatsApp') : A('التواصل عبر البريد', 'Contact by email')),
+      '<div class="lp-cf"><i class="' + (wa ? 'wa' : 'mail') + '">' + (wa ? HI.phone : HI.mail) + '</i><p>' + esc(wa ? A('ستنتقل إلى واتساب لمراسلة ', 'You will go to WhatsApp to message ') : A('سيُفتح بريدك لمراسلة ', 'Your mail app will open to write to ')) +
+      '<b dir="auto">' + esc(who) + '</b></p><small dir="ltr">' + esc(v) + '</small><div class="lp-cfb"><a class="lp-btn gold" href="' + esc(href) + '"' + (wa ? ' target="_blank" rel="noopener"' : '') + '>' +
+      (wa ? HI.phone : HI.mail) + '<span>' + esc(wa ? A('متابعة إلى واتساب', 'Continue to WhatsApp') : A('متابعة إلى البريد', 'Continue to email')) + '</span></a>' +
+      '<button type="button" class="lp-btn ghost" data-act="lp-cf-no">' + esc(A('إلغاء', 'Cancel')) + '</button></div></div>');
+  };
+  document.addEventListener('click', function (e) { if (e.target.closest('.lp-cf a.lp-btn')) setTimeout(function () { IS.closeSheet(); }, 250); });
+  IS.ACT['lp-cf-no'] = function () { IS.closeSheet(); };
   IS.ACT['lp-list'] = async function (b) {
     var d = LPDATA, key = b.getAttribute('data-k'); if (!d) return;
     var empty = function (t) { return '<p class="lp-empty">' + esc(t) + '</p>'; }, html = '', title = '';
