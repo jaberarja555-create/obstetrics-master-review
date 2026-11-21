@@ -502,7 +502,18 @@
   var NAVOF = { course: 'courses', lesson: 'courses', 'course-requests': 'courses', 'course-request': 'courses', payment: 'courses', file: 'library', series: 'library',
     sales: 'library', purchase: 'library', downloads: 'library', dl: 'library', post: 'community', community: 'community', lecturer: 'lecturers', lecturers: 'lecturers',
     learning: 'learning', achievements: 'learning', favorites: 'learning', paths: 'learning', path: 'learning' };
+  /* the control app in the same frame (owner, 21 Nov 2026: "work on the control panel"): its own bottom bar */
+  function cnav(cur) {
+    var items = (IS.ctrlItems ? IS.ctrlItems() : []).slice(0, 4);
+    return '<nav class="mh-nav cnavb" aria-label="' + esc(A('التحكم', 'Control')) + '">' + items.map(function (n) {
+      return '<a href="#' + n[0] + '"' + (n[0] === cur || cur.indexOf(n[0] + '-') === 0 && n[0] !== 'control' ? ' class="on" aria-current="page"' : '') + '>' + ic(n[1]) + '<span>' + esc(A(n[2], n[3])) + '</span></a>'; }).join('') +
+      '<a href="#" data-act="more">' + ic('more') + '<span>' + esc(A('المزيد', 'More')) + '</span></a></nav>';
+  }
   IS.pageFrame = function (name, html) {
+    if (IS.area === 'control' && !/class="mrx/.test(html) && !/^control-ticket/.test(name)) {
+      return '<div class="mrx mrh mra mrc2" data-pg="' + esc(name) + '"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop().replace('href="#pick-section"', 'href="#control"').replace('href="#home"', 'href="#control"') +
+        '<div class="mh-tools"></div><div class="mh-old">' + html + '</div></div>' + cnav(name) + '</div>';
+    }
     if (IS.area !== 'student' || /class="mrx/.test(html) || /^(cert|pick|pick-section)$/.test(name)) return html;
     return '<div class="mrx mrh mra" data-pg="' + esc(name) + '"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() +
       '<div class="mh-tools"></div><div class="mh-old">' + html + '</div></div>' + bnav(NAVOF[name] || '') + '</div>';

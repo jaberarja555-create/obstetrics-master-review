@@ -63,7 +63,7 @@
     if (L()) { IS.go('studio'); return ''; }
     var apps = await DB.q('lecturer_apps', { eq: { user_id: IS.ME.id }, order: ['created_at', false] }), ap = apps[0], m = IS.ME;
     if (ap && ap.status === 'approved') { IS.LEC = await DB.one('lecturers', IS.ME.id).catch(function () { return null; }); if (IS.LEC) { IS.go('studio'); return ''; } }
-    var h = IS.banner(IS.T('التسجيل كمحاضر', 'Become a lecturer'), esc(A('قدّم طلبك للانضمام إلى فريق المحاضرين في اشرح لي', 'Apply to join the lecturers of Ishrah Li')), 'studio');
+    var h = IS.banner(IS.T('التسجيل كمحاضر', 'Become a lecturer'), esc(A('قدّم طلبك للانضمام إلى فريق المحاضرين في أكاديمية السودان للمراجعة', 'Apply to join the lecturers of Sudan Master Review Academy')), 'studio');
     h += '<p class="note">' + ic('book') + '<span>' + esc(A('قبل التقديم اقرأ معايير الفيديو والمحتوى وشروط القبول.', 'Before you apply, read the video and content standards and the acceptance terms.')) + ' <a class="link" href="#studio-guide">' + esc(A('دليل المحاضر', 'Lecturer guide')) + '</a></span></p>';
     h += '<div class="cols"><div class="main">';
     if (ap && ap.status === 'changes') h += '<section class="box apchg"><h2>' + ic('pen') + IS.T('طلبك يحتاج إلى تعديل', 'Your request needs changes') + '</h2><p class="note warn">' + ic('chat') + '<span><b>' + esc(A('ملاحظات فريق المنصة: ', 'Notes from the platform team: ')) + '</b>' + esc(ap.note || '') + '</span></p><p>' + esc(A('عدّل ما طُلب في النموذج أدناه، ثم اضغط «إرسال الطلب بعد التعديل».', 'Change what was asked in the form below, then tap “Send the updated request”.')) + '</p></section>';
@@ -394,7 +394,7 @@
     var head = '<nav class="crumb"><a href="#studio-courses">' + esc(A('كورساتي', 'My courses')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(A('رفع تسجيلات', 'Upload recordings')) + '</span></nav>';
     var how = '<ol class="steps sh-how"><li>' + esc(A('ثبّت التطبيق على الشاشة الرئيسية لهاتف أندرويد (من قائمة المتصفح: «تثبيت التطبيق»).', 'Install the app on the Home screen of an Android phone (browser menu → “Install app”).')) + '</li>' +
       '<li>' + esc(A('في تيليجرام اضغط مطولًا على التسجيل (أو اختر عدة تسجيلات) ثم «مشاركة».', 'In Telegram, long-press the recording (or select several), then tap Share.')) + '</li>' +
-      '<li>' + esc(A('اختر «اشرح لي» من قائمة المشاركة، ثم اختر الكورس والقسم هنا.', 'Choose “اشرح لي” in the share list, then pick the course and section here.')) + '</li></ol>' +
+      '<li>' + esc(A('اختر «SMRA» من قائمة المشاركة، ثم اختر الكورس والقسم هنا.', 'Choose “SMRA” in the share list, then pick the course and section here.')) + '</li></ol>' +
       '<p class="mut">' + esc(A('على آيفون والكمبيوتر: احفظ التسجيلات من تيليجرام أولًا، ثم استخدم «ارفع عدة تسجيلات» تحت أي قسم في منهج الكورس.', 'On iPhone and computers: save the recordings from Telegram first, then use “Upload several recordings” under any section of the course curriculum.')) + '</p>';
     if (!items.length) return head + '<section class="box">' + IS.empty('mic', A('لا توجد تسجيلات للرفع', 'No recordings to upload'), parts[0] === 'none' ? A('لم يصل ملف صوتي من المشاركة.', 'No audio file arrived from the share.') : '') + '<h2>' + IS.T('المشاركة من تيليجرام', 'Sharing from Telegram') + '</h2>' + how + '</section>';
     var cs = (await DB.q('courses', { eq: { lecturer_id: L().id } })).filter(function (c) { return c.status !== 'removed'; });

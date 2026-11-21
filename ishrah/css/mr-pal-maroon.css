@@ -1805,3 +1805,31 @@ html body .mra[data-pg="learning"] .mh-old>.lr{gap:10px}
 :root[lang="en"] body .mrx :is(h1,h2,h3,button,.btn,.mc-btn,.mlx-b,.lp-btn,.lr-b,.mh-pub,.mh-in,.mh-big,.mh-nav a,.mc-chip,.ptag,.mlx-t) :is(span,b,small){font-family:inherit!important;font-weight:inherit!important}
 :root[lang="en"] body .mrx :is(.mh-title h2,.mh-ban h1){font-weight:800}
 :root[lang="en"] body .mrx :is(.fv-btn,.lr-b,.mlx-b,.mc-btn){font-weight:600}
+
+/* ===== control app in the new frame (owner, 21 Nov 2026) ===== */
+html body .mrc2 .mh-old .cban{position:relative;display:grid!important;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:12px;min-height:0!important;padding:14px 16px!important;margin:0!important;border-radius:20px!important;
+  background:linear-gradient(120deg,var(--pn1,#641427),var(--pn2,#3b0a16))!important;border:1.5px solid rgba(233,196,106,.6)!important;box-shadow:0 10px 24px rgba(65,11,25,.2)!important;color:#fff!important;overflow:hidden}
+html body .mrc2 .mh-old .cban::before,html body .mrc2 .mh-old .cban::after{display:none!important}
+html body .mrc2 .mh-old .cban>img{width:56px!important;height:56px!important;border-radius:50%;background:#fff;padding:4px;box-shadow:0 0 0 2px #e9c46a;margin:0!important;position:static!important;opacity:1!important}
+html body .mrc2 .mh-old .cban>div{display:flex;flex-direction:column;gap:4px;min-width:0}
+html body .mrc2 .mh-old .cban h1{margin:0!important;font-size:clamp(16px,4.2vw,24px)!important;line-height:1.35!important;color:#fff!important;-webkit-text-fill-color:#fff!important;background:none!important}
+html body .mrc2 .mh-old .cban h1 *{color:#fff!important;-webkit-text-fill-color:#fff!important}
+html body .mrc2 .mh-old .cban p{margin:0!important;font-size:12.5px!important;color:#eddae0!important;line-height:1.5}
+html body .mrc2 .mh-old .cban .role{grid-column:1/-1;justify-self:start;display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:rgba(255,255,255,.12);border:1.5px solid #e9c46a;color:#f6dc8e!important;font-weight:700;font-size:12.5px}
+html body .mrc2 .mh-old .cban .role .ico{width:15px;height:15px;color:#f6dc8e}
+html body .mrc2 .mh-old .ctiles{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:0!important;padding:10px 4px!important;border-radius:18px;background:var(--card);border:1px solid #ebe2e5;box-shadow:0 6px 16px rgba(65,11,25,.07)}
+html body .mrc2 .mh-old .ctile{display:flex!important;flex-direction:column;align-items:center;gap:1px;padding:6px 2px!important;min-height:0!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;text-align:center}
+html body .mrc2 .mh-old .ctile:not(:nth-child(4n+1)){border-inline-start:1.5px solid #e6dcdf!important}
+html body .mrc2 .mh-old .ctile:nth-child(n+5){border-top:1px solid var(--line)!important}
+html body .mrc2 .mh-old .ctile .ico{width:20px!important;height:20px!important;color:#641427!important}
+html body .mrc2 .mh-old .ctile b{font-size:16px!important;font-weight:800;line-height:1.2}
+html body .mrc2 .mh-old .ctile small{font-size:10.5px!important;color:#735f65!important;line-height:1.25}
+html body .mrc2 .mh-old .qa{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr))!important;gap:7px!important}
+html body .mrc2 .mh-old .qa>a{display:flex!important;align-items:center;gap:8px;padding:9px 10px!important;border-radius:14px!important;background:#faf5f7!important;border:1px solid #ebe2e5!important;font-size:12.5px!important;min-height:0!important}
+html body .mrc2 .mh-old .qa>a .ico{width:18px!important;height:18px!important;color:#641427}
+html body .mrc2 .mh-old .cols,html body .mrc2 .mh-old .cgrid,html body .mrc2 .mh-old .grid.g2{gap:10px!important}
+html body .mrc2 .mh-old h2{font-size:15px!important;display:flex;align-items:center;gap:6px}
+html body .mrc2 .mh-old .sh{margin-bottom:8px!important}
+@media (min-width:900px){html body .mrc2 .mh-old .ctiles{grid-template-columns:repeat(8,minmax(0,1fr))!important}html body .mrc2 .mh-old .ctile:not(:nth-child(4n+1)),html body .mrc2 .mh-old .ctile:nth-child(5){border-inline-start:1.5px solid #e6dcdf!important}html body .mrc2 .mh-old .ctile:nth-child(n+5){border-top:0!important}html body .mrc2 .mh-old .ctile:first-child{border-inline-start:0!important}}
+.cnavb{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+:root[data-theme="dark"] .mrc2 .mh-old :is(.ctiles,.qa>a){background:#2d111a!important;border-color:#43242f!important}

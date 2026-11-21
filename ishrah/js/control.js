@@ -65,7 +65,7 @@
     var pend = { apps: ap.filter(function (a) { return a.status === 'pending'; }).length, rev: cs.filter(function (c) { return c.status === 'review'; }).length, pay: en.filter(function (e) { return e.status === 'pending'; }).length,
       req: rq.filter(function (x) { return x.status === 'pending' || x.status === 'progress'; }).length, files: fs.filter(function (f) { return f.status === 'pending'; }).length, rep: rp.length, out: 0 };
     var growth = ms.map(function (m) { return us.filter(function (u) { return String(u.created_at).slice(0, 7) <= m; }).length; });
-    var h = '<section class="cban"><img src="' + IS.logo() + '" alt=""><div><h1 tabindex="-1">' + IS.T('مرحبًا بك في لوحة إدارة منصة اشرح لي', 'Welcome to the Ishrah Li admin panel') + '</h1><p>' + esc(A('تحكم كامل في المستخدمين، المحتوى، الكورسات، الفعاليات، الطلبات والأنظمة', 'Full control of users, content, courses, events, requests and systems')) + '</p></div>' +
+    var h = '<section class="cban"><img src="' + IS.logo() + '" alt=""><div><h1 tabindex="-1">' + IS.T('مرحبًا بك في لوحة إدارة منصة أكاديمية السودان للمراجعة', 'Welcome to the Sudan Master Review Academy admin panel') + '</h1><p>' + esc(A('تحكم كامل في المستخدمين، المحتوى، الكورسات، الفعاليات، الطلبات والأنظمة', 'Full control of users, content, courses, events, requests and systems')) + '</p></div>' +
       '<span class="role">' + ic('shield') + esc((IS.ME.team || []).map(function (t) { var x = IS.ROLES.filter(function (r) { return r[0] === t; })[0]; return x ? A(x[1], x[2]) : t; }).join(' · ')) + '</span></section>';
     h += '<div class="ctiles">' + [['users', us.length, A('إجمالي المستخدمين', 'Users')], ['cert', students.length, A('طلاب', 'Students')], ['studio', lec.length, A('محاضر', 'Lecturers')], ['layers', cs.filter(function (c) { return c.status === 'published'; }).length, A('كورس منشور', 'Courses')],
       ['video', ls.filter(function (l) { return l.kind === 'video'; }).length, A('محاضرة فيديو', 'Video lectures')], ['file', fs.filter(function (f) { return f.status === 'published'; }).length, A('ملف في المكتبة', 'Library files')], ['cal', ev.filter(function (e) { return new Date(e.starts) > now; }).length, A('فعالية قادمة', 'Upcoming events')], ['receipt', pend.req, A('طلب قيد التنفيذ', 'Open requests')]].map(function (t) {
@@ -368,7 +368,7 @@
   IS.page('control-structure', async function () {
     var us = (await DB.q('profiles')).filter(function (u) { return (u.team || []).length; }), cnt = function (r) { return us.filter(function (u) { return (u.team || []).indexOf(r) >= 0; }).length; };
     function box(r, cls) { var x = roleOf(r); return '<div class="obox ' + (cls || '') + '"><span class="oi">' + ic(x[3]) + '</span><div><b>' + esc(A(x[1], x[2])) + '</b><p>' + esc(A(x[4], x[5])) + '</p><em>' + N(cnt(r)) + ' ' + esc(A('عضو', 'members')) + '</em></div></div>'; }
-    return IS.banner(IS.T('الهيكل الإداري للمنصة', 'Administrative structure'), esc(A('التنظيم الإداري والهرمي لصلاحيات وإدارة منصة اشرح لي', 'How Ishrah Li is organised and who controls what')), 'org') +
+    return IS.banner(IS.T('الهيكل الإداري للمنصة', 'Administrative structure'), esc(A('التنظيم الإداري والهرمي لصلاحيات وإدارة منصة أكاديمية السودان للمراجعة', 'How Sudan Master Review Academy is organised and who controls what')), 'org') +
       '<div class="org">' + box('owner', 'top') + '<i class="oline"></i>' + box('gm', 'top') + '<i class="oline"></i><div class="ogrid">' + ['academic', 'finance', 'community', 'content', 'support', 'tech'].map(function (r) { return box(r); }).join('') + '</div><i class="oline"></i>' + box('staff', 'wide') + '</div>' +
       (IS.can('team') ? '<div class="row center"><a class="btn pri" href="#control-team">' + ic('shield') + esc(A('إدارة الأدوار والصلاحيات', 'Manage roles and permissions')) + '</a></div>' : '');
   }, P('dash'));
@@ -436,7 +436,7 @@
           (IS.can('library', 'approve') && f.owner_id ? fileReturnButton(f.id) : '') + '</div>'; }).join('') + '</div>' : IS.empty('open', A('لا توجد ملفات هنا', 'No files here')));
   }, P('library'));
   IS.ACT.addfile = function () { IS.sheet(esc(A('رفع ملف للمكتبة', 'Upload a library file')), '<form class="form" data-form="cfile">' + IS.fileFields({}) + '<button class="btn pri wide">' + ic('upload') + esc(A('رفع ونشر', 'Upload and publish')) + '</button></form>'); };
-  IS.SUB.cfile = async function (d, f) { var row = await IS.saveFile(d, f, { owner_id: uid(), owner_name: A('مكتبة اشرح لي', 'Ishrah Li library'), status: 'published' }); await DB.ins('files', row); IS.audit('add file', d.title); IS.closeSheet(); IS.refresh(); };
+  IS.SUB.cfile = async function (d, f) { var row = await IS.saveFile(d, f, { owner_id: uid(), owner_name: A('مكتبة أكاديمية السودان للمراجعة', 'Sudan Master Review Academy library'), status: 'published' }); await DB.ins('files', row); IS.audit('add file', d.title); IS.closeSheet(); IS.refresh(); };
   IS.ACT.fpub = async function (b) {
     var file = await DB.one('files', b.dataset.id);
     if (!file) return;
@@ -728,7 +728,7 @@
     var scope = audience(d.scope), row = Object.assign({ title: d.title, tag: d.tag || 'news', body: d.body || '', status: 'published', author_id: IS.ME.id }, scope), c = f.cover.files[0];
     if (c) row.cover = await DB.upload('media', await IS.shrink(c, 1200, 0.84));
     var x = await DB.ins('news', row);
-    if (d.notify) await DB.ins('notices', Object.assign({ user_id: null, title: d.title, body: A('خبر جديد في اشرح لي', 'New on Ishrah Li'), link: '#news/' + x.id }, scope));
+    if (d.notify) await DB.ins('notices', Object.assign({ user_id: null, title: d.title, body: A('خبر جديد في أكاديمية السودان للمراجعة', 'New on Sudan Master Review Academy'), link: '#news/' + x.id }, scope));
     IS.audit('publish news', d.title); IS.toast(A('نُشر الخبر', 'News published')); IS.refresh();
   };
   IS.ACT.newsdel = async function (b) { if (!(await IS.confirm(A('حذف هذا الخبر؟', 'Delete this news item?')))) return; await DB.del('news', b.getAttribute('data-id')); IS.refresh(); };

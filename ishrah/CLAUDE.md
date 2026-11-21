@@ -1210,3 +1210,8 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   lecturer, progress bar, «تابع» / «ابدأ» / «راجع» and «الشهادة», enrolment requests as small rows, links to favourites, downloads, achievements.
 - Banner panels follow the app colour (`--pn1` / `--pn2` on `.mh-ban`); on phones the request / publish button in a filter bar is just «+».
 - English text (owner, 21 Nov 2026): ordinary English text uses the phone's regular font (Segoe UI / Roboto) at weight 400, Poppins only for titles, names and buttons, `font-size-adjust:.5` so English matches the Arabic size.
+- **Control app in the new frame** (owner, 21 Nov 2026): `IS.pageFrame` also wraps control pages (`.mrc2`): the new top bar (🏠 →
+  #control), the page inside `.mh-old`, a bottom bar of the first four control places + «المزيد»; the dashboard welcome is a teal card with
+  the role pill, figures in one strip (4 a row on phones, 8 on laptops), quick actions as small tiles.
+- The old name «اشرح لي / Ishrah Li» in visible texts became «أكاديمية السودان للمراجعة / Sudan Master Review Academy»; the installed
+  app's name (manifest) and the share sheet say SMRA.
