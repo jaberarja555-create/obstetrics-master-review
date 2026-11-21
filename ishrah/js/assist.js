@@ -30,7 +30,15 @@
   }
   function draw() {
     var p = document.getElementById('asst'); if (!p) return;
-    var log = p.querySelector('.aslog'); log.innerHTML = body(); log.scrollTop = log.scrollHeight;
+    var log = p.querySelector('.aslog');
+    /* before signing in (owner, 21 Nov 2026: «مساعد الـ AI يظهر في أماكن التطبيق حتى من البداية»): the guide opens and asks to sign in, since each
+       account has its own daily messages */
+    if (!IS.ME) { log.innerHTML = '<div class="as-in"><p>' + esc(A('مرحبًا! أنا مرشد المنصة، أجيبك عن أي سؤال عن استعمال التطبيق.', 'Hello! I am the platform guide; ask me anything about using the app.')) + '</p><p class="mut">' +
+        esc(A('سجّل الدخول أو أنشئ حسابًا مجانيًا لتبدأ السؤال.', 'Sign in or create a free account to start asking.')) + '</p><div class="row"><button type="button" class="btn pri sm" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) +
+        '</button><button type="button" class="btn ghost sm" data-act="register">' + esc(A('حساب جديد', 'Create account')) + '</button></div></div>';
+      p.querySelector('.asleft').innerHTML = ''; p.querySelector('form.asf').hidden = true; return; }
+    p.querySelector('form.asf').hidden = false;
+    log.innerHTML = body(); log.scrollTop = log.scrollHeight;
     p.querySelector('.asleft').innerHTML = LEFT == null ? '' : esc(A('رسائل اليوم المتبقية: ', 'Messages left today: ')) + IS.N(LEFT);
     p.querySelector('button.assend').disabled = busy;
   }
@@ -49,7 +57,7 @@
         if (e.target === p || e.target.closest('.asx')) return close();
         if (e.target.closest('.asnew')) { MSGS = []; save(); draw(); return; }
         var s = e.target.closest('[data-assug]'); if (s) return ask(s.getAttribute('data-assug'));
-        if (e.target.closest('a[data-asgo]')) close();
+        if (e.target.closest('a[data-asgo]') || e.target.closest('.as-in [data-act]')) close();
       });
       var ta = p.querySelector('textarea');
       ta.addEventListener('input', function () { ta.style.height = 'auto'; ta.style.height = Math.min(120, ta.scrollHeight) + 'px'; });
@@ -95,7 +103,10 @@
     if (!b) { b = document.createElement('button'); b.id = 'asfab'; b.type = 'button'; b.onclick = open; document.body.appendChild(b); }
     b.innerHTML = ICON + '<span>' + esc(A('مساعدة', 'Help')) + '</span>'; b.setAttribute('aria-label', A('مساعدة: مرشد المنصة', 'Help: platform guide'));
     var pg = document.body.getAttribute('data-page') || '';
-    b.hidden = !IS.ME || pg !== 'home';   /* the main screen only (owner, 21 Nov 2026) */
+    /* every screen of the app, signed in or not, from the first screen (owner, 21 Nov 2026: «مساعد الـ AI يظهر في أماكن التطبيق حتى من البداية»);
+       not over the book reader or the offline viewer */
+    b.hidden = /^(dl|lesson)$/.test(pg) || !!document.querySelector('#rdr:not([hidden])');
+    b.classList.toggle('nonav', !document.querySelector('.mh-nav'));
   }
   var on0 = IS.onRoute;
   IS.onRoute = function (name, arg, main) { if (on0) try { on0(name, arg, main); } catch (e) {} setTimeout(fab, 60); };

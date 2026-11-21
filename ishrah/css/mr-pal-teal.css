@@ -2161,7 +2161,7 @@ h3.sub+.mgrid{margin-bottom:4px}
 
 /* ---------- the owner's picture banners (21 Nov 2026) ---------- */
 html body .mrx .ob-ban{display:block!important;position:relative;padding:0!important;margin:0!important;min-height:0!important;height:auto!important;
-  border-radius:clamp(14px,2vw,22px);overflow:hidden;background:#3d0f1c;border:1.5px solid rgba(201,162,74,.6);box-shadow:0 8px 20px rgba(40,8,18,.18);container-type:inline-size}
+  border-radius:clamp(14px,2vw,22px);overflow:hidden;background:#063e46;border:1.5px solid rgba(201,162,74,.6);box-shadow:0 8px 20px rgba(40,8,18,.18);container-type:inline-size}
 html body .mrx .ob-ban picture,html body .mrx .ob-ban img{display:block;width:100%!important;height:auto!important;max-width:none!important;margin:0!important;border-radius:0!important;object-fit:fill}
 html body .mrx .ob-ban .ob-h{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0;padding:0}
 html body .mrx .ob-ban .ob-sub{position:absolute;transform:translate(-50%,-50%);color:#fff;font-family:Poppins,system-ui,sans-serif;font-weight:700;line-height:1;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,.35);letter-spacing:.2px}
@@ -2259,3 +2259,29 @@ html body .mrx .mh-old .ban.bpic h1.tl2{font-size:4.5cqw!important}html body .mr
 html body .mrx .mh-old .ban.bpic h1 :is(.tt,b,span){display:inline!important;font-size:inherit!important;line-height:inherit!important}
 html body .mrx .mh-old .ban.bpic h1.tl3{font-size:3.7cqw!important}
 @media (min-width:700px){html body .mrx .mh-old .ban.bpic h1.tl3{font-size:2.05cqw!important}}
+
+/* the guide on every screen (owner, 21 Nov 2026) */
+#asfab.nonav{bottom:calc(16px + env(safe-area-inset-bottom))!important}
+#asst .as-in{display:flex;flex-direction:column;gap:8px;padding:14px;margin:10px;border-radius:16px;background:#f1f7f7;border:1px solid #dceaeb;text-align:start}
+#asst .as-in p{margin:0;font-size:14px;line-height:1.6}#asst .as-in p.mut{font-size:13px}
+#asst .as-in .row{display:flex;gap:8px;flex-wrap:wrap}
+:root[data-theme=dark] #asst .as-in{background:#0f2d2f;border-color:#214546}
+/* laptops too (owner, 21 Nov 2026: "you see the buttons how badly placed", on the corner waves): the brand row on top and every button on
+   the dark band under it, as on phones and tablets */
+@media (min-width:1240px){
+  html body .mrx .mh-top{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-areas:"lg lg" "s e";
+    row-gap:0!important;column-gap:10px!important;padding:6px 22px 0!important;min-height:0!important;--bandh:66px}
+  html body .mrx .mh-top>.mh-side{grid-area:s;justify-self:start;align-self:center;position:relative;z-index:2;
+    padding:calc(var(--bandh) * .24) 0 calc(var(--bandh) * .12);min-height:calc(var(--bandh) * .64)}
+  html body .mrx .mh-top>.mh-side.end{grid-area:e;justify-self:end}
+  html body .mrx .mh-logo{grid-area:lg;justify-self:center}
+  html body .mrx .mh-top .mh-wave{display:none!important}
+  .mh-band{display:block;position:absolute;left:0;right:0;bottom:0;height:var(--bandh);z-index:0;pointer-events:none}
+  .mh-band svg{width:100%;height:100%;display:block}
+  .mh-band .w1{fill:#063e46}
+  .mh-band .w2{stroke:#e2b85a;stroke-width:2.4;vector-effect:non-scaling-stroke}
+  .mh-band .w3{stroke:#f6dc8e;stroke-width:1;opacity:.45;vector-effect:non-scaling-stroke}
+  html body .mrx .mh-top .mh-side .mh-b.ghost{background:rgba(255,255,255,.95);border-color:rgba(255,255,255,.6)}
+  :root[data-theme=dark] .mh-band .w1{fill:#0b272a}
+  html body .mrx .mh-brand>img{height:clamp(66px,5.4vw,86px)!important}
+}

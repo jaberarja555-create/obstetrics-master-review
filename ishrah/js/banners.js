@@ -21,10 +21,13 @@
     if (key === 'lecturers') return secName || (sp && sp.en) || '';
     return '';
   }
+  /* the picture in the app colour (owner, 21 Nov 2026: «match the bar for all color options»): maroon = his originals, the others made by
+     tools/ishrah/banners_pal.py */
+  function palSuffix() { var p = IS.LS ? IS.LS.get('pal', 'blue') : 'blue'; return /^(blue|ocean|teal|purple|graphite)$/.test(p) ? '-' + p : ''; }
   IS.ownerBanner = function (key) {
-    var t = TITLE[key], sub = subOf(key);
-    return '<section class="mh-ban ob-ban" data-k="' + key + '"><picture><source media="(max-width:699px)" srcset="' + IS.U('img/mr/ban/' + key + '-m.webp') + '">' +
-      '<img src="' + IS.U('img/mr/ban/' + key + '.webp') + '" alt="" width="1600" height="200" decoding="async"></picture>' +
+    var t = TITLE[key], sub = subOf(key), sf = palSuffix();
+    return '<section class="mh-ban ob-ban" data-k="' + key + '"><picture><source media="(max-width:699px)" srcset="' + IS.U('img/mr/ban/' + key + '-m' + sf + '.webp') + '">' +
+      '<img src="' + IS.U('img/mr/ban/' + key + sf + '.webp') + '" alt="" width="1600" height="200" decoding="async"></picture>' +
       (sub ? '<span class="ob-sub" lang="en" dir="ltr">' + esc(sub) + '</span>' : '') +
       '<h1 tabindex="-1" class="ob-h">' + esc(A(t[0], t[1])) + '</h1></section>';
   };

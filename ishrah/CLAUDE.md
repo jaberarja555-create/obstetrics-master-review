@@ -1348,3 +1348,11 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   Laptop bottom bar: each item a tile filling its share. Settings: each setting's buttons right after its name, two card columns on laptops,
   alert rows the same way. Studio bottom bar «أرباحي» pointed to a page that does not exist (studio-earnings → studio-money; it showed the old
   design). Checks: scratchpad shots.js (all student, studio and control pages at 390/1024/1440, contact sheets with sheet.py).
+- **Banners in every app colour; header band on laptops; the guide on every screen (owner, 21 Nov 2026):** «match the bar for all color
+  options»: `tools/ishrah/banners_pal.py` makes `img/mr/ban/<key>[-m]-<pal>.webp` (blue = SMRA green, ocean, teal, purple, graphite) by turning
+  the wine/maroon pixels of his pictures to each colour's hue (gold, white text and other photo colours kept); maroon uses the originals;
+  banners.js picks by `IS.LS.get('pal')`. Re-run it after changing a picture. «the buttons badly placed» (laptop, buttons on the corner
+  waves): from 1240 px too the header is the brand row + the dark band with every button on it (no waves anywhere). «مساعد الـ AI يظهر في أماكن
+  التطبيق حتى من البداية»: the «مساعدة» button (assist.js `fab`) shows on every screen, signed in or not, also the speciality/section choosers
+  (lower when there is no bottom bar, `.nonav`), not over the book reader or the offline viewer; signed out, the guide opens with a welcome and
+  «تسجيل الدخول / حساب جديد» (asking needs an account: the API counts messages per account).
