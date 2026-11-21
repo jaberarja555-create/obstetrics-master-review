@@ -1205,3 +1205,7 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   cards in as many 440 px columns as fit (2 on a 1366 laptop, 3 on 1920). After mr.css changes run palettes.py (mr-pal-*).
 - Laptops: banners 120–170 px high; course cards give the picture 34 % (4:3) so the whole card shows on one screen.
 - Course cards on laptops: the lecturer (picture and name) sits beside the stars (`.mc-lec2`); phones keep him under the picture.
+- **«تعلّمي» in the new design** (owner, 21 Nov 2026; mr.js wraps `#learning`): banner, four figures (my courses · average progress ·
+  lessons done · certificates), tabs الكل / قيد التعلّم / مكتملة (`#learning/going`, `#learning/done`), course cards with picture and %,
+  lecturer, progress bar, «تابع» / «ابدأ» / «راجع» and «الشهادة», enrolment requests as small rows, links to favourites, downloads, achievements.
+- Banner panels follow the app colour (`--pn1` / `--pn2` on `.mh-ban`); on phones the request / publish button in a filter bar is just «+».

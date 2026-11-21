@@ -158,7 +158,7 @@
   function pban(img, icon, title, sub, latin) {
     return '<section class="mh-ban' + (latin ? '' : ' ar') + '"><div class="ph">' + (img ? '<img src="' + IS.U(img) + '" alt="">' : '') + '</div>' +
       '<div class="pn"><svg class="cv" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M30 0C14 30 22 70 0 100H100V0z" fill="url(#mhpn)"/><path d="M30 0C14 30 22 70 0 100" fill="none" stroke="' + G + '" stroke-width="1.4" vector-effect="non-scaling-stroke"/>' +
-      '<defs><linearGradient id="mhpn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d6b5c"/><stop offset="1" stop-color="#063f36"/></linearGradient></defs></svg>' +
+      '<defs><linearGradient id="mhpn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--pn1)"/><stop offset="1" style="stop-color:var(--pn2)"/></linearGradient></defs></svg>' +
       '<div class="tx"><svg class="mhb" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12h80l5-7 6 13 6-15 5 11 4-2h94" fill="none" stroke="#7fffe0" stroke-width="1.6" stroke-linejoin="round" style="filter:drop-shadow(0 0 3px #4dffd2)"/></svg>' +
       '<h1 tabindex="-1"' + (latin ? ' lang="en" dir="ltr"' : ' dir="auto"') + '>' + icon + '<span>' + esc(title) + '</span></h1><p' + (latin ? ' lang="en" dir="ltr"' : ' dir="auto"') + '>' + sub + '</p></div></div></section>';
   }
@@ -747,6 +747,50 @@
       if (note) { note.textContent = A('لا توجد منشورات من هذا النوع بعد.', 'No posts of this kind yet.'); note.hidden = false; }
     }
   };
+
+  /* ---------- «تعلّمي» in the new design (owner, 21 Nov 2026): banner, four figures, tabs (all · in progress · completed), course cards
+     with picture, lecturer, progress bar and Continue / Start / Certificate, enrolment requests as small cards, quick links ---------- */
+  HI.trophy3 = svg('0 0 24 24', '<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M10 14.5V18h4v-3.5M8 21h8"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"');
+  HI.check = svg('0 0 24 24', '<circle cx="12" cy="12" r="9"/><path d="m8 12.5 3 3 5-6"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"');
+  HI.dl = svg('0 0 24 24', '<path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M4 19h16"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"');
+  HI.heartO = svg('0 0 24 24', '<path d="M12 20s-7.5-4.6-9-9.3C1.9 7.3 4.2 4 7.6 4c2 0 3.4 1.1 4.4 2.6C13 5.1 14.4 4 16.4 4c3.4 0 5.7 3.3 4.6 6.7C19.5 15.4 12 20 12 20z"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"');
+  var learn0 = IS.pageOf && IS.pageOf('learning');
+  if (learn0) IS.page('learning', async function (arg) {
+    if (!IS.ME) return learn0.fn(arg);
+    var uid = IS.ME.id;
+    var es = await DB.q('enrollments', { eq: { user_id: uid }, order: ['created_at', false] }), ids = es.map(function (e) { return e.course_id; }).filter(Boolean);
+    var cs = ids.length ? (await DB.q('courses', { in: { id: ids } })).filter(IS.inStudySpace) : [], C = {}; cs.forEach(function (c) { C[c.id] = c; });
+    var r = await Promise.all([DB.q('progress', { eq: { user_id: uid } }).catch(function () { return []; }), IS.lecMap()]), prog = r[0], L = r[1];
+    var act = es.filter(function (e) { return e.status === 'active' && C[e.course_id]; }), pend = es.filter(function (e) { return e.status !== 'active' && C[e.course_id]; });
+    var rows = act.map(function (e) { var c = C[e.course_id], n = prog.filter(function (x) { return x.course_id === c.id; }).length; return { e: e, c: c, n: n, pc: c.n_lessons ? Math.min(100, Math.round(n / c.n_lessons * 100)) : 0 }; });
+    var done = rows.filter(function (x) { return x.pc >= 100; }), going = rows.filter(function (x) { return x.pc < 100; });
+    var avg = rows.length ? Math.round(rows.reduce(function (a, x) { return a + x.pc; }, 0) / rows.length) : 0, lessons = rows.reduce(function (a, x) { return a + x.n; }, 0);
+    var tab = /^(going|done)$/.test(arg || '') ? arg : 'all', list = tab === 'going' ? going : tab === 'done' ? done : rows;
+    var card = function (x) {
+      var c = x.c, l = L[c.lecturer_id], href = '#course/' + esc(c.id);
+      return '<article class="lr-card" data-go="' + href + '"><a class="lr-pic" href="' + href + '">' + IS.poster(c.cover || 'img/collection/courses.webp') + '<em class="lr-pc">' + x.pc + '%</em></a>' +
+        '<div class="lr-tx"><h3 dir="auto"><a href="' + href + '">' + esc(c.title || '') + '</a></h3>' +
+        (l ? '<span class="lr-lec">' + IS.av(l, 'sm', l.id) + '<b dir="auto">' + IS.lecName(l.name) + '</b></span>' : '') +
+        '<span class="lr-bar"><i style="width:' + x.pc + '%"></i></span><small class="lr-n">' + N(x.n) + ' / ' + N(c.n_lessons || 0) + ' ' + esc(A('درس', 'lessons')) + '</small>' +
+        '<div class="lr-acts"><a class="lr-b pri" href="' + href + '">' + HI.play + '<span>' + esc(x.pc >= 100 ? A('راجع', 'Review') : x.pc ? A('تابع', 'Continue') : A('ابدأ', 'Start')) + '</span></a>' +
+        (x.pc >= 100 ? '<a class="lr-b gold" href="#cert/' + esc(c.id) + '">' + HI.trophy3 + '<span>' + esc(A('الشهادة', 'Certificate')) + '</span></a>' : '') + '</div></div></article>';
+    };
+    var tabs = [['all', A('الكل', 'All'), rows.length], ['going', A('قيد التعلّم', 'In progress'), going.length], ['done', A('مكتملة', 'Completed'), done.length]];
+    var h = '<div class="lr">' +
+      pban('img/collection/learning.webp', HI.layersW, A('تعلّمي', 'My learning'), esc(A('كورساتك وتقدّمك وطلبات الالتحاق', 'Your courses, progress and enrolment requests')), IS.lang !== 'ar') +
+      '<section class="lr-stats">' + [[HI.layers.replace(G, 'currentColor'), N(rows.length), A('كورساتي', 'My courses')], [HI.clock, N(avg) + '%', A('متوسط التقدّم', 'Average progress')],
+        [HI.check, N(lessons), A('دروس منجزة', 'Lessons done')], [HI.trophy3, N(done.length), A('شهادات', 'Certificates'), '#achievements']].map(function (x) {
+        return '<' + (x[3] ? 'a href="' + x[3] + '"' : 'span') + ' class="lr-s">' + x[0] + '<b>' + x[1] + '</b><small>' + esc(x[2]) + '</small></' + (x[3] ? 'a' : 'span') + '>'; }).join('') + '</section>' +
+      '<nav class="lr-tabs">' + tabs.map(function (t) { return '<a href="#learning' + (t[0] === 'all' ? '' : '/' + t[0]) + '"' + (t[0] === tab ? ' class="on" aria-current="page"' : '') + '>' + esc(t[1]) + '<i>' + N(t[2]) + '</i></a>'; }).join('') + '</nav>' +
+      (list.length ? '<div class="lr-list">' + list.map(card).join('') + '</div>' :
+        '<div class="lr-empty">' + HI.layers.replace(G, 'currentColor') + '<b>' + esc(tab === 'done' ? A('لم تُكمل كورسًا بعد', 'No completed course yet') : tab === 'going' ? A('لا توجد كورسات قيد التعلّم', 'No course in progress') : A('لم تلتحق بأي كورس بعد', 'You have not enrolled in a course yet')) + '</b>' +
+          '<a class="lr-b pri" href="#courses">' + HI.layers.replace(G, 'currentColor') + '<span>' + esc(A('تصفّح الكورسات', 'Browse courses')) + '</span></a></div>') +
+      (pend.length ? '<section class="lr-pend"><h2>' + HI.clock + '<span>' + esc(A('طلبات الالتحاق', 'Enrolment requests')) + '</span></h2>' + pend.map(function (e) { var c = C[e.course_id];
+        return '<div class="lr-p"><a href="#course/' + esc(c.id) + '"><b dir="auto">' + esc(c.title) + '</b><small>' + IS.money(e.price) + ' · ' + esc(IS.date(e.created_at)) + '</small></a>' + (+e.price > 0 ? IS.paymentStatus(e.status) + IS.paymentLink(e) : IS.status(e.status)) + '</div>'; }).join('') + '</section>' : '') +
+      '<nav class="lr-links"><a href="#favorites">' + HI.heartO + '<span>' + esc(A('المفضلة', 'Favourites')) + '</span></a><a href="#downloads">' + HI.dl + '<span>' + esc(A('تنزيلاتي', 'Downloads')) + '</span></a>' +
+        '<a href="#achievements">' + HI.trophy3 + '<span>' + esc(A('إنجازاتي', 'Achievements')) + '</span></a></nav></div>';
+    return h;
+  }, learn0.o);
 
   /* ---------- sign in, sign up, the email code and Features open in the same green and gold look (owner, 20 Nov 2026) ---------- */
   var sheet0 = IS.sheet;
