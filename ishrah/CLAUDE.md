@@ -1299,7 +1299,8 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
 ## مرشد المنصة: the guide assistant (owner, 21 Nov 2026: "personal guide like AI inside the app"; chose an app guide only, Claude Haiku 5.5)
 - App: js/assist.js. **No floating button** (owner, 21 Nov 2026: a button that appeared and disappeared was annoying and invited needless
   questions; then «too far» for Settings only; then not in the top bar). It is a tab «مساعدة» (`#asfab`) on the MAIN SCREEN only (`data-page=home`),
-  half tucked into the screen edge (only the icon shows; it slides out on hover), still while scrolling, signed-in accounts; also Features (⋮⋮),
+  always fully there and still (no sliding, owner: «ما تختفي وتظهر»), see-through and frosted (backdrop blur) so it
+  does not cover the page, signed-in accounts; also Features (⋮⋮),
   Settings → Help and the Support page (`data-act="assist"`). The top bar keeps its look button. Chat panel `#asst` (bottom sheet on phones, corner window on computers),
   suggested questions, «محادثة جديدة». The conversation stays in sessionStorage `ish-assist` of the tab; nothing is stored on the server.
   Answers are escaped; only **bold**, list lines and Markdown links to the app's own `#routes` become HTML (clicking one closes the panel).
