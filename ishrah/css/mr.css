@@ -1232,3 +1232,35 @@ html body .mra .mh-old .mlc-list{display:grid;grid-template-columns:repeat(auto-
 :root[data-theme="dark"] .mlc-b:not(.green):not(.gold){background:#0b2721;border-color:#2a5a4e;color:#cfe3dd}
 .mlc-acts{grid-template-columns:1.25fr 1.05fr .95fr .95fr!important}
 @media (max-width:440px){.mlc-b{font-size:11.5px;gap:3px;padding:0 2px}.mlc-b svg.ic{width:14px!important;height:14px!important}.mlc{padding:10px}}
+/* lecturer cards, tighter (owner, 21 Nov 2026: "big, ugly and not tidy") */
+.mlc{grid-template-columns:minmax(0,1fr) auto!important;grid-template-areas:"main side" "acts acts"!important;gap:8px 10px!important;padding:10px!important;border-radius:18px!important}
+[dir="rtl"] .mlc{grid-template-areas:"side main" "acts acts"!important;grid-template-columns:auto minmax(0,1fr)!important}
+.mlc-side{width:96px;padding:8px 4px!important;gap:3px!important;border-radius:14px!important}
+.mlc-av{width:64px!important;height:64px!important;padding:2px!important}
+.mlc-av .av{font-size:22px!important}
+.mlc-on{margin-top:-10px!important;max-width:100%}
+.mlc-on .seen{max-width:92px;overflow:hidden;text-overflow:ellipsis;font-size:9.5px!important;padding:1px 6px!important}
+.mlc-rate{gap:2px!important;font-size:10.5px!important}.mlc-rate b{font-size:12px!important}.mlc-rate u{font-size:10.5px!important}.mlc-rate small{display:none}
+.mlc-cs{font-size:11px!important}.mlc-cs svg.ic{width:13px!important;height:13px!important}
+.mlc-main{gap:2px!important;justify-content:flex-start}
+.mlc h3{font-size:15px!important}.mlc h3 svg.pf-ok{width:15px!important;height:15px!important}
+.mlc-t{font-size:12.5px!important;padding-bottom:4px!important}
+.mlc-bio{font-size:12px!important;-webkit-line-clamp:2}
+.mlc-meta{gap:6px!important;margin-top:4px!important;padding-top:0!important;flex-wrap:nowrap!important}
+.mlc-chips b{font-size:10.5px!important;padding:1px 7px!important}
+.mlc-fl{gap:3px!important;padding-inline-start:6px!important}.mlc-fl svg.ic{width:15px!important;height:15px!important}
+.mlc-fl>span{flex-direction:row!important;gap:3px;align-items:baseline}.mlc-fl b{font-size:12px!important}.mlc-fl small{font-size:10.5px!important}
+/* buttons: «عرض الملف» and «متابعة» with words, rate and like as small round icons */
+.mlc-acts{grid-template-columns:1fr 1fr 34px 34px!important;gap:6px!important}
+.mlc-b{height:32px!important;font-size:12.5px!important}
+.mlc-acts>.mlc-b:nth-child(3),.mlc-acts>.mlc-b:nth-child(4){padding:0!important;width:34px}
+.mlc-acts>.mlc-b:nth-child(3) span,.mlc-acts>.mlc-b:nth-child(4) span{display:none}
+.mlc-acts>.mlc-b:nth-child(3) svg.ic,.mlc-acts>.mlc-b:nth-child(4) svg.ic{width:16px!important;height:16px!important}
+.mlc-av .av>b,.mlc-av .av>span{font-size:22px!important;line-height:1}
+.mlc-av .av{display:grid!important;place-items:center}
+html body .mra[data-pg="lecturers"] .lcard.join{padding:8px 10px!important;column-gap:10px!important}
+html body .mra[data-pg="lecturers"] .lcard.join .av{width:38px!important;height:38px!important}
+html body .mra[data-pg="lecturers"] .lcard.join .av .ico{width:20px!important;height:20px!important}
+html body .mra[data-pg="lecturers"] .lcard.join h3{font-size:14px!important}
+html body .mra[data-pg="lecturers"] .lcard.join p{font-size:12px!important}
+html body .mra[data-pg="lecturers"] .lcard.join .btn{height:32px!important;font-size:12.5px!important}
