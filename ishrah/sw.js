@@ -1,5 +1,5 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v171', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v172', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
@@ -56,6 +56,19 @@ async function store(cache, key, response) {
 
 self.addEventListener('fetch', function (event) {
   var request = event.request, url = new URL(request.url);
+  /* recordings shared from Telegram or any app on Android ("Share → اشرح لي", owner 21 Nov 2026): kept on the phone, then the Studio opens */
+  if (request.method === 'POST' && url.origin === self.location.origin && url.pathname === '/share-target') {
+    event.respondWith((async function () {
+      var n = 0;
+      try {
+        var form = await request.formData(), files = form.getAll('audio').filter(function (f) { return f && f.size; });
+        var db = await new Promise(function (ok, no) { var r = indexedDB.open('ish-share', 1); r.onupgradeneeded = function () { r.result.createObjectStore('f', { keyPath: 'id', autoIncrement: true }); }; r.onsuccess = function () { ok(r.result); }; r.onerror = function () { no(r.error); }; });
+        await new Promise(function (ok, no) { var t = db.transaction('f', 'readwrite'); files.forEach(function (f) { t.objectStore('f').add({ name: f.name || 'recording', type: f.type || '', size: f.size, blob: f, at: Date.now() }); n++; }); t.oncomplete = ok; t.onerror = function () { no(t.error); }; });
+      } catch (e) {}
+      return Response.redirect('/#studio-share' + (n ? '' : '/none'), 303);
+    })());
+    return;
+  }
   if (request.method !== 'GET' || request.headers.has('range')) return;
   if (HOSTED_LIBRARIES.test(url.hostname)) {
     event.respondWith(caches.open(CDN).then(async function (cache) {

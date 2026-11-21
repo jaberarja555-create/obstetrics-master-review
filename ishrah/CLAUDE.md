@@ -1147,3 +1147,12 @@ Fixed bills: Supabase Pro $25/month ≈ 325,000 SDG (≈ 52 sales at a 25% share
   function under `wrangler pages dev --r2=MEDIA` with a fake Supabase (no sign-in / stranger refused, wrong type 415, enrolled plays, full
   file identical, range 206, tampered link 403, replace deletes the old file, delete).
 - Still to do: library audio (single recordings or series like books) if the owner wants it; R2 for library files (same bucket).
+- **Recordings shared from Telegram, and many at once** (owner, 21 Nov 2026: "build for me the sharing from Telegram"):
+  `manifest.webmanifest` has a `share_target` (POST multipart to /share-target, files field `audio`, audio types and extensions), so on
+  Android the INSTALLED app appears in the share list (Telegram: long-press one or several recordings → Share → اشرح لي). sw.js keeps the
+  files in IndexedDB `ish-share` (store `f`) and opens `#studio-share`. Any device: «ارفع عدة تسجيلات» under each curriculum section picks many
+  files and opens the same page (`studio-share/<course>/<section>`, files in memory). The page (studio.js "RECORDINGS SHARED…"): course and
+  section (or «+ قسم جديد»), files in natural order by name (1, 2, 10) with editable titles, size, files over 95 MB skipped; «ابدأ الرفع»
+  makes one audio lesson per file in that order (length from the file), uploads each (progress per row, screen kept awake, warning on
+  leaving), removes uploaded files from the phone, keeps failed ones for «أعد محاولة الباقي»; without R2 it stops and keeps them.
+  iPhone cannot show web apps in the share list: save from Telegram to Files, then «ارفع عدة تسجيلات». Test: scratchpad sh.js.

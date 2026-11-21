@@ -258,7 +258,7 @@
           (x.kind === 'audio' ? ' · ' + (x.video_id || x.has_video ? esc(A('التسجيل جاهز', 'recording ready')) : '<span class="bad">' + esc(A('لم يُرفع تسجيل', 'no recording yet')) + '</span>') : '') +
           (x.kind === 'video' ? ' · ' + (x.video_id || x.has_video ? esc(/^yt:/.test(x.video_id || '') ? A('رابط YouTube', 'YouTube link') : /^gd:/.test(x.video_id || '') ? A('رابط Google Drive', 'Google Drive link') : A('الفيديو جاهز', 'video ready')) : '<span class="bad">' + esc(A('لم يُرفع فيديو', 'no video yet')) + '</span>') : '') + (x.minutes ? ' · ' + N(x.minutes) + ' ' + esc(A('د', 'min')) : '') + (x.free ? ' · ' + esc(A('معاينة مجانية', 'free preview')) : '') + '</small></a>' +
           '<span class="row">' + (j ? '<button class="ib sm" data-act="mvles" data-id="' + x.id + '" data-d="-1" aria-label="up">' + ic('up') + '</button>' : '') + (j < s.lessons.length - 1 ? '<button class="ib sm" data-act="mvles" data-id="' + x.id + '" data-d="1" aria-label="down">' + ic('down') + '</button>' : '') + '<a class="ib sm" href="#studio-lesson/' + x.id + '" aria-label="edit">' + ic('pen') + '</a></span></li>'; }).join('') + '</ol>' +
-        '<div class="row addl">' + [['video', 'video', A('درس فيديو', 'Video lesson')], ['audio', 'mic', A('درس صوتي', 'Audio lesson')], ['text', 'file', A('درس مكتوب', 'Written lesson')], ['quiz', 'qb', A('اختبار', 'Quiz')]].map(function (k) { return '<button class="btn ghost sm" data-act="addles" data-s="' + s.id + '" data-c="' + c.id + '" data-k="' + k[0] + '">' + ic(k[1]) + '+ ' + esc(k[2]) + '</button>'; }).join('') + '</div></div>';
+        '<div class="row addl">' + [['video', 'video', A('درس فيديو', 'Video lesson')], ['audio', 'mic', A('درس صوتي', 'Audio lesson')], ['text', 'file', A('درس مكتوب', 'Written lesson')], ['quiz', 'qb', A('اختبار', 'Quiz')]].map(function (k) { return '<button class="btn ghost sm" data-act="addles" data-s="' + s.id + '" data-c="' + c.id + '" data-k="' + k[0] + '">' + ic(k[1]) + '+ ' + esc(k[2]) + '</button>'; }).join('') + '<button class="btn ghost sm" data-act="bulkaudio" data-s="' + s.id + '" data-c="' + c.id + '">' + ic('upload') + esc(A('ارفع عدة تسجيلات', 'Upload several recordings')) + '</button></div></div>';
     }).join('') : IS.empty('layers', A('ابدأ بإضافة أول قسم', 'Start by adding the first section'), '', '<button class="btn pri" data-act="addsec" data-c="' + c.id + '">' + ic('plus') + esc(A('قسم جديد', 'New section')) + '</button>');
     return h + '</section><div class="row end"><a class="btn pri" href="#studio-course/' + c.id + '/publish">' + esc(A('التالي: النشر', 'Next: publishing')) + ic('chev', 'fl') + '</a></div>';
   }
@@ -366,6 +366,109 @@
     if (x.kind !== 'quiz') row.body = IS.edVal(f, 'body');
     else row.quiz = IS.$$('.qedit', f).map(function (q) { var o = IS.$$('.qo', q).map(function (i) { return i.value.trim(); }).filter(Boolean), a = q.querySelector('input[type=radio]:checked'); return { q: q.querySelector('.qq').value.trim(), o: o, a: a ? +a.value : 0, e: q.querySelector('.qe').value.trim() }; }).filter(function (q) { return q.q && q.o.length >= 2; });
     await DB.upd('lessons', x.id, row); await courseTotals(x.course_id); IS.toast(A('حُفظ الدرس', 'Lesson saved')); IS.go('studio-course/' + x.course_id + '/cur');
+  };
+
+  /* ========== RECORDINGS SHARED FROM TELEGRAM, OR MANY AT ONCE (owner, 21 Nov 2026: "build for me the sharing from telegram") ==========
+     Android: the installed app is in the share list (manifest share_target); sw.js keeps the shared files in IndexedDB 'ish-share' and opens
+     #studio-share. Any device: «ارفع عدة تسجيلات» under a section opens the same page with the chosen files. One audio lesson per file. */
+  var SHARED = null;
+  function shareDb() { return new Promise(function (ok, no) { var r = indexedDB.open('ish-share', 1); r.onupgradeneeded = function () { r.result.createObjectStore('f', { keyPath: 'id', autoIncrement: true }); }; r.onsuccess = function () { ok(r.result); }; r.onerror = function () { no(r.error); }; }); }
+  async function sharedFiles() { try { var db = await shareDb(); return await new Promise(function (ok) { var q = db.transaction('f').objectStore('f').getAll(); q.onsuccess = function () { ok(q.result || []); }; q.onerror = function () { ok([]); }; }); } catch (e) { return []; } }
+  async function sharedDrop(ids) { if (!ids.length) return; try { var db = await shareDb(); await new Promise(function (ok) { var t = db.transaction('f', 'readwrite'); ids.forEach(function (id) { t.objectStore('f').delete(id); }); t.oncomplete = ok; t.onerror = ok; }); } catch (e) {} }
+  var AEXT = { mp3: 'audio/mpeg', m4a: 'audio/mp4', aac: 'audio/aac', ogg: 'audio/ogg', oga: 'audio/ogg', opus: 'audio/ogg', wav: 'audio/wav' };
+  function extOf(n) { return (String(n || '').split('.').pop() || '').toLowerCase(); }
+  function isAudio(f) { return /^audio\//.test(f.type || '') || f.type === 'application/ogg' || !!AEXT[extOf(f.name)]; }
+  function asAudioFile(f) { var t = /^audio\//.test(f.type || '') ? f.type : AEXT[extOf(f.name)] || 'audio/mpeg'; return new File([f.blob || f], f.name || 'recording.mp3', { type: t === 'audio/mp3' ? 'audio/mpeg' : t }); }
+  function niceTitle(n) { return String(n || '').replace(/\.[a-z0-9]{2,5}$/i, '').replace(/[_]+/g, ' ').replace(/\s+/g, ' ').trim() || A('تسجيل', 'Recording'); }
+  function mb(b) { return '<bdi dir="ltr">' + (b / 1048576).toFixed(b > 10485760 ? 0 : 1) + ' MB</bdi>'; }
+  function durationOf(file) { return new Promise(function (ok) { var a = document.createElement('audio'), u = URL.createObjectURL(file), done = function (v) { URL.revokeObjectURL(u); ok(v); }; a.preload = 'metadata'; a.onloadedmetadata = function () { done(isFinite(a.duration) ? a.duration : 0); }; a.onerror = function () { done(0); }; setTimeout(function () { done(0); }, 8000); a.src = u; }); }
+  IS.ACT.bulkaudio = function (b) {
+    var inp = document.createElement('input'); inp.type = 'file'; inp.multiple = true; inp.accept = 'audio/*,.mp3,.m4a,.ogg,.oga,.opus,.aac,.wav';
+    inp.onchange = function () { SHARED = Array.prototype.slice.call(inp.files || []); if (SHARED.length) IS.go('studio-share/' + b.getAttribute('data-c') + '/' + b.getAttribute('data-s')); };
+    inp.click();
+  };
+  IS.page('studio-share', async function (arg) {
+    var parts = String(arg || '').split('/'), mem = !!(SHARED && SHARED.length && parts[0] && parts[0] !== 'none');
+    var items = (mem ? SHARED.map(function (f) { return { name: f.name, type: f.type, size: f.size, blob: f }; }) : await sharedFiles()).filter(isAudio);
+    items.sort(function (a, b) { return String(a.name).localeCompare(String(b.name), undefined, { numeric: true, sensitivity: 'base' }); });
+    var head = '<nav class="crumb"><a href="#studio-courses">' + esc(A('كورساتي', 'My courses')) + '</a>' + ic('chev', 'fl') + '<span>' + esc(A('رفع تسجيلات', 'Upload recordings')) + '</span></nav>';
+    var how = '<ol class="steps sh-how"><li>' + esc(A('ثبّت التطبيق على الشاشة الرئيسية لهاتف أندرويد (من قائمة المتصفح: «تثبيت التطبيق»).', 'Install the app on the Home screen of an Android phone (browser menu → “Install app”).')) + '</li>' +
+      '<li>' + esc(A('في تيليجرام اضغط مطولًا على التسجيل (أو اختر عدة تسجيلات) ثم «مشاركة».', 'In Telegram, long-press the recording (or select several), then tap Share.')) + '</li>' +
+      '<li>' + esc(A('اختر «اشرح لي» من قائمة المشاركة، ثم اختر الكورس والقسم هنا.', 'Choose “اشرح لي” in the share list, then pick the course and section here.')) + '</li></ol>' +
+      '<p class="mut">' + esc(A('على آيفون والكمبيوتر: احفظ التسجيلات من تيليجرام أولًا، ثم استخدم «ارفع عدة تسجيلات» تحت أي قسم في منهج الكورس.', 'On iPhone and computers: save the recordings from Telegram first, then use “Upload several recordings” under any section of the course curriculum.')) + '</p>';
+    if (!items.length) return head + '<section class="box">' + IS.empty('mic', A('لا توجد تسجيلات للرفع', 'No recordings to upload'), parts[0] === 'none' ? A('لم يصل ملف صوتي من المشاركة.', 'No audio file arrived from the share.') : '') + '<h2>' + IS.T('المشاركة من تيليجرام', 'Sharing from Telegram') + '</h2>' + how + '</section>';
+    var cs = (await DB.q('courses', { eq: { lecturer_id: L().id } })).filter(function (c) { return c.status !== 'removed'; });
+    if (!cs.length) return head + '<section class="box">' + IS.empty('layers', A('أنشئ كورسًا أولًا', 'Create a course first'), A('التسجيلات تُضاف دروسًا داخل كورس. تبقى محفوظة هنا حتى تنشئ الكورس.', 'Recordings become lessons inside a course. They stay saved here until you create one.'), '<a class="btn pri" href="#studio-course/new">' + ic('plus') + esc(A('كورس جديد', 'New course')) + '</a>') + '</section>';
+    var cid = cs.some(function (c) { return c.id === parts[0]; }) ? parts[0] : cs[0].id;
+    var total = items.reduce(function (a, f) { return a + (f.size || 0); }, 0);
+    var h = head + '<section class="box form share-up" id="shareup" data-mem="' + (mem ? 1 : 0) + '"><h1 tabindex="-1">' + ic('mic') + esc(A('رفع ' + items.length + ' تسجيل كدروس صوتية', 'Upload ' + items.length + ' recording' + (items.length > 1 ? 's' : '') + ' as audio lessons')) + '</h1>' +
+      '<p class="mut">' + esc(A('كل ملف يصبح درسًا صوتيًا بالترتيب، باسم الملف (يمكنك تعديل الأسماء). الحجم الكلي ', 'Each file becomes an audio lesson, in order, named after the file (you can edit the names). Total size ')) + mb(total) + '.</p>' +
+      '<div class="g2f"><label class="fl"><span>' + esc(A('الكورس', 'Course')) + '</span><select id="shc">' + cs.map(function (c) { return '<option value="' + esc(c.id) + '"' + (c.id === cid ? ' selected' : '') + '>' + esc(c.title || A('كورس بلا عنوان', 'Untitled course')) + '</option>'; }).join('') + '</select></label>' +
+      '<label class="fl"><span>' + esc(A('القسم', 'Section')) + '</span><select id="shs" data-want="' + esc(parts[1] || '') + '"></select></label></div>' +
+      '<label class="fl" id="shnew" hidden><span>' + esc(A('اسم القسم الجديد', 'New section name')) + '</span><input id="shsn" maxlength="120" placeholder="' + esc(A('مثال: الجزء الأول', 'e.g. Part 1')) + '"></label>' +
+      '<ol class="sh-list">' + items.map(function (f, i) {
+        var big = f.size > 95 * 1048576;
+        return '<li data-i="' + i + '"' + (big ? ' class="big"' : '') + '><span class="sh-n">' + (i + 1) + '</span><span class="grow"><input class="sh-t" value="' + esc(niceTitle(f.name)) + '" maxlength="160" dir="auto"' + (big ? ' disabled' : '') + '><small><bdi dir="ltr">' + esc(f.name) + '</bdi> · ' + mb(f.size || 0) +
+          (big ? ' · <span class="bad">' + esc(A('أكبر من 95 MB: لن يُرفع', 'over 95 MB: will be skipped')) + '</span>' : '') + '</small><i class="sh-bar"><b></b></i></span><em class="sh-st"></em></li>';
+      }).join('') + '</ol>' +
+      '<div class="row sp"><button type="button" class="btn ghost" data-act="share-clear">' + ic('trash') + esc(A('تجاهل التسجيلات', 'Discard')) + '</button><button type="button" class="btn pri" data-act="share-go">' + ic('upload') + esc(A('ابدأ الرفع', 'Start uploading')) + '</button></div>' +
+      '<p class="mut sh-note">' + esc(A('أبقِ هذه الصفحة مفتوحة حتى ينتهي الرفع. التسجيلات المشاركة تبقى محفوظة على الهاتف حتى تُرفع.', 'Keep this page open until the upload finishes. Shared recordings stay saved on the phone until they are uploaded.')) + '</p></section>' +
+      '<details class="box"><summary>' + esc(A('طريقة المشاركة من تيليجرام', 'How to share from Telegram')) + '</summary>' + how + '</details>';
+    IS.after = function (main) {
+      var box = main.querySelector('#shareup'); if (!box) return; box._items = items;
+      var csel = box.querySelector('#shc'), ssel = box.querySelector('#shs'), nw = box.querySelector('#shnew');
+      async function loadSecs() {
+        var ss = (await DB.q('sections', { eq: { course_id: csel.value } })).sort(function (a, b) { return (a.sort || 0) - (b.sort || 0); }), want = ssel.getAttribute('data-want');
+        ssel.innerHTML = ss.map(function (s, i) { return '<option value="' + esc(s.id) + '"' + (s.id === want ? ' selected' : '') + '>' + (i + 1) + '. ' + esc(s.title || '') + '</option>'; }).join('') + '<option value="__new"' + (ss.length ? '' : ' selected') + '>+ ' + esc(A('قسم جديد', 'New section')) + '</option>';
+        nw.hidden = ssel.value !== '__new';
+      }
+      csel.onchange = function () { ssel.setAttribute('data-want', ''); loadSecs(); };
+      ssel.onchange = function () { nw.hidden = ssel.value !== '__new'; };
+      loadSecs();
+    };
+    return h;
+  }, { auth: true, area: 'studio', lec: true });
+  IS.ACT['share-clear'] = async function () {
+    var box = $('#shareup'); if (!box || !(await IS.confirm(A('تجاهل هذه التسجيلات وحذفها من الهاتف؟', 'Discard these recordings from the phone?'), A('تجاهل', 'Discard')))) return;
+    if (box.getAttribute('data-mem') === '1') SHARED = null; else await sharedDrop(box._items.map(function (f) { return f.id; }).filter(function (x) { return x != null; }));
+    IS.go('studio-courses');
+  };
+  IS.ACT['share-go'] = async function (b) {
+    var box = $('#shareup'); if (!box || box._busy) return; var items = box._items || [], csel = $('#shc'), ssel = $('#shs');
+    if (!navigator.onLine) return IS.toast(A('الرفع يحتاج إلى الإنترنت.', 'Uploading needs the internet.'), true);
+    var cid = csel.value, sid = ssel.value;
+    if (sid === '__new') {
+      var name = ($('#shsn').value || '').trim(); if (!name) { $('#shsn').focus(); return IS.toast(A('اكتب اسم القسم الجديد.', 'Write the new section name.'), true); }
+      var n0 = (await DB.q('sections', { eq: { course_id: cid } })).length; sid = (await DB.ins('sections', { course_id: cid, title: name, sort: n0 })).id;
+    }
+    box._busy = true; b.disabled = true; csel.disabled = ssel.disabled = true; box.querySelector('[data-act=share-clear]').disabled = true;
+    var lock = null; try { if (navigator.wakeLock) lock = await navigator.wakeLock.request('screen'); } catch (e) {}
+    var leave = function (e) { e.preventDefault(); e.returnValue = ''; }; window.addEventListener('beforeunload', leave);
+    var sort = (await DB.q('lessons', { eq: { section_id: sid } })).length, ok = 0, done = [], stop = '';
+    var rows = box.querySelectorAll('.sh-list li');
+    for (var i = 0; i < items.length && !stop; i++) {
+      var f = items[i], row = rows[i], st = row.querySelector('.sh-st'), bar = row.querySelector('.sh-bar b');
+      if (f.size > 95 * 1048576) { st.textContent = A('تُخطّي', 'skipped'); continue; }
+      row.classList.add('now'); st.textContent = '0%'; row.scrollIntoView({ block: 'nearest' });
+      var lesson = null;
+      try {
+        var file = asAudioFile(f), secs = await durationOf(file), title = (row.querySelector('.sh-t').value || '').trim() || niceTitle(f.name);
+        lesson = await DB.ins('lessons', { course_id: cid, section_id: sid, title: title, kind: 'audio', sort: sort, free: false, minutes: Math.round(secs / 60) || 0, body: '', quiz: [], video_id: '' });
+        await DB.audioUpload(file, { lesson: lesson.id, onProgress: function (p) { bar.style.width = p + '%'; st.textContent = p + '%'; } });
+        sort++; ok++; if (f.id != null) done.push(f.id); row.classList.remove('now'); row.classList.add('ok'); st.textContent = '✓';
+      } catch (e) {
+        row.classList.remove('now'); row.classList.add('fail'); st.textContent = '✕';
+        if (lesson) await DB.del('lessons', lesson.id).catch(function () {});
+        if (e.message === 'nostore' || e.message === 'denied') stop = e.message;
+      }
+    }
+    window.removeEventListener('beforeunload', leave); try { lock && lock.release(); } catch (e) {}
+    await sharedDrop(done); if (box.getAttribute('data-mem') === '1' && ok === items.length) SHARED = null;
+    await courseTotals(cid);
+    if (stop === 'nostore') { box._busy = false; return IS.toast(A('تخزين التسجيلات لم يُفعَّل بعد على المنصة (Cloudflare R2). التسجيلات باقية على الهاتف.', 'Audio storage is not switched on yet (Cloudflare R2). The recordings stay on the phone.'), true); }
+    IS.toast(A('رُفع ' + ok + ' من ' + items.length + ' تسجيل', 'Uploaded ' + ok + ' of ' + items.length + ' recordings'), ok < items.length);
+    if (ok === items.filter(function (f) { return f.size <= 95 * 1048576; }).length) IS.go('studio-course/' + cid + '/cur');
+    else { box._busy = false; b.disabled = false; b.innerHTML = ic('upload') + esc(A('أعد محاولة الباقي', 'Retry the rest')); box._items = items.filter(function (f, k) { return !rows[k].classList.contains('ok'); }); IS.refresh && setTimeout(function () { if (box._items.length) { if (box.getAttribute('data-mem') === '1') SHARED = box._items.map(function (x) { return x.blob; }); IS.refresh(); } }, 1500); }
   };
 
   /* ========== MY PAGE (design) ========== */

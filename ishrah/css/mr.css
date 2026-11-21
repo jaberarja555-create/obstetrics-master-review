@@ -1588,3 +1588,21 @@ html body .cm-kinds{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:
 .aplayer .ap-r.on{background:#f6dc8e;border-color:#f6dc8e;color:#3d2a05}
 .aplayer.ap-err .ap-resume{color:#ffb4a8}
 .aup .aprev audio{width:100%;margin:6px 0 8px}
+/* uploading many recordings / shared from Telegram (21 Nov 2026) */
+.share-up h1{display:flex;align-items:center;gap:8px;font-size:20px}
+.share-up .sh-list{list-style:none;margin:10px 0 12px;padding:0;display:flex;flex-direction:column;gap:7px}
+.share-up .sh-list li{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid #dce8e5;border-radius:12px;background:#fbfdfc}
+.share-up .sh-n{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#e4f1ee;color:#0d6b5c;font-weight:800;font-size:12px}
+.share-up .sh-list .grow{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}
+#main .share-up .sh-t{width:100%;border:0!important;background:transparent!important;box-shadow:none!important;padding:0!important;font-weight:700;font-size:14px;min-height:0}
+.share-up .sh-list small{font-size:11.5px;color:#5d7570;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.share-up .sh-bar{display:block;height:4px;border-radius:4px;background:#e6efed;overflow:hidden}
+.share-up .sh-bar b{display:block;height:100%;width:0;background:linear-gradient(90deg,#14806d,#d9a93e);transition:width .2s}
+.share-up .sh-st{flex:none;min-width:38px;text-align:center;font-style:normal;font-weight:800;font-size:12.5px;color:#0d6b5c}
+.share-up li.ok{border-color:#9fd8c4;background:#effaf5}.share-up li.ok .sh-bar b{width:100%}
+.share-up li.fail{border-color:#f0b3a8;background:#fff4f1}.share-up li.fail .sh-st{color:#b3261e}
+.share-up li.big{opacity:.6}
+.share-up li.now{border-color:#14806d;box-shadow:0 0 0 2px rgba(20,128,109,.15)}
+.share-up .sh-note{font-size:12px;margin-top:8px}
+.sh-how{margin:8px 0;padding-inline-start:20px;display:flex;flex-direction:column;gap:5px;font-size:14px}
+:root[data-theme="dark"] .share-up .sh-list li{background:#0b2721;border-color:#21463c}

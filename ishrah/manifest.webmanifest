@@ -10,7 +10,42 @@
   "background_color": "#e7f3f9",
   "theme_color": "#086981",
   "icons": [
-    { "src": "icon-192.png?v=181", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "icon-512.png?v=181", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
-  ]
+    {
+      "src": "icon-192.png?v=181",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png?v=181",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "share_target": {
+    "action": "./share-target",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "files": [
+        {
+          "name": "audio",
+          "accept": [
+            "audio/*",
+            "application/ogg",
+            ".mp3",
+            ".m4a",
+            ".ogg",
+            ".oga",
+            ".opus",
+            ".aac",
+            ".wav"
+          ]
+        }
+      ]
+    }
+  }
 }
