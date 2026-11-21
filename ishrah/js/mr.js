@@ -611,6 +611,55 @@
     IS.sheet(esc(title), '<div class="lp-sheet">' + html + '</div>');
   };
 
+  /* ---------- Lecturers list in the owner's picture (21 Nov 2026): a card per lecturer — picture panel (online badge, rating, courses) beside
+     the name, title, a short bio, speciality | section and followers; buttons «عرض الملف» · «متابعة» · «تقييم» · «إعجاب» ---------- */
+  HI.heart = svg('0 0 24 24', '<path d="M12 20s-7.5-4.6-9-9.3C1.9 7.3 4.2 4 7.6 4c2 0 3.4 1.1 4.4 2.6C13 5.1 14.4 4 16.4 4c3.4 0 5.7 3.3 4.6 6.7C19.5 15.4 12 20 12 20z"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"');
+  HI.user = svg('0 0 24 24', '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"');
+  var LECS = {};
+  function mrLecCard(l, nCourses, followers, iFollow) {
+    var r = IS.lecRating(l.id), n = r.rating_count, rate = n ? r.rating_points / n : 0, spec = IS.mySpec(), section = IS.mySection();
+    var fav = IS.ME && !!(IS.LS.get('fav-' + IS.ME.id, {})['t:' + l.id]);
+    var bio = String(l.bio || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    return '<article class="mlc" data-go="#lecturer/' + esc(l.id) + '"><div class="mlc-side"><a class="mlc-av" href="#lecturer/' + esc(l.id) + '">' + IS.av(l, 'xl', l.id) + '</a>' +
+      '<span class="mlc-on">' + IS.seen(l.id) + '</span>' +
+      '<span class="mlc-rate">' + (n ? '<b>' + rate.toFixed(1) + '</b>' : '') + '<em>' + [1, 2, 3, 4, 5].map(function (i) { return '<u class="' + (i <= Math.round(rate) ? 'on' : '') + '">★</u>'; }).join('') + '</em>' + (n ? '<small>(' + N(n) + ')</small>' : '') + '</span>' +
+      '<span class="mlc-cs">' + HI.layers.replace(G, 'currentColor') + '<b>' + N(nCourses) + '</b> ' + esc(A('كورسات', 'courses')) + '</span></div>' +
+      '<div class="mlc-main"><h3 dir="auto"><a href="#lecturer/' + esc(l.id) + '">' + IS.lecName(l.name) + '</a>' + (l.status === 'active' ? PI.check : '') + '</h3>' +
+      (l.title ? '<p class="mlc-t" dir="auto">' + esc(l.title) + '</p>' : '') +
+      (bio ? '<p class="mlc-bio" dir="auto">' + esc(bio.slice(0, 160)) + '</p>' : '') +
+      '<div class="mlc-meta"><span class="mlc-chips">' + (spec ? '<b lang="en">' + esc(spec.en) + '</b>' : '') + (section ? '<i></i><b class="s" lang="en">' + esc(section.id === 'special' ? 'International' : section.en) + '</b>' : '') + '</span>' +
+        '<span class="mlc-fl">' + PI.users + '<span><b>' + nfmt(followers) + '</b><small>' + esc(A('متابعون', 'followers')) + '</small></span></span></div></div>' +
+      '<div class="mlc-acts"><a class="mlc-b gold" href="#lecturer/' + esc(l.id) + '">' + HI.user + '<span>' + esc(A('عرض الملف', 'View profile')) + '</span></a>' +
+        (IS.ME && IS.ME.id === l.id ? '<a class="mlc-b green" href="#studio">' + HI.layers.replace(G, 'currentColor') + '<span>' + esc(A('الاستوديو', 'Studio')) + '</span></a>' :
+          '<button type="button" class="mlc-b green' + (iFollow ? ' on' : '') + '" data-act="pffollow" data-id="' + esc(l.id) + '">' + (iFollow ? PI.tick : HI.userPlus) + '<span>' + esc(iFollow ? A('متابَع', 'Following') : A('متابعة', 'Follow')) + '</span></button>') +
+        '<button type="button" class="mlc-b" data-act="mlc-rate" data-id="' + esc(l.id) + '">' + HI.star + '<span>' + esc(A('تقييم', 'Rate')) + '</span></button>' +
+        '<button type="button" class="mlc-b" data-act="fav" data-k="t:' + esc(l.id) + '" aria-pressed="' + fav + '">' + HI.heart + '<span>' + esc(A('إعجاب', 'Like')) + '</span></button></div></article>';
+  }
+  var lecs0 = IS.pageOf && IS.pageOf('lecturers');
+  if (lecs0) IS.page('lecturers', async function (arg) {
+    var inner = await lecs0.fn(arg);
+    if (typeof inner !== 'string' || inner.indexOf('class="grid g4"') < 0) return inner;
+    var r = await Promise.all([DB.q('lecturers', { eq: { status: 'active' } }), IS.pubCourses(true)]);
+    var cs = r[1].filter(IS.inStudySpace), ls = IS.studyLecturers(r[0], r[1]), ids = ls.map(function (l) { return l.id; });
+    var fl = IS.ME && ids.length ? await DB.q('follows', { in: { followee: ids } }).catch(function () { return []; }) : [];
+    LECS = {}; ls.forEach(function (l) { LECS[l.id] = { l: l, cs: cs.filter(function (c) { return c.lecturer_id === l.id; }) }; });
+    var cards = ls.map(function (l) {
+      var f = fl.filter(function (x) { return x.followee === l.id; });
+      return mrLecCard(l, LECS[l.id].cs.length, f.length, IS.ME && f.some(function (x) { return x.follower === IS.ME.id; }));
+    }).join('');
+    var t = document.createElement('template'); t.innerHTML = inner;
+    var g = t.content.querySelector('.grid.g4'), join = g && g.querySelector('.lcard.join');
+    if (g) { g.className = 'mlc-list'; g.innerHTML = cards + (join ? join.outerHTML : ''); }
+    return t.innerHTML;
+  }, lecs0.o);
+  /* lecturers are rated by the students of their courses: the button lists his courses to rate from */
+  IS.ACT['mlc-rate'] = function (b) {
+    var d = LECS[b.getAttribute('data-id')]; if (!d) return;
+    IS.sheet(esc(A('تقييم ', 'Rate ')) + IS.lecName(d.l.name), '<div class="lp-sheet"><p class="lp-empty">' + esc(A('يقيّم الطلاب المحاضر من صفحة الكورس الذي سجّلوا فيه.', 'Students rate the lecturer from the page of the course they joined.')) + '</p>' +
+      (d.cs.length ? '<div class="lp-list">' + d.cs.map(function (x) { return '<a href="#course/' + esc(x.id) + '"><span class="lp-th">' + IS.poster(x.cover || 'img/collection/courses.webp') + '</span><span class="lp-tx"><b dir="auto">' + esc(x.title || '') + '</b><small>' + esc(A('قيّم من هنا', 'Rate here')) + '</small></span><em>‹</em></a>'; }).join('') + '</div>' :
+        '<p class="lp-empty">' + esc(A('لا توجد كورسات منشورة بعد.', 'No published courses yet.')) + '</p>') + '</div>');
+  };
+
   /* ---------- sign in, sign up, the email code and Features open in the same green and gold look (owner, 20 Nov 2026) ---------- */
   var sheet0 = IS.sheet;
   IS.sheet = function () { var d = sheet0.apply(this, arguments);
