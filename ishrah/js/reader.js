@@ -88,6 +88,9 @@
     sc.addEventListener('wheel', function (e) { if (e.ctrlKey) { e.preventDefault(); zoomTo(R.zoom * (e.deltaY < 0 ? 1.1 : 0.9)); } }, { passive: false });
     pinch(sc);
     document.addEventListener('selectionchange', onSel);
+    var unsel = function () { setTimeout(function () { var s = document.getSelection(); if (!s || s.isCollapsed) IS.$$('.textLayer.selecting', el).forEach(function (t) { t.classList.remove('selecting'); }); }, 0); };
+    ['pointerup', 'pointercancel', 'touchend'].forEach(function (t) { document.addEventListener(t, unsel, true); });
+    reader.unsel = unsel;
     el.querySelector('.rdr-find input').addEventListener('keydown', function (e) { if (e.key === 'Enter') find(); });
     var box = el.querySelector('.rdr-pages'), first, last;
     try {
@@ -98,12 +101,21 @@
       var src = o.blob ? { data: ready[1] } : { url: ready[1] };
       var base = new URL('pdfjs/', document.baseURI).href;
       reader.loadingTask = ready[0].getDocument(Object.assign(src, { isEvalSupported: false, cMapUrl: base + 'cmaps/', cMapPacked: true,
-        standardFontDataUrl: base + 'standard_fonts/', useSystemFonts: false, disableAutoFetch: true, disableStream: true, rangeChunkSize: 1048576 }));
+        standardFontDataUrl: base + 'standard_fonts/', useSystemFonts: false, disableAutoFetch: true, disableStream: true, rangeChunkSize: chunk() }));
+      /* always say how much has arrived (on a slow line the size is often unknown and the screen looked stuck; owner, 22 Nov 2026) */
       reader.loadingTask.onProgress = function (pr) {
-        var out = el.querySelector('.rdr-prog'); if (!out || !pr.total) return;
-        out.textContent = Math.min(99, Math.round(pr.loaded / pr.total * 100)) + '%';
+        var out = el.querySelector('.rdr-prog'); if (!out) return;
+        var mb = (pr.loaded / 1048576).toFixed(pr.loaded < 10485760 ? 1 : 0);
+        out.textContent = pr.total ? Math.min(99, Math.round(pr.loaded / pr.total * 100)) + '% · ' + mb + ' MB' : mb + ' MB';
       };
+      reader.slowT = setTimeout(function () {
+        var l = el.querySelector('.rdr-pages .loading'); if (!l || R !== reader || l.querySelector('.rdr-slow')) return;
+        var d = document.createElement('p'); d.className = 'rdr-slow';
+        d.textContent = A('الاتصال بطيء، والكتاب ما زال يُحمَّل. بعد أول فتح يُحفظ على جهازك ويفتح بسرعة.', 'The connection is slow; the book is still loading. After the first opening it is kept on this device and opens quickly.');
+        l.appendChild(d);
+      }, 12000);
       reader.doc = await reader.loadingTask.promise;
+      clearTimeout(reader.slowT);
       if (R !== reader) return;
       reader.n = reader.doc.numPages;
       last = Math.max(1, Math.min(reader.n, Number(o.page || store('ish-rpg:' + reader.id, 1)) || 1));
@@ -145,6 +157,13 @@
     reader.pages.forEach(function (p) { reader.io.observe(p.el); });
   };
 
+  /* smaller pieces on slow connections: the first page needs only a few of them */
+  function chunk() {
+    var c = navigator.connection || {}, t = c.effectiveType || '';
+    if (c.saveData || /2g/.test(t) || (c.downlink && c.downlink < 0.7)) return 131072;
+    if (t === '3g' || (c.downlink && c.downlink < 3)) return 262144;
+    return 524288;
+  }
   function width() { var sc = R.el.querySelector('.rdr-scroll'); return Math.max(240, Math.min(sc.clientWidth - 16, 1000)) * R.zoom; }
   function sizeAll() {
     var w = width();
@@ -172,6 +191,10 @@
       var textDivs = [];
       var task = window.pdfjsLib.renderTextLayer({ textContentSource: page.streamTextContent(), container: tl, viewport: vp, textDivs: textDivs });
       await task.promise;
+      /* a selection never jumps to the whole page (owner, 22 Nov 2026: on a phone the highlight covered every word): the empty end of
+         the page catches the finger while selecting, as in the PDF.js viewer */
+      var eoc = document.createElement('div'); eoc.className = 'endOfContent'; tl.appendChild(eoc);
+      if (!tl._sel) { tl._sel = 1; tl.addEventListener('pointerdown', function () { tl.classList.add('selecting'); }); }
       if (R && R.pages[n - 1] === p) { p.drawn = want; p.textDivs = textDivs; paintMarks(n); paintSearch(n); }
     } catch (e) { if (!/cancel/i.test(String(e && e.name || e))) p.drawn = 0; }
     finally { if (p) p.busy = false; }
@@ -542,6 +565,8 @@
     if (R.loadingTask) R.loadingTask.destroy().catch(function () {});
     if (document.fullscreenElement) document.exitFullscreen().catch(function () {});
     document.removeEventListener('selectionchange', onSel);
+    if (R.unsel) ['pointerup', 'pointercancel', 'touchend'].forEach(function (t) { document.removeEventListener(t, R.unsel, true); });
+    clearTimeout(R.slowT);
     R.el.remove(); R = null; document.body.classList.remove('noscroll');
   }
   window.addEventListener('popstate', function () { if (R) close(); });

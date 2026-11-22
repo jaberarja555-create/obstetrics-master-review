@@ -1583,3 +1583,9 @@ studentmasterreview.com with HTTP/3 off). Now:
   https address: all requests through `/sb/`; with the relay missing, the app switched to the direct address by itself.
 - Cost note: each relayed request counts toward Cloudflare Functions requests (free plan 100,000 a day for the account); if the app grows past
   that, the Workers Paid plan ($5 a month, 10 million requests) removes the limit.
+- **Library reader on phones (owner, 22 Nov 2026: "problem in opening and highlighting other books in the library"; screenshots: the whole
+  page selected in pink, and «جارٍ فتح الكتاب…» with no sign of progress on a 5 KB/s line):** js/reader.js adds the PDF.js `endOfContent`
+  block to each text layer (`.selecting` while the finger is down), so a selection stops near the finger instead of covering the page;
+  canvas and page numbers are not selectable. Loading always shows what has arrived («35% · 2.1 MB», or «2.1 MB» when the size is unknown)
+  and after 12 s a note that the line is slow and the book is kept on the phone after the first opening. Range pieces follow the
+  connection (`chunk()`: 128 KB on 2G / data saver, 256 KB on 3G, 512 KB otherwise; was 1 MB, so the first page waited for megabytes).
