@@ -2670,3 +2670,100 @@ html.bk-open,html.bk-open body{overflow:hidden}
 .net-need{position:relative}
 .needs-net{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);white-space:nowrap;z-index:3;padding:3px 9px;border-radius:999px;background:rgba(40,48,46,.86);color:#fff;font:600 11px Cairo,Poppins,sans-serif;pointer-events:none}
 .net-need img{filter:grayscale(.6);opacity:.75}
+
+/* offline notice as a small pill above the bottom menu (offline.js bar) */
+html body #offbar{position:fixed;inset-inline:auto;top:auto;bottom:calc(84px + env(safe-area-inset-bottom));left:50%;right:auto;transform:translateX(-50%);z-index:60;
+  display:flex;align-items:center;gap:8px;width:max-content;max-width:calc(100vw - 24px);padding:6px 6px 6px 12px;border-radius:999px;
+  font:600 12px/1.3 Cairo,Poppins,sans-serif;color:#fff;box-shadow:0 8px 22px rgba(0,0,0,.22);transition:padding .25s,max-width .25s}
+html[dir=rtl] body #offbar{padding:6px 12px 6px 6px}
+html body #offbar[hidden]{display:none}
+html body #offbar.off{background:rgba(38,46,44,.94)}html body #offbar.on{background:#822763;padding:8px 14px}
+#offbar .ob-sign{flex:none;display:grid;place-items:center;width:26px;height:26px;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;padding:0;cursor:pointer}
+#offbar .ob-sign .ico,#offbar>.ico{width:15px;height:15px}
+#offbar .ob-t{display:flex;flex-direction:column;min-width:0}#offbar .ob-t b{font-size:12.5px}#offbar .ob-t small{font-size:11px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#offbar a{flex:none;display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.16);color:#fff;text-decoration:none;font-size:11.5px}
+#offbar a .ico{width:13px;height:13px}
+#offbar .ob-x{flex:none;width:26px;height:26px;border:0;border-radius:50%;background:transparent;color:#fff;opacity:.75;font-size:13px;cursor:pointer}
+#offbar.mini{padding:4px!important;gap:0}#offbar.mini .ob-t,#offbar.mini a,#offbar.mini .ob-x{display:none}
+@media (min-width:1024px){html body #offbar{bottom:24px}}
+
+/* loading screens sit in the middle of the screen, never under the top bar; «Signing you in…» after Google */
+#main>.loading{min-height:60vh;padding:110px 0 40px}
+#main>.loading.signing{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#5b1511;font:600 15px/1.4 Cairo,Poppins,sans-serif}
+/* the help button and the offline bar never cover each other (owner, 22 Nov 2026): while the bar is open the help button rises above it */
+#asfab{transition:bottom .25s}
+@media (max-width:1023px){body:has(#offbar:not([hidden]):not(.mini)) #asfab{bottom:calc(146px + env(safe-area-inset-bottom))!important}}
+@media (min-width:1024px){body:has(#offbar:not([hidden]):not(.mini)) #asfab.nonav{bottom:calc(84px + env(safe-area-inset-bottom))!important}}
+
+/* help button docked at the screen edge: a small tab with the sign only; the first tap slides it out with its name (assist.js tap) */
+html body #asfab{inset-inline-start:0!important;height:40px;padding:0 9px;gap:6px;opacity:.85;border-radius:0 999px 999px 0;
+  border-inline-start:0;transition:bottom .25s,padding .25s,opacity .25s,box-shadow .25s;background:rgba(255,255,255,.78);color:#410b19;box-shadow:0 3px 12px rgba(0,0,0,.14)}
+html[dir=rtl] body #asfab{border-radius:999px 0 0 999px}
+html body #asfab span{max-width:0;overflow:hidden;white-space:nowrap;opacity:0;transition:max-width .25s,opacity .2s}
+html body #asfab.out{opacity:1;padding:0 14px 0 12px;background:#5b1511;color:#fff;box-shadow:0 6px 18px rgba(91,21,17,.35)}
+html body #asfab.out span{max-width:120px;opacity:1}
+:root[data-theme=dark] body #asfab:not(.out){background:rgba(10,20,24,.7);color:#f3e2b0}
+
+/* pictures that cannot load are hidden (offline.js), so the cover placeholder shows; the «needs internet» label sits on the feed cover */
+img.img-x{visibility:hidden!important}
+.feed-image,.library-cover{position:relative}
+
+/* a page that is still opening shows a thin moving line at the very top (after 120 ms, so quick pages show nothing) */
+#main[aria-busy="true"]::before{content:"";position:fixed;top:0;inset-inline:0;height:3px;z-index:9999;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,transparent,#e9c46a 30%,#801431 60%,transparent);background-size:50% 100%;background-repeat:no-repeat;
+  animation:ishbusy 1s linear .12s infinite}
+@keyframes ishbusy{0%{opacity:1;background-position:-50% 0}100%{opacity:1;background-position:150% 0}}
+
+/* ---------- speciality cards in the owner's picture (22 Nov 2026) ---------- */
+.sp2{width:min(100%,1060px);display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.8vh,18px);--hh:clamp(84px,14vh,150px);--ch:clamp(104px,17vh,200px)}
+.sp2 button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+/* the open speciality: a gold-framed green banner with the photo in a ring */
+.sp2-hero{position:relative;display:flex;align-items:center;direction:ltr;width:min(100%,640px);height:var(--hh);padding:0;border:0;background:none;transition:transform .2s}
+.sp2-hero:hover{transform:translateY(-3px)}.sp2-hero:active{transform:scale(.985)}
+.sp2-ring{position:relative;z-index:2;flex:none;display:block;border-radius:50%;overflow:hidden;background:#390f1b;
+  border:3px solid #e8c162;box-shadow:0 0 0 2px #8a6420,0 0 16px rgba(246,220,142,.55),0 6px 14px rgba(0,0,0,.35)}
+.sp2-ring img{width:100%;height:100%;object-fit:cover;display:block}
+.sp2-ring .sp2-ic{display:grid;place-items:center;width:100%;height:100%;color:#f6dc8e}
+.sp2-ring .sp2-ic svg{width:58%;height:58%}
+.sp2-ring.big{width:calc(var(--hh) * 1.06);height:calc(var(--hh) * 1.06);margin-inline-end:calc(var(--hh) * -.34)}
+.sp2-band{position:relative;flex:1;min-width:0;height:86%;display:flex;align-items:center;justify-content:center;padding:0 calc(var(--hh) * .22) 0 calc(var(--hh) * .44);border-radius:999px;
+  background:linear-gradient(180deg,#641427,#410b19);border:2.5px solid #e8c162;box-shadow:0 0 0 1.5px #8a6420,0 0 22px rgba(246,220,142,.45),0 10px 22px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.2)}
+.sp2-pill{min-width:0;display:flex;align-items:center;gap:clamp(8px,1.6vw,16px);width:100%;max-width:440px;height:62%;padding:0 clamp(12px,2.4vw,26px);border-radius:999px;justify-content:center;
+  background:linear-gradient(180deg,#fffaf0,#f1e3bf);box-shadow:inset 0 0 0 1.5px rgba(200,160,70,.55),0 3px 8px rgba(0,0,0,.25)}
+.sp2-pill b{font-family:Poppins,Cairo,sans-serif;font-weight:700;font-size:min(calc(var(--hh) * .26),7vw);color:#410b19;white-space:nowrap;line-height:1}
+.sp2-bar{width:2px;height:55%;background:linear-gradient(180deg,transparent,#c9a24a,transparent);flex:none}
+.sp2-sig{display:grid;place-items:center;width:calc(var(--hh) * .32);height:calc(var(--hh) * .32);color:#410b19;flex:none}
+html body .mrx .sp2-sig svg{width:100%!important;height:100%!important}
+.sp2-sig svg *{stroke:#410b19!important}.sp2-sig svg [fill]:not([fill=none]){fill:#410b19!important}
+.sp2-lr{position:absolute;width:calc(var(--hh) * .3);height:auto;color:#e2b85a;pointer-events:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,.3))}
+.sp2-band .sp2-lr.t{top:calc(var(--hh) * -.1);left:58%;transform:translateX(-50%) rotate(90deg) scale(.42)}
+.sp2-band .sp2-lr.b{bottom:calc(var(--hh) * -.1);left:58%;transform:translateX(-50%) rotate(-90deg) scale(.42)}
+.sp2-hero[aria-pressed=true] .sp2-band{box-shadow:0 0 0 1.5px #8a6420,0 0 30px rgba(246,220,142,.7),0 10px 22px rgba(0,0,0,.35)}
+/* the other specialities */
+.sp2-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,1.6vw,20px);width:100%}
+.sp2-card{position:relative;height:var(--ch);padding:0;border-radius:clamp(16px,2.2vh,24px);overflow:hidden;display:flex;flex-direction:column;
+  background:linear-gradient(180deg,rgba(100,20,39,.78),rgba(65,11,25,.86));border:1.5px solid rgba(232,193,98,.55);
+  box-shadow:0 0 0 1px rgba(0,0,0,.25),0 10px 22px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.18);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:transform .2s}
+.sp2-card:not(.locked):hover{transform:translateY(-3px)}
+.sp2-card.locked{cursor:not-allowed;background:linear-gradient(180deg,rgba(78,56,63,.82),rgba(50,33,39,.9));border-color:rgba(232,193,98,.35)}
+.sp2-top{position:relative;flex:1;display:flex;align-items:center;justify-content:center;gap:2px;padding-top:6%}
+.sp2-top .sp2-ring{width:calc(var(--ch) * .56);height:calc(var(--ch) * .56)}
+.sp2-card.locked .sp2-ring img{filter:saturate(.8)}
+.sp2-top .sp2-lr{position:static;width:calc(var(--ch) * .14)}
+.sp2-top .sp2-lr.r{transform:scaleX(-1)}
+.sp2-soon{position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);z-index:3;padding:2px 14px;border-radius:999px;font-weight:800;font-size:clamp(11px,calc(var(--ch) * .085),15px);
+  color:#3b2a06;background:linear-gradient(180deg,#f9e6a6,#d9ac48);box-shadow:0 0 0 1px #8a6420,0 3px 6px rgba(0,0,0,.35);white-space:nowrap}
+.sp2-base{flex:none;height:28%;display:grid;place-items:center;margin-top:6px;background:linear-gradient(180deg,#f8f1de,#e3d6b5);border-radius:55% 55% 0 0 / 22% 22% 0 0}
+.sp2-base b{font-family:Poppins,Cairo,sans-serif;font-weight:700;font-size:clamp(12px,calc(var(--ch) * .11),20px);color:#2a0d16;white-space:nowrap}
+.sp2-card.locked .sp2-base b{color:#392f36}
+.sp2-lock{position:absolute;top:8px;inset-inline-start:8px;z-index:3;display:grid;place-items:center;width:clamp(24px,calc(var(--ch) * .17),32px);aspect-ratio:1;border-radius:50%;
+  background:rgba(0,0,0,.35);border:1.5px solid #e2b85a;color:#f6dc8e}
+html body .mrx .sp2-lock svg.ic{width:55%!important;height:55%!important;color:#f6dc8e}
+.sp2-card[aria-pressed=true]{box-shadow:0 0 0 2.5px #f6dc8e,0 0 24px rgba(233,196,106,.55),0 10px 22px rgba(0,0,0,.35)}
+@media (max-width:760px){
+  .sp2{--hh:clamp(80px,14.5vh,128px);--ch:clamp(100px,16.5vh,172px)}
+  .sp2-grid{grid-template-columns:repeat(2,minmax(0,1fr));width:min(100%,460px)}
+  .sp2-hero{width:min(100%,460px)}
+}
+@media (min-width:761px){.sp2{--hh:clamp(84px,16vh,160px);--ch:clamp(104px,20vh,230px)}}
+@media (orientation:portrait) and (min-width:761px) and (max-width:1100px){.sp2-grid{grid-template-columns:repeat(2,minmax(0,1fr));width:min(100%,620px)}.sp2-hero{width:min(100%,620px)}.sp2{--ch:clamp(104px,17vh,230px)}}

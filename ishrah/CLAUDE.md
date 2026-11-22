@@ -1509,3 +1509,11 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
 - **Profiles open faster (owner, 22 Nov 2026):** mr.js `profileReads` asks the card, posts and files together (they waited for each other), and
   touching a `#person/` link already starts them (`IS.prefetchPerson`, pointerdown); slow server test 3.4 s → 1.7 s (scratchpad tim5.js). Any page
   still opening after 120 ms shows a thin moving line at the top (`#main[aria-busy]::before`), so a tap always shows it was received.
+
+## Speciality cards in the owner's picture (22 Nov 2026)
+`#pick` (js/mr.js `specCards`, CSS `.sp2…` at the end of css/mr.css): the open speciality (Medicine) is a wide banner: its photo in a gold
+ring overlapping a green pill with a gold frame, small laurels, and the name on a cream pill with its sign. The other specialities are cards
+(2 × 2 on phones and upright tablets, 4 in a row on laptops): the photo in a gold ring between laurels, a gold «قريبًا» badge, a lock, the
+name on a cream base. Photos `img/mr/spec-<id>.webp` (medicine, nursing, lab, pharmacy, dentistry) were cut from the owner's design picture.
+Colours are written as the app's green hexes (#0d6b5c / #06463b) so palettes.py recolours them; checked green and maroon, no scroll at
+390×844, 360×640, 820×1180, 1366×660, 1672×941. A locked card still says «هذا التخصص قريبًا»; the owner's own account opens all of them.

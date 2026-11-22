@@ -98,18 +98,37 @@
     return setspec0 ? setspec0(b) : undefined;
   };
 
+  /* ---------- speciality cards in the owner's picture (22 Nov 2026): the open speciality is a wide gold-framed banner (its photo in a gold
+     ring, laurels, the name on a cream pill with its sign); the others are cards with the photo in a ring between laurels, «قريبًا» and a lock
+     while they are closed. Photos img/mr/spec-<id>.webp were cut from the owner's design picture. ---------- */
+  var SPHOTO = { medicine: 1, nursing: 1, lab: 1, pharmacy: 1, dentistry: 1 };
+  function laurel(cls) { return '<svg class="sp2-lr ' + cls + '" viewBox="0 0 40 60" aria-hidden="true"><path d="M30 58C14 48 8 30 14 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>' +
+    [[14, 8, -20], [10, 19, -40], [9, 31, -55], [12, 43, -70], [18, 52, -85]].map(function (l) { return '<ellipse cx="' + (l[0] + 5) + '" cy="' + l[1] + '" rx="3.2" ry="7.5" transform="rotate(' + (l[2] + 60) + ' ' + (l[0] + 5) + ' ' + l[1] + ')" fill="currentColor"/>' +
+      '<ellipse cx="' + (l[0] - 4) + '" cy="' + (l[1] + 4) + '" rx="3" ry="7" transform="rotate(' + l[2] + ' ' + (l[0] - 4) + ' ' + (l[1] + 4) + ')" fill="currentColor" opacity=".85"/>'; }).join('') + '</svg>'; }
+  function spPic(s) { return SPHOTO[s.id] ? '<img src="' + IS.U('img/mr/spec-' + s.id + '.webp') + '" alt="" loading="eager">' : '<span class="sp2-ic">' + (SPIC[s.id] || ic(s.icon)) + '</span>'; }
+  function specCards(specs, cur) {
+    var open = specs.filter(function (s) { return !specLocked(s.id); }), first = open.filter(function (s) { return s.id === 'medicine'; })[0] || open[0];
+    var rest = specs.filter(function (s) { return s !== first; });
+    var name = function (s) { return esc(SHORT[s.id] || s.en); };
+    var hero = first ? '<button type="button" class="sp2-hero" data-act="setspec" data-v="' + esc(first.id) + '" aria-pressed="' + (first.id === cur) + '">' +
+      '<span class="sp2-ring big">' + spPic(first) + '</span><span class="sp2-band">' + laurel('t') + laurel('b') +
+      '<span class="sp2-pill"><b lang="en" dir="ltr">' + name(first) + '</b><i class="sp2-bar" aria-hidden="true"></i><span class="sp2-sig">' + (SPIC[first.id] || '') + '</span></span></span></button>' : '';
+    return '<nav class="sp2" aria-label="' + esc(A('التخصصات', 'Specialities')) + '">' + hero + '<div class="sp2-grid">' + rest.map(function (s) {
+      var locked = specLocked(s.id);
+      return '<button type="button" class="sp2-card' + (locked ? ' locked' : '') + '" data-act="setspec" data-v="' + esc(s.id) + '" aria-pressed="' + (s.id === cur) + '"' + (locked ? ' aria-disabled="true"' : '') + '>' +
+        (locked ? '<span class="sp2-lock" aria-hidden="true">' + LOCK + '</span>' : '') +
+        '<span class="sp2-top">' + laurel('l') + '<span class="sp2-ring">' + spPic(s) + '</span>' + laurel('r') + (locked ? '<span class="sp2-soon">' + esc(A('قريبًا', 'Soon')) + '</span>' : '') + '</span>' +
+        '<span class="sp2-base"><b lang="en" dir="ltr">' + name(s) + '</b></span></button>';
+    }).join('') + '</div></nav>';
+  }
+
   /* ---------- the speciality screen ---------- */
   IS.page('pick', async function () {
     var cur = IS.SPEC, specs = IS.SPECS;
     IS.after = after;
     return '<div class="mrx"><div class="mr-bg" aria-hidden="true"></div>' + DEFS + '<div class="mr-page">' +
       top(cur && IS.mySection && IS.mySection() ? '#home' : '#pick') + hello() + choose('اختر تخصصك', 'Choose your speciality') +
-      '<nav class="mr-specs n' + specs.length + '" aria-label="' + esc(A('التخصصات', 'Specialities')) + '">' + specs.map(function (s) {
-        var locked = specLocked(s.id);
-        return '<button type="button" class="mr-spec' + (locked ? ' locked' : '') + '" data-act="setspec" data-v="' + esc(s.id) + '" aria-pressed="' + (s.id === cur) + '"' + (locked ? ' aria-disabled="true"' : '') + '><span class="art">' + (SPIC[s.id] || ic(s.icon)) + '</span>' +
-          (locked ? '<span class="mr-lockb" aria-hidden="true">' + LOCK + '</span><span class="mr-soon">' + esc(A('قريبًا', 'Coming soon')) + '</span>' : '') +
-          '<span class="lab">' + WAVE + '<b lang="en" dir="ltr">' + esc(SHORT[s.id] || s.en) + '</b></span></button>';
-      }).join('') + '</nav>' + dock(false) + '</div></div>';
+      specCards(specs, cur) + dock(false) + '</div></div>';
   });
 
   /* ---------- the section screen ---------- */
