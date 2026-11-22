@@ -88,10 +88,18 @@
   async function saved(id) {
     try { var r = await navigator.serviceWorker.getRegistration('/books/' + id + '/'); return !!(r && r.active && r.scope.indexOf('/books/' + id + '/') > 0); } catch (e) { return false; }
   }
-  function hiddenFrame(id) {
-    var box = document.getElementById('bk-pre');
-    if (!box) { box = document.createElement('div'); box.id = 'bk-pre'; box.setAttribute('aria-hidden', 'true'); document.body.appendChild(box); }
-    var f = document.createElement('iframe'); f.tabIndex = -1; f.src = '/books/' + id + '/'; box.appendChild(f); quiet(f, id); return f;
+  /* Light saving (owner, 22 Nov 2026: «I feel slowness»): loading each book in a hidden frame ran a whole second app on the phone. Now only
+     the book's own service worker is installed (/books/<id>/sw.js, scope /books/<id>/): it saves the book page and scripts at once and the
+     pictures in the background by itself, with no page drawn. Obstetrics keeps its locked content in content.bin, which is put into the same
+     saved copy. Nothing stays loaded in memory; a book opens quickly from its saved copy. */
+  var PX2 = { surgery: 'srr', pediatrics: 'prr', obstetrics: 'orr' };
+  async function extras(id) {
+    try {
+      var keys = await caches.keys(), k = keys.filter(function (x) { return x.indexOf(PX2[id] + '-') === 0 && !/-audio$/.test(x); })[0]; if (!k) return;
+      var c = await caches.open(k), u = '/books/' + id + '/content.bin';
+      if (await c.match(u)) return;
+      var r = await fetch(u, { cache: 'no-cache' }); if (r.ok) await c.put(u, r);
+    } catch (e) {}
   }
   var PREP = false;
   IS.prepareBooks = async function () {
@@ -101,22 +109,15 @@
     try {
       for (var i = 0; i < BOOKS.length; i++) {
         var id = BOOKS[i].id;
-        if (FR[id] || await saved(id)) continue;
-        await idle(); if (!navigator.onLine) break;
-        var f = hiddenFrame(id), t0 = Date.now();
-        while (!(await saved(id)) && Date.now() - t0 < 120000) await sleep(2000);
-        await sleep(45000);   /* the book keeps saving its pictures for a while after its page is ready */
-        if (f.parentNode) f.parentNode.removeChild(f);
+        if (!(await saved(id))) {
+          await idle(); if (!navigator.onLine) break;
+          try { await navigator.serviceWorker.register('/books/' + id + '/sw.js', { scope: '/books/' + id + '/' }); } catch (e) { continue; }
+          var t0 = Date.now();
+          while (!(await saved(id)) && Date.now() - t0 < 120000) await sleep(2000);
+        }
+        if (id === 'obstetrics') await extras(id);
       }
     } finally { PREP = false; }
-    /* the last opened book, ready to open at once */
-    var last = null; try { last = localStorage.getItem('ish-lastbook'); } catch (e) {}
-    if (last && book(last) && !FR[last]) {
-      await idle();
-      var hst = host(), f2 = document.createElement('iframe'); f2.className = 'bk-fr'; f2.title = book(last).en; f2.src = '/books/' + last + '/';
-      f2.setAttribute('allow', 'fullscreen; clipboard-write; autoplay'); f2.hidden = true; hst.appendChild(f2); FR[last] = f2; quiet(f2, last);
-      if (!/^#book\//.test(location.hash)) hst.hidden = true;
-    }
   };
   if (window.top === window.self) {
     setTimeout(function () { IS.prepareBooks(); }, 12000);

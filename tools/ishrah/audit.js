@@ -78,7 +78,7 @@ async function signIn(p) {
   const b = await chromium.launch(); let total = 0;
   for (const sz of pick) { const [w, h, touch] = SIZES[sz];
     for (const signed of [false, true]) {
-      const ctx = await b.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 1, hasTouch: touch, isMobile: sz === 'ph' }); const p = await ctx.newPage();
+      const ctx = await b.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 1, hasTouch: touch, isMobile: sz === 'ph' }); await ctx.addInitScript(() => { try { sessionStorage.setItem('ish-wel', '1'); } catch (e) {} }); const p = await ctx.newPage();   // the app welcome (welcome.js) is skipped
       const errs = new Set(); p.on('pageerror', e => errs.add(e.message.slice(0, 120))); p.on('dialog', d => d.accept());
       await p.goto(BASE); await p.evaluate(() => { localStorage.clear(); localStorage.setItem('ish-spec', '"medicine"'); localStorage.setItem('ish-study-sections', '{"medicine":"clinical"}'); }); await p.reload(); await p.waitForTimeout(1200);
       if (signed) await signIn(p);

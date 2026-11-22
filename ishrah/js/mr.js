@@ -786,7 +786,9 @@
       };
       return r;
     };
-    return inner.replace(/(<div class="spacebox[^"]*"[^>]*><div class="sts">[\s\S]*?<\/div>)/, '$1' + bar);
+    /* after the whole figures strip (its end is marked; students' tiles are <div>s, so «the first </div>» put the buttons inside it) */
+    return inner.indexOf('<i class="sts-end" hidden></i>') >= 0 ? inner.replace('<i class="sts-end" hidden></i>', '<i class="sts-end" hidden></i>' + bar)
+      : inner.replace(/(<div class="spacebox[^"]*"[^>]*><div class="sts">[\s\S]*?<\/div>)/, '$1' + bar);
   }, com0.o);
   function cmSort(how) {
     var list = document.querySelector('.mra[data-pg="community"] .cm-feed'); if (!list) return;

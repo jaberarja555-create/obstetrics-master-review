@@ -227,6 +227,14 @@ admin move to **https://books.studentmasterreview.com** until Stage 3; the book 
     Supabase, and a forged link gets 403.
   - Uploads still go to Supabase (each file is downloaded from Supabase once, when first opened). Moving uploads straight to R2 is a later
     step.
+- **Owner, 22 Nov 2026: «errors and distortion throughout the app pages, and I feel slowness».**
+  - The Community post-type buttons sat inside the figures strip for students and visitors. mr.js inserted them after «the first `</div>`»,
+    and students' tiles are `<div>`s (the team's are buttons). Now `IS.spaceBox` marks the strip's end (`<i class="sts-end" hidden>`).
+  - Slowness: background saving loaded each whole book in a hidden frame, a second app running on the phone. Now `prepareBooks` only
+    registers each book's service worker (`/books/<id>/sw.js`, scope `/books/<id>/`), which saves the page, the scripts and then the pictures
+    by itself. Obstetrics' `content.bin` is put into its cache. The last book is no longer kept loaded.
+  - Test: all three books saved in about 20 s instead of about 150 s, and they open offline.
+  - `tools/ishrah/audit.js` skips the app welcome (sessionStorage `ish-wel`).
 - **Still to do in stage 2:**
   - check the books on the live address;
   - hide the book's own greeting, tour and subscription screens inside SMRA (stage 3 with the single sign-in);

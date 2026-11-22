@@ -1757,7 +1757,7 @@
         (st ? '<span class="stv">' + esc(A('عرض', 'View')) + ARROW + '</span>' : '');
       return st ? '<button type="button" class="stt ' + x[4] + '" data-act="spacepeople" data-k="' + x[0] + '">' + inner + '</button>' : '<div class="stt ' + x[4] + '">' + inner + '</div>';
     }).join('');
-    return '<div class="spacebox sp3" data-space="' + esc(IS.SPEC || '') + '"><div class="sts">' + tiles + '</div>' +
+    return '<div class="spacebox sp3" data-space="' + esc(IS.SPEC || '') + '"><div class="sts">' + tiles + '</div><i class="sts-end" hidden></i>' +
       (IS.ME ? '<div class="stm"><svg class="stecg" viewBox="0 0 80 24" aria-hidden="true"><path d="M0 14h26l5-10 6 18 5-12 3 4h35"/></svg><span class="stmp">' +
           '<i class="stok">' + ic('check') + '</i><span>' + esc(A('أنت عضو في ', 'You are a member of ')) + '<bdi lang="en">' + esc(name) + '</bdi></span><i class="stsep"></i><i class="stst">' + STETH + '</i></span></div>' :
         '<button type="button" class="btn gold sm" data-act="login">' + ic('user') + esc(A('سجّل الدخول لتنضم إلى ', 'Sign in to join ')) + '<bdi lang="en">' + esc(name) + '</bdi></button>') + '</div>';
