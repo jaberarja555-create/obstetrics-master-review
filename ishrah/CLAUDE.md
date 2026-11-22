@@ -1554,3 +1554,15 @@ after 0.18 s (was 2.5 s).
 `/?app=<surgery|pediatrics|obstetrics>` makes index.html offer `apps/<book>.webmanifest` (own name and icon, start on `#book/<book>`);
 install buttons on `#books` (`bk-install`, js/books.js); the SMRA side handle goes to the platform; main manifest `shortcuts`. Any change
 to css/mr.css needs `python3 tools/ishrah/palettes.py` (the app loads the generated css/mr.pv.css).
+
+## Reactions and downloads that "do nothing" (owner, 22 Nov 2026, a student in House Officer; urgent)
+Checked in the preview: both work in every section (nothing in the database treats House Officer differently). Three causes removed:
+- **Downloads needed an outside site:** before saving a book, offline.js fetched pdf.js from cdnjs.cloudflare.com and stopped with «تحقق
+  من الاتصال» when that site did not answer (some networks). pdf.js 3.11.174 is now shipped in `ishrah/pdfjs/` (pdf.min.js,
+  pdf.worker.min.js, from npm pdfjs-dist) and offline.js / library.js use `pdfjs/pdf.min.js` (the reader too).
+- **A quietly expired sign-in:** pages keep showing from the saved copies while every save is refused. db.js `rpc0` now renews the session
+  (`refreshSession`) and sends a refused request once more (`authErr`: 401, JWT, PGRST30x, request_sign_in); if it is still refused the
+  reaction / download says «انتهت جلسة الدخول. سجّل الدخول مرة أخرى» and opens the sign-in.
+- **Messages that hid the reason:** every download error said «تحقق من الاتصال». Now: sign-in ended, not available to your account, file
+  not reachable on the server, reader could not load, no space, cancelled; a refused reaction shows the server's short reason in brackets.
+If a student still reports it, ask for the exact message now shown.

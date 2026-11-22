@@ -351,7 +351,18 @@
       return undefined;
     }
     function rawQ(t, f) { return api._q(t, f); }
-    var rpc0 = sb.rpc.bind(sb);
+    /* a sign-in that expired quietly (the phone slept, the token was not renewed) made every save fail while the pages still showed from
+       the saved copies (owner, 22 Nov 2026: «reactions and download don't work»). A request refused for the sign-in is sent once more
+       after renewing it. */
+    var rpcRaw = sb.rpc.bind(sb);
+    function authErr(e) { var m = String((e && (e.message || e.code || e.hint)) || ''); return (e && e.status === 401) || /JWT|jwt|PGRST30[0-9]|not authenticated|request_sign_in|invalid claim|session/i.test(m); }
+    window.ISH_AUTHERR = authErr;
+    var rpc0 = function (name, args, opts) {
+      return Promise.resolve(rpcRaw(name, args, opts)).then(function (r) {
+        if (!r || !r.error || !authErr(r.error)) return r;
+        return sb.auth.refreshSession().then(function (x) { return x && x.data && x.data.session ? Promise.resolve(rpcRaw(name, args, opts)) : r; }, function () { return r; });
+      });
+    };
     /* comments and reactions made without internet wait in an outbox on the phone and are sent, in order, when it returns
        (owner, 20 Nov 2026: "it works offline"). Other changes (payments, uploads, editing) still need the internet. */
     var OUTK = 'ish-outbox', LASTQ = 0;

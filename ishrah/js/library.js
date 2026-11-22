@@ -548,7 +548,7 @@
     IS.refresh();
   };
 
-  var PDFJS = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js', pdfLoading;
+  var PDFJS = 'pdfjs/pdf.min.js'   /* the app's own copy (22 Nov 2026: the outside copy failed on some networks and stopped downloads) */, pdfLoading;
   function pdfLib() {
     if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
     if (!pdfLoading) pdfLoading = new Promise(function (resolve, reject) {

@@ -10,7 +10,7 @@
 (function () {
   'use strict';
   var A = IS.A, esc = IS.esc, ic = IS.ic, N = IS.N, $ = IS.$;
-  var DAYS = 30, CH = 4 * 1048576, PDFJS = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+  var DAYS = 30, CH = 4 * 1048576, PDFJS = 'pdfjs/pdf.min.js'   /* the app's own copy (22 Nov 2026: the outside copy failed on some networks and stopped downloads) */;
 
   /* ---------- offline notice (owner, 22 Nov 2026: «the text looks bad, it can look better, with an option to get rid of it») ----------
      A small pill at the bottom of the screen, above the menu, never over the page header: «بدون إنترنت · المحفوظ يعمل» (and how many
@@ -186,7 +186,11 @@
     });
   }
   function why(e) {
-    var m = e && e.message || ''; return m === 'extlink' ? A('فيديو هذا الدرس من رابط YouTube أو Google Drive، فيُشاهد بالإنترنت فقط ولا يُنزّل.', 'This lesson plays from a YouTube or Google Drive link, so it needs the internet and cannot be downloaded.') : m === 'denied' ? A('هذا الدرس للملتحقين بالكورس.', 'This lesson is for enrolled students.') : m === 'nodl' ? A('تنزيل الفيديوهات لم يُفعَّل بعد على المنصة.', 'Video downloads are not switched on yet.') :
+    var m = e && e.message || '';
+    if (window.ISH_AUTHERR && window.ISH_AUTHERR(e)) return A('انتهت جلسة الدخول. سجّل الدخول مرة أخرى ثم أعد التنزيل.', 'Your sign-in has ended. Sign in again, then download again.');
+    if (m === 'denied') return A('هذا الملف غير متاح لحسابك للتنزيل.', 'This file is not available to your account for download.');
+    if (m === 'missing' || m === 'missing library file') return A('تعذّر الوصول إلى الملف على الخادم. أخبر فريق الدعم باسم الملف.', 'The file could not be reached on the server. Tell support the file name.');
+    if (m === 'PDF reader unavailable') return A('تعذّر تحميل قارئ الكتب. أعد فتح التطبيق وحاول مرة أخرى.', 'The book reader could not load. Reopen the app and try again.'); return m === 'extlink' ? A('فيديو هذا الدرس من رابط YouTube أو Google Drive، فيُشاهد بالإنترنت فقط ولا يُنزّل.', 'This lesson plays from a YouTube or Google Drive link, so it needs the internet and cannot be downloaded.') : m === 'denied' ? A('هذا الدرس للملتحقين بالكورس.', 'This lesson is for enrolled students.') : m === 'nodl' ? A('تنزيل الفيديوهات لم يُفعَّل بعد على المنصة.', 'Video downloads are not switched on yet.') :
       /quota|space/i.test(m) ? A('لا توجد مساحة كافية على الجهاز.', 'Not enough space on the device.') : /abort/i.test(m) ? A('أُلغي التنزيل', 'Download cancelled') : A('تعذّر التنزيل. تحقق من الاتصال.', 'The download failed. Check the connection.');
   }
   async function lessonJob(lid, cid, q) {

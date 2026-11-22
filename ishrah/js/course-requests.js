@@ -960,7 +960,13 @@
     patchFeed(kind, id, optimistic, true);
     var saved;
     try { saved = await IS.feedVote(kind, id, value); }
-    catch (error) { if (uid() === actor) IS.toast(A('تعذّر حفظ التفاعل. حاول مرة أخرى.', 'Could not save your reaction. Try again.'), true); }
+    catch (error) {
+      if (window.console) console.error('reaction', error);
+      if (uid() === actor) {
+        if (window.ISH_AUTHERR && window.ISH_AUTHERR(error)) { IS.toast(A('انتهت جلسة الدخول. سجّل الدخول مرة أخرى.', 'Your sign-in has ended. Please sign in again.'), true); setTimeout(function () { IS.ACT.login && IS.ACT.login(); }, 1200); }
+        else IS.toast(A('تعذّر حفظ التفاعل', 'Could not save your reaction') + ((error && (error.message || error.code)) ? ' (' + String(error.message || error.code).slice(0, 60) + ')' : '') + '.', true);
+      }
+    }
     finally {
       savingVotes.delete(key);
       if (uid() === actor) patchFeed(kind, id, saved || (DB.wasQueued && DB.wasQueued() ? optimistic : previous), false);
