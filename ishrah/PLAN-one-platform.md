@@ -120,7 +120,17 @@ admin move to **https://books.studentmasterreview.com** until Stage 3; the book 
   - surgery `claude/surgery-rapid-review-app-eoho37`, and pediatrics `main` + `claude/confident-turing-evm4gu`. Cloudflare Workers Builds
     deploy these two; this session cannot see those deploys.
   - The built `docs/index.html` was edited in place, and `docs/sw.js` got the new cache name (sha1 of index.html), as build.py would.
-  - **Next: owner checks B, then step C.**
+  - **C** done by the owner: studentmasterreview.com and www are Active on the Pages project `ishrah`, and the ishrahli.org redirect rule
+    is set up (302 for now; change it to 301 once everything works).
+  - **E** published:
+    - migration `057_new_address.sql` (push_url);
+    - the Google help text uses `location.host`;
+    - sw.js also deletes the old platform's `smr-v*` caches;
+    - the `index.html` head sends old-platform links (`#read-…`, `#home~move-…`) to books.studentmasterreview.com;
+    - `js/moved.js` tells a phone that used the old platform (localStorage `smr-*`) where the books are now («افتح كتبي», «لاحقًا» 3 days,
+      «لا تظهر مرة أخرى»).
+  - **Waiting for the owner: step D** (Supabase URL configuration of SMRA, Google JavaScript origins). After D, test email and Google
+    sign-in, alerts and offline on https://studentmasterreview.com, then switch the redirect to 301.
 
 (Detailed notes for each part follow.)
 

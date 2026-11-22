@@ -888,8 +888,8 @@
       (DB.live ? '<div class="google-options"><p class="msg" data-google-status role="alert" hidden></p><button type="button" class="link" data-act="google" data-google-chooser hidden>' +
         esc(A('اختر حساب Google', 'Choose a Google account')) + '</button><details data-google-help><summary>' +
         esc(A('مساعدة في تسجيل الدخول عبر Google', 'Google sign-in help')) + '</summary><p>' +
-        esc(A('إذا أخبرك Google بأنك بلغت الحد الأقصى للحسابات، افتح ishrahli.org في علامة تبويب للتصفّح المتخفّي في Chrome وسجّل الدخول بحساب Google المرتبط بحسابك هنا. يمكنك أيضًا استخدام بريدك الإلكتروني أو رقم هاتفك إذا سبق أن استخدمته للدخول.',
-          'If Google says you’ve reached its account limit, open ishrahli.org in an Incognito tab in Chrome and use the Google account you normally use here. You can also sign in with email or phone if you’ve used it before.')) +
+        esc(A('إذا أخبرك Google بأنك بلغت الحد الأقصى للحسابات، افتح ' + location.host + ' في علامة تبويب للتصفّح المتخفّي في Chrome وسجّل الدخول بحساب Google المرتبط بحسابك هنا. يمكنك أيضًا استخدام بريدك الإلكتروني أو رقم هاتفك إذا سبق أن استخدمته للدخول.',
+          'If Google says you’ve reached its account limit, open ' + location.host + ' in an Incognito tab in Chrome and use the Google account you normally use here. You can also sign in with email or phone if you’ve used it before.')) +
         '</p></details></div>' : '') +
       '<p class="or"><span>' + esc(A('أو', 'or')) + '</span></p>' +
       '<div class="atabs" role="tablist">' + [['email', 'mail', 'البريد الإلكتروني', 'Email'], ['phone', 'phone', 'رقم الهاتف', 'Phone']].map(function (t) {

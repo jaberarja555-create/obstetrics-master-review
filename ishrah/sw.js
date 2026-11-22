@@ -1,5 +1,5 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v244', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v245', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
@@ -45,7 +45,7 @@ self.addEventListener('install', function (event) {
 });
 self.addEventListener('activate', function (event) {
   event.waitUntil(caches.keys().then(function (keys) {
-    return Promise.all(keys.filter(function (key) { return /^ish-v/.test(key) && key !== SHELL; }).map(function (key) { return caches.delete(key); }));
+    return Promise.all(keys.filter(function (key) { return (/^ish-v/.test(key) && key !== SHELL) || /^smr-v/.test(key); /* the old book platform's saved copy (22 Nov 2026) */ }).map(function (key) { return caches.delete(key); }));
   }).then(function () { return self.clients.claim(); }));
 });
 

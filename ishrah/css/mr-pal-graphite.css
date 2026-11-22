@@ -2618,3 +2618,8 @@ html body .mrh .feed-card .fv-acts>*{align-self:center!important}
   .vi-lock{margin-top:5px;padding:3px 10px;font-size:9.5px;line-height:1.45;max-width:94cqw}
 }
 .post-video,#vprev,#dlview.viewer{position:relative}
+/* the old book platform's new address (moved.js) */
+.mv-box{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.mv-box .mv-i{font-size:34px}.mv-box p{margin:0;font-size:14px;line-height:1.7}.mv-box p.mv-s{font-size:12.5px;color:var(--mut,#5b6b68)}
+.mv-box b{font:700 15px Poppins,sans-serif;color:#222a29;background:#f2f3f3;border-radius:10px;padding:6px 12px}
+.mv-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
