@@ -2669,3 +2669,23 @@ html.bk-open,html.bk-open body{overflow:hidden}
 .net-need{position:relative}
 .needs-net{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);white-space:nowrap;z-index:3;padding:3px 9px;border-radius:999px;background:rgba(40,48,46,.86);color:#fff;font:600 11px Cairo,Poppins,sans-serif;pointer-events:none}
 .net-need img{filter:grayscale(.6);opacity:.75}
+
+/* offline notice as a small pill above the bottom menu (offline.js bar) */
+html body #offbar{position:fixed;inset-inline:auto;top:auto;bottom:calc(84px + env(safe-area-inset-bottom));left:50%;right:auto;transform:translateX(-50%);z-index:60;
+  display:flex;align-items:center;gap:8px;width:max-content;max-width:calc(100vw - 24px);padding:6px 6px 6px 12px;border-radius:999px;
+  font:600 12px/1.3 Cairo,Poppins,sans-serif;color:#fff;box-shadow:0 8px 22px rgba(0,0,0,.22);transition:padding .25s,max-width .25s}
+html[dir=rtl] body #offbar{padding:6px 12px 6px 6px}
+html body #offbar[hidden]{display:none}
+html body #offbar.off{background:rgba(38,46,44,.94)}html body #offbar.on{background:#1f8a4c;padding:8px 14px}
+#offbar .ob-sign{flex:none;display:grid;place-items:center;width:26px;height:26px;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;padding:0;cursor:pointer}
+#offbar .ob-sign .ico,#offbar>.ico{width:15px;height:15px}
+#offbar .ob-t{display:flex;flex-direction:column;min-width:0}#offbar .ob-t b{font-size:12.5px}#offbar .ob-t small{font-size:11px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#offbar a{flex:none;display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.16);color:#fff;text-decoration:none;font-size:11.5px}
+#offbar a .ico{width:13px;height:13px}
+#offbar .ob-x{flex:none;width:26px;height:26px;border:0;border-radius:50%;background:transparent;color:#fff;opacity:.75;font-size:13px;cursor:pointer}
+#offbar.mini{padding:4px!important;gap:0}#offbar.mini .ob-t,#offbar.mini a,#offbar.mini .ob-x{display:none}
+@media (min-width:1024px){html body #offbar{bottom:24px}}
+
+/* loading screens sit in the middle of the screen, never under the top bar; «Signing you in…» after Google */
+#main>.loading{min-height:60vh;padding:110px 0 40px}
+#main>.loading.signing{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#0a5562;font:600 15px/1.4 Cairo,Poppins,sans-serif}

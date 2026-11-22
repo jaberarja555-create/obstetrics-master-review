@@ -126,7 +126,7 @@
   function connect() {
     if (!DB.live || !DB.sb || !DB.sb.channel || channel) return;
     try {
-      channel = DB.sb.channel('ish-live').on('postgres_changes', { event: '*', schema: 'public', table: 'live_pulse' }, function (p) {
+      var me = channel = DB.sb.channel('ish-live').on('postgres_changes', { event: '*', schema: 'public', table: 'live_pulse' }, function (p) {
         var row = p.new && p.new.key ? p.new : p.old; if (!row || !row.key) return;
         if (row.at && (!lastAt || row.at > lastAt)) lastAt = row.at;
         if (onScreen(row.key)) IS.livePulse(row.key);
@@ -134,8 +134,13 @@
         var key = m && m.payload && m.payload.key; if (key && onScreen(key)) IS.livePulse(key);
       }).subscribe(function (status) {
         live = status === 'SUBSCRIBED';
-        /* a dropped live connection is opened again (the 5 s check covers the gap) */
-        if (/ERROR|TIMED_OUT|CLOSED/.test(String(status))) { try { DB.sb.removeChannel(channel); } catch (e) {} channel = null; setTimeout(connect, 10000); }
+        /* a dropped live connection is opened again (the 5 s check covers the gap). Removing the channel fires CLOSED again, so it is
+           removed only once and outside this call (22 Nov 2026: removing it here called this again and again until the page's stack overflowed) */
+        if (/ERROR|TIMED_OUT|CLOSED/.test(String(status)) && channel === me) {
+          channel = null; live = false;
+          setTimeout(function () { try { DB.sb.removeChannel(me); } catch (e) {} }, 0);
+          setTimeout(connect, 10000);
+        }
       });
     } catch (e) { channel = null; }
   }

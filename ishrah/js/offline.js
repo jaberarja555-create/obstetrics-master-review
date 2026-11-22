@@ -12,17 +12,35 @@
   var A = IS.A, esc = IS.esc, ic = IS.ic, N = IS.N, $ = IS.$;
   var DAYS = 30, CH = 4 * 1048576, PDFJS = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
 
-  /* ---------- offline bar ---------- */
+  /* ---------- offline notice (owner, 22 Nov 2026: «the text looks bad, it can look better, with an option to get rid of it») ----------
+     A small pill at the bottom of the screen, above the menu, never over the page header: «بدون إنترنت · المحفوظ يعمل» (and how many
+     comments wait to be sent), «تنزيلاتي», and ✕. After 6 s it folds into a small round sign (tap it to open again). ✕ hides it until the
+     connection changes. Back online: a short green pill for 3 s. */
+  var OFFX = false, OFFT = 0;
   function bar() {
     var b = document.getElementById('offbar'); if (!b) { b = document.createElement('div'); b.id = 'offbar'; b.setAttribute('role', 'status'); b.hidden = true; document.body.appendChild(b); }
+    clearTimeout(OFFT);
     if (!navigator.onLine) {
-      b.className = 'off'; b.innerHTML = ic('offline') + '<span>' + esc(A('أنت غير متصل. الصفحات التي فتحتها من قبل تعمل، وتعليقاتك وتفاعلاتك تُرسل عند عودة الاتصال.', 'You are offline. Pages you opened before still work, and your comments and reactions are sent when you are back online.')) + (DB.outbox && DB.outbox() ? ' <b>' + esc(A('بانتظار الإرسال: ', 'Waiting to send: ')) + N(DB.outbox()) + '</b>' : '') + '</span><a href="#downloads">' + ic('download') + esc(A('تنزيلاتي', 'My downloads')) + '</a>';
-      b.hidden = false; document.body.classList.add('isoff');
+      document.body.classList.add('isoff');
+      if (OFFX) { b.hidden = true; return; }
+      var n = DB.outbox ? DB.outbox() : 0;
+      b.className = 'off';
+      b.innerHTML = '<button type="button" class="ob-sign" data-act="offopen" aria-label="' + esc(A('بدون إنترنت', 'Offline')) + '">' + ic('offline') + '</button>' +
+        '<span class="ob-t"><b>' + esc(A('بدون إنترنت', 'Offline')) + '</b><small>' + esc(A('المحفوظ في جهازك يعمل', 'What is saved on your device works')) +
+        (n ? ' · ' + esc(A(n + ' بانتظار الإرسال', n + ' waiting to send')) : '') + '</small></span>' +
+        '<a href="#downloads">' + ic('download') + '<span>' + esc(A('تنزيلاتي', 'Downloads')) + '</span></a>' +
+        '<button type="button" class="ob-x" data-act="offclose" aria-label="' + esc(A('إخفاء', 'Hide')) + '">✕</button>';
+      b.hidden = false;
+      OFFT = setTimeout(function () { b.classList.add('mini'); }, 6000);
     } else if (document.body.classList.contains('isoff')) {
-      document.body.classList.remove('isoff'); b.className = 'on'; b.innerHTML = ic('checkc') + '<span>' + esc(A('عاد الاتصال بالإنترنت', 'You are back online')) + '</span>'; b.hidden = false;
-      clearTimeout(bar.t); bar.t = setTimeout(function () { b.hidden = true; }, 3000);
+      document.body.classList.remove('isoff'); OFFX = false;
+      b.className = 'on'; b.innerHTML = ic('checkc') + '<span class="ob-t"><b>' + esc(A('عاد الاتصال', 'Back online')) + '</b></span>'; b.hidden = false;
+      OFFT = setTimeout(function () { b.hidden = true; }, 3000);
     } else b.hidden = true;
   }
+  IS.ACT.offclose = function () { OFFX = true; var b = document.getElementById('offbar'); if (b) b.hidden = true; };
+  IS.ACT.offopen = function () { var b = document.getElementById('offbar'); if (!b) return; b.classList.remove('mini'); clearTimeout(OFFT); OFFT = setTimeout(function () { b.classList.add('mini'); }, 6000); };
+  window.addEventListener('online', function () { OFFX = false; });
   IS.offBar = bar;
   window.addEventListener('online', bar); window.addEventListener('offline', bar);
   window.addEventListener('ish-outbox', function () { if (!navigator.onLine) bar(); });
