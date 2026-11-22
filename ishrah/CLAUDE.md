@@ -1502,3 +1502,7 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
 - **Help (AI) button docked at the edge (owner, 22 Nov 2026):** `#asfab` is a small tab stuck to the screen side (sign only); the first tap slides
   it out with «مساعدة» for 4 s (`.out`, assist.js `tap`), a tap while out opens the guide, otherwise it goes back. While the offline bar is open
   the tab rises above it.
+- **Pictures offline (owner, 22 Nov 2026: "offline some pictures are not there"):** while online, 2 s after a page opens, offline.js loads the
+  page's not-yet-loaded pictures one by one (≤ 40, not on data-saver) so the service worker keeps them; library cover addresses are kept 30 days
+  and used offline even when old (the worker finds the picture by file path); a picture that fails is hidden (`img.img-x`) so the card's
+  placeholder shows; the «يحتاج إنترنت» label sits on the feed cover (`.feed-image`), not over the card's buttons.

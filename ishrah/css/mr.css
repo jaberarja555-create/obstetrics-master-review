@@ -2702,3 +2702,7 @@ html body #asfab span{max-width:0;overflow:hidden;white-space:nowrap;opacity:0;t
 html body #asfab.out{opacity:1;padding:0 14px 0 12px;background:#0a5562;color:#fff;box-shadow:0 6px 18px rgba(10,85,98,.35)}
 html body #asfab.out span{max-width:120px;opacity:1}
 :root[data-theme=dark] body #asfab:not(.out){background:rgba(10,20,24,.7);color:#f3e2b0}
+
+/* pictures that cannot load are hidden (offline.js), so the cover placeholder shows; the «needs internet» label sits on the feed cover */
+img.img-x{visibility:hidden!important}
+.feed-image,.library-cover{position:relative}

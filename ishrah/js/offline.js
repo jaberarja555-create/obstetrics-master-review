@@ -85,7 +85,8 @@
     var off = !navigator.onLine;
     IS.$$('#main a[href^="#file/"], #main [data-go^="#file/"]').forEach(function (a) {
       var id = (a.getAttribute('href') || a.getAttribute('data-go') || '').split('/')[1]; if (!id) return;
-      var c0 = a.closest('.bcard, .feed-card, .fcard, .card') || a, card = c0.querySelector('.fimg, .pst') || c0;   /* the label sits on the cover */
+      var c0 = a.closest('.bcard, .feed-card, .fcard, .card') || a, card = c0.querySelector('.fimg, .feed-image, .library-cover, .pst');   /* the label sits on the cover; no cover, no label */
+      if (!card) return;
       var need = off && !IS.fileSaved(id), tag = card.querySelector(':scope > .needs-net');
       card.classList.toggle('net-need', need);
       if (need && !tag) card.insertAdjacentHTML('afterbegin', '<span class="needs-net">🌐 ' + esc(A('يحتاج إنترنت', 'Needs internet')) + '</span>');
@@ -97,6 +98,24 @@
   window.addEventListener('online', function () { setTimeout(markNet, 300); });
   var rN = IS.onRoute;
   IS.onRoute = function () { if (rN) try { rN.apply(this, arguments); } catch (e) {} setTimeout(markNet, 200); };
+
+
+  /* pictures of the page saved for offline (owner, 22 Nov 2026: «I went offline and some pictures are not there»): pictures further down the
+     page load only when scrolled to, so they were never saved. While online, 2 s after a page opens, its pictures are loaded quietly one by
+     one (the service worker keeps them by file path); not on data-saver. */
+  var PRE = 0;
+  function preload() {
+    if (!navigator.onLine || (navigator.connection && navigator.connection.saveData)) return;
+    var my = ++PRE, list = [];
+    IS.$$('#main img').forEach(function (im) { var u = im.currentSrc || im.getAttribute('src') || ''; if (u && !im.complete && !/^data:/.test(u) && list.indexOf(u) < 0) list.push(u); });
+    list = list.slice(0, 40);
+    (function next() { if (my !== PRE || !list.length || !navigator.onLine) return; var i = new Image(); i.onload = i.onerror = function () { setTimeout(next, 60); }; i.src = list.shift(); })();
+  }
+  var rP = IS.onRoute;
+  IS.onRoute = function () { if (rP) try { rP.apply(this, arguments); } catch (e) {} clearTimeout(preload.t); preload.t = setTimeout(preload, 2000); };
+  /* a picture that cannot load hides itself (the card's own placeholder shows) instead of the browser's broken-picture sign */
+  document.addEventListener('error', function (e) { var t = e.target; if (t && t.tagName === 'IMG') t.classList.add('img-x'); }, true);
+  document.addEventListener('load', function (e) { var t = e.target; if (t && t.tagName === 'IMG' && t.classList.contains('img-x')) t.classList.remove('img-x'); }, true);
 
   /* save one item: optional media (fetched in pieces, each encrypted) + encrypted details (#m) */
   async function save(meta, info, url) {

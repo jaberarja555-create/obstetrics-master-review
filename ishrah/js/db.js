@@ -187,10 +187,10 @@
     function coverKey(account, path) { return account + '/' + path; }
     function cachedCover(account, path) {
       var entry = covers[coverKey(account, path)];
-      return entry && entry.expires > Date.now() ? entry.url : '';
+      return entry && (entry.expires > Date.now() || !navigator.onLine) ? entry.url : '';
     }
     function keepCovers() {
-      var entries = Object.entries(covers).filter(function (entry) { return entry[1].expires > Date.now(); });
+      var entries = Object.entries(covers).filter(function (entry) { return entry[1].expires > Date.now() - 30 * 86400000; });
       entries.sort(function (a, b) { return b[1].expires - a[1].expires; });
       covers = Object.fromEntries(entries.slice(0, 350));
       try { localStorage.setItem(COVER_CACHE, JSON.stringify(covers)); } catch (error) {}
