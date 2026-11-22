@@ -180,9 +180,79 @@
         (/^(course|file|series)$/.test(kind) && +row.price > 0 ? ' · ' + esc(A('مدفوع: التعديل والحذف عبر الإدارة', 'paid: edit and delete through the team')) : '') + '</span>' + own;
       page.insertBefore(bar, page.firstChild);
     }).catch(function () {});
-    var btn = IS.manageBtn(kind, id), page = main.querySelector('.page'); if (!btn || !page || page.querySelector('.mngbar')) return;
-    var bar = document.createElement('div'); bar.className = 'mngbar';
-    bar.innerHTML = '<span>🛡️ ' + esc(A('أدوات الفريق', 'Team tools')) + '</span>' + btn;
+    var btn = IS.ME ? IS.manageBtn(kind, id) : '', page = main.querySelector('.page'); if (!btn || !page || page.querySelector('.mngbar')) return;
+    var bar = document.createElement('div'); bar.className = 'mngbar mng1';
+    bar.innerHTML = btn;
     page.insertBefore(bar, page.firstChild);
   };
+
+  /* ===== one small «⋯» on every post (owner, 22 Nov 2026: «some posts have the team buttons and some not; one small button that gives the
+     options: feedback to the publisher or delete; for the publisher one small button: delete, edit; and for everyone a small button to pin a
+     post»). The button is the same for everyone; what it opens depends on who presses it:
+       everyone      📌 pin to the top of my pages / unpin (kept per account on this device, `ish-pins-<uid>`)
+       the publisher ✏️ edit · 🗑️ delete (paid items: ask the team)
+       the team      ✏️ edit · ⏸️ suspend / ▶️ publish again · 📨 feedback to the publisher · 🗑️ delete
+     The older ✏️🗑️ pair and the «🛡️ إدارة» pill are no longer drawn. ===== */
+  var teamBtn0 = IS.manageBtn, ownBtns0 = IS.ownBtns;
+  function pinKey(kind, id) { return kind + ':' + id; }
+  function pins() { try { return IS.ME ? (IS.LS.get('pins-' + IS.ME.id, {}) || {}) : {}; } catch (e) { return {}; } }
+  IS.isPinned = function (kind, id) { return !!pins()[pinKey(kind, id)]; };
+  IS.cardMenu = function (kind, id) {
+    return '<button type="button" class="cmenu' + (IS.isPinned(kind, id) ? ' pinned' : '') + '" data-act="cmenu" data-k="' + esc(kind) + '" data-id="' + esc(id) + '" aria-label="' + esc(A('خيارات', 'Options')) + '" title="' + esc(A('خيارات', 'Options')) + '">' +
+      (IS.isPinned(kind, id) ? '<i class="cm-pin" aria-hidden="true">📌</i>' : '') + '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>';
+  };
+  IS.manageBtn = function (kind, id) { return kind && id ? IS.cardMenu(kind, id) : ''; };
+  IS.ownBtns = function () { return ''; };
+  function ownTiles(kind, row, partId) {
+    var html = ownBtns0(kind, row, partId) || '', out = [], re = /<button type="button" class="own-b" ([^>]*?) aria-label="[^"]*" title="[^"]*">([^<]*)<\/button>/g, m, i = 0;
+    while ((m = re.exec(html))) { var del = /own-del|data-what="delete"/.test(m[1]);
+      out.push('<button type="button" class="mtile' + (del ? ' bad' : '') + '" ' + m[1] + '><i aria-hidden="true">' + (del ? '🗑️' : '✏️') + '</i><span>' + esc(del ? A('حذف', 'Delete') : A('تعديل', 'Edit')) + '</span></button>'); i++; }
+    return out;
+  }
+  IS.ACT.cmenu = async function (b) {
+    var kind = b.dataset.k, id = b.dataset.id, pinned = IS.isPinned(kind, id);
+    var pinTile = '<button type="button" class="mtile" data-act="cm-pin" data-k="' + esc(kind) + '" data-id="' + esc(id) + '"><i aria-hidden="true">📌</i><span>' +
+      esc(pinned ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت في الأعلى', 'Pin to the top')) + '</span></button>';
+    if (IS.ME && (may(kind, 'edit') || may(kind, 'del'))) {   /* the team: the full tools, with the pin first */
+      await IS.ACT.manage(b);
+      var g = document.querySelector('#sheet .mtiles'); if (g) g.insertAdjacentHTML('afterbegin', pinTile);
+      var h = document.querySelector('#sheet .dlg > header h2'); if (h) h.textContent = A('خيارات', 'Options');
+      return;
+    }
+    var row = IS.ME ? await load(kind, id) : null, tiles = [pinTile];
+    if (row && authorOf(kind, row) === IS.ME.id) tiles = tiles.concat(ownTiles(kind, row, row._parts && row._parts[0] && row._parts[0].id));
+    IS.sheet(esc(A('خيارات', 'Options')), (row ? '<div class="mng-head"><b dir="auto">' + esc(row.series_title || row.title || '') + '</b></div>' : '') + '<div class="mtiles">' + tiles.join('') + '</div>', { nofocus: true });
+  };
+  IS.ACT['cm-pin'] = function (b) {
+    if (!IS.ME) { IS.closeSheet(); return IS.ACT.login ? IS.ACT.login() : null; }
+    var all = pins(), k = pinKey(b.dataset.k, b.dataset.id);
+    if (all[k]) delete all[k]; else all[k] = Date.now();
+    IS.LS.set('pins-' + IS.ME.id, all); IS.closeSheet();
+    IS.toast(all[k] ? A('📌 ثُبّت في أعلى الصفحة', '📌 Pinned to the top') : A('أُلغي التثبيت', 'Unpinned'));
+    IS.$$('.cmenu[data-k="' + b.dataset.k + '"][data-id="' + b.dataset.id + '"]').forEach(function (x) { x.outerHTML = IS.cardMenu(b.dataset.k, b.dataset.id); });
+    order();
+  };
+  /* pinned cards go first in their list, newest pin first, with a small «📌 مثبّت» label */
+  function order() {
+    var all = pins(), keys = Object.keys(all);
+    IS.$$('#main .cmenu').forEach(function (btn) {
+      var card = btn.closest('article, .fcard, .feed-card'); if (!card) return;
+      /* each card may sit in its own wrapper: the unit that moves is the outermost element holding only this card */
+      while (card.parentElement && card.parentElement.children.length === 1 && !card.parentElement.matches('#main, .mh-old, .mh-page')) card = card.parentElement;
+      var on = !!all[pinKey(btn.dataset.k, btn.dataset.id)], art = btn.closest('article, .fcard, .feed-card');
+      card.classList.toggle('is-pinned', on); card.dataset.pin = on ? all[pinKey(btn.dataset.k, btn.dataset.id)] : '';
+      if (art !== card) art.classList.toggle('pin-card', on);
+    });
+    if (!keys.length) return;
+    var lists = []; IS.$$('#main .is-pinned').forEach(function (c) { if (lists.indexOf(c.parentElement) < 0) lists.push(c.parentElement); });
+    lists.forEach(function (list) {
+      var pinned = Array.prototype.filter.call(list.children, function (c) { return c.classList.contains('is-pinned'); })
+        .sort(function (a, b) { return (+b.dataset.pin || 0) - (+a.dataset.pin || 0); });
+      var ok = pinned.every(function (c, i) { return list.children[i] === c; }); if (ok) return;
+      for (var i = pinned.length - 1; i >= 0; i--) list.insertBefore(pinned[i], list.firstChild);
+    });
+  }
+  IS.applyPins = order;
+  var tmo = 0;
+  new MutationObserver(function () { clearTimeout(tmo); tmo = setTimeout(order, 120); }).observe(document.body, { childList: true, subtree: true });
 })();

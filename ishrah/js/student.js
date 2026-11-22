@@ -349,7 +349,7 @@
       library ? IS.librarySubjectNames(row).concat(A(libraryKind[2], libraryKind[3])).filter(Boolean).map(esc).join(' <i class="fsep">•</i> ') +
         ((row.author || row.owner_name) ? '</p><p class="feed-author" dir="auto">' + esc(row.author || row.owner_name) : '') :
       isPost ? (row.user_id ? '<a class="pname" href="#person/' + esc(row.user_id) + '">' + esc(row.name || '') + '</a>' : esc(row.name || '')) :
-      type === 'request' ? '<bdi dir="ltr">' + esc(((row.payment_required ? row.paid_count : row.joined_count) || 0) + (row.goal ? ' / ' + row.goal : '')) + '</bdi> ' + esc(A('منضمّون', 'joined')) :
+      type === 'request' ? '<span class="rq-joined">' + ic('users') + '<b dir="ltr">' + esc(((row.payment_required ? row.paid_count : row.joined_count) || 0) + (row.goal ? ' / ' + row.goal : '')) + '</b>' + esc(A('منضمّون', 'joined')) + '</span>' :
       type === 'course' ? [courseFormat(row), row.starts_at && courseSchedule(row)].filter(Boolean).join(' · ') : '';
     row._price = library || type === 'course' ? Number(row.price) || 0 : isPost && row.linked_price != null ? Number(row.linked_price) || 0 : null;
     return '<article class="box feed-card feed-' + type + (isPost ? ' feed-post' : '') + (type === 'post' ? ' feed-fb' : '') + '" data-kind="' + type + '" data-go="#' + target + esc(row.id) + '"><header class="feed-card-header"><span>' + ic(label[2]) +
@@ -362,6 +362,9 @@
       (summary ? '<p class="feed-summary' + (plain ? ' fbtext' : '') + '" dir="auto">' + esc(summary.slice(0, plain ? 600 : 280)) + (plain && summary.length > 600 ? '… <a class="fbmore" href="#' + target + esc(row.id) + '">' + esc(A('عرض المزيد', 'See more')) + '</a>' : '') + '</p>' : '') +
       (details ? '<p class="feed-detail">' + details + '</p>' : '') +
       (type === 'course' ? '<div class="row library-feed-actions"><a class="btn ghost sm" href="#' + target + esc(row.id) + '">' + ic('open') + esc(A('عرض الكورس', 'View course')) + '</a></div>' : '') +
+      /* a request card reads like a course card: its own button (owner, 22 Nov 2026) */
+      (type === 'request' ? '<div class="row library-feed-actions"><a class="btn ghost sm" href="#' + target + esc(row.id) + '">' + ic('open') + esc(A('عرض الطلب', 'View request')) + '</a></div>' : '') +
+      (type === 'event' ? '<div class="row library-feed-actions"><a class="btn ghost sm" href="#' + target + esc(row.id) + '">' + ic('cal') + esc(A('عرض الفعالية', 'View event')) + '</a></div>' : '') +
       (library ? '<div class="row library-feed-actions">' + (IS.fileOpenable(row) ? '<a class="btn ghost sm" href="#file/' + esc(row.id) + '/read">' + ic('open') +
         esc(A('افتح الكتاب', 'Open the book')) + '</a>' + IS.dlBtn('file', row.id, '', true) : IS.buyBtn(row, true, false)) + '</div>' : '') + '</div></div>' +
       (isPost ? postPreview(row, true) : '') + IS.feedVoteBar(feedback, row, true, shareRoute) + '</article>';

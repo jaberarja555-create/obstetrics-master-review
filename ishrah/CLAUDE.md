@@ -1418,3 +1418,11 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   frames». `IS.poster` pictures keep their own shape everywhere (`.pst` aspect auto, `.pstf` static, height auto): feed cards, course cards
   (`.mc-pic`), learning cards, profile tiles, request cards; their boxes take the picture's height, so nothing is cut and there is no empty
   band. Book covers keep their 3 : 4 book frame.
+- **One small «⋯» on every post (owner, 22 Nov 2026: «some posts have the team buttons and some not … one small button that gives the
+  options … for everyone a small button to pin a post»):** manage.js `IS.cardMenu(kind, id)` replaces the «🛡️ إدارة» pill and the ✏️🗑️ pair
+  (`IS.manageBtn` now returns the «⋯», `IS.ownBtns` returns nothing) on feed cards, library and series cards, request cards and detail pages
+  (one small bar). It opens «خيارات»: everyone 📌 «تثبيت في الأعلى / إلغاء التثبيت»; the publisher ✏️ تعديل · 🗑️ حذف (paid: ask the team); the
+  team the full tools (edit, suspend/publish again, «أرسل للمالك ليعدّل», delete). Pins are per account on the device (`ish-pins-<uid>`, key
+  kind:id); pinned cards move to the top of their list with a gold edge and 📌 (`IS.applyPins`, MutationObserver; a card's own wrapper
+  moves with it). Request and event cards got their own button («عرض الطلب», «عرض الفعالية») like courses, and the request's joined count is a
+  tidy chip (`.rq-joined`). Test: scratchpad cm2.js (owner, student on own post, student on another's post, pin order).

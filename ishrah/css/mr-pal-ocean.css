@@ -2402,3 +2402,24 @@ html body .mrh .feed-card .feed-image:not(:has(.library-cover)) :is(.pst,img){he
 /* the boxes around those pictures follow them too (course cards, learning cards, profile post tiles): no white band under a wide picture */
 html body .mrx :is(.mc-pic,.lr-pic,.pf-post .pp,.lp-th,.cr2-cover,.ccimg):has(>.pst){aspect-ratio:auto!important;height:auto!important;align-self:start!important;background:none!important}
 html body .mrx :is(.mc-pic,.lr-pic,.pf-post .pp,.lp-th,.cr2-cover,.ccimg)>.pst{height:auto!important}
+
+/* one small «⋯» on every post (owner, 22 Nov 2026) */
+.cmenu{display:inline-flex;align-items:center;gap:3px;justify-content:center;min-width:32px;height:32px;padding:0 6px;margin-inline-start:auto;border-radius:999px;border:1px solid #dbe1e7;background:#fff;color:#3d4b5a;cursor:pointer;flex:none}
+.cmenu svg{width:18px;height:18px;fill:currentColor}
+.cmenu .cm-pin{font-style:normal;font-size:12px;line-height:1}
+.cmenu.pinned{border-color:#e2b85a;background:#fff8e6}
+@media (hover:hover){.cmenu:hover{background:#eef2f6}}
+.feed-card-header .cmenu{margin-inline-start:auto}
+.fcard>.cmenu{position:absolute;top:8px;inset-inline-start:8px;z-index:3;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.fcard{position:relative}
+:is(article,.fcard,.feed-card):is(.is-pinned,.pin-card){box-shadow:0 0 0 2px rgba(226,184,90,.55),0 6px 16px rgba(6,34,70,.08)!important}
+.is-pinned .feed-card-header::after{content:"📌";order:-1;font-size:13px}
+.mngbar.mng1{display:flex;justify-content:flex-end;background:none!important;border:0!important;padding:0!important;margin:0 0 6px!important}
+:root[data-theme=dark] .cmenu{background:#0f202f;border-color:#213546;color:#cfdae3}
+
+/* request cards: the joined count on its own tidy line (owner, 22 Nov 2026: «عدم ترتيب في حتة منضمون») */
+html body .mrh .feed-detail:has(.rq-joined){display:flex}
+.rq-joined{display:inline-flex;align-items:center;gap:6px;padding:3px 12px;border-radius:999px;background:#eef2f6;color:#0d356b;font-size:12.5px;font-weight:700;width:max-content}
+.rq-joined .ico{width:15px;height:15px}
+.rq-joined b{font-size:13.5px;color:#062246}
+:root[data-theme=dark] .rq-joined{background:#16293a;color:#9fc1e0}:root[data-theme=dark] .rq-joined b{color:#e4ebf1}
