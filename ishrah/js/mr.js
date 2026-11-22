@@ -315,7 +315,14 @@
     caduceus: '<svg class="pf-cad" viewBox="0 0 120 120" aria-hidden="true"><g fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2.4" stroke-linecap="round"><path d="M60 14v96"/><path d="M60 28c-30-10-42 2-50-6 10 14 26 10 50 14M60 28c30-10 42 2 50-6-10 14-26 10-50 14"/><path d="M48 46c0 10 24 10 24 20s-24 10-24 20 24 10 24 18M72 46c0 10-24 10-24 20s24 10 24 20-24 10-24 18"/></g><circle cx="60" cy="12" r="5" fill="rgba(255,255,255,.55)"/></svg>'
   };
   async function pcard(id) {
-    if (DB.live) { var r = await DB.sb.rpc('ish_profile_card', { p_user: id }); if (r.error) throw r.error; return r.data; }
+    if (DB.live) { var r = await DB.sb.rpc('ish_profile_card', { p_user: id }); if (r.error) throw r.error;
+      /* offline with no saved card: the person's own account, or a lecturer from a saved list, still opens (22 Nov 2026) */
+      if (!r.data && !navigator.onLine) {
+        if (IS.ME && id === IS.ME.id) return Object.assign({ followers: 0, following: 0, posts: 0, files: 0, role: ((IS.ME.team || [])[0]) || null, verified: !!(IS.ME.team || []).length }, IS.ME);
+        var l = await DB.one('lecturers', id).catch(function () { return null; });
+        if (l) return { id: l.id, name: l.name, photo: l.photo, title: l.title, lecturer: true, verified: true, followers: 0, following: 0, posts: 0, files: 0, created_at: l.created_at };
+      }
+      return r.data; }
     var p = await DB.one('profiles', id).catch(function () { return null; }); if (!p) return null;
     var fl = await DB.q('follows').catch(function () { return []; }), lec = await DB.one('lecturers', id).catch(function () { return null; });
     var po = (await DB.q('posts', { eq: { user_id: id } })).filter(function (x) { return x.status === 'open'; }).length;

@@ -293,7 +293,7 @@
       if (!PERS.size) await PREADY;
       var pk = pkey(k), saved = PERS.get(pk);
       if (saved && !navigator.onLine) return copy(saved.v);
-      if (!navigator.onLine) throw new Error('offline');
+      if (!navigator.onLine) { var fb = offFallback(key); if (fb !== undefined) return copy(fb); throw new Error('offline'); }
       var p = run(), seq = WSEQ;
       var entry = { t: Date.now(), p: p };
       READS.delete(k);
@@ -309,6 +309,26 @@
       /* changed lately: wait a little for the server, then show the saved answer and redraw when the server answers */
       return Promise.race([p.then(copy), new Promise(function (ok) { setTimeout(function () { entry.shown = true; ok(copy(saved.v)); }, 1500); })])
         .catch(function () { return copy(saved.v); });
+    }
+    /* without internet and no saved answer for this exact read (owner, 22 Nov 2026: «some pages say no internet»): a single row is
+       looked up in any saved list of its table (a course opened from the courses list), a list becomes empty and a read-only rpc gives no
+       data, so the page still opens with what the phone has; `api.offMiss` counts these so the router can prefer a saved page copy */
+    function offFallback(key) {
+      if (key[0] === 'one') {
+        var me = pkey(''), found;
+        PERS.forEach(function (e, pk) {
+          if (found || pk.indexOf(me) !== 0 || !Array.isArray(e.v)) return;
+          var k; try { k = JSON.parse(pk.slice(me.length)); } catch (x) { return; }
+          if (k[0] !== 'q' || k[1] !== key[1]) return;
+          for (var i = 0; i < e.v.length; i++) if (e.v[i] && e.v[i].id === key[2]) { found = e.v[i]; break; }
+        });
+        if (found) return found;
+        return undefined;
+      }
+      api.offMiss = (api.offMiss || 0) + 1;
+      if (key[0] === 'q') return [];
+      if (key[0] === 'rpc') return { data: null, error: null };
+      return undefined;
     }
     function rawQ(t, f) { return api._q(t, f); }
     var rpc0 = sb.rpc.bind(sb);
@@ -377,7 +397,9 @@
       'ish_public_course_terms', 'ish_series_scores', 'ish_available_course_seats', 'ish_team_public', 'ish_series_rating_scores', 'ish_reactors',
       'ish_space_stats', 'ish_usage', 'ish_assist_usage']);
     var QUIET_RPC = new Set(['ish_seen', 'ish_space_join', 'ish_push_save', 'ish_reader_state']);   /* background calls that change nothing the pages show */
-    var SAVE_RPC = new Set(['ish_public_course_terms', 'ish_series_rating_scores', 'ish_team_public', 'ish_space_stats', 'ish_reactors', 'ish_available_course_seats']);
+    var SAVE_RPC = new Set(['ish_public_course_terms', 'ish_series_rating_scores', 'ish_team_public', 'ish_space_stats', 'ish_reactors', 'ish_available_course_seats',
+      /* every read a page makes is kept on the phone, so it opens offline too (22 Nov 2026) */
+      'ish_profile_card', 'ish_followers', 'ish_presence', 'ish_team_seen', 'ish_space_people', 'ish_series_scores', 'ish_lesson']);
     sb.rpc = function (name, args) {
       if (SAVE_RPC.has(name)) return cached(['rpc', name, args || {}], function () {
         return rpc0(name, args).then(function (r) { if (r.error) throw r.error; return { data: r.data, error: null }; });

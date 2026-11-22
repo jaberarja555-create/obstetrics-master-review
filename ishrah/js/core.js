@@ -427,6 +427,7 @@
     }
     main.setAttribute('aria-busy', 'true');
     IS.OFFPAGE = false;
+    if (DB.live) DB.offMiss = 0;
     try {
       html = await Promise.race([P.fn(arg), new Promise(function (resolve, reject) {
         timer = setTimeout(function () { reject(new Error('slow')); }, DB.live ? (offline ? 2500 : 8500) : 60000);
@@ -448,12 +449,19 @@
         IS.empty('info', A('تعذّر فتح الصفحة', 'This page could not be opened'), String(error.message || ''));
     } finally { clearTimeout(timer); }
     if (my !== SEQ) return;
+    /* offline: a page built with some of its reads missing gives way to its last full saved copy; nothing at all → the offline card */
+    if (offline && !failed && (DB.offMiss || !html) && (kept || !html)) {
+      IS.OFFPAGE = true; main.removeAttribute('aria-busy');
+      if (kept) showSavedPage(main, kept, true); else main.innerHTML = '<div class="page">' + IS.offEmpty() + '</div>';
+      if (!IS.keepScroll) window.scrollTo(0, 0);
+      IS.keepScroll = false; return;
+    }
     main.removeAttribute('aria-busy');
     main.dataset.pageAccount = account;
     main.dataset.pageArea = IS.area;
     /* every student page in the new frame (mr.js: top bar, bottom bar, the owner's look) */
     if (html && typeof html === 'string' && IS.pageFrame) html = IS.pageFrame(name, html, arg);
-    if (html && canSave && !failed && (name !== 'home' || !kept)) pageSave(copyKey, html);
+    if (html && canSave && !failed && !offline && (name !== 'home' || !kept)) pageSave(copyKey, html);
     var savedScroll = quick ? window.scrollY : null;
     main.innerHTML = '<div class="page">' + (html || IS.empty('search', A('غير موجود', 'Not found'), A('ربما حُذف أو لم يُنشر بعد.', 'It may have been removed or not published yet.'))) + '</div>';
     if (savedScroll !== null) window.scrollTo(0, savedScroll);
@@ -666,6 +674,33 @@
     var person = titledName(name);
     return person ? (person.arabic ? '\u2067' : '\u2066') + person.text + '\u2069' : '';
   }
+  /* the main pages are prepared quietly while online, so they open without internet later (owner, 22 Nov 2026: «Still the app doesn't
+     work offline»): when the person has not touched the app for a few seconds, each page's reads run once (the answers are kept on the
+     phone by db.js); at most once an hour, not on data-saver connections; it stops when the internet goes or the person starts using the app */
+  var WARM = ['courses', 'library', 'community', 'lecturers', 'learning', 'events', 'news', 'notifications', 'favorites', 'achievements', 'account', 'paths', 'support', 'team', 'about'];
+  var LASTTOUCH = Date.now();
+  ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) { window.addEventListener(ev, function () { LASTTOUCH = Date.now(); }, { passive: true, capture: true }); });
+  IS.warm = async function (force) {
+    if (!DB.live || !navigator.onLine || !IS.ME || IS.OFFME || IS._warming || IS.area !== 'student') return;
+    var wk = 'ish-warm:' + IS.ME.id + ':' + (IS.SPEC || '') + ':' + ((IS.mySection() || {}).id || '');
+    if (navigator.connection && navigator.connection.saveData && !force) return;
+    try { if (!force && Date.now() - (+localStorage.getItem(wk) || 0) < 60 * 60000) return; localStorage.setItem(wk, String(Date.now())); } catch (e) {}
+    IS._warming = true;
+    try {
+      for (var i = 0; i < WARM.length; i++) {
+        var P = PAGES[WARM[i]]; if (!P || (P.o.perm && !IS.can(P.o.perm)) || (P.o.lec && !IS.LEC)) continue;
+        while (Date.now() - LASTTOUCH < 2500 || IS.$('#main[aria-busy]')) { await new Promise(function (r) { setTimeout(r, 800); }); if (!navigator.onLine) return; }
+        if (!navigator.onLine || !IS.ME) return;
+        var a0 = IS.after, k0 = IS.keepScroll, s0 = SEQ;
+        try { await Promise.race([P.fn(), new Promise(function (r) { setTimeout(r, 8000); })]); } catch (e) {}
+        if (SEQ === s0) { IS.after = a0; IS.keepScroll = k0; }
+        else setTimeout(function () { IS.keepScroll = true; IS.refresh(); }, 600);   /* the person opened a page meanwhile: draw it again cleanly */
+        await new Promise(function (r) { setTimeout(r, 700); });
+      }
+    } finally { IS._warming = false; }
+  };
+  setTimeout(function () { IS.warm(); }, 9000);
+  window.addEventListener('online', function () { setTimeout(function () { IS.warm(); }, 6000); });
   IS.offEmpty = function () { return IS.empty('offline', A('لا يوجد اتصال بالإنترنت', 'No internet connection'), A('هذه الصفحة تحتاج إلى الإنترنت. ما نزّلته داخل المنصة يعمل دون اتصال.', 'This page needs the internet. What you downloaded inside the platform works offline.'), '<a class="btn pri" href="#downloads">' + IS.ic('download') + IS.esc(A('افتح تنزيلاتي', 'Open my downloads')) + '</a>'); };
   IS.refresh = function () { IS.keepScroll = true; return IS.route(); };
   /* the page was shown from the phone's saved data and the server has newer data: redraw in place, unless the person is busy with it

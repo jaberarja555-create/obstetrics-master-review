@@ -1481,3 +1481,12 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   CSS at the end of css/mr.css; the animations carry `#main …!important` because touch screens switch off animations inside #main.
   On EVERY video (owner: «في كل فيديو»): lessons, course preview and «معاينة كورس» posts (`post-video`, course name from the card or page
   title), downloaded videos (offline.js, `info.paid` saved with new downloads) and the lecturer's preview in Studio.
+- **Every page opens without internet** (owner, 22 Nov 2026: «Still the app doesn't work offline, some pages say no internet»; before, only
+  pages opened online earlier, with every one of their reads saved, could open): (1) core.js `IS.warm()` — 9 s after opening (and when the
+  internet returns), while the person is not touching the app, runs the reads of the main student pages once (WARM list; at most once an hour per
+  speciality/section; not on data-saver) so db.js keeps them on the phone; (2) db.js `SAVE_RPC` now also keeps ish_profile_card, ish_followers,
+  ish_presence, ish_team_seen, ish_space_people, ish_series_scores, ish_lesson; (3) db.js `offFallback`: offline with no saved answer, `DB.one`
+  finds the row in any saved list of its table, a list read gives [] and a read-only rpc gives no data (`DB.offMiss` counts them); the router
+  then prefers the page's last full saved copy, and shows the offline card only when nothing at all is there. Profile cards offline: own account
+  from IS.ME, lecturers from a saved list (mr.js `pcard`). Test: scratchpad offt.js = the app in LIVE mode against a fake supabase (fakesb.js,
+  data made in preview), online 30 s then offline, 21 pages: old version 2 of 21 open, new 21 of 21 with their content.
