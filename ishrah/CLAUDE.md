@@ -1526,3 +1526,9 @@ url) and `css/pv.css` (38 KB: `html[data-pal=<colour>]{…}` values). index.html
 changes that attribute: nothing is downloaded (measured: 3,600 ms → under 1 ms, then the usual page redraw). palettes.py still writes the
 old copies (the generator reads them; sw.js keeps its fallbacks). Checked by pixel comparison: 6 colours × 9 pages × phone and laptop are
 identical to the old copies. After any change to css/app.css or css/mr.css run `python3 tools/ishrah/palettes.py` as before.
+
+## A post opens at once (owner, 22 Nov 2026: "opening a post takes time")
+`#post/<id>` waited for the comments, their likes and the lecturers list (two or three trips to the server) before showing anything. Now
+the post (from the feed's copy, `IS.seedRow`) shows at once; if the comments are not there within 150 ms the comments box shows three dots
+(`.pcm-wait`) and is filled when they arrive (`.cthreads[data-pcm]`, `threadHtml`). Measured with comments delayed 2.5 s: the post shows
+after 0.18 s (was 2.5 s).

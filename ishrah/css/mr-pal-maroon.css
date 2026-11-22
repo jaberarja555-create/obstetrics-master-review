@@ -2767,3 +2767,8 @@ html body .mrx .sp2-lock svg.ic{width:55%!important;height:55%!important;color:#
 }
 @media (min-width:761px){.sp2{--hh:clamp(84px,16vh,160px);--ch:clamp(104px,20vh,230px)}}
 @media (orientation:portrait) and (min-width:761px) and (max-width:1100px){.sp2-grid{grid-template-columns:repeat(2,minmax(0,1fr));width:min(100%,620px)}.sp2-hero{width:min(100%,620px)}.sp2{--ch:clamp(104px,17vh,230px)}}
+/* comments arriving after the post (22 Nov 2026) */
+.pcm-wait{display:flex;gap:6px;justify-content:center;padding:18px 0}
+.pcm-wait i{width:8px;height:8px;border-radius:50%;background:#641427;opacity:.35;animation:pcmw 1s infinite}
+.pcm-wait i:nth-child(2){animation-delay:.15s}.pcm-wait i:nth-child(3){animation-delay:.3s}
+@keyframes pcmw{0%,60%,100%{opacity:.3;transform:none}30%{opacity:.9;transform:translateY(-3px)}}

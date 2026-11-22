@@ -1342,12 +1342,19 @@
         return IS.outsideStudySpace({ spec: p.spec || IS.SPEC, cat: p.room });
       } else if (!IS.inSpec(p)) return null;
     }
-    var got = await Promise.all([
-      p.room !== 'qa' && p.course_id ? (IS.seedRow && IS.seedRow('courses', p.course_id)) || DB.one('courses', p.course_id).catch(function () { return null; }) : null,
-      early[0], early[1]
-    ]);
-    if (p.room !== 'qa' && p.course_id) { var linked = got[0]; if (linked && linked.status === 'published') p.linked_price = linked.price; else p.course_id = null; }
-    var rs = got[1], lecs = got[2];
+    if (p.room !== 'qa' && p.course_id) { var linked = (IS.seedRow && IS.seedRow('courses', p.course_id)) || await DB.one('courses', p.course_id).catch(function () { return null; });
+      if (linked && linked.status === 'published') p.linked_price = linked.price; else p.course_id = null; }
+    /* the post shows at once; the comments follow when they arrive (owner, 22 Nov 2026: "opening a post takes time": the page used to wait
+       for the comments, their likes and the lecturers list, two or three trips to the server, before showing anything) */
+    var both = Promise.all([early[0], early[1]]), got = await Promise.race([both, new Promise(function (ok) { setTimeout(ok, 150, null); })]);
+    var rs = got ? got[0] : null, lecs = got ? got[1] : null;
+    function threadHtml(rs, lecs) { return IS.thread(rs, 'reply', function (r) { var isLec = !!lecs[r.user_id];
+        return { name: r.name, photo: r.photo, when: IS.ago(r.created_at), body: r.body, badge: isLec ? IS.chip(esc(A('محاضر', 'Lecturer')), 'ok') : '',
+          report: me() && r.user_id !== uid() ? ['reply', r.id] : null,
+          del: mod && IS.can('community', 'edit') ? '<button type="button" class="cact bad" data-act="rmreply" data-id="' + r.id + '">' + esc(A('حذف', 'Delete')) + '</button>' : '' };
+      }, { reply: !!me(), empty: '<p class="mut">' + esc(A('لا توجد تعليقات بعد. كن أول من يعلّق.', 'No comments yet. Be the first to comment.')) + '</p>' }); }
+    if (!rs) both.then(function (g) { var box = document.querySelector('.cthreads[data-pcm="' + p.id + '"]'); if (box) box.innerHTML = threadHtml(g[0], g[1]); })
+      .catch(function () { var box = document.querySelector('.cthreads[data-pcm="' + p.id + '"]'); if (box) box.innerHTML = '<p class="mut">' + esc(A('تعذّر تحميل التعليقات. حاول مرة أخرى بعد قليل.', 'Could not load the comments. Try again shortly.')) + '</p>'; });
     if (parts[1] === 'comments') IS.after = IS.focusPostComments;
     var composer = me() ? IS.cmtBox('reply', '<input type="hidden" name="post" value="' + p.id + '">', p.room === 'qa' ? A('اكتب ردًا…', 'Write a reply…') : '') : '';
     return '<nav class="crumb"><a href="#' + (p.room === 'qa' ? 'course/' + p.course_id : 'community') + '">' + esc(p.room === 'qa' ? A('الكورس', 'Course') : A('المجتمع', 'Community')) + '</a>' + ic('chev', 'fl') + '<span dir="auto">' + esc(p.title || (postKind(p) === 'post' ? String(p.body || '').slice(0, 40) : A('سؤال', 'Question'))) + '</span></nav>' +
@@ -1369,11 +1376,7 @@
         (p.room !== 'qa' ? postPreview(p, false) + IS.feedVoteBar('post', p, false, postKind(p) === 'announcement' ? '' : 'post/' + p.id) : '') +
         (p.room === 'qa' ? '<div class="row">' + IS.postActions('post', p.id, 'post/' + p.id) + '</div>' : '') + '</article>' +
       '<section class="box post-comments"><h2 tabindex="-1" data-post-comments>' +
-      (p.room === 'qa' ? IS.T('الردود', 'Replies') : IS.T('التعليقات', 'Comments')) + '</h2>' + composer + '<div class="cthreads">' + IS.thread(rs, 'reply', function (r) { var isLec = !!lecs[r.user_id];
-        return { name: r.name, photo: r.photo, when: IS.ago(r.created_at), body: r.body, badge: isLec ? IS.chip(esc(A('محاضر', 'Lecturer')), 'ok') : '',
-          report: me() && r.user_id !== uid() ? ['reply', r.id] : null,
-          del: mod && IS.can('community', 'edit') ? '<button type="button" class="cact bad" data-act="rmreply" data-id="' + r.id + '">' + esc(A('حذف', 'Delete')) + '</button>' : '' };
-      }, { reply: !!me(), empty: '<p class="mut">' + esc(A('لا توجد تعليقات بعد. كن أول من يعلّق.', 'No comments yet. Be the first to comment.')) + '</p>' }) + '</div>' +
+      (p.room === 'qa' ? IS.T('الردود', 'Replies') : IS.T('التعليقات', 'Comments')) + '</h2>' + composer + '<div class="cthreads" data-pcm="' + esc(p.id) + '">' + (rs ? threadHtml(rs, lecs) : '<div class="pcm-wait" aria-busy="true"><i></i><i></i><i></i></div>') + '</div>' +
       '</section>';
   });
   IS.savePostReply = async function (id, body) {
