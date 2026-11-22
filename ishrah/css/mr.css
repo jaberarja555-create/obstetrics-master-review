@@ -2689,3 +2689,7 @@ html body #offbar.off{background:rgba(38,46,44,.94)}html body #offbar.on{backgro
 /* loading screens sit in the middle of the screen, never under the top bar; «Signing you in…» after Google */
 #main>.loading{min-height:60vh;padding:110px 0 40px}
 #main>.loading.signing{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#0a5562;font:600 15px/1.4 Cairo,Poppins,sans-serif}
+/* the help button and the offline bar never cover each other (owner, 22 Nov 2026): while the bar is open the help button rises above it */
+#asfab{transition:bottom .25s}
+@media (max-width:1023px){body:has(#offbar:not([hidden]):not(.mini)) #asfab{bottom:calc(146px + env(safe-area-inset-bottom))!important}}
+@media (min-width:1024px){body:has(#offbar:not([hidden]):not(.mini)) #asfab.nonav{bottom:calc(84px + env(safe-area-inset-bottom))!important}}
