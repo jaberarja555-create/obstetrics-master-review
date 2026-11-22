@@ -4,6 +4,10 @@ Owner: Dr. Abdaljalil Abdalkareem Arja. Separate from the three books and from S
 "forget about my books and the library for now; the main concern is to build the app and every page ready").
 Plain static app (HTML/CSS/JS, no build step) in this folder, with two Cloudflare Pages Functions and a Supabase database.
 
+## NEXT BIG STEP: read `ishrah/PLAN-one-platform.md` first
+Owner, 22 Nov 2026: SMRA becomes ONE platform on studentmasterreview.com with the three books (and all library books) inside it, one account and
+subscription system, sub-apps and shortcuts. The plan, the state of every system and the owner's open questions are in `ishrah/PLAN-one-platform.md`.
+
 ## Continue from ChatGPT or Claude
 
 - Repository: [jaberarja555-create/obstetrics-master-review](https://github.com/jaberarja555-create/obstetrics-master-review). The Ishrah Li app is in `ishrah/`. The shared working branch is `ccr-38b3f943-ba1ode`. Fetch it, check it out, and fast-forward before editing. Use `git log --oneline -15 -- ishrah` to confirm the latest work. Any account with repository read access can pick up here. Publishing changes requires GitHub write access.

@@ -746,5 +746,6 @@ Real data only; nothing downloadable. Each book answers `{smr:'open', topic, too
 books). Work is on branch `ccr-38b3f943-ba1ode` (preview https://ccr-38b3f943-ba1ode.student-master-review.pages.dev) until the owner approves.
 
 ## اشرح لي (Ishrah Li), the separate learning platform (owner, 17 Nov 2026)
+**22 Nov 2026: the books are moving INTO this platform (SMRA) on studentmasterreview.com: read `ishrah/PLAN-one-platform.md` before changing the books, the old platform or the domains.**
 Lives in `ishrah/` with its own instructions: read `ishrah/CLAUDE.md` before working on it. It does not touch the books, Student Master Review
 or the books' Supabase. Branch `ccr-38b3f943-ba1ode` (preview https://ccr-38b3f943-ba1ode.ishrah.pages.dev) until the owner approves.
