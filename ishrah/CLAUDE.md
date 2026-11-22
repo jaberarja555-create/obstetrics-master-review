@@ -1414,3 +1414,7 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
 - **Course picture whole on its page (owner, 22 Nov 2026: «the picture I put appears like this», cut at the edges):** cards keep pictures
   filling their frame, but the course page (`.chero .chimg`) and the course request page (`.cr-detail .cr-cover`) show the whole picture at
   its own shape (object-fit contain, height auto, at most 80vh). Lecturers often put text on their covers, so a detail page must not crop.
+- **The frame follows the picture (owner, 22 Nov 2026: «same here», the course picture cut in the feed):** supersedes «pictures fill their
+  frames». `IS.poster` pictures keep their own shape everywhere (`.pst` aspect auto, `.pstf` static, height auto): feed cards, course cards
+  (`.mc-pic`), learning cards, profile tiles, request cards; their boxes take the picture's height, so nothing is cut and there is no empty
+  band. Book covers keep their 3 : 4 book frame.

@@ -2393,3 +2393,12 @@ html body .chero .chimg{aspect-ratio:auto!important;height:auto!important;max-he
 @media (max-width:800px){html body .chero .chimg{width:100%!important;max-height:none!important}}
 html body .cr-detail .cr-cover .pst{aspect-ratio:auto!important;height:auto!important}
 html body .cr-detail .cr-cover .pst>.pstf{position:static!important;height:auto!important;max-height:min(80vh,620px);object-fit:contain!important}
+/* the frame follows the picture (owner, 22 Nov 2026: «same here» — the course picture cut in the feed): post, course and request pictures
+   keep their own shape, so nothing is cut and the frame has no empty bands; book covers keep their book-shaped frame */
+html body .pst{aspect-ratio:auto!important;height:auto!important;background:none!important}
+html body .pst>.pstf{position:static!important;display:block;width:100%!important;height:auto!important;max-height:none!important;object-fit:contain!important}
+html body .mrh .feed-card .feed-image:not(:has(.library-cover)){aspect-ratio:auto!important;height:auto!important;align-self:start;background:none!important}
+html body .mrh .feed-card .feed-image:not(:has(.library-cover)) :is(.pst,img){height:auto!important}
+/* the boxes around those pictures follow them too (course cards, learning cards, profile post tiles): no white band under a wide picture */
+html body .mrx :is(.mc-pic,.lr-pic,.pf-post .pp,.lp-th,.cr2-cover,.ccimg):has(>.pst){aspect-ratio:auto!important;height:auto!important;align-self:start!important;background:none!important}
+html body .mrx :is(.mc-pic,.lr-pic,.pf-post .pp,.lp-th,.cr2-cover,.ccimg)>.pst{height:auto!important}
