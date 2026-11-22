@@ -2374,3 +2374,16 @@ a.tr.pplink .pparr .ico{width:16px;height:16px}
 [dir=rtl] a.tr.pplink .pparr .ico,:root:not([lang=en]) a.tr.pplink .pparr .ico{transform:scaleX(-1)}
 
 .rxw-list a.rxw-a{display:flex;align-items:center;gap:10px;flex:1;min-width:0;text-decoration:none;color:inherit}
+
+/* activity log cards (owner, 22 Nov 2026: «هذا المكان غير مرتب») */
+.audl{display:flex;flex-direction:column}
+.aud{display:flex;align-items:flex-start;gap:10px;padding:10px 2px;border-top:1px solid #f1f1f1}
+.audl>.aud:first-child{border-top:0}
+.aud>.av{flex:none}
+.aud-t{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.aud-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.aud-top b{font-size:13.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.aud-top time{flex:none;font-size:11.5px;color:#7a918c;white-space:nowrap}
+.aud-a{font-size:13.5px;line-height:1.5;color:#262b2a;overflow-wrap:anywhere}
+.aud-d{font-size:12px;line-height:1.45;color:#717473;overflow-wrap:anywhere}
+:root[data-theme=dark] .aud{border-color:#2b2f2e}:root[data-theme=dark] .aud-a{color:#eaebeb}

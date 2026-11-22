@@ -1407,3 +1407,7 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   team's edits of post/course/event: each opens with its data, saves, closes or moves on, no empty required field).
 - **People lists open the profile (owner, 21 Nov 2026):** the Community members/lecturers sheet rows (`a.pplink`) and the «التفاعلات» list open
   `#person/<id>` (lecturers `#lecturer/<id>`, yourself `#account`) and close the sheet; the followers list already did.
+- **Activity log readable (owner, 22 Nov 2026: «هذا المكان غير مرتب»):** `IS.auditRow` / `IS.auditList` (org.js) draw every entry as a card:
+  picture, name, «قبل 5 دقائق» (full date on hover), the action in words of the app language (map `AUD`, then verb + noun for English action
+  names such as «approve library edit» → «اعتماد تعديل ملف»; role keys in brackets become role names: «(tech)» → «(المدير التقني)»), and the
+  details without record ids (UUIDs hidden). Used by the control dashboards (`auditBox`), the Team page and Control → Activity log.

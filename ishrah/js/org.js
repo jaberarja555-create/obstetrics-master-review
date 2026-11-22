@@ -208,8 +208,53 @@
   function donut(parts, center, sub) { var tot = parts.reduce(function (a, p) { return a + p[1]; }, 0) || 1, a0 = 0, R = 40, C = 2 * Math.PI * R;
     return '<div class="donut"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="' + R + '" class="dbg"></circle>' + parts.map(function (p) { var len = p[1] / tot * C, s = '<circle cx="50" cy="50" r="' + R + '" stroke="' + p[2] + '" stroke-dasharray="' + len.toFixed(2) + ' ' + (C - len).toFixed(2) + '" stroke-dashoffset="' + (-a0).toFixed(2) + '"></circle>'; a0 += len; return s; }).join('') + '</svg><div><b>' + center + '</b><small>' + esc(sub) + '</small></div></div>'; }
   var PAL = ['#0f6e6a', '#3fb7a8', '#a6dccf', '#e9c46a', '#a996ff', '#c7cbd6', '#f28f6b'];
-  function auditBox(rows, title) { return '<section class="box"><header class="sh"><h2>' + ic('clock') + esc(title || A('سجل التدقيق', 'Audit log')) + '</h2><a class="more" href="#control-audit">' + esc(A('الكل', 'All')) + '</a></header>' + (rows.length ? '<div class="mtable"><div class="mh"><span>' + esc(A('المستخدم', 'User')) + '</span><span>' + esc(A('الإجراء', 'Action')) + '</span><span>' + esc(A('التفاصيل', 'Details')) + '</span><span>' + esc(A('الوقت', 'Time')) + '</span></div>' +
-    rows.slice(0, 6).map(function (x) { return '<div class="mr"><span><b>' + esc(x.name || '') + '</b></span><span>' + esc(x.action) + '</span><span class="mut">' + esc(x.target || '') + '</span><span class="mut" dir="ltr">' + esc(String(x.created_at).slice(0, 16).replace('T', ' ')) + '</span></div>'; }).join('') + '</div>' : '<p class="mut">' + esc(A('لا توجد عمليات بعد.', 'Nothing yet.')) + '</p>') + '</section>'; }
+
+  /* ===== the activity log, readable (owner, 22 Nov 2026: «هذا المكان غير مرتب»): one card per entry — who, what in plain words, on what,
+     and when; long record ids are not shown; English action names and role keys become words in the app language ===== */
+  var AUD = { 'approve library edit': ['اعتماد تعديل ملف', 'Approved a file edit'], 'request library edit': ['طلب تعديل ملف', 'Asked for a file edit'],
+    'add file': ['رفع ملف', 'Added a file'], 'announcement': ['إعلان', 'Announcement'], 'appoint lecturer': ['تعيين محاضر', 'Appointed a lecturer'],
+    'approve file purchase': ['قبول شراء ملف', 'Approved a file purchase'], 'approve lecturer': ['اعتماد محاضر', 'Approved a lecturer'],
+    'approve payment': ['قبول دفعة', 'Approved a payment'], 'ask changes to lecturer request': ['طلب تعديل على طلب محاضر', 'Asked a lecturer applicant for changes'],
+    'edit category': ['تعديل قسم', 'Edited a section'], 'edit speciality': ['تعديل تخصص', 'Edited a speciality'], 'export users': ['تصدير المستخدمين', 'Exported users'],
+    'grant course': ['منح كورس', 'Granted a course'], 'hide course': ['إخفاء كورس', 'Hid a course'], 'path': ['مسار تعليمي', 'Learning path'],
+    'publish course': ['نشر كورس', 'Published a course'], 'publish file': ['نشر ملف', 'Published a file'], 'publish news': ['نشر خبر', 'Published news'],
+    'record lecturer payout': ['تسجيل تحويل لمحاضر', 'Recorded a lecturer payout'], 'reject file purchase': ['رفض شراء ملف', 'Rejected a file purchase'],
+    'reject file': ['رفض ملف', 'Rejected a file'], 'reject lecturer': ['رفض طلب محاضر', 'Rejected a lecturer'], 'reject payment': ['رفض دفعة', 'Rejected a payment'],
+    'remove from team': ['إزالة من الفريق', 'Removed from the team'], 'remove post': ['حذف منشور', 'Removed a post'], 'remove reply': ['حذف تعليق', 'Removed a comment'],
+    'return course': ['إرجاع كورس للمحاضر', 'Returned a course'], 'set password': ['تعيين كلمة مرور', 'Set a password'], 'settings': ['تعديل الإعدادات', 'Changed settings'],
+    'subject': ['مادة', 'Subject'], 'submit course': ['إرسال كورس للمراجعة', 'Sent a course for review'], 'approve question': ['نشر سؤال', 'Published a question'],
+    'reject question': ['رفض سؤال', 'Declined a question'], 'pin post': ['تثبيت منشور', 'Pinned a post'], 'unpin post': ['إلغاء تثبيت منشور', 'Unpinned a post'] };
+  var AVERB = { approve: ['اعتماد', 'Approved'], reject: ['رفض', 'Rejected'], publish: ['نشر', 'Published'], remove: ['حذف', 'Removed'], delete: ['حذف', 'Deleted'],
+    edit: ['تعديل', 'Edited'], hide: ['إخفاء', 'Hid'], suspend: ['إيقاف مؤقت', 'Suspended'], resume: ['إعادة نشر', 'Resumed'], return: ['إرجاع', 'Returned'],
+    pin: ['تثبيت', 'Pinned'], unpin: ['إلغاء تثبيت', 'Unpinned'], grant: ['منح', 'Granted'], request: ['طلب', 'Requested'], submit: ['إرسال', 'Sent'],
+    update: ['تحديث', 'Updated'], add: ['إضافة', 'Added'], record: ['تسجيل', 'Recorded'], set: ['تعيين', 'Set'], appoint: ['تعيين', 'Appointed'] };
+  var ANOUN = { 'library edit': ['تعديل ملف', 'file edit'], file: ['ملف', 'file'], course: ['كورس', 'course'], post: ['منشور', 'post'], reply: ['تعليق', 'comment'],
+    lecturer: ['محاضر', 'lecturer'], payment: ['دفعة', 'payment'], news: ['خبر', 'news'], question: ['سؤال', 'question'], event: ['فعالية', 'event'],
+    notice: ['إعلان', 'announcement'], request: ['طلب', 'request'], series: ['سلسلة', 'series'], purchase: ['شراء', 'purchase'], reported: ['محتوى مُبلّغ عنه', 'reported item'] };
+  function audAction(a) {
+    a = String(a || '').trim(); var k = a.toLowerCase(), m = AUD[k];
+    if (m) return IS.A(m[0], m[1]);
+    var w = /^([a-z]+)\s+(.+)$/.exec(k);
+    if (w && AVERB[w[1]]) { var n = ANOUN[w[2]]; return IS.A(AVERB[w[1]][0] + ' ' + (n ? n[0] : w[2]), AVERB[w[1]][1] + ' ' + (n ? n[1] : w[2])); }
+    /* role keys in brackets: «(tech)» → the role's name */
+    return a.replace(/\(([^)]*)\)/g, function (all, inner) {
+      return '(' + inner.split(/\s*,\s*/).map(function (t) { var r = (IS.ROLES || []).filter(function (x) { return x[0] === t; })[0];
+        return r ? IS.A(r[1], String(r[2]).replace(/\s*\(.*\)\s*/, '')) : t.replace(/^p:/, ''); }).join('، ') + ')'; });
+  }
+  function audTarget(t) {
+    t = String(t || '').trim();
+    if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(t)) return '';
+    return t.replace(/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi, '').trim();
+  }
+  IS.auditRow = function (x) {
+    var t = audTarget(x.target), when = x.created_at ? new Date(x.created_at) : null;
+    return '<div class="aud">' + IS.av({ name: x.name || '?', photo: x.photo }, 'sm') + '<span class="aud-t"><span class="aud-top"><b dir="auto">' + IS.esc(x.name || IS.A('النظام', 'System')) + '</b>' +
+      '<time' + (when ? ' title="' + IS.esc(when.toLocaleString(IS.lang === 'ar' ? 'ar-SD' : 'en-GB')) + '"' : '') + '>' + IS.esc(x.created_at ? IS.ago(x.created_at) : '') + '</time></span>' +
+      '<span class="aud-a" dir="auto">' + IS.esc(audAction(x.action)) + '</span>' + (t ? '<small class="aud-d" dir="auto">' + IS.esc(t) + '</small>' : '') + '</span></div>';
+  };
+  IS.auditList = function (rows) { return '<div class="audl">' + rows.map(IS.auditRow).join('') + '</div>'; };
+  function auditBox(rows, title) { return '<section class="box"><header class="sh"><h2>' + ic('clock') + esc(title || A('سجل التدقيق', 'Audit log')) + '</h2><a class="more" href="#control-audit">' + esc(A('الكل', 'All')) + '</a></header>' +
+    (rows.length ? IS.auditList(rows.slice(0, 6)) : '<p class="mut">' + esc(A('لا توجد عمليات بعد.', 'Nothing yet.')) + '</p>') + '</section>'; }
   async function tasksBox() { var t = (await DB.q('tasks', { eq: { assigned_to: uid() } })).filter(function (x) { return x.status !== 'done'; });
     return '<section class="box"><header class="sh"><h2>' + ic('checkc') + IS.T('مهامي', 'My tasks') + '</h2><a class="more" href="#control-tasks">' + esc(A('الكل', 'All')) + '</a></header>' + (t.length ? '<ul class="tasks">' + t.slice(0, 6).map(function (x) { return '<li><a href="#control-tasks">' + ic('clock') + '<span>' + esc(x.title) + (x.due ? ' · ' + esc(IS.date(x.due)) : '') + '</span></a></li>'; }).join('') + '</ul>' : '<p class="mut">' + esc(A('لا توجد مهام مفتوحة.', 'No open tasks.')) + '</p>') + '</section>'; }
   function head(r, title, sub) { var x = role(r); return '<section class="cban"><span class="bi">' + ic(x ? x[3] : 'chart') + '</span><div><h1 tabindex="-1">' + esc(title) + '</h1><p>' + esc(sub) + '</p></div><span class="role">' + ic('shield') + esc(x ? A(x[1], x[2]) : '') + '</span></section>'; }
