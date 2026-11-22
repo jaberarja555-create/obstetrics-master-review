@@ -1449,3 +1449,7 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
 - **Smaller cards, manage as an icon (owner, 22 Nov 2026: «just a button, no need to write Manage; keep the sizes small»):** the team's tool is a
   small round 🛡️ (`.cm-b.cm-mng1`, 26 px, no word) beside 📌 and the publisher's «⋯»; card type chip 22 px, title 14 px, text 12 px, card
   buttons 26 px, footer buttons 30 px, smaller stars. Keep these sizes.
+- **The 🛡️ follows the account as it is now (owner, 22 Nov 2026: «the manage button still does not show for me»):** cards drawn before the
+  account finished loading (quick first paint, saved copies) had no 🛡️ and were never redrawn. manage.js `syncTools` (`IS.syncCardTools`)
+  adds or removes the 🛡️ on every `.cm-tools` from the current account: after `IS.loadMe`, after `IS.mfaCheck`, on page changes
+  (MutationObserver) and every 4 s. Test: scratchpad synct2.js (shields removed, then back by themselves).

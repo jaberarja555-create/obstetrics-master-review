@@ -275,6 +275,23 @@
     });
   }
   IS.applyPins = order;
+  /* the small tools follow the account as it is NOW (owner, 22 Nov 2026: «the manage button still does not show for me»): a card drawn
+     before the account finished loading (saved copy, quick first paint) gets its 🛡️ added — or removed — when the account is known */
+  function teamFor(kind) { return !!(IS.ME && (may(kind, 'edit') || may(kind, 'del') || (IS.MFA_NEEDED && IS.team && IS.team()))); }
+  function syncTools() {
+    IS.$$('.cm-tools').forEach(function (t) {
+      var pb = t.querySelector('.cm-pinb'); if (!pb) return;
+      var want = teamFor(pb.dataset.k), has = t.querySelector('.cm-mng1');
+      if (want && !has) t.insertAdjacentHTML('beforeend', '<button type="button" class="cm-b cm-mng1" data-act="manage" data-k="' + esc(pb.dataset.k) + '" data-id="' + esc(pb.dataset.id) + '" aria-label="' + esc(A('إدارة', 'Manage')) + '" title="' + esc(A('إدارة', 'Manage')) + '">🛡️</button>');
+      else if (!want && has) has.parentNode.removeChild(has);
+    });
+  }
+  IS.syncCardTools = syncTools;
+  var lm0 = IS.loadMe;
+  if (lm0) IS.loadMe = async function () { var r = await lm0.apply(this, arguments); setTimeout(syncTools, 0); return r; };
+  var mc0 = IS.mfaCheck;
+  if (mc0) IS.mfaCheck = async function () { var r = await mc0.apply(this, arguments); setTimeout(syncTools, 0); return r; };
   var tmo = 0;
-  new MutationObserver(function () { clearTimeout(tmo); tmo = setTimeout(order, 120); }).observe(document.body, { childList: true, subtree: true });
+  new MutationObserver(function () { clearTimeout(tmo); tmo = setTimeout(function () { order(); syncTools(); }, 120); }).observe(document.body, { childList: true, subtree: true });
+  setInterval(syncTools, 4000);
 })();
