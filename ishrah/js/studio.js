@@ -545,7 +545,7 @@
 
   /* ========== MY PAGE (design) ========== */
   IS.page('studio-page', async function () {
-    var l = L(), k = l.links || {};
+    var l = L(), k = l.links || {}, pk = (IS.ME && IS.ME.private_links) || {};
     return IS.banner(IS.T('صفحتي', 'My page'), esc(A('صمّم صفحتك كما يراها الطلبة: الصورة، الغلاف، اللون، النبذة والمؤهلات.', 'Design your page as students see it: photo, cover, colour, bio and qualifications.')), 'user', '<a class="btn lt" href="#lecturer/' + l.id + '">' + ic('eye') + esc(A('معاينة الصفحة', 'Preview the page')) + '</a>') +
       '<form class="box form" data-form="lecpage"><div class="g2f"><label class="fl file"><span>' + esc(A('الصورة الشخصية', 'Photo')) + '</span>' + IS.av(l, 'lg') + '<input type="file" name="photo" accept="image/*"></label><label class="fl file"><span>' + esc(A('صورة الغلاف', 'Cover picture')) + '</span>' + (l.cover ? '<img class="thumb" src="' + IS.U(l.cover) + '" alt="">' : '') + '<input type="file" name="cover" accept="image/*"></label>' +
       '<label class="fl"><span>' + esc(A('الاسم', 'Name')) + '</span><input name="name" required value="' + esc(l.name) + '"></label><label class="fl"><span>' + esc(A('اللقب المهني', 'Professional title')) + '</span>' + IS.pick('title', [['طبيب امتياز', 'House officer'], ['طبيب عمومي', 'Medical officer'], ['نائب اختصاصي', 'Registrar'], ['اختصاصي', 'Specialist'], ['استشاري', 'Consultant'], ['محاضر', 'Lecturer'], ['أستاذ مساعد', 'Assistant professor'], ['أستاذ مشارك', 'Associate professor'], ['أستاذ', 'Professor'], ['صيدلي', 'Pharmacist'], ['صيدلي سريري', 'Clinical pharmacist'], ['أخصائي مختبرات', 'Laboratory specialist'], ['اختصاصي علم الأمراض', 'Pathologist'], ['ممرض / ممرضة', 'Nurse'], ['ممرض أول / مشرف تمريض', 'Senior nurse / Nursing supervisor'], ['قابلة', 'Midwife'], ['طبيب أسنان', 'Dentist'], ['اختصاصي أسنان', 'Dental specialist'], ['جراح الفم والوجه والفكين', 'Oral & maxillofacial surgeon']].map(function (t) { return [t[1], t[1] + (IS.lang === 'en' ? '' : ' · ' + t[0])]; }), l.title) + '</label>' +
@@ -553,7 +553,9 @@
       teachingChoices((l.teaching_specs || []).length ? l.teaching_specs : [IS.legacyTeachingSpec(l)], l.teaching_spaces || [], false) +
       '<div class="lhero pgprev" id="pgprev" style="--cc:' + esc(l.color || 'var(--pri)') + '">' + IS.av(l, 'md') + '<div><b>' + esc(l.name || '') + '</b><small>' + esc(A('هكذا يظهر رأس صفحتك العامة', 'This is how the top of your public page looks')) + '</small></div></div>' + '<label class="fl"><span>' + esc(A('لون الصفحة', 'Page colour')) + '</span>' + swatches('color', l.color) + '</label><label class="fl"><span>' + esc(A('نبذة عنك', 'About you')) + '</span>' + IS.editor('bio', l.bio, '') + '</label>' +
       '<label class="fl"><span>' + esc(A('المؤهلات والخبرة (سطر لكل بند)', 'Qualifications and experience (one per line)')) + '</span><textarea name="quals" rows="4">' + esc((l.quals || []).join('\n')) + '</textarea></label>' +
-      '<h2>' + ic('link') + IS.T('روابط التواصل (تظهر للطلبة)', 'Contact links (shown to students)') + '</h2><div class="g2f">' + [['whatsapp', 'WhatsApp'], ['telegram', 'Telegram'], ['youtube', 'YouTube'], ['x', 'X (Twitter)'], ['linkedin', 'LinkedIn'], ['email', A('البريد', 'Email')]].map(function (r) { return '<label class="fl"><span>' + esc(r[1]) + '</span><input name="l_' + r[0] + '" dir="ltr" value="' + esc(k[r[0]] || '') + '"></label>'; }).join('') + '</div>' +
+      '<h2>' + ic('link') + IS.T('روابط عامة (تظهر للطلبة)', 'Public links (shown to students)') + '</h2><div class="g2f">' + [['youtube', 'YouTube'], ['x', 'X (Twitter)'], ['linkedin', 'LinkedIn']].map(function (r) { return '<label class="fl"><span>' + esc(r[1]) + '</span><input name="l_' + r[0] + '" dir="ltr" value="' + esc(k[r[0]] || '') + '"></label>'; }).join('') + '</div>' +
+      '<h2>' + ic('lock') + IS.T('بيانات التواصل (للإدارة فقط)', 'Contact details (team only)') + '</h2><p class="note">' + ic('shield') + '<span>' + esc(A('لا تظهر للطلبة. الطلبة يراسلونك داخل المنصة، والاتفاق والدفع داخلها لحفظ حقك وحقهم.', 'Not shown to students. Students message you inside the platform; agreements and payment stay inside it to protect you and them.')) + '</span></p><div class="g2f">' +
+        [['whatsapp', 'WhatsApp'], ['telegram', 'Telegram'], ['email', A('البريد', 'Email')]].map(function (r) { return '<label class="fl"><span>' + esc(r[1]) + '</span><input name="l_' + r[0] + '" dir="ltr" value="' + esc(pk[r[0]] || k[r[0]] || '') + '"></label>'; }).join('') + '</div>' +
       '<a class="btn ghost" href="#studio-bank">' + ic('lock') + esc(A('حساب استلام الأرباح', 'Payout account')) + '</a>' +
       '<div class="row end"><button class="btn pri">' + ic('check') + esc(A('حفظ الصفحة', 'Save page')) + '</button></div></form>';
   }, { auth: true, area: 'studio', lec: true });
@@ -561,7 +563,10 @@
     var teaching = selectedTeachingSpaces(d);
     if (!teaching) return;
     var row = Object.assign(teaching, { name: d.name, title: d.title, specialty: d.specialty, color: d.color, bio: IS.edVal(f, 'bio'), quals: IS.lines(d.quals), tags: d.tags.split(/[،,]/).map(function (x) { return x.trim(); }).filter(Boolean),
-      links: { whatsapp: d.l_whatsapp, telegram: d.l_telegram, youtube: d.l_youtube, x: d.l_x, linkedin: d.l_linkedin, email: d.l_email } });
+      links: { youtube: d.l_youtube, x: d.l_x, linkedin: d.l_linkedin } });
+    /* WhatsApp, Telegram and email are kept on the profile, which only the person and the team can read (056) */
+    var priv = { whatsapp: (d.l_whatsapp || '').trim(), telegram: (d.l_telegram || '').trim(), email: (d.l_email || '').trim() };
+    await DB.upd('profiles', L().id, { private_links: priv }).catch(function () {});
     if (f.photo.files[0]) row.photo = await DB.upload('media', await IS.shrink(f.photo.files[0], 480, 0.85));
     if (f.cover.files[0]) row.cover = await DB.upload('media', await IS.shrink(f.cover.files[0], 1600, 0.8));
     await DB.upd('lecturers', L().id, row); await IS.loadMe(); IS.toast(A('حُفظت صفحتك', 'Your page is saved')); IS.refresh();

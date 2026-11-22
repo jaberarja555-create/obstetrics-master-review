@@ -1,6 +1,7 @@
 -- SMRA · 054: phone alerts of new posts reach the team from every speciality and section (owner, 21 Nov 2026: «نعم أنا والفريق»: the owner
 -- and the team get the publication notices of all spaces; students keep only their own speciality and section). A team phone
 -- (push_subs.team) gets every space notice; the platform owner's phones also get notices of his own actions. Safe to run again.
+-- (22 Nov 2026: it was named in the workflow but missing from its list of files to apply; now applied before 056.)
 begin;
 create or replace function public.ish_push_targets(p_notice uuid, p_secret text) returns table (endpoint text)
 language plpgsql security definer set search_path = '' as $$

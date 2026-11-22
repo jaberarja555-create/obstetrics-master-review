@@ -2559,3 +2559,18 @@ html body .mrh .feed-card .fv-acts>*{align-self:center!important}
 .mfa-in:focus{outline:none;border-color:#641427;box-shadow:0 0 0 3px rgba(100,20,39,.15)}
 .mfa-in::placeholder{color:#d5c6cc;letter-spacing:10px}
 :root[data-theme=dark] .mfa-in{background:#2d111a;border-color:#43242f;color:#f0e5e9}
+
+/* contact guard (owner, 22 Nov 2026: deals stay inside the platform): the warning sheet and the lecturer page buttons */
+.cg-inl{display:flex;align-items:flex-start;gap:9px;margin:0 0 10px;padding:9px 10px;border-radius:12px;background:#fff6e8;border:1px solid #f2c98e;color:#5a3a06;text-align:start}
+.cg-inl .cg-i{flex:none;font-size:18px;line-height:1.3}
+.cg-inl div{flex:1;min-width:0}
+.cg-inl b{display:block;font-size:13px;font-weight:700}
+.cg-inl p{margin:2px 0 0;font-size:12px;line-height:1.6}
+.cg-inl .cg-x{flex:none;border:0;background:none;font-size:18px;line-height:1;color:#8a5a12;cursor:pointer;padding:0 2px}
+:root[data-theme=dark] .cg-inl{background:#3a2a10;border-color:#7a5520;color:#f3dcb4}
+:root[data-theme=dark] .cg-inl .cg-x{color:#f3dcb4}
+.cg-bad{outline:2px solid #e5801f!important;outline-offset:1px}
+.lp-cbtn + .lp-cbtn{margin-top:8px}
+.lp-cbtn.lp-staff{border-style:dashed;background:#fbfaf3}
+.lp-cbtn i{font-style:normal}
+.lp-cbtn>svg{width:20px!important;height:20px!important;color:#641427;flex:none}

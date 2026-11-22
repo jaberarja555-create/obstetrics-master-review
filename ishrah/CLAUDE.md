@@ -1460,3 +1460,16 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   rows in memory by table and id (`IS.seedRow(table, id)`); the post page uses the feed's copy of the post at once (the server read still
   runs), and asks for the comments (with their reactions) and the lecturers at the same time instead of after the post. With every read
   slowed to 0.5 s: 1.04 s → 0.54 s (scratchpad popen2.js). Next step if needed: draw the post first and fill the comments when they arrive.
+- **Deals stay inside the platform** (owner, 22 Nov 2026: «ممكن محاضر او طالب يتحايل … ويتفقو في الخاص خارج المنصه»; he chose items 1 and 2):
+  (1) A lecturer's WhatsApp, Telegram and email are never public: `056_contact_guard.sql` moves them from `lecturers.links` to
+  `profiles.private_links` (person + team only; a trigger does it on every write); Studio → My page has «روابط عامة» (YouTube, X, LinkedIn)
+  and «بيانات التواصل (للإدارة فقط)»; the lecturer page shows «راسل المحاضر داخل المنصة» (ticket kind `lecq` «رسالة إلى محاضر», reaches the
+  lecturer's «طلبات الطلاب»), the team also sees «🛡️ بيانات التواصل (للإدارة فقط)»; approving a lecturer no longer copies the phone to the page.
+  (2) Trigger `ish_contact_guard` (posts, replies, request comments/messages/offers/requests, library comments, lecturer ticket messages,
+  courses, lessons, events, lecturer bio, files, reviews, profile bios) replaces phone numbers (Sudanese 09/01…, 249…, +…, 00…, also
+  Arabic digits), WhatsApp/Telegram links and emails with «[رقم محجوب]» / «[رابط محجوب]» / «[بريد محجوب]»; words such as «على الخاص»,
+  «واتساب» are kept but flagged. Each hit → activity log («🔒 حُجب رقم أو رابط تواصل», original text) + alert to the community team.
+  Not checked: the team's own writing and messages to the team. Medical numbers (WBC 4000-11000, 150000, years, prices) pass.
+  In the app, `js/guard.js` stops the form first (`IS.contactStop`, called by core.js's submit handler) with a note inside the form
+  (text kept). Tests: local Postgres (scratchpad t56*.sql), browser scratchpad guardt.js (390/1440).
+  Also fixed: `054_team_all_spaces.sql` was named in the workflow but missing from its apply list; now applied.

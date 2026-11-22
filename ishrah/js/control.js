@@ -222,7 +222,7 @@
   IS.ACT.appfile = async function (b) { var u = await DB.fileUrl('apps', b.getAttribute('data-p')); if (u) window.open(u, '_blank', 'noopener'); };
   IS.ACT.appok = async function (b) {
     var a = await DB.one('lecturer_apps', b.getAttribute('data-id')), ex = await DB.one('lecturers', a.user_id), share = +IS.SET.default_share || 70;
-    var row = { id: a.user_id, name: a.name, title: a.title || '', specialty: a.specialty, teaching_specs: a.teaching_specs || [], teaching_spaces: a.teaching_spaces || [], bio: esc(a.experience).replace(/\n/g, '<br>'), quals: [a.qual + ' — ' + a.specialty], tags: [a.specialty], color: '#0f7a73', share: share, status: 'active', links: { whatsapp: a.phone }, pay: {}, n_students: 0 };
+    var row = { id: a.user_id, name: a.name, title: a.title || '', specialty: a.specialty, teaching_specs: a.teaching_specs || [], teaching_spaces: a.teaching_spaces || [], bio: esc(a.experience).replace(/\n/g, '<br>'), quals: [a.qual + ' — ' + a.specialty], tags: [a.specialty], color: '#0f7a73', share: share, status: 'active', links: {}, pay: {}, n_students: 0 };
     if (ex) await DB.upd('lecturers', a.user_id, { status: 'active', teaching_specs: row.teaching_specs.length ? row.teaching_specs : ex.teaching_specs || [],
       teaching_spaces: row.teaching_spaces.length ? row.teaching_spaces : ex.teaching_spaces || [] }); else await DB.upsert('lecturers', row);
     await DB.upd('lecturer_apps', a.id, { status: 'approved', decided_at: new Date().toISOString(), decided_by: uid() });

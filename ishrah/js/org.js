@@ -21,7 +21,7 @@
   /* ======================= TICKETS (messages to the platform) ======================= */
   var KINDS = IS.TKINDS = [['general', 'استفسار عام', 'General question', 'support', 'help'], ['payment', 'مشكلة في الدفع أو الاشتراك', 'Payment or enrolment problem', 'finance', 'wallet'],
     ['refund', 'طلب استرداد مبلغ', 'Refund request', 'finance', 'money'], ['course', 'طلب كورس أو محاضرة', 'Request a course or lecture', 'academic', 'layers'],
-    ['lecturer', 'اقتراح محاضر', 'Suggest a lecturer', 'academic', 'users'], ['content', 'ملاحظة على محتوى', 'Comment on content', 'academic', 'file'],
+    ['lecq', 'رسالة إلى محاضر', 'Message to a lecturer', 'academic', 'mail'], ['lecturer', 'اقتراح محاضر', 'Suggest a lecturer', 'academic', 'users'], ['content', 'ملاحظة على محتوى', 'Comment on content', 'academic', 'file'],
     ['event', 'اقتراح فعالية', 'Suggest an event', 'community', 'cal'], ['tech', 'مشكلة تقنية في التطبيق', 'Technical problem', 'tech', 'gear'],
     ['research', 'المساعدة في كتابة بحث', 'Research writing help', 'academic', 'pen'], ['special', 'طلب خاص', 'Special request', 'support', 'sparkle'], ['complaint', 'شكوى', 'Complaint', 'support', 'flag'], ['password', 'نسيت كلمة المرور', 'Forgot password', 'support', 'lock']];
   function kind(k) { return KINDS.filter(function (x) { return x[0] === k; })[0] || KINDS[0]; }
@@ -35,10 +35,10 @@
     var section = IS.area === 'student' && IS.mySection();
     if (section && ls.length) ls = IS.studyLecturers(ls, await IS.pubCourses().catch(function () { return []; }));
     ls.sort(function (a, b) { return String(a.name).localeCompare(String(b.name)); });
-    var toBox = ls.length ? '<label class="fl" data-lecto' + (k === 'course' ? '' : ' hidden') + '><span>' + esc(A('إلى', 'To')) + '</span><select name="lec"><option value="">' + esc(A('عام: فريق المنصة يختار المحاضر المناسب', 'General: the platform team chooses the right lecturer')) + '</option>' +
+    var toBox = ls.length ? '<label class="fl" data-lecto' + (k === 'course' || k === 'lecq' ? '' : ' hidden') + '><span>' + esc(A('إلى', 'To')) + '</span><select name="lec"><option value="">' + esc(A('عام: فريق المنصة يختار المحاضر المناسب', 'General: the platform team chooses the right lecturer')) + '</option>' +
       ls.map(function (l) { return '<option value="' + l.id + '"' + (l.id === extra.lecturer ? ' selected' : '') + '>' + esc(l.name + (l.specialty ? ' · ' + l.specialty : '')) + '</option>'; }).join('') + '</select></label>' : '';
     var toL = extra.lecturer && ls.filter(function (l) { return l.id === extra.lecturer; })[0];
-    IS.sheet(esc(toL ? A('طلب إلى ', 'Request to ') + toL.name : A('رسالة إلى فريق المنصة', 'Message the platform team')), '<form class="form" data-form="ticket">' +
+    IS.sheet(esc(toL ? (k === 'lecq' ? A('رسالة إلى ', 'Message to ') : A('طلب إلى ', 'Request to ')) + toL.name : A('رسالة إلى فريق المنصة', 'Message the platform team')), '<form class="form" data-form="ticket">' +
       '<label class="fl"><span>' + esc(A('نوع الرسالة', 'Type')) + '</span><select name="kind">' + KINDS.filter(function (x) { return signed || x[0] === 'password'; }).map(function (x) { return '<option value="' + x[0] + '"' + (x[0] === k ? ' selected' : '') + '>' + esc(A(x[1], x[2])) + '</option>'; }).join('') + '</select></label>' +
       (signed ? '' : '<label class="fl"><span>' + esc(A('اسمك', 'Your name')) + ' *</span><input name="name" required></label><label class="fl"><span>' + esc(A('رقم الهاتف المسجّل', 'Registered phone number')) + ' *</span><input name="phone" required inputmode="tel" dir="ltr"></label>') +
       toBox +
@@ -48,16 +48,16 @@
       '<p class="note">' + ic('shield') + '<span>' + esc(A('تصل رسالتك إلى القسم المختص داخل المنصة، ويصلك الرد في «الدعم والرسائل» وفي الإشعارات.', 'Your message reaches the right department inside the platform; the answer arrives in “Support & messages” and in your notifications.')) + '</span></p>' +
       '<button class="btn pri wide">' + ic('send') + esc(A('إرسال', 'Send')) + '</button></form>');
     var f = document.querySelector('form[data-form=ticket]'), box = f && f.querySelector('[data-lecto]');
-    if (f && box) f.kind.addEventListener('change', function () { box.hidden = f.kind.value !== 'course'; if (box.hidden) f.lec.value = ''; });
+    if (f && box) f.kind.addEventListener('change', function () { box.hidden = f.kind.value !== 'course' && f.kind.value !== 'lecq'; if (box.hidden) f.lec.value = ''; });
   };
   IS.SUB.ticket = async function (d) {
     var k = kind(d.kind), m = me(), now = new Date().toISOString();
     if (!m && DB.live) { await DB.sb.rpc('ish_reset_request', { p_name: d.name, p_phone: DB.digits(d.phone), p_subject: d.subject, p_body: d.body }).then(function (r) { if (r.error) throw new Error(r.error.message); });
       IS.closeSheet(); IS.toast(A('وصل طلبك. سيتواصل معك فريق الدعم على رقمك.', 'Request received. Support will contact you on your number.')); return; }
-    var lec = d.lec && k[0] === 'course' ? await DB.one('lecturers', d.lec) : null;
+    var lec = d.lec && (k[0] === 'course' || k[0] === 'lecq') ? await DB.one('lecturers', d.lec) : null;
     var t = await DB.ins('tickets', Object.assign({ user_id: m ? m.id : null, name: m ? m.name : d.name, phone: m ? (m.phone || '') : DB.digits(d.phone), kind: k[0], dept: k[3], subject: d.subject, course_id: d.course || null,
       status: 'open', last_by: 'user', updated_at: now }, lec ? { lecturer_id: lec.id, lecturer_name: lec.name } : {}));
-    if (lec) IS.notify(lec.id, A('طلب جديد من طالب', 'New request from a student'), d.subject, '#lec-ticket/' + t.id);
+    if (lec) IS.notify(lec.id, k[0] === 'lecq' ? A('رسالة جديدة من طالب', 'New message from a student') : A('طلب جديد من طالب', 'New request from a student'), d.subject, '#lec-ticket/' + t.id);
     await DB.ins('ticket_msgs', { ticket_id: t.id, user_id: m ? m.id : null, name: m ? m.name : d.name, staff: false, body: d.body });
     IS.closeSheet(); IS.toast(m ? A('وصلت رسالتك. سيصلك الرد هنا.', 'Message sent. The answer will come here.') : A('وصل طلبك. سيتواصل معك فريق الدعم على رقمك.', 'Request received. Support will contact you on your number.'));
     if (m) IS.go('ticket/' + t.id);
@@ -80,7 +80,7 @@
       '<header class="fhead"><div><h1 tabindex="-1">' + esc(t.subject) + '</h1><p class="mut">' + ic(k[4]) + ' ' + esc(A(k[1], k[2])) + ' · ' + esc(deptName(t.dept)) + (staff ? ' · ' + esc(t.name || '') + (t.phone ? ' · <bdi>' + esc(t.phone) + '</bdi>' : '') : lecv ? ' · ' + esc(A('من الطالب ', 'From ')) + esc(t.name || '') : '') + (t.lecturer_name && !lecv ? ' · ' + esc(A('إلى المحاضر ', 'To lecturer ')) + esc(t.lecturer_name) : '') + (t.assigned_name ? ' · ' + esc(A('مسند إلى ', 'Assigned to ')) + esc(t.assigned_name) : '') + '</p>' + (staff ? (t.user_id ? IS.seen(t.user_id) : '') : lecv ? '' : t.lecturer_id ? IS.seen(t.lecturer_id) : IS.seen('team')) + '</div>' + IS.tstatus(t.status) + '</header>';
     h += '<div class="chat">' + ms.map(function (m) { var mine = lecv ? m.lec : m.staff || (staff && m.lec);
       return '<div class="cmsg' + (m.staff || m.lec ? ' st' : '') + (m.lec ? ' lc' : '') + '">' + IS.av({ name: m.name }, 'sm', m.lec ? m.user_id : null) + '<div><b>' + esc(m.lec ? m.name + ' · ' + A('المحاضر', 'Lecturer') : m.staff ? (staff || lecv ? m.name : A('فريق أكاديمية السودان للمراجعة', 'Sudan Master Review Academy team') + ' · ' + m.name) : m.name) + '</b><p class="pre">' + esc(m.body) + '</p><small>' + esc(IS.ago(m.created_at)) + '</small></div></div>'; }).join('') + '</div>';
-    if (t.status !== 'closed') h += '<form class="box form" data-form="treply"><input type="hidden" name="id" value="' + t.id + '"><input type="hidden" name="staff" value="' + (lecv ? 'lec' : staff ? 1 : '') + '"><textarea name="body" rows="3" required maxlength="4000" placeholder="' + esc(A('اكتب ردك…', 'Write your reply…')) + '"></textarea>' +
+    if (t.status !== 'closed') h += '<form class="box form" data-form="treply"' + (t.lecturer_id ? ' data-lec' : '') + '><input type="hidden" name="id" value="' + t.id + '"><input type="hidden" name="staff" value="' + (lecv ? 'lec' : staff ? 1 : '') + '"><textarea name="body" rows="3" required maxlength="4000" placeholder="' + esc(A('اكتب ردك…', 'Write your reply…')) + '"></textarea>' +
       '<div class="row sp"><div class="row">' + (staff && IS.can('tickets', 'edit') ? '<select class="sel" data-assign="' + t.id + '"><option value="">' + esc(A('إسناد إلى…', 'Assign to…')) + '</option>' + '<optgroup label="' + esc(A('فريق المنصة', 'Platform team')) + '">' + team.map(function (u) { return '<option value="' + u.id + '"' + (t.assigned_to === u.id && !t.lecturer_id ? ' selected' : '') + '>' + esc(u.name) + '</option>'; }).join('') + '</optgroup>' +
         (lecs.length ? '<optgroup label="' + esc(A('المحاضرون (تحويل الطلب إليهم)', 'Lecturers (forward the request)')) + '">' + lecs.map(function (l) { return '<option value="l:' + l.id + '"' + (t.lecturer_id === l.id ? ' selected' : '') + '>' + esc(l.name + (l.specialty ? ' · ' + l.specialty : '')) + '</option>'; }).join('') + '</optgroup>' : '') + '</select>' : '') +
       (staff && t.kind === 'refund' && t.course_id && IS.can('pay', 'approve') ? '<button type="button" class="btn ghost sm" data-act="refund" data-id="' + t.id + '">' + ic('money') + esc(A('اعتماد الاسترداد', 'Approve refund')) + '</button>' : '') +
@@ -223,7 +223,7 @@
     'remove from team': ['إزالة من الفريق', 'Removed from the team'], 'remove post': ['حذف منشور', 'Removed a post'], 'remove reply': ['حذف تعليق', 'Removed a comment'],
     'return course': ['إرجاع كورس للمحاضر', 'Returned a course'], 'set password': ['تعيين كلمة مرور', 'Set a password'], 'settings': ['تعديل الإعدادات', 'Changed settings'],
     'subject': ['مادة', 'Subject'], 'submit course': ['إرسال كورس للمراجعة', 'Sent a course for review'], 'approve question': ['نشر سؤال', 'Published a question'],
-    'reject question': ['رفض سؤال', 'Declined a question'], 'pin post': ['تثبيت منشور', 'Pinned a post'], 'unpin post': ['إلغاء تثبيت منشور', 'Unpinned a post'] };
+    'reject question': ['رفض سؤال', 'Declined a question'], 'contact masked': ['🔒 حُجب رقم أو رابط تواصل', '🔒 Contact details hidden'], 'contact words': ['⚠️ كلام عن التواصل خارج المنصة', '⚠️ Talk of contact outside the platform'], 'pin post': ['تثبيت منشور', 'Pinned a post'], 'unpin post': ['إلغاء تثبيت منشور', 'Unpinned a post'] };
   var AVERB = { approve: ['اعتماد', 'Approved'], reject: ['رفض', 'Rejected'], publish: ['نشر', 'Published'], remove: ['حذف', 'Removed'], delete: ['حذف', 'Deleted'],
     edit: ['تعديل', 'Edited'], hide: ['إخفاء', 'Hid'], suspend: ['إيقاف مؤقت', 'Suspended'], resume: ['إعادة نشر', 'Resumed'], return: ['إرجاع', 'Returned'],
     pin: ['تثبيت', 'Pinned'], unpin: ['إلغاء تثبيت', 'Unpinned'], grant: ['منح', 'Granted'], request: ['طلب', 'Requested'], submit: ['إرسال', 'Sent'],

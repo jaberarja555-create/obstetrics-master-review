@@ -701,6 +701,7 @@
   document.addEventListener('submit', function (e) {
     var f = e.target.closest('[data-form]'); if (!f) return;
     if (f.closest('[data-saved-page]')) { e.preventDefault(); return; } var h = IS.SUB[f.getAttribute('data-form')]; if (!h) return; e.preventDefault();
+    if (IS.contactStop && IS.contactStop(f)) return;   /* no phone numbers or WhatsApp links between students and lecturers (guard.js) */
     var btn = f.querySelector('button:not([type=button])'), was = '', upl = null;
     if (btn) {
       if (btn.disabled) return; btn.disabled = true; btn.classList.add('busy'); was = btn.innerHTML;

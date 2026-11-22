@@ -623,7 +623,12 @@
     if (l.status === 'active') ach.unshift(['✅', A('محاضر معتمد في المنصة', 'Approved lecturer on the platform')]);
     if (teamRole) ach.unshift(['🛡️', A('عضو فريق المنصة: ' + teamRole[1], 'Platform team: ' + teamRole[2])]);
     LPDATA = { id: id, l: l, courses: courses, ach: ach, contacts: null };
-    var k = l.links || {}, contacts = [];
+    /* deals stay inside the platform (owner, 22 Nov 2026): students message the lecturer here; the lecturer's WhatsApp and email are
+       seen only by the team (profiles.private_links, migration 056) */
+    var staff = !mine && IS.team && IS.team(), pv = staff ? await DB.one('profiles', id).catch(function () { return null; }) : null;
+    var k = staff ? Object.assign({}, l.links || {}, (pv && pv.private_links) || {}) : {}, contacts = [];
+    if (staff && !k.whatsapp && pv && pv.phone) k.whatsapp = pv.phone;
+    if (staff && !k.email && pv && pv.email && !/@phone\./.test(pv.email)) k.email = pv.email;
     if (k.whatsapp) contacts.push(['wa', HI.phone, A('رقم التواصل', 'Contact number'), k.whatsapp, IS.wa ? IS.wa(k.whatsapp) : 'https://wa.me/' + String(k.whatsapp).replace(/\D/g, '')]);
     if (k.email) contacts.push(['mail', HI.mail, A('البريد الإلكتروني', 'Email'), k.email, 'mailto:' + k.email]);
     LPDATA.contacts = contacts;
@@ -632,8 +637,9 @@
         btn('courses', HI.layers.replace(G, 'currentColor'), N(courses.length), A('الكورسات', 'Courses')) +
         btn('ach', HI.trophy2, N(ach.length), A('الإنجازات', 'Achievements')) +
         btn('quals', HI.cap.replace(G, 'currentColor'), N((l.quals || []).length), A('المؤهلات', 'Qualifications')) + '</section>' +
-      (contacts.length ? '<button type="button" class="lp-cbtn" data-act="lp-contacts">' + HI.phone + '<span>' + esc(A('التواصل مع المحاضر', 'Contact the lecturer')) + '</span><i>' + contacts.map(function (x) { return x[1]; }).join('') + '</i><em>‹</em></button>' :
-        mine ? '<a class="lp-addc" href="#studio-page">' + HI.phone + '<span>' + esc(A('أضف رقم التواصل والبريد في صفحتي ليظهرا للطلاب', 'Add your contact number and email on My page so students see them')) + '</span></a>' : '') +
+      (mine ? '<a class="lp-addc" href="#studio-requests">' + HI.mail + '<span>' + esc(A('رقمك وبريدك عند الإدارة فقط. الطلبة يراسلونك داخل المنصة، وتصلك رسائلهم في «طلبات الطلاب».', 'Your number and email are seen only by the team. Students message you inside the platform; their messages arrive in «Student requests».')) + '</span></a>' :
+        '<button type="button" class="lp-cbtn" data-act="ticket" data-k="lecq" data-l="' + esc(id) + '">' + HI.mail + '<span>' + esc(A('راسل المحاضر داخل المنصة', 'Message the lecturer in the platform')) + '</span><i>🔒</i><em>‹</em></button>' +
+        (contacts.length ? '<button type="button" class="lp-cbtn lp-staff" data-act="lp-contacts">' + HI.phone + '<span>' + esc(A('🛡️ بيانات التواصل (للإدارة فقط)', '🛡️ Contact details (team only)')) + '</span><i>' + contacts.map(function (x) { return x[1]; }).join('') + '</i><em>‹</em></button>' : '')) +
       '<section class="lp-mini"><button type="button" class="lp-m" data-act="lp-list" data-k="about">' + PI.users + '<span><b>' + esc(A('عن المحاضر', 'About the lecturer')) + '</b><small>' + esc(l.bio ? A('اضغط للقراءة', 'Tap to read') : A('لم تُكتب بعد', 'Not written yet')) + '</small></span></button>' +
         '<span class="lp-m">' + HI.cal + '<span><b>' + esc(A('تاريخ الانضمام', 'Joined')) + '</b><small>' + esc(IS.date(l.created_at)) + '</small></span></span></section>';
     /* the long boxes (about, qualifications, quick facts, links) are now inside those buttons; courses and events stay below */
