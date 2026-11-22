@@ -195,6 +195,16 @@ admin move to **https://books.studentmasterreview.com** until Stage 3; the book 
     offline, like `pal-*` does to `app.css`.
   - Tested: preview with the local Surgery build served at `/books/surgery/`. The welcome shows and closes, the book opens without its
     welcome, the book's service worker is active, and app + book open offline with full styles.
+- **Third step, ish-v249** (owner, 22 Nov 2026: «no delay in anything; a book opens without internet the second time even if it was never
+  opened»):
+  - `IS.prepareBooks()` in books.js runs 12 s after the app opens (and when the internet returns), only while the person is not touching the
+    app, and not on data-saver connections.
+  - Every book with no saved copy yet (no active service worker scoped to `/books/<id>/`) is loaded once in a hidden frame `#bk-pre`, one at
+    a time; the book's own worker saves it. The frame stays 45 s more for the pictures.
+  - The last opened book (`ish-lastbook`) is then kept loaded and hidden, so it opens at once.
+  - Test (scratchpad bookst3.js): fresh phone, app opened, no book touched; after about 2.5 minutes all three saved. Internet cut → each
+    book opened inside the academy.
+  - The welcome name showed code text («bdi lang=…»): `IS.greetingName` already returns escaped markup, so it is no longer escaped again.
 - **Still to do in stage 2:**
   - check the books on the live address;
   - hide the book's own greeting, tour and subscription screens inside SMRA (stage 3 with the single sign-in);

@@ -21,7 +21,8 @@
     } catch (e) {}
   }
   var w = document.createElement('div'); w.id = 'smwel'; w.setAttribute('role', 'dialog'); w.setAttribute('aria-modal', 'true');
-  function who() { var m = IS.ME, n = m && (IS.greetingName ? IS.greetingName(m.name, true) : m.name); return n ? A('مرحبًا بك يا ', 'Welcome, ') + esc(n) : esc(A('مرحبًا بك يا دكتور', 'Welcome, Doctor')); }
+  /* IS.greetingName gives ready, escaped markup (the name in a <bdi> with «د.» / «Dr.»), so it is not escaped again */
+  function who() { var m = IS.ME, n = m && m.name ? (IS.greetingName ? IS.greetingName(m.name, true) : esc(m.name)) : ''; return n ? esc(A('مرحبًا بك يا ', 'Welcome, ')) + n : esc(A('مرحبًا بك يا دكتور', 'Welcome, Doctor')); }
   w.innerHTML = '<div class="sw-in"><span class="sw-ring r1"></span><span class="sw-ring r2"></span><img class="sw-logo" src="' + IS.U('img/mr/logo-smra.webp') + '" alt="Sudan Master Review Academy">' +
     '<h1 class="sw-t" dir="auto">' + who() + '</h1><p class="sw-s">' + esc(A('ابدأ رحلتك مع أكاديمية السودان للمراجعة الطبية', 'Start your journey with Sudan Master Review Academy')) + '</p>' +
     '<button type="button" class="sw-go">' + esc(A('ابدأ', 'Start')) + '</button></div>';

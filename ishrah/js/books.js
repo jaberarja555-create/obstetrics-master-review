@@ -28,7 +28,7 @@
   });
   /* the book, full screen; the frame is kept while the person moves around SMRA, so coming back is instant */
   var FR = {};
-  function host() { var h = document.getElementById('bk-host'); if (!h) { h = document.createElement('div'); h.id = 'bk-host'; document.body.appendChild(h); } return h; }
+  function host() { var h = document.getElementById('bk-host'); if (!h) { h = document.createElement('div'); h.id = 'bk-host'; h.hidden = true; document.body.appendChild(h); } return h; }
   function showBook(id) {
     var h = host(), b = book(id); if (!b) return;
     Object.keys(FR).forEach(function (k) { FR[k].hidden = k !== id; });
@@ -76,6 +76,52 @@
     if (e.origin !== location.origin || !e.data || typeof e.data !== 'object') return;
     if (e.data.smr === 'library') { hideBook(); IS.go('books'); }
   });
+  /* Every book ready without internet, even one never opened (owner, 22 Nov 2026: «if someone opens the app but no book, the second time
+     he opens a book he should not need internet»), and no waiting (the last opened book is ready at once).
+     While the app is online and the person is not touching it, each book that has no saved copy yet is loaded once in a hidden frame, one at a
+     time: its own service worker saves the book on the phone (page, scripts, pictures). Not on data-saver connections. The last opened book
+     is then kept ready (hidden) so it opens instantly. */
+  var TOUCH = Date.now();
+  ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) { window.addEventListener(ev, function () { TOUCH = Date.now(); }, { passive: true, capture: true }); });
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+  async function idle() { while (Date.now() - TOUCH < 4000 || document.hidden) { await sleep(1500); } }
+  async function saved(id) {
+    try { var r = await navigator.serviceWorker.getRegistration('/books/' + id + '/'); return !!(r && r.active && r.scope.indexOf('/books/' + id + '/') > 0); } catch (e) { return false; }
+  }
+  function hiddenFrame(id) {
+    var box = document.getElementById('bk-pre');
+    if (!box) { box = document.createElement('div'); box.id = 'bk-pre'; box.setAttribute('aria-hidden', 'true'); document.body.appendChild(box); }
+    var f = document.createElement('iframe'); f.tabIndex = -1; f.src = '/books/' + id + '/'; box.appendChild(f); quiet(f, id); return f;
+  }
+  var PREP = false;
+  IS.prepareBooks = async function () {
+    if (PREP || !('serviceWorker' in navigator) || !navigator.onLine) return;
+    if (navigator.connection && navigator.connection.saveData) return;
+    PREP = true;
+    try {
+      for (var i = 0; i < BOOKS.length; i++) {
+        var id = BOOKS[i].id;
+        if (FR[id] || await saved(id)) continue;
+        await idle(); if (!navigator.onLine) break;
+        var f = hiddenFrame(id), t0 = Date.now();
+        while (!(await saved(id)) && Date.now() - t0 < 120000) await sleep(2000);
+        await sleep(45000);   /* the book keeps saving its pictures for a while after its page is ready */
+        if (f.parentNode) f.parentNode.removeChild(f);
+      }
+    } finally { PREP = false; }
+    /* the last opened book, ready to open at once */
+    var last = null; try { last = localStorage.getItem('ish-lastbook'); } catch (e) {}
+    if (last && book(last) && !FR[last]) {
+      await idle();
+      var hst = host(), f2 = document.createElement('iframe'); f2.className = 'bk-fr'; f2.title = book(last).en; f2.src = '/books/' + last + '/';
+      f2.setAttribute('allow', 'fullscreen; clipboard-write; autoplay'); f2.hidden = true; hst.appendChild(f2); FR[last] = f2; quiet(f2, last);
+      if (!/^#book\//.test(location.hash)) hst.hidden = true;
+    }
+  };
+  if (window.top === window.self) {
+    setTimeout(function () { IS.prepareBooks(); }, 12000);
+    window.addEventListener('online', function () { setTimeout(function () { IS.prepareBooks(); }, 8000); });
+  }
   /* My Library starts with the books */
   var r0 = IS.onRoute;
   IS.onRoute = function (name) {
