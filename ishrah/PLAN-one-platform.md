@@ -89,8 +89,31 @@ Show each stage to the owner before publishing it. Test in a local preview copy 
 
 ### Stage 1: SMRA moves to studentmasterreview.com
 
-**Status: the owner was asked to confirm that SMRA replaces what is on studentmasterreview.com now** (the old platform, `/admin`, and
-the book subdomains stay). His answer was not received before the limit. Ask again before doing anything.
+**Status: APPROVED by the owner on 22 Nov 2026 («ايوا موافق»).** SMRA takes https://studentmasterreview.com. The old platform and its
+admin move to **https://books.studentmasterreview.com** until Stage 3; the book subdomains (obs., srg., ped.) stay.
+
+**Exact order (do not change it; a wrong order sends book students to an address that does not exist):**
+- **A. Owner (Cloudflare).** Workers & Pages → `student-master-review` → Custom domains → Set up a custom domain →
+  `books.studentmasterreview.com`. Wait until it is Active and opens the old platform. Do not remove anything yet.
+  **Owner (Supabase of the BOOKS, project kgdmjeffeq…).** Authentication → URL Configuration → Redirect URLs → add
+  `https://books.studentmasterreview.com/admin/` and `https://books.studentmasterreview.com/**`, so the admin's Google sign-in works there.
+- **B. Claude.** In the three repositories, on their LIVE branches (fetch first): run `python3 obstetrics-master-review/tools/ishrah/stage1_books.py`
+  (dry run), then with `--apply`. Commit and push:
+  - obstetrics-master-review `main`: book, platform and admin;
+  - surgery-rapid-review `claude/surgery-rapid-review-app-eoho37`: `src/shell.html` and `docs/`;
+  - pediatrics-master-review `main`: `src/shell.html` and `docs/`; Pediatrics is also kept on `claude/confident-turing-evm4gu`.
+
+  Check the deploy runs. Then open each book on its own address: it must move to books.studentmasterreview.com, and inside the old
+  platform there the «المكتبة» button must show. Tell the owner the admin's new address, https://books.studentmasterreview.com/admin.
+- **C. Owner (Cloudflare).**
+  1. In `student-master-review` → Custom domains, remove `studentmasterreview.com` and `www.studentmasterreview.com`.
+  2. In `ishrah` → Custom domains, add them.
+  3. On the ishrahli.org zone, add a Redirect Rule (step 3 below).
+- **D. Owner (Supabase of SMRA, fglawgpusfbgkokpnoej, and Google Cloud).** Do steps 4 and 5 below.
+- **E. Claude.** Do the code step 6 below (`push_url` migration, texts, manifest, SW bump), publish, and test sign-in with email and
+  Google, alerts, and offline on the new address.
+
+(Detailed notes for each part follow.)
 
 1. **Prepare the books first.** The old platform must keep working for book students until Stage 3. Give the old platform its own new
    address, for example `https://books.studentmasterreview.com`: add a custom domain to the Pages project `student-master-review`.
