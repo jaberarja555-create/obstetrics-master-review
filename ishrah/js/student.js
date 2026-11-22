@@ -847,14 +847,14 @@
 
     IS.after = function (main) {
       var player = main.querySelector('#player');
-      if (player) playLesson(player, x);
+      if (player) playLesson(player, x, c);
       var tabs = main.querySelector('.lesson-tabs');
       if (tabs) initLessonStudy(main, tabs, c, x);
     };
     return h + '</div>';
   });
 
-  async function playLesson(player, lesson) {
+  async function playLesson(player, lesson, course) {
     function showUnavailable(title, message) {
       player.classList.add('player-unavailable');
       player.closest('.lesson-layout').querySelector('.lesson-outline-toggle').open = false;
@@ -878,6 +878,8 @@
         '" allow="accelerometer; gyroscope; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="' + esc(lesson.title) + '"></iframe>';
       else player.innerHTML = '<video controls controlsList="nodownload noremoteplayback" disablePictureInPicture playsinline oncontextmenu="return false" src="' +
         esc(video.src) + '"></video>';
+      /* the platform's opening before the lesson (intro.js) */
+      if (video && IS.videoIntro) IS.videoIntro(player, { course: course && course.title, lesson: lesson.title, paid: !!(course && +course.price > 0 && !lesson.free) });
     } catch (error) {
       showUnavailable(A('تعذّر تشغيل الفيديو', 'The video could not be played'), A('تحقق من الاتصال.', 'Check the connection.'));
     }

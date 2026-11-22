@@ -1473,3 +1473,9 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   In the app, `js/guard.js` stops the form first (`IS.contactStop`, called by core.js's submit handler) with a note inside the form
   (text kept). Tests: local Postgres (scratchpad t56*.sql), browser scratchpad guardt.js (390/1440).
   Also fixed: `054_team_all_spaces.sql` was named in the workflow but missing from its apply list; now applied.
+- **Opening before every lesson video** (owner, 22 Nov 2026: «Introduction بسيط … بال logo»; «أضف صوت جميل»; «الانذار فقط في الكورس المدفوع»; he rejected a
+  watermark on the video as annoying): `js/intro.js` `IS.videoIntro(player, {course, lesson, paid})`, called by student.js `playLesson` after the
+  video is placed: about 4 s over the player (SMRA emblem with a gold glow, academy name in Arabic and English, gold line, course and lesson),
+  for paid lessons (course price > 0 and not a free preview) a 🔒 line «هذا المحتوى لحسابك فقط. نشره أو تصويره خارج المنصة ممنوع…» (5.6 s);
+  «تخطّي» skips. Sound made with Web Audio (`IS.introSound`: soft pad + rising bell C–E–G–C + sparkle; `ish-intro-sound`='off' silences it).
+  CSS at the end of css/mr.css; the animations carry `#main …!important` because touch screens switch off animations inside #main.

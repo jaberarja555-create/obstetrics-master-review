@@ -2574,3 +2574,46 @@ html body .mrh .feed-card .fv-acts>*{align-self:center!important}
 .lp-cbtn.lp-staff{border-style:dashed;background:#fbfaf3}
 .lp-cbtn i{font-style:normal}
 .lp-cbtn>svg{width:20px!important;height:20px!important;color:#391464;flex:none}
+
+/* opening before a lesson video (intro.js; owner, 22 Nov 2026) */
+.player{position:relative}
+.vi{position:absolute;inset:0;z-index:6;display:grid;place-items:center;overflow:hidden;color:#fff;text-align:center;
+  background:radial-gradient(120% 90% at 50% 40%,#2e1354 0%,#1c0a35 55%,#120522 100%);animation:viIn .5s ease both;container-type:inline-size}
+#main .vi.out,.vi.out{animation:viOut .5s ease forwards!important}
+.vi-glow{position:absolute;width:62cqw;height:62cqw;border-radius:50%;background:radial-gradient(circle,rgba(246,205,96,.35),rgba(246,205,96,0) 62%);top:50%;left:50%;
+  transform:translate(-50%,-58%) scale(.4);opacity:0;animation:viGlow 1.6s .2s ease-out forwards}
+#main .vi-sweep,.vi-sweep{position:absolute;top:0;bottom:0;width:30%;left:-40%;background:linear-gradient(100deg,transparent,rgba(255,236,170,.16),transparent);animation:viSweep 1.6s .9s ease-in-out both!important}
+.vi-c{position:relative;display:flex;flex-direction:column;align-items:center;gap:.9cqw;padding:0 6cqw;max-width:100%}
+#main .vi-mark,.vi-mark{width:clamp(54px,15cqw,150px);height:auto;filter:drop-shadow(0 0 1.6cqw rgba(246,205,96,.55));opacity:0;transform:scale(.55) translateY(3cqw);animation:viMark .9s .25s cubic-bezier(.2,1.4,.4,1) forwards!important}
+#main .vi-ar,.vi-ar{font:700 clamp(14px,3.6cqw,34px)/1.35 Cairo,sans-serif;color:#f6d06a;text-shadow:0 2px 10px rgba(0,0,0,.35);opacity:0;animation:viUp .6s .95s ease forwards!important}
+#main .vi-en,.vi-en{font:600 clamp(8px,1.6cqw,15px) Poppins,sans-serif;letter-spacing:.3em;color:#eceaf2;opacity:0;animation:viUp .6s 1.2s ease forwards!important}
+#main .vi-line,.vi-line{display:block;height:2px;width:0;background:linear-gradient(90deg,transparent,#f6d06a,transparent);margin:.8cqw 0 .4cqw;animation:viLine .7s 1.6s ease forwards!important}
+#main .vi-course,.vi-course{font:600 clamp(11px,2.2cqw,20px)/1.4 Cairo,Poppins,sans-serif;color:#fff;opacity:0;animation:viUp .6s 1.9s ease forwards!important;max-width:80cqw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#main .vi-lesson,.vi-lesson{font:500 clamp(10px,1.8cqw,16px)/1.4 Cairo,Poppins,sans-serif;color:#c4bbd6;opacity:0;animation:viUp .6s 2.15s ease forwards!important;max-width:80cqw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vi-lock{margin-top:1.4cqw;padding:.7cqw 1.8cqw;border-radius:999px;background:rgba(0,0,0,.28);border:1px solid rgba(246,208,106,.45);
+  font:600 clamp(9.5px,1.7cqw,15px)/1.5 Cairo,Poppins,sans-serif;color:#ffe7a6;max-width:86cqw;opacity:0;animation:viUp .6s 3s ease forwards}
+.vi-skip{position:absolute;bottom:3.5cqw;left:3.5cqw;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.25);color:#fff;border-radius:999px;
+  padding:4px 12px;font:600 12px Cairo,Poppins,sans-serif;cursor:pointer;opacity:0;animation:viUp .4s .8s ease forwards}
+[dir=ltr] .vi-skip{left:auto;right:3.5cqw}
+@keyframes viIn{from{opacity:0}to{opacity:1}}
+@keyframes viOut{to{opacity:0;visibility:hidden}}
+@keyframes viGlow{to{opacity:1;transform:translate(-50%,-58%) scale(1)}}
+@keyframes viSweep{to{left:120%}}
+@keyframes viMark{to{opacity:1;transform:none}}
+@keyframes viUp{from{opacity:0;transform:translateY(1.2cqw)}to{opacity:1;transform:none}}
+@keyframes viLine{to{width:min(46cqw,420px)}}
+@media (prefers-reduced-motion:reduce){#main .vi,#main .vi *,.vi,.vi *{animation-duration:.01s!important;animation-delay:0s!important}}
+#main .vi{animation:viIn .5s ease both!important}#main .vi.out{animation:viOut .5s ease forwards!important}
+#main .vi-glow{animation:viGlow 1.6s .2s ease-out forwards!important}
+#main .vi-lock{animation:viUp .6s 3s ease forwards!important}
+#main .vi-skip{animation:viUp .4s .8s ease forwards!important}
+@container (max-width:520px){
+  #main .vi-skip,.vi-skip{bottom:auto;top:8px;left:8px;padding:2px 10px;font-size:11px}
+  [dir=ltr] .vi-skip{left:auto;right:8px}
+  .vi-c{gap:2px;padding:0 10px}
+  #main .vi-mark,.vi-mark{width:44px}
+  .vi-ar{font-size:15px}.vi-en{font-size:8px;letter-spacing:.2em}
+  .vi-line{margin:3px 0 1px}
+  .vi-course{font-size:11.5px}.vi-lesson{font-size:10.5px}
+  .vi-lock{margin-top:5px;padding:3px 10px;font-size:9.5px;line-height:1.45;max-width:94cqw}
+}
