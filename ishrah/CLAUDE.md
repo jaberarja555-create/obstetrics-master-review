@@ -1506,3 +1506,6 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   page's not-yet-loaded pictures one by one (≤ 40, not on data-saver) so the service worker keeps them; library cover addresses are kept 30 days
   and used offline even when old (the worker finds the picture by file path); a picture that fails is hidden (`img.img-x`) so the card's
   placeholder shows; the «يحتاج إنترنت» label sits on the feed cover (`.feed-image`), not over the card's buttons.
+- **Profiles open faster (owner, 22 Nov 2026):** mr.js `profileReads` asks the card, posts and files together (they waited for each other), and
+  touching a `#person/` link already starts them (`IS.prefetchPerson`, pointerdown); slow server test 3.4 s → 1.7 s (scratchpad tim5.js). Any page
+  still opening after 120 ms shows a thin moving line at the top (`#main[aria-busy]::before`), so a tap always shows it was received.

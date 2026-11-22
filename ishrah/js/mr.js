@@ -364,15 +364,25 @@
         return '<a class="lp-ct" href="' + esc(x[3]) + '"' + (/^https?:/.test(x[3]) ? ' target="_blank" rel="noopener"' : '') + '><i>' + x[0] + '</i><span><b>' + esc(x[1]) + '</b><small dir="ltr">' + esc(x[2]) + '</small></span></a>'; }).join('') + '</div>' : '') +
       (extra || '') + (since ? '<div class="lp-row">' + HI.cal + '<b>' + esc(A('تاريخ التسجيل كعضو', 'Member since')) + '</b><span>' + esc(IS.date(since)) + '</span></div>' : '') + '</section>';
   }
+  /* the three reads of a profile; asked together, and already when the finger touches a name (IS.prefetchPerson), so the page is ready
+     when the tap ends (owner, 22 Nov 2026: «delay when pressing someone's profile to open it») */
+  function profileReads(id) {
+    return [pcard(id), DB.q('posts', { eq: { user_id: id }, order: ['created_at', false], limit: 60 }).catch(function () { return []; }),
+      DB.q('files', { eq: { owner_id: id, status: 'published' }, order: ['published_at', false] }).catch(function () { return []; })];
+  }
+  IS.prefetchPerson = function (id) { if (!id || !navigator.onLine) return; try { profileReads(id).forEach(function (p) { p.catch(function () {}); }); } catch (e) {} };
+  document.addEventListener('pointerdown', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#person/"]'); if (a) IS.prefetchPerson(a.getAttribute('href').split('/')[1]);
+  }, true);
   async function profilePage(id, tab, own) {
-    var c = await pcard(id);
+    var reads = profileReads(id), stP = own && IS.myStats ? IS.myStats().catch(function () { return {}; }) : null;
+    var c = await reads[0];
     if (!c) return null;
-    var ach = 0; if (own && IS.myStats) try { var st = await IS.myStats(); ach = (st.done || []).length; } catch (e) {}
+    var ach = 0; if (stP) try { var st = await stP; ach = ((st || {}).done || []).length; } catch (e) {}
     var m = IS.ME, base = own ? '#account' : '#person/' + id;
     var sp = c.spec && IS.spec ? IS.spec(c.spec) : null, spName = sp ? sp.en : (own && IS.mySpec() ? IS.mySpec().en : '');
     var chips = [[PI.kit, spName], [PI.cap, c.university], [PI.pin, c.city]].filter(function (x) { return x[1]; });
-    var res = await Promise.all([DB.q('posts', { eq: { user_id: id }, order: ['created_at', false], limit: 60 }).catch(function () { return []; }),
-      DB.q('files', { eq: { owner_id: id, status: 'published' }, order: ['published_at', false] }).catch(function () { return []; })]);
+    var res = await Promise.all([reads[1], reads[2]]);
     var posts = res[0].filter(function (x) { return x.status === 'open'; }), files = IS.seriesCollapse ? IS.seriesCollapse(res[1].slice()) : res[1];
     files = files.map(function (f) { return f._parts ? Object.assign({}, f._parts[0], { series_id: f.series_id, series_title: f.series_title }) : f; });
     var h = '<div class="mrx mrh mrp"><div class="mh-bg" aria-hidden="true"></div>' + DEFS + '<div class="mh-page">' + htop() +

@@ -2706,3 +2706,9 @@ html body #asfab.out span{max-width:120px;opacity:1}
 /* pictures that cannot load are hidden (offline.js), so the cover placeholder shows; the «needs internet» label sits on the feed cover */
 img.img-x{visibility:hidden!important}
 .feed-image,.library-cover{position:relative}
+
+/* a page that is still opening shows a thin moving line at the very top (after 120 ms, so quick pages show nothing) */
+#main[aria-busy="true"]::before{content:"";position:fixed;top:0;inset-inline:0;height:3px;z-index:9999;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,transparent,#e9c46a 30%,#0a8a72 60%,transparent);background-size:50% 100%;background-repeat:no-repeat;
+  animation:ishbusy 1s linear .12s infinite}
+@keyframes ishbusy{0%{opacity:1;background-position:-50% 0}100%{opacity:1;background-position:150% 0}}
