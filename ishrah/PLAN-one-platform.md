@@ -166,6 +166,28 @@ admin move to **https://books.studentmasterreview.com** until Stage 3; the book 
 
 ### Stage 2: the three books open inside SMRA, at the same address
 
+**Stage 2, first version (22 Nov 2026, ish-v247).**
+- `functions/books/[[path]].js` serves `/books/<id>/…` from the book's own deployment, so the books keep deploying as before:
+  - surgery → srg., pediatrics → ped., obstetrics → obs.studentmasterreview.com;
+  - every method is passed through (the Obstetrics trial POST too);
+  - pictures and scripts are edge-cached for 1 h; the page is not cached.
+
+  This was chosen instead of copying the builds into the deploy, which can still be done later to avoid Function request counts.
+- `js/books.js`:
+  - the shelf `IS.booksShelf()` at the top of My Library (inside `.mh-lib`) and the page `#books` (menu item «الكتب» in core.js NAV);
+  - `#book/<id>` opens the book full screen in a frame kept loaded (`#bk-host`). A small «SMRA» handle on the left edge returns to the
+    page the person came from; the book's own «المكتبة» button (`{smr:'library'}`) returns too.
+- `sw.js` leaves `/books/` to the books' own service workers.
+- **A subscribed student's identity follows by itself.** The books keep the device identity in a cookie on `Domain=studentmasterreview.com`,
+  and the book head script restores it when its storage is empty.
+- Covers are in `img/books/<id>.webp`, copied from the old platform.
+- Tested in the preview with the local Surgery and Pediatrics builds at 390 and 1440 px.
+- **Still to do in stage 2:**
+  - check the books on the live address;
+  - hide the book's own greeting, tour and subscription screens inside SMRA (stage 3 with the single sign-in);
+  - preload the last opened book;
+  - shortcuts.
+
 Goal: `https://studentmasterreview.com/books/surgery/` (and `/books/obstetrics/`, `/books/pediatrics/`).
 
 **Why the same address and not subdomains.** A path on the same domain is the same app for the phone. One sign-in, one storage and

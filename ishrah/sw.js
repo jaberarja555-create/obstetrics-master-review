@@ -1,5 +1,5 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v246', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v247', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
@@ -76,6 +76,8 @@ async function store(cache, key, response) {
 
 self.addEventListener('fetch', function (event) {
   var request = event.request, url = new URL(request.url);
+  /* the books (/books/<id>/) have their own saved copies and service workers: the academy's worker leaves them alone (stage 2) */
+  if (url.origin === self.location.origin && /^\/books\//.test(url.pathname)) return;
   /* recordings shared from Telegram or any app on Android ("Share → اشرح لي", owner 21 Nov 2026): kept on the phone, then the Studio opens */
   if (request.method === 'POST' && url.origin === self.location.origin && url.pathname === '/share-target') {
     event.respondWith((async function () {
