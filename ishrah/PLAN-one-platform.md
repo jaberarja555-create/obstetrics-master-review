@@ -137,7 +137,9 @@ admin move to **https://books.studentmasterreview.com** until Stage 3; the book 
     studentmasterreview.com. The index.html head also forwards any page loaded on ishrahli.org.
     **The Cloudflare rule must skip /sw.js:** use the custom expression `(http.request.uri.path ne "/sw.js")` instead of «All incoming
     requests». Tested locally with a server that plays ishrahli.org: it stays stuck with the old rule and moves with the new one.
-  - **Next:** the owner tests on his phone (old step-D note follows for reference)
+  - The owner set the rule to `(http.request.uri.path ne "/sw.js")`; his installed app on ishrahli.org moved to studentmasterreview.com.
+  - **STAGE 1 IS DONE (22 Nov 2026).** Next: Stage 2 (the three books inside SMRA at /books/<id>/).
+  - (old note) the owner tests on his phone (old step-D note follows for reference)
   - (was) **Waiting for the owner: step D** (Supabase URL configuration of SMRA, Google JavaScript origins). After D, test email and Google
     sign-in, alerts and offline on https://studentmasterreview.com, then switch the redirect to 301.
 
