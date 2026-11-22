@@ -1,5 +1,5 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v247', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v248', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
@@ -26,7 +26,12 @@ if (MOVED) {
 
 async function saveShell(cache, response) {
   var html = await response.clone().text();
-  var assets = Array.from(new Set(html.match(/(?:js|css)\/[\w-]+\.(?:js|css)\?v=\w+/g) || []));
+  var assets = html.match(/(?:js|css)\/[\w-]+\.(?:js|css)\?v=\w+/g) || [];
+  /* the two stylesheets are written by a script in the page head ('css/' + name + '.css?v=…'), so the pattern above does not see them; without
+     them the app opened offline with no styles at all (found 22 Nov 2026). Save the default ones; a chosen colour falls back to them offline. */
+  var cv = html.match(/\+'\.css\?v=(\w+)/);
+  if (cv) assets.push('css/app.css?v=' + cv[1], 'css/mr.css?v=' + cv[1]);
+  assets = Array.from(new Set(assets));
   var missing = await Promise.all(assets.map(async function (path) {
     var key = '/' + path;
     return await cache.match(key) ? null : key;
@@ -156,6 +161,10 @@ self.addEventListener('fetch', function (event) {
       if (/^\/css\/pal-[\w-]+\.css$/.test(url.pathname) && url.searchParams.has('v')) {
         var fallback = await cache.match('/css/app.css' + url.search);
         if (fallback) return fallback;
+      }
+      if (/^\/css\/mr-pal-[\w-]+\.css$/.test(url.pathname) && url.searchParams.has('v')) {
+        var fallback2 = await cache.match('/css/mr.css' + url.search);
+        if (fallback2) return fallback2;
       }
       return Response.error();
     }

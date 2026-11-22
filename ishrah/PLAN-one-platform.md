@@ -182,6 +182,19 @@ admin move to **https://books.studentmasterreview.com** until Stage 3; the book 
   and the book head script restores it when its storage is empty.
 - Covers are in `img/books/<id>.webp`, copied from the old platform.
 - Tested in the preview with the local Surgery and Pediatrics builds at 390 and 1440 px.
+- **Second step, ish-v248** (owner, 22 Nov 2026: «the books should open without welcome, the welcome is for the app itself, the app logo
+  with the same sound as the book welcome; do the books work offline?»):
+  - `books.js quiet()`: the book frame is on the same address, so as soon as its page exists a style hides `#v2wel`, `#v2chz` and `.v2bt`,
+    and `<px>-btour` is set.
+  - `js/welcome.js`: the academy's own welcome, once per app opening (sessionStorage `ish-wel`; never inside a frame). It shows the SMRA
+    logo with gold rings, «مرحبًا بك يا <name>» and «ابدأ», and plays the books' exact opening sound (C–E–G sine bell, same notes and
+    timing as v2.js).
+  - **Offline check.** The books work offline inside the academy, from their own saved copies. That check found an older bug: the academy's
+    two stylesheets are written by a head script, so `saveShell` never saved them, and an app opened offline before a second online visit
+    had no styles. `saveShell` now saves `css/app.css` and `css/mr.css` with the page's hash, and `mr-pal-*` falls back to `mr.css`
+    offline, like `pal-*` does to `app.css`.
+  - Tested: preview with the local Surgery build served at `/books/surgery/`. The welcome shows and closes, the book opens without its
+    welcome, the book's service worker is active, and app + book open offline with full styles.
 - **Still to do in stage 2:**
   - check the books on the live address;
   - hide the book's own greeting, tour and subscription screens inside SMRA (stage 3 with the single sign-in);

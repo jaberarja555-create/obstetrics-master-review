@@ -35,12 +35,31 @@
     if (!FR[id]) {
       var f = document.createElement('iframe'); f.className = 'bk-fr'; f.title = b.en; f.src = '/books/' + id + '/';
       f.setAttribute('allow', 'fullscreen; clipboard-write; autoplay');
-      h.appendChild(f); FR[id] = f;
+      h.appendChild(f); FR[id] = f; quiet(f, id);
     }
     if (!h.querySelector('.bk-back')) h.insertAdjacentHTML('beforeend', '<button type="button" class="bk-back" data-act="bk-back" aria-label="' + esc(A('العودة إلى المنصة', 'Back to the platform')) + '"><span>SMRA</span></button>');
     h.hidden = false; document.documentElement.classList.add('bk-open');
     try { localStorage.setItem('ish-lastbook', id); } catch (e) {}
   }
+  /* inside the academy the book opens straight to its content (owner, 22 Nov 2026: «the books should open without welcome; the welcome now
+     is for the app itself»): the frame is on the same address, so its welcome screen, its tour and its first-opening choices are hidden as
+     soon as its page exists, and the tour is marked as seen */
+  var PX = { surgery: 'srr', pediatrics: 'prr', obstetrics: 'orr' };
+  function quiet(f, id) {
+    try { localStorage.setItem(PX[id] + '-btour', '1'); } catch (e) {}
+    var n = 0, t = setInterval(function () {
+      n++; var d = null; try { d = f.contentDocument; } catch (e) {}
+      if (d && d.head && d.location && /\/books\//.test(d.location.pathname) && !d.getElementById('smra-quiet')) {
+        var st = d.createElement('style'); st.id = 'smra-quiet';
+        st.textContent = '#v2wel,#v2chz,.v2bt{display:none!important}';
+        d.head.appendChild(st);
+      }
+      if (n > 200) clearInterval(t);   /* 10 s, also after the book reloads itself */
+      if (d && d.getElementById('smra-quiet') && d.readyState === 'complete' && n > 40) clearInterval(t);
+    }, 50);
+    f.addEventListener('load', function () { quiet2(f); });
+  }
+  function quiet2(f) { try { var d = f.contentDocument; if (d && d.head && !d.getElementById('smra-quiet')) { var st = d.createElement('style'); st.id = 'smra-quiet'; st.textContent = '#v2wel,#v2chz,.v2bt{display:none!important}'; d.head.appendChild(st); } } catch (e) {} }
   function hideBook() { var h = document.getElementById('bk-host'); if (h) h.hidden = true; document.documentElement.classList.remove('bk-open'); }
   IS.page('book', function (id) {
     if (!book(id)) return null;
