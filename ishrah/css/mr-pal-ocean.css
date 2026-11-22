@@ -2387,3 +2387,9 @@ a.tr.pplink .pparr .ico{width:16px;height:16px}
 .aud-a{font-size:13.5px;line-height:1.5;color:#17273a;overflow-wrap:anywhere}
 .aud-d{font-size:12px;line-height:1.45;color:#647381;overflow-wrap:anywhere}
 :root[data-theme=dark] .aud{border-color:#1d2e3d}:root[data-theme=dark] .aud-a{color:#e4ebf1}
+/* the course picture shows whole on its own page (owner, 22 Nov 2026: «the picture I put appears like this», cut at the edges): cards keep
+   the filled frame, the course page and the request page show every edge of the picture */
+html body .chero .chimg{aspect-ratio:auto!important;height:auto!important;max-height:min(80vh,620px)!important;object-fit:contain!important;background:rgba(255,255,255,.08)}
+@media (max-width:800px){html body .chero .chimg{width:100%!important;max-height:none!important}}
+html body .cr-detail .cr-cover .pst{aspect-ratio:auto!important;height:auto!important}
+html body .cr-detail .cr-cover .pst>.pstf{position:static!important;height:auto!important;max-height:min(80vh,620px);object-fit:contain!important}

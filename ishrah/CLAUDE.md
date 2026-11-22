@@ -1411,3 +1411,6 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   picture, name, «قبل 5 دقائق» (full date on hover), the action in words of the app language (map `AUD`, then verb + noun for English action
   names such as «approve library edit» → «اعتماد تعديل ملف»; role keys in brackets become role names: «(tech)» → «(المدير التقني)»), and the
   details without record ids (UUIDs hidden). Used by the control dashboards (`auditBox`), the Team page and Control → Activity log.
+- **Course picture whole on its page (owner, 22 Nov 2026: «the picture I put appears like this», cut at the edges):** cards keep pictures
+  filling their frame, but the course page (`.chero .chimg`) and the course request page (`.cr-detail .cr-cover`) show the whole picture at
+  its own shape (object-fit contain, height auto, at most 80vh). Lecturers often put text on their covers, so a detail page must not crop.
