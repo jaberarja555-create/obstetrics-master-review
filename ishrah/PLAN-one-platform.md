@@ -129,7 +129,9 @@ admin move to **https://books.studentmasterreview.com** until Stage 3; the book 
     - the `index.html` head sends old-platform links (`#read-…`, `#home~move-…`) to books.studentmasterreview.com;
     - `js/moved.js` tells a phone that used the old platform (localStorage `smr-*`) where the books are now («افتح كتبي», «لاحقًا» 3 days,
       «لا تظهر مرة أخرى»).
-  - **Waiting for the owner: step D** (Supabase URL configuration of SMRA, Google JavaScript origins). After D, test email and Google
+  - **D** done by the owner (22 Nov 2026): Google JavaScript origins and the SMRA Supabase Site URL and Redirect URLs.
+  - **Next:** the owner tests on his phone (old step-D note follows for reference)
+  - (was) **Waiting for the owner: step D** (Supabase URL configuration of SMRA, Google JavaScript origins). After D, test email and Google
     sign-in, alerts and offline on https://studentmasterreview.com, then switch the redirect to 301.
 
 (Detailed notes for each part follow.)
