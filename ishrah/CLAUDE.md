@@ -1479,3 +1479,5 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   for paid lessons (course price > 0 and not a free preview) a 🔒 line «هذا المحتوى لحسابك فقط. نشره أو تصويره خارج المنصة ممنوع…» (5.6 s);
   «تخطّي» skips. Sound made with Web Audio (`IS.introSound`: soft pad + rising bell C–E–G–C + sparkle; `ish-intro-sound`='off' silences it).
   CSS at the end of css/mr.css; the animations carry `#main …!important` because touch screens switch off animations inside #main.
+  On EVERY video (owner: «في كل فيديو»): lessons, course preview and «معاينة كورس» posts (`post-video`, course name from the card or page
+  title), downloaded videos (offline.js, `info.paid` saved with new downloads) and the lecturer's preview in Studio.

@@ -415,7 +415,8 @@
           el.innerHTML = ic('file') + '<span>' + esc(A('حجم الملف المرفوع: ', 'Uploaded file size: ')) + '<b dir="ltr">' + sz + '</b></span>';
         }).catch(function () {});
       } }
-      var pv = $('#vprev'); if (pv) { var v = await DB.videoPlay(x).catch(function () { return null; }); if (v) pv.innerHTML = v.kind === 'iframe' ? '<iframe src="' + esc(v.src) + '" allowfullscreen></iframe>' : '<video controls controlsList="nodownload" src="' + esc(v.src) + '"></video>'; else pv.remove(); }
+      var pv = $('#vprev'); if (pv) { var v = await DB.videoPlay(x).catch(function () { return null; }); if (v) pv.innerHTML = v.kind === 'iframe' ? '<iframe src="' + esc(v.src) + '" allowfullscreen></iframe>' : '<video controls controlsList="nodownload" src="' + esc(v.src) + '"></video>'; else pv.remove();
+        if (v && IS.videoIntro) IS.videoIntro(pv, { course: c && c.title, lesson: x.title, paid: !!(c && +c.price > 0 && !x.free) }); }
     };
     return h;
   }, { auth: true, area: 'studio', lec: true });

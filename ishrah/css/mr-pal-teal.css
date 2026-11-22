@@ -2617,3 +2617,4 @@ html body .mrh .feed-card .fv-acts>*{align-self:center!important}
   .vi-course{font-size:11.5px}.vi-lesson{font-size:10.5px}
   .vi-lock{margin-top:5px;padding:3px 10px;font-size:9.5px;line-height:1.45;max-width:94cqw}
 }
+.post-video,#vprev,#dlview.viewer{position:relative}

@@ -137,7 +137,7 @@
   async function lessonJob(lid, cid, q) {
     var id = did('lesson', lid); if (HAVE[id] || RUN[id]) return;
     var c = await DB.one('courses', cid), x = await DB.lesson(lid); if (!x) throw new Error('missing');
-    var info = { kind: x.kind || 'video', title: x.title, body: x.body || '', quiz: x.quiz || [], course: c ? c.title : '', cid: cid }, url = null;
+    var info = { kind: x.kind || 'video', title: x.title, body: x.body || '', quiz: x.quiz || [], course: c ? c.title : '', cid: cid, paid: !!(c && +c.price > 0 && !x.free) }, url = null;
     if (info.kind === 'video') { if (!x.video_id && DB.live) throw new Error('denied'); url = await DB.videoFile(x, q); }
     else if (info.kind === 'audio') { var au = await DB.audioPlay(x); if (!au) throw new Error('denied'); url = au.src; }
     else if (!info.body && !(info.quiz || []).length) throw new Error('denied');
@@ -243,7 +243,8 @@
       try {
         var blob = await readBlob(it); URLNOW = URL.createObjectURL(blob);
         if (it.kind === 'lesson' && info.kind === 'audio') { v.innerHTML = IS.audioPlayer(URLNOW, { title: it.title }); IS.audioWire(v, { id: it.ref, title: it.title }); return; }
-        if (it.kind === 'lesson') { v.innerHTML = '<video controls controlsList="nodownload noremoteplayback" disablePictureInPicture playsinline oncontextmenu="return false" src="' + URLNOW + '"></video>'; return; }
+        if (it.kind === 'lesson') { v.innerHTML = '<video controls controlsList="nodownload noremoteplayback" disablePictureInPicture playsinline oncontextmenu="return false" src="' + URLNOW + '"></video>';
+          if (IS.videoIntro) IS.videoIntro(v, { course: info.course, lesson: it.title, paid: !!info.paid }); return; }
         await IS.renderLibraryDocument(v, it.mime || 'application/pdf', URLNOW, blob, { id: it.ref || it.id, title: it.title });
       } catch (e) { v.innerHTML = IS.empty('file', A('تعذّر فتح التنزيل', 'The download could not be opened'), A('احذفه ونزّله مرة أخرى عند الاتصال.', 'Delete it and download it again when online.')); }
     };

@@ -1223,6 +1223,9 @@
     button.closest('.post-preview').appendChild(player);
     button.remove();
     player.firstChild.focus();
+    /* the platform's opening on every video (owner, 22 Nov 2026: «في كل فيديو») */
+    var card = player.closest('.feed-card'), tt = (card && card.querySelector('h2, h3, .fc-t, .feed-title')) || document.querySelector('#main h1');
+    if (IS.videoIntro) IS.videoIntro(player, { course: tt ? tt.textContent.trim() : '', lesson: A('معاينة الكورس', 'Course preview') });
   };
   IS.page('community', async function (room) {
     var section = IS.mySection(), cur = section ? section.id : 'general';
