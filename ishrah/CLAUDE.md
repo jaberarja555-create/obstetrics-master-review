@@ -1426,3 +1426,9 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   kind:id); pinned cards move to the top of their list with a gold edge and 📌 (`IS.applyPins`, MutationObserver; a card's own wrapper
   moves with it). Request and event cards got their own button («عرض الطلب», «عرض الفعالية») like courses, and the request's joined count is a
   tidy chip (`.rq-joined`). Test: scratchpad cm2.js (owner, student on own post, student on another's post, pin order).
+- **Post cards like the library card, second design (owner, 22 Nov 2026: «I don't see the manage button as admin; why press first and only then
+  pin; small nice buttons; post pictures unified; courses and requests not organised; the only organised post is the library one»):**
+  supersedes the single «⋯». Header tools (`.cm-tools`): a small round 📌 for everyone (pins at once, grey when off, gold when on); the team's
+  small «🛡️ إدارة» pill (team tools); the publisher's small round «⋯» (`cm-own`: edit, delete) only when the team pill is not there. Every
+  post picture sits in the library card's frame (3 : 4, a quarter of the card): the whole picture (contain) over a blurred copy of itself
+  (`.pstb`), so frames match and nothing is cut. Card buttons are small (34 px) side by side; a single button takes half the row.

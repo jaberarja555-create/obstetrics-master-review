@@ -197,12 +197,27 @@
   function pinKey(kind, id) { return kind + ':' + id; }
   function pins() { try { return IS.ME ? (IS.LS.get('pins-' + IS.ME.id, {}) || {}) : {}; } catch (e) { return {}; } }
   IS.isPinned = function (kind, id) { return !!pins()[pinKey(kind, id)]; };
+  /* second design (owner, 22 Nov 2026: «I don't see the manage button as admin; why press first and only then pin; small nice buttons»):
+     everyone   a small round 📌 that pins / unpins at once
+     the team   a small «🛡️ إدارة» pill that opens the team tools
+     publisher  a small round «⋯» that opens ✏️ تعديل · 🗑️ حذف (shown only when the team pill is not there) */
   IS.cardMenu = function (kind, id) {
-    return '<button type="button" class="cmenu' + (IS.isPinned(kind, id) ? ' pinned' : '') + '" data-act="cmenu" data-k="' + esc(kind) + '" data-id="' + esc(id) + '" aria-label="' + esc(A('خيارات', 'Options')) + '" title="' + esc(A('خيارات', 'Options')) + '">' +
-      (IS.isPinned(kind, id) ? '<i class="cm-pin" aria-hidden="true">📌</i>' : '') + '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>';
+    var on = IS.isPinned(kind, id), team = IS.ME && (may(kind, 'edit') || may(kind, 'del'));
+    return '<span class="cm-tools"><button type="button" class="cm-b cm-pinb' + (on ? ' on' : '') + '" data-act="cm-pin" data-k="' + esc(kind) + '" data-id="' + esc(id) + '" aria-pressed="' + on + '" aria-label="' +
+      esc(on ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت في الأعلى', 'Pin to the top')) + '" title="' + esc(on ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت في الأعلى', 'Pin to the top')) + '">📌</button>' +
+      (team ? '<button type="button" class="cm-mng" data-act="manage" data-k="' + esc(kind) + '" data-id="' + esc(id) + '" aria-label="' + esc(A('إدارة', 'Manage')) + '"><i aria-hidden="true">🛡️</i><span>' + esc(A('إدارة', 'Manage')) + '</span></button>' : '') + '</span>';
   };
   IS.manageBtn = function (kind, id) { return kind && id ? IS.cardMenu(kind, id) : ''; };
-  IS.ownBtns = function () { return ''; };
+  IS.ownBtns = function (kind, row, partId) {
+    if (!IS.ME || !row || authorOf(kind, row) !== IS.ME.id || may(kind, 'edit') || may(kind, 'del')) return '';
+    if (!ownBtns0(kind, row, partId)) return '';
+    return '<button type="button" class="cm-b cm-own" data-act="cm-own" data-k="' + esc(kind) + '" data-id="' + esc(kind === 'series' && row.series_id ? row.series_id : row.id) + '" data-part="' + esc(partId || '') +
+      '" aria-label="' + esc(A('خيارات منشورك', 'Your post options')) + '" title="' + esc(A('تعديل أو حذف', 'Edit or delete')) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>';
+  };
+  IS.ACT['cm-own'] = async function (b) {
+    var kind = b.dataset.k, row = await load(kind, b.dataset.id); if (!row) return;
+    IS.sheet(esc(A('منشورك', 'Your post')), '<div class="mng-head"><b dir="auto">' + esc(row.series_title || row.title || '') + '</b></div><div class="mtiles">' + ownTiles(kind, row, b.dataset.part || (row._parts && row._parts[0] && row._parts[0].id)).join('') + '</div>', { nofocus: true });
+  };
   function ownTiles(kind, row, partId) {
     var html = ownBtns0(kind, row, partId) || '', out = [], re = /<button type="button" class="own-b" ([^>]*?) aria-label="[^"]*" title="[^"]*">([^<]*)<\/button>/g, m, i = 0;
     while ((m = re.exec(html))) { var del = /own-del|data-what="delete"/.test(m[1]);
@@ -227,15 +242,15 @@
     if (!IS.ME) { IS.closeSheet(); return IS.ACT.login ? IS.ACT.login() : null; }
     var all = pins(), k = pinKey(b.dataset.k, b.dataset.id);
     if (all[k]) delete all[k]; else all[k] = Date.now();
-    IS.LS.set('pins-' + IS.ME.id, all); IS.closeSheet();
+    IS.LS.set('pins-' + IS.ME.id, all); if (document.getElementById('sheet') && !document.getElementById('sheet').hidden) IS.closeSheet();
     IS.toast(all[k] ? A('📌 ثُبّت في أعلى الصفحة', '📌 Pinned to the top') : A('أُلغي التثبيت', 'Unpinned'));
-    IS.$$('.cmenu[data-k="' + b.dataset.k + '"][data-id="' + b.dataset.id + '"]').forEach(function (x) { x.outerHTML = IS.cardMenu(b.dataset.k, b.dataset.id); });
+    IS.$$('.cm-tools:has(.cm-pinb[data-k="' + b.dataset.k + '"][data-id="' + b.dataset.id + '"])').forEach(function (x) { x.outerHTML = IS.cardMenu(b.dataset.k, b.dataset.id); });
     order();
   };
   /* pinned cards go first in their list, newest pin first, with a small «📌 مثبّت» label */
   function order() {
     var all = pins(), keys = Object.keys(all);
-    IS.$$('#main .cmenu').forEach(function (btn) {
+    IS.$$('#main .cm-pinb').forEach(function (btn) {
       var card = btn.closest('article, .fcard, .feed-card'); if (!card) return;
       /* each card may sit in its own wrapper: the unit that moves is the outermost element holding only this card */
       while (card.parentElement && card.parentElement.children.length === 1 && !card.parentElement.matches('#main, .mh-old, .mh-page')) card = card.parentElement;

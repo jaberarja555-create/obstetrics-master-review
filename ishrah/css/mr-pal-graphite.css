@@ -2413,7 +2413,7 @@ html body .mrx :is(.mc-pic,.lr-pic,.pf-post .pp,.lp-th,.cr2-cover,.ccimg)>.pst{h
 .fcard>.cmenu{position:absolute;top:8px;inset-inline-start:8px;z-index:3;box-shadow:0 2px 6px rgba(0,0,0,.12)}
 .fcard{position:relative}
 :is(article,.fcard,.feed-card):is(.is-pinned,.pin-card){box-shadow:0 0 0 2px rgba(226,184,90,.55),0 6px 16px rgba(34,42,41,.08)!important}
-.is-pinned .feed-card-header::after{content:"📌";order:-1;font-size:13px}
+
 .mngbar.mng1{display:flex;justify-content:flex-end;background:none!important;border:0!important;padding:0!important;margin:0 0 6px!important}
 :root[data-theme=dark] .cmenu{background:#1d2120;border-color:#313635;color:#d8dad9}
 
@@ -2423,3 +2423,42 @@ html body .mrh .feed-detail:has(.rq-joined){display:flex}
 .rq-joined .ico{width:15px;height:15px}
 .rq-joined b{font-size:13.5px;color:#222a29}
 :root[data-theme=dark] .rq-joined{background:#262a29;color:#bcc3c1}:root[data-theme=dark] .rq-joined b{color:#eaebeb}
+/* ===== every post card like the library card (owner, 22 Nov 2026: «the only organised post is the library one»; «post pictures unified»;
+   «buttons small and nice») ===== */
+/* one frame for every post picture: the book-cover frame (3 : 4, a quarter of the card); the whole picture shows, the rest of the frame is
+   a soft, blurred copy of the same picture */
+html body .mrh .feed-card-content:has(>.feed-image){grid-template-columns:minmax(78px,27%) minmax(0,1fr)!important;align-items:start}
+@media (min-width:1024px){html body .mrh .feed-items>.feed-card>.feed-card-content:has(>.feed-image){grid-template-columns:minmax(110px,30%) minmax(0,1fr)!important}}
+html body .mrh .feed-card .feed-image:not(:has(.library-cover)){aspect-ratio:3/4!important;height:auto!important;align-self:start!important;border-radius:14px!important;overflow:hidden;background:#ebebeb!important}
+html body .mrh .feed-card .feed-image .pst{position:relative!important;width:100%!important;height:100%!important;aspect-ratio:auto!important}
+html body .mrh .feed-card .feed-image .pst>.pstb{display:block!important;position:absolute!important;inset:-12px;width:calc(100% + 24px)!important;height:calc(100% + 24px)!important;object-fit:cover!important;filter:blur(12px) saturate(1.05) brightness(.92)!important;transform:none!important}
+html body .mrh .feed-card .feed-image .pst>.pstf{position:absolute!important;inset:0;width:100%!important;height:100%!important;object-fit:contain!important}
+@media (hover:none){html body .mrh .feed-card .feed-image .pst>.pstb{filter:blur(8px) brightness(.92)!important}}
+/* small buttons, side by side like the library card; a single button takes half the row */
+html body .mrh .feed-card .library-feed-actions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+html body .mrh .feed-card .library-feed-actions>:only-child{grid-column:auto!important}
+html body .mrh .feed-card .library-feed-actions .btn{height:34px!important;min-height:0!important;border-radius:12px!important;font-size:13px!important;padding:0 10px!important;box-shadow:none!important}
+html body .mrh .feed-card .library-feed-actions .btn .ico{width:15px!important;height:15px!important}
+/* the joined chip small */
+.rq-joined{padding:2px 10px!important;font-size:12px!important}.rq-joined b{font-size:12.5px!important}.rq-joined .ico{width:13px!important;height:13px!important}
+/* header tools: a small round 📌, the team's small «🛡️ إدارة», the publisher's small «⋯» */
+.cm-tools{display:inline-flex;align-items:center;gap:5px;margin-inline-start:auto;flex:none}
+.feed-card-header .cm-own{margin-inline-start:auto}
+.feed-card-header .cm-own+.cm-tools{margin-inline-start:0}
+.cm-b{display:grid;place-items:center;width:28px;height:28px;padding:0;border-radius:50%;border:1px solid #e0e2e1;background:#fff;color:#4a4d4d;cursor:pointer;flex:none;font-size:12px;line-height:1}
+.cm-b svg{width:15px;height:15px;fill:currentColor}
+.cm-pinb{filter:grayscale(1);opacity:.55}
+.cm-pinb.on{filter:none;opacity:1;border-color:#e2b85a;background:#fff8e6}
+.cm-mng{display:inline-flex;align-items:center;gap:3px;height:28px;padding:0 9px;border-radius:999px;border:1px solid #e2c47a;background:#fff8e6;color:#7a5a14;font:inherit;font-size:11.5px;font-weight:800;cursor:pointer;flex:none}
+.cm-mng i{font-style:normal;font-size:11px}
+@media (hover:hover){.cm-b:hover{background:#f2f2f2}.cm-pinb:hover{opacity:.85}}
+.fcard>.cm-tools{position:absolute;top:8px;inset-inline-start:8px;z-index:3}
+.fcard>.cm-tools .cm-b,.fcard>.cm-tools .cm-mng{box-shadow:0 2px 6px rgba(0,0,0,.12)}
+:root[data-theme=dark] .cm-b{background:#1d2120;border-color:#313635;color:#d8dad9}
+:root[data-theme=dark] .cm-mng{background:#2a2410;border-color:#6b5a26;color:#f3e2b0}
+html body .mrh .feed-card .feed-image:not(:has(.library-cover)){position:relative!important}
+html body .mrh .feed-card .feed-image .pst{position:absolute!important;inset:0!important;width:auto!important;height:auto!important}
+/* the header's small tools never take the label-chip look of the header's first span */
+html body .mrh .feed-card-header>.cm-tools{background:none!important;padding:0!important;border:0!important;box-shadow:none!important;border-radius:0!important;height:auto!important}
+html body .mrh .feed-card-header .cm-tools>*{margin:0!important}
+html body .mrh .feed-card-header .cm-mng i{background:none!important;padding:0!important;width:auto!important;height:auto!important}
