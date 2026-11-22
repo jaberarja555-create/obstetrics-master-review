@@ -113,6 +113,15 @@ admin move to **https://books.studentmasterreview.com** until Stage 3; the book 
 - **E. Claude.** Do the code step 6 below (`push_url` migration, texts, manifest, SW bump), publish, and test sign-in with email and
   Google, alerts, and offline on the new address.
 
+**Progress (22 Nov 2026):**
+- **A** done by the owner.
+- **B** done:
+  - obstetrics `main` 8f082bf: book and platform deploys succeeded;
+  - surgery `claude/surgery-rapid-review-app-eoho37`, and pediatrics `main` + `claude/confident-turing-evm4gu`. Cloudflare Workers Builds
+    deploy these two; this session cannot see those deploys.
+  - The built `docs/index.html` was edited in place, and `docs/sw.js` got the new cache name (sha1 of index.html), as build.py would.
+  - **Next: owner checks B, then step C.**
+
 (Detailed notes for each part follow.)
 
 1. **Prepare the books first.** The old platform must keep working for book students until Stage 3. Give the old platform its own new
