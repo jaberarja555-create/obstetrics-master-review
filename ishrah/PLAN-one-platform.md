@@ -289,6 +289,18 @@ phone.
 
 ### Stage 4: sub-apps and shortcuts
 
+**Done for the three books (22 Nov 2026, owner: «each book can be installed as an app, and the side SMRA button is there»):**
+- `ishrah/apps/<book>.webmanifest` (id `/apps/<book>`, name «Surgery Master Review · SMRA», short name Surgery, start `/?app=<book>#book/<book>`,
+  scope `/`, the book's own icon `img/apps/<book>-192/512.png`, iPhone `img/apps/<book>-apple.png`). The head script of index.html reads
+  `?app=` and writes that book's install file and icon instead of SMRA's (`window.ISH_APP`); the SMRA welcome is skipped and the speciality /
+  section gates let `book` / `books` through, so the installed book opens straight on the book. Same address = same account, data, saved books.
+- My Library → «الكتب» (`#books`) has «ثبّت كتابًا كتطبيق مستقل» with one button per book (`bk-install`): it reopens the page as
+  `/?app=<book>#book/<book>` and shows the install window («ثبّت الآن» with Chrome's install prompt when it offers one, else the steps for
+  iPhone Safari / Android Chrome / computer). The SMRA handle on the book's side goes to the platform (`#home`) when the book was opened as its app.
+- SMRA's own manifest has `shortcuts` (long press on the SMRA icon): Surgery, Pediatrics, Obstetrics, My Library.
+- Still to check on real phones: Android Chrome installs the book app beside an installed SMRA (different `id`, same scope), iPhone «Add to
+  Home Screen» names it from `apple-mobile-web-app-title`. Library / Courses / Clinical sub-apps (point 2 below) are not made yet.
+
 1. **Shortcuts.** Add `shortcuts` in `manifest.webmanifest`: Library `#library`, Courses `#courses`, Clinical (section shortcut), and the
    three books. A long press on the app icon shows them on Android.
 2. **Sub-apps on the same address.** Each one is a copy of `index.html` under `/a/<name>/` (for example `/a/library/`) with its own

@@ -1,0 +1,27 @@
+{
+  "id": "/apps/surgery",
+  "name": "Surgery Master Review · SMRA",
+  "short_name": "Surgery",
+  "description": "كتاب الجراحة من Sudan Master Review Academy: القراءة والتظليل والملاحظات والبطاقات وبنك الأسئلة والمراجعة السريعة.",
+  "start_url": "/?app=surgery#book/surgery",
+  "scope": "/",
+  "display": "standalone",
+  "dir": "rtl",
+  "lang": "ar",
+  "background_color": "#eaf1fb",
+  "theme_color": "#1f4e8c",
+  "icons": [
+    {
+      "src": "/img/apps/surgery-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/apps/surgery-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

@@ -47,5 +47,55 @@
         }
       ]
     }
-  }
+  },
+  "shortcuts": [
+    {
+      "name": "Surgery Master Review",
+      "short_name": "Surgery",
+      "url": "./#book/surgery",
+      "icons": [
+        {
+          "src": "img/apps/surgery-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Pediatrics Master Review",
+      "short_name": "Pediatrics",
+      "url": "./#book/pediatrics",
+      "icons": [
+        {
+          "src": "img/apps/pediatrics-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Obstetrics Master Review",
+      "short_name": "Obstetrics",
+      "url": "./#book/obstetrics",
+      "icons": [
+        {
+          "src": "img/apps/obstetrics-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "مكتبتي",
+      "short_name": "المكتبة",
+      "url": "./#library",
+      "icons": [
+        {
+          "src": "icon-192.png?v=181",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
 }

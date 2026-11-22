@@ -1549,3 +1549,8 @@ after 0.18 s (was 2.5 s).
   the promise before the first `await`), never one `await` after another when the second does not need the first.
 - Pages that open once from the phone's saved copy (db.js, 20 Nov 2026) were already instant on a second visit of the SAME item; the early
   reads make OTHER items of the same kind fast too.
+
+## Each book as its own app (owner, 22 Nov 2026) — details in PLAN-one-platform.md, stage 4
+`/?app=<surgery|pediatrics|obstetrics>` makes index.html offer `apps/<book>.webmanifest` (own name and icon, start on `#book/<book>`);
+install buttons on `#books` (`bk-install`, js/books.js); the SMRA side handle goes to the platform; main manifest `shortcuts`. Any change
+to css/mr.css needs `python3 tools/ishrah/palettes.py` (the app loads the generated css/mr.pv.css).

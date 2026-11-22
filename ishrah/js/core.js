@@ -382,10 +382,10 @@
     var previous = main.querySelector(':scope > .page'), account = IS.ME ? IS.ME.id : '';
     main.removeAttribute('aria-busy');
     var student = !o.area || o.area === 'student' || (o.area === 'keep' && IS.area === 'student');
-    if (student && IS.SPEC && IS.specLocked && IS.specLocked(IS.SPEC) && !/^(pick|terms|security|settings)$/.test(name)) { name = 'pick'; P = PAGES.pick; o = P.o; }
-    else if (student && IS.SPECS.length && !/^(pick|terms|security|payment|downloads|dl|settings)$/.test(name) && !IS.mySpec()) {
+    if (student && IS.SPEC && IS.specLocked && IS.specLocked(IS.SPEC) && !/^(pick|terms|security|settings|book|books)$/.test(name)) { name = 'pick'; P = PAGES.pick; o = P.o; }
+    else if (student && IS.SPECS.length && !/^(pick|terms|security|payment|downloads|dl|settings|book|books)$/.test(name) && !IS.mySpec()) {
       name = 'pick'; P = PAGES.pick; o = P.o;
-    } else if (student && IS.mySpec() && IS.CATS.length && !IS.mySection() && !/^(pick|pick-section|terms|security|settings|downloads|dl|spec|specialties|payment)$/.test(name) &&
+    } else if (student && IS.mySpec() && IS.CATS.length && !IS.mySection() && !/^(pick|pick-section|terms|security|settings|downloads|dl|spec|specialties|payment|book|books)$/.test(name) &&
       !((IS.team() || IS.LEC) && /^(course|lesson|lecturer|file|post)$/.test(name))) {
       name = 'pick-section'; P = PAGES[name]; o = P.o;
     }

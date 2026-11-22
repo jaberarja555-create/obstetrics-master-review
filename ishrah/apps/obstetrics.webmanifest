@@ -1,0 +1,27 @@
+{
+  "id": "/apps/obstetrics",
+  "name": "Obstetrics Master Review · SMRA",
+  "short_name": "Obstetrics",
+  "description": "كتاب النساء والتوليد من Sudan Master Review Academy: القراءة والتظليل والملاحظات والبطاقات وبنك الأسئلة والمراجعة السريعة.",
+  "start_url": "/?app=obstetrics#book/obstetrics",
+  "scope": "/",
+  "display": "standalone",
+  "dir": "rtl",
+  "lang": "ar",
+  "background_color": "#f3effa",
+  "theme_color": "#5b3d8f",
+  "icons": [
+    {
+      "src": "/img/apps/obstetrics-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/apps/obstetrics-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

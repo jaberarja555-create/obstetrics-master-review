@@ -24,7 +24,10 @@
     return '<section class="box bk-page"><h1 tabindex="-1">📚 ' + esc(A('كتب Master Review', 'Master Review books')) + '</h1><p class="mut">' +
       esc(A('الكتب كاملة بكل أدواتها: القراءة والتظليل والملاحظات والقلم والبطاقات وبنك الأسئلة والمراجعة السريعة، وتعمل دون إنترنت بعد أول فتح.',
         'The full books with all their tools: reading, highlights, notes, pen, flashcards, question bank and Rapid Review. They work offline after the first opening.')) +
-      '</p><div class="bk-grid">' + BOOKS.map(card).join('') + '</div></section>';
+      '</p><div class="bk-grid">' + BOOKS.map(card).join('') + '</div>' +
+      '<div class="bk-inst"><h2>📲 ' + esc(A('ثبّت كتابًا كتطبيق مستقل', 'Install a book as its own app')) + '</h2><p class="mut">' +
+      esc(A('يظهر الكتاب على شاشة هاتفك بأيقونته ويفتح مباشرة، بنفس حسابك وبياناتك، وزر SMRA على الجانب ينقلك إلى المنصة.', 'The book gets its own icon on your phone and opens straight away, with the same account and data; the SMRA button on the side takes you to the platform.')) +
+      '</p><div class="bk-ibtns">' + BOOKS.map(function (b) { return '<button type="button" class="btn ghost" data-act="bk-install" data-v="' + b.id + '"><img src="' + IS.U('img/apps/' + b.id + '-192.png') + '" alt="">' + esc(A('ثبّت ', 'Install ')) + '<bdi lang="en" dir="ltr">' + esc(b.en.replace(' Master Review', '')) + '</bdi></button>'; }).join('') + '</div></div></section>';
   });
   /* the book, full screen; the frame is kept while the person moves around SMRA, so coming back is instant */
   var FR = {};
@@ -68,7 +71,34 @@
   });
   /* the page the person came from (the book's own page changes also go into the browser history, so «back» is not used) */
   var FROM = /^#book\//.test(location.hash) ? '' : location.hash.slice(1);
-  IS.ACT['bk-back'] = function () { hideBook(); IS.go(FROM && !/^book\//.test(FROM) ? FROM : 'books'); };
+  /* opened as the book's own app (/?app=<book>): the SMRA handle goes into the platform */
+  IS.ACT['bk-back'] = function () { hideBook(); IS.go(FROM && !/^book\//.test(FROM) ? FROM : window.ISH_APP ? 'home' : 'books'); };
+  /* installing a book as its own app (owner, 22 Nov 2026): the install file of a page is fixed when it opens, so the button first opens
+     /?app=<book>#book/<book> (index.html then offers apps/<book>.webmanifest), then shows the install window or the steps for the phone */
+  var BIP = null;
+  window.addEventListener('beforeinstallprompt', function (e) { if (window.ISH_APP) { e.preventDefault(); BIP = e; } });
+  IS.ACT['bk-install'] = function (b) {
+    var id = b.getAttribute('data-v'); if (!book(id)) return;
+    if (window.ISH_APP !== id) { try { sessionStorage.setItem('ish-inst', id); } catch (e) {} location.href = '/?app=' + id + '#book/' + id; return; }
+    instSheet(id);
+  };
+  function instSheet(id) {
+    var b = book(id), name = b.en.replace(' Master Review', ''), ua = navigator.userAgent || '';
+    var standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+    var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && 'ontouchend' in document), android = /Android/.test(ua);
+    var steps = ios ? [A('افتح هذه الصفحة في Safari.', 'Open this page in Safari.'), A('اضغط زر المشاركة ⬆️ أسفل الشاشة.', 'Tap the Share button ⬆️ at the bottom.'), A('اختر «إضافة إلى الشاشة الرئيسية» ثم «إضافة».', 'Choose «Add to Home Screen», then «Add».')] :
+      android ? [A('افتح هذه الصفحة في Chrome.', 'Open this page in Chrome.'), A('اضغط ⋮ في أعلى الشاشة.', 'Tap ⋮ at the top.'), A('اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».', 'Choose «Install app» or «Add to Home screen».')] :
+      [A('في Chrome أو Edge اضغط زر التثبيت في شريط العنوان، أو القائمة ← «تثبيت».', 'In Chrome or Edge press the install button in the address bar, or the menu → «Install».')];
+    IS.sheet('📲 ' + esc(A('ثبّت كتاب ', 'Install ')) + '<bdi lang="en" dir="ltr">' + esc(name) + '</bdi>',
+      '<div class="bk-isheet"><img src="' + IS.U('img/apps/' + id + '-192.png') + '" alt=""><p>' + esc(A('سيظهر الكتاب على شاشة هاتفك بأيقونته ويفتح مباشرة. زر SMRA على الجانب ينقلك إلى المنصة، وحسابك وبياناتك نفسها.', 'The book will appear on your phone with its own icon and open straight away. The SMRA button on the side takes you to the platform; your account and data are the same.')) + '</p>' +
+      (standalone && window.ISH_APP === id ? '<p class="note ok">' + esc(A('أنت تستعمل الكتاب كتطبيق الآن.', 'You are using the book as an app now.')) + '</p>' :
+        BIP ? '<button type="button" class="btn pri wide" id="bkInstGo">' + esc(A('ثبّت الآن', 'Install now')) + '</button>' :
+        '<ol class="bk-steps">' + steps.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol>') + '</div>', { nofocus: 1 });
+    var go = document.getElementById('bkInstGo');
+    if (go) go.onclick = function () { var e = BIP; BIP = null; IS.closeSheet(); e.prompt(); e.userChoice.then(function (c) { if (c && c.outcome === 'accepted') IS.toast(A('ثُبّت الكتاب. تجده على شاشة هاتفك.', 'Installed. You will find the book on your home screen.')); }).catch(function () {}); };
+  }
+  if (window.ISH_APP) { var want = ''; try { want = sessionStorage.getItem('ish-inst'); sessionStorage.removeItem('ish-inst'); } catch (e) {}
+    if (want === window.ISH_APP) setTimeout(function () { instSheet(want); }, 1500); }
   /* leaving #book/… hides the book (the frame stays loaded) */
   window.addEventListener('hashchange', function () { if (!/^#book\//.test(location.hash)) { hideBook(); FROM = location.hash.slice(1); } });
   /* the book's own «المكتبة» button */

@@ -1,0 +1,27 @@
+{
+  "id": "/apps/pediatrics",
+  "name": "Pediatrics Master Review · SMRA",
+  "short_name": "Pediatrics",
+  "description": "كتاب الأطفال من Sudan Master Review Academy: القراءة والتظليل والملاحظات والبطاقات وبنك الأسئلة والمراجعة السريعة.",
+  "start_url": "/?app=pediatrics#book/pediatrics",
+  "scope": "/",
+  "display": "standalone",
+  "dir": "rtl",
+  "lang": "ar",
+  "background_color": "#eef6f0",
+  "theme_color": "#1e6b45",
+  "icons": [
+    {
+      "src": "/img/apps/pediatrics-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/apps/pediatrics-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
