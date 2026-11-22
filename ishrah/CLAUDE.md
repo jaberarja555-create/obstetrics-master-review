@@ -1532,3 +1532,20 @@ identical to the old copies. After any change to css/app.css or css/mr.css run `
 the post (from the feed's copy, `IS.seedRow`) shows at once; if the comments are not there within 150 ms the comments box shows three dots
 (`.pcm-wait`) and is filled when they arrive (`.cthreads[data-pcm]`, `threadHtml`). Measured with comments delayed 2.5 s: the post shows
 after 0.18 s (was 2.5 s).
+
+## No step-by-step waiting anywhere (owner, 22 Nov 2026: "look for any such delay in the app, I don't want to find them one by one")
+- **Check for the whole app:** `node tools/ishrah/delays.js` (app served on :8820 with an empty config.js) opens about 70 pages with every
+  database request delayed 400 ms and lists, slowest first, the time until each page shows and how many requests it made ONE AFTER ANOTHER
+  (each adds a full trip on a slow network). `TWICE=1` measures second openings; `PF=0` without the fix below. Run it after adding a page.
+- **Learned early reads** (`js/prefetch.js`, loaded last): remembers which reads (DB.q / DB.one) each kind of page made (lecturer/:0,
+  post/:0, course/:0/…, control-students …; ids of the address written :0, :1, the account :me) and fires them all at once when a page of
+  that kind opens again (any lecturer, any post); the page's own reads, one after another, then find the answer on its way (handed over once,
+  copied; unused after 6 s dropped). Only reads; a read naming an id the address does not carry is not remembered. `ish-pf` in localStorage
+  (150 kinds × 30 reads), removed at sign-out. Measured second openings: slowest page 4.0 s → 0.83 s, lecturer page 3.6 s → 0.8 s, account
+  2.0 s → 0.8 s, lesson 1.6 s → 0.8 s, library / sales / event / file / control pages 1.2 s → 0.4–0.8 s.
+- **First openings fixed in the code:** lecturer page (its reads and the newer design's reads start together: 3.6 s → 2.4 s in the preview copy,
+  lower live where the profile card is one request), lesson page (lessons, enrolment, progress and the asked lesson start with the course:
+  1.6 s → 0.8 s), post page (comments after the post, earlier today). New pages: start independent reads together (`Promise.all`, or start
+  the promise before the first `await`), never one `await` after another when the second does not need the first.
+- Pages that open once from the phone's saved copy (db.js, 20 Nov 2026) were already instant on a second visit of the SAME item; the early
+  reads make OTHER items of the same kind fast too.

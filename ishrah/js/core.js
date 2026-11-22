@@ -1016,7 +1016,7 @@
     if (!GSI) GSI = new Promise(function (ok, no) { var s = document.createElement('script'); s.src = 'https://accounts.google.com/gsi/client'; s.async = true; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
     GSI.then(go, function () { GSI = null; box.remove(); });
   };
-  IS.ACT.logout = async function () { await DB.signOut(); try { localStorage.removeItem('ish-me'); IS.clearCopies(); if (DB.clearSaved) DB.clearSaved(); } catch (e) {} IS.ME = null; IS.LEC = null; IS.go('home'); };
+  IS.ACT.logout = async function () { await DB.signOut(); try { localStorage.removeItem('ish-me'); IS.clearCopies(); if (DB.clearSaved) DB.clearSaved(); localStorage.removeItem('ish-pf'); } catch (e) {} IS.ME = null; IS.LEC = null; IS.go('home'); };
   IS.SUB.search = function (d) { IS.go('search/' + encodeURIComponent(d.q || '')); };
 
   /* ---------- start ---------- */

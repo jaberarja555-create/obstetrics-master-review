@@ -761,17 +761,21 @@
 
   /* ========== LESSON PLAYER ========== */
   IS.page('lesson', async function (arg) {
-    var ids = String(arg || '').split('/'), cid = ids[0], c = await DB.one('courses', cid);
+    var ids = String(arg || '').split('/'), cid = ids[0];
+    /* the lessons, my enrolment and progress, and the asked lesson start with the course (they were asked after it) */
+    var early = Promise.all([IS.courseLessons(cid), IS.myEnroll(), IS.myProgress(cid)]), earlyLesson = ids[1] ? DB.lesson(ids[1]) : null;
+    early.catch(function () {}); if (earlyLesson) earlyLesson.catch(function () {});
+    var c = await DB.one('courses', cid);
     if (!c) return null;
     var mine = IS.LEC && c.lecturer_id === IS.LEC.id, staff = IS.can('review');
     if (c.status !== 'published' && !mine && !staff) return null;
     if (!mine && !staff && !IS.inStudySpace(c)) return IS.outsideStudySpace(c);
-    var r = await Promise.all([IS.courseLessons(cid), IS.myEnroll(), IS.myProgress(cid), DB.one('lecturers', c.lecturer_id)]);
-    var secs = r[0], enrolment = r[1][cid], progress = r[2], lecturer = r[3];
+    var r = await Promise.all([early, DB.one('lecturers', c.lecturer_id)]);
+    var secs = r[0][0], enrolment = r[0][1][cid], progress = r[0][2], lecturer = r[1];
     var all = secs.flatMap(function (section) { return section.lessons; });
     if (!all.length) return null;
     var idx = Math.max(0, all.findIndex(function (lesson) { return lesson.id === ids[1]; }));
-    var x = Object.assign({}, all[idx], (await DB.lesson(all[idx].id)) || {});
+    var x = Object.assign({}, all[idx], (await (earlyLesson && all[idx].id === ids[1] ? earlyLesson.catch(function () { return DB.lesson(all[idx].id); }) : DB.lesson(all[idx].id))) || {});
     var active = !!((enrolment && enrolment.status === 'active') || mine || staff);
     var allowed = active || x.free, canStudy = allowed && !!me(), done = !!progress[x.id];
     var prev = all[idx - 1], next = all[idx + 1];
@@ -1040,8 +1044,11 @@
       esc(L0 ? A('أنشئ كورساتك وتابع طلابك بسهولة.', 'Create your courses and follow your students with ease.') : A('قدّم كورساتك وصمّم صفحتك واربح من كل طالب.', 'Teach your courses, design your page and earn from every student.')) +
       '</p><div class="row"><a class="btn sm jbtn" href="#' + (L0 ? 'studio' : 'studio-apply') + '">' + ic(L0 ? 'video' : 'send') + esc(L0 ? A('افتح الاستوديو', 'Open the studio') : A('قدّم طلبك', 'Apply')) + '</a></div></article>'; }
   IS.page('lecturer', async function (id) {
+    /* the lecturer, the courses, the events and my enrolments are asked together (they were asked one after another) */
+    var coursesP = DB.q('courses', { eq: { lecturer_id: id, status: 'published' }, order: ['published_at', false] }), evP = Promise.all([DB.q('events', { eq: { lecturer_id: id, status: 'published' }, order: ['starts'] }), IS.myEnroll()]);
+    coursesP.catch(function () {}); evP.catch(function () {});
     var l = await DB.one('lecturers', id); if (!l || (l.status !== 'active' && !(IS.LEC && IS.LEC.id === id) && !IS.can('lecturers'))) return null;
-    var courses = await DB.q('courses', { eq: { lecturer_id: id, status: 'published' }, order: ['published_at', false] });
+    var courses = await coursesP;
     var cs = courses.filter(IS.inStudySpace), preview = (IS.LEC && IS.LEC.id === id) || IS.can('lecturers');
     if (!preview && !IS.studyLecturers([l], courses).length) {
       var selected = (l.teaching_spaces || []).find(function (space) { return space.startsWith(IS.SPEC + '/'); }) || (l.teaching_spaces || [])[0];
@@ -1052,7 +1059,7 @@
       return IS.outsideStudySpace(other);
     }
     if (preview && !IS.mySection()) cs = courses;
-    var r = await Promise.all([DB.q('events', { eq: { lecturer_id: id, status: 'published' }, order: ['starts'] }), IS.myEnroll()]);
+    var r = await evP;
     var ev = r[0].filter(IS.announcementInSection);
     var L = {}; L[id] = l; var st = cs.reduce(function (a, c) { return a + (+c.n_students || 0); }, 0), rv = cs.filter(function (c) { return c.n_reviews; }), rate = rv.length ? Math.round(rv.reduce(function (a, c) { return a + c.rating * c.n_reviews; }, 0) / rv.reduce(function (a, c) { return a + c.n_reviews; }, 0) * 10) / 10 : 0;
     var links = Object.assign({}, l.links || {}); delete links.whatsapp; delete links.telegram; delete links.email;   /* contacts stay with the team (056) */

@@ -611,10 +611,12 @@
   HI.star = svg('0 0 24 24', '<path d="M12 3l2.8 5.8 6.2.9-4.5 4.4 1.1 6.2L12 17.4l-5.6 2.9 1.1-6.2L3 9.7l6.2-.9z"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"');
   var lec0 = IS.pageOf && IS.pageOf('lecturer');
   if (lec0) IS.page('lecturer', async function (id) {
+    /* this page's own reads start together with the older page's reads (they used to wait for it to finish) */
+    var extra = Promise.all([DB.one('lecturers', id).catch(function () { return null; }), pcard(id).catch(function () { return null; }),
+      DB.q('courses', { eq: { lecturer_id: id, status: 'published' } }).catch(function () { return []; })]);
     var inner = await lec0.fn(id);
     if (typeof inner !== 'string' || inner.indexOf('class="lhero') < 0) return inner;
-    var r = await Promise.all([DB.one('lecturers', id).catch(function () { return null; }), pcard(id).catch(function () { return null; }),
-      DB.q('courses', { eq: { lecturer_id: id, status: 'published' } }).catch(function () { return []; })]);
+    var r = await extra;
     var l = r[0], c = r[1] || {}, courses = r[2] || [];
     if (!l) return inner;
     var t = document.createElement('template'); t.innerHTML = inner;
