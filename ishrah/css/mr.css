@@ -2693,3 +2693,12 @@ html body #offbar.off{background:rgba(38,46,44,.94)}html body #offbar.on{backgro
 #asfab{transition:bottom .25s}
 @media (max-width:1023px){body:has(#offbar:not([hidden]):not(.mini)) #asfab{bottom:calc(146px + env(safe-area-inset-bottom))!important}}
 @media (min-width:1024px){body:has(#offbar:not([hidden]):not(.mini)) #asfab.nonav{bottom:calc(84px + env(safe-area-inset-bottom))!important}}
+
+/* help button docked at the screen edge: a small tab with the sign only; the first tap slides it out with its name (assist.js tap) */
+html body #asfab{inset-inline-start:0!important;height:40px;padding:0 9px;gap:6px;opacity:.85;border-radius:0 999px 999px 0;
+  border-inline-start:0;transition:bottom .25s,padding .25s,opacity .25s,box-shadow .25s;background:rgba(255,255,255,.78);color:#06463b;box-shadow:0 3px 12px rgba(0,0,0,.14)}
+html[dir=rtl] body #asfab{border-radius:999px 0 0 999px}
+html body #asfab span{max-width:0;overflow:hidden;white-space:nowrap;opacity:0;transition:max-width .25s,opacity .2s}
+html body #asfab.out{opacity:1;padding:0 14px 0 12px;background:#0a5562;color:#fff;box-shadow:0 6px 18px rgba(10,85,98,.35)}
+html body #asfab.out span{max-width:120px;opacity:1}
+:root[data-theme=dark] body #asfab:not(.out){background:rgba(10,20,24,.7);color:#f3e2b0}

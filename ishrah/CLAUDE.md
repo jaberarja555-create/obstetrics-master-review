@@ -1499,3 +1499,6 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   «عاد الاتصال» for 3 s. After Google sends the student back, #main shows «جارٍ تسجيل الدخول…» at once; the 2-step check and the account re-read
   in route never wait more than 6 s. live.js: a failed live channel is removed once, outside its own callback (it looped until the stack
   overflowed). Test of the Google return with the real supabase-js and a fake server: scratchpad gret2.js / gret3.js (DLY = delay per call).
+- **Help (AI) button docked at the edge (owner, 22 Nov 2026):** `#asfab` is a small tab stuck to the screen side (sign only); the first tap slides
+  it out with «مساعدة» for 4 s (`.out`, assist.js `tap`), a tap while out opens the guide, otherwise it goes back. While the offline bar is open
+  the tab rises above it.

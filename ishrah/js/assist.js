@@ -98,9 +98,17 @@
   /* «مساعدة»: on the main screen only, a tab half tucked into the screen edge that never moves; a tap opens the guide (owner, 21 Nov 2026:
      «ضعه في الشاشة الرئيسية كالسابق لكن يكون مخفي شويه») */
   var ICON = '<svg viewBox="3 3.5 18 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12.5a7.5 7.5 0 0 1-11 6.6L4 20l1-4.2A7.5 7.5 0 1 1 20 12.5z"/><path d="M12.5 8.6l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" fill="currentColor" stroke-width="1"/></svg>';
+  /* docked at the screen edge (owner, 22 Nov 2026: «stick beside; press and it appears for some seconds, press again it opens, otherwise it goes
+     back beside»): first tap slides it out with its name for 4 s; a tap while it is out opens the guide */
+  var OUTT = 0;
+  function tap() {
+    var b = document.getElementById('asfab'); if (!b) return;
+    if (b.classList.contains('out')) { clearTimeout(OUTT); b.classList.remove('out'); open(); return; }
+    b.classList.add('out'); clearTimeout(OUTT); OUTT = setTimeout(function () { b.classList.remove('out'); }, 4000);
+  }
   function fab() {
     var b = document.getElementById('asfab');
-    if (!b) { b = document.createElement('button'); b.id = 'asfab'; b.type = 'button'; b.onclick = open; document.body.appendChild(b); }
+    if (!b) { b = document.createElement('button'); b.id = 'asfab'; b.type = 'button'; b.onclick = tap; document.body.appendChild(b); }
     b.innerHTML = ICON + '<span>' + esc(A('مساعدة', 'Help')) + '</span>'; b.setAttribute('aria-label', A('مساعدة: مرشد المنصة', 'Help: platform guide'));
     var pg = document.body.getAttribute('data-page') || '';
     /* every screen of the app, signed in or not, from the first screen (owner, 21 Nov 2026: «مساعد الـ AI يظهر في أماكن التطبيق حتى من البداية»);
