@@ -131,6 +131,12 @@ admin move to **https://books.studentmasterreview.com** until Stage 3; the book 
       «لا تظهر مرة أخرى»).
   - **D** done by the owner (22 Nov 2026): Google JavaScript origins and the SMRA Supabase Site URL and Redirect URLs.
   - The owner switched the ishrahli.org redirect rule to **301** (permanent).
+  - Owner's test: 1, 2 and 4 passed. 3 failed: ishrahli.org still opened the app. A phone that installed the app on ishrahli.org opens its
+    saved copy, and the browser refuses an update script (`/sw.js`) behind a redirect, so the phone stayed on the old address for ever.
+    Fix (ish-v246): on ishrahli.org, sw.js deletes all caches, unregisters itself and sends open windows to the same page on
+    studentmasterreview.com. The index.html head also forwards any page loaded on ishrahli.org.
+    **The Cloudflare rule must skip /sw.js:** use the custom expression `(http.request.uri.path ne "/sw.js")` instead of «All incoming
+    requests». Tested locally with a server that plays ishrahli.org: it stays stuck with the old rule and moves with the new one.
   - **Next:** the owner tests on his phone (old step-D note follows for reference)
   - (was) **Waiting for the owner: step D** (Supabase URL configuration of SMRA, Google JavaScript origins). After D, test email and Google
     sign-in, alerts and offline on https://studentmasterreview.com, then switch the redirect to 301.

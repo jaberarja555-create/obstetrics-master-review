@@ -1,8 +1,28 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v245', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v246', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
+
+/* ishrahli.org moved to studentmasterreview.com (22 Nov 2026). A phone that installed the app on the old address opens its saved copy
+   without asking the internet, so the address forward never runs. This file is the only one the old address still serves (the Cloudflare
+   forward rule skips /sw.js): there it deletes every saved copy, removes itself and sends every open window to the same page on the new
+   address. Its other handlers do nothing there. */
+var MOVED = /(^|\.)ishrahli\.org$/.test(self.location.hostname);
+if (MOVED) {
+  self.addEventListener('install', function (event) { event.stopImmediatePropagation(); self.skipWaiting(); });
+  self.addEventListener('activate', function (event) {
+    event.stopImmediatePropagation();
+    event.waitUntil((async function () {
+      try { var ks = await caches.keys(); await Promise.all(ks.map(function (k) { return caches.delete(k); })); } catch (e) {}
+      try { await self.clients.claim(); } catch (e) {}
+      var cs = []; try { cs = await self.clients.matchAll({ type: 'window', includeUncontrolled: true }); } catch (e) {}
+      try { await self.registration.unregister(); } catch (e) {}
+      cs.forEach(function (c) { try { var u = new URL(c.url); c.navigate('https://studentmasterreview.com' + u.pathname + u.search + u.hash); } catch (e) {} });
+    })());
+  });
+  self.addEventListener('fetch', function (event) { event.stopImmediatePropagation(); });
+}
 
 async function saveShell(cache, response) {
   var html = await response.clone().text();
