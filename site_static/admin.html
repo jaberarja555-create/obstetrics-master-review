@@ -928,7 +928,7 @@ $('create').onclick=function(){var n=Math.max(1,Math.min(50,+$('count').value||1
     $('fresh').innerHTML='<div class="fresh" style="margin-top:10px">'+codes.map(esc).join('<span></span>')+'</div>';load()})};
 /* start */
 nav();
-if(location.hostname!=='studentmasterreview.com'&&!/^(localhost|127\.)/.test(location.hostname))$('newAd').hidden=false;
+if(location.hostname!=='books.studentmasterreview.com'&&!/^(localhost|127\.)/.test(location.hostname))$('newAd').hidden=false;
 /* opening: a device that is signed in waits for the connection instead of showing the sign-in button; it tries again every 4 s */
 function boot(){if(sb.has()){$('gateMsg').textContent='Opening…';$('ggIn').hidden=true}
   sb.user().then(function(u){if(!u){$('gateMsg').textContent="Sign in with the owner's Google account.";$('ggIn').hidden=false;return}

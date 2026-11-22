@@ -40,7 +40,7 @@ window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();win
    switched off). Opened on the old address, the platform first asks each book (old addresses, from this phone's saved copies) for its device
    identity, then moves to the new address carrying it and the platform's own settings after the # (never sent to a server). */
 (function(){if(location.hostname!=='student-master-review.pages.dev')return;window.__smrOld=1;
-  var NEW='https://studentmasterreview.com/',BK={obstetrics:'https://obstetrics-master-review.pages.dev/',surgery:'https://surgery-master-review.jaberarja555.workers.dev/',pediatrics:'https://pediatrics-master-review.jaberarja555.workers.dev/'},
+  var NEW='https://books.studentmasterreview.com/',BK={obstetrics:'https://obstetrics-master-review.pages.dev/',surgery:'https://surgery-master-review.jaberarja555.workers.dev/',pediatrics:'https://pediatrics-master-review.jaberarja555.workers.dev/'},
     got={},done=false,en=false;try{en=JSON.parse(localStorage.getItem('smr-lang')||'null')==='en'}catch(e){}
   function b64(o){return encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(o)))))}
   function go(){if(done)return;done=true;var p={},n=0;try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i),v=localStorage.getItem(k);
