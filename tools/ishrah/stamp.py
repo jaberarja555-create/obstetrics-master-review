@@ -15,7 +15,7 @@ def sub(m):
     return m.group(0) if not v else path + '?v=' + v
 html = re.sub(r'((?:js|css)/[\w.-]+\.(?:js|css)|[\w.-]+\.(?:webmanifest|png))\?v=\w+', sub, html)
 # the colour stylesheets are chosen in the page's head script: one version made from all of them
-pal = hashlib.md5(b''.join(open(os.path.join(root, 'css', f), 'rb').read() for f in sorted(os.listdir(os.path.join(root, 'css'))) if f.startswith(('app', 'pal-', 'mr')))).hexdigest()[:8]
+pal = hashlib.md5(b''.join(open(os.path.join(root, 'css', f), 'rb').read() for f in sorted(os.listdir(os.path.join(root, 'css'))) if f.startswith(('app', 'pal-', 'mr', 'pv')))).hexdigest()[:8]
 html = re.sub(r"(\.css\?v=)\w+(\">'\);)", r'\g<1>' + pal + r'\2', html)
 open(idx, 'w', encoding='utf-8').write(html)
 print('stamped')

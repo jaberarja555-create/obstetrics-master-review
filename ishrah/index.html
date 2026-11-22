@@ -12,10 +12,12 @@
 <link rel="manifest" href="manifest.webmanifest?v=e10e7e42">
 <link rel="icon" type="image/png" href="favicon.png?v=f5a0e10d">
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=62c3c8f0">
-<script>/* colour chosen in Settings (ish-pal): its stylesheet replaces app.css */
-(function(){var P={teal:1,purple:1,maroon:1,graphite:1},M={ocean:1,teal:1,purple:1,maroon:1,graphite:1},p='blue';try{p=JSON.parse(localStorage.getItem('ish-pal')||'"blue"')}catch(e){}
-document.write('<link id="ishcss" rel="stylesheet" href="css/'+(P[p]?'pal-'+p:'app')+'.css?v=0d86da2a">');
-document.write('<link id="mrcss" rel="stylesheet" href="css/'+(M[p]?'mr-pal-'+p:'mr')+'.css?v=0d86da2a">');})();</script>
+<script>/* colour chosen in Settings (ish-pal): the styles are loaded once with colour slots, and css/pv.css holds every colour's values,
+   so a colour is only html[data-pal] (owner, 22 Nov 2026: colour change was slow; tools/ishrah/palvars.py) */
+(function(){var p='blue';try{p=JSON.parse(localStorage.getItem('ish-pal')||'"blue"')}catch(e){}document.documentElement.setAttribute('data-pal',p);})();</script>
+<link id="ishcss" rel="stylesheet" href="css/app.pv.css?v=5d43008b">
+<link id="mrcss" rel="stylesheet" href="css/mr.pv.css?v=31a421df">
+<link id="pvcss" rel="stylesheet" href="css/pv.css?v=eb2fa516">
 <noscript><link rel="stylesheet" href="css/app.css?v=1b0c6572"></noscript>
 <script>/* test switch for the Android scrolling smear (owner, 18 Nov 2026): ishrahli.org/?safe=1 … 4 turns parts of the design off on this
    device so the cause can be found; ?safe=0 turns it off again. 1 = all, 2 = bars not fixed, 3 = no shadows/animations, 4 = no banner pictures */
@@ -36,7 +38,7 @@ var th=localStorage.getItem('ish-theme-reset1')?JSON.parse(localStorage.getItem(
 (function(){var c=window.ISH_CONFIG||{};if(c.supabaseUrl&&c.supabaseAnonKey){document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js"><\/script><script src="https://cdn.jsdelivr.net/npm/tus-js-client@4.1.0/dist/tus.min.js"><\/script>');}})();
 </script>
 <script src="js/db.js?v=1aa39e55"></script>
-<script src="js/core.js?v=2922fc11"></script>
+<script src="js/core.js?v=18447158"></script>
 <script src="js/student.js?v=7aa9dee6"></script>
 <script src="js/intro.js?v=bd1449af"></script>
 <script src="js/moved.js?v=bd490123"></script>

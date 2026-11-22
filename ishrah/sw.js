@@ -1,5 +1,5 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v258', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v259', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
@@ -26,7 +26,7 @@ if (MOVED) {
 
 async function saveShell(cache, response) {
   var html = await response.clone().text();
-  var assets = html.match(/(?:js|css)\/[\w-]+\.(?:js|css)\?v=\w+/g) || [];
+  var assets = html.match(/(?:js|css)\/[\w.-]+\.(?:js|css)\?v=\w+/g) || [];   /* also app.pv.css, mr.pv.css, pv.css */
   /* the two stylesheets are written by a script in the page head ('css/' + name + '.css?v=…'), so the pattern above does not see them; without
      them the app opened offline with no styles at all (found 22 Nov 2026). Save the default ones; a chosen colour falls back to them offline. */
   var cv = html.match(/\+'\.css\?v=(\w+)/);

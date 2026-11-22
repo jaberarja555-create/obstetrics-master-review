@@ -1517,3 +1517,12 @@ ring overlapping a green pill with a gold frame, small laurels, and the name on 
 name on a cream base. Photos `img/mr/spec-<id>.webp` (medicine, nursing, lab, pharmacy, dentistry) were cut from the owner's design picture.
 Colours are written as the app's green hexes (#0d6b5c / #06463b) so palettes.py recolours them; checked green and maroon, no scroll at
 390×844, 360×640, 820×1180, 1366×660, 1672×941. A locked card still says «هذا التخصص قريبًا»; the owner's own account opens all of them.
+
+## Instant colour change (owner, 22 Nov 2026: "changes from settings are slow, like changing colours")
+A colour used to swap the two stylesheets for whole coloured copies (pal-<c>.css + mr-pal-<c>.css, about 650 KB together): 3.6 s on a slow
+connection the first time. Now `tools/ishrah/palvars.py` (run by palettes.py) writes `css/app.pv.css` and `css/mr.pv.css` (the styles once,
+every colour that differs between the copies written as `var(--paN / --pmN, <green value>)`, a colour inside url(…) replaced as the whole
+url) and `css/pv.css` (38 KB: `html[data-pal=<colour>]{…}` values). index.html loads those three and sets `html[data-pal]`; `IS.setPal` only
+changes that attribute: nothing is downloaded (measured: 3,600 ms → under 1 ms, then the usual page redraw). palettes.py still writes the
+old copies (the generator reads them; sw.js keeps its fallbacks). Checked by pixel comparison: 6 colours × 9 pages × phone and laptop are
+identical to the old copies. After any change to css/app.css or css/mr.css run `python3 tools/ishrah/palettes.py` as before.
