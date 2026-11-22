@@ -495,6 +495,8 @@
     await IS.loadMe(); await IS.mfaCheck(); IS.audit(A('تفعيل المصادقة الثنائية', 'turn on 2FA')); IS.toast(A('فُعّلت المصادقة الثنائية', '2FA is on')); IS.route();
   };
   IS.SUB.mfacode = async function (d) {
+    d.code = String(d.code || '').replace(/\D/g, '');
+    if (d.code.length !== 6) return IS.toast(A('اكتب الرمز المكوّن من 6 أرقام من تطبيق المصادقة.', 'Enter the 6-digit code from your authenticator app.'), true);
     try { await MFA.verify((IS.MFA_STATE || {}).factor, d.code); } catch (e) { return IS.toast(A('الرمز غير صحيح.', 'Wrong code.'), true); }
     await IS.mfaCheck(); IS.audit(A('دخول بالتحقق بخطوتين', 'sign-in with 2FA')); if (IS.closeSheet) IS.closeSheet(); IS.route();
   };

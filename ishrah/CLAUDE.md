@@ -1453,3 +1453,6 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   account finished loading (quick first paint, saved copies) had no 🛡️ and were never redrawn. manage.js `syncTools` (`IS.syncCardTools`)
   adds or removes the 🛡️ on every `.cm-tools` from the current account: after `IS.loadMe`, after `IS.mfaCheck`, on page changes
   (MutationObserver) and every 4 s. Test: scratchpad synct2.js (shields removed, then back by themselves).
+- **Two-step code sheet (owner, 22 Nov 2026: a thin field beside «تحقق» and the browser's «يُرجى مطابقة التنسيق المطلوب»):** the sheet from the
+  🛡️ uses its own form (`.mfa-f`, `novalidate`): one large centred code field above a full-width button; `IS.SUB.mfacode` keeps only digits and
+  says «اكتب الرمز المكوّن من 6 أرقام…» when the code is not 6 digits.

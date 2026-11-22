@@ -44,7 +44,7 @@
   IS.ACT.manage = async function (b) {
     if (IS.MFA_NEEDED) {
       return IS.sheet(esc(A('التحقق بخطوتين', 'Two-step verification')), '<p class="mut">' + esc(A('اكتب الرمز من تطبيق المصادقة لفتح أدوات الإدارة.', 'Enter the code from your authenticator app to open the team tools.')) + '</p>' +
-        '<form class="form otp" data-form="mfacode"><input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required dir="ltr" placeholder="••••••">' +
+        '<form class="mfa-f" data-form="mfacode" novalidate><input class="mfa-in" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" dir="ltr" placeholder="000000" aria-label="' + esc(A('رمز التحقق', 'Verification code')) + '">' +
         '<button class="btn pri wide">' + esc(A('تحقق', 'Verify')) + '</button></form>');
     }
     var kind = b.dataset.k, id = b.dataset.id, row = await load(kind, id);

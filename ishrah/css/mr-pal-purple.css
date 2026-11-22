@@ -2553,3 +2553,9 @@ html body .mrh .feed-card .ptag,html body .mrh .feed-card .fv-rate .price{font-s
 html body .mrh .feed-card .fv-acts :is(button,a,.btn){height:30px!important;min-height:0!important;max-height:30px!important;font-size:12px!important;padding-block:0!important;line-height:1!important}
 html body .mrh .feed-card .fv-acts :is(button,a,.btn) :is(.ico,svg,img){width:14px!important;height:14px!important}
 html body .mrh .feed-card .fv-acts>*{align-self:center!important}
+/* the two-step code in a sheet: one large field above the button (owner, 22 Nov 2026: the field was a thin strip beside the button) */
+.mfa-f{display:flex;flex-direction:column;gap:12px;margin-top:10px}
+.mfa-in{display:block;width:100%;box-sizing:border-box;height:56px;border-radius:14px;border:1.5px solid #d5d0df;background:#fff;text-align:center;font:inherit;font-size:26px;font-weight:800;letter-spacing:10px;color:#230b41}
+.mfa-in:focus{outline:none;border-color:#391464;box-shadow:0 0 0 3px rgba(57,20,100,.15)}
+.mfa-in::placeholder{color:#cbc6d5;letter-spacing:10px}
+:root[data-theme=dark] .mfa-in{background:#1b112d;border-color:#2f2443;color:#e8e5f0}
