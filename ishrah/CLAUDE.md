@@ -1440,3 +1440,9 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   same edge (all lines right-aligned in Arabic, English titles too). «إدارة» shows for every team member even before the two-step code is
   entered in this session (IS.can is false until then, so it had vanished); pressing it then asks for the code in a sheet (`mfacode`), and
   the page redraws with the tools. A full-width Facebook-style card was drafted and dropped at the owner's request (keep the side picture).
+- **Post cards, fourth pass (owner, 22 Nov 2026: «space for the writing; joined and View request on one line; small text and buttons;
+  whole picture in its frame»):** picture column 25 % (26 % laptops), picture whole (contain, ≤ 170 px, no blur); the text column is a
+  wrapping row: title, text and long detail lines across, the request's joined chip and its button on one line; buttons 30 px, title
+  15 px, text 13 px; footer buttons 34 px. The series card (`feed-series`) uses the same grid (cover a quarter on the right, small type,
+  small button). The home page's saved copy of the posts (`mr-feed:` key) now includes the app version and the team flag, so after an
+  update or a role change the old copy (old buttons, no «إدارة») is not shown.

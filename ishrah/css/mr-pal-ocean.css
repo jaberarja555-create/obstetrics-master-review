@@ -2492,3 +2492,39 @@ html body .mrh .feed-card-header>.cm-tools{margin-inline-start:auto!important}
 /* every line of a card starts from the same edge, English titles included (they kept their own left alignment) */
 :root:not([lang="en"]) body .mrh .feed-card-content>div :is(h3,.feed-summary,.feed-author,.feed-detail){text-align:right!important}
 :root[lang="en"] body .mrh .feed-card-content>div :is(h3,.feed-summary,.feed-author,.feed-detail){text-align:left!important}
+/* ===== post cards, fourth pass (owner, 22 Nov 2026: «the empty space for the writing; joined and View request on one line; text and buttons
+   small and ordered; the whole picture in its frame, no blurred frame; buttons in lines») ===== */
+html body .mrh .feed-card-content:has(>.feed-image){grid-template-columns:25% minmax(0,1fr)!important;column-gap:10px!important}
+@media (min-width:1024px){html body .mrh .feed-items>.feed-card>.feed-card-content:has(>.feed-image){grid-template-columns:26% minmax(0,1fr)!important}}
+html body .mrh .feed-card .feed-image .pst>.pstf{max-height:170px!important;object-fit:contain!important;background:none!important}
+html body .mrh .feed-card .feed-image:not(:has(.library-cover)){box-shadow:0 2px 8px rgba(6,34,70,.12)!important;border-radius:12px!important}
+/* the text column: title and text across, then details and the button on ONE line */
+html body .mrh .feed-card-content>div:not(.feed-image){flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;column-gap:8px!important;row-gap:5px!important}
+html body .mrh .feed-card-content>div:not(.feed-image)>:is(h3,.feed-summary,.feed-author,.feed-detail:not(:has(.rq-joined))){flex:1 0 100%!important}
+html body .mrh .feed-card-content>div:not(.feed-image)>.feed-detail:has(.rq-joined){flex:0 1 auto!important}
+html body .mrh .feed-card-content>div:not(.feed-image)>.library-feed-actions{flex:0 0 auto!important;margin:0!important}
+html body .mrh .feed-card-content>div h3{font-size:15px!important}
+html body .mrh .feed-card-content>div .feed-summary{font-size:13px!important}
+html body .mrh .feed-card .library-feed-actions .btn{height:30px!important;padding:0 12px!important;font-size:12px!important}
+.rq-joined{height:30px;box-sizing:border-box}
+/* header and footer smaller and in lines */
+html body .mrh .feed-card-header>span:first-child{height:26px!important;padding:0 10px!important;font-size:12px!important;gap:4px!important}
+html body .mrh .feed-card-header>span:first-child .ico{width:14px!important;height:14px!important}
+html body .mrh .feed-card .feed-votes{margin-top:8px!important}
+html body .mrh .feed-card .fv-rate,html body .mrh .feed-card .fv-stats{min-height:0!important;padding:6px 0!important;font-size:12.5px!important}
+html body .mrh .feed-card .fv-acts{gap:6px!important;padding-top:8px!important}
+html body .mrh .feed-card .fv-acts>*{height:34px!important;min-height:0!important;font-size:13px!important;border-radius:999px!important;padding:0 10px!important}
+html body .mrh .feed-card .fv-acts .ico,html body .mrh .feed-card .fv-acts svg{width:16px!important;height:16px!important}
+html body .mrh .feed-card .gstars,html body .mrh .feed-card .fv-rate .stars{transform:scale(.9);transform-origin:center}
+html body .mrh .feed-card-content>div:not(.feed-image)>.library-feed-actions{width:auto!important;max-width:100%!important;grid-template-columns:none!important}
+html body .mrh .feed-card-content>div:not(.feed-image)>.feed-detail:has(.rq-joined)+.library-feed-actions{margin-inline-start:auto!important}
+/* the series card in the feed in the same lines as the others: cover on the right (a quarter), the text beside it, small type and button */
+html body .mrh .feed-card.feed-series{display:grid!important;grid-template-columns:25% minmax(0,1fr)!important;column-gap:10px!important;align-items:start!important}
+html body .mrh .feed-card.feed-series>.feed-card-header,html body .mrh .feed-card.feed-series>.feed-votes,html body .mrh .feed-card.feed-series>:not(.fimg):not(.fb){grid-column:1/-1}
+html body .mrh .feed-card.feed-series>.fimg{grid-column:1;width:100%!important;max-width:none!important;margin:0!important;aspect-ratio:3/4;height:auto!important;border-radius:12px;overflow:hidden}
+html body .mrh .feed-card.feed-series>.fb{grid-column:2;display:flex!important;flex-direction:column;gap:4px!important;padding:0!important;min-width:0;text-align:right}
+html body .mrh .feed-card.feed-series>.fb .ftype{font-size:12px!important;color:#0d356b!important}
+html body .mrh .feed-card.feed-series>.fb b{font-size:15px!important;line-height:1.35}
+html body .mrh .feed-card.feed-series>.fb small{font-size:12.5px!important;color:#647381!important}
+html body .mrh .feed-card.feed-series>.fb .library-feed-actions{display:flex!important;justify-content:flex-start;margin-top:4px!important;width:auto!important}
+:root[lang="en"] body .mrh .feed-card.feed-series>.fb{text-align:left}

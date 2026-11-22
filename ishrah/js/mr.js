@@ -219,7 +219,9 @@
     var inner = await home0.fn(arg), spec = IS.mySpec(), section = IS.mySection();
     if (!spec || !section) return inner;
     var a0 = IS.after;
-    var fkey = 'mr-feed:' + (IS.ME ? IS.ME.id : 'x') + ':' + spec.id + '/' + section.id + ':' + IS.lang;
+    /* the saved copy belongs to this version of the app: after an update the old copy (old buttons) is not shown (owner, 22 Nov 2026) */
+    var ver = ((document.querySelector('script[src*="js/manage.js"]') || {}).src || '').split('v=')[1] || '';
+    var fkey = 'mr-feed:' + (IS.ME ? IS.ME.id : 'x') + ':' + spec.id + '/' + section.id + ':' + IS.lang + ':' + ver + ':' + (IS.team && IS.team() ? 't' : '');
     IS.after = function (main, remember) {
       after();
       var r = a0 ? a0(main, remember) : undefined, slot = main.querySelector('[data-home-feed]');
