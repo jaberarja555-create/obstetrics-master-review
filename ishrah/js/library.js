@@ -672,6 +672,7 @@
     if (media.mime === 'application/pdf' && IS.openReader) {
       var local = IS.bookBlob ? await IS.bookBlob(file, media.path) : null;
       if (local) return IS.openReader({ id: file.id, title: title, blob: local, next: options.next });
+      if (!navigator.onLine) return IS.toast(A('هذا الملف يحتاج إنترنت أول مرة. بعد فتحه مرة واحدة يبقى محفوظًا في جهازك.', 'This file needs internet the first time. Once opened, it stays saved on your device.'), true);
       return IS.openReader({ id: file.id, title: title, getUrl: getUrl, next: options.next,
         onFirst: function () { if (IS.bookKeep) IS.bookKeep(file, media.path, media.mime); } });
     }

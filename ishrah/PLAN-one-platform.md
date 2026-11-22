@@ -205,6 +205,14 @@ admin move to **https://books.studentmasterreview.com** until Stage 3; the book 
   - Test (scratchpad bookst3.js): fresh phone, app opened, no book touched; after about 2.5 minutes all three saved. Internet cut → each
     book opened inside the academy.
   - The welcome name showed code text («bdi lang=…»): `IS.greetingName` already returns escaped markup, so it is no longer escaped again.
+- **Library files (ish-v250)** (owner, 22 Nov 2026: «any other book needs internet the first time, not the next time or if he downloaded
+  it; no automatic saving»):
+  - Only the three books are saved in the background. Any other library file is saved when it is opened: reader.js `onFirst` after 6 s,
+    was 2 min.
+  - Offline, an unsaved file shows «🌐 يحتاج إنترنت» on its cover (offline.js `markNet`, `IS.fileSaved`), and opening it says it needs
+    internet the first time.
+  - **R2 exists already** (bucket binding `MEDIA`, used by `functions/api/audio.js` for audio lectures). Library files are still on
+    Supabase: move them to R2 before the public launch (download traffic).
 - **Still to do in stage 2:**
   - check the books on the live address;
   - hide the book's own greeting, tour and subscription screens inside SMRA (stage 3 with the single sign-in);

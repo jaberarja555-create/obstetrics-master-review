@@ -61,6 +61,24 @@
   async function loadHave() { HAVE = {}; try { (await items()).forEach(function (x) { HAVE[x.id] = x; }); } catch (e) {} Object.keys(HAVE).forEach(show); }
   IS.dlReady = loadHave;
   function did(kind, id) { return uid() + ':' + kind + ':' + id; }
+  /* is this library file on the phone (opened once, or downloaded)? While offline the others are marked «needs internet» (22 Nov 2026) */
+  IS.fileSaved = function (fileId) { var it = HAVE[did('file', fileId)]; return !!(it && it.u === uid()); };
+  function markNet() {
+    var off = !navigator.onLine;
+    IS.$$('#main a[href^="#file/"], #main [data-go^="#file/"]').forEach(function (a) {
+      var id = (a.getAttribute('href') || a.getAttribute('data-go') || '').split('/')[1]; if (!id) return;
+      var c0 = a.closest('.bcard, .feed-card, .fcard, .card') || a, card = c0.querySelector('.fimg, .pst') || c0;   /* the label sits on the cover */
+      var need = off && !IS.fileSaved(id), tag = card.querySelector(':scope > .needs-net');
+      card.classList.toggle('net-need', need);
+      if (need && !tag) card.insertAdjacentHTML('afterbegin', '<span class="needs-net">🌐 ' + esc(A('يحتاج إنترنت', 'Needs internet')) + '</span>');
+      if (!need && tag) tag.parentNode.removeChild(tag);
+    });
+  }
+  IS.markNeedsNet = markNet;
+  window.addEventListener('offline', function () { setTimeout(markNet, 300); });
+  window.addEventListener('online', function () { setTimeout(markNet, 300); });
+  var rN = IS.onRoute;
+  IS.onRoute = function () { if (rN) try { rN.apply(this, arguments); } catch (e) {} setTimeout(markNet, 200); };
 
   /* save one item: optional media (fetched in pieces, each encrypted) + encrypted details (#m) */
   async function save(meta, info, url) {
