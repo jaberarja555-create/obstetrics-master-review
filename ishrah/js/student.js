@@ -1307,7 +1307,13 @@
   };
   IS.page('post', async function (arg) {
     var parts = String(arg || '').split('/'), id = parts[0];
-    var p = await DB.one('posts', id); if (!p || p.status === 'removed') return null;
+    /* start the comments and the lecturers now, while the post itself comes from the feed's copy (or the server) */
+    var early = [DB.q('replies', { eq: { post_id: id }, order: ['created_at'] }).then(function (rows) { rows = rows.filter(function (r) { return r.status !== 'removed'; }); return IS.loadCommentLikes('reply', rows).then(function () { return rows; }); }),
+      IS.lecMap()];
+    early.forEach(function (x) { x.catch(function () {}); });
+    var seed = IS.seedRow && IS.seedRow('posts', id), fresh = DB.one('posts', id);
+    var p = seed ? Object.assign({}, seed) : await fresh; if (seed) fresh.catch(function () {});
+    if (!p || p.status === 'removed') return null;
     if (privateQuestion(p)) {
       if (p.user_id !== uid() && !IS.can('review')) return null;
       var back = p.room === 'qa' ? '#lesson/' + p.course_id + '/' + p.lesson_id : '#community';
@@ -1332,9 +1338,8 @@
       } else if (!IS.inSpec(p)) return null;
     }
     var got = await Promise.all([
-      p.room !== 'qa' && p.course_id ? DB.one('courses', p.course_id).catch(function () { return null; }) : null,
-      DB.q('replies', { eq: { post_id: id }, order: ['created_at'] }).then(function (rows) { rows = rows.filter(function (r) { return r.status !== 'removed'; }); return IS.loadCommentLikes('reply', rows).then(function () { return rows; }); }),
-      IS.lecMap()
+      p.room !== 'qa' && p.course_id ? (IS.seedRow && IS.seedRow('courses', p.course_id)) || DB.one('courses', p.course_id).catch(function () { return null; }) : null,
+      early[0], early[1]
     ]);
     if (p.room !== 'qa' && p.course_id) { var linked = got[0]; if (linked && linked.status === 'published') p.linked_price = linked.price; else p.course_id = null; }
     var rs = got[1], lecs = got[2];

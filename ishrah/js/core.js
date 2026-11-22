@@ -166,6 +166,13 @@
   IS.dept = function () { var me = IS.ME; if (!me) return ''; if (me.dept) return me.dept; var t = me.team || []; return (IS.DEPTS.filter(function (d) { return t.indexOf(d[0]) >= 0; })[0] || [''])[0]; };
   IS.manager = function () { var t = (IS.ME && IS.ME.team) || []; return t.some(function (r) { return r !== 'staff' && r.indexOf('p:') !== 0; }); };
   /* the platform owner receives every notification, also about what he did himself (owner, 21 Nov 2026) */
+  /* rows already on the screen open at once (owner, 22 Nov 2026: «there is delay when I press open post»): every list read keeps its rows in
+     memory by table and id; a detail page uses that copy first and the server answer refreshes it */
+  var SEED = new Map();
+  if (window.DB && DB.q && !DB.__seeded) { var q0 = DB.q; DB.__seeded = true;
+    DB.q = function (t, f) { return Promise.resolve(q0.apply(DB, arguments)).then(function (rows) {
+      if (Array.isArray(rows) && rows.length <= 600) rows.forEach(function (r) { if (r && r.id) SEED.set(t + ':' + r.id, r); }); return rows; }); }; }
+  IS.seedRow = function (t, id) { return SEED.get(t + ':' + id) || null; };
   IS.isOwner = function () { return !!(IS.ME && (IS.ME.team || []).indexOf('owner') >= 0); };
   /* which notices a person sees (owner, 21 Nov 2026: «نعم أنا والفريق»): personal ones; posts of the student's own speciality and section;
      the owner and the team see the posts of every speciality and section (Notifications → «كل الأقسام», the default) or only the current one */

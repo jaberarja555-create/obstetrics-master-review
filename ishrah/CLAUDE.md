@@ -1456,3 +1456,7 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
 - **Two-step code sheet (owner, 22 Nov 2026: a thin field beside «تحقق» and the browser's «يُرجى مطابقة التنسيق المطلوب»):** the sheet from the
   🛡️ uses its own form (`.mfa-f`, `novalidate`): one large centred code field above a full-width button; `IS.SUB.mfacode` keeps only digits and
   says «اكتب الرمز المكوّن من 6 أرقام…» when the code is not 6 digits.
+- **Opening a post is faster (owner, 22 Nov 2026: «there is delay when I press open post»):** core.js wraps `DB.q` so every list read keeps its
+  rows in memory by table and id (`IS.seedRow(table, id)`); the post page uses the feed's copy of the post at once (the server read still
+  runs), and asks for the comments (with their reactions) and the lecturers at the same time instead of after the post. With every read
+  slowed to 0.5 s: 1.04 s → 0.54 s (scratchpad popen2.js). Next step if needed: draw the post first and fill the comments when they arrive.
