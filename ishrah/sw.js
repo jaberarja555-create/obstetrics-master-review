@@ -1,5 +1,5 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v250', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v251', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
@@ -100,6 +100,17 @@ self.addEventListener('fetch', function (event) {
   if (HOSTED_LIBRARIES.test(url.hostname)) {
     event.respondWith(caches.open(CDN).then(async function (cache) {
       return await cache.match(request) || store(cache, request, await fetch(request));
+    }));
+    return;
+  }
+  /* covers and pictures of library files served from R2 (/api/lib?f=<path>…): kept on the phone by their file path, shown at once */
+  if (url.origin === self.location.origin && url.pathname === '/api/lib' && url.searchParams.has('f') && request.destination === 'image') {
+    var rkey = self.location.origin + '/r2-library/' + url.searchParams.get('f');
+    event.respondWith(caches.open(MEDIA).then(async function (cache) {
+      var hit = await cache.match(rkey); if (hit) return hit;
+      var response = await fetch(request);
+      if (response.ok) cache.put(rkey, response.clone()).catch(function () {});
+      return response;
     }));
     return;
   }

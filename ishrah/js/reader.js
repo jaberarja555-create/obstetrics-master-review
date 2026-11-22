@@ -135,7 +135,7 @@
     await goPage(last);
     if (R !== reader) return;
     IS.$$('[data-r]:disabled', el).forEach(function (button) { button.disabled = false; });
-    if (o.onFirst) setTimeout(function () { if (R === reader) o.onFirst(); }, 6000);   /* owner, 22 Nov 2026: a book needs internet only the first time; once opened it is kept (was after 2 minutes of reading) */ //   // kept on the phone only after 2 minutes of reading: a quick look does not download the whole book (owner, 19 Nov 2026)
+    if (o.onFirst) setTimeout(function () { if (R === reader) o.onFirst(); }, 120000);   /* owner, 22 Nov 2026: a book needs internet only the first time; once opened it is kept (was after 2 minutes of reading) */ //   // kept on the phone only after 2 minutes of reading: a quick look does not download the whole book (owner, 19 Nov 2026)
     if (reader.remotePage !== undefined && reader.remotePage !== null) applyRemote(reader);
     updateZoomLabel();
     reader.io = new IntersectionObserver(function (entries) {

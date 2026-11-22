@@ -213,6 +213,20 @@ admin move to **https://books.studentmasterreview.com** until Stage 3; the book 
     internet the first time.
   - **R2 exists already** (bucket binding `MEDIA`, used by `functions/api/audio.js` for audio lectures). Library files are still on
     Supabase: move them to R2 before the public launch (download traffic).
+- **Library files on R2 (ish-v251)** (owner, 22 Nov 2026: «move everything to Cloudflare R2 … reduce cost, fast, the student does not lose a
+  lot of internet»):
+  - `functions/api/lib.js`:
+    - `POST {paths}` asks Supabase to sign the paths with the reader's own token (the storage rule `ish_read` decides, no download) and
+      returns `/api/lib?f=&e=&s=` links valid 6 h.
+    - `GET` serves from the R2 binding `MEDIA`, key `library/<path>`, with ranges. The first request copies the file from Supabase.
+  - `db.js` `libUrls()` is used by `fileUrl('library', …)` and the cover batch. If the function answers 501/404, it falls back to Supabase
+    signed links.
+  - `sw.js` keeps R2 covers on the phone by path (cache `ish-media`, key `/r2-library/<path>`).
+  - The reader keeps a book on the phone after 2 minutes of real reading again (a quick look downloads only the pages shown), plus «تنزيل».
+  - Tested with stand-ins (scratchpad libfn.mjs): a paid path is refused, the first range read copies to R2, later reads don't touch
+    Supabase, and a forged link gets 403.
+  - Uploads still go to Supabase (each file is downloaded from Supabase once, when first opened). Moving uploads straight to R2 is a later
+    step.
 - **Still to do in stage 2:**
   - check the books on the live address;
   - hide the book's own greeting, tour and subscription screens inside SMRA (stage 3 with the single sign-in);

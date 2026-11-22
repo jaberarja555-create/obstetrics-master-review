@@ -195,12 +195,32 @@
       covers = Object.fromEntries(entries.slice(0, 350));
       try { localStorage.setItem(COVER_CACHE, JSON.stringify(covers)); } catch (error) {}
     }
+    /* library files and covers come from Cloudflare R2 (owner, 22 Nov 2026: free downloads); permission is still Supabase's own storage rule.
+       If the R2 function does not answer, the old Supabase signed address is used, so nothing stops working. */
+    var LIBR2 = true;
+    async function libUrls(paths) {
+      if (!LIBR2 || !paths.length) return null;
+      try {
+        var t = UID ? await token() : '';
+        var r = await fetch('/api/lib', { method: 'POST', headers: Object.assign({ 'content-type': 'application/json' }, t ? { authorization: 'Bearer ' + t } : {}), body: JSON.stringify({ paths: paths }) });
+        if (r.status === 501 || r.status === 404) { LIBR2 = false; return null; }
+        if (!r.ok) return null;
+        var j = await r.json(), out = {};
+        Object.keys(j.urls || {}).forEach(function (p) { out[p] = location.origin + j.urls[p]; });
+        return out;
+      } catch (e) { return null; }
+    }
     async function libraryCoverUrls(paths) {
       var account = UID || 'visitor';
       var unique = Array.from(new Set(paths));
       var missing = unique.filter(function (path) { return !cachedCover(account, path) && !coverRequests.has(coverKey(account, path)); });
       if (missing.length) {
         var batch = (async function () {
+          var viaR2 = await libUrls(missing);
+          if (viaR2 && Object.keys(viaR2).length) {
+            Object.keys(viaR2).forEach(function (p) { covers[coverKey(account, p)] = { url: viaR2[p], expires: Date.now() + 5 * 3600000 }; });
+            keepCovers(); return;
+          }
           var result = await sb.storage.from('library').createSignedUrls(missing, 3600);
           (result.data || []).forEach(function (item) {
             if (item.signedUrl) covers[coverKey(account, item.path)] = { url: item.signedUrl, expires: Date.now() + 50 * 60000 };
@@ -502,6 +522,7 @@
       /* the same address for the same file for 50 minutes, so the phone keeps the picture in its cache instead of downloading it again on every page */
       fileUrl: async function (bucket, path) { if (!path) return ''; if (/^(https?:|data:|blob:|img\/)/.test(path)) return path;
         var key = bucket + '/' + path, hit = SIGNED[key]; if (hit && hit.t > Date.now()) return hit.u;
+        if (bucket === 'library') { var r2 = await libUrls([path]); if (r2 && r2[path]) { SIGNED[key] = { u: r2[path], t: Date.now() + 5 * 3600000 }; try { localStorage.setItem('ish-signed', JSON.stringify(SIGNED)); } catch (e) {} return r2[path]; } }
         var r = await sb.storage.from(bucket).createSignedUrl(path, 3600); if (!r.data) return '';
         SIGNED[key] = { u: r.data.signedUrl, t: Date.now() + 50 * 60000 }; try { localStorage.setItem('ish-signed', JSON.stringify(SIGNED)); } catch (e) {} return r.data.signedUrl; },
       videoUpload: async function (file, o) {
