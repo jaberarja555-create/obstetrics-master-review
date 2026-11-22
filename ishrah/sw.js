@@ -1,5 +1,5 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v263', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v264', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
@@ -115,8 +115,10 @@ self.addEventListener('fetch', function (event) {
     return;
   }
   /* pictures uploaded to the platform (covers, photos): kept on the phone by their file path (signed addresses change), shown at once */
-  if (/\.supabase\.co$/.test(url.hostname) && /^\/storage\/v1\/object\/(public|sign)\//.test(url.pathname) && request.destination === 'image') {
-    var key = url.origin + url.pathname.replace('/object/sign/', '/object/public/');
+  var relayed = url.origin === self.location.origin && /^\/sb\//.test(url.pathname);
+  if (relayed && !(/^\/sb\/storage\/v1\/object\/(public|sign)\//.test(url.pathname) && request.destination === 'image')) return;   /* database requests through the relay: always the network */
+  if ((relayed || /\.supabase\.co$/.test(url.hostname)) && /^(\/sb)?\/storage\/v1\/object\/(public|sign)\//.test(url.pathname) && request.destination === 'image') {
+    var key = 'https://media.smra' + url.pathname.replace(/^\/sb/, '').replace('/object/sign/', '/object/public/');
     event.respondWith(caches.open(MEDIA).then(async function (cache) {
       var saved = await cache.match(key);
       if (saved) return saved;

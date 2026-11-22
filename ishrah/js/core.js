@@ -123,6 +123,8 @@
       if (artworkVersion && url.origin === location.origin && url.pathname.startsWith('/img/collection/')) {
         url.searchParams.set('v', artworkVersion);
       }
+      /* pictures uploaded to the platform come through this site's relay too (some networks break the database's HTTP/3) */
+      if (window.ISH_RELAY && /\.supabase\.co$/.test(url.hostname)) return esc(window.ISH_RELAY(url.href));
       return esc(url.href);
     } catch (e) { return esc(path); }
   };

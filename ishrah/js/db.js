@@ -161,7 +161,22 @@
 
   /* ================= SUPABASE backend ================= */
   var Remote = LIVE ? (function () {
-    var sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true,
+    /* every database request goes through this site's own address (/sb/…, functions/sb), because some networks break the HTTP/3 of
+       <project>.supabase.co (owner, 22 Nov 2026: reactions and downloads failed with «internet issue»). If the relay cannot be reached or
+       is missing, the request goes to the direct address, and the relay is left alone for 10 minutes. The sign-in stays the same (the
+       client keeps the direct address, so its saved sign-in key is unchanged). */
+    var SUPA = CFG.supabaseUrl.replace(/\/+$/, ''), RELAY = /^https:$/.test(location.protocol) && !/^(localhost|127\.)/.test(location.hostname) ? location.origin + '/sb' : '', RELAYOFF = 0;
+    function viaRelay(u) { return RELAY && Date.now() > RELAYOFF && typeof u === 'string' && u.indexOf(SUPA) === 0 ? RELAY + u.slice(SUPA.length) : ''; }
+    function pfetch(input, init) {
+      var u = typeof input === 'string' ? input : (input && input.url) || '', r = viaRelay(u);
+      if (!r) return fetch(input, init);
+      return fetch(r, init).then(function (res) {
+        if (res.headers.get('x-sb-relay') === '1') return res;
+        RELAYOFF = Date.now() + 600000; return fetch(input, init);   /* not our relay (missing function) or the relay failed: direct */
+      }, function () { RELAYOFF = Date.now() + 600000; return fetch(input, init); });
+    }
+    window.ISH_RELAY = function (u) { return viaRelay(u) || u; };
+    var sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey, { global: { fetch: pfetch }, auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true,
       /* the sign-in lock is shared by every open tab of the site; a sleeping background tab could hold it and leave a new tab on the loading
          circle for ever (owner's laptop, 21 Nov 2026). Wait for it at most 3 s, then go on. */
       lock: function (name, wait, fn) {
@@ -223,7 +238,7 @@
           }
           var result = await sb.storage.from('library').createSignedUrls(missing, 3600);
           (result.data || []).forEach(function (item) {
-            if (item.signedUrl) covers[coverKey(account, item.path)] = { url: item.signedUrl, expires: Date.now() + 50 * 60000 };
+            if (item.signedUrl) covers[coverKey(account, item.path)] = { url: window.ISH_RELAY ? window.ISH_RELAY(item.signedUrl) : item.signedUrl, expires: Date.now() + 50 * 60000 };
           });
           if (result.data) keepCovers();
         })().finally(function () {
@@ -516,7 +531,7 @@
           var tk = await token();
           await new Promise(function (ok, no) {
             var x = new XMLHttpRequest();
-            x.open('POST', CFG.supabaseUrl + '/storage/v1/object/' + bucket + '/' + path.split('/').map(encodeURIComponent).join('/'));
+            x.open('POST', (viaRelay(SUPA + '/storage/v1/object/') ? RELAY : SUPA) + '/storage/v1/object/' + bucket + '/' + path.split('/').map(encodeURIComponent).join('/'));
             x.setRequestHeader('authorization', 'Bearer ' + (tk || CFG.supabaseAnonKey));
             x.setRequestHeader('apikey', CFG.supabaseAnonKey);
             x.setRequestHeader('x-upsert', 'false');
@@ -535,7 +550,7 @@
         var key = bucket + '/' + path, hit = SIGNED[key]; if (hit && hit.t > Date.now()) return hit.u;
         if (bucket === 'library') { var r2 = await libUrls([path]); if (r2 && r2[path]) { SIGNED[key] = { u: r2[path], t: Date.now() + 5 * 3600000 }; try { localStorage.setItem('ish-signed', JSON.stringify(SIGNED)); } catch (e) {} return r2[path]; } }
         var r = await sb.storage.from(bucket).createSignedUrl(path, 3600); if (!r.data) return '';
-        SIGNED[key] = { u: r.data.signedUrl, t: Date.now() + 50 * 60000 }; try { localStorage.setItem('ish-signed', JSON.stringify(SIGNED)); } catch (e) {} return r.data.signedUrl; },
+        var su = window.ISH_RELAY(r.data.signedUrl); SIGNED[key] = { u: su, t: Date.now() + 50 * 60000 }; try { localStorage.setItem('ish-signed', JSON.stringify(SIGNED)); } catch (e) {} return su; },
       videoUpload: async function (file, o) {
         var r = await fetch('api/video', { method: 'POST', headers: { 'content-type': 'application/json', authorization: 'Bearer ' + await token() }, body: JSON.stringify({ act: 'create', lesson: o.lesson, title: o.title || file.name }) });
         if (!r.ok) throw new Error(await r.text()); var j = await r.json();

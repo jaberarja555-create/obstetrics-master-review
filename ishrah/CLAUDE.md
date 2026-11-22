@@ -1566,3 +1566,20 @@ Checked in the preview: both work in every section (nothing in the database trea
 - **Messages that hid the reason:** every download error said «تحقق من الاتصال». Now: sign-in ended, not available to your account, file
   not reachable on the server, reader could not load, no space, cancelled; a refused reaction shows the server's short reason in brackets.
 If a student still reports it, ask for the exact message now shown.
+
+## The database through our own address (owner, 22 Nov 2026: the student's message was «internet issue»)
+Pages showed (from the phone's saved copies) but saves failed at the network level: the app reached the database directly at
+`fglawgpusfbgkokpnoej.supabase.co`, served over HTTP/3 (QUIC), which some Sudanese networks break (the reason the app itself moved to
+studentmasterreview.com with HTTP/3 off). Now:
+- `functions/sb/[[path]].js` passes any request `/sb/<path>` on to the Pages secret SUPABASE_URL unchanged (method, headers, body, websocket)
+  and marks its answers `x-sb-relay: 1`.
+- js/db.js creates the Supabase client with `global.fetch = pfetch`: every request to the database address goes to `<site>/sb/…`; if the
+  answer is not from the relay (missing function, relay failure, network error) it is sent to the direct address and the relay is left
+  alone for 10 minutes. The client keeps the direct URL, so the saved sign-in key (`sb-fglawgpusfbgkokpnoej-auth-token`) is unchanged and
+  nobody is signed out. Uploads (XHR), signed download addresses and covers (`window.ISH_RELAY`), and uploaded pictures shown through
+  `IS.U` use the relay too; sw.js leaves `/sb/` to the network except storage pictures (cached by path under `https://media.smra…`).
+  Live updates (Realtime websocket) still go direct; their 5 s check (`live_pulse` reads) goes through the relay.
+- Tested: wrangler pages dev with a fake database (GET, POST body, headers, 404 passed through) and Chromium with the real supabase-js on an
+  https address: all requests through `/sb/`; with the relay missing, the app switched to the direct address by itself.
+- Cost note: each relayed request counts toward Cloudflare Functions requests (free plan 100,000 a day for the account); if the app grows past
+  that, the Workers Paid plan ($5 a month, 10 million requests) removes the limit.
