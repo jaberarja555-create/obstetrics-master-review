@@ -2461,3 +2461,33 @@ html body .mrh .feed-card .feed-image .pst{position:absolute!important;inset:0!i
 html body .mrh .feed-card-header>.cm-tools{background:none!important;padding:0!important;border:0!important;box-shadow:none!important;border-radius:0!important;height:auto!important}
 html body .mrh .feed-card-header .cm-tools>*{margin:0!important}
 html body .mrh .feed-card-header .cm-mng i{background:none!important;padding:0!important;width:auto!important;height:auto!important}
+/* ===== post cards, third pass (owner, 22 Nov 2026: «the picture at the side is ok, but organise the buttons and text, and the picture with
+   its frame»): picture on the side in a frame of its own shape (no blur, no empty band); the text column stacks title, short text, one
+   line of details and a small button under them, all starting from the same edge ===== */
+html body .mrh .feed-card .feed-image:not(:has(.library-cover)){aspect-ratio:auto!important;height:auto!important;background:none!important;border-radius:14px!important;overflow:hidden;box-shadow:0 4px 12px rgba(6,70,59,.12)}
+html body .mrh .feed-card .feed-image .pst{position:static!important;inset:auto!important;width:100%!important;height:auto!important}
+html body .mrh .feed-card .feed-image .pst>.pstb{display:none!important}
+html body .mrh .feed-card .feed-image .pst>.pstf{position:static!important;display:block!important;width:100%!important;height:auto!important;max-height:220px!important;object-fit:cover!important;object-position:center top!important}
+html body .mrh .feed-card-content:has(>.feed-image){grid-template-columns:28% minmax(0,1fr)!important;column-gap:12px!important;align-items:start!important}
+@media (min-width:1024px){html body .mrh .feed-items>.feed-card>.feed-card-content:has(>.feed-image){grid-template-columns:30% minmax(0,1fr)!important}}
+html body .mrh .feed-card-content>div:not(.feed-image){display:flex!important;flex-direction:column!important;align-items:stretch;gap:6px!important;min-width:0}
+html body .mrh .feed-card-content>div h3{margin:0!important;font-size:16px!important;line-height:1.35!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+html body .mrh .feed-card-content>div .feed-summary{margin:0!important;font-size:13.5px!important;line-height:1.5!important;color:#4a625d!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+html body .mrh .feed-card-content>div .feed-summary.fbtext{-webkit-line-clamp:unset;display:block}
+html body .mrh .feed-card-content>div .feed-detail{margin:0!important;display:flex!important;flex-wrap:wrap;align-items:center;gap:6px}
+/* one small button at the start edge (two for a book, side by side) */
+html body .mrh .feed-card .library-feed-actions{display:flex!important;flex-wrap:wrap;gap:8px!important;margin-top:4px!important;justify-content:flex-start}
+html body .mrh .feed-card .library-feed-actions>*{flex:0 0 auto!important;width:auto!important;grid-column:auto!important}
+html body .mrh .feed-card .library-feed-actions .btn{height:32px!important;padding:0 14px!important;border-radius:999px!important;font-size:12.5px!important;gap:6px!important}
+html body .mrh .feed-card .library-feed-actions .btn:first-child{background:#0d6b5c!important;color:#fff!important;border-color:#0d6b5c!important}
+html body .mrh .feed-card .library-feed-actions .btn:first-child *{color:#fff!important}
+/* the header: type and time on one side, the small tools on the other, one line */
+html body .mrh .feed-card-header{display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:nowrap!important;margin-bottom:8px!important}
+html body .mrh .feed-card-header>span:first-child{flex:none}
+html body .mrh .feed-card-header>time{font-size:12px!important;color:#7a918c!important;white-space:nowrap}
+html body .mrh .feed-card-header>.cm-own{margin-inline-start:auto!important}
+html body .mrh .feed-card-header>.cm-own~.cm-tools{margin-inline-start:0!important}
+html body .mrh .feed-card-header>.cm-tools{margin-inline-start:auto!important}
+/* every line of a card starts from the same edge, English titles included (they kept their own left alignment) */
+:root:not([lang="en"]) body .mrh .feed-card-content>div :is(h3,.feed-summary,.feed-author,.feed-detail){text-align:right!important}
+:root[lang="en"] body .mrh .feed-card-content>div :is(h3,.feed-summary,.feed-author,.feed-detail){text-align:left!important}

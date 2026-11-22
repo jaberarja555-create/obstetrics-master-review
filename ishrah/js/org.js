@@ -496,7 +496,7 @@
   };
   IS.SUB.mfacode = async function (d) {
     try { await MFA.verify((IS.MFA_STATE || {}).factor, d.code); } catch (e) { return IS.toast(A('الرمز غير صحيح.', 'Wrong code.'), true); }
-    await IS.mfaCheck(); IS.audit(A('دخول بالتحقق بخطوتين', 'sign-in with 2FA')); IS.route();
+    await IS.mfaCheck(); IS.audit(A('دخول بالتحقق بخطوتين', 'sign-in with 2FA')); if (IS.closeSheet) IS.closeSheet(); IS.route();
   };
   IS.page('security', async function () {
     var s = IS.team() ? await MFA.state().catch(function () { return {}; }) : {};

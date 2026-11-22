@@ -42,6 +42,11 @@
     return '<button type="button" class="mtile' + (tone ? ' ' + tone : '') + '" data-act="' + act + '"' + (extra || '') + '><i aria-hidden="true">' + emoji + '</i><span>' + esc(label) + '</span></button>';
   }
   IS.ACT.manage = async function (b) {
+    if (IS.MFA_NEEDED) {
+      return IS.sheet(esc(A('التحقق بخطوتين', 'Two-step verification')), '<p class="mut">' + esc(A('اكتب الرمز من تطبيق المصادقة لفتح أدوات الإدارة.', 'Enter the code from your authenticator app to open the team tools.')) + '</p>' +
+        '<form class="form otp" data-form="mfacode"><input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required dir="ltr" placeholder="••••••">' +
+        '<button class="btn pri wide">' + esc(A('تحقق', 'Verify')) + '</button></form>');
+    }
     var kind = b.dataset.k, id = b.dataset.id, row = await load(kind, id);
     if (!row) return IS.toast(A('لم يُعثر عليه', 'Not found'));
     var title = row.title || A('بدون عنوان', 'Untitled'), off = isOff(kind, row), author = authorOf(kind, row), k = ' data-k="' + esc(kind) + '" data-id="' + esc(id) + '"';
@@ -202,7 +207,9 @@
      the team   a small «🛡️ إدارة» pill that opens the team tools
      publisher  a small round «⋯» that opens ✏️ تعديل · 🗑️ حذف (shown only when the team pill is not there) */
   IS.cardMenu = function (kind, id) {
-    var on = IS.isPinned(kind, id), team = IS.ME && (may(kind, 'edit') || may(kind, 'del'));
+    /* a team member whose two-step code is not entered yet in this session still sees «إدارة» (owner, 22 Nov 2026: «where is the manage
+       button on all posts»); pressing it asks for the code first */
+    var on = IS.isPinned(kind, id), team = IS.ME && (may(kind, 'edit') || may(kind, 'del') || (IS.MFA_NEEDED && IS.team && IS.team()));
     return '<span class="cm-tools"><button type="button" class="cm-b cm-pinb' + (on ? ' on' : '') + '" data-act="cm-pin" data-k="' + esc(kind) + '" data-id="' + esc(id) + '" aria-pressed="' + on + '" aria-label="' +
       esc(on ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت في الأعلى', 'Pin to the top')) + '" title="' + esc(on ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت في الأعلى', 'Pin to the top')) + '">📌</button>' +
       (team ? '<button type="button" class="cm-mng" data-act="manage" data-k="' + esc(kind) + '" data-id="' + esc(id) + '" aria-label="' + esc(A('إدارة', 'Manage')) + '"><i aria-hidden="true">🛡️</i><span>' + esc(A('إدارة', 'Manage')) + '</span></button>' : '') + '</span>';

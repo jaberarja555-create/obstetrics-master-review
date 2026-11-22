@@ -1434,3 +1434,9 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   (`.pstb`), so frames match and nothing is cut. Card buttons are small (34 px) side by side; a single button takes half the row.
 - The publisher's «⋯» (edit, delete) shows on their own posts always, also when they are on the team (owner, 22 Nov 2026: «where is the edit
   button for the post's owner»); library cards (`fcard`) carry it too, inside their corner tools.
+- **Post cards, third pass (owner, 22 Nov 2026: «the picture at the side is ok, but organise the buttons and text, and the picture with its
+  frame»; «where is the manage button on all posts»):** picture on the right (28 % column, 30 % on laptops) in a frame of its own shape (no
+  blur, at most 220 px high); the text column stacks title (2 lines), short text (2 lines), one detail line and small pill buttons from the
+  same edge (all lines right-aligned in Arabic, English titles too). «إدارة» shows for every team member even before the two-step code is
+  entered in this session (IS.can is false until then, so it had vanished); pressing it then asks for the code in a sheet (`mfacode`), and
+  the page redraws with the tools. A full-width Facebook-style card was drafted and dropped at the owner's request (keep the side picture).
