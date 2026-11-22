@@ -1432,3 +1432,5 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   small «🛡️ إدارة» pill (team tools); the publisher's small round «⋯» (`cm-own`: edit, delete) only when the team pill is not there. Every
   post picture sits in the library card's frame (3 : 4, a quarter of the card): the whole picture (contain) over a blurred copy of itself
   (`.pstb`), so frames match and nothing is cut. Card buttons are small (34 px) side by side; a single button takes half the row.
+- The publisher's «⋯» (edit, delete) shows on their own posts always, also when they are on the team (owner, 22 Nov 2026: «where is the edit
+  button for the post's owner»); library cards (`fcard`) carry it too, inside their corner tools.

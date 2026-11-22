@@ -209,7 +209,7 @@
   };
   IS.manageBtn = function (kind, id) { return kind && id ? IS.cardMenu(kind, id) : ''; };
   IS.ownBtns = function (kind, row, partId) {
-    if (!IS.ME || !row || authorOf(kind, row) !== IS.ME.id || may(kind, 'edit') || may(kind, 'del')) return '';
+    if (!IS.ME || !row || authorOf(kind, row) !== IS.ME.id) return '';
     if (!ownBtns0(kind, row, partId)) return '';
     return '<button type="button" class="cm-b cm-own" data-act="cm-own" data-k="' + esc(kind) + '" data-id="' + esc(kind === 'series' && row.series_id ? row.series_id : row.id) + '" data-part="' + esc(partId || '') +
       '" aria-label="' + esc(A('خيارات منشورك', 'Your post options')) + '" title="' + esc(A('تعديل أو حذف', 'Edit or delete')) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>';
