@@ -1494,3 +1494,8 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   then prefers the page's last full saved copy, and shows the offline card only when nothing at all is there. Profile cards offline: own account
   from IS.ME, lecturers from a saved list (mr.js `pcard`). Test: scratchpad offt.js = the app in LIVE mode against a fake supabase (fakesb.js,
   data made in preview), online 30 s then offline, 21 pages: old version 2 of 21 open, new 21 of 21 with their content.
+- **Offline notice and Google return (owner, 22 Nov 2026):** the offline bar is a small centred pill above the bottom bar (offline.js `bar`): «بدون
+  إنترنت · المحفوظ في جهازك يعمل», «تنزيلاتي», ✕; it folds into a round sign after 6 s (tap = open), ✕ hides it until the connection changes; green
+  «عاد الاتصال» for 3 s. After Google sends the student back, #main shows «جارٍ تسجيل الدخول…» at once; the 2-step check and the account re-read
+  in route never wait more than 6 s. live.js: a failed live channel is removed once, outside its own callback (it looped until the stack
+  overflowed). Test of the Google return with the real supabase-js and a fake server: scratchpad gret2.js / gret3.js (DLY = delay per call).
