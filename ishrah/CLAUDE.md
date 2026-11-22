@@ -1446,3 +1446,6 @@ name «أكاديمية السودان للمراجعة الطبية / Sudan Mas
   15 px, text 13 px; footer buttons 34 px. The series card (`feed-series`) uses the same grid (cover a quarter on the right, small type,
   small button). The home page's saved copy of the posts (`mr-feed:` key) now includes the app version and the team flag, so after an
   update or a role change the old copy (old buttons, no «إدارة») is not shown.
+- **Smaller cards, manage as an icon (owner, 22 Nov 2026: «just a button, no need to write Manage; keep the sizes small»):** the team's tool is a
+  small round 🛡️ (`.cm-b.cm-mng1`, 26 px, no word) beside 📌 and the publisher's «⋯»; card type chip 22 px, title 14 px, text 12 px, card
+  buttons 26 px, footer buttons 30 px, smaller stars. Keep these sizes.

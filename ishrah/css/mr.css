@@ -2527,3 +2527,28 @@ html body .mrh .feed-card.feed-series>.fb b{font-size:15px!important;line-height
 html body .mrh .feed-card.feed-series>.fb small{font-size:12.5px!important;color:#64817a!important}
 html body .mrh .feed-card.feed-series>.fb .library-feed-actions{display:flex!important;justify-content:flex-start;margin-top:4px!important;width:auto!important}
 :root[lang="en"] body .mrh .feed-card.feed-series>.fb{text-align:left}
+/* ===== smaller everywhere on the cards (owner, 22 Nov 2026: «just a button, no need to write Manage; keep the sizes small») ===== */
+.cm-b{width:26px!important;height:26px!important;font-size:11px!important}
+.cm-b svg{width:13px!important;height:13px!important}
+.cm-mng1{border-color:#e2c47a!important;background:#fff8e6!important}
+.cm-tools{gap:4px!important}
+html body .mrh .feed-card{padding:10px 12px 6px!important}
+html body .mrh .feed-card-header{margin-bottom:6px!important;gap:6px!important}
+html body .mrh .feed-card-header>span:first-child{height:22px!important;padding:0 8px!important;font-size:11px!important}
+html body .mrh .feed-card-header>span:first-child .ico{width:12px!important;height:12px!important}
+html body .mrh .feed-card-header>time{font-size:11px!important}
+html body .mrh .feed-card-header>time .ico,html body .mrh .feed-card-header .ico{width:12px!important;height:12px!important}
+html body .mrh .feed-card-content>div h3,html body .mrh .feed-card.feed-series>.fb b{font-size:14px!important}
+html body .mrh .feed-card-content>div .feed-summary,html body .mrh .feed-card-content>div .feed-detail,html body .mrh .feed-card-content>div .feed-author,html body .mrh .feed-card.feed-series>.fb small{font-size:12px!important}
+html body .mrh .feed-card .library-feed-actions .btn{height:26px!important;padding:0 10px!important;font-size:11.5px!important;gap:4px!important}
+html body .mrh .feed-card .library-feed-actions .btn .ico{width:13px!important;height:13px!important}
+.rq-joined{height:26px!important;padding:0 8px!important;font-size:11px!important;gap:4px!important}.rq-joined b{font-size:11.5px!important}.rq-joined .ico{width:12px!important;height:12px!important}
+html body .mrh .feed-card .fv-rate,html body .mrh .feed-card .fv-stats{padding:4px 0!important;font-size:11.5px!important}
+html body .mrh .feed-card .fv-acts{gap:5px!important;padding-top:6px!important}
+html body .mrh .feed-card .fv-acts>*{height:30px!important;font-size:12px!important;padding:0 8px!important}
+html body .mrh .feed-card .fv-acts .ico,html body .mrh .feed-card .fv-acts svg{width:14px!important;height:14px!important}
+html body .mrh .feed-card .gstars,html body .mrh .feed-card .fv-rate .stars{transform:scale(.8)!important}
+html body .mrh .feed-card .ptag,html body .mrh .feed-card .fv-rate .price{font-size:11px!important}
+html body .mrh .feed-card .fv-acts :is(button,a,.btn){height:30px!important;min-height:0!important;max-height:30px!important;font-size:12px!important;padding-block:0!important;line-height:1!important}
+html body .mrh .feed-card .fv-acts :is(button,a,.btn) :is(.ico,svg,img){width:14px!important;height:14px!important}
+html body .mrh .feed-card .fv-acts>*{align-self:center!important}

@@ -212,7 +212,7 @@
     var on = IS.isPinned(kind, id), team = IS.ME && (may(kind, 'edit') || may(kind, 'del') || (IS.MFA_NEEDED && IS.team && IS.team()));
     return '<span class="cm-tools"><button type="button" class="cm-b cm-pinb' + (on ? ' on' : '') + '" data-act="cm-pin" data-k="' + esc(kind) + '" data-id="' + esc(id) + '" aria-pressed="' + on + '" aria-label="' +
       esc(on ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت في الأعلى', 'Pin to the top')) + '" title="' + esc(on ? A('إلغاء التثبيت', 'Unpin') : A('تثبيت في الأعلى', 'Pin to the top')) + '">📌</button>' +
-      (team ? '<button type="button" class="cm-mng" data-act="manage" data-k="' + esc(kind) + '" data-id="' + esc(id) + '" aria-label="' + esc(A('إدارة', 'Manage')) + '"><i aria-hidden="true">🛡️</i><span>' + esc(A('إدارة', 'Manage')) + '</span></button>' : '') + '</span>';
+      (team ? '<button type="button" class="cm-b cm-mng1" data-act="manage" data-k="' + esc(kind) + '" data-id="' + esc(id) + '" aria-label="' + esc(A('إدارة', 'Manage')) + '" title="' + esc(A('إدارة', 'Manage')) + '">🛡️</button>' : '') + '</span>';
   };
   IS.manageBtn = function (kind, id) { return kind && id ? IS.cardMenu(kind, id) : ''; };
   IS.ownBtns = function (kind, row, partId) {
