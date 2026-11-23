@@ -1,5 +1,5 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v270', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v271', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
@@ -115,6 +115,7 @@ self.addEventListener('fetch', function (event) {
     return;
   }
   /* pictures uploaded to the platform (covers, photos): kept on the phone by their file path (signed addresses change), shown at once */
+  if (url.pathname.includes('/study-group-files/')) return; // Membership-checked media must never enter a shared device cache.
   var relayed = url.origin === self.location.origin && /^\/sb\//.test(url.pathname);
   if (relayed && !(/^\/sb\/storage\/v1\/object\/(public|sign)\//.test(url.pathname) && request.destination === 'image')) return;   /* database requests through the relay: always the network */
   if ((relayed || /\.supabase\.co$/.test(url.hostname)) && /^(\/sb)?\/storage\/v1\/object\/(public|sign)\//.test(url.pathname) && request.destination === 'image') {

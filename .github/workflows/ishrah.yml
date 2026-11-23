@@ -75,8 +75,9 @@ jobs:
           assistant=ishrah/supabase/055_assistant.sql
           contact_guard=ishrah/supabase/056_contact_guard.sql
           new_address=ishrah/supabase/057_new_address.sql
+          study_groups=ishrah/supabase/058_study_groups.sql
           pending=""
-          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads" "$reactions" "$live" "$series_edit" "$lecturer_check" "$profile_sync" "$team_tools" "$presence" "$dup_comments" "$own_paid" "$follows" "$card_roles" "$followers" "$free_posts" "$owner_alerts" "$course_cert" "$assistant" "$team_spaces" "$contact_guard" "$new_address"; do
+          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads" "$reactions" "$live" "$series_edit" "$lecturer_check" "$profile_sync" "$team_tools" "$presence" "$dup_comments" "$own_paid" "$follows" "$card_roles" "$followers" "$free_posts" "$owner_alerts" "$course_cert" "$assistant" "$team_spaces" "$contact_guard" "$new_address" "$study_groups"; do
             if [ -n "$pending" ] || ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$migration"; then
               pending="${pending:+$pending }$migration"
             fi
@@ -97,6 +98,13 @@ jobs:
           done
           test "$(psql "$DB" -v ON_ERROR_STOP=1 -qAtc "set search_path = ''; select not public.ish_staff()")" = t
           test "$(psql "$DB" -v ON_ERROR_STOP=1 -Atc "select exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'feed_feedback' and column_name = 'course_id') and to_regprocedure('public.ish_feed_react(text,uuid,integer)') is not null and to_regprocedure('public.ish_rate_file(uuid,integer)') is not null and to_regprocedure('public.ish_moderate_feed_report(uuid,boolean)') is not null and to_regclass('public.lecturer_payout_accounts') is not null and to_regprocedure('public.ish_lecturer_payout(text,uuid,uuid,uuid,numeric,uuid,text,text,text)') is not null and not exists (select 1 from public.lecturers where pay is distinct from '{}'::jsonb) and exists (select 1 from storage.buckets where id = 'payout-receipts' and not public) and to_regclass('public.library_comments') is not null and to_regprocedure('public.ish_library_comment(uuid,text,uuid)') is not null and to_regprocedure('public.ish_review_question(uuid,boolean,text)') is not null and to_regclass('public.course_live_links') is not null and to_regclass('public.payment_messages') is not null and to_regclass('public.course_request_files') is not null and to_regprocedure('public.ish_course_request(text,uuid,jsonb)') is not null and to_regprocedure('public.ish_public_course_terms(uuid)') is not null and exists (select 1 from storage.buckets where id = 'course-request-files' and not public) and to_regprocedure('ishrah_private.guard_library_subjects()') is not null and to_regprocedure('public.ish_review_library_revision(uuid,boolean,text)') is not null and to_regprocedure('ishrah_private.guard_library_upload_rights()') is not null and to_regprocedure('public.ish_series_rating_scores(uuid[])') is not null and to_regprocedure('public.ish_series_vote(uuid,text,integer)') is not null and to_regclass('public.file_buys') is not null and to_regprocedure('public.ish_seller_payout(text,uuid,numeric,uuid,text,text,text)') is not null")" = t
+      - name: Verify study group migration
+        if: contains(steps.request-schema.outputs.files, '058_study_groups.sql')
+        env:
+          DB: ${{ secrets.ISHRAH_DB_URL }}
+        run: |
+          DB=$(printf '%s' "$DB" | tr -d '\r\n\t `"'"'"'<>')
+          test "$(psql "$DB" -v ON_ERROR_STOP=1 -qAtc "select to_regprocedure('public.ish_study_action(text,uuid,jsonb)') is not null and to_regprocedure('public.ish_study_read(text,uuid,jsonb)') is not null and not has_function_privilege('anon','public.ish_study_read(text,uuid,jsonb)','EXECUTE') and exists(select 1 from storage.buckets where id='study-group-files' and not public)")" = t
       - name: Phone alerts check (counts only, no personal data)
         if: always()
         env:

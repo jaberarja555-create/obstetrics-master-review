@@ -262,7 +262,7 @@
   IS.bar = function (v, c) { v = Math.max(0, Math.min(100, Math.round(v || 0))); return '<span class="bar' + (c ? ' ' + c : '') + '"><i style="width:' + v + '%"></i></span>'; };
   IS.empty = function (icon, t1, t2, act) { return '<div class="empty">' + ic(icon) + '<b>' + esc(t1) + '</b>' + (t2 ? '<span>' + esc(t2) + '</span>' : '') + (act || '') + '</div>'; };
   var BANIMG = {
-    team:'community', community:'community', post:'community', about:'about', terms:'terms',
+    team:'community', community:'community', 'study-groups':'community', 'study-invite':'community', 'control-study-reports':'community', post:'community', about:'about', terms:'terms',
     downloads:'downloads', library:'library', series:'library', file:'library', favorites:'library',
     courses:'courses', course:'courses', search:'courses', 'course-requests':'requests', 'course-request':'requests',
     events:'events', event:'events', news:'news', learning:'learning', account:'learning', settings:'settings',
@@ -383,7 +383,7 @@
     var P = PAGES[name] || PAGES.home, o = P.o, my = ++SEQ, main = IS.$('#main');
     var previous = main.querySelector(':scope > .page'), account = IS.ME ? IS.ME.id : '';
     main.removeAttribute('aria-busy');
-    var student = !o.area || o.area === 'student' || (o.area === 'keep' && IS.area === 'student');
+    var student = (!o.area || o.area === 'student' || (o.area === 'keep' && IS.area === 'student')) && !/^study-(groups|group|invite)$/.test(name);
     if (student && IS.SPEC && IS.specLocked && IS.specLocked(IS.SPEC) && !/^(pick|terms|security|settings|book|books)$/.test(name)) { name = 'pick'; P = PAGES.pick; o = P.o; }
     else if (student && IS.SPECS.length && !/^(pick|terms|security|payment|downloads|dl|settings|book|books)$/.test(name) && !IS.mySpec()) {
       name = 'pick'; P = PAGES.pick; o = P.o;
@@ -947,7 +947,7 @@
   IS.SUB.signin = async function (d) {
     try { await DB.signIn({ phone: d.phone, pass: d.pass }); } catch (e) { return authMsg(A('الرقم أو كلمة المرور غير صحيحة.', 'Wrong phone number or password.')); }
     IS.closeSheet(); await IS.loadMe(); if (IS.ME && IS.ME.status === 'blocked') { await DB.signOut(); IS.ME = null; IS.toast(A('هذا الحساب موقوف. تواصل مع الدعم.', 'This account is blocked. Contact support.'), true); }
-    if (IS.mfaCheck) await IS.mfaCheck(); if (IS.team()) IS.go('control'); else IS.route();
+    if (IS.mfaCheck) await IS.mfaCheck(); if (IS.team() && !/^#study-invite\//.test(location.hash)) IS.go('control'); else IS.route();
   };
   /* preview copy (no real Google yet): the Google button asks for the Gmail address and proves it with a 6-digit code, never by the address
      alone (owner, 18 Nov 2026). The live platform opens the real Google sign-in. */
@@ -1005,7 +1005,7 @@
         var hashed = Array.prototype.map.call(new Uint8Array(hb), function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
         google.accounts.id.initialize({ client_id: cid, nonce: hashed, ux_mode: 'popup', itp_support: true, use_fedcm_for_button: true, callback: async function (resp) {
           try { await DB.googleToken(resp.credential, raw); IS.closeSheet(); await IS.loadMe(); if (IS.mfaCheck) await IS.mfaCheck();
-            if (IS.AUTHKIND === 'lecturer' && !IS.LEC) IS.go('studio-apply'); else if (IS.team()) IS.go('control'); else IS.route(); }
+            if (IS.AUTHKIND === 'lecturer' && !IS.LEC) IS.go('studio-apply'); else if (IS.team() && !/^#study-invite\//.test(location.hash)) IS.go('control'); else IS.route(); }
           catch (e) { showGoogleError(b.closest('.dlg')); b.hidden = false; chooser.hidden = true; box.remove(); } } });
         google.accounts.id.renderButton(box, { type: 'standard', theme: 'outline', size: 'large', shape: 'pill', text: 'continue_with', logo_alignment: 'center', locale: IS.lang === 'en' ? 'en' : 'ar', width: Math.min(400, Math.max(220, b.offsetWidth || 320)) });
         setTimeout(function () {
@@ -1037,7 +1037,7 @@
     }
     IS.beat();
     DB.onAuth(async function () { if (!navigator.onLine && DB.live) return; await loadAccount(); IS.route(); });
-    if (googleReturn && !googleReturn.failed && IS.ME && IS.team()) IS.go('control');
+    if (googleReturn && !googleReturn.failed && IS.ME && IS.team() && !/^#study-invite\//.test(location.hash)) IS.go('control');
     else if (googleReturn && !googleReturn.failed && IS.ME && googleReturn.kind === 'lecturer' && !IS.LEC) IS.go('studio-apply');
     else IS.route();
     if (googleReturn && googleReturn.failed) {

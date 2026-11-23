@@ -1255,6 +1255,8 @@
     var users = {}; ps.forEach(function (p) { users[p.user_id] = 1; });
     var h = IS.banner(IS.T('مجتمع الطلبة', 'Student Community'), '<bdi lang="en">' + esc((IS.mySpec() || {}).en || '') + '</bdi>' + esc(A(': ناقش، اسأل، شارك المعرفة، واطلب ما تحتاجه.', ': discuss, ask, share and request what you need.')), 'group',
       '') + IS.spaceBox();
+    h += '<a class="study-community-link" href="#study-groups">' + ic('group') + '<span>' +
+      esc(A('مجموعات الدراسة', 'Study groups')) + '</span>' + ic('chev','fl') + '</a>';
     h += '<details class="rules community-rules"><summary>' + ic('shield') + esc(A('قواعد المجتمع', 'Community rules')) + ic('down') + '</summary><ul>' + [
       A('تعامل مع الآخرين باحترام. تجنّب الإساءة والتنمر.', 'Treat others with respect. Avoid insults and bullying.'),
       A('انشر محتوى هادفًا يخدم التعلّم والتزم بموضوع النقاش.', 'Share useful learning content and stay on topic.'),

@@ -22,6 +22,7 @@ document.write(a?'<link rel="manifest" href="apps/'+a+'.webmanifest?v=1"><link r
 (function(){var p='blue';try{p=JSON.parse(localStorage.getItem('ish-pal')||'"blue"')}catch(e){}document.documentElement.setAttribute('data-pal',p);})();</script>
 <link id="ishcss" rel="stylesheet" href="css/app.pv.css?v=3002cad8">
 <link id="mrcss" rel="stylesheet" href="css/mr.pv.css?v=74215669">
+<link rel="stylesheet" href="css/study-groups.css?v=e3dab7dc">
 <link id="pvcss" rel="stylesheet" href="css/pv.css?v=44f61271">
 <noscript><link rel="stylesheet" href="css/app.css?v=17f1a690"></noscript>
 <script>/* test switch for the Android scrolling smear (owner, 18 Nov 2026): ishrahli.org/?safe=1 … 4 turns parts of the design off on this
@@ -43,8 +44,8 @@ var th=localStorage.getItem('ish-theme-reset1')?JSON.parse(localStorage.getItem(
 (function(){var c=window.ISH_CONFIG||{};if(c.supabaseUrl&&c.supabaseAnonKey){document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js"><\/script><script src="https://cdn.jsdelivr.net/npm/tus-js-client@4.1.0/dist/tus.min.js"><\/script>');}})();
 </script>
 <script src="js/db.js?v=b9848c05"></script>
-<script src="js/core.js?v=a8ba608f"></script>
-<script src="js/student.js?v=229be2d2"></script>
+<script src="js/core.js?v=a8c81b2f"></script>
+<script src="js/student.js?v=63660012"></script>
 <script src="js/intro.js?v=bd1449af"></script>
 <script src="js/moved.js?v=bd490123"></script>
 <script src="js/books.js?v=a0533584"></script>
@@ -54,7 +55,7 @@ var th=localStorage.getItem('ish-theme-reset1')?JSON.parse(localStorage.getItem(
 <script src="js/series.js?v=cb47b070"></script>
 <script src="js/reader.js?v=cbd963af"></script>
 <script src="js/studio.js?v=791fa5b4"></script>
-<script src="js/control.js?v=699c0805"></script>
+<script src="js/control.js?v=b89c5d16"></script>
 <script src="js/org.js?v=dca85256"></script>
 <script src="js/course-requests.js?v=0104af48"></script>
 <script src="js/threads.js?v=ee3bc225"></script>
@@ -70,6 +71,7 @@ var th=localStorage.getItem('ish-theme-reset1')?JSON.parse(localStorage.getItem(
 <script src="js/stickybar.js?v=27d7c370"></script>
 <script src="js/assist.js?v=2165a793"></script>
 <script src="js/prefetch.js?v=5fe2c31c"></script>
+<script src="js/study-groups.js?v=12223ded"></script>
 <script>IS.start();if('serviceWorker'in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(function(){});</script>
 </body>
 </html>
