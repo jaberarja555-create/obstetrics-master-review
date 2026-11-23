@@ -17,12 +17,14 @@
     return [(IS.spec(spec) || {}).en,(IS.cat(section) || {}).en].filter(Boolean).join(' · ');
   }
   function plainCount(value) { return Number(value || 0).toLocaleString('en-US'); }
+  function modeName(channel) { return channel ? A('قناة خاصة','Private channel') : A('مجموعة خاصة','Private group'); }
   function admin(role) { return role === 'owner' || role === 'admin'; }
   function errorText(error) {
     var messages = {
       study_unavailable: ['المجموعة أو الرسالة غير متاحة، أو انتهت صلاحية الدعوة.', 'The group, message or invite is unavailable.'],
       study_forbidden: ['هذا الإجراء غير متاح لحسابك.', 'Your account cannot perform this action.'],
       study_join_first: ['انضم إلى المجموعة أولًا.', 'Join the group first.'],
+      study_already_member: ['الحساب موجود بالفعل أو أزيل من المساحة.','This account is already a member or was removed.'],
       study_read_only: ['الإرسال متاح لمشرفي المجموعة.', 'Only group admins can send messages.'],
       study_transfer_first: ['انقل ملكية المجموعة قبل المغادرة.', 'Transfer ownership before leaving.'],
       study_invalid_poll: ['أدخل سؤالًا وخيارين إلى ستة خيارات مختلفة.', 'Enter a question and two to six different options.'],
@@ -49,34 +51,56 @@
   }
   function scope() { var section=IS.mySection(); return { spec:IS.SPEC,section:section ? section.id : '' }; }
   function intro() {
-    return IS.banner(IS.T('مجموعات الدراسة','Study groups'),t('محادثات ومجموعات تعلّم داخل أقسام الأكاديمية.','Group conversations inside the academy’s study sections.'),'group','');
+    return IS.banner(IS.T('المجموعات والقنوات','Groups & channels'),
+      t('مساحات خاصة للدراسة والنقاش والإعلانات.','Private spaces for study, discussion and announcements.'),'group','');
   }
   function settingsFields(g) {
-    return '<label class="fl"><span>' + t('اسم المجموعة','Group name') + '</span><input name="title" required maxlength="80" dir="auto" value="' + esc(g.title || '') + '"></label>' +
-      '<label class="fl"><span>' + t('الوصف','Description') + '</span><textarea name="description" maxlength="500" rows="3" dir="auto">' + esc(g.description || '') + '</textarea></label>' +
-      '<label class="fl"><span>' + t('الخصوصية','Privacy') + '</span><select name="visibility"><option value="private">' + t('خاصة برابط دعوة','Private · invite link') +
-      '</option><option value="open"' + (g.visibility==='open' ? ' selected' : '') + '>' + t('مفتوحة في القسم','Open in this section') + '</option></select></label>' +
-      '<label class="chk"><input type="checkbox" name="admin_only" value="true"' + (g.admin_only ? ' checked' : '') + '><span>' +
-      t('المشرفون فقط يرسلون الرسائل','Only admins can send messages') + '</span></label>';
+    var choices=[[false,'group','مجموعة خاصة','Private group','الأعضاء يرسلون الرسائل ويردّون ويتفاعلون.','Members can message, reply and react.'],
+      [true,'mega','قناة خاصة','Private channel','المشرفون ينشرون، والمشتركون يقرأون ويتفاعلون.','Admins publish. Subscribers can read and react.']];
+    return '<fieldset class="study-modes"><legend>' + t('نوع المساحة','Space type') + '</legend>' +
+      choices.map(function (mode) {
+        return '<label class="study-mode"><input type="radio" name="mode" value="' + (mode[0] ? 'channel' : 'group') + '"' +
+          (mode[0]===Boolean(g.admin_only) ? ' checked' : '') + '>' + ic(mode[1]) + '<span><b>' + t(mode[2],mode[3]) +
+          '</b><small>' + t(mode[4],mode[5]) + '</small></span></label>';
+      }).join('') + '</fieldset><label class="fl"><span>' + t('الاسم','Name') + '</span><input name="title" required maxlength="80" dir="auto" value="' +
+      esc(g.title || '') + '"></label><label class="fl"><span>' + t('الوصف','Description') +
+      '</span><textarea name="description" maxlength="500" rows="3" dir="auto">' + esc(g.description || '') + '</textarea></label>';
+  }
+  function groupCard(g) {
+    return '<a class="box study-group-card" href="#study-group/' + g.id + '"><span class="study-group-icon">' + ic(g.admin_only ? 'mega' : 'group') +
+      '</span><div><h2 dir="auto">' + esc(g.title) + '</h2><small>' + esc(areaTitle(g.spec,g.section)) + ' · ' + IS.N(g.members) + ' ' +
+      (g.admin_only ? t('مشتركون','subscribers') : t('أعضاء','members')) + '</small>' +
+      (g.description ? '<p dir="auto">' + esc(g.description) + '</p>' : '') + '</div>' +
+      (g.unread ? '<span class="chip">' + t('جديد','Unread') + '</span>' : '') + '</a>';
+  }
+  function directorySection(groups,channel) {
+    var cards=groups.filter(function (g) { return g.admin_only===channel; }).map(groupCard).join('');
+    return cards ? '<section class="study-directory"><h2>' + (channel ? t('قنواتي','My channels') : t('مجموعاتي','My groups')) +
+      '</h2><div class="study-group-list">' + cards + '</div></section>' : '';
+  }
+  function invitationInbox(invites) {
+    return invites.length ? '<section class="study-directory"><h2>' + t('الدعوات الواردة','Invitations') + '</h2><div class="study-group-list">' +
+      invites.map(function (invite) {
+        return '<a class="box study-group-card" href="#study-invite/' + invite.token + '"><span class="study-group-icon">' + ic('mail') +
+          '</span><div><h2 dir="auto">' + esc(invite.title) + '</h2><small>' + esc(modeName(invite.admin_only)) +
+          '</small></div><span class="chip">' + t('عرض الدعوة','View invite') + '</span></a>';
+      }).join('') + '</div></section>' : '';
   }
   IS.page('study-groups',async function () {
     if (!DB.live) return intro() + IS.empty('group',A('تتوفّر المجموعات في الأكاديمية المتصلة.','Groups are available on the connected academy.'));
     try {
-      var groups=await read('list',null,scope());
-      var cards=groups.map(function (g) {
-        return '<a class="box study-group-card" href="#study-group/' + g.id + '"><span class="study-group-icon">' + ic(g.visibility==='private' ? 'lock' : 'group') +
-          '</span><div><h2 dir="auto">' + esc(g.title) + '</h2><small>' + esc(areaTitle(g.spec,g.section)) + ' · ' + IS.N(g.members) + ' ' +
-          t('أعضاء','members') + '</small>' + (g.description ? '<p dir="auto">' + esc(g.description) + '</p>' : '') + '</div>' +
-          (g.unread ? '<span class="chip">' + t('جديد','Unread') + '</span>' : '') + '</a>';
-      }).join('');
-      return intro() + '<div class="row study-tools">' + (IS.mySection() ? button('new',A('مجموعة جديدة','New group'),'plus',null,true) :
-        '<a class="btn pri" href="#pick-section">' + t('اختر قسمًا لإنشاء مجموعة','Choose a section to create a group') + '</a>') +
-        '<a class="btn ghost sm" href="#community">' + t('المجتمع','Community') + '</a></div>' +
-        (cards ? '<div class="study-group-list">' + cards + '</div>' : IS.empty('group',A('لا توجد مجموعات هنا بعد','No groups here yet'),A('أنشئ مجموعة أو افتح رابط دعوة.','Create a group or open an invite link.')));
+      var lists=await Promise.all([read('list'),read('inbox')]);
+      var groups=lists[0];
+      return intro() + '<div class="row study-tools">' + (IS.mySection() ? button('new',A('إنشاء مجموعة أو قناة','Create group or channel'),'plus',null,true) :
+        '<a class="btn pri" href="#pick-section">' + t('اختر قسمًا لإنشاء مساحة','Choose a section to create a space') + '</a>') +
+        '<a class="btn ghost sm" href="#community">' + t('المجتمع','Community') + '</a></div>' + invitationInbox(lists[1]) +
+        directorySection(groups,false) + directorySection(groups,true) +
+        (groups.length || lists[1].length ? '' : IS.empty('group',A('لا توجد مجموعات أو قنوات بعد','No groups or channels yet'),
+          A('أنشئ مساحة أو افتح رابط دعوة.','Create a private space or open an invitation.')));
     } catch (error) { return intro() + failure(error); }
   },{auth:true});
   IS.ACT['study-new']=function () {
-    IS.sheet(t('مجموعة جديدة','New group'),'<form class="form" data-form="study-settings">' + settingsFields({}) + '<button class="btn pri">' + t('إنشاء المجموعة','Create group') + '</button></form>');
+    IS.sheet(t('إنشاء مجموعة أو قناة','Create group or channel'),'<form class="form" data-form="study-settings">' + settingsFields({}) + '<button class="btn pri">' + t('إنشاء','Create') + '</button></form>');
   };
   IS.SUB['study-settings']=async function (data) {
     var id=data.id;
@@ -88,7 +112,7 @@
 
   IS.page('study-invite',async function (token) {
     if (!uuid.test(token)) return failure(new Error('study_unavailable'));
-    return intro() + '<section class="box"><h2>' + t('دعوة إلى مجموعة دراسة','Study group invitation') + '</h2>' +
+    return intro() + '<section class="box"><h2>' + t('دعوة إلى مساحة خاصة','Private space invitation') + '</h2>' +
       button('join',A('قبول الدعوة والانضمام','Accept invitation and join'),'group',{token:token},true) +
       '</section>';
   },{auth:true});
@@ -99,8 +123,9 @@
 
   function chatHeader(g) {
     return '<header class="study-chat-head"><a href="#study-groups" class="study-group-icon" aria-label="' + t('مجموعات الدراسة','Study groups') + '">' + ic('group') +
-      '</a><div><h1 tabindex="-1" dir="auto">' + esc(g.title) + '</h1><small>' + esc(areaTitle(g.spec,g.section)) + '</small></div>' +
-      (g.role ? button('info',A('معلومات المجموعة','Group info'),'info',{id:g.id}) : '') + '</header>';
+      '</a><div><h1 tabindex="-1" dir="auto">' + esc(g.title) + '</h1><small>' + esc(modeName(g.admin_only)) + ' · ' +
+      IS.N(g.member_count || 0) + ' ' + (g.admin_only ? t('مشتركون','subscribers') : t('أعضاء','members')) + '</small></div>' +
+      (g.role ? button('info',g.admin_only ? A('معلومات القناة','Channel info') : A('معلومات المجموعة','Group info'),'info',{id:g.id}) : '') + '</header>';
   }
   function composer() {
     return '<form class="study-compose" data-form="study-send"><div class="study-reply" hidden></div><label class="study-attach">' + ic('file') +
@@ -117,13 +142,13 @@
         button('join',A('انضم إلى المجموعة','Join group'),'group',{id:id},true) + '</section>';
       var initial=await read('messages',id);
       IS.after=function (main) { mount(main.querySelector('.study-chat'),g,initial); };
-      return '<section class="box study-chat" data-id="' + id + '">' + chatHeader(g) +
+      return '<section class="box study-chat' + (g.admin_only ? ' study-channel' : '') + '" data-id="' + id + '">' + chatHeader(g) +
         '<div class="study-chat-tools"><form data-form="study-search"><input type="search" name="q" maxlength="120" placeholder="' +
         t('ابحث في الرسائل','Search messages') + '" aria-label="' + t('ابحث في الرسائل','Search messages') + '"><button class="btn ghost sm">' + ic('search') +
         t('بحث','Search') + '</button></form>' + button('poll',A('استطلاع','Poll'),'chart') + '</div>' +
         '<div class="study-pin" hidden></div><div class="study-chat-status" role="status" hidden></div>' +
         '<div class="study-log" tabindex="0" aria-label="' + t('رسائل المجموعة','Group messages') + '"></div>' +
-        '<p class="study-read-only" hidden>' + t('المشرفون فقط يرسلون الرسائل.','Only group admins can send messages.') + '</p>' + composer() + '</section>';
+        '<p class="study-read-only" hidden>' + t('هذه قناة بث. ينشر المشرفون، ويمكنك التفاعل والتصويت.','This is a broadcast channel. Admins publish, and you can react and vote.') + '</p>' + composer() + '</section>';
     } catch (error) { return failure(error); }
   },{auth:true});
 
@@ -133,7 +158,7 @@
     var poll=m.options ? '<div class="study-poll">' + m.options.map(function (option,i) {
       return button('vote',option + ' · ' + plainCount(m.votes[i]),m.my_vote===i+1 ? 'check' : '',{id:m.id,choice:i+1},m.my_vote===i+1);
     }).join('') + '</div>' : '';
-    return '<article class="study-message' + ownClass + '" data-mid="' + m.id + '"><header><b dir="auto">' + esc(m.name || A('عضو','Member')) +
+    return '<article class="study-message' + ownClass + '" data-mid="' + m.id + '"><header><b dir="auto">' + esc(state.g.admin_only && !admin(state.g.role) ? state.g.title : m.name || A('عضو','Member')) +
       '</b><time datetime="' + esc(m.sent_at) + '">' + esc(new Date(m.sent_at).toLocaleTimeString(IS.lang,{hour:'numeric',minute:'2-digit'})) + '</time>' +
       (m.edited_at ? '<small>' + t('عُدّلت','Edited') + '</small>' : '') + '</header>' +
       (m.reply_to ? '<blockquote dir="auto">' + esc(m.reply_excerpt || A('رد على رسالة','Reply to a message')) + '</blockquote>' : '') +
@@ -184,9 +209,15 @@
     var log=state.log, top=log.scrollTop, stick=log.scrollHeight-top-log.clientHeight<50, oldHeight=log.scrollHeight;
     state.revision=response.revision;
     response.messages.forEach(function (m) { state.rows.set(m.id,m); });
+    var changeHeader=state.g.admin_only!==response.admin_only || state.g.member_count!==response.member_count;
     if (state.g.role!==response.role && admin(state.g.role)) state.g.invite=null;
     state.g.role=response.role;
     state.g.admin_only=response.admin_only;
+    state.g.member_count=response.member_count;
+    if (changeHeader) {
+      state.root.classList.toggle('study-channel',response.admin_only);
+      state.root.querySelector('.study-chat-head').outerHTML=chatHeader(state.g);
+    }
     var canWrite=!response.admin_only || admin(response.role);
     state.root.querySelector('.study-compose').hidden=!canWrite;
     state.root.querySelector('.study-read-only').hidden=canWrite;
@@ -195,7 +226,7 @@
     pin.hidden=!response.pinned;
     if (response.pinned) pin.innerHTML=button('jump',A('مثبّتة · ','Pinned · ') + (response.pin_text || ''),'pin',{id:response.pinned});
     var rows=Array.from(state.rows.values()).sort(function (a,b) { return a.id-b.id; });
-    var result=JSON.stringify([rows,state.more]);
+    var result=JSON.stringify([rows,state.more,state.g.role,state.g.admin_only]);
     if (result!==state.rendered) {
       state.rendered=result;
       var existing=new Map(Array.from(log.querySelectorAll('.study-message'),function (node) { return [Number(node.dataset.mid),node]; }));
@@ -227,7 +258,7 @@
     try {
       if (opts.poll) {
         var latest=await read('version',state.g.id);
-        if (!mounted(state) || (latest.revision===state.revision && latest.role===state.g.role && latest.admin_only===state.g.admin_only)) return;
+        if (!mounted(state) || (latest.revision===state.revision && latest.role===state.g.role && latest.admin_only===state.g.admin_only && latest.member_count===state.g.member_count)) return;
       }
       var response=await read('messages',state.g.id,{search:opts.search===undefined?state.term:opts.search,before:opts.before});
       if (!mounted(state)) return;
@@ -463,20 +494,55 @@
         if (IS.ME.id!==m.id && m.role!=='owner' && (g.role==='owner' || (g.role==='admin' && m.role!=='admin'))) {
           commands+=button('member',m.role==='removed' ? A('إعادة السماح','Restore') : A('إزالة','Remove'),'',
             Object.assign({role:m.role==='removed'?'member':'removed'},change));
-          if (g.role==='owner' && m.role!=='removed') commands+=button('member',m.role==='admin' ? A('إلغاء الإشراف','Demote') : A('تعيين مشرف','Promote'),'',
-            Object.assign({role:m.role==='admin'?'member':'admin'},change)) + button('member',A('نقل الملكية','Transfer ownership'),'',
+          if (m.role==='member' || (g.role==='owner' && m.role==='admin')) commands+=button('member',
+            m.role==='admin' ? A('إلغاء الإشراف','Demote') : A('تعيين مشرف','Make admin'),'',
+            Object.assign({role:m.role==='admin'?'member':'admin'},change));
+          if (g.role==='owner' && m.role!=='removed') commands+=button('member',A('نقل الملكية','Transfer ownership'),'',
             Object.assign({role:'owner'},change));
         }
         return '<li><span dir="auto">' + esc(m.name) + ' <small>' + esc(roleLabel(m.role)) + '</small></span><div class="row">' + commands + '</div></li>';
       }).join('');
       IS.sheet(esc(g.title),'<p dir="auto">' + esc(g.description) + '</p><div class="row study-tools">' + (admin(g.role) ?
+        button('people',A('إضافة أعضاء أو دعوتهم','Add or invite people'),'users',{id:id},true) +
         IS.shareButton('study-invite/' + g.invite) + button('rotate',A('تجديد رابط الدعوة','Reset invite link'),'route',{id:id}) +
         button('settings',A('إعدادات المجموعة','Group settings'),'gear',{id:id}) +
         button('reports',A('بلاغات المجموعة','Group reports'),'flag',{id:id}) : '') +
         (g.role!=='owner' ? button('leave',A('مغادرة','Leave group'),'logout',{id:id}) : '') +
-        '</div><h3>' + t('الأعضاء','Members') + '</h3><ul class="study-members">' + members + '</ul>',{nofocus:true});
+        '</div>' + (g.admin_only && !admin(g.role) ? '<p>' + IS.N(g.member_count) + ' ' + t('مشتركون','subscribers') + '</p>' :
+          '<h3>' + (g.admin_only ? t('المشتركون','Subscribers') : t('الأعضاء','Members')) + '</h3><ul class="study-members">' + members + '</ul>'),{nofocus:true});
     } catch (error) { IS.toast(errorText(error),true); }
   };
+  IS.ACT['study-people']=function (b) {
+    IS.sheet(t('إضافة أعضاء أو دعوتهم','Add or invite people'),
+      '<form class="form" data-form="study-people"><input type="hidden" name="id" value="' + esc(b.dataset.id) +
+      '"><label class="fl"><span>' + t('ابحث باسم الحساب (٣ أحرف على الأقل)','Search by account name (at least 3 characters)') +
+      '</span><input name="query" type="search" minlength="3" maxlength="80" required dir="auto"></label>' +
+      '<button class="btn pri">' + t('بحث','Search') + '</button><div class="study-person-results" aria-live="polite"></div></form>');
+  };
+  IS.SUB['study-people']=async function (data,form) {
+    var region=form.querySelector('.study-person-results');
+    try {
+      var rows=await read('people',data.id,{query:data.query});
+      if (!form.isConnected) return;
+      region.innerHTML=rows.length ? '<ul class="study-members">' + rows.map(function (person) {
+        var opts={id:data.id,user:person.id};
+        return '<li><span dir="auto">' + esc(person.name) + '</span><div class="row">' +
+          button('add-member',A('إضافة','Add member'),'plus',opts) +
+          button('send-invite',A('إرسال دعوة','Send in-app invite'),'send',opts) + '</div></li>';
+      }).join('') + '</ul>' : '<p>' + t('لا توجد حسابات مطابقة.','No matching accounts.') + '</p>';
+    } catch (error) { region.textContent=errorText(error); }
+  };
+  for (const op of ['add-member','send-invite']) {
+    IS.ACT['study-'+op]=async function (b) {
+      b.disabled=true;
+      var outcome=await perform(op,b.dataset.id,{user:b.dataset.user});
+      if (!outcome) { b.disabled=false; return; }
+      var row=b.closest('li');
+      if (row && op==='add-member') row.remove();
+      b.textContent=outcome.already_sent ? A('الدعوة مرسلة بالفعل','Already invited') : A('أُرسلت الدعوة','Invite sent');
+      IS.toast(op==='add-member' ? A('تمت إضافة العضو','Member added') : A('أُرسلت الدعوة داخل التطبيق','In-app invitation sent'));
+    };
+  }
   function roleLabel(role) {
     return {owner:A('المالك','Owner'),admin:A('مشرف','Admin'),member:A('عضو','Member'),removed:A('تمت الإزالة','Removed')}[role];
   }
@@ -505,7 +571,7 @@
     return rows.length ? rows.map(function (r) {
       return '<article class="box"><h3 dir="auto">' + esc(r.title) + '</h3><p dir="auto">' + esc(r.reason) + '</p><blockquote dir="auto">' +
         esc(r.removed ? A('حُذفت الرسالة','Message deleted') : r.body || A('رسالة تحتوي على مرفق','Message with an attachment')) +
-        '</blockquote><div class="row">' + (id || IS.can('community','edit') ?
+        '</blockquote><div class="row">' + (id ?
           button('resolve',A('إغلاق البلاغ','Dismiss report'),'check',{id:id || '',report:r.id,op:'dismiss-report'}) +
           (!r.removed ? button('resolve',A('حذف الرسالة','Remove message'),'trash',{id:id || '',report:r.id,op:'remove-reported'}) : '') : '') + '</div></article>';
     }).join('') : IS.empty('shield',A('لا توجد بلاغات مفتوحة','No open reports'));
@@ -516,16 +582,10 @@
       IS.sheet(t('بلاغات المجموعة','Group reports'),reportsList(rows,b.dataset.id),{nofocus:true});
     } catch (error) { IS.toast(errorText(error),true); }
   };
-  IS.page('control-study-reports',async function () {
-    var banner=IS.banner(IS.T('بلاغات مجموعات الدراسة','Study group reports'),'','flag',
-      '<a class="btn ghost" href="#control-community">' + t('بلاغات المجتمع','Community reports') + '</a>');
-    if (!DB.live) return banner;
-    try { return banner + reportsList(await read('reports')); } catch (error) { return banner + failure(error); }
-  },{area:'control',perm:'community'});
   IS.ACT['study-resolve']=async function (b) {
     var d=b.dataset;
     if (d.op==='remove-reported' && !await IS.confirm(A('حذف الرسالة المبلّغ عنها؟','Remove the reported message?'))) return;
     if (!await perform(d.op,d.id,{report:d.report})) return;
-    if (d.id) IS.ACT['study-reports'](b); else IS.refresh();
+    IS.ACT['study-reports'](b);
   };
 })();

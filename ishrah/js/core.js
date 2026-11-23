@@ -262,7 +262,7 @@
   IS.bar = function (v, c) { v = Math.max(0, Math.min(100, Math.round(v || 0))); return '<span class="bar' + (c ? ' ' + c : '') + '"><i style="width:' + v + '%"></i></span>'; };
   IS.empty = function (icon, t1, t2, act) { return '<div class="empty">' + ic(icon) + '<b>' + esc(t1) + '</b>' + (t2 ? '<span>' + esc(t2) + '</span>' : '') + (act || '') + '</div>'; };
   var BANIMG = {
-    team:'community', community:'community', 'study-groups':'community', 'study-invite':'community', 'control-study-reports':'community', post:'community', about:'about', terms:'terms',
+    team:'community', community:'community', 'study-groups':'community', 'study-invite':'community', post:'community', about:'about', terms:'terms',
     downloads:'downloads', library:'library', series:'library', file:'library', favorites:'library',
     courses:'courses', course:'courses', search:'courses', 'course-requests':'requests', 'course-request':'requests',
     events:'events', event:'events', news:'news', learning:'learning', account:'learning', settings:'settings',

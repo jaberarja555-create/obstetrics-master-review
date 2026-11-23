@@ -1605,3 +1605,10 @@ studentmasterreview.com with HTTP/3 off). Now:
 - Group chat supports text, replies, emoji reactions, polls, search, pinned messages, editing and deletion, image and PDF attachments, and voice notes on browsers with recording support. The active conversation checks for changes every five seconds. Group owners and admins can manage members and restrict posting to admins.
 - Members can report a message. Group admins can review group reports, and authorized platform moderators see reported messages under Control → Community → Study group reports. Other private messages and files are restricted to members. Conversation data bypasses the app's offline caches.
 - Migration `058_study_groups.sql` adds private tables, authenticated RPCs and membership-checked attachment storage. Cloudflare deployment applies the migration before releasing the interface. No calls or end-to-end encryption are included.
+
+## Private groups and broadcast channels · 23 Nov 2026
+
+- Space creation offers an interactive private group and a private broadcast channel. Subscribers read, react and vote, while channel owners and admins publish. Existing open groups became private, preserving members and conversation history.
+- Space owners and admins manage their own space and its reports. Platform staff permissions do not grant access to the space, its reports, members or invitation notices. Reports about public Community posts still use the regular Control workflow.
+- In Group info or Channel info, authorized admins can search by account name, add a member, send a recipient-bound invitation inside the app, or share the existing revocable link. Recipients see invitations in Notifications and the Groups & channels inbox. Admins can promote regular members. The owner can also demote admins and transfer ownership.
+- Migration `059_private_groups_channels.sql` preserves the public RPC contract while putting the earlier implementation behind authenticated, private-space authorization.
