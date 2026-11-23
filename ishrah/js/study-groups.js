@@ -45,6 +45,11 @@
     return res.data;
   }
   function read(op,id,data) { return rpc('read',op,id,data); }
+  async function readMembers(id) {
+    var response=await DB.sb.rpc('ish_study_members',{p_group:id});
+    if (response.error) throw new Error(response.error.message);
+    return response.data;
+  }
   function act(op,id,data) { return rpc('action',op,id,data); }
   async function perform(op,id,data) {
     try { return await act(op,id,data); } catch (error) { IS.toast(errorText(error),true); return null; }
@@ -685,9 +690,9 @@
       if (g.role==='owner' && m.role!=='removed') commands+=button('member',A('نقل الملكية','Transfer ownership'),'',
         Object.assign({role:'owner'},change));
     }
-    return '<li>' + IS.av({name:m.name},'sm') + '<span class="study-member-name"><b dir="auto">' + esc(m.name) +
+    return '<li>' + IS.av(m,'sm') + '<span class="study-member-name"><b dir="auto">' + esc(m.name) +
       '</b><small>' + esc(roleLabel(m.role)) + '</small></span>' +
-      (commands ? '<details><summary aria-label="' + t('إجراءات العضو','Member actions') + '">' + ic('dots') +
+      (commands ? '<details><summary aria-label="' + t('إجراءات العضو','Member actions') + '">' + ic('more') +
         '</summary><div class="row">' + commands + '</div></details>' : '') + '</li>';
   }
   function membersPanel(g,rows) {
@@ -706,7 +711,7 @@
   }
   async function openGroupInfo(id) {
     try {
-      var pair=await Promise.all([read('group',id),read('members',id)]), g=pair[0];
+      var pair=await Promise.all([read('group',id),readMembers(id)]), g=pair[0];
       var owns=admin(g.role), infoTitle=roomLabel(g,'معلومات المجموعة','Group info','معلومات القناة','Channel info');
       var sheet=IS.sheet(esc(infoTitle),'<div class="study-info"><div class="study-info-profile">' + groupPhoto(g) +
         '<h3 dir="auto">' + esc(g.title) + '</h3><small>' + esc(modeName(g.admin_only)) + ' · ' + IS.N(g.member_count || 0) +

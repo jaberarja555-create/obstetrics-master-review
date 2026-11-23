@@ -1625,3 +1625,5 @@ studentmasterreview.com with HTTP/3 off). Now:
 - Owners and admins can upload, replace or remove a group photo. It appears in the directory, chat header and info sheet. Migration `061_study_group_settings.sql` uses a private bucket with membership-checked reads and admin-only changes. Group photos bypass the shared offline media cache.
 - Discussion groups can restrict new messages to admins while members continue to read and react. The channel's existing publishing behavior is preserved.
 - Verified repeatable SQL, member and outsider access, photo upload and removal, and the Arabic phone and English desktop group screens with a local database. The shared deployment applies migration 061 before publishing this interface.
+
+- The Group info member list now shows each visible member's account photo with initials as the fallback. Migration `062_study_member_photos.sql` reuses the existing member-list permissions and keeps channel subscriber lists restricted. The member action button uses the ellipsis icon.
