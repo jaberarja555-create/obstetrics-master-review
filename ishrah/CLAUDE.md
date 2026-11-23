@@ -1594,3 +1594,4 @@ studentmasterreview.com with HTTP/3 off). Now:
   requests) are used only above 15 MB (`WHOLE`, or when the server says so). Each piece paid the slow trip to the server again. The whole
   file is kept on the phone at once from memory (library.js `onWhole` → offline.js `bookKeep(file, path, mime, blob)`), so the next opening
   needs no internet. Loading text is dark on the light reader background.
+- Data Saver no longer stops a book that has just come down whole from being kept (owner, 23 Nov 2026: "it downloads every time I open"; offline.js bookKeep).

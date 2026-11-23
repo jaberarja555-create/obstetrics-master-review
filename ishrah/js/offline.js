@@ -154,7 +154,8 @@
   IS.bookKeep = async function (file, path, mime, blob) {
     try {
       var id = did('file', file.id);
-      if (!uid() || HAVE[id] || RUN[id] || !navigator.onLine || (navigator.connection || {}).saveData) return;
+      /* a book that has just come down whole is kept even on Data Saver or offline (owner, 23 Nov 2026: "it downloads every time I open") */
+      if (!uid() || HAVE[id] || RUN[id] || (!blob && (!navigator.onLine || (navigator.connection || {}).saveData))) return;
       if (+file.size > 80 * 1048576) return;
       var source = blob ? URL.createObjectURL(blob) : await DB.fileUrl('library', path); if (!source) return;   /* a book just fetched whole is kept from memory, not downloaded again */
       await save({ id: id, kind: 'file', title: file.title, sub: file.author || '', ref: file.id, mime: mime || 'application/pdf', pth: path, auto: 1 },
