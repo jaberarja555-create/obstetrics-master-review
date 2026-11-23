@@ -180,7 +180,11 @@
       '<textarea name="body" maxlength="4000" rows="1" dir="auto" aria-label="' + t('رسالة','Message') + '" placeholder="' + t('اكتب رسالة…','Write a message…') + '"></textarea>' +
       (window.MediaRecorder && navigator.mediaDevices && navigator.mediaDevices.getUserMedia ? iconButton('record',A('تسجيل صوت','Voice note'),'mic') : '') +
       '</div><button class="study-send btn pri" type="submit" aria-label="' + t('إرسال','Send') + '" title="' + t('إرسال','Send') + '">' +
-      ic('send') + '</button><small class="study-file-label" hidden></small></form>';
+      ic('send') + '</button><div class="study-recording" hidden><span class="study-record-dot" aria-hidden="true"></span>' +
+      '<span>' + t('جارٍ التسجيل','Recording') + '</span><time dir="ltr">0:00</time>' +
+      iconButton('cancel-record',A('إلغاء التسجيل','Cancel recording'),'trash') +
+      '<button type="button" class="btn ghost sm" data-act="study-stop-record">' + t('إيقاف','Stop') + '</button></div>' +
+      '<div class="study-file-label" hidden></div></form>';
   }
   IS.page('study-group',async function (id) {
     if (!uuid.test(id)) return failure(new Error('study_unavailable'));
@@ -208,6 +212,94 @@
     if (date.toDateString()===yesterday.toDateString()) return A('أمس','Yesterday');
     return date.toLocaleDateString(IS.lang,{day:'numeric',month:'long',year:date.getFullYear()===now.getFullYear() ? undefined : 'numeric'});
   }
+  function voiceTime(seconds) {
+    var length=Math.floor(Math.max(0,seconds || 0));
+    return Math.floor(length/60) + ':' + String(length%60).padStart(2,'0');
+  }
+  function voicePlayer(id) {
+    var bars=[23,39,64,40,69,89,64,41,74,92,55,31,56,82,100,67,34,57,84,64,30,58,39,22];
+    return '<div class="study-voice" role="group" aria-label="' + t('رسالة صوتية','Voice message') + '">' +
+      iconButton('play-voice',A('تشغيل التسجيل','Play voice message'),'play',id) +
+      '<div class="study-voice-track"><div class="study-voice-wave" aria-hidden="true">' +
+      bars.map(function (height) { return '<span style="--bar-height:' + height + '%"></span>'; }).join('') +
+      '</div><input type="range" min="0" max="0" step="0.1" value="0" disabled aria-label="' +
+      t('موضع التشغيل','Playback position') + '"><time dir="ltr">–:–</time></div><span class="study-voice-mic" aria-hidden="true">' +
+      ic('mic') + '</span><audio preload="none"></audio></div>';
+  }
+  function releaseVoice(root) {
+    root.querySelectorAll('.study-voice audio').forEach(function (audio) {
+      audio.pause();
+      if (audio.studyObjectUrl) URL.revokeObjectURL(audio.studyObjectUrl);
+      if (audio.hasAttribute('src')) { audio.removeAttribute('src'); audio.load(); }
+    });
+  }
+  function voiceLength(audio) {
+    if (Number.isFinite(audio.duration) && audio.duration>0) return audio.duration;
+    var last=audio.seekable.length && audio.seekable.end(audio.seekable.length-1);
+    return Number.isFinite(last) ? last : 0;
+  }
+  function prepareVoice(player) {
+    var audio=player.querySelector('audio'), toggle=player.querySelector('button'), slider=player.querySelector('input');
+    if (audio.studyReady) return audio;
+    audio.studyReady=true;
+    function sync() {
+      var duration=voiceLength(audio) || player.studyDuration || 0;
+      var elapsed=Math.min(audio.currentTime,duration || audio.currentTime);
+      var playing=!audio.paused && !audio.ended;
+      if (audio.studyPlaying!==playing) {
+        audio.studyPlaying=playing;
+        toggle.innerHTML=playing ? '<span class="study-voice-pause" aria-hidden="true"></span>' : ic('play');
+        toggle.title=playing ? A('إيقاف مؤقت','Pause voice message') : A('تشغيل التسجيل','Play voice message');
+        toggle.setAttribute('aria-label',toggle.title);
+      }
+      slider.disabled=!duration;
+      slider.max=duration;
+      slider.value=elapsed;
+      var pct=duration ? 100*elapsed/duration : 0;
+      player.querySelector('.study-voice-wave').querySelectorAll('span').forEach(function (bar,i,list) {
+        bar.classList.toggle('played',i/list.length*100<pct);
+      });
+      player.querySelector('time').textContent=elapsed>0 && !audio.ended ? voiceTime(elapsed) : duration ? voiceTime(duration) : '–:–';
+      slider.setAttribute('aria-valuetext',voiceTime(elapsed) + ' / ' + voiceTime(duration));
+    }
+    slider.addEventListener('input',function () { audio.currentTime=Number(slider.value); sync(); });
+    ['loadedmetadata','durationchange','timeupdate','play','pause','ended','emptied'].forEach(function (event) {
+      audio.addEventListener(event,sync);
+    });
+    audio.addEventListener('ended',function () { audio.currentTime=0; });
+    audio.addEventListener('error',function () {
+      if (!audio.hasAttribute('src')) return;
+      audio.removeAttribute('src');
+      IS.toast(A('تعذّر تشغيل التسجيل. حاول مرة أخرى.','Could not play this voice note. Try again.'),true);
+    });
+    sync();
+    return audio;
+  }
+  IS.ACT['study-play-voice']=async function (b) {
+    var state=active, player=b.closest('.study-voice');
+    if (!state || !mounted(state) || !player || b.disabled) return;
+    var audio=prepareVoice(player);
+    if (!audio.paused) { audio.pause(); return; }
+    state.voiceRequest=player;
+    state.root.querySelectorAll('.study-voice audio').forEach(function (other) { if (other!==audio) other.pause(); });
+    try {
+      if (!audio.hasAttribute('src')) {
+        var message=state.rows.get(Number(b.dataset.id));
+        if (!message || !message.attachment) return;
+        b.disabled=true;
+        player.setAttribute('aria-busy','true');
+        var result=await DB.sb.storage.from('study-group-files').createSignedUrl(message.attachment,300);
+        if (!mounted(state) || !player.isConnected || state.voiceRequest!==player) return;
+        if (result.error) throw result.error;
+        audio.src=result.data.signedUrl;
+      }
+      await audio.play();
+    } catch (error) {
+      if (player.isConnected && error.name!=='AbortError' && !audio.error) {
+        IS.toast(A('تعذّر تشغيل التسجيل. حاول مرة أخرى.','Could not play this voice note. Try again.'),true);
+      }
+    } finally { b.disabled=false; player.removeAttribute('aria-busy'); }
+  };
   function renderMessage(m,state,continued) {
     var mine=m.sender===state.user, ownClass=mine ? ' mine' : '';
     if (m.removed) return '<article class="study-message removed' + ownClass + '" data-mid="' + m.id + '">' + t('حُذفت الرسالة','Message deleted') + '</article>';
@@ -225,7 +317,8 @@
       (m.reply_to ? '<button type="button" class="study-quote" data-act="study-jump" data-id="' + m.reply_to + '" dir="auto">' +
         esc(m.reply_excerpt || A('رد على رسالة','Reply to a message')) + '</button>' : '') +
       (m.body ? '<p dir="auto">' + esc(m.body) + '</p>' : '') + poll +
-      (m.attachment ? button('file',m.attachment_name,'file',{id:m.id}) + '<div class="study-attachment" hidden></div>' : '') +
+      (m.attachment ? (String(m.attachment_type || '').startsWith('audio/') ? voicePlayer(m.id) :
+        button('file',m.attachment_name,'file',{id:m.id}) + '<div class="study-attachment" hidden></div>') : '') +
       '<footer><span class="study-message-meta">' + (m.edited_at ? '<small>' + t('عُدّلت','Edited') + '</small>' : '') +
       '<time datetime="' + esc(m.sent_at) + '">' + esc(new Date(m.sent_at).toLocaleTimeString(IS.lang,{hour:'numeric',minute:'2-digit'})) + '</time></span>' +
       iconButton('message',A('إجراءات','Actions'),'menu',m.id) + '</footer>' +
@@ -268,6 +361,7 @@
   }
   function stopRecording(state,keep) {
     clearTimeout(state.voiceTimer);
+    clearInterval(state.voiceTick);
     if (state.recorder && state.recorder.state==='recording') {
       state.keepVoice=keep;
       state.recorder.stop();
@@ -287,13 +381,14 @@
     if (state.fitObserver) state.fitObserver.disconnect();
     document.removeEventListener('visibilitychange',state.visibility);
     stopRecording(state,false);
+    releaseVoice(state.root);
   }
   function bubbleGestures(state) {
     var start=null, hold;
     function cancel() { clearTimeout(hold); start=null; }
     state.log.addEventListener('pointerdown',function (e) {
       var bubble=e.target.closest('.study-bubble');
-      if (e.pointerType!=='touch' || !bubble || e.target.closest('button,a,audio,input')) return;
+      if (e.pointerType!=='touch' || !bubble || e.target.closest('button,a,.study-voice,input')) return;
       start={x:e.clientX,y:e.clientY,id:bubble.closest('[data-mid]').dataset.mid,pointer:e.pointerId};
       hold=setTimeout(function () {
         if (start && mounted(state)) IS.ACT['study-message']({dataset:{id:start.id}});
@@ -377,6 +472,7 @@
       A('يمكن للمشرفين فقط إرسال الرسائل حاليًا.','Only admins can send messages right now.');
     state.root.querySelector('.study-compose').hidden=!canWrite;
     state.root.querySelector('.study-read-only').hidden=canWrite;
+    if (!canWrite && state.recorder) stopRecording(state,false);
     state.root.querySelector('[data-act="study-poll"]').hidden=!canWrite;
     var pin=state.root.querySelector('.study-pin');
     pin.hidden=!response.pinned;
@@ -412,6 +508,7 @@
           wrapper.append(node);
         }
       });
+      releaseVoice(log);
       log.replaceChildren(...wrapper.childNodes);
       if (focused && log.contains(focused)) focused.focus({preventScroll:true});
       paintAvatars(state);
@@ -490,7 +587,7 @@
   IS.SUB['study-send']=async function (data,form) {
     var state=active;
     if (!state || !mounted(state) || state.sending) return;
-    if (state.recorder) return IS.toast(A('أوقف التسجيل أولًا.','Stop the recording first.'),true);
+    if (state.recorder || state.startingVoice) return IS.toast(A('أوقف التسجيل أولًا.','Stop the recording first.'),true);
     var file=state.voice || form.querySelector('input[type=file]').files[0];
     if (!String(data.body || '').trim() && !file) return;
     if (file && IS.contactHit && IS.contactHit(file.name)) return IS.toast(errorText(new Error('study_contact')),true);
@@ -514,8 +611,20 @@
   };
   function showFile(state,file) {
     var label=state.root.querySelector('.study-file-label');
+    releaseVoice(label);
     label.hidden=!file;
-    label.textContent=file ? file.name : '';
+    var voice=file && file===state.voice;
+    label.classList.toggle('study-voice-draft',Boolean(voice));
+    label.textContent=file && !voice ? file.name : '';
+    if (voice) {
+      label.innerHTML=voicePlayer() + iconButton('discard-voice',A('حذف التسجيل','Discard voice note'),'trash');
+      var player=label.querySelector('.study-voice');
+      player.studyDuration=state.voiceDuration;
+      var audio=prepareVoice(player);
+      audio.studyObjectUrl=URL.createObjectURL(file);
+      audio.src=audio.studyObjectUrl;
+      return;
+    }
     if (file) label.append(' ',Object.assign(document.createElement('button'),{
       type:'button',className:'btn ghost sm',textContent:A('إزالة المرفق','Remove attachment'),
       onclick:function () {
@@ -525,41 +634,66 @@
       }
     }));
   }
+  IS.ACT['study-discard-voice']=function () {
+    if (!active || active.sending) return;
+    active.voice=null;
+    showFile(active,null);
+  };
+  IS.ACT['study-cancel-record']=function () { if (active) stopRecording(active,false); };
+  IS.ACT['study-stop-record']=function () { if (active) stopRecording(active,true); };
   IS.ACT['study-record']=async function (b) {
     var state=active;
-    if (!state || state.sending) return;
-    if (state.recorder) return stopRecording(state,true);
+    if (!state || state.sending || state.recorder || state.startingVoice) return;
+    state.startingVoice=true;
     b.disabled=true;
     var stream;
     try {
       stream=await navigator.mediaDevices.getUserMedia({audio:true});
-      if (!mounted(state)) { stream.getTracks().forEach(function (track) { track.stop(); }); return; }
-      var recorder=new MediaRecorder(stream), chunks=[];
+      if (!mounted(state) || b.closest('form').hidden) {
+        stream.getTracks().forEach(function (track) { track.stop(); });
+        return;
+      }
+      var recorder=new MediaRecorder(stream), chunks=[], form=b.closest('form');
+      var bar=form.querySelector('.study-recording'), clock=bar.querySelector('time');
+      var started=performance.now();
+      state.keepVoice=false;
+      state.root.querySelectorAll('.study-voice audio').forEach(function (audio) { audio.pause(); });
+      form.classList.add('recording');
+      bar.hidden=false;
+      clock.textContent='0:00';
+      bar.querySelector('[data-act="study-stop-record"]').focus();
+      state.voiceTick=setInterval(function () { clock.textContent=voiceTime((performance.now()-started)/1000); },250);
       recorder.ondataavailable=function (event) { if (event.data.size) chunks.push(event.data); };
       recorder.onstop=function () {
         stream.getTracks().forEach(function (track) { track.stop(); });
         state.recorder=null;
-        b.setAttribute('aria-label',A('تسجيل صوت','Voice note'));
-        b.title=A('تسجيل صوت','Voice note');
-        b.removeAttribute('data-recording');
-        if (!mounted(state) || !state.keepVoice || !chunks.length) return;
+        clearInterval(state.voiceTick);
+        clearTimeout(state.voiceTimer);
+        form.classList.remove('recording');
+        bar.hidden=true;
+        if (!mounted(state)) return;
+        b.focus();
+        if (!state.keepVoice || !chunks.length) return;
         var mime=(recorder.mimeType || chunks[0].type).split(';')[0];
         var ext={'audio/mp4':'m4a','audio/ogg':'ogg','audio/webm':'webm'}[mime];
         if (!ext) return IS.toast(A('صيغة التسجيل غير مدعومة.','This recording format is unsupported.'),true);
         state.voice=new File(chunks,A('رسالة صوتية','Voice note')+'.'+ext,{type:mime});
-        state.root.querySelector('input[type=file]').value='';
+        state.voiceDuration=(performance.now()-started)/1000;
+        form.querySelector('input[type=file]').value='';
         showFile(state,state.voice);
+        form.querySelector('.study-send').focus();
       };
       recorder.start(250);
       state.recorder=recorder;
-      b.setAttribute('aria-label',A('إيقاف التسجيل','Stop recording'));
-      b.title=A('إيقاف التسجيل','Stop recording');
-      b.setAttribute('data-recording','');
       state.voiceTimer=setTimeout(function () { stopRecording(state,true); },90000);
     } catch (error) {
       if (stream) stream.getTracks().forEach(function (track) { track.stop(); });
-      IS.toast(A('تعذّر الوصول إلى الميكروفون.','Could not access the microphone.'),true);
-    } finally { b.disabled=false; }
+      clearInterval(state.voiceTick);
+      var form=b.closest('form');
+      form.classList.remove('recording');
+      form.querySelector('.study-recording').hidden=true;
+      if (mounted(state)) IS.toast(A('تعذّر الوصول إلى الميكروفون.','Could not access the microphone.'),true);
+    } finally { b.disabled=false; state.startingVoice=false; }
   };
   function clearReply(state) {
     state.reply=null;
@@ -647,9 +781,9 @@
     var state=active, m=state && state.rows.get(Number(b.dataset.id));
     if (!m || !m.attachment) return;
     try {
-      var image=m.attachment_type.startsWith('image/'), audio=m.attachment_type.startsWith('audio/');
+      var image=String(m.attachment_type || '').startsWith('image/');
       var result=await DB.sb.storage.from('study-group-files').createSignedUrl(m.attachment,60,
-        image || audio ? undefined : {download:m.attachment_name});
+        image ? undefined : {download:m.attachment_name});
       if (!mounted(state) || !b.isConnected) return;
       if (result.error) throw result.error;
       var panel=b.parentElement.querySelector('.study-attachment');
@@ -661,10 +795,9 @@
       link.download=m.attachment_name;
       link.target='_blank';
       link.textContent=A('تنزيل أو فتح الملف','Download or open file');
-      if (image || audio) {
-        var media=document.createElement(image ? 'img' : 'audio');
-        if (image) media.alt=m.attachment_name;
-        else media.controls=true;
+      if (image) {
+        var media=document.createElement('img');
+        media.alt=m.attachment_name;
         media.src=result.data.signedUrl;
         panel.append(media);
       }

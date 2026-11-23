@@ -1627,3 +1627,10 @@ studentmasterreview.com with HTTP/3 off). Now:
 - Verified repeatable SQL, member and outsider access, photo upload and removal, and the Arabic phone and English desktop group screens with a local database. The shared deployment applies migration 061 before publishing this interface.
 
 - The Group info member list now shows each visible member's account photo with initials as the fallback. Migration `062_study_member_photos.sql` reuses the existing member-list permissions and keeps channel subscriber lists restricted. The member action button uses the ellipsis icon.
+
+## Voice notes and Community Back · 24 Nov 2026
+
+- Audio attachments now use the compact player in the conversation, with one-tap playback, a seek control and time. They use the existing private media links and load on playback. PDFs and images keep their existing attachment controls.
+- Microphone recording shows a timer and separate stop and cancel actions. Stopping makes a preview available before sending. Players release media when removed from the conversation or draft.
+- The header remembers real browser history entries. Back from study chats, invitations and group lists returns to Community. Back from Community skips the pages opened within it and returns to the previous page, or Home on a direct visit. The chat's own Back button follows the same behavior.
+- Verified on an Arabic phone-sized Chromium preview with real MediaRecorder, a local database, a seekable audio fixture and the Community navigation paths. No database migration is needed.

@@ -161,30 +161,57 @@
   };
   var SECAR = { basics: 'الأساسيات', clinical: 'الكلينكال', special: 'الامتحانات الدولية', house: 'الامتياز' };
 
-  /* the top Home button decides when it is pressed (owner, 21 Nov 2026: «لمن اضغط زر الرئيسية ما بتمش أي حتة»): the link was written while the
-     page was drawn, when the page name was still the previous one, so on Home it pointed to Home again and did nothing. On the section page
-     it opens the section chooser; in the studio and control it opens their own dashboard; elsewhere the section page. */
-  /* One Home, one Back (owner, 23 Nov 2026: "two buttons for the home page, up and down … always a person should know how to go back").
-     The bottom bar keeps the only Home. The top corner is «رجوع» / Back: it returns to the page the person came from inside the app
-     (STACK of addresses this tab visited), or to the area's own start when the page was opened directly. On the section page it reads
-     «الأقسام» / Sections and opens the section chooser. */
-  var STACK = [];
+  /* Track actual history entries, including repeated URLs and browser Forward. */
+  var visitToken=Math.random().toString(36).slice(2), visit;
   function here() { return location.hash.replace(/^#/, '') || 'home'; }
-  function track() { var h = here(); if (STACK.length > 1 && STACK[STACK.length - 2] === h) STACK.pop(); else if (STACK[STACK.length - 1] !== h) STACK.push(h); if (STACK.length > 60) STACK.shift(); }
-  track(); window.addEventListener('hashchange', track);
-  function fromStudy() { return /^study-(groups|group|invite)(?:\/|$)/.test(here()); }
+  function fromStudy(hash) { return /^study-(groups|group|invite)(?:\/|$)/.test(hash || here()); }
+  function inCommunity(hash) { return /^(community|post)(?:\/|$)/.test(hash) || fromStudy(hash); }
+  function isCommunityHome(hash) { return hash==='community'; }
   function startOf() { return IS.area === 'studio' ? 'studio' : IS.area === 'control' ? 'control' : 'home'; }
+  function saveVisit(next,url) {
+    visit=next;
+    history.replaceState(Object.assign({},history.state,{smraBack:next}), '', url);
+  }
+  function track() {
+    var hash=here(), saved=history.state && history.state.smraBack;
+    if (saved && saved.token===visitToken && saved.hash===hash) { visit=saved; return; }
+    var next={token:visitToken,hash:hash,index:visit ? visit.index+1 : 0};
+    if (visit && inCommunity(hash)) {
+      if (inCommunity(visit.hash)) {
+        next.origin=visit.origin;
+        next.community=visit.community;
+      } else next.origin=visit.index;
+    }
+    if (isCommunityHome(hash)) next.community=next.index;
+    saveVisit(next,location.href);
+  }
+  track();
+  window.addEventListener('hashchange',track);
+  function replacePage(hash) {
+    var next=Object.assign({},visit,{hash:hash});
+    if (isCommunityHome(hash)) next.community=next.index;
+    if (!inCommunity(hash)) { delete next.origin; delete next.community; }
+    saveVisit(next,'#'+hash);
+    IS.closeSheet();
+    IS.route();
+  }
   document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('.mh-top .mh-back'); if (!a) return;
+    var a=e.target.closest && e.target.closest('.mh-back,.study-chat-back');
+    if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
     if (fromStudy()) {
-      if (STACK[STACK.length - 2] === 'community') return history.back();
-      return IS.go('community');
+      if (visit.community!=null && visit.community<visit.index) return history.go(visit.community-visit.index);
+      return replacePage('community');
     }
-    if (a.dataset.to === 'sections') return IS.go('pick-section');
-    /* no earlier page: the area's start, or the platform home when already there (owner, 23 Nov 2026: Back did nothing on the control panel) */
-    var st = startOf(); if (STACK.length > 1) history.back(); else IS.go(here().split('/')[0] === st ? 'home' : st);
-  }, true);
+    if (isCommunityHome(here())) {
+      if (visit.origin!=null && visit.origin<visit.index) return history.go(visit.origin-visit.index);
+      return replacePage('home');
+    }
+    if (a.dataset.to==='sections') return IS.go('pick-section');
+    var start=startOf();
+    if (visit.index>0) history.back();
+    else replacePage(here().split('/')[0]===start ? 'home' : start);
+  },true);
   function htop() {
     var m = IS.ME;
     var me = m ? '<a class="mh-av" href="#account" aria-label="' + esc(A('حسابي', 'My account')) + '">' + (m.photo ? '<img src="' + IS.U(m.photo) + '" alt="">' : I.person) + '</a>' :
