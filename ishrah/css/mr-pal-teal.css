@@ -2784,3 +2784,11 @@ html body .bk-ibtns .btn{min-height:44px;height:auto;border-radius:999px}
 .bk-isheet>img,html body #sheet .bk-isheet>img{width:84px!important;height:84px!important;max-width:84px!important;border-radius:22px;box-shadow:0 4px 12px rgba(0,0,0,.18);margin:4px auto 10px;display:block}
 .bk-isheet p{margin:0 0 12px;line-height:1.7}
 .bk-steps{text-align:start;margin:0;padding-inline-start:22px;line-height:1.9}
+
+/* One Home, one Back (owner, 23 Nov 2026): the top corner is a labelled Back pill («رجوع»), or «الأقسام» on the section page */
+.mrx .mh-top .mh-back{display:inline-flex;align-items:center;gap:6px;height:clamp(34px,4.6vw,42px);padding:0 14px 0 10px;border-radius:999px;flex:none;
+  color:#fff;font:700 14px/1 inherit;text-decoration:none;white-space:nowrap;background:radial-gradient(circle at 50% 25%,#147380,#063e46 75%) padding-box,linear-gradient(180deg,#fff3c4,#ecc56b 45%,#b8862b) border-box;border:2px solid transparent;box-shadow:0 4px 10px rgba(6,62,70,.25)}
+.mrx .mh-top .mh-back svg{width:20px;height:20px;flex:none}
+.mrx .mh-top .mh-back:hover{filter:brightness(1.1)}
+[dir=rtl] .mrx .mh-top .mh-back .mh-arr{transform:scaleX(-1)}
+@media (max-width:420px){.mrx .mh-top .mh-back{padding:0 11px 0 8px;font-size:13px;gap:4px}.mrx .mh-top .mh-back svg{width:18px;height:18px}}
