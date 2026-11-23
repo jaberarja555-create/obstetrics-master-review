@@ -159,7 +159,7 @@
     updateZoomLabel();
     reader.io = new IntersectionObserver(function (entries) {
       if (R !== reader) return;
-      entries.forEach(function (entry) { if (entry.isIntersecting) draw(+entry.target.dataset.p); });
+      entries.forEach(function (entry) { if (entry.isIntersecting) need(+entry.target.dataset.p); });
     }, { root: sc, rootMargin: '120% 0px' });
     reader.pages.forEach(function (p) { reader.io.observe(p.el); });
   };
@@ -224,7 +224,7 @@
       if (R && R.pages[n - 1] === p) { p.drawn = want; p.textDivs = textDivs; paintMarks(n); paintSearch(n); }
     } catch (e) { if (!/cancel/i.test(String(e && e.name || e))) p.drawn = 0; }
     finally { if (p) p.busy = false; }
-    if (R && R.pages[n - 1] === p) release();
+    if (R && R.pages[n - 1] === p) { release(); sweepSoon(); }
   }
   /* pages far from the screen give back their memory */
   function release() {
@@ -237,7 +237,36 @@
       }
     });
   }
-  function redrawNear() { R.pages.forEach(function (p) { p.drawn = 0; }); for (var i = Math.max(1, R.cur - 1); i <= Math.min(R.n, R.cur + 2); i++) draw(i); }
+  /* every page on or near the screen that is blank or drawn at an older size is drawn now (owner, 23 Nov 2026: a page stayed white;
+     a page skipped while another drawing or a zoom was running was never asked again until it left the screen and came back) */
+  /* one page drawn at a time, the page on the screen first (owner, 23 Nov 2026: slow opening; several pages drawn together made the
+     page in view wait behind the others on a slow phone) */
+  var WANT = new Set(), PUMP = false;
+  function need(n) { WANT.add(n); pump(); }
+  async function pump() {
+    if (PUMP) return; PUMP = true;
+    try {
+      while (R && WANT.size) {
+        var sc = R.el.querySelector('.rdr-scroll'), mid = sc.scrollTop + sc.clientHeight / 2, best = null, bd = 1e12;
+        WANT.forEach(function (n) { var p = R.pages[n - 1]; if (!p) { WANT.delete(n); return; } var d = Math.abs(p.el.offsetTop + p.el.offsetHeight / 2 - mid); if (d < bd) { bd = d; best = n; } });
+        if (best === null) break;
+        WANT.delete(best);
+        if (bd > sc.clientHeight * 2.5) continue;   /* left far behind by scrolling */
+        await draw(best);
+      }
+    } finally { PUMP = false; }
+  }
+  var swT = 0;
+  function sweepSoon() { clearTimeout(swT); swT = setTimeout(sweep, 120); }
+  function sweep() {
+    if (!R || !R.n || !R.doc) return;
+    var sc = R.el.querySelector('.rdr-scroll'), top = sc.scrollTop - sc.clientHeight * 0.6, bot = sc.scrollTop + sc.clientHeight * 1.6, want = Math.round(width());
+    R.pages.forEach(function (p, i) {
+      var y = p.el.offsetTop, h = p.el.offsetHeight;
+      if (y + h >= top && y <= bot && p.drawn !== want && !p.busy) need(i + 1);
+    });
+  }
+  function redrawNear() { R.pages.forEach(function (p) { p.drawn = 0; }); for (var i = Math.max(1, R.cur - 1); i <= Math.min(R.n, R.cur + 2); i++) need(i); sweepSoon(); }
   /* the page and the spot on it under (x, y) */
   function anchorAt(x, y) {
     var best = null, bd = 1e9;
@@ -276,6 +305,7 @@
       if (sc.scrollTop > 0 && sc.scrollHeight - sc.clientHeight - sc.scrollTop <= 2) cur = R.n;
       else for (var i = 0; i < R.pages.length; i++) { if (R.pages[i].el.offsetTop <= mid) cur = i + 1; else break; }
       if (cur !== R.cur) showPageNumber(cur);
+      sweepSoon();
     });
   }
   /* two fingers: the pages grow or shrink around the fingers and follow them; when the fingers lift, the pages are laid out at the new size

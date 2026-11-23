@@ -1595,3 +1595,4 @@ studentmasterreview.com with HTTP/3 off). Now:
   file is kept on the phone at once from memory (library.js `onWhole` → offline.js `bookKeep(file, path, mime, blob)`), so the next opening
   needs no internet. Loading text is dark on the light reader background.
 - Data Saver no longer stops a book that has just come down whole from being kept (owner, 23 Nov 2026: "it downloads every time I open"; offline.js bookKeep).
+- **Reader pages never stay white; the page in view first (owner, 23 Nov 2026: blank page 7 at 150 %, slow opening):** reader.js draws one page at a time, the page nearest the middle of the screen first (`need`/`pump`), and after every drawing, scroll or zoom `sweep` draws any page on or near the screen that is blank or drawn at an older size (a page skipped while another drawing or a zoom ran was never asked again).
