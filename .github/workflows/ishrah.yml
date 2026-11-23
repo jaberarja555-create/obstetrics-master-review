@@ -77,8 +77,9 @@ jobs:
           new_address=ishrah/supabase/057_new_address.sql
           study_groups=ishrah/supabase/058_study_groups.sql
           study_channels=ishrah/supabase/059_private_groups_channels.sql
+          study_chat=ishrah/supabase/060_study_chat_avatars.sql
           pending=""
-          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads" "$reactions" "$live" "$series_edit" "$lecturer_check" "$profile_sync" "$team_tools" "$presence" "$dup_comments" "$own_paid" "$follows" "$card_roles" "$followers" "$free_posts" "$owner_alerts" "$course_cert" "$assistant" "$team_spaces" "$contact_guard" "$new_address" "$study_groups" "$study_channels"; do
+          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads" "$reactions" "$live" "$series_edit" "$lecturer_check" "$profile_sync" "$team_tools" "$presence" "$dup_comments" "$own_paid" "$follows" "$card_roles" "$followers" "$free_posts" "$owner_alerts" "$course_cert" "$assistant" "$team_spaces" "$contact_guard" "$new_address" "$study_groups" "$study_channels" "$study_chat"; do
             if [ -n "$pending" ] || ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$migration"; then
               pending="${pending:+$pending }$migration"
             fi
@@ -113,6 +114,13 @@ jobs:
         run: |
           DB=$(printf '%s' "$DB" | tr -d '\r\n\t `"'"'"'<>')
           test "$(psql "$DB" -v ON_ERROR_STOP=1 -qAtc "select not has_function_privilege('authenticated','ishrah_private.ish_study_read(text,uuid,jsonb)','EXECUTE') and not has_function_privilege('authenticated','ishrah_private.ish_study_action(text,uuid,jsonb)','EXECUTE') and not exists(select 1 from ishrah_private.study_groups where visibility <> 'private')")" = t
+      - name: Verify study avatar permissions
+        if: contains(steps.request-schema.outputs.files, '060_study_chat_avatars.sql')
+        env:
+          DB: ${{ secrets.ISHRAH_DB_URL }}
+        run: |
+          DB=$(printf '%s' "$DB" | tr -d '\r\n\t `"'"'"'<>')
+          test "$(psql "$DB" -v ON_ERROR_STOP=1 -qAtc "select has_function_privilege('authenticated','public.ish_study_avatars(uuid,uuid[])','EXECUTE') and not has_function_privilege('anon','public.ish_study_avatars(uuid,uuid[])','EXECUTE')")" = t
       - name: Phone alerts check (counts only, no personal data)
         if: always()
         env:

@@ -1612,3 +1612,9 @@ studentmasterreview.com with HTTP/3 off). Now:
 - Space owners and admins manage their own space and its reports. Platform staff permissions do not grant access to the space, its reports, members or invitation notices. Reports about public Community posts still use the regular Control workflow.
 - In Group info or Channel info, authorized admins can search by account name, add a member, send a recipient-bound invitation inside the app, or share the existing revocable link. Recipients see invitations in Notifications and the Groups & channels inbox. Admins can promote regular members. The owner can also demote admins and transfer ownership.
 - Migration `059_private_groups_channels.sql` preserves the public RPC contract while putting the earlier implementation behind authenticated, private-space authorization.
+
+## Conversation layout and Community Back · 24 Nov 2026
+
+- Group conversations use compact bubbles, member profile photos with initials fallback, sender grouping and date dividers. Broadcast channels keep their own post layout and channel icon.
+- The composer stays below the scrolling timeline with compact attachment, recording and send controls. Tap a quoted reply to jump to the original, swipe a message to reply or hold it to open actions on touch screens.
+- Back from any group, channel, directory or invitation opens Community. Migration `060_study_chat_avatars.sql` returns sender photos only to members of the corresponding group.

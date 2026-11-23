@@ -121,18 +121,26 @@
     if (joined) IS.go('study-group/' + joined.id);
   };
 
+  function iconButton(action,label,icon,id) {
+    return '<button type="button" class="study-icon-button" data-act="study-' + action + '"' +
+      (id ? ' data-id="' + esc(id) + '"' : '') + ' aria-label="' + esc(label) + '" title="' + esc(label) + '">' + ic(icon) + '</button>';
+  }
   function chatHeader(g) {
-    return '<header class="study-chat-head"><a href="#study-groups" class="study-group-icon" aria-label="' + t('مجموعات الدراسة','Study groups') + '">' + ic('group') +
-      '</a><div><h1 tabindex="-1" dir="auto">' + esc(g.title) + '</h1><small>' + esc(modeName(g.admin_only)) + ' · ' +
-      IS.N(g.member_count || 0) + ' ' + (g.admin_only ? t('مشتركون','subscribers') : t('أعضاء','members')) + '</small></div>' +
-      (g.role ? button('info',g.admin_only ? A('معلومات القناة','Channel info') : A('معلومات المجموعة','Group info'),'info',{id:g.id}) : '') + '</header>';
+    return '<header class="study-chat-head"><a href="#community" class="study-icon-button study-chat-back" aria-label="' +
+      t('الرجوع للمجتمع','Back to Community') + '">' + ic('chev') + '</a><span class="study-group-icon">' +
+      ic(g.admin_only ? 'mega' : 'group') + '</span><div><h1 tabindex="-1" dir="auto">' + esc(g.title) + '</h1><small>' +
+      esc(modeName(g.admin_only)) + ' · ' + IS.N(g.member_count || 0) + ' ' +
+      (g.admin_only ? t('مشتركون','subscribers') : t('أعضاء','members')) + '</small></div>' +
+      (g.role ? iconButton('info',g.admin_only ? A('معلومات القناة','Channel info') : A('معلومات المجموعة','Group info'),'info',g.id) : '') + '</header>';
   }
   function composer() {
-    return '<form class="study-compose" data-form="study-send"><div class="study-reply" hidden></div><label class="study-attach">' + ic('file') +
-      '<input type="file" data-fui aria-label="' + t('إرفاق ملف','Attach file') + '" accept="' + fileTypes.join(',') + '"><span>' + t('إرفاق','Attach') + '</span></label>' +
-      (window.MediaRecorder && navigator.mediaDevices && navigator.mediaDevices.getUserMedia ? button('record',A('تسجيل صوت','Voice note'),'mic') : '') +
-      '<textarea name="body" maxlength="4000" rows="2" dir="auto" aria-label="' + t('رسالة','Message') + '" placeholder="' + t('اكتب رسالة…','Write a message…') + '"></textarea>' +
-      '<button class="btn pri" type="submit">' + ic('send') + t('إرسال','Send') + '</button><small class="study-file-label" hidden></small></form>';
+    return '<form class="study-compose" data-form="study-send"><div class="study-reply" hidden></div>' +
+      '<div class="study-compose-field"><label class="study-attach study-icon-button" title="' + t('إرفاق ملف','Attach file') + '">' + ic('file') +
+      '<input type="file" data-fui aria-label="' + t('إرفاق ملف','Attach file') + '" accept="' + fileTypes.join(',') + '"></label>' +
+      '<textarea name="body" maxlength="4000" rows="1" dir="auto" aria-label="' + t('رسالة','Message') + '" placeholder="' + t('اكتب رسالة…','Write a message…') + '"></textarea>' +
+      (window.MediaRecorder && navigator.mediaDevices && navigator.mediaDevices.getUserMedia ? iconButton('record',A('تسجيل صوت','Voice note'),'mic') : '') +
+      '</div><button class="study-send btn pri" type="submit" aria-label="' + t('إرسال','Send') + '" title="' + t('إرسال','Send') + '">' +
+      ic('send') + '</button><small class="study-file-label" hidden></small></form>';
   }
   IS.page('study-group',async function (id) {
     if (!uuid.test(id)) return failure(new Error('study_unavailable'));
@@ -142,30 +150,81 @@
         button('join',A('انضم إلى المجموعة','Join group'),'group',{id:id},true) + '</section>';
       var initial=await read('messages',id);
       IS.after=function (main) { mount(main.querySelector('.study-chat'),g,initial); };
-      return '<section class="box study-chat' + (g.admin_only ? ' study-channel' : '') + '" data-id="' + id + '">' + chatHeader(g) +
-        '<div class="study-chat-tools"><form data-form="study-search"><input type="search" name="q" maxlength="120" placeholder="' +
+      return '<div class="study-chat-frame"><section class="study-chat' + (g.admin_only ? ' study-channel' : '') + '" data-id="' + id + '">' + chatHeader(g) +
+        '<div class="study-chat-tools"><details class="study-search"><summary aria-label="' + t('ابحث في الرسائل','Search messages') + '">' +
+        ic('search') + '<span>' + t('بحث في المحادثة','Search conversation') + '</span></summary><form data-form="study-search"><input type="search" name="q" maxlength="120" placeholder="' +
         t('ابحث في الرسائل','Search messages') + '" aria-label="' + t('ابحث في الرسائل','Search messages') + '"><button class="btn ghost sm">' + ic('search') +
-        t('بحث','Search') + '</button></form>' + button('poll',A('استطلاع','Poll'),'chart') + '</div>' +
+        t('بحث','Search') + '</button></form></details>' + button('poll',A('استطلاع','Poll'),'chart') + '</div>' +
         '<div class="study-pin" hidden></div><div class="study-chat-status" role="status" hidden></div>' +
         '<div class="study-log" tabindex="0" aria-label="' + t('رسائل المجموعة','Group messages') + '"></div>' +
-        '<p class="study-read-only" hidden>' + t('هذه قناة بث. ينشر المشرفون، ويمكنك التفاعل والتصويت.','This is a broadcast channel. Admins publish, and you can react and vote.') + '</p>' + composer() + '</section>';
+        '<p class="study-read-only" hidden>' + t('هذه قناة بث. ينشر المشرفون، ويمكنك التفاعل والتصويت.','This is a broadcast channel. Admins publish, and you can react and vote.') + '</p>' + composer() + '</section></div>';
     } catch (error) { return failure(error); }
   },{auth:true});
 
-  function renderMessage(m,state) {
+  function showDay(date) {
+    var now=new Date(), yesterday=new Date();
+    yesterday.setDate(now.getDate()-1);
+    if (date.toDateString()===now.toDateString()) return A('اليوم','Today');
+    if (date.toDateString()===yesterday.toDateString()) return A('أمس','Yesterday');
+    return date.toLocaleDateString(IS.lang,{day:'numeric',month:'long',year:date.getFullYear()===now.getFullYear() ? undefined : 'numeric'});
+  }
+  function renderMessage(m,state,continued) {
     var mine=m.sender===state.user, ownClass=mine ? ' mine' : '';
     if (m.removed) return '<article class="study-message removed' + ownClass + '" data-mid="' + m.id + '">' + t('حُذفت الرسالة','Message deleted') + '</article>';
     var poll=m.options ? '<div class="study-poll">' + m.options.map(function (option,i) {
       return button('vote',option + ' · ' + plainCount(m.votes[i]),m.my_vote===i+1 ? 'check' : '',{id:m.id,choice:i+1},m.my_vote===i+1);
     }).join('') + '</div>' : '';
-    return '<article class="study-message' + ownClass + '" data-mid="' + m.id + '"><header><b dir="auto">' + esc(state.g.admin_only && !admin(state.g.role) ? state.g.title : m.name || A('عضو','Member')) +
-      '</b><time datetime="' + esc(m.sent_at) + '">' + esc(new Date(m.sent_at).toLocaleTimeString(IS.lang,{hour:'numeric',minute:'2-digit'})) + '</time>' +
-      (m.edited_at ? '<small>' + t('عُدّلت','Edited') + '</small>' : '') + '</header>' +
-      (m.reply_to ? '<blockquote dir="auto">' + esc(m.reply_excerpt || A('رد على رسالة','Reply to a message')) + '</blockquote>' : '') +
+    var channel=state.g.admin_only;
+    var author=channel && !admin(state.g.role) ? state.g.title : m.name || A('عضو','Member');
+    var avatar=channel ? '<span class="study-msg-avatar study-group-icon" aria-hidden="true">' + ic('mega') + '</span>' :
+      '<span class="study-msg-avatar" aria-hidden="true"' + (m.sender ? ' data-avatar="' + esc(m.sender) + '"' : '') + '>' +
+      (m.name ? IS.av({name:m.name},'xs') : '<span class="av xs">' + ic('user') + '</span>') + '</span>';
+    var reactions=m.reactions.map(function (r) { return button('react',r.emoji + ' ' + plainCount(r.n),'',{id:m.id,emoji:r.emoji},r.mine); }).join('');
+    return '<article class="study-message' + ownClass + (continued ? ' continued' : '') + '" data-mid="' + m.id + '" aria-label="' +
+      esc(author) + '">' + avatar + '<div class="study-bubble"><header><b dir="auto">' + esc(author) + '</b></header>' +
+      (m.reply_to ? '<button type="button" class="study-quote" data-act="study-jump" data-id="' + m.reply_to + '" dir="auto">' +
+        esc(m.reply_excerpt || A('رد على رسالة','Reply to a message')) + '</button>' : '') +
       (m.body ? '<p dir="auto">' + esc(m.body) + '</p>' : '') + poll +
       (m.attachment ? button('file',m.attachment_name,'file',{id:m.id}) + '<div class="study-attachment" hidden></div>' : '') +
-      '<footer>' + m.reactions.map(function (r) { return button('react',r.emoji + ' ' + plainCount(r.n),'',{id:m.id,emoji:r.emoji},r.mine); }).join('') +
-      button('message',A('إجراءات','Actions'),'menu',{id:m.id}) + '</footer></article>';
+      '<footer><span class="study-message-meta">' + (m.edited_at ? '<small>' + t('عُدّلت','Edited') + '</small>' : '') +
+      '<time datetime="' + esc(m.sent_at) + '">' + esc(new Date(m.sent_at).toLocaleTimeString(IS.lang,{hour:'numeric',minute:'2-digit'})) + '</time></span>' +
+      iconButton('message',A('إجراءات','Actions'),'menu',m.id) + '</footer>' +
+      (reactions ? '<div class="study-reactions">' + reactions + '</div>' : '') + '</div></article>';
+  }
+  function resizeDraft(field) {
+    field.style.height='auto';
+    field.style.height=field.scrollHeight + 'px';
+  }
+  function paintAvatars(state) {
+    state.log.querySelectorAll('[data-avatar]').forEach(function (avatar) {
+      var photo=state.avatars.get(avatar.dataset.avatar);
+      if (!photo || avatar.querySelector('img')) return;
+      var url;
+      try { url=new URL(photo,location.href); } catch (error) { return; }
+      if (!['https:','http:'].includes(url.protocol)) return;
+      var image=document.createElement('img');
+      image.alt='';
+      image.onload=function () { image.classList.add('ready'); };
+      image.onerror=function () { image.remove(); };
+      image.src=url.href;
+      avatar.append(image);
+    });
+  }
+  async function loadAvatars(state) {
+    if (state.g.admin_only || state.avatarLoading) return;
+    var visible=Array.from(new Set(Array.from(state.log.querySelectorAll('[data-avatar]'),function (el) { return el.dataset.avatar; })));
+    var missing=visible.filter(function (id) { return !state.avatars.has(id); }).slice(-60);
+    if (!missing.length) return;
+    state.avatarLoading=true;
+    try {
+      var response=await DB.sb.rpc('ish_study_avatars',{p_group:state.g.id,p_users:missing});
+      if (!response.error && mounted(state)) {
+        missing.forEach(function (id) { state.avatars.set(id,(response.data || {})[id] || ''); });
+        paintAvatars(state);
+      }
+    } finally {
+      state.avatarLoading=false;
+    }
   }
   function stopRecording(state,keep) {
     clearTimeout(state.voiceTimer);
@@ -174,16 +233,66 @@
       state.recorder.stop();
     }
   }
+  function fitChat(state) {
+    var frame=state.root.closest('.mrx'), nav=frame && frame.querySelector('.mh-nav');
+    var navHeight=nav && nav.getClientRects().length ? nav.getBoundingClientRect().height : 0;
+    var scale=parseFloat(getComputedStyle(document.getElementById('main')).zoom) || 1;
+    var top=state.root.getBoundingClientRect().top + window.scrollY;
+    var available=window.innerHeight-top-navHeight-14;
+    state.root.style.setProperty('--chat-height',Math.floor(available/scale)+'px');
+  }
   function dispose(state) {
     clearInterval(state.timer);
+    window.removeEventListener('resize',state.resize);
+    if (state.fitObserver) state.fitObserver.disconnect();
     document.removeEventListener('visibilitychange',state.visibility);
     stopRecording(state,false);
   }
+  function bubbleGestures(state) {
+    var start=null, hold;
+    function cancel() { clearTimeout(hold); start=null; }
+    state.log.addEventListener('pointerdown',function (e) {
+      var bubble=e.target.closest('.study-bubble');
+      if (e.pointerType!=='touch' || !bubble || e.target.closest('button,a,audio,input')) return;
+      start={x:e.clientX,y:e.clientY,id:bubble.closest('[data-mid]').dataset.mid,pointer:e.pointerId};
+      hold=setTimeout(function () {
+        if (start && mounted(state)) IS.ACT['study-message']({dataset:{id:start.id}});
+        cancel();
+      },580);
+    });
+    state.log.addEventListener('pointermove',function (e) {
+      if (!start || start.pointer!==e.pointerId) return;
+      if (Math.abs(e.clientX-start.x)>9 || Math.abs(e.clientY-start.y)>9) clearTimeout(hold);
+      if (Math.abs(e.clientY-start.y)>25) cancel();
+    });
+    state.log.addEventListener('pointerup',function (e) {
+      if (start && start.pointer===e.pointerId && !state.g.admin_only &&
+          (e.clientX-start.x)*(document.dir==='rtl' ? -1 : 1)>56 && Math.abs(e.clientY-start.y)<25) {
+        IS.ACT['study-reply']({dataset:{id:start.id}});
+      }
+      cancel();
+    });
+    state.log.addEventListener('pointercancel',cancel);
+  }
   function mount(root,g,initial) {
     if (active) dispose(active);
-    var state=active={root:root,g:g,user:IS.ME.id,log:root.querySelector('.study-log'),rows:new Map(),term:'',more:initial.messages.length===40,seen:0};
+    var state=active={root:root,g:g,user:IS.ME.id,log:root.querySelector('.study-log'),rows:new Map(),avatars:new Map(),term:'',more:initial.messages.length===40,seen:0};
+    state.resize=function () { fitChat(state); };
+    fitChat(state);
+    window.addEventListener('resize',state.resize);
+    if (window.ResizeObserver) {
+      state.fitObserver=new ResizeObserver(state.resize);
+      var frame=state.root.closest('.mrx');
+      if (frame) frame.querySelectorAll('.mh-top,.mh-nav').forEach(function (el) { state.fitObserver.observe(el); });
+    }
+    bubbleGestures(state);
     apply(state,initial,false);
     state.log.scrollTop=state.log.scrollHeight;
+    root.querySelector('.study-compose textarea').addEventListener('input',function () {
+      var atEnd=state.log.scrollHeight-state.log.scrollTop-state.log.clientHeight<50;
+      resizeDraft(this);
+      if (atEnd) state.log.scrollTop=state.log.scrollHeight;
+    });
     state.log.addEventListener('scroll',function () { markSeen(state); },{passive:true});
     state.root.querySelector('input[type=file]').onchange=function () {
       state.voice=null;
@@ -233,8 +342,20 @@
       var wrapper=document.createElement('div');
       if (state.more) wrapper.innerHTML=button('older',A('رسائل أقدم','Older messages'),'up');
       if (!rows.length) wrapper.innerHTML='<p class="study-empty">' + (state.term ? t('لا توجد نتائج.','No matches.') : t('ابدأ المحادثة.','Start the conversation.')) + '</p>';
+      var previous=null, focused=document.activeElement;
       rows.forEach(function (m) {
-        var node=existing.get(m.id), html=renderMessage(m,state);
+        var date=new Date(m.sent_at), previousDate=previous && new Date(previous.sent_at);
+        var sameDay=previousDate && date.toDateString()===previousDate.toDateString();
+        if (!sameDay) {
+          var divider=document.createElement('p');
+          divider.className='study-date';
+          divider.textContent=showDay(date);
+          wrapper.append(divider);
+        }
+        var continued=sameDay && !state.g.admin_only && !m.removed && !previous.removed && m.sender && m.sender===previous.sender &&
+          date-previousDate<5*60*1000;
+        previous=m;
+        var node=existing.get(m.id), html=renderMessage(m,state,continued);
         if (node && node.studyHtml===html) wrapper.append(node);
         else {
           var template=document.createElement('template');
@@ -245,6 +366,9 @@
         }
       });
       log.replaceChildren(...wrapper.childNodes);
+      if (focused && log.contains(focused)) focused.focus({preventScroll:true});
+      paintAvatars(state);
+      loadAvatars(state).catch(function () {});
       log.scrollTop=keepPosition ? top+log.scrollHeight-oldHeight : stick ? log.scrollHeight : top;
     }
     markSeen(state);
@@ -310,7 +434,10 @@
     if (state.term) await reload(state,{search:''}); else await reload(state);
     state.log.scrollTop=state.log.scrollHeight;
     markSeen(state);
-    if (form && form.isConnected) form.reset();
+    if (form && form.isConnected) {
+      form.reset();
+      resizeDraft(form.querySelector('textarea'));
+    }
     return true;
   }
   IS.SUB['study-send']=async function (data,form) {
@@ -365,7 +492,9 @@
       recorder.onstop=function () {
         stream.getTracks().forEach(function (track) { track.stop(); });
         state.recorder=null;
-        b.textContent=A('تسجيل صوت','Voice note');
+        b.setAttribute('aria-label',A('تسجيل صوت','Voice note'));
+        b.title=A('تسجيل صوت','Voice note');
+        b.removeAttribute('data-recording');
         if (!mounted(state) || !state.keepVoice || !chunks.length) return;
         var mime=(recorder.mimeType || chunks[0].type).split(';')[0];
         var ext={'audio/mp4':'m4a','audio/ogg':'ogg','audio/webm':'webm'}[mime];
@@ -376,7 +505,9 @@
       };
       recorder.start(250);
       state.recorder=recorder;
-      b.textContent=A('إيقاف التسجيل','Stop recording');
+      b.setAttribute('aria-label',A('إيقاف التسجيل','Stop recording'));
+      b.title=A('إيقاف التسجيل','Stop recording');
+      b.setAttribute('data-recording','');
       state.voiceTimer=setTimeout(function () { stopRecording(state,true); },90000);
     } catch (error) {
       if (stream) stream.getTracks().forEach(function (track) { track.stop(); });
@@ -408,10 +539,18 @@
       return button('react',emoji,'',{id:m.id,emoji:emoji,sheet:'1'});
     }).join('') + '</div><div class="row study-tools">' +
       ((!state.g.admin_only || manages) ? button('reply',A('رد','Reply'),'chat',data) : '') +
+      (m.body && navigator.clipboard ? button('copy-text',A('نسخ النص','Copy text'),'file',data) : '') +
       (own && !m.options ? button('edit',A('تعديل','Edit'),'pen',data) : '') +
       (manages ? button('pin',A('تثبيت أو إلغاء التثبيت','Pin or unpin'),'pin',{id:m.id,sheet:'1'}) : '') +
       (own || manages ? button('delete',A('حذف','Delete'),'trash',{id:m.id,sheet:'1'}) : '') +
       (!own ? button('report',A('إبلاغ','Report'),'flag',data) : '') + '</div>',{nofocus:true});
+  };
+  IS.ACT['study-copy-text']=async function (b) {
+    var message=active && active.rows.get(Number(b.dataset.id));
+    if (!message || !message.body) return;
+    await navigator.clipboard.writeText(message.body);
+    IS.closeSheet();
+    IS.toast(A('نُسخت الرسالة','Message copied'));
   };
   for (const action of ['react','vote','delete','pin']) {
     IS.ACT['study-'+action]=async function (b) {
