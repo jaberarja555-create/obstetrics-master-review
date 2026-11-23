@@ -177,7 +177,8 @@
     var a = e.target.closest && e.target.closest('.mh-top .mh-back'); if (!a) return;
     e.preventDefault();
     if (a.dataset.to === 'sections') return IS.go('pick-section');
-    if (STACK.length > 1) history.back(); else IS.go(startOf());
+    /* no earlier page: the area's start, or the platform home when already there (owner, 23 Nov 2026: Back did nothing on the control panel) */
+    var st = startOf(); if (STACK.length > 1) history.back(); else IS.go(here().split('/')[0] === st ? 'home' : st);
   }, true);
   function htop() {
     var m = IS.ME;
