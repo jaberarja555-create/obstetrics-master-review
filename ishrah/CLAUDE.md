@@ -1618,3 +1618,10 @@ studentmasterreview.com with HTTP/3 off). Now:
 - Group conversations use compact bubbles, member profile photos with initials fallback, sender grouping and date dividers. Broadcast channels keep their own post layout and channel icon.
 - The composer stays below the scrolling timeline with compact attachment, recording and send controls. Tap a quoted reply to jump to the original, swipe a message to reply or hold it to open actions on touch screens.
 - Back from any group, channel, directory or invitation opens Community. Migration `060_study_chat_avatars.sql` returns sender photos only to members of the corresponding group.
+
+## Group info and settings · 24 Nov 2026
+
+- Group and channel info opens from the conversation header or its photo. It shows the profile and description, searchable members, member actions, and separate rows for settings, invitation links and reports.
+- Owners and admins can upload, replace or remove a group photo. It appears in the directory, chat header and info sheet. Migration `061_study_group_settings.sql` uses a private bucket with membership-checked reads and admin-only changes. Group photos bypass the shared offline media cache.
+- Discussion groups can restrict new messages to admins while members continue to read and react. The channel's existing publishing behavior is preserved.
+- Verified repeatable SQL, member and outsider access, photo upload and removal, and the Arabic phone and English desktop group screens with a local database. The shared deployment applies migration 061 before publishing this interface.

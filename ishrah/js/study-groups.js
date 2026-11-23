@@ -6,6 +6,8 @@
   var fileTypes = ['image/jpeg','image/png','image/webp','application/pdf','audio/webm','audio/ogg','audio/mp4','audio/mpeg'];
   var uuid = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i;
   var active;
+  var photoBucket='study-group-photos';
+  var photoTypes=['image/jpeg','image/png','image/webp'];
 
   function t(ar,en) { return esc(A(ar,en)); }
   function button(action,label,icon,data,solid) {
@@ -30,6 +32,7 @@
       study_invalid_poll: ['أدخل سؤالًا وخيارين إلى ستة خيارات مختلفة.', 'Enter a question and two to six different options.'],
       study_contact: ['احذف معلومات التواصل الخارجية وحاول مجددًا.', 'Remove external contact details and try again.'],
       study_empty: ['اكتب رسالة أو أرفق ملفًا.', 'Write a message or attach a file.'],
+      study_invalid_photo: ['اختر صورة JPG أو PNG أو WebP صالحة.','Choose a valid JPG, PNG or WebP image.'],
       study_invalid_attachment: ['تعذّر إرفاق هذا الملف.', 'This attachment could not be added.']
     };
     var match = messages[error && error.message];
@@ -66,9 +69,31 @@
       esc(g.title || '') + '"></label><label class="fl"><span>' + t('الوصف','Description') +
       '</span><textarea name="description" maxlength="500" rows="3" dir="auto">' + esc(g.description || '') + '</textarea></label>';
   }
+  function groupPhoto(g) {
+    return '<span class="study-group-icon study-room-photo"' +
+      (g.photo_path ? ' data-study-photo="' + esc(g.photo_path) + '"' : '') + ' aria-hidden="true">' +
+      ic(g.admin_only ? 'mega' : 'group') + '</span>';
+  }
+  function paintGroupPhotos(root) {
+    root.querySelectorAll('[data-study-photo]').forEach(async function (el) {
+      var path=el.dataset.studyPhoto;
+      if (el.dataset.loadingPhoto===path || el.querySelector('img')) return;
+      el.dataset.loadingPhoto=path;
+      try {
+        var result=await DB.sb.storage.from(photoBucket).download(path);
+        if (result.error || !el.isConnected) return;
+        var image=new Image(), url=URL.createObjectURL(result.data);
+        image.alt='';
+        image.onload=function () { URL.revokeObjectURL(url); if (el.isConnected) el.replaceChildren(image); };
+        image.onerror=function () { URL.revokeObjectURL(url); };
+        image.src=url;
+      } catch (error) { /* Keep the icon if a private image cannot load. */ }
+      finally { delete el.dataset.loadingPhoto; }
+    });
+  }
   function groupCard(g) {
-    return '<a class="box study-group-card" href="#study-group/' + g.id + '"><span class="study-group-icon">' + ic(g.admin_only ? 'mega' : 'group') +
-      '</span><div><h2 dir="auto">' + esc(g.title) + '</h2><small>' + esc(areaTitle(g.spec,g.section)) + ' · ' + IS.N(g.members) + ' ' +
+    return '<a class="box study-group-card" href="#study-group/' + g.id + '">' + groupPhoto(g) +
+      '<div><h2 dir="auto">' + esc(g.title) + '</h2><small>' + esc(areaTitle(g.spec,g.section)) + ' · ' + IS.N(g.members) + ' ' +
       (g.admin_only ? t('مشتركون','subscribers') : t('أعضاء','members')) + '</small>' +
       (g.description ? '<p dir="auto">' + esc(g.description) + '</p>' : '') + '</div>' +
       (g.unread ? '<span class="chip">' + t('جديد','Unread') + '</span>' : '') + '</a>';
@@ -91,6 +116,7 @@
     try {
       var lists=await Promise.all([read('list'),read('inbox')]);
       var groups=lists[0];
+      IS.after=paintGroupPhotos;
       return intro() + '<div class="row study-tools">' + (IS.mySection() ? button('new',A('إنشاء مجموعة أو قناة','Create group or channel'),'plus',null,true) :
         '<a class="btn pri" href="#pick-section">' + t('اختر قسمًا لإنشاء مساحة','Choose a section to create a space') + '</a>') +
         '<a class="btn ghost sm" href="#community">' + t('المجتمع','Community') + '</a></div>' + invitationInbox(lists[1]) +
@@ -104,10 +130,17 @@
   };
   IS.SUB['study-settings']=async function (data) {
     var id=data.id;
-    var saved=await perform(id ? 'settings' : 'create',id,Object.assign(scope(),data));
+    var payload=Object.assign(scope(),data);
+    if (id) payload.admins_post_only=data.posting==='admins';
+    var saved=await perform(id ? 'settings' : 'create',id,payload);
     if (!saved) return;
-    IS.closeSheet();
-    if (id) IS.refresh(); else IS.go('study-group/' + saved.id);
+    if (id) {
+      IS.toast(A('تم حفظ الإعدادات','Settings saved'));
+      refreshGroupInfo(id);
+    } else {
+      IS.closeSheet();
+      IS.go('study-group/' + saved.id);
+    }
   };
 
   IS.page('study-invite',async function (token) {
@@ -127,8 +160,10 @@
   }
   function chatHeader(g) {
     return '<header class="study-chat-head"><a href="#community" class="study-icon-button study-chat-back" aria-label="' +
-      t('الرجوع للمجتمع','Back to Community') + '">' + ic('chev') + '</a><span class="study-group-icon">' +
-      ic(g.admin_only ? 'mega' : 'group') + '</span><div><h1 tabindex="-1" dir="auto">' + esc(g.title) + '</h1><small>' +
+      t('الرجوع للمجتمع','Back to Community') + '">' + ic('chev') + '</a>' +
+      (g.role ? '<button type="button" class="study-photo-button" data-act="study-info" data-id="' + esc(g.id) +
+        '" aria-label="' + t('معلومات المساحة','Space info') + '">' + groupPhoto(g) + '</button>' : groupPhoto(g)) +
+      '<div><h1 tabindex="-1" dir="auto">' + esc(g.title) + '</h1><small>' +
       esc(modeName(g.admin_only)) + ' · ' + IS.N(g.member_count || 0) + ' ' +
       (g.admin_only ? t('مشتركون','subscribers') : t('أعضاء','members')) + '</small></div>' +
       (g.role ? iconButton('info',g.admin_only ? A('معلومات القناة','Channel info') : A('معلومات المجموعة','Group info'),'info',g.id) : '') + '</header>';
@@ -318,7 +353,10 @@
     var log=state.log, top=log.scrollTop, stick=log.scrollHeight-top-log.clientHeight<50, oldHeight=log.scrollHeight;
     state.revision=response.revision;
     response.messages.forEach(function (m) { state.rows.set(m.id,m); });
-    var changeHeader=state.g.admin_only!==response.admin_only || state.g.member_count!==response.member_count;
+    var changeHeader=state.g.admin_only!==response.admin_only || state.g.member_count!==response.member_count ||
+      state.g.photo_path!==response.photo_path || (response.title && state.g.title!==response.title);
+    state.g.photo_path=response.photo_path;
+    state.g.title=response.title || state.g.title;
     if (state.g.role!==response.role && admin(state.g.role)) state.g.invite=null;
     state.g.role=response.role;
     state.g.admin_only=response.admin_only;
@@ -327,7 +365,11 @@
       state.root.classList.toggle('study-channel',response.admin_only);
       state.root.querySelector('.study-chat-head').outerHTML=chatHeader(state.g);
     }
-    var canWrite=!response.admin_only || admin(response.role);
+    paintGroupPhotos(state.root.querySelector('.study-chat-head'));
+    var canWrite=!(response.admin_only || response.admins_post_only) || admin(response.role);
+    state.root.querySelector('.study-read-only').textContent=response.admin_only ?
+      A('هذه قناة بث. ينشر المشرفون، ويمكنك التفاعل والتصويت.','Admins publish in this channel. You can react and vote.') :
+      A('يمكن للمشرفين فقط إرسال الرسائل حاليًا.','Only admins can send messages right now.');
     state.root.querySelector('.study-compose').hidden=!canWrite;
     state.root.querySelector('.study-read-only').hidden=canWrite;
     state.root.querySelector('[data-act="study-poll"]').hidden=!canWrite;
@@ -538,7 +580,7 @@
     IS.sheet(t('إجراءات الرسالة','Message actions'),'<div class="row study-emoji">' + emojis.map(function (emoji) {
       return button('react',emoji,'',{id:m.id,emoji:emoji,sheet:'1'});
     }).join('') + '</div><div class="row study-tools">' +
-      ((!state.g.admin_only || manages) ? button('reply',A('رد','Reply'),'chat',data) : '') +
+      (!state.root.querySelector('.study-compose').hidden ? button('reply',A('رد','Reply'),'chat',data) : '') +
       (m.body && navigator.clipboard ? button('copy-text',A('نسخ النص','Copy text'),'file',data) : '') +
       (own && !m.options ? button('edit',A('تعديل','Edit'),'pen',data) : '') +
       (manages ? button('pin',A('تثبيت أو إلغاء التثبيت','Pin or unpin'),'pin',{id:m.id,sheet:'1'}) : '') +
@@ -625,35 +667,133 @@
       panel.hidden=false;
     } catch (error) { IS.toast(errorText(error),true); }
   };
-  IS.ACT['study-info']=async function (b) {
+  function roomLabel(g,ar,en,arc,enc) { return g.admin_only ? A(arc,enc) : A(ar,en); }
+  function navRow(action,label,icon,id,description) {
+    return '<button class="study-info-row" type="button" data-act="study-' + action + '" data-id="' + esc(id) + '"><i>' +
+      ic(icon) + '</i><span><b>' + esc(label) + '</b>' + (description ? '<small>' + esc(description) + '</small>' : '') +
+      '</span>' + ic('chev','study-info-chevron') + '</button>';
+  }
+  function backToInfo(id) { return button('info',A('رجوع للمعلومات','Back to info'),'chev',{id:id}); }
+  function memberItem(m,g) {
+    var commands='', change={id:g.id,user:m.id};
+    if (IS.ME.id!==m.id && m.role!=='owner' && (g.role==='owner' || (g.role==='admin' && m.role!=='admin'))) {
+      commands+=button('member',m.role==='removed' ? A('إعادة السماح','Restore') : A('إزالة','Remove'),'',
+        Object.assign({role:m.role==='removed'?'member':'removed'},change));
+      if (m.role==='member' || (g.role==='owner' && m.role==='admin')) commands+=button('member',
+        m.role==='admin' ? A('إلغاء الإشراف','Demote') : A('تعيين مشرف','Make admin'),'',
+        Object.assign({role:m.role==='admin'?'member':'admin'},change));
+      if (g.role==='owner' && m.role!=='removed') commands+=button('member',A('نقل الملكية','Transfer ownership'),'',
+        Object.assign({role:'owner'},change));
+    }
+    return '<li>' + IS.av({name:m.name},'sm') + '<span class="study-member-name"><b dir="auto">' + esc(m.name) +
+      '</b><small>' + esc(roleLabel(m.role)) + '</small></span>' +
+      (commands ? '<details><summary aria-label="' + t('إجراءات العضو','Member actions') + '">' + ic('dots') +
+        '</summary><div class="row">' + commands + '</div></details>' : '') + '</li>';
+  }
+  function membersPanel(g,rows) {
+    if (g.admin_only && !admin(g.role)) return '';
+    var current=rows.filter(function (m) { return m.role!=='removed'; });
+    var removed=rows.filter(function (m) { return m.role==='removed'; });
+    return '<section class="study-info-section"><h3>' + (g.admin_only ? t('المشتركون','Subscribers') : t('الأعضاء','Members')) +
+      '</h3>' + (admin(g.role) ? navRow('people',A('إضافة أو دعوة أشخاص','Add or invite people'),'plus',g.id) : '') +
+      (current.length ? '<label class="fl study-member-search"><span>' + t('بحث في الأعضاء','Find a member') +
+        '</span><input type="search" dir="auto"></label><ul class="study-members study-info-members">' +
+        current.map(function (m) { return memberItem(m,g); }).join('') + '</ul><p class="study-no-members" hidden>' +
+        t('لا يوجد اسم مطابق.','No matching member.') + '</p>' : '') +
+      (removed.length ? '<details class="study-removed"><summary>' + t('الأعضاء الذين تمت إزالتهم','Removed members') +
+        '</summary><ul class="study-members study-info-members">' + removed.map(function (m) { return memberItem(m,g); }).join('') + '</ul></details>' : '') +
+      '</section>';
+  }
+  async function openGroupInfo(id) {
     try {
-      var id=b.dataset.id, pair=await Promise.all([read('group',id),read('members',id)]), g=pair[0];
-      var members=pair[1].map(function (m) {
-        var commands='', change={id:id,user:m.id};
-        if (IS.ME.id!==m.id && m.role!=='owner' && (g.role==='owner' || (g.role==='admin' && m.role!=='admin'))) {
-          commands+=button('member',m.role==='removed' ? A('إعادة السماح','Restore') : A('إزالة','Remove'),'',
-            Object.assign({role:m.role==='removed'?'member':'removed'},change));
-          if (m.role==='member' || (g.role==='owner' && m.role==='admin')) commands+=button('member',
-            m.role==='admin' ? A('إلغاء الإشراف','Demote') : A('تعيين مشرف','Make admin'),'',
-            Object.assign({role:m.role==='admin'?'member':'admin'},change));
-          if (g.role==='owner' && m.role!=='removed') commands+=button('member',A('نقل الملكية','Transfer ownership'),'',
-            Object.assign({role:'owner'},change));
-        }
-        return '<li><span dir="auto">' + esc(m.name) + ' <small>' + esc(roleLabel(m.role)) + '</small></span><div class="row">' + commands + '</div></li>';
-      }).join('');
-      IS.sheet(esc(g.title),'<p dir="auto">' + esc(g.description) + '</p><div class="row study-tools">' + (admin(g.role) ?
-        button('people',A('إضافة أعضاء أو دعوتهم','Add or invite people'),'users',{id:id},true) +
-        IS.shareButton('study-invite/' + g.invite) + button('rotate',A('تجديد رابط الدعوة','Reset invite link'),'route',{id:id}) +
-        button('settings',A('إعدادات المجموعة','Group settings'),'gear',{id:id}) +
-        button('reports',A('بلاغات المجموعة','Group reports'),'flag',{id:id}) : '') +
-        (g.role!=='owner' ? button('leave',A('مغادرة','Leave group'),'logout',{id:id}) : '') +
-        '</div>' + (g.admin_only && !admin(g.role) ? '<p>' + IS.N(g.member_count) + ' ' + t('مشتركون','subscribers') + '</p>' :
-          '<h3>' + (g.admin_only ? t('المشتركون','Subscribers') : t('الأعضاء','Members')) + '</h3><ul class="study-members">' + members + '</ul>'),{nofocus:true});
+      var pair=await Promise.all([read('group',id),read('members',id)]), g=pair[0];
+      var owns=admin(g.role), infoTitle=roomLabel(g,'معلومات المجموعة','Group info','معلومات القناة','Channel info');
+      var sheet=IS.sheet(esc(infoTitle),'<div class="study-info"><div class="study-info-profile">' + groupPhoto(g) +
+        '<h3 dir="auto">' + esc(g.title) + '</h3><small>' + esc(modeName(g.admin_only)) + ' · ' + IS.N(g.member_count || 0) +
+        ' ' + (g.admin_only ? t('مشتركون','subscribers') : t('أعضاء','members')) + '</small>' +
+        (g.description ? '<p dir="auto">' + esc(g.description) + '</p>' : '') + '</div>' +
+        (owns ? '<section class="study-info-section"><h3>' + t('إدارة المساحة','Manage space') + '</h3>' +
+          navRow('photo',roomLabel(g,'صورة المجموعة','Group photo','صورة القناة','Channel photo'),'image',id,g.photo_path ? A('تغيير الصورة أو إزالتها','Change or remove photo') : A('أضف صورة تظهر للأعضاء','Add a photo for members')) +
+          navRow('settings',roomLabel(g,'إعدادات المجموعة','Group settings','إعدادات القناة','Channel settings'),'gear',id,
+            A('الاسم والوصف وصلاحيات الإرسال','Name, description and posting permissions')) +
+          navRow('invitations',A('رابط الدعوة','Invite link'),'route',id,A('مشاركة الرابط أو تجديده','Share or reset the link')) +
+          navRow('reports',A('البلاغات','Reports'),'flag',id) + '</section>' : '') +
+        membersPanel(g,pair[1]) +
+        (g.role!=='owner' ? '<div class="study-info-leave">' + navRow('leave',roomLabel(g,'مغادرة المجموعة','Leave group','مغادرة القناة','Leave channel'),'logout',id) + '</div>' : '') +
+        '</div>',{nofocus:true});
+      paintGroupPhotos(sheet);
+      var search=sheet.querySelector('.study-member-search input');
+      if (search) search.addEventListener('input',function () {
+        var term=search.value.trim().toLowerCase(), found=false;
+        sheet.querySelectorAll('.study-member-search + ul > li').forEach(function (row) {
+          row.hidden=!row.querySelector('.study-member-name b').textContent.toLowerCase().includes(term);
+          found=found || !row.hidden;
+        });
+        sheet.querySelector('.study-no-members').hidden=found;
+      });
     } catch (error) { IS.toast(errorText(error),true); }
+  }
+  function refreshGroupInfo(id) {
+    if (active && mounted(active) && active.g.id===id) reload(active);
+    return openGroupInfo(id);
+  }
+  IS.ACT['study-info']=function (b) { return openGroupInfo(b.dataset.id); };
+  IS.ACT['study-invitations']=async function (b) {
+    try {
+      var g=await read('group',b.dataset.id);
+      if (!g.invite) throw new Error('study_forbidden');
+      IS.sheet(t('رابط الدعوة','Invite link'),'<div class="study-info-subpanel">' + backToInfo(g.id) +
+        '<p>' + t('من لديه الرابط يمكنه الانضمام باستخدام حسابه. تجديد الرابط يلغي الرابط السابق.',
+          'Anyone with the link can join with their account. Resetting it disables the previous link.') + '</p><div class="row">' +
+        IS.shareButton('study-invite/' + g.invite) + button('rotate',A('تجديد الرابط','Reset link'),'route',{id:g.id}) + '</div></div>',{nofocus:true});
+    } catch (error) { IS.toast(errorText(error),true); }
+  };
+  IS.ACT['study-photo']=async function (b) {
+    try {
+      var g=await read('group',b.dataset.id);
+      if (!admin(g.role)) throw new Error('study_forbidden');
+      var title=roomLabel(g,'صورة المجموعة','Group photo','صورة القناة','Channel photo');
+      var sheet=IS.sheet(esc(title),'<div class="study-info-subpanel">' + backToInfo(g.id) +
+        '<div class="study-info-profile">' + groupPhoto(g) + '</div><form class="form" data-form="study-photo"><input type="hidden" name="id" value="' +
+        esc(g.id) + '"><label class="fl"><span>' + t('اختر صورة (JPG أو PNG أو WebP)','Choose an image (JPG, PNG or WebP)') +
+        '</span><input name="photo" type="file" accept="' + photoTypes.join(',') + '" required></label><div class="row">' +
+        '<button class="btn pri">' + t('حفظ الصورة','Save photo') + '</button>' +
+        (g.photo_path ? button('photo-remove',A('إزالة الصورة','Remove photo'),'trash',{id:g.id}) : '') +
+        '</div></form></div>',{nofocus:true});
+      paintGroupPhotos(sheet);
+    } catch (error) { IS.toast(errorText(error),true); }
+  };
+  function discardPhoto(path) {
+    if (path) DB.sb.storage.from(photoBucket).remove([path]).catch(function () {});
+  }
+  async function saveGroupPhoto(id,path) {
+    var result=await perform('photo',id,{path:path});
+    if (!result) return false;
+    if (result.previous_photo!==path) discardPhoto(result.previous_photo);
+    IS.toast(A('تم تحديث الصورة','Photo updated'));
+    await refreshGroupInfo(id);
+    return true;
+  }
+  IS.SUB['study-photo']=async function (data,form) {
+    var file=form.elements.photo.files[0], path;
+    try {
+      if (!file || !photoTypes.includes(file.type) || file.size>12582912) throw new Error('study_invalid_photo');
+      // Decode the image before resizing so a renamed non-image cannot be saved from the form.
+      var image=await createImageBitmap(file);
+      image.close();
+      file=await IS.shrink(file,480,0.84);
+      path=data.id + '/' + IS.ME.id + '/' + crypto.randomUUID();
+      var result=await DB.sb.storage.from(photoBucket).upload(path,file,{contentType:file.type,cacheControl:'0'});
+      if (result.error) throw result.error;
+      if (!await saveGroupPhoto(data.id,path)) discardPhoto(path);
+    } catch (error) { IS.toast(errorText(error),true); }
+  };
+  IS.ACT['study-photo-remove']=async function (b) {
+    if (await IS.confirm(A('إزالة صورة المساحة؟','Remove the space photo?'))) await saveGroupPhoto(b.dataset.id,null);
   };
   IS.ACT['study-people']=function (b) {
     IS.sheet(t('إضافة أعضاء أو دعوتهم','Add or invite people'),
-      '<form class="form" data-form="study-people"><input type="hidden" name="id" value="' + esc(b.dataset.id) +
+      backToInfo(b.dataset.id) + '<form class="form" data-form="study-people"><input type="hidden" name="id" value="' + esc(b.dataset.id) +
       '"><label class="fl"><span>' + t('ابحث باسم الحساب (٣ أحرف على الأقل)','Search by account name (at least 3 characters)') +
       '</span><input name="query" type="search" minlength="3" maxlength="80" required dir="auto"></label>' +
       '<button class="btn pri">' + t('بحث','Search') + '</button><div class="study-person-results" aria-live="polite"></div></form>');
@@ -689,8 +829,17 @@
     var id=b.dataset.id;
     try {
       var g=await read('group',id);
-      IS.sheet(t('إعدادات المجموعة','Group settings'),'<form class="form" data-form="study-settings"><input type="hidden" name="id" value="' + id +
-        '">' + settingsFields(g) + '<button class="btn pri">' + t('حفظ','Save') + '</button></form>');
+      if (!admin(g.role)) throw new Error('study_forbidden');
+      var title=roomLabel(g,'إعدادات المجموعة','Group settings','إعدادات القناة','Channel settings');
+      var restriction='<fieldset class="study-info-permissions"><legend>' + t('صلاحيات الإرسال','Posting permissions') +
+        '</legend><label class="fl"><span>' + t('من يمكنه الإرسال في المجموعة؟','Who can send messages in the group?') +
+        '</span><select name="posting"><option value="everyone">' + t('جميع الأعضاء','All members') +
+        '</option><option value="admins"' + (g.admins_post_only ? ' selected' : '') + '>' +
+        t('المشرفون فقط','Admins only') + '</option></select></label><small>' +
+        t('عند اختيار قناة خاصة، ينشر المشرفون دائمًا.','In a private channel, only admins can publish.') + '</small></fieldset>';
+      IS.sheet(esc(title),'<div class="study-info-subpanel">' + backToInfo(id) + '<form class="form" data-form="study-settings">' +
+        '<input type="hidden" name="id" value="' + esc(id) + '">' + settingsFields(g) + restriction +
+        '<button class="btn pri">' + t('حفظ','Save') + '</button></form></div>',{nofocus:true});
     } catch (error) { IS.toast(errorText(error),true); }
   };
   for (const action of ['member','rotate','leave']) {
@@ -703,7 +852,7 @@
       IS.closeSheet();
       if (action==='leave') IS.go('study-groups');
       else if (action==='rotate') { IS.toast(A('تم تجديد رابط الدعوة القديم.','The old invite link was replaced.')); IS.ACT['study-info'](b); }
-      else IS.refresh();
+      else refreshGroupInfo(d.id);
     };
   }
   function reportsList(rows,id) {
@@ -718,7 +867,7 @@
   IS.ACT['study-reports']=async function (b) {
     try {
       var rows=await read('reports',b.dataset.id);
-      IS.sheet(t('بلاغات المجموعة','Group reports'),reportsList(rows,b.dataset.id),{nofocus:true});
+      IS.sheet(t('البلاغات','Reports'),backToInfo(b.dataset.id) + reportsList(rows,b.dataset.id),{nofocus:true});
     } catch (error) { IS.toast(errorText(error),true); }
   };
   IS.ACT['study-resolve']=async function (b) {
