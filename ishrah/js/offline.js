@@ -151,14 +151,15 @@
   };
   /* after a book opened from the internet, keep it on the device in the background (encrypted, like a download; up to 80 MB; not on
      data-saver connections), so the next opening is instant */
-  IS.bookKeep = async function (file, path, mime) {
+  IS.bookKeep = async function (file, path, mime, blob) {
     try {
       var id = did('file', file.id);
       if (!uid() || HAVE[id] || RUN[id] || !navigator.onLine || (navigator.connection || {}).saveData) return;
       if (+file.size > 80 * 1048576) return;
-      var source = await DB.fileUrl('library', path); if (!source) return;
+      var source = blob ? URL.createObjectURL(blob) : await DB.fileUrl('library', path); if (!source) return;   /* a book just fetched whole is kept from memory, not downloaded again */
       await save({ id: id, kind: 'file', title: file.title, sub: file.author || '', ref: file.id, mime: mime || 'application/pdf', pth: path, auto: 1 },
         { title: file.title, author: file.author || '', pages: file.pages || 0, about: file.about || '' }, source);
+      if (blob) URL.revokeObjectURL(source);
     } catch (e) {}
   };
 

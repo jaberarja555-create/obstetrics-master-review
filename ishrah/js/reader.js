@@ -66,7 +66,7 @@
         '<div class="rdr-tab" data-t="toc"><div class="rdr-outline"></div></div>' +
         '<div class="rdr-tab" data-t="bm" hidden><button type="button" class="btn sm pri rdr-bmsave" data-r="save-bookmark"></button><div class="rdr-bookmark-list"></div></div></section>' +
       '<div class="rdr-scroll" tabindex="0"><div class="rdr-pages"><div class="loading" role="status"><span class="spin"></span><span>' +
-      esc(A('جارٍ فتح الكتاب…', 'Opening the book…')) + '</span><b class="rdr-prog"></b></div></div></div>' +
+      esc(A('جارٍ فتح الكتاب…', 'Opening the book…')) + '</span><b class="rdr-prog"></b><span class="rdr-bar"><i></i></span></div></div></div>' +
       '<footer class="rdr-bot"><button type="button" class="rib" data-r="out" aria-label="' + esc(A('تصغير', 'Zoom out')) + '">−</button>' +
       '<button type="button" class="rdr-pg" data-r="jump"><bdi dir="ltr"><span class="rdr-cur">1</span> / <span class="rdr-n">…</span></bdi></button>' +
       '<button type="button" class="rib" data-r="in" aria-label="' + esc(A('تكبير', 'Zoom in')) + '">+</button>' +
@@ -98,6 +98,13 @@
       var ready = await Promise.all([IS.loadPdfLibrary(), source]);
       if (R !== reader) return;
       if (!ready[1]) throw new Error('missing file');
+      /* a book up to 15 MB comes down in ONE request with a real progress bar (owner, 23 Nov 2026: a 2 MB book stalled at «25% · 0.5 MB»):
+         fetched in pieces, every piece paid the slow trip to the server again; the whole file is also kept on the phone at once */
+      if (!o.blob && !(o.size > WHOLE)) {
+        var whole = await fetchWhole(ready[1], reader, el);
+        if (R !== reader) return;
+        if (whole) { ready[1] = await whole.arrayBuffer(); o.blob = whole; if (o.onWhole) try { o.onWhole(whole); } catch (e) {} }
+      }
       var src = o.blob ? { data: ready[1] } : { url: ready[1] };
       var base = new URL('pdfjs/', document.baseURI).href;
       reader.loadingTask = ready[0].getDocument(Object.assign(src, { isEvalSupported: false, cMapUrl: base + 'cmaps/', cMapPacked: true,
@@ -157,6 +164,25 @@
     reader.pages.forEach(function (p) { reader.io.observe(p.el); });
   };
 
+  var WHOLE = 15 * 1048576;
+  /* the whole file with progress; null = too big (the reader then asks for pieces) */
+  async function fetchWhole(url, reader, el) {
+    var ctl = new AbortController(); reader.ctl = ctl;
+    var r = await fetch(url, { signal: ctl.signal });
+    if (!r.ok) throw new Error('net ' + r.status);
+    var total = +r.headers.get('content-length') || 0;
+    if (total > WHOLE || !r.body) { try { ctl.abort(); } catch (e) {} return null; }
+    var rd = r.body.getReader(), parts = [], got = 0, out = el.querySelector('.rdr-prog'), bar = el.querySelector('.rdr-bar i');
+    for (;;) {
+      var x = await rd.read(); if (x.done) break;
+      parts.push(x.value); got += x.value.length;
+      if (got > WHOLE && !total) { try { ctl.abort(); } catch (e) {} return null; }
+      var mb = (got / 1048576).toFixed(1) + ' MB';
+      if (out) out.textContent = total ? Math.min(99, Math.round(got / total * 100)) + '% · ' + mb + ' / ' + (total / 1048576).toFixed(1) + ' MB' : mb;
+      if (bar && total) bar.style.width = Math.min(100, got / total * 100) + '%';
+    }
+    return new Blob(parts, { type: 'application/pdf' });
+  }
   /* smaller pieces on slow connections: the first page needs only a few of them */
   function chunk() {
     var c = navigator.connection || {}, t = c.effectiveType || '';
@@ -567,6 +593,7 @@
     document.removeEventListener('selectionchange', onSel);
     if (R.unsel) ['pointerup', 'pointercancel', 'touchend'].forEach(function (t) { document.removeEventListener(t, R.unsel, true); });
     clearTimeout(R.slowT);
+    if (R.ctl) try { R.ctl.abort(); } catch (e) {}
     R.el.remove(); R = null; document.body.classList.remove('noscroll');
   }
   window.addEventListener('popstate', function () { if (R) close(); });

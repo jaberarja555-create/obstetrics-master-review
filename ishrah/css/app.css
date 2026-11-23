@@ -2974,7 +2974,10 @@ button.feed-grade:hover{border-color:#e0a800;background:#fff8e1}
 #rdr .rdr-scroll{touch-action:pan-x pan-y}
 #rdr .rp canvas{width:100%!important;height:100%!important}
 #rdr .rdr-pages .loading{flex-direction:column;color:#fff}
-#rdr .rdr-prog{font-size:22px;font-weight:800;min-height:28px}
+#rdr .rdr-prog{font-size:18px;font-weight:800;min-height:24px;color:#14233a}
+#rdr .rdr-pages .loading{color:#33404f}
+#rdr .rdr-bar{display:block;width:220px;max-width:70vw;height:6px;margin:8px auto 0;border-radius:6px;background:rgba(20,35,58,.12);overflow:hidden}
+#rdr .rdr-bar i{display:block;height:100%;width:0;background:#127886;border-radius:6px;transition:width .2s}
 #rdr .rdr-bmq.on,#rdr [data-r=bookmarks][aria-expanded=true]{background:#f0c45a;color:#2b1f05}
 #rdr .rdr-bmq.on .ico{fill:currentColor}
 #rdr .rp.bm::before{content:"";position:absolute;top:0;inset-inline-end:14px;z-index:3;width:18px;height:28px;background:#e0a92a;clip-path:polygon(0 0,100% 0,100% 100%,50% 75%,0 100%)}

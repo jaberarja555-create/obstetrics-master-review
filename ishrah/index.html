@@ -20,10 +20,10 @@ document.write(a?'<link rel="manifest" href="apps/'+a+'.webmanifest?v=1"><link r
 <script>/* colour chosen in Settings (ish-pal): the styles are loaded once with colour slots, and css/pv.css holds every colour's values,
    so a colour is only html[data-pal] (owner, 22 Nov 2026: colour change was slow; tools/ishrah/palvars.py) */
 (function(){var p='blue';try{p=JSON.parse(localStorage.getItem('ish-pal')||'"blue"')}catch(e){}document.documentElement.setAttribute('data-pal',p);})();</script>
-<link id="ishcss" rel="stylesheet" href="css/app.pv.css?v=0b5f5249">
+<link id="ishcss" rel="stylesheet" href="css/app.pv.css?v=3002cad8">
 <link id="mrcss" rel="stylesheet" href="css/mr.pv.css?v=afd6670b">
-<link id="pvcss" rel="stylesheet" href="css/pv.css?v=a23fb7e2">
-<noscript><link rel="stylesheet" href="css/app.css?v=a9347ac0"></noscript>
+<link id="pvcss" rel="stylesheet" href="css/pv.css?v=44f61271">
+<noscript><link rel="stylesheet" href="css/app.css?v=17f1a690"></noscript>
 <script>/* test switch for the Android scrolling smear (owner, 18 Nov 2026): ishrahli.org/?safe=1 … 4 turns parts of the design off on this
    device so the cause can be found; ?safe=0 turns it off again. 1 = all, 2 = bars not fixed, 3 = no shadows/animations, 4 = no banner pictures */
 (function(){try{var m=location.search.match(/[?&]safe=(\d)/);if(m){if(m[1]==='0')localStorage.removeItem('ish-safe');else localStorage.setItem('ish-safe',m[1]);}
@@ -49,10 +49,10 @@ var th=localStorage.getItem('ish-theme-reset1')?JSON.parse(localStorage.getItem(
 <script src="js/moved.js?v=bd490123"></script>
 <script src="js/books.js?v=a0533584"></script>
 <script src="js/welcome.js?v=8018f5c4"></script>
-<script src="js/library.js?v=61e345e6"></script>
+<script src="js/library.js?v=35fe652c"></script>
 <script src="js/sell.js?v=2642b2ea"></script>
 <script src="js/series.js?v=cb47b070"></script>
-<script src="js/reader.js?v=0fb68c31"></script>
+<script src="js/reader.js?v=78b7bef1"></script>
 <script src="js/studio.js?v=791fa5b4"></script>
 <script src="js/control.js?v=699c0805"></script>
 <script src="js/org.js?v=dca85256"></script>
@@ -63,7 +63,7 @@ var th=localStorage.getItem('ish-theme-reset1')?JSON.parse(localStorage.getItem(
 <script src="js/manage.js?v=af6451d6"></script>
 <script src="js/alerts.js?v=dd87f09f"></script>
 <script src="js/guide.js?v=5b29b267"></script>
-<script src="js/offline.js?v=44fb5ba7"></script>
+<script src="js/offline.js?v=d2627f10"></script>
 <script src="js/mr.js?v=a534e77d"></script>
 <script src="js/assign.js?v=5ec7d495"></script>
 <script src="js/banners.js?v=fe41083d"></script>

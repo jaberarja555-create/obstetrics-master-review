@@ -1589,3 +1589,8 @@ studentmasterreview.com with HTTP/3 off). Now:
   canvas and page numbers are not selectable. Loading always shows what has arrived («35% · 2.1 MB», or «2.1 MB» when the size is unknown)
   and after 12 s a note that the line is slow and the book is kept on the phone after the first opening. Range pieces follow the
   connection (`chunk()`: 128 KB on 2G / data saver, 256 KB on 3G, 512 KB otherwise; was 1 MB, so the first page waited for megabytes).
+- **Books up to 15 MB come in one request (owner, 23 Nov 2026: a 2 MB book stood at «25% · 0.5 MB», text hard to read):** reader.js
+  `fetchWhole` downloads the whole file in one request with a progress line and bar («45% · 0.9 / 2.0 MB»), then opens it; pieces (range
+  requests) are used only above 15 MB (`WHOLE`, or when the server says so). Each piece paid the slow trip to the server again. The whole
+  file is kept on the phone at once from memory (library.js `onWhole` → offline.js `bookKeep(file, path, mime, blob)`), so the next opening
+  needs no internet. Loading text is dark on the light reader background.
