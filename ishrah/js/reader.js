@@ -8,6 +8,7 @@
   var COLORS = [['y', '#ffe066'], ['g', '#8ce99a'], ['b', '#74c0fc'], ['p', '#f783ac']];
   function store(key, def) { try { var v = JSON.parse(localStorage.getItem(key) || 'null'); return v == null ? def : v; } catch (e) { return def; } }
   function keep(key, v) {
+    if (R && R.temporary) return;
     try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) {}
     if (R && (key === R.bookmarksKey || key === 'ish-hl:' + R.id || key === 'ish-rpg:' + R.id)) dirty(key === 'ish-rpg:' + R.id ? 4000 : 1200);
   }
@@ -51,7 +52,7 @@
   IS.openReader = async function (o) {
     if (R) close();
     var el = document.createElement('div'); el.id = 'rdr'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
-    el.innerHTML = '<header class="rdr-top"><button type="button" class="rib" data-r="close" aria-label="' + esc(A('إغلاق', 'Close')) + '">' + ic('chev', 'fr') + '</button>' +
+    el.innerHTML = '<header class="rdr-top"><button type="button" class="rib" data-r="close" aria-label="' + esc(o.temporary ? A('العودة إلى الطلب', 'Back to request') : A('إغلاق', 'Close')) + '">' + ic('chev', 'fr') + '</button>' +
       '<b class="rdr-title" dir="auto">' + esc(o.title || '') + '</b>' +
       '<button type="button" class="rib" data-r="search" disabled aria-label="' + esc(A('البحث في الكتاب', 'Search the book')) + '">' + ic('search') + '</button>' +
       '<button type="button" class="rib" data-r="bookmarks" disabled aria-expanded="false" aria-controls="rdr-bookmark-panel" aria-label="' +
@@ -66,7 +67,7 @@
         '<div class="rdr-tab" data-t="toc"><div class="rdr-outline"></div></div>' +
         '<div class="rdr-tab" data-t="bm" hidden><button type="button" class="btn sm pri rdr-bmsave" data-r="save-bookmark"></button><div class="rdr-bookmark-list"></div></div></section>' +
       '<div class="rdr-scroll" tabindex="0"><div class="rdr-pages"><div class="loading" role="status"><span class="spin"></span><span>' +
-      esc(A('جارٍ فتح الكتاب…', 'Opening the book…')) + '</span><b class="rdr-prog"></b><span class="rdr-bar"><i></i></span></div></div></div>' +
+      esc(o.temporary ? A('جارٍ فتح المرفق…', 'Opening attachment…') : A('جارٍ فتح الكتاب…', 'Opening the book…')) + '</span><b class="rdr-prog"></b><span class="rdr-bar"><i></i></span></div></div></div>' +
       '<footer class="rdr-bot"><button type="button" class="rib" data-r="out" aria-label="' + esc(A('تصغير', 'Zoom out')) + '">−</button>' +
       '<button type="button" class="rdr-pg" data-r="jump"><bdi dir="ltr"><span class="rdr-cur">1</span> / <span class="rdr-n">…</span></bdi></button>' +
       '<button type="button" class="rib" data-r="in" aria-label="' + esc(A('تكبير', 'Zoom in')) + '">+</button>' +
@@ -74,13 +75,13 @@
       '<div class="rdr-sel" hidden>' + COLORS.map(function (c) { return '<button type="button" data-hl="' + c[0] + '" style="background:' + c[1] + '" aria-label="' + esc(A('تظليل', 'Highlight')) + '"></button>'; }).join('') +
       '<button type="button" class="rdr-copy" data-r="copy">' + esc(A('نسخ', 'Copy')) + '</button><button type="button" class="rdr-del" data-r="unmark" hidden>' + esc(A('إزالة التظليل', 'Remove highlight')) + '</button></div>';
     document.body.appendChild(el); document.body.classList.add('noscroll');
-    try { history.pushState({ rdr: 1 }, ''); } catch (e) {}
+    if (!o.reuseHistory) try { history.pushState({ rdr: 1 }, ''); } catch (e) {}
     var id = o.id || 'x', account = (IS.ME || {}).id || 'local';
     var bookmarksKey = 'ish-rbm:' + account + '/' + id;
-    var reader = R = { el: el, id: id, account: account, zoom: store('ish-rz:' + id, 1), pages: [], marks: store('ish-hl:' + id, []),
-      bookmarksKey: bookmarksKey, bookmarks: store(bookmarksKey, []), cur: 1 };
+    var reader = R = { el: el, id: id, account: account, temporary: o.temporary, zoom: o.temporary ? 1 : store('ish-rz:' + id, 1), pages: [],
+      marks: o.temporary ? [] : store('ish-hl:' + id, []), bookmarksKey: bookmarksKey, bookmarks: o.temporary ? [] : store(bookmarksKey, []), cur: 1 };
     el.addEventListener('click', onClick);
-    reader.pulled = pull(reader);
+    if (!reader.temporary) reader.pulled = pull(reader);
     /* iPhone Safari: the reader zooms the book itself, never the whole screen */
     ['gesturestart', 'gesturechange'].forEach(function (t) { el.addEventListener(t, function (e) { e.preventDefault(); }); });
     var sc = el.querySelector('.rdr-scroll');
@@ -118,17 +119,22 @@
       reader.slowT = setTimeout(function () {
         var l = el.querySelector('.rdr-pages .loading'); if (!l || R !== reader || l.querySelector('.rdr-slow')) return;
         var d = document.createElement('p'); d.className = 'rdr-slow';
-        d.textContent = A('الاتصال بطيء، والكتاب ما زال يُحمَّل. بعد أول فتح يُحفظ على جهازك ويفتح بسرعة.', 'The connection is slow; the book is still loading. After the first opening it is kept on this device and opens quickly.');
+        d.textContent = reader.temporary ? A('الاتصال بطيء، والمرفق ما زال يُحمَّل.', 'The connection is slow. The attachment is still loading.') :
+          A('الاتصال بطيء، والكتاب ما زال يُحمَّل. بعد أول فتح يُحفظ على جهازك ويفتح بسرعة.', 'The connection is slow; the book is still loading. After the first opening it is kept on this device and opens quickly.');
         l.appendChild(d);
       }, 12000);
       reader.doc = await reader.loadingTask.promise;
       clearTimeout(reader.slowT);
       if (R !== reader) return;
       reader.n = reader.doc.numPages;
-      last = Math.max(1, Math.min(reader.n, Number(o.page || store('ish-rpg:' + reader.id, 1)) || 1));
+      last = Math.max(1, Math.min(reader.n, Number(o.page || (reader.temporary ? 1 : store('ish-rpg:' + reader.id, 1))) || 1));
       first = await reader.doc.getPage(last);
     } catch (error) {
-      if (R === reader) box.innerHTML = IS.empty('info', A('تعذّر فتح الكتاب', 'The book could not be opened'), navigator.onLine ?
+      if (R === reader && reader.temporary) box.innerHTML = IS.empty('info', A('تعذّر فتح المرفق', 'Could not open the attachment'),
+        A('ارجع إلى الطلب وحاول مرة أخرى.', 'Go back to the request and try again.'), o.externalUrl ?
+          '<a class="btn ghost" target="_blank" rel="noopener noreferrer" href="' + esc(o.externalUrl) + '">' + ic('link') +
+            esc(A('فتح الموقع الخارجي', 'Open external site')) + '</a>' : '');
+      else if (R === reader) box.innerHTML = IS.empty('info', A('تعذّر فتح الكتاب', 'The book could not be opened'), navigator.onLine ?
         A('أغلق القارئ وأعد فتحه للمحاولة مجددًا.', 'Close and reopen the reader to try again.') :
         A('افتح النسخة المحفوظة من تنزيلاتي.', 'Open the saved copy from My downloads.'));
       return;
@@ -627,6 +633,7 @@
     R.el.remove(); R = null; document.body.classList.remove('noscroll');
   }
   window.addEventListener('popstate', function () { if (R) close(); });
+  window.addEventListener('hashchange', function () { if (R && R.temporary) close(); });
   document.addEventListener('keydown', function (e) {
     if (!R) return; if (e.key === 'Escape' && !document.fullscreenElement) history.back();
     if (/^(INPUT|TEXTAREA)$/.test((document.activeElement || {}).tagName || '')) return;

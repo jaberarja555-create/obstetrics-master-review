@@ -215,11 +215,131 @@
             return [speciality && A(speciality.ar, speciality.en), section && A(section.ar, section.en)].filter(Boolean).join(' · ');
           }).join(' / ')) + '</b></li>' : '') + '<li><span>' + esc(A('اللقب', 'Title')) + '</span><b>' + esc(a.title || '—') + '</b></li><li><span>' + esc(A('الهاتف', 'Phone')) + '</span><b dir="ltr">' + esc(a.phone) + '</b></li><li><span>' + esc(A('البريد', 'Email')) + '</span><b dir="ltr">' + esc(a.email || '—') + '</b></li></ul>' +
         '<h3 class="sub">' + esc(A('الخبرة', 'Experience')) + '</h3><p class="pre">' + esc(a.experience) + '</p><h3 class="sub">' + esc(A('الكورس المقترح', 'Proposed course')) + ': ' + esc(a.plan_title) + '</h3><p class="pre">' + esc(a.plan) + '</p>' +
-        '<div class="row">' + (a.cv ? '<button class="btn sm ghost" data-act="appfile" data-p="' + esc(a.cv) + '">' + ic('file') + esc(A('السيرة الذاتية', 'CV')) + '</button>' : '') + (a.certs ? '<button class="btn sm ghost" data-act="appfile" data-p="' + esc(a.certs) + '">' + ic('cert') + esc(A('الشهادات', 'Certificates')) + '</button>' : '') + (a.sample_file ? '<button class="btn sm ghost" data-act="appfile" data-p="' + esc(a.sample_file) + '">' + ic('video') + esc(A('ملف العينة', 'Sample file')) + '</button>' : '') + (a.sample ? '<a class="btn sm ghost" target="_blank" rel="noopener" href="' + esc(/^https?:/.test(a.sample) ? a.sample : 'https://' + a.sample) + '">' + ic('video') + esc(A('العينة', 'Sample')) + '</a>' : '') +
+        '<div class="row">' + applicationPreviewButton(a.cv, 'file', A('السيرة الذاتية', 'CV')) +
+        applicationPreviewButton(a.certs, 'cert', A('الشهادات', 'Certificates')) +
+        applicationPreviewButton(a.sample_file, 'video', A('ملف العينة', 'Sample file')) +
+        applicationPreviewButton(a.sample, 'link', A('العينة', 'Sample'), true) +
         '</div>' + (a.note && a.status !== 'rejected' ? '<p class="note' + (a.status === 'changes' ? ' warn' : '') + '">' + ic('chat') + '<span><b>' + esc(a.status === 'changes' ? A('التعديل المطلوب (بانتظار المحاضر): ', 'Changes asked (waiting for the applicant): ') : A('عُدّل الطلب بعد طلبكم: ', 'Updated after you asked: ')) + '</b>' + esc(a.note) + '</span></p>' : '') +
         (a.status === 'pending' ? '<div class="row end"><button class="btn ghost bad" data-act="appno" data-id="' + a.id + '">' + esc(A('رفض', 'Reject')) + '</button><button class="btn ghost" data-act="appchg" data-id="' + a.id + '">' + ic('pen') + esc(A('طلب تعديل', 'Request changes')) + '</button><button class="btn pri" data-act="appok" data-id="' + a.id + '">' + ic('check') + esc(A('اعتماد كمحاضر', 'Approve as lecturer')) + '</button></div>' : (a.note ? '<p class="mut">' + esc(a.note) + '</p>' : '')) + '</article>'; }).join('') : IS.empty('cert', A('لا توجد طلبات هنا', 'No requests here')));
   }, P('apps'));
-  IS.ACT.appfile = async function (b) { var u = await DB.fileUrl('apps', b.getAttribute('data-p')); if (u) window.open(u, '_blank', 'noopener'); };
+  function applicationPreviewButton(value, icon, label, external) {
+    if (!value) return '';
+    return '<button type="button" class="btn sm ghost" data-act="appfile" data-p="' + esc(value) + '"' +
+      (external ? ' data-external' : '') + '>' + ic(icon) + esc(label) + '</button>';
+  }
+  var applicationPreview;
+  function closeApplicationPreview() {
+    if (!applicationPreview) return;
+    applicationPreview.close();
+    applicationPreview.remove();
+    applicationPreview = null;
+  }
+  window.addEventListener('popstate', closeApplicationPreview);
+  window.addEventListener('hashchange', closeApplicationPreview);
+
+  function applicationUrl(value, external) {
+    value = String(value || '').trim();
+    if (!value) return null;
+    if (external && !/^[a-z][a-z\d+.-]*:/i.test(value)) value = 'https://' + value.replace(/^\/\//, '');
+    try {
+      var url = new URL(value, location.href);
+      if (url.username || url.password) return null;
+      if (url.protocol === 'https:' || url.protocol === 'http:' || (!external && url.protocol === 'blob:')) return url;
+    } catch (error) {}
+    return null;
+  }
+  function applicationEmbed(url) {
+    var host = url.hostname.toLowerCase();
+    if (['youtube.com', 'www.youtube.com', 'm.youtube.com', 'www.youtube-nocookie.com', 'youtube-nocookie.com', 'youtu.be',
+      'drive.google.com', 'docs.google.com'].indexOf(host) < 0) return '';
+    var video = IS.extEmbed(IS.extVideo(url.href));
+    if (video) {
+      var key = url.searchParams.get('resourcekey');
+      return video.src + (video.host === 'gd' && key ? '?resourcekey=' + encodeURIComponent(key) : '');
+    }
+    var doc = host === 'docs.google.com' && url.pathname.match(/^\/(document|presentation|spreadsheets)\/d\/([\w-]{20,})(?:\/|$)/);
+    return doc ? 'https://docs.google.com/' + doc[1] + '/d/' + doc[2] + '/preview' : '';
+  }
+  function applicationMedia(path) {
+    var ext = (path.match(/\.([a-z0-9]+)$/i) || [])[1];
+    if (!ext) return '';
+    ext = ext.toLowerCase();
+    if (ext === 'pdf') return 'pdf';
+    if (/^(mp4|m4v|webm|mov|ogv|3gp)$/.test(ext)) return 'video';
+    if (/^(mp3|m4a|aac|wav|oga|ogg|opus)$/.test(ext)) return 'audio';
+    if (/^(jpe?g|png|webp|gif|avif|bmp|svg|ico)$/.test(ext)) return 'image';
+    return '';
+  }
+  function showApplicationPreview(title) {
+    var dialog = document.createElement('dialog');
+    dialog.className = 'app-preview';
+    dialog.setAttribute('aria-label', title);
+    var back = A('العودة إلى الطلب', 'Back to request');
+    dialog.innerHTML = '<header class="row sp"><h2 dir="auto">' + esc(title) + '</h2><button type="button" class="btn ghost sm" autofocus>' +
+      ic('chev', 'fr') + esc(back) + '</button></header><div class="app-preview-body"><div class="loading" role="status"><span class="spin"></span>' +
+      esc(A('جارٍ فتح المعاينة…', 'Opening preview…')) + '</div></div>';
+    document.body.append(dialog);
+    dialog.showModal();
+    applicationPreview = dialog;
+    history.pushState(history.state, '', location.href);
+    dialog.querySelector('button').addEventListener('click', function () { history.back(); });
+    dialog.addEventListener('cancel', function (event) { event.preventDefault(); history.back(); });
+    return dialog;
+  }
+  IS.ACT.appfile = async function (button) {
+    var value = button.dataset.p, external = button.hasAttribute('data-external');
+    var title = button.textContent.trim();
+    var link = external ? applicationUrl(value, true) : null;
+    var media = applicationMedia(link ? link.pathname : value);
+    var embed = link && applicationEmbed(link);
+    var getUrl = async function () {
+      return external ? link : applicationUrl(await DB.fileUrl('apps', value), false);
+    };
+    if (media === 'pdf' && !embed) {
+      return IS.openReader({ title: title, temporary: true, externalUrl: link && link.href, getUrl: async function () {
+        var url = await getUrl(); return url && url.href;
+      } });
+    }
+    var dialog = showApplicationPreview(title);
+    var body = dialog.querySelector('.app-preview-body');
+    try {
+      var url = await getUrl();
+      if (applicationPreview !== dialog) return;
+      if (!url) throw new Error('Missing attachment');
+      if (url.protocol === 'blob:' && !media) {
+        var blob = await fetch(url.href).then(function (response) { return response.blob(); });
+        if (applicationPreview !== dialog) return;
+        if (blob.type === 'application/pdf') {
+          closeApplicationPreview();
+          return IS.openReader({ title: title, temporary: true, blob: blob, reuseHistory: true });
+        }
+        var kind = blob.type.split('/')[0];
+        if (/^(video|audio|image)$/.test(kind)) media = kind;
+      }
+      var src = esc(url.href), html = '';
+      if (embed) {
+        html = '<div class="player' + (/^https:\/\/(?:docs|drive)\.google\.com\//.test(embed) ? ' app-preview-document' : '') +
+          '"><iframe title="' + esc(title) + '" src="' + esc(embed) +
+          '" referrerpolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-same-origin allow-presentation" allow="encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe></div>';
+      } else if (media === 'video') {
+        html = '<div class="player"><video src="' + src + '" controls playsinline preload="metadata"></video></div>';
+      } else if (media === 'audio') {
+        html = '<audio src="' + src + '" controls preload="metadata"></audio>';
+      } else if (media === 'image') {
+        html = '<img src="' + src + '" alt="' + esc(title) + '" referrerpolicy="no-referrer">';
+      }
+      if (!html) html = '<p class="mut">' + esc(external ?
+        A('هذا الرابط لا يدعم المعاينة داخل التطبيق.', 'This link requires the external site.') :
+        A('يمكنك تنزيل هذا الملف لعرضه.', 'Download this file to view it.')) + '</p>';
+      if (!external && /\/storage\/v1\/object\/sign\/apps\//.test(url.pathname)) url.searchParams.set('download', '');
+      body.innerHTML = html + '<div class="row app-preview-actions"><a class="btn ghost sm" href="' + esc(url.href) + '"' +
+        (external ? ' target="_blank" rel="noopener noreferrer">' + ic('link') + esc(A('فتح الموقع الخارجي', 'Open external site')) :
+          ' download>' + ic('download') + esc(A('تنزيل الملف', 'Download file'))) + '</a></div>';
+    } catch (error) {
+      if (applicationPreview === dialog) body.innerHTML = IS.empty('info', A('تعذّر فتح المرفق', 'Could not open the attachment'),
+        A('ارجع إلى الطلب وحاول مرة أخرى.', 'Go back to the request and try again.'));
+    }
+  };
   IS.ACT.appok = async function (b) {
     var a = await DB.one('lecturer_apps', b.getAttribute('data-id')), ex = await DB.one('lecturers', a.user_id), share = +IS.SET.default_share || 70;
     var row = { id: a.user_id, name: a.name, title: a.title || '', specialty: a.specialty, teaching_specs: a.teaching_specs || [], teaching_spaces: a.teaching_spaces || [], bio: esc(a.experience).replace(/\n/g, '<br>'), quals: [a.qual + ' — ' + a.specialty], tags: [a.specialty], color: '#0f7a73', share: share, status: 'active', links: {}, pay: {}, n_students: 0 };
