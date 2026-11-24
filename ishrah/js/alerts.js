@@ -65,38 +65,101 @@
   });
 
   /* ---------- phone notifications ---------- */
+  var keyRequest, subscriptionRequest, pendingSave;
+  function deadline(work, ms) {
+    var timer;
+    return Promise.race([work, new Promise(function (_, reject) {
+      timer = setTimeout(function () { reject(new Error('push_timeout')); }, ms);
+    })]).finally(function () { clearTimeout(timer); });
+  }
+  function pushKey() {
+    if (!keyRequest) {
+      var controller = new AbortController();
+      var timer = setTimeout(function () { controller.abort(); }, 5500);
+      keyRequest = fetch('/api/push?key=1', { cache: 'no-store', signal: controller.signal }).then(function (response) {
+        if (!response.ok) throw new Error('push_key');
+        return response.json();
+      }).then(function (data) {
+        if (!data.key) throw new Error('push_key');
+        return u8(data.key);
+      }).finally(function () { clearTimeout(timer); }).catch(function (error) {
+        keyRequest = null;
+        throw error;
+      });
+    }
+    return keyRequest;
+  }
+  function pushScope() {
+    var section = IS.mySection && IS.mySection();
+    return IS.ME && { key: JSON.stringify([IS.ME.id, IS.SPEC, section && section.id]), spec: IS.SPEC, section: section && section.id };
+  }
+  function pushRegistration() { return deadline(navigator.serviceWorker.ready, 5000); }
+  function existingSubscription(reg) { return deadline(reg.pushManager.getSubscription(), 3500); }
+  function subscribe(reg, key) {
+    if (!subscriptionRequest) {
+      subscriptionRequest = reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key }).finally(function () {
+        subscriptionRequest = null;
+      });
+    }
+    return deadline(subscriptionRequest, 6500);
+  }
   async function save(sub) {
-    if (!DB.live || !IS.ME) return;
-    var s = IS.mySection && IS.mySection();
-    await DB.sb.rpc('ish_push_save', { p_endpoint: sub.endpoint, p_spec: IS.SPEC || null, p_cat: s ? s.id : null, p_ua: navigator.userAgent.slice(0, 200) });
-    IS._pk = IS.ME.id + '/' + IS.SPEC + '/' + (s ? s.id : '');
+    var scope = pushScope();
+    if (!DB.live || !scope) throw new Error('push_account');
+    var key = JSON.stringify([scope.key, sub.endpoint]);
+    if (IS._pk === key) return;
+    if (pendingSave && pendingSave.key === key) return pendingSave.promise;
+    var attempt = { key: key };
+    pendingSave = attempt;
+    attempt.promise = deadline(DB.sb.rpc('ish_push_save', {
+      p_endpoint: sub.endpoint, p_spec: scope.spec || null, p_cat: scope.section || null, p_ua: navigator.userAgent.slice(0, 200)
+    }), 5500).then(function (response) {
+      if (response.error) throw response.error;
+      var current = pushScope();
+      if (!current || current.key !== scope.key) throw new Error('push_scope_changed');
+      IS._pk = key;
+    }).finally(function () { if (pendingSave === attempt) pendingSave = null; });
+    return attempt.promise;
   }
   IS.pushEnable = async function () {
     if (!CAN) { IS.toast(IOS ? A('على iPhone: اضغط زر المشاركة ثم «إضافة إلى الشاشة الرئيسية»، وافتح التطبيق من أيقونته ثم فعّل التنبيهات.', 'On iPhone: tap Share → Add to Home Screen, open the app from its icon, then turn alerts on.') :
       A('هذا المتصفح لا يدعم تنبيهات الهاتف. استخدم Chrome.', 'This browser does not support phone alerts. Use Chrome.'), true); return false; }
     if (!DB.live) { IS.toast(A('تنبيهات الهاتف تعمل في المنصة الحقيقية فقط.', 'Phone alerts work on the live platform only.'), true); return false; }
     try {
-      var p = await Notification.requestPermission();
-      if (p !== 'granted') { IS.toast(A('لم يُسمح بالتنبيهات. اسمح بها من إعدادات المتصفح لهذا الموقع.', 'Alerts were not allowed. Allow them in the browser settings for this site.'), true); return false; }
-      var reg = await navigator.serviceWorker.ready, sub = await reg.pushManager.getSubscription();
-      if (!sub) { var k = await fetch('/api/push?key=1', { cache: 'no-store' }).then(function (r) { return r.json(); }); sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: u8(k.key) }); }
-      await save(sub); IS.LS.set('push-later', 0);
+      // Request permission in the click handler, then prepare the key while the device prompt is open.
+      var permission = Notification.permission === 'granted' ? 'granted' : Notification.requestPermission();
+      if (Notification.permission !== 'denied') pushKey().catch(function () {});
+      if (await permission !== 'granted') {
+        IS.toast(A('لم يُسمح بالتنبيهات. اسمح بها من إعدادات المتصفح لهذا الموقع.', 'Alerts were not allowed. Allow them in the browser settings for this site.'), true);
+        return false;
+      }
+      var reg = await pushRegistration(), sub = await existingSubscription(reg);
+      if (!sub) sub = await subscribe(reg, await pushKey());
+      await save(sub);
+      IS.LS.set('push-later', 0);
       IS.toast(A('فُعّلت التنبيهات على هذا الجهاز ✓', 'Alerts are on for this device ✓')); IS.chime(false);
       return true;
-    } catch (e) { IS.toast(A('تعذّر تفعيل التنبيهات: ', 'Could not turn alerts on: ') + (e.message || ''), true); return false; }
+    } catch (e) {
+      IS.toast(A('تعذّر تفعيل التنبيهات الآن. أعد المحاولة.', 'Alerts could not be turned on yet. Try again.'), true);
+      return false;
+    }
   };
   IS.pushDisable = async function () {
-    try { var reg = await navigator.serviceWorker.ready, sub = await reg.pushManager.getSubscription();
-      if (sub) { if (DB.live) await DB.sb.from('push_subs').delete().eq('endpoint', sub.endpoint); await sub.unsubscribe(); } } catch (e) {}
+    try { var reg = await pushRegistration(), sub = await existingSubscription(reg);
+      if (sub) { if (DB.live) await DB.sb.from('push_subs').delete().eq('endpoint', sub.endpoint); await sub.unsubscribe(); }
+      IS._pk = null;
+    } catch (e) {}
     IS.toast(A('أُوقفت تنبيهات الهاتف على هذا الجهاز.', 'Phone alerts are off for this device.'));
   };
-  async function pushOn() { try { if (!CAN || Notification.permission !== 'granted') return false; var reg = await navigator.serviceWorker.ready; return !!(await reg.pushManager.getSubscription()); } catch (e) { return false; } }
-  /* the device follows the student to another speciality or section */
-  async function refresh() {
-    if (!CAN || !DB.live || !IS.ME || Notification.permission !== 'granted') return;
-    var s = IS.mySection && IS.mySection(), key = IS.ME.id + '/' + IS.SPEC + '/' + (s ? s.id : '');
-    if (IS._pk === key) return;
-    try { var reg = await navigator.serviceWorker.ready, sub = await reg.pushManager.getSubscription(); if (sub) await save(sub); } catch (e) {}
+  /* Verify existing subscriptions and update their specialty or section after a switch. */
+  async function pushOn() {
+    if (!CAN || !DB.live || !IS.ME || Notification.permission !== 'granted') return false;
+    try {
+      var sub = await existingSubscription(await pushRegistration());
+      if (!sub) return false;
+      await save(sub);
+      return true;
+    } catch (e) { return false; }
   }
 
   /* ---------- asking once, and the switch in Settings ---------- */
@@ -107,7 +170,23 @@
         A('تصلك حتى والتطبيق مغلق، مع صوت.', 'They arrive even when the app is closed, with a sound.')) + '</small></div>' +
       '<div class="pab"><button type="button" class="btn pri sm" data-act="pushon">' + esc(A('فعّل', 'Turn on')) + '</button><button type="button" class="btn ghost sm" data-act="pushlater">' + esc(A('لاحقًا', 'Later')) + '</button></div></div>';
   }
-  IS.ACT.pushon = async function (b) { b.disabled = true; var ok = await IS.pushEnable(); b.disabled = false; if (ok) { var c = b.closest('.pushask'); if (c) c.remove(); if (document.body.getAttribute('data-page') === 'settings' && IS.refresh) IS.refresh(); } };
+  IS.ACT.pushon = async function (button) {
+    if (button.disabled) return;
+    var label = button.textContent;
+    button.disabled = true;
+    button.setAttribute('aria-busy', 'true');
+    button.textContent = A('جارٍ التفعيل…', 'Turning on…');
+    try {
+      if (!await IS.pushEnable()) return;
+      var card = button.closest('.pushask');
+      if (card) card.remove();
+      if (document.body.getAttribute('data-page') === 'settings' && IS.refresh) IS.refresh();
+    } finally {
+      button.disabled = false;
+      button.removeAttribute('aria-busy');
+      button.textContent = label;
+    }
+  };
   IS.ACT.pushlater = function (b) { IS.LS.set('push-later', Date.now() + (team() ? 1 : 3) * 864e5); var c = b.closest('.pushask'); if (c) c.remove(); };
   IS.ACT.pushoff = async function () { await IS.pushDisable(); if (IS.refresh) IS.refresh(); };
   IS.ACT.soundtoggle = function () { IS.LS.set('sound-off', IS.LS.get('sound-off', 0) ? 0 : 1); if (!IS.LS.get('sound-off', 0)) IS.chime(false); if (IS.refresh) IS.refresh(); };
@@ -116,10 +195,21 @@
   IS.onRoute = function (name, arg, main) {
     if (prev) try { prev(name, arg, main); } catch (e) {}
     if (!main || !IS.ME) return;
-    refresh(); check();
-    var want = (name === 'home' || name === 'control') && DB.live && (IS.pushState() === 'default' || IS.pushState() === 'ios') && !(+IS.LS.get('push-later', 0) > Date.now());
-    if (want && !main.querySelector('.pushask')) main.insertAdjacentHTML('afterbegin', askCard());
-    if (name === 'settings' && !main.querySelector('.pushset')) pushOn().then(function (on) {
+    check();
+    var page = location.hash;
+    var onDevice = pushOn();
+    var state = IS.pushState();
+    var want = (name === 'home' || name === 'control') && DB.live && !(+IS.LS.get('push-later', 0) > Date.now());
+    function showAsk() {
+      if (page !== location.hash || main.querySelector('.pushask')) return;
+      if (CAN) pushKey().catch(function () {});
+      main.insertAdjacentHTML('afterbegin', askCard());
+    }
+    if (want && (state === 'default' || state === 'ios')) showAsk();
+    if (want && state === 'granted') onDevice.then(function (on) { if (!on) showAsk(); });
+    if (name === 'settings' && DB.live && state === 'default') pushKey().catch(function () {});
+    if (name === 'settings' && !main.querySelector('.pushset')) onDevice.then(function (on) {
+      if (page !== location.hash || !IS.ME) return;
       var st = IS.pushState(), sound = !IS.LS.get('sound-off', 0);
       var box = '<section class="box pushset"><h2>' + ic('bell') + IS.T('التنبيهات', 'Alerts') + '</h2><div class="list">' +
         '<div class="li"><span><b>' + esc(A('تنبيهات الهاتف', 'Phone alerts')) + '</b><small>' + esc(on ? A('مفعّلة على هذا الجهاز: تصلك حتى والتطبيق مغلق.', 'On for this device: they arrive even when the app is closed.') :

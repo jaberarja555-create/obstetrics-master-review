@@ -500,7 +500,17 @@
       sendOutbox: sendOutbox,
       clearSaved: function () { READS.clear(); PERS.clear(); PWRITE.clear(); PDIRTY.clear(); try { if (PDB) PDB.transaction('r', 'readwrite').objectStore('r').clear(); } catch (e) {} },
       wasQueued: function () { return Date.now() - LASTQ < 300; },
-      one: async function (t, id) { return cached(['one', t, id], async function () { return chk(await sb.from(t).select(cols(t)).eq('id', id).maybeSingle()); }); },
+      one: async function (t, id) {
+        return cached(['one', t, id], async function () {
+          var query = sb.from(t).select(cols(t)).eq('id', id).maybeSingle();
+          if (id !== UID || (t !== 'profiles' && t !== 'lecturers')) return chk(await query);
+          // A stalled account read must settle so the sign-in retry can start a new request.
+          var controller = new AbortController();
+          var timer = setTimeout(function () { controller.abort(); }, 6500);
+          try { return chk(await query.abortSignal(controller.signal)); }
+          finally { clearTimeout(timer); }
+        });
+      },
       _q: async function (t, f) {
         f = f || {}; var x = sb.from(t).select(f.select || cols(t));
         if (f.eq) Object.keys(f.eq).forEach(function (k) { if (f.eq[k] !== undefined) x = f.eq[k] === null ? x.is(k, null) : x.eq(k, f.eq[k]); });

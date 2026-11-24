@@ -185,31 +185,40 @@
     return IS.noticeAll() || !IS.announcementInSection || IS.announcementInSection(x);
   };
   IS.team = function () { return !!(IS.ME && (IS.ME.team || []).length); };
-  IS.loadMe = async function () {
-    var uid = DB.uid(); IS.ME = null; IS.LEC = null; IS.OFFME = false;
+  var profileRead = null;
+  IS.loadMe = function () {
+    var uid = DB.uid();
+    IS.OFFME = false;
+    if (!IS.ME || IS.ME.id !== uid) { IS.ME = null; IS.LEC = null; }
     if (DB.live && !navigator.onLine) {
+      profileRead = null;
       try {
         var cached = JSON.parse(localStorage.getItem('ish-me') || 'null');
         if (cached && cached.uid && (!uid || cached.uid === uid)) {
           IS.ME = cached.me; IS.LEC = cached.lec; IS.OFFME = true;
         }
       } catch (e) {}
-      return;
+      return Promise.resolve();
     }
-    if (!uid) return;
-    var records = await Promise.all([DB.one('profiles', uid).catch(function () { return null; }), DB.one('lecturers', uid).catch(function () { return null; })]);
-    IS.ME = records[0];
-    if (!IS.ME && DB.live) {
-      await new Promise(function (resolve) { setTimeout(resolve, 900); });
-      IS.ME = await DB.one('profiles', uid).catch(function () { return null; });
-    }
-    if (!IS.ME) return;
-    IS.LEC = records[1];
-    /* the speciality chosen on this device wins (owner, 20 Nov 2026: "all the specialities lead to the same area of Medicine": a saved or
-       late profile read with the old speciality used to pull the student back); the account's speciality is used only on a new device */
-    if (!IS.SPEC && IS.ME.spec) { IS.SPEC = IS.ME.spec; LS.set('spec', IS.SPEC); }
-    else if (IS.SPEC && IS.ME.spec !== IS.SPEC) { IS.ME.spec = IS.SPEC; DB.upd('profiles', IS.ME.id, { spec: IS.SPEC }).catch(function () {}); }
-    try { localStorage.setItem('ish-me', JSON.stringify({ uid: uid, me: IS.ME, lec: IS.LEC })); } catch (e) {}
+    if (!uid) { profileRead = null; return Promise.resolve(); }
+    if (profileRead && profileRead.uid === uid) return profileRead.promise;
+    var reading = profileRead = { uid: uid };
+    reading.promise = (async function () {
+      var records = await Promise.all([DB.one('profiles', uid).catch(function () { return null; }), DB.one('lecturers', uid).catch(function () { return null; })]);
+      if (profileRead !== reading || DB.uid() !== uid) return;
+      if (!records[0] && DB.live) {
+        await new Promise(function (resolve) { setTimeout(resolve, 900); });
+        if (profileRead !== reading || DB.uid() !== uid) return;
+        records[0] = await DB.one('profiles', uid).catch(function () { return null; });
+      }
+      if (profileRead !== reading || DB.uid() !== uid || !records[0]) return;
+      IS.ME = records[0]; IS.LEC = records[1];
+      /* Keep the speciality selected on this device when an account is loaded. */
+      if (!IS.SPEC && IS.ME.spec) { IS.SPEC = IS.ME.spec; LS.set('spec', IS.SPEC); }
+      else if (IS.SPEC && IS.ME.spec !== IS.SPEC) { IS.ME.spec = IS.SPEC; DB.upd('profiles', uid, { spec: IS.SPEC }).catch(function () {}); }
+      try { localStorage.setItem('ish-me', JSON.stringify({ uid: uid, me: IS.ME, lec: IS.LEC })); } catch (e) {}
+    })().finally(function () { if (profileRead === reading) profileRead = null; });
+    return reading.promise;
   };
   /* the student's speciality space: kept on the device and in the profile, so it follows the account to every device */
   IS.setSpec = function (id) { IS.SPEC = id || ''; LS.set('spec', IS.SPEC); if (IS.ME && IS.ME.spec !== IS.SPEC) { IS.ME.spec = IS.SPEC; DB.upd('profiles', IS.ME.id, { spec: IS.SPEC }).catch(function () {}); }
@@ -422,7 +431,7 @@
     }
     var quick = kept && QUICK_COPY.test(name) && !IS.keepScroll;
     if (quick) { showSavedPage(main, kept, false); window.scrollTo(0, 0); }
-    else if (previous && main.dataset.pageAccount === account && main.dataset.pageArea === IS.area) {
+    else if (previous && (main.dataset.pageAccount === account || main.dataset.pageAccount === '') && main.dataset.pageArea === IS.area) {
       previous.inert = true;
     } else if (!main.querySelector(':scope > .loading')) {
       main.innerHTML = '<div class="loading"><span class="spin"></span></div>';
@@ -434,6 +443,7 @@
       html = await Promise.race([P.fn(arg), new Promise(function (resolve, reject) {
         timer = setTimeout(function () { reject(new Error('slow')); }, DB.live ? (offline ? 2500 : 8500) : 60000);
       })]);
+      if (my === SEQ && html && typeof html === 'string' && IS.pageFrame) html = IS.pageFrame(name, html, arg);
     } catch (error) {
       failed = true;
       if (my !== SEQ) return;
@@ -461,8 +471,6 @@
     main.removeAttribute('aria-busy');
     main.dataset.pageAccount = account;
     main.dataset.pageArea = IS.area;
-    /* every student page in the new frame (mr.js: top bar, bottom bar, the owner's look) */
-    if (html && typeof html === 'string' && IS.pageFrame) html = IS.pageFrame(name, html, arg);
     if (html && canSave && !failed && !offline && (name !== 'home' || !kept)) pageSave(copyKey, html);
     var savedScroll = quick ? window.scrollY : null;
     main.innerHTML = '<div class="page">' + (html || IS.empty('search', A('غير موجود', 'Not found'), A('ربما حُذف أو لم يُنشر بعد.', 'It may have been removed or not published yet.'))) + '</div>';
@@ -479,8 +487,9 @@
         if (page) pageSave(copyKey, page.innerHTML);
       });
     } catch (e) { if (window.console) console.error(e); }
+    if (my !== SEQ) return;
     if (IS.onRoute) try { IS.onRoute(name, arg, main); } catch (e) {}
-    if (my === SEQ && IS.hydrateFeedReactions) IS.hydrateFeedReactions(main);
+    if (IS.hydrateFeedReactions) IS.hydrateFeedReactions(main);
     IS.balance(); IS.evenRows(); IS.fileUI(); IS.dedupe(); IS.sideLock(); IS.beat(); IS.hydrateSeen(); IS.trimScroll(); setTimeout(IS.trimScroll, 400);
   };
   /* Compare both columns in their side-by-side layout before moving secondary cards. */
@@ -723,7 +732,7 @@
   window.addEventListener('ish-fresh', function () {
     clearTimeout(freshWait);
     if (document.hidden) return freshAgain(3000);
-    if (busyNow()) return freshAgain(4000);
+    if (signInFlow || busyNow()) return freshAgain(4000);
     IS.keepScroll = true; IS.route();
   });
   function authGate() {
@@ -928,10 +937,91 @@
     IS.toast(reset ? A('حُفظت كلمة المرور الجديدة', 'The new password is saved') : A('تم تأكيد بريدك. مرحبًا ', 'Your email is confirmed. Welcome, ') + greetingText(IS.ME && IS.ME.name));
     if (k === 'lecturer') IS.go('studio-apply'); else IS.route();
   };
-  IS.SUB.esignin = async function (d) {
-    try { await DB.signInEmail({ email: d.email, pass: d.pass }); } catch (e) { return authMsg(e.message === 'unconfirmed' ? A('لم يُؤكَّد هذا البريد بعد: أنشئ الحساب مرة أخرى لتصلك رسالة التأكيد.', 'This email is not confirmed yet: create the account again to receive the code.') : A('البريد أو كلمة المرور غير صحيحة.', 'Wrong email or password.')); }
-    IS.closeSheet(); await IS.loadMe(); if (IS.ME && IS.ME.status === 'blocked') { await DB.signOut(); IS.ME = null; return IS.toast(A('هذا الحساب موقوف. تواصل مع الدعم.', 'This account is blocked. Contact support.')); }
-    IS.route();
+  var signInFlow;
+  function signInStatus(flow, retry) {
+    var dialog = flow.dialog && flow.dialog.isConnected ? flow.dialog : null;
+    var host = dialog ? dialog.querySelector('.shb') || dialog : IS.$('#main');
+    var status = host.querySelector('.signin-status');
+    if (!status) {
+      status = document.createElement('div');
+      status.className = 'note signin-status';
+      status.setAttribute('role', 'status');
+      host.prepend(status);
+    }
+    status.innerHTML = retry ?
+      '<span>' + esc(A('تعذّر تحميل حسابك الآن.', 'Your account could not be loaded yet.')) + '</span> <button type="button" class="btn pri sm" data-act="resume-signin">' +
+        esc(A('أعد المحاولة', 'Try again')) + '</button>' :
+      '<span class="spin" aria-hidden="true"></span><span>' + esc(A('جارٍ فتح حسابك…', 'Opening your account…')) + '</span>';
+    if (dialog) status.scrollIntoView({ block: 'nearest' });
+  }
+  async function finishSignIn(flow) {
+    if (signInFlow !== flow || !IS.ME || IS.ME.id !== DB.uid()) return false;
+    signInFlow = null;
+    IS.$$('.signin-status').forEach(function (status) { status.remove(); });
+    if (flow.dialog && flow.dialog.isConnected) IS.closeSheet();
+    if (IS.ME.status === 'blocked') {
+      await DB.signOut();
+      IS.ME = null; IS.LEC = null;
+      IS.toast(A('هذا الحساب موقوف. تواصل مع الدعم.', 'This account is blocked. Contact support.'), true);
+      await IS.route();
+    } else if (flow.kind === 'lecturer' && !IS.LEC) {
+      IS.go('studio-apply');
+    } else if (flow.control && IS.team() && !/^#study-invite\//.test(location.hash)) {
+      IS.go('control');
+    } else {
+      await IS.route();
+    }
+    return true;
+  }
+  async function resumeSignIn(flow) {
+    if (flow.busy) return;
+    flow.busy = true;
+    signInStatus(flow, false);
+    var ready = (async function () {
+      if (flow.redirect) {
+        if (DB.ready) await DB.ready;
+        if (flow.route) {
+          history.replaceState(history.state, '', flow.route);
+          flow.route = '';
+        }
+        await flow.boot;
+      }
+      if (!flow.redirect || !IS.ME || IS.ME.id !== DB.uid()) await loadAccount();
+      return Boolean(IS.ME && IS.ME.id === DB.uid());
+    })();
+    var timer, result;
+    try {
+      result = await Promise.race([ready.catch(function () { return false; }),
+        new Promise(function (resolve) { timer = setTimeout(function () { resolve(null); }, 8500); })]);
+      if (signInFlow !== flow) return;
+      if (result && await finishSignIn(flow)) return;
+      if (result === false && flow.redirect && !DB.uid()) {
+        signInFlow = null;
+        await IS.route();
+        authSheet('in', flow.kind);
+        showGoogleError(IS.$('#sheet .dlg'));
+        return;
+      }
+      signInStatus(flow, true);
+      if (result === null) ready.then(function (ok) { if (ok) return finishSignIn(flow); }).catch(IS.fail);
+    } finally {
+      clearTimeout(timer);
+      flow.busy = false;
+    }
+  }
+  IS.ACT['resume-signin'] = function () { if (signInFlow) return resumeSignIn(signInFlow); };
+  async function signInWith(request, onError, options) {
+    if (signInFlow && signInFlow.busy) return;
+    var flow = signInFlow = Object.assign({ dialog: IS.$('#sheet .dlg'), busy: true }, options);
+    try { await request(); }
+    catch (error) { signInFlow = null; onError(error); return; }
+    flow.busy = false;
+    await resumeSignIn(flow);
+  }
+  IS.SUB.esignin = function (d) {
+    return signInWith(function () { return DB.signInEmail({ email: d.email, pass: d.pass }); }, function (e) {
+      authMsg(e.message === 'unconfirmed' ? A('لم يُؤكَّد هذا البريد بعد: أنشئ الحساب مرة أخرى لتصلك رسالة التأكيد.', 'This email is not confirmed yet: create the account again to receive the code.') : A('البريد أو كلمة المرور غير صحيحة.', 'Wrong email or password.'));
+    });
   };
   IS.ACT.kind = function (b) { IS.AUTHKIND = b.getAttribute('data-k'); IS.$$('.kind').forEach(function (x) { var on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-checked', on); }); var h = IS.$('[name=kind]'); if (h) h.value = IS.AUTHKIND; };
   IS.ACT.register = function (b) { authSheet('up', b && b.getAttribute('data-k')); };
@@ -944,10 +1034,10 @@
     IS.closeSheet(); await IS.loadMe(); IS.toast(A('مرحبًا ', 'Welcome, ') + greetingText(IS.ME && IS.ME.name));
     if (d.kind === 'lecturer') IS.go('studio-apply'); else IS.route();
   };
-  IS.SUB.signin = async function (d) {
-    try { await DB.signIn({ phone: d.phone, pass: d.pass }); } catch (e) { return authMsg(A('الرقم أو كلمة المرور غير صحيحة.', 'Wrong phone number or password.')); }
-    IS.closeSheet(); await IS.loadMe(); if (IS.ME && IS.ME.status === 'blocked') { await DB.signOut(); IS.ME = null; IS.toast(A('هذا الحساب موقوف. تواصل مع الدعم.', 'This account is blocked. Contact support.'), true); }
-    if (IS.mfaCheck) await IS.mfaCheck(); if (IS.team() && !/^#study-invite\//.test(location.hash)) IS.go('control'); else IS.route();
+  IS.SUB.signin = function (d) {
+    return signInWith(function () { return DB.signIn({ phone: d.phone, pass: d.pass }); }, function () {
+      authMsg(A('الرقم أو كلمة المرور غير صحيحة.', 'Wrong phone number or password.'));
+    }, { control: true });
   };
   /* preview copy (no real Google yet): the Google button asks for the Gmail address and proves it with a 6-digit code, never by the address
      alone (owner, 18 Nov 2026). The live platform opens the real Google sign-in. */
@@ -958,7 +1048,10 @@
         '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic('send') + '<span>' + esc(A('أرسل الرمز', 'Send the code')) + '</span></button></form>'); return; }
     var dialog = button.closest('.dlg');
     try {
-      sessionStorage.setItem('ish-google-sign-in', IS.AUTHKIND === 'lecturer' ? 'lecturer' : 'student');
+      sessionStorage.setItem('ish-google-sign-in', JSON.stringify({
+        kind: IS.AUTHKIND === 'lecturer' ? 'lecturer' : 'student',
+        route: location.hash
+      }));
       button.disabled = true;
       await DB.google();
     } catch (error) {
@@ -975,9 +1068,13 @@
     dialog.querySelector('[data-google-help]').open = true;
   }
   function googleRedirectResult() {
-    var kind = sessionStorage.getItem('ish-google-sign-in');
-    if (!kind) return null;
+    var stored = sessionStorage.getItem('ish-google-sign-in');
+    if (!stored) return null;
     sessionStorage.removeItem('ish-google-sign-in');
+    var flow;
+    try { flow = JSON.parse(stored); } catch (e) { flow = { kind: stored }; }
+    if (!flow || typeof flow !== 'object') flow = {};
+    if (typeof flow.route !== 'string' || !/^#[a-z-]+(?:\/|$)/.test(flow.route)) flow.route = '';
     var url = new URL(location.href), hash = new URLSearchParams(url.hash.slice(1));
     var authError = function (params) { return params.has('error') || params.has('error_code'); };
     var failed = authError(url.searchParams) || authError(hash);
@@ -986,7 +1083,8 @@
       ['error','error_code','error_description'].forEach(function (key) { url.searchParams.delete(key); });
       history.replaceState(history.state, '', url);
     }
-    return { kind: kind, failed: failed };
+    if (failed && flow.route) history.replaceState(history.state, '', flow.route);
+    return Object.assign(flow, { failed: failed, redirect: true, control: true });
   }
   /* Google's own "Sign in with Google" button (owner, 18 Nov 2026: students saw the strange address fglawgpusfbgkokpnoej.supabase.co on
      Google's page). The button runs on ishrahli.org, so Google names this site; its ID token goes to Supabase (signInWithIdToken).
@@ -1004,9 +1102,10 @@
         if (!b.isConnected) return;
         var hashed = Array.prototype.map.call(new Uint8Array(hb), function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
         google.accounts.id.initialize({ client_id: cid, nonce: hashed, ux_mode: 'popup', itp_support: true, use_fedcm_for_button: true, callback: async function (resp) {
-          try { await DB.googleToken(resp.credential, raw); IS.closeSheet(); await IS.loadMe(); if (IS.mfaCheck) await IS.mfaCheck();
-            if (IS.AUTHKIND === 'lecturer' && !IS.LEC) IS.go('studio-apply'); else if (IS.team() && !/^#study-invite\//.test(location.hash)) IS.go('control'); else IS.route(); }
-          catch (e) { showGoogleError(b.closest('.dlg')); b.hidden = false; chooser.hidden = true; box.remove(); } } });
+          return signInWith(function () { return DB.googleToken(resp.credential, raw); }, function () {
+            showGoogleError(b.closest('.dlg')); b.hidden = false; chooser.hidden = true; box.remove();
+          }, { kind: IS.AUTHKIND, control: true });
+        } });
         google.accounts.id.renderButton(box, { type: 'standard', theme: 'outline', size: 'large', shape: 'pill', text: 'continue_with', logo_alignment: 'center', locale: IS.lang === 'en' ? 'en' : 'ar', width: Math.min(400, Math.max(220, b.offsetWidth || 320)) });
         setTimeout(function () {
           if (!box.querySelector('iframe, div[role=button]')) { box.remove(); return; }
@@ -1024,7 +1123,8 @@
   /* ---------- start ---------- */
   IS.start = async function () {
     var googleReturn = DB.live ? googleRedirectResult() : null;
-    if (googleReturn && !googleReturn.failed) { var lm = IS.$('#main'); if (lm) lm.innerHTML = '<div class="loading signing"><span class="spin"></span><b>' + esc(A('جارٍ تسجيل الدخول…', 'Signing you in…')) + '</b></div>'; }
+    var googleSuccess = googleReturn && !googleReturn.failed;
+    if (googleSuccess) signInFlow = googleReturn;
     if (DB.live && !navigator.onLine) {
       resumedOnline = true;
       restoreBase();
@@ -1032,14 +1132,23 @@
     } else {
       /* never stay on the loading circle: after 8 s the app opens with what this device saved, and refreshes when the server answers */
       var boot = (async function () { if (DB.ready) await DB.ready; await Promise.all([IS.loadBase().catch(restoreBase), loadAccount()]); })();
+      if (googleSuccess) {
+        googleReturn.boot = boot.catch(function () {});
+        resumeSignIn(googleReturn).catch(IS.fail);
+      }
       var slow = await Promise.race([boot.then(function () { return false; }, function () { return false; }), new Promise(function (ok) { setTimeout(function () { ok(true); }, 8000); })]);
-      if (slow) { try { restoreBase(); } catch (e) {} boot.then(function () { IS.route(); }).catch(function () {}); }
+      if (slow) { restoreBase(); boot.then(function () { if (!signInFlow) return IS.route(); }).catch(IS.fail); }
     }
     IS.beat();
-    DB.onAuth(async function () { if (!navigator.onLine && DB.live) return; await loadAccount(); IS.route(); });
-    if (googleReturn && !googleReturn.failed && IS.ME && IS.team() && !/^#study-invite\//.test(location.hash)) IS.go('control');
-    else if (googleReturn && !googleReturn.failed && IS.ME && googleReturn.kind === 'lecturer' && !IS.LEC) IS.go('studio-apply');
-    else IS.route();
+    DB.onAuth(function () {
+      // Start the profile read after Supabase has released its authentication lock.
+      setTimeout(function () {
+        if (signInFlow || (DB.live && !navigator.onLine)) return;
+        loadAccount().then(function () { if (!signInFlow) return IS.route(); }).catch(IS.fail);
+      }, 0);
+    });
+    if (!googleSuccess) IS.route().catch(IS.fail);
+    else if (!googleReturn.boot) resumeSignIn(googleReturn).catch(IS.fail);
     if (googleReturn && googleReturn.failed) {
       authSheet('in', googleReturn.kind);
       showGoogleError(IS.$('#sheet .dlg'));
