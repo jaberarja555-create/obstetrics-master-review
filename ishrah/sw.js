@@ -1,5 +1,5 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v274', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v275', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
@@ -196,7 +196,7 @@ self.addEventListener('push', function (event) {
     } catch (e) {}
     var open = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
     open.forEach(function (c) { c.postMessage({ ishPush: d }); });
-    await self.registration.showNotification(d.title, { body: d.body, icon: 'icon-192.png', badge: 'badge-96.png', lang: 'ar', dir: 'auto',
+    await self.registration.showNotification(d.title, { body: d.body, icon: 'icon-192.png?v=8fb2def5', badge: 'badge-96.png', lang: 'ar', dir: 'auto',
       data: { link: d.link }, tag: 'ish-' + Date.now(), renotify: true, vibrate: [180, 90, 180] });
   })());
 });

@@ -15,8 +15,8 @@
 (function(){var B={surgery:'Surgery',pediatrics:'Pediatrics',obstetrics:'Obstetrics'},a='';try{a=new URLSearchParams(location.search).get('app')||''}catch(e){}
 if(!B[a])a='';window.ISH_APP=a;if(a)try{sessionStorage.setItem('ish-wel','1')}catch(e){}
 document.write(a?'<link rel="manifest" href="apps/'+a+'.webmanifest?v=1"><link rel="apple-touch-icon" href="img/apps/'+a+'-apple.png?v=1"><meta name="apple-mobile-web-app-title" content="'+B[a]+'">':
-'<link rel="manifest" href="manifest.webmanifest?v=7ba15dc3"><link rel="apple-touch-icon" href="apple-touch-icon.png?v=62c3c8f0"><meta name="apple-mobile-web-app-title" content="SMRA">');})();</script>
-<link rel="icon" type="image/png" href="favicon.png?v=f5a0e10d">
+'<link rel="manifest" href="manifest.webmanifest?v=f5a4fc09"><link rel="apple-touch-icon" href="apple-touch-icon.png?v=b42de4e1"><meta name="apple-mobile-web-app-title" content="SMRA">');})();</script>
+<link rel="icon" type="image/png" href="favicon.png?v=9b2ed4cf">
 <script>/* colour chosen in Settings (ish-pal): the styles are loaded once with colour slots, and css/pv.css holds every colour's values,
    so a colour is only html[data-pal] (owner, 22 Nov 2026: colour change was slow; tools/ishrah/palvars.py) */
 (function(){var p='blue';try{p=JSON.parse(localStorage.getItem('ish-pal')||'"blue"')}catch(e){}document.documentElement.setAttribute('data-pal',p);})();</script>

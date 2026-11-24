@@ -1634,3 +1634,8 @@ studentmasterreview.com with HTTP/3 off). Now:
 - Microphone recording shows a timer and separate stop and cancel actions. Stopping makes a preview available before sending. Players release media when removed from the conversation or draft.
 - The header remembers real browser history entries. Back from study chats, invitations and group lists returns to Community. Back from Community skips the pages opened within it and returns to the previous page, or Home on a direct visit. The chat's own Back button follows the same behavior.
 - Verified on an Arabic phone-sized Chromium preview with real MediaRecorder, a local database, a seekable audio fixture and the Community navigation paths. No database migration is needed.
+
+## SMRA app icon · 24 Nov 2026
+
+- The main PWA uses the gold SMRA crest from `img/mr/smra-mark.webp` on deep teal for Android, iOS, the browser favicon, and notification artwork. The Android manifest has separate standard and maskable icons so the crest fits launcher cutouts.
+- The manifest and icon URLs are versioned. The app's install identity and the separately installable Master Review book icons stay the same.
