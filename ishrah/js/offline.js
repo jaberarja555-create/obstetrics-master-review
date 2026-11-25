@@ -260,9 +260,9 @@
   function size0(b) { return b > 1073741824 ? (b / 1073741824).toFixed(1) + ' GB' : b > 1048576 ? Math.round(b / 1048576) + ' MB' : (b ? Math.max(1, Math.round(b / 1024)) : 0) + ' KB'; }
   function runList() { var ks = Object.keys(RUN); return ks.length ? '<section class="box"><h2>' + ic('download') + IS.T('جارٍ التنزيل', 'Downloading now') + '</h2>' + ks.map(function (k) { return '<div class="dlr"><span class="grow"><b>' + esc(RUN[k].t) + '</b><i class="dlbar" style="--p:' + RUN[k].p + '%"></i></span><em>' + N(RUN[k].p + '%') + '</em><button class="ib sm" data-act="dlstop" data-id="' + esc(k) + '" aria-label="' + esc(A('إلغاء', 'Cancel')) + '">' + ic('x') + '</button></div>'; }).join('') + '</section>' : ''; }
   IS.ACT.dlstop = function (b) { var r = RUN[b.getAttribute('data-id')]; if (r) r.ctl.abort(); };
-  function row(it) {
+  function row(it, showStorage) {
     var exp = it.exp < Date.now(), icn = it.kind === 'file' ? (/pdf/.test(it.mime) ? 'file' : 'image') : it.lk === 'quiz' ? 'qb' : it.lk === 'video' ? 'video' : 'file';
-    return '<div class="dlr' + (exp ? ' exp' : '') + '"><span class="dli">' + ic(icn) + '</span><a class="grow" href="#dl/' + esc(it.id) + '"><b dir="auto">' + esc(it.title) + '</b><small>' + esc(it.sub || '') + (it.size ? ' · ' + size(it.size) : '') + ' · ' +
+    return '<div class="dlr' + (exp ? ' exp' : '') + '"><span class="dli">' + ic(icn) + '</span><a class="grow" href="#dl/' + esc(it.id) + '"><b dir="auto">' + esc(it.title) + '</b><small>' + esc(it.sub || '') + (showStorage && it.size ? ' · ' + size(it.size) : '') + ' · ' +
       (exp ? esc(A('انتهت المدة: اتصل بالإنترنت للتجديد', 'Expired: connect to renew')) : esc(A('متاح حتى ', 'Available until ')) + esc(IS.date(new Date(it.exp).toISOString()))) + '</small></a>' +
       '<a class="btn sm pri" href="#dl/' + esc(it.id) + '">' + ic(icn === 'video' ? 'play' : 'open') + esc(A('فتح', 'Open')) + '</a><button class="ib sm" data-act="dldel" data-id="' + esc(it.id) + '" aria-label="' + esc(A('حذف', 'Delete')) + '">' + ic('trash') + '</button></div>';
   }
@@ -270,17 +270,27 @@
   IS.ACT.dldelall = async function () { if (!(await IS.confirm(A('حذف كل التنزيلات من هذا الجهاز؟', 'Delete every download on this device?')))) return; var l = await items(); for (var i = 0; i < l.length; i++) await drop(l[i].id); IS.refresh(); };
   IS.page('downloads', async function () {
     var l = await items(); l.sort(function (a, b) { return b.saved - a.saved; });
-    var used = l.reduce(function (s, x) { return s + (x.size || 0); }, 0), est = null; try { est = navigator.storage && await navigator.storage.estimate(); } catch (e) {}
+    var me = IS.ME;
+    var showStorage = me && me.status !== 'blocked' && me.team_status !== 'suspended' && !IS.MFA_NEEDED &&
+      (IS.isOwner() || (me.team || []).includes('content'));
+    var est = null;
+    if (showStorage && navigator.storage && navigator.storage.estimate) {
+      try { est = await navigator.storage.estimate(); } catch (e) {}
+    }
     var les = l.filter(function (x) { return x.kind === 'lesson'; }), fil = l.filter(function (x) { return x.kind === 'file'; }), byC = {};
     les.forEach(function (x) { (byC[x.sub || ''] = byC[x.sub || ''] || []).push(x); });
+    var stats = [['video', les.length, A('درس', 'lessons')], ['open', fil.length, A('ملف', 'files')]];
+    if (showStorage) stats.push(['layers', size(l.reduce(function (total, item) { return total + (item.size || 0); }, 0)),
+      A('حجم تنزيلاتك', 'Your download size')]);
+    var renderRow = function (item) { return row(item, showStorage); };
     var h = IS.banner(IS.T('تنزيلاتي', 'My downloads'), esc(A('دروس وكتب نزّلتها داخل المنصة لتعمل دون إنترنت.', 'Lessons and books you downloaded inside the platform to use without internet.')), 'download') +
-      '<section class="dlhead"><div class="dlst">' + [['video', les.length, A('درس', 'lessons')], ['open', fil.length, A('ملف', 'files')], ['layers', size(used), A('مستخدمة', 'used')]].map(function (t) { return '<span>' + ic(t[0]) + '<b>' + (typeof t[1] === 'number' ? N(t[1]) : t[1]) + '</b><small>' + esc(t[2]) + '</small></span>'; }).join('') + '</div>' +
-      (est && est.quota ? '<div class="dlq2"><small>' + esc(A('مساحة المنصة على هذا الجهاز', 'Platform space on this device')) + ': <bdi dir="ltr">' + size0(est.usage || 0) + ' / ' + size0(est.quota) + '</bdi>' + '</small>' + IS.bar(Math.round((est.usage || 0) / est.quota * 100)) + '</div>' : '') +
+      '<section class="dlhead"><div class="dlst"' + (showStorage ? '' : ' style="grid-template-columns:repeat(2,minmax(0,1fr))"') + '>' + stats.map(function (t) { return '<span>' + ic(t[0]) + '<b>' + (typeof t[1] === 'number' ? N(t[1]) : t[1]) + '</b><small>' + esc(t[2]) + '</small></span>'; }).join('') + '</div>' +
+      (est && est.quota ? '<div class="dlq2"><small>' + esc(A('مساحة تخزين المنصة في هذا المتصفح (تقديرية)', 'Estimated site storage in this browser')) + ': <bdi dir="ltr">' + size0(est.usage || 0) + ' / ' + size0(est.quota) + '</bdi>' + '</small>' + IS.bar(Math.round((est.usage || 0) / est.quota * 100)) + '</div>' : '') +
       '<p class="note">' + ic('shield') + '<span>' + esc(A('التنزيلات محفوظة ومشفّرة داخل المنصة فقط: لا تظهر في ملفات الهاتف ولا يمكن نسخها. تبقى ' + DAYS + ' يومًا وتتجدد تلقائيًا عند الاتصال بالإنترنت.', 'Downloads are kept encrypted inside the platform only: they do not appear in the phone’s files and cannot be copied. They last ' + DAYS + ' days and renew by themselves when you are online.')) + '</span></p></section>' +
       '<div id="dlrun">' + runList() + '</div>';
     if (!l.length) return h + IS.empty('download', A('لا توجد تنزيلات بعد', 'No downloads yet'), A('افتح درسًا أو كتابًا واضغط «تنزيل للمشاهدة دون إنترنت».', 'Open a lesson or a book and press “Download for offline”.'), '<a class="btn pri" href="#learning">' + ic('layers') + esc(A('كورساتي', 'My courses')) + '</a>');
-    h += Object.keys(byC).map(function (c) { return '<section class="box"><h2>' + ic('layers') + esc(c || A('دروس', 'Lessons')) + '</h2><div class="dll">' + byC[c].map(row).join('') + '</div></section>'; }).join('');
-    if (fil.length) h += '<section class="box"><h2>' + ic('open') + IS.T('الكتب والملفات', 'Books and files') + '</h2><div class="dll">' + fil.map(row).join('') + '</div></section>';
+    h += Object.keys(byC).map(function (c) { return '<section class="box"><h2>' + ic('layers') + esc(c || A('دروس', 'Lessons')) + '</h2><div class="dll">' + byC[c].map(renderRow).join('') + '</div></section>'; }).join('');
+    if (fil.length) h += '<section class="box"><h2>' + ic('open') + IS.T('الكتب والملفات', 'Books and files') + '</h2><div class="dll">' + fil.map(renderRow).join('') + '</div></section>';
     h += '<div class="row center"><button class="btn ghost bad" data-act="dldelall">' + ic('trash') + esc(A('حذف كل التنزيلات', 'Delete all downloads')) + '</button></div>';
     IS.after = function () { renewAll(l).then(function (ch) { }); };
     return h;
