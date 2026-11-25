@@ -309,7 +309,7 @@
     if (T.scope !== scope) { T.scope = scope; T.k = 'all'; T.sort = 'new'; IS.LCOLL = null; }
     T.k = tab || T.k || 'all';
     if (IS.loadBuys) await IS.loadBuys();
-    var fs = (await DB.q('files', { eq: { status: 'published' }, order: ['published_at', false] })).filter(function (f) { return (!T.sp || fspec(f) === T.sp) && IS.inStudySpace(f); }), me = IS.ME;
+    var fs = (await DB.q('files', { eq: { status: 'published' }, order: ['published_at', false] })).filter(function (f) { return f.kind !== 'master_review' && (!T.sp || fspec(f) === T.sp) && IS.inStudySpace(f); }), me = IS.ME;
     var reqs = me ? await DB.q('requests', { eq: { user_id: me.id }, order: ['created_at', false] }) : [];
     var h = IS.banner(IS.T('مكتبتي', 'My Library'), esc(A('كل كتبك وملفاتك الدراسية في مكان واحد', 'All your books and study files in one place')), 'open', '', 'libban') + (IS.SPEC ? '' : specBar());
     h += '<section class="ltabs"><a href="#library/requests" class="lt req' + (T.k === 'requests' ? ' on' : '') + '">' + ic('receipt') + '<b>' + esc(A('الطلبات', 'Requests')) + '</b>' + (reqs.filter(function (r) { return r.status === 'pending' || r.status === 'progress'; }).length ? '<i>' + N(reqs.filter(function (r) { return r.status === 'pending' || r.status === 'progress'; }).length) + '</i>' : '') + '</a>' +
@@ -810,6 +810,11 @@
   };
   IS.page('file', async function (arg) {
     var parts = String(arg || '').split('/'), id = parts[0];
+    var master = IS.masterBook && IS.masterBook(id);
+    if (master) {
+      IS.go('books/' + master.id + (parts[1] === 'comments' ? '/comments' : ''));
+      return null;
+    }
     var file = await DB.one('files', id);
     if (IS.loadBuys) await IS.loadBuys();
     if (!file || (file.status !== 'published' && !(IS.ME && (file.owner_id === IS.ME.id || IS.can('library'))))) return null;

@@ -534,7 +534,7 @@
     var origins = { original: A('عمل أصلي حسب إقرار الرافع', 'Uploader declares original work'),
       free_source: A('مجاني بترخيص يسمح بالمشاركة', 'Free with redistribution licence'),
       permission: A('مجاني بإذن من صاحب العمل', 'Free with creator permission') };
-    tab = tab || 'pending'; var fs = await DB.q('files', { order: ['created_at', false] }), list = fs.filter(function (f) { return tab === 'all' || f.status === tab; });
+    tab = tab || 'pending'; var fs = (await DB.q('files', { order: ['created_at', false] })).filter(function (f) { return f.kind !== 'master_review'; }), list = fs.filter(function (f) { return tab === 'all' || f.status === tab; });
     var revisions = IS.can('library', 'approve') ? await DB.q('library_file_revisions', { eq: { status: 'pending' }, order: ['created_at', false] }) : [];
     var edits = new Set(revisions.filter(function (revision) { return !revision.for_series; }).map(function (revision) { return revision.file_id; }));
     var editQueue = (tab === 'pending' || tab === 'all') && revisions.length ? '<section class="box"><h2>' + ic('pen') +
@@ -698,7 +698,7 @@
       (list.length ? '<div class="table">' + list.map(function (r) { var k = IS.RKINDS.filter(function (x) { return x[0] === r.kind; })[0] || IS.RKINDS[4];
         return '<div class="tr">' + ic(k[1]) + '<span class="grow"><b>' + esc(r.title) + '</b><small class="mut">' + esc(A(k[2], k[3])) + ' · ' + esc(r.name || '') + ' · ' + esc(IS.date(r.created_at)) + '</small>' + (r.details ? '<small>' + esc(r.details) + '</small>' : '') + '</span>' + IS.rstatus(r.status) + '<button class="btn sm ghost" data-act="rq" data-id="' + r.id + '">' + ic('pen') + esc(A('معالجة', 'Handle')) + '</button></div>'; }).join('') + '</div>' : IS.empty('receipt', A('لا توجد طلبات هنا', 'Nothing here')));
   }, P('requests'));
-  IS.ACT.rq = async function (b) { var r = await DB.one('requests', b.getAttribute('data-id')), fs = await DB.q('files', { eq: { status: 'published' } });
+  IS.ACT.rq = async function (b) { var r = await DB.one('requests', b.getAttribute('data-id')), fs = (await DB.q('files', { eq: { status: 'published' } })).filter(function (f) { return f.kind !== 'master_review'; });
     IS.sheet(esc(r.title), '<form class="form" data-form="rq"><input type="hidden" name="id" value="' + r.id + '"><p class="pre">' + esc(r.details || '') + '</p><label class="fl"><span>' + esc(A('الحالة', 'Status')) + '</span><select name="status">' + [['pending', A('جديد', 'New')], ['progress', A('قيد التنفيذ', 'In progress')], ['done', A('مكتمل', 'Done')], ['rejected', A('مرفوض', 'Rejected')]].map(function (o) { return '<option value="' + o[0] + '"' + (r.status === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>' +
       '<label class="fl"><span>' + esc(A('ربط بملف في المكتبة (اختياري)', 'Link to a library file (optional)')) + '</span><select name="file"><option value="">—</option>' + fs.map(function (f) { return '<option value="' + f.id + '"' + (r.file_id === f.id ? ' selected' : '') + '>' + esc(f.title) + '</option>'; }).join('') + '</select></label>' +
       '<label class="fl"><span>' + esc(A('رد للطالب', 'Reply to the student')) + '</span><textarea name="reply" rows="3">' + esc(r.reply || '') + '</textarea></label><button class="btn pri wide">' + esc(A('حفظ وإشعار الطالب', 'Save and notify')) + '</button></form>'); };

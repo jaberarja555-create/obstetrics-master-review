@@ -5,26 +5,53 @@
    shows at the top of My Library. Until stage 3 the book keeps its own subscription system. */
 (function () {
   'use strict';
-  var A = IS.A, esc = IS.esc;
+  var A = IS.A, esc = IS.esc, ic = IS.ic, N = IS.N;
+  var authors = 'Dr. Abdaljalil Abdalkareem Arja · Dr. Alabass Abdulrahman';
   var BOOKS = IS.BOOKS = [
-    { id: 'surgery', en: 'Surgery Master Review', ar: 'الجراحة', sub: ['Clinical', 'سريري'] },
-    { id: 'pediatrics', en: 'Pediatric Master Review', ar: 'الأطفال', sub: ['Clinical', 'سريري'] },
-    { id: 'obstetrics', en: 'Obstetrics Master Review', ar: 'النساء والتوليد', sub: ['Clinical', 'سريري'] },
+    { id: 'surgery', en: 'Surgery Master Review', ar: 'الجراحة', subject: 'Surgery', feedback: '3b3f6050-a5c1-450d-bf8c-4904dd066f5b' },
+    { id: 'pediatrics', en: 'Pediatric Master Review', ar: 'الأطفال', subject: 'Pediatrics', feedback: '0bda629d-0d58-49b2-a837-aeb13802d96c' },
+    { id: 'obstetrics', en: 'Obstetrics Master Review', ar: 'النساء والتوليد', subject: 'Obstetrics', feedback: 'f3a4b512-3cb4-40f5-93e0-a1566552970b' }
   ];
-  function book(id) { return BOOKS.filter(function (b) { return b.id === id; })[0]; }
+  function book(id) { return BOOKS.find(function (b) { return b.id === id; }); }
+  IS.masterBook = function (id) { return BOOKS.find(function (b) { return b.feedback === id; }); };
+  var bookFeedback = new Map();
+  function progressKey(b, reader) { return 'master-progress/' + reader + '/' + b.id; }
+  function progressMarkup(b) {
+    var s = IS.LS.get(progressKey(b, DB.uid() || 'guest'), null);
+    if (!s) return '<p class="bk-progress mut">' + esc(A('يظهر التقدّم هنا بعد فتح الكتاب', 'Progress appears here after opening the book')) + '</p>';
+    var read = A('صفحة مقروءة', 'pages read'), answered = A('سؤال مُجاب', 'MCQs answered');
+    var counts = [s.pages.total ? N(s.pages.read) + ' / ' + N(s.pages.total) + ' ' + esc(read) : '',
+      s.q.total ? N(s.q.answered) + ' / ' + N(s.q.total) + ' ' + esc(answered) : ''].filter(Boolean);
+    return '<div class="bk-progress"><b>' + esc(A('تقدّمك على هذا الجهاز', 'Progress on this device')) + '</b>' +
+      (s.pages.total ? '<progress value="' + s.pages.read + '" max="' + s.pages.total + '" aria-label="' + esc(A('الصفحات المقروءة', 'Pages read')) + '"></progress>' : '') +
+      '<small>' + counts.join(' · ') + '</small></div>';
+  }
+  function feedbackMarkup(b, row) {
+    return IS.feedVoteBar('file', row, true, 'books/' + b.id);
+  }
   function card(b) {
-    return '<a class="bk-card" href="#book/' + b.id + '"><span class="bk-cv"><img src="' + IS.U('img/books/' + b.id + '.webp') + '" alt="" width="480" height="678" loading="lazy" decoding="async"></span>' +
-      '<span class="bk-tx"><b lang="en" dir="ltr">' + esc(b.en) + '</b><small>' + esc(A('كتاب ', 'Book · ') + A(b.ar, b.sub[0])) + '</small><em>' + esc(A('افتح الكتاب', 'Open the book')) + ' ‹</em></span></a>';
+    var href = '#book/' + b.id, row = bookFeedback.get(b.feedback);
+    return '<article class="bk-card" data-master-book="' + b.id + '"><a href="' + href + '" class="bk-cv" aria-label="' + esc(b.en) +
+      '"><img src="' + IS.U('img/books/' + b.id + '.webp') + '" alt="" width="480" height="678" loading="lazy" decoding="async"></a>' +
+      '<div class="bk-tx"><span class="bk-subject">' + esc(A(b.ar, b.subject)) + '</span><h2 lang="en" dir="auto"><a href="' + href + '">' + esc(b.en) +
+      '</a></h2><p class="bk-authors"><bdi lang="en" dir="ltr">' + esc(authors) + '</bdi></p>' +
+      '<div class="bk-access"><span>' + esc(A('معاينة مجانية', 'Free preview')) + '</span><span>' + esc(A('النسخة الكاملة باشتراك', 'Paid full access')) + '</span></div>' +
+      '<p class="bk-tools">' + ic('qb') + esc(A('بنك أسئلة واختيارات متعددة · بطاقات · مراجعة سريعة', 'Question bank (MCQs) · Flashcards · Rapid Review')) + '</p>' +
+      '<div data-bk-progress>' + progressMarkup(b) + '</div>' +
+      '<a class="btn ghost sm bk-read" href="' + href + '">' + ic('open') + esc(A('افتح الكتاب', 'Open the book')) + '</a></div>' +
+      '<div class="bk-feedback" data-bk-feedback' + (row ? '' : ' hidden') + '>' + (row ? feedbackMarkup(b, row) : '') + '</div></article>';
   }
   IS.booksShelf = function () {
     return '<section class="bk-shelf"><header><h2>📚 ' + esc(A('كتب Master Review', 'Master Review books')) + '</h2><a href="#books">' + esc(A('الكل', 'All')) + '</a></header>' +
       '<div class="bk-row">' + BOOKS.map(card).join('') + '</div></section>';
   };
-  IS.page('books', function () {
-    return '<section class="box bk-page"><h1 tabindex="-1">📚 ' + esc(A('كتب Master Review', 'Master Review books')) + '</h1><p class="mut">' +
-      esc(A('الكتب كاملة بكل أدواتها: القراءة والتظليل والملاحظات والقلم والبطاقات وبنك الأسئلة والمراجعة السريعة، وتعمل دون إنترنت بعد أول فتح.',
-        'The full books with all their tools: reading, highlights, notes, pen, flashcards, question bank and Rapid Review. They work offline after the first opening.')) +
-      '</p><div class="bk-grid">' + BOOKS.map(card).join('') + '</div>' +
+  IS.page('books', function (arg) {
+    var parts = String(arg || '').split('/'), selected = book(parts[0]);
+    if (arg && !selected) return null;
+    if (selected) return '<section class="bk-page bk-detail"><a class="btn ghost sm" href="#books">' + ic('back') +
+      esc(A('كل كتب Master Review', 'All Master Review books')) + '</a><div class="bk-grid">' + card(selected) + '</div></section>';
+    return '<section class="box bk-page"><h1 tabindex="-1">📚 ' + esc(A('كتب Master Review', 'Master Review books')) + '</h1>' +
+      '<div class="bk-grid">' + BOOKS.map(card).join('') + '</div>' +
       '<div class="bk-inst"><h2>📲 ' + esc(A('ثبّت كتابًا كتطبيق مستقل', 'Install a book as its own app')) + '</h2><p class="mut">' +
       esc(A('يظهر الكتاب على شاشة هاتفك بأيقونته ويفتح مباشرة، بنفس حسابك وبياناتك، وزر SMRA على الجانب ينقلك إلى المنصة.', 'The book gets its own icon on your phone and opens straight away, with the same account and data; the SMRA button on the side takes you to the platform.')) +
       '</p><div class="bk-ibtns">' + BOOKS.map(function (b) { return '<button type="button" class="btn ghost" data-act="bk-install" data-v="' + b.id + '"><img src="' + IS.U('img/apps/' + b.id + '-192.png') + '" alt="">' + esc(A('ثبّت ', 'Install ')) + '<bdi lang="en" dir="ltr">' + esc(b.en.replace(' Master Review', '')) + '</bdi></button>'; }).join('') + '</div></div></section>';
@@ -38,9 +65,13 @@
     if (!FR[id]) {
       var f = document.createElement('iframe'); f.className = 'bk-fr'; f.title = b.en; f.src = '/books/' + id + '/';
       f.setAttribute('allow', 'fullscreen; clipboard-write; autoplay');
-      h.appendChild(f); FR[id] = f; quiet(f, id);
+      FR[id] = f;
+      f.addEventListener('load', function () { f.contentWindow.postMessage({ smr: 'getStats' }, location.origin); });
+      h.appendChild(f); quiet(f, id);
     }
     if (!h.querySelector('.bk-back')) h.insertAdjacentHTML('beforeend', '<button type="button" class="bk-back" data-act="bk-back" aria-label="' + esc(A('العودة إلى المنصة', 'Back to the platform')) + '"><span>SMRA</span></button>');
+    FR[id].bookReader = DB.uid() || 'guest';
+    FR[id].contentWindow.postMessage({ smr: 'getStats' }, location.origin);
     h.hidden = false; document.documentElement.classList.add('bk-open');
     try { localStorage.setItem('ish-lastbook', id); } catch (e) {}
   }
@@ -63,7 +94,15 @@
     f.addEventListener('load', function () { quiet2(f); });
   }
   function quiet2(f) { try { var d = f.contentDocument; if (d && d.head && !d.getElementById('smra-quiet')) { var st = d.createElement('style'); st.id = 'smra-quiet'; st.textContent = '#v2wel,#v2chz,.v2bt{display:none!important}'; d.head.appendChild(st); } } catch (e) {} }
-  function hideBook() { var h = document.getElementById('bk-host'); if (h) h.hidden = true; document.documentElement.classList.remove('bk-open'); }
+  function hideBook() {
+    var h = document.getElementById('bk-host');
+    if (h && !h.hidden) {
+      var frame = h.querySelector('.bk-fr:not([hidden])');
+      if (frame) frame.contentWindow.postMessage({ smr: 'hide' }, location.origin);
+      h.hidden = true;
+    }
+    document.documentElement.classList.remove('bk-open');
+  }
   IS.page('book', function (id) {
     if (!book(id)) return null;
     setTimeout(function () { showBook(id); }, 0);
@@ -104,7 +143,21 @@
   /* the book's own «المكتبة» button */
   window.addEventListener('message', function (e) {
     if (e.origin !== location.origin || !e.data || typeof e.data !== 'object') return;
+    var b = BOOKS.find(function (entry) { return FR[entry.id] && FR[entry.id].contentWindow === e.source; });
+    if (!b) return;
     if (e.data.smr === 'library') { hideBook(); IS.go('books'); }
+    if (e.data.smr !== 'stats' || !e.data.s || !FR[b.id].bookReader) return;
+    var reader = FR[b.id].bookReader;
+    if (reader !== (DB.uid() || 'guest')) return;
+    var s = e.data.s;
+    function counts(group, name) {
+      var total = Number(group.total), done = Number(group[name]);
+      total = Number.isFinite(total) ? Math.max(0, Math.floor(total)) : 0;
+      return { total: total, [name]: Number.isFinite(done) ? Math.max(0, Math.min(total, Math.floor(done))) : 0 };
+    }
+    if (!s.pages || !s.q) return;
+    IS.LS.set(progressKey(b, reader), { pages: counts(s.pages, 'read'), q: counts(s.q, 'answered') });
+    IS.$$('[data-master-book="' + b.id + '"] [data-bk-progress]').forEach(function (el) { el.innerHTML = progressMarkup(b); });
   });
   /* Every book ready without internet, even one never opened (owner, 22 Nov 2026: «if someone opens the app but no book, the second time
      he opens a book he should not need internet»), and no waiting (the last opened book is ready at once).
@@ -153,14 +206,43 @@
     setTimeout(function () { IS.prepareBooks(); }, 12000);
     window.addEventListener('online', function () { setTimeout(function () { IS.prepareBooks(); }, 8000); });
   }
-  /* My Library starts with the books */
+  async function loadBookFeedback(root, openComments) {
+    var cards = IS.$$('[data-master-book]', root);
+    if (!cards.length) return;
+    var ids = cards.map(function (el) { return book(el.dataset.masterBook).feedback; });
+    if (!DB.live) {
+      await Promise.all(ids.map(async function (id) {
+        if (!(await DB.one('files', id))) await DB.ins('files', {
+          id: id, kind: 'master_review', spec: 'master-review', cat: 'clinical', status: 'published', title: IS.masterBook(id).en
+        });
+      }));
+    }
+    var rows = await DB.q('files', { in: { id: ids }, eq: { status: 'published' } });
+    rows.forEach(function (row) {
+      bookFeedback.set(row.id, row);
+      var b = IS.masterBook(row.id);
+      var card = cards.find(function (el) { return el.dataset.masterBook === b.id; });
+      if (!card.isConnected) return;
+      var feedback = card.querySelector('[data-bk-feedback]');
+      if (feedback.querySelector('.feed-comment-panel:not([hidden]), .rx-pick:not([hidden]), .library-rating[aria-expanded="true"]')) return;
+      feedback.innerHTML = feedbackMarkup(b, row);
+      feedback.hidden = false;
+      IS.hydrateFeedReactions(feedback);
+      if (openComments) IS.openFeedComments(feedback);
+    });
+  }
+  /* The shelf sits between the library filters and uploaded files. */
   var r0 = IS.onRoute;
-  IS.onRoute = function (name) {
+  IS.onRoute = function (name, arg, main) {
     if (r0) try { r0.apply(this, arguments); } catch (e) {}
-    if (name !== 'library') return;
-    var main = document.getElementById('main'); if (!main || main.querySelector('.bk-shelf')) return;
-    /* under the «محتوى المكتبة» title and the filter bar, before the files */
-    var at = main.querySelector('.mh-lib'), t = main.querySelector('.mh-title');
-    if (at) at.insertAdjacentHTML('afterbegin', IS.booksShelf()); else if (t) t.insertAdjacentHTML('afterend', IS.booksShelf());
+    if (name !== 'library' && name !== 'books') return;
+    var shelf = main.querySelector('.bk-shelf');
+    if (name === 'library' && (!shelf || !shelf.querySelector('[data-master-book]'))) {
+      if (shelf) shelf.remove();
+      var at = main.querySelector('.mh-lib'), title = main.querySelector('.mh-title');
+      if (at) at.insertAdjacentHTML('afterbegin', IS.booksShelf());
+      else if (title) title.insertAdjacentHTML('afterend', IS.booksShelf());
+    }
+    loadBookFeedback(main, name === 'books' && /\/comments$/.test(arg)).catch(function () {});
   };
 })();
