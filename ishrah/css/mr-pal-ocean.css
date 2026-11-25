@@ -1787,6 +1787,11 @@ html body .mra[data-pg="learning"] .mh-old>.lr{gap:10px}
 :root[lang="en"] body .mrx :is(.fv-btn,.lr-b,.mlx-b,.mc-btn){font-weight:600}
 
 /* ===== control app in the new frame (owner, 21 Nov 2026) ===== */
+/* Keep long dashboard text and the Google sign-in widget inside the mobile viewport. */
+body[data-area="control"] .mrc2 .mh-old{overflow-wrap:anywhere}
+body[data-area="control"] .mrc2 .tasks a>span{min-width:0}
+#sheet .gsib{min-width:0;max-width:100%;overflow:hidden}
+#sheet .gsib iframe{max-width:100%}
 html body .mrc2 .mh-old .cban{position:relative;display:grid!important;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:12px;min-height:0!important;padding:14px 16px!important;margin:0!important;border-radius:20px!important;
   background:linear-gradient(120deg,var(--pn1,#0d356b),var(--pn2,#061e3f))!important;border:1.5px solid rgba(233,196,106,.6)!important;box-shadow:0 10px 24px rgba(6,34,70,.2)!important;color:#fff!important;overflow:hidden}
 html body .mrc2 .mh-old .cban::before,html body .mrc2 .mh-old .cban::after{display:none!important}

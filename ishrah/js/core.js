@@ -863,7 +863,7 @@
      or PHONE + password. IS.AUTHTAB = 'email' | 'phone'. */
   var GSVG = '<svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z" stroke="none"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z" stroke="none"/><path fill="#FBBC05" d="M6.4 14c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V7.4H3.1a10 10 0 0 0 0 9.2z" stroke="none"/><path fill="#EA4335" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 3.1 7.4L6.4 10C7.2 7.8 9.4 6 12 6z" stroke="none"/></svg>';
   function fld(name, icon, label, attrs) { return '<label class="fl"><span>' + ic(icon) + esc(label) + '</span><input name="' + name + '" ' + attrs + '></label>'; }
-  function authSheet(mode, kind) {
+  function authSheet(mode, kind, focusForm) {
     var up = mode === 'up', tab = IS.AUTHTAB || 'email'; kind = kind || IS.AUTHKIND || 'student'; IS.AUTHMODE = mode;
     var pw = fld('pass', 'lock', A('كلمة المرور', 'Password') + ' *', 'type="password" required minlength="8" autocomplete="' + (up ? 'new-password' : 'current-password') + '"' + (up ? ' placeholder="' + esc(A('8 أحرف على الأقل', 'At least 8 characters')) + '"' : ''));
     var pw2 = up ? fld('pass2', 'lock', A('تأكيد كلمة المرور', 'Confirm password') + ' *', 'type="password" required minlength="8" autocomplete="new-password"') : '';
@@ -878,7 +878,7 @@
         (up ? fld('name', 'user', A('الاسم الكامل', 'Full name') + ' *', 'required maxlength="60" autocomplete="name"') : '') +
         '<label class="fl"><span>' + ic('phone') + esc(A('رقم الهاتف', 'Phone number')) + ' *</span><span class="pre" dir="ltr"><em>🇸🇩 +249</em><input name="phone" required inputmode="tel" autocomplete="tel" placeholder="9xxxxxxxx" dir="ltr"></span></label>' + pw + pw2 + terms +
         '<p class="msg" id="authMsg" role="alert"></p><button class="btn pri wide">' + ic(up ? 'user' : 'logout') + '<span>' + esc(up ? A('إنشاء الحساب', 'Create account') : A('دخول', 'Sign in')) + '</span></button></form>';
-    IS.sheet(esc(up ? A('إنشاء حساب جديد', 'Create a new account') : A('تسجيل الدخول', 'Sign in')),
+    var dialog = IS.sheet(esc(up ? A('إنشاء حساب جديد', 'Create a new account') : A('تسجيل الدخول', 'Sign in')),
       (up ? '<p class="lead center">' + esc(A('انضم إلى مجتمع Sudan Master Review Academy', 'Join the Sudan Master Review Academy community')) + '</p><h3 class="sub center">' + esc(A('اختر نوع حسابك', 'Choose your account type')) + '</h3><div class="kinds" role="radiogroup">' +
         [['student', 'cert', 'طالب', 'Student', 'للوصول إلى الكورسات والمحتوى التعليمي', 'To reach the courses and learning content'], ['lecturer', 'studio', 'محاضر', 'Lecturer', 'لتقديم الكورسات والمحاضرات', 'To teach courses and lectures']].map(function (k) {
           return '<button type="button" class="kind' + (kind === k[0] ? ' on' : '') + '" role="radio" aria-checked="' + (kind === k[0]) + '" data-act="kind" data-k="' + k[0] + '">' + ic(k[1]) + '<b>' + esc(A(k[2], k[3])) + '</b><small>' + esc(A(k[4], k[5])) + '</small></button>'; }).join('') + '</div>' : '') +
@@ -895,10 +895,11 @@
       '<p class="alt">' + (up ? esc(A('لديك حساب بالفعل؟', 'Already have an account?')) + ' <button class="link" data-act="login">' + esc(A('تسجيل الدخول', 'Sign in')) + '</button>' :
         esc(A('ليس لديك حساب؟', 'No account?')) + ' <button class="link" data-act="register">' + esc(A('أنشئ حسابًا', 'Create one')) + '</button><br>' +
         (tab === 'email' ? '<button class="link" data-act="eforgot">' : '<button class="link" data-act="ticket" data-k="password">') + esc(A('نسيت كلمة المرور؟', 'Forgot your password?')) + '</button>') + '</p>' +
-      (DB.live ? '' : '<p class="pv">' + IS.ic('info') + esc(A('نسخة معاينة: الحسابات والبيانات محفوظة على هذا الجهاز فقط ولا تُرسل رسائل بريد؛ يظهر رمز التأكيد على الشاشة. أول حساب يُنشأ هو مالك المنصة.', 'Preview copy: accounts and data stay on this device only and no email is sent; the confirmation code is shown on the screen. The first account created is the platform owner.')) + '</p>'));
+      (DB.live ? '' : '<p class="pv">' + IS.ic('info') + esc(A('نسخة معاينة: الحسابات والبيانات محفوظة على هذا الجهاز فقط ولا تُرسل رسائل بريد؛ يظهر رمز التأكيد على الشاشة. أول حساب يُنشأ هو مالك المنصة.', 'Preview copy: accounts and data stay on this device only and no email is sent; the confirmation code is shown on the screen. The first account created is the platform owner.')) + '</p>'), { nofocus: !focusForm });
+    if (!focusForm) dialog.querySelector('[data-close]').focus({ preventScroll: true });
     IS.AUTHKIND = kind;
   }
-  IS.ACT.authtab = function (b) { IS.AUTHTAB = b.getAttribute('data-t'); authSheet(IS.AUTHMODE || 'in', IS.AUTHKIND); };
+  IS.ACT.authtab = function (b) { IS.AUTHTAB = b.getAttribute('data-t'); authSheet(IS.AUTHMODE || 'in', IS.AUTHKIND, true); };
   /* the code step: shared by creating an account and by a forgotten password */
   var PEND = null;
   function codeSheet(note) {
@@ -959,6 +960,7 @@
     signInFlow = null;
     IS.$$('.signin-status').forEach(function (status) { status.remove(); });
     if (flow.dialog && flow.dialog.isConnected) IS.closeSheet();
+    var destination = (IS.pageOf(location.hash.slice(1).split('/')[0]) || {}).o;
     if (IS.ME.status === 'blocked') {
       await DB.signOut();
       IS.ME = null; IS.LEC = null;
@@ -966,8 +968,8 @@
       await IS.route();
     } else if (flow.kind === 'lecturer' && !IS.LEC) {
       IS.go('studio-apply');
-    } else if (flow.control && IS.team() && !/^#study-invite\//.test(location.hash)) {
-      IS.go('control');
+    } else if (IS.team() && !(destination && destination.auth)) {
+      IS.go('home');
     } else {
       await IS.route();
     }
@@ -1037,7 +1039,7 @@
   IS.SUB.signin = function (d) {
     return signInWith(function () { return DB.signIn({ phone: d.phone, pass: d.pass }); }, function () {
       authMsg(A('الرقم أو كلمة المرور غير صحيحة.', 'Wrong phone number or password.'));
-    }, { control: true });
+    });
   };
   /* preview copy (no real Google yet): the Google button asks for the Gmail address and proves it with a 6-digit code, never by the address
      alone (owner, 18 Nov 2026). The live platform opens the real Google sign-in. */
@@ -1084,7 +1086,7 @@
       history.replaceState(history.state, '', url);
     }
     if (failed && flow.route) history.replaceState(history.state, '', flow.route);
-    return Object.assign(flow, { failed: failed, redirect: true, control: true });
+    return Object.assign(flow, { failed: failed, redirect: true });
   }
   /* Google's own "Sign in with Google" button (owner, 18 Nov 2026: students saw the strange address fglawgpusfbgkokpnoej.supabase.co on
      Google's page). The button runs on ishrahli.org, so Google names this site; its ID token goes to Supabase (signInWithIdToken).
@@ -1104,7 +1106,7 @@
         google.accounts.id.initialize({ client_id: cid, nonce: hashed, ux_mode: 'popup', itp_support: true, use_fedcm_for_button: true, callback: async function (resp) {
           return signInWith(function () { return DB.googleToken(resp.credential, raw); }, function () {
             showGoogleError(b.closest('.dlg')); b.hidden = false; chooser.hidden = true; box.remove();
-          }, { kind: IS.AUTHKIND, control: true });
+          }, { kind: IS.AUTHKIND });
         } });
         google.accounts.id.renderButton(box, { type: 'standard', theme: 'outline', size: 'large', shape: 'pill', text: 'continue_with', logo_alignment: 'center', locale: IS.lang === 'en' ? 'en' : 'ar', width: Math.min(400, Math.max(220, b.offsetWidth || 320)) });
         setTimeout(function () {
