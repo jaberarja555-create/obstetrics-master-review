@@ -81,8 +81,9 @@ jobs:
           study_settings=ishrah/supabase/061_study_group_settings.sql
           study_member_photos=ishrah/supabase/062_study_member_photos.sql
           master_review=ishrah/supabase/063_master_review_feedback.sql
+          master_review_visibility=ishrah/supabase/064_master_review_visibility.sql
           pending=""
-          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads" "$reactions" "$live" "$series_edit" "$lecturer_check" "$profile_sync" "$team_tools" "$presence" "$dup_comments" "$own_paid" "$follows" "$card_roles" "$followers" "$free_posts" "$owner_alerts" "$course_cert" "$assistant" "$team_spaces" "$contact_guard" "$new_address" "$study_groups" "$study_channels" "$study_chat" "$study_settings" "$study_member_photos" "$master_review"; do
+          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads" "$reactions" "$live" "$series_edit" "$lecturer_check" "$profile_sync" "$team_tools" "$presence" "$dup_comments" "$own_paid" "$follows" "$card_roles" "$followers" "$free_posts" "$owner_alerts" "$course_cert" "$assistant" "$team_spaces" "$contact_guard" "$new_address" "$study_groups" "$study_channels" "$study_chat" "$study_settings" "$study_member_photos" "$master_review" "$master_review_visibility"; do
             if [ -n "$pending" ] || ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$migration"; then
               pending="${pending:+$pending }$migration"
             fi
@@ -103,6 +104,15 @@ jobs:
           done
           test "$(psql "$DB" -v ON_ERROR_STOP=1 -qAtc "set search_path = ''; select not public.ish_staff()")" = t
           test "$(psql "$DB" -v ON_ERROR_STOP=1 -Atc "select exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'feed_feedback' and column_name = 'course_id') and to_regprocedure('public.ish_feed_react(text,uuid,integer)') is not null and to_regprocedure('public.ish_rate_file(uuid,integer)') is not null and to_regprocedure('public.ish_moderate_feed_report(uuid,boolean)') is not null and to_regclass('public.lecturer_payout_accounts') is not null and to_regprocedure('public.ish_lecturer_payout(text,uuid,uuid,uuid,numeric,uuid,text,text,text)') is not null and not exists (select 1 from public.lecturers where pay is distinct from '{}'::jsonb) and exists (select 1 from storage.buckets where id = 'payout-receipts' and not public) and to_regclass('public.library_comments') is not null and to_regprocedure('public.ish_library_comment(uuid,text,uuid)') is not null and to_regprocedure('public.ish_review_question(uuid,boolean,text)') is not null and to_regclass('public.course_live_links') is not null and to_regclass('public.payment_messages') is not null and to_regclass('public.course_request_files') is not null and to_regprocedure('public.ish_course_request(text,uuid,jsonb)') is not null and to_regprocedure('public.ish_public_course_terms(uuid)') is not null and exists (select 1 from storage.buckets where id = 'course-request-files' and not public) and to_regprocedure('ishrah_private.guard_library_subjects()') is not null and to_regprocedure('public.ish_review_library_revision(uuid,boolean,text)') is not null and to_regprocedure('ishrah_private.guard_library_upload_rights()') is not null and to_regprocedure('public.ish_series_rating_scores(uuid[])') is not null and to_regprocedure('public.ish_series_vote(uuid,text,integer)') is not null and to_regclass('public.file_buys') is not null and to_regprocedure('public.ish_seller_payout(text,uuid,numeric,uuid,text,text,text)') is not null")" = t
+      - name: Verify public Master Review feedback targets
+        if: contains(steps.request-schema.outputs.files, '064_master_review_visibility.sql')
+        env:
+          DB: ${{ secrets.ISHRAH_DB_URL }}
+        run: |
+          DB=$(printf '%s' "$DB" | tr -d '\r\n\t `"'"'"'<>')
+          for role in anon authenticated; do
+            test "$(psql "$DB" -v ON_ERROR_STOP=1 -qAtc "set role $role; select count(*) from public.files where kind = 'master_review' and status = 'published'")" = 3 || exit 1
+          done
       - name: Verify study group migration
         if: contains(steps.request-schema.outputs.files, '058_study_groups.sql') || contains(steps.request-schema.outputs.files, '059_private_groups_channels.sql')
         env:

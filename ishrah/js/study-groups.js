@@ -5,7 +5,8 @@
   var emojis = ['👍','❤️','😂','🎉','🙏','👀'];
   var fileTypes = ['image/jpeg','image/png','image/webp','application/pdf','audio/webm','audio/ogg','audio/mp4','audio/mpeg'];
   var uuid = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i;
-  var active;
+  var active, imagePreview;
+  var mobileChat=window.matchMedia('(max-width: 699px)');
   var photoBucket='study-group-photos';
   var photoTypes=['image/jpeg','image/png','image/webp'];
 
@@ -204,7 +205,8 @@
         t('ابحث في الرسائل','Search messages') + '" aria-label="' + t('ابحث في الرسائل','Search messages') + '"><button class="btn ghost sm">' + ic('search') +
         t('بحث','Search') + '</button></form></details>' + button('poll',A('استطلاع','Poll'),'chart') + '</div>' +
         '<div class="study-pin" hidden></div><div class="study-chat-status" role="status" hidden></div>' +
-        '<div class="study-log" tabindex="0" aria-label="' + t('رسائل المجموعة','Group messages') + '"></div>' +
+        '<div class="study-transcript"><div class="study-log" tabindex="0" aria-label="' + t('رسائل المجموعة','Group messages') + '"></div>' +
+        '<div class="study-latest" hidden>' + iconButton('latest',A('أحدث الرسائل','Latest messages'),'chev') + '</div></div>' +
         '<p class="study-read-only" hidden>' + t('هذه قناة بث. ينشر المشرفون، ويمكنك التفاعل والتصويت.','This is a broadcast channel. Admins publish, and you can react and vote.') + '</p>' + composer() + '</section></div>';
     } catch (error) { return failure(error); }
   },{auth:true});
@@ -322,7 +324,10 @@
         esc(m.reply_excerpt || A('رد على رسالة','Reply to a message')) + '</button>' : '') +
       (m.body ? '<p dir="auto">' + esc(m.body) + '</p>' : '') + poll +
       (m.attachment ? (String(m.attachment_type || '').startsWith('audio/') ? voicePlayer(m.id) :
-        button('file',m.attachment_name,'file',{id:m.id}) + '<div class="study-attachment" hidden></div>') : '') +
+        '<div class="study-attachment"><button type="button" class="study-file-card" data-act="study-file" data-id="' + m.id + '">' +
+        '<span class="study-file-icon">' + ic(String(m.attachment_type).startsWith('image/') ? 'image' : 'file') + '</span>' +
+        '<span><b dir="auto">' + esc(m.attachment_name) + '</b><small>' + t('فتح داخل التطبيق','Open in app') + '</small></span></button>' +
+        iconButton('download-file',A('تنزيل الملف','Download file'),'download',m.id) + '</div>') : '') +
       '<footer><span class="study-message-meta">' + (m.edited_at ? '<small>' + t('عُدّلت','Edited') + '</small>' : '') +
       '<time datetime="' + esc(m.sent_at) + '">' + esc(new Date(m.sent_at).toLocaleTimeString(IS.lang,{hour:'numeric',minute:'2-digit'})) + '</time></span>' +
       iconButton('message',A('إجراءات','Actions'),'menu',m.id) + '</footer>' +
@@ -373,7 +378,7 @@
   }
   function atChatEnd(state) { return state.log.scrollHeight-state.log.scrollTop-state.log.clientHeight<50; }
   function fitChat(state) {
-    if (state.expanded) {
+    if (state.expanded || mobileChat.matches) {
       var viewport=window.visualViewport, stick=atChatEnd(state);
       state.root.style.setProperty('--chat-viewport',viewport && viewport.scale===1 ? viewport.height+'px' : '100dvh');
       state.root.style.setProperty('--chat-offset',viewport && viewport.scale===1 ? viewport.offsetTop+'px' : '0px');
@@ -415,18 +420,23 @@
     setExpanded(state,true);
   };
   window.addEventListener('popstate',function () {
+    if (imagePreview && !history.state?.studyImage) imagePreview.close();
     if (active && mounted(active)) restoreExpanded(active);
+  });
+  window.addEventListener('hashchange',function () {
+    if (imagePreview) imagePreview.close();
   });
   document.addEventListener('keydown',function (event) {
     var sheet=document.getElementById('sheet');
     if (event.key==='Escape' && !event.defaultPrevented && active && active.expanded && mounted(active) &&
-        (!sheet || sheet.hidden) && !document.fullscreenElement) {
+        (!sheet || sheet.hidden) && !imagePreview && !document.getElementById('rdr') && !document.fullscreenElement) {
       event.preventDefault();
       history.back();
     }
   });
   function dispose(state) {
     clearInterval(state.timer);
+    if (imagePreview) imagePreview.close();
     window.removeEventListener('resize',state.resize);
     if (window.visualViewport) {
       window.visualViewport.removeEventListener('resize',state.resize);
@@ -488,7 +498,10 @@
       resizeDraft(this);
       if (atEnd) state.log.scrollTop=state.log.scrollHeight;
     });
-    state.log.addEventListener('scroll',function () { markSeen(state); },{passive:true});
+    state.log.addEventListener('scroll',function () {
+      state.root.querySelector('.study-latest').hidden=atChatEnd(state);
+      markSeen(state);
+    },{passive:true});
     state.root.querySelector('input[type=file]').onchange=function () {
       state.voice=null;
       showFile(state,this.files[0]);
@@ -604,6 +617,7 @@
       if (!mounted(state)) return;
       if (['study_unavailable','study_join_first','study_sign_in'].includes(error.message)) {
         state.root.innerHTML=failure(error);
+        state.root.removeAttribute('data-id');
         dispose(state);
         active=null;
         return;
@@ -621,6 +635,9 @@
     if (oldRoute) oldRoute(name,arg,main);
   };
   IS.SUB['study-search']=function (data) { if (active) return reload(active,{search:String(data.q || '').trim()}); };
+  IS.ACT['study-latest']=function () {
+    if (active) active.log.scrollTop=active.log.scrollHeight;
+  };
   IS.ACT['study-older']=function () { if (active && active.rows.size) return reload(active,{before:Math.min(...active.rows.keys())}); };
   IS.ACT['study-jump']=async function (b) {
     if (!active) return;
@@ -837,33 +854,71 @@
     form.studyNonce=form.studyNonce || crypto.randomUUID();
     if (await sendMessage(active,{body:data.body,options:data.options.split('\n').map(function (line) { return line.trim(); }).filter(Boolean),nonce:form.studyNonce})) IS.closeSheet();
   };
-  IS.ACT['study-file']=async function (b) {
+  async function attachmentUrl(message,download) {
+    var expiry=!download && message.attachment_type==='application/pdf' ? 600 : 60;
+    var result=await DB.sb.storage.from('study-group-files').createSignedUrl(message.attachment,expiry,
+      download ? {download:message.attachment_name} : undefined);
+    if (result.error) throw result.error;
+    return window.ISH_RELAY ? window.ISH_RELAY(result.data.signedUrl) : result.data.signedUrl;
+  }
+
+  function openChatImage(state,message,trigger) {
+    var dialog=document.createElement('dialog');
+    dialog.className='study-image-preview';
+    dialog.setAttribute('aria-label',message.attachment_name);
+    dialog.innerHTML='<header><button class="study-icon-button" type="button" aria-label="' +
+      t('العودة للمحادثة','Back to conversation') + '">' + ic('x') + '</button><b dir="auto">' +
+      esc(message.attachment_name) + '</b></header><div class="study-image-stage"><p role="status">' +
+      t('جارٍ فتح الصورة…','Opening image…') + '</p></div>';
+    document.body.append(dialog);
+    imagePreview=dialog;
+    history.pushState(Object.assign({},history.state,{studyImage:true}),'');
+    dialog.showModal();
+    var close=function () { history.back(); };
+    dialog.querySelector('button').onclick=close;
+    dialog.addEventListener('cancel',function (event) { event.preventDefault(); close(); });
+    dialog.addEventListener('close',function () {
+      dialog.remove();
+      if (imagePreview===dialog) imagePreview=null;
+      if (mounted(state) && trigger.isConnected) trigger.focus({preventScroll:true});
+    });
+    var status=dialog.querySelector('[role=status]');
+    var failed=function () { status.textContent=A('تعذّر فتح الصورة. حاول مرة أخرى.','Could not open the image. Try again.'); };
+    attachmentUrl(message,false).then(function (url) {
+      if (!dialog.open) return;
+      var img=document.createElement('img');
+      img.alt=message.attachment_name;
+      img.onload=function () { status.hidden=true; };
+      img.onerror=failed;
+      img.src=url;
+      dialog.querySelector('.study-image-stage').append(img);
+    }).catch(failed);
+  }
+
+  IS.ACT['study-file']=function (b) {
     var state=active, m=state && state.rows.get(Number(b.dataset.id));
-    if (!m || !m.attachment) return;
+    if (!m || !m.attachment || !mounted(state) || imagePreview || document.getElementById('rdr')) return;
+    if (m.attachment_type==='application/pdf') {
+      return IS.openReader({
+        id:'study:'+state.g.id+':'+m.id,title:m.attachment_name,temporary:true,context:'chat',
+        getUrl:function () { return attachmentUrl(m,false); }
+      });
+    }
+    if (String(m.attachment_type).startsWith('image/')) openChatImage(state,m,b);
+  };
+  IS.ACT['study-download-file']=async function (b) {
+    var state=active, m=state && state.rows.get(Number(b.dataset.id));
+    if (!m || !m.attachment || !mounted(state)) return;
+    b.disabled=true;
     try {
-      var image=String(m.attachment_type || '').startsWith('image/');
-      var result=await DB.sb.storage.from('study-group-files').createSignedUrl(m.attachment,60,
-        image ? undefined : {download:m.attachment_name});
-      if (!mounted(state) || !b.isConnected) return;
-      if (result.error) throw result.error;
-      var panel=b.parentElement.querySelector('.study-attachment');
-      panel.replaceChildren();
+      var url=await attachmentUrl(m,true);
+      if (!mounted(state)) return;
       var link=document.createElement('a');
-      link.className='btn ghost sm';
-      link.href=result.data.signedUrl;
-      link.rel='noopener noreferrer';
+      link.href=url;
       link.download=m.attachment_name;
-      link.target='_blank';
-      link.textContent=A('تنزيل أو فتح الملف','Download or open file');
-      if (image) {
-        var media=document.createElement('img');
-        media.alt=m.attachment_name;
-        media.src=result.data.signedUrl;
-        panel.append(media);
-      }
-      panel.append(link);
-      panel.hidden=false;
+      link.click();
     } catch (error) { IS.toast(errorText(error),true); }
+    finally { b.disabled=false; }
   };
   function roomLabel(g,ar,en,arc,enc) { return g.admin_only ? A(arc,enc) : A(ar,en); }
   function navRow(action,label,icon,id,description) {

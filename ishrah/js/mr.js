@@ -219,8 +219,8 @@
     return '<header class="mh-top"><div class="mh-side">' +
       /* Home = the section's page; on that page it goes up to the section chooser (owner, 20 Nov 2026: "from the library how do I go back to Clinical") */
       (function () { var onHome = here().split('/')[0] === 'home';
-        return onHome ? '<a class="mh-back" href="#pick-section" data-to="sections">' + HI.grid + '<span>' + esc(A('الأقسام', 'Sections')) + '</span></a>' :
-          '<a class="mh-back" href="#' + (fromStudy() ? 'community' : startOf()) + '"><svg class="mh-arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>' + esc(A('رجوع', 'Back')) + '</span></a>'; })() +
+        return onHome ? '<a class="mh-back" href="#pick-section" data-to="sections" aria-label="' + esc(A('الأقسام', 'Sections')) + '">' + HI.grid + '<span>' + esc(A('الأقسام', 'Sections')) + '</span></a>' :
+          '<a class="mh-back" href="#' + (fromStudy() ? 'community' : startOf()) + '" aria-label="' + esc(A('رجوع', 'Back')) + '"><svg class="mh-arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>' + esc(A('رجوع', 'Back')) + '</span></a>'; })() +
       /* search is the students' search: not offered inside the studio and control (it took you out of them, owner 21 Nov 2026) */
       (IS.area === 'control' || IS.area === 'studio' ? '' : '<a class="mh-b ghost" href="#search" aria-label="' + esc(A('بحث', 'Search')) + '">' + HI.search + '</a>') +
       '<button type="button" class="mh-b ghost" data-act="mrfeat" aria-label="' + esc(A('المزايا', 'Features')) + '">' + HI.grid + '</button>' +

@@ -52,7 +52,8 @@
   IS.openReader = async function (o) {
     if (R) close();
     var el = document.createElement('div'); el.id = 'rdr'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
-    el.innerHTML = '<header class="rdr-top"><button type="button" class="rib" data-r="close" aria-label="' + esc(o.temporary ? A('العودة إلى الطلب', 'Back to request') : A('إغلاق', 'Close')) + '">' + ic('chev', 'fr') + '</button>' +
+    el.innerHTML = '<header class="rdr-top"><button type="button" class="rib" data-r="close" aria-label="' + esc(o.context === 'chat' ? A('العودة للمحادثة', 'Back to conversation') :
+      o.temporary ? A('العودة إلى الطلب', 'Back to request') : A('إغلاق', 'Close')) + '">' + ic('chev', 'fr') + '</button>' +
       '<b class="rdr-title" dir="auto">' + esc(o.title || '') + '</b>' +
       '<button type="button" class="rib" data-r="search" disabled aria-label="' + esc(A('البحث في الكتاب', 'Search the book')) + '">' + ic('search') + '</button>' +
       '<button type="button" class="rib" data-r="bookmarks" disabled aria-expanded="false" aria-controls="rdr-bookmark-panel" aria-label="' +
@@ -131,7 +132,8 @@
       first = await reader.doc.getPage(last);
     } catch (error) {
       if (R === reader && reader.temporary) box.innerHTML = IS.empty('info', A('تعذّر فتح المرفق', 'Could not open the attachment'),
-        A('ارجع إلى الطلب وحاول مرة أخرى.', 'Go back to the request and try again.'), o.externalUrl ?
+        (o.context === 'chat' ? A('ارجع للمحادثة وحاول مرة أخرى.', 'Go back to the conversation and try again.') :
+          A('ارجع إلى الطلب وحاول مرة أخرى.', 'Go back to the request and try again.')), o.externalUrl ?
           '<a class="btn ghost" target="_blank" rel="noopener noreferrer" href="' + esc(o.externalUrl) + '">' + ic('link') +
             esc(A('فتح الموقع الخارجي', 'Open external site')) + '</a>' : '');
       else if (R === reader) box.innerHTML = IS.empty('info', A('تعذّر فتح الكتاب', 'The book could not be opened'), navigator.onLine ?
