@@ -89,7 +89,9 @@
   function isFav(k) { return !!favs()[k]; }
   IS.favBtn = function (k, sm) { return '<button type="button" class="fav' + (sm ? ' sm' : '') + '" data-act="fav" data-k="' + esc(k) + '" aria-pressed="' + isFav(k) + '" aria-label="' + esc(A('المفضلة', 'Favourite')) + '">' + ic('heart') + '</button>'; };
   IS.ACT.fav = function (b) { if (!me()) return IS.ACT.login(); var f = favs(), k = b.getAttribute('data-k'); if (f[k]) delete f[k]; else f[k] = Date.now(); IS.LS.set('fav-' + uid(), f);
-    IS.$$('[data-act=fav][data-k="' + k + '"]').forEach(function (x) { x.setAttribute('aria-pressed', !!f[k]); }); IS.toast(f[k] ? A('أضيف إلى المفضلة', 'Added to favourites') : A('أزيل من المفضلة', 'Removed')); };
+    IS.$$('[data-act=fav][data-k="' + k + '"]').forEach(function (x) { x.setAttribute('aria-pressed', !!f[k]); }); IS.toast(f[k] ? A('أضيف إلى المفضلة', 'Added to favourites') : A('أزيل من المفضلة', 'Removed from favourites'));
+    if (!f[k] && document.body.dataset.page === 'favorites') IS.refresh();
+  };
   function hrs(m) { m = +m || 0; return m >= 60 ? N(Math.round(m / 6) / 10) + ' ' + A('ساعة', 'h') : N(m) + ' ' + A('دقيقة', 'min'); }
   function price(c) { return +c.price > 0 ? '<small class="course-price-type">' + esc(A('مدفوع', 'Paid')) + '</small>' + IS.money(c.price) :
     '<b class="free">' + esc(A('مجاني', 'Free')) + '</b>'; }
@@ -763,7 +765,8 @@
   IS.page('lesson', async function (arg) {
     var ids = String(arg || '').split('/'), cid = ids[0];
     /* the lessons, my enrolment and progress, and the asked lesson start with the course (they were asked after it) */
-    var early = Promise.all([IS.courseLessons(cid), IS.myEnroll(), IS.myProgress(cid)]), earlyLesson = ids[1] ? DB.lesson(ids[1]) : null;
+    var resume = ids[1] === 'resume';
+    var early = Promise.all([IS.courseLessons(cid), IS.myEnroll(), IS.myProgress(cid)]), earlyLesson = ids[1] && !resume ? DB.lesson(ids[1]) : null;
     early.catch(function () {}); if (earlyLesson) earlyLesson.catch(function () {});
     var c = await DB.one('courses', cid);
     if (!c) return null;
@@ -773,8 +776,10 @@
     var r = await Promise.all([early, DB.one('lecturers', c.lecturer_id)]);
     var secs = r[0][0], enrolment = r[0][1][cid], progress = r[0][2], lecturer = r[1];
     var all = secs.flatMap(function (section) { return section.lessons; });
+    if (!all.length && resume) return IS.empty('layers', A('لم تُضف دروس بعد', 'No lessons yet'), '',
+      '<a class="btn pri" href="#course/' + esc(cid) + '">' + esc(A('تفاصيل الكورس', 'Course details')) + '</a>');
     if (!all.length) return null;
-    var idx = Math.max(0, all.findIndex(function (lesson) { return lesson.id === ids[1]; }));
+    var idx = Math.max(0, all.findIndex(function (lesson) { return resume ? !progress[lesson.id] : lesson.id === ids[1]; }));
     var x = Object.assign({}, all[idx], (await (earlyLesson && all[idx].id === ids[1] ? earlyLesson.catch(function () { return DB.lesson(all[idx].id); }) : DB.lesson(all[idx].id))) || {});
     var active = !!((enrolment && enrolment.status === 'active') || mine || staff);
     var allowed = active || x.free, canStudy = allowed && !!me(), done = !!progress[x.id];
@@ -850,6 +855,13 @@
       (c.about ? '<div class="rich">' + IS.clean(c.about) + '</div>' : '') + '</section></div></section>';
 
     IS.after = function (main) {
+      if (resume && location.hash === '#lesson/' + cid + '/resume') {
+        // Resolve the shortcut to a stable lesson URL so refreshing after completion stays on that lesson.
+        var hash = '#lesson/' + cid + '/' + x.id;
+        var state = history.state;
+        if (state && state.smraBack) state.smraBack.hash = hash.slice(1);
+        history.replaceState(state, '', hash);
+      }
       var player = main.querySelector('#player');
       if (player) playLesson(player, x, c);
       var tabs = main.querySelector('.lesson-tabs');
@@ -1616,13 +1628,30 @@
 
   /* ========== FAVOURITES ========== */
   IS.page('favorites', async function () {
-    var f = favs(), ks = Object.keys(f).sort(function (a, b) { return f[b] - f[a]; }), cids = ks.filter(function (k) { return /^c:/.test(k); }).map(function (k) { return k.slice(2); }), tids = ks.filter(function (k) { return /^t:/.test(k); }).map(function (k) { return k.slice(2); });
-    var r = await Promise.all([cids.length ? DB.q('courses', { in: { id: cids } }) : [], tids.length ? DB.q('lecturers', { in: { id: tids } }) : [], IS.lecMap(), IS.myEnroll(), tids.length ? IS.pubCourses(true) : []]);
-    r[0] = r[0].filter(IS.inStudySpace); r[1] = IS.studyLecturers(r[1], r[4]);
-    var h = IS.banner(IS.T('المفضلة', 'Favourites'), '', 'heart');
-    if (!r[0].length && !r[1].length) return h + IS.empty('heart', A('لا توجد عناصر في المفضلة', 'No favourites yet'), A('اضغط ♡ على أي كورس أو محاضر.', 'Tap ♡ on any course or lecturer.'));
-    return h + (r[0].length ? '<section class="sec"><header class="sh"><h2>' + IS.T('الكورسات', 'Courses') + '</h2></header><div class="grid g3">' + r[0].map(function (c) { return IS.courseCard(c, r[2], r[3]); }).join('') + '</div></section>' : '') +
-      (r[1].length ? '<section class="sec"><header class="sh"><h2>' + IS.T('المحاضرون', 'Lecturers') + '</h2></header><div class="grid g4">' + r[1].map(function (l) { return lecCard(l, 0); }).join('') + '</div></section>' : '');
+    var f = favs(), keys = Object.keys(f).sort(function (a, b) { return f[b] - f[a]; });
+    var ids = function (prefix) { return keys.filter(function (key) { return key.startsWith(prefix + ':'); }).map(function (key) { return key.slice(2); }); };
+    var cids = ids('c'), tids = ids('t'), files = ids('f');
+    var r = await Promise.all([
+      cids.length ? DB.q('courses', { in: { id: cids }, eq: { status: 'published' } }) : [],
+      tids.length ? DB.q('lecturers', { in: { id: tids } }) : [],
+      cids.length ? IS.lecMap() : {}, cids.length ? IS.myEnroll() : {},
+      tids.length ? IS.pubCourses(true) : [],
+      files.length ? DB.q('files', { in: { id: files }, eq: { status: 'published' } }) : []
+    ]);
+    var byNewest = function (prefix) { return function (a, b) { return f[prefix + ':' + b.id] - f[prefix + ':' + a.id]; }; };
+    var courses = r[0].filter(IS.inStudySpace).sort(byNewest('c'));
+    var lecturers = IS.studyLecturers(r[1], r[4]).sort(byNewest('t'));
+    var books = r[5].filter(function (file) { return file.kind !== 'master_review' && IS.inStudySpace(file); }).sort(byNewest('f'));
+    var h = IS.banner(IS.T('المفضلة', 'Favourites'), esc(A('الكورسات والمحاضرون وملفات المكتبة التي حفظتها في هذا القسم.', 'Courses, lecturers and library files you saved in this section.')), 'heart');
+    if (!courses.length && !lecturers.length && !books.length) return h + IS.empty('heart', A('لا توجد عناصر في المفضلة في هذا القسم', 'No favourites in this section yet'),
+      A('اضغط على القلب بجانب كورس أو محاضر أو ملف مكتبة لحفظه هنا.', 'Tap the heart beside a course, lecturer or library file to save it here.'));
+    return h + (courses.length ? '<section class="sec"><header class="sh"><h2>' + IS.T('الكورسات', 'Courses') + '</h2></header><div class="grid g3">' + courses.map(function (c) { return IS.courseCard(c, r[2], r[3]); }).join('') + '</div></section>' : '') +
+      (lecturers.length ? '<section class="sec"><header class="sh"><h2>' + IS.T('المحاضرون', 'Lecturers') + '</h2></header><div class="grid g4">' + lecturers.map(function (l) { return lecCard(l, 0); }).join('') + '</div></section>' : '') +
+      (books.length ? '<section class="lr-pend"><h2>' + IS.T('الكتب وملفات المكتبة', 'Books and library files') + '</h2>' + books.map(function (file) {
+        var href = file.series_id ? '#series/' + esc(file.series_id) : '#file/' + esc(file.id);
+        return '<div class="lr-p">' + ic('open') + '<div><a href="' + href + '" dir="auto">' + esc(file.series_title || file.title) + '</a>' +
+          (file.series_title ? '<small dir="auto">' + esc(file.title) + '</small>' : '') + '</div>' + IS.favBtn('f:' + file.id, true) + '</div>';
+      }).join('') + '</section>' : '');
   }, { auth: true });
 
   /* ========== ACHIEVEMENTS, CERTIFICATE ========== */
@@ -1642,10 +1671,10 @@
     ['ev', 'cal', 'حاضر الفعاليات', 'Event-goer', 'سجّل في 3 فعاليات', 'Register for 3 events', function (s) { return s.events / 3; }]];
   IS.page('achievements', async function () {
     var s = await myStats(), lvl = Math.floor(Math.sqrt(s.points / 50)) + 1, cur = 50 * (lvl - 1) * (lvl - 1), nx = 50 * lvl * lvl;
-    var certificates = s.done.filter(IS.inStudySpace);
+    var certificates = s.done.filter(function (c) { return c.cert !== false && IS.inStudySpace(c); });
     return IS.banner(IS.T('الإنجازات', 'Achievements'), esc(A('نقاطك وشاراتك وشهاداتك من تعلّمك الفعلي.', 'Your points, badges and certificates from your real learning.')), 'trophy') +
       '<section class="lvl"><div class="lvn"><small>' + esc(A('المستوى', 'Level')) + '</small><b>' + N(lvl) + '</b></div><div class="lvb"><b>' + N(s.points) + ' ' + esc(A('نقطة', 'points')) + '</b>' + IS.bar((s.points - cur) / (nx - cur) * 100, 'gold') + '<small>' + N(nx - s.points) + ' ' + esc(A('نقطة للمستوى التالي', 'to the next level')) + '</small></div>' +
-      '<div class="lvs">' + [['flame', s.streak, A('أيام متتالية', 'day streak')], ['checkc', s.lessons, A('درس منتهٍ', 'lessons')], ['cert', s.done.length, A('شهادة', 'certificates')]].map(function (r) { return '<span>' + ic(r[0]) + '<b>' + N(r[1]) + '</b><small>' + esc(r[2]) + '</small></span>'; }).join('') + '</div></section>' +
+      '<div class="lvs">' + [['flame', s.streak, A('أيام متتالية', 'day streak')], ['checkc', s.lessons, A('درس منتهٍ', 'lessons')], ['cert', certificates.length, A('شهادة', 'certificates')]].map(function (r) { return '<span>' + ic(r[0]) + '<b>' + N(r[1]) + '</b><small>' + esc(r[2]) + '</small></span>'; }).join('') + '</div></section>' +
       '<p class="note">' + ic('info') + '<span>' + esc(A('النقاط: درس منتهٍ 10، كورس مكتمل 100، مشاركة 3، رد 2، تسجيل في فعالية 5.', 'Points: lesson 10, completed course 100, post 3, reply 2, event registration 5.')) + '</span></p>' +
       '<section class="sec"><header class="sh"><h2>' + IS.T('الشارات', 'Badges') + '</h2></header><div class="badges">' + BADGES.map(function (b) { var v = Math.min(1, b[6](s) || 0);
         return '<div class="badge' + (v >= 1 ? ' on' : '') + '"><span>' + ic(v >= 1 ? b[1] : 'lock') + '</span><b>' + esc(A(b[2], b[3])) + '</b><small>' + esc(A(b[4], b[5])) + '</small>' + (v < 1 ? IS.bar(v * 100) : '') + '</div>'; }).join('') + '</div></section>' +

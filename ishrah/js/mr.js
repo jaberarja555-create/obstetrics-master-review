@@ -602,7 +602,7 @@
   /* ---------- every other student page in the new frame (owner, 20 Nov 2026: "organise the other pages in the new design; work on all remaining
      pages"): the same top bar, light page and bottom bar; css/mr.css (.mra) gives their banners, boxes, buttons and tabs the new look ---------- */
   var NAVOF = { course: 'courses', lesson: 'courses', 'course-requests': 'courses', 'course-request': 'courses', payment: 'courses', file: 'library', series: 'library',
-    sales: 'library', purchase: 'library', downloads: 'library', dl: 'library', post: 'community', community: 'community', lecturer: 'lecturers', lecturers: 'lecturers',
+    sales: 'library', purchase: 'library', downloads: 'learning', dl: 'library', post: 'community', community: 'community', lecturer: 'lecturers', lecturers: 'lecturers',
     learning: 'learning', achievements: 'learning', favorites: 'learning', paths: 'learning', path: 'learning' };
 
   /* the lecturer studio's bottom bar (owner, 21 Nov 2026: "work on the studio page") */
@@ -885,49 +885,110 @@
     }
   };
 
-  /* ---------- «تعلّمي» in the new design (owner, 21 Nov 2026): banner, four figures, tabs (all · in progress · completed), course cards
-     with picture, lecturer, progress bar and Continue / Start / Certificate, enrolment requests as small cards, quick links ---------- */
-  HI.trophy3 = svg('0 0 24 24', '<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M10 14.5V18h4v-3.5M8 21h8"/>', ' fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"');
-  HI.check = svg('0 0 24 24', '<circle cx="12" cy="12" r="9"/><path d="m8 12.5 3 3 5-6"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"');
-  HI.dl = svg('0 0 24 24', '<path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M4 19h16"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"');
-  HI.heartO = svg('0 0 24 24', '<path d="M12 20s-7.5-4.6-9-9.3C1.9 7.3 4.2 4 7.6 4c2 0 3.4 1.1 4.4 2.6C13 5.1 14.4 4 16.4 4c3.4 0 5.7 3.3 4.6 6.7C19.5 15.4 12 20 12 20z"/>', ' fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"');
+  /* My Learning shares its navigation with Favourites, Downloads and Achievements. */
+  function learningNav(page) {
+    var destinations = [
+      ['learning', 'layers', 'كورساتي', 'My courses'],
+      ['favorites', 'heart', 'المفضلة', 'Favourites'],
+      ['downloads', 'download', 'التنزيلات', 'Downloads'],
+      ['achievements', 'trophy', 'الإنجازات', 'Achievements']
+    ];
+    return '<nav class="lr-links" aria-label="' + esc(A('أقسام تعلّمي', 'My learning sections')) + '">' + destinations.map(function (link) {
+      return '<a href="#' + link[0] + '"' + (link[0] === page ? ' aria-current="page"' : '') + '>' +
+        ic(link[1]) + '<span>' + esc(A(link[2], link[3])) + '</span></a>';
+    }).join('') + '</nav>';
+  }
+
   var learn0 = IS.pageOf && IS.pageOf('learning');
   if (learn0) IS.page('learning', async function (arg) {
     if (!IS.ME) return learn0.fn(arg);
     var uid = IS.ME.id;
-    var es = await DB.q('enrollments', { eq: { user_id: uid }, order: ['created_at', false] }), ids = es.map(function (e) { return e.course_id; }).filter(Boolean);
-    var cs = ids.length ? (await DB.q('courses', { in: { id: ids } })).filter(IS.inStudySpace) : [], C = {}; cs.forEach(function (c) { C[c.id] = c; });
-    var r = await Promise.all([DB.q('progress', { eq: { user_id: uid } }).catch(function () { return []; }), IS.lecMap()]), prog = r[0], L = r[1];
-    var act = es.filter(function (e) { return e.status === 'active' && C[e.course_id]; }), pend = es.filter(function (e) { return e.status !== 'active' && C[e.course_id]; });
-    var rows = act.map(function (e) { var c = C[e.course_id], n = prog.filter(function (x) { return x.course_id === c.id; }).length; return { e: e, c: c, n: n, pc: c.n_lessons ? Math.min(100, Math.round(n / c.n_lessons * 100)) : 0 }; });
-    var done = rows.filter(function (x) { return x.pc >= 100; }), going = rows.filter(function (x) { return x.pc < 100; });
-    var avg = rows.length ? Math.round(rows.reduce(function (a, x) { return a + x.pc; }, 0) / rows.length) : 0, lessons = rows.reduce(function (a, x) { return a + x.n; }, 0);
-    var tab = /^(going|done)$/.test(arg || '') ? arg : 'all', list = tab === 'going' ? going : tab === 'done' ? done : rows;
-    var card = function (x) {
+    var es = await DB.q('enrollments', { eq: { user_id: uid }, order: ['created_at', false] });
+    var courses = [...new Set(es.map(function (e) { return e.course_id; }).filter(Boolean))];
+    var requests = [...new Set(es.map(function (e) { return e.request_id; }).filter(Boolean))];
+    var data = await Promise.all([
+      courses.length ? DB.q('courses', { in: { id: courses } }) : [],
+      courses.length ? DB.q('progress', { eq: { user_id: uid } }) : [],
+      courses.length ? IS.lecMap() : {},
+      requests.length ? DB.q('course_requests', { in: { id: requests } }) : []
+    ]);
+    var C = new Map(data[0].filter(IS.inStudySpace).map(function (c) { return [c.id, c]; }));
+    var L = data[2];
+    var groups = new Map(data[3].filter(IS.inStudySpace).map(function (g) { return [g.id, g]; }));
+    var progress = new Map();
+    data[1].forEach(function (entry) {
+      if (!progress.has(entry.course_id)) progress.set(entry.course_id, new Set());
+      progress.get(entry.course_id).add(entry.lesson_id);
+    });
+    var rows = es.filter(function (e) { return e.status === 'active' && C.has(e.course_id); }).map(function (e) {
+      var c = C.get(e.course_id), total = Number(c.n_lessons) || 0;
+      var n = total ? Math.min(total, progress.get(c.id)?.size || 0) : 0;
+      var complete = total > 0 && n === total;
+      return { c: c, n: n, total: total, complete: complete, pc: complete ? 100 : total ? Math.min(99, Math.round(n / total * 100)) : 0 };
+    });
+    var done = rows.filter(function (x) { return x.complete; });
+    var going = rows.filter(function (x) { return !x.complete; });
+    var avg = rows.length ? Math.round(rows.reduce(function (sum, x) { return sum + x.pc; }, 0) / rows.length) : 0;
+    var lessons = rows.reduce(function (sum, x) { return sum + x.n; }, 0);
+    var tab = /^(going|done)$/.test(arg || '') ? arg : 'all';
+    var list = tab === 'going' ? going : tab === 'done' ? done : rows;
+    var tabs = [['all', A('الكل', 'All'), rows.length], ['going', A('غير مكتملة', 'Unfinished'), going.length], ['done', A('مكتملة', 'Completed'), done.length]];
+    var courseCard = function (x) {
       var c = x.c, l = L[c.lecturer_id], href = '#course/' + esc(c.id);
-      return '<article class="lr-card" data-go="' + href + '"><a class="lr-pic" href="' + href + '">' + IS.poster(c.cover || 'img/collection/courses.webp') + '<em class="lr-pc">' + x.pc + '%</em></a>' +
-        '<div class="lr-tx"><h3 dir="auto"><a href="' + href + '">' + esc(c.title || '') + '</a></h3>' +
+      var lesson = '#lesson/' + esc(c.id) + (x.complete ? '' : '/resume');
+      var primary = x.total ? '<a class="lr-b pri" href="' + lesson + '">' + HI.play + '<span>' +
+        esc(x.complete ? A('راجع الدروس', 'Review lessons') : x.n ? A('تابع التعلّم', 'Continue learning') : A('ابدأ الدرس الأول', 'Start first lesson')) + '</span></a>' : '';
+      return '<article class="lr-card"><div class="lr-pic">' + IS.poster(c.cover || 'img/collection/courses.webp') + '</div>' +
+        '<div class="lr-tx"><h3 dir="auto">' + esc(c.title || '') + '</h3>' +
         (l ? '<span class="lr-lec">' + IS.av(l, 'sm', l.id) + '<b dir="auto">' + IS.lecName(l.name) + '</b></span>' : '') +
-        '<span class="lr-bar"><i style="width:' + x.pc + '%"></i></span><small class="lr-n">' + N(x.n) + ' / ' + N(c.n_lessons || 0) + ' ' + esc(A('درس', 'lessons')) + '</small>' +
-        '<div class="lr-acts"><a class="lr-b pri" href="' + href + '">' + HI.play + '<span>' + esc(x.pc >= 100 ? A('راجع', 'Review') : x.pc ? A('تابع', 'Continue') : A('ابدأ', 'Start')) + '</span></a>' +
-        (x.pc >= 100 && c.cert !== false ? '<a class="lr-b gold" href="#cert/' + esc(c.id) + '">' + HI.trophy3 + '<span>' + esc(A('الشهادة', 'Certificate')) + '</span></a>' : '') + '</div></div></article>';
+        (x.total ? '<div class="lr-bar" role="progressbar" aria-label="' + esc(A('تقدّم الكورس', 'Course progress')) + '" aria-valuenow="' + x.pc + '"><i style="width:' + x.pc + '%"></i></div><small class="lr-n"><bdi>' + N(x.n) + ' / ' + N(x.total) + '</bdi> ' +
+          esc(A('دروس مكتملة', 'lessons completed')) + ' · <bdi>' + N(x.pc) + '%</bdi></small>' :
+          '<small class="lr-n">' + esc(A('لم تُضف دروس بعد', 'No lessons yet')) + '</small>') +
+        '<div class="lr-acts">' + primary + '<a class="lr-b' + (primary ? '' : ' pri') + '" href="' + href + '">' +
+        esc(A('تفاصيل الكورس', 'Course details')) + '</a>' +
+        (x.complete && c.cert !== false ? '<a class="lr-b gold" href="#cert/' + esc(c.id) + '">' + ic('cert') + '<span>' + esc(A('عرض الشهادة', 'View certificate')) + '</span></a>' : '') + '</div></div></article>';
     };
-    var tabs = [['all', A('الكل', 'All'), rows.length], ['going', A('قيد التعلّم', 'In progress'), going.length], ['done', A('مكتملة', 'Completed'), done.length]];
-    var h = '<div class="lr">' +
-      pban('img/collection/learning.webp', HI.layersW, A('تعلّمي', 'My learning'), esc(A('كورساتك وتقدّمك وطلبات الالتحاق', 'Your courses, progress and enrolment requests')), IS.lang !== 'ar') +
-      '<section class="lr-stats">' + [[HI.layers.replace(G, 'currentColor'), N(rows.length), A('كورساتي', 'My courses')], [HI.clock, N(avg) + '%', A('متوسط التقدّم', 'Average progress')],
-        [HI.check, N(lessons), A('دروس منجزة', 'Lessons done')], [HI.trophy3, N(done.length), A('شهادات', 'Certificates'), '#achievements']].map(function (x) {
-        return '<' + (x[3] ? 'a href="' + x[3] + '"' : 'span') + ' class="lr-s">' + x[0] + '<b>' + x[1] + '</b><small>' + esc(x[2]) + '</small></' + (x[3] ? 'a' : 'span') + '>'; }).join('') + '</section>' +
-      '<nav class="lr-tabs">' + tabs.map(function (t) { return '<a href="#learning' + (t[0] === 'all' ? '' : '/' + t[0]) + '"' + (t[0] === tab ? ' class="on" aria-current="page"' : '') + '>' + esc(t[1]) + '<i>' + N(t[2]) + '</i></a>'; }).join('') + '</nav>' +
-      (list.length ? '<div class="lr-list">' + list.map(card).join('') + '</div>' :
-        '<div class="lr-empty">' + HI.layers.replace(G, 'currentColor') + '<b>' + esc(tab === 'done' ? A('لم تُكمل كورسًا بعد', 'No completed course yet') : tab === 'going' ? A('لا توجد كورسات قيد التعلّم', 'No course in progress') : A('لم تلتحق بأي كورس بعد', 'You have not enrolled in a course yet')) + '</b>' +
-          '<a class="lr-b pri" href="#courses">' + HI.layers.replace(G, 'currentColor') + '<span>' + esc(A('تصفّح الكورسات', 'Browse courses')) + '</span></a></div>') +
-      (pend.length ? '<section class="lr-pend"><h2>' + HI.clock + '<span>' + esc(A('طلبات الالتحاق', 'Enrolment requests')) + '</span></h2>' + pend.map(function (e) { var c = C[e.course_id];
-        return '<div class="lr-p"><a href="#course/' + esc(c.id) + '"><b dir="auto">' + esc(c.title) + '</b><small>' + IS.money(e.price) + ' · ' + esc(IS.date(e.created_at)) + '</small></a>' + (+e.price > 0 ? IS.paymentStatus(e.status) + IS.paymentLink(e) : IS.status(e.status)) + '</div>'; }).join('') + '</section>' : '') +
-      '<nav class="lr-links"><a href="#favorites">' + HI.heartO + '<span>' + esc(A('المفضلة', 'Favourites')) + '</span></a><a href="#downloads">' + HI.dl + '<span>' + esc(A('تنزيلاتي', 'Downloads')) + '</span></a>' +
-        '<a href="#achievements">' + HI.trophy3 + '<span>' + esc(A('إنجازاتي', 'Achievements')) + '</span></a></nav></div>';
-    return h;
+    var empty = !rows.length ? [A('لم تلتحق بأي كورس في هذا القسم', 'You have no courses in this section yet'), '#courses', A('تصفّح الكورسات', 'Browse courses')] :
+      tab === 'done' ? [A('لم تُكمل كورسًا بعد', 'No completed courses yet'), '#learning/going', A('عرض الكورسات غير المكتملة', 'View unfinished courses')] :
+      [A('أكملت جميع كورساتك', 'You’ve completed all your courses'), '#learning/done', A('عرض الكورسات المكتملة', 'View completed courses')];
+    var stats = rows.length ? '<dl class="lr-stats" aria-label="' + esc(A('ملخص التقدّم', 'Progress summary')) + '">' + [
+      [A('الكورسات المسجّلة', 'Enrolled courses'), N(rows.length)],
+      [A('متوسط التقدّم', 'Average progress'), N(avg) + '%'],
+      [A('الدروس المكتملة', 'Completed lessons'), N(lessons)],
+      [A('الشهادات المتاحة', 'Available certificates'), N(done.filter(function (x) { return x.c.cert !== false; }).length)]
+    ].map(function (stat) { return '<div class="lr-s"><dt>' + esc(stat[0]) + '</dt><dd><bdi>' + stat[1] + '</bdi></dd></div>'; }).join('') + '</dl>' : '';
+    var filters = rows.length ? '<nav class="lr-tabs" aria-label="' + esc(A('تصفية الكورسات حسب التقدّم', 'Filter courses by progress')) + '">' +
+      tabs.map(function (t) {
+        return '<a href="#learning' + (t[0] === 'all' ? '' : '/' + t[0]) + '"' + (t[0] === tab ? ' class="on" aria-current="page"' : '') +
+          '>' + esc(t[1]) + '<i>' + N(t[2]) + '</i></a>';
+      }).join('') + '</nav>' : '';
+    var pending = es.filter(function (e) { return e.status !== 'active' && C.has(e.course_id); });
+    var bookings = es.filter(function (e) { return groups.has(e.request_id); });
+    var paymentRows = function (heading, items, isGroup) {
+      return items.length ? '<section class="lr-pend"><h2>' + esc(heading) + '</h2>' + items.map(function (e) {
+        var target = isGroup ? groups.get(e.request_id) : C.get(e.course_id);
+        var href = '#' + (isGroup ? 'course-request/' : 'course/') + esc(target.id);
+        return '<div class="lr-p"><div><a href="' + href + '" dir="auto">' + esc(target.title) + '</a><small>' +
+          IS.money(e.price) + ' · ' + esc(IS.date(e.created_at)) + '</small></div>' +
+          (+e.price > 0 ? IS.paymentStatus(e.status) + IS.paymentLink(e) : IS.status(e.status)) + '</div>';
+      }).join('') + '</section>' : '';
+    };
+    var section = IS.mySection();
+    var subtitle = section ? '<bdi>' + esc(section.en) + '</bdi>' : esc(A('كورساتك وتقدّمك', 'Your courses and progress'));
+    return '<div class="lr">' + pban('img/collection/learning.webp', HI.layersW, A('تعلّمي', 'My learning'), subtitle, IS.lang !== 'ar') +
+      learningNav('learning') + stats + filters +
+      (list.length ? '<div class="lr-list">' + list.map(courseCard).join('') + '</div>' :
+        '<section class="lr-empty"><h2>' + esc(empty[0]) + '</h2><a class="lr-b pri" href="' + empty[1] + '">' + esc(empty[2]) + '</a></section>') +
+      paymentRows(A('طلبات الالتحاق بالكورسات', 'Course enrolment requests'), pending, false) +
+      paymentRows(A('حجوزات مجموعات التدريس', 'Teaching group bookings'), bookings, true) + '</div>';
   }, learn0.o);
+
+  ['favorites', 'downloads', 'achievements'].forEach(function (name) {
+    var page = IS.pageOf(name);
+    if (page) IS.page(name, async function (arg) {
+      return learningNav(name) + await page.fn(arg);
+    }, page.o);
+  });
 
   /* ---------- sign in, sign up, the email code and Features open in the same green and gold look (owner, 20 Nov 2026) ---------- */
   var sheet0 = IS.sheet;
