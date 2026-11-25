@@ -27,6 +27,20 @@
   box-shadow:0 14px 40px color-mix(in srgb,var(--deep) 12%,transparent)
 }
 .study-chat[data-id]{max-height:min(790px,max(270px,var(--chat-height,calc(100dvh - 176px))))}
+/* Keep chat controls in view when the mobile keyboard shortens the visual viewport. */
+html:has(body[data-page="study-group"] .study-chat-expanded),
+body[data-page="study-group"]:has(.study-chat-expanded){overflow:hidden!important;overscroll-behavior:none}
+html body[data-page="study-group"]:has(.study-chat-expanded) #main{zoom:1!important}
+body[data-page="study-group"]:has(.study-chat-expanded) .mra[data-pg="study-group"] :is(.mh-top,.mh-nav),
+.study-chat-expanded .study-chat-back{display:none!important}
+.study-chat.study-chat-expanded[data-id]{
+  position:fixed;inset:var(--chat-offset,0px) 0 auto;z-index:50;margin:0;width:100%;height:var(--chat-viewport,100dvh);max-height:none;
+  border:0;border-radius:0;box-shadow:none;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)
+}
+.study-chat-expanded .study-log{flex:1 1 auto;min-height:0}
+.study-chat-expanded > :not(.study-log){flex-shrink:0}
+.study-chat-head [data-act="study-expand"]{background:var(--tint)}
 .study-chat [hidden]{display:none!important}
 .study-chat-head{align-items:center;gap:9px;padding:10px var(--chat-edge);background:var(--sf)}
 .study-chat-head .study-group-icon{width:39px;height:39px;background:var(--tint)}

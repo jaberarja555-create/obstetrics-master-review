@@ -635,23 +635,21 @@ html body .mrh .mh-nav a{font-family:inherit}
 .mrc .mh-feed{margin-top:2px}
 .mrc #cres>.count{margin:0 4px 10px;color:var(--mut);font-size:14px}
 .mrc #cres>.grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr))!important;gap:clamp(12px,1.6vw,18px)!important}
-.mc-card{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,48%);grid-template-areas:"txt pic" "foot foot";gap:12px 14px;padding:14px;border-radius:24px;background:var(--card);
+.mc-card{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,38%);align-items:start;grid-template-areas:"txt pic" "foot foot";gap:12px 14px;padding:14px;border-radius:24px;background:var(--card);
   border:1px solid #e6e7e7;box-shadow:0 8px 22px rgba(34,42,41,.10);cursor:pointer}
 .mc-txt{grid-area:txt;display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0}
 .mc-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:#fbefcc;color:#7a5410;font-weight:800;font-size:13px}
 .mc-chip svg.ic{width:16px!important;height:16px!important}
-.mc-card h3{margin:2px 0 0;font-size:clamp(17px,1.9vw,22px);font-weight:800;line-height:1.3}
+.mc-card h3{margin:2px 0 0;max-width:100%;overflow-wrap:anywhere;font-size:clamp(17px,1.9vw,22px);font-weight:800;line-height:1.3}
 .mc-card h3 a{color:var(--ink);text-decoration:none}
 .mc-sub{margin:0;color:#444847;font-size:14.5px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.mc-lec{display:flex;align-items:center;gap:8px;color:var(--ink);text-decoration:none;font-size:15px;min-width:0}
-.mc-lec .av{border:2px solid #52635f}
+.mc-lec{display:flex;align-items:center;gap:8px;color:var(--ink);text-decoration:none;font-size:15px;min-width:0;max-width:100%}
+.mc-lec .av{width:28px!important;height:28px!important;flex:none;border:2px solid #52635f}
 .mc-lec b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mc-rate{display:inline-flex!important;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#fff;border:1px solid #e6e7e7;box-shadow:0 2px 6px rgba(34,42,41,.06);flex-wrap:wrap}
-.mc-pic{grid-area:pic;position:relative;display:block;aspect-ratio:16/10;border-radius:18px;overflow:hidden;box-shadow:0 6px 14px rgba(0,0,0,.14);align-self:start}
-.mc-pic .pst,.mc-pic img{width:100%;height:100%}
-.mc-pic em{position:absolute;top:8px;inset-inline-end:8px;padding:3px 12px;border-radius:999px;background:rgba(255,255,255,.95);color:#202423;font-style:normal;font-weight:800;font-size:13px;font-family:Pop,system-ui,sans-serif!important}
-.mc-fav{position:absolute;top:22px;inset-inline-start:calc(100% - 48% - 14px + 8px);z-index:2}
-.mc-fav{inset-inline-start:auto;inset-inline-end:calc(48% - 46px)}
+.mc-side{grid-area:pic;position:relative;min-width:0}
+.mc-pic{position:relative;display:block;width:100%;aspect-ratio:4/3;border-radius:15px;overflow:hidden;background:var(--tint);box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.mc-fav{position:absolute;top:6px;inset-inline-end:6px;z-index:2}
 .mc-fav .fav{width:38px;height:38px;border-radius:12px;background:#fff;border:0;box-shadow:0 3px 8px rgba(0,0,0,.2)}
 .mc-foot{grid-area:foot;display:flex;align-items:center;gap:10px;padding-top:10px;border-top:1px solid #f0f0f0;flex-wrap:nowrap;min-width:0}
 .mc-price{flex:none;display:inline-flex;align-items:center;gap:5px;padding:5px 14px;border-radius:999px;font-weight:800;font-size:14px}
@@ -664,21 +662,18 @@ html body .mrh .mh-nav a{font-family:inherit}
 .mc-btn.ghost{background:#f2f2f2;color:#222a29;box-shadow:none}
 .mc-btn svg.ic{width:18px!important;height:18px!important}
 @media (max-width:560px){
-  .mc-card{grid-template-columns:minmax(0,1fr) minmax(0,44%);gap:10px;padding:12px;border-radius:20px}
-  .mc-fav{inset-inline-end:calc(44% - 40px);top:18px}.mc-fav .fav{width:32px;height:32px;border-radius:10px}
+  .mc-card{grid-template-columns:minmax(0,1fr) minmax(0,40%);gap:10px;padding:12px;border-radius:20px}
+  .mc-fav .fav{width:32px;height:32px;border-radius:10px}
   .mc-card h3{font-size:16px}.mc-sub{font-size:13px}.mc-lec{font-size:13.5px}
   .mc-rate{font-size:12px;padding:3px 8px}
   .mc-foot{flex-wrap:wrap;gap:8px 8px}
   .mc-f{font-size:12.5px;padding-inline-start:8px}.mc-f svg.ic{width:16px!important;height:16px!important}
   .mc-price{font-size:12.5px;padding:4px 10px}
   .mc-btn{width:100%;justify-content:center;height:40px;margin-inline-start:0}
-  .mc-pic em{font-size:11px;padding:2px 8px}
+  body[data-page="courses"] #asfab{display:none!important}
 }
 :root[data-theme="dark"] .mc-card{border-color:#313635}:root[data-theme="dark"] .mc-sub,:root[data-theme="dark"] .mc-f,:root[data-theme="dark"] .mc-f svg.ic{color:#cfd1d0}
 :root[data-theme="dark"] .mc-rate{background:#171b1a;border-color:#313635}
-.mc-fav{top:22px!important;inset-inline-end:22px!important;inset-inline-start:auto!important}
-.mc-pic em{inset-inline-end:auto;inset-inline-start:8px}
-@media (max-width:560px){.mc-fav{top:18px!important;inset-inline-end:18px!important}}
 html body .mrc a.mc-btn,html body .mrc a.mc-btn *{color:#fff!important}
 html body .mrc .mc-btn.ghost{color:#222a29!important}
 .mc-rate{flex-wrap:nowrap!important;white-space:nowrap}
@@ -718,12 +713,6 @@ html body .mrh .feed-card-header>.mng{flex:none;margin-top:0!important;order:0}
   html body .mrh .feed-card-header>span:first-child{padding:5px 10px;font-size:12.5px;white-space:nowrap}
   html body .mrh .feed-card-header>time{font-size:12px}
 }
-.mc-side{grid-area:pic;position:relative;display:flex;flex-direction:column;gap:8px;min-width:0}
-.mc-side .mc-pic{grid-area:auto}
-.mc-side .mc-fav{top:8px!important;inset-inline-end:8px!important}
-.mc-side .mc-lec{justify-content:center;padding:4px 6px}
-@media (max-width:560px){.mc-side .mc-fav{top:6px!important;inset-inline-end:6px!important}.mc-side .mc-lec{font-size:13px;gap:6px}.mc-side .mc-lec .av{width:30px!important;height:30px!important}}
-.mc-side .mc-pic{align-self:stretch!important;width:100%}
 html body .mrh .feed-card-header>time{flex:0 1 auto!important;min-width:0;overflow:hidden;text-overflow:ellipsis}
 /* when «إدارة» is there it already holds edit and delete, so ✏️ 🗑️ are not shown beside it (owner, 20 Nov 2026) */
 .feed-card-header:has(>.mng)>.own{display:none!important}
@@ -1093,7 +1082,7 @@ html body .mrh .feed-votes>.fv-rate>.ptag{height:26px!important;font-size:12px!i
 .mc-card h3{font-size:15px!important}.mc-sub{font-size:12.5px!important}
 .mc-chip{padding:2px 9px!important;font-size:11.5px!important}
 .mc-rate{font-size:11.5px!important;padding:2px 7px!important}
-.mc-lec{font-size:12.5px!important}.mc-side .mc-lec .av{width:26px!important;height:26px!important}
+.mc-lec{font-size:12.5px!important}
 .mc-f{font-size:12px!important}.mc-price{font-size:12px!important;padding:3px 9px!important}
 .mc-btn{height:36px!important;font-size:13px!important}
 html body .mrl .fcard{padding:10px 12px 2px!important;border-radius:18px!important}
@@ -1735,19 +1724,9 @@ html body .mrx :is(.mh-pub,.mh-in,.mlx-b.green:not(.on),.mlc-b.green:not(.on),.m
   .mc-card{grid-template-columns:minmax(0,1fr) minmax(0,34%)!important;align-items:start}
   .mc-card h3{font-size:16px!important}
   .mc-sub{-webkit-line-clamp:3!important}
-  .mc-side .mc-pic{aspect-ratio:4/3!important}
 }
 
-/* lecturer beside the stars on laptops; under the picture on phones */
-.mc-rl{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.mc-lec2{display:none!important}
-@media (min-width:900px){
-  .mc-lec2{display:flex!important;padding:2px 10px 2px 2px;border-radius:999px;background:#f3f4f4;border:1px solid #e6e7e7}
-  [dir="rtl"] .mc-lec2{padding:2px 2px 2px 10px}
-  .mc-lec2 .av{width:28px!important;height:28px!important}
-  .mc-lec2 b{font-size:13px}
-  .mc-side .mc-lec:not(.mc-lec2){display:none!important}
-}
+.mc-rl{display:flex;align-items:center;gap:6px 10px;flex-wrap:wrap;max-width:100%}
 
 /* ===== «تعلّمي» (owner, 21 Nov 2026) ===== */
 .lr{display:flex;flex-direction:column;gap:10px}
@@ -2399,9 +2378,13 @@ html body .pst{aspect-ratio:auto!important;height:auto!important;background:none
 html body .pst>.pstf{position:static!important;display:block;width:100%!important;height:auto!important;max-height:none!important;object-fit:contain!important}
 html body .mrh .feed-card .feed-image:not(:has(.library-cover)){aspect-ratio:auto!important;height:auto!important;align-self:start;background:none!important}
 html body .mrh .feed-card .feed-image:not(:has(.library-cover)) :is(.pst,img){height:auto!important}
-/* the boxes around those pictures follow them too (course cards, learning cards, profile post tiles): no white band under a wide picture */
-html body .mrx :is(.mc-pic,.lr-pic,.pf-post .pp,.lp-th,.cr2-cover,.ccimg):has(>.pst){aspect-ratio:auto!important;height:auto!important;align-self:start!important;background:none!important}
-html body .mrx :is(.mc-pic,.lr-pic,.pf-post .pp,.lp-th,.cr2-cover,.ccimg)>.pst{height:auto!important}
+/* Learning cards and profile posts follow the shape of the picture. Course results keep a consistent thumbnail. */
+html body .mrx :is(.lr-pic,.pf-post .pp,.lp-th,.cr2-cover,.ccimg):has(>.pst){aspect-ratio:auto!important;height:auto!important;align-self:start!important;background:none!important}
+html body .mrx :is(.lr-pic,.pf-post .pp,.lp-th,.cr2-cover,.ccimg)>.pst{height:auto!important}
+
+html body .mrc .mc-pic>.pst{height:100%!important}
+html body .mrc .mc-pic .pst>.pstb{display:block!important;filter:blur(12px) saturate(.85)!important;opacity:.5}
+html body .mrc .mc-pic .pst>.pstf{position:absolute!important;height:100%!important;object-fit:contain!important}
 
 /* one small «⋯» on every post (owner, 22 Nov 2026) */
 .cmenu{display:inline-flex;align-items:center;gap:3px;justify-content:center;min-width:32px;height:32px;padding:0 6px;margin-inline-start:auto;border-radius:999px;border:1px solid #e0e2e1;background:#fff;color:#4a4d4d;cursor:pointer;flex:none}

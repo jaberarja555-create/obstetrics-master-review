@@ -163,7 +163,10 @@
     return '<button type="button" class="study-icon-button" data-act="study-' + action + '"' +
       (id ? ' data-id="' + esc(id) + '"' : '') + ' aria-label="' + esc(label) + '" title="' + esc(label) + '">' + ic(icon) + '</button>';
   }
-  function chatHeader(g) {
+  function expandLabel(expanded) {
+    return expanded ? A('إنهاء ملء الشاشة','Exit full screen') : A('ملء الشاشة','Full screen');
+  }
+  function chatHeader(g,expanded) {
     return '<header class="study-chat-head"><a href="#community" class="study-icon-button study-chat-back" aria-label="' +
       t('الرجوع للمجتمع','Back to Community') + '">' + ic('chev') + '</a>' +
       (g.role ? '<button type="button" class="study-photo-button" data-act="study-info" data-id="' + esc(g.id) +
@@ -171,7 +174,8 @@
       '<div><h1 tabindex="-1" dir="auto">' + esc(g.title) + '</h1><small>' +
       esc(modeName(g.admin_only)) + ' · ' + IS.N(g.member_count || 0) + ' ' +
       (g.admin_only ? t('مشتركون','subscribers') : t('أعضاء','members')) + '</small></div>' +
-      (g.role ? iconButton('info',g.admin_only ? A('معلومات القناة','Channel info') : A('معلومات المجموعة','Group info'),'info',g.id) : '') + '</header>';
+      (g.role ? iconButton('info',g.admin_only ? A('معلومات القناة','Channel info') : A('معلومات المجموعة','Group info'),'info',g.id) +
+        iconButton('expand',expandLabel(expanded),expanded ? 'x' : 'expand') : '') + '</header>';
   }
   function composer() {
     return '<form class="study-compose" data-form="study-send"><div class="study-reply" hidden></div>' +
@@ -367,7 +371,15 @@
       state.recorder.stop();
     }
   }
+  function atChatEnd(state) { return state.log.scrollHeight-state.log.scrollTop-state.log.clientHeight<50; }
   function fitChat(state) {
+    if (state.expanded) {
+      var viewport=window.visualViewport, stick=atChatEnd(state);
+      state.root.style.setProperty('--chat-viewport',viewport && viewport.scale===1 ? viewport.height+'px' : '100dvh');
+      state.root.style.setProperty('--chat-offset',viewport && viewport.scale===1 ? viewport.offsetTop+'px' : '0px');
+      if (stick) state.log.scrollTop=state.log.scrollHeight;
+      return;
+    }
     var frame=state.root.closest('.mrx'), nav=frame && frame.querySelector('.mh-nav');
     var navHeight=nav && nav.getClientRects().length ? nav.getBoundingClientRect().height : 0;
     var scale=parseFloat(getComputedStyle(document.getElementById('main')).zoom) || 1;
@@ -375,9 +387,52 @@
     var available=window.innerHeight-top-navHeight-14;
     state.root.style.setProperty('--chat-height',Math.floor(available/scale)+'px');
   }
+  function setExpanded(state,expanded) {
+    if (state.expanded===expanded) return;
+    var stick=atChatEnd(state), top=state.log.scrollTop;
+    if (expanded) state.pageScroll=window.scrollY;
+    state.expanded=expanded;
+    state.root.classList.toggle('study-chat-expanded',expanded);
+    fitChat(state);
+    state.log.scrollTop=stick ? state.log.scrollHeight : top;
+    if (!expanded) window.scrollTo(0,state.pageScroll || 0);
+    var toggle=state.root.querySelector('[data-act="study-expand"]');
+    var label=expandLabel(expanded);
+    toggle.setAttribute('aria-label',label);
+    toggle.title=label;
+    toggle.innerHTML=ic(expanded ? 'x' : 'expand');
+  }
+  function restoreExpanded(state) {
+    if (location.hash==='#study-group/'+state.g.id) {
+      setExpanded(state,Boolean(history.state && history.state.studyChatExpanded===state.g.id));
+    }
+  }
+  IS.ACT['study-expand']=function (button) {
+    var state=active;
+    if (!state || !mounted(state) || !state.root.contains(button)) return;
+    if (state.expanded) return history.back();
+    history.pushState(Object.assign({},history.state,{studyChatExpanded:state.g.id}),'');
+    setExpanded(state,true);
+  };
+  window.addEventListener('popstate',function () {
+    if (active && mounted(active)) restoreExpanded(active);
+  });
+  document.addEventListener('keydown',function (event) {
+    var sheet=document.getElementById('sheet');
+    if (event.key==='Escape' && !event.defaultPrevented && active && active.expanded && mounted(active) &&
+        (!sheet || sheet.hidden) && !document.fullscreenElement) {
+      event.preventDefault();
+      history.back();
+    }
+  });
   function dispose(state) {
     clearInterval(state.timer);
     window.removeEventListener('resize',state.resize);
+    if (window.visualViewport) {
+      window.visualViewport.removeEventListener('resize',state.resize);
+      window.visualViewport.removeEventListener('scroll',state.resize);
+    }
+    state.root.classList.remove('study-chat-expanded');
     if (state.fitObserver) state.fitObserver.disconnect();
     document.removeEventListener('visibilitychange',state.visibility);
     stopRecording(state,false);
@@ -411,10 +466,15 @@
   }
   function mount(root,g,initial) {
     if (active) dispose(active);
-    var state=active={root:root,g:g,user:IS.ME.id,log:root.querySelector('.study-log'),rows:new Map(),avatars:new Map(),term:'',more:initial.messages.length===40,seen:0};
+    var state=active={root:root,g:g,user:IS.ME.id,log:root.querySelector('.study-log'),rows:new Map(),avatars:new Map(),term:'',more:initial.messages.length===40,seen:0,expanded:false};
     state.resize=function () { fitChat(state); };
     fitChat(state);
+    restoreExpanded(state);
     window.addEventListener('resize',state.resize);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize',state.resize);
+      window.visualViewport.addEventListener('scroll',state.resize);
+    }
     if (window.ResizeObserver) {
       state.fitObserver=new ResizeObserver(state.resize);
       var frame=state.root.closest('.mrx');
@@ -424,7 +484,7 @@
     apply(state,initial,false);
     state.log.scrollTop=state.log.scrollHeight;
     root.querySelector('.study-compose textarea').addEventListener('input',function () {
-      var atEnd=state.log.scrollHeight-state.log.scrollTop-state.log.clientHeight<50;
+      var atEnd=atChatEnd(state);
       resizeDraft(this);
       if (atEnd) state.log.scrollTop=state.log.scrollHeight;
     });
@@ -463,7 +523,7 @@
     state.g.member_count=response.member_count;
     if (changeHeader) {
       state.root.classList.toggle('study-channel',response.admin_only);
-      state.root.querySelector('.study-chat-head').outerHTML=chatHeader(state.g);
+      state.root.querySelector('.study-chat-head').outerHTML=chatHeader(state.g,state.expanded);
     }
     paintGroupPhotos(state.root.querySelector('.study-chat-head'));
     var canWrite=!(response.admin_only || response.admins_post_only) || admin(response.role);
