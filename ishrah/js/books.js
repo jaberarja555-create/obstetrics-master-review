@@ -13,7 +13,7 @@
   ];
   function book(id) { return BOOKS.filter(function (b) { return b.id === id; })[0]; }
   function card(b) {
-    return '<a class="bk-card" href="#book/' + b.id + '"><span class="bk-cv"><img src="' + IS.U('img/books/' + b.id + '.webp') + '" alt="" loading="lazy"></span>' +
+    return '<a class="bk-card" href="#book/' + b.id + '"><span class="bk-cv"><img src="' + IS.U('img/books/' + b.id + '.webp') + '" alt="" width="480" height="678" loading="lazy" decoding="async"></span>' +
       '<span class="bk-tx"><b lang="en" dir="ltr">' + esc(b.en) + '</b><small>' + esc(A('كتاب ', 'Book · ') + A(b.ar, b.sub[0])) + '</small><em>' + esc(A('افتح الكتاب', 'Open the book')) + ' ‹</em></span></a>';
   }
   IS.booksShelf = function () {

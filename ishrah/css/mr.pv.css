@@ -418,7 +418,7 @@ html body .mrx .mr-theme>svg.eye{display:none!important}
 .mh-ban.ar p{font-family:Cairo,system-ui,sans-serif!important;white-space:normal;line-height:1.5;max-width:92%}
 .mh-ban h1 svg.ic{flex:none}
 /* book and series cards: white card, cover at the side, type · title · author · button, the stars and buttons along the foot */
-.mrl .grid.files{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(min(100%,460px),1fr))!important;gap:clamp(12px,1.6vw,18px)!important}
+.mrl :is(.grid.files,.bk-row){display:grid!important;grid-template-columns:repeat(auto-fill,minmax(min(100%,460px),1fr))!important;gap:clamp(12px,1.6vw,18px)!important}
 html body .mrl .fcard{position:relative;display:grid!important;grid-template-columns:minmax(92px,min(30%,150px)) minmax(0,1fr);grid-template-rows:auto 1fr;column-gap:14px;row-gap:0;align-items:start;
   margin:0!important;padding:14px 16px 4px!important;border-radius:22px!important;background:var(--card)!important;border:1px solid var(--pm49,#e1ece9)!important;box-shadow:0 8px 22px var(--pm39,rgba(6,70,59,.10))!important;height:auto!important;min-height:0!important}
 html body .mrl .fcard>.fimg{grid-column:1;grid-row:1;display:block;width:100%!important;aspect-ratio:3/4!important;height:auto!important;margin:0!important;border-radius:10px!important;overflow:hidden;box-shadow:0 6px 14px rgba(0,0,0,.18)!important}
@@ -648,7 +648,8 @@ html body .mrh .mh-nav a{font-family:inherit}
 .mc-lec b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mc-rate{display:inline-flex!important;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#fff;border:1px solid var(--pm49,#e1ece9);box-shadow:0 2px 6px var(--pm76,rgba(6,70,59,.06));flex-wrap:wrap}
 .mc-side{grid-area:pic;position:relative;min-width:0}
-.mc-pic{position:relative;display:block;width:100%;aspect-ratio:4/3;border-radius:15px;overflow:hidden;background:var(--tint);box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.mc-pic{display:block;width:fit-content;max-width:100%;margin-inline-start:auto}
+.mc-pic img{display:block;width:auto;height:auto;max-width:100%;max-height:clamp(130px,37vw,210px);margin-inline-start:auto;border-radius:15px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
 .mc-fav{position:absolute;top:6px;inset-inline-end:6px;z-index:2}
 .mc-fav .fav{width:38px;height:38px;border-radius:12px;background:#fff;border:0;box-shadow:0 3px 8px rgba(0,0,0,.2)}
 .mc-foot{grid-area:foot;display:flex;align-items:center;gap:10px;padding-top:10px;border-top:1px solid var(--pm75,#edf3f1);flex-wrap:nowrap;min-width:0}
@@ -1711,7 +1712,7 @@ html body .mrx :is(.mh-pub,.mh-in,.mlx-b.green:not(.on),.mlc-b.green:not(.on),.m
 /* laptops and big screens: the app uses the whole width (owner, 21 Nov 2026: "the app appears only in the middle") */
 @media (min-width:900px){
   .mh-page{width:100%!important;max-width:none!important;padding-inline:clamp(16px,2.4vw,40px)!important}
-  html body .mrh .feed-items,html body .mrl .grid.files,html body .mrc #cres#cres>.grid.grid.grid,html body .mra .mh-old .mlx-list{grid-template-columns:repeat(auto-fill,minmax(min(100%,440px),1fr))!important}
+  html body .mrh .feed-items,html body .mrl :is(.grid.files,.bk-row),html body .mrc #cres#cres>.grid.grid.grid,html body .mra .mh-old .mlx-list{grid-template-columns:repeat(auto-fill,minmax(min(100%,440px),1fr))!important}
   .mh-ban{height:clamp(150px,16vw,240px)!important}
   .mh-nav{padding-inline:max(10px,calc((100% - 1100px) / 2))!important}
 }
@@ -2378,13 +2379,12 @@ html body .pst{aspect-ratio:auto!important;height:auto!important;background:none
 html body .pst>.pstf{position:static!important;display:block;width:100%!important;height:auto!important;max-height:none!important;object-fit:contain!important}
 html body .mrh .feed-card .feed-image:not(:has(.library-cover)){aspect-ratio:auto!important;height:auto!important;align-self:start;background:none!important}
 html body .mrh .feed-card .feed-image:not(:has(.library-cover)) :is(.pst,img){height:auto!important}
-/* Learning cards and profile posts follow the shape of the picture. Course results keep a consistent thumbnail. */
+/* Learning cards and profile posts follow the shape of the picture. */
 html body .mrx :is(.lr-pic,.pf-post .pp,.lp-th,.cr2-cover,.ccimg):has(>.pst){aspect-ratio:auto!important;height:auto!important;align-self:start!important;background:none!important}
 html body .mrx :is(.lr-pic,.pf-post .pp,.lp-th,.cr2-cover,.ccimg)>.pst{height:auto!important}
 
-html body .mrc .mc-pic>.pst{height:100%!important}
-html body .mrc .mc-pic .pst>.pstb{display:block!important;filter:blur(12px) saturate(.85)!important;opacity:.5}
-html body .mrc .mc-pic .pst>.pstf{position:absolute!important;height:100%!important;object-fit:contain!important}
+/* Saved course cards can still contain the older poster markup. */
+html body .mrc .mc-pic .pst>.pstf{width:auto!important;max-height:clamp(130px,37vw,210px)!important}
 
 /* one small «⋯» on every post (owner, 22 Nov 2026) */
 .cmenu{display:inline-flex;align-items:center;gap:3px;justify-content:center;min-width:32px;height:32px;padding:0 6px;margin-inline-start:auto;border-radius:999px;border:1px solid var(--pm83,#dbe7e4);background:#fff;color:var(--pm67,#3d5a54);cursor:pointer;flex:none}
@@ -2611,8 +2611,18 @@ html body .mrh .feed-card .fv-acts>*{align-self:center!important}
 .bk-shelf{margin:10px 0 14px}
 .bk-shelf header{display:flex;align-items:center;justify-content:space-between;margin:0 2px 8px}
 .bk-shelf h2{margin:0;font-size:15px}.bk-shelf header a{font-size:12.5px;color:var(--pm30,#0d6b5c);text-decoration:none}
-.bk-row{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}.bk-row::-webkit-scrollbar{display:none}
-.bk-row .bk-card{flex:0 0 min(78%,280px)}
+.bk-row .bk-card{
+  display:grid;grid-template-columns:minmax(92px,min(30%,150px)) minmax(0,1fr);
+  align-items:start;gap:14px;padding:14px 16px;border-radius:22px
+}
+.bk-row .bk-cv{width:100%;height:auto;border-radius:10px;background:none}
+.bk-row .bk-cv img{height:auto}
+.bk-row .bk-tx{gap:7px;padding-top:2px}
+.bk-row .bk-tx b{font-size:clamp(16px,1.6vw,19px);overflow-wrap:anywhere}
+.bk-row .bk-tx :is(small,em){font-size:13.5px}
+@media (max-width:560px){
+  .bk-row .bk-card{grid-template-columns:minmax(84px,30%) minmax(0,1fr);gap:11px;padding:12px}
+}
 .bk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:12px}
 .bk-card{display:flex;gap:10px;align-items:center;padding:10px;border-radius:16px;background:var(--card,#fff);border:1px solid var(--pm49,#e1ece9);text-decoration:none;color:var(--ink);box-shadow:0 4px 12px var(--pm76,rgba(6,70,59,.06))}
 .bk-cv{flex:none;width:62px;height:88px;border-radius:8px;overflow:hidden;background:var(--pm198,#eef5f3);box-shadow:0 3px 8px rgba(0,0,0,.18)}

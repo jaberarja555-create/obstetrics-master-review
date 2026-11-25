@@ -550,13 +550,14 @@
   function hmins(m) { m = +m || 0; return m >= 60 ? (Math.round(m / 6) / 10) + ' ' + A('ساعات', 'h') : m + ' ' + A('دقيقة', 'min'); }
   function mrCourseCard(c, L, E) {
     var l = L && L[c.lecturer_id], e = E && E[c.id], sc = IS.studyScope(c), cat = IS.cat(sc.cat), paid = +c.price > 0, on = e && e.status === 'active', wait = e && e.status === 'pending';
-    var href = '#course/' + esc(c.id), cover = c.cover ? IS.poster(c.cover) : IS.poster('img/collection/courses.webp');
+    var href = '#course/' + esc(c.id), cover = IS.U(c.cover || 'img/collection/courses.webp');
     return '<article class="mc-card" data-go="' + href + '"><div class="mc-txt">' +
       (cat ? '<span class="mc-chip">' + HI.layers + esc(cat.id === 'special' ? 'International' : cat.en) + '</span>' : '') +
       '<h3 dir="auto"><a href="' + href + '">' + esc(c.title || '') + '</a></h3>' + (c.subtitle ? '<p class="mc-sub" dir="auto">' + esc(c.subtitle) + '</p>' : '') +
       '<div class="mc-rl"><span class="mc-rate feed-grade sm">' + IS.gradeInner(c, 'course') + '</span>' +
       (l ? '<a class="mc-lec" href="#lecturer/' + esc(l.id) + '">' + IS.av(l, 'sm', l.id) + '<b dir="auto">' + IS.lecName(l.name) + '</b></a>' : '') + '</div></div>' +
-      '<div class="mc-side"><a class="mc-pic" href="' + href + '" aria-label="' + esc(c.title || A('عرض الكورس', 'View course')) + '">' + cover + '</a>' +
+      '<div class="mc-side"><a class="mc-pic" href="' + href + '" aria-label="' + esc(c.title || A('عرض الكورس', 'View course')) + '">' +
+        '<img src="' + cover + '" alt="" loading="lazy" decoding="async"></a>' +
       '<span class="mc-fav">' + IS.favBtn('c:' + c.id, true) + '</span></div>' +
       '<div class="mc-foot"><span class="mc-price ' + (paid ? 'paid' : 'free') + '">' + (paid ? HI.lock + esc(A('مدفوع', 'Paid')) : esc(A('مجاني', 'Free'))) + '</span>' +
       (c.minutes ? '<span class="mc-f">' + HI.clock + '<b>' + esc(hmins(c.minutes)) + '</b></span>' : '') +
