@@ -1642,7 +1642,7 @@ studentmasterreview.com with HTTP/3 off). Now:
 
 ## HO Assistant (owner, 26 Nov 2026: "an app for house officers: put the diagnosis and patient info, it gives drug options as lines, calculated doses, full prescription and additional management, by the local guidelines")
 - Separate small app in `ishrah/ho/` (no build step, works offline with its own `ho/sw.js` scope /ho/, installable with `ho/manifest.webmanifest`,
-  icons `ho/img/ho-192|512.png`). Inside SMRA: page `#ho` (js/hoapp.js: the app in a frame + «افتح كتطبيق»), a tile in Features and a card under
+  icons `ho/img/ho-192|512.png`). Inside SMRA: page `#ho` (js/hoapp.js: full screen like the books, host `#ho-host` with the SMRA handle, CSS shared with `#bk-host`; owner, 26 Nov 2026; «ثبّت … كتطبيق» on the HO home opens /ho/?install=1 in a new tab), a tile in Features and a card under
   the section title on the House Officer Home. The root sw.js leaves /ho/ alone.
 - Data from the owner's guidelines only: `ho/src/notes/` = full transcription of the Kassala "Guideline of common pediatric cases 2024" (page
   numbers, doubtful print flagged) and the PCH drug table. `ho/js/drugs.js` (123 drugs: brands, class, forms with strengths, regimens: kg,

@@ -152,3 +152,4 @@ html.inframe .hb{padding-top:8px}
 /* English medical text inside the Arabic interface reads left to right, each line by its own first letter */
 .dc-dose b,.dc-dose span,.dc-c,.dc-note,.dc-n,.dc-tag,.wn,.about p,.bl li,.nt li,.kv td,.kv th,.crow b,.crow small,.line h4,.fone,.fsel,.dc-f small,.em b,.em small,.hb-pt span,.hb-t small,.when,.vtabs button,.ddx b,.ddx small,.tags span,.pp-l b,.pp-l small,.pp-o li,.pp-dx,.chip{unicode-bidi:plaintext}
 .dc.dim{opacity:.55}
+.btn.inst{width:100%;margin-bottom:12px;border-style:dashed;color:var(--pri)}

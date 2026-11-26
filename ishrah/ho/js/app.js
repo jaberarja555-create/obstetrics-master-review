@@ -113,6 +113,8 @@
     h += '</section><div class="tiles">' + tiles.map(function (t) {
       return '<button class="tile" data-go="' + t[0] + '"><span class="ti">' + ic(t[1]) + '</span><b>' + A(t[2], t[3]) + '</b><small>' + A(t[4], t[5]) + '</small></button>';
     }).join('') + '</div>';
+    var standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+    if (!standalone) h += '<button class="btn inst" data-act="install">📲 ' + A('ثبّت HO Assistant كتطبيق على هاتفك', 'Install HO Assistant as an app') + '</button>';
     h += '<section class="card soon"><h3>' + ic('book') + A('التخصصات', 'Specialities') + '</h3><div class="spl"><span class="on">' + A('الأطفال · دليل كسلا 2024 + PCH', 'Paediatrics · Kassala 2024 + PCH') + '</span><span>' +
       A('الباطنية · قريبًا', 'Medicine · soon') + '</span><span>' + A('الجراحة · قريبًا', 'Surgery · soon') + '</span><span>' + A('النساء والتوليد · قريبًا', 'Obstetrics · soon') + '</span></div><p class="mut">' +
       A('تُضاف التخصصات الأخرى عند وصول أدلتها المحلية.', 'Other specialities are added when their local guidelines arrive.') + '</p></section>' + disclaimer();
@@ -535,6 +537,16 @@
   ACT.openpt = function (b) { var x = get('ho-pts', []).find(function (y) { return y.id === b.dataset.id; }); if (!x) return; P = Object.assign({}, BLANK, x); savePt(); go(P.dx ? 'c/' + P.dx : 'patient'); };
   ACT.delpt = function (b) { if (!confirm(A('حذف هذا المريض؟', 'Delete this patient?'))) return; put('ho-pts', get('ho-pts', []).filter(function (y) { return y.id !== b.dataset.id; })); render(); };
 
+  /* installing: inside SMRA the frame cannot install, so the app's own address opens in a new tab, where the browser offers it */
+  var BIP = null; window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); BIP = e; });
+  ACT.install = function () {
+    if (window.top !== window) { window.open('/ho/?install=1', '_blank', 'noopener'); return; }
+    if (BIP) { var e = BIP; BIP = null; e.prompt(); return; }
+    var ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
+    sheet('<h3>📲 ' + A('ثبّت التطبيق', 'Install the app') + '</h3><ol class="bl"><li>' + (ios ? A('افتح هذه الصفحة في Safari، اضغط زر المشاركة ⬆️', 'Open this page in Safari and tap Share ⬆️') : A('افتح هذه الصفحة في Chrome، اضغط ⋮ أعلى الشاشة', 'Open this page in Chrome and tap ⋮')) + '</li><li>' +
+      (ios ? A('اختر «إضافة إلى الشاشة الرئيسية» ثم «إضافة»', 'Choose «Add to Home Screen», then «Add»') : A('اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية»', 'Choose «Install app» or «Add to Home screen»')) + '</li></ol><button class="btn pri big" data-act="shclose">' + A('حسنًا', 'OK') + '</button>');
+  };
+  if (/[?&]install=1/.test(location.search)) setTimeout(function () { ACT.install(); }, 1500);
   function notFound() { chrome(A('غير موجود', 'Not found'), ''); return '<p class="empty">' + A('الصفحة غير موجودة.', 'Page not found.') + '</p>'; }
 
   /* ================= render ================= */

@@ -3,11 +3,23 @@
    under the platform bar, from Features and from the House Officer section. */
 (function () {
   var A = IS.A, esc = IS.esc, ic = IS.ic;
-  IS.page('ho', function () {
-    return '<div class="ho-wrap"><div class="ho-bar"><b>🩺 ' + esc(A('مساعد طبيب الامتياز', 'HO Assistant')) + '</b><span>' + esc(A('الأطفال · دليل كسلا 2024', 'Paediatrics · Kassala 2024')) + '</span>' +
-      '<a class="btn" href="/ho/" target="_blank" rel="noopener">📲 ' + esc(A('افتح كتطبيق', 'Open as app')) + '</a></div>' +
-      '<iframe class="ho-fr" src="/ho/" title="HO Assistant"></iframe></div>';
-  });
+  /* full screen like the books (owner, 26 Nov 2026: "open full on the screen with the SMRA small button beside like the other books"):
+     one frame kept while the person moves around SMRA; the SMRA handle and the device Back button return to where they came from */
+  var FR = null, FROM = /^#ho\b/.test(location.hash) ? '' : location.hash.slice(1);
+  function host() { var h = document.getElementById('ho-host'); if (!h) { h = document.createElement('div'); h.id = 'ho-host'; h.hidden = true; document.body.appendChild(h); } return h; }
+  function show() {
+    var h = host();
+    if (!FR) {
+      FR = document.createElement('iframe'); FR.className = 'bk-fr'; FR.title = 'HO Assistant'; FR.src = '/ho/'; FR.setAttribute('allow', 'clipboard-write');
+      h.appendChild(FR);
+      h.insertAdjacentHTML('beforeend', '<button type="button" class="bk-back" data-act="ho-back" aria-label="' + esc(A('العودة إلى المنصة', 'Back to the platform')) + '"><span>SMRA</span></button>');
+    }
+    h.hidden = false; document.documentElement.classList.add('bk-open');
+  }
+  function hide() { var h = document.getElementById('ho-host'); if (h) h.hidden = true; if (!/^#book\//.test(location.hash)) document.documentElement.classList.remove('bk-open'); }
+  IS.page('ho', function () { setTimeout(show, 0); return '<div class="bk-wait"><span class="spin"></span></div>'; });
+  IS.ACT['ho-back'] = function () { hide(); IS.go(FROM && !/^ho\b/.test(FROM) ? FROM : 'home'); };
+  window.addEventListener('hashchange', function () { if (!/^#ho\b/.test(location.hash)) { hide(); FROM = location.hash.slice(1); } });
   function tile() { return '<a href="#ho" class="ho-feat">' + '<span class="ic">🩺</span><span>' + esc(A('مساعد الامتياز', 'HO Assistant')) + '</span></a>'; }
   var feat0 = IS.ACT.mrfeat;
   if (feat0) IS.ACT.mrfeat = function () { var r = feat0.apply(this, arguments), g = document.querySelector('#sheet .mr-feat');
