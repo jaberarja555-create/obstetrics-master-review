@@ -144,7 +144,7 @@
       hp: [{ when: { wmin: 45 }, k: 'fix', dose: 500, unit: 'mg', f: 12, dur: '1 week', forms: ['t500'] }, { k: 'kg', v: 7.5, f: 12, max: 500, dur: '1 week', forms: ['s250', 's125', 't250'], sc: '125: wt/3 · 250: wt/6 mL twice daily' }] } });
   d('metronidazole', { g: 'Metronidazole', b: ['Flagyl'], cls: ['nitroimidazole'], src: 'K p7, p64, p134, p148',
     forms: [{ id: 's125', n: 'Syrup 125 mg/5 mL', r: 'PO', c: S5(125) }, { id: 's200', n: 'Syrup 200 mg/5 mL', r: 'PO', c: S5(200) }, { id: 't250', n: 'Tablet 250 mg', r: 'PO', tab: 250 }, { id: 'inf', n: 'Infusion 500 mg/100 mL (5 mg/mL)', r: 'IV', c: 5 }],
-    reg: { po: { k: 'kg', v: 7.5, f: 8, max: 400, dur: '5–7 days', forms: ['s125', 's200', 't250'], sc: '125 mg/5 mL: wt/3 mL · 200 mg/5 mL: wt/5 mL 8-hourly', note: 'The guideline prints "syrup 200: wt/3 mL"; that is 13 mg/kg. The usual dose is 7.5 mg/kg, which wt/3 mL gives with the 125 mg/5 mL syrup. Check the bottle.' },
+    reg: { po: { k: 'kg', v: 7.5, f: 8, max: 400, dur: '5–7 days', forms: ['s125', 's200', 't250'], sc: '125 mg/5 mL: wt/3 mL · 200 mg/5 mL: wt/5 mL 8-hourly', note: 'Dose 7.5 mg/kg every 8 hours (owner, 26 Nov 2026). Syrup 200 mg/5 mL = wt/5 mL; syrup 125 mg/5 mL = wt/3 mL. The guideline print "200: wt/3 mL" (13 mg/kg) is not used.' },
       iv: { k: 'kg', v: 7.5, f: 8, max: 500, forms: ['inf'], sc: 'wt × 1.5 mL 8-hourly' },
       amoeba: { k: 'kg', v: 15, f: 8, max: 800, dur: '10 days', forms: ['s200', 's125', 't250'], sc: 'double dose (wt × 2/3 mL) 8-hourly for 10 days' },
       giardia: { k: 'kg', v: 7.5, f: 8, max: 400, dur: '5–7 days', forms: ['s125', 's200', 't250'], sc: '125 mg/5 mL: wt/3 mL 8-hourly' } } });

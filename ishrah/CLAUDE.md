@@ -1654,7 +1654,8 @@ studentmasterreview.com with HTTP/3 off). Now:
   management sheet with tickable drug cards, Prescription (Arabic directions; copy/share/print), Order sheet, Drug book, 14 calculators,
   Emergency doses, Saved patients — all on the device only, keys `ho-*`).
 - Where the guideline print and the usual dose differ the app says so (metronidazole syrup "200: wt/3 mL" = 13 mg/kg; the 7.5 mg/kg dose is
-  used and the 125 mg/5 mL strength gives wt/3 mL). Tube sizes are APLS formulas, marked as not from the local guideline.
+  used: owner confirmed 7.5 mg/kg on 26 Nov 2026; 200 mg/5 mL = wt/5 mL, 125 mg/5 mL = wt/3 mL). The owner will keep adding resources: record each
+  source in `src`, prefer the local guideline and show a differing value beside it, and list every conflict for the owner to decide. Tube sizes are APLS formulas, marked as not from the local guideline.
 - Tests: scratchpad val.js (every drug/regimen and symptom referenced by dx.js exists), eng.js (1,540 doses for 4 ages: no NaN/empty),
   hoshot.js (all screens at 390/1366, no errors, nothing wider than the screen). Medicine, surgery and obstetrics wait for their local guidelines.
 - A new HO release: bump `C` in ho/sw.js (its files are cache-first, refreshed in the background).
