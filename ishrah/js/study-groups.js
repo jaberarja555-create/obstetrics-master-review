@@ -125,7 +125,8 @@
       IS.after=paintGroupPhotos;
       return intro() + '<div class="row study-tools">' + (IS.mySection() ? button('new',A('إنشاء مجموعة أو قناة','Create group or channel'),'plus',null,true) :
         '<a class="btn pri" href="#pick-section">' + t('اختر قسمًا لإنشاء مساحة','Choose a section to create a space') + '</a>') +
-        '<a class="btn ghost sm" href="#community">' + t('المجتمع','Community') + '</a></div>' + invitationInbox(lists[1]) +
+        '<a class="btn ghost sm" href="#community">' + t('المجتمع','Community') + '</a>' +
+        (IS.LEC ? '<a class="btn ghost sm" href="#study-lectures">' + ic('video') + t('دعوات المحاضرات','Lecture invitations') + '</a>' : '') + '</div>' + invitationInbox(lists[1]) +
         directorySection(groups,false) + directorySection(groups,true) +
         (groups.length || lists[1].length ? '' : IS.empty('group',A('لا توجد مجموعات أو قنوات بعد','No groups or channels yet'),
           A('أنشئ مساحة أو افتح رابط دعوة.','Create a private space or open an invitation.')));
@@ -203,7 +204,8 @@
         '<div class="study-chat-tools"><details class="study-search"><summary aria-label="' + t('ابحث في الرسائل','Search messages') + '">' +
         ic('search') + '<span>' + t('بحث في المحادثة','Search conversation') + '</span></summary><form data-form="study-search"><input type="search" name="q" maxlength="120" placeholder="' +
         t('ابحث في الرسائل','Search messages') + '" aria-label="' + t('ابحث في الرسائل','Search messages') + '"><button class="btn ghost sm">' + ic('search') +
-        t('بحث','Search') + '</button></form></details>' + button('poll',A('استطلاع','Poll'),'chart') + '</div>' +
+        t('بحث','Search') + '</button></form></details><div class="study-chat-actions">' + button('poll',A('استطلاع','Poll'),'chart') +
+        '<a class="btn sm ghost study-lectures-link" href="#study-lectures/' + id + '">' + ic('video') + t('المحاضرات','Live lectures') + '</a></div></div>' +
         '<div class="study-pin" hidden></div><div class="study-chat-status" role="status" hidden></div>' +
         '<div class="study-transcript"><div class="study-log" tabindex="0" aria-label="' + t('رسائل المجموعة','Group messages') + '"></div>' +
         '<div class="study-latest" hidden>' + iconButton('latest',A('أحدث الرسائل','Latest messages'),'chev') + '</div></div>' +

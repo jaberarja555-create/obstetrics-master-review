@@ -55,10 +55,9 @@ body[data-page="study-group"]:has(.study-chat-expanded) .mra[data-pg="study-grou
 .study-icon-button:focus-visible{outline:2px solid var(--sky2);outline-offset:1px}
 .study-icon-button .ico{width:19px;height:19px}
 .study-chat-tools{
-  display:flex;align-items:flex-start;justify-content:space-between;gap:7px;padding:6px var(--chat-edge);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:7px;padding:6px var(--chat-edge);
   border-block-start:1px solid var(--bd);background:var(--sf)
 }
-.study-chat-tools>.btn{min-height:32px}
 .study-search{flex:1;min-width:0}
 .study-search summary{display:flex;align-items:center;gap:6px;width:max-content;max-width:100%;padding:5px 6px;color:var(--pri);font-size:13px;font-weight:700;cursor:pointer}
 .study-search summary::-webkit-details-marker{display:none}
@@ -293,4 +292,27 @@ body[data-page="study-group"] #asfab{display:none!important}
   .study-chat-tools{padding-block:3px}
   .study-compose{border-block-start:1px solid var(--bd)}
   .study-chat.study-chat-expanded[data-id] .study-chat-back{display:inline-grid!important}
+}
+
+
+.study-chat-tools .study-search[open]{flex-basis:100%}
+.study-chat-actions,.study-lecture-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.study-chat-actions{margin-inline-start:auto}
+.study-chat-actions .btn{min-height:32px;font-size:12px}
+.study-lecture-list{display:grid;gap:8px}
+.study-lecture-item{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.study-lecture-item>.ico{flex:none;color:var(--pri)}
+.study-lecture-item>span:nth-child(2){flex:1;min-width:0;overflow-wrap:anywhere}
+.study-lecture-item small{display:block;color:var(--sub);margin-block-start:3px}
+.study-lecture-item>.chip{white-space:normal;text-align:center}
+.study-lecture-detail{display:grid;gap:10px}
+.study-lecture-detail h1,.study-lecture-detail p{margin:0;overflow-wrap:anywhere}
+.study-lecture-detail .form{max-width:34rem}
+.study-lecture-search-list{display:flex;flex-wrap:wrap;gap:6px}
+.study-lecture-error{color:var(--bad);font-weight:700}
+.study-lecture-error:empty,#sheet [data-form^=study-lecture] [hidden],#sheet [data-form^=study-lecture][hidden]{display:none!important}
+@media(max-width:430px){
+  .study-chat-tools:not(:has(.study-search[open])) .study-search summary span{display:none}
+  .study-lecture-item{padding:10px}
+  .study-lecture-item>.chip{max-width:36%}
 }

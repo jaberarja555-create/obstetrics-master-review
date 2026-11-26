@@ -271,7 +271,7 @@
   IS.bar = function (v, c) { v = Math.max(0, Math.min(100, Math.round(v || 0))); return '<span class="bar' + (c ? ' ' + c : '') + '"><i style="width:' + v + '%"></i></span>'; };
   IS.empty = function (icon, t1, t2, act) { return '<div class="empty">' + ic(icon) + '<b>' + esc(t1) + '</b>' + (t2 ? '<span>' + esc(t2) + '</span>' : '') + (act || '') + '</div>'; };
   var BANIMG = {
-    team:'community', community:'community', 'study-groups':'community', 'study-invite':'community', post:'community', about:'about', terms:'terms',
+    team:'community', community:'community', 'study-groups':'community', 'study-invite':'community', 'study-lectures':'community', 'study-lecture':'community', post:'community', about:'about', terms:'terms',
     downloads:'downloads', library:'library', series:'library', file:'library', favorites:'library',
     courses:'courses', course:'courses', search:'courses', 'course-requests':'requests', 'course-request':'requests',
     events:'events', event:'events', news:'news', learning:'learning', account:'learning', settings:'settings',
@@ -392,7 +392,7 @@
     var P = PAGES[name] || PAGES.home, o = P.o, my = ++SEQ, main = IS.$('#main');
     var previous = main.querySelector(':scope > .page'), account = IS.ME ? IS.ME.id : '';
     main.removeAttribute('aria-busy');
-    var student = (!o.area || o.area === 'student' || (o.area === 'keep' && IS.area === 'student')) && !/^study-(groups|group|invite)$/.test(name);
+    var student = (!o.area || o.area === 'student' || (o.area === 'keep' && IS.area === 'student')) && !/^study-(groups|group|invite|lectures?)$/.test(name);
     if (student && IS.SPEC && IS.specLocked && IS.specLocked(IS.SPEC) && !/^(pick|terms|security|settings|book|books)$/.test(name)) { name = 'pick'; P = PAGES.pick; o = P.o; }
     else if (student && IS.SPECS.length && !/^(pick|terms|security|payment|downloads|dl|settings|book|books)$/.test(name) && !IS.mySpec()) {
       name = 'pick'; P = PAGES.pick; o = P.o;

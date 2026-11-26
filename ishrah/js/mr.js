@@ -602,7 +602,7 @@
   /* ---------- every other student page in the new frame (owner, 20 Nov 2026: "organise the other pages in the new design; work on all remaining
      pages"): the same top bar, light page and bottom bar; css/mr.css (.mra) gives their banners, boxes, buttons and tabs the new look ---------- */
   var NAVOF = { course: 'courses', lesson: 'courses', 'course-requests': 'courses', 'course-request': 'courses', payment: 'courses', file: 'library', series: 'library',
-    sales: 'library', purchase: 'library', downloads: 'learning', dl: 'library', post: 'community', community: 'community', lecturer: 'lecturers', lecturers: 'lecturers',
+    sales: 'library', purchase: 'library', downloads: 'learning', dl: 'library', post: 'community', community: 'community', 'study-lectures': 'community', 'study-lecture': 'community', lecturer: 'lecturers', lecturers: 'lecturers',
     learning: 'learning', achievements: 'learning', favorites: 'learning', paths: 'learning', path: 'learning' };
 
   /* the lecturer studio's bottom bar (owner, 21 Nov 2026: "work on the studio page") */

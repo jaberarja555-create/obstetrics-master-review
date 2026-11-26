@@ -82,8 +82,9 @@ jobs:
           study_member_photos=ishrah/supabase/062_study_member_photos.sql
           master_review=ishrah/supabase/063_master_review_feedback.sql
           master_review_visibility=ishrah/supabase/064_master_review_visibility.sql
+          study_lectures=ishrah/supabase/065_study_lectures.sql
           pending=""
-          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads" "$reactions" "$live" "$series_edit" "$lecturer_check" "$profile_sync" "$team_tools" "$presence" "$dup_comments" "$own_paid" "$follows" "$card_roles" "$followers" "$free_posts" "$owner_alerts" "$course_cert" "$assistant" "$team_spaces" "$contact_guard" "$new_address" "$study_groups" "$study_channels" "$study_chat" "$study_settings" "$study_member_photos" "$master_review" "$master_review_visibility"; do
+          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads" "$reactions" "$live" "$series_edit" "$lecturer_check" "$profile_sync" "$team_tools" "$presence" "$dup_comments" "$own_paid" "$follows" "$card_roles" "$followers" "$free_posts" "$owner_alerts" "$course_cert" "$assistant" "$team_spaces" "$contact_guard" "$new_address" "$study_groups" "$study_channels" "$study_chat" "$study_settings" "$study_member_photos" "$master_review" "$master_review_visibility" "$study_lectures"; do
             if [ -n "$pending" ] || ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$migration"; then
               pending="${pending:+$pending }$migration"
             fi
@@ -113,6 +114,13 @@ jobs:
           for role in anon authenticated; do
             test "$(psql "$DB" -v ON_ERROR_STOP=1 -qAtc "set role $role; select count(*) from public.files where kind = 'master_review' and status = 'published'")" = 3 || exit 1
           done
+      - name: Verify private lecture access
+        if: contains(steps.request-schema.outputs.files, '065_study_lectures.sql')
+        env:
+          DB: ${{ secrets.ISHRAH_DB_URL }}
+        run: |
+          DB=$(printf '%s' "$DB" | tr -d '\r\n\t `"'"'"'<>')
+          test "$(psql "$DB" -v ON_ERROR_STOP=1 -qAtc "select has_function_privilege('authenticated','public.ish_study_lecture_read(text,uuid,text)','EXECUTE') and has_function_privilege('authenticated','public.ish_study_lecture_action(text,uuid,jsonb)','EXECUTE') and not has_function_privilege('anon','public.ish_study_lecture_read(text,uuid,text)','EXECUTE') and not has_function_privilege('anon','public.ish_study_lecture_action(text,uuid,jsonb)','EXECUTE') and not has_table_privilege('authenticated','ishrah_private.study_lectures','SELECT')")" = t
       - name: Verify study group migration
         if: contains(steps.request-schema.outputs.files, '058_study_groups.sql') || contains(steps.request-schema.outputs.files, '059_private_groups_channels.sql')
         env:
