@@ -275,3 +275,7 @@ main{padding:10px 12px 12px}
 .clc-res .nt{list-style:none;margin:0;padding:12px 14px;border-radius:18px;background:#fdf6e3;border:1px solid #f0dfae;color:#6b4a10}
 .clc-res .nt li{position:relative;padding-inline-start:18px}.clc-res .nt li::before{content:"•";position:absolute;inset-inline-start:2px;color:#b8862b;font-weight:800}
 :root[data-theme=dark] .clc-res .nt,:root[data-theme=dark] .clc-h code{background:#2a2412;border-color:#5a4a1e;color:#f0d9a0}
+/* English interface, details may be Arabic: every text block takes its own direction from its first letter */
+p,small,li,.disc,.pgs,.when,.tile b,.clc-t b,.clc-h b,.clc-empty span,.hero p,.hb-pt em,.crow b,.crow small,.kv th,.kv td,label>span,.form label,legend,.dc-note,.wn,.toast{unicode-bidi:plaintext}
+.form label{text-align:start}
+.vtabs{flex-wrap:wrap;overflow:visible}

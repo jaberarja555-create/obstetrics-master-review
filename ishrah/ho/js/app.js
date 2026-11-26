@@ -9,7 +9,9 @@
   function get(k, d) { try { var v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }
   function put(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   var LANG = get('ish-lang', 'ar') === 'en' ? 'en' : 'ar';
-  function A(ar, en) { return LANG === 'ar' ? ar : en; }
+  /* owner, 26 Nov 2026: "main language is English except the details": titles, buttons, labels and lists are English; the explanatory
+     details (sentences: descriptions, hints, notes, warnings) follow the chosen language. The page is always left to right. */
+  function A(ar, en) { return LANG === 'ar' && (en.length > 40 || /\.\s|\.$/.test(en)) ? ar : en; }
   var nice = E.nice;
   var byId = {}; DX.forEach(function (c) { byId[c.id] = c; });
   var SXN = {}; SX.forEach(function (s) { SXN[s[1]] = s; });
@@ -70,14 +72,14 @@
     var b = $('#hbBack'); b.innerHTML = ic('back'); b.style.visibility = back === false ? 'hidden' : 'visible';
     ptBar();
     $('#hbPt').hidden = back === false || route()[0] === 'patient';
-    $('#hbLang').textContent = LANG === 'ar' ? 'EN' : 'ع';
+    $('#hbLang').textContent = LANG === 'ar' ? 'EN' : 'ع'; $('#hbLang').title = LANG === 'ar' ? 'Details in English' : 'التفاصيل بالعربي';
     var r = route()[0];
     var cur = { c: 'conds', drug: 'drugs', dx: 'conds', rx: 'patient', orders: 'patient', saved: 'patient', emerg: '' }[r]; if (cur == null) cur = r;
     $('#bn').innerHTML = NAV.map(function (n) { return '<button data-go="' + n[0] + '" class="' + (cur === n[0] ? 'on' : '') + '">' + ic(n[1]) + '<span>' + A(n[2], n[3]) + '</span></button>'; }).join('');
     document.title = title + ' · HO Assistant';
   }
   $('#hbBack').addEventListener('click', function () { if (history.length > 1 && location.hash) history.back(); else go(''); });
-  $('#hbLang').addEventListener('click', function () { LANG = LANG === 'ar' ? 'en' : 'ar'; put('ish-lang', LANG); document.documentElement.lang = LANG; document.documentElement.dir = LANG === 'ar' ? 'rtl' : 'ltr'; render(); });
+  $('#hbLang').addEventListener('click', function () { LANG = LANG === 'ar' ? 'en' : 'ar'; put('ish-lang', LANG); render(); });
   document.addEventListener('click', function (e) {
     var g = e.target.closest('[data-go]'); if (g && !e.defaultPrevented) { e.preventDefault(); go(g.getAttribute('data-go')); return; }
     var a = e.target.closest('[data-act]'); if (a && ACT[a.getAttribute('data-act')]) { e.preventDefault(); ACT[a.getAttribute('data-act')](a, e); }

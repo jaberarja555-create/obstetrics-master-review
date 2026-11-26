@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -13,7 +13,6 @@
 (function () {
   try {
     var l = JSON.parse(localStorage.getItem('ish-lang') || '"ar"'); if (l !== 'en') l = 'ar';
-    document.documentElement.lang = l; document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
     var t = JSON.parse(localStorage.getItem('ish-theme') || '"light"');
     if (t === 'auto') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     document.documentElement.dataset.theme = t === 'dark' ? 'dark' : t === 'eye' ? 'eye' : 'light';

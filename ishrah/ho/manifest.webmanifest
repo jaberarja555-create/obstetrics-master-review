@@ -6,8 +6,8 @@
   "start_url": "/ho/",
   "scope": "/ho/",
   "display": "standalone",
-  "dir": "rtl",
-  "lang": "ar",
+  "dir": "ltr",
+  "lang": "en",
   "background_color": "#eef6f5",
   "theme_color": "#0a5562",
   "icons": [
