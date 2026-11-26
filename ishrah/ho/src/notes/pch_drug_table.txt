@@ -1,0 +1,980 @@
+Num Drugs                     Rute         Dose             Dose\da formula
+ber                                                         y
+A /1   Acyclovir              Infusion     10               8hrly(for 10-    Susp 200mg\5ml
+       (inj) (Encephelitis)   over one     mg\kg\dose       20days)          Vial (250)
+       Tabs 200 - 400         hour         Tabs 200-400
+                                           2yrs -100mg      (5 times \ day   Tabs 200 – 400
+                              oral         2 yrs – 200-     )
+                                           400 mg           For 5-7 days
+                                           Needs
+                                           adequate
+                                           hydration
+2      Adrenalin 1:1000       IM\SC        0;01ml\kg\d      Every 10-        Vial (1 mg \1ml)
+       (Anaphylactic)                      ose              20minutes
+                                                            Until
+                                                            improvement
+                                                            occur
+3      Adrenalin 1:1000       Slow IV      0;01ml\kg\d      Can be           Vial 1mg\ml
+       (cardiac arrest)       Over         ose              repeated in      10ml\ampoule
+                              minutes                       double dose
+                                                            if no
+                                                            response
+4      Albumin (infusion)     IV           0.5-1            Max              Bottle 50 mg\ml
+       Isotonic               infusion     g\kg\dose        6g\kg\day        5%
+       5%(hypovolaemia)       over 1\2-                                      5o ml // 250 ml //
+                              1hr                                            1000 ml
+       Conc. Solution                                                        Bottle 25% =
+       25% (severe            IV           0.5- 1           Once \day        250mg\ml
+       hypovolaemia)          infusion     g\kg\dose        Monitor vital    10ml\\20ml\\50m
+       Under                  over 3-6                      signs            l\\100ml
+       consultation           hrs with                                       ( 250mg\ml )
+                              diuretics
+
+
+
+5      Aminophyllin           Slow IV      5mg\kg\dose      8hrly Infusion   VIAL 250mg\10ml
+                              \oral        (1mg\kg\hr       Tabs 3 times     Tabs 100-200mg
+                                           infusion rate)   \day
+6      Amoclan                Orally &iv   20-50            8hrly            Susp 156 5ml tds
+       (amoxicillin           over 3-4     Mg\kg\day        12 hrly          200mg\5mlBID
+       +clavulinate)          min          Dose based                        400mg\5ml BID
+                                           on                                Tab 375 -625 – 1g
+                                           amoxicillin                       Inj 600-1200mg
+                                                                         \vial
+
+
+7        Amoxicillin          Oral       20-50           8 hrly          Susp 125 -250
+                                         Mg\kg\day                       \5ml
+                                                                         Caps 250 – 500mg
+                                                                         Drops 100mg\1ml
+8        Ampiclox             Oral \iv   25mg\kg\dos     6hrly           Susp 250mg\5ml
+                              \im        e                               Vial 250 500
+                                                                         Caps 500mg
+9        Antihistamin (non oral          5mg-10mg        Once            Susp 5mg\5ml
+         sedating ) eg                   <30kg 5mg                       Tab 10 mg
+         loratedine                      >30kg 10mg
+         2-12 yrs
+10       Antistine         Orally        0.1mg\kg\do     1-2yrs BID      Susp 2 mg\5ml
+         (chlorphenaramine               se              2-5yrs TDS      Tabs 2-4mg
+         )                               Or              12yrs 6hrly     Vial 10mg\1ml
+         Not recommended                 1-2yrs 2mg
+         less than 1 yr                  2-5yrs 6mg
+                                         6-12yrs
+         Emergency dose                  12mg            Single dose     Can be repeated
+         (anaphylactic        IM\SC\IV   <2yrs 2.5mg                     up to 4 times if
+         reaction)            Emergenc   <5yrs 5mg                       necessary
+                              y          6-12rs 10 mg
+11       Artemether           IM         1,6mg\kg\do     First day two   Vial 40mg\1\2ml
+                                         se              doses then      40mg\1ml
+                                                         once per day    80mg\1ml
+                                                         for 6 days
+12       Asprin               Oral       80-             4-6hrly         Tabs 75-81-100-
+         (antirheumatic)      After      120mg\kg\da                     300g
+                              food       y
+13       Asprin analgesic     Not        Not             Not             Not
+         Not recommended      recomme    recommende      recommende      recommended in
+         in children <12yrs   nded in    d in children   d in children   children <12yrs
+                              children   <12yrs          <12yrs
+                              <12yrs
+14       Atropine             IV\IM      0.01-           Once            2mg\1ml ampule
+                                         0.02mg\kg\d
+                                         ose
+15       Azithromycin         Oral       10mg\kg         Once            Susp 200mg\5ml
+                                                                         Caps 250-500mg
+B / 16   Benzathine           IM         <12yrs 1.2      Once every 3-   Vial 1.200.000i.u
+         penicillin                      >12yrs 2.4      4weeks          2.400.000i.u
+17      Benzyle penicillin    IV\IM       100.000I.U\k                     Vial 1000.000
+                                          g\dose
+                                          1wk
+                                          1\4million i.u
+                                          BID
+                                          1wk-1mon
+                                          1\4mill TDS
+                                          1mo-2mon
+                                          1\4mill 6hrly
+                                          2mon-1yrs
+                                          1\2mill 6hrly
+                                          >1yr 1mill
+                                          6hrly
+18      Bisacodyl             Oral        5-10mg           Once at night   Tab 5-10mg
+        (laxative)            >6yrs
+             Constipati                  <2yrs 5mg
+                 on           supposito   >2yrs 10mg       Once at
+             Before          ry                           morning         Sup. 5mg
+                 surgery
+             radiology
+19      Blood transfusion     IV          Wt X desired     Over 3-4 hrs
+        (packed cell)                     raised in Hb
+                                          gm\dl X 3
+20      Blood transfusion     IV          10-20ml\kg       Over 3-4 hrs
+        (whole blood)
+C /21   Ca +2 gluconate       Slow iv     1-               Once (bolus     Vial
+        (emergency)           (over 10-   2ml\kg(neon      dose),can be    10%10ml(0.22mm
+        monitor for           15 min)     ate)             repeated        ol\ml)
+        bradycardia                       2ml\kg(older     every 6-8 hrs
+        Followed by           Infusion    children)        Pass in 24 hr   Vial
+        Ca*gluconate          in 24hrs                     for 2-3         10%10ml(0.22mm
+        (maintinence)         or oral     5-               days(neonate    ol\ml) (9mg ca**
+                                          7ml\kg\24hr      &older          element\ml)
+                                                           children)
+22      Ca+2 oral             oral
+        Neonate                           500-
+        Ca gluconate liquid               700mg\kg\da 4-6hrs               5ml
+        Older                             y                                liquid=1g(400mg
+        Ca carbonate                      50mg\kg\day 8hrs                 ca element)
+        liquid                                                             Tab1.25g(500mg
+        Ca carbonate                      50mg\kg\day      8hrs            ca element)
+        chewable tabs                                                      Granules
+        Effervescent                      50mg\kg\day      8hrs            2.5g(1000mg
+         granules                                                           element ca)
+
+
+
+23       Cefaclor (midocef)   oral          20-             8hrly-12hrly    Susp 125-
+                                            40mg\kg\day                     250mg\5ml
+23       Cefixime (suprax)    oral          8mg\kg\day      Once or twice   Susp 100mg\5ml
+                                                                            Caps 200-400
+24       Cefotaxime (zetax)   Iv\im         100-        6-8hrly             Vial 250-500-
+                                            150mg\kg\da                     1000mg
+                                            y
+                                            Neonates    12hrly
+                                            50mg\kg\day
+25       Ceftazidime          Iv\im         100-        6-8hrly             Vial 250-500-
+         (fortum)                           150mg\kg\da                     1000mg
+                                            y
+
+                                            Neonates 15-    12hrly
+                                            30mg\kg\day
+26       Ceftrixone           Iv            20-             Once or BID     Vial 250-500-
+         (samixon – oncef )   infusion      80mg\kg\day                     1000mg
+                              in at least   100mg\kg\da
+                              30 min        y in
+                                            meningitis
+27       Cefuroxime (maxil    Iv\im         Neonate         12hrly          Susp 125-
+         – zinacef)                         20-                             250mg\5ml
+                                            60mg\kg\day                     Tabs 125-250-
+                                            Infant&childr                   500mg
+                                            en75-           8hrly           Vial 250-750mg
+                                            150mg\kg\da
+                                            y
+28       Cephalexin           oral          25-             6hrly           Susp 125-250 mg
+                                            100mg\kg\da                     Caps 250-500mg
+                                            y
+29       Chloral hydrate      oral          25-             Single dose     200mg\5ml
+         (sedative for                      100mg\kg\d      (one hr
+         procedure ) eg; CT                 ose             before the
+         scan Echo                                          procedure)
+30       Chloramphinicol      Oral\iv       50-             6hrly           Susp 125mg\5ml
+                                            100mg\kg\da                     Caps 250mg
+                                            y                               Vial (1g)
+31       Chloroquine          oral          10mg\kg                         Syrup 50mg\5ml
+                                            initially                       Tabs 250-500-750
+                                            5mg\kg after                    mg
+                                            6 hrs                           Vial 200-400mg
+D / 32   Dexamethazone        Iv\im         0.6mg\kg\da 6hrlly (4           Vial 4mg\1ml
+         *meningitis                        y            times)
+         *croup               IM                         single
+                                         0.6mg\kg
+
+33       Dextran              IV         20ml\kg\day     Caution :
+         Plasma volume        infusion   (first day)     bleeding
+         expander                        then            ,interfere
+                                         10ml\kg\day     with blood
+                                         for not more    grouping and
+                                         than 5 days     cross
+                                                         matching so
+                                                         take sample
+                                                         before use
+34       Diazepam             IV \oral   0.3mg\kg\do                     Vial 10mg\2ml
+                                         se                              Tabs 5mg-10mg
+                              IR         0.5mg\kg\do
+                                         se(IR)
+35       Digoxin              Oral       0.015mg\kg                      Tabs 0.1mg-
+                                         then after 6                    0.125mg-0.25mg
+                                         hrs                             Inj 0.25mg
+                                         0.005mg\kg
+                                         then after 24
+                                         hrs
+                                         maintenance
+                                         0.003-
+                                         0.005mg\kg\
+                                         12hrly
+36       Dopamine             Infusion   Renal dose 2-                   Vial 200mg\5ml
+         Serious drug \                  5mcg\kg\min
+         under consultation              Cardiac dose
+                                         5-
+                                         15mcg\kg\mi
+                                         n
+E / 37   Erythromycin         Oral       30-             6 hrly          Susp 125-
+                                         60mg\kg\day                     250mg\5ml
+                                                                         Tabs 250mg
+38       Ethambutol           Oral       15mg\kg\day     Once            Tabs 100-400mg
+39       Ethina               Oral       15+5mg\kg\      Once            Tabs 400\150 mg
+         (Ethambutol+INH)                day
+F / 40   Factor 8             Iv         Minor           Once may be     Vial of dispensed
+         Concentrate          infusion   bleeding        every 12 hrs    powder = 200u -
+                                         2ou\kg\dose     in severe       500u-100u
+                                         Major bleed     bleeding for
+                                         30u\kg\dose     up to 6 doses
+                                         Head injury
+                                         50u\kg\dose
+                                         or ( wt X 0.5
+                                         X DESIERED
+                                         INCREASE IN
+                                         FACTOR 8 )
+
+
+41       Factor 9             Iv         20-             Once may be
+         concentrate          infusion   40u\kg\dose     every 12 hrs
+                                                         according to
+                                                         the type
+                                                         bleeding
+42       Fansidar             Oral       0.5             once            Tabs 500mg
+                                         tabs\10kg                       (sulphadoxine
+                                                                         500mg ,
+                                                                         pyremethamine
+                                                                         25mg)
+43       Fe sulfate           Oral                                       Syrup
+         *therapeutic                    3-              8-12hrly        50mg\5mg
+                                         6mg\kg\day                      saferon
+                                         (elemental                      Tabs 60mg
+         *prophylactic                   iron )          8hrly - BID     ferrous sulphate
+                                         1-                              Depends on the
+                                         2mg\kg\day                      preparation
+44       Folic acid           Oral       0.2mg\kg\da     once            Tab 5mg
+                                         y
+45       Fresh frozen         Iv         10-20ml\kg      Over 30 min
+         plasma
+G / 46   Gentamycin           IV / IM    2.5 mg / kg /   8 – 12 hourly   Vial 80 mg / 2 ml
+                                         dose
+47       Griseofulvin         Oral       10-             Once or 12      Susp 125 mg\5ml
+         Tenia infection of              20mg\kg\day     hrly            Tabs 250-500mg
+         hair and nails
+H / 48   Haloperidol          Oral \im   0.02-           8-12 hrly       Tabs 0.5mg
+         Not recommended                 0.05mg\kg\d                     Inj 5mg\ml
+         <3yrs                           ay
+49       Heparin                         Bolus dose
+         *thrombosis          Iv         50u\kg
+                                         Followed by
+                                         continuous
+                                         infusion >
+                                         15-35
+                                         u\kg\hr
+                                         (monitor by
+                                         APTT >
+                                         therapeutic
+                                         up to 1.5-2.5
+         *for catheter        >          base line )
+         patency                         0.5u\ml
+50       Hydrocortizone       IV         4-              6 hrly          Vial 100 mg
+                                             5mg\kg\dose
+
+
+I / 51   Ibuprofen              Oral         20              6-8hrly        Susp 100-
+                                             mg\kg\dose                     200mg\5ml
+                                                                            Tabs 200-400 mg
+52       INH                    Oral         5mg\kg\day      once           Tabs 100 mg
+53       Insulin                                                             The best regimen
+         (soluble – regular )                                               is insulin infusion
+         A – emergency                                                      50 units insulin in
+         1 –DKA                 IV risk of   0.05-                          0.9%saline (risk of
+                                hypoglyca    0.1UN\KG\h                     hypoglycaemia
+                                emia         our                            &cerebral
+                                &cerebral                                   oedema
+                                oedema                                      )
+         2- Hypercalcaemia      IV           0.1unit\kg
+                                             insulin and
+                                             2ml\kg
+                                             50%dextrose
+                                             iv
+         B –maintenance         SC           0.7-1.2
+                                             unit\kg\day
+                                             (1\3dose
+                                             soluble and
+                                             2\3 dose
+                                             zink)
+K / 54   K+ chloride                         Infusion
+              Acute            IV           0.5-            Twice , over
+                 deficit        infusion     1mmol\kg\d      dose may be    Vial
+                 (hypokalae     ,the IV      ose infusion    fatal          10%(6.7meq\5ml)
+                 mia)           fluid must   over 1-2                       15%(10%meq\5m
+                                not          hours max                      l)
+                                contain      infusion rate                  20%(13.3meq\5m
+                                >40mmol      is 0.4                         l)
+                                \l           mmol\kg\hr
+                                potassiu
+                                m                                           Syrup 1mmol\ml
+                Maintenan      Oral \ iv    Oral :          12hrly         Tab slow k
+                 ce                          2-4                            (8mmol)
+                 (requirem                   mmol\kg\da
+                 ent )                       y
+L / 55   Lactulose              Oral         1-As laxative   12hrly         Solution
+                                             0.5-1ml\kg                     10g\15ml
+                                             \day or                        100mg\15ml
+                                             <1yr 2.5ml
+                                             1-5yr 5ml
+                                             5-10yrs 10ml
+                                            2-In hepatic    6 hrly
+                                            failure
+                                            4ml\kg\day
+56       Largactil             Oral         0.5-            4-6hrly          Tab 50-100mg
+         (chlorpromazine)                   1mg\kg\dose                      Vial 50mg\2ml
+57       Lasix                 Oral \iv     0.5-            8-12hrly         Tab 40mg
+         (furosemide)                       2mg\kg\dose                      Vial 20mg\2ml
+M / 58   Magnesium sulfate     Iv dilute    0.1ml\kg        8-12hrly         10ml\ampoule
+         injection ( as anti   before       over 20 min                      2mmol\ml
+         convulsant )          giving iv    then
+                               Or           0.06ml\kg\hr
+
+                                iv \im      20-100mg\kg     4-6hrly as
+                               route                        needed
+59       Mannitol              IV(infusio   0.25mg\kg\d     Once             Vial
+         (cerebral edema )     n) over      ose over 20-    increase         200mg\ml(20%)
+              Increase        20-30 min    30 min or       gradually up     Note
+                 ICP                        1ml\kg\dose     to               Monitor ICP by
+                                                            1g\kg\dose if    serum osmolality
+         Promotion of                                       necessary        310-320mosm\kg
+         diuresis                                                            Monitor dieresis
+                                                                             by UOP after a
+                                                                             test dose
+                                                                             =200mg\kg
+60       Maxil                 IV / IM      Neonate 20 –    12 hrly          Sussp 125 -250
+         (cefuroxime -                      60 mg /                          mg/ ml
+         zinacef)                           kg/day                           Tabs 125 – 250
+                                            Infant and      8 hrly           mg
+                                            child                            Vial 250 – 750 mg
+                                            75 – 150
+                                            mg/kg/day
+61       Mebendazole           Oral         General dose    12 hrly for 3    Sussp 100 mg/
+         (vermox) >2yrs                     100 mg =        days             5ml
+                                            dose                             Tabs 100 mg
+                                            Specific dose   Single dose
+                                            for pin worm    then the dose
+                                            100 mg for      should be
+                                            each age ,      repeated in 2
+                                            whole family    -3 wks
+                                            should
+                                            receive the
+                                            drug
+62       Mefnamic acid    Oral              6,5                              Susp 50mg/5ml
+             Fever\pain                    mg/kg/dose                       Tabs 250-500mg
+             Dysmenorr                     >6 month        8 hourly after   Caps 250-500mg
+               hoea                         age             food
+               (adolescen                   500 mg with
+                t)                           meals
+63       Metformine (type      Oral with     500 mg/          Once             Tabs 500 – 850
+         2 DM )                meal          dose             12 hrly          mg
+                                             increase it      Or 8 hrly        Caution : renal ,
+                                             500 mg                            hepatic
+                                             weekly to                         dysfunction ,
+                                             max 2000                          metabolic acidosis
+                                             mg/ day
+64       Metronidazole         Oral / iv     7,5 mg / kg /    8 hrly           Susp 200 mg / 5
+         (flagyl)              infusion      dose                              ml
+                                                                               Tabs 250 – 500
+                                                                               mg
+                                                                               Infusion 500 mg /
+                                                                               100 ml
+65       Midazolam             Iv (over 2-   0.05 mg /kg /    Children over    Vial 1 mg / 1 ml
+         (sedative for         3 min )       dose             7 years
+         procedure ) eg; CT                  0.2 mg /kg /
+         scan Echo )           Intra         dose
+                               nasal
+66       Morphine              Im /sq        0.1 – 0.2        once             Vial (10 mg/ 1 ml)
+                                             mg/kg/dose
+67 N     Na+bicarbonate        IV slowly     1–2
+             Cardiac                        meq/kg/dose
+                arrest
+                (cpr)
+             Metabolic                      The amount
+                acidosis                     required in
+                                             meq =
+                                             (0.3xwtxbase
+                                             deficit )
+                                             Base deficit =
+                                             24 –
+                                             s.bicarbonat
+                                             e
+68       Naldixic acid         Oral          50               6 hrly           Tab 500mg
+                                             mg/kg/day
+69       Nifidipine (adalat)   Oral          0.25 – 0.5 mg    8 – 12 hrly      Tab 10 – 20 mg
+                                             / kg / dose                       Caps 10 – 20 mg
+P / 70   Paracetamol           Oral          10 mg / kg /     6 hrly for 24    Syrup 120 mg / 5
+                                             dose             hrs then on      ml suppose 125 –
+                                                              demand           250 mg
+                                                                               Tabs 500 mg
+71       Pethidine             IM            1 – 2mg / kg     Once ( 4 – 6     Vial 50 mg / 1 ml
+         (analgesia)                         / dose           hrs if needed)
+72       Phenobarbitone        Infusion      LD :             (older           Vial (30 – 60 mg /
+         (as anticonvulsant)   =< 30 mg      ( 15 – 20 mg     children only)   ml )
+                               / kg/ min     / dose )         Once orally      Tabs 30 – 60 –
+                                       MD :             Once or BID (    100 mg
+                           Oral        3 – 4 mg / kg    IV )
+                           IV          / dose
+                                       (neonate)
+                                       5 -6 mg / kg /
+                                       dose (child)
+73   Phenoxymethyl         Oral        < 2 years        12 hrly          Powder for susp
+     penicillin                        (125 mg =                         400 mg
+     (ospinine) (for                   2,5 ml)                           Tabs 500 – 1000
+     sickle cell                       >2 years 250                      mg
+     prophylaxis)                      mg = 5 ml
+74   Phenitoin             Slowly IV   LD :                              Susp 125 mg / 5
+      (as                              Over one                          ml
+     anticonvulsant)                   hour 15 – 20                      Vial 250 mg / 5 ml
+                                       mg / kg /
+                                       dose
+                                       MD :
+                           Oral        5 MG / KG /      BID (IV )
+                                       DOSE
+                                       (NEONATE )       ONCE ( orally)
+                           IV          6 – 10 mg /
+                                       kg / dose
+                                       (children )
+                                       Infusion rate
+                                       <=0.5 mg /kg
+                                       / min
+                                       (neonate)
+                                       1 – 3 mg / kg
+                                       / min
+                                       (children )
+
+
+75   Platelet              IV          0.2 unit / kg    Over 15 min
+     transfusion                       4 – 6 unit /
+                                       m2
+76   Prazequantel
+          Belharzia                   40 mg / kg                        Tabs 600 mg
+          Taenia          Oral        10 – 20 mg /     Single dose
+             worm                      kg / day
+          H.nana                      25 mg / kg
+77   Predisolone           Oral        1 – 2mg / kg     6 - 12 hrly      Tabs 5 mg
+                                       / day
+78   Primaquine (for       Oral        0.15 mg / kg     12 hrly for 14   Tabs 7 .5 mg
+     p.vivax&ovale)                    / dose           days
+     For the liver stage
+     after anti malarial
+     drugs
+         Procaine penicillin   IM          50,000 IU /      once          Vial 1000,000 IU
+         (skin sensitivity                 kg / day
+         before use)
+79       Propranolol           Oral        0.5 mg / kg /    6 – 12 hrly   Tabs 10 – 40 mg
+         (hypertension)        Infusion    dose                           Inj 1 mg / ml
+         Caution in            over 10 –   0.02 – 0.1 mg
+         asthmatic patients    15 min      /kg/dose
+80       Pyrazinamide          Oral        25 mg /kg /      Once          Tabs 400 mg
+                                           dose
+Q / 81   Quinine               Oral        10 mg / kg /     8 hourly      Tabs 300 mg
+                               Infusion    dose                           Vial 600 mg / 2 ml
+R / 82   Racaemic              nebulized   0.05 ml / kg /   In severe     2.25 %
+         (adrenaline)                      dose diluted     cases every
+              Croup                       in saline        20 min
+83       Rifampicine           Oral        10 mg /kg /      Once          Tabs 150 mg
+                                           dose
+84       Rifina (              Oral        10 + 5 mg /      once          Tabs 150 / 75 mg
+         rifamp+INH)                       kg / day
+                                           (15 mg )
+S / 85   Salbutamol            Oral        0,1 – 0.15 mg    8 hrly        Susp 2 mg / 5 ml
+         (ventoline)                       / kg / dose                    Tabs 4 mg
+86       Septrin (co-          Oral        20 mg / kg /     12 hrly       Susp 240 -
+         trimoxazole)                      dose (sulpha                   480 mg / ml
+                                           methoxazole                    Tabs 480 mg
+                                           )
+87       Spironolactone        Oral        2 – 3 mg / kg                  Tabs 25 – 50 mg
+                                           / day            8 – 12 hrly
+88       Streptokinase                     3500 – 4000
+              Thromposi                   units infusion
+                 s                         over 30 min
+              Catheter                    Then
+                 patency                   continuous
+                 (clotted                  infusion
+                 catheter)                 1000 – 1500
+                                           units
+                                           10000 –
+                                           25000 IU in
+                                           NS (the
+                                           volume of
+                                           the catheter
+                                           instilled into
+                                           the catheter
+                                           for one min
+                                           then
+                                           aspirated )
+89       Streptomycine         IM          12 – 18 mg /     once          Vial 1000 mg
+                                           kg / dose
+T / 90   Tegretol             oral        Starting dose 12 -24 hrs    Susp 100 mg / 5
+         (capamazepine)                   5mg\kg\day    (bid-once)    ml
+         building dose to                 Building                    Tabs 100 – 200
+         reach        control             dose to                     mg
+         increase every 5                 reach control
+         days by 2.5 mg \kg               increase
+         till control but not             every 5 days
+         reach max dose                   by 2.5 mg \kg
+         20mg\kg\day                      till control
+                                          but not reach
+                                          max dose
+                                          20mg\kg\day
+91       Tetanus antitoxin                child
+              Prophylact     SC\IM       <30kg
+                ic            IV          1500unit
+              Therapeuti                 >30kg 3000-
+                c                         5000units
+                                          40,000-
+                                          100,000
+92       Tetanus IG
+               Prophylact    IM          4units\kg
+                 ic           IM          500-
+               Ttt                       3000units
+93       Thiazina             oral        10-20         once          Tabs 150 -300mg
+         (thioacetazone+IN                mg\kg\dose
+         H)
+V / 94   Vit B6               IM /        20 – 50 mg    Once – TDS    Vial (100mg\2ml)
+               Neonatal      slowly IV   =dose                       Tabs 25-50-
+                 seizures                                             100mg
+               Maintenan     Oral        50 – 100 mg   For three
+                 ce                       = day         weeks
+               Deficiency    Oral        5 -25 mg =
+                                          day
+95       Vit K1               IM\SC
+         (phytomenadioe)                                              Vial (10mg\1ml)
+         Max 10mg\day
+               Neonate       IM          1MG
+                a.prophyla
+                xis
+                (haemorra                               Single dose
+                hgic
+                disease of    IM          1-2MG\DAY
+                the
+                neoborn)      IM\SC\IV    1-2mg\dose
+                b.therapiu
+                tic
+               Infant
+                  &child
+                  (deficincy)
+
+
+Weight from age :
+Between (3-12month)             age in month + 9
+                                       2
+Between (1-6 years)             age in years x 2 +8
+
+Between (7-12years)             age in years x 7 – 5
+                                       2
+
+
+
+
+           N.G Tube :
+Practically size from nose to
+angle of jaw to xiphoid
+process
+Neonate                                         size 5
+Infancy                                         size 6
+Children                                        size 6-8
+Adolescent                                      size 10
+
+
+
+URINARY CATHETER :
+Neonate & Infancy                               5
+
+Older Children                                  6---10
+
+Adolescent                                      12---14
+ENDOTRACHEAL TUBE SIZES :
+
+Size                                       Weight in gm
+2.5                                        1000
+3                                          1000-2000
+3.5                                        2000-3000
+3.5                                        3000
+
+
+
+Definition of HTN by age :
+                 Significant                                                 Severe HTN
+                 HTN
+Age              Syst              Diast                    Syst             Diast
+7 days           >96                                        >106
+8 – 30 days      >104                                       >110
+Infant < 2       >112              >74                      >118             >82
+years
+3 -5 yrs         >116              >76                      >124             >86
+6 – 9 yrs        >122              >78                      >130             >86
+10 – 12 yrs      >126              >82                      >134             >90
+13 – 15 yrs      >136              >86                      >144             >92
+16 – 18 yrs      >142              >92                      >150             >98
+
+
+
+
+Hypertensive emergency treatment :
+In this table slowly over 20 min
+
+Diazoxide
+Hydralazine                                IM –IV slowly 0.2- 0.5 mg/kg/dose hrly till
+                                           control
+Nifidipine (sublingual)                    SL 0.2-0.5 mg/kg every 2 hrs till control
+Sodium nitroprusside                       IV infusion rate 0.5 micro gm /kg/min
+
+
+IV fluids for paediatric volume resuscitation :
+
+Crystalloids                               Colloids
+0.9 % sodium chloride                      5% human albumin
+Ringer lactate                             20% -25% human albumin
+Hypertonic saline                          10 % dextran
+                                           Fresh frozen plasma
+                                                   Whole blood
+
+
+Daily requirement of fluid ( maintenance )
+
+Within first 10 kg x100
+       2ed 10 kg x 50
+        The rest x 20
+
+
+
+
+Infusion rate :
+Drops / min = quantity (fluids)/4xnumbers of hours
+
+
+
+
+Insensible losses 300 ml / surface area / day or
+15 – 17 ml / kg / day
+Oliguric phase =< 0.5 ml / kg / hr
+Or
+< 200 ml / surface area / day
+Polyuric phase > 2000 ml / surface area / day
+
+
+
+
+Common PICU medication dosages :-
+
+
+Adenosine            0.1 mg/, 12 g           kg for 1st     for 2nd dose   max 6 mg
+                                             dose
+Amiodarone           5 mg/kg                 IV load over                  150 mg max
+                                             25 min
+Atropine             0.02 mg/kg IM/IV/ET                                   1 mg max
+                    0.1 mg min
+Calcium chloride    30 mg/kg IV central
+                    only
+Calcium             50-100 mg/kg IV
+gluconate
+Dextrose            1 g/kg                   1 ml/kg D50,
+                                             2 ml/kg D25,
+                                             5 ml/kg D10
+Dopamine           D 1-3 mcg/kg/min         ß 3-10          a 10-20 mcg/kg/m
+                                            mcg/kg/m
+Enalapril         0.05 – 0.25 mg/kg PO
+Epinephrine       0.01 mg/kg IV 0.1         ß 0.01-0.1      a 0.1 - 1            0.1ml/kg
+                  mg/kg ET                  mcg/kg/m        mcg/kg/min           1:1000, 0.1
+                                                            1:10,000,            ml/kg
+Fentanyl          25 mcg/kg IV              1 mcg/kg/hr
+Hydralazine       0.1 – 0.2 mg/kg IV                                             max 20
+                                                                                 mg/day
+Magnesium         25-50 mg/kg IV                                                 2 g max
+Midazolam         0.05 mg/kg IM/IN/IV
+                  0.05 mg/kg/hr
+Milrinone         0.25 – 1 mcg/kg/min
+Morphine          0.05 mg/kg IV
+Norepinephrine    ß 0.01-0.1 mcg/kg/m
+                  a 0.1 - 1 mcg/kg/min
+Sodium            1 – 2 meq/kg IV
+bicarbonate
+Vasopressin       0.5 – 40 mU/kg/hr
+Vecuronium        0.1 mg/kg IV
+
+
+
+
+Normal values of vital signs in paediatrics :
+Age                            Average RR                       Fast breathing
+< 2 month                      40                               60 / min
+2 -12 month                    30                                   50 min
+>1 – 6 years                   25                               40 / min
+>6 – 12 years                  20                               30 / min
+
+
+Pulse rate :
+
+Age                                             PR/MIN
+Neoborn                                         130
+Infancy                                         110 – 120
+Early childhood                                 100
+Late childhood                                  90
+
+
+
+
+Temperature :
+Type                                             The normal
+Oral                                             36.5 – 37.4
+Rectal                                           0.5 c more than normal
+Axillary                                         0.5 c less than normal
+
+
+Age                                              Head circumference (cm)
+Birth                                            35
+3 month                                          41
+6 month                                          43
+9 month                                          44
+1 year                                           45
+3 years                                          49
+5 years                                          50
+7 years                                          52
+12 years                                         53
+Adult                                            55
+
+
+
+
+Mid upper arm circumference (M.U.A.C) PME classification
+
+Arnold classification bet 1 -5 years
+
+
+
+M.U. A.C                                         Diagnosis:
+Between 13.5 - 14.5                              Normal
+Between 12.5 - 13.5                              Mild to moderate
+Below 12.5                                       Severe
+
+
+Welcome classification of PEM :
+
+                        Body wt as %             edema                    Deficit in wt for hight
+Under wt                60 -80                   -                        Mild
+Nutritional dwarf       <60                      -                        Mild
+Marasmus                <60                      -                        Marked
+Kwashiorkor             60 – 80                  +                        Mild
+Marasmic                <60                      +                        Marked
+kwashiorkor
+
+
+Standard is taken as the 50 th percentile of normal values for weight
+Weight for height = wt of the pt     x 100
+
+           Wt of normal child at same height
+
+Short notes about dehydration (IMCI)
+No dehydration (plan A)
+Given more fluids than usual ( home made fluids – ORS – water – breast milk)
+<2 years …………….50 – 100 ml
+>2 years …………..100 - 200ml
+After each loose stools
+Some dehydration (plan B)
+ORS 75 ml / kg every 4 hours ( cup – spoon – NG tube )
+Severe dehydration ( plan C ) :
+Ringer lactate or normal saline 100 ml / kg IV ( 6 hours or 3 hours )
+                                    30 ml / kg                        70 ml / kg
+    Less than 1 year                1 hour                            5 hours
+    More than 1 year                ½ hour                            2.5 hours
+
+Shock :
+20 ml / kg directly IIV as rapid as you can and repeat the dose if no response
+
+
+
+
+                                             Malaria
+Treatment of un complicated malaria :
+
+Start with first line and shift to other line when there is treatment failure .
+
+*First line: 1st line treatment in sudan is ( Artesunate AS +sulfadoxine pyrimethamine SP )
+inform of tablet
+
+  Artisunate (AS) is available in sudan for children as 50mg.side effect are not common
+besidetransient rise in transaminase& transient reduction inreticulocyte count has been
+reported.
+
+In case of 100 mg or 200 mg adjust the dose and numbers of tablets accordingly .
+
+Sulfadoxine-pyrimthemine(as):is afixed dose combination of two anti folate is available in sudan
+in form of tablet(500mg sulfadoxine+25mg pyrimethamine).
+
+Side effect: Are revresable GITdisturbance &visual disterbance .cutaneous reactions .anaroxia.
+
+
+
+ Age(year)        Wt(kg)            Day 1                             Day2As(50mg Day3As(50mg
+                                                                      tab)        tab)
+                                  Sp(500+25mg Sp(50)tabs
+                                  tab)
+
+       >1          >10            1/2             1/2            1/2             1/2
+
+
+       1->7        20->10         1               1              1               1
+
+
+       7-11        00_20          2               2              2               2
+
+
+       10+         00+            1               0              0               0
+
+
+
+
+                                                                                            Total
+                                                                                           Numbers
+               Weight group       Blister                                                   of tabs
+  Age group                                       (Day 1)            (Day 2)     (Day 3)
+                       in kg      color
+
+
+
+
+< 1 year          < 10 kg      The use is not recommended give quinine instead
+
+
+                                                                                              6
+                                                  1 tb ,            1 tb ,     1 tb ,
+1 – < 3 year    10 to 14 kg       Yellow
+
+                                                   1 tb             1 tb       1 tb 
+
+                                                                                             12
+                                                  2 tb ,            2 tb ,     2 tb ,
+3-<8y            15 -24 kg         Blue
+
+                                                   2 tb             2 tb       2 tb 
+                                                                                                           18
+                                                              3 tb ,        3 tb ,        3 tb ,
+8 to 10 y              25 to 34 kg        Orange
+
+                                                              3 tb           3 tb         3 tb 
+
+                                                                                                           24
+                                                              4 tb ,        4 tb ,        4 tb ,
+> 11y                      > 35           Green
+
+                                                              4 tb           4 tb         4 tb 
+        Second line : Coartem (Artemether 20 mg/Lumefantrine 120 mg) as fixed cmbined tabs for
+        uncomplicated malaria falciparum
+
+
+
+
+        Quinine:
+
+        found as Q Dihydrochloride,Q hydrochloride,Q sulphate orally should be used as a third line
+        drug in case of no response to Artemether-lumefantrine.
+
+        Oral quinine is used 10mg\kgbody weight 8 hourly for 7 days.
+
+        IM injection of quinine for those with reapeted vomiting .
+
+         SEVERE MALARIA
+
+        Case definition:
+
+        Severe malaria is define as malaria due to P.falciprum infection that is suffieciently serious to be
+        an immediate threat to life . Its amedical emergency which required hospitalization.
+
+        (1)Immediate &emergency measures.
+
+        (2)look &deal with evidence of complication.
+
+        (3)monitoring&assesment of the child condition.
+
+        Immediate measures :
+
+        1.Start resuscitation particulary patent airway.
+
+        2.Establish IV line.
+
+        3.Make a thick blood film for immediate parasite count.ICTmay be useful in certain condition.
+
+        4.Classify the degree of dehydration.
+
+        5.Control the fever by oral and rectal paracetamol.
+6.Control convulsion
+
+7.Detect &treat hypoglycaemia.
+
+Evidence of complication :
+
+8.Start Quinine IV or artemether IM.
+
+1)shock, algid malaria.
+
+2)consider the need of blood transfusion.
+
+3)metabolic acidosis.
+
+4)spontaneous bleeding &coagulapathy.
+
+5)acute renal failure.
+
+6)malarial hemoglobinuria(black-water fever).
+
+7)cerebral oedema.
+
+8)exclude common infections.
+
+Treatment of severe malaria :
+
+Quinine:is the preferable drug and should be given initially by IV infusion, 20 mg salt loading
+dose over 4 hours ( give with IV fluid preferably with glucose 5 % or 10 % or DNS or in 50%
+glucose ) .The dose is 10mg salt\kg body wt over 4 hours administered 8 hourly and shift to tabs
+when patient can take orally for 7 days.
+
+If IV Quinine is not possible: IM Quinine can be given with the same doseage diluted with
+normal saline or distilled water to a concentration of 60mg\ml into both anterior upper thigh.
+
+       Or quinine IV in the same dose as above for at least 3 days then shift to (AS + SP ).
+       Or artemether IM 3.2 mg / kg divided in to two doses in the first day followed by 1.6 mg
+        / kg daily for the next 6 days .
+       Or artemether IM 3.2 mg / kg divided in to two doses in the first day followed by 1.6 mg
+        / kg daily for at least 3 days and then shift to first line treatment (AS + SP ).
+
+    Pre – referral treatment of severe malaria :
+
+    Artesunate rectal suppository / capsules 50 or 200 mg per rectocap 10 mg / kg should be
+    given rectally as soon as possible once a diagnosis of severe malaria is made . if the rectal
+    capsule expelled within the first hour , another rectal capsule should be administered
+    immediately . a second dosec can be repeated after 24 hours .
+
+    Or quinine IM in standard dose . repeat the dose every 8 hours if referral is delayed .
+         NB : do not keep the patient for more than 24 hrs .
+
+
+
+
+Age                                     Wt                  (Q) INJ ml         Normal          Total volume
+                                        (kg)                                   saline          ml
+
+4mon>                                   5-6                 0.2                0.8             1
+
+4-11mon                                 7-10                0.3                1.2             1.5
+
+1-2yr                                   11-14               0.4                1.6             2
+
+3-4yr                                   15-18               0.6                2.4             3
+
+5-7yr                                   19-24               0.8                3.2             4
+
+8-10yr                                  25-35               1.1                4.9             6
+
+11-13yr                                 36-50               1.3                5.7             7
+
+14<                                     <50                 2                  8               10
+
+
+
+
+  RENAL CHART
+
+                  Fluids     urine                      blood
+
+  date     Wt    Intake    Albu   RBC   Pus     casts   B.urea    creatinine   K     Na   BP   Remarks   time
+                                        cells
+THANKS .
+
