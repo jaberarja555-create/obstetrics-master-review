@@ -1,5 +1,5 @@
 /* The app shell stays available offline. Database, video and API requests stay on the network. */
-var SHELL = 'ish-v286', CDN = 'ish-cdn', MEDIA = 'ish-media';
+var SHELL = 'ish-v287', CDN = 'ish-cdn', MEDIA = 'ish-media';
 var STATIC = /^\/(?:img|fonts|pdfjs)\/|\.(?:webp|png|jpe?g|svg|woff2?)$/i;
 var VERSIONED = /^\/(?:js|css)\//;
 var HOSTED_LIBRARIES = /^(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)$/;
@@ -97,6 +97,7 @@ self.addEventListener('fetch', function (event) {
     return;
   }
   if (request.method !== 'GET' || request.headers.has('range')) return;
+  if (url.origin === self.location.origin && /^\/ho\//.test(url.pathname)) return;   /* HO Assistant has its own offline copy (ho/sw.js) */
   if (HOSTED_LIBRARIES.test(url.hostname)) {
     event.respondWith(caches.open(CDN).then(async function (cache) {
       return await cache.match(request) || store(cache, request, await fetch(request));

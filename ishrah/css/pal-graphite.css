@@ -300,6 +300,16 @@ main{padding:16px 18px calc(76px + env(safe-area-inset-bottom,0px));max-width:15
 .shb{padding:16px 18px 20px;overflow:auto}
 @keyframes up{from{transform:translateY(20px);opacity:0}}
 @media (max-width:640px){#sheet{align-items:flex-end;padding:0}.dlg{border-radius:22px 22px 0 0;max-height:94vh}}
+.app-preview{width:min(900px,calc(100% - 24px));max-height:calc(100% - 24px);padding:0;border:1px solid var(--bd);border-radius:var(--r);background:var(--sf);color:var(--tx);box-shadow:var(--lift)}
+.app-preview::backdrop{background:rgba(15,16,17,.62)}
+.app-preview header{position:sticky;top:0;padding:12px 16px;border-bottom:1px solid var(--bd);background:var(--sf);z-index:1}
+.app-preview header h2{margin:0;font-size:1.1rem}
+.app-preview-body{padding:12px 16px}
+.app-preview-body img{display:block;max-width:100%;max-height:65vh;object-fit:contain;margin-inline:auto}
+.app-preview-body audio{width:100%}
+.app-preview-body .player video{object-fit:contain}
+.app-preview-document{aspect-ratio:auto;height:min(65vh,640px)}
+.app-preview-actions{margin-block-start:12px}
 .mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
 .mgrid a{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border-radius:14px;background:var(--sf2);text-align:center;font-weight:700;font-size:12.5px}
 .mgrid a .ico{width:24px;height:24px;color:var(--pri)}.mgrid a.alt{background:var(--tint)}

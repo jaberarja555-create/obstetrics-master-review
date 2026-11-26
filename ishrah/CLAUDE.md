@@ -1639,3 +1639,22 @@ studentmasterreview.com with HTTP/3 off). Now:
 
 - The main PWA uses the gold SMRA crest from `img/mr/smra-mark.webp` on deep teal for Android, iOS, the browser favicon, and notification artwork. The Android manifest has separate standard and maskable icons so the crest fits launcher cutouts.
 - The manifest and icon URLs are versioned. The app's install identity and the separately installable Master Review book icons stay the same.
+
+## HO Assistant (owner, 26 Nov 2026: "an app for house officers: put the diagnosis and patient info, it gives drug options as lines, calculated doses, full prescription and additional management, by the local guidelines")
+- Separate small app in `ishrah/ho/` (no build step, works offline with its own `ho/sw.js` scope /ho/, installable with `ho/manifest.webmanifest`,
+  icons `ho/img/ho-192|512.png`). Inside SMRA: page `#ho` (js/hoapp.js: the app in a frame + «افتح كتطبيق»), a tile in Features and a card under
+  the section title on the House Officer Home. The root sw.js leaves /ho/ alone.
+- Data from the owner's guidelines only: `ho/src/notes/` = full transcription of the Kassala "Guideline of common pediatric cases 2024" (page
+  numbers, doubtful print flagged) and the PCH drug table. `ho/js/drugs.js` (123 drugs: brands, class, forms with strengths, regimens: kg,
+  kg/day, age/weight bands, fixed, mL/kg, IU, infusions; guideline bedside shortcut beside each, contraindications), `ho/js/dx.js` (78
+  paediatric conditions: symptoms with weights for the symptom ranking, investigations, variants by setting/severity with treatment lines,
+  fluid plan, admission, complications, differential, traps), `ho/js/engine.js` (`HO_E`: estimated weight (PCH), doses with rounding to
+  0.5 mL / 0.1 mL + insulin-syringe units / ¼ tablet or "dissolve 1 tablet in N mL", allergy and condition warnings, Holliday–Segar and
+  every guideline fluid plan, Arabic prescription lines), `ho/js/app.js` (screens: Home, Patient, Diagnosis from symptoms, Conditions,
+  management sheet with tickable drug cards, Prescription (Arabic directions; copy/share/print), Order sheet, Drug book, 14 calculators,
+  Emergency doses, Saved patients — all on the device only, keys `ho-*`).
+- Where the guideline print and the usual dose differ the app says so (metronidazole syrup "200: wt/3 mL" = 13 mg/kg; the 7.5 mg/kg dose is
+  used and the 125 mg/5 mL strength gives wt/3 mL). Tube sizes are APLS formulas, marked as not from the local guideline.
+- Tests: scratchpad val.js (every drug/regimen and symptom referenced by dx.js exists), eng.js (1,540 doses for 4 ages: no NaN/empty),
+  hoshot.js (all screens at 390/1366, no errors, nothing wider than the screen). Medicine, surgery and obstetrics wait for their local guidelines.
+- A new HO release: bump `C` in ho/sw.js (its files are cache-first, refreshed in the background).
