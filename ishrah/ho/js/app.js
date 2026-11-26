@@ -54,6 +54,7 @@
     ['nsaid', 'مسكنات NSAID / أسبرين', 'NSAIDs / aspirin'], ['quinolone', 'كينولون', 'Quinolone'], ['aminoglycoside', 'أمينوغلايكوسايد', 'Aminoglycoside']];
   var CONDS = [['asthma', 'ربو', 'Asthma'], ['g6pd', 'نقص G6PD', 'G6PD deficiency'], ['renal', 'مرض كلوي', 'Kidney disease'], ['liver', 'مرض كبدي', 'Liver disease'],
     ['jaundice', 'صفار', 'Jaundice'], ['sam', 'سوء تغذية حاد', 'Severe malnutrition'], ['cardiac', 'مرض قلبي', 'Heart disease'], ['dengue', 'حمى الضنك', 'Dengue'], ['preterm', 'خديج', 'Preterm']];
+  function ptBar() { var pc = P.dx && byId[P.dx], b = document.getElementById('hbPt'); if (b) b.innerHTML = ptChip() + (ready() && pc ? '<em>' + esc(pc.t) + '</em>' : '') + '<i class="pe">' + A('تعديل', 'Edit') + '</i>'; }
   var SETS = [['op', 'عيادة خارجية', 'Outpatient'], ['er', 'الطوارئ', 'Emergency room'], ['adm', 'تنويم', 'Admitted']];
 
   /* ---------- router ---------- */
@@ -65,8 +66,10 @@
   var NAV = [['', 'home', 'الرئيسية', 'Home'], ['patient', 'user', 'المريض', 'Patient'], ['conds', 'list', 'الأمراض', 'Conditions'], ['drugs', 'pill', 'الأدوية', 'Drugs'], ['calc', 'calc', 'الحاسبات', 'Calculators']];
   function chrome(title, sub, back) {
     $('#hbTitle').textContent = title; $('#hbSub').textContent = sub || '';
+    $('#pgt').hidden = back === false; $('#hbSub').hidden = back === false || !sub;
     var b = $('#hbBack'); b.innerHTML = ic('back'); b.style.visibility = back === false ? 'hidden' : 'visible';
-    $('#hbPt').innerHTML = ptChip();
+    ptBar();
+    $('#hbPt').hidden = back === false || route()[0] === 'patient';
     $('#hbLang').textContent = LANG === 'ar' ? 'EN' : 'ع';
     var r = route()[0];
     var cur = { c: 'conds', drug: 'drugs', dx: 'conds', rx: 'patient', orders: 'patient', saved: 'patient', emerg: '' }[r]; if (cur == null) cur = r;
@@ -162,7 +165,7 @@
     savePt();
   }
   function toggle(arr, v) { var i = arr.indexOf(v); if (i >= 0) arr.splice(i, 1); else arr.push(v); }
-  ACT.tglal = function (b) { readForm(); toggle(P.allergy, b.dataset.v); savePt(); b.classList.toggle('on'); $('#hbPt').innerHTML = ptChip(); };
+  ACT.tglal = function (b) { readForm(); toggle(P.allergy, b.dataset.v); savePt(); b.classList.toggle('on'); ptBar(); };
   ACT.tglcd = function (b) { readForm(); toggle(P.cond, b.dataset.v); savePt(); b.classList.toggle('on'); };
   ACT.setset = function (b) { readForm(); P.set = b.dataset.v; savePt(); $$('[data-act=setset]').forEach(function (x) { x.classList.toggle('on', x === b); }); };
   ACT.useest = function () { readForm(); P.wt = nice(E.estWeight(P)); savePt(); render(); };
@@ -173,7 +176,7 @@
     L = L.filter(function (x) { return x.id !== P.id; }); L.unshift(JSON.parse(JSON.stringify(P))); put('ho-pts', L.slice(0, 60)); savePt();
     toast(A('حُفظ المريض على هذا الجهاز', 'Patient saved on this device'));
   };
-  document.addEventListener('input', function (e) { if (e.target.closest('#ptf')) { readForm(); $('#hbPt').innerHTML = ptChip(); } });
+  document.addEventListener('input', function (e) { if (e.target.closest('#ptf')) { readForm(); ptBar(); } });
   document.addEventListener('submit', function (e) {
     if (e.target.id === 'ptf') { e.preventDefault(); readForm(); if (!ready()) return toast(A('أدخل العمر أو الوزن', 'Enter age or weight'));
       go(P.dx ? 'c/' + P.dx : 'dx'); }

@@ -153,3 +153,89 @@ html.inframe .hb{padding-top:8px}
 .dc-dose b,.dc-dose span,.dc-c,.dc-note,.dc-n,.dc-tag,.wn,.about p,.bl li,.nt li,.kv td,.kv th,.crow b,.crow small,.line h4,.fone,.fsel,.dc-f small,.em b,.em small,.hb-pt span,.hb-t small,.when,.vtabs button,.ddx b,.ddx small,.tags span,.pp-l b,.pp-l small,.pp-o li,.pp-dx,.chip{unicode-bidi:plaintext}
 .dc.dim{opacity:.55}
 .btn.inst{width:100%;margin-bottom:12px;border-style:dashed;color:var(--pri)}
+
+/* ===== SMRA look (owner, 26 Nov 2026: "make the HO Assistant design match the SMRA look"): green #0d6b5c → #06463b with gold edges,
+   mint page, white rounded cards, the SMRA logo, title pills between two lines, Cairo / Poppins ===== */
+@font-face{font-family:Cairo;font-weight:400;font-display:swap;src:url(../../fonts/cairo-arabic-400-normal.woff2) format("woff2")}
+@font-face{font-family:Cairo;font-weight:600;font-display:swap;src:url(../../fonts/cairo-arabic-600-normal.woff2) format("woff2")}
+@font-face{font-family:Cairo;font-weight:700;font-display:swap;src:url(../../fonts/cairo-arabic-700-normal.woff2) format("woff2")}
+@font-face{font-family:Pop;font-weight:600;font-display:swap;src:url(../../fonts/poppins-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:Pop;font-weight:700;font-display:swap;src:url(../../fonts/poppins-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:Pop;font-weight:800;font-display:swap;src:url(../../fonts/poppins-latin-800-normal.woff2) format("woff2")}
+:root{--bg:#e6f2ef;--sf:#fff;--tx:#14302a;--mut:#5d7570;--bd:#e1ece9;--pri:#0d6b5c;--pri2:#06463b;--on:#eef6f4;--goldb:linear-gradient(180deg,#fff3c4,#ecc56b 45%,#b8862b);
+  --grad:linear-gradient(180deg,#14806d,#06463b);--sh:0 6px 18px rgba(6,70,59,.08);font-family:Pop,Cairo,system-ui,sans-serif}
+[dir=rtl]{font-family:Cairo,Pop,system-ui,sans-serif}
+:root[data-theme=dark]{--bg:#071f19;--sf:#0f2f27;--tx:#eaf5f1;--mut:#9fb9b2;--bd:#21463c;--pri:#3fc2a6;--on:#123a31;--sh:none}
+:root[data-theme=eye]{--bg:#efe9d8;--sf:#fffaf0;--tx:#2b2416;--bd:#e5dac2;--on:#ece5cf}
+body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+/* header: white floating card, round green-gold buttons, the SMRA logo in the middle */
+.hb{position:sticky;top:0;margin:8px 8px 0;padding:6px 8px;border-radius:22px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;
+  background:rgba(255,255,255,.92);color:var(--tx);box-shadow:0 6px 18px rgba(6,70,59,.10),inset 0 1px 0 #fff;backdrop-filter:none}
+html.inframe .hb{padding-top:6px}
+:root[data-theme=dark] .hb{background:#0c2620;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.hb-s{display:flex;align-items:center;gap:6px;min-width:0}.hb-s.end{justify-content:flex-end}
+.hb button.hb-b,.hb button.hb-l{width:38px;height:38px;min-width:38px;padding:0;border-radius:50%;color:#fff;font-weight:800;font-size:13px;
+  background:radial-gradient(circle at 50% 25%,#14806d,#06463b 75%) padding-box,var(--goldb) border-box;border:2px solid transparent;box-shadow:0 4px 10px rgba(6,70,59,.25)}
+.hb-logo{display:flex;flex-direction:column;align-items:center;gap:1px;text-decoration:none;cursor:pointer}
+.hb-logo img{height:42px;width:auto;display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.15))}
+.hb-logo span{font:800 10.5px Pop,sans-serif;letter-spacing:.06em;color:#fff;background:var(--grad);border-radius:999px;padding:1px 10px;margin-top:-2px}
+:root[data-theme=dark] .hb-logo img{filter:drop-shadow(0 0 1px rgba(255,255,255,.6))}
+main{padding:10px 12px 12px}
+/* patient strip under the header */
+.hb-pt{display:flex!important;align-items:center;gap:8px;width:100%;max-width:none;margin:0 0 12px;padding:8px 14px;border-radius:999px;background:var(--sf);color:var(--tx);
+  border:1.5px solid #cfe3de;font-size:13.5px;text-align:start;box-shadow:var(--sh)}
+.hb-pt .ic{width:18px;height:18px;color:var(--pri)}
+.hb-pt span{font-weight:700;unicode-bidi:plaintext}.hb-pt em{font-style:normal;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;unicode-bidi:plaintext}
+.hb-pt .pe{font-style:normal;margin-inline-start:auto;color:#fff;background:var(--grad);border-radius:999px;padding:2px 12px;font-size:12px;font-weight:700}
+.hb-pt[hidden]{display:none!important}
+/* page title: green pill with a gold edge between two lines, as on SMRA */
+.pgt{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin:2px 0 6px}
+.pgt[hidden]{display:none}
+.pgt>i{height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#0d6b5c)}.pgt>i:last-child{transform:scaleX(-1)}
+.pgt h2{margin:0;max-width:min(78vw,560px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:7px 20px;border-radius:999px;font-weight:800;font-size:16.5px;color:#fff;unicode-bidi:plaintext;
+  background:var(--grad) padding-box,var(--goldb) border-box;border:2px solid transparent;box-shadow:0 8px 18px rgba(6,70,59,.25),inset 0 1px 0 rgba(255,255,255,.25)}
+.pgs{margin:0 0 12px;text-align:center;color:var(--mut);font-size:12.5px;unicode-bidi:plaintext}
+.pgs[hidden]{display:none}
+/* cards, buttons, chips */
+.card,.tile,.paper{border-radius:22px;border-color:var(--bd);box-shadow:var(--sh)}
+.card h3{color:var(--tx)}.card h3 .ic{color:var(--pri)}
+.btn{border-radius:999px;border:1.5px solid #b9d3cd;color:var(--pri2);background:var(--sf)}
+:root[data-theme=dark] .btn{color:#e9c46a;border-color:#2a5a4e}
+.btn.pri{background:var(--grad);border:0;color:#fff;box-shadow:0 5px 12px rgba(6,70,59,.25)}
+.chip{border-radius:999px;border-color:#cfe3de}
+.chip.on,.vtabs button.on{background:var(--grad);border-color:#b8862b;color:#fff}
+.lnk{color:var(--pri)}
+.tile .ti{border-radius:50%;width:42px;height:42px;color:#fff;background:radial-gradient(circle at 50% 25%,#14806d,#06463b 75%) padding-box,var(--goldb) border-box;border:2px solid transparent;box-shadow:0 4px 10px rgba(6,70,59,.2)}
+.tile .ti .ic{width:19px;height:19px}
+.tile b{color:var(--tx)}
+/* home banner: green panel with a gold edge and a gold curve, like the SMRA banners */
+.hero{position:relative;overflow:hidden;background:var(--grad) padding-box,var(--goldb) border-box;border:2px solid transparent;border-radius:24px;box-shadow:0 10px 24px rgba(6,70,59,.25)}
+.hero::after{content:"";position:absolute;inset:auto -20% -60% -20%;height:90%;border-radius:50%;border-top:2px solid rgba(236,197,107,.55);pointer-events:none}
+.hero>*{position:relative;z-index:1}
+.hero h1{font-weight:800;color:#fff}.hero h1::after{content:"";display:block;width:54px;height:3px;border-radius:2px;margin-top:4px;background:var(--goldb)}
+.hero-i{background:none;border:2px solid #ecc56b;color:#f6dc8e;border-radius:50%}
+.hero .btn.pri{background:#fff;color:#06463b;border:0}
+.hero-pt{background:rgba(255,255,255,.12);border:1px solid rgba(236,197,107,.4)}
+/* drug cards */
+.dc{border-radius:18px;background:var(--sf)}
+.dc.on{border-color:#0d6b5c;box-shadow:inset 3px 0 0 #0d6b5c,var(--sh)}
+[dir=rtl] .dc.on{box-shadow:inset -3px 0 0 #0d6b5c,var(--sh)}
+.tick input:checked+span{background-color:#0d6b5c;border-color:#0d6b5c}
+.line h4{color:#0d6b5c}
+.dc-ar{color:#06463b}:root[data-theme=dark] .dc-ar{color:#7fd6c2}
+.dc-c.sc{color:#9a6a12}
+.pp-h{border-bottom-color:#0d6b5c}.pp-h b,.pp-l .ar{color:#06463b}
+/* bottom bar: white, gold edge, the current place in a green pill with a gold icon */
+.bn{inset-inline:0;bottom:0;border-top:1.5px solid rgba(226,184,90,.7);background:var(--sf);padding:6px 6px calc(6px + env(safe-area-inset-bottom));gap:4px}
+.bn button{border-radius:18px;color:#3d5a54;font-weight:700;padding:7px 2px}
+.bn button .ic{color:#0d6b5c}
+.bn button.on{color:#fff;background:var(--grad);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 10px rgba(6,70,59,.3)}
+.bn button.on .ic{background:none;width:20px;padding:0;color:#f6dc8e}
+:root[data-theme=dark] .bn{background:#0c2620}:root[data-theme=dark] .bn button{color:#cfe3de}
+.sticky{bottom:calc(76px + env(safe-area-inset-bottom))}
+.toast{background:#06463b;border:1.5px solid #ecc56b}
+.disc{background:#fdf6e3;border:1px solid #f0dfae}
+:root[data-theme=dark] .disc{background:#2a2412;border-color:#5a4a1e}
+.srch{border-radius:999px}
+@media(min-width:900px){.hb{margin:12px auto 0;max-width:860px}.bn{max-width:760px;margin:0 auto 10px;border:1.5px solid rgba(226,184,90,.7);border-radius:24px;bottom:0}}
+.calc select{direction:ltr;text-align:left}

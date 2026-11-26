@@ -1658,4 +1658,7 @@ studentmasterreview.com with HTTP/3 off). Now:
   source in `src`, prefer the local guideline and show a differing value beside it, and list every conflict for the owner to decide. Tube sizes are APLS formulas, marked as not from the local guideline.
 - Tests: scratchpad val.js (every drug/regimen and symptom referenced by dx.js exists), eng.js (1,540 doses for 4 ages: no NaN/empty),
   hoshot.js (all screens at 390/1366, no errors, nothing wider than the screen). Medicine, surgery and obstetrics wait for their local guidelines.
+- Look = SMRA (owner, 26 Nov 2026): green #0d6b5c → #06463b with gold edges, mint page, white floating header with the SMRA logo and an «HO Assistant»
+  tag, patient strip, title pill between two lines, green-gold round buttons and tile icons, bottom bar with the current place in a green pill
+  (block «SMRA look» at the end of ho/css/ho.css; fonts and logo come from /fonts and /img/mr and are cached by ho/sw.js).
 - A new HO release: bump `C` in ho/sw.js (its files are cache-first, refreshed in the background).
