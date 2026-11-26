@@ -239,3 +239,39 @@ main{padding:10px 12px 12px}
 .srch{border-radius:999px}
 @media(min-width:900px){.hb{margin:12px auto 0;max-width:860px}.bn{max-width:760px;margin:0 auto 10px;border:1.5px solid rgba(226,184,90,.7);border-radius:24px;bottom:0}}
 .calc select{direction:ltr;text-align:left}
+/* calculators, second design (owner, 26 Nov 2026: "ugly"): list of rows with what each gives; on a calculator: a header card with the
+   formula, fields one under another with the unit inside the field, a big green result, the rest in a clean table, notes as a tip card */
+.clc-list{display:flex;flex-direction:column;gap:10px}
+.clc-row{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border-radius:20px;border:1px solid var(--bd);background:var(--sf);box-shadow:var(--sh);text-align:start;color:var(--tx)}
+.clc-row .ti,.clc-h .ti{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;
+  background:radial-gradient(circle at 50% 25%,#14806d,#06463b 75%) padding-box,var(--goldb) border-box;border:2px solid transparent}
+.clc-t{flex:1;min-width:0;display:flex;flex-direction:column}.clc-t b{font-size:15px}.clc-t small{color:var(--mut);font-size:12.5px}
+.clc-ar{color:#b8862b;display:grid}[dir=ltr] .clc-ar svg{transform:scaleX(-1)}
+.clc-card{background:var(--sf);border:1px solid var(--bd);border-radius:24px;padding:16px;box-shadow:var(--sh);margin-bottom:12px}
+.clc-h{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #cfe3de}
+.clc-h>div{display:flex;flex-direction:column;min-width:0;gap:4px}.clc-h b{font-size:16px}
+.clc-h code{align-self:flex-start;font:600 12px Pop,monospace;background:#fdf6e3;color:#8a5f12;border:1px solid #f0dfae;border-radius:999px;padding:2px 10px;white-space:normal}
+.flds{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:560px){.flds{grid-template-columns:repeat(2,1fr)}}
+.form .fld{margin:0;gap:6px}
+.fld>span{font-size:13.5px;font-weight:700;color:var(--tx)}
+.inp{display:flex;align-items:center;border:1.5px solid #cfe3de;border-radius:16px;background:var(--bg);overflow:hidden;transition:border-color .15s}
+.inp:focus-within{border-color:#0d6b5c;background:var(--sf);box-shadow:0 0 0 3px rgba(13,107,92,.12)}
+.form .inp input,.form .inp select{border:0;background:none;border-radius:0;padding:12px 14px;font-size:18px;font-weight:700;flex:1;min-width:0;outline:0;text-align:left}
+.form .inp select{font-size:15px;font-weight:600;text-align:left}
+.inp em{font-style:normal;font:700 13px Pop,sans-serif;color:#0d6b5c;padding:0 14px;align-self:stretch;display:grid;place-items:center;background:var(--on);border-inline-start:1.5px solid #cfe3de;white-space:nowrap}
+.inp input::-webkit-outer-spin-button,.inp input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.inp input{-moz-appearance:textfield}
+.clc-pt{display:flex;align-items:center;gap:6px;margin:12px 0 0;font-size:12.5px;color:var(--mut)}.clc-pt .ic{width:16px;height:16px;color:#0d6b5c}
+.clc-empty{display:flex;align-items:center;gap:12px;padding:18px;border:2px dashed #cfe3de;border-radius:22px;color:var(--mut);font-size:14px}
+.clc-empty .ic{width:30px;height:30px;color:#9cc2b9}
+.clc-big{position:relative;overflow:hidden;border-radius:24px;padding:18px;color:#fff;text-align:center;display:flex;flex-direction:column;gap:4px;
+  background:var(--grad) padding-box,var(--goldb) border-box;border:2px solid transparent;box-shadow:0 10px 24px rgba(6,70,59,.25);margin-bottom:12px}
+.clc-big small{font-size:13px;color:#cfeee6;font-weight:600}
+.clc-big b{font:800 30px/1.2 Pop,Cairo,sans-serif;color:#fff}
+.clc-big span{font-size:12.5px;color:#f6dc8e}
+.clc-more{background:var(--sf);border:1px solid var(--bd);border-radius:22px;padding:6px 16px;box-shadow:var(--sh);margin-bottom:12px}
+.clc-more .kv th{width:42%}
+.clc-res .nt{list-style:none;margin:0;padding:12px 14px;border-radius:18px;background:#fdf6e3;border:1px solid #f0dfae;color:#6b4a10}
+.clc-res .nt li{position:relative;padding-inline-start:18px}.clc-res .nt li::before{content:"•";position:absolute;inset-inline-start:2px;color:#b8862b;font-weight:800}
+:root[data-theme=dark] .clc-res .nt,:root[data-theme=dark] .clc-h code{background:#2a2412;border-color:#5a4a1e;color:#f0d9a0}

@@ -341,7 +341,7 @@
       var vol2 = (spec.mlkg || 20) * wt;
       o.t = 'Blood transfusion';
       o.rows.push(['Whole blood', (spec.mlkg || 20) + ' mL/kg = ' + nice(vol2) + ' mL over 3–4 hours']);
-      o.rows.push(['Packed cells', '10–15 mL/kg = ' + nice(10 * wt) + '–' + nice(15 * wt) + ' mL (PCH: wt × desired Hb rise × 3)']);
+      o.rows.push(['Packed cells', '10–15 mL/kg = ' + nice(10 * wt) + '–' + nice(15 * wt) + ' mL (wt × desired Hb rise × 3)']);
       o.rows.push(['Malnourished', '10 mL/kg = ' + nice(10 * wt) + ' mL']);
       if (!spec.scd) o.rows.push(['Heart failure', 'Furosemide ' + nice(wt) + ' mg (1 mg/kg) before and after']);
       else o.notes.push('Sickle cell disease: whole blood without furosemide (furosemide increases viscosity).');

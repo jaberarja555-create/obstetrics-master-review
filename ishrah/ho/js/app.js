@@ -89,8 +89,8 @@
   ACT.shclose = function () { $('#sheet').hidden = true; };
 
   function disclaimer() {
-    return '<p class="disc">' + ic('alert') + A('أداة مساعدة مبنية على دليل كسلا للحالات الشائعة عند الأطفال 2024 وجدول أدوية PCH. راجع الجرعة مع النائب أو الصيدلي قبل الإعطاء.',
-      'Decision support from the Kassala 2024 paediatric guideline and the PCH drug table. Check every dose with your senior or the pharmacist before giving it.') + '</p>';
+    return '<p class="disc">' + ic('alert') + A('أداة مساعدة مبنية على الأدلة العلاجية المحلية (local guidelines). راجع الجرعة مع النائب أو الصيدلي قبل الإعطاء.',
+      'Decision support built on local guidelines. Check every dose with your senior or the pharmacist before giving it.') + '</p>';
   }
 
   /* ================= Home ================= */
@@ -118,7 +118,7 @@
     }).join('') + '</div>';
     var standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
     if (!standalone) h += '<button class="btn inst" data-act="install">📲 ' + A('ثبّت HO Assistant كتطبيق على هاتفك', 'Install HO Assistant as an app') + '</button>';
-    h += '<section class="card soon"><h3>' + ic('book') + A('التخصصات', 'Specialities') + '</h3><div class="spl"><span class="on">' + A('الأطفال · دليل كسلا 2024 + PCH', 'Paediatrics · Kassala 2024 + PCH') + '</span><span>' +
+    h += '<section class="card soon"><h3>' + ic('book') + A('التخصصات', 'Specialities') + '</h3><div class="spl"><span class="on">' + A('الأطفال · local guidelines', 'Paediatrics · local guidelines') + '</span><span>' +
       A('الباطنية · قريبًا', 'Medicine · soon') + '</span><span>' + A('الجراحة · قريبًا', 'Surgery · soon') + '</span><span>' + A('النساء والتوليد · قريبًا', 'Obstetrics · soon') + '</span></div><p class="mut">' +
       A('تُضاف التخصصات الأخرى عند وصول أدلتها المحلية.', 'Other specialities are added when their local guidelines arrive.') + '</p></section>' + disclaimer();
     return h;
@@ -310,7 +310,7 @@
     var v = pickVariant(c, vid), sel = getSel(c, v);
     if (P.dx !== c.id) { P.dx = c.id; savePt(); }
     var vv = get('ho-var', {}); if (vv[c.id] !== v.id) { vv[c.id] = v.id; put('ho-var', vv); }
-    chrome(c.t, c.ar + ' · ' + c.src);
+    chrome(c.t, c.ar);
     var h = '';
     if (!ready()) h += '<div class="wn warn">' + ic('alert') + A('أدخل العمر والوزن لحساب الجرعات. ', 'Enter age and weight to calculate doses. ') + '<a data-go="patient">' + A('بيانات المريض', 'Patient details') + '</a></div>';
     else {
@@ -411,7 +411,7 @@
     var d = DR[id]; if (!d) return notFound();
     chrome(d.g, (d.b || []).join(' · '));
     var users = DX.filter(function (c) { return c.variants.some(function (v) { return v.lines.some(function (l) { return l.items.some(function (it) { return it.d === id; }); }); }); });
-    var h = '<section class="card"><div class="tags">' + d.cls.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '<span class="src">' + esc(d.src || '') + '</span></div>' +
+    var h = '<section class="card"><div class="tags">' + d.cls.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '</div>' +
       '<h4>' + A('المستحضرات', 'Preparations') + '</h4><ul class="bl">' + d.forms.map(function (f) { return '<li><b>' + esc(f.n) + '</b> · ' + esc(E.route(f.r)) + (f.rec ? '<br><small>' + esc(f.rec) + '</small>' : '') + '</li>'; }).join('') + '</ul></section>';
     h += '<section class="card"><h3>' + ic('calc') + A('الجرعات لهذا المريض', 'Doses for this patient') + '</h3>' + (ready() ? '' : '<div class="wn warn">' + ic('alert') + A('أدخل العمر والوزن.', 'Enter age and weight.') + '</div>') +
       Object.keys(d.reg).map(function (k) {
@@ -428,40 +428,62 @@
   }
 
   /* ================= Calculators ================= */
+  /* id, Arabic, English, icon, what it gives (ar, en), formula */
   var CALCS = [
-    ['maint', 'السوائل اليومية (هوليداي)', 'Maintenance fluids (Holliday–Segar)'], ['dehyd', 'خطط الجفاف A · B · C', 'Dehydration plans A · B · C'], ['drops', 'معدل التنقيط', 'Drip rate'],
-    ['k', 'تصحيح البوتاسيوم', 'Potassium correction'], ['na', 'نقص الصوديوم', 'Sodium deficit'], ['gir', 'معدل الجلوكوز GIR', 'Glucose infusion rate'],
-    ['uo', 'إخراج البول', 'Urine output'], ['gfr', 'GFR (شوارتز)', 'GFR (Schwartz)'], ['bsa', 'مساحة الجسم', 'Body surface area'],
-    ['inf', 'دوبامين / أدرينالين بالتسريب', 'Dopamine / adrenaline infusion'], ['blood', 'نقل الدم', 'Blood transfusion'], ['wt', 'الوزن التقديري من العمر', 'Estimated weight from age'],
-    ['prep', 'تحضير المحاليل', 'Preparing IV fluids'], ['ett', 'مقاسات الأنابيب', 'Tube sizes']
+    ['maint', 'السوائل اليومية', 'Maintenance fluids', 'drop', 'كمية السوائل الوريدية في اليوم وكل 8 ساعات', 'Daily IV fluid and the 8-hourly bag', '100 · 50 · 20 mL/kg (Holliday–Segar)'],
+    ['dehyd', 'خطط الجفاف', 'Dehydration plans', 'drop', 'خطة A و B و C والصدمة وسوء التغذية بالمل', 'Plans A, B, C, shock and SAM in mL', 'WHO / IMCI'],
+    ['drops', 'معدل التنقيط', 'Drip rate', 'drop', 'نقطة في الدقيقة ومل في الساعة', 'Drops per minute and mL per hour', 'mL × 20 ÷ (h × 60)'],
+    ['k', 'تصحيح البوتاسيوم', 'Potassium correction', 'bolt', 'كمية KCl في اليوم وفي كل محلول', 'KCl per day and per bag', '[(4 − K) × wt/2] + maintenance'],
+    ['na', 'نقص الصوديوم', 'Sodium deficit', 'bolt', 'النقص بالمليمول ومحلول 3% أو NS', 'Deficit in mmol as 3% or NS', 'wt × (130 − Na) × 0.6'],
+    ['gir', 'معدل الجلوكوز', 'Glucose infusion rate', 'calc', 'كمية الجلوكوز التي يأخذها الطفل', 'How much glucose the child receives', '% × mL/h ÷ (wt × 6)'],
+    ['uo', 'إخراج البول', 'Urine output', 'drop', 'مل لكل كجم في الساعة', 'mL per kg per hour', 'mL ÷ wt ÷ h'],
+    ['gfr', 'وظيفة الكلى GFR', 'Kidney function (GFR)', 'calc', 'معادلة شوارتز للأطفال', 'Schwartz formula for children', '0.41 × height ÷ creatinine'],
+    ['bsa', 'مساحة سطح الجسم', 'Body surface area', 'user', 'المساحة والسوائل غير المحسوسة', 'Surface area and insensible loss', '√(wt × height ÷ 3600)'],
+    ['inf', 'التسريب الوريدي', 'Inotrope infusion', 'bolt', 'دوبامين أو أدرينالين في 100 مل', 'Dopamine or adrenaline in 100 mL', 'wt × mcg × 1440 ÷ 1000'],
+    ['blood', 'نقل الدم', 'Blood transfusion', 'drop', 'كمية الدم الكامل أو الكريات المركزة', 'Whole blood or packed cells', '20 mL/kg · wt × ΔHb × 3'],
+    ['wt', 'الوزن من العمر', 'Weight from age', 'user', 'وزن تقديري عند غياب الميزان', 'An estimate when there is no scale', '(m + 9)/2 · 2y + 8 · (7y − 5)/2'],
+    ['prep', 'تحضير المحاليل', 'Preparing IV fluids', 'drop', 'كيف تحضّر المحاليل من المتوفر', 'How to make fluids from what is available', 'D50 · D10 · NS'],
+    ['ett', 'مقاسات الأنابيب', 'Tube sizes', 'stetho', 'أنبوب القصبة والأنبوب الأنفي', 'Endotracheal and NG tube', 'age/4 + 4']
   ];
   function calc(id) {
     if (!id) {
-      chrome(A('الحاسبات', 'Calculators'), A('بوزن المريض الحالي', 'With the current weight'));
-      return '<div class="tiles sm">' + CALCS.map(function (c) { return '<button class="tile" data-go="calc/' + c[0] + '"><span class="ti">' + ic(c[0] === 'drops' || c[0] === 'maint' || c[0] === 'dehyd' || c[0] === 'prep' ? 'drop' : 'calc') + '</span><b>' + A(c[1], c[2]) + '</b></button>'; }).join('') + '</div>';
+      chrome(A('الحاسبات', 'Calculators'), A('تعمل بوزن المريض الحالي تلقائيًا', 'They use the current patient\'s weight'));
+      return '<div class="clc-list">' + CALCS.map(function (c) {
+        return '<button class="clc-row" data-go="calc/' + c[0] + '"><span class="ti">' + ic(c[3]) + '</span><span class="clc-t"><b>' + A(c[1], c[2]) + '</b><small>' + A(c[4], c[5]) + '</small></span><span class="clc-ar">' + ic('back') + '</span></button>';
+      }).join('') + '</div>';
     }
     var c = CALCS.find(function (x) { return x[0] === id; }); if (!c) return notFound();
-    chrome(A(c[1], c[2]), A('الحاسبات', 'Calculators'));
-    return '<form class="card form calc" id="cf" data-c="' + id + '">' + calcInputs(id) + '</form><section class="card res" id="cres"></section>';
+    chrome(A(c[1], c[2]), '');
+    var useW = ready() && /^(maint|dehyd|k|na|gir|uo|bsa|inf|blood|ett)$/.test(id);
+    return '<section class="clc-card"><div class="clc-h"><span class="ti">' + ic(c[3]) + '</span><div><b>' + A(c[4], c[5]) + '</b><code dir="ltr">' + esc(c[6]) + '</code></div></div>' +
+      (id === 'prep' ? '' : '<form class="form calc" id="cf" data-c="' + id + '" autocomplete="off">' + calcInputs(id) + '</form>' +
+      (useW ? '<p class="clc-pt">' + ic('user') + A('وزن المريض الحالي ', 'Current patient: ') + '<b dir="ltr">' + esc(wtText()) + '</b></p>' : '')) +
+      '</section><section class="clc-res" id="cres"></section>';
   }
-  function inp(n, lab, v, step) { return '<label>' + lab + '<input name="' + n + '" type="number" inputmode="decimal" step="' + (step || 'any') + '" value="' + esc(v == null ? '' : v) + '"></label>'; }
+  function inp(n, lab, v, step, unit) {
+    return '<label class="fld"><span>' + lab + '</span><div class="inp"><input name="' + n + '" type="number" inputmode="decimal" step="' + (step || 'any') + '" value="' + esc(v == null ? '' : v) + '" dir="ltr">' + (unit ? '<em dir="ltr">' + unit + '</em>' : '') + '</div></label>';
+  }
+  function sel(n, lab, opts, cur) {
+    return '<label class="fld"><span>' + lab + '</span><div class="inp"><select name="' + n + '" dir="ltr">' + opts.map(function (o) { return '<option value="' + o[0] + '"' + (String(o[0]) === String(cur) ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></div></label>';
+  }
   var W = function () { return ready() ? nice(E.wt(P)) : ''; };
   function calcInputs(id) {
-    var w = inp('wt', A('الوزن (كجم)', 'Weight (kg)'), W());
+    var w = inp('wt', A('الوزن', 'Weight'), W(), 'any', 'kg');
+    var g = function () { return '<div class="flds">' + Array.prototype.join.call(arguments, '') + '</div>'; };
     switch (id) {
-      case 'maint': return '<div class="g2">' + w + '<label>' + A('الكمية', 'Amount') + '<select name="x"><option value="1">' + A('كاملة', 'Full') + '</option><option value="0.667">⅔</option><option value="1.5">1½</option><option value="2">' + A('ضعف', 'Double') + '</option></select></label></div>';
-      case 'dehyd': return '<div class="g2">' + w + '<label>' + A('الخطة', 'Plan') + '<select name="pl"><option value="planA">A</option><option value="planB">B</option><option value="planC" selected>C</option><option value="resomal">ReSoMal (SAM)</option><option value="shock">Shock</option><option value="samShock">Shock in SAM</option></select></label></div>';
-      case 'drops': return '<div class="g3">' + inp('ml', A('الكمية (مل)', 'Volume (mL)'), 500) + inp('h', A('الساعات', 'Hours'), 8) + '<label>' + A('جهاز التنقيط', 'Giving set') + '<select name="set"><option value="20">20 ' + A('نقطة/مل', 'drops/mL') + '</option><option value="15">15</option><option value="60">60 (micro)</option></select></label></div>';
-      case 'k': return '<div class="g3">' + w + inp('k', A('البوتاسيوم الحالي', 'Serum K (mmol/L)'), P.k, 0.1) + '<label>' + A('الاحتياج اليومي', 'Daily need') + '<select name="m"><option value="1">1 mmol/kg</option><option value="2">2 mmol/kg</option></select></label></div>';
-      case 'na': return '<div class="g2">' + w + inp('na', A('الصوديوم الحالي', 'Serum Na (mmol/L)'), P.na) + '</div>';
-      case 'gir': return '<div class="g3">' + w + inp('pc', A('تركيز الدكستروز %', 'Dextrose %'), 10) + inp('r', A('المعدل (مل/ساعة)', 'Rate (mL/h)'), '') + '</div>';
-      case 'uo': return '<div class="g3">' + w + inp('ml', A('كمية البول (مل)', 'Urine (mL)'), '') + inp('h', A('خلال (ساعات)', 'Over (hours)'), 12) + '</div>';
-      case 'gfr': return '<div class="g2">' + inp('ht', A('الطول (سم)', 'Height (cm)'), P.ht) + inp('cr', A('الكرياتينين (mg/dL)', 'Creatinine (mg/dL)'), '', 0.01) + '</div>';
-      case 'bsa': return '<div class="g2">' + w + inp('ht', A('الطول (سم)', 'Height (cm)'), P.ht) + '</div>';
-      case 'inf': return '<div class="g3">' + w + '<label>' + A('الدواء', 'Drug') + '<select name="dg"><option value="dop">Dopamine (200 mg/5 mL)</option><option value="adr">Adrenaline (1 mg/mL)</option></select></label>' + inp('mc', 'mcg/kg/min', 5, 0.01) + '</div>';
-      case 'blood': return '<div class="g3">' + w + inp('hb', A('الهيموغلوبين الحالي', 'Current Hb (g/dL)'), '', 0.1) + inp('tg', A('الهدف', 'Target Hb'), 10, 0.1) + '</div>';
-      case 'wt': return '<div class="g3">' + inp('ay', A('سنوات', 'Years'), P.ay) + inp('am', A('شهور', 'Months'), P.am) + inp('ad', A('أيام', 'Days'), P.ad) + '</div>';
-      case 'ett': return '<div class="g2">' + inp('ay', A('العمر (سنوات)', 'Age (years)'), P.ay) + w + '</div>';
+      case 'maint': return g(w, sel('x', A('الكمية', 'Amount'), [[1, A('كاملة', 'Full')], [0.667, '⅔'], [1.5, '1½'], [2, A('ضعف', 'Double')]]));
+      case 'dehyd': return g(w, sel('pl', A('الخطة', 'Plan'), [['planA', 'Plan A'], ['planB', 'Plan B'], ['planC', 'Plan C'], ['resomal', 'ReSoMal (SAM)'], ['shock', 'Shock'], ['samShock', 'Shock in SAM']], 'planC'));
+      case 'drops': return g(inp('ml', A('الكمية', 'Volume'), 500, 'any', 'mL'), inp('h', A('المدة', 'Time'), 8, 'any', A('ساعة', 'h')), sel('set', A('جهاز التنقيط', 'Giving set'), [[20, '20 drops/mL'], [15, '15 drops/mL'], [60, '60 (micro)']]));
+      case 'k': return g(w, inp('k', A('البوتاسيوم', 'Serum K'), P.k, 0.1, 'mmol/L'), sel('m', A('الاحتياج اليومي', 'Daily need'), [[1, '1 mmol/kg'], [2, '2 mmol/kg']]));
+      case 'na': return g(w, inp('na', A('الصوديوم', 'Serum Na'), P.na, 'any', 'mmol/L'));
+      case 'gir': return g(w, inp('pc', A('تركيز الدكستروز', 'Dextrose'), 10, 'any', '%'), inp('r', A('معدل المحلول', 'Fluid rate'), '', 'any', 'mL/h'));
+      case 'uo': return g(w, inp('ml', A('كمية البول', 'Urine'), '', 'any', 'mL'), inp('h', A('خلال', 'Over'), 12, 'any', A('ساعة', 'h')));
+      case 'gfr': return g(inp('ht', A('الطول', 'Height'), P.ht, 'any', 'cm'), inp('cr', A('الكرياتينين', 'Creatinine'), '', 0.01, 'mg/dL'));
+      case 'bsa': return g(w, inp('ht', A('الطول', 'Height'), P.ht, 'any', 'cm'));
+      case 'inf': return g(w, sel('dg', A('الدواء', 'Drug'), [['dop', 'Dopamine 200 mg/5 mL'], ['adr', 'Adrenaline 1 mg/mL']]), inp('mc', A('الجرعة', 'Dose'), 5, 0.01, 'mcg/kg/min'));
+      case 'blood': return g(w, inp('hb', A('الهيموغلوبين الحالي', 'Current Hb'), '', 0.1, 'g/dL'), inp('tg', A('الهيموغلوبين المطلوب', 'Target Hb'), 10, 0.1, 'g/dL'));
+      case 'wt': return g(inp('ay', A('سنوات', 'Years'), P.ay, 1, A('سنة', 'y')), inp('am', A('شهور', 'Months'), P.am, 1, A('شهر', 'm')), inp('ad', A('أيام', 'Days'), P.ad, 1, A('يوم', 'd')));
+      case 'ett': return g(inp('ay', A('العمر', 'Age'), P.ay, 1, A('سنة', 'y')), w);
       default: return '';
     }
   }
@@ -470,21 +492,22 @@
   function calcRun() {
     var f = $('#cf'), out = $('#cres'); if (!f || !out) return;
     var id = f.dataset.c, wt = num(f, 'wt'), r = [], notes = [];
-    var need = function () { out.innerHTML = '<p class="mut">' + A('أدخل القيم المطلوبة.', 'Enter the values.') + '</p>'; };
+    var need = function () { out.innerHTML = '<div class="clc-empty">' + ic('calc') + '<span>' + A('أدخل القيم بالأعلى وتظهر النتيجة هنا مباشرة.', 'Fill in the values above; the result appears here at once.') + '</span></div>'; };
     var p2 = Object.assign({}, P, { wt: wt || P.wt });
-    if (id === 'maint') { if (!wt) return need(); var v = E.maint(wt) * +f.x.value, c2 = E.capDaily(p2, v); v = c2.v; r.push(['Holliday–Segar', E.maintCalc(wt)], [A('اليوم', 'Per day'), nice(v) + ' mL'], [A('كل 8 ساعات', 'Per 8 h'), nice(v / 3) + ' mL (' + E.drops(v / 3, 8) + ' drops/min)'], [A('بالساعة', 'Per hour'), nice(v / 24) + ' mL/h'], [A('النوع', 'Type'), E.fluidType(p2)]); if (c2.note) notes.push(c2.note); }
-    else if (id === 'dehyd') { if (!wt) return need(); var fl = E.fluid({ k: f.pl.value }, p2); out.innerHTML = '<h3>' + esc(fl.t) + '</h3>' + rows(fl.rows) + (fl.notes.length ? '<ul class="nt">' + fl.notes.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>' : ''); return; }
+    if (id === 'maint') { if (!wt) return need(); var v = E.maint(wt) * +f.x.value, c2 = E.capDaily(p2, v); v = c2.v; r.push([A('السوائل في اليوم', 'Fluid per day'), nice(v) + ' mL'], [A('كل 8 ساعات', 'Per 8 h'), nice(v / 3) + ' mL (' + E.drops(v / 3, 8) + ' drops/min)'], ['Holliday–Segar', E.maintCalc(wt)], [A('بالساعة', 'Per hour'), nice(v / 24) + ' mL/h'], [A('النوع', 'Type'), E.fluidType(p2)]); if (c2.note) notes.push(c2.note); }
+    else if (id === 'dehyd') { if (!wt) return need(); var fl = E.fluid({ k: f.pl.value }, p2); out.innerHTML = '<div class="clc-big"><small>' + esc(fl.t) + '</small><b dir="ltr">' + esc(fl.rows[0][1]) + '</b><span>' + esc(fl.rows[0][0]) + '</span></div><div class="clc-more">' + rows(fl.rows.slice(1)) + '</div>' + (fl.notes.length ? '<ul class="nt">' + fl.notes.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>' : ''); return; }
     else if (id === 'drops') { var ml = num(f, 'ml'), h = num(f, 'h'), s = +f.set.value; if (!ml || !h) return need(); r.push([A('نقطة/دقيقة', 'Drops/min'), String(Math.round(ml * s / (h * 60)))], [A('مل/ساعة (مضخة)', 'mL/h (pump)'), nice(ml / h)]); notes.push('Drops/min = mL × ' + s + ' ÷ (hours × 60)'); }
     else if (id === 'k') {
       var k = num(f, 'k'); if (!wt || k == null) return need(); var mm = +f.m.value, tot = Math.max(0, (4 - k) * wt / 2) + mm * wt;
-      r.push([A('المعادلة المستعملة في المستشفى', 'Hospital equation'), '[(4 − ' + k + ') × ' + nice(wt) + '/2] + ' + mm + ' × ' + nice(wt) + ' = ' + nice(tot) + ' mmol/24 h'],
-        ['KCl 15% (2 mmol/mL)', nice(tot / 2) + ' mL in the 24-hour maintenance fluid, or ' + nice(tot / 6) + ' mL in each 8-hour bag']);
+      r.push([A('KCl 15% في 24 ساعة', 'KCl 15% over 24 h'), nice(tot / 2) + ' mL = ' + nice(tot) + ' mmol'],
+        [A('في كل محلول 8 ساعات', 'In each 8-hour bag'), nice(tot / 6) + ' mL KCl'],
+        [A('المعادلة المستعملة في المستشفى', 'Hospital equation'), '[(4 − ' + k + ') × ' + nice(wt) + '/2] + ' + mm + ' × ' + nice(wt) + ' = ' + nice(tot) + ' mmol']);
       var pf = k >= 3 ? [0.25, 1] : k >= 2.5 ? [0.5, 2] : [0.75, 3];
       if (k < 3.5) r.push(['PFCCS (IV correction)', nice(pf[0] * wt) + ' mmol = ' + nice(pf[0] * wt / 2) + ' mL KCl over ' + pf[1] + ' h (diluted)']);
       r.push([A('أقصى معدل', 'Maximum rate'), nice(0.4 * wt) + ' mmol/h (0.4 mmol/kg/h)']);
       notes.push(A('بعد أن يتبول الطفل فقط. لا يعطى البوتاسيوم مركزًا أو دفعة واحدة أبدًا.', 'Only after the child passes urine. Never undiluted or as a bolus.'), A('المعادلة الأولى شائعة في المستشفيات لكن بلا دليل علمي (الدليل).', 'The first equation is common practice without an evidence base (guideline).'));
     }
-    else if (id === 'na') { var na = num(f, 'na'); if (!wt || na == null) return need(); if (na >= 130) r.push([A('النتيجة', 'Result'), A('لا نقص يحتاج تصحيحًا خاصًا', 'No specific deficit to correct')]); else { var def = wt * (130 - na) * 0.6; r.push([A('النقص', 'Deficit'), nice(wt) + ' × (130 − ' + na + ') × 0.6 = ' + nice(def) + ' mmol'], ['3% NaCl (0.5 mmol/mL)', nice(def / 0.5) + ' mL'], ['NS (0.154 mmol/mL)', nice(def / 0.154) + ' mL']); if (na < 120) notes.push(A('مع تشنجات: 3% NaCl بسرعة لرفع الصوديوم 5 mmol/L ثم ببطء.', 'With seizures: 3% saline quickly to raise Na by 5 mmol/L, then slowly.')); notes.push(A('لا يزيد الصوديوم أكثر من 10–12 mmol/L في اليوم.', 'Do not raise Na by more than 10–12 mmol/L per day.')); } }
+    else if (id === 'na') { var na = num(f, 'na'); if (!wt || na == null) return need(); if (na >= 130) r.push([A('النتيجة', 'Result'), A('لا نقص يحتاج تصحيحًا خاصًا', 'No specific deficit to correct')]); else { var def = wt * (130 - na) * 0.6; r.push([A('نقص الصوديوم', 'Sodium deficit'), nice(def) + ' mmol'], [A('الحساب', 'Calculation'), nice(wt) + ' × (130 − ' + na + ') × 0.6'], ['3% NaCl (0.5 mmol/mL)', nice(def / 0.5) + ' mL'], ['NS (0.154 mmol/mL)', nice(def / 0.154) + ' mL']); if (na < 120) notes.push(A('مع تشنجات: 3% NaCl بسرعة لرفع الصوديوم 5 mmol/L ثم ببطء.', 'With seizures: 3% saline quickly to raise Na by 5 mmol/L, then slowly.')); notes.push(A('لا يزيد الصوديوم أكثر من 10–12 mmol/L في اليوم.', 'Do not raise Na by more than 10–12 mmol/L per day.')); } }
     else if (id === 'gir') { var pc = num(f, 'pc'), rt = num(f, 'r'); if (!wt || !pc || !rt) return need(); var g = pc * rt / (wt * 6); r.push(['GIR', nice(g) + ' mg/kg/min']); notes.push('GIR = % × mL/h ÷ (wt × 6). ' + A('أكثر من 12: ابحث عن سبب نقص السكر المستمر.', 'Above 12: investigate persistent hypoglycaemia.')); }
     else if (id === 'uo') { var u = num(f, 'ml'), hh = num(f, 'h'); if (!wt || !u || !hh) return need(); var x = u / wt / hh; r.push([A('إخراج البول', 'Urine output'), nice(x) + ' mL/kg/h'], [A('التفسير', 'Meaning'), x < 0.5 ? A('قلة بول (أقل من 0.5)', 'Oliguria (< 0.5)') : x > 4 ? A('كثرة بول (أكثر من 4)', 'Polyuria (> 4)') : A('طبيعي (0.5–2)', 'Normal (0.5–2)')]); }
     else if (id === 'gfr') { var ht = num(f, 'ht'), cr = num(f, 'cr'); if (!ht || !cr) return need(); r.push(['eGFR', nice(0.41 * ht / cr) + ' mL/min/1.73 m²']); notes.push('Schwartz: 0.41 × height (cm) ÷ creatinine (mg/dL). µmol/L ÷ 88.4 = mg/dL.'); }
@@ -494,10 +517,10 @@
       if (f.dg.value === 'dop') { var mg = wt * mc * 1440 / 1000; r.push(['Dopamine', nice(mg) + ' mg = ' + nice(mg / 40) + ' mL of 200 mg/5 mL'], [A('في', 'In'), '100 mL NS over 24 h (4.2 mL/h)']); notes.push(A('كلوي 2–5، قلبي 5–15 mcg/kg/min.', 'Renal 2–5, cardiac 5–15 mcg/kg/min.')); }
       else { var mg2 = wt * mc * 1440 / 1000; r.push(['Adrenaline', nice(mg2) + ' mg = ' + nice(mg2) + ' mL of 1 mg/mL'], [A('في', 'In'), '100 mL NS over 24 h (4.2 mL/h)']); notes.push('0.05–1 mcg/kg/min.'); }
     }
-    else if (id === 'blood') { var hb = num(f, 'hb'), tg = num(f, 'tg'); if (!wt) return need(); r.push([A('دم كامل', 'Whole blood'), nice(20 * wt) + ' mL (20 mL/kg) over 3–4 h'], [A('سوء تغذية', 'Malnourished'), nice(10 * wt) + ' mL (10 mL/kg)']); if (hb != null && tg) r.push(['Packed cells (PCH)', nice(wt) + ' × (' + tg + ' − ' + hb + ') × 3 = ' + nice(Math.max(0, wt * (tg - hb) * 3)) + ' mL']); r.push([A('فشل قلب', 'Heart failure'), 'Furosemide ' + nice(wt) + ' mg before and after (not in sickle cell disease)']); }
+    else if (id === 'blood') { var hb = num(f, 'hb'), tg = num(f, 'tg'); if (!wt) return need(); r.push([A('دم كامل', 'Whole blood'), nice(20 * wt) + ' mL (20 mL/kg) over 3–4 h'], [A('سوء تغذية', 'Malnourished'), nice(10 * wt) + ' mL (10 mL/kg)']); if (hb != null && tg) r.push(['Packed cells', nice(wt) + ' × (' + tg + ' − ' + hb + ') × 3 = ' + nice(Math.max(0, wt * (tg - hb) * 3)) + ' mL']); r.push([A('فشل قلب', 'Heart failure'), 'Furosemide ' + nice(wt) + ' mg before and after (not in sickle cell disease)']); }
     else if (id === 'wt') { var q = { ay: num(f, 'ay') || 0, am: num(f, 'am') || 0, ad: num(f, 'ad') || 0 }; if (!q.ay && !q.am && !q.ad) return need(); r.push([A('الوزن التقديري', 'Estimated weight'), nice(E.estWeight(q)) + ' kg']); notes.push(A('تقدير فقط؛ الوزن الحقيقي أفضل دائمًا. <12 شهر: (الشهور + 9) ÷ 2 · 1–6 سنوات: سنوات × 2 + 8 · 7–12: (سنوات × 7 − 5) ÷ 2.', 'Estimate only. < 12 months: (months + 9) ÷ 2 · 1–6 y: years × 2 + 8 · 7–12 y: (years × 7 − 5) ÷ 2.')); }
     else if (id === 'ett') { var ay = num(f, 'ay'); if (ay == null) return need(); r.push(['ETT uncuffed (ID)', nice(ay / 4 + 4) + ' mm'], ['ETT cuffed (ID)', nice(ay / 4 + 3.5) + ' mm'], [A('عمق الأنبوب (الفم)', 'Oral ETT depth'), nice(ay / 2 + 12) + ' cm']); if (wt) r.push(['NG tube', 'about ' + (wt < 5 ? 6 : wt < 15 ? 8 : 10) + ' Fr']); notes.push(A('معادلات APLS المعروفة (ليست من الدليل المحلي)، لعمر أكثر من سنة.', 'Standard APLS formulas (not from the local guideline), for children over 1 year.')); }
-    out.innerHTML = rows(r) + (notes.length ? '<ul class="nt">' + notes.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>' : '');
+    out.innerHTML = '<div class="clc-big"><small>' + esc(r[0][0]) + '</small><b dir="ltr">' + esc(r[0][1]) + '</b></div>' + (r.length > 1 ? '<div class="clc-more">' + rows(r.slice(1)) + '</div>' : '') + (notes.length ? '<ul class="nt">' + notes.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>' : '');
   }
   var PREP = [['Dextrose 5% ½ saline', '250 mL D10 + 250 mL NS'], ['Dextrose 5% ⅕ saline', 'Remove 200 mL from 500 mL D5W; add 100 mL D10 + 100 mL NS'], ['DNS (D5 in NS)', 'Remove 50 (60) mL from 500 mL NS; add 50 (60) mL D50'],
     ['Dextrose 7.5% ½ saline (DKA, RBG < 100 with acidosis)', 'Remove 25 (30) mL from 500 mL D5 ½ saline; add 25 (30) mL D50'], ['Dextrose 10% ½ saline (DKA; quinine with hypoglycaemia)', 'Remove 50 (60) mL from 500 mL D5 ½ saline; add 50 (60) mL D50'],
@@ -572,7 +595,7 @@
       default: h = notFound();
     }
     $('#v').innerHTML = h;
-    if (r[0] === 'calc' && r[1] === 'prep') $('#cres').innerHTML = rows(PREP) + '<ul class="nt"><li>' + A('المراجع تختلف: WHO 25 مل، البروتوكول القومي 30 مل، آخرون 32 مل.', 'References differ: WHO 25 mL, national protocol 30 mL, others 32 mL.') + '</li></ul>';
+    if (r[0] === 'calc' && r[1] === 'prep') $('#cres').innerHTML = '<div class="clc-more">' + rows(PREP) + '</div>' + '<ul class="nt"><li>' + A('المراجع تختلف: WHO 25 مل، البروتوكول القومي 30 مل، آخرون 32 مل.', 'References differ: WHO 25 mL, national protocol 30 mL, others 32 mL.') + '</li></ul>';
     else if (r[0] === 'calc' && r[1]) calcRun();
     if (r[0] !== 'dx' || !render.keep) scrollTo(0, 0);
   }

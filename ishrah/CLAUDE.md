@@ -1661,4 +1661,7 @@ studentmasterreview.com with HTTP/3 off). Now:
 - Look = SMRA (owner, 26 Nov 2026): green #0d6b5c → #06463b with gold edges, mint page, white floating header with the SMRA logo and an «HO Assistant»
   tag, patient strip, title pill between two lines, green-gold round buttons and tile icons, bottom bar with the current place in a green pill
   (block «SMRA look» at the end of ho/css/ho.css; fonts and logo come from /fonts and /img/mr and are cached by ho/sw.js).
-- A new HO release: bump `C` in ho/sw.js (its files are cache-first, refreshed in the background).
+- The app never names Kassala or PCH on screen (owner, 26 Nov 2026: say «local guidelines»); sources stay in the data (`src`) and ho/src/notes.
+- Calculators (owner, 26 Nov 2026: "ugly"): list rows with what each gives; a header card with the formula, fields with the unit inside,
+  one big green result, the rest in a table, notes as a tip card.
+- ho/sw.js is network-first (3 s, then the saved copy), so a new version shows at once; bump `C` when the cached file list changes.

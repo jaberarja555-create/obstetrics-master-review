@@ -274,7 +274,7 @@
     ci: { amin: 24, why: 'From 2 years.' },
     reg: { po: { k: 'band', by: 'age', rows: [[72, 2.5, 'mL'], [144, 5, 'mL'], [999, 10, 'mL']], f: 24, dur: '5 days', forms: ['s5'] } } });
   d('loratadine', { g: 'Loratadine', b: ['Claritine', 'Lorine'], cls: ['antihistamine'], src: 'P 9', forms: [{ id: 's5', n: 'Syrup 5 mg/5 mL', r: 'PO', c: 1 }, { id: 't10', n: 'Tablet 10 mg', r: 'PO', tab: 10 }],
-    ci: { amin: 24, why: '2–12 years in the PCH table.' },
+    ci: { amin: 24, why: '2–12 years (local drug table).' },
     reg: { po: { k: 'band', by: 'wt', rows: [[30, 5, 'mg'], [999, 10, 'mg']], f: 24, forms: ['s5', 't10'] } } });
   d('chlorphenamine', { g: 'Chlorphenamine (chlorpheniramine)', b: ['Antistine', 'Piriton'], cls: ['antihistamine'], src: 'K p126, p137–138; P 10',
     forms: [{ id: 's2', n: 'Syrup 2 mg/5 mL', r: 'PO', c: S5(2) }, { id: 'a10', n: 'Ampoule 10 mg/1 mL', r: 'IM', c: 10 }],
@@ -307,7 +307,7 @@
   d('captopril', { g: 'Captopril', b: ['Capoten'], cls: ['acei'], src: 'K p30', forms: [{ id: 't25', n: 'Tablet 25 mg', r: 'PO', tab: 25 }],
     reg: { po: { k: 'kg', v: 0.2, f: 12, max: 25, forms: ['t25'], note: 'Refractory heart failure: start 0.2 mg/kg/dose twice–three times daily, increase to 4 mg/kg/day. Watch BP, K and creatinine.' } } });
   d('digoxin', { g: 'Digoxin', b: ['Lanoxin'], cls: ['glycoside'], src: 'P 35', forms: [{ id: 't0625', n: 'Tablet 62.5 mcg', r: 'PO', tab: 0.0625 }, { id: 't25', n: 'Tablet 250 mcg', r: 'PO', tab: 0.25 }],
-    reg: { po: { k: 'kg', v: 0.004, f: 12, forms: ['t0625'], note: 'Load 15 mcg/kg, then 5 mcg/kg after 6 h; maintenance 3–5 mcg/kg 12-hourly (PCH). Check K and pulse.' } } });
+    reg: { po: { k: 'kg', v: 0.004, f: 12, forms: ['t0625'], note: 'Load 15 mcg/kg, then 5 mcg/kg after 6 h; maintenance 3–5 mcg/kg 12-hourly. Check K and pulse.' } } });
   d('dopamine', { g: 'Dopamine', b: ['Dopamine'], cls: ['inotrope'], src: 'K p111, p146; P 36', forms: [{ id: 'a200', n: 'Ampoule 200 mg/5 mL (40 mg/mL)', r: 'IV', c: 40 }],
     reg: { inf: { k: 'mcg', v: 10, forms: ['a200'], note: 'Renal 2–5, cardiac 5–15 mcg/kg/min. mg in 24 h = wt × dose × 60 × 24 ÷ 1000, in 100 mL NS over 24 h (4.2 mL/h).' } } });
   d('adrenalineInf', { g: 'Adrenaline infusion', b: ['Adrenaline'], cls: ['inotrope'], src: 'K p113; PICU', forms: [{ id: 'a1', n: 'Ampoule 1 mg/mL', r: 'IV', c: 1 }],
