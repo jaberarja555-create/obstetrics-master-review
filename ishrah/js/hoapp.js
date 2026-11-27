@@ -5,12 +5,13 @@
   var A = IS.A, esc = IS.esc, ic = IS.ic;
   /* full screen like the books (owner, 26 Nov 2026: "open full on the screen with the SMRA small button beside like the other books"):
      one frame kept while the person moves around SMRA; the SMRA handle and the device Back button return to where they came from */
+  var HOV = '19';   /* change with ho/sw.js C so a page that kept the frame loads the new guide */
   var FR = null, FROM = /^#ho\b/.test(location.hash) ? '' : location.hash.slice(1);
   function host() { var h = document.getElementById('ho-host'); if (!h) { h = document.createElement('div'); h.id = 'ho-host'; h.hidden = true; document.body.appendChild(h); } return h; }
   function show() {
     var h = host();
     if (!FR) {
-      FR = document.createElement('iframe'); FR.className = 'bk-fr'; FR.title = 'HO Guide'; FR.src = '/ho/'; FR.setAttribute('allow', 'clipboard-write');
+      FR = document.createElement('iframe'); FR.className = 'bk-fr'; FR.title = 'HO Guide'; FR.src = '/ho/?v=' + HOV; FR.setAttribute('allow', 'clipboard-write');
       h.appendChild(FR);
       h.insertAdjacentHTML('beforeend', '<button type="button" class="bk-back" data-act="ho-back" aria-label="' + esc(A('العودة إلى المنصة', 'Back to the platform')) + '"><span>SMRA</span></button>');
     }
@@ -26,7 +27,8 @@
       '<div class="bk-tx"><span class="bk-subject">' + esc(A('طبيب الامتياز', 'House Officer')) + '</span><h2 lang="en" dir="auto"><a href="#ho">HO Guide</a></h2>' +
       '<p class="bk-authors"><bdi lang="en" dir="ltr">House Officer Clinical Guide · SMRA</bdi></p>' +
       '<p class="bk-tools">' + ic('qb') + esc(A('الجرعات المحسوبة · خطة العلاج · السوائل · الوصفة · التشخيص من الأعراض', 'Calculated doses · Treatment plans · Fluids · Prescription · Diagnosis from symptoms')) + '</p>' +
-      '<a class="btn ghost sm bk-read" href="#ho">' + ic('open') + esc(A('افتح الدليل', 'Open the guide')) + '</a></div></article>';
+      '<a class="btn ghost sm bk-read" href="#ho">' + ic('open') + esc(A('افتح الدليل', 'Open the guide')) + '</a></div>' +
+      '<div class="bk-feedback" data-ho-fb hidden></div></article>';
   }
   IS.hoBook = hoBook;
   /* On the House Officer home (owner's picture, 27 Nov 2026): cover beside «House Officer» chip, title, «House Officer Clinical Guide · SMRA»,
@@ -37,7 +39,7 @@
   function hoFeed() {
     return '<article class="box feed-card feed-library feed-ho" data-go="#ho">' +
       '<div class="feed-card-content"><a class="feed-image" href="#ho" aria-label="HO Guide"><img src="' + IS.U('img/books/ho.webp') + '" alt="" width="600" height="800" loading="lazy" decoding="async"></a>' +
-      '<div><span class="fchip ho-tag">' + esc(A('طبيب الامتياز', 'House Officer')) + '</span><h3><a href="#ho" lang="en" dir="ltr">HO Guide</a></h3>' +
+      '<div><div class="ho-head"><h3><a href="#ho" lang="en" dir="ltr">HO Guide</a></h3><span class="fchip ho-tag">' + esc(A('طبيب الامتياز', 'House Officer')) + '</span></div>' +
       '<p class="feed-summary"><bdi lang="en" dir="ltr">House Officer Clinical Guide · SMRA</bdi></p>' +
       '<p class="feed-stars" data-ho-stars></p>' +
       '<p class="ho-feat" dir="auto">' + esc(A('الجرعات المحسوبة · خطة العلاج · السوائل · الوصفة · التشخيص من الأعراض', 'Calculated doses · Treatment plans · Fluids · Prescription · Diagnosis from symptoms')) + '</p></div>' +
@@ -49,11 +51,15 @@
       if (!DB.live && !(await DB.one('files', HOID))) await DB.ins('files', { id: HOID, kind: 'master_review', spec: 'master-review', cat: 'house', status: 'published', title: 'HO Guide', author: 'SMRA' });
       var row = (await DB.q('files', { in: { id: [HOID] }, eq: { status: 'published' } }))[0];
       if (!row || !card.isConnected) return;
-      row = Object.assign({}, row, { _lay: 1 });
-      var stars = card.querySelector('[data-ho-stars]'); if (stars) stars.innerHTML = IS.libraryRating(row, true, 'file');
-      var fb = card.querySelector('[data-ho-fb]');
-      fb.innerHTML = IS.feedVoteBar('file', row, true, 'ho').replace('<div class="fv-acts fv-lay">',
-        '<div class="fv-acts fv-lay"><span class="fv-price"><span class="ptag paid sm">' + ic('tag') + esc(A('مدفوع', 'Paid')) + '</span></span>');
+      var fb = card.querySelector('[data-ho-fb]'); if (!fb) return;
+      if (card.classList.contains('ho-book')) {   /* on the books shelf: the same bar as the other Master Review books */
+        fb.innerHTML = IS.feedVoteBar('file', row, true, 'ho'); fb.hidden = false;
+      } else {
+        row = Object.assign({}, row, { _lay: 1 });
+        var stars = card.querySelector('[data-ho-stars]'); if (stars) stars.innerHTML = IS.libraryRating(row, true, 'file');
+        fb.innerHTML = IS.feedVoteBar('file', row, true, 'ho').replace('<div class="fv-acts fv-lay">',
+          '<div class="fv-acts fv-lay"><span class="fv-price"><span class="ptag paid sm">' + ic('tag') + esc(A('مدفوع', 'Paid')) + '</span></span>');
+      }
       if (IS.hydrateFeedReactions) IS.hydrateFeedReactions(fb);
     } catch (e) {}
   }
@@ -71,6 +77,7 @@
   IS.onRoute = function (name, arg, main) {
     if (on0) try { on0(name, arg, main); } catch (e) {}
     if (name === 'books' && !arg) { var gd = (main || document).querySelector('.bk-grid'); if (gd && !gd.querySelector('.ho-book')) gd.insertAdjacentHTML('afterbegin', hoBook()); }
+    if (name === 'books' || name === 'library') setTimeout(function () { Array.prototype.forEach.call((main || document).querySelectorAll('.ho-book'), function (c) { hoFeedback(c); }); }, 0);
     var sec = IS.mySection && IS.mySection(); if (name !== 'home' || !sec || sec.id !== 'house') return;
     var tries = 0;
     (function put() {

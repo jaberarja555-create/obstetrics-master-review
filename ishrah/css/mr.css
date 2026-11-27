@@ -3051,3 +3051,8 @@ html body .mrh .feed-library .feed-author.fa-stars .gstars{font-size:14px!import
 html body .mrh .feed-library .feed-author.fa-stars .library-rating{gap:4px!important}
 html body .mrh .feed-library .feed-author.fa-stars .gnum{font-size:12.5px!important}
 html body .mrh .feed-library .feed-author.fa-stars .gcount{font-size:11.5px!important}
+/* HO Guide: title and «House Officer» chip on one line (owner, 28 Nov 2026) */
+html body .mrh .ho-card .feed-ho .ho-head{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px}
+html body .mrh .ho-card .feed-ho .ho-head h3{margin:0!important}
+html body .mrh .ho-card .feed-ho .ho-head .ho-tag{margin:0!important;height:22px!important;font-size:11px!important;padding:0 8px!important}
+html body .mrh .feed-card.feed-ho [data-ho-fb]>.feed-votes{border-top:0!important;padding-top:0!important;margin-top:12px!important;container-type:inline-size}

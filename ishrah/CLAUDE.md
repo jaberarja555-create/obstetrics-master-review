@@ -1743,3 +1743,11 @@ studentmasterreview.com with HTTP/3 off). Now:
   the bottom bar becomes a navy side menu (248 px: logo, the five sections, the rest of the ☰ menu as `.dk` items, «Back to SMRA» at the
   bottom; tighter under 760 px of height); the top bar loses its logo; pages use up to 1180 px; Home is a 12-column grid (greeting across,
   New patient beside Emergency doses, four tools, three shortcuts) and is not tightened by `fitHome` (phones only). Phones unchanged.
+- **HO Guide record published; title and chip on one line; laptop always gets the new guide (owner, 28 Nov 2026):** the files row of 066 was
+  put under review by the library triggers (status not 'published', so anon/students could not read it and the card had no buttons):
+  `067_ho_guide_publish.sql` publishes it (same fix as 064). The HO card on the Library / books shelf (`.ho-book`) gets the same feedback
+  bar as the other Master Review books (`hoFeedback` handles both). «HO Guide» and the «House Officer» chip share one line (`.ho-head`).
+  The guide's frame opens `/ho/?v=<HOV>` and ho/index.html loads its files with `?v=19`; change HOV, the `?v=` numbers and ho/sw.js `C`
+  together on every guide release, or a laptop that kept the old frame or files shows the old phone layout.
+- Live checks from a session: the environment now allows studentmasterreview.com, the Supabase host and cdn.jsdelivr.net, so a Playwright
+  run against the live site works (scratchpad live1.js: master book bars filled for a visitor).
