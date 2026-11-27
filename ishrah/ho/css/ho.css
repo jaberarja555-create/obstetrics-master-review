@@ -435,3 +435,24 @@ body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
 .tool-t b{overflow-wrap:break-word;hyphens:auto}
 @media(max-width:400px){.tool{gap:7px;padding:8px 7px}.tool .ib2.lg{width:34px;height:34px;border-radius:11px}.tool .ib2.lg .ic{width:20px;height:20px}
   .tool-t b{font-size:calc(13px*var(--fs));hyphens:none}.tool-t small{font-size:calc(10.5px*var(--fs))}}
+/* ===== Home on one screen: steps applied only while the page would scroll (app.js fitHome) ===== */
+body[data-page=home] main{padding-bottom:4px}
+body[data-page=home] .rec{flex-wrap:nowrap;overflow:hidden}
+body[data-page=home] .rec button{flex:0 1 auto;min-width:0;white-space:nowrap}
+body[data-page=home] .rec button bdi{overflow:hidden;text-overflow:ellipsis}
+body.fit1 .hero{min-height:110px;margin-bottom:8px}body.fit1 .hero-tx{padding:11px 14px}body.fit1 .hero-tx h2{font-size:calc(23px*var(--fs))}body.fit1 .hero-bar{margin:4px 0 5px}
+body.fit1 .hero-tx p{font-size:calc(11px*var(--fs));line-height:1.35}
+body.fit1 .npc{padding:8px 10px;margin-bottom:6px}body.fit1 .npc .ib2.lg{width:44px;height:44px}body.fit1 .npc .ib2.lg .ic{width:26px;height:26px}
+body.fit1 .npc-acts button{padding:6px 4px}body.fit1 .st{margin:10px 2px 6px;font-size:calc(16px*var(--fs))}
+body.fit1 .qt{gap:8px}body.fit1 .tool{min-height:50px;padding:6px 8px}body.fit1 .emg{margin-top:8px;padding:8px 10px 8px 14px}
+body.fit1 .emg-i .ic{width:26px;height:26px}body.fit1 .emg-t b{font-size:calc(15px*var(--fs))}body.fit1 .emg-go{width:30px;height:30px}
+body.fit1 .minis{margin:8px 0 2px;gap:8px}body.fit1 .minis button{padding:8px 4px;gap:3px}body.fit1 .mi .ic{width:22px;height:22px}
+body.fit2 .tool-t small{display:none}body.fit2 .tool{min-height:44px}body.fit2 .emg-t small{display:none}
+body.fit2 .npc-t small{font-size:calc(11px*var(--fs))}body.fit2 .hero{min-height:96px}
+body.fit3 .st.rec-h{display:none}body.fit3 .minis button{flex-direction:row;justify-content:center;padding:8px 4px;gap:6px}body.fit3 .mi em{top:-6px;right:-10px}
+body.fit3 .hero-tx p{display:none}body.fit3 .hero{min-height:76px}body.fit3 .hero-tx{padding:12px 14px}
+body.fit4 .rec,body.fit4 .st.rec-h{display:none}body.fit4 .npc-acts{display:none}
+body[data-page=home]:not(.fitting) #v{display:flex;flex-direction:column;justify-content:space-between;min-height:var(--avail,auto)}
+body[data-page=home]:not(.fitting) #v>*{margin-top:0;margin-bottom:0}
+body[data-page=home]:not(.fitting) #v>.st{margin-bottom:-4px}
+@media(min-width:768px){body[data-page=home]:not(.fitting) #v{justify-content:flex-start;gap:12px;min-height:0}}

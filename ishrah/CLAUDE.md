@@ -1692,6 +1692,10 @@ studentmasterreview.com with HTTP/3 off). Now:
   Patient form: age = one box (number + days/months/years), weight = one list (0.5–10 kg by 0.1, then 0.5, then 1), «Get the plan» right
   under the essentials (not floating). Top bar solid. Check after every layout change with scratchpad audit_ho.js (350, 360, 390, 412 px,
   text ×1–1.15, Arabic and English: off screen, cut text, misaligned fields, overlaps; screenshots in au/). The owner's phone is ≈ 350 px wide.
+- **Home never scrolls (owner, 27 Nov 2026: "I prefer compact things rather than scrolling"):** app.js `fitHome` tightens the Home in steps
+  (`body.fit1`–`fit4`: spacing; tool and emergency subtitles; greeting text and one-row bottom tiles; recent chips and patient actions)
+  only while it would scroll, then shares the spare height between the sections (`--avail`, flex space-between). Checked with scratchpad
+  fit.js at 350×640 … 412×900, tablet and laptop, with and without a patient, Arabic and English.
 - The app never names Kassala or PCH on screen (owner, 26 Nov 2026: say «local guidelines»); sources stay in the data (`src`) and ho/src/notes.
 - Calculators (owner, 26 Nov 2026: "ugly"): list rows with what each gives; a header card with the formula, fields with the unit inside,
   one big green result, the rest in a table, notes as a tip card.

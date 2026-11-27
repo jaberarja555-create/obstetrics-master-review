@@ -252,8 +252,8 @@
     }).join('') + '</div>';
     h += '<button class="emg" data-go="emerg"><span class="emg-i">' + ic('siren') + '</span><span class="emg-t"><b>' + T('Emergency doses') + '</b><small>' +
       (ready() ? A('محسوبة لوزن ', 'Calculated for ') + '<bdi dir="ltr">' + wtTxt() + '</bdi>' : A('كل جرعات الطوارئ بالوزن', 'Every emergency dose by weight')) + '</small></span><span class="emg-go">' + ic('fwd') + '</span></button>';
-    var rec = get('ho-recent', []).filter(function (id) { return byId[id]; }).slice(0, 4);
-    if (rec.length) h += '<h2 class="st">' + T('Recent') + '</h2><div class="rec">' + rec.map(function (id) { return '<button data-go="c/' + id + '">' + ic(SYSIC[byId[id].sys] || 'list') + T(byId[id].t) + ic('fwd', 'chv') + '</button>'; }).join('') + '</div>';
+    var rec = get('ho-recent', []).filter(function (id) { return byId[id]; }).slice(0, 2);
+    if (rec.length) h += '<h2 class="st rec-h">' + T('Recent') + '</h2><div class="rec">' + rec.map(function (id) { return '<button data-go="c/' + id + '">' + ic(SYSIC[byId[id].sys] || 'list') + T(byId[id].t) + ic('fwd', 'chv') + '</button>'; }).join('') + '</div>';
     h += '<div class="minis"><button data-go="saved"><span class="mi">' + ic('bmark') + '<em>' + get('ho-pts', []).length + '</em></span><b>' + T('Saved') + '</b></button>' +
       '<button data-go="calc/dehyd"><span class="mi">' + ic('drop2') + '</span><b>' + T('Dehydration') + '</b></button>' +
       '<button data-go="settings"><span class="mi">' + ic('gear2') + '</span><b>' + T('Settings') + '</b></button></div>';
@@ -876,7 +876,21 @@
     if (r[0] === 'calc' && r[1] === 'prep') $('#cres').innerHTML = '<section class="card">' + kv(PREP.map(function (x) { return ['<bdi dir="ltr">' + esc(x[0]) + '</bdi>', x[1]]; })) + '</section><ul class="tips"><li>' + A('المراجع تختلف: WHO 25 مل، البروتوكول القومي 30 مل، آخرون 32 مل.', 'References differ: WHO 25 mL, national protocol 30 mL, others 32 mL.') + '</li></ul>';
     else if (r[0] === 'calc' && r[1]) calcRun();
     if (keep !== true) scrollTo(0, 0);
+    fitHome(); setTimeout(fitHome, 250); setTimeout(fitHome, 900);
   }
+  /* the Home fits one screen (owner, 27 Nov 2026: "I prefer compact things rather than scrolling"): tighten step by step until nothing scrolls */
+  function fitHome() {
+    var b = document.body; b.classList.remove('fit1', 'fit2', 'fit3', 'fit4'); b.classList.add('fitting');
+    if (b.dataset.page !== 'home') { b.classList.remove('fitting'); return; }
+    for (var i = 1; i <= 4 && document.documentElement.scrollHeight > innerHeight + 1; i++) b.classList.add('fit' + i);
+    /* what is left is shared between the sections, so the Home fills the screen exactly */
+    var hb = $('#hb'), bn = $('#bn'), cs = getComputedStyle($('main'));
+    var avail = innerHeight - hb.offsetHeight - bn.offsetHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - 8;
+    document.documentElement.style.setProperty('--avail', Math.max(0, avail) + 'px');
+    b.classList.remove('fitting');
+  }
+  var fitT; addEventListener('resize', function () { clearTimeout(fitT); fitT = setTimeout(fitHome, 120); });
+  if (document.fonts) { document.fonts.ready.then(fitHome); document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', fitHome); }
   render();
   if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {});
 })();
