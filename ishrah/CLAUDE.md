@@ -1661,9 +1661,16 @@ studentmasterreview.com with HTTP/3 off). Now:
 - Look = SMRA (owner, 26 Nov 2026): green #0d6b5c → #06463b with gold edges, mint page, white floating header with the SMRA logo and an «HO Assistant»
   tag, patient strip, title pill between two lines, green-gold round buttons and tile icons, bottom bar with the current place in a green pill
   (block «SMRA look» at the end of ho/css/ho.css; fonts and logo come from /fonts and /img/mr and are cached by ho/sw.js).
-- Language (owner, 26 Nov 2026: "main language is English except the details"): the page is always English and left to right; `A(ar, en)` in
-  ho/js/app.js gives Arabic only for details (sentences: over 40 characters or ending with a full stop) when the SMRA language is Arabic;
-  prescription directions stay Arabic. The EN / ع button switches the details only.
+- Redesign (owner, 27 Nov 2026: "extraordinary, organised, perfect"): main titles always English (`T`), everything else in the chosen
+  language (`A`, Arabic by default, RTL). Top bar: back + HO home (SMRA home on the HO home), logo, look button (day / night / eye), Settings,
+  profile (SMRA account from `ish-me`: name, picture, links to the platform). Settings page: language, look, app colour (`ho-pal`, six SMRA
+  colours as CSS variables), text size (`ho-fs`), install as app, saved data, about. Patient page: patient name required, age picked in
+  days / months / years (+ months), weight picked as kg + tenths, height in cm, duration value + unit, investigations by group (CBC,
+  electrolytes and kidney, glucose and infection, liver, urine and stool, imaging, other) with abnormal values flagged and used in the
+  calculators, the condition page («Patient results») and the order sheet. Conditions open on body-system tiles (`#conds/<sys>`), search
+  across all. Any page that needs doses shows a small age-and-weight picker in place when the weight is missing (`quickPt`); with no
+  age and no weight the dose cards show only the guideline rule. Drug cards: big dose, route / frequency / duration chips, the Arabic line
+  for parents, calculation and notes folded.
 - The app never names Kassala or PCH on screen (owner, 26 Nov 2026: say «local guidelines»); sources stay in the data (`src`) and ho/src/notes.
 - Calculators (owner, 26 Nov 2026: "ugly"): list rows with what each gives; a header card with the formula, fields with the unit inside,
   one big green result, the rest in a table, notes as a tip card.

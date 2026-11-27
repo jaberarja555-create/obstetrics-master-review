@@ -1,43 +1,36 @@
 <!doctype html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>HO Assistant · SMRA</title>
-<meta name="description" content="مساعد طبيب الامتياز: الجرعات والسوائل والوصفة وخطة العلاج حسب الدليل المحلي.">
+<meta name="description" content="HO Assistant: مساعد طبيب الامتياز. الأدوية بخطوط العلاج والجرعات المحسوبة والسوائل والوصفة والفحوصات حسب الأدلة العلاجية المحلية.">
 <meta name="theme-color" content="#06463b">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="img/ho-192.png">
 <link rel="apple-touch-icon" href="img/ho-192.png">
 <script>
+/* language of the details, look, colour and text size before the first paint (shared language and look with SMRA) */
 (function () {
-  try {
-    var l = JSON.parse(localStorage.getItem('ish-lang') || '"ar"'); if (l !== 'en') l = 'ar';
-    var t = JSON.parse(localStorage.getItem('ish-theme') || '"light"');
-    if (t === 'auto') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    document.documentElement.dataset.theme = t === 'dark' ? 'dark' : t === 'eye' ? 'eye' : 'light';
-    if (window.top !== window) document.documentElement.classList.add('inframe');
-  } catch (e) {}
+  var d = document.documentElement;
+  function g(k, v) { try { var x = localStorage.getItem(k); return x == null ? v : JSON.parse(x); } catch (e) { return v; } }
+  var l = g('ish-lang', 'ar') === 'en' ? 'en' : 'ar'; d.lang = l; d.dir = l === 'ar' ? 'rtl' : 'ltr';
+  var t = g('ish-theme', 'light'); if (t === 'auto') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  d.dataset.theme = t === 'dark' ? 'dark' : t === 'eye' ? 'eye' : 'light';
+  d.dataset.pal = g('ho-pal', g('ish-pal', 'blue'));
+  d.dataset.fs = g('ho-fs', 'n');
+  if (window.top !== window) d.classList.add('inframe');
 })();
 </script>
-<link rel="preload" href="../fonts/cairo-arabic-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/ho.css">
 </head>
 <body>
-<div id="app">
-  <header class="hb">
-    <div class="hb-s"><button class="hb-b" id="hbBack" aria-label="Back"></button></div>
-    <a class="hb-logo" data-go=""><img src="../img/mr/logo-smra.webp" alt="SMRA" width="1000" height="359"><span>HO Assistant</span></a>
-    <div class="hb-s end"><button class="hb-l" id="hbLang" aria-label="Language"></button></div>
-  </header>
-  <main>
-    <button class="hb-pt" id="hbPt" data-go="patient"></button>
-    <div class="pgt" id="pgt"><i></i><h2 id="hbTitle"></h2><i></i></div>
-    <p class="pgs" id="hbSub"></p>
-    <div id="v"></div>
-  </main>
-  <nav class="bn" id="bn"></nav>
-</div>
+<header class="hb" id="hb"></header>
+<main id="main">
+  <div id="ph"></div>
+  <div id="v"></div>
+</main>
+<nav class="bn" id="bn"></nav>
 <div id="sheet" class="sh" hidden></div>
 <div id="toast" class="toast" hidden></div>
 <script src="js/drugs.js"></script>

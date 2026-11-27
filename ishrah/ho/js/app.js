@@ -1,5 +1,6 @@
 /* HO Assistant — screens. Data: HO_DRUGS (drugs.js), HO_DX / HO_SX / HO_SYS (dx.js); calculations: HO_E (engine.js).
-   Everything stays on this device (localStorage ho-*); nothing is sent anywhere. */
+   Language (owner, 26–27 Nov 2026): main titles in English (T); everything else follows the chosen language (A), Arabic by default.
+   Look: SMRA green and gold, with the look, colour and text size chosen in Settings. Patients stay on this device (ho-*). */
 (function () {
   'use strict';
   var E = window.HO_E, DR = window.HO_DRUGS, DX = window.HO_DX, SX = window.HO_SX, SYS = window.HO_SYS;
@@ -8,18 +9,19 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function get(k, d) { try { var v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }
   function put(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
-  var LANG = get('ish-lang', 'ar') === 'en' ? 'en' : 'ar';
-  /* owner, 26 Nov 2026: "main language is English except the details": titles, buttons, labels and lists are English; the explanatory
-     details (sentences: descriptions, hints, notes, warnings) follow the chosen language. The page is always left to right. */
-  function A(ar, en) { return LANG === 'ar' && (en.length > 40 || /\.\s|\.$/.test(en)) ? ar : en; }
+  var LANG = get('ish-lang', 'ar') === 'en' ? 'en' : 'ar', AR = LANG === 'ar';
+  function A(ar, en) { return AR ? ar : en; }
+  function T(en) { return '<bdi dir="ltr">' + esc(en) + '</bdi>'; }
   var nice = E.nice;
   var byId = {}; DX.forEach(function (c) { byId[c.id] = c; });
   var SXN = {}; SX.forEach(function (s) { SXN[s[1]] = s; });
+  var INFRAME = window.top !== window;
 
   /* ---------- icons ---------- */
   var IC = {
     home: '<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
     user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+    baby: '<circle cx="12" cy="10" r="6"/><path d="M9.5 10h.01M14.5 10h.01M10 13c1 1 3 1 4 0M12 4c0-1 1-2 2-2"/><path d="M7 20c1.5-2 3-2.5 5-2.5s3.5.5 5 2.5"/>',
     list: '<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/>',
     pill: '<rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-35 12 12)"/><path d="M9.5 8.5l6 6"/>',
     calc: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/>',
@@ -29,6 +31,7 @@
     rx: '<path d="M6 3h6a4 4 0 0 1 0 8H6zM6 11v10M10 11l8 10M18 13l-6 8"/>',
     save: '<path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h8V3M8 21v-7h8v7"/>',
     back: '<path d="M15 5l-7 7 7 7"/>',
+    fwd: '<path d="M9 5l7 7-7 7"/>',
     stetho: '<path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M10 13v3a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="12" r="2"/>',
     copy: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M4 16V5a1 1 0 0 1 1-1h11"/>',
     share: '<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 11l7.6-4M8.2 13l7.6 4"/>',
@@ -37,151 +40,295 @@
     plus: '<path d="M12 5v14M5 12h14"/>',
     check: '<path d="M5 12l5 5 9-10"/>',
     bolt: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
-    book: '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/>'
+    gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+    moon: '<path d="M21 13a9 9 0 1 1-10-10 7 7 0 0 0 10 10z"/>',
+    eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    route: '<path d="M4 12h12M12 6l6 6-6 6"/>',
+    flask: '<path d="M9 3h6M10 3v6L4 19a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-6-10V3"/><path d="M7 15h10"/>',
+    shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
+    install: '<path d="M12 3v12M7 10l5 5 5-5M5 21h14"/>',
+    globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+    palette: '<path d="M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/>',
+    text: '<path d="M4 7V5h16v2M9 19h6M12 5v14"/>',
+    hosp: '<path d="M4 21V7l8-4 8 4v14"/><path d="M10 21v-5h4v5M12 8v4M10 10h4"/>',
+    ecg: '<path d="M3 12h4l2-5 4 10 2-5h6"/>',
+    lungs: '<path d="M12 4v7"/><path d="M12 11c-1.5 0-3 1.5-4 4-.8 2-1.5 5-3.5 5S3 17 3 14c0-4 2-8 4.5-8C10 6 12 8 12 11zM12 11c1.5 0 3 1.5 4 4 .8 2 1.5 5 3.5 5S21 17 21 14c0-4-2-8-4.5-8C14 6 12 8 12 11z"/>',
+    heart: '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>',
+    gut: '<path d="M9 3v4c0 2-3 3-3 7a6 6 0 0 0 12 0c0-3-3-3-3-5s2-2 2-4"/>',
+    kidney: '<path d="M15 4c3 0 5 3 5 8s-2 8-5 8-3-3-3-4.5 2-2 2-3.5-2-2-2-3.5S12 4 15 4z"/><path d="M4 12h8"/>',
+    brain: '<path d="M10 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 3 3zM14 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-3 3z"/>',
+    virus: '<circle cx="12" cy="12" r="5"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5M5 5l3.5 3.5M15.5 15.5L19 19M19 5l-3.5 3.5M8.5 15.5L5 19"/>',
+    bone: '<path d="M8 16l8-8"/><circle cx="6.5" cy="17.5" r="2"/><circle cx="17.5" cy="6.5" r="2"/><circle cx="4.5" cy="15.5" r="1.5"/><circle cx="19.5" cy="8.5" r="1.5"/>'
   };
-  function ic(n, c) { return '<svg class="ic ' + (c || '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + (IC[n] || '') + '</svg>'; }
+  function ic(n, c) { return '<svg class="ic ' + (c || '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (IC[n] || '') + '</svg>'; }
+  var SYSIC = { resp: 'lungs', cvs: 'heart', neo: 'baby', gi: 'gut', renal: 'kidney', cns: 'brain', inf: 'virus', blood: 'drop', endo: 'flask', emerg: 'bolt', msk: 'bone' };
+
+  /* ---------- the signed-in SMRA account (read only) ---------- */
+  function me() { var x = get('ish-me', null); return x && x.me ? x.me : null; }
+  function drName() { var m = me(); if (!m || !m.name) return ''; var n = String(m.name).replace(/^(dr\.?|د\.?)\s*/i, '').split(/\s+/)[0]; return /[؀-ۿ]/.test(n) ? 'د. ' + n : 'Dr. ' + n; }
+  function avatar(cls) {
+    var m = me();
+    if (m && m.photo && /^(https?:|\/)/.test(m.photo)) return '<span class="av ' + (cls || '') + '"><img src="' + esc(m.photo) + '" alt=""></span>';
+    var n = m && m.name ? String(m.name).trim().charAt(0).toUpperCase() : '';
+    return '<span class="av ' + (cls || '') + '">' + (n ? esc(n) : ic('user')) + '</span>';
+  }
+  function toPlatform(hash) { try { if (INFRAME) { window.top.location.hash = hash; return; } } catch (e) {} location.href = '/' + hash; }
 
   /* ---------- patient ---------- */
-  var BLANK = { name: '', bed: '', ay: '', am: '', ad: '', sex: '', wt: '', ht: '', set: 'op', dx: '', course: 'acute', dur: '', allergy: [], allergyTxt: '', cond: [], notes: '', na: '', k: '' };
-  var P = Object.assign({}, BLANK, get('ho-pt', {}));
-  function savePt() { put('ho-pt', P); }
+  var BLANK = { name: '', ay: '', am: '', ad: '', sex: '', wt: '', ht: '', set: 'op', dx: '', course: 'acute', dur: '', durU: 'd', allergy: [], allergyTxt: '', cond: [], notes: '', lab: {} };
+  function fresh() { return Object.assign({}, BLANK, { allergy: [], cond: [], lab: {} }); }
+  var P = Object.assign(fresh(), get('ho-pt', {})); P.allergy = P.allergy || []; P.cond = P.cond || []; P.lab = P.lab || {};
+  if (P.na && !P.lab.na) P.lab.na = P.na; if (P.k && !P.lab.k) P.lab.k = P.k;
+  function savePt() { P.na = P.lab.na || ''; P.k = P.lab.k || ''; put('ho-pt', P); }
   function hasAge() { return +P.ay > 0 || +P.am > 0 || +P.ad > 0; }
   function ready() { return hasAge() || +P.wt > 0; }
-  function wtText() { if (!ready()) return ''; var w = E.wt(P); return nice(w) + ' kg' + (+P.wt > 0 ? '' : ' ' + A('(تقدير)', '(est.)')); }
-  function ptChip() {
-    if (!ready()) return '<span class="pt-none">' + ic('user') + A('مريض جديد', 'New patient') + '</span>';
-    return ic('user') + '<span>' + esc(hasAge() ? E.ageText(P) : '') + (hasAge() ? ' · ' : '') + esc(wtText()) + '</span>';
+  function ageUnit() { return +P.ay > 0 ? 'y' : +P.am > 0 ? 'm' : +P.ad > 0 ? 'd' : (P.ageU || 'y'); }
+  function ageTxt(p) {
+    p = p || P; var m = E.ageMonths(p);
+    if (!AR) return E.ageText(p);
+    if (m < 1) return Math.round(E.dol(p)) + ' يوم';
+    if (m < 24) return nice(Math.round(m * 10) / 10) + ' شهر';
+    var y = Math.floor(m / 12), r = Math.round(m % 12); return y + ' سنة' + (r ? ' و' + r + ' شهر' : '');
   }
+  function wtTxt() { if (!ready()) return ''; return nice(E.wt(P)) + ' kg'; }
   var ALLERGIES = [['penicillin', 'بنسلين', 'Penicillin'], ['cephalosporin', 'سيفالوسبورين', 'Cephalosporin'], ['macrolide', 'ماكرولايد', 'Macrolide'], ['sulfa', 'سلفا', 'Sulfa'],
-    ['nsaid', 'مسكنات NSAID / أسبرين', 'NSAIDs / aspirin'], ['quinolone', 'كينولون', 'Quinolone'], ['aminoglycoside', 'أمينوغلايكوسايد', 'Aminoglycoside']];
+    ['nsaid', 'مسكنات NSAID', 'NSAIDs'], ['quinolone', 'كينولون', 'Quinolone'], ['aminoglycoside', 'أمينوغلايكوسايد', 'Aminoglycoside']];
   var CONDS = [['asthma', 'ربو', 'Asthma'], ['g6pd', 'نقص G6PD', 'G6PD deficiency'], ['renal', 'مرض كلوي', 'Kidney disease'], ['liver', 'مرض كبدي', 'Liver disease'],
     ['jaundice', 'صفار', 'Jaundice'], ['sam', 'سوء تغذية حاد', 'Severe malnutrition'], ['cardiac', 'مرض قلبي', 'Heart disease'], ['dengue', 'حمى الضنك', 'Dengue'], ['preterm', 'خديج', 'Preterm']];
-  function ptBar() { var pc = P.dx && byId[P.dx], b = document.getElementById('hbPt'); if (b) b.innerHTML = ptChip() + (ready() && pc ? '<em>' + esc(pc.t) + '</em>' : '') + '<i class="pe">' + A('تعديل', 'Edit') + '</i>'; }
-  var SETS = [['op', 'عيادة خارجية', 'Outpatient'], ['er', 'الطوارئ', 'Emergency room'], ['adm', 'تنويم', 'Admitted']];
+  var SETS = [['op', 'عيادة', 'Outpatient', 'user'], ['er', 'طوارئ', 'Emergency', 'bolt'], ['adm', 'تنويم', 'Admitted', 'hosp']];
+  /* investigations the house officer can enter; lo / hi flag the result (paediatric reference ranges, general) */
+  var LABS = [
+    ['CBC', 'drop', [['hb', 'Hb', 'g/dL', 10, 18], ['wbc', 'WBC', '×10⁹/L', 4, 15], ['plt', 'Platelets', '×10⁹/L', 150, 450], ['neut', 'Neutrophils', '%', null, 75], ['lymph', 'Lymphocytes', '%', null, null]]],
+    ['Electrolytes & kidney', 'kidney', [['na', 'Na', 'mmol/L', 135, 145], ['k', 'K', 'mmol/L', 3.5, 5.5], ['ca', 'Ca', 'mg/dL', 8.5, 10.5], ['urea', 'Urea', 'mg/dL', null, 40], ['cr', 'Creatinine', 'mg/dL', null, 1.2]]],
+    ['Glucose & infection', 'flask', [['rbg', 'RBG', 'mg/dL', 54, 200], ['crp', 'CRP', 'mg/L', null, 10], ['esr', 'ESR', 'mm/h', null, 20], ['mal', 'Malaria (BFFM / MAT)', 'sel', ['', 'Positive', 'Negative']]]],
+    ['Liver', 'gut', [['tsb', 'Total bilirubin', 'mg/dL', null, 1.2], ['dsb', 'Direct bilirubin', 'mg/dL', null, 0.3], ['alt', 'ALT', 'U/L', null, 45], ['alb', 'Albumin', 'g/dL', 3.5, null]]],
+    ['Urine & stool', 'drop', [['ug', 'Urine general', 'txt'], ['sg', 'Stool general', 'txt']]],
+    ['Imaging', 'eye', [['cxr', 'Chest X-ray', 'txt'], ['us', 'Ultrasound', 'txt'], ['img', 'Other imaging', 'txt']]],
+    ['Other tests', 'list', [['oth', 'Other results', 'txt']]]
+  ];
+  function labFlag(f, v) { if (v === '' || v == null || isNaN(+v)) return ''; v = +v; if (f[3] != null && v < f[3]) return 'lo'; if (f[4] != null && v > f[4]) return 'hi'; return 'ok'; }
+  function labsEntered() {
+    var out = [];
+    LABS.forEach(function (g) { g[2].forEach(function (f) { var v = P.lab[f[0]]; if (v === '' || v == null) return; out.push({ f: f, v: v, flag: f[2] === 'txt' || f[2] === 'sel' ? (v === 'Positive' ? 'hi' : '') : labFlag(f, v) }); }); });
+    return out;
+  }
+  function lbl(list, id) { var x = list.find(function (a) { return a[0] === id; }); return x ? A(x[1], x[2]) : id; }
 
-  /* ---------- router ---------- */
-  var HIST = [];
+  /* ---------- router and frame ---------- */
   function go(h) { if (location.hash.slice(1) === h) render(); else location.hash = h; }
-  window.addEventListener('hashchange', render);
-  function route() { var h = location.hash.replace(/^#/, ''); return h.split('/'); }
-
-  var NAV = [['', 'home', 'الرئيسية', 'Home'], ['patient', 'user', 'المريض', 'Patient'], ['conds', 'list', 'الأمراض', 'Conditions'], ['drugs', 'pill', 'الأدوية', 'Drugs'], ['calc', 'calc', 'الحاسبات', 'Calculators']];
-  function chrome(title, sub, back) {
-    $('#hbTitle').textContent = title; $('#hbSub').textContent = sub || '';
-    $('#pgt').hidden = back === false; $('#hbSub').hidden = back === false || !sub;
-    var b = $('#hbBack'); b.innerHTML = ic('back'); b.style.visibility = back === false ? 'hidden' : 'visible';
-    ptBar();
-    $('#hbPt').hidden = back === false || route()[0] === 'patient';
-    $('#hbLang').textContent = LANG === 'ar' ? 'EN' : 'ع'; $('#hbLang').title = LANG === 'ar' ? 'Details in English' : 'التفاصيل بالعربي';
-    var r = route()[0];
-    var cur = { c: 'conds', drug: 'drugs', dx: 'conds', rx: 'patient', orders: 'patient', saved: 'patient', emerg: '' }[r]; if (cur == null) cur = r;
+  window.addEventListener('hashchange', function () { render(); });
+  function route() { return location.hash.replace(/^#/, '').split('/'); }
+  var NAV = [['', 'home', 'الرئيسية', 'Home'], ['patient', 'user', 'المريض', 'Patient'], ['conds', 'list', 'الأمراض', 'Conditions'], ['drugs', 'pill', 'الأدوية', 'Drugs'], ['calc', 'calc', 'الحاسبات', 'Tools']];
+  var THEMES = ['light', 'dark', 'eye'];
+  function themeNow() { return document.documentElement.dataset.theme || 'light'; }
+  function head(title, sub, opt) {
+    opt = opt || {};
+    var r = route()[0], home = !r, th = themeNow();
+    var start = home ? '<button class="hb-b" data-act="toSMRA" aria-label="SMRA">' + ic('home') + '</button>'
+      : '<button class="hb-b" data-act="back" aria-label="' + A('رجوع', 'Back') + '">' + ic('back', 'flip') + '</button><button class="hb-b ghost" data-go="" aria-label="Home">' + ic('home') + '</button>';
+    $('#hb').innerHTML = '<div class="hb-s">' + start + '</div>' +
+      '<a class="hb-logo" data-go="" aria-label="HO Assistant"><img src="../img/mr/logo-smra.webp" alt="SMRA" width="1000" height="359"><span>HO Assistant</span></a>' +
+      '<div class="hb-s end"><button class="hb-b ghost" data-act="theme" aria-label="' + A('المظهر', 'Look') + '">' + ic(th === 'dark' ? 'moon' : th === 'eye' ? 'eye' : 'sun') + '</button>' +
+      '<button class="hb-b ghost hide-xs" data-go="settings" aria-label="' + A('الإعدادات', 'Settings') + '">' + ic('gear') + '</button>' +
+      '<button class="hb-me" data-act="profile" aria-label="' + A('الحساب', 'Account') + '">' + avatar() + '</button></div>';
+    var cur = { c: 'conds', drug: 'drugs', dx: 'conds', rx: 'patient', orders: 'patient', saved: 'patient', emerg: 'calc', settings: '' }[r]; if (cur == null) cur = r;
     $('#bn').innerHTML = NAV.map(function (n) { return '<button data-go="' + n[0] + '" class="' + (cur === n[0] ? 'on' : '') + '">' + ic(n[1]) + '<span>' + A(n[2], n[3]) + '</span></button>'; }).join('');
+    $('#ph').innerHTML = home ? '' : '<div class="pgt"><i></i><h1>' + T(title) + '</h1><i></i></div>' + (sub ? '<p class="pgs">' + sub + '</p>' : '') +
+      (opt.strip !== false && !/^(patient|settings)$/.test(r) ? ptStrip() : '');
     document.title = title + ' · HO Assistant';
   }
-  $('#hbBack').addEventListener('click', function () { if (history.length > 1 && location.hash) history.back(); else go(''); });
-  $('#hbLang').addEventListener('click', function () { LANG = LANG === 'ar' ? 'en' : 'ar'; put('ish-lang', LANG); render(); });
+  function ptStrip() {
+    var c = P.dx && byId[P.dx];
+    if (!ready()) return '<button class="pts empty" data-go="patient">' + ic('plus') + '<span>' + A('أدخل بيانات المريض لتُحسب الجرعات', 'Enter the patient to calculate doses') + '</span><b>' + A('مريض جديد', 'New patient') + '</b></button>';
+    return '<button class="pts" data-go="patient"><span class="pts-i">' + ic('baby') + '</span><span class="pts-t"><b dir="auto">' + esc(P.name || A('المريض الحالي', 'Current patient')) + '</b><small>' +
+      [hasAge() ? ageTxt() : '', wtTxt() + (+P.wt > 0 ? '' : ' ' + A('(تقديري)', '(est.)')), c ? '<bdi dir="ltr">' + esc(c.t) + '</bdi>' : ''].filter(Boolean).join(' · ') + '</small></span><i class="pts-e">' + ic('edit') + '</i></button>';
+  }
+  var ACT = {};
   document.addEventListener('click', function (e) {
-    var g = e.target.closest('[data-go]'); if (g && !e.defaultPrevented) { e.preventDefault(); go(g.getAttribute('data-go')); return; }
+    var g = e.target.closest('[data-go]'); if (g) { e.preventDefault(); go(g.getAttribute('data-go')); return; }
     var a = e.target.closest('[data-act]'); if (a && ACT[a.getAttribute('data-act')]) { e.preventDefault(); ACT[a.getAttribute('data-act')](a, e); }
   });
+  ACT.back = function () { if (history.length > 1) history.back(); else go(''); };
+  ACT.toSMRA = function () { toPlatform('#home'); };
+  ACT.theme = function () { var t = THEMES[(THEMES.indexOf(themeNow()) + 1) % 3]; setTheme(t); toast({ light: A('المظهر النهاري', 'Day'), dark: A('المظهر الليلي', 'Night'), eye: A('راحة العين', 'Eye comfort') }[t]); };
+  function setTheme(t) { put('ish-theme', t); var x = t === 'auto' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : t; document.documentElement.dataset.theme = x; render(true); }
+  ACT.profile = function () {
+    var m = me();
+    sheet('<div class="prof">' + avatar('big') + '<b dir="auto">' + esc(m ? m.name : A('غير مسجّل الدخول', 'Not signed in')) + '</b><small>' + A('حساب SMRA', 'SMRA account') + '</small></div>' +
+      '<div class="menu">' + (m ? '<button data-act="goAcc">' + ic('user') + '<span>' + A('ملفي في SMRA', 'My SMRA profile') + '</span>' + ic('fwd', 'flip') + '</button>' :
+        '<button data-act="goIn">' + ic('user') + '<span>' + A('تسجيل الدخول إلى SMRA', 'Sign in to SMRA') + '</span>' + ic('fwd', 'flip') + '</button>') +
+      '<button data-act="goSaved">' + ic('save') + '<span>' + A('المرضى المحفوظون', 'Saved patients') + '</span><em>' + get('ho-pts', []).length + '</em></button>' +
+      '<button data-act="goSet">' + ic('gear') + '<span>' + A('الإعدادات', 'Settings') + '</span>' + ic('fwd', 'flip') + '</button>' +
+      '<button data-act="toSMRA">' + ic('home') + '<span>' + A('العودة إلى منصة SMRA', 'Back to SMRA') + '</span>' + ic('fwd', 'flip') + '</button></div>');
+  };
+  ACT.goAcc = function () { closeSheet(); toPlatform('#account'); };
+  ACT.goIn = function () { closeSheet(); toPlatform('#pick'); };
+  ACT.goSaved = function () { closeSheet(); go('saved'); };
+  ACT.goSet = function () { closeSheet(); go('settings'); };
 
   function toast(t) { var x = $('#toast'); x.textContent = t; x.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { x.hidden = true; }, 2200); }
-  function sheet(html) { var s = $('#sheet'); s.innerHTML = '<div class="sh-bg" data-act="shclose"></div><div class="sh-box">' + html + '</div>'; s.hidden = false; }
-  var ACT = {};
-  ACT.shclose = function () { $('#sheet').hidden = true; };
-
-  function disclaimer() {
-    return '<p class="disc">' + ic('alert') + A('أداة مساعدة مبنية على الأدلة العلاجية المحلية (local guidelines). راجع الجرعة مع النائب أو الصيدلي قبل الإعطاء.',
-      'Decision support built on local guidelines. Check every dose with your senior or the pharmacist before giving it.') + '</p>';
+  function sheet(html) { var s = $('#sheet'); s.innerHTML = '<div class="sh-bg" data-act="shclose"></div><div class="sh-box"><i class="sh-grip"></i>' + html + '</div>'; s.hidden = false; }
+  function closeSheet() { $('#sheet').hidden = true; }
+  ACT.shclose = closeSheet;
+  function disc() { return '<p class="disc">' + ic('shield') + '<span>' + A('أداة مساعدة مبنية على الأدلة العلاجية المحلية (local guidelines). راجع الجرعة مع النائب أو الصيدلي قبل الإعطاء.', 'Decision support built on local guidelines. Check every dose with your senior or the pharmacist before giving it.') + '</span></p>'; }
+  function sec(title, icn, body, cls, extra) { return '<section class="card ' + (cls || '') + '"><h2 class="ch">' + (icn ? '<span class="chi">' + ic(icn) + '</span>' : '') + T(title) + (extra || '') + '</h2>' + body + '</section>'; }
+  function seg(list, cur, act) {
+    return '<div class="seg">' + list.map(function (x) { return '<button type="button" class="' + (String(cur) === String(x[0]) ? 'on' : '') + '" data-act="' + act + '" data-v="' + x[0] + '">' + (x[3] ? ic(x[3]) : '') + '<span>' + A(x[1], x[2]) + '</span></button>'; }).join('') + '</div>';
   }
+  function opts(from, to, step, cur, fmt) { var h = '<option value="">—</option>'; for (var v = from; v <= to + 1e-9; v = Math.round((v + step) * 100) / 100) h += '<option value="' + v + '"' + (String(cur) !== '' && +cur === v ? ' selected' : '') + '>' + (fmt ? fmt(v) : v) + '</option>'; return h; }
 
+  /* a small age and weight picker shown wherever doses need a patient (owner: "where does a person put age and weight?") */
+  function quickPt() {
+    var au = ageUnit(), av = au === 'y' ? P.ay : au === 'm' ? P.am : P.ad, wk = +P.wt > 0 ? Math.floor(+P.wt) : '', wd = +P.wt > 0 ? Math.round((+P.wt - Math.floor(+P.wt)) * 10) : '';
+    return '<section class="card qpt" id="qpt"><h2 class="ch"><span class="chi">' + ic('baby') + '</span>' + T('Age & weight') + '</h2><p class="hint">' + A('اختر العمر والوزن وتظهر الجرعات هنا مباشرة.', 'Pick the age and weight; the doses appear here at once.') + '</p>' +
+      seg([['d', 'أيام', 'Days'], ['m', 'شهور', 'Months'], ['y', 'سنوات', 'Years']], au, 'qageu') +
+      '<div class="flds"><label class="fld"><span>' + A('العمر', 'Age') + '</span><div class="inp pick"><select data-q="age" dir="ltr">' + (au === 'd' ? opts(0, 28, 1, av) : au === 'm' ? opts(1, 23, 1, av) : opts(1, 17, 1, av)) + '</select><em>' + (au === 'd' ? A('يوم', 'days') : au === 'm' ? A('شهر', 'months') : A('سنة', 'years')) + '</em></div></label>' +
+      '<div class="fld"><span>' + A('الوزن', 'Weight') + '</span><div class="inp pick two"><select data-q="wk" dir="ltr">' + opts(0, 90, 1, wk) + '</select><b>.</b><select data-q="wd" dir="ltr">' + opts(0, 9, 1, wd) + '</select><em>kg</em></div></div></div>' +
+      '<button class="lnk" data-go="patient">' + ic('user') + A('بيانات المريض الكاملة', 'Full patient details') + '</button></section>';
+  }
+  ACT.qageu = function (b) { P.ageU = b.dataset.v; P.ay = P.am = P.ad = ''; savePt(); var y = scrollY; render(true); scrollTo(0, y); };
+  document.addEventListener('change', function (e) {
+    var t = e.target; if (!t.dataset || !t.dataset.q) return;
+    var q = $('#qpt'), au = ageUnit(), v = $('[data-q=age]', q).value, wk = $('[data-q=wk]', q).value, wd = $('[data-q=wd]', q).value;
+    P.ay = au === 'y' ? v : ''; P.am = au === 'm' ? v : ''; P.ad = au === 'd' ? (v === '0' ? '0.5' : v) : '';
+    P.wt = wk !== '' && +wk + (+wd || 0) / 10 > 0 ? String(+wk + (+wd || 0) / 10) : '';
+    savePt(); if (ready()) { var y = scrollY; render(true); scrollTo(0, y); toast(A('حُسبت الجرعات', 'Doses calculated')); }
+  });
   /* ================= Home ================= */
+  function greet() { var h = new Date().getHours(); return h < 12 ? A('صباح الخير', 'Good morning') : A('مساء الخير', 'Good evening'); }
   function home() {
-    chrome('HO Assistant', A('مساعد طبيب الامتياز · الأطفال', 'House officer assistant · Paediatrics'), false);
-    var cur = P.dx && byId[P.dx];
-    var tiles = [
-      ['patient', 'user', 'مريض جديد', 'New patient', 'العمر والوزن والحساسية', 'Age, weight, allergies'],
-      ['dx', 'search', 'التشخيص من الأعراض', 'Diagnose from symptoms', 'اختر الأعراض والعلامات', 'Pick symptoms and signs'],
-      ['conds', 'list', 'الأمراض وخطط العلاج', 'Conditions & plans', DX.length + ' حالة', DX.length + ' conditions'],
-      ['drugs', 'pill', 'كتاب الأدوية', 'Drug book', Object.keys(DR).length + ' دواء', Object.keys(DR).length + ' drugs'],
-      ['calc', 'calc', 'الحاسبات والسوائل', 'Calculators & fluids', 'سوائل، بوتاسيوم، GIR…', 'Fluids, K, GIR…'],
-      ['emerg', 'bolt', 'جرعات الطوارئ', 'Emergency doses', 'بالوزن مباشرة', 'By weight at once'],
-      ['saved', 'save', 'المرضى المحفوظون', 'Saved patients', 'على هذا الجهاز فقط', 'On this device only'],
-      ['rx', 'rx', 'الوصفة وأوامر التنويم', 'Prescription & orders', 'جاهزة للنسخ والطباعة', 'Ready to copy and print']
-    ];
-    var h = '<section class="hero"><div class="hero-t"><span class="hero-i">' + ic('stetho') + '</span><div><h1>HO Assistant</h1><p>' +
-      A('أدخل بيانات المريض، ويعطيك التطبيق الأدوية بخطوط العلاج والجرعات المحسوبة والسوائل والوصفة والفحوصات.', 'Enter the patient once: drug lines with calculated doses, fluids, prescription, orders and investigations follow.') + '</p></div></div>';
+    head('HO Assistant', '');
+    var c = P.dx && byId[P.dx], dn = drName();
+    var h = '<section class="hero"><svg class="ecg" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34h120l10-14 12 30 14-44 12 40 8-12h214"/></svg>' +
+      '<div class="hero-in"><div class="hero-tx"><small>' + greet() + '</small><h2 dir="auto">' + esc(dn || A('يا دكتور', 'Doctor')) + '</h2><p>' +
+      A('أدخل بيانات المريض مرة واحدة، وتجد خطة العلاج والجرعات والسوائل والوصفة جاهزة.', 'Enter the patient once: the plan, doses, fluids and prescription are ready.') + '</p></div>' +
+      '<span class="hero-em">' + ic('stetho') + '</span></div></section>';
     if (ready()) {
-      h += '<div class="hero-pt"><div>' + ic('user') + '<b>' + esc(P.name || A('المريض الحالي', 'Current patient')) + '</b><span>' + esc(hasAge() ? E.ageText(P) : '') + ' · ' + esc(wtText()) + (cur ? ' · ' + esc(cur.t) : '') + '</span></div>' +
-        (cur ? '<button class="btn pri" data-go="c/' + cur.id + '">' + A('خطة العلاج', 'Management') + '</button>' : '<button class="btn pri" data-go="patient">' + A('أكمل البيانات', 'Complete details') + '</button>') + '</div>';
-    } else h += '<button class="btn pri big" data-go="patient">' + ic('plus') + A('ابدأ بمريض جديد', 'Start a new patient') + '</button>';
-    h += '</section><div class="tiles">' + tiles.map(function (t) {
-      return '<button class="tile" data-go="' + t[0] + '"><span class="ti">' + ic(t[1]) + '</span><b>' + A(t[2], t[3]) + '</b><small>' + A(t[4], t[5]) + '</small></button>';
+      var labs = labsEntered().filter(function (x) { return x.flag === 'lo' || x.flag === 'hi'; });
+      h += '<section class="pc"><div class="pc-top"><span class="pc-av">' + ic('baby') + '</span><div class="pc-tx"><small>' + T('Current patient') + '</small><b dir="auto">' + esc(P.name || A('بدون اسم', 'No name')) + '</b>' +
+        '<div class="pc-chips">' + (hasAge() ? '<span>' + ic('clock') + ageTxt() + '</span>' : '') + '<span dir="ltr">' + wtTxt() + (+P.wt > 0 ? '' : ' · est.') + '</span>' +
+        (P.sex ? '<span>' + (P.sex === 'm' ? A('ذكر', 'Male') : A('أنثى', 'Female')) + '</span>' : '') + '<span>' + lbl(SETS, P.set) + '</span></div></div>' +
+        '<button class="ib" data-go="patient" aria-label="' + A('تعديل', 'Edit') + '">' + ic('edit') + '</button></div>' +
+        (P.allergy.length ? '<div class="pc-al">' + ic('alert') + A('حساسية: ', 'Allergy: ') + P.allergy.map(function (a) { return lbl(ALLERGIES, a); }).join('، ') + '</div>' : '') +
+        (labs.length ? '<div class="pc-lab">' + labs.slice(0, 4).map(function (x) { return '<span class="' + x.flag + '" dir="ltr">' + esc(x.f[1]) + ' ' + esc(x.v) + (x.flag === 'lo' ? ' ↓' : ' ↑') + '</span>'; }).join('') + '</div>' : '') +
+        (c ? '<div class="pc-dx"><small>' + A('التشخيص', 'Diagnosis') + '</small><b>' + T(c.t) + '</b></div><div class="pc-btns"><button class="btn pri" data-go="c/' + c.id + '">' + ic('list') + A('خطة العلاج', 'Management') + '</button>' +
+          '<button class="btn" data-go="rx">' + ic('rx') + A('الوصفة', 'Prescription') + '</button><button class="btn" data-go="orders">' + ic('hosp') + A('الأوامر', 'Orders') + '</button></div>'
+          : '<div class="pc-btns"><button class="btn pri" data-go="conds">' + ic('list') + A('اختر التشخيص', 'Choose the diagnosis') + '</button><button class="btn" data-go="dx">' + ic('search') + A('من الأعراض', 'From symptoms') + '</button></div>') + '</section>';
+    } else {
+      h += '<section class="pc empty"><span class="pc-big">' + ic('baby') + '</span><div><b>' + T('New patient') + '</b><p>' + A('ابدأ بالاسم والعمر والوزن، وأي حساسية من الأدوية.', 'Start with the name, age and weight, and any drug allergy.') + '</p></div>' +
+        '<button class="btn pri" data-go="patient">' + ic('plus') + A('ابدأ', 'Start') + '</button></section>';
+    }
+    var tools = [['dx', 'search', 'Diagnose', 'من الأعراض والعلامات', 'From symptoms and signs'], ['conds', 'list', 'Conditions', DX.length + ' حالة بخطط علاجها', DX.length + ' conditions with plans'],
+      ['drugs', 'pill', 'Drug book', Object.keys(DR).length + ' دواء بجرعاتها', Object.keys(DR).length + ' drugs with doses'], ['calc', 'calc', 'Calculators', 'السوائل والأملاح والمعادلات', 'Fluids, electrolytes, formulas']];
+    h += '<h2 class="st">' + T('Quick tools') + '</h2><div class="qt">' + tools.map(function (t, i) {
+      return '<button class="qtile q' + i + '" data-go="' + t[0] + '"><span class="ti">' + ic(t[1]) + '</span><b>' + T(t[2]) + '</b><small>' + A(t[3], t[4]) + '</small></button>';
     }).join('') + '</div>';
-    var standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
-    if (!standalone) h += '<button class="btn inst" data-act="install">📲 ' + A('ثبّت HO Assistant كتطبيق على هاتفك', 'Install HO Assistant as an app') + '</button>';
-    h += '<section class="card soon"><h3>' + ic('book') + A('التخصصات', 'Specialities') + '</h3><div class="spl"><span class="on">' + A('الأطفال · local guidelines', 'Paediatrics · local guidelines') + '</span><span>' +
-      A('الباطنية · قريبًا', 'Medicine · soon') + '</span><span>' + A('الجراحة · قريبًا', 'Surgery · soon') + '</span><span>' + A('النساء والتوليد · قريبًا', 'Obstetrics · soon') + '</span></div><p class="mut">' +
-      A('تُضاف التخصصات الأخرى عند وصول أدلتها المحلية.', 'Other specialities are added when their local guidelines arrive.') + '</p></section>' + disclaimer();
-    return h;
+    h += '<button class="emg" data-go="emerg"><span class="ti">' + ic('bolt') + '</span><span class="emg-t"><b>' + T('Emergency doses') + '</b><small>' +
+      (ready() ? A('محسوبة لوزن ', 'Calculated for ') + '<bdi dir="ltr">' + wtTxt() + '</bdi>' : A('كل جرعات الطوارئ بالوزن', 'Every emergency dose by weight')) + '</small></span>' + ic('fwd', 'flip') + '</button>';
+    var rec = get('ho-recent', []).filter(function (id) { return byId[id]; }).slice(0, 6);
+    if (rec.length) h += '<h2 class="st">' + T('Recent') + '</h2><div class="rec">' + rec.map(function (id) { return '<button data-go="c/' + id + '">' + T(byId[id].t) + '</button>'; }).join('') + '</div>';
+    h += '<div class="minis"><button data-go="saved">' + ic('save') + '<span>' + A('المحفوظون', 'Saved') + '</span><em>' + get('ho-pts', []).length + '</em></button>' +
+      '<button data-go="calc/dehyd">' + ic('drop') + '<span>' + A('الجفاف', 'Dehydration') + '</span></button>' +
+      '<button data-go="settings">' + ic('gear') + '<span>' + A('الإعدادات', 'Settings') + '</span></button></div>';
+    h += '<div class="spec"><span class="on">' + ic('check') + T('Paediatrics') + '</span><span>' + T('Medicine') + ' · ' + A('قريبًا', 'soon') + '</span><span>' + T('Surgery') + ' · ' + A('قريبًا', 'soon') + '</span><span>' + T('Obstetrics') + ' · ' + A('قريبًا', 'soon') + '</span></div>';
+    return h + disc();
   }
 
   /* ================= Patient ================= */
-  function chips(list, sel, act) {
-    return '<div class="chips">' + list.map(function (c) { return '<button type="button" class="chip' + (sel.indexOf(c[0]) >= 0 ? ' on' : '') + '" data-act="' + act + '" data-v="' + c[0] + '">' + A(c[1], c[2]) + '</button>'; }).join('') + '</div>';
-  }
+  function chips(list, sel, act) { return '<div class="chips">' + list.map(function (c) { return '<button type="button" class="chip' + (sel.indexOf(c[0]) >= 0 ? ' on' : '') + '" data-act="' + act + '" data-v="' + c[0] + '">' + A(c[1], c[2]) + '</button>'; }).join('') + '</div>'; }
+  function pick(name, label, options, unit) { return '<label class="fld"><span>' + label + '</span><div class="inp pick"><select name="' + name + '" dir="ltr">' + options + '</select>' + (unit ? '<em>' + unit + '</em>' : '') + '</div></label>'; }
   function patient() {
-    chrome(A('بيانات المريض', 'Patient details'), A('تُحفظ على هذا الجهاز', 'Kept on this device'));
-    var est = hasAge() ? nice(E.estWeight(P)) : '';
-    var dxopts = DX.map(function (c) { return '<option value="' + esc(c.t) + '">'; }).join('');
-    var cur = P.dx && byId[P.dx];
-    return '<form class="card form" id="ptf" autocomplete="off">' +
-      '<div class="g2"><label>' + A('الاسم أو رقم السرير (اختياري)', 'Name or bed (optional)') + '<input name="name" value="' + esc(P.name) + '"></label>' +
-      '<label>' + A('الجنس', 'Sex') + '<select name="sex"><option value="">—</option><option value="m"' + (P.sex === 'm' ? ' selected' : '') + '>' + A('ذكر', 'Male') + '</option><option value="f"' + (P.sex === 'f' ? ' selected' : '') + '>' + A('أنثى', 'Female') + '</option></select></label></div>' +
-      '<fieldset><legend>' + A('العمر', 'Age') + '</legend><div class="g3"><label>' + A('سنوات', 'Years') + '<input name="ay" type="number" inputmode="numeric" min="0" max="18" value="' + esc(P.ay) + '"></label>' +
-      '<label>' + A('شهور', 'Months') + '<input name="am" type="number" inputmode="numeric" min="0" max="11" value="' + esc(P.am) + '"></label>' +
-      '<label>' + A('أيام', 'Days') + '<input name="ad" type="number" inputmode="numeric" min="0" max="31" value="' + esc(P.ad) + '"></label></div></fieldset>' +
-      '<div class="g2"><label>' + A('الوزن (كجم)', 'Weight (kg)') + '<input name="wt" type="number" inputmode="decimal" step="0.1" min="0.4" max="120" value="' + esc(P.wt) + '" placeholder="' + (est ? A('تقدير ', 'est. ') + est : '') + '">' +
-      (est ? '<button type="button" class="lnk" data-act="useest">' + A('استخدم الوزن التقديري ', 'Use estimated ') + est + ' kg</button>' : '') + '</label>' +
-      '<label>' + A('الطول (سم، للمساحة و GFR)', 'Height (cm, for BSA and GFR)') + '<input name="ht" type="number" inputmode="decimal" min="30" max="200" value="' + esc(P.ht) + '"></label></div>' +
-      '<fieldset><legend>' + A('مكان العلاج', 'Setting') + '</legend>' + chips(SETS, [P.set], 'setset') + '</fieldset>' +
-      '<label>' + A('التشخيص', 'Diagnosis') + '<input name="dxt" list="dxl" value="' + esc(cur ? cur.t : '') + '" placeholder="' + A('ابحث: pneumonia، gastroenteritis…', 'Search: pneumonia, gastroenteritis…') + '"><datalist id="dxl">' + dxopts + '</datalist>' +
-      '<button type="button" class="lnk" data-go="dx">' + A('لا تعرف التشخيص؟ ابدأ من الأعراض', 'Not sure? Start from the symptoms') + '</button></label>' +
-      '<div class="g2"><label>' + A('حاد أم مزمن', 'Acute or chronic') + '<select name="course"><option value="acute"' + (P.course !== 'chronic' ? ' selected' : '') + '>' + A('حاد', 'Acute') + '</option><option value="chronic"' + (P.course === 'chronic' ? ' selected' : '') + '>' + A('مزمن', 'Chronic') + '</option></select></label>' +
-      '<label>' + A('المدة (أيام)', 'Duration (days)') + '<input name="dur" type="number" inputmode="numeric" min="0" value="' + esc(P.dur) + '"></label></div>' +
-      '<fieldset><legend>' + A('حساسية من دواء', 'Drug allergy') + '</legend>' + chips(ALLERGIES, P.allergy, 'tglal') + '<input name="allergyTxt" value="' + esc(P.allergyTxt) + '" placeholder="' + A('حساسية أخرى (اكتبها)', 'Other allergy (type it)') + '"></fieldset>' +
-      '<fieldset><legend>' + A('حالات تؤثر على العلاج', 'Conditions that change treatment') + '</legend>' + chips(CONDS, P.cond, 'tglcd') + '</fieldset>' +
-      '<div class="g2"><label>' + A('الصوديوم (اختياري)', 'Serum Na (optional)') + '<input name="na" type="number" inputmode="decimal" value="' + esc(P.na) + '"></label>' +
-      '<label>' + A('البوتاسيوم (اختياري)', 'Serum K (optional)') + '<input name="k" type="number" inputmode="decimal" step="0.1" value="' + esc(P.k) + '"></label></div>' +
-      '<label>' + A('ملاحظات', 'Notes') + '<textarea name="notes" rows="2">' + esc(P.notes) + '</textarea></label>' +
-      '<div class="acts"><button class="btn pri big" type="submit">' + ic('check') + A('أعطني خطة العلاج', 'Get the management') + '</button>' +
-      '<button class="btn" type="button" data-act="savept">' + ic('save') + A('احفظ المريض', 'Save patient') + '</button>' +
-      '<button class="btn ghost" type="button" data-act="newpt">' + ic('plus') + A('مريض جديد', 'New patient') + '</button></div></form>' + disclaimer();
+    head('Patient', A('تُحفظ البيانات على هذا الجهاز فقط', 'Kept on this device only'));
+    var au = ageUnit(), av = au === 'y' ? P.ay : au === 'm' ? P.am : P.ad, est = hasAge() ? nice(E.estWeight(P)) : '', cur = P.dx && byId[P.dx];
+    var wk = +P.wt > 0 ? Math.floor(+P.wt) : '', wd = +P.wt > 0 ? Math.round((+P.wt - Math.floor(+P.wt)) * 10) : '';
+    var h = '<form id="ptf" autocomplete="off" novalidate>';
+    h += sec('Patient', 'user', '<label class="fld"><span>' + A('اسم المريض', 'Patient name') + ' <i class="req">*</i></span><div class="inp"><input name="name" type="text" dir="auto" required value="' + esc(P.name) + '" placeholder="' + A('الاسم الكامل', 'Full name') + '"></div></label>' +
+      '<div class="fld"><span>' + A('الجنس', 'Sex') + '</span>' + seg([['m', 'ذكر', 'Male'], ['f', 'أنثى', 'Female']], P.sex, 'setsex') + '</div>');
+    h += sec('Age', 'baby', '<div class="fld"><span>' + A('العمر بالـ', 'Age in') + '</span>' + seg([['d', 'أيام', 'Days'], ['m', 'شهور', 'Months'], ['y', 'سنوات', 'Years']], au, 'setageu') + '</div>' +
+      '<div class="flds">' + pick('agev', A('العمر', 'Age') + ' <i class="req">*</i>', au === 'd' ? opts(0, 28, 1, av) : au === 'm' ? opts(1, 23, 1, av) : opts(1, 17, 1, av), au === 'd' ? A('يوم', 'days') : au === 'm' ? A('شهر', 'months') : A('سنة', 'years')) +
+      (au === 'y' ? pick('agem', A('وأشهر', 'and months'), opts(0, 11, 1, P.am), A('شهر', 'months')) : '') + '</div>');
+    h += sec('Weight & height', 'calc', '<div class="flds">' +
+      '<div class="fld"><span>' + A('الوزن', 'Weight') + ' <i class="req">*</i></span><div class="inp pick two"><select name="wk" dir="ltr">' + opts(0, 90, 1, wk) + '</select><b>.</b><select name="wd" dir="ltr">' + opts(0, 9, 1, wd) + '</select><em>kg</em></div></div>' +
+      pick('ht', A('الطول', 'Height'), opts(40, 190, 1, P.ht), 'cm') + '</div>' +
+      (est ? '<button type="button" class="estb' + (+P.wt > 0 ? ' muted' : '') + '" data-act="useest">' + ic('calc') + '<span>' + A('الوزن التقديري من العمر', 'Estimated from age') + ' <b dir="ltr">' + est + ' kg</b></span><em>' + A('استخدمه', 'Use it') + '</em></button>' : ''));
+    h += sec('Setting', 'hosp', seg(SETS, P.set, 'setset'));
+    h += sec('Diagnosis', 'stetho', '<label class="fld"><span>' + A('اكتب التشخيص واختره', 'Type and choose the diagnosis') + '</span><div class="inp srchi">' + ic('search') + '<input name="dxt" list="dxl" dir="ltr" value="' + esc(cur ? cur.t : '') + '" placeholder="Pneumonia, Gastroenteritis…"></div><datalist id="dxl">' + DX.map(function (c) { return '<option value="' + esc(c.t) + '">'; }).join('') + '</datalist></label>' +
+      '<button type="button" class="lnk" data-go="dx">' + ic('search') + A('لا تعرف التشخيص؟ ابدأ من الأعراض', 'Not sure? Start from the symptoms') + '</button>' +
+      '<div class="fld"><span>' + A('نوع المرض', 'Course') + '</span>' + seg([['acute', 'حاد', 'Acute'], ['chronic', 'مزمن', 'Chronic']], P.course, 'setcourse') + '</div>' +
+      '<div class="fld"><span>' + A('مدة الأعراض', 'Duration of symptoms') + '</span><div class="inp pick two"><select name="dur" dir="ltr">' + opts(1, 30, 1, P.dur) + '</select><select name="durU">' +
+      [['h', 'ساعات', 'hours'], ['d', 'أيام', 'days'], ['w', 'أسابيع', 'weeks'], ['mo', 'شهور', 'months'], ['y', 'سنوات', 'years']].map(function (u) { return '<option value="' + u[0] + '"' + (P.durU === u[0] ? ' selected' : '') + '>' + A(u[1], u[2]) + '</option>'; }).join('') + '</select></div></div>');
+    h += sec('Drug allergy', 'alert', chips(ALLERGIES, P.allergy, 'tglal') + '<div class="inp"><input name="allergyTxt" type="text" dir="auto" value="' + esc(P.allergyTxt) + '" placeholder="' + A('حساسية أخرى (اكتبها)', 'Other allergy (type it)') + '"></div>', 'al');
+    h += sec('Other conditions', 'heart', '<p class="hint">' + A('حالات تغيّر اختيار الدواء أو جرعته', 'Conditions that change the drug or dose') + '</p>' + chips(CONDS, P.cond, 'tglcd'));
+    var n = labsEntered().length;
+    h += sec('Investigations', 'flask', '<p class="hint">' + A('أدخل نتائج الفحوصات إن وُجدت؛ تظهر النتيجة غير الطبيعية بلون مختلف، وتُستعمل في الحاسبات وأوامر التنويم.', 'Enter any results you have; abnormal values are flagged and used by the calculators and the order sheet.') + '</p>' +
+      LABS.map(function (g, gi) {
+        var cnt = g[2].filter(function (f) { return P.lab[f[0]] !== '' && P.lab[f[0]] != null; }).length;
+        return '<details class="lg"' + (cnt ? ' open' : '') + '><summary><span class="chi sm">' + ic(g[1]) + '</span>' + T(g[0]) + (cnt ? '<em class="cnt">' + cnt + '</em>' : '') + ic('fwd', 'chev') + '</summary><div class="flds' + (g[2][0][2] === 'txt' ? ' one' : '') + '">' +
+          g[2].map(function (f) {
+            var v = P.lab[f[0]] == null ? '' : P.lab[f[0]];
+            if (f[2] === 'txt') return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp"><input data-lab="' + f[0] + '" type="text" dir="auto" value="' + esc(v) + '" placeholder="' + A('النتيجة', 'Result') + '"></div></label>';
+            if (f[2] === 'sel') return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp pick"><select data-lab="' + f[0] + '" dir="ltr">' + f[3].map(function (o) { return '<option value="' + o + '"' + (v === o ? ' selected' : '') + '>' + (o || '—') + '</option>'; }).join('') + '</select></div></label>';
+            var fl = labFlag(f, v);
+            return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp ' + fl + '"><input data-lab="' + f[0] + '" type="number" inputmode="decimal" step="any" dir="ltr" value="' + esc(v) + '"><em dir="ltr">' + f[2] + '</em></div></label>';
+          }).join('') + '</div></details>';
+      }).join(''), 'labs', n ? '<em class="cnt">' + n + '</em>' : '');
+    h += sec('Notes', 'edit', '<textarea name="notes" rows="3" dir="auto" placeholder="' + A('ملاحظات عن المريض', 'Notes about the patient') + '">' + esc(P.notes) + '</textarea>');
+    h += '<div class="bar"><button class="btn pri" type="submit">' + ic('check') + A('أعطني خطة العلاج', 'Get the management') + '</button><button class="btn sq" type="button" data-act="savept" aria-label="' + A('حفظ', 'Save') + '">' + ic('save') + '</button><button class="btn sq" type="button" data-act="newpt" aria-label="' + A('مريض جديد', 'New patient') + '">' + ic('plus') + '</button></div></form>';
+    return h;
   }
   function readForm() {
     var f = $('#ptf'); if (!f) return;
-    ['name', 'sex', 'ay', 'am', 'ad', 'wt', 'ht', 'course', 'dur', 'allergyTxt', 'notes', 'na', 'k'].forEach(function (k) { if (f[k]) P[k] = f[k].value.trim(); });
+    P.name = f.name.value.trim(); P.allergyTxt = f.allergyTxt.value.trim(); P.notes = f.notes.value.trim();
+    var au = ageUnit(), v = f.agev.value;
+    P.ay = au === 'y' ? v : ''; P.am = au === 'm' ? v : au === 'y' && f.agem ? f.agem.value : ''; P.ad = au === 'd' ? v : '';
+    if (au === 'd' && v === '0') P.ad = '0.5';
+    P.ageU = au;
+    P.wt = f.wk.value !== '' ? String(+f.wk.value + (+f.wd.value || 0) / 10) : ''; if (+P.wt === 0) P.wt = '';
+    P.ht = f.ht.value; P.dur = f.dur.value; P.durU = f.durU.value;
+    $$('[data-lab]', f).forEach(function (x) { P.lab[x.dataset.lab] = x.value.trim(); });
     var t = f.dxt.value.trim().toLowerCase(); var m = DX.find(function (c) { return c.t.toLowerCase() === t; }) || (t ? DX.find(function (c) { return c.t.toLowerCase().indexOf(t) >= 0 || c.ar.indexOf(t) >= 0; }) : null);
     P.dx = m ? m.id : '';
-    if (P.allergyTxt) { var x = P.allergyTxt.toLowerCase(); ALLERGIES.forEach(function (a) { if (x.indexOf(a[0].slice(0, 5)) >= 0 && P.allergy.indexOf(a[0]) < 0) P.allergy.push(a[0]); }); }
     savePt();
   }
   function toggle(arr, v) { var i = arr.indexOf(v); if (i >= 0) arr.splice(i, 1); else arr.push(v); }
-  ACT.tglal = function (b) { readForm(); toggle(P.allergy, b.dataset.v); savePt(); b.classList.toggle('on'); ptBar(); };
+  function segOn(b) { $$('button', b.parentNode).forEach(function (x) { x.classList.toggle('on', x === b); }); }
+  ACT.tglal = function (b) { readForm(); toggle(P.allergy, b.dataset.v); savePt(); b.classList.toggle('on'); };
   ACT.tglcd = function (b) { readForm(); toggle(P.cond, b.dataset.v); savePt(); b.classList.toggle('on'); };
-  ACT.setset = function (b) { readForm(); P.set = b.dataset.v; savePt(); $$('[data-act=setset]').forEach(function (x) { x.classList.toggle('on', x === b); }); };
-  ACT.useest = function () { readForm(); P.wt = nice(E.estWeight(P)); savePt(); render(); };
-  ACT.newpt = function () { if (ready() && !confirm(A('مسح بيانات المريض الحالي؟', 'Clear the current patient?'))) return; P = Object.assign({}, BLANK, { allergy: [], cond: [] }); savePt(); put('ho-sel', {}); render(); };
+  ACT.setset = function (b) { readForm(); P.set = b.dataset.v; savePt(); segOn(b); };
+  ACT.setsex = function (b) { readForm(); P.sex = b.dataset.v; savePt(); segOn(b); };
+  ACT.setcourse = function (b) { readForm(); P.course = b.dataset.v; savePt(); segOn(b); };
+  ACT.setageu = function (b) { readForm(); P.ageU = b.dataset.v; P.ay = P.am = P.ad = ''; savePt(); var y = scrollY; render(true); scrollTo(0, y); };
+  ACT.useest = function () { readForm(); P.wt = nice(E.estWeight(P)); savePt(); var y = scrollY; render(true); scrollTo(0, y); };
+  ACT.newpt = function () { if (ready() && !confirm(A('مسح بيانات المريض الحالي والبدء بمريض جديد؟', 'Clear the current patient and start a new one?'))) return; P = fresh(); savePt(); render(); };
+  function valid() {
+    var miss = [];
+    if (!P.name) miss.push(A('اسم المريض', 'patient name'));
+    if (!hasAge()) miss.push(A('العمر', 'age'));
+    if (!(+P.wt > 0) && !hasAge()) miss.push(A('الوزن', 'weight'));
+    $$('#ptf .fld').forEach(function (x) { x.classList.remove('bad'); });
+    if (!P.name) $('#ptf [name=name]').closest('.fld').classList.add('bad');
+    if (!hasAge()) $('#ptf [name=agev]').closest('.fld').classList.add('bad');
+    if (miss.length) { toast(A('أكمل: ', 'Please add: ') + miss.join('، ')); var b = $('#ptf .fld.bad'); if (b) b.scrollIntoView({ block: 'center', behavior: 'smooth' }); return false; }
+    return true;
+  }
   ACT.savept = function () {
-    readForm(); if (!ready()) return toast(A('أدخل العمر أو الوزن أولًا', 'Enter age or weight first'));
+    readForm(); if (!valid()) return;
     var L = get('ho-pts', []); P.id = P.id || 'p' + Date.now(); P.saved = Date.now();
     L = L.filter(function (x) { return x.id !== P.id; }); L.unshift(JSON.parse(JSON.stringify(P))); put('ho-pts', L.slice(0, 60)); savePt();
-    toast(A('حُفظ المريض على هذا الجهاز', 'Patient saved on this device'));
+    toast(A('حُفظ المريض على هذا الجهاز', 'Saved on this device'));
   };
-  document.addEventListener('input', function (e) { if (e.target.closest('#ptf')) { readForm(); ptBar(); } });
+  document.addEventListener('input', function (e) {
+    var t = e.target;
+    if (t.closest('#ptf')) { readForm(); if (t.dataset.lab) { var f = null; LABS.forEach(function (g) { g[2].forEach(function (x) { if (x[0] === t.dataset.lab) f = x; }); }); if (f && f[2] !== 'txt' && f[2] !== 'sel') { var w = t.closest('.inp'); w.classList.remove('lo', 'hi', 'ok'); var fl = labFlag(f, t.value); if (fl) w.classList.add(fl); } } }
+    if (t.id === 'cq') { CQ = t.value; $('#clist').innerHTML = condList(route()[1]); }
+    if (t.id === 'dq') { DQ = t.value; $('#dlist').innerHTML = drugList(); }
+    if (t.closest('#cf')) calcRun();
+  });
   document.addEventListener('submit', function (e) {
-    if (e.target.id === 'ptf') { e.preventDefault(); readForm(); if (!ready()) return toast(A('أدخل العمر أو الوزن', 'Enter age or weight'));
-      go(P.dx ? 'c/' + P.dx : 'dx'); }
+    if (e.target.id === 'ptf') { e.preventDefault(); readForm(); if (!valid()) return; go(P.dx ? 'c/' + P.dx : 'conds'); }
   });
 
   /* ================= Diagnosis from symptoms ================= */
@@ -195,59 +342,75 @@
       var miss = SXSEL.filter(function (k) { return !c.sx[k]; }).length;
       var s = got ? got * got / tot - miss * 0.35 : 0;
       return { c: c, s: ok ? s : s * 0.2, pct: tot ? Math.round(100 * got / tot) : 0, hit: hit, age: ok };
-    }).filter(function (r) { return r.hit.length && r.s > 0; }).sort(function (a, b) { return b.s - a.s; }).slice(0, 10);
+    }).filter(function (r) { return r.hit.length && r.s > 0; }).sort(function (a, b) { return b.s - a.s; }).slice(0, 8);
   }
+  var GRPIC = { 'General': 'user', 'Respiratory': 'lungs', 'ENT and mouth': 'stetho', 'Gut': 'gut', 'Nervous system': 'brain', 'Urinary and kidney': 'kidney', 'Skin, eyes and joints': 'eye', 'Heart and blood': 'heart', 'Newborn': 'baby', 'Exposure': 'alert' };
   function dx() {
-    chrome(A('التشخيص من الأعراض', 'Diagnosis from symptoms'), A('اختر ما وجدته', 'Pick what you found'));
+    head('Diagnose', A('اختر الأعراض والعلامات التي وجدتها؛ تُرتب الاحتمالات حسب عمر المريض', 'Pick the symptoms and signs you found; ranked for the patient\'s age'));
     var groups = {}; SX.forEach(function (s) { (groups[s[0]] = groups[s[0]] || []).push(s); });
     var res = SXSEL.length ? dxScore() : [];
-    var h = '<section class="card"><div class="row sb"><h3>' + A('الأعراض المختارة', 'Selected') + ' (' + SXSEL.length + ')</h3>' + (SXSEL.length ? '<button class="lnk" data-act="sxclear">' + A('مسح', 'Clear') + '</button>' : '') + '</div>';
-    if (!SXSEL.length) h += '<p class="mut">' + A('اختر من القائمة أدناه. ترتيب الاحتمالات يأخذ عمر المريض في الحساب.', 'Choose below. The ranking takes the patient\'s age into account.') + '</p>';
-    else h += '<div class="chips">' + SXSEL.map(function (k) { var s = SXN[k]; return s ? '<button class="chip on" data-act="sxt" data-v="' + k + '">' + esc(A(s[3], s[2])) + ' ✕</button>' : ''; }).join('') + '</div>';
-    h += '</section>';
-    if (res.length) {
-      h += '<section class="card"><h3>' + A('التشخيصات المحتملة', 'Likely diagnoses') + '</h3><ol class="ddx">' + res.map(function (r) {
-        return '<li data-go="c/' + r.c.id + '"><div class="ddx-h"><b>' + esc(r.c.t) + '</b><span class="pct">' + r.pct + '%</span></div><small>' + esc(r.c.ar) + (r.age ? '' : ' · ' + A('العمر غير معتاد', 'unusual for this age')) + '</small>' +
-          '<div class="bar"><i style="width:' + r.pct + '%"></i></div><small class="mut">' + r.hit.map(function (k) { return esc(A(SXN[k][3], SXN[k][2])); }).join(' · ') + '</small></li>';
-      }).join('') + '</ol><p class="mut sm">' + A('هذا ترتيب مساعد وليس تشخيصًا؛ افحص المريض وأكد بالفحوصات.', 'A ranking to help you think, not a diagnosis: examine and confirm.') + '</p></section>';
-    }
+    var h = '<section class="card sel"><div class="row"><h2 class="ch"><span class="chi">' + ic('check') + '</span>' + T('Selected') + ' <em class="cnt">' + SXSEL.length + '</em></h2>' + (SXSEL.length ? '<button class="lnk" data-act="sxclear">' + A('مسح الكل', 'Clear all') + '</button>' : '') + '</div>' +
+      (SXSEL.length ? '<div class="chips">' + SXSEL.map(function (k) { var s = SXN[k]; return s ? '<button class="chip on" data-act="sxt" data-v="' + k + '">' + esc(A(s[3], s[2])) + ' ✕</button>' : ''; }).join('') + '</div>' : '<p class="hint">' + A('لم تختر شيئًا بعد.', 'Nothing chosen yet.') + '</p>') + '</section>';
+    if (res.length) h += sec('Likely diagnoses', 'stetho', '<ol class="ddx">' + res.map(function (r, i) {
+      return '<li data-go="c/' + r.c.id + '"><span class="rk">' + (i + 1) + '</span><div class="ddx-b"><div class="ddx-h">' + T(r.c.t) + '<span class="pct">' + r.pct + '%</span></div><div class="bar2"><i style="width:' + r.pct + '%"></i></div><small>' +
+        r.hit.map(function (k) { return esc(A(SXN[k][3], SXN[k][2])); }).join(' · ') + (r.age ? '' : ' · <b class="warn">' + A('عمر غير معتاد', 'unusual age') + '</b>') + '</small></div>' + ic('fwd', 'flip') + '</li>';
+    }).join('') + '</ol><p class="hint">' + A('ترتيب يساعدك على التفكير وليس تشخيصًا؛ افحص المريض وأكّد بالفحوصات.', 'A ranking to help you think, not a diagnosis: examine and confirm.') + '</p>');
     h += Object.keys(groups).map(function (g) {
-      return '<section class="card"><h4>' + esc(g) + '</h4><div class="chips">' + groups[g].map(function (s) { return '<button class="chip' + (SXSEL.indexOf(s[1]) >= 0 ? ' on' : '') + '" data-act="sxt" data-v="' + s[1] + '">' + esc(A(s[3], s[2])) + '</button>'; }).join('') + '</div></section>';
+      var n = groups[g].filter(function (s) { return SXSEL.indexOf(s[1]) >= 0; }).length;
+      return '<details class="card grp"' + (n || g === 'General' ? ' open' : '') + '><summary><span class="chi">' + ic(GRPIC[g] || 'list') + '</span>' + T(g) + (n ? '<em class="cnt">' + n + '</em>' : '') + ic('fwd', 'chev') + '</summary><div class="chips">' +
+        groups[g].map(function (s) { return '<button class="chip' + (SXSEL.indexOf(s[1]) >= 0 ? ' on' : '') + '" data-act="sxt" data-v="' + s[1] + '">' + esc(A(s[3], s[2])) + '</button>'; }).join('') + '</div></details>';
     }).join('');
     return h;
   }
-  ACT.sxt = function (b) { toggle(SXSEL, b.dataset.v); put('ho-sx', SXSEL); var y = scrollY; render(); scrollTo(0, y); };
-  ACT.sxclear = function () { SXSEL = []; put('ho-sx', SXSEL); render(); };
+  ACT.sxt = function (b) { toggle(SXSEL, b.dataset.v); put('ho-sx', SXSEL); var y = scrollY; render(true); scrollTo(0, y); };
+  ACT.sxclear = function () { SXSEL = []; put('ho-sx', SXSEL); render(true); };
 
-  /* ================= Conditions list ================= */
+  /* ================= Conditions: body systems first, then the system's list (owner: "be organised") ================= */
   var CQ = '';
-  function conds() {
-    chrome(A('الأمراض وخطط العلاج', 'Conditions & plans'), DX.length + A(' حالة', ' conditions'));
-    var h = '<div class="srch">' + ic('search') + '<input id="cq" type="search" value="' + esc(CQ) + '" placeholder="' + A('ابحث عن مرض', 'Search a condition') + '"></div><div id="clist">' + condList() + '</div>';
-    return h;
+  function sysCount(k) { return DX.filter(function (c) { return c.sys === k; }).length; }
+  function conds(sys) {
+    if (sys && SYS[sys]) {
+      head(SYS[sys][0], A(SYS[sys][1] + ' · ' + sysCount(sys) + ' حالة', sysCount(sys) + ' conditions'));
+      return '<div class="srch">' + ic('search') + '<input id="cq" type="search" dir="auto" value="' + esc(CQ) + '" placeholder="' + A('ابحث في هذا القسم', 'Search this system') + '"></div><div id="clist">' + condList(sys) + '</div>';
+    }
+    head('Conditions', A('اختر الجهاز ثم الحالة، أو ابحث مباشرة', 'Choose the body system, then the condition, or search'));
+    var rec = get('ho-recent', []).filter(function (id) { return byId[id]; }).slice(0, 6);
+    return '<div class="srch">' + ic('search') + '<input id="cq" type="search" dir="auto" value="' + esc(CQ) + '" placeholder="' + A('ابحث في كل الأمراض (عربي أو إنجليزي)', 'Search every condition') + '"></div>' +
+      '<div id="clist">' + (CQ ? condList('') : sysGrid(rec)) + '</div>';
   }
-  function condList() {
-    var q = CQ.toLowerCase(), groups = {};
-    DX.forEach(function (c) { if (q && (c.t + ' ' + c.ar + ' ' + (c.about || '')).toLowerCase().indexOf(q) < 0) return; (groups[c.sys] = groups[c.sys] || []).push(c); });
-    var ks = Object.keys(SYS).filter(function (k) { return groups[k]; });
-    if (!ks.length) return '<p class="empty">' + A('لا نتيجة', 'Nothing found') + '</p>';
-    return ks.map(function (k) {
-      return '<section class="card"><h3>' + esc(A(SYS[k][1], SYS[k][0])) + '</h3><div class="clist">' + groups[k].map(function (c) {
-        return '<button class="crow" data-go="c/' + c.id + '"><b>' + esc(c.t) + '</b><small>' + esc(c.ar) + '</small></button>';
-      }).join('') + '</div></section>';
-    }).join('');
+  function sysGrid(rec) {
+    return (rec && rec.length ? '<h2 class="st">' + T('Recent') + '</h2><div class="rec">' + rec.map(function (id) { return '<button data-go="c/' + id + '">' + T(byId[id].t) + '</button>'; }).join('') + '</div>' : '') +
+      '<h2 class="st">' + T('Body systems') + '</h2><div class="sysg">' + Object.keys(SYS).map(function (k) {
+        return '<button class="sys" data-go="conds/' + k + '"><span class="ti">' + ic(SYSIC[k] || 'list') + '</span><b>' + T(SYS[k][0]) + '</b><small>' + esc(SYS[k][1]) + '</small><em>' + sysCount(k) + '</em></button>';
+      }).join('') + '</div>' +
+      '<button class="emg alt" data-go="dx"><span class="ti">' + ic('search') + '</span><span class="emg-t"><b>' + T('Diagnose from symptoms') + '</b><small>' + A('لا تعرف التشخيص؟ اختر الأعراض', 'Not sure? Pick the symptoms') + '</small></span>' + ic('fwd', 'flip') + '</button>';
   }
-  document.addEventListener('input', function (e) { if (e.target.id === 'cq') { CQ = e.target.value; $('#clist').innerHTML = condList(); } if (e.target.id === 'dq') { DQ = e.target.value; $('#dlist').innerHTML = drugList(); } });
+  function condList(sys) {
+    var q = CQ.trim().toLowerCase();
+    if (!sys && !q) return sysGrid(get('ho-recent', []).filter(function (id) { return byId[id]; }).slice(0, 6));
+    var L = DX.filter(function (c) { return (!sys || c.sys === sys) && (!q || (c.t + ' ' + c.ar).toLowerCase().indexOf(q) >= 0); });
+    if (!L.length) return '<p class="empty">' + A('لا توجد نتيجة', 'Nothing found') + '</p>';
+    return '<section class="card list">' + L.map(function (c) {
+      return '<button class="lrow" data-go="c/' + c.id + '"><span class="lrow-i">' + ic(SYSIC[c.sys] || 'list') + '</span><span class="lrow-t">' + T(c.t) + '<small>' + esc(c.ar) + '</small></span>' + ic('fwd', 'flip') + '</button>';
+    }).join('') + '</section>';
+  }
 
   /* ================= Condition management ================= */
   var SEL = get('ho-sel', {}), FORMSEL = get('ho-form', {});
   var NOPRE = /alternative|allergy|second line|third line|prevention|potent|discharge|very ill|not responding|long term|failure|if aspirin|antibiotic only|pre-referral|options/i;
   var OPT = /\b(if|or|alternative|may replace|±|evidence)\b/i;
+  function agePass(note) {
+    if (!note || !hasAge()) return true;
+    var m = E.ageMonths(P), r = /(under|over|below|above)\s+(\d+)\s*(month|year)/i.exec(note); if (!r) return true;
+    var lim = +r[2] * (/year/i.test(r[3]) ? 12 : 1);
+    return /under|below/i.test(r[1]) ? m < lim : m >= lim;
+  }
   function pickVariant(c, vid) {
     if (vid) { var v = c.variants.find(function (x) { return x.id === vid; }); if (v) return v; }
     var want = P.set === 'adm' ? /^(adm|sev|severe|ill|sys)$/ : P.set === 'er' ? /^(er|sev|severe|adm)$/ : /^(op|none|mild|simple|home|bac)$/;
     return c.variants.find(function (v) { return want.test(v.id); }) || c.variants[0];
   }
+  function stopped(o) { return o.warn && o.warn.some(function (w) { return w.lvl === 'stop'; }); }
   function defaultSel(c, v) {
     var s = {};
     v.lines.forEach(function (l, li) {
@@ -255,337 +418,345 @@
       var first = true;
       l.items.forEach(function (it, ii) {
         if (!it.d) return;
-        var o = E.dose(it.d, it.r, P), stop = o.warn && o.warn.some(function (w) { return w.lvl === 'stop'; });
-        if (stop) return;
+        if (stopped(E.dose(it.d, it.r, P))) return;
         var choose = /choose|first line|antibiotic|antimalarial|options|choice/i.test(l.t) && l.items.filter(function (x) { return x.d; }).length > 1;
         if (choose) { if (first) { s[li + '.' + ii] = 1; first = false; } return; }
         if (!OPT.test(it.note || '') && agePass(it.note)) s[li + '.' + ii] = 1;
       });
     });
-    /* first line blocked by allergy → take the first allowed alternative */
-    if (!Object.keys(s).some(function (k) { return k.indexOf('0.') === 0; }) && v.lines.length > 1) {
+    if (!Object.keys(s).some(function (k) { return k.indexOf('0.') === 0; })) {
       for (var li = 1; li < v.lines.length; li++) {
         var l = v.lines[li]; if (!/alternative|allergy/i.test(l.t)) continue;
-        for (var ii = 0; ii < l.items.length; ii++) { var it = l.items[ii]; if (!it.d) continue; var o = E.dose(it.d, it.r, P); if (!o.warn.some(function (w) { return w.lvl === 'stop'; })) { s[li + '.' + ii] = 1; li = 99; break; } }
+        for (var ii = 0; ii < l.items.length; ii++) { var it = l.items[ii]; if (it.d && !stopped(E.dose(it.d, it.r, P))) { s[li + '.' + ii] = 1; li = 99; break; } }
       }
     }
     return s;
   }
-  /* item notes such as "under 6 months" or "over 2 years" limit the drug by age */
-  function agePass(note) {
-    if (!note || !hasAge()) return true;
-    var m = E.ageMonths(P), r = /(under|over|below|above)\s+(\d+)\s*(month|year)/i.exec(note); if (!r) return true;
-    var lim = +r[2] * (/year/i.test(r[3]) ? 12 : 1);
-    return /under|below/i.test(r[1]) ? m < lim : m >= lim;
-  }
-  function selKey(c, v) { return c.id + '|' + v.id; }
-  function getSel(c, v) { var k = selKey(c, v); if (!SEL[k] || SEL[k]._pt !== ptSig()) { SEL[k] = defaultSel(c, v); SEL[k]._pt = ptSig(); } return SEL[k]; }
   function ptSig() { return [P.ay, P.am, P.ad, P.wt, P.allergy.join(), P.cond.join(), P.set].join('|'); }
-
-  function warnHtml(w) { return w.map(function (x) { return '<div class="wn ' + x.lvl + '">' + ic('alert') + esc(x.t) + '</div>'; }).join(''); }
-  function doseCard(c, v, li, ii, it, sel) {
-    if (!it.d) return '<div class="dc txt">' + ic('check') + '<span>' + esc(it.txt) + '</span></div>';
+  function getSel(c, v) { var k = c.id + '|' + v.id; if (!SEL[k] || SEL[k]._pt !== ptSig()) { SEL[k] = defaultSel(c, v); SEL[k]._pt = ptSig(); put('ho-sel', SEL); } return SEL[k]; }
+  function nSel(s) { return Object.keys(s).filter(function (k) { return k[0] !== '_'; }).length; }
+  function warnHtml(w) { return w.map(function (x) { return '<div class="wn ' + x.lvl + '">' + ic('alert') + '<span dir="ltr">' + esc(x.t) + '</span></div>'; }).join(''); }
+  function drugName(d) { var b = d.b && d.b[0] && d.b[0] !== d.g ? d.b[0] : ''; return { main: b || d.g, sub: b ? d.g : (d.b || []).slice(1, 3).join(', ') }; }
+  function doseCard(li, ii, it, sel, opt) {
+    opt = opt || {};
+    if (!it.d) return '<div class="tx">' + ic('check') + '<span dir="ltr">' + esc(it.txt) + '</span></div>';
     var fk = it.d + '.' + it.r, o = E.dose(it.d, it.r, P, FORMSEL[fk]);
-    if (o.err) return '<div class="dc err">' + esc(o.err) + '</div>';
-    var d = o.drug, on = sel[li + '.' + ii], stop = o.warn.some(function (w) { return w.lvl === 'stop'; });
-    var forms = o.forms.length > 1 ? '<select class="fsel" data-fk="' + fk + '">' + o.forms.map(function (f) { return '<option value="' + f.id + '"' + (o.form && o.form.id === f.id ? ' selected' : '') + '>' + esc(f.n) + '</option>'; }).join('') + '</select>' : (o.form ? '<span class="fone">' + esc(o.form.n) + '</span>' : '');
+    if (o.err) return '';
+    var d = o.drug, nm = drugName(d), on = !opt.nosel && sel[li + '.' + ii], stop = stopped(o), agen = !agePass(it.note);
+    if (!ready()) return '<article class="dc wait"><div class="dc-h"><div class="dc-n" data-go="drug/' + d.id + '">' + T(nm.main) + (nm.sub ? '<small dir="ltr">' + esc(nm.sub) + '</small>' : '') + '</div>' + (it.note ? '<span class="dc-tag" dir="ltr">' + esc(it.note) + '</span>' : '') + '</div>' +
+      '<p class="pend">' + ic('calc') + A('تظهر الجرعة بعد اختيار العمر والوزن', 'The dose appears once age and weight are chosen') + '</p>' + (o.sc ? '<p class="kv1 gold"><span>' + A('اختصار الدليل', 'Guideline shortcut') + '</span><b dir="ltr">' + esc(o.sc) + '</b></p>' : '') + '</article>';
+    if (stop) return '<details class="dc stop"><summary><span class="dc-x">' + ic('alert') + '</span><span class="dc-n">' + T(nm.main) + '<small>' + A('ممنوع لهذا المريض', 'Not for this patient') + '</small></span>' + ic('fwd', 'chev') + '</summary>' + warnHtml(o.warn) + '</details>';
+    var forms = o.forms.length > 1 ? '<label class="fsel"><span>' + A('المستحضر', 'Preparation') + '</span><select data-fk="' + fk + '" dir="ltr">' + o.forms.map(function (f) { return '<option value="' + f.id + '"' + (o.form && o.form.id === f.id ? ' selected' : '') + '>' + esc(f.n) + '</option>'; }).join('') + '</select></label>' : (o.form ? '<p class="kv1"><span>' + A('المستحضر', 'Preparation') + '</span><b dir="ltr">' + esc(o.form.n) + '</b></p>' : '');
     var rx = E.rxLine(o);
-    return '<div class="dc' + (on ? ' on' : '') + (stop ? ' stop' : '') + (agePass(it.note) ? '' : ' dim') + '">' +
-      '<div class="dc-h"><label class="tick"><input type="checkbox" data-sel="' + li + '.' + ii + '"' + (on ? ' checked' : '') + '><span></span></label>' +
-      '<div class="dc-n" data-go="drug/' + d.id + '"><b>' + esc(d.b && d.b[0] && d.b[0] !== d.g ? d.b[0] : d.g) + '</b><small>' + esc(d.g) + (d.b && d.b.length > 1 ? ' · ' + esc(d.b.slice(1, 4).join(', ')) : '') + '</small></div>' +
-      (it.note ? '<span class="dc-tag">' + esc(it.note) + '</span>' : '') + '</div>' +
-      '<div class="dc-dose"><b>' + esc(o.text || '') + '</b><span>' + esc(E.route(o.route)) + ' · ' + esc(E.freq(o.f)) + (o.dur ? ' · ' + esc(o.dur) : '') + '</span></div>' +
-      '<div class="dc-ar" dir="rtl">' + esc(rx.ar) + '</div>' +
-      (o.calc ? '<div class="dc-c">' + ic('calc') + esc(o.calc) + '</div>' : '') +
-      (o.sc ? '<div class="dc-c sc">' + A('اختصار الدليل: ', 'Guideline shortcut: ') + esc(o.sc) + '</div>' : '') +
-      '<div class="dc-f">' + forms + (o.form && o.form.rec ? '<small>' + esc(o.form.rec) + '</small>' : '') + '</div>' +
-      (o.note ? '<p class="dc-note">' + esc(o.note) + '</p>' : '') + warnHtml(o.warn) + '</div>';
+    return '<article class="dc' + (on ? ' on' : '') + (agen ? ' dim' : '') + '">' +
+      '<div class="dc-h">' + (opt.nosel ? '' : '<label class="tick" aria-label="' + A('أضف للوصفة', 'Add to prescription') + '"><input type="checkbox" data-sel="' + li + '.' + ii + '"' + (on ? ' checked' : '') + '><span>' + ic('check') + '</span></label>') +
+      '<div class="dc-n" data-go="drug/' + d.id + '">' + T(nm.main) + (nm.sub ? '<small dir="ltr">' + esc(nm.sub) + '</small>' : '') + '</div>' + (it.note ? '<span class="dc-tag" dir="ltr">' + esc(it.note) + '</span>' : '') + '</div>' +
+      '<div class="dose"><b dir="ltr">' + esc((o.text || '').replace(/ \(\d+ units on an insulin syringe\)/, '')) + '</b>' + (o.qty && o.qty.units ? '<small dir="ltr">= ' + o.qty.units + ' units on an insulin syringe</small>' : '') + '</div>' +
+      '<div class="dmeta"><span>' + ic('route') + E.route(o.route, AR) + '</span><span>' + ic('clock') + E.freq(o.f, AR) + '</span>' + (o.dur ? '<span dir="ltr">' + esc(o.dur) + '</span>' : '') + '</div>' +
+      '<div class="dar"><small>' + A('للأهل', 'For the parents') + '</small><span dir="rtl">' + esc(rx.ar) + '</span></div>' +
+      warnHtml(o.warn) +
+      '<details class="more"><summary>' + A('الحساب والمستحضر والملاحظات', 'Calculation, preparation and notes') + ic('fwd', 'chev') + '</summary>' +
+      (o.calc ? '<p class="kv1"><span>' + A('الحساب', 'Calculation') + '</span><b dir="ltr">' + esc(o.calc) + '</b></p>' : '') +
+      (o.sc ? '<p class="kv1 gold"><span>' + A('اختصار الدليل', 'Guideline shortcut') + '</span><b dir="ltr">' + esc(o.sc) + '</b></p>' : '') + forms +
+      (o.form && o.form.rec ? '<p class="kv1"><span>' + A('التحضير', 'Reconstitution') + '</span><b dir="ltr">' + esc(o.form.rec) + '</b></p>' : '') +
+      (o.note ? '<p class="note" dir="ltr">' + esc(o.note) + '</p>' : '') + '</details></article>';
   }
   function fluidCard(spec) {
     var f = E.fluid(spec, P); if (!f) return '';
-    return '<section class="card fl"><h3>' + ic('drop') + esc(f.t) + '</h3><table class="kv">' + f.rows.map(function (r) { return '<tr><th>' + esc(r[0]) + '</th><td>' + esc(r[1]) + '</td></tr>'; }).join('') + '</table>' +
-      (f.notes.length ? '<ul class="nt">' + f.notes.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>' : '') + '</section>';
+    return '<section class="card fl"><h2 class="ch"><span class="chi">' + ic('drop') + '</span>' + T(f.t) + '</h2>' + (f.order[0] ? '<div class="flbig" dir="ltr">' + esc(f.order[0]) + '</div>' : '') +
+      '<table class="kv">' + f.rows.map(function (r) { return '<tr><th dir="ltr">' + esc(r[0]) + '</th><td dir="ltr">' + esc(r[1]) + '</td></tr>'; }).join('') + '</table>' +
+      (f.notes.length ? '<ul class="tips">' + f.notes.map(function (n) { return '<li dir="ltr">' + esc(n) + '</li>'; }).join('') + '</ul>' : '') + '</section>';
   }
-  function listCard(title, icn, arr, cls) { if (!arr || !arr.length) return ''; return '<section class="card ' + (cls || '') + '"><h3>' + ic(icn) + title + '</h3><ul class="bl">' + arr.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></section>'; }
+  function acc(title, icn, arr, cls, open) { if (!arr || !arr.length) return ''; return '<details class="card acc ' + (cls || '') + '"' + (open ? ' open' : '') + '><summary><span class="chi">' + ic(icn) + '</span>' + T(title) + '<em class="cnt">' + arr.length + '</em>' + ic('fwd', 'chev') + '</summary><ul class="bl">' + arr.map(function (x) { return '<li dir="ltr">' + esc(x) + '</li>'; }).join('') + '</ul></details>'; }
+  function labCard() {
+    var L = labsEntered(); if (!L.length) return '';
+    return '<section class="card labsum"><h2 class="ch"><span class="chi">' + ic('flask') + '</span>' + T('Patient results') + '<button class="lnk end" data-go="patient">' + A('تعديل', 'Edit') + '</button></h2><div class="lres">' +
+      L.map(function (x) { return '<span class="' + (x.flag || '') + '"><small>' + esc(x.f[1]) + '</small><b dir="ltr">' + esc(x.v) + (x.f[2] !== 'txt' && x.f[2] !== 'sel' ? ' ' + x.f[2] : '') + (x.flag === 'lo' ? ' ↓' : x.flag === 'hi' && x.f[2] !== 'sel' ? ' ↑' : '') + '</b></span>'; }).join('') + '</div></section>';
+  }
   function cond(id, vid) {
     var c = byId[id]; if (!c) return notFound();
     var v = pickVariant(c, vid), sel = getSel(c, v);
     if (P.dx !== c.id) { P.dx = c.id; savePt(); }
     var vv = get('ho-var', {}); if (vv[c.id] !== v.id) { vv[c.id] = v.id; put('ho-var', vv); }
-    chrome(c.t, c.ar);
+    var rec = get('ho-recent', []).filter(function (x) { return x !== id; }); rec.unshift(id); put('ho-recent', rec.slice(0, 8));
+    head(c.t, esc(c.ar) + ' · ' + T(SYS[c.sys][0]));
     var h = '';
-    if (!ready()) h += '<div class="wn warn">' + ic('alert') + A('أدخل العمر والوزن لحساب الجرعات. ', 'Enter age and weight to calculate doses. ') + '<a data-go="patient">' + A('بيانات المريض', 'Patient details') + '</a></div>';
-    else {
-      var m = E.ageMonths(P);
-      if ((c.amin != null && m < c.amin) || (c.amax != null && m > c.amax)) h += '<div class="wn warn">' + ic('alert') + A('عمر المريض غير معتاد لهذا التشخيص؛ راجع التشخيص.', 'This age is unusual for this diagnosis: review it.') + '</div>';
-    }
-    h += '<section class="card about"><p>' + esc(c.about) + '</p>' + (P.allergy.length || P.cond.length ? '<p class="ptx">' + ic('user') + [P.allergy.length ? A('حساسية: ', 'Allergy: ') + P.allergy.join(', ') : '', P.cond.length ? A('حالات: ', 'Conditions: ') + P.cond.join(', ') : ''].filter(Boolean).join(' · ') + '</p>' : '') + '</section>';
-    if (c.variants.length > 1) h += '<div class="vtabs">' + c.variants.map(function (x) { return '<button class="' + (x === v ? 'on' : '') + '" data-go="c/' + c.id + '/' + x.id + '">' + esc(x.t) + '</button>'; }).join('') + '</div>';
-    if (v.when) h += '<p class="when">' + A('متى: ', 'When: ') + esc(v.when) + '</p>';
-    h += '<section class="card"><h3>' + ic('pill') + A('العلاج', 'Treatment') + '<small>' + A('علّم الأدوية التي تريدها في الوصفة', 'Tick the drugs for the prescription') + '</small></h3>' + v.lines.map(function (l, li) {
-      return '<div class="line"><h4>' + esc(l.t) + '</h4>' + l.items.map(function (it, ii) { return doseCard(c, v, li, ii, it, sel); }).join('') + '</div>';
-    }).join('') + '</section>';
+    if (!(+P.wt > 0)) h += quickPt();
+    else { var m = E.ageMonths(P); if ((c.amin != null && m < c.amin) || (c.amax != null && m > c.amax)) h += '<div class="wn warn big">' + ic('alert') + '<span>' + A('عمر المريض غير معتاد لهذا التشخيص؛ راجع التشخيص.', 'This age is unusual for this diagnosis: review it.') + '</span></div>'; }
+    h += '<section class="card about"><p dir="ltr">' + esc(c.about) + '</p></section>';
+    h += labCard();
+    if (c.variants.length > 1) h += '<h2 class="st">' + T('Setting / severity') + '</h2><div class="vtabs">' + c.variants.map(function (x) { return '<button class="' + (x === v ? 'on' : '') + '" data-go="c/' + c.id + '/' + x.id + '">' + T(x.t) + '</button>'; }).join('') + '</div>';
+    if (v.when) h += '<p class="when">' + ic('alert') + '<span dir="ltr">' + esc(v.when) + '</span></p>';
+    h += '<h2 class="st">' + T('Treatment') + '<small>' + A('علّم الأدوية التي تريدها في الوصفة', 'Tick the drugs for the prescription') + '</small></h2>';
+    h += v.lines.map(function (l, li) { return '<section class="line"><h3>' + T(l.t) + '</h3>' + l.items.map(function (it, ii) { return doseCard(li, ii, it, sel); }).join('') + '</section>'; }).join('');
     if (v.fluid) h += fluidCard(v.fluid);
-    h += listCard(A('إجراءات إضافية', 'Additional management'), 'check', (v.extra || []).concat(c.extra || []));
-    h += listCard(A('الفحوصات', 'Investigations'), 'search', c.inv, 'inv');
-    h += listCard(A('دواعي التنويم', 'Admit if'), 'alert', c.admit);
-    h += listCard(A('المضاعفات', 'Complications'), 'alert', c.comp);
-    h += listCard(A('التشخيص التفريقي', 'Differential diagnosis'), 'list', c.ddx);
-    h += listCard(A('أخطاء يجب تجنبها', 'Traps to avoid'), 'alert', c.traps, 'trap');
-    h += '<div class="sticky"><button class="btn pri" data-go="rx">' + ic('rx') + A('الوصفة', 'Prescription') + ' (' + Object.keys(sel).filter(function (k) { return k[0] !== '_'; }).length + ')</button><button class="btn" data-go="orders">' + ic('list') + A('أوامر التنويم', 'Order sheet') + '</button></div>';
-    h += disclaimer();
+    h += acc('Investigations', 'flask', c.inv, '', true);
+    h += acc('Additional management', 'check', (v.extra || []).concat(c.extra || []), '', true);
+    h += acc('Admit if', 'hosp', c.admit);
+    h += acc('Complications', 'alert', c.comp);
+    h += acc('Differential diagnosis', 'list', c.ddx);
+    h += acc('Traps to avoid', 'shield', c.traps, 'trap', true);
+    h += disc();
+    h += '<div class="dock"><button class="btn pri" data-go="rx">' + ic('rx') + A('الوصفة', 'Prescription') + ' <em id="rxn">' + nSel(sel) + '</em></button><button class="btn" data-go="orders">' + ic('hosp') + A('أوامر التنويم', 'Order sheet') + '</button></div>';
     return h;
   }
   document.addEventListener('change', function (e) {
     var t = e.target;
-    if (t.matches('[data-sel]')) { var r = route(), c = byId[r[1]]; if (!c) return; var v = pickVariant(c, r[2]), s = getSel(c, v); if (t.checked) s[t.dataset.sel] = 1; else delete s[t.dataset.sel]; put('ho-sel', SEL); t.closest('.dc').classList.toggle('on', t.checked);
-      var b = $('.sticky .pri'); if (b) b.innerHTML = ic('rx') + A('الوصفة', 'Prescription') + ' (' + Object.keys(s).filter(function (k) { return k[0] !== '_'; }).length + ')'; }
-    if (t.matches('.fsel')) { FORMSEL[t.dataset.fk] = t.value; put('ho-form', FORMSEL); var y = scrollY; render(); scrollTo(0, y); }
+    if (t.closest('#ptf')) { readForm(); if (/^(agev|agem|wk|wd)$/.test(t.name)) { var b = $('.estb b'), est = hasAge() ? nice(E.estWeight(P)) : ''; if (b && est) b.textContent = est + ' kg'; else if (!b && est) { var y = scrollY; render(true); scrollTo(0, y); } } }
+    if (t.matches('[data-sel]')) { var r = route(), c = byId[r[1]]; if (!c) return; var v = pickVariant(c, r[2]), s = getSel(c, v); if (t.checked) s[t.dataset.sel] = 1; else delete s[t.dataset.sel]; put('ho-sel', SEL); t.closest('.dc').classList.toggle('on', t.checked); var n = $('#rxn'); if (n) n.textContent = nSel(s); }
+    if (t.matches('select[data-fk]')) { FORMSEL[t.dataset.fk] = t.value; put('ho-form', FORMSEL); var y2 = scrollY; render(true); scrollTo(0, y2); }
+    if (t.closest('#cf')) calcRun();
   });
 
-  /* ================= Prescription and order sheet ================= */
-  function current() { var c = byId[P.dx]; if (!c) return null; var v = pickVariant(c, (get('ho-var', {})[c.id])); return { c: c, v: v, sel: getSel(c, v) }; }
+  /* ================= Prescription and orders ================= */
+  function current() { var c = byId[P.dx]; if (!c) return null; var v = pickVariant(c, get('ho-var', {})[c.id]); return { c: c, v: v, sel: getSel(c, v) }; }
   function chosen(cur) {
     var out = [];
-    cur.v.lines.forEach(function (l, li) { l.items.forEach(function (it, ii) { if (it.d && cur.sel[li + '.' + ii]) out.push(E.dose(it.d, it.r, P, FORMSEL[it.d + '.' + it.r])); else if (!it.d && cur.sel[li + '.' + ii]) out.push({ txt: it.txt }); }); });
+    cur.v.lines.forEach(function (l, li) { l.items.forEach(function (it, ii) { if (!cur.sel[li + '.' + ii]) return; if (it.d) out.push(E.dose(it.d, it.r, P, FORMSEL[it.d + '.' + it.r])); else out.push({ txt: it.txt }); }); });
     return out.filter(function (o) { return !o.err; });
   }
-  function noDx(t) { chrome(t, ''); return '<section class="card empty"><p>' + A('اختر تشخيصًا أولًا.', 'Choose a diagnosis first.') + '</p><button class="btn pri" data-go="conds">' + A('الأمراض', 'Conditions') + '</button> <button class="btn" data-go="dx">' + A('من الأعراض', 'From symptoms') + '</button></section>'; }
+  function noDx(t) { head(t, ''); return '<section class="card emptyc"><span class="pc-big">' + ic('stetho') + '</span><p>' + A('اختر التشخيص أولًا حتى تُكتب الوصفة.', 'Choose the diagnosis first.') + '</p><div class="pc-btns"><button class="btn pri" data-go="conds">' + ic('list') + A('الأمراض', 'Conditions') + '</button><button class="btn" data-go="dx">' + ic('search') + A('من الأعراض', 'From symptoms') + '</button></div></section>'; }
   function today() { var d = new Date(); return d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear(); }
   function rxText(cur, list) {
-    var L = ['Rx — ' + today(), (P.name ? P.name + ' · ' : '') + (hasAge() ? E.ageText(P) + ' · ' : '') + wtText(), 'Dx: ' + cur.c.t, ''];
-    list.forEach(function (o, i) { if (o.txt) return; var r = E.rxLine(o); L.push((i + 1) + '. ' + r.name); L.push('   ' + r.ar); L.push('   ' + r.en); });
-    L.push('', '——————', A('توقيع الطبيب: ', 'Doctor: ')); return L.join('\n');
+    var m = me(), L = ['Rx  ' + today(), (P.name ? P.name + ' · ' : '') + (hasAge() ? E.ageText(P) + ' · ' : '') + wtTxt(), 'Dx: ' + cur.c.t, ''];
+    list.forEach(function (o, i) { if (o.txt) return; var r = E.rxLine(o); L.push((i + 1) + '. ' + r.name, '   ' + r.ar, '   ' + r.en); });
+    L.push('', '——————', (m && m.name ? m.name : '') + '  ' + A('التوقيع', 'Signature')); return L.join('\n');
   }
   function rx() {
-    var cur = current(); if (!cur) return noDx(A('الوصفة', 'Prescription'));
-    chrome(A('الوصفة', 'Prescription'), cur.c.t);
-    var list = chosen(cur).filter(function (o) { return !o.txt; });
-    var h = '<section class="paper" id="paper"><div class="pp-h"><b>' + A('وصفة طبية', 'Prescription') + '</b><span>' + today() + '</span></div>' +
-      '<div class="pp-pt"><span>' + A('الاسم: ', 'Name: ') + '<b>' + esc(P.name || '……………') + '</b></span><span>' + A('العمر: ', 'Age: ') + '<b>' + esc(hasAge() ? E.ageText(P) : '—') + '</b></span><span>' + A('الوزن: ', 'Weight: ') + '<b>' + esc(wtText()) + '</b></span></div>' +
-      '<div class="pp-dx">Dx: <b>' + esc(cur.c.t) + '</b></div><ol class="pp-l">' + list.map(function (o) { var r = E.rxLine(o); return '<li><b>' + esc(r.name) + '</b><div dir="rtl" class="ar">' + esc(r.ar) + '</div><small>' + esc(r.en) + '</small></li>'; }).join('') + '</ol>' +
-      (list.length ? '' : '<p class="mut">' + A('لم تختر أي دواء.', 'No drug ticked.') + '</p>') + '<div class="pp-f">——— ' + A('توقيع الطبيب', 'Signature') + ' ———</div></section>';
-    h += '<div class="acts"><button class="btn pri" data-act="copyrx">' + ic('copy') + A('نسخ', 'Copy') + '</button>' + (navigator.share ? '<button class="btn" data-act="sharerx">' + ic('share') + A('مشاركة', 'Share') + '</button>' : '') + '<button class="btn" data-act="print">' + ic('print') + A('طباعة', 'Print') + '</button><button class="btn ghost" data-go="c/' + cur.c.id + '">' + A('تعديل الأدوية', 'Edit drugs') + '</button></div>';
-    h += '<section class="card tips"><h3>' + ic('alert') + A('قواعد كتابة الوصفة (الدليل)', 'Prescription rules (guideline)') + '</h3><ul class="bl"><li>' +
-      A('اكتب التركيز لكل دواء له أكثر من تركيز (Amoclan 200 أو 400).', 'Write the strength when there are several (Amoclan 200 or 400).') + '</li><li>' +
-      A('اكتب الطريقة والمدة بالعربي، لا OD أو BD.', 'Write route and duration in Arabic, never OD or BD.') + '</li><li>' +
-      A('للأهل اكتب بالمل لا بالملغم، واطلب سرنجة 3 مل.', 'For parents write mL, not mg, and give a 3 mL syringe.') + '</li><li>' +
-      A('اكتب Tegretol (carbamazepine) 200 mg حتى لا يختلط بـ carbimazole.', 'Write Tegretol (carbamazepine) 200 mg so it is not mistaken for carbimazole.') + '</li><li>' +
-      A('أغلق الوصفة بخط ووقّع.', 'Close the prescription with a line and sign it.') + '</li></ul></section>';
+    var cur = current(); if (!cur) return noDx('Prescription');
+    head('Prescription', T(cur.c.t));
+    var list = chosen(cur).filter(function (o) { return !o.txt; }), m = me();
+    var h = '<section class="paper"><div class="pp-h"><img src="../img/mr/logo-smra.webp" alt=""><div><b>' + T('Prescription') + '</b><small dir="ltr">' + today() + '</small></div></div>' +
+      '<div class="pp-pt"><span><small>' + A('الاسم', 'Name') + '</small><b dir="auto">' + esc(P.name || '……………') + '</b></span><span><small>' + A('العمر', 'Age') + '</small><b>' + (hasAge() ? ageTxt() : '—') + '</b></span><span><small>' + A('الوزن', 'Weight') + '</small><b dir="ltr">' + wtTxt() + '</b></span></div>' +
+      '<div class="pp-dx"><small>Dx</small>' + T(cur.c.t) + '</div><div class="pp-rx">℞</div><ol class="pp-l">' +
+      list.map(function (o) { var r = E.rxLine(o); return '<li><b dir="ltr">' + esc(r.name) + '</b><div class="ar" dir="rtl">' + esc(r.ar) + '</div><small dir="ltr">' + esc(r.en) + '</small></li>'; }).join('') + '</ol>' +
+      (list.length ? '' : '<p class="hint">' + A('لم تختر أي دواء من خطة العلاج.', 'No drug ticked in the plan.') + '</p>') +
+      '<div class="pp-f"><span dir="auto">' + esc(m && m.name ? m.name : '') + '</span><i></i><small>' + A('التوقيع', 'Signature') + '</small></div></section>';
+    h += '<div class="dock static"><button class="btn pri" data-act="copyrx">' + ic('copy') + A('نسخ', 'Copy') + '</button>' + (navigator.share ? '<button class="btn" data-act="sharerx">' + ic('share') + A('مشاركة', 'Share') + '</button>' : '') + '<button class="btn" data-act="print">' + ic('print') + A('طباعة', 'Print') + '</button><button class="btn" data-go="c/' + cur.c.id + '">' + ic('edit') + A('تعديل', 'Edit') + '</button></div>';
+    h += acc('Prescription rules', 'shield', [A('اكتب التركيز لكل دواء له أكثر من تركيز (Amoclan 200 أو 400).', 'Write the strength when there are several (Amoclan 200 or 400).'), A('اكتب الطريقة والمدة بالعربي، لا OD أو BD.', 'Write route and duration in Arabic, never OD or BD.'),
+      A('للأهل اكتب بالمل لا بالملغم، واطلب سرنجة 3 مل.', 'For parents write mL, not mg, and give a 3 mL syringe.'), A('اكتب Tegretol (carbamazepine) 200 mg حتى لا يختلط بـ carbimazole.', 'Write Tegretol (carbamazepine) 200 mg so it is not confused with carbimazole.'), A('أغلق الوصفة بخط ووقّع.', 'Close the prescription with a line and sign it.')], 'rules');
     return h;
   }
-  ACT.copyrx = function () { var cur = current(); if (!cur) return; copy(rxText(cur, chosen(cur))); };
-  ACT.sharerx = function () { var cur = current(); if (!cur) return; navigator.share({ title: 'Rx', text: rxText(cur, chosen(cur)) }).catch(function () {}); };
+  ACT.copyrx = function () { var cur = current(); if (cur) copy(rxText(cur, chosen(cur))); };
+  ACT.sharerx = function () { var cur = current(); if (cur) navigator.share({ title: 'Rx', text: rxText(cur, chosen(cur)) }).catch(function () {}); };
   ACT.print = function () { window.print(); };
   function copy(t) { (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { toast(A('نُسخت', 'Copied')); }, function () { var a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); toast(A('نُسخت', 'Copied')); } catch (e) {} a.remove(); }); }
   function ordersList(cur) {
     var o = [], list = chosen(cur), adm = /adm|sev|severe|ill|sys|shock|dh|nodh|neo|er/.test(cur.v.id) || P.set !== 'op';
     if (adm) o.push('Admit to the paediatric ward' + (P.name ? ' (' + P.name + ')' : ''));
-    o.push('Weight ' + wtText() + (hasAge() ? ', age ' + E.ageText(P) : ''));
+    o.push('Weight ' + wtTxt() + (hasAge() ? ', age ' + E.ageText(P) : ''));
     o.push('Vital signs ' + (/sev|severe|shock|ill|sys/.test(cur.v.id) ? 'every hour' : 'every 4 hours') + '; input and output chart');
     if (cur.v.fluid) { var f = E.fluid(cur.v.fluid, P); if (f) f.order.forEach(function (x) { o.push(x); }); }
     list.forEach(function (d) { if (d.txt) o.push(d.txt); else o.push(E.rxLine(d).name + ': ' + (d.text || '') + ' ' + E.route(d.route) + ' ' + E.freq(d.f) + (d.dur ? ' for ' + d.dur : '')); });
+    var done = labsEntered();
+    if (done.length) o.push('Results: ' + done.map(function (x) { return x.f[1] + ' ' + x.v + (x.flag === 'lo' ? ' (low)' : x.flag === 'hi' && x.f[2] !== 'sel' ? ' (high)' : ''); }).join('; '));
     (cur.c.inv || []).forEach(function (x) { o.push('Investigation: ' + x); });
     return o;
   }
   function orders() {
-    var cur = current(); if (!cur) return noDx(A('أوامر التنويم', 'Order sheet'));
-    chrome(A('أوامر التنويم', 'Order sheet'), cur.c.t + ' · ' + cur.v.t);
-    var o = ordersList(cur);
-    return '<section class="paper" id="paper"><div class="pp-h"><b>Doctor\'s orders</b><span>' + today() + '</span></div><div class="pp-dx">Dx: <b>' + esc(cur.c.t) + '</b> — ' + esc(cur.v.t) + '</div><ol class="pp-o">' +
-      o.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol><div class="pp-f">——— Signature ———</div></section>' +
-      '<div class="acts"><button class="btn pri" data-act="copyord">' + ic('copy') + A('نسخ', 'Copy') + '</button><button class="btn" data-act="print">' + ic('print') + A('طباعة', 'Print') + '</button><button class="btn ghost" data-go="c/' + cur.c.id + '">' + A('العودة للخطة', 'Back to the plan') + '</button></div>';
+    var cur = current(); if (!cur) return noDx('Order sheet');
+    head('Order sheet', T(cur.c.t + ' · ' + cur.v.t));
+    return '<section class="paper"><div class="pp-h"><img src="../img/mr/logo-smra.webp" alt=""><div><b>' + T("Doctor's orders") + '</b><small dir="ltr">' + today() + '</small></div></div><div class="pp-dx"><small>Dx</small>' + T(cur.c.t) + '</div><ol class="pp-o" dir="ltr">' +
+      ordersList(cur).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol><div class="pp-f"><i></i><small>' + A('التوقيع', 'Signature') + '</small></div></section>' +
+      '<div class="dock static"><button class="btn pri" data-act="copyord">' + ic('copy') + A('نسخ', 'Copy') + '</button><button class="btn" data-act="print">' + ic('print') + A('طباعة', 'Print') + '</button><button class="btn" data-go="c/' + cur.c.id + '">' + ic('list') + A('خطة العلاج', 'Plan') + '</button></div>';
   }
-  ACT.copyord = function () { var cur = current(); if (cur) copy('Orders — ' + today() + '\nDx: ' + cur.c.t + '\n' + ordersList(cur).map(function (x, i) { return (i + 1) + '. ' + x; }).join('\n')); };
+  ACT.copyord = function () { var cur = current(); if (cur) copy("Doctor's orders  " + today() + '\nDx: ' + cur.c.t + '\n' + ordersList(cur).map(function (x, i) { return (i + 1) + '. ' + x; }).join('\n')); };
 
   /* ================= Drug book ================= */
   var DQ = '';
-  var CLS = { penicillin: 'Penicillins', cephalosporin: 'Cephalosporins', macrolide: 'Macrolides', aminoglycoside: 'Aminoglycosides', carbapenem: 'Carbapenems', antimalarial: 'Antimalarials' };
-  function drugs() { chrome(A('كتاب الأدوية', 'Drug book'), Object.keys(DR).length + A(' دواء', ' drugs')); return '<div class="srch">' + ic('search') + '<input id="dq" type="search" value="' + esc(DQ) + '" placeholder="' + A('اسم علمي أو تجاري', 'Generic or brand name') + '"></div><div id="dlist">' + drugList() + '</div>'; }
+  function drugs() {
+    head('Drug book', A('الاسم العلمي والتجاري، المستحضرات، والجرعة لهذا المريض', 'Generic and brand names, preparations and the dose for this patient'));
+    return '<div class="srch">' + ic('search') + '<input id="dq" type="search" dir="auto" value="' + esc(DQ) + '" placeholder="' + A('اسم علمي أو تجاري', 'Generic or brand name') + '"></div><div id="dlist">' + drugList() + '</div>';
+  }
   function drugList() {
     var q = DQ.toLowerCase();
     var L = Object.keys(DR).map(function (k) { return DR[k]; }).filter(function (d) { return !q || (d.g + ' ' + (d.b || []).join(' ') + ' ' + d.cls.join(' ')).toLowerCase().indexOf(q) >= 0; }).sort(function (a, b) { return a.g.localeCompare(b.g); });
-    if (!L.length) return '<p class="empty">' + A('لا نتيجة', 'Nothing found') + '</p>';
-    return '<section class="card"><div class="clist">' + L.map(function (d) { return '<button class="crow" data-go="drug/' + d.id + '"><b>' + esc(d.g) + '</b><small>' + esc((d.b || []).join(' · ')) + (d.cls[0] ? ' — ' + esc(d.cls[0]) : '') + '</small></button>'; }).join('') + '</div></section>';
+    if (!L.length) return '<p class="empty">' + A('لا توجد نتيجة', 'Nothing found') + '</p>';
+    var groups = {}; L.forEach(function (d) { var k = d.g.charAt(0).toUpperCase(); (groups[k] = groups[k] || []).push(d); });
+    return '<div class="az" dir="ltr">' + Object.keys(groups).map(function (k) { return '<a href="#" data-act="azgo" data-k="' + k + '">' + k + '</a>'; }).join('') + '</div><section class="card list">' + Object.keys(groups).map(function (k) {
+      return '<div class="lh" dir="ltr" id="az-' + k + '">' + k + '</div>' + groups[k].map(function (d) { return '<button class="lrow" data-go="drug/' + d.id + '"><span class="lrow-i">' + ic('pill') + '</span><span class="lrow-t">' + T(d.g) + '<small dir="ltr">' + esc((d.b || []).slice(0, 3).join(' · ')) + '</small></span><span class="cls" dir="ltr">' + esc(d.cls[0] || '') + '</span>' + ic('fwd', 'flip') + '</button>'; }).join('');
+    }).join('') + '</section>';
   }
-  var KEYN = { po: 'Oral', iv: 'IV', im: 'IM', pr: 'Rectal', neb: 'Nebuliser', std: 'Standard', prn: 'When needed', load: 'Loading dose', maint: 'Maintenance', sev: 'Severe', severe: 'Severe infection', mening: 'Meningitis', neo: 'Neonate', inj: 'Injection', inf: 'Infusion', ana: 'Anaphylaxis', asthma: 'Asthma', croup: 'Croup', tx: 'Treatment', proph: 'Prophylaxis', ge: 'Gastroenteritis' };
+  ACT.azgo = function (a) { var t = document.getElementById('az-' + a.dataset.k); if (t) scrollTo({ top: t.getBoundingClientRect().top + scrollY - 140, behavior: 'smooth' }); };
+  var KEYN = { po: 'Oral', iv: 'IV', im: 'IM', pr: 'Rectal', neb: 'Nebuliser', std: 'Standard', prn: 'When needed', load: 'Loading dose', maint: 'Maintenance', sev: 'Severe', severe: 'Severe infection', mening: 'Meningitis', neo: 'Neonate', inj: 'Injection', inf: 'Infusion', ana: 'Anaphylaxis', asthma: 'Asthma', croup: 'Croup', tx: 'Treatment', proph: 'Prophylaxis', ge: 'Gastroenteritis', hf: 'Heart failure', rf: 'Rheumatic fever', typhoid: 'Typhoid', hp: 'H. pylori', bolus: 'Bolus' };
   function drug(id) {
     var d = DR[id]; if (!d) return notFound();
-    chrome(d.g, (d.b || []).join(' · '));
+    head(d.g, '<bdi dir="ltr">' + esc((d.b || []).join(' · ')) + '</bdi>');
     var users = DX.filter(function (c) { return c.variants.some(function (v) { return v.lines.some(function (l) { return l.items.some(function (it) { return it.d === id; }); }); }); });
-    var h = '<section class="card"><div class="tags">' + d.cls.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '</div>' +
-      '<h4>' + A('المستحضرات', 'Preparations') + '</h4><ul class="bl">' + d.forms.map(function (f) { return '<li><b>' + esc(f.n) + '</b> · ' + esc(E.route(f.r)) + (f.rec ? '<br><small>' + esc(f.rec) + '</small>' : '') + '</li>'; }).join('') + '</ul></section>';
-    h += '<section class="card"><h3>' + ic('calc') + A('الجرعات لهذا المريض', 'Doses for this patient') + '</h3>' + (ready() ? '' : '<div class="wn warn">' + ic('alert') + A('أدخل العمر والوزن.', 'Enter age and weight.') + '</div>') +
-      Object.keys(d.reg).map(function (k) {
-        var o = E.dose(id, k, P, FORMSEL[id + '.' + k]); if (o.err) return '';
-        return '<div class="dc on"><div class="dc-h"><div class="dc-n"><b>' + esc(KEYN[k] || k) + '</b></div></div>' + (ready() ? '<div class="dc-dose"><b>' + esc(o.text) + '</b><span>' + esc(E.route(o.route)) + ' · ' + esc(E.freq(o.f)) + (o.dur ? ' · ' + esc(o.dur) : '') + '</span></div><div class="dc-ar" dir="rtl">' + esc(E.rxLine(o).ar) + '</div>' + (o.calc ? '<div class="dc-c">' + ic('calc') + esc(o.calc) + '</div>' : '') : '') +
-          (o.sc ? '<div class="dc-c sc">' + A('اختصار الدليل: ', 'Guideline shortcut: ') + esc(o.sc) + '</div>' : '') + (o.note ? '<p class="dc-note">' + esc(o.note) + '</p>' : '') + (ready() ? warnHtml(o.warn) : '') + '</div>';
-      }).join('') + '</section>';
-    var ci = d.ci || {}, cil = [];
-    if (ci.amin != null) cil.push(ci.why || ('Not under ' + ci.amin + ' months'));
+    var h = '<div class="tagrow">' + d.cls.map(function (x) { return '<span dir="ltr">' + esc(x) + '</span>'; }).join('') + '</div>';
+    h += sec('Preparations', 'flask', '<div class="preps">' + d.forms.map(function (f) { return '<div class="prep"><b dir="ltr">' + esc(f.n) + '</b><small>' + E.route(f.r, AR) + '</small>' + (f.rec ? '<p dir="ltr">' + esc(f.rec) + '</p>' : '') + '</div>'; }).join('') + '</div>');
+    h += '<h2 class="st">' + T('Doses for this patient') + '</h2>' + (+P.wt > 0 ? '' : quickPt());
+    h += Object.keys(d.reg).map(function (k) { var html = doseCard(0, 0, { d: id, r: k }, {}, { nosel: 1 }); return html ? '<div class="regl">' + T(KEYN[k] || k) + '</div>' + html : ''; }).join('');
+    var ci = d.ci || {}, cil = []; if (ci.amin != null) cil.push(ci.why || ('Not under ' + ci.amin + ' months'));
     ['neonate', 'jaundice', 'asthma', 'dengue', 'g6pd', 'renal', 'liver', 'sam', 'cardiac'].forEach(function (k) { if (ci[k]) cil.push(ci[k]); });
-    h += listCard(A('موانع الاستعمال والتحذيرات', 'Contraindications and cautions'), 'alert', cil, 'trap');
-    if (users.length) h += '<section class="card"><h3>' + ic('list') + A('يستعمل في', 'Used in') + '</h3><div class="chips">' + users.map(function (c) { return '<button class="chip" data-go="c/' + c.id + '">' + esc(c.t) + '</button>'; }).join('') + '</div></section>';
-    return h + disclaimer();
+    h += acc('Contraindications and cautions', 'shield', cil, 'trap', true);
+    if (users.length) h += sec('Used in', 'list', '<div class="rec">' + users.map(function (c) { return '<button data-go="c/' + c.id + '">' + T(c.t) + '</button>'; }).join('') + '</div>');
+    return h + disc();
   }
 
   /* ================= Calculators ================= */
-  /* id, Arabic, English, icon, what it gives (ar, en), formula */
   var CALCS = [
-    ['maint', 'السوائل اليومية', 'Maintenance fluids', 'drop', 'كمية السوائل الوريدية في اليوم وكل 8 ساعات', 'Daily IV fluid and the 8-hourly bag', '100 · 50 · 20 mL/kg (Holliday–Segar)'],
-    ['dehyd', 'خطط الجفاف', 'Dehydration plans', 'drop', 'خطة A و B و C والصدمة وسوء التغذية بالمل', 'Plans A, B, C, shock and SAM in mL', 'WHO / IMCI'],
-    ['drops', 'معدل التنقيط', 'Drip rate', 'drop', 'نقطة في الدقيقة ومل في الساعة', 'Drops per minute and mL per hour', 'mL × 20 ÷ (h × 60)'],
-    ['k', 'تصحيح البوتاسيوم', 'Potassium correction', 'bolt', 'كمية KCl في اليوم وفي كل محلول', 'KCl per day and per bag', '[(4 − K) × wt/2] + maintenance'],
-    ['na', 'نقص الصوديوم', 'Sodium deficit', 'bolt', 'النقص بالمليمول ومحلول 3% أو NS', 'Deficit in mmol as 3% or NS', 'wt × (130 − Na) × 0.6'],
-    ['gir', 'معدل الجلوكوز', 'Glucose infusion rate', 'calc', 'كمية الجلوكوز التي يأخذها الطفل', 'How much glucose the child receives', '% × mL/h ÷ (wt × 6)'],
-    ['uo', 'إخراج البول', 'Urine output', 'drop', 'مل لكل كجم في الساعة', 'mL per kg per hour', 'mL ÷ wt ÷ h'],
-    ['gfr', 'وظيفة الكلى GFR', 'Kidney function (GFR)', 'calc', 'معادلة شوارتز للأطفال', 'Schwartz formula for children', '0.41 × height ÷ creatinine'],
-    ['bsa', 'مساحة سطح الجسم', 'Body surface area', 'user', 'المساحة والسوائل غير المحسوسة', 'Surface area and insensible loss', '√(wt × height ÷ 3600)'],
-    ['inf', 'التسريب الوريدي', 'Inotrope infusion', 'bolt', 'دوبامين أو أدرينالين في 100 مل', 'Dopamine or adrenaline in 100 mL', 'wt × mcg × 1440 ÷ 1000'],
-    ['blood', 'نقل الدم', 'Blood transfusion', 'drop', 'كمية الدم الكامل أو الكريات المركزة', 'Whole blood or packed cells', '20 mL/kg · wt × ΔHb × 3'],
-    ['wt', 'الوزن من العمر', 'Weight from age', 'user', 'وزن تقديري عند غياب الميزان', 'An estimate when there is no scale', '(m + 9)/2 · 2y + 8 · (7y − 5)/2'],
-    ['prep', 'تحضير المحاليل', 'Preparing IV fluids', 'drop', 'كيف تحضّر المحاليل من المتوفر', 'How to make fluids from what is available', 'D50 · D10 · NS'],
-    ['ett', 'مقاسات الأنابيب', 'Tube sizes', 'stetho', 'أنبوب القصبة والأنبوب الأنفي', 'Endotracheal and NG tube', 'age/4 + 4']
+    ['maint', 'Maintenance fluids', 'drop', 'كمية السوائل الوريدية في اليوم وكل 8 ساعات', 'Daily IV fluid and the 8-hourly bag', '100 · 50 · 20 mL/kg (Holliday–Segar)'],
+    ['dehyd', 'Dehydration plans', 'drop', 'خطة A و B و C والصدمة وسوء التغذية', 'Plans A, B, C, shock and SAM', 'WHO / IMCI'],
+    ['drops', 'Drip rate', 'drop', 'نقطة في الدقيقة ومل في الساعة', 'Drops per minute and mL per hour', 'mL × 20 ÷ (h × 60)'],
+    ['k', 'Potassium correction', 'bolt', 'كمية KCl في اليوم وفي كل محلول', 'KCl per day and per bag', '[(4 − K) × wt/2] + maintenance'],
+    ['na', 'Sodium deficit', 'bolt', 'النقص بالمليمول، محلول 3% أو NS', 'Deficit as 3% or NS', 'wt × (130 − Na) × 0.6'],
+    ['gir', 'Glucose infusion rate', 'calc', 'كمية الجلوكوز التي يأخذها الطفل', 'How much glucose the child receives', '% × mL/h ÷ (wt × 6)'],
+    ['uo', 'Urine output', 'kidney', 'مل لكل كجم في الساعة', 'mL per kg per hour', 'mL ÷ wt ÷ h'],
+    ['gfr', 'GFR (Schwartz)', 'kidney', 'وظيفة الكلى عند الأطفال', 'Kidney function in children', '0.41 × height ÷ creatinine'],
+    ['bsa', 'Body surface area', 'user', 'المساحة والسوائل غير المحسوسة', 'Surface area and insensible loss', '√(wt × height ÷ 3600)'],
+    ['inf', 'Inotrope infusion', 'heart', 'دوبامين أو أدرينالين في 100 مل', 'Dopamine or adrenaline in 100 mL', 'wt × mcg × 1440 ÷ 1000'],
+    ['blood', 'Blood transfusion', 'drop', 'الدم الكامل أو الكريات المركزة', 'Whole blood or packed cells', '20 mL/kg · wt × ΔHb × 3'],
+    ['wt', 'Weight from age', 'baby', 'وزن تقديري عند غياب الميزان', 'An estimate when there is no scale', '(m + 9)/2 · 2y + 8 · (7y − 5)/2'],
+    ['prep', 'Preparing IV fluids', 'flask', 'تحضير المحاليل من المتوفر', 'Making fluids from what is available', 'D50 · D10 · NS'],
+    ['ett', 'Tube sizes', 'stetho', 'أنبوب القصبة والأنبوب الأنفي', 'Endotracheal and NG tube', 'age/4 + 4']
   ];
   function calc(id) {
     if (!id) {
-      chrome(A('الحاسبات', 'Calculators'), A('تعمل بوزن المريض الحالي تلقائيًا', 'They use the current patient\'s weight'));
-      return '<div class="clc-list">' + CALCS.map(function (c) {
-        return '<button class="clc-row" data-go="calc/' + c[0] + '"><span class="ti">' + ic(c[3]) + '</span><span class="clc-t"><b>' + A(c[1], c[2]) + '</b><small>' + A(c[4], c[5]) + '</small></span><span class="clc-ar">' + ic('back') + '</span></button>';
-      }).join('') + '</div>';
+      head('Calculators', A('تعمل بوزن المريض الحالي تلقائيًا', 'They use the current patient\'s weight'));
+      return '<button class="emg" data-go="emerg"><span class="ti">' + ic('bolt') + '</span><span class="emg-t"><b>' + T('Emergency doses') + '</b><small>' + A('كل جرعات الطوارئ بالوزن في صفحة واحدة', 'Every emergency dose by weight on one page') + '</small></span>' + ic('fwd', 'flip') + '</button>' +
+        '<div class="sysg">' + CALCS.map(function (c) { return '<button class="sys" data-go="calc/' + c[0] + '"><span class="ti">' + ic(c[2]) + '</span><b>' + T(c[1]) + '</b><small>' + A(c[3], c[4]) + '</small></button>'; }).join('') + '</div>';
     }
     var c = CALCS.find(function (x) { return x[0] === id; }); if (!c) return notFound();
-    chrome(A(c[1], c[2]), '');
-    var useW = ready() && /^(maint|dehyd|k|na|gir|uo|bsa|inf|blood|ett)$/.test(id);
-    return '<section class="clc-card"><div class="clc-h"><span class="ti">' + ic(c[3]) + '</span><div><b>' + A(c[4], c[5]) + '</b><code dir="ltr">' + esc(c[6]) + '</code></div></div>' +
-      (id === 'prep' ? '' : '<form class="form calc" id="cf" data-c="' + id + '" autocomplete="off">' + calcInputs(id) + '</form>' +
-      (useW ? '<p class="clc-pt">' + ic('user') + A('وزن المريض الحالي ', 'Current patient: ') + '<b dir="ltr">' + esc(wtText()) + '</b></p>' : '')) +
-      '</section><section class="clc-res" id="cres"></section>';
+    head(c[1], A(c[3], c[4]));
+    return '<section class="card clc"><div class="clc-f"><small>' + A('المعادلة', 'Formula') + '</small><code dir="ltr">' + esc(c[5]) + '</code></div>' + (id === 'prep' ? '' : '<form id="cf" data-c="' + id + '" autocomplete="off">' + calcInputs(id) + '</form>') + '</section><section id="cres"></section>';
   }
-  function inp(n, lab, v, step, unit) {
-    return '<label class="fld"><span>' + lab + '</span><div class="inp"><input name="' + n + '" type="number" inputmode="decimal" step="' + (step || 'any') + '" value="' + esc(v == null ? '' : v) + '" dir="ltr">' + (unit ? '<em dir="ltr">' + unit + '</em>' : '') + '</div></label>';
-  }
-  function sel(n, lab, opts, cur) {
-    return '<label class="fld"><span>' + lab + '</span><div class="inp"><select name="' + n + '" dir="ltr">' + opts.map(function (o) { return '<option value="' + o[0] + '"' + (String(o[0]) === String(cur) ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></div></label>';
-  }
+  function cin(n, lab, v, unit, step) { return '<label class="fld"><span>' + lab + '</span><div class="inp"><input name="' + n + '" type="number" inputmode="decimal" step="' + (step || 'any') + '" value="' + esc(v == null ? '' : v) + '" dir="ltr">' + (unit ? '<em>' + unit + '</em>' : '') + '</div></label>'; }
+  function csel(n, lab, o, cur) { return '<label class="fld"><span>' + lab + '</span><div class="inp pick"><select name="' + n + '" dir="ltr">' + o.map(function (x) { return '<option value="' + x[0] + '"' + (String(x[0]) === String(cur) ? ' selected' : '') + '>' + x[1] + '</option>'; }).join('') + '</select></div></label>'; }
   var W = function () { return ready() ? nice(E.wt(P)) : ''; };
   function calcInputs(id) {
-    var w = inp('wt', A('الوزن', 'Weight'), W(), 'any', 'kg');
+    var w = cin('wt', A('الوزن', 'Weight'), W(), 'kg');
     var g = function () { return '<div class="flds">' + Array.prototype.join.call(arguments, '') + '</div>'; };
     switch (id) {
-      case 'maint': return g(w, sel('x', A('الكمية', 'Amount'), [[1, A('كاملة', 'Full')], [0.667, '⅔'], [1.5, '1½'], [2, A('ضعف', 'Double')]]));
-      case 'dehyd': return g(w, sel('pl', A('الخطة', 'Plan'), [['planA', 'Plan A'], ['planB', 'Plan B'], ['planC', 'Plan C'], ['resomal', 'ReSoMal (SAM)'], ['shock', 'Shock'], ['samShock', 'Shock in SAM']], 'planC'));
-      case 'drops': return g(inp('ml', A('الكمية', 'Volume'), 500, 'any', 'mL'), inp('h', A('المدة', 'Time'), 8, 'any', A('ساعة', 'h')), sel('set', A('جهاز التنقيط', 'Giving set'), [[20, '20 drops/mL'], [15, '15 drops/mL'], [60, '60 (micro)']]));
-      case 'k': return g(w, inp('k', A('البوتاسيوم', 'Serum K'), P.k, 0.1, 'mmol/L'), sel('m', A('الاحتياج اليومي', 'Daily need'), [[1, '1 mmol/kg'], [2, '2 mmol/kg']]));
-      case 'na': return g(w, inp('na', A('الصوديوم', 'Serum Na'), P.na, 'any', 'mmol/L'));
-      case 'gir': return g(w, inp('pc', A('تركيز الدكستروز', 'Dextrose'), 10, 'any', '%'), inp('r', A('معدل المحلول', 'Fluid rate'), '', 'any', 'mL/h'));
-      case 'uo': return g(w, inp('ml', A('كمية البول', 'Urine'), '', 'any', 'mL'), inp('h', A('خلال', 'Over'), 12, 'any', A('ساعة', 'h')));
-      case 'gfr': return g(inp('ht', A('الطول', 'Height'), P.ht, 'any', 'cm'), inp('cr', A('الكرياتينين', 'Creatinine'), '', 0.01, 'mg/dL'));
-      case 'bsa': return g(w, inp('ht', A('الطول', 'Height'), P.ht, 'any', 'cm'));
-      case 'inf': return g(w, sel('dg', A('الدواء', 'Drug'), [['dop', 'Dopamine 200 mg/5 mL'], ['adr', 'Adrenaline 1 mg/mL']]), inp('mc', A('الجرعة', 'Dose'), 5, 0.01, 'mcg/kg/min'));
-      case 'blood': return g(w, inp('hb', A('الهيموغلوبين الحالي', 'Current Hb'), '', 0.1, 'g/dL'), inp('tg', A('الهيموغلوبين المطلوب', 'Target Hb'), 10, 0.1, 'g/dL'));
-      case 'wt': return g(inp('ay', A('سنوات', 'Years'), P.ay, 1, A('سنة', 'y')), inp('am', A('شهور', 'Months'), P.am, 1, A('شهر', 'm')), inp('ad', A('أيام', 'Days'), P.ad, 1, A('يوم', 'd')));
-      case 'ett': return g(inp('ay', A('العمر', 'Age'), P.ay, 1, A('سنة', 'y')), w);
+      case 'maint': return g(w, csel('x', A('الكمية', 'Amount'), [[1, 'Full'], [0.667, '⅔'], [1.5, '1½'], [2, 'Double']]));
+      case 'dehyd': return g(w, csel('pl', A('الخطة', 'Plan'), [['planA', 'Plan A'], ['planB', 'Plan B'], ['planC', 'Plan C'], ['resomal', 'ReSoMal (SAM)'], ['shock', 'Shock'], ['samShock', 'Shock in SAM']], 'planC'));
+      case 'drops': return g(cin('ml', A('الكمية', 'Volume'), 500, 'mL'), cin('h', A('المدة', 'Time'), 8, A('ساعة', 'h')), csel('set', A('جهاز التنقيط', 'Giving set'), [[20, '20 drops/mL'], [15, '15 drops/mL'], [60, '60 (micro)']]));
+      case 'k': return g(w, cin('k', A('البوتاسيوم', 'Serum K'), P.lab.k, 'mmol/L', 0.1), csel('m', A('الاحتياج اليومي', 'Daily need'), [[1, '1 mmol/kg'], [2, '2 mmol/kg']]));
+      case 'na': return g(w, cin('na', A('الصوديوم', 'Serum Na'), P.lab.na, 'mmol/L'));
+      case 'gir': return g(w, cin('pc', A('تركيز الدكستروز', 'Dextrose'), 10, '%'), cin('r', A('معدل المحلول', 'Fluid rate'), '', 'mL/h'));
+      case 'uo': return g(w, cin('ml', A('كمية البول', 'Urine'), '', 'mL'), cin('h', A('خلال', 'Over'), 12, A('ساعة', 'h')));
+      case 'gfr': return g(cin('ht', A('الطول', 'Height'), P.ht, 'cm'), cin('cr', A('الكرياتينين', 'Creatinine'), P.lab.cr, 'mg/dL', 0.01));
+      case 'bsa': return g(w, cin('ht', A('الطول', 'Height'), P.ht, 'cm'));
+      case 'inf': return g(w, csel('dg', A('الدواء', 'Drug'), [['dop', 'Dopamine 200 mg/5 mL'], ['adr', 'Adrenaline 1 mg/mL']]), cin('mc', A('الجرعة', 'Dose'), 5, 'mcg/kg/min', 0.01));
+      case 'blood': return g(w, cin('hb', A('الهيموغلوبين الحالي', 'Current Hb'), P.lab.hb, 'g/dL', 0.1), cin('tg', A('الهيموغلوبين المطلوب', 'Target Hb'), 10, 'g/dL', 0.1));
+      case 'wt': return g(cin('ay', A('سنوات', 'Years'), P.ay, A('سنة', 'y'), 1), cin('am', A('شهور', 'Months'), P.am, A('شهر', 'm'), 1), cin('ad', A('أيام', 'Days'), P.ad, A('يوم', 'd'), 1));
+      case 'ett': return g(cin('ay', A('العمر', 'Age'), P.ay, A('سنة', 'y'), 1), w);
       default: return '';
     }
   }
   function num(f, n) { var x = f[n] ? parseFloat(f[n].value) : NaN; return isNaN(x) ? null : x; }
-  function rows(r) { return '<table class="kv">' + r.map(function (x) { return '<tr><th>' + esc(x[0]) + '</th><td>' + esc(x[1]) + '</td></tr>'; }).join('') + '</table>'; }
+  function kv(r) { return '<table class="kv">' + r.map(function (x) { return '<tr><th>' + x[0] + '</th><td dir="ltr">' + esc(x[1]) + '</td></tr>'; }).join('') + '</table>'; }
+  function result(big, bigLabel, rest, notes) {
+    return '<div class="res-big"><small>' + bigLabel + '</small><b dir="ltr">' + esc(big) + '</b></div>' + (rest && rest.length ? '<section class="card">' + kv(rest) + '</section>' : '') +
+      (notes && notes.length ? '<ul class="tips">' + notes.map(function (n) { return '<li>' + n + '</li>'; }).join('') + '</ul>' : '');
+  }
   function calcRun() {
     var f = $('#cf'), out = $('#cres'); if (!f || !out) return;
-    var id = f.dataset.c, wt = num(f, 'wt'), r = [], notes = [];
-    var need = function () { out.innerHTML = '<div class="clc-empty">' + ic('calc') + '<span>' + A('أدخل القيم بالأعلى وتظهر النتيجة هنا مباشرة.', 'Fill in the values above; the result appears here at once.') + '</span></div>'; };
-    var p2 = Object.assign({}, P, { wt: wt || P.wt });
-    if (id === 'maint') { if (!wt) return need(); var v = E.maint(wt) * +f.x.value, c2 = E.capDaily(p2, v); v = c2.v; r.push([A('السوائل في اليوم', 'Fluid per day'), nice(v) + ' mL'], [A('كل 8 ساعات', 'Per 8 h'), nice(v / 3) + ' mL (' + E.drops(v / 3, 8) + ' drops/min)'], ['Holliday–Segar', E.maintCalc(wt)], [A('بالساعة', 'Per hour'), nice(v / 24) + ' mL/h'], [A('النوع', 'Type'), E.fluidType(p2)]); if (c2.note) notes.push(c2.note); }
-    else if (id === 'dehyd') { if (!wt) return need(); var fl = E.fluid({ k: f.pl.value }, p2); out.innerHTML = '<div class="clc-big"><small>' + esc(fl.t) + '</small><b dir="ltr">' + esc(fl.rows[0][1]) + '</b><span>' + esc(fl.rows[0][0]) + '</span></div><div class="clc-more">' + rows(fl.rows.slice(1)) + '</div>' + (fl.notes.length ? '<ul class="nt">' + fl.notes.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>' : ''); return; }
-    else if (id === 'drops') { var ml = num(f, 'ml'), h = num(f, 'h'), s = +f.set.value; if (!ml || !h) return need(); r.push([A('نقطة/دقيقة', 'Drops/min'), String(Math.round(ml * s / (h * 60)))], [A('مل/ساعة (مضخة)', 'mL/h (pump)'), nice(ml / h)]); notes.push('Drops/min = mL × ' + s + ' ÷ (hours × 60)'); }
+    var id = f.dataset.c, wt = num(f, 'wt'), p2 = Object.assign({}, P, { wt: wt || P.wt });
+    var need = function () { out.innerHTML = '<div class="res-empty">' + ic('calc') + '<span>' + A('أدخل القيم بالأعلى وتظهر النتيجة هنا مباشرة.', 'Fill in the values above; the result appears here at once.') + '</span></div>'; };
+    var H;
+    if (id === 'maint') { if (!wt) return need(); var v = E.maint(wt) * +f.x.value, cp = E.capDaily(p2, v); v = cp.v; H = result(nice(v) + ' mL', A('السوائل في اليوم', 'Fluid per day'), [[A('كل 8 ساعات', 'Every 8 h'), nice(v / 3) + ' mL · ' + E.drops(v / 3, 8) + ' drops/min'], [A('بالساعة', 'Per hour'), nice(v / 24) + ' mL/h'], [A('النوع', 'Type'), E.fluidType(p2)], ['Holliday–Segar', E.maintCalc(wt)]], cp.note ? [esc(cp.note)] : []); }
+    else if (id === 'dehyd') { if (!wt) return need(); var fl = E.fluid({ k: f.pl.value }, p2); H = '<div class="res-big"><small dir="ltr">' + esc(fl.t) + '</small><b dir="ltr" class="sm">' + esc(fl.order[0] || '') + '</b></div><section class="card">' + kv(fl.rows.map(function (r) { return ['<bdi dir="ltr">' + esc(r[0]) + '</bdi>', r[1]]; })) + '</section>' + (fl.notes.length ? '<ul class="tips">' + fl.notes.map(function (n) { return '<li dir="ltr">' + esc(n) + '</li>'; }).join('') + '</ul>' : ''); }
+    else if (id === 'drops') { var ml = num(f, 'ml'), h = num(f, 'h'), s = +f.set.value; if (!ml || !h) return need(); H = result(Math.round(ml * s / (h * 60)) + ' drops/min', A('معدل التنقيط', 'Drip rate'), [[A('بالمضخة', 'With a pump'), nice(ml / h) + ' mL/h']]); }
     else if (id === 'k') {
-      var k = num(f, 'k'); if (!wt || k == null) return need(); var mm = +f.m.value, tot = Math.max(0, (4 - k) * wt / 2) + mm * wt;
-      r.push([A('KCl 15% في 24 ساعة', 'KCl 15% over 24 h'), nice(tot / 2) + ' mL = ' + nice(tot) + ' mmol'],
-        [A('في كل محلول 8 ساعات', 'In each 8-hour bag'), nice(tot / 6) + ' mL KCl'],
-        [A('المعادلة المستعملة في المستشفى', 'Hospital equation'), '[(4 − ' + k + ') × ' + nice(wt) + '/2] + ' + mm + ' × ' + nice(wt) + ' = ' + nice(tot) + ' mmol']);
-      var pf = k >= 3 ? [0.25, 1] : k >= 2.5 ? [0.5, 2] : [0.75, 3];
-      if (k < 3.5) r.push(['PFCCS (IV correction)', nice(pf[0] * wt) + ' mmol = ' + nice(pf[0] * wt / 2) + ' mL KCl over ' + pf[1] + ' h (diluted)']);
-      r.push([A('أقصى معدل', 'Maximum rate'), nice(0.4 * wt) + ' mmol/h (0.4 mmol/kg/h)']);
-      notes.push(A('بعد أن يتبول الطفل فقط. لا يعطى البوتاسيوم مركزًا أو دفعة واحدة أبدًا.', 'Only after the child passes urine. Never undiluted or as a bolus.'), A('المعادلة الأولى شائعة في المستشفيات لكن بلا دليل علمي (الدليل).', 'The first equation is common practice without an evidence base (guideline).'));
+      var k = num(f, 'k'); if (!wt || k == null) return need(); var mm = +f.m.value, tot = Math.max(0, (4 - k) * wt / 2) + mm * wt, pf = k >= 3 ? [0.25, 1] : k >= 2.5 ? [0.5, 2] : [0.75, 3];
+      var rest = [[A('في كل محلول 8 ساعات', 'In each 8-hour bag'), nice(tot / 6) + ' mL KCl'], [A('المعادلة', 'Equation'), '[(4 − ' + k + ') × ' + nice(wt) + '/2] + ' + mm + ' × ' + nice(wt) + ' = ' + nice(tot) + ' mmol']];
+      if (k < 3.5) rest.push([A('تصحيح وريدي (PFCCS)', 'IV correction (PFCCS)'), nice(pf[0] * wt) + ' mmol = ' + nice(pf[0] * wt / 2) + ' mL over ' + pf[1] + ' h']);
+      rest.push([A('أقصى معدل', 'Maximum rate'), nice(0.4 * wt) + ' mmol/h']);
+      H = result(nice(tot / 2) + ' mL = ' + nice(tot) + ' mmol', A('KCl 15% خلال 24 ساعة', 'KCl 15% over 24 hours'), rest, [A('بعد أن يتبول الطفل فقط. لا يعطى البوتاسيوم مركّزًا أو دفعة واحدة أبدًا.', 'Only after the child passes urine. Never undiluted or as a bolus.'), A('المعادلة الأولى شائعة في المستشفيات لكنها بلا دليل علمي.', 'The first equation is common practice without an evidence base.')]);
     }
-    else if (id === 'na') { var na = num(f, 'na'); if (!wt || na == null) return need(); if (na >= 130) r.push([A('النتيجة', 'Result'), A('لا نقص يحتاج تصحيحًا خاصًا', 'No specific deficit to correct')]); else { var def = wt * (130 - na) * 0.6; r.push([A('نقص الصوديوم', 'Sodium deficit'), nice(def) + ' mmol'], [A('الحساب', 'Calculation'), nice(wt) + ' × (130 − ' + na + ') × 0.6'], ['3% NaCl (0.5 mmol/mL)', nice(def / 0.5) + ' mL'], ['NS (0.154 mmol/mL)', nice(def / 0.154) + ' mL']); if (na < 120) notes.push(A('مع تشنجات: 3% NaCl بسرعة لرفع الصوديوم 5 mmol/L ثم ببطء.', 'With seizures: 3% saline quickly to raise Na by 5 mmol/L, then slowly.')); notes.push(A('لا يزيد الصوديوم أكثر من 10–12 mmol/L في اليوم.', 'Do not raise Na by more than 10–12 mmol/L per day.')); } }
-    else if (id === 'gir') { var pc = num(f, 'pc'), rt = num(f, 'r'); if (!wt || !pc || !rt) return need(); var g = pc * rt / (wt * 6); r.push(['GIR', nice(g) + ' mg/kg/min']); notes.push('GIR = % × mL/h ÷ (wt × 6). ' + A('أكثر من 12: ابحث عن سبب نقص السكر المستمر.', 'Above 12: investigate persistent hypoglycaemia.')); }
-    else if (id === 'uo') { var u = num(f, 'ml'), hh = num(f, 'h'); if (!wt || !u || !hh) return need(); var x = u / wt / hh; r.push([A('إخراج البول', 'Urine output'), nice(x) + ' mL/kg/h'], [A('التفسير', 'Meaning'), x < 0.5 ? A('قلة بول (أقل من 0.5)', 'Oliguria (< 0.5)') : x > 4 ? A('كثرة بول (أكثر من 4)', 'Polyuria (> 4)') : A('طبيعي (0.5–2)', 'Normal (0.5–2)')]); }
-    else if (id === 'gfr') { var ht = num(f, 'ht'), cr = num(f, 'cr'); if (!ht || !cr) return need(); r.push(['eGFR', nice(0.41 * ht / cr) + ' mL/min/1.73 m²']); notes.push('Schwartz: 0.41 × height (cm) ÷ creatinine (mg/dL). µmol/L ÷ 88.4 = mg/dL.'); }
-    else if (id === 'bsa') { var ht2 = num(f, 'ht'); if (!wt || !ht2) return need(); var b = Math.sqrt(wt * ht2 / 3600); r.push(['BSA (Mosteller)', nice(b) + ' m²'], [A('السوائل غير المحسوسة', 'Insensible loss'), nice(400 * b) + ' mL/day (400 mL/m²)']); }
-    else if (id === 'inf') {
-      var mc = num(f, 'mc'); if (!wt || !mc) return need();
-      if (f.dg.value === 'dop') { var mg = wt * mc * 1440 / 1000; r.push(['Dopamine', nice(mg) + ' mg = ' + nice(mg / 40) + ' mL of 200 mg/5 mL'], [A('في', 'In'), '100 mL NS over 24 h (4.2 mL/h)']); notes.push(A('كلوي 2–5، قلبي 5–15 mcg/kg/min.', 'Renal 2–5, cardiac 5–15 mcg/kg/min.')); }
-      else { var mg2 = wt * mc * 1440 / 1000; r.push(['Adrenaline', nice(mg2) + ' mg = ' + nice(mg2) + ' mL of 1 mg/mL'], [A('في', 'In'), '100 mL NS over 24 h (4.2 mL/h)']); notes.push('0.05–1 mcg/kg/min.'); }
-    }
-    else if (id === 'blood') { var hb = num(f, 'hb'), tg = num(f, 'tg'); if (!wt) return need(); r.push([A('دم كامل', 'Whole blood'), nice(20 * wt) + ' mL (20 mL/kg) over 3–4 h'], [A('سوء تغذية', 'Malnourished'), nice(10 * wt) + ' mL (10 mL/kg)']); if (hb != null && tg) r.push(['Packed cells', nice(wt) + ' × (' + tg + ' − ' + hb + ') × 3 = ' + nice(Math.max(0, wt * (tg - hb) * 3)) + ' mL']); r.push([A('فشل قلب', 'Heart failure'), 'Furosemide ' + nice(wt) + ' mg before and after (not in sickle cell disease)']); }
-    else if (id === 'wt') { var q = { ay: num(f, 'ay') || 0, am: num(f, 'am') || 0, ad: num(f, 'ad') || 0 }; if (!q.ay && !q.am && !q.ad) return need(); r.push([A('الوزن التقديري', 'Estimated weight'), nice(E.estWeight(q)) + ' kg']); notes.push(A('تقدير فقط؛ الوزن الحقيقي أفضل دائمًا. <12 شهر: (الشهور + 9) ÷ 2 · 1–6 سنوات: سنوات × 2 + 8 · 7–12: (سنوات × 7 − 5) ÷ 2.', 'Estimate only. < 12 months: (months + 9) ÷ 2 · 1–6 y: years × 2 + 8 · 7–12 y: (years × 7 − 5) ÷ 2.')); }
-    else if (id === 'ett') { var ay = num(f, 'ay'); if (ay == null) return need(); r.push(['ETT uncuffed (ID)', nice(ay / 4 + 4) + ' mm'], ['ETT cuffed (ID)', nice(ay / 4 + 3.5) + ' mm'], [A('عمق الأنبوب (الفم)', 'Oral ETT depth'), nice(ay / 2 + 12) + ' cm']); if (wt) r.push(['NG tube', 'about ' + (wt < 5 ? 6 : wt < 15 ? 8 : 10) + ' Fr']); notes.push(A('معادلات APLS المعروفة (ليست من الدليل المحلي)، لعمر أكثر من سنة.', 'Standard APLS formulas (not from the local guideline), for children over 1 year.')); }
-    out.innerHTML = '<div class="clc-big"><small>' + esc(r[0][0]) + '</small><b dir="ltr">' + esc(r[0][1]) + '</b></div>' + (r.length > 1 ? '<div class="clc-more">' + rows(r.slice(1)) + '</div>' : '') + (notes.length ? '<ul class="nt">' + notes.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>' : '');
+    else if (id === 'na') { var na = num(f, 'na'); if (!wt || na == null) return need(); if (na >= 130) H = result(A('لا نقص', 'No deficit'), A('الصوديوم', 'Sodium'), [], [A('لا يحتاج تصحيحًا خاصًا.', 'No specific correction needed.')]); else { var def = wt * (130 - na) * 0.6; H = result(nice(def) + ' mmol', A('نقص الصوديوم', 'Sodium deficit'), [['3% NaCl', nice(def / 0.5) + ' mL'], ['NS 0.9%', nice(def / 0.154) + ' mL'], [A('الحساب', 'Calculation'), nice(wt) + ' × (130 − ' + na + ') × 0.6']], [A('لا يرفع الصوديوم أكثر من 10–12 mmol/L في اليوم.', 'Do not raise Na by more than 10–12 mmol/L per day.')].concat(na < 120 ? [A('مع تشنجات: 3% NaCl بسرعة لرفعه 5 mmol/L ثم ببطء.', 'With seizures: 3% saline quickly to raise Na by 5, then slowly.')] : [])); } }
+    else if (id === 'gir') { var pc = num(f, 'pc'), rt = num(f, 'r'); if (!wt || !pc || !rt) return need(); var gg = pc * rt / (wt * 6); H = result(nice(gg) + ' mg/kg/min', 'GIR', [], [gg > 12 ? A('أكثر من 12: ابحث عن سبب نقص السكر المستمر.', 'Above 12: investigate persistent hypoglycaemia.') : A('القيمة أكثر من 12 تحتاج بحثًا عن سبب نقص السكر.', 'A value above 12 needs a search for the cause of hypoglycaemia.')]); }
+    else if (id === 'uo') { var u = num(f, 'ml'), hh = num(f, 'h'); if (!wt || !u || !hh) return need(); var x = u / wt / hh; H = result(nice(x) + ' mL/kg/h', A('إخراج البول', 'Urine output'), [[A('التفسير', 'Meaning'), x < 0.5 ? 'Oliguria (< 0.5)' : x > 4 ? 'Polyuria (> 4)' : 'Normal (0.5–2)']]); }
+    else if (id === 'gfr') { var ht = num(f, 'ht'), cr = num(f, 'cr'); if (!ht || !cr) return need(); H = result(nice(0.41 * ht / cr) + ' mL/min/1.73 m²', 'eGFR', [], [A('الكرياتينين بالـ µmol/L ÷ 88.4 = mg/dL.', 'Creatinine in µmol/L ÷ 88.4 = mg/dL.')]); }
+    else if (id === 'bsa') { var h2 = num(f, 'ht'); if (!wt || !h2) return need(); var b = Math.sqrt(wt * h2 / 3600); H = result(nice(b) + ' m²', A('مساحة سطح الجسم', 'Body surface area'), [[A('السوائل غير المحسوسة', 'Insensible loss'), nice(400 * b) + ' mL/day']]); }
+    else if (id === 'inf') { var mc = num(f, 'mc'); if (!wt || !mc) return need(); var mg = wt * mc * 1440 / 1000, dop = f.dg.value === 'dop'; H = result(nice(mg) + ' mg', A('في 100 مل NS خلال 24 ساعة (4.2 مل/ساعة)', 'In 100 mL NS over 24 h (4.2 mL/h)'), [[A('بالمل', 'Volume'), (dop ? nice(mg / 40) : nice(mg)) + ' mL of ' + (dop ? '200 mg/5 mL' : '1 mg/mL')]], [dop ? A('كلوي 2–5، قلبي 5–15 mcg/kg/min.', 'Renal 2–5, cardiac 5–15 mcg/kg/min.') : '0.05–1 mcg/kg/min.']); }
+    else if (id === 'blood') { var hb = num(f, 'hb'), tg = num(f, 'tg'); if (!wt) return need(); var rest2 = [[A('سوء تغذية', 'Malnourished'), nice(10 * wt) + ' mL (10 mL/kg)'], [A('فشل قلب', 'Heart failure'), 'Furosemide ' + nice(wt) + ' mg before and after']]; if (hb != null && tg) rest2.unshift([A('كريات مركزة', 'Packed cells'), nice(Math.max(0, wt * (tg - hb) * 3)) + ' mL']); H = result(nice(20 * wt) + ' mL', A('دم كامل 20 مل/كجم خلال 3–4 ساعات', 'Whole blood 20 mL/kg over 3–4 h'), rest2, [A('لا فوروسيمايد مع الأنيميا المنجلية.', 'No furosemide in sickle cell disease.')]); }
+    else if (id === 'wt') { var q = { ay: num(f, 'ay') || 0, am: num(f, 'am') || 0, ad: num(f, 'ad') || 0 }; if (!q.ay && !q.am && !q.ad) return need(); H = result(nice(E.estWeight(q)) + ' kg', A('الوزن التقديري', 'Estimated weight'), [], [A('تقدير فقط؛ الوزن الحقيقي أفضل دائمًا.', 'An estimate only; a real weight is always better.')]); }
+    else if (id === 'ett') { var ay = num(f, 'ay'); if (ay == null) return need(); H = result(nice(ay / 4 + 4) + ' mm', A('أنبوب بدون كفة', 'Uncuffed ETT'), [[A('بكفة', 'Cuffed'), nice(ay / 4 + 3.5) + ' mm'], [A('العمق من الفم', 'Oral depth'), nice(ay / 2 + 12) + ' cm']].concat(wt ? [['NG tube', 'about ' + (wt < 5 ? 6 : wt < 15 ? 8 : 10) + ' Fr']] : []), [A('معادلات APLS المعروفة، لعمر أكثر من سنة.', 'Standard APLS formulas, for children over 1 year.')]); }
+    out.innerHTML = H;
   }
   var PREP = [['Dextrose 5% ½ saline', '250 mL D10 + 250 mL NS'], ['Dextrose 5% ⅕ saline', 'Remove 200 mL from 500 mL D5W; add 100 mL D10 + 100 mL NS'], ['DNS (D5 in NS)', 'Remove 50 (60) mL from 500 mL NS; add 50 (60) mL D50'],
-    ['Dextrose 7.5% ½ saline (DKA, RBG < 100 with acidosis)', 'Remove 25 (30) mL from 500 mL D5 ½ saline; add 25 (30) mL D50'], ['Dextrose 10% ½ saline (DKA; quinine with hypoglycaemia)', 'Remove 50 (60) mL from 500 mL D5 ½ saline; add 50 (60) mL D50'],
-    ['Dextrose 10%', 'Remove 50 (60) mL from 500 mL D5; add 50 (60) mL D50'], ['Dextrose 12.5% (resistant hypoglycaemia)', 'Remove 25 (30) mL from 500 mL D10; add 25 (30) mL D50']];
-  document.addEventListener('input', function (e) { if (e.target.closest('#cf')) calcRun(); });
-  document.addEventListener('change', function (e) { if (e.target.closest('#cf')) calcRun(); });
+    ['Dextrose 7.5% ½ saline', 'DKA, RBG < 100 with acidosis: remove 25 (30) mL from 500 mL D5 ½ saline; add 25 (30) mL D50'], ['Dextrose 10% ½ saline', 'DKA; quinine with hypoglycaemia: remove 50 (60) mL from 500 mL D5 ½ saline; add 50 (60) mL D50'],
+    ['Dextrose 10%', 'Remove 50 (60) mL from 500 mL D5; add 50 (60) mL D50'], ['Dextrose 12.5%', 'Resistant hypoglycaemia: remove 25 (30) mL from 500 mL D10; add 25 (30) mL D50']];
 
   /* ================= Emergency ================= */
-  var EM = [['adrenalineSC', 'ana', 'Anaphylaxis'], ['hydrocortisone', 'ana', 'Anaphylaxis / shock'], ['chlorphenamine', 'inj', 'Allergy'], ['diazepam', 'iv', 'Convulsion (IV)'], ['diazepam', 'pr', 'Convulsion (rectal)'],
+  var EM = [['adrenalineSC', 'ana', 'Anaphylaxis'], ['hydrocortisone', 'ana', 'Anaphylaxis / shock'], ['chlorphenamine', 'inj', 'Allergy'], ['diazepam', 'iv', 'Convulsion · IV'], ['diazepam', 'pr', 'Convulsion · rectal'],
     ['phenobarbitone', 'load', 'Status / neonatal seizures'], ['dextrose10', 'bolus', 'Hypoglycaemia'], ['cagluc', 'load', 'Hypocalcaemia'], ['dexamethasone', 'croup', 'Croup'], ['dexamethasone', 'mening', 'Meningitis'],
-    ['salbutamolNeb', 'neb', 'Wheeze'], ['mgso4', 'asthma', 'Severe asthma'], ['aminophylline', 'load', 'Severe asthma (old)'], ['furosemide', 'hf', 'Heart failure']];
+    ['salbutamolNeb', 'neb', 'Wheeze'], ['mgso4', 'asthma', 'Severe asthma'], ['furosemide', 'hf', 'Heart failure']];
   function emerg() {
-    chrome(A('جرعات الطوارئ', 'Emergency doses'), ready() ? wtText() : '');
-    if (!ready()) return '<section class="card empty"><p>' + A('أدخل الوزن أو العمر أولًا.', 'Enter weight or age first.') + '</p><button class="btn pri" data-go="patient">' + A('بيانات المريض', 'Patient details') + '</button></section>';
+    head('Emergency doses', ready() ? A('محسوبة لوزن ', 'Calculated for ') + '<bdi dir="ltr">' + wtTxt() + '</bdi>' : '');
+    if (!ready()) return quickPt();
+    var qp = +P.wt > 0 ? '' : quickPt();
     var wt = E.wt(P);
-    var h = '<section class="card"><h3>' + ic('drop') + A('السوائل', 'Fluids') + '</h3>' + rows([["NS / Ringer's bolus", nice(20 * wt) + ' mL (20 mL/kg) over 5–10 min'], [A('حديث ولادة أو قلب', 'Neonate / heart disease'), nice(10 * wt) + ' mL (10 mL/kg)'], ['Blood', nice(20 * wt) + ' mL (20 mL/kg)'], ['D10 (SAM shock)', nice(5 * wt) + ' mL (5 mL/kg)']]) + '</section>';
-    h += '<section class="card"><h3>' + ic('bolt') + A('الأدوية', 'Drugs') + '</h3>' + EM.map(function (e) {
+    var h = qp + '<div class="stats">' + [[nice(20 * wt) + ' mL', 'NS / RL bolus', '20 mL/kg'], [nice(10 * wt) + ' mL', A('رضيع أو قلب', 'Neonate / heart'), '10 mL/kg'], [nice(20 * wt) + ' mL', 'Blood', '20 mL/kg'], [nice(5 * wt) + ' mL', 'D10 (SAM)', '5 mL/kg']].map(function (s) {
+      return '<div class="stat"><b dir="ltr">' + s[0] + '</b><span>' + s[1] + '</span><small dir="ltr">' + s[2] + '</small></div>'; }).join('') + '</div>';
+    h += '<section class="card list em">' + EM.map(function (e) {
       var o = E.dose(e[0], e[1], P); if (o.err) return '';
-      return '<div class="em"><div><b>' + esc(e[2]) + '</b><small data-go="drug/' + e[0] + '">' + esc(o.drug.g) + '</small></div><div><b>' + esc(o.text) + '</b><small>' + esc(E.route(o.route)) + (o.sc ? ' · ' + esc(o.sc) : '') + '</small></div></div>';
+      return '<button class="erow" data-go="drug/' + e[0] + '"><span class="erow-t">' + T(e[2]) + '<small dir="ltr">' + esc(o.drug.g) + ' · ' + esc(o.route) + '</small></span><b dir="ltr">' + esc(o.text.replace(/ \(\d+ units on an insulin syringe\)/, '')) + (o.qty && o.qty.units ? '<small>' + o.qty.units + ' units (insulin syringe)</small>' : '') + '</b></button>';
     }).join('') + '</section>';
-    h += listCard(A('أخطاء قاتلة (الدليل)', 'Fatal mistakes (guideline)'), 'alert', [
-      'Salbutamol nebuliser in anaemic heart failure: look for pallor; give oxygen and IV NS 4 mL/kg/h until blood.',
-      'Heart disease with breathlessness: salbutamol worsens tachycardia; give oxygen and an NS nebuliser ± ipratropium.',
-      'IV fluid in severe malnutrition (except shock): use ReSoMal and F75.',
-      'IV bolus in scorpion sting: the shock is anaphylactic or neurogenic; give IM adrenaline (an adrenaline infusion may be needed).',
-      'A beta-blocker (propranolol) in asthma.'], 'trap');
-    return h + disclaimer();
+    h += acc('Fatal mistakes', 'shield', ['Salbutamol nebuliser in anaemic heart failure: look for pallor; give oxygen and IV NS 4 mL/kg/h until blood.',
+      'Heart disease with breathlessness: salbutamol worsens tachycardia; give oxygen and an NS nebuliser ± ipratropium.', 'IV fluid in severe malnutrition (except shock): use ReSoMal and F75.',
+      'IV bolus in scorpion sting: the shock is anaphylactic or neurogenic; give IM adrenaline.', 'A beta-blocker (propranolol) in asthma.'], 'trap', true);
+    return h + disc();
   }
 
   /* ================= Saved patients ================= */
   function saved() {
-    chrome(A('المرضى المحفوظون', 'Saved patients'), A('على هذا الجهاز فقط', 'On this device only'));
+    head('Saved patients', A('على هذا الجهاز فقط، ولا تُرسل لأي مكان', 'On this device only, never sent anywhere'));
     var L = get('ho-pts', []);
-    if (!L.length) return '<section class="card empty"><p>' + A('لا يوجد مرضى محفوظون. احفظ المريض من صفحة بياناته.', 'No saved patients. Save one from the patient page.') + '</p><button class="btn pri" data-go="patient">' + A('بيانات المريض', 'Patient details') + '</button></section>';
-    return '<section class="card"><div class="clist">' + L.map(function (x) {
+    if (!L.length) return '<section class="card emptyc"><span class="pc-big">' + ic('save') + '</span><p>' + A('لا يوجد مرضى محفوظون. احفظ المريض من صفحته.', 'No saved patients. Save one from the patient page.') + '</p><button class="btn pri" data-go="patient">' + ic('user') + A('بيانات المريض', 'Patient details') + '</button></section>';
+    return '<section class="card list">' + L.map(function (x) {
       var c = byId[x.dx];
-      return '<div class="crow pt"><button data-act="openpt" data-id="' + x.id + '"><b>' + esc(x.name || A('بدون اسم', 'No name')) + '</b><small>' + esc(E.ageText(x)) + ' · ' + esc(nice(E.wt(x))) + ' kg' + (c ? ' · ' + esc(c.t) : '') + ' · ' + new Date(x.saved).toLocaleDateString() + '</small></button><button class="ib" data-act="delpt" data-id="' + x.id + '" aria-label="Delete">' + ic('trash') + '</button></div>';
-    }).join('') + '</div></section><p class="mut sm">' + A('تبقى البيانات على هذا الجهاز ولا ترسل لأي مكان.', 'Data stay on this device and are never sent anywhere.') + '</p>';
+      return '<div class="lrow"><span class="lrow-i">' + ic('baby') + '</span><button class="lrow-t open" data-act="openpt" data-id="' + x.id + '"><b dir="auto">' + esc(x.name || A('بدون اسم', 'No name')) + '</b><small>' + ageTxt(x) + ' · <bdi dir="ltr">' + nice(E.wt(x)) + ' kg</bdi>' + (c ? ' · <bdi dir="ltr">' + esc(c.t) + '</bdi>' : '') + ' · <bdi dir="ltr">' + new Date(x.saved).toLocaleDateString() + '</bdi></small></button><button class="ib red" data-act="delpt" data-id="' + x.id + '" aria-label="' + A('حذف', 'Delete') + '">' + ic('trash') + '</button></div>';
+    }).join('') + '</section>';
   }
-  ACT.openpt = function (b) { var x = get('ho-pts', []).find(function (y) { return y.id === b.dataset.id; }); if (!x) return; P = Object.assign({}, BLANK, x); savePt(); go(P.dx ? 'c/' + P.dx : 'patient'); };
-  ACT.delpt = function (b) { if (!confirm(A('حذف هذا المريض؟', 'Delete this patient?'))) return; put('ho-pts', get('ho-pts', []).filter(function (y) { return y.id !== b.dataset.id; })); render(); };
+  ACT.openpt = function (b) { var x = get('ho-pts', []).find(function (y) { return y.id === b.dataset.id; }); if (!x) return; P = Object.assign(fresh(), x); P.lab = P.lab || {}; savePt(); go(P.dx ? 'c/' + P.dx : 'patient'); };
+  ACT.delpt = function (b) { if (!confirm(A('حذف هذا المريض؟', 'Delete this patient?'))) return; put('ho-pts', get('ho-pts', []).filter(function (y) { return y.id !== b.dataset.id; })); render(true); };
 
-  /* installing: inside SMRA the frame cannot install, so the app's own address opens in a new tab, where the browser offers it */
+  /* ================= Settings ================= */
+  var PALS = [['blue', '#0d6b5c', 'أخضر SMRA', 'SMRA green'], ['ocean', '#1768b3', 'أزرق', 'Blue'], ['teal', '#0b6870', 'فيروزي', 'Teal'], ['purple', '#5a3d8f', 'بنفسجي', 'Purple'], ['maroon', '#7d2843', 'عنابي', 'Maroon'], ['graphite', '#3a4450', 'رمادي داكن', 'Graphite']];
   var BIP = null; window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); BIP = e; });
+  function standalone() { return matchMedia('(display-mode: standalone)').matches || navigator.standalone; }
+  function settings() {
+    head('Settings', '');
+    var th = get('ish-theme', 'light'), pal = document.documentElement.dataset.pal, fs = document.documentElement.dataset.fs;
+    var h = sec('Language', 'globe', '<p class="hint">' + A('العناوين الرئيسية بالإنجليزي دائمًا؛ هذه لغة باقي التطبيق.', 'Main titles are always English; this is the language of everything else.') + '</p>' + seg([['ar', 'العربية', 'العربية'], ['en', 'English', 'English']], LANG, 'setlang'));
+    h += sec('Appearance', 'sun', '<div class="looks">' + [['light', 'sun', 'نهاري', 'Day'], ['dark', 'moon', 'ليلي', 'Night'], ['eye', 'eye', 'راحة العين', 'Eye comfort'], ['auto', 'clock', 'تلقائي', 'Automatic']].map(function (x) {
+      return '<button class="look ' + x[0] + (th === x[0] ? ' on' : '') + '" data-act="setlook" data-v="' + x[0] + '"><span>' + ic(x[1]) + '</span><b>' + A(x[2], x[3]) + '</b></button>'; }).join('') + '</div>');
+    h += sec('App colour', 'palette', '<div class="pals">' + PALS.map(function (x) { return '<button class="pal' + (pal === x[0] ? ' on' : '') + '" data-act="setpal" data-v="' + x[0] + '"><i style="background:' + x[1] + '"></i><span>' + A(x[2], x[3]) + '</span></button>'; }).join('') + '</div>');
+    h += sec('Text size', 'text', seg([['s', 'صغير', 'Small'], ['n', 'عادي', 'Normal'], ['l', 'كبير', 'Large']], fs, 'setfs'));
+    h += sec('Install as app', 'install', standalone() ? '<p class="ok">' + ic('check') + A('أنت تستعمل HO Assistant كتطبيق الآن.', 'You are using HO Assistant as an app now.') + '</p>' :
+      '<div class="inst"><img src="img/ho-192.png" alt=""><p>' + A('يظهر على شاشة هاتفك بأيقونته، ويفتح مباشرة ويعمل بدون إنترنت.', 'It gets its own icon on your phone, opens straight away and works offline.') + '</p></div><button class="btn pri wide" data-act="install">' + ic('install') + A('ثبّت التطبيق', 'Install the app') + '</button>');
+    h += sec('Saved data', 'save', '<p class="kv1"><span>' + A('المرضى المحفوظون', 'Saved patients') + '</span><b>' + get('ho-pts', []).length + '</b></p><p class="hint">' + A('كل البيانات على هذا الجهاز فقط ولا تُرسل لأي مكان.', 'All data stay on this device only.') + '</p><button class="btn wide danger" data-act="wipe">' + ic('trash') + A('احذف كل بيانات المرضى', 'Delete all patient data') + '</button>');
+    h += sec('About', 'shield', '<p class="hint">' + A('HO Assistant من أكاديمية SMRA. الجرعات والخطط مبنية على الأدلة العلاجية المحلية (local guidelines)، وتُضاف الباطنية والجراحة والنساء والتوليد عند وصول أدلتها.', 'HO Assistant by SMRA. Doses and plans are built on local guidelines; medicine, surgery and obstetrics are added when their guidelines arrive.') + '</p>');
+    return h + disc();
+  }
+  ACT.setlang = function (b) { LANG = b.dataset.v; AR = LANG === 'ar'; put('ish-lang', LANG); document.documentElement.lang = LANG; document.documentElement.dir = AR ? 'rtl' : 'ltr'; render(true); };
+  ACT.setlook = function (b) { setTheme(b.dataset.v); };
+  ACT.setpal = function (b) { put('ho-pal', b.dataset.v); document.documentElement.dataset.pal = b.dataset.v; render(true); };
+  ACT.setfs = function (b) { put('ho-fs', b.dataset.v); document.documentElement.dataset.fs = b.dataset.v; segOn(b); };
+  ACT.wipe = function () { if (!confirm(A('حذف كل المرضى المحفوظين والمريض الحالي؟', 'Delete every saved patient and the current one?'))) return; ['ho-pts', 'ho-pt', 'ho-sel', 'ho-sx', 'ho-recent', 'ho-var'].forEach(function (k) { try { localStorage.removeItem(k); } catch (e) {} }); P = fresh(); SEL = {}; SXSEL = []; toast(A('حُذفت البيانات', 'Deleted')); render(true); };
   ACT.install = function () {
-    if (window.top !== window) { window.open('/ho/?install=1', '_blank', 'noopener'); return; }
+    if (INFRAME) { window.open('/ho/?install=1', '_blank', 'noopener'); return; }
     if (BIP) { var e = BIP; BIP = null; e.prompt(); return; }
     var ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
-    sheet('<h3>📲 ' + A('ثبّت التطبيق', 'Install the app') + '</h3><ol class="bl"><li>' + (ios ? A('افتح هذه الصفحة في Safari، اضغط زر المشاركة ⬆️', 'Open this page in Safari and tap Share ⬆️') : A('افتح هذه الصفحة في Chrome، اضغط ⋮ أعلى الشاشة', 'Open this page in Chrome and tap ⋮')) + '</li><li>' +
-      (ios ? A('اختر «إضافة إلى الشاشة الرئيسية» ثم «إضافة»', 'Choose «Add to Home Screen», then «Add»') : A('اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية»', 'Choose «Install app» or «Add to Home screen»')) + '</li></ol><button class="btn pri big" data-act="shclose">' + A('حسنًا', 'OK') + '</button>');
+    sheet('<h2 class="ch"><span class="chi">' + ic('install') + '</span>' + T('Install as app') + '</h2><ol class="steps"><li>' + (ios ? A('افتح هذه الصفحة في Safari.', 'Open this page in Safari.') : A('افتح هذه الصفحة في Chrome.', 'Open this page in Chrome.')) + '</li><li>' +
+      (ios ? A('اضغط زر المشاركة ⬆️ أسفل الشاشة.', 'Tap Share ⬆️ at the bottom.') : A('اضغط ⋮ أعلى الشاشة.', 'Tap ⋮ at the top.')) + '</li><li>' + (ios ? A('اختر «إضافة إلى الشاشة الرئيسية» ثم «إضافة».', 'Choose «Add to Home Screen», then «Add».') : A('اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».', 'Choose «Install app» or «Add to Home screen».')) + '</li></ol><button class="btn pri wide" data-act="shclose">' + A('حسنًا', 'OK') + '</button>');
   };
   if (/[?&]install=1/.test(location.search)) setTimeout(function () { ACT.install(); }, 1500);
-  function notFound() { chrome(A('غير موجود', 'Not found'), ''); return '<p class="empty">' + A('الصفحة غير موجودة.', 'Page not found.') + '</p>'; }
+
+  function notFound() { head('Not found', ''); return '<p class="empty">' + A('الصفحة غير موجودة.', 'Page not found.') + '</p>'; }
 
   /* ================= render ================= */
-  function render() {
+  function render(keep) {
     var r = route(), h;
-    $('#sheet').hidden = true;
+    closeSheet();
     switch (r[0]) {
       case '': h = home(); break;
       case 'patient': h = patient(); break;
       case 'dx': h = dx(); break;
-      case 'conds': h = conds(); break;
+      case 'conds': h = conds(r[1]); break;
       case 'c': h = cond(r[1], r[2]); break;
       case 'rx': h = rx(); break;
       case 'orders': h = orders(); break;
@@ -594,14 +765,15 @@
       case 'calc': h = calc(r[1]); break;
       case 'emerg': h = emerg(); break;
       case 'saved': h = saved(); break;
+      case 'settings': h = settings(); break;
       default: h = notFound();
     }
     $('#v').innerHTML = h;
-    if (r[0] === 'calc' && r[1] === 'prep') $('#cres').innerHTML = '<div class="clc-more">' + rows(PREP) + '</div>' + '<ul class="nt"><li>' + A('المراجع تختلف: WHO 25 مل، البروتوكول القومي 30 مل، آخرون 32 مل.', 'References differ: WHO 25 mL, national protocol 30 mL, others 32 mL.') + '</li></ul>';
+    document.body.dataset.page = r[0] || 'home';
+    if (r[0] === 'calc' && r[1] === 'prep') $('#cres').innerHTML = '<section class="card">' + kv(PREP.map(function (x) { return ['<bdi dir="ltr">' + esc(x[0]) + '</bdi>', x[1]]; })) + '</section><ul class="tips"><li>' + A('المراجع تختلف: WHO 25 مل، البروتوكول القومي 30 مل، آخرون 32 مل.', 'References differ: WHO 25 mL, national protocol 30 mL, others 32 mL.') + '</li></ul>';
     else if (r[0] === 'calc' && r[1]) calcRun();
-    if (r[0] !== 'dx' || !render.keep) scrollTo(0, 0);
+    if (keep !== true) scrollTo(0, 0);
   }
-  /* condition variant chosen in the URL must also be the one the prescription uses */
   render();
   if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {});
 })();
