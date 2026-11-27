@@ -54,6 +54,7 @@
     palette: '<path d="M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/>',
     text: '<path d="M4 7V5h16v2M9 19h6M12 5v14"/>',
     hosp: '<path d="M4 21V7l8-4 8 4v14"/><path d="M10 21v-5h4v5M12 8v4M10 10h4"/>',
+    book: '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/>',
     ecg: '<path d="M3 12h4l2-5 4 10 2-5h6"/>',
     lungs: '<path d="M12 4v7"/><path d="M12 11c-1.5 0-3 1.5-4 4-.8 2-1.5 5-3.5 5S3 17 3 14c0-4 2-8 4.5-8C10 6 12 8 12 11zM12 11c1.5 0 3 1.5 4 4 .8 2 1.5 5 3.5 5S21 17 21 14c0-4-2-8-4.5-8C14 6 12 8 12 11z"/>',
     heart: '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>',
@@ -241,47 +242,47 @@
   function chips(list, sel, act) { return '<div class="chips">' + list.map(function (c) { return '<button type="button" class="chip' + (sel.indexOf(c[0]) >= 0 ? ' on' : '') + '" data-act="' + act + '" data-v="' + c[0] + '">' + A(c[1], c[2]) + '</button>'; }).join('') + '</div>'; }
   function pick(name, label, options, unit) { return '<label class="fld"><span>' + label + '</span><div class="inp pick"><select name="' + name + '" dir="ltr">' + options + '</select>' + (unit ? '<em>' + unit + '</em>' : '') + '</div></label>'; }
   function patient() {
-    head('Patient', A('تُحفظ البيانات على هذا الجهاز فقط', 'Kept on this device only'));
+    head('Patient', A('أدخل الأساسيات وخذ الخطة؛ الباقي اختياري', 'Enter the essentials and get the plan; the rest is optional'));
     var au = ageUnit(), av = au === 'y' ? P.ay : au === 'm' ? P.am : P.ad, est = hasAge() ? nice(E.estWeight(P)) : '', cur = P.dx && byId[P.dx];
     var wk = +P.wt > 0 ? Math.floor(+P.wt) : '', wd = +P.wt > 0 ? Math.round((+P.wt - Math.floor(+P.wt)) * 10) : '';
-    var h = '<form id="ptf" autocomplete="off" novalidate>';
-    h += sec('Patient', 'user', '<label class="fld"><span>' + A('اسم المريض', 'Patient name') + ' <i class="req">*</i></span><div class="inp"><input name="name" type="text" dir="auto" required value="' + esc(P.name) + '" placeholder="' + A('الاسم الكامل', 'Full name') + '"></div></label>' +
-      '<div class="fld"><span>' + A('الجنس', 'Sex') + '</span>' + seg([['m', 'ذكر', 'Male'], ['f', 'أنثى', 'Female']], P.sex, 'setsex') + '</div>');
-    h += sec('Age', 'baby', '<div class="fld"><span>' + A('العمر بالـ', 'Age in') + '</span>' + seg([['d', 'أيام', 'Days'], ['m', 'شهور', 'Months'], ['y', 'سنوات', 'Years']], au, 'setageu') + '</div>' +
-      '<div class="flds">' + pick('agev', A('العمر', 'Age') + ' <i class="req">*</i>', au === 'd' ? opts(0, 28, 1, av) : au === 'm' ? opts(1, 23, 1, av) : opts(1, 17, 1, av), au === 'd' ? A('يوم', 'days') : au === 'm' ? A('شهر', 'months') : A('سنة', 'years')) +
-      (au === 'y' ? pick('agem', A('وأشهر', 'and months'), opts(0, 11, 1, P.am), A('شهر', 'months')) : '') + '</div>');
-    h += sec('Weight & height', 'calc', '<div class="flds">' +
-      '<div class="fld"><span>' + A('الوزن', 'Weight') + ' <i class="req">*</i></span><div class="inp pick two"><select name="wk" dir="ltr">' + opts(0, 90, 1, wk) + '</select><b>.</b><select name="wd" dir="ltr">' + opts(0, 9, 1, wd) + '</select><em>kg</em></div></div>' +
-      pick('ht', A('الطول', 'Height'), opts(40, 190, 1, P.ht), 'cm') + '</div>' +
-      (est ? '<button type="button" class="estb' + (+P.wt > 0 ? ' muted' : '') + '" data-act="useest">' + ic('calc') + '<span>' + A('الوزن التقديري من العمر', 'Estimated from age') + ' <b dir="ltr">' + est + ' kg</b></span><em>' + A('استخدمه', 'Use it') + '</em></button>' : ''));
-    h += sec('Setting', 'hosp', seg(SETS, P.set, 'setset'));
-    h += sec('Diagnosis', 'stetho', '<label class="fld"><span>' + A('اكتب التشخيص واختره', 'Type and choose the diagnosis') + '</span><div class="inp srchi">' + ic('search') + '<input name="dxt" list="dxl" dir="ltr" value="' + esc(cur ? cur.t : '') + '" placeholder="Pneumonia, Gastroenteritis…"></div><datalist id="dxl">' + DX.map(function (c) { return '<option value="' + esc(c.t) + '">'; }).join('') + '</datalist></label>' +
-      '<button type="button" class="lnk" data-go="dx">' + ic('search') + A('لا تعرف التشخيص؟ ابدأ من الأعراض', 'Not sure? Start from the symptoms') + '</button>' +
-      '<div class="fld"><span>' + A('نوع المرض', 'Course') + '</span>' + seg([['acute', 'حاد', 'Acute'], ['chronic', 'مزمن', 'Chronic']], P.course, 'setcourse') + '</div>' +
-      '<div class="fld"><span>' + A('مدة الأعراض', 'Duration of symptoms') + '</span><div class="inp pick two"><select name="dur" dir="ltr">' + opts(1, 30, 1, P.dur) + '</select><select name="durU">' +
-      [['h', 'ساعات', 'hours'], ['d', 'أيام', 'days'], ['w', 'أسابيع', 'weeks'], ['mo', 'شهور', 'months'], ['y', 'سنوات', 'years']].map(function (u) { return '<option value="' + u[0] + '"' + (P.durU === u[0] ? ' selected' : '') + '>' + A(u[1], u[2]) + '</option>'; }).join('') + '</select></div></div>');
-    h += sec('Drug allergy', 'alert', chips(ALLERGIES, P.allergy, 'tglal') + '<div class="inp"><input name="allergyTxt" type="text" dir="auto" value="' + esc(P.allergyTxt) + '" placeholder="' + A('حساسية أخرى (اكتبها)', 'Other allergy (type it)') + '"></div>', 'al');
-    h += sec('Other conditions', 'heart', '<p class="hint">' + A('حالات تغيّر اختيار الدواء أو جرعته', 'Conditions that change the drug or dose') + '</p>' + chips(CONDS, P.cond, 'tglcd'));
-    var n = labsEntered().length;
-    h += sec('Investigations', 'flask', '<p class="hint">' + A('أدخل نتائج الفحوصات إن وُجدت؛ تظهر النتيجة غير الطبيعية بلون مختلف، وتُستعمل في الحاسبات وأوامر التنويم.', 'Enter any results you have; abnormal values are flagged and used by the calculators and the order sheet.') + '</p>' +
-      LABS.map(function (g, gi) {
+    var nLab = labsEntered().length, more = !!(P.sex || P.ht || P.dur || P.cond.length || nLab || P.notes);
+    var h = '<form id="ptf" autocomplete="off" novalidate><section class="card ess">';
+    h += '<label class="fld"><span>' + A('اسم المريض', 'Patient name') + ' <i class="req">*</i></span><div class="inp"><input name="name" type="text" dir="auto" value="' + esc(P.name) + '" placeholder="' + A('الاسم الكامل', 'Full name') + '"></div></label>';
+    h += '<div class="fld"><span>' + A('العمر', 'Age') + ' <i class="req">*</i></span>' + seg([['d', 'أيام', 'Days'], ['m', 'شهور', 'Months'], ['y', 'سنوات', 'Years']], au, 'setageu') + '</div>' +
+      '<div class="flds">' + pick('agev', A('العمر', 'Age'), au === 'd' ? opts(0, 28, 1, av) : au === 'm' ? opts(1, 23, 1, av) : opts(1, 17, 1, av), au === 'd' ? A('يوم', 'days') : au === 'm' ? A('شهر', 'months') : A('سنة', 'years')) +
+      '<div class="fld"><span>' + A('الوزن', 'Weight') + ' <i class="req">*</i></span><div class="inp pick two"><select name="wk" dir="ltr">' + opts(0, 90, 1, wk) + '</select><b>.</b><select name="wd" dir="ltr">' + opts(0, 9, 1, wd) + '</select><em>kg</em></div></div></div>' +
+      (au === 'y' ? '<div class="flds">' + pick('agem', A('وأشهر', 'and months'), opts(0, 11, 1, P.am), A('شهر', 'months')) + '<span></span></div>' : '') +
+      (est && !(+P.wt > 0) ? '<button type="button" class="estb" data-act="useest">' + ic('calc') + '<span>' + A('لا يوجد ميزان؟ الوزن التقديري', 'No scale? Estimated weight') + ' <b dir="ltr">' + est + ' kg</b></span><em>' + A('استخدمه', 'Use it') + '</em></button>' : '');
+    h += '<label class="fld"><span>' + A('التشخيص', 'Diagnosis') + ' <i class="req">*</i></span><div class="inp srchi">' + ic('search') + '<input name="dxt" list="dxl" dir="ltr" value="' + esc(cur ? cur.t : '') + '" placeholder="Pneumonia, Gastroenteritis…"></div><datalist id="dxl">' + DX.map(function (c) { return '<option value="' + esc(c.t) + '">'; }).join('') + '</datalist></label>' +
+      '<button type="button" class="lnk" data-go="dx">' + ic('search') + A('لا تعرف التشخيص؟ ابدأ من الأعراض', 'Not sure? Start from the symptoms') + '</button>';
+    h += '<div class="fld"><span>' + A('مكان العلاج', 'Setting') + '</span>' + seg(SETS, P.set, 'setset') + '</div>';
+    h += '<div class="fld al"><span>' + A('حساسية من دواء', 'Drug allergy') + '</span>' + chips(ALLERGIES, P.allergy, 'tglal') + '</div>';
+    h += '</section>';
+    h += '<details class="card moreb"' + (more ? ' open' : '') + '><summary><span class="chi">' + ic('plus') + '</span>' + A('تفاصيل إضافية (اختياري)', 'More details (optional)') + (nLab ? '<em class="cnt">' + nLab + '</em>' : '') + ic('fwd', 'chev') + '</summary>';
+    h += '<div class="fld"><span>' + A('الجنس', 'Sex') + '</span>' + seg([['m', 'ذكر', 'Male'], ['f', 'أنثى', 'Female']], P.sex, 'setsex') + '</div>';
+    h += '<div class="flds">' + pick('ht', A('الطول', 'Height'), opts(40, 190, 1, P.ht), 'cm') +
+      '<div class="fld"><span>' + A('مدة الأعراض', 'Duration') + '</span><div class="inp pick two"><select name="dur" dir="ltr">' + opts(1, 30, 1, P.dur) + '</select><select name="durU">' +
+      [['h', 'ساعات', 'hours'], ['d', 'أيام', 'days'], ['w', 'أسابيع', 'weeks'], ['mo', 'شهور', 'months'], ['y', 'سنوات', 'years']].map(function (u) { return '<option value="' + u[0] + '"' + (P.durU === u[0] ? ' selected' : '') + '>' + A(u[1], u[2]) + '</option>'; }).join('') + '</select></div></div></div>';
+    h += '<div class="fld"><span>' + A('حالات تغيّر العلاج', 'Conditions that change treatment') + '</span>' + chips(CONDS, P.cond, 'tglcd') + '</div>';
+    h += '<div class="inp"><input name="allergyTxt" type="text" dir="auto" value="' + esc(P.allergyTxt) + '" placeholder="' + A('حساسية أخرى (اكتبها)', 'Other allergy (type it)') + '"></div>';
+    h += '<div class="fld" style="margin-top:14px"><span>' + A('نتائج الفحوصات (إن وُجدت)', 'Investigation results (if any)') + '</span></div>' +
+      LABS.map(function (g) {
         var cnt = g[2].filter(function (f) { return P.lab[f[0]] !== '' && P.lab[f[0]] != null; }).length;
         return '<details class="lg"' + (cnt ? ' open' : '') + '><summary><span class="chi sm">' + ic(g[1]) + '</span>' + T(g[0]) + (cnt ? '<em class="cnt">' + cnt + '</em>' : '') + ic('fwd', 'chev') + '</summary><div class="flds' + (g[2][0][2] === 'txt' ? ' one' : '') + '">' +
           g[2].map(function (f) {
             var v = P.lab[f[0]] == null ? '' : P.lab[f[0]];
             if (f[2] === 'txt') return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp"><input data-lab="' + f[0] + '" type="text" dir="auto" value="' + esc(v) + '" placeholder="' + A('النتيجة', 'Result') + '"></div></label>';
             if (f[2] === 'sel') return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp pick"><select data-lab="' + f[0] + '" dir="ltr">' + f[3].map(function (o) { return '<option value="' + o + '"' + (v === o ? ' selected' : '') + '>' + (o || '—') + '</option>'; }).join('') + '</select></div></label>';
-            var fl = labFlag(f, v);
-            return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp ' + fl + '"><input data-lab="' + f[0] + '" type="number" inputmode="decimal" step="any" dir="ltr" value="' + esc(v) + '"><em dir="ltr">' + f[2] + '</em></div></label>';
+            return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp ' + labFlag(f, v) + '"><input data-lab="' + f[0] + '" type="number" inputmode="decimal" step="any" dir="ltr" value="' + esc(v) + '"><em dir="ltr">' + f[2] + '</em></div></label>';
           }).join('') + '</div></details>';
-      }).join(''), 'labs', n ? '<em class="cnt">' + n + '</em>' : '');
-    h += sec('Notes', 'edit', '<textarea name="notes" rows="3" dir="auto" placeholder="' + A('ملاحظات عن المريض', 'Notes about the patient') + '">' + esc(P.notes) + '</textarea>');
-    h += '<div class="bar"><button class="btn pri" type="submit">' + ic('check') + A('أعطني خطة العلاج', 'Get the management') + '</button><button class="btn sq" type="button" data-act="savept" aria-label="' + A('حفظ', 'Save') + '">' + ic('save') + '</button><button class="btn sq" type="button" data-act="newpt" aria-label="' + A('مريض جديد', 'New patient') + '">' + ic('plus') + '</button></div></form>';
+      }).join('');
+    h += '<div class="fld" style="margin-top:14px"><span>' + A('ملاحظات', 'Notes') + '</span><textarea name="notes" rows="2" dir="auto">' + esc(P.notes) + '</textarea></div></details>';
+    h += '<div class="bar"><button class="btn pri" type="submit">' + ic('check') + A('أعطني خطة العلاج', 'Get the plan') + '</button><button class="btn sq" type="button" data-act="savept" aria-label="' + A('حفظ', 'Save') + '">' + ic('save') + '</button><button class="btn sq" type="button" data-act="newpt" aria-label="' + A('مريض جديد', 'New patient') + '">' + ic('plus') + '</button></div></form>';
     return h;
   }
   function readForm() {
     var f = $('#ptf'); if (!f) return;
-    P.name = f.name.value.trim(); P.allergyTxt = f.allergyTxt.value.trim(); P.notes = f.notes.value.trim();
+    P.name = f.name.value.trim(); P.allergyTxt = f.allergyTxt ? f.allergyTxt.value.trim() : P.allergyTxt; P.notes = f.notes ? f.notes.value.trim() : P.notes;
     var au = ageUnit(), v = f.agev.value;
     P.ay = au === 'y' ? v : ''; P.am = au === 'm' ? v : au === 'y' && f.agem ? f.agem.value : ''; P.ad = au === 'd' ? v : '';
     if (au === 'd' && v === '0') P.ad = '0.5';
@@ -307,10 +308,13 @@
     var miss = [];
     if (!P.name) miss.push(A('اسم المريض', 'patient name'));
     if (!hasAge()) miss.push(A('العمر', 'age'));
-    if (!(+P.wt > 0) && !hasAge()) miss.push(A('الوزن', 'weight'));
+    if (!(+P.wt > 0)) miss.push(A('الوزن', 'weight'));
+    if (!P.dx) miss.push(A('التشخيص', 'diagnosis'));
     $$('#ptf .fld').forEach(function (x) { x.classList.remove('bad'); });
     if (!P.name) $('#ptf [name=name]').closest('.fld').classList.add('bad');
     if (!hasAge()) $('#ptf [name=agev]').closest('.fld').classList.add('bad');
+    if (!(+P.wt > 0)) $('#ptf [name=wk]').closest('.fld').classList.add('bad');
+    if (!P.dx) $('#ptf [name=dxt]').closest('.fld').classList.add('bad');
     if (miss.length) { toast(A('أكمل: ', 'Please add: ') + miss.join('، ')); var b = $('#ptf .fld.bad'); if (b) b.scrollIntoView({ block: 'center', behavior: 'smooth' }); return false; }
     return true;
   }
@@ -437,41 +441,84 @@
   function nSel(s) { return Object.keys(s).filter(function (k) { return k[0] !== '_'; }).length; }
   function warnHtml(w) { return w.map(function (x) { return '<div class="wn ' + x.lvl + '">' + ic('alert') + '<span dir="ltr">' + esc(x.t) + '</span></div>'; }).join(''); }
   function drugName(d) { var b = d.b && d.b[0] && d.b[0] !== d.g ? d.b[0] : ''; return { main: b || d.g, sub: b ? d.g : (d.b || []).slice(1, 3).join(', ') }; }
-  function doseCard(li, ii, it, sel, opt) {
+  /* the amount to give, in plain words: "2 mL", "½ tablet", "200 mg (2 mL)" for injections */
+  function amount(o) {
+    if (o.fixed) return o.fixed;
+    var q = o.qty; if (!q) return o.text || '';
+    var t = q.small ? q.txt : q.txt;
+    if (/^(IV|IM|SC)$/.test(o.route) && o.mg != null && o.unit === 'mg') t = nice(o.mg) + ' mg (' + t + ')';
+    else if (o.unit === 'IU' || o.unit === 'units') t = (o.unit === 'IU' ? Math.round(o.mg).toLocaleString('en') + ' IU' : nice(o.mg) + ' units') + (q.txt ? ' (' + q.txt + ')' : '');
+    return t;
+  }
+  /* one drug as an instruction: name, the amount, how, how often, how long, and the line for the parents; the arithmetic sits behind ⓘ */
+  function planRow(li, ii, it, opt) {
     opt = opt || {};
     if (!it.d) return '<div class="tx">' + ic('check') + '<span dir="ltr">' + esc(it.txt) + '</span></div>';
-    var fk = it.d + '.' + it.r, o = E.dose(it.d, it.r, P, FORMSEL[fk]);
-    if (o.err) return '';
-    var d = o.drug, nm = drugName(d), on = !opt.nosel && sel[li + '.' + ii], stop = stopped(o), agen = !agePass(it.note);
-    if (!ready()) return '<article class="dc wait"><div class="dc-h"><div class="dc-n" data-go="drug/' + d.id + '">' + T(nm.main) + (nm.sub ? '<small dir="ltr">' + esc(nm.sub) + '</small>' : '') + '</div>' + (it.note ? '<span class="dc-tag" dir="ltr">' + esc(it.note) + '</span>' : '') + '</div>' +
-      '<p class="pend">' + ic('calc') + A('تظهر الجرعة بعد اختيار العمر والوزن', 'The dose appears once age and weight are chosen') + '</p>' + (o.sc ? '<p class="kv1 gold"><span>' + A('اختصار الدليل', 'Guideline shortcut') + '</span><b dir="ltr">' + esc(o.sc) + '</b></p>' : '') + '</article>';
-    if (stop) return '<details class="dc stop"><summary><span class="dc-x">' + ic('alert') + '</span><span class="dc-n">' + T(nm.main) + '<small>' + A('ممنوع لهذا المريض', 'Not for this patient') + '</small></span>' + ic('fwd', 'chev') + '</summary>' + warnHtml(o.warn) + '</details>';
-    var forms = o.forms.length > 1 ? '<label class="fsel"><span>' + A('المستحضر', 'Preparation') + '</span><select data-fk="' + fk + '" dir="ltr">' + o.forms.map(function (f) { return '<option value="' + f.id + '"' + (o.form && o.form.id === f.id ? ' selected' : '') + '>' + esc(f.n) + '</option>'; }).join('') + '</select></label>' : (o.form ? '<p class="kv1"><span>' + A('المستحضر', 'Preparation') + '</span><b dir="ltr">' + esc(o.form.n) + '</b></p>' : '');
-    var rx = E.rxLine(o);
-    return '<article class="dc' + (on ? ' on' : '') + (agen ? ' dim' : '') + '">' +
-      '<div class="dc-h">' + (opt.nosel ? '' : '<label class="tick" aria-label="' + A('أضف للوصفة', 'Add to prescription') + '"><input type="checkbox" data-sel="' + li + '.' + ii + '"' + (on ? ' checked' : '') + '><span>' + ic('check') + '</span></label>') +
-      '<div class="dc-n" data-go="drug/' + d.id + '">' + T(nm.main) + (nm.sub ? '<small dir="ltr">' + esc(nm.sub) + '</small>' : '') + '</div>' + (it.note ? '<span class="dc-tag" dir="ltr">' + esc(it.note) + '</span>' : '') + '</div>' +
-      '<div class="dose"><b dir="ltr">' + esc((o.text || '').replace(/ \(\d+ units on an insulin syringe\)/, '')) + '</b>' + (o.qty && o.qty.units ? '<small dir="ltr">= ' + o.qty.units + ' units on an insulin syringe</small>' : '') + '</div>' +
-      '<div class="dmeta"><span>' + ic('route') + E.route(o.route, AR) + '</span><span>' + ic('clock') + E.freq(o.f, AR) + '</span>' + (o.dur ? '<span dir="ltr">' + esc(o.dur) + '</span>' : '') + '</div>' +
-      '<div class="dar"><small>' + A('للأهل', 'For the parents') + '</small><span dir="rtl">' + esc(rx.ar) + '</span></div>' +
-      warnHtml(o.warn) +
-      '<details class="more"><summary>' + A('الحساب والمستحضر والملاحظات', 'Calculation, preparation and notes') + ic('fwd', 'chev') + '</summary>' +
+    var o = E.dose(it.d, it.r, P, FORMSEL[it.d + '.' + it.r]); if (o.err) return '';
+    var d = o.drug, nm = drugName(d), rx = E.rxLine(o), key = it.d + '|' + it.r;
+    if (!ready()) return '<article class="pr wait"><div class="pr-h"><span class="pr-n">' + T(nm.main) + (nm.sub ? '<small dir="ltr">' + esc(nm.sub) + '</small>' : '') + '</span></div><p class="pend">' + ic('calc') + A('تظهر الجرعة بعد اختيار العمر والوزن', 'The dose appears once age and weight are chosen') + '</p></article>';
+    var stops = o.warn.filter(function (w) { return w.lvl === 'stop'; }), warns = o.warn.filter(function (w) { return w.lvl !== 'stop'; });
+    return '<article class="pr">' +
+      '<div class="pr-h"><span class="pr-n" data-go="drug/' + d.id + '">' + T(nm.main) + (nm.sub ? '<small dir="ltr">' + esc(nm.sub) + '</small>' : '') + '</span>' +
+      '<button class="pr-i" data-act="info" data-k="' + key + '" aria-label="' + A('التفاصيل', 'Details') + '">i</button>' +
+      (opt.rm ? '<button class="pr-x" data-act="unsel" data-s="' + li + '.' + ii + '" aria-label="' + A('إزالة', 'Remove') + '">✕</button>' : '') + '</div>' +
+      '<div class="pr-amt" dir="ltr">' + esc(amount(o)) + '</div>' +
+      '<div class="pr-how"><span>' + E.route(o.route, AR) + '</span><span>' + E.freq(o.f, AR) + '</span>' + (o.dur ? '<span dir="ltr">' + esc(o.dur) + '</span>' : '') + '</div>' +
+      '<div class="pr-ar"><small>' + A('للأهل', 'For the parents') + '</small><span dir="rtl">' + esc(rx.ar) + '</span></div>' +
+      (stops.length ? warnHtml(stops) : '') + (warns.length ? warnHtml(warns.slice(0, 1)) : '') + '</article>';
+  }
+  /* ⓘ: the calculation, the guideline shortcut, the preparation and notes, for whoever wants them */
+  ACT.info = function (b) {
+    var k = b.dataset.k.split('|'), o = E.dose(k[0], k[1], P, FORMSEL[k[0] + '.' + k[1]]), d = o.drug, nm = drugName(d);
+    var forms = o.forms.length > 1 ? '<label class="fsel"><span>' + A('المستحضر', 'Preparation') + '</span><select data-fk="' + k[0] + '.' + k[1] + '" dir="ltr">' + o.forms.map(function (f) { return '<option value="' + f.id + '"' + (o.form && o.form.id === f.id ? ' selected' : '') + '>' + esc(f.n) + '</option>'; }).join('') + '</select></label>' : (o.form ? '<p class="kv1"><span>' + A('المستحضر', 'Preparation') + '</span><b dir="ltr">' + esc(o.form.n) + '</b></p>' : '');
+    sheet('<h2 class="ch"><span class="chi">' + ic('pill') + '</span>' + T(nm.main) + '</h2>' + forms +
       (o.calc ? '<p class="kv1"><span>' + A('الحساب', 'Calculation') + '</span><b dir="ltr">' + esc(o.calc) + '</b></p>' : '') +
-      (o.sc ? '<p class="kv1 gold"><span>' + A('اختصار الدليل', 'Guideline shortcut') + '</span><b dir="ltr">' + esc(o.sc) + '</b></p>' : '') + forms +
+      (o.sc ? '<p class="kv1 gold"><span>' + A('اختصار الدليل', 'Guideline shortcut') + '</span><b dir="ltr">' + esc(o.sc) + '</b></p>' : '') +
       (o.form && o.form.rec ? '<p class="kv1"><span>' + A('التحضير', 'Reconstitution') + '</span><b dir="ltr">' + esc(o.form.rec) + '</b></p>' : '') +
-      (o.note ? '<p class="note" dir="ltr">' + esc(o.note) + '</p>' : '') + '</details></article>';
+      (o.note ? '<p class="note" dir="ltr">' + esc(o.note) + '</p>' : '') + warnHtml(o.warn) +
+      '<div class="pc-btns"><button class="btn" data-go="drug/' + d.id + '">' + ic('book') + A('صفحة الدواء', 'Drug page') + '</button><button class="btn pri" data-act="shclose">' + A('تم', 'Done') + '</button></div>');
+  };
+  /* other drugs and alternatives: one sheet with every line of the guideline, tick to add or remove */
+  ACT.alts = function () {
+    var r = route(), c = byId[r[1]]; if (!c) return; var v = pickVariant(c, r[2]), s = getSel(c, v);
+    sheet('<h2 class="ch"><span class="chi">' + ic('list') + '</span>' + T('Choose drugs') + '</h2><p class="hint">' + A('علّم ما تريد في الخطة؛ الممنوع لهذا المريض لا يمكن اختياره.', 'Tick what you want in the plan; drugs not allowed for this patient cannot be chosen.') + '</p>' +
+      v.lines.map(function (l, li) {
+        var items = l.items.map(function (it, ii) {
+          if (!it.d) return '';
+          var o = E.dose(it.d, it.r, P, FORMSEL[it.d + '.' + it.r]); if (o.err) return '';
+          var nm = drugName(o.drug), stop = stopped(o), on = !!s[li + '.' + ii];
+          return '<button class="alt' + (on ? ' on' : '') + (stop ? ' no' : '') + '" ' + (stop ? 'disabled' : 'data-act="tglsel" data-s="' + li + '.' + ii + '"') + '><span class="alt-c">' + ic(stop ? 'alert' : 'check') + '</span><span class="alt-t">' + T(nm.main) +
+            '<small dir="ltr">' + (stop ? esc(o.warn.filter(function (w) { return w.lvl === 'stop'; })[0].t) : esc(amount(o)) + ' · ' + esc(E.freq(o.f)) + (o.dur ? ' · ' + esc(o.dur) : '')) + '</small>' + (it.note ? '<em dir="ltr">' + esc(it.note) + '</em>' : '') + '</span></button>';
+        }).join('');
+        return items ? '<h3 class="alth">' + T(l.t) + '</h3>' + items : '';
+      }).join('') + '<button class="btn pri wide" data-act="shclose">' + A('تم', 'Done') + '</button>');
+  };
+  ACT.tglsel = function (b) { var r = route(), c = byId[r[1]], v = pickVariant(c, r[2]), s = getSel(c, v), k = b.dataset.s; if (s[k]) delete s[k]; else s[k] = 1; put('ho-sel', SEL); b.classList.toggle('on'); refreshPlan(); };
+  ACT.unsel = function (b) { var r = route(), c = byId[r[1]], v = pickVariant(c, r[2]), s = getSel(c, v); delete s[b.dataset.s]; put('ho-sel', SEL); refreshPlan(); };
+  function refreshPlan() { var el = document.getElementById('plan'); if (!el) return; var r = route(), c = byId[r[1]], v = pickVariant(c, r[2]); el.innerHTML = planList(c, v); var n = $('#rxn'); if (n) n.textContent = nSel(getSel(c, v)); }
+  function planList(c, v) {
+    var s = getSel(c, v), rows = [], avoided = [];
+    v.lines.forEach(function (l, li) {
+      l.items.forEach(function (it, ii) {
+        if (!it.d) { if (!(li > 0 && NOPRE.test(l.t))) rows.push(planRow(li, ii, it)); return; }
+        if (s[li + '.' + ii]) { rows.push(planRow(li, ii, it, { rm: 1 })); return; }
+        if (li === 0 && ready()) { var o = E.dose(it.d, it.r, P); if (!o.err && stopped(o)) avoided.push(drugName(o.drug).main); }
+      });
+    });
+    return (rows.length ? rows.join('') : '<p class="empty">' + A('لم تُختر أدوية.', 'No drugs chosen.') + '</p>') +
+      (avoided.length ? '<p class="avoid">' + ic('alert') + '<span>' + A('استُبعد بسبب حساسية المريض أو حالته: ', 'Left out because of the patient\'s allergy or condition: ') + '<bdi dir="ltr">' + esc(avoided.join(', ')) + '</bdi></span></p>' : '') +
+      '<button class="btn wide" data-act="alts">' + ic('list') + A('بدائل أو أدوية أخرى', 'Alternatives or other drugs') + '</button>';
   }
   function fluidCard(spec) {
     var f = E.fluid(spec, P); if (!f) return '';
-    return '<section class="card fl"><h2 class="ch"><span class="chi">' + ic('drop') + '</span>' + T(f.t) + '</h2>' + (f.order[0] ? '<div class="flbig" dir="ltr">' + esc(f.order[0]) + '</div>' : '') +
-      '<table class="kv">' + f.rows.map(function (r) { return '<tr><th dir="ltr">' + esc(r[0]) + '</th><td dir="ltr">' + esc(r[1]) + '</td></tr>'; }).join('') + '</table>' +
-      (f.notes.length ? '<ul class="tips">' + f.notes.map(function (n) { return '<li dir="ltr">' + esc(n) + '</li>'; }).join('') + '</ul>' : '') + '</section>';
+    return '<section class="card fl"><h2 class="ch"><span class="chi">' + ic('drop') + '</span>' + T('Fluids') + '</h2>' + (f.order[0] ? '<div class="flbig" dir="ltr">' + esc(f.order.join(' · ')) + '</div>' : '') +
+      '<details class="more"><summary>' + A('تفاصيل الحساب', 'How it was calculated') + ic('fwd', 'chev') + '</summary><p class="hint" dir="ltr">' + esc(f.t) + '</p><table class="kv">' + f.rows.map(function (r) { return '<tr><th dir="ltr">' + esc(r[0]) + '</th><td dir="ltr">' + esc(r[1]) + '</td></tr>'; }).join('') + '</table>' +
+      (f.notes.length ? '<ul class="tips">' + f.notes.map(function (n) { return '<li dir="ltr">' + esc(n) + '</li>'; }).join('') + '</ul>' : '') + '</details></section>';
   }
   function acc(title, icn, arr, cls, open) { if (!arr || !arr.length) return ''; return '<details class="card acc ' + (cls || '') + '"' + (open ? ' open' : '') + '><summary><span class="chi">' + ic(icn) + '</span>' + T(title) + '<em class="cnt">' + arr.length + '</em>' + ic('fwd', 'chev') + '</summary><ul class="bl">' + arr.map(function (x) { return '<li dir="ltr">' + esc(x) + '</li>'; }).join('') + '</ul></details>'; }
   function labCard() {
-    var L = labsEntered(); if (!L.length) return '';
-    return '<section class="card labsum"><h2 class="ch"><span class="chi">' + ic('flask') + '</span>' + T('Patient results') + '<button class="lnk end" data-go="patient">' + A('تعديل', 'Edit') + '</button></h2><div class="lres">' +
-      L.map(function (x) { return '<span class="' + (x.flag || '') + '"><small>' + esc(x.f[1]) + '</small><b dir="ltr">' + esc(x.v) + (x.f[2] !== 'txt' && x.f[2] !== 'sel' ? ' ' + x.f[2] : '') + (x.flag === 'lo' ? ' ↓' : x.flag === 'hi' && x.f[2] !== 'sel' ? ' ↑' : '') + '</b></span>'; }).join('') + '</div></section>';
+    var L = labsEntered().filter(function (x) { return x.flag === 'lo' || x.flag === 'hi'; }); if (!L.length) return '';
+    return '<div class="lres top">' + L.map(function (x) { return '<span class="' + x.flag + '"><small>' + esc(x.f[1]) + '</small><b dir="ltr">' + esc(x.v) + (x.flag === 'lo' ? ' ↓' : ' ↑') + '</b></span>'; }).join('') + '</div>';
   }
   function cond(id, vid) {
     var c = byId[id]; if (!c) return notFound();
@@ -479,25 +526,23 @@
     if (P.dx !== c.id) { P.dx = c.id; savePt(); }
     var vv = get('ho-var', {}); if (vv[c.id] !== v.id) { vv[c.id] = v.id; put('ho-var', vv); }
     var rec = get('ho-recent', []).filter(function (x) { return x !== id; }); rec.unshift(id); put('ho-recent', rec.slice(0, 8));
-    head(c.t, esc(c.ar) + ' · ' + T(SYS[c.sys][0]));
+    head(c.t, esc(c.ar));
     var h = '';
     if (!(+P.wt > 0)) h += quickPt();
     else { var m = E.ageMonths(P); if ((c.amin != null && m < c.amin) || (c.amax != null && m > c.amax)) h += '<div class="wn warn big">' + ic('alert') + '<span>' + A('عمر المريض غير معتاد لهذا التشخيص؛ راجع التشخيص.', 'This age is unusual for this diagnosis: review it.') + '</span></div>'; }
-    h += '<section class="card about"><p dir="ltr">' + esc(c.about) + '</p></section>';
     h += labCard();
-    if (c.variants.length > 1) h += '<h2 class="st">' + T('Setting / severity') + '</h2><div class="vtabs">' + c.variants.map(function (x) { return '<button class="' + (x === v ? 'on' : '') + '" data-go="c/' + c.id + '/' + x.id + '">' + T(x.t) + '</button>'; }).join('') + '</div>';
-    if (v.when) h += '<p class="when">' + ic('alert') + '<span dir="ltr">' + esc(v.when) + '</span></p>';
-    h += '<h2 class="st">' + T('Treatment') + '<small>' + A('علّم الأدوية التي تريدها في الوصفة', 'Tick the drugs for the prescription') + '</small></h2>';
-    h += v.lines.map(function (l, li) { return '<section class="line"><h3>' + T(l.t) + '</h3>' + l.items.map(function (it, ii) { return doseCard(li, ii, it, sel); }).join('') + '</section>'; }).join('');
+    if (c.variants.length > 1) h += '<div class="vtabs">' + c.variants.map(function (x) { return '<button class="' + (x === v ? 'on' : '') + '" data-go="c/' + c.id + '/' + x.id + '">' + T(x.t) + '</button>'; }).join('') + '</div>';
+    h += '<section class="card plan"><h2 class="ch"><span class="chi">' + ic('pill') + '</span>' + T('Treatment') + '</h2><div id="plan">' + planList(c, v) + '</div></section>';
     if (v.fluid) h += fluidCard(v.fluid);
-    h += acc('Investigations', 'flask', c.inv, '', true);
-    h += acc('Additional management', 'check', (v.extra || []).concat(c.extra || []), '', true);
+    var extra = (v.extra || []).concat(c.extra || []);
+    if (extra.length) h += '<section class="card"><h2 class="ch"><span class="chi">' + ic('check') + '</span>' + T('Also') + '</h2><ul class="bl">' + extra.map(function (x) { return '<li dir="ltr">' + esc(x) + '</li>'; }).join('') + '</ul></section>';
+    h += acc('Investigations', 'flask', c.inv);
     h += acc('Admit if', 'hosp', c.admit);
+    h += acc('Traps to avoid', 'shield', c.traps, 'trap');
     h += acc('Complications', 'alert', c.comp);
     h += acc('Differential diagnosis', 'list', c.ddx);
-    h += acc('Traps to avoid', 'shield', c.traps, 'trap', true);
-    h += disc();
-    h += '<div class="dock"><button class="btn pri" data-go="rx">' + ic('rx') + A('الوصفة', 'Prescription') + ' <em id="rxn">' + nSel(sel) + '</em></button><button class="btn" data-go="orders">' + ic('hosp') + A('أوامر التنويم', 'Order sheet') + '</button></div>';
+    h += acc('About the condition', 'book', [c.about].concat(v.when ? [v.when] : []));
+    h += '<div class="dock"><button class="btn pri" data-go="rx">' + ic('rx') + A('الوصفة', 'Prescription') + ' <em id="rxn">' + nSel(sel) + '</em></button><button class="btn" data-go="orders">' + ic('hosp') + A('أوامر التنويم', 'Orders') + '</button></div>';
     return h;
   }
   document.addEventListener('change', function (e) {
@@ -586,7 +631,7 @@
     var h = '<div class="tagrow">' + d.cls.map(function (x) { return '<span dir="ltr">' + esc(x) + '</span>'; }).join('') + '</div>';
     h += sec('Preparations', 'flask', '<div class="preps">' + d.forms.map(function (f) { return '<div class="prep"><b dir="ltr">' + esc(f.n) + '</b><small>' + E.route(f.r, AR) + '</small>' + (f.rec ? '<p dir="ltr">' + esc(f.rec) + '</p>' : '') + '</div>'; }).join('') + '</div>');
     h += '<h2 class="st">' + T('Doses for this patient') + '</h2>' + (+P.wt > 0 ? '' : quickPt());
-    h += Object.keys(d.reg).map(function (k) { var html = doseCard(0, 0, { d: id, r: k }, {}, { nosel: 1 }); return html ? '<div class="regl">' + T(KEYN[k] || k) + '</div>' + html : ''; }).join('');
+    h += Object.keys(d.reg).map(function (k) { var html = planRow(0, 0, { d: id, r: k }); return html ? '<div class="regl">' + T(KEYN[k] || k) + '</div>' + html : ''; }).join('');
     var ci = d.ci || {}, cil = []; if (ci.amin != null) cil.push(ci.why || ('Not under ' + ci.amin + ' months'));
     ['neonate', 'jaundice', 'asthma', 'dengue', 'g6pd', 'renal', 'liver', 'sam', 'cardiac'].forEach(function (k) { if (ci[k]) cil.push(ci[k]); });
     h += acc('Contraindications and cautions', 'shield', cil, 'trap', true);

@@ -1671,6 +1671,12 @@ studentmasterreview.com with HTTP/3 off). Now:
   across all. Any page that needs doses shows a small age-and-weight picker in place when the weight is missing (`quickPt`); with no
   age and no weight the dose cards show only the guideline rule. Drug cards: big dose, route / frequency / duration chips, the Arabic line
   for parents, calculation and notes folded.
+- Simple plan (owner, 27 Nov 2026: "put age, weight, diagnosis and get the exact dose and drug and duration and frequency, not numbers and
+  nonsense details"): the condition page shows only the chosen drugs as instructions (`planRow`: amount to give, route, how often, how long,
+  the Arabic line for parents; mg only for injections); calculation, shortcut, preparation and notes sit behind ⓘ (`ACT.info`); other
+  drugs and alternatives in one sheet (`ACT.alts`); fluids as one order line with the calculation folded; investigations, admission,
+  traps, complications, differential and about folded at the end. Patient page = name, age, weight, diagnosis, setting, allergy (all but
+  setting and allergy required); the rest under «More details (optional)».
 - The app never names Kassala or PCH on screen (owner, 26 Nov 2026: say «local guidelines»); sources stay in the data (`src`) and ho/src/notes.
 - Calculators (owner, 26 Nov 2026: "ugly"): list rows with what each gives; a header card with the formula, fields with the unit inside,
   one big green result, the rest in a table, notes as a tip card.
