@@ -1685,6 +1685,13 @@ studentmasterreview.com with HTTP/3 off). Now:
   patient card with a navy «Start →» · «Quick tools» 2 × 2 (Diagnose, Conditions, Drug book, Calculators) · red Emergency doses card · Recent
   chips · Saved / Dehydration / Settings. Inner pages: a title bar with a back button. Bottom bar: Home, Patient, Conditions, Drugs, Tools
   (current place in a navy pill). Sizes follow his picture (the Home fits one phone screen); two-tone icons (`ac` / `acf` parts in teal).
+- **Order and no scrolling (owner, 27 Nov 2026: "misplaced buttons, cut text, no order"; "group drugs"; "I hate to scroll"):** Conditions =
+  body systems as compact two-column cards; Drug book = 13 groups (`DGROUPS`: Antibiotics, Antimalarials & worms, Antivirals & antifungals,
+  Pain & fever, Respiratory, Steroids & allergy, Heart, Seizures & CNS, Stomach & gut, Fluids & blood, Vitamins & minerals, Antivenoms,
+  Eye & skin), each opening its drugs under class headings (`CLSN`); Calculators = three small tiles a row in four groups (`CGROUPS`).
+  Patient form: age = one box (number + days/months/years), weight = one list (0.5–10 kg by 0.1, then 0.5, then 1), «Get the plan» right
+  under the essentials (not floating). Top bar solid. Check after every layout change with scratchpad audit_ho.js (350, 360, 390, 412 px,
+  text ×1–1.15, Arabic and English: off screen, cut text, misaligned fields, overlaps; screenshots in au/). The owner's phone is ≈ 350 px wide.
 - The app never names Kassala or PCH on screen (owner, 26 Nov 2026: say «local guidelines»); sources stay in the data (`src`) and ho/src/notes.
 - Calculators (owner, 26 Nov 2026: "ugly"): list rows with what each gives; a header card with the formula, fields with the unit inside,
   one big green result, the rest in a table, notes as a tip card.

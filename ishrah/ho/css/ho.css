@@ -399,3 +399,39 @@ body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
 .st{margin-top:14px}
 .hero-tx h2,.hero-tx small,.hero-tx p{text-align:left}
 @media(min-width:640px){.hero-art{width:44%}.hero-tx{max-width:54%}}
+
+/* ===== layout repairs (owner, 27 Nov 2026: misplaced fields, cut buttons, oversized cards) ===== */
+.hb{background:var(--bg);backdrop-filter:none;box-shadow:0 1px 0 var(--bd)}
+.flds>.fld,.flds>label.fld{margin-top:0!important}
+.flds{align-items:end}
+.inp.two select{flex:1 1 auto;min-width:0}.inp.two select.unit{flex:0 0 auto;width:auto;max-width:48%;background-color:var(--soft);color:var(--p);font-weight:700;border-left:1.5px solid var(--line);padding-left:10px}
+.seg button{min-width:0;overflow:hidden}.seg button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chips{gap:6px}.chip{padding:6px 12px;font-size:.84em}
+.bar{position:static;box-shadow:none;background:none;padding:0;margin:0 0 12px}
+.tool-t b{overflow-wrap:anywhere}
+.qt .tool{min-height:58px}
+/* compact tiles: three a row, icon over a short title (calculators) */
+.mt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media(min-width:640px){.mt{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.mtile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:78px;padding:10px 4px;border-radius:16px;background:var(--sf);box-shadow:var(--sh);text-align:center}
+.mtile .ib2{width:38px;height:38px;border-radius:12px}.mtile .ib2 .ic{width:21px;height:21px}
+.mtile b{font:700 calc(12.5px*var(--fs))/1.25 Pop,Cairo,sans-serif;color:var(--tx)}
+.st.sub{font-size:calc(15px*var(--fs));margin:14px 2px 8px}.st.sub::before{height:15px}
+/* nothing runs off the screen, even with large phone text */
+.btn{white-space:normal;text-align:center;line-height:1.25;min-width:0}
+.vtabs button{max-width:100%;white-space:normal;text-align:left}
+.kv{table-layout:fixed}.kv th,.kv td{overflow-wrap:anywhere}
+.pp-h{flex-wrap:wrap}.pp-h>div{min-width:0;flex:1}.pp-pt{grid-template-columns:repeat(auto-fit,minmax(90px,1fr))}
+.dock .btn,.bar .btn{min-width:0}
+.pts-t b{white-space:normal}
+.card,.pr,.alt,.lrow-t,.tool-t,.npc-t,.emg-t,.pbar-t,.pr-n,.wn span,.avoid span,.erow-t{min-width:0;overflow-wrap:anywhere}
+.pr-how span{max-width:100%}
+.tagrow span{cursor:pointer}
+.npc .go-btn{white-space:nowrap}
+.seg button span{white-space:normal;text-overflow:clip;text-align:center;line-height:1.15}.seg button{padding:6px 4px}
+.tool-t,.tool-t b,.mtile b,.sys b{overflow-wrap:normal;word-break:normal}
+@media(max-width:400px){.tool .chv{display:none}.tool{gap:8px;padding:8px}.tool .ib2.lg{width:40px;height:40px;border-radius:12px}.tool .ib2.lg .ic{width:23px;height:23px}}
+.inp.two select.unit{min-width:84px;padding-right:26px;background-position:right 6px center}
+.tool-t b{overflow-wrap:break-word;hyphens:auto}
+@media(max-width:400px){.tool{gap:7px;padding:8px 7px}.tool .ib2.lg{width:34px;height:34px;border-radius:11px}.tool .ib2.lg .ic{width:20px;height:20px}
+  .tool-t b{font-size:calc(13px*var(--fs));hyphens:none}.tool-t small{font-size:calc(10.5px*var(--fs))}}
