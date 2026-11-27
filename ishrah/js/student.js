@@ -360,6 +360,7 @@
     row._price = library || type === 'course' ? Number(row.price) || 0 : isPost && row.linked_price != null ? Number(row.linked_price) || 0 : null;
     return '<article class="box feed-card feed-' + type + (isPost ? ' feed-post' : '') + (type === 'post' ? ' feed-fb' : '') + '" data-kind="' + type + '" data-go="#' + target + esc(row.id) + '"><header class="feed-card-header"><span>' + ic(label[2]) +
       esc(A(label[0], label[1])) + '</span>' + (when ? '<time datetime="' + esc(when) + '">' + esc(IS.ago(when)) + '</time>' : '') +
+      (library && IS.favBtn ? '<i class="fhsep" aria-hidden="true"></i>' + IS.favBtn('f:' + row.id, true).replace(ic('heart'), ic('bookmark')).replace('class="fav sm"', 'class="fav sm fsave"') : '') +
       (IS.ownBtns ? IS.ownBtns(isPost ? 'post' : library ? 'file' : type === 'announcement' ? 'notice' : type, row) : '') +
       (IS.manageBtn ? IS.manageBtn(isPost ? 'post' : library ? 'file' : type === 'announcement' ? 'notice' : type, row.id) : '') + '</header>' +
       '<div class="feed-card-content">' + (library || media ? '<a class="feed-image" href="#' + target + esc(row.id) + '" aria-label="' + esc(title) + '">' +
@@ -371,8 +372,10 @@
       /* a request card reads like a course card: its own button (owner, 22 Nov 2026) */
       (type === 'request' ? '<div class="row library-feed-actions"><a class="btn ghost sm" href="#' + target + esc(row.id) + '">' + ic('open') + esc(A('عرض الطلب', 'View request')) + '</a></div>' : '') +
       (type === 'event' ? '<div class="row library-feed-actions"><a class="btn ghost sm" href="#' + target + esc(row.id) + '">' + ic('cal') + esc(A('عرض الفعالية', 'View event')) + '</a></div>' : '') +
-      (library ? '<div class="row library-feed-actions">' + (IS.fileOpenable(row) ? '<a class="btn ghost sm" href="#file/' + esc(row.id) + '/read">' + ic('open') +
-        esc(A('افتح الكتاب', 'Open the book')) + '</a>' + IS.dlBtn('file', row.id, '', true) : IS.buyBtn(row, true, false)) + '</div>' : '') + '</div></div>' +
+      '</div></div>' +
+      /* the buttons take the whole width under the cover and the text (owner, 27 Nov 2026: no empty space under the cover) */
+      (library ? '<div class="row library-feed-actions feed-wide-acts">' + (IS.fileOpenable(row) ? '<a class="btn ghost sm fopen" href="#file/' + esc(row.id) + '/read">' + ic('open') +
+        '<span>' + esc(A('افتح الكتاب', 'Open the book')) + '</span>' + ic('chev', 'fchev') + '</a>' + IS.dlBtn('file', row.id, '', true) : IS.buyBtn(row, true, false)) + '</div>' : '') +
       (isPost ? postPreview(row, true) : '') + IS.feedVoteBar(feedback, row, true, shareRoute) + '</article>';
   }
 

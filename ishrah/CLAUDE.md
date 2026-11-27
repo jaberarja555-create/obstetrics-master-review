@@ -1716,3 +1716,9 @@ studentmasterreview.com with HTTP/3 off). Now:
   `hoFeed`, class `feed-ho`): «تطبيق» chip, cover, title, summary, chips (Pediatrics · House Officer · Works offline), author SMRA,
   «افتح الدليل» + «ثبّت التطبيق» (/ho/?install=1#settings, new tab) side by side, then Free | Share. No likes, comments, stars or report:
   it is not a library file, so there is nothing to store them on. The `#books` page keeps the book-card style of the other books.
+- **Library cards, second pass (owner's mockup, 27 Nov 2026: "no empty space, nice buttons, well-fitted cards"):** header = type chip …
+  time | bookmark (`.fsave`, the favourite) · own ⋯ · pin · shield; body = big cover (31% of the card) beside title, summary, subject chips,
+  author and stars; the two buttons (`.feed-wide-acts`: filled «Open the book ›» + outlined «Save offline», cloud icon) take the WHOLE card
+  width under cover and text; a line; then Free (gift icon) | Like · Comment · Share · Report. The cards are containers: Share shows its
+  label from 400 px of card, Comment drops its icon under 380, a paid card shows Comment as an icon under 350. Same shape for series cards
+  and the HO Guide card. dlBtn compact label is now «حفظ دون إنترنت» / "Save offline". Stars still show without numbers.

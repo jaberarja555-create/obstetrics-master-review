@@ -40,9 +40,9 @@
       '<p class="feed-summary" dir="auto">' + esc(A('الجرعات المحسوبة وخطة العلاج والسوائل والوصفة والتشخيص من الأعراض', 'Calculated doses, treatment plans, fluids, prescriptions and diagnosis from symptoms')) + '</p>' +
       '<p class="feed-detail"><span class="fchips">' + chip('layers', 'Pediatrics') + chip('nurse', A('طبيب الامتياز', 'House Officer')) + chip('offline', A('يعمل بدون إنترنت', 'Works offline')) + '</span></p>' +
       '<p class="feed-author" dir="auto"><bdi lang="en" dir="ltr">SMRA</bdi></p>' +
-      '<div class="row library-feed-actions"><a class="btn ghost sm" href="#ho">' + ic('open') + esc(A('افتح الدليل', 'Open the guide')) + '</a>' +
-      '<a class="btn ghost sm" href="/ho/?install=1#settings" target="_blank" rel="noopener">' + ic('download') + esc(A('ثبّت التطبيق', 'Install the app')) + '</a></div></div></div>' +
-      '<div class="feed-votes"><div class="fv-acts fv-lay"><span class="fv-price">' + (IS.priceTag ? IS.priceTag({ price: 0 }, 'sm') : '') + '</span>' +
+      '</div></div><div class="row library-feed-actions feed-wide-acts"><a class="btn ghost sm fopen" href="#ho">' + ic('open') + '<span>' + esc(A('افتح الدليل', 'Open the guide')) + '</span>' + ic('chev', 'fchev') + '</a>' +
+      '<a class="btn ghost sm" href="/ho/?install=1#settings" target="_blank" rel="noopener">' + ic('clouddl') + '<span>' + esc(A('ثبّت التطبيق', 'Install the app')) + '</span></a></div>' +
+      '<div class="feed-votes"><div class="fv-acts fv-lay"><span class="fv-price"><span class="ptag free sm">' + ic('gift') + esc(A('مجاني', 'Free')) + '</span></span>' +
       '<button type="button" class="fv-btn" data-act="share-link" data-h="ho">' + ic('share') + '<span>' + esc(A('مشاركة', 'Share')) + '</span></button></div></div></article>';
   }
   var shelf0 = IS.booksShelf;

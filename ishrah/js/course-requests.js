@@ -796,7 +796,7 @@
     return '<div class="feed-votes" data-feedback="' + esc(key) + '" data-reaction="' + reaction + '"' + counts +
       (row.status === 'closed' ? ' data-comments-closed' : '') + '>' + (row._lay ? '' : '<div class="fv-rate">' + (row._price != null && IS.priceTag ? IS.priceTag({ price: row._price }, 'sm') : '') + rating + '</div>') +
       '<div class="fv-stats">' + '<button type="button" class="rx-sum" data-act="rx-who" hidden></button>' + '<span class="fv-grow"></span>' + comment + '</div>' +
-      '<div class="fv-acts' + (row._lay ? ' fv-lay' : '') + '">' + (row._lay && row._price != null && IS.priceTag ? '<span class="fv-price">' + IS.priceTag({ price: row._price }, 'sm') + '</span>' : '') + buttons + commentBtn + shareBtn + (kind === 'series' ? (row._part ? IS.reportButton('file', row._part, true) : '') : IS.reportButton(kind, row.id, true)) + '</div>' +
+      '<div class="fv-acts' + (row._lay ? ' fv-lay' : '') + '">' + (row._lay && row._price != null && IS.priceTag ? '<span class="fv-price">' + IS.priceTag({ price: row._price }, 'sm').replace('<span class="ptag free sm">', '<span class="ptag free sm">' + ic('gift')) + '</span>' : '') + buttons + commentBtn + shareBtn + (kind === 'series' ? (row._part ? IS.reportButton('file', row._part, true) : '') : IS.reportButton(kind, row.id, true)) + '</div>' +
       (inline ? '<div class="feed-comment-panel" id="' + panelId + '" hidden></div>' : '') + '</div>';
   };
 

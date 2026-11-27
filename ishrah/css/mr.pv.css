@@ -2879,3 +2879,98 @@ html body .mrh .ho-card .feed-ho .feed-image img{width:100%;height:100%;object-f
 html body .mrh .ho-card .feed-ho .fv-acts.fv-lay>.fv-btn[data-act="share-link"]{width:auto!important;min-width:0!important;padding:0 14px!important;flex:none!important}
 html body .mrh .ho-card .feed-ho .fv-acts.fv-lay{justify-content:space-between!important}
 html body .mrh .ho-card .feed-ho .feed-image{aspect-ratio:3/4!important;width:clamp(84px,23.5vw,124px)!important;flex:none!important;height:auto!important}
+
+/* Library cards, second pass (owner's mockup, 27 Nov 2026: "no empty space, nice buttons, well-fitted cards").
+   Header: type chip … time | save · own menu · pin · shield. Body: a big cover beside title, summary, chips, author and stars.
+   Then the two buttons across the whole card, a line, and Free | Like · Comment · Share · Report. */
+html body .mrh .feed-card:is(.feed-library,.feed-series){padding:14px 14px 12px!important}
+html body .mrh .feed-card:is(.feed-library,.feed-series)>.feed-card-header>time{margin-inline-start:auto!important;display:inline-flex;align-items:center;gap:5px}
+html body .mrh .feed-card:is(.feed-library,.feed-series)>.feed-card-header>:is(.cm-own,.cm-tools){margin-inline-start:0!important}
+html body .mrh .feed-card-header>.fhsep{width:1px;height:20px;background:var(--pm217,#d6e2de);flex:none;margin:0 2px}
+html body .mrh .feed-card-header>.fsave{width:34px!important;height:34px!important;min-width:34px!important;border-radius:50%!important;border:1px solid var(--pm216,#dbe5e1)!important;background:#fff!important;display:inline-flex!important;align-items:center;justify-content:center;padding:0!important;flex:none;color:var(--pm218,#173f35)}
+html body .mrh .feed-card-header>.fsave .ico{width:17px!important;height:17px!important}
+html body .mrh .feed-card-header>.fsave[aria-pressed="true"]{background:var(--pm219,#e6f3ee)!important;color:var(--pm30,#0d6b5c)}
+html body .mrh .feed-card-header>.fsave[aria-pressed="true"] .ico{fill:currentColor}
+html body .mrh .feed-library .feed-card-content{display:flex!important;align-items:flex-start!important;gap:14px!important}
+html body .mrh .feed-library .feed-card-content>.feed-image{flex:none!important;width:clamp(108px,31%,160px)!important;aspect-ratio:3/4!important;height:auto!important;border-radius:14px!important;overflow:hidden;box-shadow:0 6px 16px var(--pm220,rgba(6,60,48,.16));margin:0!important}
+html body .mrh .feed-library .feed-card-content>.feed-image :is(.library-cover,img,.lcov){width:100%!important;height:100%!important;object-fit:cover}
+html body .mrh .feed-library .feed-card-content>div:not(.feed-image){flex:1 1 0!important;min-width:0;display:flex!important;flex-direction:column!important;flex-wrap:nowrap!important;gap:0!important;align-items:stretch!important}
+html body .mrh .feed-library .feed-card-content>div h3{font-size:clamp(17px,4.7vw,20px)!important;line-height:1.25!important;margin:2px 0 0!important;font-weight:800!important}
+html body .mrh .feed-library .feed-card-content>div .feed-summary{font-size:13.5px!important;line-height:1.45!important;margin:5px 0 0!important;color:var(--pm221,#4d625d)!important;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+html body .mrh .feed-library .feed-card-content>div .feed-detail{margin:8px 0 0!important}
+html body .mrh .feed-library .feed-card .fchips,html body .mrh .feed-library .fchips{margin:0!important;gap:6px!important}
+html body .mrh .feed-library .fchip{height:28px!important;padding:0 11px!important;font-size:12.5px!important;gap:6px!important;max-width:100%}
+html body .mrh .feed-library .fchip bdi{overflow:hidden;text-overflow:ellipsis}
+html body .mrh .feed-library .feed-card-content>div .feed-author{margin:9px 0 0!important;font-size:14px!important;color:var(--pm222,#34504a)!important}
+html body .mrh .feed-library .feed-card-content>div>.feed-stars{margin:6px 0 0!important;flex:none!important}
+html body .mrh .feed-card .feed-stars .gstars{font-size:20px!important;letter-spacing:2px!important}
+/* the two buttons across the card */
+html body .mrh .feed-card>.feed-wide-acts{display:grid!important;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr)!important;gap:10px!important;margin:14px 0 0!important;width:100%!important;max-width:none!important}
+html body .mrh .feed-card>.feed-wide-acts>:only-child{grid-column:1/-1}
+html body .mrh .feed-card>.feed-wide-acts>:is(.btn,a,button){height:46px!important;min-height:46px!important;max-height:none!important;border-radius:15px!important;font-size:14.5px!important;font-weight:800!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;padding:0 12px!important;margin:0!important;width:100%!important;white-space:nowrap;overflow:hidden}
+html body .mrh .feed-card>.feed-wide-acts>:is(.btn,a,button) span{overflow:hidden;text-overflow:ellipsis}
+html body .mrh .feed-card>.feed-wide-acts .ico{width:19px!important;height:19px!important;flex:none}
+html body .mrh .feed-card>.feed-wide-acts>.fopen{background:linear-gradient(180deg,var(--pm223,#0f7a63),var(--pm224,#0a5a49))!important;color:#fff!important;border:0!important;box-shadow:0 6px 14px var(--pm225,rgba(10,90,73,.25))!important}
+html body .mrh .feed-card>.feed-wide-acts>.fopen>span{flex:1 1 auto;text-align:center}
+html body .mrh .feed-card>.feed-wide-acts>.fopen .fchev{width:17px!important;height:17px!important;opacity:.9}
+html[dir="rtl"] body .mrh .feed-card>.feed-wide-acts>.fopen .fchev{transform:scaleX(-1)}
+html body .mrh .feed-card>.feed-wide-acts>:not(.fopen){background:#fff!important;color:var(--pm226,#0d5c4c)!important;border:1.5px solid var(--pm227,#bcd8cf)!important;box-shadow:none!important}
+html body .mrh .feed-card>.feed-wide-acts>.dlb.have{background:var(--pm228,#eef7f3)!important}
+/* the bottom row */
+html body .mrh .feed-card:is(.feed-library,.feed-series)>.feed-votes{container-type:inline-size;margin-top:12px!important}
+html body .mrh .feed-card:is(.feed-library,.feed-series)>.feed-votes>.fv-acts.fv-lay{border-top:1px solid var(--pm215,#e3ece8)!important;padding-top:12px!important;gap:6px!important;margin-top:0!important}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>:is(.fv-btn,.rx-wrap>.feed-react,.feed-report){height:40px!important;max-height:40px!important;border-radius:999px!important;font-size:13.5px!important;font-weight:700!important}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.feed-report{width:40px!important;min-width:40px!important}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-price .ptag{height:36px!important;padding:0 12px!important;font-size:13.5px!important;display:inline-flex!important;align-items:center;gap:5px;border-radius:999px}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-price .ptag .ico{display:inline-block!important;width:16px!important;height:16px!important}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-btn[data-act="share-link"]{width:40px!important;min-width:40px!important;flex:none!important;padding:0!important}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-btn[data-act="share-link"] span{display:none!important}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay .ico{width:17px!important;height:17px!important}
+@container (max-width:329px){html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-btn:is([data-act="feed-comments"],[data-act="focus-feed-comments"]) .ico{display:none!important}
+  html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-price .ptag .ico{display:none!important}}
+@container (min-width:330px){html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-btn:is([data-act="feed-comments"],[data-act="focus-feed-comments"]) .ico{display:inline-block!important}}
+@container (min-width:400px){html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-btn[data-act="share-link"]{width:auto!important;flex:1 1 0!important;padding:0 10px!important}
+  html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-btn[data-act="share-link"] span{display:inline!important}}
+/* series and the HO Guide in the same shape */
+html body .mrh .feed-items>.feed-card.feed-series{grid-template-rows:auto auto auto auto!important;grid-template-columns:clamp(108px,31%,160px) minmax(0,1fr)!important}
+html body .mrh .feed-card.feed-series>.feed-wide-acts{grid-column:1/-1!important;grid-row:3!important}
+html body .mrh .feed-card.feed-series>.feed-votes{grid-column:1/-1!important;grid-row:4!important}
+html body .mrh .ho-card .feed-ho .feed-card-content>.feed-image{width:clamp(108px,31%,160px)!important}
+html body .mrh .ho-card .feed-ho .fv-acts.fv-lay>.fv-btn[data-act="share-link"]{width:auto!important;padding:0 16px!important;flex:none!important}
+html body .mrh .ho-card .feed-ho .fv-acts.fv-lay>.fv-btn[data-act="share-link"] span{display:inline!important}
+html body .mrh .feed-card:is(.feed-library,.feed-series)>.feed-votes{border-top:0!important;padding-top:0!important}
+html body .mrh .feed-card:is(.feed-library,.feed-series)>.feed-votes>.fv-stats:not(:has(.rx-sum:not([hidden]))):has(.feed-comment.zero){display:none!important}
+html body .mrh .feed-card-header>.fsave{width:30px!important;height:30px!important;min-width:30px!important}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>:is(.rx-wrap,.fv-btn:is([data-act="feed-comments"],[data-act="focus-feed-comments"])){flex:1 1 0!important;min-width:0!important}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-btn:is([data-act="feed-comments"],[data-act="focus-feed-comments"]){padding:0 6px!important;gap:5px!important}
+@container (max-width:379px){html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-btn:is([data-act="feed-comments"],[data-act="focus-feed-comments"]) .ico{display:none!important}
+  html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-price .ptag{padding:0 10px!important}}
+@container (max-width:309px){html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-price .ptag .ico{display:none!important}}
+html body .mrh .feed-card:is(.feed-library,.feed-series){container-type:inline-size}
+html body .mrh .feed-card>.feed-wide-acts>:is(.btn,a,button),html body .mrh .feed-card>.feed-wide-acts>:is(.btn,a,button) span{white-space:nowrap!important}
+html body .mrh .feed-card.feed-series>.feed-wide-acts,html body .mrh .feed-card>.feed-wide-acts:has(>:only-child){grid-template-columns:minmax(0,1fr)!important}
+@container (max-width:379px){
+  html body .mrh .feed-card>.feed-wide-acts{grid-template-columns:minmax(0,1.12fr) minmax(0,1fr)!important;gap:8px!important}
+  html body .mrh .feed-card>.feed-wide-acts>:is(.btn,a,button){font-size:13.5px!important;padding:0 9px!important;gap:6px!important;height:44px!important;min-height:44px!important}
+  html body .mrh .feed-card>.feed-wide-acts .ico{width:17px!important;height:17px!important}
+  html body .mrh .feed-card>.feed-wide-acts>.fopen .fchev{width:15px!important;height:15px!important}
+  html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>:is(.fv-btn,.rx-wrap>.feed-react){font-size:13px!important}}
+@container (max-width:329px){
+  html body .mrh .feed-card>.feed-wide-acts>:is(.btn,a,button){font-size:13px!important;padding:0 7px!important;gap:5px!important}
+  html body .mrh .feed-card>.feed-wide-acts>.fopen .fchev{display:none!important}}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-btn:is([data-act="feed-comments"],[data-act="focus-feed-comments"]){flex:1.3 1 0!important}
+@container (max-width:349px){
+  html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay:has(.ptag.paid){gap:4px!important}
+  html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay:has(.ptag.paid)>.fv-price .ptag{font-size:12.5px!important;padding:0 9px!important}
+  html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay:has(.ptag.paid)>.fv-price .ptag .ico{display:none!important}
+  html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay:has(.ptag.paid)>.fv-btn:is([data-act="feed-comments"],[data-act="focus-feed-comments"]){flex:none!important;width:38px!important;padding:0!important}
+  html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay:has(.ptag.paid)>.fv-btn:is([data-act="feed-comments"],[data-act="focus-feed-comments"]) span{display:none!important}
+  html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay:has(.ptag.paid)>.fv-btn:is([data-act="feed-comments"],[data-act="focus-feed-comments"]) .ico{display:inline-block!important}
+  html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay:has(.ptag.paid)>:is(.feed-report,.fv-btn[data-act="share-link"]){width:38px!important;min-width:38px!important}}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.rx-wrap{display:flex!important;align-items:stretch}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.rx-wrap>.fv-btn.feed-react{width:100%!important;max-width:none!important;flex:1 1 auto!important;justify-content:center!important}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.rx-wrap{padding:0!important;border:0!important;background:none!important;height:auto!important}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>:is(.rx-wrap,.fv-btn:is([data-act="feed-comments"],[data-act="focus-feed-comments"])){flex:1 1 0!important}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-btn:is([data-act="feed-comments"],[data-act="focus-feed-comments"]){padding:0!important}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.rx-wrap>.fv-btn.feed-react{padding:0 4px!important}
+@container (max-width:349px){html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-price .ptag .ico{display:none!important}}
