@@ -1736,3 +1736,6 @@ studentmasterreview.com with HTTP/3 off). Now:
   `supabase/066_ho_guide_feedback.sql`, applied by the Ishrah workflow), so its card has stars, Like, Comment, Share (link #ho) and Report
   after Paid; a link to #file/<HO_FILE> goes home. HO card: «طبيب الامتياز» chip, HO Guide, «House Officer Clinical Guide · SMRA», stars,
   the tools line, «Open the guide».
+- **Cards, fourth pass (owner, 27 Nov 2026):** the author and the stars share one line (`.feed-author.fa-stars`, stars smaller, never
+  wraps; a long author name is cut with …); header «Library | time» side by side. The HO card's stars and buttons are loaded again when the
+  page comes from its saved copy (the copy already held the card, so `hoFeedback` was skipped and the live card had no buttons).

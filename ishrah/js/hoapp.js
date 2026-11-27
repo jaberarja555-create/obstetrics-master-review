@@ -74,7 +74,9 @@
     var sec = IS.mySection && IS.mySection(); if (name !== 'home' || !sec || sec.id !== 'house') return;
     var tries = 0;
     (function put() {
-      var m = document.getElementById('main'); if (!m || m.querySelector('.ho-card')) return;
+      var m = document.getElementById('main'); if (!m) return;
+      /* a saved copy of the page may already hold the card: then only its stars and buttons are loaded again */
+      var have = m.querySelector('.ho-card .feed-ho'); if (have) { hoFeedback(have); return; }
       var t = m.querySelector('.mh-title'); if (!t) { if (++tries < 20) setTimeout(put, 150); return; }
       t.insertAdjacentHTML('afterend', '<div class="ho-card">' + hoFeed() + '</div>');
       hoFeedback(m.querySelector('.ho-card .feed-ho'));

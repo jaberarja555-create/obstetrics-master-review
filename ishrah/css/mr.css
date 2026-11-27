@@ -3038,3 +3038,16 @@ html body .mrh .ho-card .feed-ho .feed-card-content>div .feed-summary{-webkit-li
 html body .mrh .feed-library .feed-card-content{grid-template-columns:clamp(100px,31%,145px) minmax(0,1fr)!important}
 html body .mrh .feed-library .feed-card-content>div .fchips{flex-wrap:nowrap!important;overflow:hidden}
 html body .mrh .feed-library .fchip{flex:0 1 auto;min-width:0}
+/* author and stars on one line (owner, 27 Nov 2026) */
+html body .mrh .feed-library .feed-card-content>div .feed-author.fa-stars{display:flex!important;align-items:center;flex-wrap:wrap;gap:4px 12px}
+html body .mrh .feed-library .feed-card-content>div .feed-author.fa-stars>bdi{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html body .mrh .feed-library .feed-author.fa-stars>.feed-stars{display:inline-flex!important;margin:0!important}
+/* header: Library | time side by side (an older rule pushed the time to the middle) */
+html body .mrh .feed-card.feed-library>.feed-card-header>time{margin-inline-start:0!important}
+html body .mrh .feed-card.feed-library>.feed-card-header>time+*{margin-inline-start:auto!important}
+html body .mrh .feed-library .feed-card-content>div .feed-author.fa-stars{flex-wrap:nowrap!important;gap:10px!important}
+html body .mrh .feed-library .feed-author.fa-stars>.feed-stars{flex:none}
+html body .mrh .feed-library .feed-author.fa-stars .gstars{font-size:14px!important;letter-spacing:0!important}
+html body .mrh .feed-library .feed-author.fa-stars .library-rating{gap:4px!important}
+html body .mrh .feed-library .feed-author.fa-stars .gnum{font-size:12.5px!important}
+html body .mrh .feed-library .feed-author.fa-stars .gcount{font-size:11.5px!important}

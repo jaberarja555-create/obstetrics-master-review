@@ -351,8 +351,9 @@
       /* two chips at most, as in the owner's picture: the subjects first, then the type if there is room */
       library ? '<span class="fchips">' + IS.librarySubjectNames(row).slice(0, 2).map(function (n) { return '<span class="fchip">' + ic('layers') + '<bdi>' + esc(n) + '</bdi></span>'; }).join('') +
           (libraryKind[2] && IS.librarySubjectNames(row).length < 2 ? '<span class="fchip">' + ic(libraryKind[1]) + esc(A(libraryKind[2], libraryKind[3])) + '</span>' : '') + '</span>' +
-        ((row.author || row.owner_name) ? '</p><p class="feed-author" dir="auto"><bdi>' + esc(row.author || row.owner_name) + '</bdi>' : '') +
-        '</p><p class="feed-stars">' + IS.libraryRating(row, true, 'file') :
+        /* the author and the stars on one line (owner, 27 Nov 2026) */
+        ((row.author || row.owner_name) ? '</p><p class="feed-author fa-stars" dir="auto"><bdi>' + esc(row.author || row.owner_name) + '</bdi><span class="feed-stars">' + IS.libraryRating(row, true, 'file') + '</span>' :
+          '</p><p class="feed-stars">' + IS.libraryRating(row, true, 'file')) :
       isPost ? (row.user_id ? '<a class="pname" href="#person/' + esc(row.user_id) + '">' + esc(row.name || '') + '</a>' : esc(row.name || '')) :
       type === 'request' ? '<span class="rq-joined">' + ic('users') + '<b dir="ltr">' + esc(((row.payment_required ? row.paid_count : row.joined_count) || 0) + (row.goal ? ' / ' + row.goal : '')) + '</b>' + esc(A('منضمّون', 'joined')) + '</span>' :
       type === 'course' ? [courseFormat(row), row.starts_at && courseSchedule(row)].filter(Boolean).join(' · ') : '';
