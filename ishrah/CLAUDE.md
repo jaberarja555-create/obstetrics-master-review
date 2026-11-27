@@ -1696,6 +1696,10 @@ studentmasterreview.com with HTTP/3 off). Now:
   (`body.fit1`–`fit4`: spacing; tool and emergency subtitles; greeting text and one-row bottom tiles; recent chips and patient actions)
   only while it would scroll, then shares the spare height between the sections (`--avail`, flex space-between). Checked with scratchpad
   fit.js at 350×640 … 412×900, tablet and laptop, with and without a patient, Arabic and English.
+- **Compact pages (owner, 27 Nov 2026):** block «compact pages» at the end of ho/css/ho.css (14 px base, slim cards, fields, lists and
+  buttons; page heights at 350 px fell 30–70 %); drug page doses are one line each (`.drow`: indication · amount · how · ⓘ); «More details»
+  on the patient page starts folded. Diagnose = small pill buttons per body system (count of chosen findings) that open a sheet of
+  symptoms to tick (`ACT.sxgrp`, `sxpick`); chosen findings and the likely diagnoses update under the buttons (`dxBody`, `dxRefresh`).
 - The app never names Kassala or PCH on screen (owner, 26 Nov 2026: say «local guidelines»); sources stay in the data (`src`) and ho/src/notes.
 - Calculators (owner, 26 Nov 2026: "ugly"): list rows with what each gives; a header card with the formula, fields with the unit inside,
   one big green result, the rest in a table, notes as a tip card.

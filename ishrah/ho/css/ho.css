@@ -456,3 +456,85 @@ body[data-page=home]:not(.fitting) #v{display:flex;flex-direction:column;justify
 body[data-page=home]:not(.fitting) #v>*{margin-top:0;margin-bottom:0}
 body[data-page=home]:not(.fitting) #v>.st{margin-bottom:-4px}
 @media(min-width:768px){body[data-page=home]:not(.fitting) #v{justify-content:flex-start;gap:12px;min-height:0}}
+
+/* ===== compact pages (owner, 27 Nov 2026: "make the other pages compact like the home") ===== */
+body{font-size:calc(14px*var(--fs))}
+main{padding:2px 12px 12px}
+.pbar{margin:0 0 8px;gap:10px}.pbar .sqb.sm{width:34px;height:34px;border-radius:11px}.pbar-t h1{font-size:calc(18px*var(--fs))}.pbar-t p{font-size:calc(11.5px*var(--fs));margin-top:0}
+.pts{padding:6px 8px;margin-bottom:8px;gap:8px;border-radius:15px}.pts .ib2{width:32px;height:32px;border-radius:10px}.pts .ib2 .ic{width:18px;height:18px}
+.pts-t b{font-size:calc(13.5px*var(--fs))}.pts-t small{font-size:calc(11.5px*var(--fs))}.pts-e{width:30px;height:30px;border-radius:10px}
+.card{padding:12px;margin-bottom:8px;border-radius:16px}
+.ch{font-size:calc(15px*var(--fs));margin-bottom:8px;gap:8px}.chi{width:30px;height:30px;border-radius:10px}.chi .ic{width:17px;height:17px}
+.st{margin:12px 2px 6px;font-size:calc(16px*var(--fs))}.st.sub{font-size:calc(14px*var(--fs));margin:10px 2px 6px}
+.hint{font-size:.8em;margin-bottom:6px}
+.btn{min-height:40px;padding:8px 12px;border-radius:13px;font-size:.9em}.btn .ic{width:17px;height:17px}.btn.sq{width:42px}
+.seg{border-radius:13px;padding:3px}.seg button{min-height:34px;font-size:.84em;border-radius:10px}
+.chips{gap:5px;margin-bottom:4px}.chip{padding:5px 10px;font-size:.8em}
+.fld{gap:4px}.fld>span{font-size:.8em}.flds{gap:8px}
+.inp{min-height:42px;border-radius:13px}.inp input,.inp select,textarea{padding:8px 11px;font-size:.98em}.inp em{padding:0 9px;font-size:11.5px}
+.card.ess .fld+.fld,.card.ess .flds+.fld,.card.ess .fld+.flds,.card.ess .flds+.flds,.card.ess .lnk+.fld,.card.ess .estb+.fld{margin-top:9px}
+details.moreb .fld+.flds,details.moreb .flds+.fld,details.moreb .fld+.inp,details.moreb .inp+.fld{margin-top:9px}
+.lnk{padding:4px 0;font-size:.8em}.estb{margin-top:8px;padding:7px 10px;font-size:.8em}
+details.lg{margin-top:6px}details.lg>summary{padding:7px 10px}
+details.grp>summary,details.acc>summary,details.moreb>summary{font-size:calc(14.5px*var(--fs))}
+details[open].grp>summary,details[open].acc>summary,details[open].moreb>summary{margin-bottom:8px}
+.srch{min-height:42px;margin-bottom:8px;border-radius:13px;padding:0 12px}.srch input{padding:8px 0}
+/* lists: one slim line per item */
+.card.list{padding:2px 6px}.lrow{padding:7px 4px;gap:9px}.lrow-i{width:30px;height:30px;border-radius:9px}.lrow-i .ic{width:16px;height:16px}
+.lrow-t>bdi,.lrow-t>b{font-size:.92em}.lrow-t small{font-size:.74em;line-height:1.3}
+.ddx li{padding:8px 10px;gap:9px}.rk{width:26px;height:26px}
+/* plan */
+.vtabs{gap:6px;margin-bottom:8px}.vtabs button{padding:6px 11px;font-size:.8em}
+.lres.top{margin-bottom:8px}.lres span{padding:4px 10px}
+.card.plan{padding:10px}
+.pr{padding:10px 11px;margin-bottom:8px;border-radius:14px}
+.pr-n>bdi{font-size:.98em}.pr-n small{font-size:.74em}.pr-i,.pr-x{width:28px;height:28px;border-radius:9px}
+.pr-amt{margin:6px 0 6px;font-size:calc(20px*var(--fs))}
+.pr-how{gap:5px}.pr-how span{padding:3px 9px;font-size:.78em}
+.pr-ar{margin-top:7px;padding:6px 10px}.pr-ar small{display:none}.pr-ar span{font-size:.88em}
+.avoid{padding:6px 10px;font-size:.78em;margin:2px 0 8px}
+.flbig{padding:9px 11px;font-size:.86em;margin-bottom:6px}
+.wn{padding:6px 10px;font-size:.78em;margin-top:6px}
+.tx{padding:7px 11px;margin-bottom:8px;font-size:.84em}
+.bl{font-size:.86em}.bl li+li{margin-top:3px}
+.dock{padding:6px;gap:6px;border-radius:18px}.dock .btn{min-height:40px}
+.disc{margin:10px 0 6px;padding:9px 11px;font-size:.74em}
+/* drug page */
+.tagrow{margin-bottom:8px}.preps{gap:6px}.prep{padding:7px 10px;border-radius:11px}.prep b{display:inline;font-size:.86em}.prep small{margin-left:6px}.prep p{font-size:.74em;margin-top:2px}
+.regl{margin:8px 2px 4px}
+/* calculators, emergency */
+.mtile{min-height:66px;padding:8px 4px;border-radius:14px}.mtile .ib2{width:32px;height:32px}.mtile .ib2 .ic{width:18px;height:18px}.mtile b{font-size:calc(12px*var(--fs))}
+.mt{gap:7px}
+.clc-f{margin-bottom:10px;padding-bottom:8px}.res-big{padding:12px;border-radius:18px;margin-bottom:8px}.res-big b{font-size:calc(23px*var(--fs))}
+.res-empty{padding:12px;font-size:.84em}
+.kv{font-size:.84em}.kv th,.kv td{padding:6px 8px 6px 0}
+.tips{padding:9px 11px;font-size:.8em;margin-bottom:8px}
+.stats{gap:7px;margin-bottom:8px}.stat{padding:8px 10px;border-radius:14px}.stat b{font-size:1.05em}.stat span{font-size:.76em}.stat small{font-size:.7em}
+.erow{padding:7px 4px}.erow-t>bdi{font-size:.86em}.erow-t small{font-size:.7em}.erow>b{font-size:.82em}
+.emg{margin:0 0 8px}
+/* settings */
+.looks{gap:6px}.look{padding:7px 2px;gap:3px;font-size:.74em;border-radius:13px}.look span{width:28px;height:28px}.look span .ic{width:16px;height:16px}
+.pals{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.pal{padding:7px 8px;gap:6px;font-size:.74em;border-radius:12px}.pal i{width:20px;height:20px}
+.inst{gap:10px;margin-bottom:8px}.inst img{width:42px;height:42px;border-radius:11px}.inst p{font-size:.8em}
+.kv1{padding:6px 9px;margin-bottom:6px}
+/* prescription */
+.paper{padding:13px;border-radius:16px}.pp-h img{height:30px}.pp-h b{font-size:16px}.pp-pt{margin:8px 0;gap:6px}.pp-pt span{padding:5px 8px}
+.pp-rx{font-size:28px;margin:2px 0 0}.pp-l li{margin-bottom:8px}.pp-l b{font-size:13.5px}.pp-l .ar{font-size:14px}.pp-o{font-size:13px}.pp-o li{margin-bottom:4px}
+.emptyc{padding:16px 12px;gap:8px}.pc-big{width:50px;height:50px}
+.doses{padding:4px 10px}
+.drow{display:flex;align-items:center;gap:8px;padding:8px 0}.drow+.drow{border-top:1px solid var(--bd)}
+.drow-k{flex:0 0 32%;font:700 .8em Pop,Cairo,sans-serif;color:var(--acc)}
+.drow-v{flex:1;min-width:0;display:flex;flex-direction:column}.drow-v b{font:800 .95em Pop,sans-serif;color:var(--p)}.drow-v small{font-size:.74em;color:var(--mut)}
+.drow-v em.no{font-style:normal;font-size:.72em;font-weight:700;color:var(--red)}
+:root[data-theme=dark] .drow-v b{color:#e7eef8}
+/* Diagnose: system buttons with a count, a menu of symptoms in a sheet */
+.sxg{margin-bottom:10px}.sxg .mtile{position:relative;min-height:62px}
+.mtile.has{box-shadow:0 0 0 2px var(--acc),var(--sh)}
+.mtile em{position:absolute;top:5px;right:6px;min-width:20px;height:20px;padding:0 6px;border-radius:999px;display:grid;place-items:center;font:800 11px Pop,sans-serif;font-style:normal;color:#fff;background:var(--acc)}
+.sxsel{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:4px}.sxsel .chips{margin:0;flex:1 1 100%}.sxsel .lnk{color:var(--red)}
+.sxlist{display:grid;gap:6px;margin-bottom:12px}.sxlist .alt{margin:0;padding:9px 10px}.sxlist .alt-t b{font-weight:700;font-size:.92em}
+.sh-box{max-height:80vh}
+.mt.sxg{display:flex;flex-wrap:wrap;gap:6px}
+.sxg .mtile{flex-direction:row;flex:1 1 auto;min-height:38px;padding:5px 12px 5px 6px;border-radius:999px;gap:6px}
+.sxg .mtile .ib2{width:28px;height:28px;border-radius:50%}.sxg .mtile .ib2 .ic{width:16px;height:16px}
+.sxg .mtile b{white-space:nowrap}.sxg .mtile em{position:static;margin-left:2px}

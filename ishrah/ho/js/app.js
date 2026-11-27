@@ -276,7 +276,7 @@
     h += '<div class="fld al"><span>' + A('حساسية من دواء', 'Drug allergy') + '</span>' + chips(ALLERGIES, P.allergy, 'tglal') + '</div>';
     h += '</section>';
     h += '<div class="bar"><button class="btn pri" type="submit">' + ic('check') + A('أعطني خطة العلاج', 'Get the plan') + '</button><button class="btn sq" type="button" data-act="savept" aria-label="' + A('حفظ', 'Save') + '">' + ic('save') + '</button><button class="btn sq" type="button" data-act="newpt" aria-label="' + A('مريض جديد', 'New patient') + '">' + ic('plus') + '</button></div>';
-    h += '<details class="card moreb"' + (more ? ' open' : '') + '><summary><span class="chi">' + ic('plus') + '</span>' + A('تفاصيل إضافية (اختياري)', 'More details (optional)') + (nLab ? '<em class="cnt">' + nLab + '</em>' : '') + ic('fwd', 'chev') + '</summary>';
+    h += '<details class="card moreb"><summary><span class="chi">' + ic('plus') + '</span>' + A('تفاصيل إضافية (اختياري)', 'More details (optional)') + (nLab ? '<em class="cnt">' + nLab + '</em>' : '') + ic('fwd', 'chev') + '</summary>';
     h += '<div class="fld"><span>' + A('الجنس', 'Sex') + '</span>' + seg([['m', 'ذكر', 'Male'], ['f', 'أنثى', 'Female']], P.sex, 'setsex') + '</div>';
     h += '<div class="flds">' + pick('ht', A('الطول', 'Height'), opts(40, 190, 1, P.ht), 'cm') +
       '<div class="fld"><span>' + A('مدة الأعراض', 'Duration') + '</span><div class="inp pick two"><select name="dur" dir="ltr">' + opts(1, 30, 1, P.dur) + '</select><select name="durU">' +
@@ -365,25 +365,39 @@
     }).filter(function (r) { return r.hit.length && r.s > 0; }).sort(function (a, b) { return b.s - a.s; }).slice(0, 8);
   }
   var GRPIC = { 'General': 'user', 'Respiratory': 'lungs', 'ENT and mouth': 'stetho', 'Gut': 'gut', 'Nervous system': 'brain', 'Urinary and kidney': 'kidney', 'Skin, eyes and joints': 'eye', 'Heart and blood': 'heart', 'Newborn': 'baby', 'Exposure': 'alert' };
+  /* Diagnose (owner, 27 Nov 2026: "one button per system; pressing it opens a menu to choose from"): system buttons, a menu of
+     symptoms for each, the chosen symptoms and the likely diagnoses right under the buttons */
+  var SXG = {}; SX.forEach(function (s) { (SXG[s[0]] = SXG[s[0]] || []).push(s); });
+  var GRPS = { 'General': 'General', 'Respiratory': 'Chest', 'ENT and mouth': 'ENT & mouth', 'Gut': 'Gut', 'Nervous system': 'Nervous', 'Urinary and kidney': 'Kidney', 'Skin, eyes and joints': 'Skin & joints', 'Heart and blood': 'Heart & blood', 'Newborn': 'Newborn', 'Exposure': 'Exposure' };
   function dx() {
-    head('Diagnose', A('اختر الأعراض والعلامات التي وجدتها؛ تُرتب الاحتمالات حسب عمر المريض', 'Pick the symptoms and signs you found; ranked for the patient\'s age'));
-    var groups = {}; SX.forEach(function (s) { (groups[s[0]] = groups[s[0]] || []).push(s); });
-    var res = SXSEL.length ? dxScore() : [];
-    var h = '<section class="card sel"><div class="row"><h2 class="ch"><span class="chi">' + ic('check') + '</span>' + T('Selected') + ' <em class="cnt">' + SXSEL.length + '</em></h2>' + (SXSEL.length ? '<button class="lnk" data-act="sxclear">' + A('مسح الكل', 'Clear all') + '</button>' : '') + '</div>' +
-      (SXSEL.length ? '<div class="chips">' + SXSEL.map(function (k) { var s = SXN[k]; return s ? '<button class="chip on" data-act="sxt" data-v="' + k + '">' + esc(A(s[3], s[2])) + ' ✕</button>' : ''; }).join('') + '</div>' : '<p class="hint">' + A('لم تختر شيئًا بعد.', 'Nothing chosen yet.') + '</p>') + '</section>';
-    if (res.length) h += sec('Likely diagnoses', 'stetho', '<ol class="ddx">' + res.map(function (r, i) {
-      return '<li data-go="c/' + r.c.id + '"><span class="rk">' + (i + 1) + '</span><div class="ddx-b"><div class="ddx-h">' + T(r.c.t) + '<span class="pct">' + r.pct + '%</span></div><div class="bar2"><i style="width:' + r.pct + '%"></i></div><small>' +
-        r.hit.map(function (k) { return esc(A(SXN[k][3], SXN[k][2])); }).join(' · ') + (r.age ? '' : ' · <b class="warn">' + A('عمر غير معتاد', 'unusual age') + '</b>') + '</small></div>' + ic('fwd', 'flip') + '</li>';
-    }).join('') + '</ol><p class="hint">' + A('ترتيب يساعدك على التفكير وليس تشخيصًا؛ افحص المريض وأكّد بالفحوصات.', 'A ranking to help you think, not a diagnosis: examine and confirm.') + '</p>');
-    h += Object.keys(groups).map(function (g) {
-      var n = groups[g].filter(function (s) { return SXSEL.indexOf(s[1]) >= 0; }).length;
-      return '<details class="card grp"' + (n || g === 'General' ? ' open' : '') + '><summary><span class="chi">' + ic(GRPIC[g] || 'list') + '</span>' + T(g) + (n ? '<em class="cnt">' + n + '</em>' : '') + ic('fwd', 'chev') + '</summary><div class="chips">' +
-        groups[g].map(function (s) { return '<button class="chip' + (SXSEL.indexOf(s[1]) >= 0 ? ' on' : '') + '" data-act="sxt" data-v="' + s[1] + '">' + esc(A(s[3], s[2])) + '</button>'; }).join('') + '</div></details>';
-    }).join('');
-    return h;
+    head('Diagnose', A('اضغط على الجهاز واختر الأعراض؛ تظهر الاحتمالات تحته مرتبة حسب عمر المريض', 'Tap a system and choose the symptoms; the likely diagnoses appear below, ranked for the patient\'s age'));
+    return '<div id="dxb">' + dxBody() + '</div>';
   }
-  ACT.sxt = function (b) { toggle(SXSEL, b.dataset.v); put('ho-sx', SXSEL); var y = scrollY; render(true); scrollTo(0, y); };
-  ACT.sxclear = function () { SXSEL = []; put('ho-sx', SXSEL); render(true); };
+  function dxBody() {
+    var res = SXSEL.length ? dxScore() : [];
+    var h = '<div class="mt sxg">' + Object.keys(SXG).map(function (g) {
+      var n = SXG[g].filter(function (s) { return SXSEL.indexOf(s[1]) >= 0; }).length;
+      return '<button class="mtile' + (n ? ' has' : '') + '" data-act="sxgrp" data-g="' + esc(g) + '"><span class="ib2">' + ic(GRPIC[g] || 'list') + '</span><b>' + T(GRPS[g] || g) + '</b>' + (n ? '<em>' + n + '</em>' : '') + '</button>';
+    }).join('') + '</div>';
+    if (SXSEL.length) h += '<div class="sxsel"><div class="chips">' + SXSEL.map(function (k) { var s = SXN[k]; return s ? '<button class="chip on" data-act="sxt" data-v="' + k + '">' + esc(A(s[3], s[2])) + ' ✕</button>' : ''; }).join('') + '</div><button class="lnk" data-act="sxclear">' + ic('trash') + A('مسح الكل', 'Clear all') + '</button></div>';
+    if (!SXSEL.length) return h + '<div class="res-empty">' + ic('stetho2') + '<span>' + A('اختر جهازًا من الأعلى ثم الأعراض والعلامات التي وجدتها.', 'Choose a system above, then the symptoms and signs you found.') + '</span></div>';
+    if (!res.length) return h + '<p class="empty">' + A('لا يوجد تشخيص يطابق هذه الأعراض.', 'No diagnosis matches these findings.') + '</p>';
+    return h + '<h2 class="st">' + T('Likely diagnoses') + '</h2><ol class="ddx">' + res.map(function (r, i) {
+      return '<li data-go="c/' + r.c.id + '"><span class="rk">' + (i + 1) + '</span><div class="ddx-b"><div class="ddx-h">' + T(r.c.t) + '<span class="pct">' + r.pct + '%</span></div><div class="bar2"><i style="width:' + r.pct + '%"></i></div><small>' +
+        r.hit.map(function (k) { return esc(A(SXN[k][3], SXN[k][2])); }).join(' · ') + (r.age ? '' : ' · <b class="warn">' + A('عمر غير معتاد', 'unusual age') + '</b>') + '</small></div>' + ic('fwd', 'chv') + '</li>';
+    }).join('') + '</ol><p class="hint">' + A('ترتيب يساعدك على التفكير وليس تشخيصًا؛ افحص المريض وأكّد بالفحوصات.', 'A ranking to help you think, not a diagnosis: examine and confirm.') + '</p>';
+  }
+  function dxRefresh() { var el = document.getElementById('dxb'); if (el) el.innerHTML = dxBody(); }
+  ACT.sxgrp = function (b) {
+    var g = b.dataset.g;
+    sheet('<h2 class="ch"><span class="chi">' + ic(GRPIC[g] || 'list') + '</span>' + T(GRPS[g] || g) + '</h2><div class="sxlist">' + SXG[g].map(function (s) {
+      var on = SXSEL.indexOf(s[1]) >= 0;
+      return '<button class="alt' + (on ? ' on' : '') + '" data-act="sxpick" data-v="' + s[1] + '"><span class="alt-c">' + ic('check') + '</span><span class="alt-t"><b>' + esc(A(s[3], s[2])) + '</b>' + (AR ? '<small dir="ltr">' + esc(s[2]) + '</small>' : '') + '</span></button>';
+    }).join('') + '</div><button class="btn pri wide" data-act="shclose">' + A('تم', 'Done') + '</button>');
+  };
+  ACT.sxpick = function (b) { toggle(SXSEL, b.dataset.v); put('ho-sx', SXSEL); b.classList.toggle('on'); dxRefresh(); };
+  ACT.sxt = function (b) { toggle(SXSEL, b.dataset.v); put('ho-sx', SXSEL); dxRefresh(); };
+  ACT.sxclear = function () { SXSEL = []; put('ho-sx', SXSEL); dxRefresh(); };
 
   /* ================= Conditions: body systems first, then the system's list (owner: "be organised") ================= */
   var CQ = '';
@@ -678,7 +692,12 @@
     }).join('');
   }
   ACT.azgo = function (a) { var t = document.getElementById('az-' + a.dataset.k); if (t) scrollTo({ top: t.getBoundingClientRect().top + scrollY - 140, behavior: 'smooth' }); };
-  var KEYN = { po: 'Oral', iv: 'IV', im: 'IM', pr: 'Rectal', neb: 'Nebuliser', std: 'Standard', prn: 'When needed', load: 'Loading dose', maint: 'Maintenance', sev: 'Severe', severe: 'Severe infection', mening: 'Meningitis', neo: 'Neonate', inj: 'Injection', inf: 'Infusion', ana: 'Anaphylaxis', asthma: 'Asthma', croup: 'Croup', tx: 'Treatment', proph: 'Prophylaxis', ge: 'Gastroenteritis', hf: 'Heart failure', rf: 'Rheumatic fever', typhoid: 'Typhoid', hp: 'H. pylori', bolus: 'Bolus' };
+  var KEYN = { po: 'Oral', iv: 'IV', im: 'IM', pr: 'Rectal', neb: 'Nebuliser', std: 'Standard', prn: 'When needed', load: 'Loading dose', maint: 'Maintenance', start: 'Starting dose', sev: 'Severe', severe: 'Severe infection',
+    mening: 'Meningitis', neo: 'Neonate', inj: 'Injection', inf: 'Infusion', ana: 'Anaphylaxis', asthma: 'Asthma', croup: 'Croup', croupRep: 'Croup (repeat)', tx: 'Treatment', proph: 'Prophylaxis', ge: 'Diarrhoea', hf: 'Heart failure (IV)',
+    hfm: 'Heart failure (oral)', rf: 'Rheumatic fever', rfallergy: 'Rheumatic fever (penicillin allergy)', typhoid: 'Typhoid', hp: 'H. pylori', bolus: 'Bolus', tonsil: 'Tonsillitis', scd: 'Sickle cell disease', renal: 'Kidney infection',
+    osteo: 'Osteomyelitis', pertussis: 'Whooping cough', cholera: 'Cholera', amoeba: 'Amoebiasis', giardia: 'Giardiasis', pre: 'Pre-referral', vivax: 'Vivax malaria', sting: 'Scorpion sting', nephrotic: 'Nephrotic syndrome',
+    hypoMg: 'Low magnesium', arrest: 'Cardiac arrest', aki: 'Acute kidney injury', tetanus: 'Tetanus', chorea: 'Chorea', loss: 'Replacing losses', schisto: 'Schistosomiasis', tapeworm: 'Tapeworm', hdn: 'Bleeding (newborn)',
+    measles: 'Measles', sam: 'Severe malnutrition', dka: 'DKA', jaundice: 'Neonatal jaundice', local: 'Local symptoms', systemic: 'Systemic symptoms' };
   function drug(id) {
     var d = DR[id]; if (!d) return notFound();
     head(d.g, '<bdi dir="ltr">' + esc((d.b || []).join(' · ')) + '</bdi>');
@@ -686,7 +705,11 @@
     var h = '<div class="tagrow"><span data-go="drugs/' + dgOf(d)[0] + '">' + esc(dgOf(d)[1]) + '</span><span>' + esc(CLSN[d.cls[0]] || d.cls[0]) + '</span></div>';
     h += sec('Preparations', 'flask', '<div class="preps">' + d.forms.map(function (f) { return '<div class="prep"><b dir="ltr">' + esc(f.n) + '</b><small>' + E.route(f.r, AR) + '</small>' + (f.rec ? '<p dir="ltr">' + esc(f.rec) + '</p>' : '') + '</div>'; }).join('') + '</div>');
     h += '<h2 class="st">' + T('Doses for this patient') + '</h2>' + (+P.wt > 0 ? '' : quickPt());
-    h += Object.keys(d.reg).map(function (k) { var html = planRow(0, 0, { d: id, r: k }); return html ? '<div class="regl">' + T(KEYN[k] || k) + '</div>' + html : ''; }).join('');
+    h += '<section class="card list doses">' + Object.keys(d.reg).map(function (k) {
+      var o = E.dose(id, k, P, FORMSEL[id + '.' + k]); if (o.err) return '';
+      var how = ready() ? '<b dir="ltr">' + esc(amount(o)) + '</b><small>' + [E.route(o.route, AR), E.freq(o.f, AR), o.dur ? '<bdi dir="ltr">' + esc(o.dur) + '</bdi>' : ''].filter(Boolean).join(' · ') + '</small>' : '<small dir="ltr">' + esc(o.sc || '') + '</small>';
+      return '<div class="drow"><span class="drow-k">' + T(KEYN[k] || k) + '</span><span class="drow-v">' + how + (ready() && stopped(o) ? '<em class="no">' + A('ممنوع لهذا المريض', 'Not for this patient') + '</em>' : '') + '</span><button class="pr-i" data-act="info" data-k="' + id + '|' + k + '">i</button></div>';
+    }).join('') + '</section>';
     var ci = d.ci || {}, cil = []; if (ci.amin != null) cil.push(ci.why || ('Not under ' + ci.amin + ' months'));
     ['neonate', 'jaundice', 'asthma', 'dengue', 'g6pd', 'renal', 'liver', 'sam', 'cardiac'].forEach(function (k) { if (ci[k]) cil.push(ci[k]); });
     h += acc('Contraindications and cautions', 'shield', cil, 'trap', true);
