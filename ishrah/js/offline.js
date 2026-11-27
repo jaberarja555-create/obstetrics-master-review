@@ -167,8 +167,8 @@
   /* ---------- buttons on lessons and files ---------- */
   function inner(id, compact) {
     if (RUN[id]) return ic('download') + '<span>' + esc(A('جارٍ التنزيل', 'Downloading')) + ' ' + N(RUN[id].p + '%') + '</span><i class="dlbar" style="--p:' + RUN[id].p + '%"></i>';
-    if (HAVE[id]) return ic('checkc') + '<span>' + esc(A('متاح دون إنترنت', compact ? 'Saved offline' : 'Available offline')) + '</span>';
-    return ic(compact ? 'clouddl' : 'download') + '<span>' + esc(compact ? A('حفظ دون إنترنت', 'Save offline') : A('تنزيل للمشاهدة دون إنترنت', 'Download for offline')) + '</span>';
+    if (HAVE[id]) return ic('checkc') + '<span>' + esc(compact ? A('محفوظ', 'Saved offline') : A('متاح دون إنترنت', 'Available offline')) + '</span>';
+    return ic(compact ? 'clouddl' : 'download') + '<span>' + esc(compact ? A('تنزيل', 'Save offline') : A('تنزيل للمشاهدة دون إنترنت', 'Download for offline')) + '</span>';
   }
   function show(id) { IS.$$('[data-dlid="' + id + '"]').forEach(function (b) { b.innerHTML = inner(id, b.hasAttribute('data-dl-compact')); b.classList.toggle('have', !!HAVE[id]); b.classList.toggle('run', !!RUN[id]); }); var l = $('#dlrun'); if (l) l.innerHTML = runList(); }
   IS.dlBtn = function (kind, id, extra, compact) {

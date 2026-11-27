@@ -29,22 +29,36 @@
       '<a class="btn ghost sm bk-read" href="#ho">' + ic('open') + esc(A('افتح الدليل', 'Open the guide')) + '</a></div></article>';
   }
   IS.hoBook = hoBook;
-  /* on the House Officer home it reads like a library card (owner, 27 Nov 2026: "make the HO Guide book card match this style"):
-     chips, author, «Open the guide» and «Install the app» side by side, then Paid | Share (owner, 27 Nov 2026: the HO Guide is paid; the subscription is decided later, so nothing is locked yet). It has no likes, comments, stars or reports
-     because it is not a library file. */
+  /* On the House Officer home (owner's picture, 27 Nov 2026): cover beside «House Officer» chip, title, «House Officer Clinical Guide · SMRA»,
+     stars with score, the tools line and «Open the guide»; then Paid | Like · Comment · Share · Report like the other books
+     ("why the app has no comment, like, rate, share and report"). Feedback lives on its files row (supabase/066_ho_guide_feedback.sql). */
+  var HOID = 'c9a994a8-e7c1-42a8-b61a-933ea9a30683';
+  IS.HO_FILE = HOID;
   function hoFeed() {
-    var chip = function (icon, text) { return '<span class="fchip">' + ic(icon) + '<bdi>' + esc(text) + '</bdi></span>'; };
-    return '<article class="box feed-card feed-library feed-ho" data-go="#ho"><header class="feed-card-header"><span>' + ic('clinic') + esc(A('تطبيق', 'App')) + '</span></header>' +
+    return '<article class="box feed-card feed-library feed-ho" data-go="#ho">' +
       '<div class="feed-card-content"><a class="feed-image" href="#ho" aria-label="HO Guide"><img src="' + IS.U('img/books/ho.webp') + '" alt="" width="600" height="800" loading="lazy" decoding="async"></a>' +
-      '<div><h3 dir="auto"><a href="#ho" lang="en">HO Guide</a></h3>' +
-      '<p class="feed-summary" dir="auto">' + esc(A('الجرعات المحسوبة وخطة العلاج والسوائل والوصفة والتشخيص من الأعراض', 'Calculated doses, treatment plans, fluids, prescriptions and diagnosis from symptoms')) + '</p>' +
-      '<p class="feed-detail"><span class="fchips">' + chip('layers', 'Pediatrics') + chip('nurse', A('طبيب الامتياز', 'House Officer')) + chip('offline', A('يعمل بدون إنترنت', 'Works offline')) + '</span></p>' +
-      '<p class="feed-author" dir="auto"><bdi lang="en" dir="ltr">SMRA</bdi></p>' +
-      '</div></div><div class="row library-feed-actions feed-wide-acts"><a class="btn ghost sm fopen" href="#ho">' + ic('open') + '<span>' + esc(A('افتح الدليل', 'Open the guide')) + '</span>' + ic('chev', 'fchev') + '</a>' +
-      '<a class="btn ghost sm" href="/ho/?install=1#settings" target="_blank" rel="noopener">' + ic('clouddl') + '<span>' + esc(A('ثبّت التطبيق', 'Install the app')) + '</span></a></div>' +
-      '<div class="feed-votes"><div class="fv-acts fv-lay"><span class="fv-price"><span class="ptag paid sm">' + ic('tag') + esc(A('مدفوع', 'Paid')) + '</span></span>' +
-      '<button type="button" class="fv-btn" data-act="share-link" data-h="ho">' + ic('share') + '<span>' + esc(A('مشاركة', 'Share')) + '</span></button></div></div></article>';
+      '<div><span class="fchip ho-tag">' + esc(A('طبيب الامتياز', 'House Officer')) + '</span><h3><a href="#ho" lang="en" dir="ltr">HO Guide</a></h3>' +
+      '<p class="feed-summary"><bdi lang="en" dir="ltr">House Officer Clinical Guide · SMRA</bdi></p>' +
+      '<p class="feed-stars" data-ho-stars></p>' +
+      '<p class="ho-feat" dir="auto">' + esc(A('الجرعات المحسوبة · خطة العلاج · السوائل · الوصفة · التشخيص من الأعراض', 'Calculated doses · Treatment plans · Fluids · Prescription · Diagnosis from symptoms')) + '</p></div>' +
+      '<div class="row library-feed-actions feed-wide-acts"><a class="btn ghost sm fopen" href="#ho">' + ic('open') + '<span>' + esc(A('افتح الدليل', 'Open the guide')) + '</span>' + ic('chev', 'fchev') + '</a></div></div>' +
+      '<div data-ho-fb></div></article>';
   }
+  async function hoFeedback(card) {
+    try {
+      if (!DB.live && !(await DB.one('files', HOID))) await DB.ins('files', { id: HOID, kind: 'master_review', spec: 'master-review', cat: 'house', status: 'published', title: 'HO Guide', author: 'SMRA' });
+      var row = (await DB.q('files', { in: { id: [HOID] }, eq: { status: 'published' } }))[0];
+      if (!row || !card.isConnected) return;
+      row = Object.assign({}, row, { _lay: 1 });
+      var stars = card.querySelector('[data-ho-stars]'); if (stars) stars.innerHTML = IS.libraryRating(row, true, 'file');
+      var fb = card.querySelector('[data-ho-fb]');
+      fb.innerHTML = IS.feedVoteBar('file', row, true, 'ho').replace('<div class="fv-acts fv-lay">',
+        '<div class="fv-acts fv-lay"><span class="fv-price"><span class="ptag paid sm">' + ic('tag') + esc(A('مدفوع', 'Paid')) + '</span></span>');
+      if (IS.hydrateFeedReactions) IS.hydrateFeedReactions(fb);
+    } catch (e) {}
+  }
+  /* a link or alert to the HO Guide's record opens the guide's card */
+  window.addEventListener('hashchange', function () { if (location.hash.indexOf('#file/' + HOID) === 0) IS.go('home'); });
   var shelf0 = IS.booksShelf;
   if (shelf0) IS.booksShelf = function () { return shelf0.apply(this, arguments).replace('<div class="bk-row">', '<div class="bk-row">' + hoBook()); };
   function tile() { return '<a href="#ho" class="ho-feat">' + '<span class="ic">🩺</span><span>HO Guide</span></a>'; }
@@ -63,6 +77,7 @@
       var m = document.getElementById('main'); if (!m || m.querySelector('.ho-card')) return;
       var t = m.querySelector('.mh-title'); if (!t) { if (++tries < 20) setTimeout(put, 150); return; }
       t.insertAdjacentHTML('afterend', '<div class="ho-card">' + hoFeed() + '</div>');
+      hoFeedback(m.querySelector('.ho-card .feed-ho'));
     })();
   };
 })();

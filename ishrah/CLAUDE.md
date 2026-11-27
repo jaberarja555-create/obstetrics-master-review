@@ -1728,3 +1728,11 @@ studentmasterreview.com with HTTP/3 off). Now:
   cover FLOATS and the text wraps around it, so chips, author and stars that are taller than the cover continue full width under it
   (`.feed-card-content{display:flow-root}`, buttons `clear:both`). Chips are smaller (26 px). The HO Guide's Share fills the rest of its
   bottom row. Series covers are narrower (88–128 px) to match their short text. Test at the owner's ~411 px with larger phone text (≈ 360 px).
+- **Library and HO Guide cards, third pass (owner's picture, 27 Nov 2026):** a grid: the cover spans the text and the buttons and stretches
+  to their height (`object-fit:cover`, top), so nothing beside it is empty; compact text (title 16.5 px, one-line subtitle, at most TWO chips,
+  author, stars WITH score and count as in the picture: `.gnum`/`.gcount` shown in `.feed-stars`), «Open the book» + «Save offline» (Arabic
+  «تنزيل» / «محفوظ») beside the cover; under 340 px of card the buttons go across the card under it. Header: Library | time … ⋯ pin shield
+  (no bookmark, as in the picture). **HO Guide feedback:** it has a files row like the Master Review books (`IS.HO_FILE`,
+  `supabase/066_ho_guide_feedback.sql`, applied by the Ishrah workflow), so its card has stars, Like, Comment, Share (link #ho) and Report
+  after Paid; a link to #file/<HO_FILE> goes home. HO card: «طبيب الامتياز» chip, HO Guide, «House Officer Clinical Guide · SMRA», stars,
+  the tools line, «Open the guide».
