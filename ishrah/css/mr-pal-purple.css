@@ -2817,7 +2817,28 @@ html body .bk-ibtns .btn{min-height:44px;height:auto;border-radius:999px}
 .ho-bar b{font-size:15px}.ho-bar span{font-size:12.5px;opacity:.75;flex:1}
 .ho-bar .btn{padding:6px 12px;font-size:13px}
 .ho-fr{width:100%;height:calc(100svh - 190px);min-height:480px;border:0;border-radius:16px;background:#f2eff5;box-shadow:0 2px 10px rgba(0,0,0,.08)}
-.ho-card{display:flex;align-items:center;gap:12px;margin:0 0 12px;padding:12px 14px;border-radius:16px;background:linear-gradient(135deg,#4a115b,#631b7d);color:#fff;text-decoration:none}
 .ho-ci{font-size:28px}.ho-ct{flex:1;display:flex;flex-direction:column;min-width:0}.ho-ct b{font-size:15.5px}.ho-ct small{font-size:12.5px;opacity:.9}
 .ho-go{background:#fff;color:#4a115b;border-radius:20px;padding:6px 14px;font-weight:700;font-size:13px}
 .ho-feat .ic{font-size:20px;display:inline-grid;place-items:center}
+
+/* the HO Guide as a book on the House Officer home (hoapp.js) */
+.ho-card{margin:0 0 12px}.ho-card .bk-card{box-shadow:0 6px 18px rgba(35,11,65,.08)}
+/* book cards like the library post cards (owner, 27 Nov 2026: "text beside the cover, buttons aligned, no empty space") */
+.bk-card{display:grid;grid-template-columns:104px minmax(0,1fr);gap:4px 12px;align-items:start;padding:12px;border-radius:18px;box-shadow:0 4px 14px rgba(35,11,65,.07)}
+.bk-card>.bk-cv{grid-row:1 / span 2;align-self:start;border-radius:10px}
+.bk-card .bk-tx{gap:3px;justify-items:start;text-align:start;padding-top:0}
+.bk-card .bk-tx>*{text-align:start;margin:0}
+.bk-card .bk-subject{font-size:11.5px;font-weight:700;color:#391464;background:#ede9f3;border-radius:999px;padding:1px 9px}
+.bk-card .bk-tx h2,.bk-shelf .bk-card .bk-tx h2{font-size:15.5px;line-height:1.3}
+.bk-card .bk-tx h2 a{color:inherit;text-decoration:none}
+.bk-card .bk-authors{font-size:11.5px;line-height:1.4}
+.bk-card .bk-tools{font-size:11.5px;line-height:1.45;color:var(--sub,#5b6b68)}
+.bk-card .bk-access{gap:4px}.bk-card .bk-access span{font-size:10.5px;padding:1px 7px}
+.bk-card .bk-progress{font-size:11px}
+.bk-card .bk-read{margin-top:5px;min-height:34px;padding:6px 14px;border-radius:999px;background:linear-gradient(180deg,#451c78,#230b41)!important;color:#fff!important;border:0!important;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:6px}
+.bk-card .bk-read *{color:#fff!important}
+.bk-card .bk-feedback{grid-column:1 / -1}
+@media(max-width:400px){.bk-card{grid-template-columns:88px minmax(0,1fr)}}
+[dir=rtl] .bk-card .bk-tx>*,[dir=rtl] .bk-card .bk-tx h2{text-align:right}[dir=ltr] .bk-card .bk-tx>*{text-align:left}
+html body #main .bk-card .bk-read,html body .bk-card a.bk-read.btn{background:linear-gradient(180deg,#451c78,#230b41)!important;color:#fff!important;border:0!important;box-shadow:0 4px 10px rgba(35,11,65,.22)!important}
+html body #main .bk-card .bk-read *{color:#fff!important}

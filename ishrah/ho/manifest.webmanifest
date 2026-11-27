@@ -1,7 +1,7 @@
 {
   "id": "/ho/",
-  "name": "HO Assistant · SMRA",
-  "short_name": "HO Assistant",
+  "name": "HO Guide · SMRA",
+  "short_name": "HO Guide",
   "description": "مساعد طبيب الامتياز: الأدوية بخطوط العلاج والجرعات المحسوبة والسوائل والوصفة والفحوصات حسب الدليل المحلي.",
   "start_url": "/ho/",
   "scope": "/ho/",

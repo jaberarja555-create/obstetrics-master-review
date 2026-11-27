@@ -1700,6 +1700,10 @@ studentmasterreview.com with HTTP/3 off). Now:
   buttons; page heights at 350 px fell 30–70 %); drug page doses are one line each (`.drow`: indication · amount · how · ⓘ); «More details»
   on the patient page starts folded. Diagnose = small pill buttons per body system (count of chosen findings) that open a sheet of
   symptoms to tick (`ACT.sxgrp`, `sxpick`); chosen findings and the likely diagnoses update under the buttons (`dxBody`, `dxRefresh`).
+- **HO Guide as a book (owner, 27 Nov 2026):** the app is named «HO Guide» everywhere (manifest, top bar, menu); his cover picture is
+  `img/books/ho.webp` (SMRA shelf) and `ho/img/cover.webp`; the app icon is the white coat with the HO badge from the cover. js/hoapp.js
+  `IS.hoBook()` = a book card (`.bk-card.ho-book`) shown on the House Officer Home, first on the Master Review books shelf (My Library) and
+  on `#books`. All book cards: cover beside the text, text next to the cover, a filled «Open» button (CSS at the end of css/mr.css).
 - The app never names Kassala or PCH on screen (owner, 26 Nov 2026: say «local guidelines»); sources stay in the data (`src`) and ho/src/notes.
 - Calculators (owner, 26 Nov 2026: "ugly"): list rows with what each gives; a header card with the formula, fields with the unit inside,
   one big green result, the rest in a table, notes as a tip card.

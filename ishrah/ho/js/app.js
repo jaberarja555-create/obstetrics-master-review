@@ -1,4 +1,4 @@
-/* HO Assistant — screens. Data: HO_DRUGS (drugs.js), HO_DX / HO_SX / HO_SYS (dx.js); calculations: HO_E (engine.js).
+/* HO Guide — screens. Data: HO_DRUGS (drugs.js), HO_DX / HO_SX / HO_SYS (dx.js); calculations: HO_E (engine.js).
    Language (owner, 26–27 Nov 2026): main titles in English (T); everything else follows the chosen language (A), Arabic by default.
    Look: SMRA green and gold, with the look, colour and text size chosen in Settings. Patients stay on this device (ho-*). */
 (function () {
@@ -136,19 +136,19 @@
   var NAV = [['', 'home', 'الرئيسية', 'Home'], ['patient', 'user', 'المريض', 'Patient'], ['conds', 'list', 'الأمراض', 'Conditions'], ['drugs', 'pill', 'الأدوية', 'Drugs'], ['calc', 'medkit', 'الأدوات', 'Tools']];
   var THEMES = ['light', 'dark', 'eye'];
   function themeNow() { return document.documentElement.dataset.theme || 'light'; }
-  /* the owner's design (27 Nov 2026): menu · SMRA logo with «HO Assistant» · look · profile; inner pages get a title bar with a back button */
+  /* the owner's design (27 Nov 2026): menu · SMRA logo with «HO Guide» · look · profile; inner pages get a title bar with a back button */
   function head(title, sub, opt) {
     opt = opt || {};
     var r = route()[0], home = !r, th = themeNow();
     $('#hb').innerHTML = '<div class="hb-s"><button class="sqb" data-act="menu" aria-label="' + A('القائمة', 'Menu') + '">' + ic('menu') + '</button></div>' +
-      '<a class="hb-logo" data-go="" aria-label="HO Assistant"><img src="../img/mr/logo-smra.webp" alt="SMRA" width="1000" height="359"><span class="hb-tag"><i></i><b>HO Assistant</b><i></i></span></a>' +
+      '<a class="hb-logo" data-go="" aria-label="HO Guide"><img src="../img/mr/logo-smra.webp" alt="SMRA" width="1000" height="359"><span class="hb-tag"><i></i><b>HO Guide</b><i></i></span></a>' +
       '<div class="hb-s end"><button class="rdb" data-act="theme" aria-label="' + A('المظهر', 'Look') + '">' + ic(th === 'dark' ? 'moon' : th === 'eye' ? 'eye' : 'sun') + '</button>' +
       '<button class="hb-me" data-act="profile" aria-label="' + A('الحساب', 'Account') + '">' + avatar() + '</button></div>';
     var cur = { c: 'conds', drug: 'drugs', dx: 'conds', rx: 'patient', orders: 'patient', saved: 'patient', emerg: 'calc', settings: '' }[r]; if (cur == null) cur = r;
     $('#bn').innerHTML = NAV.map(function (n) { return '<button data-go="' + n[0] + '" class="' + (cur === n[0] ? 'on' : '') + '">' + ic(n[1]) + '<span>' + A(n[2], n[3]) + '</span></button>'; }).join('');
     $('#ph').innerHTML = home ? '' : '<div class="pbar"><button class="sqb sm" data-act="back" aria-label="' + A('رجوع', 'Back') + '">' + ic('back') + '</button><div class="pbar-t"><h1>' + T(title) + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div></div>' +
       (opt.strip !== false && !/^(patient|settings)$/.test(r) ? ptStrip() : '');
-    document.title = title + ' · HO Assistant';
+    document.title = title + ' · HO Guide';
   }
   function ptStrip() {
     var c = P.dx && byId[P.dx];
@@ -169,7 +169,7 @@
   ACT.toSMRA = function () { closeSheet(); toPlatform('#home'); };
   ACT.menu = function () {
     var r = route()[0], s = $('#sheet');
-    s.innerHTML = '<div class="sh-bg" data-act="shclose"></div><nav class="drawer"><div class="dr-h"><img src="../img/mr/logo-smra.webp" alt="SMRA"><span class="hb-tag"><i></i><b>HO Assistant</b><i></i></span></div>' +
+    s.innerHTML = '<div class="sh-bg" data-act="shclose"></div><nav class="drawer"><div class="dr-h"><img src="../img/mr/logo-smra.webp" alt="SMRA"><span class="hb-tag"><i></i><b>HO Guide</b><i></i></span></div>' +
       MENU.map(function (m) { return '<button class="' + (r === m[0] ? 'on' : '') + '" data-go="' + m[0] + '"><span class="ib2">' + ic(m[1]) + '</span><span>' + A(m[2], m[3]) + '</span></button>'; }).join('') +
       '<button data-act="toSMRA"><span class="ib2">' + ic('back') + '</span><span>' + A('العودة إلى منصة SMRA', 'Back to SMRA') + '</span></button></nav>';
     s.hidden = false;
@@ -231,7 +231,7 @@
   /* ================= Home ================= */
   function greet() { var h = new Date().getHours(); return h < 12 ? A('صباح الخير', 'Good morning') : A('مساء الخير', 'Good evening'); }
   function home() {
-    head('HO Assistant', '');
+    head('HO Guide', '');
     var c = P.dx && byId[P.dx], dn = drName();
     var h = '<section class="hero"><div class="hero-art" aria-hidden="true"></div><div class="hero-tx"><small>' + greet() + (AR ? '' : ',') + '</small><h2 dir="auto">' + esc(dn || A('دكتور', 'Doctor')) + '</h2><i class="hero-bar"></i><p>' +
       A('أدخل بيانات المريض مرة واحدة، وتجد خطة العلاج والجرعات والسوائل والوصفة جاهزة.', 'Enter the patient once so the plan, doses, fluids and prescription are ready.') + '</p></div></section>';
@@ -852,10 +852,10 @@
       return '<button class="look ' + x[0] + (th === x[0] ? ' on' : '') + '" data-act="setlook" data-v="' + x[0] + '"><span>' + ic(x[1]) + '</span><b>' + A(x[2], x[3]) + '</b></button>'; }).join('') + '</div>');
     h += sec('App colour', 'palette', '<div class="pals">' + PALS.map(function (x) { return '<button class="pal' + (pal === x[0] ? ' on' : '') + '" data-act="setpal" data-v="' + x[0] + '"><i style="background:' + x[1] + '"></i><span>' + A(x[2], x[3]) + '</span></button>'; }).join('') + '</div>');
     h += sec('Text size', 'text', seg([['s', 'صغير', 'Small'], ['n', 'عادي', 'Normal'], ['l', 'كبير', 'Large']], fs, 'setfs'));
-    h += sec('Install as app', 'install', standalone() ? '<p class="ok">' + ic('check') + A('أنت تستعمل HO Assistant كتطبيق الآن.', 'You are using HO Assistant as an app now.') + '</p>' :
+    h += sec('Install as app', 'install', standalone() ? '<p class="ok">' + ic('check') + A('أنت تستعمل HO Guide كتطبيق الآن.', 'You are using HO Guide as an app now.') + '</p>' :
       '<div class="inst"><img src="img/ho-192.png" alt=""><p>' + A('يظهر على شاشة هاتفك بأيقونته، ويفتح مباشرة ويعمل بدون إنترنت.', 'It gets its own icon on your phone, opens straight away and works offline.') + '</p></div><button class="btn pri wide" data-act="install">' + ic('install') + A('ثبّت التطبيق', 'Install the app') + '</button>');
     h += sec('Saved data', 'save', '<p class="kv1"><span>' + A('المرضى المحفوظون', 'Saved patients') + '</span><b>' + get('ho-pts', []).length + '</b></p><p class="hint">' + A('كل البيانات على هذا الجهاز فقط ولا تُرسل لأي مكان.', 'All data stay on this device only.') + '</p><button class="btn wide danger" data-act="wipe">' + ic('trash') + A('احذف كل بيانات المرضى', 'Delete all patient data') + '</button>');
-    h += sec('About', 'shield', '<p class="hint">' + A('HO Assistant من أكاديمية SMRA. الجرعات والخطط مبنية على الأدلة العلاجية المحلية (local guidelines)، وتُضاف الباطنية والجراحة والنساء والتوليد عند وصول أدلتها.', 'HO Assistant by SMRA. Doses and plans are built on local guidelines; medicine, surgery and obstetrics are added when their guidelines arrive.') + '</p>');
+    h += sec('About', 'shield', '<p class="hint">' + A('HO Guide من أكاديمية SMRA. الجرعات والخطط مبنية على الأدلة العلاجية المحلية (local guidelines)، وتُضاف الباطنية والجراحة والنساء والتوليد عند وصول أدلتها.', 'HO Guide by SMRA. Doses and plans are built on local guidelines; medicine, surgery and obstetrics are added when their guidelines arrive.') + '</p>');
     return h + disc();
   }
   ACT.setlang = function (b) { LANG = b.dataset.v; AR = LANG === 'ar'; put('ish-lang', LANG); document.documentElement.lang = LANG; render(true); };
