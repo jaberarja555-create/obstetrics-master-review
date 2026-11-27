@@ -1739,3 +1739,7 @@ studentmasterreview.com with HTTP/3 off). Now:
 - **Cards, fourth pass (owner, 27 Nov 2026):** the author and the stars share one line (`.feed-author.fa-stars`, stars smaller, never
   wraps; a long author name is cut with …); header «Library | time» side by side. The HO card's stars and buttons are loaded again when the
   page comes from its saved copy (the copy already held the card, so `hoFeedback` was skipped and the live card had no buttons).
+- **HO Guide on computers (owner, 28 Nov 2026: "the app in laptop is very bad, the screen is not filling the background"):** from 1024 px
+  the bottom bar becomes a navy side menu (248 px: logo, the five sections, the rest of the ☰ menu as `.dk` items, «Back to SMRA» at the
+  bottom; tighter under 760 px of height); the top bar loses its logo; pages use up to 1180 px; Home is a 12-column grid (greeting across,
+  New patient beside Emergency doses, four tools, three shortcuts) and is not tightened by `fitHome` (phones only). Phones unchanged.

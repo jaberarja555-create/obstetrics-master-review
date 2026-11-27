@@ -145,7 +145,14 @@
       '<div class="hb-s end"><button class="rdb" data-act="theme" aria-label="' + A('المظهر', 'Look') + '">' + ic(th === 'dark' ? 'moon' : th === 'eye' ? 'eye' : 'sun') + '</button>' +
       '<button class="hb-me" data-act="profile" aria-label="' + A('الحساب', 'Account') + '">' + avatar() + '</button></div>';
     var cur = { c: 'conds', drug: 'drugs', dx: 'conds', rx: 'patient', orders: 'patient', saved: 'patient', emerg: 'calc', settings: '' }[r]; if (cur == null) cur = r;
-    $('#bn').innerHTML = NAV.map(function (n) { return '<button data-go="' + n[0] + '" class="' + (cur === n[0] ? 'on' : '') + '">' + ic(n[1]) + '<span>' + A(n[2], n[3]) + '</span></button>'; }).join('');
+    /* phones: the five tabs at the bottom; computers (owner, 28 Nov 2026: "the screen is not filling"): the same bar becomes a side menu
+       with the logo, the five sections, the rest of the ☰ menu and «Back to SMRA» (the .dk items show only there) */
+    var navIds = NAV.map(function (n) { return n[0]; });
+    $('#bn').innerHTML = '<a class="bn-brand dk" data-go="" aria-label="HO Guide"><img src="../img/mr/logo-smra.webp" alt="SMRA" width="1000" height="359"><span class="hb-tag"><i></i><b>HO Guide</b><i></i></span></a>' +
+      NAV.map(function (n) { return '<button data-go="' + n[0] + '" class="' + (cur === n[0] ? 'on' : '') + '">' + ic(n[1]) + '<span>' + A(n[2], n[3]) + '</span></button>'; }).join('') +
+      '<i class="bn-sep dk"></i>' +
+      MENU.filter(function (m) { return navIds.indexOf(m[0]) < 0; }).map(function (m) { return '<button data-go="' + m[0] + '" class="dk' + (r === m[0] ? ' on2' : '') + '">' + ic(m[1]) + '<span>' + A(m[2], m[3]) + '</span></button>'; }).join('') +
+      '<button class="dk bn-back" data-act="toSMRA">' + ic('back') + '<span>' + A('العودة إلى منصة SMRA', 'Back to SMRA') + '</span></button>';
     $('#ph').innerHTML = home ? '' : '<div class="pbar"><button class="sqb sm" data-act="back" aria-label="' + A('رجوع', 'Back') + '">' + ic('back') + '</button><div class="pbar-t"><h1>' + T(title) + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div></div>' +
       (opt.strip !== false && !/^(patient|settings)$/.test(r) ? ptStrip() : '');
     document.title = title + ' · HO Guide';
@@ -905,7 +912,8 @@
   function fitHome() {
     var b = document.body; b.classList.remove('fit1', 'fit2', 'fit3', 'fit4'); b.classList.add('fitting');
     if (b.dataset.page !== 'home') { b.classList.remove('fitting'); return; }
-    for (var i = 1; i <= 4 && document.documentElement.scrollHeight > innerHeight + 1; i++) b.classList.add('fit' + i);
+    /* computers have their own Home layout (css: min-width 1024px); only phones are tightened */
+    for (var i = 1; i <= 4 && innerWidth < 1024 && document.documentElement.scrollHeight > innerHeight + 1; i++) b.classList.add('fit' + i);
     /* what is left is shared between the sections, so the Home fills the screen exactly */
     var hb = $('#hb'), bn = $('#bn'), cs = getComputedStyle($('main'));
     var avail = innerHeight - hb.offsetHeight - bn.offsetHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - 8;
