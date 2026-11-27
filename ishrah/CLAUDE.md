@@ -1722,3 +1722,5 @@ studentmasterreview.com with HTTP/3 off). Now:
   width under cover and text; a line; then Free (gift icon) | Like · Comment · Share · Report. The cards are containers: Share shows its
   label from 400 px of card, Comment drops its icon under 380, a paid card shows Comment as an icon under 350. Same shape for series cards
   and the HO Guide card. dlBtn compact label is now «حفظ دون إنترنت» / "Save offline". Stars still show without numbers.
+- **HO Guide is a paid app (owner, 27 Nov 2026: "we will determine how the subscription later"):** its card shows «مدفوع» / "Paid"
+  (ptag paid, no price). Nothing in the HO Guide is locked yet; add the subscription (price, plans, what stays free) when the owner decides.

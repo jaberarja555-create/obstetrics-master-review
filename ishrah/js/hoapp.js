@@ -30,7 +30,7 @@
   }
   IS.hoBook = hoBook;
   /* on the House Officer home it reads like a library card (owner, 27 Nov 2026: "make the HO Guide book card match this style"):
-     chips, author, «Open the guide» and «Install the app» side by side, then Free | Share. It has no likes, comments, stars or reports
+     chips, author, «Open the guide» and «Install the app» side by side, then Paid | Share (owner, 27 Nov 2026: the HO Guide is paid; the subscription is decided later, so nothing is locked yet). It has no likes, comments, stars or reports
      because it is not a library file. */
   function hoFeed() {
     var chip = function (icon, text) { return '<span class="fchip">' + ic(icon) + '<bdi>' + esc(text) + '</bdi></span>'; };
@@ -42,7 +42,7 @@
       '<p class="feed-author" dir="auto"><bdi lang="en" dir="ltr">SMRA</bdi></p>' +
       '</div></div><div class="row library-feed-actions feed-wide-acts"><a class="btn ghost sm fopen" href="#ho">' + ic('open') + '<span>' + esc(A('افتح الدليل', 'Open the guide')) + '</span>' + ic('chev', 'fchev') + '</a>' +
       '<a class="btn ghost sm" href="/ho/?install=1#settings" target="_blank" rel="noopener">' + ic('clouddl') + '<span>' + esc(A('ثبّت التطبيق', 'Install the app')) + '</span></a></div>' +
-      '<div class="feed-votes"><div class="fv-acts fv-lay"><span class="fv-price"><span class="ptag free sm">' + ic('gift') + esc(A('مجاني', 'Free')) + '</span></span>' +
+      '<div class="feed-votes"><div class="fv-acts fv-lay"><span class="fv-price"><span class="ptag paid sm">' + ic('tag') + esc(A('مدفوع', 'Paid')) + '</span></span>' +
       '<button type="button" class="fv-btn" data-act="share-link" data-h="ho">' + ic('share') + '<span>' + esc(A('مشاركة', 'Share')) + '</span></button></div></div></article>';
   }
   var shelf0 = IS.booksShelf;

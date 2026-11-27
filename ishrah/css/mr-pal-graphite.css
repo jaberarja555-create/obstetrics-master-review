@@ -2974,3 +2974,4 @@ html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>:is(.rx-wrap,.fv-btn:is([d
 html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-btn:is([data-act="feed-comments"],[data-act="focus-feed-comments"]){padding:0!important}
 html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.rx-wrap>.fv-btn.feed-react{padding:0 4px!important}
 @container (max-width:349px){html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-price .ptag .ico{display:none!important}}
+html body .mrh .ho-card .feed-card.feed-ho .feed-votes>.fv-acts.fv-lay>.fv-btn[data-act="share-link"]{width:auto!important;min-width:0!important;padding:0 16px!important;flex:none!important}
