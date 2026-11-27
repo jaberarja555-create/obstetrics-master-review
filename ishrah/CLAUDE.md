@@ -1712,3 +1712,7 @@ studentmasterreview.com with HTTP/3 off). Now:
   WITHOUT numbers (`.feed-stars`, tap to rate as before), «Open the book» and «Download» side by side, a line, and ONE bottom row:
   price chip | Like · Comment · Share · Report (`row._lay` → `IS.feedVoteBar` drops `.fv-rate` and puts the price first in `.fv-acts.fv-lay`).
   Series feed cards do the same (series.js `seriesStars`). The numeric score and count (`.gnum`, `.gcount`) are hidden in every star rating.
+- **HO Guide card in the library-card style (27 Nov 2026, owner):** on the House Officer home the HO Guide is a feed card (hoapp.js
+  `hoFeed`, class `feed-ho`): «تطبيق» chip, cover, title, summary, chips (Pediatrics · House Officer · Works offline), author SMRA,
+  «افتح الدليل» + «ثبّت التطبيق» (/ho/?install=1#settings, new tab) side by side, then Free | Share. No likes, comments, stars or report:
+  it is not a library file, so there is nothing to store them on. The `#books` page keeps the book-card style of the other books.

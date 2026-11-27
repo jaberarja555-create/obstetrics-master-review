@@ -2872,3 +2872,9 @@ html body .mrh .feed-card:is(.feed-library) .feed-votes>.fv-stats:not(:has(.rx-s
   html body .mrh .feed-card .fv-acts.fv-lay>.fv-price .ptag .ico{display:none!important}
   html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>:is(.rx-wrap,.fv-btn[data-act="feed-comments"],.fv-btn[data-act="focus-feed-comments"]){flex:1 1 auto!important}
   html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay .feed-react{padding:0 6px!important;gap:4px!important}}
+/* HO Guide on the House Officer home in the library-card style (27 Nov 2026): a picture cover, Share keeps its label */
+html body .mrh .ho-card .feed-ho{margin:0!important}
+html body .mrh .ho-card .feed-ho .feed-image img{width:100%;height:100%;object-fit:cover;border-radius:12px;display:block}
+html body .mrh .ho-card .feed-ho .fv-acts.fv-lay>.fv-btn[data-act="share-link"]{width:auto!important;min-width:0!important;padding:0 14px!important;flex:none!important}
+html body .mrh .ho-card .feed-ho .fv-acts.fv-lay{justify-content:space-between!important}
+html body .mrh .ho-card .feed-ho .feed-image{aspect-ratio:3/4!important;width:clamp(84px,23.5vw,124px)!important;flex:none!important;height:auto!important}

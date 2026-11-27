@@ -29,6 +29,22 @@
       '<a class="btn ghost sm bk-read" href="#ho">' + ic('open') + esc(A('افتح الدليل', 'Open the guide')) + '</a></div></article>';
   }
   IS.hoBook = hoBook;
+  /* on the House Officer home it reads like a library card (owner, 27 Nov 2026: "make the HO Guide book card match this style"):
+     chips, author, «Open the guide» and «Install the app» side by side, then Free | Share. It has no likes, comments, stars or reports
+     because it is not a library file. */
+  function hoFeed() {
+    var chip = function (icon, text) { return '<span class="fchip">' + ic(icon) + '<bdi>' + esc(text) + '</bdi></span>'; };
+    return '<article class="box feed-card feed-library feed-ho" data-go="#ho"><header class="feed-card-header"><span>' + ic('clinic') + esc(A('تطبيق', 'App')) + '</span></header>' +
+      '<div class="feed-card-content"><a class="feed-image" href="#ho" aria-label="HO Guide"><img src="' + IS.U('img/books/ho.webp') + '" alt="" width="600" height="800" loading="lazy" decoding="async"></a>' +
+      '<div><h3 dir="auto"><a href="#ho" lang="en">HO Guide</a></h3>' +
+      '<p class="feed-summary" dir="auto">' + esc(A('الجرعات المحسوبة وخطة العلاج والسوائل والوصفة والتشخيص من الأعراض', 'Calculated doses, treatment plans, fluids, prescriptions and diagnosis from symptoms')) + '</p>' +
+      '<p class="feed-detail"><span class="fchips">' + chip('layers', 'Pediatrics') + chip('nurse', A('طبيب الامتياز', 'House Officer')) + chip('offline', A('يعمل بدون إنترنت', 'Works offline')) + '</span></p>' +
+      '<p class="feed-author" dir="auto"><bdi lang="en" dir="ltr">SMRA</bdi></p>' +
+      '<div class="row library-feed-actions"><a class="btn ghost sm" href="#ho">' + ic('open') + esc(A('افتح الدليل', 'Open the guide')) + '</a>' +
+      '<a class="btn ghost sm" href="/ho/?install=1#settings" target="_blank" rel="noopener">' + ic('download') + esc(A('ثبّت التطبيق', 'Install the app')) + '</a></div></div></div>' +
+      '<div class="feed-votes"><div class="fv-acts fv-lay"><span class="fv-price">' + (IS.priceTag ? IS.priceTag({ price: 0 }, 'sm') : '') + '</span>' +
+      '<button type="button" class="fv-btn" data-act="share-link" data-h="ho">' + ic('share') + '<span>' + esc(A('مشاركة', 'Share')) + '</span></button></div></div></article>';
+  }
   var shelf0 = IS.booksShelf;
   if (shelf0) IS.booksShelf = function () { return shelf0.apply(this, arguments).replace('<div class="bk-row">', '<div class="bk-row">' + hoBook()); };
   function tile() { return '<a href="#ho" class="ho-feat">' + '<span class="ic">🩺</span><span>HO Guide</span></a>'; }
@@ -46,7 +62,7 @@
     (function put() {
       var m = document.getElementById('main'); if (!m || m.querySelector('.ho-card')) return;
       var t = m.querySelector('.mh-title'); if (!t) { if (++tries < 20) setTimeout(put, 150); return; }
-      t.insertAdjacentHTML('afterend', '<div class="ho-card">' + hoBook() + '</div>');
+      t.insertAdjacentHTML('afterend', '<div class="ho-card">' + hoFeed() + '</div>');
     })();
   };
 })();
