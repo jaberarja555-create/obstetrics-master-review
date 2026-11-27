@@ -2975,3 +2975,18 @@ html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-btn:is([data-act="feed
 html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.rx-wrap>.fv-btn.feed-react{padding:0 4px!important}
 @container (max-width:349px){html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-price .ptag .ico{display:none!important}}
 html body .mrh .ho-card .feed-card.feed-ho .feed-votes>.fv-acts.fv-lay>.fv-btn[data-act="share-link"]{width:auto!important;min-width:0!important;padding:0 16px!important;flex:none!important}
+/* No empty space beside or under the cover (owner, 27 Nov 2026): the cover floats and the text wraps around it, so whatever is
+   taller than the cover (chips, author, stars) continues across the full width under it. */
+html body .mrh .feed-library .feed-card-content{display:flow-root!important}
+html body .mrh .feed-library .feed-card-content>.feed-image{float:inline-start!important;margin:0 0 10px!important;margin-inline-end:14px!important}
+html body .mrh .feed-library .feed-card-content>div:not(.feed-image){display:block!important}
+html body .mrh .feed-library .feed-card-content>div:not(.feed-image)>*{margin-inline:0!important}
+html body .mrh .feed-library .feed-card-content>div .feed-detail{display:block!important}
+html body .mrh .feed-library .feed-card-content>div .fchips{display:flex!important;flex-wrap:wrap}
+html body .mrh .feed-library .fchip{height:26px!important;padding:0 9px!important;font-size:12px!important;gap:5px!important}
+html body .mrh .feed-library .fchip .ico{width:13px!important;height:13px!important}
+html body .mrh .feed-card>.feed-wide-acts{clear:both}
+/* the HO Guide has no likes or comments: Share takes the rest of the row */
+html body .mrh .ho-card .feed-card.feed-ho .feed-votes>.fv-acts.fv-lay>.fv-btn[data-act="share-link"]{flex:1 1 auto!important;width:auto!important}
+html body .mrh .feed-items>.feed-card.feed-series{grid-template-columns:clamp(88px,25%,128px) minmax(0,1fr)!important}
+html body .mrh .feed-card.feed-series .fb>.feed-stars{margin:2px 0 0!important;padding:0!important;display:flex!important;justify-content:flex-start!important;width:100%}html body .mrh .feed-card.feed-series .fb>.feed-stars .library-rating{margin:0!important;padding:0!important}

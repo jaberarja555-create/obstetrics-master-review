@@ -1724,3 +1724,7 @@ studentmasterreview.com with HTTP/3 off). Now:
   and the HO Guide card. dlBtn compact label is now «حفظ دون إنترنت» / "Save offline". Stars still show without numbers.
 - **HO Guide is a paid app (owner, 27 Nov 2026: "we will determine how the subscription later"):** its card shows «مدفوع» / "Paid"
   (ptag paid, no price). Nothing in the HO Guide is locked yet; add the subscription (price, plans, what stays free) when the owner decides.
+- **No empty space beside the cover (owner, 27 Nov 2026: "how many times… not to leave empty space"):** in library and HO Guide cards the
+  cover FLOATS and the text wraps around it, so chips, author and stars that are taller than the cover continue full width under it
+  (`.feed-card-content{display:flow-root}`, buttons `clear:both`). Chips are smaller (26 px). The HO Guide's Share fills the rest of its
+  bottom row. Series covers are narrower (88–128 px) to match their short text. Test at the owner's ~411 px with larger phone text (≈ 360 px).
