@@ -348,11 +348,15 @@
     var media = row.preview_image || row.cover || (!isPost && defaultArt[type] ? 'img/collection/' + defaultArt[type] + '.webp' : '');
     var libraryKind = library && IS.libraryKind(row.kind);
     var details = type === 'event' && row.starts ? esc(IS.date(row.starts, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Khartoum' })) :
-      library ? IS.librarySubjectNames(row).concat(A(libraryKind[2], libraryKind[3])).filter(Boolean).map(esc).join(' <i class="fsep">•</i> ') +
-        ((row.author || row.owner_name) ? '</p><p class="feed-author" dir="auto">' + esc(row.author || row.owner_name) : '') :
+      library ? '<span class="fchips">' + IS.librarySubjectNames(row).map(function (n) { return '<span class="fchip">' + ic('layers') + '<bdi>' + esc(n) + '</bdi></span>'; }).join('') +
+          (libraryKind[2] ? '<span class="fchip">' + ic(libraryKind[1]) + esc(A(libraryKind[2], libraryKind[3])) + '</span>' : '') + '</span>' +
+        ((row.author || row.owner_name) ? '</p><p class="feed-author" dir="auto"><bdi>' + esc(row.author || row.owner_name) + '</bdi>' : '') +
+        '</p><p class="feed-stars">' + IS.libraryRating(row, true, 'file') :
       isPost ? (row.user_id ? '<a class="pname" href="#person/' + esc(row.user_id) + '">' + esc(row.name || '') + '</a>' : esc(row.name || '')) :
       type === 'request' ? '<span class="rq-joined">' + ic('users') + '<b dir="ltr">' + esc(((row.payment_required ? row.paid_count : row.joined_count) || 0) + (row.goal ? ' / ' + row.goal : '')) + '</b>' + esc(A('منضمّون', 'joined')) + '</span>' :
       type === 'course' ? [courseFormat(row), row.starts_at && courseSchedule(row)].filter(Boolean).join(' · ') : '';
+    /* library card as in the owner's mockup (27 Nov 2026): stars under the author, Free · Like · Comment · Share · Report in one row */
+    if (library) row._lay = 1;
     row._price = library || type === 'course' ? Number(row.price) || 0 : isPost && row.linked_price != null ? Number(row.linked_price) || 0 : null;
     return '<article class="box feed-card feed-' + type + (isPost ? ' feed-post' : '') + (type === 'post' ? ' feed-fb' : '') + '" data-kind="' + type + '" data-go="#' + target + esc(row.id) + '"><header class="feed-card-header"><span>' + ic(label[2]) +
       esc(A(label[0], label[1])) + '</span>' + (when ? '<time datetime="' + esc(when) + '">' + esc(IS.ago(when)) + '</time>' : '') +

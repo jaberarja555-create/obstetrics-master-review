@@ -1708,3 +1708,7 @@ studentmasterreview.com with HTTP/3 off). Now:
 - Calculators (owner, 26 Nov 2026: "ugly"): list rows with what each gives; a header card with the formula, fields with the unit inside,
   one big green result, the rest in a table, notes as a tip card.
 - ho/sw.js is network-first (3 s, then the saved copy), so a new version shows at once; bump `C` when the cached file list changes.
+- **Library feed cards as in the owner's mockup (27 Nov 2026):** subject and type as pill chips with icons, the author, then the stars
+  WITHOUT numbers (`.feed-stars`, tap to rate as before), «Open the book» and «Download» side by side, a line, and ONE bottom row:
+  price chip | Like · Comment · Share · Report (`row._lay` → `IS.feedVoteBar` drops `.fv-rate` and puts the price first in `.fv-acts.fv-lay`).
+  Series feed cards do the same (series.js `seriesStars`). The numeric score and count (`.gnum`, `.gcount`) are hidden in every star rating.

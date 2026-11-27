@@ -2842,3 +2842,34 @@ html body .bk-ibtns .btn{min-height:44px;height:auto;border-radius:999px}
 [dir=rtl] .bk-card .bk-tx>*,[dir=rtl] .bk-card .bk-tx h2{text-align:right}[dir=ltr] .bk-card .bk-tx>*{text-align:left}
 html body #main .bk-card .bk-read,html body .bk-card a.bk-read.btn{background:linear-gradient(180deg,#781c34,#410b19)!important;color:#fff!important;border:0!important;box-shadow:0 4px 10px rgba(65,11,25,.22)!important}
 html body #main .bk-card .bk-read *{color:#fff!important}
+
+/* Library feed card as in the owner's mockup (27 Nov 2026): subject chips, author, stars without numbers,
+   the two buttons side by side, then one row: Free | Like · Comment · Share · Report */
+html body .mrh .feed-card .feed-detail:has(.fchips){display:block!important}
+html body .mrh .feed-card .fchips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}
+html body .mrh .feed-card .fchip{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:999px;background:#f4eff2;color:#572f42;font-size:12px!important;font-weight:600;white-space:nowrap;line-height:1}
+html body .mrh .feed-card .fchip .ico{width:13px;height:13px;flex:none;color:#78445c}
+html body .mrh .feed-card .feed-author{margin:7px 0 0!important}
+html body .mrh .feed-card .feed-stars{margin:6px 0 0!important;display:flex}
+html body .mrh .feed-card .feed-stars .library-rating{border:0!important;background:none!important;box-shadow:none!important;padding:0!important;min-height:0!important;width:auto!important;display:inline-flex;align-items:center;gap:0;cursor:pointer}
+html body .mrh .feed-card .feed-stars .gstars{font-size:17px!important;letter-spacing:1px}
+html body :is(.library-rating,.feed-grade) :is(.gnum,.gcount){display:none!important}
+html body .mrh .feed-card .feed-stars .gtitle{display:none!important}
+html body .mrh .feed-card .fv-acts.fv-lay{align-items:center!important;border-top:1px solid #ebe4e8!important;padding-top:9px!important;margin-top:2px}
+html body .mrh .feed-card .fv-acts.fv-lay>.fv-price{flex:none!important;display:inline-flex;align-items:center;height:auto!important;padding:0 8px 0 0!important;margin-inline-end:2px;border-inline-end:1px solid #e4dce0;border-radius:0!important}
+html:not([lang="en"]) body .mrh .feed-card .fv-acts.fv-lay>.fv-price{padding:0 0 0 8px!important}
+html body .mrh .feed-card .fv-acts.fv-lay>.fv-price .ptag{height:26px;padding:0 11px;font-size:12px;font-weight:700;border-radius:999px}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay{display:flex!important;flex-wrap:nowrap!important;gap:4px!important;grid-template-columns:none!important}
+html body .mrh .feed-card .fv-acts.fv-lay>.fv-price{padding-block:0!important;width:auto!important}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>:is(.rx-wrap,.fv-btn[data-act="feed-comments"],.fv-btn[data-act="focus-feed-comments"]){flex:1 1 0!important;min-width:0!important;width:auto!important}
+html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.rx-wrap>.feed-react{width:100%!important;flex:1 1 auto!important}
+html body .mrh .feed-card .fv-acts.fv-lay .feed-react,html body .mrh .feed-card .fv-acts.fv-lay>.fv-btn{padding:0 8px!important;min-width:0!important}
+html body .mrh .feed-card .fv-acts.fv-lay>:is(.feed-report,.fv-btn[data-act="share-link"]){flex:none!important;width:34px!important;min-width:34px!important;padding:0!important}
+html body .mrh .feed-card .feed-card-content>div:not(.feed-image)>.feed-stars{justify-content:flex-start!important;flex:1 0 100%!important}
+html body .mrh .feed-card .feed-stars .library-rating{margin:0!important}
+html body .mrh .feed-card:is(.feed-library) .feed-votes>.fv-stats:not(:has(.rx-sum:not([hidden]))):has(.feed-comment.zero){display:none!important}
+@media (max-width:389px){html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>.fv-btn:is([data-act="feed-comments"],[data-act="focus-feed-comments"]) .ico{display:none!important}
+  html body .mrh .feed-card .fv-acts.fv-lay>.fv-price .ptag{padding:0 8px;font-size:11.5px}
+  html body .mrh .feed-card .fv-acts.fv-lay>.fv-price .ptag .ico{display:none!important}
+  html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay>:is(.rx-wrap,.fv-btn[data-act="feed-comments"],.fv-btn[data-act="focus-feed-comments"]){flex:1 1 auto!important}
+  html body .mrh .feed-card .feed-votes>.fv-acts.fv-lay .feed-react{padding:0 6px!important;gap:4px!important}}

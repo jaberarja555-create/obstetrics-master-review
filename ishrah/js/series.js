@@ -66,9 +66,11 @@
     else await DB.ins('series_feedback', Object.assign({}, fields, change));
     return seriesTotals(await DB.q('series_feedback', { eq: { series_id: id } }), id, account);
   };
-  function seriesFeedback(id, first) {
-    return IS.feedVoteBar('series', Object.assign({ id: id, owner_id: first.owner_id, _part: first.id, _price: Number(first.price) || 0 }, IS.seriesScore(id)), true);
+  function seriesFeedback(id, first, lay) {
+    return IS.feedVoteBar('series', Object.assign({ id: id, owner_id: first.owner_id, _part: first.id, _price: Number(first.price) || 0, _lay: lay ? 1 : 0 }, IS.seriesScore(id)), true);
   }
+  /* stars under the author in a feed card (owner, 27 Nov 2026) */
+  function seriesStars(id, first) { return '<p class="feed-stars">' + IS.libraryRating(Object.assign({ id: id, owner_id: first.owner_id }, IS.seriesScore(id)), true, 'series') + '</p>'; }
 
   /* one card per series: the first part stands for it, with all parts in order */
   IS.seriesCollapse = function (rows) {
@@ -97,11 +99,12 @@
       '<a class="fimg sstack" href="#series/' + esc(s.series_id) + '" aria-label="' + esc(s.series_title || first.title) + '">' + IS.libraryCover(seriesFace(first)) + '<span class="scount">' + ic('layers') + N(s._parts.length) + '</span></a>' +
       '<div class="fb"><span class="ftype">' + ic(k[1]) + esc(A(k[2], k[3])) + (function () { var sp = IS.spec && IS.studyScope && IS.spec(IS.studyScope(first).spec); return sp ? ' · ' + esc(sp.en) : ''; })() + '</span><b><a href="#series/' + esc(s.series_id) + '" dir="auto">' + esc(s.series_title || first.title) + '</a></b>' +
       '<small>' + esc(IS.partsCount(s._parts.length)) + (first.author ? ' · ' + esc(first.author) : '') + '</small>' +
+      (feed ? seriesStars(s.series_id, first) : '') +
       '<div class="row library-feed-actions"><a class="btn ghost sm" href="#series/' + esc(s.series_id) +
       '">' + ic('open') + esc(A('افتح السلسلة', 'Open the series')) + '</a></div>' +
       /* the same buttons as a single book (owner, 20 Nov 2026: "why don't the two look the same; the series misses features") */
       (feed ? '' : '<div class="fcard-tools">' + IS.favBtn('f:' + first.id, true) + (IS.ME ? '<button class="fav sm" data-act="addcoll" data-id="' + esc(first.id) + '" aria-label="' + esc(A('أضف إلى مجموعة', 'Add to collection')) + '">' + ic('folder') + '</button>' : '') + '</div>') +
-      '</div>' + seriesFeedback(s.series_id, first) + '</article>';
+      '</div>' + seriesFeedback(s.series_id, first, feed) + '</article>';
   };
 
   /* ---- the series page: the parts in order ---- */
