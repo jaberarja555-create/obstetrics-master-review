@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>HO Assistant · SMRA</title>
 <meta name="description" content="HO Assistant: مساعد طبيب الامتياز. الأدوية بخطوط العلاج والجرعات المحسوبة والسوائل والوصفة والفحوصات حسب الأدلة العلاجية المحلية.">
-<meta name="theme-color" content="#06463b">
+<meta name="theme-color" content="#0e3b72">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="img/ho-192.png">
 <link rel="apple-touch-icon" href="img/ho-192.png">
@@ -14,10 +14,10 @@
 (function () {
   var d = document.documentElement;
   function g(k, v) { try { var x = localStorage.getItem(k); return x == null ? v : JSON.parse(x); } catch (e) { return v; } }
-  var l = g('ish-lang', 'ar') === 'en' ? 'en' : 'ar'; d.lang = l; d.dir = l === 'ar' ? 'rtl' : 'ltr';
+  var l = g('ish-lang', 'ar') === 'en' ? 'en' : 'ar'; d.lang = l; d.dir = 'ltr';
   var t = g('ish-theme', 'light'); if (t === 'auto') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   d.dataset.theme = t === 'dark' ? 'dark' : t === 'eye' ? 'eye' : 'light';
-  d.dataset.pal = g('ho-pal', g('ish-pal', 'blue'));
+  d.dataset.pal = g('ho-pal', 'navy');
   d.dataset.fs = g('ho-fs', 'n');
   if (window.top !== window) d.classList.add('inframe');
 })();

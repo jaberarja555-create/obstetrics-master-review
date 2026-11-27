@@ -55,6 +55,17 @@
     text: '<path d="M4 7V5h16v2M9 19h6M12 5v14"/>',
     hosp: '<path d="M4 21V7l8-4 8 4v14"/><path d="M10 21v-5h4v5M12 8v4M10 10h4"/>',
     book: '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/>',
+    menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+    userplus: '<circle cx="10" cy="8" r="4"/><path d="M3 21c0-4 3.4-6.5 7-6.5 1.3 0 2.5.3 3.6.8"/><circle class="acf" cx="17.5" cy="17.5" r="4.5"/><path class="w" d="M17.5 15.5v4M15.5 17.5h4"/>',
+    stetho2: '<path d="M5 3v6a4.5 4.5 0 0 0 9 0V3"/><path d="M9.5 13.5v2.5a5 5 0 0 0 10 0V13"/><circle class="ac" cx="19.5" cy="11" r="2"/>',
+    clip: '<rect x="5" y="4.5" width="14" height="16.5" rx="2.2"/><path d="M9 4.5V3h6v1.5"/><path class="ac" d="M8 10.5l1.2 1.2 2.2-2.4M8 16l1.2 1.2 2.2-2.4"/><path d="M13.5 10.5h3M13.5 16h3"/>',
+    pill2: '<rect x="2.8" y="8.6" width="18.4" height="6.8" rx="3.4" transform="rotate(-40 12 12)"/><path class="acf" d="M12 12l3.5-4.2a3.4 3.4 0 0 1 5.2 4.4L17.2 16.4z"/><path d="M9.6 9.1l4.8 5.8"/>',
+    calc2: '<rect x="4" y="3" width="16" height="18" rx="2.4"/><path d="M12 3v18M4 12h16"/><path d="M8 6.2v3.2M6.4 7.8h3.2M6.8 14.8l2.4 2.4M9.2 14.8l-2.4 2.4"/><path class="ac" d="M14.4 7.8h3.2M14.4 15h3.2M14.4 17.4h3.2"/>',
+    siren: '<path d="M7 18v-5.5a5 5 0 0 1 10 0V18"/><path d="M5 18h14v3H5z"/><path d="M12 2.5v2M4.6 5.6l1.4 1.4M19.4 5.6L18 7M2.5 12.5h2M19.5 12.5h2"/><path d="M10 13a2 2 0 0 1 2-2"/>',
+    bmark: '<path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/>',
+    medkit: '<rect x="3" y="7" width="18" height="13" rx="2.4"/><path d="M9 7V5h6v2"/><path class="ac" d="M12 10.5v6M9 13.5h6"/>',
+    drop2: '<path d="M12 3s7 7.5 7 12a7 7 0 0 1-14 0c0-4.5 7-12 7-12z"/><path class="ac" d="M9 15.5a3 3 0 0 0 3 3"/>',
+    gear2: '<circle class="ac" cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
     ecg: '<path d="M3 12h4l2-5 4 10 2-5h6"/>',
     lungs: '<path d="M12 4v7"/><path d="M12 11c-1.5 0-3 1.5-4 4-.8 2-1.5 5-3.5 5S3 17 3 14c0-4 2-8 4.5-8C10 6 12 8 12 11zM12 11c1.5 0 3 1.5 4 4 .8 2 1.5 5 3.5 5S21 17 21 14c0-4-2-8-4.5-8C14 6 12 8 12 11z"/>',
     heart: '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>',
@@ -122,38 +133,47 @@
   function go(h) { if (location.hash.slice(1) === h) render(); else location.hash = h; }
   window.addEventListener('hashchange', function () { render(); });
   function route() { return location.hash.replace(/^#/, '').split('/'); }
-  var NAV = [['', 'home', 'الرئيسية', 'Home'], ['patient', 'user', 'المريض', 'Patient'], ['conds', 'list', 'الأمراض', 'Conditions'], ['drugs', 'pill', 'الأدوية', 'Drugs'], ['calc', 'calc', 'الحاسبات', 'Tools']];
+  var NAV = [['', 'home', 'الرئيسية', 'Home'], ['patient', 'user', 'المريض', 'Patient'], ['conds', 'list', 'الأمراض', 'Conditions'], ['drugs', 'pill', 'الأدوية', 'Drugs'], ['calc', 'medkit', 'الأدوات', 'Tools']];
   var THEMES = ['light', 'dark', 'eye'];
   function themeNow() { return document.documentElement.dataset.theme || 'light'; }
+  /* the owner's design (27 Nov 2026): menu · SMRA logo with «HO Assistant» · look · profile; inner pages get a title bar with a back button */
   function head(title, sub, opt) {
     opt = opt || {};
     var r = route()[0], home = !r, th = themeNow();
-    var start = home ? '<button class="hb-b" data-act="toSMRA" aria-label="SMRA">' + ic('home') + '</button>'
-      : '<button class="hb-b" data-act="back" aria-label="' + A('رجوع', 'Back') + '">' + ic('back', 'flip') + '</button><button class="hb-b ghost" data-go="" aria-label="Home">' + ic('home') + '</button>';
-    $('#hb').innerHTML = '<div class="hb-s">' + start + '</div>' +
-      '<a class="hb-logo" data-go="" aria-label="HO Assistant"><img src="../img/mr/logo-smra.webp" alt="SMRA" width="1000" height="359"><span>HO Assistant</span></a>' +
-      '<div class="hb-s end"><button class="hb-b ghost" data-act="theme" aria-label="' + A('المظهر', 'Look') + '">' + ic(th === 'dark' ? 'moon' : th === 'eye' ? 'eye' : 'sun') + '</button>' +
-      '<button class="hb-b ghost hide-xs" data-go="settings" aria-label="' + A('الإعدادات', 'Settings') + '">' + ic('gear') + '</button>' +
+    $('#hb').innerHTML = '<div class="hb-s"><button class="sqb" data-act="menu" aria-label="' + A('القائمة', 'Menu') + '">' + ic('menu') + '</button></div>' +
+      '<a class="hb-logo" data-go="" aria-label="HO Assistant"><img src="../img/mr/logo-smra.webp" alt="SMRA" width="1000" height="359"><span class="hb-tag"><i></i><b>HO Assistant</b><i></i></span></a>' +
+      '<div class="hb-s end"><button class="rdb" data-act="theme" aria-label="' + A('المظهر', 'Look') + '">' + ic(th === 'dark' ? 'moon' : th === 'eye' ? 'eye' : 'sun') + '</button>' +
       '<button class="hb-me" data-act="profile" aria-label="' + A('الحساب', 'Account') + '">' + avatar() + '</button></div>';
     var cur = { c: 'conds', drug: 'drugs', dx: 'conds', rx: 'patient', orders: 'patient', saved: 'patient', emerg: 'calc', settings: '' }[r]; if (cur == null) cur = r;
     $('#bn').innerHTML = NAV.map(function (n) { return '<button data-go="' + n[0] + '" class="' + (cur === n[0] ? 'on' : '') + '">' + ic(n[1]) + '<span>' + A(n[2], n[3]) + '</span></button>'; }).join('');
-    $('#ph').innerHTML = home ? '' : '<div class="pgt"><i></i><h1>' + T(title) + '</h1><i></i></div>' + (sub ? '<p class="pgs">' + sub + '</p>' : '') +
+    $('#ph').innerHTML = home ? '' : '<div class="pbar"><button class="sqb sm" data-act="back" aria-label="' + A('رجوع', 'Back') + '">' + ic('back') + '</button><div class="pbar-t"><h1>' + T(title) + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div></div>' +
       (opt.strip !== false && !/^(patient|settings)$/.test(r) ? ptStrip() : '');
     document.title = title + ' · HO Assistant';
   }
   function ptStrip() {
     var c = P.dx && byId[P.dx];
-    if (!ready()) return '<button class="pts empty" data-go="patient">' + ic('plus') + '<span>' + A('أدخل بيانات المريض لتُحسب الجرعات', 'Enter the patient to calculate doses') + '</span><b>' + A('مريض جديد', 'New patient') + '</b></button>';
-    return '<button class="pts" data-go="patient"><span class="pts-i">' + ic('baby') + '</span><span class="pts-t"><b dir="auto">' + esc(P.name || A('المريض الحالي', 'Current patient')) + '</b><small>' +
-      [hasAge() ? ageTxt() : '', wtTxt() + (+P.wt > 0 ? '' : ' ' + A('(تقديري)', '(est.)')), c ? '<bdi dir="ltr">' + esc(c.t) + '</bdi>' : ''].filter(Boolean).join(' · ') + '</small></span><i class="pts-e">' + ic('edit') + '</i></button>';
+    if (!ready()) return '<button class="pts empty" data-go="patient"><span class="ib2">' + ic('userplus') + '</span><span class="pts-t"><b>' + T('New patient') + '</b><small>' + A('أدخل بيانات المريض لتُحسب الجرعات', 'Enter the patient to calculate doses') + '</small></span>' + ic('fwd', 'chv') + '</button>';
+    return '<button class="pts" data-go="patient"><span class="ib2">' + ic('baby') + '</span><span class="pts-t"><b dir="auto">' + esc(P.name || A('المريض الحالي', 'Current patient')) + '</b><small>' +
+      [hasAge() ? ageTxt() : '', '<bdi dir="ltr">' + wtTxt() + '</bdi>' + (+P.wt > 0 ? '' : ' ' + A('(تقديري)', '(est.)')), c ? '<bdi dir="ltr">' + esc(c.t) + '</bdi>' : ''].filter(Boolean).join(' · ') + '</small></span><span class="pts-e">' + ic('edit') + '</span></button>';
   }
+  /* side menu (the ☰ button) */
+  var MENU = [['', 'home', 'الرئيسية', 'Home'], ['patient', 'userplus', 'المريض', 'Patient'], ['dx', 'stetho2', 'التشخيص من الأعراض', 'Diagnose'], ['conds', 'clip', 'الأمراض وخطط العلاج', 'Conditions'],
+    ['drugs', 'pill2', 'كتاب الأدوية', 'Drug book'], ['calc', 'calc2', 'الحاسبات والسوائل', 'Calculators'], ['emerg', 'siren', 'جرعات الطوارئ', 'Emergency doses'], ['rx', 'rx', 'الوصفة', 'Prescription'],
+    ['orders', 'hosp', 'أوامر التنويم', 'Order sheet'], ['saved', 'bmark', 'المرضى المحفوظون', 'Saved patients'], ['settings', 'gear2', 'الإعدادات', 'Settings']];
   var ACT = {};
   document.addEventListener('click', function (e) {
     var g = e.target.closest('[data-go]'); if (g) { e.preventDefault(); go(g.getAttribute('data-go')); return; }
     var a = e.target.closest('[data-act]'); if (a && ACT[a.getAttribute('data-act')]) { e.preventDefault(); ACT[a.getAttribute('data-act')](a, e); }
   });
   ACT.back = function () { if (history.length > 1) history.back(); else go(''); };
-  ACT.toSMRA = function () { toPlatform('#home'); };
+  ACT.toSMRA = function () { closeSheet(); toPlatform('#home'); };
+  ACT.menu = function () {
+    var r = route()[0], s = $('#sheet');
+    s.innerHTML = '<div class="sh-bg" data-act="shclose"></div><nav class="drawer"><div class="dr-h"><img src="../img/mr/logo-smra.webp" alt="SMRA"><span class="hb-tag"><i></i><b>HO Assistant</b><i></i></span></div>' +
+      MENU.map(function (m) { return '<button class="' + (r === m[0] ? 'on' : '') + '" data-go="' + m[0] + '"><span class="ib2">' + ic(m[1]) + '</span><span>' + A(m[2], m[3]) + '</span></button>'; }).join('') +
+      '<button data-act="toSMRA"><span class="ib2">' + ic('back') + '</span><span>' + A('العودة إلى منصة SMRA', 'Back to SMRA') + '</span></button></nav>';
+    s.hidden = false;
+  };
   ACT.theme = function () { var t = THEMES[(THEMES.indexOf(themeNow()) + 1) % 3]; setTheme(t); toast({ light: A('المظهر النهاري', 'Day'), dark: A('المظهر الليلي', 'Night'), eye: A('راحة العين', 'Eye comfort') }[t]); };
   function setTheme(t) { put('ish-theme', t); var x = t === 'auto' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : t; document.documentElement.dataset.theme = x; render(true); }
   ACT.profile = function () {
@@ -203,41 +223,32 @@
   function home() {
     head('HO Assistant', '');
     var c = P.dx && byId[P.dx], dn = drName();
-    var h = '<section class="hero"><svg class="ecg" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34h120l10-14 12 30 14-44 12 40 8-12h214"/></svg>' +
-      '<div class="hero-in"><div class="hero-tx"><small>' + greet() + '</small><h2 dir="auto">' + esc(dn || A('يا دكتور', 'Doctor')) + '</h2><p>' +
-      A('أدخل بيانات المريض مرة واحدة، وتجد خطة العلاج والجرعات والسوائل والوصفة جاهزة.', 'Enter the patient once: the plan, doses, fluids and prescription are ready.') + '</p></div>' +
-      '<span class="hero-em">' + ic('stetho') + '</span></div></section>';
+    var h = '<section class="hero"><div class="hero-art" aria-hidden="true"></div><div class="hero-tx"><small>' + greet() + (AR ? '' : ',') + '</small><h2 dir="auto">' + esc(dn || A('دكتور', 'Doctor')) + '</h2><i class="hero-bar"></i><p>' +
+      A('أدخل بيانات المريض مرة واحدة، وتجد خطة العلاج والجرعات والسوائل والوصفة جاهزة.', 'Enter the patient once so the plan, doses, fluids and prescription are ready.') + '</p></div></section>';
     if (ready()) {
-      var labs = labsEntered().filter(function (x) { return x.flag === 'lo' || x.flag === 'hi'; });
-      h += '<section class="pc"><div class="pc-top"><span class="pc-av">' + ic('baby') + '</span><div class="pc-tx"><small>' + T('Current patient') + '</small><b dir="auto">' + esc(P.name || A('بدون اسم', 'No name')) + '</b>' +
-        '<div class="pc-chips">' + (hasAge() ? '<span>' + ic('clock') + ageTxt() + '</span>' : '') + '<span dir="ltr">' + wtTxt() + (+P.wt > 0 ? '' : ' · est.') + '</span>' +
-        (P.sex ? '<span>' + (P.sex === 'm' ? A('ذكر', 'Male') : A('أنثى', 'Female')) + '</span>' : '') + '<span>' + lbl(SETS, P.set) + '</span></div></div>' +
-        '<button class="ib" data-go="patient" aria-label="' + A('تعديل', 'Edit') + '">' + ic('edit') + '</button></div>' +
-        (P.allergy.length ? '<div class="pc-al">' + ic('alert') + A('حساسية: ', 'Allergy: ') + P.allergy.map(function (a) { return lbl(ALLERGIES, a); }).join('، ') + '</div>' : '') +
-        (labs.length ? '<div class="pc-lab">' + labs.slice(0, 4).map(function (x) { return '<span class="' + x.flag + '" dir="ltr">' + esc(x.f[1]) + ' ' + esc(x.v) + (x.flag === 'lo' ? ' ↓' : ' ↑') + '</span>'; }).join('') + '</div>' : '') +
-        (c ? '<div class="pc-dx"><small>' + A('التشخيص', 'Diagnosis') + '</small><b>' + T(c.t) + '</b></div><div class="pc-btns"><button class="btn pri" data-go="c/' + c.id + '">' + ic('list') + A('خطة العلاج', 'Management') + '</button>' +
-          '<button class="btn" data-go="rx">' + ic('rx') + A('الوصفة', 'Prescription') + '</button><button class="btn" data-go="orders">' + ic('hosp') + A('الأوامر', 'Orders') + '</button></div>'
-          : '<div class="pc-btns"><button class="btn pri" data-go="conds">' + ic('list') + A('اختر التشخيص', 'Choose the diagnosis') + '</button><button class="btn" data-go="dx">' + ic('search') + A('من الأعراض', 'From symptoms') + '</button></div>') + '</section>';
+      h += '<section class="npc"><span class="ib2 lg">' + ic('baby') + '</span><span class="npc-t"><b dir="auto">' + esc(P.name || A('المريض الحالي', 'Current patient')) + '</b><small>' +
+        [hasAge() ? ageTxt() : '', '<bdi dir="ltr">' + wtTxt() + '</bdi>', c ? '<bdi dir="ltr">' + esc(c.t) + '</bdi>' : ''].filter(Boolean).join(' · ') + '</small>' +
+        (P.allergy.length ? '<em class="npc-al">' + ic('alert') + P.allergy.map(function (a) { return lbl(ALLERGIES, a); }).join('، ') + '</em>' : '') + '</span>' +
+        '<button class="go-btn" data-go="' + (c ? 'c/' + c.id : 'patient') + '">' + (c ? A('الخطة', 'Plan') : A('أكمل', 'Next')) + ic('fwd') + '</button></section>' +
+        '<div class="npc-acts"><button data-go="patient">' + ic('edit') + A('تعديل المريض', 'Edit patient') + '</button><button data-go="rx">' + ic('rx') + A('الوصفة', 'Prescription') + '</button><button data-act="newpt">' + ic('userplus') + A('مريض جديد', 'New patient') + '</button></div>';
     } else {
-      h += '<section class="pc empty"><span class="pc-big">' + ic('baby') + '</span><div><b>' + T('New patient') + '</b><p>' + A('ابدأ بالاسم والعمر والوزن، وأي حساسية من الأدوية.', 'Start with the name, age and weight, and any drug allergy.') + '</p></div>' +
-        '<button class="btn pri" data-go="patient">' + ic('plus') + A('ابدأ', 'Start') + '</button></section>';
+      h += '<section class="npc"><span class="ib2 lg">' + ic('userplus') + '</span><span class="npc-t"><b>' + T('New patient') + '</b><small>' + A('ابدأ بالاسم والعمر والوزن، وأي حساسية من الأدوية.', 'Start with the name, age, weight, and any drug allergy.') + '</small></span>' +
+        '<button class="go-btn" data-go="patient">' + A('ابدأ', 'Start') + ic('fwd') + '</button></section>';
     }
-    var tools = [['dx', 'search', 'Diagnose', 'من الأعراض والعلامات', 'From symptoms and signs'], ['conds', 'list', 'Conditions', DX.length + ' حالة بخطط علاجها', DX.length + ' conditions with plans'],
-      ['drugs', 'pill', 'Drug book', Object.keys(DR).length + ' دواء بجرعاتها', Object.keys(DR).length + ' drugs with doses'], ['calc', 'calc', 'Calculators', 'السوائل والأملاح والمعادلات', 'Fluids, electrolytes, formulas']];
-    h += '<h2 class="st">' + T('Quick tools') + '</h2><div class="qt">' + tools.map(function (t, i) {
-      return '<button class="qtile q' + i + '" data-go="' + t[0] + '"><span class="ti">' + ic(t[1]) + '</span><b>' + T(t[2]) + '</b><small>' + A(t[3], t[4]) + '</small></button>';
+    var tools = [['dx', 'stetho2', 'Diagnose', 'من الأعراض والعلامات', 'From symptoms and signs'], ['conds', 'clip', 'Conditions', DX.length + ' حالة بخطط علاجها', DX.length + ' conditions with plans'],
+      ['drugs', 'pill2', 'Drug book', Object.keys(DR).length + ' دواء بجرعاتها', Object.keys(DR).length + ' drugs with doses'], ['calc', 'calc2', 'Calculators', 'السوائل والأملاح والمعادلات', 'Fluids, electrolytes, formulas']];
+    h += '<h2 class="st">' + T('Quick tools') + '</h2><div class="qt">' + tools.map(function (t) {
+      return '<button class="tool" data-go="' + t[0] + '"><span class="ib2 lg">' + ic(t[1]) + '</span><span class="tool-t"><b>' + T(t[2]) + '</b><small>' + A(t[3], t[4]) + '</small></span>' + ic('fwd', 'chv') + '</button>';
     }).join('') + '</div>';
-    h += '<button class="emg" data-go="emerg"><span class="ti">' + ic('bolt') + '</span><span class="emg-t"><b>' + T('Emergency doses') + '</b><small>' +
-      (ready() ? A('محسوبة لوزن ', 'Calculated for ') + '<bdi dir="ltr">' + wtTxt() + '</bdi>' : A('كل جرعات الطوارئ بالوزن', 'Every emergency dose by weight')) + '</small></span>' + ic('fwd', 'flip') + '</button>';
-    var rec = get('ho-recent', []).filter(function (id) { return byId[id]; }).slice(0, 6);
-    if (rec.length) h += '<h2 class="st">' + T('Recent') + '</h2><div class="rec">' + rec.map(function (id) { return '<button data-go="c/' + id + '">' + T(byId[id].t) + '</button>'; }).join('') + '</div>';
-    h += '<div class="minis"><button data-go="saved">' + ic('save') + '<span>' + A('المحفوظون', 'Saved') + '</span><em>' + get('ho-pts', []).length + '</em></button>' +
-      '<button data-go="calc/dehyd">' + ic('drop') + '<span>' + A('الجفاف', 'Dehydration') + '</span></button>' +
-      '<button data-go="settings">' + ic('gear') + '<span>' + A('الإعدادات', 'Settings') + '</span></button></div>';
-    h += '<div class="spec"><span class="on">' + ic('check') + T('Paediatrics') + '</span><span>' + T('Medicine') + ' · ' + A('قريبًا', 'soon') + '</span><span>' + T('Surgery') + ' · ' + A('قريبًا', 'soon') + '</span><span>' + T('Obstetrics') + ' · ' + A('قريبًا', 'soon') + '</span></div>';
-    return h + disc();
+    h += '<button class="emg" data-go="emerg"><span class="emg-i">' + ic('siren') + '</span><span class="emg-t"><b>' + T('Emergency doses') + '</b><small>' +
+      (ready() ? A('محسوبة لوزن ', 'Calculated for ') + '<bdi dir="ltr">' + wtTxt() + '</bdi>' : A('كل جرعات الطوارئ بالوزن', 'Every emergency dose by weight')) + '</small></span><span class="emg-go">' + ic('fwd') + '</span></button>';
+    var rec = get('ho-recent', []).filter(function (id) { return byId[id]; }).slice(0, 4);
+    if (rec.length) h += '<h2 class="st">' + T('Recent') + '</h2><div class="rec">' + rec.map(function (id) { return '<button data-go="c/' + id + '">' + ic(SYSIC[byId[id].sys] || 'list') + T(byId[id].t) + ic('fwd', 'chv') + '</button>'; }).join('') + '</div>';
+    h += '<div class="minis"><button data-go="saved"><span class="mi">' + ic('bmark') + '<em>' + get('ho-pts', []).length + '</em></span><b>' + T('Saved') + '</b></button>' +
+      '<button data-go="calc/dehyd"><span class="mi">' + ic('drop2') + '</span><b>' + T('Dehydration') + '</b></button>' +
+      '<button data-go="settings"><span class="mi">' + ic('gear2') + '</span><b>' + T('Settings') + '</b></button></div>';
+    return h;
   }
-
   /* ================= Patient ================= */
   function chips(list, sel, act) { return '<div class="chips">' + list.map(function (c) { return '<button type="button" class="chip' + (sel.indexOf(c[0]) >= 0 ? ' on' : '') + '" data-act="' + act + '" data-v="' + c[0] + '">' + A(c[1], c[2]) + '</button>'; }).join('') + '</div>'; }
   function pick(name, label, options, unit) { return '<label class="fld"><span>' + label + '</span><div class="inp pick"><select name="' + name + '" dir="ltr">' + options + '</select>' + (unit ? '<em>' + unit + '</em>' : '') + '</div></label>'; }
@@ -387,7 +398,7 @@
       '<h2 class="st">' + T('Body systems') + '</h2><div class="sysg">' + Object.keys(SYS).map(function (k) {
         return '<button class="sys" data-go="conds/' + k + '"><span class="ti">' + ic(SYSIC[k] || 'list') + '</span><b>' + T(SYS[k][0]) + '</b><small>' + esc(SYS[k][1]) + '</small><em>' + sysCount(k) + '</em></button>';
       }).join('') + '</div>' +
-      '<button class="emg alt" data-go="dx"><span class="ti">' + ic('search') + '</span><span class="emg-t"><b>' + T('Diagnose from symptoms') + '</b><small>' + A('لا تعرف التشخيص؟ اختر الأعراض', 'Not sure? Pick the symptoms') + '</small></span>' + ic('fwd', 'flip') + '</button>';
+      '<button class="emg alt" data-go="dx"><span class="emg-i">' + ic('stetho2') + '</span><span class="emg-t"><b>' + T('Diagnose from symptoms') + '</b><small>' + A('لا تعرف التشخيص؟ اختر الأعراض', 'Not sure? Pick the symptoms') + '</small></span>' + '<span class="emg-go">' + ic('fwd') + '</span></button>';
   }
   function condList(sys) {
     var q = CQ.trim().toLowerCase();
@@ -659,7 +670,7 @@
   function calc(id) {
     if (!id) {
       head('Calculators', A('تعمل بوزن المريض الحالي تلقائيًا', 'They use the current patient\'s weight'));
-      return '<button class="emg" data-go="emerg"><span class="ti">' + ic('bolt') + '</span><span class="emg-t"><b>' + T('Emergency doses') + '</b><small>' + A('كل جرعات الطوارئ بالوزن في صفحة واحدة', 'Every emergency dose by weight on one page') + '</small></span>' + ic('fwd', 'flip') + '</button>' +
+      return '<button class="emg" data-go="emerg"><span class="emg-i">' + ic('siren') + '</span><span class="emg-t"><b>' + T('Emergency doses') + '</b><small>' + A('كل جرعات الطوارئ بالوزن في صفحة واحدة', 'Every emergency dose by weight on one page') + '</small></span>' + '<span class="emg-go">' + ic('fwd') + '</span></button>' +
         '<div class="sysg">' + CALCS.map(function (c) { return '<button class="sys" data-go="calc/' + c[0] + '"><span class="ti">' + ic(c[2]) + '</span><b>' + T(c[1]) + '</b><small>' + A(c[3], c[4]) + '</small></button>'; }).join('') + '</div>';
     }
     var c = CALCS.find(function (x) { return x[0] === id; }); if (!c) return notFound();
@@ -760,7 +771,7 @@
   ACT.delpt = function (b) { if (!confirm(A('حذف هذا المريض؟', 'Delete this patient?'))) return; put('ho-pts', get('ho-pts', []).filter(function (y) { return y.id !== b.dataset.id; })); render(true); };
 
   /* ================= Settings ================= */
-  var PALS = [['blue', '#0d6b5c', 'أخضر SMRA', 'SMRA green'], ['ocean', '#1768b3', 'أزرق', 'Blue'], ['teal', '#0b6870', 'فيروزي', 'Teal'], ['purple', '#5a3d8f', 'بنفسجي', 'Purple'], ['maroon', '#7d2843', 'عنابي', 'Maroon'], ['graphite', '#3a4450', 'رمادي داكن', 'Graphite']];
+  var PALS = [['navy', '#0e3b72', 'أزرق كحلي (الأساسي)', 'Navy blue (main)'], ['blue', '#0d6b5c', 'أخضر SMRA', 'SMRA green'], ['ocean', '#1768b3', 'أزرق فاتح', 'Light blue'], ['teal', '#0b6870', 'فيروزي', 'Teal'], ['purple', '#5a3d8f', 'بنفسجي', 'Purple'], ['maroon', '#7d2843', 'عنابي', 'Maroon'], ['graphite', '#3a4450', 'رمادي داكن', 'Graphite']];
   var BIP = null; window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); BIP = e; });
   function standalone() { return matchMedia('(display-mode: standalone)').matches || navigator.standalone; }
   function settings() {
@@ -777,7 +788,7 @@
     h += sec('About', 'shield', '<p class="hint">' + A('HO Assistant من أكاديمية SMRA. الجرعات والخطط مبنية على الأدلة العلاجية المحلية (local guidelines)، وتُضاف الباطنية والجراحة والنساء والتوليد عند وصول أدلتها.', 'HO Assistant by SMRA. Doses and plans are built on local guidelines; medicine, surgery and obstetrics are added when their guidelines arrive.') + '</p>');
     return h + disc();
   }
-  ACT.setlang = function (b) { LANG = b.dataset.v; AR = LANG === 'ar'; put('ish-lang', LANG); document.documentElement.lang = LANG; document.documentElement.dir = AR ? 'rtl' : 'ltr'; render(true); };
+  ACT.setlang = function (b) { LANG = b.dataset.v; AR = LANG === 'ar'; put('ish-lang', LANG); document.documentElement.lang = LANG; render(true); };
   ACT.setlook = function (b) { setTheme(b.dataset.v); };
   ACT.setpal = function (b) { put('ho-pal', b.dataset.v); document.documentElement.dataset.pal = b.dataset.v; render(true); };
   ACT.setfs = function (b) { put('ho-fs', b.dataset.v); document.documentElement.dataset.fs = b.dataset.v; segOn(b); };

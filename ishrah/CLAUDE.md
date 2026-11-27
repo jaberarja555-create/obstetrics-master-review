@@ -1677,6 +1677,14 @@ studentmasterreview.com with HTTP/3 off). Now:
   drugs and alternatives in one sheet (`ACT.alts`); fluids as one order line with the calculation folded; investigations, admission,
   traps, complications, differential and about folded at the end. Patient page = name, age, weight, diagnosis, setting, allergy (all but
   setting and allergy required); the rest under «More details (optional)».
+- **The owner's design (27 Nov 2026, his picture; supersedes the SMRA green look above):** light blue-white page, white cards with soft
+  shadows, navy blue `#0e3b72` as the main colour with teal accents (`data-pal=navy`, default; the other five SMRA colours stay in Settings),
+  layout always left to right (Arabic details keep their own direction, aligned left). Top bar: ☰ side menu (`ACT.menu`, every place + back
+  to SMRA) · SMRA logo with the «HO Assistant» pill between two teal lines · look button · profile picture. Home: greeting card with the
+  stethoscope-and-clipboard art cut from his picture (`ho/img/hero-art.webp`; other colours show it in luminosity) · New patient / current
+  patient card with a navy «Start →» · «Quick tools» 2 × 2 (Diagnose, Conditions, Drug book, Calculators) · red Emergency doses card · Recent
+  chips · Saved / Dehydration / Settings. Inner pages: a title bar with a back button. Bottom bar: Home, Patient, Conditions, Drugs, Tools
+  (current place in a navy pill). Sizes follow his picture (the Home fits one phone screen); two-tone icons (`ac` / `acf` parts in teal).
 - The app never names Kassala or PCH on screen (owner, 26 Nov 2026: say «local guidelines»); sources stay in the data (`src`) and ho/src/notes.
 - Calculators (owner, 26 Nov 2026: "ugly"): list rows with what each gives; a header card with the formula, fields with the unit inside,
   one big green result, the rest in a table, notes as a tip card.
