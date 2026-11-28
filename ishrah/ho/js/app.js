@@ -709,10 +709,16 @@
       DX.filter(function (c) { return c.sys === k; }).map(function (c) { return '<button class="lrow" data-act="condgo" data-v="' + c.id + '"><span class="lrow-i">' + ic(SYSIC[k] || 'list') + '</span><span class="lrow-t">' + T(c.t) + '</span>' + ic('fwd', 'flip') + '</button>'; }).join('') + '</div>');
   };
   ACT.condgo = function (b) { closeSheet(); go('c/' + b.dataset.v); };
+  /* body systems as tiles with their counts (a tap opens the system's conditions in the pop-up, as before) */
+  function sysTiles() {
+    return '<div class="sysg">' + Object.keys(SYS).map(function (k) {
+      return '<button class="syst" data-act="sysopen" data-k="' + k + '"><span class="ib2">' + ic(SYSIC[k] || 'list') + '</span><b>' + T(SYS[k][0]) + '</b><small>' + sysCount(k) + '</small></button>';
+    }).join('') + '</div>';
+  }
   function sysGrid(rec) {
     return (rec && rec.length ? '<h2 class="st">' + T('Recent') + '</h2><section class="card list recl">' + rec.map(function (id) { var c = byId[id]; return '<button class="lrow" data-go="c/' + id + '"><span class="lrow-i">' + ic(SYSIC[c.sys] || 'list') + '</span><span class="lrow-t">' + T(c.t) + '<small dir="ltr">' + esc((SYS[c.sys] || [''])[0]) + '</small></span>' + ic('fwd', 'flip') + '</button>'; }).join('') + '</section>' : '') +
       /* body systems in a pop-up, then the system's conditions in the same pop-up (owner, 28 Nov 2026) */
-      '<h2 class="st">' + T('Body systems') + '</h2><button class="fndb sysb" data-act="syspick"><span class="ib2">' + ic('list') + '</span><span class="fndp">' + A('اختر الجهاز ثم الحالة', 'Choose a body system, then the condition') + '</span>' + ic('fwd', 'chv') + '</button>' +
+      '<h2 class="st">' + T('Body systems') + '</h2>' + sysTiles() +
 
       '<button class="emg alt" data-go="dx"><span class="emg-i">' + ic('stetho2') + '</span><span class="emg-t"><b>' + T('Diagnose from symptoms') + '</b><small>' + A('لا تعرف التشخيص؟ اختر الأعراض', 'Not sure? Pick the symptoms') + '</small></span>' + '<span class="emg-go">' + ic('fwd') + '</span></button>';
   }
@@ -902,7 +908,13 @@
     cur.v.lines.forEach(function (l, li) { l.items.forEach(function (it, ii) { if (!cur.sel[li + '.' + ii]) return; if (it.d) out.push(E.dose(it.d, it.r, P, prefForm(it.d, it.r))); else out.push({ txt: it.txt }); }); });
     return out.filter(function (o) { return !o.err; });
   }
-  function noDx(t) { head(t, ''); return '<section class="card emptyc"><span class="pc-big">' + ic('stetho') + '</span><p>' + A('اختر التشخيص أولًا حتى تُكتب الوصفة.', 'Choose the diagnosis first.') + '</p><div class="pc-btns"><button class="btn pri" data-go="conds">' + ic('list') + A('الأمراض', 'Conditions') + '</button><button class="btn" data-go="dx">' + ic('search') + A('من الأعراض', 'From symptoms') + '</button></div></section>'; }
+  function noDx(t) { head(t, ''); var rec = get('ho-recent', []).filter(function (id) { return byId[id]; }).slice(0, 3);
+    return '<p class="nodx">' + ic('stetho') + '<span>' + A('اختر التشخيص أولًا: من آخر ما فتحت أو من الأجهزة، أو شخّص من الأعراض.', 'Choose the diagnosis first: from your recent ones, a body system, or diagnose from symptoms.') + '</span></p>' +
+      (rec.length ? '<h2 class="st">' + T('Recent') + '</h2><section class="card list recl">' + rec.map(function (id) { var c = byId[id]; return '<button class="lrow" data-go="c/' + id + '"><span class="lrow-i">' + ic(SYSIC[c.sys] || 'list') + '</span><span class="lrow-t">' + T(c.t) + '<small>' + esc(SYS[c.sys] ? SYS[c.sys][0] : '') + '</small></span>' + ic('fwd', 'chv') + '</button>'; }).join('') + '</section>' : '') +
+      '<h2 class="st">' + T('Body systems') + '</h2>' + sysTiles() +
+      '<button class="emg alt" data-go="dx"><span class="emg-i">' + ic('stetho2') + '</span><span class="emg-t"><b>' + T('Diagnose from symptoms') + '</b><small>' + A('لا تعرف التشخيص؟ اختر الأعراض', 'Not sure? Pick the symptoms') + '</small></span><span class="emg-go">' + ic('fwd') + '</span></button>';
+  }
+  function noDxOld(t) { head(t, ''); return '<section class="card emptyc"><span class="pc-big">' + ic('stetho') + '</span><p>' + A('اختر التشخيص أولًا حتى تُكتب الوصفة.', 'Choose the diagnosis first.') + '</p><div class="pc-btns"><button class="btn pri" data-go="conds">' + ic('list') + A('الأمراض', 'Conditions') + '</button><button class="btn" data-go="dx">' + ic('search') + A('من الأعراض', 'From symptoms') + '</button></div></section>'; }
   function today() { var d = new Date(); return d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear(); }
   function rxText(cur, list) {
     var m = me(), L = ['Rx  ' + today(), (P.name ? P.name + ' · ' : '') + (hasAge() ? E.ageText(P) + ' · ' : '') + wtTxt(), 'Dx: ' + cur.c.t, ''];
@@ -1196,7 +1208,14 @@
     ['salbutamolNeb', 'neb', 'Wheeze'], ['mgso4', 'asthma', 'Severe asthma'], ['furosemide', 'hf', 'Heart failure']];
   function emerg() {
     head('Emergency doses', ready() ? A('محسوبة لوزن ', 'Calculated for ') + '<bdi dir="ltr">' + wtTxt() + '</bdi>' : '');
-    if (!ready()) return quickPt();
+    if (!ready()) {
+      var seen = {}, sit = EM.map(function (e) { return e[2].split(' · ')[0]; }).filter(function (x) { if (seen[x]) return false; seen[x] = 1; return true; });
+      return quickPt() + '<h2 class="st">' + T('On this page') + '</h2><section class="card emsit"><p class="hint">' + A('أدخل العمر أو الوزن فتظهر جرعة كل حالة محسوبة:', 'Enter the age or weight and each dose appears, calculated:') + '</p><div class="emchips">' +
+        sit.map(function (x) { return '<span dir="ltr">' + esc(x) + '</span>'; }).join('') + '<span dir="ltr">' + A('سوائل الإنعاش والدم', 'Fluid boluses & blood') + '</span></div></section>' +
+        acc('Fatal mistakes', 'shield', ['Salbutamol nebuliser in anaemic heart failure: look for pallor; give oxygen and IV NS 4 mL/kg/h until blood.',
+          'Heart disease with breathlessness: salbutamol worsens tachycardia; give oxygen and an NS nebuliser ± ipratropium.', 'IV fluid in severe malnutrition (except shock): use ReSoMal and F75.',
+          'IV bolus in scorpion sting: the shock is anaphylactic or neurogenic; give IM adrenaline.', 'A beta-blocker (propranolol) in asthma.'], 'trap', false);
+    }
     var qp = +P.wt > 0 ? '' : quickPt();
     var wt = E.wt(P);
     var h = qp + '<div class="stats">' + [[nice(20 * wt) + ' mL', 'NS / RL bolus', '20 mL/kg'], [nice(10 * wt) + ' mL', A('رضيع أو قلب', 'Neonate / heart'), '10 mL/kg'], [nice(20 * wt) + ' mL', 'Blood', '20 mL/kg'], [nice(5 * wt) + ' mL', 'D10 (SAM)', '5 mL/kg']].map(function (s) {
@@ -1215,6 +1234,16 @@
   function saved() {
     head('Saved patients', A('على هذا الجهاز فقط، ولا تُرسل لأي مكان', 'On this device only, never sent anywhere'));
     var L = get('ho-pts', []);
+    if (!L.length) {
+      var curp = (P.name || hasAge() || +P.wt > 0) ? '<section class="card list"><div class="lrow"><span class="lrow-i">' + ic('baby') + '</span><span class="lrow-t"><b dir="auto">' + esc(P.name || A('المريض الحالي', 'Current patient')) + '</b><small>' + [hasAge() ? ageTxt() : '', wtTxt()].filter(Boolean).join(' · ') + '</small></span><button class="btn pri sm" data-act="savept">' + ic('save') + A('احفظه', 'Save') + '</button></div></section>' : '';
+      return curp + '<h2 class="st">' + T('How saving works') + '</h2><section class="card steps3">' + [
+        ['userplus', A('أدخل المريض', 'Enter the patient'), A('الاسم والعمر والوزن والتشخيص في صفحة المريض.', 'Name, age, weight and diagnosis on the patient page.')],
+        ['save', A('اضغط حفظ', 'Tap save'), A('زر الحفظ بجانب «أعطني خطة العلاج».', 'The save button beside «Get the plan».')],
+        ['bmark', A('افتحه من هنا', 'Open it from here'), A('يعود بكل بياناته وخطته في أي وقت.', 'It comes back with all its details and plan, any time.')]].map(function (s, i) {
+          return '<div class="st3"><span class="st3-n">' + (i + 1) + '</span><span class="ib2">' + ic(s[0]) + '</span><span class="st3-t"><b>' + s[1] + '</b><small>' + s[2] + '</small></span></div>'; }).join('') + '</section>' +
+        '<p class="nodx">' + ic('shield') + '<span>' + A('المرضى المحفوظون على هذا الجهاز فقط ولا يُرسلون لأي مكان.', 'Saved patients stay on this device only and are never sent anywhere.') + '</span></p>' +
+        '<button class="btn pri wide" data-go="patient">' + ic('userplus') + A('بيانات المريض', 'Patient details') + '</button>';
+    }
     if (!L.length) return '<section class="card emptyc"><span class="pc-big">' + ic('save') + '</span><p>' + A('لا يوجد مرضى محفوظون. احفظ المريض من صفحته.', 'No saved patients. Save one from the patient page.') + '</p><button class="btn pri" data-go="patient">' + ic('user') + A('بيانات المريض', 'Patient details') + '</button></section>';
     return '<section class="card list">' + L.map(function (x) {
       var c = byId[x.dx];
@@ -1295,12 +1324,12 @@
     if (innerWidth < 1024) { var bh = $('#bn').getBoundingClientRect().height; if (bh) document.body.style.paddingBottom = Math.floor(bh) + 'px'; } else document.body.style.paddingBottom = '';
     document.body.toggleAttribute('data-pg1', FITP.test(r[0] || '') && !r[1]);
     if (!document.body.hasAttribute('data-pg1') || innerWidth >= 1024) return;
-    var bn = $('#bn').getBoundingClientRect(), over = document.documentElement.scrollHeight - innerHeight;
-    if (over <= 0) return;
-    var vr = v.getBoundingClientRect(), avail = bn.top - vr.top - 10, need = v.scrollHeight;
-    if (need > avail) v.style.zoom = Math.max(0.76, Math.floor(1000 * (avail - 3) / need) / 1000);
-    var left = document.documentElement.scrollHeight - innerHeight, z = +v.style.zoom || 1;
-    if (left > 0 && z > 0.76) v.style.zoom = Math.max(0.76, Math.floor(1000 * z * (1 - (left + 3) / Math.max(1, v.getBoundingClientRect().height))) / 1000);
+    /* the largest size between 76 % and 112 % at which the page does not scroll, found by trying (each try is one layout) */
+    var fits = function (z) { v.style.zoom = z; return document.documentElement.scrollHeight <= innerHeight; };
+    if (fits(1)) { if (!fits(1.12)) { var lo = 1, hi = 1.12; for (var i = 0; i < 6; i++) { var m = (lo + hi) / 2; if (fits(m)) lo = m; else hi = m; } fits(Math.floor(lo * 1000) / 1000); } return; }
+    var lo2 = 0.72, hi2 = 1; if (!fits(lo2)) return;
+    for (var j = 0; j < 7; j++) { var m2 = (lo2 + hi2) / 2; if (fits(m2)) lo2 = m2; else hi2 = m2; }
+    fits(Math.floor(lo2 * 1000) / 1000);
   }
   addEventListener('resize', function () { clearTimeout(fitPage.t); fitPage.t = setTimeout(fitPage, 150); });
   /* the Home fits one screen (owner, 27 Nov 2026: "I prefer compact things rather than scrolling"): tighten step by step until nothing scrolls */

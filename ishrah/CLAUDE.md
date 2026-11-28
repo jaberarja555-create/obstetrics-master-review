@@ -1894,3 +1894,8 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
   Language | Text size, Appearance, App colour as a row of circles, Install | Saved data, About) fit one screen; `fitPage()` (ho/js/app.js) scales
   the content of list pages (`FITP`, body[data-pg1]) down to ≥ 76 % on short phones, and the space under the page equals the bottom bar exactly.
   Tested 360×640, 390×740, 412×915: no page scrolls.
+- **HO Guide step 3 (28 Nov 2026): the half-empty pages filled.** Conditions = body systems as a 4-a-row grid with counts on the page (`sysTiles`),
+  Recent, Diagnose from symptoms; Prescription / Order sheet without a diagnosis = the same picker (recent, systems, diagnose) instead of an empty
+  card (`noDx`); Emergency doses before age/weight = «On this page» chips of every emergency + Fatal mistakes (closed); Saved patients, empty = the
+  current patient with Save, «How saving works» in 3 steps, privacy line. `fitPage()` now tries sizes 72–112 % and keeps the largest that does not
+  scroll (tall phones get slightly larger text instead of an empty band). Tested 360×640, 390×740, 412×915: nothing scrolls.
