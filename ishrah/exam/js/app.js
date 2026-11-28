@@ -26,10 +26,18 @@
   };
   function ic(n, c) { return '<svg class="ic' + (c ? ' ' + c : '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (I[n] || I.list) + '</svg>'; }
 
-  /* ---- data maps ---- */
-  var Q = {}; E.questions.forEach(function (q) { Q[q.g] = q; });
-  var EXM = {}; E.exams.forEach(function (x) { EXM[x.id] = x; });
-  var SUBN = {}; E.subjects.forEach(function (s) { SUBN[s[0]] = s[1]; });
+  /* ---- data maps ---- (rebuilt when the real bank arrives after decryption) */
+  var Q = {}, EXM = {}, SUBN = {};
+  var LOCKED = false, PRICE = 0, BANKAK = null, PENDING = false, DV = '1';
+  function setData(obj) {
+    if (obj) E = obj;
+    LOCKED = !!(E && E.sample);
+    Q = {}; (E.questions || []).forEach(function (q) { Q[q.g] = q; });
+    EXM = {}; (E.exams || []).forEach(function (x) { EXM[x.id] = x; });
+    SUBN = {}; (E.subjects || []).forEach(function (s) { SUBN[s[0]] = s[1]; });
+  }
+  setData(E);
+  function money(n) { try { return (+n).toLocaleString(AR() ? 'ar-EG' : 'en') + (AR() ? ' ج.س' : ' SDG'); } catch (e) { return n + (AR() ? ' ج.س' : ' SDG'); } }
   var SICO = { MED: 'book', SURG: 'flask', PAED: 'user', OBG: 'user', COMM: 'chart', OTHER: 'layers' };
 
   /* ---- answered history / marks ---- */
@@ -98,9 +106,9 @@
   function exams() {
     head('Exams', A('اختر امتحانًا للمذاكرة', 'Choose a paper or sheet'), true);
     var s = seen();
-    var byg = {}; E.exams.forEach(function (x) { (byg[x.group] = byg[x.group] || []).push(x); });
+    var byg = {}; (E.exams || []).forEach(function (x) { (byg[x.group] = byg[x.group] || []).push(x); });
     var h = '';
-    E.groups.forEach(function (g) {
+    (E.groups || []).forEach(function (g) {
       if (!byg[g]) return;
       h += '<h2 class="st">' + esc(g) + '</h2><section class="card list">' + byg[g].map(function (x) {
         var qs = qsOfExam(x.id), done = qs.filter(function (gid) { return s[gid]; }).length, pct = qs.length ? Math.round(100 * done / qs.length) : 0;
@@ -115,7 +123,7 @@
   function subjects() {
     head('By subject', A('اختر مادة', 'Choose a subject'), true);
     var s = seen();
-    return '<section class="card list">' + E.subjects.map(function (su) {
+    return '<section class="card list">' + (E.subjects || []).map(function (su) {
       var qs = qsOfSubject(su[0]), done = qs.filter(function (g) { return s[g]; }).length, pct = qs.length ? Math.round(100 * done / qs.length) : 0;
       return '<button class="lrow" data-act="start" data-k="subject" data-i="' + su[0] + '"><span class="ib2">' + ic(SICO[su[0]] || 'layers') + '</span><span class="lrow-t"><b>' + esc(su[1]) + '</b><small>' + su[2] + ' ' + A('سؤال', 'questions') + (done ? ' · ' + pct + '%' : '') + '</small>' + (done ? '<span class="pbln"><i style="width:' + pct + '%"></i></span>' : '') + '</span>' + ic('chv', 'ch') + '</button>';
     }).join('') + '</section>';
@@ -249,13 +257,13 @@
     var h = '<section class="hero" style="padding:18px"><small>' + A('نسبة الإجابات الصحيحة', 'Overall accuracy') + '</small><h2>' + st.pct + '%</h2><i class="hero-bar"></i><p>' + st.answered + '/' + E.total + ' ' + A('سؤال · ', 'answered · ') + streak.n + ' ' + A('يوم متتالٍ', 'day streak') + '</p>' + ring(st.pct) + '</section>';
     h += '<div class="rgrid" style="margin-top:14px"><div class="rtile"><b>' + st.answered + '</b><small>' + A('مُجاب', 'Answered') + '</small></div><div class="rtile"><b style="color:var(--ok)">' + st.correct + '</b><small>' + A('صحيح', 'Correct') + '</small></div><div class="rtile"><b>' + st.unused + '</b><small>' + A('متبقٍ', 'Unused') + '</small></div></div>';
     /* per subject */
-    h += '<h2 class="st">' + A('الأداء حسب المادة', 'Performance by subject') + '</h2><section class="card list">' + E.subjects.map(function (su) {
+    h += '<h2 class="st">' + A('الأداء حسب المادة', 'Performance by subject') + '</h2><section class="card list">' + (E.subjects || []).map(function (su) {
       var qs = qsOfSubject(su[0]), a = 0, c = 0; qs.forEach(function (g) { if (s[g]) { a++; if (s[g].c) c++; } });
       var p = a ? Math.round(100 * c / a) : 0;
       return '<button class="lrow" data-act="start" data-k="subject" data-i="' + su[0] + '"><span class="ib2">' + ic(SICO[su[0]] || 'layers') + '</span><span class="lrow-t"><b>' + esc(su[1]) + '</b><small>' + (a ? c + '/' + a + ' ' + A('صحيح', 'correct') : A('لم تبدأ', 'not started')) + '</small><span class="pbln"><i style="width:' + p + '%;background:' + (!a ? 'var(--line)' : p >= 60 ? 'var(--ok)' : 'var(--red)') + '"></i></span></span><span class="cnt">' + p + '%</span></button>';
     }).join('') + '</section>';
     /* weak areas */
-    var weak = E.subjects.map(function (su) { var qs = qsOfSubject(su[0]), a = 0, c = 0; qs.forEach(function (g) { if (s[g]) { a++; if (s[g].c) c++; } }); return { n: su[1], a: a, p: a ? Math.round(100 * c / a) : -1 }; }).filter(function (x) { return x.a >= 3 && x.p < 60; }).sort(function (a, b) { return a.p - b.p; });
+    var weak = (E.subjects || []).map(function (su) { var qs = qsOfSubject(su[0]), a = 0, c = 0; qs.forEach(function (g) { if (s[g]) { a++; if (s[g].c) c++; } }); return { n: su[1], a: a, p: a ? Math.round(100 * c / a) : -1 }; }).filter(function (x) { return x.a >= 3 && x.p < 60; }).sort(function (a, b) { return a.p - b.p; });
     if (weak.length) h += '<h2 class="st">' + A('نقاط الضعف', 'Weak areas') + '</h2><section class="card">' + weak.map(function (w) { return '<p style="margin:6px 0">' + ic('bolt') + ' <b>' + esc(w.n) + '</b> — ' + w.p + '% (' + w.a + ')</p>'; }).join('') + '</section>';
     /* previous tests */
     var tests = get('tests', []);
@@ -312,7 +320,9 @@
     prev: function () { if (T.i > 0) { T.i--; runner(); } },
     next: function () { if (T.i < T.list.length - 1) { T.i++; runner(); } },
     finish: function () { var b = document.getElementById('rbar'); if (b) b.remove(); finish(); },
-    mark: function () { var g = T.list[T.i]; toggleMark(g); $$('.markbtn').forEach(function (x) { x.classList.toggle('on', markOn(g)); }); }
+    mark: function () { var g = T.list[T.i]; toggleMark(g); $$('.markbtn').forEach(function (x) { x.classList.toggle('on', markOn(g)); }); },
+    subscribe: function () { try { (window.parent && window.parent !== window ? window.parent : window.top).postMessage({ exam: 'buy' }, '*'); } catch (e) {} if (!(window.parent && window.parent !== window)) toast(A('الاشتراك من داخل منصة SMRA', 'Subscribe from inside the SMRA platform')); },
+    recheck: function () { askParent(); toast(A('جارٍ التحقق…', 'Checking…')); }
   };
   document.addEventListener('click', function (e) {
     var el = e.target.closest('[data-go],[data-act],[data-opt],[data-pal],[data-fs],[data-lang],[data-start]');
@@ -329,7 +339,7 @@
   /* ---------- render ---------- */
   function render() {
     var r = route(), n = r[0] || 'home';
-    if (!E.questions.length) { head('SMRA Permanent Exam', '', false); $('#v').innerHTML = '<section class="hero" style="margin-top:20px"><small>SMRA</small><h2>' + A('امتحان البرمننت', 'Permanent Exam') + '</h2><i class="hero-bar"></i><p>' + A('بنك الأسئلة قيد التجهيز وسيكون متاحًا للمشتركين قريبًا.', 'The question bank is being prepared and will be available to subscribers soon.') + '</p></section>'; document.body.classList.remove('running'); return; }
+    if (!E.questions.length) { head('SMRA Permanent Exam', '', false); $('#v').innerHTML = lockedScreen(); document.body.classList.remove('running'); return; }
     if (n === 'q') { runner(); return; }
     var h;
     if (n === 'home' || n === '') h = home();
@@ -341,10 +351,56 @@
     else if (n === 'run') { $('#v').innerHTML = home(); openStart(r[1], r[2]); return; }
     else if (n === 'set') { $('#v').innerHTML = home(); openStart(r[1], ''); return; }
     else { h = home(); }
+    if (LOCKED && n !== 'result') h = subBanner() + h;
     $('#v').innerHTML = h;
     document.body.classList.remove('running');
     scrollTo(0, 0);
   }
-  render();
+
+  /* ---------- paid access ---------- */
+  function subBanner() {
+    var price = PRICE ? ' · ' + money(PRICE) : '';
+    return '<div class="sub-banner">' + ic('lock') + '<div class="sb-tx"><b>' + A('النسخة التجريبية المجانية', 'Free preview') + '</b>' +
+      '<p>' + A('تجربة ' + E.questions.length + ' سؤالًا. اشترك لفتح البنك كاملًا: 4٬206 سؤالًا مع الشرح، الامتحان التجريبي وتقييم التقدم.',
+        'Trying ' + E.questions.length + ' questions. Subscribe to unlock the whole bank: 4,206 questions with explanations, mock exam and progress.') + '</p>' +
+      (PENDING ? '<span class="sb-pend">' + ic('timer') + A('إيصالك قيد المراجعة…', 'Your receipt is under review…') + '</span>'
+        : '<div class="sb-acts"><button class="btn pri" data-act="subscribe">' + ic('bolt') + A('اشترك', 'Subscribe') + price + '</button>' +
+          '<button class="btn gh" data-act="recheck">' + A('لقد اشتركت — تحقّق', 'I subscribed — check') + '</button></div>') + '</div></div>';
+  }
+  function lockedScreen() {
+    return '<section class="hero" style="margin-top:20px"><small>SMRA</small><h2>' + A('امتحان البرمننت', 'Permanent Exam') + '</h2><i class="hero-bar"></i>' +
+      (PENDING ? '<p>' + A('إيصالك قيد المراجعة. سيُفتح البنك بعد التأكيد.', 'Your receipt is under review. The bank opens once it is confirmed.') + '</p>' +
+          '<button class="btn gh wide" data-act="recheck" style="margin-top:12px">' + A('تحقّق الآن', 'Check now') + '</button>'
+        : '<p>' + A('بنك أسئلة الامتحان الدائم — 4٬206 سؤالًا مع الشرح، امتحان تجريبي وتقييم التقدم.', 'The Permanent Exam bank — 4,206 questions with explanations, a mock exam and progress assessment.') + '</p>' +
+          '<button class="btn pri wide" data-act="subscribe" style="margin-top:12px">' + ic('bolt') + A('اشترك الآن', 'Subscribe now') + (PRICE ? ' · ' + money(PRICE) : '') + '</button>' +
+          '<button class="btn gh wide" data-act="recheck" style="margin-top:8px">' + A('لقد اشتركت — تحقّق', 'I subscribed — check') + '</button>') + '</section>';
+  }
+  function askParent() { try { (window.parent && window.parent !== window ? window.parent : window.top).postMessage({ exam: 'key' }, '*'); } catch (e) {} }
+  function applyState(s) {
+    PRICE = s.price || PRICE; BANKAK = s.bankak || BANKAK; PENDING = !!s.pending;
+    if (s.key) { unlock(s.key); return; }
+    LOCKED = true;
+    if (!E.questions.length && window.EXAM_SAMPLE) setData(window.EXAM_SAMPLE);
+    render();
+  }
+  async function unlock(keyB64) {
+    try {
+      var raw = Uint8Array.from(atob(keyB64), function (c) { return c.charCodeAt(0); });
+      var ck = await crypto.subtle.importKey('raw', raw, { name: 'AES-GCM' }, false, ['decrypt']);
+      var buf = new Uint8Array(await (await fetch('js/data.enc?v=' + DV)).arrayBuffer());
+      var pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: buf.slice(0, 12) }, ck, buf.slice(12));
+      setData(JSON.parse(new TextDecoder().decode(pt)));
+      LOCKED = false; render();
+    } catch (e) { LOCKED = true; if (!E.questions.length && window.EXAM_SAMPLE) setData(window.EXAM_SAMPLE); render(); }
+  }
+  window.addEventListener('message', function (ev) { var d = ev.data; if (d && d.exam === 'state') applyState(d); });
+
+  /* ---------- boot ---------- */
+  if (window.EXAM && (window.EXAM.questions || []).length) { render(); }   /* dev / local: full bank bundled */
+  else {
+    if (window.EXAM_SAMPLE) setData(window.EXAM_SAMPLE);                     /* free preview straight away */
+    if (window.parent && window.parent !== window) { askParent(); render(); }   /* inside SMRA: fetch the real key */
+    else { LOCKED = true; render(); }                                        /* opened on its own */
+  }
   if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {});
 })();

@@ -1,0 +1,11 @@
+{
+  "_note": "Corrections applied on top of the raw exam files, keyed by \"examId:questionNumber\". Committed so any account keeps the edits. images = attach a picture; fix = overwrite a field (question/options/answer/explanation/subject code MED|SURG|PAED|OBG|COMM|OTHER); drop = remove a question.",
+  "images": {
+    "perm27complete:93": "img/q/perm27complete-93-tetanus.jpg",
+    "perm27complete:94": "img/q/perm27complete-94-pellagra.jpg",
+    "perm27complete:98": "img/q/perm27complete-98-koilonychia.jpg",
+    "perm27complete:100": "img/q/perm27complete-100-clubfoot.jpg"
+  },
+  "fixes": [],
+  "drop": []
+}

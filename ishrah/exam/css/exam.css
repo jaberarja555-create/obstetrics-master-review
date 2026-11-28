@@ -174,3 +174,17 @@ body.running .bn{display:none}
   .qt{grid-template-columns:repeat(4,1fr)}
   .rbar{left:248px}
 }
+
+/* paid access: free-preview banner + subscribe (owner, 28 Nov 2026) */
+.sub-banner{display:flex;gap:12px;align-items:flex-start;margin:0 0 16px;padding:14px 16px;border-radius:16px;
+  background:var(--hero,linear-gradient(135deg,var(--p2),var(--p)));color:#fff;box-shadow:0 8px 24px rgba(9,42,70,.18)}
+.sub-banner>.ic{width:26px;height:26px;flex:0 0 auto;margin-top:2px;opacity:.95}
+.sub-banner .sb-tx{flex:1;min-width:0}
+.sub-banner b{display:block;font-size:1.02rem;margin-bottom:2px}
+.sub-banner p{margin:0 0 10px;font-size:.9rem;line-height:1.5;opacity:.95}
+.sub-banner .sb-acts{display:flex;flex-wrap:wrap;gap:8px}
+.sub-banner .btn{background:#fff;color:var(--acc);border:none;font-weight:700}
+.sub-banner .btn.gh{background:rgba(255,255,255,.16);color:#fff}
+.sub-banner .sb-pend{display:inline-flex;gap:6px;align-items:center;font-size:.86rem;background:rgba(255,255,255,.18);padding:6px 12px;border-radius:999px}
+.sub-banner .sb-pend .ic{width:16px;height:16px}
+.btn.gh{background:transparent;border:1.5px solid var(--bd,#d7e3ef);color:var(--tx)}

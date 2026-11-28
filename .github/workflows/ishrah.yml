@@ -86,8 +86,9 @@ jobs:
           ho_guide=ishrah/supabase/066_ho_guide_feedback.sql
           ho_guide_publish=ishrah/supabase/067_ho_guide_publish.sql
           exam_feedback=ishrah/supabase/068_exam_feedback.sql
+          exam_access=ishrah/supabase/069_exam_access.sql
           pending=""
-          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads" "$reactions" "$live" "$series_edit" "$lecturer_check" "$profile_sync" "$team_tools" "$presence" "$dup_comments" "$own_paid" "$follows" "$card_roles" "$followers" "$free_posts" "$owner_alerts" "$course_cert" "$assistant" "$team_spaces" "$contact_guard" "$new_address" "$study_groups" "$study_channels" "$study_chat" "$study_settings" "$study_member_photos" "$master_review" "$master_review_visibility" "$study_lectures" "$ho_guide" "$ho_guide_publish" "$exam_feedback"; do
+          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads" "$reactions" "$live" "$series_edit" "$lecturer_check" "$profile_sync" "$team_tools" "$presence" "$dup_comments" "$own_paid" "$follows" "$card_roles" "$followers" "$free_posts" "$owner_alerts" "$course_cert" "$assistant" "$team_spaces" "$contact_guard" "$new_address" "$study_groups" "$study_channels" "$study_chat" "$study_settings" "$study_member_photos" "$master_review" "$master_review_visibility" "$study_lectures" "$ho_guide" "$ho_guide_publish" "$exam_feedback" "$exam_access"; do
             if [ -n "$pending" ] || ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$migration"; then
               pending="${pending:+$pending }$migration"
             fi
@@ -115,7 +116,7 @@ jobs:
         run: |
           DB=$(printf '%s' "$DB" | tr -d '\r\n\t `"'"'"'<>')
           for role in anon authenticated; do
-            test "$(psql "$DB" -v ON_ERROR_STOP=1 -qAtc "set role $role; select count(*) from public.files where kind = 'master_review' and status = 'published'")" = 4 || exit 1
+            test "$(psql "$DB" -v ON_ERROR_STOP=1 -qAtc "set role $role; select count(*) from public.files where kind = 'master_review' and status = 'published'")" = 5 || exit 1
           done
       - name: Verify private lecture access
         if: contains(steps.request-schema.outputs.files, '065_study_lectures.sql')

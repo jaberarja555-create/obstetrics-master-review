@@ -1818,3 +1818,18 @@ handle (`#ex-host`, CSS shared with `#ho-host`/`#bk-host` in mr.css), from the H
   like the books. Frame version `EXV` (`/exam/?v=`), bump with `exam/sw.js` C.
 - **Data:** `exam/js/data.js` is gitignored (paid content), so on the live site the app shows a «being prepared» notice until the subscription
   + encryption are wired (next). Reviewed by screenshots meanwhile.
+
+## SMRA Permanent Exam — paid subscription (owner, 28 Nov 2026)
+The Permanent Exam bank (`exam/`, 4,206 questions) is sold through the platform's own paid-file flow (Bankak → receipt → Control → Payments),
+reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-time purchase (lifetime).
+- The bank ships **encrypted**: `exam/js/data.enc` (AES-256-GCM, committed). The key is NOT in the repo — only in Supabase `exam_cfg.k`
+  (migration `supabase/069_exam_access.sql`, RLS deny-all), read by `ish_exam_key()` when `ish_file_open(<exam file 4c00d0f9…>)` is true.
+  `ish_exam_state()` gives price + pending (no key). 069 sets the exam file `price` (default 15,000) so `IS.ACT.buyfile` can sell it.
+- Bridge: the exam frame posts `{exam:'key'}`; `js/examapp.js` answers `{exam:'state',key,price,pending,bankak}` (key only when allowed) and,
+  on `{exam:'buy'}`, opens the platform buy sheet for the exam file. Locked devices get a **free 20-question preview** (`exam/js/data.sample.js`,
+  committed) + a Subscribe button; after approval the frame fetches `data.enc` and decrypts in the browser (WebCrypto). Standalone stays locked.
+- Build: `python3 exam/build/pipeline.py` (build/src private) → `node exam/build/encrypt.cjs` (needs `exam/build/exam.key`, gitignored) →
+  commit `exam/js/data.enc` + `exam/js/data.sample.js`. `node exam/build/decrypt.cjs` recovers the plaintext from the key alone. The three build
+  scripts + `patches.json` are force-tracked (root `build/` is gitignored). See `exam/BUILD.md`.
+- **Owner turns it ON:** store the key once — `insert into exam_cfg (id,k) values (1,'<base64>') on conflict (id) do update set k=excluded.k;`
+  (the key is sent privately, never committed). Until then every device shows the free preview. Owner/library accounts unlock without paying.

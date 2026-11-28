@@ -3,7 +3,7 @@
    handle, from the House Officer section, the books shelf and Features — exactly like the HO Guide. */
 (function () {
   var A = IS.A, esc = IS.esc, ic = IS.ic;
-  var EXV = '1';   /* bump with exam/sw.js C so a page that kept the frame loads the new version */
+  var EXV = '2';   /* bump with exam/sw.js C so a page that kept the frame loads the new version */
   var FR = null, FROM = /^#exam\b/.test(location.hash) ? '' : location.hash.slice(1);
   function host() { var h = document.getElementById('ex-host'); if (!h) { h = document.createElement('div'); h.id = 'ex-host'; h.hidden = true; document.body.appendChild(h); } return h; }
   function show() {
@@ -23,6 +23,29 @@
   var EXID = '4c00d0f9-ed8e-465e-ac56-37cafe1980bc';
   IS.EXAM_FILE = EXID;
   var COVER = 'img/books/perm.webp', TITLE = 'Permanent Exam', SUB = 'Sudan Medical Council · Questions Bank · SMRA';
+
+  /* Paid access bridge (owner, 28 Nov 2026). The exam frame ships the question bank encrypted; the key is given only to a
+     device allowed to open the Permanent Exam file (owner, library staff or an active purchase). The frame asks us for it
+     (postMessage {exam:'key'}); we answer with the key + price + Bankak, reusing the platform's own paid-file flow. A locked
+     device gets a free preview and a Subscribe button that opens the platform's buy sheet ({exam:'buy'}). */
+  async function examState() {
+    var key = null, st = { open: false, price: 0, pending: false };
+    try {
+      if (DB.live) {
+        var r = await DB.sb.rpc('ish_exam_state'); if (!r.error && r.data) st = r.data;
+        if (st.open) { var kr = await DB.sb.rpc('ish_exam_key'); if (!kr.error && kr.data) key = kr.data; }
+      } else { st.open = true; }   /* local preview without Supabase: the frame uses its bundled data.js */
+    } catch (e) {}
+    return { exam: 'state', key: key, open: !!st.open, price: st.price || 0, pending: !!st.pending,
+      bankak: (IS.SET && IS.SET.bankak_account) ? { account: IS.SET.bankak_account, name: IS.SET.bankak_name } : null,
+      name: (IS.ME && IS.ME.name) || '' };
+  }
+  window.addEventListener('message', function (ev) {
+    if (!FR || ev.source !== FR.contentWindow) return;
+    var d = ev.data; if (!d || d.exam == null) return;
+    if (d.exam === 'key') { examState().then(function (s) { try { FR.contentWindow.postMessage(s, '*'); } catch (e) {} }); return; }
+    if (d.exam === 'buy') { hide(); if (!IS.ME) { if (IS.ACT.login) IS.ACT.login(); return; } if (IS.ACT.buyfile) IS.ACT.buyfile({ dataset: { id: EXID } }); return; }
+  });
 
   /* on the books shelf — a book card like the Master Review books */
   function examBook() {
