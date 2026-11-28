@@ -651,3 +651,27 @@ details[open].grp>summary,details[open].acc>summary,details[open].moreb>summary{
 .fndv{display:flex;flex-wrap:wrap;gap:5px}
 .fndv i{font-style:normal;background:var(--p);color:#fff;border-radius:999px;padding:3px 10px;font-size:.8em;font-weight:700}
 .flds>.fld:has(input[data-lab=img]),.flds>.fld:has(input[data-lab=oth]){grid-column:1/-1}
+/* every choice as a pop-up list (owner, 28 Nov 2026) */
+.pkb{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:8px;padding:12px 14px;font-size:1em;font-weight:600;color:var(--tx);text-align:left;background:none;border:0}
+.pkb>span,.pkb>b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pkb .chv{width:15px;height:15px;flex:none;color:var(--mut);transform:rotate(90deg)}
+.inp .pkb.unit{flex:0 0 auto;min-width:96px;background:var(--soft);color:var(--p);font-weight:700;border-left:1.5px solid var(--line)}
+.pkb.dxb{width:100%;border:1.5px solid var(--line);border-radius:14px;background:var(--soft);min-height:46px}
+.pkb.dxb b{color:var(--p)}
+.fsel .pkb{border:1.5px solid var(--line);border-radius:12px;background:var(--soft);width:100%}
+.sh.pk{z-index:80}
+.pkg{margin:12px 2px 6px;font:800 .82em Pop,sans-serif;color:var(--mut);text-transform:uppercase;letter-spacing:.03em}
+.pkg:first-child{margin-top:0}
+@media(max-width:400px){.pkb{padding:8px 11px}}
+/* every choice as a pop-up list (owner, 28 Nov 2026) */
+.pkb{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:8px;padding:12px 14px;font-size:1em;font-weight:600;color:var(--tx);text-align:left;background:none;border:0}
+.pkb>span,.pkb>b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pkb .chv{width:15px;height:15px;flex:none;color:var(--mut);transform:rotate(90deg)}
+.inp .pkb.unit{flex:0 0 auto;min-width:96px;background:var(--soft);color:var(--p);font-weight:700;border-left:1.5px solid var(--line)}
+.pkb.dxb{width:100%;border:1.5px solid var(--line);border-radius:14px;background:var(--soft);min-height:46px}
+.pkb.dxb b{color:var(--p)}
+.fsel .pkb{border:1.5px solid var(--line);border-radius:12px;background:var(--soft);width:100%}
+.sh.pk{z-index:80}
+.pkg{margin:12px 2px 6px;font:800 .82em Pop,sans-serif;color:var(--mut);text-transform:uppercase;letter-spacing:.03em}
+.pkg:first-child{margin-top:0}
+@media(max-width:400px){.pkb{padding:8px 11px}}

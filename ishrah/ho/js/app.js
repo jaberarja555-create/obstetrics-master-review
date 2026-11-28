@@ -384,10 +384,10 @@
     h += '<label class="fld"><span>' + A('اسم المريض', 'Patient name') + ' <i class="req">*</i></span><div class="inp"><input name="name" type="text" dir="auto" value="' + esc(P.name) + '" placeholder="' + A('الاسم الكامل', 'Full name') + '"></div></label>';
     h += '<div class="flds">' + ageField('name', 1) + wtField('name', 1) + '</div>' +
       (est && !(+P.wt > 0) ? '<button type="button" class="estb" data-act="useest">' + ic('calc') + '<span>' + A('لا يوجد ميزان؟ الوزن التقديري', 'No scale? Estimated weight') + ' <b dir="ltr">' + est + ' kg</b></span><em>' + A('استخدمه', 'Use it') + '</em></button>' : '');
-    h += '<label class="fld"><span>' + A('التشخيص', 'Diagnosis') + ' <i class="req">*</i></span><div class="inp srchi">' + ic('search') + '<input name="dxt" list="dxl" dir="ltr" value="' + esc(cur ? cur.t : '') + '" placeholder="Pneumonia, Gastroenteritis…"></div><datalist id="dxl">' + DX.map(function (c) { return '<option value="' + esc(c.t) + '">'; }).join('') + '</datalist></label>' +
+    h += '<label class="fld"><span>' + A('التشخيص', 'Diagnosis') + ' <i class="req">*</i></span>' + '<input type="hidden" name="dxt" value="' + esc(cur ? cur.t : '') + '"><button type="button" class="pkb dxb" data-act="dxpick">' + (cur ? '<b dir="ltr">' + esc(cur.t) + '</b>' : '<span class="fndp">' + A('اختر التشخيص', 'Choose the diagnosis') + '</span>') + ic('fwd', 'chv') + '</button></label>' +
       '<button type="button" class="lnk" data-go="dx">' + ic('search') + A('لا تعرف التشخيص؟ ابدأ من الأعراض', 'Not sure? Start from the symptoms') + '</button>';
     h += '<div class="fld"><span>' + A('مكان العلاج', 'Setting') + '</span>' + seg(SETS.map(function (x) { return x.slice(0, 3); }), P.set, 'setset') + '</div>';
-    h += '<div class="fld al"><span>' + A('حساسية من دواء', 'Drug allergy') + '</span>' + chips(ALLERGIES, P.allergy, 'tglal') + '</div>';
+    h += '<div class="fld al"><span>' + A('حساسية من دواء', 'Drug allergy') + '</span>' + multiBtn('al') + '</div>';
     h += '</section>';
     h += '<div class="bar"><button class="btn pri" type="submit">' + ic('check') + A('أعطني خطة العلاج', 'Get the plan') + '</button><button class="btn sq" type="button" data-act="savept" aria-label="' + A('حفظ', 'Save') + '">' + ic('save') + '</button><button class="btn sq" type="button" data-act="newpt" aria-label="' + A('مريض جديد', 'New patient') + '">' + ic('plus') + '</button></div>';
     h += '<details class="card moreb"><summary><span class="chi">' + ic('plus') + '</span>' + A('تفاصيل إضافية (اختياري)', 'More details (optional)') + (nLab ? '<em class="cnt">' + nLab + '</em>' : '') + ic('fwd', 'chev') + '</summary>';
@@ -395,8 +395,7 @@
     h += '<div class="flds">' + pick('ht', A('الطول', 'Height'), opts(40, 190, 1, P.ht), 'cm') +
       '<div class="fld"><span>' + A('مدة الأعراض', 'Duration') + '</span><div class="inp pick two"><select name="dur" dir="ltr">' + opts(1, 30, 1, P.dur) + '</select><select name="durU">' +
       [['h', 'ساعات', 'hours'], ['d', 'أيام', 'days'], ['w', 'أسابيع', 'weeks'], ['mo', 'شهور', 'months'], ['y', 'سنوات', 'years']].map(function (u) { return '<option value="' + u[0] + '"' + (P.durU === u[0] ? ' selected' : '') + '>' + A(u[1], u[2]) + '</option>'; }).join('') + '</select></div></div></div>';
-    h += '<div class="fld"><span>' + A('حالات تغيّر العلاج', 'Conditions that change treatment') + '</span>' + chips(CONDS, P.cond, 'tglcd') + '</div>';
-    h += '<div class="inp"><input name="allergyTxt" type="text" dir="auto" value="' + esc(P.allergyTxt) + '" placeholder="' + A('حساسية أخرى (اكتبها)', 'Other allergy (type it)') + '"></div>';
+    h += '<div class="fld"><span>' + A('حالات تغيّر العلاج', 'Conditions that change treatment') + '</span>' + multiBtn('cd') + '</div>';
     h += '<div class="fld" style="margin-top:14px"><span>' + A('نتائج الفحوصات (إن وُجدت)', 'Investigation results (if any)') + '</span></div>' +
       LABS.map(function (g) {
         var cnt = g[2].filter(function (f) { return (P.lab[f[0]] !== '' && P.lab[f[0]] != null) || (P.fnd[f[0]] || []).length; }).length;
@@ -434,6 +433,80 @@
     if (P.lab[t]) sel.push(P.lab[t]);
     return sel.length ? '<span class="fndv">' + sel.map(function (x) { return '<i dir="ltr">' + esc(x) + '</i>'; }).join('') + '</span>' : '<span class="fndp">' + A('اختر النتائج', 'Choose the findings') + '</span>';
   }
+  /* ---------- every choice opens a pop-up list (owner, 28 Nov 2026: "make every place to choose as a pop-up list") ---------- */
+  var MULTI = { al: [function () { return ALLERGIES; }, function () { return P.allergy; }, 'حساسية من دواء', 'Drug allergy'],
+    cd: [function () { return CONDS; }, function () { return P.cond; }, 'حالات تغيّر العلاج', 'Conditions that change treatment'] };
+  function multiBtn(k) {
+    var m = MULTI[k], L = m[0](), sel = m[1]();
+    var on = L.filter(function (c) { return sel.indexOf(c[0]) >= 0; }).map(function (c) { return '<i>' + esc(A(c[1], c[2])) + '</i>'; });
+    if (k === 'al' && P.allergyTxt) on.push('<i dir="auto">' + esc(P.allergyTxt) + '</i>');
+    return '<button type="button" class="fndb" data-act="mopen" data-k="' + k + '">' + (on.length ? '<span class="fndv">' + on.join('') + '</span>' : '<span class="fndp">' + A('لا يوجد — اضغط للاختيار', 'None — tap to choose') + '</span>') + ic('fwd', 'chv') + '</button>';
+  }
+  ACT.mopen = function (b) {
+    readForm(); var k = b.dataset.k, m = MULTI[k], sel = m[1]();
+    sheet('<h2 class="ch"><span class="chi">' + ic('list') + '</span>' + A(m[2], m[3]) + '</h2><div class="sxlist">' + m[0]().map(function (c) {
+      return '<button class="alt' + (sel.indexOf(c[0]) >= 0 ? ' on' : '') + '" data-act="mtgl" data-k="' + k + '" data-v="' + c[0] + '"><span class="alt-c">' + ic('check') + '</span><span class="alt-t"><b>' + esc(A(c[1], c[2])) + '</b></span></button>';
+    }).join('') + (k === 'al' ? '<button class="alt' + (P.allergyTxt ? ' on' : '') + '" data-act="mother"><span class="alt-c">' + ic('check') + '</span><span class="alt-t"><b>' + A('أخرى', 'Other') + '</b></span></button>' +
+      '<div class="inp" id="alo"' + (P.allergyTxt ? '' : ' hidden') + '><input id="alot" type="text" dir="auto" value="' + esc(P.allergyTxt || '') + '" placeholder="' + A('اكتب اسم الدواء', 'Type the drug name') + '"></div>' : '') +
+      '</div><button class="btn pri wide" data-act="mdone" data-k="' + k + '">' + A('تم', 'Done') + '</button>');
+  };
+  ACT.mtgl = function (b) { toggle(MULTI[b.dataset.k][1](), b.dataset.v); savePt(); b.classList.toggle('on'); };
+  ACT.mother = function (b) { var on = b.classList.toggle('on'), box = $('#alo'); box.hidden = !on; if (on) $('#alot').focus(); else { $('#alot').value = ''; } };
+  ACT.mdone = function (b) { var t = $('#alot'); if (b.dataset.k === 'al' && t) { P.allergyTxt = $('#alo').hidden ? '' : t.value.trim(); savePt(); } closeSheet(); var x = document.querySelector('[data-act=mopen][data-k="' + b.dataset.k + '"]'); if (x) x.outerHTML = multiBtn(b.dataset.k); };
+  var DXQ = '';
+  function dxList() {
+    var q = DXQ.trim().toLowerCase();
+    return Object.keys(SYS).map(function (k) {
+      var L = DX.filter(function (c) { return c.sys === k && (!q || (c.t + ' ' + c.ar).toLowerCase().indexOf(q) >= 0); }); if (!L.length) return '';
+      return '<h3 class="pkg">' + T(SYS[k][0]) + '</h3>' + L.map(function (c) { return '<button class="alt' + (P.dx === c.id ? ' on' : '') + '" data-act="dxset" data-v="' + c.id + '"><span class="alt-c">' + ic('check') + '</span><span class="alt-t"><b dir="ltr">' + esc(c.t) + '</b></span></button>'; }).join('');
+    }).join('') || '<p class="empty">' + A('لا نتيجة', 'No match') + '</p>';
+  }
+  ACT.dxpick = function () {
+    readForm(); DXQ = '';
+    sheet('<h2 class="ch"><span class="chi">' + ic('clip') + '</span>' + A('التشخيص', 'Diagnosis') + '</h2><div class="inp srchi" style="margin-bottom:10px">' + ic('search') + '<input id="dxq" type="search" dir="auto" placeholder="' + A('ابحث', 'Search') + '"></div><div class="sxlist" id="dxlst">' + dxList() + '</div>' +
+      '<button class="lnk" data-act="dxsym">' + ic('search') + A('لا تعرف التشخيص؟ ابدأ من الأعراض', 'Not sure? Start from the symptoms') + '</button>');
+    var q = $('#dxq'); q.addEventListener('input', function () { DXQ = q.value; $('#dxlst').innerHTML = dxList(); });
+  };
+  ACT.dxsym = function () { closeSheet(); readForm(); savePt(); go('dx'); };
+  ACT.dxset = function (b) {
+    var c = byId[b.dataset.v]; closeSheet(); var f = $('#ptf'); if (!f || !c) return;
+    f.dxt.value = c.t; P.dx = c.id; savePt();
+    var x = f.querySelector('[data-act=dxpick]'); if (x) x.innerHTML = '<b dir="ltr">' + esc(c.t) + '</b>' + ic('fwd', 'chv');
+  };
+  /* every <select> becomes a button that opens its options in a pop-up; the select stays hidden as the value */
+  function pkText(sl) { var o = sl.options[sl.selectedIndex]; return o ? o.textContent : ''; }
+  function pickify(root) {
+    $$('select:not([data-pk])', root || document).forEach(function (sl) {
+      sl.setAttribute('data-pk', '1');
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'pkb ' + (sl.className || ''); b.setAttribute('dir', sl.getAttribute('dir') || 'auto');
+      b.innerHTML = '<span>' + esc(pkText(sl) || '—') + '</span>' + ic('fwd', 'chv'); b.pkSel = sl;
+      sl.parentNode.insertBefore(b, sl.nextSibling); sl.hidden = true;
+    });
+  }
+  function pkLabel(sl) { var f = sl.closest('.fld, .fsel, label'); var t = f && f.querySelector('span'); return t ? t.textContent.replace('*', '').trim() : A('اختر', 'Choose'); }
+  var PK = null;
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.pkb'); if (!b || !b.pkSel) return; e.preventDefault(); e.stopPropagation();
+    var sl = b.pkSel, opts = Array.prototype.slice.call(sl.options), many = opts.length > 14;
+    var o = document.getElementById('pk') || document.body.appendChild(Object.assign(document.createElement('div'), { id: 'pk', className: 'sh pk' }));
+    function list(q) { q = (q || '').toLowerCase(); return opts.filter(function (x) { var t = x.textContent.toLowerCase(); return !q || (/^[\d.]+$/.test(q) ? t.indexOf(q) === 0 : t.indexOf(q) >= 0); }).map(function (x) {
+      return '<button class="alt' + (x.selected ? ' on' : '') + '" data-pkv="' + esc(x.value) + '"><span class="alt-c">' + ic('check') + '</span><span class="alt-t"><b dir="auto">' + esc(x.textContent || '—') + '</b></span></button>'; }).join(''); }
+    o.innerHTML = '<div class="sh-bg" data-pkx="1"></div><div class="sh-box"><i class="sh-grip"></i><h2 class="ch">' + esc(pkLabel(sl)) + '</h2>' +
+      (many ? '<div class="inp srchi" style="margin-bottom:10px">' + ic('search') + '<input id="pkq" type="search" inputmode="decimal" dir="auto" placeholder="' + A('ابحث', 'Search') + '"></div>' : '') +
+      '<div class="sxlist pkl">' + list() + '</div></div>';
+    o.hidden = false; PK = sl;
+    var cur = o.querySelector('.alt.on'); if (cur) cur.scrollIntoView({ block: 'center' });
+    var q = o.querySelector('#pkq'); if (q) q.addEventListener('input', function () { o.querySelector('.pkl').innerHTML = list(q.value); });
+  }, true);
+  document.addEventListener('click', function (e) {
+    var o = document.getElementById('pk'); if (!o || o.hidden) return;
+    if (e.target.closest('[data-pkx]')) { o.hidden = true; return; }
+    var v = e.target.closest('[data-pkv]'); if (!v || !PK) return;
+    PK.value = v.getAttribute('data-pkv'); o.hidden = true;
+    var b = PK.nextSibling; if (b && b.classList && b.classList.contains('pkb')) b.firstChild.textContent = pkText(PK) || '—';
+    PK.dispatchEvent(new Event('change', { bubbles: true })); PK.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  new MutationObserver(function () { pickify(); }).observe(document.body, { childList: true, subtree: true });
   ACT.fndopen = function (b) {
     readForm(); var t = b.dataset.t, f = null; LABS.forEach(function (g) { g[2].forEach(function (x) { if (x[0] === t) f = x; }); });
     sheet('<h2 class="ch"><span class="chi">' + ic('flask') + '</span>' + T(f ? f[1] : t) + '</h2><div class="sxlist">' + FIND[t].map(function (x) {

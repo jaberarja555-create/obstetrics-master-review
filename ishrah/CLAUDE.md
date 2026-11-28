@@ -1775,3 +1775,9 @@ studentmasterreview.com with HTTP/3 off). Now:
   diagnosis, «results point more to X» when another condition scores ≥ 3 and ≥ twice this one, what to do with links). Guide v23.
 - Investigation findings open as a pop-up list (owner, 28 Nov 2026): each test is one button (`.fndb`, chosen findings as chips or «Choose
   the findings»); `ACT.fndopen` shows the tick list + «another finding» box, `ACT.fnddone` saves. Guide v24.
+- **Every choice is a pop-up list (owner, 28 Nov 2026: "make every place to choose as a pop-up list"; "reduce writing"):** ho/js/app.js
+  `pickify` (MutationObserver) turns every `<select>` into a `.pkb` button that opens its options in a pop-up (`#pk`, search box for lists
+  over 14 items, numbers match from the start), sets the hidden select and fires `change`. Drug allergy and «Conditions that change
+  treatment» are one button each with a tick list (`MULTI`, `ACT.mopen/mtgl/mdone`); the allergy list ends with «Other» that opens a box for
+  the drug name (`P.allergyTxt`; the separate text box is gone). Diagnosis = a button with a searchable list by body system (`ACT.dxpick`,
+  hidden `dxt` field). Segmented buttons (Setting, Sex, text size) stay as taps. Guide v25.
