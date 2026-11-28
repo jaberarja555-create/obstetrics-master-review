@@ -72,3 +72,12 @@ The bank is sold through the **platform's own paid-file flow** (the same Bankak 
 ## To do next
 1. **Fix mistakes + improve explanations** — fact-check the questions against resources/guidelines in batches (~150), each change added to `patches.json` with a confidence note for the team to approve, then `python3 build/pipeline.py && node build/encrypt.cjs` and commit `js/data.enc` + `js/data.sample.js`.
 2. **Pictures still needed** (above): sheet8 Q102 STEMI ECG (required); add via `patches.json` `images`.
+
+## Home design = the owner's mockup (28 Nov 2026)
+The Home screen copies the owner's approved mockup pixel-for-pixel (checked side by side at 430×764). Its styles are the block
+"Home — exact copy of the owner's mockup" at the end of `css/exam.css`, written by `python3 exam/build/home_css.py`
+(sizes in `u` = CSS px on a 430-wide phone, scaled to the screen; fonts in `fz`). Change sizes there, not by hand.
+- Fonts shipped in `exam/fonts/`: Poppins 600/700 (headings) and Inter 400/500/600 (body, subset from the OFL Inter files).
+- `img/steth.webp` is the stethoscope cut from the owner's mockup (shown in the Free Preview card; hidden in night mode).
+- The default palette (`navy`, shown as "Default") uses the mockup's medical blue + cyan; other palettes keep their colours.
+- Arabic mirrors the cards (text right; ring, photo and arrows left).

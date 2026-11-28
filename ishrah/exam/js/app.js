@@ -60,7 +60,7 @@
 
   function head(title, sub, back) {
     var th = theme();
-    $('#hb').innerHTML = '<div class="hb-s"><button class="sqb" data-act="menu" aria-label="Menu">' + ic('menu') + '</button></div>' +
+    $('#hb').innerHTML = '<div class="hb-s"><button class="hbm" data-act="menu" aria-label="Menu">' + ic('menu') + '</button></div>' +
       '<div class="hb-logo"><span class="hb-tag"><i></i><b>SMRA EXAM</b><i></i></span><span class="hb-sub">Permanent</span></div>' +
       '<div class="hb-s end"><button class="rdb" data-act="theme" aria-label="Look">' + ic(th === 'dark' ? 'moon' : th === 'eye' ? 'eye' : 'sun') + '</button>' +
       '<button class="av" data-act="settings" aria-label="Settings">' + ic('user') + '</button></div>';
@@ -93,26 +93,36 @@
   }
 
   /* hero decoration: faint ECG trace + medical cross + grid, white on the gradient */
-  function heroArt() {
-    return '<svg class="hero-ecg" width="320" height="20" viewBox="0 0 320 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 16H150l5-9 7 18 6-13 5 4H320" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/></svg>' +
-      '<svg class="hero-cross" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z" fill="none" stroke="#fff" stroke-width="1.4" opacity=".35"/></svg>';
+  function heroArt(k) {
+    var g = 'eg' + (k || 'h');
+    return '<i class="hgrid" aria-hidden="true"></i>' +
+      (k ? '' : '<svg class="hcross" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 2.5h6v6.5h6.5v6H15v6.5H9V15H2.5V9H9z" fill="none" stroke="#5fe0ef" stroke-width="1.6" stroke-linejoin="round"/></svg>') +
+      '<svg class="hecg" width="146" height="30" viewBox="0 0 146 30" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="' + g + '" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#7ff3ff" stop-opacity="0"/><stop offset=".22" stop-color="#8ff6ff"/><stop offset=".72" stop-color="#6eeaf6"/><stop offset="1" stop-color="#5fe3f2" stop-opacity="0"/></linearGradient></defs>' +
+      '<path d="M0 21H25l4-3.5 4 3.5H52l5-18 6.5 26 4-8h5l3.5-3 3.5 3H146" fill="none" stroke="url(#' + g + ')" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>';
   }
 
   /* ---------- HOME ---------- */
   function home() {
     head('SMRA Permanent Exam', '');
-    var st = stats();
-    var h = '<section class="hero"><div class="hero-tx"><small>' + A('مرحبًا دكتور،', 'Welcome, Doctor') + '</small><h2>' + A('امتحان البرمننت', 'Permanent Exam') + '</h2><i class="hero-bar"></i>' +
-      '<p>' + A('أسئلة من الدورات والشيتات مع الشرح.', 'Practice questions from past papers and sheets with explanations.') + '</p></div>' + ring(st.pct) + heroArt() + '</section>';
-    h += '<button class="mock" data-act="mock"><span class="mock-play">' + ic('play') + '</span><span class="mock-t"><b>' + A('امتحان تجريبي', 'Mock Exam') + '</b><small>' + A('200 سؤال عشوائي · بوقت محدد', '200 random questions · timed') + '</small></span>' + ic('fwd', 'mock-ch') + '</button>';
-    h += '<h2 class="st">' + A('ابدأ المذاكرة', 'Start Practising') + '</h2><div class="qt">' +
+    var st = stats(), pc = st.pct, R = 39.5, C = 2 * Math.PI * R;
+    var ringSvg = '<svg width="89" height="89" viewBox="0 0 89 89" aria-hidden="true"><circle cx="44.5" cy="44.5" r="' + R + '" fill="none" stroke="rgba(150,232,248,.42)" stroke-width="10"/>' +
+      (pc > 0 ? '<circle cx="44.5" cy="44.5" r="' + R + '" fill="none" stroke="#9af4ff" stroke-width="10" stroke-linecap="round" stroke-dasharray="' + C + '" stroke-dashoffset="' + (C * (1 - pc / 100)) + '" transform="rotate(-90 44.5 44.5)"/>' : '') + '</svg>';
+    var h = '<section class="hero hm"><div class="hero-tx"><small>' + A('مرحبًا دكتور', 'Welcome, Doctor') + '</small><h2>' + A('امتحان البرمننت', 'Permanent Exam') + '</h2><i class="hero-bar"></i>' +
+      '<p>' + A('أسئلة الدورات والشيتات السابقة<br>مع الشرح.', 'Practice questions from past<br>papers and sheets with explanations.') + '</p></div>' +
+      '<div class="hring">' + ringSvg + '<b>' + pc + '%</b></div>' + heroArt() + '</section>';
+    h += '<button class="mock" data-act="mock"><span class="mock-play"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4.8v14.4a1.1 1.1 0 0 0 1.7.93l11-7.2a1.1 1.1 0 0 0 0-1.86l-11-7.2A1.1 1.1 0 0 0 8 4.8z" fill="#fff"/></svg></span><i class="mock-div"></i>' +
+      '<span class="mock-t"><b>' + A('امتحان تجريبي', 'Mock Exam') + '</b><small>' + A('200 سؤال عشوائي \u2022 بوقت محدد', '200 random questions \u2022 timed') + '</small></span>' + ic('fwd', 'mock-ch') + '</button>';
+    h += '<h2 class="st hst">' + A('ابدأ المذاكرة', 'Start Practising') + '</h2><div class="qt hq">' +
       tile('exams', 'list', A('الامتحانات', 'Exams'), A('الدورات والشيتات', 'Papers & sheets')) +
       tile('subjects', 'layers', A('حسب المادة', 'By Subject'), nsub() + ' ' + A('مواد', 'subjects')) +
       tile('set/incorrect', 'cross', A('الأخطاء', 'Incorrect'), A('مراجعة الأخطاء', 'Review mistakes')) +
       tile('set/marked', 'mark', A('المعلّمة', 'Marked'), A('أسئلة محفوظة', 'Saved questions')) + '</div>';
-    h += '<button class="prog-card" data-go="progress"><span class="prog-ic">' + ic('chart') + '</span><span class="prog-tx"><b>' + A('تقييم التقدم', 'Progress Assessment') + '</b>' +
+    h += '<button class="prog-card" data-go="progress"><span class="prog-ic"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="#fff"><rect x="3" y="14" width="3.3" height="7" rx="1"/><rect x="8.3" y="10" width="3.3" height="11" rx="1"/><rect x="13.6" y="6.2" width="3.3" height="14.8" rx="1"/><rect x="18.9" y="2.6" width="3.3" height="18.4" rx="1"/></svg></span><i class="prog-div"></i>' +
+      '<span class="prog-tx"><b>' + A('تقييم التقدم', 'Progress Assessment') + '</b>' +
       '<small>' + A('تابع الأسئلة المُجابة وحدّد نقاط الضعف.', 'Track answered questions and identify weak areas.') + '</small>' +
-      '<span class="prog-pills"><span class="ppill">' + ic('checkc') + '<b>' + st.answered + '</b> ' + A('مُجاب', 'Answered') + '</span><span class="ppill">' + ic('target') + '<b>' + weakCount() + '</b> ' + A('نقاط ضعف', 'Weak Areas') + '</span></span></span>' + ic('fwd', 'prog-ch') + heroArt() + '</button>';
+      '<span class="prog-pills"><span class="ppill"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1597b5"/><path d="m7 12.4 3.3 3.3L17.2 8.8" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>' + st.answered + '</b> ' + A('مُجاب', 'Answered') + '</span></span>' +
+      '<span class="ppill"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#1597b5" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.8" fill="#1597b5" stroke="none"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4"/></svg><span><b>' + weakCount() + '</b> ' + A('نقاط ضعف', 'Weak Areas') + '</span></span></span></span>' +
+      ic('fwd', 'prog-ch') + heroArt('p') + '</button>';
     return h;
   }
   function tile(goh, icn, t, s) { var st = goh.indexOf('set/') === 0; return '<button class="tool" ' + (st ? 'data-act="start" data-k="' + goh.slice(4) + '"' : 'data-go="' + goh + '"') + '><span class="ib2">' + ic(icn) + '</span><span class="tool-t"><b>' + esc(t) + '</b><small>' + esc(s) + '</small></span>' + ic('chv', 'ch') + '</button>'; }
@@ -313,7 +323,7 @@
   function closeSheet() { $('#sheet').hidden = true; }
   function toast(m) { var t = $('#toast'); t.textContent = m; t.hidden = false; clearTimeout(toast._); toast._ = setTimeout(function () { t.hidden = true; }, 1800); }
 
-  var PALS = [['navy', 'Navy', '#0e3b72'], ['blue', 'Green', '#0d6b5c'], ['ocean', 'Ocean', '#1768b3'], ['teal', 'Teal', '#0b6870'], ['purple', 'Purple', '#5a3d8f'], ['maroon', 'Maroon', '#7d2843'], ['graphite', 'Graphite', '#3a4450']];
+  var PALS = [['navy', 'Default', '#1269b0'], ['blue', 'Green', '#0d6b5c'], ['ocean', 'Ocean', '#1768b3'], ['teal', 'Teal', '#0b6870'], ['purple', 'Purple', '#5a3d8f'], ['maroon', 'Maroon', '#7d2843'], ['graphite', 'Graphite', '#3a4450']];
   function settings() {
     var pal = document.documentElement.dataset.pal, fs = document.documentElement.dataset.fs;
     sheet('<h2 class="ch2">' + ic('palette') + A('المظهر والألوان', 'Appearance & colour') + '</h2>' +
@@ -374,13 +384,12 @@
 
   /* ---------- paid access ---------- */
   function subBanner() {
-    var price = PRICE ? ' · ' + money(PRICE) : '';
-    return '<div class="prev-card"><svg class="prev-steth" width="120" height="120" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6v10a8 8 0 0 0 16 0V6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M22 23v6a9 9 0 0 0 18 0v-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="40" cy="22" r="3.4" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>' +
-      '<div class="prev-h"><span class="prev-crown">' + ic('crown') + '</span><b>' + A('النسخة التجريبية المجانية', 'Free Preview') + '</b></div>' +
+    return '<div class="prev-card"><img class="prev-img" src="img/steth.webp" alt="" width="96" height="87" decoding="async">' +
+      '<div class="prev-h"><span class="prev-crown"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="#fff"><path d="M2.6 7.6 7.6 11.4 12 4.6l4.4 6.8 5-3.8-1.9 9.6H4.5z"/><rect x="4.6" y="18.6" width="14.8" height="2.4" rx="1.1"/></svg></span><b>' + A('النسخة التجريبية المجانية', 'Free Preview') + '</b></div>' +
       '<p>' + A('جرّب ' + E.questions.length + ' سؤالًا. اشترك لفتح ' + ntotal().toLocaleString('ar-EG') + ' سؤالًا مع الشرح والامتحان التجريبي وتقييم التقدم.',
         'Try ' + E.questions.length + ' questions. Subscribe to unlock ' + ntotal().toLocaleString('en') + ' questions, explanations, mock exam and progress.') + '</p>' +
       (PENDING ? '<span class="sb-pend">' + ic('timer') + A('إيصالك قيد المراجعة…', 'Your receipt is under review…') + '</span>'
-        : '<div class="sb-acts"><button class="btn pri" data-act="subscribe">' + ic('bolt') + A('اشترك', 'Subscribe') + '</button>' +
+        : '<div class="sb-acts"><button class="btn pri" data-act="subscribe"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M13 2.5 4.5 13.5h6.5L10 21.5l8.5-11H12z"/></svg>' + A('اشترك', 'Subscribe') + '</button>' +
           '<button class="btn gh" data-act="recheck">' + A('التحقق من الاشتراك', 'Check subscription') + '</button></div>') + '</div>';
   }
   function lockedScreen() {
