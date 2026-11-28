@@ -17,6 +17,7 @@
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>', back: '<path d="m15 6-6 6 6 6"/>', fwd: '<path d="m9 6 6 6-6 6"/>', chv: '<path d="m9 6 6 6-6 6"/>',
     sun: '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/>',
     moon: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>', eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    doc: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/>', bars: '<path d="M6 20v-5M10 20v-8M14 20v-11M18 20V6"/>',
     bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/>', cam: '<path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>', phone: '<path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/>', out: '<path d="M14 4h5v16h-5"/><path d="M10 8l-4 4 4 4M6 12h10"/>',
     user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>', home: '<path d="M4 11 12 4l8 7v9H4z"/>', list: '<path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/>',
     play: '<path d="M7 5v14l11-7z"/>', timer: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/>', chart: '<path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/>',
@@ -62,9 +63,9 @@
 
   function head(title, sub, back) {
     var th = theme();
-    $('#hb').innerHTML = '<div class="hb-s"><button class="hbm" data-act="menu" aria-label="Menu">' + ic('menu') + '</button></div>' +
+    $('#hb').innerHTML = '<div class="hb-s"><button class="hbm" data-act="menu" aria-label="Menu">' + ic('menu') + '</button><i class="hb-dv"></i></div>' +
       '<div class="hb-logo"><img class="hb-img" src="img/logo-smra.webp" alt="SMRA" width="480" height="172" decoding="async"><span class="hb-sub">Permanent Exam</span></div>' +
-      '<div class="hb-s end"><button class="rdb" data-act="theme" aria-label="Look">' + ic(th === 'dark' ? 'moon' : th === 'eye' ? 'eye' : 'sun') + '</button>' +
+      '<div class="hb-s end"><i class="hb-dv"></i>' +
       '<button class="rdb bellb" data-act="notes" aria-label="' + A('الإشعارات', 'Notifications') + '">' + ic('bell') + (unread() ? '<i class="bdg">' + Math.min(unread(), 9) + '</i>' : '') + '</button>' +
       '<button class="av" data-act="profile" aria-label="' + A('الملف الشخصي', 'Profile') + '">' + avatar() + '</button></div>';
     var r = route()[0] || 'home';
@@ -110,16 +111,16 @@
     var st = stats(), pc = st.pct, R = 39.5, C = 2 * Math.PI * R;
     var ringSvg = '<svg width="89" height="89" viewBox="0 0 89 89" aria-hidden="true"><circle cx="44.5" cy="44.5" r="' + R + '" fill="none" stroke="rgba(150,232,248,.42)" stroke-width="10"/>' +
       (pc > 0 ? '<circle cx="44.5" cy="44.5" r="' + R + '" fill="none" stroke="#9af4ff" stroke-width="10" stroke-linecap="round" stroke-dasharray="' + C + '" stroke-dashoffset="' + (C * (1 - pc / 100)) + '" transform="rotate(-90 44.5 44.5)"/>' : '') + '</svg>';
-    var h = '<section class="hero hm"><div class="hero-tx"><small>' + A('مرحبًا دكتور', 'Welcome, Doctor') + '</small><h2>' + A('امتحان البرمننت', 'Permanent Exam') + '</h2><i class="hero-bar"></i>' +
+    var h = '<div class="hgp">' + '<section class="hero hm"><div class="hero-tx"><small>' + A('مرحبًا دكتور', 'Welcome, Doctor') + '</small><h2>' + A('امتحان البرمننت', 'Permanent Exam') + '</h2><i class="hero-bar"></i>' +
       '<p>' + A('أسئلة الدورات والشيتات السابقة<br>مع الشرح.', 'Practice questions from past<br>papers and sheets with explanations.') + '</p></div>' +
-      '<div class="hring">' + ringSvg + '<b>' + pc + '%</b></div>' + heroArt() + '</section>';
+      '<div class="hring">' + ringSvg + '<b>' + pc + '%</b></div>' + heroArt() + '</section></div><div class="hgp">';
     h += '<button class="mock" data-act="mock"><span class="mock-play"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4.8v14.4a1.1 1.1 0 0 0 1.7.93l11-7.2a1.1 1.1 0 0 0 0-1.86l-11-7.2A1.1 1.1 0 0 0 8 4.8z" fill="#fff"/></svg></span><i class="mock-div"></i>' +
       '<span class="mock-t"><b>' + A('امتحان تجريبي', 'Mock Exam') + '</b><small>' + A('200 سؤال عشوائي \u2022 بوقت محدد', '200 random questions \u2022 timed') + '</small></span>' + ic('fwd', 'mock-ch') + '</button>';
-    h += '<h2 class="st hst">' + A('ابدأ المذاكرة', 'Start Practising') + '</h2><div class="qt hq">' +
+    h += '</div><div class="hgp"><h2 class="st hst">' + A('ابدأ المذاكرة', 'Start Practising') + '</h2><div class="qt hq">' +
       tile('exams', 'list', A('الامتحانات', 'Exams'), A('الدورات والشيتات', 'Papers & sheets')) +
       tile('subjects', 'layers', A('حسب المادة', 'By Subject'), nsub() + ' ' + A('مواد', 'subjects')) +
       tile('set/incorrect', 'cross', A('الأخطاء', 'Incorrect'), A('مراجعة الأخطاء', 'Review mistakes')) +
-      tile('set/marked', 'mark', A('المعلّمة', 'Marked'), A('أسئلة محفوظة', 'Saved questions')) + '</div>';
+      tile('set/marked', 'mark', A('المعلّمة', 'Marked'), A('أسئلة محفوظة', 'Saved questions')) + '</div></div><div class="hgp">';
     h += '<button class="prog-card" data-go="progress"><span class="prog-ic"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="#fff"><rect x="3" y="14" width="3.3" height="7" rx="1"/><rect x="8.3" y="10" width="3.3" height="11" rx="1"/><rect x="13.6" y="6.2" width="3.3" height="14.8" rx="1"/><rect x="18.9" y="2.6" width="3.3" height="18.4" rx="1"/></svg></span><i class="prog-div"></i>' +
       '<span class="prog-tx"><b>' + A('تقييم التقدم', 'Progress Assessment') + '</b>' +
       '<small>' + A('تابع الأسئلة المُجابة وحدّد نقاط الضعف.', 'Track answered questions and identify weak areas.') + '</small>' +
@@ -128,15 +129,15 @@
       ic('fwd', 'prog-ch') + heroArt('p') + '</button>';
     /* owner, 28 Nov 2026: «why down there is empty space» — Home goes on with practice by level and the newest papers */
     var cnt = { 1: 0, 2: 0, 3: 0 }; E.questions.forEach(function (q) { if (!q.b) cnt[level(q)]++; });
-    h += '<h2 class="st hst">' + A('تدرّب حسب المستوى', 'Practise by Level') + '</h2><div class="lvrow">' + [1, 2, 3].map(function (l) {
-      return '<button class="lvt lv' + l + '" data-act="lvstart" data-lv="' + l + '"' + (cnt[l] ? '' : ' disabled') + '><span class="lvt-d"></span><b>' + A(LVN[l][0], LVN[l][1]) + '</b><small>' + cnt[l].toLocaleString(AR() ? 'ar-EG' : 'en') + ' ' + A('سؤال', 'questions') + '</small></button>';
-    }).join('') + '</div>';
+    h += '</div><div class="hgp"><h2 class="st hst">' + A('تدرّب حسب المستوى', 'Practise by Level') + '</h2><div class="lvrow">' + [1, 2, 3].map(function (l) {
+      return '<button class="lvt lv' + l + '" data-act="lvstart" data-lv="' + l + '"' + (cnt[l] ? '' : ' disabled') + '><span class="lvt-d">' + ic('bars') + '</span><span class="lvt-t"><b>' + A(LVN[l][0], LVN[l][1]) + '</b><small>' + cnt[l].toLocaleString(AR() ? 'ar-EG' : 'en') + ' ' + A('سؤال', 'questions') + '</small></span></button>';
+    }).join('') + '</div></div>';
     var s = seen(), latest = (E.exams || []).filter(function (x) { return x.group === 'Past papers' && /^perm/i.test(x.id); }).slice(-3).reverse();
-    if (latest.length) h += '<h2 class="st hst">' + A('أحدث الامتحانات', 'Latest Papers') + '</h2><section class="card list">' + latest.map(function (x) {
+    if (latest.length) h += '<div class="hgp"><h2 class="st hst">' + A('أحدث الامتحانات', 'Latest Papers') + '</h2><section class="card list hpl">' + latest.map(function (x) {
       var qs = qsOfExam(x.id), done = qs.filter(function (gid) { return s[gid]; }).length, pct = qs.length ? Math.round(100 * done / qs.length) : 0;
-      return '<button class="lrow" data-act="start" data-k="exam" data-i="' + x.id + '"><span class="ib2">' + ic('book') + '</span><span class="lrow-t"><b>' + esc(x.title) + '</b><small>' + x.n + ' ' + A('سؤال', 'questions') + (done ? ' · ' + pct + '%' : '') + '</small></span>' + ic('chv') + '</button>';
-    }).join('') + '</section>';
-    return h;
+      return '<button class="lrow" data-act="start" data-k="exam" data-i="' + x.id + '"><span class="ib2">' + ic('doc') + '</span><span class="lrow-t"><b>' + esc(x.title) + '</b><small>' + x.n + ' ' + A('سؤال', 'questions') + (done ? ' · ' + pct + '%' : '') + '</small></span>' + ic('chv') + '</button>';
+    }).join('') + '</section></div>';
+    return '<div class="hmw">' + h + '</div>';
   }
   function tile(goh, icn, t, s) { var st = goh.indexOf('set/') === 0; return '<button class="tool" ' + (st ? 'data-act="start" data-k="' + goh.slice(4) + '"' : 'data-go="' + goh + '"') + '><span class="ib2">' + ic(icn) + '</span><span class="tool-t"><b>' + esc(t) + '</b><small>' + esc(s) + '</small></span>' + ic('chv', 'ch') + '</button>'; }
 
@@ -422,7 +423,10 @@
   var PALS = [['navy', 'Default', '#1269b0'], ['blue', 'Green', '#0d6b5c'], ['ocean', 'Ocean', '#1768b3'], ['teal', 'Teal', '#0b6870'], ['purple', 'Purple', '#5a3d8f'], ['maroon', 'Maroon', '#7d2843'], ['graphite', 'Graphite', '#3a4450']];
   function settings() {
     var pal = document.documentElement.dataset.pal, fs = document.documentElement.dataset.fs;
+    var thm = get2('ish-theme', 'light');
     sheet('<h2 class="ch2">' + ic('palette') + A('المظهر والألوان', 'Appearance & colour') + '</h2>' +
+      '<p style="color:var(--mut);font-size:.85em;margin:0 0 8px">' + A('المظهر', 'Look') + '</p><div style="display:flex;gap:8px;margin-bottom:14px">' +
+      [['light', A('نهار', 'Day'), 'sun'], ['dark', A('ليل', 'Night'), 'moon'], ['eye', A('راحة العين', 'Eye comfort'), 'eye']].map(function (x) { return '<button class="btn wide ' + (thm === x[0] ? 'pri' : '') + '" data-thm="' + x[0] + '">' + ic(x[2]) + x[1] + '</button>'; }).join('') + '</div>' +
       '<p style="color:var(--mut);font-size:.85em;margin:0 0 8px">' + A('لون التطبيق', 'App colour') + '</p><div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px">' +
       PALS.map(function (p) { return '<button data-pal="' + p[0] + '" aria-label="' + p[1] + '" style="width:40px;height:40px;border-radius:50%;background:' + p[2] + ';border:3px solid ' + (pal === p[0] ? 'var(--acc)' : 'transparent') + '"></button>'; }).join('') + '</div>' +
       '<p style="color:var(--mut);font-size:.85em;margin:0 0 8px">' + A('حجم الخط', 'Text size') + '</p><div style="display:flex;gap:8px;margin-bottom:14px">' +
@@ -457,10 +461,11 @@
     }
   };
   document.addEventListener('click', function (e) {
-    var el = e.target.closest('[data-go],[data-act],[data-opt],[data-pal],[data-fs],[data-lang],[data-start]');
+    var el = e.target.closest('[data-go],[data-act],[data-opt],[data-pal],[data-fs],[data-lang],[data-start],[data-thm]');
     if (!el || el === document.documentElement || el === document.body) return;
     if (el.dataset.go != null) { go(el.dataset.go); return; }
     if (el.dataset.opt != null) { choose(+el.dataset.opt); return; }
+    if (el.dataset.thm) { try { localStorage.setItem('ish-theme', JSON.stringify(el.dataset.thm)); } catch (x) {} document.documentElement.dataset.theme = el.dataset.thm; settings(); render(); return; }
     if (el.dataset.pal) { try { localStorage.setItem('ex-pal', JSON.stringify(el.dataset.pal)); } catch (x) {} document.documentElement.dataset.pal = el.dataset.pal; settings(); return; }
     if (el.dataset.fs) { try { localStorage.setItem('ex-fs', JSON.stringify(el.dataset.fs)); } catch (x) {} document.documentElement.dataset.fs = el.dataset.fs; settings(); return; }
     if (el.dataset.lang) { try { localStorage.setItem('ish-lang', JSON.stringify(el.dataset.lang)); } catch (x) {} document.documentElement.lang = el.dataset.lang; closeSheet(); render(); return; }
@@ -486,8 +491,23 @@
     if (LOCKED && n !== 'result') h = subBanner() + h;
     $('#v').innerHTML = h;
     document.body.classList.remove('running');
+    document.body.classList.toggle('hmpage', !!$('#v .hmw') && !LOCKED);
     scrollTo(0, 0);
+    fitHome();
   }
+  /* owner, 28 Nov 2026 (his picture): Home on one screen, no scrolling. The free height is measured; the blocks share it (space-between),
+     and on a short screen the scale unit (--hk) is lowered down to 82 % before the page is allowed to scroll. */
+  function fitHome() {
+    var w = $('#v .hmw'); document.documentElement.style.removeProperty('--hk');
+    if (!w || LOCKED) return;
+    var hb = $('#hb').getBoundingClientRect().height, bn = $('#bn').getBoundingClientRect().height;
+    var avail = innerHeight - hb - bn - 22;
+    w.style.minHeight = '0px';
+    var need = w.scrollHeight;
+    if (need > avail) { var k = Math.max(0.82, avail / need); document.documentElement.style.setProperty('--hk', k.toFixed(3)); need = w.scrollHeight; }
+    w.style.minHeight = Math.max(need, avail) + 'px';
+  }
+  var FT = 0; addEventListener('resize', function () { clearTimeout(FT); FT = setTimeout(fitHome, 120); });
 
   /* ---------- paid access ---------- */
   function subBanner() {

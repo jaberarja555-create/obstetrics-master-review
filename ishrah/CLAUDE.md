@@ -1869,3 +1869,8 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
 - **Permanent Exam Home is full on tall phones (owner, 28 Nov 2026: «why down there is empty space»):** after Progress Assessment, «Practise by
   Level» (three tiles Easy · Medium · Hard with counts; a tap opens the start sheet for all questions with that level chosen, set kind `all`) and
   «Latest Papers» (the three newest `perm…` past papers). Full bank: 986 easy, 2,499 medium, 706 hard.
+- **Permanent Exam Home on one screen (owner's picture, 28 Nov 2026: «this is how it is supposed to be, without scrolling»):** top band in the app
+  colour (`--m-hero`) with a curved bottom: menu · divider · SMRA logo + white «Permanent Exam» · divider · bell · photo (the look button moved to
+  Appearance: Day / Night / Eye comfort, `data-thm`). Home blocks are grouped (`.hmw > .hgp`), compact sizes in `--u` × `--hk`; `fitHome()` gives
+  `.hmw` the free height (space-between spreads the groups on tall phones) and on short screens lowers `--hk` to ≥ 0.82 before scrolling. Level
+  tiles = icon beside the text; papers have a document icon. Tested 360×640 … 430×932: no scroll, last row clear of the bottom bar.

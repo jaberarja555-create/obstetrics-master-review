@@ -3,7 +3,7 @@
    handle, from the House Officer section, the books shelf and Features — exactly like the HO Guide. */
 (function () {
   var A = IS.A, esc = IS.esc, ic = IS.ic;
-  var EXV = '14';   /* bump with exam/sw.js C so a page that kept the frame loads the new version */
+  var EXV = '15';   /* bump with exam/sw.js C so a page that kept the frame loads the new version */
   var FR = null, FROM = /^#exam\b/.test(location.hash) ? '' : location.hash.slice(1);
   function host() { var h = document.getElementById('ex-host'); if (!h) { h = document.createElement('div'); h.id = 'ex-host'; h.hidden = true; document.body.appendChild(h); } return h; }
   function show() {
