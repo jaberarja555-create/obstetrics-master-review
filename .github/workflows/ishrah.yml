@@ -85,8 +85,9 @@ jobs:
           study_lectures=ishrah/supabase/065_study_lectures.sql
           ho_guide=ishrah/supabase/066_ho_guide_feedback.sql
           ho_guide_publish=ishrah/supabase/067_ho_guide_publish.sql
+          exam_feedback=ishrah/supabase/068_exam_feedback.sql
           pending=""
-          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads" "$reactions" "$live" "$series_edit" "$lecturer_check" "$profile_sync" "$team_tools" "$presence" "$dup_comments" "$own_paid" "$follows" "$card_roles" "$followers" "$free_posts" "$owner_alerts" "$course_cert" "$assistant" "$team_spaces" "$contact_guard" "$new_address" "$study_groups" "$study_channels" "$study_chat" "$study_settings" "$study_member_photos" "$master_review" "$master_review_visibility" "$study_lectures" "$ho_guide" "$ho_guide_publish"; do
+          for migration in "$base" "$terms" "$payments" "$section" "$library" "$payouts" "$moderation" "$feedback" "$interactions" "$series" "$paid" "$series_feedback" "$upload_rights" "$library_revisions" "$library_subjects" "$ratings" "$discussion" "$stars" "$spaces" "$reader_state" "$space_people" "$usage" "$alerts" "$routing" "$review_wait" "$edits" "$threads" "$reactions" "$live" "$series_edit" "$lecturer_check" "$profile_sync" "$team_tools" "$presence" "$dup_comments" "$own_paid" "$follows" "$card_roles" "$followers" "$free_posts" "$owner_alerts" "$course_cert" "$assistant" "$team_spaces" "$contact_guard" "$new_address" "$study_groups" "$study_channels" "$study_chat" "$study_settings" "$study_member_photos" "$master_review" "$master_review_visibility" "$study_lectures" "$ho_guide" "$ho_guide_publish" "$exam_feedback"; do
             if [ -n "$pending" ] || ! git diff --quiet "$PREVIOUS_COMMIT" "$GITHUB_SHA" -- "$migration"; then
               pending="${pending:+$pending }$migration"
             fi

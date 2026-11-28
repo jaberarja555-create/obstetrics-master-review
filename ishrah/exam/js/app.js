@@ -329,6 +329,7 @@
   /* ---------- render ---------- */
   function render() {
     var r = route(), n = r[0] || 'home';
+    if (!E.questions.length) { head('SMRA Permanent Exam', '', false); $('#v').innerHTML = '<section class="hero" style="margin-top:20px"><small>SMRA</small><h2>' + A('امتحان البرمننت', 'Permanent Exam') + '</h2><i class="hero-bar"></i><p>' + A('بنك الأسئلة قيد التجهيز وسيكون متاحًا للمشتركين قريبًا.', 'The question bank is being prepared and will be available to subscribers soon.') + '</p></section>'; document.body.classList.remove('running'); return; }
     if (n === 'q') { runner(); return; }
     var h;
     if (n === 'home' || n === '') h = home();

@@ -1807,3 +1807,14 @@ each {id, question, options ("A) .."), correctAnswer (0-based), explanation}. Im
   (perm27complete 93 tetanus, 94 pellagra, 98 koilonychia, 100 clubfoot) → `ishrah/exam/img/q/`.
 - **To do next:** fix mistakes (medical fact-check of all questions, in batches, flagged for the team) and improve explanations; paid
   subscription via the shared system (new book id, encrypt data.js, lock); open inside the platform full-screen + installable; release.
+
+## SMRA Permanent Exam in the House Officer place (owner, 28 Nov 2026)
+Integrated exactly like the HO Guide (`ishrah/js/examapp.js`, mirrors hoapp.js): opens the `/exam/` app full-screen in a frame with the SMRA
+handle (`#ex-host`, CSS shared with `#ho-host`/`#bk-host` in mr.css), from the House Officer home card, the books shelf and Features.
+- **Cover:** the owner's poster → `ishrah/img/books/perm.webp` and `ishrah/exam/img/cover.webp`.
+- **Card:** `examFeed()` (House Officer home, under the HO card) and `examBook()` (books/library grid) — same design as the HO Guide: cover, title
+  «Permanent Exam» + «طبيب الامتياز» chip, subtitle, stars, tools line, «Open the bank», then Paid | Like · Comment · Share · Report.
+- **Feedback:** its own files row `IS.EXAM_FILE` = 4c00d0f9-… (migration `supabase/068_exam_feedback.sql`, applied by the Ishrah workflow),
+  like the books. Frame version `EXV` (`/exam/?v=`), bump with `exam/sw.js` C.
+- **Data:** `exam/js/data.js` is gitignored (paid content), so on the live site the app shows a «being prepared» notice until the subscription
+  + encryption are wired (next). Reviewed by screenshots meanwhile.
