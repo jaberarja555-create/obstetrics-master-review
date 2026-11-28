@@ -1751,3 +1751,6 @@ studentmasterreview.com with HTTP/3 off). Now:
   together on every guide release, or a laptop that kept the old frame or files shows the old phone layout.
 - Live checks from a session: the environment now allows studentmasterreview.com, the Supabase host and cdn.jsdelivr.net, so a Playwright
   run against the live site works (scratchpad live1.js: master book bars filled for a visitor).
+- **No Arabic disease names in the HO Guide (owner, 28 Nov 2026):** condition lists show the English name only, and a condition page's
+  subtitle is its body system (English); `c.ar` stays in dx.js only for searching in Arabic. Condition counts in Arabic use `nCase`
+  (حالة واحدة · حالتان · 3–10 حالات · 11+ حالة). Guide version 20 (HOV, `?v=20`, ho/sw.js `ho-v20`).

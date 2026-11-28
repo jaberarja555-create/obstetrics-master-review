@@ -11,6 +11,8 @@
   function put(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   var LANG = get('ish-lang', 'ar') === 'en' ? 'en' : 'ar', AR = LANG === 'ar';
   function A(ar, en) { return AR ? ar : en; }
+  /* Arabic count of conditions: حالة واحدة · حالتان · 3–10 حالات · 11+ حالة */
+  function nCase(n) { return n === 1 ? 'حالة واحدة' : n === 2 ? 'حالتان' : n <= 10 ? n + ' حالات' : n + ' حالة'; }
   function T(en) { return '<bdi dir="ltr">' + esc(en) + '</bdi>'; }
   var nice = E.nice;
   var byId = {}; DX.forEach(function (c) { byId[c.id] = c; });
@@ -411,7 +413,7 @@
   function sysCount(k) { return DX.filter(function (c) { return c.sys === k; }).length; }
   function conds(sys) {
     if (sys && SYS[sys]) {
-      head(SYS[sys][0], A(SYS[sys][1] + ' · ' + sysCount(sys) + ' حالة', sysCount(sys) + ' conditions'));
+      head(SYS[sys][0], A(SYS[sys][1] + ' · ' + nCase(sysCount(sys)), sysCount(sys) + ' conditions'));
       return '<div class="srch">' + ic('search') + '<input id="cq" type="search" dir="auto" value="' + esc(CQ) + '" placeholder="' + A('ابحث في هذا القسم', 'Search this system') + '"></div><div id="clist">' + condList(sys) + '</div>';
     }
     head('Conditions', A('اختر الجهاز ثم الحالة، أو ابحث مباشرة', 'Choose the body system, then the condition, or search'));
@@ -422,7 +424,7 @@
   function sysGrid(rec) {
     return (rec && rec.length ? '<h2 class="st">' + T('Recent') + '</h2><div class="rec">' + rec.map(function (id) { return '<button data-go="c/' + id + '">' + T(byId[id].t) + '</button>'; }).join('') + '</div>' : '') +
       '<h2 class="st">' + T('Body systems') + '</h2><div class="qt">' + Object.keys(SYS).map(function (k) {
-        return '<button class="tool" data-go="conds/' + k + '"><span class="ib2 lg">' + ic(SYSIC[k] || 'list') + '</span><span class="tool-t"><b>' + T(SYS[k][0]) + '</b><small>' + A(sysCount(k) + ' حالة', sysCount(k) + ' conditions') + '</small></span>' + ic('fwd', 'chv') + '</button>';
+        return '<button class="tool" data-go="conds/' + k + '"><span class="ib2 lg">' + ic(SYSIC[k] || 'list') + '</span><span class="tool-t"><b>' + T(SYS[k][0]) + '</b><small>' + A(nCase(sysCount(k)), sysCount(k) + ' conditions') + '</small></span>' + ic('fwd', 'chv') + '</button>';
       }).join('') + '</div>' +
       '<button class="emg alt" data-go="dx"><span class="emg-i">' + ic('stetho2') + '</span><span class="emg-t"><b>' + T('Diagnose from symptoms') + '</b><small>' + A('لا تعرف التشخيص؟ اختر الأعراض', 'Not sure? Pick the symptoms') + '</small></span>' + '<span class="emg-go">' + ic('fwd') + '</span></button>';
   }
@@ -432,7 +434,7 @@
     var L = DX.filter(function (c) { return (!sys || c.sys === sys) && (!q || (c.t + ' ' + c.ar).toLowerCase().indexOf(q) >= 0); });
     if (!L.length) return '<p class="empty">' + A('لا توجد نتيجة', 'Nothing found') + '</p>';
     return '<section class="card list">' + L.map(function (c) {
-      return '<button class="lrow" data-go="c/' + c.id + '"><span class="lrow-i">' + ic(SYSIC[c.sys] || 'list') + '</span><span class="lrow-t">' + T(c.t) + '<small>' + esc(c.ar) + '</small></span>' + ic('fwd', 'flip') + '</button>';
+      return '<button class="lrow" data-go="c/' + c.id + '"><span class="lrow-i">' + ic(SYSIC[c.sys] || 'list') + '</span><span class="lrow-t">' + T(c.t) + '</span>' + ic('fwd', 'flip') + '</button>';
     }).join('') + '</section>';
   }
 
@@ -563,7 +565,7 @@
     if (P.dx !== c.id) { P.dx = c.id; savePt(); }
     var vv = get('ho-var', {}); if (vv[c.id] !== v.id) { vv[c.id] = v.id; put('ho-var', vv); }
     var rec = get('ho-recent', []).filter(function (x) { return x !== id; }); rec.unshift(id); put('ho-recent', rec.slice(0, 8));
-    head(c.t, esc(c.ar));
+    head(c.t, T((window.HO_SYS[c.sys] || [''])[0]));   /* no Arabic disease names (owner, 28 Nov 2026) */
     var h = '';
     if (!(+P.wt > 0)) h += quickPt();
     else { var m = E.ageMonths(P); if ((c.amin != null && m < c.amin) || (c.amax != null && m > c.amax)) h += '<div class="wn warn big">' + ic('alert') + '<span>' + A('عمر المريض غير معتاد لهذا التشخيص؛ راجع التشخيص.', 'This age is unusual for this diagnosis: review it.') + '</span></div>'; }
