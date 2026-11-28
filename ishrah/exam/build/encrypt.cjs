@@ -27,6 +27,6 @@ const qs = data.questions || [];
 const N = 20, step = Math.max(1, Math.floor(qs.length / N));
 const pick = [];
 for (let i = 0; i < qs.length && pick.length < N; i += step) { const q = qs[i]; if (q && q.q && (q.o || q.options)) pick.push(q); }
-const sample = { sample: true, questions: pick, subjects: data.subjects || {} };
+const sample = { sample: true, total: data.total || qs.length, questions: pick, subjects: data.subjects || [] };
 fs.writeFileSync(path.join(HERE, '..', 'js', 'data.sample.js'), 'window.EXAM_SAMPLE=' + JSON.stringify(sample) + ';');
 console.log('wrote js/data.sample.js', pick.length, 'preview questions');

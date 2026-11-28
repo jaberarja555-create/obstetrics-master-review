@@ -1,5 +1,5 @@
 /* SMRA Permanent Exam — offline shell. Bump C when files change. */
-var C='ex-v2';
+var C='ex-v3';
 var FILES=['./','index.html','css/exam.css','js/data.sample.js','js/data.enc','js/app.js','manifest.webmanifest','img/ex-192.png','img/ex-512.png'];
 self.addEventListener('install',function(e){e.waitUntil(caches.open(C).then(function(c){return c.addAll(FILES).catch(function(){});}).then(function(){return self.skipWaiting();}));});
 self.addEventListener('activate',function(e){e.waitUntil(caches.keys().then(function(k){return Promise.all(k.filter(function(x){return /^ex-v/.test(x)&&x!==C;}).map(function(x){return caches.delete(x);}));}).then(function(){return self.clients.claim();}));});

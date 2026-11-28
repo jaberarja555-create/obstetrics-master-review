@@ -50,7 +50,7 @@ main{max-width:860px;margin:0 auto;padding:4px 16px 16px}
 .pbar-t p{margin:1px 0 0;color:var(--mut);font-size:.84em}
 
 /* bottom nav */
-.bn{position:fixed;bottom:0;left:0;right:0;z-index:40;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:var(--sf);border-radius:24px 24px 0 0;box-shadow:0 -6px 20px rgba(15,43,76,.08);max-width:760px;margin:0 auto}
+.bn{position:fixed;bottom:0;left:0;right:0;z-index:40;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:var(--sf);border-radius:24px 24px 0 0;box-shadow:0 -6px 20px rgba(15,43,76,.08);max-width:760px;margin:0 auto}
 .bn button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;border-radius:16px;color:#3c5778;font-weight:700;font-size:calc(12px*var(--fs))}
 .bn button .ic{width:22px;height:22px}
 .bn button.on{background:var(--grad);color:#fff;box-shadow:0 8px 16px color-mix(in srgb,var(--p) 30%,transparent)}
@@ -188,3 +188,58 @@ body.running .bn{display:none}
 .sub-banner .sb-pend{display:inline-flex;gap:6px;align-items:center;font-size:.86rem;background:rgba(255,255,255,.18);padding:6px 12px;border-radius:999px}
 .sub-banner .sb-pend .ic{width:16px;height:16px}
 .btn.gh{background:transparent;border:1.5px solid var(--bd,#d7e3ef);color:var(--tx)}
+
+/* ===== Home redesign to the owner's mockup (28 Nov 2026): one clean page ===== */
+/* Free Preview card */
+.prev-card{position:relative;overflow:hidden;margin:0 0 16px;padding:16px 18px;border-radius:22px;background:var(--sf);box-shadow:0 10px 28px rgba(15,43,76,.10);border:1px solid var(--bd)}
+:root[data-theme=dark] .prev-card{background:var(--sf);border-color:var(--line)}
+.prev-steth{position:absolute;inset-inline-end:-10px;top:-8px;width:132px;height:132px;color:var(--acc);opacity:.16;transform:rotate(8deg)}
+.prev-h{display:flex;align-items:center;gap:10px;margin-bottom:7px;position:relative}
+.prev-crown{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--p),var(--acc));flex:none;box-shadow:0 6px 14px color-mix(in srgb,var(--acc) 34%,transparent)}
+.prev-crown .ic{width:22px;height:22px}
+.prev-h b{font:800 calc(20px*var(--fs)) system-ui,Cairo,sans-serif;color:var(--tx)}
+.prev-card>p{margin:0 0 13px;color:var(--mut);font-size:.92em;line-height:1.55;max-width:34ch;position:relative}
+.prev-card .sb-acts{display:flex;flex-wrap:wrap;gap:10px;position:relative}
+.prev-card .btn{flex:1 1 44%;min-width:132px;padding:13px 14px;border-radius:14px;font-weight:800}
+.prev-card .btn.pri{color:#fff;background:var(--grad);border:none}
+.prev-card .btn.gh{background:var(--sf);border:1.5px solid var(--acc);color:var(--p)}
+:root[data-theme=dark] .prev-card .btn.gh{background:transparent;color:#bfe7e2}
+.sb-pend{display:inline-flex;gap:6px;align-items:center;font-size:.9em;color:var(--org);background:var(--orgbg);padding:8px 13px;border-radius:999px;position:relative}
+.sb-pend .ic{width:16px;height:16px}
+
+/* Hero: text left, ring right, faint ECG + cross */
+.hero{display:flex;align-items:center;gap:14px;padding-bottom:30px}
+.hero-tx{position:relative;z-index:2;flex:1;min-width:0}
+.hero h2{font-size:calc(30px*var(--fs))}
+.hero p{max-width:26ch}
+.hero .ring{position:relative;inset:auto;top:auto;transform:none;z-index:2;flex:none}
+.hero-ecg{position:absolute;left:0;right:0;bottom:7px;width:100%;height:20px;z-index:1;pointer-events:none;opacity:.8}
+.hero-cross{position:absolute;top:16px;inset-inline-end:16px;width:30px;height:30px;z-index:1}
+
+/* Mock Exam card */
+.mock{display:flex;align-items:center;gap:0;width:100%;margin-top:14px;padding:16px 18px;border-radius:22px;color:#fff;position:relative;overflow:hidden;
+  background:linear-gradient(120deg,var(--p) 0%,var(--p2) 48%,color-mix(in srgb,var(--acc) 62%,var(--p2)) 125%);box-shadow:0 12px 28px color-mix(in srgb,var(--p) 30%,transparent)}
+.mock-play{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;background:rgba(255,255,255,.18);flex:none}
+.mock-play .ic{width:28px;height:28px;color:#fff;transform:translateX(2px)}
+.mock-t{flex:1;min-width:0;margin-inline-start:16px;padding-inline-start:16px;border-inline-start:1px solid rgba(255,255,255,.22)}
+.mock-t b{font:800 calc(20px*var(--fs)) system-ui,Cairo,sans-serif;display:block}
+.mock-t small{opacity:.9;font-size:.9em}
+.mock-ch{margin-inline-start:auto;width:26px;height:26px;opacity:.9;flex:none}
+
+/* Progress Assessment card */
+.prog-card{display:flex;align-items:center;gap:14px;width:100%;margin-top:16px;padding:18px;border-radius:22px;color:#fff;text-align:start;position:relative;overflow:hidden;
+  background:linear-gradient(120deg,color-mix(in srgb,var(--acc) 82%,var(--p)) 0%,color-mix(in srgb,var(--acc) 52%,var(--p2)) 100%);box-shadow:0 12px 28px color-mix(in srgb,var(--acc) 28%,transparent)}
+.prog-ic{width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.2);display:grid;place-items:center;flex:none}
+.prog-ic .ic{width:28px;height:28px;color:#fff}
+.prog-tx{flex:1;min-width:0;position:relative;z-index:2}
+.prog-tx b{font:800 calc(19px*var(--fs)) system-ui,Cairo,sans-serif;display:block}
+.prog-tx>small{display:block;opacity:.94;font-size:.86em;margin:3px 0 11px;line-height:1.45}
+.prog-pills{display:flex;gap:8px;flex-wrap:wrap}
+.ppill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);padding:6px 13px;border-radius:999px;font-size:.84em;font-weight:600}
+.ppill .ic{width:16px;height:16px}.ppill b{font-weight:800}
+.prog-ch{position:absolute;inset-inline-end:14px;top:50%;transform:translateY(-50%);width:24px;height:24px;opacity:.9;z-index:2}
+[dir=rtl] .prog-ch{transform:translateY(-50%) scaleX(-1)}
+[dir=rtl] .mock-ch,[dir=rtl] .ch.fchev{transform:scaleX(-1)}
+.prev-price{margin:10px 0 0;font-size:.82em;color:var(--mut);font-weight:600;position:relative}
+.prog-card .hero-ecg{bottom:5px;opacity:.5}
+.prog-pills{position:relative;z-index:2}

@@ -22,7 +22,8 @@
     mark: '<path d="M6 3h12v18l-6-4-6 4z"/>', cross: '<path d="M18 6 6 18M6 6l12 12"/>', check: '<path d="m5 12 5 5 9-11"/>', checkc: '<circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.3 2.3L15.5 9.5" stroke="#fff"/>',
     palette: '<circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1.3"/><circle cx="12" cy="8" r="1.3"/><circle cx="16" cy="10" r="1.3"/>', gear: '<circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2-1.2L14.2 2H9.8l-.4 2.5a7 7 0 0 0-2 1.2l-2.3-1-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 2 1.2l.4 2.5h4.4l.4-2.5a7 7 0 0 0 2-1.2l2.3 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z"/>',
     layers: '<path d="m12 3 9 5-9 5-9-5 9-5zM3 13l9 5 9-5M3 17l9 5 9-5"/>', flag: '<path d="M5 21V4M5 4h11l-1.5 3L16 10H5"/>', shuffle: '<path d="M16 4h4v4M20 4l-6 6M4 20l16-16M16 20h4v-4M4 4l6 6"/>',
-    lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>', bolt: '<path d="M13 3 4 14h6l-1 7 9-11h-6z"/>', info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'
+    lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>', bolt: '<path d="M13 3 4 14h6l-1 7 9-11h-6z"/>', info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+    crown: '<path d="M3 7l4 4 5-7 5 7 4-4-2 12H5z"/>', target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>'
   };
   function ic(n, c) { return '<svg class="ic' + (c ? ' ' + c : '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (I[n] || I.list) + '</svg>'; }
 
@@ -64,9 +65,8 @@
       '<div class="hb-s end"><button class="rdb" data-act="theme" aria-label="Look">' + ic(th === 'dark' ? 'moon' : th === 'eye' ? 'eye' : 'sun') + '</button>' +
       '<button class="av" data-act="settings" aria-label="Settings">' + ic('user') + '</button></div>';
     var r = route()[0] || 'home';
-    var nav = [['home', 'home', 'الرئيسية', 'Home'], ['exams', 'list', 'الامتحانات', 'Exams'], ['', 'play', '', ''], ['progress', 'chart', 'تقدمي', 'Progress'], ['more', 'layers', 'المزيد', 'More']];
+    var nav = [['home', 'home', 'الرئيسية', 'Home'], ['exams', 'list', 'الامتحانات', 'Exams'], ['progress', 'chart', 'تقدمي', 'Progress'], ['more', 'layers', 'المزيد', 'More']];
     $('#bn').innerHTML = nav.map(function (n) {
-      if (!n[0] && !n[2]) return '<button data-act="mock" class="mockb" aria-label="Mock exam"><span class="mockc">' + ic('play') + '</span></button>';
       return '<button data-go="' + n[0] + '" class="' + (r === n[0] ? 'on' : '') + '">' + ic(n[1]) + '<span>' + A(n[2], n[3]) + '</span></button>';
     }).join('');
     $('#ph').innerHTML = back ? '<div class="pbar"><button class="sqb sm" data-act="back">' + ic('back') + '</button><div class="pbar-t"><h1>' + esc(title) + '</h1>' + (sub ? '<p>' + esc(sub) + '</p>' : '') + '</div></div>' : '';
@@ -80,24 +80,39 @@
   }
 
   /* ---- overall stats ---- */
+  function ntotal() { return (E && E.total) || 4206; }
+  function nsub() { return (E.subjects || []).length || 6; }
+  function weakCount() {
+    var s = seen(), w = 0;
+    (E.subjects || []).forEach(function (su) { var qs = qsOfSubject(su[0]), a = 0, c = 0; qs.forEach(function (g) { if (s[g]) { a++; if (s[g].c) c++; } }); if (a >= 3 && Math.round(100 * c / a) < 60) w++; });
+    return w;
+  }
   function stats() {
     var s = seen(), ans = 0, cor = 0; Object.keys(s).forEach(function (g) { ans++; if (s[g].c) cor++; });
-    return { answered: ans, correct: cor, pct: ans ? Math.round(100 * cor / ans) : 0, unused: E.total - ans, marked: Object.keys(marks()).length };
+    return { answered: ans, correct: cor, pct: ans ? Math.round(100 * cor / ans) : 0, unused: ntotal() - ans, marked: Object.keys(marks()).length };
+  }
+
+  /* hero decoration: faint ECG trace + medical cross + grid, white on the gradient */
+  function heroArt() {
+    return '<svg class="hero-ecg" viewBox="0 0 320 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 16H150l5-9 7 18 6-13 5 4H320" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/></svg>' +
+      '<svg class="hero-cross" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z" fill="none" stroke="#fff" stroke-width="1.4" opacity=".35"/></svg>';
   }
 
   /* ---------- HOME ---------- */
   function home() {
     head('SMRA Permanent Exam', '');
     var st = stats();
-    var h = '<section class="hero"><small>' + A('مرحبًا دكتور،', 'Welcome, Doctor') + '</small><h2>' + A('امتحان البرمننت', 'Permanent Exam') + '</h2><i class="hero-bar"></i>' +
-      '<p>' + A(E.total + ' سؤالًا من الدورات والشيتات مع الشرح.', E.total + ' questions from past papers and sheets, with explanations.') + '</p>' + ring(st.pct) + '</section>';
-    h += '<button class="start" data-act="mock"><span class="ib2">' + ic('play') + '</span><span><b>' + A('امتحان تجريبي', 'Mock exam') + '</b><small>' + A('200 سؤال عشوائي بوقت محدد', '200 random questions, timed') + '</small></span>' + ic('fwd', 'ch') + '</button>';
-    h += '<h2 class="st">' + A('ابدأ المذاكرة', 'Start practising') + '</h2><div class="qt">' +
+    var h = '<section class="hero"><div class="hero-tx"><small>' + A('مرحبًا دكتور،', 'Welcome, Doctor') + '</small><h2>' + A('امتحان البرمننت', 'Permanent Exam') + '</h2><i class="hero-bar"></i>' +
+      '<p>' + A('أسئلة من الدورات والشيتات مع الشرح.', 'Practice questions from past papers and sheets with explanations.') + '</p></div>' + ring(st.pct) + heroArt() + '</section>';
+    h += '<button class="mock" data-act="mock"><span class="mock-play">' + ic('play') + '</span><span class="mock-t"><b>' + A('امتحان تجريبي', 'Mock Exam') + '</b><small>' + A('200 سؤال عشوائي · بوقت محدد', '200 random questions · timed') + '</small></span>' + ic('fwd', 'mock-ch') + '</button>';
+    h += '<h2 class="st">' + A('ابدأ المذاكرة', 'Start Practising') + '</h2><div class="qt">' +
       tile('exams', 'list', A('الامتحانات', 'Exams'), A('الدورات والشيتات', 'Papers & sheets')) +
-      tile('subjects', 'layers', A('حسب المادة', 'By subject'), A('6 مواد', '6 subjects')) +
-      tile('set/incorrect', 'cross', A('الأخطاء', 'Incorrect'), st.answered ? (st.answered - st.correct) + '' : A('لا شيء بعد', 'none yet')) +
-      tile('set/marked', 'mark', A('المعلّمة', 'Marked'), st.marked + '') + '</div>';
-    h += '<button class="start" style="margin-top:12px;background:linear-gradient(120deg,var(--acc),color-mix(in srgb,var(--acc) 70%,#000))" data-go="progress"><span class="ib2" style="background:rgba(255,255,255,.18);color:#fff">' + ic('chart') + '</span><span><b>' + A('تقييم تقدمي', 'Progress assessment') + '</b><small>' + st.answered + '/' + E.total + ' ' + A('سؤال · نقاط الضعف', 'answered · weak areas') + '</small></span>' + ic('fwd', 'ch') + '</button>';
+      tile('subjects', 'layers', A('حسب المادة', 'By Subject'), nsub() + ' ' + A('مواد', 'subjects')) +
+      tile('set/incorrect', 'cross', A('الأخطاء', 'Incorrect'), A('مراجعة الأخطاء', 'Review mistakes')) +
+      tile('set/marked', 'mark', A('المعلّمة', 'Marked'), A('أسئلة محفوظة', 'Saved questions')) + '</div>';
+    h += '<button class="prog-card" data-go="progress"><span class="prog-ic">' + ic('chart') + '</span><span class="prog-tx"><b>' + A('تقييم التقدم', 'Progress Assessment') + '</b>' +
+      '<small>' + A('تابع الأسئلة المُجابة وحدّد نقاط الضعف.', 'Track answered questions and identify weak areas.') + '</small>' +
+      '<span class="prog-pills"><span class="ppill">' + ic('checkc') + '<b>' + st.answered + '</b> ' + A('مُجاب', 'Answered') + '</span><span class="ppill">' + ic('target') + '<b>' + weakCount() + '</b> ' + A('نقاط ضعف', 'Weak Areas') + '</span></span></span>' + ic('fwd', 'prog-ch') + heroArt() + '</button>';
     return h;
   }
   function tile(goh, icn, t, s) { var st = goh.indexOf('set/') === 0; return '<button class="tool" ' + (st ? 'data-act="start" data-k="' + goh.slice(4) + '"' : 'data-go="' + goh + '"') + '><span class="ib2">' + ic(icn) + '</span><span class="tool-t"><b>' + esc(t) + '</b><small>' + esc(s) + '</small></span>' + ic('chv', 'ch') + '</button>'; }
@@ -360,12 +375,14 @@
   /* ---------- paid access ---------- */
   function subBanner() {
     var price = PRICE ? ' · ' + money(PRICE) : '';
-    return '<div class="sub-banner">' + ic('lock') + '<div class="sb-tx"><b>' + A('النسخة التجريبية المجانية', 'Free preview') + '</b>' +
-      '<p>' + A('تجربة ' + E.questions.length + ' سؤالًا. اشترك لفتح البنك كاملًا: 4٬206 سؤالًا مع الشرح، الامتحان التجريبي وتقييم التقدم.',
-        'Trying ' + E.questions.length + ' questions. Subscribe to unlock the whole bank: 4,206 questions with explanations, mock exam and progress.') + '</p>' +
+    return '<div class="prev-card"><svg class="prev-steth" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6v10a8 8 0 0 0 16 0V6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M22 23v6a9 9 0 0 0 18 0v-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="40" cy="22" r="3.4" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>' +
+      '<div class="prev-h"><span class="prev-crown">' + ic('crown') + '</span><b>' + A('النسخة التجريبية المجانية', 'Free Preview') + '</b></div>' +
+      '<p>' + A('جرّب ' + E.questions.length + ' سؤالًا. اشترك لفتح ' + ntotal().toLocaleString('ar-EG') + ' سؤالًا مع الشرح والامتحان التجريبي وتقييم التقدم.',
+        'Try ' + E.questions.length + ' questions. Subscribe to unlock ' + ntotal().toLocaleString('en') + ' questions, explanations, mock exam and progress.') + '</p>' +
       (PENDING ? '<span class="sb-pend">' + ic('timer') + A('إيصالك قيد المراجعة…', 'Your receipt is under review…') + '</span>'
-        : '<div class="sb-acts"><button class="btn pri" data-act="subscribe">' + ic('bolt') + A('اشترك', 'Subscribe') + price + '</button>' +
-          '<button class="btn gh" data-act="recheck">' + A('لقد اشتركت — تحقّق', 'I subscribed — check') + '</button></div>') + '</div></div>';
+        : '<div class="sb-acts"><button class="btn pri" data-act="subscribe">' + ic('bolt') + A('اشترك', 'Subscribe') + '</button>' +
+          '<button class="btn gh" data-act="recheck">' + A('التحقق من الاشتراك', 'Check subscription') + '</button></div>') +
+      (PRICE ? '<p class="prev-price">' + A('الاشتراك: ', 'Subscription: ') + money(PRICE) + A(' · دفعة واحدة', ' · one-time') + '</p>' : '') + '</div>';
   }
   function lockedScreen() {
     return '<section class="hero" style="margin-top:20px"><small>SMRA</small><h2>' + A('امتحان البرمننت', 'Permanent Exam') + '</h2><i class="hero-bar"></i>' +
