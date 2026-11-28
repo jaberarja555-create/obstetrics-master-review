@@ -406,7 +406,8 @@
             if (f[2] === 'fnd') return '<div class="fld fndf"><span>' + T(f[1]) + '</span><button type="button" class="fndb" data-act="fndopen" data-t="' + f[0] + '">' + fndSum(f[0]) + ic('fwd', 'chv') + '</button></div>';
             if (f[2] === 'txt') return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp"><input data-lab="' + f[0] + '" type="text" dir="auto" value="' + esc(v) + '" placeholder="' + A('النتيجة', 'Result') + '"></div></label>';
             if (f[2] === 'sel') return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp pick"><select data-lab="' + f[0] + '" dir="ltr">' + f[3].map(function (o) { return '<option value="' + o + '"' + (v === o ? ' selected' : '') + '>' + (o || '—') + '</option>'; }).join('') + '</select></div></label>';
-            return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp ' + labFlag(f, v) + '"><input data-lab="' + f[0] + '" type="number" inputmode="decimal" step="any" dir="ltr" value="' + esc(v) + '"><em dir="ltr">' + f[2] + '</em></div></label>';
+            /* numbers are chosen too (owner, 28 Nov 2026: "CBC … as a pop-up list, and Other to write it") */
+            return '<div class="fld"><span>' + T(f[1]) + '</span><input type="hidden" data-lab="' + f[0] + '" value="' + esc(v) + '"><button type="button" class="pkb labb ' + labFlag(f, v) + '" data-act="labpick" data-k="' + f[0] + '">' + labTxt(f, v) + ic('fwd', 'chv') + '</button></div>';
           }).join('') + '</div></details>';
       }).join('') + '<div id="invsug">' + invSuggest() + '</div>';
     h += '<div class="fld" style="margin-top:14px"><span>' + A('ملاحظات', 'Notes') + '</span><textarea name="notes" rows="2" dir="auto">' + esc(P.notes) + '</textarea></div></details>';
@@ -507,6 +508,29 @@
     PK.dispatchEvent(new Event('change', { bubbles: true })); PK.dispatchEvent(new Event('input', { bubbles: true }));
   });
   new MutationObserver(function () { pickify(); }).observe(document.body, { childList: true, subtree: true });
+  /* lab values as a pop-up grid: [from, to, step] per test; low and high values coloured; «Other» to type */
+  var LRANGE = { hb: [2, 20, 0.5], wbc: [1, 40, 1], plt: [10, 800, 10], neut: [0, 100, 5], lymph: [0, 100, 5], na: [115, 170, 1], k: [1.5, 8, 0.1], ca: [5, 13, 0.1],
+    urea: [5, 300, 5], cr: [0.2, 10, 0.1], rbg: [20, 600, 5], crp: [0, 300, 5], esr: [0, 150, 5], tsb: [0.5, 30, 0.5], dsb: [0.1, 15, 0.1], alt: [5, 2000, 5], alb: [1, 5.5, 0.1] };
+  function labDef(k) { var f = null; LABS.forEach(function (g) { g[2].forEach(function (x) { if (x[0] === k) f = x; }); }); return f; }
+  function labTxt(f, v) { return v === '' || v == null ? '<span class="fndp">' + A('اختر', 'Choose') + '</span>' : '<b dir="ltr">' + esc(v) + ' <small>' + esc(f[2]) + '</small>' + (labFlag(f, v) === 'lo' ? ' ↓' : labFlag(f, v) === 'hi' ? ' ↑' : '') + '</b>'; }
+  function rng(f) { return f[3] != null && f[4] != null ? f[3] + '–' + f[4] : f[3] != null ? '≥ ' + f[3] : f[4] != null ? '≤ ' + f[4] : ''; }
+  ACT.labpick = function (b) {
+    readForm(); var k = b.dataset.k, f = labDef(k), r = LRANGE[k] || [0, 100, 1], cur = P.lab[k], vals = [];
+    for (var x = r[0]; x <= r[1] + 1e-9; x = Math.round((x + r[2]) * 1000) / 1000) vals.push(x);
+    sheet('<h2 class="ch"><span class="chi">' + ic('flask') + '</span>' + T(f[1]) + '<small class="lrng" dir="ltr">' + esc(f[2]) + (rng(f) ? ' · ' + A('الطبيعي ', 'normal ') + rng(f) : '') + '</small></h2>' +
+      '<div class="lgrid">' + vals.map(function (x) { var fl = labFlag(f, x); return '<button class="lv ' + fl + (String(x) === String(cur) ? ' on' : '') + '" data-act="labset" data-k="' + k + '" data-v="' + x + '">' + x + '</button>'; }).join('') + '</div>' +
+      '<div class="lother"><div class="inp"><input id="labo" type="number" inputmode="decimal" step="any" dir="ltr" value="' + esc(cur || '') + '" placeholder="' + A('قيمة أخرى (اكتبها)', 'Other value (type it)') + '"><em dir="ltr">' + esc(f[2]) + '</em></div>' +
+      '<button class="btn pri" data-act="labset" data-k="' + k + '" data-o="1">' + A('تم', 'Done') + '</button></div>' +
+      (cur !== '' && cur != null ? '<button class="lnk" data-act="labset" data-k="' + k + '" data-v="">' + ic('trash') + A('مسح القيمة', 'Clear the value') + '</button>' : ''));
+    var on = document.querySelector('.lgrid .lv.on'); if (on) on.scrollIntoView({ block: 'center' });
+  };
+  ACT.labset = function (b) {
+    var k = b.dataset.k, f = labDef(k), v = b.dataset.o ? ($('#labo').value || '').trim() : b.dataset.v;
+    P.lab[k] = v; savePt(); closeSheet();
+    var h = document.querySelector('input[type=hidden][data-lab="' + k + '"]'); if (h) h.value = v;
+    var bt = document.querySelector('[data-act=labpick][data-k="' + k + '"]'); if (bt) { bt.className = 'pkb labb ' + labFlag(f, v); bt.innerHTML = labTxt(f, v) + ic('fwd', 'chv'); }
+    var el = $('#invsug'); if (el) el.innerHTML = invSuggest();
+  };
   ACT.fndopen = function (b) {
     readForm(); var t = b.dataset.t, f = null; LABS.forEach(function (g) { g[2].forEach(function (x) { if (x[0] === t) f = x; }); });
     sheet('<h2 class="ch"><span class="chi">' + ic('flask') + '</span>' + T(f ? f[1] : t) + '</h2><div class="sxlist">' + FIND[t].map(function (x) {

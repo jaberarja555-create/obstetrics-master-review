@@ -1781,3 +1781,6 @@ studentmasterreview.com with HTTP/3 off). Now:
   treatment» are one button each with a tick list (`MULTI`, `ACT.mopen/mtgl/mdone`); the allergy list ends with «Other» that opens a box for
   the drug name (`P.allergyTxt`; the separate text box is gone). Diagnosis = a button with a searchable list by body system (`ACT.dxpick`,
   hidden `dxt` field). Segmented buttons (Setting, Sex, text size) stay as taps. Guide v25.
+- Lab numbers are chosen too (owner, 28 Nov 2026: "CBC … as a pop-up list, and Other to write it"): each numeric lab is a button
+  (`.pkb.labb`, value + unit + ↓/↑) opening a grid of values (`LRANGE` from/to/step; low blue, normal green, high red; normal range in the
+  title), «Other value» box with Done, and «Clear the value»; `ACT.labpick/labset`, hidden `data-lab` input keeps readForm working. Guide v26.

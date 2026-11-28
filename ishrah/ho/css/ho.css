@@ -675,3 +675,13 @@ details[open].grp>summary,details[open].acc>summary,details[open].moreb>summary{
 .pkg{margin:12px 2px 6px;font:800 .82em Pop,sans-serif;color:var(--mut);text-transform:uppercase;letter-spacing:.03em}
 .pkg:first-child{margin-top:0}
 @media(max-width:400px){.pkb{padding:8px 11px}}
+/* lab values in a pop-up grid (owner, 28 Nov 2026) */
+.pkb.labb{width:100%;border:1.5px solid var(--line);border-radius:14px;background:var(--soft);min-height:46px}
+.pkb.labb b{color:var(--tx)}.pkb.labb b small{color:var(--mut);font-weight:600;font-size:.78em}
+.pkb.labb.lo b{color:#1d63c9}.pkb.labb.hi b{color:#c23030}.pkb.labb.lo,.pkb.labb.hi{border-color:currentColor}
+.ch .lrng{display:block;margin-inline-start:auto;font:600 .62em Pop,sans-serif;color:var(--mut)}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px;max-height:46vh;overflow:auto;padding:2px}
+.lv{padding:10px 4px;border-radius:12px;border:1.5px solid var(--line);background:var(--sf);font:700 .92em Pop,sans-serif;color:var(--tx)}
+.lv.lo{color:#1d63c9;background:#eef4fd}.lv.hi{color:#c23030;background:#fdf0f0}.lv.ok{color:#14794f}
+.lv.on{background:var(--p)!important;color:#fff!important;border-color:var(--p)}
+.lother{display:flex;gap:8px;margin:12px 0 6px}.lother .inp{flex:1}
