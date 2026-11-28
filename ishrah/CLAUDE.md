@@ -1915,3 +1915,6 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
   doses with a weight (four figures stay on top), calculator pages, Prescription and Order sheet (paper in the panel, Copy / Print below). A page with
   a panel is not shrunk by fitPage; `fitCond` fits any panel; panels print in full. Scan of all 49 pages (+ 78 conditions, 123 drugs) at 360×640,
   390×740, 412×915: nothing scrolls (scratchpad hoall.js, cnd3.js, drg.js).
+- **Permanent Exam question screen on one screen (28 Nov 2026):** the question card sits in `.qpanel` sized by `fitQ()` between the labels and the
+  bottom buttons and scrolls inside itself (long stems, explanations); the top band is hidden while a test runs. Scan (scratchpad exall.js): Home,
+  Exams, Subjects, Progress, More, 15 questions before and after answering, Result — nothing scrolls at 360×640, 390×740, 412×915.

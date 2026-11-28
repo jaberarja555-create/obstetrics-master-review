@@ -534,3 +534,9 @@ body.hmpage #ph .pbar{margin:0 0 calc(6*var(--u)*var(--hk))}
 .sh-x{position:sticky;top:0;float:right;z-index:5;width:34px;height:34px;margin:-4px -4px 0 8px;border-radius:50%;display:grid;place-items:center;border:0;cursor:pointer;
   background:var(--soft);color:var(--tx);box-shadow:0 2px 8px rgba(0,0,0,.12)}
 :root[dir=rtl] .sh-x,:root[lang=ar] .sh-x{float:left;margin:-4px 8px 0 -4px}
+
+/* question card fitted between the labels and the bottom buttons; long text scrolls inside it */
+.qpanel{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border-radius:18px}
+.qpanel>.qcard{margin-bottom:0}
+body.running{padding-bottom:0!important}
+body.running #hb{display:none}

@@ -271,7 +271,7 @@
     var h = '<div class="qtop"><button class="sqb sm" data-act="quit">' + ic('back') + '</button><span class="pbln" style="margin:0"><i style="width:' + Math.round(100 * (T.i + 1) / T.list.length) + '%"></i></span><b style="font-size:.85em;white-space:nowrap">' + (T.i + 1) + '/' + T.list.length + '</b><button class="sqb sm hlbtn' + (HL ? ' on' : '') + '" data-act="hlmode" aria-label="' + A('قلم التظليل', 'Highlighter') + '" aria-pressed="' + HL + '">' + ic('marker') + '</button>' + (T.timed ? '<span class="pill" id="tmr">' + ic('timer') + fmt(Math.max(0, T.endAt - Date.now())) + '</span>' : '') + '</div>';
     var qlv = level(q);
     h += '<div class="qmeta"><span class="pill">' + esc(tt) + '</span><span class="pill">' + ic(SICO[q.s] || 'layers') + esc(SUBN[q.s] || q.s) + '</span><span class="pill lvp lv' + qlv + '">' + A(LVN[qlv][0], LVN[qlv][1]) + '</span>' + (q.x && q.x.length > 1 ? '<span class="pill" title="appears in several papers">' + ic('layers') + A('مكرر', 'repeat') + '</span>' : '') + '</div>';
-    h += '<div class="qcard"><span class="qnum">' + A('سؤال', 'Question') + ' ' + (T.i + 1) + '</span><p class="qtext hla' + (HL ? ' hlon' : '') + '" data-hk="q">' + markText(q.q, H.q) + '</p>';
+    h += '<div class="qpanel"><div class="qcard"><span class="qnum">' + A('سؤال', 'Question') + ' ' + (T.i + 1) + '</span><p class="qtext hla' + (HL ? ' hlon' : '') + '" data-hk="q">' + markText(q.q, H.q) + '</p>';
     if (q.img) h += '<img class="qimg" src="' + esc(q.img) + '" alt="">';
     h += '<div class="opts">';
     q.o.forEach(function (op, k) {
@@ -283,10 +283,20 @@
     h += '</div>';
     if (reveal) h += '<div class="exp"><b>' + ic('info') + ' ' + (a === q.a ? A('صحيح', 'Correct') : A('الإجابة الصحيحة: ', 'Correct answer: ') + String.fromCharCode(65 + q.a)) + '</b><p class="hla' + (HL ? ' hlon' : '') + '" data-hk="e">' + (q.e ? markText(q.e, H.e) : esc(A('لا يوجد شرح.', 'No explanation.'))) + '</p></div>';
     h += '</div>';
+    h += '</div>';
     $('#v').innerHTML = h;
     $('#bn').innerHTML = '';
     bottomBar(g, a, pk);
+    fitQ(); setTimeout(fitQ, 120);
   }
+  /* the question screen on one screen (owner, 28 Nov 2026: «work in all pages»): the card fills the room between the labels and the
+     buttons and scrolls inside itself when a question or its explanation is long */
+  function fitQ() {
+    var q = $('.qpanel'), bar = document.getElementById('rbar'); if (!q) return; q.style.height = '';
+    var room = innerHeight - q.getBoundingClientRect().top - (bar ? bar.getBoundingClientRect().height : 0) - 10;
+    if (room > 160) q.style.height = room + 'px';
+  }
+  addEventListener('resize', function () { clearTimeout(fitQ.t); fitQ.t = setTimeout(fitQ, 150); });
   function bottomBar(g, a, pk) {
     var last = T.i >= T.list.length - 1, answered = a != null, needSubmit = T.tutor && !answered;
     var bar = document.getElementById('rbar'); if (bar) bar.remove();
