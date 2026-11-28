@@ -1784,3 +1784,4 @@ studentmasterreview.com with HTTP/3 off). Now:
 - Lab numbers are chosen too (owner, 28 Nov 2026: "CBC … as a pop-up list, and Other to write it"): each numeric lab is a button
   (`.pkb.labb`, value + unit + ↓/↑) opening a grid of values (`LRANGE` from/to/step; low blue, normal green, high red; normal range in the
   title), «Other value» box with Done, and «Clear the value»; `ACT.labpick/labset`, hidden `data-lab` input keeps readForm working. Guide v26.
+- Conditions → Recent (owner, 28 Nov 2026: "looks unorganized"): the last 3 as list rows (system icon, name, system) in one card, not pills. Guide v27.

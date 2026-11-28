@@ -651,18 +651,18 @@
   function sysCount(k) { return DX.filter(function (c) { return c.sys === k; }).length; }
   function conds(sys) {
     if (sys && SYS[sys]) {
-      head(SYS[sys][0], A(SYS[sys][1] + ' · ' + nCase(sysCount(sys)), sysCount(sys) + ' conditions'));
+      head(SYS[sys][0], A(SYS[sys][1] + ' · ' + nCase(sysCount(sys)), sysCount(sys) + (sysCount(sys) === 1 ? ' condition' : ' conditions')));
       return '<div class="srch">' + ic('search') + '<input id="cq" type="search" dir="auto" value="' + esc(CQ) + '" placeholder="' + A('ابحث في هذا القسم', 'Search this system') + '"></div><div id="clist">' + condList(sys) + '</div>';
     }
     head('Conditions', A('اختر الجهاز ثم الحالة، أو ابحث مباشرة', 'Choose the body system, then the condition, or search'));
-    var rec = get('ho-recent', []).filter(function (id) { return byId[id]; }).slice(0, 6);
+    var rec = get('ho-recent', []).filter(function (id) { return byId[id]; }).slice(0, 3);
     return '<div class="srch">' + ic('search') + '<input id="cq" type="search" dir="auto" value="' + esc(CQ) + '" placeholder="' + A('ابحث في كل الأمراض (عربي أو إنجليزي)', 'Search every condition') + '"></div>' +
       '<div id="clist">' + (CQ ? condList('') : sysGrid(rec)) + '</div>';
   }
   function sysGrid(rec) {
-    return (rec && rec.length ? '<h2 class="st">' + T('Recent') + '</h2><div class="rec">' + rec.map(function (id) { return '<button data-go="c/' + id + '">' + T(byId[id].t) + '</button>'; }).join('') + '</div>' : '') +
+    return (rec && rec.length ? '<h2 class="st">' + T('Recent') + '</h2><section class="card list recl">' + rec.map(function (id) { var c = byId[id]; return '<button class="lrow" data-go="c/' + id + '"><span class="lrow-i">' + ic(SYSIC[c.sys] || 'list') + '</span><span class="lrow-t">' + T(c.t) + '<small dir="ltr">' + esc((SYS[c.sys] || [''])[0]) + '</small></span>' + ic('fwd', 'flip') + '</button>'; }).join('') + '</section>' : '') +
       '<h2 class="st">' + T('Body systems') + '</h2><div class="qt">' + Object.keys(SYS).map(function (k) {
-        return '<button class="tool" data-go="conds/' + k + '"><span class="ib2 lg">' + ic(SYSIC[k] || 'list') + '</span><span class="tool-t"><b>' + T(SYS[k][0]) + '</b><small>' + A(nCase(sysCount(k)), sysCount(k) + ' conditions') + '</small></span>' + ic('fwd', 'chv') + '</button>';
+        return '<button class="tool" data-go="conds/' + k + '"><span class="ib2 lg">' + ic(SYSIC[k] || 'list') + '</span><span class="tool-t"><b>' + T(SYS[k][0]) + '</b><small>' + A(nCase(sysCount(k)), sysCount(k) + (sysCount(k) === 1 ? ' condition' : ' conditions')) + '</small></span>' + ic('fwd', 'chv') + '</button>';
       }).join('') + '</div>' +
       '<button class="emg alt" data-go="dx"><span class="emg-i">' + ic('stetho2') + '</span><span class="emg-t"><b>' + T('Diagnose from symptoms') + '</b><small>' + A('لا تعرف التشخيص؟ اختر الأعراض', 'Not sure? Pick the symptoms') + '</small></span>' + '<span class="emg-go">' + ic('fwd') + '</span></button>';
   }
