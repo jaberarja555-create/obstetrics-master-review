@@ -371,3 +371,13 @@ html[dir=rtl] .pf-menu button>.ic:last-child{transform:scaleX(-1)}
 .lvc.lv1 b{color:#15803d}.lvc.lv2 b{color:#b45309}.lvc.lv3 b{color:#c0262d}
 .pill.lvp{font-weight:700}.pill.lvp.lv1{background:#e3f5ea;color:#15803d}.pill.lvp.lv2{background:#fdf0dc;color:#b45309}.pill.lvp.lv3{background:#fde4e4;color:#c0262d}
 :root[data-theme=dark] .pill.lvp.lv1{background:#12351f;color:#7ee2a1}:root[data-theme=dark] .pill.lvp.lv2{background:#3b2a10;color:#f5c26b}:root[data-theme=dark] .pill.lvp.lv3{background:#3e1517;color:#ff9a9a}
+
+/* Home: practise by level (three tiles) and the latest papers */
+.lvrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 6px}
+.lvt{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:14px 12px;border-radius:18px;border:0;background:var(--card,#fff);box-shadow:0 6px 18px rgba(40,30,90,.07);font:inherit;color:inherit;text-align:start;overflow:hidden}
+.lvt-d{width:30px;height:30px;border-radius:10px;margin-bottom:4px}
+.lvt b{font-size:1.02em}.lvt small{color:var(--mut);font-size:.8em}
+.lvt.lv1 .lvt-d{background:linear-gradient(135deg,#34c27a,#15803d)}.lvt.lv2 .lvt-d{background:linear-gradient(135deg,#f6b54a,#c7700e)}.lvt.lv3 .lvt-d{background:linear-gradient(135deg,#f0646b,#c0262d)}
+.lvt.lv1 b{color:#15803d}.lvt.lv2 b{color:#b45309}.lvt.lv3 b{color:#c0262d}
+:root[data-theme=dark] .lvt{box-shadow:none}
+.lvt small{white-space:nowrap;font-size:.74em}

@@ -126,6 +126,16 @@
       '<span class="prog-pills"><span class="ppill"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1597b5"/><path d="m7 12.4 3.3 3.3L17.2 8.8" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>' + st.answered + '</b> ' + A('مُجاب', 'Answered') + '</span></span>' +
       '<span class="ppill"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#1597b5" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.8" fill="#1597b5" stroke="none"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4"/></svg><span><b>' + weakCount() + '</b> ' + A('نقاط ضعف', 'Weak Areas') + '</span></span></span></span>' +
       ic('fwd', 'prog-ch') + heroArt('p') + '</button>';
+    /* owner, 28 Nov 2026: «why down there is empty space» — Home goes on with practice by level and the newest papers */
+    var cnt = { 1: 0, 2: 0, 3: 0 }; E.questions.forEach(function (q) { if (!q.b) cnt[level(q)]++; });
+    h += '<h2 class="st hst">' + A('تدرّب حسب المستوى', 'Practise by Level') + '</h2><div class="lvrow">' + [1, 2, 3].map(function (l) {
+      return '<button class="lvt lv' + l + '" data-act="lvstart" data-lv="' + l + '"' + (cnt[l] ? '' : ' disabled') + '><span class="lvt-d"></span><b>' + A(LVN[l][0], LVN[l][1]) + '</b><small>' + cnt[l].toLocaleString(AR() ? 'ar-EG' : 'en') + ' ' + A('سؤال', 'questions') + '</small></button>';
+    }).join('') + '</div>';
+    var s = seen(), latest = (E.exams || []).filter(function (x) { return x.group === 'Past papers' && /^perm/i.test(x.id); }).slice(-3).reverse();
+    if (latest.length) h += '<h2 class="st hst">' + A('أحدث الامتحانات', 'Latest Papers') + '</h2><section class="card list">' + latest.map(function (x) {
+      var qs = qsOfExam(x.id), done = qs.filter(function (gid) { return s[gid]; }).length, pct = qs.length ? Math.round(100 * done / qs.length) : 0;
+      return '<button class="lrow" data-act="start" data-k="exam" data-i="' + x.id + '"><span class="ib2">' + ic('book') + '</span><span class="lrow-t"><b>' + esc(x.title) + '</b><small>' + x.n + ' ' + A('سؤال', 'questions') + (done ? ' · ' + pct + '%' : '') + '</small></span>' + ic('chv') + '</button>';
+    }).join('') + '</section>';
     return h;
   }
   function tile(goh, icn, t, s) { var st = goh.indexOf('set/') === 0; return '<button class="tool" ' + (st ? 'data-act="start" data-k="' + goh.slice(4) + '"' : 'data-go="' + goh + '"') + '><span class="ib2">' + ic(icn) + '</span><span class="tool-t"><b>' + esc(t) + '</b><small>' + esc(s) + '</small></span>' + ic('chv', 'ch') + '</button>'; }
@@ -192,6 +202,7 @@
     else if (kind === 'marked') out = Object.keys(marks()).map(Number).filter(function (g) { return Q[g]; });
     else if (kind === 'incorrect') out = Object.keys(s).filter(function (g) { return s[g].c === 0 && Q[g]; }).map(Number);
     else if (kind === 'unused') out = E.questions.filter(function (q) { return !s[q.g]; }).map(function (q) { return q.g; });
+    else if (kind === 'all') out = E.questions.map(function (q) { return q.g; });
     else if (kind === 'mock') { out = E.questions.map(function (q) { return q.g; }); shuffle(out); out = out.slice(0, 200); }
     return out.filter(function (g) { return Q[g] && !Q[g].b && (!LVSEL || level(Q[g]) === LVSEL); });
   }
@@ -199,7 +210,7 @@
 
   /* ---------- RUNNER ---------- */
   var T = null; /* current test */
-  function setName(kind, id) { return kind === 'mock' ? A('امتحان تجريبي', 'Mock exam') : kind === 'exam' ? (EXM[id] || {}).title : kind === 'subject' ? SUBN[id] : kind === 'marked' ? A('الأسئلة المعلّمة', 'Marked questions') : kind === 'incorrect' ? A('الأخطاء', 'Incorrect questions') : kind === 'unused' ? A('أسئلة لم تُحل', 'Unused questions') : kind; }
+  function setName(kind, id) { return kind === 'all' ? A('كل الأسئلة', 'All questions') : kind === 'mock' ? A('امتحان تجريبي', 'Mock exam') : kind === 'exam' ? (EXM[id] || {}).title : kind === 'subject' ? SUBN[id] : kind === 'marked' ? A('الأسئلة المعلّمة', 'Marked questions') : kind === 'incorrect' ? A('الأخطاء', 'Incorrect questions') : kind === 'unused' ? A('أسئلة لم تُحل', 'Unused questions') : kind; }
   function setCount(kind, id) { return buildSet(kind, id).length; }
   function openStart(kind, id, keep) {
     if (!keep) LVSEL = 0;
@@ -423,6 +434,7 @@
   /* ---------- actions ---------- */
   var ACT = {
     menu: function () { go('more'); }, settings: settings, theme: cycleTheme, shclose: closeSheet,
+    lvstart: function (el) { LVSEL = +el.dataset.lv || 0; openStart('all', '', true); },
     lvsel: function (el) { LVSEL = +el.dataset.lv || 0; openStart(el.dataset.k, el.dataset.i || '', true); },
     profile: function () { profileSheet(); }, notes: function () { notesSheet(); toParent({ exam: 'notes' }); },
     sndtog: function () { try { localStorage.setItem('ex-snd-off', JSON.stringify(soundOn() ? 1 : 0)); } catch (e) {} if (soundOn()) chime(); notesSheet(); },

@@ -1866,3 +1866,6 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
   wraps the exam key for it (`wrap <pub> build/exam.key` → exam/build/key.wrap.json, force-added, safe in public); every deploy runs `store`
   (unwraps, writes exam_cfg 1, prints only a fingerprint). To change the key again: new build/exam.key, encrypt.cjs, wrap, commit data.enc + key.wrap.json.
   The old EXAM_KEY secret step is gone (an old key would no longer match data.enc).
+- **Permanent Exam Home is full on tall phones (owner, 28 Nov 2026: «why down there is empty space»):** after Progress Assessment, «Practise by
+  Level» (three tiles Easy · Medium · Hard with counts; a tap opens the start sheet for all questions with that level chosen, set kind `all`) and
+  «Latest Papers» (the three newest `perm…` past papers). Full bank: 986 easy, 2,499 medium, 706 hard.
