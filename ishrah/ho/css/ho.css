@@ -697,3 +697,9 @@ body[data-page=home] .rec.recl .lrow-i{width:34px;height:34px}
 .sxlist .lrow{width:100%;border-bottom:1px solid var(--line)}
 .ch .sqb.sm{width:36px;height:36px;margin-inline-end:4px}
 @media(min-width:1024px) and (max-height:760px){body[data-page=home] #v>.rec.recl .lrow{padding:6px 10px}body[data-page=home] #v>.rec.recl .lrow-t small{display:none}body[data-page=home] #v>.st.rec-h{display:none}}
+/* large phone text (owner, 28 Nov 2026: words were cut): never break or cut a word; shrink the icon and drop the arrow instead */
+.tool-t b,.tool-t bdi,.lrow-t bdi,.npc-t b,.emg-t b,.minis b{overflow-wrap:normal!important;word-break:normal!important;hyphens:none}
+.tool{container-type:inline-size}
+@container (max-width:170px){.tool .chv{display:none!important}.tool .ib2.lg{width:36px!important;height:36px!important}.tool{gap:8px!important}.tool-t b{font-size:.92em}}
+@container (max-width:140px){.tool .ib2.lg{display:none!important}}
+.rec.recl .lrow-t bdi{white-space:normal}

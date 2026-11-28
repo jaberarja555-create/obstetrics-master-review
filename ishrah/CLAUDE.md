@@ -1788,3 +1788,4 @@ studentmasterreview.com with HTTP/3 off). Now:
 - Home «Recent» uses the same list rows as Conditions (2 rows; on short laptop screens no subtitle). Conditions page: the body systems are one
   button «Choose a body system, then the condition» → pop-up of systems (`ACT.syspick`) → the same pop-up shows that system's conditions with a
   back arrow (`ACT.sysopen`, `ACT.condgo`). The `conds/<sys>` page still works for links. Guide v28.
+- Large phone text (owner, 28 Nov 2026: «Acute ton…» cut): names are never cut or broken mid-word; tool cards drop the arrow, then the icon, when narrow (container queries on .tool); recent rows wrap. Guide v29.
