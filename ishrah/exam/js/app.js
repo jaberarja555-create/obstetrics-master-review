@@ -92,7 +92,7 @@
     h += '<button class="start" style="margin-top:12px;background:linear-gradient(120deg,var(--acc),color-mix(in srgb,var(--acc) 70%,#000))" data-go="progress"><span class="ib2" style="background:rgba(255,255,255,.18);color:#fff">' + ic('chart') + '</span><span><b>' + A('تقييم تقدمي', 'Progress assessment') + '</b><small>' + st.answered + '/' + E.total + ' ' + A('سؤال · نقاط الضعف', 'answered · weak areas') + '</small></span>' + ic('fwd', 'ch') + '</button>';
     return h;
   }
-  function tile(goh, icn, t, s) { return '<button class="tool" data-go="' + goh + '"><span class="ib2">' + ic(icn) + '</span><span class="tool-t"><b>' + esc(t) + '</b><small>' + esc(s) + '</small></span>' + ic('chv', 'ch') + '</button>'; }
+  function tile(goh, icn, t, s) { var st = goh.indexOf('set/') === 0; return '<button class="tool" ' + (st ? 'data-act="start" data-k="' + goh.slice(4) + '"' : 'data-go="' + goh + '"') + '><span class="ib2">' + ic(icn) + '</span><span class="tool-t"><b>' + esc(t) + '</b><small>' + esc(s) + '</small></span>' + ic('chv', 'ch') + '</button>'; }
 
   /* ---------- EXAMS LIST ---------- */
   function exams() {
@@ -104,7 +104,7 @@
       if (!byg[g]) return;
       h += '<h2 class="st">' + esc(g) + '</h2><section class="card list">' + byg[g].map(function (x) {
         var qs = qsOfExam(x.id), done = qs.filter(function (gid) { return s[gid]; }).length, pct = qs.length ? Math.round(100 * done / qs.length) : 0;
-        return '<button class="lrow" data-go="run/exam/' + x.id + '"><span class="ib2">' + ic('book') + '</span><span class="lrow-t"><b>' + esc(x.title) + '</b><small>' + x.n + ' ' + A('سؤال', 'questions') + (done ? ' · ' + pct + '% ' + A('مذاكرة', 'done') : '') + '</small>' + (done ? '<span class="pbln"><i style="width:' + pct + '%"></i></span>' : '') + '</span>' + ic('chv', 'ch') + '</button>';
+        return '<button class="lrow" data-act="start" data-k="exam" data-i="' + x.id + '"><span class="ib2">' + ic('book') + '</span><span class="lrow-t"><b>' + esc(x.title) + '</b><small>' + x.n + ' ' + A('سؤال', 'questions') + (done ? ' · ' + pct + '% ' + A('مذاكرة', 'done') : '') + '</small>' + (done ? '<span class="pbln"><i style="width:' + pct + '%"></i></span>' : '') + '</span>' + ic('chv', 'ch') + '</button>';
       }).join('') + '</section>';
     });
     return h;
@@ -117,7 +117,7 @@
     var s = seen();
     return '<section class="card list">' + E.subjects.map(function (su) {
       var qs = qsOfSubject(su[0]), done = qs.filter(function (g) { return s[g]; }).length, pct = qs.length ? Math.round(100 * done / qs.length) : 0;
-      return '<button class="lrow" data-go="run/subject/' + su[0] + '"><span class="ib2">' + ic(SICO[su[0]] || 'layers') + '</span><span class="lrow-t"><b>' + esc(su[1]) + '</b><small>' + su[2] + ' ' + A('سؤال', 'questions') + (done ? ' · ' + pct + '%' : '') + '</small>' + (done ? '<span class="pbln"><i style="width:' + pct + '%"></i></span>' : '') + '</span>' + ic('chv', 'ch') + '</button>';
+      return '<button class="lrow" data-act="start" data-k="subject" data-i="' + su[0] + '"><span class="ib2">' + ic(SICO[su[0]] || 'layers') + '</span><span class="lrow-t"><b>' + esc(su[1]) + '</b><small>' + su[2] + ' ' + A('سؤال', 'questions') + (done ? ' · ' + pct + '%' : '') + '</small>' + (done ? '<span class="pbln"><i style="width:' + pct + '%"></i></span>' : '') + '</span>' + ic('chv', 'ch') + '</button>';
     }).join('') + '</section>';
   }
   function qsOfSubject(code) { var out = []; E.questions.forEach(function (q) { if (q.s === code) out.push(q.g); }); return out; }
@@ -137,12 +137,30 @@
 
   /* ---------- RUNNER ---------- */
   var T = null; /* current test */
+  function setName(kind, id) { return kind === 'mock' ? A('امتحان تجريبي', 'Mock exam') : kind === 'exam' ? (EXM[id] || {}).title : kind === 'subject' ? SUBN[id] : kind === 'marked' ? A('الأسئلة المعلّمة', 'Marked questions') : kind === 'incorrect' ? A('الأخطاء', 'Incorrect questions') : kind === 'unused' ? A('أسئلة لم تُحل', 'Unused questions') : kind; }
+  function setCount(kind, id) { return buildSet(kind, id).length; }
+  function openStart(kind, id) {
+    var n = setCount(kind, id);
+    if (!n) { toast(A('لا توجد أسئلة', 'No questions here')); return; }
+    sheet('<h2 class="ch2">' + ic('play') + esc(setName(kind, id)) + '</h2><p style="color:var(--mut);margin:0 0 14px">' + n + ' ' + A('سؤال · اختر نمط المذاكرة', 'questions · choose a mode') + '</p>' +
+      '<button class="alt" data-start="tutor" data-k="' + kind + '" data-i="' + (id || '') + '"><span class="ib2">' + ic('book') + '</span><span class="lrow-t"><b>' + A('نمط التعلّم', 'Tutor') + '</b><small>' + A('تظهر الإجابة والشرح بعد كل سؤال', 'See the answer and explanation after each question') + '</small></span></button>' +
+      '<button class="alt" data-start="timed" data-k="' + kind + '" data-i="' + (id || '') + '"><span class="ib2">' + ic('timer') + '</span><span class="lrow-t"><b>' + A('نمط الامتحان', 'Timed') + '</b><small>' + A('دقيقة لكل سؤال، النتيجة في النهاية', 'One minute per question, result at the end') + '</small></span></button>');
+  }
+  function tick() {
+    if (!T || !T.timed) return;
+    var rem = Math.max(0, T.endAt - Date.now()), el = document.getElementById('tmr');
+    if (el) el.innerHTML = ic('timer') + fmt(rem);
+    if (rem <= 0) { clearInterval(T.timer); ACT.finish(); }
+  }
+  function fmt(ms) { var s = Math.round(ms / 1000), m = Math.floor(s / 60); return m + ':' + ('0' + (s % 60)).slice(-2); }
   function startTest(kind, id, opt) {
     opt = opt || {};
     var set = buildSet(kind, id);
     if (kind !== 'mock' && opt.shuffle !== false) { /* keep exam order by default */ }
     if (!set.length) { toast(A('لا توجد أسئلة', 'No questions')); return; }
-    T = { kind: kind, id: id, list: set, i: 0, answers: {}, timed: !!opt.timed, started: Date.now(), limit: opt.limit || 0 };
+    var tutor = opt.tutor !== false;
+    T = { kind: kind, id: id, list: set, i: 0, answers: {}, tutor: tutor, timed: !tutor, started: Date.now() };
+    if (T.timed) { T.endAt = Date.now() + set.length * 60000; T.timer = setInterval(tick, 1000); }
     location.hash = 'q';
   }
   function runner() {
@@ -152,20 +170,20 @@
     $('#ph').innerHTML = '';
     document.body.classList.add('running');
     var tt = T.kind === 'mock' ? A('امتحان تجريبي', 'Mock exam') : T.kind === 'exam' ? (EXM[T.id] || {}).title : T.kind === 'subject' ? SUBN[T.id] : T.kind === 'marked' ? A('المعلّمة', 'Marked') : A('الأخطاء', 'Incorrect');
-    var revealed = a != null || (!T.timed && a === null) ? a != null : false;
-    var h = '<div class="qtop"><button class="sqb sm" data-act="quit">' + ic('back') + '</button><span class="pbln" style="margin:0"><i style="width:' + Math.round(100 * (T.i + 1) / T.list.length) + '%"></i></span><b style="font-size:.85em;white-space:nowrap">' + (T.i + 1) + '/' + T.list.length + '</b>' + (T.timed ? '<span class="pill" id="tmr">' + ic('timer') + '</span>' : '') + '</div>';
+    var reveal = T.tutor && a != null;
+    var h = '<div class="qtop"><button class="sqb sm" data-act="quit">' + ic('back') + '</button><span class="pbln" style="margin:0"><i style="width:' + Math.round(100 * (T.i + 1) / T.list.length) + '%"></i></span><b style="font-size:.85em;white-space:nowrap">' + (T.i + 1) + '/' + T.list.length + '</b>' + (T.timed ? '<span class="pill" id="tmr">' + ic('timer') + fmt(Math.max(0, T.endAt - Date.now())) + '</span>' : '') + '</div>';
     h += '<div class="qmeta"><span class="pill">' + esc(tt) + '</span><span class="pill">' + ic(SICO[q.s] || 'layers') + esc(SUBN[q.s] || q.s) + '</span>' + (q.x && q.x.length > 1 ? '<span class="pill" title="appears in several papers">' + ic('layers') + A('مكرر', 'repeat') + '</span>' : '') + '</div>';
     h += '<div class="qcard"><span class="qnum">' + A('سؤال', 'Question') + ' ' + (T.i + 1) + '</span><p class="qtext">' + esc(q.q) + '</p>';
     if (q.img) h += '<img class="qimg" src="' + esc(q.img) + '" alt="">';
     h += '<div class="opts">';
     q.o.forEach(function (op, k) {
       var cls = '';
-      if (a != null) { if (k === q.a) cls = ' right'; else if (k === a) cls = ' wrong'; }
-      else if (a === null) {} /* unanswered */
-      h += '<button class="opt' + cls + (a === undefined ? '' : '') + '" data-opt="' + k + '"' + (a != null ? ' disabled' : '') + '><span class="k">' + String.fromCharCode(65 + k) + '</span><span class="ot">' + esc(op) + '</span>' + (a != null && (k === q.a || k === a) ? '<span class="m">' + ic(k === q.a ? 'checkc' : 'cross') + '</span>' : '') + '</button>';
+      if (reveal) { if (k === q.a) cls = ' right'; else if (k === a) cls = ' wrong'; }
+      else if (a === k) cls = ' sel';
+      h += '<button class="opt' + cls + '" data-opt="' + k + '"' + (reveal ? ' disabled' : '') + '><span class="k">' + String.fromCharCode(65 + k) + '</span><span class="ot">' + esc(op) + '</span>' + (reveal && (k === q.a || k === a) ? '<span class="m">' + ic(k === q.a ? 'checkc' : 'cross') + '</span>' : '') + '</button>';
     });
     h += '</div>';
-    if (a != null) h += '<div class="exp"><b>' + ic('info') + ' ' + (a === q.a ? A('صحيح', 'Correct') : A('الإجابة الصحيحة: ', 'Correct answer: ') + String.fromCharCode(65 + q.a)) + '</b><p>' + esc(q.e || A('لا يوجد شرح.', 'No explanation.')) + '</p></div>';
+    if (reveal) h += '<div class="exp"><b>' + ic('info') + ' ' + (a === q.a ? A('صحيح', 'Correct') : A('الإجابة الصحيحة: ', 'Correct answer: ') + String.fromCharCode(65 + q.a)) + '</b><p>' + esc(q.e || A('لا يوجد شرح.', 'No explanation.')) + '</p></div>';
     h += '</div>';
     $('#v').innerHTML = h;
     $('#bn').innerHTML = '';
@@ -182,12 +200,15 @@
     document.body.appendChild(bar);
   }
   function choose(k) {
-    var g = T.list[T.i], q = Q[g]; if (T.answers[g] != null) return;
-    T.answers[g] = k; record(g, k, k === q.a);
+    var g = T.list[T.i], q = Q[g];
+    if (T.tutor) { if (T.answers[g] != null) return; T.answers[g] = k; record(g, k, k === q.a); }
+    else { T.answers[g] = k; }
     runner();
   }
 
   function finish() {
+    if (T.timer) clearInterval(T.timer);
+    if (T.timed) T.list.forEach(function (g) { var a = T.answers[g]; if (a != null) record(g, a, a === Q[g].a); });
     var total = T.list.length, ans = 0, cor = 0, bysub = {};
     T.list.forEach(function (g) { var a = T.answers[g]; if (a != null) { ans++; var c = a === Q[g].a; if (c) cor++; var s = Q[g].s; bysub[s] = bysub[s] || [0, 0]; bysub[s][0]++; if (c) bysub[s][1]++; } });
     var pct = ans ? Math.round(100 * cor / ans) : 0;
@@ -231,7 +252,7 @@
     h += '<h2 class="st">' + A('الأداء حسب المادة', 'Performance by subject') + '</h2><section class="card list">' + E.subjects.map(function (su) {
       var qs = qsOfSubject(su[0]), a = 0, c = 0; qs.forEach(function (g) { if (s[g]) { a++; if (s[g].c) c++; } });
       var p = a ? Math.round(100 * c / a) : 0;
-      return '<button class="lrow" data-go="run/subject/' + su[0] + '"><span class="ib2">' + ic(SICO[su[0]] || 'layers') + '</span><span class="lrow-t"><b>' + esc(su[1]) + '</b><small>' + (a ? c + '/' + a + ' ' + A('صحيح', 'correct') : A('لم تبدأ', 'not started')) + '</small><span class="pbln"><i style="width:' + p + '%;background:' + (!a ? 'var(--line)' : p >= 60 ? 'var(--ok)' : 'var(--red)') + '"></i></span></span><span class="cnt">' + p + '%</span></button>';
+      return '<button class="lrow" data-act="start" data-k="subject" data-i="' + su[0] + '"><span class="ib2">' + ic(SICO[su[0]] || 'layers') + '</span><span class="lrow-t"><b>' + esc(su[1]) + '</b><small>' + (a ? c + '/' + a + ' ' + A('صحيح', 'correct') : A('لم تبدأ', 'not started')) + '</small><span class="pbln"><i style="width:' + p + '%;background:' + (!a ? 'var(--line)' : p >= 60 ? 'var(--ok)' : 'var(--red)') + '"></i></span></span><span class="cnt">' + p + '%</span></button>';
     }).join('') + '</section>';
     /* weak areas */
     var weak = E.subjects.map(function (su) { var qs = qsOfSubject(su[0]), a = 0, c = 0; qs.forEach(function (g) { if (s[g]) { a++; if (s[g].c) c++; } }); return { n: su[1], a: a, p: a ? Math.round(100 * c / a) : -1 }; }).filter(function (x) { return x.a >= 3 && x.p < 60; }).sort(function (a, b) { return a.p - b.p; });
@@ -260,7 +281,7 @@
       mrow('settings', 'gear', A('الإعدادات', 'Settings'), '', 2) + '</section>';
   }
   function mrow(goh, icn, t, c, act) {
-    var attr = act === 1 ? 'data-act="mock"' : act === 2 ? 'data-act="settings"' : 'data-go="' + goh + '"';
+    var st = goh.indexOf('set/') === 0; var attr = act === 1 ? 'data-act="mock"' : act === 2 ? 'data-act="settings"' : st ? 'data-act="start" data-k="' + goh.slice(4) + '"' : 'data-go="' + goh + '"';
     return '<button class="lrow" ' + attr + '><span class="ib2">' + ic(icn) + '</span><span class="lrow-t"><b>' + esc(t) + '</b></span>' + (c ? '<span class="cnt">' + c + '</span>' : '') + ic('chv', 'ch') + '</button>';
   }
 
@@ -285,21 +306,23 @@
   var ACT = {
     menu: function () { go('more'); }, settings: settings, theme: cycleTheme, shclose: closeSheet,
     back: function () { if (history.length > 1) history.back(); else go('home'); },
-    mock: function () { closeSheet(); startTest('mock', '', { timed: true, limit: 200 * 60 }); },
-    quit: function () { if (confirm(A('إنهاء هذا الاختبار؟', 'Quit this test?'))) { T = null; var b = document.getElementById('rbar'); if (b) b.remove(); go('home'); } },
+    mock: function () { openStart('mock', ''); },
+    start: function (el) { openStart(el.dataset.k, el.dataset.i || ''); },
+    quit: function () { if (confirm(A('إنهاء هذا الاختبار؟', 'Quit this test?'))) { if (T && T.timer) clearInterval(T.timer); T = null; var b = document.getElementById('rbar'); if (b) b.remove(); go('home'); } },
     prev: function () { if (T.i > 0) { T.i--; runner(); } },
     next: function () { if (T.i < T.list.length - 1) { T.i++; runner(); } },
     finish: function () { var b = document.getElementById('rbar'); if (b) b.remove(); finish(); },
     mark: function () { var g = T.list[T.i]; toggleMark(g); $$('.markbtn').forEach(function (x) { x.classList.toggle('on', markOn(g)); }); }
   };
   document.addEventListener('click', function (e) {
-    var el = e.target.closest('[data-go],[data-act],[data-opt],[data-pal],[data-fs],[data-lang]');
+    var el = e.target.closest('[data-go],[data-act],[data-opt],[data-pal],[data-fs],[data-lang],[data-start]');
     if (!el) return;
     if (el.dataset.go != null) { go(el.dataset.go); return; }
     if (el.dataset.opt != null) { choose(+el.dataset.opt); return; }
     if (el.dataset.pal) { try { localStorage.setItem('ex-pal', JSON.stringify(el.dataset.pal)); } catch (x) {} document.documentElement.dataset.pal = el.dataset.pal; settings(); return; }
     if (el.dataset.fs) { try { localStorage.setItem('ex-fs', JSON.stringify(el.dataset.fs)); } catch (x) {} document.documentElement.dataset.fs = el.dataset.fs; settings(); return; }
     if (el.dataset.lang) { try { localStorage.setItem('ish-lang', JSON.stringify(el.dataset.lang)); } catch (x) {} document.documentElement.lang = el.dataset.lang; closeSheet(); render(); return; }
+    if (el.dataset.start) { var sk = el.dataset.k, si = el.dataset.i; closeSheet(); startTest(sk, si, { tutor: el.dataset.start === 'tutor' }); return; }
     if (el.dataset.act && ACT[el.dataset.act]) ACT[el.dataset.act](el);
   });
 
@@ -314,8 +337,8 @@
     else if (n === 'progress') h = progress();
     else if (n === 'more') h = more();
     else if (n === 'result') { h = result(); }
-    else if (n === 'run') { startTest(r[1], r[2], { shuffle: r[1] !== 'exam' }); return; }
-    else if (n === 'set') { startTest(r[1], '', {}); return; }
+    else if (n === 'run') { $('#v').innerHTML = home(); openStart(r[1], r[2]); return; }
+    else if (n === 'set') { $('#v').innerHTML = home(); openStart(r[1], ''); return; }
     else { h = home(); }
     $('#v').innerHTML = h;
     document.body.classList.remove('running');
