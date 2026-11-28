@@ -422,18 +422,22 @@
   }
 
   /* ---------- MORE ---------- */
+  /* More on one screen (owner, 28 Nov 2026): six study tiles two to a row (they take the spare height) and a compact account card */
   function more() {
-    head('More', '', true);
-    var st = stats();
-    return '<section class="card list">' +
-      mrow('mock', 'play', A('امتحان تجريبي (200)', 'Mock exam (200)'), '', 1) +
-      mrow('exams', 'list', A('كل الامتحانات', 'All exams'), E.total + '', 0) +
-      mrow('subjects', 'layers', A('المواد', 'Subjects'), '6', 0) +
-      mrow('set/unused', 'book', A('أسئلة لم تُحل', 'Unused questions'), st.unused + '', 0) +
-      mrow('set/incorrect', 'cross', A('الأخطاء', 'Incorrect'), (st.answered - st.correct) + '', 0) +
-      mrow('set/marked', 'mark', A('المعلّمة', 'Marked'), st.marked + '', 0) +
-      mrow('progress', 'chart', A('تقدمي', 'Progress'), '', 0) +
-      mrow('settings', 'gear', A('الإعدادات', 'Settings'), '', 2) + '</section>';
+    head('More', A('كل ما في التطبيق', 'Everything in the app'), true);
+    var st = stats(), N = function (x) { return (+x || 0).toLocaleString(AR() ? 'ar-EG' : 'en'); };
+    var tiles = [['data-act="mock"', 'play', A('امتحان تجريبي', 'Mock exam'), A('200 سؤال بوقت', '200 timed')],
+      ['data-go="exams"', 'list', A('كل الامتحانات', 'All exams'), N((E.exams || []).length) + ' ' + A('امتحان', 'papers')],
+      ['data-go="subjects"', 'layers', A('المواد', 'Subjects'), N(nsub()) + ' ' + A('مواد', 'subjects')],
+      ['data-act="start" data-k="unused"', 'book', A('لم تُحل', 'Unused'), N(st.unused) + ' ' + A('سؤال', 'questions')],
+      ['data-act="start" data-k="incorrect"', 'cross', A('الأخطاء', 'Incorrect'), N(st.answered - st.correct) + ' ' + A('سؤال', 'questions')],
+      ['data-act="start" data-k="marked"', 'mark', A('المعلّمة', 'Marked'), N(st.marked) + ' ' + A('سؤال', 'questions')]];
+    var rows = [['profile', 'user', A('ملفي الشخصي', 'My profile')], ['notes', 'bell', A('الإشعارات', 'Notifications')],
+      ['settings', 'palette', A('المظهر واللغة', 'Appearance & language')], [LOCKED ? 'subscribe' : 'profile', 'crown', LOCKED ? A('الاشتراك', 'Subscribe') : A('اشتراكي', 'My subscription')]];
+    return '<div class="fitw mrw"><div class="hgp mrt"><h2 class="st hst">' + A('المذاكرة', 'Study') + '</h2><div class="mrg">' + tiles.map(function (t) {
+        return '<button class="mrb" ' + t[0] + '><span class="ext-i">' + ic(t[1]) + '</span><span class="mrb-t"><b>' + t[2] + '</b><small>' + t[3] + '</small></span></button>'; }).join('') + '</div></div>' +
+      '<div class="hgp"><h2 class="st hst">' + A('حسابي والتطبيق', 'Account & App') + '</h2><section class="prc mrl">' + rows.map(function (r) {
+        return '<button class="prr" data-act="' + r[0] + '"><span class="ext-i">' + ic(r[1]) + '</span><span class="prr-t"><b>' + r[2] + '</b></span>' + ic('chv') + '</button>'; }).join('') + '</section></div></div>';
   }
   function mrow(goh, icn, t, c, act) {
     var st = goh.indexOf('set/') === 0; var attr = act === 1 ? 'data-act="mock"' : act === 2 ? 'data-act="settings"' : st ? 'data-act="start" data-k="' + goh.slice(4) + '"' : 'data-go="' + goh + '"';

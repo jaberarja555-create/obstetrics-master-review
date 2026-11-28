@@ -515,3 +515,17 @@ body.hmpage #ph .pbar{margin:0 0 calc(6*var(--u)*var(--hk))}
 .prw .prsub{flex:1;grid-auto-rows:1fr}
 .prw .prt{align-items:center}
 :root[lang=ar] .prt-t b{text-align:right}
+
+/* ===== More on one screen (owner, 28 Nov 2026) ===== */
+.fitw.mrw{display:flex;flex-direction:column;gap:calc(10*var(--u)*var(--hk))}
+.mrw .st.hst{margin:0 0 calc(6*var(--u)*var(--hk));font-size:calc(15*var(--u)*var(--fs)*var(--hk))}
+.mrw .mrt{flex:1;display:flex;flex-direction:column;min-height:0}
+.mrg{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:calc(8*var(--u)*var(--hk)) calc(8*var(--u))}
+.mrb{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:calc(6*var(--u)*var(--hk));min-height:calc(66*var(--u)*var(--hk));padding:calc(10*var(--u)*var(--hk)) calc(12*var(--u));border-radius:calc(14*var(--u));border:1px solid rgba(255,255,255,.9);
+  background:var(--m-card,var(--sf));box-shadow:0 calc(3*var(--u)) calc(12*var(--u)) rgba(30,90,140,.08);font:inherit;color:inherit;text-align:start}
+.mrb .ext-i{width:calc(34*var(--u)*var(--hk));height:calc(34*var(--u)*var(--hk))}
+.mrb-t{display:flex;flex-direction:column}.mrb-t b{font:700 calc(13.5*var(--u)*var(--fs)*var(--hk))/1.25 var(--hf);color:var(--m-ink,var(--tx))}.mrb-t small{font-size:calc(10.5*var(--u)*var(--fs)*var(--hk));color:var(--m-sub,var(--mut))}
+.mrb:first-child{background:var(--m-hero);color:#fff;border-color:transparent}.mrb:first-child .mrb-t b,.mrb:first-child .mrb-t small{color:#fff}.mrb:first-child .ext-i{background:rgba(255,255,255,.2);color:#fff}
+.mrl{padding:calc(4*var(--u)) calc(6*var(--u))}
+:root[lang=ar] .mrw{direction:rtl}
+:root[data-theme=dark] .mrb{border-color:var(--line);box-shadow:none}

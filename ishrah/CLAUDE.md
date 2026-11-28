@@ -1882,3 +1882,6 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
 - **Permanent Exam Progress on one screen (owner, 28 Nov 2026):** summary card (accuracy circle + Answered · Correct · Wrong · Day streak, questions
   not tried), six subject tiles two to a row (% · correct/answered, bar green ≥ 75 / amber ≥ 60 / red; tap = practise; the tiles take the spare
   height), one card switching Weak areas | Previous tests (top 3, `ex-prtab`). Fitted like Home (`.fitw.prw`).
+- **Permanent Exam More on one screen (owner, 28 Nov 2026):** «Study» = six tiles two to a row (Mock exam highlighted, All exams, Subjects, Unused,
+  Incorrect, Marked, with counts; they take the spare height) and «Account & App» = My profile · Notifications · Appearance & language · Subscription.
+  Home, Exams, Progress and More all fit the phone without scrolling (`.fitw` + fitHome).
