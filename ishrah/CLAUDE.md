@@ -1902,3 +1902,4 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
 - **HO Guide did not open (28 Nov 2026):** adding #ex-host to the full-screen frame rules (css/mr.css, commit e6309d3) dropped «[hidden]» / « .bk-fr» /
   « .bk-back» after #ho-host, so `#ho-host{display:none}` hid the guide always and its frame had no size. Fixed; when adding a host to those rules,
   write each selector in full.
+- **Close button on pop-ups (owner, 28 Nov 2026):** every sheet in the HO Guide and the Permanent Exam has a small round ✕ (`.sh-x`, sticky, so it stays in view while a long list scrolls).

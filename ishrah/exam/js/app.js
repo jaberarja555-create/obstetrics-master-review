@@ -445,7 +445,7 @@
   }
 
   /* ---------- sheets ---------- */
-  function sheet(html) { var s = $('#sheet'); s.innerHTML = '<div class="sh-bg" data-act="shclose"></div><div class="sh-box"><i class="sh-grip"></i>' + html + '</div>'; s.hidden = false; }
+  function sheet(html) { var s = $('#sheet'); s.innerHTML = '<div class="sh-bg" data-act="shclose"></div><div class="sh-box"><i class="sh-grip"></i><button type="button" class="sh-x" data-act="shclose" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' + html + '</div>'; s.hidden = false; }
   function closeSheet() { $('#sheet').hidden = true; }
   function toast(m) { var t = $('#toast'); t.textContent = m; t.hidden = false; clearTimeout(toast._); toast._ = setTimeout(function () { t.hidden = true; }, Math.max(1800, String(m).length * 45)); }
 

@@ -343,7 +343,7 @@
   ACT.sndtog = function () { put('ho-snd-off', soundOn() ? 1 : 0); if (soundOn()) chime(); ACT.notes(true); };
   ACT.nopen = function (el) { closeSheet(); if (el.dataset.l) toPlatform(el.dataset.l.charAt(0) === '#' ? el.dataset.l : '#' + el.dataset.l); };
   function toast(t) { var x = $('#toast'); x.textContent = t; x.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { x.hidden = true; }, 2200); }
-  function sheet(html) { var s = $('#sheet'); s.innerHTML = '<div class="sh-bg" data-act="shclose"></div><div class="sh-box"><i class="sh-grip"></i>' + html + '</div>'; s.hidden = false; }
+  function sheet(html) { var s = $('#sheet'); s.innerHTML = '<div class="sh-bg" data-act="shclose"></div><div class="sh-box"><i class="sh-grip"></i><button type="button" class="sh-x" data-act="shclose" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' + html + '</div>'; s.hidden = false; }
   function closeSheet() { $('#sheet').hidden = true; }
   ACT.shclose = closeSheet;
   function disc() { return '<p class="disc">' + ic('shield') + '<span>' + A('أداة مساعدة مبنية على الأدلة العلاجية المحلية (local guidelines). راجع الجرعة مع النائب أو الصيدلي قبل الإعطاء.', 'Decision support built on local guidelines. Check every dose with your senior or the pharmacist before giving it.') + '</span></p>'; }
