@@ -403,8 +403,8 @@
         return '<details class="lg"' + (cnt ? ' open' : '') + '><summary><span class="chi sm">' + ic(g[1]) + '</span>' + T(g[0]) + (cnt ? '<em class="cnt">' + cnt + '</em>' : '') + ic('fwd', 'chev') + '</summary><div class="flds' + (g[2][0][2] === 'txt' ? ' one' : '') + '">' +
           g[2].map(function (f) {
             var v = P.lab[f[0]] == null ? '' : P.lab[f[0]];
-            if (f[2] === 'fnd') return '<div class="fld fndf"><span>' + T(f[1]) + '</span><div class="chips">' + FIND[f[0]].map(function (x) { return '<button type="button" class="chip' + ((P.fnd[f[0]] || []).indexOf(x[0]) >= 0 ? ' on' : '') + '" data-act="fnd" data-t="' + f[0] + '" data-v="' + x[0] + '">' + '<bdi dir="ltr">' + esc(x[1]) + '</bdi>' + '</button>'; }).join('') + '</div>' +
-              '<div class="inp sm"><input data-lab="' + f[0] + '" type="text" dir="auto" value="' + esc(v) + '" placeholder="' + A('نتيجة أخرى (اكتبها)', 'Another finding (type it)') + '"></div></div>';
+            /* one button per test; the findings open in a pop-up list (owner, 28 Nov 2026: "should come as a pop-up list") */
+            if (f[2] === 'fnd') return '<div class="fld fndf"><span>' + T(f[1]) + '</span><button type="button" class="fndb" data-act="fndopen" data-t="' + f[0] + '">' + fndSum(f[0]) + ic('fwd', 'chv') + '</button></div>';
             if (f[2] === 'txt') return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp"><input data-lab="' + f[0] + '" type="text" dir="auto" value="' + esc(v) + '" placeholder="' + A('النتيجة', 'Result') + '"></div></label>';
             if (f[2] === 'sel') return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp pick"><select data-lab="' + f[0] + '" dir="ltr">' + f[3].map(function (o) { return '<option value="' + o + '"' + (v === o ? ' selected' : '') + '>' + (o || '—') + '</option>'; }).join('') + '</select></div></label>';
             return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp ' + labFlag(f, v) + '"><input data-lab="' + f[0] + '" type="number" inputmode="decimal" step="any" dir="ltr" value="' + esc(v) + '"><em dir="ltr">' + f[2] + '</em></div></label>';
@@ -429,12 +429,32 @@
   function toggle(arr, v) { var i = arr.indexOf(v); if (i >= 0) arr.splice(i, 1); else arr.push(v); }
   function segOn(b) { $$('button', b.parentNode).forEach(function (x) { x.classList.toggle('on', x === b); }); }
   ACT.tglal = function (b) { readForm(); toggle(P.allergy, b.dataset.v); savePt(); b.classList.toggle('on'); };
+  function fndSum(t) {
+    var sel = (P.fnd[t] || []).map(function (id) { var x = FIND[t].find(function (y) { return y[0] === id; }); return x ? x[1] : ''; }).filter(Boolean);
+    if (P.lab[t]) sel.push(P.lab[t]);
+    return sel.length ? '<span class="fndv">' + sel.map(function (x) { return '<i dir="ltr">' + esc(x) + '</i>'; }).join('') + '</span>' : '<span class="fndp">' + A('اختر النتائج', 'Choose the findings') + '</span>';
+  }
+  ACT.fndopen = function (b) {
+    readForm(); var t = b.dataset.t, f = null; LABS.forEach(function (g) { g[2].forEach(function (x) { if (x[0] === t) f = x; }); });
+    sheet('<h2 class="ch"><span class="chi">' + ic('flask') + '</span>' + T(f ? f[1] : t) + '</h2><div class="sxlist">' + FIND[t].map(function (x) {
+      var on = (P.fnd[t] || []).indexOf(x[0]) >= 0;
+      return '<button class="alt' + (on ? ' on' : '') + '" data-act="fnd" data-t="' + t + '" data-v="' + x[0] + '"><span class="alt-c">' + ic('check') + '</span><span class="alt-t"><b dir="ltr">' + esc(x[1]) + '</b></span></button>';
+    }).join('') + '</div><div class="inp sm" style="margin:10px 0"><input id="fndo" type="text" dir="auto" value="' + esc(P.lab[t] || '') + '" placeholder="' + A('نتيجة أخرى (اكتبها)', 'Another finding (type it)') + '"></div>' +
+      '<button class="btn pri wide" data-act="fnddone" data-t="' + t + '">' + A('تم', 'Done') + '</button>');
+  };
+  ACT.fnddone = function (b) {
+    var t = b.dataset.t, o = $('#fndo'); if (o) P.lab[t] = o.value.trim(); savePt(); closeSheet();
+    var btn = document.querySelector('[data-act=fndopen][data-t="' + t + '"]'); if (btn) btn.innerHTML = fndSum(t) + ic('fwd', 'chv');
+    var el = $('#invsug'); if (el) el.innerHTML = invSuggest();
+    var lg = btn && btn.closest('details.lg'); if (lg) { var n = lg.querySelectorAll('.fndv').length; }
+  };
   ACT.fnd = function (b) {
     readForm(); var t = b.dataset.t, v = b.dataset.v, cur = P.fnd[t] = P.fnd[t] || [];
     if (v === 'normal') P.fnd[t] = cur.indexOf('normal') >= 0 ? [] : ['normal'];
     else { toggle(cur, v); P.fnd[t] = cur.filter(function (x) { return x !== 'normal'; }); }
     savePt();
     $$('[data-act=fnd][data-t="' + t + '"]').forEach(function (x) { x.classList.toggle('on', P.fnd[t].indexOf(x.dataset.v) >= 0); });
+    var bt = document.querySelector('[data-act=fndopen][data-t="' + t + '"]'); if (bt) bt.innerHTML = fndSum(t) + ic('fwd', 'chv');
     var el = $('#invsug'); if (el) el.innerHTML = invSuggest();
   };
   document.addEventListener('change', function (e) { var x = e.target; if (!x.dataset || x.dataset.lab == null || !$('#ptf')) return; P.lab[x.dataset.lab] = x.value.trim(); savePt(); var el = $('#invsug'); if (el) el.innerHTML = invSuggest(); });

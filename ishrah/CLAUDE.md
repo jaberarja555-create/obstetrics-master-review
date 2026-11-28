@@ -1773,3 +1773,5 @@ studentmasterreview.com with HTTP/3 off). Now:
   ALT, albumin) into the same facts. Uses: «What the results suggest» under the results (`invSuggest`: ranked conditions + what to do);
   Diagnose adds the results to the symptom score (`INV`, 🧪 lines); the plan page «Your results» (`resCard`: chips, which support this
   diagnosis, «results point more to X» when another condition scores ≥ 3 and ≥ twice this one, what to do with links). Guide v23.
+- Investigation findings open as a pop-up list (owner, 28 Nov 2026): each test is one button (`.fndb`, chosen findings as chips or «Choose
+  the findings»); `ACT.fndopen` shows the tick list + «another finding» box, `ACT.fnddone` saves. Guide v24.
