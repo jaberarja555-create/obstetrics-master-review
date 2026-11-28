@@ -1105,14 +1105,16 @@
   }
   function drug(id) {
     var d = DR[id]; if (!d) return notFound();
+    if (id !== drug.last) { DTAB = 'dose'; drug.last = id; }
     head(d.g, '<bdi dir="ltr">' + esc((d.b || []).join(' · ')) + '</bdi>');
     var users = DX.filter(function (c) { return c.variants.some(function (v) { return v.lines.some(function (l) { return l.items.some(function (it) { return it.d === id; }); }); }); });
     var h = '<div class="tagrow"><span data-go="drugs/' + dgOf(d)[0] + '">' + esc(dgOf(d)[1]) + '</span><span>' + esc(CLSN[d.cls[0]] || d.cls[0]) + '</span></div>';
     /* names as written on the box (owner, 28 Nov 2026: "where is the local name for the drug") */
     if ((d.b || []).length) h += '<div class="tnames"><small>' + A('الاسم التجاري', 'Trade names') + '</small>' + d.b.map(function (b) { return '<b dir="ltr">' + esc(b) + '</b>'; }).join('') + '</div>';
     h += forPatient(d);
-    h += sec('Preparations', 'flask', '<div class="preps">' + d.forms.map(function (f) { return '<div class="prep"><b dir="ltr">' + esc(f.n) + '</b><small>' + E.route(f.r, AR) + '</small>' + (f.rec ? '<p dir="ltr">' + esc(f.rec) + '</p>' : '') + '</div>'; }).join('') + '</div>');
-    h += '<h2 class="st">' + T('Doses for this patient') + '</h2>' + (+P.wt > 0 ? '' : quickPt());
+    /* one screen (owner, 28 Nov 2026): Doses · Forms · Cautions · Used in as tabs, one panel filling the room above the bottom bar (fitCond) */
+    var forms = sec('Preparations', 'flask', '<div class="preps">' + d.forms.map(function (f) { return '<div class="prep"><b dir="ltr">' + esc(f.n) + '</b><small>' + E.route(f.r, AR) + '</small>' + (f.rec ? '<p dir="ltr">' + esc(f.rec) + '</p>' : '') + '</div>'; }).join('') + '</div>');
+    var top = h; h = (+P.wt > 0 ? '' : quickPt());
     var rel = relRules(d), keys = Object.keys(d.reg);
     if (rel.length) keys = keys.filter(function (k) { return rel.some(function (x) { return x.r === k; }); }).concat(keys.filter(function (k) { return !rel.some(function (x) { return x.r === k; }); }));
     h += '<section class="card list doses">' + keys.map(function (k) {
@@ -1126,10 +1128,17 @@
     }).join('') + '</section>';
     var ci = d.ci || {}, cil = []; if (ci.amin != null) cil.push(ci.why || ('Not under ' + ci.amin + ' months'));
     ['neonate', 'jaundice', 'asthma', 'dengue', 'g6pd', 'renal', 'liver', 'sam', 'cardiac'].forEach(function (k) { if (ci[k]) cil.push(ci[k]); });
-    h += acc('Contraindications and cautions', 'shield', cil, 'trap', true);
-    if (users.length) h += sec('Used in', 'list', '<div class="rec">' + users.map(function (c) { return '<button data-go="c/' + c.id + '">' + T(c.t) + '</button>'; }).join('') + '</div>');
-    return h + disc();
+    var doses = h;
+    var TABS = [['dose', 'Doses', 'pill', doses, 0], ['form', 'Forms', 'flask', forms, d.forms.length],
+      ['ci', 'Cautions', 'shield', acc('Contraindications and cautions', 'shield', cil, 'trap', true) + disc(), cil.length],
+      ['use', 'Used in', 'list', users.length ? sec('Used in', 'list', '<div class="rec">' + users.map(function (c) { return '<button data-go="c/' + c.id + '">' + T(c.t) + '</button>'; }).join('') + '</div>') : '', users.length]]
+      .filter(function (t) { return t[0] === 'dose' || t[3]; });
+    var tab = TABS.some(function (t) { return t[0] === DTAB; }) ? DTAB : 'dose';
+    return top + '<div class="ctabs">' + TABS.map(function (t) { return '<button class="' + (t[0] === tab ? 'on' : '') + '" data-act="dtab" data-t="' + t[0] + '">' + ic(t[2]) + '<span>' + T(t[1]) + '</span>' + (t[4] ? '<i>' + t[4] + '</i>' : '') + '</button>'; }).join('') + '</div>' +
+      '<div class="cpanel">' + TABS.filter(function (t) { return t[0] === tab; })[0][3] + '</div>';
   }
+  var DTAB = 'dose';
+  ACT.dtab = function (b) { DTAB = b.dataset.t; render(true); var p = $('.cpanel'); if (p) p.scrollTop = 0; };
 
   /* ================= Calculators ================= */
   var CALCS = [
@@ -1332,7 +1341,7 @@
     if (keep !== true) scrollTo(0, 0);
     fitHome(); setTimeout(fitHome, 250); setTimeout(fitHome, 900);
     fitPage(); setTimeout(fitPage, 300);
-    if (r[0] === 'c') { fitCond(); setTimeout(fitCond, 300); }
+    if (r[0] === 'c' || r[0] === 'drug') { fitCond(); setTimeout(fitCond, 300); }
   }
   /* list pages on one screen (owner, 28 Nov 2026: «make it perfect like the Permanent Exam»): Drug book, Calculators, Settings, Conditions
      have compact layouts in the css (body[data-pg1]); if a phone is still too short the page content is scaled down a little (≥ 80 %) */

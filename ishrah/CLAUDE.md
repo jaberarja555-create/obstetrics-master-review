@@ -1907,3 +1907,6 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
   back to Treatment when another condition opens); one panel (`.cpanel`) takes exactly the room above the Prescription / Orders bar (`fitCond`) and
   scrolls inside itself when a section is long; the age & weight card is compact there. All 78 conditions checked at 390×740 and 360×640: the page
   never scrolls.
+- **HO Guide drug page on one screen (owner, 28 Nov 2026):** group, trade names and «For this patient» on top; tabs Doses · Forms · Cautions (with
+  the safety note) · Used in (`DTAB`, back to Doses for another drug); the same `.cpanel` + `fitCond`. All 123 drugs × every tab checked at
+  360×640, 390×740, 412×915 and without a weight: the page never scrolls.

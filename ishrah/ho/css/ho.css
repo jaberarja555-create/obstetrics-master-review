@@ -818,3 +818,10 @@ body[data-page=c] #qpt .ch{margin-bottom:4px;font-size:13.5px}
 .ctabs button span{overflow:hidden;text-overflow:ellipsis}
 .ctabs button i{padding:0 4px;font-size:9.5px}
 @media (max-width:430px){.ctabs button .ic{display:none}}
+
+/* drug page on one screen: compact top, tabs, panel */
+body[data-page=drug] .tagrow{margin:0 0 6px}
+body[data-page=drug] .tnames{margin:0 0 6px}
+body[data-page=drug] #qpt{padding:8px 12px;margin-bottom:8px}
+body[data-page=drug] #qpt .hint,body[data-page=drug] #qpt .lnk{display:none}
+body[data-page=drug] #qpt .ch{margin-bottom:4px;font-size:13.5px}
