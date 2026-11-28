@@ -103,7 +103,7 @@
   function ageTxt(p) {
     p = p || P; var m = E.ageMonths(p);
     if (!AR) return E.ageText(p);
-    if (m < 1) return Math.round(E.dol(p)) + ' يوم';
+    if (m < 1) { var dd = Math.round(E.dol(p)); return dd === 1 ? 'يوم واحد' : dd === 2 ? 'يومان' : dd <= 10 ? dd + ' أيام' : dd + ' يومًا'; }
     if (m < 24) return nice(Math.round(m * 10) / 10) + ' شهر';
     var y = Math.floor(m / 12), r = Math.round(m % 12); return y + ' سنة' + (r ? ' و' + r + ' شهر' : '');
   }
@@ -481,6 +481,14 @@
   function warnHtml(w) { return w.map(function (x) { return '<div class="wn ' + x.lvl + '">' + ic('alert') + '<span dir="ltr">' + esc(x.t) + '</span></div>'; }).join(''); }
   function drugName(d) { var b = d.b && d.b[0] && d.b[0] !== d.g ? d.b[0] : ''; return { main: b || d.g, sub: b ? d.g : (d.b || []).slice(1, 3).join(', ') }; }
   /* the amount to give, in plain words: "2 mL", "½ tablet", "200 mg (2 mL)" for injections */
+  /* under 1 year the dose is measured from the weakest syrup of the rule, so small volumes are accurate (owner, 28 Nov 2026) */
+  function prefForm(drugId, key) {
+    if (FORMSEL[drugId + '.' + key]) return FORMSEL[drugId + '.' + key];
+    var d = DR[drugId]; if (!d || !ready() || E.ageMonths(P) >= 12) return undefined;
+    var r = E.rule(d, key, P), ids = (r && r.forms) || [];
+    var liq = d.forms.filter(function (f) { return f.r === 'PO' && f.c && ids.indexOf(f.id) >= 0; }).sort(function (a, b) { return a.c - b.c; });
+    return liq.length > 1 ? liq[0].id : undefined;
+  }
   function amount(o) {
     if (o.fixed) return o.fixed;
     var q = o.qty; if (!q) return o.text || '';
@@ -493,7 +501,7 @@
   function planRow(li, ii, it, opt) {
     opt = opt || {};
     if (!it.d) return '<div class="tx">' + ic('check') + '<span dir="ltr">' + esc(it.txt) + '</span></div>';
-    var o = E.dose(it.d, it.r, P, FORMSEL[it.d + '.' + it.r]); if (o.err) return '';
+    var o = E.dose(it.d, it.r, P, prefForm(it.d, it.r)); if (o.err) return '';
     var d = o.drug, nm = drugName(d), rx = E.rxLine(o), key = it.d + '|' + it.r;
     if (!ready()) return '<article class="pr wait"><div class="pr-h"><span class="pr-n">' + T(nm.main) + (nm.sub ? '<small dir="ltr">' + esc(nm.sub) + '</small>' : '') + '</span></div><p class="pend">' + ic('calc') + A('تظهر الجرعة بعد اختيار العمر والوزن', 'The dose appears once age and weight are chosen') + '</p></article>';
     var stops = o.warn.filter(function (w) { return w.lvl === 'stop'; }), warns = o.warn.filter(function (w) { return w.lvl !== 'stop'; });
@@ -524,7 +532,7 @@
       v.lines.map(function (l, li) {
         var items = l.items.map(function (it, ii) {
           if (!it.d) return '';
-          var o = E.dose(it.d, it.r, P, FORMSEL[it.d + '.' + it.r]); if (o.err) return '';
+          var o = E.dose(it.d, it.r, P, prefForm(it.d, it.r)); if (o.err) return '';
           var nm = drugName(o.drug), stop = stopped(o), on = !!s[li + '.' + ii];
           return '<button class="alt' + (on ? ' on' : '') + (stop ? ' no' : '') + '" ' + (stop ? 'disabled' : 'data-act="tglsel" data-s="' + li + '.' + ii + '"') + '><span class="alt-c">' + ic(stop ? 'alert' : 'check') + '</span><span class="alt-t">' + T(nm.main) +
             '<small dir="ltr">' + (stop ? esc(o.warn.filter(function (w) { return w.lvl === 'stop'; })[0].t) : esc(amount(o)) + ' · ' + esc(E.freq(o.f)) + (o.dur ? ' · ' + esc(o.dur) : '')) + '</small>' + (it.note ? '<em dir="ltr">' + esc(it.note) + '</em>' : '') + '</span></button>';
@@ -597,7 +605,7 @@
   function current() { var c = byId[P.dx]; if (!c) return null; var v = pickVariant(c, get('ho-var', {})[c.id]); return { c: c, v: v, sel: getSel(c, v) }; }
   function chosen(cur) {
     var out = [];
-    cur.v.lines.forEach(function (l, li) { l.items.forEach(function (it, ii) { if (!cur.sel[li + '.' + ii]) return; if (it.d) out.push(E.dose(it.d, it.r, P, FORMSEL[it.d + '.' + it.r])); else out.push({ txt: it.txt }); }); });
+    cur.v.lines.forEach(function (l, li) { l.items.forEach(function (it, ii) { if (!cur.sel[li + '.' + ii]) return; if (it.d) out.push(E.dose(it.d, it.r, P, prefForm(it.d, it.r))); else out.push({ txt: it.txt }); }); });
     return out.filter(function (o) { return !o.err; });
   }
   function noDx(t) { head(t, ''); return '<section class="card emptyc"><span class="pc-big">' + ic('stetho') + '</span><p>' + A('اختر التشخيص أولًا حتى تُكتب الوصفة.', 'Choose the diagnosis first.') + '</p><div class="pc-btns"><button class="btn pri" data-go="conds">' + ic('list') + A('الأمراض', 'Conditions') + '</button><button class="btn" data-go="dx">' + ic('search') + A('من الأعراض', 'From symptoms') + '</button></div></section>'; }
@@ -707,17 +715,90 @@
     osteo: 'Osteomyelitis', pertussis: 'Whooping cough', cholera: 'Cholera', amoeba: 'Amoebiasis', giardia: 'Giardiasis', pre: 'Pre-referral', vivax: 'Vivax malaria', sting: 'Scorpion sting', nephrotic: 'Nephrotic syndrome',
     hypoMg: 'Low magnesium', arrest: 'Cardiac arrest', aki: 'Acute kidney injury', tetanus: 'Tetanus', chorea: 'Chorea', loss: 'Replacing losses', schisto: 'Schistosomiasis', tapeworm: 'Tapeworm', hdn: 'Bleeding (newborn)',
     measles: 'Measles', sam: 'Severe malnutrition', dka: 'DKA', jaundice: 'Neonatal jaundice', local: 'Local symptoms', systemic: 'Systemic symptoms' };
+  /* ---- the drug page answers for the current patient (owner, 28 Nov 2026: "a 6-day-old with heart failure: can he take penicillin,
+     which preparation, by mouth, 1 mL of which preparation?") ---- */
+  function lines(c, id) { var out = []; c.variants.forEach(function (v) { v.lines.forEach(function (l) { l.items.forEach(function (it) { if (it.d === id) out.push({ v: v, l: l, it: it }); }); }); }); return out; }
+  function planDrugs(c) { var s = []; c.variants.forEach(function (v) { v.lines.forEach(function (l) { l.items.forEach(function (it) { if (it.d && s.indexOf(it.d) < 0 && DR[it.d]) s.push(it.d); }); }); }); return s; }
+  function inPlan(d) { var c = P.dx && byId[P.dx]; return !!(c && lines(c, d.id).length); }
+  /* a newborn dose exists when the drug has a newborn rule, or a newborn condition of the local guidelines uses it */
+  function neoUses(d) { return DX.filter(function (c) { return c.sys === 'neo' && lines(c, d.id).length; }); }
+  function neoOK(d) {
+    var rule = Object.keys(d.reg || {}).some(function (k) { return /^(neo|hdn|jaundice)/.test(k) || [].concat(d.reg[k]).some(function (r) { return r && r.when && r.when.dmax != null; }); });
+    return rule || neoUses(d).length > 0;
+  }
+  function vname(v) { return v.t || v.n || v.name || ''; }
+  /* the rules of this drug that fit the patient: the ones his diagnosis plan uses, and for a newborn the ones newborn plans use */
+  function relRules(d) {
+    if (!ready()) return [];
+    var out = [], c = P.dx && byId[P.dx];
+    function add(cc) { lines(cc, d.id).forEach(function (x) { if (!out.some(function (y) { return y.r === x.it.r && y.t === cc.t; })) out.push({ r: x.it.r, t: cc.t }); }); }
+    if (c) add(c);
+    if (E.isNeo(P)) neoUses(d).forEach(add);
+    return out;
+  }
+  function forPatient(d) {
+    if (!ready()) return '';
+    var c = P.dx && byId[P.dx], rows = [], neo = E.isNeo(P);
+    function row(lvl, html) { rows.push('<div class="fp-r ' + lvl + '"><span class="fp-i">' + (lvl === 'ok' ? '✓' : lvl === 'no' ? '✕' : lvl === 'info' ? 'i' : '!') + '</span><div>' + html + '</div></div>'); }
+    /* 1. the patient's diagnosis */
+    if (c) {
+      var mine = lines(c, d.id);
+      if (mine.length) row('ok', A('ضمن خطة ', 'Part of the plan for ') + T(c.t) + ': ' + mine.map(function (x) { return '<bdi dir="ltr">' + esc(vname(x.v)) + (x.l.t ? ' · ' + esc(x.l.t) : '') + '</bdi>'; }).filter(function (x, i, a) { return a.indexOf(x) === i; }).join('، '));
+      else {
+        var pd = planDrugs(c);
+        row('warn', A('ليس من خطة ', 'Not part of the plan for ') + T(c.t) + (pd.length ? '. ' + A('الخطة تستعمل: ', 'The plan uses: ') + pd.map(function (x) { return '<button class="fp-d" data-go="drug/' + x + '">' + T(drugName(DR[x]).main) + '</button>'; }).join('') : '') +
+          ' <button class="fp-d go" data-go="c/' + c.id + '">' + A('افتح الخطة', 'Open the plan') + '</button>');
+      }
+    }
+    /* 2. newborns */
+    if (neo) {
+      var nu = neoUses(d), hasRule = neoOK(d) && !nu.length ? true : Object.keys(d.reg || {}).some(function (k) { return /^(neo|hdn|jaundice)/.test(k) || [].concat(d.reg[k]).some(function (r) { return r && r.when && r.when.dmax != null; }); });
+      if (nu.length) row('ok', A('يُعطى لحديثي الولادة في: ', 'Given to newborns in: ') + nu.map(function (x) { return lines(x, d.id).map(function (y) { return '<button class="fp-d" data-go="c/' + x.id + '">' + T(x.t + (vname(y.v) ? ' — ' + vname(y.v) : '')) + '</button>'; }).join(''); }).join(''));
+      else if (hasRule) row('ok', A('له جرعة خاصة بحديثي الولادة (أدناه).', 'Has a newborn dose (below).'));
+      else if (!inPlan(d)) row('no', A('لا توجد جرعة لحديثي الولادة في الأدلة المحلية: لا تعطِ جرعة الأطفال الكبار، واستشر الأخصائي.', 'The local guidelines give no newborn dose: do not use the older-child dose; ask your senior.') +
+        (dgOf(d)[0] === 'abx' && byId.neosepsis ? ' <button class="fp-d go" data-go="c/neosepsis">' + A('عدوى حديثي الولادة: خطة Neonatal sepsis', 'Newborn infection: Neonatal sepsis plan') + '</button>' : ''));
+    }
+    /* 3. how it can be given */
+    var routes = {}; d.forms.forEach(function (f) { (routes[f.r] = routes[f.r] || []).push(f.n.split(' ')[0].toLowerCase()); });
+    row('info', A('طرق الإعطاء: ', 'Can be given: ') + Object.keys(routes).map(function (r) { return '<b>' + E.route(r, AR) + '</b> <small dir="ltr">(' + esc(routes[r].filter(function (x, i, a) { return a.indexOf(x) === i; }).join(', ')) + ')</small>'; }).join(' · '));
+    /* 4. reasons it must not be given (allergy, age, conditions) */
+    E.checks(d, P, null).forEach(function (w) { row(w.lvl === 'stop' ? 'no' : 'warn', '<span dir="ltr">' + esc(w.t) + '</span>'); });
+    return '<section class="card fp"><h3 class="fp-h">' + ic('baby') + T('For this patient') + '<small dir="ltr">' + [hasAge() ? ageTxt() : '', wtTxt()].filter(Boolean).join(' · ') + '</small></h3>' + rows.join('') + '</section>';
+  }
+  /* which preparation the amount is measured from, and the same dose in the other liquids */
+  function fromForm(d, k, o) {
+    var f = o.form; if (!f || o.fixed) return '';
+    var t = '<em class="ff">' + A('من ', 'of ') + '<bdi dir="ltr">' + esc(f.n) + '</bdi>' + (o.mg != null && o.unit === 'mg' && f.r === 'PO' ? ' <bdi dir="ltr">(' + nice(o.mg) + ' mg)</bdi>' : '') + '</em>';
+    var rule = E.rule(d, k, P), ids = (rule && rule.forms) || [];
+    if (f.r === 'PO' && f.c && o.mg != null) {
+      var alt = d.forms.filter(function (x) { return x !== f && x.r === 'PO' && x.c && ids.indexOf(x.id) >= 0; }).map(function (x) {
+        var vol = o.mg / x.c, rv = vol >= 2 ? Math.round(vol * 2) / 2 : Math.max(0.1, Math.round(vol * 10) / 10);
+        return '<bdi dir="ltr">' + nice(rv) + ' mL ' + A('من ', 'of ') + esc(x.n) + '</bdi>';
+      });
+      if (alt.length) t += '<em class="ff alt">' + A('أو ', 'or ') + alt.join(A(' أو ', ' or ')) + '</em>';
+    }
+    return t;
+  }
   function drug(id) {
     var d = DR[id]; if (!d) return notFound();
     head(d.g, '<bdi dir="ltr">' + esc((d.b || []).join(' · ')) + '</bdi>');
     var users = DX.filter(function (c) { return c.variants.some(function (v) { return v.lines.some(function (l) { return l.items.some(function (it) { return it.d === id; }); }); }); });
     var h = '<div class="tagrow"><span data-go="drugs/' + dgOf(d)[0] + '">' + esc(dgOf(d)[1]) + '</span><span>' + esc(CLSN[d.cls[0]] || d.cls[0]) + '</span></div>';
+    /* names as written on the box (owner, 28 Nov 2026: "where is the local name for the drug") */
+    if ((d.b || []).length) h += '<div class="tnames"><small>' + A('الاسم التجاري', 'Trade names') + '</small>' + d.b.map(function (b) { return '<b dir="ltr">' + esc(b) + '</b>'; }).join('') + '</div>';
+    h += forPatient(d);
     h += sec('Preparations', 'flask', '<div class="preps">' + d.forms.map(function (f) { return '<div class="prep"><b dir="ltr">' + esc(f.n) + '</b><small>' + E.route(f.r, AR) + '</small>' + (f.rec ? '<p dir="ltr">' + esc(f.rec) + '</p>' : '') + '</div>'; }).join('') + '</div>');
     h += '<h2 class="st">' + T('Doses for this patient') + '</h2>' + (+P.wt > 0 ? '' : quickPt());
-    h += '<section class="card list doses">' + Object.keys(d.reg).map(function (k) {
-      var o = E.dose(id, k, P, FORMSEL[id + '.' + k]); if (o.err) return '';
-      var how = ready() ? '<b dir="ltr">' + esc(amount(o)) + '</b><small>' + [E.route(o.route, AR), E.freq(o.f, AR), o.dur ? '<bdi dir="ltr">' + esc(o.dur) + '</bdi>' : ''].filter(Boolean).join(' · ') + '</small>' : '<small dir="ltr">' + esc(o.sc || '') + '</small>';
-      return '<div class="drow"><span class="drow-k">' + T(KEYN[k] || k) + '</span><span class="drow-v">' + how + (ready() && stopped(o) ? '<em class="no">' + A('ممنوع لهذا المريض', 'Not for this patient') + '</em>' : '') + '</span><button class="pr-i" data-act="info" data-k="' + id + '|' + k + '">i</button></div>';
+    var rel = relRules(d), keys = Object.keys(d.reg);
+    if (rel.length) keys = keys.filter(function (k) { return rel.some(function (x) { return x.r === k; }); }).concat(keys.filter(function (k) { return !rel.some(function (x) { return x.r === k; }); }));
+    h += '<section class="card list doses">' + keys.map(function (k) {
+      var o = E.dose(id, k, P, prefForm(id, k)); if (o.err) return '';
+      var noNeo = ready() && E.isNeo(P) && !neoOK(d) && !inPlan(d);
+      var how = !ready() ? '<small dir="ltr">' + esc(o.sc || '') + '</small>' : noNeo ? '<b class="no">' + A('لا توجد جرعة لحديثي الولادة', 'No newborn dose') + '</b>' :
+        '<b dir="ltr">' + esc(amount(o)) + '</b>' + fromForm(d, k, o) + '<small>' + [E.route(o.route, AR), E.freq(o.f, AR), o.dur ? '<bdi dir="ltr">' + esc(o.dur) + '</bdi>' : ''].filter(Boolean).join(' · ') + '</small>';
+      var why = rel.filter(function (x) { return x.r === k; }), cls = rel.length ? (why.length ? ' hit' : ' dim') : '';
+      return (rel.length && !why.length && keys.indexOf(k) === rel.reduce(function (a, x) { return a.indexOf(x.r) < 0 ? a.concat(x.r) : a; }, []).length ? '<div class="drow-sep">' + A('استعمالات أخرى', 'Other uses') + '</div>' : '') +
+        '<div class="drow' + cls + '"><span class="drow-k">' + T(KEYN[k] || k) + (why.length ? '<em class="forpt">' + A('لهذا المريض', 'For this patient') + ': ' + why.map(function (x) { return T(x.t); }).join(', ') + '</em>' : '') + '</span><span class="drow-v">' + how + (ready() && stopped(o) ? '<em class="no">' + A('ممنوع لهذا المريض', 'Not for this patient') + '</em>' : '') + '</span><button class="pr-i" data-act="info" data-k="' + id + '|' + k + '">i</button></div>';
     }).join('') + '</section>';
     var ci = d.ci || {}, cil = []; if (ci.amin != null) cil.push(ci.why || ('Not under ' + ci.amin + ' months'));
     ['neonate', 'jaundice', 'asthma', 'dengue', 'g6pd', 'renal', 'liver', 'sam', 'cardiac'].forEach(function (k) { if (ci[k]) cil.push(ci[k]); });

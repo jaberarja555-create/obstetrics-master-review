@@ -1754,3 +1754,11 @@ studentmasterreview.com with HTTP/3 off). Now:
 - **No Arabic disease names in the HO Guide (owner, 28 Nov 2026):** condition lists show the English name only, and a condition page's
   subtitle is its body system (English); `c.ar` stays in dx.js only for searching in Arabic. Condition counts in Arabic use `nCase`
   (حالة واحدة · حالتان · 3–10 حالات · 11+ حالة). Guide version 20 (HOV, `?v=20`, ho/sw.js `ho-v20`).
+- **Drug page answers for the patient (owner, 28 Nov 2026: "a 6-day-old with heart failure: can he take penicillin, which preparation, by
+  mouth, 1 mL of which preparation, where is the local name"):** ho/js/app.js `drug()`: trade names as chips; a «For this patient» card
+  (`forPatient`): ✓ part of the plan of his diagnosis / ! not part of it + the plan's drugs and «Open the plan»; for a newborn ✓ the newborn
+  conditions that use it (`neoUses`) or a newborn rule, else ✕ «no newborn dose in the local guidelines, do not use the older-child dose» (+ link
+  to Neonatal sepsis for antibiotics) and the dose rows say «No newborn dose»; routes and forms; allergy/age/condition stops (`E.checks`).
+  Each dose row names its preparation («2 mL of Syrup 125 mg/5 mL (50 mg)») and the same dose in the other syrups; rows used for this patient
+  come first in green («For this patient: Neonatal sepsis»), the rest dimmed under «Other uses» (`relRules`). Under 1 year the weakest syrup
+  of the rule is chosen (`prefForm`, also in plans) so small volumes are accurate. Arabic days: يوم واحد · يومان · 3–10 أيام · يومًا. Guide v21.
