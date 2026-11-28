@@ -1789,3 +1789,21 @@ studentmasterreview.com with HTTP/3 off). Now:
   button «Choose a body system, then the condition» → pop-up of systems (`ACT.syspick`) → the same pop-up shows that system's conditions with a
   back arrow (`ACT.sysopen`, `ACT.condgo`). The `conds/<sys>` page still works for links. Guide v28.
 - Large phone text (owner, 28 Nov 2026: «Acute ton…» cut): names are never cut or broken mid-word; tool cards drop the arrow, then the icon, when narrow (container queries on .tool); recent rows wrap. Guide v29.
+
+## SMRA Permanent Exam (owner, 28 Nov 2026): the team's "Permanent Easy" exam bank rebuilt as a new SMRA app
+The old site (perminant-easy.vercel.app) is replaced by a new app `ishrah/exam/` in the SMRA design (opens inside the platform like the HO Guide;
+own palette `ex-pal`, shared theme `ish-theme`, size `ex-fs`). **Source data:** 32 exam JSON files + resources (owner's zip), 4654 questions,
+each {id, question, options ("A) .."), correctAnswer (0-based), explanation}. Images only referenced in resources.json by examId+qno.
+- **Data pipeline** (scratchpad `build_exam.py`, `subj_dedup.py`): clean options (strip the "A) " prefix), **remove duplicates** (448 removed; a
+  unique question keeps `exams:[...]` membership), **subject auto-tag** into MED/SURG/PAED/OBG/COMM/OTHER (owner: optional; ~688 still Other for
+  the team to refine), flag broken questions (15: empty / one option / no answer). Output `exam-clean.json` → `ishrah/exam/js/data.js`
+  (`window.EXAM`). **data.js is gitignored** (paid content; the public repo must not carry the questions in plaintext — production build will
+  encrypt like the books' content.bin).
+- **App** (`ishrah/exam/`, index.html + css/exam.css + js/app.js): Home (hero, mock-exam button, start tiles, progress), Exams (grouped Past
+  papers / Pool / Sheets / Fageery), By subject, question runner (tutor reveal with the explanation, mark/flag, repeat badge for shared
+  questions, images), Mock exam (random 200, timed), Progress (overall %, per-subject performance, weak areas, previous tests, streak),
+  Settings (7 SMRA palettes, day/night/eye, text size, language). localStorage `ex-seen` (answers), `ex-mark`, `ex-tests`, `ex-streak`.
+- **Pictures needed from the owner (7):** sheet8 Q102 (ECG), sheet7/8 Q45 (CT brain), fageery2016 Q8 (CSF table, optional). Received 4
+  (perm27complete 93 tetanus, 94 pellagra, 98 koilonychia, 100 clubfoot) → `ishrah/exam/img/q/`.
+- **To do next:** fix mistakes (medical fact-check of all questions, in batches, flagged for the team) and improve explanations; paid
+  subscription via the shared system (new book id, encrypt data.js, lock); open inside the platform full-screen + installable; release.

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SMRA Permanent Exam</title>
+<meta name="description" content="SMRA Permanent Exam: the Sudan Medical Council permanent exam question bank — past papers, sheets and Fageery, with explanations, mock exams and progress.">
+<meta name="theme-color" content="#0e3b72">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="img/ex-192.png">
+<link rel="apple-touch-icon" href="img/ex-192.png">
+<script>
+/* look, colour and text size before first paint (shared with SMRA) */
+(function () {
+  var d = document.documentElement;
+  function g(k, v) { try { var x = localStorage.getItem(k); return x == null ? v : JSON.parse(x); } catch (e) { return v; } }
+  var l = g('ish-lang', 'ar') === 'en' ? 'en' : 'ar'; d.lang = l; d.dir = 'ltr';
+  var t = g('ish-theme', 'light'); if (t === 'auto') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  d.dataset.theme = t === 'dark' ? 'dark' : t === 'eye' ? 'eye' : 'light';
+  d.dataset.pal = g('ex-pal', 'navy');
+  d.dataset.fs = g('ex-fs', 'n');
+  if (window.top !== window) d.classList.add('inframe');
+})();
+</script>
+<link rel="stylesheet" href="css/exam.css">
+</head>
+<body>
+<header class="hb" id="hb"></header>
+<main id="main"><div id="ph"></div><div id="v"></div></main>
+<nav class="bn" id="bn"></nav>
+<div id="sheet" class="sh" hidden></div>
+<div id="toast" class="toast" hidden></div>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
