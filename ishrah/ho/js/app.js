@@ -1284,7 +1284,25 @@
     else if (r[0] === 'calc' && r[1]) calcRun();
     if (keep !== true) scrollTo(0, 0);
     fitHome(); setTimeout(fitHome, 250); setTimeout(fitHome, 900);
+    fitPage(); setTimeout(fitPage, 300);
   }
+  /* list pages on one screen (owner, 28 Nov 2026: «make it perfect like the Permanent Exam»): Drug book, Calculators, Settings, Conditions
+     have compact layouts in the css (body[data-pg1]); if a phone is still too short the page content is scaled down a little (≥ 80 %) */
+  var FITP = /^(drugs|calc|settings|conds|emerg|saved|rx|orders|dx|patient)$/;
+  function fitPage() {
+    var v = $('#v'), r = route(); v.style.zoom = '';
+    /* the space kept under the page equals the bottom bar exactly (it was a few px more, so every page scrolled a little) */
+    if (innerWidth < 1024) { var bh = $('#bn').getBoundingClientRect().height; if (bh) document.body.style.paddingBottom = Math.floor(bh) + 'px'; } else document.body.style.paddingBottom = '';
+    document.body.toggleAttribute('data-pg1', FITP.test(r[0] || '') && !r[1]);
+    if (!document.body.hasAttribute('data-pg1') || innerWidth >= 1024) return;
+    var bn = $('#bn').getBoundingClientRect(), over = document.documentElement.scrollHeight - innerHeight;
+    if (over <= 0) return;
+    var vr = v.getBoundingClientRect(), avail = bn.top - vr.top - 10, need = v.scrollHeight;
+    if (need > avail) v.style.zoom = Math.max(0.76, Math.floor(1000 * (avail - 3) / need) / 1000);
+    var left = document.documentElement.scrollHeight - innerHeight, z = +v.style.zoom || 1;
+    if (left > 0 && z > 0.76) v.style.zoom = Math.max(0.76, Math.floor(1000 * z * (1 - (left + 3) / Math.max(1, v.getBoundingClientRect().height))) / 1000);
+  }
+  addEventListener('resize', function () { clearTimeout(fitPage.t); fitPage.t = setTimeout(fitPage, 150); });
   /* the Home fits one screen (owner, 27 Nov 2026: "I prefer compact things rather than scrolling"): tighten step by step until nothing scrolls */
   function fitHome() {
     var b = document.body; b.classList.remove('fit1', 'fit2', 'fit3', 'fit4'); b.classList.add('fitting');

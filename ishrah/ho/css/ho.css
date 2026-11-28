@@ -726,3 +726,51 @@ body[data-page=home] .rec.recl .lrow-i{width:34px;height:34px}
 .nitem .ndot{width:9px;height:9px;border-radius:50%;margin-top:6px;flex:none}.nitem.new .ndot{background:#d93636}.nitem.new{background:var(--soft)}
 .ntx{display:flex;flex-direction:column;gap:3px;min-width:0}.ntx b{font-size:.95em}.ntx span{font-size:.85em;color:var(--mut)}.ntx small{font-size:.75em;color:var(--mut)}
 .nempty{text-align:center;color:var(--mut);padding:24px 0}
+
+/* ===== one-screen list pages (owner, 28 Nov 2026) ===== */
+@media (max-width:1023px){
+  body[data-pg1] #ph .pbar{margin-bottom:6px}
+  /* Drug book: compact group tiles */
+  body[data-page=drugs][data-pg1] .srch{margin:6px 0 8px}
+  body[data-page=drugs][data-pg1] .st{margin:4px 0 6px}
+  body[data-page=drugs][data-pg1] .qt{gap:6px 8px}
+  body[data-page=drugs][data-pg1] .tool{min-height:0;padding:7px 9px;gap:8px;border-radius:12px}
+  body[data-page=drugs][data-pg1] .tool .ib2.lg{width:30px;height:30px;border-radius:9px}
+  body[data-page=drugs][data-pg1] .tool .ib2.lg .ic{width:17px;height:17px}
+  body[data-page=drugs][data-pg1] .tool-t b{font-size:12.5px;line-height:1.2}
+  body[data-page=drugs][data-pg1] .tool-t small{font-size:10.5px}
+  /* Calculators: four tools to a row */
+  body[data-page=calc][data-pg1] .emg{padding-block:9px;margin-bottom:6px}
+  body[data-page=calc][data-pg1] .st.sub{margin:8px 0 5px}
+  body[data-page=calc][data-pg1] .mt{grid-template-columns:repeat(4,1fr)!important;gap:6px}
+  body[data-page=calc][data-pg1] .mtile{padding:8px 4px;min-height:0;gap:4px;border-radius:12px}
+  body[data-page=calc][data-pg1] .mtile .ib2{width:28px;height:28px}
+  body[data-page=calc][data-pg1] .mtile b{font-size:11px;line-height:1.2}
+  /* Settings: colours as one row of circles, short rows for install and saved data */
+  body[data-page=settings] #v .card{padding:10px 12px;margin-bottom:8px}
+  body[data-page=settings] #v .card .ch{margin-bottom:6px}
+  body[data-page=settings] #v .hint{display:none}
+  body[data-page=settings] .looks{gap:6px}body[data-page=settings] .look{padding:6px 2px}
+  body[data-page=settings] .pals{display:flex!important;flex-wrap:nowrap;justify-content:space-between;gap:4px}
+  body[data-page=settings] .pal{flex-direction:column;padding:4px 2px!important;min-width:0;flex:1;border:0!important;background:transparent!important;box-shadow:none!important}
+  body[data-page=settings] .pal i{width:30px!important;height:30px!important;border:3px solid transparent}
+  body[data-page=settings] .pal.on i{border-color:var(--sf);box-shadow:0 0 0 2px var(--p)}
+  body[data-page=settings] .pal span{font-size:9px!important;line-height:1.1;text-align:center;white-space:normal}
+  body[data-page=settings] #v .card img{display:none}
+  body[data-page=settings] #v .disc{margin-top:6px;font-size:11px}
+}
+
+@media (max-width:1023px){
+  body[data-page=settings] #v{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:stretch}
+  body[data-page=settings] #v>*{margin:0!important;min-width:0}
+  body[data-page=settings] #v>.card:nth-of-type(2),body[data-page=settings] #v>.card:nth-of-type(3),body[data-page=settings] #v>.card:nth-of-type(n+7),body[data-page=settings] #v>:not(.card){grid-column:1/-1}
+  body[data-page=settings] #v>.card:nth-of-type(1){order:1}body[data-page=settings] #v>.card:nth-of-type(4){order:2}
+  body[data-page=settings] #v>.card:nth-of-type(2){order:3}body[data-page=settings] #v>.card:nth-of-type(3){order:4}
+  body[data-page=settings] #v>.card:nth-of-type(5){order:5}body[data-page=settings] #v>.card:nth-of-type(6){order:6}
+  body[data-page=settings] #v>.card:nth-of-type(n+7){order:7}body[data-page=settings] #v>:not(.card){order:8}
+  body[data-page=settings] #v .card p:not(.disc){display:none}
+  body[data-page=settings] #v .card .seg button{padding-inline:2px;font-size:11.5px}
+  body[data-page=settings] #v .card .btn{padding:8px 6px;font-size:12px;min-height:0}
+  body[data-page=settings] #v .card:nth-of-type(n+7){padding:8px 12px}
+}
+@media (max-width:1023px){body[data-page=settings] #v .card:nth-of-type(n+7) p{display:block!important;margin:2px 0 0;font-size:11px;line-height:1.4;color:var(--mut)}}

@@ -5,7 +5,7 @@
   var A = IS.A, esc = IS.esc, ic = IS.ic;
   /* full screen like the books (owner, 26 Nov 2026: "open full on the screen with the SMRA small button beside like the other books"):
      one frame kept while the person moves around SMRA; the SMRA handle and the device Back button return to where they came from */
-  var HOV = '30';   /* change with ho/sw.js C so a page that kept the frame loads the new guide */
+  var HOV = '31';   /* change with ho/sw.js C so a page that kept the frame loads the new guide */
   var FR = null, FROM = /^#ho\b/.test(location.hash) ? '' : location.hash.slice(1);
   function host() { var h = document.getElementById('ho-host'); if (!h) { h = document.createElement('div'); h.id = 'ho-host'; h.hidden = true; document.body.appendChild(h); } return h; }
   function show() {

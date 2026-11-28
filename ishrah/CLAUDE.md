@@ -1890,3 +1890,7 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
   divider · bell · photo (look stays in Settings). Notifications as in the exam: `{ho:'notes'}` ↔ js/hoapp.js `hoNotes` (House Officer notices
   + own, every 40 s while in front), own sound (`ho-snd-off`), seen `ho-nseen`. Next: Drug book, Calculators, Settings on one screen; fill the
   half-empty pages (Conditions, Emergency, Prescription, Order sheet, Saved).
+- **HO Guide step 2 (28 Nov 2026):** Drug book (compact group tiles), Calculators (four tools a row) and Settings (two-column grid on phones:
+  Language | Text size, Appearance, App colour as a row of circles, Install | Saved data, About) fit one screen; `fitPage()` (ho/js/app.js) scales
+  the content of list pages (`FITP`, body[data-pg1]) down to ≥ 76 % on short phones, and the space under the page equals the bottom bar exactly.
+  Tested 360×640, 390×740, 412×915: no page scrolls.
