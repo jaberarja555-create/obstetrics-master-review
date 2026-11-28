@@ -335,10 +335,9 @@ main{padding:calc(4*var(--u)) calc(15*var(--u)) calc(16*var(--u))}
 /* header: SMRA logo with «Permanent Exam» under it; bell with a count; profile picture (owner, 28 Nov 2026) */
 .hb-img{height:48px;width:auto;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.12))}
 .hb-logo .hb-sub{letter-spacing:.08em;text-transform:none;font-size:11px;color:var(--p)}
-.hb-s.end{gap:8px}
 .bellb{position:relative}.bellb .bdg{position:absolute;top:-2px;inset-inline-end:-2px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#d93636;color:#fff;font:700 11px/18px system-ui,sans-serif;font-style:normal;text-align:center;border:2px solid var(--bg,#fff)}
 .av b{font:700 16px system-ui,sans-serif;color:#fff}
-@media (max-width:400px){.hb-img{height:42px}.hb-s.end{gap:5px}.hb-s.end .rdb{width:38px;height:38px}.hb-s.end .av{width:40px;height:40px}}
+
 /* profile sheet */
 .pf-top{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;margin-bottom:12px}
 .pf-top h2{margin:4px 0 0;font-size:1.15em}
@@ -381,3 +380,14 @@ html[dir=rtl] .pf-menu button>.ic:last-child{transform:scaleX(-1)}
 .lvt.lv1 b{color:#15803d}.lvt.lv2 b{color:#b45309}.lvt.lv3 b{color:#c0262d}
 :root[data-theme=dark] .lvt{box-shadow:none}
 .lvt small{white-space:nowrap;font-size:.74em}
+
+/* header fits every phone (owner, 28 Nov 2026: «up there is some distortion» — the profile circle was squeezed into an oval at the edge):
+   sides take only what they need, the logo shrinks to fit the middle, round buttons never shrink */
+.hb{grid-template-columns:auto minmax(0,1fr) auto!important;gap:calc(8*var(--u))!important}
+.hb-logo{min-width:0;align-items:center}
+.hb-img{height:calc(46*var(--u));max-width:100%;object-fit:contain}
+.hb-s.end{gap:calc(8*var(--u))!important}
+.hb-s.end .rdb,.hb-s.end .av{flex:none;aspect-ratio:1}
+.hb-s.end .rdb{width:calc(38*var(--u));height:calc(38*var(--u))}
+.hb-s.end .av{width:calc(42*var(--u));height:calc(42*var(--u))}
+.hb-logo .hb-sub{font-size:calc(11.5*var(--u)*var(--fs));letter-spacing:.06em;margin:0;white-space:nowrap}
