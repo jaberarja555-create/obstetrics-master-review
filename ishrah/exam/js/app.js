@@ -381,8 +381,7 @@
         'Try ' + E.questions.length + ' questions. Subscribe to unlock ' + ntotal().toLocaleString('en') + ' questions, explanations, mock exam and progress.') + '</p>' +
       (PENDING ? '<span class="sb-pend">' + ic('timer') + A('إيصالك قيد المراجعة…', 'Your receipt is under review…') + '</span>'
         : '<div class="sb-acts"><button class="btn pri" data-act="subscribe">' + ic('bolt') + A('اشترك', 'Subscribe') + '</button>' +
-          '<button class="btn gh" data-act="recheck">' + A('التحقق من الاشتراك', 'Check subscription') + '</button></div>') +
-      (PRICE ? '<p class="prev-price">' + A('الاشتراك: ', 'Subscription: ') + money(PRICE) + A(' · دفعة واحدة', ' · one-time') + '</p>' : '') + '</div>';
+          '<button class="btn gh" data-act="recheck">' + A('التحقق من الاشتراك', 'Check subscription') + '</button></div>') + '</div>';
   }
   function lockedScreen() {
     return '<section class="hero" style="margin-top:20px"><small>SMRA</small><h2>' + A('امتحان البرمننت', 'Permanent Exam') + '</h2><i class="hero-bar"></i>' +
