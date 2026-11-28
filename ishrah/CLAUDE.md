@@ -1845,3 +1845,11 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
 - **The exam key is not stored yet** (deploy log 28 Nov 2026: «permanent exam: key stored: false»): nobody, the owner included, can open the full
   bank until the owner runs the one `insert into exam_cfg …` line (Supabase SQL editor) that the other account's session holds (build/exam.key).
 - CSS: the app loads generated `css/*.pv.css` — after editing `css/mr.css` or `css/app.css` run `python3 tools/ishrah/palettes.py`.
+- **Permanent Exam header, profile and notifications (owner, 28 Nov 2026):** header = menu · SMRA logo (`exam/img/logo-smra.webp`, 480 px copy
+  of img/mr/logo-smra.webp, in the exam's offline list) with «Permanent Exam» under it · look · bell (red count) · profile picture. Profile sheet:
+  picture (tap to change), name, phone «تراه الإدارة فقط», email, subscription state with end date, Save, then rows: appearance/colour/language,
+  notifications and sound, subscribe/renew, check subscription, progress. Saving posts `{exam:'profile', name, phone, photo}` to the platform
+  (examapp.js `saveProfile`: profiles name/phone, photo to the media bucket). Notifications: the platform sends `{exam:'notes', list}` (House
+  Officer section notices `cat='house'` + the student's own) on opening, from the bell and every 40 s while the exam is in front; the exam plays its
+  own sound (the platform's cannot play behind the frame) unless switched off (`ex-snd-off`); seen up to `ex-nseen`; a tap opens the item in the
+  platform (`{exam:'go'}`). Test page: scratchpad prev5/p.html + pf.js.

@@ -16,6 +16,7 @@
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>', back: '<path d="m15 6-6 6 6 6"/>', fwd: '<path d="m9 6 6 6-6 6"/>', chv: '<path d="m9 6 6 6-6 6"/>',
     sun: '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/>',
     moon: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>', eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/>', cam: '<path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>', phone: '<path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/>', out: '<path d="M14 4h5v16h-5"/><path d="M10 8l-4 4 4 4M6 12h10"/>',
     user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>', home: '<path d="M4 11 12 4l8 7v9H4z"/>', list: '<path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/>',
     play: '<path d="M7 5v14l11-7z"/>', timer: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/>', chart: '<path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/>',
     flask: '<path d="M9 3h6M10 3v6l-5 8a2 2 0 0 0 1.8 3h10.4A2 2 0 0 0 19 17l-5-8V3"/>', book: '<path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 3v18"/>',
@@ -61,9 +62,10 @@
   function head(title, sub, back) {
     var th = theme();
     $('#hb').innerHTML = '<div class="hb-s"><button class="hbm" data-act="menu" aria-label="Menu">' + ic('menu') + '</button></div>' +
-      '<div class="hb-logo"><span class="hb-tag"><i></i><b>SMRA EXAM</b><i></i></span><span class="hb-sub">Permanent</span></div>' +
+      '<div class="hb-logo"><img class="hb-img" src="img/logo-smra.webp" alt="SMRA" width="480" height="172" decoding="async"><span class="hb-sub">Permanent Exam</span></div>' +
       '<div class="hb-s end"><button class="rdb" data-act="theme" aria-label="Look">' + ic(th === 'dark' ? 'moon' : th === 'eye' ? 'eye' : 'sun') + '</button>' +
-      '<button class="av" data-act="settings" aria-label="Settings">' + ic('user') + '</button></div>';
+      '<button class="rdb bellb" data-act="notes" aria-label="' + A('الإشعارات', 'Notifications') + '">' + ic('bell') + (unread() ? '<i class="bdg">' + Math.min(unread(), 9) + '</i>' : '') + '</button>' +
+      '<button class="av" data-act="profile" aria-label="' + A('الملف الشخصي', 'Profile') + '">' + avatar() + '</button></div>';
     var r = route()[0] || 'home';
     var nav = [['home', 'home', 'الرئيسية', 'Home'], ['exams', 'list', 'الامتحانات', 'Exams'], ['progress', 'chart', 'تقدمي', 'Progress'], ['more', 'layers', 'المزيد', 'More']];
     $('#bn').innerHTML = nav.map(function (n) {
@@ -388,6 +390,10 @@
   /* ---------- actions ---------- */
   var ACT = {
     menu: function () { go('more'); }, settings: settings, theme: cycleTheme, shclose: closeSheet,
+    profile: function () { profileSheet(); }, notes: function () { notesSheet(); toParent({ exam: 'notes' }); },
+    sndtog: function () { try { localStorage.setItem('ex-snd-off', JSON.stringify(soundOn() ? 1 : 0)); } catch (e) {} if (soundOn()) chime(); notesSheet(); },
+    nopen: function (el) { closeSheet(); if (el.dataset.l) toParent({ exam: 'go', link: el.dataset.l }); },
+    signin: function () { closeSheet(); toParent({ exam: 'login' }); }, goprog: function () { closeSheet(); go('progress'); },
     back: function () { if (history.length > 1) history.back(); else go('home'); },
     mock: function () { openStart('mock', ''); },
     start: function (el) { openStart(el.dataset.k, el.dataset.i || ''); },
@@ -456,6 +462,77 @@
           '<button class="btn pri wide" data-act="subscribe" style="margin-top:12px">' + ic('bolt') + A('اشترك الآن', 'Subscribe now') + (PRICE ? ' · ' + A('من ', 'from ') + money(PRICE) : '') + '</button>' +
           '<button class="btn gh wide" data-act="recheck" style="margin-top:8px">' + A('لقد اشتركت — تحقّق', 'I subscribed — check') + '</button>') + '</section>';
   }
+  /* ---------- profile, notifications (owner, 28 Nov 2026) ---------- */
+  var ME = null, NOTES = null;
+  function avatar() {
+    if (ME && ME.photo) return '<img src="' + esc(ME.photo) + '" alt="">';
+    var n = ME && ME.name ? ME.name.trim().split(/\s+/).map(function (w) { return w[0]; }).slice(0, 2).join('').toUpperCase() : '';
+    return n ? '<b>' + esc(n) + '</b>' : ic('user');
+  }
+  function seenAt() { return get2('ex-nseen', ''); }
+  function unread() { var s = seenAt(); return (NOTES || []).filter(function (n) { return String(n.at) > s; }).length; }
+  function soundOn() { return !get2('ex-snd-off', 0); }
+  var AC = null;
+  document.addEventListener('pointerdown', function () { try { if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); } catch (e) {} }, { passive: true });
+  function chime() {
+    if (!soundOn() || !AC) return;
+    try { var t = AC.currentTime; [784, 1047, 1319].forEach(function (f, i) { var o = AC.createOscillator(), g = AC.createGain(), s = t + i * 0.14; o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, s); g.gain.exponentialRampToValueAtTime(0.25, s + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, s + 0.4); o.connect(g); g.connect(AC.destination); o.start(s); o.stop(s + 0.45); });
+      if (navigator.vibrate) navigator.vibrate(60); } catch (e) {}
+  }
+  function gotNotes(list) {
+    var first = NOTES === null, known = {}; (NOTES || []).forEach(function (n) { known[n.id] = 1; });
+    var fresh = first ? [] : list.filter(function (n) { return !known[n.id] && String(n.at) > seenAt(); });
+    NOTES = list;
+    if (fresh.length) { chime(); toast('🔔 ' + fresh[0].t + (fresh.length > 1 ? ' (+' + (fresh.length - 1) + ')' : '')); }
+    var b = document.querySelector('.bellb'); if (b) { var c = unread(), i = b.querySelector('.bdg'); if (c) { if (!i) { i = document.createElement('i'); i.className = 'bdg'; b.appendChild(i); } i.textContent = Math.min(c, 9); } else if (i) i.remove(); }
+    if (document.querySelector('#sheet:not([hidden]) .nlist')) notesSheet();
+  }
+  function ago(at) {
+    var m = Math.max(1, Math.round((Date.now() - new Date(at)) / 60000));
+    return m < 60 ? A('قبل ' + m + ' د', m + ' min ago') : m < 1440 ? A('قبل ' + Math.round(m / 60) + ' س', Math.round(m / 60) + ' h ago') : new Date(at).toLocaleDateString(A('ar-EG', 'en-GB'), { day: 'numeric', month: 'short' });
+  }
+  function notesSheet() {
+    var s = seenAt(), list = NOTES || [];
+    sheet('<div class="sh-head"><h2 class="ch2">' + ic('bell') + A('الإشعارات', 'Notifications') + '</h2><button class="snd ' + (soundOn() ? 'on' : '') + '" data-act="sndtog">' + A(soundOn() ? '🔔 الصوت مفعّل' : '🔕 الصوت متوقف', soundOn() ? '🔔 Sound on' : '🔕 Sound off') + '</button></div>' +
+      '<p class="nsub">' + A('جديد طبيب الامتياز وإشعاراتك الخاصة', 'House Officer news and your own notifications') + '</p>' +
+      (NOTES === null ? '<p class="nempty">' + A('جارٍ التحميل…', 'Loading…') + '</p>' : list.length ? '<div class="nlist">' + list.map(function (n) {
+        return '<button class="nitem' + (String(n.at) > s ? ' new' : '') + '" data-act="nopen" data-l="' + esc(n.link) + '"><span class="ndot"></span><span class="ntx"><b dir="auto">' + esc(n.t) + '</b>' +
+          (n.b ? '<span dir="auto">' + esc(n.b) + '</span>' : '') + '<small>' + ago(n.at) + '</small></span></button>';
+      }).join('') + '</div>' : '<p class="nempty">' + A('لا توجد إشعارات بعد.', 'No notifications yet.') + '</p>'));
+    if (list[0]) { try { localStorage.setItem('ex-nseen', JSON.stringify(String(list[0].at))); } catch (e) {} }
+    var b = document.querySelector('.bellb .bdg'); if (b) b.remove();
+  }
+  function profileSheet() {
+    if (!ME) {
+      sheet('<div class="pf-top">' + '<span class="av big">' + ic('user') + '</span><h2>' + A('لم تسجّل الدخول', 'You are not signed in') + '</h2><p class="nsub">' + A('سجّل الدخول لحفظ ملفك واشتراكك.', 'Sign in to keep your profile and subscription.') + '</p>' +
+        '<button class="btn pri wide" data-act="signin">' + A('تسجيل الدخول', 'Sign in') + '</button></div>' + menuRows());
+      return;
+    }
+    var until = SUB.expires ? new Date(SUB.expires).toLocaleDateString(A('ar-EG', 'en-GB'), { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+    var subTxt = !LOCKED ? (until ? A('مشترك حتى ' + until, 'Subscribed until ' + until) : A('مشترك', 'Subscribed')) : PENDING ? A('إيصالك قيد المراجعة', 'Receipt under review') : A('غير مشترك', 'Not subscribed');
+    sheet('<form class="pf" data-form="pf"><div class="pf-top"><label class="av big pf-av">' + avatar() + '<span class="pf-cam">' + ic('cam') + '</span><input type="file" accept="image/*" id="pfPhoto" hidden></label>' +
+      '<h2 dir="auto">' + esc(ME.name || '') + '</h2><span class="pf-sub ' + (!LOCKED ? 'ok' : '') + '">' + ic(!LOCKED ? 'checkc' : 'crown') + subTxt + '</span></div>' +
+      '<label class="pf-f"><span>' + A('الاسم', 'Name') + '</span><input name="name" value="' + esc(ME.name || '') + '" maxlength="80" dir="auto" required></label>' +
+      '<label class="pf-f"><span>' + A('رقم الهاتف', 'Phone number') + ' <em>' + ic('lock') + A('تراه الإدارة فقط', 'Seen only by the admins') + '</em></span><input name="phone" value="' + esc(ME.phone || '') + '" inputmode="tel" dir="ltr" placeholder="09…"></label>' +
+      (ME.email ? '<p class="pf-mail" dir="ltr">' + esc(ME.email) + '</p>' : '') +
+      '<button class="btn pri wide" type="submit">' + A('حفظ', 'Save') + '</button></form>' + menuRows());
+    var fi = document.getElementById('pfPhoto');
+    if (fi) fi.onchange = function () { var f = fi.files[0]; if (!f || !/^image\//.test(f.type)) return; var r = new FileReader(); r.onload = function () { PHOTO = r.result; var a = document.querySelector('.pf-av'); if (a) a.innerHTML = '<img src="' + PHOTO + '" alt=""><span class="pf-cam">' + ic('cam') + '</span>'; }; r.readAsDataURL(f); };
+  }
+  var PHOTO = '', SUB = {};
+  function menuRows() {
+    var rows = [['palette', A('المظهر والألوان واللغة', 'Appearance, colour and language'), 'settings'], ['bell', A('الإشعارات والصوت', 'Notifications and sound'), 'notes'],
+      ['crown', LOCKED ? A('الاشتراك', 'Subscribe') : A('تجديد الاشتراك', 'Renew subscription'), 'subscribe'], ['checkc', A('التحقق من الاشتراك', 'Check subscription'), 'recheck'], ['chart', A('تقدّمي', 'My progress'), 'goprog']];
+    return '<div class="pf-menu">' + rows.map(function (r) { return '<button data-act="' + r[2] + '">' + ic(r[0]) + '<span>' + r[1] + '</span>' + ic('chv') + '</button>'; }).join('') + '</div>';
+  }
+  document.addEventListener('submit', function (e) {
+    var f = e.target; if (!f.matches || !f.matches('form[data-form="pf"]')) return; e.preventDefault();
+    var b = f.querySelector('button[type=submit]'); b.disabled = true; b.textContent = A('جارٍ الحفظ…', 'Saving…');
+    SAVING = true; (window.parent && window.parent !== window ? window.parent : window).postMessage({ exam: 'profile', name: f.elements.name.value, phone: f.elements.phone.value, photo: PHOTO }, '*');
+    setTimeout(function () { if (SAVING) { SAVING = false; b.disabled = false; b.textContent = A('حفظ', 'Save'); toast(A('تعذّر الحفظ الآن. تأكد من الاتصال.', 'Could not save now. Check your connection.')); } }, 20000);
+  });
+  var SAVING = false;
   function askParent() { try { (window.parent && window.parent !== window ? window.parent : window.top).postMessage({ exam: 'key' }, '*'); } catch (e) {} }
   var RECHK = false, RECHK_T = 0;
   var WHY = {
@@ -468,6 +545,8 @@
     error: ['تعذّر التحقق الآن. حاول مرة أخرى بعد قليل.', 'Could not check now. Try again in a moment.']
   };
   function applyState(s) {
+    ME = s.me || null; SUB = { plan: s.plan, expires: s.expires };
+    if (SAVING) { SAVING = false; PHOTO = ''; toast(s.saved ? A('حُفظ ملفك', 'Your profile was saved') : s.err === 'phone' ? A('رقم الهاتف غير صحيح', 'The phone number is not valid') : A('تعذّر الحفظ. حاول مرة أخرى.', 'Could not save. Try again.')); if (s.saved) closeSheet(); }
     var asked = RECHK; RECHK = false; clearTimeout(RECHK_T);
     if (asked && !s.key && WHY[s.why]) toast(A(WHY[s.why][0], WHY[s.why][1]));
     if (asked && s.key) { var until = s.expires ? new Date(s.expires).toLocaleDateString(A('ar-EG', 'en-GB'), { day: 'numeric', month: 'long', year: 'numeric' }) : '';
@@ -488,7 +567,9 @@
       LOCKED = false; render();
     } catch (e) { LOCKED = true; if (!E.questions.length && window.EXAM_SAMPLE) setData(window.EXAM_SAMPLE); render(); }
   }
-  window.addEventListener('message', function (ev) { var d = ev.data; if (d && d.exam === 'state') applyState(d); });
+  window.addEventListener('message', function (ev) { var d = ev.data; if (d && d.exam === 'state') applyState(d); if (d && d.exam === 'notes') gotNotes(d.list || []); });
+  function toParent(m) { try { (window.parent && window.parent !== window ? window.parent : window.top).postMessage(m, '*'); } catch (e) {} }
+  if (window.parent && window.parent !== window) { setTimeout(function () { toParent({ exam: 'notes' }); }, 1500); }
 
   /* ---------- boot ---------- */
   if (window.EXAM && (window.EXAM.questions || []).length) { render(); }   /* dev / local: full bank bundled */

@@ -331,3 +331,34 @@ main{padding:calc(4*var(--u)) calc(15*var(--u)) calc(16*var(--u))}
 .bn button.on{background:var(--m-btn);color:#fff;font-weight:700;box-shadow:0 calc(6*var(--u)) calc(14*var(--u)) var(--m-btnsh)}
 
 .sb-from{margin:6px 0 0;font-size:12.5px;color:inherit;opacity:.9}
+
+/* header: SMRA logo with «Permanent Exam» under it; bell with a count; profile picture (owner, 28 Nov 2026) */
+.hb-img{height:48px;width:auto;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.12))}
+.hb-logo .hb-sub{letter-spacing:.08em;text-transform:none;font-size:11px;color:var(--p)}
+.hb-s.end{gap:8px}
+.bellb{position:relative}.bellb .bdg{position:absolute;top:-2px;inset-inline-end:-2px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#d93636;color:#fff;font:700 11px/18px system-ui,sans-serif;font-style:normal;text-align:center;border:2px solid var(--bg,#fff)}
+.av b{font:700 16px system-ui,sans-serif;color:#fff}
+@media (max-width:400px){.hb-img{height:42px}.hb-s.end{gap:5px}.hb-s.end .rdb{width:38px;height:38px}.hb-s.end .av{width:40px;height:40px}}
+/* profile sheet */
+.pf-top{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;margin-bottom:12px}
+.pf-top h2{margin:4px 0 0;font-size:1.15em}
+.pf-av{position:relative;cursor:pointer;overflow:visible}.pf-av img{border-radius:50%}
+.pf-cam{position:absolute;bottom:-2px;inset-inline-end:-2px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--acc);color:#fff;border:2px solid #fff}.pf-cam .ic{width:16px;height:16px}
+.pf-sub{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:999px;background:var(--soft);color:var(--mut);font-size:.85em;font-weight:600}.pf-sub.ok{color:#137a4d;background:#e3f5ec}.pf-sub .ic{width:15px;height:15px}
+.pf-f{display:flex;flex-direction:column;gap:5px;margin:10px 0}.pf-f span{font-weight:600;font-size:.9em;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.pf-f em{font-style:normal;font-weight:500;font-size:.8em;color:var(--mut);display:inline-flex;align-items:center;gap:3px}.pf-f em .ic{width:12px;height:12px}
+.pf-f input{height:46px;border-radius:12px;border:1.5px solid var(--line,#d6dbe6);padding:0 12px;font:inherit;background:var(--card,#fff);color:inherit}
+.pf-mail{margin:-2px 0 10px;color:var(--mut);font-size:.85em;text-align:center}
+.pf-menu{margin-top:16px;border-radius:16px;overflow:hidden;border:1px solid var(--line,#e3e6ee)}
+.pf-menu button{display:flex;align-items:center;gap:12px;width:100%;padding:14px;background:var(--card,#fff);border:0;border-bottom:1px solid var(--line,#eef0f5);font:inherit;color:inherit;text-align:start}
+.pf-menu button:last-child{border-bottom:0}.pf-menu button>span{flex:1;font-weight:600}.pf-menu button>.ic:first-child{color:var(--p)}.pf-menu button>.ic:last-child{opacity:.5;width:16px}
+html[dir=rtl] .pf-menu button>.ic:last-child{transform:scaleX(-1)}
+/* notifications sheet */
+.sh-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.sh-head .ch2{margin:0}
+.snd{border:1.5px solid var(--line,#d6dbe6);background:var(--card,#fff);border-radius:999px;padding:6px 12px;font:600 12px system-ui,sans-serif;color:var(--mut)}.snd.on{color:var(--p);border-color:var(--p)}
+.nsub{color:var(--mut);font-size:.85em;margin:6px 0 10px}
+.nlist{display:flex;flex-direction:column;gap:8px}
+.nitem{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:start;padding:12px;border-radius:14px;border:1px solid var(--line,#e3e6ee);background:var(--card,#fff);font:inherit;color:inherit}
+.nitem .ndot{width:9px;height:9px;border-radius:50%;margin-top:6px;flex:none;background:transparent}.nitem.new .ndot{background:#d93636}.nitem.new{background:var(--soft)}
+.ntx{display:flex;flex-direction:column;gap:3px;min-width:0}.ntx b{font-size:.95em}.ntx span{font-size:.85em;color:var(--mut)}.ntx small{font-size:.75em;color:var(--mut)}
+.nempty{text-align:center;color:var(--mut);padding:24px 0}

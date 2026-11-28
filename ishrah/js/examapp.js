@@ -3,7 +3,7 @@
    handle, from the House Officer section, the books shelf and Features — exactly like the HO Guide. */
 (function () {
   var A = IS.A, esc = IS.esc, ic = IS.ic;
-  var EXV = '9';   /* bump with exam/sw.js C so a page that kept the frame loads the new version */
+  var EXV = '10';   /* bump with exam/sw.js C so a page that kept the frame loads the new version */
   var FR = null, FROM = /^#exam\b/.test(location.hash) ? '' : location.hash.slice(1);
   function host() { var h = document.getElementById('ex-host'); if (!h) { h = document.createElement('div'); h.id = 'ex-host'; h.hidden = true; document.body.appendChild(h); } return h; }
   function show() {
@@ -42,6 +42,7 @@
     PLANS = st.plans || PLANS;
     return { exam: 'state', key: key, why: why, open: !!st.open, price: st.price || 0, pending: !!st.pending, plans: PLANS, plan: st.plan || null,
       expires: st.expires || null, pendingPlan: st.pending_plan || null,
+      me: IS.ME ? { name: IS.ME.name || '', phone: IS.ME.phone || '', photo: IS.ME.photo ? IS.U(IS.ME.photo) : '', email: IS.ME.email || '' } : null,
       bankak: (IS.SET && IS.SET.bankak_account) ? { account: IS.SET.bankak_account, name: IS.SET.bankak_name } : null,
       name: (IS.ME && IS.ME.name) || '' };
   }
@@ -50,7 +51,48 @@
     var d = ev.data; if (!d || d.exam == null) return;
     if (d.exam === 'key') { examState().then(function (s) { try { FR.contentWindow.postMessage(s, '*'); } catch (e) {} }); return; }
     if (d.exam === 'buy') { openPlans(); return; }
+    if (d.exam === 'login') { hide(); EXSHEET = true; if (IS.ACT.login) IS.ACT.login(); return; }
+    if (d.exam === 'notes') { sendNotes(); return; }
+    if (d.exam === 'go' && d.link) { hide(); IS.go(String(d.link).replace(/^#/, '')); return; }
+    if (d.exam === 'profile') { saveProfile(d); return; }
   });
+
+  /* ---- profile from inside the exam (owner, 28 Nov 2026: «name, profile picture, phone number that will be seen by admins») ----
+     The exam frame sends {exam:'profile', name, phone, photo?(data URL)}; saved on the account (profiles), so admins see the phone in Control. */
+  async function saveProfile(d) {
+    var ok = true, msg = '';
+    try {
+      if (!IS.ME) throw new Error('signin');
+      var patch = {}, name = String(d.name || '').trim().slice(0, 80), phone = String(d.phone || '').replace(/[^\d+]/g, '').slice(0, 16);
+      if (name && name !== IS.ME.name) patch.name = name;
+      if (phone !== (IS.ME.phone || '')) { if (phone && phone.replace(/\D/g, '').length < 9) throw new Error('phone'); patch.phone = phone; }
+      if (d.photo && /^data:image\//.test(d.photo)) {
+        var blob = await (await fetch(d.photo)).blob();
+        patch.photo = await DB.upload('media', await IS.shrink(new File([blob], 'me.jpg', { type: blob.type || 'image/jpeg' }), 480, 0.85));
+      }
+      if (Object.keys(patch).length) { await DB.upd('profiles', IS.ME.id, patch); if (DB.forget) DB.forget(); await IS.loadMe(); }
+    } catch (e) { ok = false; msg = e.message === 'phone' ? 'phone' : e.message === 'signin' ? 'signin' : 'error'; }
+    try { var s = await examState(); s.saved = ok ? 1 : 0; s.err = msg; FR.contentWindow.postMessage(s, '*'); } catch (e) {}
+  }
+
+  /* ---- notifications for the exam: House Officer news and the student's own (payment approved…), with the exam's own sound,
+     because the platform's sound cannot play while the exam frame is in front (taps inside the frame do not unlock the platform's audio) ---- */
+  async function sendNotes() {
+    if (!FR) return;
+    var list = [];
+    try {
+      if (IS.ME && (!DB.live || navigator.onLine)) {
+        var rows = (await DB.q('notices', { order: ['created_at', false], limit: 80 })).filter(function (x) {
+          if (x.actor === IS.ME.id) return false;
+          if (x.user_id) return x.user_id === IS.ME.id;
+          return x.cat === 'house' && (x.status !== 'suspended');
+        }).slice(0, 30);
+        list = rows.map(function (x) { return { id: x.id, t: IS.noticeTitle ? IS.noticeTitle(x) : (x.title || ''), b: String(x.body || '').slice(0, 220), at: x.created_at, link: x.link || '' }; });
+      }
+    } catch (e) {}
+    try { FR.contentWindow.postMessage({ exam: 'notes', list: list }, '*'); } catch (e) {}
+  }
+  setInterval(function () { var h = document.getElementById('ex-host'); if (FR && h && !h.hidden && document.visibilityState === 'visible') sendNotes(); }, 40000);
 
   /* ---- Subscription with plans, like the books (owner, 28 Nov 2026: «monthly 20,000 SDG, 3 months 50, 1 year 100, lifetime 200»).
      Prices come from the server (ish_exam_state.plans, migration 070); these are only the fallback for the preview. The window opens over the
