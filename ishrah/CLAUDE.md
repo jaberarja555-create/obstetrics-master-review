@@ -1766,3 +1766,10 @@ studentmasterreview.com with HTTP/3 off). Now:
   preparation the amount is measured from and the same dose in the other syrup (`fromForm`, `.pr-from`; under 1 year the weaker syrup,
   `prefForm`, also in the ⓘ sheet). A newborn on a children's plan (condition not in sys 'neo') gets a note at the top, and each drug with no
   newborn dose (`neoOK` false) is marked «child dose, no separate newborn dose: check with your senior». Guide v22.
+- **Investigations are pick lists that drive diagnosis and plan (owner, 28 Nov 2026):** ho/js/app.js `FIND` = findings per test (urine
+  general, stool general, chest X-ray, ultrasound, echocardiography): [id, English, Arabic, {condition: weight}, what to do, page]; chips on
+  the Patient page (`ACT.fnd`, «Normal» clears the rest, stored `P.fnd[test]`; a text box keeps any other finding in `P.lab[test]`); chip
+  labels are English in both languages. `labFacts` turns numbers (Hb, WBC, platelets, Na, K, RBG, CRP, urea/creatinine, malaria, bilirubin,
+  ALT, albumin) into the same facts. Uses: «What the results suggest» under the results (`invSuggest`: ranked conditions + what to do);
+  Diagnose adds the results to the symptom score (`INV`, 🧪 lines); the plan page «Your results» (`resCard`: chips, which support this
+  diagnosis, «results point more to X» when another condition scores ≥ 3 and ≥ twice this one, what to do with links). Guide v23.

@@ -92,9 +92,9 @@
   function toPlatform(hash) { try { if (INFRAME) { window.top.location.hash = hash; return; } } catch (e) {} location.href = '/' + hash; }
 
   /* ---------- patient ---------- */
-  var BLANK = { name: '', ay: '', am: '', ad: '', sex: '', wt: '', ht: '', set: 'op', dx: '', course: 'acute', dur: '', durU: 'd', allergy: [], allergyTxt: '', cond: [], notes: '', lab: {} };
-  function fresh() { return Object.assign({}, BLANK, { allergy: [], cond: [], lab: {} }); }
-  var P = Object.assign(fresh(), get('ho-pt', {})); P.allergy = P.allergy || []; P.cond = P.cond || []; P.lab = P.lab || {};
+  var BLANK = { name: '', ay: '', am: '', ad: '', sex: '', wt: '', ht: '', set: 'op', dx: '', course: 'acute', dur: '', durU: 'd', allergy: [], allergyTxt: '', cond: [], notes: '', lab: {}, fnd: {} };
+  function fresh() { return Object.assign({}, BLANK, { allergy: [], cond: [], lab: {}, fnd: {} }); }
+  var P = Object.assign(fresh(), get('ho-pt', {})); P.allergy = P.allergy || []; P.cond = P.cond || []; P.lab = P.lab || {}; P.fnd = P.fnd || {};
   if (P.na && !P.lab.na) P.lab.na = P.na; if (P.k && !P.lab.k) P.lab.k = P.k;
   function savePt() { P.na = P.lab.na || ''; P.k = P.lab.k || ''; put('ho-pt', P); }
   function hasAge() { return +P.ay > 0 || +P.am > 0 || +P.ad > 0; }
@@ -119,15 +119,120 @@
     ['Electrolytes & kidney', 'kidney', [['na', 'Na', 'mmol/L', 135, 145], ['k', 'K', 'mmol/L', 3.5, 5.5], ['ca', 'Ca', 'mg/dL', 8.5, 10.5], ['urea', 'Urea', 'mg/dL', null, 40], ['cr', 'Creatinine', 'mg/dL', null, 1.2]]],
     ['Glucose & infection', 'flask', [['rbg', 'RBG', 'mg/dL', 54, 200], ['crp', 'CRP', 'mg/L', null, 10], ['esr', 'ESR', 'mm/h', null, 20], ['mal', 'Malaria (BFFM / MAT)', 'sel', ['', 'Positive', 'Negative']]]],
     ['Liver', 'gut', [['tsb', 'Total bilirubin', 'mg/dL', null, 1.2], ['dsb', 'Direct bilirubin', 'mg/dL', null, 0.3], ['alt', 'ALT', 'U/L', null, 45], ['alb', 'Albumin', 'g/dL', 3.5, null]]],
-    ['Urine & stool', 'drop', [['ug', 'Urine general', 'txt'], ['sg', 'Stool general', 'txt']]],
-    ['Imaging', 'eye', [['cxr', 'Chest X-ray', 'txt'], ['us', 'Ultrasound', 'txt'], ['img', 'Other imaging', 'txt']]],
+    ['Urine & stool', 'drop', [['ug', 'Urine general', 'fnd'], ['sg', 'Stool general', 'fnd']]],
+    ['Imaging', 'eye', [['cxr', 'Chest X-ray', 'fnd'], ['us', 'Ultrasound', 'fnd'], ['echo', 'Echocardiography', 'fnd'], ['img', 'Other imaging', 'txt']]],
     ['Other tests', 'list', [['oth', 'Other results', 'txt']]]
   ];
   function labFlag(f, v) { if (v === '' || v == null || isNaN(+v)) return ''; v = +v; if (f[3] != null && v < f[3]) return 'lo'; if (f[4] != null && v > f[4]) return 'hi'; return 'ok'; }
   function labsEntered() {
     var out = [];
-    LABS.forEach(function (g) { g[2].forEach(function (f) { var v = P.lab[f[0]]; if (v === '' || v == null) return; out.push({ f: f, v: v, flag: f[2] === 'txt' || f[2] === 'sel' ? (v === 'Positive' ? 'hi' : '') : labFlag(f, v) }); }); });
+    LABS.forEach(function (g) { g[2].forEach(function (f) { if (f[2] === 'fnd') { if ((P.fnd[f[0]] || []).length) out.push({ f: f, v: P.fnd[f[0]].join(', '), flag: '' }); if (!P.lab[f[0]]) return; } var v = P.lab[f[0]]; if (v === '' || v == null) return; out.push({ f: f, v: v, flag: f[2] === 'txt' || f[2] === 'sel' ? (v === 'Positive' ? 'hi' : '') : labFlag(f, v) }); }); });
     return out;
+  }
+
+  /* ---------- investigation findings (owner, 28 Nov 2026: "a list to pick from … the app will consider these investigations to help with the
+     diagnosis or management plan, not just as useless info"). Each finding: [id, English, Arabic, {condition: weight 1–3}, what to do, page] ---------- */
+  var FIND = {
+    ug: [['normal', 'Normal', 'طبيعي', {}],
+      ['pus', 'Pus cells > 5/HPF', 'صديد > 5', { uti: 3 }, 'Send a urine culture before the first antibiotic dose.', 'c/uti'],
+      ['nitrite', 'Nitrite positive', 'نيتريت موجب', { uti: 3 }, 'Nitrite is specific for a urinary infection: treat as UTI.', 'c/uti'],
+      ['le', 'Leucocyte esterase positive', 'إستيراز الكريات البيضاء موجب', { uti: 2 }],
+      ['bact', 'Bacteria seen', 'بكتيريا', { uti: 1 }],
+      ['rbc', 'RBCs (haematuria)', 'كريات حمراء', { agn: 2, schisto: 2, uti: 1, hus: 1 }, 'Haematuria: check the blood pressure and look for oedema (nephritis) and a history of contact with river water (schistosomiasis).'],
+      ['casts', 'RBC casts', 'أسطوانات كريات حمراء', { agn: 3 }, 'RBC casts mean glomerulonephritis: blood pressure, urea, creatinine, fluid balance.', 'c/agn'],
+      ['prot3', 'Protein +++ (heavy)', 'بروتين +++', { nephrotic: 3, agn: 1 }, 'Heavy proteinuria: check serum albumin and cholesterol (nephrotic syndrome).', 'c/nephrotic'],
+      ['prot1', 'Protein + / ++', 'بروتين + / ++', { agn: 1, nephrotic: 1, uti: 1 }],
+      ['glu', 'Glucose positive', 'سكر موجب', { dka: 2 }, 'Glucose in the urine: check the blood glucose now.'],
+      ['ket', 'Ketones positive', 'كيتونات موجبة', { dka: 2, ge: 1 }, 'Ketones with high blood glucose = DKA until proven otherwise: blood gas and electrolytes now.', 'c/dka'],
+      ['sh', 'S. haematobium ova', 'بويضات البلهارسيا البولية', { schisto: 3 }, 'Treat schistosomiasis (praziquantel).', 'c/schisto']],
+    sg: [['normal', 'Normal', 'طبيعي', {}],
+      ['pus', 'Pus cells', 'صديد', { dysentery: 2, ge: 1 }],
+      ['rbc', 'RBCs', 'كريات حمراء', { dysentery: 2 }, 'Blood in the stool: treat as dysentery.', 'c/dysentery'],
+      ['troph', 'E. histolytica trophozoites', 'أطوار متحركة للأميبا', { dysentery: 3 }, 'Amoebic dysentery: metronidazole (Dysentery → Amoebic).', 'c/dysentery/amoeba'],
+      ['cyst', 'E. histolytica cysts only', 'أكياس الأميبا فقط', { dysentery: 1 }, 'Cysts alone in a child without bloody diarrhoea may be carriage: treat only if symptomatic.'],
+      ['giardia', 'Giardia', 'جيارديا', { giardia: 3 }, 'Treat giardiasis.', 'c/giardia'],
+      ['ova', 'Worm ova (Ascaris, hookworm, H. nana)', 'بويضات ديدان', { worms: 3, ida: 1 }, 'Deworm (Worms plan); hookworm also causes iron-deficiency anaemia.', 'c/worms'],
+      ['sm', 'S. mansoni ova', 'بويضات البلهارسيا المعوية', { schisto: 3 }, 'Treat schistosomiasis (praziquantel).', 'c/schisto'],
+      ['reducing', 'Reducing substances', 'مواد مختزلة', { ge: 1 }, 'Reducing substances after gastroenteritis: lactose intolerance is likely; it settles with time.']],
+    cxr: [['normal', 'Normal', 'طبيعي', {}],
+      ['lobar', 'Lobar consolidation', 'تصلّب فص', { pneumonia: 3 }, 'Lobar consolidation = bacterial pneumonia: antibiotics.', 'c/pneumonia'],
+      ['patchy', 'Patchy infiltrates (bronchopneumonia)', 'ارتشاحات متفرقة', { pneumonia: 2, bronchiolitis: 1 }],
+      ['hyper', 'Hyperinflation', 'انتفاخ الرئة', { bronchiolitis: 2, asthma: 2, bpwheeze: 2 }],
+      ['effusion', 'Pleural effusion', 'انصباب جنبي', { pneumonia: 2 }, 'Effusion: senior review for a diagnostic tap; pus (empyema) needs a chest drain.'],
+      ['ptx', 'Pneumothorax', 'استرواح صدري', {}, 'Pneumothorax: urgent senior review; a tension pneumothorax needs immediate needle decompression.'],
+      ['cardio', 'Cardiomegaly', 'تضخم القلب', { hf: 3, myocarditis: 2, rhd: 2, rf: 1 }, 'Cardiomegaly: echocardiography and ECG.'],
+      ['oedema', 'Pulmonary oedema / plethora', 'وذمة رئوية', { hf: 3 }, 'Pulmonary oedema: furosemide and fluid restriction (Heart failure plan).', 'c/hf'],
+      ['rds', 'Ground-glass, air bronchogram (newborn)', 'زجاج مصنفر عند حديث الولادة', { rdsneo: 3 }, 'Respiratory distress syndrome: oxygen or CPAP.', 'c/rdsneo'],
+      ['kero', 'Basal shadowing after kerosene', 'ظلال قاعدية بعد الكيروسين', { kerosene: 3 }, 'Chemical pneumonitis: no vomiting, no gastric lavage.', 'c/kerosene']],
+    us: [['normal', 'Normal', 'طبيعي', {}],
+      ['hepato', 'Hepatomegaly', 'تضخم الكبد', { hepatitis: 1, hf: 1, malaria: 1 }],
+      ['spleno', 'Splenomegaly', 'تضخم الطحال', { malaria: 2, scdother: 1 }],
+      ['ascites', 'Ascites', 'استسقاء', { nephrotic: 2 }],
+      ['kidneys', 'Enlarged echogenic kidneys', 'كلى متضخمة شديدة الصدى', { agn: 1, nephrotic: 1, aki: 1, hus: 1 }],
+      ['hydro', 'Hydronephrosis', 'استسقاء الكلى', { uti: 1 }, 'Hydronephrosis: treat the infection, then refer to paediatric surgery/urology.'],
+      ['bladder', 'Bladder wall thickening / polyps', 'سماكة جدار المثانة', { schisto: 2 }],
+      ['target', 'Target sign (intussusception)', 'علامة الهدف (انغلاف)', {}, 'Intussusception is a surgical emergency: nil by mouth, IV fluids, urgent surgical referral.'],
+      ['ivh', 'Intraventricular haemorrhage (cranial US)', 'نزف داخل البطين', { ivh: 3 }, 'IVH: measure the head circumference daily; senior review.', 'c/ivh'],
+      ['lymph', 'Enlarged lymph nodes / abscess', 'غدد متضخمة أو خراج', { lymphadenitis: 2 }]],
+    echo: [['normal', 'Normal', 'طبيعي', {}],
+      ['dilated', 'Dilated left ventricle, poor function', 'توسع البطين وضعف الانقباض', { myocarditis: 3, hf: 2 }, 'Poor function: heart failure treatment; avoid fluid boluses.', 'c/hf'],
+      ['valve', 'Mitral/aortic valve disease', 'مرض الصمام', { rhd: 3, rf: 2 }, 'Valve disease: rheumatic heart disease; secondary prophylaxis with benzathine penicillin.', 'c/rhd'],
+      ['carditis', 'Carditis / new regurgitation', 'التهاب القلب', { rf: 3 }, 'Acute rheumatic fever with carditis.', 'c/rf'],
+      ['veg', 'Vegetation', 'تنبتات', { ie: 3 }, 'Endocarditis: three blood cultures before antibiotics.', 'c/ie'],
+      ['peric', 'Pericardial effusion', 'انصباب تامور', {}, 'Pericardial effusion: senior/cardiology review; tamponade needs urgent drainage.'],
+      ['chd', 'Congenital heart defect (VSD, PDA …)', 'عيب خلقي في القلب', { hf: 2 }, 'Congenital heart disease: heart failure treatment if symptomatic; refer to paediatric cardiology.']]
+  };
+  /* numbers that change the diagnosis or the plan */
+  function labFacts() {
+    var L = P.lab, n = function (k) { var v = L[k]; return v === '' || v == null || isNaN(+v) ? null : +v; }, out = [], neo = hasAge() && E.isNeo(P);
+    function f(t, dx, note, go) { out.push({ t: t, dx: dx || {}, note: note, go: go }); }
+    var hb = n('hb'); if (hb != null && hb < 5) f('Hb ' + hb + ' g/dL', { ida: 3, sevmalaria: 1 }, 'Hb < 5 g/dL: transfuse (Severe anaemia plan); no IV fluid before the transfusion.', 'c/ida/sev'); else if (hb != null && hb < 10) f('Hb ' + hb + ' g/dL', { ida: 2, malaria: 1 });
+    var wbc = n('wbc'); if (wbc != null && wbc > 15) f('WBC ' + wbc, { pneumonia: 1, uti: 1, neosepsis: neo ? 2 : 0, meningitis: 1 }, 'High WBC supports a bacterial infection.');
+    var plt = n('plt'); if (plt != null && plt < 50) f('Platelets ' + plt, { dengue: 2, sevmalaria: 1, hus: 2 }, 'Platelets < 50: avoid IM injections and NSAIDs (ibuprofen, diclofenac).'); else if (plt != null && plt < 150) f('Platelets ' + plt, { dengue: 1, malaria: 1 });
+    var na = n('na'); if (na != null && na < 130) f('Na ' + na, { ge: 1 }, 'Low sodium: calculate the deficit.', 'calc/na'); if (na != null && na > 150) f('Na ' + na, { hyperna: 3 }, 'High sodium: correct slowly over 48 hours (Hypernatraemia plan).', 'c/hyperna');
+    var k = n('k'); if (k != null && k < 3.5) f('K ' + k, { ge: 1, dka: 1 }, 'Low potassium: potassium correction.', 'calc/k'); if (k != null && k > 5.5) f('K ' + k, { aki: 2 }, 'High potassium: ECG and senior review; stop potassium in the fluids.');
+    var rbg = n('rbg'); if (rbg != null && rbg < 54) f('RBG ' + rbg + ' mg/dL', {}, 'Hypoglycaemia: give dextrose 10% now and recheck in 30 minutes.', 'calc/gir'); if (rbg != null && rbg > 200) f('RBG ' + rbg + ' mg/dL', { dka: 3 }, 'High glucose: check urine ketones and a blood gas (DKA?).', 'c/dka');
+    var crp = n('crp'); if (crp != null && crp > 10) f('CRP ' + crp, { neosepsis: neo ? 2 : 0, pneumonia: 1, uti: 1, septicarth: 1 }, 'Raised CRP supports a bacterial infection.');
+    var ur = n('urea'), cr = n('cr'); if ((ur != null && ur > 40) || (cr != null && cr > 1.2)) f('Urea/creatinine raised', { aki: 3, agn: 1, hus: 2 }, 'Raised urea/creatinine: measure urine output; adjust or avoid kidney-cleared drugs (gentamicin).', 'c/aki');
+    if (L.mal === 'Positive') f('Malaria positive', { malaria: 3, sevmalaria: 2, congmal: neo ? 3 : 0 }, 'Malaria: Severe malaria plan if any danger sign, otherwise oral treatment.', 'c/malaria');
+    var tsb = n('tsb'); if (tsb != null && tsb > (neo ? 5 : 1.2)) f('Bilirubin ' + tsb + ' mg/dL', neo ? { nnj: 3 } : { hepatitis: 2, malaria: 1 }, neo ? 'Plot it on the phototherapy chart for age in hours.' : 'Jaundice: hepatitis or haemolysis.', neo ? 'c/nnj' : 'c/hepatitis');
+    var alt = n('alt'); if (alt != null && alt > 100) f('ALT ' + alt, { hepatitis: 3, dengue: 1 });
+    var alb = n('alb'); if (alb != null && alb < 2.5) f('Albumin ' + alb + ' g/dL', { nephrotic: 2, sam: 1 });
+    return out;
+  }
+  function invFacts() {
+    var out = labFacts();
+    Object.keys(FIND).forEach(function (t) { (P.fnd[t] || []).forEach(function (id) {
+      var x = FIND[t].find(function (y) { return y[0] === id; }); if (x && id !== 'normal') out.push({ t: x[1], ar: x[2], dx: x[3] || {}, note: x[4], go: x[5], test: t });
+    }); });
+    return out;
+  }
+  /* conditions the results point to, strongest first */
+  function invRank() {
+    var sc = {}, why = {};
+    invFacts().forEach(function (f) { Object.keys(f.dx).forEach(function (c) { if (!f.dx[c] || !byId[c]) return; sc[c] = (sc[c] || 0) + f.dx[c]; (why[c] = why[c] || []).push(f.t); }); });
+    return Object.keys(sc).map(function (c) { return { c: byId[c], s: sc[c], why: why[c] }; }).sort(function (a, b) { return b.s - a.s; });
+  }
+  function factList(F) {
+    return F.filter(function (f) { return f.note; }).map(function (f) { return '<div class="ivn"><b dir="ltr">' + esc(f.t) + '</b><span dir="ltr">' + esc(f.note) + '</span>' + (f.go ? '<button class="fp-d go" data-go="' + f.go + '">' + A('افتح', 'Open') + '</button>' : '') + '</div>'; }).join('');
+  }
+  /* «What the results suggest» under the results on the Patient page */
+  function invSuggest() {
+    var F = invFacts(); if (!F.length) return '';
+    var R = invRank().slice(0, 4);
+    return '<section class="card ivs"><h3 class="fp-h">' + ic('flask') + T('What the results suggest') + '</h3>' +
+      (R.length ? '<div class="ivr">' + R.map(function (r) { return '<button class="ivc" data-go="c/' + r.c.id + '">' + T(r.c.t) + '<small dir="ltr">' + esc(r.why.join(' · ')) + '</small></button>'; }).join('') + '</div>' : '') +
+      factList(F) + '</section>';
+  }
+  /* on the plan page: what the results mean for THIS plan, and a warning when they point elsewhere */
+  function resCard(c) {
+    var F = invFacts(); if (!F.length) return '';
+    var R = invRank(), mine = F.filter(function (f) { return f.dx[c.id]; }), cs = (R.find(function (x) { return x.c.id === c.id; }) || { s: 0 }).s, other = R.filter(function (r) { return r.c.id !== c.id && r.s >= 3 && r.s >= 2 * cs; })[0];
+    var chips = F.map(function (f) { return '<span class="' + (f.dx[c.id] ? 'fit' : '') + '" dir="ltr">' + esc(f.t) + '</span>'; }).join('');
+    return '<section class="card ivs"><h3 class="fp-h">' + ic('flask') + T('Your results') + '</h3><div class="ivchips">' + chips + '</div>' +
+      (mine.length ? '<div class="ivn ok"><span>' + A('تدعم هذا التشخيص: ', 'Support this diagnosis: ') + '<b dir="ltr">' + esc(mine.map(function (f) { return f.t; }).join(', ')) + '</b></span></div>' : '') +
+      (other ? '<div class="ivn warn"><span>' + A('النتائج تشير أكثر إلى ', 'The results point more to ') + T(other.c.t) + ' <small dir="ltr">(' + esc(other.why.join(' · ')) + ')</small></span><button class="fp-d go" data-go="c/' + other.c.id + '">' + A('افتح', 'Open') + '</button></div>' : '') +
+      factList(F) + '</section>';
   }
   function lbl(list, id) { var x = list.find(function (a) { return a[0] === id; }); return x ? A(x[1], x[2]) : id; }
 
@@ -294,15 +399,17 @@
     h += '<div class="inp"><input name="allergyTxt" type="text" dir="auto" value="' + esc(P.allergyTxt) + '" placeholder="' + A('حساسية أخرى (اكتبها)', 'Other allergy (type it)') + '"></div>';
     h += '<div class="fld" style="margin-top:14px"><span>' + A('نتائج الفحوصات (إن وُجدت)', 'Investigation results (if any)') + '</span></div>' +
       LABS.map(function (g) {
-        var cnt = g[2].filter(function (f) { return P.lab[f[0]] !== '' && P.lab[f[0]] != null; }).length;
+        var cnt = g[2].filter(function (f) { return (P.lab[f[0]] !== '' && P.lab[f[0]] != null) || (P.fnd[f[0]] || []).length; }).length;
         return '<details class="lg"' + (cnt ? ' open' : '') + '><summary><span class="chi sm">' + ic(g[1]) + '</span>' + T(g[0]) + (cnt ? '<em class="cnt">' + cnt + '</em>' : '') + ic('fwd', 'chev') + '</summary><div class="flds' + (g[2][0][2] === 'txt' ? ' one' : '') + '">' +
           g[2].map(function (f) {
             var v = P.lab[f[0]] == null ? '' : P.lab[f[0]];
+            if (f[2] === 'fnd') return '<div class="fld fndf"><span>' + T(f[1]) + '</span><div class="chips">' + FIND[f[0]].map(function (x) { return '<button type="button" class="chip' + ((P.fnd[f[0]] || []).indexOf(x[0]) >= 0 ? ' on' : '') + '" data-act="fnd" data-t="' + f[0] + '" data-v="' + x[0] + '">' + '<bdi dir="ltr">' + esc(x[1]) + '</bdi>' + '</button>'; }).join('') + '</div>' +
+              '<div class="inp sm"><input data-lab="' + f[0] + '" type="text" dir="auto" value="' + esc(v) + '" placeholder="' + A('نتيجة أخرى (اكتبها)', 'Another finding (type it)') + '"></div></div>';
             if (f[2] === 'txt') return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp"><input data-lab="' + f[0] + '" type="text" dir="auto" value="' + esc(v) + '" placeholder="' + A('النتيجة', 'Result') + '"></div></label>';
             if (f[2] === 'sel') return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp pick"><select data-lab="' + f[0] + '" dir="ltr">' + f[3].map(function (o) { return '<option value="' + o + '"' + (v === o ? ' selected' : '') + '>' + (o || '—') + '</option>'; }).join('') + '</select></div></label>';
             return '<label class="fld"><span>' + T(f[1]) + '</span><div class="inp ' + labFlag(f, v) + '"><input data-lab="' + f[0] + '" type="number" inputmode="decimal" step="any" dir="ltr" value="' + esc(v) + '"><em dir="ltr">' + f[2] + '</em></div></label>';
           }).join('') + '</div></details>';
-      }).join('');
+      }).join('') + '<div id="invsug">' + invSuggest() + '</div>';
     h += '<div class="fld" style="margin-top:14px"><span>' + A('ملاحظات', 'Notes') + '</span><textarea name="notes" rows="2" dir="auto">' + esc(P.notes) + '</textarea></div></details>';
     h += '</form>';
     return h;
@@ -322,6 +429,15 @@
   function toggle(arr, v) { var i = arr.indexOf(v); if (i >= 0) arr.splice(i, 1); else arr.push(v); }
   function segOn(b) { $$('button', b.parentNode).forEach(function (x) { x.classList.toggle('on', x === b); }); }
   ACT.tglal = function (b) { readForm(); toggle(P.allergy, b.dataset.v); savePt(); b.classList.toggle('on'); };
+  ACT.fnd = function (b) {
+    readForm(); var t = b.dataset.t, v = b.dataset.v, cur = P.fnd[t] = P.fnd[t] || [];
+    if (v === 'normal') P.fnd[t] = cur.indexOf('normal') >= 0 ? [] : ['normal'];
+    else { toggle(cur, v); P.fnd[t] = cur.filter(function (x) { return x !== 'normal'; }); }
+    savePt();
+    $$('[data-act=fnd][data-t="' + t + '"]').forEach(function (x) { x.classList.toggle('on', P.fnd[t].indexOf(x.dataset.v) >= 0); });
+    var el = $('#invsug'); if (el) el.innerHTML = invSuggest();
+  };
+  document.addEventListener('change', function (e) { var x = e.target; if (!x.dataset || x.dataset.lab == null || !$('#ptf')) return; P.lab[x.dataset.lab] = x.value.trim(); savePt(); var el = $('#invsug'); if (el) el.innerHTML = invSuggest(); });
   ACT.tglcd = function (b) { readForm(); toggle(P.cond, b.dataset.v); savePt(); b.classList.toggle('on'); };
   ACT.setset = function (b) { readForm(); P.set = b.dataset.v; savePt(); segOn(b); };
   ACT.setsex = function (b) { readForm(); P.sex = b.dataset.v; savePt(); segOn(b); };
@@ -362,16 +478,20 @@
 
   /* ================= Diagnosis from symptoms ================= */
   var SXSEL = get('ho-sx', []);
+  var INV = {};
   function dxScore() {
     var m = hasAge() ? E.ageMonths(P) : null;
+    INV = {}; invRank().forEach(function (r) { INV[r.c.id] = r; });
     return DX.map(function (c) {
       var tot = 0, got = 0, hit = [];
       Object.keys(c.sx).forEach(function (k) { tot += c.sx[k]; if (SXSEL.indexOf(k) >= 0) { got += c.sx[k]; hit.push(k); } });
       var ok = m == null || ((c.amin == null || m >= c.amin) && (c.amax == null || m <= c.amax));
       var miss = SXSEL.filter(function (k) { return !c.sx[k]; }).length;
       var s = got ? got * got / tot - miss * 0.35 : 0;
-      return { c: c, s: ok ? s : s * 0.2, pct: tot ? Math.round(100 * got / tot) : 0, hit: hit, age: ok };
-    }).filter(function (r) { return r.hit.length && r.s > 0; }).sort(function (a, b) { return b.s - a.s; }).slice(0, 8);
+      /* investigation results add to the score (owner, 28 Nov 2026) */
+      var iv = INV[c.id]; if (iv) { s += iv.s * 0.8; }
+      return { c: c, s: ok ? s : s * 0.2, pct: Math.min(100, (tot ? Math.round(100 * got / tot) : 0) + (iv ? iv.s * 10 : 0)), hit: hit, inv: iv ? iv.why : [], age: ok };
+    }).filter(function (r) { return (r.hit.length || r.inv.length) && r.s > 0; }).sort(function (a, b) { return b.s - a.s; }).slice(0, 8);
   }
   var GRPIC = { 'General': 'user', 'Respiratory': 'lungs', 'ENT and mouth': 'stetho', 'Gut': 'gut', 'Nervous system': 'brain', 'Urinary and kidney': 'kidney', 'Skin, eyes and joints': 'eye', 'Heart and blood': 'heart', 'Newborn': 'baby', 'Exposure': 'alert' };
   /* Diagnose (owner, 27 Nov 2026: "one button per system; pressing it opens a menu to choose from"): system buttons, a menu of
@@ -383,17 +503,18 @@
     return '<div id="dxb">' + dxBody() + '</div>';
   }
   function dxBody() {
-    var res = SXSEL.length ? dxScore() : [];
+    var hasInv = invFacts().length, res = SXSEL.length || hasInv ? dxScore() : [];
     var h = '<div class="mt sxg">' + Object.keys(SXG).map(function (g) {
       var n = SXG[g].filter(function (s) { return SXSEL.indexOf(s[1]) >= 0; }).length;
       return '<button class="mtile' + (n ? ' has' : '') + '" data-act="sxgrp" data-g="' + esc(g) + '"><span class="ib2">' + ic(GRPIC[g] || 'list') + '</span><b>' + T(GRPS[g] || g) + '</b>' + (n ? '<em>' + n + '</em>' : '') + '</button>';
     }).join('') + '</div>';
     if (SXSEL.length) h += '<div class="sxsel"><div class="chips">' + SXSEL.map(function (k) { var s = SXN[k]; return s ? '<button class="chip on" data-act="sxt" data-v="' + k + '">' + esc(A(s[3], s[2])) + ' ✕</button>' : ''; }).join('') + '</div><button class="lnk" data-act="sxclear">' + ic('trash') + A('مسح الكل', 'Clear all') + '</button></div>';
-    if (!SXSEL.length) return h + '<div class="res-empty">' + ic('stetho2') + '<span>' + A('اختر جهازًا من الأعلى ثم الأعراض والعلامات التي وجدتها.', 'Choose a system above, then the symptoms and signs you found.') + '</span></div>';
+    if (hasInv) h += '<div class="ivuse">' + ic('flask') + '<span>' + A('تُحسب أيضًا نتائج الفحوصات: ', 'Your investigation results are counted too: ') + '<bdi dir="ltr">' + esc(invFacts().map(function (f) { return f.t; }).join(' · ')) + '</bdi></span><button class="lnk" data-go="patient">' + A('تعديل', 'Edit') + '</button></div>';
+    if (!SXSEL.length && !hasInv) return h + '<div class="res-empty">' + ic('stetho2') + '<span>' + A('اختر جهازًا من الأعلى ثم الأعراض والعلامات التي وجدتها.', 'Choose a system above, then the symptoms and signs you found.') + '</span></div>';
     if (!res.length) return h + '<p class="empty">' + A('لا يوجد تشخيص يطابق هذه الأعراض.', 'No diagnosis matches these findings.') + '</p>';
     return h + '<h2 class="st">' + T('Likely diagnoses') + '</h2><ol class="ddx">' + res.map(function (r, i) {
       return '<li data-go="c/' + r.c.id + '"><span class="rk">' + (i + 1) + '</span><div class="ddx-b"><div class="ddx-h">' + T(r.c.t) + '<span class="pct">' + r.pct + '%</span></div><div class="bar2"><i style="width:' + r.pct + '%"></i></div><small>' +
-        r.hit.map(function (k) { return esc(A(SXN[k][3], SXN[k][2])); }).join(' · ') + (r.age ? '' : ' · <b class="warn">' + A('عمر غير معتاد', 'unusual age') + '</b>') + '</small></div>' + ic('fwd', 'chv') + '</li>';
+        r.hit.map(function (k) { return esc(A(SXN[k][3], SXN[k][2])); }).concat(r.inv.map(function (t) { return '🧪 <bdi dir="ltr">' + esc(t) + '</bdi>'; })).join(' · ') + (r.age ? '' : ' · <b class="warn">' + A('عمر غير معتاد', 'unusual age') + '</b>') + '</small></div>' + ic('fwd', 'chv') + '</li>';
     }).join('') + '</ol><p class="hint">' + A('ترتيب يساعدك على التفكير وليس تشخيصًا؛ افحص المريض وأكّد بالفحوصات.', 'A ranking to help you think, not a diagnosis: examine and confirm.') + '</p>';
   }
   function dxRefresh() { var el = document.getElementById('dxb'); if (el) el.innerHTML = dxBody(); }
@@ -583,7 +704,7 @@
     if (!(+P.wt > 0)) h += quickPt();
     else { var m = E.ageMonths(P); if ((c.amin != null && m < c.amin) || (c.amax != null && m > c.amax)) h += '<div class="wn warn big">' + ic('alert') + '<span>' + A('عمر المريض غير معتاد لهذا التشخيص؛ راجع التشخيص.', 'This age is unusual for this diagnosis: review it.') + '</span></div>'; }
     if (ready() && E.isNeo(P) && c.sys !== 'neo') h += '<div class="wn warn big">' + ic('baby') + '<span>' + (AR ? 'المريض حديث ولادة (' + ageTxt() + '). هذه خطة الأطفال من الدليل المحلي؛ الأدوية التي ليس لها جرعة لحديثي الولادة معلَّمة أدناه.' : 'This patient is a newborn (' + ageTxt() + '). This is the children\'s plan of the local guideline; drugs with no newborn dose are marked below.') + '</span></div>';
-    h += labCard();
+    h += labCard() + resCard(c);
     if (c.variants.length > 1) h += '<div class="vtabs">' + c.variants.map(function (x) { return '<button class="' + (x === v ? 'on' : '') + '" data-go="c/' + c.id + '/' + x.id + '">' + T(x.t) + '</button>'; }).join('') + '</div>';
     h += '<section class="card plan"><h2 class="ch"><span class="chi">' + ic('pill') + '</span>' + T('Treatment') + '</h2><div id="plan">' + planList(c, v) + '</div></section>';
     if (v.fluid) h += fluidCard(v.fluid);

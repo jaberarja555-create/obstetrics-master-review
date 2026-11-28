@@ -628,3 +628,20 @@ details[open].grp>summary,details[open].acc>summary,details[open].moreb>summary{
 .pr-from .ff,.pr-from .ff *{border:0!important;background:none!important;padding:0!important}
 .pr-tn{display:flex;flex-wrap:wrap;gap:5px;margin:2px 0 4px}
 .pr-tn b{background:var(--accs);color:var(--p);border-radius:999px;padding:1px 9px;font:700 .74em Pop,sans-serif}
+/* investigation findings (owner, 28 Nov 2026) */
+.fndf .chips{margin:4px 0 6px}
+.fndf .inp.sm input{font-size:.88em;padding-block:8px}
+.ivs{padding:12px 14px!important;margin:12px 0}
+.ivr{display:flex;flex-direction:column;gap:6px;margin-bottom:6px}
+.ivc{display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:8px 12px;border-radius:12px;background:var(--soft);color:var(--p);font-weight:800}
+.ivc small{color:var(--mut);font-weight:600;font-size:.78em}
+.ivn{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;padding:8px 0;border-top:1px solid var(--line);font-size:.9em;line-height:1.45}
+.ivn b{color:var(--p)}.ivn>span{flex:1 1 220px}
+.ivn.ok{color:#14794f}.ivn.warn{color:#a8620a;font-weight:700}
+.ivchips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px}
+.ivchips span{padding:3px 10px;border-radius:999px;background:var(--soft);color:var(--tx);font-size:.8em;font-weight:600}
+.ivchips span.fit{background:#dff3ea;color:#14794f}
+.ivuse{display:flex;align-items:center;gap:8px;padding:9px 12px;margin:8px 0;border-radius:12px;background:var(--soft);font-size:.86em}
+.ivuse .ic{width:18px;height:18px;color:var(--p);flex:none}.ivuse span{flex:1}
+.flds>.fndf{grid-column:1/-1}
+.ivn>b{flex:1 1 100%}.ivn>span{flex:1 1 200px}
