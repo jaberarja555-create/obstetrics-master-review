@@ -399,7 +399,10 @@
     hlmode: function () { var on = !hlOn(); put('hlon', on); runner(); toast(on ? A('التظليل مفعّل: حدّد نصًا لتظليله، والمس التظليل لإزالته', 'Highlighter on: select text to highlight it; tap a highlight to remove it') : A('أُوقف التظليل', 'Highlighter off')); },
     mark: function () { var g = T.list[T.i]; toggleMark(g); $$('.markbtn').forEach(function (x) { x.classList.toggle('on', markOn(g)); }); },
     subscribe: function () { try { (window.parent && window.parent !== window ? window.parent : window.top).postMessage({ exam: 'buy' }, '*'); } catch (e) {} if (!(window.parent && window.parent !== window)) toast(A('الاشتراك من داخل منصة SMRA', 'Subscribe from inside the SMRA platform')); },
-    recheck: function () { askParent(); toast(A('جارٍ التحقق…', 'Checking…')); }
+    recheck: function () {
+      RECHK = true; askParent(); toast(A('جارٍ التحقق…', 'Checking…'));
+      clearTimeout(RECHK_T); RECHK_T = setTimeout(function () { if (RECHK) { RECHK = false; toast(A('تعذّر التحقق الآن. تأكد من الاتصال بالإنترنت ثم حاول مرة أخرى.', 'Could not check now. Check your internet connection and try again.')); } }, 10000);
+    }
   };
   document.addEventListener('click', function (e) {
     var el = e.target.closest('[data-go],[data-act],[data-opt],[data-pal],[data-fs],[data-lang],[data-start]');
@@ -453,7 +456,19 @@
           '<button class="btn gh wide" data-act="recheck" style="margin-top:8px">' + A('لقد اشتركت — تحقّق', 'I subscribed — check') + '</button>') + '</section>';
   }
   function askParent() { try { (window.parent && window.parent !== window ? window.parent : window.top).postMessage({ exam: 'key' }, '*'); } catch (e) {} }
+  var RECHK = false, RECHK_T = 0;
+  var WHY = {
+    signin: ['سجّل الدخول أولًا بالحساب الذي اشتركت به، ثم اضغط «التحقق من الاشتراك».', 'Sign in first with the account you subscribed with, then tap «Check subscription».'],
+    pending: ['إيصالك قيد المراجعة. يُفتح البنك تلقائيًا بعد موافقة الإدارة.', 'Your receipt is under review. The bank opens by itself once it is approved.'],
+    locked: ['لا يوجد اشتراك على هذا الحساب بعد. اضغط «اشترك» للاشتراك.', 'This account has no subscription yet. Tap «Subscribe» to subscribe.'],
+    nokey: ['اشتراكك مفعّل، لكن بنك الأسئلة لم يُجهَّز بعد على الخادم. راسل الإدارة.', 'Your access is active, but the question bank is not set up on the server yet. Please contact the team.'],
+    offline: ['لا يوجد اتصال بالإنترنت. اتصل ثم حاول مرة أخرى.', 'You are offline. Connect and try again.'],
+    error: ['تعذّر التحقق الآن. حاول مرة أخرى بعد قليل.', 'Could not check now. Try again in a moment.']
+  };
   function applyState(s) {
+    var asked = RECHK; RECHK = false; clearTimeout(RECHK_T);
+    if (asked && !s.key && WHY[s.why]) toast(A(WHY[s.why][0], WHY[s.why][1]));
+    if (asked && s.key) toast(A('تم التحقق: اشتراكك مفعّل', 'Checked: your subscription is active'));
     PRICE = s.price || PRICE; BANKAK = s.bankak || BANKAK; PENDING = !!s.pending;
     if (s.key) { unlock(s.key); return; }
     LOCKED = true;

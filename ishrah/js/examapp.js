@@ -3,7 +3,7 @@
    handle, from the House Officer section, the books shelf and Features — exactly like the HO Guide. */
 (function () {
   var A = IS.A, esc = IS.esc, ic = IS.ic;
-  var EXV = '7';   /* bump with exam/sw.js C so a page that kept the frame loads the new version */
+  var EXV = '8';   /* bump with exam/sw.js C so a page that kept the frame loads the new version */
   var FR = null, FROM = /^#exam\b/.test(location.hash) ? '' : location.hash.slice(1);
   function host() { var h = document.getElementById('ex-host'); if (!h) { h = document.createElement('div'); h.id = 'ex-host'; h.hidden = true; document.body.appendChild(h); } return h; }
   function show() {
@@ -29,14 +29,17 @@
      (postMessage {exam:'key'}); we answer with the key + price + Bankak, reusing the platform's own paid-file flow. A locked
      device gets a free preview and a Subscribe button that opens the platform's buy sheet ({exam:'buy'}). */
   async function examState() {
-    var key = null, st = { open: false, price: 0, pending: false };
+    var key = null, st = { open: false, price: 0, pending: false }, why = '';
     try {
       if (DB.live) {
-        var r = await DB.sb.rpc('ish_exam_state'); if (!r.error && r.data) st = r.data;
-        if (st.open) { var kr = await DB.sb.rpc('ish_exam_key'); if (!kr.error && kr.data) key = kr.data; }
+        if (!navigator.onLine) why = 'offline';
+        var r = await DB.sb.rpc('ish_exam_state'); if (r.error) why = why || 'error'; else if (r.data) st = r.data;
+        if (st.open) { var kr = await DB.sb.rpc('ish_exam_key'); if (!kr.error && kr.data) key = kr.data; else why = kr.error ? 'error' : 'nokey'; }
       } else { st.open = true; }   /* local preview without Supabase: the frame uses its bundled data.js */
-    } catch (e) {}
-    return { exam: 'state', key: key, open: !!st.open, price: st.price || 0, pending: !!st.pending,
+    } catch (e) { why = navigator.onLine ? 'error' : 'offline'; }
+    /* why the bank stays locked, so «Check subscription» always answers (owner, 28 Nov 2026: «it says Checking… and gives nothing») */
+    if (!key && !why) why = !IS.ME ? 'signin' : st.pending ? 'pending' : 'locked';
+    return { exam: 'state', key: key, why: why, open: !!st.open, price: st.price || 0, pending: !!st.pending,
       bankak: (IS.SET && IS.SET.bankak_account) ? { account: IS.SET.bankak_account, name: IS.SET.bankak_name } : null,
       name: (IS.ME && IS.ME.name) || '' };
   }
