@@ -1853,3 +1853,9 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
   Officer section notices `cat='house'` + the student's own) on opening, from the bell and every 40 s while the exam is in front; the exam plays its
   own sound (the platform's cannot play behind the frame) unless switched off (`ex-snd-off`); seen up to `ex-nseen`; a tap opens the item in the
   platform (`{exam:'go'}`). Test page: scratchpad prev5/p.html + pf.js.
+- **Question levels in the Permanent Exam (owner, 28 Nov 2026: easy / medium / hard — سهل، متوسط، صعب):** exam/js/app.js `level(q)` works out the
+  level on the phone (the bank is encrypted, so it is not written into the data): 1 easy = short direct recall (definition, normal value, drug
+  of choice), 2 medium = understanding / short case, 3 hard = a case of 28+ words asking diagnosis / next step / management, any case of 45+
+  words, «EXCEPT / NOT» questions, calculations; picture questions are never easy. `q.d` in the data or `LV_FIX[g]` overrides it (hand
+  corrections). Shown as a coloured pill on each question; the start sheet has All · Easy · Medium · Hard with counts (`LVSEL`, filters
+  `buildSet`). Free sample: 3 easy, 10 medium, 7 hard.

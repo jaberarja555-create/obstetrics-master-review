@@ -362,3 +362,12 @@ html[dir=rtl] .pf-menu button>.ic:last-child{transform:scaleX(-1)}
 .nitem .ndot{width:9px;height:9px;border-radius:50%;margin-top:6px;flex:none;background:transparent}.nitem.new .ndot{background:#d93636}.nitem.new{background:var(--soft)}
 .ntx{display:flex;flex-direction:column;gap:3px;min-width:0}.ntx b{font-size:.95em}.ntx span{font-size:.85em;color:var(--mut)}.ntx small{font-size:.75em;color:var(--mut)}
 .nempty{text-align:center;color:var(--mut);padding:24px 0}
+
+/* question levels: easy green, medium amber, hard red */
+.lvsel{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 14px}
+.lvc{display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 4px;border-radius:14px;border:1.5px solid var(--line,#d6dbe6);background:var(--card,#fff);font:inherit;color:inherit}
+.lvc b{font-size:.9em}.lvc small{color:var(--mut);font-size:.78em}.lvc:disabled{opacity:.45}
+.lvc.on{border-color:var(--p);background:var(--soft);box-shadow:0 0 0 2px color-mix(in srgb,var(--p) 25%,transparent)}
+.lvc.lv1 b{color:#15803d}.lvc.lv2 b{color:#b45309}.lvc.lv3 b{color:#c0262d}
+.pill.lvp{font-weight:700}.pill.lvp.lv1{background:#e3f5ea;color:#15803d}.pill.lvp.lv2{background:#fdf0dc;color:#b45309}.pill.lvp.lv3{background:#fde4e4;color:#c0262d}
+:root[data-theme=dark] .pill.lvp.lv1{background:#12351f;color:#7ee2a1}:root[data-theme=dark] .pill.lvp.lv2{background:#3b2a10;color:#f5c26b}:root[data-theme=dark] .pill.lvp.lv3{background:#3e1517;color:#ff9a9a}

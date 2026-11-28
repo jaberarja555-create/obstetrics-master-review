@@ -1,6 +1,7 @@
 /* SMRA Permanent Exam — app. Data in window.EXAM (data.js). */
 (function () {
   'use strict';
+
   var E = window.EXAM || { exams: [], subjects: [], questions: [], total: 0, groups: [] };
   var AR0 = (function () { try { return JSON.parse(localStorage.getItem('ish-lang')) === 'en' ? false : false; } catch (e) { return false; } })();
   var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -157,6 +158,32 @@
   }
   function qsOfSubject(code) { var out = []; E.questions.forEach(function (q) { if (q.s === code) out.push(q.g); }); return out; }
 
+  /* ---------- question levels (owner, 28 Nov 2026: «easy, medium and hard — سهل، متوسط، صعب») ----------
+     The bank is encrypted and stays unread outside the phone, so the level is worked out here from the question itself, with the same
+     meaning as the levels of the books' cards: 1 easy = direct recall (a definition, a normal value, a drug of choice, a short fact);
+     2 medium = understanding or applying a fact, a short case; 3 hard = clinical reasoning on a longer case (diagnosis, next step,
+     management), «all EXCEPT / NOT» questions and calculations. A level written in the data (q.d) or in LV_FIX always wins. */
+  var LV_FIX = {};   /* g → 1|2|3: corrections by hand */
+  var LVN = { 1: ['سهل', 'Easy'], 2: ['متوسط', 'Medium'], 3: ['صعب', 'Hard'] };
+  function level(q) {
+    if (!q) return 2;
+    if (q.d >= 1 && q.d <= 3) return q.d;
+    if (LV_FIX[q.g]) return LV_FIX[q.g];
+    var t = String(q.q || ''), w = t.split(/\s+/).filter(Boolean).length;
+    var opt = (q.o || []).join(' ').split(/\s+/).length / Math.max(1, (q.o || []).length);
+    var vignette = /\b\d{1,3}\s*[- ]?(years?|yrs?|y\/o|months?|weeks?|days?)[- ]?old\b|\b(presents?|presented|presenting|complain(s|ed|ing)?|brought|admitted|attended|came)\b|\b(pt|patient|man|woman|boy|girl|child|baby|neonate|infant|lady|gentleman|primigravida|multigravida|G\d+P\d+)\b/i.test(t);
+    var reason = /next step|best (initial |next )?(management|treatment|investigation|step)|most appropriate|management|how (to|would you) manage|treatment of choice|investigation of choice|most likely|diagnosis|what (is|would) (the|you)|cause of (his|her|this)/i.test(t);
+    var except = /\b(EXCEPT|NOT)\b/.test(t) || /\b(false|incorrect|least likely|is not|are not)\b/i.test(t);
+    var calc = /\bcalculat|\bhow many\b|\bwhat is (the|his|her) (dose|rate|ratio)/i.test(t) && /\d/.test(t);
+    var recall = /is called|is defined|refers to|stands for|is known as|definition|normal (value|range|level)|drug of choice|which of the following is (a|an|the)\b|the commonest|the most common/i.test(t);
+    if (calc || (except && (vignette || w > 20)) || (vignette && reason && w >= 28) || (vignette && w >= 45) || w >= 75) return 3;
+    var pic = /\b(shown|picture|image|photo|x-?ray|ecg|ct|mri|film)\b/i.test(t);
+    if (!q.img && !pic && !vignette && !except && (recall || w <= 12) && opt <= 6) return 1;
+    return 2;
+  }
+  window.__exLevel = level;
+  var LVSEL = 0;
+
   /* ---------- build a question set ---------- */
   function buildSet(kind, id) {
     var s = seen(), out = [];
@@ -166,7 +193,7 @@
     else if (kind === 'incorrect') out = Object.keys(s).filter(function (g) { return s[g].c === 0 && Q[g]; }).map(Number);
     else if (kind === 'unused') out = E.questions.filter(function (q) { return !s[q.g]; }).map(function (q) { return q.g; });
     else if (kind === 'mock') { out = E.questions.map(function (q) { return q.g; }); shuffle(out); out = out.slice(0, 200); }
-    return out.filter(function (g) { return Q[g] && !Q[g].b; });
+    return out.filter(function (g) { return Q[g] && !Q[g].b && (!LVSEL || level(Q[g]) === LVSEL); });
   }
   function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
 
@@ -174,10 +201,15 @@
   var T = null; /* current test */
   function setName(kind, id) { return kind === 'mock' ? A('امتحان تجريبي', 'Mock exam') : kind === 'exam' ? (EXM[id] || {}).title : kind === 'subject' ? SUBN[id] : kind === 'marked' ? A('الأسئلة المعلّمة', 'Marked questions') : kind === 'incorrect' ? A('الأخطاء', 'Incorrect questions') : kind === 'unused' ? A('أسئلة لم تُحل', 'Unused questions') : kind; }
   function setCount(kind, id) { return buildSet(kind, id).length; }
-  function openStart(kind, id) {
+  function openStart(kind, id, keep) {
+    if (!keep) LVSEL = 0;
+    var sel = LVSEL; LVSEL = 0; var all = buildSet(kind, id), cnt = { 1: 0, 2: 0, 3: 0 }; all.forEach(function (g) { cnt[level(Q[g])]++; }); LVSEL = sel;
     var n = setCount(kind, id);
-    if (!n) { toast(A('لا توجد أسئلة', 'No questions here')); return; }
-    sheet('<h2 class="ch2">' + ic('play') + esc(setName(kind, id)) + '</h2><p style="color:var(--mut);margin:0 0 14px">' + n + ' ' + A('سؤال · اختر نمط المذاكرة', 'questions · choose a mode') + '</p>' +
+    if (!all.length) { toast(A('لا توجد أسئلة', 'No questions here')); return; }
+    var lv = '<div class="lvsel">' + [[0, A('الكل', 'All'), all.length], [1, A(LVN[1][0], LVN[1][1]), cnt[1]], [2, A(LVN[2][0], LVN[2][1]), cnt[2]], [3, A(LVN[3][0], LVN[3][1]), cnt[3]]].map(function (x) {
+      return '<button class="lvc lv' + x[0] + (LVSEL === x[0] ? ' on' : '') + '" data-act="lvsel" data-lv="' + x[0] + '" data-k="' + kind + '" data-i="' + (id || '') + '"' + (x[0] && !x[2] ? ' disabled' : '') + '><b>' + x[1] + '</b><small>' + x[2] + '</small></button>';
+    }).join('') + '</div>';
+    sheet('<h2 class="ch2">' + ic('play') + esc(setName(kind, id)) + '</h2><p style="color:var(--mut);margin:0 0 10px">' + n + ' ' + A('سؤال · اختر المستوى ثم نمط المذاكرة', 'questions · choose a level, then a mode') + '</p>' + lv +
       '<button class="alt" data-start="tutor" data-k="' + kind + '" data-i="' + (id || '') + '"><span class="ib2">' + ic('book') + '</span><span class="lrow-t"><b>' + A('نمط التعلّم', 'Tutor') + '</b><small>' + A('تظهر الإجابة والشرح بعد كل سؤال', 'See the answer and explanation after each question') + '</small></span></button>' +
       '<button class="alt" data-start="timed" data-k="' + kind + '" data-i="' + (id || '') + '"><span class="ib2">' + ic('timer') + '</span><span class="lrow-t"><b>' + A('نمط الامتحان', 'Timed') + '</b><small>' + A('دقيقة لكل سؤال، النتيجة في النهاية', 'One minute per question, result at the end') + '</small></span></button>');
   }
@@ -194,7 +226,7 @@
     if (kind !== 'mock' && opt.shuffle !== false) { /* keep exam order by default */ }
     if (!set.length) { toast(A('لا توجد أسئلة', 'No questions')); return; }
     var tutor = opt.tutor !== false;
-    T = { kind: kind, id: id, list: set, i: 0, answers: {}, pick: {}, tutor: tutor, timed: !tutor, started: Date.now() };
+    T = { kind: kind, id: id, list: set, i: 0, answers: {}, pick: {}, tutor: tutor, timed: !tutor, started: Date.now(), lv: LVSEL }; LVSEL = 0;
     if (T.timed) { T.endAt = Date.now() + set.length * 60000; T.timer = setInterval(tick, 1000); }
     location.hash = 'q';
   }
@@ -207,7 +239,8 @@
     var tt = T.kind === 'mock' ? A('امتحان تجريبي', 'Mock exam') : T.kind === 'exam' ? (EXM[T.id] || {}).title : T.kind === 'subject' ? SUBN[T.id] : T.kind === 'marked' ? A('المعلّمة', 'Marked') : A('الأخطاء', 'Incorrect');
     var reveal = T.tutor && a != null, pk = T.tutor ? T.pick[g] : a, H = hlOf(g), HL = hlOn();
     var h = '<div class="qtop"><button class="sqb sm" data-act="quit">' + ic('back') + '</button><span class="pbln" style="margin:0"><i style="width:' + Math.round(100 * (T.i + 1) / T.list.length) + '%"></i></span><b style="font-size:.85em;white-space:nowrap">' + (T.i + 1) + '/' + T.list.length + '</b><button class="sqb sm hlbtn' + (HL ? ' on' : '') + '" data-act="hlmode" aria-label="' + A('قلم التظليل', 'Highlighter') + '" aria-pressed="' + HL + '">' + ic('marker') + '</button>' + (T.timed ? '<span class="pill" id="tmr">' + ic('timer') + fmt(Math.max(0, T.endAt - Date.now())) + '</span>' : '') + '</div>';
-    h += '<div class="qmeta"><span class="pill">' + esc(tt) + '</span><span class="pill">' + ic(SICO[q.s] || 'layers') + esc(SUBN[q.s] || q.s) + '</span>' + (q.x && q.x.length > 1 ? '<span class="pill" title="appears in several papers">' + ic('layers') + A('مكرر', 'repeat') + '</span>' : '') + '</div>';
+    var qlv = level(q);
+    h += '<div class="qmeta"><span class="pill">' + esc(tt) + '</span><span class="pill">' + ic(SICO[q.s] || 'layers') + esc(SUBN[q.s] || q.s) + '</span><span class="pill lvp lv' + qlv + '">' + A(LVN[qlv][0], LVN[qlv][1]) + '</span>' + (q.x && q.x.length > 1 ? '<span class="pill" title="appears in several papers">' + ic('layers') + A('مكرر', 'repeat') + '</span>' : '') + '</div>';
     h += '<div class="qcard"><span class="qnum">' + A('سؤال', 'Question') + ' ' + (T.i + 1) + '</span><p class="qtext hla' + (HL ? ' hlon' : '') + '" data-hk="q">' + markText(q.q, H.q) + '</p>';
     if (q.img) h += '<img class="qimg" src="' + esc(q.img) + '" alt="">';
     h += '<div class="opts">';
@@ -390,6 +423,7 @@
   /* ---------- actions ---------- */
   var ACT = {
     menu: function () { go('more'); }, settings: settings, theme: cycleTheme, shclose: closeSheet,
+    lvsel: function (el) { LVSEL = +el.dataset.lv || 0; openStart(el.dataset.k, el.dataset.i || '', true); },
     profile: function () { profileSheet(); }, notes: function () { notesSheet(); toParent({ exam: 'notes' }); },
     sndtog: function () { try { localStorage.setItem('ex-snd-off', JSON.stringify(soundOn() ? 1 : 0)); } catch (e) {} if (soundOn()) chime(); notesSheet(); },
     nopen: function (el) { closeSheet(); if (el.dataset.l) toParent({ exam: 'go', link: el.dataset.l }); },
