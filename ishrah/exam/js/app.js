@@ -113,7 +113,9 @@
       (pc > 0 ? '<circle cx="44.5" cy="44.5" r="' + R + '" fill="none" stroke="#9af4ff" stroke-width="10" stroke-linecap="round" stroke-dasharray="' + C + '" stroke-dashoffset="' + (C * (1 - pc / 100)) + '" transform="rotate(-90 44.5 44.5)"/>' : '') + '</svg>';
     var h = '<div class="hgp">' + '<section class="hero hm"><div class="hero-tx"><small>' + A('مرحبًا دكتور', 'Welcome, Doctor') + '</small><h2>' + A('امتحان البرمننت', 'Permanent Exam') + '</h2><i class="hero-bar"></i>' +
       '<p>' + A('أسئلة الدورات والشيتات السابقة<br>مع الشرح.', 'Practice questions from past<br>papers and sheets with explanations.') + '</p></div>' +
-      '<div class="hring">' + ringSvg + '<b>' + pc + '%</b></div>' + heroArt() + '</section></div><div class="hgp">';
+      /* two small circles (owner, 28 Nov 2026): % of answers right, and how many questions answered (the circle fills over the whole bank) */
+      '<div class="hrings">' + miniRing(pc, pc + '%', A('صحيح', 'Correct')) +
+        miniRing(ntotal() ? Math.max(st.answered ? 2 : 0, Math.round(100 * st.answered / ntotal())) : 0, st.answered.toLocaleString(AR() ? 'ar-EG' : 'en'), A('سؤال مُجاب', 'Answered')) + '</div>' + heroArt() + '</section></div><div class="hgp">';
     h += '<button class="mock" data-act="mock"><span class="mock-play"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4.8v14.4a1.1 1.1 0 0 0 1.7.93l11-7.2a1.1 1.1 0 0 0 0-1.86l-11-7.2A1.1 1.1 0 0 0 8 4.8z" fill="#fff"/></svg></span><i class="mock-div"></i>' +
       '<span class="mock-t"><b>' + A('امتحان تجريبي', 'Mock Exam') + '</b><small>' + A('200 سؤال عشوائي \u2022 بوقت محدد', '200 random questions \u2022 timed') + '</small></span>' + ic('fwd', 'mock-ch') + '</button>';
     h += '</div><div class="hgp"><h2 class="st hst">' + A('ابدأ المذاكرة', 'Start Practising') + '</h2><div class="qt hq">' +
@@ -138,6 +140,12 @@
       return '<button class="lrow" data-act="start" data-k="exam" data-i="' + x.id + '"><span class="ib2">' + ic('doc') + '</span><span class="lrow-t"><b>' + esc(x.title) + '</b><small>' + x.n + ' ' + A('سؤال', 'questions') + (done ? ' · ' + pct + '%' : '') + '</small></span>' + ic('chv') + '</button>';
     }).join('') + '</section></div>';
     return '<div class="hmw">' + h + '</div>';
+  }
+  function miniRing(pct, val, label) {
+    var R = 25, C = 2 * Math.PI * R;
+    return '<span class="mr"><span class="mr-c"><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="' + R + '" fill="none" stroke="rgba(150,232,248,.35)" stroke-width="6"/>' +
+      (pct > 0 ? '<circle cx="30" cy="30" r="' + R + '" fill="none" stroke="#9af4ff" stroke-width="6" stroke-linecap="round" stroke-dasharray="' + C + '" stroke-dashoffset="' + (C * (1 - Math.min(100, pct) / 100)) + '" transform="rotate(-90 30 30)"/>' : '') +
+      '</svg><b>' + val + '</b></span><small>' + label + '</small></span>';
   }
   function tile(goh, icn, t, s) { var st = goh.indexOf('set/') === 0; return '<button class="tool" ' + (st ? 'data-act="start" data-k="' + goh.slice(4) + '"' : 'data-go="' + goh + '"') + '><span class="ib2">' + ic(icn) + '</span><span class="tool-t"><b>' + esc(t) + '</b><small>' + esc(s) + '</small></span>' + ic('chv', 'ch') + '</button>'; }
 
