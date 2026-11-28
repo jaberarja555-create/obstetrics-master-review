@@ -154,6 +154,21 @@ jobs:
         run: |
           DB=$(printf '%s' "$DB" | tr -d '\r\n\t `"'"'"'<>')
           test "$(psql "$DB" -v ON_ERROR_STOP=1 -qAtc "select not has_function_privilege('anon','public.ish_study_photo_access(text,text)','EXECUTE') and has_function_privilege('authenticated','public.ish_study_photo_access(text,text)','EXECUTE') and exists(select 1 from storage.buckets where id='study-group-photos' and not public)")" = t
+      - name: Store the Permanent Exam key from the EXAM_KEY secret (never printed)
+        if: always()
+        env:
+          DB: ${{ secrets.ISHRAH_DB_URL }}
+          EXAM_KEY: ${{ secrets.EXAM_KEY }}
+        run: |
+          if [ -z "$EXAM_KEY" ]; then echo "EXAM_KEY secret not set: skipped"; exit 0; fi
+          if ! command -v psql >/dev/null; then sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client >/dev/null; fi
+          DB=$(printf '%s' "$DB" | tr -d '\r\n\t `"'"'"'<>')
+          K=$(printf '%s' "$EXAM_KEY" | tr -d '\r\n\t "'"'"' ')
+          if ! printf '%s' "$K" | grep -Eq '^[A-Za-z0-9+/]{43}=$'; then echo "EXAM_KEY is not a 32-byte base64 key: skipped"; exit 0; fi
+          psql "$DB" -v ON_ERROR_STOP=1 -q -v k="$K" <<'SQL'
+          insert into public.exam_cfg (id, k) values (1, :'k') on conflict (id) do update set k = excluded.k;
+          SQL
+          echo "permanent exam key stored"
       - name: Phone alerts check (counts only, no personal data)
         if: always()
         env:
