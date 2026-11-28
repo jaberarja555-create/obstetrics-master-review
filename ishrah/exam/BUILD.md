@@ -81,3 +81,11 @@ The Home screen copies the owner's approved mockup pixel-for-pixel (checked side
 - `img/steth.webp` is the stethoscope cut from the owner's mockup (shown in the Free Preview card; hidden in night mode).
 - The default palette (`navy`, shown as "Default") uses the mockup's medical blue + cyan; other palettes keep their colours.
 - Arabic mirrors the cards (text right; ring, photo and arrows left).
+
+## Question screen (owner, 28 Nov 2026)
+- **Submit:** in tutor mode tapping an option only selects it (it can be changed); **Submit answer** (disabled until a choice)
+  reveals the answer and explanation and records it. Timed mode is unchanged (choices stay changeable until Finish).
+- **Highlighter:** the pen button on the question bar turns it on (`ex-hlon`); selecting text in the question or the explanation
+  highlights it (mouse release, or a pause after a phone long-press selection); tapping a highlight removes it. Saved per question
+  as text offsets in `ex-hl` ({question id: {q: [[start,end]...], e: [...]}}).
+- Fixed: a tap on empty space opened Appearance & colour (the click handler matched `<html data-pal data-fs>`).

@@ -175,6 +175,18 @@ body.running .bn{display:none}
   .rbar{left:248px}
 }
 
+/* question screen: highlighter + submit (owner, 28 Nov 2026) */
+.qtop .hlbtn{flex:none;color:var(--mut);background:var(--soft)}
+.qtop .hlbtn .ic{width:20px;height:20px}
+.qtop .hlbtn.on{color:#5a4300;background:#ffe36b;box-shadow:0 0 0 2px #f5c400 inset}
+.hla{-webkit-user-select:text;user-select:text}
+.hla.hlon{cursor:text}
+mark.hl{background:#fff09a;color:inherit;border-radius:3px;padding:0 1px;box-shadow:0 0 0 1px #f5d94a inset}
+:root[data-theme=dark] mark.hl{background:rgba(255,214,0,.32);box-shadow:none}
+.hla.hlon mark.hl{cursor:pointer}
+.rbtn.submitb{flex:1.6}
+.rbtn.submitb[disabled]{opacity:1;color:var(--mut);background:var(--soft);box-shadow:none}
+
 /* ===== Home — exact copy of the owner's mockup (28 Nov 2026). Sizes measured on the mockup; calc(1*var(--u)) = 1 CSS px on a 430-wide phone ===== */
 @font-face{font-family:'Poppins';font-weight:600;font-display:swap;src:url(../fonts/poppins-latin-600-normal.woff2) format('woff2')}
 @font-face{font-family:'Poppins';font-weight:700;font-display:swap;src:url(../fonts/poppins-latin-700-normal.woff2) format('woff2')}

@@ -23,7 +23,7 @@
     palette: '<circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1.3"/><circle cx="12" cy="8" r="1.3"/><circle cx="16" cy="10" r="1.3"/>', gear: '<circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2-1.2L14.2 2H9.8l-.4 2.5a7 7 0 0 0-2 1.2l-2.3-1-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 2 1.2l.4 2.5h4.4l.4-2.5a7 7 0 0 0 2-1.2l2.3 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z"/>',
     layers: '<path d="m12 3 9 5-9 5-9-5 9-5zM3 13l9 5 9-5M3 17l9 5 9-5"/>', flag: '<path d="M5 21V4M5 4h11l-1.5 3L16 10H5"/>', shuffle: '<path d="M16 4h4v4M20 4l-6 6M4 20l16-16M16 20h4v-4M4 4l6 6"/>',
     lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>', bolt: '<path d="M13 3 4 14h6l-1 7 9-11h-6z"/>', info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
-    crown: '<path d="M3 7l4 4 5-7 5 7 4-4-2 12H5z"/>', target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>'
+    marker: '<path d="m14.6 4.2 5.2 5.2-8.9 8.9H5.7v-5.2z"/><path d="M3.5 21h9"/>', crown: '<path d="M3 7l4 4 5-7 5 7 4-4-2 12H5z"/>', target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>'
   };
   function ic(n, c) { return '<svg class="ic' + (c ? ' ' + c : '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (I[n] || I.list) + '</svg>'; }
 
@@ -192,7 +192,7 @@
     if (kind !== 'mock' && opt.shuffle !== false) { /* keep exam order by default */ }
     if (!set.length) { toast(A('لا توجد أسئلة', 'No questions')); return; }
     var tutor = opt.tutor !== false;
-    T = { kind: kind, id: id, list: set, i: 0, answers: {}, tutor: tutor, timed: !tutor, started: Date.now() };
+    T = { kind: kind, id: id, list: set, i: 0, answers: {}, pick: {}, tutor: tutor, timed: !tutor, started: Date.now() };
     if (T.timed) { T.endAt = Date.now() + set.length * 60000; T.timer = setInterval(tick, 1000); }
     location.hash = 'q';
   }
@@ -203,41 +203,91 @@
     $('#ph').innerHTML = '';
     document.body.classList.add('running');
     var tt = T.kind === 'mock' ? A('امتحان تجريبي', 'Mock exam') : T.kind === 'exam' ? (EXM[T.id] || {}).title : T.kind === 'subject' ? SUBN[T.id] : T.kind === 'marked' ? A('المعلّمة', 'Marked') : A('الأخطاء', 'Incorrect');
-    var reveal = T.tutor && a != null;
-    var h = '<div class="qtop"><button class="sqb sm" data-act="quit">' + ic('back') + '</button><span class="pbln" style="margin:0"><i style="width:' + Math.round(100 * (T.i + 1) / T.list.length) + '%"></i></span><b style="font-size:.85em;white-space:nowrap">' + (T.i + 1) + '/' + T.list.length + '</b>' + (T.timed ? '<span class="pill" id="tmr">' + ic('timer') + fmt(Math.max(0, T.endAt - Date.now())) + '</span>' : '') + '</div>';
+    var reveal = T.tutor && a != null, pk = T.tutor ? T.pick[g] : a, H = hlOf(g), HL = hlOn();
+    var h = '<div class="qtop"><button class="sqb sm" data-act="quit">' + ic('back') + '</button><span class="pbln" style="margin:0"><i style="width:' + Math.round(100 * (T.i + 1) / T.list.length) + '%"></i></span><b style="font-size:.85em;white-space:nowrap">' + (T.i + 1) + '/' + T.list.length + '</b><button class="sqb sm hlbtn' + (HL ? ' on' : '') + '" data-act="hlmode" aria-label="' + A('قلم التظليل', 'Highlighter') + '" aria-pressed="' + HL + '">' + ic('marker') + '</button>' + (T.timed ? '<span class="pill" id="tmr">' + ic('timer') + fmt(Math.max(0, T.endAt - Date.now())) + '</span>' : '') + '</div>';
     h += '<div class="qmeta"><span class="pill">' + esc(tt) + '</span><span class="pill">' + ic(SICO[q.s] || 'layers') + esc(SUBN[q.s] || q.s) + '</span>' + (q.x && q.x.length > 1 ? '<span class="pill" title="appears in several papers">' + ic('layers') + A('مكرر', 'repeat') + '</span>' : '') + '</div>';
-    h += '<div class="qcard"><span class="qnum">' + A('سؤال', 'Question') + ' ' + (T.i + 1) + '</span><p class="qtext">' + esc(q.q) + '</p>';
+    h += '<div class="qcard"><span class="qnum">' + A('سؤال', 'Question') + ' ' + (T.i + 1) + '</span><p class="qtext hla' + (HL ? ' hlon' : '') + '" data-hk="q">' + markText(q.q, H.q) + '</p>';
     if (q.img) h += '<img class="qimg" src="' + esc(q.img) + '" alt="">';
     h += '<div class="opts">';
     q.o.forEach(function (op, k) {
       var cls = '';
       if (reveal) { if (k === q.a) cls = ' right'; else if (k === a) cls = ' wrong'; }
-      else if (a === k) cls = ' sel';
-      h += '<button class="opt' + cls + '" data-opt="' + k + '"' + (reveal ? ' disabled' : '') + '><span class="k">' + String.fromCharCode(65 + k) + '</span><span class="ot">' + esc(op) + '</span>' + (reveal && (k === q.a || k === a) ? '<span class="m">' + ic(k === q.a ? 'checkc' : 'cross') + '</span>' : '') + '</button>';
+      else if (pk === k) cls = ' sel';
+      h += '<button class="opt' + cls + '" data-opt="' + k + '"' + (reveal ? ' disabled' : '') + '><span class="k">' + String.fromCharCode(65 + k) + '</span><span class="ot">' + esc(op) + '</span>' + (reveal && (k === q.a || k === a) ? '<span class="m">' + ic(k === q.a ? 'check' : 'cross') + '</span>' : '') + '</button>';
     });
     h += '</div>';
-    if (reveal) h += '<div class="exp"><b>' + ic('info') + ' ' + (a === q.a ? A('صحيح', 'Correct') : A('الإجابة الصحيحة: ', 'Correct answer: ') + String.fromCharCode(65 + q.a)) + '</b><p>' + esc(q.e || A('لا يوجد شرح.', 'No explanation.')) + '</p></div>';
+    if (reveal) h += '<div class="exp"><b>' + ic('info') + ' ' + (a === q.a ? A('صحيح', 'Correct') : A('الإجابة الصحيحة: ', 'Correct answer: ') + String.fromCharCode(65 + q.a)) + '</b><p class="hla' + (HL ? ' hlon' : '') + '" data-hk="e">' + (q.e ? markText(q.e, H.e) : esc(A('لا يوجد شرح.', 'No explanation.'))) + '</p></div>';
     h += '</div>';
     $('#v').innerHTML = h;
     $('#bn').innerHTML = '';
-    bottomBar(g, a);
+    bottomBar(g, a, pk);
   }
-  function bottomBar(g, a) {
-    var last = T.i >= T.list.length - 1, answered = a != null;
+  function bottomBar(g, a, pk) {
+    var last = T.i >= T.list.length - 1, answered = a != null, needSubmit = T.tutor && !answered;
     var bar = document.getElementById('rbar'); if (bar) bar.remove();
     bar = document.createElement('div'); bar.id = 'rbar'; bar.className = 'rbar';
     bar.innerHTML = '<button class="rbtn icon markbtn ' + (markOn(g) ? 'on' : '') + '" data-act="mark">' + ic('mark') + '</button>' +
-      '<button class="rbtn" data-act="prev"' + (T.i === 0 ? ' disabled' : '') + '>' + ic('back') + '</button>' +
-      (last ? '<button class="rbtn pri" data-act="finish">' + A('إنهاء', 'Finish') + ic('check') + '</button>'
+      '<button class="rbtn' + (needSubmit ? ' icon' : '') + '" data-act="prev"' + (T.i === 0 ? ' disabled' : '') + ' aria-label="' + A('السابق', 'Previous') + '">' + ic('back') + '</button>' +
+      (needSubmit
+        ? '<button class="rbtn pri submitb" data-act="submit"' + (pk == null ? ' disabled' : '') + '>' + ic('check') + A('تأكيد الإجابة', 'Submit answer') + '</button>' +
+          (last ? '<button class="rbtn icon" data-act="finish" aria-label="' + A('إنهاء', 'Finish') + '">' + ic('flag') + '</button>' : '<button class="rbtn icon" data-act="next" aria-label="' + A('التالي', 'Next') + '">' + ic('fwd') + '</button>')
+        : last ? '<button class="rbtn pri" data-act="finish">' + A('إنهاء', 'Finish') + ic('check') + '</button>'
             : '<button class="rbtn pri" data-act="next">' + A('التالي', 'Next') + ic('fwd') + '</button>');
     document.body.appendChild(bar);
   }
   function choose(k) {
     var g = T.list[T.i], q = Q[g];
-    if (T.tutor) { if (T.answers[g] != null) return; T.answers[g] = k; record(g, k, k === q.a); }
+    if (T.tutor) { if (T.answers[g] != null) return; T.pick[g] = k; }   /* only selects; Submit reveals */
     else { T.answers[g] = k; }
     runner();
   }
+  function submit() {
+    var g = T.list[T.i], q = Q[g], k = T.pick[g];
+    if (k == null || T.answers[g] != null) return;
+    T.answers[g] = k; record(g, k, k === q.a);
+    runner();
+  }
+
+  /* ---- highlighter: offsets in the plain text of the question (q) and the explanation (e), per question ---- */
+  function hlOn() { return !!get('hlon', false); }
+  function hlOf(g) { var all = get('hl', {}), h = all[g] || {}; return { q: h.q || [], e: h.e || [] }; }
+  function hlSave(g, k, list) { var all = get('hl', {}); all[g] = all[g] || {}; all[g][k] = list; if (!list.length) delete all[g][k]; if (!all[g].q && !all[g].e) delete all[g]; put('hl', all); }
+  function hlMerge(list) {
+    list = list.filter(function (r) { return r[1] > r[0]; }).sort(function (a, b) { return a[0] - b[0]; });
+    var out = [];
+    list.forEach(function (r) { var l = out[out.length - 1]; if (l && r[0] <= l[1]) l[1] = Math.max(l[1], r[1]); else out.push([r[0], r[1]]); });
+    return out;
+  }
+  function markText(t, list) {
+    t = String(t == null ? '' : t); var h = '', at = 0;
+    hlMerge(list || []).forEach(function (r) { var a = Math.max(at, Math.min(r[0], t.length)), b = Math.min(r[1], t.length); if (b <= a) return;
+      h += esc(t.slice(at, a)) + '<mark class="hl" data-a="' + a + '" data-b="' + b + '">' + esc(t.slice(a, b)) + '</mark>'; at = b; });
+    return h + esc(t.slice(at));
+  }
+  function hlTake() {
+    if (!T || !hlOn()) return false;
+    var sel = window.getSelection(); if (!sel || sel.isCollapsed || !sel.rangeCount) return false;
+    var r = sel.getRangeAt(0), box = (r.commonAncestorContainer.nodeType === 1 ? r.commonAncestorContainer : r.commonAncestorContainer.parentNode).closest('.hla');
+    if (!box) return false;
+    var pre = document.createRange(); pre.selectNodeContents(box); pre.setEnd(r.startContainer, r.startOffset);
+    var a = pre.toString().length, b = a + r.toString().length;
+    var txt = box.textContent; while (a < b && /\s/.test(txt[a])) a++; while (b > a && /\s/.test(txt[b - 1])) b--;
+    if (b <= a) return false;
+    var g = T.list[T.i], k = box.dataset.hk, H = hlOf(g), q = Q[g], list = hlMerge(H[k].concat([[a, b]]));
+    hlSave(g, k, list); sel.removeAllRanges();
+    box.innerHTML = markText(k === 'q' ? q.q : q.e, list);
+    return true;
+  }
+  var hlT = 0;
+  document.addEventListener('selectionchange', function () { clearTimeout(hlT); if (T && hlOn()) hlT = setTimeout(hlTake, 650); });
+  ['mouseup', 'touchend'].forEach(function (ev) { document.addEventListener(ev, function () { if (T && hlOn()) setTimeout(function () { clearTimeout(hlT); hlTake(); }, 30); }); });
+  document.addEventListener('click', function (e) {   /* tap a highlight (highlighter on) to remove it */
+    var m = e.target.closest && e.target.closest('mark.hl'); if (!m || !T || !hlOn()) return;
+    var sel = window.getSelection(); if (sel && !sel.isCollapsed) return;
+    var box = m.closest('.hla'), g = T.list[T.i], k = box.dataset.hk, q = Q[g], a = +m.dataset.a, b = +m.dataset.b;
+    var list = hlOf(g)[k].filter(function (r) { return r[1] <= a || r[0] >= b; });
+    hlSave(g, k, list); box.innerHTML = markText(k === 'q' ? q.q : q.e, list);
+  });
 
   function finish() {
     if (T.timer) clearInterval(T.timer);
@@ -321,7 +371,7 @@
   /* ---------- sheets ---------- */
   function sheet(html) { var s = $('#sheet'); s.innerHTML = '<div class="sh-bg" data-act="shclose"></div><div class="sh-box"><i class="sh-grip"></i>' + html + '</div>'; s.hidden = false; }
   function closeSheet() { $('#sheet').hidden = true; }
-  function toast(m) { var t = $('#toast'); t.textContent = m; t.hidden = false; clearTimeout(toast._); toast._ = setTimeout(function () { t.hidden = true; }, 1800); }
+  function toast(m) { var t = $('#toast'); t.textContent = m; t.hidden = false; clearTimeout(toast._); toast._ = setTimeout(function () { t.hidden = true; }, Math.max(1800, String(m).length * 45)); }
 
   var PALS = [['navy', 'Default', '#1269b0'], ['blue', 'Green', '#0d6b5c'], ['ocean', 'Ocean', '#1768b3'], ['teal', 'Teal', '#0b6870'], ['purple', 'Purple', '#5a3d8f'], ['maroon', 'Maroon', '#7d2843'], ['graphite', 'Graphite', '#3a4450']];
   function settings() {
@@ -345,13 +395,15 @@
     prev: function () { if (T.i > 0) { T.i--; runner(); } },
     next: function () { if (T.i < T.list.length - 1) { T.i++; runner(); } },
     finish: function () { var b = document.getElementById('rbar'); if (b) b.remove(); finish(); },
+    submit: function () { submit(); },
+    hlmode: function () { var on = !hlOn(); put('hlon', on); runner(); toast(on ? A('التظليل مفعّل: حدّد نصًا لتظليله، والمس التظليل لإزالته', 'Highlighter on: select text to highlight it; tap a highlight to remove it') : A('أُوقف التظليل', 'Highlighter off')); },
     mark: function () { var g = T.list[T.i]; toggleMark(g); $$('.markbtn').forEach(function (x) { x.classList.toggle('on', markOn(g)); }); },
     subscribe: function () { try { (window.parent && window.parent !== window ? window.parent : window.top).postMessage({ exam: 'buy' }, '*'); } catch (e) {} if (!(window.parent && window.parent !== window)) toast(A('الاشتراك من داخل منصة SMRA', 'Subscribe from inside the SMRA platform')); },
     recheck: function () { askParent(); toast(A('جارٍ التحقق…', 'Checking…')); }
   };
   document.addEventListener('click', function (e) {
     var el = e.target.closest('[data-go],[data-act],[data-opt],[data-pal],[data-fs],[data-lang],[data-start]');
-    if (!el) return;
+    if (!el || el === document.documentElement || el === document.body) return;
     if (el.dataset.go != null) { go(el.dataset.go); return; }
     if (el.dataset.opt != null) { choose(+el.dataset.opt); return; }
     if (el.dataset.pal) { try { localStorage.setItem('ex-pal', JSON.stringify(el.dataset.pal)); } catch (x) {} document.documentElement.dataset.pal = el.dataset.pal; settings(); return; }
