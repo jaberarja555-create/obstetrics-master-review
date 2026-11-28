@@ -367,7 +367,7 @@
     h += '<button class="emg" data-go="emerg"><span class="emg-i">' + ic('siren') + '</span><span class="emg-t"><b>' + T('Emergency doses') + '</b><small>' +
       (ready() ? A('محسوبة لوزن ', 'Calculated for ') + '<bdi dir="ltr">' + wtTxt() + '</bdi>' : A('كل جرعات الطوارئ بالوزن', 'Every emergency dose by weight')) + '</small></span><span class="emg-go">' + ic('fwd') + '</span></button>';
     var rec = get('ho-recent', []).filter(function (id) { return byId[id]; }).slice(0, 2);
-    if (rec.length) h += '<h2 class="st rec-h">' + T('Recent') + '</h2><div class="rec">' + rec.map(function (id) { return '<button data-go="c/' + id + '">' + ic(SYSIC[byId[id].sys] || 'list') + T(byId[id].t) + ic('fwd', 'chv') + '</button>'; }).join('') + '</div>';
+    if (rec.length) h += '<h2 class="st rec-h">' + T('Recent') + '</h2>' + '<section class="card list recl rec">' + rec.map(function (id) { var c = byId[id]; return '<button class="lrow" data-go="c/' + id + '"><span class="lrow-i">' + ic(SYSIC[c.sys] || 'list') + '</span><span class="lrow-t">' + T(c.t) + '<small dir="ltr">' + esc((SYS[c.sys] || [''])[0]) + '</small></span>' + ic('fwd', 'flip') + '</button>'; }).join('') + '</section>';
     h += '<div class="minis"><button data-go="saved"><span class="mi">' + ic('bmark') + '<em>' + get('ho-pts', []).length + '</em></span><b>' + T('Saved') + '</b></button>' +
       '<button data-go="calc/dehyd"><span class="mi">' + ic('drop2') + '</span><b>' + T('Dehydration') + '</b></button>' +
       '<button data-go="settings"><span class="mi">' + ic('gear2') + '</span><b>' + T('Settings') + '</b></button></div>';
@@ -659,16 +659,28 @@
     return '<div class="srch">' + ic('search') + '<input id="cq" type="search" dir="auto" value="' + esc(CQ) + '" placeholder="' + A('ابحث في كل الأمراض (عربي أو إنجليزي)', 'Search every condition') + '"></div>' +
       '<div id="clist">' + (CQ ? condList('') : sysGrid(rec)) + '</div>';
   }
+  function sysSheet() {
+    sheet('<h2 class="ch"><span class="chi">' + ic('list') + '</span>' + T('Body systems') + '</h2><div class="sxlist">' + Object.keys(SYS).map(function (k) {
+      return '<button class="lrow" data-act="sysopen" data-k="' + k + '"><span class="lrow-i">' + ic(SYSIC[k] || 'list') + '</span><span class="lrow-t">' + T(SYS[k][0]) + '<small>' + A(nCase(sysCount(k)), sysCount(k) + (sysCount(k) === 1 ? ' condition' : ' conditions')) + '</small></span>' + ic('fwd', 'flip') + '</button>';
+    }).join('') + '</div>');
+  }
+  ACT.syspick = function () { sysSheet(); };
+  ACT.sysopen = function (b) {
+    var k = b.dataset.k;
+    sheet('<h2 class="ch"><button class="sqb sm" data-act="syspick" aria-label="' + A('رجوع', 'Back') + '">' + ic('back') + '</button>' + T(SYS[k][0]) + '</h2><div class="sxlist">' +
+      DX.filter(function (c) { return c.sys === k; }).map(function (c) { return '<button class="lrow" data-act="condgo" data-v="' + c.id + '"><span class="lrow-i">' + ic(SYSIC[k] || 'list') + '</span><span class="lrow-t">' + T(c.t) + '</span>' + ic('fwd', 'flip') + '</button>'; }).join('') + '</div>');
+  };
+  ACT.condgo = function (b) { closeSheet(); go('c/' + b.dataset.v); };
   function sysGrid(rec) {
     return (rec && rec.length ? '<h2 class="st">' + T('Recent') + '</h2><section class="card list recl">' + rec.map(function (id) { var c = byId[id]; return '<button class="lrow" data-go="c/' + id + '"><span class="lrow-i">' + ic(SYSIC[c.sys] || 'list') + '</span><span class="lrow-t">' + T(c.t) + '<small dir="ltr">' + esc((SYS[c.sys] || [''])[0]) + '</small></span>' + ic('fwd', 'flip') + '</button>'; }).join('') + '</section>' : '') +
-      '<h2 class="st">' + T('Body systems') + '</h2><div class="qt">' + Object.keys(SYS).map(function (k) {
-        return '<button class="tool" data-go="conds/' + k + '"><span class="ib2 lg">' + ic(SYSIC[k] || 'list') + '</span><span class="tool-t"><b>' + T(SYS[k][0]) + '</b><small>' + A(nCase(sysCount(k)), sysCount(k) + (sysCount(k) === 1 ? ' condition' : ' conditions')) + '</small></span>' + ic('fwd', 'chv') + '</button>';
-      }).join('') + '</div>' +
+      /* body systems in a pop-up, then the system's conditions in the same pop-up (owner, 28 Nov 2026) */
+      '<h2 class="st">' + T('Body systems') + '</h2><button class="fndb sysb" data-act="syspick"><span class="ib2">' + ic('list') + '</span><span class="fndp">' + A('اختر الجهاز ثم الحالة', 'Choose a body system, then the condition') + '</span>' + ic('fwd', 'chv') + '</button>' +
+
       '<button class="emg alt" data-go="dx"><span class="emg-i">' + ic('stetho2') + '</span><span class="emg-t"><b>' + T('Diagnose from symptoms') + '</b><small>' + A('لا تعرف التشخيص؟ اختر الأعراض', 'Not sure? Pick the symptoms') + '</small></span>' + '<span class="emg-go">' + ic('fwd') + '</span></button>';
   }
   function condList(sys) {
     var q = CQ.trim().toLowerCase();
-    if (!sys && !q) return sysGrid(get('ho-recent', []).filter(function (id) { return byId[id]; }).slice(0, 6));
+    if (!sys && !q) return sysGrid(get('ho-recent', []).filter(function (id) { return byId[id]; }).slice(0, 3));
     var L = DX.filter(function (c) { return (!sys || c.sys === sys) && (!q || (c.t + ' ' + c.ar).toLowerCase().indexOf(q) >= 0); });
     if (!L.length) return '<p class="empty">' + A('لا توجد نتيجة', 'Nothing found') + '</p>';
     return '<section class="card list">' + L.map(function (c) {

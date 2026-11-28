@@ -685,3 +685,15 @@ details[open].grp>summary,details[open].acc>summary,details[open].moreb>summary{
 .lv.lo{color:#1d63c9;background:#eef4fd}.lv.hi{color:#c23030;background:#fdf0f0}.lv.ok{color:#14794f}
 .lv.on{background:var(--p)!important;color:#fff!important;border-color:var(--p)}
 .lother{display:flex;gap:8px;margin:12px 0 6px}.lother .inp{flex:1}
+/* Home recent = the same list as Conditions (owner, 28 Nov 2026) */
+.rec.recl{display:block!important;flex-wrap:initial;gap:0;overflow:visible}
+.rec.recl button.lrow{display:flex!important;width:100%;border-radius:0;background:none;border:0;padding:8px 10px;font:inherit;white-space:normal}
+body[data-page=home] .rec.recl .lrow-t small{font-size:.72em}
+body[data-page=home] .rec.recl .lrow-i{width:34px;height:34px}
+@media(min-width:1024px){body[data-page=home] #v>.rec.recl{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}}
+.fndb.sysb{background:var(--sf);box-shadow:var(--sh);border-color:transparent;padding:10px 12px}
+.fndb.sysb .ib2{width:40px;height:40px;flex:none}
+.fndb.sysb .fndp{color:var(--tx);font-weight:700;flex:1}
+.sxlist .lrow{width:100%;border-bottom:1px solid var(--line)}
+.ch .sqb.sm{width:36px;height:36px;margin-inline-end:4px}
+@media(min-width:1024px) and (max-height:760px){body[data-page=home] #v>.rec.recl .lrow{padding:6px 10px}body[data-page=home] #v>.rec.recl .lrow-t small{display:none}body[data-page=home] #v>.st.rec-h{display:none}}
