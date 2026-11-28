@@ -391,30 +391,33 @@
   }
 
   /* ---------- PROGRESS ---------- */
+  /* Progress on one screen (owner, 28 Nov 2026): summary card (accuracy circle + Answered · Correct · Wrong · Day streak), six subject tiles two
+     to a row, and one card switching between Weak areas and Previous tests (top 3 each, `ex-prtab`); fitted to the phone like Home. */
   function progress() {
     head('Progress', A('تقييم أدائك', 'Your performance'), true);
-    var s = seen(), st = stats(), streak = get('streak', { n: 0 });
-    var h = '<section class="hero" style="padding:18px"><small>' + A('نسبة الإجابات الصحيحة', 'Overall accuracy') + '</small><h2>' + st.pct + '%</h2><i class="hero-bar"></i><p>' + st.answered + '/' + E.total + ' ' + A('سؤال · ', 'answered · ') + streak.n + ' ' + A('يوم متتالٍ', 'day streak') + '</p>' + ring(st.pct) + '</section>';
-    h += '<div class="rgrid" style="margin-top:14px"><div class="rtile"><b>' + st.answered + '</b><small>' + A('مُجاب', 'Answered') + '</small></div><div class="rtile"><b style="color:var(--ok)">' + st.correct + '</b><small>' + A('صحيح', 'Correct') + '</small></div><div class="rtile"><b>' + st.unused + '</b><small>' + A('متبقٍ', 'Unused') + '</small></div></div>';
-    /* per subject */
-    h += '<h2 class="st">' + A('الأداء حسب المادة', 'Performance by subject') + '</h2><section class="card list">' + (E.subjects || []).map(function (su) {
-      var qs = qsOfSubject(su[0]), a = 0, c = 0; qs.forEach(function (g) { if (s[g]) { a++; if (s[g].c) c++; } });
-      var p = a ? Math.round(100 * c / a) : 0;
-      return '<button class="lrow" data-act="start" data-k="subject" data-i="' + su[0] + '"><span class="ib2">' + ic(SICO[su[0]] || 'layers') + '</span><span class="lrow-t"><b>' + esc(su[1]) + '</b><small>' + (a ? c + '/' + a + ' ' + A('صحيح', 'correct') : A('لم تبدأ', 'not started')) + '</small><span class="pbln"><i style="width:' + p + '%;background:' + (!a ? 'var(--line)' : p >= 60 ? 'var(--ok)' : 'var(--red)') + '"></i></span></span><span class="cnt">' + p + '%</span></button>';
-    }).join('') + '</section>';
-    /* weak areas */
-    var weak = (E.subjects || []).map(function (su) { var qs = qsOfSubject(su[0]), a = 0, c = 0; qs.forEach(function (g) { if (s[g]) { a++; if (s[g].c) c++; } }); return { id: su[0], n: su[1], a: a, p: a ? Math.round(100 * c / a) : -1 }; }).filter(function (x) { return x.a >= 3 && x.p < 60; }).sort(function (a, b) { return a.p - b.p; });
+    var s = seen(), st = stats(), streak = get('streak', { n: 0 }), N = function (x) { return (+x || 0).toLocaleString(AR() ? 'ar-EG' : 'en'); };
+    var h = '<div class="fitw prw"><div class="hgp"><section class="prs">' + miniRing(st.pct, st.pct + '%', A('الدقة', 'Accuracy')) +
+      '<div class="prs-g">' + [[N(st.answered), A('مُجاب', 'Answered'), ''], [N(st.correct), A('صحيح', 'Correct'), 'ok'], [N(st.answered - st.correct), A('خطأ', 'Wrong'), 'bad'], [N(streak.n), A('يوم متتالٍ', 'Day streak'), '']].map(function (x) {
+        return '<span class="prs-t ' + x[2] + '"><b>' + x[0] + '</b><small>' + x[1] + '</small></span>'; }).join('') + '</div>' +
+      '<p class="prs-n">' + A(N(st.unused) + ' سؤالًا لم تُجب عنها بعد من ' + N(ntotal()), N(st.unused) + ' of ' + N(ntotal()) + ' questions not tried yet') + '</p></section></div>';
+    var subj = (E.subjects || []).map(function (su) { var qs = qsOfSubject(su[0]), a = 0, c = 0; qs.forEach(function (g) { if (s[g]) { a++; if (s[g].c) c++; } }); return { id: su[0], n: su[1], a: a, c: c, p: a ? Math.round(100 * c / a) : 0 }; });
+    h += '<div class="hgp"><h2 class="st hst">' + A('الأداء حسب المادة', 'Performance by Subject') + '</h2><div class="prsub">' + subj.map(function (x) {
+      var col = !x.a ? '' : x.p >= 75 ? ' good' : x.p >= 60 ? ' mid' : ' low';
+      return '<button class="prt' + col + '" data-act="start" data-k="subject" data-i="' + esc(x.id) + '"><span class="ext-i">' + ic(SICO[x.id] || 'layers') + '</span><span class="prt-t"><b dir="auto">' + esc(x.n) + '</b>' +
+        '<small>' + (x.a ? x.p + '% · ' + x.c + '/' + x.a : A('لم تبدأ', 'Not started')) + '</small><i class="prt-b"><i style="width:' + (x.a ? x.p : 0) + '%"></i></i></span></button>';
+    }).join('') + '</div></div>';
+    var weak = subj.filter(function (x) { return x.a >= 3 && x.p < 60; }).sort(function (a, b) { return a.p - b.p; });
+    var tests = get('tests', []), tab = get2('ex-prtab', 'weak');
     /* a subject is weak once 3 or more of its questions are answered and under 60 % of them are right; a tap practises that subject */
-    h += '<h2 class="st">' + A('نقاط الضعف', 'Weak areas') + '</h2>' + (weak.length ? '<section class="card list">' + weak.map(function (w) {
-      return '<button class="lrow" data-act="start" data-k="subject" data-i="' + esc(w.id) + '"><span class="ib2">' + ic('target') + '</span><span class="lrow-t"><b>' + esc(w.n) + '</b><small>' +
-        A(w.p + '% صحيح من ' + w.a + ' سؤال · اضغط للتدرّب', w.p + '% correct of ' + w.a + ' answered · tap to practise') + '</small></span>' + ic('chv') + '</button>'; }).join('') + '</section>'
-      : '<section class="card"><p style="margin:0;color:var(--mut)">' + A('تظهر المادة هنا عندما تجيب 3 أسئلة أو أكثر منها وتكون إجاباتك الصحيحة أقل من 60%.', 'A subject shows here once you have answered 3 or more of its questions and under 60% of them are right.') + '</p></section>');
-    /* previous tests */
-    var tests = get('tests', []);
-    if (tests.length) h += '<h2 class="st">' + A('اختباراتك السابقة', 'Previous tests') + '</h2><section class="card list">' + tests.slice(0, 10).map(function (t) {
-      var name = t.kind === 'mock' ? A('تجريبي', 'Mock') : t.kind === 'exam' ? (EXM[t.id] || {}).title : t.kind === 'subject' ? SUBN[t.id] : t.kind;
-      return '<div class="lrow"><span class="lrow-t"><b>' + esc(name || t.kind) + '</b><small>' + new Date(t.t).toLocaleDateString() + ' · ' + t.ans + '/' + t.n + '</small></span><span class="cnt" style="background:' + (t.pct >= 60 ? 'var(--okbg)' : 'var(--redbg)') + ';color:' + (t.pct >= 60 ? 'var(--ok)' : 'var(--red)') + '">' + t.pct + '%</span></div>';
-    }).join('') + '</section>';
+    var body = tab === 'tests' ? (tests.length ? tests.slice(0, 3).map(function (t) {
+        var name = t.kind === 'mock' ? A('امتحان تجريبي', 'Mock exam') : t.kind === 'exam' ? shortTitle((EXM[t.id] || {}).title || '', '') : t.kind === 'subject' ? SUBN[t.id] : t.kind === 'all' ? A('كل الأسئلة', 'All questions') : t.kind;
+        return '<div class="prr"><span class="ext-i">' + ic('chart') + '</span><span class="prr-t"><b dir="auto">' + esc(name || t.kind) + '</b><small>' + new Date(t.t).toLocaleDateString(A('ar-EG', 'en-GB'), { day: 'numeric', month: 'short' }) + ' · ' + t.ans + '/' + t.n + '</small></span><span class="prr-p ' + (t.pct >= 60 ? 'ok' : 'bad') + '">' + t.pct + '%</span></div>';
+      }).join('') : '<p class="prx">' + A('لم تُنهِ أي اختبار بعد.', 'You have not finished a test yet.') + '</p>')
+      : (weak.length ? weak.slice(0, 3).map(function (w) {
+        return '<button class="prr" data-act="start" data-k="subject" data-i="' + esc(w.id) + '"><span class="ext-i wk">' + ic('target') + '</span><span class="prr-t"><b>' + esc(w.n) + '</b><small>' + A(w.p + '% صحيح من ' + w.a + ' · اضغط للتدرّب', w.p + '% correct of ' + w.a + ' · tap to practise') + '</small></span>' + ic('chv') + '</button>';
+      }).join('') : '<p class="prx">' + A('تظهر المادة هنا عندما تجيب 3 أسئلة أو أكثر منها وتكون إجاباتك الصحيحة أقل من 60%.', 'A subject shows here once you have answered 3 or more of its questions and under 60% of them are right.') + '</p>');
+    h += '<div class="hgp"><section class="prc"><div class="prtabs"><button class="' + (tab !== 'tests' ? 'on' : '') + '" data-act="prtab" data-t="weak">' + A('نقاط الضعف', 'Weak areas') + (weak.length ? ' <i>' + weak.length + '</i>' : '') + '</button>' +
+      '<button class="' + (tab === 'tests' ? 'on' : '') + '" data-act="prtab" data-t="tests">' + A('اختباراتك السابقة', 'Previous tests') + (tests.length ? ' <i>' + tests.length + '</i>' : '') + '</button></div><div class="prbody">' + body + '</div></section></div></div>';
     return h;
   }
 
@@ -460,6 +463,7 @@
   /* ---------- actions ---------- */
   var ACT = {
     menu: function () { go('more'); }, settings: settings, theme: cycleTheme, shclose: closeSheet,
+    prtab: function (el) { try { localStorage.setItem('ex-prtab', JSON.stringify(el.dataset.t)); } catch (e) {} render(); },
     exgrp: function (el) { try { localStorage.setItem('ex-grp', JSON.stringify(el.dataset.g)); } catch (e) {} render(); },
     lvstart: function (el) { LVSEL = +el.dataset.lv || 0; openStart('all', '', true); },
     lvsel: function (el) { LVSEL = +el.dataset.lv || 0; openStart(el.dataset.k, el.dataset.i || '', true); },

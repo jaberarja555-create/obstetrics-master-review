@@ -1879,3 +1879,6 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
   (Progress): a subject with 3+ answered questions and under 60 % right; each row starts practice of that subject; an empty state explains the rule.
 - **Permanent Exam hero: two small circles (owner, 28 Nov 2026):** «Correct» = % of answers right; «Answered» = number answered, the circle filling
   over the whole bank (`miniRing`, `.hrings`); the single 50 % ring and the corner cross are gone.
+- **Permanent Exam Progress on one screen (owner, 28 Nov 2026):** summary card (accuracy circle + Answered · Correct · Wrong · Day streak, questions
+  not tried), six subject tiles two to a row (% · correct/answered, bar green ≥ 75 / amber ≥ 60 / red; tap = practise; the tiles take the spare
+  height), one card switching Weak areas | Previous tests (top 3, `ex-prtab`). Fitted like Home (`.fitw.prw`).
