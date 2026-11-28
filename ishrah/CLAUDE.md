@@ -1899,3 +1899,6 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
   card (`noDx`); Emergency doses before age/weight = «On this page» chips of every emergency + Fatal mistakes (closed); Saved patients, empty = the
   current patient with Save, «How saving works» in 3 steps, privacy line. `fitPage()` now tries sizes 72–112 % and keeps the largest that does not
   scroll (tall phones get slightly larger text instead of an empty band). Tested 360×640, 390×740, 412×915: nothing scrolls.
+- **HO Guide did not open (28 Nov 2026):** adding #ex-host to the full-screen frame rules (css/mr.css, commit e6309d3) dropped «[hidden]» / « .bk-fr» /
+  « .bk-back» after #ho-host, so `#ho-host{display:none}` hid the guide always and its frame had no size. Fixed; when adding a host to those rules,
+  write each selector in full.
