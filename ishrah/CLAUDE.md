@@ -1762,3 +1762,7 @@ studentmasterreview.com with HTTP/3 off). Now:
   Each dose row names its preparation («2 mL of Syrup 125 mg/5 mL (50 mg)») and the same dose in the other syrups; rows used for this patient
   come first in green («For this patient: Neonatal sepsis»), the rest dimmed under «Other uses» (`relRules`). Under 1 year the weakest syrup
   of the rule is chosen (`prefForm`, also in plans) so small volumes are accurate. Arabic days: يوم واحد · يومان · 3–10 أيام · يومًا. Guide v21.
+- **Treatment plan page answers for the patient too (owner, 28 Nov 2026):** each drug row shows its other trade names (`.pr-tn`), the
+  preparation the amount is measured from and the same dose in the other syrup (`fromForm`, `.pr-from`; under 1 year the weaker syrup,
+  `prefForm`, also in the ⓘ sheet). A newborn on a children's plan (condition not in sys 'neo') gets a note at the top, and each drug with no
+  newborn dose (`neoOK` false) is marked «child dose, no separate newborn dose: check with your senior». Guide v22.

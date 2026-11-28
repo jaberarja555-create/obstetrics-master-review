@@ -622,3 +622,9 @@ details[open].grp>summary,details[open].acc>summary,details[open].moreb>summary{
 .drow-k .forpt{display:block;font-style:normal;font-size:.74em;font-weight:700;color:#1f9d6b;margin-top:2px;line-height:1.3}
 .drow-sep{padding:8px 4px 2px;font-size:.78em;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.03em}
 .drow-v .ff,.drow-v .ff *{border:0!important;background:none!important;padding:0!important;box-shadow:none!important;border-radius:0!important;min-height:0!important}
+/* plan rows: preparation the amount is from, the same dose in the other syrup, trade names (owner, 28 Nov 2026) */
+.pr-from .ff{display:block;font-style:normal;font-size:.8em;font-weight:700;color:var(--p);margin-top:1px}
+.pr-from .ff.alt{color:var(--mut);font-weight:600}
+.pr-from .ff,.pr-from .ff *{border:0!important;background:none!important;padding:0!important}
+.pr-tn{display:flex;flex-wrap:wrap;gap:5px;margin:2px 0 4px}
+.pr-tn b{background:var(--accs);color:var(--p);border-radius:999px;padding:1px 9px;font:700 .74em Pop,sans-serif}

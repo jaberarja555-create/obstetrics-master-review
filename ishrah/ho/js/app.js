@@ -505,18 +505,23 @@
     var d = o.drug, nm = drugName(d), rx = E.rxLine(o), key = it.d + '|' + it.r;
     if (!ready()) return '<article class="pr wait"><div class="pr-h"><span class="pr-n">' + T(nm.main) + (nm.sub ? '<small dir="ltr">' + esc(nm.sub) + '</small>' : '') + '</span></div><p class="pend">' + ic('calc') + A('تظهر الجرعة بعد اختيار العمر والوزن', 'The dose appears once age and weight are chosen') + '</p></article>';
     var stops = o.warn.filter(function (w) { return w.lvl === 'stop'; }), warns = o.warn.filter(function (w) { return w.lvl !== 'stop'; });
+    /* newborn check in a children's plan (owner, 28 Nov 2026: "do the same for the treatment plan page") */
+    var pc = P.dx && byId[P.dx];
+    if (E.isNeo(P) && pc && pc.sys !== 'neo' && !neoOK(d)) warns.unshift({ lvl: 'warn', t: AR ? 'الدليل المحلي يعطي هذه الجرعة للأطفال ولا يذكر جرعة لحديثي الولادة: راجعها مع الأخصائي قبل الإعطاء.' : 'The local guideline gives this as a child dose with no separate newborn dose: check it with your senior before giving.' });
+    var tn = (d.b || []).filter(function (b) { return b !== nm.main; });
     return '<article class="pr">' +
       '<div class="pr-h"><span class="pr-n" data-go="drug/' + d.id + '">' + T(nm.main) + (nm.sub ? '<small dir="ltr">' + esc(nm.sub) + '</small>' : '') + '</span>' +
       '<button class="pr-i" data-act="info" data-k="' + key + '" aria-label="' + A('التفاصيل', 'Details') + '">i</button>' +
       (opt.rm ? '<button class="pr-x" data-act="unsel" data-s="' + li + '.' + ii + '" aria-label="' + A('إزالة', 'Remove') + '">✕</button>' : '') + '</div>' +
-      '<div class="pr-amt" dir="ltr">' + esc(amount(o)) + '</div>' +
+      (tn.length ? '<div class="pr-tn">' + tn.slice(0, 4).map(function (b) { return '<b dir="ltr">' + esc(b) + '</b>'; }).join('') + '</div>' : '') +
+      '<div class="pr-amt" dir="ltr">' + esc(amount(o)) + '</div>' + (o.fixed ? '' : '<div class="pr-from">' + fromForm(d, it.r, o) + '</div>') +
       '<div class="pr-how"><span>' + E.route(o.route, AR) + '</span><span>' + E.freq(o.f, AR) + '</span>' + (o.dur ? '<span dir="ltr">' + esc(o.dur) + '</span>' : '') + '</div>' +
       '<div class="pr-ar"><small>' + A('للأهل', 'For the parents') + '</small><span dir="rtl">' + esc(rx.ar) + '</span></div>' +
       (stops.length ? warnHtml(stops) : '') + (warns.length ? warnHtml(warns.slice(0, 1)) : '') + '</article>';
   }
   /* ⓘ: the calculation, the guideline shortcut, the preparation and notes, for whoever wants them */
   ACT.info = function (b) {
-    var k = b.dataset.k.split('|'), o = E.dose(k[0], k[1], P, FORMSEL[k[0] + '.' + k[1]]), d = o.drug, nm = drugName(d);
+    var k = b.dataset.k.split('|'), o = E.dose(k[0], k[1], P, prefForm(k[0], k[1])), d = o.drug, nm = drugName(d);
     var forms = o.forms.length > 1 ? '<label class="fsel"><span>' + A('المستحضر', 'Preparation') + '</span><select data-fk="' + k[0] + '.' + k[1] + '" dir="ltr">' + o.forms.map(function (f) { return '<option value="' + f.id + '"' + (o.form && o.form.id === f.id ? ' selected' : '') + '>' + esc(f.n) + '</option>'; }).join('') + '</select></label>' : (o.form ? '<p class="kv1"><span>' + A('المستحضر', 'Preparation') + '</span><b dir="ltr">' + esc(o.form.n) + '</b></p>' : '');
     sheet('<h2 class="ch"><span class="chi">' + ic('pill') + '</span>' + T(nm.main) + '</h2>' + forms +
       (o.calc ? '<p class="kv1"><span>' + A('الحساب', 'Calculation') + '</span><b dir="ltr">' + esc(o.calc) + '</b></p>' : '') +
@@ -577,6 +582,7 @@
     var h = '';
     if (!(+P.wt > 0)) h += quickPt();
     else { var m = E.ageMonths(P); if ((c.amin != null && m < c.amin) || (c.amax != null && m > c.amax)) h += '<div class="wn warn big">' + ic('alert') + '<span>' + A('عمر المريض غير معتاد لهذا التشخيص؛ راجع التشخيص.', 'This age is unusual for this diagnosis: review it.') + '</span></div>'; }
+    if (ready() && E.isNeo(P) && c.sys !== 'neo') h += '<div class="wn warn big">' + ic('baby') + '<span>' + (AR ? 'المريض حديث ولادة (' + ageTxt() + '). هذه خطة الأطفال من الدليل المحلي؛ الأدوية التي ليس لها جرعة لحديثي الولادة معلَّمة أدناه.' : 'This patient is a newborn (' + ageTxt() + '). This is the children\'s plan of the local guideline; drugs with no newborn dose are marked below.') + '</span></div>';
     h += labCard();
     if (c.variants.length > 1) h += '<div class="vtabs">' + c.variants.map(function (x) { return '<button class="' + (x === v ? 'on' : '') + '" data-go="c/' + c.id + '/' + x.id + '">' + T(x.t) + '</button>'; }).join('') + '</div>';
     h += '<section class="card plan"><h2 class="ch"><span class="chi">' + ic('pill') + '</span>' + T('Treatment') + '</h2><div id="plan">' + planList(c, v) + '</div></section>';
