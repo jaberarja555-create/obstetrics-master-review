@@ -866,7 +866,19 @@
     var L = labsEntered().filter(function (x) { return x.flag === 'lo' || x.flag === 'hi'; }); if (!L.length) return '';
     return '<div class="lres top">' + L.map(function (x) { return '<span class="' + x.flag + '"><small>' + esc(x.f[1]) + '</small><b dir="ltr">' + esc(x.v) + (x.flag === 'lo' ? ' ↓' : ' ↑') + '</b></span>'; }).join('') + '</div>';
   }
+  var CTAB = 'tx';
+  ACT.ctab = function (b) { CTAB = b.dataset.t; render(true); var p = $('.cpanel'); if (p) p.scrollTop = 0; };
+  /* the panel takes exactly the room left above the Prescription / Orders bar, so the page itself never scrolls */
+  function fitCond() {
+    var p = $('.cpanel'); if (!p) return; p.style.height = ''; p.style.maxHeight = '';
+    if (innerWidth >= 1024) return;
+    var dock = $('.dock'), bn = $('#bn').getBoundingClientRect(), top = p.getBoundingClientRect().top + scrollY;
+    var room = innerHeight - bn.height - (dock ? dock.getBoundingClientRect().height + 14 : 8) - top - 6;
+    if (room >= 120) { p.style.height = room + 'px'; var over = document.documentElement.scrollHeight - innerHeight; if (over > 0 && room - over >= 120) p.style.height = (room - over) + 'px'; }
+  }
+  addEventListener('resize', function () { clearTimeout(fitCond.t); fitCond.t = setTimeout(fitCond, 150); });
   function cond(id, vid) {
+    if (route()[1] !== cond.last) { CTAB = 'tx'; cond.last = route()[1]; }
     var c = byId[id]; if (!c) return notFound();
     var v = pickVariant(c, vid), sel = getSel(c, v);
     if (P.dx !== c.id) { P.dx = c.id; savePt(); }
@@ -879,16 +891,22 @@
     if (ready() && E.isNeo(P) && c.sys !== 'neo') h += '<div class="wn warn big">' + ic('baby') + '<span>' + (AR ? 'المريض حديث ولادة (' + ageTxt() + '). هذه خطة الأطفال من الدليل المحلي؛ الأدوية التي ليس لها جرعة لحديثي الولادة معلَّمة أدناه.' : 'This patient is a newborn (' + ageTxt() + '). This is the children\'s plan of the local guideline; drugs with no newborn dose are marked below.') + '</span></div>';
     h += labCard() + resCard(c);
     if (c.variants.length > 1) h += '<div class="vtabs">' + c.variants.map(function (x) { return '<button class="' + (x === v ? 'on' : '') + '" data-go="c/' + c.id + '/' + x.id + '">' + T(x.t) + '</button>'; }).join('') + '</div>';
-    h += '<section class="card plan"><h2 class="ch"><span class="chi">' + ic('pill') + '</span>' + T('Treatment') + '</h2><div id="plan">' + planList(c, v) + '</div></section>';
-    if (v.fluid) h += fluidCard(v.fluid);
+    /* one screen (owner, 28 Nov 2026): the sections are tabs, one shown at a time in a panel that fills the space down to the
+       Prescription / Orders buttons; a long section scrolls inside its panel, never the page (fitCond) */
     var extra = (v.extra || []).concat(c.extra || []);
-    if (extra.length) h += '<section class="card"><h2 class="ch"><span class="chi">' + ic('check') + '</span>' + T('Also') + '</h2><ul class="bl">' + extra.map(function (x) { return '<li dir="ltr">' + esc(x) + '</li>'; }).join('') + '</ul></section>';
-    h += acc('Investigations', 'flask', c.inv);
-    h += acc('Admit if', 'hosp', c.admit);
-    h += acc('Traps to avoid', 'shield', c.traps, 'trap');
-    h += acc('Complications', 'alert', c.comp);
-    h += acc('Differential diagnosis', 'list', c.ddx);
-    h += acc('About the condition', 'book', [c.about].concat(v.when ? [v.when] : []));
+    var tx = '<section class="card plan"><h2 class="ch"><span class="chi">' + ic('pill') + '</span>' + T('Treatment') + '</h2><div id="plan">' + planList(c, v) + '</div></section>' +
+      (v.fluid ? fluidCard(v.fluid) : '') +
+      (extra.length ? '<section class="card"><h2 class="ch"><span class="chi">' + ic('check') + '</span>' + T('Also') + '</h2><ul class="bl">' + extra.map(function (x) { return '<li dir="ltr">' + esc(x) + '</li>'; }).join('') + '</ul></section>' : '');
+    var more = [c.comp, c.ddx, [c.about].concat(v.when ? [v.when] : [])];
+    var TABS = [['tx', 'Treatment', 'pill', tx, 0],
+      ['inv', 'Tests', 'flask', acc('Investigations', 'flask', c.inv, '', true), (c.inv || []).length],
+      ['adm', 'Admit', 'hosp', acc('Admit if', 'hosp', c.admit, '', true), (c.admit || []).length],
+      ['trap', 'Traps', 'shield', acc('Traps to avoid', 'shield', c.traps, 'trap', true), (c.traps || []).length],
+      ['more', 'More', 'book', acc('Complications', 'alert', c.comp, '', true) + acc('Differential diagnosis', 'list', c.ddx) + acc('About the condition', 'book', more[2].filter(Boolean)), (c.comp || []).length + (c.ddx || []).length]]
+      .filter(function (t) { return t[0] === 'tx' || t[3]; });
+    var tab = TABS.some(function (t) { return t[0] === CTAB; }) ? CTAB : 'tx';
+    h += '<div class="ctabs">' + TABS.map(function (t) { return '<button class="' + (t[0] === tab ? 'on' : '') + '" data-act="ctab" data-t="' + t[0] + '">' + ic(t[2]) + '<span>' + T(t[1]) + '</span>' + (t[4] ? '<i>' + t[4] + '</i>' : '') + '</button>'; }).join('') + '</div>' +
+      '<div class="cpanel">' + TABS.filter(function (t) { return t[0] === tab; })[0][3] + '</div>';
     h += '<div class="dock"><button class="btn pri" data-go="rx">' + ic('rx') + A('الوصفة', 'Prescription') + ' <em id="rxn">' + nSel(sel) + '</em></button><button class="btn" data-go="orders">' + ic('hosp') + A('أوامر التنويم', 'Orders') + '</button></div>';
     return h;
   }
@@ -1314,6 +1332,7 @@
     if (keep !== true) scrollTo(0, 0);
     fitHome(); setTimeout(fitHome, 250); setTimeout(fitHome, 900);
     fitPage(); setTimeout(fitPage, 300);
+    if (r[0] === 'c') { fitCond(); setTimeout(fitCond, 300); }
   }
   /* list pages on one screen (owner, 28 Nov 2026: «make it perfect like the Permanent Exam»): Drug book, Calculators, Settings, Conditions
      have compact layouts in the css (body[data-pg1]); if a phone is still too short the page content is scaled down a little (≥ 80 %) */

@@ -797,3 +797,24 @@ body[data-page=home] .rec.recl .lrow-i{width:34px;height:34px}
 .sh-x{position:sticky;top:0;float:right;z-index:5;width:34px;height:34px;margin:-4px -4px 0 8px;border-radius:50%;display:grid;place-items:center;border:0;cursor:pointer;
   background:var(--soft);color:var(--tx);box-shadow:0 2px 8px rgba(0,0,0,.12)}
 :root[dir=rtl] .sh-x,:root[lang=ar] .sh-x{float:left;margin:-4px 8px 0 -4px}
+
+/* condition page on one screen: section tabs + a panel (owner, 28 Nov 2026) */
+.ctabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:2px 0 8px;padding:2px}
+.ctabs::-webkit-scrollbar{display:none}
+.ctabs button{flex:1 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:7px 10px;border-radius:999px;border:1px solid var(--line);background:var(--sf);color:var(--mut);font:600 12.5px/1 Pop,system-ui,sans-serif;white-space:nowrap}
+.ctabs button .ic{width:15px;height:15px}
+.ctabs button i{font-style:normal;font-size:10.5px;padding:1px 6px;border-radius:8px;background:var(--soft);color:var(--tx)}
+.ctabs button.on{background:var(--p);border-color:var(--p);color:#fff}.ctabs button.on i{background:rgba(255,255,255,.25);color:#fff}
+.cpanel{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border-radius:16px}
+.cpanel>.card:last-child,.cpanel>details:last-child{margin-bottom:0}
+@media (min-width:1024px){.cpanel{overflow:visible}}
+
+/* on a condition page the age & weight card is compact */
+body[data-page=c] #qpt{padding:8px 12px;margin-bottom:8px}
+body[data-page=c] #qpt .hint,body[data-page=c] #qpt .lnk{display:none}
+body[data-page=c] #qpt .ch{margin-bottom:4px;font-size:13.5px}
+.ctabs{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;overflow:visible;padding:3px;border-radius:14px;background:var(--sf);border:1px solid var(--line)}
+.ctabs button{flex:none;min-width:0;padding:7px 2px;gap:3px;border:0;border-radius:11px;font-size:11.5px;background:transparent}
+.ctabs button span{overflow:hidden;text-overflow:ellipsis}
+.ctabs button i{padding:0 4px;font-size:9.5px}
+@media (max-width:430px){.ctabs button .ic{display:none}}

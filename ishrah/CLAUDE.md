@@ -1903,3 +1903,7 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
   « .bk-back» after #ho-host, so `#ho-host{display:none}` hid the guide always and its frame had no size. Fixed; when adding a host to those rules,
   write each selector in full.
 - **Close button on pop-ups (owner, 28 Nov 2026):** every sheet in the HO Guide and the Permanent Exam has a small round ✕ (`.sh-x`, sticky, so it stays in view while a long list scrolls).
+- **HO Guide condition page on one screen (owner, 28 Nov 2026):** sections are tabs (Treatment · Tests · Admit · Traps · More, with counts; `CTAB`,
+  back to Treatment when another condition opens); one panel (`.cpanel`) takes exactly the room above the Prescription / Orders bar (`fitCond`) and
+  scrolls inside itself when a section is long; the age & weight card is compact there. All 78 conditions checked at 390×740 and 360×640: the page
+  never scrolls.
