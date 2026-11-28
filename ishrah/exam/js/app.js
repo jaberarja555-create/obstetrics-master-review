@@ -94,8 +94,8 @@
 
   /* hero decoration: faint ECG trace + medical cross + grid, white on the gradient */
   function heroArt() {
-    return '<svg class="hero-ecg" viewBox="0 0 320 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 16H150l5-9 7 18 6-13 5 4H320" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/></svg>' +
-      '<svg class="hero-cross" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z" fill="none" stroke="#fff" stroke-width="1.4" opacity=".35"/></svg>';
+    return '<svg class="hero-ecg" width="320" height="20" viewBox="0 0 320 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 16H150l5-9 7 18 6-13 5 4H320" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/></svg>' +
+      '<svg class="hero-cross" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z" fill="none" stroke="#fff" stroke-width="1.4" opacity=".35"/></svg>';
   }
 
   /* ---------- HOME ---------- */
@@ -375,7 +375,7 @@
   /* ---------- paid access ---------- */
   function subBanner() {
     var price = PRICE ? ' · ' + money(PRICE) : '';
-    return '<div class="prev-card"><svg class="prev-steth" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6v10a8 8 0 0 0 16 0V6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M22 23v6a9 9 0 0 0 18 0v-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="40" cy="22" r="3.4" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>' +
+    return '<div class="prev-card"><svg class="prev-steth" width="120" height="120" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6v10a8 8 0 0 0 16 0V6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M22 23v6a9 9 0 0 0 18 0v-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="40" cy="22" r="3.4" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>' +
       '<div class="prev-h"><span class="prev-crown">' + ic('crown') + '</span><b>' + A('النسخة التجريبية المجانية', 'Free Preview') + '</b></div>' +
       '<p>' + A('جرّب ' + E.questions.length + ' سؤالًا. اشترك لفتح ' + ntotal().toLocaleString('ar-EG') + ' سؤالًا مع الشرح والامتحان التجريبي وتقييم التقدم.',
         'Try ' + E.questions.length + ' questions. Subscribe to unlock ' + ntotal().toLocaleString('en') + ' questions, explanations, mock exam and progress.') + '</p>' +
