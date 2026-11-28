@@ -5,7 +5,7 @@
   var A = IS.A, esc = IS.esc, ic = IS.ic;
   /* full screen like the books (owner, 26 Nov 2026: "open full on the screen with the SMRA small button beside like the other books"):
      one frame kept while the person moves around SMRA; the SMRA handle and the device Back button return to where they came from */
-  var HOV = '29';   /* change with ho/sw.js C so a page that kept the frame loads the new guide */
+  var HOV = '30';   /* change with ho/sw.js C so a page that kept the frame loads the new guide */
   var FR = null, FROM = /^#ho\b/.test(location.hash) ? '' : location.hash.slice(1);
   function host() { var h = document.getElementById('ho-host'); if (!h) { h = document.createElement('div'); h.id = 'ho-host'; h.hidden = true; document.body.appendChild(h); } return h; }
   function show() {
@@ -19,6 +19,18 @@
   }
   function hide() { var h = document.getElementById('ho-host'); if (h) h.hidden = true; if (!/^#book\//.test(location.hash)) document.documentElement.classList.remove('bk-open'); }
   IS.page('ho', function () { setTimeout(show, 0); return '<div class="bk-wait"><span class="spin"></span></div>'; });
+  /* notifications for the HO Guide (owner, 28 Nov 2026): House Officer news + the student's own, sent on request and every 40 s while it is in front */
+  async function hoNotes() {
+    if (!FR) return; var list = [];
+    try {
+      if (IS.ME && (!DB.live || navigator.onLine)) list = (await DB.q('notices', { order: ['created_at', false], limit: 80 })).filter(function (x) {
+        if (x.actor === IS.ME.id) return false; if (x.user_id) return x.user_id === IS.ME.id; return x.cat === 'house' && x.status !== 'suspended';
+      }).slice(0, 30).map(function (x) { return { id: x.id, t: IS.noticeTitle ? IS.noticeTitle(x) : (x.title || ''), b: String(x.body || '').slice(0, 220), at: x.created_at, link: x.link || '' }; });
+    } catch (e) {}
+    try { FR.contentWindow.postMessage({ ho: 'notes', list: list }, '*'); } catch (e) {}
+  }
+  window.addEventListener('message', function (ev) { if (FR && ev.source === FR.contentWindow && ev.data && ev.data.ho === 'notes') hoNotes(); });
+  setInterval(function () { var h = document.getElementById('ho-host'); if (FR && h && !h.hidden && document.visibilityState === 'visible') hoNotes(); }, 40000);
   IS.ACT['ho-back'] = function () { hide(); IS.go(FROM && !/^ho\b/.test(FROM) ? FROM : 'home'); };
   window.addEventListener('hashchange', function () { if (!/^#ho\b/.test(location.hash)) { hide(); FROM = location.hash.slice(1); } });
   /* the HO Guide as a book (owner, 27 Nov 2026: "it must appear as a book with a name like HO Guide app"; his picture is the cover) */

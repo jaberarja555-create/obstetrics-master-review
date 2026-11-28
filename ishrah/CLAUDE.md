@@ -1885,3 +1885,8 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
 - **Permanent Exam More on one screen (owner, 28 Nov 2026):** «Study» = six tiles two to a row (Mock exam highlighted, All exams, Subjects, Unused,
   Incorrect, Marked, with counts; they take the spare height) and «Account & App» = My profile · Notifications · Appearance & language · Subscription.
   Home, Exams, Progress and More all fit the phone without scrolling (`.fitw` + fitHome).
+- **HO Guide made like the Permanent Exam (owner, 28 Nov 2026: «let us work on HO Guide and make it perfect like this»), step 1:** top band in the
+  app colour (`--hero`) with a curved bottom: menu · divider · SMRA logo (own copy ho/img/logo-smra.webp, in the offline list) + white «HO Guide» ·
+  divider · bell · photo (look stays in Settings). Notifications as in the exam: `{ho:'notes'}` ↔ js/hoapp.js `hoNotes` (House Officer notices
+  + own, every 40 s while in front), own sound (`ho-snd-off`), seen `ho-nseen`. Next: Drug book, Calculators, Settings on one screen; fill the
+  half-empty pages (Conditions, Emergency, Prescription, Order sheet, Saved).

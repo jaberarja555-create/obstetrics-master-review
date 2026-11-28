@@ -703,3 +703,26 @@ body[data-page=home] .rec.recl .lrow-i{width:34px;height:34px}
 @container (max-width:170px){.tool .chv{display:none!important}.tool .ib2.lg{width:36px!important;height:36px!important}.tool{gap:8px!important}.tool-t b{font-size:.92em}}
 @container (max-width:140px){.tool .ib2.lg{display:none!important}}
 .rec.recl .lrow-t bdi{white-space:normal}
+
+/* ===== top band like the Permanent Exam (owner, 28 Nov 2026) ===== */
+.hb{grid-template-columns:auto minmax(0,1fr) auto!important;gap:6px!important;background:var(--hero)!important;border-radius:0 0 26px 26px;
+  box-shadow:0 8px 22px color-mix(in srgb,var(--p) 28%,transparent);padding:calc(8px + env(safe-area-inset-top)) 12px 8px!important;margin-bottom:8px}
+.hb .sqb,.hb .rdb{color:#fff!important;background:transparent!important;box-shadow:none!important;border:0!important;width:40px;height:40px;flex:none}
+.hb .sqb .ic{width:25px;height:25px}.hb .rdb .ic{width:23px;height:23px}
+.hb-dv{display:block;width:1px;height:38px;background:rgba(255,255,255,.35);margin-inline:6px}
+.hb-s{gap:0!important}.hb-s.end{gap:4px!important}
+.hb-logo{min-width:0;gap:1px!important}
+.hb-logo img{height:42px!important;max-width:100%;object-fit:contain;filter:drop-shadow(0 1px 2px rgba(0,0,0,.15))!important}
+.hb-logo .hb-sub{color:#fff;font:700 13.5px/1.15 Pop,system-ui,sans-serif;letter-spacing:.02em;white-space:nowrap}
+.hb .hb-me .av{width:42px;height:42px;border:2.5px solid rgba(255,255,255,.85)}
+.bellb{position:relative}.bellb .bdg{position:absolute;top:-2px;inset-inline-end:-2px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#d93636;color:#fff;font:700 11px/18px system-ui,sans-serif;font-style:normal;text-align:center}
+@media(max-width:370px){.hb-logo img{height:36px!important}.hb .hb-me .av{width:38px;height:38px}.hb-dv{margin-inline:3px}}
+/* notifications sheet */
+.sh-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.sh-head .ch{margin:0}
+.snd{border:1.5px solid var(--line);background:var(--sf);border-radius:999px;padding:6px 12px;font:600 12px system-ui,sans-serif;color:var(--mut)}.snd.on{color:var(--p);border-color:var(--p)}
+.nsub{color:var(--mut);font-size:.85em;margin:6px 0 10px}
+.nlist{display:flex;flex-direction:column;gap:8px}
+.nitem{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:start;padding:12px;border-radius:14px;border:1px solid var(--line);background:var(--sf);font:inherit;color:inherit}
+.nitem .ndot{width:9px;height:9px;border-radius:50%;margin-top:6px;flex:none}.nitem.new .ndot{background:#d93636}.nitem.new{background:var(--soft)}
+.ntx{display:flex;flex-direction:column;gap:3px;min-width:0}.ntx b{font-size:.95em}.ntx span{font-size:.85em;color:var(--mut)}.ntx small{font-size:.75em;color:var(--mut)}
+.nempty{text-align:center;color:var(--mut);padding:24px 0}

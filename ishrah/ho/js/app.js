@@ -21,6 +21,7 @@
 
   /* ---------- icons ---------- */
   var IC = {
+    bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
     home: '<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
     user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
     baby: '<circle cx="12" cy="10" r="6"/><path d="M9.5 10h.01M14.5 10h.01M10 13c1 1 3 1 4 0M12 4c0-1 1-2 2-2"/><path d="M7 20c1.5-2 3-2.5 5-2.5s3.5.5 5 2.5"/>',
@@ -247,15 +248,15 @@
   function head(title, sub, opt) {
     opt = opt || {};
     var r = route()[0], home = !r, th = themeNow();
-    $('#hb').innerHTML = '<div class="hb-s"><button class="sqb" data-act="menu" aria-label="' + A('القائمة', 'Menu') + '">' + ic('menu') + '</button></div>' +
-      '<a class="hb-logo" data-go="" aria-label="HO Guide"><img src="../img/mr/logo-smra.webp" alt="SMRA" width="1000" height="359"><span class="hb-tag"><i></i><b>HO Guide</b><i></i></span></a>' +
-      '<div class="hb-s end"><button class="rdb" data-act="theme" aria-label="' + A('المظهر', 'Look') + '">' + ic(th === 'dark' ? 'moon' : th === 'eye' ? 'eye' : 'sun') + '</button>' +
+    $('#hb').innerHTML = '<div class="hb-s"><button class="sqb" data-act="menu" aria-label="' + A('القائمة', 'Menu') + '">' + ic('menu') + '</button><i class="hb-dv"></i></div>' +
+      '<a class="hb-logo" data-go="" aria-label="HO Guide"><img src="img/logo-smra.webp" alt="SMRA" width="480" height="172"><span class="hb-sub">HO Guide</span></a>' +
+      '<div class="hb-s end"><i class="hb-dv"></i><button class="rdb bellb" data-act="notes" aria-label="' + A('الإشعارات', 'Notifications') + '">' + ic('bell') + (unread() ? '<i class="bdg">' + Math.min(unread(), 9) + '</i>' : '') + '</button>' +
       '<button class="hb-me" data-act="profile" aria-label="' + A('الحساب', 'Account') + '">' + avatar() + '</button></div>';
     var cur = { c: 'conds', drug: 'drugs', dx: 'conds', rx: 'patient', orders: 'patient', saved: 'patient', emerg: 'calc', settings: '' }[r]; if (cur == null) cur = r;
     /* phones: the five tabs at the bottom; computers (owner, 28 Nov 2026: "the screen is not filling"): the same bar becomes a side menu
        with the logo, the five sections, the rest of the ☰ menu and «Back to SMRA» (the .dk items show only there) */
     var navIds = NAV.map(function (n) { return n[0]; });
-    $('#bn').innerHTML = '<a class="bn-brand dk" data-go="" aria-label="HO Guide"><img src="../img/mr/logo-smra.webp" alt="SMRA" width="1000" height="359"><span class="hb-tag"><i></i><b>HO Guide</b><i></i></span></a>' +
+    $('#bn').innerHTML = '<a class="bn-brand dk" data-go="" aria-label="HO Guide"><img src="img/logo-smra.webp" alt="SMRA" width="1000" height="359"><span class="hb-tag"><i></i><b>HO Guide</b><i></i></span></a>' +
       NAV.map(function (n) { return '<button data-go="' + n[0] + '" class="' + (cur === n[0] ? 'on' : '') + '">' + ic(n[1]) + '<span>' + A(n[2], n[3]) + '</span></button>'; }).join('') +
       '<i class="bn-sep dk"></i>' +
       MENU.filter(function (m) { return navIds.indexOf(m[0]) < 0; }).map(function (m) { return '<button data-go="' + m[0] + '" class="dk' + (r === m[0] ? ' on2' : '') + '">' + ic(m[1]) + '<span>' + A(m[2], m[3]) + '</span></button>'; }).join('') +
@@ -283,7 +284,7 @@
   ACT.toSMRA = function () { closeSheet(); toPlatform('#home'); };
   ACT.menu = function () {
     var r = route()[0], s = $('#sheet');
-    s.innerHTML = '<div class="sh-bg" data-act="shclose"></div><nav class="drawer"><div class="dr-h"><img src="../img/mr/logo-smra.webp" alt="SMRA"><span class="hb-tag"><i></i><b>HO Guide</b><i></i></span></div>' +
+    s.innerHTML = '<div class="sh-bg" data-act="shclose"></div><nav class="drawer"><div class="dr-h"><img src="img/logo-smra.webp" alt="SMRA"><span class="hb-tag"><i></i><b>HO Guide</b><i></i></span></div>' +
       MENU.map(function (m) { return '<button class="' + (r === m[0] ? 'on' : '') + '" data-go="' + m[0] + '"><span class="ib2">' + ic(m[1]) + '</span><span>' + A(m[2], m[3]) + '</span></button>'; }).join('') +
       '<button data-act="toSMRA"><span class="ib2">' + ic('back') + '</span><span>' + A('العودة إلى منصة SMRA', 'Back to SMRA') + '</span></button></nav>';
     s.hidden = false;
@@ -304,6 +305,43 @@
   ACT.goSaved = function () { closeSheet(); go('saved'); };
   ACT.goSet = function () { closeSheet(); go('settings'); };
 
+  /* ---------- notifications (owner, 28 Nov 2026: like the Permanent Exam) ---------- */
+  var NOTES = null, AC = null;
+  function seenAt() { return get('ho-nseen', ''); }
+  function unread() { var s = seenAt(); return (NOTES || []).filter(function (n) { return String(n.at) > s; }).length; }
+  function soundOn() { return !get('ho-snd-off', 0); }
+  document.addEventListener('pointerdown', function () { try { if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); } catch (e) {} }, { passive: true });
+  function chime() {
+    if (!soundOn() || !AC) return;
+    try { var t = AC.currentTime; [784, 1047, 1319].forEach(function (f, i) { var o = AC.createOscillator(), g = AC.createGain(), s = t + i * 0.14; o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, s); g.gain.exponentialRampToValueAtTime(0.25, s + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, s + 0.4); o.connect(g); g.connect(AC.destination); o.start(s); o.stop(s + 0.45); });
+      if (navigator.vibrate) navigator.vibrate(60); } catch (e) {}
+  }
+  function toTop(m) { try { if (INFRAME) window.parent.postMessage(m, '*'); } catch (e) {} }
+  function gotNotes(list) {
+    var first = NOTES === null, known = {}; (NOTES || []).forEach(function (n) { known[n.id] = 1; });
+    var fresh = first ? [] : list.filter(function (n) { return !known[n.id] && String(n.at) > seenAt(); });
+    NOTES = list;
+    if (fresh.length) { chime(); toast('🔔 ' + fresh[0].t + (fresh.length > 1 ? ' (+' + (fresh.length - 1) + ')' : '')); }
+    var b = document.querySelector('.bellb'); if (b) { var c = unread(), i = b.querySelector('.bdg'); if (c) { if (!i) { i = document.createElement('i'); i.className = 'bdg'; b.appendChild(i); } i.textContent = Math.min(c, 9); } else if (i) i.remove(); }
+    if (document.querySelector('#sheet:not([hidden]) .nlist')) ACT.notes(true);
+  }
+  window.addEventListener('message', function (ev) { var d = ev.data; if (d && d.ho === 'notes') gotNotes(d.list || []); });
+  if (INFRAME) setTimeout(function () { toTop({ ho: 'notes' }); }, 1500);
+  function agoT(at) { var m = Math.max(1, Math.round((Date.now() - new Date(at)) / 60000)); return m < 60 ? A('قبل ' + m + ' د', m + ' min ago') : m < 1440 ? A('قبل ' + Math.round(m / 60) + ' س', Math.round(m / 60) + ' h ago') : new Date(at).toLocaleDateString(A('ar-EG', 'en-GB'), { day: 'numeric', month: 'short' }); }
+  ACT.notes = function (keep) {
+    if (keep !== true) toTop({ ho: 'notes' });
+    var s = seenAt(), list = NOTES || [];
+    sheet('<div class="sh-head"><h2 class="ch">' + ic('bell') + A('الإشعارات', 'Notifications') + '</h2><button class="snd ' + (soundOn() ? 'on' : '') + '" data-act="sndtog">' + A(soundOn() ? '🔔 الصوت مفعّل' : '🔕 الصوت متوقف', soundOn() ? '🔔 Sound on' : '🔕 Sound off') + '</button></div>' +
+      '<p class="nsub">' + A('جديد طبيب الامتياز وإشعاراتك الخاصة', 'House Officer news and your own notifications') + '</p>' +
+      (NOTES === null ? '<p class="nempty">' + A(INFRAME ? 'جارٍ التحميل…' : 'افتح الدليل من داخل منصة SMRA لتصلك الإشعارات.', INFRAME ? 'Loading…' : 'Open the guide inside SMRA to get notifications.') + '</p>' : list.length ? '<div class="nlist">' + list.map(function (n) {
+        return '<button class="nitem' + (String(n.at) > s ? ' new' : '') + '" data-act="nopen" data-l="' + esc(n.link) + '"><span class="ndot"></span><span class="ntx"><b dir="auto">' + esc(n.t) + '</b>' + (n.b ? '<span dir="auto">' + esc(n.b) + '</span>' : '') + '<small>' + agoT(n.at) + '</small></span></button>';
+      }).join('') + '</div>' : '<p class="nempty">' + A('لا توجد إشعارات بعد.', 'No notifications yet.') + '</p>'));
+    if (list[0]) put('ho-nseen', String(list[0].at));
+    var bd = document.querySelector('.bellb .bdg'); if (bd) bd.remove();
+  };
+  ACT.sndtog = function () { put('ho-snd-off', soundOn() ? 1 : 0); if (soundOn()) chime(); ACT.notes(true); };
+  ACT.nopen = function (el) { closeSheet(); if (el.dataset.l) toPlatform(el.dataset.l.charAt(0) === '#' ? el.dataset.l : '#' + el.dataset.l); };
   function toast(t) { var x = $('#toast'); x.textContent = t; x.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { x.hidden = true; }, 2200); }
   function sheet(html) { var s = $('#sheet'); s.innerHTML = '<div class="sh-bg" data-act="shclose"></div><div class="sh-box"><i class="sh-grip"></i>' + html + '</div>'; s.hidden = false; }
   function closeSheet() { $('#sheet').hidden = true; }
@@ -875,7 +913,7 @@
     var cur = current(); if (!cur) return noDx('Prescription');
     head('Prescription', T(cur.c.t));
     var list = chosen(cur).filter(function (o) { return !o.txt; }), m = me();
-    var h = '<section class="paper"><div class="pp-h"><img src="../img/mr/logo-smra.webp" alt=""><div><b>' + T('Prescription') + '</b><small dir="ltr">' + today() + '</small></div></div>' +
+    var h = '<section class="paper"><div class="pp-h"><img src="img/logo-smra.webp" alt=""><div><b>' + T('Prescription') + '</b><small dir="ltr">' + today() + '</small></div></div>' +
       '<div class="pp-pt"><span><small>' + A('الاسم', 'Name') + '</small><b dir="auto">' + esc(P.name || '……………') + '</b></span><span><small>' + A('العمر', 'Age') + '</small><b>' + (hasAge() ? ageTxt() : '—') + '</b></span><span><small>' + A('الوزن', 'Weight') + '</small><b dir="ltr">' + wtTxt() + '</b></span></div>' +
       '<div class="pp-dx"><small>Dx</small>' + T(cur.c.t) + '</div><div class="pp-rx">℞</div><ol class="pp-l">' +
       list.map(function (o) { var r = E.rxLine(o); return '<li><b dir="ltr">' + esc(r.name) + '</b><div class="ar" dir="rtl">' + esc(r.ar) + '</div><small dir="ltr">' + esc(r.en) + '</small></li>'; }).join('') + '</ol>' +
@@ -905,7 +943,7 @@
   function orders() {
     var cur = current(); if (!cur) return noDx('Order sheet');
     head('Order sheet', T(cur.c.t + ' · ' + cur.v.t));
-    return '<section class="paper"><div class="pp-h"><img src="../img/mr/logo-smra.webp" alt=""><div><b>' + T("Doctor's orders") + '</b><small dir="ltr">' + today() + '</small></div></div><div class="pp-dx"><small>Dx</small>' + T(cur.c.t) + '</div><ol class="pp-o" dir="ltr">' +
+    return '<section class="paper"><div class="pp-h"><img src="img/logo-smra.webp" alt=""><div><b>' + T("Doctor's orders") + '</b><small dir="ltr">' + today() + '</small></div></div><div class="pp-dx"><small>Dx</small>' + T(cur.c.t) + '</div><ol class="pp-o" dir="ltr">' +
       ordersList(cur).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol><div class="pp-f"><i></i><small>' + A('التوقيع', 'Signature') + '</small></div></section>' +
       '<div class="dock static"><button class="btn pri" data-act="copyord">' + ic('copy') + A('نسخ', 'Copy') + '</button><button class="btn" data-act="print">' + ic('print') + A('طباعة', 'Print') + '</button><button class="btn" data-go="c/' + cur.c.id + '">' + ic('list') + A('خطة العلاج', 'Plan') + '</button></div>';
   }
