@@ -1910,3 +1910,8 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
 - **HO Guide drug page on one screen (owner, 28 Nov 2026):** group, trade names and «For this patient» on top; tabs Doses · Forms · Cautions (with
   the safety note) · Used in (`DTAB`, back to Doses for another drug); the same `.cpanel` + `fitCond`. All 123 drugs × every tab checked at
   360×640, 390×740, 412×915 and without a weight: the page never scrolls.
+- **HO Guide: every page on one screen (owner, 28 Nov 2026: «work in all pages»):** long lists sit in a `.cpanel` that takes the room above the
+  bottom bar / dock and scrolls inside itself: condition lists of a system, drug lists of a group, search results (Conditions, Drug book), Emergency
+  doses with a weight (four figures stay on top), calculator pages, Prescription and Order sheet (paper in the panel, Copy / Print below). A page with
+  a panel is not shrunk by fitPage; `fitCond` fits any panel; panels print in full. Scan of all 49 pages (+ 78 conditions, 123 drugs) at 360×640,
+  390×740, 412×915: nothing scrolls (scratchpad hoall.js, cnd3.js, drg.js).

@@ -623,8 +623,8 @@
   document.addEventListener('input', function (e) {
     var t = e.target;
     if (t.closest('#ptf')) { readForm(); if (t.dataset.lab) { var f = null; LABS.forEach(function (g) { g[2].forEach(function (x) { if (x[0] === t.dataset.lab) f = x; }); }); if (f && f[2] !== 'txt' && f[2] !== 'sel') { var w = t.closest('.inp'); w.classList.remove('lo', 'hi', 'ok'); var fl = labFlag(f, t.value); if (fl) w.classList.add(fl); } } }
-    if (t.id === 'cq') { CQ = t.value; $('#clist').innerHTML = condList(route()[1]); }
-    if (t.id === 'dq') { DQ = t.value; var gg = route()[1]; $('#dlist').innerHTML = drugList(gg && DGROUPS.find(function (x) { return x[0] === gg; })); }
+    if (t.id === 'cq') { CQ = t.value; $('#clist').innerHTML = condList(route()[1]); $('#clist').classList.toggle('cpanel', !!(route()[1] || CQ.trim())); fitAll(); }
+    if (t.id === 'dq') { DQ = t.value; var gg = route()[1]; $('#dlist').innerHTML = drugList(gg && DGROUPS.find(function (x) { return x[0] === gg; })); $('#dlist').classList.toggle('cpanel', !!(gg || DQ.trim())); fitAll(); }
     if (t.closest('#cf')) calcRun();
   });
   document.addEventListener('submit', function (e) {
@@ -690,12 +690,12 @@
   function conds(sys) {
     if (sys && SYS[sys]) {
       head(SYS[sys][0], A(SYS[sys][1] + ' · ' + nCase(sysCount(sys)), sysCount(sys) + (sysCount(sys) === 1 ? ' condition' : ' conditions')));
-      return '<div class="srch">' + ic('search') + '<input id="cq" type="search" dir="auto" value="' + esc(CQ) + '" placeholder="' + A('ابحث في هذا القسم', 'Search this system') + '"></div><div id="clist">' + condList(sys) + '</div>';
+      return '<div class="srch">' + ic('search') + '<input id="cq" type="search" dir="auto" value="' + esc(CQ) + '" placeholder="' + A('ابحث في هذا القسم', 'Search this system') + '"></div><div id="clist" class="cpanel">' + condList(sys) + '</div>';
     }
     head('Conditions', A('اختر الجهاز ثم الحالة، أو ابحث مباشرة', 'Choose the body system, then the condition, or search'));
     var rec = get('ho-recent', []).filter(function (id) { return byId[id]; }).slice(0, 3);
     return '<div class="srch">' + ic('search') + '<input id="cq" type="search" dir="auto" value="' + esc(CQ) + '" placeholder="' + A('ابحث في كل الأمراض (عربي أو إنجليزي)', 'Search every condition') + '"></div>' +
-      '<div id="clist">' + (CQ ? condList('') : sysGrid(rec)) + '</div>';
+      '<div id="clist"' + (CQ ? ' class="cpanel"' : '') + '>' + (CQ ? condList('') : sysGrid(rec)) + '</div>';
   }
   function sysSheet() {
     sheet('<h2 class="ch"><span class="chi">' + ic('list') + '</span>' + T('Body systems') + '</h2><div class="sxlist">' + Object.keys(SYS).map(function (k) {
@@ -866,6 +866,7 @@
     var L = labsEntered().filter(function (x) { return x.flag === 'lo' || x.flag === 'hi'; }); if (!L.length) return '';
     return '<div class="lres top">' + L.map(function (x) { return '<span class="' + x.flag + '"><small>' + esc(x.f[1]) + '</small><b dir="ltr">' + esc(x.v) + (x.flag === 'lo' ? ' ↓' : ' ↑') + '</b></span>'; }).join('') + '</div>';
   }
+  function fitAll() { fitPage(); fitCond(); }
   var CTAB = 'tx';
   ACT.ctab = function (b) { CTAB = b.dataset.t; render(true); var p = $('.cpanel'); if (p) p.scrollTop = 0; };
   /* the panel takes exactly the room left above the Prescription / Orders bar, so the page itself never scrolls */
@@ -943,16 +944,15 @@
     var cur = current(); if (!cur) return noDx('Prescription');
     head('Prescription', T(cur.c.t));
     var list = chosen(cur).filter(function (o) { return !o.txt; }), m = me();
-    var h = '<section class="paper"><div class="pp-h"><img src="img/logo-smra.webp" alt=""><div><b>' + T('Prescription') + '</b><small dir="ltr">' + today() + '</small></div></div>' +
+    var h = '<div class="cpanel"><section class="paper"><div class="pp-h"><img src="img/logo-smra.webp" alt=""><div><b>' + T('Prescription') + '</b><small dir="ltr">' + today() + '</small></div></div>' +
       '<div class="pp-pt"><span><small>' + A('الاسم', 'Name') + '</small><b dir="auto">' + esc(P.name || '……………') + '</b></span><span><small>' + A('العمر', 'Age') + '</small><b>' + (hasAge() ? ageTxt() : '—') + '</b></span><span><small>' + A('الوزن', 'Weight') + '</small><b dir="ltr">' + wtTxt() + '</b></span></div>' +
       '<div class="pp-dx"><small>Dx</small>' + T(cur.c.t) + '</div><div class="pp-rx">℞</div><ol class="pp-l">' +
       list.map(function (o) { var r = E.rxLine(o); return '<li><b dir="ltr">' + esc(r.name) + '</b><div class="ar" dir="rtl">' + esc(r.ar) + '</div><small dir="ltr">' + esc(r.en) + '</small></li>'; }).join('') + '</ol>' +
       (list.length ? '' : '<p class="hint">' + A('لم تختر أي دواء من خطة العلاج.', 'No drug ticked in the plan.') + '</p>') +
       '<div class="pp-f"><span dir="auto">' + esc(m && m.name ? m.name : '') + '</span><i></i><small>' + A('التوقيع', 'Signature') + '</small></div></section>';
-    h += '<div class="dock static"><button class="btn pri" data-act="copyrx">' + ic('copy') + A('نسخ', 'Copy') + '</button>' + (navigator.share ? '<button class="btn" data-act="sharerx">' + ic('share') + A('مشاركة', 'Share') + '</button>' : '') + '<button class="btn" data-act="print">' + ic('print') + A('طباعة', 'Print') + '</button><button class="btn" data-go="c/' + cur.c.id + '">' + ic('edit') + A('تعديل', 'Edit') + '</button></div>';
     h += acc('Prescription rules', 'shield', [A('اكتب التركيز لكل دواء له أكثر من تركيز (Amoclan 200 أو 400).', 'Write the strength when there are several (Amoclan 200 or 400).'), A('اكتب الطريقة والمدة بالعربي، لا OD أو BD.', 'Write route and duration in Arabic, never OD or BD.'),
       A('للأهل اكتب بالمل لا بالملغم، واطلب سرنجة 3 مل.', 'For parents write mL, not mg, and give a 3 mL syringe.'), A('اكتب Tegretol (carbamazepine) 200 mg حتى لا يختلط بـ carbimazole.', 'Write Tegretol (carbamazepine) 200 mg so it is not confused with carbimazole.'), A('أغلق الوصفة بخط ووقّع.', 'Close the prescription with a line and sign it.')], 'rules');
-    return h;
+    return h + '</div>' + '<div class="dock static"><button class="btn pri" data-act="copyrx">' + ic('copy') + A('نسخ', 'Copy') + '</button>' + (navigator.share ? '<button class="btn" data-act="sharerx">' + ic('share') + A('مشاركة', 'Share') + '</button>' : '') + '<button class="btn" data-act="print">' + ic('print') + A('طباعة', 'Print') + '</button><button class="btn" data-go="c/' + cur.c.id + '">' + ic('edit') + A('تعديل', 'Edit') + '</button></div>';
   }
   ACT.copyrx = function () { var cur = current(); if (cur) copy(rxText(cur, chosen(cur))); };
   ACT.sharerx = function () { var cur = current(); if (cur) navigator.share({ title: 'Rx', text: rxText(cur, chosen(cur)) }).catch(function () {}); };
@@ -973,8 +973,8 @@
   function orders() {
     var cur = current(); if (!cur) return noDx('Order sheet');
     head('Order sheet', T(cur.c.t + ' · ' + cur.v.t));
-    return '<section class="paper"><div class="pp-h"><img src="img/logo-smra.webp" alt=""><div><b>' + T("Doctor's orders") + '</b><small dir="ltr">' + today() + '</small></div></div><div class="pp-dx"><small>Dx</small>' + T(cur.c.t) + '</div><ol class="pp-o" dir="ltr">' +
-      ordersList(cur).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol><div class="pp-f"><i></i><small>' + A('التوقيع', 'Signature') + '</small></div></section>' +
+    return '<div class="cpanel"><section class="paper"><div class="pp-h"><img src="img/logo-smra.webp" alt=""><div><b>' + T("Doctor's orders") + '</b><small dir="ltr">' + today() + '</small></div></div><div class="pp-dx"><small>Dx</small>' + T(cur.c.t) + '</div><ol class="pp-o" dir="ltr">' +
+      ordersList(cur).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol><div class="pp-f"><i></i><small>' + A('التوقيع', 'Signature') + '</small></div></section></div>' +
       '<div class="dock static"><button class="btn pri" data-act="copyord">' + ic('copy') + A('نسخ', 'Copy') + '</button><button class="btn" data-act="print">' + ic('print') + A('طباعة', 'Print') + '</button><button class="btn" data-go="c/' + cur.c.id + '">' + ic('list') + A('خطة العلاج', 'Plan') + '</button></div>';
   }
   ACT.copyord = function () { var cur = current(); if (cur) copy("Doctor's orders  " + today() + '\nDx: ' + cur.c.t + '\n' + ordersList(cur).map(function (x, i) { return (i + 1) + '. ' + x; }).join('\n')); };
@@ -1011,10 +1011,10 @@
     var g = gid && DGROUPS.find(function (x) { return x[0] === gid; });
     if (g) {
       head(g[1], esc(g[2]) + ' · ' + A(dgDrugs(g).length + ' دواء', dgDrugs(g).length + ' drugs'));
-      return '<div class="srch">' + ic('search') + '<input id="dq" type="search" dir="auto" value="' + esc(DQ) + '" placeholder="' + A('ابحث في هذه المجموعة', 'Search this group') + '"></div><div id="dlist">' + drugList(g) + '</div>';
+      return '<div class="srch">' + ic('search') + '<input id="dq" type="search" dir="auto" value="' + esc(DQ) + '" placeholder="' + A('ابحث في هذه المجموعة', 'Search this group') + '"></div><div id="dlist" class="cpanel">' + drugList(g) + '</div>';
     }
     head('Drug book', A('اختر المجموعة ثم الدواء، أو ابحث مباشرة', 'Choose the group, then the drug, or search'));
-    return '<div class="srch">' + ic('search') + '<input id="dq" type="search" dir="auto" value="' + esc(DQ) + '" placeholder="' + A('ابحث باسم علمي أو تجاري', 'Search a generic or brand name') + '"></div><div id="dlist">' + drugList() + '</div>';
+    return '<div class="srch">' + ic('search') + '<input id="dq" type="search" dir="auto" value="' + esc(DQ) + '" placeholder="' + A('ابحث باسم علمي أو تجاري', 'Search a generic or brand name') + '"></div><div id="dlist"' + (DQ.trim() ? ' class="cpanel"' : '') + '>' + drugList() + '</div>';
   }
   function drugRow(d, showGroup) {
     return '<button class="lrow" data-go="drug/' + d.id + '"><span class="lrow-i">' + ic(dgOf(d)[3]) + '</span><span class="lrow-t">' + T(d.g) + '<small dir="ltr">' + esc((d.b || []).slice(0, 3).join(' · ') || (showGroup ? dgOf(d)[1] : '')) + '</small></span>' + ic('fwd', 'chv') + '</button>';
@@ -1168,7 +1168,7 @@
     }
     var c = CALCS.find(function (x) { return x[0] === id; }); if (!c) return notFound();
     head(c[1], A(c[3], c[4]));
-    return '<section class="card clc"><div class="clc-f"><small>' + A('المعادلة', 'Formula') + '</small><code dir="ltr">' + esc(c[5]) + '</code></div>' + (id === 'prep' ? '' : '<form id="cf" data-c="' + id + '" autocomplete="off">' + calcInputs(id) + '</form>') + '</section><section id="cres"></section>';
+    return '<div class="cpanel"><section class="card clc"><div class="clc-f"><small>' + A('المعادلة', 'Formula') + '</small><code dir="ltr">' + esc(c[5]) + '</code></div>' + (id === 'prep' ? '' : '<form id="cf" data-c="' + id + '" autocomplete="off">' + calcInputs(id) + '</form>') + '</section><section id="cres"></section>' + '</div>';
   }
   function cin(n, lab, v, unit, step) { return '<label class="fld"><span>' + lab + '</span><div class="inp"><input name="' + n + '" type="number" inputmode="decimal" step="' + (step || 'any') + '" value="' + esc(v == null ? '' : v) + '" dir="ltr">' + (unit ? '<em>' + unit + '</em>' : '') + '</div></label>'; }
   function csel(n, lab, o, cur) { return '<label class="fld"><span>' + lab + '</span><div class="inp pick"><select name="' + n + '" dir="ltr">' + o.map(function (x) { return '<option value="' + x[0] + '"' + (String(x[0]) === String(cur) ? ' selected' : '') + '>' + x[1] + '</option>'; }).join('') + '</select></div></label>'; }
@@ -1247,14 +1247,14 @@
     var wt = E.wt(P);
     var h = qp + '<div class="stats">' + [[nice(20 * wt) + ' mL', 'NS / RL bolus', '20 mL/kg'], [nice(10 * wt) + ' mL', A('رضيع أو قلب', 'Neonate / heart'), '10 mL/kg'], [nice(20 * wt) + ' mL', 'Blood', '20 mL/kg'], [nice(5 * wt) + ' mL', 'D10 (SAM)', '5 mL/kg']].map(function (s) {
       return '<div class="stat"><b dir="ltr">' + s[0] + '</b><span>' + s[1] + '</span><small dir="ltr">' + s[2] + '</small></div>'; }).join('') + '</div>';
-    h += '<section class="card list em">' + EM.map(function (e) {
+    h += '<div class="cpanel"><section class="card list em">' + EM.map(function (e) {
       var o = E.dose(e[0], e[1], P); if (o.err) return '';
       return '<button class="erow" data-go="drug/' + e[0] + '"><span class="erow-t">' + T(e[2]) + '<small dir="ltr">' + esc(o.drug.g) + ' · ' + esc(o.route) + '</small></span><b dir="ltr">' + esc(o.text.replace(/ \(\d+ units on an insulin syringe\)/, '')) + (o.qty && o.qty.units ? '<small>' + o.qty.units + ' units (insulin syringe)</small>' : '') + '</b></button>';
     }).join('') + '</section>';
     h += acc('Fatal mistakes', 'shield', ['Salbutamol nebuliser in anaemic heart failure: look for pallor; give oxygen and IV NS 4 mL/kg/h until blood.',
       'Heart disease with breathlessness: salbutamol worsens tachycardia; give oxygen and an NS nebuliser ± ipratropium.', 'IV fluid in severe malnutrition (except shock): use ReSoMal and F75.',
       'IV bolus in scorpion sting: the shock is anaphylactic or neurogenic; give IM adrenaline.', 'A beta-blocker (propranolol) in asthma.'], 'trap', true);
-    return h + disc();
+    return h + disc() + '</div>';
   }
 
   /* ================= Saved patients ================= */
@@ -1341,7 +1341,7 @@
     if (keep !== true) scrollTo(0, 0);
     fitHome(); setTimeout(fitHome, 250); setTimeout(fitHome, 900);
     fitPage(); setTimeout(fitPage, 300);
-    if (r[0] === 'c' || r[0] === 'drug') { fitCond(); setTimeout(fitCond, 300); }
+    fitCond(); setTimeout(fitCond, 300);
   }
   /* list pages on one screen (owner, 28 Nov 2026: «make it perfect like the Permanent Exam»): Drug book, Calculators, Settings, Conditions
      have compact layouts in the css (body[data-pg1]); if a phone is still too short the page content is scaled down a little (≥ 80 %) */
@@ -1351,6 +1351,7 @@
     /* the space kept under the page equals the bottom bar exactly (it was a few px more, so every page scrolled a little) */
     if (innerWidth < 1024) { var bh = $('#bn').getBoundingClientRect().height; if (bh) document.body.style.paddingBottom = Math.floor(bh) + 'px'; } else document.body.style.paddingBottom = '';
     document.body.toggleAttribute('data-pg1', FITP.test(r[0] || '') && !r[1]);
+    if ($('#v .cpanel')) return;
     if (!document.body.hasAttribute('data-pg1') || innerWidth >= 1024) return;
     /* the largest size between 76 % and 112 % at which the page does not scroll, found by trying (each try is one layout) */
     var fits = function (z) { v.style.zoom = z; return document.documentElement.scrollHeight <= innerHeight; };
