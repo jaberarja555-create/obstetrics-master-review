@@ -1874,3 +1874,6 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
   Appearance: Day / Night / Eye comfort, `data-thm`). Home blocks are grouped (`.hmw > .hgp`), compact sizes in `--u` × `--hk`; `fitHome()` gives
   `.hmw` the free height (space-between spreads the groups on tall phones) and on short screens lowers `--hk` to ≥ 0.82 before scrolling. Level
   tiles = icon beside the text; papers have a document icon. Tested 360×640 … 430×932: no scroll, last row clear of the bottom bar.
+- **Permanent Exam: Exams on one screen; weak areas (owner, 28 Nov 2026):** Exams = four group tabs (Past papers 14 · Pool 1 · Sheets 8 · Fageery 9,
+  `ex-grp`) and compact tiles two to a row (short cleaned titles, thin progress line), fitted like Home (`.fitw`, fitHome counts #ph). Weak areas
+  (Progress): a subject with 3+ answered questions and under 60 % right; each row starts practice of that subject; an empty state explains the rule.

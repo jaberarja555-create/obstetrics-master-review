@@ -142,18 +142,28 @@
   function tile(goh, icn, t, s) { var st = goh.indexOf('set/') === 0; return '<button class="tool" ' + (st ? 'data-act="start" data-k="' + goh.slice(4) + '"' : 'data-go="' + goh + '"') + '><span class="ib2">' + ic(icn) + '</span><span class="tool-t"><b>' + esc(t) + '</b><small>' + esc(s) + '</small></span>' + ic('chv', 'ch') + '</button>'; }
 
   /* ---------- EXAMS LIST ---------- */
+  /* Exams on one screen (owner, 28 Nov 2026): the four groups are tabs, each group's papers are compact tiles two to a row with a thin
+     progress line; the page is fitted to the phone height like Home (fitHome). The chosen tab is kept (ex-grp). */
+  var GRPN = { 'Past papers': ['الدورات السابقة', 'Past papers'], 'Pool': ['البنك', 'Pool'], 'Sheets': ['الشيتات', 'Sheets'], 'Fageery': ['الفقيري', 'Fageery'] };
+  function shortTitle(t, g) {
+    t = String(t || '').replace(/Perminant|Perminent/gi, 'Permanent').replace(/Permanent(?=\d)/, 'Permanent ').replace(/\s*quizzes\s*$/i, '').trim();
+    if (g === 'Past papers' && /^Permanent\s+\S/.test(t) && !/^Permanent Pool/i.test(t)) t = t.replace(/^Permanent\s+/, '');
+    t = t.replace(/^(\d{1,2})(dec|may|jan|nov|june|aug)\b/i, function (m, d, mo) { return d + ' ' + mo.charAt(0).toUpperCase() + mo.slice(1).toLowerCase(); }).replace(/(\d)(may|dec)\b/i, '$1 $2');
+    return t.charAt(0).toUpperCase() + t.slice(1);
+  }
   function exams() {
     head('Exams', A('اختر امتحانًا للمذاكرة', 'Choose a paper or sheet'), true);
     var s = seen();
     var byg = {}; (E.exams || []).forEach(function (x) { (byg[x.group] = byg[x.group] || []).push(x); });
-    var h = '';
-    (E.groups || []).forEach(function (g) {
-      if (!byg[g]) return;
-      h += '<h2 class="st">' + esc(g) + '</h2><section class="card list">' + byg[g].map(function (x) {
-        var qs = qsOfExam(x.id), done = qs.filter(function (gid) { return s[gid]; }).length, pct = qs.length ? Math.round(100 * done / qs.length) : 0;
-        return '<button class="lrow" data-act="start" data-k="exam" data-i="' + x.id + '"><span class="ib2">' + ic('book') + '</span><span class="lrow-t"><b>' + esc(x.title) + '</b><small>' + x.n + ' ' + A('سؤال', 'questions') + (done ? ' · ' + pct + '% ' + A('مذاكرة', 'done') : '') + '</small>' + (done ? '<span class="pbln"><i style="width:' + pct + '%"></i></span>' : '') + '</span>' + ic('chv', 'ch') + '</button>';
-      }).join('') + '</section>';
-    });
+    var gs = (E.groups || []).filter(function (g) { return byg[g]; }), cur = get2('ex-grp', gs[0]); if (gs.indexOf(cur) < 0) cur = gs[0];
+    var h = '<div class="fitw exw"><div class="exg">' + gs.map(function (g) {
+      var nm = GRPN[g] ? A(GRPN[g][0], GRPN[g][1]) : g;
+      return '<button class="exgt' + (g === cur ? ' on' : '') + '" data-act="exgrp" data-g="' + esc(g) + '"><b>' + esc(nm) + '</b><small>' + byg[g].length + '</small></button>';
+    }).join('') + '</div><div class="exl">' + (byg[cur] || []).map(function (x) {
+      var qs = qsOfExam(x.id), done = qs.filter(function (gid) { return s[gid]; }).length, pct = qs.length ? Math.round(100 * done / qs.length) : 0;
+      return '<button class="ext" data-act="start" data-k="exam" data-i="' + x.id + '" title="' + esc(x.title) + '"><span class="ext-i">' + ic('doc') + '</span><span class="ext-t"><b dir="ltr">' + esc(shortTitle(x.title, cur)) + '</b>' +
+        '<small>' + x.n + ' ' + A('سؤال', 'questions') + (done ? ' · ' + pct + '%' : '') + '</small></span><i class="ext-p"><i style="width:' + pct + '%"></i></i></button>';
+    }).join('') + '</div></div>';
     return h;
   }
   function qsOfExam(id) { var out = []; E.questions.forEach(function (q) { if (q.x.indexOf(id) >= 0) out.push(q.g); }); return out; }
@@ -385,8 +395,12 @@
       return '<button class="lrow" data-act="start" data-k="subject" data-i="' + su[0] + '"><span class="ib2">' + ic(SICO[su[0]] || 'layers') + '</span><span class="lrow-t"><b>' + esc(su[1]) + '</b><small>' + (a ? c + '/' + a + ' ' + A('صحيح', 'correct') : A('لم تبدأ', 'not started')) + '</small><span class="pbln"><i style="width:' + p + '%;background:' + (!a ? 'var(--line)' : p >= 60 ? 'var(--ok)' : 'var(--red)') + '"></i></span></span><span class="cnt">' + p + '%</span></button>';
     }).join('') + '</section>';
     /* weak areas */
-    var weak = (E.subjects || []).map(function (su) { var qs = qsOfSubject(su[0]), a = 0, c = 0; qs.forEach(function (g) { if (s[g]) { a++; if (s[g].c) c++; } }); return { n: su[1], a: a, p: a ? Math.round(100 * c / a) : -1 }; }).filter(function (x) { return x.a >= 3 && x.p < 60; }).sort(function (a, b) { return a.p - b.p; });
-    if (weak.length) h += '<h2 class="st">' + A('نقاط الضعف', 'Weak areas') + '</h2><section class="card">' + weak.map(function (w) { return '<p style="margin:6px 0">' + ic('bolt') + ' <b>' + esc(w.n) + '</b> — ' + w.p + '% (' + w.a + ')</p>'; }).join('') + '</section>';
+    var weak = (E.subjects || []).map(function (su) { var qs = qsOfSubject(su[0]), a = 0, c = 0; qs.forEach(function (g) { if (s[g]) { a++; if (s[g].c) c++; } }); return { id: su[0], n: su[1], a: a, p: a ? Math.round(100 * c / a) : -1 }; }).filter(function (x) { return x.a >= 3 && x.p < 60; }).sort(function (a, b) { return a.p - b.p; });
+    /* a subject is weak once 3 or more of its questions are answered and under 60 % of them are right; a tap practises that subject */
+    h += '<h2 class="st">' + A('نقاط الضعف', 'Weak areas') + '</h2>' + (weak.length ? '<section class="card list">' + weak.map(function (w) {
+      return '<button class="lrow" data-act="start" data-k="subject" data-i="' + esc(w.id) + '"><span class="ib2">' + ic('target') + '</span><span class="lrow-t"><b>' + esc(w.n) + '</b><small>' +
+        A(w.p + '% صحيح من ' + w.a + ' سؤال · اضغط للتدرّب', w.p + '% correct of ' + w.a + ' answered · tap to practise') + '</small></span>' + ic('chv') + '</button>'; }).join('') + '</section>'
+      : '<section class="card"><p style="margin:0;color:var(--mut)">' + A('تظهر المادة هنا عندما تجيب 3 أسئلة أو أكثر منها وتكون إجاباتك الصحيحة أقل من 60%.', 'A subject shows here once you have answered 3 or more of its questions and under 60% of them are right.') + '</p></section>');
     /* previous tests */
     var tests = get('tests', []);
     if (tests.length) h += '<h2 class="st">' + A('اختباراتك السابقة', 'Previous tests') + '</h2><section class="card list">' + tests.slice(0, 10).map(function (t) {
@@ -438,6 +452,7 @@
   /* ---------- actions ---------- */
   var ACT = {
     menu: function () { go('more'); }, settings: settings, theme: cycleTheme, shclose: closeSheet,
+    exgrp: function (el) { try { localStorage.setItem('ex-grp', JSON.stringify(el.dataset.g)); } catch (e) {} render(); },
     lvstart: function (el) { LVSEL = +el.dataset.lv || 0; openStart('all', '', true); },
     lvsel: function (el) { LVSEL = +el.dataset.lv || 0; openStart(el.dataset.k, el.dataset.i || '', true); },
     profile: function () { profileSheet(); }, notes: function () { notesSheet(); toParent({ exam: 'notes' }); },
@@ -491,17 +506,17 @@
     if (LOCKED && n !== 'result') h = subBanner() + h;
     $('#v').innerHTML = h;
     document.body.classList.remove('running');
-    document.body.classList.toggle('hmpage', !!$('#v .hmw') && !LOCKED);
+    document.body.classList.toggle('hmpage', !!$('#v .hmw, #v .fitw') && !LOCKED);
     scrollTo(0, 0);
     fitHome();
   }
   /* owner, 28 Nov 2026 (his picture): Home on one screen, no scrolling. The free height is measured; the blocks share it (space-between),
      and on a short screen the scale unit (--hk) is lowered down to 82 % before the page is allowed to scroll. */
   function fitHome() {
-    var w = $('#v .hmw'); document.documentElement.style.removeProperty('--hk');
+    var w = $('#v .hmw, #v .fitw'); document.documentElement.style.removeProperty('--hk');
     if (!w || LOCKED) return;
-    var hb = $('#hb').getBoundingClientRect().height, bn = $('#bn').getBoundingClientRect().height;
-    var avail = innerHeight - hb - bn - 22;
+    var hb = $('#hb').getBoundingClientRect().height, bn = $('#bn').getBoundingClientRect().height, ph = $('#ph').getBoundingClientRect().height;
+    var avail = innerHeight - hb - ph - bn - 22;
     w.style.minHeight = '0px';
     var need = w.scrollHeight;
     if (need > avail) { var k = Math.max(0.82, avail / need); document.documentElement.style.setProperty('--hk', k.toFixed(3)); need = w.scrollHeight; }

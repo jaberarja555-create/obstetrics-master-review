@@ -446,3 +446,22 @@ body.hmpage main{padding-top:0}
 /* bottom bar a little slimmer on Home */
 body.hmpage .bn button{height:calc(46*var(--u))}
 body.hmpage{padding-bottom:0}
+
+/* ===== Exams on one screen: group tabs + compact tiles (owner, 28 Nov 2026) ===== */
+body.hmpage #ph .pbar{margin:0 0 calc(6*var(--u)*var(--hk))}
+.fitw.exw{display:flex;flex-direction:column;gap:calc(10*var(--u)*var(--hk))}
+.exg{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(6*var(--u));padding:calc(4*var(--u));border-radius:calc(14*var(--u));background:var(--m-card,var(--sf));box-shadow:0 calc(4*var(--u)) calc(14*var(--u)) rgba(30,90,140,.08)}
+.exgt{display:flex;flex-direction:column;align-items:center;gap:1px;padding:calc(6*var(--u)*var(--hk)) 2px;border-radius:calc(10*var(--u));border:0;background:transparent;font:inherit;color:var(--m-sub,var(--mut))}
+.exgt b{font:700 calc(12.5*var(--u)*var(--fs)*var(--hk))/1.2 var(--hf);white-space:nowrap}.exgt small{font-size:calc(10*var(--u)*var(--fs)*var(--hk));opacity:.8}
+.exgt.on{background:var(--m-btn,var(--grad));color:#fff;box-shadow:0 calc(4*var(--u)) calc(10*var(--u)) var(--m-btnsh,rgba(0,0,0,.15))}
+.exl{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:calc(7*var(--u)*var(--hk)) calc(8*var(--u));align-content:start}
+.ext{position:relative;display:flex;align-items:center;gap:calc(8*var(--u));min-height:calc(46*var(--u)*var(--hk));padding:calc(6*var(--u)*var(--hk)) calc(9*var(--u));border-radius:calc(12*var(--u));border:1px solid rgba(255,255,255,.9);
+  background:var(--m-card,var(--sf));box-shadow:0 calc(3*var(--u)) calc(12*var(--u)) rgba(30,90,140,.08);font:inherit;color:inherit;text-align:start;overflow:hidden;min-width:0}
+:root[data-theme=dark] .ext,:root[data-theme=dark] .exg{border-color:var(--line);box-shadow:none}
+.ext-i{flex:none;display:grid;place-items:center;width:calc(30*var(--u)*var(--hk));height:calc(30*var(--u)*var(--hk));border-radius:calc(8*var(--u));background:var(--m-tile-ic,var(--soft));color:var(--m-ic,var(--p))}
+.ext-i .ic{width:calc(17*var(--u)*var(--hk));height:calc(17*var(--u)*var(--hk))}
+.ext-t{display:flex;flex-direction:column;min-width:0}
+.ext-t b{font:700 calc(12*var(--u)*var(--fs)*var(--hk))/1.25 var(--hf);color:var(--m-ink,var(--tx));display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-align:start}
+.ext-t small{font-size:calc(9.8*var(--u)*var(--fs)*var(--hk));color:var(--m-sub,var(--mut))}
+.ext-p{position:absolute;left:0;right:0;bottom:0;height:3px;background:transparent}.ext-p i{display:block;height:100%;background:var(--m-bar,var(--acc))}
+:root[lang=ar] .exw{direction:rtl}
