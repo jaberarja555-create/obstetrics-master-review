@@ -31,7 +31,7 @@
 
   /* ---- data maps ---- (rebuilt when the real bank arrives after decryption) */
   var Q = {}, EXM = {}, SUBN = {};
-  var LOCKED = false, PRICE = 0, BANKAK = null, PENDING = false, DV = '1';
+  var LOCKED = false, PRICE = 0, BANKAK = null, PENDING = false, DV = '2';
   function setData(obj) {
     if (obj) E = obj;
     LOCKED = !!(E && E.sample);

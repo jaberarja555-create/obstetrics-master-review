@@ -1859,3 +1859,10 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
   words, «EXCEPT / NOT» questions, calculations; picture questions are never easy. `q.d` in the data or `LV_FIX[g]` overrides it (hand
   corrections). Shown as a coloured pill on each question; the start sheet has All · Easy · Medium · Hard with counts (`LVSEL`, filters
   `buildSet`). Free sample: 3 easy, 10 medium, 7 hard.
+- **New exam key (28 Nov 2026):** the first key stayed in the other account's session and never reached Supabase. The bank was rebuilt from the
+  owner's source zip (perminant-easy-exams_2.zip → exam/build/src, gitignored; pipeline.py: 4,206 questions, 448 duplicates, as before) and
+  locked with a NEW key (js/data.enc, data version DV '2'). The key reaches Supabase without anyone seeing it: tools/ishrah/exam_key_transport.py.
+  The deploy derives an X25519 key from the ISHRAH_DB_URL secret and prints its public half («exam key transport public key: …»); the builder
+  wraps the exam key for it (`wrap <pub> build/exam.key` → exam/build/key.wrap.json, force-added, safe in public); every deploy runs `store`
+  (unwraps, writes exam_cfg 1, prints only a fingerprint). To change the key again: new build/exam.key, encrypt.cjs, wrap, commit data.enc + key.wrap.json.
+  The old EXAM_KEY secret step is gone (an old key would no longer match data.enc).
