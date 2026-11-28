@@ -3,7 +3,7 @@
    handle, from the House Officer section, the books shelf and Features — exactly like the HO Guide. */
 (function () {
   var A = IS.A, esc = IS.esc, ic = IS.ic;
-  var EXV = '8';   /* bump with exam/sw.js C so a page that kept the frame loads the new version */
+  var EXV = '9';   /* bump with exam/sw.js C so a page that kept the frame loads the new version */
   var FR = null, FROM = /^#exam\b/.test(location.hash) ? '' : location.hash.slice(1);
   function host() { var h = document.getElementById('ex-host'); if (!h) { h = document.createElement('div'); h.id = 'ex-host'; h.hidden = true; document.body.appendChild(h); } return h; }
   function show() {
@@ -38,8 +38,10 @@
       } else { st.open = true; }   /* local preview without Supabase: the frame uses its bundled data.js */
     } catch (e) { why = navigator.onLine ? 'error' : 'offline'; }
     /* why the bank stays locked, so «Check subscription» always answers (owner, 28 Nov 2026: «it says Checking… and gives nothing») */
-    if (!key && !why) why = !IS.ME ? 'signin' : st.pending ? 'pending' : 'locked';
-    return { exam: 'state', key: key, why: why, open: !!st.open, price: st.price || 0, pending: !!st.pending,
+    if (!key && !why) why = !IS.ME ? 'signin' : st.pending ? 'pending' : st.ended ? 'ended' : 'locked';
+    PLANS = st.plans || PLANS;
+    return { exam: 'state', key: key, why: why, open: !!st.open, price: st.price || 0, pending: !!st.pending, plans: PLANS, plan: st.plan || null,
+      expires: st.expires || null, pendingPlan: st.pending_plan || null,
       bankak: (IS.SET && IS.SET.bankak_account) ? { account: IS.SET.bankak_account, name: IS.SET.bankak_name } : null,
       name: (IS.ME && IS.ME.name) || '' };
   }
@@ -47,8 +49,74 @@
     if (!FR || ev.source !== FR.contentWindow) return;
     var d = ev.data; if (!d || d.exam == null) return;
     if (d.exam === 'key') { examState().then(function (s) { try { FR.contentWindow.postMessage(s, '*'); } catch (e) {} }); return; }
-    if (d.exam === 'buy') { hide(); if (!IS.ME) { if (IS.ACT.login) IS.ACT.login(); return; } if (IS.ACT.buyfile) IS.ACT.buyfile({ dataset: { id: EXID } }); return; }
+    if (d.exam === 'buy') { openPlans(); return; }
   });
+
+  /* ---- Subscription with plans, like the books (owner, 28 Nov 2026: «monthly 20,000 SDG, 3 months 50, 1 year 100, lifetime 200»).
+     Prices come from the server (ish_exam_state.plans, migration 070); these are only the fallback for the preview. The window opens over the
+     platform; when it closes in any way the exam screen comes back (EXSHEET). Approval: Control → Library sales, like a library purchase. */
+  var PLANS = [{ id: 'month', months: 1, price: 20000 }, { id: 'quarter', months: 3, price: 50000 }, { id: 'year', months: 12, price: 100000 }, { id: 'life', months: null, price: 200000 }];
+  var PLN = { month: ['شهر واحد', '1 month', 'يتجدد بإيصال جديد كل شهر', 'Renew with a new receipt each month'],
+    quarter: ['3 أشهر', '3 months', 'توفّر 10,000 ج.س', 'Save 10,000 SDG'],
+    year: ['سنة كاملة', '1 year', 'الأوفر لسنة الامتياز', 'Best value for the house-officer year'],
+    life: ['مدى الحياة', 'Lifetime', 'ادفع مرة واحدة ويبقى مفتوحًا', 'Pay once, open for good'] };
+  IS.examPlanName = function (id) { var p = PLN[id]; return p ? A(p[0], p[1]) : ''; };
+  var EXSHEET = false;
+  var close0 = IS.closeSheet;
+  IS.closeSheet = function () { var r = close0.apply(this, arguments); if (EXSHEET) { EXSHEET = false; if (/^#exam\b/.test(location.hash)) show(); } return r; };
+  async function tellFrame() { try { var s = await examState(); if (FR) FR.contentWindow.postMessage(s, '*'); } catch (e) {} }
+  async function openPlans() {
+    if (!IS.ME) { hide(); EXSHEET = true; if (IS.ACT.login) IS.ACT.login(); return; }
+    var st = await examState();
+    if (st.pending) { try { FR.contentWindow.postMessage(st, '*'); } catch (e) {} IS.toast(A('لديك إيصال قيد المراجعة. يُفتح البنك تلقائيًا بعد الموافقة.', 'You have a receipt under review. The bank opens by itself once it is approved.')); return; }
+    if (!IS.SET.bankak_account || !IS.SET.bankak_name) { IS.toast(A('بيانات بنكك غير متوفرة الآن.', 'Bankak details are currently unavailable.'), true); return; }
+    hide(); EXSHEET = true;
+    var sel = 'year';
+    var cards = PLANS.map(function (p) {
+      var t = PLN[p.id] || [p.id, p.id, '', ''];
+      return '<label class="xpl' + (p.id === 'year' ? ' best' : '') + '"><input type="radio" name="plan" value="' + esc(p.id) + '"' + (p.id === sel ? ' checked' : '') + '>' +
+        '<span class="xpl-n">' + esc(A(t[0], t[1])) + '</span><span class="xpl-p">' + IS.money(p.price) + '</span><small>' + esc(A(t[2], t[3])) + '</small>' +
+        (p.id === 'year' ? '<em>' + esc(A('الأكثر اختيارًا', 'Most chosen')) + '</em>' : '') + '</label>';
+    }).join('');
+    var cur = st.plan && st.open ? '<p class="note">' + ic('checkc') + '<span>' + esc(A('اشتراكك الحالي: ', 'Your current plan: ') + IS.examPlanName(st.plan) +
+      (st.expires ? A(' · حتى ', ' · until ') + IS.date(st.expires, { day: 'numeric', month: 'long', year: 'numeric' }) + A('. التجديد يبدأ من نهاية اشتراكك.', '. A renewal starts when it ends.') : '')) + '</span></p>' : '';
+    IS.sheet(esc(A('الاشتراك في بنك الامتحان الدائم', 'Subscribe to the Permanent Exam bank')), cur +
+      '<p class="mut">' + esc(A('4,206 سؤالًا مع الشرح، الامتحان التجريبي، ومتابعة تقدّمك. اختر مدة الاشتراك:', '4,206 questions with explanations, the mock exam and your progress. Choose a plan:')) + '</p>' +
+      '<form class="form" data-form="exambuy"><div class="xplans">' + cards + '</div>' +
+      '<ol class="steps"><li><b>' + esc(A('حوّل المبلغ عبر بنكك', 'Transfer the amount with Bankak')) + '</b><div class="acct"><span>' + esc(A('رقم الحساب', 'Account number')) + '</span><b dir="ltr">' + esc(IS.SET.bankak_account) +
+      '</b><button type="button" class="ib" data-act="copy" data-c="' + esc(IS.SET.bankak_account) + '" aria-label="' + esc(A('نسخ', 'Copy')) + '">' + ic('file') + '</button></div>' +
+      '<div class="acct"><span>' + esc(A('اسم الحساب', 'Account name')) + '</span><b dir="auto">' + esc(IS.SET.bankak_name) + '</b></div>' +
+      '<div class="acct"><span>' + esc(A('المبلغ', 'Amount')) + '</span><b id="xamt">' + IS.money((PLANS.filter(function (p) { return p.id === sel; })[0] || PLANS[0]).price) + '</b></div></li>' +
+      '<li><b>' + esc(A('أرسل بيانات التحويل', 'Send the transfer details')) + '</b>' +
+      '<label class="fl"><span>' + esc(A('الاسم', 'Name')) + ' *</span><input name="payer" required value="' + esc(IS.ME.name || '') + '"></label>' +
+      '<label class="fl"><span>' + esc(A('رقم الهاتف', 'Phone number')) + ' *</span><input name="phone" required inputmode="tel" dir="ltr" value="' + esc(IS.ME.phone || '') + '"></label>' +
+      '<label class="fl file"><span>' + esc(A('صورة الإيصال', 'Receipt picture')) + ' *</span><input type="file" name="receipt" accept="image/*" required></label>' +
+      '<button class="btn pri wide">' + ic('send') + esc(A('أرسل الإيصال للمراجعة', 'Send receipt for review')) + '</button></li>' +
+      '<li><b>' + esc(A('يُفتح البنك بعد التأكيد', 'The bank opens after confirmation')) + '</b><p class="mut">' + esc(A('يصلك إشعار بعد مراجعة التحويل، ويُفتح البنك كاملًا تلقائيًا.', 'You will get a notification once the transfer is checked, and the whole bank opens by itself.')) + '</p></li></ol></form>');
+    var form = document.querySelector('#sheet form[data-form="exambuy"]');
+    if (form) form.addEventListener('change', function () { var v = (form.querySelector('input[name=plan]:checked') || {}).value, p = PLANS.filter(function (x) { return x.id === v; })[0]; var a = document.getElementById('xamt'); if (p && a) a.innerHTML = IS.money(p.price); });
+    if (IS.fileUI) IS.fileUI();
+  }
+  IS.ACT.exambuy = openPlans;
+  IS.SUB.exambuy = async function (d, form) {
+    if (!IS.ME) return IS.ACT.login();
+    var plan = PLANS.filter(function (p) { return p.id === d.plan; })[0];
+    if (!plan) return IS.toast(A('اختر مدة الاشتراك.', 'Choose a plan.'), true);
+    if (!d.payer || !d.phone) return IS.toast(A('أدخل اسمك ورقم هاتفك.', 'Enter your name and phone number.'), true);
+    var file = form.elements.receipt.files[0];
+    if (!file || !/^image\//.test(file.type) || file.size > 10 * 1024 * 1024) return IS.toast(A('أرفق صورة للإيصال بحجم 10 ميغابايت أو أقل.', 'Attach a receipt image of 10 MB or less.'), true);
+    var path = await DB.upload('receipts', await IS.shrink(file, 1400, 0.8));
+    var row = { file_id: EXID, user_id: IS.ME.id, payer: d.payer, phone: d.phone, receipt: path, plan: plan.id };
+    if (!DB.live) Object.assign(row, { status: 'pending', price: plan.price, title: TITLE + ' · ' + IS.examPlanName(plan.id) });
+    try { await DB.ins('file_buys', row); }
+    catch (error) {
+      if (error.code === '23505' || /duplicate|one_pending/.test(error.message || '')) { IS.closeSheet(); tellFrame(); return IS.toast(A('لديك إيصال قيد المراجعة من قبل.', 'You already have a receipt under review.'), true); }
+      throw error;
+    }
+    if (IS.loadBuys) IS.loadBuys().catch(function () {});
+    IS.closeSheet(); tellFrame();
+    IS.toast(A('أُرسل إيصالك للمراجعة. يُفتح البنك تلقائيًا بعد الموافقة.', 'Your receipt was sent for review. The bank opens by itself once it is approved.'));
+  };
 
   /* on the books shelf — a book card like the Master Review books */
   function examBook() {

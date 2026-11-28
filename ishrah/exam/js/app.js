@@ -443,6 +443,7 @@
       '<div class="prev-h"><span class="prev-crown"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="#fff"><path d="M2.6 7.6 7.6 11.4 12 4.6l4.4 6.8 5-3.8-1.9 9.6H4.5z"/><rect x="4.6" y="18.6" width="14.8" height="2.4" rx="1.1"/></svg></span><b>' + A('النسخة التجريبية المجانية', 'Free Preview') + '</b></div>' +
       '<p>' + A('جرّب ' + E.questions.length + ' سؤالًا. اشترك لفتح ' + ntotal().toLocaleString('ar-EG') + ' سؤالًا مع الشرح والامتحان التجريبي وتقييم التقدم.',
         'Try ' + E.questions.length + ' questions. Subscribe to unlock ' + ntotal().toLocaleString('en') + ' questions, explanations, mock exam and progress.') + '</p>' +
+      (PRICE ? '<p class="sb-from"><b>' + A('الاشتراك من ' + money(PRICE) + ' شهريًا', 'Plans from ' + money(PRICE) + ' a month') + '</b> · ' + A('3 أشهر · سنة · مدى الحياة', '3 months · 1 year · lifetime') + '</p>' : '') +
       (PENDING ? '<span class="sb-pend">' + ic('timer') + A('إيصالك قيد المراجعة…', 'Your receipt is under review…') + '</span>'
         : '<div class="sb-acts"><button class="btn pri" data-act="subscribe"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M13 2.5 4.5 13.5h6.5L10 21.5l8.5-11H12z"/></svg>' + A('اشترك', 'Subscribe') + '</button>' +
           '<button class="btn gh" data-act="recheck">' + A('التحقق من الاشتراك', 'Check subscription') + '</button></div>') + '</div>';
@@ -452,7 +453,7 @@
       (PENDING ? '<p>' + A('إيصالك قيد المراجعة. سيُفتح البنك بعد التأكيد.', 'Your receipt is under review. The bank opens once it is confirmed.') + '</p>' +
           '<button class="btn gh wide" data-act="recheck" style="margin-top:12px">' + A('تحقّق الآن', 'Check now') + '</button>'
         : '<p>' + A('بنك أسئلة الامتحان الدائم — 4٬206 سؤالًا مع الشرح، امتحان تجريبي وتقييم التقدم.', 'The Permanent Exam bank — 4,206 questions with explanations, a mock exam and progress assessment.') + '</p>' +
-          '<button class="btn pri wide" data-act="subscribe" style="margin-top:12px">' + ic('bolt') + A('اشترك الآن', 'Subscribe now') + (PRICE ? ' · ' + money(PRICE) : '') + '</button>' +
+          '<button class="btn pri wide" data-act="subscribe" style="margin-top:12px">' + ic('bolt') + A('اشترك الآن', 'Subscribe now') + (PRICE ? ' · ' + A('من ', 'from ') + money(PRICE) : '') + '</button>' +
           '<button class="btn gh wide" data-act="recheck" style="margin-top:8px">' + A('لقد اشتركت — تحقّق', 'I subscribed — check') + '</button>') + '</section>';
   }
   function askParent() { try { (window.parent && window.parent !== window ? window.parent : window.top).postMessage({ exam: 'key' }, '*'); } catch (e) {} }
@@ -462,13 +463,15 @@
     pending: ['إيصالك قيد المراجعة. يُفتح البنك تلقائيًا بعد موافقة الإدارة.', 'Your receipt is under review. The bank opens by itself once it is approved.'],
     locked: ['لا يوجد اشتراك على هذا الحساب بعد. اضغط «اشترك» للاشتراك.', 'This account has no subscription yet. Tap «Subscribe» to subscribe.'],
     nokey: ['اشتراكك مفعّل، لكن بنك الأسئلة لم يُجهَّز بعد على الخادم. راسل الإدارة.', 'Your access is active, but the question bank is not set up on the server yet. Please contact the team.'],
+    ended: ['انتهى اشتراكك. اضغط «اشترك» لتجديده.', 'Your subscription has ended. Tap «Subscribe» to renew it.'],
     offline: ['لا يوجد اتصال بالإنترنت. اتصل ثم حاول مرة أخرى.', 'You are offline. Connect and try again.'],
     error: ['تعذّر التحقق الآن. حاول مرة أخرى بعد قليل.', 'Could not check now. Try again in a moment.']
   };
   function applyState(s) {
     var asked = RECHK; RECHK = false; clearTimeout(RECHK_T);
     if (asked && !s.key && WHY[s.why]) toast(A(WHY[s.why][0], WHY[s.why][1]));
-    if (asked && s.key) toast(A('تم التحقق: اشتراكك مفعّل', 'Checked: your subscription is active'));
+    if (asked && s.key) { var until = s.expires ? new Date(s.expires).toLocaleDateString(A('ar-EG', 'en-GB'), { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+      toast(until ? A('اشتراكك مفعّل حتى ' + until, 'Your subscription is active until ' + until) : A('تم التحقق: اشتراكك مفعّل', 'Checked: your subscription is active')); }
     PRICE = s.price || PRICE; BANKAK = s.bankak || BANKAK; PENDING = !!s.pending;
     if (s.key) { unlock(s.key); return; }
     LOCKED = true;

@@ -1833,3 +1833,15 @@ reusing `ish_file_open` / `file_buys` — NOT the books' separate Supabase. One-
   scripts + `patches.json` are force-tracked (root `build/` is gitignored). See `exam/BUILD.md`.
 - **Owner turns it ON:** store the key once — `insert into exam_cfg (id,k) values (1,'<base64>') on conflict (id) do update set k=excluded.k;`
   (the key is sent privately, never committed). Until then every device shows the free preview. Owner/library accounts unlock without paying.
+- **Permanent Exam subscription plans (owner, 28 Nov 2026: "as in the other books: 1 month 20,000 SDG, 3 months 50,000, 1 year 100,000, lifetime
+  200,000"):** migration `070_exam_plans.sql`: `file_buys.plan` / `expires_at`; prices only in `ishrah_private.exam_plans()`; the purchase guard
+  takes the price from the plan (exam file only; other library files stay one-time); approving sets the end date (a renewal starts where the running
+  plan ends; lifetime and older exam purchases have none); `ish_file_open` needs an approved purchase that has not ended, so `ish_exam_key` stops
+  after the end; `ish_exam_state` returns plans, plan, expires, ended, pending_plan. One waiting exam receipt per student. Exam file price shows 20,000.
+  App: Subscribe opens `openPlans` in js/examapp.js (four plan cards, Bankak, name, phone, receipt → file_buys with plan; approved in Control →
+  Library sales, which shows the plan and end date); closing that window in any way brings the exam screen back (`EXSHEET`, it used to leave an
+  empty page). «التحقق من الاشتراك» always answers (signed out, under review, no subscription, ended, bank key not set up, offline) and shows the
+  end date. Tested on a local Postgres (scratchpad pgt/t70.sql) and in the browser (scratchpad xp.js).
+- **The exam key is not stored yet** (deploy log 28 Nov 2026: «permanent exam: key stored: false»): nobody, the owner included, can open the full
+  bank until the owner runs the one `insert into exam_cfg …` line (Supabase SQL editor) that the other account's session holds (build/exam.key).
+- CSS: the app loads generated `css/*.pv.css` — after editing `css/mr.css` or `css/app.css` run `python3 tools/ishrah/palettes.py`.

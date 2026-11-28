@@ -329,3 +329,5 @@ main{padding:calc(4*var(--u)) calc(15*var(--u)) calc(16*var(--u))}
 .bn button{height:calc(47.5*var(--u));margin:0 calc(5*var(--u));padding:0;gap:calc(2*var(--u));justify-content:center;border-radius:calc(16*var(--u));color:var(--m-navtx);font:600 calc(12*var(--u)*var(--fs))/1.2 var(--bf)}
 .bn button .ic{width:calc(22*var(--u));height:calc(22*var(--u));stroke-width:1.9}
 .bn button.on{background:var(--m-btn);color:#fff;font-weight:700;box-shadow:0 calc(6*var(--u)) calc(14*var(--u)) var(--m-btnsh)}
+
+.sb-from{margin:6px 0 0;font-size:12.5px;color:inherit;opacity:.9}

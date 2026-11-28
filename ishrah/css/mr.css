@@ -3056,3 +3056,12 @@ html body .mrh .ho-card .feed-ho .ho-head{display:flex;align-items:center;flex-w
 html body .mrh .ho-card .feed-ho .ho-head h3{margin:0!important}
 html body .mrh .ho-card .feed-ho .ho-head .ho-tag{margin:0!important;height:22px!important;font-size:11px!important;padding:0 8px!important}
 html body .mrh .feed-card.feed-ho [data-ho-fb]>.feed-votes{border-top:0!important;padding-top:0!important;margin-top:12px!important;container-type:inline-size}
+
+/* Permanent Exam plans (examapp.js openPlans) */
+.xplans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:4px 0 14px}
+.xpl{position:relative;display:flex;flex-direction:column;gap:2px;padding:12px;border:1.5px solid #cfe3dd;border-radius:14px;background:#fff;cursor:pointer}
+.xpl input{position:absolute;opacity:0;pointer-events:none}
+.xpl-n{font-weight:700;color:#0b3d35}.xpl-p{font-weight:800;font-size:17px;color:#0a5562}.xpl small{color:#5d6f6b;font-size:11.5px;line-height:1.35}
+.xpl em{position:absolute;top:-9px;inset-inline-end:10px;font-style:normal;font-size:10.5px;font-weight:700;padding:1px 8px;border-radius:999px;background:#e9c46a;color:#3d2c00}
+.xpl:has(input:checked){border-color:#0a5562;background:#eaf6f3;box-shadow:0 0 0 2px rgba(10,85,98,.18)}
+:root[data-theme=dark] .xpl{background:#10292a;border-color:#24504a}:root[data-theme=dark] .xpl-n,:root[data-theme=dark] .xpl-p{color:#e8f3f0}

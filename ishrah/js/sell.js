@@ -270,6 +270,8 @@
       return '<article class="box payc"><button class="rimg" data-act="receipt" data-p="' + esc(b.receipt || '') + '">' + ic('receipt') + '<span>' + esc(A('عرض الإيصال', 'View receipt')) + '</span></button><div class="grow"><b dir="auto">' + esc(b.title || '') + '</b>' +
         '<ul class="kv sm"><li><span>' + esc(A('المشتري', 'Buyer')) + '</span><b dir="auto">' + esc(b.payer || '') + '</b></li><li><span>' + esc(A('الهاتف', 'Phone')) + '</span><b dir="ltr">' + esc(b.phone || '') + '</b></li>' +
         '<li><span>' + esc(A('المبلغ', 'Amount')) + '</span><b>' + IS.money(b.price) + '</b></li><li><span>' + esc(A('البائع', 'Seller')) + '</span><b dir="auto">' + esc(b.seller_name || '') + '</b></li>' +
+        (b.plan && IS.examPlanName ? '<li><span>' + esc(A('مدة الاشتراك', 'Plan')) + '</span><b>' + esc(IS.examPlanName(b.plan)) + '</b></li>' : '') +
+        (b.expires_at ? '<li><span>' + esc(A('ينتهي في', 'Ends on')) + '</span><b>' + esc(IS.date(b.expires_at, { day: 'numeric', month: 'short', year: 'numeric' })) + '</b></li>' : '') +
         '<li><span>' + esc(A('تاريخ الإرسال', 'Submitted on')) + '</span><b>' + esc(IS.date(b.created_at, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })) + '</b></li></ul>' +
         (b.note ? '<small class="mut" dir="auto">' + esc(b.note) + '</small>' : '') + '</div><div class="col">' +
         (tab === 'pending' && approve ? '<button class="btn pri" data-act="buyok" data-id="' + esc(b.id) + '">' + ic('check') + esc(A('تأكيد وفتح الملف', 'Approve and open')) + '</button>' +
